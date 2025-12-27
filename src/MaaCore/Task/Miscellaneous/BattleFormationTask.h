@@ -33,6 +33,8 @@ public:
     struct QuickFormationOper : public asst::TemplDetOCRer::Result
     {
         bool is_selected = false; // 是否选中
+        int elite = -1;           // 精英化等级
+        int level = -1;           // 等级
     };
 
     void append_additional_formation(AdditionalFormation formation) { m_additional.emplace_back(std::move(formation)); }

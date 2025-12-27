@@ -1,6 +1,8 @@
 #include "BattleFormationTask.h"
 
+#include <omp.h>
 #include <ranges>
+#include <chrono>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -11,6 +13,7 @@
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
@@ -474,8 +477,11 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
     asst::BattleFormationTask::analyzer_opers(const cv::Mat& image)
 {
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    const auto& level_task = Task.get<OcrTaskInfo>("BattleQuickFormation-Level");
+    const auto& elite_task = Task.get<MatchTaskInfo>("BattleQuickFormation-Elite");
     std::vector<asst::BattleFormationTask::QuickFormationOper> opers_result;
-    cv::Mat select;
+    
+    const auto& start = std::chrono::steady_clock::now();
     for (int i = 0; i < 8; ++i) {
         std::string task_name = "BattleQuickFormation-OperNameFlag" + std::to_string(i);
 
@@ -485,7 +491,9 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
         if (!multi.analyze()) [[unlikely]] {
             continue;
         }
-        for (const auto& flag : multi.get_result()) {
+        const auto& multi_result = multi.get_result();
+        for (int j = 0; j < multi_result.size(); ++j) {
+            const auto& flag = multi_result.at(j);
             OperNameAnalyzer region(image);
             region.set_task_info(ocr_task);
             region.set_roi(flag.rect.move(ocr_task->rect_move));
@@ -517,12 +525,51 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
             if (find_it != opers_result.end() || res.text.empty()) {
                 continue;
             }
-            select = make_roi(image, res.flag_rect.move({ 0, -10, 5, 4 }));
-            cv::inRange(select, cv::Scalar(200, 140, 0), cv::Scalar(255, 180, 100), select);
-            res.is_selected = cv::hasNonZero(select);
+
+            #pragma omp task
+            {
+                // 识别精二
+                Matcher elite_analyzer(image);
+                elite_analyzer.set_task_info(elite_task);
+                Rect roi = res.flag_rect.move(elite_task->rect_move);
+                elite_analyzer.set_roi(roi);
+                if (!elite_analyzer.analyze()) {
+                    res.elite = 0;
+                }
+                else {
+                    auto elite = elite_analyzer.get_result().templ_name;
+                    if (!utils::chars_to_number(elite.substr(elite.size() - 5), res.elite)) {
+                        Log.warn(__FUNCTION__, "failed to parse elite from template:", elite);
+                    }
+                }
+            }
+
+            #pragma omp task
+            {
+                // 识别等级
+                RegionOCRer level_ocrer(image);
+                level_ocrer.set_task_info(level_task);
+                level_ocrer.set_roi(res.flag_rect.move(level_task->rect_move));
+                if (!level_ocrer.analyze()) {
+                }
+                else if (!utils::chars_to_number(level_ocrer.get_result().text, res.level)) {
+                    Log.warn(__FUNCTION__, "failed to parse level from text:", level_ocrer.get_result().text);
+                }
+            }
+#pragma omp task
+            {
+                // 判断是否已被选中
+                cv::Mat selected_image = make_roi(image, res.flag_rect.move({ 0, -10, 5, 4 }));
+                cv::inRange(selected_image, cv::Scalar(200, 140, 0), cv::Scalar(255, 180, 100), selected_image);
+                res.is_selected = cv::hasNonZero(selected_image);
+            }
+
+#pragma omp taskwait
             opers_result.emplace_back(std::move(res));
         }
     }
+    const auto& end = std::chrono::steady_clock::now();
+    Log.info("BattleFormationTask: found, in ", std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count(), "ms");
     if (opers_result.empty()) {
         Log.error("BattleFormationTask: no oper found");
         return {};
@@ -591,6 +638,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             ctrler()->click(SkillRectArray.at(oper->skill - 1ULL));
             sleep(delay);
         }
+
         if (oper->requirements.module >= 0 && oper->requirements.module <= 4) {
             ret = ProcessTask(*this, { "BattleQuickFormationModulePage" }).run();
             ret =
