@@ -224,10 +224,22 @@ public class AsstProxy
         return AsstGetImage(_handle);
     }
 
+    public BitmapImage? AsstGetImage(bool forceScreencap)
+    {
+        // UI 端有两类取图场景：
+        // - 首页预览/缩略图：直接取 core 的缓存帧即可（避免频繁主动截图）
+        // - 监控/诊断：需要强制触发一次截图以拿到“此刻”的帧
+        if (forceScreencap)
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+        }
+
+        return AsstGetImage(_handle);
+    }
+
     public BitmapImage? AsstGetFreshImage()
     {
-        MaaService.AsstAsyncScreencap(_handle, true);
-        return AsstGetImage(_handle);
+        return AsstGetImage(forceScreencap: true);
     }
 
     public static async Task<BitmapImage?> AsstGetImageAsync(AsstHandle handle)
@@ -240,10 +252,19 @@ public class AsstProxy
         return await AsstGetImageAsync(_handle);
     }
 
+    public async Task<BitmapImage?> AsstGetImageAsync(bool forceScreencap)
+    {
+        if (forceScreencap)
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+        }
+
+        return await AsstGetImageAsync(_handle);
+    }
+
     public async Task<BitmapImage?> AsstGetFreshImageAsync()
     {
-        MaaService.AsstAsyncScreencap(_handle, true);
-        return await AsstGetImageAsync(_handle);
+        return await AsstGetImageAsync(forceScreencap: true);
     }
 
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
@@ -277,11 +298,20 @@ public class AsstProxy
         return AsstGetImageBgrData(_handle);
     }
 
+    public byte[]? AsstGetImageBgrData(bool forceScreencap)
+    {
+        if (forceScreencap)
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+        }
+
+        return AsstGetImageBgrData(_handle);
+    }
+
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
     public byte[]? AsstGetFreshImageBgrData()
     {
-        MaaService.AsstAsyncScreencap(_handle, true);
-        return AsstGetImageBgrData(_handle);
+        return AsstGetImageBgrData(forceScreencap: true);
     }
 
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
@@ -296,11 +326,20 @@ public class AsstProxy
         return await AsstGetImageBgrDataAsync(_handle);
     }
 
+    public async Task<byte[]?> AsstGetImageBgrDataAsync(bool forceScreencap)
+    {
+        if (forceScreencap)
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+        }
+
+        return await AsstGetImageBgrDataAsync(_handle);
+    }
+
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
     public async Task<byte[]?> AsstGetFreshImageBgrDataAsync()
     {
-        MaaService.AsstAsyncScreencap(_handle, true);
-        return await AsstGetImageBgrDataAsync(_handle);
+        return await AsstGetImageBgrDataAsync(forceScreencap: true);
     }
 
     public static WriteableBitmap WriteBgrToBitmap(byte[] bgrData, WriteableBitmap? targetBitmap)
@@ -317,6 +356,53 @@ public class AsstProxy
             0);
         targetBitmap.Unlock();
         return targetBitmap;
+    }
+
+    public const int ScreencapWidth = 1280;
+    public const int ScreencapHeight = 720;
+    public const int ScreencapChannels = 3;
+
+    public static BitmapSource CreateBgrBitmapSourceScaled(byte[] bgrData, int targetWidth, int targetHeight)
+    {
+        if (targetWidth <= 0 || targetHeight <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(targetWidth));
+        }
+
+        const int SrcWidth = ScreencapWidth;
+        const int SrcHeight = ScreencapHeight;
+        const int SrcStride = SrcWidth * ScreencapChannels;
+        int dstStride = targetWidth * ScreencapChannels;
+
+        // 直接生成小图，避免先构建大图再缩放导致不必要的内存峰值。
+        var dst = new byte[targetHeight * dstStride];
+        for (int y = 0; y < targetHeight; y++)
+        {
+            int srcY = y * SrcHeight / targetHeight;
+            int srcRow = srcY * SrcStride;
+            int dstRow = y * dstStride;
+            for (int x = 0; x < targetWidth; x++)
+            {
+                int srcX = x * SrcWidth / targetWidth;
+                int srcIndex = srcRow + (srcX * ScreencapChannels);
+                int dstIndex = dstRow + (x * ScreencapChannels);
+                dst[dstIndex] = bgrData[srcIndex];
+                dst[dstIndex + 1] = bgrData[srcIndex + 1];
+                dst[dstIndex + 2] = bgrData[srcIndex + 2];
+            }
+        }
+
+        var bitmap = BitmapSource.Create(
+            targetWidth,
+            targetHeight,
+            96,
+            96,
+            PixelFormats.Bgr24,
+            null,
+            dst,
+            dstStride);
+        bitmap.Freeze();
+        return bitmap;
     }
 
     private readonly MaaService.CallbackDelegate _callback;
@@ -590,6 +676,9 @@ public class AsstProxy
 
     private void ProcMsg(AsstMsg msg, JObject details)
     {
+        // Feed the UI log grouper first so logs produced during this callback can be tagged/merged.
+        Instances.TaskQueueViewModel.UpdateLogGroupingContext(msg, details);
+
         switch (msg)
         {
             case AsstMsg.InternalError:
@@ -959,6 +1048,9 @@ public class AsstProxy
                     Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot" or "VideoRecognition")
                         ? Instances.CopilotViewModel.LogItemViewModels
                         : Instances.TaskQueueViewModel.LogItemViewModels;
+
+                    // 首页右上角实时预览：任务开始后自动显示（取缓存帧，不会每次强制截图）。
+                    _ = Instances.TaskQueueViewModel.AutoStartLiveViewAsync();
                     break;
                 }
 
