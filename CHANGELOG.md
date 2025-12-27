@@ -2,39 +2,55 @@
 
 ### Highlights
 
-#### 新增隐秘战线（Hidden Front）玩法支持
+本次版本更新，我们新增了多项功能，敬请体验：
 
-本次版本新增隐秘战线（Hidden Front）功能。支持完整流程控制与识别逻辑，为相关玩法提供稳定、可用的自动化支持。
+（别忘了，v6.0.0 以后的版本需要 [.NET 10.0 桌面运行时](https://dotnet.microsoft.com/zh-cn/download/dotnet/thank-you/runtime-desktop-10.0.1-windows-x64-installer?cid=getdotnetcore)方可运行）
 
-#### 外服肉鸽（界园）适配
+#### 新增“隐秘战线”自动游玩支持
 
-完善了 Yostar JP / KR / EN 服务器的肉鸽（界园）玩法支持。
+我们为牛牛新增了“隐秘战线”的自动游玩功能，支持完整流程控制与识别逻辑，可为你自动刷取“战线任务”奖励。
+
+你可以在【小工具】-【小游戏】处找到相关功能。
+
+#### 外服界园肉鸽适配
+
+这个版本我们完善了 Yostar JP / KR / EN 服务器的界园肉鸽玩法支持。
 
 #### 日志悬浮窗正式上线
 
-新增日志悬浮窗功能，可实时展示自动战斗相关日志，并支持通过托盘菜单快速切换显示状态，便于运行观测与问题排查。
+我们新增了日志悬浮窗功能，在【一键长草】界面右上角新设按钮、托盘菜单均可快捷切换显示状态，可在指定窗口内实时展示日志，便于运行观测与问题排查。
+
+你也可以右键【一键长草】界面右上角的新设按钮手动指定窗口，这样可以把模拟器和 MAA 最小化的同时，在浏览器、聊天工具等窗口内实时查看运行状态。
 
 #### 更新提示支持点击直接触发更新
 
-主界面左上角的新版本提示现已支持点击，用户可直接触发更新流程，减少操作步骤。
+标题栏的新版本提示（`检测到新版本`）现已支持点击，可直接触发更新流程，减少操作步骤。
 
 ----
 
-#### New Hidden Front Support Across All Servers
+In this update, we've added several new features. Please experience them:
 
-This release introduces full support for the Hidden Front feature across all servers, with complete flow handling and recognition logic to ensure stable and reliable automation.
+(Please remember that versions 6.0.0 and later require the [.NET 10.0 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-10.0.1-windows-x64-installer?cid=getdotnetcore) to run.)  
 
-#### Overseas Roguelike (JieGarden) Support
+#### Added Support for farming *Hidden Front*
 
-Roguelike (JieGarden) support has been improved for Yostar JP / KR / EN servers.
+We've added support for "Hidden Front" in MAA, supporting complete process control and recognition logic, allowing you to automatically farm *Frontline Missions* rewards.
 
-#### Floating Log Window Introduced
+You can find this function under *Toolbox* - *Mini-Games*.
 
-A new floating log window is now available, providing real-time visibility into auto-battle related logs. It can be toggled via the system tray for easier monitoring and debugging.
+#### Overseas Server *Sui's Garden of Grotesqueries* Compatibility
 
-#### Clickable Update Notification in Main Window
+This version improves support for *Sui's Garden of Grotesqueries* gameplay on Yostar JP/KR/EN servers.
 
-The new version indicator in the top-left corner of the main window is now clickable, allowing users to directly trigger the update process for a smoother upgrade experience.
+#### Log Floating Window Officially Launched
+
+We've added a log floating window function. The display status can be quickly switched between the new button in the upper right corner of the *Farming* interface and the tray menu. Logs can be displayed in real-time in a designated window for easy monitoring and troubleshooting.
+
+You can also manually specify a window by right-clicking the new button in the upper right corner of the *Farming* interface. This allows you to minimize the emulator and MAA while viewing the running status in real-time in browsers, chat tools, etc.
+
+#### Update Notification Now Clickable to Trigger Update
+
+The new version notification (`New Version Found`) in the title bar is now clickable, allowing you to directly trigger the update process and reduce steps.
 
 ----
 
