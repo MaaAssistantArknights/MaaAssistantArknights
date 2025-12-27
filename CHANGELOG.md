@@ -1,94 +1,143 @@
 ## v6.1.0
 
-### Highlights
-
-#### 新增隐秘战线（Hidden Front）玩法支持
-
-本次版本新增隐秘战线（Hidden Front）功能。支持完整流程控制与识别逻辑，为相关玩法提供稳定、可用的自动化支持。
-
-#### 外服肉鸽（界园）适配
-
-完善了 Yostar JP / KR / EN 服务器的肉鸽（界园）玩法支持。
-
-#### 日志悬浮窗正式上线
-
-新增日志悬浮窗功能，可实时展示自动战斗相关日志，并支持通过托盘菜单快速切换显示状态，便于运行观测与问题排查。
-
-#### 更新提示支持点击直接触发更新
-
-主界面左上角的新版本提示现已支持点击，用户可直接触发更新流程，减少操作步骤。
-
-----
-
-#### New Hidden Front Support Across All Servers
-
-This release introduces full support for the Hidden Front feature across all servers, with complete flow handling and recognition logic to ensure stable and reliable automation.
-
-#### Overseas Roguelike (JieGarden) Support
-
-Roguelike (JieGarden) support has been improved for Yostar JP / KR / EN servers.
-
-#### Floating Log Window Introduced
-
-A new floating log window is now available, providing real-time visibility into auto-battle related logs. It can be toggled via the system tray for easier monitoring and debugging.
-
-#### Clickable Update Notification in Main Window
-
-The new version indicator in the top-left corner of the main window is now clickable, allowing users to directly trigger the update process for a smoother upgrade experience.
-
-----
-
-以下是详细内容：
-
-## v6.1.0
-
 ### 新增 | New
 
-* 隐秘战线（Hidden Front）支持 @ABA2396 @Manicsteiner @HX3N @Constrat
-* Yostar JP/KR/EN 界园肉鸽支持 @Manicsteiner @HX3N @Constrat
-* 支持点击标题栏左上角“检测到新版本”提示直接触发更新 @ABA2396
-* 新增极寒保全派驻作业与相关自动战斗支持 @Saratoga-Official @ABA2396
-* 新增日志悬浮窗，支持自动战斗日志源与布局优化 (#15185) @ABA2396
-* 右键托盘菜单新增日志悬浮窗显示切换 @ABA2396
-* WPF 日志系统支持按级别输出日志文件 @status102
-* 满线索状态下一键置入线索 @ABA2396
-* 移除未使用的模板资源 (#15207) @Constrat
-* 更新期间退出应用时增加二次确认提示 (#14964) @Hakuin123 @ABA2396
+* 极寒保全派驻作业 @Saratoga-Official
+* Wpf日志文件输出分级 @status102
+* YostarJP Roguelike JieGarden (#15116) @Manicsteiner
+* YostarKR Roguelike JieGarden (#15113) @HX3N
+* 满线索再一键置入 @ABA2396
+* 支持点击标题栏左上角的检测到新版本提示触发更新 @ABA2396
+* 右键图标菜单栏中增加日志悬浮窗切换 @ABA2396
+* 悬浮窗支持自动战斗日志源 @ABA2396
+* YostarEN SecretFront (Hidden Front) @Constrat
+* 日志悬浮窗 (#15185) @ABA2396
+* 在任务开始后的禁用组件内也能查看tooltip (#15186) @yali-hzy
+* ProcessTask任务命中缓存结果 (#12651) @status102
+* add ability to remove unused templates (#15207) @Constrat
+* 更新期间退出应用添加二次确认 (#14964) @Hakuin123 @Hakuin123 @ABA2396
+* YostarJP SecretFront edit (#15191) @Manicsteiner
 
 ### 改进 | Improved
 
-* 任务运行期间，即使组件被禁用也可正常查看 Tooltip (#15186) @yali-hzy
-* 模板资源整体重构与体积优化，提升加载与识别效率 @Constrat
-* TemplResource 图片查找流程预构建索引，加快匹配速度 (#15092) @status102
-* ProcessTask 任务支持命中结果缓存，减少重复计算 (#12651) @status102
-* StableHash 算法优化，提升一致性与性能 @ABA2396
-* 截图工具统一将来自 src 的截图缩放至目标分辨率 @DavidWang19
+* optimize templates size @Constrat
+* use boost::regex instead of std::regex (#15126) @MistEO
+* TemplResource 查找图片过程预构建索引 (#15092) @status102
+* 让截图工具支持从src/获取的截图也缩放到目标分辨率 @DavidWang19
+* 优化 StableHash @ABA2396
 * RefreshCustomInfrastPlanIndexByPeriod 支持传入当前时间 @ABA2396
-* 悬浮窗整体布局与交互体验优化 @ABA2396
-* 使用 boost::regex 替换 std::regex，提高正则性能 (#15126) @MistEO
+* optimize templates for secrentfront @Constrat
+* reoptimize ALL templates from scratch @Constrat
+* 优化悬浮窗布局 @ABA2396
 
 ### 修复 | Fix
 
-* 修复资源更新错误复制 cache 文件夹的问题 @ABA2396
-* 修复更新后未成功下载的 OTA 包未被清理的问题 @status102
-* 修复更新界面在无可用 OTA 增量包时提示不正确的问题 @ABA2396
-* 修复 MacOS 下 asst.log 被意外自动清空的问题 (#15122) @Alan-Charred
-* 修复路径字符串首尾空格与控制字符导致的问题 (#15082) @mayuri0v0
-* 修复窗口更新检测按钮在更新期间未禁用的问题 @ABA2396
-* 修复日志与 UI 延迟变化导致的误匹配问题 (#15198) @status102
-* 修复 ROI 越界与更新工具异常 (#15204) @178619
-* 修复自动战斗中借用非好友助战后卡在加好友界面的问题 @ABA2396
-* 修复快速编队与模拟器卡顿导致的误点击与异常进入界面问题 @Saratoga-Official
-* 修复保全派驻在网络波动下可能无法确认阵容的问题 @ABA2396
-* 修复通宝与铜钱识别失败时的异常流程与卡死问题 (#15167 #15180 #15197) @travellerse @HX3N
-* 修复多服 OCR / 正则匹配问题，提升识别准确率（EN / JP / KR / 繁中） @Constrat @HX3N @Manicsteiner @momomochi987
-* 修复关卡名、掉落、通宝、铜钱、助战、招募等多处模板或识别错误 @ABA2396 @Constrat
-* Fixed multiple OCR regex issues for EN servers, improving drop, currency, and stage name recognition @Constrat
+* regex off all double letters for EN coppers @Constrat
+* EN requires GetDropSwitch2 @Constrat
+* remove case sensitivity from CoppersNameOcrReplace @Constrat
+* Ruwu Gate ROI is too big and detects floor number (IV) @Constrat
+* use template instead of reduced score @Constrat
+* FastPass for EN  ref be08678 @Constrat
+* 资源更新不应该复制 cache 文件夹 @ABA2396
+* adb addressRegex (#15142) @HX3N
+* 资源版本显示标题 @hguandl
+* YostarKR StrategyChange_mode-FastPass @HX3N
+* change tongbao name OCR to fit oversea (#15129) @travellerse @Constrat
+* 更新后连带清除过往未下载成功的OTA包 @status102
+* 修复 MacOS asst.log 自动清空的问题 (#15122) @Alan-Charred
+* PlaatformWin32 for ResourceUpdater on windows @Constrat
+* 去除路径左右的空格与控制字符 (#15082) @mayuri0v0
+* regex for Leizi Alter for EN @Constrat
+* 赠送线索后的弹窗会挡住自己新线索的图标 @ABA2396
+* 繁中服 自動編隊不會使用職業欄 (#15090) @vonnoq
+* YostarKR update Roguelike@TraderRandomShoppingConfirm @HX3N
+* prettier @Constrat
+* YostarKR remove problematic equivalence_classes @HX3N
+* 增加巫恋的绣云鹤皮肤头像 @DavidWang19
+* 关卡名中的 `-` 被识别成 `—` @ABA2396
+* 基建使用无人机加速贸易站点击 `最多` 按钮边缘时可能点到 `+` @ABA2396
+* 移除过时的基建Mode转换 @status102
+* 自动战斗借非好友助战在关卡结束后卡在加好友界面 @ABA2396
+* 逃离哥伦比亚 @ABA2396
+* more copper regex for EN @Constrat
+* update GetDropSwitch for EN to make it same size as CN for ROI Pickup reasons @Constrat
+* 完善通宝识别失败时的分支处理 (#15180) @travellerse
+* more tongbao EN regex @Constrat
+* SendClues for txwy (#15178) @momomochi987
+* 通宝识别失败时放弃通宝 (#15167) @travellerse @HX3N
+* more Coppers EN regexes @Constrat
+* missing Special Squad for EN @Constrat
+* more regex for CoppersNameOcrReplace EN @Constrat
+* SendClues for Yostar server (#15168) @HX3N
+* Missing GetDropSelectRecruit for EN @Constrat
+* missing CoppersAbandonExchange for EN @Constrat
+* tonbgbao regex for EN @Constrat
+* 避免肉鸽快速编队点太快可能点不上 @Saratoga-Official
+* 肉鸽因模拟器卡顿可能点进招募界面 @Saratoga-Official
+* allow usage of CLI build instead of only VS (#15190) @Constrat
+* 萨米积冰岩骸识别 @Saratoga-Official
+* 保全关卡名识别 @ABA2396
+* 两个检测更新的按钮在更新时禁用 @ABA2396
+* 未勾选自动下载更新包且无可用的 OTA 增量更新包时仍然提示“将下载完整包xxx” @ABA2396
+* more tongbaso regex en @Constrat
+* 单切换账号时，任务运行计时错误 @status102
+* 招募助战后补充低信赖干员数量不足 (#15184) @yali-hzy
+* BattleStageName requiring ^$  for EN @Constrat
+* wrong template for EN @Constrat
+* 部分情况下无法进入借助战界面 @ABA2396
+* LoadingText 结束后 UI 延迟变化导致误匹配 (#15198) @status102
+* roi out of range (#15204) @178619
+* sendclue reception standardize templates (#15205) @Constrat
+* 前往上一次作战增加重试 @ABA2396
+* 修复通宝拾取时卡死并删除m_retry_times=1 (#15197) @travellerse
+* 基建自定义配置迁移加个try @status102
+* 保全自动战斗日志悬浮窗 @ABA2396
+* 保全派驻因网络波动可能无法点击阵容确认 @ABA2396
+* 未设置自定义基建排班路径时第一次启动会报错 @ABA2396
+* 自定义基建计划指定某个计划后会在1分钟后被重置为定时计划 (#14649) @status102 @HX3N @Constrat
+
+### 文档 | Docs
+
+* Auto Update Changelogs of v6.1.0 (#15215) @github-actions[bot] @github-actions[bot] @ABA2396
+* Update CHANGELOG for version 6.0.1 @ABA2396
+* Auto Update Changelogs of v6.1.0-beta.2 (#15135) @github-actions[bot] @github-actions[bot] @Constrat
+* Auto Update Changelogs of v6.1.0-beta.3 (#15195) @github-actions[bot] @github-actions[bot] @Constrat
+* Auto Update Changelogs of v6.1.0-beta.4 (#15209) @github-actions[bot] @github-actions[bot] @ABA2396
 
 ### 其他 | Other
 
-* 更新 macos.cmake 构建配置 (#15173) @Alan-Charred
-* 更新 C# EditorConfig 以支持 C# 13 / 14 (#15146) @status102
-* 更新 pre-commit 与开发工具链配置 @SherkeyXD
-* 移除过时的代码检查与格式化配置，简化开发流程 @SherkeyXD
-* 悬浮窗移动时不再自动隐藏，避免与部分窗口（如 QQ）交互闪烁的问题 @ABA2396
+* Release v6.1.0-beta.4 (#15208) @ABA2396
+* Release v6.1.0-beta.3 (#15188) @Constrat
+* Release v6.1.0-beta.2 (#15172) @Constrat
+* Release v6.1.0-beta.1 (#15134) @Constrat
+* YostarJP roguelike JieGarden ocr edits (#15162) @Manicsteiner
+* YostarKR JieGarden ocr edit @HX3N
+* KR tweak translation for IS nodes, achievements and general UI @HX3N
+* EN tweak @Constrat
+* various tweaks to IS nodes and stages @Constrat
+* YostarJP roguelike JieGarden edits (#15153) @Manicsteiner
+* 調整繁中服薩米與薩卡茲肉鴿的 OCR 辨識對應文字 (#15145) @momomochi987
+* YostarJP JieGarden ocr edit @Manicsteiner
+* KR tweak EncounterOptions translation @HX3N
+* YostarKR wrap short OcrReplaces with anchors to prevent misrecognition @HX3N
+* enable Roguelike JieGarden for Yostar servers @HX3N
+* 调整正则 @ABA2396
+* KR 同心 ocr @HX3N
+* 繁中服保全派駐 8 清音安保派駐 (#15110) @momomochi987
+* YostarJP roguelike JieGarden ocr edit @Manicsteiner
+* YostarKR JieGarden Encounter ocr @HX3N
+* 更新 macos.cmake (#15173) @Alan-Charred
+* KR tweak InvestmentReach @HX3N
+* YostarJP roguelike JieGarden ocr edit @Manicsteiner
+* EN typo @Constrat
+* remove codeql workflow @SherkeyXD
+* 资源更新忽略 .gitignore 文件 @ABA2396
+* YostarJP roguelike JieGarden ocr edit @Manicsteiner
+* Update C# EditorConfig for c# 13 & 14 (#15146) @status102
+* KR improve client display names @HX3N
+* 更新 pre-commit 配置 @SherkeyXD
+* 移除 isort/black 配置 @SherkeyXD
+* update pre-commit toolchain (#15179) @SherkeyXD
+* devcontainer 迁移至 ruff @SherkeyXD
+* 修复 roi updater 工具的问题 @SherkeyXD
+* 悬浮窗移动时不隐藏，避免某些窗口点击就会触发闪烁（说的就是 QQ） @ABA2396
