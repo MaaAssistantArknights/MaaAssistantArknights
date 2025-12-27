@@ -57,6 +57,7 @@ The new version indicator in the top-left corner of the main window is now click
 
 ### 改进 | Improved
 
+* move_camera 允许微调镜头 (#15220) @Daydreamer114
 * 任务运行期间，即使组件被禁用也可正常查看 Tooltip (#15186) @yali-hzy
 * 模板资源整体重构与体积优化，提升加载与识别效率 @Constrat
 * TemplResource 图片查找流程预构建索引，加快匹配速度 (#15092) @status102
@@ -66,9 +67,11 @@ The new version indicator in the top-left corner of the main window is now click
 * RefreshCustomInfrastPlanIndexByPeriod 支持传入当前时间 @ABA2396
 * 悬浮窗整体布局与交互体验优化 @ABA2396
 * 使用 boost::regex 替换 std::regex，提高正则性能 (#15126) @MistEO
+* Update ko-kr.xaml (#15213) @178619
 
 ### 修复 | Fix
 
+* 引航者试炼借助战 @ABA2396
 * 修复资源更新错误复制 cache 文件夹的问题 @ABA2396
 * 修复更新后未成功下载的 OTA 包未被清理的问题 @status102
 * 修复更新界面在无可用 OTA 增量包时提示不正确的问题 @ABA2396
@@ -92,3 +95,4 @@ The new version indicator in the top-left corner of the main window is now click
 * 更新 pre-commit 与开发工具链配置 @SherkeyXD
 * 移除过时的代码检查与格式化配置，简化开发流程 @SherkeyXD
 * 悬浮窗移动时不再自动隐藏，避免与部分窗口（如 QQ）交互闪烁的问题 @ABA2396
+* continue on error required for blame ignore\npost @Constrat
