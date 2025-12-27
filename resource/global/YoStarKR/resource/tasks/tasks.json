@@ -1195,16 +1195,16 @@
     },
     "ClueGiveTo1stConfirm": {
         "doc": "단서 전달 화면에서 단서 전달 이후 멈추는 문제를 위한 postDelay",
-        "postDelay": 1000
+        "postDelay": 500
     },
     "ClueGiveTo2ndConfirm": {
-        "postDelay": 1000
+        "postDelay": 500
     },
     "ClueGiveTo3rdConfirm": {
-        "postDelay": 1000
+        "postDelay": 500
     },
     "ClueGiveTo4thConfirm": {
-        "postDelay": 1000
+        "postDelay": 500
     },
     "InfrastTrainingIdle": {
         "text": ["미사용중"],
