@@ -973,8 +973,8 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
 
     update_kills(m_inst_helper.ctrler()->get_image());
 
-    // 还没转场的时候
-    if (m_kills != 0) {
+    // 等待转场，但排除微调
+    if (m_kills != 0 && delta.first > 2) {
         wait_until_end(false);
     }
 
