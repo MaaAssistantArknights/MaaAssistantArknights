@@ -1644,6 +1644,9 @@ public class TaskQueueViewModel : Screen
     {
         string curStage = FightTask.Stage;
 
+        // 计算本次已经加入队列的战斗关卡集合
+        var usedStages = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
         var (type, mainParam) = FightTask.Serialize();
         bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, type, mainParam);
         if (!mainFightRet)
@@ -1651,6 +1654,7 @@ public class TaskQueueViewModel : Screen
             AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);
             return false;
         }
+        usedStages.Add(curStage);
 
         if ((curStage == "Annihilation") && FightTask.UseAlternateStage)
         {
@@ -1670,27 +1674,41 @@ public class TaskQueueViewModel : Screen
                     task.MaxTimes = int.MaxValue;
                     task.Drops = [];
                     mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
+                    if (mainFightRet) 
+                    {
+                        usedStages.Add(stage);
+                    }
                 }
 
                 break;
             }
         }
 
+        // 剩余理智
         if (mainFightRet && FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(FightTask.RemainingSanityStage))
         {
-            var task = new AsstFightTask() {
-                Stage = FightTask.RemainingSanityStage,
-                MaxTimes = int.MaxValue,
-                Series = 0,
-                IsDrGrandet = FightTask.IsDrGrandet,
-                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-                PenguinId = SettingsViewModel.GameSettings.PenguinId,
-                YituliuId = SettingsViewModel.GameSettings.PenguinId,
-                ServerType = Instances.SettingsViewModel.ServerType,
-                ClientType = SettingsViewModel.GameSettings.ClientType,
-            };
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, task.Serialize().Params);
+            // 如果剩余理智选择的关卡已经被添加，则跳过剩余理智任务
+            var remaining = FightTask.RemainingSanityStage;
+            if (usedStages.Contains(remaining))
+            {
+                AddLog(LocalizationHelper.GetString("SkipRemainingSanityBecauseSameStage"), UiLogColor.Info);
+            }
+            else
+            {
+                var task = new AsstFightTask() {
+                    Stage = remaining,
+                    MaxTimes = int.MaxValue,
+                    Series = 0,
+                    IsDrGrandet = FightTask.IsDrGrandet,
+                    ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                    ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                    PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                    YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                    ServerType = Instances.SettingsViewModel.ServerType,
+                    ClientType = SettingsViewModel.GameSettings.ClientType,
+                };
+                return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, task.Serialize().Params);
+            }
         }
 
         return mainFightRet;
