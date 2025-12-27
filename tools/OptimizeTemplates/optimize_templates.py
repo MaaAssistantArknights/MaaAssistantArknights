@@ -238,7 +238,7 @@ if __name__ == "__main__":
             removed_count += 1
             if not quiet:
                 print(f"Removed deleted file from cache: {file_id}")
-    
+
     if removed_count > 0:
         update_perfect_png_dict(perfect_pngs)
         if not quiet:
