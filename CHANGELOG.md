@@ -34,7 +34,7 @@ In this update, we've added several new features. Please experience them:
 
 #### Added Support for farming *Hidden Front*
 
-We've added support for "Hidden Front" in MAA, supporting complete process control and recognition logic, allowing you to automatically farm *Frontline Missions* rewards.
+We've added support for *Hidden Front* in MAA, supporting complete process control and recognition logic, allowing you to automatically farm *Frontline Missions* rewards.
 
 You can find this function under *Toolbox* - *Mini-Games*.
 
