@@ -19,7 +19,8 @@
             "OperBoxDreamland",
             "OperBoxJieGarden",
             "OperBoxAveMujica",
-            "OperBoxTogether"
+            "OperBoxTogether",
+            "OperBoxLoneTrail"
         ],
         "onErrorNext": ["OperBox-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -78,5 +79,9 @@
     "OperBoxTogether": {
         "baseTask": "OperBoxDefault",
         "template": "Together/OperBoxEnter.png"
+    },
+    "OperBoxLoneTrail": {
+        "baseTask": "OperBoxDefault",
+        "template": ["LoneTrail/Day/OperBoxEnter.png", "LoneTrail/Night/OperBoxEnter.png"]
     }
 }

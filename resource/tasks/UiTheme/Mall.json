@@ -19,7 +19,8 @@
             "MallDreamland",
             "MallJieGarden",
             "MallAveMujica",
-            "MallTogether"
+            "MallTogether",
+            "MallLoneTrail"
         ],
         "onErrorNext": ["Mall-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -78,5 +79,9 @@
     "MallTogether": {
         "baseTask": "MallDefault",
         "template": "Together/Mall.png"
+    },
+    "MallLoneTrail": {
+        "baseTask": "MallDefault",
+        "template": ["LoneTrail/Day/Mall.png", "LoneTrail/Night/Mall.png"]
     }
 }
