@@ -41,7 +41,6 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
-using static MaaWpfGui.States.RunningState;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
 using Task = System.Threading.Tasks.Task;
@@ -1748,7 +1747,16 @@ public class TaskQueueViewModel : Screen
             return false;
         }
 
-        return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, InfrastTask.Serialize());
+        try
+        {
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, InfrastTask.Serialize());
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "AppendInfrast error");
+            AddLog("Append Infrast Error: " + ex.Message, UiLogColor.Error);
+            return false;
+        }
     }
 
     private bool _inited = false;
