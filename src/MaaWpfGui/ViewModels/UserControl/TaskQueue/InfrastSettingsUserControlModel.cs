@@ -531,14 +531,17 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
         finally
         {
-            int index = CustomInfrastPlanList.Any(i => i.Period.Count > 0) ? -1 : 0;
-            if (index != CustomInfrastPlanSelect)
+            bool hasPeriods = CustomInfrastPlanList.Any(i => i.Period.Count > 0);
+            bool isInBounds = CustomInfrastPlanSelect >= 0 && CustomInfrastPlanSelect < CustomInfrastPlanList.Count;
+            bool isValid = (hasPeriods && CustomInfrastPlanSelect == -1) || isInBounds;
+
+            if (isValid)
             {
-                CustomInfrastPlanSelect = index;
+                NotifyOfPropertyChange(nameof(CustomInfrastPlanSelect));
             }
             else
             {
-                NotifyOfPropertyChange(nameof(CustomInfrastPlanSelect));
+                CustomInfrastPlanSelect = hasPeriods ? -1 : 0;
             }
         }
     }
