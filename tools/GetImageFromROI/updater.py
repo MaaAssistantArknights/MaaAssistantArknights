@@ -12,13 +12,12 @@ template_path = task_file.parent / "template"
 
 
 def update_ui_theme_tasks():
-    # Iterate over UiTheme json files
     for json_path in task_file.glob("UiTheme/*.json"):
         print(f"Processing {json_path}")
         with json_path.open("r", encoding="utf-8") as f:
             tasks = json.load(f)
 
-        prefix = json_path.stem  # e.g. Depot
+        prefix = json_path.stem
         entry_task_name = f"{prefix}-Entry"
         default_task_name = f"{prefix}Default"
 
@@ -32,8 +31,6 @@ def update_ui_theme_tasks():
             print(f"Skipping {json_path}: Default template invalid.")
             continue
 
-        # default_template is like "Default/DepotEnter.png"
-        # We want "DepotEnter.png"
         template_suffix = default_template.split("/")[-1]
 
         entry_task = tasks[entry_task_name]
@@ -41,29 +38,27 @@ def update_ui_theme_tasks():
 
         modified = False
 
-        for image in src_path.glob("*.png"):
-            theme_name = image.stem  # e.g. Together
-            new_task_name = f"{prefix}{theme_name}"
 
-            # Check if task already exists
+        theme_variants = {}
+        for image in src_path.rglob("*.png"):
+            theme_path = image.relative_to(src_path).with_suffix("")
+            group_key = theme_path.parts[0]
+            theme_variants.setdefault(group_key, []).append(theme_path)
+
+        for group_key, variants in theme_variants.items():
+            new_task_name = f"{prefix}{group_key}"
             if new_task_name in tasks:
                 continue
-
             print(f"Adding new task: {new_task_name}")
-
-            # Create new task
+            templates = [(variant / template_suffix).as_posix() for variant in variants]
+            template_value = templates[0] if len(templates) == 1 else templates
             new_task = {
                 "baseTask": default_task_name,
-                "template": f"{theme_name}/{template_suffix}",
+                "template": template_value,
             }
-
-            # Add to tasks
             tasks[new_task_name] = new_task
-
-            # Add to next list
             if new_task_name not in next_list:
                 next_list.append(new_task_name)
-
             modified = True
 
         if modified:
