@@ -45,7 +45,7 @@ if __name__ == "__main__":
                 task.setdefault("crop_doc", crop_doc)
             tasks[name] = task
 
-    for raw_image in src_path.glob("*.png"):
+    for raw_image in src_path.rglob("*.png"):
         print("Processing file:", str(raw_image))
         image = cv2.imread(str(raw_image))
         if image is None:
@@ -53,28 +53,23 @@ if __name__ == "__main__":
             continue
 
         cur_ratio = image.shape[1] / image.shape[0]
-        if cur_ratio >= std_ratio:  # 说明是宽屏或默认16:9，按照高度计算缩放
-            dsize_width: int = (int)(cur_ratio * std_height)
+        if cur_ratio >= std_ratio:
+            dsize_width: int = int(cur_ratio * std_height)
             dsize_height: int = std_height
-        else:  # 否则可能是偏正方形的屏幕，按宽度计算
+        else:
             dsize_width: int = std_width
             dsize_height: int = std_width / cur_ratio
         dsize = (dsize_width, dsize_height)
         image = cv2.resize(image, dsize, interpolation=cv2.INTER_AREA)
 
+        theme_name = str(raw_image.relative_to(src_path).with_suffix(''))
+
         for i in tasks:
-            filename = ""
-            if "template" not in tasks[i]:
+            if "crop_doc" not in tasks[i]:
                 continue
 
-            template = tasks[i]["template"]
-            if isinstance(template, str):
-                filename = template
-            elif isinstance(template, list):
-                filename = template[0]
-
-            if not filename.startswith(f"{raw_image.stem}/"):
-                continue
+            default_temp_name = tasks[f"{i.split('-Entry')[0]}Default"].get("template", "")
+            filename = f"{theme_name}/{default_temp_name.split("Default/")[-1]}"
 
             crop_doc = tasks[i].get("crop_doc", {})
             roi = crop_doc.get("roi")
