@@ -19,7 +19,8 @@
             "FriendsDreamland",
             "FriendsJieGarden",
             "FriendsAveMujica",
-            "FriendsTogether"
+            "FriendsTogether",
+            "FriendsLoneTrail"
         ],
         "onErrorNext": ["Friends-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -79,5 +80,9 @@
     "FriendsTogether": {
         "baseTask": "FriendsDefault",
         "template": "Together/Friends.png"
+    },
+    "FriendsLoneTrail": {
+        "baseTask": "FriendsDefault",
+        "template": ["LoneTrail/Day/Friends.png", "LoneTrail/Night/Friends.png"]
     }
 }

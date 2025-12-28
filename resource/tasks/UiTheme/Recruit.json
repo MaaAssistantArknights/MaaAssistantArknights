@@ -19,7 +19,8 @@
             "RecruitDreamland",
             "RecruitJieGarden",
             "RecruitAveMujica",
-            "RecruitTogether"
+            "RecruitTogether",
+            "RecruitLoneTrail"
         ],
         "onErrorNext": ["Recruit-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -78,5 +79,9 @@
     "RecruitTogether": {
         "baseTask": "RecruitDefault",
         "template": "Together/Recruit.png"
+    },
+    "RecruitLoneTrail": {
+        "baseTask": "RecruitDefault",
+        "template": ["LoneTrail/Day/Recruit.png", "LoneTrail/Night/Recruit.png"]
     }
 }
