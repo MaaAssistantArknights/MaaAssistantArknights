@@ -400,6 +400,10 @@ if __name__ == "__main__":
             print("")
             img = roi.image
 
+            # 输出 Original ROI 和 Amplified ROI
+            print(f"Original ROI: {roi.rectangle}")
+            print(f"Amplified ROI: {get_amplified_roi_rectangle(roi)}")
+
             if needSave:
                 x1, y1, w1, h1 = roi.rectangle
                 x2, y2, w2, h2 = get_amplified_roi_rectangle(roi)
@@ -409,11 +413,6 @@ if __name__ == "__main__":
                 dst_file_path = dst_path / dst_filename
                 print(rf"dst: {dst_file_path.absolute()}")
                 cv2.imwrite(str(dst_file_path), roi.image)
-
-            print(
-                f"original roi: {roi.rectangle}\n"
-                f"amplified roi: {get_amplified_roi_rectangle(roi)}"
-            )
 
             if needColorMatch:
                 method, reverse, colors = match_color(img)
@@ -480,7 +479,6 @@ if __name__ == "__main__":
                 destroyedMainColors = True
 
             print("")
-
             print("Press 'Q'/'ESC' to quit or just continute.")
 
     print("Exiting...")
