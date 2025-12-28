@@ -64,7 +64,7 @@
     },
     "DepotDreamland": {
         "baseTask": "DepotDefault",
-        "template": ["Dreamland/DreamlandDefault/DepotEnter.png", "Dreamland/DreamlandDark/DepotEnter.png"]
+        "template": ["Dreamland/Day/DepotEnter.png", "Dreamland/Night/DepotEnter.png"]
     },
     "DepotJieGarden": {
         "baseTask": "DepotDefault",
