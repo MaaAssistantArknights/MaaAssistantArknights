@@ -353,6 +353,16 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _customInfrastFile, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastFile, value);
             ParseCustomInfrastPlan(true);
+
+            int index = CustomInfrastPlanList.Any(i => i.Period.Count > 0) ? -1 : 0;
+            if (index != CustomInfrastPlanSelect)
+            {
+                CustomInfrastPlanSelect = index;
+            }
+            else
+            {
+                NotifyOfPropertyChange(nameof(CustomInfrastPlanSelect));
+            }
         }
     }
 
@@ -529,18 +539,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             CustomInfrastPlanList = [];
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileParseFailed"), UiLogColor.Error);
         }
-        finally
-        {
-            int index = CustomInfrastPlanList.Any(i => i.Period.Count > 0) ? -1 : 0;
-            if (index != CustomInfrastPlanSelect)
-            {
-                CustomInfrastPlanSelect = index;
-            }
-            else
-            {
-                NotifyOfPropertyChange(nameof(CustomInfrastPlanSelect));
-            }
-        }
     }
 
     /// <summary>
@@ -623,6 +621,10 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
         if (InfrastMode != Mode.Custom)
         {
+        }
+        else if (CustomInfrastPlanSelect != -1 && CustomInfrastPlanList.Count <= CustomInfrastPlanSelect)
+        {
+            throw new InvalidOperationException("CustomInfrastPlanSelect is out of range");
         }
         else if (CustomInfrastPlanSelect >= 0)
         {
