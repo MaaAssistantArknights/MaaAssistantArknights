@@ -64,7 +64,7 @@
     },
     "TaskDreamland": {
         "baseTask": "TaskDefault",
-        "template": ["Dreamland/DreamlandDefault/Task.png", "Dreamland/DreamlandDark/Task.png"]
+        "template": ["Dreamland/Day/Task.png", "Dreamland/Night/Task.png"]
     },
     "TaskJieGarden": {
         "baseTask": "TaskDefault",

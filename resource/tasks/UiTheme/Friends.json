@@ -65,7 +65,7 @@
     },
     "FriendsDreamland": {
         "baseTask": "FriendsDefault",
-        "template": ["Dreamland/DreamlandDefault/Friends.png", "Dreamland/DreamlandDark/Friends.png"]
+        "template": ["Dreamland/Day/Friends.png", "Dreamland/Night/Friends.png"]
     },
     "FriendsJieGarden": {
         "baseTask": "FriendsDefault",

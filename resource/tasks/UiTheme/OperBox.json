@@ -64,7 +64,7 @@
     },
     "OperBoxDreamland": {
         "baseTask": "OperBoxDefault",
-        "template": ["Dreamland/DreamlandDefault/OperBoxEnter.png", "Dreamland/DreamlandDark/OperBoxEnter.png"]
+        "template": ["Dreamland/Day/OperBoxEnter.png", "Dreamland/Night/OperBoxEnter.png"]
     },
     "OperBoxJieGarden": {
         "baseTask": "OperBoxDefault",
