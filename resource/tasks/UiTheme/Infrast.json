@@ -19,7 +19,8 @@
             "InfrastDreamland",
             "InfrastJieGarden",
             "InfrastAveMujica",
-            "InfrastTogether"
+            "InfrastTogether",
+            "InfrastLoneTrail"
         ],
         "onErrorNext": ["Infrast-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -78,5 +79,9 @@
     "InfrastTogether": {
         "baseTask": "InfrastDefault",
         "template": "Together/EnterInfrast.png"
+    },
+    "InfrastLoneTrail": {
+        "baseTask": "InfrastDefault",
+        "template": ["LoneTrail/Day/EnterInfrast.png", "LoneTrail/Night/EnterInfrast.png"]
     }
 }
