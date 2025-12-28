@@ -27,7 +27,7 @@ MAA 提供多种下载方式，包括官网下载，从包管理器安装，群�
 
 ::: tip
 
-在 Mirror酱 需要提供 CDK 才能下载 MAA 安装包。该 CDK 需要付费订阅，但连通性良好且速度较快。关于订阅价格和方式，请访问 [Mirror酱](https://mirrorchyan.com/zh/) 了解更多信息。
+需要提供 CDK 才能在 Mirror酱 下载 MAA 的安装包。该 CDK 需要付费订阅，但连通性良好且速度较快。这并不代表 MAA 本体需要付费使用。关于订阅价格和方式，请访问 [Mirror酱](https://mirrorchyan.com/zh/) 了解更多信息。
 
 :::
 
@@ -60,7 +60,7 @@ winget install maa
 
 ::: tip
 
-在 Mirror酱 需要提供 CDK 才能下载 MAA 安装包。该 CDK 需要付费订阅，但连通性良好且速度较快。关于订阅价格和方式，请访问 [Mirror酱](https://mirrorchyan.com/zh/) 了解更多信息。
+需要提供 CDK 才能在 Mirror酱 下载 MAA 的安装包。该 CDK 需要付费订阅，但连通性良好且速度较快。这并不代表 MAA 本体需要付费使用。关于订阅价格和方式，请访问 [Mirror酱](https://mirrorchyan.com/zh/) 了解更多信息。
 
 :::
 
