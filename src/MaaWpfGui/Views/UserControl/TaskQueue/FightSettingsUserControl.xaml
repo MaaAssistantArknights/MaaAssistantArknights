@@ -419,8 +419,8 @@
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
-                        ItemsSource="{Binding CustomInfrastPlanList, Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
-                        SelectedValue="{Binding CustomInfrastPlanIndex, Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
+                        ItemsSource="{Binding CustomPlanListDisplay, Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
+                        SelectedValue="{Binding CustomInfrastPlanSelect, Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
                         SelectedValuePath="Value" />
                 </StackPanel>
             </Grid>
