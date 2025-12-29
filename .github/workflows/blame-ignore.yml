@@ -20,6 +20,7 @@ jobs:
 
       - name: Check blame
         id: check_changes
+        continue-on-error: true
         run: |
           LAST_CHECKED_COMMIT=$(cat .github/.last-blame-ignore-commit 2>/dev/null || git rev-list --max-parents=0 HEAD)
 

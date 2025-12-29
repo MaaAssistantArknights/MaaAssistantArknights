@@ -20,7 +20,8 @@
             "MallJieGarden",
             "MallAveMujica",
             "MallTogether"
-        ]
+        ],
+        "onErrorNext": ["Mall-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "MallDefault": {
         "action": "ClickSelf",
@@ -64,7 +65,7 @@
     },
     "MallDreamland": {
         "baseTask": "MallDefault",
-        "template": ["Dreamland/DreamlandDefault/Mall.png", "Dreamland/DreamlandDark/Mall.png"]
+        "template": ["Dreamland/Day/Mall.png", "Dreamland/Night/Mall.png"]
     },
     "MallJieGarden": {
         "baseTask": "MallDefault",

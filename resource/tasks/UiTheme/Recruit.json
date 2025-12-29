@@ -20,7 +20,8 @@
             "RecruitJieGarden",
             "RecruitAveMujica",
             "RecruitTogether"
-        ]
+        ],
+        "onErrorNext": ["Recruit-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "RecruitDefault": {
         "action": "ClickSelf",
@@ -64,7 +65,7 @@
     },
     "RecruitDreamland": {
         "baseTask": "RecruitDefault",
-        "template": ["Dreamland/DreamlandDefault/Recruit.png", "Dreamland/DreamlandDark/Recruit.png"]
+        "template": ["Dreamland/Day/Recruit.png", "Dreamland/Night/Recruit.png"]
     },
     "RecruitJieGarden": {
         "baseTask": "RecruitDefault",

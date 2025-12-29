@@ -994,8 +994,7 @@
             "StartUpBegin@LoadingIcon",
             "StartUp@ReturnButtons#next",
             "StartUp@EndOfAction"
-        ],
-        "onErrorNext": ["StartUpBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "GameStart": {
         "action": "ClickSelf",
@@ -1261,8 +1260,7 @@
     },
     "StageBegin": {
         "algorithm": "JustReturn",
-        "next": ["Fight@ReturnButtons#next", "Fight", "Fight@CloseAnnos#next"],
-        "onErrorNext": ["StageBegin@SwitchTheme@ToggleSettingsMenu"]
+        "next": ["Fight@ReturnButtons#next", "Fight", "Fight@CloseAnnos#next"]
     },
     "FightBegin": {
         "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
@@ -1273,8 +1271,7 @@
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
             "Fight@PRTS#next"
-        ],
-        "onErrorNext": ["FightBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "LastOrCurBattleBegin": {
         "algorithm": "JustReturn",
@@ -1287,8 +1284,7 @@
             "Fight",
             "Fight@CloseAnnos#next",
             "Fight@PRTS#next"
-        ],
-        "onErrorNext": ["LastOrCurBattleBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "UsePrts": {
         "action": "ClickSelf",
@@ -1730,8 +1726,7 @@
             "Recruit@ReturnButtons#next",
             "Recruit@CloseAnnos#next",
             "Recruit@OfflineConfirm"
-        ],
-        "onErrorNext": ["RecruitBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "Recruit": {
         "action": "DoNothing",
@@ -1797,8 +1792,7 @@
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
         "sub": ["AwardExpandCheckFlow"],
-        "next": ["MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivitiesReturnHome", "MiningActivities"],
-        "onErrorNext": ["MiningActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
+        "next": ["MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivitiesReturnHome", "MiningActivities"]
     },
     "MiningActivitiesReturnHome": {
         "baseTask": "Home",
@@ -1833,8 +1827,7 @@
     "OrundumActivitiesBegin": {
         "algorithm": "JustReturn",
         "sub": ["AwardExpandCheckFlow"],
-        "next": ["OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivitiesReturnHome", "OrundumActivities"],
-        "onErrorNext": ["OrundumActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
+        "next": ["OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivitiesReturnHome", "OrundumActivities"]
     },
     "OrundumActivitiesReturnHome": {
         "baseTask": "Home",
@@ -1906,8 +1899,7 @@
             "RecruitingActivitiesReturnHome@ReturnButtons#next",
             "RecruitingActivitiesReturnHome",
             "RecruitingActivities"
-        ],
-        "onErrorNext": ["RecruitingActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "RecruitingActivitiesReturnHome": {
         "baseTask": "Home",
@@ -2001,8 +1993,7 @@
             "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
             "SpecialAccessActivitiesReturnHome",
             "SpecialAccessActivities"
-        ],
-        "onErrorNext": ["SpecialAccessActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "SpecialAccessActivitiesReturnHome": {
         "baseTask": "Home",
@@ -2049,8 +2040,7 @@
             "DailyTask",
             "WeeklyTask",
             "Award@CloseAnnos#next"
-        ],
-        "onErrorNext": ["AwardBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "Award": {
         "action": "DoNothing",
@@ -2099,8 +2089,7 @@
     },
     "MailBegin": {
         "algorithm": "JustReturn",
-        "next": ["MailReturnToHome@ReturnButtons#next", "MailReturnToHome", "ReceiveMail"],
-        "onErrorNext": ["MailBegin@SwitchTheme@ToggleSettingsMenu"]
+        "next": ["MailReturnToHome@ReturnButtons#next", "MailReturnToHome", "ReceiveMail"]
     },
     "MailReturnToHome": {
         "baseTask": "Home",
@@ -2148,8 +2137,7 @@
             "VisitNextBlack",
             "Visit@ReturnButtons#next",
             "Visit@CloseAnnos#next"
-        ],
-        "onErrorNext": ["VisitBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "Visit": {
         "action": "DoNothing",
@@ -2211,8 +2199,7 @@
     },
     "MallBegin": {
         "algorithm": "JustReturn",
-        "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"],
-        "onErrorNext": ["MallBegin@SwitchTheme@ToggleSettingsMenu"]
+        "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"]
     },
     "Mall": {
         "action": "DoNothing",
@@ -2404,8 +2391,7 @@
             "Infrast@ReturnButtons#next",
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
-        ],
-        "onErrorNext": ["InfrastBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "Infrast@MainThemes": {
         "next": ["InfrastBegin#next"]
@@ -3247,6 +3233,7 @@
         "template": "SendClueConfirm.png",
         "action": "ClickSelf",
         "roi": [1150, 50, 100, 160],
+        "postDelay": 500,
         "next": ["ClueGiveTo1stConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "ClueGiveTo2nd": {
@@ -3259,6 +3246,7 @@
         "template": "SendClueConfirm.png",
         "action": "ClickSelf",
         "roi": [1150, 200, 100, 160],
+        "postDelay": 500,
         "next": ["ClueGiveTo2ndConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "ClueGiveTo3rd": {
@@ -3271,6 +3259,7 @@
         "template": "SendClueConfirm.png",
         "action": "ClickSelf",
         "roi": [1150, 350, 100, 160],
+        "postDelay": 500,
         "next": ["ClueGiveTo3rdConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "ClueGiveTo4th": {
@@ -3283,6 +3272,7 @@
         "template": "SendClueConfirm.png",
         "action": "ClickSelf",
         "roi": [1150, 500, 100, 160],
+        "postDelay": 500,
         "next": ["ClueGiveTo4thConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "CloseSendClue": {
@@ -4212,8 +4202,7 @@
     },
     "DepotBegin": {
         "algorithm": "JustReturn",
-        "next": ["Depot", "DepotMaterialTab", "DepotAllTab", "DepotMaterialTabClicked", "Depot@ReturnButtons#next"],
-        "onErrorNext": ["DepotBegin@SwitchTheme@ToggleSettingsMenu"]
+        "next": ["Depot", "DepotMaterialTab", "DepotAllTab", "DepotMaterialTabClicked", "Depot@ReturnButtons#next"]
     },
     "Depot": {
         "action": "DoNothing",
@@ -4290,8 +4279,7 @@
             "OperBoxSortTabSelect",
             "OperBoxRoleTab",
             "OperBox@ReturnButtons#next"
-        ],
-        "onErrorNext": ["OperBoxBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "OperBox": {
         "action": "DoNothing",
@@ -4854,8 +4842,7 @@
             "GachaLastOnceResult",
             "GachaLastTenTimesResult1",
             "GachaLastTenTimesResult2"
-        ],
-        "onErrorNext": ["GachaBegin@SwitchTheme@ToggleSettingsMenu"]
+        ]
     },
     "Gacha": {
         "action": "DoNothing",
@@ -4941,8 +4928,7 @@
     "Store@Begin": {
         "doc": "绿票、黄票商店",
         "algorithm": "JustReturn",
-        "next": ["Store@EnterStore", "Store@EnterTicketStore"],
-        "onErrorNext": ["Store@Begin@SwitchTheme@ToggleSettingsMenu"]
+        "next": ["Store@EnterStore", "Store@EnterTicketStore"]
     },
     "Store@EnterStore": {
         "baseTask": "Mall",

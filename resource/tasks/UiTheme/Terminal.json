@@ -21,7 +21,8 @@
             "TerminalJieGarden",
             "TerminalAveMujica",
             "TerminalTogether"
-        ]
+        ],
+        "onErrorNext": ["Terminal-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "TerminalDefault": {
         "action": "ClickSelf",
@@ -65,7 +66,7 @@
     },
     "TerminalDreamland": {
         "baseTask": "TerminalDefault",
-        "template": ["Dreamland/DreamlandDefault/Terminal.png", "Dreamland/DreamlandDark/Terminal.png"]
+        "template": ["Dreamland/Day/Terminal.png", "Dreamland/Night/Terminal.png"]
     },
     "TerminalJieGarden": {
         "baseTask": "TerminalDefault",
