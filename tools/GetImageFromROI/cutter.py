@@ -62,14 +62,16 @@ if __name__ == "__main__":
         dsize = (dsize_width, dsize_height)
         image = cv2.resize(image, dsize, interpolation=cv2.INTER_AREA)
 
-        theme_name = str(raw_image.relative_to(src_path).with_suffix(''))
+        theme_name = str(raw_image.relative_to(src_path).with_suffix(""))
 
         for i in tasks:
             if "crop_doc" not in tasks[i]:
                 continue
 
-            default_temp_name = tasks[f"{i.split('-Entry')[0]}Default"].get("template", "")
-            filename = f"{theme_name}/{default_temp_name.split("Default/")[-1]}"
+            default_temp_name = tasks[f"{i.split('-Entry')[0]}Default"].get(
+                "template", ""
+            )
+            filename = f"{theme_name}/{default_temp_name.split('Default/')[-1]}"
 
             crop_doc = tasks[i].get("crop_doc", {})
             roi = crop_doc.get("roi")
