@@ -134,23 +134,23 @@ bool get_value_or(
         return true;
     }
     if (parse_json_as(*opt, output)) {
-/*
-#ifdef ASST_DEBUG
-        if constexpr (CheckDefault) {
-            // 如果有默认值，检查是否与默认值相同
-            if constexpr (std::constructible_from<OutT, DefaultT>) {
-                if (output == default_val) {
-                    Log.warn("Value of", key, "in", repr, "is same as default value");
+        /*
+        #ifdef ASST_DEBUG
+                if constexpr (CheckDefault) {
+                    // 如果有默认值，检查是否与默认值相同
+                    if constexpr (std::constructible_from<OutT, DefaultT>) {
+                        if (output == default_val) {
+                            Log.warn("Value of", key, "in", repr, "is same as default value");
+                        }
+                    }
+                    else {
+                        if (output == default_val()) {
+                            Log.warn("Value of", key, "in", repr, "is same as default value of construct function");
+                        }
+                    }
                 }
-            }
-            else {
-                if (output == default_val()) {
-                    Log.warn("Value of", key, "in", repr, "is same as default value of construct function");
-                }
-            }
-        }
-#endif
-*/
+        #endif
+        */
         return true;
     }
     Log.error("Invalid type of", key, "in", repr);

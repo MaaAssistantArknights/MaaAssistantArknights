@@ -38,7 +38,6 @@ def update_ui_theme_tasks():
 
         modified = False
 
-
         theme_variants = {}
         for image in src_path.rglob("*.png"):
             theme_path = image.relative_to(src_path).with_suffix("")
