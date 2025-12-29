@@ -13,7 +13,6 @@
 
 using System;
 using System.Collections.Specialized;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,9 +43,6 @@ namespace MaaWpfGui.Views.UI;
 public partial class OverlayWindow : Window
 {
     private static readonly ILogger _logger = Log.ForContext<OverlayWindow>();
-
-    [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
-    private static extern IntPtr SetWindowLongPtrW(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
     // Instance delegate to keep callback alive for this instance; avoids global mapping complexity
     private readonly WINEVENTPROC _winEventProc;
@@ -325,10 +321,7 @@ public partial class OverlayWindow : Window
     {
         Opacity = 0;
         Show();
-
-        // CsWin32 在 WPF 的 wpftmp/AnyCPU 编译阶段无法生成 SetWindowLongPtr，因此这里用显式 P/Invoke 来设置 Owner。
-        _ = SetWindowLongPtrW(_overlayHwnd, (int)WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
-
+        PInvoke.SetWindowLongPtr((HWND)_overlayHwnd, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
         UpdatePosition();
         Opacity = 1;
     }
