@@ -20,7 +20,8 @@
             "FriendsJieGarden",
             "FriendsAveMujica",
             "FriendsTogether"
-        ]
+        ],
+        "onErrorNext": ["Friends-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "FriendsDefault": {
         "action": "ClickSelf",

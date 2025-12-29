@@ -20,7 +20,8 @@
             "OperBoxJieGarden",
             "OperBoxAveMujica",
             "OperBoxTogether"
-        ]
+        ],
+        "onErrorNext": ["OperBox-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "OperBoxDefault": {
         "action": "ClickSelf",

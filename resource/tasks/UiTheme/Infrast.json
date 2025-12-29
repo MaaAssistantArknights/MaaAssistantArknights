@@ -20,7 +20,8 @@
             "InfrastJieGarden",
             "InfrastAveMujica",
             "InfrastTogether"
-        ]
+        ],
+        "onErrorNext": ["Infrast-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "InfrastDefault": {
         "action": "ClickSelf",

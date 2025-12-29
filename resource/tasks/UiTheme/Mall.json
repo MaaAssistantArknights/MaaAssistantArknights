@@ -20,7 +20,8 @@
             "MallJieGarden",
             "MallAveMujica",
             "MallTogether"
-        ]
+        ],
+        "onErrorNext": ["Mall-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "MallDefault": {
         "action": "ClickSelf",

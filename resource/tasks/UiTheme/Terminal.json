@@ -21,7 +21,8 @@
             "TerminalJieGarden",
             "TerminalAveMujica",
             "TerminalTogether"
-        ]
+        ],
+        "onErrorNext": ["Terminal-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "TerminalDefault": {
         "action": "ClickSelf",

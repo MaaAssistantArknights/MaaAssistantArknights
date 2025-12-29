@@ -20,7 +20,8 @@
             "TaskJieGarden",
             "TaskAveMujica",
             "TaskTogether"
-        ]
+        ],
+        "onErrorNext": ["Task-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "TaskDefault": {
         "action": "ClickSelf",
