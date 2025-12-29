@@ -23,7 +23,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
     for (const auto& entry : std::filesystem::recursive_directory_iterator(path)) {
         if (entry.is_directory()) {
             search_paths.push_back(entry.path());
-            Log.debug("TemplResource::load", "Loading directory:", entry.path());
+            // Log.debug("TemplResource::load", "Loading directory:", entry.path());
         }
     }
 

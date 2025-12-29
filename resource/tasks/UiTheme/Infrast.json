@@ -20,7 +20,8 @@
             "InfrastJieGarden",
             "InfrastAveMujica",
             "InfrastTogether"
-        ]
+        ],
+        "onErrorNext": ["Infrast-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "InfrastDefault": {
         "action": "ClickSelf",
@@ -64,7 +65,7 @@
     },
     "InfrastDreamland": {
         "baseTask": "InfrastDefault",
-        "template": ["Dreamland/DreamlandDefault/EnterInfrast.png", "Dreamland/DreamlandDark/EnterInfrast.png"]
+        "template": ["Dreamland/Day/EnterInfrast.png", "Dreamland/Night/EnterInfrast.png"]
     },
     "InfrastJieGarden": {
         "baseTask": "InfrastDefault",

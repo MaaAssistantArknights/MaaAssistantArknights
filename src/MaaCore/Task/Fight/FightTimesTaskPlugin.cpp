@@ -111,12 +111,13 @@ bool asst::FightTimesTaskPlugin::_run()
     m_series_current = *series;
     fight["details"]["series"] = *series;
     fight["details"]["sanity_cost"] = *sanity_cost;
-    callback(AsstMsg::SubTaskExtraInfo, fight);
 
     if (m_fight_times + *series > m_fight_times_max) {
         m_task_ptr->set_enable(false); // 战斗次数超过上限
         Log.info(__FUNCTION__, "fight times reached max");
+        fight["details"]["finished"] = true;
     }
+    callback(AsstMsg::SubTaskExtraInfo, fight);
     return true;
 }
 

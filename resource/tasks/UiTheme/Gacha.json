@@ -20,7 +20,8 @@
             "GachaJieGarden",
             "GachaAveMujica",
             "GachaTogether"
-        ]
+        ],
+        "onErrorNext": ["Gacha-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "GachaDefault": {
         "action": "ClickSelf",
@@ -64,7 +65,7 @@
     },
     "GachaDreamland": {
         "baseTask": "GachaDefault",
-        "template": ["Dreamland/DreamlandDefault/GachaEnter.png", "Dreamland/DreamlandDark/GachaEnter.png"]
+        "template": ["Dreamland/Day/GachaEnter.png", "Dreamland/Night/GachaEnter.png"]
     },
     "GachaJieGarden": {
         "baseTask": "GachaDefault",
