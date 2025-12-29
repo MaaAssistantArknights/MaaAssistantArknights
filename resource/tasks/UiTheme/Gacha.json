@@ -20,7 +20,8 @@
             "GachaJieGarden",
             "GachaAveMujica",
             "GachaTogether"
-        ]
+        ],
+        "onErrorNext": ["Gacha-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "GachaDefault": {
         "action": "ClickSelf",

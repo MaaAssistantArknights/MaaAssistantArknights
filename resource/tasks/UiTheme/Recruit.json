@@ -20,7 +20,8 @@
             "RecruitJieGarden",
             "RecruitAveMujica",
             "RecruitTogether"
-        ]
+        ],
+        "onErrorNext": ["Recruit-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "RecruitDefault": {
         "action": "ClickSelf",

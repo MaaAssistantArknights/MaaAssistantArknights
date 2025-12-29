@@ -20,7 +20,8 @@
             "DepotJieGarden",
             "DepotAveMujica",
             "DepotTogether"
-        ]
+        ],
+        "onErrorNext": ["Depot-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "DepotDefault": {
         "action": "ClickSelf",
