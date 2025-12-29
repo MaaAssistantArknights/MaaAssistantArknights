@@ -3233,6 +3233,7 @@
         "template": "SendClueConfirm.png",
         "action": "ClickSelf",
         "roi": [1150, 50, 100, 160],
+        "postDelay": 500,
         "next": ["ClueGiveTo1stConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "ClueGiveTo2nd": {
@@ -3245,6 +3246,7 @@
         "template": "SendClueConfirm.png",
         "action": "ClickSelf",
         "roi": [1150, 200, 100, 160],
+        "postDelay": 500,
         "next": ["ClueGiveTo2ndConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "ClueGiveTo3rd": {
@@ -3257,6 +3259,7 @@
         "template": "SendClueConfirm.png",
         "action": "ClickSelf",
         "roi": [1150, 350, 100, 160],
+        "postDelay": 500,
         "next": ["ClueGiveTo3rdConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "ClueGiveTo4th": {
@@ -3269,6 +3272,7 @@
         "template": "SendClueConfirm.png",
         "action": "ClickSelf",
         "roi": [1150, 500, 100, 160],
+        "postDelay": 500,
         "next": ["ClueGiveTo4thConfirm@LoadingText", "SelectClue", "CloseSendClue"]
     },
     "CloseSendClue": {

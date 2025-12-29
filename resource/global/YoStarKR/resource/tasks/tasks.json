@@ -1193,19 +1193,6 @@
         "doc": "Remove this after 'Quickly place clues' and 'One-tap send duplicate clues' are added (#14966)",
         "roi": [1160, 350, 80, 80]
     },
-    "ClueGiveTo1stConfirm": {
-        "doc": "단서 전달 화면에서 단서 전달 이후 멈추는 문제를 위한 postDelay",
-        "postDelay": 500
-    },
-    "ClueGiveTo2ndConfirm": {
-        "postDelay": 500
-    },
-    "ClueGiveTo3rdConfirm": {
-        "postDelay": 500
-    },
-    "ClueGiveTo4thConfirm": {
-        "postDelay": 500
-    },
     "InfrastTrainingIdle": {
         "text": ["미사용중"],
         "roi": [380, 645, 135, 35]
