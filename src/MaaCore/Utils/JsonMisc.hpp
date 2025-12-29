@@ -134,6 +134,7 @@ bool get_value_or(
         return true;
     }
     if (parse_json_as(*opt, output)) {
+/*
 #ifdef ASST_DEBUG
         if constexpr (CheckDefault) {
             // 如果有默认值，检查是否与默认值相同
@@ -149,6 +150,7 @@ bool get_value_or(
             }
         }
 #endif
+*/
         return true;
     }
     Log.error("Invalid type of", key, "in", repr);
