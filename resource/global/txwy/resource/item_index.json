@@ -2007,6 +2007,14 @@
         "sortId": -10000,
         "usage": "育嬰聖堂的啟聖工作進行得如火如荼，生靈與死物一齊長出了光環。初獲光環的奶嘴在育嬰聖堂內迷茫地遊蕩，導致無數嬰兒夜不能寐。若你能勸它們回歸職守，焦頭爛額的保育員們一定很願意以禮致謝。"
     },
+    "act43side_token_phantom": {
+        "classifyType": "NONE",
+        "description": "那到底是什麼？幽靈？道具？幻覺？還是誰*藍卡塢片場術語*養的寵物？沒人知道答案。Miss.Christine只是搖搖雙尾，悠然地曬著太陽。",
+        "icon": "act43side_token_phantom.png",
+        "name": "神秘片場黑影",
+        "sortId": -10000,
+        "usage": "工期爆炸，片場高壓，但“神秘黑影”總是時不時出現，讓焦頭爛額的工作人員甚至開始疑神疑鬼。如果能找出黑影在哪裡，他們一定會好好感謝你。"
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
@@ -2038,6 +2046,22 @@
         "name": "羅德廚房積分",
         "sortId": -10000,
         "usage": "積累此積分以獲取相應的階段性活動獎勵。"
+    },
+    "act5bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
+        "icon": "act5bossrush_milestone_point.png",
+        "name": "試煉經驗",
+        "sortId": -10000,
+        "usage": "試煉結束後獲得的經驗，可以提升試煉等級。"
+    },
+    "act5bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解碼的數據方塊。永遠記住，資訊轉換往往伴隨著不可避免的損耗。善用資訊儲存工具，但別依賴它們。",
+        "icon": "act5bossrush_token_relic.png",
+        "name": "數據黑盒",
+        "sortId": -10000,
+        "usage": "用於對遏制單元進行數據迭代。"
     },
     "act5d0_point_medal": {
         "classifyType": "NONE",
