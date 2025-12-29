@@ -71,6 +71,7 @@ The new version indicator in the top-left corner of the main window is now click
 
 ### 修复 | Fix
 
+* 有猪把切换主题改炸了 @ABA2396
 * 引航者试炼借助战 @ABA2396
 * 修复资源更新错误复制 cache 文件夹的问题 @ABA2396
 * 修复更新后未成功下载的 OTA 包未被清理的问题 @status102
@@ -87,9 +88,11 @@ The new version indicator in the top-left corner of the main window is now click
 * 修复多服 OCR / 正则匹配问题，提升识别准确率（EN / JP / KR / 繁中） @Constrat @HX3N @Manicsteiner @momomochi987
 * 修复关卡名、掉落、通宝、铜钱、助战、招募等多处模板或识别错误 @ABA2396 @Constrat
 * Fixed multiple OCR regex issues for EN servers, improving drop, currency, and stage name recognition @Constrat
+* ClueGiveTo1stConfirm use delay for all client @Constrat
 
 ### 其他 | Other
 
+* 调整倍战超过限制提示 @ABA2396
 * 更新 macos.cmake 构建配置 (#15173) @Alan-Charred
 * 更新 C# EditorConfig 以支持 C# 13 / 14 (#15146) @status102
 * 更新 pre-commit 与开发工具链配置 @SherkeyXD
