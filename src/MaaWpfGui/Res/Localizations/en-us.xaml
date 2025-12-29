@@ -1042,6 +1042,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ExplorationAbandoned">Abandoned this Exploration</system:String>
     <system:String x:Key="FightCompleted">Combat completed</system:String>
     <system:String x:Key="FightFailed">Combat failed</system:String>
+    <system:String x:Key="FightTimesMayNotExhausted">战斗次数 ({0}次) 可能无法用尽, {key=Series}: {1}</system:String>
     <system:String x:Key="FightTimesUnused">Completed {0} battles, will execute {1} multiplier proxy next time, will complete {2} battles after entering, exceeds {3} limit, will not enter battle</system:String>
     <system:String x:Key="UpperLimit">Investment limit reached</system:String>
     <system:String x:Key="GameCrash">Game crashed pending restart</system:String>
