@@ -25,7 +25,7 @@ namespace MaaWpfGui.ViewModels;
 /// <summary>
 /// The view model of log item.
 /// </summary>
-public class LogItemViewModel : PropertyChangedBase
+public class LogItemViewModel : PropertyDependsOnViewModel
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="LogItemViewModel"/> class.
@@ -38,6 +38,8 @@ public class LogItemViewModel : PropertyChangedBase
     /// <param name="toolTip">The toolTip</param>
     public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "", bool showTime = true, ToolTip? toolTip = null)
     {
+        InitializePropertyDependencies();
+
         if (string.IsNullOrEmpty(dateFormat))
         {
             dateFormat = SettingsViewModel.GuiSettings.LogItemDateFormatString;
@@ -50,7 +52,6 @@ public class LogItemViewModel : PropertyChangedBase
         _showTime = showTime;
         _toolTip = toolTip;
     }
-
 
     private string _time;
 
