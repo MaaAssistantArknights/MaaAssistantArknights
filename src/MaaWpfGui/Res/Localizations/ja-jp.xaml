@@ -834,6 +834,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@ALL@HoneyFruit">デュエルチャンネル：ハニーフルーツシティ（非公式）</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">エンディング</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event">优先系列事件</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event1">支援作战平台</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event2">游侠</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event3">鬼影迷踪</system:String>
     <system:String x:Key="MiniGame@SecretFront">隠密戦線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">小隊選択画面で開始します。セーブデータがある場合は手動で削除する必要があります。ゲーム内の「前の小隊からのデータを引き継ぐ」にチェックすることを推奨します。</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">緑チケット商店</system:String>

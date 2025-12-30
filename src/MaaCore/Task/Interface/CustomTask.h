@@ -14,6 +14,8 @@ public:
     virtual ~CustomTask() override = default;
     virtual bool set_params(const json::value& params) override;
 
+    bool parse_and_register_secretfront(const std::string& task_name, std::string& resolved_task);
+
 private:
     std::shared_ptr<ProcessTask> m_custom_task_ptr = nullptr;
 };

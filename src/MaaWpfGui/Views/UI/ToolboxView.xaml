@@ -642,14 +642,28 @@
                     ItemsSource="{Binding MiniGameTaskList}"
                     SelectedValue="{Binding MiniGameTaskName}"
                     SelectedValuePath="Value" />
-                <StackPanel Grid.Row="1">
-                    <ComboBox
-                        Margin="10,10,10,0"
-                        hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Ending}"
-                        ItemsSource="{Binding SecretFrontEndingList}"
-                        SelectedValue="{Binding SecretFrontEnding}"
-                        Visibility="{c:Binding 'MiniGameTaskName == &quot;MiniGame@SecretFront&quot;'}" />
-                </StackPanel>
+                <Grid Grid.Row="1">
+                    <Grid Visibility="{c:Binding 'MiniGameTaskName == &quot;MiniGame@SecretFront&quot;'}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <ComboBox
+                            Margin="10,10,10,0"
+                            hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Ending}"
+                            ItemsSource="{Binding SecretFrontEndingList}"
+                            SelectedValue="{Binding SecretFrontEnding}" />
+                        <ComboBox
+                            Grid.Row="1"
+                            Margin="10,10,10,0"
+                            hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Event}"
+                            DisplayMemberPath="Display"
+                            ItemsSource="{Binding SecretFrontEventList}"
+                            SelectedValue="{Binding SecretFrontEvent}"
+                            SelectedValuePath="Value" />
+                    </Grid>
+
+                </Grid>
                 <controls:TextBlock Grid.Row="2" Text="{Binding MiniGameTip}" />
                 <Button
                     Grid.Row="3"

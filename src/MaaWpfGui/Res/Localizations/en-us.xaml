@@ -833,6 +833,10 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@ALL@HoneyFruit">Contest Channel: Honeydew</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">Ending</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event">优先系列事件</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event1">支援作战平台</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event2">游侠</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event3">鬼影迷踪</system:String>
     <system:String x:Key="MiniGame@SecretFront">Hidden Front</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip" xml:space="preserve">Start from the squad selection screen;&#10;if there is a saved game, please delete it manually.&#10;Close the tutorial after playing it for the first time.&#10;Recommended to enable in-game ｢Inherit previous squad's data｣.</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>

@@ -835,6 +835,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@ALL@HoneyFruit">듀얼 채널: 허니 듀 (비공식)</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">결말</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event">优先系列事件</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event1">支援作战平台</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event2">游侠</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event3">鬼影迷踪</system:String>
     <system:String x:Key="MiniGame@SecretFront">비밀 전선</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다. 게임 내 「이전 소대의 데이터 전승받기」 옵션을 체크하는 것을 권장합니다.</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>

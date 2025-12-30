@@ -32,6 +32,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -1236,7 +1237,7 @@ public class ToolboxViewModel : Screen
     {
         return MiniGameTaskName switch
         {
-            "MiniGame@SecretFront" => $"{MiniGameTaskName}@Ending{SecretFrontEnding}@Begin",
+            "MiniGame@SecretFront" => $"{MiniGameTaskName}@Begin@Ending{SecretFrontEnding}{(string.IsNullOrEmpty(SecretFrontEvent) ? string.Empty : $"@{SecretFrontEvent}")}",
             _ => MiniGameTaskName,
         };
     }
@@ -1309,6 +1310,21 @@ public class ToolboxViewModel : Screen
     {
         get => _secretFrontEnding;
         set => SetAndNotify(ref _secretFrontEnding, value);
+    }
+
+    public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } = [
+        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
+        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event1"), Value = "支援作战平台" },
+        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event2"), Value = "游侠" },
+        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event3"), Value = "鬼影迷踪" },
+    ];
+
+    private string _secretFrontEvent = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameSecretFrontEvent, "支援作战平台");
+
+    public string SecretFrontEvent
+    {
+        get => _secretFrontEvent;
+        set => SetAndNotify(ref _secretFrontEvent, value);
     }
 
     public void StartMiniGame()

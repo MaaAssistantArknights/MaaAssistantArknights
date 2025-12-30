@@ -28,31 +28,20 @@ constexpr std::array<int, 3> Target_EndC { 350, 550, 350 };
 constexpr std::array<int, 3> Target_EndD { 365, 475, 495 };
 constexpr std::array<int, 3> Target_EndE { 370, 385, 620 };
 
-constexpr std::string_view HookTaskLegacy = "MiniGame@SecretFront@Begin";
-constexpr std::string_view HookTaskA = "MiniGame@SecretFront@EndingA@Begin";
-constexpr std::string_view HookTaskB = "MiniGame@SecretFront@EndingB@Begin";
-constexpr std::string_view HookTaskC = "MiniGame@SecretFront@EndingC@Begin";
-constexpr std::string_view HookTaskD = "MiniGame@SecretFront@EndingD@Begin";
-constexpr std::string_view HookTaskE = "MiniGame@SecretFront@EndingE@Begin";
-
 constexpr std::string_view RouteA[] { "1A", "2A", "3A", "4A" };
 constexpr std::string_view RouteB[] { "1A", "2A", "3A", "4B" };
 constexpr std::string_view RouteC[] { "1A", "2A", "3B", "4C" };
 constexpr std::string_view RouteD[] { "1A", "2B", "3C", "4D" };
 constexpr std::string_view RouteE[] { "1A", "2B", "3C", "4E" };
 
-constexpr SecretFrontTaskPlugin::EndingInfo EndingTable[] {
-    { HookTaskA, Target_EndA, SecretFrontTaskPlugin::Ending::A },
-    { HookTaskB, Target_EndB, SecretFrontTaskPlugin::Ending::B },
-    { HookTaskC, Target_EndC, SecretFrontTaskPlugin::Ending::C },
-    { HookTaskD, Target_EndD, SecretFrontTaskPlugin::Ending::D },
-    { HookTaskE, Target_EndE, SecretFrontTaskPlugin::Ending::E },
-    { HookTaskLegacy, Target_EndE, SecretFrontTaskPlugin::Ending::E },
-};
-
 constexpr std::pair<std::string_view, std::array<int, 3>> StageTargets[] {
     { "1A", Target_1A }, { "2A", Target_2A }, { "2B", Target_2B },
     { "3A", Target_3A }, { "3B", Target_3B }, { "3C", Target_3C },
+};
+constexpr std::pair<SecretFrontTaskPlugin::Ending, std::array<int, 3>> EndingTargets[] {
+    { SecretFrontTaskPlugin::Ending::A, Target_EndA }, { SecretFrontTaskPlugin::Ending::B, Target_EndB },
+    { SecretFrontTaskPlugin::Ending::C, Target_EndC }, { SecretFrontTaskPlugin::Ending::D, Target_EndD },
+    { SecretFrontTaskPlugin::Ending::E, Target_EndE },
 };
 
 bool SecretFrontTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -64,19 +53,7 @@ bool SecretFrontTaskPlugin::verify(AsstMsg msg, const json::value& details) cons
 
     const std::string& task = details.get("details", "task", "");
 
-    // 1) 若命中结局入口（Begin 节点），仅用于确定 m_ending / m_target，不触发插件运行
-    for (const auto& e : EndingTable) {
-        if (!task.ends_with(e.hook)) {
-            continue;
-        }
-
-        m_target = e.target;
-        m_ending = e.ending;
-
-        return false;
-    }
-
-    // 2) 卡片判断：区分有数值的 Actions 与基于文本的 Event
+    // 卡片判断：区分有数值的 Actions 与基于文本的 Event
     if (task.ends_with("MiniGame@SecretFront@ActionsDetected")) {
         m_mode = Mode::Actions;
         Log.info(__FUNCTION__, "| detect Actions");
@@ -87,14 +64,35 @@ bool SecretFrontTaskPlugin::verify(AsstMsg msg, const json::value& details) cons
         Log.info(__FUNCTION__, "| detect Event");
         return true;
     }
+    if (task.ends_with("MiniGame@SecretFront@PreClickDetect")) {
+        m_mode = Mode::DetectBeforeClick;
+        Log.info(__FUNCTION__, "| detect PreClickDetect (pre-click detect)");
+        return true;
+    }
 
-    // 3) SelectTeam 进入插件，由插件根据结局选择对应分队
+    // SelectTeam 进入插件，由插件根据结局选择对应分队
     if (task.ends_with("MiniGame@SecretFront@SelectTeam")) {
         m_mode = Mode::SelectTeam;
         return true;
     }
 
     return false;
+}
+
+void SecretFrontTaskPlugin::set_event_name(std::string name)
+{
+    m_event_name = std::move(name);
+}
+
+void SecretFrontTaskPlugin::set_ending(Ending e)
+{
+    m_ending = e;
+    for (const auto& [name, target] : EndingTargets) {
+        if (e == name) {
+            m_target = target;
+            break;
+        }
+    }
 }
 
 Point SecretFrontTaskPlugin::card_pos_base(int total, int idx)
@@ -260,6 +258,7 @@ SecretFrontTaskPlugin::BestChoice SecretFrontTaskPlugin::choose_best_card(
     int last_page = 0;
 
     // 当前页评分
+    double percentage = 0;
     for (int idx = 0; idx < current_total; ++idx) {
         double sc = calc_score(cards[idx]);
         if (sc > best.score) {
@@ -267,44 +266,59 @@ SecretFrontTaskPlugin::BestChoice SecretFrontTaskPlugin::choose_best_card(
             best.page = 0;
             best.total = current_total;
             best.idx = idx;
+            percentage = cards[idx].percentage;
         }
     }
 
-    // 尝试遍历后续两页进行全局比较（翻页操作）
-    for (int page = 1; page < 3; ++page) {
-        ProcessTask(*this, { "MiniGame@SecretFront@ClickNextPage" }).run();
-        sleep(1000);
+    // 前期遇到事件很有可能无法完成，成功率太低就先发育
+    if (m_only_current_page && percentage < 0.8) {
+        Log.info(__FUNCTION__, "| only_current_page set and max_percentage < 0.8: skip scanning subsequent pages");
+        m_only_current_page = false;
+    }
 
-        auto image = ctrler()->get_image();
-        if (image.empty()) {
-            break;
-        }
+    // 如果只需在当前页内做选择（由 pre-click 识别触发），跳过后续页遍历
+    if (m_only_current_page) {
+        Log.info(__FUNCTION__, "| only_current_page set: skip scanning subsequent pages");
+        // 重置标志以便下次操作不受影响
+        m_only_current_page = false;
+    }
+    else {
+        // 尝试遍历后续两页进行全局比较（翻页操作）
+        for (int page = 1; page < 3; ++page) {
+            ProcessTask(*this, { "MiniGame@SecretFront@ClickNextPage" }).run();
+            sleep(1000);
 
-        const int t = estimate_total_cards(image);
-        if (t <= 0) {
-            continue;
-        }
-
-        last_page = page;
-
-        std::vector<CardData> page_cards;
-        page_cards.reserve(t);
-        for (int i = 0; i < t; ++i) {
-            if (auto card = read_card(image, t, i)) {
-                page_cards.emplace_back(*card);
+            auto image = ctrler()->get_image();
+            if (image.empty()) {
+                break;
             }
-            else {
-                page_cards.emplace_back(CardData {});
-            }
-        }
 
-        for (int idx = 0; idx < t; ++idx) {
-            double sc = calc_score(page_cards[idx]);
-            if (sc > best.score) {
-                best.score = sc;
-                best.page = page;
-                best.total = t;
-                best.idx = idx;
+            const int t = estimate_total_cards(image);
+            if (t <= 0) {
+                continue;
+            }
+
+            last_page = page;
+
+            std::vector<CardData> page_cards;
+            page_cards.reserve(t);
+            for (int i = 0; i < t; ++i) {
+                if (auto card = read_card(image, t, i)) {
+                    page_cards.emplace_back(*card);
+                }
+                else {
+                    page_cards.emplace_back(CardData {});
+                }
+            }
+
+            for (int idx = 0; idx < t; ++idx) {
+                double sc = calc_score(page_cards[idx]);
+                if (sc > best.score) {
+                    best.score = sc;
+                    best.page = page;
+                    best.total = t;
+                    best.idx = idx;
+                }
             }
         }
     }
@@ -471,6 +485,27 @@ bool SecretFrontTaskPlugin::_run()
     auto image = ctrler()->get_image();
     if (image.empty()) {
         return false;
+    }
+
+    // 所有事件都会优先进这个，但如果设了目标事件就只在当前页检测
+    if (m_mode == Mode::DetectBeforeClick) {
+        OCRer ocr(image);
+        const auto pre_click_detect_task = Task.get<OcrTaskInfo>("MiniGame@SecretFront@PreClickDetect");
+        if (m_event_name.has_value()) {
+            pre_click_detect_task->text = { m_event_name.value() };
+        }
+        ocr.set_task_info(pre_click_detect_task);
+        ocr.set_image(image);
+        if (!ocr.analyze()) {
+            ctrler()->click(Task.get("MiniGame@SecretFront@ClickThenActionsDetected")->specific_rect);
+            sleep(1000);
+            return true;
+        }
+
+        ctrler()->click(ocr.get_result().front().rect);
+        sleep(1000);
+        m_only_current_page = true;
+        return true;
     }
 
     // 如果是 Event 模式，直接按事件页文本处理
