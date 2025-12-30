@@ -639,10 +639,11 @@
                     Margin="10,0"
                     hc:TitleElement.Title="{DynamicResource MiniGameName}"
                     DisplayMemberPath="Display"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding MiniGameTaskList}"
                     SelectedValue="{Binding MiniGameTaskName}"
                     SelectedValuePath="Value" />
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" IsEnabled="{Binding Idle}">
                     <Grid Visibility="{c:Binding 'MiniGameTaskName == &quot;MiniGame@SecretFront&quot;'}">
                         <Grid.RowDefinitions>
                             <RowDefinition />
