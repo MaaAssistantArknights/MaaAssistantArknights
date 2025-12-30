@@ -491,10 +491,10 @@ bool SecretFrontTaskPlugin::_run()
     if (m_mode == Mode::DetectBeforeClick) {
         OCRer ocr(image);
         const auto pre_click_detect_task = Task.get<OcrTaskInfo>("MiniGame@SecretFront@PreClickDetect");
-        if (m_event_name.has_value()) {
-            pre_click_detect_task->text = { m_event_name.value() };
-        }
         ocr.set_task_info(pre_click_detect_task);
+        if (m_event_name.has_value()) {
+            ocr.set_required({ m_event_name.value() });
+        }
         ocr.set_image(image);
         if (!ocr.analyze()) {
             ctrler()->click(Task.get("MiniGame@SecretFront@ClickThenActionsDetected")->specific_rect);
