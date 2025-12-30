@@ -517,7 +517,7 @@
                                                         Stretch="UniformToFill"
                                                         Visibility="{c:Binding ShowThumbnail}">
                                                         <Image.ToolTip>
-                                                            <ToolTip Width="1280" Height="720">
+                                                            <ToolTip>
                                                                 <Image Source="{Binding Thumbnail}" />
                                                             </ToolTip>
                                                         </Image.ToolTip>

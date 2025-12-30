@@ -1739,7 +1739,8 @@ public class AsstProxy
                         $"{allDrops}{(curTimes >= 0
                             ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
                             : string.Empty)}",
-                        toolTip: dropsForTooltip.CreateMaterialDropTooltip());
+                        toolTip: dropsForTooltip.CreateMaterialDropTooltip(),
+                        updateCardImage: true);
 
                     AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySpenderGroup, curTimes > 0 ? curTimes : 1);
 
