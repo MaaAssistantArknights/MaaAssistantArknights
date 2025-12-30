@@ -51,33 +51,6 @@ public class LogItemViewModel : PropertyChangedBase
         _toolTip = toolTip;
     }
 
-    private string? _tag;
-
-    /// <summary>
-    /// Gets or sets the grouping tag shown on the log card.
-    /// </summary>
-    public string? Tag
-    {
-        get => _tag;
-        set
-        {
-            if (SetAndNotify(ref _tag, value))
-            {
-                NotifyOfPropertyChange(nameof(DisplayContent));
-            }
-        }
-    }
-
-    private string? _groupKey;
-
-    /// <summary>
-    /// Gets or sets the internal group key used to merge consecutive log cards.
-    /// </summary>
-    public string? GroupKey
-    {
-        get => _groupKey;
-        set => SetAndNotify(ref _groupKey, value);
-    }
 
     private string _time;
 
@@ -116,22 +89,10 @@ public class LogItemViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// Gets the display content for UI. If <see cref="Tag"/> is set, it is rendered as a header.
+    /// Gets the display content for UI.
     /// </summary>
-    [PropertyDependsOn(nameof(Tag), nameof(Content))]
-    public string DisplayContent
-    {
-        get
-        {
-            if (string.IsNullOrWhiteSpace(Tag))
-            {
-                return Content;
-            }
-
-            // Put tag on the first line so merged content stays readable.
-            return $"【{Tag}】\n{Content}";
-        }
-    }
+    [PropertyDependsOn(nameof(Content))]
+    public string DisplayContent => Content;
 
     private string _color;
 
@@ -155,21 +116,7 @@ public class LogItemViewModel : PropertyChangedBase
         set => SetAndNotify(ref _weight, value);
     }
 
-    private bool _enableThumbnail = true;
-
-    public bool EnableThumbnail
-    {
-        get => _enableThumbnail;
-        set
-        {
-            if (SetAndNotify(ref _enableThumbnail, value))
-            {
-                NotifyOfPropertyChange(nameof(ShowThumbnail));
-            }
-        }
-    }
-
-    public bool ShowThumbnail => EnableThumbnail && Thumbnail is not null;
+    public bool ShowThumbnail => Thumbnail is not null;
 
     [PropertyDependsOn(nameof(ToolTip))]
     public bool ShowToolTip => _toolTip is { Content: not null };

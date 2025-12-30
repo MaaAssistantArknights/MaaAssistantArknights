@@ -507,7 +507,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             }
 
             SetAndNotify(ref _roguelikeCoreChar, value);
-            Instances.TaskQueueViewModel.AddLog(value);
+            Instances.TaskQueueViewModel.AddLog(value, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCoreChar, value);
         }
     }

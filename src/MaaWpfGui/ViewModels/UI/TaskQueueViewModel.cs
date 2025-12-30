@@ -40,6 +40,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.Views.UI;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -223,341 +224,25 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public ObservableCollection<LogItemViewModel> LogItemViewModels { get; private set; } = [];
 
-    #region LogGrouping
+    /// <summary>
+    /// Gets the grouped log cards. Each card contains multiple <see cref="LogItemViewModel"/>.
+    /// </summary>
+    public ObservableCollection<LogCardViewModel> LogCardViewModels { get; private set; } = [];
 
-    // These fields are only touched on the UI thread. They are updated from AsstProxy callback
-    // and then consumed by AddLog to label/merge adjacent log cards.
-    private string? _logContextTaskChain;
-    private int _logContextTaskId;
-
-    private int _logContextRecruitSlot;
-    private int _logContextRecruitSlotCounter;
-
-    private string? _logContextInfrastFacilityKey;
-    private string? _logContextInfrastFacilityLabel;
-
-    private int _logContextFightRunIndex;
-    private int _logContextFightRunCounter;
-
-    private int _logContextRoguelikeRunIndex;
-    private int _logContextRoguelikeRunCounter;
-
-    private bool _logThumbnailsActivated;
-    private bool _suppressThumbnailOnce;
-
-    public void UpdateLogGroupingContext(AsstMsg msg, JObject details)
+    private bool TryMergeIntoLastCard(string content, string color, string weight, ToolTip? toolTip)
     {
-        // Called from AsstProxy.ProcMsg (already on UI thread).
-        if (msg == AsstMsg.ConnectionInfo)
-        {
-            var connWhat = details["what"]?.ToString();
-            if (string.Equals(connWhat, "FastestWayToScreencap", StringComparison.Ordinal) && !_logThumbnailsActivated)
-            {
-                _logThumbnailsActivated = true;
-
-                // The user doesn't want thumbnails for logs *before* this marker.
-                DisableThumbnailsForExistingLogCards();
-            }
-        }
-
-        var taskChain = details["taskchain"]?.ToString();
-        var taskId = details["taskid"]?.ToObject<int?>() ?? 0;
-
-        switch (msg)
-        {
-            case AsstMsg.TaskChainStart:
-                _logContextTaskChain = taskChain;
-                _logContextTaskId = taskId;
-
-                // For task chains that are NOT merged into a single card, the "StartTask" entry is a standalone
-                // summary marker and should not waste a screenshot thumbnail.
-                _suppressThumbnailOnce = taskChain is not null && taskChain is not ("StartUp" or "Award" or "Mall");
-
-                // Reset per-chain sub-grouping state.
-                _logContextRecruitSlot = 0;
-                _logContextRecruitSlotCounter = 0;
-                _logContextInfrastFacilityKey = null;
-                _logContextInfrastFacilityLabel = null;
-                _logContextFightRunIndex = 0;
-                _logContextFightRunCounter = 0;
-                _logContextRoguelikeRunIndex = 0;
-                _logContextRoguelikeRunCounter = 0;
-                break;
-
-            case AsstMsg.TaskChainCompleted:
-            case AsstMsg.TaskChainStopped:
-                // Do NOT clear synchronously here: the completion/stopped callback itself produces logs
-                // that must still belong to the same grouped card. We clear on next dispatcher tick.
-                ScheduleClearLogContext(taskChain, taskId);
-                break;
-
-            case AsstMsg.TaskChainError:
-                // Keep context so any delayed error log (e.g. screenshot tooltip) can still be merged into the same card.
-                break;
-
-            case AsstMsg.AllTasksCompleted:
-                _logContextTaskChain = null;
-                _logContextTaskId = 0;
-                _logContextRecruitSlot = 0;
-                _logContextInfrastFacilityKey = null;
-                _logContextInfrastFacilityLabel = null;
-                _logContextFightRunIndex = 0;
-                _logContextRoguelikeRunIndex = 0;
-                break;
-        }
-
-        // Sub-task driven grouping: keep it robust by only touching fields when we are sure.
-        if (msg is not (AsstMsg.SubTaskStart or AsstMsg.SubTaskCompleted or AsstMsg.SubTaskExtraInfo))
-        {
-            return;
-        }
-
-        var subTask = details["subtask"]?.ToString();
-        var what = details["what"]?.ToString();
-        var subDetails = details["details"] as JObject;
-
-        // 1) 自动公招：每个槽位一个卡片（尽量从回调字段读取槽位；读不到则按检测到 tags 的次数递增）。
-        if (string.Equals(taskChain, "Recruit", StringComparison.Ordinal) && msg == AsstMsg.SubTaskExtraInfo)
-        {
-            var slot = TryGetInt(subDetails, "slot", "slot_index", "slotIndex", "index", "pos");
-            if (slot is int s)
-            {
-                // Some payloads are 0-based; normalize to 1-based for display.
-                _logContextRecruitSlot = s >= 0 && s <= 3 ? s + 1 : s;
-            }
-            else if (string.Equals(what, "RecruitTagsDetected", StringComparison.Ordinal))
-            {
-                // Fallback: treat each detected tag set as a slot boundary.
-                _logContextRecruitSlot = ++_logContextRecruitSlotCounter;
-            }
-
-            return;
-        }
-
-        // 2) 基建换班：每个设施一个卡片（EnterFacility 时切换当前设施）。
-        if (msg == AsstMsg.SubTaskExtraInfo && string.Equals(what, "EnterFacility", StringComparison.Ordinal))
-        {
-            var facilityKey = subDetails?["facility"]?.ToString();
-            var index = subDetails?["index"]?.ToObject<int?>();
-
-            if (!string.IsNullOrWhiteSpace(facilityKey) && index is not null)
-            {
-                _logContextInfrastFacilityKey = $"{facilityKey}:{index.Value}";
-                _logContextInfrastFacilityLabel = $"{LocalizationHelper.GetString(facilityKey)} {(index.Value + 1).ToString("D2")}";
-            }
-
-            return;
-        }
-
-        // 3) 刷理智：每刷一次一个卡片（作战开始按钮被点击时视为新一轮）。
-        if (msg == AsstMsg.SubTaskStart &&
-            string.Equals(taskChain, "Fight", StringComparison.Ordinal) &&
-            string.Equals(subTask, "ProcessTask", StringComparison.Ordinal))
-        {
-            var taskName = subDetails?["task"]?.ToString();
-            if (taskName is "StartButton2" or "AnnihilationConfirm")
-            {
-                var execTimes = subDetails?["exec_times"]?.ToObject<int?>();
-                _logContextFightRunIndex = execTimes is > 0 ? execTimes.Value : ++_logContextFightRunCounter;
-            }
-
-            return;
-        }
-
-        // 兜底：从掉落回调中也能拿到 cur_times（更贴近“第几次”）。
-        if (msg == AsstMsg.SubTaskExtraInfo &&
-            string.Equals(taskChain, "Fight", StringComparison.Ordinal) &&
-            string.Equals(what, "StageDrops", StringComparison.Ordinal))
-        {
-            var curTimes = subDetails?["cur_times"]?.ToObject<int?>();
-            if (curTimes is > 0)
-            {
-                _logContextFightRunIndex = curTimes.Value;
-            }
-
-            return;
-        }
-
-        // 4) 肉鸽：每次死亡/重开（StartExplore）算一张卡片。
-        if (msg == AsstMsg.SubTaskCompleted &&
-            string.Equals(taskChain, "Roguelike", StringComparison.Ordinal) &&
-            string.Equals(subTask, "ProcessTask", StringComparison.Ordinal))
-        {
-            var taskName = subDetails?["task"]?.ToString();
-            if (taskName == "StartExplore")
-            {
-                var execTimes = subDetails?["exec_times"]?.ToObject<int?>();
-                _logContextRoguelikeRunIndex = execTimes is > 0 ? execTimes.Value : ++_logContextRoguelikeRunCounter;
-            }
-        }
-    }
-
-    private void DisableThumbnailsForExistingLogCards()
-    {
-        foreach (var item in LogItemViewModels)
-        {
-            item.EnableThumbnail = false;
-            item.Thumbnail = null;
-        }
-    }
-
-    private void ScheduleClearLogContext(string? taskChain, int taskId)
-    {
-        if (string.IsNullOrWhiteSpace(taskChain) || taskId <= 0)
-        {
-            return;
-        }
-
-        // Schedule on dispatcher so current callback's logs are still grouped.
-        _ = Application.Current.Dispatcher.BeginInvoke(
-            DispatcherPriority.Background,
-            new Action(() => {
-                if (_logContextTaskId == taskId && string.Equals(_logContextTaskChain, taskChain, StringComparison.Ordinal))
-                {
-                    _logContextTaskChain = null;
-                    _logContextTaskId = 0;
-                    _logContextRecruitSlot = 0;
-                    _logContextInfrastFacilityKey = null;
-                    _logContextInfrastFacilityLabel = null;
-                    _logContextFightRunIndex = 0;
-                    _logContextRoguelikeRunIndex = 0;
-                }
-            }));
-    }
-
-    private static int? TryGetInt(JObject? obj, params string[] keys)
-    {
-        if (obj is null)
-        {
-            return null;
-        }
-
-        foreach (var key in keys)
-        {
-            var token = obj[key];
-            if (token is null)
-            {
-                continue;
-            }
-
-            if (token.Type == JTokenType.Integer)
-            {
-                return token.ToObject<int>();
-            }
-
-            if (token.Type == JTokenType.String && int.TryParse(token.ToString(), out var parsed))
-            {
-                return parsed;
-            }
-        }
-
-        return null;
-    }
-
-    private (string? Tag, string? GroupKey) ResolveLogGrouping()
-    {
-        if (string.IsNullOrWhiteSpace(_logContextTaskChain) || _logContextTaskId <= 0)
-        {
-            return (null, null);
-        }
-
-        var chain = _logContextTaskChain;
-        var chainTag = LocalizationHelper.GetString(chain);
-
-        // Whole-task grouping.
-        if (chain is "StartUp" or "Award" or "Mall")
-        {
-            return (chainTag, $"chain:{chain}:{_logContextTaskId}");
-        }
-
-        // Per-slot grouping for Recruit.
-        if (chain == "Recruit" && _logContextRecruitSlot > 0)
-        {
-            return ($"{chainTag} · 槽{_logContextRecruitSlot}", $"recruit:{_logContextTaskId}:slot:{_logContextRecruitSlot}");
-        }
-
-        // Per-facility grouping for Infrast.
-        if (chain == "Infrast" && !string.IsNullOrWhiteSpace(_logContextInfrastFacilityKey))
-        {
-            var label = _logContextInfrastFacilityLabel ?? chainTag;
-            return ($"{chainTag} · {label}", $"infrast:{_logContextTaskId}:{_logContextInfrastFacilityKey}");
-        }
-
-        // Per-run grouping for Fight.
-        if (chain == "Fight" && _logContextFightRunIndex > 0)
-        {
-            return ($"{chainTag} · 第{_logContextFightRunIndex}次", $"fight:{_logContextTaskId}:run:{_logContextFightRunIndex}");
-        }
-
-        // Per-run grouping for Roguelike.
-        if (chain == "Roguelike" && _logContextRoguelikeRunIndex > 0)
-        {
-            return ($"{chainTag} · 第{_logContextRoguelikeRunIndex}轮", $"roguelike:{_logContextTaskId}:run:{_logContextRoguelikeRunIndex}");
-        }
-
-        return (null, null);
-    }
-
-    private static int SeverityOf(string color)
-    {
-        // Higher is more severe.
-        return color switch
-        {
-            UiLogColor.Error => 500,
-            UiLogColor.Warning => 400,
-            UiLogColor.RareOperator => 350,
-            UiLogColor.SuccessIS => 320,
-            UiLogColor.Info => 300,
-            UiLogColor.Message => 200,
-            UiLogColor.Trace => 100,
-            _ => 0,
-        };
-    }
-
-    private bool TryMergeIntoLastCard(string groupKey, string? tag, string content, string color, string weight, ToolTip? toolTip)
-    {
-        if (string.IsNullOrWhiteSpace(groupKey) || LogItemViewModels.Count == 0)
+        // Merge into last existing card when it exists and is not sealed.
+        if (LogCardViewModels.Count == 0)
         {
             return false;
         }
 
-        var last = LogItemViewModels[^1];
-        if (!string.Equals(last.GroupKey, groupKey, StringComparison.Ordinal))
-        {
-            return false;
-        }
-
-        // Keep tag stable (should be same by design).
-        if (!string.IsNullOrWhiteSpace(tag))
-        {
-            last.Tag = tag;
-        }
-
-        // Merge content as multi-line text.
-        last.Content = string.IsNullOrEmpty(last.Content) ? content : $"{last.Content}\n{content}";
-
-        // Update time to reflect latest activity.
-        var fmt = SettingsViewModel.GuiSettings.LogItemDateFormatString;
-        last.Time = DateTime.Now.ToString(string.IsNullOrEmpty(fmt) ? "HH:mm:ss" : fmt);
-
-        // Escalate severity if needed so merged card doesn't hide errors/warnings.
-        if (SeverityOf(color) > SeverityOf(last.Color))
-        {
-            last.Color = color;
-            last.Weight = weight;
-        }
-
-        // Prefer the latest tooltip/screenshot for merged cards.
-        if (toolTip is not null)
-        {
-            last.ToolTip = toolTip;
-        }
-
-        _ = AttachThumbnailAsync(last);
+        var lastCard = LogCardViewModels[^1];
+        var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
+        LogItemViewModels.Add(log);
+        lastCard.Items.Add(log);
         return true;
     }
-
-    #endregion
 
     /// <summary>
     /// Gets or private sets the single download-related log item.
@@ -571,154 +256,33 @@ public class TaskQueueViewModel : Screen
         private set => SetAndNotify(ref _downloadLogItemViewModel, value);
     }
 
-    #region LiveView
-
-    private bool _liveViewing;
-    private bool _liveViewAutoSuppressed;
-
-    public bool LiveViewing
-    {
-        get => _liveViewing;
-        set {
-            if (!SetAndNotify(ref _liveViewing, value))
-            {
-                return;
-            }
-
-            if (!value)
-            {
-                _liveViewTimer.Stop();
-            }
-        }
-    }
-
-    private BitmapSource? _liveViewImage;
-
-    public BitmapSource? LiveViewImage
-    {
-        get => _liveViewImage;
-        set => SetAndNotify(ref _liveViewImage, value);
-    }
-
-    private readonly DispatcherTimer _liveViewTimer = new() { Interval = TimeSpan.FromSeconds(1) };
-    private readonly SemaphoreSlim _liveViewSemaphore = new(1, 1);
-
-    public async Task AutoStartLiveViewAsync()
-    {
-        await StartLiveViewInternalAsync(isAutoStart: true).ConfigureAwait(false);
-    }
-
-    [UsedImplicitly]
-    public async Task ToggleLiveView()
-    {
-        if (LiveViewing)
-        {
-            _liveViewAutoSuppressed = true;
-            LiveViewing = false;
-            return;
-        }
-
-        _liveViewAutoSuppressed = false;
-        await StartLiveViewInternalAsync(isAutoStart: false).ConfigureAwait(false);
-    }
-
-    private async Task StartLiveViewInternalAsync(bool isAutoStart)
-    {
-        if (LiveViewing)
-        {
-            return;
-        }
-
-        if (isAutoStart && _liveViewAutoSuppressed)
-        {
-            return;
-        }
-
-        LiveViewing = true;
-
-        if (!Instances.AsstProxy.Connected)
-        {
-            string errMsg = string.Empty;
-            bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg)).ConfigureAwait(false);
-            if (!connected)
-            {
-                AddLog(errMsg, UiLogColor.Error);
-                Execute.OnUIThread(() => LiveViewing = false);
-                return;
-            }
-        }
-
-        await RefreshLiveViewAsync().ConfigureAwait(false);
-        Execute.OnUIThread(() => _liveViewTimer.Start());
-    }
-
-    private async Task RefreshLiveViewAsync()
-    {
-        if (!LiveViewing)
-        {
-            return;
-        }
-
-        if (!await _liveViewSemaphore.WaitAsync(0).ConfigureAwait(false))
-        {
-            return;
-        }
-
-        byte[]? frameData = null;
-        try
-        {
-            frameData = await Instances.AsstProxy.AsstGetImageBgrDataAsync(forceScreencap: false).ConfigureAwait(false);
-            if (frameData is null || frameData.Length == 0)
-            {
-                return;
-            }
-
-            var bmp = CreateBgrBitmapSourceScaled(frameData, 640, 360);
-            Execute.OnUIThread(() => LiveViewImage = bmp);
-        }
-        catch
-        {
-            // ignored
-        }
-        finally
-        {
-            if (frameData is not null)
-            {
-                ArrayPool<byte>.Shared.Return(frameData);
-            }
-
-            _liveViewSemaphore.Release();
-        }
-    }
-
-    #endregion
-
     #region LogThumbnails
 
     private readonly SemaphoreSlim _logThumbnailSemaphore = new(1, 1);
-    private DateTime _logThumbnailCacheAt = DateTime.MinValue;
-    private BitmapSource? _logThumbnailCache;
 
-    private const int LogThumbnailWidth = 160;
-    private const int LogThumbnailHeight = 90;
-    private const int MaxLogItemsWithThumbnails = 200;
+    private const int LogThumbnailWidth = 640;
+    private const int LogThumbnailHeight = 360;
+    private const int MaxLogItemsWithThumbnails = 20;
 
-    private async Task AttachThumbnailAsync(LogItemViewModel log)
+    private async Task AttachThumbnailToCardAsync(LogCardViewModel card, bool forceScreencap)
     {
-        if (!log.EnableThumbnail)
+        if (card is null)
         {
             return;
         }
 
         try
         {
-            var thumbnail = await GetOrCaptureLogThumbnailAsync().ConfigureAwait(false);
+            var thumbnail = await GetOrCaptureLogThumbnailAsync(forceScreencap).ConfigureAwait(false);
             if (thumbnail is null)
             {
                 return;
             }
 
-            await Execute.OnUIThreadAsync(() => log.Thumbnail = thumbnail).ConfigureAwait(false);
+            await Execute.OnUIThreadAsync(() => {
+                card.Thumbnail = thumbnail;
+                TrimOldThumbnails();
+            }).ConfigureAwait(false);
         }
         catch
         {
@@ -726,24 +290,16 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private async Task<BitmapSource?> GetOrCaptureLogThumbnailAsync()
+    private async Task<BitmapSource?> GetOrCaptureLogThumbnailAsync(bool forceScreencap = false)
     {
-        var now = DateTime.UtcNow;
-        if (_logThumbnailCache is not null && (now - _logThumbnailCacheAt) < TimeSpan.FromSeconds(1))
+        if (!await _logThumbnailSemaphore.WaitAsync(0).ConfigureAwait(false))
         {
-            return _logThumbnailCache;
+            return null;
         }
 
-        await _logThumbnailSemaphore.WaitAsync().ConfigureAwait(false);
         try
         {
-            now = DateTime.UtcNow;
-            if (_logThumbnailCache is not null && (now - _logThumbnailCacheAt) < TimeSpan.FromSeconds(1))
-            {
-                return _logThumbnailCache;
-            }
-
-            var frameData = await Instances.AsstProxy.AsstGetImageBgrDataAsync(forceScreencap: false).ConfigureAwait(false);
+            var frameData = await Instances.AsstProxy.AsstGetImageBgrDataAsync(forceScreencap: forceScreencap).ConfigureAwait(false);
             if (frameData is null || frameData.Length == 0)
             {
                 return null;
@@ -753,8 +309,6 @@ public class TaskQueueViewModel : Screen
             {
                 // 只保留小图，避免日志列表长期运行时占用过多内存。
                 var thumbnail = CreateBgrBitmapSourceScaled(frameData, LogThumbnailWidth, LogThumbnailHeight);
-                _logThumbnailCache = thumbnail;
-                _logThumbnailCacheAt = now;
                 return thumbnail;
             }
             finally
@@ -770,13 +324,13 @@ public class TaskQueueViewModel : Screen
 
     private void TrimOldThumbnails()
     {
-        var indexToClear = LogItemViewModels.Count - MaxLogItemsWithThumbnails - 1;
-        if (indexToClear < 0 || indexToClear >= LogItemViewModels.Count)
+        var indexToClear = LogCardViewModels.Count - MaxLogItemsWithThumbnails - 1;
+        if (indexToClear < 0 || indexToClear >= LogCardViewModels.Count)
         {
             return;
         }
 
-        LogItemViewModels[indexToClear].Thumbnail = null;
+        LogCardViewModels[indexToClear].Thumbnail = null;
     }
 
     #endregion
@@ -955,13 +509,8 @@ public class TaskQueueViewModel : Screen
         };
         _runningState.TimeoutOccurred += RunningState_TimeOut;
 
-        _liveViewTimer.Tick += LiveViewTimer_Tick;
     }
 
-    private async void LiveViewTimer_Tick(object? sender, EventArgs e)
-    {
-        await RefreshLiveViewAsync().ConfigureAwait(false);
-    }
 
     private void RunningState_TimeOut(object? sender, string message)
     {
@@ -995,8 +544,6 @@ public class TaskQueueViewModel : Screen
     /// <inheritdoc/>
     protected override void OnClose()
     {
-        // 确保关闭页面时停止定时截图，避免后台持续占用资源。
-        LiveViewing = false;
         base.OnClose();
     }
 
@@ -1516,6 +1063,14 @@ public class TaskQueueViewModel : Screen
         private set => SetAndNotify(ref _stagesOfToday, value);
     }
 
+    public enum LogCardSplitMode
+    {
+        None = 0,
+        Before = 1,
+        After = 2,
+        Both = 3,
+    }
+
     /// <summary>
     /// Adds log.
     /// </summary>
@@ -1523,43 +1078,46 @@ public class TaskQueueViewModel : Screen
     /// <param name="color">The font color.</param>
     /// <param name="weight">The font weight.</param>
     /// <param name="toolTip">The toolTip</param>
-    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null)
+    /// <param name="updateCardImage">Whether to update the containing card's image/thumbnail.</param>
+    /// <param name="fetchLatestImage">Whether to force fetching a fresh screenshot instead of using cache.</param>
+    /// <param name="splitMode">Whether to split cards before/after this log.</param>
+    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null, bool updateCardImage = false, bool fetchLatestImage = false, LogCardSplitMode splitMode = LogCardSplitMode.None)
     {
         if (string.IsNullOrEmpty(content))
         {
+            if (splitMode != LogCardSplitMode.None)
+            {
+                createNewCard();
+            }
             return;
         }
-        Execute.OnUIThread(() => {
-            var (tag, groupKey) = ResolveLogGrouping();
-            if (!string.IsNullOrWhiteSpace(groupKey) &&
-                TryMergeIntoLastCard(groupKey, tag, content, color, weight, toolTip))
-            {
-                // Still write to file logger with original content for debugging.
-                switch (color)
-                {
-                    case UiLogColor.Error:
-                        _logger.Error("{Content}", content);
-                        break;
-                    case UiLogColor.Warning:
-                        _logger.Warning("{Content}", content);
-                        break;
-                    default:
-                        _logger.Information("{Content}", content);
-                        break;
-                }
 
-                return;
+        Execute.OnUIThread(() => {
+            if (LogCardViewModels.Count <= 0)
+            {
+                createNewCard();
             }
 
-            var log = new LogItemViewModel(content, color, weight, toolTip: toolTip) {
-                Tag = tag,
-                GroupKey = groupKey,
-                EnableThumbnail = _logThumbnailsActivated && !_suppressThumbnailOnce,
-            };
-            _suppressThumbnailOnce = false;
-            LogItemViewModels.Add(log);
-            _ = AttachThumbnailAsync(log);
-            TrimOldThumbnails();
+            switch (splitMode)
+            {
+                case LogCardSplitMode.None:
+                    addToCard();
+                    break;
+                case LogCardSplitMode.Before:
+                    createNewCard();
+                    addToCard();
+                    break;
+                case LogCardSplitMode.After:
+                    addToCard();
+                    createNewCard();
+                    break;
+                case LogCardSplitMode.Both:
+                    createNewCard();
+                    addToCard();
+                    createNewCard();
+                    break;
+            }
+
             switch (color)
             {
                 case UiLogColor.Error:
@@ -1573,6 +1131,29 @@ public class TaskQueueViewModel : Screen
                     break;
             }
         });
+
+        return;
+        void createNewCard()
+        {
+            if (LogCardViewModels.Count > 0 && LogCardViewModels[^1].Items.Count <= 0)
+            {
+                return;
+            }
+
+            var card = new LogCardViewModel();
+            LogCardViewModels.Add(card);
+        }
+
+        void addToCard()
+        {
+            if (TryMergeIntoLastCard(content, color, weight, toolTip))
+            {
+                if (updateCardImage)
+                {
+                    _ = AttachThumbnailToCardAsync(LogCardViewModels[^1], fetchLatestImage);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -1582,9 +1163,8 @@ public class TaskQueueViewModel : Screen
     {
         Execute.OnUIThread(() => {
             LogItemViewModels.Clear();
+            LogCardViewModels.Clear();
             DownloadLogItemViewModel = new(string.Empty);
-            _logThumbnailsActivated = false;
-            _suppressThumbnailOnce = false;
             _logger.Information("Main windows log clear.");
             _logger.Information("{Empty}", string.Empty);
         });
@@ -1606,11 +1186,8 @@ public class TaskQueueViewModel : Screen
                 return;
             }
 
-            var log = new LogItemViewModel(fullText, UiLogColor.Download, toolTip: toolTip?.CreateTooltip()) {
-                EnableThumbnail = _logThumbnailsActivated,
-            };
+            var log = new LogItemViewModel(fullText, UiLogColor.Download, toolTip: toolTip?.CreateTooltip());
             DownloadLogItemViewModel = log;
-            _ = AttachThumbnailAsync(log);
         });
     }
 
@@ -2099,7 +1676,7 @@ public class TaskQueueViewModel : Screen
     public async Task<bool> Stop(int timeout = 60 * 1000)
     {
         _runningState.SetStopping(true);
-        AddLog(LocalizationHelper.GetString("Stopping"));
+        AddLog(LocalizationHelper.GetString("Stopping"), splitMode: LogCardSplitMode.Both);
         await Task.Run(() => {
             if (!Instances.AsstProxy.AsstStop())
             {
@@ -2165,7 +1742,7 @@ public class TaskQueueViewModel : Screen
 
         if (!_runningState.GetIdle() || _runningState.GetStopping())
         {
-            AddLog(LocalizationHelper.GetString("Stopped"));
+            AddLog(LocalizationHelper.GetString("Stopped"), splitMode: LogCardSplitMode.Both);
         }
 
         Waiting = false;
@@ -2173,7 +1750,6 @@ public class TaskQueueViewModel : Screen
         _runningState.SetIdle(true);
 
         // 只抑制“本轮任务期间”的自动开启；任务结束后应允许下一轮自动开启 LiveView。
-        _liveViewAutoSuppressed = false;
     }
 
     // 该函数将于未来被废弃，改用 LinkStart 代替

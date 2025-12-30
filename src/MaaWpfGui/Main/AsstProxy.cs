@@ -48,6 +48,7 @@ using Newtonsoft.Json.Linq;
 using ObservableCollections;
 using Serilog;
 using Stylet;
+using Windows.Devices.Spi;
 using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = nint;
 using AsstInstanceOptionKey = System.Int32;
@@ -676,9 +677,6 @@ public class AsstProxy
 
     private void ProcMsg(AsstMsg msg, JObject details)
     {
-        // Feed the UI log grouper first so logs produced during this callback can be tagged/merged.
-        Instances.TaskQueueViewModel.UpdateLogGroupingContext(msg, details);
-
         switch (msg)
         {
             case AsstMsg.InternalError:
@@ -1041,7 +1039,7 @@ public class AsstProxy
 
             case AsstMsg.TaskChainStart:
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(taskChain));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(taskChain), splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                     TaskStatusUpdate(taskId, TaskStatus.InProgress);
 
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
@@ -1049,8 +1047,6 @@ public class AsstProxy
                         ? Instances.CopilotViewModel.LogItemViewModels
                         : Instances.TaskQueueViewModel.LogItemViewModels;
 
-                    // 首页右上角实时预览：任务开始后自动显示（取缓存帧，不会每次强制截图）。
-                    _ = Instances.TaskQueueViewModel.AutoStartLiveViewAsync();
                     break;
                 }
 
@@ -1166,7 +1162,7 @@ public class AsstProxy
                         sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
                         allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
-                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
+                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
 
                         if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
                         {
@@ -1195,7 +1191,7 @@ public class AsstProxy
                     }
                     else
                     {
-                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog);
+                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
 
                         if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
                         {
@@ -1477,7 +1473,7 @@ public class AsstProxy
                                 missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("StoneUsedTimes"), StoneUsedTimes);
                             }
 
-                            Instances.TaskQueueViewModel.AddLog(missionStartLogBuilder.ToString().TrimEnd(), UiLogColor.Info);
+                            Instances.TaskQueueViewModel.AddLog(missionStartLogBuilder.ToString().TrimEnd(), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                             break;
 
                         case "StoneConfirm":
@@ -1753,7 +1749,8 @@ public class AsstProxy
             case "EnterFacility":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
                                                     LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
-                                                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"));
+                                                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
+                                                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 break;
 
             case "ProductIncorrect":
@@ -1775,7 +1772,7 @@ public class AsstProxy
                         .Aggregate(string.Empty, (current, tagStr) => current + (tagStr + "\n"));
 
                     logContent = logContent.EndsWith('\n') ? logContent.TrimEnd('\n') : LocalizationHelper.GetString("Error");
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitingResults") + "\n" + logContent);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitingResults") + "\n" + logContent, splitMode: TaskQueueViewModel.LogCardSplitMode.Before, updateCardImage: true);
 
                     break;
                 }
