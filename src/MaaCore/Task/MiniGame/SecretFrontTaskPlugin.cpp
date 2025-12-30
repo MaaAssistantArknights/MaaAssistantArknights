@@ -489,22 +489,39 @@ bool SecretFrontTaskPlugin::_run()
 
     // 所有事件都会优先进这个，但如果设了目标事件就只在当前页检测
     if (m_mode == Mode::DetectBeforeClick) {
-        OCRer ocr(image);
-        const auto pre_click_detect_task = Task.get<OcrTaskInfo>("MiniGame@SecretFront@PreClickDetect");
-        ocr.set_task_info(pre_click_detect_task);
+        auto try_ocr_and_click = [&](const std::optional<std::string>& target_event = std::nullopt) -> bool {
+            OCRer ocr(image);
+            ocr.set_task_info(Task.get<OcrTaskInfo>("MiniGame@SecretFront@PreClickDetect"));
+            ocr.set_image(image);
+
+            if (target_event.has_value()) {
+                ocr.set_required({ target_event.value() });
+            }
+
+            if (ocr.analyze()) {
+                ctrler()->click(ocr.get_result().front().rect);
+                sleep(1000);
+                m_only_current_page = true;
+                return true;
+            }
+            return false;
+        };
+
+        // 第一次尝试：优先识别指定事件（如果有）
         if (m_event_name.has_value()) {
-            ocr.set_required({ m_event_name.value() });
+            if (try_ocr_and_click(m_event_name)) {
+                return true;
+            }
         }
-        ocr.set_image(image);
-        if (!ocr.analyze()) {
-            ctrler()->click(Task.get("MiniGame@SecretFront@ClickThenActionsDetected")->specific_rect);
-            sleep(1000);
+
+        // 第二次尝试：优先系列任务
+        if (try_ocr_and_click()) {
             return true;
         }
 
-        ctrler()->click(ocr.get_result().front().rect);
+        // 一般来说不会走到这里，没识别到就点默认位置
+        ctrler()->click(Task.get("MiniGame@SecretFront@ClickThenActionsDetected")->specific_rect);
         sleep(1000);
-        m_only_current_page = true;
         return true;
     }
 
