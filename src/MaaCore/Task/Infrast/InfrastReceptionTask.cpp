@@ -150,11 +150,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
     cv::Mat image = ctrler()->get_image();
 
     // 优先检测官服新增的“快捷置入”按钮，如果存在则点击一次执行批量置入，跳过逐个置入流程
-    const auto quick_insert_task = Task.get("InfrastClueQuickInsert");
-    Matcher quick_insert_matcher(image);
-    quick_insert_matcher.set_task_info(quick_insert_task);
-    if (quick_insert_matcher.analyze()) {
-        ctrler()->click(quick_insert_matcher.get_result().rect);
+    if (ProcessTask(*this, { "InfrastClueQuickInsert" }).set_retry_times(3).run()) {
         return true;
     }
 
