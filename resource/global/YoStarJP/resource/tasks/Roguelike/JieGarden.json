@@ -7,7 +7,7 @@
     },
     "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
         "Doc": "通宝已投出状态识别 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
-        "text": ["振出済"]
+        "text": ["振出済", "振田済"]
     },
     "JieGarden@Roguelike@CoppersExchangeFinish": {
         "Doc": "通宝交换完成后的交换按钮 (用于确认交换操作完成)",
@@ -94,7 +94,8 @@
             ["厲-商路行き難し", "厉-商路难行"],
             ["NEW_DLC1", "花-孜孜不倦"],
             ["衡-虹[霓霞電]", "衡-虹霓"],
-            ["衡-[霖森]雨", "衡-霖雨"]
+            ["衡-[霖森]雨", "衡-霖雨"],
+            ["衡-投木[炎災]延", "衡-投木炎延"]
         ]
     },
     "JieGarden@Roguelike@GetDropSwitch": {
