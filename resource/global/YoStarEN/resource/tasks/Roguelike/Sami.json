@@ -209,7 +209,7 @@
             [".*Immaculate ?Garde.*", "_default"],
             [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
-            [".*Secl?uded ?Passag.*", "_SKIP_"]
+            [".*Sec.?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode1": {
@@ -225,7 +225,7 @@
             [".*Immaculate ?Garde.*", "_exit"],
             [".*70.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
-            [".*Secl?uded ?Passag.*", "_exit"]
+            [".*Sec.?uded ?Passag.*", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
@@ -241,7 +241,7 @@
             [".*Immaculate ?Garde.*", "_exit"],
             [".*70.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
-            [".*Secl?uded ?Passag.*", "_exit"]
+            [".*Sec.?uded ?Passag.*", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
@@ -257,7 +257,7 @@
             [".*Immaculate ?Garde.*", "_SKIP_"],
             [".*70.*", "_SKIP_"],
             [".*Clairvoyant ?Carcass", "_SKIP_"],
-            [".*Secl?uded ?Passag.*", "_SKIP_"]
+            [".*Sec.?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode6": {
@@ -273,7 +273,7 @@
             [".*Immaculate ?Garde.*", "_default"],
             [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
-            [".*Secl?uded ?Passag.*", "_SKIP_"]
+            [".*Sec.?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode7": {
@@ -289,7 +289,7 @@
             [".*Immaculate ?Garde.*", "_default"],
             [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
-            [".*Secl?uded ?Passag.*", "_SKIP_"]
+            [".*Sec.?uded ?Passag.*", "_SKIP_"]
         ]
     }
 }
