@@ -12,7 +12,7 @@ ARG NODEJS_VERSION=24
 RUN sudo apt update \
     && sudo apt upgrade -y \
     && sudo apt install -y \
-    cmake
+    cmake fish
 
 # Install and setup Mise and uv
 RUN curl https://mise.run | sh
