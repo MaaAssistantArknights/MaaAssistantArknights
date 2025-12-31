@@ -18,8 +18,8 @@
 #include <utility>
 
 #include "Common/AsstTypes.h"
-#include "Common/AsstVersion.h"
 #include "Locale.hpp"
+#include "MaaUtils/Conf.h"
 #include "MaaUtils/SingletonHolder.hpp"
 #include "MaaUtils/Time.hpp"
 #include "Meta.hpp"
@@ -834,7 +834,7 @@ private:
     {
         trace("-----------------------------");
         trace("MaaCore Process Start");
-        trace("Version", asst::Version);
+        trace("Version", MAA_VERSION);
         trace("Built at", __DATE__, __TIME__);
         trace("User Dir", m_directory);
         trace("-----------------------------");
@@ -880,7 +880,7 @@ private:
             auto& logger = Logger::get_instance();
             std::string exception_details = utils::ExceptionStacktrace::capture_exception_stack_trace(pExceptionInfo);
             logger.error("=== UNHANDLED EXCEPTION ===");
-            logger.error("Version", asst::Version);
+            logger.error("Version", MAA_VERSION);
             logger.error("Built at", __DATE__, __TIME__);
             logger.error("User Dir", UserDir.get());
             logger.error(std::format("Module Base Address: 0x{:016X}", utils::ExceptionStacktrace::get_base_address()));
@@ -937,7 +937,7 @@ private:
             }
 
             logger.error("=== FATAL ERROR ===");
-            logger.error("Version", asst::Version);
+            logger.error("Version", MAA_VERSION);
             logger.error("Built at", __DATE__, __TIME__);
             logger.error("User Dir", UserDir.get());
             logger.error(
