@@ -42,7 +42,7 @@
 
                 // Language-specific formatting
                 "[python]": {
-                    "editor.defaultFormatter": "ms-python.black-formatter",
+                    "editor.defaultFormatter": "charliermarsh.ruff",
                     "editor.codeActionsOnSave": {
                         "source.organizeImports": "explicit"
                     }
@@ -54,12 +54,9 @@
                     "editor.defaultFormatter": "xaver.clang-format"
                 },
 
-                // Python formatting and linting
-                "isort.args": ["--profile", "black"],
-
                 // Python runtime
                 "python.terminal.launchArgs": ["-u"],
-                "python.defaultInterpreterPath": "/home/vscode/miniconda/envs/maa/bin/python",
+                "python.defaultInterpreterPath": "/home/vscode/.venv/maa/bin/python",
                 "python.terminal.activateEnvironment": false,
 
                 // CMake settings
