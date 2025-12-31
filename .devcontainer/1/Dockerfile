@@ -18,6 +18,10 @@ RUN sudo apt update \
 RUN curl https://mise.run | sh
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
+# Activate Mise
+RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+RUN echo 'mise activate fish | source' >> ~/.config/fish/config.fish
+
 # Setup Python and NodeJS
 RUN mise use -g node@$NODEJS_VERSION
 RUN uv python install $PYTHON_VERSION

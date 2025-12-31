@@ -11,6 +11,9 @@ ARG NODEJS_VERSION=24
 RUN curl https://mise.run | sh
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
+# # Activate Mise
+RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+
 # Setup Python and NodeJS
 RUN mise use -g node@$NODEJS_VERSION
 RUN uv python install $PYTHON_VERSION
