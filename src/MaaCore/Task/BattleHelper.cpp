@@ -355,7 +355,7 @@ cv::Mat asst::BattleHelper::get_top_view(const cv::Mat& cam_img, bool side)
     };
     std::vector<cv::Point2f> screen_points;
     for (const auto& point : world_points) {
-        cv::Vec3d temp { point.x, -point.y, -0.3967874050140381 };
+        cv::Vec3d temp { point.x + m_map_data.view[0].x, -point.y, -0.3967874050140381 };
         auto screen_pt = Map::TileCalc2::world_to_screen(m_map_data, temp, true);
         screen_points.push_back(screen_pt);
     }
