@@ -528,6 +528,7 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
     if (manually) {
         std::erase_if(m_battlefield_opers, [&loc](const auto& pair) -> bool { return pair.second == loc; });
     }
+    cancel_oper_selection(); // 兜底一下, 防止格子上面并没有干员, 导致点到隔壁格子
     return true;
 }
 
