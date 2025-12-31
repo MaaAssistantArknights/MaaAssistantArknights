@@ -1044,7 +1044,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                         }
                     }
 
-                    Instances.TaskQueueViewModel.AddLog(roguelikeInfo, UiLogColor.Message);
+                    Instances.TaskQueueViewModel.AddLog(roguelikeInfo, UiLogColor.Message, updateCardImage: true);
                     break;
                 }
 
