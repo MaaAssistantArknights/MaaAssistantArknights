@@ -27,7 +27,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -40,12 +39,10 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
-using MaaWpfGui.ViewModels;
 using MaaWpfGui.Views.UI;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
 using Task = System.Threading.Tasks.Task;
@@ -309,7 +306,7 @@ public class TaskQueueViewModel : Screen
             try
             {
                 // 只保留小图，避免日志列表长期运行时占用过多内存。
-                var thumbnail = CreateBgrBitmapSourceScaled(frameData, LogThumbnailWidth, LogThumbnailHeight);
+                var thumbnail = AsstProxy.CreateBgrBitmapSourceScaled(frameData, LogThumbnailWidth, LogThumbnailHeight);
                 return thumbnail;
             }
             finally
@@ -509,9 +506,7 @@ public class TaskQueueViewModel : Screen
             }
         };
         _runningState.TimeoutOccurred += RunningState_TimeOut;
-
     }
-
 
     private void RunningState_TimeOut(object? sender, string message)
     {
@@ -1066,9 +1061,24 @@ public class TaskQueueViewModel : Screen
 
     public enum LogCardSplitMode
     {
+        /// <summary>
+        /// 不拆分日志卡片
+        /// </summary>
         None = 0,
+
+        /// <summary>
+        /// 插入日志前拆分卡片
+        /// </summary>
         Before = 1,
+
+        /// <summary>
+        /// 插入日志后拆分卡片
+        /// </summary>
         After = 2,
+
+        /// <summary>
+        /// 插入日志前后都拆分卡片
+        /// </summary>
         Both = 3,
     }
 
@@ -1561,7 +1571,7 @@ public class TaskQueueViewModel : Screen
                     break;
 
                 case "WakeUp":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, StartUpTask.Serialize());
                     break;
 
                 case "Combat":
@@ -1569,23 +1579,23 @@ public class TaskQueueViewModel : Screen
                     break;
 
                 case "Recruiting":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, RecruitTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Recruit, RecruitTask.Serialize());
                     break;
 
                 case "Mall":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, MallTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Mall, MallTask.Serialize());
                     break;
 
                 case "Mission":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, AwardTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Award, AwardTask.Serialize());
                     break;
 
                 case "AutoRoguelike":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, RoguelikeTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Roguelike, RoguelikeTask.Serialize());
                     break;
 
                 case "Reclamation":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, ReclamationTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, ReclamationTask.Serialize());
                     break;
 
                 case "Custom":
@@ -1593,7 +1603,7 @@ public class TaskQueueViewModel : Screen
                         var tasks = CustomTask.SerializeMultiTasks();
                         foreach (var (type, param) in tasks)
                         {
-                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, type, param);
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Custom, type, param);
                         }
 
                         break;
@@ -1802,7 +1812,7 @@ public class TaskQueueViewModel : Screen
         }
 
         bool taskRet = true;
-        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpTask.Serialize());
+        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, StartUpTask.Serialize());
         taskRet &= Instances.AsstProxy.AsstStart();
 
         if (taskRet)
@@ -1822,7 +1832,7 @@ public class TaskQueueViewModel : Screen
         string curStage = FightTask.Stage;
 
         var (type, mainParam) = FightTask.Serialize();
-        bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, type, mainParam);
+        bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Fight, type, mainParam);
         if (!mainFightRet)
         {
             AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);
@@ -1846,7 +1856,7 @@ public class TaskQueueViewModel : Screen
                     task.Stone = 0;
                     task.MaxTimes = int.MaxValue;
                     task.Drops = [];
-                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
+                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
                 }
 
                 break;
@@ -1867,7 +1877,7 @@ public class TaskQueueViewModel : Screen
                 ServerType = Instances.SettingsViewModel.ServerType,
                 ClientType = SettingsViewModel.GameSettings.ClientType,
             };
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, task.Serialize().Params);
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.FightRemainingSanity, type, task.Serialize().Params);
         }
 
         return mainFightRet;
@@ -1880,7 +1890,7 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public void SetFightParams()
     {
-        var type = TaskType.Fight;
+        var type = AsstProxy.TaskType.Fight;
         var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
         if (!EnableSetFightParams || id == 0)
         {
@@ -1893,7 +1903,7 @@ public class TaskQueueViewModel : Screen
 
     public static void SetFightRemainingSanityParams()
     {
-        var type = TaskType.FightRemainingSanity;
+        var type = AsstProxy.TaskType.FightRemainingSanity;
         var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
         if (id == 0)
         {
@@ -1927,7 +1937,7 @@ public class TaskQueueViewModel : Screen
 
         try
         {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, InfrastTask.Serialize());
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Infrast, InfrastTask.Serialize());
         }
         catch (Exception ex)
         {
