@@ -404,41 +404,30 @@
                                 <DataTemplate>
                                     <Border
                                         MaxWidth="420"
-                                        Padding="10"
+                                        Margin="0,0,0,2.5"
+                                        Padding="5,0,1,5"
                                         Background="{DynamicResource RegionBrushOpacity25}"
                                         BorderBrush="{DynamicResource BorderBrush}"
                                         BorderThickness="1"
-                                        CornerRadius="6">
+                                        CornerRadius="4">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-                                            <Grid Width="72">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
+                                            <Grid Width="60">
                                                 <controls:TextBlock
                                                     Grid.Row="0"
-                                                    Margin="0,0,0,6"
+                                                    Margin="0,5,0,0"
                                                     HorizontalAlignment="Center"
                                                     Foreground="{DynamicResource TraceLogBrush}"
-                                                    Text="{Binding Time}" />
-                                                <Border
-                                                    Grid.Row="1"
-                                                    Height="40"
-                                                    Background="{DynamicResource RegionBrushOpacity25}"
-                                                    BorderBrush="{DynamicResource BorderBrush}"
-                                                    BorderThickness="1"
-                                                    CornerRadius="4"
-                                                    Visibility="{c:Binding ShowThumbnail}">
-                                                    <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" />
-                                                </Border>
+                                                    Text="{Binding Time}"
+                                                    TextWrapping="Wrap" />
                                             </Grid>
                                             <Grid
                                                 Grid.Column="1"
                                                 Margin="10,0,0,0"
+                                                HorizontalAlignment="Left"
                                                 ToolTip="{Binding ToolTip}"
                                                 ToolTipService.InitialShowDelay="200">
                                                 <Grid.ColumnDefinitions>
@@ -447,6 +436,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <controls:TextBlock
                                                     Grid.Column="0"
+                                                    Margin="0,5,0,0"
                                                     FontWeight="{Binding Weight}"
                                                     ForegroundKey="{Binding Color}"
                                                     Text="{Binding DisplayContent}"
