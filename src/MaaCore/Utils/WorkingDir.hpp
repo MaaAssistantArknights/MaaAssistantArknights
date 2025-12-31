@@ -19,12 +19,12 @@ public:
 
     const std::filesystem::path& get() const noexcept { return dir_; }
 
-    bool set(std::filesystem::path dir)
+    bool set(const std::filesystem::path& dir)
     {
         if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
             return false;
         }
-        dir_ = std::move(dir);
+        dir_ = dir.lexically_normal();
         return true;
     }
 
