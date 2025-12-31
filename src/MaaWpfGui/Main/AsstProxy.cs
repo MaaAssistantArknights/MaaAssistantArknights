@@ -1512,11 +1512,11 @@ public class AsstProxy
                         //    Instances.TaskQueueViewModel.AddLog("开始战斗");
                         //    break;
                         case "MissionCompletedFlag":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightCompleted"), UiLogColor.SuccessIS);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightCompleted"), UiLogColor.SuccessIS, updateCardImage: true);
                             break;
 
                         case "MissionFailedFlag":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightFailed"), UiLogColor.Error);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightFailed"), UiLogColor.Error, updateCardImage: true);
                             break;
 
                         case "StageTrader":
