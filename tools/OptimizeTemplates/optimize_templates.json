@@ -1677,10 +1677,6 @@
     "resource/global/YoStarKR/resource/template/UiTheme/Siege/GachaEnter": "4610db7baea5d05d73532a7bde1bf722d91c565bd81e65ceb159cd997a3c2729",
     "resource/global/YoStarKR/resource/template/UiTheme/Siege/Mall": "cb2d92747572ebad269cd760a1bfd74ad28448b91fbec043267e4cac46397227",
     "resource/global/YoStarKR/resource/template/UiTheme/Siege/Recruit": "a82f4a5a03c1e2f9aa77d83d21d352d3099f927bbf4585f3ed4d8bd68875d5d0",
-    "official/AbandonAction": "052a60fec1eb98ff3ab12814e40426ff682377b89c9ee844d3cff210c662559e",
-    "official/AwardNeedExpand": "b338a13d636b5bb1e50ce915bccd840e6f0f36d6d019aa0f889201f6580cf8bf",
-    "official/AwardNotNeedExpand": "795a9fdf6d31ca747121dcac1cb2b2127557a2459befc08c240789289a873b21",
-    "official/ContactSuspended": "84c7b438d9cecf9bde84d9a993833d6758a9c391ad652ee6de182753b5278783",
     "official/DialogueLog": "8dafd26d939c65818033b9f7822e4e04d9660872131c6b60747574f37563ac6f",
     "official/empty": "2e4c95c6b1aebcd6e64f3d6f9cf3b46a7b0f7e7664006b5f4720c33840e6423c",
     "official/LoadingIcon": "a0f942b25830b21a839ba26763f27517935a98f36d8212db0202ba58c6d8e30e",
@@ -3709,5 +3705,8 @@
     "resource/template/UiTheme/LoneTrail/Night/OperBoxEnter": "27a0203faf5a84c6bac45b81ed4aba65a690588a115020b52c1460487700b32b",
     "resource/template/UiTheme/LoneTrail/Night/Recruit": "a39414b2f674d8a9f7202d609a8c9c5b5f158fe365196b7feb890aa27d99a0cf",
     "resource/template/UiTheme/LoneTrail/Night/Task": "16717e58121847b16e8f8fa97fa0e8a3988935a25f9f6165d7d0cb288a4a64ba",
-    "resource/template/UiTheme/LoneTrail/Night/Terminal": "57b2d0e7445e2642af085616099c9d3104f1a284c3e672ba3dcdabab9c33d546"
+    "resource/template/UiTheme/LoneTrail/Night/Terminal": "57b2d0e7445e2642af085616099c9d3104f1a284c3e672ba3dcdabab9c33d546",
+    "resource/template/Battle/BattleFlag/AbandonAction": "052a60fec1eb98ff3ab12814e40426ff682377b89c9ee844d3cff210c662559e",
+    "resource/template/Award/AwardNotNeedExpand": "795a9fdf6d31ca747121dcac1cb2b2127557a2459befc08c240789289a873b21",
+    "resource/template/Award/AwardNeedExpand": "b338a13d636b5bb1e50ce915bccd840e6f0f36d6d019aa0f889201f6580cf8bf"
 }
