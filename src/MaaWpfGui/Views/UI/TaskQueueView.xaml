@@ -406,7 +406,7 @@
                                         MaxWidth="420"
                                         Margin="0,0,0,2.5"
                                         Padding="5,0,1,5"
-                                        Background="{DynamicResource RegionBrushOpacity25}"
+                                        Background="{DynamicResource MouseOverRegionBrushOpacity10}"
                                         BorderBrush="{DynamicResource BorderBrush}"
                                         BorderThickness="1"
                                         CornerRadius="4">
@@ -475,7 +475,7 @@
                                             MaxWidth="420"
                                             Margin="0,0,0,2.5"
                                             Padding="5,0,1,5"
-                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            Background="{DynamicResource MouseOverRegionBrushOpacity10}"
                                             BorderBrush="{DynamicResource BorderBrush}"
                                             BorderThickness="1"
                                             CornerRadius="4"
