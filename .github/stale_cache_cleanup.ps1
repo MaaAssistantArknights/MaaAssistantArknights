@@ -11,7 +11,8 @@ $keyPatterns = @(
     "macOS-arm64-maadeps",
     "Linux-x64-maadeps",
     "Linux-arm64-maadeps",
-    "Smoke-testing"
+    "Smoke-testing",
+    "prek-v1|Linux|X64"
 )
 
 # Filter caches matching any of our key patterns

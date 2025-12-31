@@ -1,38 +1,46 @@
 $totalClearedSize = 0
 $cacheList = gh cache list --json id,ref,sizeInBytes | ConvertFrom-Json
-$prCaches = $cacheList | Where-Object { $_.ref -like "*merge*" }
-
-if (-not $prCaches) {
-    Write-Output "No PR caches found."
-    exit
+$branchSet = @{}
+git ls-remote --heads origin | ForEach-Object { 
+    if ($_ -match 'refs/heads/(.+)$') { $branchSet[$matches[1]] = $true }
 }
 
-foreach ($cache in $prCaches) {
-    $cacheId = $cache.id
-    $cacheRef = $cache.ref
-    $cacheSizeInBytes = $cache.sizeInBytes  
+foreach ($cache in $cacheList) {
+    $shouldDelete = $false
 
-    if ($cacheRef -match "refs/pull/(\d+)/merge") {
+    if ($cache.ref -match "refs/pull/(\d+)/merge") {
         $prNumber = $matches[1]
- 
         Write-Host "PR #${prNumber}: " -NoNewline
- 
-        $prStatus = gh pr view $prNumber --json state | ConvertFrom-Json
- 
-        Write-Host $prStatus.state -NoNewline
- 
-        if ($prStatus.state -eq "MERGED" -or $prStatus.state -eq "CLOSED") {
-            Write-Host " -> DELETING"
-            
-            gh cache delete $cacheId
+        
+        try {
+            $prStatus = (gh pr view $prNumber --json state | ConvertFrom-Json).state
+            Write-Host "$prStatus" -NoNewline
+            $shouldDelete = $prStatus -in @("MERGED", "CLOSED")
+        }
+        catch {
+            Write-Host "NOT FOUND" -NoNewline
+            $shouldDelete = $true
+        }
+    }
+    elseif ($cache.ref -match "refs/heads/(.+)" -and $matches[1] -ne "dev") {
+        $branchName = $matches[1]
+        $exists = $branchSet.ContainsKey($branchName)
+        
+        Write-Host "Branch '$branchName': $(if ($exists) { 'EXISTS' } else { 'DELETED' })" -NoNewline
+        $shouldDelete = -not $exists
+    }
+    else {
+        continue
+    }
 
-            $totalClearedSize += $cacheSizeInBytes
-        }
-        else {
-            Write-Host ""
-        }
+    if ($shouldDelete) {
+        Write-Host " -> DELETING"
+        gh cache delete $cache.id
+        $totalClearedSize += $cache.sizeInBytes
+    }
+    else {
+        Write-Host ""
     }
 }
 
-$formattedSize = "{0:N2}" -f ($totalClearedSize / 1MB)
-Write-Output "Cleared size: $formattedSize MB"
+Write-Output "Cleared size: $("{0:N2}" -f ($totalClearedSize / 1MB)) MB"
