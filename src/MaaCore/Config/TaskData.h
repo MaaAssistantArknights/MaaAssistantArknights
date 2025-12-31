@@ -2,6 +2,7 @@
 
 #include "AbstractConfigWithTempl.h"
 
+#include <mutex>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -43,8 +44,13 @@ private:
     }
 
     static inline std::unordered_set<std::string> m_task_names {};
+    static inline std::mutex m_task_names_mutex {};
 
-    static const std::string& task_name_view(std::string_view name) { return *m_task_names.emplace(name).first; }
+    static const std::string& task_name_view(std::string_view name)
+    {
+        std::lock_guard<std::mutex> lock(m_task_names_mutex);
+        return *m_task_names.emplace(name).first;
+    }
 
     struct RawCompileResult
     {
