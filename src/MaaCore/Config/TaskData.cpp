@@ -23,7 +23,7 @@ const std::unordered_set<std::string>& asst::TaskData::get_templ_required() cons
     return m_templ_required;
 }
 
-asst::TaskDerivedConstPtr asst::TaskData::get_raw(std::string_view name)
+asst::TaskDerivedConstPtr asst::TaskData::get_raw(const std::string& name)
 {
     if (!generate_raw_task_and_base(name, true)) [[unlikely]] {
         return nullptr;
@@ -35,15 +35,16 @@ asst::TaskDerivedConstPtr asst::TaskData::get_raw(std::string_view name)
 
     // `@` 前面的字符长度
     size_t name_len = name.find('@');
-    if (name_len == std::string_view::npos) [[unlikely]] {
+    if (name_len == std::string::npos) [[unlikely]] {
         return nullptr;
     }
 
     return nullptr;
 }
 
-asst::TaskPtr asst::TaskData::get(std::string_view name)
+asst::TaskPtr asst::TaskData::get(std::string_view name_view)
 {
+    std::string name(name_view);
     // 生成过的任务
     if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) {
         return it->second;
@@ -76,7 +77,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
     }
 
     for (const auto& [name, task_json] : json.as_object()) {
-        std::string_view name_view = task_name_view(name);
+        const std::string& name_view = task_name_view(name);
         if (task_json.contains("baseTask")) {
             // 直接声明 baseTask 的任务不继承同名任务参数而是直接覆盖
             m_json_all_tasks_info[name_view] = task_json.as_object();
@@ -106,10 +107,10 @@ bool asst::TaskData::lazy_parse(const json::value& json)
     {
         LogTraceScope("syntax_check");
         bool validity = true;
-        std::queue<std::string_view> task_queue;
-        std::unordered_set<std::string_view> checking_task_set;
+        std::queue<std::string> task_queue;
+        std::unordered_set<std::string> checking_task_set;
 
-        for (std::string_view name : m_json_all_tasks_info | std::views::keys) {
+        for (const std::string& name : m_json_all_tasks_info | std::views::keys) {
             m_task_status[name] = ToBeGenerate;
             task_queue.push(name);
             checking_task_set.insert(name);
@@ -121,7 +122,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
 
         const size_t MAX_CHECKING_SIZE = 10000;
         while (!task_queue.empty() && checking_task_set.size() <= MAX_CHECKING_SIZE) {
-            std::string_view name = task_queue.front();
+            const std::string& name = task_queue.front();
             task_queue.pop();
             auto task = get(name);
             if (task == nullptr) [[unlikely]] {
@@ -130,9 +131,9 @@ bool asst::TaskData::lazy_parse(const json::value& json)
                 continue;
             }
             auto check_tasklist =
-                [&](const TaskList& task_list, std::string_view list_type, bool enable_justreturn_check = false) {
-                    std::unordered_set<std::string_view> tasks_set {};
-                    std::string justreturn_task_name = "";
+                [&](const TaskList& task_list, const std::string& list_type, bool enable_justreturn_check = false) {
+                    std::unordered_set<std::string> tasks_set {};
+                    std::string justreturn_task_name;
                     for (const std::string& task_name : task_list) {
                         if (tasks_set.contains(task_name)) [[unlikely]] {
                             continue;
@@ -292,7 +293,7 @@ bool asst::TaskData::parse(const json::value& json)
     }
 
     // 本来重构之后完全支持惰性加载，但是发现模板图片不支持（
-    for (std::string_view name : m_json_all_tasks_info | std::views::keys) {
+    for (const std::string& name : m_json_all_tasks_info | std::views::keys) {
         generate_task_info(name);
     }
 
@@ -305,25 +306,26 @@ void asst::TaskData::clear_tasks()
     // 即运行期修改对已经获取的任务指针无效，但是不会导致崩溃；要想更新，需要重新获取任务指针
     m_all_tasks_info.clear();
     m_raw_all_tasks_info.clear();
-    for (std::string_view name : m_json_all_tasks_info | std::views::keys) {
+    for (const std::string& name : m_json_all_tasks_info | std::views::keys) {
         m_task_status[task_name_view(name)] = ToBeGenerate;
     }
 }
 
-void asst::TaskData::set_task_base(const std::string_view task_name, std::string base_task_name)
+void asst::TaskData::set_task_base(const std::string& task_name, std::string base_task_name)
 {
     m_json_all_tasks_info[task_name_view(task_name)]["baseTask"] = std::move(base_task_name);
     clear_tasks();
 }
 
 bool asst::TaskData::generate_raw_task_info(
-    std::string_view name,
-    std::string_view prefix,
-    std::string_view base,
+    const std::string& name,
+    const std::string& raw_prefix,
+    const std::string& base,
     const json::value& json,
     TaskDerivedType type)
 {
     TaskPipelineConstPtr base_task = base.empty() ? nullptr : get_raw(base);
+    std::string prefix = raw_prefix;
     if (base_task == nullptr) {
         base_task = default_task_info_ptr;
         prefix = "";
@@ -359,7 +361,7 @@ bool asst::TaskData::generate_raw_task_info(
 // name: 待生成的任务名
 // must_true: 必须有名字为 name 的资源
 // allow_implicit: 允许隐式生成（解决 A@B@LoadingText 时 B 不存在的问题）
-bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must_true, bool allow_implicit)
+bool asst::TaskData::generate_raw_task_and_base(const std::string& name, bool must_true, bool allow_implicit)
 {
     switch (m_task_status[task_name_view(name)]) {
     case NotToBeGenerate:
@@ -409,7 +411,7 @@ bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must
 
         // TemplateTask
         for (size_t p = name.find('@'); p != std::string::npos; p = name.find('@', p + 1)) {
-            if (std::string_view base = name.substr(p + 1); generate_raw_task_and_base(base, false, false)) {
+            if (const std::string& base = name.substr(p + 1); generate_raw_task_and_base(base, false, false)) {
                 return generate_raw_task_info(name, name.substr(0, p), base, task_json, TaskDerivedType::Template);
             }
         }
@@ -425,7 +427,7 @@ bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must
     }
 }
 
-asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
+asst::TaskPtr asst::TaskData::generate_task_info(const std::string& name)
 {
     auto raw = get_raw(name);
     if (!raw) [[unlikely]] {
@@ -554,7 +556,7 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
 }
 
 asst::TaskPtr asst::TaskData::generate_match_task_info(
-    std::string_view name,
+    const std::string& name,
     const json::value& task_json,
     MatchTaskConstPtr default_ptr,
     TaskDerivedType derived_type)
@@ -761,7 +763,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
 }
 
 asst::TaskPtr asst::TaskData::generate_ocr_task_info(
-    std::string_view name,
+    const std::string& name,
     const json::value& task_json,
     OcrTaskConstPtr default_ptr)
 {
@@ -809,7 +811,7 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(
 }
 
 asst::TaskPtr asst::TaskData::generate_feature_match_task_info(
-    std::string_view name,
+    const std::string& name,
     const json::value& task_json,
     FeatureMatchTaskConstPtr default_ptr,
     TaskDerivedType derived_type)
@@ -845,14 +847,14 @@ asst::TaskPtr asst::TaskData::generate_feature_match_task_info(
 
 asst::ResultOrError<asst::TaskData::RawCompileResult> asst::TaskData::compile_raw_tasklist(
     const TaskList& raw_tasks,
-    std::string_view self_name,
-    std::function<TaskDerivedConstPtr(std::string_view)> get_raw,
+    const std::string& self_name,
+    std::function<TaskDerivedConstPtr(const std::string&)> get_raw,
     bool allow_duplicate)
 {
     RawCompileResult ret { .task_changed = false, .symbols = {} };
-    std::unordered_set<std::string_view> tasks_set; // 记录任务列表中已有的任务（内容元素与 new_tasks 基本一致）
+    std::unordered_set<std::string> tasks_set; // 记录任务列表中已有的任务（内容元素与 new_tasks 基本一致）
 
-    for (std::string_view task_expr : raw_tasks) {
+    for (const std::string& task_expr : raw_tasks) {
         if (task_expr.empty() || (!allow_duplicate && tasks_set.contains(task_expr))) {
             ret.task_changed = true;
             continue;
@@ -902,14 +904,14 @@ asst::ResultOrError<asst::TaskData::RawCompileResult> asst::TaskData::compile_ra
 }
 
 asst::ResultOrError<asst::TaskData::CompileResult>
-    asst::TaskData::compile_tasklist(const TaskList& raw_tasks, std::string_view self_name, bool allow_duplicate)
+    asst::TaskData::compile_tasklist(const TaskList& raw_tasks, const std::string& self_name, bool allow_duplicate)
 {
     CompileResult ret { .task_changed = false, .tasks = {} };
     std::vector<TaskDataSymbol> new_symbols;
     if (auto opt = compile_raw_tasklist(
             raw_tasks,
             self_name,
-            [&](std::string_view name) { return get_raw(name); },
+            [&](const std::string& name) { return get_raw(name); },
             allow_duplicate);
         !opt) {
         return { std::nullopt, std::move(opt.error()) };
@@ -918,9 +920,9 @@ asst::ResultOrError<asst::TaskData::CompileResult>
         new_symbols = std::move(opt.value().symbols);
         ret.task_changed = opt.value().task_changed;
     }
-    std::unordered_set<std::string_view> tasks_set;
+    std::unordered_set<std::string> tasks_set;
     for (const auto& task : new_symbols) {
-        std::string_view task_name;
+        std::string task_name;
         if (task == TaskDataSymbol::SharpSelf) {
             task_name = self_name;
             ret.task_changed = true;
@@ -948,10 +950,10 @@ asst::ResultOrError<asst::TaskData::CompileResult>
     return ret;
 }
 
-std::string asst::TaskData::append_prefix(std::string_view task_name, std::string_view task_prefix)
+std::string asst::TaskData::append_prefix(const std::string& task_name, std::string task_prefix)
 {
     if (task_prefix.ends_with('@')) [[unlikely]] {
-        task_prefix.remove_suffix(1);
+        task_prefix = task_prefix.substr(0, task_prefix.size() - 1);
     }
     if (task_prefix.empty()) [[unlikely]] {
         return std::string(task_name);
@@ -965,22 +967,22 @@ std::string asst::TaskData::append_prefix(std::string_view task_name, std::strin
     return std::string(task_prefix) + '@' + std::string(task_name);
 }
 
-asst::TaskList asst::TaskData::append_prefix(const TaskList& base_task_list, std::string_view task_prefix)
+asst::TaskList asst::TaskData::append_prefix(const TaskList& base_task_list, std::string task_prefix)
 {
     if (task_prefix.ends_with('@')) [[unlikely]] {
-        task_prefix.remove_suffix(1);
+        task_prefix = task_prefix.substr(0, task_prefix.size() - 1);
     }
     if (task_prefix.empty()) {
         return base_task_list;
     }
     TaskList task_list = {};
     for (const std::string& base : base_task_list) {
-        std::string_view base_view = base;
+        const std::string& base_view = base;
         size_t l = 0;
         bool has_same_prefix = false;
         // base 任务里已经存在相同前缀，则不加前缀
         // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/2116#issuecomment-1270115238
-        for (size_t r = base_view.find('@'); r != std::string_view::npos; r = base_view.find('@', l)) {
+        for (size_t r = base_view.find('@'); r != std::string::npos; r = base_view.find('@', l)) {
             if (task_prefix == base_view.substr(l, r - l)) [[unlikely]] {
                 has_same_prefix = true;
                 break;
@@ -1048,7 +1050,7 @@ asst::TaskConstPtr asst::TaskData::_default_task_info()
 #ifdef ASST_DEBUG
 // 为了解决类似 beddc7c828126c678391e0b4da288db6d2c2d58a 导致的问题，加载的时候做一个语法检查
 // 主要是处理是否包含未知键值的问题
-bool asst::TaskData::syntax_check(std::string_view task_name, const json::value& task_json)
+bool asst::TaskData::syntax_check(const std::string& task_name, const json::value& task_json)
 {
     // 以下按字典序排序
     // clang-format off
@@ -1106,8 +1108,8 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
         { ProcessTaskAction::Input, { "inputText" } },
     };
 
-    auto is_doc = [&](std::string_view key) {
-        return key.find("Doc") != std::string_view::npos || key.find("doc") != std::string_view::npos;
+    auto is_doc = [&](const std::string& key) {
+        return key.find("Doc") != std::string::npos || key.find("doc") != std::string::npos;
     };
 
     // 兜底策略，如果某个 key ("xxx") 不符合规范（可能是代码中使用到的参数，而不是任务流程）
