@@ -24,7 +24,7 @@ RUN echo 'mise activate fish | source' >> ~/.config/fish/config.fish
 
 # Setup Python and Node.js
 RUN mise use -g node@$NODEJS_VERSION
-RUN uv python install $PYTHON_VERSION
+RUN uv python install $PYTHON_VERSION --default
 
 # Install tools
 RUN uv tool install prek ruff

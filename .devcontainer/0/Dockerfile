@@ -16,7 +16,7 @@ RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 
 # Setup Python and Node.js
 RUN mise use -g node@$NODEJS_VERSION
-RUN uv python install $PYTHON_VERSION
+RUN uv python install $PYTHON_VERSION --default
 
 # Install tools
 RUN uv tool install prek
