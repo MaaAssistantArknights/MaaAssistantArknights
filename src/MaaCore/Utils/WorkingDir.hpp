@@ -21,7 +21,7 @@ public:
 
     bool set(const std::filesystem::path& dir)
     {
-        const auto norm_dir = dir.lexically_normal();
+        auto norm_dir = dir.lexically_normal();
         if (!std::filesystem::exists(norm_dir) || !std::filesystem::is_directory(norm_dir)) {
             return false;
         }
