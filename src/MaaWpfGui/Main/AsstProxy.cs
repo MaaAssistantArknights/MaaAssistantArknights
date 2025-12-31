@@ -363,16 +363,24 @@ public class AsstProxy
     public const int ScreencapHeight = 720;
     public const int ScreencapChannels = 3;
 
-    public static BitmapSource CreateBgrBitmapSourceScaled(byte[] bgrData, int targetWidth, int targetHeight)
+    public static BitmapSource? CreateBgrBitmapSourceScaled(byte[] bgrData, int targetWidth, int targetHeight)
     {
         if (targetWidth <= 0 || targetHeight <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(targetWidth));
+            _logger.Warning("Invalid target size: {Width}x{Height}", targetWidth, targetHeight);
+            return null;
         }
 
         const int SrcWidth = ScreencapWidth;
         const int SrcHeight = ScreencapHeight;
         const int SrcStride = SrcWidth * ScreencapChannels;
+
+        if (bgrData.Length < SrcHeight * SrcStride)
+        {
+            _logger.Warning("Invalid bgrData size: {Size}, expected at least {ExpectedSize}", bgrData.Length, SrcHeight * SrcStride);
+            return null;
+        }
+
         int dstStride = targetWidth * ScreencapChannels;
 
         // 直接生成小图，避免先构建大图再缩放导致不必要的内存峰值。
