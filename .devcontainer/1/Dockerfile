@@ -27,4 +27,5 @@ RUN mise use -g node@$NODEJS_VERSION
 RUN uv python install $PYTHON_VERSION --default
 
 # Install tools
-RUN uv tool install prek ruff
+RUN uv tool install prek 
+RUN uv tool install ruff
