@@ -295,7 +295,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
     public static Dictionary<string, string> WindowTitleAllShowDict { get => _windowTitleAllShowDict; }
 
-    private static object[] _windowTitleSelectShowList = [.. ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, "1 2 3 4")
+    private static object[] _windowTitleSelectShowList = [.. ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, "2 3 4")
         .Split(' ')
         .Where(s => _windowTitleAllShowDict.ContainsKey(s.ToString()))
         .Select(s => (object)new KeyValuePair<string, string>(s, _windowTitleAllShowDict[s]))];
