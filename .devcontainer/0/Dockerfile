@@ -2,29 +2,18 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 USER vscode
 
-ENV CONDA_DIR=/home/vscode/miniconda
-ENV PATH="$CONDA_DIR/bin:$PATH"
+ENV PATH="/home/vscode/.local/bin:${PATH}"
 
-ARG PYTHON_VERSION=3.12
+ARG PYTHON_VERSION=3.12.11
 ARG NODEJS_VERSION=24
 
-# Install Miniconda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh \
-    && bash ~/miniconda.sh -b -p $CONDA_DIR \
-    && rm ~/miniconda.sh \
-    && conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main \
-    && conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+# Install and setup Mise and uv
+RUN curl https://mise.run | sh
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Configure conda environment
-RUN eval "$(conda shell.bash hook)" \
-    && conda create -n maa \
-    && conda activate maa \
-    && conda install -y \
-    python=$PYTHON_VERSION \
-    conda-forge::nodejs=$NODEJS_VERSION \
-    && pip install pre-commit
+# Setup Python and NodeJS
+RUN mise use -g node@$NODEJS_VERSION
+RUN uv python install $PYTHON_VERSION
 
-# Finalize conda setup
-RUN conda init \
-    && conda config --set auto_activate false \
-    && echo "conda activate maa" >> ~/.bashrc
+# Install tools
+RUN uv tool install prek
