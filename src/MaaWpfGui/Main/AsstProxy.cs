@@ -48,7 +48,6 @@ using Newtonsoft.Json.Linq;
 using ObservableCollections;
 using Serilog;
 using Stylet;
-using Windows.Devices.Spi;
 using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = nint;
 using AsstInstanceOptionKey = System.Int32;

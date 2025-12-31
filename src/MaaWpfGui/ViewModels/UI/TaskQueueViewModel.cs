@@ -268,6 +268,7 @@ public class TaskQueueViewModel : Screen
     {
         if (card is null)
         {
+            _logger.Warning("Cannot attach thumbnail to null log card.");
             return;
         }
 
@@ -286,7 +287,7 @@ public class TaskQueueViewModel : Screen
         }
         catch
         {
-            // ignored
+            _logger.Warning("Failed to attach thumbnail to log card.");
         }
     }
 
