@@ -750,7 +750,7 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
 
     // 清理旧的 PNG 文件
     static bool clean_png = true;
-    if (clean_png) {
+    if (clean_png && std::filesystem::exists(MapRelativeDir)) {
         for (const auto& entry : std::filesystem::directory_iterator(MapRelativeDir)) {
             if (entry.path().extension() == ".png") {
                 std::error_code ec;
