@@ -322,13 +322,19 @@ public class TaskQueueViewModel : Screen
 
     private void TrimOldThumbnails()
     {
-        var indexToClear = LogCardViewModels.Count - MaxLogItemsWithThumbnails - 1;
-        if (indexToClear < 0 || indexToClear >= LogCardViewModels.Count)
-        {
-            return;
-        }
+        var thumbnailIndices = LogCardViewModels
+            .Select((vm, index) => new { vm, index })
+            .Where(x => x.vm.Thumbnail != null)
+            .Select(x => x.index)
+            .ToList();
 
-        LogCardViewModels[indexToClear].Thumbnail = null;
+        if (thumbnailIndices.Count > MaxLogItemsWithThumbnails)
+        {
+            for (int i = 0; i < thumbnailIndices.Count - MaxLogItemsWithThumbnails; i++)
+            {
+                LogCardViewModels[thumbnailIndices[i]].Thumbnail = null;
+            }
+        }
     }
 
     #endregion
