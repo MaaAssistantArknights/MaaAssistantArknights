@@ -521,10 +521,6 @@
                                                         Visibility="{c:Binding 'StartTime != EndTime or Items.Count > 1'}" />
                                                 </Grid>
                                                 <Grid Grid.Column="1" Margin="10,0,0,0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
                                                     <ItemsControl ItemsSource="{Binding Items}">
                                                         <ItemsControl.ItemTemplate>
                                                             <DataTemplate>
