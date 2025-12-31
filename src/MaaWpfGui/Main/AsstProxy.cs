@@ -1023,7 +1023,7 @@ public class AsstProxy
                         Task.Run(async () => {
                             var screenshot = await AsstGetImageAsync();
                             Execute.OnUIThread(() => {
-                                Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, toolTip: screenshot?.CreateTooltip());
+                                Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, toolTip: screenshot?.CreateTooltip(), updateCardImage: true, fetchLatestImage: true);
                             });
                         });
 
