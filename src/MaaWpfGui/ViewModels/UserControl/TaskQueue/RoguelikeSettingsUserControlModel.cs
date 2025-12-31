@@ -1059,14 +1059,19 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
             case "RoguelikeEncounterOptions":
                 var options = (subTaskDetails!["options"]! as JArray) ?? [];
-                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeEncounterOptions"), options.Count, UiLogColor.EventIS));
+                var logLines = new List<string>
+                {
+                    string.Format(LocalizationHelper.GetString("RoguelikeEncounterOptions"), options.Count, UiLogColor.EventIS),
+                };
+
                 foreach (var option in options)
                 {
                     string messageKey = option["enabled"]!.Value<bool>() ? "RoguelikeEncounterEnabledOption" : "RoguelikeEncounterDisabledOption";
                     var text = option["text"]!.ToString();
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString(messageKey), text), UiLogColor.EventIS);
+                    logLines.Add(string.Format(LocalizationHelper.GetString(messageKey), text));
                 }
 
+                Instances.TaskQueueViewModel.AddLog(string.Join("\n", logLines), UiLogColor.EventIS, updateCardImage: true);
                 break;
 
             case "BoskyPassageNode":
@@ -1089,12 +1094,12 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 }
 
             case "RoguelikeCoppersRecognitionError":
-            {
-                var recognizedName = subTaskDetails!["recognized_name"]?.ToString() ?? "Unknown";
-                var message = string.Format(LocalizationHelper.GetString("RoguelikeCoppersRecognitionError"), recognizedName);
-                Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Error);
-                break;
-            }
+                {
+                    var recognizedName = subTaskDetails!["recognized_name"]?.ToString() ?? "Unknown";
+                    var message = string.Format(LocalizationHelper.GetString("RoguelikeCoppersRecognitionError"), recognizedName);
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Error);
+                    break;
+                }
 
             case "RoguelikeCoppersExchangeInfo":
                 {
