@@ -21,10 +21,11 @@ public:
 
     bool set(const std::filesystem::path& dir)
     {
-        if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
+        const auto norm_dir = dir.lexically_normal();
+        if (!std::filesystem::exists(norm_dir) || !std::filesystem::is_directory(norm_dir)) {
             return false;
         }
-        dir_ = dir.lexically_normal();
+        dir_ = std::move(norm_dir);
         return true;
     }
 
