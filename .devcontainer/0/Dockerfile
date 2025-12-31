@@ -11,7 +11,7 @@ ARG NODEJS_VERSION=24
 RUN curl https://mise.run | sh
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# # Activate mise
+# Activate mise in bash
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 
 # Setup Python and Node.js

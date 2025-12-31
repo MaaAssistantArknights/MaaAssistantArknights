@@ -18,8 +18,11 @@ RUN sudo apt update \
 RUN curl https://mise.run | sh
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Activate mise
+# Activate mise in bash
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+
+# Activate mise in fish after initialization of config files
+RUN fish -c exit
 RUN echo 'mise activate fish | source' >> ~/.config/fish/config.fish
 
 # Setup Python and Node.js
