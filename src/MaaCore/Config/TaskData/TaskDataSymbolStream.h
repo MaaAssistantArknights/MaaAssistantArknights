@@ -21,7 +21,7 @@ private:
     Symbols m_symbolstream;
 
 public:
-    ResultOrError<bool> parse(std::string_view task_expr);
-    SymbolsOrError decode(AppendPrefixFunc append_prefix, std::string_view self_name) const;
+    ResultOrError<bool> parse(const std::string& task_expr);
+    SymbolsOrError decode(AppendPrefixFunc append_prefix, const std::string& self_name) const;
 };
 } // namespace asst
