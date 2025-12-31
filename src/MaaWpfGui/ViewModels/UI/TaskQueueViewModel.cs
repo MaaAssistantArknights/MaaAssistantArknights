@@ -259,7 +259,8 @@ public class TaskQueueViewModel : Screen
 
     private const int LogThumbnailWidth = 640;
     private const int LogThumbnailHeight = 360;
-    private const int MaxLogItemsWithThumbnails = 20;
+
+    private static int MaxLogItemsWithThumbnails => SettingsViewModel.GuiSettings.MaxNumberOfLogThumbnails;
 
     private async Task AttachThumbnailToCardAsync(LogCardViewModel card, bool forceScreencap)
     {
