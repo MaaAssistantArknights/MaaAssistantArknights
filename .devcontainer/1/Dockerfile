@@ -12,7 +12,9 @@ ARG NODEJS_VERSION=24
 RUN sudo apt update \
     && sudo apt upgrade -y \
     && sudo apt install -y \
-    cmake fish
+    cmake \
+    fish \
+    && sudo rm -rf /var/lib/apt/lists/*
 
 # Initialize fish
 RUN fish -c exit
