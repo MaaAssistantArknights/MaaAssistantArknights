@@ -80,13 +80,7 @@ public class LogItemViewModel : PropertyDependsOnViewModel
     public string Content
     {
         get => _content;
-        set
-        {
-            if (SetAndNotify(ref _content, value))
-            {
-                NotifyOfPropertyChange(nameof(DisplayContent));
-            }
-        }
+        set => SetAndNotify(ref _content, value);
     }
 
     /// <summary>
@@ -117,8 +111,6 @@ public class LogItemViewModel : PropertyDependsOnViewModel
         set => SetAndNotify(ref _weight, value);
     }
 
-    public bool ShowThumbnail => Thumbnail is not null;
-
     [PropertyDependsOn(nameof(ToolTip))]
     public bool ShowToolTip => _toolTip is { Content: not null };
 
@@ -130,26 +122,6 @@ public class LogItemViewModel : PropertyDependsOnViewModel
     public ToolTip? ToolTip
     {
         get => _toolTip;
-        set
-        {
-            if (SetAndNotify(ref _toolTip, value))
-            {
-                NotifyOfPropertyChange(nameof(ShowToolTip));
-            }
-        }
-    }
-
-    private ImageSource? _thumbnail;
-
-    public ImageSource? Thumbnail
-    {
-        get => _thumbnail;
-        set
-        {
-            if (SetAndNotify(ref _thumbnail, value))
-            {
-                NotifyOfPropertyChange(nameof(ShowThumbnail));
-            }
-        }
+        set => SetAndNotify(ref _toolTip, value);
     }
 }
