@@ -14,21 +14,26 @@ RUN sudo apt update \
     && sudo apt install -y \
     cmake fish
 
+# Initialize fish
+RUN fish -c exit
+
 # Install and setup mise and uv
 RUN curl https://mise.run | sh
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Activate mise in bash
+# Activate mise
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
-
-# Activate mise in fish after initialization of config files
-RUN fish -c exit
 RUN echo 'mise activate fish | source' >> ~/.config/fish/config.fish
 
 # Setup Python and Node.js
 RUN mise use -g node@$NODEJS_VERSION
 RUN uv python install $PYTHON_VERSION --default
 
+# Create and activate venv
+RUN uv venv --clear ~/.venv/maa
+RUN echo "source ~/.venv/maa/bin/activate" >> ~/.bashrc
+RUN echo "source ~/.venv/maa/bin/activate.fish" >> ~/.config/fish/config.fish
+
 # Install tools
-RUN uv tool install prek 
+RUN uv tool install prek
 RUN uv tool install ruff

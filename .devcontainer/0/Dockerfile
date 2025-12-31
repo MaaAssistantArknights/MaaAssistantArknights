@@ -11,12 +11,16 @@ ARG NODEJS_VERSION=24
 RUN curl https://mise.run | sh
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Activate mise in bash
+# Activate mise
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 
 # Setup Python and Node.js
 RUN mise use -g node@$NODEJS_VERSION
-RUN uv python install $PYTHON_VERSION --default
+RUN uv python install $PYTHON_VERSION
+
+# Create and activate venv
+RUN uv venv --clear ~/.venv/maa
+RUN echo "source ~/.venv/maa/bin/activate" >> ~/.bashrc
 
 # Install tools
 RUN uv tool install prek

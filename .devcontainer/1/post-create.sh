@@ -21,7 +21,6 @@ pnpm install --frozen-lockfile
 echo "===================="
 cd "$WORKSPACE"
 echo "Installing Python dependencies..."
-uv init
 # Install Python dependencies from all tools
 for req_file in tools/*/requirements.txt; do
     if [ -f "$req_file" ]; then
