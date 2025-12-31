@@ -122,7 +122,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
 
         const size_t MAX_CHECKING_SIZE = 10000;
         while (!task_queue.empty() && checking_task_set.size() <= MAX_CHECKING_SIZE) {
-            const std::string& name = task_queue.front();
+            std::string name = std::move(task_queue.front());
             task_queue.pop();
             auto task = get(name);
             if (task == nullptr) [[unlikely]] {

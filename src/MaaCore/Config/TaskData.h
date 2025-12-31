@@ -125,7 +125,7 @@ public:
         // json[name][x] = y;
         // Task.lazy_parse(json);
         // ```
-        return std::dynamic_pointer_cast<TargetTaskInfoType>(get(std::string(name)));
+        return std::dynamic_pointer_cast<TargetTaskInfoType>(get(name));
     }
 
 protected:
