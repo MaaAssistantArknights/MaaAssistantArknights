@@ -30,7 +30,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.repository }}-${{ github.ref }}-${{ github.ref == 'refs/heads/dev' && github.sha }}
+  group: ${{ github.workflow }}-${{ github.repository }}-${{ github.ref_name }}-${{ github.ref == 'refs/heads/dev' && github.sha }}
   cancel-in-progress: true
 
 jobs:
@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: Show concurrency group
         run: |
-          echo "Concurrency Group: ${{ github.workflow }}-${{ github.repository }}-${{ github.ref }}-${{ github.ref == 'refs/heads/dev' && github.sha }}"
+          echo "Concurrency Group: ${{ github.workflow }}-${{ github.ref_name }}-${{ github.ref }}-${{ github.ref == 'refs/heads/dev' && github.sha }}"
 
       - name: Checkout repository
         uses: actions/checkout@v6
