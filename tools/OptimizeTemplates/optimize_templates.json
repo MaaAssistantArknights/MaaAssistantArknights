@@ -1,7 +1,4 @@
 {
-    "txwy/ContactSuspended": "0cb0c91c2b45a696b5f8e04a70226f48adcf24486cbd7c621d63fc7ad68b6204",
-    "txwy/OperBoxRoleTab": "2bed02919e6aa87ed160c04eac4db99b1ff4c858dc7bf6ac556d3c4d1df70eaa",
-    "txwy/OperBoxRoleTabSelect": "66d429c1876cfa76c832b3c4e205b6abcb04d5a9bc311ee17f79ea8ac3d8a353",
     "resource/global/txwy/resource/template/Award/AwardFinished": "2444a99b42acfdb778e1a9f9bf8cc5844dd7fde3b84a2ddafde6b90e951be0c4",
     "resource/global/txwy/resource/template/Award/DailyTask": "9cc857fa8d279d240dbfdcff6c12634ab3a55ff0017de6df42cb796287527932",
     "resource/global/txwy/resource/template/Award/ReceiveAward": "14711a24b8f479b768a46c8bc40ccfb23d2e103340f1c583c8794483ed85b77c",
