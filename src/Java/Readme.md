@@ -171,7 +171,7 @@
 | 字段名称 | 字段说明                                                                                                                                                | 类型   | 必填 | 备注 |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ---- | ---- |
 | id       | 创建连接返回的实例ID                                                                                                                                    | String | Y    | -    |
-| type     | 任务类型,此次示例为刷理智战斗,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | String | Y    | -    |
+| type     | 任务类型,此次示例为理智作战战斗,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | String | Y    | -    |
 | params   | 任务参数                                                                                                                                                | Json   | Y    | -    |
 
 ###### 4) 请求返回结果
@@ -223,7 +223,7 @@
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ---- | ---- |
 | id       | 创建连接返回的实例ID                                                                                                                                    | String | Y    | -    |
 | taskId   | 任务ID                                                                                                                                                  | Int    | Y    | -    |
-| type     | 任务类型,此次示例为刷理智战斗,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | String | Y    | -    |
+| type     | 任务类型,此次示例为理智作战战斗,详情参考[集成文档](https://raw.githubusercontent.com/MaaAssistantArknights/MaaAssistantArknights/master/docs/集成文档.md) | String | Y    | -    |
 | params   | 任务参数                                                                                                                                                | Json   | Y    | -    |
 
 ###### 4) 请求返回结果

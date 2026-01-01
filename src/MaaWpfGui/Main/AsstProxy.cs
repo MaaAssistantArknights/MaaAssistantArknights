@@ -2451,10 +2451,10 @@ public class AsstProxy
         /// <summary>关闭游戏</summary>
         CloseDown,
 
-        /// <summary>刷理智</summary>
+        /// <summary>理智作战</summary>
         Fight,
 
-        /// <summary>关卡选择为剿灭时的备选刷理智</summary>
+        /// <summary>关卡选择为剿灭时的备选理智作战</summary>
         FightAnnihilationAlternate,
 
         /// <summary>剩余理智</summary>

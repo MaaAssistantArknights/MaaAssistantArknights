@@ -5,7 +5,7 @@ type TaskID int
 
 const (
 	StartUp   TaskType = iota //开始唤醒
-	Fight                     //刷理智
+	Fight                     //理智作战
 	Recruit                   //公开招募
 	Infrast                   //基建换班
 	Visit                     //访问好友

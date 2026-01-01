@@ -162,7 +162,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `CloseDown`  
   关闭游戏
 - `Fight`  
-  刷理智
+  理智作战
 - `Mall`  
   信用点及购物
 - `Recruit`  

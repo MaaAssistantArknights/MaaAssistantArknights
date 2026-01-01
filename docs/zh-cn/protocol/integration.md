@@ -82,7 +82,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 ::::
 
 - `Fight`  
-   刷理智
+   理智作战
 
 :::: field-group  
 ::: field name="enable" type="boolean" optional default="true"  
