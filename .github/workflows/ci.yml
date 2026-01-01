@@ -41,6 +41,10 @@ jobs:
       tag: ${{ steps.set_tag.outputs.tag }}
       prerelease: ${{ steps.set_pre.outputs.prerelease }}
     steps:
+      - name: Show concurrency group
+        run: |
+          echo "Concurrency Group: ${{ github.workflow }}-${{ github.repository }}-${{ github.ref }}-${{ github.ref == 'refs/heads/dev' && github.sha }}"
+
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
