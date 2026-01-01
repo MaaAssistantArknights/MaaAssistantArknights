@@ -13,10 +13,8 @@
 
 #nullable enable
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -27,67 +25,11 @@ namespace MaaWpfGui.Styles.Controls;
 /// </summary>
 public partial class TooltipBlock : UserControl
 {
-    private static readonly HashSet<TooltipBlock> DisabledInstances = [];
-
-    private static void RegisterForGlobalInput(TooltipBlock block)
-    {
-        if (DisabledInstances.Contains(block))
-        {
-            return;
-        }
-
-        DisabledInstances.Add(block);
-
-        if (DisabledInstances.Count == 1)
-        {
-            InputManager.Current.PreProcessInput += OnGlobalInput;
-        }
-    }
-
-    private static void UnregisterForGlobalInput(TooltipBlock block)
-    {
-        if (!DisabledInstances.Contains(block))
-        {
-            return;
-        }
-
-        DisabledInstances.Remove(block);
-
-        block.SetManualHover(false);
-
-        if (DisabledInstances.Count == 0)
-        {
-            InputManager.Current.PreProcessInput -= OnGlobalInput;
-        }
-    }
-
-    private static void OnGlobalInput(object sender, NotifyInputEventArgs e)
-    {
-        if (e.StagingItem.Input is not MouseEventArgs { RoutedEvent: { } routedEvent } ||
-            routedEvent != Mouse.PreviewMouseMoveEvent)
-        {
-            return;
-        }
-
-        foreach (var block in DisabledInstances)
-        {
-            block.CheckMousePosition();
-        }
-    }
-
     public TooltipBlock()
     {
         InitializeComponent();
 
         Opacity = NormalOpacity;
-
-        MouseEnter += OnMouseEnter;
-        MouseLeave += OnMouseLeave;
-
-        IsEnabledChanged += OnStateChanged;
-        IsVisibleChanged += OnStateChanged;
-        Unloaded += OnUnloaded;
-        Loaded += OnLoaded;
     }
 
     public static readonly DependencyProperty PathDateProperty = DependencyProperty.Register(nameof(PathDate), typeof(Geometry), typeof(TooltipBlock), new FrameworkPropertyMetadata(null));
@@ -166,38 +108,6 @@ public partial class TooltipBlock : UserControl
         }
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e) => UpdateGlobalListenerState();
-
-    private void OnUnloaded(object sender, RoutedEventArgs e) => UnregisterForGlobalInput(this);
-
-    private void OnStateChanged(object sender, DependencyPropertyChangedEventArgs e)
-    {
-        UpdateGlobalListenerState();
-    }
-
-    private void UpdateGlobalListenerState()
-    {
-        if (!IsLoaded)
-        {
-            return;
-        }
-
-        if (!IsEnabled && IsVisible)
-        {
-            RegisterForGlobalInput(this);
-            CheckMousePosition();
-        }
-        else
-        {
-            UnregisterForGlobalInput(this);
-
-            if (IsEnabled)
-            {
-                AnimateOpacity(IsMouseOver ? HoverOpacity : NormalOpacity);
-            }
-        }
-    }
-
     private void OnMouseEnter(object sender, EventArgs e)
     {
         AnimateOpacity(HoverOpacity);
@@ -208,55 +118,28 @@ public partial class TooltipBlock : UserControl
         AnimateOpacity(NormalOpacity);
     }
 
-    private void CheckMousePosition()
+    private void OnToolTipOpening(object element, ToolTipEventArgs args)
     {
-        try
-        {
-            if (!IsVisible || !IsLoaded)
-            {
-                return;
-            }
-
-            Point relativePoint = Mouse.GetPosition(this);
-
-            if (relativePoint.X < 0 || relativePoint.X > ActualWidth ||
-                relativePoint.Y < 0 || relativePoint.Y > ActualHeight)
-            {
-                SetManualHover(false);
-                return;
-            }
-
-            var result = VisualTreeHelper.HitTest(this, relativePoint);
-            SetManualHover(result != null);
-        }
-        catch (Exception e)
-        {
-#if DEBUG
-            System.Diagnostics.Debug.WriteLine($"[TooltipBlock Error] {e.Message}");
-#endif
-        }
-    }
-
-    private bool _isManuallyHovered = false;
-
-    private void SetManualHover(bool isHover)
-    {
-        if (_isManuallyHovered == isHover)
+        if (IsEnabled)
         {
             return;
         }
 
-        _isManuallyHovered = isHover;
-        AnimateOpacity(isHover ? HoverOpacity : NormalOpacity);
+        AnimateOpacity(HoverOpacity);
+    }
+
+    private void OnToolTipClosing(object element, ToolTipEventArgs args)
+    {
+        if (IsEnabled)
+        {
+            return;
+        }
+
+        AnimateOpacity(NormalOpacity);
     }
 
     private void AnimateOpacity(double targetOpacity)
     {
-        if (Math.Abs(Opacity - targetOpacity) < 0.001)
-        {
-            return;
-        }
-
         var animation = new DoubleAnimation {
             To = targetOpacity,
             Duration = new(TimeSpan.FromMilliseconds(InitialShowDelay)),

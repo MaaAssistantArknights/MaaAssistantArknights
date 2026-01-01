@@ -14,10 +14,14 @@
         VerticalAlignment="Center"
         Background="{DynamicResource MouseOverRegionBrushOpacity75}"
         DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+        MouseEnter="OnMouseEnter"
+        MouseLeave="OnMouseLeave"
         Style="{StaticResource BorderCircular}"
         ToolTipService.InitialShowDelay="{Binding InitialShowDelay}"
         ToolTipService.IsEnabled="{c:Binding !TooltipTextEmpty}"
-        ToolTipService.ShowOnDisabled="True">
+        ToolTipService.ShowOnDisabled="True"
+        ToolTipService.ToolTipClosing="OnToolTipClosing"
+        ToolTipService.ToolTipOpening="OnToolTipOpening">
         <Border.ToolTip>
             <TextBlock
                 MaxWidth="{Binding TooltipMaxWidth}"
