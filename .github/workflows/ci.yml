@@ -274,11 +274,10 @@ jobs:
 
       - name: Build CLI
         run: |
-          # git2 依赖 libssh2-sys/openssl-sys，交叉编译时需要 vendored 模式
-          cargo build --release --locked --package maa-cli -F openssl-sys/vendored
+          cargo build --release --locked --package maa-cli --features vendored-openssl
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/install/maa
           cargo build --release --locked --package maa-cli --no-default-features \
-            --features git2 -F openssl-sys/vendored
+            --features git2,vendored-openssl
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/appimage-maa
         working-directory: src/maa-cli
 
