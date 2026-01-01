@@ -1235,8 +1235,7 @@ public class ToolboxViewModel : Screen
 
     public string GetMiniGameTask()
     {
-        return MiniGameTaskName switch
-        {
+        return MiniGameTaskName switch {
             "MiniGame@SecretFront" => $"{MiniGameTaskName}@Begin@Ending{SecretFrontEnding}{(string.IsNullOrEmpty(SecretFrontEvent) ? string.Empty : $"@{SecretFrontEvent}")}",
             _ => MiniGameTaskName,
         };
@@ -1304,12 +1303,15 @@ public class ToolboxViewModel : Screen
 
     public List<string> SecretFrontEndingList { get; set; } = ["A", "B", "C", "D", "E"];
 
-    private string _secretFrontEnding = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameSecretFrontEnding, "A");
+    private string _secretFrontEnding = ConfigurationHelper.GetValue(ConfigurationKeys.MiniGameSecretFrontEnding, "A");
 
     public string SecretFrontEnding
     {
         get => _secretFrontEnding;
-        set => SetAndNotify(ref _secretFrontEnding, value);
+        set {
+            SetAndNotify(ref _secretFrontEnding, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.MiniGameSecretFrontEnding, value);
+        }
     }
 
     public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } = [
@@ -1319,12 +1321,15 @@ public class ToolboxViewModel : Screen
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event3"), Value = "鬼影迷踪" },
     ];
 
-    private string _secretFrontEvent = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameSecretFrontEvent, "支援作战平台");
+    private string _secretFrontEvent = ConfigurationHelper.GetValue(ConfigurationKeys.MiniGameSecretFrontEvent, string.Empty);
 
     public string SecretFrontEvent
     {
         get => _secretFrontEvent;
-        set => SetAndNotify(ref _secretFrontEvent, value);
+        set {
+            SetAndNotify(ref _secretFrontEvent, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.MiniGameSecretFrontEvent, value);
+        }
     }
 
     public void StartMiniGame()
