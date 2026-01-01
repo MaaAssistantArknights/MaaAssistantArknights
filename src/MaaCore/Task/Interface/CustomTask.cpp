@@ -34,12 +34,12 @@ bool asst::CustomTask::set_params(const json::value& params)
         std::string task_name = t.as_string();
         std::string resolved_task = task_name;
 
-        // 将 SecretFront 特殊处理逻辑拆到独立方法中，set_params 保持简洁
-        if (task_name.rfind("MiniGame@SecretFront@", 0) == 0) {
-            if (!parse_and_register_secretfront(task_name, resolved_task)) {
-                Log.error("set_params failed parsing secretfront task: ", task_name);
-                return false;
-            }
+        if (parse_and_register_secretfront(task_name, resolved_task)) {
+            Log.info("Parsed and registered SecretFront task: ", task_name, " -> ", resolved_task);
+        }
+        /* else if (parse_and_register_xxx) */
+        else {
+            resolved_task = task_name;
         }
 
         if (Task.get(resolved_task) == nullptr) {
@@ -56,44 +56,49 @@ bool asst::CustomTask::set_params(const json::value& params)
 
 bool asst::CustomTask::parse_and_register_secretfront(const std::string& task_name, std::string& resolved_task)
 {
-    resolved_task = task_name;
+    if (!task_name.starts_with("MiniGame@SecretFront@Begin")) {
+        return false;
+    }
+
     std::optional<std::string> event_name;
     std::optional<std::string> ending_token;
 
     // 允许识别形式：MiniGame@SecretFront@Begin@Ending[ABCDE]@[事件名]
-    auto pos = task_name.find("@Begin");
-    if (pos != std::string::npos) {
-        size_t start = pos + strlen("@Begin");
-        if (start < task_name.size() && task_name[start] == '@') {
-            ++start; // skip the separator '@'
-        }
+    size_t start = strlen("MiniGame@SecretFront@Begin");
+    if (start < task_name.size() && task_name[start] == '@') {
+        ++start; // skip the separator '@'
+    }
 
-        // 提取 Ending token（直到下一个 '@' 或末尾）
-        size_t next_at = task_name.find('@', start);
-        std::string ending;
-        if (start < task_name.size()) {
-            if (next_at == std::string::npos) {
-                ending = task_name.substr(start);
-            }
-            else {
-                ending = task_name.substr(start, next_at - start);
-            }
+    // 提取 Ending token（直到下一个 '@' 或末尾）
+    size_t next_at = task_name.find('@', start);
+    std::string ending;
+    if (start < task_name.size()) {
+        if (next_at == std::string::npos) {
+            ending = task_name.substr(start);
         }
-
-        if (!ending.empty()) {
-            ending_token = ending;
-            resolved_task = "MiniGame@SecretFront@Begin";
-        }
-
-        // 如果存在第二个 '@' 分隔，后续内容视为事件名（直到末尾）
-        if (next_at != std::string::npos && next_at + 1 < task_name.size()) {
-            event_name = task_name.substr(next_at + 1);
+        else {
+            ending = task_name.substr(start, next_at - start);
         }
     }
 
+    if (!ending.empty()) {
+        ending_token = ending;
+    }
+
+    // 如果存在第二个 '@' 分隔，后续内容视为事件名（直到末尾）
+    if (next_at != std::string::npos && next_at + 1 < task_name.size()) {
+        event_name = task_name.substr(next_at + 1);
+    }
+
     auto plugin_ptr = m_custom_task_ptr->register_plugin<SecretFrontTaskPlugin>();
+    if (!plugin_ptr) {
+        Log.error("Failed to register SecretFrontTaskPlugin");
+        return false;
+    }
+
     if (event_name && !event_name->empty()) {
         plugin_ptr->set_event_name(*event_name);
+        Log.info("Set SecretFront event name:", *event_name);
     }
     if (ending_token && !ending_token->empty()) {
         if (*ending_token == "EndingA") {
@@ -111,7 +116,10 @@ bool asst::CustomTask::parse_and_register_secretfront(const std::string& task_na
         else if (*ending_token == "EndingE") {
             plugin_ptr->set_ending(SecretFrontTaskPlugin::Ending::E);
         }
+        Log.info("Set SecretFront ending:", *ending_token);
     }
+
+    resolved_task = "MiniGame@SecretFront@Begin";
 
     return true;
 }
