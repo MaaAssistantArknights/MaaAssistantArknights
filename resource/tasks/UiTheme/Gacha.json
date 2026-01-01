@@ -19,7 +19,8 @@
             "GachaDreamland",
             "GachaJieGarden",
             "GachaAveMujica",
-            "GachaTogether"
+            "GachaTogether",
+            "GachaLoneTrail"
         ],
         "onErrorNext": ["Gacha-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -78,5 +79,9 @@
     "GachaTogether": {
         "baseTask": "GachaDefault",
         "template": "Together/GachaEnter.png"
+    },
+    "GachaLoneTrail": {
+        "baseTask": "GachaDefault",
+        "template": ["LoneTrail/Day/GachaEnter.png", "LoneTrail/Night/GachaEnter.png"]
     }
 }

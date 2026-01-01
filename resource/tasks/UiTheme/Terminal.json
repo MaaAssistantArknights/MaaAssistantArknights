@@ -20,7 +20,8 @@
             "TerminalDreamland",
             "TerminalJieGarden",
             "TerminalAveMujica",
-            "TerminalTogether"
+            "TerminalTogether",
+            "TerminalLoneTrail"
         ],
         "onErrorNext": ["Terminal-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -79,5 +80,9 @@
     "TerminalTogether": {
         "baseTask": "TerminalDefault",
         "template": "Together/Terminal.png"
+    },
+    "TerminalLoneTrail": {
+        "baseTask": "TerminalDefault",
+        "template": ["LoneTrail/Day/Terminal.png", "LoneTrail/Night/Terminal.png"]
     }
 }

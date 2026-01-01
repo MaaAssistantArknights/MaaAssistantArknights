@@ -41,7 +41,7 @@ public:
         Name,
     };
 
-    static const inline std::unordered_map<std::string_view, Type> symbol_repr_to_type = {
+    static const inline std::unordered_map<std::string, Type> symbol_repr_to_type = {
         { "__END__", End },
         { ",", LambdaTaskSep },
         { "(", LParen },
@@ -92,7 +92,7 @@ public:
 public:
     bool operator==(Type other) const noexcept { return m_symbol == other; }
 
-    bool operator==(std::string_view other) const noexcept { return m_symbol == Name && m_name == other; }
+    bool operator==(const std::string& other) const noexcept { return m_symbol == Name && m_name == other; }
 
     bool operator==(const TaskDataSymbol& other) const noexcept
     {
@@ -127,7 +127,7 @@ public:
         return pos == symbol_type_to_repr.end() ? symbol_type_to_repr.at(Name) : pos->second;
     }
 
-    static Type type(std::string_view repr)
+    static Type type(const std::string& repr)
     {
         const auto pos = symbol_repr_to_type.find(repr);
         return pos == symbol_repr_to_type.end() ? Name : pos->second;
@@ -136,8 +136,8 @@ public:
     static SymbolsOrError append_prefix(
         const TaskDataSymbol& symbol,
         const TaskDataSymbol& prefix,
-        std::string_view self_name,
-        std::function<TaskDerivedConstPtr(std::string_view)> get_raw,
+        const std::string& self_name,
+        std::function<TaskDerivedConstPtr(const std::string&)> get_raw,
         std::function<SymbolsOrError(const TaskList&)> compile_tasklist);
 
     bool is_name() const noexcept { return m_symbol == Name; }

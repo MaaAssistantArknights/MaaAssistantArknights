@@ -8,7 +8,6 @@
 
 #include "Assistant.h"
 #include "Common/AsstTypes.h"
-#include "Common/AsstVersion.h"
 #include "Config/ResourceLoader.h"
 #include "Utils/Logger.hpp"
 #include "Utils/WorkingDir.hpp"
@@ -283,7 +282,7 @@ AsstSize AsstGetNullSize()
 
 const char* AsstGetVersion()
 {
-    return asst::Version;
+    return MAA_VERSION;
 }
 
 void AsstLog(const char* level, const char* message)

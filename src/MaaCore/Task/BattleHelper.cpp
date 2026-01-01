@@ -355,7 +355,7 @@ cv::Mat asst::BattleHelper::get_top_view(const cv::Mat& cam_img, bool side)
     };
     std::vector<cv::Point2f> screen_points;
     for (const auto& point : world_points) {
-        cv::Vec3d temp { point.x, -point.y, -0.3967874050140381 };
+        cv::Vec3d temp { point.x + m_map_data.view[0].x, -point.y, Map::TileCalc2::rel_pos_z };
         auto screen_pt = Map::TileCalc2::world_to_screen(m_map_data, temp, true);
         screen_points.push_back(screen_pt);
     }
@@ -528,6 +528,7 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
     if (manually) {
         std::erase_if(m_battlefield_opers, [&loc](const auto& pair) -> bool { return pair.second == loc; });
     }
+    cancel_oper_selection(); // 兜底一下, 防止格子上面并没有干员, 导致点到隔壁格子
     return true;
 }
 
@@ -750,7 +751,7 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
 
     // 清理旧的 PNG 文件
     static bool clean_png = true;
-    if (clean_png) {
+    if (clean_png && std::filesystem::exists(MapRelativeDir)) {
         for (const auto& entry : std::filesystem::directory_iterator(MapRelativeDir)) {
             if (entry.path().extension() == ".png") {
                 std::error_code ec;

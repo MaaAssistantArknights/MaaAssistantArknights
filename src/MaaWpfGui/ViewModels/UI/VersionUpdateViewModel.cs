@@ -1045,19 +1045,24 @@ public class VersionUpdateViewModel : Screen
                     }
 
                     break;
+
                 case MirrorChyanErrorCode.KeyInvalid:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkInvalid"));
                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanCdkError);
                     break;
+
                 case MirrorChyanErrorCode.ResourceQuotaExhausted:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkQuotaExhausted"));
                     break;
+
                 case MirrorChyanErrorCode.KeyMismatched:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkMismatched"));
                     break;
+
                 case MirrorChyanErrorCode.KeyBlocked:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkBlocked"));
                     break;
+
                 case MirrorChyanErrorCode.InvalidParams:
                 case MirrorChyanErrorCode.ResourceNotFound:
                 case MirrorChyanErrorCode.InvalidOs:
@@ -1198,7 +1203,7 @@ public class VersionUpdateViewModel : Screen
         // return false;
         version ??= _curVersion;
 
-        // match case 1: DEBUG VERSION
+        // match case 1: DEBUG_VERSION
         // match case 2: v{Major}.{Minor}.{Patch}-{CommitDistance}-g{CommitHash}
         // match case 3: {CommitHash}
         return Regex.IsMatch(version, @"^(.*DEBUG.*|v\d+(\.\d+){1,3}-\d+-g[0-9a-f]{6,}|[^v][0-9a-f]{6,})$");
@@ -1211,7 +1216,7 @@ public class VersionUpdateViewModel : Screen
         // DevBuild (Local)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}-Local
         // Release (Local Commit)：v.{CommitHash[..7]}-Local
         // Release (Local Tag)：{Tag}-Local
-        // Debug (Local)：DEBUG VERSION
+        // Debug (Local)：DEBUG_VERSION
         // Script Compiled：c{CommitHash[..7]}
         version ??= _curVersion;
 
