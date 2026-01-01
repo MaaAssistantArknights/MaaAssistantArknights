@@ -206,15 +206,15 @@ void asst::StageQueueMissionCompletedTaskPlugin::upload_to_penguin(std::string s
         all_drops.emplace(std::move(format_drop));
     }
     body["source"] = UploadDataSource;
-    body["version"] = Version;
+    body["version"] = MAA_VERSION;
 
     std::unordered_map<std::string, std::string> extra_headers;
     if (!m_penguin_id.empty()) {
         extra_headers.insert({ "authorization", "PenguinID " + m_penguin_id });
     }
 
-    std::string version = Version;
-    if (version.find("DEBUG VERSION") != std::string::npos) {
+    std::string version = MAA_VERSION;
+    if (version.find("DEBUG_VERSION") != std::string::npos) {
         version = "dev";
     }
     else if (!version.empty() && version[0] == 'v') {

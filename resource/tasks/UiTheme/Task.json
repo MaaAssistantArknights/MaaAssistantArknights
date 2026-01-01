@@ -19,7 +19,8 @@
             "TaskDreamland",
             "TaskJieGarden",
             "TaskAveMujica",
-            "TaskTogether"
+            "TaskTogether",
+            "TaskLoneTrail"
         ],
         "onErrorNext": ["Task-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -80,5 +81,9 @@
         "baseTask": "TaskDefault",
         "templThreshold": 0.9,
         "template": "Together/Task.png"
+    },
+    "TaskLoneTrail": {
+        "baseTask": "TaskDefault",
+        "template": ["LoneTrail/Day/Task.png", "LoneTrail/Night/Task.png"]
     }
 }

@@ -737,9 +737,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ProcessPickerRefresh">重新整理</system:String>
     <system:String x:Key="ProcessPickerConfirm">確定</system:String>
     <system:String x:Key="ProcessPickerCancel">取消</system:String>
-    <system:String x:Key="ProcessPickerToolTip" xml:space="preserve">左鍵：開/關日誌懸浮窗
-右鍵：選擇目標進程</system:String>
-    <system:String x:Key="ToggleOverlay">開/關日誌懸浮窗</system:String>
+    <system:String x:Key="ProcessPickerToolTip" xml:space="preserve">左鍵：開啟/關閉日誌浮動視窗
+右鍵：選擇目標程式</system:String>
+    <system:String x:Key="ToggleOverlay">開啟/關閉日誌浮動視窗</system:String>
     <!--  !日誌  -->
     <!--  !一鍵長草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
@@ -834,8 +834,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGame@ALL@HoneyFruit">爭鋒頻道：蜜果城</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">結局</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event">優先系列事件</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event1">支援作戰平台</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event2">遊俠</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event3">詭影迷蹤</system:String>
     <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
-    <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除，推薦勾選遊戲內「繼承上一支隊伍發回的數據」</system:String>
+    <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內「繼承上一支隊伍發回的數據」</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1 層全買。&#10;2 層買尋訪憑證和招聘許可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>

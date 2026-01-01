@@ -74,6 +74,11 @@ void OCRerConfig::set_use_char_model(bool enable) noexcept
     m_params.use_char_model = enable;
 }
 
+void asst::OCRerConfig::set_use_raw(bool value) noexcept
+{
+    m_params.use_raw = value;
+}
+
 void OCRerConfig::set_bin_threshold(int lower, int upper)
 {
     m_params.bin_threshold_lower = lower;

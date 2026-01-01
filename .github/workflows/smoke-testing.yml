@@ -126,8 +126,8 @@ jobs:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
             ./install/libfastdeploy_ppocr.dylib
-            ./install/libMaaUtils.dylib
             ./install/libMaaCore.dylib
+            ./install/libMaaUtils.dylib
             ./install/libonnxruntime.1.19.2.dylib
             ./install/libopencv_world4.4.11.0.dylib
             ./install/smoke_test

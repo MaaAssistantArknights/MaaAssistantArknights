@@ -32,6 +32,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -1234,9 +1235,8 @@ public class ToolboxViewModel : Screen
 
     public string GetMiniGameTask()
     {
-        return MiniGameTaskName switch
-        {
-            "MiniGame@SecretFront" => $"{MiniGameTaskName}@Ending{SecretFrontEnding}@Begin",
+        return MiniGameTaskName switch {
+            "MiniGame@SecretFront" => $"{MiniGameTaskName}@Begin@Ending{SecretFrontEnding}{(string.IsNullOrEmpty(SecretFrontEvent) ? string.Empty : $"@{SecretFrontEvent}")}",
             _ => MiniGameTaskName,
         };
     }
@@ -1303,12 +1303,33 @@ public class ToolboxViewModel : Screen
 
     public List<string> SecretFrontEndingList { get; set; } = ["A", "B", "C", "D", "E"];
 
-    private string _secretFrontEnding = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameSecretFrontEnding, "A");
+    private string _secretFrontEnding = ConfigurationHelper.GetValue(ConfigurationKeys.MiniGameSecretFrontEnding, "A");
 
     public string SecretFrontEnding
     {
         get => _secretFrontEnding;
-        set => SetAndNotify(ref _secretFrontEnding, value);
+        set {
+            SetAndNotify(ref _secretFrontEnding, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.MiniGameSecretFrontEnding, value);
+        }
+    }
+
+    public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } = [
+        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
+        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event1"), Value = "支援作战平台" },
+        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event2"), Value = "游侠" },
+        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event3"), Value = "鬼影迷踪" },
+    ];
+
+    private string _secretFrontEvent = ConfigurationHelper.GetValue(ConfigurationKeys.MiniGameSecretFrontEvent, string.Empty);
+
+    public string SecretFrontEvent
+    {
+        get => _secretFrontEvent;
+        set {
+            SetAndNotify(ref _secretFrontEvent, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.MiniGameSecretFrontEvent, value);
+        }
     }
 
     public void StartMiniGame()
