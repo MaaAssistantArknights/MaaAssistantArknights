@@ -59,12 +59,12 @@ jobs:
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
-            ./install/libfastdeploy_ppocr.dylib
-            ./install/libMaaCore.dylib
-            ./install/libMaaUtils.dylib
-            ./install/libonnxruntime.1.19.2.dylib
-            ./install/libopencv_world4.4.11.0.dylib
-            ./install/smoke_test
+            install/libfastdeploy_ppocr.dylib
+            install/libMaaCore.dylib
+            install/libMaaUtils.dylib
+            install/libonnxruntime.1.19.2.dylib
+            install/libopencv_world4.4.11.0.dylib
+            install/smoke_test
 
       - name: Fetch submodules
         if: steps.smoke-cache.outputs.cache-hit != 'true'
@@ -125,12 +125,12 @@ jobs:
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
-            ./install/libfastdeploy_ppocr.dylib
-            ./install/libMaaUtils.dylib
-            ./install/libMaaCore.dylib
-            ./install/libonnxruntime.1.19.2.dylib
-            ./install/libopencv_world4.4.11.0.dylib
-            ./install/smoke_test
+            install/libfastdeploy_ppocr.dylib
+            install/libMaaUtils.dylib
+            install/libMaaCore.dylib
+            install/libonnxruntime.1.19.2.dylib
+            install/libopencv_world4.4.11.0.dylib
+            install/smoke_test
 
       - name: Upload logs
         if: always()
