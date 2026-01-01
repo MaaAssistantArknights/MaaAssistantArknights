@@ -334,6 +334,7 @@ public static class ConfigurationKeys
 
     public const string MiniGameTaskName = "MiniGame.TaskName";
     public const string MiniGameSecretFrontEnding = "MiniGame.SecretFrontEnding";
+    public const string MiniGameSecretFrontEvent = "MiniGame.SecretFrontEvent";
 
     public const string AchievementPopupDisabled = "Achievement.PopupDisabled";
     public const string AchievementPopupAutoClose = "Achievement.PopupAutoClose";

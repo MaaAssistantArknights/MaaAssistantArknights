@@ -35,12 +35,8 @@ public:
         E
     };
 
-    struct EndingInfo
-    {
-        std::string_view hook;
-        std::array<int, 3> target;
-        Ending ending;
-    };
+    void set_event_name(std::string name);
+    void set_ending(Ending e);
 
 protected:
     virtual bool _run() override;
@@ -64,10 +60,14 @@ private:
 
     enum class Mode
     {
-        Actions,    // 行动列表选卡（有数值）
-        Event,      // 事件卡（无数值，仅基于文本选择）
-        SelectTeam, // 选择分队
+        Actions,           // 行动列表选卡（有数值）
+        Event,             // 事件卡（无数值，仅基于文本选择）
+        SelectTeam,        // 选择分队
+        DetectBeforeClick, // RouteSelect 点击前的事件识别（ClickThenActionsDetected 前触发）
     };
+
+    // 当在 ClickThenActionsDetected 前识别到指定事件时，插件只在当前页做最优选择
+    mutable bool m_only_current_page { false };
 
     static Point card_pos_base(int total, int idx);
 
@@ -107,6 +107,7 @@ private:
 
     mutable std::array<int, 3> m_target { 370, 385, 620 };
     mutable Ending m_ending { Ending::E };
+    mutable std::optional<std::string> m_event_name;
     mutable Mode m_mode { Mode::Actions };
 };
 }
