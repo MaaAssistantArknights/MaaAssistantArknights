@@ -1,10 +1,11 @@
-## v6.1.0
+## v6.1.1
 
 ### Highlights
 
 #### 新增隐秘战线（Hidden Front）玩法支持
 
-本次版本新增隐秘战线（Hidden Front）功能。支持完整流程控制与识别逻辑，为相关玩法提供稳定、可用的自动化支持。
+本次版本新增隐秘战线（Hidden Front）功能。支持完整流程控制与识别逻辑，为相关玩法提供稳定、可用的自动化支持。  
+v6.1.1 新增系列任务支持。
 
 #### 外服肉鸽（界园）适配
 
@@ -22,7 +23,8 @@
 
 #### New Hidden Front Support Across All Servers
 
-This release introduces full support for the Hidden Front feature across all servers, with complete flow handling and recognition logic to ensure stable and reliable automation.
+This release introduces full support for the Hidden Front feature across all servers, with complete flow handling and recognition logic to ensure stable and reliable automation.  
+v6.1.1 adds support for a series of new tasks.
 
 #### Overseas Roguelike (JieGarden) Support
 
@@ -39,6 +41,40 @@ The new version indicator in the top-left corner of the main window is now click
 ----
 
 以下是详细内容：
+
+### 新增 | New
+
+* 隐秘战线支持系列任务 (#15249) @ABA2396 @HX3N @Constrat @Manicsteiner @momomochi987
+* 新增模板路径同步工具 (#15254) @ABA2396 @Constrat @HX3N @momomochi987
+* 添加孤星主题配置与模板图 @SherkeyXD
+* 繁中服「紅絲絨」活動導航 (#15234) @momomochi987
+* YostarEN base templates overhaul @Constrat
+
+### 改进 | Improved
+
+* 优化 ImageCropper 输出 @SherkeyXD
+* optimize LoneTrail templates @Constrat
+
+### 修复 | Fix
+
+* 修复自动战斗击杀数识别错误 (#15266) @status102
+* 修复大地图技能、撤离按钮及相机偏移问题，连带修复引航者 S6 地图 TN-2 ~ TN-4 view[1] (#15252) @status102
+* 修复盲点撤退兜底逻辑 @status102
+* 修复自动战斗在未存在 debug/map 路径时无法生成地图截图的问题 @status102
+* 修复满线索再放入逻辑 @ABA2396
+* EN Sami floor detection regex @Constrat
+* Copper regex for Sui Garden EN @Constrat
+* bad reference @MistEO
+
+### 其他 | Other
+
+* YostarJP copper regex (#15257) @eyjafjallascomb @Manicsteiner
+* YostarJP roguelike JieGarden OCR 优化 @Manicsteiner
+* KR tweak NightlyWarning and CheckBeforeReportingIssue @HX3N
+* 减少 string_view 滥用 @MistEO
+* 统一 `DEBUG_VERSION` @MistEO
+
+----
 
 ## v6.1.0
 
