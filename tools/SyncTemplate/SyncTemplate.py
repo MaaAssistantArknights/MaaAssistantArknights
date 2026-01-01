@@ -90,6 +90,41 @@ def ensure_directory_exists(file_path):
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
 
+def remove_empty_dirs(directory):
+    """递归删除空文件夹（包括只包含空子文件夹的文件夹）"""
+    removed_dirs = []
+    
+    if not directory.exists() or not directory.is_dir():
+        return removed_dirs
+    
+    # 从最深层开始，自底向上删除空文件夹
+    # 使用 os.walk 的 topdown=False 参数，从最深层开始遍历
+    changed = True
+    while changed:
+        changed = False
+        # 每次遍历都重新检查，因为删除后可能产生新的空文件夹
+        for root, dirs, files in os.walk(directory, topdown=False):
+            root_path = Path(root)
+            
+            # 跳过根目录本身
+            if root_path == directory:
+                continue
+            
+            # 检查目录是否为空
+            try:
+                items = list(root_path.iterdir())
+                # 如果目录为空（没有任何项目），删除它
+                if len(items) == 0:
+                    root_path.rmdir()
+                    removed_dirs.append(root_path)
+                    changed = True
+            except (OSError, PermissionError):
+                # 如果无法删除（可能已被删除或权限问题），跳过
+                pass
+    
+    return removed_dirs
+
+
 def sync_templates():
     """同步 template 目录结构"""
     print("=" * 80)
@@ -119,6 +154,7 @@ def sync_templates():
     stats = {
         'moved_files': defaultdict(int),
         'created_dirs': defaultdict(int),
+        'removed_empty_dirs': defaultdict(int),
         'skipped_duplicate': defaultdict(list),
         'skipped_already_in_place': defaultdict(int),
         'not_found': defaultdict(list)
@@ -224,7 +260,13 @@ def sync_templates():
             stats['not_found'][lang] = not_found
             print(f"  未找到 {len(not_found)} 个文件")
         
-        if not created_dirs and not moved_count:
+        # 删除空文件夹
+        empty_dirs = remove_empty_dirs(lang_template)
+        if empty_dirs:
+            stats['removed_empty_dirs'][lang] = len(empty_dirs)
+            print(f"  已删除 {len(empty_dirs)} 个空文件夹")
+        
+        if not created_dirs and not moved_count and not empty_dirs:
             print("  ✓ 无需更新")
         
         print()
@@ -236,12 +278,14 @@ def sync_templates():
     
     total_moved = sum(stats['moved_files'].values())
     total_created = sum(stats['created_dirs'].values())
+    total_removed = sum(stats['removed_empty_dirs'].values())
     total_skipped_duplicate = sum(len(files) for files in stats['skipped_duplicate'].values())
     total_skipped_in_place = sum(stats['skipped_already_in_place'].values())
     
     print(f"\n总计:")
     print(f"  - 创建目录: {total_created} 个")
     print(f"  - 移动文件: {total_moved} 个")
+    print(f"  - 删除空文件夹: {total_removed} 个")
     print(f"  - 跳过重复文件: {total_skipped_duplicate} 个")
     print(f"  - 跳过已在正确位置: {total_skipped_in_place} 个")
     
