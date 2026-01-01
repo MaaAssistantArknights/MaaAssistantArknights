@@ -834,10 +834,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGame@ALL@HoneyFruit">爭鋒頻道：蜜果城</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">結局</system:String>
-    <system:String x:Key="MiniGame@SecretFront@Event">优先系列事件</system:String>
-    <system:String x:Key="MiniGame@SecretFront@Event1">支援作战平台</system:String>
-    <system:String x:Key="MiniGame@SecretFront@Event2">游侠</system:String>
-    <system:String x:Key="MiniGame@SecretFront@Event3">鬼影迷踪</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event">優先系列事件</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event1">支援作戰平台</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event2">遊俠</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event3">詭影迷蹤</system:String>
     <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除，推薦勾選遊戲內「繼承上一支隊伍發回的數據」</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
