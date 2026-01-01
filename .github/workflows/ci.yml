@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: Show concurrency group
         run: |
-          echo "Concurrency Group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev' && format('-{0}', github.sha) || '' }}"
+          echo "Concurrency Group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev' && format('-{0}', github.sha) || '' }}"
 
       - name: Checkout repository
         uses: actions/checkout@v6
