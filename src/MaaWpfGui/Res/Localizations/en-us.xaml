@@ -120,6 +120,8 @@
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">Credit collection from message board in Reception Room</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">Conduct Clue Exchange</system:String>
+    <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
+    <system:String x:Key="ReceptionOptionsRequireInfrast">Requires Infrastructure Shift</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current skill</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
@@ -459,7 +461,6 @@ To enable this feature, make sure to select a difficulty of N3 or higher (exclud
     <system:String x:Key="OnlyOnceADay">Only once a day</system:String>
     <system:String x:Key="CreditFight">Combat with Support to earn Credits</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.
-Only once a day.
 This function is invalid when the stage is selected as ｢{key=DefaultStage}｣.
 Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>

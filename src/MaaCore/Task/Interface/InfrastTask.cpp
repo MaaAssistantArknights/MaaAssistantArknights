@@ -170,6 +170,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
     bool reception_clue_exchange = params.get("reception_clue_exchange", true);
     m_reception_task_ptr->set_enable_clue_exchange(reception_clue_exchange);
 
+    bool reception_send_clue = params.get("reception_send_clue", true);
+    m_reception_task_ptr->set_send_clue(reception_send_clue);
+
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
 

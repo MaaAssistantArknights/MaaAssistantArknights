@@ -65,7 +65,21 @@ public class MallSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _creditFightTaskEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightTaskEnabled, bool.FalseString));
+    private bool _creditFightOnceADay = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightOnceADay, true);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to bypass the daily limit for credit fight.
+    /// </summary>
+    public bool CreditFightOnceADay
+    {
+        get => _creditFightOnceADay;
+        set {
+            SetAndNotify(ref _creditFightOnceADay, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightOnceADay, value.ToString());
+        }
+    }
+
+    private bool _creditFightTaskEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightTaskEnabled, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether credit fight task is enabled.
@@ -73,19 +87,20 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditFightTaskEnabled
     {
         get {
+            if (!CreditFightOnceADay)
+            {
+                return _creditFightTaskEnabled;
+            }
+
             try
             {
-                if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
-                {
-                    return _creditFightTaskEnabled;
-                }
+                return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
+                       && _creditFightTaskEnabled;
             }
             catch
             {
                 return _creditFightTaskEnabled;
             }
-
-            return false;
         }
 
         set {
@@ -152,7 +167,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditVisitFriendsEnabled
     {
         get {
-            if (!_creditVisitOnceADay)
+            if (!CreditVisitOnceADay)
             {
                 return _creditVisitFriendsEnabled;
             }
@@ -318,27 +333,8 @@ public class MallSettingsUserControlModel : TaskViewModel
             return false;
         }
 
-        var creditFight = mall.CreditFight;
-        var visitFriends = mall.VisitFriends;
-
-        var lastCreditFightTaskTime = GetTaskConfig<MallTask>()?.CreditFightLastTime ?? string.Empty;
-        bool creditVisitOnceADay = GetTaskConfig<MallTask>()?.VisitFriendsOnceADay ?? default;
-        var lastCreditVisitFriendsTime = GetTaskConfig<MallTask>()?.VisitFriendsLastTime ?? string.Empty;
-        try
-        {
-            creditFight &= DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
-        }
-        catch
-        {
-        }
-
-        try
-        {
-            visitFriends &= !creditVisitOnceADay || DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
-        }
-        catch
-        {
-        }
+        var creditFight = mall.IsCreditFightAvailable;
+        var visitFriends = mall.IsVisitFriendsAvailable;
 
         var task = new AsstMallTask() {
             CreditFight = creditFight && !fightStage,
