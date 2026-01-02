@@ -81,6 +81,11 @@ inline bool save_debug_image(
     static std::mutex s_mutex;
 
     auto norm_dir = relative_dir.lexically_normal();
+    const auto& base_dir = UserDir.get();
+    auto res = std::mismatch(base_dir.begin(), base_dir.end(), norm_dir.begin());
+    if (norm_dir.is_relative() && res.first != base_dir.end()) {
+        norm_dir = base_dir / norm_dir;
+    }
 
     if (auto_clean) {
         std::lock_guard<std::mutex> lock(s_mutex);
