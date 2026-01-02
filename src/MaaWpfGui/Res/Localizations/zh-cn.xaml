@@ -120,6 +120,8 @@
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">会客室信息板收取信用</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">进行线索交流</system:String>
+    <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
+    <system:String x:Key="ReceptionOptionsRequireInfrast">需执行基建换班</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
     <system:String x:Key="TrainingIdle">训练室空闲中</system:String>
     <system:String x:Key="TrainingCompleted">训练完成</system:String>
@@ -459,7 +461,6 @@
     <system:String x:Key="OnlyOnceADay">一日只执行一次</system:String>
     <system:String x:Key="CreditFight">借助战打 OF-1 赚信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把 OF-1 赚 30 信用。
-一日只执行一次。
 关卡选择为 ｢{key=DefaultStage}｣ 时此功能无效。
 别传 ｢火蓝之心｣ 关卡OF-1未解锁时请勿勾选。</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>

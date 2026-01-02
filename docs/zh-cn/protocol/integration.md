@@ -268,6 +268,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="reception_clue_exchange" type="boolean" optional default="true"  
 是否进行线索交流。  
 :::  
+::: field name="reception_send_clue" type="boolean" optional default="true"  
+是否赠送线索。  
+:::  
 ::: field name="filename" type="string" required  
 自定义配置路径。不支持运行中设置。  
 <br>

@@ -170,7 +170,10 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "threshold": float,     // 宿舎に移動させる体力のしきい値 [0, 1.0]、オプション、デフォルトは 0.3
     "replenish": bool,      // 源石の欠片を自動で補充する、オプション、デフォルトは false
     "dorm_notstationed_enabled": bool, // 寮の「入居していない」オプションを有効にするかどうか、オプション、デフォルトfalse
-    "dorm_trust_enabled": bool, // 寮の残りの場所を信頼未満のオペレーターに記入するかどうか、オプション、デフォルトfalse
+    "dorm_trust_enabled": bool,        // 寮の残りの場所を信頼未満のオペレーターに記入するかどうか、オプション、デフォルトfalse
+    "reception_message_board": bool,   // 応接室の掲示板からクレジットを収集するかどうか、オプション、デフォルトtrue
+    "reception_clue_exchange": bool,   // 手がかり交換を実施するかどうか、オプション、デフォルトtrue
+    "reception_send_clue": bool,       // 手がかりを贈るかどうか、オプション、デフォルトtrue
 
     /* 次のパラメータは、mode=10000でのみ有効になります。そうしないと無視されます */
     "filename": string,     // カスタム構成パス、必須。実行中の設定はサポートされていません
