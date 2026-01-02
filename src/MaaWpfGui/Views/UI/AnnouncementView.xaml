@@ -99,24 +99,33 @@
 
             <StackPanel
                 Grid.Row="1"
-                Margin="30,10,20,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsEnabled="{c:Binding 'IsScrolledToBottom or DoNotRemindThisAnnouncementAgain'}"
                 Orientation="Horizontal">
                 <CheckBox
                     Height="30"
-                    Margin="10"
+                    Margin="10,5"
                     HorizontalAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Content="{DynamicResource DoNotRemindThisAnnouncementAgain}"
-                    IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
+                    IsChecked="{Binding DoNotRemindThisAnnouncementAgain}"
+                    IsEnabled="{c:Binding 'IsScrolledToBottom or DoNotRemindThisAnnouncementAgain'}">
+                    <TextBlock
+                        MaxWidth="150"
+                        Text="{DynamicResource DoNotRemindThisAnnouncementAgain}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
                 <Button
-                    Height="50"
+                    Grid.Column="1"
+                    Height="Auto"
                     MinWidth="100"
-                    Margin="10"
-                    Command="{s:Action Close}"
-                    Content="{DynamicResource Confirm}" />
+                    MinHeight="50"
+                    Margin="10,5"
+                    Command="{s:Action Close}">
+                    <TextBlock
+                        MaxWidth="150"
+                        Text="{Binding ButtonContent}"
+                        TextWrapping="Wrap" />
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>

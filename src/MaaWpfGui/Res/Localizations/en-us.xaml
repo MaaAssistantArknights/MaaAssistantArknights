@@ -1261,6 +1261,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Announcement">Announcement</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">View Announcement</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">Do not show this announcement again</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm">You haven't finished reading. Please confirm after you finish.</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm2">Yes, you — still clicking</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm3">Still clicking</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">

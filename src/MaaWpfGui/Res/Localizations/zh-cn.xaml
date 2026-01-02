@@ -1262,6 +1262,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Announcement">公告</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">下次公告更新前不再显示</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm">没看完点什么确认</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm2">说的就是你，还点</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm3">还点</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
@@ -1342,6 +1345,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.PeekScreen.Title">窥屏</system:String>
     <system:String x:Key="Achievement.PeekScreen.Description">喜欢盯着看是吧.jpg</system:String>
     <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次{key=Peep}</system:String>
+
 
     <system:String x:Key="Achievement.CongratulationError.Title">喜报</system:String>
     <system:String x:Key="Achievement.CongratulationError.Description">我的 MMA 怎么用不了了？</system:String>

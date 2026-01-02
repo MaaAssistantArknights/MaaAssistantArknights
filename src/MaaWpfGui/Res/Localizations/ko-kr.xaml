@@ -1263,6 +1263,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Announcement">공지사항</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">공지사항 확인</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">다음 공지사항 업데이트 전까지 표시하지 않기</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm">아직 읽지 않았습니다. 읽은 후 확인해 주세요.</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm2">바로 너네, 계속 누르네</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm3">계속 누르네</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">

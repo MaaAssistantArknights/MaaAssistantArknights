@@ -15,6 +15,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using HandyControl.Controls;
@@ -36,7 +37,7 @@ public class AnnouncementViewModel : Screen
 {
     private static readonly ILogger _logger = Log.ForContext<AnnouncementViewModel>();
 
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     public string ImageSource { get; set; }
 
@@ -119,7 +120,12 @@ public class AnnouncementViewModel : Screen
     public bool IsScrolledToBottom
     {
         get => _isScrolledToBottom;
-        set => SetAndNotify(ref _isScrolledToBottom, value);
+        set {
+            if (SetAndNotify(ref _isScrolledToBottom, value) && value)
+            {
+                ButtonContent = LocalizationHelper.GetString("Confirm");
+            }
+        }
     }
 
     private ObservableCollection<AnnouncementSection> _announcementSections;
@@ -269,8 +275,37 @@ public class AnnouncementViewModel : Screen
         ETagCache.Save();
     }
 
+    private int _notFinishedClickIndex = 0;
+    private static readonly string[] _notFinishedMessages = [
+        LocalizationHelper.GetString("AnnouncementNotFinishedConfirm"),
+        LocalizationHelper.GetString("AnnouncementNotFinishedConfirm2"),
+        LocalizationHelper.GetString("AnnouncementNotFinishedConfirm3"),
+    ];
+
+    private string _buttonContent = LocalizationHelper.GetString("Confirm");
+
+    public string ButtonContent
+    {
+        get => _buttonContent;
+        set => SetAndNotify(ref _buttonContent, value);
+    }
+
     public void Close()
     {
-        RequestClose();
+        if (IsScrolledToBottom || DoNotRemindThisAnnouncementAgain)
+        {
+            RequestClose();
+        }
+        else
+        {
+            if (_notFinishedClickIndex < _notFinishedMessages.Length)
+            {
+                ButtonContent = _notFinishedMessages[_notFinishedClickIndex++];
+            }
+            else
+            {
+                ButtonContent += "?";
+            }
+        }
     }
 }
