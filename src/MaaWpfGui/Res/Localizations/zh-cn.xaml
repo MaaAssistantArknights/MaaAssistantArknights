@@ -837,7 +837,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGame@SecretFront@Event">优先系列事件</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event1">支援作战平台</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event2">游侠</system:String>
-    <system:String x:Key="MiniGame@SecretFront@Event3">鬼影迷踪</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event3">诡影迷踪</system:String>
     <system:String x:Key="MiniGame@SecretFront">隐秘战线</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip" xml:space="preserve">在选小队界面开始，如有存档须手动删除。&#10;第一次打自己看完把教程关了。&#10;推荐勾选游戏内 ｢继承上一支队伍发回的数据｣</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">绿票商店</system:String>
