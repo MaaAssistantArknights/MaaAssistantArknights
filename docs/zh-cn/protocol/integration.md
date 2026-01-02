@@ -37,7 +37,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ::: field name="params" type="const char*" required  
 任务参数，json string  
 :::  
-::::  
+::::
 
 ##### 任务类型一览
 
@@ -65,7 +65,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 <br>
 B服：`张三`，可输入 `张三`、`张`、`三`  
 :::  
-::::  
+::::
 
 - `CloseDown`  
    关闭游戏
@@ -79,7 +79,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 <br>
 选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
-::::  
+::::
 
 - `Fight`  
    理智作战
@@ -218,7 +218,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 选项：`CN` | `US` | `JP` | `KR`  
 :::  
-::::  
+::::
 
 - `Infrast`  
    基建换班
@@ -281,7 +281,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 <Badge type="warning" text="仅在 mode = 10000 时生效" />  
 :::  
-::::  
+::::
 
 - `Mall`  
    领取信用及商店购物。  
@@ -320,7 +320,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
 :::  
-::::  
+::::
 
 - `Award`  
    领取各种奖励
@@ -347,7 +347,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="specialaccess" type="boolean" optional default="false"  
 领取五周年赠送的月卡奖励。  
 :::  
-::::  
+::::
 
 - `Roguelike`  
    无限刷肉鸽
@@ -517,58 +517,59 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 每个对象包含：
 <br>
+
 - `filename`: 作业 JSON 文件的路径；相对路径与绝对路径均可
-<br>
+  <br>
 - `stage_name`: 关卡名，具体请参考 [PRTS.Map](https://map.ark-nights.com)
-<br>
+  <br>
 - `is_raid`: 是否切换为突袭模式，可选，默认值 false
-<br>
+  <br>
 - `is_paradox`: 是否为悖论模拟关卡，可选，默认值 false；测试中参数
-:::  
-::: field name="loop_times" type="number" optional default="1"  
-循环次数。仅在单一作业模式下（即指定 filename 时）有效；此参数生效时仅可执行 set_params 一次。  
-:::  
-::: field name="use_sanity_potion" type="boolean" optional default="false"  
-是否允许在剩余理智不足时使用理智药。  
-:::  
-::: field name="formation" type="boolean" optional default="false"  
-是否进行自动编队。  
-:::  
-::: field name="formation_index" type="number" optional default="0"  
-自动编队所使用的编队栏位的编号。仅在 formation 为 true 时有效。
-<br>
-为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
-:::  
-::: field name="user_additional" type="array<object>" optional default="[]"  
-自定义追加干员列表。仅在 formation 为 true 时有效。
-<br>
-每个对象包含：
-<br>
+  :::  
+  ::: field name="loop_times" type="number" optional default="1"  
+  循环次数。仅在单一作业模式下（即指定 filename 时）有效；此参数生效时仅可执行 set_params 一次。  
+  :::  
+  ::: field name="use_sanity_potion" type="boolean" optional default="false"  
+  是否允许在剩余理智不足时使用理智药。  
+  :::  
+  ::: field name="formation" type="boolean" optional default="false"  
+  是否进行自动编队。  
+  :::  
+  ::: field name="formation_index" type="number" optional default="0"  
+  自动编队所使用的编队栏位的编号。仅在 formation 为 true 时有效。
+  <br>
+  为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
+  :::  
+  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  自定义追加干员列表。仅在 formation 为 true 时有效。
+  <br>
+  每个对象包含：
+  <br>
 - `name`: 干员名，可选，默认值 ""，若留空则忽视此干员
-<br>
+  <br>
 - `skill`: 需要携带的技能，可选，默认值 1；为 1–3 的整数，若不在此范围内则遵从游戏内默认的技能选择  
-:::  
-::: field name="add_trust" type="boolean" optional default="false"  
-是否在自动编队时以信赖值升序自动填充空余栏位。仅在 formation 为 true 时有效。  
-:::  
-::: field name="ignore_requirements" type="boolean" optional default="false"  
-是否在自动编队时忽视干员属性要求。仅在 formation 为 true 时有效。  
-:::  
-::: field name="support_unit_usage" type="number" optional default="0"  
-助战干员的使用模式。为 0–3 的整数。仅在 formation 为 true 时有效。
-<br>
-`0` - 表示不使用助战干员
-<br>
-`1` - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则不使用助战干员
-<br>
-`2` - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用指定助战干员  
-<br>
-`3` - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员  
-:::  
-::: field name="support_unit_name" type="string" optional default=""  
-指定助战干员名。仅在 support_unit_usage 为 2 时有效。  
-:::  
-::::  
+  :::  
+  ::: field name="add_trust" type="boolean" optional default="false"  
+  是否在自动编队时以信赖值升序自动填充空余栏位。仅在 formation 为 true 时有效。  
+  :::  
+  ::: field name="ignore_requirements" type="boolean" optional default="false"  
+  是否在自动编队时忽视干员属性要求。仅在 formation 为 true 时有效。  
+  :::  
+  ::: field name="support_unit_usage" type="number" optional default="0"  
+  助战干员的使用模式。为 0–3 的整数。仅在 formation 为 true 时有效。
+  <br>
+  `0` - 表示不使用助战干员
+  <br>
+  `1` - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则不使用助战干员
+  <br>
+  `2` - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用指定助战干员  
+  <br>
+  `3` - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员  
+  :::  
+  ::: field name="support_unit_name" type="string" optional default=""  
+  指定助战干员名。仅在 support_unit_usage 为 2 时有效。  
+  :::  
+  ::::
 
 作业 JSON 请参考 [战斗流程协议](./copilot-schema.md)
 
@@ -595,7 +596,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="enable" type="boolean" optional default="true"  
 是否启用本任务。  
 :::  
-::::  
+::::
 
 - `OperBox`  
    干员 box 识别
@@ -604,7 +605,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="enable" type="boolean" optional default="true"  
 是否启用本任务。  
 :::  
-::::  
+::::
 
 - `Reclamation`  
    生息演算
@@ -640,7 +641,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="num_craft_batches" type="number" optional default="16"  
 单次最大制造轮数。  
 :::  
-::::  
+::::
 
 - `Custom`  
    自定义任务
@@ -652,7 +653,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="task_names" type="array<string>" required  
 执行数组中第一个匹配上的任务（及后续 next 等）。若想执行多个任务，可多次 append Custom task。  
 :::  
-::::  
+::::
 
 - `SingleStep`  
    单步任务（目前仅支持战斗）
@@ -676,7 +677,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="details" type="object" optional  
 子任务的详细参数。  
 :::  
-::::  
+::::
 
 - `VideoRecognition`  
   视频识别，目前仅支持作业（作战）视频
@@ -688,7 +689,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="filename" type="string" required  
 视频的文件路径，绝对、相对路径均可。不支持运行期设置。  
 :::  
-::::  
+::::
 
 ### `AsstSetTaskParams`
 
@@ -720,7 +721,7 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 任务参数，json string，与 `AsstAppendTask` 接口相同。  
 未标注“不支持运行中设置”的字段都支持实时修改；否则若当前任务正在运行，会忽略对应的字段  
 :::  
-::::  
+::::
 
 ### `AsstSetStaticOption`
 
@@ -748,7 +749,7 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 ::: field name="value" type="const char\*" required  
 值  
 :::  
-::::  
+::::
 
 ##### 键值一览
 
@@ -783,7 +784,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 ::: field name="value" type="const char\*" required  
 值  
 :::  
-::::  
+::::
 
 ##### 键值一览
 
@@ -806,4 +807,4 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 ::: field name="KillAdbOnExit" type="boolean" optional  
 退出时是否杀掉 Adb 进程。可用值："0" 或 "1"。枚举值：5。  
 :::  
-::::  
+::::
