@@ -1346,7 +1346,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.PeekScreen.Description">喜欢盯着看是吧.jpg</system:String>
     <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次{key=Peep}</system:String>
 
-
     <system:String x:Key="Achievement.CongratulationError.Title">喜报</system:String>
     <system:String x:Key="Achievement.CongratulationError.Description">我的 MMA 怎么用不了了？</system:String>
     <system:String x:Key="Achievement.CongratulationError.Conditions">触发过 MAA 的报错</system:String>
