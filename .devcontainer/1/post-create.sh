@@ -1,8 +1,6 @@
 #!/bin/bash
 WORKSPACE=$(pwd)
 
-# conda activate maa
-
 echo "===================="
 cd "$WORKSPACE"
 echo "Setting up git safe.directory..."
@@ -27,14 +25,14 @@ echo "Installing Python dependencies..."
 for req_file in tools/*/requirements.txt; do
     if [ -f "$req_file" ]; then
         echo "Installing from $req_file"
-        pip install -r "$req_file"
+        uv pip install -r "$req_file"
     fi
 done
 
 for req_file in tools/*/requirements-dev.txt; do
     if [ -f "$req_file" ]; then
         echo "Installing from $req_file"
-        pip install -r "$req_file"
+        uv pip install -r "$req_file"
     fi
 done
 

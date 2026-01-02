@@ -2,36 +2,40 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 USER vscode
 
-ENV CONDA_DIR=/home/vscode/miniconda
-ENV PATH="$CONDA_DIR/bin:$PATH"
+ENV PATH="/home/vscode/.local/bin:${PATH}"
 
 ARG CLANGD_VERSION=20
-ARG PYTHON_VERSION=3.12
+ARG PYTHON_VERSION=3.12.11
 ARG NODEJS_VERSION=24
 
 # Install system dependencies
 RUN sudo apt update \
     && sudo apt upgrade -y \
     && sudo apt install -y \
-    cmake
+    cmake \
+    fish \
+    && sudo rm -rf /var/lib/apt/lists/*
 
-# Install Miniconda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh \
-    && bash ~/miniconda.sh -b -p ${CONDA_DIR} \
-    && rm ~/miniconda.sh \
-    && conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main \
-    && conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+# Initialize fish
+RUN fish -c exit
 
-# Configure conda environment
-RUN eval "$(conda shell.bash hook)" \
-    && conda create -n maa \
-    && conda activate maa \
-    && conda install -y \
-    python=${PYTHON_VERSION} \
-    conda-forge::nodejs=${NODEJS_VERSION} \
-    && pip install pre-commit ruff
+# Install and setup mise and uv
+RUN curl https://mise.run | sh
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Finalize conda setup
-RUN conda init \
-    && conda config --set auto_activate false \
-    && echo "conda activate maa" >> ~/.bashrc
+# Activate mise
+RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+RUN echo 'mise activate fish | source' >> ~/.config/fish/config.fish
+
+# Setup Python and Node.js
+RUN mise use -g node@$NODEJS_VERSION
+RUN uv python install $PYTHON_VERSION
+
+# Create and activate venv
+RUN uv venv --clear ~/.venv/maa
+RUN echo "source ~/.venv/maa/bin/activate" >> ~/.bashrc
+RUN echo "source ~/.venv/maa/bin/activate.fish" >> ~/.config/fish/config.fish
+
+# Install tools
+RUN uv tool install prek
+RUN uv tool install ruff
