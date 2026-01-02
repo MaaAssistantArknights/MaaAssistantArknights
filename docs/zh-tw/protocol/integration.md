@@ -171,8 +171,11 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
                             // mode = 20000 時該欄位無效（會被忽略）
     "replenish": bool,      // 貿易站 “源石碎片” 是否自動補貨，可選，預設 false
 
-    "dorm_notstationed_enabled": bool, // 是否啟用宿舍 “未進駐” 選項，可選，預設 false
-    "dorm_trust_enabled": bool, // 是否將宿舍剩餘位置填入信賴未滿幹員，可選，預設 false
+    "dorm_notstationed_enabled": bool, // 是否啟用宿舍 "未進駐" 選項，可選，預設 false
+    "dorm_trust_enabled": bool,        // 是否將宿舍剩餘位置填入信賴未滿幹員，可選，預設 false
+    "reception_message_board": bool,   // 是否領取會客室資訊板信用，可選，預設 true
+    "reception_clue_exchange": bool,   // 是否進行線索交流，可選，預設 true
+    "reception_send_clue": bool,       // 是否贈送線索，可選，預設 true
 
     /* 以下參數僅在 mode = 10000 時生效，否則會被忽略 */
     "filename": string,     // 自定義配置路徑，必選。不支援執行中設定

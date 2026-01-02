@@ -162,7 +162,10 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "threshold": float,     // 의욕 임계값, 범위 [0, 1.0], 선택 사항, 기본값은 0.3입니다.
     "replenish": bool,      // 오리지늄 조각을 보충할지 여부, 선택 사항, 기본값은 false입니다.
     "dorm_notstationed_enabled": bool, // "비어 있지 않음" 옵션을 활성화할지 여부, 기본값은 false입니다.
-    "dorm_trust_enabled": bool, // 숙소에서 신뢰도작을 할지에 대한 여부, 기본값은 false입니다.
+    "dorm_trust_enabled": bool,        // 숙소에서 신뢰도작을 할지에 대한 여부, 기본값은 false입니다.
+    "reception_message_board": bool,   // 접수실 게시판에서 크레딧을 수집할지 여부, 선택 사항, 기본값 true
+    "reception_clue_exchange": bool,   // 단서 교환을 수행할지 여부, 선택 사항, 기본값 true
+    "reception_send_clue": bool,       // 단서를 보낼지 여부, 선택 사항, 기본값 true
 
     /* 다음은 mode == 10000일 때만 유효합니다 */
     "filename": string,     // 사용자 정의 구성 json 파일 경로
