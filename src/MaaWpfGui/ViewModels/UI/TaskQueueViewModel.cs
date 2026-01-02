@@ -13,6 +13,7 @@
 
 #nullable enable
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -21,9 +22,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -40,7 +43,6 @@ using MaaWpfGui.Views.UI;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
 using Task = System.Threading.Tasks.Task;
@@ -220,6 +222,26 @@ public class TaskQueueViewModel : Screen
     public ObservableCollection<LogItemViewModel> LogItemViewModels { get; private set; } = [];
 
     /// <summary>
+    /// Gets the grouped log cards. Each card contains multiple <see cref="LogItemViewModel"/>.
+    /// </summary>
+    public ObservableCollection<LogCardViewModel> LogCardViewModels { get; private set; } = [];
+
+    private bool TryMergeIntoLastCard(string content, string color, string weight, ToolTip? toolTip)
+    {
+        // Merge into last existing card when it exists and is not sealed.
+        if (LogCardViewModels.Count == 0)
+        {
+            return false;
+        }
+
+        var lastCard = LogCardViewModels[^1];
+        var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
+        LogItemViewModels.Add(log);
+        lastCard.Items.Add(log);
+        return true;
+    }
+
+    /// <summary>
     /// Gets or private sets the single download-related log item.
     /// Use a single LogItemViewModel instead of a collection because only one entry is shown.
     /// </summary>
@@ -230,6 +252,93 @@ public class TaskQueueViewModel : Screen
         get => _downloadLogItemViewModel;
         private set => SetAndNotify(ref _downloadLogItemViewModel, value);
     }
+
+    #region LogThumbnails
+
+    private readonly SemaphoreSlim _logThumbnailSemaphore = new(1, 1);
+
+    private const int LogThumbnailWidth = 640;
+    private const int LogThumbnailHeight = 360;
+
+    private static int MaxLogItemsWithThumbnails => SettingsViewModel.GuiSettings.MaxNumberOfLogThumbnails;
+
+    private async Task AttachThumbnailToCardAsync(LogCardViewModel card, bool forceScreencap)
+    {
+        if (card is null)
+        {
+            _logger.Warning("Cannot attach thumbnail to null log card.");
+            return;
+        }
+
+        try
+        {
+            var thumbnail = await GetOrCaptureLogThumbnailAsync(forceScreencap).ConfigureAwait(false);
+            if (thumbnail is null)
+            {
+                return;
+            }
+
+            await Execute.OnUIThreadAsync(() => {
+                card.Thumbnail = thumbnail;
+                TrimOldThumbnails();
+            }).ConfigureAwait(false);
+        }
+        catch
+        {
+            _logger.Warning("Failed to attach thumbnail to log card.");
+        }
+    }
+
+    private async Task<BitmapSource?> GetOrCaptureLogThumbnailAsync(bool forceScreencap = false)
+    {
+        if (!await _logThumbnailSemaphore.WaitAsync(0).ConfigureAwait(false))
+        {
+            return null;
+        }
+
+        try
+        {
+            var frameData = await Instances.AsstProxy.AsstGetImageBgrDataAsync(forceScreencap: forceScreencap).ConfigureAwait(false);
+            if (frameData is null || frameData.Length == 0)
+            {
+                return null;
+            }
+
+            try
+            {
+                // 只保留小图，避免日志列表长期运行时占用过多内存。
+                var thumbnail = AsstProxy.CreateBgrBitmapSourceScaled(frameData, LogThumbnailWidth, LogThumbnailHeight);
+                return thumbnail;
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(frameData);
+            }
+        }
+        finally
+        {
+            _logThumbnailSemaphore.Release();
+        }
+    }
+
+    private void TrimOldThumbnails()
+    {
+        var thumbnailIndices = LogCardViewModels
+            .Select((vm, index) => new { vm, index })
+            .Where(x => x.vm.Thumbnail != null)
+            .Select(x => x.index)
+            .ToList();
+
+        if (thumbnailIndices.Count > MaxLogItemsWithThumbnails)
+        {
+            for (int i = 0; i < thumbnailIndices.Count - MaxLogItemsWithThumbnails; i++)
+            {
+                LogCardViewModels[thumbnailIndices[i]].Thumbnail = null;
+            }
+        }
+    }
+
+    #endregion
 
     #region ActionAfterTasks
 
@@ -433,6 +542,12 @@ public class TaskQueueViewModel : Screen
         InitTimer();
 
         _ = UpdateDatePromptAndStagesWeb();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnClose()
+    {
+        base.OnClose();
     }
 
     /*
@@ -951,6 +1066,29 @@ public class TaskQueueViewModel : Screen
         private set => SetAndNotify(ref _stagesOfToday, value);
     }
 
+    public enum LogCardSplitMode
+    {
+        /// <summary>
+        /// 不拆分日志卡片
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// 插入日志前拆分卡片
+        /// </summary>
+        Before = 1,
+
+        /// <summary>
+        /// 插入日志后拆分卡片
+        /// </summary>
+        After = 2,
+
+        /// <summary>
+        /// 插入日志前后都拆分卡片
+        /// </summary>
+        Both = 3,
+    }
+
     /// <summary>
     /// Adds log.
     /// </summary>
@@ -958,15 +1096,46 @@ public class TaskQueueViewModel : Screen
     /// <param name="color">The font color.</param>
     /// <param name="weight">The font weight.</param>
     /// <param name="toolTip">The toolTip</param>
-    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null)
+    /// <param name="updateCardImage">Whether to update the containing card's image/thumbnail.</param>
+    /// <param name="fetchLatestImage">Whether to force fetching a fresh screenshot instead of using cache.</param>
+    /// <param name="splitMode">Whether to split cards before/after this log.</param>
+    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null, bool updateCardImage = false, bool fetchLatestImage = false, LogCardSplitMode splitMode = LogCardSplitMode.None)
     {
         if (string.IsNullOrEmpty(content))
         {
+            if (splitMode != LogCardSplitMode.None)
+            {
+                createNewCard();
+            }
             return;
         }
+
         Execute.OnUIThread(() => {
-            var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
-            LogItemViewModels.Add(log);
+            if (LogCardViewModels.Count <= 0)
+            {
+                createNewCard();
+            }
+
+            switch (splitMode)
+            {
+                case LogCardSplitMode.None:
+                    addToCard();
+                    break;
+                case LogCardSplitMode.Before:
+                    createNewCard();
+                    addToCard();
+                    break;
+                case LogCardSplitMode.After:
+                    addToCard();
+                    createNewCard();
+                    break;
+                case LogCardSplitMode.Both:
+                    createNewCard();
+                    addToCard();
+                    createNewCard();
+                    break;
+            }
+
             switch (color)
             {
                 case UiLogColor.Error:
@@ -980,6 +1149,29 @@ public class TaskQueueViewModel : Screen
                     break;
             }
         });
+
+        return;
+        void createNewCard()
+        {
+            if (LogCardViewModels.Count > 0 && LogCardViewModels[^1].Items.Count <= 0)
+            {
+                return;
+            }
+
+            var card = new LogCardViewModel();
+            LogCardViewModels.Add(card);
+        }
+
+        void addToCard()
+        {
+            if (TryMergeIntoLastCard(content, color, weight, toolTip))
+            {
+                if (updateCardImage)
+                {
+                    _ = AttachThumbnailToCardAsync(LogCardViewModels[^1], fetchLatestImage);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -989,6 +1181,7 @@ public class TaskQueueViewModel : Screen
     {
         Execute.OnUIThread(() => {
             LogItemViewModels.Clear();
+            LogCardViewModels.Clear();
             DownloadLogItemViewModel = new(string.Empty);
             _logger.Information("Main windows log clear.");
             _logger.Information("{Empty}", string.Empty);
@@ -1385,7 +1578,7 @@ public class TaskQueueViewModel : Screen
                     break;
 
                 case "WakeUp":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, StartUpTask.Serialize());
                     break;
 
                 case "Combat":
@@ -1393,23 +1586,23 @@ public class TaskQueueViewModel : Screen
                     break;
 
                 case "Recruiting":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, RecruitTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Recruit, RecruitTask.Serialize());
                     break;
 
                 case "Mall":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, MallTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Mall, MallTask.Serialize());
                     break;
 
                 case "Mission":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, AwardTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Award, AwardTask.Serialize());
                     break;
 
                 case "AutoRoguelike":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, RoguelikeTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Roguelike, RoguelikeTask.Serialize());
                     break;
 
                 case "Reclamation":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, ReclamationTask.Serialize());
+                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, ReclamationTask.Serialize());
                     break;
 
                 case "Custom":
@@ -1417,7 +1610,7 @@ public class TaskQueueViewModel : Screen
                         var tasks = CustomTask.SerializeMultiTasks();
                         foreach (var (type, param) in tasks)
                         {
-                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, type, param);
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Custom, type, param);
                         }
 
                         break;
@@ -1501,7 +1694,7 @@ public class TaskQueueViewModel : Screen
     public async Task<bool> Stop(int timeout = 60 * 1000)
     {
         _runningState.SetStopping(true);
-        AddLog(LocalizationHelper.GetString("Stopping"));
+        AddLog(LocalizationHelper.GetString("Stopping"), splitMode: LogCardSplitMode.Both);
         await Task.Run(() => {
             if (!Instances.AsstProxy.AsstStop())
             {
@@ -1567,12 +1760,14 @@ public class TaskQueueViewModel : Screen
 
         if (!_runningState.GetIdle() || _runningState.GetStopping())
         {
-            AddLog(LocalizationHelper.GetString("Stopped"));
+            AddLog(LocalizationHelper.GetString("Stopped"), splitMode: LogCardSplitMode.Both);
         }
 
         Waiting = false;
         _runningState.SetStopping(false);
         _runningState.SetIdle(true);
+
+        // 只抑制“本轮任务期间”的自动开启；任务结束后应允许下一轮自动开启 LiveView。
     }
 
     // 该函数将于未来被废弃，改用 LinkStart 代替
@@ -1624,7 +1819,7 @@ public class TaskQueueViewModel : Screen
         }
 
         bool taskRet = true;
-        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpTask.Serialize());
+        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, StartUpTask.Serialize());
         taskRet &= Instances.AsstProxy.AsstStart();
 
         if (taskRet)
@@ -1644,7 +1839,7 @@ public class TaskQueueViewModel : Screen
         string curStage = FightTask.Stage;
 
         var (type, mainParam) = FightTask.Serialize();
-        bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, type, mainParam);
+        bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Fight, type, mainParam);
         if (!mainFightRet)
         {
             AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);
@@ -1668,7 +1863,7 @@ public class TaskQueueViewModel : Screen
                     task.Stone = 0;
                     task.MaxTimes = int.MaxValue;
                     task.Drops = [];
-                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
+                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
                 }
 
                 break;
@@ -1689,7 +1884,7 @@ public class TaskQueueViewModel : Screen
                 ServerType = Instances.SettingsViewModel.ServerType,
                 ClientType = SettingsViewModel.GameSettings.ClientType,
             };
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, task.Serialize().Params);
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.FightRemainingSanity, type, task.Serialize().Params);
         }
 
         return mainFightRet;
@@ -1702,7 +1897,7 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public void SetFightParams()
     {
-        var type = TaskType.Fight;
+        var type = AsstProxy.TaskType.Fight;
         var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
         if (!EnableSetFightParams || id == 0)
         {
@@ -1715,7 +1910,7 @@ public class TaskQueueViewModel : Screen
 
     public static void SetFightRemainingSanityParams()
     {
-        var type = TaskType.FightRemainingSanity;
+        var type = AsstProxy.TaskType.FightRemainingSanity;
         var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
         if (id == 0)
         {
@@ -1749,7 +1944,7 @@ public class TaskQueueViewModel : Screen
 
         try
         {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, InfrastTask.Serialize());
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Infrast, InfrastTask.Serialize());
         }
         catch (Exception ex)
         {

@@ -497,6 +497,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
     <system:String x:Key="MainTasksNullFunctionality">反转主任务右键单击效果</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">默认仅一次生效，勾选后仅一次跳过</system:String>
+    <system:String x:Key="MaxNumberOfLogThumbnails">日志缩略图最大数量</system:String>
     <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
     <system:String x:Key="CustomBackgroundTip">手动创建 background 文件夹，将 background.png 放入即可自定义背景图片</system:String>
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
@@ -504,7 +505,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
     <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为 1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为 1920x1080</system:String>
-    <system:String x:Key="AllowUseStoneSave">允许吃源石保存状态</system:String>
+    <system:String x:Key="AllowUseStoneSave">允许源石恢复保存状态</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>
@@ -595,17 +596,17 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Recruit">{key=Recruiting}</system:String>
     <system:String x:Key="Base">基建换班</system:String>
     <system:String x:Key="Infrast">{key=Base}</system:String>
-    <system:String x:Key="Combat">刷理智</system:String>
+    <system:String x:Key="Combat">理智作战</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
-    <system:String x:Key="Mall">获取信用及购物</system:String>
+    <system:String x:Key="Mall">信用收支</system:String>
     <system:String x:Key="Mission">领取奖励</system:String>
     <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="MiniGame">小游戏</system:String>
-    <system:String x:Key="Custom">自定义任务</system:String>
+    <system:String x:Key="Custom">自定任务</system:String>
     <system:String x:Key="SingleStep">单步任务</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
@@ -646,8 +647,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <!--  战斗设置  -->
-    <system:String x:Key="UseSanityPotion">吃理智药</system:String>
-    <system:String x:Key="UseOriginitePrime">吃源石</system:String>
+    <system:String x:Key="UseSanityPotion">药剂恢复</system:String>
+    <system:String x:Key="UseOriginitePrime">源石恢复</system:String>
     <system:String x:Key="PerformBattles">指定次数</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取数量</system:String>
@@ -664,7 +665,7 @@ C:\\leidian\\LDPlayer9。\n
 • {key=NotSwitch}:
 不调整游戏内代理倍率设定</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
-    <system:String x:Key="StageSelect2">备选</system:String>
+    <system:String x:Key="StageSelect2">关卡备选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
     <system:String x:Key="NoUse">不使用</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->

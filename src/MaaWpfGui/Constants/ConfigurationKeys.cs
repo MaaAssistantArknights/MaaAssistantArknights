@@ -50,6 +50,7 @@ public static class ConfigurationKeys
     public const string CustomStageCode = "GUI.CustomStageCode";
     public const string InverseClearMode = "GUI.InverseClearMode";
     public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
+    public const string MaxNumberOfLogThumbnails = "GUI.MaxNumberOfLogThumbnails";
     public const string WindowTitleSelectShowList = "GUI.WindowTitleSelectShowList";
     public const string SoberLanguage = "GUI.SoberLanguage";
     public const string Cheers = "GUI.Cheers";
@@ -95,7 +96,7 @@ public static class ConfigurationKeys
     public const string EmulatorAddCommand = "Start.EmulatorAddCommand";
     public const string EmulatorWaitSeconds = "Start.EmulatorWaitSeconds";
 
-    // 仅在刷理智的任务中会生效，前缀需要修改
+    // 仅在理智作战的任务中会生效，前缀需要修改
     public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
     public const string StartsWithScript = "Start.StartsWithScript";
     public const string EndsWithScript = "Start.EndsWithScript";

@@ -314,7 +314,7 @@ public class MallSettingsUserControlModel : TaskViewModel
                          && ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).Cast<FightTask>().FirstOrDefault()?.Stage1 == string.Empty;
         if (fightStage)
         {
-            Log.Warning("刷理智 当前/上次导致无法OF-1");
+            Log.Warning("理智作战 当前/上次 导致无法 OF-1");
             return false;
         }
 

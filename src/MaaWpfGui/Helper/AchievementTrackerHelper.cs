@@ -399,7 +399,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
     [
 
         #region 基础使用类
-        BasicUsage(id: AchievementIds.SanitySpender1, group: AchievementIds.SanitySpenderGroup, target: 10), // 刷理智次数
+        BasicUsage(id: AchievementIds.SanitySpender1, group: AchievementIds.SanitySpenderGroup, target: 10), // 理智作战次数
         BasicUsage(id: AchievementIds.SanitySpender2, group: AchievementIds.SanitySpenderGroup, target: 100),
         BasicUsage(id: AchievementIds.SanitySpender3, group: AchievementIds.SanitySpenderGroup, target: 1000),
 
