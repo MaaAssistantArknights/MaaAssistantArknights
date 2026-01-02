@@ -278,10 +278,10 @@ jobs:
 
       - name: Build CLI
         run: |
-          cargo build --release --locked --package maa-cli --features vendored-openssl
+          cargo build --release --locked --package maa-cli --features git2/vendored-openssl
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/install/maa
           cargo build --release --locked --package maa-cli --no-default-features \
-            --features git2,vendored-openssl
+            --features git2,git2/vendored-openssl
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/appimage-maa
         working-directory: src/maa-cli
 
