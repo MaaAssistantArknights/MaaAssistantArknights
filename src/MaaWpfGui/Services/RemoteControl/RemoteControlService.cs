@@ -422,7 +422,7 @@ public class RemoteControlService
                         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
                         if (connected)
                         {
-                            var image = await Instances.AsstProxy.AsstGetImageAsync();
+                            var image = await Instances.AsstProxy.AsstGetFreshImageAsync();
                             if (image == null)
                             {
                                 status = "FAILED";
@@ -531,7 +531,7 @@ public class RemoteControlService
                         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
                         if (connected)
                         {
-                            var image = Instances.AsstProxy.AsstGetImage();
+                            var image = Instances.AsstProxy.AsstGetFreshImage();
                             if (image == null)
                             {
                                 status = "FAILED";
