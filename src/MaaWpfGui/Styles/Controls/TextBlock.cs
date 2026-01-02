@@ -55,7 +55,10 @@ public class TextBlock : System.Windows.Controls.TextBlock
         set
         {
             SetValue(ForegroundKeyProperty, value);
-            if (Application.Current.Resources.Contains(value))
+
+            // `Application.Current.Resources.Contains(key)` 不会递归检查 MergedDictionaries，
+            // 而主题 Brush（如 ErrorLogBrush）通常来自合并字典；用 TryFindResource 才能稳定命中。
+            if (TryFindResource(value) is Brush)
             {
                 SetResourceReference(ForegroundProperty, value);
                 return;

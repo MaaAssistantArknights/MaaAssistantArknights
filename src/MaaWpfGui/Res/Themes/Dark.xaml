@@ -14,11 +14,13 @@
 
     <!--  背景颜色  -->
     <SolidColorBrush x:Key="RegionBrush" Color="#1C1C1C" />
+    <SolidColorBrush x:Key="RegionBrushOpacity10" Color="#191C1C1C" />
     <SolidColorBrush x:Key="RegionBrushOpacity25" Color="#401C1C1C" />
     <SolidColorBrush x:Key="RegionBrushOpacity50" Color="#7F1C1C1C" />
     <SolidColorBrush x:Key="RegionBrushOpacity75" Color="#BF1C1C1C" />
 
     <SolidColorBrush x:Key="MouseOverRegionBrush" Color="#2B2B30" />
+    <SolidColorBrush x:Key="MouseOverRegionBrushOpacity10" Color="#19303036" />
     <SolidColorBrush x:Key="MouseOverRegionBrushOpacity25" Color="#40303036" />
     <SolidColorBrush x:Key="MouseOverRegionBrushOpacity50" Color="#7F303036" />
     <SolidColorBrush x:Key="MouseOverRegionBrushOpacity75" Color="#BF303036" />

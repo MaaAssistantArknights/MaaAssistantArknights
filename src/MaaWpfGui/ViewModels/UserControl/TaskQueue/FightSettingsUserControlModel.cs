@@ -32,7 +32,7 @@ using Stylet;
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 /// <summary>
-/// 刷理智
+/// 理智作战
 /// </summary>
 public class FightSettingsUserControlModel : TaskViewModel
 {
@@ -923,7 +923,7 @@ public class FightSettingsUserControlModel : TaskViewModel
                 stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
             }
 
-            // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
+            // rss 如果结束后还选择了不开放的关卡，理智作战任务会报错
             rss = Instances.TaskQueueViewModel.IsStageOpen(rss) ? rss : string.Empty;
 
             if (tempRemainingSanityStageList.Any(item => item.Value == string.Empty))

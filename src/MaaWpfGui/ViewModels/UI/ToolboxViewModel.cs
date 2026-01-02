@@ -1090,7 +1090,7 @@ public class ToolboxViewModel : Screen
         {
             var count = Interlocked.Increment(ref _peepImageCount);
             var index = count % _peepImageCache.Length;
-            var frameData = await Instances.AsstProxy.AsstGetFreshImageBgrDataAsync();
+            var frameData = await Instances.AsstProxy.AsstGetImageBgrDataAsync(forceScreencap: true);
             if (frameData is null || frameData.Length == 0)
             {
                 _logger.Warning("Peep image data is null or empty.");

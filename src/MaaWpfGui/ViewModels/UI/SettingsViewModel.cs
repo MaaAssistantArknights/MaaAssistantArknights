@@ -870,9 +870,8 @@ public class SettingsViewModel : Screen
             prefix += " - ";
         }
 
-        List<string> windowTitleSelectShowList = GuiSettings.WindowTitleSelectShowList
-            .Cast<KeyValuePair<string, string>>().Select(pair => pair.Key)
-            .ToList();
+        List<string> windowTitleSelectShowList = [.. GuiSettings.WindowTitleSelectShowList
+            .Cast<KeyValuePair<string, string>>().Select(pair => pair.Key)];
 
         string currentConfiguration = string.Empty;
         string connectConfigName = string.Empty;
@@ -896,7 +895,7 @@ public class SettingsViewModel : Screen
                     break;
 
                 case "3": // 端口地址
-                    connectAddress = $" ({ConnectSettings.ConnectAddress})";
+                    connectAddress = $" ({ConnectSettings.ConnectAddress})".Replace("127.0.0.1:", string.Empty).Replace("localhost:", string.Empty);
                     break;
 
                 case "4": // 客户端类型

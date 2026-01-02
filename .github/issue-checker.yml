@@ -252,7 +252,7 @@ labels:
   # `module: fight`
   - name: fight
     content: "module: fight"
-    regexes: "刷图|刷理智|剿灭|刷.{0,6}材料|关卡选择|战斗|作战|[戰戦][鬥闘]|[Ff]ight|[Bb]attle|[Aa]nihilation"
+    regexes: "刷图|理智|剿灭|刷.{0,6}材料|关卡选择|战斗|作战|[戰戦][鬥闘]|[Ff]ight|[Bb]attle|[Aa]nihilation"
     skip-if:
       - skip all
       - skip module

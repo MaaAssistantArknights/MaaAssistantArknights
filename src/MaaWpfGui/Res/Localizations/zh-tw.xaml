@@ -497,6 +497,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">窗口標題滾動</system:String>
     <system:String x:Key="MainTasksNullFunctionality">反轉主任務右鍵單擊效果</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">預設僅一次生效，勾選後僅一次跳過</system:String>
+    <system:String x:Key="MaxNumberOfLogThumbnails">日誌縮略圖最大數量</system:String>
     <system:String x:Key="TitleBarDisplayContent">標題欄顯示內容</system:String>
     <system:String x:Key="CustomBackgroundTip">手動建立 background 資料夾，將 background.png 放入即可自訂背景圖片</system:String>
     <system:String x:Key="UseLogItemDateFormat">自訂日誌日期格式</system:String>

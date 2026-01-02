@@ -17,7 +17,7 @@ using static MaaWpfGui.Main.AsstProxy;
 namespace MaaWpfGui.Configuration.Single.MaaTask;
 
 /// <summary>
-/// 刷理智
+/// 理智作战
 /// </summary>
 public class FightTask : BaseTask
 {
