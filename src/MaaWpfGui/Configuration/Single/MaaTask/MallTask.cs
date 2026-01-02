@@ -48,6 +48,11 @@ public class MallTask : BaseTask
     public string CreditFightLastTime { get; set; } = DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString();
 
     /// <summary>
+    /// Gets or sets a value indicating whether 信用战斗一天仅一次
+    /// </summary>
+    public bool CreditFightOnceADay { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets a value indicating whether 访问好友
     /// </summary>
     public bool VisitFriends { get; set; } = true;
@@ -91,19 +96,19 @@ public class MallTask : BaseTask
     {
         get
         {
+            if (!CreditFightOnceADay)
+            {
+                return CreditFight;
+            }
+
             try
             {
-                if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(CreditFightLastTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
-                {
-                    return CreditFight;
-                }
+                return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(CreditFightLastTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) && CreditFight;
             }
             catch
             {
                 return CreditFight;
             }
-
-            return false;
         }
     }
 

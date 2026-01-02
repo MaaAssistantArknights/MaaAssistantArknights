@@ -245,6 +245,17 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private bool _receptionSendClue = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionSendClue, true);
+
+    public bool ReceptionSendClue
+    {
+        get => _receptionSendClue;
+        set {
+            SetAndNotify(ref _receptionSendClue, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastReceptionSendClue, value.ToString());
+        }
+    }
+
     private bool _continueTraining = ConfigurationHelper.GetValue(ConfigurationKeys.ContinueTraining, false);
 
     /// <summary>
@@ -616,6 +627,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             OriginiumShardAutoReplenishment = OriginiumShardAutoReplenishment,
             ReceptionMessageBoard = ReceptionMessageBoardReceive,
             ReceptionClueExchange = ReceptionClueExchange,
+            ReceptionSendClue = ReceptionSendClue,
             Filename = CustomInfrastFile,
         };
 

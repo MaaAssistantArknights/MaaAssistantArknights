@@ -118,6 +118,7 @@ public static class ConfigurationKeys
     public const string UsesOfDrones = "Infrast.UsesOfDrones";
     public const string InfrastReceptionMessageBoardReceive = "Infrast.ReceptionMessageBoardReceive";
     public const string InfrastReceptionClueExchange = "Infrast.ReceptionClueExchange";
+    public const string InfrastReceptionSendClue = "Infrast.ReceptionSendClue";
     public const string ContinueTraining = "Infrast.ContinueTraining";
     public const string DefaultInfrast = "Infrast.DefaultInfrast";
     public const string IsCustomInfrastFileReadOnly = "Infrast.IsCustomInfrastFileReadOnly"; // 已废弃
@@ -189,6 +190,7 @@ public static class ConfigurationKeys
 
     public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
     public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
+    public const string CreditFightOnceADay = "Visit.CreditFightOnceADay";
     public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
 
     public const string LastCreditVisitFriendsTime = "Mall.LastCreditVisitFriendsTime";
