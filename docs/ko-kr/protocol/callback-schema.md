@@ -168,7 +168,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `Recruit`  
   자동 공개모집
 - `Infrast`  
-  기반 시설 교대
+  기반시설 교대
 - `Award`  
   일일 보상 수령
 - `Roguelike`  
@@ -279,7 +279,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `ReportToYituliu`  
   Yituliu 빅데이터 보고
 - `InfrastDormDoubleConfirmButton`  
-  기반 시설 숙소의 2차 확인 버튼, 오퍼레이터 충돌 시에만 나타남, 사용자에게 알림 필요
+  기반시설 숙소의 2차 확인 버튼, 오퍼레이터 충돌 시에만 나타남, 사용자에게 알림 필요
 - `StartExplore`  
   통합 전략 탐험 시작
 - `StageTraderInvestConfirm`  
@@ -412,7 +412,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   공개모집 식별 오류. `details` 필드는 비어 있습니다
 
 - `EnterFacility`  
-  기반 시설 시설에 진입했습니다. `details` 필드 내용은 다음과 같습니다:
+  기반시설 시설에 진입했습니다. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
   ::: field name="facility" type="string" required
@@ -424,7 +424,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ::::
 
 - `NotEnoughStaff`  
-  기반 시설 가용 오퍼레이터 부족. `details` 필드 내용은 다음과 같습니다:
+  기반시설 가용 오퍼레이터 부족. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
   ::: field name="facility" type="string" required
@@ -436,7 +436,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ::::
 
 - `ProductOfFacility`  
-  기반 시설 생산물. `details` 필드 내용은 다음과 같습니다:
+  기반시설 생산물. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
   ::: field name="product" type="string" required

@@ -38,7 +38,7 @@ icon: game-icons:prisoner
     "tool_men": {                          // 필요한 직군별 나머지 인원 수, 코스트 순 정렬, 선택 사항
                                            // 현재 버전 미구현, UI에만 표시됨
         "Pioneer": 13,
-        "近卫": 2, // 영문/중문/한글 모두 가능 (MAA 내부 매핑 확인 필요)
+        "Guards": 2,
         "Medic": 2
     },
     "drops": [                             // 전투 시작 및 도중 오퍼레이터/장비 획득 우선순위
@@ -68,7 +68,7 @@ icon: game-icons:prisoner
                 {
                     "core": "棘刺",
                     "tool_men": {
-                        "Pioneer": 1,      // 영문/중문/한글 가능
+                        "Pioneer": 1,      // 영문/중문 가능
                         "Warrior": 1,
                         "Medic": 1
                     },

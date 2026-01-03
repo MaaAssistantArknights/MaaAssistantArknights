@@ -208,10 +208,10 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
 :::  
 ::: field name="report_to_yituliu" type="boolean" optional default="false"  
-이투류(Yituliu) 데이터 전송 여부  
+Yituliu 데이터 전송 여부  
 :::  
 ::: field name="yituliu_id" type="string" optional  
-이투류 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때만 유효  
+Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때만 유효  
 :::  
 ::: field name="server" type="string" optional default="CN"  
 서버, 업로드에 영향
@@ -221,7 +221,7 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 ::::
 
 - `Infrast`  
-   기반 시설 교대
+   기반시설 교대
 
 :::: field-group  
 ::: field name="enable" type="boolean" optional default="true"  
@@ -232,7 +232,7 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 <br>
 `0` - `Default`: 기본 교대 모드, 단일 시설 최적해
 <br>
-`10000` - `Custom`: 사용자 정의 교대 모드, 사용자 설정 로드. [기반 시설 스케줄링 프로토콜](./base-scheduling-schema.md) 참고
+`10000` - `Custom`: 사용자 정의 교대 모드, 사용자 설정 로드. [기반시설 스케줄링 프로토콜](./base-scheduling-schema.md) 참고
 <br>
 `20000` - `Rotation`: 원터치 로테이션 모드. 제어 센터, 발전소, 숙소, 사무실은 건너뛰고, 나머지 시설은 교대하지 않지만 기본 조작(드론 사용, 응접실 로직 등)은 유지  
 :::  
@@ -257,7 +257,7 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 무역소 "오리지늄 조각" 자동 보충 여부  
 :::  
 ::: field name="dorm_notstationed_enabled" type="boolean" optional default="false"  
-숙소 "미진주" 옵션 활성화 여부  
+작업 오퍼레이터 숙소 "미배치" 옵션 활성화 여부  
 :::  
 ::: field name="dorm_trust_enabled" type="boolean" optional default="false"  
 숙소 남은 자리에 신뢰도 미만 오퍼레이터 배치 여부  
@@ -292,10 +292,10 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 본 작업 활성화 여부  
 :::  
 ::: field name="visit_friends" type="boolean" optional default="true"  
-친구 기반 시설을 방문하여 크레딧 획득 여부  
+친구 기반시설을 방문하여 크레딧 획득 여부  
 :::  
 ::: field name="shopping" type="boolean" optional default="true"  
-쇼핑 수행 여부  
+크레딧 상점 구매 수행 여부  
 :::  
 ::: field name="buy_first" type="array<string>" optional default="[]"  
 우선 구매 목록. 상품명, 예: `"채용 허가증"`, `"용문폐"` 등  
