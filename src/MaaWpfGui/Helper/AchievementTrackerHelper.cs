@@ -42,8 +42,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Sort();
         if (Instances.MainWindowManager is not null)
         {
-            Instances.MainWindowManager.WindowRestored += (_, _) =>
-            {
+            Instances.MainWindowManager.WindowRestored += (_, _) => {
                 TryShowPendingGrowls();
             };
         }
@@ -58,8 +57,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
     public Dictionary<string, Achievement> Achievements
     {
         get => _achievements;
-        set
-        {
+        set {
             SetAndNotify(ref _achievements, value);
             NotifyOfPropertyChange(nameof(UnlockedCount));
             NotifyOfPropertyChange(nameof(VisibleAchievements));
@@ -186,8 +184,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         achievement.IsNewUnlock = true;
         Save();
 
-        var growlInfo = new GrowlInfo
-        {
+        var growlInfo = new GrowlInfo {
             IsCustom = true,
             Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}: {achievement.Title}\n{achievement.Description}",
             StaysOpen = forceStayOpen || (staysOpen && !SettingsViewModel.AchievementSettings.AchievementPopupAutoClose),
@@ -258,8 +255,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
             return;
         }
 
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             var win = Instances.MainWindowManager.GetWindowIfVisible();
             if (win == null)
             {
@@ -604,6 +600,16 @@ public class AchievementTrackerHelper : PropertyChangedBase
             if (maxTimeInterval > 90)
             {
                 Instance.Unlock(AchievementIds.Martian);
+            }
+
+            var totalHours = (DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalHours;
+            if (totalHours <= 1)
+            {
+                Instance.Unlock(AchievementIds.UpdateEarlyBird);
+            }
+            if (totalHours <= 24)
+            {
+                Instance.Unlock(AchievementIds.UpdateObsession);
             }
 
             if (Instances.VersionUpdateViewModel.IsDebugVersion())
