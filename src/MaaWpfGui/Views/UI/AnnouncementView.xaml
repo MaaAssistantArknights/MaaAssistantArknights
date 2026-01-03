@@ -104,7 +104,7 @@
                 Orientation="Horizontal">
                 <CheckBox
                     Height="30"
-                    Margin="10,5"
+                    Margin="10,10"
                     HorizontalAlignment="Center"
                     VerticalContentAlignment="Center"
                     IsChecked="{Binding DoNotRemindThisAnnouncementAgain}"
@@ -119,7 +119,7 @@
                     Height="Auto"
                     MinWidth="100"
                     MinHeight="50"
-                    Margin="10,5"
+                    Margin="10,10"
                     Command="{s:Action Close}">
                     <TextBlock
                         MaxWidth="150"
