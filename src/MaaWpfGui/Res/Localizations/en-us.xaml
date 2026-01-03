@@ -1370,6 +1370,10 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="Achievement.Martian.Conditions">Resource or version date is more than 3 months old</system:String>
     <system:String x:Key="Achievement.Martian.ConditionsTip">Resource or version date is more than {0} months old</system:String>
 
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">Stubborn</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">Even after being prompted so many times, you still choose not to read the announcement.</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Conditions">Click the close button more than 20 times without scrolling to the bottom</system:String>
+
     <system:String x:Key="Achievement.Rules.Title">Serious Erro-</system:String>
     <system:String x:Key="Achievement.Rules.Description">I'll be watching you.</system:String>
     <system:String x:Key="Achievement.Rules.Conditions">MAA Employee Guidelines</system:String>

@@ -1371,6 +1371,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.Martian.Conditions">资源时间或版本时间距今超过 3 个月</system:String>
     <system:String x:Key="Achievement.Martian.ConditionsTip">资源时间或版本时间距今超过 {0} 个月</system:String>
 
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">死不悔改</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">即使提示了这么多次，你依然选择不看公告。</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Conditions">在未滚动到底部的情况下点击关闭按钮超过 20 次</system:String>
+
     <system:String x:Key="Achievement.Rules.Title">严重错讠</system:String>
     <system:String x:Key="Achievement.Rules.Description">我会一直注视着你。</system:String>
     <system:String x:Key="Achievement.Rules.Conditions">MAA 员工守则</system:String>

@@ -1372,6 +1372,10 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.Martian.Conditions">리소스 또는 버전이 현재로부터 3개월 초과</system:String>
     <system:String x:Key="Achievement.Martian.ConditionsTip">리소스 또는 버전이 현재로부터 {0}개월 초과</system:String>
 
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">고집불통</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">수차례 안내를 받았음에도 불구하고 공지를 보지 않고 닫기를 선택했습니다.</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Conditions">맨 아래로 스크롤하지 않은 상태에서 닫기 버튼을 20회 이상 클릭함</system:String>
+
     <system:String x:Key="Achievement.Rules.Title">서약 완료</system:String>
     <system:String x:Key="Achievement.Rules.Description">약속한 거예요? 제가 옆에서 지켜볼게요</system:String>
     <system:String x:Key="Achievement.Rules.Conditions">MAA 이용 약관</system:String>

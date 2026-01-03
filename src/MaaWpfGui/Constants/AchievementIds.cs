@@ -94,6 +94,7 @@ public static class AchievementIds
     public const string QuickCloser = "QuickCloser";
     public const string TacticalRetreat = "TacticalRetreat";
     public const string Martian = "Martian";
+    public const string AnnouncementStubbornClick = "AnnouncementStubbornClick";
 
     public const string RecruitGroup = "Recruit";
     public const string RecruitNoSixStar = "RecruitNoSixStar";
