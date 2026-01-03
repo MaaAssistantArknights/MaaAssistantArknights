@@ -65,55 +65,62 @@ icon: iconoir:developer
 5. 개발 환경 구성
    - Visual Studio 2026 Community 설치 시 `C++ 데스크톱 개발` 및 `.NET 데스크톱 개발` 필수 선택
 
-6. MAA.sln 파일 더블클릭 → Visual Studio에서 프로젝트 자동 로드
-7. VS 설정
+6. cmake 프로젝트 구성 실행
+
+   ```cmd
+   mkdir -p build
+   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   ```
+
+7. `build/MAA.sln` 파일을 더블 클릭하여 엽니다. Visual Studio가 자동으로 전체 프로젝트를 로드합니다.
+8. VS 설정
    - 상단 구성에서 RelWithDebInfo x64 선택 (릴리스 빌드/ARM 플랫폼 시 생략)
    - MaaWpfGui 우클릭 → 속성 → 디버그 → 네이티브 디버깅 활성화 (C++ 코어 중단점 사용 가능)
 
-8. 이제 자유롭게 ~~개조~~ 개발 시작!
-9. 주기적 커밋 (메시지 필수 작성)  
-   Git 초보자는 dev 브랜치 대신 새 브랜치 생성 권장:
+9. 이제 자유롭게 ~~개조~~ 개발 시작!
+10. 주기적 커밋 (메시지 필수 작성)  
+    Git 초보자는 dev 브랜치 대신 새 브랜치 생성 권장:
+
+```bash
+git branch your_own_branch
+git checkout your_own_branch
+```
+
+dev 브랜치 업데이트 영향에서 자유로움
+
+1. 개발 완료 후 변경사항 원격 저장소로 푸시:
 
    ```bash
-   git branch your_own_branch
-   git checkout your_own_branch
+   git push origin dev
    ```
 
-   dev 브랜치 업데이트 영향에서 자유로움
+2. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)
+3. 업스트림 저장소 변경사항 동기화 방법:
+   1. 업스트림 저장소 추가:
 
-10. 개발 완료 후 변경사항 원격 저장소로 푸시:
+      ```bash
+      git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
+      ```
 
-    ```bash
-    git push origin dev
-    ```
+   2. 변경사항 가져오기:
 
-11. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)
-12. 업스트림 저장소 변경사항 동기화 방법:
-    1. 업스트림 저장소 추가:
+      ```bash
+      git fetch upstream
+      ```
 
-       ```bash
-       git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
-       ```
+   3. 리베이스(권장) 또는 병합:
 
-    2. 변경사항 가져오기:
+      ```bash
+      git rebase upstream/dev
+      ```
 
-       ```bash
-       git fetch upstream
-       ```
+      또는
 
-    3. 리베이스(권장) 또는 병합:
+      ```bash
+      git merge
+      ```
 
-       ```bash
-       git rebase upstream/dev
-       ```
-
-       또는
-
-       ```bash
-       git merge
-       ```
-
-    4. 단계 7, 8, 9, 10 반복 수행
+   4. 단계 8, 9, 10, 11 반복 수행
 
 ::: tip
 Visual Studio 실행 시 Git 작업은 "Git 변경" 탭에서 명령어 없이 처리 가능

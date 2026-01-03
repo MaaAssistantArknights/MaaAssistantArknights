@@ -124,7 +124,7 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
      }
    ]" />
 
-   우리는 간단한 커밋 제목 [관례적 커밋](https://www.conventionalcommits.org/zh-hans/v1.0.0/)이 있으니 가능하면 지켜주세요. 물론 정말 이해가 안 된다면 일단 아무렇게나 써도 됩니다.
+   우리는 간단한 커밋 제목 [관례적 커밋](https://www.conventionalcommits.org/ko/v1.0.0/)이 있으니 가능하면 지켜주세요. 물론 정말 이해가 안 된다면 일단 아무렇게나 써도 됩니다.
 
    <ImageGrid :imageList="[
      {
@@ -155,7 +155,7 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
      ]" />
 
     그런 다음 제목, 수정한 내용 등을 작성하고 확인을 클릭합니다.
-    PR 제목도 [관례적 커밋](https://www.conventionalcommits.org/zh-hans/v1.0.0/)을 지켜주세요. 물론 여전히 이해가 안 된다면 일단 아무렇게나 써도 됩니다.
+    PR 제목도 [관례적 커밋](https://www.conventionalcommits.org/ko/v1.0.0/)을 지켜주세요. 물론 여전히 이해가 안 된다면 일단 아무렇게나 써도 됩니다.
 
     <ImageGrid :imageList="[
        {

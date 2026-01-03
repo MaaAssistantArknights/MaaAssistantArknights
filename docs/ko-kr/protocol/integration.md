@@ -797,4 +797,14 @@ Value
 :::  
 ::: field name="TouchMode" type="string" optional default="minitouch"  
 터치 모드 설정. 옵션: minitouch | maatouch | adb. 기본값 minitouch. 열거값: 2  
-:::
+:::  
+::: field name="DeploymentWithPause" type="boolean" optional  
+오퍼레이터 배치 시 일시정지 여부, Copilot/통합전략/보안파견에 모두 영향. 옵션: "1" 켜기, "0" 끄기. 열거값: 3  
+:::  
+::: field name="AdbLiteEnabled" type="boolean" optional  
+AdbLite 사용 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 4  
+:::  
+::: field name="KillAdbOnExit" type="boolean" optional  
+종료 시 ADB 프로세스 종료 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 5  
+:::  
+::::

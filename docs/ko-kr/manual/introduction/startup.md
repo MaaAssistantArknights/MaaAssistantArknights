@@ -11,7 +11,7 @@ icon: ic:round-rocket-launch
 
 ## 계정 전환
 
-**글로벌 서버는 해당이 안됩니다. (CN만 가능)**
+**글로벌 서버는 지원하지 않습니다. (CN만 가능)**
 
 이 기능은 설정 전환 또는 정기 실행과 함께 사용해야 하며, `로그인` 작업이 실행될 때마다 계정 전환 작업이 수행됩니다.
 
@@ -21,6 +21,6 @@ icon: ic:round-rocket-launch
 
 ## 연결 설정
 
-[여기로!](../connection.md)
+[연결 설정](../connection.md)
 
 <!-- markdownlint-disable-file MD036 -->
