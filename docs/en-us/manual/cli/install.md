@@ -99,11 +99,11 @@ nix run github:Cryolitia/nur-packages#maa-cli-nightly
 
 :::
 
-The stable version is packaged in [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix), using the Rust toolchain from `nixpkgs`; the nightly build is in [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix), using the Beta channel Rust toolchain, and is automatically updated and verified daily by a GitHub Action.
+The stable version is packaged in [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix), using the Rust toolchain from `nixpkgs`; the nightly build is in [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix), using the Beta channel Rust toolchain, and is automatically updated and verified daily by a GitHub Actions.
 
 #### Homebrew
 
-For users use Homebrew on Linux, please refer to the macOS installation method.
+For users who use Homebrew on Linux, please refer to the macOS installation method.
 
 #### Other Distributions
 
