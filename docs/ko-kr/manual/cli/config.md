@@ -265,10 +265,13 @@ params = { stage = "CE-6" }
 [tasks.variants.params.stage]
 default = "1-7" # 기본 스테이지, 선택 사항 (기본값이 없으면 빈 값 입력 시 다시 입력하라는 메시지가 표시됨)
 description = "싸울 스테이지" # 설명, 선택 사항
+
+# 입력한 스테이지가 1-7일 때 이성 회복제 수량 입력 필요
 [tasks.variants.params.medicine]
-# 의존 매개변수, 키는 매개변수 이름, 값은 의존 매개변수의 예상 값
-# 설정 시 모든 의존 매개변수가 예상 값을 만족할 때만 이 매개변수를 입력해야 함
-deps = { stage = "1-7" }
+# 매개변수는 조건부 매개변수로 설정할 수 있으며, 조건이 충족될 때만 입력이 필요합니다.
+# conditions 필드는 테이블로, 키는 동일 레벨의 다른 매개변수 이름이고 값은 예상 값입니다.
+# 여기서 조건은 stage가 1-7인 경우입니다. 여러 조건이 있는 경우 모든 조건이 충족되어야 합니다.
+conditions = { stage = "1-7" }
 default = 1000
 description = "사용할 이성 회복제"
 ```
@@ -330,7 +333,13 @@ address = "127.0.0.1:7777" # 필요 시 사전 설정된 주소를 재정의할 
 
 현재 `MuMuPro` 한 가지 에뮬레이터만 사전 설정이 있으며, 다른 일반적인 에뮬레이터의 사전 설정을 추가하고 싶다면 issue나 PR을 제출하세요.
 
-여기에는 `PlayCover`라는 특수한 사전 설정이 있으며, 이는 macOS에서 `PlayCover`를 통해 네이티브로 실행되는 게임 클라이언트에 연결하는 데 사용됩니다. 이 경우 `adb_path`를 지정할 필요가 없으며, `address`는 `adb` 연결 주소가 아닌 `PlayTools`의 주소입니다. 자세한 내용은 [PlayCover 지원 문서][playcover-doc]를 참고하세요.
+#### 특수 프리셋
+
+현재 `PlayCover (MacOS)`, `Waydroid (Linux)` 두 가지 특수 프리셋이 사전 구성되어 있습니다.
+
+- `PlayCover`는 macOS에서 `PlayCover`를 통해 네이티브로 실행되는 게임 클라이언트에 연결하는 데 사용됩니다. 이 경우 `adb_path`를 지정할 필요가 없으며, `address`는 `adb` 연결 주소가 아닌 `PlayTools`의 주소입니다. 자세한 내용은 [PlayCover 지원 문서][playcover-doc]를 참고하세요.
+
+- `Waydroid`는 Linux에서 `Waydroid`를 통해 네이티브로 실행되는 게임 클라이언트에 연결하는 데 사용됩니다. 이 경우에도 `adb_path`를 지정해야 합니다. 자세한 내용은 [Waydroid 지원 문서][waydroid-doc]를 참고하세요.
 
 ### 리소스 설정
 
@@ -404,23 +413,29 @@ auto_update = true  # 각 작업 실행 시 리소스를 자동 업데이트할�
 warn_on_update_failure = true # 업데이트 실패 시 오류를 바로 보고하지 않고 경고를 발행할지 여부
 backend = "libgit2" # 리소스 핫 업데이트 백엔드, 가능한 값은 "git" 또는 "libgit2", 기본값은 "git"
 
+# 리소스 핫 업데이트 원격 저장소 관련 설정
 [resource.remote]
-branch = "main" # 원격 저장소의 브랜치, 기본값은 "main"입니다.
-# 원격 리소스 저장소의 URL, 기본 URL을 사용하려면 비워 두세요.
-url = "git@github.com:MaaAssistantArknights/MaaResource.git"
-# ssh를 사용하려면 인증 방식을 구성해야 하며, "ssh-agent" 또는 "ssh-key" 중 하나를 사용할 수 있습니다.
-# ssh-agent를 사용하려면 `use_ssh_agent`를 true로 설정하고, `ssh_key`와 `passphrase`는 비워 두세요.
-# use_ssh_agent = true # ssh-agent를 사용하여 인증
-# ssh-key를 사용하려면 `ssh_key`에 ssh 키의 경로를 설정하세요.
+branch = "main" # 원격 저장소의 브랜치, 기본값은 "main"
+# 원격 리소스 저장소의 URL, 비워두면 기본 URL 사용
+# GitHub 저장소는 HTTPS와 SSH 두 가지 프로토콜을 지원하며, HTTPS 프로토콜 사용을 권장합니다. 별도의 설정이 필요 없기 때문입니다.
+url = "https://github.com/MaaAssistantArknights/MaaResource.git"
+# url = "git@github.com:MaaAssistantArknights/MaaResource.git"
+# SSH 프로토콜을 사용해야 하는 경우, SSH 키를 제공해야 합니다. 가장 간단한 방법은 키의 경로를 제공하는 것입니다.
 ssh_key = "~/.ssh/id_ed25519" # ssh 키의 경로
-# ssh 키가 암호화된 경우, 암호를 입력해야 합니다.
+# maa는 기본적으로 암호화되지 않은 키를 사용합니다. 키가 암호로 보호된 경우, 키를 복호화할 암호를 제공해야 합니다.
+# 주의: libgit2 백엔드를 사용할 때만 maa가 암호를 libgit2에 전달합니다.
+# git 백엔드를 사용할 때는 git이 직접 암호를 요청합니다.
+# git 백엔드를 사용하고 키가 암호로 보호된 경우, ssh-agent를 사용하여 키를 관리하세요.
 passphrase = "password"       # ssh 키의 암호
-# 설정 파일에 평문 암호를 저장하는 것은 안전하지 않으므로 이를 방지하기 위한 방법이 있습니다.
+# 그러나 설정 파일에 평문 암호를 저장하는 것은 안전하지 않으므로, 이를 피하는 몇 가지 방법이 있습니다.
 # 1. `passphrase`를 true로 설정하면, maa-cli가 매번 암호를 입력하라고 요청합니다.
+# 이 방법은 안전하지만 번거롭고 batch 모드에서는 사용할 수 없습니다.
 # passphrase = true
 # 2. `passphrase`를 환경 변수 이름으로 설정하면, maa-cli는 해당 환경 변수를 암호로 사용합니다.
+# 이 방법은 평문 암호보다 안전하지만, 환경 변수는 모든 프로그램에서 접근할 수 있으므로 여전히 위험이 있습니다.
 # passphrase = { env = "MAA_SSH_PASSPHRASE" }
 # 3. `passphrase`를 명령어로 설정하면, maa-cli는 해당 명령어를 실행하여 암호를 가져옵니다.
+# 암호 관리자를 사용하여 암호를 관리한다면, 이 방법이 가장 안전하고 편리할 수 있습니다.
 # 이는 암호 관리자를 사용하여 암호를 관리할 때 매우 유용합니다.
 # passphrase = { cmd = ["pass", "show", "ssh/id_ed25519"] }
 ```
@@ -450,6 +465,7 @@ passphrase = "password"       # ssh 키의 암호
 [task-types]: ../../protocol/integration.md#작업-유형-목록
 [emulator-ports]: ../../manual/connection.md#포트-번호-입력
 [playcover-doc]: ../../manual/device/macos.md#✅-playcover-제일-부드럽습니다-🚀
+[waydroid-doc]: ../../manual/device/linux.md#✅-waydroid
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/main/home/dot_config/maa
 [schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/
