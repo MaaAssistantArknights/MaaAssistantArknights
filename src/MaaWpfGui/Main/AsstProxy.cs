@@ -1232,6 +1232,11 @@ public class AsstProxy
 
                     // Instances.TaskQueueViewModel.CheckAndShutdown();
                     _ = Instances.TaskQueueViewModel.CheckAfterCompleted();
+
+                    if (Instances.OverlayViewModel.IsCreated)
+                    {
+                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
+                    }
                 }
                 else if (isCopilotTaskChain)
                 {
