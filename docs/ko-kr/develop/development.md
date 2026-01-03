@@ -23,15 +23,15 @@ icon: iconoir:developer
 
 다음과 같은 다양한 개발 환경을 사전에 설정했습니다：
 
-- 빈 환경（벌거숭이 Linux 컨테이너）（기본값）
+- 빈 환경 (순수 Linux 컨테이너) (기본값)
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
-- 경량 환경，문서 사이트 프론트엔드 개발에 적합
+- 경량 환경, 문서 사이트 프론트엔드 개발에 적합
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
 
-- 전체 환경，MAA Core 관련 개발에 적합（사용 권장하지 않음，로컬 개발 권장，관련 환경을 완전히 설정，다음 섹션 참조）
+- 전체 환경, MAA Core 관련 개발에 적합 (사용 권장하지 않음, 로컬 개발 권장, 관련 환경을 완전히 설정, 다음 섹션 참조)
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
 
@@ -148,7 +148,7 @@ pip 설치 후에도 Pre-commit을 실행할 수 없다면, PIP 설치 경로가
 
 이제, 매번 커밋할 때마다 포매팅 도구가 자동으로 실행되어 코드 형식이 규칙에 맞는지 확인합니다.
 
-## Visual Studio에서 clang-format 사용 설정
+### Visual Studio에서 clang-format 사용 설정
 
 1. clang-format 20.1.0 또는 그 이상 버전을 설치합니다.
 

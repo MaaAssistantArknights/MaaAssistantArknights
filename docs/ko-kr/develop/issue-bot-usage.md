@@ -8,7 +8,7 @@ icon: bxs:bot
 Issue Bot의 동작은 [issue-checker](https://github.com/zzyyyl/issue-checker)로 이루어지며, 설정 파일은 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml) 입니다.
 
 ::: warning
-Commitizen 규격으로 커밋하지 않는 경우, 병합 요청(Merge Request)가 `ambiguous(애매모호한)`로 표시됨에 주의해주세요.
+Commitizen 규격으로 커밋하지 않는 경우, 풀 리퀘스트(Pull Request)가 `ambiguous(애매모호한)`로 표시됨에 주의해주세요.
 :::
 
 ## 기능
@@ -46,7 +46,7 @@ Issue Bot은 풀 리퀘스트의 제목을 확인합니다. 아래 키워드로 
 
 - `Skip {LABEL_NAME}`은 특정 유형의 라벨이 추가되지 않도록 합니다.
 - `Skip labels`은 모든 라벨이 추가되지 않도록 합니다.
-- `fixed(수정함)` 라벨을 추가하려면 다음 명령어 중 하나를 사용할 수 있습니다:`<sup>`1 `</sup>`
+- `fixed(수정함)` 라벨을 추가하려면 다음 명령어 중 하나를 사용할 수 있습니다:<sup>1</sup>
   - `https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH} fixed`
   - `fixed by https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH}`
   - `{VERSION} fixed`
