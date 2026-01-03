@@ -106,7 +106,7 @@ VSCode 명령 팔레트에서 `Maa: 스크린샷 도구 열기(Maa: open crop to
 
 (MaaFramework 프로젝트 전용)
 
-OCR 인식 결과가 비어 있다면 [OCR 모델](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6)이 올바르게 구성되었는지 확인하세요.
+OCR 인식 결과가 비어 있다면 [OCR 모델](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files)이 올바르게 구성되었는지 확인하세요.
 
 :::
 
