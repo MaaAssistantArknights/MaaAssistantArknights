@@ -13,8 +13,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
@@ -22,9 +24,32 @@ using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
-public class GotifyNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
+public partial class GotifyNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
 {
     private readonly ILogger _logger = Log.ForContext<GotifyNotificationProvider>();
+
+    [GeneratedRegex(@"\[(.*?)\]\[(.*?)\]([\s\S]*?)(?=\n\[|$)")]
+    private static partial Regex ContentRegex();
+
+    private static string ProcessContent(string content)
+    {
+        var matches = ContentRegex().Matches(content);
+        if (matches.Count == 0)
+        {
+            return content;
+        }
+
+        var resultContent = new StringBuilder();
+        foreach (Match match in matches)
+        {
+            string time = match.Groups[1].Value;
+            string contentText = match.Groups[3].Value;
+            resultContent.Append($"[{time}]{contentText.TrimEnd('\n', '\r')}");
+            resultContent.Append('\n');
+        }
+
+        return resultContent.ToString().TrimEnd('\n', '\r');
+    }
 
     public async Task<bool> SendAsync(string title, string content)
     {
@@ -42,6 +67,9 @@ public class GotifyNotificationProvider(IHttpService httpService) : IExternalNot
             _logger.Warning("Failed to send Gotify notification, application token is empty");
             return false;
         }
+
+        // 处理内容，去掉时间戳和颜色标记
+        content = ProcessContent(content);
 
         try
         {
