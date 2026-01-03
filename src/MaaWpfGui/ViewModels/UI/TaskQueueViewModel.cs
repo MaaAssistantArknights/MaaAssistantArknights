@@ -1641,6 +1641,8 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
+        AchievementTrackerHelper.Instance.SetProgress(AchievementIds.TaskChainKing, count);
+
         taskRet &= Instances.AsstProxy.AsstStart();
 
         if (taskRet)
