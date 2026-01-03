@@ -415,6 +415,7 @@ bool BattlefieldMatcher::pause_button_analyze() const
     cv::Rect roi_rect = make_rect<cv::Rect>(task_ptr->roi);
     roi_rect.x += (roi_rect.x + m_image.cols - 1280 > 0) ? m_image.cols - 1280 : 0;
     roi_rect &= cv::Rect(0, 0, m_image.cols, m_image.rows);
+    if (roi_rect.empty()) return false;
     cv::Mat roi = m_image(roi_rect);
     cv::Mat roi_gray;
     cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2GRAY);
@@ -473,6 +474,7 @@ bool asst::BattlefieldMatcher::speed_button_analyze() const
     cv::Rect roi_rect = make_rect<cv::Rect>(task_ptr->roi);
     roi_rect.x += (roi_rect.x + m_image.cols - 1280 > 0) ? m_image.cols - 1280 : 0;
     roi_rect &= cv::Rect(0, 0, m_image.cols, m_image.rows);
+    if (roi_rect.empty()) return false;
     cv::Mat roi = m_image(roi_rect);
     //cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
     cv::Mat roi_gray;
