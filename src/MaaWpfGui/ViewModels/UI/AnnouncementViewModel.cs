@@ -304,7 +304,7 @@ public class AnnouncementViewModel : Screen
             }
             else
             {
-                ButtonContent += "?";
+                ButtonContent += "?\u200B";
             }
         }
     }

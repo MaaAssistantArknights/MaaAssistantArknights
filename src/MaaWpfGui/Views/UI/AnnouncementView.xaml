@@ -14,6 +14,8 @@
     Title="{DynamicResource Announcement}"
     Width="750"
     Height="550"
+    MinWidth="750"
+    MinHeight="550"
     d:DataContext="{d:DesignInstance {x:Type ui:AnnouncementViewModel}}"
     Icon="../../newlogo.ico"
     ShowCloseButton="False"
@@ -123,6 +125,7 @@
                     Command="{s:Action Close}">
                     <TextBlock
                         MaxWidth="150"
+                        d:Text="{DynamicResource Confirm}"
                         Text="{Binding ButtonContent}"
                         TextWrapping="Wrap" />
                 </Button>
