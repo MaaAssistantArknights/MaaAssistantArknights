@@ -81,46 +81,46 @@ icon: iconoir:developer
 10. 주기적 커밋 (메시지 필수 작성)  
     Git 초보자는 dev 브랜치 대신 새 브랜치 생성 권장:
 
-```bash
-git branch your_own_branch
-git checkout your_own_branch
-```
+    ```bash
+    git branch your_own_branch
+    git checkout your_own_branch
+    ```
 
-dev 브랜치 업데이트 영향에서 자유로움
+    dev 브랜치 업데이트 영향에서 자유로움
 
-1. 개발 완료 후 변경사항 원격 저장소로 푸시:
+11. 개발 완료 후 변경사항 원격 저장소로 푸시:
 
-   ```bash
-   git push origin dev
-   ```
+    ```bash
+    git push origin dev
+    ```
 
-2. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)
-3. 업스트림 저장소 변경사항 동기화 방법:
-   1. 업스트림 저장소 추가:
+12. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)
+13. 업스트림 저장소 변경사항 동기화 방법:
+    1. 업스트림 저장소 추가:
 
-      ```bash
-      git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
-      ```
+       ```bash
+       git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
+       ```
 
-   2. 변경사항 가져오기:
+    2. 변경사항 가져오기:
 
-      ```bash
-      git fetch upstream
-      ```
+       ```bash
+       git fetch upstream
+       ```
 
-   3. 리베이스(권장) 또는 병합:
+    3. 리베이스(권장) 또는 병합:
 
-      ```bash
-      git rebase upstream/dev
-      ```
+       ```bash
+       git rebase upstream/dev
+       ```
 
-      또는
+       또는
 
-      ```bash
-      git merge
-      ```
+       ```bash
+       git merge
+       ```
 
-   4. 단계 8, 9, 10, 11 반복 수행
+    4. 단계 7, 8, 9, 10 반복 수행
 
 ::: tip
 Visual Studio 실행 시 Git 작업은 "Git 변경" 탭에서 명령어 없이 처리 가능

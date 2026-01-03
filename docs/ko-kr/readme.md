@@ -119,8 +119,8 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 - [Woolang 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Woolang/maa.wo)：[예제](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Woolang/demo.wo)
 - [통합문서](./protocol/integration.md)
 - [콜백 프로토콜](./protocol/callback-schema.md)
-- [자동지휘 프로토콜](./protocol/copilot-schema.md)
 - [작업 프로토콜](./protocol/task-schema.md)
+- [자동지휘 프로토콜](./protocol/copilot-schema.md)
 
 ### 해외 서버 현지화
 

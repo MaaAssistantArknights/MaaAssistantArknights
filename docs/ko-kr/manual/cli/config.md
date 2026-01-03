@@ -436,8 +436,11 @@ passphrase = "password"       # ssh 키의 암호
 # passphrase = { env = "MAA_SSH_PASSPHRASE" }
 # 3. `passphrase`를 명령어로 설정하면, maa-cli는 해당 명령어를 실행하여 암호를 가져옵니다.
 # 암호 관리자를 사용하여 암호를 관리한다면, 이 방법이 가장 안전하고 편리할 수 있습니다.
-# 이는 암호 관리자를 사용하여 암호를 관리할 때 매우 유용합니다.
 # passphrase = { cmd = ["pass", "show", "ssh/id_ed25519"] }
+# 4. ssh-agent를 사용하여 키를 관리, **권장**
+# ssh-agent는 키를 메모리에 저장하므로 매번 암호를 입력할 필요가 없습니다.
+# 주의: ssh-agent가 시작되어 있고 키가 추가되어 있어야 하며, SSH_AUTH_SOCK 환경 변수가 설정되어 있어야 합니다.
+# use_ssh_agent = true # ssh-agent를 사용하여 인증, true로 설정하면 ssh_key와 passphrase 필드가 무시됩니다.
 ```
 
 **주의사항**：

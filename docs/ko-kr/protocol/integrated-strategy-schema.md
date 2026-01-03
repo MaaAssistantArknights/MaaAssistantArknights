@@ -806,13 +806,22 @@ MAA는 쉐이 통합 전략에서 자동으로 주화를 줍고 교환합니다.
 
 #### 주화 식별 메커니즘
 
-1. 템플릿 매칭으로 주화 유형(려/형/화 등) 식별
-2. ROI 오프셋 OCR로 이름 식별
-3. 투척 여부 식별
-4. 목록 스크롤하며 비교
+MAA는 다음 방법으로 주화를 인식하고 처리합니다:
+
+1. 템플릿 매칭으로 주화 유형 아이콘(려/형/화) 식별
+2. 유형 아이콘 위치 기반 ROI 오프셋으로 OCR 이름 식별
+3. 주화의 '투척됨' 상태 식별
+4. 교환 화면에서 목록을 스크롤하며 모든 주화 스캔 및 비교
+
+#### 인식 흐름 예시
+
+![image](/images/zh-cn/copper-explanation-1.png)
+![image](/images/zh-cn/copper-explanation-2.png)
 
 ::: info 주의
-OCR로 인식된 주화 이름이 `coppers.json`에 없으면 `debug/roguelike/coppers/unknown`에 이미지를 저장합니다.
+
+- OCR로 인식된 주화 이름이 설정 파일에 없으면, MAA는 디버그 이미지를 `debug/roguelike/coppers/unknown` 디렉토리에 저장합니다.
+
 :::
 
 ## 향후 구현 예정 (TODO)
