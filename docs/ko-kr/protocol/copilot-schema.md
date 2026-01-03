@@ -3,7 +3,7 @@ order: 3
 icon: ph:sword-bold
 ---
 
-# 전투 흐름 프로토콜
+# 자동지휘 프로토콜
 
 `resource/copilot/*.json` 파일의 사용법 및 각 필드 설명
 

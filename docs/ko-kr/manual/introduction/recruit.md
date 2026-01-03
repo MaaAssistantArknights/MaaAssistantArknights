@@ -5,7 +5,7 @@ icon: fluent:people-24-filled
 
 # 공개모집
 
-공개모집과 툴박스의 [공개모집 태그 인식](./tools.md#recruitment-recognition)과는 다른 기능입니다!!
+공개모집과 툴박스의 [공개모집 태그 인식](./tools.md#공개모집-태그-인식)과는 다른 기능입니다!!
 
 ## 자동 공개모집
 

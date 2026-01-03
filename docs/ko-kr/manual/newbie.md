@@ -13,7 +13,7 @@ icon: ri:guide-fill
 
 1. 시스템 버전 확인
 
-   MAA 는 Windows 10/11만 지원합니다. 이전 버전의 Windows를 사용하는 경우 [FAQ](./faq.md#가능성2:런타임문제)를 참조하세요.
+   MAA 는 Windows 10/11만 지원합니다. 이전 버전의 Windows를 사용하는 경우 [FAQ](./faq.md#런타임-문제)를 참조하세요.
 
    Windows 사용자가 아닌 경우 [에뮬레이터 및 장치 지원](./device/)을 참조하세요.
 
@@ -29,7 +29,7 @@ icon: ri:guide-fill
 
    MAA는 VCRedist x64 및 .NET 10이 필요합니다. MAA 디렉토리의 `DependencySetup_依赖库安装.bat`를 실행하여 설치하세요.
 
-   자세한 정보는 [FAQ](./faq.md#가능성-2-런타임-문제)를 참조하세요.
+   자세한 정보는 [FAQ](./faq.md#런타임-문제)를 참조하세요.
 
 5. 에뮬레이터 지원 확인
 

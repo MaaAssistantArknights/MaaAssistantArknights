@@ -500,10 +500,10 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 고정 시드 사용  
 :::  
 ::::  
-붕괴 패러다임 파밍 기능에 대한 자세한 내용은 [통합 전략 보조 프로토콜](./integrated-strategy-schema.md#사미-통합 전략-—-붕괴-패러다임-collapsal-paradigms)을 참고하세요.
+붕괴 패러다임 파밍 기능에 대한 자세한 내용은 [통합 전략 보조 프로토콜](./integrated-strategy-schema.md#탐험가의-은빛-서리-끝자락-—-붕괴-패러다임)을 참고하세요.
 
 - `Copilot`  
-   자동 전투 (Copilot)
+   자동지휘
 
 :::: field-group  
 ::: field name="enable" type="boolean" optional default="true"  
@@ -571,10 +571,10 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   :::  
   ::::
 
-작전 JSON은 [전투 흐름 프로토콜](./copilot-schema.md)을 참고하세요.
+작전 JSON은 [자동지휘 프로토콜](./copilot-schema.md)을 참고하세요.
 
 - `SSSCopilot`  
-   보안 파견 자동 전투
+   보안 파견 자동지휘
 
 :::: field-group  
 ::: field name="enable" type="boolean" optional default="true"  
@@ -672,7 +672,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 `start` - 작전 시작, `details` 없음
 <br>
-`action` - 단일 작전 조작, `details`는 작전 프로토콜 중 단일 action이어야 함. 예: `"details": { "name": "수르트", "location": [ 4, 5 ], "direction": "左" }`. 상세 내용은 [전투 흐름 프로토콜](./copilot-schema.md) 참고  
+`action` - 단일 작전 조작, `details`는 작전 프로토콜 중 단일 action이어야 함. 예: `"details": { "name": "수르트", "location": [ 4, 5 ], "direction": "左" }`. 상세 내용은 [자동지휘 프로토콜](./copilot-schema.md) 참고  
 :::  
 ::: field name="details" type="object" optional  
 서브 작업 상세 파라미터  
@@ -799,7 +799,7 @@ Value
 터치 모드 설정. 옵션: minitouch | maatouch | adb. 기본값 minitouch. 열거값: 2  
 :::  
 ::: field name="DeploymentWithPause" type="boolean" optional  
-오퍼레이터 배치 시 일시정지 여부, Copilot/통합전략/보안파견에 모두 영향. 옵션: "1" 켜기, "0" 끄기. 열거값: 3  
+오퍼레이터 배치 시 일시정지 여부, 자동지휘/통합 전략/보안파견에 모두 영향. 옵션: "1" 켜기, "0" 끄기. 열거값: 3  
 :::  
 ::: field name="AdbLiteEnabled" type="boolean" optional  
 AdbLite 사용 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 4  

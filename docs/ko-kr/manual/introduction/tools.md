@@ -21,13 +21,13 @@ icon: octicon:tools-16
 
 현재 [펭귄 물류](https://penguin-stats.cn/planner), [Arknights Toolbox](https://arkntools.app/#/material), [Arknights | Planner](https://ark-nights.com/settings)로 내보내기 기능을 지원합니다.
 
-JSON 스키마와 통합을 희망하는 경우 언제든지 문의해주세요.
+JSON 프로토콜과 통합을 희망하는 경우 언제든지 문의해주세요.
 
 앞으로 더 유용한 기능이 추가될 **가능성**이 있습니다.
 
 ## 영상 인식 (Alpha)
 
-전술 비디오를 인식하고 자동으로 Copilot 파일을 생성할 수 있습니다. 비디오 파일을 Copilot 탭 페이지로 끌어다 놓으면 시작됩니다.
+전술 비디오를 인식하고 자동으로 자동지휘 파일을 생성할 수 있습니다. 비디오 파일을 자동지휘 탭 페이지로 끌어다 놓으면 시작됩니다.
 
 가로세로 비율이 16:9 이고 720p 이상의 해상도를 갖는 비디오만 지원됩니다. 비디오 내용에는 검은 테두리, 왜곡 보정, 에뮬레이터 테두리 또는 기타 요소가 없어야 합니다.
 

@@ -430,7 +430,7 @@ default:
 
 ## Schema 검증
 
-본 프로젝트는 `tasks.json`에 대한 JSON schema 검증을 구성했습니다. 스키마 파일은 `docs/maa_tasks_schema.json`입니다.
+본 프로젝트는 `tasks.json`에 대한 JSON schema 검증을 구성했습니다. 프로토콜 파일은 `docs/maa_tasks_schema.json`입니다.
 
 ### Visual Studio
 

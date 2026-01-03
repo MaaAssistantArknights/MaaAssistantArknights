@@ -495,7 +495,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
     - `rarity` (number, required): 오퍼레이터 레어도 [1, 6]
 
 - `UnsupportedLevel`  
-  자동 작전(Copilot), 지원하지 않는 노드명. `details` 필드는 비어 있습니다
+  자동지휘, 지원하지 않는 노드명. `details` 필드는 비어 있습니다
 
 ### ReportRequest
 
