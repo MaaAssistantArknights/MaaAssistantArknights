@@ -434,7 +434,7 @@ default:
 
 ### Visual Studio
 
-`MaaCore.vcxporj`에 구성되어 있어 바로 사용 가능합니다. 힌트 효과는 다소 불명확하며 일부 정보가 누락될 수 있습니다.
+`MaaCore.vcxproj`에 구성되어 있어 바로 사용 가능합니다. 힌트 효과는 다소 불명확하며 일부 정보가 누락될 수 있습니다.
 
 ### Visual Studio Code
 
