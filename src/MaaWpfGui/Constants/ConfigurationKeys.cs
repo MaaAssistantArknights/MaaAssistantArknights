@@ -305,6 +305,8 @@ public static class ConfigurationKeys
     public const string ExternalNotificationQmsgKey = "ExternalNotification.Qmsg.Key";
     public const string ExternalNotificationQmsgUser = "ExternalNotification.Qmsg.User";
     public const string ExternalNotificationQmsgBot = "ExternalNotification.Qmsg.Bot";
+    public const string ExternalNotificationGotifyServer = "ExternalNotification.Gotify.Server";
+    public const string ExternalNotificationGotifyToken = "ExternalNotification.Gotify.Token";
     public const string ExternalNotificationCustomWebhookUrl = "ExternalNotification.CustomWebhook.Url";
     public const string ExternalNotificationCustomWebhookBody = "ExternalNotification.CustomWebhook.Body";
 

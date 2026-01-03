@@ -71,6 +71,8 @@
     <system:String x:Key="ExternalNotificationQmsgKey">Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">用户 QQ</system:String>
     <system:String x:Key="ExternalNotificationQmsgBot">机器人 QQ</system:String>
+    <system:String x:Key="ExternalNotificationGotifyServer">服务器 URL</system:String>
+    <system:String x:Key="ExternalNotificationGotifyToken">应用程序令牌</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">自定义 Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookBody">消息体模板</system:String>
