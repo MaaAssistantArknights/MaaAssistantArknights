@@ -1594,6 +1594,86 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙術杯選手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">仙術牛牛真仙術。</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用 ｢{key=AutoRoguelike}｣ 通關任意肉鴿 N15 及以上難度</system:String>
+
+    <system:String x:Key="Achievement.LogSupervisor.Title">超級監工</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Description">據說，盯著MAA的日誌能夠有效提高代理成功率。</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Conditions">開著日誌懸浮窗完成一次任務</system:String>
+
+    <system:String x:Key="Achievement.RecruitGambler.Title">公招賭徒</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Description">搏一搏，單車變摩托。</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Conditions">在公開招募中刷新標籤 50 次</system:String>
+
+    <system:String x:Key="Achievement.ClueCollector.Title">線索搜集</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Description">羅德島交際花。</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Conditions">累計開啟線索交流 20 次</system:String>
+
+    <system:String x:Key="Achievement.CluePhilosopher.Title">線索哲學家</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Description">聚會的意義是什麼？</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Conditions">累計開啟線索交流 50 次</system:String>
+
+    <system:String x:Key="Achievement.ClueSharer.Title">線索分享</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Description">好東西要和朋友分享。</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Conditions">累計向好友發送 20 次線索</system:String>
+
+    <system:String x:Key="Achievement.CluePhilanthropist.Title">線索慈善家</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Description">拿去花，不用謝。</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Conditions">累計向好友發送 50 次線索</system:String>
+
+    <system:String x:Key="Achievement.TaskChainKing.Title">任務鏈王</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Description">一鍵啟動，全部搞定。</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Conditions">單次運行中，勾選超過 7 個任務</system:String>
+
+    <system:String x:Key="Achievement.UpdateObsession.Title">更新強迫症</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Description">有更新？更！</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Conditions">在更新發布後 1 天內完成更新</system:String>
+
+    <system:String x:Key="Achievement.UpdateEarlyBird.Title">更新嘗鮮者</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Description">搶先體驗！</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Conditions">在更新發布後 1 小時內完成更新</system:String>
+
+    <system:String x:Key="Achievement.SanityPlanner.Title">理智規劃師</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Description">精確，完美，分毫不差。</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Conditions">完成{key=Combat}時剛好消耗完所有理智</system:String>
+
+    <system:String x:Key="Achievement.HotkeyMagician.Title">熱鍵魔術師</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Alt+Ctrl+Shift+F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Conditions">設置並使用一個超過 4 個修飾鍵的熱鍵組合</system:String>
+
+    <system:String x:Key="Achievement.WarehouseMiser.Title">倉庫守財奴</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Description">一個都不許用！</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">倉庫識別功能識別到倉庫內某種材料數量超過 5000 個（不包括作戰記錄！）</system:String>
+
+    <system:String x:Key="Achievement.HrSpecialist.Title">人事部專員</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Description">怎麼全是預備行動組啊！</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Conditions">單輪公招任務連續招募 10 次</system:String>
+
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Title">人事部高級專員</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Description">高資在哪裡啊高資在哪裡🎶</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Conditions">單輪公招任務連續招募 20 次</system:String>
+
+    <system:String x:Key="Achievement.WarehouseKeeper.Title">我是倉管！</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Description">牛牛找到了牛牛！</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Conditions">幹員識別中包含幹員"帕拉斯"</system:String>
+
+    <system:String x:Key="Achievement.NotFound404.Title">404！</system:String>
+    <system:String x:Key="Achievement.NotFound404.Description">這個任務似乎找不到了</system:String>
+    <system:String x:Key="Achievement.NotFound404.Conditions">使用遠程協議調用錯誤的任務 id</system:String>
+
+    <system:String x:Key="Achievement.Linguist.Title">語言學家</system:String>
+    <system:String x:Key="Achievement.Linguist.Description">MAA，但國際化。</system:String>
+    <system:String x:Key="Achievement.Linguist.Conditions">嘗試切換界面語言</system:String>
+
+    <system:String x:Key="Achievement.StartupBoot.Title">開機啟動</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Description">理論上你的開機速度又慢了一點</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Conditions">設置開機啟動 MAA</system:String>
+
+    <system:String x:Key="Achievement.ClueObsession.Title">線索強迫症</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Description">七色戰隊，集合！</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Conditions">連續 7 天每天集齊並開啟線索交流</system:String>
+
+    <system:String x:Key="Achievement.Time325.Title">325</system:String>
+    <system:String x:Key="Achievement.Time325.Description">你知道這個數字是什麼意思對吧</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">在 3 點 25 分還在使用maa</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

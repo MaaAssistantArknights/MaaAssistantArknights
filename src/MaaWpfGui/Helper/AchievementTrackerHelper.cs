@@ -422,6 +422,14 @@ public class AchievementTrackerHelper : PropertyChangedBase
         BasicUsage(id: AchievementIds.FirstLaunch), // 首次启动
         BasicUsage(id: AchievementIds.SanityExpire, target: 8), // 单次消耗 8 瓶快过期的理智药
         BasicUsage(id: AchievementIds.OverLimitAgent, target: 100, isHidden: true), // 单次代理 100 关
+
+        BasicUsage(id: AchievementIds.RecruitGambler, target: 50), // 公招赌徒
+
+        BasicUsage(id: AchievementIds.ClueCollector, group: AchievementIds.ClueUseGroup, target: 20), // 线索搜集
+        BasicUsage(id: AchievementIds.CluePhilosopher, group: AchievementIds.ClueUseGroup, target: 50), // 线索哲学家
+        BasicUsage(id: AchievementIds.ClueSharer, group: AchievementIds.ClueSendGroup, target: 20), // 线索分享
+        BasicUsage(id: AchievementIds.CluePhilanthropist, group: AchievementIds.ClueSendGroup, target: 50), // 线索慈善家
+        BasicUsage(id: AchievementIds.ClueObsession, target: 7, isRare: true), // 线索强迫症
         #endregion
 
         #region 功能探索类
@@ -439,6 +447,16 @@ public class AchievementTrackerHelper : PropertyChangedBase
         FeatureExploration(id: AchievementIds.RealGacha, isHidden: true), // 真正的抽卡
         FeatureExploration(id: AchievementIds.PeekScreen, isHidden: true), // 窥屏
         FeatureExploration(id: AchievementIds.CustomizationMaster, isHidden: true), // 自定义背景
+
+        FeatureExploration(id: AchievementIds.LogSupervisor), // 超级监工
+        FeatureExploration(id: AchievementIds.TaskChainKing, target: 7), // 任务链王
+        FeatureExploration(id: AchievementIds.HotkeyMagician), // 热键魔术师
+        FeatureExploration(id: AchievementIds.WarehouseMiser, target: 5000), // 仓库守财奴
+        FeatureExploration(id: AchievementIds.HrSpecialist, target: 10), // 人事部专员
+        FeatureExploration(id: AchievementIds.HrSeniorSpecialist, target: 20), // 人事部高级专员
+        FeatureExploration(id: AchievementIds.NotFound404, isHidden: true), // 404！
+        FeatureExploration(id: AchievementIds.Linguist), // 语言学家
+        FeatureExploration(id: AchievementIds.StartupBoot), // 开机启动
         #endregion
 
         #region 自动战斗
@@ -470,6 +488,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
         Humor(id: AchievementIds.RecruitNoSixStar, group: AchievementIds.RecruitGroup, target: 500), // 公招中累计 500 次没出现六星tag
         Humor(id: AchievementIds.RecruitNoSixStarStreak, group: AchievementIds.RecruitGroup, target: 500, isHidden: true), // 公招中连续 500 次没出现六星tag
+        Humor(id: AchievementIds.Time325, isHidden: true), // 325
         #endregion
 
         #region BUG 相关
@@ -489,6 +508,9 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Behavior(id: AchievementIds.UseDaily1, group: AchievementIds.UseDailyGroup, target: 7), // 连续使用时间
         Behavior(id: AchievementIds.UseDaily2, group: AchievementIds.UseDailyGroup, target: 30),
         Behavior(id: AchievementIds.UseDaily3, group: AchievementIds.UseDailyGroup, target: 365, isRare: true),
+
+        Behavior(id: AchievementIds.UpdateObsession), // 更新强迫症
+        Behavior(id: AchievementIds.UpdateEarlyBird, isHidden: true), // 更新尝鲜者
         #endregion
 
         #region 彩蛋类
@@ -500,6 +522,9 @@ public class AchievementTrackerHelper : PropertyChangedBase
         EasterEgg(id: AchievementIds.LunarNewYear, AchievementIds.LoginGroup, isHidden: true), // 春节
 
         EasterEgg(id: AchievementIds.Lucky, isHidden: true, isRare: true), // 启动 MAA 时有极小概率触发
+
+        EasterEgg(id: AchievementIds.SanityPlanner, isRare: true), // 理智规划师
+        EasterEgg(id: AchievementIds.WarehouseKeeper, isHidden: true), // 我是仓管！
         #endregion
     ];
 

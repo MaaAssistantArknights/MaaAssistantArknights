@@ -1593,6 +1593,86 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="Achievement.RoguelikeN15.Title">Immortal Arts Cup Contestant</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">Immortal MAA truly immortal.</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">Clear any I.S. at N15 difficulty or above using ｢{key=AutoRoguelike}｣</system:String>
+
+    <system:String x:Key="Achievement.LogSupervisor.Title">Supervisor</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Description">They say watching MAA's logs can effectively improve auto-battle success rate.</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Conditions">Complete a task with the log floating window open</system:String>
+
+    <system:String x:Key="Achievement.RecruitGambler.Title">Recruitment Gambler</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Description">All in! Turn a bicycle into a motorcycle.</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Conditions">Refresh tags 50 times in public recruitment</system:String>
+
+    <system:String x:Key="Achievement.ClueCollector.Title">Clue Collector</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Description">Rhodes Island socialite.</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Conditions">Open clue exchange 20 times in total</system:String>
+
+    <system:String x:Key="Achievement.CluePhilosopher.Title">Clue Philosopher</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Description">What is the meaning of gathering?</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Conditions">Open clue exchange 50 times in total</system:String>
+
+    <system:String x:Key="Achievement.ClueSharer.Title">Clue Sharer</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Description">Good things should be shared with friends.</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Conditions">Send clues to friends 20 times in total</system:String>
+
+    <system:String x:Key="Achievement.CluePhilanthropist.Title">Clue Philanthropist</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Description">Take it, no need to thank me.</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Conditions">Send clues to friends 50 times in total</system:String>
+
+    <system:String x:Key="Achievement.TaskChainKing.Title">Task Chain King</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Description">One click to start, everything done.</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Conditions">Select more than 7 tasks in a single run</system:String>
+
+    <system:String x:Key="Achievement.UpdateObsession.Title">Update Obsession</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Description">Update available? Update!</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Conditions">Complete update within 1 day after release</system:String>
+
+    <system:String x:Key="Achievement.UpdateEarlyBird.Title">Update Early Bird</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Description">Be the first to experience!</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Conditions">Complete update within 1 hour after release</system:String>
+
+    <system:String x:Key="Achievement.SanityPlanner.Title">Sanity Planner</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Description">Precise, perfect, not a single point off.</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Conditions">Complete {key=Combat} with exactly all sanity consumed</system:String>
+
+    <system:String x:Key="Achievement.HotkeyMagician.Title">Hotkey Magician</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Alt+Ctrl+Shift+F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Conditions">Set and use a hotkey combination with more than 4 modifier keys</system:String>
+
+    <system:String x:Key="Achievement.WarehouseMiser.Title">Warehouse Miser</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Description">Not a single one shall be used!</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">Warehouse recognition detects more than 5000 of a material (excluding battle records!)</system:String>
+
+    <system:String x:Key="Achievement.HrSpecialist.Title">HR Specialist</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Description">Why are they all Reserve Action Teams!</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Conditions">Recruit 10 times consecutively in a single recruitment task</system:String>
+
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Title">HR Senior Specialist</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Description">Where is the Senior Operator tag? Where is it?🎶</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Conditions">Recruit 20 times consecutively in a single recruitment task</system:String>
+
+    <system:String x:Key="Achievement.WarehouseKeeper.Title">I'm the Warehouse Keeper!</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Description">MAA found MAA!</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Conditions">Operator recognition includes operator "Pallas"</system:String>
+
+    <system:String x:Key="Achievement.NotFound404.Title">404!</system:String>
+    <system:String x:Key="Achievement.NotFound404.Description">This task seems to be missing</system:String>
+    <system:String x:Key="Achievement.NotFound404.Conditions">Use remote protocol to call a task with incorrect id</system:String>
+
+    <system:String x:Key="Achievement.Linguist.Title">Linguist</system:String>
+    <system:String x:Key="Achievement.Linguist.Description">MAA, but internationalized.</system:String>
+    <system:String x:Key="Achievement.Linguist.Conditions">Try switching interface language</system:String>
+
+    <system:String x:Key="Achievement.StartupBoot.Title">Startup Boot</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Description">Theoretically, your boot time just got a bit slower</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Conditions">Set MAA to start on boot</system:String>
+
+    <system:String x:Key="Achievement.ClueObsession.Title">Clue Obsession</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Description">Seven-color team, assemble!</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Conditions">Collect and open clue exchange every day for 7 consecutive days</system:String>
+
+    <system:String x:Key="Achievement.Time325.Title">325</system:String>
+    <system:String x:Key="Achievement.Time325.Description">You know what this number means, right?</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">Still using MAA at 3:25 AM</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

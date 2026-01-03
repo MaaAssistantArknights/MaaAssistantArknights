@@ -46,6 +46,18 @@ public static class AchievementIds
     public const string SanityExpire = "SanityExpire";
     public const string OverLimitAgent = "OverLimitAgent";
 
+    public const string RecruitGambler = "RecruitGambler";
+
+    public const string ClueUseGroup = "ClueUse";
+    public const string ClueCollector = "ClueCollector";
+    public const string CluePhilosopher = "CluePhilosopher";
+
+    public const string ClueSendGroup = "ClueSend";
+    public const string ClueSharer = "ClueSharer";
+    public const string CluePhilanthropist = "CluePhilanthropist";
+
+    public const string ClueObsession = "ClueObsession";
+
     #endregion
 
     #region 功能探索类
@@ -68,6 +80,16 @@ public static class AchievementIds
     public const string RealGacha = "RealGacha";
     public const string PeekScreen = "PeekScreen";
     public const string CustomizationMaster = "CustomizationMaster";
+
+    public const string LogSupervisor = "LogSupervisor";
+    public const string TaskChainKing = "TaskChainKing";
+    public const string HotkeyMagician = "HotkeyMagician";
+    public const string WarehouseMiser = "WarehouseMiser";
+    public const string HrSpecialist = "HrSpecialist";
+    public const string HrSeniorSpecialist = "HrSeniorSpecialist";
+    public const string NotFound404 = "NotFound404";
+    public const string Linguist = "Linguist";
+    public const string StartupBoot = "StartupBoot";
 
     #endregion
 
@@ -108,6 +130,8 @@ public static class AchievementIds
     public const string SnapshotChallenge5 = "SnapshotChallenge5"; // 10
     public const string SnapshotChallenge6 = "SnapshotChallenge6"; // 5
 
+    public const string Time325 = "Time325"; // 325
+
     #endregion
 
     #region BUG 相关
@@ -134,6 +158,9 @@ public static class AchievementIds
     public const string UseDaily2 = "UseDaily2"; // 30 天
     public const string UseDaily3 = "UseDaily3"; // 365 天
 
+    public const string UpdateObsession = "UpdateObsession";
+    public const string UpdateEarlyBird = "UpdateEarlyBird";
+
     #endregion
 
     #region 彩蛋类
@@ -146,6 +173,9 @@ public static class AchievementIds
     public const string AprilFools = "AprilFools";
     public const string MidnightLaunch = "MidnightLaunch";
     public const string LunarNewYear = "LunarNewYear";
+
+    public const string SanityPlanner = "SanityPlanner";
+    public const string WarehouseKeeper = "WarehouseKeeper";
 
     #endregion
 }

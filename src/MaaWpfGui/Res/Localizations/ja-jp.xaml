@@ -1594,6 +1594,86 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙術杯選手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">本物の仙術だなあ。</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">「{key=AutoRoguelike}」で、任意のテーマで N15 難易度以上をクリアする</system:String>
+
+    <system:String x:Key="Achievement.LogSupervisor.Title">スーパーバイザー</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Description">MAAのログを見つめていると、自動戦闘の成功率が上がるらしい。</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Conditions">ログフローティングウィンドウを開いた状態でタスクを1回完了する</system:String>
+
+    <system:String x:Key="Achievement.RecruitGambler.Title">公開採用ギャンブラー</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Description">一か八か、自転車がバイクに。</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Conditions">公開採用でタグを50回リフレッシュする</system:String>
+
+    <system:String x:Key="Achievement.ClueCollector.Title">手がかり収集家</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Description">ロドス島の社交界の花。</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Conditions">手がかり交換を累計20回開く</system:String>
+
+    <system:String x:Key="Achievement.CluePhilosopher.Title">手がかり哲学者</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Description">集まりの意味とは何か？</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Conditions">手がかり交換を累計50回開く</system:String>
+
+    <system:String x:Key="Achievement.ClueSharer.Title">手がかりシェアラー</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Description">良いものは友達と分かち合う。</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Conditions">友達に手がかりを累計20回送る</system:String>
+
+    <system:String x:Key="Achievement.CluePhilanthropist.Title">手がかり慈善家</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Description">持って行って、どういたしまして。</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Conditions">友達に手がかりを累計50回送る</system:String>
+
+    <system:String x:Key="Achievement.TaskChainKing.Title">タスクチェーン王</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Description">ワンクリックで起動、全部完了。</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Conditions">1回の実行で7個以上のタスクを選択する</system:String>
+
+    <system:String x:Key="Achievement.UpdateObsession.Title">更新強迫症</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Description">更新がある？更新する！</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Conditions">更新リリース後1日以内に更新を完了する</system:String>
+
+    <system:String x:Key="Achievement.UpdateEarlyBird.Title">更新アーリーバード</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Description">いち早く体験！</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Conditions">更新リリース後1時間以内に更新を完了する</system:String>
+
+    <system:String x:Key="Achievement.SanityPlanner.Title">理性プランナー</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Description">精密、完璧、寸分の狂いもない。</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Conditions">{key=Combat}を完了した時、すべての理性をちょうど使い切る</system:String>
+
+    <system:String x:Key="Achievement.HotkeyMagician.Title">ホットキーマジシャン</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Alt+Ctrl+Shift+F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Conditions">修飾キーが4つ以上のホットキー組み合わせを設定して使用する</system:String>
+
+    <system:String x:Key="Achievement.WarehouseMiser.Title">倉庫の守銭奴</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Description">一つも使わせない！</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">倉庫認識機能が倉庫内の特定の材料が5000個以上あることを検出する（戦闘記録は除く！）</system:String>
+
+    <system:String x:Key="Achievement.HrSpecialist.Title">人事部専門員</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Description">どうして全部予備行動チームなんだ！</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Conditions">1回の公開採用タスクで連続10回採用する</system:String>
+
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Title">人事部上級専門員</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Description">上級オペレータータグはどこだ？どこだ？🎶</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Conditions">1回の公開採用タスクで連続20回採用する</system:String>
+
+    <system:String x:Key="Achievement.WarehouseKeeper.Title">私は倉庫管理員！</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Description">MAAがMAAを見つけた！</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Conditions">オペレーター認識にオペレーター「パラス」が含まれる</system:String>
+
+    <system:String x:Key="Achievement.NotFound404.Title">404！</system:String>
+    <system:String x:Key="Achievement.NotFound404.Description">このタスクは見つからないようです</system:String>
+    <system:String x:Key="Achievement.NotFound404.Conditions">リモートプロトコルで間違ったタスクidを呼び出す</system:String>
+
+    <system:String x:Key="Achievement.Linguist.Title">言語学者</system:String>
+    <system:String x:Key="Achievement.Linguist.Description">MAA、しかし国際化。</system:String>
+    <system:String x:Key="Achievement.Linguist.Conditions">インターフェース言語を切り替えてみる</system:String>
+
+    <system:String x:Key="Achievement.StartupBoot.Title">起動時起動</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Description">理論的には、起動時間が少し遅くなった</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Conditions">MAAを起動時に起動するように設定する</system:String>
+
+    <system:String x:Key="Achievement.ClueObsession.Title">手がかり強迫症</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Description">七色戦隊、集合！</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Conditions">7日連続で毎日手がかりを集めて手がかり交換を開く</system:String>
+
+    <system:String x:Key="Achievement.Time325.Title">325</system:String>
+    <system:String x:Key="Achievement.Time325.Description">この数字の意味を知っているでしょう？</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">午前3時25分にまだMAAを使用している</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->
