@@ -37,7 +37,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 ## 주요 기능
 
 - 이성을 사용하고, 아이템 드랍을 인식해 자동으로 통계 사이트에 업로드 합니다. [펭귄 물류](https://penguin-stats.io/), [Yituliu](https://ark.yituliu.cn/)
-- 자동으로 오퍼레이터 효율을 고려해 기반시설 교대를 하며, 동시에 사용자 커스텀 교대 기능도 지원합니다. [기반시설 스키마](./protocol/base-scheduling-schema.md)
+- 자동으로 오퍼레이터 효율을 고려해 기반시설 교대를 하며, 동시에 사용자 커스텀 교대 기능도 지원합니다. [기반시설 스케줄링 프로토콜](./protocol/base-scheduling-schema.md)
 - 자동으로 공개모집 및 즉시 모집을 선택할 수 있으며, 자동으로 통계 사이트에 업로드 합니다. [펭귄 물류](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://ark.yituliu.cn/survey/maarecruitdata)
 - 공개 모집 화면에서 태그 인식을 할 수 있습니다.
 - 오퍼레이터 목록을 인식해, 보유중인 오퍼레이터들 및 잠재를 통계화하여 공개모집 태그 인식 시 표시합니다.
