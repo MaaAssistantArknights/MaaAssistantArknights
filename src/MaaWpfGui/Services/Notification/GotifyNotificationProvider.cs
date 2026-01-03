@@ -62,6 +62,13 @@ public partial class GotifyNotificationProvider(IHttpService httpService) : IExt
             return false;
         }
 
+        server = server.Trim();
+        if (!Uri.TryCreate(server, UriKind.Absolute, out var baseUri) ||
+            (baseUri.Scheme != Uri.UriSchemeHttp && baseUri.Scheme != Uri.UriSchemeHttps))
+        {
+            return false;
+        }
+
         if (string.IsNullOrWhiteSpace(token))
         {
             _logger.Warning("Failed to send Gotify notification, application token is empty");
@@ -73,12 +80,11 @@ public partial class GotifyNotificationProvider(IHttpService httpService) : IExt
 
         try
         {
-            var baseUri = new Uri(server);
             var messageUri = new Uri(baseUri, "/message");
 
             var headers = new Dictionary<string, string>
             {
-                { "X-Gotify-Key", token }
+                { "X-Gotify-Key", token },
             };
 
             var response = await httpService.PostAsJsonAsync(
@@ -92,7 +98,8 @@ public partial class GotifyNotificationProvider(IHttpService httpService) : IExt
                 return false;
             }
 
-            var responseRoot = JsonDocument.Parse(response).RootElement;
+            using var doc = JsonDocument.Parse(response);
+            var responseRoot = doc.RootElement;
             if (responseRoot.TryGetProperty("id", out var idElement))
             {
                 _logger.Information("Gotify notification sent successfully, message ID: {Id}", idElement.GetInt32());

@@ -514,10 +514,11 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string GotifyServer
     {
         get => _gotifyServer;
-        set {
+        set
+        {
             SetAndNotify(ref _gotifyServer, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyServer, value);
+            var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyServer, encryptedValue);
         }
     }
 
@@ -526,10 +527,11 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string GotifyToken
     {
         get => _gotifyToken;
-        set {
+        set
+        {
             SetAndNotify(ref _gotifyToken, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyToken, value);
+            var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyToken, encryptedValue);
         }
     }
 
