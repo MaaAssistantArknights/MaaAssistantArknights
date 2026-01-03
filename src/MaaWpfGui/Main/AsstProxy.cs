@@ -1880,6 +1880,7 @@ public class AsstProxy
                 {
                     int refreshCount = (int)subTaskDetails!["count"]!;
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Refreshed") + refreshCount + LocalizationHelper.GetString("UnitTime"));
+                    AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RecruitGambler);
                     break;
                 }
 
