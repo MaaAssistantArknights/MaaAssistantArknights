@@ -416,7 +416,7 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 통합 전략 만렙 도달 시 정지할지 여부  
 :::  
 ::: field name="investment_enabled" type="boolean" optional default="true"  
-오리지늄 뿔 투자 여부  
+오리지늄각뿔 투자 여부  
 :::  
 ::: field name="investments_count" type="number" optional default="2147483647"  
 투자 횟수. 도달 시 자동 정지  
