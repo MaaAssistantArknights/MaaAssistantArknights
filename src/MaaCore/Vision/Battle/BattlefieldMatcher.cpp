@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <ranges>
 
-#include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/NoWarningCV.h"
 
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
@@ -279,6 +279,7 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
     TemplDetOCRer kills_analyzer(m_image);
     kills_analyzer.set_task_info("BattleKillsFlag", "BattleKills");
     kills_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+    kills_analyzer.set_ocr_use_raw(true);
     auto kills_opt = kills_analyzer.analyze();
     if (!kills_opt) {
         return {};
@@ -412,7 +413,10 @@ bool asst::BattlefieldMatcher::hit_costs_cache() const
 bool BattlefieldMatcher::pause_button_analyze() const
 {
     auto task_ptr = Task.get("BattleHasStarted");
-    cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
+    cv::Rect roi_rect = make_rect<cv::Rect>(task_ptr->roi);
+    roi_rect.x += (roi_rect.x + m_image.cols - 1280 > 0) ? m_image.cols - 1280 : 0;
+    roi_rect &= cv::Rect(0, 0, m_image.cols, m_image.rows);
+    cv::Mat roi = m_image(roi_rect);
     cv::Mat roi_gray;
     cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2GRAY);
     cv::Mat bin;
@@ -467,7 +471,11 @@ bool BattlefieldMatcher::in_detail_analyze() const
 bool asst::BattlefieldMatcher::speed_button_analyze() const
 {
     auto task_ptr = Task.get("BattleSpeedButton");
-    cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
+    cv::Rect roi_rect = make_rect<cv::Rect>(task_ptr->roi);
+    roi_rect.x += (roi_rect.x + m_image.cols - 1280 > 0) ? m_image.cols - 1280 : 0;
+    roi_rect &= cv::Rect(0, 0, m_image.cols, m_image.rows);
+    cv::Mat roi = m_image(roi_rect);
+    //cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
     cv::Mat roi_gray;
     cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2GRAY);
     cv::Mat bin;
