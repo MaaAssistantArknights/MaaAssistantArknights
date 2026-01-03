@@ -150,7 +150,7 @@ MAA 現在會嘗試從登錄檔中讀取 `bluestacks.conf` 的儲存位置，當
 
 需選擇對應模擬器的配置，若列表中沒有則選擇通用配置。若通用配置不可用，請嘗試並選擇其他任一可用的配置。
 
-具體區別可以閱讀[原始碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L65)。
+具體區別可以閱讀[原始碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L57)。
 
 ### MuMu 截圖增強模式
 
