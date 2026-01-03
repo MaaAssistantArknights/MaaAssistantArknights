@@ -1371,6 +1371,10 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.Martian.Conditions">リソースまたはバージョンの時間が3ヶ月以上経過している</system:String>
     <system:String x:Key="Achievement.Martian.ConditionsTip">リソースまたはバージョンの時間が{0}ヶ月以上経過している</system:String>
 
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">頑固者</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">何度も通知されているのに、それでもお知らせを読まずに閉じ続ける。</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Conditions">下までスクロールせずに閉じるボタンを20回以上クリックする</system:String>
+
     <system:String x:Key="Achievement.Rules.Title">重大エラー</system:String>
     <system:String x:Key="Achievement.Rules.Description">私はずっとあなたを見つめています。</system:String>
     <system:String x:Key="Achievement.Rules.Conditions">MAAのスタッフ規則</system:String>

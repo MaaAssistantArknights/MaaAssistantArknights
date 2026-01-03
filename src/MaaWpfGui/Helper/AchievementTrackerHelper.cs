@@ -174,7 +174,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         return new([.. id.TakeWhile(char.IsLetter)]);
     }
 
-    public void Unlock(string id, bool staysOpen = true)
+    public void Unlock(string id, bool staysOpen = true, bool forceStayOpen = false)
     {
         if (!_achievements.TryGetValue(id, out var achievement) || achievement.IsUnlocked)
         {
@@ -190,7 +190,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         {
             IsCustom = true,
             Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}: {achievement.Title}\n{achievement.Description}",
-            StaysOpen = staysOpen && !SettingsViewModel.AchievementSettings.AchievementPopupAutoClose,
+            StaysOpen = forceStayOpen || (staysOpen && !SettingsViewModel.AchievementSettings.AchievementPopupAutoClose),
             WaitTime = 15,
             IconKey = "HangoverGeometry",
             IconBrushKey = achievement.MedalBrushKey,
@@ -466,6 +466,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Humor(id: AchievementIds.QuickCloser, isHidden: true), // 快速关闭弹窗
         Humor(id: AchievementIds.TacticalRetreat), // 停止任务
         Humor(id: AchievementIds.Martian, isHidden: true), // 90 天没更新
+        Humor(id: AchievementIds.AnnouncementStubbornClick, isHidden: true), // 不看公告
 
         Humor(id: AchievementIds.RecruitNoSixStar, group: AchievementIds.RecruitGroup, target: 500), // 公招中累计 500 次没出现六星tag
         Humor(id: AchievementIds.RecruitNoSixStarStreak, group: AchievementIds.RecruitGroup, target: 500, isHidden: true), // 公招中连续 500 次没出现六星tag

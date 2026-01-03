@@ -275,7 +275,7 @@ public class AnnouncementViewModel : Screen
         ETagCache.Save();
     }
 
-    private int _notFinishedClickIndex = 0;
+    private int _notFinishedClick = 0;
     private static readonly string[] _notFinishedMessages = [
         LocalizationHelper.GetString("AnnouncementNotFinishedConfirm"),
         LocalizationHelper.GetString("AnnouncementNotFinishedConfirm2"),
@@ -298,13 +298,19 @@ public class AnnouncementViewModel : Screen
         }
         else
         {
-            if (_notFinishedClickIndex < _notFinishedMessages.Length)
+            if (_notFinishedClick < _notFinishedMessages.Length)
             {
-                ButtonContent = _notFinishedMessages[_notFinishedClickIndex++];
+                ButtonContent = _notFinishedMessages[_notFinishedClick++];
             }
             else
             {
                 ButtonContent += "?\u200B";
+                _notFinishedClick++;
+                if (_notFinishedClick > 20)
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.AnnouncementStubbornClick, forceStayOpen: true);
+                    RequestClose();
+                }
             }
         }
     }
