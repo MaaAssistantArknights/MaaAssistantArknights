@@ -1633,12 +1633,23 @@ public class AsstProxy
         switch (subTask)
         {
             case "ProcessTask":
-                var taskchain = details["taskchain"]?.ToString();
-                switch (taskchain)
+                var taskName = details["details"]?["task"]?.ToString();
+                var taskChain = details["taskchain"]?.ToString();
+                switch (taskChain)
                 {
+                    case "Infrast":
+                        {
+                            if (taskName == "UnlockClues")
+                            {
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ClueExchangeUnlocked"));
+                                AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ClueUseGroup);
+                            }
+
+                            break;
+                        }
+
                     case "Roguelike":
                         {
-                            var taskName = details!["details"]!["task"]!.ToString();
                             int execTimes = (int)details!["details"]!["exec_times"]!;
 
                             if (taskName == "StartExplore")
@@ -1651,7 +1662,6 @@ public class AsstProxy
 
                     case "Mall":
                         {
-                            var taskName = details["details"]!["task"]!.ToString();
                             switch (taskName)
                             {
                                 case "EndOfActionThenStop":
