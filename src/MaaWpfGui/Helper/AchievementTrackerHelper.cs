@@ -309,6 +309,16 @@ public class AchievementTrackerHelper : PropertyChangedBase
         }
     }
 
+    public int GetProgress(string id)
+    {
+        if (!_achievements.TryGetValue(id, out var achievement))
+        {
+            return 0;
+        }
+
+        return achievement.Progress;
+    }
+
     public void SetProgress(string id, int progress)
     {
         if (!_achievements.TryGetValue(id, out var achievement))

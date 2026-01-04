@@ -467,6 +467,8 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public string LoliconResult { get; set; } = string.Empty;
 
+    private static readonly HashSet<string> AchievementExcludedItemIds = ["2001", "2002", "2003", "2004"];
+
     /// <summary>
     /// parse of depot recognition result
     /// </summary>
@@ -489,19 +491,35 @@ public class ToolboxViewModel : Screen
         foreach (var item in sortedItems)
         {
             var id = (string?)item["id"];
-            if (id == null)
+            if (string.IsNullOrEmpty(id))
             {
                 continue;
             }
+
+            int count = -1;
+            bool hasValidCount = false;
+
+            if (item["have"] != null)
+            {
+                var haveValue = item["have"]?.ToString();
+                hasValidCount = int.TryParse(haveValue, out count);
+            }
+
+            string countStr = hasValidCount ? count.FormatNumber(false) : "-1";
 
             DepotResultDate result = new() {
                 Id = id,
                 Name = ItemListHelper.GetItemName(id),
                 Image = ItemListHelper.GetItemImage(id),
-                Count = item["have"] != null && int.TryParse(item["have"]?.ToString() ?? "-1", out int haveValue)
-                    ? haveValue.FormatNumber(false)
-                    : "-1",
+                Count = countStr,
             };
+
+            if (hasValidCount && count > 0 &&
+                !AchievementExcludedItemIds.Contains(id) &&
+                count > AchievementTrackerHelper.Instance.GetProgress(AchievementIds.WarehouseMiser))
+            {
+                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.WarehouseMiser, count);
+            }
 
             DepotResult.Add(result);
         }
