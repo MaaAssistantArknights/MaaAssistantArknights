@@ -81,6 +81,22 @@ public partial class CopilotViewModel : Screen
     public ObservableCollection<LogItemViewModel> LogItemViewModels { get; } = [];
 
     /// <summary>
+    /// Gets the file items for TreeView.
+    /// </summary>
+    public ObservableCollection<CopilotFileItem> FileItems { get; } = [];
+
+    private bool _isFilePopupOpen;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether gets or sets whether the file dropdown popup is open.
+    /// </summary>
+    public bool IsFilePopupOpen
+    {
+        get => _isFilePopupOpen;
+        set => SetAndNotify(ref _isFilePopupOpen, value);
+    }
+
+    /// <summary>
     /// Gets or private sets the view models of Copilot items.
     /// </summary>
     public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; } = [];
@@ -246,6 +262,33 @@ public partial class CopilotViewModel : Screen
         }
     }
 
+    private string _displayFilename = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the display filename (relative path).
+    /// </summary>
+    public string DisplayFilename
+    {
+        get => _displayFilename;
+        set
+        {
+            SetAndNotify(ref _displayFilename, value);
+            if (!string.IsNullOrEmpty(value))
+            {
+                var copilotRoot = Path.Combine(ResourceDir, "copilot");
+                var fullPath = Path.IsPathRooted(value) ? value : Path.Combine(copilotRoot, value);
+                if (File.Exists(fullPath))
+                {
+                    Filename = fullPath;
+                }
+                else if (_copilotJsonPathMap.TryGetValue(Path.GetFileName(value), out var mappedPath))
+                {
+                    Filename = mappedPath;
+                }
+            }
+        }
+    }
+
     private string _filename = string.Empty;
 
     /// <summary>
@@ -274,6 +317,29 @@ public partial class CopilotViewModel : Screen
             }
 
             SetAndNotify(ref _filename, value);
+
+            // 更新显示文件名（相对路径）
+            if (!string.IsNullOrEmpty(value))
+            {
+                var copilotRoot = Path.Combine(ResourceDir, "copilot");
+                if (value.StartsWith(copilotRoot, StringComparison.OrdinalIgnoreCase))
+                {
+                    var relativePath = Path.GetRelativePath(copilotRoot, value);
+                    _displayFilename = relativePath;
+                    NotifyOfPropertyChange(nameof(DisplayFilename));
+                }
+                else
+                {
+                    _displayFilename = value;
+                    NotifyOfPropertyChange(nameof(DisplayFilename));
+                }
+            }
+            else
+            {
+                _displayFilename = string.Empty;
+                NotifyOfPropertyChange(nameof(DisplayFilename));
+            }
+
             ClearLog();
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -1330,51 +1396,150 @@ public partial class CopilotViewModel : Screen
     }
 
     /// <summary>
-    /// On comboBox drop down opened.
+    /// Load file items for TreeView.
     /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The event arguments.</param>
     [UsedImplicitly]
-    public void OnDropDownOpened(object sender, EventArgs e)
+    public void LoadFileItems()
     {
-        if (sender is not ComboBox comboBox)
+        try
+        {
+            _copilotJsonPathMap.Clear();
+            FileItems.Clear();
+
+            var copilotRoot = Path.Combine(ResourceDir, "copilot");
+
+            // 获取根目录下的所有目录和文件
+            var directories = Directory.GetDirectories(copilotRoot);
+            var rootFiles = Directory.GetFiles(copilotRoot, "*.json");
+
+            // 添加根目录下的文件
+            foreach (var file in rootFiles)
+            {
+                var fileName = Path.GetFileName(file);
+                var relativePath = Path.GetRelativePath(copilotRoot, file);
+                _copilotJsonPathMap[fileName] = file;
+
+                FileItems.Add(new CopilotFileItem
+                {
+                    Name = fileName,
+                    FullPath = file,
+                    RelativePath = relativePath,
+                    IsFolder = false,
+                });
+            }
+
+            // 添加根目录下的文件夹（支持嵌套，old 文件夹放在最后）
+            var oldFolderItem = (CopilotFileItem?)null;
+            foreach (var dir in directories)
+            {
+                var dirName = Path.GetFileName(dir);
+                var folderItem = LoadFolderItem(dir, copilotRoot);
+                if (folderItem != null)
+                {
+                    if (dirName.Equals("old", StringComparison.OrdinalIgnoreCase))
+                    {
+                        oldFolderItem = folderItem;
+                    }
+                    else
+                    {
+                        FileItems.Add(folderItem);
+                    }
+                }
+            }
+
+            // 将 old 文件夹添加到最后
+            if (oldFolderItem != null)
+            {
+                FileItems.Add(oldFolderItem);
+            }
+        }
+        catch (Exception exception)
+        {
+            FileItems.Clear();
+            AddLog(exception.Message, UiLogColor.Error, showTime: false);
+        }
+    }
+
+    /// <summary>
+    /// 递归加载文件夹项（支持嵌套子文件夹）
+    /// </summary>
+    /// <param name="dirPath">文件夹路径</param>
+    /// <param name="copilotRoot">copilot 根目录路径</param>
+    /// <returns>文件项，如果文件夹为空则返回 null</returns>
+    private CopilotFileItem? LoadFolderItem(string dirPath, string copilotRoot)
+    {
+        var dirName = Path.GetFileName(dirPath);
+        var folderItem = new CopilotFileItem
+        {
+            Name = dirName,
+            IsFolder = true,
+        };
+
+        // 获取文件夹下的所有文件
+        var folderFiles = Directory.GetFiles(dirPath, "*.json");
+        foreach (var file in folderFiles)
+        {
+            var fileName = Path.GetFileName(file);
+            var relativePath = Path.GetRelativePath(copilotRoot, file);
+            _copilotJsonPathMap[fileName] = file;
+
+            folderItem.Children.Add(new CopilotFileItem
+            {
+                Name = fileName,
+                FullPath = file,
+                RelativePath = relativePath,
+                IsFolder = false,
+            });
+        }
+
+        // 获取文件夹下的所有子文件夹（递归加载）
+        var subDirectories = Directory.GetDirectories(dirPath);
+        foreach (var subDir in subDirectories)
+        {
+            var subFolderItem = LoadFolderItem(subDir, copilotRoot);
+            if (subFolderItem != null)
+            {
+                folderItem.Children.Add(subFolderItem);
+            }
+        }
+
+        // 如果文件夹为空（既没有文件也没有子文件夹），返回 null
+        if (folderItem.Children.Count == 0)
+        {
+            return null;
+        }
+
+        return folderItem;
+    }
+
+    /// <summary>
+    /// Handle file selection from TreeView.
+    /// </summary>
+    /// <param name="fileItem">The selected file item.</param>
+    [UsedImplicitly]
+    public void OnFileSelected(CopilotFileItem? fileItem)
+    {
+        if (fileItem == null || fileItem.IsFolder || string.IsNullOrEmpty(fileItem.FullPath))
         {
             return;
         }
 
-        try
+        Filename = fileItem.FullPath;
+        IsFilePopupOpen = false;
+    }
+
+    /// <summary>
+    /// Toggle file popup.
+    /// </summary>
+    [UsedImplicitly]
+    public void ToggleFilePopup()
+    {
+        if (!IsFilePopupOpen)
         {
-            _copilotJsonPathMap.Clear();
-
-            var copilotRoot = Path.Combine(ResourceDir, "copilot");
-
-            var files = Directory.EnumerateFiles(
-                copilotRoot,
-                "*.json",
-                SearchOption.AllDirectories);
-
-            foreach (var file in files)
-            {
-                // 排除 copilot 下的 old 文件夹
-                if (file.Contains(Path.Combine("copilot", "old"), StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-
-                var fileName = Path.GetFileName(file);
-
-                // 使用 json 档名作为 key
-                _copilotJsonPathMap[fileName] = file;
-            }
-
-            // 下拉框只显示档案名称 (不含文件夹)
-            comboBox.ItemsSource = _copilotJsonPathMap.Keys.ToList();
+            LoadFileItems();
         }
-        catch (Exception exception)
-        {
-            comboBox.ItemsSource = null;
-            AddLog(exception.Message, UiLogColor.Error, showTime: false);
-        }
+
+        IsFilePopupOpen = !IsFilePopupOpen;
     }
 
     private async Task AddCopilotTaskToList(string? stageName, bool isRaid)
