@@ -1080,6 +1080,11 @@ public class AsstProxy
                     {
                         var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), FightTask.SanityReport.SanityCurrent, FightTask.SanityReport.SanityMax);
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain) + sanityLog);
+
+                        if (FightTask.SanityReport.SanityCurrent == 0)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SanityPlanner);
+                        }
                     }
                     else
                     {
