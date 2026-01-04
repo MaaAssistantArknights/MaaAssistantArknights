@@ -641,6 +641,11 @@ public class TaskQueueViewModel : Screen
 
             _lastTimerElapsed = currentTime;
 
+            if (currentTime.Hour == 3 && currentTime.Minute == 25 && !Idle)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Time325);
+            }
+
             VersionUpdateSettingsUserControlModel.Instance.RefreshMirrorChyanCdkRemaining();
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
