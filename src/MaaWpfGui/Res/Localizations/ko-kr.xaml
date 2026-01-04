@@ -1638,7 +1638,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.SanityPlanner.Conditions">{key=Combat} 완료 시 모든 이성을 정확히 소진</system:String>
 
     <system:String x:Key="Achievement.HotkeyMagician.Title">단축키 마법사</system:String>
-    <system:String x:Key="Achievement.HotkeyMagician.Description">Alt+Ctrl+Shift+F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Ctrl + Shift + Alt + Win + F13</system:String>
     <system:String x:Key="Achievement.HotkeyMagician.Conditions">수정 키가 4개 이상인 단축키 조합을 설정하고 사용</system:String>
 
     <system:String x:Key="Achievement.WarehouseMiser.Title">창고 수전노</system:String>

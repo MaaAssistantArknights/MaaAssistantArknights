@@ -1637,7 +1637,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.SanityPlanner.Conditions">完成{key=Combat}时刚好消耗完所有理智</system:String>
 
     <system:String x:Key="Achievement.HotkeyMagician.Title">热键魔术师</system:String>
-    <system:String x:Key="Achievement.HotkeyMagician.Description">Alt+Ctrl+Shift+F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Ctrl + Shift + Alt + Win + F13</system:String>
     <system:String x:Key="Achievement.HotkeyMagician.Conditions">设置并使用一个超过 4 个修饰键的热键组合</system:String>
 
     <system:String x:Key="Achievement.WarehouseMiser.Title">仓库守财奴</system:String>

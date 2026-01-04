@@ -1637,7 +1637,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.SanityPlanner.Conditions">{key=Combat}を完了した時、すべての理性をちょうど使い切る</system:String>
 
     <system:String x:Key="Achievement.HotkeyMagician.Title">ホットキーマジシャン</system:String>
-    <system:String x:Key="Achievement.HotkeyMagician.Description">Alt+Ctrl+Shift+F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Ctrl + Shift + Alt + Win + F13</system:String>
     <system:String x:Key="Achievement.HotkeyMagician.Conditions">修飾キーが4つ以上のホットキー組み合わせを設定して使用する</system:String>
 
     <system:String x:Key="Achievement.WarehouseMiser.Title">倉庫の守銭奴</system:String>

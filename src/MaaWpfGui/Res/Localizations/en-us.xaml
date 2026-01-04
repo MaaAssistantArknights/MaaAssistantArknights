@@ -1636,7 +1636,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="Achievement.SanityPlanner.Conditions">Complete {key=Combat} with exactly all sanity consumed</system:String>
 
     <system:String x:Key="Achievement.HotkeyMagician.Title">Hotkey Magician</system:String>
-    <system:String x:Key="Achievement.HotkeyMagician.Description">Alt+Ctrl+Shift+F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Ctrl + Shift + Alt + Win + F13</system:String>
     <system:String x:Key="Achievement.HotkeyMagician.Conditions">Set and use a hotkey combination with more than 4 modifier keys</system:String>
 
     <system:String x:Key="Achievement.WarehouseMiser.Title">Warehouse Miser</system:String>
