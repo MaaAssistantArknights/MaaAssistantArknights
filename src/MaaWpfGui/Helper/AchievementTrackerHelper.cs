@@ -218,7 +218,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
             IconKey = "HangoverGeometry",
             IconBrushKey = achievement.MedalBrushKey,
         };
-        ShowInfo(growlInfo);
+        ShowInfo(growlInfo, forceStayOpen: forceStayOpen);
     }
 
     public async Task UnlockAll()
@@ -273,10 +273,10 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
     private static readonly List<GrowlInfo> _pending = [];
 
-    public static void ShowInfo(GrowlInfo info)
+    public static void ShowInfo(GrowlInfo info, bool forceStayOpen = false)
     {
         // 检查是否禁用了成就通知
-        if (SettingsViewModel.AchievementSettings.AchievementPopupDisabled)
+        if (SettingsViewModel.AchievementSettings.AchievementPopupDisabled && !forceStayOpen)
         {
             return;
         }
@@ -446,22 +446,22 @@ public class AchievementTrackerHelper : PropertyChangedBase
     [
 
         #region 基础使用类
-        BasicUsage(id: AchievementIds.SanitySpender1, group: AchievementIds.SanitySpenderGroup, target: 10), // 理智作战次数
-        BasicUsage(id: AchievementIds.SanitySpender2, group: AchievementIds.SanitySpenderGroup, target: 100),
-        BasicUsage(id: AchievementIds.SanitySpender3, group: AchievementIds.SanitySpenderGroup, target: 1000),
+        BasicUsage(id: AchievementIds.SanitySpender1, group: AchievementIds.SanitySpenderGroup, target: 10, groupIndex: 1), // 理智作战次数
+        BasicUsage(id: AchievementIds.SanitySpender2, group: AchievementIds.SanitySpenderGroup, target: 100, groupIndex: 2),
+        BasicUsage(id: AchievementIds.SanitySpender3, group: AchievementIds.SanitySpenderGroup, target: 1000, groupIndex: 3),
 
-        BasicUsage(id: AchievementIds.SanitySaver1, group: AchievementIds.SanitySaverGroup, target: 1), // 使用理智药数
-        BasicUsage(id: AchievementIds.SanitySaver2, group: AchievementIds.SanitySaverGroup, target: 10),
-        BasicUsage(id: AchievementIds.SanitySaver3, group: AchievementIds.SanitySaverGroup, target: 50),
+        BasicUsage(id: AchievementIds.SanitySaver1, group: AchievementIds.SanitySaverGroup, target: 1, groupIndex: 1), // 使用理智药数
+        BasicUsage(id: AchievementIds.SanitySaver2, group: AchievementIds.SanitySaverGroup, target: 10, groupIndex: 2),
+        BasicUsage(id: AchievementIds.SanitySaver3, group: AchievementIds.SanitySaverGroup, target: 50, groupIndex: 3),
 
-        BasicUsage(id: AchievementIds.RoguelikeGamePass1, group: AchievementIds.RoguelikeGamePassGroup, target: 1), // 使用牛牛通关肉鸽
-        BasicUsage(id: AchievementIds.RoguelikeGamePass2, group: AchievementIds.RoguelikeGamePassGroup, target: 5),
-        BasicUsage(id: AchievementIds.RoguelikeGamePass3, group: AchievementIds.RoguelikeGamePassGroup, target: 10),
+        BasicUsage(id: AchievementIds.RoguelikeGamePass1, group: AchievementIds.RoguelikeGamePassGroup, target: 1, groupIndex: 1), // 使用牛牛通关肉鸽
+        BasicUsage(id: AchievementIds.RoguelikeGamePass2, group: AchievementIds.RoguelikeGamePassGroup, target: 5, groupIndex: 2),
+        BasicUsage(id: AchievementIds.RoguelikeGamePass3, group: AchievementIds.RoguelikeGamePassGroup, target: 10, groupIndex: 3),
 
-        BasicUsage(id: AchievementIds.RoguelikeN04, group: AchievementIds.RoguelikeNGroup), // 肉鸽 难度 通关
-        BasicUsage(id: AchievementIds.RoguelikeN08, group: AchievementIds.RoguelikeNGroup),
-        BasicUsage(id: AchievementIds.RoguelikeN12, group: AchievementIds.RoguelikeNGroup),
-        BasicUsage(id: AchievementIds.RoguelikeN15, group: AchievementIds.RoguelikeNGroup, isRare: true),
+        BasicUsage(id: AchievementIds.RoguelikeN04, group: AchievementIds.RoguelikeNGroup, groupIndex: 1), // 肉鸽 难度 通关
+        BasicUsage(id: AchievementIds.RoguelikeN08, group: AchievementIds.RoguelikeNGroup, groupIndex: 2),
+        BasicUsage(id: AchievementIds.RoguelikeN12, group: AchievementIds.RoguelikeNGroup, groupIndex: 3),
+        BasicUsage(id: AchievementIds.RoguelikeN15, group: AchievementIds.RoguelikeNGroup, isRare: true, groupIndex: 4),
 
         BasicUsage(id: AchievementIds.RoguelikeRetreat, group: AchievementIds.RoguelikeGroup, target: 100), // 牛牛放弃探索 100 次
         BasicUsage(id: AchievementIds.RoguelikeGoldMax, group: AchievementIds.RoguelikeGroup, target: 999), // 肉鸽源石锭到达 999
@@ -472,23 +472,24 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
         BasicUsage(id: AchievementIds.RecruitGambler, target: 50), // 公招赌徒
 
-        BasicUsage(id: AchievementIds.ClueCollector, group: AchievementIds.ClueUseGroup, target: 20), // 线索搜集
-        BasicUsage(id: AchievementIds.CluePhilosopher, group: AchievementIds.ClueUseGroup, target: 50), // 线索哲学家
-        BasicUsage(id: AchievementIds.ClueSharer, group: AchievementIds.ClueSendGroup, target: 20), // 线索分享
-        BasicUsage(id: AchievementIds.CluePhilanthropist, group: AchievementIds.ClueSendGroup, target: 50), // 线索慈善家
-        BasicUsage(id: AchievementIds.ClueObsession, target: 7, isRare: true), // 线索强迫症
+        BasicUsage(id: AchievementIds.ClueCollector, group: AchievementIds.ClueUseGroup, target: 20, groupIndex: 1), // 线索搜集
+        BasicUsage(id: AchievementIds.CluePhilosopher, group: AchievementIds.ClueUseGroup, target: 50, groupIndex: 2), // 线索哲学家
+        BasicUsage(id: AchievementIds.ClueObsession, target: 7, isRare: true, groupIndex: 3), // 线索强迫症
+
+        BasicUsage(id: AchievementIds.ClueSharer, group: AchievementIds.ClueSendGroup, target: 20, groupIndex: 1), // 线索分享
+        BasicUsage(id: AchievementIds.CluePhilanthropist, group: AchievementIds.ClueSendGroup, target: 50, groupIndex: 2), // 线索慈善家
         #endregion
 
         #region 功能探索类
-        FeatureExploration(id: AchievementIds.ScheduleMaster1, group: AchievementIds.ScheduleMasterGroup, target: 1), // 定时执行
-        FeatureExploration(id: AchievementIds.ScheduleMaster2, group: AchievementIds.ScheduleMasterGroup, target: 100),
+        FeatureExploration(id: AchievementIds.ScheduleMaster1, group: AchievementIds.ScheduleMasterGroup, target: 1, groupIndex: 1), // 定时执行
+        FeatureExploration(id: AchievementIds.ScheduleMaster2, group: AchievementIds.ScheduleMasterGroup, target: 100, groupIndex: 2),
 
         FeatureExploration(id: AchievementIds.MirrorChyanFirstUse, group: AchievementIds.MirrorChyanGroup, isHidden: true), // 第一次成功使用 MirrorChyan 下载
         FeatureExploration(id: AchievementIds.MirrorChyanCdkError, group: AchievementIds.MirrorChyanGroup, isHidden: true), // MirrorChyan CDK 错误
 
-        FeatureExploration(id: AchievementIds.Pioneer1, group: AchievementIds.PioneerGroup), // 将 MAA 更新至公测版
-        FeatureExploration(id: AchievementIds.Pioneer2, group: AchievementIds.PioneerGroup, isHidden: true), // 将 MAA 更新至内测版（隐藏）
-        FeatureExploration(id: AchievementIds.Pioneer3, group: AchievementIds.PioneerGroup, isHidden: true), // 使用未发布版本的 MAA（隐藏）
+        FeatureExploration(id: AchievementIds.Pioneer1, group: AchievementIds.PioneerGroup, groupIndex: 1), // 将 MAA 更新至公测版
+        FeatureExploration(id: AchievementIds.Pioneer2, group: AchievementIds.PioneerGroup, isHidden: true, groupIndex: 2), // 将 MAA 更新至内测版（隐藏）
+        FeatureExploration(id: AchievementIds.Pioneer3, group: AchievementIds.PioneerGroup, isHidden: true, groupIndex: 3), // 使用未发布版本的 MAA（隐藏）
 
         FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用「借助战打 OF-1」功能超过 5 次
         FeatureExploration(id: AchievementIds.RealGacha, isHidden: true), // 真正的抽卡
@@ -500,8 +501,8 @@ public class AchievementTrackerHelper : PropertyChangedBase
         FeatureExploration(id: AchievementIds.HotkeyMagician), // 热键魔术师
         FeatureExploration(id: AchievementIds.WarehouseMiser, target: 10000), // 仓库守财奴
 
-        FeatureExploration(id: AchievementIds.HrSpecialist, group: AchievementIds.HrManager, target: 10), // 人事部专员
-        FeatureExploration(id: AchievementIds.HrSeniorSpecialist, group: AchievementIds.HrManager, target: 20), // 人事部高级专员
+        FeatureExploration(id: AchievementIds.HrSpecialist, group: AchievementIds.HrManager, target: 10, groupIndex: 1), // 人事部专员
+        FeatureExploration(id: AchievementIds.HrSeniorSpecialist, group: AchievementIds.HrManager, target: 20, groupIndex: 2), // 人事部高级专员
 
         FeatureExploration(id: AchievementIds.NotFound404, isHidden: true), // 404！
         FeatureExploration(id: AchievementIds.Linguist), // 语言学家
@@ -509,13 +510,13 @@ public class AchievementTrackerHelper : PropertyChangedBase
         #endregion
 
         #region 自动战斗
-        AutoBattle(id: AchievementIds.UseCopilot1, group: AchievementIds.UseCopilotGroup, target: 1), // 自动战斗
-        AutoBattle(id: AchievementIds.UseCopilot2, group: AchievementIds.UseCopilotGroup, target: 10),
-        AutoBattle(id: AchievementIds.UseCopilot3, group: AchievementIds.UseCopilotGroup, target: 100),
+        AutoBattle(id: AchievementIds.UseCopilot1, group: AchievementIds.UseCopilotGroup, target: 1, groupIndex: 1), // 自动战斗
+        AutoBattle(id: AchievementIds.UseCopilot2, group: AchievementIds.UseCopilotGroup, target: 10, groupIndex: 2),
+        AutoBattle(id: AchievementIds.UseCopilot3, group: AchievementIds.UseCopilotGroup, target: 100, groupIndex: 3),
 
-        AutoBattle(id: AchievementIds.CopilotLikeGiven1, group: AchievementIds.CopilotLikeGroup, target: 1), // 点赞 1 次
-        AutoBattle(id: AchievementIds.CopilotLikeGiven2, group: AchievementIds.CopilotLikeGroup, target: 10), // 点赞 10 次
-        AutoBattle(id: AchievementIds.CopilotLikeGiven3, group: AchievementIds.CopilotLikeGroup, target: 50), // 点赞 50 次
+        AutoBattle(id: AchievementIds.CopilotLikeGiven1, group: AchievementIds.CopilotLikeGroup, target: 1, groupIndex: 1), // 点赞 1 次
+        AutoBattle(id: AchievementIds.CopilotLikeGiven2, group: AchievementIds.CopilotLikeGroup, target: 10, groupIndex: 2), // 点赞 10 次
+        AutoBattle(id: AchievementIds.CopilotLikeGiven3, group: AchievementIds.CopilotLikeGroup, target: 50, groupIndex: 3), // 点赞 50 次
 
         AutoBattle(id: AchievementIds.CopilotError), // 代理作战出现失误
         AutoBattle(id: AchievementIds.MapOutdated, isHidden: true), // 提示需要更新地图资源
@@ -523,20 +524,21 @@ public class AchievementTrackerHelper : PropertyChangedBase
         #endregion
 
         #region 搞笑/梗类成就
-        Humor(id: AchievementIds.SnapshotChallenge1, group: AchievementIds.SnapshotChallengeGroup, isHidden: true), // 平均截图用时超过 800ms（高 ping 战士）
-        Humor(id: AchievementIds.SnapshotChallenge2, group: AchievementIds.SnapshotChallengeGroup, isHidden: true), // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
-        Humor(id: AchievementIds.SnapshotChallenge3, group: AchievementIds.SnapshotChallengeGroup), // 平均截图用时小于 400ms（截图挑战 · Normal）
-        Humor(id: AchievementIds.SnapshotChallenge4, group: AchievementIds.SnapshotChallengeGroup), // 平均截图用时小于 100ms（截图挑战 · Fast）
-        Humor(id: AchievementIds.SnapshotChallenge5, group: AchievementIds.SnapshotChallengeGroup), // 平均截图用时小于 10ms（截图挑战 · Ultra）
-        Humor(id: AchievementIds.SnapshotChallenge6, group: AchievementIds.SnapshotChallengeGroup, isHidden: true, isRare: true), // 平均截图用时小于 5ms
+        Humor(id: AchievementIds.SnapshotChallenge1, group: AchievementIds.SnapshotChallengeGroup, isHidden: true, groupIndex: 6), // 平均截图用时超过 800ms（高 ping 战士）
+        Humor(id: AchievementIds.SnapshotChallenge2, group: AchievementIds.SnapshotChallengeGroup, isHidden: true, groupIndex: 5), // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
+        Humor(id: AchievementIds.SnapshotChallenge3, group: AchievementIds.SnapshotChallengeGroup, groupIndex: 1), // 平均截图用时小于 400ms（截图挑战 · Normal）
+        Humor(id: AchievementIds.SnapshotChallenge4, group: AchievementIds.SnapshotChallengeGroup, groupIndex: 2), // 平均截图用时小于 100ms（截图挑战 · Fast）
+        Humor(id: AchievementIds.SnapshotChallenge5, group: AchievementIds.SnapshotChallengeGroup, groupIndex: 3), // 平均截图用时小于 10ms（截图挑战 · Ultra）
+        Humor(id: AchievementIds.SnapshotChallenge6, group: AchievementIds.SnapshotChallengeGroup, isHidden: true, isRare: true, groupIndex: 4), // 平均截图用时小于 5ms
 
         Humor(id: AchievementIds.QuickCloser, isHidden: true), // 快速关闭弹窗
         Humor(id: AchievementIds.TacticalRetreat), // 停止任务
         Humor(id: AchievementIds.Martian, isHidden: true), // 90 天没更新
         Humor(id: AchievementIds.AnnouncementStubbornClick, isHidden: true), // 不看公告
 
-        Humor(id: AchievementIds.RecruitNoSixStar, group: AchievementIds.RecruitGroup, target: 500), // 公招中累计 500 次没出现六星tag
-        Humor(id: AchievementIds.RecruitNoSixStarStreak, group: AchievementIds.RecruitGroup, target: 500, isHidden: true), // 公招中连续 500 次没出现六星tag
+        Humor(id: AchievementIds.RecruitNoSixStar, group: AchievementIds.RecruitGroup, target: 500, groupIndex: 1), // 公招中累计 500 次没出现六星tag
+        Humor(id: AchievementIds.RecruitNoSixStarStreak, group: AchievementIds.RecruitGroup, target: 500, isHidden: true, groupIndex: 2), // 公招中连续 500 次没出现六星tag
+
         Humor(id: AchievementIds.Time325, isHidden: true), // 325
         #endregion
 
@@ -554,12 +556,12 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Behavior(id: AchievementIds.TaskStartCancel, isHidden: true), // 在开始任务后马上又停止
         Behavior(id: AchievementIds.AfkWatcher), // 窗口尺寸最小化后长时间不操作
 
-        Behavior(id: AchievementIds.UseDaily1, group: AchievementIds.UseDailyGroup, target: 7), // 连续使用时间
-        Behavior(id: AchievementIds.UseDaily2, group: AchievementIds.UseDailyGroup, target: 30),
-        Behavior(id: AchievementIds.UseDaily3, group: AchievementIds.UseDailyGroup, target: 365, isRare: true),
+        Behavior(id: AchievementIds.UseDaily1, group: AchievementIds.UseDailyGroup, target: 7, groupIndex: 1), // 连续使用时间
+        Behavior(id: AchievementIds.UseDaily2, group: AchievementIds.UseDailyGroup, target: 30, groupIndex: 2),
+        Behavior(id: AchievementIds.UseDaily3, group: AchievementIds.UseDailyGroup, target: 365, isRare: true, groupIndex: 3),
 
-        Behavior(id: AchievementIds.UpdateObsession), // 更新强迫症
-        Behavior(id: AchievementIds.UpdateEarlyBird, isHidden: true), // 更新尝鲜者
+        Behavior(id: AchievementIds.UpdateObsession, group: AchievementIds.UpdateGroup, groupIndex: 1), // 更新强迫症
+        Behavior(id: AchievementIds.UpdateEarlyBird, group: AchievementIds.UpdateGroup, isHidden: true, groupIndex: 2), // 更新尝鲜者
         #endregion
 
         #region 彩蛋类

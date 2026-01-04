@@ -161,6 +161,7 @@ public static class AchievementIds
     public const string UseDaily2 = "UseDaily2"; // 30 天
     public const string UseDaily3 = "UseDaily3"; // 365 天
 
+    public const string UpdateGroup = "Update";
     public const string UpdateObsession = "UpdateObsession";
     public const string UpdateEarlyBird = "UpdateEarlyBird";
 
