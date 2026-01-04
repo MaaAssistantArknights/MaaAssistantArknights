@@ -3,127 +3,129 @@ order: 8
 icon: iconoir:code-brackets
 ---
 
-# Dedicated VSCode Extension Tutorial
+# 전용 VSCode 확장 프로그램 가이드
 
-The extension provides a series of convenient development capabilities for MaaAssistantArknights/MaaFramework, including but not limited to the following features:
+이 확장 프로그램은 MaaAssistantArknights/MaaFramework에 대해 다음과 같은 기능들을 포함한 편리한 개발 기능들을 제공합니다:
 
-- tasks.json support, including `template preview`, `next jump`, `task reference`, etc.
-- Screenshot / Crop image
+- `template 미리보기`, `next 점프`, `작업 참조(Task Reference)` 등을 포함한 tasks.json 지원
+- 이미지 캡처/자르기
 
-For details, please visit [Extension Store](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) or [Repository](https://github.com/neko-para/maa-support-extension).
+자세한 내용은 [마켓플레이스](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) 또는 [저장소](https://github.com/neko-para/maa-support-extension)를 방문하여 확인할 수 있습니다.
 
-## Installation
+## 설치
 
-Searching `Maa` and installing it from VSCode extensions list is recommended.
+VSCode 확장 프로그램 목록에서 `Maa`를 검색하여 직접 설치하는 것을 권장합니다.
 
 ::: tip
-When used for the first time, the extension will automatically download the preset version of resources.
-Search command `Maa: select fetch registry` to switch the download source (npm / cnpm).
+처음 사용할 때 확장 프로그램은 사전 설정된 버전의 리소스를 자동으로 다운로드합니다.
+명령 팔레트에서 `Maa: 선택된 다운로드 소스(Maa: select fetch registry)`를 검색하여 다운로드 소스(npm / cnpm)를 전환할 수 있습니다.
 :::
 
-## Features
+## 기능
 
-### Control Panel
+### 제어판
 
-A dedicated control panel is added to the left, with icon ![MaaSupport ControlPanel](/images/maa-support-panel.svg)
+전용 제어판이 왼쪽에 추가되었으며, 아이콘은 ![MaaSupport ControlPanel](/images/maa-support-panel.svg) 입니다.
 
-The major features of the extension are based on the `interface.json` configuration. Select the activated `interface.json` on the top of the control panel.
+확장 프로그램의 대부분의 기능은 `interface.json` 구성을 기반으로 합니다. 제어판 상단에서 활성화할 `interface.json`을 선택할 수 있습니다.
 
-The extension has a `Maa` compatiable mode. If `src/MaaCore` folder exists inside the opened workspace, the mode will be enabled automatically.
+확장 프로그램에는 `Maa` 호환 모드가 있습니다. 열린 폴더 내에 `src/MaaCore` 폴더가 감지되면 자동으로 활성화됩니다.
 
-### Semantic resource analysis
+### 의미론적 리소스 분석
 
-Select expected resource via the `Resource` select inside the control panel. The extension will index and diagnose resource via corresponding paths.
+제어판의 `리소스(Resource)` 드롭다운을 전환하여 예상되는 리소스를 선택하세요. 확장 프로그램은 해당 경로를 기반으로 인덱싱 및 진단을 수행합니다.
 
-If you find that the editing json isn't hinted by the extension, please check if the activated resource contains it.
+편집하려는 json 파일에 플러그인 힌트가 표시되지 않는 경우, 활성화된 리소스에 해당 파일이 포함되어 있는지 확인하세요.
 
-> The term `definitions of task / task defs` refers to key props of task objects.
+> `작업 정의(task defs)`란 작업 객체의 키 속성을 의미합니다.
 >
-> The term `references of task / task refs` refers to values containing task name (e.g. in `next`) in other task objects.
+> `작업 참조(task refs)`란 다른 작업 객체에서 작업 이름을 값으로 가질 수 있는 속성(예: `next`)을 의미합니다.
 
-#### Query task defs / task refs
+#### 작업 정의/참조 조회
 
-The extension supports Jump to task defs, Jump to task refs and View task defs.
+확장 프로그램은 정의로 이동(Jump to definition), 참조로 이동(Jump to references), 작업 정의 보기(View task definition)를 지원합니다.
 
-When enabling the `Maa` compatible mode, the extension will be able to parse `template task`, supporting querying task defs and task refs in conjunction with base tasks. Images that have the same name as the task will be shown when hovering the task defs.
+`Maa` 호환 모드를 켜면 `템플릿 작업`을 파싱할 수 있어, 기본 클래스와 연동하여 작업 정의 및 참조를 조회할 수 있습니다. 작업 정의에 마우스를 올리면 동일한 이름의 이미지를 볼 수 있습니다.
 
-Use `Ctrl+T` to quickly query and jump to a task definition.
+`Ctrl+T` 단축키를 사용하여 작업 정의를 빠르게 조회하고 이동할 수 있습니다.
 
-#### Query / open images
+#### 이미지 조회/열기
 
-The extension supports open images.
+이 확장 프로그램은 이미지 열기를 지원합니다.
 
-When enabling the `Maa` compatible mode, the extension will be able to recursively search for the image.
+`Maa` 호환 모드를 켜면 이미지 경로에 대한 재귀적 검색을 허용합니다.
 
-#### Task completion
+#### 작업 자동 완성
 
-The extension supports autocompletion according to all known tasks.
+확장 프로그램은 알려진 모든 작업을 기반으로 자동 완성을 지원합니다.
 
-When enabling the `Maa` compatible mode, typing `@` will trigger completion.
+`Maa` 호환 모드를 켜면 `@`를 입력하여 완성을 트리거할 수 있습니다.
 
-#### Image path completion
+#### 이미지 경로 자동 완성
 
-The extension supports autocompletion according to the path of all known images.
+확장 프로그램은 알려진 모든 이미지 경로를 기반으로 자동 완성을 지원합니다.
 
-When enabling the `Maa` compatible mode, the extension will be able to recursively search for the image.
+`Maa` 호환 모드를 켜면 이미지 경로에 대한 재귀적 검색을 허용합니다.
 
-#### Check tasks / image paths
+#### 작업/이미지 경로 유효성 검사
 
-The extension supports scheduled scanning and diagnosing all tasks.
+확장 프로그램은 모든 작업을 정기적으로 스캔하고 분석하는 기능을 지원합니다.
 
-- Check if contains task defs with same names.
-- Check if contains unknown task refs.
-- Check if contains unknown image refs.
-- Check if contains duplicated task refs in a single task.
+- 중복된 작업 정의가 있는지 확인
+- 알 수 없는 작업 참조가 있는지 확인
+- 알 수 없는 이미지 참조가 있는지 확인
+- 단일 작업 내에 중복된 작업 참조가 있는지 확인
 
-#### Multiple paths resource support
+#### 다중 경로 리소스 지원
 
-The extension supports resource with multiple paths. The extension will perform logical overlapping according to specified order, thus content loaded later can reference content loaded earlier.
+확장 프로그램은 리소스가 여러 경로를 포함하는 것을 지원하며, 지정된 순서대로 논리적 덮어쓰기를 수행합니다. 즉, 나중에 로드된 콘텐츠가 이전에 로드된 콘텐츠를 참조할 수 있습니다.
 
-### Evaluate Task / Tsak List Expression (Only Maa)
+### 작업 계산 / 작업 목록 표현식 (Maa 전용)
 
-Evaluating the expanded task object and the sources of each properties, and the result of the task list expression via the control panel.
+제어판을 통해 실제 확장된 작업 내용과 각 항목의 출처를 계산할 수 있으며, 작업 목록 표현식의 확장 결과도 계산할 수 있습니다.
 
-### MaaPiCli feature (Only MaaFramework projects)
+### MaaPiCli 기능 (MaaFramework 프로젝트 전용)
 
-Scanning and selecting controllers, selecting resource, adding and manipulating tasks, and launching tasks can be done via the control panel.
+제어판을 통해 컨트롤러를 스캔 및 선택하고, 리소스를 선택하고, 작업을 추가 및 관리하고, 작업을 실행할 수 있습니다.
 
-### Take screenshots and crop images
+### 스크린샷 캡처 및 자르기
 
-Searching and launching `Maa: open crop tool` inside VSCode command panel can open `Screenshots / Crop` panel.
+VSCode 명령 팔레트에서 `Maa: 스크린샷 도구 열기(Maa: open crop tool)`를 검색하고 실행하여 `스크린샷 / 자르기(Screenshots / Crop)` 패널을 열 수 있습니다.
 
-> Use `Ctrl+Shift+P` (`Command+Shift+P` on MacOS) to open command panel
+> `Ctrl+Shift+P` (MacOS의 경우 `Command+Shift+P`)를 사용하여 명령 팔레트를 엽니다.
 
-- After selecting and connecting to the controller, use `Screencap` button to obtain screenshots
-- Use `Upload` button to manually upload images.
-- Hold `Ctrl` key and select cropping area
-- Use wheels to zoom
-- After finishing cropping, use `Download` button to save the cropping result to the folder of the topest layer of the activated resource
-- Use `Copy` button to copy the ROI as an array to the clipboard.
-- Click `Tool` button to open the recognition tool panel, where you can directly test recognition on the current image.
+- 컨트롤러를 선택하고 연결한 후 `스크린샷(Screencap)` 버튼을 사용하여 직접 스크린샷을 얻을 수 있습니다.
+- `업로드(Upload)` 버튼을 사용하여 수동으로 이미지를 업로드할 수 있습니다.
+- `Ctrl` 키를 누른 상태에서 자를 영역을 선택합니다.
+- 휠을 사용하여 확대/축소할 수 있습니다.
+- 자르기가 완료되면 `다운로드(Download)` 버튼을 사용하여 활성 리소스의 최상위 이미지 디렉터리에 자르기 결과를 자동으로 저장할 수 있습니다.
+- `복사(Copy)` 버튼을 사용하여 ROI를 배열 형태로 클립보드에 복사할 수 있습니다.
+- `도구(Tool)` 버튼을 누르면 인식 도구 패널이 열리며, 현재 이미지에 대해 직접 인식 테스트를 수행할 수 있습니다.
 
 ::: warning
 
-If OCR recognition returns an empty result, please check whether the [OCR model](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files) is configured correctly.
+(MaaFramework 프로젝트 전용)
+
+OCR 인식 결과가 비어 있다면 [OCR 모델](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files)이 올바르게 구성되었는지 확인하세요.
 
 :::
 
-### Log View
+### 로그 보기 기능
 
-#### MaaFramework Log
+#### MaaFramework 로그
 
-Search and execute `Maa: open maa log` in the VSCode command panel to view the `maa.log` generated during debugging.
+VSCode 명령 팔레트에서 `Maa: maa 로그 열기(Maa: open maa log)`를 검색하고 실행하여 디버깅 중에 생성된 `maa.log` 로그를 볼 수 있습니다.
 
-#### Maa Pipeline Support Extension Log
+#### Maa Pipeline Support 확장 로그
 
-Search and execute `Maa: open extension log` in the VSCode command panel to view the `mse.log` generated during debugging.
+VSCode 명령 팔레트에서 `Maa: 확장 로그 열기(Maa: open extension log)`를 검색하고 실행하여 디버깅 중에 생성된 `mse.log` 로그를 볼 수 있습니다.
 
-### Bottom status bar
+### 하단 상태 표시줄
 
-#### MaaSupport \[Extension Version\]
+#### MaaSupport [확장 버전]
 
-Click to reveal control panel
+클릭하여 제어판으로 포커스를 이동합니다.
 
-#### MaaFramework [MaaFw Version]
+#### MaaFramework [MaaFw 버전]
 
-Click to switch `MaaFramework` version used by the extension. The selectable versions are limited to those supported by the current extension. If the version you need is not in the list, please consider changing the extension version.
+클릭하여 확장 프로그램에서 사용하는 `MaaFramework` 버전을 전환합니다. 선택할 수 있는 버전은 현재 확장 프로그램이 지원하는 버전으로 제한되며, 필요한 버전이 목록에 없으면 확장 프로그램 버전을 변경하는 것을 고려하세요.
