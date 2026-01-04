@@ -2232,7 +2232,7 @@
                     {
                         "desc": "温蒂、森蚺-2",
                         "efficient": {
-                            "all": 30
+                            "all": 20
                         },
                         "skills": ["bskill_man_spd&power2"]
                     }
