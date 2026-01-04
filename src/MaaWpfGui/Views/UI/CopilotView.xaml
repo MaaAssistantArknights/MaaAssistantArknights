@@ -91,7 +91,15 @@
                         DropDownOpened="{s:Action OnDropDownOpened}"
                         IsEditable="True"
                         IsReadOnly="{c:Binding Path=!Idle}"
-                        Text="{Binding Filename}" />
+                        Text="{Binding Filename}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <ComboBox.Resources>
+                            <Style TargetType="Popup">
+                                <!-- 设定下拉展开区块的最大宽度 -->
+                                <Setter Property="MaxWidth" Value="700"/>
+                            </Style>
+                        </ComboBox.Resources>
+                    </ComboBox>
                     <Button
                         Grid.Column="1"
                         Height="30"
