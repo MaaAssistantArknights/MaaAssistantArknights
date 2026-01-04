@@ -59,6 +59,7 @@ public partial class CopilotViewModel : Screen
     private readonly List<int> _copilotIdList = []; // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
     private readonly List<int> _recentlyRatedCopilotId = []; // TODO: 可能考虑加个持久化
     private AsstTaskType _taskType = AsstTaskType.Copilot;
+    private readonly Dictionary<string, string> _copilotJsonPathMap = new(); // 下拉框与实际作业 json 档案路径对照表
 
     /// <summary>
     /// 缓存的已解析作业，非即时添加的作业会使用该缓存
@@ -257,10 +258,18 @@ public partial class CopilotViewModel : Screen
         {
             if (!File.Exists(value))
             {
-                var resourceFile = Path.Combine(ResourceDir, "copilot", Path.GetFileName(value));
-                if (File.Exists(resourceFile))
+                // 从对照表取得完整 json 档案路径
+                if (_copilotJsonPathMap.TryGetValue(value, out var fullPath))
                 {
-                    value = resourceFile;
+                    value = fullPath;
+                }
+                else
+                {
+                    var resourceFile = Path.Combine(ResourceDir, "copilot", Path.GetFileName(value));
+                    if (File.Exists(resourceFile))
+                    {
+                        value = resourceFile;
+                    }
                 }
             }
 
@@ -1335,8 +1344,31 @@ public partial class CopilotViewModel : Screen
 
         try
         {
-            var files = Directory.GetFiles(Path.Combine(ResourceDir, "copilot"), "*.json");
-            comboBox.ItemsSource = files.Select(Path.GetFileName).ToList();
+            _copilotJsonPathMap.Clear();
+
+            var copilotRoot = Path.Combine(ResourceDir, "copilot");
+
+            var files = Directory.EnumerateFiles(
+                copilotRoot,
+                "*.json",
+                SearchOption.AllDirectories);
+
+            foreach (var file in files)
+            {
+                // 排除 copilot 下的 old 文件夹
+                if (file.Contains(Path.Combine("copilot", "old"), StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                var fileName = Path.GetFileName(file);
+
+                // 使用 json 档名作为 key
+                _copilotJsonPathMap[fileName] = file;
+            }
+
+            // 下拉框只显示档案名称 (不含文件夹)
+            comboBox.ItemsSource = _copilotJsonPathMap.Keys.ToList();
         }
         catch (Exception exception)
         {
