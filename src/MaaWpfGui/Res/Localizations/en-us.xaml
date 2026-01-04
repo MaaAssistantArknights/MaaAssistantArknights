@@ -1673,7 +1673,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
     <system:String x:Key="Achievement.Time325.Description">You know what this number means, right?</system:String>
-    <system:String x:Key="Achievement.Time325.Conditions">Still using MAA at 3:25 AM</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">Still using MAA at 3/13/23:25</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

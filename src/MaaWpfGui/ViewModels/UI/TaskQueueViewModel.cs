@@ -641,7 +641,7 @@ public class TaskQueueViewModel : Screen
 
             _lastTimerElapsed = currentTime;
 
-            if (currentTime.Hour == 3 && currentTime.Minute == 25 && !Idle)
+            if ((currentTime.Hour == 3 || currentTime.Hour == 13 || currentTime.Hour == 23) && currentTime.Minute == 25 && !Idle)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.Time325);
             }

@@ -1674,7 +1674,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
     <system:String x:Key="Achievement.Time325.Description">この数字の意味を知っているでしょう？</system:String>
-    <system:String x:Key="Achievement.Time325.Conditions">午前3時25分にまだMAAを使用している</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">3/13/23時25分にまだMAAを使用している</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

@@ -1674,7 +1674,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
     <system:String x:Key="Achievement.Time325.Description">你知道這個數字是什麼意思對吧</system:String>
-    <system:String x:Key="Achievement.Time325.Conditions">在 3 點 25 分還在使用 MAA</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">在 3/13/23 點 25 分還在使用 MAA</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

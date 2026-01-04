@@ -1675,7 +1675,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
     <system:String x:Key="Achievement.Time325.Description">이 숫자가 무슨 의미인지 아시죠?</system:String>
-    <system:String x:Key="Achievement.Time325.Conditions">새벽 3시 25분에 여전히 MAA 사용 중</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">3/13/23시 25분에 여전히 MAA 사용 중</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->
