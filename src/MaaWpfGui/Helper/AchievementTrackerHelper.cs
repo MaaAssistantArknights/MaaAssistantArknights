@@ -165,6 +165,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
             .ThenByDescending(kv => kv.Value.IsNewUnlock) // 新解锁的排前面
             .ThenBy(kv => kv.Value.Category) // 按类别分组
             .ThenBy(kv => kv.Value.Group)
+            .ThenBy(kv => kv.Value.GroupIndex) // 组内排序
             .ThenBy(kv => kv.Value.Id) // 最后按 Id
             .ToDictionary(kv => kv.Key, kv => kv.Value);
     }
@@ -328,9 +329,9 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Save();
     }
 
-    public void AddProgressToGroup(string groupPrefix, int amount = 1)
+    public void AddProgressToGroup(string group, int amount = 1)
     {
-        foreach (var achievement in _achievements.Values.Where(achievement => achievement.Group == groupPrefix))
+        foreach (var achievement in _achievements.Values.Where(achievement => achievement.Group == group))
         {
             AddProgress(achievement.Id, amount);
         }
@@ -371,9 +372,9 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Save();
     }
 
-    public void SetProgressToGroup(string groupPrefix, int progress)
+    public void SetProgressToGroup(string group, int progress)
     {
-        foreach (var achievement in _achievements.Values.Where(achievement => achievement.Group == groupPrefix))
+        foreach (var achievement in _achievements.Values.Where(achievement => achievement.Group == group))
         {
             SetProgress(achievement.Id, progress);
         }
@@ -418,26 +419,26 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
     #region 工厂函数
 
-    private static Achievement BasicUsage(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
-       => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.BasicUsage, IsRare = isRare };
+    private static Achievement BasicUsage(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
+       => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.BasicUsage, IsRare = isRare, GroupIndex = groupIndex };
 
-    private static Achievement FeatureExploration(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration, IsRare = isRare };
+    private static Achievement FeatureExploration(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration, IsRare = isRare, GroupIndex = groupIndex };
 
-    private static Achievement AutoBattle(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.AutoBattle, IsRare = isRare };
+    private static Achievement AutoBattle(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.AutoBattle, IsRare = isRare, GroupIndex = groupIndex };
 
-    private static Achievement Humor(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.Humor, IsRare = isRare };
+    private static Achievement Humor(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.Humor, IsRare = isRare, GroupIndex = groupIndex };
 
-    private static Achievement BugRelated(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.BugRelated, IsRare = isRare };
+    private static Achievement BugRelated(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.BugRelated, IsRare = isRare, GroupIndex = groupIndex };
 
-    private static Achievement Behavior(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.Behavior, IsRare = isRare };
+    private static Achievement Behavior(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.Behavior, IsRare = isRare, GroupIndex = groupIndex };
 
-    private static Achievement EasterEgg(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.EasterEgg, IsRare = isRare };
+    private static Achievement EasterEgg(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.EasterEgg, IsRare = isRare, GroupIndex = groupIndex };
 
     #endregion
 
@@ -498,8 +499,10 @@ public class AchievementTrackerHelper : PropertyChangedBase
         FeatureExploration(id: AchievementIds.TaskChainKing, target: 7), // 任务链王
         FeatureExploration(id: AchievementIds.HotkeyMagician), // 热键魔术师
         FeatureExploration(id: AchievementIds.WarehouseMiser, target: 10000), // 仓库守财奴
-        FeatureExploration(id: AchievementIds.HrSpecialist, target: 10), // 人事部专员
-        FeatureExploration(id: AchievementIds.HrSeniorSpecialist, target: 20), // 人事部高级专员
+
+        FeatureExploration(id: AchievementIds.HrSpecialist, group: AchievementIds.HrManager, target: 10), // 人事部专员
+        FeatureExploration(id: AchievementIds.HrSeniorSpecialist, group: AchievementIds.HrManager, target: 20), // 人事部高级专员
+
         FeatureExploration(id: AchievementIds.NotFound404, isHidden: true), // 404！
         FeatureExploration(id: AchievementIds.Linguist), // 语言学家
         FeatureExploration(id: AchievementIds.StartupBoot), // 开机启动
