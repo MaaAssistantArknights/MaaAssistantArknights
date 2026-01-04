@@ -57,6 +57,7 @@ public static class AchievementIds
     public const string CluePhilanthropist = "CluePhilanthropist";
 
     public const string ClueObsession = "ClueObsession";
+    public const string ClueObsessionCustomDataKey = "LastOpeningData";
 
     #endregion
 

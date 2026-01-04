@@ -1655,6 +1655,7 @@ public class AsstProxy
                                 case "UnlockClues":
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ClueExchangeUnlocked"));
                                     AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ClueUseGroup);
+                                    AchievementTrackerHelper.Instance.ClueObsessionAdd();
                                     break;
                                 case "SendClues":
                                     AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ClueSendGroup);

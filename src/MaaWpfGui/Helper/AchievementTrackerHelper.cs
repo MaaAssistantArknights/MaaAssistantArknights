@@ -589,6 +589,9 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
     #region 带有 CustomData 的辅助函数
 
+    /// <summary>
+    /// 一天开启 3 次任务
+    /// </summary>
     public void MissionStartCountAdd()
     {
         const string Id = AchievementIds.MissionStartCount;
@@ -608,6 +611,9 @@ public class AchievementTrackerHelper : PropertyChangedBase
         }
     }
 
+    /// <summary>
+    /// 连续使用 365 天
+    /// </summary>
     public void UseDailyAdd()
     {
         // group 是不注册的，从第一个成就取 CustomData
@@ -634,6 +640,34 @@ public class AchievementTrackerHelper : PropertyChangedBase
         else
         {
             SetProgressToGroup(GroupId, 1);
+        }
+
+        SetAchievementCustomData(Id, Key, JToken.FromObject(today));
+    }
+
+    /// <summary>
+    /// 连续 7 天开启线索交流
+    /// </summary>
+    public void ClueObsessionAdd()
+    {
+        const string Id = AchievementIds.ClueObsession;
+        const string Key = AchievementIds.ClueObsessionCustomDataKey;
+        var today = DateTime.UtcNow.ToYjDate().Date;
+        DateTime? lastDate = GetAchievementCustomData(Id, Key)?.ToObject<DateTime>();
+        if (lastDate.HasValue) {
+            var delta = (today - lastDate.Value).TotalDays;
+            switch (delta) {
+                case 1:
+                    AddProgress(Id);
+                    break;
+                case > 1:
+                    SetProgress(Id, 1);
+                    break;
+            }
+        }
+        else
+        {
+            SetProgress(Id, 1);
         }
 
         SetAchievementCustomData(Id, Key, JToken.FromObject(today));
