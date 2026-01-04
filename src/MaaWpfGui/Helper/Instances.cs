@@ -13,6 +13,7 @@
 
 #pragma warning disable SA1401
 
+using System;
 using GlobalHotKey;
 using MaaWpfGui.Main;
 using MaaWpfGui.Services;
@@ -84,6 +85,8 @@ public static class Instances
 
     public static IMainWindowManager MainWindowManager { get; private set; }
 
+    public static event EventHandler MainWindowManagerInstantiated;
+
     public static IHttpService HttpService { get; private set; }
 
     public static IMaaApiService MaaApiService { get; private set; }
@@ -120,5 +123,6 @@ public static class Instances
     public static void InstantiateOnRootViewDisplayed(IContainer container)
     {
         MainWindowManager = container.Get<MainWindowManager>();
+        MainWindowManagerInstantiated?.Invoke(null, EventArgs.Empty);
     }
 }

@@ -42,12 +42,37 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Sort();
         if (Instances.MainWindowManager is not null)
         {
-            Instances.MainWindowManager.WindowRestored += (_, _) => {
-                TryShowPendingGrowls();
+            AttachWindowRestoredHandler();
+        }
+        else
+        {
+            // 这里可以简化，因为事件触发时 MainWindowManager 肯定不为 null
+            Instances.MainWindowManagerInstantiated += (_, _) => {
+                var win = Instances.MainWindowManager?.GetWindowIfVisible();
+                if (win == null)
+                {
+                    AttachWindowRestoredHandler();
+                }
+                else
+                {
+                    TryShowPendingGrowls();
+                }
             };
         }
 
         SearchCmd = new RelayCommand<string>(Search);
+    }
+
+    private void AttachWindowRestoredHandler()
+    {
+        // 防止重复订阅
+        Instances.MainWindowManager.WindowRestored -= OnWindowRestored;
+        Instances.MainWindowManager.WindowRestored += OnWindowRestored;
+    }
+
+    private void OnWindowRestored(object? sender, EventArgs e)
+    {
+        TryShowPendingGrowls();
     }
 
     public static AchievementTrackerHelper Instance { get; } = new();
@@ -256,7 +281,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         }
 
         Execute.OnUIThread(() => {
-            var win = Instances.MainWindowManager.GetWindowIfVisible();
+            var win = Instances.MainWindowManager?.GetWindowIfVisible();
             if (win == null)
             {
                 _pending.Add(info);
@@ -269,12 +294,14 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
     public static void TryShowPendingGrowls()
     {
-        foreach (var info in _pending)
-        {
-            Growl.Info(info);
-        }
+        Execute.OnUIThread(() => {
+            foreach (var info in _pending)
+            {
+                Growl.Info(info);
+            }
 
-        _pending.Clear();
+            _pending.Clear();
+        });
     }
 
     private void CheckProgressUnlock(Achievement achievement)
