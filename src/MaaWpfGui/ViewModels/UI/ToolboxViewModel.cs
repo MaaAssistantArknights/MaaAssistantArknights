@@ -467,8 +467,6 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public string LoliconResult { get; set; } = string.Empty;
 
-    private static readonly HashSet<string> AchievementExcludedItemIds = ["2001", "2002", "2003", "2004"];
-
     /// <summary>
     /// parse of depot recognition result
     /// </summary>
@@ -515,7 +513,6 @@ public class ToolboxViewModel : Screen
             };
 
             if (hasValidCount && count > 0 &&
-                !AchievementExcludedItemIds.Contains(id) &&
                 count > AchievementTrackerHelper.Instance.GetProgress(AchievementIds.WarehouseMiser))
             {
                 AchievementTrackerHelper.Instance.SetProgress(AchievementIds.WarehouseMiser, count);

@@ -1642,7 +1642,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.WarehouseMiser.Title">倉庫の守銭奴</system:String>
     <system:String x:Key="Achievement.WarehouseMiser.Description">一つも使わせない！</system:String>
-    <system:String x:Key="Achievement.WarehouseMiser.Conditions">倉庫認識機能が倉庫内の特定の材料が5000個以上あることを検出する（戦闘記録は除く！）</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">倉庫認識機能が倉庫内の特定の材料が10000個以上あることを検出する</system:String>
 
     <system:String x:Key="Achievement.HrSpecialist.Title">人事部専門員</system:String>
     <system:String x:Key="Achievement.HrSpecialist.Description">どうして全部予備行動チームなんだ！</system:String>

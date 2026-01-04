@@ -457,7 +457,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         FeatureExploration(id: AchievementIds.LogSupervisor), // 超级监工
         FeatureExploration(id: AchievementIds.TaskChainKing, target: 7), // 任务链王
         FeatureExploration(id: AchievementIds.HotkeyMagician), // 热键魔术师
-        FeatureExploration(id: AchievementIds.WarehouseMiser, target: 5000), // 仓库守财奴
+        FeatureExploration(id: AchievementIds.WarehouseMiser, target: 10000), // 仓库守财奴
         FeatureExploration(id: AchievementIds.HrSpecialist, target: 10), // 人事部专员
         FeatureExploration(id: AchievementIds.HrSeniorSpecialist, target: 20), // 人事部高级专员
         FeatureExploration(id: AchievementIds.NotFound404, isHidden: true), // 404！

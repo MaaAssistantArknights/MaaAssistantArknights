@@ -1642,7 +1642,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.WarehouseMiser.Title">仓库守财奴</system:String>
     <system:String x:Key="Achievement.WarehouseMiser.Description">一个都不许用！</system:String>
-    <system:String x:Key="Achievement.WarehouseMiser.Conditions">仓库识别功能识别到仓库内某种材料数量超过 5000 个（不包括作战记录！）</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">仓库识别功能识别到仓库内某种材料数量超过 10000 个</system:String>
 
     <system:String x:Key="Achievement.HrSpecialist.Title">人事部专员</system:String>
     <system:String x:Key="Achievement.HrSpecialist.Description">怎么全是预备行动组啊！</system:String>

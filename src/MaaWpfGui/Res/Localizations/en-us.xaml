@@ -1641,7 +1641,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.WarehouseMiser.Title">Warehouse Miser</system:String>
     <system:String x:Key="Achievement.WarehouseMiser.Description">Not a single one shall be used!</system:String>
-    <system:String x:Key="Achievement.WarehouseMiser.Conditions">Warehouse recognition detects more than 5000 of a material (excluding battle records!)</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">Warehouse recognition detects more than 10000 of a material</system:String>
 
     <system:String x:Key="Achievement.HrSpecialist.Title">HR Specialist</system:String>
     <system:String x:Key="Achievement.HrSpecialist.Description">Why are they all Reserve Action Teams!</system:String>

@@ -1643,7 +1643,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.WarehouseMiser.Title">창고 수전노</system:String>
     <system:String x:Key="Achievement.WarehouseMiser.Description">하나도 쓰지 말아요!</system:String>
-    <system:String x:Key="Achievement.WarehouseMiser.Conditions">창고 인식 기능이 창고 내 특정 재료가 5000개 이상임을 감지(전투 기록 제외!)</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">창고 인식 기능이 창고 내 특정 재료가 10000개 이상임을 감지</system:String>
 
     <system:String x:Key="Achievement.HrSpecialist.Title">인사부 전문가</system:String>
     <system:String x:Key="Achievement.HrSpecialist.Description">왜 다 예비 행동팀이에요!</system:String>
