@@ -85,8 +85,11 @@ public static class AchievementIds
     public const string TaskChainKing = "TaskChainKing";
     public const string HotkeyMagician = "HotkeyMagician";
     public const string WarehouseMiser = "WarehouseMiser";
+
+    public const string HrManager = "HrManager";
     public const string HrSpecialist = "HrSpecialist";
     public const string HrSeniorSpecialist = "HrSeniorSpecialist";
+
     public const string NotFound404 = "NotFound404";
     public const string Linguist = "Linguist";
     public const string StartupBoot = "StartupBoot";

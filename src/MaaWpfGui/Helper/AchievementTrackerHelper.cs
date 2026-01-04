@@ -346,6 +346,19 @@ public class AchievementTrackerHelper : PropertyChangedBase
         return achievement.Progress;
     }
 
+    public int GetProgressToGroup(string group)
+    {
+        var maxProgress = 0;
+        foreach (var achievement in _achievements.Values.Where(achievement => achievement.Group == group))
+        {
+            if (achievement.Progress > maxProgress)
+            {
+                maxProgress = achievement.Progress;
+            }
+        }
+        return maxProgress;
+    }
+
     public void SetProgress(string id, int progress)
     {
         if (!_achievements.TryGetValue(id, out var achievement))
