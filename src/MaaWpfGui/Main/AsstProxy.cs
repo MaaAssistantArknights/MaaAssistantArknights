@@ -2228,7 +2228,7 @@ public class AsstProxy
         return MaaService.AsstSetStaticOption(key, value);
     }
 
-    private static readonly bool _forcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
+    private static readonly bool _forcedReloadResource = Instances.VersionUpdateViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
     /// <summary>
     /// 使用 TCP 或 adb devices 命令检查连接。TCP 检测相比 adb devices 更快，但不支持实体机。
