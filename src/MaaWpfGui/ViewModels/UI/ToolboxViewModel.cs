@@ -710,6 +710,11 @@ public class ToolboxViewModel : Screen
                     if (ids.Contains(id))
                     {
                         OperBoxHaveList.Add(new Operator(id, name, oper.Rarity));
+
+                        if (id == "char_485_pallas")
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
+                        }
                     }
                     else
                     {
@@ -748,6 +753,10 @@ public class ToolboxViewModel : Screen
             {
                 var name = DataHelper.GetLocalizedCharacterName(DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value) ?? "???";
                 OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity));
+                if (oper.Id == "char_485_pallas")
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
+                }
             }
         }
 
