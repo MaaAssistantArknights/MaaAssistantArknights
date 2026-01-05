@@ -923,6 +923,9 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             }
         }
 
+        // 设置配置 connect、release 命令，即使这里不连接，后续也会需要用到
+        m_adb.connect = cmd_replace(adb_cfg.connect);
+        m_adb.release = cmd_replace(adb_cfg.release);
         if need_connect {
             // 如果不包含 `:` 且需要连接，connect 命令也不会成功
             if (address.find(':') == std::string::npos) {
@@ -935,8 +938,6 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             }
 
             // TODO: adb lite server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
-            m_adb.connect = cmd_replace(adb_cfg.connect);
-            m_adb.release = cmd_replace(adb_cfg.release);
             auto connect_ret = call_command(m_adb.connect, 60LL * 1000, false /* adb 连接时不允许重试 */);
             bool is_connect_success = false;
             if (connect_ret) {
