@@ -61,7 +61,9 @@ public class AnnouncementViewModel : Screen
             }
 
             // 计算是否滚动到底部
-            IsScrolledToBottom |= scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight - 10;
+            var bottom = scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight - 10;
+            IsScrolledToBottom = bottom;
+            HasEverScrolledToBottom |= bottom;
         });
 
         ScrollToTopCommand = new RelayCommand<ScrollViewer>(scrollViewer => {
@@ -120,8 +122,16 @@ public class AnnouncementViewModel : Screen
     public bool IsScrolledToBottom
     {
         get => _isScrolledToBottom;
+        set => SetAndNotify(ref _isScrolledToBottom, value);
+    }
+
+    private bool _hasEverScrolledToBottom;
+
+    public bool HasEverScrolledToBottom
+    {
+        get => _hasEverScrolledToBottom;
         set {
-            if (SetAndNotify(ref _isScrolledToBottom, value) && value)
+            if (SetAndNotify(ref _hasEverScrolledToBottom, value) && value)
             {
                 ButtonContent = LocalizationHelper.GetString("Confirm");
             }
@@ -292,7 +302,7 @@ public class AnnouncementViewModel : Screen
 
     public void Close()
     {
-        if (IsScrolledToBottom || DoNotRemindThisAnnouncementAgain)
+        if (HasEverScrolledToBottom || DoNotRemindThisAnnouncementAgain)
         {
             RequestClose();
         }
