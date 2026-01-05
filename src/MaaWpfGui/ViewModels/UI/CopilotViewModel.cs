@@ -93,18 +93,7 @@ public partial class CopilotViewModel : Screen
     public bool IsFilePopupOpen
     {
         get => _isFilePopupOpen;
-        set
-        {
-            var oldValue = _isFilePopupOpen;
-            if (SetAndNotify(ref _isFilePopupOpen, value))
-            {
-                // 当 Popup 从关闭变为打开时，加载文件列表
-                if (value && !oldValue)
-                {
-                    LoadFileItems();
-                }
-            }
-        }
+        set => SetAndNotify(ref _isFilePopupOpen, value);
     }
 
     /// <summary>
