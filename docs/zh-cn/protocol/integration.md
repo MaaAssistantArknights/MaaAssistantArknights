@@ -82,20 +82,20 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 ::::
 
 - `Fight`  
-   刷理智
+   理智作战
 
 :::: field-group  
 ::: field name="enable" type="boolean" optional default="true"  
 是否启用本任务。  
 :::  
 ::: field name="stage" type="string" optional  
-关卡名，默认为空，识别当前/上次的关卡。不支持运行中设置。  
+关卡名，默认为空，识别当前/上次的关卡。不支持运行中设置。
 <br>
-支持全部主线关卡，如 `"1-7"`、`"S3-2"`等。  
+支持全部主线关卡，如 `"1-7"`、`"S3-2"`等。
 <br>
-可在关卡结尾输入`Normal`/`Hard`表示需要切换标准与磨难难度。  
+可在关卡结尾输入`Normal`/`Hard`表示需要切换标准与磨难难度。
 <br>
-剿灭作战，必须输入 `"Annihilation"`。  
+剿灭作战，必须输入 `"Annihilation"`。
 <br>
 当期 SS 活动 后三关，必须输入完整关卡编号。  
 :::  
@@ -112,11 +112,11 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 战斗次数。  
 :::  
 ::: field name="series" type="number" optional  
-连战次数, -1~6。  
+连战次数, -1~6。
 <br>
-`-1` 为禁用切换。  
+`-1` 为禁用切换。
 <br>
-`0` 为自动切换为当前可用的最大次数, 如当前理智不够6次, 则选择最低可用次数。  
+`0` 为自动切换为当前可用的最大次数, 如当前理智不够6次, 则选择最低可用次数。
 <br>
 `1~6` 为指定连战次数。  
 :::  
@@ -134,17 +134,17 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
 :::  
 ::: field name="server" type="string" optional default="CN"  
-服务器，会影响掉落识别及上传。  
+服务器，会影响掉落识别及上传。
 <br>
 选项：`CN` | `US` | `JP` | `KR`  
 :::  
 ::: field name="client_type" type="string" optional  
-客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。  
+客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。
 <br>
 选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
 ::: field name="DrGrandet" type="boolean" optional default="false"  
-节省理智碎石模式，仅在可能产生碎石效果时生效。  
+节省理智碎石模式，仅在可能产生碎石效果时生效。
 <br>
 在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
 :::  
@@ -168,16 +168,16 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。  
 :::  
 ::: field name="first_tags" type="array<string>" optional  
-首选 Tags，仅在 Tag 等级为 3 时有效。默认为空。  
+首选 Tags，仅在 Tag 等级为 3 时有效。默认为空。
 <br>
 当 Tag 等级为 3 时，会尽可能多地选择这里的 Tags（如果有），而且是强制选择，也就是会忽略所有“让 3 星 Tag 不被选择”的设置。  
 :::  
 ::: field name="extra_tags_mode" type="number" optional default="0"  
-选择更多的 Tags。  
+选择更多的 Tags。
 <br>
-`0` - 默认行为  
+`0` - 默认行为
 <br>
-`1` - 选 3 个 Tags, 即使可能冲突  
+`1` - 选 3 个 Tags, 即使可能冲突
 <br>
 `2` - 如果可能, 同时选择更多的高星 Tag 组合, 即使可能冲突  
 :::  
@@ -197,7 +197,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 是否在识别到小车词条时跳过。  
 :::  
 ::: field name="recruitment_time" type="object" optional  
-Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟，默认值都为 540（即 09:00:00）。  
+Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟，默认值都为 540（即 09:00:00）。
 <br>
 例如: `{ "3": 540, "4": 540 }`  
 :::  
@@ -214,7 +214,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
 :::  
 ::: field name="server" type="string" optional default="CN"  
-服务器，会影响上传。  
+服务器，会影响上传。
 <br>
 选项：`CN` | `US` | `JP` | `KR`  
 :::  
@@ -228,28 +228,28 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 是否启用本任务。  
 :::  
 ::: field name="mode" type="number" optional default="0"  
-换班工作模式。  
+换班工作模式。
 <br>
-`0` - `Default`: 默认换班模式，单设施最优解。  
+`0` - `Default`: 默认换班模式，单设施最优解。
 <br>
-`10000` - `Custom`: 自定义换班模式，读取用户配置，可参考 [基建排班协议](./base-scheduling-schema.md)。  
+`10000` - `Custom`: 自定义换班模式，读取用户配置，可参考 [基建排班协议](./base-scheduling-schema.md)。
 <br>
 `20000` - `Rotation`: 一键轮换模式，会跳过控制中枢、发电站、宿舍以及办公室，其余设施不进行换班但保留基本操作（如使用无人机、会客室逻辑）。  
 :::  
 ::: field name="facility" type="array<string>" required  
-要换班的设施（有序）。不支持运行中设置。  
+要换班的设施（有序）。不支持运行中设置。
 <br>
 设施名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
 ::: field name="drones" type="string" optional default="\_NotUse"  
-无人机用途。`mode = 10000` 时该字段无效。  
+无人机用途。`mode = 10000` 时该字段无效。
 <br>
 选项：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
 :::  
 ::: field name="threshold" type="number" optional default="0.3"  
-工作心情阈值，取值范围 [0, 1.0]。  
+工作心情阈值，取值范围 [0, 1.0]。
 <br>
-`mode = 10000` 时该字段仅针对 "autofill" 有效。  
+`mode = 10000` 时该字段仅针对 "autofill" 有效。
 <br>
 `mode = 20000` 时该字段无效。  
 :::  
@@ -268,13 +268,16 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="reception_clue_exchange" type="boolean" optional default="true"  
 是否进行线索交流。  
 :::  
+::: field name="reception_send_clue" type="boolean" optional default="true"  
+是否赠送线索。  
+:::  
 ::: field name="filename" type="string" required  
-自定义配置路径。不支持运行中设置。  
+自定义配置路径。不支持运行中设置。
 <br>
 <Badge type="warning" text="仅在 mode = 10000 时生效" />  
 :::  
 ::: field name="plan_index" type="number" required  
-使用配置中的方案序号。不支持运行中设置。  
+使用配置中的方案序号。不支持运行中设置。
 <br>
 <Badge type="warning" text="仅在 mode = 10000 时生效" />  
 :::  
@@ -313,7 +316,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 是否借助战打一局 OF-1 关卡以便在第二天获得更多信用。  
 :::  
 ::: field name="formation_index" type="number" optional default="0"  
-打 OF-1 时所使用的编队栏位的编号。  
+打 OF-1 时所使用的编队栏位的编号。
 <br>
 为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
 :::  
@@ -354,36 +357,36 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 是否启用本任务。  
 :::  
 ::: field name="theme" type="string" optional default="Phantom"  
-主题。  
+主题。
 <br>
-`Phantom` - 傀影与猩红血钻  
+`Phantom` - 傀影与猩红血钻
 <br>
-`Mizuki` - 水月与深蓝之树  
+`Mizuki` - 水月与深蓝之树
 <br>
-`Sami` - 探索者的银凇止境  
+`Sami` - 探索者的银凇止境
 <br>
-`Sarkaz` - 萨卡兹的无终奇语  
+`Sarkaz` - 萨卡兹的无终奇语
 <br>
 `JieGarden` - 界园  
 :::  
 ::: field name="mode" type="number" optional default="0"  
-模式。  
+模式。
 <br>
-`0` - 刷分/奖励点数，尽可能稳定地打更多层数。  
+`0` - 刷分/奖励点数，尽可能稳定地打更多层数。
 <br>
-`1` - 刷源石锭，第一层投资完就退出。  
+`1` - 刷源石锭，第一层投资完就退出。
 <br>
-`2` - <Badge type="danger" text="已弃用" /> 兼顾模式 0 与 1，投资过后再退出，没有投资就继续往后打。  
+`2` - <Badge type="danger" text="已弃用" /> 兼顾模式 0 与 1，投资过后再退出，没有投资就继续往后打。
 <br>
-`3` - 开发中...  
+`3` - 开发中...
 <br>
-`4` - 凹开局，先在 0 难度下到达第三层后重开，再到指定难度下凹开局奖励，若不为热水壶或希望则回到 0 难度下重新来过；若在 Phantom 主题下则不切换难度，仅在当前难度下尝试到达第三层、重开、凹开局。  
+`4` - 凹开局，先在 0 难度下到达第三层后重开，再到指定难度下凹开局奖励，若不为热水壶或希望则回到 0 难度下重新来过；若在 Phantom 主题下则不切换难度，仅在当前难度下尝试到达第三层、重开、凹开局。
 <br>
-`5` - 刷坍缩范式；仅适用于 Sami 主题；通过战斗漏怪等方式加快坍缩值积累，若遇到的第一个的坍缩范式在 `expected_collapsal_paradigms` 列表中则停止任务，否则重开。  
+`5` - 刷坍缩范式；仅适用于 Sami 主题；通过战斗漏怪等方式加快坍缩值积累，若遇到的第一个的坍缩范式在 `expected_collapsal_paradigms` 列表中则停止任务，否则重开。
 <br>
-`6` - 刷月度小队蚊子腿，除了针对模式的适配以外和模式0相同。  
+`6` - 刷月度小队蚊子腿，除了针对模式的适配以外和模式 0 相同。
 <br>
-`7` - 刷深入调查蚊子腿，除了针对模式的适配以外和模式0相同。  
+`7` - 刷深入调查蚊子腿，除了针对模式的适配以外和模式 0 相同。
 :::  
 ::: field name="squad" type="string" optional default="指挥分队"  
 开局分队名。  
@@ -437,30 +440,30 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 希望在第一层远见阶段得到的密文版。仅适用于 Sami 主题，不限模式；若成功凹到则停止任务。  
 :::  
 ::: field name="start_foldartal_list" type="array<string>" optional default="[]"  
-凹开局时希望在开局奖励阶段得到的密文板。仅在主题为 Sami 且模式为 4 时有效。  
+凹开局时希望在开局奖励阶段得到的密文板。仅在主题为 Sami 且模式为 4 时有效。
 <br>
-仅当开局拥有列表中所有的密文板时才算凹开局成功。  
+仅当开局拥有列表中所有的密文板时才算凹开局成功。
 <br>
 注意，此参数须与 “生活至上分队” 同时使用，其他分队在开局奖励阶段不会获得密文板。  
 :::  
 ::: field name="collectible_mode_start_list" type="object" optional  
-凹开局时期望的奖励，默认全为 false。仅在模式为 4 时有效。  
+凹开局时期望的奖励，默认全为 false。仅在模式为 4 时有效。
 <br>
-`hot_water`: 热水壶奖励，常用于触发烧水机制（通用）。  
+`hot_water`: 热水壶奖励，常用于触发烧水机制（通用）。
 <br>
-`shield`: 护盾奖励，约等于额外生命值（通用）。  
+`shield`: 护盾奖励，约等于额外生命值（通用）。
 <br>
-`ingot`: 源石锭奖励（通用）。  
+`ingot`: 源石锭奖励（通用）。
 <br>
-`hope`: 希望奖励（通用，注意：JieGarden 主题下无 hope 奖励）。  
+`hope`: 希望奖励（通用，注意：JieGarden 主题下无 hope 奖励）。
 <br>
-`random`: 随机奖励选项：游戏中指“消耗所有源石锭换一个随机收藏品”（通用）。  
+`random`: 随机奖励选项：游戏中指“消耗所有源石锭换一个随机收藏品”（通用）。
 <br>
-`key`: 钥匙奖励，仅在 Mizuki 主题时有效。  
+`key`: 钥匙奖励，仅在 Mizuki 主题时有效。
 <br>
-`dice`: 骰子奖励，仅在 Mizuki 主题时有效。  
+`dice`: 骰子奖励，仅在 Mizuki 主题时有效。
 <br>
-`ideas`: 2 构想奖励，仅在 Sarkaz 主题时有效。  
+`ideas`: 2 构想奖励，仅在 Sarkaz 主题时有效。
 :::  
 ::: field name="use_foldartal" type="boolean" optional  
 是否使用密文板。模式 5 下默认值 `false`，其他模式下默认值 `true`。仅适用于 Sami 主题。  
@@ -490,9 +493,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 烧水时使用的分队, 默认与squad同步, 当squad为空字符串且未指定collectible_mode_squad值时为指挥分队。  
 :::  
 ::: field name="start_with_seed" type="boolean" optional default="false"  
-使用种子刷钱。  
+使用种子刷钱。
 <br>
-仅在 Sarkaz 主题，Investment 模式，“点刺成锭分队” or “后勤分队” 时可能为 true。  
+仅在 Sarkaz 主题，Investment 模式，“点刺成锭分队” or “后勤分队” 时可能为 true。
 <br>
 使用固定种子。  
 :::  
@@ -502,41 +505,71 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 - `Copilot`  
    自动抄作业
 
-```json5
-{
-    "enable": bool,               // 是否启用本任务，可选，默认值 true
-    "filename": string,           // 单一作业 JSON 文件的路径，与 copilot_list 二选一（必填）；相对路径与绝对路径均可
-    "copilot_list": [             // 作业列表，与 filename 二选一（必填）；当 filename 与 copilot_list 同时存在时，忽视 copilot_list；此参数生效时仅可执行 set_params 一次
-        {
-            "filename": string,   // 作业 JSON 文件的路径；相对路径与绝对路径均可
-            "stage_name": string, // 关卡名，具体请参考 [PRTS.Map](https://map.ark-nights.com)
-            "is_raid": bool,      // 是否切换为突袭模式，可选, 默认值 false
-            "is_paradox": bool    // 是否为悖论模拟关卡, 可选, 默认值 false；测试中参数
-        },
-        ...
-    ],
-    "loop_times": int,            // 循环次数，可选，默认值 1；仅在单一作业模式下（即指定 filename 时）有效；此参数生效时仅可执行 set_params 一次
-    "use_sanity_potion": bool,    // 是否允许在剩余理智不足时使用理智药，可选，默认值 false
-    "formation": bool,            // 是否进行自动编队，可选，默认值 false
-    "formation_index": int        // 自动编队所使用的编队栏位的编号，可选，默认值 0；仅在 formation 为 true 时有效；
-                                  // 为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队
-    "user_additional": [          // 自定义追加干员列表，可选，默认值 []；仅在 formation 为 true 时有效
-        {
-            "name": string,       // 干员名，可选，默认值 ""，若留空则忽视此干员
-            "skill": int          // 需要携带的技能，可选，默认值 1；为 1–3 的整数，若不在此范围内则遵从游戏内默认的技能选择
-        },
-        ...
-    ],
-    "add_trust": bool,            // 是否在自动编队时以信赖值升序自动填充空余栏位，可选，默认值 false；仅在 formation 为 true 时有效
-    "ignore_requirements": bool,  // 是否在自动编队时忽视干员属性要求，可选，默认值 false；仅在 formation 为 true 时有效
-    "support_unit_usage": int,    // 助战干员的使用模式，可选，默认值 0；为 0–3 的整数，其中 support_unit_name；仅在 formation 为 true 时有效
-                                  //   0 - 表示不使用助战干员
-                                  //   1 - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则不使用助战干员
-                                  //   2 - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用指定助战干员
-                                  //   3 - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员
-    "support_unit_name": string   // 指定助战干员名，可选，默认值 ""；仅在 support_unit_usage 为 2 时有效
-}
-```
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+是否启用本任务。  
+:::  
+::: field name="filename" type="string"  
+单一作业 JSON 文件的路径，与 copilot_list 二选一（必填）；相对路径与绝对路径均可。  
+:::  
+::: field name="copilot_list" type="array<object>"  
+作业列表，与 filename 二选一（必填）；当 filename 与 copilot_list 同时存在时，忽视 copilot_list；此参数生效时仅可执行 set_params 一次。
+<br>
+每个对象包含：
+<br>
+
+- `filename`: 作业 JSON 文件的路径；相对路径与绝对路径均可
+  <br>
+- `stage_name`: 关卡名，具体请参考 [PRTS.Map](https://map.ark-nights.com)
+  <br>
+- `is_raid`: 是否切换为突袭模式，可选，默认值 false
+  <br>
+- `is_paradox`: 是否为悖论模拟关卡，可选，默认值 false；测试中参数
+  :::  
+  ::: field name="loop_times" type="number" optional default="1"  
+  循环次数。仅在单一作业模式下（即指定 filename 时）有效；此参数生效时仅可执行 set_params 一次。  
+  :::  
+  ::: field name="use_sanity_potion" type="boolean" optional default="false"  
+  是否允许在剩余理智不足时使用理智药。  
+  :::  
+  ::: field name="formation" type="boolean" optional default="false"  
+  是否进行自动编队。  
+  :::  
+  ::: field name="formation_index" type="number" optional default="0"  
+  自动编队所使用的编队栏位的编号。仅在 formation 为 true 时有效。
+  <br>
+  为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
+  :::  
+  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  自定义追加干员列表。仅在 formation 为 true 时有效。
+  <br>
+  每个对象包含：
+  <br>
+- `name`: 干员名，可选，默认值 ""，若留空则忽视此干员
+  <br>
+- `skill`: 需要携带的技能，可选，默认值 1；为 1–3 的整数，若不在此范围内则遵从游戏内默认的技能选择  
+  :::  
+  ::: field name="add_trust" type="boolean" optional default="false"  
+  是否在自动编队时以信赖值升序自动填充空余栏位。仅在 formation 为 true 时有效。  
+  :::  
+  ::: field name="ignore_requirements" type="boolean" optional default="false"  
+  是否在自动编队时忽视干员属性要求。仅在 formation 为 true 时有效。  
+  :::  
+  ::: field name="support_unit_usage" type="number" optional default="0"  
+  助战干员的使用模式。为 0–3 的整数。仅在 formation 为 true 时有效。
+  <br>
+  `0` - 表示不使用助战干员
+  <br>
+  `1` - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则不使用助战干员
+  <br>
+  `2` - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用指定助战干员  
+  <br>
+  `3` - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员  
+  :::  
+  ::: field name="support_unit_name" type="string" optional default=""  
+  指定助战干员名。仅在 support_unit_usage 为 2 时有效。  
+  :::  
+  ::::
 
 作业 JSON 请参考 [战斗流程协议](./copilot-schema.md)
 
@@ -582,16 +615,16 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 是否启用本任务。  
 :::  
 ::: field name="theme" type="string" optional default="Fire"  
-主题。  
+主题。
 <br>
-`Fire` - _沙中之火_  
+`Fire` - _沙中之火_
 <br>
 `Tales` - _沙洲遗闻_  
 :::  
 ::: field name="mode" type="number" optional default="0"  
-模式。  
+模式。
 <br>
-`0` - 刷分与建造点，进入战斗直接退出。  
+`0` - 刷分与建造点，进入战斗直接退出。
 <br>
 `1` - 沙中之火：刷赤金，联络员买水后基地锻造；沙洲遗闻：自动制造物品并读档刷货币。  
 :::  
@@ -599,9 +632,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 自动制造的物品，建议填写子串。  
 :::  
 ::: field name="increment_mode" type="number" optional default="0"  
-点击类型。  
+点击类型。
 <br>
-`0` - 连点  
+`0` - 连点
 <br>
 `1` - 长按  
 :::  
@@ -633,11 +666,11 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 目前仅支持 `"copilot"`。  
 :::  
 ::: field name="subtask" type="string" required  
-子任务类型。  
+子任务类型。
 <br>
-`stage` - 设置关卡名，需要 `"details": { "stage": "xxxx" }`。  
+`stage` - 设置关卡名，需要 `"details": { "stage": "xxxx" }`。
 <br>
-`start` - 开始作战，无 `details`。  
+`start` - 开始作战，无 `details`。
 <br>
 `action` - 单步作战操作，`details` 需为作战协议中的单个 action，例如：`"details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }`，详情参考 [战斗流程协议](./copilot-schema.md)。  
 :::  
@@ -755,18 +788,23 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 
 ##### 键值一览
 
-```cpp
-    enum InstanceOptionKey
-    {
-        Invalid = 0,
-        // 已弃用 // MinitouchEnabled = 1,   // 是否启用 minitouch
-                                // 开了也不代表就一定能用，有可能设备不支持等
-                                // "1" 开，"0" 关
-        TouchMode = 2,          // 触控模式设置，默认 minitouch
-                                // minitouch | maatouch | adb
-        DeploymentWithPause = 3,    // 是否暂停下干员，同时影响抄作业、肉鸽、保全
-                                    // "1" | "0"
-        AdbLiteEnabled = 4,     // 是否使用 AdbLite， "0" | "1"
-        KillAdbOnExit = 5,       // 退出时是否杀掉 Adb 进程， "0" | "1"
-    };
-```
+:::: field-group  
+::: field name="Invalid" type="number" optional default="0"  
+无效占位。枚举值：0。  
+:::  
+::: field name="MinitouchEnabled" type="boolean" optional  
+已弃用。原为是否启用 minitouch；"1" 开，"0" 关。注意设备可能不支持。枚举值：1（已弃用）。  
+:::  
+::: field name="TouchMode" type="string" optional default="minitouch"  
+触控模式设置。可选值：minitouch | maatouch | adb。默认 minitouch。枚举值：2。  
+:::  
+::: field name="DeploymentWithPause" type="boolean" optional  
+是否暂停下干员，同时影响抄作业、肉鸽、保全。可用值："1" 或 "0"。枚举值：3。  
+:::  
+::: field name="AdbLiteEnabled" type="boolean" optional  
+是否使用 AdbLite。可用值："0" 或 "1"。枚举值：4。  
+:::  
+::: field name="KillAdbOnExit" type="boolean" optional  
+退出时是否杀掉 Adb 进程。可用值："0" 或 "1"。枚举值：5。  
+:::  
+::::

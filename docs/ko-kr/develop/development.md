@@ -23,15 +23,15 @@ icon: iconoir:developer
 
 다음과 같은 다양한 개발 환경을 사전에 설정했습니다：
 
-- 빈 환경（벌거숭이 Linux 컨테이너）（기본값）
+- 빈 환경 (순수 Linux 컨테이너) (기본값)
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
-- 경량 환경，문서 사이트 프론트엔드 개발에 적합
+- 경량 환경, 문서 사이트 프론트엔드 개발에 적합
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
 
-- 전체 환경，MAA Core 관련 개발에 적합（사용 권장하지 않음，로컬 개발 권장，관련 환경을 완전히 설정，다음 섹션 참조）
+- 전체 환경, MAA Core 관련 개발에 적합 (사용 권장하지 않음, 로컬 개발 권장, 관련 환경을 완전히 설정, 다음 섹션 참조)
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
 
@@ -65,30 +65,37 @@ icon: iconoir:developer
 5. 개발 환경 구성
    - Visual Studio 2026 Community 설치 시 `C++ 데스크톱 개발` 및 `.NET 데스크톱 개발` 필수 선택
 
-6. MAA.sln 파일 더블클릭 → Visual Studio에서 프로젝트 자동 로드
-7. VS 설정
+6. cmake 프로젝트 구성 실행
+
+   ```cmd
+   mkdir -p build
+   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   ```
+
+7. `build/MAA.sln` 파일을 더블 클릭하여 엽니다. Visual Studio가 자동으로 전체 프로젝트를 로드합니다.
+8. VS 설정
    - 상단 구성에서 RelWithDebInfo x64 선택 (릴리스 빌드/ARM 플랫폼 시 생략)
    - MaaWpfGui 우클릭 → 속성 → 디버그 → 네이티브 디버깅 활성화 (C++ 코어 중단점 사용 가능)
 
-8. 이제 자유롭게 ~~개조~~ 개발 시작!
-9. 주기적 커밋 (메시지 필수 작성)  
-   Git 초보자는 dev 브랜치 대신 새 브랜치 생성 권장:
+9. 이제 자유롭게 ~~개조~~ 개발 시작!
+10. 주기적 커밋 (메시지 필수 작성)  
+    Git 초보자는 dev 브랜치 대신 새 브랜치 생성 권장:
 
-   ```bash
-   git branch your_own_branch
-   git checkout your_own_branch
-   ```
+    ```bash
+    git branch your_own_branch
+    git checkout your_own_branch
+    ```
 
-   dev 브랜치 업데이트 영향에서 자유로움
+    dev 브랜치 업데이트 영향에서 자유로움
 
-10. 개발 완료 후 변경사항 원격 저장소로 푸시:
+11. 개발 완료 후 변경사항 원격 저장소로 푸시:
 
     ```bash
     git push origin dev
     ```
 
-11. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)
-12. 업스트림 저장소 변경사항 동기화 방법:
+12. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)
+13. 업스트림 저장소 변경사항 동기화 방법:
     1. 업스트림 저장소 추가:
 
        ```bash
@@ -148,7 +155,7 @@ pip 설치 후에도 Pre-commit을 실행할 수 없다면, PIP 설치 경로가
 
 이제, 매번 커밋할 때마다 포매팅 도구가 자동으로 실행되어 코드 형식이 규칙에 맞는지 확인합니다.
 
-## Visual Studio에서 clang-format 사용 설정
+### Visual Studio에서 clang-format 사용 설정
 
 1. clang-format 20.1.0 또는 그 이상 버전을 설치합니다.
 

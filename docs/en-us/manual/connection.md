@@ -158,7 +158,7 @@ For `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`:
 
 Select the configuration matching your emulator. If not listed, choose General Configuration. If that doesn't work, try any other available configuration.
 
-For specific differences, see the [source code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L65).
+For specific differences, see the [source code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L57).
 
 ### MuMu Screenshot Enhanced Mode
 

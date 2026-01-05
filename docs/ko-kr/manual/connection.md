@@ -24,6 +24,7 @@ MAA v5.22.3까지 지원하는 감지 가능한 에뮬레이터 및 연결 주�
 :::info 기술적 정보
 자동 감지는 에뮬레이터의 ADB를 사용하지만, 자동 감지에 문제가 있을 경우 수동 설정이 필요합니다.
 `ADB 강제 교체`는 구글이 제공하는 ADB를 다운로드한 후 교체하는 것으로, 구글 ADB를 설정하면 한 번만 설정해두면 됩니다.
+환경 변수에 사용 가능한 ADB가 존재할 경우, `adb`라고 직접 입력해도 됩니다.
 :::
 
 ### 에뮬레이터에서 제공하는 ADB 사용
@@ -55,7 +56,7 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 - [Bluestacks 5](https://support.bluestacks.com/hc/ko/articles/360061342631-%EB%B8%94%EB%A3%A8%EC%8A%A4%ED%83%9D4-%EB%B8%94%EB%A3%A8%EC%8A%A4%ED%83%9D5%EB%A1%9C-%EC%95%B1-%EC%A0%84%EC%86%A1%ED%95%98%EA%B8%B0) `5555`
 - [MuMu](https://mumu.163.com/help/20240807/40912_1073151.html?maa) `16384`
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
-- [LDPlayer 9](https://help.ldmnq.com/docs/LD9adbserver) `emulator-5554`
+- [LDPlayer 9](https://help.ldmnq.com/docs/LD9adbserver#edc3863750608062bcb3feea256413dc) `emulator-5554`
 - [逍遥(Xiaoyao)](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
 - [夜神(Yeshen)](https://support.yeshen.com/zh-CN/qt/ml) `62001`
 
@@ -106,66 +107,72 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 
 일반적으로 이렇게 설정하면 연결됩니다. 연결되지 않는 경우, 여러 에뮬레이터 코어가 존재하거나 문제가 발생한 것입니다. 아래의 추가 설정을 읽어보세요.
 
-#### `Bluestacks.Config.Keyword` 지정
+:::: steps
 
-::: info 주의
-멀티 인스턴스 기능을 활성화했거나 여러 에뮬레이터 코어를 설치한 경우, 사용 중인 에뮬레이터 번호를 지정해야 합니다.
-:::
+1. `Bluestacks.Config.Keyword` 지정
 
-`.\config\gui.json`에서 `Bluestacks.Config.Keyword` 필드를 검색합니다. 내용은 `"bst.instance.<에뮬레이터 번호>.status.adb_port"`입니다. 에뮬레이터 번호는 에뮬레이터 경로의 `BlueStacks_nxt\Engine`에서 확인할 수 있습니다.
+   ::: info 주의
+   멀티 인스턴스 기능을 활성화했거나 여러 에뮬레이터 코어를 설치한 경우, 사용 중인 에뮬레이터 번호를 지정해야 합니다.
+   :::
 
-::: details 예시
-Nougat64 코어：
+   `.\config\gui.json`에서 `Bluestacks.Config.Keyword` 필드를 검색합니다. 내용은 `"bst.instance.<에뮬레이터 번호>.status.adb_port"`입니다. 에뮬레이터 번호는 에뮬레이터 경로의 `BlueStacks_nxt\Engine`에서 확인할 수 있습니다.
 
-```json
-"Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
-```
+   ::: details 예시
+   Nougat64 코어：
 
-Pie64_2 코어：（코어 이름 뒤의 숫자는 멀티 인스턴스 코어를 나타냅니다）
+   ```json
+   "Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
+   ```
 
-```json
-"Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
-```
+   Pie64_2 코어：（코어 이름 뒤의 숫자는 멀티 인스턴스 코어를 나타냅니다）
 
-:::
+   ```json
+   "Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
+   ```
 
-#### `Bluestacks.Config.Path` 지정
+   :::
 
-::: info 주의
-MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어오려고 시도합니다. 이 기능이 작동하지 않을 경우 수동으로 구성 파일 경로를 지정해야 합니다.
-:::
+2. `Bluestacks.Config.Path` 지정
 
-1. 블루스택 데이터 디렉토리에서 `bluestacks.conf` 파일을 찾습니다.
-   - 글로벌 버전 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
-   - 중국 내륙 버전 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
+   ::: info 주의
+   MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어오려고 시도합니다. 이 기능이 작동하지 않을 경우 수동으로 구성 파일 경로를 지정해야 합니다.
+   :::
+   1. 블루스택 데이터 디렉토리에서 `bluestacks.conf` 파일을 찾습니다.
+      - 글로벌 버전 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
+      - 중국 내륙 버전 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
-   참고: `C:\ProgramData`는 숨겨진 디렉터리입니다. 필요한 경우, 파일 탐색기의 주소 표시줄에 이 주소를 직접 붙여넣어 접근하세요.
+      참고: `C:\ProgramData`는 숨겨진 디렉터리입니다. 필요한 경우, 파일 탐색기의 주소 표시줄에 이 주소를 직접 붙여넣어 접근하세요.
 
-2. 처음 사용하는 경우, MAA를 한 번 실행하여 MAA가 자동으로 구성 파일을 생성하게 합니다.
+   2. 처음 사용하는 경우, MAA를 한 번 실행하여 MAA가 자동으로 구성 파일을 생성하게 합니다.
+   3. **MAA를 종료**한 후, `gui.json`을 열어 `Configurations` 아래의 현재 구성 이름 필드를 찾습니다(설정-구성 전환에서 확인할 수 있으며, 기본값은 `Default`입니다). 그 안에서 `Bluestacks.Config.Path` 필드를 찾아 `bluestacks.conf`의 전체 경로를 입력합니다. (슬래시를 이스케이프 `\\`해서 사용해야 합니다.)
 
-3. **MAA를 종료**한 후, `gui.json`을 열어 `Configurations` 아래의 현재 구성 이름 필드를 찾습니다(설정-구성 전환에서 확인할 수 있으며, 기본값은 `Default`입니다). 그 안에서 `Bluestacks.Config.Path` 필드를 찾아 `bluestacks.conf`의 전체 경로를 입력합니다. (슬래시를 이스케이프 `\\`해서 사용해야 합니다.)
+   ::: details 예시
+   `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 경로 예시
 
-::: details 예시
-`C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 경로 예시
+   ```json
+   {
+     "Configurations": {
+       "Default": {
+         "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
+         // 다른 구성 필드, 수동으로 입력하지 마세요.
+       }
+     }
+   }
+   ```
 
-```json
-{
-  "Configurations": {
-    "Default": {
-      "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-      // 다른 구성 필드, 수동으로 입력하지 마세요.
-    }
-  }
-}
-```
+   :::
 
-:::
+3. MAA로 돌아가서 테스트
+
+   `설정-실행 설정`에서 `스크린샷 테스트` 기능을 사용하여 예상한 에뮬레이터 코어에 연결되었는지 확인할 수 있습니다.
+
+::::
 
 ## 연결 구성
 
 해당 에뮬레이터의 구성을 선택해야 합니다. 목록에 없으면 일반 구성을 선택하세요. 일반 구성이 작동하지 않으면 다른 사용 가능한 구성을 시도하세요.
 
-자세한 차이점은 [소스 코드](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L65)를 참조하세요.
+자세한 차이점은 [소스 코드](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L57)를 참조하세요.
 
 ### MuMu 스크린샷 강화 모드
 
@@ -179,7 +186,7 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어
 
 ### LD 스크린샷 향상 모드
 
-현재 중국판 LD Player 9 V9.1.32 이상 버전만 지원됩니다. 명일방주 에디션은 현재 지원되지 않습니다. <!-- V9.0.78 -->
+공식 또는 국제판(International) LD Player 9 V9.1.32 이상 버전이 지원됩니다. <!-- V9.0.78 -->
 
 1. 설정 → 연결 설정에서 `LD의 스크린샷 향상 모드 활성화`를 켭니다. 체크할 경우 MAA는 레지스트리를 통해 설치 경로를 자동으로 입력하려고 시도합니다.
 

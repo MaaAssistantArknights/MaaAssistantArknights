@@ -99,6 +99,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             "SMTP",
             "Bark",
             "Qmsg",
+            "Gotify",
             "Custom Webhook"
         ];
 
@@ -200,6 +201,14 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _qmsgEnabled, value);
     }
 
+    private bool _gotifyEnabled = false;
+
+    public bool GotifyEnabled
+    {
+        get => _gotifyEnabled;
+        set => SetAndNotify(ref _gotifyEnabled, value);
+    }
+
     private bool _customWebhookEnabled = false;
 
     public bool CustomWebhookEnabled
@@ -218,6 +227,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         SmtpEnabled = _enabledExternalNotificationProviders.Contains("SMTP");
         BarkEnabled = _enabledExternalNotificationProviders.Contains("Bark");
         QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
+        GotifyEnabled = _enabledExternalNotificationProviders.Contains("Gotify");
         CustomWebhookEnabled = _enabledExternalNotificationProviders.Contains("Custom Webhook");
     }
 
@@ -496,6 +506,32 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _qmsgBot, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgBot, value);
+        }
+    }
+
+    private string _gotifyServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyServer, string.Empty));
+
+    public string GotifyServer
+    {
+        get => _gotifyServer;
+        set
+        {
+            SetAndNotify(ref _gotifyServer, value);
+            var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyServer, encryptedValue);
+        }
+    }
+
+    private string _gotifyToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyToken, string.Empty));
+
+    public string GotifyToken
+    {
+        get => _gotifyToken;
+        set
+        {
+            SetAndNotify(ref _gotifyToken, value);
+            var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyToken, encryptedValue);
         }
     }
 

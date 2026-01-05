@@ -3,7 +3,7 @@ order: 3
 icon: hugeicons:brain-02
 ---
 
-# 이성 사용 (Combat)
+# 이성 사용
 
 ## 일반 설정
 

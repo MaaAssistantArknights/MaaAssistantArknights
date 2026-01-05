@@ -63,7 +63,7 @@ bool asst::CustomTask::parse_and_register_secretfront(const std::string& task_na
     std::optional<std::string> event_name;
     std::optional<std::string> ending_token;
 
-    // 允许识别形式：MiniGame@SecretFront@Begin@Ending[ABCDE]@[事件名]
+    // 允许识别形式：MiniGame@SecretFront@Begin@Ending[A-E](@(支援作战平台|游侠|诡影迷踪))?
     size_t start = strlen("MiniGame@SecretFront@Begin");
     if (start < task_name.size() && task_name[start] == '@') {
         ++start; // skip the separator '@'

@@ -14,6 +14,8 @@
     Title="{DynamicResource Announcement}"
     Width="750"
     Height="550"
+    MinWidth="750"
+    MinHeight="550"
     d:DataContext="{d:DesignInstance {x:Type ui:AnnouncementViewModel}}"
     Icon="../../newlogo.ico"
     ShowCloseButton="False"
@@ -71,11 +73,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <hc:ScrollViewer
                 x:Name="ScrollViewer"
                 Grid.Row="0"
-                Margin="10,5"
+                Grid.RowSpan="2"
+                Margin="10,5,10,0"
                 IsInertiaEnabled="True">
                 <hc:Interaction.Triggers>
                     <hc:EventTrigger EventName="ScrollChanged">
@@ -97,26 +101,54 @@
                 </mdxam:MarkdownScrollViewer>
             </hc:ScrollViewer>
 
-            <StackPanel
+            <Border
                 Grid.Row="1"
-                Margin="30,10,20,10"
+                Height="20"
+                Margin="0,0,18,0"
+                HorizontalAlignment="Stretch"
+                Background="{DynamicResource MdXamlBackground}"
+                IsHitTestVisible="False"
+                Visibility="{c:Binding !IsScrolledToBottom,
+                                       FalseToVisibility=Hidden}">
+                <Border.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0" Color="Transparent" />
+                        <GradientStop Offset="1" Color="Black" />
+                    </LinearGradientBrush>
+                </Border.OpacityMask>
+            </Border>
+
+            <StackPanel
+                Grid.Row="2"
+                Margin="0,0,0,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsEnabled="{c:Binding 'IsScrolledToBottom or DoNotRemindThisAnnouncementAgain'}"
                 Orientation="Horizontal">
                 <CheckBox
                     Height="30"
-                    Margin="10"
+                    Margin="10,0"
                     HorizontalAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Content="{DynamicResource DoNotRemindThisAnnouncementAgain}"
-                    IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
+                    IsChecked="{Binding DoNotRemindThisAnnouncementAgain}"
+                    IsEnabled="{c:Binding 'HasEverScrolledToBottom or DoNotRemindThisAnnouncementAgain'}">
+                    <TextBlock
+                        MaxWidth="150"
+                        Text="{DynamicResource DoNotRemindThisAnnouncementAgain}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
                 <Button
-                    Height="50"
+                    Grid.Column="1"
+                    Height="Auto"
                     MinWidth="100"
-                    Margin="10"
-                    Command="{s:Action Close}"
-                    Content="{DynamicResource Confirm}" />
+                    MinHeight="50"
+                    Margin="10,0"
+                    Command="{s:Action Close}">
+                    <TextBlock
+                        MaxWidth="150"
+                        d:Text="{DynamicResource Confirm}"
+                        Text="{Binding ButtonContent}"
+                        TextWrapping="Wrap" />
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>

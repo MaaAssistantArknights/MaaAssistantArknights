@@ -50,6 +50,7 @@ public static class ConfigurationKeys
     public const string CustomStageCode = "GUI.CustomStageCode";
     public const string InverseClearMode = "GUI.InverseClearMode";
     public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
+    public const string MaxNumberOfLogThumbnails = "GUI.MaxNumberOfLogThumbnails";
     public const string WindowTitleSelectShowList = "GUI.WindowTitleSelectShowList";
     public const string SoberLanguage = "GUI.SoberLanguage";
     public const string Cheers = "GUI.Cheers";
@@ -95,7 +96,7 @@ public static class ConfigurationKeys
     public const string EmulatorAddCommand = "Start.EmulatorAddCommand";
     public const string EmulatorWaitSeconds = "Start.EmulatorWaitSeconds";
 
-    // 仅在刷理智的任务中会生效，前缀需要修改
+    // 仅在理智作战的任务中会生效，前缀需要修改
     public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
     public const string StartsWithScript = "Start.StartsWithScript";
     public const string EndsWithScript = "Start.EndsWithScript";
@@ -118,6 +119,7 @@ public static class ConfigurationKeys
     public const string UsesOfDrones = "Infrast.UsesOfDrones";
     public const string InfrastReceptionMessageBoardReceive = "Infrast.ReceptionMessageBoardReceive";
     public const string InfrastReceptionClueExchange = "Infrast.ReceptionClueExchange";
+    public const string InfrastReceptionSendClue = "Infrast.ReceptionSendClue";
     public const string ContinueTraining = "Infrast.ContinueTraining";
     public const string DefaultInfrast = "Infrast.DefaultInfrast";
     public const string IsCustomInfrastFileReadOnly = "Infrast.IsCustomInfrastFileReadOnly"; // 已废弃
@@ -189,6 +191,7 @@ public static class ConfigurationKeys
 
     public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
     public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
+    public const string CreditFightOnceADay = "Visit.CreditFightOnceADay";
     public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
 
     public const string LastCreditVisitFriendsTime = "Mall.LastCreditVisitFriendsTime";
@@ -302,6 +305,8 @@ public static class ConfigurationKeys
     public const string ExternalNotificationQmsgKey = "ExternalNotification.Qmsg.Key";
     public const string ExternalNotificationQmsgUser = "ExternalNotification.Qmsg.User";
     public const string ExternalNotificationQmsgBot = "ExternalNotification.Qmsg.Bot";
+    public const string ExternalNotificationGotifyServer = "ExternalNotification.Gotify.Server";
+    public const string ExternalNotificationGotifyToken = "ExternalNotification.Gotify.Token";
     public const string ExternalNotificationCustomWebhookUrl = "ExternalNotification.CustomWebhook.Url";
     public const string ExternalNotificationCustomWebhookBody = "ExternalNotification.CustomWebhook.Body";
 

@@ -69,7 +69,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
-    bool use_sanity_potion = params.get("use_sanity_potion", false); // 是否吃理智药
+    bool use_sanity_potion = params.get("use_sanity_potion", false); // 是否药剂恢复
     bool with_formation = params.get("formation", false);            // 是否使用自动编队
     int formation_index = params.get("formation_index", 0);          // 选择第几个编队，0为不选择
     if (!params.contains("formation_index") && params.contains("select_formation")) {

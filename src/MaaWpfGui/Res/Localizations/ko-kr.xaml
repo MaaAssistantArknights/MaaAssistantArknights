@@ -71,6 +71,8 @@
     <system:String x:Key="ExternalNotificationQmsgKey">Qmsg 키</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">사용자 QQ</system:String>
     <system:String x:Key="ExternalNotificationQmsgBot">봇 QQ</system:String>
+    <system:String x:Key="ExternalNotificationGotifyServer">서버 URL</system:String>
+    <system:String x:Key="ExternalNotificationGotifyToken">애플리케이션 토큰</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookBody">메시지 본문 템플릿</system:String>
@@ -120,6 +122,9 @@
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지늄 조각 자동 보충</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">응접실 게시판에서 크레딧 수집</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">단서 교환 수행</system:String>
+    <system:String x:Key="ClueExchangeUnlocked">단서 교환 시작</system:String>
+    <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
+    <system:String x:Key="ReceptionOptionsRequireInfrast">인프라 교대 필요</system:String>
     <system:String x:Key="ContinueTraining">스킬 훈련 완료 시 이어서 훈련 시도</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
@@ -459,7 +464,6 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="CreditFight">크레딧 수급 (지원유닛)</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1 스테이지에서 지원유닛을 사용, 클리어하여 30 크레딧을 획득합니다.
-이 작업은 하루에 한 번만 실행할 수 있습니다.
 현재 스테이지가 ｢{key=DefaultStage}｣으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
 OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (｢;｣ 로 구분)</system:String>
@@ -497,6 +501,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">윈도우 제목 스크롤</system:String>
     <system:String x:Key="MainTasksNullFunctionality">메인 작업 오른쪽 클릭 효과 반전</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">기본: 한 번만 적용, 체크 시: 한 번만 건너뛰기</system:String>
+    <system:String x:Key="MaxNumberOfLogThumbnails">로그 썸네일 최대 개수</system:String>
     <system:String x:Key="TitleBarDisplayContent">제목 표시줄 표시 내용</system:String>
     <system:String x:Key="CustomBackgroundTip">｢background｣ 폴더를 직접 생성한 후 background.png를 넣으면 배경 이미지를 변경할 수 있습니다</system:String>
     <system:String x:Key="UseLogItemDateFormat">커스텀 로그 시간 형식</system:String>
@@ -1261,6 +1266,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Announcement">공지사항</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">공지사항 확인</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">다음 공지사항 업데이트 전까지 표시하지 않기</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm">아직 읽지 않았습니다. 읽은 후 확인해 주세요.</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm2">바로 너네, 계속 누르네</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm3">계속 누르네</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
@@ -1366,6 +1374,10 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.Martian.Description">저만 과거에 있는 것 같아요... 업데이트 좀 해주세요!</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">리소스 또는 버전이 현재로부터 3개월 초과</system:String>
     <system:String x:Key="Achievement.Martian.ConditionsTip">리소스 또는 버전이 현재로부터 {0}개월 초과</system:String>
+
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">고집불통</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">수차례 안내를 받았음에도 불구하고 공지를 보지 않고 닫기를 선택했습니다.</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Conditions">맨 아래로 스크롤하지 않은 상태에서 닫기 버튼을 20회 이상 클릭함</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">서약 완료</system:String>
     <system:String x:Key="Achievement.Rules.Description">약속한 거예요? 제가 옆에서 지켜볼게요</system:String>
@@ -1586,6 +1598,86 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.RoguelikeN15.Title">마스터피스</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">방금 제 플레이 보셨나요? 이건 기록으로 남겨야 해요!</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">｢{key=AutoRoguelike}｣ 기능으로 {key=AutoRoguelike} 난이도 15 이상 클리어</system:String>
+
+    <system:String x:Key="Achievement.LogSupervisor.Title">슈퍼바이저</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Description">MAA의 로그를 지켜보면 자동 전투 성공률이 효과적으로 향상된다고 합니다.</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Conditions">로그 플로팅 창을 열고 작업을 1회 완료</system:String>
+
+    <system:String x:Key="Achievement.RecruitGambler.Title">공개 모집 도박꾼</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Description">한 번 해보자, 자전거가 오토바이가 된다.</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Conditions">공개 모집에서 태그를 50회 새로고침</system:String>
+
+    <system:String x:Key="Achievement.ClueCollector.Title">단서 수집가</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Description">로도스 아일랜드 사교계의 꽃.</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Conditions">단서 교환을 누적 20회 열기</system:String>
+
+    <system:String x:Key="Achievement.CluePhilosopher.Title">단서 철학자</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Description">모임의 의미는 무엇인가?</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Conditions">단서 교환을 누적 50회 열기</system:String>
+
+    <system:String x:Key="Achievement.ClueSharer.Title">단서 공유자</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Description">좋은 것은 친구와 나눠야 해요.</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Conditions">친구에게 단서를 누적 20회 보내기</system:String>
+
+    <system:String x:Key="Achievement.CluePhilanthropist.Title">단서 자선가</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Description">가져가세요, 감사 인사는 필요 없어요.</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Conditions">친구에게 단서를 누적 50회 보내기</system:String>
+
+    <system:String x:Key="Achievement.TaskChainKing.Title">작업 체인 왕</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Description">한 번의 클릭으로 시작, 모두 완료.</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Conditions">단일 실행에서 7개 이상의 작업 선택</system:String>
+
+    <system:String x:Key="Achievement.UpdateObsession.Title">업데이트 강박증</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Description">업데이트가 있나? 업데이트!</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Conditions">업데이트 출시 후 1일 이내에 업데이트 완료</system:String>
+
+    <system:String x:Key="Achievement.UpdateEarlyBird.Title">업데이트 얼리버드</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Description">먼저 체험하기!</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Conditions">업데이트 출시 후 1시간 이내에 업데이트 완료</system:String>
+
+    <system:String x:Key="Achievement.SanityPlanner.Title">이성 플래너</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Description">정밀하고, 완벽하고, 한 푼도 어긋나지 않아요.</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Conditions">{key=Combat} 완료 시 모든 이성을 정확히 소진</system:String>
+
+    <system:String x:Key="Achievement.HotkeyMagician.Title">단축키 마법사</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Ctrl + Shift + Alt + Win + F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Conditions">수정 키가 4개 이상인 단축키 조합을 설정하고 사용</system:String>
+
+    <system:String x:Key="Achievement.WarehouseMiser.Title">창고 수전노</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Description">하나도 쓰지 말아요!</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">창고 인식 기능이 창고 내 특정 재료가 10000개 이상임을 감지</system:String>
+
+    <system:String x:Key="Achievement.HrSpecialist.Title">인사부 전문가</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Description">왜 다 예비 행동팀이에요!</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Conditions">단일 공개 모집 작업에서 연속 10회 모집</system:String>
+
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Title">인사부 고급 전문가</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Description">고급 오퍼레이터 태그는 어디 있나요? 어디 있나요?🎶</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Conditions">단일 공개 모집 작업에서 연속 20회 모집</system:String>
+
+    <system:String x:Key="Achievement.WarehouseKeeper.Title">저는 창고 관리원이에요!</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Description">MAA가 MAA를 찾았어요!</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Conditions">오퍼레이터 인식에 오퍼레이터 "팔라스" 포함</system:String>
+
+    <system:String x:Key="Achievement.NotFound404.Title">404！</system:String>
+    <system:String x:Key="Achievement.NotFound404.Description">이 작업을 찾을 수 없는 것 같아요</system:String>
+    <system:String x:Key="Achievement.NotFound404.Conditions">원격 프로토콜로 잘못된 작업 id 호출</system:String>
+
+    <system:String x:Key="Achievement.Linguist.Title">언어학자</system:String>
+    <system:String x:Key="Achievement.Linguist.Description">MAA, 하지만 국제화.</system:String>
+    <system:String x:Key="Achievement.Linguist.Conditions">인터페이스 언어 전환 시도</system:String>
+
+    <system:String x:Key="Achievement.StartupBoot.Title">부팅 시 시작</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Description">이론적으로 부팅 속도가 조금 느려졌어요</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Conditions">MAA를 부팅 시 시작하도록 설정</system:String>
+
+    <system:String x:Key="Achievement.ClueObsession.Title">단서 강박증</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Description">칠색 전대, 집합!</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Conditions">7일 연속으로 매일 단서를 모아 단서 교환 열기</system:String>
+
+    <system:String x:Key="Achievement.Time325.Title">325</system:String>
+    <system:String x:Key="Achievement.Time325.Description">이 숫자가 무슨 의미인지 아시죠?</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">3/13/23시 25분에 여전히 MAA 사용 중</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

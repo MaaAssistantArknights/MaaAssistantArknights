@@ -34,6 +34,7 @@ public static class ExternalNotificationService
         {
             IExternalNotificationProvider provider = enabledProvider switch
             {
+                "Gotify" => new GotifyNotificationProvider(Instances.HttpService),
                 "ServerChan" => new ServerChanNotificationProvider(Instances.HttpService),
                 "Telegram" => new TelegramNotificationProvider(Instances.HttpService),
                 "Discord" => new DiscordNotificationProvider(Instances.HttpService),

@@ -35,9 +35,14 @@ bool asst::InfrastReceptionTask::_run()
         return false;
     }
 
-    use_clue();
-    back_to_reception_main();
-    send_clue();
+    if (m_enable_clue_exchange) {
+        use_clue();
+        back_to_reception_main();
+    }
+
+    if (m_send_clue) {
+        send_clue();
+    }
 
     if (need_exit()) {
         return false;
@@ -50,8 +55,10 @@ bool asst::InfrastReceptionTask::_run()
         return false;
     }
 
-    use_clue();
-    back_to_reception_main();
+    if (m_enable_clue_exchange) {
+        use_clue();
+        back_to_reception_main();
+    }
 
     if (need_exit()) {
         return false;

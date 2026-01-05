@@ -1,8 +1,6 @@
 #!/bin/bash
 WORKSPACE=$(pwd)
 
-# conda activate maa
-
 echo "===================="
 cd "$WORKSPACE"
 echo "Setting up git safe.directory..."

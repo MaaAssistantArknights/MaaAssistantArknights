@@ -2127,9 +2127,16 @@
                     {
                         "desc": "森蚺-2",
                         "efficient": {
-                            "all": 30
+                            "all": 30.2
                         },
                         "skills": ["bskill_man_spd&power2"]
+                    },
+                    {
+                        "desc": "冬时-1",
+                        "efficient": {
+                            "all": 30
+                        },
+                        "skills": ["bskill_man_spd_manu2"]
                     },
                     {
                         "desc": "清流-1",
@@ -2156,7 +2163,7 @@
                     {
                         "desc": "温蒂、森蚺-2",
                         "efficient": {
-                            "all": 30
+                            "all": 30.2
                         },
                         "skills": ["bskill_man_spd&power2"]
                     }
@@ -2165,9 +2172,16 @@
                     {
                         "desc": "温蒂、森蚺-2",
                         "efficient": {
-                            "all": 30
+                            "all": 30.2
                         },
                         "skills": ["bskill_man_spd&power2"]
+                    },
+                    {
+                        "desc": "冬时-1",
+                        "efficient": {
+                            "all": 30
+                        },
+                        "skills": ["bskill_man_spd_manu2"]
                     },
                     {
                         "desc": "清流-1",
@@ -2201,6 +2215,13 @@
                 ],
                 "optional": [
                     {
+                        "desc": "冬时-1",
+                        "efficient": {
+                            "all": 30
+                        },
+                        "skills": ["bskill_man_spd_manu2"]
+                    },
+                    {
                         "desc": "森蚺-2",
                         "efficient": {
                             "all": 20
@@ -2232,12 +2253,19 @@
                     {
                         "desc": "温蒂、森蚺-2",
                         "efficient": {
-                            "all": 30
+                            "all": 20
                         },
                         "skills": ["bskill_man_spd&power2"]
                     }
                 ],
                 "optional": [
+                    {
+                        "desc": "冬时-1",
+                        "efficient": {
+                            "all": 30
+                        },
+                        "skills": ["bskill_man_spd_manu2"]
+                    },
                     {
                         "desc": "温蒂、森蚺-2",
                         "efficient": {
@@ -2245,6 +2273,68 @@
                         },
                         "skills": ["bskill_man_spd&power2"]
                     },
+                    {
+                        "desc": "清流-1",
+                        "efficient": {
+                            "PureGold_reg": "[NumOfTrade] * 20"
+                        },
+                        "skills": ["bskill_man_spd&trade"]
+                    },
+                    {
+                        "desc": "森蚺、异客2",
+                        "efficient": {
+                            "all": 10
+                        },
+                        "skills": ["bskill_man_spd&power1"]
+                    }
+                ]
+            },
+            {
+                "conditions": {
+                    "NumOfPower": 3
+                },
+                "desc": "冬时组",
+                "necessary": [
+                    {
+                        "desc": "冬时-1",
+                        "efficient": {
+                            "all": 30
+                        },
+                        "skills": ["bskill_man_spd_manu2"]
+                    }
+                ],
+                "optional": [
+                    {
+                        "desc": "清流-1",
+                        "efficient": {
+                            "PureGold_reg": "[NumOfTrade] * 20"
+                        },
+                        "skills": ["bskill_man_spd&trade"]
+                    },
+                    {
+                        "desc": "森蚺、异客2",
+                        "efficient": {
+                            "all": 15
+                        },
+                        "skills": ["bskill_man_spd&power1"]
+                    }
+                ]
+            },
+            {
+                "conditions": {
+                    "NumOfPower": 2
+                },
+                "desc": "冬时组: 2电站",
+                "necessary": [
+                    {
+                        "desc": "冬时-1",
+                        "efficient": {
+                            "all": 30
+                        },
+                        "skills": ["bskill_man_spd_manu2"]
+                    }
+                ],
+                "optional": [
                     {
                         "desc": "清流-1",
                         "efficient": {

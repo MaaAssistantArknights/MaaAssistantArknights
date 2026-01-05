@@ -74,6 +74,10 @@ public class BarkNotificationProvider(IHttpService httpService) : IExternalNotif
         [JsonPropertyName("body")]
         public string? Content { get; set; }
 
+        // Group and Icon properties are optional, but we set them for better organization and appearance
+        [JsonPropertyName("group")]
+        public string Group { get; } = "MaaAssistantArknights";
+
         [JsonPropertyName("icon")]
         public static string Icon { get => "https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_256x256.png"; }
 

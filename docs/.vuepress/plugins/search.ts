@@ -2,7 +2,7 @@ export default {
   provider: 'algolia' as const,
   appId: '9ARM1N4899',
   apiKey: 'f42bf1d18c786d5a46da30eccac5cb34',
-  indexName: 'maa',
+  indexName: 'MaaAssistantArknights',
   locales: {
     '/zh-cn/': {
       placeholder: '搜索',

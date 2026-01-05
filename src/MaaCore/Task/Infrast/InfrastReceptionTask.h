@@ -15,6 +15,8 @@ public:
 
     void set_enable_clue_exchange(bool value) noexcept { m_enable_clue_exchange = value; }
 
+    void set_send_clue(bool value) noexcept { m_send_clue = value; }
+
 protected:
     virtual bool _run() override;
 
@@ -35,5 +37,6 @@ private:
 
     bool m_receive_message_board = true;
     bool m_enable_clue_exchange = true;
+    bool m_send_clue = true;
 };
 }

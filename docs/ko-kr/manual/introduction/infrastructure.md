@@ -26,11 +26,11 @@ icon: material-symbols:view-quilt-rounded
 - 제어 센터의 복잡성으로 인해서, `아미야`, `스와이어`, `켈시`, `레인보우 팀`과 기타 시간당 컨디션 +0.05 오퍼레이터만이 고려됩니다. 향후 개선될 예정입니다.
 - 필요한 시설 유형만 선택해 MAA가 처리하도록 할 수 있습니다. 기본값은 모두 선택되어있습니다
 
-## 일괄 쉬프트
+## 일괄 교대
 
 - 게임 내 프리셋 팀 설정 후 MAA가 자동으로 순환합니다.
 
 ## 커스텀 기반시설
 
+- Yituliu의 [기반시설 JSON 생성기](https://ark.yituliu.cn/tools/schedule)를 참고해서 작성하세요. [기반시설 프로토콜 문서](../../protocol/base-scheduling-schema.md)도 참조할 수 있습니다.
 - MAA 폴더의 `/resource/custom_infrast/`에는 이론적 최대 효율의 작업 몇 개가 내장되어 있습니다. 오퍼레이터 인원 수 및 육성의 요구 사항이 매우 높기 때문에 직접 사용하는 것은 권장하지 않습니다.
-- Yituliu의 JSON 생성기를 참고해서 작성하세요. [기반시설 JSON 생성기](https://ark.yituliu.cn/tools/schedule), [기반시설 프로토콜 문서](../../protocol/base-scheduling-schema.md)도 참조하세요.
