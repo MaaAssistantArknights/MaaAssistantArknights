@@ -107,7 +107,7 @@ bool asst::BattleFormationTask::_run()
         const auto& missing_group = missing_groups.begin(); // 只有一个缺失干员组，直接取第一个
         for (const battle::OperUsage& oper :
              missing_group->second | std::views::filter([&](const battle::OperUsage& oper) {
-                 return oper.status == battle::OperStatus::Missing;
+                 return oper.status == battle::OperStatus::Missing || oper.status == battle::OperStatus::Unavailable;
              })) {
             // 如果指定助战干员正好可以补齐编队，则只招募指定助战干员就好了，记得再次确认一下 skill
             // 如果编队里正好有【艾雅法拉 - 2】和 【艾雅法拉 - 3】呢？
