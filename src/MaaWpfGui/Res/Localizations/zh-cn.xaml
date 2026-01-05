@@ -122,6 +122,7 @@
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">会客室信息板收取信用</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">进行线索交流</system:String>
+    <system:String x:Key="ClueExchangeUnlocked">已开启线索交流</system:String>
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">需执行基建换班</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
@@ -1596,6 +1597,86 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙术杯选手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">仙术牛牛真仙术。</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用 ｢{key=AutoRoguelike}｣ 通关任意肉鸽 N15 及以上难度</system:String>
+
+    <system:String x:Key="Achievement.LogSupervisor.Title">超级监工</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Description">据说，盯着MAA的日志能够有效提高代理成功率。</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Conditions">开着日志悬浮窗完成一次任务</system:String>
+
+    <system:String x:Key="Achievement.RecruitGambler.Title">公招赌徒</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Description">搏一搏，单车变摩托。</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Conditions">在公开招募中刷新标签 50 次</system:String>
+
+    <system:String x:Key="Achievement.ClueCollector.Title">线索搜集</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Description">罗德岛交际花。</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Conditions">累计开启线索交流 20 次</system:String>
+
+    <system:String x:Key="Achievement.CluePhilosopher.Title">线索哲学家</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Description">聚会的意义是什么？</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Conditions">累计开启线索交流 50 次</system:String>
+
+    <system:String x:Key="Achievement.ClueSharer.Title">线索分享</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Description">好东西要和朋友分享。</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Conditions">累计向好友发送 20 次线索</system:String>
+
+    <system:String x:Key="Achievement.CluePhilanthropist.Title">线索慈善家</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Description">拿去花，不用谢。</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Conditions">累计向好友发送 50 次线索</system:String>
+
+    <system:String x:Key="Achievement.TaskChainKing.Title">任务链王</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Description">一键启动，全部搞定。</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Conditions">单次运行中，勾选超过 7 个任务</system:String>
+
+    <system:String x:Key="Achievement.UpdateObsession.Title">更新强迫症</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Description">有更新？更！</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Conditions">在更新发布后 1 天内完成更新</system:String>
+
+    <system:String x:Key="Achievement.UpdateEarlyBird.Title">更新尝鲜者</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Description">抢先体验！</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Conditions">在更新发布后 1 小时内完成更新</system:String>
+
+    <system:String x:Key="Achievement.SanityPlanner.Title">理智规划师</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Description">精确，完美，分毫不差。</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Conditions">完成{key=Combat}时刚好消耗完所有理智</system:String>
+
+    <system:String x:Key="Achievement.HotkeyMagician.Title">热键魔术师</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Ctrl + Shift + Alt + Win + F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Conditions">设置并使用一个超过 4 个修饰键的热键组合</system:String>
+
+    <system:String x:Key="Achievement.WarehouseMiser.Title">仓库守财奴</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Description">一个都不许用！</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">仓库识别功能识别到仓库内某种材料数量超过 10000 个</system:String>
+
+    <system:String x:Key="Achievement.HrSpecialist.Title">人事部专员</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Description">怎么全是预备行动组啊！</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Conditions">单轮公招任务连续招募 10 次</system:String>
+
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Title">人事部高级专员</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Description">高资在哪里啊高资在哪里🎶</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Conditions">单轮公招任务连续招募 20 次</system:String>
+
+    <system:String x:Key="Achievement.WarehouseKeeper.Title">我是仓管！</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Description">牛牛找到了牛牛！</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Conditions">干员识别中包含干员"帕拉斯"</system:String>
+
+    <system:String x:Key="Achievement.NotFound404.Title">404！</system:String>
+    <system:String x:Key="Achievement.NotFound404.Description">这个任务似乎找不到了</system:String>
+    <system:String x:Key="Achievement.NotFound404.Conditions">使用远程协议调用错误的任务 id</system:String>
+
+    <system:String x:Key="Achievement.Linguist.Title">语言学家</system:String>
+    <system:String x:Key="Achievement.Linguist.Description">MAA，但国际化。</system:String>
+    <system:String x:Key="Achievement.Linguist.Conditions">尝试切换界面语言</system:String>
+
+    <system:String x:Key="Achievement.StartupBoot.Title">开机启动</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Description">理论上你的开机速度又慢了一点</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Conditions">设置开机启动 MAA</system:String>
+
+    <system:String x:Key="Achievement.ClueObsession.Title">线索强迫症</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Description">七色战队，集合！</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Conditions">连续 7 天每天集齐并开启线索交流</system:String>
+
+    <system:String x:Key="Achievement.Time325.Title">325</system:String>
+    <system:String x:Key="Achievement.Time325.Description">你知道这个数字是什么意思对吧</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">在 3/13/23 点 25 分还在使用 MAA</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

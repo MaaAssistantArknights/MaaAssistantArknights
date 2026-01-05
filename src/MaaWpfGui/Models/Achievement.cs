@@ -84,6 +84,9 @@ public class Achievement
     public string Group { get; set; } = string.Empty;
 
     [JsonIgnore]
+    public int GroupIndex { get; set; } = int.MaxValue;
+
+    [JsonIgnore]
     public string MedalBrushKey
     {
         get
