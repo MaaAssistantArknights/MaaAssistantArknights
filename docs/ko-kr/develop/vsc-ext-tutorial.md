@@ -88,7 +88,7 @@ VSCode 확장 프로그램 목록에서 `Maa`를 검색하여 직접 설치하�
 
 제어판을 통해 컨트롤러를 스캔 및 선택하고, 리소스를 선택하고, 작업을 추가 및 관리하고, 작업을 실행할 수 있습니다.
 
-### 스크린샷 캡처 및 자르기
+### 스크린샷 캡처 및 자르기 / Quick recognition 
 
 VSCode 명령 팔레트에서 `Maa: 스크린샷 도구 열기(Maa: open crop tool)`를 검색하고 실행하여 `스크린샷 / 자르기(Screenshots / Crop)` 패널을 열 수 있습니다.
 
@@ -104,9 +104,9 @@ VSCode 명령 팔레트에서 `Maa: 스크린샷 도구 열기(Maa: open crop to
 
 ::: warning
 
-(MaaFramework 프로젝트 전용)
-
 OCR 인식 결과가 비어 있다면 [OCR 모델](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files)이 올바르게 구성되었는지 확인하세요.
+
+For Maa, the extension will maintain the models used automatically; you only need to select the proper resource.
 
 :::
 
