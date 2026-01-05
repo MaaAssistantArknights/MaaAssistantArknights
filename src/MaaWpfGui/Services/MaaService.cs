@@ -110,7 +110,7 @@ public enum AsstTaskType : byte
     CloseDown,
 
     /// <summary>
-    /// 刷理智
+    /// 理智作战
     /// </summary>
     Fight,
 

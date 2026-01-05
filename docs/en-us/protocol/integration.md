@@ -171,9 +171,10 @@ Supports some of the special stages, please refer to [autoLocalization example](
     "replenish": bool,      // Whether to replenish Originium Shard in trading post, optional, by default false
 
     "dorm_notstationed_enabled": bool, // Whether to enable "Not Stationed in Dorm" option, optional, by default false
-    "dorm_trust_enabled": bool, // Whether to fill dormitory with operators not at max trust, optional, by default false
-    "reception_message_board": bool, // Whether to collect credits from reception room message board, optional, by default true
-    "reception_clue_exchange": bool, // Whether to perform clue exchange, optional, by default true
+    "dorm_trust_enabled": bool,        // Whether to fill dormitory with operators not at max trust, optional, by default false
+    "reception_message_board": bool,   // Whether to collect credits from reception room message board, optional, by default true
+    "reception_clue_exchange": bool,   // Whether to perform clue exchange, optional, by default true
+    "reception_send_clue": bool,       // Whether to send clues, optional, by default true
 
     /* The following parameters are only effective when mode = 10000, otherwise they are ignored */
     "filename": string,     // Custom config path, required. Editing in run-time is not supported.
@@ -205,6 +206,7 @@ Supports some of the special stages, please refer to [autoLocalization example](
     "credit_fight": bool,                   // Whether to run one battle of OF-1 with support units to gain more Credits the next day; optional, default is false
     "formation_index": int                  // Formation slot index used for the OF-1 battle; optional, default is 0;
                                             // Integer between 0–4, where 0 = current squad, 1–4 = first, second, third, fourth squad
+                                            // <Badge type="warning" text="Requires Infrastructure Shift task to take effect" />
 }
 ```
 

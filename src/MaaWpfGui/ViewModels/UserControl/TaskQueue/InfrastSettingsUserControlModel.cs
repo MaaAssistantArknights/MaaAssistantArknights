@@ -245,6 +245,17 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private bool _receptionSendClue = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionSendClue, true);
+
+    public bool ReceptionSendClue
+    {
+        get => _receptionSendClue;
+        set {
+            SetAndNotify(ref _receptionSendClue, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastReceptionSendClue, value.ToString());
+        }
+    }
+
     private bool _continueTraining = ConfigurationHelper.GetValue(ConfigurationKeys.ContinueTraining, false);
 
     /// <summary>
@@ -497,7 +508,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
             if (output)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastTitle"), UiLogColor.Message);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastTitle"), UiLogColor.Message, splitMode: UI.TaskQueueViewModel.LogCardSplitMode.Before);
                 Instances.TaskQueueViewModel.AddLog($"title: {root.Title}", UiLogColor.Info);
                 Instances.TaskQueueViewModel.AddLog($"description: {root.Description}", UiLogColor.Info);
             }
@@ -531,6 +542,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             {
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Warning);
             }
+
+            Instances.TaskQueueViewModel.AddLog(string.Empty, splitMode: UI.TaskQueueViewModel.LogCardSplitMode.After);
 
             CustomInfrastPlanList = [.. list];
         }
@@ -616,6 +629,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             OriginiumShardAutoReplenishment = OriginiumShardAutoReplenishment,
             ReceptionMessageBoard = ReceptionMessageBoardReceive,
             ReceptionClueExchange = ReceptionClueExchange,
+            ReceptionSendClue = ReceptionSendClue,
             Filename = CustomInfrastFile,
         };
 

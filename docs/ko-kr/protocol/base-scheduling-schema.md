@@ -3,33 +3,34 @@ order: 6
 icon: material-symbols:view-quilt-rounded
 ---
 
-# 기반시설 스키마
+# 기반시설 스케줄링 프로토콜
 
-`resource/custom_infrast/*.json` 파일들의 사용법과 각 필드에 대한 설명입니다.
+`resource/custom_infrast/*.json` 파일의 사용법 및 각 필드 설명
 
 ::: tip
-주의: JSON 형식은 주석을 지원하지 않으므로 아래의 예시에서 주석은 제거해주시기 바랍니다.
+JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 예시용입니다. 직접 복사하여 사용하지 마세요.
 :::
 
-[기반시설 시각적 표 제작도구(yituliu)](https://ark.yituliu.cn/tools/schedule)
+[기반시설 스케줄링 생성 도구](https://ark.yituliu.cn/tools/schedule)
 
-## 완전한 필드 목록
+## 전체 필드 목록
 
 ```json
 {
-    "title": "小号的换班方案",       // 구성 제목, 선택 사항
-    "description": "哈哈哈哈",       // 구성 설명, 선택 사항
+    "title": "小号的换班方案", // 작업명, 선택 사항
+    "description": "哈哈哈哈", // 작업 설명, 선택 사항
     "plans": [
         {
-            "name": "早班",         // 계획 이름, 선택 사항, 2~4교대로 돌릴 때의 각 파트별 구성이 헷갈리지 않도록 해줍니다.
-            "description": "lol",   // 계획 설명, 선택 사항
-            "description_post": "", // 계획 실행 후에 표시할 설명, 선택 사항
-            "period": [             // 교대 기간, 선택 사항
-                                    // 현재 시간이 이 범위 안에 있는 경우, 계획은 자동으로 선택됩니다 (전체 JSON 파일에 여러 계획이 있을 수 있음)
-                                    // 이 필드가 없으면 각 실행 후 자동으로 다음 계획으로 전환됩니다.
-                                    // Core에서 이 필드를 처리하지 않습니다. MAA와 인터페이스 통합을 사용하는 경우, 이 논리를 직접 구현하세요.
+            "name": "早班", // 계획명, 선택 사항
+            "description": "lol", // 계획 설명, 선택 사항
+            "description_post": "", // 계획 실행 완료 후 표시되는 설명, 선택 사항
+            "period": [
+                // 교대 시간대, 선택 사항
+                // 현재 시간이 이 구간 내에 있으면 해당 계획을 자동으로 선택합니다 (전체 json 파일에 여러 계획이 포함될 수 있음)
+                // 이 필드가 없으면 매번 교대가 끝난 후 자동으로 다음 계획으로 전환됩니다
+                // core는 이 필드를 처리하지 않으므로, 인터페이스를 사용하여 maa를 통합하는 경우 이 로직을 직접 구현하세요
                 [
-                    "22:00",        // hh:mm 형식으로 표시되며 현재는 단순 숫자 비교만 사용됩니다. 자정을 넘어가는 경우 이 파일의 예시를 참조하세요.
+                    "22:00", // hh:mm 형식 요구, 현재는 단순히 숫자 크기만 비교합니다. 날짜를 넘기는 경우 이 예시처럼 작성하세요
                     "23:59"
                 ],
                 [
@@ -37,21 +38,23 @@ icon: material-symbols:view-quilt-rounded
                     "06:00"
                 ]
             ],
-            "duration": 360,        // 근무 기간 (분 단위), 예약 필드로 현재는 사용되지 않습니다. 나중에 시간이 되면 알림이나 자동 교대 기능이 추가될 수 있습니다.
-            "Fiammetta": {          // "Fiammetta"를 사용하는 오퍼레이터, 선택 사항. 사용하지 않는 경우 필요하지 않습니다.
-                "enable": true,     // "Fiammetta"를 사용할지 여부, 선택 사항. 기본값은 true입니다.
-                "target": "巫恋",   // 대상 오퍼레이터, 이는 OCR을 통해 얻어지며, 해당 클라이언트 언어에서 오퍼레이터 이름을 전달해야 합니다.
-                "order": "pre",     // 전체 교대 전에 사용할지 후에 사용할지 여부, 선택 사항. 값 범위는 "pre" / "post"입니다. 기본값은 "pre"입니다.
+            "duration": 360, // 작업 지속 시간(분), 예약된 필드로 현재는 효과가 없습니다. 나중에 시간이 되면 교대 알림을 띄우거나 자동으로 교대할 수 있습니다
+            "Fiammetta": {
+                // "피아메타"를 어느 오퍼레이터에게 사용할지, 선택 사항, 비워두면 사용하지 않음
+                "enable": true, // "피아메타" 사용 여부, 선택 사항, 기본값 true
+                "target": "巫恋", // 목표 오퍼레이터, OCR을 사용하지만 OcrReplace를 지원하기에, 중문명으로 작성해야 함
+                "order": "pre" // 전체 교대 전에 사용할지, 교대 후에 사용할지, 선택 사항, 값 범위 "pre" / "post", 기본값 "pre"
             },
-            "drones": {              // 드론 사용에 대한 정보입니다. 선택 사항이며, 지정하지 않으면 드론은 사용되지 않습니다.
-                "enable": true,      // 드론을 사용할지 여부. 선택 사항입니다. 기본값은 true입니다.
-                "room": "trading",   // 어떤 유형의 방에 드론을 사용할지를 지정합니다. 가능한 값으로는 "trading(무역소)" / "manufacture(제조소)"가 있습니다.
-                "index": 1,          // 드론을 사용할 방의 인덱스입니다. 왼쪽의 탭과 대응됩니다. 가능한 값으로는 [1 ~ 5]가 있습니다.
-                "rule": "all",       // 사용 규칙입니다. 예약 필드로 현재는 사용되지 않지만 플러그인 등의 작업 지원을 위해 나중에 사용될 수 있습니다.
-                "order": "pre"       // 오퍼레이터 교대 전에 드론을 사용할지 후에 사용할지 여부입니다. 선택 사항입니다. 가능한 값으로는 "pre" / "post"가 있습니다. 기본값은 "pre"입니다.
+            "drones": {
+                // 드론 사용, 선택 사항, 비워두면 드론을 사용하지 않음
+                "enable": true, // 드론 사용 여부, 선택 사항, 기본값 true
+                "room": "trading", // 어느 유형의 시설에 사용할지, 값 범위 "trading" / "manufacture"
+                "index": 1, // 몇 번째 해당 유형의 시설에 사용할지, 왼쪽 탭 순서에 대응, 값 범위 [1, 5]
+                "rule": "all", // 사용 규칙, 예약된 필드로 현재는 효과가 없습니다. 나중에 플러그인 등 조작을 지원하는 데 사용할 수 있습니다
+                "order": "pre" // 오퍼레이터 교대 전에 사용할지, 교대 후에 사용할지, 선택 사항, 값 범위 "pre" / "post", 기본값 "pre"
             },
             "groups": [
-                // "control" / "manufacture" / "trading"에 대해 오퍼레이터 그룹을 설정할 수 있습니다.
+                // "control" / "manufacture" / "trading"에 대해 오퍼레이터 편성을 설정할 수 있음
                 {
                     "name": "古+银",
                     "operators": ["古米", "银灰", "梅"]
@@ -62,74 +65,71 @@ icon: material-symbols:view-quilt-rounded
                 }
             ],
             "rooms": {
-                           // 방 정보입니다. 필수 항목입니다.
-                           // 가능한 값으로는 "control(제어 센터)" / "manufacture(제조소)" / "trading(무역소)" / "power(발전소)" / "meeting(응접실)" / "hire(사무소)" / "dormitory()"가 있습니다.
-                           // 방이 지정되지 않은 경우 기본 알고리즘으로 오퍼레이터 교대를 수행합니다.
-                           // 특정 방에서 오퍼레이터 교대를 하지 않으려면 "skip" 필드를 사용하거나 소프트웨어의 인프라 설정에서 해당 시설을 선택 해제하세요.
+                // 시설 정보, 필수
+                // 값 범위 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing"
+                // 하나라도 빠지면 해당 시설은 기본 알고리즘을 사용하여 교대합니다.
+                // 특정 시설의 교대를 원하지 않으면 skip 필드를 사용하거나, 소프트웨어 '임무 설정 - 기반시설 교대 - 일반 설정'에서 해당 시설의 체크를 해제하세요
                 "control": [
-                    {
-                        "operators": [  // 이 방에 할당된 오퍼레이터들입니다. OCR을 통해 식별되며 해당 클라이언트 언어로 오퍼레이터 이름을 전달해야 합니다.
-                            "夕",
-                            "令",
-                            "凯尔希",
-                            "阿米娅",
-                            "玛恩纳"
-                        ]
-                    }
+                {
+                    "operators": [
+                        "夕", // OCR을 사용하지만 OcrReplace를 지원하기에, 중문명으로 작성해야 함
+                        "令",
+                        "凯尔希",
+                        "阿米娅",
+                        "玛恩纳"
+                    ]
+                }
                 ],
                 "manufacture": [
-                    {
-                        "operators": ["芬", "稀音", "克洛丝"],
-                        "sort": false,   // 오퍼레이터들을 위의 순서에 따라 정렬할지 여부입니다. 선택 사항입니다. 기본값은 false입니다.
-                        // 예를 들어 "稀音", "帕拉斯", "巫恋"(씬, 팔라스, 샤마르)와 같은 오퍼레이터를 사용하는 경우
-                        // "sort": false로 설정하면 순서가 뒤바뀔 수 있으며, 특히 시간이 지남에 따라 효율이 상승하는 오퍼레이터의 효과가 초기화되어 손실로 이어질 수 있습니다.
-                        // "sort": true를 사용하면 이러한 문제를 피할 수 있습니다.
-                    },
-                    {
-                        "skip": true    // 이 방을 건너뛸지 여부를 나타냅니다 (배열 인덱스에 해당). 선택 사항입니다. 기본값은 false입니다.
-                        // true로 설정하면 다른 모든 필드를 비워둘 수 있습니다. 오퍼레이터 변경만 건너뛰게 됩니다. 드론 사용 및 단서 교환과 같은 다른 작업은 계속 진행됩니다.
-                    },
-                    {
-                        "operators": ["Castle-3"],
-                        "autofill": true, // 원래 알고리즘을 사용하여 나머지 위치를 자동으로 채울지 여부를 나타냅니다. 선택 사항입니다. 기본값은 false입니다.
-                        // 오퍼레이터 배열이 비어있는 경우 방 전체의 스케줄링은 원래 알고리즘을 기반으로 합니다.
-                        // 오퍼레이터 배열이 비어 있지 않은 경우 개별 오퍼레이터의 효율성만 고려되며 전체 조합의 효율성은 고려되지 않습니다.
-                        // 이후에 정의된 사용자 정의 오퍼레이터들과 충돌할 수 있으므로 주의해야 합니다. 예를 들어, 이후에 필요한 오퍼레이터들이 여기서 사용되는 경우에는 주의해서 사용하거나, 자동채우기를 하는 방의 순서를 뒤로 미루세요.
-                        "product": "Battle Record" // 현재 제조되는 제품, 선택 사항.
-                        // 시설에서 인식된 제품이 작업에 설정된 제품과 일치하지 않으면 인터페이스에 빨간색 경고 메시지가 표시됩니다. 미래에 추가 기능이 추가될 수 있습니다.
-                        // 가능한 값으로는 "Battle Record()" | "Pure Gold(순금)" | "Dualchip(듀얼 칩)" | "Originium Shard(오리지늄 조각)" | "LMD(용문폐)" | "Orundum()"가 있습니다.
-                    },
-                    {
-                        "operators": [
-                            "多萝西"
-                        ],
-                        "candidates": [
-                            // 선택적 후보 오퍼레이터입니다. 모든 위치가 채워질 때까지 목록에 있는 오퍼레이터들을 사용합니다.
-                            // autofill=true와 호환되지 않습니다. 이 배열이 비어 있지 않은 경우 autofill을 false로 설정하세요.
-                            "星源",
-                            "白面鸮",
-                            "赫默"
-                        ]
-                    },
-                    {
-                        "use_operator_groups": true, // groups에 있는 오퍼레이터 그룹을 사용하려면 true로 설정, 기본값은 false
-                        "operators": [
-                            // 활성화되면, operators에 있는 이름이 그룹 이름으로 해석됩니다.
-                            "古+银", // 컨디션 임계값 및 설정 순서에 따라 그룹 선택
-                            "清流" // 만약 古+银 그룹의 오퍼레이터 컨디션이 임계값 이하인 경우 清流 그룹 사용
-                       ]
-                    }
+                {
+                    "operators": ["芬", "稀音", "克洛丝"],
+                    "sort": false // 정렬 여부 (위의 operators 순서대로), 선택 사항, 기본값 false
+                    // 예: 씬, 팔라스, 샤마르 등의 오퍼레이터를 사용하고 "sort": false인 경우, 오퍼레이터 순서가 섞여 예열 효과가 손실될 수 있습니다.
+                    //     "sort": true를 사용하면 이 문제를 피할 수 있습니다
+                },
+                {
+                    "skip": true // 현재 시설을 건너뛸지 여부 (배열 순서 대응), 선택 사항, 기본값 false
+                    // true일 경우, 다른 필드는 모두 비워둘 수 있습니다. 오퍼레이터 교대 작업만 건너뛰며, 드론 사용이나 단서 교환 등은 정상적으로 진행됩니다
+                },
+                {
+                    "operators": ["Castle-3"],
+                    "autofill": true, // 기존 알고리즘을 사용하여 남은 위치를 자동으로 채움, 선택 사항, 기본값 false
+                    // operators가 비어 있으면, 해당 시설은 완전히 기존 알고리즘을 사용하여 스케줄링합니다
+                    // operators가 비어 있지 않으면, 단일 오퍼레이터 효율만 고려하며 전체 조합 효율은 고려하지 않습니다
+                    // 뒤에 정의된 사용자 오퍼레이터와 충돌할 수 있으니 주의하세요. 예를 들어 뒤에 필요한 오퍼레이터를 여기서 가져다 쓸 수 있으므로 신중하게 사용하거나, autofill 시설 순서를 마지막으로 배치하세요
+                    "product": "Battle Record" // 현재 제조 생산품, 선택 사항.
+                    // 현재 시설과 작업에 설정된 생산품이 일치하지 않는 것으로 식별되면, 인터페이스에 빨간 글씨로 힌트가 뜹니다. 나중에 더 많은 기능이 생길 수 있습니다
+                    // 값 범위: "Battle Record" | "Pure Gold" |  "Dualchip" | "Originium Shard" | "LMD" | "Orundum"
+                },
+                {
+                    "operators": ["多萝西"],
+                    "candidates": [
+                        // 후보 오퍼레이터, 선택 사항. 여기에 있는 오퍼레이터 중 있는 것을 사용하며 꽉 찰 때까지 선택합니다
+                        // autofill=true와 호환되지 않습니다. 즉 이 배열이 비어 있지 않으면 autofill은 false여야 합니다
+                        "星源",
+                        "白面鸮",
+                        "赫默"
+                    ]
+                },
+                {
+                    "use_operator_groups": true, // true로 설정하여 groups의 오퍼레이터 편성을 사용, 기본값 false
+                    "operators": [
+                        // 활성화 시, operators의 이름은 편성명으로 해석됨
+                        "古+银", // 컨디션 임계값 및 설정 순서에 따라 편성 선택
+                        "清流" // 만약 古+银 그룹에 컨디션이 임계값보다 낮은 오퍼레이터가 있다면 清流 그룹 사용
+                    ]
+                }
                 ],
                 "meeting": [
                     {
-                        "autofill": true // 방 전체에 autofill을 사용합니다.
+                        "autofill": true // 이 시설 전체 autofill
                     }
                 ]
             }
         },
         {
-            "name": "晚班"
-            // ...
+        "name": "晚班"
+        // ...
         }
     ]
 }
@@ -137,6 +137,6 @@ icon: material-symbols:view-quilt-rounded
 
 ## 예시
 
-[243_layout_3_times_a_day](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/custom_infrast/243_layout_3_times_a_day.json) 243 3교대
+[243 극한 효율, 하루 3회 교대](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/custom_infrast/243_layout_3_times_a_day.json)
 
-[153_layout_3_times_a_day](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/custom_infrast/153_layout_3_times_a_day.json) 153 3교대
+[153 극한 효율, 하루 3회 교대](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/custom_infrast/153_layout_3_times_a_day.json)

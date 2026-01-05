@@ -78,12 +78,17 @@ public class AsstInfrastTask : AsstBaseTask
     /// <summary>
     /// Gets or sets a value indicating whether 领取基建会客室留言板奖励
     /// </summary>
-    public bool ReceptionMessageBoard { get; set; } = true;
+    public bool ReceptionMessageBoard { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 启用线索交流
     /// </summary>
-    public bool ReceptionClueExchange { get; set; } = true;
+    public bool ReceptionClueExchange { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 是否赠送线索
+    /// </summary>
+    public bool ReceptionSendClue { get; set; }
 
     /// <summary>
     /// Gets or sets 自定义配置文件路径
@@ -108,6 +113,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["replenish"] = OriginiumShardAutoReplenishment,
             ["reception_message_board"] = ReceptionMessageBoard,
             ["reception_clue_exchange"] = ReceptionClueExchange,
+            ["reception_send_clue"] = ReceptionSendClue,
             ["mode"] = (int)Mode,
         };
 

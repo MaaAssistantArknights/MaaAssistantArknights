@@ -5,11 +5,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="UserControl"
-    d:DesignWidth="180"
+    d:DesignWidth="200"
     mc:Ignorable="d">
     <TextBox
         x:Name="HotKeyTextBox"
-        Width="180"
+        Width="200"
         HorizontalContentAlignment="Center"
         VerticalContentAlignment="Center"
         InputMethod.IsInputMethodEnabled="False"

@@ -13,6 +13,7 @@
 
 #pragma warning disable SA1401
 
+using System;
 using GlobalHotKey;
 using MaaWpfGui.Main;
 using MaaWpfGui.Services;
@@ -34,13 +35,15 @@ public static class Instances
 {
     public static class Data
     {
-        public static int MedicineUsedTimes { get; set; }
+        public static int MedicineUsedTimes { get; set; } = 0;
 
-        public static int ExpiringMedicineUsedTimes { get; set; }
+        public static int ExpiringMedicineUsedTimes { get; set; } = 0;
 
-        public static int StoneUsedTimes { get; set; }
+        public static int StoneUsedTimes { get; set; } = 0;
 
-        public static bool HasPrintedScreencapWarning { get; set; }
+        public static bool HasPrintedScreencapWarning { get; set; } = false;
+
+        public static int RecruitConfirmTime { get; set; } = 0;
 
         public static void ClearCache()
         {
@@ -48,6 +51,7 @@ public static class Instances
             MedicineUsedTimes = 0;
             ExpiringMedicineUsedTimes = 0;
             StoneUsedTimes = 0;
+            RecruitConfirmTime = 0;
             HasPrintedScreencapWarning = false;
         }
     }
@@ -83,6 +87,8 @@ public static class Instances
     public static RemoteControlService RemoteControlService { get; private set; }
 
     public static IMainWindowManager MainWindowManager { get; private set; }
+
+    public static event EventHandler MainWindowManagerInstantiated;
 
     public static IHttpService HttpService { get; private set; }
 
@@ -120,5 +126,6 @@ public static class Instances
     public static void InstantiateOnRootViewDisplayed(IContainer container)
     {
         MainWindowManager = container.Get<MainWindowManager>();
+        MainWindowManagerInstantiated?.Invoke(null, EventArgs.Empty);
     }
 }

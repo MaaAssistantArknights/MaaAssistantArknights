@@ -71,6 +71,8 @@
     <system:String x:Key="ExternalNotificationQmsgKey">Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">用户 QQ</system:String>
     <system:String x:Key="ExternalNotificationQmsgBot">机器人 QQ</system:String>
+    <system:String x:Key="ExternalNotificationGotifyServer">服务器 URL</system:String>
+    <system:String x:Key="ExternalNotificationGotifyToken">应用程序令牌</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">自定义 Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookBody">消息体模板</system:String>
@@ -120,6 +122,9 @@
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">会客室信息板收取信用</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">进行线索交流</system:String>
+    <system:String x:Key="ClueExchangeUnlocked">已开启线索交流</system:String>
+    <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
+    <system:String x:Key="ReceptionOptionsRequireInfrast">需执行基建换班</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
     <system:String x:Key="TrainingIdle">训练室空闲中</system:String>
     <system:String x:Key="TrainingCompleted">训练完成</system:String>
@@ -459,7 +464,6 @@
     <system:String x:Key="OnlyOnceADay">一日只执行一次</system:String>
     <system:String x:Key="CreditFight">借助战打 OF-1 赚信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把 OF-1 赚 30 信用。
-一日只执行一次。
 关卡选择为 ｢{key=DefaultStage}｣ 时此功能无效。
 别传 ｢火蓝之心｣ 关卡OF-1未解锁时请勿勾选。</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
@@ -497,6 +501,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
     <system:String x:Key="MainTasksNullFunctionality">反转主任务右键单击效果</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">默认仅一次生效，勾选后仅一次跳过</system:String>
+    <system:String x:Key="MaxNumberOfLogThumbnails">日志缩略图最大数量</system:String>
     <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
     <system:String x:Key="CustomBackgroundTip">手动创建 background 文件夹，将 background.png 放入即可自定义背景图片</system:String>
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
@@ -504,7 +509,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
     <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为 1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为 1920x1080</system:String>
-    <system:String x:Key="AllowUseStoneSave">允许吃源石保存状态</system:String>
+    <system:String x:Key="AllowUseStoneSave">允许源石恢复保存状态</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>
@@ -595,17 +600,17 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Recruit">{key=Recruiting}</system:String>
     <system:String x:Key="Base">基建换班</system:String>
     <system:String x:Key="Infrast">{key=Base}</system:String>
-    <system:String x:Key="Combat">刷理智</system:String>
+    <system:String x:Key="Combat">理智作战</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
-    <system:String x:Key="Mall">获取信用及购物</system:String>
+    <system:String x:Key="Mall">信用收支</system:String>
     <system:String x:Key="Mission">领取奖励</system:String>
     <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="MiniGame">小游戏</system:String>
-    <system:String x:Key="Custom">自定义任务</system:String>
+    <system:String x:Key="Custom">自定任务</system:String>
     <system:String x:Key="SingleStep">单步任务</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
@@ -646,8 +651,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <!--  战斗设置  -->
-    <system:String x:Key="UseSanityPotion">吃理智药</system:String>
-    <system:String x:Key="UseOriginitePrime">吃源石</system:String>
+    <system:String x:Key="UseSanityPotion">药剂恢复</system:String>
+    <system:String x:Key="UseOriginitePrime">源石恢复</system:String>
     <system:String x:Key="PerformBattles">指定次数</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取数量</system:String>
@@ -664,7 +669,7 @@ C:\\leidian\\LDPlayer9。\n
 • {key=NotSwitch}:
 不调整游戏内代理倍率设定</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
-    <system:String x:Key="StageSelect2">备选</system:String>
+    <system:String x:Key="StageSelect2">关卡备选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
     <system:String x:Key="NoUse">不使用</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
@@ -837,7 +842,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGame@SecretFront@Event">优先系列事件</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event1">支援作战平台</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event2">游侠</system:String>
-    <system:String x:Key="MiniGame@SecretFront@Event3">鬼影迷踪</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Event3">诡影迷踪</system:String>
     <system:String x:Key="MiniGame@SecretFront">隐秘战线</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip" xml:space="preserve">在选小队界面开始，如有存档须手动删除。&#10;第一次打自己看完把教程关了。&#10;推荐勾选游戏内 ｢继承上一支队伍发回的数据｣</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">绿票商店</system:String>
@@ -1260,6 +1265,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Announcement">公告</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">下次公告更新前不再显示</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm">没看完点什么确认</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm2">说的就是你，还点</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm3">还点</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
@@ -1365,6 +1373,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.Martian.Description">远古版本好用吗？</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">资源时间或版本时间距今超过 3 个月</system:String>
     <system:String x:Key="Achievement.Martian.ConditionsTip">资源时间或版本时间距今超过 {0} 个月</system:String>
+
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">死不悔改</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">即使提示了这么多次，你依然选择不看公告。</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Conditions">在未滚动到底部的情况下点击关闭按钮超过 20 次</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">严重错讠</system:String>
     <system:String x:Key="Achievement.Rules.Description">我会一直注视着你。</system:String>
@@ -1585,6 +1597,86 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙术杯选手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">仙术牛牛真仙术。</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用 ｢{key=AutoRoguelike}｣ 通关任意肉鸽 N15 及以上难度</system:String>
+
+    <system:String x:Key="Achievement.LogSupervisor.Title">超级监工</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Description">据说，盯着MAA的日志能够有效提高代理成功率。</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Conditions">开着日志悬浮窗完成一次任务</system:String>
+
+    <system:String x:Key="Achievement.RecruitGambler.Title">公招赌徒</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Description">搏一搏，单车变摩托。</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Conditions">在公开招募中刷新标签 50 次</system:String>
+
+    <system:String x:Key="Achievement.ClueCollector.Title">线索搜集</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Description">罗德岛交际花。</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Conditions">累计开启线索交流 20 次</system:String>
+
+    <system:String x:Key="Achievement.CluePhilosopher.Title">线索哲学家</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Description">聚会的意义是什么？</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Conditions">累计开启线索交流 50 次</system:String>
+
+    <system:String x:Key="Achievement.ClueSharer.Title">线索分享</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Description">好东西要和朋友分享。</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Conditions">累计向好友发送 20 次线索</system:String>
+
+    <system:String x:Key="Achievement.CluePhilanthropist.Title">线索慈善家</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Description">拿去花，不用谢。</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Conditions">累计向好友发送 50 次线索</system:String>
+
+    <system:String x:Key="Achievement.TaskChainKing.Title">任务链王</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Description">一键启动，全部搞定。</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Conditions">单次运行中，勾选超过 7 个任务</system:String>
+
+    <system:String x:Key="Achievement.UpdateObsession.Title">更新强迫症</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Description">有更新？更！</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Conditions">在更新发布后 1 天内完成更新</system:String>
+
+    <system:String x:Key="Achievement.UpdateEarlyBird.Title">更新尝鲜者</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Description">抢先体验！</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Conditions">在更新发布后 1 小时内完成更新</system:String>
+
+    <system:String x:Key="Achievement.SanityPlanner.Title">理智规划师</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Description">精确，完美，分毫不差。</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Conditions">完成{key=Combat}时刚好消耗完所有理智</system:String>
+
+    <system:String x:Key="Achievement.HotkeyMagician.Title">热键魔术师</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Ctrl + Shift + Alt + Win + F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Conditions">设置并使用一个超过 4 个修饰键的热键组合</system:String>
+
+    <system:String x:Key="Achievement.WarehouseMiser.Title">仓库守财奴</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Description">一个都不许用！</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">仓库识别功能识别到仓库内某种材料数量超过 10000 个</system:String>
+
+    <system:String x:Key="Achievement.HrSpecialist.Title">人事部专员</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Description">怎么全是预备行动组啊！</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Conditions">单轮公招任务连续招募 10 次</system:String>
+
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Title">人事部高级专员</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Description">高资在哪里啊高资在哪里🎶</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Conditions">单轮公招任务连续招募 20 次</system:String>
+
+    <system:String x:Key="Achievement.WarehouseKeeper.Title">我是仓管！</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Description">牛牛找到了牛牛！</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Conditions">干员识别中包含干员"帕拉斯"</system:String>
+
+    <system:String x:Key="Achievement.NotFound404.Title">404！</system:String>
+    <system:String x:Key="Achievement.NotFound404.Description">这个任务似乎找不到了</system:String>
+    <system:String x:Key="Achievement.NotFound404.Conditions">使用远程协议调用错误的任务 id</system:String>
+
+    <system:String x:Key="Achievement.Linguist.Title">语言学家</system:String>
+    <system:String x:Key="Achievement.Linguist.Description">MAA，但国际化。</system:String>
+    <system:String x:Key="Achievement.Linguist.Conditions">尝试切换界面语言</system:String>
+
+    <system:String x:Key="Achievement.StartupBoot.Title">开机启动</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Description">理论上你的开机速度又慢了一点</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Conditions">设置开机启动 MAA</system:String>
+
+    <system:String x:Key="Achievement.ClueObsession.Title">线索强迫症</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Description">七色战队，集合！</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Conditions">连续 7 天每天集齐并开启线索交流</system:String>
+
+    <system:String x:Key="Achievement.Time325.Title">325</system:String>
+    <system:String x:Key="Achievement.Time325.Description">你知道这个数字是什么意思对吧</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">在 3/13/23 点 25 分还在使用 MAA</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

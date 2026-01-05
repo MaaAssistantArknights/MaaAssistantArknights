@@ -56,51 +56,52 @@ MAA Wine Bridge에서 생성된 `MaaDesktopIntegration.so`를 `MAA.exe`와 같�
 
 ### Python 사용
 
-#### 1. MAA 동적 라이브러리 설치
+:::: steps
 
-1. [MAA 공식 웹사이트](https://maa.plus/)에서 리눅스 라이브러리를 다운로드하고 압축을 풉니다. 혹은 소프트웨어 저장소에서 설치합니다:
-   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)을 설치한 후에 설치 지침에 따라 파일을 편집합니다.
-   - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+1. MAA 동적 라이브러리 설치
+   1. [MAA 공식 웹사이트](https://maa.plus/)에서 Linux 동적 라이브러리를 다운로드하고 압축을 풀거나 소프트웨어 저장소에서 설치합니다:
+      - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)을 설치한 후에 설치 지침에 따라 파일을 편집합니다.
+      - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+   2. `./MAA-v{버전}-linux-{아키텍처}/Python/` 디렉토리로 이동하여 `sample.py` 파일을 엽니다.
 
-2. `./MAA-v{버전}-linux-{아키텍처}/Python/` 폴더로 이동하여 `sample.py` 파일을 엽니다.
+   ::: tip
+   사전 컴파일된 버전은 상대적으로 최신 버전의 Linux 배포판 (Ubuntu 22.04)에서 컴파일된 동적 라이브러리를 포함하고 있습니다. 시스템의 libstdc++ 버전이 오래되면 ABI 호환성 문제가 발생할 수 있습니다.
+   [Linux 컴파일 가이드](../../develop/linux-tutorial.md)를 참조하여 다시 컴파일하거나 컨테이너를 사용할 수 있습니다.
+   :::
 
-::: tip
-사전 컴파일된 버전은 상대적으로 최신 버전의 리눅스 배포판 (Ubuntu 22.04)에서 컴파일된 동적 라이브러리를 포함하고 있습니다. 시스템의 libstdc++ 버전이 오래되어 ABI 호환성 문제가 발생할 수 있습니다. [Linux 컴파일 가이드](../../develop/linux-tutorial.md)를 참조하여 다시 컴파일하거나 컨테이너를 실행할 수 있습니다.
-:::
+2. ADB 구성
+   1. [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/b4fc3528decd6777441a8aca684c22d35d2b2574/src/Python/sample.py#L62) 줄을 찾습니다.
+   2. ADB 도구 호출
+      - 에뮬레이터가 `Android Studio`의 `avd`를 사용하는 경우 ADB가 내장되어 있습니다. `adb.exe` 필드에 ADB 경로를 입력합니다. 일반적으로 `$HOME/Android/Sdk/platform-tools/` 폴더에서 찾을 수 있습니다. 예시:
 
-#### 2. `adb` 구성
+      ```python
+      if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "에뮬레이터의 ADB 주소"):
+      ```
 
-1. [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L48) 줄을 찾습니다.
+      - 다른 에뮬레이터를 사용하는 경우 먼저 ADB를 다운로드해야 합니다: `$ sudo apt install adb` 후 경로를 입력하거나 `PATH` 환경 변수를 사용하여 `adb`를 입력합니다.
 
-2. `adb` 도구 호출
-   - 에뮬레이터가 `Android Studio`의 `avd`를 사용하는 경우 `adb`가 내장되어 있습니다. `adb.exe` 필드에 `adb` 경로를 입력합니다. 일반적으로 `$HOME/Android/Sdk/platform-tools/` 폴더에 있습니다. 예시:
+   3. 에뮬레이터 ADB 경로 가져오기
+      - ADB 도구를 직접 사용할 수 있습니다: `$ adb경로 devices`, 예시:
 
-   ```python
-   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "모바일 에뮬레이터의 adb 주소"):
-   ```
+      ```shell
+      $ /home/foo/Android/Sdk/platform-tools/adb devices
+      List of devices attached
+      emulator-5554 device
+      ```
 
-   - 다른 에뮬레이터를 사용하는 경우 `adb`를 먼저 다운로드해야 합니다: `$ sudo apt install adb`를 실행한 후 경로를 입력하거나 `PATH` 환경 변수를 사용하여 `adb`를 입력합니다.
+      - 반환된 `emulator-5554`가 에뮬레이터의 ADB 주소이므로 `127.0.0.1:5555`를 대체합니다. 예시:
 
-3. 에뮬레이터의 `adb` 경로 확인:
-   - 직접 `adb` 도구를 사용할 수 있습니다: `$ adb경로 devices`를 실행하면 됩니다. 예시:
+      ```python
+      if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
+      ```
 
-   ```shell
-   $ /home/foo/Android/Sdk/platform-tools/adb devices
-   List of devices attached
-   emulator-5554 device
-   ```
+   4. 이제 테스트할 수 있습니다: `$ python3 sample.py`를 실행하고 `연결 성공`이 반환되면 대부분 성공한 것입니다.
 
-   - 반환된 `emulator-5554`가 에뮬레이터의 `adb` 주소이므로 `127.0.0.1:5555`를 덮어씁니다. 예를 들어:
+3. 작업 구성
 
-   ```python
-   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
-   ```
+사용자 정의 작업: 필요에 따라 [통합 문서](../../protocol/integration.md)를 참조하여 `sample.py`의 [`# 작업 및 매개변수는 docs/integration.md 참조`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 부분을 수정합니다.
 
-4. 이제 테스트를 진행해볼 수 있습니다: `$ python3 sample.py`를 실행한 후 연결 성공이 표시되면 대부분의 작업이 완료된 것입니다.
-
-#### 3. 작업 설정
-
-사용자 정의 작업: [통합 문서](../../protocol/integration.md)를 참조하고, `sample.py`의 # 작업 및 매개 변수는 [예제](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54)를 참조해 줄을 수정하세요.
+::::
 
 ## 모바일 에뮬레이터 지원
 

@@ -384,12 +384,18 @@ bool asst::InfrastProductionTask::optimal_calc()
         all_available_combs.emplace_back(std::move(comb));
     }
 
+    // 安全获取效率值的辅助函数
+    auto get_efficient = [&](const infrast::SkillsComb& comb) -> double {
+        auto iter = comb.efficient.find(m_product);
+        return iter != comb.efficient.cend() ? iter->second : 0.0;
+    };
+
     // 先把单个的技能按效率排个序，取效率最高的几个
     std::vector<infrast::SkillsComb> optimal_combs;
     optimal_combs.reserve(cur_max_num_of_opers);
     double max_efficient = 0;
     std::ranges::sort(all_available_combs, [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
-        return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+        return get_efficient(lhs) > get_efficient(rhs);
     });
 
     for (const auto& comb : all_available_combs) {
@@ -397,7 +403,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         for (const auto& skill : comb.skills) {
             skill_str += skill.id + " ";
         }
-        Log.trace(skill_str, comb.efficient.at(m_product));
+        Log.trace(skill_str, get_efficient(comb));
     }
 
     std::unordered_map<std::string, int> skills_num;
@@ -416,7 +422,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         }
 
         optimal_combs.emplace_back(comb);
-        max_efficient += all_available_combs.at(i).efficient.at(m_product);
+        max_efficient += get_efficient(all_available_combs.at(i));
 
         for (auto&& skill : comb.skills) {
             ++skills_num[skill.id];
@@ -482,10 +488,13 @@ bool asst::InfrastProductionTask::optimal_calc()
             }
             cur_combs.emplace_back(nec_skills);
             if (auto iter = nec_skills.efficient_regex.find(m_product); iter != nec_skills.efficient_regex.cend()) {
-                cur_efficient += efficient_regex_calc(nec_skills.skills).efficient.at(m_product);
+                auto calc_comb = efficient_regex_calc(nec_skills.skills);
+                auto calc_iter = calc_comb.efficient.find(m_product);
+                cur_efficient += calc_iter != calc_comb.efficient.cend() ? calc_iter->second : 0.0;
             }
             else {
-                cur_efficient += nec_skills.efficient.at(m_product);
+                auto nec_iter = nec_skills.efficient.find(m_product);
+                cur_efficient += nec_iter != nec_skills.efficient.cend() ? nec_iter->second : 0.0;
             }
             cur_available_opers.erase(find_iter);
         }
@@ -501,7 +510,11 @@ bool asst::InfrastProductionTask::optimal_calc()
         }
 
         std::ranges::sort(optional, [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
-            return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
+            auto lhs_iter = lhs.efficient.find(m_product);
+            auto rhs_iter = rhs.efficient.find(m_product);
+            double lhs_eff = lhs_iter != lhs.efficient.cend() ? lhs_iter->second : 0.0;
+            double rhs_eff = rhs_iter != rhs.efficient.cend() ? rhs_iter->second : 0.0;
+            return lhs_eff > rhs_eff;
         });
 
         // 可能有多个干员有同样的技能，所以这里需要循环找同一个技能，直到找不到为止
@@ -537,7 +550,8 @@ bool asst::InfrastProductionTask::optimal_calc()
                     }
 
                     cur_combs.emplace_back(opt);
-                    cur_efficient += opt.efficient.at(m_product);
+                    auto opt_iter = opt.efficient.find(m_product);
+                    cur_efficient += opt_iter != opt.efficient.cend() ? opt_iter->second : 0.0;
                     find_iter = cur_available_opers.erase(find_iter);
                 }
                 else {
@@ -554,7 +568,8 @@ bool asst::InfrastProductionTask::optimal_calc()
                 for (size_t index = 0; index < substitutes; ++index) {
                     const auto& comb = cur_available_opers.at(index);
                     cur_combs.emplace_back(comb);
-                    cur_efficient += comb.efficient.at(m_product);
+                    auto comb_iter = comb.efficient.find(m_product);
+                    cur_efficient += comb_iter != comb.efficient.cend() ? comb_iter->second : 0.0;
                 }
             }
             else { // 否则这个组合人不够，就不可用了

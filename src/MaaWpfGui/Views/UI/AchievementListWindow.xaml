@@ -9,7 +9,7 @@
     Title="{DynamicResource AchievementList}"
     Width="600"
     Height="400"
-    MinWidth="250"
+    MinWidth="300"
     Background="{DynamicResource MdXamlBackground}">
     <Grid>
         <ListBox
@@ -22,14 +22,18 @@
             VirtualizingPanel.ScrollUnit="Pixel">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <VirtualizingStackPanel Orientation="Horizontal" Visibility="{c:Binding 'IsUnlocked or !IsHidden'}">
+                    <Grid Visibility="{c:Binding 'IsUnlocked or !IsHidden'}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
                         <Path
                             Width="40"
                             Height="40"
                             uiBehaviors:ResourceReferenceHelper.FillResourceKey="{Binding MedalBrushKey}"
                             Data="{DynamicResource HangoverGeometry}"
                             Stretch="Uniform" />
-                        <VirtualizingStackPanel Margin="8" HorizontalAlignment="Left">
+                        <VirtualizingStackPanel Grid.Column="1" Margin="8">
                             <VirtualizingStackPanel
                                 HorizontalAlignment="Left"
                                 Background="{DynamicResource MdXamlBackground}"
@@ -45,10 +49,30 @@
                                 Foreground="{DynamicResource TraceLogBrush}"
                                 Text="{Binding Description}"
                                 TextWrapping="Wrap" />
-                            <TextBlock
-                                Foreground="{DynamicResource InfoLogBrush}"
-                                Text="{Binding Conditions}"
-                                TextWrapping="Wrap" />
+                            <Grid HorizontalAlignment="Left">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Foreground="{DynamicResource InfoLogBrush}"
+                                    Text="{Binding Conditions}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource InfoLogBrush}"
+                                    Opacity="0.7"
+                                    Visibility="{c:Binding '!IsUnlocked and IsProgressive'}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}({0:F0}/{1:F0})">
+                                            <Binding Path="Progress" />
+                                            <Binding Path="Target" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
                             <ProgressBar
                                 Width="200"
                                 Height="12"
@@ -69,7 +93,7 @@
                                     TextWrapping="Wrap" />
                             </VirtualizingStackPanel>
                         </VirtualizingStackPanel>
-                    </VirtualizingStackPanel>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.ItemContainerStyle>

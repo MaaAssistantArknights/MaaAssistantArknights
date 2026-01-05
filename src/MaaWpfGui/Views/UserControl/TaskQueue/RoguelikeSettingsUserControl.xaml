@@ -306,19 +306,20 @@
                     Grid.Column="1"
                     TooltipText="{DynamicResource RoguelikeRequireStartingCoreChar}" />
             </StackPanel>
-            <StackPanel>
-
-                <CheckBox
-                    Margin="0,10"
-                    IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
-                    IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}"
-                    Visibility="{c:Binding 'RoguelikeUseSupportUnit and RoguelikeCoreChar != &quot;&quot;'}">
+            <StackPanel
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"  Margin="0,-2.5,0,0"
+                Orientation="Horizontal"
+                Visibility="{c:Binding 'RoguelikeUseSupportUnit and RoguelikeCoreChar != &quot;&quot;'}">
+                <controls:TextBlock Margin="2.5,0,7.5,0" Text="└" />
+                <CheckBox IsChecked="{Binding RoguelikeEnableNonfriendSupport}" IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}">
                     <TextBlock
                         Block.TextAlignment="Left"
                         Text="{DynamicResource RoguelikeUseNonFriendSupport}"
                         TextWrapping="Wrap" />
                 </CheckBox>
             </StackPanel>
+
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"

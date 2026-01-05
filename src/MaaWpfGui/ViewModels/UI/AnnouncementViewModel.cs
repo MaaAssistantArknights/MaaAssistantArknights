@@ -15,6 +15,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using HandyControl.Controls;
@@ -36,7 +37,7 @@ public class AnnouncementViewModel : Screen
 {
     private static readonly ILogger _logger = Log.ForContext<AnnouncementViewModel>();
 
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     public string ImageSource { get; set; }
 
@@ -60,7 +61,9 @@ public class AnnouncementViewModel : Screen
             }
 
             // 计算是否滚动到底部
-            IsScrolledToBottom |= scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight - 10;
+            var bottom = scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight - 10;
+            IsScrolledToBottom = bottom;
+            HasEverScrolledToBottom |= bottom;
         });
 
         ScrollToTopCommand = new RelayCommand<ScrollViewer>(scrollViewer => {
@@ -120,6 +123,19 @@ public class AnnouncementViewModel : Screen
     {
         get => _isScrolledToBottom;
         set => SetAndNotify(ref _isScrolledToBottom, value);
+    }
+
+    private bool _hasEverScrolledToBottom;
+
+    public bool HasEverScrolledToBottom
+    {
+        get => _hasEverScrolledToBottom;
+        set {
+            if (SetAndNotify(ref _hasEverScrolledToBottom, value) && value)
+            {
+                ButtonContent = LocalizationHelper.GetString("Confirm");
+            }
+        }
     }
 
     private ObservableCollection<AnnouncementSection> _announcementSections;
@@ -269,8 +285,43 @@ public class AnnouncementViewModel : Screen
         ETagCache.Save();
     }
 
+    private int _notFinishedClick = 0;
+    private static readonly string[] _notFinishedMessages = [
+        LocalizationHelper.GetString("AnnouncementNotFinishedConfirm"),
+        LocalizationHelper.GetString("AnnouncementNotFinishedConfirm2"),
+        LocalizationHelper.GetString("AnnouncementNotFinishedConfirm3"),
+    ];
+
+    private string _buttonContent = LocalizationHelper.GetString("Confirm");
+
+    public string ButtonContent
+    {
+        get => _buttonContent;
+        set => SetAndNotify(ref _buttonContent, value);
+    }
+
     public void Close()
     {
-        RequestClose();
+        if (HasEverScrolledToBottom || DoNotRemindThisAnnouncementAgain)
+        {
+            RequestClose();
+        }
+        else
+        {
+            if (_notFinishedClick < _notFinishedMessages.Length)
+            {
+                ButtonContent = _notFinishedMessages[_notFinishedClick++];
+            }
+            else
+            {
+                ButtonContent += "?\u200B";
+                _notFinishedClick++;
+                if (_notFinishedClick > 20)
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.AnnouncementStubbornClick, forceStayOpen: true);
+                    RequestClose();
+                }
+            }
+        }
     }
 }

@@ -71,6 +71,8 @@
     <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">ユーザーQQ</system:String>
     <system:String x:Key="ExternalNotificationQmsgBot">ボットを送信するQQ</system:String>
+    <system:String x:Key="ExternalNotificationGotifyServer">サーバー URL</system:String>
+    <system:String x:Key="ExternalNotificationGotifyToken">アプリケーショントークン</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookBody">メッセージ本文</system:String>
@@ -120,6 +122,9 @@
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片を自動で補充</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">受付室の掲示板からのクレジット収集</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">手がかり交換を実施</system:String>
+    <system:String x:Key="ClueExchangeUnlocked">手がかり交換を開始しました</system:String>
+    <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
+    <system:String x:Key="ReceptionOptionsRequireInfrast">インフラシフト実行が必要</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
@@ -459,7 +464,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="OnlyOnceADay">一日一回だけ</system:String>
     <system:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30FP獲得できます。
-一日一回だけ。
 この機能は、ステージを「{key=DefaultStage}」に選択している場合は無効です。
 ステージOF-1がアンロックされていない場合は、チェックしないでください。</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
@@ -497,6 +501,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">タイトルのスクロール機能</system:String>
     <system:String x:Key="MainTasksNullFunctionality">メインタスクの右クリック効果を反転</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">デフォルト：1回のみ有効、チェック後：1回のみスキップ</system:String>
+    <system:String x:Key="MaxNumberOfLogThumbnails">ログサムネイルの最大数</system:String>
     <system:String x:Key="TitleBarDisplayContent">タイトルバー表示コンテンツ</system:String>
     <system:String x:Key="CustomBackgroundTip">「background」フォルダを手動で作成し、background.png を配置すると背景画像をカスタマイズできます</system:String>
     <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>
@@ -1260,6 +1265,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Announcement">アナウンス</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">アナウンスを見ます</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">次回のお知らせ更新まで表示しない</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm">まだ読んでいません。読み終わってから確認してください。</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm2">そう、あなたですね、まだ押す</system:String>
+    <system:String x:Key="AnnouncementNotFinishedConfirm3">まだ押す</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
@@ -1365,6 +1373,10 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.Martian.Description">古いバージョンは使いやすかったですか？</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">リソースまたはバージョンの時間が3ヶ月以上経過している</system:String>
     <system:String x:Key="Achievement.Martian.ConditionsTip">リソースまたはバージョンの時間が{0}ヶ月以上経過している</system:String>
+
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">頑固者</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">何度も通知されているのに、それでもお知らせを読まずに閉じ続ける。</system:String>
+    <system:String x:Key="Achievement.AnnouncementStubbornClick.Conditions">下までスクロールせずに閉じるボタンを20回以上クリックする</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">重大エラー</system:String>
     <system:String x:Key="Achievement.Rules.Description">私はずっとあなたを見つめています。</system:String>
@@ -1585,6 +1597,86 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙術杯選手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">本物の仙術だなあ。</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">「{key=AutoRoguelike}」で、任意のテーマで N15 難易度以上をクリアする</system:String>
+
+    <system:String x:Key="Achievement.LogSupervisor.Title">スーパーバイザー</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Description">MAAのログを見つめていると、自動戦闘の成功率が上がるらしい。</system:String>
+    <system:String x:Key="Achievement.LogSupervisor.Conditions">ログフローティングウィンドウを開いた状態でタスクを1回完了する</system:String>
+
+    <system:String x:Key="Achievement.RecruitGambler.Title">公開採用ギャンブラー</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Description">一か八か、自転車がバイクに。</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Conditions">公開採用でタグを50回リフレッシュする</system:String>
+
+    <system:String x:Key="Achievement.ClueCollector.Title">手がかり収集家</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Description">ロドス島の社交界の花。</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Conditions">手がかり交換を累計20回開く</system:String>
+
+    <system:String x:Key="Achievement.CluePhilosopher.Title">手がかり哲学者</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Description">集まりの意味とは何か？</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Conditions">手がかり交換を累計50回開く</system:String>
+
+    <system:String x:Key="Achievement.ClueSharer.Title">手がかりシェアラー</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Description">良いものは友達と分かち合う。</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Conditions">友達に手がかりを累計20回送る</system:String>
+
+    <system:String x:Key="Achievement.CluePhilanthropist.Title">手がかり慈善家</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Description">持って行って、どういたしまして。</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Conditions">友達に手がかりを累計50回送る</system:String>
+
+    <system:String x:Key="Achievement.TaskChainKing.Title">タスクチェーン王</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Description">ワンクリックで起動、全部完了。</system:String>
+    <system:String x:Key="Achievement.TaskChainKing.Conditions">1回の実行で7個以上のタスクを選択する</system:String>
+
+    <system:String x:Key="Achievement.UpdateObsession.Title">更新強迫症</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Description">更新がある？更新する！</system:String>
+    <system:String x:Key="Achievement.UpdateObsession.Conditions">更新リリース後1日以内に更新を完了する</system:String>
+
+    <system:String x:Key="Achievement.UpdateEarlyBird.Title">更新アーリーバード</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Description">いち早く体験！</system:String>
+    <system:String x:Key="Achievement.UpdateEarlyBird.Conditions">更新リリース後1時間以内に更新を完了する</system:String>
+
+    <system:String x:Key="Achievement.SanityPlanner.Title">理性プランナー</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Description">精密、完璧、寸分の狂いもない。</system:String>
+    <system:String x:Key="Achievement.SanityPlanner.Conditions">{key=Combat}を完了した時、すべての理性をちょうど使い切る</system:String>
+
+    <system:String x:Key="Achievement.HotkeyMagician.Title">ホットキーマジシャン</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Description">Ctrl + Shift + Alt + Win + F13</system:String>
+    <system:String x:Key="Achievement.HotkeyMagician.Conditions">修飾キーが4つ以上のホットキー組み合わせを設定して使用する</system:String>
+
+    <system:String x:Key="Achievement.WarehouseMiser.Title">倉庫の守銭奴</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Description">一つも使わせない！</system:String>
+    <system:String x:Key="Achievement.WarehouseMiser.Conditions">倉庫認識機能が倉庫内の特定の材料が10000個以上あることを検出する</system:String>
+
+    <system:String x:Key="Achievement.HrSpecialist.Title">人事部専門員</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Description">どうして全部予備行動チームなんだ！</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Conditions">1回の公開採用タスクで連続10回採用する</system:String>
+
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Title">人事部上級専門員</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Description">上級オペレータータグはどこだ？どこだ？🎶</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Conditions">1回の公開採用タスクで連続20回採用する</system:String>
+
+    <system:String x:Key="Achievement.WarehouseKeeper.Title">私は倉庫管理員！</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Description">MAAがMAAを見つけた！</system:String>
+    <system:String x:Key="Achievement.WarehouseKeeper.Conditions">オペレーター認識にオペレーター「パラス」が含まれる</system:String>
+
+    <system:String x:Key="Achievement.NotFound404.Title">404！</system:String>
+    <system:String x:Key="Achievement.NotFound404.Description">このタスクは見つからないようです</system:String>
+    <system:String x:Key="Achievement.NotFound404.Conditions">リモートプロトコルで間違ったタスクidを呼び出す</system:String>
+
+    <system:String x:Key="Achievement.Linguist.Title">言語学者</system:String>
+    <system:String x:Key="Achievement.Linguist.Description">MAA、しかし国際化。</system:String>
+    <system:String x:Key="Achievement.Linguist.Conditions">インターフェース言語を切り替えてみる</system:String>
+
+    <system:String x:Key="Achievement.StartupBoot.Title">起動時起動</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Description">理論的には、起動時間が少し遅くなった</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Conditions">MAAを起動時に起動するように設定する</system:String>
+
+    <system:String x:Key="Achievement.ClueObsession.Title">手がかり強迫症</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Description">七色戦隊、集合！</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Conditions">7日連続で毎日手がかりを集めて手がかり交換を開く</system:String>
+
+    <system:String x:Key="Achievement.Time325.Title">325</system:String>
+    <system:String x:Key="Achievement.Time325.Description">この数字の意味を知っているでしょう？</system:String>
+    <system:String x:Key="Achievement.Time325.Conditions">3/13/23時25分にまだMAAを使用している</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

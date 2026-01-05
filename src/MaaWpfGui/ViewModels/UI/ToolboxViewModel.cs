@@ -489,19 +489,34 @@ public class ToolboxViewModel : Screen
         foreach (var item in sortedItems)
         {
             var id = (string?)item["id"];
-            if (id == null)
+            if (string.IsNullOrEmpty(id))
             {
                 continue;
             }
+
+            int count = -1;
+            bool hasValidCount = false;
+
+            if (item["have"] != null)
+            {
+                var haveValue = item["have"]?.ToString();
+                hasValidCount = int.TryParse(haveValue, out count);
+            }
+
+            string countStr = hasValidCount ? count.FormatNumber(false) : "-1";
 
             DepotResultDate result = new() {
                 Id = id,
                 Name = ItemListHelper.GetItemName(id),
                 Image = ItemListHelper.GetItemImage(id),
-                Count = item["have"] != null && int.TryParse(item["have"]?.ToString() ?? "-1", out int haveValue)
-                    ? haveValue.FormatNumber(false)
-                    : "-1",
+                Count = countStr,
             };
+
+            if (hasValidCount && count > 0 &&
+                count > AchievementTrackerHelper.Instance.GetProgress(AchievementIds.WarehouseMiser))
+            {
+                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.WarehouseMiser, count);
+            }
 
             DepotResult.Add(result);
         }
@@ -695,6 +710,11 @@ public class ToolboxViewModel : Screen
                     if (ids.Contains(id))
                     {
                         OperBoxHaveList.Add(new Operator(id, name, oper.Rarity));
+
+                        if (id == "char_485_pallas")
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
+                        }
                     }
                     else
                     {
@@ -733,6 +753,10 @@ public class ToolboxViewModel : Screen
             {
                 var name = DataHelper.GetLocalizedCharacterName(DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value) ?? "???";
                 OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity));
+                if (oper.Id == "char_485_pallas")
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
+                }
             }
         }
 
@@ -1090,7 +1114,7 @@ public class ToolboxViewModel : Screen
         {
             var count = Interlocked.Increment(ref _peepImageCount);
             var index = count % _peepImageCache.Length;
-            var frameData = await Instances.AsstProxy.AsstGetFreshImageBgrDataAsync();
+            var frameData = await Instances.AsstProxy.AsstGetImageBgrDataAsync(forceScreencap: true);
             if (frameData is null || frameData.Length == 0)
             {
                 _logger.Warning("Peep image data is null or empty.");
@@ -1318,7 +1342,7 @@ public class ToolboxViewModel : Screen
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event1"), Value = "支援作战平台" },
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event2"), Value = "游侠" },
-        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event3"), Value = "鬼影迷踪" },
+        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event3"), Value = "诡影迷踪" },
     ];
 
     private string _secretFrontEvent = ConfigurationHelper.GetValue(ConfigurationKeys.MiniGameSecretFrontEvent, string.Empty);
