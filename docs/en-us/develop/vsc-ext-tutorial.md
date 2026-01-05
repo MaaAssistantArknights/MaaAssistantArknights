@@ -106,7 +106,7 @@ Searching and launching `Maa: open crop tool` inside VSCode command panel can op
 
 If OCR recognition returns an empty result, please check whether the [OCR model](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files) is configured correctly.
 
-For Maa, the extension will maintain the models used automatically; you only need to select the proper resource.
+For MAA, the extension will maintain the models used automatically; you only need to select the proper resource.
 
 :::
 
