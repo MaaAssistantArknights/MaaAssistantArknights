@@ -961,12 +961,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         }
         else {
             // 设备已在 adb devices 列表中，跳过 adb connect
-            Log.info("Device", address, "already in adb devices list, skip adb connect");
-            json::value info = get_info_json() | json::object {
-                { "what", "ConnectSkipped" },
-                { "why", "Device already listed in adb devices" },
-            };
-            callback(AsstMsg::ConnectionInfo, info);
+            Log.info("Device already in adb devices list, skip adb connect:", address);
             is_connect_success = true; // 设备已存在，视为连接成功
         }
     }
