@@ -101,14 +101,27 @@
                             Click="{s:Action ToggleFilePopup}"
                             Cursor="Hand"
                             IsEnabled="{Binding Idle}">
-                            <Path
-                                Width="12"
-                                Height="12"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Data="M 0 0 L 4 4 L 8 0 Z"
-                                Fill="{DynamicResource PrimaryTextBrush}"
-                                Stretch="Uniform" />
+                            <StackPanel>
+                                <Path
+                                    Width="12"
+                                    Height="12"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="{StaticResource DownGeometry}"
+                                    Fill="{DynamicResource PrimaryTextBrush}"
+                                    Stretch="Uniform"
+                                    Visibility="{c:Binding !IsFilePopupOpen}" />
+                                <Path
+                                    Width="12"
+                                    Height="12"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    d:Visibility="Collapsed"
+                                    Data="{StaticResource UpGeometry}"
+                                    Fill="{DynamicResource PrimaryTextBrush}"
+                                    Stretch="Uniform"
+                                    Visibility="{c:Binding IsFilePopupOpen}" />
+                            </StackPanel>
                         </Button>
                         <Popup
                             MinWidth="{c:Binding 'ActualWidth + 90',
@@ -116,7 +129,7 @@
                             IsOpen="{Binding IsFilePopupOpen}"
                             Placement="Bottom"
                             PlacementTarget="{Binding ElementName=FileTextBox}"
-                            StaysOpen="False">
+                            StaysOpen="True">
                             <Border
                                 MinWidth="{c:Binding 'ActualWidth + 90',
                                                      ElementName=FileTextBox}"
@@ -139,7 +152,7 @@
                                         </HierarchicalDataTemplate>
                                     </TreeView.ItemTemplate>
                                     <TreeView.ItemContainerStyle>
-                                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource FileTreeViewItemStyle}" />
+                                        <Style BasedOn="{StaticResource FileTreeViewItemStyle}" TargetType="{x:Type TreeViewItem}" />
                                     </TreeView.ItemContainerStyle>
                                 </TreeView>
                             </Border>
