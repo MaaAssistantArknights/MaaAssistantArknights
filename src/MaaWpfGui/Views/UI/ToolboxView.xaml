@@ -385,7 +385,7 @@
                         VerticalAlignment="Center"
                         Command="{s:Action StartDepot}"
                         Content="{DynamicResource StartToDepotRecognition}"
-                        IsEnabled="{Binding 'Idle and Inited'}" />
+                        IsEnabled="{c:Binding 'Idle and Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>

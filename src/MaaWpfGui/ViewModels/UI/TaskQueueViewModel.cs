@@ -641,6 +641,11 @@ public class TaskQueueViewModel : Screen
 
             _lastTimerElapsed = currentTime;
 
+            if ((currentTime.Hour == 3 || currentTime.Hour == 13 || currentTime.Hour == 23) && currentTime.Minute == 25 && !Idle)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Time325);
+            }
+
             VersionUpdateSettingsUserControlModel.Instance.RefreshMirrorChyanCdkRemaining();
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
@@ -1640,6 +1645,8 @@ public class TaskQueueViewModel : Screen
             SetStopped();
             return;
         }
+
+        AchievementTrackerHelper.Instance.SetProgress(AchievementIds.TaskChainKing, count);
 
         taskRet &= Instances.AsstProxy.AsstStart();
 

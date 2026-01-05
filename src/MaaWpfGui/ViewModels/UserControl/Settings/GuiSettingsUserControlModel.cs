@@ -339,8 +339,9 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             // var backup = _language;
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, value);
 
-            var mainWindow = Application.Current.MainWindow;
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.Linguist);
 
+            var mainWindow = Application.Current.MainWindow;
             if (mainWindow != null)
             {
                 mainWindow.Show();

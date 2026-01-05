@@ -1080,6 +1080,11 @@ public class AsstProxy
                     {
                         var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), FightTask.SanityReport.SanityCurrent, FightTask.SanityReport.SanityMax);
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain) + sanityLog);
+
+                        if (FightTask.SanityReport.SanityCurrent == 0)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SanityPlanner);
+                        }
                     }
                     else
                     {
@@ -1232,6 +1237,11 @@ public class AsstProxy
 
                     // Instances.TaskQueueViewModel.CheckAndShutdown();
                     _ = Instances.TaskQueueViewModel.CheckAfterCompleted();
+
+                    if (Instances.OverlayViewModel.IsCreated)
+                    {
+                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
+                    }
                 }
                 else if (isCopilotTaskChain)
                 {
@@ -1502,6 +1512,12 @@ public class AsstProxy
                             break;
 
                         case "RecruitConfirm":
+                            RecruitConfirmTime++;
+                            if (RecruitConfirmTime > AchievementTrackerHelper.Instance.GetProgressToGroup(AchievementIds.HrManager))
+                            {
+                                AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.HrManager);
+                            }
+
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitConfirm"), UiLogColor.Info);
                             break;
 
@@ -1628,12 +1644,29 @@ public class AsstProxy
         switch (subTask)
         {
             case "ProcessTask":
-                var taskchain = details["taskchain"]?.ToString();
-                switch (taskchain)
+                var taskName = details["details"]?["task"]?.ToString();
+                var taskChain = details["taskchain"]?.ToString();
+                switch (taskChain)
                 {
+                    case "Infrast":
+                        {
+                            switch (taskName)
+                            {
+                                case "UnlockClues":
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ClueExchangeUnlocked"));
+                                    AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ClueUseGroup);
+                                    AchievementTrackerHelper.Instance.ClueObsessionAdd();
+                                    break;
+                                case "SendClues":
+                                    AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ClueSendGroup);
+                                    break;
+                            }
+
+                            break;
+                        }
+
                     case "Roguelike":
                         {
-                            var taskName = details!["details"]!["task"]!.ToString();
                             int execTimes = (int)details!["details"]!["exec_times"]!;
 
                             if (taskName == "StartExplore")
@@ -1646,7 +1679,6 @@ public class AsstProxy
 
                     case "Mall":
                         {
-                            var taskName = details["details"]!["task"]!.ToString();
                             switch (taskName)
                             {
                                 case "EndOfActionThenStop":
@@ -1875,6 +1907,7 @@ public class AsstProxy
                 {
                     int refreshCount = (int)subTaskDetails!["count"]!;
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Refreshed") + refreshCount + LocalizationHelper.GetString("UnitTime"));
+                    AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RecruitGambler);
                     break;
                 }
 
