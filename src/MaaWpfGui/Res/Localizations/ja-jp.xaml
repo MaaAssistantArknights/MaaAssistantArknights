@@ -71,6 +71,8 @@
     <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">ユーザーQQ</system:String>
     <system:String x:Key="ExternalNotificationQmsgBot">ボットを送信するQQ</system:String>
+    <system:String x:Key="ExternalNotificationGotifyServer">サーバー URL</system:String>
+    <system:String x:Key="ExternalNotificationGotifyToken">アプリケーショントークン</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookBody">メッセージ本文</system:String>

@@ -30,6 +30,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--<controls:TextBlock
@@ -464,6 +465,29 @@
 
         <StackPanel
             Grid.Row="10"
+            Orientation="Vertical"
+            Visibility="{c:Binding GotifyEnabled}">
+            <hc:Divider Content="Gotify" />
+            <hc:TextBox
+                x:Name="GotifyServer"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationGotifyServer}"
+                Text="{c:Binding GotifyServer}" />
+            <hc:PasswordBox
+                x:Name="GotifyToken"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationGotifyToken}"
+                IsSafeEnabled="False"
+                ShowEyeButton="True"
+                UnsafePassword="{c:Binding GotifyToken}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="11"
             Orientation="Vertical"
             Visibility="{c:Binding CustomWebhookEnabled}">
             <hc:Divider Content="{DynamicResource ExternalNotificationCustomWebhook}" />

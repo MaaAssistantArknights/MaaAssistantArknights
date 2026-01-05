@@ -71,6 +71,8 @@
     <system:String x:Key="ExternalNotificationQmsgKey">Qmsg Key</system:String>
     <system:String x:Key="ExternalNotificationQmsgUser">User QQ</system:String>
     <system:String x:Key="ExternalNotificationQmsgBot">Bot QQ</system:String>
+    <system:String x:Key="ExternalNotificationGotifyServer">Server URL</system:String>
+    <system:String x:Key="ExternalNotificationGotifyToken">Application Token</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookBody">Message body template</system:String>
