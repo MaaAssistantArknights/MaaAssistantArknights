@@ -65,7 +65,7 @@
                     <TabControl.ItemContainerStyle>
                         <Style BasedOn="{StaticResource TabItemSliding}" TargetType="{x:Type TabItem}">
                             <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="true">
+                                <Trigger Property="IsSelected" Value="True">
                                     <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
                                 </Trigger>
                             </Style.Triggers>
@@ -83,15 +83,81 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <ComboBox
-                        Grid.Column="0"
-                        Height="30"
-                        hc:BorderElement.CornerRadius="4,0,0,4"
-                        hc:InfoElement.Placeholder="{DynamicResource CopilotLocation}"
-                        DropDownOpened="{s:Action OnDropDownOpened}"
-                        IsEditable="True"
-                        IsReadOnly="{c:Binding Path=!Idle}"
-                        Text="{Binding Filename}" />
+                    <Grid Grid.Column="0">
+                        <TextBox
+                            x:Name="FileTextBox"
+                            Height="30"
+                            hc:BorderElement.CornerRadius="4,0,0,4"
+                            hc:InfoElement.Placeholder="{DynamicResource CopilotLocation}"
+                            IsEnabled="{Binding Idle}"
+                            Text="{Binding DisplayFilename, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button
+                            Height="28"
+                            Margin="1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Stretch"
+                            Background="{DynamicResource RegionBrushOpacity50}"
+                            BorderThickness="0"
+                            Click="{s:Action ToggleFilePopup}"
+                            Cursor="Hand"
+                            IsEnabled="{Binding Idle}">
+                            <StackPanel>
+                                <Path
+                                    Width="12"
+                                    Height="12"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="{StaticResource DownGeometry}"
+                                    Fill="{DynamicResource PrimaryTextBrush}"
+                                    Stretch="Uniform"
+                                    Visibility="{c:Binding !IsFilePopupOpen}" />
+                                <Path
+                                    Width="12"
+                                    Height="12"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    d:Visibility="Collapsed"
+                                    Data="{StaticResource UpGeometry}"
+                                    Fill="{DynamicResource PrimaryTextBrush}"
+                                    Stretch="Uniform"
+                                    Visibility="{c:Binding IsFilePopupOpen}" />
+                            </StackPanel>
+                        </Button>
+                        <Popup
+                            MinWidth="{c:Binding 'ActualWidth + 90',
+                                                 ElementName=FileTextBox}"
+                            IsOpen="{Binding IsFilePopupOpen}"
+                            Placement="Bottom"
+                            PlacementTarget="{Binding ElementName=FileTextBox}"
+                            StaysOpen="True">
+                            <Border
+                                MinWidth="{c:Binding 'ActualWidth + 90',
+                                                     ElementName=FileTextBox}"
+                                Background="{DynamicResource RegionBrush}"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4">
+                                <TreeView
+                                    x:Name="FileTreeView"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding FileItems}"
+                                    SelectedItemChanged="FileTreeView_SelectedItemChanged">
+                                    <TreeView.ItemTemplate>
+                                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                            <controls:TextBlock
+                                                Margin="5"
+                                                HorizontalAlignment="Left"
+                                                Text="{Binding Name}" />
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.ItemTemplate>
+                                    <TreeView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource FileTreeViewItemStyle}" TargetType="{x:Type TreeViewItem}" />
+                                    </TreeView.ItemContainerStyle>
+                                </TreeView>
+                            </Border>
+                        </Popup>
+                    </Grid>
                     <Button
                         Grid.Column="1"
                         Height="30"
