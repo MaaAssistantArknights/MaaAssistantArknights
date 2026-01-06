@@ -40,7 +40,7 @@ namespace MaaWpfGui.ViewModels
 
         public LogCardViewModel()
         {
-            PropertyDependsOnHelper.InitializePropertyDependencies(this);
+            PropertyDependsOnUtility.InitializePropertyDependencies(this);
 
             // Keep StartTime/EndTime in sync when Items changes or an item's Time updates.
             Items.CollectionChanged += Items_CollectionChanged;

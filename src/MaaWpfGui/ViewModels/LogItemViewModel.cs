@@ -38,7 +38,7 @@ public class LogItemViewModel : PropertyChangedBase
     /// <param name="toolTip">The toolTip</param>
     public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "", bool showTime = true, ToolTip? toolTip = null)
     {
-        PropertyDependsOnHelper.InitializePropertyDependencies(this);
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
 
         if (string.IsNullOrEmpty(dateFormat))
         {
