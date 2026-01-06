@@ -1,45 +1,31 @@
-## v6.2.0-beta.1
+## v6.2.0-beta.2
 
 ### 新增 | New
 
-* 增加冬时至基建温蒂组并调整温蒂组选人逻辑 (#15294) @drway
-* 新增成就系统 DLC 内容 (#15288) @ABA2396
-* 增强自动战斗文件选择功能，支持多级路径和相对目录 (#15174) @momomochi987 @ABA2396
-* 通知渠道添加 Gotify (#15284) @2436238575
-* 可以点击 20 次公告确认按钮关闭弹窗 @ABA2396
-* 允许设置是否启用线索交流与赠送线索 (#15278) @ABA2396
-* 给 bark 通知添加默认的分类组 (#15244) @Anselyuki
-* 重构主页日志侧边栏整体布局和样式 (#15211) @MistEO @ABA2396
+* 支持日志样式切换 @ABA2396
+* 新增基建设施缩略图展示，并支持仅更新图片而不追加日志内容 @ABA2396
 
 ### 改进 | Improved
 
-* 优化路径显示的换行处理 @ABA2396
-* 在禁用时 TooltipBlock 显示特效 (#15260) @yali-hzy @ABA2396
-* devcontainer 从 conda 迁移至 mise/uv (#15251) @SherkeyXD
+* 优化基建设施缩略图生成与管理逻辑，调整 ToolTip 延迟及默认数量设置 @ABA2396
+* 重构 PropertyDependsOn 相关实现，将 ViewModel 调整为静态工具类以提升可维护性 @ABA2396
+* 调整部分命名以更符合当前文件与目录结构 @ABA2396
+* 刷理智任务中，指定次数与代理倍率冲突时增加明确提醒 (#15233) @status102
 
 ### 修复 | Fix
 
-* 给缺失干员检查补上 Unavailable (#15296) @Alan-Charred
-* 尝试修复基建效率计算中的 out_of_range 异常 @ABA2396
-* 修复文档站搜索问题 @SherkeyXD
-* 远程控制截图无法获取最新图像 (#15276) @Hakuin123
-* Debug 图片保存目录 (#15250) @hguandl
-* 鬼影迷踪 -> 诡影迷踪 @ABA2396
-* update DormMini.png for EN (again) @Constrat
-* SA1633 warning missing copyright notice @Constrat
+* 修复肉鸽模式未填写开局干员时，借助战被错误强制为 false 的问题 @ABA2396
+* 修复隐秘战线结局识别异常及识别到多余字符时无法进入对应事件的问题 @ABA2396
+* 修复 Waydroid 环境下 screencap 原始同步调用的异常情况 (#15196) @commondservice
+* 修复在非本地 locale 环境下，掉落次数被误识别为数字字符的问题 (#15306) @aflyhorse
+* 修复无法通过清空自动战斗输入框来清除当前作业，以及通过特殊输入直接开始战斗的问题 @ABA2396
+* 修复部分代码中的 SA1518 警告 @Constrat
 
 ### 文档 | Docs
 
-* 使用脚本一键安装 maa-cli (#15283) @wangl-cc
-* 源码链接同步最新行数 @Rbqwow
-* 中文集成文档统一格式 @ABA2396
-* 战斗协议 移动镜头 (#15261) @Daydreamer114
-* update KR documents (#15282) @HX3N
+* 更新 VS Code 扩展中 Quick OCR 相关文档说明 (#15298) @neko-para @Constrat
 
 ### 其他 | Other
 
-* 调整注释 @ABA2396
-* 微调公告确认按钮位置 @SherkeyXD
-* add IsDebugVersion to _forcedReloadResource (#15293) @Constrat
-* YostarKR tweak AS-OpenOcr @HX3N
-* YostarJP roguelike JieGarden ocr edit @Manicsteiner
+* 补充 `FightTimesMayNotExhausted` 的英文翻译 @Constrat
+* 优化 YoStar JP（SN）设备的 OCR 识别支持 (#15310) @cheriu
