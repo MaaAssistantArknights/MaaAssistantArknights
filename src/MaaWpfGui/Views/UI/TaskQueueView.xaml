@@ -505,6 +505,7 @@
                                                         Grid.Row="1"
                                                         Source="{Binding Thumbnail}"
                                                         Stretch="UniformToFill"
+                                                        ToolTipService.InitialShowDelay="200"
                                                         Visibility="{c:Binding ShowThumbnail}">
                                                         <Image.ToolTip>
                                                             <ToolTip>
