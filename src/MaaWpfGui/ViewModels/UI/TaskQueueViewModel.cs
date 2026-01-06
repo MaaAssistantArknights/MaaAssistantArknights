@@ -280,9 +280,14 @@ public class TaskQueueViewModel : Screen
             }
 
             await Execute.OnUIThreadAsync(() => {
+                // 检查卡片是否还在集合中，避免给已清空的卡片赋值
+                if (!LogCardViewModels.Contains(card))
+                {
+                    return;
+                }
                 card.Thumbnail = thumbnail;
                 TrimOldThumbnails();
-            }).ConfigureAwait(false);
+            });
         }
         catch
         {
@@ -292,7 +297,7 @@ public class TaskQueueViewModel : Screen
 
     private async Task<BitmapSource?> GetOrCaptureLogThumbnailAsync(bool forceScreencap = false)
     {
-        if (!await _logThumbnailSemaphore.WaitAsync(0).ConfigureAwait(false))
+        if (!await _logThumbnailSemaphore.WaitAsync(100))
         {
             return null;
         }
