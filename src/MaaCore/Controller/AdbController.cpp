@@ -941,7 +941,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             if (connect_ret) {
                 auto& connect_str = connect_ret.value();
                 // 检查连接字符串是否包含 "connected"
-                if (connect_str.find("connected") != std::string::npos) {
+                if (connect_str.find("connected") == std::string::npos) {
                     json::value info = get_info_json() | json::object {
                         { "what", "ConnectFailed" },
                         { "why", "Connection command did not report \"connected\"" },
@@ -955,7 +955,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
                     { "why", "Connection command failed to exec" },
                 };
                 callback(AsstMsg::ConnectionInfo, info);
-                return false
+                return false;
             }
         }
     }
