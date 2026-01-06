@@ -88,7 +88,7 @@ icon: iconoir:code-brackets
 
 通过控制面板, 可以扫描并选择控制器, 选择资源, 添加并管理任务, 以及执行任务.
 
-### 截图裁剪功能
+### 截图裁剪 / 快速识别
 
 在 VSCode 的命令面板中搜索执行 `Maa: 打开截图工具`, 可打开 `截图 / 裁剪` 面板.
 
@@ -104,9 +104,9 @@ icon: iconoir:code-brackets
 
 ::: warning
 
-(仅 MaaFramework 项目)
+如果 OCR 的识别结果为空, 请检查[OCR模型](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6)是否正确配置.
 
-如果OCR的识别结果为空，请检查[OCR模型](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6)是否正确配置。
+对于 MAA, 插件将自动维护使用的模型, 只需要选择正确的资源即可.
 
 :::
 
