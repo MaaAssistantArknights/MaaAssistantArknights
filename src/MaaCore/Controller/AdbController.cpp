@@ -931,7 +931,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             if (address.find(':') == std::string::npos) {
                 json::value info = get_info_json() | json::object {
                     { "what", "ConnectFailed" },
-                    { "why", "Address does not contain ':' and no connected" },
+                    { "why", "Cannot connect: address appears to be serial number but device not found" },
                 };
                 callback(AsstMsg::ConnectionInfo, info);
                 return false;
