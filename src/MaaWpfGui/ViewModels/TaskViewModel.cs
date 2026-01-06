@@ -29,11 +29,11 @@ using Stylet;
 
 namespace MaaWpfGui.ViewModels;
 
-public abstract class TaskViewModel : PropertyDependsOnViewModel
+public abstract class TaskViewModel : PropertyChangedBase
 {
     protected TaskViewModel()
     {
-        InitializePropertyDependencies();
+        PropertyDependsOnHelper.InitializePropertyDependencies(this);
     }
 
     protected T? GetTaskConfig<T>()

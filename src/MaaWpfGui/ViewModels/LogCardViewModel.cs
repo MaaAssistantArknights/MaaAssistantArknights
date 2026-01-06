@@ -23,7 +23,7 @@ namespace MaaWpfGui.ViewModels
     /// <summary>
     /// Represents a grouped log card that contains several <see cref="LogItemViewModel"/>.
     /// </summary>
-    public class LogCardViewModel : PropertyDependsOnViewModel
+    public class LogCardViewModel : PropertyChangedBase
     {
         public ObservableCollection<LogItemViewModel> Items { get; } = new();
 
@@ -40,7 +40,7 @@ namespace MaaWpfGui.ViewModels
 
         public LogCardViewModel()
         {
-            InitializePropertyDependencies();
+            PropertyDependsOnHelper.InitializePropertyDependencies(this);
 
             // Keep StartTime/EndTime in sync when Items changes or an item's Time updates.
             Items.CollectionChanged += Items_CollectionChanged;
