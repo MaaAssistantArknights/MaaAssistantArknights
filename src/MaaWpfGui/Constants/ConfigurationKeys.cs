@@ -51,6 +51,7 @@ public static class ConfigurationKeys
     public const string InverseClearMode = "GUI.InverseClearMode";
     public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
     public const string MaxNumberOfLogThumbnails = "GUI.MaxNumberOfLogThumbnails";
+    public const string UseCardLog = "GUI.UseCardLog";
     public const string WindowTitleSelectShowList = "GUI.WindowTitleSelectShowList";
     public const string SoberLanguage = "GUI.SoberLanguage";
     public const string Cheers = "GUI.Cheers";

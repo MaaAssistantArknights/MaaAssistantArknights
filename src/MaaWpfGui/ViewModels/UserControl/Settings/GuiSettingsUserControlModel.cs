@@ -274,6 +274,20 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _useCardLog = ConfigurationHelper.GetValue(ConfigurationKeys.UseCardLog, true);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to use card log format.
+    /// </summary>
+    public bool UseCardLog
+    {
+        get => _useCardLog;
+        set {
+            SetAndNotify(ref _useCardLog, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.UseCardLog, value.ToString());
+        }
+    }
+
     private int _maxNumberOfLogThumbnails = ConfigurationHelper.GetValue(ConfigurationKeys.MaxNumberOfLogThumbnails, 100);
 
     public int MaxNumberOfLogThumbnails
