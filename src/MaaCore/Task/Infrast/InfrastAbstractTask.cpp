@@ -685,7 +685,9 @@ bool asst::InfrastAbstractTask::click_confirm_button()
     LogTraceFunction;
 
     ProcessTask task(*this, { "InfrastDormConfirmButton" });
-    return task.run();
+    bool ret = task.run();
+    callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("InfrastConfirmButton"));
+    return ret;
 }
 
 void asst::InfrastAbstractTask::swipe_of_operlist()
