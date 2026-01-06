@@ -1,4 +1,4 @@
-// <copyright file="PropertyDependsOnHelper.cs" company="MaaAssistantArknights">
+// <copyright file="PropertyDependsOnUtility.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -26,7 +26,7 @@ namespace MaaWpfGui.Utilities;
 /// 提供对 PropertyDependsOnAttribute 的支持：当源属性改变时，自动通知依赖的属性。
 /// 这是一个静态工具类，可以被 ViewModel 和 Screen 使用。
 /// </summary>
-public static class PropertyDependsOnHelper
+public static class PropertyDependsOnUtility
 {
     // 存储每个实例的属性依赖关系：使用 ConditionalWeakTable 避免内存泄漏
     private static readonly ConditionalWeakTable<object, Dictionary<string, List<string>>> _instanceDependencies = [];
@@ -172,3 +172,4 @@ public static class PropertyDependsOnHelper
         Log.Warning("类型 {Type} 的属性 {PropertyName} 需要通知变更，但未找到 NotifyOfPropertyChange 方法", type.FullName, propertyName);
     }
 }
+

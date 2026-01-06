@@ -33,7 +33,7 @@ public abstract class TaskViewModel : PropertyChangedBase
 {
     protected TaskViewModel()
     {
-        PropertyDependsOnHelper.InitializePropertyDependencies(this);
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
     protected T? GetTaskConfig<T>()
