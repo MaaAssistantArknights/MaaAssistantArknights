@@ -439,7 +439,7 @@ bool SecretFrontTaskPlugin::handle_event_page(const cv::Mat& image) const
         }
 
         const bool in_route = std::any_of(route.begin(), route.end(), [&](std::string_view r) {
-            return r.find(name) != std::string_view::npos;
+            return name.find(r) != std::string_view::npos;
         });
         if (in_route) {
             Log.info(__FUNCTION__, "| event page choose idx=", idx, ", name=", name);
