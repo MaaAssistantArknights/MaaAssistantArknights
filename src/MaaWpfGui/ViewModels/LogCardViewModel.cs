@@ -23,8 +23,22 @@ namespace MaaWpfGui.ViewModels
     /// <summary>
     /// Represents a grouped log card that contains several <see cref="LogItemViewModel"/>.
     /// </summary>
-    public class LogCardViewModel : PropertyDependsOnViewModel
+    public class LogCardViewModel : PropertyChangedBase
     {
+        public LogCardViewModel()
+        {
+            PropertyDependsOnUtility.InitializePropertyDependencies(this);
+
+            // Keep StartTime/EndTime in sync when Items changes or an item's Time updates.
+            Items.CollectionChanged += Items_CollectionChanged;
+
+            // Attach to existing items if any (defensive).
+            for (int i = 0; i < Items.Count; i++)
+            {
+                Items[i].PropertyChanged += LogItem_PropertyChanged;
+            }
+        }
+
         public ObservableCollection<LogItemViewModel> Items { get; } = new();
 
         private ImageSource? _thumbnail;
@@ -37,20 +51,6 @@ namespace MaaWpfGui.ViewModels
 
         [PropertyDependsOn(nameof(Thumbnail))]
         public bool ShowThumbnail => Thumbnail is not null;
-
-        public LogCardViewModel()
-        {
-            InitializePropertyDependencies();
-
-            // Keep StartTime/EndTime in sync when Items changes or an item's Time updates.
-            Items.CollectionChanged += Items_CollectionChanged;
-
-            // Attach to existing items if any (defensive).
-            for (int i = 0; i < Items.Count; i++)
-            {
-                Items[i].PropertyChanged += LogItem_PropertyChanged;
-            }
-        }
 
         private void Items_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

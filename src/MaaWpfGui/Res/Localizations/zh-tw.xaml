@@ -501,6 +501,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">窗口標題滾動</system:String>
     <system:String x:Key="MainTasksNullFunctionality">反轉主任務右鍵單擊效果</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">預設僅一次生效，勾選後僅一次跳過</system:String>
+    <system:String x:Key="UseCardLog">使用卡片樣式日誌</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">日誌縮略圖最大數量</system:String>
     <system:String x:Key="TitleBarDisplayContent">標題欄顯示內容</system:String>
     <system:String x:Key="CustomBackgroundTip">手動建立 background 資料夾，將 background.png 放入即可自訂背景圖片</system:String>
@@ -1052,7 +1053,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ExplorationAbandoned">已放棄本次探索</system:String>
     <system:String x:Key="FightCompleted">戰鬥完成</system:String>
     <system:String x:Key="FightFailed">戰鬥失敗</system:String>
-    <system:String x:Key="FightTimesUnused">已完成 {0} 次戰鬥, 下次將執行 {1} 倍率代理, 進入後將完成 {2} 次戰鬥, 超過 {3} 次限制, 不進入戰鬥</system:String>
+    <system:String x:Key="FightTimesMayNotExhausted">戰鬥次數 ({0}) 無法被 {key=Series} ({1}) 整除，可能無法耗盡</system:String>
+    <system:String x:Key="FightTimesUnused">已完成 {0} 次戰鬥, 下次將執行 {1} 倍率代理，進入後將完成 {2} 次戰鬥，超過 {3} 次限制，不進入戰鬥</system:String>
     <system:String x:Key="UpperLimit">投資達到上限</system:String>
     <system:String x:Key="GameCrash">遊戲崩潰，重新啟動</system:String>
     <system:String x:Key="GameDrop">遊戲斷線，重新連接</system:String>

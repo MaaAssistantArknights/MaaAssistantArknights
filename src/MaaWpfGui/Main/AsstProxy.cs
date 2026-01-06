@@ -1805,6 +1805,10 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductChanged"), UiLogColor.Info);
                 break;
 
+            case "InfrastConfirmButton":
+                Instances.TaskQueueViewModel.AddLog(string.Empty, updateCardImage: true, fetchLatestImage: true);
+                break;
+
             case "RecruitTagsDetected":
                 {
                     var tags = subTaskDetails!["tags"] ?? new JArray();
