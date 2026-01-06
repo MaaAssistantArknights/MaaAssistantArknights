@@ -846,7 +846,7 @@ public class FightSettingsUserControlModel : TaskViewModel
             task.Drops.Add(DropsItemId, DropsQuantity);
         }
 
-        if(HasTimesLimited is not false && Series > 0 && MaxTimes % Series != 0)
+        if (HasTimesLimited is not false && Series > 0 && MaxTimes % Series != 0)
         {
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", MaxTimes, Series), UiLogColor.Warning);
         }

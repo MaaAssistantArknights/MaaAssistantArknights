@@ -172,4 +172,3 @@ public static class PropertyDependsOnUtility
         Log.Warning("类型 {Type} 的属性 {PropertyName} 需要通知变更，但未找到 NotifyOfPropertyChange 方法", type.FullName, propertyName);
     }
 }
-
