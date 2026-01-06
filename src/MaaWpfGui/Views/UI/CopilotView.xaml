@@ -327,6 +327,7 @@
                                     hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                     BorderThickness="0"
                                     Command="{s:Action OpenUserAdditionalPopup}"
+                                    ToolTipService.IsEnabled="{c:Binding !UserAdditionalEmpty}"
                                     ToolTip="{Binding UserAdditional}" />
                                 <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" />
                                 <Popup

@@ -411,9 +411,12 @@ public partial class CopilotViewModel : Screen
         set {
             value = value.Trim();
             SetAndNotify(ref _userAdditional, value);
+            NotifyOfPropertyChange(nameof(UserAdditionalEmpty));
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotUserAdditional, value);
         }
     }
+
+    public bool UserAdditionalEmpty => string.IsNullOrEmpty(_userAdditional);
 
     private bool _isUserAdditionalPopupOpen;
 
