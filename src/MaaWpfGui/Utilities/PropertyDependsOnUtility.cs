@@ -13,6 +13,7 @@
 
 #nullable enable
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -34,6 +35,9 @@ public static class PropertyDependsOnUtility
     // 存储每个实例的事件处理器，以便在需要时可以取消订阅
     private static readonly ConditionalWeakTable<object, PropertyChangedEventHandler> _instanceHandlers = [];
 
+    // 缓存每个类型的 MethodInfo，避免重复反射
+    private static readonly ConcurrentDictionary<Type, MethodInfo?> _methodInfoCache = new();
+
     /// <summary>
     /// 扫描指定实例的属性，查找 PropertyDependsOnAttribute 并设置通知。
     /// 从派生类型的构造函数中调用此方法。
@@ -43,6 +47,12 @@ public static class PropertyDependsOnUtility
     public static void InitializePropertyDependencies(INotifyPropertyChanged instance)
     {
         ArgumentNullException.ThrowIfNull(instance);
+
+        // 检查是否已经初始化，避免重复初始化和双重订阅
+        if (_instanceDependencies.TryGetValue(instance, out _))
+        {
+            return;
+        }
 
         var type = instance.GetType();
         var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
@@ -85,7 +95,18 @@ public static class PropertyDependsOnUtility
                     return;
                 }
 
-                if (string.IsNullOrEmpty(e.PropertyName) || !propertyDependencies.TryGetValue(e.PropertyName, out var dependentProperties))
+                // 如果 PropertyName 为空或 null，通知所有依赖属性
+                if (string.IsNullOrEmpty(e.PropertyName))
+                {
+                    var allDependentProperties = propertyDependencies.Values.SelectMany(dependents => dependents).Distinct();
+                    foreach (var dependentProperty in allDependentProperties)
+                    {
+                        NotifyPropertyChange(instance, dependentProperty);
+                    }
+                    return;
+                }
+
+                if (!propertyDependencies.TryGetValue(e.PropertyName, out var dependentProperties))
                 {
                     return;
                 }
@@ -155,12 +176,16 @@ public static class PropertyDependsOnUtility
 
     /// <summary>
     /// 通知属性改变。尝试使用 NotifyOfPropertyChange 方法（Stylet），如果不存在则记录警告。
+    /// 使用缓存避免重复反射。
     /// </summary>
     private static void NotifyPropertyChange(object instance, string propertyName)
     {
         // 首先尝试使用反射调用 NotifyOfPropertyChange 方法（Stylet 的 PropertyChangedBase 和 Screen 都有这个方法）
         var type = instance.GetType();
-        var method = type.GetMethod("NotifyOfPropertyChange", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new[] { typeof(string) }, null);
+
+        // 从缓存中获取或查找 MethodInfo
+        var method = _methodInfoCache.GetOrAdd(type, t =>
+            t.GetMethod("NotifyOfPropertyChange", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, [typeof(string)], null));
 
         if (method != null)
         {
