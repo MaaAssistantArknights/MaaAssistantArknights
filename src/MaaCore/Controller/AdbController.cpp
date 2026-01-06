@@ -931,32 +931,31 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             if (address.find(':') == std::string::npos) {
                 json::value info = get_info_json() | json::object {
                     { "what", "ConnectFailed" },
-                    { "why", "Address does not contain ':' and no devices found" },
+                    { "why", "Address does not contain ':' and no connected" },
                 };
                 callback(AsstMsg::ConnectionInfo, info);
                 return false;
             }
 
-            // TODO: adb lite server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
             auto connect_ret = call_command(m_adb.connect, 60LL * 1000, false /* adb 连接时不允许重试 */);
-            bool is_connect_success = false;
             if (connect_ret) {
                 auto& connect_str = connect_ret.value();
                 // 检查连接字符串是否包含 "connected"
-                is_connect_success = connect_str.find("connected") != std::string::npos;
-                // NOTE:这玩意啥都没干，有什么用吗？
-                if (connect_str.find("daemon started successfully") != std::string::npos &&
-                    connect_str.find("daemon still not running") == std::string::npos) {
+                if (connect_str.find("connected") != std::string::npos) {
+                    json::value info = get_info_json() | json::object {
+                        { "what", "ConnectFailed" },
+                        { "why", "Connection command did not report \"connected\"" },
+                    };
+                    callback(AsstMsg::ConnectionInfo, info);
+                    return false;
                 }
-            }
-
-            if (!is_connect_success) {
-                json::value info = get_info_json() | json::object {
+            } else {
+                json::value info = get_info_json() | json::object{
                     { "what", "ConnectFailed" },
                     { "why", "Connection command failed to exec" },
                 };
                 callback(AsstMsg::ConnectionInfo, info);
-                return false;
+                return false
             }
         }
     }
