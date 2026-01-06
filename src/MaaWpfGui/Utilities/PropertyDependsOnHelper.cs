@@ -18,6 +18,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Serilog;
 
 namespace MaaWpfGui.Utilities;
 
@@ -28,53 +29,49 @@ namespace MaaWpfGui.Utilities;
 public static class PropertyDependsOnHelper
 {
     // 存储每个实例的属性依赖关系：使用 ConditionalWeakTable 避免内存泄漏
-    private static readonly ConditionalWeakTable<object, Dictionary<string, List<string>>> _instanceDependencies = new();
+    private static readonly ConditionalWeakTable<object, Dictionary<string, List<string>>> _instanceDependencies = [];
 
     // 存储每个实例的事件处理器，以便在需要时可以取消订阅
-    private static readonly ConditionalWeakTable<object, PropertyChangedEventHandler> _instanceHandlers = new();
+    private static readonly ConditionalWeakTable<object, PropertyChangedEventHandler> _instanceHandlers = [];
 
     /// <summary>
     /// 扫描指定实例的属性，查找 PropertyDependsOnAttribute 并设置通知。
     /// 从派生类型的构造函数中调用此方法。
     /// </summary>
-    /// <param name="instance">要实现属性依赖的实例（必须实现 INotifyPropertyChanged）</param>
+    /// <param name="instance">要实现属性依赖的实例</param>
     /// <exception cref="ArgumentNullException">当 instance 为 null 时抛出</exception>
-    /// <exception cref="ArgumentException">当 instance 不实现 INotifyPropertyChanged 时抛出</exception>
-    public static void InitializePropertyDependencies(object instance)
+    public static void InitializePropertyDependencies(INotifyPropertyChanged instance)
     {
         ArgumentNullException.ThrowIfNull(instance);
-
-        if (instance is not INotifyPropertyChanged notifyPropertyChanged)
-        {
-            throw new ArgumentException("实例必须实现 INotifyPropertyChanged 接口", nameof(instance));
-        }
 
         var type = instance.GetType();
         var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
         var propertyDependencies = new Dictionary<string, List<string>>(); // key: source property name, value: dependent property names
 
+        // 第一步：构建依赖关系图
         foreach (var property in properties)
         {
             var dependsOnAttributes = property.GetCustomAttributes<PropertyDependsOnAttribute>(true);
             foreach (var attribute in dependsOnAttributes.Where(i => i.PropertyNames.Length > 0))
             {
-                foreach (var key in attribute.PropertyNames)
+                foreach (var sourcePropertyName in attribute.PropertyNames)
                 {
-                    if (!propertyDependencies.TryGetValue(key, out var value))
+                    if (!propertyDependencies.TryGetValue(sourcePropertyName, out var dependents))
                     {
-                        value = [];
-                        propertyDependencies[key] = value;
+                        dependents = [];
+                        propertyDependencies[sourcePropertyName] = dependents;
                     }
 
-                    if (propertyDependencies.TryGetValue(property.Name, out var values) && values.Contains(key))
-                    {
-                        throw new ArgumentException($"属性 {key} 依赖于属性 {property.Name}, 但它们之间存在循环依赖关系");
-                    }
-
-                    value.Add(property.Name);
+                    dependents.Add(property.Name);
                 }
             }
+        }
+
+        // 第二步：检测复杂循环依赖（使用DFS）
+        foreach (var sourceProperty in propertyDependencies.Keys)
+        {
+            DetectCycle(sourceProperty, propertyDependencies, new HashSet<string>(), new List<string> { sourceProperty });
         }
 
         if (propertyDependencies.Count > 0)
@@ -100,7 +97,7 @@ public static class PropertyDependsOnHelper
             }
 
             _instanceHandlers.Add(instance, handler);
-            notifyPropertyChanged.PropertyChanged += handler;
+            instance.PropertyChanged += handler;
         }
     }
 
@@ -108,16 +105,16 @@ public static class PropertyDependsOnHelper
     /// 取消指定实例的属性依赖初始化，移除事件订阅。
     /// </summary>
     /// <param name="instance">要取消初始化的实例</param>
-    public static void UninitializePropertyDependencies(object instance)
+    public static void UnInitializePropertyDependencies(INotifyPropertyChanged? instance)
     {
         if (instance == null)
         {
             return;
         }
 
-        if (instance is INotifyPropertyChanged notifyPropertyChanged && _instanceHandlers.TryGetValue(instance, out var handler))
+        if (_instanceHandlers.TryGetValue(instance, out var handler))
         {
-            notifyPropertyChanged.PropertyChanged -= handler;
+            instance.PropertyChanged -= handler;
             _instanceHandlers.Remove(instance);
         }
 
@@ -125,7 +122,39 @@ public static class PropertyDependsOnHelper
     }
 
     /// <summary>
-    /// 通知属性改变。尝试使用 NotifyOfPropertyChange 方法（Stylet），如果不存在则直接触发 PropertyChanged 事件。
+    /// 使用深度优先搜索检测循环依赖。
+    /// </summary>
+    /// <param name="currentProperty">当前正在检查的属性</param>
+    /// <param name="dependencies">属性依赖关系图</param>
+    /// <param name="visited">已访问的属性集合</param>
+    /// <param name="path">当前路径（用于显示循环）</param>
+    private static void DetectCycle(string currentProperty, Dictionary<string, List<string>> dependencies, HashSet<string> visited, List<string> path)
+    {
+        if (visited.Contains(currentProperty))
+        {
+            // 找到循环：从 path 中找到循环的起点，构建循环路径
+            var cycleStartIndex = path.IndexOf(currentProperty);
+            var cycle = path.Skip(cycleStartIndex).Append(currentProperty).ToList();
+            throw new ArgumentException($"检测到循环依赖: {string.Join(" -> ", cycle)}");
+        }
+
+        visited.Add(currentProperty);
+
+        // 检查当前属性的所有依赖属性
+        if (dependencies.TryGetValue(currentProperty, out var dependents))
+        {
+            foreach (var dependent in dependents)
+            {
+                var newPath = new List<string>(path) { dependent };
+                DetectCycle(dependent, dependencies, visited, newPath);
+            }
+        }
+
+        visited.Remove(currentProperty);
+    }
+
+    /// <summary>
+    /// 通知属性改变。尝试使用 NotifyOfPropertyChange 方法（Stylet），如果不存在则记录警告。
     /// </summary>
     private static void NotifyPropertyChange(object instance, string propertyName)
     {
@@ -135,19 +164,11 @@ public static class PropertyDependsOnHelper
 
         if (method != null)
         {
-            method.Invoke(instance, new object[] { propertyName });
+            method.Invoke(instance, [propertyName]);
             return;
         }
 
-        // 如果没有 NotifyOfPropertyChange 方法，尝试直接触发 PropertyChanged 事件
-        if (instance is INotifyPropertyChanged notifyPropertyChanged)
-        {
-            var eventField = type.GetField("PropertyChanged", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
-            if (eventField?.GetValue(instance) is PropertyChangedEventHandler eventHandler)
-            {
-                eventHandler.Invoke(instance, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        // 如果没有 NotifyOfPropertyChange 方法，记录警告
+        Log.Warning("类型 {Type} 的属性 {PropertyName} 需要通知变更，但未找到 NotifyOfPropertyChange 方法", type.FullName, propertyName);
     }
 }
-
