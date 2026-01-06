@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using HandyControl.Controls;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -1106,41 +1107,45 @@ public class TaskQueueViewModel : Screen
     /// <param name="splitMode">Whether to split cards before/after this log.</param>
     public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null, bool updateCardImage = false, bool fetchLatestImage = false, LogCardSplitMode splitMode = LogCardSplitMode.None)
     {
-        if (string.IsNullOrEmpty(content))
-        {
-            if (splitMode != LogCardSplitMode.None)
-            {
-                createNewCard();
-            }
-            return;
-        }
+        bool isEmpty = string.IsNullOrEmpty(content);
+        bool needsBeforeSplit = splitMode == LogCardSplitMode.Before || splitMode == LogCardSplitMode.Both;
+        bool needsAfterSplit = splitMode == LogCardSplitMode.After || splitMode == LogCardSplitMode.Both;
 
         Execute.OnUIThread(() => {
-            if (LogCardViewModels.Count <= 0)
+            if (needsBeforeSplit)
             {
                 createNewCard();
             }
 
-            switch (splitMode)
+            // 确保至少有一个卡片（如果没有内容且不需要切割，也需要确保有卡片才能更新图片）
+            if (LogCardViewModels.Count <= 0 && (!isEmpty || updateCardImage))
             {
-                case LogCardSplitMode.None:
-                    addToCard();
-                    break;
-                case LogCardSplitMode.Before:
-                    createNewCard();
-                    addToCard();
-                    break;
-                case LogCardSplitMode.After:
-                    addToCard();
-                    createNewCard();
-                    break;
-                case LogCardSplitMode.Both:
-                    createNewCard();
-                    addToCard();
-                    createNewCard();
-                    break;
+                createNewCard();
             }
 
+            if (LogCardViewModels.Count > 0)
+            {
+                // 如果有内容，添加到卡片
+                if (!isEmpty)
+                {
+                    TryMergeIntoLastCard(content!, color, weight, toolTip);
+                }
+
+                if (updateCardImage)
+                {
+                    _ = AttachThumbnailToCardAsync(LogCardViewModels[^1], fetchLatestImage);
+                }
+            }
+
+            if (needsAfterSplit)
+            {
+                createNewCard();
+            }
+        });
+
+        // 记录日志
+        if (!isEmpty)
+        {
             switch (color)
             {
                 case UiLogColor.Error:
@@ -1153,30 +1158,18 @@ public class TaskQueueViewModel : Screen
                     _logger.Information("{Content}", content);
                     break;
             }
-        });
+        }
+    }
 
-        return;
-        void createNewCard()
+    private void createNewCard()
+    {
+        if (LogCardViewModels.Count > 0 && LogCardViewModels[^1].Items.Count <= 0)
         {
-            if (LogCardViewModels.Count > 0 && LogCardViewModels[^1].Items.Count <= 0)
-            {
-                return;
-            }
-
-            var card = new LogCardViewModel();
-            LogCardViewModels.Add(card);
+            return;
         }
 
-        void addToCard()
-        {
-            if (TryMergeIntoLastCard(content, color, weight, toolTip))
-            {
-                if (updateCardImage)
-                {
-                    _ = AttachThumbnailToCardAsync(LogCardViewModels[^1], fetchLatestImage);
-                }
-            }
-        }
+        var card = new LogCardViewModel();
+        LogCardViewModels.Add(card);
     }
 
     /// <summary>
