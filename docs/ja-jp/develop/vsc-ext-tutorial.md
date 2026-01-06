@@ -88,7 +88,7 @@ Evaluating the expanded task object and the sources of each properties, and the 
 
 Scanning and selecting controllers, selecting resource, adding and manipulating tasks, and launching tasks can be done via the control panel.
 
-### Take screenshots and crop images
+### Take screenshots and crop images / Quick recognition
 
 Searching and launching `Maa: open crop tool` inside VSCode command panel can open `Screenshots / Crop` panel.
 
@@ -105,6 +105,8 @@ Searching and launching `Maa: open crop tool` inside VSCode command panel can op
 ::: warning
 
 If OCR recognition returns an empty result, please check whether the [OCR model](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files) is configured correctly.
+
+For MAA, the extension will maintain the models used automatically; you only need to select the proper resource.
 
 :::
 
