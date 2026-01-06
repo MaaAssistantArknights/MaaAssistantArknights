@@ -390,7 +390,7 @@ std::string SecretFrontTaskPlugin::read_stage_name(const cv::Mat& image, int tot
     // 只保留类似 "1A/1B/2A/2B/3A/3B/3C" 的短标识
     std::string short_name;
     for (char ch : text) {
-        if ((ch >= '1' && ch <= '3') || (ch >= 'A' && ch <= 'E') || (ch >= 'a' && ch <= 'e')) {
+        if ((ch >= '1' && ch <= '4') || (ch >= 'A' && ch <= 'E') || (ch >= 'a' && ch <= 'e')) {
             short_name.push_back(static_cast<char>(std::toupper(static_cast<unsigned char>(ch))));
         }
     }
