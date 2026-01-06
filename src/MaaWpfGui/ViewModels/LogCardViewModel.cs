@@ -25,19 +25,6 @@ namespace MaaWpfGui.ViewModels
     /// </summary>
     public class LogCardViewModel : PropertyChangedBase
     {
-        public ObservableCollection<LogItemViewModel> Items { get; } = new();
-
-        private ImageSource? _thumbnail;
-
-        public ImageSource? Thumbnail
-        {
-            get => _thumbnail;
-            set => SetAndNotify(ref _thumbnail, value);
-        }
-
-        [PropertyDependsOn(nameof(Thumbnail))]
-        public bool ShowThumbnail => Thumbnail is not null;
-
         public LogCardViewModel()
         {
             PropertyDependsOnUtility.InitializePropertyDependencies(this);
@@ -51,6 +38,19 @@ namespace MaaWpfGui.ViewModels
                 Items[i].PropertyChanged += LogItem_PropertyChanged;
             }
         }
+
+        public ObservableCollection<LogItemViewModel> Items { get; } = new();
+
+        private ImageSource? _thumbnail;
+
+        public ImageSource? Thumbnail
+        {
+            get => _thumbnail;
+            set => SetAndNotify(ref _thumbnail, value);
+        }
+
+        [PropertyDependsOn(nameof(Thumbnail))]
+        public bool ShowThumbnail => Thumbnail is not null;
 
         private void Items_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
