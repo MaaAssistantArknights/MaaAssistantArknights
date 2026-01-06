@@ -264,21 +264,31 @@ public partial class CopilotViewModel : Screen
     public string DisplayFilename
     {
         get => _displayFilename;
-        set
-        {
+        set {
             SetAndNotify(ref _displayFilename, value);
-            if (!string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
-                var copilotRoot = Path.Combine(ResourceDir, "copilot");
-                var fullPath = Path.IsPathRooted(value) ? value : Path.Combine(copilotRoot, value);
-                if (File.Exists(fullPath))
-                {
-                    Filename = fullPath;
-                }
-                else if (_copilotJsonPathMap.TryGetValue(Path.GetFileName(value), out var mappedPath))
-                {
-                    Filename = mappedPath;
-                }
+                Filename = string.Empty;
+                return;
+            }
+
+            var copilotRoot = Path.Combine(ResourceDir, "copilot");
+            var fullPath = Path.IsPathRooted(value) ? value : Path.Combine(copilotRoot, value);
+
+            /* 相对/绝对路径 */
+            if (File.Exists(fullPath))
+            {
+                Filename = fullPath;
+            }
+            /* copilot 文件夹下的文件名 */
+            else if (_copilotJsonPathMap.TryGetValue(Path.GetFileName(value), out var mappedPath))
+            {
+                Filename = mappedPath;
+            }
+            /* maybe 是神秘代码，交给 FileName 处理 */
+            else
+            {
+                Filename = value;
             }
         }
     }
@@ -1399,8 +1409,7 @@ public partial class CopilotViewModel : Screen
                 var relativePath = Path.GetRelativePath(copilotRoot, file);
                 _copilotJsonPathMap[fileName] = file;
 
-                FileItems.Add(new CopilotFileItem
-                {
+                FileItems.Add(new CopilotFileItem {
                     Name = fileName,
                     FullPath = file,
                     RelativePath = relativePath,
@@ -1449,8 +1458,7 @@ public partial class CopilotViewModel : Screen
     private CopilotFileItem? LoadFolderItem(string dirPath, string copilotRoot)
     {
         var dirName = Path.GetFileName(dirPath);
-        var folderItem = new CopilotFileItem
-        {
+        var folderItem = new CopilotFileItem {
             Name = dirName,
             IsFolder = true,
         };
@@ -1463,8 +1471,7 @@ public partial class CopilotViewModel : Screen
             var relativePath = Path.GetRelativePath(copilotRoot, file);
             _copilotJsonPathMap[fileName] = file;
 
-            folderItem.Children.Add(new CopilotFileItem
-            {
+            folderItem.Children.Add(new CopilotFileItem {
                 Name = fileName,
                 FullPath = file,
                 RelativePath = relativePath,

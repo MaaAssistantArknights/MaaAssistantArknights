@@ -390,7 +390,7 @@ std::string SecretFrontTaskPlugin::read_stage_name(const cv::Mat& image, int tot
     // 只保留类似 "1A/1B/2A/2B/3A/3B/3C" 的短标识
     std::string short_name;
     for (char ch : text) {
-        if ((ch >= '1' && ch <= '3') || (ch >= 'A' && ch <= 'E') || (ch >= 'a' && ch <= 'e')) {
+        if ((ch >= '1' && ch <= '4') || (ch >= 'A' && ch <= 'E') || (ch >= 'a' && ch <= 'e')) {
             short_name.push_back(static_cast<char>(std::toupper(static_cast<unsigned char>(ch))));
         }
     }
@@ -439,7 +439,7 @@ bool SecretFrontTaskPlugin::handle_event_page(const cv::Mat& image) const
         }
 
         const bool in_route = std::any_of(route.begin(), route.end(), [&](std::string_view r) {
-            return r.find(name) != std::string_view::npos;
+            return name.find(r) != std::string_view::npos;
         });
         if (in_route) {
             Log.info(__FUNCTION__, "| event page choose idx=", idx, ", name=", name);

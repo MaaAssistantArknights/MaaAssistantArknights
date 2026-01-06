@@ -136,7 +136,7 @@ bool asst::StageDropsImageAnalyzer::analyze_times()
     std::string raw_str = rec_analyzer.get_result().text;
     Log.info(__FUNCTION__, "raw_str", raw_str);
 
-    boost::regex re(R"(\d+)");
+    boost::regex re(R"([0-9]+)");
     boost::smatch match;
     if (!boost::regex_search(raw_str, match, re)) {
         m_times = -2;

@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -843,6 +844,11 @@ public class FightSettingsUserControlModel : TaskViewModel
         if (IsSpecifiedDrops != false && !string.IsNullOrEmpty(DropsItemId))
         {
             task.Drops.Add(DropsItemId, DropsQuantity);
+        }
+
+        if (HasTimesLimited is not false && Series > 0 && MaxTimes % Series != 0)
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", MaxTimes, Series), UiLogColor.Warning);
         }
 
         return task.Serialize();
