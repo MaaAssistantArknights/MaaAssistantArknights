@@ -1179,7 +1179,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             Squad = RoguelikeSquad,
             Roles = RoguelikeRoles,
             CoreChar = DataHelper.GetCharacterByNameOrAlias(RoguelikeCoreChar)?.Name ?? RoguelikeCoreChar,
-            UseSupport = RoguelikeUseSupportUnit,
+            UseSupport = !string.IsNullOrEmpty(RoguelikeCoreChar) && RoguelikeUseSupportUnit,
             UseSupportNonFriend = RoguelikeEnableNonfriendSupport,
 
             InvestmentEnabled = RoguelikeInvestmentEnabled,
