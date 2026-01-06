@@ -274,14 +274,14 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private int _maxNumberOfLogThumbnails = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MaxNumberOfLogThumbnails, 20);
+    private int _maxNumberOfLogThumbnails = ConfigurationHelper.GetValue(ConfigurationKeys.MaxNumberOfLogThumbnails, 100);
 
     public int MaxNumberOfLogThumbnails
     {
         get => _maxNumberOfLogThumbnails;
         set {
             SetAndNotify(ref _maxNumberOfLogThumbnails, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MaxNumberOfLogThumbnails, value.ToString());
+            ConfigurationHelper.SetValue(ConfigurationKeys.MaxNumberOfLogThumbnails, value.ToString());
         }
     }
 
