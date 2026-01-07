@@ -142,6 +142,49 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
+    public static bool IsRunningInTempDirectory()
+    {
+        try
+        {
+            var currentPath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            var tempPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                Path.GetFullPath(Path.GetTempPath()),
+            };
+
+            var envVars = new[] { "TEMP", "TMP", "TMPDIR" };
+            foreach (var envVar in envVars)
+            {
+                var envValue = Environment.GetEnvironmentVariable(envVar);
+                if (!string.IsNullOrEmpty(envValue))
+                {
+                    try
+                    {
+                        tempPaths.Add(Path.GetFullPath(envValue));
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            foreach (var tempPath in tempPaths)
+            {
+                if (currentPath.StartsWith(tempPath.TrimEnd(Path.DirectorySeparatorChar),
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public static void ParseCrashLog()
     {
         var crashFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crash.log");
@@ -350,6 +393,17 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 Process.Start(startInfo);
             }
 
+            Shutdown();
+            return;
+        }
+
+        if (IsRunningInTempDirectory())
+        {
+            MessageBoxHelper.Show(
+                LocalizationHelper.GetString("RunningInTempDirectoryError"),
+                LocalizationHelper.GetString("Error"),
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
             Shutdown();
             return;
         }
