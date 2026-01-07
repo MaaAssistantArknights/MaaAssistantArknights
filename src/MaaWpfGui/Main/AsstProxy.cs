@@ -2240,7 +2240,11 @@ public class AsstProxy
         try
         {
             success = await GameDataReportService.PostWithRetryAsync(url, content, headers, subTask, penguinId => {
-                SettingsViewModel.GameSettings.PenguinId = penguinId;
+                if (string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.PenguinId))
+                {
+                    SettingsViewModel.GameSettings.PenguinId = penguinId;
+                }
+
                 _logger.Information("New PenguinId got: {PenguinId}", penguinId);
             });
         }
