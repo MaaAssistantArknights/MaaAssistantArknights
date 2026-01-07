@@ -147,9 +147,37 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         try
         {
             var currentPath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            var tempPath = Path.GetFullPath(Path.GetTempPath()).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            var tempPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                Path.GetFullPath(Path.GetTempPath()),
+            };
 
-            return currentPath.StartsWith(tempPath, StringComparison.OrdinalIgnoreCase);
+            var envVars = new[] { "TEMP", "TMP", "TMPDIR" };
+            foreach (var envVar in envVars)
+            {
+                var envValue = Environment.GetEnvironmentVariable(envVar);
+                if (!string.IsNullOrEmpty(envValue))
+                {
+                    try
+                    {
+                        tempPaths.Add(Path.GetFullPath(envValue));
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            foreach (var tempPath in tempPaths)
+            {
+                if (currentPath.StartsWith(tempPath.TrimEnd(Path.DirectorySeparatorChar),
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
         catch
         {
