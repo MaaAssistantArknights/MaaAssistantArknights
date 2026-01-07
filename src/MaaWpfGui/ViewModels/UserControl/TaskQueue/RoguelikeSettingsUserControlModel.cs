@@ -585,8 +585,6 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
     /// <summary>
     /// Gets a tip text for current Roguelike theme.
-    /// Uses an explicit mapping between the Theme enum and localization keys to avoid coupling to enum.ToString().
-    /// Provides a safe fallback (theme display name) when the localization is missing or empty so the UI won't show an empty/placeholder value.
     /// </summary>
     public string RoguelikeThemeTip
     {
