@@ -79,6 +79,7 @@ public class AsstFightTask : AsstBaseTask
     /// <summary>
     /// Gets or sets 企鹅物流回报id, 可选，默认为空。仅在 <see cref="ReportToPenguin"/> 为 true 时有效
     /// </summary>
+    [JsonProperty("penguin_id")]
     public string PenguinId { get; set; } = string.Empty;
 
     /// <summary>
@@ -90,6 +91,7 @@ public class AsstFightTask : AsstBaseTask
     /// <summary>
     ///  Gets or sets 一图流回报id，可选，默认为空。仅在 <see cref="ReportToYituliu"/> 为 true 时有效
     /// </summary>
+    [JsonProperty("yituliu_id")]
     public string YituliuId { get; set; } = string.Empty;
 
     /// <summary>
@@ -107,14 +109,14 @@ public class AsstFightTask : AsstBaseTask
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var param = JObject.FromObject(this);
-        if (ReportToPenguin && !string.IsNullOrWhiteSpace(PenguinId))
+        if (!ReportToPenguin || string.IsNullOrWhiteSpace(PenguinId))
         {
-            param["penguin_id"] = PenguinId;
+            param.Remove("penguin_id");
         }
 
-        if (ReportToYituliu && !string.IsNullOrWhiteSpace(YituliuId))
+        if (!ReportToYituliu || string.IsNullOrWhiteSpace(YituliuId))
         {
-            param["yituliu_id"] = YituliuId;
+            param.Remove("yituliu_id");
         }
 
         if (Drops.Count > 0)
