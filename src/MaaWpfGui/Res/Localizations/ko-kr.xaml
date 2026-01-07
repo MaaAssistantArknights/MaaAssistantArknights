@@ -433,6 +433,55 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeThemeSami">사미</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">쉐이</system:String>
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">팬텀 추천 구성:
+
+지휘 분대 / 강습 전술 분대
+상호보완 (가드, 서포터, 메딕)
+丰川祥子 / 쏜즈
+
+최고 난이도가 N3 이상일 경우, 시작 시 6성 오퍼레이터를 모집하지 못할 수 있습니다
+    </system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">미즈키 추천 구성:
+
+인적자원 분대 / 마음가짐 분대
+차근차근 (디펜더, 캐스터, 스나이퍼)
+위셔델
+
+1. 인적자원 분대는 박스에 강력한 6성 오퍼레이터가 많은 경우 적합하고 마음가짐 분대는 운에 좌우됩니다
+2. 최고 난이도가 N4 이상일 경우, 6성 오퍼레이터의 희망 소모가 +1 되며, 마음가짐 분대는 시작 시 6성 오퍼레이터를 모집하지 못할 수 있습니다
+    </system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">사미 추천 구성:
+
+특훈 분대 / 원거리 전술 분대
+차근차근 (디펜더, 캐스터, 스나이퍼)
+위셔델
+
+최고 난이도가 N6 이상일 경우, 6성 오퍼레이터의 희망 소모가 +1 되며, 특훈 분대는 시작 시 6성 오퍼레이터를 모집하지 못할 수 있습니다
+    </system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">살카즈 추천 구성:
+
+도면 제작 분대 / 원거리 전술 분대
+차근차근 (디펜더, 캐스터, 스나이퍼)
+위셔델
+
+1. 도면 제작 분대: 완전 회피 전략을 채택하며, 레벨업용으로 적합하고 완료를 목표로하지 않습니다
+2. 원거리 전술 분대: 레벨업 중 겸사겸사 클리어에 적합합니다
+3. 최고 난이도가 N15 이상일 경우, 6성 오퍼레이터의 희망 소모가 +1 됩니다; '역사 재구성' 기술 트리를 완전히 해금하지 않았다면 도면 제작 분대는 시작 시 6성 오퍼레이터를 모집하지 못할 수 있습니다
+    </system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">쉐이 추천 구성:
+
+지휘 분대 / 원거리 전술 분대
+차근차근 (디펜더, 캐스터, 스나이퍼)
+위셔델
+
+1. 레벨링:
+① 원거리 전술 분대 사용
+② 최고 난이도가 N3 이상일 경우, '지휘 회피' 전략을 사용하고 난이도를 'MAX'로 설정한 뒤 고급 설정에서 2단 전략을 활성화하면 레벨링 효율이 향상됩니다
+
+2. 각뿔 수집:
+① 최고 난이도가 N3 이상일 경우 지휘 분대를 사용하고 난이도를 'MAX'로 설정하거나 고정 난이도를 ≤ N3로 설정하세요（「{key=NotSwitch} (-1)」을 선택하지 마세요）
+② 최고 난이도가 N3 미만일 경우 정상적으로 진행하세요（'MAX'를 선택하지 마세요）
+    </system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「고금 학식」에서 관련 노드를 해금하면, 난이도 3 이상에서 지휘 분대로 탐색할 때 추가로 「시간의 끝」을 소지하여 「작전 개시 후 바로 작전 포기」하는 각뿔 수집 전략을 사용할 수 있습니다.
 아직 해당 노드를 해제하지 않았다면 난이도 3 이상을 선택하지 마세요. (「MAX」 포함)

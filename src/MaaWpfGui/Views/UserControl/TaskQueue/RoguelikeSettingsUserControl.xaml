@@ -122,6 +122,11 @@
                     </hc:ComboBox.Text>
                 </hc:ComboBox>
             </StackPanel>
+            <controls:TextBlock
+                    Margin="5,8,5,10"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="{Binding RoguelikeThemeTip}"
+                    TextWrapping="Wrap" />
         </StackPanel>
 
         <StackPanel
