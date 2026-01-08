@@ -1987,6 +1987,7 @@ public partial class CopilotViewModel : Screen
                 FormationIndex = UseFormation ? FormationIndex : 0,
             };
 
+            // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
             var ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
             return ret && Instances.AsstProxy.AsstStart();
         }
@@ -2016,6 +2017,7 @@ public partial class CopilotViewModel : Screen
             FormationIndex = UseFormation ? FormationIndex : 0,
         };
 
+        // 单作业需要区分 Copilot / SSSCopilot
         var appended = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, singleTask.Serialize().Params);
         return appended && Instances.AsstProxy.AsstStart();
     }
