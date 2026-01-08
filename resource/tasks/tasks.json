@@ -967,6 +967,7 @@
     "StartUpThemes": {
         "algorithm": "JustReturn",
         "next": [
+            "BiliBiliNoMorePromptsNextTime",
             "LeidianGoogleFrameworkConfirm",
             "GameStart",
             "StartToWakeUp",
@@ -985,6 +986,22 @@
         "roi": [480, 410, 200, 50],
         "maxTimes": 5,
         "Doc": "用以关闭雷电模拟器启动外服明日方舟时弹出的未安装谷歌套件的提示",
+        "next": ["StartUpThemes#next"]
+    },
+    "BiliBiliNoMorePromptsNextTime": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["该内容不再展示"],
+        "roi": [200, 430, 430, 260],
+        "maxTimes": 5,
+        "Doc": "bilibili 活动的该内容不再展示",
+        "next": ["BiliBiliNoMorePromptsNextTimeClose"]
+    },
+    "BiliBiliNoMorePromptsNextTimeClose": {
+        "action": "ClickSelf",
+        "roi": [930, 120, 150, 150],
+        "maxTimes": 5,
+        "Doc": "bilibili 活动的该内容不再展示右上角的关闭按钮",
         "next": ["StartUpThemes#next"]
     },
     "StartUpBegin": {
@@ -3148,7 +3165,8 @@
     },
     "InfrastClueQuickInsert": {
         "Doc": "快速置入：官服新增的批量置入线索按钮模板占位",
-        "roi": [1058, 572, 148, 148]
+        "roi": [1058, 572, 148, 148],
+        "next": ["InfrastClueQuickInsertConfirm", "Stop"]
     },
     "InfrastClueQuickInsertConfirm": {
         "baseTask": "NumberOcrReplace",
