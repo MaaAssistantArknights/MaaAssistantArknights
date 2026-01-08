@@ -1069,8 +1069,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Trader">ステージ: 怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ: 安全な片隅</system:String>
     <system:String x:Key="FilterTruth">ステージ: 真実の選別</system:String>
-    <system:String x:Key="CombatDps">ステージ: 通常作戦</system:String>
-    <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
+    <system:String x:Key="CombatOps">ステージ: 通常作戦</system:String>
+    <system:String x:Key="EmergencyOps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="BoskyOmissions">スポット: 拾遺</system:String>
     <system:String x:Key="BoskyLegend">スポット: 伝説</system:String>

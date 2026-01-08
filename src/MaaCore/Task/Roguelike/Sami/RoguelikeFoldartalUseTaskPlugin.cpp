@@ -37,7 +37,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
     if (task_view.ends_with(task_name_suf)) {
         task_view.remove_suffix(task_name_suf.length());
     }
-    if (task_view == "CombatDps" || task_view == "EmergencyDps" || task_view == "FerociousPresage") {
+    if (task_view == "CombatOps" || task_view == "EmergencyOps" || task_view == "FerociousPresage") {
         if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
             m_stage = "SkipBattle";
         }

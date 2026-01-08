@@ -1068,8 +1068,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Trader">Node: Rogue Trader</system:String>
     <system:String x:Key="SafeHouse">Node: Safe House</system:String>
     <system:String x:Key="FilterTruth">Node: Idea Filter</system:String>
-    <system:String x:Key="CombatDps">Node: Combat Operation</system:String>
-    <system:String x:Key="EmergencyDps">Stage: Emergency Operation</system:String>
+    <system:String x:Key="CombatOps">Node: Combat Operation</system:String>
+    <system:String x:Key="EmergencyOps">Stage: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Stage: Dreadful Foe</system:String>
     <system:String x:Key="BoskyOmissions">Stage: Retrieve</system:String>
     <system:String x:Key="BoskyLegend">Bosky: Legend</system:String>

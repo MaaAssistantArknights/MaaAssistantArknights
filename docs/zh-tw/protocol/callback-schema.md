@@ -256,9 +256,9 @@ Todo
    肉鴿關卡：安全的角落
 - `StageEncounterEnter`  
    肉鴿關卡：不期而遇 / 古堡饋贈
-- `StageCombatDpsEnter`  
+- `StageCombatOpsEnter`  
    肉鴿關卡：普通作戰
-- `StageEmergencyDps`  
+- `StageEmergencyOps`  
    肉鴿關卡：緊急作戰
 - `StageDreadfulFoe`  
    肉鴿關卡：險路惡敵
