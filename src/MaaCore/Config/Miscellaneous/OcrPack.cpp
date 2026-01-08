@@ -1,6 +1,8 @@
 #include "OcrPack.h"
 
+#include <algorithm>
 #include <filesystem>
+#include <thread>
 
 #include "MaaUtils/NoWarningCV.hpp"
 MAA_SUPPRESS_CV_WARNINGS_BEGIN
@@ -138,6 +140,18 @@ bool asst::OcrPack::check_and_load()
 
     LogTraceFunction;
 
+    int logical = std::max(1u, std::thread::hardware_concurrency());
+    int cpu_threads;
+    if (logical <= 4) {
+        cpu_threads = 2;
+    }
+    else if (logical <= 12) {
+        cpu_threads = 3;
+    }
+    else {
+        cpu_threads = 4;
+    }
+
     fastdeploy::RuntimeOption det_option;
     fastdeploy::RuntimeOption rec_option;
     det_option.UseOrtBackend();
@@ -148,15 +162,26 @@ bool asst::OcrPack::check_and_load()
         det_option.UseDirectML(*m_gpu_id);
         rec_option.UseDirectML(*m_gpu_id);
     }
+    else {
+        // CPU 模式下限制线程数，避免过高的 CPU 占用
+        det_option.SetCpuThreadNum(cpu_threads);
+        rec_option.SetCpuThreadNum(cpu_threads);
+        Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
+    }
 #elif defined(__APPLE__)
     // https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/providers/coreml/coreml_provider_factory.h
     // COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE
     det_option.UseCoreML(0x004);
     // rec 结果不对，先禁用
     rec_option.UseCpu();
+    rec_option.SetCpuThreadNum(cpu_threads);
+    Log.info("FastDeploy macOS mode with rec", cpu_threads, "CPU threads");
 #else
     det_option.UseCpu();
     rec_option.UseCpu();
+    det_option.SetCpuThreadNum(cpu_threads);
+    rec_option.SetCpuThreadNum(cpu_threads);
+    Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
 #endif
 
     m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(

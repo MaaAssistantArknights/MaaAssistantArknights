@@ -3,6 +3,8 @@
 #include <array>
 #include <filesystem>
 #include <string_view>
+#include <thread>
+#include <algorithm>
 
 #include "Utils/Logger.hpp"
 
@@ -47,6 +49,25 @@ bool asst::OnnxSessions::use_cpu()
         return false;
     }
     m_options = Ort::SessionOptions();
+    
+    int logical = std::max(1u, std::thread::hardware_concurrency());
+    int cpu_threads;
+    if (logical <= 4) {
+        cpu_threads = 2;
+    }
+    else if (logical <= 12) {
+        cpu_threads = 3;
+    }
+    else {
+        cpu_threads = 4;
+    }
+
+    // 设置执行模式为顺序执行，减少线程竞争
+    m_options.SetExecutionMode(ExecutionMode::ORT_SEQUENTIAL);
+    m_options.SetIntraOpNumThreads(cpu_threads);
+
+    Log.info("CPU OCR enabled with", cpu_threads, "threads");
+    
     gpu_enabled = false;
     return true;
 }
