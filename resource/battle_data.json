@@ -167,6 +167,21 @@
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 5
         },
+        "char_1022_flwr2": {
+            "name": "撷英调香师",
+            "name_en": "撷英调香师",
+            "name_en_unavailable": true,
+            "name_jp": "撷英调香师",
+            "name_jp_unavailable": true,
+            "name_kr": "撷英调香师",
+            "name_kr_unavailable": true,
+            "name_tw": "撷英调香师",
+            "name_tw_unavailable": true,
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": ["y-2", "y-6", "y-6"],
+            "rarity": 5
+        },
         "char_1023_ghost2": {
             "name": "归溟幽灵鲨",
             "name_en": "Specter the Unchained",
@@ -2827,6 +2842,21 @@
             "rangeId": ["2-3", "3-6", "3-6"],
             "rarity": 6
         },
+        "char_4056_titi": {
+            "name": "缇缇",
+            "name_en": "缇缇",
+            "name_en_unavailable": true,
+            "name_jp": "缇缇",
+            "name_jp_unavailable": true,
+            "name_kr": "缇缇",
+            "name_kr_unavailable": true,
+            "name_tw": "缇缇",
+            "name_tw_unavailable": true,
+            "position": "RANGED",
+            "profession": "MEDIC",
+            "rangeId": ["3-1", "3-3", "3-3"],
+            "rarity": 6
+        },
         "char_4058_pepe": {
             "name": "佩佩",
             "name_en": "Pepe",
@@ -3555,6 +3585,21 @@
             "profession": "SPECIAL",
             "rangeId": ["1-1", "2-2", "2-2"],
             "rarity": 4
+        },
+        "char_4166_varkis": {
+            "name": "摆渡人",
+            "name_en": "摆渡人",
+            "name_en_unavailable": true,
+            "name_jp": "摆渡人",
+            "name_jp_unavailable": true,
+            "name_kr": "摆渡人",
+            "name_kr_unavailable": true,
+            "name_tw": "摆渡人",
+            "name_tw_unavailable": true,
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 5
         },
         "char_416_zumama": {
             "name": "森蚺",
@@ -10543,6 +10588,21 @@
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_279_pirene": {
+            "name": "喷泉水池",
+            "name_en": "喷泉水池",
+            "name_en_unavailable": true,
+            "name_jp": "喷泉水池",
+            "name_jp_unavailable": true,
+            "name_kr": "喷泉水池",
+            "name_kr_unavailable": true,
+            "name_tw": "喷泉水池",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["x-5", "x-5", "x-5"],
             "rarity": 1
         },
         "trap_400_xbfarm": {
