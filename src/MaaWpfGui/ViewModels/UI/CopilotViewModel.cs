@@ -250,7 +250,7 @@ public partial class CopilotViewModel : Screen
 
             Form = false;
             UseCopilotList = value switch {
-                1 => false,
+                1 or 3 => false,
                 _ => UseCopilotList,
             };
         }
