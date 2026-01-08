@@ -45,6 +45,7 @@
                 <TabControl
                     HorizontalAlignment="Center"
                     BorderThickness="0"
+                    IsEnabled="{Binding Idle}"
                     SelectedIndex="{Binding CopilotTabIndex}"
                     Style="{StaticResource TabControlSliding}">
                     <TabControl.Template>

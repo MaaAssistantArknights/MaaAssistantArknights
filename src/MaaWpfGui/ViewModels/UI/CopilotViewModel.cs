@@ -243,6 +243,11 @@ public partial class CopilotViewModel : Screen
     {
         get => _copilotTabIndex;
         set {
+            if (!Idle)
+            {
+                return;
+            }
+
             if (!SetAndNotify(ref _copilotTabIndex, value))
             {
                 return;
