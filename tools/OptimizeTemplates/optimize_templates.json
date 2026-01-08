@@ -3693,5 +3693,6 @@
     "docs/zh-cn/readme/3-dark": "e3641b3c0e89991bcbb14bc54301fa0ff802d8a86ed77ed7910b45fde09c9df4",
     "docs/zh-cn/readme/3-light": "e09e5f9d9192876ac95702e4da4ed9f8ce3dd42382420a2c1448cb509ba8f45b",
     "docs/zh-cn/readme/4-dark": "dd74317c0b26c2addd7b16348a93b68fe67e99e34de401aebe48b6f3e1db9053",
-    "docs/zh-cn/readme/4-light": "76b6f375d2ab0a9f5ca7ca3e32c1908f2047559815428bdf2e53800f65911f8d"
+    "docs/zh-cn/readme/4-light": "76b6f375d2ab0a9f5ca7ca3e32c1908f2047559815428bdf2e53800f65911f8d",
+    "resource/template/WakeUp/BiliBiliNoMorePromptsNextTimeClose": "ee9408e0714b6efc2bb216a44a8e64346f75c50c238d3a463cf5112ebbed773e"
 }
