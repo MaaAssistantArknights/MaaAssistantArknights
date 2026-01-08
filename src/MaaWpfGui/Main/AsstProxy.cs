@@ -2269,8 +2269,6 @@ public class AsstProxy
         return MaaService.AsstSetStaticOption(key, value);
     }
 
-    private static readonly bool _forcedReloadResource = Instances.VersionUpdateViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt");
-
     /// <summary>
     /// 使用 TCP 或 adb devices 命令检查连接。TCP 检测相比 adb devices 更快，但不支持实体机。
     /// </summary>
@@ -2366,7 +2364,7 @@ public class AsstProxy
             else
             {
                 _logger.Information("Already connected to {ConnectedAdb} {ConnectedAddress}", _connectedAdb, _connectedAddress);
-                if (!_forcedReloadResource)
+                if (!Instances.TaskQueueViewModel.EnableAutoReload)
                 {
                     return true;
                 }
