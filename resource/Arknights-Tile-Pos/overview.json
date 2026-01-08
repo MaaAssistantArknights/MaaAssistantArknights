@@ -15623,6 +15623,87 @@
         "stageId": "act47side_tr01",
         "width": 10
     },
+    "act48side_01-activities/act48side/level_act48side_01": {
+        "code": "ME-1",
+        "filename": "act48side_01-activities-act48side-level_act48side_01.json",
+        "height": 7,
+        "levelId": "activities/act48side/level_act48side_01",
+        "name": "工作与时日",
+        "stageId": "act48side_01",
+        "width": 9
+    },
+    "act48side_02-activities/act48side/level_act48side_02": {
+        "code": "ME-2",
+        "filename": "act48side_02-activities-act48side-level_act48side_02.json",
+        "height": 7,
+        "levelId": "activities/act48side/level_act48side_02",
+        "name": "命定的终点",
+        "stageId": "act48side_02",
+        "width": 11
+    },
+    "act48side_03-activities/act48side/level_act48side_03": {
+        "code": "ME-3",
+        "filename": "act48side_03-activities-act48side-level_act48side_03.json",
+        "height": 7,
+        "levelId": "activities/act48side/level_act48side_03",
+        "name": "无解的谜题",
+        "stageId": "act48side_03",
+        "width": 10
+    },
+    "act48side_04-activities/act48side/level_act48side_04": {
+        "code": "ME-4",
+        "filename": "act48side_04-activities-act48side-level_act48side_04.json",
+        "height": 7,
+        "levelId": "activities/act48side/level_act48side_04",
+        "name": "失手",
+        "stageId": "act48side_04",
+        "width": 11
+    },
+    "act48side_05-activities/act48side/level_act48side_05": {
+        "code": "ME-5",
+        "filename": "act48side_05-activities-act48side-level_act48side_05.json",
+        "height": 7,
+        "levelId": "activities/act48side/level_act48side_05",
+        "name": "汇流",
+        "stageId": "act48side_05",
+        "width": 11
+    },
+    "act48side_06-activities/act48side/level_act48side_06": {
+        "code": "ME-6",
+        "filename": "act48side_06-activities-act48side-level_act48side_06.json",
+        "height": 8,
+        "levelId": "activities/act48side/level_act48side_06",
+        "name": "旧日诗篇",
+        "stageId": "act48side_06",
+        "width": 10
+    },
+    "act48side_07-activities/act48side/level_act48side_07": {
+        "code": "ME-7",
+        "filename": "act48side_07-activities-act48side-level_act48side_07.json",
+        "height": 8,
+        "levelId": "activities/act48side/level_act48side_07",
+        "name": "奔袭",
+        "stageId": "act48side_07",
+        "width": 11
+    },
+    "act48side_08-activities/act48side/level_act48side_08": {
+        "code": "ME-8",
+        "filename": "act48side_08-activities-act48side-level_act48side_08.json",
+        "height": 9,
+        "levelId": "activities/act48side/level_act48side_08",
+        "name": "神谕示显",
+        "stageId": "act48side_08",
+        "width": 12
+    },
+    "act48side_tr01-activities/act48side/level_act48side_tr01": {
+        "code": "ME-TR-1",
+        "filename": "act48side_tr01-activities-act48side-level_act48side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act48side/level_act48side_tr01",
+        "name": "入境随俗",
+        "stageId": "act48side_tr01",
+        "width": 9
+    },
     "act4bossrush_01-activities/act4bossrush/level_bossrush4_01": {
         "code": "TN-1",
         "filename": "act4bossrush_01-activities-act4bossrush-level_bossrush4_01.json",
@@ -24092,6 +24173,15 @@
         "stageId": "mem_firwhl_1",
         "width": 10
     },
+    "mem_flamtl_1-obt/memory/level_memory_flamtl_1": {
+        "code": "mem_flamtl_1",
+        "filename": "mem_flamtl_1-obt-memory-level_memory_flamtl_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_flamtl_1",
+        "name": "黑夜中的烛火",
+        "stageId": "mem_flamtl_1",
+        "width": 9
+    },
     "mem_flint_1-obt/memory/level_memory_flint_1": {
         "code": "mem_flint_1",
         "filename": "mem_flint_1-obt-memory-level_memory_flint_1.json",
@@ -25694,6 +25784,15 @@
         "stageId": "mem_utage_1",
         "width": 11
     },
+    "mem_vendla_1-obt/memory/level_memory_vendla_1": {
+        "code": "mem_vendla_1",
+        "filename": "mem_vendla_1-obt-memory-level_memory_vendla_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_vendla_1",
+        "name": "带刺的玫瑰",
+        "stageId": "mem_vendla_1",
+        "width": 9
+    },
     "mem_vigil_1-obt/memory/level_memory_vigil_1": {
         "code": "mem_vigil_1",
         "filename": "mem_vigil_1-obt-memory-level_memory_vigil_1.json",
@@ -25818,6 +25917,15 @@
         "levelId": "obt/memory/level_memory_wscoot_1",
         "name": "先礼后兵",
         "stageId": "mem_wscoot_1",
+        "width": 10
+    },
+    "mem_wulfen_1-obt/memory/level_memory_wulfen_1": {
+        "code": "mem_wulfen_1",
+        "filename": "mem_wulfen_1-obt-memory-level_memory_wulfen_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_wulfen_1",
+        "name": "打开通路",
+        "stageId": "mem_wulfen_1",
         "width": 10
     },
     "mem_wyvern_1-obt/memory/level_memory_wyvern_1": {
