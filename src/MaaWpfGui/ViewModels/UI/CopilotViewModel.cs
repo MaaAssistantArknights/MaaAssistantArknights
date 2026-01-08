@@ -1185,8 +1185,8 @@ public partial class CopilotViewModel : Screen
         if (!writeToCache)
         {// 现在是暂时将所有本地作业不添加到列表
         }
-        else if (CopilotTabIndex is 1)
-        { // 保全不使用多作业列表
+        else if (CopilotTabIndex is 1 or 3)
+        { // 保全/其他活动 不使用多作业列表
         }
         else if (copilotList)
         {
@@ -1747,14 +1747,14 @@ public partial class CopilotViewModel : Screen
         }
         else if (UseCopilotList)
         {
-            if (!await VerifyCopilotListTask())
+            if (CopilotTabIndex == 2 && !VerifyParadoxTasks())
             {
-                // 校验作业合法性
                 _runningState.SetIdle(true);
                 return;
             }
-            else if (CopilotTabIndex == 2 && !VerifyParadoxTasks())
+            else if (!await VerifyCopilotListTask())
             {
+                // 校验作业合法性
                 _runningState.SetIdle(true);
                 return;
             }
@@ -2054,17 +2054,17 @@ public partial class CopilotViewModel : Screen
 
     private bool VerifyParadoxTasks()
     {
-        bool ret = true;
         foreach (var task in CopilotItemViewModels.Where(i => i.IsChecked))
         {
             if (!DataHelper.Operators.Any(op => op.Value.Name == DataHelper.GetLocalizedCharacterName(task.Name, "zh-cn")))
             {
-                AddLog("illegal oper name: " + task.Name, UiLogColor.Error);
-                ret = false;
+                AddLog("illegal oper name: " + task.Name, UiLogColor.Error, showTime: false);
+                _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
             }
         }
 
-        return ret;
+        return true;
     }
 
     /// <summary>
