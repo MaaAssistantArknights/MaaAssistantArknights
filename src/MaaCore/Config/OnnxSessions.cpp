@@ -1,10 +1,10 @@
 #include "OnnxSessions.h"
 
+#include <algorithm>
 #include <array>
 #include <filesystem>
 #include <string_view>
 #include <thread>
-#include <algorithm>
 
 #include "Utils/Logger.hpp"
 
@@ -49,7 +49,7 @@ bool asst::OnnxSessions::use_cpu()
         return false;
     }
     m_options = Ort::SessionOptions();
-    
+
     int logical = std::max(1u, std::thread::hardware_concurrency());
     int cpu_threads;
     if (logical <= 4) {
@@ -67,7 +67,7 @@ bool asst::OnnxSessions::use_cpu()
     m_options.SetIntraOpNumThreads(cpu_threads);
 
     Log.info("CPU OCR enabled with", cpu_threads, "threads");
-    
+
     gpu_enabled = false;
     return true;
 }
