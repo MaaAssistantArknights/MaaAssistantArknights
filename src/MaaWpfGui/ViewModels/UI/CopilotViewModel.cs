@@ -256,6 +256,8 @@ public partial class CopilotViewModel : Screen
             {
                 return;
             }
+
+            Filename = string.Empty;
         }
     }
 
@@ -305,57 +307,54 @@ public partial class CopilotViewModel : Screen
     {
         get => _filename;
         set {
-            if (!File.Exists(value))
-            {
-                // 从对照表取得完整 json 档案路径
-                if (_copilotJsonPathMap.TryGetValue(value, out var fullPath))
-                {
-                    value = fullPath;
-                }
-                else
-                {
-                    var resourceFile = Path.Combine(ResourceDir, "copilot", Path.GetFileName(value));
-                    if (File.Exists(resourceFile))
-                    {
-                        value = resourceFile;
-                    }
-                }
-            }
-
-            SetAndNotify(ref _filename, value);
-
-            // 更新显示文件名（相对路径）
-            if (!string.IsNullOrEmpty(value))
-            {
-                var copilotRoot = Path.Combine(ResourceDir, "copilot");
-                if (value.StartsWith(copilotRoot, StringComparison.OrdinalIgnoreCase))
-                {
-                    var relativePath = Path.GetRelativePath(copilotRoot, value);
-                    _displayFilename = relativePath;
-                    NotifyOfPropertyChange(nameof(DisplayFilename));
-                }
-                else
-                {
-                    _displayFilename = value;
-                    NotifyOfPropertyChange(nameof(DisplayFilename));
-                }
-            }
-            else
-            {
-                _displayFilename = string.Empty;
-                NotifyOfPropertyChange(nameof(DisplayFilename));
-            }
-
+            var processedValue = ProcessFilePath(value);
+            SetAndNotify(ref _filename, processedValue);
+            UpdateDisplayFilename(processedValue);
             ClearLog();
-            if (string.IsNullOrWhiteSpace(value))
+            UpdateCopilotUrl(processedValue);
+            if (!string.IsNullOrWhiteSpace(processedValue))
             {
-                CopilotUrl = CopilotUiUrl;
-            }
-            else
-            {
-                _ = UpdateFilename(value);
+                _ = UpdateFilename(processedValue);
             }
         }
+    }
+
+    private string ProcessFilePath(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value) || File.Exists(value))
+        {
+            return value;
+        }
+
+        // 从对照表取得完整 json 档案路径
+        if (_copilotJsonPathMap.TryGetValue(value, out var fullPath))
+        {
+            return fullPath;
+        }
+
+        var resourceFile = Path.Combine(ResourceDir, "copilot", Path.GetFileName(value));
+        return File.Exists(resourceFile) ? resourceFile : value;
+    }
+
+    private void UpdateDisplayFilename(string filename)
+    {
+        if (string.IsNullOrEmpty(filename))
+        {
+            _displayFilename = string.Empty;
+        }
+        else
+        {
+            var copilotRoot = Path.Combine(ResourceDir, "copilot");
+            _displayFilename = filename.StartsWith(copilotRoot, StringComparison.OrdinalIgnoreCase)
+                ? Path.GetRelativePath(copilotRoot, filename)
+                : filename;
+        }
+        NotifyOfPropertyChange(nameof(DisplayFilename));
+    }
+
+    private void UpdateCopilotUrl(string filename)
+    {
+        CopilotUrl = string.IsNullOrWhiteSpace(filename) ? CopilotUiUrl : CopilotUrl;
     }
 
     private bool _form;
@@ -1809,17 +1808,17 @@ public partial class CopilotViewModel : Screen
             return await ValidateTaskListStrictAsync(tabIndex: CopilotTabIndex);
         }
 
+        // 非列表模式必须有当前作业
+        if (_copilotCache is null)
+        {
+            AddLog(LocalizationHelper.GetString("CopilotEmptyError"), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
         // 非列表模式：检查单文件作业的 _taskType 与 CopilotTabIndex 是否匹配
         if ((_taskType == AsstTaskType.SSSCopilot && CopilotTabIndex != 1) || (_taskType != AsstTaskType.SSSCopilot && CopilotTabIndex == 1))
         {
             AddLog(LocalizationHelper.GetString("CopilotTaskTypeMismatch"), UiLogColor.Error, showTime: false);
-            return false;
-        }
-
-        // 非列表模式必须有当前作业（Copilot / SSSCopilot 皆适用）
-        if (_copilotCache is null)
-        {
-            AddLog(LocalizationHelper.GetString("CopilotEmptyError"), UiLogColor.Error, showTime: false);
             return false;
         }
 
