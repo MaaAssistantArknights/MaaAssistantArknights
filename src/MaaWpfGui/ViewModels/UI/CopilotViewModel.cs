@@ -67,7 +67,9 @@ public partial class CopilotViewModel : Screen
     private CopilotBase? _copilotCache;
     private const string CopilotIdPrefix = "maa://";
     private static readonly string TempCopilotFile = Path.Combine(CacheDir, "_temp_copilot.json");
-    private static readonly string[] _supportExt = [".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi"];
+
+    // VideoRecognition 已不支持：仅保留 json 作业
+    private static readonly string[] _supportExt = [".json"];
     private static readonly string CopilotJsonDir = Path.Combine(ConfigDir, "copilot");
     private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})";
     private const string InvalidStageNameChars = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
@@ -810,7 +812,7 @@ public partial class CopilotViewModel : Screen
     public void SelectFile()
     {
         var dialog = new OpenFileDialog {
-            Filter = "JSON|*.json|Video|*.mp4;*.m4s;*.mkv;*.flv;*.avi",
+            Filter = "JSON|*.json",
         };
 
         if (dialog.ShowDialog() == true)
@@ -1031,7 +1033,7 @@ public partial class CopilotViewModel : Screen
             bool isJsonFile = filename.ToLower().EndsWith(".json") || fileSize < 4 * 1024 * 1024;
             if (!isJsonFile)
             {
-                _taskType = AsstTaskType.VideoRecognition;
+                AddLog(LocalizationHelper.GetString("NotCopilotJson"), UiLogColor.Error, showTime: false);
                 return;
             }
 
@@ -1736,7 +1738,11 @@ public partial class CopilotViewModel : Screen
 
         Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
-        if (_taskType == AsstTaskType.VideoRecognition)
+        // if (_taskType == AsstTaskType.VideoRecognition)
+        // {
+        //     _ = StartVideoTask();
+        //     return;
+        // }
         {
             _ = StartVideoTask();
             return;
