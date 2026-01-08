@@ -33,6 +33,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Models.Copilot;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -108,6 +109,7 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public CopilotViewModel()
     {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
         DisplayName = LocalizationHelper.GetString("Copilot");
         AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
         _runningState = RunningState.Instance;
@@ -254,12 +256,6 @@ public partial class CopilotViewModel : Screen
             {
                 return;
             }
-
-            Form = false;
-            UseCopilotList = value switch {
-                1 or 3 => false,
-                _ => UseCopilotList,
-            };
         }
     }
 
@@ -367,9 +363,17 @@ public partial class CopilotViewModel : Screen
     /// <summary>
     /// Gets or sets a value indicating whether to use auto-formation.
     /// </summary>
+    [PropertyDependsOn(nameof(CopilotTabIndex))]
     public bool Form
     {
-        get => _form;
+        get {
+            // Tab=1/2 不支持自动编队，根据 CopilotTabIndex 综合判断返回值
+            if (CopilotTabIndex is 1 or 2)
+            {
+                return false;
+            }
+            return _form;
+        }
         set => SetAndNotify(ref _form, value);
     }
 
@@ -714,13 +718,21 @@ public partial class CopilotViewModel : Screen
     /// <summary>
     /// Gets or sets a value indicating whether 自动编队.
     /// </summary>
+    [PropertyDependsOn(nameof(CopilotTabIndex))]
     public bool UseCopilotList
     {
-        get => _useCopilotList;
+        get {
+            if (CopilotTabIndex is 1 or 3)
+            {
+                return false;
+            }
+            return _useCopilotList;
+        }
+
         set {
             if (value)
             {
-                _taskType = AsstTaskType.Copilot;
+                // _taskType 应该只由选择的作业文件决定，不在此强制修改
                 Form = true;
             }
 
@@ -1648,20 +1660,20 @@ public partial class CopilotViewModel : Screen
 
             name ??= stageCode;
 
-            var item = new CopilotItemViewModel(name, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
+            var item = new CopilotItemViewModel(name, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, TabIndex = CopilotTabIndex, };
             CopilotItemViewModels.Add(item);
         }
         else
         {
             if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal))
             {
-                var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
+                var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, TabIndex = CopilotTabIndex, };
                 CopilotItemViewModels.Add(item);
             }
 
             if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid))
             {
-                var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
+                var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, TabIndex = CopilotTabIndex, };
                 CopilotItemViewModels.Add(item);
             }
         }
@@ -1743,174 +1755,28 @@ public partial class CopilotViewModel : Screen
         //     _ = StartVideoTask();
         //     return;
         // }
-        {
-            _ = StartVideoTask();
-            return;
-        }
 
-        if (_taskType != AsstTaskType.Copilot)
+        // 统一前置校验：先按 CopilotTabIndex 分发，再判断对应选项（UseCopilotList 等）
+        if (!await ValidateStartAsync())
         {
-        }
-        else if (UseCopilotList)
-        {
-            if (CopilotTabIndex == 2 && !VerifyParadoxTasks())
-            {
-                _runningState.SetIdle(true);
-                return;
-            }
-            else if (!await VerifyCopilotListTask())
-            {
-                // 校验作业合法性
-                _runningState.SetIdle(true);
-                return;
-            }
-        }
-        else if (!UseCopilotList && _copilotCache is null)
-        {
-            AddLog(LocalizationHelper.GetString("CopilotEmptyError"), UiLogColor.Error, showTime: false);
             _runningState.SetIdle(true);
             return;
         }
 
-        if (SettingsViewModel.GameSettings.CopilotWithScript)
-        {
-            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript", showLog: false));
-            if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.StartsWithScript))
-            {
-                AddLog(LocalizationHelper.GetString("StartsWithScript"));
-            }
-        }
+        await RunStartsWithScriptAsync();
 
-        AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
-
-        string errMsg = string.Empty;
-        bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-        if (!caught)
+        if (!await ConnectToEmulatorAsync())
         {
-            AddLog(errMsg, UiLogColor.Error);
             Stop();
             return;
         }
 
-        // 反序列化自定义追加干员列表（JSON），兼容旧格式
-        IEnumerable<UserAdditional> userAdditional = [];
-        if (!string.IsNullOrWhiteSpace(UserAdditional))
-        {
-            try
-            {
-                var list = JsonConvert.DeserializeObject<List<UserAdditional>>(UserAdditional) ?? [];
-                foreach (var op in list)
-                {
-                    if (string.IsNullOrWhiteSpace(op.Name))
-                    {
-                        continue;
-                    }
+        var userAdditional = ParseUserAdditionals();
 
-                    int skill = op.Skill;
-                    if (skill < 1)
-                    {
-                        skill = 1;
-                    }
-                    else if (skill > 3)
-                    {
-                        skill = 3;
-                    }
-
-                    op.Skill = skill;
-                }
-
-                userAdditional = list.Where(op => !string.IsNullOrWhiteSpace(op.Name));
-            }
-            catch
-            {
-                // 兼容旧格式：以 ; 和 , 解析 "name,skill;name,skill" 形式
-                try
-                {
-                    Regex regex = new(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
-                    var matches = regex.Matches(";" + UserAdditional + ";").ToList();
-                    userAdditional = matches.Select(match => {
-                        var name = match.Groups[1].Value.Trim();
-                        var skillStr = match.Groups[2].Value;
-                        int skill = string.IsNullOrEmpty(skillStr) ? 1 : int.Parse(skillStr);
-                        if (skill < 1)
-                        {
-                            skill = 1;
-                        }
-                        else if (skill > 3)
-                        {
-                            skill = 3;
-                        }
-
-                        return new UserAdditional {
-                            Name = name,
-                            Skill = skill,
-                            Module = 0,
-                        };
-                    }).Where(op => !string.IsNullOrWhiteSpace(op.Name));
-                }
-                catch
-                {
-                    userAdditional = [];
-                }
-            }
-        }
-
-        bool ret = true;
+        bool ret;
         try
         {
-            if (UseCopilotList)
-            {
-                _copilotIdList.Clear();
-
-                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i => {
-                    _copilotIdList.Add(i.CopilotId);
-                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = CopilotTabIndex == 2, };
-                });
-
-                var task = new AsstCopilotTask() {
-                    MultiTasks = [.. t],
-                    Formation = Form,
-                    SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
-                    AddTrust = AddTrust,
-                    IgnoreRequirements = IgnoreRequirements,
-                    UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
-                    UseSanityPotion = UseSanityPotion,
-                    FormationIndex = UseFormation ? FormationIndex : 0,
-                };
-
-                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
-                ret = ret && Instances.AsstProxy.AsstStart();
-            }
-            else
-            {
-                if (IsDataFromWeb)
-                {
-                    try
-                    {
-                        await File.WriteAllTextAsync(TempCopilotFile, JsonConvert.SerializeObject(_copilotCache, Formatting.Indented));
-                    }
-                    catch
-                    {
-                        AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + TempCopilotFile, UiLogColor.Error);
-                        Stop();
-                        return;
-                    }
-                }
-
-                var task = new AsstCopilotTask() {
-                    FileName = IsDataFromWeb ? TempCopilotFile : Filename,
-                    Formation = Form,
-                    SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
-                    AddTrust = AddTrust,
-                    IgnoreRequirements = IgnoreRequirements,
-                    UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
-                    LoopTimes = Loop ? LoopTimes : 1,
-                    UseSanityPotion = false,
-                    FormationIndex = UseFormation ? FormationIndex : 0,
-                };
-                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
-                ret = ret && Instances.AsstProxy.AsstStart();
-            }
+            ret = await AppendAndStartCopilotAsync(userAdditional);
         }
         catch (Exception ex)
         {
@@ -1935,10 +1801,230 @@ public partial class CopilotViewModel : Screen
         }
     }
 
-    private bool StartVideoTask()
+    private async Task<bool> ValidateStartAsync()
     {
-        return Instances.AsstProxy.AsstStartVideoRec(Filename);
+        if (UseCopilotList)
+        {
+            // 列表模式：只校验列表本身，不检查输入框里的单文件作业类型
+            return await ValidateTaskListStrictAsync(tabIndex: CopilotTabIndex);
+        }
+
+        // 非列表模式：检查单文件作业的 _taskType 与 CopilotTabIndex 是否匹配
+        if ((_taskType == AsstTaskType.SSSCopilot && CopilotTabIndex != 1) || (_taskType != AsstTaskType.SSSCopilot && CopilotTabIndex == 1))
+        {
+            AddLog(LocalizationHelper.GetString("CopilotTaskTypeMismatch"), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
+        // 非列表模式必须有当前作业（Copilot / SSSCopilot 皆适用）
+        if (_copilotCache is null)
+        {
+            AddLog(LocalizationHelper.GetString("CopilotEmptyError"), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
+        return true;
     }
+
+    private async Task<bool> ValidateTaskListStrictAsync(int tabIndex)
+    {
+        var selected = CopilotItemViewModels.Where(i => i.IsChecked).ToArray();
+
+        // 空列表：提示并失败
+        if (selected.Length == 0)
+        {
+            AddLog(LocalizationHelper.GetString("CopilotStartWithEmptyList"), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
+        // 列表必须严格归属页签：不兼容旧版本缺少 TabIndex 的条目
+        if (selected.Any(i => i.TabIndex is null))
+        {
+            AddLog(LocalizationHelper.GetString("CopilotTaskListLegacyItemNotSupported"), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
+        var tabs = selected.Select(i => i.TabIndex!.Value).Distinct().ToArray();
+        if (tabs.Length > 1)
+        {
+            AddLog(LocalizationHelper.GetString("CopilotTaskListMixedModeNotAllowed"), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
+        var listTab = tabs[0];
+        if (listTab != tabIndex)
+        {
+            AddLog(LocalizationHelper.GetStringFormat(
+                "CopilotTaskListTabMismatch",
+                GetCopilotTabName(tabIndex),
+                GetCopilotTabName(listTab)), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
+        // 先判断 CopilotTabIndex，再判断对应选项
+        if (tabIndex == 2)
+        {
+            return VerifyParadoxTasks(selected);
+        }
+
+        return await VerifyCopilotListTask(selected);
+    }
+
+    private async Task RunStartsWithScriptAsync()
+    {
+        if (!SettingsViewModel.GameSettings.CopilotWithScript)
+        {
+            return;
+        }
+
+        await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript", showLog: false));
+        if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.StartsWithScript))
+        {
+            AddLog(LocalizationHelper.GetString("StartsWithScript"));
+        }
+    }
+
+    private async Task<bool> ConnectToEmulatorAsync()
+    {
+        AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+
+        string errMsg = string.Empty;
+        bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+        if (caught)
+        {
+            return true;
+        }
+
+        AddLog(errMsg, UiLogColor.Error);
+        return false;
+    }
+
+    private IEnumerable<UserAdditional> ParseUserAdditionals()
+    {
+        // 反序列化自定义追加干员列表（JSON），兼容旧格式
+        if (string.IsNullOrWhiteSpace(UserAdditional))
+        {
+            return [];
+        }
+
+        try
+        {
+            var list = JsonConvert.DeserializeObject<List<UserAdditional>>(UserAdditional) ?? [];
+            foreach (var op in list)
+            {
+                if (string.IsNullOrWhiteSpace(op.Name))
+                {
+                    continue;
+                }
+
+                int skill = op.Skill;
+                if (skill < 1)
+                {
+                    skill = 1;
+                }
+                else if (skill > 3)
+                {
+                    skill = 3;
+                }
+
+                op.Skill = skill;
+            }
+
+            return list.Where(op => !string.IsNullOrWhiteSpace(op.Name));
+        }
+        catch
+        {
+            // 兼容旧格式：以 ; 和 , 解析 "name,skill;name,skill" 形式
+            try
+            {
+                Regex regex = new(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
+                var matches = regex.Matches(";" + UserAdditional + ";").ToList();
+                return matches.Select(match => {
+                    var name = match.Groups[1].Value.Trim();
+                    var skillStr = match.Groups[2].Value;
+                    int skill = string.IsNullOrEmpty(skillStr) ? 1 : int.Parse(skillStr);
+                    if (skill < 1)
+                    {
+                        skill = 1;
+                    }
+                    else if (skill > 3)
+                    {
+                        skill = 3;
+                    }
+
+                    return new UserAdditional {
+                        Name = name,
+                        Skill = skill,
+                        Module = 0,
+                    };
+                }).Where(op => !string.IsNullOrWhiteSpace(op.Name));
+            }
+            catch
+            {
+                return [];
+            }
+        }
+    }
+
+    private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
+    {
+        if (UseCopilotList)
+        {
+            _copilotIdList.Clear();
+
+            var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i => {
+                _copilotIdList.Add(i.CopilotId);
+                return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = IsParadoxListItem(i), };
+            });
+
+            var task = new AsstCopilotTask() {
+                MultiTasks = [.. t],
+                Formation = Form,
+                SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                AddTrust = AddTrust,
+                IgnoreRequirements = IgnoreRequirements,
+                UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
+                UseSanityPotion = UseSanityPotion,
+                FormationIndex = UseFormation ? FormationIndex : 0,
+            };
+
+            var ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+            return ret && Instances.AsstProxy.AsstStart();
+        }
+
+        if (IsDataFromWeb)
+        {
+            try
+            {
+                await File.WriteAllTextAsync(TempCopilotFile, JsonConvert.SerializeObject(_copilotCache, Formatting.Indented));
+            }
+            catch
+            {
+                AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + TempCopilotFile, UiLogColor.Error);
+                return false;
+            }
+        }
+
+        var singleTask = new AsstCopilotTask() {
+            FileName = IsDataFromWeb ? TempCopilotFile : Filename,
+            Formation = Form,
+            SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+            AddTrust = AddTrust,
+            IgnoreRequirements = IgnoreRequirements,
+            UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
+            LoopTimes = Loop ? LoopTimes : 1,
+            UseSanityPotion = false,
+            FormationIndex = UseFormation ? FormationIndex : 0,
+        };
+
+        var appended = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, singleTask.Serialize().Params);
+        return appended && Instances.AsstProxy.AsstStart();
+    }
+
+    // private bool StartVideoTask()
+    // {
+    //     return Instances.AsstProxy.AsstStartVideoRec(Filename);
+    // }
 
     /// <summary>
     /// Stops copilot.
@@ -2006,11 +2092,16 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> VerifyCopilotListTask()
     {
-        var copilotItemViewModels = CopilotItemViewModels.Where(i => i.IsChecked).ToArray();
+        return await VerifyCopilotListTask(null);
+    }
+
+    private async Task<bool> VerifyCopilotListTask(IEnumerable<CopilotItemViewModel>? items)
+    {
+        var copilotItemViewModels = (items ?? CopilotItemViewModels.Where(i => i.IsChecked)).ToArray();
         switch (copilotItemViewModels.Length)
         {
             case 0:
-                AddLog(LocalizationHelper.GetString("Copilot.StartWithEmptyList"), UiLogColor.Error, showTime: false);
+                AddLog(LocalizationHelper.GetString("CopilotStartWithEmptyList"), UiLogColor.Error, showTime: false);
                 return false;
             case 1:
                 AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Warning, showTime: false);
@@ -2058,19 +2149,37 @@ public partial class CopilotViewModel : Screen
         return true;
     }
 
-    private bool VerifyParadoxTasks()
+    private bool VerifyParadoxTasks(IEnumerable<CopilotItemViewModel>? items = null)
     {
-        foreach (var task in CopilotItemViewModels.Where(i => i.IsChecked))
+        var ok = true;
+        foreach (var task in items ?? CopilotItemViewModels.Where(i => i.IsChecked))
         {
             if (!DataHelper.Operators.Any(op => op.Value.Name == DataHelper.GetLocalizedCharacterName(task.Name, "zh-cn")))
             {
                 AddLog("illegal oper name: " + task.Name, UiLogColor.Error, showTime: false);
                 _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
+                ok = false;
             }
         }
 
-        return true;
+        return ok;
+    }
+
+    private static bool IsParadoxListItem(CopilotItemViewModel item)
+    {
+        return item.TabIndex == 2;
+    }
+
+    private static string GetCopilotTabName(int tabIndex)
+    {
+        return tabIndex switch {
+            0 => LocalizationHelper.GetString("MainStageStoryCollectionSideStory"),
+            1 => LocalizationHelper.GetString("SSS"),
+            2 => LocalizationHelper.GetString("ParadoxSimulation"),
+            3 => LocalizationHelper.GetString("OtherActivityStage"),
+            _ => tabIndex.ToString(),
+        };
     }
 
     /// <summary>
