@@ -79,6 +79,11 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
 
     fastdeploy::vision::OCRResult ocr_result;
 
+    // 注意：使用 DirectML 时，调试器下会出现大量 _com_error 异常
+    // 不影响程序运行但会导致调试器频繁中断，造成响应停顿
+    // 即使禁用 C++ 的 "_com_error" 异常中断，调试器仍可能频繁中断
+    // 推荐在挂调试器的情况下禁用 GPU 推理
+    // 或等待两轮 Predict 卡个几十秒之后正常运行
     auto start_time = std::chrono::steady_clock::now();
     if (!without_det) {
         m_ocr->Predict(image, &ocr_result);
@@ -87,13 +92,7 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
         std::string rec_text;
         float rec_score = 0;
         m_rec->Predict(image, &rec_text, &rec_score);
-#ifdef ASST_DEBUG
-        // zzyyyl 注: RelWithDebInfo 时 OCR 莫名很卡，简单查了一下发现主要是这里的
-        // _com_error 很多导致的，暂时把 std::move 去掉
-        ocr_result.text.emplace_back(rec_text);
-#else
         ocr_result.text.emplace_back(std::move(rec_text));
-#endif
         ocr_result.rec_scores.emplace_back(rec_score);
     }
 
