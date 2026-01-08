@@ -514,7 +514,7 @@
                         hc:BorderElement.CornerRadius="4,4,0,0"
                         properties:AutoScroll.AutoScroll="True"
                         BorderThickness="1,1,1,0"
-                        DragDrop.Drop="{s:Action CopilotItemIndexChanged}"
+                        DragDrop.Drop="{s:Action SaveCopilotTask}"
                         IsEnabled="{c:Binding StartEnabled}"
                         ItemsSource="{Binding Path=CopilotItemViewModels}"
                         Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
@@ -558,7 +558,7 @@
                                         IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                         MouseRightButtonUp="{s:Action SelectCopilotTask}"
                                         PreviewMouseLeftButtonUp="{s:Action SelectCopilotTask}"
-                                        Tag="{c:Binding Index}" />
+                                        Tag="{Binding}" />
                                     <Button
                                         Grid.Column="2"
                                         Margin="0"
@@ -569,7 +569,7 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Command="{s:Action DeleteCopilotTask}"
-                                        CommandParameter="{c:Binding Index}"
+                                        CommandParameter="{Binding}"
                                         IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
                                 </Grid>
                             </DataTemplate>

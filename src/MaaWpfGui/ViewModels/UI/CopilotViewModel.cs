@@ -124,7 +124,6 @@ public partial class CopilotViewModel : Screen
         var list = JsonConvert.DeserializeObject<List<CopilotItemViewModel>>(copilotTaskList) ?? [];
         for (int i = 0; i < list.Count; i++)
         {
-            list[i].Index = i;
             CopilotItemViewModels.Add(list[i]);
         }
 
@@ -930,9 +929,9 @@ public partial class CopilotViewModel : Screen
     [UsedImplicitly]
     public void SelectCopilotTask(object? sender, MouseButtonEventArgs? e = null)
     {
-        if (e?.Source is FrameworkElement element && element.Tag is int index)
+        if (e?.Source is FrameworkElement element && element.Tag is CopilotItemViewModel item)
         {
-            Filename = CopilotItemViewModels[index].FilePath; // 假设原方法接受int参数
+            Filename = item.FilePath;
             if (e.ChangedButton == MouseButton.Right)
             {
                 UseCopilotList = false;
@@ -942,10 +941,10 @@ public partial class CopilotViewModel : Screen
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void DeleteCopilotTask(int index)
+    public void DeleteCopilotTask(CopilotItemViewModel item)
     {
-        CopilotItemViewModels.RemoveAt(index);
-        CopilotItemIndexChanged();
+        CopilotItemViewModels.Remove(item);
+        SaveCopilotTask();
     }
 
     // UI 绑定的方法
@@ -956,8 +955,7 @@ public partial class CopilotViewModel : Screen
         {
             CopilotItemViewModels.Remove(item);
         }
-
-        CopilotItemIndexChanged();
+        SaveCopilotTask();
     }
 
     // UI 绑定的方法
@@ -1641,20 +1639,20 @@ public partial class CopilotViewModel : Screen
 
             name ??= stageCode;
 
-            var item = new CopilotItemViewModel(name, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
+            var item = new CopilotItemViewModel(name, cachePath, false, copilotId);
             CopilotItemViewModels.Add(item);
         }
         else
         {
             if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal))
             {
-                var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
+                var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId);
                 CopilotItemViewModels.Add(item);
             }
 
             if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid))
             {
-                var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
+                var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId);
                 CopilotItemViewModels.Add(item);
             }
         }
@@ -1691,23 +1689,6 @@ public partial class CopilotViewModel : Screen
                 }
 
                 break;
-            }
-
-            SaveCopilotTask();
-        });
-    }
-
-    /// <summary>
-    /// 更新任务顺序
-    /// UI 绑定的方法
-    /// </summary>
-    [UsedImplicitly]
-    public void CopilotItemIndexChanged()
-    {
-        Execute.OnUIThread(() => {
-            for (int i = 0; i < CopilotItemViewModels.Count; i++)
-            {
-                CopilotItemViewModels[i].Index = i;
             }
 
             SaveCopilotTask();
