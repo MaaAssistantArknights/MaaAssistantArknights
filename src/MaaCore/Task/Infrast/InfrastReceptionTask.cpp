@@ -175,8 +175,8 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
                 if (utils::chars_to_number(ocr_res->text, available) && available == vacancy_cnt) {
                     Rect click_rect = confirm_task->roi.move(confirm_task->rect_move);
                     ctrler()->click(click_rect);
-                    return true;
                 }
+                return true;
             }
         }
     }
