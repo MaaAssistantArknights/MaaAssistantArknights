@@ -298,7 +298,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   통합 전략 노드: 안전가옥
 - `StageEncounterEnter`  
   통합 전략 노드: 우연한 만남/고성의 선물
-- `StageCombatOEnter`  
+- `StageCombatOpsEnter`  
   통합 전략 노드: 일반 작전
 - `StageEmergencyOps`  
   통합 전략 노드: 긴급 작전
