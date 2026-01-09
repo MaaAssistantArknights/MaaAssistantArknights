@@ -141,7 +141,10 @@ bool asst::OcrPack::check_and_load()
 
     int logical = std::max(1u, std::thread::hardware_concurrency());
     int cpu_threads;
-    if (logical <= 4) {
+    if (logical <= 2) {
+        cpu_threads = 1;
+    }
+    else if (logical <= 4) {
         cpu_threads = 2;
     }
     else if (logical <= 12) {
