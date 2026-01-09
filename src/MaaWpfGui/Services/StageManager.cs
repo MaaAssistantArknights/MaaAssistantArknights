@@ -99,10 +99,8 @@ public class StageManager
 
         MergePermanentAndActivityStages(webStages);
 
-        _ = Execute.OnUIThreadAsync(() =>
-        {
-            var growlInfo = new GrowlInfo
-            {
+        _ = Execute.OnUIThreadAsync(() => {
+            var growlInfo = new GrowlInfo {
                 IsCustom = true,
                 Message = LocalizationHelper.GetString("ApiUpdateSuccess"),
                 IconKey = "HangoverGeometry",
@@ -185,8 +183,7 @@ public class StageManager
             return null;
         }
 
-        await Task.Run(() =>
-        {
+        await Task.Run(() => {
             _ = Instances.AsstProxy.LoadResourceWhenIdleAsync();
         });
         return activityJson;
@@ -334,8 +331,7 @@ public class StageManager
                 }
             }
 
-            return new MiniGameEntry
-            {
+            return new MiniGameEntry {
                 Display = finalDisplay,
                 DisplayKey = displayKey,
                 Value = value,
@@ -371,8 +367,7 @@ public class StageManager
         }
 
         // 资源全开放活动
-        return new()
-        {
+        return new() {
             IsResourceCollection = true,
             Tip = resourceCollectionData["Tip"]?.ToString(),
             UtcStartTime = ParseDateTime(resourceCollectionData, "UtcStartTime"),
@@ -556,13 +551,11 @@ public class StageManager
             }
         }
 
-        return new StageInfo
-        {
+        return new StageInfo {
             Display = display,
             Value = value,
             Drop = drop,
-            Activity = new StageActivityInfo
-            {
+            Activity = new StageActivityInfo {
                 Tip = activityToken?["Tip"]?.ToString(),
                 StageName = activityToken?["StageName"]?.ToString(),
                 UtcStartTime = utcStart,
@@ -623,8 +616,7 @@ public class StageManager
         // treat it as an expired activity stage instead of a permanent stage.
         if (!string.IsNullOrEmpty(stage) && Regex.IsMatch(stage, "^[A-Za-z]{2}-\\d{1,2}$"))
         {
-            return new StageInfo
-            {
+            return new StageInfo {
                 Display = stage,
                 Value = stage,
                 Activity = new() { UtcStartTime = DateTime.MinValue, UtcExpireTime = DateTime.MinValue },
@@ -642,12 +634,10 @@ public class StageManager
 
     public void AddUnOpenStage(string stage)
     {
-        _stages.Add(stage, new()
-        {
+        _stages.Add(stage, new() {
             Display = stage,
             Value = stage,
-            Activity = new()
-            {
+            Activity = new() {
                 UtcStartTime = DateTime.MinValue,
                 UtcExpireTime = DateTime.MinValue,
             },
@@ -675,6 +665,7 @@ public class StageManager
         var lines = new List<string>();
         var shownSideStories = new HashSet<string>();
         bool resourceTipShown = false;
+        bool InventoryTipShown = false;
         DateTime now = DateTime.UtcNow;
 
         foreach (var stage in _stages.Values.Where(s => s.IsStageOpen(dayOfWeek)))
@@ -696,9 +687,21 @@ public class StageManager
             }
 
             // Side story Drop item tips
+            if (!InventoryTipShown)
+            {
+                InventoryTipShown = true;
+                lines.Add(LocalizationHelper.GetString("InventoryUpdateTip"));
+            }
             if (!string.IsNullOrEmpty(stage.Drop))
             {
-                lines.Add($"{stage.Value}: {ItemListHelper.GetItemName(stage.Drop)}");
+                var str = $"{stage.Value}: {ItemListHelper.GetItemName(stage.Drop) ?? stage.Drop}";
+                var count = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == stage.Drop)?.Count;
+                if (!string.IsNullOrEmpty(count) && count != "-1")
+                {
+                    str += $" ({LocalizationHelper.GetString("Inventory")} {count})";
+                }
+
+                lines.Add(str);
             }
 
             // Normal stage tips

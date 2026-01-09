@@ -726,6 +726,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LowVersion">版本過低</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低需求: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
+    <system:String x:Key="Inventory">庫存</system:String>
+    <system:String x:Key="InventoryUpdateTip">可逋過{key=Toolbox}-{key=DepotRecognition}更新庫存數據</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
@@ -749,15 +751,15 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LungmenOutskirts">龍門外環</system:String>
     <system:String x:Key="LungmenDowntown">龍門市區</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">今日關卡小提示: </system:String>
-    <system:String x:Key="CETip">CE（龍門幣）</system:String>
-    <system:String x:Key="APTip">AP（紅票）</system:String>
-    <system:String x:Key="CATip">CA（技能）</system:String>
-    <system:String x:Key="LSTip">LS（經驗）</system:String>
-    <system:String x:Key="SKTip">SK（碳）</system:String>
-    <system:String x:Key="PR-ATip">PR-A（奶/盾晶片）</system:String>
-    <system:String x:Key="PR-BTip">PR-B（術/狙晶片）</system:String>
-    <system:String x:Key="PR-CTip">PR-C（先/輔晶片）</system:String>
-    <system:String x:Key="PR-DTip">PR-D（近/特晶片）</system:String>
+    <system:String x:Key="CETip">CE-6: 龍門幣</system:String>
+    <system:String x:Key="APTip">AP-5: 紅票</system:String>
+    <system:String x:Key="CATip">CA-5: 技能</system:String>
+    <system:String x:Key="LSTip">LS-6: 經驗</system:String>
+    <system:String x:Key="SKTip">SK-5: 碳</system:String>
+    <system:String x:Key="PR-ATip">PR-A-1/2: 奶&amp;盾晶片</system:String>
+    <system:String x:Key="PR-BTip">PR-B-1/2: 術&amp;狙晶片</system:String>
+    <system:String x:Key="PR-CTip">PR-C-1/2: 先&amp;輔晶片</system:String>
+    <system:String x:Key="PR-DTip">PR-D-1/2: 近&amp;特晶片</system:String>
     <system:String x:Key="Pormpt1">週一了，可以打剿滅了 ~</system:String>
     <system:String x:Key="Pormpt2">週日了，記得打剿滅喔 ~</system:String>
     <!--  !戰鬥設定  -->
