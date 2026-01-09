@@ -1115,8 +1115,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Trader">節點: 詭意行商</system:String>
     <system:String x:Key="SafeHouse">節點: 安全的角落</system:String>
     <system:String x:Key="FilterTruth">節點: 去偽存真</system:String>
-    <system:String x:Key="CombatDps">關卡: 普通作戰</system:String>
-    <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
+    <system:String x:Key="CombatOps">關卡: 普通作戰</system:String>
+    <system:String x:Key="EmergencyOps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>
     <system:String x:Key="BoskyOmissions">節點: 拾遺</system:String>
     <system:String x:Key="BoskyLegend">節點: 傳說</system:String>

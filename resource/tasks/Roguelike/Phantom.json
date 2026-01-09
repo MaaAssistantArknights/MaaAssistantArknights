@@ -203,16 +203,16 @@
     "Phantom@Roguelike@StageBoons": {
         "templThreshold": 0.85
     },
-    "Phantom@Roguelike@StageCombatDps": {
+    "Phantom@Roguelike@StageCombatOps": {
         "templThreshold": 0.9
     },
-    "Phantom@Roguelike@StageCombatDpsEnter": {},
+    "Phantom@Roguelike@StageCombatOpsEnter": {},
     "Phantom@Roguelike@StageDreadfulFoe": {},
     "Phantom@Roguelike@StageDreadfulFoeEnter": {},
-    "Phantom@Roguelike@StageEmergencyDps": {
+    "Phantom@Roguelike@StageEmergencyOps": {
         "templThreshold": 0.9
     },
-    "Phantom@Roguelike@StageEmergencyDpsEnter": {},
+    "Phantom@Roguelike@StageEmergencyOpsEnter": {},
     "Phantom@Roguelike@StageEncounter": {
         "templThreshold": 0.85
     },
@@ -228,8 +228,8 @@
             "Phantom@Roguelike@StageEncounterOptionFree",
             "Phantom@Roguelike@StageEncounterOptionLeave",
             "Phantom@Roguelike@ChooseOperFlag",
-            "Phantom@Roguelike@StageEmergencyDpsEnter",
-            "Phantom@Roguelike@StageCombatDpsEnter",
+            "Phantom@Roguelike@StageEmergencyOpsEnter",
+            "Phantom@Roguelike@StageCombatOpsEnter",
             "Phantom@Roguelike@CloseEvent",
             "Phantom@Roguelike@StageEncounterOptionUnknown"
         ]
@@ -259,8 +259,8 @@
             "Phantom@Roguelike@CloseInterview",
             "Phantom@Roguelike@DialogSkip",
             "Phantom@Roguelike@DialogTimeout",
-            "Phantom@Roguelike@StageEmergencyDps",
-            "Phantom@Roguelike@StageCombatDps",
+            "Phantom@Roguelike@StageEmergencyOps",
+            "Phantom@Roguelike@StageCombatOps",
             "Phantom@Roguelike@StageEncounter",
             "Phantom@Roguelike@StageBoons",
             "Phantom@Roguelike@StageTrader",
@@ -281,8 +281,8 @@
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEncounter",
             "Phantom@Roguelike@StageBoons",
-            "Phantom@Roguelike@StageCombatDps",
-            "Phantom@Roguelike@StageEmergencyDps",
+            "Phantom@Roguelike@StageCombatOps",
+            "Phantom@Roguelike@StageEmergencyOps",
             "Phantom@Roguelike@StageDreadfulFoe"
         ],
         "onErrorNext": ["Phantom@Roguelike@ExitThenAbandon"]
@@ -295,12 +295,12 @@
             "Phantom@Roguelike@CloseInterview",
             "Phantom@Roguelike@DialogSkip",
             "Phantom@Roguelike@DialogTimeout",
-            "Phantom@Roguelike@StageCombatDps",
+            "Phantom@Roguelike@StageCombatOps",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageBoons",
             "Phantom@Roguelike@StageEncounter",
             "Phantom@Roguelike@StageSafeHouse",
-            "Phantom@Roguelike@StageEmergencyDps",
+            "Phantom@Roguelike@StageEmergencyOps",
             "Phantom@Roguelike@StageDreadfulFoe"
         ],
         "onErrorNext": ["Phantom@Roguelike@ExitThenAbandon"]

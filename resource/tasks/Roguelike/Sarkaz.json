@@ -564,7 +564,7 @@
         "roi": [786, 594, 120, 114],
         "next": ["Sarkaz@Roguelike@StageCanReconstructClose"]
     },
-    "Sarkaz@Roguelike@StageCombatDps": {
+    "Sarkaz@Roguelike@StageCombatOps": {
         "method": "HSVCount",
         "colorScales": [
             [
@@ -575,12 +575,12 @@
         "postDelay": 600,
         "next": [
             "Sarkaz@Roguelike@StageRefresh",
-            "Sarkaz@Roguelike@StageCombatDpsEnter",
-            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
+            "Sarkaz@Roguelike@StageCombatOpsEnter",
+            "Sarkaz@Roguelike@StageEmergencyOpsEnter",
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
-    "Sarkaz@Roguelike@StageCombatDpsEnter": {
+    "Sarkaz@Roguelike@StageCombatOpsEnter": {
         "method": "HSVCount",
         "colorScales": [
             [
@@ -603,8 +603,8 @@
         "next": [
             "Sarkaz@Roguelike@StageDreadfulFoe-5Enter",
             "Sarkaz@Roguelike@StageDreadfulFoeEnter",
-            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
-            "Sarkaz@Roguelike@StageCombatDpsEnter",
+            "Sarkaz@Roguelike@StageEmergencyOpsEnter",
+            "Sarkaz@Roguelike@StageCombatOpsEnter",
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
@@ -612,17 +612,17 @@
         "baseTask": "Sarkaz@Roguelike@StageEnterBattle"
     },
     "Sarkaz@Roguelike@StageDreadfulFoeEnter": {},
-    "Sarkaz@Roguelike@StageEmergencyDps": {
+    "Sarkaz@Roguelike@StageEmergencyOps": {
         "templThreshold": 0.95,
         "postDelay": 600,
         "next": [
             "Sarkaz@Roguelike@StageRefresh",
-            "Sarkaz@Roguelike@StageCombatDpsEnter",
-            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
+            "Sarkaz@Roguelike@StageCombatOpsEnter",
+            "Sarkaz@Roguelike@StageEmergencyOpsEnter",
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
-    "Sarkaz@Roguelike@StageEmergencyDpsEnter": {},
+    "Sarkaz@Roguelike@StageEmergencyOpsEnter": {},
     "Sarkaz@Roguelike@StageEmergencyTransportation": {
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sarkaz@Roguelike@Stage",
@@ -672,8 +672,8 @@
             "Sarkaz@Roguelike@StageEncounterOptionLeave",
             "Sarkaz@Roguelike@StageEncounterOptionWonderland",
             "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
-            "Sarkaz@Roguelike@StageCombatDpsEnter",
+            "Sarkaz@Roguelike@StageEmergencyOpsEnter",
+            "Sarkaz@Roguelike@StageCombatOpsEnter",
             "Sarkaz@Roguelike@CloseEvent",
             "Sarkaz@Roguelike@StageEncounterOptionUnknown"
         ]
@@ -976,8 +976,8 @@
             "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@StageBurdenOperation#next",
             "Sarkaz@Roguelike@StageBoskyPassage",
-            "Sarkaz@Roguelike@StageEmergencyDps",
-            "Sarkaz@Roguelike@StageCombatDps",
+            "Sarkaz@Roguelike@StageEmergencyOps",
+            "Sarkaz@Roguelike@StageCombatOps",
             "Sarkaz@Roguelike@StageSafeHouseHD",
             "Sarkaz@Roguelike@StageSafeHouse",
             "Sarkaz@Roguelike@StageSafeHouseCR",
@@ -1024,8 +1024,8 @@
             "Sarkaz@Roguelike@StageEncounter",
             "Sarkaz@Roguelike@StageWindAndRain",
             "Sarkaz@Roguelike@StageConfrontation",
-            "Sarkaz@Roguelike@StageCombatDps",
-            "Sarkaz@Roguelike@StageEmergencyDps",
+            "Sarkaz@Roguelike@StageCombatOps",
+            "Sarkaz@Roguelike@StageEmergencyOps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
         ],
@@ -1053,7 +1053,7 @@
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@StageBoskyPassage",
-            "Sarkaz@Roguelike@StageCombatDps",
+            "Sarkaz@Roguelike@StageCombatOps",
             "Sarkaz@Roguelike@StageSafeHouseHD",
             "Sarkaz@Roguelike@StageSafeHouse",
             "Sarkaz@Roguelike@StageSafeHouseCR",
@@ -1070,7 +1070,7 @@
             "Sarkaz@Roguelike@StageWindAndRain",
             "Sarkaz@Roguelike@StageEmergencyTransportation",
             "Sarkaz@Roguelike@StageGambling",
-            "Sarkaz@Roguelike@StageEmergencyDps",
+            "Sarkaz@Roguelike@StageEmergencyOps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
         ],
