@@ -532,6 +532,7 @@ public class ToolboxViewModel : Screen
 
         DepotInfo = LocalizationHelper.GetString("IdentificationCompleted");
         SaveDepotDetails(details);
+        Instances.TaskQueueViewModel.UpdateDatePrompt();
 
         return true;
     }

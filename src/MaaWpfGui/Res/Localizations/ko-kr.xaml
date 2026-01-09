@@ -727,6 +727,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LowVersion">낮은 버전</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">최소 요구사항: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">남은 오픈일 수: </system:String>
+    <system:String x:Key="Inventory">재고</system:String>
+    <system:String x:Key="InventoryUpdateTip">재고 데이터는 {key=Toolbox}-{key=DepotRecognition}을 통해 업데이트 가능</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
@@ -750,15 +752,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LungmenOutskirts">용문 외곽</system:String>
     <system:String x:Key="LungmenDowntown">용문 시내</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">오늘 오픈된 스테이지: </system:String>
-    <system:String x:Key="CETip">CE (용문폐)</system:String>
-    <system:String x:Key="APTip">AP (구매증명서)</system:String>
-    <system:String x:Key="CATip">CA (스킬개론)</system:String>
-    <system:String x:Key="LSTip">LS (작전기록)</system:String>
-    <system:String x:Key="SKTip">SK (카본)</system:String>
-    <system:String x:Key="PR-ATip">PR-A (메딕/디펜더 칩)</system:String>
-    <system:String x:Key="PR-BTip">PR-B (캐스터/스나이퍼 칩)</system:String>
-    <system:String x:Key="PR-CTip">PR-C (뱅가드/서포터 칩)</system:String>
-    <system:String x:Key="PR-DTip">PR-D (가드/스페셜리스트 칩)</system:String>
+    <system:String x:Key="CETip">CE-6: 용문폐</system:String>
+    <system:String x:Key="APTip">AP-5: 구매증명서</system:String>
+    <system:String x:Key="CATip">CA-5: 스킬개론</system:String>
+    <system:String x:Key="LSTip">LS-6: 작전기록</system:String>
+    <system:String x:Key="SKTip">SK-5: 카본</system:String>
+    <system:String x:Key="PR-ATip">PR-A-1/2: 메딕&amp;디펜더 칩</system:String>
+    <system:String x:Key="PR-BTip">PR-B-1/2: 캐스터&amp;스나이퍼 칩</system:String>
+    <system:String x:Key="PR-CTip">PR-C-1/2: 뱅가드&amp;서포터 칩</system:String>
+    <system:String x:Key="PR-DTip">PR-D-1/2: 가드&amp;스페셜리스트 칩</system:String>
     <system:String x:Key="Pormpt1">월요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <!--  !작전 설정  -->
