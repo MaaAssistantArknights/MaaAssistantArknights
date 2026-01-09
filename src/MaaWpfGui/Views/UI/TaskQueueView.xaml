@@ -369,18 +369,28 @@
                         IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
                         IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
                 </hc:ButtonGroup>
-                <hc:ScrollViewer
+
+                <Grid
                     Grid.Row="2"
-                    Width="200"
-                    Margin="0,10,10,10"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    PanningMode="Both">
-                    <controls:TextBlock
-                        d:Text="{DynamicResource TodaysStageTip}"
-                        Text="{Binding StagesOfToday}"
-                        TextWrapping="Wrap" />
-                </hc:ScrollViewer>
+                    VerticalAlignment="Bottom">
+                    <hc:ScrollViewer
+                        Width="200"
+                        Margin="0,10,10,10"
+                        PanningMode="Both">
+                        <controls:TextBlock
+                            d:Text="{DynamicResource TodaysStageTip}"
+                            Text="{Binding StagesOfToday}"
+                            TextWrapping="Wrap" />
+                    </hc:ScrollViewer>
+                    <Border Width="200" Margin="0,10,30,10">
+                        <controls:TooltipBlock
+                            NormalOpacity="0.5"
+                            HorizontalAlignment="Right"
+                            VerticalContentAlignment="Top"
+                            TooltipText="{DynamicResource InventoryUpdateTip}" />
+                    </Border>
+                </Grid>
             </Grid>
 
             <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->

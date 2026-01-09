@@ -665,7 +665,6 @@ public class StageManager
         var lines = new List<string>();
         var shownSideStories = new HashSet<string>();
         bool resourceTipShown = false;
-        bool InventoryTipShown = false;
         DateTime now = DateTime.UtcNow;
 
         foreach (var stage in _stages.Values.Where(s => s.IsStageOpen(dayOfWeek)))
@@ -687,11 +686,6 @@ public class StageManager
             }
 
             // Side story Drop item tips
-            if (!InventoryTipShown)
-            {
-                InventoryTipShown = true;
-                lines.Add(LocalizationHelper.GetString("InventoryUpdateTip"));
-            }
             if (!string.IsNullOrEmpty(stage.Drop))
             {
                 var str = $"{stage.Value}: {ItemListHelper.GetItemName(stage.Drop) ?? stage.Drop}";

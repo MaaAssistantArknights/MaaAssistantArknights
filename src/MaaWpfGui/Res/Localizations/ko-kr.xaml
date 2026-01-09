@@ -728,7 +728,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MinimumRequirements" xml:space="preserve">최소 요구사항: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">남은 오픈일 수: </system:String>
     <system:String x:Key="Inventory">재고</system:String>
-    <system:String x:Key="InventoryUpdateTip">재고 데이터는 {key=Toolbox}-{key=DepotRecognition}을 통해 업데이트 가능</system:String>
+    <system:String x:Key="InventoryUpdateTip">재고 데이터는  ｢{key=Toolbox}-{key=DepotRecognition}｣ 을 통해 업데이트 가능</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>

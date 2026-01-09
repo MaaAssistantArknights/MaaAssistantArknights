@@ -727,7 +727,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低需求: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
     <system:String x:Key="Inventory">庫存</system:String>
-    <system:String x:Key="InventoryUpdateTip">可逋過{key=Toolbox}-{key=DepotRecognition}更新庫存數據</system:String>
+    <system:String x:Key="InventoryUpdateTip">可逋過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存數據</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
