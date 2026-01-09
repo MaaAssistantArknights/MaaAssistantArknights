@@ -587,16 +587,15 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 ::::  
 보안 파견 작전 JSON은 [보안 파견 프로토콜](./sss-schema.md)을 참고하세요.
 
-
 - `ParadoxCopilot`
-   自动抄悖论模拟作业
+  패러독스 시뮬레이션 작전 계획 자동 수행
 
 ```json5
 // Task parameters
 {
-   "enable": bool,        // 是否启用本任务。默认为 true
-   "filename": string,    // 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。与 list 二选一（必填）
-   "list" : list<string>  // 作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。与 filename 二选一（必填）
+   "enable": bool,        // 해당 작업의 활성화 여부. 기본값은 true
+   "filename": string,    // 개별 작업 JSON 파일 경로. 절대 경로 및 상대 경로 모두 가능하며, 실행 중 설정은 지원하지 않음. list와 둘 중 하나를 반드시 선택(필수)
+   "list" : list<string>  // 작업 JSON 파일 목록. 절대 경로 및 상대 경로 모두 가능하며, 실행 중 설정은 지원하지 않음. filename과 둘 중 하나를 반드시 선택(필수)
 }
 ```
 
