@@ -298,9 +298,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   肉鸽关卡：安全的角落
 - `StageEncounterEnter`  
   肉鸽关卡：不期而遇/古堡馈赠
-- `StageCombatDpsEnter`  
+- `StageCombatOpsEnter`  
   肉鸽关卡：普通作战
-- `StageEmergencyDps`  
+- `StageEmergencyOps`  
   肉鸽关卡：紧急作战
 - `StageDreadfulFoe`  
   肉鸽关卡：险路恶敌

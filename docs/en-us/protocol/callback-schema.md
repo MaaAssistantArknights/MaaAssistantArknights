@@ -257,9 +257,9 @@ Todo
   Integrated Strategy stage: Safe House
 - `StageEncounterEnter`  
   Integrated Strategy stage: Encounter/Castle Gift
-- `StageCombatDpsEnter`  
+- `StageCombatOpsEnter`  
   Integrated Strategy stage: Combat
-- `StageEmergencyDps`  
+- `StageEmergencyOps`  
   Integrated Strategy stage: Emergency Combat
 - `StageDreadfulFoe`  
   Integrated Strategy stage: Dreadful Foe

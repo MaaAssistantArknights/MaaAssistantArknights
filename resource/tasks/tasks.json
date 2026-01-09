@@ -824,7 +824,8 @@
             ["Miss\\.[Cc]hristine", "Miss.Christine"],
             ["^野.{0,2}$", "野鬃"],
             ["^(“|”|\\\\|\")?斩(“|”|\\\\|\")?$", "“斩”"],
-            ["八.*海铃", "八幡海铃"]
+            ["八.*海铃", "八幡海铃"],
+            [".*英调香师", "撷英调香师"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -967,6 +968,7 @@
     "StartUpThemes": {
         "algorithm": "JustReturn",
         "next": [
+            "BiliBiliNoMorePromptsNextTime",
             "LeidianGoogleFrameworkConfirm",
             "GameStart",
             "StartToWakeUp",
@@ -985,6 +987,22 @@
         "roi": [480, 410, 200, 50],
         "maxTimes": 5,
         "Doc": "用以关闭雷电模拟器启动外服明日方舟时弹出的未安装谷歌套件的提示",
+        "next": ["StartUpThemes#next"]
+    },
+    "BiliBiliNoMorePromptsNextTime": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["该内容不再展示"],
+        "roi": [200, 430, 430, 260],
+        "maxTimes": 5,
+        "Doc": "bilibili 活动的该内容不再展示",
+        "next": ["BiliBiliNoMorePromptsNextTimeClose"]
+    },
+    "BiliBiliNoMorePromptsNextTimeClose": {
+        "action": "ClickSelf",
+        "roi": [930, 120, 150, 150],
+        "maxTimes": 5,
+        "Doc": "bilibili 活动的该内容不再展示右上角的关闭按钮",
         "next": ["StartUpThemes#next"]
     },
     "StartUpBegin": {
@@ -1432,7 +1450,7 @@
     },
     "PRTS1": {
         "template": "BattleOfficiallyBegin.png",
-        "roi": [1165, 20, 65, 65],
+        "roi": [1165, 20, 75, 65],
         "maskRange": [100, 255],
         "postDelay": 5000,
         "next": ["PRTS#next", "OfflineConfirm", "WaitAfterPRTS"]
@@ -2164,6 +2182,7 @@
         "colorScales": [[253, 255]],
         "pureColor": true,
         "roi": [952, 105, 267, 601],
+        "templThreshold": 0.8,
         "next": ["VisitNext", "VisitNext@LoadingText", "VisitNextBlack", "VisitNextOcr"],
         "postDelay": 2000
     },
@@ -2434,7 +2453,7 @@
         "Doc": "干员疲劳、线索收集 是不能一键收获的，所以要先退出一键收获的界面，这里点击的是控制中枢左侧那一片空白的区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [250, 100, 380, 140],
+        "specificRect": [250, 100, 50, 50],
         "next": ["Stop"]
     },
     "InfrastEnterRotation": {
@@ -3090,7 +3109,8 @@
         "roi": [286, 550, 366, 130]
     },
     "BackToReceptionMain": {
-        "algorithm": "JustReturn",
+        "template": "ReceptionFlag.png",
+        "roi": [350, 0, 200, 100],
         "action": "ClickRect",
         "specificRect": [280, 96, 130, 32],
         "postDelay": 2000
@@ -3125,7 +3145,7 @@
         "template": "GetClue2.png",
         "action": "ClickSelf",
         "roi": [800, 600, 480, 120],
-        "next": ["InfrastClueSelfMaybeFull", "ReceptionFlag"]
+        "next": ["BackToReceptionMain"]
     },
     "CloseCluePage": {
         "action": "ClickSelf",
@@ -3152,11 +3172,13 @@
         "next": ["InfrastClueQuickInsertConfirm", "Stop"]
     },
     "InfrastClueQuickInsertConfirm": {
+        "baseTask": "NumberOcrReplace",
         "Doc": "满线索再放",
-        "action": "ClickSelf",
-        "maskRange": [1, 255],
-        "roi": [1200, 610, 80, 40],
-        "rectMove": [-110, 30, 110, 20]
+        "fullMatch": true,
+        "binThreshold": [180, 255],
+        "useRaw": false,
+        "roi": [1250, 615, 28, 28],
+        "rectMove": [-110, 30, 110, 10]
     },
     "InfrastClueQuickSendDuplicates": {
         "Doc": "快速传递重复线索：批量传递重复线索按钮模板占位",
@@ -3803,7 +3825,7 @@
         "roi": [0, 102, 190, 37]
     },
     "BattleOfficiallyBegin": {
-        "roi": [1165, 20, 65, 65],
+        "roi": [1165, 20, 75, 65],
         "maskRange": [100, 255],
         "templThreshold": 0.7
     },
@@ -3832,7 +3854,7 @@
     },
     "BattlePauseCancelCheck": {
         "template": "BattleOfficiallyBegin.png",
-        "roi": [1165, 20, 65, 65],
+        "roi": [1165, 20, 75, 65],
         "maskRange": [100, 255]
     },
     "BattleCancelSelection": {

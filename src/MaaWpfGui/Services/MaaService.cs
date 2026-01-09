@@ -150,14 +150,21 @@ public enum AsstTaskType : byte
     SSSCopilot,
 
     /// <summary>
+    /// 自动战斗-悖论模拟
+    /// </summary>
+    ParadoxCopilot,
+
+    /// <summary>
     /// 单步任务（目前仅支持战斗）
     /// </summary>
     SingleStep,
 
+    /*
     /// <summary>
     /// 视频识别
     /// </summary>
     VideoRecognition,
+    */
 
     /// <summary>
     /// 仓库识别

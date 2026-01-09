@@ -45,6 +45,7 @@
                 <TabControl
                     HorizontalAlignment="Center"
                     BorderThickness="0"
+                    IsEnabled="{Binding Idle}"
                     SelectedIndex="{Binding CopilotTabIndex}"
                     Style="{StaticResource TabControlSliding}">
                     <TabControl.Template>
@@ -514,7 +515,6 @@
                         hc:BorderElement.CornerRadius="4,4,0,0"
                         properties:AutoScroll.AutoScroll="True"
                         BorderThickness="1,1,1,0"
-                        DragDrop.Drop="{s:Action CopilotItemIndexChanged}"
                         IsEnabled="{c:Binding StartEnabled}"
                         ItemsSource="{Binding Path=CopilotItemViewModels}"
                         Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
@@ -667,6 +667,49 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <!--  覆盖层：悬浮窗按钮，绑定到信息流区域右上角（不占布局）  -->
+            <Grid
+                Margin="0,10,0,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Panel.ZIndex="200">
+                <Path
+                    Width="15"
+                    Height="15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Fill="{DynamicResource PrimaryTextBrush}"
+                    IsHitTestVisible="False"
+                    Stretch="Uniform"
+                    StrokeThickness="1">
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Setter Property="Data" Value="{StaticResource CarbonUnlink}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsOverlayEnabled, Source={x:Static helper:Instances.TaskQueueViewModel}}" Value="True">
+                                    <Setter Property="Data" Value="{StaticResource CarbonLink}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                </Path>
+                <Button
+                    Width="27"
+                    Height="27"
+                    Click="{s:Action ToggleOverlay,
+                                     Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                    MouseRightButtonDown="{s:Action ChooseOverlayTarget,
+                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}" />
+                <controls:TooltipBlock
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    MouseLeftButtonDown="{s:Action ToggleOverlay,
+                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                    MouseRightButtonDown="{s:Action ChooseOverlayTarget,
+                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                    NormalOpacity="0.25"
+                    TooltipText="{DynamicResource ProcessPickerToolTip}" />
+            </Grid>
             <hc:ScrollViewer
                 properties:AutoScroll.AutoScroll="True"
                 HorizontalScrollBarVisibility="Disabled"

@@ -1163,15 +1163,15 @@
         "Doc2": "古堡馈赠（随机奖励）",
         "next": ["Roguelike@StageEncounterEnter", "Roguelike@Stages#next"]
     },
-    "Roguelike@StageCombatDps": {
+    "Roguelike@StageCombatOps": {
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@Stage",
         "Doc2": "普通作战",
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
-        "next": ["Roguelike@StageCombatDpsEnter", "Roguelike@StageEmergencyDpsEnter", "Roguelike@Stages#next"]
+        "next": ["Roguelike@StageCombatOpsEnter", "Roguelike@StageEmergencyOpsEnter", "Roguelike@Stages#next"]
     },
-    "Roguelike@StageCombatDpsEnter": {
+    "Roguelike@StageCombatOpsEnter": {
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnterBattle"
@@ -1184,8 +1184,8 @@
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
         "next": [
             "Roguelike@StageDreadfulFoeEnter",
-            "Roguelike@StageEmergencyDpsEnter",
-            "Roguelike@StageCombatDpsEnter",
+            "Roguelike@StageEmergencyOpsEnter",
+            "Roguelike@StageCombatOpsEnter",
             "Roguelike@Stages#next"
         ]
     },
@@ -1194,15 +1194,15 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnterBattle"
     },
-    "Roguelike@StageEmergencyDps": {
+    "Roguelike@StageEmergencyOps": {
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@Stage",
         "Doc2": "紧急作战",
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
-        "next": ["Roguelike@StageEmergencyDpsEnter", "Roguelike@StageCombatDpsEnter", "Roguelike@Stages#next"]
+        "next": ["Roguelike@StageEmergencyOpsEnter", "Roguelike@StageCombatOpsEnter", "Roguelike@Stages#next"]
     },
-    "Roguelike@StageEmergencyDpsEnter": {
+    "Roguelike@StageEmergencyOpsEnter": {
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnterBattle"
@@ -1263,8 +1263,8 @@
         "next": [
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterSpecialClose",
-            "Roguelike@StageCombatDpsEnter",
-            "Roguelike@StageEmergencyDpsEnter",
+            "Roguelike@StageCombatOpsEnter",
+            "Roguelike@StageEmergencyOpsEnter",
             "Roguelike@ClickToDrops"
         ]
     },

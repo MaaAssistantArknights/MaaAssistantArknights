@@ -433,6 +433,50 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">ファントム 推奨構成:
+
+指揮分隊 / 突撃戦術分隊
+前線支援（前衛、補助、医療）
+豊川祥子 / ソーンズ
+
+最高難易度がN3以上の場合、開始時に6★オペレーターを招集できない場合があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">ミヅキ 推奨構成:
+
+人文主義分隊 / 精神論分隊
+攻守一体（重装、術師、狙撃）
+ウィシャデル
+
+1. 人文主義分隊は、箱に強力な6★オペレーターが多数いるユーザーに適しており、精神論分隊は運次第です
+2. 最高難易度がN4以上の場合、6★オペレーターの希望消費が+1になり、精神論分隊は開始時に6★オペレーターを招集できない場合があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">サーミ 推奨構成:
+
+特訓分隊 / 援護戦術分隊
+攻守一体（重装、術師、狙撃）
+ウィシャデル
+
+最高難易度がN6以上の場合、6★オペレーターの希望消費が+1になり、特訓分隊は開始時に6★オペレーターを招集できない場合があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">サルカズ 推奨構成:
+
+位置測定分隊 / 援護戦術分隊
+攻守一体（重装、術師、狙撃）
+ウィシャデル
+
+1. 位置測定分隊：完全回避戦術を採用し、レベルに適しています（攻略を追求しない）
+2. 援護戦術分隊：レベル時に攻略も兼ねるのに適しています
+3. 最高難易度がN15以上の場合、6★オペレーターの希望消費が+1になります。もし「歴史再編」ノードを未解放の場合、位置測定分隊は開始時に6★オペレーターを招集できない可能性があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">界園 推奨構成:
+
+指揮分隊 / 援護戦術分隊
+攻守一体（重装、術師、狙撃）
+ウィシャデル
+
+1. 経験値を取得:
+① 援護戦術分隊を使用
+② 最高難易度がN3以上の場合、『指揮が戦闘を回避する』戦術を採用し、難易度を「MAX」に設定、上級設定で第2層の戦術を有効にするとレベル効率が向上します
+
+2. 源石錐を収集：
+① 最高難易度がN3以上の場合、指揮分隊を使用し、難易度を「MAX」に設定するか、固定難易度を ≤ N3 にしてください（「{key=NotSwitch} (-1)」を選択しないでください）
+② 最高難易度がN3未満の場合は通常通りに周回してください（「MAX」を選択しないでください）</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「界園」に関する知識ノードを解放すると、指揮分隊で N3 以上の難易度で探索を行う際、「時の果て」を追加で携帯し、「一回の戦闘と一回のスキップ」の投資モード戦略を行うことができます。
 この知識ノードをまだ解放していない場合は、N3 以上の難易度（MAX を含む）を選択しないでください。
@@ -682,6 +726,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LowVersion">バージョンの更新が必要</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低バージョン要件: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>
+    <system:String x:Key="Inventory">在庫</system:String>
+    <system:String x:Key="InventoryUpdateTip">在庫データは ｢{key=Toolbox}-{key=DepotRecognition}｣ で更新できます</system:String>
     <system:String x:Key="LessThanOneDay">1日以内</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6(CE-6)</system:String>
@@ -705,15 +751,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LungmenOutskirts">龍門郊外</system:String>
     <system:String x:Key="LungmenDowntown">龍門市街</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">今日のステージのヒント: </system:String>
-    <system:String x:Key="CETip">CE（龍門幣）</system:String>
-    <system:String x:Key="APTip">AP（購買資格証）</system:String>
-    <system:String x:Key="CATip">CA（アーツ学）</system:String>
-    <system:String x:Key="LSTip">LS（作戦記録）</system:String>
-    <system:String x:Key="SKTip">SK（炭素材）</system:String>
-    <system:String x:Key="PR-ATip">PR-A（医療/重装SoC）</system:String>
-    <system:String x:Key="PR-BTip">PR-B（術師/狙撃SoC）</system:String>
-    <system:String x:Key="PR-CTip">PR-C（先鋒/補助SoC）</system:String>
-    <system:String x:Key="PR-DTip">PR-D（前衛/特殊SoC）</system:String>
+    <system:String x:Key="CETip">CE-6：龍門幣</system:String>
+    <system:String x:Key="APTip">AP-5：購買資格証</system:String>
+    <system:String x:Key="CATip">CA-5：アーツ学</system:String>
+    <system:String x:Key="LSTip">LS-6：作戦記録</system:String>
+    <system:String x:Key="SKTip">SK-5：炭素材</system:String>
+    <system:String x:Key="PR-ATip">PR-A-1/2：医療&amp;重装SoC</system:String>
+    <system:String x:Key="PR-BTip">PR-B：術師&amp;狙撃SoC</system:String>
+    <system:String x:Key="PR-CTip">PR-C-1/2：先鋒&amp;補助SoC</system:String>
+    <system:String x:Key="PR-DTip">PR-D-1/2：前衛&amp;特殊SoC</system:String>
     <system:String x:Key="Pormpt1">月曜です。殲滅作戦がリセットされています〜</system:String>
     <system:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか〜</system:String>
     <!--  !戦闘設定  -->
@@ -962,10 +1008,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotStageNameNotFound">{0} が見つからず、ステージ名も指定されていません</system:String>
     <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">ステージ名とナビゲート名が一致しません。ナビゲート名を使用します</system:String>
     <system:String x:Key="CopilotEmptyError">作業が空です</system:String>
+    <system:String x:Key="CopilotStartError">作業の開始に失敗しました：</system:String>
+    <system:String x:Key="CopilotTaskTypeMismatch">選択した作業が現在のタブと一致しません</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">ステージ名が空の作業があります</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">コパイロットタスクをファイルに保存できませんでした: </system:String>
-    <system:String x:Key="Copilot.StartWithEmptyList">タスクなしで「{key=UseCopilotList}」を使用した</system:String>
+    <system:String x:Key="CopilotStartWithEmptyList">タスクなしで「{key=UseCopilotList}」を使用した</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">「{key=UseCopilotList}」を使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
+    <system:String x:Key="CopilotTaskListMixedModeNotAllowed">「{key=UseCopilotList}」を使用中ですが、「{key=MainStageStoryCollectionSideStory}」と「{key=ParadoxSimulation}」を混在させることはできません。対応するタブで別々にリストを作成してから開始してください。</system:String>
+    <system:String x:Key="CopilotTaskListLegacyItemNotSupported">「{key=UseCopilotList}」を使用中ですが、リストに旧バージョンの項目（タブ情報が不足）が含まれています。正しいタブでこれらのタスクを再追加してから開始してください。</system:String>
+    <system:String x:Key="CopilotTaskListTabMismatch">「{key=UseCopilotList}」を使用中です。現在のタブは「{0}」ですが、リストは「{1}」のものです。対応するタブに切り替えてから開始してください。</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
@@ -1069,8 +1120,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Trader">ステージ: 怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ: 安全な片隅</system:String>
     <system:String x:Key="FilterTruth">ステージ: 真実の選別</system:String>
-    <system:String x:Key="CombatDps">ステージ: 通常作戦</system:String>
-    <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
+    <system:String x:Key="CombatOps">ステージ: 通常作戦</system:String>
+    <system:String x:Key="EmergencyOps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="BoskyOmissions">スポット: 拾遺</system:String>
     <system:String x:Key="BoskyLegend">スポット: 伝説</system:String>
@@ -1303,6 +1354,7 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
 MAA を複数開くには、新しい MAA を他のフォルダにコピーし、異なる MAA、同じ adb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">現在のソフトウェアの場所ではデータを保存できません。設定が失われるか、実行時に問題が発生する可能性があります。書き込み可能なディレクトリに移動してください。システム保護ディレクトリ（Program Files、System32、Windows ディレクトリなど）には配置しないでください。</system:String>
+    <system:String x:Key="RunningInTempDirectoryError">MAA はアーカイブまたはシステムの一時ディレクトリから実行できません。MAA をアーカイブから完全に解凍するか、通常のフォルダに移動してから実行してください。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">暗号化と復号化に失敗しました。関連設定を再設定してください。そうでないと、暗号化された内容は設定ファイルに平文で保存されます。</system:String>

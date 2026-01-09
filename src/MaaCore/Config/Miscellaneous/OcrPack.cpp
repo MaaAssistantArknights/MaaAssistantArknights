@@ -1,6 +1,8 @@
 #include "OcrPack.h"
 
+#include <algorithm>
 #include <filesystem>
+#include <thread>
 
 #include "MaaUtils/NoWarningCV.hpp"
 MAA_SUPPRESS_CV_WARNINGS_BEGIN
@@ -77,6 +79,11 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
 
     fastdeploy::vision::OCRResult ocr_result;
 
+    // 注意：使用 DirectML 时，调试器下会出现大量 _com_error 异常
+    // 不影响程序运行但会导致调试器频繁中断，造成响应停顿
+    // 即使禁用 C++ 的 "_com_error" 异常中断，调试器仍可能频繁中断
+    // 推荐在挂调试器的情况下禁用 GPU 推理
+    // 或等待两轮 Predict 卡个几十秒之后正常运行
     auto start_time = std::chrono::steady_clock::now();
     if (!without_det) {
         m_ocr->Predict(image, &ocr_result);
@@ -85,13 +92,7 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
         std::string rec_text;
         float rec_score = 0;
         m_rec->Predict(image, &rec_text, &rec_score);
-#ifdef ASST_DEBUG
-        // zzyyyl 注: RelWithDebInfo 时 OCR 莫名很卡，简单查了一下发现主要是这里的
-        // _com_error 很多导致的，暂时把 std::move 去掉
-        ocr_result.text.emplace_back(rec_text);
-#else
         ocr_result.text.emplace_back(std::move(rec_text));
-#endif
         ocr_result.rec_scores.emplace_back(rec_score);
     }
 
@@ -138,6 +139,21 @@ bool asst::OcrPack::check_and_load()
 
     LogTraceFunction;
 
+    int logical = std::max(1u, std::thread::hardware_concurrency());
+    int cpu_threads;
+    if (logical <= 2) {
+        cpu_threads = 1;
+    }
+    else if (logical <= 4) {
+        cpu_threads = 2;
+    }
+    else if (logical <= 12) {
+        cpu_threads = 3;
+    }
+    else {
+        cpu_threads = 4;
+    }
+
     fastdeploy::RuntimeOption det_option;
     fastdeploy::RuntimeOption rec_option;
     det_option.UseOrtBackend();
@@ -148,15 +164,30 @@ bool asst::OcrPack::check_and_load()
         det_option.UseDirectML(*m_gpu_id);
         rec_option.UseDirectML(*m_gpu_id);
     }
+    else {
+        // CPU 模式下限制线程数，避免过高的 CPU 占用
+        det_option.SetCpuThreadNum(cpu_threads);
+        rec_option.SetCpuThreadNum(cpu_threads);
+        Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
+    }
 #elif defined(__APPLE__)
+    // rec 结果不对，先禁用
+    // maafw那边用户反馈，det 貌似也不怎么对，疑似 coreml 丢精度了，拉倒
     // https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/providers/coreml/coreml_provider_factory.h
     // COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE
-    det_option.UseCoreML(0x004);
-    // rec 结果不对，先禁用
+    // det_option.UseCoreML(0x004);
+    // rec_option.UseCoreML(0x004);
+    det_option.UseCpu();
     rec_option.UseCpu();
+    det_option.SetCpuThreadNum(cpu_threads);
+    rec_option.SetCpuThreadNum(cpu_threads);
+    Log.info("FastDeploy macOS mode with rec", cpu_threads, "CPU threads");
 #else
     det_option.UseCpu();
     rec_option.UseCpu();
+    det_option.SetCpuThreadNum(cpu_threads);
+    rec_option.SetCpuThreadNum(cpu_threads);
+    Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
 #endif
 
     m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(

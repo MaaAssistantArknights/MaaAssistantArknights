@@ -903,6 +903,7 @@ public class TaskQueueViewModel : Screen
         if (Instances.VersionUpdateViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
         {
             taskList.Add("Custom");
+            CanShowAutoReload = true;
         }
 
         var tempOrderList = new List<DragItemViewModel?>(new DragItemViewModel[taskList.Count]);
@@ -1476,6 +1477,22 @@ public class TaskQueueViewModel : Screen
         {
             rvm.TaskProgress = (MainTasksCompletedCount, MainTasksSelectedCount);
         }
+    }
+
+    private bool _canShowAutoReload;
+
+    public bool CanShowAutoReload
+    {
+        get => _canShowAutoReload;
+        set => SetAndNotify(ref _canShowAutoReload, value);
+    }
+
+    private bool _enableAutoReload;
+
+    public bool EnableAutoReload
+    {
+        get => _enableAutoReload;
+        set => SetAndNotify(ref _enableAutoReload, value);
     }
 
     private DateTime? _taskStartTime;
