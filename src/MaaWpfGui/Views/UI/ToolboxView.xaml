@@ -389,6 +389,7 @@
                 </StackPanel>
             </Grid>
         </TabItem>
+        <!--
         <TabItem Header="{DynamicResource VideoRecognition}" Visibility="Collapsed">
             <controls:TextBlock
                 Height="80"
@@ -401,6 +402,7 @@
                 Text="{DynamicResource VideoRecognitionTips}"
                 TextWrapping="Wrap" />
         </TabItem>
+        -->
         <TabItem Header="{DynamicResource Gacha}">
             <Grid Margin="20,0,20,0">
                 <Grid.RowDefinitions>

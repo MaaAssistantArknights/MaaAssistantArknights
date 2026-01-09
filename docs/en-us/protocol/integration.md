@@ -321,8 +321,7 @@ For specific information about the Collapsal Paradigm farming feature, please re
         {
             "filename": string,   // Path to the job JSON file. Both relative and absolute paths are supported.
             "stage_name": string, // Stage name. Refer to [PRTS.Map](https://map.ark-nights.com) for details.
-            "is_raid": bool,      // Whether to switch to Challenge Mode (Raid), optional, default false.
-            "is_paradox": bool    // Whether this is a Paradox Simulation stage, optional, default false; experimental parameter.
+            "is_raid": bool       // Whether to switch to Challenge Mode (Raid), optional, default false.
         },
         ...
     ],
@@ -363,6 +362,18 @@ For more details about auto-combat JSON, please refer to [Combat Operation Proto
 ```
 
 For more details about Stationary Security Service JSON, please refer to [SSS Schema](./sss-schema.md)
+
+- `ParadoxCopilot`
+   Automatically run Paradox Simulation operations
+
+```json5
+// Task parameters
+{
+   "enable": bool,        // Whether to enable this task. Optional, default is true
+   "filename": string,    // File path of a single operation JSON, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with list (required, choose one)
+   "list" : list<string>  // List of operation JSON files, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with filename (required, choose one)
+}
+```
 
 - `Depot`
   Depot recognition

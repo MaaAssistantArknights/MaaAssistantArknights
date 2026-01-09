@@ -321,10 +321,10 @@
     "Mizuki@Roguelike@StageBoons": {
         "templThreshold": 0.95
     },
-    "Mizuki@Roguelike@StageCombatDps": {
+    "Mizuki@Roguelike@StageCombatOps": {
         "templThreshold": 0.95
     },
-    "Mizuki@Roguelike@StageCombatDpsEnter": {},
+    "Mizuki@Roguelike@StageCombatOpsEnter": {},
     "Mizuki@Roguelike@StageDreadfulFoe": {},
     "Mizuki@Roguelike@StageDreadfulFoe-5": {
         "baseTask": "Mizuki@Roguelike@Stage",
@@ -333,8 +333,8 @@
         "next": [
             "Mizuki@Roguelike@StageDreadfulFoe-5Enter",
             "Mizuki@Roguelike@StageDreadfulFoeEnter",
-            "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@StageCombatDpsEnter",
+            "Mizuki@Roguelike@StageEmergencyOpsEnter",
+            "Mizuki@Roguelike@StageCombatOpsEnter",
             "Mizuki@Roguelike@Stages#next"
         ]
     },
@@ -342,10 +342,10 @@
         "baseTask": "Mizuki@Roguelike@StageEnterBattle"
     },
     "Mizuki@Roguelike@StageDreadfulFoeEnter": {},
-    "Mizuki@Roguelike@StageEmergencyDps": {
+    "Mizuki@Roguelike@StageEmergencyOps": {
         "templThreshold": 0.95
     },
-    "Mizuki@Roguelike@StageEmergencyDpsEnter": {},
+    "Mizuki@Roguelike@StageEmergencyOpsEnter": {},
     "Mizuki@Roguelike@StageEmergencyTransportation": {
         "Doc": "紧急运输，拒绝可以获取3希望",
         "baseTask": "Mizuki@Roguelike@Stage",
@@ -374,8 +374,8 @@
             "Mizuki@Roguelike@StageEncounterOptionLeave",
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
             "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@StageCombatDpsEnter",
+            "Mizuki@Roguelike@StageEmergencyOpsEnter",
+            "Mizuki@Roguelike@StageCombatOpsEnter",
             "Mizuki@Roguelike@CloseEvent",
             "Mizuki@Roguelike@StageEncounterOptionUnknown"
         ]
@@ -433,8 +433,8 @@
         "next": [
             "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@CommissionedMissionCompleted",
-            "Mizuki@Roguelike@StageEmergencyDps",
-            "Mizuki@Roguelike@StageCombatDps",
+            "Mizuki@Roguelike@StageEmergencyOps",
+            "Mizuki@Roguelike@StageCombatOps",
             "Mizuki@Roguelike@StageEncounter",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageBoons",
@@ -464,8 +464,8 @@
             "Mizuki@Roguelike@StageEncounter",
             "Mizuki@Roguelike@StageBoons",
             "Mizuki@Roguelike@StageGambling",
-            "Mizuki@Roguelike@StageCombatDps",
-            "Mizuki@Roguelike@StageEmergencyDps",
+            "Mizuki@Roguelike@StageCombatOps",
+            "Mizuki@Roguelike@StageEmergencyOps",
             "Mizuki@Roguelike@StageDreadfulFoe",
             "Mizuki@Roguelike@StageDreadfulFoe-5",
             "Mizuki@Roguelike@StageRegionalCommissioning",
@@ -481,14 +481,14 @@
         "next": [
             "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@CommissionedMissionCompleted",
-            "Mizuki@Roguelike@StageCombatDps",
+            "Mizuki@Roguelike@StageCombatOps",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageEncounter",
             "Mizuki@Roguelike@StageBoons",
             "Mizuki@Roguelike@StageWindAndRain",
             "Mizuki@Roguelike@StageEmergencyTransportation",
-            "Mizuki@Roguelike@StageEmergencyDps",
+            "Mizuki@Roguelike@StageEmergencyOps",
             "Mizuki@Roguelike@StageDreadfulFoe",
             "Mizuki@Roguelike@StageDreadfulFoe-5",
             "Mizuki@Roguelike@StageRegionalCommissioning",

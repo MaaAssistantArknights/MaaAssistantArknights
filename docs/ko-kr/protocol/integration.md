@@ -523,8 +523,6 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 - `stage_name`: 스테이지명, 구체적인 건 [PRTS.Map](https://map.ark-nights.com) 참고
   <br>
 - `is_raid`: 하드 모드 전환 여부, 선택 사항, 기본값 false
-  <br>
-- `is_paradox`: 패러독스 시뮬레이션 여부, 선택 사항, 기본값 false; 테스트 중인 파라미터
   :::  
   ::: field name="loop_times" type="number" optional default="1"  
   반복 횟수. 단일 작전 모드(filename 지정)에서만 유효; 이 파라미터 유효 시 set_params는 1회만 실행 가능  
@@ -588,6 +586,18 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 :::  
 ::::  
 보안 파견 작전 JSON은 [보안 파견 프로토콜](./sss-schema.md)을 참고하세요.
+
+- `ParadoxCopilot`
+  패러독스 시뮬레이션 작전 계획 자동 수행
+
+```json5
+// Task parameters
+{
+   "enable": bool,        // 해당 작업의 활성화 여부. 기본값은 true
+   "filename": string,    // 개별 작업 JSON 파일 경로. 절대 경로 및 상대 경로 모두 가능하며, 실행 중 설정은 지원하지 않음. list와 둘 중 하나를 반드시 선택(필수)
+   "list" : list<string>  // 작업 JSON 파일 목록. 절대 경로 및 상대 경로 모두 가능하며, 실행 중 설정은 지원하지 않음. filename과 둘 중 하나를 반드시 선택(필수)
+}
+```
 
 - `Depot`  
    창고 인식

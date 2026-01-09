@@ -995,7 +995,7 @@ public class AsstProxy
                 }
         }
 
-        bool isCopilotTaskChain = taskChain is "Copilot" or "SSSCopilot" or "VideoRecognition";
+        bool isCopilotTaskChain = taskChain is "Copilot" or "SSSCopilot"; /* or "VideoRecognition"; */
 
         switch (msg)
         {
@@ -1019,7 +1019,7 @@ public class AsstProxy
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                     }
-                    else if (value is { Type: TaskType.Copilot } or { Type: TaskType.VideoRec })
+                    else if (value is { Type: TaskType.Copilot }) /* or { Type: TaskType.VideoRec }) */
                     {
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
@@ -1050,7 +1050,7 @@ public class AsstProxy
                     TaskStatusUpdate(taskId, TaskStatus.InProgress);
 
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
-                    Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot" or "VideoRecognition")
+                    Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot") /* or "VideoRecognition") */
                         ? Instances.CopilotViewModel.LogItemViewModels
                         : Instances.TaskQueueViewModel.LogItemViewModels;
 
@@ -1557,12 +1557,12 @@ public class AsstProxy
                         // case "StageBoonsEnter":
                         //    Instances.TaskQueueViewModel.AddLog("古堡馈赠");
                         //    break;
-                        case "StageCombatDps":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatDps"), UiLogColor.CombatIS);
+                        case "StageCombatOps":
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatOps"), UiLogColor.CombatIS);
                             break;
 
-                        case "StageEmergencyDps":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmergencyDps"), UiLogColor.EmergencyIS);
+                        case "StageEmergencyOps":
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmergencyOps"), UiLogColor.EmergencyIS);
                             break;
 
                         case "StageDreadfulFoe":
@@ -1710,9 +1710,11 @@ public class AsstProxy
                 ProcRecruitCalcMsg(details);
                 break;
 
+            /*
             case "VideoRecognition":
                 ProcVideoRecMsg(details);
                 break;
+            */
         }
 
         var subTaskDetails = details["details"];
@@ -2240,7 +2242,11 @@ public class AsstProxy
         try
         {
             success = await GameDataReportService.PostWithRetryAsync(url, content, headers, subTask, penguinId => {
-                SettingsViewModel.GameSettings.PenguinId = penguinId;
+                if (string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.PenguinId))
+                {
+                    SettingsViewModel.GameSettings.PenguinId = penguinId;
+                }
+
                 _logger.Information("New PenguinId got: {PenguinId}", penguinId);
             });
         }
@@ -2264,8 +2270,6 @@ public class AsstProxy
     {
         return MaaService.AsstSetStaticOption(key, value);
     }
-
-    private static readonly bool _forcedReloadResource = Instances.VersionUpdateViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
     /// <summary>
     /// 使用 TCP 或 adb devices 命令检查连接。TCP 检测相比 adb devices 更快，但不支持实体机。
@@ -2362,7 +2366,7 @@ public class AsstProxy
             else
             {
                 _logger.Information("Already connected to {ConnectedAdb} {ConnectedAddress}", _connectedAdb, _connectedAddress);
-                if (!_forcedReloadResource)
+                if (!Instances.TaskQueueViewModel.EnableAutoReload)
                 {
                     return true;
                 }
@@ -2480,6 +2484,9 @@ public class AsstProxy
         return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
     }
 
+    /// <summary>
+    /// WPF 区分任务的类型
+    /// </summary>
     public enum TaskType
     {
         /// <summary>开始唤醒</summary>
@@ -2518,8 +2525,10 @@ public class AsstProxy
         /// <summary>自动战斗</summary>
         Copilot,
 
+        /*
         /// <summary>视频识别（真有人用吗）</summary>
         VideoRec,
+        */
 
         /// <summary>仓库识别</summary>
         Depot,
@@ -2657,6 +2666,7 @@ public class AsstProxy
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
     }
 
+    /*
     /// <summary>
     /// 视频识别。
     /// </summary>
@@ -2671,6 +2681,7 @@ public class AsstProxy
         _tasksStatus.Add(id, (TaskType.Copilot, TaskStatus.Idle));
         return id != 0 && AsstStart();
     }
+    */
 
     public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstBaseTask task)
     {

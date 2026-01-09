@@ -1,6 +1,6 @@
 #include "CopilotTask.h"
 
-#include <boost/regex.hpp>
+#include "Arknights-Tile-Pos/TileCalc2.hpp"
 
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
@@ -8,17 +8,13 @@
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/Miscellaneous/MultiCopilotTaskPlugin.h"
-#include "Task/Miscellaneous/ParadoxRecognitionTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 
-#include "Arknights-Tile-Pos/TileCalc2.hpp"
-
 asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
     m_multi_copilot_plugin_ptr(std::make_shared<MultiCopilotTaskPlugin>(callback, inst, TaskType)),
-    m_paradox_task_ptr(std::make_shared<ParadoxRecognitionTask>(callback, inst, TaskType)),
     m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType)),
     m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, inst, TaskType)),
     m_stop_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
@@ -27,7 +23,6 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
 
     m_multi_copilot_plugin_ptr->set_retry_times(0);
     m_multi_copilot_plugin_ptr->set_battle_task_ptr(m_battle_task_ptr);
-    m_multi_copilot_plugin_ptr->set_paradox_task_ptr(m_paradox_task_ptr);
     m_subtasks.emplace_back(m_multi_copilot_plugin_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
@@ -41,7 +36,6 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_medicine_task_ptr);
 
     m_subtasks.emplace_back(m_formation_task_ptr)->set_retry_times(0);
-    m_subtasks.emplace_back(m_paradox_task_ptr);
 
     auto start_2_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_2_tp->set_tasks({ "BattleStartAll" }).set_retry_times(3).set_ignore_error(false);
@@ -99,7 +93,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
 
     auto filename_opt = params.find<std::string>("filename");
-    auto multi_tasks_opt = params.find<json::value>("copilot_list"); // 多任务列表
+    auto multi_tasks_opt = params.find<json::array>("copilot_list"); // 多任务列表
     if (!filename_opt && !multi_tasks_opt) {
         Log.error("CopilotTask set_params failed, stage_name or filename not found");
         return false;
@@ -110,20 +104,13 @@ bool asst::CopilotTask::set_params(const json::value& params)
         m_battle_task_ptr->set_wait_until_end(false);
         auto copilot_opt = parse_copilot_filename(*filename_opt);
         m_stage_name = Copilot.get_stage_name();
-        // 单个悖论走正常流程，不用导航
-        m_paradox_task_ptr->set_enable(false);
-        if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
-            Log.error("Not support stage");
-            return false;
-        }
     }
     else if (multi_tasks_opt) {
         m_multi_copilot_plugin_ptr->set_enable(true); // 启用多任务插件, 自动覆盖Copilot中的配置
         m_battle_task_ptr->set_wait_until_end(true);
         auto configs = static_cast<std::vector<MultiCopilotConfig>>(*multi_tasks_opt);
         std::vector<MultiCopilotTaskPlugin::MultiCopilotConfig> configs_cvt;
-
-        for (const auto& [filename, stage_name, is_raid, is_paradox] : configs) {
+        for (const auto& [filename, stage_name, is_raid] : configs) {
             MultiCopilotTaskPlugin::MultiCopilotConfig config_cvt;
             auto copilot_opt = parse_copilot_filename(filename);
             if (!copilot_opt) {
@@ -136,8 +123,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
             config_cvt.copilot_file = *copilot_opt;
             config_cvt.nav_name = stage_name;
             config_cvt.is_raid = is_raid;
-            config_cvt.is_paradox = is_paradox;
-            m_paradox_task_ptr->set_enable(is_paradox);
             configs_cvt.emplace_back(std::move(config_cvt));
         }
 
@@ -151,6 +136,16 @@ bool asst::CopilotTask::set_params(const json::value& params)
         }
         m_multi_copilot_plugin_ptr->set_multi_copilot_config(std::move(configs_cvt));
         m_has_subtasks_duplicate = true;
+
+        for (const auto& obj : *multi_tasks_opt) {
+            if (obj.contains("is_paradox")) {
+                Log.error("================  !DEPRECATED!  ================");
+                LogError << "`is_paradox` has been deprecated since v6.1.2;";
+                LogError << "Please use 'ParadoxCopilotTask' for paradox copilot;";
+                Log.error("================  !DEPRECATED!  ================");
+                return false;
+            }
+        }
     }
 
     m_medicine_task_ptr->set_enable(use_sanity_potion);

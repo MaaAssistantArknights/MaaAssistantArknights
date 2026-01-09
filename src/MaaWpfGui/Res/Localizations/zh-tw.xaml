@@ -433,8 +433,52 @@
     <system:String x:Key="RoguelikeThemeSami">薩米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">薩卡茲</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">傀影推薦配置：
+
+指揮分隊 / 突擊戰術分隊
+取長補短（近衛、輔助、醫療）
+豐川祥子 / 棘刺
+
+當最高難度 ≥ N3 時，可能無法在開局招募 6★ 幹員</system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">水月推薦配置：
+
+以人為本分隊 / 心勝於物分隊
+穩紮穩打（重裝、術師、狙擊）
+維什戴爾
+
+1. 以人為本分隊適合 box 裡強力 6★ 幹員較多的用戶，心勝於物分隊則是看運氣
+2. 當最高難度 ≥ N4 時，6★ 幹員希望消耗 +1，心勝於物分隊可能無法在開局招募 6★ 幹員</system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">薩米推薦配置：
+
+特訓分隊 / 遠程戰術分隊
+穩紮穩打（重裝、術師、狙擊）
+維什戴爾
+
+當最高難度 ≥ N6 時，6★ 幹員希望消耗 +1，特訓分隊可能無法在開局招募 6★ 幹員</system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">薩卡茲推薦配置：
+
+藍圖測繪分隊 / 遠程戰術分隊
+穩紮穩打（重裝、術師、狙擊）
+維什戴爾
+
+1. 藍圖測繪分隊：完全採用避戰策略，適合快速刷等級，不追求通關
+2. 遠程戰術分隊：適合刷等級時，兼顧通關
+3. 當最高難度 ≥ N15 時，6★ 幹員希望消耗 +1，若未點滿【歷史重構】科技樹，藍圖測繪分隊可能無法招募開局 6★ 幹員</system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">界園推薦配置：
+
+指揮分隊 / 遠程戰術分隊
+穩紮穩打（重裝、術師、狙擊）
+維什戴爾
+
+1. 刷等級：
+①使用遠程戰術分隊
+②當最高難度 ≥ N3 時，採用「指揮避戰」，難度選擇 ｢MAX｣，高級設定進入第二層策略，刷等級效率更高
+
+2. 刷源石錠：
+①當最高難度 ≥ N3 時，使用指揮分隊，難度選擇 ｢MAX｣，或固定難度 ≤ N3（請勿選擇 ｢{key=NotSwitch (-1)}｣）
+②當最高難度 ＜ N3 時，正常刷取（請勿選擇 ｢MAX｣ 难度）</system:String>
     <system:String x:Key="RoguelikeDifficulty">難度</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解鎖 ｢界園｣ 相關科技後，指揮分隊在進行 N3 及以上難度 的探索時，會額外攜帶一個 ｢時光之末｣，可利用其進行 ｢一戰一跳｣ 的存錢策略。
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解鎖 ｢界園｣ 相關科技後，指揮分隊在進行 N3 及以上難度的探索時，會額外攜帶一個 ｢時光之末｣，可利用其進行 ｢一戰一跳｣ 的存錢策略。
 若尚未解鎖該科技，請不要選擇 N3 及以上難度（包括 ｢MAX｣）進行探索；
 若希望啟用此機制，請確保選擇的難度為 N3 及以上（不包括 ｢{key=NotSwitch (-1)}｣）。</system:String>
     <system:String x:Key="Strategy">策略</system:String>
@@ -682,6 +726,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LowVersion">版本過低</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低需求: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
+    <system:String x:Key="Inventory">庫存</system:String>
+    <system:String x:Key="InventoryUpdateTip">可逋過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存數據</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
@@ -705,15 +751,15 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LungmenOutskirts">龍門外環</system:String>
     <system:String x:Key="LungmenDowntown">龍門市區</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">今日關卡小提示: </system:String>
-    <system:String x:Key="CETip">CE（龍門幣）</system:String>
-    <system:String x:Key="APTip">AP（紅票）</system:String>
-    <system:String x:Key="CATip">CA（技能）</system:String>
-    <system:String x:Key="LSTip">LS（經驗）</system:String>
-    <system:String x:Key="SKTip">SK（碳）</system:String>
-    <system:String x:Key="PR-ATip">PR-A（奶/盾晶片）</system:String>
-    <system:String x:Key="PR-BTip">PR-B（術/狙晶片）</system:String>
-    <system:String x:Key="PR-CTip">PR-C（先/輔晶片）</system:String>
-    <system:String x:Key="PR-DTip">PR-D（近/特晶片）</system:String>
+    <system:String x:Key="CETip">CE-6: 龍門幣</system:String>
+    <system:String x:Key="APTip">AP-5: 紅票</system:String>
+    <system:String x:Key="CATip">CA-5: 技能</system:String>
+    <system:String x:Key="LSTip">LS-6: 經驗</system:String>
+    <system:String x:Key="SKTip">SK-5: 碳</system:String>
+    <system:String x:Key="PR-ATip">PR-A-1/2: 奶&amp;盾晶片</system:String>
+    <system:String x:Key="PR-BTip">PR-B-1/2: 術&amp;狙晶片</system:String>
+    <system:String x:Key="PR-CTip">PR-C-1/2: 先&amp;輔晶片</system:String>
+    <system:String x:Key="PR-DTip">PR-D-1/2: 近&amp;特晶片</system:String>
     <system:String x:Key="Pormpt1">週一了，可以打剿滅了 ~</system:String>
     <system:String x:Key="Pormpt2">週日了，記得打剿滅喔 ~</system:String>
     <!--  !戰鬥設定  -->
@@ -962,10 +1008,15 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotStageNameNotFound">{0} 未找到，且未指定關卡名稱</system:String>
     <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">關卡名稱與導航名稱不一致，已使用導航名稱</system:String>
     <system:String x:Key="CopilotEmptyError">作業為空</system:String>
+    <system:String x:Key="CopilotStartError">啟動作業失敗：</system:String>
+    <system:String x:Key="CopilotTaskTypeMismatch">目前選擇的作業與標籤頁不符</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">存在關卡名稱為空的作業</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">無法儲存作業檔案到: </system:String>
-    <system:String x:Key="Copilot.StartWithEmptyList">正在使用 ｢{key=UseCopilotList}｣, 但未新增任何作業</system:String>
+    <system:String x:Key="CopilotStartWithEmptyList">正在使用 ｢{key=UseCopilotList}｣, 但未新增任何作業</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">正在使用 ｢{key=UseCopilotList}｣ 執行單一作業，不推薦此行為。單一作業請直接執行。</system:String>
+    <system:String x:Key="CopilotTaskListMixedModeNotAllowed">正在使用 ｢{key=UseCopilotList}｣，但不允許混用「{key=MainStageStoryCollectionSideStory}」與「{key=ParadoxSimulation}」，請分別在對應標籤頁建立列表後再啟動</system:String>
+    <system:String x:Key="CopilotTaskListLegacyItemNotSupported">正在使用 ｢{key=UseCopilotList}｣，但列表包含舊版本條目（缺少標籤頁資訊），請在正確的標籤頁重新新增這些作業後再啟動</system:String>
+    <system:String x:Key="CopilotTaskListTabMismatch">正在使用 ｢{key=UseCopilotList}｣，目前標籤頁為「{0}」，但列表來自「{1}」，請切換到對應標籤頁後再啟動</system:String>
     <!--  !日誌  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
@@ -1069,8 +1120,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Trader">節點: 詭意行商</system:String>
     <system:String x:Key="SafeHouse">節點: 安全的角落</system:String>
     <system:String x:Key="FilterTruth">節點: 去偽存真</system:String>
-    <system:String x:Key="CombatDps">關卡: 普通作戰</system:String>
-    <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
+    <system:String x:Key="CombatOps">關卡: 普通作戰</system:String>
+    <system:String x:Key="EmergencyOps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>
     <system:String x:Key="BoskyOmissions">節點: 拾遺</system:String>
     <system:String x:Key="BoskyLegend">節點: 傳說</system:String>
@@ -1303,6 +1354,7 @@ C:\\leidian\\LDPlayer9。\n
 如需多開 MAA，請複製一份新的 MAA 到其他資料夾下，並設定使用不同的 MAA，相同的 adb 和不同的模擬器地址進行多開操作。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">目前軟體所在的位置無法儲存資料，可能會導致設定遺失或執行異常。建議將軟體移動到可寫入的目錄中執行，請勿放置在系統保護目錄（如 Program Files、System32 或 Windows 目錄）中。</system:String>
+    <system:String x:Key="RunningInTempDirectoryError">MAA 無法在壓縮檔或系統暫存目錄中執行。請將 MAA 從壓縮檔中完整解壓縮，或將 MAA 移動到常規資料夾中再執行。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失敗，請重新配置相關設定，否則加密內容將以明文形式存儲在配置檔案中。</system:String>

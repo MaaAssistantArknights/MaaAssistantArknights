@@ -1,31 +1,39 @@
-## v6.2.0-beta.2
+## v6.2.0-beta.3
 
 ### 新增 | New
 
-* 支持日志样式切换 @ABA2396
-* 新增基建设施缩略图展示，并支持仅更新图片而不追加日志内容 @ABA2396
+* 自动战斗日志栏添加日志悬浮窗按钮 @ABA2396
+* 低于 2 核心电脑 CPU OCR 使用单线程 @ABA2396
+* 更新库存提示移到 ToolTip @ABA2396
+* 关卡提示支持显示库存 @ABA2396
+* 新增肉鸽主题推荐配置tip并适配多语言 (#15324) @hcl55 @ABA2396
+* SideStory「雅赛努斯复仇记」导航 @SherkeyXD
+* 限制使用 CPU 推理时的线程占用数，优先保证模拟器运行 @ABA2396
+* 基建进入设施失败时保留测试截图 @ABA2396
+* 将自动重载资源独立出来，在 debug 模式下显示勾选框 @ABA2396
+* 尝试增加 b服 开屏活动跳过 @ABA2396
+* 检测到自身处于临时路径中时阻止启动 (#14961) @Rbqwow @ABA2396
+* 企鹅物流上报 ID 不为空时禁止被上报结果赋值 @ABA2396
+* Disable CoreML for detection and recognition on macOS @MistEO
 
 ### 改进 | Improved
 
-* 优化基建设施缩略图生成与管理逻辑，调整 ToolTip 延迟及默认数量设置 @ABA2396
-* 重构 PropertyDependsOn 相关实现，将 ViewModel 调整为静态工具类以提升可维护性 @ABA2396
-* 调整部分命名以更符合当前文件与目录结构 @ABA2396
-* 刷理智任务中，指定次数与代理倍率冲突时增加明确提醒 (#15233) @status102
+* 重构自动战斗标签页逻辑, 拆分悖论模拟任务 (#15327) @ABA2396 @status102
+* 优化线索交流、获取好友线索逻辑 @ABA2396
+* rename Dps to Ops (#15325) @ABA2396
 
 ### 修复 | Fix
 
-* 修复肉鸽模式未填写开局干员时，借助战被错误强制为 false 的问题 @ABA2396
-* 修复隐秘战线结局识别异常及识别到多余字符时无法进入对应事件的问题 @ABA2396
-* 修复 Waydroid 环境下 screencap 原始同步调用的异常情况 (#15196) @commondservice
-* 修复在非本地 locale 环境下，掉落次数被误识别为数字字符的问题 (#15306) @aflyhorse
-* 修复无法通过清空自动战斗输入框来清除当前作业，以及通过特殊输入直接开始战斗的问题 @ABA2396
-* 修复部分代码中的 SA1518 警告 @Constrat
-
-### 文档 | Docs
-
-* 更新 VS Code 扩展中 Quick OCR 相关文档说明 (#15298) @neko-para @Constrat
+* 撷英调香师 @ABA2396
+* 20260109 游戏更新导致自动战斗失效 @status102
+* 线索数量识别 @ABA2396
+* 线索板上有线索时无法一键放置线索 @ABA2396
+* 同时开启 `剿灭模式` 和 `备选关卡` 会导致 `企鹅物流汇报 ID` 被修改 @ABA2396
+* Filename too long @Daydreamer114
 
 ### 其他 | Other
 
-* 补充 `FightTimesMayNotExhausted` 的英文翻译 @Constrat
-* 优化 YoStar JP（SN）设备的 OCR 识别支持 (#15310) @cheriu
+* H16-4, 引航者#6 TN-1~TN-4 剩余地图 view[1] @status102
+* 移除多余关卡 @SherkeyXD
+* 添加挂调试器下使用 GPU 的注释 @ABA2396
+* port changes from api @SherkeyXD

@@ -295,8 +295,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
         {
             "filename": string,   // 作業 JSON ファイルのパス。相対パス・絶対パスどちらも使用可能。
             "stage_name": string, // ステージ名。[PRTS.Map](https://map.ark-nights.com) を参照。
-            "is_raid": bool,      // 突襲モード（チャレンジモード）に切り替えるかどうか。任意、デフォルトは false。
-            "is_paradox": bool    // パラドックスシミュレーションステージかどうか。任意、デフォルトは false；実験的パラメータ。
+            "is_raid": bool       // 突襲モード（チャレンジモード）に切り替えるかどうか。任意、デフォルトは false。
         },
         ...
     ],
@@ -337,6 +336,17 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 保全駐在の自動操縦JSONの詳細については、[保全駐在API](./sss-schema.md)
+
+- `ParadoxCopilot`
+   逆理演算の自動戦闘
+
+```json5
+{
+   "enable": bool,        // このタスクを有効にするかどうか。デフォルトは true
+   "filename": string,    // 単一の作業 JSON ファイルパス、絶対パスと相対パスのどちらも可。実行時の設定には対応していません。list との二択（必須）
+   "list" : list<string>  // 作業 JSON のリスト、絶対パスと相対パスのどちらも可。実行時の設定には対応していません。filename との二択（必須）
+}
+```
 
 - `Depot`
   倉庫アイテム認識

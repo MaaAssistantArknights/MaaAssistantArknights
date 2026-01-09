@@ -78,11 +78,11 @@ public static class ItemListHelper
     /// </summary>
     /// <param name="itemId">物品 id / Item id</param>
     /// <returns>物品名称</returns>
-    public static string GetItemName(string itemId)
+    public static string? GetItemName(string itemId)
     {
         return ArkItems.TryGetValue(itemId, out var item)
             ? item.Name
-            : itemId;
+            : null;
     }
 
     private static readonly ConcurrentDictionary<string, BitmapSource?> _imageCache = new();

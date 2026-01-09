@@ -260,9 +260,9 @@ Todo
    統合戦略: 安全な片隅
 - `StageEncounterEnter`  
    統合戦略: 思わぬ遭遇
-- `StageCombatDpsEnter`  
+- `StageCombatOpsEnter`  
    統合戦略: 作戦
-- `StageEmergencyDps`  
+- `StageEmergencyOps`  
    統合戦略: 緊急作戦
 - `StageDreadfulFoe`  
    統合戦略: 悪路凶敵

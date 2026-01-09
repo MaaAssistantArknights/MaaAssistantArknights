@@ -2191,6 +2191,14 @@
         "sortId": -10000,
         "usage": "以高空供氧装置为灵感设计的新概念饮品，已然成为哥伦比亚人新的血液。为了品尝一口新时代的、星荚之外的味道，没有谁不愿开出高价。"
     },
+    "act48side_token_ostracon": {
+        "classifyType": "NONE",
+        "description": "即使如今人们手中已拥有了加载着各类程序的终端，在投票这一件事上，米诺斯人依然选择遵循古法。",
+        "icon": "act48side_token_ostracon.png",
+        "name": "投票用的陶片",
+        "sortId": -10000,
+        "usage": "雅赛努斯公民在投票时的必备品。至于用过的陶片该如何处理？理事官办公室决定收集起来，将其放入精美包装之中，出售给来到雅赛努斯的游客。这一创新的举措获得了各方的好评。"
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",

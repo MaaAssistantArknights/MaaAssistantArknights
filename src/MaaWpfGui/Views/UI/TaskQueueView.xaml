@@ -245,7 +245,14 @@
                     </hc:ButtonGroup>
                 </StackPanel>
 
-                <Grid Grid.Row="2" Height="60">
+                <Grid
+                    Grid.Row="2"
+                    Height="Auto"
+                    HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <Button
                         Width="100"
                         Height="50"
@@ -269,6 +276,12 @@
                         Command="{s:Action WaitAndStop}"
                         Content="{DynamicResource WaitAndStop}"
                         Visibility="{c:Binding 'Inited and !Idle and (RoguelikeInCombatAndShowWait and !Waiting)'}" />
+                    <CheckBox
+                        Grid.Row="1"
+                        VerticalAlignment="Center"
+                        Content="Auto Reload Resource"
+                        IsChecked="{Binding EnableAutoReload}"
+                        Visibility="{c:Binding CanShowAutoReload}" />
                 </Grid>
 
                 <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->
@@ -356,18 +369,28 @@
                         IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
                         IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
                 </hc:ButtonGroup>
-                <hc:ScrollViewer
+
+                <Grid
                     Grid.Row="2"
-                    Width="200"
-                    Margin="0,10,10,10"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    PanningMode="Both">
-                    <controls:TextBlock
-                        d:Text="{DynamicResource TodaysStageTip}"
-                        Text="{Binding StagesOfToday}"
-                        TextWrapping="Wrap" />
-                </hc:ScrollViewer>
+                    VerticalAlignment="Bottom">
+                    <hc:ScrollViewer
+                        Width="200"
+                        Margin="0,10,10,10"
+                        PanningMode="Both">
+                        <controls:TextBlock
+                            d:Text="{DynamicResource TodaysStageTip}"
+                            Text="{Binding StagesOfToday}"
+                            TextWrapping="Wrap" />
+                    </hc:ScrollViewer>
+                    <Border Width="200" Margin="0,10,30,10">
+                        <controls:TooltipBlock
+                            HorizontalAlignment="Right"
+                            VerticalContentAlignment="Top"
+                            NormalOpacity="0.5"
+                            TooltipText="{DynamicResource InventoryUpdateTip}" />
+                    </Border>
+                </Grid>
             </Grid>
 
             <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->
@@ -645,8 +668,8 @@
                             </Path.Style>
                         </Path>
                         <Button
-                            Width="30"
-                            Height="30"
+                            Width="27"
+                            Height="27"
                             Click="{s:Action ToggleOverlay}"
                             MouseRightButtonDown="{s:Action ChooseOverlayTarget}" />
                         <controls:TooltipBlock

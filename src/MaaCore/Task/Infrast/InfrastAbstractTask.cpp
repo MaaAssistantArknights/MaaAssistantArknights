@@ -209,11 +209,13 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     analyzer.set_to_be_analyzed({ facility_name() });
     if (!analyzer.analyze()) {
         Log.info("result is empty");
+        analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
         return false;
     }
     Rect rect = analyzer.get_rect(facility_name(), index);
     if (rect.empty()) {
         Log.info("facility index is out of range");
+        analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
         return false;
     }
     ctrler()->click(rect);
@@ -686,8 +688,7 @@ bool asst::InfrastAbstractTask::click_confirm_button()
 
     ProcessTask task(*this, { "InfrastDormConfirmButton" });
     bool ret = task.run();
-    if (ret)
-    {
+    if (ret) {
         callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("InfrastConfirmButton"));
     }
     return ret;

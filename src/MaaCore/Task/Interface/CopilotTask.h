@@ -21,9 +21,8 @@ public:
         std::string filename;    // 文件名
         std::string stage_name;  // 关卡名
         bool is_raid = false;    // 是否是突袭
-        bool is_paradox = false; // 是否是悖论模拟
 
-        MEO_JSONIZATION(filename, stage_name, MEO_OPT is_raid, MEO_OPT is_paradox);
+        MEO_JSONIZATION(filename, stage_name, MEO_OPT is_raid);
     };
 
 public:
@@ -40,7 +39,6 @@ private:
     std::optional<std::filesystem::path> parse_copilot_filename(const std::string& name);
 
     std::shared_ptr<MultiCopilotTaskPlugin> m_multi_copilot_plugin_ptr = nullptr;
-    std::shared_ptr<ParadoxRecognitionTask> m_paradox_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_medicine_task_ptr = nullptr;
     std::shared_ptr<BattleFormationTask> m_formation_task_ptr = nullptr;
     std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
