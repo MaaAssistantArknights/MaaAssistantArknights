@@ -2487,7 +2487,7 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// Wpf区分任务的类型
+    /// WPF 区分任务的类型
     /// </summary>
     public enum TaskType
     {
