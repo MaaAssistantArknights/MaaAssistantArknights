@@ -36,7 +36,6 @@ Independent toggles have been added for clue exchange and clue gifting, improvin
 
 The achievement content is designed around user behavior, feature exploration, and long-term usage patterns. With diverse trigger conditions, it encourages users to gradually explore and gain deeper familiarity with the software’s full feature set.
 
-
 ----
 
 以下是详细内容：
