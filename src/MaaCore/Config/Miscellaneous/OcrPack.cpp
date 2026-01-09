@@ -168,11 +168,15 @@ bool asst::OcrPack::check_and_load()
         Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
     }
 #elif defined(__APPLE__)
+    // rec 结果不对，先禁用
+    // maafw那边用户反馈，det 貌似也不怎么对，疑似 coreml 丢精度了，拉倒
     // https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/providers/coreml/coreml_provider_factory.h
     // COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE
-    det_option.UseCoreML(0x004);
-    // rec 结果不对，先禁用
+    // det_option.UseCoreML(0x004);
+    // rec_option.UseCoreML(0x004);
+    det_option.UseCpu();
     rec_option.UseCpu();
+    det_option.SetCpuThreadNum(cpu_threads);
     rec_option.SetCpuThreadNum(cpu_threads);
     Log.info("FastDeploy macOS mode with rec", cpu_threads, "CPU threads");
 #else
