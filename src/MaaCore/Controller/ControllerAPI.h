@@ -15,6 +15,7 @@ enum class ControllerType
     Minitouch,
     Maatouch,
     MacPlayTools,
+    WDA,
 };
 
 class ControllerAPI
