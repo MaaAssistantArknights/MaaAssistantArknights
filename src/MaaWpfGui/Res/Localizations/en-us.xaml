@@ -439,8 +439,7 @@ Leader Squad / Tactical Assault Squad
 Overcoming Your Weaknesses (Guard, Supporter, Medic)
 Togawa Sakiko / Thorns
 
-When highest difficulty ≥ N3, you may not be able to recruit 6★ operators at the start
-    </system:String>
+When highest difficulty ≥ N3, you may not be able to recruit 6★ operators at the start</system:String>
     <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">Mizuki recommended configuration:
 
 People-Oriented Squad / Mind Over Matter Squad
@@ -448,16 +447,14 @@ Slow and Steady Wins the Race (Defender, Caster, Sniper)
 Wiš'adel
 
 1. People-Oriented Squad is suitable if your box has many powerful 6★ operators; Mind Over Matter Squad depends on luck
-2. When highest difficulty ≥ N4, 6★ Hope cost +1, and Mind Over Matter Squad may not be able to recruit 6★ operators at the start
-    </system:String>
+2. When highest difficulty ≥ N4, 6★ Hope cost +1, and Mind Over Matter Squad may not be able to recruit 6★ operators at the start</system:String>
     <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">Sami recommended configuration:
 
 Special Training Squad / Tactical Ranged Squad
 Slow and Steady Wins the Race (Defender, Caster, Sniper)
 Wiš'adel
 
-When highest difficulty ≥ N6, 6★ Hope cost +1, and Special Training Squad may not be able to recruit 6★ operators at the start
-    </system:String>
+When highest difficulty ≥ N6, 6★ Hope cost +1, and Special Training Squad may not be able to recruit 6★ operators at the start</system:String>
     <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">Sarkaz recommended configuration:
 
 Blueprint Mapping Squad / Tactical Ranged Squad
@@ -466,8 +463,7 @@ Wiš'adel
 
 1. Blueprint Mapping Squad: adopt full evasion strategy, suitable for quick leveling and not for completion
 2. Tactical Ranged Squad: suitable for leveling while clearing
-3. When highest difficulty ≥ N15, 6★ Hope cost +1; if the Historical Reconstruction tech tree is not fully unlocked, Blueprint Mapping Squad may not be able to recruit 6★ operators at the start
-    </system:String>
+3. When highest difficulty ≥ N15, 6★ Hope cost +1; if the Historical Reconstruction tech tree is not fully unlocked, Blueprint Mapping Squad may not be able to recruit 6★ operators at the start</system:String>
     <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">Sui's Garden recommended configuration:
 
 Leader Squad / Tactical Ranged Squad
@@ -480,8 +476,7 @@ Wiš'adel
 
 2. Farming ingots:
 ① When highest difficulty ≥ N3, use Leader Squad, set difficulty to 'MAX', or fix difficulty ≤ N3 (do not choose ｢{key=NotSwitch} (-1)｣)
-② When highest difficulty &lt; N3, normal farming (do not choose 'MAX')
-    </system:String>
+② When highest difficulty &lt; N3, normal farming (do not choose 'MAX')</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ technology, Leader Squads conducting explorations at difficulty N3 or higher will carry an additional ｢End of Time｣, allowing for a ｢one-battle-one-skip｣ strategy.
 If this technology has not been unlocked, do not select difficulty N3 or above (including ｢MAX｣);
