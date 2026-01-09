@@ -29,7 +29,7 @@
         "maskRange": [1, 255],
         "roi": [700, 530, 230, 190],
         "template": "Default/Task.png",
-        "postDelay": 500,
+        "postDelay": 1000,
         "next": ["#self", "Stop"]
     },
     "TaskDark": {

@@ -30,7 +30,7 @@
         "roi": [250, 500, 200, 200],
         "templThreshold": 0.7,
         "template": "Default/Friends.png",
-        "postDelay": 500,
+        "postDelay": 1000,
         "next": ["#self", "Stop"]
     },
     "FriendsDark": {
