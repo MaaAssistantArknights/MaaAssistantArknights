@@ -393,6 +393,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
             // 强制刷新难度显示
             OnPropertyChanged(nameof(RoguelikeDifficulty));
+
+            // 更新主题提示
+            OnPropertyChanged(nameof(RoguelikeThemeTip));
         }
     }
 
@@ -579,6 +582,28 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// Gets the available start with rewards dictionary based on current theme.
     /// </summary>
     public List<GenericCombinedData<string>> RoguelikeStartAwards { get; private set; } = [];
+
+    /// <summary>
+    /// Gets a tip text for current Roguelike theme.
+    /// </summary>
+    public string RoguelikeThemeTip
+    {
+        get
+        {
+            var key = RoguelikeTheme switch
+            {
+                Theme.Phantom => "RoguelikeThemeTipPhantom",
+                Theme.Mizuki => "RoguelikeThemeTipMizuki",
+                Theme.Sami => "RoguelikeThemeTipSami",
+                Theme.Sarkaz => "RoguelikeThemeTipSarkaz",
+                Theme.JieGarden => "RoguelikeThemeTipJieGarden",
+                _ => "RoguelikeThemeTipPhantom",
+            };
+
+            var tip = LocalizationHelper.GetString(key);
+            return string.IsNullOrWhiteSpace(tip) ? LocalizationHelper.GetString("RoguelikeTheme") ?? string.Empty : tip;
+        }
+    }
 
     private void UpdateRoguelikeStartWithAllDict()
     {

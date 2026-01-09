@@ -433,6 +433,50 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">ファントム 推奨構成:
+
+指揮分隊 / 突撃戦術分隊
+前線支援（前衛、補助、医療）
+豊川祥子 / ソーンズ
+
+最高難易度がN3以上の場合、開始時に6★オペレーターを招集できない場合があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">ミヅキ 推奨構成:
+
+人文主義分隊 / 精神論分隊
+攻守一体（重装、術師、狙撃）
+ウィシャデル
+
+1. 人文主義分隊は、箱に強力な6★オペレーターが多数いるユーザーに適しており、精神論分隊は運次第です
+2. 最高難易度がN4以上の場合、6★オペレーターの希望消費が+1になり、精神論分隊は開始時に6★オペレーターを招集できない場合があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">サーミ 推奨構成:
+
+特訓分隊 / 援護戦術分隊
+攻守一体（重装、術師、狙撃）
+ウィシャデル
+
+最高難易度がN6以上の場合、6★オペレーターの希望消費が+1になり、特訓分隊は開始時に6★オペレーターを招集できない場合があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">サルカズ 推奨構成:
+
+位置測定分隊 / 援護戦術分隊
+攻守一体（重装、術師、狙撃）
+ウィシャデル
+
+1. 位置測定分隊：完全回避戦術を採用し、レベルに適しています（攻略を追求しない）
+2. 援護戦術分隊：レベル時に攻略も兼ねるのに適しています
+3. 最高難易度がN15以上の場合、6★オペレーターの希望消費が+1になります。もし「歴史再編」ノードを未解放の場合、位置測定分隊は開始時に6★オペレーターを招集できない可能性があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">界園 推奨構成:
+
+指揮分隊 / 援護戦術分隊
+攻守一体（重装、術師、狙撃）
+ウィシャデル
+
+1. 経験値を取得:
+① 援護戦術分隊を使用
+② 最高難易度がN3以上の場合、『指揮が戦闘を回避する』戦術を採用し、難易度を「MAX」に設定、上級設定で第2層の戦術を有効にするとレベル効率が向上します
+
+2. 源石錐を収集：
+① 最高難易度がN3以上の場合、指揮分隊を使用し、難易度を「MAX」に設定するか、固定難易度を ≤ N3 にしてください（「{key=NotSwitch} (-1)」を選択しないでください）
+② 最高難易度がN3未満の場合は通常通りに周回してください（「MAX」を選択しないでください）</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「界園」に関する知識ノードを解放すると、指揮分隊で N3 以上の難易度で探索を行う際、「時の果て」を追加で携帯し、「一回の戦闘と一回のスキップ」の投資モード戦略を行うことができます。
 この知識ノードをまだ解放していない場合は、N3 以上の難易度（MAX を含む）を選択しないでください。
