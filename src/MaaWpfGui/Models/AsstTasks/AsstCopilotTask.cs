@@ -158,11 +158,5 @@ public class AsstCopilotTask : AsstBaseTask
         /// </summary>
         [JsonProperty("is_raid")]
         public bool IsRaid { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether 悖论模拟
-        /// </summary>
-        [JsonProperty("is_paradox")]
-        public bool IsParadox { get; set; }
     }
 }

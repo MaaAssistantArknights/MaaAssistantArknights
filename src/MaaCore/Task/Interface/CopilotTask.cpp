@@ -104,6 +104,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
         m_battle_task_ptr->set_wait_until_end(false);
         auto copilot_opt = parse_copilot_filename(*filename_opt);
         m_stage_name = Copilot.get_stage_name();
+        if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
+            Log.error("Not support stage");
+            return false;
+        }
     }
     else if (multi_tasks_opt) {
         m_multi_copilot_plugin_ptr->set_enable(true); // 启用多任务插件, 自动覆盖Copilot中的配置

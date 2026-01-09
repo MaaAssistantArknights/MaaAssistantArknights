@@ -818,7 +818,7 @@
     },
     "Roguelike@InBattleFlag": {
         "template": "BattleOfficiallyBegin.png",
-        "roi": [1165, 20, 65, 65],
+        "roi": [1165, 20, 75, 65],
         "maskRange": [100, 255],
         "postDelay": 5000,
         "next": [

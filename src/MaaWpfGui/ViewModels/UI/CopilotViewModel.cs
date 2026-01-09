@@ -1984,7 +1984,7 @@ public partial class CopilotViewModel : Screen
 
             var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i => {
                 _copilotIdList.Add(i.CopilotId);
-                return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = IsParadoxListItem(i), };
+                return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
             });
 
             var task = new AsstCopilotTask() {
@@ -2203,11 +2203,6 @@ public partial class CopilotViewModel : Screen
         }
 
         return ok;
-    }
-
-    private static bool IsParadoxListItem(CopilotItemViewModel item)
-    {
-        return item.TabIndex == 2;
     }
 
     private static string GetCopilotTabName(int tabIndex)
