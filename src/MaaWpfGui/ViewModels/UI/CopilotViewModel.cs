@@ -2205,11 +2205,6 @@ public partial class CopilotViewModel : Screen
         return ok;
     }
 
-    private static bool IsParadoxListItem(CopilotItemViewModel item)
-    {
-        return item.TabIndex == 2;
-    }
-
     private static string GetCopilotTabName(int tabIndex)
     {
         return tabIndex switch {
