@@ -1503,6 +1503,8 @@ public class TaskQueueViewModel : Screen
     /// <returns>Task</returns>
     public async Task LinkStart()
     {
+        AddLog(1.ToString());
+        return;
         if (!_runningState.GetIdle())
         {
             _logger.Information("Not idle, return.");

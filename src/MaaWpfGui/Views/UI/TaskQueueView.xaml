@@ -385,9 +385,9 @@
                     </hc:ScrollViewer>
                     <Border Width="200" Margin="0,10,30,10">
                         <controls:TooltipBlock
-                            NormalOpacity="0.5"
                             HorizontalAlignment="Right"
                             VerticalContentAlignment="Top"
+                            NormalOpacity="0.5"
                             TooltipText="{DynamicResource InventoryUpdateTip}" />
                     </Border>
                 </Grid>
@@ -668,8 +668,8 @@
                             </Path.Style>
                         </Path>
                         <Button
-                            Width="30"
-                            Height="30"
+                            Width="27"
+                            Height="27"
                             Click="{s:Action ToggleOverlay}"
                             MouseRightButtonDown="{s:Action ChooseOverlayTarget}" />
                         <controls:TooltipBlock
