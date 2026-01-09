@@ -433,6 +433,50 @@
     <system:String x:Key="RoguelikeThemeSami">萨米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界园</system:String>
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">傀影推荐配置：
+
+指挥分队 / 突击战术分队
+取长补短（近卫、辅助、医疗）
+丰川祥子 / 棘刺
+
+当最高难度 ≥ N3 时，可能无法在开局招募六星干员</system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">水月推荐配置：
+
+以人为本分队 / 心胜于物分队
+稳扎稳打（重装、术师、狙击）
+维什戴尔
+
+1. 以人为本分队适合 box 里强力六星干员较多的用户，心胜于物分队则是看运气
+2. 当最高难度 ≥ N4 时，六星干员希望消耗 +1，心胜于物分队可能无法在开局招募六星干员</system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">萨米推荐配置：
+
+特训分队 / 远程战术分队
+稳扎稳打（重装、术师、狙击）
+维什戴尔
+
+当最高难度 ≥ N6 时，六星干员希望消耗 +1，特训分队可能无法在开局招募六星干员</system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">萨卡兹推荐配置：
+
+蓝图测绘分队 / 远程战术分队
+稳扎稳打（重装、术师、狙击）
+维什戴尔
+
+1. 蓝图测绘分队：完全采用避战策略，适合快速刷等级，不追求通关
+2. 远程战术分队：适合刷等级时，兼顾通关
+3. 当最高难度 ≥ N15 时，六星干员希望消耗 +1，若未点满【历史重构】科技树，蓝图测绘分队可能无法招募开局六星干员</system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">界园推荐配置：
+
+指挥分队 / 远程战术分队
+稳扎稳打（重装、术师、狙击）
+维什戴尔
+
+1. 刷等级：
+①使用远程战术分队
+②当最高难度 ≥ N3 时，采用“指挥避战”，难度选择 ｢MAX｣，高级设置进入第二层策略，刷等级效率更高
+
+2. 刷源石锭：
+①当最高难度 ≥ N3 时，使用指挥分队，难度选择 ｢MAX｣，或固定难度 ≤ N3（请勿选择 ｢{key=NotSwitch} (-1)｣）
+②当最高难度 ＜ N3 时，正常刷取（请勿选择 ｢MAX｣ 难度）</system:String>
     <system:String x:Key="RoguelikeDifficulty">难度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解锁 ｢界园｣ 相关科技后，指挥分队在进行 N3 及以上难度 的探索时，会额外携带一个 ｢时光之末｣，可以利用其进行 ｢一战一跳｣ 的存钱策略。
 若尚未解锁该科技，请不要选择 N3 及以上难度（包括 ｢MAX｣）进行探索；

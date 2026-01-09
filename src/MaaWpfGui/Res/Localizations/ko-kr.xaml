@@ -170,7 +170,7 @@
     <system:String x:Key="DormThreshold">{key=Operator} 컨디션 한계점</system:String>
     <system:String x:Key="InfrastThresholdTip">커스텀 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 {key=Operator} 교체를 사용하는 회의실에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">각뿔 수집, 투자 완료 시 자동 종료</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">각뿔 투자, 투자 완료 시 자동 종료</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">{key=Operator} 2차 정예화 또는 전기주전자 획득까지 반복</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">희귀 붕괴 패러다임 파밍, 일반 붕괴 패러다임 획득 시 재시작</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
@@ -433,8 +433,52 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeThemeSami">사미</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">쉐이</system:String>
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">｢팬텀｣ 추천 구성:
+
+지휘 분대 / 강습 전술 분대
+상호보완 (가드, 서포터, 메딕)
+토가와 사키코 / 쏜즈
+
+난이도 3 이상일 경우, 시작 시 6성 오퍼레이터를 모집하지 못할 수도 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">｢미즈키｣ 추천 구성:
+
+인적자원 분대 / 마음가짐 분대
+차근차근 (디펜더, 캐스터, 스나이퍼)
+위셔델
+
+1. 「인적자원 분대」는 육성이 잘 된 6성 오퍼레이터가 많은 독타에게 적합하며, 「마음가짐 분대」는 운에 좌우돼요
+2. 난이도 4 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가하여, 「마음가짐 분대」는 시작 시 6성 오퍼레이터를 모집하지 못할 수도 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">｢사미｣ 추천 구성:
+
+특훈 분대 / 원거리 전술 분대
+차근차근 (디펜더, 캐스터, 스나이퍼)
+위셔델
+
+난이도 6 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가하므로, 「특훈 분대」는 시작 시 6성 오퍼레이터를 모집하지 못할 수도 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">｢살카즈｣ 추천 구성:
+
+도면 제작 분대 / 원거리 전술 분대
+차근차근 (디펜더, 캐스터, 스나이퍼)
+위셔델
+
+1. 도면 제작 분대: 전투 회피 전략을 사용하며, 클리어보다는 빠른 레벨업에 적합해요
+2. 원거리 전술 분대: 레벨업과 클리어 모두를 노리기에 적합해요
+3. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. '역사의 재구성' 노드를 완전히 해금하지 않았다면 「도면 제작 분대」는 시작 시 6성 오퍼레이터를 모집하지 못할 수도 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">｢쉐이｣ 추천 구성:
+
+지휘 분대 / 원거리 전술 분대
+차근차근 (디펜더, 캐스터, 스나이퍼)
+위셔델
+
+1. 레벨링:
+① 원거리 전술 분대 사용
+② 난이도 3 이상일 경우, 「{key=RoguelikeStrategyGold}」 전략을 채택하고 난이도를 'MAX'로 설정한 뒤 고급 설정에서 「{key=InvestmentWithMoreScore}」 전략을 활성화하면 레벨업 효율이 더 좋아져요
+
+2. 각뿔 투자:
+① 난이도 3 이상일 경우 「지휘 분대」를 사용하고, 난이도를 3 이상 또는 ｢MAX｣로 설정해 주세요 (「{key=NotSwitch} (-1)」 제외)
+② 난이도 3 미만일 경우 정상적으로 진행해주세요 (｢MAX｣를 선택하지 마세요)</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「고금 학식」에서 관련 노드를 해금하면, 난이도 3 이상에서 지휘 분대로 탐색할 때 추가로 「시간의 끝」을 소지하여 「작전 개시 후 바로 작전 포기」하는 각뿔 수집 전략을 사용할 수 있습니다.
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「고금 학식」에서 관련 노드를 해금하면, 난이도 3 이상에서 지휘 분대로 탐색할 때 추가로 「시간의 끝」을 소지하여 「작전 개시 후 바로 작전 포기」하는 각뿔 투자 전략을 사용할 수 있습니다.
 아직 해당 노드를 해제하지 않았다면 난이도 3 이상을 선택하지 마세요. (「MAX」 포함)
 이 기능을 사용하려면 난이도 3 이상을 선택해야 합니다. (「{key=NotSwitch} (-1)」제외)</system:String>
     <system:String x:Key="Strategy">전략</system:String>
