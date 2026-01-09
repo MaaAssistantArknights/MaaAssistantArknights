@@ -364,14 +364,14 @@ For more details about auto-combat JSON, please refer to [Combat Operation Proto
 For more details about Stationary Security Service JSON, please refer to [SSS Schema](./sss-schema.md)
 
 - `ParadoxCopilot`
-   自动抄悖论模拟作业
+   Automatically run Paradox Simulation operations
 
 ```json5
 // Task parameters
 {
-   "enable": bool,        // 是否启用本任务。默认为 true
-   "filename": string,    // 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。与 list 二选一（必填）
-   "list" : list<string>  // 作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。与 filename 二选一（必填）
+   "enable": bool,        // Whether to enable this task. Optional, default is true
+   "filename": string,    // File path of a single operation JSON, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with list (required, choose one)
+   "list" : list<string>  // List of operation JSON files, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with filename (required, choose one)
 }
 ```
 
