@@ -90,4 +90,12 @@ public class CopilotItemViewModel : PropertyChangedBase
             Instances.CopilotViewModel.SaveCopilotTask();
         }
     }
+
+    private int _index;
+
+    public int Index
+    {
+        get => _index;
+        set => SetAndNotify(ref _index, value);
+    }
 }
