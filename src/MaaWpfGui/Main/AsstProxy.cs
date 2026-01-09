@@ -1557,12 +1557,12 @@ public class AsstProxy
                         // case "StageBoonsEnter":
                         //    Instances.TaskQueueViewModel.AddLog("古堡馈赠");
                         //    break;
-                        case "StageCombatDps":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatDps"), UiLogColor.CombatIS);
+                        case "StageCombatOps":
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatOps"), UiLogColor.CombatIS);
                             break;
 
-                        case "StageEmergencyDps":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmergencyDps"), UiLogColor.EmergencyIS);
+                        case "StageEmergencyOps":
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmergencyOps"), UiLogColor.EmergencyIS);
                             break;
 
                         case "StageDreadfulFoe":

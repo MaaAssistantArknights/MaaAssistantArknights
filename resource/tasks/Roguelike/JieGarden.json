@@ -796,7 +796,7 @@
         "baseTask": "JieGarden@Roguelike@StageEnter",
         "next": ["JieGarden@Roguelike@StageBoskyPassageEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
     },
-    "JieGarden@Roguelike@StageCombatDps": {
+    "JieGarden@Roguelike@StageCombatOps": {
         "Doc": "普通战斗 紫色系",
         "method": "HSVCount",
         "colorWithClose": false,
@@ -812,17 +812,17 @@
         ],
         "postDelay": 600,
         "next": [
-            "JieGarden@Roguelike@StageCombatDpsEnter",
-            "JieGarden@Roguelike@StageEmergencyDpsEnter",
+            "JieGarden@Roguelike@StageCombatOpsEnter",
+            "JieGarden@Roguelike@StageEmergencyOpsEnter",
             "JieGarden@Roguelike@Stages#next"
         ]
     },
-    "JieGarden@Roguelike@StageCombatDpsEnter": {
+    "JieGarden@Roguelike@StageCombatOpsEnter": {
         "roi": [1046, 461, 222, 197]
     },
     "JieGarden@Roguelike@StageCombatOpsEnterThenLeave": {
-        "baseTask": "JieGarden@Roguelike@StageCombatDpsEnter",
-        "template": "JieGarden@Roguelike@StageCombatDpsEnter.png",
+        "baseTask": "JieGarden@Roguelike@StageCombatOpsEnter",
+        "template": "JieGarden@Roguelike@StageCombatOpsEnter.png",
         "next": ["JieGarden@Roguelike@StageCombatOpsStartActionThenLeave"]
     },
     "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave": {
@@ -890,8 +890,8 @@
         "next": [
             "JieGarden@Roguelike@StageDreadfulFoe-5Enter",
             "JieGarden@Roguelike@StageDreadfulFoeEnter",
-            "JieGarden@Roguelike@StageEmergencyDpsEnter",
-            "JieGarden@Roguelike@StageCombatDpsEnter",
+            "JieGarden@Roguelike@StageEmergencyOpsEnter",
+            "JieGarden@Roguelike@StageCombatOpsEnter",
             "JieGarden@Roguelike@Stages#next"
         ]
     },
@@ -914,7 +914,7 @@
             ]
         ]
     },
-    "JieGarden@Roguelike@StageEmergencyDps": {
+    "JieGarden@Roguelike@StageEmergencyOps": {
         "Doc": "困难战斗 红色系",
         "method": "HSVCount",
         "colorWithClose": false,
@@ -934,12 +934,12 @@
         ],
         "postDelay": 600,
         "next": [
-            "JieGarden@Roguelike@StageCombatDpsEnter",
-            "JieGarden@Roguelike@StageEmergencyDpsEnter",
+            "JieGarden@Roguelike@StageCombatOpsEnter",
+            "JieGarden@Roguelike@StageEmergencyOpsEnter",
             "JieGarden@Roguelike@Stages#next"
         ]
     },
-    "JieGarden@Roguelike@StageEmergencyDpsEnter": {},
+    "JieGarden@Roguelike@StageEmergencyOpsEnter": {},
     "JieGarden@Roguelike@StageEmergencyTransportation": {
         "Doc": "先行一步，拒绝可以获取2希望 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
@@ -981,8 +981,8 @@
         "next": [
             "JieGarden@Roguelike@StageEncounterOptions#next",
             "JieGarden@Roguelike@StageEncounterSpecialClose",
-            "JieGarden@Roguelike@StageCombatDpsEnter",
-            "JieGarden@Roguelike@StageEmergencyDpsEnter",
+            "JieGarden@Roguelike@StageCombatOpsEnter",
+            "JieGarden@Roguelike@StageEmergencyOpsEnter",
             "JieGarden@Roguelike@ClickToDrops"
         ]
     },
@@ -1008,8 +1008,8 @@
             "JieGarden@Roguelike@StageEncounterDrawCopperResult",
             "JieGarden@Roguelike@ChooseOperFlag",
             "JieGarden@Roguelike@CoppersTakeFlag",
-            "JieGarden@Roguelike@StageEmergencyDpsEnter",
-            "JieGarden@Roguelike@StageCombatDpsEnter",
+            "JieGarden@Roguelike@StageEmergencyOpsEnter",
+            "JieGarden@Roguelike@StageCombatOpsEnter",
             "JieGarden@Roguelike@CloseEvent",
             "JieGarden@Roguelike@StageEncounterOptionUnknown"
         ]
@@ -1164,8 +1164,8 @@
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
             "JieGarden@Roguelike@StageGuidance",
-            "JieGarden@Roguelike@StageEmergencyDps",
-            "JieGarden@Roguelike@StageCombatDps",
+            "JieGarden@Roguelike@StageEmergencyOps",
+            "JieGarden@Roguelike@StageCombatOps",
             "JieGarden@Roguelike@StageSafeHouse",
             "JieGarden@Roguelike@StageBoons",
             "JieGarden@Roguelike@StageTrader",
@@ -1208,8 +1208,8 @@
             "JieGarden@Roguelike@StageEncounter",
             "JieGarden@Roguelike@StageWindAndRain",
             "JieGarden@Roguelike@StageConfrontation",
-            "JieGarden@Roguelike@StageCombatDps",
-            "JieGarden@Roguelike@StageEmergencyDps",
+            "JieGarden@Roguelike@StageCombatOps",
+            "JieGarden@Roguelike@StageEmergencyOps",
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
         ],
@@ -1242,7 +1242,7 @@
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
             "JieGarden@Roguelike@StageGuidance",
-            "JieGarden@Roguelike@StageCombatDps",
+            "JieGarden@Roguelike@StageCombatOps",
             "JieGarden@Roguelike@StageSafeHouse",
             "JieGarden@Roguelike@StageBoons",
             "JieGarden@Roguelike@StageEncounter",
@@ -1251,7 +1251,7 @@
             "JieGarden@Roguelike@StageProphecy",
             "JieGarden@Roguelike@StageWindAndRain",
             "JieGarden@Roguelike@StageEmergencyTransportation",
-            "JieGarden@Roguelike@StageEmergencyDps",
+            "JieGarden@Roguelike@StageEmergencyOps",
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
         ],
