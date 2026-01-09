@@ -23,6 +23,7 @@
 #include "Task/Interface/RecruitTask.h"
 #include "Task/Interface/RoguelikeTask.h"
 #include "Task/Interface/SSSCopilotTask.h"
+#include "Task/Interface/ParadoxCopilotTask.h"
 #include "Task/Interface/SingleStepTask.h"
 #include "Task/Interface/StartUpTask.h"
 #include "Task/Interface/VideoRecognitionTask.h"
@@ -232,6 +233,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SSSCopilotTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ParadoxCopilotTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SingleStepTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VideoRecognitionTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)

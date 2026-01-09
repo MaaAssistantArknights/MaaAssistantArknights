@@ -1008,10 +1008,15 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotStageNameNotFound">{0} 未找到，且未指定關卡名稱</system:String>
     <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">關卡名稱與導航名稱不一致，已使用導航名稱</system:String>
     <system:String x:Key="CopilotEmptyError">作業為空</system:String>
+    <system:String x:Key="CopilotStartError">啟動作業失敗：</system:String>
+    <system:String x:Key="CopilotTaskTypeMismatch">目前選擇的作業與標籤頁不符</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">存在關卡名稱為空的作業</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">無法儲存作業檔案到: </system:String>
-    <system:String x:Key="Copilot.StartWithEmptyList">正在使用 ｢{key=UseCopilotList}｣, 但未新增任何作業</system:String>
+    <system:String x:Key="CopilotStartWithEmptyList">正在使用 ｢{key=UseCopilotList}｣, 但未新增任何作業</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">正在使用 ｢{key=UseCopilotList}｣ 執行單一作業，不推薦此行為。單一作業請直接執行。</system:String>
+    <system:String x:Key="CopilotTaskListMixedModeNotAllowed">正在使用 ｢{key=UseCopilotList}｣，但不允許混用「{key=MainStageStoryCollectionSideStory}」與「{key=ParadoxSimulation}」，請分別在對應標籤頁建立列表後再啟動</system:String>
+    <system:String x:Key="CopilotTaskListLegacyItemNotSupported">正在使用 ｢{key=UseCopilotList}｣，但列表包含舊版本條目（缺少標籤頁資訊），請在正確的標籤頁重新新增這些作業後再啟動</system:String>
+    <system:String x:Key="CopilotTaskListTabMismatch">正在使用 ｢{key=UseCopilotList}｣，目前標籤頁為「{0}」，但列表來自「{1}」，請切換到對應標籤頁後再啟動</system:String>
     <!--  !日誌  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
