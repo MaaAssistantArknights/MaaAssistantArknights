@@ -3108,7 +3108,8 @@
         "roi": [286, 550, 366, 130]
     },
     "BackToReceptionMain": {
-        "algorithm": "JustReturn",
+        "template": "ReceptionFlag.png",
+        "roi": [350, 0, 200, 100],
         "action": "ClickRect",
         "specificRect": [280, 96, 130, 32],
         "postDelay": 2000
@@ -3143,7 +3144,7 @@
         "template": "GetClue2.png",
         "action": "ClickSelf",
         "roi": [800, 600, 480, 120],
-        "next": ["InfrastClueSelfMaybeFull", "ReceptionFlag"]
+        "next": ["BackToReceptionMain"]
     },
     "CloseCluePage": {
         "action": "ClickSelf",
