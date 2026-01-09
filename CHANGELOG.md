@@ -2,39 +2,69 @@
 
 ### Highlights
 
-#### 界面与日志体验全面升级
+随着米诺斯SS的到来，我们迎来了一位全新的萨尔贡六星干员，~~那么牛牛的米诺斯大C在哪呢？~~
 
-对主页日志侧边栏进行了整体重构，统一并优化了布局与视觉样式，新增日志样式切换与日志悬浮窗按钮，并支持日志缩略图显示，使运行过程中的关键信息更加直观、易读。同时梳理并优化了自动战斗标签页的逻辑与文件选择流程，支持多级路径选择，减少不必要的操作步骤，整体使用体验更加顺畅自然。
+#### 日志侧边栏重构
 
-#### 每日关卡提示优化
+本次更新我们对主页日志侧边栏进行了整体重构，统一并优化了布局与视觉样式。
 
-每日关卡提示中的掉落信息现已支持同步显示对应的库存数量，便于在刷图规划时快速判断材料缺口与优先级。库存数据可通过「小工具 → 仓库识别」进行更新，无需额外操作即可保持提示信息的准确性。
+现在你可以在「设置 → 界面设置」中控制【使用卡片样式日志】设置来切换日志样式，控制【日志缩略图最大数量】设置来决定日志侧边栏的缩略图数量上限（这些缩略图都是临时保存在内存里的，**内存较小的用户可能需要调整数量**）
+
+#### 自动战斗优化
+
+我们优化了自动战斗功能的作业路径下拉选择栏，现在同一个任务的本地作业将会折叠在一起，大幅度提升了下拉选择栏的可读性。
+
+另外，本次游戏更新 yj 修改了暂停按钮的位置，我们已经通过热更新修复该问题，本次更新 MAA 也会合并此项修复。
+
+#### 今日关卡提示优化
+
+今日关卡提示中的掉落信息现已支持同步显示对应的库存数量，便于在刷图规划时快速判断材料缺口与优先级。
+
+你可通过「小工具 → 仓库识别」更新库存数量，今日关卡提示中的掉落信息会自动同步更新。
 
 #### 基建与线索管理优化
 
-新增线索交流与赠送功能的独立开关设置，提升基建管理的灵活性，并对快捷置入与一键赠送的逻辑进行了进一步优化，减少误操作发生的可能性。同时，在基建进入设施失败时将自动保留测试截图，便于后续问题的定位与排查。
+我们在「一键长草 → 基建换班 → 高级设置」里新增了【进行线索交流】【赠送线索】两项独立开关设置，提升基建管理的灵活性。
+
+我们也优化了一键赠送线索等的逻辑，减少误操作发生的可能性。
+
+同时，在基建进入设施失败时牛牛将自动保留测试截图，便于后续问题的定位与排查。
 
 #### 成就系统 DLC
 
-成就内容围绕用户的使用行为、功能探索与长期使用习惯进行设计，通过多样化的触发条件，引导用户逐步体验并深入了解软件的各项功能。
+我们新增了一些成就，覆盖多个场景，等你探索哦~
 
 ----
 
-#### Comprehensive UI and Log Experience Upgrade
+#### Log Sidebar Redesign
 
-The layout and visual style of the homepage log sidebar have been fully reworked, introducing log style switching and a floating log window, along with support for log thumbnails. This makes key runtime information clearer and easier to follow. In addition, the logic and file selection workflow of the Auto Battle tab have been refined, with support for multi-level path selection, reducing unnecessary steps and providing a smoother overall experience.
+In this update, we've completely redesigned the main page log sidebar, unifying and optimizing its layout and visual style.
 
-#### Daily Stage Hint Improvements
+You can now switch log styles by controlling the *Use card style log* setting in *Settings → GUI*, and control the *Maximum number of log thumbnails* setting to determine the maximum number of thumbnails in the log sidebar (these thumbnails are temporarily stored in memory, **users with limited memory may need to adjust the number**).
 
-Drop information in daily stage hints now supports displaying the corresponding inventory counts, making it easier to assess material needs and priorities when planning runs. Inventory data can be updated via **Tools → Inventory Recognition**, ensuring the displayed information remains accurate with minimal effort.
+#### *Copilot* Optimization
 
-#### Base and Clue Management Enhancements
+We've optimized the task path dropdown selection bar for the *Copilot*. Local tasks for the same stage will now be collapsed together, significantly improving the readability of the dropdown selection bar.
 
-Independent toggles have been added for clue exchange and clue gifting, improving flexibility in base management. The logic behind quick placement and one-click gifting has also been further optimized to reduce the likelihood of misoperations. In addition, when entering a base facility fails, a test screenshot will now be automatically preserved to assist with issue diagnosis and troubleshooting.
+Additionally, the game update changed the position of the pause button. We have fixed this issue through a hot update, and this fix has been merged into the MAA update.
+
+#### *Today's open stages* Hint Optimization
+
+The drop information in the *Today's open stages* hints now supports synchronous display of the corresponding depot quantity, making it easier to quickly determine material shortages and priorities when planning your stage runs.
+
+You can update your depot info through *Toolbox → Depot*, and the daily drop information in the *Today's open stages* hints will be automatically updated.
+
+#### *Base* and Clue Management Optimizations
+
+We've added two independent toggle settings for *Conduct Clue Exchange* and *Send Clues* in *Farming → Base → Advanced*, improving the flexibility of *Base* management.
+
+We've also optimized the logic for one-click clues sending, reducing the possibility of accidental operations.
+
+Additionally, when *Base* entry fails, MAA will automatically save a test screenshot for easier troubleshooting and identification of subsequent issues.
 
 #### Achievement System DLC
 
-The achievement content is designed around user behavior, feature exploration, and long-term usage patterns. With diverse trigger conditions, it encourages users to gradually explore and gain deeper familiarity with the software’s full feature set.
+We've added some achievements covering multiple scenarios, waiting for you to explore!
 
 ----
 
