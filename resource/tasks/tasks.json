@@ -1449,7 +1449,7 @@
     },
     "PRTS1": {
         "template": "BattleOfficiallyBegin.png",
-        "roi": [1165, 20, 65, 65],
+        "roi": [1165, 20, 75, 65],
         "maskRange": [100, 255],
         "postDelay": 5000,
         "next": ["PRTS#next", "OfflineConfirm", "WaitAfterPRTS"]
@@ -3823,7 +3823,7 @@
         "roi": [0, 102, 190, 37]
     },
     "BattleOfficiallyBegin": {
-        "roi": [1165, 20, 65, 65],
+        "roi": [1165, 20, 75, 65],
         "maskRange": [100, 255],
         "templThreshold": 0.7
     },
@@ -3852,7 +3852,7 @@
     },
     "BattlePauseCancelCheck": {
         "template": "BattleOfficiallyBegin.png",
-        "roi": [1165, 20, 65, 65],
+        "roi": [1165, 20, 75, 65],
         "maskRange": [100, 255]
     },
     "BattleCancelSelection": {
