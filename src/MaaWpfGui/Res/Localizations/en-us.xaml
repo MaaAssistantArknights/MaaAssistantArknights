@@ -726,7 +726,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements:&#160;</system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">Days left open:&#160;</system:String>
     <system:String x:Key="Inventory">Inventory</system:String>
-    <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via {key=Toolbox}-{key=DepotRecognition}</system:String>
+    <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via  ｢{key=Toolbox}-{key=DepotRecognition}｣ </system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>

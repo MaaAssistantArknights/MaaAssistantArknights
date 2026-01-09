@@ -727,7 +727,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低バージョン要件: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>
     <system:String x:Key="Inventory">在庫</system:String>
-    <system:String x:Key="InventoryUpdateTip">在庫データは{key=Toolbox}-{key=DepotRecognition}で更新できます</system:String>
+    <system:String x:Key="InventoryUpdateTip">在庫データは ｢{key=Toolbox}-{key=DepotRecognition}｣ で更新できます</system:String>
     <system:String x:Key="LessThanOneDay">1日以内</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6(CE-6)</system:String>
