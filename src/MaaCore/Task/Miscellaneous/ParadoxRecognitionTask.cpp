@@ -33,7 +33,7 @@ bool asst::ParadoxRecognitionTask::_run()
     info["details"]["file_name"] = file_name;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
-    m_navigate_name = standardize_name(file_name);
+    m_navigate_name = standardize_name(stage_name);
     LogInfo << __FUNCTION__ << "navigate name:" << m_navigate_name;
     m_paradox_opers.erase(m_paradox_opers.begin());
 
