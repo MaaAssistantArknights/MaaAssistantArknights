@@ -1,12 +1,4 @@
 {
-    "ME-3": {
-        "algorithm": "JustReturn",
-        "sub": ["ME-3@ME-OpenOpt"],
-        "next": ["ME-3@SideStoryStage", "ME-3@SwipeToStage"]
-    },
-    "ME-3@SideStoryStage": {
-        "text": ["ME-3"]
-    },
     "ME-5": {
         "algorithm": "JustReturn",
         "sub": ["ME-5@ME-OpenOpt"],
