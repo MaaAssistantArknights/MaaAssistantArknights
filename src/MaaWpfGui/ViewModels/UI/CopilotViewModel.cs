@@ -1984,7 +1984,7 @@ public partial class CopilotViewModel : Screen
 
             var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i => {
                 _copilotIdList.Add(i.CopilotId);
-                return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = IsParadoxListItem(i), };
+                return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
             });
 
             var task = new AsstCopilotTask() {
