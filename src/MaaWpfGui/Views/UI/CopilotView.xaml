@@ -515,7 +515,6 @@
                         hc:BorderElement.CornerRadius="4,4,0,0"
                         properties:AutoScroll.AutoScroll="True"
                         BorderThickness="1,1,1,0"
-                        DragDrop.Drop="{s:Action CopilotItemIndexChanged}"
                         IsEnabled="{c:Binding StartEnabled}"
                         ItemsSource="{Binding Path=CopilotItemViewModels}"
                         Style="{DynamicResource NoSelectedHighlightListBoxStyle}"

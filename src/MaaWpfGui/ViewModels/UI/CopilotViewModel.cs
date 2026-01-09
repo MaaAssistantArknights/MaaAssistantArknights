@@ -133,6 +133,18 @@ public partial class CopilotViewModel : Screen
         }
 
         SaveCopilotTask();
+        CopilotItemViewModels.CollectionChanged += (_, e) => {
+            _logger.Information("Copilot item collection changed: {Action}", e.Action);
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Move)
+            {
+                for (int i = 0; i < CopilotItemViewModels.Count; i++)
+                {
+                    CopilotItemViewModels[i].Index = i;
+                }
+
+                SaveCopilotTask();
+            }
+        };
     }
 
     #region UI绑定及操作
@@ -1717,19 +1729,15 @@ public partial class CopilotViewModel : Screen
 
     /// <summary>
     /// 更新任务顺序
-    /// UI 绑定的方法
     /// </summary>
-    [UsedImplicitly]
     public void CopilotItemIndexChanged()
     {
-        Execute.OnUIThread(() => {
-            for (int i = 0; i < CopilotItemViewModels.Count; i++)
-            {
-                CopilotItemViewModels[i].Index = i;
-            }
+        for (int i = 0; i < CopilotItemViewModels.Count; i++)
+        {
+            CopilotItemViewModels[i].Index = i;
+        }
 
-            SaveCopilotTask();
-        });
+        SaveCopilotTask();
     }
 
     /// <summary>
