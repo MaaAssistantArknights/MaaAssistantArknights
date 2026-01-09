@@ -23,6 +23,7 @@
 #include "MaatouchController.h"
 #include "MinitouchController.h"
 #include "PlayToolsController.h"
+#include "WDAController.h"
 
 #include "Common/AsstTypes.h"
 #include "Utils/Logger.hpp"
@@ -60,6 +61,9 @@ std::shared_ptr<asst::ControllerAPI> asst::Controller::create_controller(
             break;
         case ControllerType::MacPlayTools:
             controller = std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
+            break;
+        case ControllerType::WDA:
+            controller = std::make_shared<WDAController>(m_callback, m_inst, platform_type);
             break;
         default:
             return nullptr;
@@ -304,6 +308,9 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
         break;
     case TouchMode::MacPlayTools:
         m_controller_type = ControllerType::MacPlayTools;
+        break;
+    case TouchMode::WDA:
+        m_controller_type = ControllerType::WDA;
         break;
     default:
         m_controller_type = ControllerType::Minitouch;
