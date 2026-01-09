@@ -1,25 +1,54 @@
 #include "ParadoxRecognitionTask.h"
+
 #include "Config/Miscellaneous/BattleDataConfig.h"
+#include "Config/Miscellaneous/CopilotConfig.h"
 #include "Controller/Controller.h"
+#include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
 bool asst::ParadoxRecognitionTask::_run()
 {
     LogTraceFunction;
-    const auto& all_oper_names = BattleData.get_all_oper_names();
+    if (m_paradox_opers.empty()) {
+        LogError << __FUNCTION__ << "no paradox oper set";
+        return false;
+    }
 
-    for (const auto& name : all_oper_names) {
-        if (BattleData.get_id(name).ends_with(m_navigate_name)) { // 应该没重复吧
-            m_oper_name = json::object {
-                { "name", name },
-                { "name_en", BattleData.get_en(name) },
-                { "name_jp", BattleData.get_jp(name) },
-                { "name_kr", BattleData.get_kr(name) },
-                { "name_tw", BattleData.get_tw(name) },
-            };
-            break;
-        }
+    const std::string& path = m_paradox_opers.front();
+    std::string file_name;
+    if (!Copilot.load(path)) {
+        Log.error("CopilotConfig parse failed");
+        return false;
+    }
+    file_name = utils::path_to_utf8_string(path);
+    const auto& stage_name = Copilot.get_stage_name();
+    if (!m_battle_task_ptr->set_stage_name(stage_name)) {
+        Log.error("Not support stage");
+        return false;
+    }
+
+    json::value info = basic_info_with_what("CopilotListLoadTaskFileSuccess");
+    info["details"]["stage_name"] = Copilot.get_stage_name();
+    info["details"]["file_name"] = file_name;
+    callback(AsstMsg::SubTaskExtraInfo, info);
+
+    m_navigate_name = standardize_name(stage_name);
+    LogInfo << __FUNCTION__ << "navigate name:" << m_navigate_name;
+    m_paradox_opers.erase(m_paradox_opers.begin());
+
+    const auto& all_oper_names = BattleData.get_all_oper_names();
+    const auto& it = std::find_if(all_oper_names.begin(), all_oper_names.end(), [&](const std::string& name) {
+        return BattleData.get_id(name).ends_with(m_navigate_name); // 应该没重复吧
+    });
+
+    if (it != all_oper_names.end()) {
+        const auto& name = *it;
+        m_oper_name = { name,
+                        BattleData.get_en(name),
+                        BattleData.get_jp(name),
+                        BattleData.get_kr(name),
+                        BattleData.get_tw(name) };
     }
 
     // 设置技能
@@ -37,7 +66,7 @@ bool asst::ParadoxRecognitionTask::_run()
     }
 
     return_initial_oper(); // 回干员列表（默认在最左侧）
-    const auto name = m_oper_name["name"].as_string();
+    const auto& name = m_oper_name.name;
     const auto role = BattleData.get_role(name);
     if (!click_role_table(role)) {
         return_initial_oper();
@@ -67,9 +96,9 @@ void asst::ParadoxRecognitionTask::enter_paradox(const int skill_num, const int 
     }
 }
 
-void asst::ParadoxRecognitionTask::set_navigate_name(const std::string& navigate_name)
+void asst::ParadoxRecognitionTask::add_oper(const std::string& navigate_name)
 {
-    m_navigate_name = standardize_name(navigate_name);
+    m_paradox_opers.emplace_back(navigate_name);
 }
 
 void asst::ParadoxRecognitionTask::swipe_page() const
@@ -155,7 +184,7 @@ bool asst::ParadoxRecognitionTask::swipe_and_analyze()
     return false;
 }
 
-std::optional<asst::Rect> asst::ParadoxRecognitionTask::match_from_result(const std::vector<OperBoxInfo>& result)
+std::optional<asst::Rect> asst::ParadoxRecognitionTask::match_from_result(const std::vector<OperBoxInfo>& result) const
 {
     for (const auto& box_info : result) {
         if (match_oper(box_info.name)) {
@@ -165,8 +194,8 @@ std::optional<asst::Rect> asst::ParadoxRecognitionTask::match_from_result(const 
     return std::nullopt;
 }
 
-bool asst::ParadoxRecognitionTask::match_oper(const std::string& name)
+bool asst::ParadoxRecognitionTask::match_oper(const std::string& name) const
 {
-    return m_oper_name["name"] == name || m_oper_name["name_en"] == name || m_oper_name["name_jp"] == name ||
-           m_oper_name["name_kr"] == name || m_oper_name["name_tw"] == name;
+    return m_oper_name.name == name || m_oper_name.name_en == name || m_oper_name.name_jp == name ||
+           m_oper_name.name_kr == name || m_oper_name.name_tw == name;
 }

@@ -995,7 +995,7 @@ public class AsstProxy
                 }
         }
 
-        bool isCopilotTaskChain = taskChain is "Copilot" or "SSSCopilot" or "VideoRecognition";
+        bool isCopilotTaskChain = taskChain is "Copilot" or "SSSCopilot"; /* or "VideoRecognition"; */
 
         switch (msg)
         {
@@ -1019,7 +1019,7 @@ public class AsstProxy
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                     }
-                    else if (value is { Type: TaskType.Copilot } or { Type: TaskType.VideoRec })
+                    else if (value is { Type: TaskType.Copilot }) /* or { Type: TaskType.VideoRec }) */
                     {
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
@@ -1050,7 +1050,7 @@ public class AsstProxy
                     TaskStatusUpdate(taskId, TaskStatus.InProgress);
 
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
-                    Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot" or "VideoRecognition")
+                    Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot") /* or "VideoRecognition") */
                         ? Instances.CopilotViewModel.LogItemViewModels
                         : Instances.TaskQueueViewModel.LogItemViewModels;
 
@@ -1710,9 +1710,11 @@ public class AsstProxy
                 ProcRecruitCalcMsg(details);
                 break;
 
+            /*
             case "VideoRecognition":
                 ProcVideoRecMsg(details);
                 break;
+            */
         }
 
         var subTaskDetails = details["details"];
@@ -2482,6 +2484,9 @@ public class AsstProxy
         return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
     }
 
+    /// <summary>
+    /// WPF 区分任务的类型
+    /// </summary>
     public enum TaskType
     {
         /// <summary>开始唤醒</summary>
@@ -2520,8 +2525,10 @@ public class AsstProxy
         /// <summary>自动战斗</summary>
         Copilot,
 
+        /*
         /// <summary>视频识别（真有人用吗）</summary>
         VideoRec,
+        */
 
         /// <summary>仓库识别</summary>
         Depot,
@@ -2659,6 +2666,7 @@ public class AsstProxy
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
     }
 
+    /*
     /// <summary>
     /// 视频识别。
     /// </summary>
@@ -2673,6 +2681,7 @@ public class AsstProxy
         _tasksStatus.Add(id, (TaskType.Copilot, TaskStatus.Idle));
         return id != 0 && AsstStart();
     }
+    */
 
     public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstBaseTask task)
     {

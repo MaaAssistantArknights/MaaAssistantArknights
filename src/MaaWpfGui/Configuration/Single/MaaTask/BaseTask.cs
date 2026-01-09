@@ -19,6 +19,7 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
 
+// [JsonDerivedType(typeof(VideoRecognition), typeDiscriminator: nameof(VideoRecognition))]
 [JsonDerivedType(typeof(StartUpTask), typeDiscriminator: nameof(StartUpTask))]
 [JsonDerivedType(typeof(CloseDownTask), typeDiscriminator: nameof(CloseDownTask))]
 [JsonDerivedType(typeof(FightTask), typeDiscriminator: nameof(FightTask))]
@@ -30,7 +31,6 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 [JsonDerivedType(typeof(CopilotTask), typeDiscriminator: nameof(CopilotTask))]
 [JsonDerivedType(typeof(SSSCopilotTask), typeDiscriminator: nameof(SSSCopilotTask))]
 [JsonDerivedType(typeof(SingleStepTask), typeDiscriminator: nameof(SingleStepTask))]
-[JsonDerivedType(typeof(VideoRecognition), typeDiscriminator: nameof(VideoRecognition))]
 [JsonDerivedType(typeof(DepotTask), typeDiscriminator: nameof(DepotTask))]
 [JsonDerivedType(typeof(OperBoxTask), typeDiscriminator: nameof(OperBoxTask))]
 [JsonDerivedType(typeof(ReclamationTask), typeDiscriminator: nameof(ReclamationTask))]
@@ -78,9 +78,11 @@ public class SingleStepTask : BaseTask
 {
 }
 
+/*
 public class VideoRecognition : BaseTask
 {
 }
+*/
 
 public class DepotTask : BaseTask
 {
