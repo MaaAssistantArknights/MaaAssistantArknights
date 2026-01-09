@@ -1,8 +1,8 @@
 #include "ParadoxCopilotTask.h"
 
+#include "Config/Miscellaneous/CopilotConfig.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/Miscellaneous/ParadoxRecognitionTask.h"
-#include "Config/Miscellaneous/CopilotConfig.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 

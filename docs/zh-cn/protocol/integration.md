@@ -588,7 +588,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 保全作业 JSON 请参考 [保全派驻协议](./sss-schema.md)
 
 - `ParadoxCopilot`
-   自动抄悖论模拟作业
+  自动抄悖论模拟作业
 
 ```json5
 // Task parameters

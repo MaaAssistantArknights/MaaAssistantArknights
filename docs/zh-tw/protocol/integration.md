@@ -339,9 +339,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 保全作業 JSON 請參考 [3.7-保全派駐協議](./sss-schema.md)
 
-
 - `ParadoxCopilot`
-   自動抄悖論模擬作業
+  自動抄悖論模擬作業
 
 ```json5
 // Task parameters
