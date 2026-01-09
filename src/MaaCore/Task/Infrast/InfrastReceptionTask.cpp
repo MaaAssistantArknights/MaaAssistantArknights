@@ -176,8 +176,9 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
                     Rect click_rect = confirm_task->roi.move(confirm_task->rect_move);
                     ctrler()->click(click_rect);
                 }
-                return true;
             }
+
+            return true;
         }
     }
 
@@ -226,8 +227,7 @@ bool asst::InfrastReceptionTask::unlock_clue_exchange()
 bool asst::InfrastReceptionTask::back_to_reception_main()
 {
     ProcessTask(*this, { "EndOfClueExchange" }).set_retry_times(0).run();
-    // 国服有快捷置入后不会进入线索放置页面，不需要返回，多点一次快捷置入也无所谓
-    return ProcessTask(*this, { "InfrastClueQuickInsert", "BackToReceptionMain" }).run();
+    return ProcessTask(*this, { "BackToReceptionMain" }).run();
 }
 
 bool asst::InfrastReceptionTask::send_clue()
