@@ -1,0 +1,66 @@
+{
+    "ME-3": {
+        "algorithm": "JustReturn",
+        "sub": ["ME-3@ME-OpenOpt"],
+        "next": ["ME-3@SideStoryStage", "ME-3@SwipeToStage"]
+    },
+    "ME-3@SideStoryStage": {
+        "text": ["ME-3"]
+    },
+    "ME-5": {
+        "algorithm": "JustReturn",
+        "sub": ["ME-5@ME-OpenOpt"],
+        "next": ["ME-5@SideStoryStage", "ME-5@SwipeToStage"]
+    },
+    "ME-5@SideStoryStage": {
+        "text": ["ME-5"]
+    },
+    "ME-6": {
+        "algorithm": "JustReturn",
+        "sub": ["ME-6@ME-OpenOpt"],
+        "next": ["ME-6@SideStoryStage", "ME-6@SwipeToStage"]
+    },
+    "ME-6@SideStoryStage": {
+        "text": ["ME-6"]
+    },
+    "ME-7": {
+        "algorithm": "JustReturn",
+        "sub": ["ME-7@ME-OpenOpt"],
+        "next": ["ME-7@SideStoryStage", "ME-7@SwipeToStage"]
+    },
+    "ME-7@SideStoryStage": {
+        "text": ["ME-7"]
+    },
+    "ME-8": {
+        "algorithm": "JustReturn",
+        "sub": ["ME-8@ME-OpenOpt"],
+        "next": ["ME-8@SideStoryStage", "ME-8@SwipeToStage"]
+    },
+    "ME-8@SideStoryStage": {
+        "text": ["ME-8"]
+    },
+    "ME-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["ME-OpenOcr", "ME-Open"]
+    },
+    "ME-Open": {
+        "baseTask": "SS-Open",
+        "postDelay": 3000,
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["MEChapterToME"]
+    },
+    "ME-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "postDelay": 3000,
+        "text": ["雅赛努斯", "复仇记", "街头戏剧"],
+        "next": ["MEChapterToME"]
+    },
+    "MEChapterToME": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["神殿仪式"],
+        "postDelay": 2000,
+        "roi": [1126, 382, 99, 33],
+        "next": ["#self", "SideStoryStage", "ChapterSwipeToTheRight"]
+    }
+}
