@@ -594,8 +594,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 // Task parameters
 {
    "enable": bool,        // 是否启用本任务。默认为 true
-   "filename": string,    // 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。与 list 二选一（必填）
-   "list" : list<string>  // 作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。与 filename 二选一（必填）
+   "filename": string,    // 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。必选，与 list 二选一
+   "list" : list<string>  // 作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。必选，与 filename 二选一
 }
 ```
 

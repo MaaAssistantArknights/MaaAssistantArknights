@@ -341,14 +341,14 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 
 - `ParadoxCopilot`
-   自动抄悖论模拟作业
+   自動抄悖論模擬作業
 
 ```json5
 // Task parameters
 {
-   "enable": bool,        // 是否启用本任务。默认为 true
-   "filename": string,    // 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。与 list 二选一（必填）
-   "list" : list<string>  // 作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。与 filename 二选一（必填）
+   "enable": bool,        // 是否啟用本任務，可選，預設為 true
+   "filename": string,    // 單一作業 JSON 的檔案路徑，絕對、相對路徑皆可。不支援運行期設定。必選，與 list 二選一
+   "list" : list<string>  // 作業 JSON 列表，絕對、相對路徑均可。不支援運行期設定。必選，與 filename 二選一
 }
 ```
 
