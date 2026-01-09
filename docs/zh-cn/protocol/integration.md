@@ -523,8 +523,6 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 - `stage_name`: 关卡名，具体请参考 [PRTS.Map](https://map.ark-nights.com)
   <br>
 - `is_raid`: 是否切换为突袭模式，可选，默认值 false
-  <br>
-- `is_paradox`: 是否为悖论模拟关卡，可选，默认值 false；测试中参数
   :::  
   ::: field name="loop_times" type="number" optional default="1"  
   循环次数。仅在单一作业模式下（即指定 filename 时）有效；此参数生效时仅可执行 set_params 一次。  
@@ -588,6 +586,18 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::::  
 保全作业 JSON 请参考 [保全派驻协议](./sss-schema.md)
+
+- `ParadoxCopilot`
+   自动抄悖论模拟作业
+
+```json5
+// Task parameters
+{
+   "enable": bool,        // 是否启用本任务。默认为 true
+   "filename": string,    // 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。与 list 二选一（必填）
+   "list" : list<string>  // 作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。与 filename 二选一（必填）
+}
+```
 
 - `Depot`  
    仓库识别

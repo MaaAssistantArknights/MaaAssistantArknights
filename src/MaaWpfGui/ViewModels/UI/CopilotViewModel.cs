@@ -60,7 +60,7 @@ public partial class CopilotViewModel : Screen
     private readonly List<int> _copilotIdList = []; // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
     private readonly List<int> _recentlyRatedCopilotId = []; // TODO: 可能考虑加个持久化
     private AsstTaskType _taskType = AsstTaskType.Copilot;
-    private readonly Dictionary<string, string> _copilotJsonPathMap = new(); // 下拉框与实际作业 json 档案路径对照表
+    private readonly Dictionary<string, string> _copilotJsonPathMap = []; // 下拉框与实际作业 json 档案路径对照表
 
     /// <summary>
     /// 缓存的已解析作业，非即时添加的作业会使用该缓存
@@ -405,7 +405,7 @@ public partial class CopilotViewModel : Screen
         set => SetAndNotify(ref _useSanityPotion, value);
     }
 
-    private bool _addUserAdditional = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, bool.FalseString));
+    private bool _addUserAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use auto-formation.
@@ -1948,7 +1948,10 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
     {
-        if (UseCopilotList)
+        if (!UseCopilotList)
+        {
+        }
+        else if (CopilotTabIndex == 0)
         {
             _copilotIdList.Clear();
 
@@ -1972,6 +1975,23 @@ public partial class CopilotViewModel : Screen
             var ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
             return ret && Instances.AsstProxy.AsstStart();
         }
+        else if (CopilotTabIndex == 2)
+        {
+            _copilotIdList.Clear();
+
+            var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i => {
+                _copilotIdList.Add(i.CopilotId);
+                return i.FilePath;
+            });
+
+            var task = new AsstParadoxCopilotTask() { MultiTasks = [.. t], };
+            var ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+            return ret && Instances.AsstProxy.AsstStart();
+        }
+        else
+        {
+            return false;
+        }
 
         if (IsDataFromWeb)
         {
@@ -1986,20 +2006,30 @@ public partial class CopilotViewModel : Screen
             }
         }
 
-        var singleTask = new AsstCopilotTask() {
-            FileName = IsDataFromWeb ? TempCopilotFile : Filename,
-            Formation = Form,
-            SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
-            AddTrust = AddTrust,
-            IgnoreRequirements = IgnoreRequirements,
-            UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
-            LoopTimes = Loop ? LoopTimes : 1,
-            UseSanityPotion = false,
-            FormationIndex = UseFormation ? FormationIndex : 0,
-        };
+        bool appended;
+        if (CopilotTabIndex == 2)
+        {
+            var singleTask = new AsstParadoxCopilotTask() { FileName = TempCopilotFile };
+            appended = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, singleTask);
+        }
+        else
+        {
+            var singleTask = new AsstCopilotTask() {
+                FileName = IsDataFromWeb ? TempCopilotFile : Filename,
+                Formation = Form,
+                SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                AddTrust = AddTrust,
+                IgnoreRequirements = IgnoreRequirements,
+                UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
+                LoopTimes = Loop ? LoopTimes : 1,
+                UseSanityPotion = false,
+                FormationIndex = UseFormation ? FormationIndex : 0,
+            };
 
-        // 单作业需要区分 Copilot / SSSCopilot
-        var appended = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, singleTask.Serialize().Params);
+            // 单作业需要区分 Copilot / SSSCopilot
+            appended = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, singleTask.Serialize().Params);
+        }
+
         return appended && Instances.AsstProxy.AsstStart();
     }
 

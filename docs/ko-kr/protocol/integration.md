@@ -523,8 +523,6 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 - `stage_name`: 스테이지명, 구체적인 건 [PRTS.Map](https://map.ark-nights.com) 참고
   <br>
 - `is_raid`: 하드 모드 전환 여부, 선택 사항, 기본값 false
-  <br>
-- `is_paradox`: 패러독스 시뮬레이션 여부, 선택 사항, 기본값 false; 테스트 중인 파라미터
   :::  
   ::: field name="loop_times" type="number" optional default="1"  
   반복 횟수. 단일 작전 모드(filename 지정)에서만 유효; 이 파라미터 유효 시 set_params는 1회만 실행 가능  
@@ -588,6 +586,19 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 :::  
 ::::  
 보안 파견 작전 JSON은 [보안 파견 프로토콜](./sss-schema.md)을 참고하세요.
+
+
+- `ParadoxCopilot`
+   自动抄悖论模拟作业
+
+```json5
+// Task parameters
+{
+   "enable": bool,        // 是否启用本任务。默认为 true
+   "filename": string,    // 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。与 list 二选一（必填）
+   "list" : list<string>  // 作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。与 filename 二选一（必填）
+}
+```
 
 - `Depot`  
    창고 인식

@@ -297,8 +297,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
         {
             "filename": string,   // 作業 JSON 文件的路徑；相對路徑與絕對路徑均可
             "stage_name": string, // 關卡名，具體請參考 [PRTS.Map](https://map.ark-nights.com)
-            "is_raid": bool,      // 是否切換為突襲模式，可選, 預設值 false
-            "is_paradox": bool    // 是否為悖論模擬關卡, 可選, 預設值 false；測試中參數
+            "is_raid": bool       // 是否切換為突襲模式，可選, 預設值 false
         },
         ...
     ],
@@ -339,6 +338,19 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 保全作業 JSON 請參考 [3.7-保全派駐協議](./sss-schema.md)
+
+
+- `ParadoxCopilot`
+   自动抄悖论模拟作业
+
+```json5
+// Task parameters
+{
+   "enable": bool,        // 是否启用本任务。默认为 true
+   "filename": string,    // 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。与 list 二选一（必填）
+   "list" : list<string>  // 作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。与 filename 二选一（必填）
+}
+```
 
 - `Depot`  
    倉庫辨識

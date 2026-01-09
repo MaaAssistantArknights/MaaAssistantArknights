@@ -2486,6 +2486,9 @@ public class AsstProxy
         return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
     }
 
+    /// <summary>
+    /// Wpf区分任务的类型
+    /// </summary>
     public enum TaskType
     {
         /// <summary>开始唤醒</summary>
