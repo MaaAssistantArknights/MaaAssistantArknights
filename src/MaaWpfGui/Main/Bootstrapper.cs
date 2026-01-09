@@ -146,7 +146,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         try
         {
-            var currentPath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            var currentPath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
             var tempPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
                 Path.GetFullPath(Path.GetTempPath()),
@@ -170,7 +170,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
             foreach (var tempPath in tempPaths)
             {
-                if (currentPath.StartsWith(tempPath.TrimEnd(Path.DirectorySeparatorChar),
+                if (currentPath.StartsWith(tempPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar,
                     StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
