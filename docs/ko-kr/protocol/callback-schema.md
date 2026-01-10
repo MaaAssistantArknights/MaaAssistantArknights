@@ -474,8 +474,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `Depot`  
   창고 인식 결과. `details` 필드 구조는 다음과 같습니다:
   - `done` (boolean, required): 인식 완료 여부, `false`는 아직 인식 중임(진행 중 데이터)을 의미
-  - `arkplanner` (object, required): [ArkPlanner](https://penguin-stats.cn/planner) 포맷 데이터
-  - `lolicon` (object, required): [lolicon](https://arkntools.app/#/material) (Arkntools) 포맷 데이터
+  - `data` (string, required): JSON 문자열, 형식은 `{"아이템ID": 수량, ...}`, 예: `{"2001":18000,"31043":317}`
 
 - `OperBox`  
   오퍼레이터 보관함 인식 결과. `details` 필드 구조는 다음과 같습니다:

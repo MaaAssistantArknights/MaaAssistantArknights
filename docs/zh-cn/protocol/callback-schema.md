@@ -474,8 +474,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `Depot`  
   仓库识别结果。`details` 字段结构如下：
   - `done` (boolean, required): 是否已经识别完了，为 `false` 表示仍在识别中（过程中的数据）。
-  - `arkplanner` (object, required): [ArkPlanner](https://penguin-stats.cn/planner) 格式的数据。
-  - `lolicon` (object, required): [lolicon](https://arkntools.app/#/material) (Arkntools) 格式的数据。
+  - `data` (string, required): JSON 字符串，格式为 `{"物品ID": 数量, ...}`，例如 `{"2001":18000,"31043":317}`。
 
 - `OperBox`  
   干员识别结果。`details` 字段结构如下：
