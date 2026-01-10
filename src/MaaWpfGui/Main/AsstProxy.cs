@@ -1721,7 +1721,7 @@ public class AsstProxy
         switch (taskChain)
         {
             case "Depot":
-                Instances.ToolboxViewModel.DepotParse((JObject?)subTaskDetails);
+                Instances.ToolboxViewModel.DepotParse((JObject?)subTaskDetails, updateSyncTime: true);
                 break;
 
             case "OperBox":
@@ -1784,6 +1784,9 @@ public class AsstProxy
                         updateCardImage: true);
 
                     AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySpenderGroup, curTimes > 0 ? curTimes : 1);
+
+                    // 联动更新 Depot 数据
+                    Instances.ToolboxViewModel.UpdateDepotFromDrops(drops);
 
                     break;
                 }

@@ -19,7 +19,7 @@ namespace MaaWpfGui.Models.Copilot;
 public class CopilotBase
 {
     /// <summary>
-    /// Gets or sets 最低要求 maa 版本号，必选。保留字段，暂未实现。
+    /// Gets or sets 最低要求 maa 版本号，必选
     /// </summary>
     [JsonProperty("minimum_required")]
     public string MinimumRequired { get; set; } = string.Empty;

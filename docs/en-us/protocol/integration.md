@@ -364,7 +364,7 @@ For more details about auto-combat JSON, please refer to [Combat Operation Proto
 For more details about Stationary Security Service JSON, please refer to [SSS Schema](./sss-schema.md)
 
 - `ParadoxCopilot`
-   Automatically run Paradox Simulation operations
+  Automatically run Paradox Simulation operations
 
 ```json5
 // Task parameters

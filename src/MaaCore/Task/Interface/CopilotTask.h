@@ -18,9 +18,9 @@ class CopilotTask final : public InterfaceTask
 public:
     struct MultiCopilotConfig
     {
-        std::string filename;    // 文件名
-        std::string stage_name;  // 关卡名
-        bool is_raid = false;    // 是否是突袭
+        std::string filename;   // 文件名
+        std::string stage_name; // 关卡名
+        bool is_raid = false;   // 是否是突袭
 
         MEO_JSONIZATION(filename, stage_name, MEO_OPT is_raid);
     };
