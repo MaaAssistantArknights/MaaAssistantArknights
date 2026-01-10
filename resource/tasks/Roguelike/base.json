@@ -1356,7 +1356,7 @@
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
-        "preDelay": 500,
+        "postDelay": 500,
         "next": ["Roguelike@QuickFormation"]
     },
     "Roguelike@StageEnterBattleAgain": {
