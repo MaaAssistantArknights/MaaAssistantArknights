@@ -662,23 +662,29 @@ bool asst::BattleFormationTask::check_and_select_skill(
     const auto& check_task = Task.get("BattleQuickFormationSkillLevel-Check");
     const auto& swipe_task = Task.get("BattleQuickFormationSkillLevel-Swipe");
 
+    const auto check_level = [&](int level) {
+        if (level < level_required) {
+            LogWarn << __FUNCTION__ << "| Skill" << skill << "level" << level << ", require:" << level_required;
+            json::value info = basic_info_with_what("BattleFormationOperUnavailable");
+            info["details"]["oper_name"] = name;
+            info["details"]["requirement_type"] = "skill_level";
+            callback(AsstMsg::SubTaskExtraInfo, info);
+            if (!ignore) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     cv::Mat image, roi_image;
     if (skill == 1 || skill == 2) {
         image = ctrler()->get_image();
         roi_image = make_roi(image, make_rect<cv::Rect>(base_task->roi));
         auto result = find_skill(roi_image, skill, false);
         if (result) { // 提前找到快速返回, 否则回退到图片合并及滑动
-            if (result->second < level_required) {
-                LogWarn << __FUNCTION__ << "| Skill" << skill << "level" << result->second
-                        << ", require:" << level_required;
-                json::value info = basic_info_with_what("BattleFormationOperUnavailable");
-                info["details"]["oper_name"] = name;
-                info["details"]["requirement_type"] = "skill";
-                callback(AsstMsg::SubTaskExtraInfo, info);
-                if (!ignore) {
+            if (!check_level(result->second)) {
                     return false;
                 }
-            }
             ctrler()->click(base_task->roi.move(result->first));
             sleep(delay);
             return true;
@@ -690,17 +696,9 @@ bool asst::BattleFormationTask::check_and_select_skill(
         roi_image = make_roi(image, make_rect<cv::Rect>(base_task->roi));
         auto result = find_skill(roi_image, skill, true);
         if (result) { // 提前找到快速返回, 否则回退到图片合并及滑动
-            if (result->second < level_required) {
-                LogWarn << __FUNCTION__ << "| Skill" << skill << "level" << result->second
-                        << ", require:" << level_required;
-                json::value info = basic_info_with_what("BattleFormationOperUnavailable");
-                info["details"]["oper_name"] = name;
-                info["details"]["requirement_type"] = "skill";
-                callback(AsstMsg::SubTaskExtraInfo, info);
-                if (!ignore) {
+            if (!check_level(result->second)) {
                     return false;
                 }
-            }
             ctrler()->click(base_task->roi.move(result->first));
             sleep(delay);
             return true;
@@ -756,20 +754,9 @@ bool asst::BattleFormationTask::check_and_select_skill(
         // 短路检测, 在已拼接的图片上尝试查找目标技能
         auto result = find_skill(stitched_image, skill, false);
         if (result) {
-            LogInfo << __FUNCTION__ << "| Found skill " << skill << " with level " << result->second
-                    << " during stitching";
-
-            if (result->second < level_required) {
-                LogWarn << __FUNCTION__ << "| Skill" << skill << "level" << result->second
-                        << ", require:" << level_required;
-                json::value info = basic_info_with_what("BattleFormationOperUnavailable");
-                info["details"]["oper_name"] = name;
-                info["details"]["requirement_type"] = "skill";
-                callback(AsstMsg::SubTaskExtraInfo, info);
-                if (!ignore) {
+            if (!check_level(result->second)) {
                     return false;
                 }
-            }
 
             // 需要将拼接图片中的坐标转换回实际点击坐标
             Rect rect { result->first.x,
@@ -784,19 +771,9 @@ bool asst::BattleFormationTask::check_and_select_skill(
 
     auto result = find_skill(stitched_image, skill, false);
     if (result) {
-        LogInfo << __FUNCTION__ << "| Found skill " << skill << " with level " << result->second << " during stitching";
-
-        if (result->second < level_required) {
-            LogWarn << __FUNCTION__ << "| Skill" << skill << "level" << result->second
-                    << ", require:" << level_required;
-            json::value info = basic_info_with_what("BattleFormationOperUnavailable");
-            info["details"]["oper_name"] = name;
-            info["details"]["requirement_type"] = "skill";
-            callback(AsstMsg::SubTaskExtraInfo, info);
-            if (!ignore) {
+        if (!check_level(result->second)) {
                 return false;
             }
-        }
 
         // 需要将拼接图片中的坐标转换回实际点击坐标
         Rect rect { result->first.x,
