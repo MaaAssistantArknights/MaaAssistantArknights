@@ -1721,7 +1721,7 @@ public class AsstProxy
         switch (taskChain)
         {
             case "Depot":
-                Instances.ToolboxViewModel.DepotParse((JObject?)subTaskDetails);
+                Instances.ToolboxViewModel.DepotParse((JObject?)subTaskDetails, updateSyncTime: true);
                 break;
 
             case "OperBox":

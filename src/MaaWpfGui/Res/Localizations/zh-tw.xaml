@@ -810,6 +810,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  倉庫辨識  -->
     <system:String x:Key="DepotRecognition">倉庫辨識</system:String>
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
+    <system:String x:Key="LastDepotSyncTime">上次同步時間</system:String>
     <system:String x:Key="DepotRecognitionTip">該功能尚處於測試階段，請檢查結果是否準確再行使用。若有誤，歡迎打包 debug/depot 資料夾後向我們提交 issue ~</system:String>
     <system:String x:Key="StartToDepotRecognition">開始辨識</system:String>
     <system:String x:Key="ExportToArkplanner">匯出到企鵝物流刷圖規劃</system:String>

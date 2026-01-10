@@ -16,6 +16,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -54,6 +56,7 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public ToolboxViewModel()
     {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
         DisplayName = LocalizationHelper.GetString("Toolbox");
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (__, e) => {
@@ -406,6 +409,36 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _depotInfo, value);
     }
 
+    private DateTime? _lastDepotSyncTime;
+
+    /// <summary>
+    /// Gets or sets 上次仓库同步时间（UTC 时间）
+    /// </summary>
+    public DateTime? LastDepotSyncTime
+    {
+        get => _lastDepotSyncTime;
+        set => SetAndNotify(ref _lastDepotSyncTime, value);
+    }
+
+    /// <summary>
+    /// Gets 上次仓库同步时间的显示文本（本地时间）
+    /// </summary>
+    [PropertyDependsOn(nameof(LastDepotSyncTime))]
+    public string LastDepotSyncTimeText
+    {
+        get
+        {
+            if (LastDepotSyncTime == null)
+            {
+                return string.Empty;
+            }
+
+            // 将 UTC 时间转换为本地时间显示
+            var localTime = LastDepotSyncTime.Value.ToLocalTime();
+            return localTime.ToString();
+        }
+    }
+
     private ObservableCollection<DepotResultDate> _depotResult = [];
 
     /// <summary>
@@ -475,6 +508,12 @@ public class ToolboxViewModel : Screen
             ["done"] = true,
             ["data"] = depotData.ToString(Formatting.None),
         };
+
+        // 保存同步时间为 UTC（如果有）
+        if (LastDepotSyncTime.HasValue)
+        {
+            details["syncTime"] = LastDepotSyncTime.Value.ToString("o"); // ISO 8601 格式
+        }
 
         JsonDataHelper.Set(JsonDataKey.DepotData, details);
     }
@@ -569,8 +608,9 @@ public class ToolboxViewModel : Screen
     /// 解析仓库识别结果（兼容新旧格式）
     /// </summary>
     /// <param name="details">详细的 JSON 参数</param>
+    /// <param name="updateSyncTime">是否更新同步时间为当前时间（从 Core 获取新数据时为 true，从本地加载时为 false）</param>
     /// <returns>是否成功</returns>
-    public bool DepotParse(JObject? details)
+    public bool DepotParse(JObject? details, bool updateSyncTime = false)
     {
         if (details == null)
         {
@@ -657,6 +697,21 @@ public class ToolboxViewModel : Screen
         if (!done)
         {
             return true;
+        }
+
+        if (updateSyncTime)
+        {
+            // 从 Core 获取新数据，更新为当前 UTC 时间
+            LastDepotSyncTime = DateTime.UtcNow;
+        }
+        else
+        {
+            // 从本地加载，读取保存的时间
+            var syncTimeStr = details["syncTime"]?.ToString(Formatting.None)?.Trim('"');
+            if (!string.IsNullOrEmpty(syncTimeStr))
+            {
+                LastDepotSyncTime = DateTime.ParseExact(syncTimeStr, "O", null, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
+            }
         }
 
         DepotInfo = LocalizationHelper.GetString("IdentificationCompleted");
