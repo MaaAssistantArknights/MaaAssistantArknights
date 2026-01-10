@@ -92,22 +92,27 @@
                             hc:InfoElement.Placeholder="{DynamicResource CopilotLocation}"
                             IsEnabled="{Binding Idle}"
                             Text="{Binding DisplayFilename, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button
-                            Height="28"
+                        <Border
                             Margin="1"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Stretch"
                             Background="{DynamicResource RegionBrushOpacity50}"
                             BorderThickness="0"
-                            Click="{s:Action ToggleFilePopup}"
                             Cursor="Hand"
-                            IsEnabled="{Binding Idle}">
-                            <StackPanel>
+                            Focusable="False"
+                            IsEnabled="{Binding Idle}"
+                            MouseUp="Border_MouseUp">
+                            <Grid
+                                Width="28" Opacity="{c:Binding 'Idle ? 1 : 0.5'}"
+                                Height="28"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
                                 <Path
                                     Width="12"
                                     Height="12"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
+                                    d:Visibility="Visible"
                                     Data="{StaticResource DownGeometry}"
                                     Fill="{DynamicResource PrimaryTextBrush}"
                                     Stretch="Uniform"
@@ -122,15 +127,26 @@
                                     Fill="{DynamicResource PrimaryTextBrush}"
                                     Stretch="Uniform"
                                     Visibility="{c:Binding IsFilePopupOpen}" />
-                            </StackPanel>
-                        </Button>
+                            </Grid>
+                        </Border>
                         <Popup
                             MinWidth="{c:Binding 'ActualWidth + 90',
                                                  ElementName=FileTextBox}"
                             IsOpen="{Binding IsFilePopupOpen}"
+                            LostFocus="Popup_LostFocus"
                             Placement="Bottom"
+                            PlacementRectangle="0,30,0,0"
                             PlacementTarget="{Binding ElementName=FileTextBox}"
-                            StaysOpen="True">
+                            StaysOpen="False">
+                            <Popup.Resources>
+                                <Style TargetType="Popup">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsOpen" Value="True">
+                                            <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}, Path=Child}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Popup.Resources>
                             <Border
                                 MinWidth="{c:Binding 'ActualWidth + 90',
                                                      ElementName=FileTextBox}"
