@@ -387,8 +387,15 @@
                         <controls:TooltipBlock
                             HorizontalAlignment="Right"
                             VerticalContentAlignment="Top"
-                            NormalOpacity="0.5"
-                            TooltipText="{DynamicResource InventoryUpdateTip}" />
+                            NormalOpacity="0.5">
+                            <controls:TooltipBlock.TooltipText>
+                                <MultiBinding StringFormat="{}{0}&#x0a;{1}: {2}">
+                                    <Binding Source="{StaticResource InventoryUpdateTip}" />
+                                    <Binding Source="{StaticResource LastDepotSyncTime}" />
+                                    <Binding Path="LastDepotSyncTimeText" Source="{x:Static helper:Instances.ToolboxViewModel}" />
+                                </MultiBinding>
+                            </controls:TooltipBlock.TooltipText>
+                        </controls:TooltipBlock>
                     </Border>
                 </Grid>
             </Grid>
