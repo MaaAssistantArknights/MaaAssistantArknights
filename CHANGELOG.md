@@ -58,7 +58,7 @@ You can update your depot info through *Toolbox → Depot*, and the daily drop i
 
 We've added two independent toggle settings for *Conduct Clue Exchange* and *Send Clues* in *Farming → Base → Advanced*, improving the flexibility of *Base* management.
 
-We've also optimized the logic for one-click clues sending, reducing the possibility of accidental operations.
+We've also optimized the logic for one-click clue sending, reducing the possibility of accidental operations.
 
 Additionally, when *Base* entry fails, MAA will automatically save a test screenshot for easier troubleshooting and identification of subsequent issues.
 
