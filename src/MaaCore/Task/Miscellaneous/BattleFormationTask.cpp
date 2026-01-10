@@ -542,13 +542,7 @@ bool asst::BattleFormationTask::enter_selection_page(const cv::Mat& img)
 bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperGroup*>& groups)
 {
     const auto& opers_result = analyzer_opers(ctrler()->get_image());
-
-    static const std::array<Rect, 3> SkillRectArray = {
-        Task.get("BattleQuickFormationSkill1")->specific_rect,
-        Task.get("BattleQuickFormationSkill2")->specific_rect,
-        Task.get("BattleQuickFormationSkill3")->specific_rect,
-    };
-
+    
     if (!opers_result.empty()) {
         if (m_last_oper_name == opers_result.back().text) {
             Log.info("last oper name is same as current, skip");
