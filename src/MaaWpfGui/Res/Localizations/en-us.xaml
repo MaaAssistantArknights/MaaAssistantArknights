@@ -909,6 +909,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Operator">Operator</system:String>
     <system:String x:Key="Copilot">Copilot</system:String>
     <system:String x:Key="SSSCopilot">SSS {key=Copilot}</system:String>
+    <system:String x:Key="ParadoxCopilot">{key=ParadoxSimulation}</system:String>
     <system:String x:Key="CopilotLocation">Task file / URL</system:String>
     <system:String x:Key="CopilotTaskName">Stage Code</system:String>
     <system:String x:Key="CopilotTaskNameTip">Stage Code, e.g. 1-7</system:String>
