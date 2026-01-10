@@ -43,8 +43,8 @@
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="0"
-                VerticalAlignment="Center">
-                <StackPanel VerticalAlignment="Center">
+                VerticalAlignment="Top">
+                <StackPanel VerticalAlignment="Top">
                     <CheckBox
                         Margin="8"
                         HorizontalAlignment="Left"
@@ -176,7 +176,7 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Margin="3"
-                VerticalAlignment="Center">
+                VerticalAlignment="Top">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
