@@ -80,7 +80,8 @@
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 Margin="10,5,10,0"
-                IsInertiaEnabled="True">
+                IsInertiaEnabled="True"
+                PanningMode="Both">
                 <hc:Interaction.Triggers>
                     <hc:EventTrigger EventName="ScrollChanged">
                         <hc:InvokeCommandAction Command="{Binding UpdateScrollStateCommand}" CommandParameter="{Binding ElementName=ScrollViewer}" />
