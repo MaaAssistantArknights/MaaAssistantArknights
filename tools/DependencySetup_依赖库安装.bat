@@ -70,7 +70,7 @@ if %ErrorOccurred% equ 0 (
     echo %YELLOW%If the installation is successful, you don't need to run this dependency installation script again.%RESET%
     echo.
     echo %WHITE%Microsoft Visual C++ Redistributable:%RESET%
-    echo %CYAN%https://aka.ms/vs/17/release/vc_redist.x64.exe%RESET%
+    echo %CYAN%https://aka.ms/vc14/vc_redist.x64.exe%RESET%
     echo.
     echo %WHITE%.NET Desktop Runtime 10.0:%RESET%
     echo %CYAN%https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe%RESET%
