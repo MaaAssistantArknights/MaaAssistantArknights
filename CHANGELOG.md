@@ -70,8 +70,6 @@ We've added some achievements covering multiple scenarios, waiting for you to ex
 
 以下是详细内容：
 
-## v6.2.0
-
 ### 新增 | New
 
 * 成就 DLC 功能 (#15288) @ABA2396
