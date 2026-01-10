@@ -350,7 +350,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                        <DataGridTextColumn Binding="{Binding Count}" Header="Count" />
+                        <DataGridTextColumn Binding="{Binding DisplayCount}" Header="Count" />
                     </DataGrid.Columns>
                 </controls:NoAutomationDataGrid>
                 <StackPanel

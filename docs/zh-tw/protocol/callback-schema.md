@@ -536,39 +536,8 @@ Todo
 
   ```json
   // 對應的 details 欄位舉例
-  "done": bool,       // 是否已經辨識完了，為 false 表示仍在辨識中（過程中的數據）
-  "arkplanner": {     // https://penguin-stats.io/planner
-      "object": {
-          "items": [
-              {
-                  "id": "2004",
-                  "have": 4,
-                  "name": "高級作戰記錄"
-              },
-              {
-                  "id": "mod_unlock_token",
-                  "have": 25,
-                  "name": "模組數據塊"
-              },
-              {
-                  "id": "2003",
-                  "have": 20,
-                  "name": "中級作戰記錄"
-              }
-          ],
-          "@type": "@penguin-statistics/depot"
-      },
-      "data": "{\"@type\":\"@penguin-statistics/depot\",\"items\":[{\"id\":\"2004\",\"have\":4,\"name\":\"高級作戰記錄\"},{\"id\":\"mod_unlock_token\",\"have\":25,\"name\":\"模組數據塊\"},{\"id\":\"2003\",\"have\":20,\"name\":\"中級作戰記錄\"}]}"
-  },
-  "lolicon": {     // https://arkntools.app/#/material
-      "object": {
-          "2004" : 4,
-          "mod_unlock_token": 25,
-          "2003": 20
-      },
-      "data": "{\"2003\":20,\"2004\": 4,\"mod_unlock_token\": 25}"
-  }
-  // 目前只支援 ArkPlanner 和 Lolicon (Arkntools) 的格式，以後可能會兼容更多網站
+  "done": bool,   // 是否已經辨識完了，為 false 表示仍在辨識中（過程中的數據）
+  "data": "{\"2001\":18000,\"31043\":317}"  // JSON 字串，格式為 {"物品ID": 數量, ...}
   ```
 
 - `OperBox`  

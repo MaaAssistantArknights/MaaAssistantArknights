@@ -689,7 +689,7 @@ public class StageManager
             if (!string.IsNullOrEmpty(stage.Drop))
             {
                 var str = $"{stage.Value}: {ItemListHelper.GetItemName(stage.Drop) ?? stage.Drop}";
-                var count = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == stage.Drop)?.Count;
+                var count = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == stage.Drop)?.DisplayCount;
                 if (!string.IsNullOrEmpty(count) && count != "-1")
                 {
                     str += $" ({LocalizationHelper.GetString("Inventory")} {count})";

@@ -1785,6 +1785,9 @@ public class AsstProxy
 
                     AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySpenderGroup, curTimes > 0 ? curTimes : 1);
 
+                    // 联动更新 Depot 数据
+                    Instances.ToolboxViewModel.UpdateDepotFromDrops(drops);
+
                     break;
                 }
 
