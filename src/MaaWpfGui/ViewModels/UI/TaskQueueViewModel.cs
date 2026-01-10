@@ -1903,9 +1903,9 @@ public class TaskQueueViewModel : Screen
         // 剩余理智
         if (mainFightRet && FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(FightTask.RemainingSanityStage))
         {
-            // 如果剩余理智选择的关卡已经被添加，则跳过剩余理智任务
+            // 如果主任务倍率为自动且剩余理智选择的关卡已经被添加，则跳过剩余理智任务
             var remaining = FightTask.RemainingSanityStage;
-            if (usedStages.Contains(remaining))
+            if (FightTask.Series == 0 && usedStages.Contains(remaining))
             {
                 AddLog(LocalizationHelper.GetString("SkipRemainingSanityBecauseSameStage"), UiLogColor.Info);
             }
