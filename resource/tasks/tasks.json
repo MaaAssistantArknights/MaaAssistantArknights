@@ -3145,6 +3145,7 @@
         "template": "GetClue2.png",
         "action": "ClickSelf",
         "roi": [800, 600, 480, 120],
+        "postDelay": 2000,
         "next": ["BackToReceptionMain"]
     },
     "CloseCluePage": {
