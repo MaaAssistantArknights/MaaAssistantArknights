@@ -338,7 +338,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 保全駐在の自動操縦JSONの詳細については、[保全駐在API](./sss-schema.md)
 
 - `ParadoxCopilot`
-   逆理演算の自動戦闘
+  逆理演算の自動戦闘
 
 ```json5
 {

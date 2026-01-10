@@ -535,44 +535,13 @@ Todo
   }
   ```
 
-- `DepotInfo`  
+- `Depot`  
    倉庫のアイテムの認識結果
 
   ```json
   // 対応する詳細フィールドの例
-  "done": bool,       // 認識が完了したかどうか，false はまだ進行中かどうか（処理中のデータ）
-  "arkplanner": {     // https://penguin-stats.cn/planner
-      "object": {
-          "items": [
-              {
-                  "id": "2004",
-                  "have": 4,
-                  "name": "上級作戦記録"
-              },
-              {
-                  "id": "mod_unlock_token",
-                  "have": 25,
-                  "name": "モジュールデータ"
-              },
-              {
-                  "id": "2003",
-                  "have": 20,
-                  "name": "中級作戦記録"
-              }
-          ],
-          "@type": "@penguin-statistics/depot"
-      },
-      "data": "{\"@type\":\"@penguin-statistics/depot\",\"items\":[{\"id\":\"2004\",\"have\":4,\"name\":\"上級作戦記録\"},{\"id\":\"mod_unlock_token\",\"have\":25,\"name\":\"モジュールデータ\"},{\"id\":\"2003\",\"have\":20,\"name\":\"中級作戦記録\"}]}"
-  },
-  "lolicon": {     // https://arkntools.app/#/material
-      "object": {
-          "2004" : 4,
-          "mod_unlock_token": 25,
-          "2003": 20
-      },
-      "data": "{\"2003\":20,\"2004\": 4,\"mod_unlock_token\": 25}"
-  }
-  // 現在は ArkPlanner と Lolicon (Arkntools) 形式のみ対応、今後対応するサイトが増える可能性あり
+  "done": bool,   // 認識が完了したかどうか，false はまだ進行中かどうか（処理中のデータ）
+  "data": "{\"2001\":18000,\"31043\":317}"  // JSON文字列、形式: {"アイテムID": 数量, ...}
   ```
 
 - `OperBoxInfo`  

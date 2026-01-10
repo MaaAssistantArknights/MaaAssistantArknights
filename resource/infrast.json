@@ -1449,11 +1449,17 @@
             },
             "bskill_man_spd&cost2": {
                 "desc": ["进驻制造站时，生产力+20%，心情每小时消耗+0.25"],
+                "efficient": {
+                    "all": 20
+                },
                 "name": ["虔信"],
                 "template": "Bskill_man_spd&cost2.png"
             },
             "bskill_man_spd&cost3": {
                 "desc": ["进驻制造站时，生产力+30%，心情每小时消耗+0.25"],
+                "efficient": {
+                    "all": 30
+                },
                 "name": ["独当一面"],
                 "template": "Bskill_man_spd&cost3.png"
             },

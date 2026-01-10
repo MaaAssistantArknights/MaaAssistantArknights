@@ -287,7 +287,7 @@ struct TextRect : public AnalyzerResult
 
     std::string to_string() const override
     {
-        return std::format("{{ rect: {}, score: {}, text: {} }}", rect.to_string(), score, text);
+        return std::format("{{ text: {}, rect: {}, score: {:.6f} }}", text, rect.to_string(), score);
     }
 
     json::object to_json() const override
@@ -315,7 +315,7 @@ struct MatchRect : public AnalyzerResult
 
     std::string to_string() const override
     {
-        return std::format("{{ rect: {}, score: {}, template: {} }}", rect.to_string(), score, templ_name);
+        return std::format("{{ template: {}, rect: {}, score: {:.6f} }}", templ_name, rect.to_string(), score);
     }
 
     json::object to_json() const override

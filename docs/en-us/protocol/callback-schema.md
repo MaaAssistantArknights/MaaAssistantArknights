@@ -524,39 +524,8 @@ Todo
 
   ```json
   // Corresponding details field example
-  "done": bool,       // Whether recognition is complete, false means still in progress (data during process)
-  "arkplanner": {     // https://penguin-stats.cn/planner
-      "object": {
-          "items": [
-              {
-                  "id": "2004",
-                  "have": 4,
-                  "name": "高级作战记录" // "Advanced Battle Record"
-              },
-              {
-                  "id": "mod_unlock_token",
-                  "have": 25,
-                  "name": "模组数据块" // "Module Data Block"
-              },
-              {
-                  "id": "2003",
-                  "have": 20,
-                  "name": "中级作战记录" // "Tactical Battle Record"
-              }
-          ],
-          "@type": "@penguin-statistics/depot"
-      },
-      "data": "{\"@type\":\"@penguin-statistics/depot\",\"items\":[{\"id\":\"2004\",\"have\":4,\"name\":\"高级作战记录\"},{\"id\":\"mod_unlock_token\",\"have\":25,\"name\":\"模组数据块\"},{\"id\":\"2003\",\"have\":20,\"name\":\"中级作战记录\"}]}"
-  },
-  "lolicon": {     // https://arkntools.app/#/material
-      "object": {
-          "2004" : 4,
-          "mod_unlock_token": 25,
-          "2003": 20
-      },
-      "data": "{\"2003\":20,\"2004\": 4,\"mod_unlock_token\": 25}"
-  }
-  // Currently only supports ArkPlanner and Lolicon (Arkntools) formats, may support more websites in the future
+  "done": bool,   // Whether recognition is complete, false means still in progress (data during process)
+  "data": "{\"2001\":18000,\"31043\":317}"  // JSON string, format: {"itemId": quantity, ...}
   ```
 
 - `OperBox`  
