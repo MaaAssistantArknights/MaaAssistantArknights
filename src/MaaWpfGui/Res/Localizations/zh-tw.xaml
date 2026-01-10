@@ -910,6 +910,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Operator">幹員</system:String>
     <system:String x:Key="Copilot">自動戰鬥</system:String>
     <system:String x:Key="SSSCopilot">SSS ｢{key=Copilot}｣</system:String>
+    <system:String x:Key="ParadoxCopilot">{key=ParadoxSimulation}</system:String>
     <system:String x:Key="CopilotLocation">作業路徑 / 神秘代碼</system:String>
     <system:String x:Key="CopilotTaskName">關卡名</system:String>
     <system:String x:Key="CopilotTaskNameTip">關卡名, 例: 1-7</system:String>

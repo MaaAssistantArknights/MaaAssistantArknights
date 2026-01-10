@@ -910,6 +910,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Operator">オペレーター</system:String>
     <system:String x:Key="Copilot">自動戦闘</system:String>
     <system:String x:Key="SSSCopilot">SSS {key=Copilot}</system:String>
+    <system:String x:Key="ParadoxCopilot">{key=ParadoxSimulation}</system:String>
     <system:String x:Key="CopilotLocation">攻略ファイルパス/ミステリーコード</system:String>
     <system:String x:Key="CopilotTaskName">ステージコード</system:String>
     <system:String x:Key="CopilotTaskNameTip">ステージコード, 例えば 1-7</system:String>
