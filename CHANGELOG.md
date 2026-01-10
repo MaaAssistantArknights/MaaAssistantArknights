@@ -72,6 +72,7 @@ We've added some achievements covering multiple scenarios, waiting for you to ex
 
 ### 新增 | New
 
+* 重构仓库识别结构，支持根据关卡掉落情况自动更新 (#15358) @ABA2396
 * 成就 DLC 功能 (#15288) @ABA2396
 * 增强自动战斗文件选择功能，支持多级路径和相对目录 (#15174) @momomochi987 @ABA2396
 * 允许设置是否启用线索交流与赠送线索 (#15278) @ABA2396
@@ -113,6 +114,7 @@ We've added some achievements covering multiple scenarios, waiting for you to ex
 
 ### 修复 | Fix
 
+* 界园肉鸽因点击模板边缘导致关卡进不去 @Saratoga-Official
 * 肉鸽暂停按钮更新 @ABA2396
 * 20260109 游戏更新导致自动战斗失效 @status102
 * 同时开启「剿灭模式」和「备选关卡」会导致「企鹅物流汇报 ID」被修改 @ABA2396
@@ -148,6 +150,8 @@ We've added some achievements covering multiple scenarios, waiting for you to ex
 
 ### 其他 | Other
 
+* 移除地图未修复期间的临时糊屎, 移除未更正的注释 @status102
+* 添加雪猎基建技能加成 @Saratoga-Official
 * 调整文件夹判断逻辑 @ABA2396
 * 调整注释 @ABA2396
 * 调整 MaxNumberOfLogThumbnails 作用域，调整默认数量 @ABA2396
