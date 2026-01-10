@@ -426,8 +426,7 @@ public class ToolboxViewModel : Screen
     [PropertyDependsOn(nameof(LastDepotSyncTime))]
     public string LastDepotSyncTimeText
     {
-        get
-        {
+        get {
             if (LastDepotSyncTime == null)
             {
                 return string.Empty;
@@ -447,8 +446,7 @@ public class ToolboxViewModel : Screen
     public ObservableCollection<DepotResultDate> DepotResult
     {
         get => _depotResult;
-        set
-        {
+        set {
             SetAndNotify(ref _depotResult, value);
             InvalidateDepotCache();
         }
@@ -503,8 +501,7 @@ public class ToolboxViewModel : Screen
             }
         }
 
-        var details = new JObject
-        {
+        var details = new JObject {
             ["done"] = true,
             ["data"] = depotData.ToString(Formatting.None),
         };
@@ -535,8 +532,7 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public string ArkPlannerResult
     {
-        get
-        {
+        get {
             if (DepotResult.Count == 0)
             {
                 return string.Empty;
@@ -551,15 +547,13 @@ public class ToolboxViewModel : Screen
             // 重新计算
             var items = DepotResult
                 .Where(item => item.Count >= 0)
-                .Select(item => new JObject
-                {
+                .Select(item => new JObject {
                     ["id"] = item.Id,
                     ["have"] = item.Count,
                     ["name"] = item.Name ?? string.Empty,
                 });
 
-            var result = new JObject
-            {
+            var result = new JObject {
                 ["@type"] = "@penguin-statistics/depot",
                 ["items"] = new JArray(items),
             };
@@ -575,8 +569,7 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public string LoliconResult
     {
-        get
-        {
+        get {
             if (DepotResult.Count == 0)
             {
                 return string.Empty;
@@ -673,8 +666,7 @@ public class ToolboxViewModel : Screen
             var id = kvp.Key;
             var count = kvp.Value;
 
-            DepotResultDate result = new()
-            {
+            DepotResultDate result = new() {
                 Id = id,
                 Name = ItemListHelper.GetItemName(id),
                 Image = ItemListHelper.GetItemImage(id),
@@ -708,9 +700,11 @@ public class ToolboxViewModel : Screen
         {
             // 从本地加载，读取保存的时间
             var syncTimeStr = details["syncTime"]?.ToString(Formatting.None)?.Trim('"');
-            if (!string.IsNullOrEmpty(syncTimeStr))
+            if (!string.IsNullOrEmpty(syncTimeStr) &&
+                DateTime.TryParseExact(syncTimeStr, "O", null, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out var lastDepotSyncTime))
             {
-                LastDepotSyncTime = DateTime.ParseExact(syncTimeStr, "O", null, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
+                LastDepotSyncTime = lastDepotSyncTime;
             }
         }
 
@@ -831,8 +825,7 @@ public class ToolboxViewModel : Screen
             else
             {
                 // 添加新物品
-                var newItem = new DepotResultDate
-                {
+                var newItem = new DepotResultDate {
                     Id = itemId,
                     Name = ItemListHelper.GetItemName(itemId),
                     Image = ItemListHelper.GetItemImage(itemId),
