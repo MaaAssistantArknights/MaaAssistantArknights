@@ -542,7 +542,7 @@ bool asst::BattleFormationTask::enter_selection_page(const cv::Mat& img)
 bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperGroup*>& groups)
 {
     const auto& opers_result = analyzer_opers(ctrler()->get_image());
-    
+
     if (!opers_result.empty()) {
         if (m_last_oper_name == opers_result.back().text) {
             Log.info("last oper name is same as current, skip");
@@ -683,8 +683,8 @@ bool asst::BattleFormationTask::check_and_select_skill(
         auto result = find_skill(roi_image, skill, false);
         if (result) { // 提前找到快速返回, 否则回退到图片合并及滑动
             if (!check_level(result->second)) {
-                    return false;
-                }
+                return false;
+            }
             ctrler()->click(base_task->roi.move(result->first));
             sleep(delay);
             return true;
@@ -697,13 +697,13 @@ bool asst::BattleFormationTask::check_and_select_skill(
         auto result = find_skill(roi_image, skill, true);
         if (result) { // 提前找到快速返回, 否则回退到图片合并及滑动
             if (!check_level(result->second)) {
-                    return false;
-                }
+                return false;
+            }
             ctrler()->click(base_task->roi.move(result->first));
             sleep(delay);
             return true;
         }
-        ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
+        ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheUp" }).run();
         image = ctrler()->get_image(); // 一般不会走到这里, 翻回顶部走通用逻辑
         roi_image = make_roi(image, make_rect<cv::Rect>(base_task->roi));
     }
@@ -739,7 +739,7 @@ bool asst::BattleFormationTask::check_and_select_skill(
         if (overlap_height > 0 && overlap_height < roi_image_new.rows) {
             cv::Mat non_overlap_part =
                 roi_image_new(cv::Rect(0, overlap_height, roi_image_new.cols, roi_image_new.rows - overlap_height));
-                       
+
             cv::vconcat(stitched_image, non_overlap_part, stitched_image); // 立即拼接到已有图片
             LogInfo << __FUNCTION__ << "| Stitched image updated, current size: " << stitched_image.cols << "x"
                     << stitched_image.rows;
@@ -755,8 +755,8 @@ bool asst::BattleFormationTask::check_and_select_skill(
         auto result = find_skill(stitched_image, skill, false);
         if (result) {
             if (!check_level(result->second)) {
-                    return false;
-                }
+                return false;
+            }
 
             // 需要将拼接图片中的坐标转换回实际点击坐标
             Rect rect { result->first.x,
@@ -772,8 +772,8 @@ bool asst::BattleFormationTask::check_and_select_skill(
     auto result = find_skill(stitched_image, skill, false);
     if (result) {
         if (!check_level(result->second)) {
-                return false;
-            }
+            return false;
+        }
 
         // 需要将拼接图片中的坐标转换回实际点击坐标
         Rect rect { result->first.x,
@@ -784,8 +784,6 @@ bool asst::BattleFormationTask::check_and_select_skill(
         sleep(delay);
         return true;
     }
-
-    // const Rect check_roi { 8, 350, 2, 370 }; // 技能等级检测区域
     return false;
 }
 
@@ -820,6 +818,8 @@ std::optional<std::pair<asst::Rect, int>>
             return std::make_pair(rect, level);
         }
 
+        LogError << __FUNCTION__ << "| skill" << skill << "level not found";
+        save_img(utils::path("debug/copilot/formation"));
         return std::nullopt;
     };
 
