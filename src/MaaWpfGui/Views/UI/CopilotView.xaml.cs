@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Threading.Tasks;
 using System.Windows;
 using MaaWpfGui.Models;
 using MaaWpfGui.ViewModels.UI;
@@ -32,6 +33,31 @@ public partial class CopilotView
         if (DataContext is CopilotViewModel viewModel && e.NewValue is CopilotFileItem fileItem && !fileItem.IsFolder)
         {
             viewModel.OnFileSelected(fileItem);
+        }
+    }
+
+    private bool _lostFocus = false;
+
+    private void Popup_LostFocus(object sender, RoutedEventArgs e)
+    {
+        _lostFocus = true;
+        Task.Run(async () => {
+            await Task.Delay(500);
+            _lostFocus = false;
+        });
+    }
+
+    private void Border_MouseUp(object sender, RoutedEventArgs e)
+    {
+        if (_lostFocus)
+        {
+            _lostFocus = false;
+            return;
+        }
+
+        if (DataContext is CopilotViewModel viewModel)
+        {
+            viewModel.ToggleFilePopup();
         }
     }
 }
