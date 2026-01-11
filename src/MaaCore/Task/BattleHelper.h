@@ -56,7 +56,7 @@ protected:
     bool update_kills(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
     bool update_cost(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
 
-    cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true);
+    cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true, bool has_multi_stages = false);
 
     bool deploy_oper(const std::string& name, const Point& loc, battle::DeployDirection direction);
     bool retreat_oper(const std::string& name);
@@ -109,6 +109,7 @@ protected:
     std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info; // 正常的坐标映射
     Point m_skill_button_pos;
     Point m_retreat_button_pos;
+    bool m_has_multi_stages = false;
     std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
     std::unordered_map<std::string, int> m_skill_times;
     std::unordered_map<std::string, int> m_skill_error_count;

@@ -115,15 +115,15 @@ static constexpr double rel_pos_x = 1.3143386840820312;
 static constexpr double rel_pos_y = 1.314337134361267;
 static constexpr double rel_pos_z = -0.3967874050140381;
 
-inline auto get_retreat_screen_pos(const Level& level)
+inline auto get_retreat_screen_pos(const Level& level, bool has_multi_stages = false)
 {
-    const vec3d relative_pos = { -rel_pos_x + level.view[0].x, +rel_pos_y, rel_pos_z };
+    const vec3d relative_pos = { -rel_pos_x + (has_multi_stages ? level.view[0].x : 0), +rel_pos_y, rel_pos_z };
     return world_to_screen(level, relative_pos, true);
 }
 
-inline auto get_skill_screen_pos(const Level& level)
+inline auto get_skill_screen_pos(const Level& level, bool has_multi_stages = false)
 {
-    const vec3d relative_pos = { +rel_pos_x + level.view[0].x, -rel_pos_y, rel_pos_z };
+    const vec3d relative_pos = { +rel_pos_x + (has_multi_stages ? level.view[0].x : 0), -rel_pos_y, rel_pos_z };
     return world_to_screen(level, relative_pos, true);
 }
 
