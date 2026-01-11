@@ -33,12 +33,10 @@ bool asst::ParadoxCopilotTask::set_params(const json::value& params)
     m_subtasks.clear();
     auto single_opt = params.find<std::string>("filename");
     if (single_opt) {
-        std::string file_name;
-        if (!Copilot.load(*single_opt)) {
+        if (!Copilot.load(utils::path(*single_opt))) {
             Log.error("CopilotConfig parse failed");
             return false;
         }
-        file_name = utils::path_to_utf8_string(*single_opt);
         const auto& stage_name = Copilot.get_stage_name();
         if (!m_battle_task_ptr->set_stage_name(stage_name)) {
             Log.error("Not support stage");
