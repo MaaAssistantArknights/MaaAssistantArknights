@@ -235,6 +235,11 @@ AsstSize __stdcall WineShimAsstGetImage(AsstHandle handle, void* buff, AsstSize 
     return dl_AsstGetImage(handle, buff, buff_size);
 }
 
+AsstSize __stdcall WineShimAsstGetImageBgr(AsstHandle handle, void* buff, AsstSize buff_size)
+{
+    return dl_AsstGetImageBgr(handle, buff, buff_size);
+}
+
 AsstSize __stdcall WineShimAsstGetUUID(AsstHandle handle, char* buff, AsstSize buff_size)
 {
     return dl_AsstGetUUID(handle, buff, buff_size);

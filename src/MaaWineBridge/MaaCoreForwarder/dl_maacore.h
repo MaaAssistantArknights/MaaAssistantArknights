@@ -28,6 +28,7 @@ DEFINE_DL_FUNC(AsstAsyncClick)
 DEFINE_DL_FUNC(AsstAsyncScreencap)
 
 DEFINE_DL_FUNC(AsstGetImage)
+DEFINE_DL_FUNC(AsstGetImageBgr)
 DEFINE_DL_FUNC(AsstGetUUID)
 DEFINE_DL_FUNC(AsstGetTasksList)
 DEFINE_DL_FUNC(AsstGetNullSize)
