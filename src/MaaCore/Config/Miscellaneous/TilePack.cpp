@@ -62,6 +62,7 @@ bool proc_data(
         { "tile_grass", TileKey::Grass },         { "tile_deepsea", TileKey::DeepSea },
         { "tile_deepwater", TileKey::DeepSea },   { "tile_volcano", TileKey::Volcano },
         { "tile_healing", TileKey::Healing },     { "tile_fence", TileKey::Fence },
+        { "tile_infection", TileKey::Infection },
     };
 
     auto key = TileKey::Invalid;
@@ -70,7 +71,7 @@ bool proc_data(
     }
     else {
         key = TileKey::Invalid;
-        Log.warn("Unknown tile type:", tile.tileKey);
+        LogWarn << "Unknown tile type" << loc << ":" << tile.tileKey;
     }
 
     dst.emplace(
