@@ -38,20 +38,17 @@ public partial class CopilotView
 
     private bool _lostFocus = false;
 
-    private void Popup_LostFocus(object sender, RoutedEventArgs e)
+    private async void Popup_LostFocus(object sender, RoutedEventArgs e)
     {
         _lostFocus = true;
-        Task.Run(async () => {
-            await Task.Delay(500);
-            _lostFocus = false;
-        });
+        await Task.Delay(500);
+        _lostFocus = false;
     }
 
     private void Border_MouseUp(object sender, RoutedEventArgs e)
     {
         if (_lostFocus)
         {
-            _lostFocus = false;
             return;
         }
 
