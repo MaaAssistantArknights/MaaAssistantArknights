@@ -433,54 +433,51 @@
     <system:String x:Key="RoguelikeThemeSami">薩米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">薩卡茲</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
-    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">傀影推薦配置：
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}推薦配置：
 
-指揮分隊 / 突擊戰術分隊
-取長補短（近衛、輔助、醫療）
-豐川祥子 / 棘刺
+{key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
+{key=StartingRoles}: {key=OvercomingYourWeaknesses}
+{key=StartingCoreChar}: 豐川祥子 / 棘刺
 
-當最高難度 ≥ N3 時，可能無法在開局招募 6★ 幹員</system:String>
-    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">水月推薦配置：
+當前難度 ≥ N3 時，可能無法在開局招募 6★ 幹員，導致出錯或失敗</system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">{key=RoguelikeThemeMizuki}推薦配置：
 
-以人為本分隊 / 心勝於物分隊
-穩紮穩打（重裝、術師、狙擊）
-維什戴爾
+{key=StartingSquad}: {key=IS2NewSquad3} / {key=IS2NewSquad1}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 維什戴爾
 
-1. 以人為本分隊適合 box 裡強力 6★ 幹員較多的用戶，心勝於物分隊則是看運氣
-2. 當最高難度 ≥ N4 時，6★ 幹員希望消耗 +1，心勝於物分隊可能無法在開局招募 6★ 幹員</system:String>
-    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">薩米推薦配置：
+1. box 裡強力 6★ 幹員較多時推薦選擇 ｢{key=IS2NewSquad3}｣
+2. 當前難度 ≥ N4 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法在開局招募 6★ 幹員，導致出錯或失敗</system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">{key=RoguelikeThemeSami}推薦配置：
 
-特訓分隊 / 遠程戰術分隊
-穩紮穩打（重裝、術師、狙擊）
-維什戴爾
+{key=StartingSquad}: {key=IS3NewSquad4} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 維什戴爾
 
-當最高難度 ≥ N6 時，6★ 幹員希望消耗 +1，特訓分隊可能無法在開局招募 6★ 幹員</system:String>
-    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">薩卡茲推薦配置：
+當前難度 ≥ N6 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法在開局招募 6★ 幹員，導致出錯或失敗</system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">{key=RoguelikeThemeSarkaz}推薦配置：
 
-藍圖測繪分隊 / 遠程戰術分隊
-穩紮穩打（重裝、術師、狙擊）
-維什戴爾
+{key=StartingSquad}: {key=IS4NewSquad3} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 維什戴爾
 
-1. 藍圖測繪分隊：完全採用避戰策略，適合快速刷等級，不追求通關
-2. 遠程戰術分隊：適合刷等級時，兼顧通關
-3. 當最高難度 ≥ N15 時，6★ 幹員希望消耗 +1，若未點滿【歷史重構】科技樹，藍圖測繪分隊可能無法招募開局 6★ 幹員</system:String>
-    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">界園推薦配置：
+1. 使用 ｢{key=IS4NewSquad3}｣ 時將完全採用避戰策略，適合快速刷等級，不追求通關
+2. 使用 ｢{key=IS4NewSquad6}｣ 可提升刷源石錠效率，但需要注意策略選擇為 ｢刷源石錠｣
+3. 當前難度 ≥ N15 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法招募開局 6★ 幹員，導致出錯或失敗</system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">{key=RoguelikeThemeJieGarden}推薦配置：
 
-指揮分隊 / 遠程戰術分隊
-穩紮穩打（重裝、術師、狙擊）
-維什戴爾
+{key=StartingSquad}: {key=LeaderSquad} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 維什戴爾
 
-1. 刷等級：
-①使用遠程戰術分隊
-②當最高難度 ≥ N3 時，採用「指揮避戰」，難度選擇 ｢MAX｣，高級設定進入第二層策略，刷等級效率更高
-
-2. 刷源石錠：
-①當最高難度 ≥ N3 時，使用指揮分隊，難度選擇 ｢MAX｣，或固定難度 ≤ N3（請勿選擇 ｢{key=NotSwitch (-1)}｣）
-②當最高難度 ＜ N3 時，正常刷取（請勿選擇 ｢MAX｣ 难度）</system:String>
+1. 當策略選擇 ｢刷源石錠｣，難度選擇 ≥ 3 或 ｢MAX｣，{key=StartingSquad}選擇 ｢{key=LeaderSquad}｣ 時將啟用指揮避戰策略
+2. 使用指揮避戰策略將大幅提高刷源石錠效率，也可用於快速刷等級（不追求通關），但需要注意策略選擇為 ｢刷源石錠｣
+3. 已解鎖的最高難度 ＜ 3 或未解鎖相關科技時，請不要使用指揮避戰策略，否則會導致出錯
+4. 當前難度 ≥ N15 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法招募開局 6★ 幹員，導致出錯或失敗</system:String>
     <system:String x:Key="RoguelikeDifficulty">難度</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解鎖 ｢界園｣ 相關科技後，指揮分隊在進行 N3 及以上難度的探索時，會額外攜帶一個 ｢時光之末｣，可利用其進行 ｢一戰一跳｣ 的存錢策略。
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解鎖 ｢{key=RoguelikeThemeJieGarden}｣ 相關科技後，{key=LeaderSquad}在進行 N3 及以上難度的探索時，會額外攜帶一個 ｢時光之末｣，可以利用其進行 ｢一戰一跳｣ 的存錢策略。
 若尚未解鎖該科技，請不要選擇 N3 及以上難度（包括 ｢MAX｣）進行探索；
-若希望啟用此機制，請確保選擇的難度為 N3 及以上（不包括 ｢{key=NotSwitch (-1)}｣）。</system:String>
+若希望啟用此機制，請確保選擇的難度為 N3 及以上（不包括 ｢{key=NotSwitch} (-1)｣）。</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
     <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
