@@ -821,12 +821,20 @@
         "roi": [1165, 20, 75, 65],
         "maskRange": [100, 255],
         "postDelay": 5000,
+        "reduceOtherTimes": ["Roguelike@InBattleFlagReCheck*5"],
         "next": [
             "Roguelike@InBattleFlag",
             "Roguelike@MissionCompletedFlag",
             "Roguelike@MissionFailedFlag",
-            "Roguelike@MissionFailedFlag2"
+            "Roguelike@MissionFailedFlag2",
+            "Roguelike@InBattleFlagReCheck"
         ]
+    },
+    "Roguelike@InBattleFlagReCheck": {
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "maxTimes": 5,
+        "next": ["Roguelike@InBattleFlag#next"]
     },
     "Roguelike@InitialDrop": {
         "Doc": "base_task",
