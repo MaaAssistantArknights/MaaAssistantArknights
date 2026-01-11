@@ -433,54 +433,51 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeThemeSami">사미</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">쉐이</system:String>
-    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">｢팬텀｣ 추천 구성:
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}추천 구성:
 
-지휘 분대 / 강습 전술 분대
-상호보완 (가드, 서포터, 메딕)
-토가와 사키코 / 쏜즈
+{key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
+{key=StartingRoles}: {key=OvercomingYourWeaknesses}
+{key=StartingCoreChar}: 토가와 사키코 / 쏜즈
 
-난이도 3 이상일 경우, 시작 시 6성 오퍼레이터를 모집하지 못할 수도 있어요</system:String>
-    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">｢미즈키｣ 추천 구성:
+난이도 3 이상일 경우, 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">{key=RoguelikeThemeMizuki}추천 구성:
 
-인적자원 분대 / 마음가짐 분대
-차근차근 (디펜더, 캐스터, 스나이퍼)
-위셔델
+{key=StartingSquad}: {key=IS2NewSquad3} / {key=IS2NewSquad1}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 위셔델
 
-1. 「인적자원 분대」는 육성이 잘 된 6성 오퍼레이터가 많은 독타에게 적합하며, 「마음가짐 분대」는 운에 좌우돼요
-2. 난이도 4 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가하여, 「마음가짐 분대」는 시작 시 6성 오퍼레이터를 모집하지 못할 수도 있어요</system:String>
-    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">｢사미｣ 추천 구성:
+1. 6성 오퍼레이터가 많다면 ｢{key=IS2NewSquad3}｣를 추천해요
+2. 난이도 4 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">{key=RoguelikeThemeSami}추천 구성:
 
-특훈 분대 / 원거리 전술 분대
-차근차근 (디펜더, 캐스터, 스나이퍼)
-위셔델
+{key=StartingSquad}: {key=IS3NewSquad4} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 위셔델
 
-난이도 6 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가하므로, 「특훈 분대」는 시작 시 6성 오퍼레이터를 모집하지 못할 수도 있어요</system:String>
-    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">｢살카즈｣ 추천 구성:
+난이도 6 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가하여, 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">{key=RoguelikeThemeSarkaz}추천 구성:
 
-도면 제작 분대 / 원거리 전술 분대
-차근차근 (디펜더, 캐스터, 스나이퍼)
-위셔델
+{key=StartingSquad}: {key=IS4NewSquad3} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 위셔델
 
-1. 도면 제작 분대: 전투 회피 전략을 사용하며, 클리어보다는 빠른 레벨업에 적합해요
-2. 원거리 전술 분대: 레벨업과 클리어 모두를 노리기에 적합해요
-3. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. '역사의 재구성' 노드를 완전히 해금하지 않았다면 「도면 제작 분대」는 시작 시 6성 오퍼레이터를 모집하지 못할 수도 있어요</system:String>
-    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">｢쉐이｣ 추천 구성:
+1. ｢{key=IS4NewSquad3}｣: 전투 회피 전략을 사용하며 클리어를 노리지 않는 빠른 레벨업에 적합해요
+2. ｢{key=IS4NewSquad6}｣를 사용하면 각뿔 투자 효율이 향상되지만, 전략을 ｢각뿔 투자｣로 설정해야 해요
+3. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">{key=RoguelikeThemeJieGarden}추천 구성:
 
-지휘 분대 / 원거리 전술 분대
-차근차근 (디펜더, 캐스터, 스나이퍼)
-위셔델
+{key=StartingSquad}: {key=LeaderSquad} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 위셔델
 
-1. 레벨링:
-① 원거리 전술 분대 사용
-② 난이도 3 이상일 경우, 「{key=RoguelikeStrategyGold}」 전략을 채택하고 난이도를 'MAX'로 설정한 뒤 고급 설정에서 「{key=InvestmentWithMoreScore}」 전략을 활성화하면 레벨업 효율이 더 좋아져요
-
-2. 각뿔 투자:
-① 난이도 3 이상일 경우 「지휘 분대」를 사용하고, 난이도를 3 이상 또는 ｢MAX｣로 설정해 주세요 (「{key=NotSwitch} (-1)」 제외)
-② 난이도 3 미만일 경우 정상적으로 진행해주세요 (｢MAX｣를 선택하지 마세요)</system:String>
+1. 전략을 ｢각뿔 투자｣로 설정하고 난이도를 3 이상 또는 ｢MAX｣로, {key=StartingSquad}를 ｢{key=LeaderSquad}｣로 설정하면 지휘 회피 전투 전략이 활성화돼요
+2. 지휘 회피 전투 전략을 사용하면 각뿔 투자 효율이 크게 향상되고, 빠른 레벨업(클리어를 목표로 하지 않음)에도 사용할 수 있지만, 전략을 ｢각뿔 투자｣로 설정해야 해요
+3. 해금된 최고 난이도가 3 미만이거나 관련 기술을 해금하지 않았다면 지휘 회피 전투 전략을 사용하지 마세요. 오류가 발생할 수 있어요
+4. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「고금 학식」에서 관련 노드를 해금하면, 난이도 3 이상에서 지휘 분대로 탐색할 때 추가로 「시간의 끝」을 소지하여 「작전 개시 후 바로 작전 포기」하는 각뿔 투자 전략을 사용할 수 있습니다.
-아직 해당 노드를 해제하지 않았다면 난이도 3 이상을 선택하지 마세요. (「MAX」 포함)
-이 기능을 사용하려면 난이도 3 이상을 선택해야 합니다. (「{key=NotSwitch} (-1)」제외)</system:String>
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣ 관련 기술을 해금하면 난이도 3 이상에서 {key=LeaderSquad}로 탐색할 때 추가로 ｢시간의 끝｣을 소지해 ｢한 번 싸우고 한 번 포기｣하는 저축 전략을 쓸 수 있어요.
+아직 해금하지 않았다면 난이도 3 이상(｢MAX｣ 포함)을 선택하지 마세요.
+이 기능을 사용하려면 난이도를 3 이상으로 설정하세요(｢{key=NotSwitch} (-1)｣ 제외).</system:String>
     <system:String x:Key="Strategy">전략</system:String>
     <system:String x:Key="StartTimesLimit">N번 시작한 후 작업 중지</system:String>
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
