@@ -20,7 +20,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 Or manually download and install these <u>**two**</u> runtime libraries to solve the problem:
 
-- [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+- [Visual C++ Redistributable](https://aka.ms/vc14/vc_redist.x64.exe)
 - [.NET Desktop Runtime 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
 
 :::

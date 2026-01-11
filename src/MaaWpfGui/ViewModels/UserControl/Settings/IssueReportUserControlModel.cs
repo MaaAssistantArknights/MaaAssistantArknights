@@ -44,6 +44,24 @@ public class IssueReportUserControlModel : PropertyChangedBase
     {
         try
         {
+            if (!Directory.Exists(PathsHelper.DebugDir))
+            {
+                Directory.CreateDirectory(PathsHelper.DebugDir);
+            }
+
+            Process.Start("explorer.exe", PathsHelper.DebugDir);
+        }
+        catch (Exception ex)
+        {
+            ToastNotification.ShowDirect($"Failed to open debug folder\n{ex.Message}");
+            Log.Error(ex, "Failed to open debug folder");
+        }
+    }
+
+    public void OpenReportsFolder()
+    {
+        try
+        {
             if (!Directory.Exists(PathsHelper.ReportsDir))
             {
                 Directory.CreateDirectory(PathsHelper.ReportsDir);
@@ -181,7 +199,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             Directory.Delete(tempPath, recursive: true);
 
             ShowGrowl($"{LocalizationHelper.GetString("GenerateSupportPayloadSuccessful")}\n{fullZipPath}");
-            OpenDebugFolder();
+            OpenReportsFolder();
         }
         catch (Exception ex)
         {
