@@ -343,7 +343,7 @@ default:
 |     `@`     |                                     テンプレートタスク                                      |            `Fight@ReturnTo`            |
 | `#`（単項） |                                         仮想タスク                                          |                `#self`                 |
 | `#`（二項） |                                         仮想タスク                                          |          `StartUpThemes#next`          |
-|     `*`     |                                      タスクの繰り返し                                       | `(ClickCornerAfterPRTS+ClickCorner)*5` |
+|     `*`     |                                      タスクの繰り返し                                       | `(ClickCornerAfterPRTS+ClickCorner)*10`|
 |     `+`     | タスクリストの結合（next の一連のプロパティで同じ名前を持つ最初のタスクのみが保持されます） |                 `A+B`                  |
 |     `^`     |            タスクリストの差分（前者にあり、後者にないもので、順序は変わらない）             |      `(A+A+B+C)^(A+B+D)` (= `C`)       |
 

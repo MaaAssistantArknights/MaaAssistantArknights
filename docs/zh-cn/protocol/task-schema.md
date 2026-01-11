@@ -198,7 +198,7 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
 |     `@`     |                        `@` 型任务                        |            `Fight@ReturnTo`            |
 | `#`（单目） |                          虚任务                          |                `#self`                 |
 | `#`（双目） |                          虚任务                          |          `StartUpThemes#next`          |
-|     `*`     |                       重复多个任务                       | `(ClickCornerAfterPRTS+ClickCorner)*5` |
+|     `*`     |                       重复多个任务                       | `(ClickCornerAfterPRTS+ClickCorner)*10`|
 |     `+`     | 任务列表合并（在 next 系列字段中同名任务只保留最靠前者） |                 `A+B`                  |
 |     `^`     |         任务列表差（在前者但不在后者，顺序不变）         |   `(A+A+B+C)^(A+B+D)`（结果为 `C`）    |
 
