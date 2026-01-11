@@ -15,7 +15,7 @@ bool asst::ParadoxRecognitionTask::_run()
         return false;
     }
 
-    const std::string& path = m_paradox_opers.front();
+    const auto& path = utils::path(m_paradox_opers.front());
     std::string file_name;
     if (!Copilot.load(path)) {
         Log.error("CopilotConfig parse failed");
