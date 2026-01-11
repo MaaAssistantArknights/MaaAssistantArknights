@@ -1950,7 +1950,7 @@ public class AsstProxy
                 }
 
             case "StageInfoError":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, updateCardImage: true);
                 break;
 
             case "BattleFormation":
