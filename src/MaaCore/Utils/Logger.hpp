@@ -873,7 +873,7 @@ private:
 
 #ifdef _WIN32
     // SEH 未处理异常过滤器
-    static LONG WINAPI unhandled_exception_filter(PEXCEPTION_POINTERS pExceptionInfo)
+    static LONG WINAPI unhandled_exception_filter([[maybe_unused]]PEXCEPTION_POINTERS pExceptionInfo)
     {
         try {
             auto& logger = Logger::get_instance();
