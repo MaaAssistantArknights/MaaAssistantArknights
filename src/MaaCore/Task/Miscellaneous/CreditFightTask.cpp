@@ -22,7 +22,7 @@ asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, Assistant* 
     not_use_prts_task_ptr->set_tasks({ "NotUsePrts", "Stop" });
 
     // 战斗结束后
-    stop_task_ptr->set_tasks({ "EndOfActionThenStop", "FightMissionFailedThenStop" });
+    stop_task_ptr->set_tasks({ "EndOfActionThenStop", "FightMissionFailedThenStop" }).set_retry_times(40);
 
     m_subtasks.emplace_back(start_up_task_ptr);
     m_subtasks.emplace_back(m_stage_navigation_task_ptr);
