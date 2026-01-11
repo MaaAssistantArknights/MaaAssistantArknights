@@ -433,54 +433,51 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
-    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">ファントム 推奨構成:
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}推奨構成:
 
-指揮分隊 / 突撃戦術分隊
-前線支援（前衛、補助、医療）
-豊川祥子 / ソーンズ
+{key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
+{key=StartingRoles}: {key=OvercomingYourWeaknesses}
+{key=StartingCoreChar}: 豊川祥子 / ソーンズ
 
-最高難易度がN3以上の場合、開始時に6★オペレーターを招集できない場合があります</system:String>
-    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">ミヅキ 推奨構成:
+最高難易度がN3以上の場合、開始時に6★オペレーターを招集できず、エラーや失敗につながる可能性があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">{key=RoguelikeThemeMizuki}推奨構成:
 
-人文主義分隊 / 精神論分隊
-攻守一体（重装、術師、狙撃）
-ウィシャデル
+{key=StartingSquad}: {key=IS2NewSquad3} / {key=IS2NewSquad1}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: ウィシャデル
 
-1. 人文主義分隊は、箱に強力な6★オペレーターが多数いるユーザーに適しており、精神論分隊は運次第です
-2. 最高難易度がN4以上の場合、6★オペレーターの希望消費が+1になり、精神論分隊は開始時に6★オペレーターを招集できない場合があります</system:String>
-    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">サーミ 推奨構成:
+1. 強力な6★オペレーターが多い場合は｢{key=IS2NewSquad3}｣を推奨します
+2. 最高難易度がN4以上の場合、6★オペレーターの希望消費が+1になり、一部の分隊では開始時に6★オペレーターを招集できず、エラーや失敗を招く可能性があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">{key=RoguelikeThemeSami}推奨構成:
 
-特訓分隊 / 援護戦術分隊
-攻守一体（重装、術師、狙撃）
-ウィシャデル
+{key=StartingSquad}: {key=IS3NewSquad4} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: ウィシャデル
 
-最高難易度がN6以上の場合、6★オペレーターの希望消費が+1になり、特訓分隊は開始時に6★オペレーターを招集できない場合があります</system:String>
-    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">サルカズ 推奨構成:
+最高難易度がN6以上の場合、6★オペレーターの希望消費が+1になり、一部の分隊では開始時に6★オペレーターを招集できず、エラーや失敗を招く可能性があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">{key=RoguelikeThemeSarkaz}推奨構成:
 
-位置測定分隊 / 援護戦術分隊
-攻守一体（重装、術師、狙撃）
-ウィシャデル
+{key=StartingSquad}: {key=IS4NewSquad3} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: ウィシャデル
 
-1. 位置測定分隊：完全回避戦術を採用し、レベルに適しています（攻略を追求しない）
-2. 援護戦術分隊：レベル時に攻略も兼ねるのに適しています
-3. 最高難易度がN15以上の場合、6★オペレーターの希望消費が+1になります。もし「歴史再編」ノードを未解放の場合、位置測定分隊は開始時に6★オペレーターを招集できない可能性があります</system:String>
-    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">界園 推奨構成:
+1. ｢{key=IS4NewSquad3}｣：完全回避戦術を採用し、攻略を狙わない高速レベリングに適します
+2. ｢{key=IS4NewSquad6}｣を使用すると源石錐稼ぎ効率が向上しますが、戦略を「源石錐稼ぎ」に設定する必要があります
+3. 最高難易度がN15以上の場合、6★オペレーターの希望消費が+1になり、一部の分隊では開始時に6★オペレーターを招集できず、エラーや失敗を招く可能性があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">{key=RoguelikeThemeJieGarden}推奨構成:
 
-指揮分隊 / 援護戦術分隊
-攻守一体（重装、術師、狙撃）
-ウィシャデル
+{key=StartingSquad}: {key=LeaderSquad} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: ウィシャデル
 
-1. 経験値を取得:
-① 援護戦術分隊を使用
-② 最高難易度がN3以上の場合、『指揮が戦闘を回避する』戦術を採用し、難易度を「MAX」に設定、上級設定で第2層の戦術を有効にするとレベル効率が向上します
-
-2. 源石錐を収集：
-① 最高難易度がN3以上の場合、指揮分隊を使用し、難易度を「MAX」に設定するか、固定難易度を ≤ N3 にしてください（「{key=NotSwitch} (-1)」を選択しないでください）
-② 最高難易度がN3未満の場合は通常通りに周回してください（「MAX」を選択しないでください）</system:String>
+1. 戦略を「源石錐稼ぎ」にし、難易度を N3 以上または「MAX」に設定し、{key=StartingSquad}を｢{key=LeaderSquad}｣にすると指揮回避戦闘戦術が有効になります
+2. 指揮回避戦闘戦術を使うと源石錐稼ぎ効率が大幅に向上し、高速レベリング（攻略を狙わない）にも使用できますが、戦略を「源石錐稼ぎ」に設定する必要があります
+3. 解放済みの最高難易度が N3 未満、または関連知識を解放していない場合は指揮回避戦闘戦術を使用しないでください。エラーの原因になります
+4. 最高難易度が N15 以上の場合、6★オペレーターの希望消費が+1になり、一部の分隊では開始時に6★オペレーターを招集できず、エラーや失敗を招く可能性があります</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「界園」に関する知識ノードを解放すると、指揮分隊で N3 以上の難易度で探索を行う際、「時の果て」を追加で携帯し、「一回の戦闘と一回のスキップ」の投資モード戦略を行うことができます。
-この知識ノードをまだ解放していない場合は、N3 以上の難易度（MAX を含む）を選択しないでください。
-この知識ノードを有効にするには、N3 以上の難易度を選択してください（「{key=NotSwitch} (-1)」は除く）。</system:String>
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣に関連する知識を解放すると、{key=LeaderSquad}で N3 以上の難易度を探索する際に「時の果て」を追加で携帯し、「一戦一跳」の貯蓄戦術を行えます。
+まだ解放していない場合は、N3 以上の難易度（「MAX」を含む）を選択しないでください。
+この機能を有効にするには、難易度を N3 以上に設定してください（「{key=NotSwitch} (-1)」を除く）。</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
