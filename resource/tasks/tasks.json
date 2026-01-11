@@ -1387,7 +1387,7 @@
         "postDelay": 1000,
         "roi": [1010, 625, 260, 61],
         "exceededNext": ["StageSNReturnFlag", "Stop"],
-        "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*5"],
+        "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*10"],
         "next": [
             "StartButton2",
             "UseMedicine",
@@ -1469,16 +1469,16 @@
     },
     "WaitAfterPRTS": {
         "algorithm": "JustReturn",
-        "reduceOtherTimes": ["ClickCornerAfterPRTS*5"],
+        "reduceOtherTimes": ["ClickCornerAfterPRTS*10"],
         "next": ["PRTS#next", "WaitAfterPRTS@LoadingText", "WaitAfterPRTS@LoadingIcon", "ClickCornerAfterPRTS"]
     },
     "ClickCornerAfterPRTS": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
-        "Doc2": "在比较卡的时候点击屏幕，或是在升级时点击屏幕以进入到结算界面，最多 5 次，间隔 3s",
-        "specificRect": [1000, 100, 270, 10],
-        "maxTimes": 5,
+        "Doc2": "在比较卡的时候点击屏幕，或是在升级时点击屏幕以进入到结算界面，最多 10 次，间隔 3s",
+        "specificRect": [1260, 100, 10, 10],
+        "maxTimes": 10,
         "postDelay": 3000,
         "next": ["EndOfAction", "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self", "#self"],
         "exceededNext": ["RestartGameAndContinue"]
@@ -1515,7 +1515,7 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1000, 20, 270, 50],
-        "maxTimes": 5,
+        "maxTimes": 10,
         "next": [
             "StartButton1",
             "StartButton2",
@@ -3145,6 +3145,7 @@
         "template": "GetClue2.png",
         "action": "ClickSelf",
         "roi": [800, 600, 480, 120],
+        "postDelay": 2000,
         "next": ["BackToReceptionMain"]
     },
     "CloseCluePage": {
@@ -3740,7 +3741,7 @@
     "EndOfPlot": {
         "roi": [520, 0, 243, 206],
         "action": "ClickRect",
-        "specificRect": [1000, 100, 270, 10],
+        "specificRect": [1260, 100, 10, 10],
         "next": ["ClickStageName"]
     },
     "SkipForbiddenOperConfirm": {
@@ -4683,13 +4684,13 @@
     "ClickCornerUntilStartButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1000, 100, 270, 10],
+        "specificRect": [1260, 100, 10, 10],
         "next": ["BattleStartPreFlag", "ClickCornerUntilStartButton"]
     },
     "ClickCornerUntilReturnButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1000, 100, 270, 10],
+        "specificRect": [1260, 100, 10, 10],
         "next": ["ParadoxReturnFlag", "ClickCornerUntilReturnButton"]
     },
     "ParadoxReturnFlag": {

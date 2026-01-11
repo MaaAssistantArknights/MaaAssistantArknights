@@ -433,52 +433,49 @@
     <system:String x:Key="RoguelikeThemeSami">萨米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界园</system:String>
-    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">傀影推荐配置：
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}推荐配置：
 
-指挥分队 / 突击战术分队
-取长补短（近卫、辅助、医疗）
-丰川祥子 / 棘刺
+{key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
+{key=StartingRoles}: {key=OvercomingYourWeaknesses}
+{key=StartingCoreChar}: 丰川祥子 / 棘刺
 
-当最高难度 ≥ N3 时，可能无法在开局招募六星干员</system:String>
-    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">水月推荐配置：
+当前难度 ≥3 时，可能无法在开局招募 6★ 干员，导致出错或失败</system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">{key=RoguelikeThemeMizuki}推荐配置：
 
-以人为本分队 / 心胜于物分队
-稳扎稳打（重装、术师、狙击）
-维什戴尔
+{key=StartingSquad}: {key=IS2NewSquad3} / {key=IS2NewSquad1}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 维什戴尔
 
-1. 以人为本分队适合 box 里强力六星干员较多的用户，心胜于物分队则是看运气
-2. 当最高难度 ≥ N4 时，六星干员希望消耗 +1，心胜于物分队可能无法在开局招募六星干员</system:String>
-    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">萨米推荐配置：
+1. box 里强力 6★ 干员较多时推荐选择 ｢{key=IS2NewSquad3}｣
+2. 当前难度 ≥4 时，6★ 干员希望消耗 +1，使用部分分队时可能无法在开局招募 6★ 干员，导致出错或失败</system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">{key=RoguelikeThemeSami}推荐配置：
 
-特训分队 / 远程战术分队
-稳扎稳打（重装、术师、狙击）
-维什戴尔
+{key=StartingSquad}: {key=IS3NewSquad4} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 维什戴尔
 
-当最高难度 ≥ N6 时，六星干员希望消耗 +1，特训分队可能无法在开局招募六星干员</system:String>
-    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">萨卡兹推荐配置：
+当前难度 ≥6 时，6★ 干员希望消耗 +1，使用部分分队时可能无法在开局招募 6★ 干员，导致出错或失败</system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">{key=RoguelikeThemeSarkaz}推荐配置：
 
-蓝图测绘分队 / 远程战术分队
-稳扎稳打（重装、术师、狙击）
-维什戴尔
+{key=StartingSquad}: {key=IS4NewSquad3} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 维什戴尔
 
-1. 蓝图测绘分队：完全采用避战策略，适合快速刷等级，不追求通关
-2. 远程战术分队：适合刷等级时，兼顾通关
-3. 当最高难度 ≥ N15 时，六星干员希望消耗 +1，若未点满【历史重构】科技树，蓝图测绘分队可能无法招募开局六星干员</system:String>
-    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">界园推荐配置：
+1. 使用 ｢{key=IS4NewSquad3}｣ 时将完全采用避战策略，适合快速刷等级，不追求通关
+2. 使用 ｢{key=IS4NewSquad6}｣ 可提升刷源石锭效率，但需要注意策略选择为 ｢刷源石锭｣
+3. 当前难度 ≥15 时，6★ 干员希望消耗 +1，使用部分分队时可能无法招募开局 6★ 干员，导致出错或失败</system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">{key=RoguelikeThemeJieGarden}推荐配置：
 
-指挥分队 / 远程战术分队
-稳扎稳打（重装、术师、狙击）
-维什戴尔
+{key=StartingSquad}: {key=LeaderSquad} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: 维什戴尔
 
-1. 刷等级：
-①使用远程战术分队
-②当最高难度 ≥ N3 时，采用“指挥避战”，难度选择 ｢MAX｣，高级设置进入第二层策略，刷等级效率更高
-
-2. 刷源石锭：
-①当最高难度 ≥ N3 时，使用指挥分队，难度选择 ｢MAX｣，或固定难度 ≤ N3（请勿选择 ｢{key=NotSwitch} (-1)｣）
-②当最高难度 ＜ N3 时，正常刷取（请勿选择 ｢MAX｣ 难度）</system:String>
+1. 当策略选择 ｢刷源石锭｣，难度选择 ≥3 或 ｢MAX｣，{key=StartingSquad}选择 ｢{key=LeaderSquad}｣ 时将启用指挥避战策略
+2. 使用指挥避战策略将大幅提高刷源石锭效率，也可用于快速刷等级（不追求通关），但需要注意策略选择为 ｢刷源石锭｣
+3. 已解锁的最高难度 &lt;3 或未解锁相关科技时，请不要使用指挥避战策略，否则会导致出错
+4. 当前难度 ≥15 时，6★ 干员希望消耗 +1，使用部分分队时可能无法招募开局 6★ 干员，导致出错或失败</system:String>
     <system:String x:Key="RoguelikeDifficulty">难度</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解锁 ｢界园｣ 相关科技后，指挥分队在进行 N3 及以上难度 的探索时，会额外携带一个 ｢时光之末｣，可以利用其进行 ｢一战一跳｣ 的存钱策略。
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解锁 ｢{key=RoguelikeThemeJieGarden}｣ 相关科技后，{key=LeaderSquad}在进行 N3 及以上难度的探索时，会额外携带一个 ｢时光之末｣，可以利用其进行 ｢一战一跳｣ 的存钱策略。
 若尚未解锁该科技，请不要选择 N3 及以上难度（包括 ｢MAX｣）进行探索；
 若希望启用此机制，请确保选择的难度为 N3 及以上（不包括 ｢{key=NotSwitch} (-1)｣）。</system:String>
     <system:String x:Key="Strategy">策略</system:String>
@@ -910,6 +907,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Operator">干员</system:String>
     <system:String x:Key="Copilot">自动战斗</system:String>
     <system:String x:Key="SSSCopilot">SSS {key=Copilot}</system:String>
+    <system:String x:Key="ParadoxCopilot">{key=ParadoxSimulation}</system:String>
     <system:String x:Key="CopilotLocation">作业路径/神秘代码</system:String>
     <system:String x:Key="CopilotTaskName">关卡名</system:String>
     <system:String x:Key="CopilotTaskNameTip">关卡名, 例: 1-7</system:String>
@@ -1348,7 +1346,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UnknownDllDetected" xml:space="preserve">检测到 MAA 运行目录下存在未知 DLL 文件，可能导致 DLL 劫持并产生意外后果。
 请将 MAA 解压到一个独立的新文件夹中，或移除不属于 MAA 的 DLL 文件。
     </system:String>
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">检测到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安装或版本过低,
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">检测到 Microsoft Visual C++ V14 Redistributable (x64) 未安装或版本过低,
 点击 "{key=Confirm}" 执行安装脚本并退出 MAA, 点击 "{key=Cancel}" 将直接退出.
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同一路径下只能启动一个实例！

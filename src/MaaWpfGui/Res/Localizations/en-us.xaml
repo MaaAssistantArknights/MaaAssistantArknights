@@ -433,54 +433,51 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="RoguelikeThemeSami">Sami</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">Sui's Garden</system:String>
-    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">Phantom recommended configuration:
+    <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom} recommended configuration:
 
-Leader Squad / Tactical Assault Squad
-Overcoming Your Weaknesses (Guard, Supporter, Medic)
-Togawa Sakiko / Thorns
+{key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
+{key=StartingRoles}: {key=OvercomingYourWeaknesses}
+{key=StartingCoreChar}: Togawa Sakiko / Thorns
 
-When highest difficulty ≥ N3, you may not be able to recruit 6★ operators at the start</system:String>
-    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">Mizuki recommended configuration:
+When difficulty ≥ N3, you may be unable to recruit a 6★ operator at the start, which can cause errors or failures</system:String>
+    <system:String x:Key="RoguelikeThemeTipMizuki" xml:space="preserve">{key=RoguelikeThemeMizuki} recommended configuration:
 
-People-Oriented Squad / Mind Over Matter Squad
-Slow and Steady Wins the Race (Defender, Caster, Sniper)
-Wiš'adel
+{key=StartingSquad}: {key=IS2NewSquad3} / {key=IS2NewSquad1}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: Wiš'adel
 
-1. People-Oriented Squad is suitable if your box has many powerful 6★ operators; Mind Over Matter Squad depends on luck
-2. When highest difficulty ≥ N4, 6★ Hope cost +1, and Mind Over Matter Squad may not be able to recruit 6★ operators at the start</system:String>
-    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">Sami recommended configuration:
+1. {key=IS2NewSquad3} is recommended when your box has many strong 6★ operators
+2. When difficulty ≥ N4, 6★ Hope cost +1; some squads may be unable to recruit a 6★ operator at the start, which can cause errors or failures</system:String>
+    <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">{key=RoguelikeThemeSami} recommended configuration:
 
-Special Training Squad / Tactical Ranged Squad
-Slow and Steady Wins the Race (Defender, Caster, Sniper)
-Wiš'adel
+{key=StartingSquad}: {key=IS3NewSquad4} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: Wiš'adel
 
-When highest difficulty ≥ N6, 6★ Hope cost +1, and Special Training Squad may not be able to recruit 6★ operators at the start</system:String>
-    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">Sarkaz recommended configuration:
+When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit a 6★ operator at the start, which can cause errors or failures</system:String>
+    <system:String x:Key="RoguelikeThemeTipSarkaz" xml:space="preserve">{key=RoguelikeThemeSarkaz} recommended configuration:
 
-Blueprint Mapping Squad / Tactical Ranged Squad
-Slow and Steady Wins the Race (Defender, Caster, Sniper)
-Wiš'adel
+{key=StartingSquad}: {key=IS4NewSquad3} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: Wiš'adel
 
-1. Blueprint Mapping Squad: adopt full evasion strategy, suitable for quick leveling and not for completion
-2. Tactical Ranged Squad: suitable for leveling while clearing
-3. When highest difficulty ≥ N15, 6★ Hope cost +1; if the Historical Reconstruction tech tree is not fully unlocked, Blueprint Mapping Squad may not be able to recruit 6★ operators at the start</system:String>
-    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">Sui's Garden recommended configuration:
+1. Using ｢{key=IS4NewSquad3}｣ fully avoids combat; suitable for quick leveling without aiming to clear
+2. Using ｢{key=IS4NewSquad6}｣ can improve ingot farming efficiency, but note the strategy must be set to "Farm Originium Ingots"
+3. When difficulty ≥ N15, 6★ Hope cost +1; some squads may be unable to recruit a 6★ operator at the start, which can cause errors or failures</system:String>
+    <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">{key=RoguelikeThemeJieGarden} recommended configuration:
 
-Leader Squad / Tactical Ranged Squad
-Slow and Steady Wins the Race (Defender, Caster, Sniper)
-Wiš'adel
+{key=StartingSquad}: {key=LeaderSquad} / {key=TacticalRangedOperative}
+{key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
+{key=StartingCoreChar}: Wiš'adel
 
-1. Leveling:
-① Use Tactical Ranged Squad
-② When highest difficulty ≥ N3, adopt "Leader avoid combat", set difficulty to 'MAX', and enable second-layer strategy in advanced settings for better leveling efficiency
-
-2. Farming ingots:
-① When highest difficulty ≥ N3, use Leader Squad, set difficulty to 'MAX', or fix difficulty ≤ N3 (do not choose ｢{key=NotSwitch} (-1)｣)
-② When highest difficulty &lt; N3, normal farming (do not choose 'MAX')</system:String>
+1. When the strategy is "Farm Originium Ingots", difficulty is ≥ N3 or "MAX", and {key=StartingSquad} is ｢{key=LeaderSquad}｣, the command-avoid-combat strategy will be enabled
+2. The command-avoid-combat strategy greatly improves ingot farming efficiency and can also be used for quick leveling (without aiming to clear), but note the strategy must be set to "Farm Originium Ingots"
+3. If the highest unlocked difficulty is &lt; N3 or the relevant tech is not unlocked, do not use the command-avoid-combat strategy; otherwise, it may cause errors
+4. When difficulty ≥ N15, 6★ Hope cost +1; using some squads may make it impossible to recruit a 6★ operator at the start, causing errors or failures</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ technology, Leader Squads conducting explorations at difficulty N3 or higher will carry an additional ｢End of Time｣, allowing for a ｢one-battle-one-skip｣ strategy.
-If this technology has not been unlocked, do not select difficulty N3 or above (including ｢MAX｣);
-To enable this feature, make sure to select a difficulty of N3 or higher (excluding ｢{key=NotSwitch} (-1)｣).</system:String>
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the tech related to ｢{key=RoguelikeThemeJieGarden}｣, {key=LeaderSquad} exploring at difficulty N3 or higher will carry an additional ｢End of Time｣, enabling a ｢one-battle-one-skip｣ saving strategy.
+If this tech is not unlocked, do not select difficulty N3 or above (including ｢MAX｣);
+To enable this mechanism, make sure the selected difficulty is N3 or higher (excluding ｢{key=NotSwitch} (-1)｣).</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stops after starting N times</system:String>
     <system:String x:Key="GoldTimesLimit">Stops after investing N times</system:String>
@@ -909,6 +906,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Operator">Operator</system:String>
     <system:String x:Key="Copilot">Copilot</system:String>
     <system:String x:Key="SSSCopilot">SSS {key=Copilot}</system:String>
+    <system:String x:Key="ParadoxCopilot">{key=ParadoxSimulation}</system:String>
     <system:String x:Key="CopilotLocation">Task file / URL</system:String>
     <system:String x:Key="CopilotTaskName">Stage Code</system:String>
     <system:String x:Key="CopilotTaskNameTip">Stage Code, e.g. 1-7</system:String>
@@ -1347,7 +1345,7 @@ With save file: farm points through crafting (advanced).
     <system:String x:Key="UnknownDllDetected" xml:space="preserve">Unknown DLL files have been detected in the MAA runtime directory, which may cause DLL hijacking and unexpected consequences.
 Please extract MAA into a separate new folder, or remove any DLL files that do not belong to MAA.
     </system:String>
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">Detected that Microsoft Visual C++ Redistributable 2015-2022 (x64) is NOT installed or the version is too low.
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">Detected that Microsoft Visual C++ V14 Redistributable (x64) is NOT installed or the version is too low.
 Click "{key=Confirm}" to execute the installation script and exit MAA. Click "{key=Cancel}" to exit MAA directly.
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">Only one instance can be launched under the same path!

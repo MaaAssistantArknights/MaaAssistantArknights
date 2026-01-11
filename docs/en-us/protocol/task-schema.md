@@ -199,7 +199,7 @@ Task list type fields (`sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOthe
 |     `@`      |                                      `@`-type Task                                       |            `Fight@ReturnTo`            |
 | `#` (unary)  |                                       Virtual task                                       |                `#self`                 |
 | `#` (binary) |                                       Virtual task                                       |          `StartUpThemes#next`          |
-|     `*`      |                                       Repeat tasks                                       | `(ClickCornerAfterPRTS+ClickCorner)*5` |
+|     `*`      |                                       Repeat tasks                                       | `(ClickCornerAfterPRTS+ClickCorner)*10`|
 |     `+`      | Task list merge (in next-type attributes, only first occurrence of same-name tasks kept) |                 `A+B`                  |
 |     `^`      |             Task list difference (in first but not second, order preserved)              |  `(A+A+B+C)^(A+B+D)` (result is `C`)   |
 
