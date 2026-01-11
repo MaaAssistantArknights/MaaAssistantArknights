@@ -99,6 +99,17 @@
     <system:String x:Key="OftenUsedGuide">↓常用的</system:String>
     <system:String x:Key="SometimesUsedGuide">不常用的↑</system:String>
     <system:String x:Key="LinkStartGuide">← 开始任务</system:String>
+    <system:String x:Key="UserGuide">使用指引</system:String>
+    <system:String x:Key="GuideDocumentationTitle">📖 官网与文档</system:String>
+    <system:String x:Key="GuideDocumentationPath">您可以在「{key=Settings} - {key=AboutUs} - {key=Website}」找到 MAA 的官方网站和完整文档。</system:String>
+    <system:String x:Key="GuideIssueReportSubtitle">🔧 遇到问题时</system:String>
+    <system:String x:Key="GuideViewLog">您可以前往「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」查看日志，了解错误发生的具体原因。</system:String>
+    <system:String x:Key="GuideGenerateReport">请使用「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」生成错误报告，并点击蓝色的「{key=Issue}」链接提交反馈。</system:String>
+    <system:String x:Key="GuideGitHubIssueTitle">⚠️ 反馈规范</system:String>
+    <system:String x:Key="GuideGitHubIssueDescription">MAA Team 仅受理用户通过 GitHub 平台依照 Issue 模板规范提交的反馈，并保留对所有反馈的处理决定权。</system:String>
+    <system:String x:Key="GuideOpenSourceTitle">💡 参与开源</system:String>
+    <system:String x:Key="GuideOpenSourceDescription">作为开源项目，用户可依据 AGPL-3.0 许可证在 GitHub 平台参与 MAA 的开发。MAA Team 鼓励用户通过更有价值的代码贡献代替问题反馈。</system:String>
+    <system:String x:Key="GuideUserAgreement">使用 MAA 即表示您同意遵守「用户协议」，完整协议内容可在官网底部的链接中查看。</system:String>
     <!--  !设置指引  -->
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">制造站</system:String>
@@ -1033,8 +1044,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">以上问题导致程序异常退出。</system:String>
-    <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往「{key=Settings} - {key=Issue} - {key=OpenDebugFolder}」查看日志，了解错误发生的具体原因。</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">请使用「{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}」生成错误报告，并点击蓝色的 ｢{key=Issue}｣ 链接提交反馈。</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」查看日志，了解错误发生的具体原因。</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">请使用「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」生成错误报告，并点击蓝色的 ｢{key=Issue}｣ 链接提交反馈。</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人寻求帮助，请发送生成的错误报告文件，而不是发送这个窗口的截图或照片。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程序崩溃原因</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>

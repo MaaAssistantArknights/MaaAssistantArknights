@@ -53,6 +53,7 @@
                     <hc:StepBar
                         Name="GuideStepBar"
                         Margin="10"
+                        d:StepIndex="7"
                         Dock="Right"
                         StepIndex="{Binding GuideStepIndex}">
                         <hc:StepBarItem Content="{DynamicResource UiSettings}" />
@@ -61,6 +62,7 @@
                         <hc:StepBarItem Content="{DynamicResource TaskSettings}" />
                         <hc:StepBarItem Content="{DynamicResource PerformanceSettings}" />
                         <hc:StepBarItem Content="{DynamicResource UpdateSettings}" />
+                        <hc:StepBarItem Content="{DynamicResource UserGuide}" />
                     </hc:StepBar>
                     <Button
                         MinWidth="100"
@@ -412,7 +414,10 @@
                             </StackPanel>
                         </hc:TransitioningContentControl>
 
-                        <hc:TransitioningContentControl TransitionMode="{Binding GuideTransitionMode}" Visibility="{c:Binding 'GuideStepIndex == 5'}">
+                        <hc:TransitioningContentControl
+                            d:Visibility="Collapsed"
+                            TransitionMode="{Binding GuideTransitionMode}"
+                            Visibility="{c:Binding 'GuideStepIndex == 5'}">
                             <hc:UniformSpacingPanel
                                 s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                                 DataContext="{Binding Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}"
@@ -503,6 +508,107 @@
                                     </controls:TextBlock>
                                 </StackPanel>
                             </hc:UniformSpacingPanel>
+                        </hc:TransitioningContentControl>
+
+                        <hc:TransitioningContentControl TransitionMode="{Binding GuideTransitionMode}" Visibility="{c:Binding 'GuideStepIndex == 6'}">
+                            <ScrollViewer MaxHeight="400" VerticalScrollBarVisibility="Auto">
+                                <hc:UniformSpacingPanel
+                                    MaxWidth="550"
+                                    Margin="10"
+                                    Orientation="Vertical"
+                                    Spacing="12">
+                                    <!--  官网/文档位置  -->
+                                    <StackPanel>
+                                        <controls:TextBlock
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            Text="{DynamicResource GuideDocumentationTitle}"
+                                            TextWrapping="Wrap" />
+                                        <controls:TextBlock
+                                            Margin="0,2.5"
+                                            HorizontalAlignment="Left"
+                                            FontSize="13"
+                                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                                            Text="{DynamicResource GuideDocumentationPath}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <Separator />
+
+                                    <!--  问题反馈  -->
+                                    <StackPanel>
+                                        <controls:TextBlock
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            Text="{DynamicResource GuideIssueReportSubtitle}"
+                                            TextWrapping="Wrap" />
+
+                                        <!--  查看日志  -->
+                                        <controls:TextBlock
+                                            Margin="0,2.5"
+                                            HorizontalAlignment="Left"
+                                            FontSize="13"
+                                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                                            Text="{DynamicResource GuideViewLog}"
+                                            TextWrapping="Wrap" />
+
+                                        <!--  生成报告  -->
+                                        <controls:TextBlock
+                                            Margin="0,2.5"
+                                            HorizontalAlignment="Left"
+                                            FontSize="13"
+                                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                                            Text="{DynamicResource GuideGenerateReport}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <Separator />
+
+                                    <!--  GitHub 反馈规范  -->
+                                    <StackPanel>
+                                        <controls:TextBlock
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            Text="{DynamicResource GuideGitHubIssueTitle}"
+                                            TextWrapping="Wrap" />
+                                        <controls:TextBlock
+                                            Margin="0,2.5"
+                                            HorizontalAlignment="Left"
+                                            FontSize="13"
+                                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                                            Text="{DynamicResource GuideGitHubIssueDescription}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <Separator />
+
+                                    <!--  开源项目参与  -->
+                                    <StackPanel>
+                                        <controls:TextBlock
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            Text="{DynamicResource GuideOpenSourceTitle}"
+                                            TextWrapping="Wrap" />
+                                        <controls:TextBlock
+                                            Margin="0,2.5"
+                                            HorizontalAlignment="Left"
+                                            FontSize="13"
+                                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                                            Text="{DynamicResource GuideOpenSourceDescription}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <Separator />
+
+                                    <StackPanel>
+                                        <controls:TextBlock
+                                            HorizontalAlignment="Center"
+                                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                                            Text="{DynamicResource GuideUserAgreement}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </hc:UniformSpacingPanel>
+                            </ScrollViewer>
                         </hc:TransitioningContentControl>
                     </hc:SimplePanel>
                 </ScrollViewer>

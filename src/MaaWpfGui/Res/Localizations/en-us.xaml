@@ -99,6 +99,17 @@
     <system:String x:Key="OftenUsedGuide">↓Often Used</system:String>
     <system:String x:Key="SometimesUsedGuide">Sometimes Used↑</system:String>
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
+    <system:String x:Key="UserGuide">User Guide</system:String>
+    <system:String x:Key="GuideDocumentationTitle">📖 Website &amp; Documentation</system:String>
+    <system:String x:Key="GuideDocumentationPath">You can find MAA's official website and complete documentation at "{key=Settings} - {key=AboutUs} - {key=Website}".</system:String>
+    <system:String x:Key="GuideIssueReportSubtitle">🔧 When You Encounter Problems</system:String>
+    <system:String x:Key="GuideViewLog">You can go to "{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}" to view logs and understand the specific cause of the error.</system:String>
+    <system:String x:Key="GuideGenerateReport">Please use "{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}" to generate an error report, and click the blue "{key=Issue}" link to submit feedback.</system:String>
+    <system:String x:Key="GuideGitHubIssueTitle">⚠️ Feedback Guidelines</system:String>
+    <system:String x:Key="GuideGitHubIssueDescription">MAA Team only accepts feedback submitted by users through GitHub platform following the Issue template specifications, and reserves the right to decide on all feedback.</system:String>
+    <system:String x:Key="GuideOpenSourceTitle">💡 Participate in Open Source</system:String>
+    <system:String x:Key="GuideOpenSourceDescription">As an open source project, users can participate in MAA's development on GitHub platform under the AGPL-3.0 license. MAA Team encourages users to contribute valuable code instead of just reporting issues.</system:String>
+    <system:String x:Key="GuideUserAgreement">By using MAA, you agree to comply with the "User Agreement". The complete agreement can be found in the link at the bottom of the official website.</system:String>
     <!--  !Settings Guide  -->
     <system:String x:Key="Dorm">Dormitory</system:String>
     <system:String x:Key="Mfg">Factory</system:String>
@@ -1032,8 +1043,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">The above issue caused the program to crash.</system:String>
-    <system:String x:Key="ErrorCrashMessageOpenLog">You can go to “{key=Settings} - {key=Issue} - {key=OpenDebugFolder}” to view the logs and check the specific cause of the error.</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">Please use “{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}” to generate an error report, and click the blue ｢{key=Issue}｣ link to submit feedback.</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">You can go to “{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}” to view the logs and check the specific cause of the error.</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">Please use “{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}” to generate an error report, and click the blue ｢{key=Issue}｣ link to submit feedback.</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">If you need help from others, please send the generated error report file instead of sending a screenshot or photo of this window.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">Reason for the last crash</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>

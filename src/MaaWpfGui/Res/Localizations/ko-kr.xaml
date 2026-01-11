@@ -99,6 +99,17 @@
     <system:String x:Key="OftenUsedGuide">↓자주 쓰는 설정</system:String>
     <system:String x:Key="SometimesUsedGuide">가끔 쓰는 설정↑</system:String>
     <system:String x:Key="LinkStartGuide">← 연결 및 동작 시작</system:String>
+    <system:String x:Key="UserGuide">사용 가이드</system:String>
+    <system:String x:Key="GuideDocumentationTitle">📖 공식 웹사이트 및 문서</system:String>
+    <system:String x:Key="GuideDocumentationPath">"{key=Settings} - {key=AboutUs} - {key=Website}"에서 MAA의 공식 웹사이트와 전체 문서를 찾을 수 있습니다.</system:String>
+    <system:String x:Key="GuideIssueReportSubtitle">🔧 문제가 발생한 경우</system:String>
+    <system:String x:Key="GuideViewLog">"{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}"로 이동하여 로그를 확인하고 오류의 구체적인 원인을 파악할 수 있습니다.</system:String>
+    <system:String x:Key="GuideGenerateReport">"{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}"를 사용하여 오류 보고서를 생성하고 파란색 "{key=Issue}" 링크를 클릭하여 피드백을 제출하세요.</system:String>
+    <system:String x:Key="GuideGitHubIssueTitle">⚠️ 피드백 가이드라인</system:String>
+    <system:String x:Key="GuideGitHubIssueDescription">MAA Team은 Issue 템플릿 사양에 따라 GitHub 플랫폼을 통해 사용자가 제출한 피드백만 수락하며, 모든 피드백에 대한 처리 결정권을 보유합니다.</system:String>
+    <system:String x:Key="GuideOpenSourceTitle">💡 오픈소스 참여</system:String>
+    <system:String x:Key="GuideOpenSourceDescription">오픈소스 프로젝트로서 사용자는 AGPL-3.0 라이선스에 따라 GitHub 플랫폼에서 MAA 개발에 참여할 수 있습니다. MAA Team은 문제 보고 대신 더 가치 있는 코드 기여를 권장합니다.</system:String>
+    <system:String x:Key="GuideUserAgreement">MAA를 사용함으로써 귀하는 "사용자 동의"를 준수하는 데 동의하게 됩니다. 전체 동의서는 공식 웹사이트 하단의 링크에서 확인할 수 있습니다.</system:String>
     <!--  !설정 가이드  -->
     <system:String x:Key="Dorm">숙소</system:String>
     <system:String x:Key="Mfg">제조소</system:String>
@@ -1034,8 +1045,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">위 문제로 인해 프로그램이 비정상 종료되었습니다.</system:String>
-    <system:String x:Key="ErrorCrashMessageOpenLog">「{key=Settings} - {key=Issue} - {key=OpenDebugFolder}」로 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">「{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}」을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」로 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷이나 사진이 아니라 생성된 오류 보고서 파일을 보내 주세요.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">마지막 충돌 원인</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
