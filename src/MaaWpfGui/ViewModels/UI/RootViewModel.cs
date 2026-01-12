@@ -53,20 +53,20 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         }
 
         Task.Run(async () => {
-            await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
-            if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
+            await Instances.AnnouncementDialogViewModel.CheckAndDownloadAnnouncement();
+            if (Instances.AnnouncementDialogViewModel.DoNotRemindThisAnnouncementAgain)
             {
                 return;
             }
 
-            if (Instances.AnnouncementViewModel.DoNotShowAnnouncement)
+            if (Instances.AnnouncementDialogViewModel.DoNotShowAnnouncement)
             {
                 return;
             }
 
-            if (Instances.AnnouncementViewModel.AnnouncementInfo != string.Empty)
+            if (Instances.AnnouncementDialogViewModel.AnnouncementInfo != string.Empty)
             {
-                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementDialogViewModel));
             }
         });
 

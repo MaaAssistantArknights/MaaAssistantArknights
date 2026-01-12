@@ -824,7 +824,7 @@ public class SettingsViewModel : Screen
 
         try
         {
-            if (Instances.AnnouncementViewModel.View is System.Windows.Window window)
+            if (Instances.AnnouncementDialogViewModel.View is System.Windows.Window window)
             {
                 if (window.WindowState == WindowState.Minimized)
                 {
@@ -835,10 +835,10 @@ public class SettingsViewModel : Screen
             }
             else
             {
-                Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel);
+                Instances.WindowManager.ShowWindow(Instances.AnnouncementDialogViewModel);
             }
 
-            await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+            await Instances.AnnouncementDialogViewModel.CheckAndDownloadAnnouncement();
         }
         finally
         {

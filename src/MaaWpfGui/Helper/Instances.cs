@@ -69,7 +69,7 @@ public static class Instances
 
     public static VersionUpdateDialogViewModel VersionUpdateDialogViewModel { get; private set; }
 
-    public static AnnouncementDialogViewModel AnnouncementViewModel { get; private set; }
+    public static AnnouncementDialogViewModel AnnouncementDialogViewModel { get; private set; }
 
     public static AsstProxy AsstProxy { get; private set; }
 
@@ -104,7 +104,7 @@ public static class Instances
         MaaApiService = container.Get<MaaApiService>();
 
         VersionUpdateDialogViewModel = container.Get<VersionUpdateDialogViewModel>();
-        AnnouncementViewModel = container.Get<AnnouncementDialogViewModel>();
+        AnnouncementDialogViewModel = container.Get<AnnouncementDialogViewModel>();
         AsstProxy = container.Get<AsstProxy>();
 
         // 这些实例化时存在依赖顺序
