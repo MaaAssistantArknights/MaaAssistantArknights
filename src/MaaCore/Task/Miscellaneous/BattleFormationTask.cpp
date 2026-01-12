@@ -800,11 +800,16 @@ std::optional<std::pair<asst::Rect, int>>
         level_matcher.set_roi(rect.move(base_task->rect_move));
         if (level_matcher.analyze()) {
             int level;
-            utils::chars_to_number<int>(
-                level_matcher.get_result().templ_name.substr(level_matcher.get_result().templ_name.length() - 6, 2),
-                level);
-            LogInfo << __FUNCTION__ << "| skill" << skill << "level:" << level;
-            return std::make_pair(rect, level);
+            auto pos = level_matcher.get_result().templ_name.find_last_of('-');
+            if (pos != std::string::npos &&
+                utils::chars_to_number<int>(level_matcher.get_result().templ_name.substr(pos + 1, 2), level)) {
+                LogDebug << __FUNCTION__ << "| skill" << skill << "level:" << level;
+                return std::make_pair(rect.move(base_task->rect_move), level);
+            }
+            else {
+                LogError << __FUNCTION__ << "| skill" << skill
+                         << "level parsing failed from template name:" << level_matcher.get_result().templ_name;
+            }
         }
 
         RegionOCRer ocrer(image);
@@ -812,10 +817,14 @@ std::optional<std::pair<asst::Rect, int>>
         ocrer.set_roi(rect.move(ocr_task->roi));
         if (ocrer.analyze()) {
             int level;
-            utils::chars_to_number<int>(ocrer.get_result().text, level);
-            LogInfo << __FUNCTION__ << "| skill" << skill;
-
-            return std::make_pair(rect, level);
+            if (utils::chars_to_number<int>(ocrer.get_result().text, level)) {
+                LogDebug << __FUNCTION__ << "| skill" << skill << "level:" << level;
+                return std::make_pair(rect.move(ocr_task->roi), level);
+            }
+            else {
+                LogError << __FUNCTION__ << "| skill" << skill
+                         << "level parsing failed from OCR text:" << ocrer.get_result().text;
+            }
         }
 
         LogError << __FUNCTION__ << "| skill" << skill << "level not found";
