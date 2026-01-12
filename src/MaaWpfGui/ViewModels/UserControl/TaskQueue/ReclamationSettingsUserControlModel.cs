@@ -172,8 +172,9 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
         };
 
         return taskId switch {
-            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, task),
+            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, task),
+            _ => null,
         };
     }
 }

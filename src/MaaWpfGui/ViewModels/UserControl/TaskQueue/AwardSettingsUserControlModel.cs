@@ -143,8 +143,9 @@ public class AwardSettingsUserControlModel : TaskSettingsViewModel
             SpecialAccess = award.SpecialAccess,
         };
         return taskId switch {
-            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, task),
+            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, task),
+            _ => null,
         };
     }
 }

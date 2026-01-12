@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
@@ -194,7 +195,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
     [Obsolete("使用SerializeTask作为代替")]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var fightEnable = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(x => x.OriginalName == "Combat")?.IsCheckedWithNull is not false;
+        var fightEnable = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(x => x is FightTask)?.IsEnable is not false;
         var task = new AsstMallTask() {
             CreditFight = fightEnable ? (!string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage) && CreditFightTaskEnabled) : CreditFightTaskEnabled,
             FormationIndex = CreditFightSelectFormation,
@@ -221,6 +222,9 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
         if (fightStage)
         {
             Log.Warning("理智作战 当前/上次 导致无法 OF-1"); // 需要移除
+#if Release
+            Debug.Assert(false, "需要移除");
+#endif
             return false;
         }
 
@@ -261,8 +265,9 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
         };
 
         return taskId switch {
-            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task),
+            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task),
+            _ => null,
         };
     }
 }

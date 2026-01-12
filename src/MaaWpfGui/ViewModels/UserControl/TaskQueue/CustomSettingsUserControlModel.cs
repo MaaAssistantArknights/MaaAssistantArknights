@@ -122,8 +122,9 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
             CustomTasks = [.. custom.TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
         };
         return taskId switch {
-            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, task),
+            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, task),
+            _ => null,
         };
     }
 }

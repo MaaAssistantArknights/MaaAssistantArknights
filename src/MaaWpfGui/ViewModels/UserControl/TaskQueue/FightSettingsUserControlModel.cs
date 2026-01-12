@@ -21,6 +21,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
@@ -239,33 +240,22 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    private bool _useRemainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true);
-
-    public bool UseRemainingSanityStage
-    {
-        get => _useRemainingSanityStage;
-        set {
-            SetAndNotify(ref _useRemainingSanityStage, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseRemainingSanityStage, value.ToString());
-        }
-    }
-
-    private bool _customStageCode = ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to use custom stage code.
     /// </summary>
     public bool CustomStageCode
     {
-        get => _customStageCode;
+        get => GetTaskConfig<FightTask>().IsStageManually;
         set {
             if (!value)
             {
-                RemoveNonExistStage();
+                Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
+                Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
+                Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
+                Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
             }
 
-            SetAndNotify(ref _customStageCode, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CustomStageCode, value.ToString());
+            SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
         }
     }
 
@@ -291,64 +281,57 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         IsSpecifiedDrops ??= false;
     }
 
-    private bool? _useMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to use medicine with null.
     /// </summary>
     public bool? UseMedicine
     {
-        get => _useMedicine;
+        get => GetTaskConfig<FightTask>().UseMedicine;
         set {
-            SetAndNotify(ref _useMedicine, value);
+            if (!SetTaskConfig<FightTask>(t => t.UseMedicine == value, t => t.UseMedicine = value))
+            {
+                return;
+            }
+
             if (value == false)
             {
                 UseStoneDisplay = false;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            value ??= false;
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicine, value.ToString());
+            SetParams();
         }
     }
-
-    private int _medicineNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, 999);
 
     /// <summary>
     /// Gets or sets the amount of medicine used.
     /// </summary>
     public int MedicineNumber
     {
-        get => _medicineNumber;
+        get => GetTaskConfig<FightTask>().MedicineCount;
         set {
-            if (!SetAndNotify(ref _medicineNumber, value))
+            if (!SetTaskConfig<FightTask>(t => t.MedicineCount == value, t => t.MedicineCount = value))
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicineQuantity, value.ToString());
+            SetParams();
         }
     }
 
     public static string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
-
-    private bool? _useStone = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, false) &&
-                                      ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use originiums with null.
     /// </summary>
     public bool? UseStone
     {
-        get => _useStone;
+        get => GetTaskConfig<FightTask>().UseStone;
         set {
             if (!AllowUseStoneSave && value == true)
             {
                 value = null;
             }
 
-            SetAndNotify(ref _useStone, value);
             if (value != false)
             {
                 MedicineNumber = 999;
@@ -358,10 +341,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 }
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            if (AllowUseStoneSave)
+            SetParams();
+            if (GetTaskConfig<FightTask>().UseStoneAllowSave)
             {
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseStone, (value ?? false).ToString());
+                SetTaskConfig<FightTask>(t => t.UseStone == value, t => t.UseStone = value);
             }
         }
     }
@@ -377,57 +360,51 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         set => UseStone = value;
     }
 
-    private int _stoneNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 0);
-
     /// <summary>
     /// Gets or sets the amount of originiums used.
     /// </summary>
     public int StoneNumber
     {
-        get => _stoneNumber;
+        get => GetTaskConfig<FightTask>().StoneCount;
         set {
-            if (!SetAndNotify(ref _stoneNumber, value))
+            if (!SetTaskConfig<FightTask>(t => t.StoneCount == value, t => t.StoneCount = value))
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseStoneQuantity, value.ToString());
+            SetParams();
         }
     }
-
-    private bool? _hasTimesLimited = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether the number of times is limited with null.
     /// </summary>
     public bool? HasTimesLimited
     {
-        get => _hasTimesLimited;
+        get => GetTaskConfig<FightTask>().EnableTimesLimit;
         set {
-            SetAndNotify(ref _hasTimesLimited, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            value ??= false;
-            ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimited, value.ToString());
+            if (!SetTaskConfig<FightTask>(t => t.EnableTimesLimit == value, t => t.EnableTimesLimit = value))
+            {
+                return;
+            }
+
+            SetParams();
         }
     }
-
-    private int _maxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, 5);
 
     /// <summary>
     /// Gets or sets the max number of times.
     /// </summary>
     public int MaxTimes
     {
-        get => _maxTimes;
+        get => GetTaskConfig<FightTask>().TimesLimit;
         set {
-            if (!SetAndNotify(ref _maxTimes, value))
+            if (!SetTaskConfig<FightTask>(t => t.TimesLimit == value, t => t.TimesLimit = value))
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimitedQuantity, value.ToString());
+            SetParams();
         }
     }
 
@@ -443,56 +420,37 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         { LocalizationHelper.GetString("NotSwitch"), -1 },
     };
 
-    private int _series = InitFightSeries();
-
-    private static int InitFightSeries()
-    {
-        var series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 0);
-        if (SeriesList.ContainsValue(series))
-        {
-            return series;
-        }
-
-        ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, "0");
-        return 0;
-    }
-
     /// <summary>
     /// Gets or sets the max number of times.
     /// </summary>
     public int Series
     {
-        get => _series;
+        get => GetTaskConfig<FightTask>().Series;
         set {
-            if (!SetAndNotify(ref _series, value))
+            if (!SetTaskConfig<FightTask>(t => t.Series == value, t => t.Series = value))
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, value.ToString());
+            SetParams();
         }
     }
 
     #region Drops
-
-    private bool? _isSpecifiedDrops = ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether the drops are specified.
     /// </summary>
     public bool? IsSpecifiedDrops
     {
-        get => _isSpecifiedDrops;
+        get => GetTaskConfig<FightTask>().EnableTargetDrop;
         set {
-            if (!SetAndNotify(ref _isSpecifiedDrops, value))
+            if (!SetTaskConfig<FightTask>(t => t.EnableTargetDrop == value, t => t.EnableTargetDrop = value))
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            value ??= false;
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsEnable, value.ToString());
+            SetParams();
         }
     }
 
@@ -522,7 +480,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         "30165", // 重相位对映体
     ];
 
-    public void InitDrops()
+    private void InitDrops()
     {
         AllDrops.Add(new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty });
         foreach (var (val, value) in ItemListHelper.ArkItems)
@@ -563,18 +521,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     public ObservableCollection<CombinedData> DropsList { get; private set; } = [];
 
-    private string _dropsItemId = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemId, string.Empty) ?? string.Empty;
-
     /// <summary>
     /// Gets or sets the item ID of drops.
     /// </summary>
     public string DropsItemId
     {
-        get => _dropsItemId;
+        get => GetTaskConfig<FightTask>().DropId;
         set {
-            SetAndNotify(ref _dropsItemId, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsItemId, DropsItemId);
+            SetTaskConfig<FightTask>(t => t.DropId == value, t => t.DropId = value);
+            SetParams();
         }
     }
 
@@ -599,18 +554,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    private int _dropsQuantity = ConfigurationHelper.GetValue(ConfigurationKeys.DropsQuantity, 5);
-
     /// <summary>
     /// Gets or sets the quantity of drops.
     /// </summary>
     public int DropsQuantity
     {
-        get => _dropsQuantity;
+        get => GetTaskConfig<FightTask>().DropCount;
         set {
-            SetAndNotify(ref _dropsQuantity, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsQuantity, value.ToString());
+            SetTaskConfig<FightTask>(t => t.DropCount == value, t => t.DropCount = value);
+            SetParams();
         }
     }
 
@@ -624,53 +576,35 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
     };
 
-    private bool _useCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false);
-
     public bool UseCustomAnnihilation
     {
-        get => _useCustomAnnihilation;
-        set {
-            SetAndNotify(ref _useCustomAnnihilation, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseCustomAnnihilation, value.ToString());
-        }
+        get => GetTaskConfig<FightTask>().UseCustomAnnihilation;
+        set => SetTaskConfig<FightTask>(t => t.UseCustomAnnihilation == value, t => t.UseCustomAnnihilation = value);
     }
-
-    private string _annihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, "Annihilation");
 
     public string AnnihilationStage
     {
-        get => _annihilationStage;
-        set {
-            SetAndNotify(ref _annihilationStage, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AnnihilationStage, value);
-        }
+        get => GetTaskConfig<FightTask>().AnnihilationStage;
+        set => SetTaskConfig<FightTask>(t => t.AnnihilationStage == value, t => t.AnnihilationStage = value);
     }
-
-    private bool _isDrGrandet = ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use DrGrandet mode.
     /// </summary>
     public bool IsDrGrandet
     {
-        get => _isDrGrandet;
-        set {
-            SetAndNotify(ref _isDrGrandet, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.IsDrGrandet, value.ToString());
-        }
+        get => GetTaskConfig<FightTask>().IsDrGrandet;
+        set => SetTaskConfig<FightTask>(t => t.IsDrGrandet == value, t => t.IsDrGrandet = value);
     }
-
-    private bool _useAlternateStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use alternate stage.
     /// </summary>
     public bool UseAlternateStage
     {
-        get => _useAlternateStage;
+        get => GetTaskConfig<FightTask>().UseOptionalStage;
         set {
-            SetAndNotify(ref _useAlternateStage, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseAlternateStage, value.ToString());
+            SetTaskConfig<FightTask>(t => t.UseOptionalStage == value, t => t.UseOptionalStage = value);
             if (value)
             {
                 HideUnavailableStage = false;
@@ -678,11 +612,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    private bool _allowUseStoneSave = ConfigurationHelper.GetValue(ConfigurationKeys.AllowUseStoneSave, false);
-
     public bool AllowUseStoneSave
     {
-        get => _allowUseStoneSave;
+        get => GetTaskConfig<FightTask>().UseStoneAllowSave;
         set {
             if (value)
             {
@@ -700,34 +632,27 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 }
             }
 
-            SetAndNotify(ref _allowUseStoneSave, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AllowUseStoneSave, value.ToString());
+            SetTaskConfig<FightTask>(t => t.UseStoneAllowSave == value, t => t.UseStoneAllowSave = value);
         }
     }
-
-    private bool _useExpiringMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, false);
 
     public bool UseExpiringMedicine
     {
-        get => _useExpiringMedicine;
+        get => GetTaskConfig<FightTask>().UseExpiringMedicine;
         set {
-            SetAndNotify(ref _useExpiringMedicine, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseExpiringMedicine, value.ToString());
-            Instances.TaskQueueViewModel.SetFightParams();
+            SetTaskConfig<FightTask>(t => t.UseExpiringMedicine == value, t => t.UseExpiringMedicine = value);
+            SetParams();
         }
     }
-
-    private bool _hideUnavailableStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideUnavailableStage, bool.TrueString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to hide unavailable stages.
     /// </summary>
     public bool HideUnavailableStage
     {
-        get => _hideUnavailableStage;
+        get => GetTaskConfig<FightTask>().HideUnavailableStage;
         set {
-            SetAndNotify(ref _hideUnavailableStage, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.HideUnavailableStage, value.ToString());
+            SetTaskConfig<FightTask>(t => t.HideUnavailableStage == value, t => t.HideUnavailableStage = value);
 
             if (value)
             {
@@ -738,18 +663,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    private bool _hideSeries = ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to hide series.
     /// </summary>
     public bool HideSeries
     {
-        get => _hideSeries;
-        set {
-            SetAndNotify(ref _hideSeries, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.HideSeries, value.ToString());
-        }
+        get => GetTaskConfig<FightTask>().HideSeries;
+        set => SetTaskConfig<FightTask>(t => t.HideSeries == value, t => t.HideSeries = value);
     }
 
     private bool _autoRestartOnDrop = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, bool.TrueString));
@@ -792,6 +712,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         return value;
     }
 
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is FightTask)
+        {
+            InitDrops();
+            Refresh();
+        }
+    }
+
     [Obsolete("使用SerializeTask作为代替")]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
@@ -829,20 +758,24 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         return task.Serialize();
     }
 
-    #region 双入口设置可见性
-
-    private bool _customInfrastPlanShowInFightSettings = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, false);
-
-    public bool CustomInfrastPlanShowInFightSettings
+    private bool? SetParams()
     {
-        get => _customInfrastPlanShowInFightSettings;
-        set {
-            SetAndNotify(ref _customInfrastPlanShowInFightSettings, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, value.ToString());
+        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
+        {
+            return null;
         }
+
+        return SerializeTask(fight, TaskSettingVisibilityInfo.CurrentTask.TaskId);
     }
 
-    #endregion
+    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    {
+        if (baseTask is not FightTask fight)
+        {
+            return null;
+        }
+        throw new NotImplementedException();
+    }
 
     #region 关卡列表更新
 
