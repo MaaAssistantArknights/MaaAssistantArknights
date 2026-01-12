@@ -24,7 +24,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -242,22 +241,6 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding UseRemainingSanityStage}">
-                        <controls:TextBlock
-                            x:Name="RemainingSanityStageTextBlock"
-                            Margin="6"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource RemainingSanityStage}"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                        <controls:TooltipBlock
-                            Margin="0,5,6,0"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            NormalOpacity="0.25"
-                            TooltipText="{DynamicResource UseRemainingSanityStageTip}" />
-                    </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <StackPanel
@@ -313,19 +296,6 @@
                                 SelectedValue="{Binding Stage4}"
                                 SelectedValuePath="Value" />
                         </StackPanel>
-                        <ComboBox
-                            Height="30"
-                            Margin="6"
-                            VerticalContentAlignment="Center"
-                            d:IsHitTestVisible="True"
-                            DisplayMemberPath="Display"
-                            IsEnabled="{c:Binding UseRemainingSanityStage}"
-                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                            ItemsSource="{Binding RemainingSanityStageList}"
-                            SelectedValue="{Binding RemainingSanityStage}"
-                            SelectedValuePath="Value"
-                            Visibility="{c:Binding UseRemainingSanityStage}" />
                     </StackPanel>
                     <StackPanel
                         IsEnabled="{c:Binding CustomStageCode}"
@@ -339,7 +309,7 @@
                             hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                             IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                          Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                            Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
+                            Text="{Binding Stage1}"
                             ToolTip="{DynamicResource CustomStageCodeTip}" />
                         <StackPanel
                             IsEnabled="{c:Binding UseAlternateStage}"
@@ -353,7 +323,7 @@
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                              Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Stage2}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                             <TextBox
                                 Height="30"
@@ -363,7 +333,7 @@
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                              Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Stage3}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                             <TextBox
                                 Height="30"
@@ -373,55 +343,10 @@
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                              Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                Text="{Binding Stage4, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Stage4}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                         </StackPanel>
-                        <TextBox
-                            Height="30"
-                            Margin="6"
-                            VerticalContentAlignment="Center"
-                            d:IsHitTestVisible="True"
-                            hc:InfoElement.Placeholder="{DynamicResource NotSelected}"
-                            IsEnabled="{c:Binding UseRemainingSanityStage}"
-                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                            Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
-                            Visibility="{c:Binding UseRemainingSanityStage}" />
                     </StackPanel>
-                </StackPanel>
-            </Grid>
-            <Grid
-                Grid.Row="4"
-                d:Visibility="Visible"
-                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Custom and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings',
-                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <Grid Height="42">
-                        <controls:TextBlock
-                            Margin="6"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource CustomInfrastPlan}"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                    </Grid>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Vertical">
-                    <ComboBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        d:IsHitTestVisible="True"
-                        DisplayMemberPath="Display"
-                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                        ItemsSource="{Binding CustomPlanListDisplay, Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}"
-                        SelectedValue="{Binding CustomInfrastPlanSelect, Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}"
-                        SelectedValuePath="Value" />
                 </StackPanel>
             </Grid>
         </Grid>
@@ -455,10 +380,6 @@
                 Margin="0,10"
                 Content="{DynamicResource UseAlternateStage}"
                 IsChecked="{Binding UseAlternateStage}" />
-            <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource UseRemainingSanityStage}" IsChecked="{Binding UseRemainingSanityStage}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource UseRemainingSanityStageTip}" />
-            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AllowUseStoneSave}"
@@ -477,10 +398,6 @@
                 Margin="0,10"
                 Content="{DynamicResource HideSeries}"
                 IsChecked="{Binding HideSeries}" />
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource CustomInfrastPlanShowInFightSettings}"
-                IsChecked="{Binding CustomInfrastPlanShowInFightSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoRestartOption}"

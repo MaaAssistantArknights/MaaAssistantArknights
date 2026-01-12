@@ -15,15 +15,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class CustomSettingsUserControlModel : TaskViewModel
+public class CustomSettingsUserControlModel : TaskSettingsViewModel
 {
     static CustomSettingsUserControlModel()
     {
@@ -67,6 +69,15 @@ public class CustomSettingsUserControlModel : TaskViewModel
         }
     }
 
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is CustomTask)
+        {
+            Refresh();
+        }
+    }
+
+    [Obsolete("使用SerializeTask作为代替")]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstCustomTask() {
@@ -98,5 +109,21 @@ public class CustomSettingsUserControlModel : TaskViewModel
         })
             .Select(task => task.Serialize())
             .ToList();
+    }
+
+    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    {
+        if (baseTask is not CustomTask custom)
+        {
+            return null;
+        }
+
+        var task = new AsstCustomTask() {
+            CustomTasks = [.. custom.TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
+        };
+        return taskId switch {
+            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, task),
+        };
     }
 }

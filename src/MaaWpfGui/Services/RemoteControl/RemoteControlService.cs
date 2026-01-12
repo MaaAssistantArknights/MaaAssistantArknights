@@ -21,6 +21,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
@@ -75,8 +77,7 @@ public class RemoteControlService
 
         _inited = true;
 
-        _pollJobTask = _pollJobTask.ContinueWith(async _ =>
-        {
+        _pollJobTask = _pollJobTask.ContinueWith(async _ => {
             while (true)
             {
                 await Task.Delay(RemoteSettings.RemoteControlPollIntervalMs);
@@ -100,8 +101,7 @@ public class RemoteControlService
             // ReSharper disable once FunctionNeverReturns
         });
 
-        _executeSequentialJobTask = _executeSequentialJobTask.ContinueWith(async _ =>
-        {
+        _executeSequentialJobTask = _executeSequentialJobTask.ContinueWith(async _ => {
             while (true)
             {
                 await Task.Delay(RemoteSettings.RemoteControlPollIntervalMs);
@@ -124,8 +124,7 @@ public class RemoteControlService
             // ReSharper disable once FunctionNeverReturns
         });
 
-        _executeInstantJobTask = _executeInstantJobTask.ContinueWith(async _ =>
-        {
+        _executeInstantJobTask = _executeInstantJobTask.ContinueWith(async _ => {
             while (true)
             {
                 await Task.Delay(RemoteSettings.RemoteControlPollIntervalMs);
@@ -336,9 +335,8 @@ public class RemoteControlService
                         var startLogStr = string.Format(LocalizationHelper.GetString("RemoteControlReceivedTask"), type, id);
 
                         Instances.TaskQueueViewModel.AddLog(startLogStr);
-                        await Execute.OnUIThreadAsync(() =>
-                        {
-                           _ = Instances.TaskQueueViewModel.LinkStart();
+                        await Execute.OnUIThreadAsync(() => {
+                            _ = Instances.TaskQueueViewModel.LinkStart();
                         });
                         await _runningState.UntilIdleAsync();
 
@@ -410,14 +408,12 @@ public class RemoteControlService
 
                 case "Settings-ConnectAddress":
                     // ConfigurationHelper.SetValue(type.Split('-')[1], data);
-                    await Execute.OnUIThreadAsync(() =>
-                    {
+                    await Execute.OnUIThreadAsync(() => {
                         SettingsViewModel.ConnectSettings.ConnectAddress = data;
                     });
                     break;
                 case "Settings-Stage1":
-                    await Execute.OnUIThreadAsync(() =>
-                    {
+                    await Execute.OnUIThreadAsync(() => {
                         TaskQueueViewModel.FightTask.Stage1 = data;
                     });
                     break;
@@ -431,8 +427,7 @@ public class RemoteControlService
             {
                 var uid = RemoteSettings.RemoteControlUserIdentity;
                 var did = RemoteSettings.RemoteControlDeviceIdentity;
-                var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new
-                {
+                var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new {
                     user = uid,
                     device = did,
                     status,
@@ -471,8 +466,7 @@ public class RemoteControlService
 
                 case "StopTask":
                     {
-                        await Task.Run(() =>
-                        {
+                        await Task.Run(() => {
                             if (!Instances.AsstProxy.AsstStop())
                             {
                                 // 无法确定当前的界面，找不到借用的UI位置，因此只能Log
@@ -524,8 +518,7 @@ public class RemoteControlService
             {
                 var uid = RemoteSettings.RemoteControlUserIdentity;
                 var did = RemoteSettings.RemoteControlDeviceIdentity;
-                var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new
-                {
+                var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new {
                     user = uid,
                     device = did,
                     status,
@@ -562,12 +555,10 @@ public class RemoteControlService
 
         _runningState.SetIdle(false);
 
-        await Execute.OnUIThreadAsync(async () =>
-        {
+        await Execute.OnUIThreadAsync(async () => {
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次(任务及基建列表)
-            Instances.TaskQueueViewModel.TaskItemSelectionChanged();
-            TaskQueueViewModel.InfrastTask.InfrastOrderSelectionChanged();
-
+            // Instances.TaskQueueViewModel.TaskItemSelectionChanged();
+            // TaskQueueViewModel.InfrastTask.InfrastOrderSelectionChanged();
             InvokeInstanceMethod(Instances.TaskQueueViewModel, "ClearLog");
 
             /*await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));*/
@@ -596,6 +587,7 @@ public class RemoteControlService
             bool taskRet = true;
 
             // 直接遍历TaskItemViewModels里面的内容，是排序后的
+            // 20260112 status102: 先做兼容处理
             int count = 0;
             foreach (var item in originalNames)
             {
@@ -603,36 +595,108 @@ public class RemoteControlService
                 switch (item)
                 {
                     case "Base":
-                        taskRet &= Instances.TaskQueueViewModel.AppendInfrast();
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<InfrastTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= InfrastSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "WakeUp":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<StartUpTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= StartUpSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "Combat":
-                        taskRet &= Instances.TaskQueueViewModel.AppendFight();
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= FightSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "Recruiting":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, RecruitSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<RecruitTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= RecruitSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "Mall":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, MallSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= MallSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "Mission":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, AwardSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<AwardTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= AwardSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "AutoRoguelike":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, RoguelikeSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<RoguelikeTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= RoguelikeSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "Reclamation":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, ReclamationSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<ReclamationTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= ReclamationSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     default:
                         --count;

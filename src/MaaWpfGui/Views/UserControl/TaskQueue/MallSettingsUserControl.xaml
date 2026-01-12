@@ -22,19 +22,19 @@
                 Margin="10,10,10,5"
                 Block.TextAlignment="Left"
                 Content="{DynamicResource Visiting}"
-                IsChecked="{Binding CreditVisitFriendsEnabledDisplay}" />
+                IsChecked="{Binding CreditVisitFriendsEnabled}" />
             <StackPanel
                 Margin="10,0,10,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Orientation="Horizontal"
-                Visibility="{c:Binding CreditVisitFriendsEnabledDisplay}">
+                Visibility="{c:Binding CreditVisitFriendsEnabled}">
                 <controls:TextBlock Margin="2.5,0,7.5,0" Text="└" />
                 <CheckBox
                     Block.TextAlignment="Left"
                     Content="{DynamicResource OnlyOnceADay}"
                     IsChecked="{Binding CreditVisitOnceADay}"
-                    Visibility="{c:Binding CreditVisitFriendsEnabledDisplay}" />
+                    Visibility="{c:Binding CreditVisitFriendsEnabled}" />
             </StackPanel>
 
 
@@ -43,7 +43,7 @@
                     MaxWidth="{c:Binding '220 - ActualWidth',
                                          ElementName=CreditFightTipTooltipBlock}"
                     Block.TextAlignment="Left"
-                    IsChecked="{Binding CreditFightTaskEnabledDisplay}">
+                    IsChecked="{Binding CreditFightTaskEnabled}">
                     <TextBlock
                         Block.TextAlignment="Left"
                         Text="{DynamicResource CreditFight}"
@@ -56,18 +56,18 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Orientation="Horizontal"
-                Visibility="{c:Binding CreditFightTaskEnabledDisplay}">
+                Visibility="{c:Binding CreditFightTaskEnabled}">
                 <controls:TextBlock Margin="2.5,0,7.5,0" Text="├" />
                 <CheckBox
                     Block.TextAlignment="Left"
                     Content="{DynamicResource OnlyOnceADay}"
                     IsChecked="{Binding CreditFightOnceADay}"
-                    Visibility="{c:Binding CreditFightTaskEnabledDisplay}" />
+                    Visibility="{c:Binding CreditFightTaskEnabled}" />
             </StackPanel>
             <StackPanel
                 Margin="10,5,10,0"
                 Orientation="Horizontal"
-                Visibility="{c:Binding CreditFightTaskEnabledDisplay}">
+                Visibility="{c:Binding CreditFightTaskEnabled}">
                 <controls:TextBlock Margin="2.5,0,7.5,0" Text="└" />
                 <controls:TextBlock Text="{DynamicResource UseFormation}" />
                 <ComboBox

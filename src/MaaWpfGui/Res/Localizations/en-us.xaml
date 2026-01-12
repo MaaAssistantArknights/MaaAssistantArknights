@@ -565,12 +565,10 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="AllowUseStoneSave">Save ｢Use Originium｣</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
-    <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">Farm the specified stage after completing the main task, won't use sanity potion or Originium</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring (&lt;48h) sanity potion</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
     <system:String x:Key="HideSeries">Hide series</system:String>
-    <system:String x:Key="CustomInfrastPlanShowInFightSettings">Show Base Plan</system:String>
+    <!--<system:String x:Key="CustomInfrastPlanShowInFightSettings">Show Base Plan</system:String>-->
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
@@ -790,8 +788,6 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="HibernatePrompt">Task(s) completed, about to hibernate</system:String>
     <system:String x:Key="SleepPrompt">Completed, about to sleep</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">Unknown ending action</system:String>
-    <system:String x:Key="AnnihilationTaskTip">The stage selected is an annihilation task. After the task is completed, the remaining alternative stages will be attempted. Some battle settings will not take effect.</system:String>
-    <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective.</system:String>
     <system:String x:Key="ProcessPickerTitle">Select Window</system:String>
     <system:String x:Key="ProcessPickerRefresh">Refresh</system:String>
     <system:String x:Key="ProcessPickerConfirm">OK</system:String>

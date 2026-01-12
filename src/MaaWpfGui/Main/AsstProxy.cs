@@ -32,6 +32,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Data;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -425,7 +427,7 @@ public class AsstProxy
         _tasksStatus.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<AsstTaskId, (TaskType, TaskStatus)>> args) => {
             if (args.Action == NotifyCollectionChangedAction.Reset)
             {
-                TaskSettingVisibilityInfo.Instance.CurrentTask = string.Empty;
+                TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
             }
         };
 
@@ -1007,38 +1009,27 @@ public class AsstProxy
 
             case AsstMsg.TaskChainError:
                 {
-                    // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
                     TaskStatusUpdate(taskId, TaskStatus.Completed);
                     _tasksStatus.TryGetValue(taskId, out var value);
-                    if (value is { Type: TaskType.Fight } &&
-                        TaskQueueViewModel.FightTask.Stage == "Annihilation" &&
-                        TaskQueueViewModel.FightTask.UseAlternateStage &&
-                        TaskQueueViewModel.FightTask.Stages.Any(stage =>
-                            Instances.TaskQueueViewModel.IsStageOpen(stage ?? string.Empty) &&
-                            stage != "Annihilation"))
+
+                    var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
+                    Task.Run(async () => {
+                        var screenshot = await AsstGetImageAsync();
+                        Execute.OnUIThread(() => {
+                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, toolTip: screenshot?.CreateTooltip(), updateCardImage: true, fetchLatestImage: true);
+                        });
+                    });
+
+                    ToastNotification.ShowDirect(log);
+                    if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                        ExternalNotificationService.Send(log, log);
                     }
-                    else if (value is { Type: TaskType.Copilot }/* or { Type: TaskType.VideoRec }) */)
+
+                    if (value is { Type: TaskType.Copilot })
                     {
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
-                    }
-                    else
-                    {
-                        var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
-                        Task.Run(async () => {
-                            var screenshot = await AsstGetImageAsync();
-                            Execute.OnUIThread(() => {
-                                Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, toolTip: screenshot?.CreateTooltip(), updateCardImage: true, fetchLatestImage: true);
-                            });
-                        });
-
-                        ToastNotification.ShowDirect(log);
-                        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
-                        {
-                            ExternalNotificationService.Send(log, log);
-                        }
                     }
 
                     break;
@@ -1061,9 +1052,9 @@ public class AsstProxy
                 {
                     // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
                     TaskStatusUpdate(taskId, TaskStatus.Completed);
-                    if (_tasksStatus.TryGetValue(taskId, out var task))
+                    if (_tasksStatus.TryGetValue(taskId, out var taskInfo))
                     {
-                        if (_mainTaskTypes.Contains(task.Type))
+                        if (_mainTaskTypes.Contains(taskInfo.Type))
                         {
                             Instances.TaskQueueViewModel.UpdateMainTasksProgress();
                         }
@@ -1072,8 +1063,11 @@ public class AsstProxy
                     switch (taskChain)
                     {
                         case "Infrast":
-                            InfrastSettingsUserControlModel.Instance.IncreaseCustomInfrastPlanIndex();
-                            break;
+                            {
+                                var infrastTask = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(t => t.TaskId == taskId) as InfrastTask;
+                                InfrastSettingsUserControlModel.IncreaseCustomInfrastPlanIndex(infrastTask);
+                                break;
+                            }
                     }
 
                     if (taskChain == "Fight" && FightTask.SanityReport is not null)
@@ -1710,11 +1704,11 @@ public class AsstProxy
                 ProcRecruitCalcMsg(details);
                 break;
 
-            /*
-            case "VideoRecognition":
-                ProcVideoRecMsg(details);
-                break;
-            */
+                /*
+                case "VideoRecognition":
+                    ProcVideoRecMsg(details);
+                    break;
+                */
         }
 
         var subTaskDetails = details["details"];
@@ -2501,12 +2495,6 @@ public class AsstProxy
         /// <summary>理智作战</summary>
         Fight,
 
-        /// <summary>关卡选择为剿灭时的备选理智作战</summary>
-        FightAnnihilationAlternate,
-
-        /// <summary>剩余理智</summary>
-        FightRemainingSanity,
-
         /// <summary>自动公招</summary>
         Recruit,
 
@@ -2556,8 +2544,6 @@ public class AsstProxy
     [
         TaskType.StartUp,
         TaskType.Fight,
-        TaskType.FightAnnihilationAlternate,
-        TaskType.FightRemainingSanity,
         TaskType.Recruit,
         TaskType.Infrast,
         TaskType.Mall,
@@ -2587,7 +2573,7 @@ public class AsstProxy
             value.Status = status;
             if (status == TaskStatus.InProgress)
             {
-                TaskSettingVisibilityInfo.Instance.CurrentTask = value.Type.ToString();
+                TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
             }
 
             return true;

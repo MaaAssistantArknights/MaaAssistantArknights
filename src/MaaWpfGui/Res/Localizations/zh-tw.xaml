@@ -565,12 +565,10 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSave">允許吃源石保存狀態</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下 ｢{key=Confirm}｣ 鍵即視為你了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
-    <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥 / 碎石</system:String>
     <system:String x:Key="UseExpiringMedicine">無限吃 48 小時內過期的理智藥</system:String>
     <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
     <system:String x:Key="HideSeries">隱藏代理倍率</system:String>
-    <system:String x:Key="CustomInfrastPlanShowInFightSettings">顯示基建計劃</system:String>
+    <!--<system:String x:Key="CustomInfrastPlanShowInFightSettings">顯示基建計劃</system:String>-->
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡名</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支援大部分主線關卡名與原清單的關卡名（如 4-10、AP-5、H10-1-Hard）
@@ -791,8 +789,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="HibernatePrompt">已刷完，即將休眠</system:String>
     <system:String x:Key="SleepPrompt">已刷完，即將睡眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
-    <system:String x:Key="AnnihilationTaskTip">關卡選擇為剿滅任務，任務結束後將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>
-    <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>
     <system:String x:Key="ProcessPickerTitle">選擇視窗</system:String>
     <system:String x:Key="ProcessPickerRefresh">重新整理</system:String>
     <system:String x:Key="ProcessPickerConfirm">確定</system:String>

@@ -35,7 +35,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 理智作战
 /// </summary>
-public class FightSettingsUserControlModel : TaskViewModel
+public class FightSettingsUserControlModel : TaskSettingsViewModel
 {
     public static FightTimes? FightReport { get; set; }
 
@@ -278,32 +278,6 @@ public class FightSettingsUserControlModel : TaskViewModel
         Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
         Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
         Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
-        RemainingSanityStage = RemainingSanityStageList.FirstOrDefault(x => x.Value == RemainingSanityStage)?.Value ?? string.Empty;
-    }
-
-    private string? _remainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) ?? string.Empty;
-
-    public string? RemainingSanityStage
-    {
-        get => _remainingSanityStage;
-        set {
-            if (_remainingSanityStage == value)
-            {
-                return;
-            }
-
-            if (CustomStageCode)
-            {
-                if (_remainingSanityStage?.Length != 3 && value != null)
-                {
-                    value = ToUpperAndCheckStage(value);
-                }
-            }
-
-            SetAndNotify(ref _remainingSanityStage, value);
-            TaskQueueViewModel.SetFightRemainingSanityParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.RemainingSanityStage, value);
-        }
     }
 
     /// <summary>
@@ -818,6 +792,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         return value;
     }
 
+    [Obsolete("使用SerializeTask作为代替")]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstFightTask() {
@@ -892,13 +867,10 @@ public class FightSettingsUserControlModel : TaskViewModel
             var stage2 = Stage2 ?? string.Empty;
             var stage3 = Stage3 ?? string.Empty;
             var stage4 = Stage4 ?? string.Empty;
-            var rss = RemainingSanityStage ?? string.Empty;
 
             var tempStageList = hideUnavailableStage
                 ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
                 : Instances.StageManager.GetStageList().ToList();
-
-            var tempRemainingSanityStageList = Instances.StageManager.GetStageList().ToList();
 
             if (CustomStageCode)
             {
@@ -929,26 +901,13 @@ public class FightSettingsUserControlModel : TaskViewModel
                 stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
             }
 
-            // rss 如果结束后还选择了不开放的关卡，理智作战任务会报错
-            rss = Instances.TaskQueueViewModel.IsStageOpen(rss) ? rss : string.Empty;
-
-            if (tempRemainingSanityStageList.Any(item => item.Value == string.Empty))
-            {
-                var itemToRemove = tempRemainingSanityStageList.First(item => item.Value == string.Empty);
-                tempRemainingSanityStageList.Remove(itemToRemove);
-            }
-
-            tempRemainingSanityStageList.Insert(0, new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty });
-
             UpdateObservableCollection(StageList, tempStageList);
-            UpdateObservableCollection(RemainingSanityStageList, tempRemainingSanityStageList);
 
             _stage1Fallback = stage1;
             Stage1 = stage1;
             Stage2 = stage2;
             Stage3 = stage3;
             Stage4 = stage4;
-            RemainingSanityStage = rss;
             if (!CustomStageCode)
             {
                 RemoveNonExistStage();
