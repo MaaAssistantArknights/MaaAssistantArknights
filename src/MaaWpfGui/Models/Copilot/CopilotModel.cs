@@ -73,7 +73,7 @@ public class CopilotModel : CopilotBase
         {
             count++;
             var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name);
-            var log = $"{localizedName} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill} {GetModuleInfo(oper.Requirements)}".Trim();
+            var log = $"{localizedName} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}{PrintSkillLevel(oper)} {GetModuleInfo(oper.Requirements)}".Trim();
             output.Add((log, UiLogColor.Message));
         }
 
@@ -82,7 +82,7 @@ public class CopilotModel : CopilotBase
             count++;
             var groupName = group.Name + ": ";
             var operInfos = group.Opers
-                .Select(oper => $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill} {GetModuleInfo(oper.Requirements)}".Trim())
+                .Select(oper => $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill}{PrintSkillLevel(oper)} {GetModuleInfo(oper.Requirements)}".Trim())
                 .ToList();
 
             output.Add((groupName + string.Join(" / ", operInfos), UiLogColor.Message));
@@ -90,6 +90,15 @@ public class CopilotModel : CopilotBase
 
         output.Add((string.Format(LocalizationHelper.GetString("TotalOperatorsCount"), count), UiLogColor.Message));
         return output;
+    }
+
+    private static string PrintSkillLevel(Oper oper)
+    {
+        if (oper.Requirements is not { } req || req.SkillLevel <= 0 || req.SkillLevel > 10)
+        {
+            return string.Empty;
+        }
+        return $" [Lv.{req.SkillLevel}]";
     }
 
     private static string GetModuleInfo(Requirements? req)
@@ -100,8 +109,7 @@ public class CopilotModel : CopilotBase
         }
 
         // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
-        return req.Module switch
-        {
+        return req.Module switch {
             0 => $"{LocalizationHelper.GetString("CopilotWithoutModule")}",
             1 => $"{LocalizationHelper.GetString("CopilotModule")} χ",
             2 => $"{LocalizationHelper.GetString("CopilotModule")} γ",
