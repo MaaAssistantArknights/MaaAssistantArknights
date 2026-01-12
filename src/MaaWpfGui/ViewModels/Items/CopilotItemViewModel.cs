@@ -15,7 +15,7 @@ using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Stylet;
 
-namespace MaaWpfGui.ViewModels;
+namespace MaaWpfGui.ViewModels.Items;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class CopilotItemViewModel : PropertyChangedBase

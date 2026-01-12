@@ -23,19 +23,20 @@ using HandyControl.Tools.Command;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 using Serilog;
 using Stylet;
 
-namespace MaaWpfGui.ViewModels.UI;
+namespace MaaWpfGui.ViewModels.Dialogs;
 
 /// <summary>
 /// The view model of version update.
 /// </summary>
 // 通过 container.Get<AnnouncementViewModel>(); 实例化或获取实例
 // ReSharper disable once ClassNeverInstantiated.Global
-public class AnnouncementViewModel : Screen
+public class AnnouncementDialogViewModel : Screen
 {
-    private static readonly ILogger _logger = Log.ForContext<AnnouncementViewModel>();
+    private static readonly ILogger _logger = Log.ForContext<AnnouncementDialogViewModel>();
 
     private static readonly Lock _lock = new();
 
@@ -50,7 +51,7 @@ public class AnnouncementViewModel : Screen
         public string Content { get; set; }
     }
 
-    public AnnouncementViewModel()
+    public AnnouncementDialogViewModel()
     {
         UpdateImageSource();
 

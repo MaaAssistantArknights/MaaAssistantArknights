@@ -16,18 +16,18 @@
 using System.Collections.Generic;
 using Stylet;
 
-namespace MaaWpfGui.ViewModels;
+namespace MaaWpfGui.ViewModels.Dialogs;
 
 /// <summary>
 /// ViewModel for EmulatorPathSelectionWindow
 /// </summary>
-public class EmulatorPathSelectionViewModel : PropertyChangedBase
+public class EmulatorPathSelectionDialogViewModel : PropertyChangedBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="EmulatorPathSelectionViewModel"/> class.
+    /// Initializes a new instance of the <see cref="EmulatorPathSelectionDialogViewModel"/> class.
     /// </summary>
     /// <param name="paths">可选路径列表</param>
-    public EmulatorPathSelectionViewModel(List<string> paths)
+    public EmulatorPathSelectionDialogViewModel(List<string> paths)
     {
         Paths = paths;
         if (paths.Count > 0)

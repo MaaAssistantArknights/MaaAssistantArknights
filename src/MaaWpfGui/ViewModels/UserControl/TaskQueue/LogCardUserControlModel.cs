@@ -16,16 +16,17 @@
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.Items;
 using Stylet;
 
-namespace MaaWpfGui.ViewModels
+namespace MaaWpfGui.ViewModels.UserControl.TaskQueue
 {
     /// <summary>
     /// Represents a grouped log card that contains several <see cref="LogItemViewModel"/>.
     /// </summary>
-    public class LogCardViewModel : PropertyChangedBase
+    public class LogCardUserControlModel : PropertyChangedBase
     {
-        public LogCardViewModel()
+        public LogCardUserControlModel()
         {
             PropertyDependsOnUtility.InitializePropertyDependencies(this);
 

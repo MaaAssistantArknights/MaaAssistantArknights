@@ -38,6 +38,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.Views.UI;
@@ -225,7 +226,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Gets the grouped log cards. Each card contains multiple <see cref="LogItemViewModel"/>.
     /// </summary>
-    public ObservableCollection<LogCardViewModel> LogCardViewModels { get; private set; } = [];
+    public ObservableCollection<LogCardUserControlModel> LogCardViewModels { get; private set; } = [];
 
     private bool TryMergeIntoLastCard(string content, string color, string weight, ToolTip? toolTip)
     {
@@ -263,7 +264,7 @@ public class TaskQueueViewModel : Screen
 
     private static int MaxLogItemsWithThumbnails => SettingsViewModel.GuiSettings.MaxNumberOfLogThumbnails;
 
-    private async Task AttachThumbnailToCardAsync(LogCardViewModel card, bool forceScreencap)
+    private async Task AttachThumbnailToCardAsync(LogCardUserControlModel card, bool forceScreencap)
     {
         if (card is null)
         {
@@ -1174,7 +1175,7 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        var card = new LogCardViewModel();
+        var card = new LogCardUserControlModel();
         LogCardViewModels.Add(card);
     }
 

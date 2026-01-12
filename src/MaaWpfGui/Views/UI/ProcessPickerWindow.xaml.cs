@@ -12,12 +12,8 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
+using MaaWpfGui.ViewModels.Dialogs;
 
 namespace MaaWpfGui.Views.UI;
 
@@ -30,14 +26,14 @@ namespace MaaWpfGui.Views.UI;
 /// process window.</remarks>
 public partial class ProcessPickerWindow
 {
-    private readonly ViewModels.UI.ProcessPickerViewModel _vm;
+    private readonly ProcessPickerDialogViewModel _vm;
 
     public IntPtr SelectedHwnd { get; private set; } = IntPtr.Zero;
 
     public ProcessPickerWindow()
     {
         InitializeComponent();
-        _vm = new ViewModels.UI.ProcessPickerViewModel();
+        _vm = new ProcessPickerDialogViewModel();
         DataContext = _vm;
         _ = _vm.LoadWindows();
     }

@@ -21,6 +21,7 @@ using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels.Dialogs;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Stylet;
@@ -66,9 +67,9 @@ public static class Instances
 
     public static CopilotViewModel CopilotViewModel { get; private set; }
 
-    public static VersionUpdateViewModel VersionUpdateViewModel { get; private set; }
+    public static VersionUpdateDialogViewModel VersionUpdateViewModel { get; private set; }
 
-    public static AnnouncementViewModel AnnouncementViewModel { get; private set; }
+    public static AnnouncementDialogViewModel AnnouncementViewModel { get; private set; }
 
     public static AsstProxy AsstProxy { get; private set; }
 
@@ -102,8 +103,8 @@ public static class Instances
         HttpService = container.Get<HttpService>();
         MaaApiService = container.Get<MaaApiService>();
 
-        VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
-        AnnouncementViewModel = container.Get<AnnouncementViewModel>();
+        VersionUpdateViewModel = container.Get<VersionUpdateDialogViewModel>();
+        AnnouncementViewModel = container.Get<AnnouncementDialogViewModel>();
         AsstProxy = container.Get<AsstProxy>();
 
         // 这些实例化时存在依赖顺序

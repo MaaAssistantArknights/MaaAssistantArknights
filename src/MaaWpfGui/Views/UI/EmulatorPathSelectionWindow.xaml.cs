@@ -15,7 +15,7 @@
 
 using System.Collections.Generic;
 using System.Windows;
-using MaaWpfGui.ViewModels;
+using MaaWpfGui.ViewModels.Dialogs;
 
 namespace MaaWpfGui.Views.UI;
 
@@ -31,13 +31,13 @@ public partial class EmulatorPathSelectionWindow
     public EmulatorPathSelectionWindow(List<string> paths)
     {
         InitializeComponent();
-        DataContext = new EmulatorPathSelectionViewModel(paths);
+        DataContext = new EmulatorPathSelectionDialogViewModel(paths);
     }
 
     /// <summary>
     /// Gets the selected path.
     /// </summary>
-    public string? SelectedPath => (DataContext as EmulatorPathSelectionViewModel)?.SelectedPath;
+    public string? SelectedPath => (DataContext as EmulatorPathSelectionDialogViewModel)?.SelectedPath;
 
     private void OnConfirmClick(object sender, RoutedEventArgs e)
     {
