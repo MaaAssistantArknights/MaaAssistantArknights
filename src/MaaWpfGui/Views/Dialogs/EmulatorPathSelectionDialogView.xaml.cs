@@ -1,4 +1,4 @@
-// <copyright file="EmulatorPathSelectionWindow.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="EmulatorPathSelectionDialogView.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -17,18 +17,18 @@ using System.Collections.Generic;
 using System.Windows;
 using MaaWpfGui.ViewModels.Dialogs;
 
-namespace MaaWpfGui.Views.UI;
+namespace MaaWpfGui.Views.Dialogs;
 
 /// <summary>
-/// EmulatorPathSelectionWindow.xaml 的交互逻辑
+/// EmulatorPathSelectionDialogView.xaml 的交互逻辑
 /// </summary>
-public partial class EmulatorPathSelectionWindow
+public partial class EmulatorPathSelectionDialogView
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="EmulatorPathSelectionWindow"/> class.
+    /// Initializes a new instance of the <see cref="EmulatorPathSelectionDialogView"/> class.
     /// </summary>
     /// <param name="paths">可选路径列表</param>
-    public EmulatorPathSelectionWindow(List<string> paths)
+    public EmulatorPathSelectionDialogView(List<string> paths)
     {
         InitializeComponent();
         DataContext = new EmulatorPathSelectionDialogViewModel(paths);

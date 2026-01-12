@@ -856,7 +856,7 @@ public class SettingsViewModel : Screen
         var newVersionFoundInfo = VersionUpdateSettings.NewVersionFoundInfo;
         var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
         var startupUpdateCheck = VersionUpdateSettings.StartupUpdateCheck;
-        var isDebug = Instances.VersionUpdateViewModel.IsDebugVersion();
+        var isDebug = Instances.VersionUpdateDialogViewModel.IsDebugVersion();
 
         if (newVersionFoundInfo != uiVersion && !isDebug && !string.IsNullOrEmpty(newVersionFoundInfo) && startupUpdateCheck)
         {

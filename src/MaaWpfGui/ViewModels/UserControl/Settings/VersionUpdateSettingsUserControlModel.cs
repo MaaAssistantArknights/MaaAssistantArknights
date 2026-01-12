@@ -301,7 +301,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             if (value.Length == 24)
             {
                 Task.Run(async () => {
-                    await Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
+                    await Instances.VersionUpdateDialogViewModel.VersionUpdateAndAskToRestartAsync();
                     await ResourceUpdater.ResourceUpdateAndReloadAsync();
                 });
             }
@@ -518,7 +518,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate();
+        var ret = await Instances.VersionUpdateDialogViewModel.CheckAndDownloadVersionUpdate();
 
         var toastMessage = ret switch {
             VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
@@ -541,7 +541,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         if (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.OK)
         {
-            _ = Instances.VersionUpdateViewModel.AskToRestart();
+            _ = Instances.VersionUpdateDialogViewModel.AskToRestart();
         }
     }
 
@@ -602,7 +602,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public void ShowChangelog()
     {
-        if (Instances.VersionUpdateViewModel.View is System.Windows.Window window)
+        if (Instances.VersionUpdateDialogViewModel.View is System.Windows.Window window)
         {
             if (window.WindowState == System.Windows.WindowState.Minimized)
             {
@@ -613,7 +613,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
         else
         {
-            Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
+            Instances.WindowManager.ShowWindow(Instances.VersionUpdateDialogViewModel);
         }
     }
 }

@@ -21,7 +21,7 @@ using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
-using MaaWpfGui.Views.UI;
+using MaaWpfGui.Views.Dialogs;
 using Stylet;
 using Window = System.Windows.Window;
 using WindowManager = MaaWpfGui.Helper.WindowManager;
@@ -111,7 +111,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
     {
         if (_achievementsWindow is null)
         {
-            _achievementsWindow = new AchievementListWindow();
+            _achievementsWindow = new AchievementListDialogView();
             _achievementsWindow.Loaded += (_, _) => {
                 WindowManager.MoveWindowToRootCenter(_achievementsWindow);
             };
@@ -136,7 +136,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        if (Instances.VersionUpdateViewModel.IsDebugVersion())
+        if (Instances.VersionUpdateDialogViewModel.IsDebugVersion())
         {
             EnableDebugMode();
             return;

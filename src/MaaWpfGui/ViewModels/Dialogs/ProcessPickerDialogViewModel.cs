@@ -1,4 +1,4 @@
-// <copyright file="ProcessPickerViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="ProcessPickerDialogViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //

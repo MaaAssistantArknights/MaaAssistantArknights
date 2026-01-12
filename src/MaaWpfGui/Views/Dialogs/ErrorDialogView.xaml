@@ -1,5 +1,5 @@
 <hc:Window
-    x:Class="MaaWpfGui.Views.UI.ErrorView"
+    x:Class="MaaWpfGui.Views.Dialogs.ErrorDialogView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
@@ -9,9 +9,9 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
-    x:Name="ErrorViewWindow"
+    x:Name="ErrorDialogViewWindow"
     Title="{c:Binding 'CongratulationsOnError ? ErrorCongratulationsString : ErrorString',
-                      ElementName=ErrorViewWindow}"
+                      ElementName=ErrorDialogViewWindow}"
     Width="600"
     Height="480"
     MinWidth="400"
@@ -38,7 +38,7 @@
         </Grid.RowDefinitions>
 
         <RichTextBox
-            x:Name="NormalErrorview"
+            x:Name="NormalErrorDialogView"
             Grid.Row="0"
             Padding="12,16,4,8"
             hc:BorderElement.CornerRadius="0"
@@ -48,7 +48,7 @@
             IsReadOnly="True"
             VerticalScrollBarVisibility="Auto"
             Visibility="{c:Binding !CongratulationsOnError,
-                                   ElementName=ErrorViewWindow}">
+                                   ElementName=ErrorDialogViewWindow}">
             <RichTextBox.Resources>
                 <!--  This will give us a LARGER scroll bar  -->
                 <Style TargetType="{x:Type ScrollViewer}">
@@ -61,7 +61,7 @@
                         <Run FontWeight="Bold" Text="{DynamicResource ErrorProlog}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
-                        <Run x:Name="Error" Text="{Binding ExceptionMessage, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                        <Run x:Name="Error" Text="{Binding ExceptionMessage, ElementName=ErrorDialogViewWindow, Mode=OneWay}" />
                     </Paragraph>
                 </Section>
                 <Section>
@@ -72,7 +72,7 @@
                         <Run
                             x:Name="ErrorSolution"
                             Foreground="Red"
-                            Text="{Binding PossibleSolution, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                            Text="{Binding PossibleSolution, ElementName=ErrorDialogViewWindow, Mode=OneWay}" />
                     </Paragraph>
                 </Section>
                 <Section>
@@ -80,14 +80,14 @@
                         <Run FontWeight="Bold" Text="{DynamicResource ErrorDetails}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
-                        <Run x:Name="ErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                        <Run x:Name="ErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorDialogViewWindow, Mode=OneWay}" />
                     </Paragraph>
                 </Section>
             </FlowDocument>
         </RichTextBox>
 
         <RichTextBox
-            x:Name="CongratulationErrorview"
+            x:Name="CongratulationErrorDialogView"
             Grid.Row="0"
             Padding="50,76,30,8"
             hc:BorderElement.CornerRadius="0"
@@ -98,7 +98,7 @@
             IsReadOnly="True"
             VerticalScrollBarVisibility="Auto"
             Visibility="{c:Binding CongratulationsOnError,
-                                   ElementName=ErrorViewWindow}">
+                                   ElementName=ErrorDialogViewWindow}">
             <RichTextBox.Background>
                 <ImageBrush ImageSource="/Res/Backgrounds/Congratulations.png" Stretch="UniformToFill" />
             </RichTextBox.Background>
@@ -110,7 +110,7 @@
             <RichTextBox.Style>
                 <Style TargetType="{x:Type RichTextBox}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{c:Binding CongratulationsOnError, ElementName=ErrorViewWindow}" Value="True">
+                        <DataTrigger Binding="{c:Binding CongratulationsOnError, ElementName=ErrorDialogViewWindow}" Value="True">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard Storyboard="{StaticResource FadeIn}" />
                             </DataTrigger.EnterActions>
@@ -138,7 +138,7 @@
                             Stroke="#FFFF00"
                             StrokePosition="Outside"
                             StrokeThickness="1"
-                            Text="{Binding ExceptionMessage, ElementName=ErrorViewWindow, Mode=OneWay}"
+                            Text="{Binding ExceptionMessage, ElementName=ErrorDialogViewWindow, Mode=OneWay}"
                             TextWrapping="Wrap" />
                     </Paragraph>
                 </Section>
@@ -157,7 +157,7 @@
                         <controls:TextBlock
                             FontSize="20"
                             Style="{StaticResource TextBlockDefaultBold}"
-                            Text="{Binding PossibleSolution, ElementName=ErrorViewWindow, Mode=OneWay}"
+                            Text="{Binding PossibleSolution, ElementName=ErrorDialogViewWindow, Mode=OneWay}"
                             TextWrapping="Wrap">
                             <controls:TextBlock.Foreground>
                                 <LinearGradientBrush SpreadMethod="Repeat">
@@ -214,7 +214,7 @@
                             Text="{DynamicResource ErrorDetails}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
-                        <Run x:Name="CongratulationErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                        <Run x:Name="CongratulationErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorDialogViewWindow, Mode=OneWay}" />
                     </Paragraph>
                 </Section>
             </FlowDocument>
@@ -245,7 +245,7 @@
                     Grid.Column="1"
                     Margin="10"
                     Content="{DynamicResource ErrorCongratulations}"
-                    IsChecked="{Binding CongratulationsOnError, ElementName=ErrorViewWindow}" />
+                    IsChecked="{Binding CongratulationsOnError, ElementName=ErrorDialogViewWindow}" />
                 <WrapPanel
                     Grid.Column="2"
                     HorizontalAlignment="Right"

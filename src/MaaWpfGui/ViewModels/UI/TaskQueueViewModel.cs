@@ -27,7 +27,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using HandyControl.Controls;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -41,7 +40,7 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
-using MaaWpfGui.Views.UI;
+using MaaWpfGui.Views.Dialogs;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
@@ -154,7 +153,7 @@ public class TaskQueueViewModel : Screen
         try
         {
             var owner = Application.Current.MainWindow;
-            var picker = new ProcessPickerWindow { Owner = owner };
+            var picker = new ProcessPickerDialogView { Owner = owner };
             var ok = picker.ShowDialog();
             if (ok == true && picker.SelectedHwnd != IntPtr.Zero)
             {
@@ -714,7 +713,7 @@ public class TaskQueueViewModel : Screen
         _ = Task.Run(async () => {
             _logger.Information("waiting for update check: {DelayTime}", delayTime);
             await Task.Delay(delayTime);
-            await Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
+            await Instances.VersionUpdateDialogViewModel.VersionUpdateAndAskToRestartAsync();
             await ResourceUpdater.ResourceUpdateAndReloadAsync();
 
             _isCheckingForUpdates = false;
@@ -901,7 +900,7 @@ public class TaskQueueViewModel : Screen
             "Reclamation"
         ];
 
-        if (Instances.VersionUpdateViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
+        if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
         {
             taskList.Add("Custom");
             CanShowAutoReload = true;
@@ -1534,7 +1533,7 @@ public class TaskQueueViewModel : Screen
 
         var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
         var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
-        if (!Instances.VersionUpdateViewModel.IsDebugVersion() && uiVersion != coreVersion)
+        if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion)
         {
             AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Error);
             return;

@@ -38,7 +38,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     protected override void OnViewLoaded()
     {
         // 更新直接重启
-        if (Instances.VersionUpdateViewModel.CheckAndUpdateNow())
+        if (Instances.VersionUpdateDialogViewModel.CheckAndUpdateNow())
         {
             Bootstrapper.RestartAfterUpdate();
             return;
@@ -70,7 +70,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             }
         });
 
-        _ = Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
+        _ = Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();
     }
 
     private static async Task InitProxy()

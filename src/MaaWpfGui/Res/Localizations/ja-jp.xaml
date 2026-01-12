@@ -1029,7 +1029,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTaskListTabMismatch">「{key=UseCopilotList}」を使用中です。現在のタブは「{0}」ですが、リストは「{1}」のものです。対応するタブに切り替えてから開始してください。</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
-    <!--  ErrorView  -->
+    <!--  ErrorDialogView  -->
     <system:String x:Key="Error">エラー</system:String>
     <system:String x:Key="ErrorCongratulations">おめでとうございます</system:String>
     <system:String x:Key="ErrorProlog">MAA に問題が発生しました</system:String>
@@ -1049,7 +1049,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorCrashMessageHelpTip">他人に助けを求める場合は、このウィンドウのスクリーンショットや写真ではなく、生成されたエラーレポートファイルを送信してください。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">前回のクラッシュ原因</system:String>
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
-    <!--  !ErrorView  -->
+    <!--  !ErrorDialogView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADBファイルが存在しません</system:String>

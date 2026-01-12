@@ -19,7 +19,7 @@ using Stylet;
 namespace MaaWpfGui.ViewModels.Dialogs;
 
 /// <summary>
-/// ViewModel for EmulatorPathSelectionWindow
+/// ViewModel for EmulatorPathSelectionDialogView
 /// </summary>
 public class EmulatorPathSelectionDialogViewModel : PropertyChangedBase
 {
