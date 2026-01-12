@@ -225,7 +225,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Gets the grouped log cards. Each card contains multiple <see cref="LogItemViewModel"/>.
     /// </summary>
-    public ObservableCollection<LogCardUserControlModel> LogCardViewModels { get; private set; } = [];
+    public ObservableCollection<LogCardItemViewModel> LogCardViewModels { get; private set; } = [];
 
     private bool TryMergeIntoLastCard(string content, string color, string weight, ToolTip? toolTip)
     {
@@ -263,7 +263,7 @@ public class TaskQueueViewModel : Screen
 
     private static int MaxLogItemsWithThumbnails => SettingsViewModel.GuiSettings.MaxNumberOfLogThumbnails;
 
-    private async Task AttachThumbnailToCardAsync(LogCardUserControlModel card, bool forceScreencap)
+    private async Task AttachThumbnailToCardAsync(LogCardItemViewModel card, bool forceScreencap)
     {
         if (card is null)
         {
@@ -1174,7 +1174,7 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        var card = new LogCardUserControlModel();
+        var card = new LogCardItemViewModel();
         LogCardViewModels.Add(card);
     }
 

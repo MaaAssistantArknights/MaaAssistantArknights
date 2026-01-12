@@ -1,4 +1,4 @@
-// <copyright file="LogCardViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="LogCardItemViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -16,17 +16,16 @@
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using MaaWpfGui.Utilities;
-using MaaWpfGui.ViewModels.Items;
 using Stylet;
 
-namespace MaaWpfGui.ViewModels.UserControl.TaskQueue
+namespace MaaWpfGui.ViewModels.Items
 {
     /// <summary>
     /// Represents a grouped log card that contains several <see cref="LogItemViewModel"/>.
     /// </summary>
-    public class LogCardUserControlModel : PropertyChangedBase
+    public class LogCardItemViewModel : PropertyChangedBase
     {
-        public LogCardUserControlModel()
+        public LogCardItemViewModel()
         {
             PropertyDependsOnUtility.InitializePropertyDependencies(this);
 

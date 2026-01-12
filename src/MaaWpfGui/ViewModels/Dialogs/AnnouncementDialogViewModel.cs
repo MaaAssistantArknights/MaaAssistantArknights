@@ -1,4 +1,4 @@
-// <copyright file="AnnouncementViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="AnnouncementDialogViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -32,7 +32,7 @@ namespace MaaWpfGui.ViewModels.Dialogs;
 /// <summary>
 /// The view model of version update.
 /// </summary>
-// 通过 container.Get<AnnouncementViewModel>(); 实例化或获取实例
+// 通过 container.Get<AnnouncementDialogViewModel>(); 实例化或获取实例
 // ReSharper disable once ClassNeverInstantiated.Global
 public class AnnouncementDialogViewModel : Screen
 {
