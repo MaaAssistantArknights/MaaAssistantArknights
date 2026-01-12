@@ -1749,4 +1749,10 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="BadModules.Warning.Epilog">MAA に関連する問題がある場合は、関連ソフトウェアの除外リストに MAA を追加するか、関連ソフトウェアをアンインストールした後、問題がまだ存在するかどうかを確認してください。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">この警告を再表示しない</system:String>
     <!--  !BadModules  -->
+
+    <!--  EmulatorPathSelection  -->
+    <system:String x:Key="SelectEmulatorPath">エミュレータパスを選択</system:String>
+    <system:String x:Key="MultipleEmulatorsDetected">複数のエミュレータインストールパスが検出されました。使用するパスを選択してください：</system:String>
+    <system:String x:Key="PleaseSelectPath">パスを選択してください</system:String>
+    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>
