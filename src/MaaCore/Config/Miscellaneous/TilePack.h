@@ -24,26 +24,27 @@ public:
         Highland = 0,
         Floor = 1
     };
-    // clang-format off
-        enum class TileKey
-        {
-            Invalid = -1,
-            Forbidden, // 不能放干员，敌人也不能走
-            Wall,      // 可以放高台干员的位置
-            Road,      // 可以放地面干员，敌人也可以走
-            Home,      // 蓝门（可能还有其他的情况）
-            EnemyHome, // 红门（可能还有其他的情况）
-            Airport,   // 无人机始发站
-            Floor,     // 不能放干员，但敌人可以走
-            Hole,      // 空降兵掉下去的地方（
-            Telin,     // 传送门入口
-            Telout,    // 传送门出口
-            Grass,     // 草地，带有隐匿，可以放干员，部分地块敌人可以走
-            DeepSea,   // 水，不能直接放干员（要借助泳圈道具），敌人可以走，但敌人会持续掉血
-            Volcano,   // 岩浆地块，可以放干员，敌人也可以走，但是会持续掉血
-            Healing,   // 治疗地块，可以放干员，敌人也可以走，会给干员回血
-            Fence,     // 敌人不会走，但可以放干员的地面位置
-        }; // clang-format on
+    enum class TileKey
+    {
+        Invalid = -1,
+        Forbidden, // 不能放干员，敌人也不能走
+        Wall,      // 可以放高台干员的位置
+        Road,      // 可以放地面干员，敌人也可以走
+        Home,      // 蓝门（可能还有其他的情况）
+        EnemyHome, // 红门（可能还有其他的情况）
+        Green,     // 绿门, 怪从绿门进入之后, 在后续阶段出现, 常见于引航者试炼
+        Airport,   // 无人机始发站
+        Floor,     // 不能放干员，但敌人可以走
+        Hole,      // 空降兵掉下去的地方（
+        Telin,     // 传送门入口
+        Telout,    // 传送门出口
+        Grass,     // 草地，带有隐匿，可以放干员，部分地块敌人可以走
+        DeepSea,   // 水，不能直接放干员（要借助泳圈道具），敌人可以走，但敌人会持续掉血
+        Volcano,   // 岩浆地块，可以放干员，敌人也可以走，但是会持续掉血
+        Healing,   // 治疗地块，可以放干员，敌人也可以走，会给干员回血
+        Fence,     // 敌人不会走，但可以放干员的地面位置
+        Infection, // 源石地板, 可以放干员，敌人也可以走，但是会持续掉血, 且攻击力增加
+    };
 
     struct TileInfo
     {
