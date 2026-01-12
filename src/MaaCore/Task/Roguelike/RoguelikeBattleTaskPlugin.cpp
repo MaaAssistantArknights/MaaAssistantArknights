@@ -1086,7 +1086,7 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
                 { TileKey::Airport, 1000 }, { TileKey::Floor, 1000 },   { TileKey::Hole, 0 },
                 { TileKey::Telin, 700 },    { TileKey::Telout, 800 },   { TileKey::Grass, 500 },
                 { TileKey::DeepSea, 1000 }, { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
-                { TileKey::Fence, 800 }, 
+                { TileKey::Fence, 800 },
                 // Todo:  TileKey::Green, TileKey::Infection
             };
             // 治疗干员朝向的权重
