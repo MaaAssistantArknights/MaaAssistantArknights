@@ -35,38 +35,39 @@
                 </Grid.ColumnDefinitions>
                 <Grid.Resources>
                     <Storyboard x:Key="SmoothColorCycle" RepeatBehavior="Forever">
-                        <ColorAnimation
-                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                            From="#FF4285F4"
-                            To="#FFEA4335"
-                            Duration="0:0:1" />
-                        <ColorAnimation
-                            BeginTime="0:0:1"
-                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                            From="#FFEA4335"
-                            To="#FFFBBC05"
-                            Duration="0:0:1" />
-                        <ColorAnimation
-                            BeginTime="0:0:2"
-                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                            From="#FFFBBC05"
-                            To="#FF34A853"
-                            Duration="0:0:1" />
-                        <ColorAnimation
-                            BeginTime="0:0:3"
-                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                            From="#FF34A853"
-                            To="#FF4285F4"
-                            Duration="0:0:1" />
+                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Duration="0:0:4">
+                            <SplineColorKeyFrame KeyTime="0:0:0" Value="#FF4285F4" />
+                            <SplineColorKeyFrame
+                                KeySpline="0.25,0.1 0.25,1"
+                                KeyTime="0:0:1"
+                                Value="#FFEA4335" />
+                            <SplineColorKeyFrame
+                                KeySpline="0.25,0.1 0.25,1"
+                                KeyTime="0:0:2"
+                                Value="#FFFBBC05" />
+                            <SplineColorKeyFrame
+                                KeySpline="0.25,0.1 0.25,1"
+                                KeyTime="0:0:3"
+                                Value="#FF34A853" />
+                            <SplineColorKeyFrame
+                                KeySpline="0.25,0.1 0.25,1"
+                                KeyTime="0:0:4"
+                                Value="#FF4285F4" />
+                        </ColorAnimationUsingKeyFrames>
                     </Storyboard>
 
                     <Style x:Key="RainbowTextBlockStyle" TargetType="TextBlock">
                         <Setter Property="Foreground" Value="Red" />
                         <Setter Property="IsHitTestVisible" Value="False" />
                         <Style.Triggers>
-                            <EventTrigger RoutedEvent="Loaded">
-                                <BeginStoryboard Storyboard="{StaticResource SmoothColorCycle}" />
-                            </EventTrigger>
+                            <Trigger Property="IsVisible" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Name="SmoothColorCycleStoryboard" Storyboard="{StaticResource SmoothColorCycle}" />
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="SmoothColorCycleStoryboard" />
+                                </Trigger.ExitActions>
+                            </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Grid.Resources>
