@@ -1748,4 +1748,10 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
     <!--  !BadModules  -->
+
+    <!--  EmulatorPathSelection  -->
+    <system:String x:Key="SelectEmulatorPath">Select Emulator Path</system:String>
+    <system:String x:Key="MultipleEmulatorsDetected">Multiple emulator installation paths detected. Please select the path you want to use:</system:String>
+    <system:String x:Key="PleaseSelectPath">Please select a path</system:String>
+    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>
