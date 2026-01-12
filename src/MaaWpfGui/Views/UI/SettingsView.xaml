@@ -69,7 +69,7 @@
 
                 <Grid Grid.Row="{c:Binding SwitchConfigurationSetting.Value}" d:Grid.Row="0">
                     <hc:Divider Content="{Binding SwitchConfigurationSetting.Display}" />
-                    <userControl:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
+                    <settingsViews:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
                 </Grid>
 
                 <Grid Grid.Row="{c:Binding ScheduleSettingsSetting.Value}" d:Grid.Row="1">
@@ -148,7 +148,7 @@
 
                 <Grid Grid.Row="{Binding HotKeySettingsSetting.Value}" d:Grid.Row="10">
                     <hc:Divider Content="{Binding HotKeySettingsSetting.Display}" />
-                    <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                    <settingsViews:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
                 </Grid>
 
                 <Grid Grid.Row="{Binding AchievementSettingsSetting.Value}" d:Grid.Row="11">

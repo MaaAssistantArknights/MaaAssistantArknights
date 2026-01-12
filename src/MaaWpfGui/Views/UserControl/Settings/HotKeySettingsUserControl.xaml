@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="MaaWpfGui.Views.UserControl.HotKeySettingsUserControl"
+    x:Class="MaaWpfGui.Views.UserControl.Settings.HotKeySettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
@@ -11,6 +11,7 @@
     xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:settingsViews="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
@@ -38,7 +39,7 @@
                 Margin="10"
                 Block.TextAlignment="Center"
                 Text="{DynamicResource HotKeyShowGui}" />
-            <userControl:HotKeyEditorUserControl
+            <settingsViews:HotKeyEditorUserControl
                 Margin="10,10,0,10"
                 HorizontalAlignment="Right"
                 HotKey="{Binding HotKeyShowGui}" />
@@ -52,7 +53,7 @@
                 Margin="10"
                 Block.TextAlignment="Center"
                 Text="{DynamicResource HotKeyLinkStart}" />
-            <userControl:HotKeyEditorUserControl
+            <settingsViews:HotKeyEditorUserControl
                 Margin="10,10,0,10"
                 HorizontalAlignment="Right"
                 HotKey="{Binding HotKeyLinkStart}" />
