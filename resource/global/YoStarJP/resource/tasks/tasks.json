@@ -1,4 +1,7 @@
 {
+    "BattleQuickFormationModulePage": {
+        "text": ["職分"]
+    },
     "ClickChapter1": {
         "text": ["覚醒"]
     },
@@ -1399,9 +1402,6 @@
     },
     "BattleQuickFormationOCR": {
         "specialParams": [140, 2, 0, 0, 3, 12]
-    },
-    "BattleQuickFormationModulePage": {
-        "text": ["職分"]
     },
     "BattleStartPre": {
         "ocrReplace": [["算.*", ""]],
