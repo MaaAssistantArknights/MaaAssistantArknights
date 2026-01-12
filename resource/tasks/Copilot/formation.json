@@ -101,7 +101,6 @@
         "roi": [880, 608, 400, 112],
         "postDelay": 1000
     },
-
     "SupportListAnalyzer-SupportUnit": {
         "doc": ["匹配助战干员时，应用于 Matcher 的配置任务", "| specificRect: 截取助战干员的 templ 时所使用的 rect"],
         "template": "empty.png",

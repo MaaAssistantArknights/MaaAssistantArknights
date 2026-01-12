@@ -1,4 +1,7 @@
 {
+    "BattleQuickFormationModulePage": {
+        "text": ["세부", "분류"]
+    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1532,9 +1535,6 @@
     },
     "BattleQuickFormationRole-All-OCR": {
         "text": ["전체"]
-    },
-    "BattleQuickFormationModulePage": {
-        "text": ["세부", "분류"]
     },
     "BattleStartPre": {
         "ocrReplace": [
