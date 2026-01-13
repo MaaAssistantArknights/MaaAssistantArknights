@@ -14,7 +14,6 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
@@ -230,27 +229,6 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
 
         var creditFight = mall.IsCreditFightAvailable;
         var visitFriends = mall.IsVisitFriendsAvailable;
-
-        bool creditFightOnceADay = mall.CreditFightOnceADay;
-        var lastCreditFightTaskTime = mall.CreditFightLastTime;
-        bool creditVisitOnceADay = mall.VisitFriendsOnceADay;
-        var lastCreditVisitFriendsTime = mall.VisitFriendsLastTime;
-
-        try
-        {
-            creditFight &= !creditVisitOnceADay || DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
-        }
-        catch
-        {
-        }
-
-        try
-        {
-            visitFriends &= !creditVisitOnceADay || DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
-        }
-        catch
-        {
-        }
 
         var task = new AsstMallTask() {
             CreditFight = creditFight && !fightStage,

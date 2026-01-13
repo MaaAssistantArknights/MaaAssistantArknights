@@ -204,24 +204,26 @@ public class ConfigConverter
                 infrastTask.UsesOfDrones = ConfigurationHelper.GetValue(ConfigurationKeys.UsesOfDrones, "Money");
                 infrastTask.ReceptionMessageBoard = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive, true);
                 infrastTask.ReceptionClueExchange = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionClueExchange, true);
+                infrastTask.SendClue = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionSendClue, true);
                 infrastTask.ContinueTraining = ConfigurationHelper.GetValue(ConfigurationKeys.ContinueTraining, false);
                 infrastTask.DormThreshold = ConfigurationHelper.GetValue(ConfigurationKeys.DormThreshold, 30);
                 infrastTask.DormFilterNotStationed = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, true));
                 infrastTask.DormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, false);
                 infrastTask.OriginiumShardAutoReplenishment = ConfigurationHelper.GetValue(ConfigurationKeys.OriginiumShardAutoReplenishment, true);
                 infrastTask.Filename = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastFile, string.Empty);
-                infrastTask.PlanSelect = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanIndex, 0);
+                infrastTask.PlanSelect = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanSelect, 0);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastMode);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.UsesOfDrones);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastReceptionClueExchange);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastReceptionSendClue);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ContinueTraining);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.DormThreshold);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.DormFilterNotStationedEnabled);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.DormTrustEnabled);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.OriginiumShardAutoReplenishment);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastFile);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastPlanIndex);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastPlanSelect);
 
                 infrastTask.RoomList = [];
                 var roomTypes = Enum.GetNames<InfrastRoomType>();
@@ -295,8 +297,9 @@ public class ConfigConverter
                 mallTask.OnlyBuyDiscount = ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, false);
                 mallTask.ReserveMaxCredit = ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, false);
                 mallTask.CreditFight = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightTaskEnabled, false);
-                mallTask.CreditFightFormation = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, 0);
+                mallTask.CreditFightOnceADay = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightOnceADay, true);
                 mallTask.CreditFightLastTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+                mallTask.CreditFightFormation = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, 0);
                 mallTask.VisitFriends = ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriendsEnabled, true);
                 mallTask.VisitFriendsOnceADay = ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitOnceADay, false);
                 mallTask.VisitFriendsLastTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
@@ -307,6 +310,7 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditOnlyBuyDiscount);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditReserveMaxCredit);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFightTaskEnabled);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFightOnceADay);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditFightSelectFormation);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.LastCreditFightTaskTime);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CreditVisitFriendsEnabled);
