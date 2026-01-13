@@ -63,6 +63,7 @@ icon: iconoir:developer
    ```
 
 5. 개발 환경 구성
+   - `CMake` 다운로드 및 설치
    - Visual Studio 2026 Community 설치 시 `C++ 데스크톱 개발` 및 `.NET 데스크톱 개발` 필수 선택
 
 6. cmake 프로젝트 구성 실행
@@ -72,10 +73,11 @@ icon: iconoir:developer
    cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
    ```
 
-7. `build/MAA.sln` 파일을 더블 클릭하여 엽니다. Visual Studio가 자동으로 전체 프로젝트를 로드합니다.
+7. `build/MAA.slnx` 파일을 더블 클릭하여 엽니다. Visual Studio가 자동으로 전체 프로젝트를 로드합니다.
 8. VS 설정
-   - 상단 구성에서 RelWithDebInfo x64 선택 (릴리스 빌드/ARM 플랫폼 시 생략)
-   - MaaWpfGui 우클릭 → 속성 → 디버그 → 네이티브 디버깅 활성화 (C++ 코어 중단점 사용 가능)
+   - 상단 구성에서 `Debug` `x64` 선택
+   - `MaaWpfGui` 우클릭 → 시작 프로젝트로 설정
+   - F5 키를 눌러 실행
 
 9. 이제 자유롭게 ~~개조~~ 개발 시작!
 10. 주기적 커밋 (메시지 필수 작성)  
@@ -120,7 +122,7 @@ icon: iconoir:developer
        git merge
        ```
 
-    4. 단계 7, 8, 9, 10 반복 수행
+    4. 단계 8, 9, 10, 11 반복 수행
 
 ::: tip
 Visual Studio 실행 시 Git 작업은 "Git 변경" 탭에서 명령어 없이 처리 가능
