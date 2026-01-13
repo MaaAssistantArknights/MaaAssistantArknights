@@ -64,15 +64,24 @@ icon: iconoir:developer
    ```
 
 5. 開発環境の設定
+   - `CMake` をダウンロードしてインストール
    - `Visual Studio 2026 Community` をインストール時、`C++ によるデスクトップ開発` と `.NET デスクトップ開発` を選択必須
 
-6. `MAA.sln` をダブルクリックで開き、Visual Studio にプロジェクトを自動ロード
-7. VS の設定
-   - 上部設定バーで `RelWithDebInfo` `x64` を選択（Release ビルド/ARM プラットフォームの場合は不要）
-   - `MaaWpfGui` 右クリック → プロパティ → デバッグ → ネイティブデバッグを有効化（C++ Core へのブレークポイント設定可能）
+6. cmake プロジェクト設定を実行
 
-8. これで自由に ~~改造~~ 開発を始められます
-9. 一定量の変更ごにコミット（メッセージ記入必須）  
+   ```cmd
+   mkdir -p build
+   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   ```
+
+7. `build/MAA.slnx` をダブルクリックで開き、Visual Studio にプロジェクトを自動ロード
+8. VS の設定
+   - 上部設定バーで `Debug` `x64` を選択
+   - `MaaWpfGui` 右クリック → スタートアップ プロジェクトに設定
+   - F5 キーを押して実行
+
+9. これで自由に ~~改造~~ 開発を始められます
+10. 一定量の変更ごにコミット（メッセージ記入必須）  
    Git 未経験者は dev ブランチ直接変更ではなく新規ブランチ作成推奨：
 
    ```bash
@@ -82,14 +91,14 @@ icon: iconoir:developer
 
    これで dev の更新影響を受けずに開発可能
 
-10. 開発完了後、変更をリモートリポジトリへプッシュ：
+11. 開発完了後、変更をリモートリポジトリへプッシュ：
 
     ```bash
     git push origin dev
     ```
 
-11. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights) で Pull Request を提出（master ではなく dev ブランチを指定）
-12. 上流リポジトリの更新を同期する場合：
+12. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights) で Pull Request を提出（master ではなく dev ブランチを指定）
+13. 上流リポジトリの更新を同期する場合：
     1. 上流リポジトリを追加：
 
        ```bash
@@ -114,7 +123,7 @@ icon: iconoir:developer
        git merge
        ```
 
-    4. ステップ7、8、9、10 を繰り返し
+    4. ステップ8、9、10、11 を繰り返し
 
 ::: tip
 Visual Studio 起動後、Git 操作は「Git 変更」画面からコマンドライン不要で可能

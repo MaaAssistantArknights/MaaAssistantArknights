@@ -58,15 +58,24 @@ We've preset several different development environments for you to choose from:
    ```
 
 5. Configure development environment
+   - Download and install `CMake`
    - Download and install `Visual Studio 2026 Community`, selecting `Desktop development with C++` and `.NET Desktop Development` during installation.
 
-6. Double-click `MAA.sln` to open the project in Visual Studio.
-7. Configure Visual Studio settings
-   - Select `RelWithDebInfo` and `x64` in the top configuration bar (Skip for Release builds or ARM platforms)
-   - Right-click `MaaWpfGui` → Properties → Debug → Enable native debugging (This enables breakpoints in C++ Core)
+6. Execute cmake project configuration
 
-8. Now you're ready to happily ~~mess around~~ start developing!
-9. Commit regularly with meaningful messages during development  
+   ```cmd
+   mkdir -p build
+   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   ```
+
+7. Double-click `build/MAA.slnx` to open the project in Visual Studio.
+8. Configure Visual Studio settings
+   - Select `Debug` and `x64` in the top configuration bar
+   - Right-click `MaaWpfGui` - Set as Startup Project
+   - Press F5 to run
+
+9. Now you're ready to happily ~~mess around~~ start developing!
+10. Commit regularly with meaningful messages during development  
    If you're not familiar with git usage, you might want to create a new branch for changes instead of committing directly to `dev`:
 
    ```bash
@@ -76,14 +85,14 @@ We've preset several different development environments for you to choose from:
 
    This keeps your changes isolated from upstream `dev` updates.
 
-10. After development, push your local branch (e.g. `dev`) to your remote repository:
+11. After development, push your local branch (e.g. `dev`) to your remote repository:
 
     ```bash
     git push origin dev
     ```
 
-11. Submit a Pull Request at the [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights). Ensure your changes are based on the `dev` branch, not `master`.
-12. To sync upstream changes:
+12. Submit a Pull Request at the [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights). Ensure your changes are based on the `dev` branch, not `master`.
+13. To sync upstream changes:
     1. Add upstream repository:
 
        ```bash
@@ -108,7 +117,7 @@ We've preset several different development environments for you to choose from:
        git merge # merge
        ```
 
-    4. Repeat steps 7, 8, 9, 10.
+    4. Repeat steps 8, 9, 10, 11.
 
 ::: tip
 After opening Visual Studio, Git operations can be performed using VS's built-in "Git Changes" instead of command-line tools.
