@@ -85,7 +85,7 @@ public class ConfigConverter
             ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled, ConfigurationKeys.CustomInfrastPlanShowInFightSettings,
         ];
 
-        HashSet<string> stageI18n = ["DefaultStage", "1-7", "CE-6", "AP-5", "CA-5", "LS-6", "SK-5", "PR-A-1", "PR-A-2", "PR-B-1", "PR-B-2", "PR-C-1", "PR-C-2", "PR-D-1", "PR-D-2"];
+        HashSet<string> stageI18n = ["DefaultStage", "Annihilation", "1-7", "CE-6", "AP-5", "CA-5", "LS-6", "SK-5", "PR-A-1", "PR-A-2", "PR-B-1", "PR-B-2", "PR-C-1", "PR-C-2", "PR-D-1", "PR-D-2"];
 
         var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
