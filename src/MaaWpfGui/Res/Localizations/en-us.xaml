@@ -564,7 +564,6 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="ResolutionInfoYoStarEN">Make sure the emulator is set to 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">Save ｢Use Originium｣</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
-    <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring (&lt;48h) sanity potion</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
     <system:String x:Key="HideSeries">Hide series</system:String>
@@ -720,6 +719,7 @@ If the number of battles is not enough to complete the set multiplier (such as o
 Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Alternative</system:String>
+    <system:String x:Key="AddStage">添加关卡</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
     <!--<system:String x:Key="Amend">Amend</system:String>-->
