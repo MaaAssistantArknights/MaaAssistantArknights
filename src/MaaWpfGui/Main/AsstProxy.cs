@@ -1383,7 +1383,7 @@ public class AsstProxy
 
                     // 剿灭放弃上传企鹅物流的特殊处理
                     Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var value);
-                    if (value is { Type: TaskType.Fight } && TaskQueueViewModel.FightTask.Stage == "Annihilation")
+                    if (value is { Type: TaskType.Fight } && ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(i => i.TaskId == taskId) is Configuration.Single.MaaTask.FightTask fight && FightSettingsUserControlModel.GetFightStage(fight.StagePlan.Select(i => i.Value)) is "Annihilation")
                     {
                         Instances.TaskQueueViewModel.AddLog("AnnihilationStage, " + LocalizationHelper.GetString("GiveUpUploadingPenguins"));
                         break;
