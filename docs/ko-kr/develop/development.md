@@ -72,7 +72,7 @@ icon: iconoir:developer
    cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
    ```
 
-7. `build/MAA.sln` 파일을 더블 클릭하여 엽니다. Visual Studio가 자동으로 전체 프로젝트를 로드합니다.
+7. `build/MAA.slnx` 파일을 더블 클릭하여 엽니다. Visual Studio가 자동으로 전체 프로젝트를 로드합니다.
 8. VS 설정
    - 상단 구성에서 RelWithDebInfo x64 선택 (릴리스 빌드/ARM 플랫폼 시 생략)
    - MaaWpfGui 우클릭 → 속성 → 디버그 → 네이티브 디버깅 활성화 (C++ 코어 중단점 사용 가능)

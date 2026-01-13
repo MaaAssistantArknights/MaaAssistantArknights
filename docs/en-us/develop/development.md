@@ -60,7 +60,7 @@ We've preset several different development environments for you to choose from:
 5. Configure development environment
    - Download and install `Visual Studio 2026 Community`, selecting `Desktop development with C++` and `.NET Desktop Development` during installation.
 
-6. Double-click `MAA.sln` to open the project in Visual Studio.
+6. Double-click `MAA.slnx` to open the project in Visual Studio.
 7. Configure Visual Studio settings
    - Select `RelWithDebInfo` and `x64` in the top configuration bar (Skip for Release builds or ARM platforms)
    - Right-click `MaaWpfGui` → Properties → Debug → Enable native debugging (This enables breakpoints in C++ Core)

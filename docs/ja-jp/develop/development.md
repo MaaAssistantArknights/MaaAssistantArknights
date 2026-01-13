@@ -66,7 +66,7 @@ icon: iconoir:developer
 5. 開発環境の設定
    - `Visual Studio 2026 Community` をインストール時、`C++ によるデスクトップ開発` と `.NET デスクトップ開発` を選択必須
 
-6. `MAA.sln` をダブルクリックで開き、Visual Studio にプロジェクトを自動ロード
+6. `MAA.slnx` をダブルクリックで開き、Visual Studio にプロジェクトを自動ロード
 7. VS の設定
    - 上部設定バーで `RelWithDebInfo` `x64` を選択（Release ビルド/ARM プラットフォームの場合は不要）
    - `MaaWpfGui` 右クリック → プロパティ → デバッグ → ネイティブデバッグを有効化（C++ Core へのブレークポイント設定可能）

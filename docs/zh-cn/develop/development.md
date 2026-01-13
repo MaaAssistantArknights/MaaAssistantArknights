@@ -68,7 +68,7 @@ icon: iconoir:developer
    cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
    ```
 
-7. 双击打开 `build/MAA.sln` 文件，Visual Studio 会自动加载整个项目。
+7. 双击打开 `build/MAA.slnx` 文件，Visual Studio 会自动加载整个项目。
 8. 设置 VS
    - VS 上方配置选择 `Debug` `x64`
    - 右键 `MaaWpfGui` - 设为启动项目

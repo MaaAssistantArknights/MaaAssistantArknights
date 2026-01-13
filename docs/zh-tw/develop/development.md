@@ -60,7 +60,7 @@ icon: iconoir:developer
 5. 配置編程環境
    - 下載並安裝 `Visual Studio 2026 Community`, 安裝的時候需要選中 `基於 C++ 的桌面開發` 和 `.NET 桌面開發`。
 
-6. 雙擊打開 `MAA.sln` 文件，Visual Studio 會自動載入整個項目。
+6. 雙擊打開 `MAA.slnx` 文件，Visual Studio 會自動載入整個項目。
 7. 設置 VS
    - VS 上方配置選擇 `RelWithDebInfo` `x64` （如果編譯 Release 包 或 ARM 平台，請忽略這步）
    - 右鍵 `MaaWpfGui` - 屬性 - 除錯 - 啟用本地除錯（這樣就能把斷點掛到 C++ Core 那邊了）
