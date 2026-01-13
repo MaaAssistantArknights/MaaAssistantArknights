@@ -1019,7 +1019,7 @@ public class AsstProxy
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                     }
-                    else if (value is { Type: TaskType.Copilot }) /* or { Type: TaskType.VideoRec }) */
+                    else if (value is { Type: TaskType.Copilot }/* or { Type: TaskType.VideoRec }) */)
                     {
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
