@@ -10,10 +10,10 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:settings="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type viewModels:GameSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type settings:GameSettingsUserControlModel}}"
     d:DesignWidth="550"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -32,7 +32,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             DisplayMemberPath="Display"
-            IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
+            IsEnabled="{Binding Idle, Source={x:Static ui:TaskQueueViewModel.TaskSettingDataContext}}"
             ItemsSource="{Binding ClientTypeList}"
             SelectedValue="{Binding ClientType}"
             SelectedValuePath="Value" />

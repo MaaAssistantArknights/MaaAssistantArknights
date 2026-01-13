@@ -11,7 +11,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:taskQueue="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
@@ -92,7 +91,7 @@
                                                         <Style BasedOn="{StaticResource ToolTipBaseStyle}" TargetType="{x:Type ToolTip}">
                                                             <Setter Property="Content" Value="{DynamicResource CheckBoxesNotSavedAsNull}" />
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Source={x:Static setting:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True">
+                                                                <DataTrigger Binding="{Binding Source={x:Static ui:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True">
                                                                     <Setter Property="Content" Value="{DynamicResource CheckBoxesNotSavedAsNullInvert}" />
                                                                 </DataTrigger>
                                                             </Style.Triggers>
@@ -115,7 +114,7 @@
                                                     <Style.Triggers>
                                                         <MultiDataTrigger>
                                                             <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding Source={x:Static setting:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
+                                                                <Condition Binding="{Binding Source={x:Static ui:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
                                                                 <Condition Binding="{Binding IsCheckedWithNull}" Value="{x:Null}" />
                                                             </MultiDataTrigger.Conditions>
                                                             <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
@@ -503,7 +502,7 @@
                                     d:Visibility="Collapsed"
                                     ItemsSource="{Binding LogItemViewModels}"
                                     Visibility="{c:Binding !UseCardLog,
-                                                           Source={x:Static setting:SettingsViewModel.GuiSettings}}">
+                                                           Source={x:Static ui:SettingsViewModel.GuiSettings}}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
@@ -557,7 +556,7 @@
                                     d:Visibility="Visible"
                                     ItemsSource="{Binding LogCardViewModels}"
                                     Visibility="{c:Binding UseCardLog,
-                                                           Source={x:Static setting:SettingsViewModel.GuiSettings}}">
+                                                           Source={x:Static ui:SettingsViewModel.GuiSettings}}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Border

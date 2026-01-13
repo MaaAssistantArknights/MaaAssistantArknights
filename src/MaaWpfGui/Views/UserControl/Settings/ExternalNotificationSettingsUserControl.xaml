@@ -8,10 +8,10 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:settings="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type viewModels:ExternalNotificationSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type settings:ExternalNotificationSettingsUserControlModel}}"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <Grid
@@ -60,7 +60,7 @@
                         hc:BorderElement.CornerRadius="0,4,4,0"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action ExternalNotificationSendTest,
-                                           Target={x:Type viewModels:ExternalNotificationSettingsUserControlModel}}"
+                                           Target={x:Type settings:ExternalNotificationSettingsUserControlModel}}"
                         Content="{DynamicResource ExternalNotificationSendTest}"
                         IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
                 </Grid>

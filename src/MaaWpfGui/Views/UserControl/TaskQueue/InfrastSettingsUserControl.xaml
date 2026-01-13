@@ -11,11 +11,11 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:task="clr-namespace:MaaWpfGui.Configuration.Single.MaaTask"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:taskQueue="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type ui:InfrastSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type taskQueue:InfrastSettingsUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -33,8 +33,8 @@
                         VerticalAlignment="Center"
                         d:Visibility="Visible"
                         TooltipText="{DynamicResource InfrastModeRotationToolTip}"
-                        Visibility="{c:Binding 'InfrastMode == ui:InfrastMode.Rotation',
-                                               Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}" />
+                        Visibility="{c:Binding 'InfrastMode == taskQueue:InfrastMode.Rotation',
+                                               Source={x:Static taskQueue:InfrastSettingsUserControlModel.Instance}}" />
                 </StackPanel>
                 <ComboBox
                     VerticalContentAlignment="Center"
@@ -43,7 +43,7 @@
                     SelectedValue="{Binding InfrastMode}"
                     SelectedValuePath="Value" />
             </StackPanel>
-            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'InfrastMode == ui:InfrastMode.Custom', Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}">
+            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'InfrastMode == taskQueue:InfrastMode.Custom', Source={x:Static taskQueue:InfrastSettingsUserControlModel.Instance}}">
                 <StackPanel Margin="0,4">
                     <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                         <controls:TextBlock
@@ -62,7 +62,7 @@
                         d:IsHitTestVisible="True"
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                     Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                     Source={x:Static ui:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding CustomPlanListDisplay}"
                         SelectedValue="{Binding CustomInfrastPlanSelect}"
                         SelectedValuePath="Value" />
@@ -104,8 +104,8 @@
                 d:IsEnabled="True"
                 hc:InfoElement.Title="{DynamicResource DroneUsage}"
                 DisplayMemberPath="Display"
-                IsEnabled="{c:Binding 'InfrastMode != ui:InfrastMode.Custom',
-                                      Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
+                IsEnabled="{c:Binding 'InfrastMode != taskQueue:InfrastMode.Custom',
+                                      Source={x:Static taskQueue:InfrastSettingsUserControlModel.Instance}}"
                 ItemsSource="{Binding UsesOfDronesList}"
                 SelectedValue="{Binding UsesOfDrones}"
                 SelectedValuePath="Value" />
@@ -115,13 +115,13 @@
                 d:Visibility="Visible"
                 Text="{DynamicResource InfrastModeRotationTip}"
                 TextWrapping="Wrap"
-                Visibility="{c:Binding 'InfrastMode == ui:InfrastMode.Rotation',
-                                       Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}" />
+                Visibility="{c:Binding 'InfrastMode == taskQueue:InfrastMode.Rotation',
+                                       Source={x:Static taskQueue:InfrastSettingsUserControlModel.Instance}}" />
             <StackPanel
                 Margin="0"
                 d:Visibility="Visible"
-                Visibility="{c:Binding 'InfrastMode != ui:InfrastMode.Rotation',
-                                       Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}">
+                Visibility="{c:Binding 'InfrastMode != taskQueue:InfrastMode.Rotation',
+                                       Source={x:Static taskQueue:InfrastSettingsUserControlModel.Instance}}">
                 <StackPanel
                     Margin="0,5"
                     HorizontalAlignment="Center"
@@ -175,7 +175,7 @@
                         VerticalAlignment="Top"
                         Command="{s:Action InfrastItemSelectedAll}"
                         Content="{DynamicResource SelectAll}"
-                        IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}" />
+                        IsEnabled="{Binding Idle, Source={x:Static ui:TaskQueueViewModel.TaskSettingDataContext}}" />
                     <Button
                         Grid.Column="1"
                         Height="30"
@@ -183,26 +183,26 @@
                         VerticalAlignment="Top"
                         Command="{s:Action InfrastItemUnselectedAll}"
                         Content="{DynamicResource Clear}"
-                        IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}" />
+                        IsEnabled="{Binding Idle, Source={x:Static ui:TaskQueueViewModel.TaskSettingDataContext}}" />
                 </Grid>
             </StackPanel>
         </StackPanel>
 
         <!--  高级设置  -->
-        <StackPanel d:Visibility="Visible" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <StackPanel d:Visibility="Visible" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui:TaskQueueViewModel.TaskSettingVisibilities}}">
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"
                 Content="{DynamicResource DormTrustEnabled}"
                 IsChecked="{Binding DormTrustEnabled}"
-                Visibility="{c:Binding 'InfrastMode != ui:InfrastMode.Rotation',
-                                       Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}" />
+                Visibility="{c:Binding 'InfrastMode != taskQueue:InfrastMode.Rotation',
+                                       Source={x:Static taskQueue:InfrastSettingsUserControlModel.Instance}}" />
             <StackPanel
                 Margin="0,10"
                 d:Visibility="Visible"
                 Orientation="Horizontal"
-                Visibility="{c:Binding 'InfrastMode != ui:InfrastMode.Rotation',
-                                       Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}">
+                Visibility="{c:Binding 'InfrastMode != taskQueue:InfrastMode.Rotation',
+                                       Source={x:Static taskQueue:InfrastSettingsUserControlModel.Instance}}">
                 <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=DormFilterNotStationedTipsTooltipBlock}" IsChecked="{c:Binding DormFilterNotStationedEnabled}">
                     <controls:TextBlock Text="{DynamicResource DormFilterNotStationedEnabled}" TextWrapping="Wrap" />
                 </CheckBox>

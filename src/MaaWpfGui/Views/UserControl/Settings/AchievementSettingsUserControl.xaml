@@ -10,9 +10,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:settings="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type viewModels:AchievementSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type settings:AchievementSettingsUserControlModel}}"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel MinWidth="250">
