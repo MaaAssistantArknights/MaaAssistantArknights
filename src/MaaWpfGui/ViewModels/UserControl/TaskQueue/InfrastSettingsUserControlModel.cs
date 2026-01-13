@@ -643,6 +643,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
             OriginiumShardAutoReplenishment = infrast.OriginiumShardAutoReplenishment,
             ReceptionMessageBoard = infrast.ReceptionMessageBoard,
             ReceptionClueExchange = infrast.ReceptionClueExchange,
+            ReceptionSendClue = infrast.SendClue,
             Filename = infrast.Filename,
         };
 
