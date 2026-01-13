@@ -9,7 +9,7 @@ icon: jam:write-f
 本文件的目的在於指導文件編寫者更好地使用主題提供的功能，以此達到更易讀的效果。
 :::
 
-我們的文件基於 [VuePress](https://github.com/vuejs/vuepress) 建置，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主題。您也可以查看[官方文件](https://theme-plume.vuejs.press/)來獲取更詳細的說明。這裡僅介紹一些常用的功能，或是經過我們自定義的功能。
+我們的文件基於 [VuePress](https://github.com/vuejs/vuepress) 建置，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主題。您也可以查看[官方文件](https://theme-plume.vuejs.press/)來獲取更詳細的說明。這裡僅介紹一些常用的功能。
 
 ## 在地開發
 
