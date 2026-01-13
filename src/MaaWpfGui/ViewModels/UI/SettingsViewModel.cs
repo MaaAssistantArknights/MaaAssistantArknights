@@ -32,6 +32,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Serilog;
@@ -823,7 +824,7 @@ public class SettingsViewModel : Screen
 
         try
         {
-            if (Instances.AnnouncementViewModel.View is System.Windows.Window window)
+            if (Instances.AnnouncementDialogViewModel.View is System.Windows.Window window)
             {
                 if (window.WindowState == WindowState.Minimized)
                 {
@@ -834,10 +835,10 @@ public class SettingsViewModel : Screen
             }
             else
             {
-                Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel);
+                Instances.WindowManager.ShowWindow(Instances.AnnouncementDialogViewModel);
             }
 
-            await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+            await Instances.AnnouncementDialogViewModel.CheckAndDownloadAnnouncement();
         }
         finally
         {
@@ -855,7 +856,7 @@ public class SettingsViewModel : Screen
         var newVersionFoundInfo = VersionUpdateSettings.NewVersionFoundInfo;
         var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
         var startupUpdateCheck = VersionUpdateSettings.StartupUpdateCheck;
-        var isDebug = Instances.VersionUpdateViewModel.IsDebugVersion();
+        var isDebug = Instances.VersionUpdateDialogViewModel.IsDebugVersion();
 
         if (newVersionFoundInfo != uiVersion && !isDebug && !string.IsNullOrEmpty(newVersionFoundInfo) && startupUpdateCheck)
         {

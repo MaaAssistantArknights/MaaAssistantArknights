@@ -1,4 +1,4 @@
-// <copyright file="VersionUpdateViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="VersionUpdateDialogViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -32,6 +32,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
@@ -41,24 +42,24 @@ using Serilog;
 using Stylet;
 using SearchOption = System.IO.SearchOption;
 
-namespace MaaWpfGui.ViewModels.UI;
+namespace MaaWpfGui.ViewModels.Dialogs;
 
 /// <summary>
 /// The view model of version update.
 /// </summary>
-public class VersionUpdateViewModel : Screen
+public class VersionUpdateDialogViewModel : Screen
 {
     private readonly RunningState _runningState;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
+    /// Initializes a new instance of the <see cref="VersionUpdateDialogViewModel"/> class.
     /// </summary>
-    public VersionUpdateViewModel()
+    public VersionUpdateDialogViewModel()
     {
         _runningState = RunningState.Instance;
     }
 
-    private static readonly ILogger _logger = Log.ForContext<VersionUpdateViewModel>();
+    private static readonly ILogger _logger = Log.ForContext<VersionUpdateDialogViewModel>();
 
     private static string AddContributorLink(string text)
     {

@@ -10,10 +10,10 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type viewModels:VersionUpdateSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type settings_vms:VersionUpdateSettingsUserControlModel}}"
     d:DesignWidth="550"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">

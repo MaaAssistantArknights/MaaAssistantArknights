@@ -1030,7 +1030,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTaskListTabMismatch">현재 탭은 ｢{0}｣이지만 작업 목록은 ｢{1}｣에서 왔습니다. 해당 탭으로 전환한 뒤 시작해 주세요.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
-    <!--  ErrorView  -->
+    <!--  ErrorDialogView  -->
     <system:String x:Key="Error">오류</system:String>
     <system:String x:Key="ErrorCongratulations">축하합니다</system:String>
     <system:String x:Key="ErrorProlog">MAA에서 오류가 발생했습니다</system:String>
@@ -1050,7 +1050,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷이나 사진이 아니라 생성된 오류 보고서 파일을 보내 주세요.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">마지막 충돌 원인</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
-    <!--  !ErrorView  -->
+    <!--  !ErrorDialogView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 전체 패키지를 다시 다운로드하세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>

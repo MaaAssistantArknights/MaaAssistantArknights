@@ -20,7 +20,7 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
-namespace MaaWpfGui.ViewModels;
+namespace MaaWpfGui.ViewModels.Items;
 
 /// <summary>
 /// The view model of log item.

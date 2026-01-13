@@ -701,17 +701,17 @@ public class AchievementTrackerHelper : PropertyChangedBase
                 Instance.Unlock(AchievementIds.UpdateObsession);
             }
 
-            if (Instances.VersionUpdateViewModel.IsDebugVersion())
+            if (Instances.VersionUpdateDialogViewModel.IsDebugVersion())
             {
                 Instance.Unlock(AchievementIds.Pioneer3);
             }
-            else if (Instances.VersionUpdateViewModel.IsBetaVersion())
+            else if (Instances.VersionUpdateDialogViewModel.IsBetaVersion())
             {
                 Instance.Unlock(AchievementIds.Pioneer1);
             }
 
             // 内测版要传入 SemVersion 判断，这里就取反判断了
-            else if (!Instances.VersionUpdateViewModel.IsStdVersion())
+            else if (!Instances.VersionUpdateDialogViewModel.IsStdVersion())
             {
                 Instance.Unlock(AchievementIds.Pioneer2);
             }

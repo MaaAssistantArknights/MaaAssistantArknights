@@ -1028,7 +1028,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CopilotTaskListTabMismatch">You're using ｢{key=UseCopilotList}｣. Current tab is ｢{0}｣, but the list is from ｢{1}｣. Please switch to the corresponding tab before starting.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
-    <!--  ErrorView  -->
+    <!--  ErrorDialogView  -->
     <system:String x:Key="Error">Error</system:String>
     <system:String x:Key="ErrorCongratulations">Congratulations</system:String>
     <system:String x:Key="ErrorProlog">MAA has encountered an error</system:String>
@@ -1048,7 +1048,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">If you need help from others, please send the generated error report file instead of sending a screenshot or photo of this window.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">Reason for the last crash</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
-    <!--  !ErrorView  -->
+    <!--  !ErrorDialogView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>

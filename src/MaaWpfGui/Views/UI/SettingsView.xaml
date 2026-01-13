@@ -3,21 +3,15 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
-    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
-    xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
-    xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:settingsViews="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:settings="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    d:DataContext="{d:DesignInstance {x:Type ui_vms:SettingsViewModel}}"
     d:DesignHeight="5000"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -69,12 +63,12 @@
 
                 <Grid Grid.Row="{c:Binding SwitchConfigurationSetting.Value}" d:Grid.Row="0">
                     <hc:Divider Content="{Binding SwitchConfigurationSetting.Display}" />
-                    <userControl:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
+                    <settings:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
                 </Grid>
 
                 <Grid Grid.Row="{c:Binding ScheduleSettingsSetting.Value}" d:Grid.Row="1">
                     <hc:Divider Content="{Binding ScheduleSettingsSetting.Display}" />
-                    <settingsViews:TimerSettingsUserControl
+                    <settings:TimerSettingsUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding TimerSettings}" />
@@ -82,7 +76,7 @@
 
                 <Grid Grid.Row="{Binding PerformanceSettingsSetting.Value}" d:Grid.Row="2">
                     <hc:Divider Content="{Binding PerformanceSettingsSetting.Display}" />
-                    <settingsViews:PerformanceUserControl
+                    <settings:PerformanceUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding PerformanceSettings}"
@@ -91,7 +85,7 @@
 
                 <Grid Grid.Row="{Binding GameSettingsSetting.Value}" d:Grid.Row="3">
                     <hc:Divider Content="{Binding GameSettingsSetting.Display}" />
-                    <settingsViews:GameSettingsUserControl
+                    <settings:GameSettingsUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding GameSettings}" />
@@ -99,7 +93,7 @@
 
                 <Grid Grid.Row="{Binding ConnectionSettingsSetting.Value}" d:Grid.Row="4">
                     <hc:Divider Content="{Binding ConnectionSettingsSetting.Display}" />
-                    <settingsViews:ConnectSettingsUserControl
+                    <settings:ConnectSettingsUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding ConnectSettings}"
@@ -108,7 +102,7 @@
 
                 <Grid Grid.Row="{Binding StartupSettingsSetting.Value}" d:Grid.Row="5">
                     <hc:Divider Content="{Binding StartupSettingsSetting.Display}" />
-                    <settingsViews:StartSettingsUserControl
+                    <settings:StartSettingsUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding StartSettings}" />
@@ -116,7 +110,7 @@
 
                 <Grid Grid.Row="{Binding RemoteControlSettingsSetting.Value}" d:Grid.Row="6">
                     <hc:Divider Content="{Binding RemoteControlSettingsSetting.Display}" />
-                    <settingsViews:RemoteControlUserControl
+                    <settings:RemoteControlUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding RemoteControlSettings}" />
@@ -124,7 +118,7 @@
 
                 <Grid Grid.Row="{Binding UiSettingsSetting.Value}" d:Grid.Row="7">
                     <hc:Divider Content="{Binding UiSettingsSetting.Display}" />
-                    <settingsViews:GuiSettingsUserControl
+                    <settings:GuiSettingsUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding GuiSettings}" />
@@ -132,7 +126,7 @@
 
                 <Grid Grid.Row="{Binding BackgroundSettingsSetting.Value}" d:Grid.Row="8">
                     <hc:Divider Content="{Binding BackgroundSettingsSetting.Display}" />
-                    <settingsViews:BackgroundSettingsUserControl
+                    <settings:BackgroundSettingsUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding BackgroundSettings}" />
@@ -140,7 +134,7 @@
 
                 <Grid Grid.Row="{Binding ExternalNotificationSettingsSetting.Value}" d:Grid.Row="9">
                     <hc:Divider Content="{Binding ExternalNotificationSettingsSetting.Display}" />
-                    <settingsViews:ExternalNotificationSettingsUserControl
+                    <settings:ExternalNotificationSettingsUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding ExternalNotificationSettings}" />
@@ -148,12 +142,12 @@
 
                 <Grid Grid.Row="{Binding HotKeySettingsSetting.Value}" d:Grid.Row="10">
                     <hc:Divider Content="{Binding HotKeySettingsSetting.Display}" />
-                    <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                    <settings:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
                 </Grid>
 
                 <Grid Grid.Row="{Binding AchievementSettingsSetting.Value}" d:Grid.Row="11">
                     <hc:Divider Content="{Binding AchievementSettingsSetting.Display}" />
-                    <settingsViews:AchievementSettingsUserControl
+                    <settings:AchievementSettingsUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding AchievementSettings}" />
@@ -161,7 +155,7 @@
 
                 <Grid Grid.Row="{Binding UpdateSettingsSetting.Value}" d:Grid.Row="12">
                     <hc:Divider Content="{Binding UpdateSettingsSetting.Display}" />
-                    <settingsViews:VersionUpdateSettingsUserControl
+                    <settings:VersionUpdateSettingsUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding VersionUpdateSettings}" />
@@ -169,7 +163,7 @@
 
                 <Grid Grid.Row="{Binding IssueReportSetting.Value}" d:Grid.Row="13">
                     <hc:Divider Content="{Binding IssueReportSetting.Display}" />
-                    <settingsViews:IssueReportUserControl
+                    <settings:IssueReportUserControl
                         Margin="0,20"
                         HorizontalAlignment="Center"
                         DataContext="{Binding IssueReportSettings}" />
@@ -177,7 +171,7 @@
 
                 <Grid Grid.Row="{Binding AboutUsSetting.Value}" d:Grid.Row="14">
                     <hc:Divider Content="{Binding AboutUsSetting.Display}" />
-                    <settingsViews:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
+                    <settings:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
                 </Grid>
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
             </Grid>
