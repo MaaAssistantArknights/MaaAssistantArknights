@@ -154,7 +154,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
         }.Serialize();
     }
 
-    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not ReclamationTask reclamation)
         {

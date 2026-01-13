@@ -111,7 +111,7 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
             .ToList();
     }
 
-    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not CustomTask custom)
         {

@@ -112,11 +112,6 @@ public class FightTask : BaseTask
     public bool IsStageManually { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 使用备选关卡
-    /// </summary>
-    public bool UseOptionalStage { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether 允许保存碎石状态
     /// </summary>
     public bool UseStoneAllowSave { get; set; }

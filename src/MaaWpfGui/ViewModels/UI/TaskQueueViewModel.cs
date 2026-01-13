@@ -1780,7 +1780,7 @@ public class TaskQueueViewModel : Screen
         }
 
         bool taskRet = true;
-        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, StartUpTask.Serialize());
+        taskRet &= StartUpTask.SerializeTask(TaskSettingVisibilityInfo.CurrentTask) is true;
         taskRet &= Instances.AsstProxy.AsstStart();
 
         if (taskRet)

@@ -197,7 +197,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
     {
         var fightEnable = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(x => x is FightTask)?.IsEnable is not false;
         var task = new AsstMallTask() {
-            CreditFight = fightEnable ? (!string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage) && CreditFightTaskEnabled) : CreditFightTaskEnabled,
+            // CreditFight = fightEnable ? (!string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage) && CreditFightTaskEnabled) : CreditFightTaskEnabled,
             FormationIndex = CreditFightSelectFormation,
             VisitFriends = CreditVisitFriendsEnabled,
             WithShopping = CreditShopping,
@@ -210,7 +210,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
         return task.Serialize();
     }
 
-    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not MallTask mall)
         {

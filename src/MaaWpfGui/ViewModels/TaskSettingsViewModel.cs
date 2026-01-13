@@ -89,5 +89,5 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
     /// <param name="baseTask">存储的任务</param>
     /// <param name="taskId">任务id, null时追加任务, 非null为设置任务参数</param>
     /// <returns>null为未序列化, false失败, true成功</returns>
-    public abstract bool? SerializeTask(BaseTask baseTask, int? taskId = null);
+    public abstract bool? SerializeTask(BaseTask? baseTask, int? taskId = null);
 }

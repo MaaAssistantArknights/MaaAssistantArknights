@@ -31,6 +31,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -78,12 +79,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     {
         get {
             Stage1 ??= _stage1Fallback;
-
-            if (!UseAlternateStage)
-            {
-                return Stage1;
-            }
-
+            return Stage1!;
+            /*
             if (Instances.TaskQueueViewModel.IsStageOpen(Stage1))
             {
                 return Stage1;
@@ -99,7 +96,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 return Stage3;
             }
 
-            return Instances.TaskQueueViewModel.IsStageOpen(Stage4 ??= string.Empty) ? Stage4 : Stage1;
+            return Instances.TaskQueueViewModel.IsStageOpen(Stage4 ??= string.Empty) ? Stage4 : Stage1;*/
         }
     }
 
@@ -147,7 +144,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         StagePlan.RemoveAt(index);
     }
 
-    public string?[] Stages => [Stage1, Stage2, Stage3, Stage4];
+    public string?[] Stages => [Stage1];
 
     // Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
     private string _stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
@@ -204,9 +201,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     public void RemoveNonExistStage()
     {
         Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
-        Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
-        Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
-        Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
+        //Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
+        //Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
+        //Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
     }
 
     /// <summary>
@@ -536,21 +533,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         set => SetTaskConfig<FightTask>(t => t.IsDrGrandet == value, t => t.IsDrGrandet = value);
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether to use alternate stage.
-    /// </summary>
-    public bool UseAlternateStage
-    {
-        get => GetTaskConfig<FightTask>().UseOptionalStage;
-        set {
-            SetTaskConfig<FightTask>(t => t.UseOptionalStage == value, t => t.UseOptionalStage = value);
-            if (value)
-            {
-                HideUnavailableStage = false;
-            }
-        }
-    }
-
     public bool AllowUseStoneSave
     {
         get => GetTaskConfig<FightTask>().UseStoneAllowSave;
@@ -595,7 +577,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
             if (value)
             {
-                UseAlternateStage = false;
+                // UseAlternateStage = false;
             }
 
             UpdateStageList();
@@ -747,13 +729,54 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         return SerializeTask(fight, TaskSettingVisibilityInfo.CurrentTask.TaskId);
     }
 
-    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
-        if (taskId == 0 || baseTask is not FightTask fight)
+        if (baseTask is not FightTask fight)
         {
             return null;
         }
-        throw new NotImplementedException();
+
+        var stage = fight.StagePlan.FirstOrDefault(s => Instances.TaskQueueViewModel.IsStageOpen(s.Value))?.Value;
+        if (stage is null)
+        {
+            return null;
+        }
+        var task = new AsstFightTask() {
+            Stage = Stage,
+            Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
+            Stone = fight.UseStone != false ? fight.StoneCount : 0,
+            Series = fight.Series,
+            MaxTimes = fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue,
+            ExpiringMedicine = fight.UseExpiringMedicine ? 9999 : 0,
+            IsDrGrandet = fight.IsDrGrandet,
+            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+            PenguinId = SettingsViewModel.GameSettings.PenguinId,
+            YituliuId = SettingsViewModel.GameSettings.PenguinId,
+            ServerType = Instances.SettingsViewModel.ServerType,
+            ClientType = SettingsViewModel.GameSettings.ClientType,
+        };
+
+        if (Stage == "Annihilation" && fight.UseCustomAnnihilation)
+        {
+            task.Stage = AnnihilationStage;
+        }
+
+        if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId))
+        {
+            task.Drops.Add(fight.DropId, fight.DropCount);
+        }
+
+        if (fight.EnableTimesLimit is not false && fight.Series > 0 && fight.TimesLimit % fight.Series != 0)
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", fight.TimesLimit, fight.Series), UiLogColor.Warning);
+        }
+
+        return taskId switch {
+            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task),
+            _ => null,
+        };
     }
 
     #region 关卡列表更新
@@ -768,7 +791,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
     // 这个函数被列为public可见，意味着他注入对象前被调用
-    public void UpdateStageList()
+    public void UpdateStageList() // 重做
     {
         Execute.PostToUIThreadAsync(() => {
             var hideUnavailableStage = HideUnavailableStage;
@@ -776,13 +799,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             Instances.TaskQueueViewModel.EnableSetFightParams = false;
 
             var stage1 = Stage1 ?? string.Empty;
-            var stage2 = Stage2 ?? string.Empty;
-            var stage3 = Stage3 ?? string.Empty;
-            var stage4 = Stage4 ?? string.Empty;
 
             var tempStageList = hideUnavailableStage
                 ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
                 : Instances.StageManager.GetStageList().ToList();
+
 
             if (CustomStageCode)
             {
@@ -793,33 +814,27 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             {
                 // 15%
                 stage1 = Instances.TaskQueueViewModel.GetValidStage(stage1);
-                stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
-                stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
-                stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
             }
-            else if (UseAlternateStage)
-            {
-                // 11%
-                AddStagesIfNotExist([stage1, stage2, stage3, stage4], tempStageList);
-            }
+            //else if (UseAlternateStage)
+            //{
+            // 11%
+            //AddStagesIfNotExist([stage1], tempStageList);
+            //}
             else
             {
                 // 啥都没选
                 AddStageIfNotExist(stage1, tempStageList);
 
                 // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
-                stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
-                stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
-                stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
+                // stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
+                // stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
+                // stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
             }
 
             UpdateObservableCollection(StageList, tempStageList);
 
             _stage1Fallback = stage1;
             Stage1 = stage1;
-            Stage2 = stage2;
-            Stage3 = stage3;
-            Stage4 = stage4;
             if (!CustomStageCode)
             {
                 RemoveNonExistStage();

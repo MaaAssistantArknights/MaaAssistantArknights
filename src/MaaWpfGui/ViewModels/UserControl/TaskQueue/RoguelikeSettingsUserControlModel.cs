@@ -1125,7 +1125,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         return task.Serialize();
     }
 
-    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not RoguelikeTask roguelike)
         {
