@@ -328,10 +328,6 @@
             </StackPanel>
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource UseAlternateStage}"
-                IsChecked="{Binding UseAlternateStage}" />
-            <CheckBox
-                Margin="0,10"
                 Content="{DynamicResource AllowUseStoneSave}"
                 IsChecked="{Binding AllowUseStoneSave}" />
             <CheckBox Margin="0,10" IsChecked="{Binding UseExpiringMedicine}">
@@ -380,8 +376,8 @@
                                         <Storyboard>
                                             <DoubleAnimation
                                                 Storyboard.TargetProperty="MaxHeight"
-                                                To="35"
-                                                Duration="0:0:0.2">
+                                                To="50"
+                                                Duration="0:0:0.3">
                                                 <DoubleAnimation.EasingFunction>
                                                     <CubicEase EasingMode="EaseIn" />
                                                 </DoubleAnimation.EasingFunction>
