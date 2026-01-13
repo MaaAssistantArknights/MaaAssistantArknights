@@ -94,15 +94,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     [UsedImplicitly]
     public void AddStageToPlan()
     {
-        if (StagePlan.Any(x => x.Value == Stage))
-        {
-            _logger.Error("Attempted to add duplicate stage to plan: {Stage}", Stage);
-            Instances.TaskQueueViewModel.AddLog("Duplicate stage in plan:" + Stage, UiLogColor.Warning);
-            return;
-        }
-
-        var display = StageListSource.FirstOrDefault(x => x.Value == Stage)?.Display ?? Stage!;
-        StagePlan.Add(new StagePlanItem { Display = display, Value = Stage!, Index = StagePlan.Count });
+        var count = StagePlan.Count;
+        StagePlan.Add(new StagePlanItem { Index = count });
     }
 
     // UI 绑定的方法

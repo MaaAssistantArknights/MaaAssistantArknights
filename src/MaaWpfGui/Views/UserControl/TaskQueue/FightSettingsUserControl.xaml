@@ -25,7 +25,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -195,13 +194,34 @@
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <controls:TextBlock
-                    Margin="6,15"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Text="{DynamicResource StageSelect2}"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <controls:TextBlock
+                        Margin="6,15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Text="{DynamicResource StageSelect2}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                    <Grid Grid.Row="1" VerticalAlignment="Bottom">
+                        <Button
+                            Margin="6"
+                            Command="{s:Action AddStageToPlan}"
+                            Content="{DynamicResource AddStage}" />
+                        <Grid Visibility="{c:Binding CustomStageCode}">
+                            <controls:TooltipBlock
+                                Margin="0,5,6,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                NormalOpacity="0.25"
+                                TooltipText="{DynamicResource CustomStageCodeTip}" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+
 
                 <ListBox
                     Grid.Column="1"
@@ -223,15 +243,41 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <controls:TextBlock
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
+
+                                <!--  当 CustomStageCode 为 false 时显示 ComboBox  -->
+                                <ComboBox
+                                    Grid.Column="0"
+                                    Height="30"
+                                    Margin="-10,0,-5,0"
+                                    VerticalContentAlignment="Center"
+                                    DisplayMemberPath="Display"
+                                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                                 Source={x:Static ui:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                    ItemsSource="{Binding StageListSource, Source={x:Static ui:TaskQueueViewModel.FightTask}}"
                                     Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
-                                    Text="{Binding Display}" />
+                                    SelectedValue="{Binding Value}"
+                                    SelectedValuePath="Value"
+                                    Visibility="{c:Binding !CustomStageCode,
+                                                           Source={x:Static ui:TaskQueueViewModel.FightTask}}" />
+
+                                <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
+                                <TextBox
+                                    Grid.Column="0"
+                                    Height="30"
+                                    Margin="-10,0,-5,0"
+                                    VerticalContentAlignment="Center"
+                                    hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
+                                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                                 Source={x:Static ui:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                    Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
+                                    Text="{Binding Value}"
+                                    ToolTip="{DynamicResource CustomStageCodeTip}"
+                                    Visibility="{c:Binding CustomStageCode,
+                                                           Source={x:Static ui:TaskQueueViewModel.FightTask}}" />
+
                                 <Button
                                     Grid.Column="1"
-                                    Margin="0"
-                                    Padding="5,0,10,0"
+                                    Margin="0,0,-5,0"
                                     hc:IconElement.Geometry="{StaticResource CloseGeometry}"
                                     hc:VisualElement.HighlightBackground="Transparent"
                                     hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
@@ -243,61 +289,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </Grid>
-            <Grid Grid.Row="4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Vertical">
-                    <Grid>
-                        <Button
-                            Margin="6"
-                            Command="{s:Action AddStageToPlan}"
-                            Content="{DynamicResource AddStage}" />
-                        <Grid Visibility="{c:Binding CustomStageCode}">
-                            <controls:TooltipBlock
-                                Margin="0,5,6,0"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                NormalOpacity="0.25"
-                                TooltipText="{DynamicResource CustomStageCodeTip}" />
-                        </Grid>
-                    </Grid>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Vertical">
-                    <StackPanel
-                        IsEnabled="{c:Binding !CustomStageCode}"
-                        Orientation="Vertical"
-                        Visibility="{c:Binding !CustomStageCode}">
-                        <ComboBox
-                            Height="30"
-                            Margin="6"
-                            VerticalContentAlignment="Center"
-                            d:IsHitTestVisible="True"
-                            DisplayMemberPath="Display"
-                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                            ItemsSource="{Binding StageListSource}"
-                            SelectedValue="{Binding Stage}"
-                            SelectedValuePath="Value" />
-                    </StackPanel>
-                    <StackPanel
-                        IsEnabled="{c:Binding CustomStageCode}"
-                        Orientation="Vertical"
-                        Visibility="{c:Binding CustomStageCode}">
-                        <TextBox
-                            Height="30"
-                            Margin="6"
-                            VerticalContentAlignment="Center"
-                            d:IsHitTestVisible="True"
-                            hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                            Text="{Binding Stage1}"
-                            ToolTip="{DynamicResource CustomStageCodeTip}" />
-                    </StackPanel>
-                </StackPanel>
             </Grid>
         </Grid>
 
