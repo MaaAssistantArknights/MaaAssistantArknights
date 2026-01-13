@@ -226,6 +226,7 @@
                                 <controls:TextBlock
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
+                                    Opacity="{c:Binding 'Available ? 1 : 0.5'}"
                                     Text="{Binding Display}" />
                                 <Button
                                     Grid.Column="1"

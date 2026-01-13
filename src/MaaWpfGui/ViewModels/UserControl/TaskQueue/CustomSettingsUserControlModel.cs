@@ -88,6 +88,7 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
         return task.Serialize();
     }
 
+    [Obsolete("使用SerializeTask作为代替")]
     public List<(AsstTaskType Type, JObject Params)> SerializeMultiTasks()
     {
         if (string.IsNullOrWhiteSpace(TaskName))
