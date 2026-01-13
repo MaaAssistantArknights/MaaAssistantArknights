@@ -719,6 +719,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
+        if (fight.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
+        {
+            return null;
+        }
+
         var stage = GetFightStage(fight.StagePlan.Select(i => i.Value));
         if (stage is null)
         {
