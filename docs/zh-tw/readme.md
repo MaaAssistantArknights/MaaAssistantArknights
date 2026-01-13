@@ -5,13 +5,9 @@ dir:
   order: 0
 ---
 
-<!-- markdownlint-disable -->
-
 ::: center
 
 ![MAA Logo =256x256](/images/maa-logo_512x512.png)
-
-<!-- markdownlint-restore -->
 
 # MAA
 
@@ -24,7 +20,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 一款明日方舟遊戲小助手
 
-基於圖像辨識技術，一鍵完成全部日常任務！
+基於影像辨識技術，一鍵完成全部日常任務！
 
 絕讚更新中 ✿✿ヽ(°▽°)ノ✿
 
@@ -32,20 +28,20 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下載與安裝
 
-請閱讀 [文檔](./manual/newbie.md) 後前往 [官網](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下載，並參考 [新手上路](./manual/newbie.md) 進行安裝。
+請閱讀 [文件](./manual/newbie.md) 後前往 [官網](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下載，並參考 [新手上路](./manual/newbie.md) 進行安裝。
 
 ## 亮點功能
 
-- 刷理智，掉落辨識及上傳 [企鵝物流](https://penguin-stats.io/)，[一圖流](https://ark.yituliu.cn/)
-- 智能基建換班，自動計算幹員效率，單設施內最優解；同時也支援 [自定義排班](./protocol/base-scheduling-schema.md)
+- 理智作戰，掉落辨識及上傳 [企鵝物流](https://penguin-stats.io/)，[一圖流](https://ark.yituliu.cn/)
+- 智慧基建換班，自動計算幹員效率，單設施內最佳解；同時也支援 [自定義排班](./protocol/base-scheduling-schema.md)
 - 自動公招，可選使用加急許可，一次全部刷完！公招數據自動上傳 [企鵝物流](https://penguin-stats.io/result/stage/recruit/recruit)，[一圖流](https://ark.yituliu.cn/survey/maarecruitdata)
-- 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推王呢還是推王呢）~~
-- 支援辨識幹員列表，統計已有和未有幹員及潛能，並在公招識別顯示
-- 支援辨識養成材料，並匯出至 [企鵝物流刷圖規劃](https://penguin-stats.io/planner)、[明日方舟工具箱](https://arkntools.app/#/material)、[ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings)
-- 訪問好友、收取信用及購物、領取日常獎勵等，一鍵全日常自動長草
-- 肉鴿全自動刷源石錠和等級，自動燒水和凹直升，智能辨識幹員及練度
-- 選擇作業 JSON 文件，自動抄作業， [影片演示](https://www.bilibili.com/video/BV1H841177Fk/)
-- 支援 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多種接口，方便集成調用，自定義你的 MAA！
+- 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推進之王呢還是推進之王呢）~~
+- 支援辨識幹員列表，統計已有和未有幹員及潛能，並在公招辨識顯示
+- 支援辨識養成材料，並匯出至 [企鵝物流刷圖規劃](https://penguin-stats.cn/planner)、[明日方舟工具箱](https://arkntools.app/#/material)、[ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings)
+- 造訪好友、收取信用及購物、領取日常獎勵等，一鍵全日常自動長草
+- 肉鴿全自動刷源石錠和等級，自動燒水和凹直升，智慧辨識幹員及練度
+- 選擇作業 JSON 檔案，自動抄作業， [影片展示](https://www.bilibili.com/video/BV1H841177Fk/)
+- 支援 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多種介面，方便整合呼叫，自定義你的 MAA！
 
 話不多說，看圖！
 
@@ -77,15 +73,15 @@ MAA 的意思是 MAA Assistant Arknights
 ### 外服支援
 
 目前國際服（美服）、日服、韓服、繁中服的絕大部分功能均已支援。但由於外服用戶較少及項目人手不足，很多功能並沒有進行全面的測試，所以請自行體驗。  
-若您遇到了 Bug，或對某個功能有強需求，歡迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我們一起建設 MAA！請參考 [外服適配教學](#外服適配)
+若您遇到了 Bug，或對某個功能有強烈需求，歡迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我們一起建設 MAA！請參閱 [外服適配教學](#外服適配)
 
 ### CLI 支援
 
-MAA 支援命令列介面（CLI）操作，支援 Linux，macOS 和 Windows，可用於自動化腳本或在無圖形介面的伺服器上使用。請參閱 [CLI 使用指南](./manual/cli/)
+MAA 支援命令列介面（CLI）操作，支援 Linux，macOS 和 Windows，可用於自動化指令碼或在無圖形介面的伺服器上使用。請參閱 [CLI 使用指南](./manual/cli/)
 
 ## 加入我們
 
-### 主要關聯項目
+### 主要關聯專案
 
 - 全新框架：[MaaFramework](https://github.com/MaaXYZ/MaaFramework)
 - [作業站](https://prts.plus) 前端：[zoot-plus-frontend](https://github.com/ZOOT-Plus/zoot-plus-frontend)
@@ -95,7 +91,7 @@ MAA 支援命令列介面（CLI）操作，支援 Linux，macOS 和 Windows，�
 
 ### 多語言 (i18n)
 
-MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）為準。
+MAA 以中文（簡體）為第一語言，翻譯詞條均以中文（簡體）為準。
 
 ### 參與開發
 
@@ -103,23 +99,23 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 
 ### API
 
-- [C 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/include/AsstCaller.h)：[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Cpp/main.cpp)
-- [Python 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/asst/asst.py)：[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/sample.py)
-- [Golang 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Golang)：[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Golang/maa/maa.go)
-- [Dart 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Dart)
-- [Java 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [Java HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Java/Readme.md)
-- [Rust 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Rust/src/maa_sys)：[HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Rust)
-- [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaX/tree/main/packages/main/coreLoader)
-- [Woolang 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Woolang/maa.wo)：[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Woolang/demo.wo)
-- [集成文件](./protocol/integration.md)
-- [回呼訊息協議](./protocol/callback-schema.md)
-- [任務流程協議](./protocol/task-schema.md)
-- [自動抄作業協議](./protocol/copilot-schema.md)
+- [C 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/include/AsstCaller.h)：[整合範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Cpp/main.cpp)
+- [Python 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/asst/asst.py)：[整合範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/sample.py)
+- [Golang 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Golang)：[整合範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Golang/maa/maa.go)
+- [Dart 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Dart)
+- [Java 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[整合範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTP 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Java/Readme.md)
+- [Rust 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Rust/src/maa_sys)：[HTTP 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Rust)
+- [TypeScript 介面](https://github.com/MaaX/tree/main/packages/main/coreLoader)
+- [Woolang 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Woolang/maa.wo)：[整合範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Woolang/demo.wo)
+- [整合文件](./protocol/integration.md)
+- [回呼訊息協定](./protocol/callback-schema.md)
+- [任務流程協定](./protocol/task-schema.md)
+- [自動抄作業協定](./protocol/copilot-schema.md)
 
 ### 外服適配
 
-請參閱 [外服適配教程](./develop/overseas-client-adaptation.md)，對於國服已支援的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
+請參閱 [外服適配教學](./develop/overseas-client-adaptation.md)，對於國服已支援的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
 
 ### Issue bot
 
@@ -129,33 +125,33 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 
 ### 開源庫
 
-- 圖像辨識庫：[opencv](https://github.com/opencv/opencv.git)
+- 影像辨識庫：[opencv](https://github.com/opencv/opencv.git)
 - ~~文字辨識庫：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 文字辨識庫：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- 深度學習部署庫：[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- 深度學習佈署庫：[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
 - 機器學習加速器：[onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~關卡掉落辨識：[企鵝物流辨識](https://github.com/penguin-statistics/recognizer)~~
 - 地圖格子辨識：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON 庫：[meojson](https://github.com/MistEO/meojson.git)
-- C++ 運算符解析器：[calculator](https://github.com/kimwalisch/calculator)
+- C++ 運算子解析器：[calculator](https://github.com/kimwalisch/calculator)
 - ~~C++ base64 編解碼：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
-- C++ 解壓壓縮庫：[zlib](https://github.com/madler/zlib)
+- C++ 解壓縮庫：[zlib](https://github.com/madler/zlib)
 - C++ Gzip 封裝：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
-- 安卓觸控事件器：[Minitouch](https://github.com/DeviceFarmer/minitouch)
-- 安卓觸控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
+- Android 觸控事件器：[Minitouch](https://github.com/DeviceFarmer/minitouch)
+- Android 觸控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM 框架：[Stylet](https://github.com/canton7/Stylet)
-- WPF 控件庫：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
-- C# 日志：[Serilog](https://github.com/serilog/serilog)
+- WPF 控制項庫：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
+- C# 記錄檔：[Serilog](https://github.com/serilog/serilog)
 - C# JSON 庫：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
 - ~~下載器：[aria2](https://github.com/aria2/aria2)~~
 
 ### 數據源
 
 - ~~公開招募數據：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
-- ~~幹員及基建數據：[PRTS明日方舟中文WIKI](http://prts.wiki/)~~
+- ~~幹員及基建數據：[PRTS Wiki](http://prts.wiki/)~~
 - 關卡數據：[企鵝物流數據統計](https://penguin-stats.io/)
-- 遊戲數據及資源：[明日方舟用戶端素材](https://github.com/yuanyan3060/ArknightsGameResource)
-- 遊戲數據：[《明日方舟》Yostar遊戲數據](https://github.com/ArknightsAssets/ArknightsGamedata)
+- 遊戲數據及資源：[明日方舟客戶端素材](https://github.com/yuanyan3060/ArknightsGameResource)
+- 遊戲數據：[《明日方舟》Yostar 遊戲數據](https://github.com/ArknightsAssets/ArknightsGamedata)
 
 ### 貢獻/參與者
 
@@ -171,7 +167,7 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 
 ### DirectML 支援說明
 
-本軟體支援 GPU 加速功能，其在 Windows 平台上依賴 Microsoft 提供的獨立元件 [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/)。DirectML 並非本專案的開源部分，也不受 AGPL 3.0 的約束。為方便用戶，我們隨安裝包附帶了一個未經修改的 DirectML.dll 檔案。如果您無需 GPU 加速功能，可安全移除該 DLL 文件，軟體的核心功能仍可正常運作。
+本軟體支援 GPU 加速功能，其在 Windows 平台上依賴於 Microsoft 提供的獨立元件 [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/)。DirectML 並非本專案的開源部分，也不受 AGPL 3.0 的約束。為方便用戶，我們隨安裝包附帶了一個未經修改的 DirectML.dll 檔案。如果您無需 GPU 加速功能，可安全刪除該 DLL 檔案，軟體的核心功能仍可正常執行。
 
 ## 廣告
 
@@ -181,7 +177,7 @@ Discord 伺服器：[Discord](https://discord.gg/23DfZ9uA4V)
 自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus)  
 Bilibili 直播間：[MrEO 直播間](https://live.bilibili.com/2808861) 直播敲代碼 & [MAA-Official 直播間](https://live.bilibili.com/27548877) 遊戲/雜談
 
-技術群（舟無關、禁水）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
+技術群（舟無關、禁閒聊）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！
