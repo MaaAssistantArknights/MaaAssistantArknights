@@ -516,6 +516,11 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public TaskQueueViewModel()
     {
+        var a1 = FightSettingsUserControlModel.Instance.Series;
+        FightSettingsUserControlModel.SeriesList.Clear();
+        var a2 = FightSettingsUserControlModel.Instance.Series;
+        FightSettingsUserControlModel.SeriesList = new();
+        var a3 = FightSettingsUserControlModel.Instance.Series;
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (_, e) => {
             Idle = e.Idle;

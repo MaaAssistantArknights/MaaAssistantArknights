@@ -182,7 +182,7 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         d:IsHitTestVisible="True"
-                        DisplayMemberPath="Key"
+                        DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding SeriesList}"
@@ -226,7 +226,7 @@
                                 <controls:TextBlock
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    Opacity="{c:Binding 'Available ? 1 : 0.5'}"
+                                    Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                     Text="{Binding Display}" />
                                 <Button
                                     Grid.Column="1"

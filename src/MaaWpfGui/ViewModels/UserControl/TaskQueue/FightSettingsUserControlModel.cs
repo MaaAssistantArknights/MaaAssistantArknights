@@ -311,7 +311,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    public static Dictionary<string, int> SeriesList { get; } = new()
+    public static Dictionary<string, int> SeriesList { get; set; } = new()
     {
         { "AUTO", 0 },
         { "6", 6 },
@@ -782,6 +782,34 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     public void UpdateStageList() // 重做
     {
         Execute.PostToUIThreadAsync(() => {
+
+            var list = Instances.StageManager.GetStageList().ToList();
+            StageListSource = new ObservableCollection<CombinedData>(list);
+            if (StageListSource.Any(i => i.Value == Stage))
+            {
+                NotifyOfPropertyChange(nameof(Stage));
+            }
+            else
+            {
+                Stage = string.Empty;
+            }
+
+            if (TaskSettingVisibilityInfo.CurrentTask is FightTask)
+            {
+                foreach (var item in StagePlan)
+                {
+                    if (list.FirstOrDefault(i => i.Value == item.Value) is { } info)
+                    {
+                        continue;
+                    }
+                }
+            }
+
+
+
+
+
+
             var hideUnavailableStage = HideUnavailableStage;
 
             Instances.TaskQueueViewModel.EnableSetFightParams = false;
@@ -810,16 +838,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             //}
             else
             {
-                // 啥都没选
-                AddStageIfNotExist(stage1, tempStageList);
 
                 // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
                 // stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
                 // stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
                 // stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
             }
-
-            UpdateObservableCollection(StageListSource, tempStageList);
 
             Stage = stage1;
             if (!CustomStageCode)
@@ -915,6 +939,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         public int Index { get; set; }
 
-        public bool Available { get; set; }
+        public bool IsOpen { get; set; }
     }
 }
