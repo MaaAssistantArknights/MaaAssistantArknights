@@ -407,7 +407,7 @@ public class ConfigConverter
 
                 for (int i = 0; i != taskList.Count; ++i)
                 {
-                    var isEnable = Convert.ToBoolean(ConfigurationHelper.GetValue($"TaskQueue.{taskList[i].OldName}.IsChecked", bool.FalseString));
+                    var isEnable = ConfigurationHelper.GetValue($"TaskQueue.{taskList[i].OldName}.IsChecked", false);
                     if (int.TryParse(ConfigurationHelper.GetTaskOrder(taskList[i].OldName, "99"), out var order))
                     {
                         taskList[i] = (taskList[i].OldName, order, isEnable);
@@ -416,6 +416,8 @@ public class ConfigConverter
                     {
                         taskList[i] = (taskList[i].OldName, taskList[i].Index, isEnable);
                     }
+                    ConfigurationHelper.DeleteValue($"TaskQueue.{taskList[i].OldName}.IsChecked");
+                    ConfigurationHelper.DeleteValue("TaskQueue.Order." + taskList[i].OldName);
                 }
 
                 ConfigFactory.CurrentConfig.TaskQueue.Clear();
