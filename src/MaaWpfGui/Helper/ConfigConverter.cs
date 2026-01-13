@@ -13,7 +13,6 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using MaaWpfGui.Configuration;
@@ -326,9 +325,9 @@ public class ConfigConverter
                 roguelikeTask.MonthlySquadAutoIterate = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMonthlySquadAutoIterate, false);
                 roguelikeTask.MonthlySquadCheckComms = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMonthlySquadCheckComms, false);
                 roguelikeTask.DeepExplorationAutoIterate = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeepExplorationAutoIterate, false);
+                roguelikeTask.FindPlaytimeTarget = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeFindPlaytimeTarget, RoguelikeBoskySubNodeType.Ling);
 
-                Dictionary<string, RoguelikeCollectibleAward> dic = new()
-                {
+                Dictionary<string, RoguelikeCollectibleAward> dic = new() {
                     { "Roguelike@LastReward", RoguelikeCollectibleAward.HotWater },
                     { "Roguelike@LastReward2", RoguelikeCollectibleAward.Shield },
                     { "Roguelike@LastReward3", RoguelikeCollectibleAward.Ingot },

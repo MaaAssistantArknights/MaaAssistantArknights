@@ -111,6 +111,11 @@ public class RoguelikeTask : BaseTask
     public bool DeepExplorationAutoIterate { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets FindPlaytime 模式的目标常乐节点子类型
+    /// </summary>
+    public RoguelikeBoskySubNodeType FindPlaytimeTarget { get; set; } = RoguelikeBoskySubNodeType.Ling;
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用好友助战
     /// </summary>
     public bool UseSupport { get; set; }

@@ -523,7 +523,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
     /// Gets a value indicating whether only need with elite two's core char.
     /// </summary>
     [PropertyDependsOn(nameof(RoguelikeOnlyStartWithEliteTwoRaw), nameof(RoguelikeStartWithEliteTwo), nameof(RoguelikeSquadIsProfessional))]
-    public bool RoguelikeOnlyStartWithEliteTwo => RoguelikeOnlyStartWithEliteTwo && RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
+    public bool RoguelikeOnlyStartWithEliteTwo => RoguelikeOnlyStartWithEliteTwoRaw && RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
 
     /// <summary>
     /// Gets the available start with rewards dictionary based on current theme.
@@ -774,18 +774,13 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         set => SetTaskConfig<RoguelikeTask>(t => t.DeepExplorationAutoIterate == value, t => t.DeepExplorationAutoIterate = value);
     }
 
-    private RoguelikeBoskySubNodeType _roguelikeFindPlaytimeTarget = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeFindPlaytimeTarget, RoguelikeBoskySubNodeType.Ling);
-
     /// <summary>
     /// Gets or sets the target playtime subnode type for FindPlaytime mode.
     /// </summary>
     public RoguelikeBoskySubNodeType RoguelikeFindPlaytimeTarget
     {
-        get => _roguelikeFindPlaytimeTarget;
-        set {
-            SetAndNotify(ref _roguelikeFindPlaytimeTarget, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeFindPlaytimeTarget, value.ToString());
-        }
+        get => GetTaskConfig<RoguelikeTask>().FindPlaytimeTarget;
+        set => SetTaskConfig<RoguelikeTask>(t => t.FindPlaytimeTarget == value, t => t.FindPlaytimeTarget = value);
     }
 
     /// <summary>
@@ -1173,7 +1168,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
             DeepExplorationAutoIterate = roguelike.DeepExplorationAutoIterate,
 
             // 刷常乐节点
-            FindPlaytimeTarget = RoguelikeFindPlaytimeTarget,
+            FindPlaytimeTarget = roguelike.FindPlaytimeTarget, // 等待添加到 RoguelikeTask
 
             SamiFirstFloorFoldartal = roguelike.Theme == Theme.Sami && roguelike.Mode == Mode.Collectible && roguelike.SamiFirstFloorFoldartal,
             SamiStartFloorFoldartal = roguelike.SamiFirstFloorFoldartals,
