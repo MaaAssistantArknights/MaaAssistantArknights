@@ -252,13 +252,13 @@
                                     VerticalContentAlignment="Center"
                                     DisplayMemberPath="Display"
                                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                                 Source={x:Static ui:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                    ItemsSource="{Binding StageListSource, Source={x:Static ui:TaskQueueViewModel.FightTask}}"
+                                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                    ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                     Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                     SelectedValue="{Binding Value}"
                                     SelectedValuePath="Value"
                                     Visibility="{c:Binding !CustomStageCode,
-                                                           Source={x:Static ui:TaskQueueViewModel.FightTask}}" />
+                                                           Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
 
                                 <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
                                 <TextBox
@@ -268,12 +268,12 @@
                                     VerticalContentAlignment="Center"
                                     hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                                 Source={x:Static ui:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                                     Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                     Text="{Binding Value}"
                                     ToolTip="{DynamicResource CustomStageCodeTip}"
                                     Visibility="{c:Binding CustomStageCode,
-                                                           Source={x:Static ui:TaskQueueViewModel.FightTask}}" />
+                                                           Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
 
                                 <Button
                                     Grid.Column="1"
