@@ -9,10 +9,10 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
-    xmlns:settings="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type settings:AchievementSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type settings_vms:AchievementSettingsUserControlModel}}"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel MinWidth="250">
@@ -40,8 +40,8 @@
             Height="100"
             Margin="5"
             hc:FloatingBlock.Content="{Binding Tip}"
-            Background="{DynamicResource MouseOverRegionBrushOpacity75}"
             uiBehaviors:ResourceReferenceHelper.BorderBrushResourceKey="{Binding MedalBrushKey}"
+            Background="{DynamicResource MouseOverRegionBrushOpacity75}"
             BorderThickness="1"
             PreviewMouseLeftButtonDown="{s:Action OnDebugClick}"
             Style="{StaticResource BorderCircular}">

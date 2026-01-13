@@ -9,15 +9,15 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:taskQueue="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type taskQueue:MallSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type taskQueue_vms:MallSettingsUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <CheckBox
                 Margin="10,10,10,5"
                 Block.TextAlignment="Left"
@@ -74,7 +74,7 @@
                     Margin="6,0,0,0"
                     HorizontalAlignment="Left"
                     DisplayMemberPath="Display"
-                    IsHitTestVisible="{Binding Idle, Source={x:Static ui:TaskQueueViewModel.TaskSettingDataContext}}"
+                    IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                     ItemsSource="{Binding FormationSelectList}"
                     SelectedValue="{Binding CreditFightSelectFormation}"
                     SelectedValuePath="Value" />
@@ -101,22 +101,22 @@
                         Margin="0,10"
                         Block.TextAlignment="Left"
                         Content="{DynamicResource InfrastReceptionMessageBoardReceive}"
-                        IsChecked="{Binding ReceptionMessageBoardReceive, Source={x:Static taskQueue:InfrastSettingsUserControlModel.Instance}}" />
+                        IsChecked="{Binding ReceptionMessageBoardReceive, Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
                     <CheckBox
                         Margin="0,10"
                         Block.TextAlignment="Left"
                         Content="{DynamicResource InfrastReceptionClueExchange}"
-                        IsChecked="{Binding ReceptionClueExchange, Source={x:Static taskQueue:InfrastSettingsUserControlModel.Instance}}" />
+                        IsChecked="{Binding ReceptionClueExchange, Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
                     <CheckBox
                         Margin="0,10"
                         Block.TextAlignment="Left"
                         Content="{DynamicResource InfrastReceptionSendClue}"
-                        IsChecked="{Binding ReceptionSendClue, Source={x:Static taskQueue:InfrastSettingsUserControlModel.Instance}}" />
+                        IsChecked="{Binding ReceptionSendClue, Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
                 </StackPanel>
             </Border>
         </StackPanel>
 
-        <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <TextBox
                 Margin="0,10"
                 hc:InfoElement.Title="{DynamicResource HighPriority}"

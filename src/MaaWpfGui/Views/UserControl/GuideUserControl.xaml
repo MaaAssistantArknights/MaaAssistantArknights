@@ -13,10 +13,10 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
     xmlns:taskQueue="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance ui:SettingsViewModel}"
+    d:DataContext="{d:DesignInstance ui_vms:SettingsViewModel}"
     mc:Ignorable="d">
     <Grid>
         <GroupBox
@@ -142,7 +142,7 @@
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 2'}">
-                            <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui:SettingsViewModel.ConnectSettings}}">
+                            <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
                                 <controls:TextBlock
                                     MaxWidth="400"
                                     Margin="0,5"
@@ -378,7 +378,7 @@
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 4'}">
-                            <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui:SettingsViewModel.PerformanceSettings}}">
+                            <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.PerformanceSettings}}">
                                 <controls:TextBlock
                                     MaxWidth="400"
                                     Foreground="{DynamicResource InfoBrush}"
@@ -420,7 +420,7 @@
                             Visibility="{c:Binding 'GuideStepIndex == 5'}">
                             <hc:UniformSpacingPanel
                                 s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-                                DataContext="{Binding Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}"
+                                DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}"
                                 Orientation="Vertical"
                                 Spacing="10">
                                 <StackPanel>

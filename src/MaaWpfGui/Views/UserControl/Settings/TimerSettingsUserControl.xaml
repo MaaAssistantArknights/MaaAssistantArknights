@@ -10,9 +10,9 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:settings="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type settings:TimerSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type settings_vms:TimerSettingsUserControlModel}}"
     d:DesignHeight="450"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">

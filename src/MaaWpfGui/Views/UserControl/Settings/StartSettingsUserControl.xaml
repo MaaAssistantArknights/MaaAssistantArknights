@@ -10,10 +10,10 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:settings="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type settings:StartSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type settings_vms:StartSettingsUserControlModel}}"
     d:DesignHeight="300"
     d:DesignWidth="500"
     s:View.ActionTarget="{Binding}"
@@ -75,7 +75,7 @@
                 <CheckBox
                     Grid.Column="0"
                     Margin="10,10,0,10"
-                    IsChecked="{Binding RetryOnDisconnected, Source={x:Static ui:SettingsViewModel.ConnectSettings}}">
+                    IsChecked="{Binding RetryOnDisconnected, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
                     <controls:TextBlock Text="{DynamicResource RetryOnDisconnected}" TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource RetryOnDisconnectedTip}" />
