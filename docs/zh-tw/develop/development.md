@@ -76,14 +76,14 @@ icon: iconoir:developer
 
 9. 到這裡，你就可以愉快地 ~~瞎 JB 改~~ 發電了
 10. 開發過程中，每一定數量，記得提交一個 Commit, 別忘了寫上 Message  
-   假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev` 上
+    假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev` 上
 
-   ```bash
-   git branch your_own_branch
-   git checkout your_own_branch
-   ```
+```bash
+git branch your_own_branch
+git checkout your_own_branch
+```
 
-   這樣你的提交就能在新的分支上生長，不會受到 `dev` 更新的打擾
+這樣你的提交就能在新的分支上生長，不會受到 `dev` 更新的打擾
 
 11. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠程（Fork 的倉庫）
 
