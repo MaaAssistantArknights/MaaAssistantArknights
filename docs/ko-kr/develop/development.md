@@ -63,6 +63,7 @@ icon: iconoir:developer
    ```
 
 5. 개발 환경 구성
+   - `CMake` 다운로드 및 설치
    - Visual Studio 2026 Community 설치 시 `C++ 데스크톱 개발` 및 `.NET 데스크톱 개발` 필수 선택
 
 6. cmake 프로젝트 구성 실행
