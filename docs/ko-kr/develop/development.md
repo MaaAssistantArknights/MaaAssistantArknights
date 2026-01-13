@@ -74,11 +74,11 @@ icon: iconoir:developer
 
 7. `build/MAA.slnx` 파일을 더블 클릭하여 엽니다. Visual Studio가 자동으로 전체 프로젝트를 로드합니다.
 8. VS 설정
-   - 상단 구성에서 RelWithDebInfo x64 선택 (릴리스 빌드/ARM 플랫폼 시 생략)
+   - 상단 구성에서 Debug x64 선택
    - MaaWpfGui 우클릭 → 속성 → 디버그 → 네이티브 디버깅 활성화 (C++ 코어 중단점 사용 가능)
 
-9. 이제 자유롭게 ~~개조~~ 개발 시작!
-10. 주기적 커밋 (메시지 필수 작성)  
+10. 이제 자유롭게 ~~개조~~ 개발 시작!
+11. 주기적 커밋 (메시지 필수 작성)  
     Git 초보자는 dev 브랜치 대신 새 브랜치 생성 권장:
 
     ```bash
@@ -88,14 +88,14 @@ icon: iconoir:developer
 
     dev 브랜치 업데이트 영향에서 자유로움
 
-11. 개발 완료 후 변경사항 원격 저장소로 푸시:
+12. 개발 완료 후 변경사항 원격 저장소로 푸시:
 
     ```bash
     git push origin dev
     ```
 
-12. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)
-13. 업스트림 저장소 변경사항 동기화 방법:
+13. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)
+14. 업스트림 저장소 변경사항 동기화 방법:
     1. 업스트림 저장소 추가:
 
        ```bash
@@ -120,7 +120,7 @@ icon: iconoir:developer
        git merge
        ```
 
-    4. 단계 7, 8, 9, 10 반복 수행
+    4. 단계 8, 9, 10, 11 반복 수행
 
 ::: tip
 Visual Studio 실행 시 Git 작업은 "Git 변경" 탭에서 명령어 없이 처리 가능

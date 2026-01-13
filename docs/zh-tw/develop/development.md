@@ -58,15 +58,23 @@ icon: iconoir:developer
    ```
 
 5. 配置編程環境
+   - 下載並安裝 `CMake`（v4.2.0 以上）
    - 下載並安裝 `Visual Studio 2026 Community`, 安裝的時候需要選中 `基於 C++ 的桌面開發` 和 `.NET 桌面開發`。
 
-6. 雙擊打開 `MAA.slnx` 文件，Visual Studio 會自動載入整個項目。
-7. 設置 VS
-   - VS 上方配置選擇 `RelWithDebInfo` `x64` （如果編譯 Release 包 或 ARM 平台，請忽略這步）
+6. 執行 cmake 項目配置
+
+   ```cmd
+   mkdir -p build
+   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   ```
+
+7. 雙擊打開 `build/MAA.slnx` 文件，Visual Studio 會自動載入整個項目。
+8. 設置 VS
+   - VS 上方配置選擇 `Debug` `x64`
    - 右鍵 `MaaWpfGui` - 屬性 - 除錯 - 啟用本地除錯（這樣就能把斷點掛到 C++ Core 那邊了）
 
-8. 到這裡，你就可以愉快地 ~~瞎 JB 改~~ 發電了
-9. 開發過程中，每一定數量，記得提交一個 Commit, 別忘了寫上 Message  
+9. 到這裡，你就可以愉快地 ~~瞎 JB 改~~ 發電了
+10. 開發過程中，每一定數量，記得提交一個 Commit, 別忘了寫上 Message  
    假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev` 上
 
    ```bash
@@ -76,14 +84,14 @@ icon: iconoir:developer
 
    這樣你的提交就能在新的分支上生長，不會受到 `dev` 更新的打擾
 
-10. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠程（Fork 的倉庫）
+11. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠程（Fork 的倉庫）
 
     ```bash
     git push origin dev
     ```
 
-11. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。別忘了你是在 dev 分支上修改，別提交到 master 分支去了
-12. 當 MAA 原倉庫出現更改（別人做的），你可能需要把這些更改同步到你的分支
+12. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。別忘了你是在 dev 分支上修改，別提交到 master 分支去了
+13. 當 MAA 原倉庫出現更改（別人做的），你可能需要把這些更改同步到你的分支
     1. 關聯 MAA 原倉庫
 
        ```bash
@@ -108,7 +116,7 @@ icon: iconoir:developer
        git merge # 合併
        ```
 
-    4. 重複上述 7, 8, 9, 10 中的操作
+    4. 重複上述 8, 9, 10, 11 中的操作
 
 ::: tip
 在打開 VS 之後，和 Git 有關的操作可以不用命令行工具，直接使用 VS 自帶的“Git 更改”即可
