@@ -1577,11 +1577,18 @@ public class TaskQueueViewModel : Screen
                 continue;
             }
 
-            ++count;
-            if (SerializeTask(item) is not true)
+            switch (SerializeTask(item))
             {
-                AddLog($"{LocalizationHelper.GetString(item.Name)} task append error", UiLogColor.Error);
-                --count;
+                case true:
+                    ++count;
+                    break;
+                case false:
+                    taskRet = false;
+                    AddLog($"{LocalizationHelper.GetString(item.Name)} task append error", UiLogColor.Error);
+                    break;
+                case null:
+                    AddLog($"{LocalizationHelper.GetString(item.Name)} task skip", UiLogColor.Info);
+                    break;
             }
         }
 
