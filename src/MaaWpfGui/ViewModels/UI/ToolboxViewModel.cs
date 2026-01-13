@@ -523,8 +523,15 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        var details = JObject.Parse(json);
-        DepotParse(details);
+        try
+        {
+            var details = JObject.Parse(json);
+            DepotParse(details);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error("parse depot json failed,\n{str}", json, ex);
+        }
     }
 
     /// <summary>
