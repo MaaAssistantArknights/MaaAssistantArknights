@@ -61,44 +61,14 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public static FightSettingsUserControlModel Instance { get; }
 
-    private ObservableCollection<CombinedData> _stageList = [];
-
     /// <summary>
     /// Gets or private sets the list of stages.
     /// </summary>
-    public ObservableCollection<CombinedData> StageList
+    public ObservableCollection<CombinedData> StageListSource
     {
-        get => _stageList;
-        private set => SetAndNotify(ref _stageList, value);
-    }
-
-    /// <summary>
-    /// Gets the stage.
-    /// </summary>
-    public string Stage
-    {
-        get {
-            Stage1 ??= _stage1Fallback;
-            return Stage1!;
-            /*
-            if (Instances.TaskQueueViewModel.IsStageOpen(Stage1))
-            {
-                return Stage1;
-            }
-
-            if (Instances.TaskQueueViewModel.IsStageOpen(Stage2 ??= string.Empty))
-            {
-                return Stage2;
-            }
-
-            if (Instances.TaskQueueViewModel.IsStageOpen(Stage3 ??= string.Empty))
-            {
-                return Stage3;
-            }
-
-            return Instances.TaskQueueViewModel.IsStageOpen(Stage4 ??= string.Empty) ? Stage4 : Stage1;*/
-        }
-    }
+        get => field;
+        private set => SetAndNotify(ref field, value);
+    } = [];
 
     private readonly Dictionary<string, string> _stageDictionary = new()
         {
@@ -118,23 +88,21 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             { "炭", "SK-5" },
         };
 
-    public ObservableCollection<StagePlanItem> StagePlan { get; set; } = [
-        new() { Display = LocalizationHelper.GetString("NotSelected"), Index = 0 },
-    ];
+    public ObservableCollection<StagePlanItem> StagePlan { get; set; } = [];
 
     // UI 绑定的方法
     [UsedImplicitly]
     public void AddStageToPlan()
     {
-        if (StagePlan.Any(x => x.Value == Stage1))
+        if (StagePlan.Any(x => x.Value == Stage))
         {
-            _logger.Error("Attempted to add duplicate stage to plan: {Stage}", Stage1);
-            Instances.TaskQueueViewModel.AddLog("Duplicate stage in plan:" + Stage1, UiLogColor.Warning);
+            _logger.Error("Attempted to add duplicate stage to plan: {Stage}", Stage);
+            Instances.TaskQueueViewModel.AddLog("Duplicate stage in plan:" + Stage, UiLogColor.Warning);
             return;
         }
 
-        var display = StageList.FirstOrDefault(x => x.Value == Stage1)?.Display ?? Stage1!;
-        StagePlan.Add(new StagePlanItem { Display = display, Value = Stage1!, Index = StagePlan.Count });
+        var display = StageListSource.FirstOrDefault(x => x.Value == Stage)?.Display ?? Stage!;
+        StagePlan.Add(new StagePlanItem { Display = display, Value = Stage!, Index = StagePlan.Count });
     }
 
     // UI 绑定的方法
@@ -149,21 +117,16 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         StagePlan.RemoveAt(index);
     }
 
-    public string?[] Stages => [Stage1];
-
-    // Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
-    private string _stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
-
-    private string? _stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
+    private string? _stage;
 
     /// <summary>
     /// Gets or sets the stage1.
     /// </summary>
-    public string? Stage1
+    public string? Stage
     {
-        get => _stage1;
+        get => _stage;
         set {
-            if (_stage1 == value)
+            if (_stage == value)
             {
                 return;
             }
@@ -171,15 +134,14 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             if (CustomStageCode)
             {
                 // 从后往前删
-                if (_stage1?.Length != 3 && value != null)
+                if (_stage?.Length != 3 && value != null)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
             }
 
-            SetAndNotify(ref _stage1, value);
+            SetAndNotify(ref _stage, value);
             SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage1, value);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
@@ -193,7 +155,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         set {
             if (!value)
             {
-                Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
+                Stage = StageListSource.FirstOrDefault(x => x.Value == Stage)?.Value ?? string.Empty;
             }
 
             SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
@@ -205,7 +167,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     public void RemoveNonExistStage()
     {
-        Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
+        Stage = StageListSource.FirstOrDefault(x => x.Value == Stage)?.Value ?? string.Empty;
         //Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
         //Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
         //Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
@@ -624,12 +586,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return stage;
         }
 
-        if (StageList == null)
+        if (StageListSource == null)
         {
             return value;
         }
 
-        foreach (var item in StageList)
+        foreach (var item in StageListSource)
         {
             if (upperValue == item.Value.ToUpper() || upperValue == item.Display.ToUpper())
             {
@@ -638,6 +600,18 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
 
         return value;
+    }
+
+    public static string? GetFightStage(IEnumerable<string> stageNames)
+    {
+        foreach (var name in stageNames)
+        {
+            if (Instances.TaskQueueViewModel.IsStageOpen(name))
+            {
+                return name;
+            }
+        }
+        return null;
     }
 
     private void RefreshStagePlan()
@@ -654,8 +628,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             for (int i = 0; i < StagePlan.Count; i++)
             {
                 StagePlan[i].Index = i;
+            }
         }
-    }
     }
 
     private void RefreshWeeklySchedule()
@@ -695,7 +669,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstFightTask() {
-            Stage = Stage,
+            // Stage = Stage,
             Medicine = UseMedicine != false ? MedicineNumber : 0,
             Stone = UseStoneDisplay ? StoneNumber : 0,
             Series = Series,
@@ -710,7 +684,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             ClientType = SettingsViewModel.GameSettings.ClientType,
         };
 
-        if (Stage == "Annihilation" && UseCustomAnnihilation)
+        if (task.Stage == "Annihilation" && UseCustomAnnihilation)
         {
             task.Stage = AnnihilationStage;
         }
@@ -745,13 +719,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        var stage = fight.StagePlan.FirstOrDefault(s => Instances.TaskQueueViewModel.IsStageOpen(s.Value))?.Value;
+        var stage = GetFightStage(fight.StagePlan.Select(i => i.Value));
         if (stage is null)
         {
             return null;
         }
         var task = new AsstFightTask() {
-            Stage = Stage,
+            Stage = stage,
             Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
             Stone = fight.UseStone != false ? fight.StoneCount : 0,
             Series = fight.Series,
@@ -766,7 +740,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             ClientType = SettingsViewModel.GameSettings.ClientType,
         };
 
-        if (Stage == "Annihilation" && fight.UseCustomAnnihilation)
+        if (task.Stage == "Annihilation" && fight.UseCustomAnnihilation)
         {
             task.Stage = AnnihilationStage;
         }
@@ -807,7 +781,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
             Instances.TaskQueueViewModel.EnableSetFightParams = false;
 
-            var stage1 = Stage1 ?? string.Empty;
+            var stage1 = Stage ?? string.Empty;
 
             var tempStageList = hideUnavailableStage
                 ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
@@ -840,10 +814,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 // stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
             }
 
-            UpdateObservableCollection(StageList, tempStageList);
+            UpdateObservableCollection(StageListSource, tempStageList);
 
-            _stage1Fallback = stage1;
-            Stage1 = stage1;
+            Stage = stage1;
             if (!CustomStageCode)
             {
                 RemoveNonExistStage();

@@ -278,8 +278,8 @@
                             DisplayMemberPath="Display"
                             IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                          Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                            ItemsSource="{Binding StageList}"
-                            SelectedValue="{Binding Stage1}"
+                            ItemsSource="{Binding StageListSource}"
+                            SelectedValue="{Binding Stage}"
                             SelectedValuePath="Value" />
                     </StackPanel>
                     <StackPanel

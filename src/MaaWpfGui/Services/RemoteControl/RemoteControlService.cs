@@ -414,7 +414,7 @@ public class RemoteControlService
                     break;
                 case "Settings-Stage1":
                     await Execute.OnUIThreadAsync(() => {
-                        TaskQueueViewModel.FightTask.Stage1 = data;
+                        TaskQueueViewModel.FightTask.Stage = data;
                     });
                     break;
                 default:

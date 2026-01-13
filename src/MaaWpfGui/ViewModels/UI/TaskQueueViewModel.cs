@@ -666,7 +666,7 @@ public class TaskQueueViewModel : Screen
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
-            InfrastTask.RefreshCustomInfrastPlanDisplay();
+            InfrastTask.RefreshInfrastTimeRotationDisplay();
 
             await HandleTimerLogic(currentTime);
         }
@@ -1003,6 +1003,7 @@ public class TaskQueueViewModel : Screen
         var builder = new StringBuilder(LocalizationHelper.GetString("TodaysStageTip") + "\n");
 
         // Closed activity stages
+        /*
         foreach (var stage in FightTask.Stages)
         {
             if (stage == null || Instances.StageManager.GetStageInfo(stage).IsActivityClosed() != true)
@@ -1011,7 +1012,7 @@ public class TaskQueueViewModel : Screen
             }
 
             builder.Append(stage).Append(": ").AppendLine(LocalizationHelper.GetString("ClosedStage"));
-        }
+        }*/
 
         // Open stages today
         var openStages = Instances.StageManager.GetStageTips(CurDayOfWeek);
