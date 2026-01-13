@@ -15,12 +15,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
+using MaaWpfGui.Models;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -224,6 +226,33 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.OriginiumShardAutoReplenishment);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastFile);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastPlanSelect);
+
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(infrastTask.Filename) || !File.Exists(infrastTask.Filename))
+                    {
+                        throw new FileNotFoundException("CustomInfrastFile not found", infrastTask.Filename);
+                    }
+
+                    string jsonStr = File.ReadAllText(infrastTask.Filename);
+                    if (JsonConvert.DeserializeObject<CustomInfrastConfig>(jsonStr) is not CustomInfrastConfig root)
+                    {
+                        throw new JsonException("DeserializeObject returned null");
+                    }
+                    var planList = root.Plans;
+                    for (int i = 0; i < planList.Count; ++i)
+                    {
+                        var plan = planList[i];
+                        plan.Index = i;
+                        plan.Name ??= "Plan " + ((char)('A' + i));
+                        plan.Description ??= string.Empty;
+                        plan.DescriptionPost ??= string.Empty;
+                        infrastTask.InfrastPlan.Add(plan);
+                    }
+                }
+                catch
+                {
+                }
 
                 infrastTask.RoomList = [];
                 var roomTypes = Enum.GetNames<InfrastRoomType>();

@@ -328,58 +328,12 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    private static int CustomPlanSelectInit()
-    {
-        if (ConfigurationHelper.ContainsKey(ConfigurationKeys.CustomInfrastPlanSelect))
-        {
-            return ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanSelect, -1);
-        }
-        else if (ConfigurationHelper.ContainsKey(ConfigurationKeys.CustomInfrastPlanIndex))
-        {
-            int i;
-            if (!ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastPlanIndex, out string index))
-            {
-                return -1;
-            }
-            else if (!int.TryParse(index, out i))
-            {
-                return -1;
-            }
-
-            try
-            {
-                var path = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastFile, string.Empty);
-                if (!Path.Exists(path))
-                {
-                    return -1;
-                }
-
-                string jsonStr = File.ReadAllText(path);
-                if (JsonConvert.DeserializeObject<CustomInfrastConfig>(jsonStr) is not CustomInfrastConfig root)
-                {
-                    return -1;
-                }
-
-                return root.Plans.Any(i => i.Period.Count > 0) ? -1 : i;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Failed to transform CustomInfrastPlanIndex to CustomInfrastPlanSelect");
-                return -1;
-            }
-        }
-
-        return -1;
-    }
-
-    private int _customPlanSelect = CustomPlanSelectInit();
-
     /// <summary>
     /// Gets or sets 手动指定的自定义配置, -1: 时间轮换, 0~n: index轮换
     /// </summary>
     public int CustomInfrastPlanSelect
     {
-        get => _customPlanSelect;
+        get => GetTaskConfig<InfrastTask>().PlanSelect;
         set {
             if (value < -1)
             {
@@ -390,47 +344,18 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
                 value = 0;
             }
 
-            SetAndNotify(ref _customPlanSelect, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanSelect, value.ToString());
+            SetTaskConfig<InfrastTask>(t => t.PlanSelect == value, t => t.PlanSelect = value);
         }
     }
 
     private readonly GenericCombinedData<int> _defaultItem = new() { Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", string.Empty), Value = -1 };
 
-    private List<CustomInfrastConfig.Plan> _customInfrastPlanList = [];
-
     public List<CustomInfrastConfig.Plan> CustomInfrastPlanList
     {
-        get => _customInfrastPlanList;
+        get => GetTaskConfig<InfrastTask>().InfrastPlan;
         set {
-            SetAndNotify(ref _customInfrastPlanList, value);
-            _customInfrastPlanListDisplay.Clear();
-            if (CustomInfrastPlanList.Any(i => i.Period.Count > 0))
-            {
-                var now = TimeOnly.FromDateTime(DateTime.Now.ToLocalTime());
-                var plan = CustomInfrastPlanList.FirstOrDefault(i => i.Period.Any(p => p[0] <= now && now <= p[1]));
-                plan ??= CustomInfrastPlanList.FirstOrDefault();
-                plan ??= new();
-                _defaultItem.Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", plan.Name ?? string.Empty);
-                _customInfrastPlanListDisplay.Add(_defaultItem);
-            }
-
-            foreach (var item in CustomInfrastPlanList)
-            {
-                _customInfrastPlanListDisplay.Add(new GenericCombinedData<int> {
-                    Display = item.Name,
-                    Value = item.Index,
-                });
-            }
-
-            if (_customInfrastPlanListDisplay.Any(i => i.Value == CustomInfrastPlanSelect))
-            {
-                NotifyOfPropertyChange(nameof(CustomInfrastPlanSelect));
-            }
-            else
-            {
-                CustomInfrastPlanSelect = -1;
-            }
+            SetTaskConfig<InfrastTask>(t => t.InfrastPlan == value, t => t.InfrastPlan = value);
+            RefreshCustomInfrastPlanList();
         }
     }
 
@@ -505,10 +430,41 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
+    private void RefreshCustomInfrastPlanList()
+    {
+        _customInfrastPlanListDisplay.Clear();
+        if (CustomInfrastPlanList.Any(i => i.Period.Count > 0))
+        {
+            var now = TimeOnly.FromDateTime(DateTime.Now.ToLocalTime());
+            var plan = CustomInfrastPlanList.FirstOrDefault(i => i.Period.Any(p => p[0] <= now && now <= p[1]));
+            plan ??= CustomInfrastPlanList.FirstOrDefault();
+            plan ??= new();
+            _defaultItem.Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", plan.Name ?? "???");
+            _customInfrastPlanListDisplay.Add(_defaultItem);
+        }
+
+        foreach (var item in CustomInfrastPlanList)
+        {
+            _customInfrastPlanListDisplay.Add(new GenericCombinedData<int> {
+                Display = item.Name,
+                Value = item.Index,
+            });
+        }
+
+        if (_customInfrastPlanListDisplay.Any(i => i.Value == CustomInfrastPlanSelect))
+        {
+            NotifyOfPropertyChange(nameof(CustomInfrastPlanSelect));
+        }
+        else
+        {
+            CustomInfrastPlanSelect = -1;
+        }
+    }
+
     /// <summary>
     /// 刷新自定义基建计划第一个时间轮换项显示, 每分钟调用一次
     /// </summary>
-    public void RefreshCustomInfrastPlanDisplay()
+    public void RefreshInfrastTimeRotationDisplay()
     {
         if (InfrastMode != Mode.Custom || !CustomInfrastPlanList.Any(i => i.Period.Count > 0) || CustomPlanListDisplay.Count == 0 || CustomPlanListDisplay[0].Value != -1)
         {
@@ -573,7 +529,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         if (baseTask is InfrastTask)
         {
             RefreshInfrastRoomList();
-            RefreshCustomInfrastPlanDisplay();
+            RefreshCustomInfrastPlanList();
             Refresh();
         }
     }

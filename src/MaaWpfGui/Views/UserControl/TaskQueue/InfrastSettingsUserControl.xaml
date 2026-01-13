@@ -60,12 +60,12 @@
                         Margin="0,4"
                         VerticalContentAlignment="Center"
                         d:IsHitTestVisible="True"
-                        DisplayMemberPath="Name"
+                        DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding CustomPlanListDisplay}"
                         SelectedValue="{Binding CustomInfrastPlanSelect}"
-                        SelectedValuePath="Index" />
+                        SelectedValuePath="Value" />
                 </StackPanel>
                 <controls:TextBlock
                     Margin="0,5"
