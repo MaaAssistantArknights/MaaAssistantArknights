@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -20,6 +21,7 @@
     <StackPanel>
         <Grid d:Visibility="Visible" Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -193,16 +195,65 @@
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <controls:TextBlock
+                    Margin="6,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Text="{DynamicResource StageSelect2}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+
+                <ListBox
+                    Grid.Column="1"
+                    Margin="6,5"
+                    HorizontalContentAlignment="Stretch"
+                    d:ItemsSource="{d:SampleData ItemCount=3}"
+                    dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    ItemsSource="{Binding Path=StagePlan}"
+                    PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
+                                                 Target={x:Type helper:MouseWheelHelper}}"
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+                    ToolTip="{DynamicResource LabelSequenceTip}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <controls:TextBlock
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Display}" />
+                                <Button
+                                    Grid.Column="1"
+                                    Margin="0"
+                                    Padding="5,0,10,0"
+                                    hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                    hc:VisualElement.HighlightBackground="Transparent"
+                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Command="{s:Action RemoveStageFromPlan}"
+                                    CommandParameter="{c:Binding Index}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical">
-                    <Grid Height="42">
-                        <controls:TextBlock
-                            x:Name="StageSelectTextBlock"
+                    <Grid>
+                        <Button
                             Margin="6"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource StageSelect}"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
+                            Command="{s:Action AddStageToPlan}"
+                            Content="{DynamicResource AddStage}" />
                         <Grid Visibility="{c:Binding CustomStageCode}">
                             <controls:TooltipBlock
                                 Margin="0,5,6,0"
@@ -211,35 +262,6 @@
                                 NormalOpacity="0.25"
                                 TooltipText="{DynamicResource CustomStageCodeTip}" />
                         </Grid>
-                    </Grid>
-                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
-                        <controls:TextBlock
-                            Margin="6"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource StageSelect2}"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                    </Grid>
-                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
-                        <!--  a placeholder  -->
-                        <controls:TextBlock
-                            Margin="6"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text=""
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                    </Grid>
-                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
-                        <!--  a placeholder  -->
-                        <controls:TextBlock
-                            Margin="6"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text=""
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
@@ -258,44 +280,6 @@
                             ItemsSource="{Binding StageList}"
                             SelectedValue="{Binding Stage1}"
                             SelectedValuePath="Value" />
-                        <StackPanel
-                            IsEnabled="{c:Binding UseAlternateStage}"
-                            Orientation="Vertical"
-                            Visibility="{c:Binding UseAlternateStage}">
-                            <ComboBox
-                                Height="30"
-                                Margin="6"
-                                VerticalContentAlignment="Center"
-                                d:IsHitTestVisible="True"
-                                DisplayMemberPath="Display"
-                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                ItemsSource="{Binding StageList}"
-                                SelectedValue="{Binding Stage2}"
-                                SelectedValuePath="Value" />
-                            <ComboBox
-                                Height="30"
-                                Margin="6"
-                                VerticalContentAlignment="Center"
-                                d:IsHitTestVisible="True"
-                                DisplayMemberPath="Display"
-                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                ItemsSource="{Binding StageList}"
-                                SelectedValue="{Binding Stage3}"
-                                SelectedValuePath="Value" />
-                            <ComboBox
-                                Height="30"
-                                Margin="6"
-                                VerticalContentAlignment="Center"
-                                d:IsHitTestVisible="True"
-                                DisplayMemberPath="Display"
-                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                ItemsSource="{Binding StageList}"
-                                SelectedValue="{Binding Stage4}"
-                                SelectedValuePath="Value" />
-                        </StackPanel>
                     </StackPanel>
                     <StackPanel
                         IsEnabled="{c:Binding CustomStageCode}"
@@ -311,41 +295,6 @@
                                                          Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                             Text="{Binding Stage1}"
                             ToolTip="{DynamicResource CustomStageCodeTip}" />
-                        <StackPanel
-                            IsEnabled="{c:Binding UseAlternateStage}"
-                            Orientation="Vertical"
-                            Visibility="{c:Binding UseAlternateStage}">
-                            <TextBox
-                                Height="30"
-                                Margin="6"
-                                VerticalContentAlignment="Center"
-                                d:IsHitTestVisible="True"
-                                hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                Text="{Binding Stage2}"
-                                ToolTip="{DynamicResource CustomStageCodeTip}" />
-                            <TextBox
-                                Height="30"
-                                Margin="6"
-                                VerticalContentAlignment="Center"
-                                d:IsHitTestVisible="True"
-                                hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                Text="{Binding Stage3}"
-                                ToolTip="{DynamicResource CustomStageCodeTip}" />
-                            <TextBox
-                                Height="30"
-                                Margin="6"
-                                VerticalContentAlignment="Center"
-                                d:IsHitTestVisible="True"
-                                hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                Text="{Binding Stage4}"
-                                ToolTip="{DynamicResource CustomStageCodeTip}" />
-                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -398,6 +347,26 @@
                 Margin="0,10"
                 Content="{DynamicResource HideSeries}"
                 IsChecked="{Binding HideSeries}" />
+
+            <ListBox
+                Grid.Column="1"
+                Margin="6,5"
+                HorizontalContentAlignment="Stretch"
+                d:ItemsSource="{d:SampleData ItemCount=3}"
+                ItemsSource="{Binding Path=WeeklyScheduleSource}"
+                PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
+                                             Target={x:Type helper:MouseWheelHelper}}"
+                Style="{DynamicResource NoSelectedHighlightListBoxStyle}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{Binding Display}"
+                            IsChecked="{Binding Value}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoRestartOption}"

@@ -1790,22 +1790,6 @@ public class TaskQueueViewModel : Screen
 
     public bool EnableSetFightParams { get; set; } = true;
 
-    /// <summary>
-    /// Sets parameters.
-    /// </summary>
-    public void SetFightParams()
-    {
-        var type = AsstProxy.TaskType.Fight;
-        var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
-        if (!EnableSetFightParams || id == 0)
-        {
-            return;
-        }
-
-        var taskParams = FightTask.Serialize().Params;
-        Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
-    }
-
     private bool _inited = false;
 
     public bool Inited

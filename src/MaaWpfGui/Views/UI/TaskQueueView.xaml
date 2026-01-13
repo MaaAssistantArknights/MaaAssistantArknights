@@ -159,7 +159,7 @@
                                 Grid.Column="0"
                                 Width="30"
                                 Height="30"
-                                Padding="0"
+                                Padding="0,3"
                                 VerticalAlignment="Top"
                                 hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
                                 Foreground="{DynamicResource PrimaryTextBrush}"
@@ -168,7 +168,7 @@
                                 <hc:ContextMenuButton.Menu>
                                     <ContextMenu
                                         Width="190"
-                                        Padding="0,3"
+                                        Padding="0"
                                         HorizontalOffset="-7"
                                         Placement="Bottom"
                                         VerticalOffset="-7">

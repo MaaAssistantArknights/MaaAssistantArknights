@@ -36,6 +36,8 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
+    protected bool IsRefreshingUI { get; set; } = false; // 需手动赋值
+
     protected T GetTaskConfig<T>()
         where T : BaseTask, new()
     {
@@ -74,9 +76,7 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
     /// 刷新UI
     /// </summary>
     /// <param name="baseTask">需要刷新的任务</param>
-    public virtual void RefreshUI(BaseTask baseTask)
-    {
-    }
+    public abstract void RefreshUI(BaseTask baseTask);
 
     /// <summary>
     /// 序列化MAA任务

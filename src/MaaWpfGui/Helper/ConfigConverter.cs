@@ -85,6 +85,8 @@ public class ConfigConverter
             ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled, ConfigurationKeys.CustomInfrastPlanShowInFightSettings,
         ];
 
+        HashSet<string> stageI18n = ["1-7", "CE-6", "AP-5", "CA-5", "LS-6", "SK-5", "PR-A-1", "PR-A-2", "PR-B-1", "PR-B-2", "PR-C-1", "PR-C-2", "PR-D-1", "PR-D-2"];
+
         var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
         {
@@ -149,10 +151,18 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.DropsItemId);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.DropsQuantity);
 
-                fightTask.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
-                fightTask.Stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty) ?? string.Empty;
-                fightTask.Stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
-                fightTask.Stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
+                var stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
+                var stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty) ?? string.Empty;
+                var stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
+                var stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
+                fightTask.StagePlan.Add(new(stageI18n.Contains(stage1) ? LocalizationHelper.GetString(stage1, local) : stage1, stage1));
+                if (ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false))
+                {
+                    fightTask.StagePlan.Add(new(stageI18n.Contains(stage2) ? LocalizationHelper.GetString(stage2, local) : stage2, stage2));
+                    fightTask.StagePlan.Add(new(stageI18n.Contains(stage3) ? LocalizationHelper.GetString(stage3, local) : stage3, stage3));
+                    fightTask.StagePlan.Add(new(stageI18n.Contains(stage4) ? LocalizationHelper.GetString(stage4, local) : stage4, stage4));
+                }
+
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage1);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage2);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage3);
@@ -181,7 +191,8 @@ public class ConfigConverter
                     fightTask.Series = 0;
                 }
 
-                fightTask2.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty);
+                stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty);
+                fightTask2.StagePlan.Add(new(stageI18n.Contains(stage1) ? LocalizationHelper.GetString(stage1, local) : stage1, stage1));
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RemainingSanityStage);
 
                 infrastTask.Mode = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, InfrastMode.Normal);

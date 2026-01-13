@@ -10,7 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+#nullable enable
 using System;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -87,7 +87,9 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         Instances.AsstProxy.TasksStatus.TryGetValue(ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].TaskId, out var status) &&
         status.Status == TaskStatus.InProgress;
 
-    public static BaseTask CurrentTask => ConfigFactory.CurrentConfig.TaskQueue[Instance.CurrentIndex];
+    public static BaseTask? CurrentTask =>
+        ConfigFactory.CurrentConfig.TaskQueue.Count > Instance.CurrentIndex &&
+        Instance.CurrentIndex >= 0 ? ConfigFactory.CurrentConfig.TaskQueue[Instance.CurrentIndex] : null;
 
     public void NotifyOfTaskStatus()
     {
@@ -130,6 +132,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             Instances.TaskQueueViewModel.RefreshTaskModel(ConfigFactory.CurrentConfig.TaskQueue[taskIndex]);
         }
     }
+
     public void SetPostAction(bool value)
     {
         /*WakeUp = false;

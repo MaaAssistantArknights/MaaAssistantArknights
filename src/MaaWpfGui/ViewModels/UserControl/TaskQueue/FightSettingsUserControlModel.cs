@@ -29,6 +29,7 @@ using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -38,6 +39,8 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// </summary>
 public class FightSettingsUserControlModel : TaskSettingsViewModel
 {
+    private static readonly ILogger _logger = Log.ForContext<FightSettingsUserControlModel>();
+
     public static FightTimes? FightReport { get; set; }
 
     public static SanityInfo? SanityReport { get; set; }
@@ -45,6 +48,14 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     static FightSettingsUserControlModel()
     {
         Instance = new();
+    }
+
+    public FightSettingsUserControlModel()
+    {
+        foreach (var item in WeeklyScheduleSource)
+        {
+            item.PropertyChanged += (_, __) => SaveWeeklySchedule();
+        }
     }
 
     public static FightSettingsUserControlModel Instance { get; }
@@ -58,14 +69,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     {
         get => _stageList;
         private set => SetAndNotify(ref _stageList, value);
-    }
-
-    private ObservableCollection<CombinedData> _remainingSanityStageList = [];
-
-    public ObservableCollection<CombinedData> RemainingSanityStageList
-    {
-        get => _remainingSanityStageList;
-        private set => SetAndNotify(ref _remainingSanityStageList, value);
     }
 
     /// <summary>
@@ -118,6 +121,32 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             { "炭", "SK-5" },
         };
 
+    public ObservableCollection<StagePlanItem> StagePlan { get; set; } = [
+        new() { Display = LocalizationHelper.GetString("NotSelected"), Index = 0 },
+    ];
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void AddStageToPlan()
+    {
+        if (StagePlan.Any(x => x.Value == Stage1))
+        {
+            _logger.Error("Attempted to add duplicate stage to plan: {Stage}", Stage1);
+            Instances.TaskQueueViewModel.AddLog("Duplicate stage in plan:" + Stage1, UiLogColor.Warning);
+            return;
+        }
+
+        var display = StageList.FirstOrDefault(x => x.Value == Stage1)?.Display ?? Stage1!;
+        StagePlan.Add(new StagePlanItem { Display = display, Value = Stage1!, Index = StagePlan.Count });
+    }
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void RemoveStageFromPlan(int index)
+    {
+        StagePlan.RemoveAt(index);
+    }
+
     public string?[] Stages => [Stage1, Stage2, Stage3, Stage4];
 
     // Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
@@ -147,95 +176,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             }
 
             SetAndNotify(ref _stage1, value);
-            Instances.TaskQueueViewModel.SetFightParams();
+            SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.Stage1, value);
-            Instances.TaskQueueViewModel.UpdateDatePrompt();
-        }
-    }
-
-    private string? _stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty) ?? string.Empty;
-
-    /// <summary>
-    /// Gets or sets the stage2.
-    /// </summary>
-    public string? Stage2
-    {
-        get => _stage2;
-        set {
-            if (_stage2 == value)
-            {
-                return;
-            }
-
-            if (CustomStageCode)
-            {
-                if (_stage2?.Length != 3 && value != null)
-                {
-                    value = ToUpperAndCheckStage(value);
-                }
-            }
-
-            SetAndNotify(ref _stage2, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage2, value);
-            Instances.TaskQueueViewModel.UpdateDatePrompt();
-        }
-    }
-
-    private string? _stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
-
-    /// <summary>
-    /// Gets or sets the stage3.
-    /// </summary>
-    public string? Stage3
-    {
-        get => _stage3;
-        set {
-            if (_stage3 == value)
-            {
-                return;
-            }
-
-            if (CustomStageCode)
-            {
-                if (_stage3?.Length != 3 && value != null)
-                {
-                    value = ToUpperAndCheckStage(value);
-                }
-            }
-
-            SetAndNotify(ref _stage3, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage3, value);
-            Instances.TaskQueueViewModel.UpdateDatePrompt();
-        }
-    }
-
-    private string? _stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
-
-    /// <summary>
-    /// Gets or sets the stage4.
-    /// </summary>
-    public string? Stage4
-    {
-        get => _stage4;
-        set {
-            if (_stage4 == value)
-            {
-                return;
-            }
-
-            if (CustomStageCode)
-            {
-                if (_stage4?.Length != 3 && value != null)
-                {
-                    value = ToUpperAndCheckStage(value);
-                }
-            }
-
-            SetAndNotify(ref _stage4, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage4, value);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
@@ -250,9 +192,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             if (!value)
             {
                 Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
-                Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
-                Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
-                Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
             }
 
             SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
@@ -298,7 +237,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 UseStoneDisplay = false;
             }
 
-            SetParams();
+            SetFightParams();
         }
     }
 
@@ -314,7 +253,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 return;
             }
 
-            SetParams();
+            SetFightParams();
         }
     }
 
@@ -341,7 +280,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 }
             }
 
-            SetParams();
+            SetFightParams();
             if (GetTaskConfig<FightTask>().UseStoneAllowSave)
             {
                 SetTaskConfig<FightTask>(t => t.UseStone == value, t => t.UseStone = value);
@@ -372,7 +311,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 return;
             }
 
-            SetParams();
+            SetFightParams();
         }
     }
 
@@ -388,7 +327,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 return;
             }
 
-            SetParams();
+            SetFightParams();
         }
     }
 
@@ -404,7 +343,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 return;
             }
 
-            SetParams();
+            SetFightParams();
         }
     }
 
@@ -432,7 +371,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 return;
             }
 
-            SetParams();
+            SetFightParams();
         }
     }
 
@@ -450,7 +389,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 return;
             }
 
-            SetParams();
+            SetFightParams();
         }
     }
 
@@ -529,7 +468,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         get => GetTaskConfig<FightTask>().DropId;
         set {
             SetTaskConfig<FightTask>(t => t.DropId == value, t => t.DropId = value);
-            SetParams();
+            SetFightParams();
         }
     }
 
@@ -562,7 +501,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         get => GetTaskConfig<FightTask>().DropCount;
         set {
             SetTaskConfig<FightTask>(t => t.DropCount == value, t => t.DropCount = value);
-            SetParams();
+            SetFightParams();
         }
     }
 
@@ -641,7 +580,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         get => GetTaskConfig<FightTask>().UseExpiringMedicine;
         set {
             SetTaskConfig<FightTask>(t => t.UseExpiringMedicine == value, t => t.UseExpiringMedicine = value);
-            SetParams();
+            SetFightParams();
         }
     }
 
@@ -672,7 +611,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         set => SetTaskConfig<FightTask>(t => t.HideSeries == value, t => t.HideSeries = value);
     }
 
-    private bool _autoRestartOnDrop = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, bool.TrueString));
+    public ObservableCollection<WeeklyScheduleItem> WeeklyScheduleSource { get; set; } = new(Enum.GetValues<DayOfWeek>().Select(i => new WeeklyScheduleItem(i)));
+
+    private bool _autoRestartOnDrop = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, true);
 
     public bool AutoRestartOnDrop
     {
@@ -712,12 +653,50 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         return value;
     }
 
+    private void RefreshStagePlan()
+    {
+        var plan = GetTaskConfig<FightTask>().StagePlan;
+        var list = plan.Select((i, index) => new StagePlanItem() { Display = i.Display, Index = index }).ToList();
+        StagePlan = new ObservableCollection<StagePlanItem>(list);
+        StagePlan.CollectionChanged += (_, __) => SaveConfig();
+
+        void SaveConfig()
+        {
+            var list = StagePlan.Select(i => new FightTask.StageInfo(i.Display, i.Value)).ToList();
+            SetTaskConfig<FightTask>(t => t.StagePlan.SequenceEqual(list), t => t.StagePlan = list);
+        }
+    }
+
+    private void RefreshWeeklySchedule()
+    {
+        var plan = GetTaskConfig<FightTask>().WeeklySchedule;
+        foreach (var item in WeeklyScheduleSource)
+        {
+            item.Value = !plan.TryGetValue(item.DayOfWeek, out var value) || value;
+        }
+    }
+
+    private void SaveWeeklySchedule()
+    {
+        if (IsRefreshingUI)
+        {
+            return;
+        }
+
+        var dict = WeeklyScheduleSource.ToDictionary(i => i.DayOfWeek, i => i.Value);
+        SetTaskConfig<FightTask>(t => t.WeeklySchedule.SequenceEqual(dict), t => t.WeeklySchedule = dict);
+    }
+
     public override void RefreshUI(BaseTask baseTask)
     {
         if (baseTask is FightTask)
         {
+            IsRefreshingUI = true;
             InitDrops();
+            RefreshStagePlan();
+            RefreshWeeklySchedule();
             Refresh();
+            IsRefreshingUI = false;
         }
     }
 
@@ -758,7 +737,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         return task.Serialize();
     }
 
-    private bool? SetParams()
+    private bool? SetFightParams()
     {
         if (TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
         {
@@ -770,7 +749,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
     {
-        if (baseTask is not FightTask fight)
+        if (taskId == 0 || baseTask is not FightTask fight)
         {
             return null;
         }
@@ -911,5 +890,29 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         [JsonProperty("finished")]
         public bool IsFinished { get; set; }
+    }
+
+    public class WeeklyScheduleItem(DayOfWeek dayOfWeek) : PropertyChangedBase
+    {
+        public string Display => LocalizationHelper.CustomCultureInfo.DateTimeFormat.GetDayName(DayOfWeek);
+
+        public DayOfWeek DayOfWeek { get; } = dayOfWeek;
+
+        public bool Value
+        {
+            get => field;
+            set => SetAndNotify(ref field, value);
+        } = true;
+    }
+
+    public class StagePlanItem
+    {
+        public string Display { get; set; } = string.Empty;
+
+        public string Value { get; set; } = string.Empty;
+
+        public int Index { get; set; }
+
+        public bool Available { get; set; }
     }
 }

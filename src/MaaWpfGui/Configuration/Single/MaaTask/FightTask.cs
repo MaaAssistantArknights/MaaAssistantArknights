@@ -12,8 +12,9 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
-using MaaWpfGui.Utilities.ValueType;
+using System.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -75,27 +76,10 @@ public class FightTask : BaseTask
     /// </summary>
     public int Series { get; set; }
 
-    public List<Stage> StageList { get; set; } = [];
-
     /// <summary>
-    /// Gets or sets 首选关卡
+    /// Gets or sets 关卡列表, 从上往下选择第一个可用关卡
     /// </summary>
-    public string Stage1 { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets 备选关卡1
-    /// </summary>
-    public string Stage2 { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets 备选关卡2
-    /// </summary>
-    public string Stage3 { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets 备选3
-    /// </summary>
-    public string Stage4 { get; set; } = string.Empty;
+    public List<StageInfo> StagePlan { get; set; } = [];
 
     /// <summary>
     /// Gets or sets a value indicating whether 博朗台模式
@@ -142,5 +126,7 @@ public class FightTask : BaseTask
     /// </summary>
     public bool HideSeries { get; set; }
 
-    public record Stage(string Display, string Value);
+    public Dictionary<DayOfWeek, bool> WeeklySchedule { get; set; } = Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
+
+    public record StageInfo(string Display, string Value);
 }

@@ -21,6 +21,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
@@ -66,6 +67,20 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
 
     private void RefreshInfrastRoomList()
     {
+        var preList = GetTaskConfig<InfrastTask>().RoomList;
+        var set = new HashSet<InfrastRoomType>(preList.Select(i => i.Room));
+        if (set.Count != Enum.GetValues<InfrastRoomType>().Length || set.Count != preList.Count) // 房间列表不完整，补全
+        {
+            var list = new List<InfrastTask.RoomInfo>(preList);
+            foreach (var room in Enum.GetValues<InfrastRoomType>())
+            {
+                if (!set.Contains(room))
+                {
+                    list.Add(new InfrastTask.RoomInfo(room, false));
+                }
+            }
+            SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
+        }
         var roomList = new List<InfrastRoomItemViewModel>();
         foreach (var (room, isEnabled) in GetTaskConfig<InfrastTask>().RoomList)
         {
