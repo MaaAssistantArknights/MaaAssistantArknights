@@ -182,6 +182,7 @@ public class ConfigConverter
                 fightTask.UseCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false) && fightTask.AnnihilationStage != "Annihilation";
                 fightTask.HideUnavailableStage = ConfigurationHelper.GetValue(ConfigurationKeys.HideUnavailableStage, true);
                 fightTask.IsStageManually = ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, false);
+                fightTask.UseOptionalStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.IsDrGrandet);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.AllowUseStoneSave);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.HideSeries);

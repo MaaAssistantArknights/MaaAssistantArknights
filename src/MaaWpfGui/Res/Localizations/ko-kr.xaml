@@ -564,6 +564,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ResolutionInfoYoStarEN">에뮬레이터가 1920x1080으로 설정되어 있는지 확인하세요</system:String>
     <system:String x:Key="AllowUseStoneSave">순오리지늄 사용 상태 저장 허용</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. ｢{key=Confirm}｣ 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
+    <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseExpiringMedicine">48시간 미만 이성 회복제 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
     <system:String x:Key="HideSeries">{key=Series} 숨기기</system:String>

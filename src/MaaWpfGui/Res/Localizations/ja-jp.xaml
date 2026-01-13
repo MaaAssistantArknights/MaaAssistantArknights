@@ -564,6 +564,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ResolutionInfoYoStarEN">エミュレータが1920x1080に設定されていることを確認してください</system:String>
     <system:String x:Key="AllowUseStoneSave">源石の数を割る保存状態を許可</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。「{key=Confirm}」ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
+    <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="HideSeries">連戦回数を隠します</system:String>

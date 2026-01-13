@@ -500,6 +500,21 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         set => SetTaskConfig<FightTask>(t => t.IsDrGrandet == value, t => t.IsDrGrandet = value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to use alternate stage.
+    /// </summary>
+    public bool UseAlternateStage
+    {
+        get => GetTaskConfig<FightTask>().UseOptionalStage;
+        set {
+            SetTaskConfig<FightTask>(t => t.UseOptionalStage == value, t => t.UseOptionalStage = value);
+            if (value)
+            {
+                HideUnavailableStage = false;
+            }
+        }
+    }
+
     public bool AllowUseStoneSave
     {
         get => GetTaskConfig<FightTask>().UseStoneAllowSave;
@@ -544,7 +559,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
             if (value)
             {
-                // UseAlternateStage = false;
+                UseAlternateStage = false;
             }
 
             UpdateStageList();

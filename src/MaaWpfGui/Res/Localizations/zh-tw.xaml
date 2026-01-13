@@ -564,6 +564,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ResolutionInfoYoStarEN">請確保模擬器設定為 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">允許吃源石保存狀態</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下 ｢{key=Confirm}｣ 鍵即視為你了解並願意承擔可能出現的風險。</system:String>
+    <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseExpiringMedicine">無限吃 48 小時內過期的理智藥</system:String>
     <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
     <system:String x:Key="HideSeries">隱藏代理倍率</system:String>
