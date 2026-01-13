@@ -1,4 +1,4 @@
-// <copyright file="ProcessPickerWindow.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="ProcessPickerDialogView.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -12,14 +12,10 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
+using MaaWpfGui.ViewModels.Dialogs;
 
-namespace MaaWpfGui.Views.UI;
+namespace MaaWpfGui.Views.Dialogs;
 
 /// <summary>
 /// Represents a window that allows the user to select a running process by choosing one of its top-level windows.
@@ -28,16 +24,16 @@ namespace MaaWpfGui.Views.UI;
 /// based on its window. The selection is available through the SelectedHwnd property after the dialog is closed with a
 /// positive result. This class is typically used as a modal dialog in applications that require the user to select a
 /// process window.</remarks>
-public partial class ProcessPickerWindow
+public partial class ProcessPickerDialogView
 {
-    private readonly ViewModels.UI.ProcessPickerViewModel _vm;
+    private readonly ProcessPickerDialogViewModel _vm;
 
     public IntPtr SelectedHwnd { get; private set; } = IntPtr.Zero;
 
-    public ProcessPickerWindow()
+    public ProcessPickerDialogView()
     {
         InitializeComponent();
-        _vm = new ViewModels.UI.ProcessPickerViewModel();
+        _vm = new ProcessPickerDialogViewModel();
         DataContext = _vm;
         _ = _vm.LoadWindows();
     }

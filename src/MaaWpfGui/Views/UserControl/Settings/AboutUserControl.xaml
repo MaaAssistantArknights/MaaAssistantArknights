@@ -10,9 +10,9 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
+    d:DataContext="{d:DesignInstance {x:Type ui_vms:SettingsViewModel}}"
     d:DesignWidth="550"
     mc:Ignorable="d">
     <Grid>

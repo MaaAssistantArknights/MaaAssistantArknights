@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl;
+namespace MaaWpfGui.Views.UserControl.Settings;
 
 /// <summary>
 /// ConfigurationMgrUserControl.xaml 的交互逻辑

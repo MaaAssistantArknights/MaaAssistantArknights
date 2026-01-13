@@ -9,16 +9,16 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:task="clr-namespace:MaaWpfGui.Configuration.Single.MaaTask"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type ui:FightSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type taskQueue_vms:FightSettingsUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <Grid d:Visibility="Visible" Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <Grid d:Visibility="Visible" Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -135,7 +135,7 @@
                         IsTextSearchEnabled="False"
                         ItemsSource="{Binding DropsList}"
                         Loaded="{s:Action MakeComboBoxSearchable,
-                                          Target={x:Type setting:SettingsViewModel}}"
+                                          Target={x:Type ui_vms:SettingsViewModel}}"
                         SelectedValue="{Binding DropsItemId}"
                         SelectedValuePath="Value"
                         Text="{Binding DropsItemName}" />
@@ -183,7 +183,7 @@
                         d:IsHitTestVisible="True"
                         DisplayMemberPath="Key"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                     Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding SeriesList}"
                         SelectedValue="{Binding Series}"
                         SelectedValuePath="Value" />
@@ -271,7 +271,7 @@
                             d:IsHitTestVisible="True"
                             DisplayMemberPath="Display"
                             IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                         Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                             ItemsSource="{Binding StageList}"
                             SelectedValue="{Binding Stage1}"
                             SelectedValuePath="Value" />
@@ -286,7 +286,7 @@
                                 d:IsHitTestVisible="True"
                                 DisplayMemberPath="Display"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 ItemsSource="{Binding StageList}"
                                 SelectedValue="{Binding Stage2}"
                                 SelectedValuePath="Value" />
@@ -297,7 +297,7 @@
                                 d:IsHitTestVisible="True"
                                 DisplayMemberPath="Display"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 ItemsSource="{Binding StageList}"
                                 SelectedValue="{Binding Stage3}"
                                 SelectedValuePath="Value" />
@@ -308,7 +308,7 @@
                                 d:IsHitTestVisible="True"
                                 DisplayMemberPath="Display"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 ItemsSource="{Binding StageList}"
                                 SelectedValue="{Binding Stage4}"
                                 SelectedValuePath="Value" />
@@ -321,7 +321,7 @@
                             DisplayMemberPath="Display"
                             IsEnabled="{c:Binding UseRemainingSanityStage}"
                             IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                         Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                             ItemsSource="{Binding RemainingSanityStageList}"
                             SelectedValue="{Binding RemainingSanityStage}"
                             SelectedValuePath="Value"
@@ -338,7 +338,7 @@
                             d:IsHitTestVisible="True"
                             hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                             IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                         Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                             Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
                             ToolTip="{DynamicResource CustomStageCodeTip}" />
                         <StackPanel
@@ -352,7 +352,7 @@
                                 d:IsHitTestVisible="True"
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                             <TextBox
@@ -362,7 +362,7 @@
                                 d:IsHitTestVisible="True"
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                             <TextBox
@@ -372,7 +372,7 @@
                                 d:IsHitTestVisible="True"
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 Text="{Binding Stage4, UpdateSourceTrigger=PropertyChanged}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                         </StackPanel>
@@ -384,7 +384,7 @@
                             hc:InfoElement.Placeholder="{DynamicResource NotSelected}"
                             IsEnabled="{c:Binding UseRemainingSanityStage}"
                             IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                         Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                             Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
                             Visibility="{c:Binding UseRemainingSanityStage}" />
                     </StackPanel>
@@ -393,8 +393,8 @@
             <Grid
                 Grid.Row="4"
                 d:Visibility="Visible"
-                Visibility="{c:Binding 'InfrastMode == ui:InfrastMode.Custom and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings',
-                                       Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}">
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Custom and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition />
@@ -418,15 +418,15 @@
                         d:IsHitTestVisible="True"
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                     Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
-                        ItemsSource="{Binding CustomPlanListDisplay, Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
-                        SelectedValue="{Binding CustomInfrastPlanSelect, Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
+                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+                        ItemsSource="{Binding CustomPlanListDisplay, Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}"
+                        SelectedValue="{Binding CustomInfrastPlanSelect, Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}"
                         SelectedValuePath="Value" />
                 </StackPanel>
             </Grid>
         </Grid>
 
-        <StackPanel d:Visibility="Visible" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <StackPanel d:Visibility="Visible" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <StackPanel>
                 <CheckBox
                     Margin="0,10"
@@ -437,7 +437,7 @@
                     d:IsHitTestVisible="True"
                     DisplayMemberPath="Key"
                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                 Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                     ItemsSource="{Binding AnnihilationModeList}"
                     SelectedValue="{Binding AnnihilationStage}"
                     SelectedValuePath="Value"
@@ -480,7 +480,7 @@
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource CustomInfrastPlanShowInFightSettings}"
-                IsChecked="{Binding CustomInfrastPlanShowInFightSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}" />
+                IsChecked="{Binding CustomInfrastPlanShowInFightSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoRestartOption}"

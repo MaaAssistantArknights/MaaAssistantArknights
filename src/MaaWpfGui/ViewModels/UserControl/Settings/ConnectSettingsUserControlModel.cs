@@ -336,7 +336,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 }
 
                 // 多个路径，弹出选择框
-                var selectionWindow = new Views.UI.EmulatorPathSelectionWindow(detectedPaths) {
+                var selectionWindow = new Views.Dialogs.EmulatorPathSelectionDialogView(detectedPaths) {
                     Owner = Application.Current.MainWindow,
                 };
                 if (selectionWindow.ShowDialog() == true && !string.IsNullOrEmpty(selectionWindow.SelectedPath))
@@ -534,7 +534,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 }
 
                 // 多个路径，弹出选择框
-                var selectionWindow = new Views.UI.EmulatorPathSelectionWindow(detectedPaths);
+                var selectionWindow = new Views.Dialogs.EmulatorPathSelectionDialogView(detectedPaths);
                 if (selectionWindow.ShowDialog() == true && !string.IsNullOrEmpty(selectionWindow.SelectedPath))
                 {
                     EmulatorPath = selectionWindow.SelectedPath;

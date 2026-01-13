@@ -1,5 +1,5 @@
 <hc:Window
-    x:Class="MaaWpfGui.Views.UI.ProcessPickerWindow"
+    x:Class="MaaWpfGui.Views.Dialogs.ProcessPickerDialogView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -33,13 +33,13 @@
                 Width="80"
                 Margin="0,0,8,0"
                 Click="BtnOk_Click"
-                IsDefault="True"
-                Content="{DynamicResource ProcessPickerConfirm}" />
+                Content="{DynamicResource ProcessPickerConfirm}"
+                IsDefault="True" />
             <Button
                 x:Name="BtnCancel"
                 Width="80"
-                IsCancel="True"
-                Content="{DynamicResource ProcessPickerCancel}" />
+                Content="{DynamicResource ProcessPickerCancel}"
+                IsCancel="True" />
         </StackPanel>
     </Grid>
 </hc:Window>

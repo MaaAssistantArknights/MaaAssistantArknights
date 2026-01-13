@@ -41,6 +41,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using MaaWpfGui.Views.Dialogs;
 using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
@@ -553,13 +554,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             return;
         }
 
-        bool wasFirstBoot = Instances.VersionUpdateViewModel.IsFirstBootAfterUpdate;
+        bool wasFirstBoot = Instances.VersionUpdateDialogViewModel.IsFirstBootAfterUpdate;
 
         Instances.WindowManager.ShowWindow(rootViewModel);
         Instances.InstantiateOnRootViewDisplayed(Container);
 
         // 如果 IsFirstBootAfterUpdate 从 false 变为 true，说明这次启动只是解压更新包，不用执行后续逻辑
-        if (!wasFirstBoot && Instances.VersionUpdateViewModel.IsFirstBootAfterUpdate)
+        if (!wasFirstBoot && Instances.VersionUpdateDialogViewModel.IsFirstBootAfterUpdate)
         {
             return;
         }
@@ -734,7 +735,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
             var shouldExit = !isDragDropException;
 
-            var errorView = new ErrorView(exception, shouldExit);
+            var errorView = new ErrorDialogView(exception, shouldExit);
             errorView.ShowDialog();
         });
     }

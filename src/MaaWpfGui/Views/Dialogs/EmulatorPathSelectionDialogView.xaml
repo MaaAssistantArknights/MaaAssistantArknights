@@ -1,5 +1,5 @@
 <hc:Window
-    x:Class="MaaWpfGui.Views.UI.EmulatorPathSelectionWindow"
+    x:Class="MaaWpfGui.Views.Dialogs.EmulatorPathSelectionDialogView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:hc="https://handyorg.github.io/handycontrol"

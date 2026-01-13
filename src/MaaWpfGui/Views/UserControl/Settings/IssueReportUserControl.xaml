@@ -10,10 +10,10 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type viewModels:IssueReportUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type settings_vms:IssueReportUserControlModel}}"
     d:DesignWidth="550"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -22,9 +22,9 @@
             MaxWidth="450"
             HorizontalAlignment="Center"
             Visibility="{c:Binding 'NewVersionFoundInfo.Length + NewResourceFoundInfo.Length > 0',
-                                   Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}">
-            <controls:TextBlock Text="{Binding NewVersionFoundInfo, Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}" Visibility="{c:Binding 'NewVersionFoundInfo.Length > 0', Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}" />
-            <controls:TextBlock Text="{Binding NewResourceFoundInfo, Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}" Visibility="{c:Binding 'NewResourceFoundInfo.Length > 0', Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}" />
+                                   Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}">
+            <controls:TextBlock Text="{Binding NewVersionFoundInfo, Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}" Visibility="{c:Binding 'NewVersionFoundInfo.Length > 0', Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}" />
+            <controls:TextBlock Text="{Binding NewResourceFoundInfo, Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}" Visibility="{c:Binding 'NewResourceFoundInfo.Length > 0', Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}" />
             <controls:TextBlock
                 Margin="5,0,5,5"
                 HorizontalAlignment="Center"
@@ -40,7 +40,7 @@
             Text="{DynamicResource CheckHelpBeforeReportingIssue}"
             TextWrapping="Wrap"
             Visibility="{c:Binding 'NewVersionFoundInfo.Length + NewResourceFoundInfo.Length == 0',
-                                   Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}" />
+                                   Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}" />
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

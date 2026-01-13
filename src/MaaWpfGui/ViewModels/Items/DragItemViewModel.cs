@@ -17,7 +17,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using Stylet;
 
-namespace MaaWpfGui.ViewModels;
+namespace MaaWpfGui.ViewModels.Items;
 
 /// <summary>
 /// The view model of drag item.

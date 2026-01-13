@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.Dialogs;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
@@ -252,7 +253,7 @@ public class HttpService : IHttpService
                 DateTime beforeDt = DateTime.Now;
 
                 // Dangerous action
-                VersionUpdateViewModel.OutputDownloadProgress();
+                VersionUpdateDialogViewModel.OutputDownloadProgress();
 
                 byte[] buffer = new byte[81920];
                 int byteLen = await stream.ReadAsync(buffer, 0, buffer.Length);
@@ -267,7 +268,7 @@ public class HttpService : IHttpService
                         value += valueInOneSecond;
 
                         // Dangerous action
-                        VersionUpdateViewModel.OutputDownloadProgress(value, fileMaximum, valueInOneSecond, ts);
+                        VersionUpdateDialogViewModel.OutputDownloadProgress(value, fileMaximum, valueInOneSecond, ts);
                         valueInOneSecond = 0;
                     }
 

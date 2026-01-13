@@ -13,7 +13,7 @@
 
 using Stylet;
 
-namespace MaaWpfGui.ViewModels;
+namespace MaaWpfGui.ViewModels.Items;
 
 /// <summary>
 /// The view model of setting item.

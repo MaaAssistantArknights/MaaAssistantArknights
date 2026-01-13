@@ -7,10 +7,10 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:taskQueue="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     MaxWidth="220"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type taskQueue:CustomSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type taskQueue_vms:CustomSettingsUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">

@@ -19,7 +19,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.HotKeys;
 
-namespace MaaWpfGui.Views.UserControl;
+namespace MaaWpfGui.Views.UserControl.Settings;
 
 /// <summary>
 /// Represents a user control for editing and configuring hotkey settings.

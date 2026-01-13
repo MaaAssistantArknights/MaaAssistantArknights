@@ -1029,7 +1029,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotTaskListTabMismatch">正在使用 ｢{key=UseCopilotList}｣，当前页签为「{0}」，但列表来自「{1}」，请切换到对应页签后再启动</system:String>
     <!--  !日志  -->
     <!--  !自动战斗  -->
-    <!--  ErrorView  -->
+    <!--  ErrorDialogView  -->
     <system:String x:Key="Error">错误</system:String>
     <system:String x:Key="ErrorCongratulations">喜报</system:String>
     <system:String x:Key="ErrorProlog">MAA 遇到了问题</system:String>
@@ -1049,7 +1049,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人寻求帮助，请发送生成的错误报告文件，而不是发送这个窗口的截图或照片。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程序崩溃原因</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
-    <!--  !ErrorView  -->
+    <!--  !ErrorDialogView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路径不存在</system:String>

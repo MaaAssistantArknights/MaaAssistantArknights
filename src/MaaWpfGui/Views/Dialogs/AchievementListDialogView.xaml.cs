@@ -1,4 +1,4 @@
-// <copyright file="AchievementListWindow.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="AchievementListDialogView.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -14,14 +14,14 @@
 using System.ComponentModel;
 using MaaWpfGui.Helper;
 
-namespace MaaWpfGui.Views.UI;
+namespace MaaWpfGui.Views.Dialogs;
 
 /// <summary>
-/// AchievementListWindow.xaml 的交互逻辑
+/// AchievementListDialogView.xaml 的交互逻辑
 /// </summary>
-public partial class AchievementListWindow
+public partial class AchievementListDialogView
 {
-    public AchievementListWindow()
+    public AchievementListDialogView()
     {
         InitializeComponent();
         DataContext = AchievementTrackerHelper.Instance;

@@ -195,7 +195,7 @@ public class StageManager
 
         var clientType = GetClientType();
 
-        bool isDebugVersion = Instances.VersionUpdateViewModel.IsDebugVersion();
+        bool isDebugVersion = Instances.VersionUpdateDialogViewModel.IsDebugVersion();
         bool curVerParsed = TryParseVersion(VersionUpdateSettingsUserControlModel.CoreVersion, out var curVersionObj);
 
         // bool curResourceVerParsed = SemVersion.TryParse(

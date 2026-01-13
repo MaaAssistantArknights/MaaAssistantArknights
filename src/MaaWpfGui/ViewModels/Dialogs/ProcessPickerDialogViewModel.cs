@@ -1,4 +1,4 @@
-// <copyright file="ProcessPickerViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="ProcessPickerDialogViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -22,7 +22,7 @@ using Windows.Win32;
 
 #nullable enable
 
-namespace MaaWpfGui.ViewModels.UI
+namespace MaaWpfGui.ViewModels.Dialogs
 {
     /// <summary>
     /// Represents a view model that provides a list of open windows and their associated processes for selection.
@@ -32,7 +32,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// LoadWindows method, which retrieves visible windows and their process information from the operating system. The
     /// Selected property reflects the currently chosen window entry. This class is intended for use in UI scenarios
     /// where process or window selection is required.</remarks>
-    public partial class ProcessPickerViewModel : Screen
+    public partial class ProcessPickerDialogViewModel : Screen
     {
         public class WindowEntry
         {
@@ -57,7 +57,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _selected, value);
         }
 
-        public ProcessPickerViewModel()
+        public ProcessPickerDialogViewModel()
         {
         }
 

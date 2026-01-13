@@ -10,13 +10,13 @@
     xmlns:local="clr-namespace:MaaWpfGui.Views.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     Title="{Binding WindowTitle}"
     Width="800"
     Height="600"
     MinWidth="800"
     MinHeight="600"
-    d:DataContext="{d:DesignInstance {x:Type ui:RootViewModel}}"
+    d:DataContext="{d:DesignInstance {x:Type ui_vms:RootViewModel}}"
     Icon="../../newlogo.ico"
     ShowCloseButton="{Binding ShowCloseButton}"
     ShowTitle="False"
@@ -86,7 +86,7 @@
                         HorizontalAlignment="Left"
                         IsHitTestVisible="True"
                         MouseLeftButtonDown="{s:Action ManualUpdate,
-                                                       Target={x:Static ui:SettingsViewModel.VersionUpdateSettings}}"
+                                                       Target={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}"
                         Style="{StaticResource RainbowTextBlockStyle}"
                         Text="{Binding WindowVersionUpdateInfo}"
                         Visibility="{c:Binding 'WindowVersionUpdateInfo.Length > 0'}" />
@@ -96,7 +96,7 @@
                         HorizontalAlignment="Left"
                         IsHitTestVisible="True"
                         MouseLeftButtonDown="{s:Action ManualUpdateResource,
-                                                       Target={x:Static ui:SettingsViewModel.VersionUpdateSettings}}"
+                                                       Target={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}"
                         Style="{StaticResource RainbowTextBlockStyle}"
                         Text="{Binding WindowResourceUpdateInfo}"
                         Visibility="{c:Binding 'WindowResourceUpdateInfo.Length > 0'}" />
@@ -153,7 +153,7 @@
             Name="BgImage"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            DataContext="{Binding Source={x:Static ui:SettingsViewModel.BackgroundSettings}}"
+            DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.BackgroundSettings}}"
             Opacity="{c:Binding 'BackgroundOpacity / 100.0'}"
             RenderOptions.BitmapScalingMode="LowQuality"
             RenderOptions.CachingHint="Cache"

@@ -1,4 +1,4 @@
-// <copyright file="ErrorView.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="ErrorDialogView.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -23,12 +23,12 @@ using System.Windows.Documents;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 
-namespace MaaWpfGui.Views.UI;
+namespace MaaWpfGui.Views.Dialogs;
 
 /// <summary>
-///     ErrorView.xaml 的交互逻辑
+///     ErrorDialogView.xaml 的交互逻辑
 /// </summary>
-public partial class ErrorView : INotifyPropertyChanged
+public partial class ErrorDialogView : INotifyPropertyChanged
 {
     protected bool ShouldExit { get; set; } = true;
 
@@ -45,7 +45,7 @@ public partial class ErrorView : INotifyPropertyChanged
     public string ErrorCongratulationsString { get; set; } = LocalizationHelper.GetString("ErrorCongratulations");
 
     /// <summary>
-    /// Gets or sets a value indicating whether to enable congratulation mode for ErrorView.
+    /// Gets or sets a value indicating whether to enable congratulation mode for ErrorDialogView.
     /// </summary>
     public bool CongratulationsOnError
     {
@@ -57,12 +57,12 @@ public partial class ErrorView : INotifyPropertyChanged
         }
     }
 
-    public ErrorView()
+    public ErrorDialogView()
     {
         InitializeComponent();
     }
 
-    public ErrorView(Exception exc, bool shouldExit)
+    public ErrorDialogView(Exception exc, bool shouldExit)
     {
         InitializeComponent();
         var exc0 = exc;

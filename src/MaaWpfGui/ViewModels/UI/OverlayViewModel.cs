@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.Views.UI;
 using Newtonsoft.Json;
 using Stylet;
