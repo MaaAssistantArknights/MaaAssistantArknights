@@ -141,6 +141,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     [UsedImplicitly]
     public void RemoveStageFromPlan(int index)
     {
+        if (index < 0 || index >= StagePlan.Count)
+        {
+            _logger.Error("Attempted to remove stage from plan with invalid index: {Index}", index);
+            return;
+        }
         StagePlan.RemoveAt(index);
     }
 
@@ -638,7 +643,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     private void RefreshStagePlan()
     {
         var plan = GetTaskConfig<FightTask>().StagePlan;
-        var list = plan.Select((i, index) => new StagePlanItem() { Display = i.Display, Index = index }).ToList();
+        var list = plan.Select((i, index) => new StagePlanItem() { Display = i.Display, Value = i.Value, Index = index }).ToList();
         StagePlan = new ObservableCollection<StagePlanItem>(list);
         StagePlan.CollectionChanged += (_, __) => SaveConfig();
 
@@ -646,7 +651,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         {
             var list = StagePlan.Select(i => new FightTask.StageInfo(i.Display, i.Value)).ToList();
             SetTaskConfig<FightTask>(t => t.StagePlan.SequenceEqual(list), t => t.StagePlan = list);
+            for (int i = 0; i < StagePlan.Count; i++)
+            {
+                StagePlan[i].Index = i;
         }
+    }
     }
 
     private void RefreshWeeklySchedule()
