@@ -1858,6 +1858,34 @@
                 ]
             },
             {
+                "desc": "苍苔组",
+                "necessary": [
+                    {
+                        "desc": "苍苔-2",
+                        "efficient": {
+                            "PureGold": 35.1
+                        },
+                        "skills": ["bskill_man_skill_spd3", "bskill_man_gold1"]
+                    }
+                ],
+                "optional": [
+                    {
+                        "desc": "金属工艺·β",
+                        "efficient": {
+                            "PureGold": 40.1
+                        },
+                        "skills": ["bskill_man_gold2"]
+                    },
+                    {
+                        "desc": "金属工艺·α",
+                        "efficient": {
+                            "PureGold": 35.1
+                        },
+                        "skills": ["bskill_man_gold1"]
+                    }
+                ]
+            },
+            {
                 "desc": "多萝西-2组",
                 "necessary": [
                     {
