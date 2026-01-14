@@ -1,6 +1,9 @@
 #include "WDAController.h"
 
 #include <algorithm>
+#include <chrono>
+#include <numeric>
+#include <ranges>
 #include <sstream>
 #include <thread>
 
@@ -12,6 +15,7 @@
 #include "Utils/Logger.hpp"
 
 using boost::asio::ip::tcp;
+using namespace std::chrono;
 
 asst::WDAController::WDAController(
     const AsstCallback& callback,
@@ -57,13 +61,20 @@ bool asst::WDAController::connect(
         return false;
     }
 
+    // 设置极速模式：禁用等待空闲和动画冷却
+    if (!configure_fast_mode()) {
+        Log.warn("Failed to configure fast mode, operations may be slower");
+        // 不返回 false，因为这不是致命错误
+    }
+
     if (!fetch_screen_size()) {
-        Log.error("Failed to fetch screen size from WDA");
+        Log.error("Failed to fetch WDA logical screen size");
         return false;
     }
 
     m_connected = true;
-    Log.info("WDA connected successfully, screen size:", m_screen_size.first, "x", m_screen_size.second);
+    Log.info("WDA connected, logical size:", m_wda_logical_size.first, "x", m_wda_logical_size.second,
+             "(Physical size will be determined from first screenshot)");
     return true;
 }
 
@@ -92,15 +103,28 @@ bool asst::WDAController::screencap(cv::Mat& image_payload, bool allow_reconnect
 {
     LogTraceFunction;
 
+    auto start_time = high_resolution_clock::now();
+
     auto response = http_get("/screenshot");
     if (!response.success()) {
         Log.error("Screenshot request failed, status:", response.status_code);
+
+        // 记录失败的截图
+        m_screencap_cost.emplace_back(-1);
+        ++m_screencap_times;
+        report_screencap_cost();
+
         return false;
     }
 
     auto json_opt = json::parse(response.body);
     if (!json_opt) {
         Log.error("Failed to parse screenshot response");
+
+        m_screencap_cost.emplace_back(-1);
+        ++m_screencap_times;
+        report_screencap_cost();
+
         return false;
     }
 
@@ -110,10 +134,24 @@ bool asst::WDAController::screencap(cv::Mat& image_payload, bool allow_reconnect
     }
     else {
         Log.error("Screenshot response missing 'value' field");
+
+        m_screencap_cost.emplace_back(-1);
+        ++m_screencap_times;
+        report_screencap_cost();
+
         return false;
     }
 
-    return decode_base64_png(base64_data, image_payload);
+    bool decode_success = decode_base64_png(base64_data, image_payload);
+
+    // 记录截图耗时
+    auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+    m_screencap_cost.emplace_back(decode_success ? duration.count() : -1);
+    ++m_screencap_times;
+
+    report_screencap_cost();
+
+    return decode_success;
 }
 
 bool asst::WDAController::start_game(const std::string& client_type [[maybe_unused]])
@@ -130,9 +168,16 @@ bool asst::WDAController::stop_game(const std::string& client_type [[maybe_unuse
 
 bool asst::WDAController::click(const Point& p)
 {
-    Log.trace("WDA click:", p.x, p.y);
+    // 三层坐标转换
+    int physical_x = p.x + m_crop_offset_x;
+    int physical_y = p.y + m_crop_offset_y;
 
-    std::string action_json = build_w3c_tap_action(p.x, p.y);
+    auto [wda_x, wda_y] = transform_to_wda_coords(p.x, p.y);
+
+    Log.trace("WDA click: MAA(", p.x, ",", p.y, ") -> physical(",
+              physical_x, ",", physical_y, ") -> WDA(", wda_x, ",", wda_y, ")");
+
+    std::string action_json = build_w3c_tap_action(wda_x, wda_y);
     auto response = http_post("/session/" + m_session_id + "/actions", action_json);
 
     if (!response.success()) {
@@ -158,15 +203,24 @@ bool asst::WDAController::swipe(
     double slope_out [[maybe_unused]],
     bool with_pause [[maybe_unused]])
 {
-    Log.trace("WDA swipe:", p1.x, p1.y, "->", p2.x, p2.y, "duration:", duration);
-
+    // Clamp在MAA坐标空间
     int x1 = std::clamp(p1.x, 0, m_screen_size.first - 1);
     int y1 = std::clamp(p1.y, 0, m_screen_size.second - 1);
+    int x2 = std::clamp(p2.x, 0, m_screen_size.first - 1);
+    int y2 = std::clamp(p2.y, 0, m_screen_size.second - 1);
+
+    // 转换到WDA逻辑坐标
+    auto [wda_x1, wda_y1] = transform_to_wda_coords(x1, y1);
+    auto [wda_x2, wda_y2] = transform_to_wda_coords(x2, y2);
+
+    Log.trace("WDA swipe: MAA(", x1, ",", y1, "->", x2, ",", y2,
+              ") -> WDA(", wda_x1, ",", wda_y1, "->", wda_x2, ",", wda_y2,
+              ") duration:", duration);
 
     const auto& opt = Config.get_options();
     int actual_duration = duration > 0 ? duration : opt.minitouch_swipe_default_duration;
 
-    std::string action_json = build_w3c_swipe_action(x1, y1, p2.x, p2.y, actual_duration);
+    std::string action_json = build_w3c_swipe_action(wda_x1, wda_y1, wda_x2, wda_y2, actual_duration);
     auto response = http_post("/session/" + m_session_id + "/actions", action_json);
 
     if (!response.success()) {
@@ -174,10 +228,16 @@ bool asst::WDAController::swipe(
         return false;
     }
 
+    // extra_swipe处理
     if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
         std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
+
+        // 计算extra swipe的终点（MAA坐标空间）
+        int extra_y2 = y2 - opt.minitouch_extra_swipe_dist;
+        auto [extra_wda_x2, extra_wda_y2] = transform_to_wda_coords(x2, extra_y2);
+
         std::string extra_action = build_w3c_swipe_action(
-            p2.x, p2.y, p2.x, p2.y - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
+            wda_x2, wda_y2, extra_wda_x2, extra_wda_y2, opt.minitouch_extra_swipe_duration);
         http_post("/session/" + m_session_id + "/actions", extra_action);
     }
 
@@ -401,6 +461,26 @@ bool asst::WDAController::create_session()
     return true;
 }
 
+bool asst::WDAController::configure_fast_mode()
+{
+    // 设置 WDA 的极速模式：禁用等待空闲和动画冷却
+    // 这是实现低延迟点击的关键
+    json::object settings;
+    settings["settings"] = json::object {
+        { "waitForIdleTimeout", 0 },        // 不等待 App 空闲
+        { "animationCoolOffTimeout", 0 },   // 点击后不等待动画冷却
+    };
+
+    auto response = http_post("/session/" + m_session_id + "/appium/settings", settings.to_string());
+    if (!response.success()) {
+        Log.warn("Failed to configure fast mode, status:", response.status_code);
+        return false;
+    }
+
+    Log.info("WDA fast mode configured (waitForIdleTimeout=0, animationCoolOffTimeout=0)");
+    return true;
+}
+
 bool asst::WDAController::fetch_screen_size()
 {
     auto response = http_get("/session/" + m_session_id + "/window/rect");
@@ -424,9 +504,11 @@ bool asst::WDAController::fetch_screen_size()
     }
 
     if (rect->contains("width") && rect->contains("height")) {
-        m_screen_size.first = static_cast<int>(rect->at("width").as_integer());
-        m_screen_size.second = static_cast<int>(rect->at("height").as_integer());
-        return m_screen_size.first > 0 && m_screen_size.second > 0;
+        m_wda_logical_size.first = static_cast<int>(rect->at("width").as_integer());
+        m_wda_logical_size.second = static_cast<int>(rect->at("height").as_integer());
+
+        Log.info("WDA logical size:", m_wda_logical_size.first, "x", m_wda_logical_size.second);
+        return m_wda_logical_size.first > 0 && m_wda_logical_size.second > 0;
     }
 
     Log.error("Screen size not found in response");
@@ -537,6 +619,35 @@ std::string asst::WDAController::build_w3c_swipe_action(int x1, int y1, int x2, 
     return actions.to_string();
 }
 
+std::pair<int, int> asst::WDAController::transform_to_wda_coords(int maa_x, int maa_y) const
+{
+    // 检查是否已获取物理分辨率和WDA逻辑分辨率
+    if (m_physical_screen_size.first == 0 || m_wda_logical_size.first == 0) {
+        Log.error("Cannot transform coordinates: physical or logical size not initialized");
+        // 降级：直接返回MAA坐标
+        return { maa_x, maa_y };
+    }
+
+    // Step 1: MAA坐标 → 物理像素坐标
+    int physical_x = maa_x + m_crop_offset_x;
+    int physical_y = maa_y + m_crop_offset_y;
+
+    // Step 2: 物理像素坐标 → WDA逻辑坐标
+    float scale_x = static_cast<float>(m_physical_screen_size.first) /
+                    static_cast<float>(m_wda_logical_size.first);
+    float scale_y = static_cast<float>(m_physical_screen_size.second) /
+                    static_cast<float>(m_wda_logical_size.second);
+
+    int wda_x = static_cast<int>(std::round(physical_x / scale_x));
+    int wda_y = static_cast<int>(std::round(physical_y / scale_y));
+
+    // 边界检查
+    wda_x = std::clamp(wda_x, 0, m_wda_logical_size.first - 1);
+    wda_y = std::clamp(wda_y, 0, m_wda_logical_size.second - 1);
+
+    return { wda_x, wda_y };
+}
+
 bool asst::WDAController::decode_base64_png(const std::string& base64_data, cv::Mat& output)
 {
     std::string decoded = base64_decode(base64_data);
@@ -546,11 +657,67 @@ bool asst::WDAController::decode_base64_png(const std::string& base64_data, cv::
     }
 
     std::vector<uint8_t> png_data(decoded.begin(), decoded.end());
-    output = cv::imdecode(png_data, cv::IMREAD_COLOR);
+    cv::Mat raw_image = cv::imdecode(png_data, cv::IMREAD_COLOR);
 
-    if (output.empty()) {
+    if (raw_image.empty()) {
         Log.error("PNG decode failed");
         return false;
+    }
+
+    int original_width = raw_image.cols;
+    int original_height = raw_image.rows;
+    double original_aspect = static_cast<double>(original_width) / original_height;
+    constexpr double target_aspect = 16.0 / 9.0;
+
+    if (m_physical_screen_size.first == 0) {
+        m_physical_screen_size = { original_width, original_height };
+        Log.info("Physical screen size detected:", original_width, "x", original_height);
+    }
+
+    // ControlScaleProxy 的检查阈值是 1e-7，所以这里也必须更严格
+    if (std::abs(original_aspect - target_aspect) < 1e-6) {
+        output = raw_image;
+        m_crop_offset_x = 0;
+        m_crop_offset_y = 0;
+        m_screen_size = { original_width, original_height };
+        Log.info("Aspect ratio is already 16:9, no crop needed");
+        return true;
+    }
+
+    if (original_aspect > target_aspect) {
+        // 裁剪左右，保持高度
+        // 为确保精确的16:9，需要调整高度到能被9整除的数，或宽度到能被16整除的数
+        // 选择调整高度以最小化损失
+        int adjusted_height = (original_height / 9) * 9;  // 确保能被9整除
+        int target_width = (adjusted_height * 16) / 9;     // 精确的16:9
+
+        int crop_y = (original_height - adjusted_height) / 2;
+        m_crop_offset_x = (original_width - target_width) / 2;
+        m_crop_offset_y = crop_y;
+
+        cv::Rect crop_region(m_crop_offset_x, crop_y, target_width, adjusted_height);
+        output = raw_image(crop_region).clone();
+
+        m_screen_size = { target_width, adjusted_height };
+        Log.info("Cropped image from", original_width, "x", original_height,
+                 "to", target_width, "x", adjusted_height, "(16:9 aspect ratio, offset_x:", m_crop_offset_x, ", offset_y:", m_crop_offset_y, ")");
+    }
+    else {
+        // 裁剪上下，保持宽度
+        // 为确保精确的16:9，需要调整宽度到能被16整除的数
+        int adjusted_width = (original_width / 16) * 16;   // 确保能被16整除
+        int target_height = (adjusted_width * 9) / 16;     // 精确的16:9
+
+        int crop_x = (original_width - adjusted_width) / 2;
+        m_crop_offset_x = crop_x;
+        m_crop_offset_y = (original_height - target_height) / 2;
+
+        cv::Rect crop_region(crop_x, m_crop_offset_y, adjusted_width, target_height);
+        output = raw_image(crop_region).clone();
+
+        m_screen_size = { adjusted_width, target_height };
+        Log.info("Cropped image from", original_width, "x", original_height,
+                 "to", adjusted_width, "x", target_height, "(16:9 aspect ratio, offset_x:", m_crop_offset_x, ", offset_y:", m_crop_offset_y, ")");
     }
 
     return true;
@@ -614,4 +781,45 @@ std::string asst::WDAController::base64_decode(const std::string& encoded)
     }
 
     return decoded;
+}
+
+void asst::WDAController::report_screencap_cost()
+{
+    if (m_screencap_cost.size() > 30) {
+        m_screencap_cost.pop_front();
+    }
+
+    // 每 10 次截图计算一次平均耗时
+    if (m_screencap_times >= 10) {
+        m_screencap_times = 0;
+
+        auto filtered_cost = m_screencap_cost | std::views::filter([](auto num) { return num > 0; });
+        if (filtered_cost.empty()) {
+            return;
+        }
+
+        // 过滤后的有效截图用时次数
+        auto filtered_count = m_screencap_cost.size() - std::ranges::count(m_screencap_cost, -1);
+        auto [screencap_cost_min, screencap_cost_max] = std::ranges::minmax(filtered_cost);
+
+        json::value info = json::object {
+            { "uuid", get_uuid() },
+            { "what", "ScreencapCost" },
+            { "details",
+              json::object {
+                  { "min", screencap_cost_min },
+                  { "max", screencap_cost_max },
+                  { "avg",
+                    filtered_count > 0
+                        ? std::accumulate(filtered_cost.begin(), filtered_cost.end(), 0ll) / filtered_count
+                        : -1 },
+              } },
+        };
+
+        if (m_screencap_cost.size() > filtered_count) {
+            info["details"]["fault_times"] = m_screencap_cost.size() - filtered_count;
+        }
+
+        m_callback(AsstMsg::ConnectionInfo, info, m_inst);
+    }
 }
