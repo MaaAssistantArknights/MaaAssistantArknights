@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -623,14 +624,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public static string? GetFightStage(IEnumerable<string> stageNames)
     {
-        foreach (var name in stageNames)
-        {
-            if (Instances.TaskQueueViewModel.IsStageOpen(name))
-            {
-                return name;
-            }
-        }
-        return stageNames.FirstOrDefault();
+        var stage = stageNames.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen);
+        stage ??= stageNames.FirstOrDefault();
+        return stage;
     }
 
     public override void RefreshUI(BaseTask baseTask)
@@ -639,7 +635,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         {
             IsRefreshingUI = true;
             InitDrops();
-            RefreshStagePlan();
+            RefreshCurrentStagePlan();
             RefreshWeeklySchedule();
             Refresh();
             IsRefreshingUI = false;
@@ -771,12 +767,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             var stageList = Instances.StageManager.GetStageList().ToList();
             var listCurrent = StagePlan.Select(i => i.Value).ToList();
 
-            var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = !hideUnavailble || i.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) }).ToList();
+            var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = !hideUnavailble || i.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek), IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == i.Value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
             if (isFightTaskShow)
             {
                 foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i))) // 补未开放进来
                 {
-                    listSource.Add(new StageSourceItem() { Display = item, Value = item, IsVisible = false });
+                    listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false });
                 }
             }
             StageListSource = new ObservableCollection<StageSourceItem>(listSource);
@@ -787,22 +783,32 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 NotifyOfPropertyChange(nameof(item.Value));
             }
 
-            RefreshStagePlan();
+            RefreshCurrentStagePlan();
+            foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.Where(i => i is FightTask && i != TaskSettingVisibilityInfo.CurrentTask).OfType<FightTask>())
+            {
+                task.StagePlan = [.. task.StagePlan.Where(i => stageList.Any(p => p.Value == i))];
+            }
         });
     }
 
-    private void RefreshStagePlan()
+    private void RefreshCurrentStagePlan()
     {
-        var stage = Instances.StageManager.GetStageList().ToList();
-        var plan = GetTaskConfig<FightTask>().StagePlan;
+        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask)
+        {
+            return;
+        }
+        var stageList = Instances.StageManager.GetStageList().ToList();
+        var plan = GetTaskConfig<FightTask>().StagePlan.ToList();
 
         var listRaw = plan.ToList();
-        foreach (var item in listRaw.Where(i => !stage.Any(p => p.Value == i)).ToList()) // 移除未开放关卡
+        foreach (var item in listRaw.Where(i => !stageList.Any(p => p.Value == i)).ToList()) // 移除过期活动关卡
         {
             listRaw.Remove(item);
             _logger.Information("Removed non-existing stage from plan: {Stage}", item);
         }
-        var list = listRaw.Select((i, index) => new StagePlanItem() { Value = i, Index = index, IsOpen = stage.FirstOrDefault(p => p.Value == i)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
+        SetTaskConfig<FightTask>(t => t.StagePlan.SequenceEqual(listRaw), t => t.StagePlan = listRaw);
+
+        var list = listRaw.Select((i, index) => new StagePlanItem() { Value = i, Index = index }).ToList();
         foreach (var item in list)
         {
             item.PropertyChanged += (_, __) => SaveStagePlan();
@@ -889,6 +895,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         public string Value { get; set; } = string.Empty;
 
+        public bool IsOpen
+        {
+            get => field;
+            set => SetAndNotify(ref field, value);
+        } = true;
+
         public bool IsVisible
         {
             get => field;
@@ -901,7 +913,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         public string Value
         {
             get => field;
-            set => SetAndNotify(ref field, value);
+            set {
+                if (!SetAndNotify(ref field, value))
+                {
+                    return;
+                }
+                IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true;
+            }
         } = string.Empty;
 
         public int Index { get; set; }
@@ -910,6 +928,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         {
             get => field;
             set => SetAndNotify(ref field, value);
-        }
+        } = true;
     }
 }

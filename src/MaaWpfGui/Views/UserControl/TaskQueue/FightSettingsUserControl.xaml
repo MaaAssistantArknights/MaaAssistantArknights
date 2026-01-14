@@ -273,6 +273,12 @@
                                                 <DataTrigger Binding="{Binding IsVisible}" Value="False">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsOpen}" Value="False">
+                                                    <Setter Property="Opacity" Value="0.4" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsOpen}" Value="True">
+                                                    <Setter Property="Opacity" Value="1" />
+                                                </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </ComboBox.ItemContainerStyle>
