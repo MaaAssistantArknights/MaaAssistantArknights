@@ -1030,7 +1030,7 @@
         "text": ["Provisional", "Mining", "Permit"]
     },
     "OrundumActivities": {
-        "text": ["Lucky Strips", "Wishing", "Lucky", "Wall", "Bazaar", "Shrine", "Nurtury", "Wish", "Board"],
+        "text": ["Lucky Strips", "Wishing", "Lucky", "Wall", "Bazaar", "Shrine", "Nurtury", "Wish", "Board", "Enmusubi"],
         "roi": [67, 69, 115, 219]
     },
     "OrundumActivitiesChoose": {
