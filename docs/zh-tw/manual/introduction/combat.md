@@ -3,7 +3,7 @@ order: 3
 icon: hugeicons:brain-02
 ---
 
-# 刷理智
+# 理智作戰
 
 ## 一般設定
 
