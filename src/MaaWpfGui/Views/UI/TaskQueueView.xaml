@@ -153,21 +153,22 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <hc:ContextMenuButton
                                 Grid.Column="0"
                                 Width="30"
                                 Height="30"
-                                Padding="0,3"
+                                Padding="0"
                                 VerticalAlignment="Top"
+                                hc:BorderElement.CornerRadius="4,0,0,4"
                                 hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
                                 Foreground="{DynamicResource PrimaryTextBrush}"
+                                IsEnabled="{Binding Idle}"
                                 Style="{StaticResource ButtonBaseStyle}">
-                                <!--  IsEnabled="{Binding Idle}"  -->
                                 <hc:ContextMenuButton.Menu>
                                     <ContextMenu
-                                        Width="190"
+                                        Width="200"
                                         Padding="0"
                                         HorizontalOffset="-7"
                                         Placement="Bottom"
@@ -229,10 +230,10 @@
                             <Button
                                 Grid.Column="1"
                                 Height="30"
-                                Margin="5,0,5,0"
-                                Padding="5"
+                                Margin="-1,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
+                                hc:BorderElement.CornerRadius="0"
                                 Command="{s:Action SelectedAll}"
                                 Content="{DynamicResource SelectAll}"
                                 IsEnabled="{Binding Idle}" />
@@ -242,6 +243,7 @@
                                 Padding="0,0,5,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
+                                hc:BorderElement.CornerRadius="0,4,4,0"
                                 Background="{DynamicResource RegionBrushOpacity25}"
                                 Command="{s:Action InverseSelected}"
                                 Content="{Binding InverseShowText}"
@@ -270,7 +272,6 @@
                             </hc:SplitButton>
                             <Button
                                 Grid.Column="2"
-                                Width="90"
                                 Height="30"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
