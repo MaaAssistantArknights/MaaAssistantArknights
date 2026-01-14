@@ -4165,7 +4165,7 @@
     },
     "DepotQuantity": {
         "template": "empty.png",
-        "specialParams": [150, 255]
+        "specialParams": [140, 255]
     },
     "DepotBegin": {
         "algorithm": "JustReturn",
