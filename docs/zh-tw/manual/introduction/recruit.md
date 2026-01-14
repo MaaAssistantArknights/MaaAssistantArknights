@@ -3,22 +3,18 @@ order: 2
 icon: fluent:people-24-filled
 ---
 
-# 公开招募
+# 公開招募
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
-:::
+自動公招和 [公招辨識](./tools.md#公招辨識) 是兩個不同的功能！
 
-自动公招 和 [公招识别](./tools.md#公招识别) 是两个不同的功能！
+## 自動公招
 
-## 自动公招
+支援自動使用 `加急許可`，支援設定單次任務最大招募次數，可配合 `自動使用加急許可` 一次性刷光招募券。
 
-支持自动使用 `加急许可`，支持设置单次任务最大招募次数，可配合 `自动使用加急许可` 一次性刷光招募券。
+當辨識到出現 1、5、6 星 Tag 都會彈出通知提示。
 
-当识别到出现 1、5、6 星标签都会弹出通知提示。
+公招重新整理時會自動將公招 Tag 數據上傳到 [企鵝物流數據統計](https://penguin-stats.cn/) 和 [一圖流](https://ark.yituliu.cn/)。
 
-公招刷新时会自动将公招标签数据上传到 [企鹅物流数据统计](https://penguin-stats.cn/) 和 [一图流](https://ark.yituliu.cn/)。
+## 進階設定
 
-## 高级设置
-
-`自动确认` 即 MAA 自动选择标签并进行招募，`手动确认` 即不进行自动选择与招募。
+`自動確認` 即 MAA 自動選擇 Tag 並進行招募，`手動確認` 即不進行自動選擇與招募。
