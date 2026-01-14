@@ -249,7 +249,6 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <Grid
@@ -297,21 +296,9 @@
                                                                Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
                                 </Grid>
 
-                                <!--  拖动手柄  -->
-                                <Button
-                                    Grid.Column="1"
-                                    Margin="0"
-                                    Padding="2"
-                                    VerticalAlignment="Stretch"
-                                    hc:IconElement.Geometry="{StaticResource AlignHStretchGeometry}"
-                                    hc:IconElement.Height="10"
-                                    hc:IconElement.Width="10"
-                                    hc:VisualElement.HighlightBackground="Transparent"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Cursor="Hand">
-                                    <Button.Style>
-                                        <Style BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
+                                <Border Grid.Column="1">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
                                             <Setter Property="Visibility" Value="Collapsed" />
                                             <Style.Triggers>
                                                 <MultiDataTrigger>
@@ -323,37 +310,41 @@
                                                 </MultiDataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Button.Style>
-                                </Button>
+                                    </Border.Style>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <!--  拖动手柄  -->
+                                        <Button
+                                            Margin="0"
+                                            Padding="2"
+                                            VerticalAlignment="Stretch"
+                                            hc:IconElement.Geometry="{StaticResource AlignHStretchGeometry}"
+                                            hc:IconElement.Height="10"
+                                            hc:IconElement.Width="10"
+                                            hc:VisualElement.HighlightBackground="Transparent"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Cursor="Hand" />
+                                        <!--  删除按钮  -->
+                                        <Button
+                                            Grid.Column="1"
+                                            Padding="2"
+                                            VerticalAlignment="Stretch"
+                                            hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                            hc:IconElement.Height="10"
+                                            hc:IconElement.Width="10"
+                                            hc:VisualElement.HighlightBackground="Transparent"
+                                            hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Command="{s:Action RemoveStageFromPlan}"
+                                            CommandParameter="{c:Binding Index}" />
+                                    </Grid>
+                                </Border>
 
-                                <Button
-                                    Grid.Column="2"
-                                    Padding="2"
-                                    VerticalAlignment="Stretch"
-                                    hc:IconElement.Geometry="{StaticResource CloseGeometry}"
-                                    hc:IconElement.Height="10"
-                                    hc:IconElement.Width="10"
-                                    hc:VisualElement.HighlightBackground="Transparent"
-                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Command="{s:Action RemoveStageFromPlan}"
-                                    CommandParameter="{c:Binding Index}">
-                                    <Button.Style>
-                                        <Style BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                            <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsMouseOver, ElementName=StageItemGrid}" Value="True" />
-                                                        <Condition Binding="{c:Binding DataContext.UseAlternateStage, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Value="True" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </MultiDataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
