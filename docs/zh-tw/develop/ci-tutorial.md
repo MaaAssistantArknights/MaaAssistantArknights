@@ -5,7 +5,7 @@ icon: devicon-plain:githubactions
 
 # CI 系統解析
 
-MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置、資源自動更新、最終檔案的編譯與發布等過程。隨著時間推移，這些 CI 逐漸開始嵌套，部分甚至連結到了其他的儲存庫。本文檔旨在為想要改進 MAA CI 系統的開發者提供一份簡要介紹。
+MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置、資源自動更新、最終檔案的編譯與發布等過程。隨著時間推移，這些 CI 逐漸開始嵌套，部分甚至連結到了其他的倉庫。本文檔旨在為想要改進 MAA CI 系統的開發者提供一份簡要介紹。
 
 閱讀本文之前，建議先對 MAA 的專案結構與組成有基本的概念。
 
@@ -99,8 +99,8 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 這部分工作流主要負責 MAA 的資源更新與優化，具體如下：
 
-- `res-update-game.yml` 定期執行，從指定儲存庫拉取遊戲資源。
-- `sync-resource.yml` 將資源同步到 MaaResource 儲存庫，用於資源更新。
+- `res-update-game.yml` 定期執行，從指定倉庫拉取遊戲資源。
+- `sync-resource.yml` 將資源同步到 MaaResource 倉庫，用於資源更新。
 - `optimize-templates.yml` 優化包括模板圖在內的圖片檔案大小。
 
 ### 網站建置
@@ -142,7 +142,7 @@ MirrorChyan 是有償的更新鏡像服務，相關工作流如下：
 
 `markdown-checker.yml`
 
-檢查儲存庫中所有 Markdown 檔案是否包含無效連結（死連結）。
+檢查倉庫中所有 Markdown 檔案是否包含無效連結（死連結）。
 
 `blame-ignore.yml`
 

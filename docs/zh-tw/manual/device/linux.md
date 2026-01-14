@@ -66,7 +66,7 @@ MAA WPF GUI 當前可以透過 Wine 執行。
 
    ::: tip
    預編譯的版本包含在相對較新的 Linux 發行版 (Ubuntu 22.04) 中編譯的動態函式庫，如果您系統中的 libstdc++ 版本較舊，可能遇到 ABI 不相容的問題。
-   可以參考 [Linux 編譯教學](../../develop/linux-tutorial.md) 重新編譯或使用容器執行。
+   可以參閱 [Linux 編譯教學](../../develop/linux-tutorial.md) 重新編譯或使用容器執行。
    :::
 
 2. ADB 配置
@@ -99,7 +99,7 @@ MAA WPF GUI 當前可以透過 Wine 執行。
 
 3. 任務配置
 
-自定義任務：根據需要參考 [整合文件](../../protocol/integration.md) 對 `sample.py` 的 [`# 任務及參數請參考 docs/integration.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一欄進行修改。
+自定義任務：根據需要參閱 [整合文件](../../protocol/integration.md) 對 `sample.py` 的 [`# 任務及參數請參考 docs/integration.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一欄進行修改。
 
 ::::
 

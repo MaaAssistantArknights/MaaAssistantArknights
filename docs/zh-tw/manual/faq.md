@@ -15,7 +15,8 @@ icon: ph:question-fill
 請執行 MAA 目錄下的 `DependencySetup_依赖库安装.bat`，或在終端機中執行以下指令：
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements```
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
+```
 
 也可以手動下載並安裝以下<u>**兩個**</u>執行庫來解決問題：
 
@@ -28,9 +29,10 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 ### 下載與安裝問題
 
-- 完整的 MAA 壓縮檔案命名格式為 "MAA-版本-平台-架構.zip"，其餘檔案皆為無法單獨執行的組件，請務必確認。
+- 完整的 MAA 壓縮檔案命名格式為 "MAA-版本-平台-架構.zip"，其餘檔案皆為無法單獨執行的組件，請務必確認。  
   多數情況下，您需要下載 x64 架構的版本，即 `MAA-*-win-x64.zip`，而非 `MAA-*-win-arm64.zip`。
-- 若自動更新後發現功能缺失或無法使用，可能是更新過程中出現異常。建議重新下載並解壓縮完整安裝包。您可以將舊 `MAA` 資料夾中的 `config` 資料夾直接移至新解壓縮後的 `MAA` 資料夾中以保留設定。
+- 若自動更新後發現功能缺失或無法使用，可能是更新過程中出現錯誤，建議重新下載完整程式壓縮檔並再次解壓縮。  
+  您可以將舊 `MAA` 資料夾中的 `config` 資料夾直接移至新解壓縮後的 `MAA` 資料夾中以保留設定。
 
 ### 執行庫問題
 
@@ -46,26 +48,27 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 #### Windows N/KN
 
-若您使用的是 Windows N / KN（歐洲或韓國版本），需額外安裝 [媒體功能包](https://support.microsoft.com/zh-cn/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
+若您使用的是 Windows N / KN（歐洲或韓國版本），需額外安裝 [Media Feature Pack](https://support.microsoft.com/zh-tw/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
 
 #### Windows 7
 
-由於 .NET 10 已停止支援 Windows 7 / 8 / 8.1 系統<sup>[來源]</sup>，MAA 亦隨之停止支援。若您仍需在這些系統上執行，請下載以下相容版本：
+由於 .NET 10 已停止支援 Windows 7 / 8 / 8.1 系統 <sup>[來源](https://github.com/dotnet/core/issues/7556)</sup>，MAA 亦隨之停止支援。若您仍需在這些系統上執行，請下載以下相容版本：
 * 支援 .NET 8 的最後版本：[`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)
-* 支援 .NET 4.8 的最後版本：[`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)
+* 支援 .NET 4.8 的最後版本：[`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)  
 （目前尚未確定自行編譯的可行性。）
 
 若要在 Windows 7 安裝上述執行庫，請先確認系統已安裝下列修正程式：
 
-1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
+1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-tw/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
 2. SHA-2 程式碼簽署修正程式：
    - KB4474419：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
    - KB4490628：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[下載連結 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[下载链接 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
+3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[下載連結 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[下載連結 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
 ##### .NET 8 應用程式於 Windows 7 執行異常之緩解措施 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
 
-在 Windows 7 執行 .NET 8 應用程式時，可能出現記憶體佔用異常。請參考下列步驟操作（Windows 8/8.1 未經測試，若有相同問題，歡迎提交 Issue 協助我們補充文件）：
+在 Windows 7 執行 .NET 8 應用程式時，可能出現記憶體佔用異常。請參考下列步驟操作：  
+（Windows 8 / 8.1 未經測試，若有相同問題，歡迎提交 Issue 協助我們補充文件）
 
 1. 開啟 `本機`（電腦），在空白處點擊右鍵選擇 `內容`，點擊左側 `進階系統設定`，點擊 `環境變數`。
 2. 新建一個「系統變數」，變數名稱：`DOTNET_EnableWriteXorExecute`，變數值：`0`。
@@ -75,21 +78,22 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 ### 確認 ADB 與連線位址設定
 
-請參考 [連線設定](./connection.md) 檢查相關設定。
+請參閱 [連線設定](./connection.md) 檢查相關設定。
 
 ### 關閉殘留的 ADB 程序
 
-關閉 MAA 後，請檢查 `工作管理員` → `詳細資料` 標籤中是否仍有 `adb` 相關程序。若有，請將其結束後再重新嘗試連線。
+關閉 MAA 後，請檢查 `工作管理員 - 詳細資料` 標籤中是否仍有 `adb` 相關程序。若有，請將其結束後再重新嘗試連線。
 
 ### 多個 ADB 版本衝突問題
 
-當環境中存在多個不同版本的 ADB 時，新啟動的程序可能會中斷舊有的程序。若您需要同時執行多個工具（如 Android Studio、Alas、手機助手等），請確保所有工具使用的 ADB 版本一致。
+當環境中存在多個不同版本的 ADB 時，新啟動的程序可能會中斷舊有的程序。  
+若您需要同時執行多個工具（如 Android Studio、Alas、手機助手等），請確保所有工具使用的 ADB 版本一致。
 
 ### 避免加速器干擾
 
 部分加速器在啟動或停止加速後，需重新啟動 MAA、ADB 與模擬器才能正常連線。
 
-MuMu 模擬器與 UU 加速器同時使用的設定可參考 [官方說明文件](https://mumu.163.com/help/20240321/35047_1144608.html)。
+MuMu 模擬器與 UU 加速器同時使用的設定可參閱 [官方說明文件](https://mumu.163.com/help/20240321/35047_1144608.html)。
 
 ### 重新啟動電腦
 
@@ -97,43 +101,43 @@ MuMu 模擬器與 UU 加速器同時使用的設定可參考 [官方說明文件
 
 ### 更換模擬器
 
-若上述方法皆無效，請參考 [模擬器與設備支援](./device/)。
+若上述方法皆無效，請參閱 [模擬器與設備支援](./device/)。
 
 ## 連線正常，但無動作
 
 部分模擬器內建的 ADB 版本過於老舊，無法支援 `Minitouch` 或 `MaaTouch`。
 
-請嘗試以系統管理員權限開啟 MAA，關閉模擬器並重啟 MAA 後，點擊 `MAA 設定` → `連線設定` → 「強制替換 ADB」。
+請嘗試以系統管理員權限開啟 MAA，關閉模擬器並重啟 MAA 後，點擊 `MAA 設定 - 連線設定 - 強制替換 ADB`。
 
-模擬器更新後可能會重新覆蓋 ADB 檔案。若問題再次出現，請重新操作替換，或參考 [其他 ADB 解決方案](./connection.md#使用谷歌提供的-adb)。
+模擬器更新後可能會重新覆蓋 ADB 檔案。若問題再次出現，請重新操作替換，或參閱 [其他 ADB 解決方案](./connection.md#google-adb)。
 
 ## 連線正常，但操作異常、卡頓或頻繁出錯
 
-- 若開啟了 `異形屏 UI 適配`，請嘗試將其歸零。
-- 若遊玩非陸服（外服）客戶端，請確認 `設定` → `遊戲設定` → `客戶端類型` 已正確切換。外服部分功能可能未完全適配，請參考對應的外服使用文件。
-- 執行自動肉鴿時，請參考 [自動肉鴿文件](./introduction/integrated-strategy.md)，並確認 `自動肉鴿` → `肉鴿主題` 選擇正確。
-- 若自動戰鬥頻繁暫停且不部署幹員，請關閉 `設定` → `執行設定` 中的 `劃火柴模式`。
+- 若開啟了 `螢幕 UI 調整`，請嘗試將其歸零。
+- 若遊玩非官服（外服）客戶端，請確認 `設定 - 遊戲設定 - 客戶端類型` 已正確切換。外服部分功能可能未完全適配，請參考對應的外服使用文件。
+- 執行自動肉鴿時，請參閱 [自動肉鴿文件](./introduction/integrated-strategy.md)，並確認 `自動肉鴿` → `肉鴿主題` 選擇正確。
+- 若自動戰鬥頻繁暫停且不部署幹員，請關閉 `設定 - 執行設定` 中的 `劃火柴模式`。
 - 自動編隊若無法辨識幹員，請取消該幹員的「特別關注」。
 - 使用 `Adb Input` 觸控模式時，操作較緩慢為正常現象。
 - MuMu 模擬器使用者請勿將 `顯存使用策略` 設定為 `資源佔用更小`。
 
 ### 提示截圖耗時較長或過長
 
-- MAA 目前支持 `RawByNc` 、 `RawWithGzip` 、 `Encode` 三種基於 ADB 的截圖方式。當執行任務的平均截圖耗時大於 400 或 800 毫秒時，會顯示一次提示訊息（單次任務僅會顯示一次）。
+- MAA 目前支持 `RawByNc`、`RawWithGzip`、`Encode` 三種基於 ADB 的截圖方式。當執行任務的平均截圖耗時大於 400 或 800 毫秒時，會顯示一次提示訊息（單次任務僅會顯示一次）。
 - 在 `設定 - 連線設定` 中會顯示最近 30 次截圖耗時的 最小值 / 平均值 / 最大值，每 10 次截圖更新一次。
 - 自動戰鬥類功能（如自動肉鴿）受截圖耗時的影響較大。
 - 此耗時與 MAA 無關，通常受電腦效能、背景程序佔用或模擬器設定影響；可嘗試清理背景程序、更換模擬器或提升硬體配置。
 
 ## 系統管理員權限相關說明
 
-MAA 在一般情況下無需以 Windows UAC 系統管理員權限執行即可實現所有功能。目前與系統管理員權限相關的功能主要包括：
+MAA 在一般情況下，無需以 UAC（系統管理員身分）執行即可使用所有功能。目前與權限相關的功能主要包括：
 
 1. `自動偵測連線`：當目標模擬器以系統管理員身份執行時，MAA 也需要對應權限。
 2. `完成後關閉模擬器`：當目標模擬器以系統管理員身分執行時，需要對應權限。
 3. `開機自動啟動 MAA`：無法在系統管理員身份下設定開機自動啟動。
-4. 當 MAA 被錯誤地解壓縮到需要系統管理員權限才能寫入的路徑時，例如 `C:\`、`C:\Program Files\`。
+4. 當 MAA 被錯誤地解壓縮到需要系統管理員權限才能寫入的路徑時（例如 `C:\`、`C:\Program Files\`）。
 
-有報告指出，關閉了 UAC 的系統存在「即使沒有點選右鍵選擇以系統管理員身分執行，也會自動提升權限啟動」的問題，建議開啟 UAC 以避免非預期的權限提升行為。
+有些案例反映，若關閉了 Windows 的 UAC 功能，系統會出現「即使沒有點選右鍵選擇以系統管理員身分執行，也會自動提升權限啟動」的問題，建議保持開啟狀態以避免非預期的權限提升行為。
 
 ## 下載中斷或提示「權限驗證失敗」
 

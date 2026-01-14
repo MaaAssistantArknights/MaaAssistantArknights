@@ -8,7 +8,7 @@ icon: material-symbols:view-quilt-rounded
 `resource/custom_infrast/*.json` 的使用方法及各欄位說明
 
 ::: tip
-請注意 JSON 檔案是不支援註解的，文本中的註解僅用於說明，請勿直接複製使用。
+請注意，json 檔案不支援註解。文件中的註解僅供說明參考，請勿直接複製使用。
 :::
 
 [視覺化排班產生工具](https://ark.yituliu.cn/tools/schedule)
@@ -17,11 +17,11 @@ icon: material-symbols:view-quilt-rounded
 
 ```json
 {
-    "title": "小帳的換班方案", // 作業名，可選
+    "title": "小帳的換班方案", // 作業名稱，可選
     "description": "內容描述", // 作業描述，可選
     "plans": [
         {
-            "name": "早班", // 計畫名，可選
+            "name": "早班", // 計畫名稱，可選
             "description": "lol", // 計畫描述，可選
             "description_post": "", // 計畫執行完畢時顯示的描述，可選
             "period": [
@@ -40,9 +40,9 @@ icon: material-symbols:view-quilt-rounded
             ],
             "duration": 360, // 工作持續時長（分鐘），保留欄位，目前無作用。以後可能到時間了彈窗提醒該換班了，或者直接自動換了
             "Fiammetta": {
-                // 「費亞梅塔」為哪位幹員使用，可選，不填寫則不使用
-                "enable": true, // 是否使用「費亞梅塔」，可選，預設 true
-                "target": "巫戀", // 目標幹員，使用 OCR 進行，需要傳入對應用戶端語言的幹員名
+                // 「菲亞梅塔」為哪位幹員使用，可選，不填寫則不使用
+                "enable": true, // 是否使用「菲亞梅塔」，可選，預設 true
+                "target": "巫戀", // 目標幹員，使用 OCR 進行，需要傳入對應用戶端語言的幹員名稱
                 "order": "pre" // 在整個換班前使用，還是換完班才用，可選，取值範圍 "pre" / "post"，預設 "pre"
             },
             "drones": {
@@ -68,11 +68,11 @@ icon: material-symbols:view-quilt-rounded
                 // 房間資訊，必選
                 // 取值範圍 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing"
                 // 缺少某個則該設施使用預設演算法進行換班。
-                // 若想不對某個房間換班請使用 skip 欄位，或直接在軟體「任務設定 - 基建換班 - 常規設定」中取消該設施的勾選
+                // 若想不對某個房間換班請使用 skip 欄位，或直接在 MAA 「任務設定 - 基建換班 - 進階設定」中取消該設施的勾選
                 "control": [
                 {
                     "operators": [
-                        "夕", // 使用 OCR 進行，需要傳入對應用戶端語言的幹員名
+                        "夕", // 使用 OCR 進行，需要傳入對應用戶端語言的幹員名稱
                         "令",
                         "凱爾希",
                         "阿米婭",
@@ -107,14 +107,14 @@ icon: material-symbols:view-quilt-rounded
                         // 備選幹員，可選。這裡面有誰用誰，選滿為止
                         // 與 autofill=true 不相容，即該陣列不為空時，autofill 需為 false
                         "星源",
-                        "白面白",
+                        "白面鴞",
                         "赫默"
                     ]
                 },
                 {
                     "use_operator_groups": true, // 設定為 true 以使用 groups 中的幹員編組，預設為 false
                     "operators": [
-                        // 啟用後，operators 中的名稱將被解釋為編組名
+                        // 啟用後，operators 中的名稱將被解釋為編組名稱
                         "古+銀", // 將按照心情門檻值以及設定順序選擇編組
                         "清流" // 如「古+銀」組中有幹員心情低於門檻值，將使用「清流」組
                     ]

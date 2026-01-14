@@ -37,12 +37,12 @@ icon: iconoir:developer
 
 ## 完整環境配置流程（Windows）
 
-1. 如果很久以前 Fork 過，先在自己儲存庫的 `Settings` 裡，翻到最下面，將其刪除。
-2. 打開 [MAA 主儲存庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，點擊 `Fork`，繼續點擊 `Create fork`。
-3. 複製（Clone）您自己儲存庫下的 dev 分支到在地，並拉取子模組（Submodules）。
+1. 如果很久以前 Fork 過，先在自己倉庫的 `Settings` 裡，翻到最下面，將其刪除。
+2. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，點擊 `Fork`，繼續點擊 `Create fork`。
+3. 複製（Clone）您自己倉庫下的 dev 分支到在地，並拉取子模組（Submodules）。
 
    ```bash
-   git clone --recurse-submodules <您的儲存庫 git 連結> -b dev
+   git clone --recurse-submodules <您的倉庫 git 連結> -b dev
    ```
 
    ::: warning
@@ -89,14 +89,15 @@ git checkout your_own_branch
 
 這樣你的提交就能在新的分支上生長，不會受到 `dev` 更新的打擾
 
-11. 完成開發後，推送您修改過的本地分支（以 `dev` 為例）到遠端（Fork 的倉庫）。
+11. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠端（Fork 的倉庫）
 
     ```bash
     git push origin dev
     ```
 
-12. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。別忘了你是在 dev 分支上修改，別提交到 master 分支去了
-13. 當 MAA 原倉庫出現更改（別人做的），你可能需要把這些更改同步到你的分支
+12. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request（PR），等待管理員通過。別忘了您是在 dev 分支上修改，別提交到 master 分支去了。
+
+13. 當 MAA 原倉庫出現更改（他人貢獻）時，您可能需要把這些更改同步到您的分支：
     1. 關聯 MAA 原倉庫
 
        ```bash
@@ -129,7 +130,7 @@ git checkout your_own_branch
 
 ## MAA 的檔案格式化要求
 
-MAA 使用一系列的格式化工具來確保儲存庫中的程式碼和資源檔案美觀統一，以便於維護和閱讀。
+MAA 使用一系列的格式化工具來確保倉庫中的程式碼和資源檔案美觀統一，以便於維護和閱讀。
 
 請確保在提交之前已經完成格式化，或是[啟用 Pre-commit Hooks 來進行自動格式化](#利用-pre-commit-hooks-自動進行程式碼格式化)
 

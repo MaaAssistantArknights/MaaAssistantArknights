@@ -13,7 +13,7 @@ icon: jam:write-f
 
 ## 在地開發
 
-1. 安裝 [pnpm](https://pnpm.io/installation)，並參考 [Pull Request 流程簡述](./development.md#github-pull-request-流程簡述)將儲存庫複製（Clone）到在地。
+1. 安裝 [pnpm](https://pnpm.io/installation)，並參考 [Pull Request 流程簡述](./development.md#github-pull-request-流程簡述)將倉庫複製（Clone）到在地。
 2. 在 `docs` 目錄下開啟終端機，執行 `pnpm i` 安裝依賴項目。
 3. 執行 `pnpm run dev` 啟動開發伺服器。
 

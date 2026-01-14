@@ -11,7 +11,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 截至 MAA v5.22.3 為止，支援自動偵測的模擬器及其連線位址如下：
 
-- BlueStacks 5：`127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
+- BlueStacks 藍疊模擬器 5：`127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
 - MuMu 模擬器：`127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
 - 雷電模擬器 9：`emulator-5554/5556/5558/5560`、`127.0.0.1:5555/5557/5559/5561`
 - 夜神模擬器：`127.0.0.1:62001/59865`
@@ -22,7 +22,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 ## ADB 路徑
 
 :::info 技術細節
-自動偵測預設會使用模擬器內建的 ADB，當自動偵測出現問題時才需要手動設定。
+自動偵測預設會使用模擬器內建的 ADB，當自動偵測出現問題時才需要手動設定。  
 點選 `強制替換 ADB` 會自動下載 Google 提供的 ADB 並自動填入路徑。
 若系統環境變數中已有可用的 ADB，可直接填寫 `adb`。
 :::
@@ -51,14 +51,16 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 ### 模擬器連接埠相關文件
 
-- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631)：模擬器設定 → 進階中可查看目前的連線位址。
+- [BlueStacks 藍疊模擬器 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631)：模擬器設定 → 進階中可查看目前的連線位址。
 - [MuMu 模擬器](https://mumu.163.com/help/20240807/40912_1073151.html?maa)：主視窗（多開器）右上角選單按鈕 → 設定中心 → 底部 `ADB 端口` 可查看正在執行的多開連接埠。
 - [MuMu 模擬器 Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html)
 - [雷電模擬器 9](https://help.ldmnq.com/docs/LD9adbserver#edc3863750608062bcb3feea256413dc)
 - [夜神模擬器](https://support.yeshen.com/zh-CN/qt/ml)
 - [逍遙模擬器](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537)
 
-### 備選方案
+其他模擬器可參閱 [趙青青的博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)。
+
+::: details 備選方案
 
 - **方案 1：使用 ADB 指令查看模擬器連接埠**
   1. 啟動**一個**模擬器，並確保沒有其他 Android 裝置連接到此電腦。
@@ -91,7 +93,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 :::
 
-### 藍疊模擬器 (BlueStacks) Hyper-V 每次啟動連接埠都不一樣
+### BlueStacks 藍疊模擬器 Hyper-V 每次啟動連接埠都不一樣
 
 在 `連線設定` 中將 `連線配置` 設為 `藍疊模擬器`，隨後勾選 `自動偵測連線` 和 `每次重新偵測`。
 
@@ -127,7 +129,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
    ::: info 注意
    MAA 現在會嘗試從登錄檔（Registry）讀取 `bluestacks.conf` 的位置，若偵測失敗才需要手動指定路徑。
    :::
-   1. 在藍疊模擬器 (BlueStacks) 的數據目錄下找到 `bluestacks.conf` 檔案：
+   1. 在 BlueStacks 藍疊模擬器的數據目錄下找到 `bluestacks.conf` 檔案：
       - 國際版預設路徑： `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
       - 中國版預設路徑： `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
@@ -138,7 +140,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
    3. **先關閉** MAA，**再**開啟 `gui.json`。找到 `Configurations` 下目前的設定名稱（可在 `設定-切換配置` 中查看，預設為 `Default`），搜尋 `Bluestacks.Config.Path` 並填入 `bluestacks.conf` 的完整路徑（斜線請使用轉義符 \\）。
 
    ::: details 範例
-   以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 為例
+   以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 為例：
 
    ```json
    {
@@ -155,7 +157,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 3. 返回 MAA 並測試
 
-   您可以使用 `設定-執行設定` 中的 `截圖測試` 功能，檢查連線的是否為預期的核心。
+   您可以使用 `設定 - 執行設定` 中的 `截圖測試` 功能，檢查連線的是否為預期的核心。
 
 ::::
 
@@ -163,13 +165,13 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 請選擇對應模擬器的配置，若清單中沒有則選擇「通用配置」。若通用配置不可用，請嘗試並選擇其他任一可用的配置。
 
-具體區別可以參考[原始碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L57)。
+具體區別可以參閱 [原始碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L57)。
 
 ### MuMu 截圖增強模式
 
 需使用官版或方舟專版 MuMu V4.1.26 及更新版本。<!-- 官版 V3.8.13 支援初版截圖增強 -->
 
-1. 在 `設定-連線設定` 勾選 `啟用 MuMu 截圖增強模式`，MAA 會嘗試自動獲取路徑。
+1. 在 `設定 - 連線設定` 勾選 `啟用 MuMu 截圖增強模式`，MAA 會嘗試自動獲取路徑。
 
 2. `MuMu 安裝路徑` 填寫 `MuMu Player` 或 `MuMuPlayerGlobal-12.0` 或 `YXArkNights-12.0` 資料夾路徑（例如 `C:\Program Files\Netease\MuMuPlayerGlobal-12.0`）。
 
@@ -179,9 +181,9 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 需使用官版或國際版雷電模擬器 9 V9.1.32 及更新版本。<!-- 官版 V9.0.78 支援初版截圖增強 但存在高解析度失效問題 V9.1.29 修復-->
 
-1. 在 `設定-連線設定` 勾選 `啟用 LD 截圖增強模式`，MAA 會嘗試自動獲取路徑。
+1. 在 `設定 - 連線設定` 勾選 `啟用 LD 截圖增強模式`，MAA 會嘗試自動獲取路徑。
 
-2. `LD 安裝路徑` 填寫 `LDPlayer9` 資料夾路徑（例如 `C:\leidian\LDPlayer9\`）。
+2. `LD 模擬器路徑` 填寫 `LDPlayer9` 資料夾路徑（例如 `C:\leidian\LDPlayer9\`）。
 
 3. `執行個體編號` 填寫雷電多開器內對應的模擬器序號（ID），主多開為 `0`。
 
@@ -205,7 +207,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 ### 自動啟動多開模擬器
 
-以[BlueStacks 國際版](./device/windows.md)為例，介紹兩種自動啟動多開模擬器的方式。
+以 [BlueStacks 藍疊模擬器國際版](./device/windows.md) 為例，介紹兩種自動啟動多開模擬器的方式。
 
 #### 透過附加指令啟動
 
@@ -215,7 +217,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 4. 將找到的內容（例如：`--instance Nougat32 `）填寫到 MAA 的 `啟動設定 - 附加指令` 中。
 
 ::: note
-作結束後，建議重新隱藏 `步驟 2` 中開啟的 `命令列` 欄位以避免系統卡頓。
+操作結束後，建議重新隱藏 `步驟 2` 中開啟的 `命令列` 欄位以避免系統卡頓。
 :::
 
 ::: details 範例

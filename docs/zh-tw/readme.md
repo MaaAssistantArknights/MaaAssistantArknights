@@ -20,7 +20,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 一款明日方舟遊戲小助手
 
-基於影像辨識技術，一鍵完成全部日常任務！
+基於圖像辨識技術，一鍵完成全部日常任務！
 
 絕讚更新中 ✿✿ヽ(°▽°)ノ✿
 
@@ -28,7 +28,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下載與安裝
 
-請閱讀 [文件](./manual/newbie.md) 後前往 [官網](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下載，並參考 [新手上路](./manual/newbie.md) 進行安裝。
+請閱讀 [文件](./manual/newbie.md) 後前往 [官網](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下載，並參閱 [新手上路](./manual/newbie.md) 進行安裝。
 
 ## 亮點功能
 
@@ -72,12 +72,14 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 外服支援
 
-目前國際服（美服）、日服、韓服、繁中服的絕大部分功能均已支援。但由於外服用戶較少及項目人手不足，很多功能並沒有進行全面的測試，所以請自行體驗。  
-若您遇到了 Bug，或對某個功能有強烈需求，歡迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我們一起建設 MAA！請參閱 [外服適配教學](#外服適配)
+目前國際服（美服）、日服、韓服、繁中服的絕大部分功能均已支援。  
+但由於外服用戶較少及項目人手不足，很多功能並沒有進行全面的測試，所以請自行體驗。  
+若您遇到了 Bug，或對某個功能有強烈需求，歡迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我們一起建設 MAA！請參閱 [外服適配教學](#外服適配)。
 
 ### CLI 支援
 
-MAA 支援命令列介面（CLI）操作，支援 Linux，macOS 和 Windows，可用於自動化指令碼或在無圖形介面的伺服器上使用。請參閱 [CLI 使用指南](./manual/cli/)
+MAA 支援命令列介面（CLI）操作，支援 Linux，macOS 和 Windows，可用於自動化指令碼或在無圖形介面的伺服器上使用。  
+請參閱 [CLI 使用指南](./manual/cli/)。
 
 ## 加入我們
 
@@ -115,11 +117,11 @@ MAA 以中文（簡體）為第一語言，翻譯詞條均以中文（簡體）�
 
 ### 外服適配
 
-請參閱 [外服適配教學](./develop/overseas-client-adaptation.md)，對於國服已支援的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
+請參閱 [外服適配教學](./develop/overseas-client-adaptation.md)，對於官服已支援的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
 
 ### Issue bot
 
-請參閱 [Issue Bot 使用方法](./develop/issue-bot-usage.md)
+請參閱 [Issue Bot 使用方法](./develop/issue-bot-usage.md)。
 
 ## 致謝
 
@@ -153,9 +155,9 @@ MAA 以中文（簡體）為第一語言，翻譯詞條均以中文（簡體）�
 - 遊戲數據及資源：[明日方舟客戶端素材](https://github.com/yuanyan3060/ArknightsGameResource)
 - 遊戲數據：[《明日方舟》Yostar 遊戲數據](https://github.com/ArknightsAssets/ArknightsGamedata)
 
-### 貢獻/參與者
+### 貢獻 / 參與者
 
-感謝所有參與到開發/測試中的朋友們，是大家的幫助讓 MAA 越來越好！ (\*´▽｀)ノノ
+感謝所有參與到開發 / 測試中的朋友們，是大家的幫助讓 MAA 越來越好！ (\*´▽｀)ノノ
 
 [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
@@ -167,15 +169,18 @@ MAA 以中文（簡體）為第一語言，翻譯詞條均以中文（簡體）�
 
 ### DirectML 支援說明
 
-本軟體支援 GPU 加速功能，其在 Windows 平台上依賴於 Microsoft 提供的獨立元件 [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/)。DirectML 並非本專案的開源部分，也不受 AGPL 3.0 的約束。為方便用戶，我們隨安裝包附帶了一個未經修改的 DirectML.dll 檔案。如果您無需 GPU 加速功能，可安全刪除該 DLL 檔案，軟體的核心功能仍可正常執行。
+本軟體支援 GPU 加速功能，其在 Windows 平台上依賴於 Microsoft 提供的獨立元件 [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/)。  
+DirectML 並非本專案的開源部分，也不受 AGPL 3.0 的約束。  
+為方便用戶使用，我們隨安裝包附帶了一個未經修改的 DirectML.dll 檔案。  
+如果您無需 GPU 加速功能，可安全刪除該 DLL 檔案，軟體的核心功能仍可正常執行。
 
 ## 廣告
 
 用戶交流 QQ 群：[MAA 使用 & 粥遊交流 QQ 群](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
-Discord 伺服器：[Discord](https://discord.gg/23DfZ9uA4V)  
+Discord 伺服器：[Discord 邀請連結](https://discord.gg/23DfZ9uA4V)  
 用戶交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus)  
-Bilibili 直播間：[MrEO 直播間](https://live.bilibili.com/2808861) 直播敲代碼 & [MAA-Official 直播間](https://live.bilibili.com/27548877) 遊戲/雜談
+Bilibili 直播間：[MrEO 直播間](https://live.bilibili.com/2808861) 直播敲代碼 & [MAA-Official 直播間](https://live.bilibili.com/27548877) 遊戲 / 雜談
 
 技術群（舟無關、禁閒聊）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)

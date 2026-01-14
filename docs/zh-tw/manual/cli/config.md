@@ -3,7 +3,7 @@ order: 3
 icon: material-symbols:settings
 ---
 
-# 配置 (Configuration)
+# 配置
 
 ## 配置目錄
 
