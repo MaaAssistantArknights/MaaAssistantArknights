@@ -2,6 +2,7 @@
 
 #include "ControllerAPI.h"
 
+#include <deque>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
@@ -51,7 +52,11 @@ public:
 
     virtual bool press_esc() override;
 
-    virtual ControlFeat::Feat support_features() const noexcept override { return ControlFeat::NONE; }
+    virtual ControlFeat::Feat support_features() const noexcept override
+    {
+        // WDA supports precise swipe control via W3C Actions
+        return ControlFeat::PRECISE_SWIPE;
+    }
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
 
@@ -68,8 +73,21 @@ private:
     std::string m_host;
     uint16_t m_port = 8100;
     std::string m_session_id;
-    std::pair<int, int> m_screen_size = { 0, 0 };
+
+    // 三层坐标系统
+    std::pair<int, int> m_wda_logical_size = { 0, 0 };      // WDA逻辑分辨率 (e.g. 812x375 points)
+    std::pair<int, int> m_physical_screen_size = { 0, 0 };  // 物理分辨率 (e.g. 2436x1124 pixels)
+    std::pair<int, int> m_screen_size = { 0, 0 };           // MAA分辨率 (e.g. 1998x1124 pixels, 16:9)
+
+    // 裁剪偏移
+    int m_crop_offset_x = 0;
+    int m_crop_offset_y = 0;
+
     bool m_connected = false;
+
+    // 延迟统计
+    std::deque<long long> m_screencap_cost; // 截图用时
+    int m_screencap_times = 0;              // 截图次数
 
     struct HttpResponse
     {
@@ -84,11 +102,15 @@ private:
 
     bool check_wda_status();
     bool create_session();
+    bool configure_fast_mode();
     bool fetch_screen_size();
     bool destroy_session();
+    void report_screencap_cost();
 
     std::string build_w3c_tap_action(int x, int y);
     std::string build_w3c_swipe_action(int x1, int y1, int x2, int y2, int duration_ms);
+
+    std::pair<int, int> transform_to_wda_coords(int maa_x, int maa_y) const;
 
     bool decode_base64_png(const std::string& base64_data, cv::Mat& output);
     static std::string base64_decode(const std::string& encoded);
