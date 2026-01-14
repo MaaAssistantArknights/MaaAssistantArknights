@@ -141,7 +141,7 @@
                                                 Style="{DynamicResource RadioGroupItemSingle}"
                                                 ToolTip="{DynamicResource TaskSettings}">
                                                 <RadioButton.ContextMenu>
-                                                    <ContextMenu DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" Opened="ContextMenu_OnOpened">
+                                                    <ContextMenu DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" IsEnabled="{c:Binding 'Idle and Inited', Source={x:Static helper:Instances.TaskQueueViewModel}}">
                                                         <MenuItem
                                                             Command="{s:Action RenameTask}"
                                                             CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
