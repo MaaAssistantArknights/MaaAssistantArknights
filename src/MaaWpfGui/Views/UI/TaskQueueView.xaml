@@ -135,6 +135,7 @@
                                                 hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                                                 Background="Transparent"
                                                 BorderThickness="0"
+                                                ContextMenuService.IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 Foreground="{DynamicResource SecondaryTextBrush}"
                                                 GroupName="TaskSettings"
                                                 IsChecked="{Binding EnableSetting}"
