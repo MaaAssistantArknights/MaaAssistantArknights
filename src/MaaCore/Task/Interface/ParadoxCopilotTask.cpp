@@ -33,6 +33,7 @@ bool asst::ParadoxCopilotTask::set_params(const json::value& params)
     m_subtasks.clear();
     auto single_opt = params.find<std::string>("filename");
     if (single_opt) {
+        m_battle_task_ptr->set_wait_until_end(false);
         if (!Copilot.load(utils::path(*single_opt))) {
             Log.error("CopilotConfig parse failed");
             return false;
@@ -51,6 +52,7 @@ bool asst::ParadoxCopilotTask::set_params(const json::value& params)
 
     auto batch_opt = params.find<std::vector<std::string>>("list");
     if (batch_opt) {
+        m_battle_task_ptr->set_wait_until_end(true);
         m_subtasks.reserve(batch_opt->size() * 4);
         for (const auto& item : *batch_opt) {
             m_paradox_task_ptr->add_oper(item);
