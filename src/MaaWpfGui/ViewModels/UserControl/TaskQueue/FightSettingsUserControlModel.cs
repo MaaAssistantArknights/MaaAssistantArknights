@@ -94,7 +94,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             { "炭", "SK-5" },
         };
 
-    public ObservableCollection<StagePlanItem> StagePlan { get => field; set => SetAndNotify(ref field, value); } = [];
+    public ObservableCollection<StagePlanItem> StagePlan { get => field; set => SetAndNotify(ref field, value); } = [new()];
 
     // UI 绑定的方法
     [UsedImplicitly]
@@ -114,6 +114,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             _logger.Error("Attempted to remove stage from plan with invalid index: {Index}", index);
             return;
         }
+        if (StagePlan.Count == 1)
+        {
+            _logger.Warning("Attempted to remove the last stage from the plan. Operation aborted.");
+            return;
+        }
+
         StagePlan.RemoveAt(index);
     }
 

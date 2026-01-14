@@ -215,22 +215,22 @@
                         TextAlignment="Center"
                         TextWrapping="Wrap"
                         Visibility="{c:Binding UseAlternateStage}" />
-                    <Grid Grid.Row="1" VerticalAlignment="Bottom">
-                        <Button
-                            Margin="6"
-                            Command="{s:Action AddStageToPlan}"
-                            Content="{DynamicResource AddStage}"
-                            Visibility="{c:Binding UseAlternateStage}" />
-                        <Grid Visibility="{c:Binding CustomStageCode}">
-                            <controls:TooltipBlock
-                                Margin="0,5,6,0"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                NormalOpacity="0.25"
-                                TooltipText="{DynamicResource CustomStageCodeTip}" />
-                        </Grid>
-                    </Grid>
+                    <controls:TooltipBlock
+                        Margin="0,5,6,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        NormalOpacity="0.25"
+                        TooltipText="{DynamicResource CustomStageCodeTip}"
+                        Visibility="{c:Binding CustomStageCode}" />
+                    <Button
+                        Grid.Row="1"
+                        Margin="6"
+                        VerticalAlignment="Bottom"
+                        Command="{s:Action AddStageToPlan}"
+                        Content="{DynamicResource AddStage}"
+                        Visibility="{c:Binding UseAlternateStage}" />
                 </Grid>
+                <!--  当 UseAlternateStage 为 true 时显示 ListBox（多关卡计划）  -->
                 <ListBox
                     Grid.Column="1"
                     Margin="6,5"
@@ -242,7 +242,10 @@
                     dd:DragDrop.IsDropTarget="True"
                     ClipToBounds="False"
                     ItemsSource="{Binding Path=StagePlan}"
-                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}">
+                    PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
+                                                 Target={x:Type helper:MouseWheelHelper}}"
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+                    Visibility="{c:Binding UseAlternateStage}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid x:Name="StageItemGrid" Margin="0,0,0,-2">
@@ -349,6 +352,57 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                <!--  当 UseAlternateStage 为 false 时显示单个关卡选择  -->
+                <Grid
+                    Grid.Column="1"
+                    Margin="6,5"
+                    Visibility="{c:Binding !UseAlternateStage}">
+                    <Grid Height="30">
+                        <!--  当 CustomStageCode 为 false 时显示 ComboBox  -->
+                        <ComboBox
+                            x:Name="SingleStageComboBox"
+                            DisplayMemberPath="Display"
+                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+                            ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                            Loaded="SingleStageComboBox_Loaded"
+                            Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
+                            SelectedValuePath="Value"
+                            SelectionChanged="SingleStageComboBox_SelectionChanged"
+                            Visibility="{c:Binding !CustomStageCode,
+                                                   Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}">
+                            <ComboBox.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsOpen}" Value="False">
+                                            <Setter Property="Opacity" Value="0.4" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsOpen}" Value="True">
+                                            <Setter Property="Opacity" Value="1" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
+
+                        <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
+                        <TextBox
+                            x:Name="SingleStageTextBox"
+                            Height="30"
+                            hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
+                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+                            Loaded="SingleStageTextBox_Loaded"
+                            Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
+                            TextChanged="SingleStageTextBox_TextChanged"
+                            ToolTip="{DynamicResource CustomStageCodeTip}"
+                            Visibility="{c:Binding CustomStageCode,
+                                                   Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
+                    </Grid>
+                </Grid>
             </Grid>
         </Grid>
 
