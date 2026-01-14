@@ -15,7 +15,7 @@ icon: iconoir:developer
 
 ## 我不懂程式設計，只想改一點點 JSON 檔案 / 文件等，要怎麼操作？
 
-歡迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （純網頁端操作 GitHub.com）
+歡迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （純網頁端操作 github.com）
 
 ## 我只想簡單修改幾行程式碼，但配置環境太麻煩，純網頁編輯又很難用，怎麼辦？
 
@@ -49,7 +49,7 @@ icon: iconoir:developer
    如果正在使用 Visual Studio 等不附帶 `--recurse-submodules` 參數的 Git GUI，則需在複製後再執行 `git submodule update --init` 以拉取子模組。
    :::
 
-4. 下載預編譯的第三方函式庫（Dependencies）。
+4. 下載預編譯的第三方函式庫
 
    **需要有 Python 環境，請自行搜尋 Python 安裝教學。**
 
@@ -61,7 +61,7 @@ icon: iconoir:developer
    - 下載並安裝 `CMake`
    - 下載並安裝 `Visual Studio 2026 Community`，安裝時需要選中 `使用 C++ 的桌面開發` 和 `.NET 桌面開發`。
 
-6. 執行 CMake 專案配置。
+6. 執行 CMake 專案配置
 
    ```cmd
    mkdir -p build
@@ -75,10 +75,10 @@ icon: iconoir:developer
    - 按 F5 執行。
 
    ::: tip
-   若需調試 Win32Controller（Windows 視窗控制）相關功能，需要自行從 [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) 下載對應平台的壓縮包，將 `bin` 目錄中的 `MaaWin32ControlUnit.dll` 放到 MAA 的 DLL 同目錄下（如 `build/bin/Debug`）。歡迎 PR 一個自動下載腳本！
+   若需偵錯 Win32Controller（Windows 視窗控制）相關功能，需要自行從 [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) 下載對應平台的壓縮檔案，將 `bin` 目錄中的 `MaaWin32ControlUnit.dll` 放到 MAA 的 DLL 同目錄下（如 `build/bin/Debug`）。歡迎 PR 一個自動下載腳本！
    :::
 
-9. 到這裡，你就可以愉快地 ~~瞎 JB 改~~ 發電了
+9. 到這裡，你就可以愉快地 ~~瞎雞巴改~~ 發電了
 10. 開發過程中，每一定數量，記得提交一個 Commit, 別忘了寫上 Message  
     假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev` 上
 
@@ -89,7 +89,7 @@ git checkout your_own_branch
 
 這樣你的提交就能在新的分支上生長，不會受到 `dev` 更新的打擾
 
-11. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠程（Fork 的倉庫）
+11. 完成開發後，推送您修改過的本地分支（以 `dev` 為例）到遠端（Fork 的倉庫）。
 
     ```bash
     git push origin dev
@@ -143,7 +143,7 @@ MAA 使用一系列的格式化工具來確保儲存庫中的程式碼和資源�
 
 ### 利用 Pre-commit Hooks 自動進行程式碼格式化
 
-1. 確保您的電腦上有 Python 與 Node 環境。
+1. 確保您的電腦上有 Python 與 Node 環境
 
 2. 在專案根目錄下執行以下命令：
 
@@ -158,17 +158,17 @@ MAA 使用一系列的格式化工具來確保儲存庫中的程式碼和資源�
 
 ### 在 Visual Studio 中啟用 clang-format
 
-1. 安裝 clang-format 20.1.0 或更高版本。
+1. 安裝 clang-format 20.1.0 或更高版本
 
    ```bash
    python -m pip install clang-format
    ```
 
-2. 使用 Everything 等工具找到 `clang-format.exe` 的安裝位置。參考路徑：若您使用 Anaconda，它通常位於 `YourAnacondaPath/Scripts/clang-format.exe`。
+2. 使用 Everything 等工具找到 `clang-format.exe` 的安裝位置。作為參考，若您使用了 Anaconda，`clang-format.exe` 將安裝在 `YourAnacondaPath/Scripts/clang-format.exe`
 
-3. 在 Visual Studio `工具-選項` 中搜尋 `clang-format`。
+3. 在 Visual Studio `工具-選項` 中搜尋 `clang-format`
 
-4. 點擊 `啟用 ClangFormat 支援`，然後選擇下方的 `使用自定義 clang-format.exe 檔案`，選擇第 2 步找到的 `clang-format.exe`。
+4. 點擊 `啟用 ClangFormat 支援`，然後選擇下方的 `使用自定義 clang-format.exe 檔案`，選擇第 2 步找到的 `clang-format.exe`
 
 ![Visual Studio 設定 clang-format](/images/zh-cn/development-enable-vs-clang-format.png)
 
