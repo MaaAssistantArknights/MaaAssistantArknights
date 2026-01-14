@@ -126,5 +126,10 @@ public class FightTask : BaseTask
     /// </summary>
     public bool HideSeries { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 是否启用周计划
+    /// </summary>
+    public bool UseWeeklySchedule { get; set; } = false;
+
     public Dictionary<DayOfWeek, bool> WeeklySchedule { get; set; } = Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
 }

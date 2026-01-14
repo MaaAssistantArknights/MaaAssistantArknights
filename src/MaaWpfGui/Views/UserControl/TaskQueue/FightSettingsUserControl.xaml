@@ -451,54 +451,25 @@
                 Margin="0,10"
                 Content="{DynamicResource HideSeries}"
                 IsChecked="{Binding HideSeries}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoRestartOption}"
+                IsChecked="{Binding AutoRestartOnDrop}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource UseWeeklySchedule}"
+                IsChecked="{Binding UseWeeklySchedule}" />
             <ListBox
                 Margin="6,5"
+                MaxHeight="300"
                 HorizontalContentAlignment="Stretch"
                 d:ItemsSource="{d:SampleData ItemCount=3}"
                 ItemsSource="{Binding Path=WeeklyScheduleSource}"
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                              Target={x:Type helper:MouseWheelHelper}}"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                <ListBox.Style>
-                    <Style BasedOn="{StaticResource NoSelectedHighlightListBoxStyle}" TargetType="ListBox">
-                        <Setter Property="MaxHeight" Value="50" />
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Trigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation
-                                                Storyboard.TargetProperty="MaxHeight"
-                                                To="300"
-                                                Duration="0:0:0.3">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <CubicEase EasingMode="EaseOut" />
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.EnterActions>
-                                <Trigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation
-                                                Storyboard.TargetProperty="MaxHeight"
-                                                To="50"
-                                                Duration="0:0:0.3">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <CubicEase EasingMode="EaseIn" />
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.ExitActions>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListBox.Style>
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+                Visibility="{c:Binding UseWeeklySchedule}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox
@@ -509,10 +480,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource AutoRestartOption}"
-                IsChecked="{Binding AutoRestartOnDrop}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

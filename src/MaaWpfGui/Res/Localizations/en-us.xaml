@@ -420,6 +420,7 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="StartGameLaunchClient">Launch Client on Start</system:String>
     <system:String x:Key="AutoRestartOption">Restart when game disconnects</system:String>
+    <system:String x:Key="UseWeeklySchedule">Enable Weekly Schedule</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
