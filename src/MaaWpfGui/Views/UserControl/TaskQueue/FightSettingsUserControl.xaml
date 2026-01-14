@@ -181,7 +181,7 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         d:IsHitTestVisible="True"
-                        DisplayMemberPath="Key"
+                        DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding SeriesList}"
@@ -203,14 +203,24 @@
                         Margin="6,15"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
+                        Text="{DynamicResource StageSelect}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap"
+                        Visibility="{c:Binding !UseAlternateStage}" />
+                    <controls:TextBlock
+                        Margin="6,15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
                         Text="{DynamicResource StageSelect2}"
                         TextAlignment="Center"
-                        TextWrapping="Wrap" />
+                        TextWrapping="Wrap"
+                        Visibility="{c:Binding UseAlternateStage}" />
                     <Grid Grid.Row="1" VerticalAlignment="Bottom">
                         <Button
                             Margin="6"
                             Command="{s:Action AddStageToPlan}"
-                            Content="{DynamicResource AddStage}" />
+                            Content="{DynamicResource AddStage}"
+                            Visibility="{c:Binding UseAlternateStage}" />
                         <Grid Visibility="{c:Binding CustomStageCode}">
                             <controls:TooltipBlock
                                 Margin="0,5,6,0"
@@ -221,8 +231,6 @@
                         </Grid>
                     </Grid>
                 </Grid>
-
-
                 <ListBox
                     Grid.Column="1"
                     Margin="6,5"
@@ -232,8 +240,6 @@
                     dd:DragDrop.IsDragSource="True"
                     dd:DragDrop.IsDropTarget="True"
                     ItemsSource="{Binding Path=StagePlan}"
-                    PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
-                                                 Target={x:Type helper:MouseWheelHelper}}"
                     Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                     ToolTip="{DynamicResource LabelSequenceTip}">
                     <ListBox.ItemTemplate>
@@ -250,6 +256,8 @@
                                     Height="30"
                                     Margin="-10,0,-5,0"
                                     VerticalContentAlignment="Center"
+                                    hc:BorderElement.CornerRadius="0"
+                                    BorderThickness="0,1,0,1"
                                     DisplayMemberPath="Display"
                                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
@@ -258,7 +266,17 @@
                                     SelectedValue="{Binding Value}"
                                     SelectedValuePath="Value"
                                     Visibility="{c:Binding !CustomStageCode,
-                                                           Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
+                                                           Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}">
+                                    <ComboBox.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ComboBox.ItemContainerStyle>
+                                </ComboBox>
 
                                 <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
                                 <TextBox
@@ -284,7 +302,10 @@
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Command="{s:Action RemoveStageFromPlan}"
-                                    CommandParameter="{c:Binding Index}" />
+                                    CommandParameter="{c:Binding Index}"
+                                    Visibility="{c:Binding DataContext.UseAlternateStage,
+                                                           RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                          AncestorType={x:Type UserControl}}}" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -321,10 +342,6 @@
                 Margin="0,10"
                 Content="{DynamicResource UseAlternateStage}"
                 IsChecked="{Binding UseAlternateStage}" />
-            <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource UseRemainingSanityStage}" IsChecked="{Binding UseRemainingSanityStage}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource UseRemainingSanityStageTip}" />
-            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AllowUseStoneSave}"

@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -41,6 +42,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 public class FightSettingsUserControlModel : TaskSettingsViewModel
 {
     private static readonly ILogger _logger = Log.ForContext<FightSettingsUserControlModel>();
+    private static readonly Lock _lock = new();
 
     public static FightTimes? FightReport { get; set; }
 
@@ -53,10 +55,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public FightSettingsUserControlModel()
     {
-        foreach (var item in WeeklyScheduleSource)
+        foreach (var i in WeeklyScheduleSource)
         {
-            item.PropertyChanged += (_, __) => SaveWeeklySchedule();
+            i.PropertyChanged += (_, __) => SaveWeeklySchedule();
         }
+        var item = new StagePlanItem();
+        item.PropertyChanged += (_, __) => SaveStagePlan();
+        StagePlan.Add(item);
     }
 
     public static FightSettingsUserControlModel Instance { get; }
@@ -64,7 +69,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// <summary>
     /// Gets or private sets the list of stages.
     /// </summary>
-    public ObservableCollection<CombinedData> StageListSource
+    public ObservableCollection<StageSourceItem> StageListSource
     {
         get => field;
         private set => SetAndNotify(ref field, value);
@@ -88,14 +93,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             { "炭", "SK-5" },
         };
 
-    public ObservableCollection<StagePlanItem> StagePlan { get; set; } = [];
+    public ObservableCollection<StagePlanItem> StagePlan { get => field; set => SetAndNotify(ref field, value); } = [];
 
     // UI 绑定的方法
     [UsedImplicitly]
     public void AddStageToPlan()
     {
-        var count = StagePlan.Count;
-        StagePlan.Add(new StagePlanItem { Index = count });
+        var item = new StagePlanItem { Index = StagePlan.Count };
+        item.PropertyChanged += (_, __) => SaveStagePlan();
+        StagePlan.Add(item);
     }
 
     // UI 绑定的方法
@@ -153,17 +159,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
             SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
         }
-    }
-
-    /// <summary>
-    /// 移除不在关卡列表中的关卡，关闭自定义和刷新关卡列表时调用
-    /// </summary>
-    public void RemoveNonExistStage()
-    {
-        Stage = StageListSource.FirstOrDefault(x => x.Value == Stage)?.Value ?? string.Empty;
-        //Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
-        //Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
-        //Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
     }
 
     /// <summary>
@@ -505,6 +500,22 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             {
                 HideUnavailableStage = false;
             }
+            else
+            {
+                var list = StagePlan;
+                if (list.Count == 0)
+                {
+                    var item = new StagePlanItem();
+                    item.PropertyChanged += (_, __) => SaveStagePlan();
+                    StagePlan.Add(item);
+                }
+                else
+                {
+                    var stage = list[0];
+                    StagePlan.Clear();
+                    StagePlan.Add(stage);
+                }
+            }
         }
     }
 
@@ -619,45 +630,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 return name;
             }
         }
-        return null;
-    }
-
-    private void RefreshStagePlan()
-    {
-        var plan = GetTaskConfig<FightTask>().StagePlan;
-        var list = plan.Select((i, index) => new StagePlanItem() { Display = i.Display, Value = i.Value, Index = index }).ToList();
-        StagePlan = new ObservableCollection<StagePlanItem>(list);
-        StagePlan.CollectionChanged += (_, __) => SaveConfig();
-
-        void SaveConfig()
-        {
-            var list = StagePlan.Select(i => new FightTask.StageInfo(i.Display, i.Value)).ToList();
-            SetTaskConfig<FightTask>(t => t.StagePlan.SequenceEqual(list), t => t.StagePlan = list);
-            for (int i = 0; i < StagePlan.Count; i++)
-            {
-                StagePlan[i].Index = i;
-            }
-        }
-    }
-
-    private void RefreshWeeklySchedule()
-    {
-        var plan = GetTaskConfig<FightTask>().WeeklySchedule;
-        foreach (var item in WeeklyScheduleSource)
-        {
-            item.Value = !plan.TryGetValue(item.DayOfWeek, out var value) || value;
-        }
-    }
-
-    private void SaveWeeklySchedule()
-    {
-        if (IsRefreshingUI)
-        {
-            return;
-        }
-
-        var dict = WeeklyScheduleSource.ToDictionary(i => i.DayOfWeek, i => i.Value);
-        SetTaskConfig<FightTask>(t => t.WeeklySchedule.SequenceEqual(dict), t => t.WeeklySchedule = dict);
+        return stageNames.FirstOrDefault();
     }
 
     public override void RefreshUI(BaseTask baseTask)
@@ -732,7 +705,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        var stage = GetFightStage(fight.StagePlan.Select(i => i.Value));
+        using var scope = _lock.EnterScope();
+        var stage = GetFightStage(fight.StagePlan);
         if (stage is null)
         {
             return null;
@@ -787,114 +761,84 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
     // 这个函数被列为public可见，意味着他注入对象前被调用
-    public void UpdateStageList() // 重做
+    public void UpdateStageList()
     {
         Execute.PostToUIThreadAsync(() => {
+            _logger.Information("Updating stage list...");
+            using var scope = _lock.EnterScope();
+            bool isFightTaskShow = TaskSettingVisibilityInfo.CurrentTask is FightTask;
+            var hideUnavailble = isFightTaskShow && HideUnavailableStage;
+            var stageList = Instances.StageManager.GetStageList().ToList();
+            var listCurrent = StagePlan.Select(i => i.Value).ToList();
 
-            var list = Instances.StageManager.GetStageList().ToList();
-            StageListSource = new ObservableCollection<CombinedData>(list);
-            if (StageListSource.Any(i => i.Value == Stage))
+            var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = !hideUnavailble || i.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) }).ToList();
+            if (isFightTaskShow)
             {
-                NotifyOfPropertyChange(nameof(Stage));
-            }
-            else
-            {
-                Stage = string.Empty;
-            }
-
-            if (TaskSettingVisibilityInfo.CurrentTask is FightTask)
-            {
-                foreach (var item in StagePlan)
+                foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i))) // 补未开放进来
                 {
-                    if (list.FirstOrDefault(i => i.Value == item.Value) is { } info)
-                    {
-                        continue;
-                    }
+                    listSource.Add(new StageSourceItem() { Display = item, Value = item, IsVisible = false });
                 }
             }
-
-
-
-
-
-
-            var hideUnavailableStage = HideUnavailableStage;
-
-            Instances.TaskQueueViewModel.EnableSetFightParams = false;
-
-            var stage1 = Stage ?? string.Empty;
-
-            var tempStageList = hideUnavailableStage
-                ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
-                : Instances.StageManager.GetStageList().ToList();
-
-
-            if (CustomStageCode)
+            StageListSource = new ObservableCollection<StageSourceItem>(listSource);
+            for (int i = 0; i < listCurrent.Count; i++) // UI还原
             {
-                // 7%
-                // 使用自定义的时候不做处理
-            }
-            else if (hideUnavailableStage)
-            {
-                // 15%
-                stage1 = Instances.TaskQueueViewModel.GetValidStage(stage1);
-            }
-            //else if (UseAlternateStage)
-            //{
-            // 11%
-            //AddStagesIfNotExist([stage1], tempStageList);
-            //}
-            else
-            {
-
-                // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
-                // stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
-                // stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
-                // stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
+                var item = StagePlan[i];
+                item.Value = listCurrent[i];
+                NotifyOfPropertyChange(nameof(item.Value));
             }
 
-            Stage = stage1;
-            if (!CustomStageCode)
-            {
-                RemoveNonExistStage();
-            }
-
-            Instances.TaskQueueViewModel.EnableSetFightParams = true;
+            RefreshStagePlan();
         });
     }
 
-    private void AddStagesIfNotExist(IEnumerable<string> stages, List<CombinedData> stageList)
+    private void RefreshStagePlan()
     {
-        foreach (var stage in stages)
+        var stage = Instances.StageManager.GetStageList().ToList();
+        var plan = GetTaskConfig<FightTask>().StagePlan;
+
+        var listRaw = plan.ToList();
+        foreach (var item in listRaw.Where(i => !stage.Any(p => p.Value == i)).ToList()) // 移除未开放关卡
         {
-            AddStageIfNotExist(stage, stageList);
+            listRaw.Remove(item);
+            _logger.Information("Removed non-existing stage from plan: {Stage}", item);
+        }
+        var list = listRaw.Select((i, index) => new StagePlanItem() { Value = i, Index = index, IsOpen = stage.FirstOrDefault(p => p.Value == i)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
+        foreach (var item in list)
+        {
+            item.PropertyChanged += (_, __) => SaveStagePlan();
+        }
+        StagePlan = new ObservableCollection<StagePlanItem>(list);
+        StagePlan.CollectionChanged += (_, __) => SaveStagePlan();
+    }
+
+    private void SaveStagePlan()
+    {
+        var list = StagePlan.Select(i => i.Value).ToList();
+        SetTaskConfig<FightTask>(t => t.StagePlan.SequenceEqual(list), t => t.StagePlan = list);
+        for (int i = 0; i < StagePlan.Count; i++)
+        {
+            StagePlan[i].Index = i;
         }
     }
 
-    private void AddStageIfNotExist(string stage, List<CombinedData> stageList)
+    private void RefreshWeeklySchedule()
     {
-        if (stageList.Any(x => x.Value == stage))
+        var plan = GetTaskConfig<FightTask>().WeeklySchedule;
+        foreach (var item in WeeklyScheduleSource)
+        {
+            item.Value = !plan.TryGetValue(item.DayOfWeek, out var value) || value;
+        }
+    }
+
+    private void SaveWeeklySchedule()
+    {
+        if (IsRefreshingUI)
         {
             return;
         }
 
-        var stageInfo = Instances.StageManager.GetStageInfo(stage);
-        stageList.Add(stageInfo);
-    }
-
-    /// <summary>
-    /// 更新 ObservableCollection，确保不替换原集合，而是增删项
-    /// </summary>
-    /// <param name="originalCollection">原始 ObservableCollection</param>
-    /// <param name="newList">新的列表</param>
-    public static void UpdateObservableCollection(ObservableCollection<CombinedData> originalCollection, List<CombinedData> newList)
-    {
-        originalCollection.Clear();
-
-        foreach (var item in newList)
-        {
-            originalCollection.Add(item);
-        }
+        var dict = WeeklyScheduleSource.ToDictionary(i => i.DayOfWeek, i => i.Value);
+        SetTaskConfig<FightTask>(t => t.WeeklySchedule.SequenceEqual(dict), t => t.WeeklySchedule = dict);
     }
 
     #endregion 关卡列表更新
@@ -939,14 +883,33 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         } = true;
     }
 
-    public class StagePlanItem
+    public class StageSourceItem : PropertyChangedBase
     {
         public string Display { get; set; } = string.Empty;
 
         public string Value { get; set; } = string.Empty;
 
+        public bool IsVisible
+        {
+            get => field;
+            set => SetAndNotify(ref field, value);
+        } = true;
+    }
+
+    public class StagePlanItem : PropertyChangedBase
+    {
+        public string Value
+        {
+            get => field;
+            set => SetAndNotify(ref field, value);
+        } = string.Empty;
+
         public int Index { get; set; }
 
-        public bool IsOpen { get; set; }
+        public bool IsOpen
+        {
+            get => field;
+            set => SetAndNotify(ref field, value);
+        }
     }
 }

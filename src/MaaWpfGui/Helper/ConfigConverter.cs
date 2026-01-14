@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -158,16 +157,12 @@ public class ConfigConverter
                 var stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
                 var stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
 
-                var stageName = stage1 == string.Empty ? "DefaultStage" : stage1;
-                fightTask.StagePlan.Add(new(stageI18n.Contains(stageName) ? LocalizationHelper.GetString(stageName, local) : stageName, stage1));
+                fightTask.StagePlan.Add(stage1);
                 if (ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false))
                 {
-                    stageName = stage2 == string.Empty ? "DefaultStage" : stage2;
-                    fightTask.StagePlan.Add(new(stageI18n.Contains(stageName) ? LocalizationHelper.GetString(stageName, local) : stageName, stage2));
-                    stageName = stage3 == string.Empty ? "DefaultStage" : stage3;
-                    fightTask.StagePlan.Add(new(stageI18n.Contains(stageName) ? LocalizationHelper.GetString(stageName, local) : stageName, stage3));
-                    stageName = stage4 == string.Empty ? "DefaultStage" : stage4;
-                    fightTask.StagePlan.Add(new(stageI18n.Contains(stageName) ? LocalizationHelper.GetString(stageName, local) : stageName, stage4));
+                    fightTask.StagePlan.Add(stage2);
+                    fightTask.StagePlan.Add(stage3);
+                    fightTask.StagePlan.Add(stage4);
                 }
 
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage1);
@@ -199,8 +194,7 @@ public class ConfigConverter
                 }
 
                 stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty);
-                stageName = stage1 == string.Empty ? "DefaultStage" : stage1;
-                fightTask2.StagePlan.Add(new(stageI18n.Contains(stageName) ? LocalizationHelper.GetString(stageName, local) : stageName, stage1));
+                fightTask2.StagePlan.Add(stage1);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RemainingSanityStage);
 
                 infrastTask.Mode = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, InfrastMode.Normal);

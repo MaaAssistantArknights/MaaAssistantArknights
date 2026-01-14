@@ -79,7 +79,7 @@ public class FightTask : BaseTask
     /// <summary>
     /// Gets or sets 关卡列表, 从上往下选择第一个可用关卡
     /// </summary>
-    public List<StageInfo> StagePlan { get; set; } = [];
+    public List<string> StagePlan { get; set; } = [];
 
     /// <summary>
     /// Gets or sets a value indicating whether 博朗台模式
@@ -127,6 +127,4 @@ public class FightTask : BaseTask
     public bool HideSeries { get; set; }
 
     public Dictionary<DayOfWeek, bool> WeeklySchedule { get; set; } = Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
-
-    public record StageInfo(string Display, string Value);
 }

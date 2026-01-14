@@ -217,7 +217,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
         }
 
         var fightStage = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(x => x is FightTask)?.IsEnable is not false
-                         && ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).Cast<FightTask>().FirstOrDefault()?.StagePlan.First().Value == string.Empty;
+                         && ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).Cast<FightTask>().FirstOrDefault()?.StagePlan.First() == string.Empty;
         if (fightStage)
         {
             Log.Warning("理智作战 当前/上次 导致无法 OF-1"); // 需要移除
