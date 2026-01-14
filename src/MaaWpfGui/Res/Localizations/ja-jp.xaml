@@ -785,6 +785,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
+    <system:String x:Key="TaskAppend.Skip">{0}: {1} タスクをスキップしました</system:String>
+    <system:String x:Key="TaskAppend.Error">{0}: {1} タスクの追加に失敗しました</system:String>
     <system:String x:Key="AdbReplacementTips">タスクが応答なしになる場合は、「{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}」、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
     <system:String x:Key="Waiting">ミッション終了を待っています……</system:String>
     <system:String x:Key="Stopping">動作停止中……</system:String>

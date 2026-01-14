@@ -1658,10 +1658,10 @@ public class TaskQueueViewModel : Screen
                     break;
                 case false:
                     taskRet = false;
-                    AddLog($"{LocalizationHelper.GetString(item.TaskType.ToString())}: {item.Name} task append error", UiLogColor.Error);
+                    AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Error);
                     break;
                 case null:
-                    AddLog($"{LocalizationHelper.GetString(item.TaskType.ToString())}: {item.Name} task skip", UiLogColor.Info);
+                    AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Info);
                     break;
             }
         }
