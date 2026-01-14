@@ -242,6 +242,8 @@
                     dd:DragDrop.IsDropTarget="True"
                     ClipToBounds="False"
                     ItemsSource="{Binding Path=StagePlan}"
+                    PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                                                 Target={x:Type helper:MouseWheelHelper}}"
                     Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                     Visibility="{c:Binding UseAlternateStage}">
                     <ListBox.ItemTemplate>
@@ -460,8 +462,8 @@
                 Content="{DynamicResource UseWeeklySchedule}"
                 IsChecked="{Binding UseWeeklySchedule}" />
             <ListBox
-                Margin="6,5"
                 MaxHeight="300"
+                Margin="6,5"
                 HorizontalContentAlignment="Stretch"
                 d:ItemsSource="{d:SampleData ItemCount=3}"
                 ItemsSource="{Binding Path=WeeklyScheduleSource}"
