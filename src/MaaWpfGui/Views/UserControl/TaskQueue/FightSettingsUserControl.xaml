@@ -242,8 +242,6 @@
                     dd:DragDrop.IsDropTarget="True"
                     ClipToBounds="False"
                     ItemsSource="{Binding Path=StagePlan}"
-                    PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
-                                                 Target={x:Type helper:MouseWheelHelper}}"
                     Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                     Visibility="{c:Binding UseAlternateStage}">
                     <ListBox.ItemTemplate>
