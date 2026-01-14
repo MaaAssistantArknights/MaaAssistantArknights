@@ -592,18 +592,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     public bool UseWeeklySchedule
     {
         get => GetTaskConfig<FightTask>().UseWeeklySchedule;
-        set
-        {
-            SetTaskConfig<FightTask>(t => t.UseWeeklySchedule == value, t => t.UseWeeklySchedule = value);
-            if (!value)
-            {
-                // 如果不启用周计划，全部勾上
-                foreach (var item in WeeklyScheduleSource)
-                {
-                    item.Value = true;
-                }
-            }
-        }
+        set => SetTaskConfig<FightTask>(t => t.UseWeeklySchedule == value, t => t.UseWeeklySchedule = value);
     }
 
     public ObservableCollection<WeeklyScheduleItem> WeeklyScheduleSource { get; set; } = new(Enum.GetValues<DayOfWeek>().Select(i => new WeeklyScheduleItem(i)));
