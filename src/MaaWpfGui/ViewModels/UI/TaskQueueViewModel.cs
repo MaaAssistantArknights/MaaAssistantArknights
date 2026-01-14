@@ -1224,6 +1224,79 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    /// <summary>
+    /// 重命名任务
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    [UsedImplicitly]
+    public void RenameTask(TaskItemViewModel taskItem)
+    {
+        if (taskItem == null || !Idle)
+        {
+            return;
+        }
+
+        var currentName = taskItem.Name;
+        var dialog = new Views.Dialogs.TextDialogUserControl(
+            LocalizationHelper.GetString("RenameTask"),
+            LocalizationHelper.GetString("RenameTaskPrompt"),
+            currentName)
+        {
+            Owner = Application.Current.MainWindow,
+        };
+
+        var result = dialog.ShowDialog();
+
+        if (result == true && !string.IsNullOrWhiteSpace(dialog.InputText))
+        {
+            var newName = dialog.InputText.Trim();
+            taskItem.Name = newName;
+            if (taskItem.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+            {
+                ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].Name = newName;
+            }
+
+            AddLog(string.Format(LocalizationHelper.GetString("TaskRenamed"), newName), UiLogColor.Info);
+        }
+    }
+
+    /// <summary>
+    /// 删除任务
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    [UsedImplicitly]
+    public void DeleteTask(TaskItemViewModel taskItem)
+    {
+        if (taskItem == null || !Idle)
+        {
+            return;
+        }
+
+        var result = MessageBoxHelper.Show(
+            string.Format(LocalizationHelper.GetString("ConfirmDeleteTaskMessage"), taskItem.Name),
+            LocalizationHelper.GetString("ConfirmDeleteTask"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.Yes)
+        {
+            var index = taskItem.Index;
+            if (index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+            {
+                ConfigFactory.CurrentConfig.TaskQueue.RemoveAt(index);
+                TaskItemViewModels.RemoveAt(index);
+
+                // 更新后续任务的索引
+                for (int i = index; i < TaskItemViewModels.Count; i++)
+                {
+                    TaskItemViewModels[i].Index = i;
+                }
+
+                AddLog(string.Format(LocalizationHelper.GetString("TaskDeleted"), taskItem.Name), UiLogColor.Info);
+            }
+        }
+    }
+
     private bool _inverseMode = ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, false);
 
     /// <summary>

@@ -293,6 +293,14 @@
     <system:String x:Key="Ok">好的</system:String>
     <system:String x:Key="Cancel">取消</system:String>
     <system:String x:Key="Confirm">确认</system:String>
+    <system:String x:Key="Rename">重命名</system:String>
+    <system:String x:Key="Delete">删除</system:String>
+    <system:String x:Key="RenameTask">重命名任务</system:String>
+    <system:String x:Key="RenameTaskPrompt">请输入新的任务名称：</system:String>
+    <system:String x:Key="ConfirmDeleteTask">确认删除</system:String>
+    <system:String x:Key="ConfirmDeleteTaskMessage">确定要删除任务 "{0}" 吗？</system:String>
+    <system:String x:Key="TaskRenamed">任务已重命名为: {0}</system:String>
+    <system:String x:Key="TaskDeleted">已删除任务: {0}</system:String>
     <system:String x:Key="HotKeyShowGui">[热键] 显示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[热键] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">键入 退格/Esc/Delete 清除当前热键</system:String>

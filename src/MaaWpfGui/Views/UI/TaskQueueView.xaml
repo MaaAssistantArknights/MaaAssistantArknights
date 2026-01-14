@@ -126,6 +126,7 @@
 
                                         <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Stretch">
                                             <RadioButton
+                                                x:Name="TaskSettingRadioButton"
                                                 Margin="0"
                                                 HorizontalAlignment="Stretch"
                                                 HorizontalContentAlignment="Right"
@@ -138,7 +139,20 @@
                                                 GroupName="TaskSettings"
                                                 IsChecked="{Binding EnableSetting}"
                                                 Style="{DynamicResource RadioGroupItemSingle}"
-                                                ToolTip="{DynamicResource TaskSettings}" />
+                                                ToolTip="{DynamicResource TaskSettings}">
+                                                <RadioButton.ContextMenu>
+                                                    <ContextMenu DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" IsEnabled="{c:Binding 'Idle and Inited', Source={x:Static helper:Instances.TaskQueueViewModel}}">
+                                                        <MenuItem
+                                                            Command="{s:Action RenameTask}"
+                                                            CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                            Header="{DynamicResource Rename}" />
+                                                        <MenuItem
+                                                            Command="{s:Action DeleteTask}"
+                                                            CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                            Header="{DynamicResource Delete}" />
+                                                    </ContextMenu>
+                                                </RadioButton.ContextMenu>
+                                            </RadioButton>
                                         </hc:ButtonGroup>
                                     </Grid>
                                 </DataTemplate>

@@ -293,6 +293,14 @@
     <system:String x:Key="Ok">확인</system:String>
     <system:String x:Key="Cancel">취소</system:String>
     <system:String x:Key="Confirm">확인</system:String>
+    <system:String x:Key="Rename">이름 바꾸기</system:String>
+    <system:String x:Key="Delete">삭제</system:String>
+    <system:String x:Key="RenameTask">작업 이름 바꾸기</system:String>
+    <system:String x:Key="RenameTaskPrompt">새 작업 이름을 입력하세요:</system:String>
+    <system:String x:Key="ConfirmDeleteTask">삭제 확인</system:String>
+    <system:String x:Key="ConfirmDeleteTaskMessage">작업 "{0}"을(를) 삭제하시겠습니까?</system:String>
+    <system:String x:Key="TaskRenamed">작업 이름이 변경되었습니다: {0}</system:String>
+    <system:String x:Key="TaskDeleted">작업이 삭제되었습니다: {0}</system:String>
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
     <system:String x:Key="HotKeyLinkStart">[단축키] Link 시작/중지</system:String>
     <system:String x:Key="HotKeyChangingTip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
