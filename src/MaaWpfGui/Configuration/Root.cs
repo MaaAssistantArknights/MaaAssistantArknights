@@ -49,10 +49,17 @@ public class Root : INotifyPropertyChanged
     [JsonIgnore]
     public SpecificConfig CurrentConfig
     {
-        get
-        {
-            Configurations.TryGetValue(Current, out var result);
-            return result!;
+        get {
+            if (Configurations.TryGetValue(Current, out var result))
+            {
+                return result;
+            }
+            else
+            {
+                var defaultConfig = new SpecificConfig();
+                Configurations[Current] = defaultConfig;
+                return defaultConfig;
+            }
         }
 
         set => Configurations[Current] = value;
