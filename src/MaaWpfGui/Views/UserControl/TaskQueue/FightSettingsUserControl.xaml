@@ -234,84 +234,126 @@
                 <ListBox
                     Grid.Column="1"
                     Margin="6,5"
+                    Padding="-1"
                     HorizontalContentAlignment="Stretch"
                     d:ItemsSource="{d:SampleData ItemCount=3}"
                     dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
                     dd:DragDrop.IsDragSource="True"
                     dd:DragDrop.IsDropTarget="True"
+                    ClipToBounds="False"
                     ItemsSource="{Binding Path=StagePlan}"
-                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
-                    ToolTip="{DynamicResource LabelSequenceTip}">
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid x:Name="StageItemGrid" Margin="0,0,0,-2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!--  当 CustomStageCode 为 false 时显示 ComboBox  -->
-                                <ComboBox
+                                <Grid
                                     Grid.Column="0"
                                     Height="30"
-                                    Margin="-10,0,-5,0"
-                                    VerticalContentAlignment="Center"
-                                    hc:BorderElement.CornerRadius="0"
-                                    BorderThickness="0,1,0,1"
-                                    DisplayMemberPath="Display"
-                                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                    ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
-                                    Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
-                                    SelectedValue="{Binding Value}"
-                                    SelectedValuePath="Value"
-                                    Visibility="{c:Binding !CustomStageCode,
-                                                           Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}">
-                                    <ComboBox.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsVisible}" Value="False">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding IsOpen}" Value="False">
-                                                    <Setter Property="Opacity" Value="0.4" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding IsOpen}" Value="True">
-                                                    <Setter Property="Opacity" Value="1" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ComboBox.ItemContainerStyle>
-                                </ComboBox>
+                                    Margin="-10,0,0,0">
+                                    <!--  当 CustomStageCode 为 false 时显示 ComboBox  -->
+                                    <ComboBox
+                                        DisplayMemberPath="Display"
+                                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                        ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                                        Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
+                                        SelectedValue="{Binding Value}"
+                                        SelectedValuePath="Value"
+                                        Visibility="{c:Binding !CustomStageCode,
+                                                               Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}">
+                                        <ComboBox.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsOpen}" Value="False">
+                                                        <Setter Property="Opacity" Value="0.4" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsOpen}" Value="True">
+                                                        <Setter Property="Opacity" Value="1" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ComboBox.ItemContainerStyle>
+                                    </ComboBox>
 
-                                <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
-                                <TextBox
-                                    Grid.Column="0"
-                                    Height="30"
-                                    Margin="-10,0,-5,0"
-                                    VerticalContentAlignment="Center"
-                                    hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                    Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
-                                    Text="{Binding Value}"
-                                    ToolTip="{DynamicResource CustomStageCodeTip}"
-                                    Visibility="{c:Binding CustomStageCode,
-                                                           Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
+                                    <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
+                                    <TextBox
+                                        Height="30"
+                                        hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
+                                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+                                        Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
+                                        Text="{Binding Value}"
+                                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                                        Visibility="{c:Binding CustomStageCode,
+                                                               Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
+                                </Grid>
 
+                                <!--  拖动手柄  -->
                                 <Button
                                     Grid.Column="1"
-                                    Margin="0,0,-5,0"
+                                    Margin="0"
+                                    Padding="2"
+                                    VerticalAlignment="Stretch"
+                                    hc:IconElement.Geometry="{StaticResource AlignHStretchGeometry}"
+                                    hc:IconElement.Height="10"
+                                    hc:IconElement.Width="10"
+                                    hc:VisualElement.HighlightBackground="Transparent"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Cursor="Hand">
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding IsMouseOver, ElementName=StageItemGrid}" Value="True" />
+                                                        <Condition Binding="{c:Binding DataContext.UseAlternateStage, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Value="True" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+                                <Button
+                                    Grid.Column="2"
+                                    Padding="2"
+                                    VerticalAlignment="Stretch"
                                     hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                    hc:IconElement.Height="10"
+                                    hc:IconElement.Width="10"
                                     hc:VisualElement.HighlightBackground="Transparent"
                                     hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Command="{s:Action RemoveStageFromPlan}"
-                                    CommandParameter="{c:Binding Index}"
-                                    Visibility="{c:Binding DataContext.UseAlternateStage,
-                                                           RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                          AncestorType={x:Type UserControl}}}" />
+                                    CommandParameter="{c:Binding Index}">
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding IsMouseOver, ElementName=StageItemGrid}" Value="True" />
+                                                        <Condition Binding="{c:Binding DataContext.UseAlternateStage, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Value="True" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
