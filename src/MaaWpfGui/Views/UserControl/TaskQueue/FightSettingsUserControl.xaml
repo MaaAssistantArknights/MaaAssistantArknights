@@ -194,70 +194,87 @@
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <controls:TextBlock
-                        Margin="6,15"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Text="{DynamicResource StageSelect}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap"
-                        Visibility="{c:Binding !UseAlternateStage}" />
-                    <controls:TextBlock
-                        Margin="6,15"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Text="{DynamicResource StageSelect2}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap"
-                        Visibility="{c:Binding UseAlternateStage}" />
-                    <Grid Grid.Row="1" VerticalAlignment="Bottom">
-                        <Button
-                            Margin="6"
-                            Command="{s:Action AddStageToPlan}"
-                            Content="{DynamicResource AddStage}"
-                            Visibility="{c:Binding UseAlternateStage}" />
-                        <Grid Visibility="{c:Binding CustomStageCode}">
-                            <controls:TooltipBlock
-                                Margin="0,5,6,0"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                NormalOpacity="0.25"
-                                TooltipText="{DynamicResource CustomStageCodeTip}" />
-                        </Grid>
-                    </Grid>
-                </Grid>
-                <ListBox
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="6,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Text="{DynamicResource StageSelect2}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Visibility="{c:Binding UseAlternateStage}" />
+                <Button
+                    Grid.Row="0"
                     Grid.Column="1"
+                    Margin="6"
+                    Command="{s:Action AddStageToPlan}"
+                    Content="{DynamicResource AddStage}"
+                    Visibility="{c:Binding UseAlternateStage}" />
+
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="6,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Text="{DynamicResource StageSelect}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Visibility="{c:Binding !UseAlternateStage}" />
+                <ListBox
+                    Grid.Row="1"
+                    Grid.Column="{c:Binding 'UseAlternateStage ? 0 : 1'}"
+                    Grid.ColumnSpan="{c:Binding 'UseAlternateStage ? 2 : 1'}"
                     Margin="6,5"
                     HorizontalContentAlignment="Stretch"
+                    d:Grid.Column="1"
                     d:ItemsSource="{d:SampleData ItemCount=3}"
                     dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
                     dd:DragDrop.IsDragSource="True"
                     dd:DragDrop.IsDropTarget="True"
                     ItemsSource="{Binding Path=StagePlan}"
-                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                     ToolTip="{DynamicResource LabelSequenceTip}">
+                    <ListBox.Style>
+                        <Style BasedOn="{StaticResource NoSelectedHighlightListBoxStyle}" TargetType="ListBox">
+                            <Setter Property="Margin" Value="6,5" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding UseAlternateStage}" Value="True">
+                                    <Setter Property="Margin" Value="300,5" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.Style>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
+                                <Button
+                                    Grid.Column="0"
+                                    Margin="-15,3,3,3"
+                                    hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                    hc:VisualElement.HighlightBackground="Transparent"
+                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Visibility="{c:Binding DataContext.UseAlternateStage,
+                                                           RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                          AncestorType={x:Type UserControl}}}" />
                                 <!--  当 CustomStageCode 为 false 时显示 ComboBox  -->
                                 <ComboBox
-                                    Grid.Column="0"
+                                    Grid.Column="1"
                                     Height="30"
                                     Margin="-10,0,-5,0"
                                     VerticalContentAlignment="Center"
-                                    hc:BorderElement.CornerRadius="0"
-                                    BorderThickness="0,1,0,1"
                                     DisplayMemberPath="Display"
                                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
@@ -286,7 +303,7 @@
 
                                 <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
                                 <TextBox
-                                    Grid.Column="0"
+                                    Grid.Column="1"
                                     Height="30"
                                     Margin="-10,0,-5,0"
                                     VerticalContentAlignment="Center"
@@ -298,9 +315,8 @@
                                     ToolTip="{DynamicResource CustomStageCodeTip}"
                                     Visibility="{c:Binding CustomStageCode,
                                                            Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
-
                                 <Button
-                                    Grid.Column="1"
+                                    Grid.Column="2"
                                     Margin="0,0,-5,0"
                                     hc:IconElement.Geometry="{StaticResource CloseGeometry}"
                                     hc:VisualElement.HighlightBackground="Transparent"
