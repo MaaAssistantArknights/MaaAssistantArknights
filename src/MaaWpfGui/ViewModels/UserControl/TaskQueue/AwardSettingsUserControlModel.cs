@@ -133,34 +133,6 @@ public class AwardSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _autoUpdateDepot = ConfigurationHelper.GetValue(ConfigurationKeys.AutoUpdateDepot, false);
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to update depot after receiving awards.
-    /// </summary>
-    public bool AutoUpdateDepot
-    {
-        get => _autoUpdateDepot;
-        set {
-            SetAndNotify(ref _autoUpdateDepot, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AutoUpdateDepot, value.ToString());
-        }
-    }
-
-    private bool _autoUpdateOperBox = ConfigurationHelper.GetValue(ConfigurationKeys.AutoUpdateOperBox, false);
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to update operator information after receiving awards.
-    /// </summary>
-    public bool AutoUpdateOperBox
-    {
-        get => _autoUpdateOperBox;
-        set {
-            SetAndNotify(ref _autoUpdateOperBox, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AutoUpdateOperBox, value.ToString());
-        }
-    }
-
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstAwardTask() {
@@ -170,8 +142,6 @@ public class AwardSettingsUserControlModel : TaskViewModel
             Orundum = ReceiveOrundum,
             Mining = ReceiveMining,
             SpecialAccess = ReceiveSpecialAccess,
-            AutoUpdateDepot = AutoUpdateDepot,
-            AutoUpdateOperBox = AutoUpdateOperBox,
         };
         return task.Serialize();
     }
@@ -190,8 +160,6 @@ public class AwardSettingsUserControlModel : TaskViewModel
             Orundum = award.Orundum,
             Mining = award.Mining,
             SpecialAccess = award.SpecialAccess,
-            AutoUpdateDepot = award.AutoUpdateDepot,
-            AutoUpdateOperBox = award.AutoUpdateOperBox,
         };
         if (taskId is int id)
         {
