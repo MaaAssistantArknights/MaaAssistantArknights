@@ -42,20 +42,5 @@
                 Content="{DynamicResource ReceiveSpecialAccess}"
                 IsChecked="{Binding ReceiveSpecialAccess}" />
         </StackPanel>
-        
-        <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox
-                    Content="{DynamicResource UpdateDepotStock}"
-                    IsChecked="{Binding AutoUpdateDepot}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource UpdateDepotAfterReceivingAwardsTip}" />
-            </StackPanel>
-            <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox
-                    Content="{DynamicResource UpdateOperatorInfo}"
-                    IsChecked="{Binding AutoUpdateOperBox}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource UpdateOperatorInfoTip}" />
-            </StackPanel>
-        </StackPanel>
     </StackPanel>
 </UserControl>

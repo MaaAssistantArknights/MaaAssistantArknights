@@ -867,6 +867,20 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private bool _autoUpdateDepot = ConfigurationHelper.GetValue(ConfigurationKeys.AutoUpdateDepot, false);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to update depot after receiving awards.
+    /// </summary>
+    public bool AutoUpdateDepot
+    {
+        get => _autoUpdateDepot;
+        set {
+            SetAndNotify(ref _autoUpdateDepot, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AutoUpdateDepot, value.ToString());
+        }
+    }
+
     #endregion
 
     #region 关卡列表更新

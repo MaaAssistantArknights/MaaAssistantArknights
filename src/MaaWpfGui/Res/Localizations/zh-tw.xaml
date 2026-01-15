@@ -539,8 +539,6 @@
     <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
     <system:String x:Key="UpdateDepotStock">更新倉庫庫存</system:String>
     <system:String x:Key="UpdateOperatorInfo">更新幹員信息</system:String>
-    <system:String x:Key="UpdateDepotAfterReceivingAwardsTip">領取獎勵結束後調用小工具中的倉庫識別</system:String>
-    <system:String x:Key="UpdateOperatorInfoTip">領取獎勵結束後調用小工具中的幹員識別</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="UseTray">顯示工作列圖標</system:String>
     <system:String x:Key="HideTray">隱藏工作列圖標</system:String>

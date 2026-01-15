@@ -539,8 +539,6 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 수령</system:String>
     <system:String x:Key="UpdateDepotStock">창고 재고 업데이트</system:String>
     <system:String x:Key="UpdateOperatorInfo">오퍼레이터 정보 업데이트</system:String>
-    <system:String x:Key="UpdateDepotAfterReceivingAwardsTip">보상 수령 후 위젯에서 창고 인식을 호출합니다</system:String>
-    <system:String x:Key="UpdateOperatorInfoTip">보상 수령 후 위젯에서 오퍼레이터 인식을 호출합니다</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="UseTray">트레이 아이콘 표시</system:String>
     <system:String x:Key="HideTray">트레이 아이콘 숨기기</system:String>

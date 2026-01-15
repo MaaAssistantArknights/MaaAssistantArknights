@@ -539,8 +539,6 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReceiveSpecialAccess">Collect Special Access rewards</system:String>
     <system:String x:Key="UpdateDepotStock">Update depot stock</system:String>
     <system:String x:Key="UpdateOperatorInfo">Update operator information</system:String>
-    <system:String x:Key="UpdateDepotAfterReceivingAwardsTip">Call depot recognition in the toolbox after collecting rewards</system:String>
-    <system:String x:Key="UpdateOperatorInfoTip">Call operator recognition in the toolbox after collecting rewards</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
     <system:String x:Key="UseTray">Display Tray Icon</system:String>
     <system:String x:Key="HideTray">Disable Tray Icon</system:String>

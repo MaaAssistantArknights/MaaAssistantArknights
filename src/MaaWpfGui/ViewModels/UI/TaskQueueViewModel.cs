@@ -1608,6 +1608,11 @@ public class TaskQueueViewModel : Screen
 
                 case "Recruiting":
                     taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Recruit, RecruitTask.Serialize());
+                    // Append OperBoxTask if auto-update is enabled
+                    if (RecruitTask.AutoUpdateOperBox)
+                    {
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.OperBox, AsstTaskType.OperBox);
+                    }
                     break;
 
                 case "Mall":
@@ -1616,15 +1621,6 @@ public class TaskQueueViewModel : Screen
 
                 case "Mission":
                     taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Award, AwardTask.Serialize());
-                    // Append DepotTask and OperBoxTask if auto-update is enabled
-                    if (AwardTask.AutoUpdateDepot)
-                    {
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Depot, AsstTaskType.Depot);
-                    }
-                    if (AwardTask.AutoUpdateOperBox)
-                    {
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.OperBox, AsstTaskType.OperBox);
-                    }
                     break;
 
                 case "AutoRoguelike":
@@ -1916,7 +1912,13 @@ public class TaskQueueViewModel : Screen
                 ServerType = Instances.SettingsViewModel.ServerType,
                 ClientType = SettingsViewModel.GameSettings.ClientType,
             };
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.FightRemainingSanity, type, task.Serialize().Params);
+            mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.FightRemainingSanity, type, task.Serialize().Params);
+        }
+
+        // Append DepotTask if auto-update is enabled
+        if (mainFightRet && FightTask.AutoUpdateDepot)
+        {
+            mainFightRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Depot, AsstTaskType.Depot);
         }
 
         return mainFightRet;
