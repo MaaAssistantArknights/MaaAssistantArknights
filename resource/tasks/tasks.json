@@ -2091,10 +2091,9 @@
         "postDelay": 500
     },
     "AwardFinished": {
-        "action": "DoNothing",
+        "action": "Stop",
         "roi": [400, 0, 880, 100],
-        "maskRange": [1, 255],
-        "next": ["DepotBegin"]
+        "maskRange": [1, 255]
     },
     "DailyTask": {
         "baseTask": "WeeklyTask",
