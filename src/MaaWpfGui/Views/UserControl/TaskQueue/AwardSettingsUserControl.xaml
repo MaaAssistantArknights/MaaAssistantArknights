@@ -46,7 +46,7 @@
         <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource UpdateDepotAfterReceivingAwards}"
+                Content="{DynamicResource AutoUpdateDepot}"
                 IsChecked="{Binding AutoUpdateDepot}" />
         </StackPanel>
     </StackPanel>
