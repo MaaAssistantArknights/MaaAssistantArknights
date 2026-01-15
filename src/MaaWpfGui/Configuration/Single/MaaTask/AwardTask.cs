@@ -50,13 +50,4 @@ public class AwardTask : BaseTask
     /// </summary>
     public bool SpecialAccess { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether 领取奖励结束后更新仓库库存
-    /// </summary>
-    public bool AutoUpdateDepot { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 领取奖励结束后更新干员信息
-    /// </summary>
-    public bool AutoUpdateOperBox { get; set; }
 }

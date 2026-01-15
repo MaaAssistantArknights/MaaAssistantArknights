@@ -61,17 +61,5 @@ public class AsstAwardTask : AsstBaseTask
     [JsonProperty("specialaccess")]
     public bool SpecialAccess { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether 是否在领取奖励后更新仓库
-    /// </summary>
-    [JsonProperty("auto_update_depot")]
-    public bool AutoUpdateDepot { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 是否在领取奖励后更新干员信息
-    /// </summary>
-    [JsonProperty("auto_update_operbox")]
-    public bool AutoUpdateOperBox { get; set; }
-
     public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }
