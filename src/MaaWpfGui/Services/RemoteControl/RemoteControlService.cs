@@ -624,6 +624,15 @@ public class RemoteControlService
 
                     case "Mission":
                         taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, AwardSettingsUserControlModel.Instance.Serialize());
+                        // Append DepotTask and OperBoxTask if auto-update is enabled
+                        if (AwardSettingsUserControlModel.Instance.AutoUpdateDepot)
+                        {
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Depot, AsstTaskType.Depot);
+                        }
+                        if (AwardSettingsUserControlModel.Instance.AutoUpdateOperBox)
+                        {
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperBox, AsstTaskType.OperBox);
+                        }
                         break;
 
                     case "AutoRoguelike":

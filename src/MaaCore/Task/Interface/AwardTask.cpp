@@ -3,8 +3,6 @@
 #include <utility>
 
 #include "Task/ProcessTask.h"
-#include "Task/Interface/DepotTask.h"
-#include "Task/Interface/OperBoxTask.h"
 
 #include "Utils/Logger.hpp"
 
@@ -15,9 +13,7 @@ asst::AwardTask::AwardTask(const AsstCallback& callback, Assistant* inst) :
     recruit_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
     orundum_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
     mining_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-    specialaccess_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-    depot_task_ptr(std::make_shared<DepotTask>(m_callback, m_inst)),
-    oper_box_task_ptr(std::make_shared<OperBoxTask>(m_callback, m_inst))
+    specialaccess_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType))
 
 {
     LogTraceFunction;
@@ -35,8 +31,6 @@ asst::AwardTask::AwardTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(orundum_task_ptr);
     m_subtasks.emplace_back(mining_task_ptr);
     m_subtasks.emplace_back(specialaccess_task_ptr);
-    m_subtasks.emplace_back(depot_task_ptr);
-    m_subtasks.emplace_back(oper_box_task_ptr);
 }
 
 bool asst::AwardTask::set_params(const json::value& params)
@@ -49,8 +43,6 @@ bool asst::AwardTask::set_params(const json::value& params)
     bool orundum = params.get("orundum", false);
     bool mining = params.get("mining", false);
     bool specialaccess = params.get("specialaccess", false);
-    bool auto_update_depot = params.get("auto_update_depot", false);
-    bool auto_update_operbox = params.get("auto_update_operbox", false);
 
     award_task_ptr->set_enable(award);
     mail_task_ptr->set_enable(mail);
@@ -58,8 +50,6 @@ bool asst::AwardTask::set_params(const json::value& params)
     orundum_task_ptr->set_enable(orundum);
     mining_task_ptr->set_enable(mining);
     specialaccess_task_ptr->set_enable(specialaccess);
-    depot_task_ptr->set_enable(auto_update_depot);
-    oper_box_task_ptr->set_enable(auto_update_operbox);
 
     return true;
 }

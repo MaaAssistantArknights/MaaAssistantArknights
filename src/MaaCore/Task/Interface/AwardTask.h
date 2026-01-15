@@ -4,8 +4,6 @@
 namespace asst
 {
 class ProcessTask;
-class DepotTask;
-class OperBoxTask;
 
 class AwardTask final : public InterfaceTask
 {
@@ -24,7 +22,5 @@ private:
     std::shared_ptr<ProcessTask> orundum_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> mining_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> specialaccess_task_ptr = nullptr;
-    std::shared_ptr<DepotTask> depot_task_ptr = nullptr;
-    std::shared_ptr<OperBoxTask> oper_box_task_ptr = nullptr;
 };
 }

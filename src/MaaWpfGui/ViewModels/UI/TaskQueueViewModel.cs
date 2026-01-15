@@ -34,6 +34,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -1615,6 +1616,15 @@ public class TaskQueueViewModel : Screen
 
                 case "Mission":
                     taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Award, AwardTask.Serialize());
+                    // Append DepotTask and OperBoxTask if auto-update is enabled
+                    if (AwardTask.AutoUpdateDepot)
+                    {
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Depot, AsstTaskType.Depot);
+                    }
+                    if (AwardTask.AutoUpdateOperBox)
+                    {
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.OperBox, AsstTaskType.OperBox);
+                    }
                     break;
 
                 case "AutoRoguelike":
