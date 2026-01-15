@@ -539,6 +539,8 @@
     <system:String x:Key="ReceiveSpecialAccess">领取周年赠送月卡奖励</system:String>
     <system:String x:Key="UpdateDepotStock">更新仓库库存</system:String>
     <system:String x:Key="UpdateOperatorInfo">更新干员信息</system:String>
+    <system:String x:Key="UpdateDepotAfterReceivingAwardsTip">领取奖励结束后调用小工具中的仓库识别</system:String>
+    <system:String x:Key="UpdateOperatorInfoTip">领取奖励结束后调用小工具中的干员识别</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
     <system:String x:Key="UseTray">显示托盘图标</system:String>
     <system:String x:Key="HideTray">隐藏托盘图标</system:String>
