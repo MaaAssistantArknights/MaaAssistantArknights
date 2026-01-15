@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "Task/ProcessTask.h"
+#include "Task/Interface/DepotTask.h"
 
 #include "Utils/Logger.hpp"
 
@@ -31,6 +32,9 @@ asst::AwardTask::AwardTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(orundum_task_ptr);
     m_subtasks.emplace_back(mining_task_ptr);
     m_subtasks.emplace_back(specialaccess_task_ptr);
+    
+    auto depot_task_ptr = std::make_shared<DepotTask>(m_callback, m_inst);
+    m_subtasks.emplace_back(depot_task_ptr);
 }
 
 bool asst::AwardTask::set_params(const json::value& params)
