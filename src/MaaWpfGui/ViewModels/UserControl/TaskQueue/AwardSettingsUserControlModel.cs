@@ -190,8 +190,8 @@ public class AwardSettingsUserControlModel : TaskViewModel
             Orundum = award.Orundum,
             Mining = award.Mining,
             SpecialAccess = award.SpecialAccess,
-            AutoUpdateDepot = AutoUpdateDepot,
-            AutoUpdateOperBox = AutoUpdateOperBox,
+            AutoUpdateDepot = award.AutoUpdateDepot,
+            AutoUpdateOperBox = award.AutoUpdateOperBox,
         };
         if (taskId is int id)
         {
