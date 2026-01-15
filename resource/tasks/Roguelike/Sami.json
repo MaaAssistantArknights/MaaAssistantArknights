@@ -1293,7 +1293,8 @@
             "Sami@Roguelike@GamePassTheEndConfirm",
             "Sami@Roguelike@GamePass",
             "Sami@Roguelike@StartAction@LoadingText",
-            "Sami@Roguelike@StartAction@LoadingIcon"
+            "Sami@Roguelike@StartAction@LoadingIcon",
+            "Sami@Roguelike@StartActionReCheck"
         ]
     },
     "Sami@Roguelike@StartExplore": {
