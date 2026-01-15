@@ -49,7 +49,7 @@ bool asst::AwardTask::set_params(const json::value& params)
     bool orundum = params.get("orundum", false);
     bool mining = params.get("mining", false);
     bool specialaccess = params.get("specialaccess", false);
-    bool auto_update_depot = params.get("auto_update_depot", true);
+    bool auto_update_depot = params.get("auto_update_depot", false);
     bool auto_update_operbox = params.get("auto_update_operbox", false);
 
     award_task_ptr->set_enable(award);

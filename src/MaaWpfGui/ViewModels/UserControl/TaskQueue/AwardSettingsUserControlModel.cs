@@ -133,7 +133,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _autoUpdateDepot = ConfigurationHelper.GetValue(ConfigurationKeys.AutoUpdateDepot, true);
+    private bool _autoUpdateDepot = ConfigurationHelper.GetValue(ConfigurationKeys.AutoUpdateDepot, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to update depot after receiving awards.
