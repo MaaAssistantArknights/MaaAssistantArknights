@@ -115,7 +115,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         }
 
         EnableAdvancedSettings = false;
-        if (Mission || WakeUp || AfterAction)
+        if (WakeUp || AfterAction)
         {
             AdvancedSettingsVisibility = false;
         }
