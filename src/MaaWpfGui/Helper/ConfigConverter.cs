@@ -31,6 +31,7 @@ namespace MaaWpfGui.Helper;
 
 public class ConfigConverter
 {
+    private static readonly ILogger _logger = Log.ForContext<ConfigConverter>();
     private static readonly string ConfigurationNewFile = ConfigFactory.ConfigFile;
     private static readonly string ConfigurationOldBakFile = ConfigurationHelper.ConfigFile + ".old";
     private static readonly string ConfigurationOldFile = ConfigurationHelper.ConfigFile;
@@ -74,6 +75,14 @@ public class ConfigConverter
             return true;
         }
 
+        try
+        {
+            File.Copy(ConfigurationOldFile, ConfigurationOldBakFile, true);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "备份配置失败: {Message}", ex.Message);
+        }
         string[] configKeys = [ConfigurationKeys.AnnouncementInfo, ConfigurationKeys.DoNotRemindThisAnnouncementAgain, ConfigurationKeys.DoNotShowAnnouncement,
             ConfigurationKeys.VersionName, ConfigurationKeys.VersionUpdateBody, ConfigurationKeys.VersionUpdateIsFirstBoot, ConfigurationKeys.VersionUpdatePackage,
             ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled, ConfigurationKeys.CustomInfrastPlanShowInFightSettings,
