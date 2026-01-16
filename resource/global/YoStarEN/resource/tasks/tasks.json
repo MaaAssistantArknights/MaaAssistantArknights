@@ -941,7 +941,15 @@
             ["Dive", "戴乌"],
             ["Raidian", "电弧"],
             ["Cycle", "赛柯"],
-            ["Artifact Center", "遗物中枢"]
+            ["Artifact Center", "遗物中枢"],
+            ["Zero-Stress Helper", "压力归零帮手"],
+            ["Stress-Relief Helper", "压力舒缓帮手"],
+            ["Fate Striker", "天命来袭"],
+            ["Kichisei", "吉星"],
+            ["Matsukiri", "松桐"],
+            ["Haruka", "遥"],
+            ["'Zan'", "“斩”"],
+            ["Hoshiguma the Breacher", "斩业星熊"]
         ]
     },
     "GameStartCheckResourceOCR": {
