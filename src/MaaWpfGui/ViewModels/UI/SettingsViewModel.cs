@@ -526,6 +526,9 @@ public class SettingsViewModel : Screen
         {
             ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
 
+            // 配置数量大于 1 时，标题栏显示配置名
+            UpdateWindowTitle();
+
             var growlInfo = new GrowlInfo {
                 IsCustom = true,
                 Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName),
@@ -553,6 +556,10 @@ public class SettingsViewModel : Screen
         if (ConfigurationHelper.DeleteConfiguration(delete.Display))
         {
             ConfigurationList.Remove(delete);
+            if (ConfigurationList.Count <= 1)
+            {
+                UpdateWindowTitle();
+            }
         }
     }
 
@@ -884,7 +891,11 @@ public class SettingsViewModel : Screen
             switch (select)
             {
                 case "1": // 配置名
-                    currentConfiguration = $" ({CurrentConfiguration})";
+                    if (ConfigurationList.Count > 1)
+                    {
+                        currentConfiguration = $" ({CurrentConfiguration})";
+                    }
+
                     break;
 
                 case "2": // 连接模式
