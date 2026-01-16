@@ -1046,7 +1046,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorCrashMessageHeader">以上问题导致程序异常退出。</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」查看日志，了解错误发生的具体原因。</system:String>
     <system:String x:Key="ErrorCrashMessageGenerateReport">请使用「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」生成错误报告，并点击蓝色的 ｢{key=Issue}｣ 链接提交反馈。</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人寻求帮助，请发送生成的错误报告文件，而不是发送这个窗口的截图或照片。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人寻求帮助，请发送生成的错误报告文件，而不是发送此窗口的截图、录屏视频、屏幕照片、拍摄的视频、手绘图片或誊抄的画面内容。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程序崩溃原因</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
     <!--  !ErrorDialogView  -->
