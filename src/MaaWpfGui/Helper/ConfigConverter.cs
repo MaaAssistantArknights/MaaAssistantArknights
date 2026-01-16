@@ -157,7 +157,7 @@ public class ConfigConverter
                 var stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
                 var stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
 
-                fightTask.StagePlan.Add(stage1);
+                fightTask.StagePlan = [stage1];
                 if (ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false))
                 {
                     fightTask.StagePlan.Add(stage2);
@@ -194,7 +194,7 @@ public class ConfigConverter
                 }
 
                 stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty);
-                fightTask2.StagePlan.Add(stage1);
+                fightTask2.StagePlan = [stage1];
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RemainingSanityStage);
 
                 infrastTask.Mode = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, InfrastMode.Normal);
