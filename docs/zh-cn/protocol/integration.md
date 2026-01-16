@@ -920,7 +920,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `1` - 沙中之火：刷赤金，联络员买水后基地锻造；沙洲遗闻：自动制造物品并读档刷货币。  
 :::  
-::: field name="tools_to_craft" type="array<string>" optional default="['荧光棒']"  
+::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
 自动制造的物品，建议填写子串。  
 :::  
 ::: field name="increment_mode" type="number" optional default="0"  

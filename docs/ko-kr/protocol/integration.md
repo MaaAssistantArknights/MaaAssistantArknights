@@ -638,7 +638,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 `1` - 모래 속의 불: 적금 파밍, 연락원에게 물 구매 후 기지에서 주조; 사막 이야기: 자동 아이템 제작 및 로드 반복으로 화폐 파밍  
 :::  
-::: field name="tools_to_craft" type="array<string>" optional default="['荧光棒']"  
+::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
 자동 제작 아이템, 부분 문자열 입력 권장  
 :::  
 ::: field name="increment_mode" type="number" optional default="0"  

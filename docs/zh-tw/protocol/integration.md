@@ -919,7 +919,7 @@ Tag 等級（大於等於 3）和對應的希望招募時限，單位為分鐘�
 <br>
 `1` - 沙中之火：刷赤金，聯絡員買水後基地鍛造；沙洲遺聞：自動製造物品並讀檔刷貨幣。  
 :::  
-::: field name="tools_to_craft" type="array<string>" optional default="['荧光棒']"  
+::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
 自動製造的物品，建議填寫子串。  
 :::  
 ::: field name="increment_mode" type="number" optional default="0"  
