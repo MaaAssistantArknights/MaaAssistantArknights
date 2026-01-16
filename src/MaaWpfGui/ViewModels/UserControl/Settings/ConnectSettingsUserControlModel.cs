@@ -70,7 +70,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
             new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
             new() { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
-            new() { Display = LocalizationHelper.GetString("WDA"), Value = "WDA" },
+            new() { Display = LocalizationHelper.GetString("WDA"), Value = "wda" },
             new() { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
             new() { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
             new() { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
@@ -94,7 +94,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         get => _autoDetectConnection;
         set {
             // WDA does not support auto-detection
-            if (ConnectConfig == "WDA" && value)
+            if (ConnectConfig == "wda" && value)
             {
                 Execute.OnUIThreadAsync(() =>
                 {
@@ -207,7 +207,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         get => _adbPath;
         set {
             // WDA does not require ADB path
-            if (ConnectConfig == "WDA")
+            if (ConnectConfig == "wda")
             {
                 SetAndNotify(ref _adbPath, string.Empty);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AdbPath, string.Empty);
@@ -833,7 +833,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             { "Nox", ["127.0.0.1:62001", "127.0.0.1:59865"] },
             { "XYAZ", ["127.0.0.1:21503"] },
             { "WSA", ["127.0.0.1:58526"] },
-            { "WDA", ["127.0.0.1:8100"] },
+            { "wda", ["127.0.0.1:8100"] },
         };
 
     /// <summary>
