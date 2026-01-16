@@ -1492,6 +1492,7 @@ public class ToolboxViewModel : Screen
                 }
 
                 IsPeepInProgress = false;
+                IsGachaInProgress = false;
                 return;
             }
 
