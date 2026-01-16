@@ -1435,8 +1435,20 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public void ResetAllTemporaryVariable()
     {
-        FightTask.ResetFightVariables();
-        RecruitTask.ResetRecruitVariables();
+        foreach (var item in ConfigFactory.CurrentConfig.TaskQueue)
+        {
+            switch (item)
+            {
+                case FightTask fight:
+                    FightSettingsUserControlModel.ResetFightVariables(fight);
+                    if (TaskSettingVisibilityInfo.CurrentTask == fight)
+                    {
+                        RefreshTaskModel(fight);
+                    }
+                    break;
+            }
+        }
+        RecruitSettingsUserControlModel.ResetRecruitVariables();
         ResetTaskSelection();
     }
 

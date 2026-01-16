@@ -92,20 +92,18 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
         set => SetTaskConfig<RecruitTask>(t => t.ForceRefresh == value, t => t.ForceRefresh = value);
     }
 
-    private bool? _useExpeditedWithNull = false;
-
     public bool? UseExpeditedWithNull
     {
-        get => _useExpeditedWithNull;
+        get => field;
         set {
             if (value == true)
             {
                 value = null;
             }
 
-            SetAndNotify(ref _useExpeditedWithNull, value);
+            SetAndNotify(ref field, value);
         }
-    }
+    } = false;
 
     /// <summary>
     /// Gets or sets a value indicating whether to use expedited.
@@ -116,12 +114,9 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
         set => UseExpeditedWithNull = value;
     }
 
-    public void ResetRecruitVariables()
+    public static void ResetRecruitVariables()
     {
-        if (UseExpeditedWithNull == null)
-        {
-            UseExpedited = false;
-        }
+        Instance.UseExpeditedWithNull ??= false;
     }
 
     /// <summary>

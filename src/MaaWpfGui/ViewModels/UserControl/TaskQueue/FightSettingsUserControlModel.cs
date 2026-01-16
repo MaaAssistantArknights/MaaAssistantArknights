@@ -162,12 +162,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// <summary>
     /// Reset unsaved battle parameters.
     /// </summary>
-    public void ResetFightVariables()
+    /// <param name="fight">The fight task.</param>
+    public static void ResetFightVariables(FightTask? fight)
     {
-        UseStone ??= false;
-        UseMedicine ??= false;
-        HasTimesLimited ??= false;
-        IsSpecifiedDrops ??= false;
+        fight?.UseStone ??= false;
+        fight?.UseMedicine ??= false;
+        fight?.EnableTimesLimit ??= false;
+        fight?.EnableTargetDrop ??= false;
     }
 
     /// <summary>
