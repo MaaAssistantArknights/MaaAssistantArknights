@@ -66,6 +66,12 @@ bool asst::StageDropsTaskPlugin::set_enable_yituliu(bool enable)
     return true;
 }
 
+bool asst::StageDropsTaskPlugin::set_yituliu_id(std::string id)
+{
+    m_yituliu_id = std::move(id);
+    return true;
+}
+
 bool asst::StageDropsTaskPlugin::set_server(std::string server)
 {
     m_server = std::move(server);
