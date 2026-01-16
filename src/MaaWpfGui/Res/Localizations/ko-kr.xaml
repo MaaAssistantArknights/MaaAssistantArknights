@@ -731,7 +731,7 @@ C:\\leidian\\LDPlayer9
 연속 대리 지휘 횟수를 조정하지 않습니다.</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="StageSelect2">대안</system:String>
-    <system:String x:Key="AddStage">添加关卡</system:String>
+    <system:String x:Key="AddStage">무대 추가</system:String>
     <system:String x:Key="RemainingSanityStage">남은 이성</system:String>
     <system:String x:Key="NoUse">미사용</system:String>
     <!--<system:String x:Key="Amend">수정</system:String>-->

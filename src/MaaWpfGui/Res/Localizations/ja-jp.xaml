@@ -730,7 +730,7 @@ C:\\leidian\\LDPlayer9
 ゲーム内で代理乗数の設定を調整しません。</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代替ステージ</system:String>
-    <system:String x:Key="AddStage">添加关卡</system:String>
+    <system:String x:Key="AddStage">ステージを追加</system:String>
     <system:String x:Key="RemainingSanityStage">余剰理性の消費</system:String>
     <system:String x:Key="NoUse">使用しない</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->

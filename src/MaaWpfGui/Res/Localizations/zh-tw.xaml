@@ -730,7 +730,7 @@ C:\\leidian\\LDPlayer9。\n
 不調整遊戲內代理倍率設定</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
     <system:String x:Key="StageSelect2">備選</system:String>
-    <system:String x:Key="AddStage">添加关卡</system:String>
+    <system:String x:Key="AddStage">添加關卡</system:String>
     <system:String x:Key="RemainingSanityStage">剩餘理智</system:String>
     <system:String x:Key="NoUse">不選擇</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
