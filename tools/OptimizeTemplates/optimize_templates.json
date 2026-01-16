@@ -3702,5 +3702,6 @@
     "docs/zh-cn/pr-tutorial/pr-5-light": "922c111c70175067a645165a12f6a76f6003e80330992cec68bffe3756403d02",
     "docs/zh-cn/pr-tutorial/fork-light": "606a17ebd7d3b0f7f18ae73507300e3881d07adcebca8046588ffd9eb28b1d71",
     "docs/zh-cn/pr-tutorial/fork-dark": "f06b559d262c517a9a291ce1acd1855809c29b0eaa1cd4b41e8389f638d05e2f",
-    "docs/zh-cn/pr-tutorial/pr-4-light": "d01f3d315ff230269d95d82358403112b8cc0cccf290685461a20e0663407ffa"
+    "docs/zh-cn/pr-tutorial/pr-4-light": "d01f3d315ff230269d95d82358403112b8cc0cccf290685461a20e0663407ffa",
+    "resource/global/YoStarKR/resource/template/MiniGame/AT/MiniGame@AT@Confirm": "6a3ec476f9d54399409e03e2bc305d4e04ea498a4a6f07b6ca6ff2bd60679bf8"
 }
