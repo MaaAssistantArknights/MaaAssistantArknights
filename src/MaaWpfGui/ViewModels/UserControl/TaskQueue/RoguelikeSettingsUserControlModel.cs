@@ -644,7 +644,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         get => GetTaskConfig<RoguelikeTask>().ExpectedCollapsalParadigms;
         set {
             value = value.Replace('；', ';').Trim();
-            SetTaskConfig<RoguelikeTask>(t => t.ExpectedCollapsalParadigms == value, t => t.SamiNewSquad2StartingFoldartals = value);
+            SetTaskConfig<RoguelikeTask>(t => t.ExpectedCollapsalParadigms == value, t => t.ExpectedCollapsalParadigms = value);
         }
     }
 
