@@ -123,16 +123,14 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         StagePlan.RemoveAt(index);
     }
 
-    private string? _stage;
-
     /// <summary>
     /// Gets or sets the stage1.
     /// </summary>
     public string? Stage
     {
-        get => _stage;
+        get => field;
         set {
-            if (_stage == value)
+            if (field == value)
             {
                 return;
             }
@@ -140,13 +138,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             if (CustomStageCode)
             {
                 // 从后往前删
-                if (_stage?.Length != 3 && value != null)
+                if (field?.Length != 3 && value != null)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
             }
 
-            SetAndNotify(ref _stage, value);
+            SetAndNotify(ref field, value);
             SetFightParams();
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
@@ -161,7 +159,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         set {
             if (!value)
             {
-                Stage = StageListSource.FirstOrDefault(x => x.Value == Stage)?.Value ?? string.Empty;
             }
 
             SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
@@ -566,13 +563,16 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     {
         get => GetTaskConfig<FightTask>().HideUnavailableStage;
         set {
-            SetTaskConfig<FightTask>(t => t.HideUnavailableStage == value, t => t.HideUnavailableStage = value);
+            var update = SetTaskConfig<FightTask>(t => t.HideUnavailableStage == value, t => t.HideUnavailableStage = value);
 
             if (value)
             {
                 UseAlternateStage = false;
             }
-            UpdateStageList();
+            if (update)
+            {
+                UpdateStageList();
+            }
         }
     }
 
@@ -794,18 +794,22 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 }
             }
             StageListSource = new ObservableCollection<StageSourceItem>(listSource);
-            for (int i = 0; i < listCurrent.Count; i++) // UI还原
+
+            if (TaskSettingVisibilityInfo.CurrentTask is FightTask current)
             {
-                var item = StagePlan[i];
-                item.Value = listCurrent[i];
-                NotifyOfPropertyChange(nameof(item.Value));
+                current.StagePlan = listCurrent;
+            }
+            foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.Where(i => i is FightTask).OfType<FightTask>())
+            {
+                var removeList = task.StagePlan.Where(i => !stageList.Any(p => p.Value == i)).ToList();
+                if (removeList.Count != 0)
+                {
+                    _logger.Information("Removed non-existing stage from plan: {Stage}", removeList);
+                    task.StagePlan = [.. task.StagePlan.Where(i => stageList.Any(p => p.Value == i))];
+                }
             }
 
             RefreshCurrentStagePlan();
-            foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.Where(i => i is FightTask && i != TaskSettingVisibilityInfo.CurrentTask).OfType<FightTask>())
-            {
-                task.StagePlan = [.. task.StagePlan.Where(i => stageList.Any(p => p.Value == i))];
-            }
         });
     }
 
@@ -815,18 +819,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         {
             return;
         }
-        var stageList = Instances.StageManager.GetStageList().ToList();
         var plan = GetTaskConfig<FightTask>().StagePlan.ToList();
-
-        var listRaw = plan.ToList();
-        foreach (var item in listRaw.Where(i => !stageList.Any(p => p.Value == i)).ToList()) // 移除过期活动关卡
-        {
-            listRaw.Remove(item);
-            _logger.Information("Removed non-existing stage from plan: {Stage}", item);
-        }
-        SetTaskConfig<FightTask>(t => t.StagePlan.SequenceEqual(listRaw), t => t.StagePlan = listRaw);
-
-        var list = listRaw.Select((i, index) => new StagePlanItem() { Value = i, Index = index }).ToList();
+        var list = plan.Select((i, index) => new StagePlanItem() { Value = i, Index = index }).ToList();
         foreach (var item in list)
         {
             item.PropertyChanged += (_, __) => SaveStagePlan();

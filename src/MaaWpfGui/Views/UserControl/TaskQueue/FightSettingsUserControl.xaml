@@ -345,7 +345,9 @@
                                             Background="Transparent"
                                             BorderThickness="0"
                                             Command="{s:Action RemoveStageFromPlan}"
-                                            CommandParameter="{c:Binding Index}" />
+                                            CommandParameter="{c:Binding Index}"
+                                            Visibility="{c:Binding 'DataContext.StagePlan.Count > 0',
+                                                                   RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
                                     </Grid>
                                 </Border>
 

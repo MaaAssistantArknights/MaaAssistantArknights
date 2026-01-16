@@ -33,7 +33,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Services.RemoteControl;
 
@@ -414,7 +413,12 @@ public class RemoteControlService
                     break;
                 case "Settings-Stage1":
                     await Execute.OnUIThreadAsync(() => {
-                        TaskQueueViewModel.FightTask.Stage = data;
+                        if (TaskQueueViewModel.FightTask.StagePlan.Count != 1)
+                        {
+                            TaskQueueViewModel.FightTask.StagePlan.Clear();
+                            TaskQueueViewModel.FightTask.StagePlan.Add(new());
+                        }
+                        TaskQueueViewModel.FightTask.StagePlan[0].Value = data;
                     });
                     break;
                 default:
