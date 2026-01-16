@@ -705,7 +705,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ```
 
 </details>
-刷坍缩范式功能具体请参考 [肉鸽辅助协议](./integrated-strategy-schema.md#萨米肉鸽——坍缩范式)
+
+刷坍缩范式功能具体请参考 [肉鸽辅助协议](./integrated-strategy-schema.md#萨米肉鸽——坍缩范式) 
 
 - `Copilot`  
    自动抄作业

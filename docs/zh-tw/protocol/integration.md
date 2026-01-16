@@ -704,6 +704,7 @@ Tag 等級（大於等於 3）和對應的希望招募時限，單位為分鐘�
 ```
 
 </details>
+
 刷坍縮範式功能具體請參考 [肉鴿輔助協議](./integrated-strategy-schema.md#薩米肉鴿——坍縮範式)
 
 - `Copilot`  
