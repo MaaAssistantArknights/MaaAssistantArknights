@@ -1004,6 +1004,7 @@ public class AsstProxy
             case AsstMsg.TaskChainStopped:
                 Instances.TaskQueueViewModel.SetStopped();
                 TaskStatusUpdate(taskId, TaskStatus.Completed);
+                ConfigFactory.CurrentConfig.TaskQueue.ForEach(t => { t.TaskId = 0; });
                 _tasksStatus.Clear();
                 break;
 
@@ -1139,6 +1140,7 @@ public class AsstProxy
                 }
 
                 bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
+                ConfigFactory.CurrentConfig.TaskQueue.ForEach(t => { t.TaskId = 0; });
                 _tasksStatus.Clear();
 
                 Instances.TaskQueueViewModel.ResetAllTemporaryVariable();

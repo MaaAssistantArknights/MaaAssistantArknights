@@ -1663,6 +1663,7 @@ public class TaskQueueViewModel : Screen
             {
                 case true:
                     ++count;
+                    item.TaskId = Instances.AsstProxy.TasksStatus.Last().Key;
                     break;
                 case false:
                     taskRet = false;
