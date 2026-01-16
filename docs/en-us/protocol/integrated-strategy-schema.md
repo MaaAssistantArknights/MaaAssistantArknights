@@ -36,6 +36,9 @@ Please note that JSON files do not support comments. Comments are for demonstrat
   - `fragments.json` stores basic information about Sarkaz's Thoughts
   - `map.json` stores template image information for Sarkaz's Blueprint navigation
 
+- In `JieGarden/`:
+  - `coppers.json` basic information and pickup/replacement logic for Coppers
+
 ## Integrated Strategy Step 1: Operator Recruitment
 
 `resource/roguelike/theme_name/recruitment.json` describes the logic of the operator recruitment
@@ -152,7 +155,7 @@ By default, only E1 Level 55 operators will be recruited
    | 情报官 (Agents)          | 晓歌 (Cantabile), 伊内丝 (Ines)            | Can recover DP, provide side output, and can single cut                                                          |
    | 浊心斯卡蒂 (Skadi Alter) | 浊心斯卡蒂 (Skadi the Corrupting Heart)    | Decent healing under low pressure, but special range, some maps have suitable positions                          |
    | 焰苇 (Reed Alter)        | 焰影苇草 (Reed the Flame Shadow)           | Commonly used opening operator in Sami I.S., combines healing and output, some maps have optimal positions       |
-   | 玛恩纳 (SilverAsh)       | 玛恩纳 (Closure), 银灰 (SilverAsh)         | Ground large-area decisive output, can be deployed against bosses                                                |
+   | 玛恩纳 (Mlynar)          | 玛恩纳 (Mlynar), 银灰 (SilverAsh)          | Ground large-area decisive output, can be deployed against bosses                                                |
    | 史尔特尔 (Surtr)         | 史尔特尔 (Surtr)                           | Since Surtr always carries S3 at E2, field presence ability is almost zero, deployment priority is extremely low |
    | 骰子 (Dice)              | 骰子 (Dice)                                | In Mizuki I.S. the dice needs to be operated separately                                                          |
 
@@ -777,6 +780,94 @@ For farming hidden Collapsal Paradigms, N10 difficulty is recommended, with the 
 - Weathered + Spot + Steward;
 - Reed the Flame Shadow + Orchid + Popukar;
 - Toddifons + Spot + Steward.
+
+### JieGarden Integrated Strategy - Coppers
+
+`resource/roguelike/JieGarden/coppers.json` describes the configuration and exchange strategy for JieGarden I.S. Coppers
+
+```json5
+{
+    "theme": "JieGarden",                                    // I.S. Theme name (JieGarden here)
+    "addons": {                                              // Copper addon attribute descriptions (notes only, no effect on program)
+        "锈色": "投出时，每经过一个节点，获得源石锭+1",
+        "存护": "加入钱盒时，获得护盾值+2",
+        "入幻": "加入钱盒时，获得希望+1",
+        "引光": "加入钱盒时，获得烛火+1",
+        "巡游": "投出时，每完成一场战斗，获得票券+1"
+    },
+    "coppers": [                                             // Copper list
+        {
+            "name": "大炎通宝",                              // Copper name
+            "desc": "普通又空白，什么也没有",                // Copper effect description (notes only, no effect on program)
+            "rarity": "NORMAL",                             // Rarity: NONE/NORMAL/RARE/SUPER_RARE (notes only, no effect on program)
+            "pickup_priority": 0,                           // Pickup priority, used when selecting drops, higher value = higher priority pickup
+            "discard_priority": 1000                        // Discard priority, used during exchange, higher value = higher priority discard
+        },
+        {
+            "name": "衡-奇土生金",
+            "desc": "投出时，立即获得源石锭+4（下次投钱前变化为-大炎通宝）",
+            "rarity": "NORMAL",
+            "pickup_priority": 200,
+            "discard_priority": 800,
+            "cast_discard_priority": 999                    // Optional field, discard priority when cast, only replaces discard_priority when cast and value >= 0
+                                                            // This typically applies to coppers whose effects change after casting (like coppers that become 大炎通宝)
+        },
+        {
+            "name": "厉-西廉贞",
+            "desc": "投出时，精英及领袖敌人的生命值、攻击力+10%，在险路恶敌及岁兽残识中攻击力、生命值额外+20％",
+            "rarity": "NORMAL",
+            "pickup_priority": 0,
+            "discard_priority": 1998,
+            "cast_discard_priority": 2098                   // Same as above, sometimes also used for coppers that bring negative effects after casting
+        },
+        ...
+    ]
+}
+```
+
+#### Copper Exchange Logic
+
+MAA automatically handles copper pickup and exchange in JieGarden I.S.:
+
+::: tip Enable Conditions
+Copper exchange functionality is only enabled in the following modes:
+
+- Investment Mode: Requires "Investment mode enable shopping, recruitment, advance 2 floors" option enabled
+- Other Modes: Enabled by default
+
+:::
+
+1. **Pickup Dropped Coppers**: After battle ends, if copper drop selection interface appears, MAA will select the copper with highest `pickup_priority`
+
+2. **Exchange Wallet Coppers**: When a newly picked copper needs to be exchanged with coppers in the wallet:
+   - Recognize all coppers in wallet: type, name, and whether cast status
+   - Find the copper with highest `discard_priority` (least important) in wallet
+   - If new copper's `discard_priority` is lower than the least important existing copper, abandon exchange
+   - Otherwise replace the least important copper with the new copper
+
+3. **Special Handling for Cast Coppers**:
+   - For coppers marked with `cast_discard_priority`, use this priority when cast instead of `discard_priority`
+   - This typically applies to coppers whose effects change after casting (like coppers that become 大炎通宝)
+
+#### Copper Recognition Mechanism
+
+MAA uses the following methods to recognize and handle coppers:
+
+1. Recognize copper type icons (厉/衡/花) through template matching
+2. Based on type icon position, use ROI offset for OCR recognition of copper name
+3. Recognize whether copper is in "cast" state
+4. Auto-scroll list in copper exchange interface, scan all coppers for comparison
+
+#### Recognition Process Illustration
+
+![image](/images/zh-cn/copper-explanation-1.png)
+![image](/images/zh-cn/copper-explanation-2.png)
+
+::: info Note
+
+- If OCR recognized copper name not found in config file, MAA will save debug image to `debug/roguelike/coppers/unknown` directory for troubleshooting
+
+:::
 
 ## Desired Logic (todo)
 
