@@ -30,23 +30,23 @@ namespace MaaWpfGui.Models;
 public class TaskSettingVisibilityInfo : PropertyChangedBase
 {
     // public const string DefaultVisibleTaskSetting = "Combat";
-    public int StartUp { get => field; set => SetAndNotify(ref field, value); }
+    public bool StartUp { get => field; set => SetAndNotify(ref field, value); }
 
-    public int Recruit { get => field; set => SetAndNotify(ref field, value); }
+    public bool Recruit { get => field; set => SetAndNotify(ref field, value); }
 
-    public int Infrast { get => field; set => SetAndNotify(ref field, value); }
+    public bool Infrast { get => field; set => SetAndNotify(ref field, value); }
 
-    public int Fight { get => field; set => SetAndNotify(ref field, value); }
+    public bool Fight { get => field; set => SetAndNotify(ref field, value); }
 
-    public int Mall { get => field; set => SetAndNotify(ref field, value); }
+    public bool Mall { get => field; set => SetAndNotify(ref field, value); }
 
-    public int Award { get => field; set => SetAndNotify(ref field, value); }
+    public bool Award { get => field; set => SetAndNotify(ref field, value); }
 
-    public int Roguelike { get => field; set => SetAndNotify(ref field, value); }
+    public bool Roguelike { get => field; set => SetAndNotify(ref field, value); }
 
-    public int Reclamation { get => field; set => SetAndNotify(ref field, value); }
+    public bool Reclamation { get => field; set => SetAndNotify(ref field, value); }
 
-    public int Custom { get => field; set => SetAndNotify(ref field, value); }
+    public bool Custom { get => field; set => SetAndNotify(ref field, value); }
 
     public bool PostAction { get => field; set => SetAndNotify(ref field, value); }
 
@@ -100,60 +100,71 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             enable = false;
         }
 
+        // 边界检查
+        if (taskIndex < 0 || taskIndex >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+        {
+            Log.Error("尝试设置不存在的任务设置可见性, 索引: {TaskIndex}", taskIndex);
+            return;
+        }
+
+        var task = ConfigFactory.CurrentConfig.TaskQueue[taskIndex];
         if (enable)
         {
             CurrentIndex = taskIndex;
+            SetTaskSettingVisible(task, enable);
         }
-
-        if (ConfigFactory.CurrentConfig.TaskQueue.Count <= taskIndex || taskIndex < 0)
+        else if (CurrentIndex == taskIndex)
         {
-            Log.Warning("尝试设置不存在的任务设置可见性, 索引: {TaskIndex}", taskIndex);
-        }
-        else
-        {
-            SetTaskSettingVisible(ConfigFactory.CurrentConfig.TaskQueue[taskIndex], enable);
+            CurrentIndex = -1;
+            SetTaskSettingVisible(task, enable);
         }
 
         if (enable)
         {
-            Instances.TaskQueueViewModel.RefreshTaskModel(ConfigFactory.CurrentConfig.TaskQueue[taskIndex]);
+            Instances.TaskQueueViewModel.RefreshTaskModel(task);
         }
     }
 
     public void SetTaskSettingVisible(BaseTask task, bool enable)
     {
-        _ = task switch {
-            StartUpTask => enable ? ++StartUp : --StartUp,
-            RecruitTask => enable ? ++Recruit : --Recruit,
-            InfrastTask => enable ? ++Infrast : --Infrast,
-            FightTask => enable ? ++Fight : --Fight,
-            MallTask => enable ? ++Mall : --Mall,
-            AwardTask => enable ? ++Award : --Award,
-            RoguelikeTask => enable ? ++Roguelike : --Roguelike,
-            ReclamationTask => enable ? ++Reclamation : --Reclamation,
-            CustomTask => enable ? ++Custom : --Custom,
-            _ => throw new NotImplementedException(),
-        };
-        EnableAdvancedSettings = false;
-        AdvancedSettingsVisibility = Award == 0 && StartUp == 0;
-
-        if (StartUp == 0 && Recruit == 0 && Infrast == 0 && Fight == 0 && Mall == 0 && Award == 0 && Roguelike == 0 && Reclamation == 0 && Custom == 0)
+        if (enable)
         {
-            CurrentIndex = -1;
+            ResetVisible();
+            _ = task switch {
+                StartUpTask => StartUp = true,
+                RecruitTask => Recruit = true,
+                InfrastTask => Infrast = true,
+                FightTask => Fight = true,
+                MallTask => Mall = true,
+                AwardTask => Award = true,
+                RoguelikeTask => Roguelike = true,
+                ReclamationTask => Reclamation = true,
+                CustomTask => Custom = true,
+                _ => throw new NotImplementedException(),
+            };
         }
+        EnableAdvancedSettings = false;
+        AdvancedSettingsVisibility = !Award && !StartUp;
+    }
+
+    private void ResetVisible()
+    {
+        Recruit = false;
+        Infrast = false;
+        Fight = false;
+        Mall = false;
+        Award = false;
+        Roguelike = false;
+        Reclamation = false;
+        Custom = false;
     }
 
     public void SetPostAction(bool value)
     {
-        /*WakeUp = false;
-        Recruiting = false;
-        Base = false;
-        Combat = false;
-        Mall = false;
-        Mission = false;
-        AutoRoguelike = false;
-        Reclamation = false;
-        Custom = false;*/
+        if (value)
+        {
+            ResetVisible();
+        }
         PostAction = value;
     }
 
