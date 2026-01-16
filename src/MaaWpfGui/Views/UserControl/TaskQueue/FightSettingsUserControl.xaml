@@ -346,11 +346,10 @@
                                             BorderThickness="0"
                                             Command="{s:Action RemoveStageFromPlan}"
                                             CommandParameter="{c:Binding Index}"
-                                            Visibility="{c:Binding 'DataContext.StagePlan.Count > 0',
+                                            Visibility="{c:Binding 'DataContext.StagePlan.Count > 1',
                                                                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
                                     </Grid>
                                 </Border>
-
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
