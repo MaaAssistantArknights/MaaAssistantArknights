@@ -51,13 +51,6 @@ public class ConfigConverter
 
         var parsedNew = ParseJsonFile(ConfigurationNewFile);
 
-        // TODO 测试项, 需移除
-        // parsedNew?.Remove(nameof(ConfigFactory.Root.ConfigVersion));
-#if DEBUG
-#else
-        Debug.Assert(is_debug, "测试项请移除");
-#endif
-
         int curVersion = 0;
         bool ret = true;
         if (parsedNew?.TryGetValue(nameof(ConfigFactory.Root.ConfigVersion), out JToken? configVersion) is true && configVersion is { Type: JTokenType.Integer } version)
@@ -85,8 +78,6 @@ public class ConfigConverter
             ConfigurationKeys.VersionName, ConfigurationKeys.VersionUpdateBody, ConfigurationKeys.VersionUpdateIsFirstBoot, ConfigurationKeys.VersionUpdatePackage,
             ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled, ConfigurationKeys.CustomInfrastPlanShowInFightSettings,
         ];
-
-        HashSet<string> stageI18n = ["DefaultStage", "Annihilation", "1-7", "CE-6", "AP-5", "CA-5", "LS-6", "SK-5", "PR-A-1", "PR-A-2", "PR-B-1", "PR-B-2", "PR-C-1", "PR-C-2", "PR-D-1", "PR-D-2"];
 
         var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
@@ -501,11 +492,6 @@ public class ConfigConverter
         }
 
         return true;
-    }
-
-    private static string? EmptyStringToNull(string value)
-    {
-        return string.IsNullOrEmpty(value) ? null : value;
     }
 
     private static JObject? ParseJsonFile(string filePath)

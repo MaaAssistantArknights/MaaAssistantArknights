@@ -203,7 +203,6 @@ public static class ConfigFactory
                 };
                 foreach (var task in config.TaskQueue)
                 {
-                    // TODO 改名
                     task.PropertyChanged += OnPropertyChangedFactory($"{key}.{task.Name}.");
                 }
             }
