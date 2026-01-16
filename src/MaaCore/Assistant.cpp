@@ -133,7 +133,7 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
             return true;
         }
-        else if (constexpr std::string_view WDA = "WDA"; value == WDA) {
+        else if (constexpr std::string_view WDA = "wda"; value == WDA) {
             m_ctrler->set_touch_mode(TouchMode::WDA);
             return true;
         }
