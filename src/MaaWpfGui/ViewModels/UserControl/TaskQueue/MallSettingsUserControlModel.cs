@@ -65,7 +65,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
     public bool CreditFightOnceADay
     {
         get => GetTaskConfig<MallTask>().CreditFightOnceADay;
-        set => SetTaskConfig<MallTask>(t => t.CreditFight == value, t => t.CreditFightOnceADay = value);
+        set => SetTaskConfig<MallTask>(t => t.CreditFightOnceADay == value, t => t.CreditFightOnceADay = value);
     }
 
     /// <summary>
