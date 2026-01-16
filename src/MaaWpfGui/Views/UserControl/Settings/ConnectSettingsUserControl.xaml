@@ -39,7 +39,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Content="{DynamicResource AutoDetectConnection}"
-                    IsChecked="{Binding AutoDetectConnection}" />
+                    IsChecked="{Binding AutoDetectConnection}"
+                    IsEnabled="{c:Binding 'ConnectConfig!=&quot;WDA&quot;'}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource AutoDetectConnectionTip}" />
             </StackPanel>
             <CheckBox
@@ -53,7 +54,7 @@
             <StackPanel
                 Margin="10"
                 HorizontalAlignment="Center"
-                IsEnabled="{c:Binding !AutoDetectConnection}"
+                IsEnabled="{c:Binding '!AutoDetectConnection &amp;&amp; ConnectConfig!=&quot;WDA&quot;'}"
                 Orientation="Horizontal">
                 <controls:TooltipBlock Visibility="Hidden" />
                 <Grid Width="420">
@@ -269,7 +270,7 @@
                 hc:TitleElement.Title="{DynamicResource TouchMode}"
                 hc:TitleElement.TitlePlacement="Left"
                 DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                IsEnabled="{c:Binding 'Idle &amp;&amp; ConnectConfig!=&quot;WDA&quot;'}"
                 ItemsSource="{Binding TouchModeList}"
                 SelectedValue="{Binding TouchMode}"
                 SelectedValuePath="Value" />
@@ -278,7 +279,8 @@
                 Margin="10"
                 HorizontalAlignment="Left"
                 Command="{s:Action ReplaceAdb}"
-                Content="{DynamicResource ForcedReplaceAdb}" />
+                Content="{DynamicResource ForcedReplaceAdb}"
+                Visibility="{c:Binding 'ConnectConfig!=&quot;WDA&quot;'}" />
         </StackPanel>
 
         <StackPanel Grid.Row="7">
