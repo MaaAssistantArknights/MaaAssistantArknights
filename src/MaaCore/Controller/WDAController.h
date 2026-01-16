@@ -55,7 +55,9 @@ public:
     virtual ControlFeat::Feat support_features() const noexcept override
     {
         // WDA supports precise swipe control via W3C Actions
-        return ControlFeat::PRECISE_SWIPE;
+        // WDA also supports swipe with pause: dragging operators causes game to pause,
+        // and we can cancel the pause by clicking the pause button (via BattlePauseCancel task)
+        return ControlFeat::PRECISE_SWIPE | ControlFeat::SWIPE_WITH_PAUSE;
     }
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
@@ -70,9 +72,11 @@ protected:
 
 private:
     boost::asio::io_context m_context;
+    std::unique_ptr<boost::asio::ip::tcp::socket> m_socket;  // 持久化HTTP连接
     std::string m_host;
     uint16_t m_port = 8100;
     std::string m_session_id;
+    std::string m_uuid;  // 设备UDID
 
     // 三层坐标系统
     std::pair<int, int> m_wda_logical_size = { 0, 0 };      // WDA逻辑分辨率 (e.g. 812x375 points)
@@ -100,15 +104,19 @@ private:
     HttpResponse http_post(const std::string& path, const std::string& json_body);
     HttpResponse http_delete(const std::string& path);
 
+    bool ensure_connection();  // 确保socket连接可用
+    void close_connection();   // 关闭socket连接
+
     bool check_wda_status();
     bool create_session();
     bool configure_fast_mode();
     bool fetch_screen_size();
     bool destroy_session();
+    bool reconnect();
     void report_screencap_cost();
 
     std::string build_w3c_tap_action(int x, int y);
-    std::string build_w3c_swipe_action(int x1, int y1, int x2, int y2, int duration_ms);
+    bool perform_drag(int from_x, int from_y, int to_x, int to_y, double duration_sec);
 
     std::pair<int, int> transform_to_wda_coords(int maa_x, int maa_y) const;
 
