@@ -1135,6 +1135,14 @@
         "sortId": 10321,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_6401": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_6401.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10322,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -2023,6 +2031,22 @@
         "sortId": -10000,
         "usage": "Despite the hellish workload and a high-pressure film set, the mysterious black shadow never fails to show up every now and again, to the point that the overwhelmed crew have started to wildly speculate who is behind it. If you can trace the whereabouts of the 'Phantom of the Studio', they will be very grateful."
     },
+    "act44side_token_information": {
+        "classifyType": "NONE",
+        "description": "Fragmentary words from the streets. They may seem useless, but they hide threads leading to all sorts of secrets. To those who know how to make use of them, even the smallest whisper of gossip can be a stepping stone to business.",
+        "icon": "act44side_token_information.png",
+        "name": "Idle Gossip",
+        "sortId": -10000,
+        "usage": "Used at the Soudanshitsu to start business for the day. The juicy stories you hear every day all start with a chat, after all."
+    },
+    "act44side_token_ticket": {
+        "classifyType": "NONE",
+        "description": "A lottery ticket, the prize being admission to a certain performer's 'graduation' farewell concert. While the event was officially canceled, it is still in private circulation among fans, a memento of a turning point in her career.",
+        "icon": "act44side_token_ticket.png",
+        "name": "Performer Meeting Chuusen-ken",
+        "sortId": -10000,
+        "usage": "A ticket distributed by a talent agency, which can be exchanged for entry into a lottery. After a certain incident, they were the hottest item at the Vintage Bazaar for a while, and could be traded for nearly anything."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -2294,6 +2318,14 @@
         "name": "Super! Best! Boss Medal",
         "sortId": -10000,
         "usage": "Looks to be made from expensive metals, and can be exchanged for LMD."
+    },
+    "itempack_gold_2": {
+        "classifyType": "NONE",
+        "description": "This is not the type of gift you can simply buy from a luxury store. This is a selection of drinks chosen based on her own tastes and what she thinks you will like, hand-poured bottle by bottle before being carefully sealed. In consideration for the nature of your work, there is also a bottle of sarsaparilla, 100% alcohol-free.",
+        "icon": "itempack_gold_2.png",
+        "name": "Carefully-Prepared Tasting Set",
+        "sortId": -10000,
+        "usage": "A carefully-prepared tasting set. Can be exchanged for LMD."
     },
     "itempack_main_1": {
         "classifyType": "NONE",
