@@ -915,7 +915,7 @@ public class TaskQueueViewModel : Screen
             var task = ConfigFactory.CurrentConfig.TaskQueue.ElementAt(i);
             if (task is not null)
             {
-                taskqueue.Add(new TaskItemViewModel(i, task.Name, task.IsEnable));
+                taskqueue.Add(new TaskItemViewModel(task.Name, task.IsEnable) { Index = i });
             }
         }
 
