@@ -130,25 +130,26 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         if (enable)
         {
             ResetVisible();
-            _ = task switch {
-                StartUpTask => StartUp = true,
-                RecruitTask => Recruit = true,
-                InfrastTask => Infrast = true,
-                FightTask => Fight = true,
-                MallTask => Mall = true,
-                AwardTask => Award = true,
-                RoguelikeTask => Roguelike = true,
-                ReclamationTask => Reclamation = true,
-                CustomTask => Custom = true,
-                _ => throw new NotImplementedException(),
-            };
         }
+        _ = task switch {
+            StartUpTask => StartUp = enable,
+            RecruitTask => Recruit = enable,
+            InfrastTask => Infrast = enable,
+            FightTask => Fight = enable,
+            MallTask => Mall = enable,
+            AwardTask => Award = enable,
+            RoguelikeTask => Roguelike = enable,
+            ReclamationTask => Reclamation = enable,
+            CustomTask => Custom = enable,
+            _ => throw new NotImplementedException(),
+        };
         EnableAdvancedSettings = false;
         AdvancedSettingsVisibility = !Award && !StartUp;
     }
 
     private void ResetVisible()
     {
+        StartUp = false;
         Recruit = false;
         Infrast = false;
         Fight = false;

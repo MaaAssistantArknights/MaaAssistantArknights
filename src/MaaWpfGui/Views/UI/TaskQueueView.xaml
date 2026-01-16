@@ -142,7 +142,7 @@
                                                 Style="{DynamicResource RadioGroupItemSingle}"
                                                 ToolTip="{DynamicResource TaskSettings}">
                                                 <RadioButton.ContextMenu>
-                                                    <ContextMenu DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" IsEnabled="{c:Binding 'Idle and Inited', Source={x:Static helper:Instances.TaskQueueViewModel}}">
+                                                    <ContextMenu DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" IsEnabled="{c:Binding Idle, Source={x:Static helper:Instances.TaskQueueViewModel}}">
                                                         <MenuItem
                                                             Command="{s:Action RenameTask}"
                                                             CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
@@ -395,7 +395,7 @@
                 </Grid.RowDefinitions>
                 <hc:ScrollViewer
                     Grid.Row="0"
-                    Grid.RowSpan="{c:Binding 'TaskSettingVisibilities.AfterAction ? 2:1'}"
+                    Grid.RowSpan="{c:Binding 'TaskSettingVisibilities.PostAction ? 2:1'}"
                     Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
@@ -451,7 +451,7 @@
                     Width="220"
                     Margin="0,0,10,0"
                     Orientation="Horizontal"
-                    Visibility="{c:Binding !TaskSettingVisibilities.AfterAction,
+                    Visibility="{c:Binding !TaskSettingVisibilities.PostAction,
                                            FalseToVisibility=Hidden}">
                     <RadioButton
                         hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
