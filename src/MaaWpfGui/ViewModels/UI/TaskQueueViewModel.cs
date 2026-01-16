@@ -159,10 +159,15 @@ public class TaskQueueViewModel : Screen
                     ConfigFactory.CurrentConfig.TaskQueue.RemoveAt(e.OldStartingIndex);
                 }
 
-                TaskItemViewModels.FirstOrDefault(i => i.Index == e.OldStartingIndex)?.EnableSetting = true;
                 for (int i = e.OldStartingIndex; i < TaskItemViewModels.Count; i++) // 更新后续任务的索引
                 {
                     TaskItemViewModels[i].Index = i;
+                }
+                if (e.OldStartingIndex == TaskSettingVisibilities.CurrentIndex)
+                {
+                    var task = TaskItemViewModels.FirstOrDefault(i => i.Index == e.OldStartingIndex);
+                    task ??= TaskItemViewModels.FirstOrDefault(i => i.Index == e.OldStartingIndex - 1);
+                    task?.EnableSetting = true;
                 }
             }
         });
@@ -1275,7 +1280,7 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     /// <param name="taskItem">任务项</param>
     [UsedImplicitly]
-    public void DeleteTask(TaskItemViewModel taskItem)
+    public void RemoveTask(TaskItemViewModel taskItem)
     {
         if (taskItem == null || !Idle)
         {
