@@ -1192,6 +1192,7 @@ public class ToolboxViewModel : Screen
             if (!value)
             {
                 _gachaTimer.Stop();
+                GachaInfo = LocalizationHelper.GetString("GachaInitTip");
             }
         }
     }
