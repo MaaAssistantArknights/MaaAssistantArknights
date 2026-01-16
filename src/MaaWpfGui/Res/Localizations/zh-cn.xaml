@@ -135,6 +135,7 @@
     <system:String x:Key="InfrastReceptionClueExchange">进行线索交流</system:String>
     <system:String x:Key="ClueExchangeUnlocked">已开启线索交流</system:String>
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
+    <system:String x:Key="ReceptionOptionsRequireInfrast">需执行基建换班</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
     <system:String x:Key="TrainingIdle">训练室空闲中</system:String>
     <system:String x:Key="TrainingCompleted">训练完成</system:String>
