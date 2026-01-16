@@ -79,7 +79,7 @@ public class FightTask : BaseTask
     /// <summary>
     /// Gets or sets 关卡列表, 从上往下选择第一个可用关卡
     /// </summary>
-    public List<string> StagePlan { get; set; } = [];
+    public List<string> StagePlan { get; set; } = [string.Empty];
 
     /// <summary>
     /// Gets or sets a value indicating whether 博朗台模式

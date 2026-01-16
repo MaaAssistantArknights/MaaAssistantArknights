@@ -572,7 +572,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             {
                 UseAlternateStage = false;
             }
-
             UpdateStageList();
         }
     }
@@ -646,9 +645,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public override void RefreshUI(BaseTask baseTask)
     {
-        if (baseTask is FightTask)
+        if (baseTask is FightTask fight)
         {
             IsRefreshingUI = true;
+            if (!UseAlternateStage && fight.StagePlan.Count == 0)
+            {
+                fight.StagePlan.Add(string.Empty);
+            }
             InitDrops();
             RefreshCurrentStagePlan();
             RefreshWeeklySchedule();

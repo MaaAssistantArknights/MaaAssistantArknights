@@ -197,10 +197,10 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <controls:TextBlock
-                        Margin="6,15"
+                        Margin="6,11"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Text="{DynamicResource StageSelect}"
@@ -208,7 +208,7 @@
                         TextWrapping="Wrap"
                         Visibility="{c:Binding !UseAlternateStage}" />
                     <controls:TextBlock
-                        Margin="6,15"
+                        Margin="6,11"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Text="{DynamicResource StageSelect2}"
@@ -230,22 +230,23 @@
                         Content="{DynamicResource AddStage}"
                         Visibility="{c:Binding UseAlternateStage}" />
                 </Grid>
-                <!--  当 UseAlternateStage 为 true 时显示 ListBox（多关卡计划）  -->
                 <ListBox
                     Grid.Column="1"
-                    Margin="6,5"
+                    MinHeight="{c:Binding 'UseAlternateStage ? 75 : 0'}"
+                    Margin="6,6"
                     Padding="-1"
+                    VerticalAlignment="Top"
                     HorizontalContentAlignment="Stretch"
-                    d:ItemsSource="{d:SampleData ItemCount=3}"
+                    d:ItemsSource="{d:SampleData ItemCount=2}"
                     dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
-                    dd:DragDrop.IsDragSource="True"
-                    dd:DragDrop.IsDropTarget="True"
+                    dd:DragDrop.IsDragSource="{Binding UseAlternateStage}"
+                    dd:DragDrop.IsDropTarget="{Binding UseAlternateStage}"
+                    BorderThickness="{c:Binding 'UseAlternateStage ? 1 : 0'}"
                     ClipToBounds="False"
                     ItemsSource="{Binding Path=StagePlan}"
                     PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
                                                  Target={x:Type helper:MouseWheelHelper}}"
-                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
-                    Visibility="{c:Binding UseAlternateStage}">
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid x:Name="StageItemGrid" Margin="0,0,0,-2">
@@ -352,57 +353,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <!--  当 UseAlternateStage 为 false 时显示单个关卡选择  -->
-                <Grid
-                    Grid.Column="1"
-                    Margin="6,5"
-                    Visibility="{c:Binding !UseAlternateStage}">
-                    <Grid Height="30">
-                        <!--  当 CustomStageCode 为 false 时显示 ComboBox  -->
-                        <ComboBox
-                            x:Name="SingleStageComboBox"
-                            DisplayMemberPath="Display"
-                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                            ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
-                            Loaded="SingleStageComboBox_Loaded"
-                            Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
-                            SelectedValuePath="Value"
-                            SelectionChanged="SingleStageComboBox_SelectionChanged"
-                            Visibility="{c:Binding !CustomStageCode,
-                                                   Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}">
-                            <ComboBox.ItemContainerStyle>
-                                <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsVisible}" Value="False">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsOpen}" Value="False">
-                                            <Setter Property="Opacity" Value="0.4" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsOpen}" Value="True">
-                                            <Setter Property="Opacity" Value="1" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ComboBox.ItemContainerStyle>
-                        </ComboBox>
-
-                        <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
-                        <TextBox
-                            x:Name="SingleStageTextBox"
-                            Height="30"
-                            hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                            Loaded="SingleStageTextBox_Loaded"
-                            Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
-                            TextChanged="SingleStageTextBox_TextChanged"
-                            ToolTip="{DynamicResource CustomStageCodeTip}"
-                            Visibility="{c:Binding CustomStageCode,
-                                                   Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
-                    </Grid>
-                </Grid>
             </Grid>
         </Grid>
 
