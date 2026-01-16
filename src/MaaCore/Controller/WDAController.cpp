@@ -30,6 +30,7 @@ asst::WDAController::WDAController(
 asst::WDAController::~WDAController()
 {
     destroy_session();
+    close_connection();
 }
 
 bool asst::WDAController::connect(
@@ -85,8 +86,7 @@ bool asst::WDAController::inited() const noexcept
 
 const std::string& asst::WDAController::get_uuid() const
 {
-    static const std::string uuid("com.hypergryph.arknights");
-    return uuid;
+    return m_uuid;
 }
 
 size_t asst::WDAController::get_pipe_data_size() const noexcept
@@ -99,7 +99,7 @@ size_t asst::WDAController::get_version() const noexcept
     return 0;
 }
 
-bool asst::WDAController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
+bool asst::WDAController::screencap(cv::Mat& image_payload, bool allow_reconnect)
 {
     LogTraceFunction;
 
@@ -109,12 +109,35 @@ bool asst::WDAController::screencap(cv::Mat& image_payload, bool allow_reconnect
     if (!response.success()) {
         Log.error("Screenshot request failed, status:", response.status_code);
 
-        // 记录失败的截图
-        m_screencap_cost.emplace_back(-1);
-        ++m_screencap_times;
-        report_screencap_cost();
-
-        return false;
+        // 尝试重连
+        if (allow_reconnect) {
+            Log.info("Attempting reconnect due to screencap failure...");
+            if (reconnect()) {
+                // 重连成功，重试截图
+                response = http_get("/screenshot");
+                if (!response.success()) {
+                    Log.error("Screenshot still failed after reconnect, status:", response.status_code);
+                    m_screencap_cost.emplace_back(-1);
+                    ++m_screencap_times;
+                    report_screencap_cost();
+                    return false;
+                }
+            }
+            else {
+                Log.error("Reconnect failed");
+                m_screencap_cost.emplace_back(-1);
+                ++m_screencap_times;
+                report_screencap_cost();
+                return false;
+            }
+        }
+        else {
+            // 记录失败的截图
+            m_screencap_cost.emplace_back(-1);
+            ++m_screencap_times;
+            report_screencap_cost();
+            return false;
+        }
     }
 
     auto json_opt = json::parse(response.body);
@@ -154,15 +177,61 @@ bool asst::WDAController::screencap(cv::Mat& image_payload, bool allow_reconnect
     return decode_success;
 }
 
-bool asst::WDAController::start_game(const std::string& client_type [[maybe_unused]])
+bool asst::WDAController::start_game(const std::string& client_type)
 {
-    Log.info("start_game is not fully supported on WDA");
+    LogTraceFunction;
+
+    if (client_type.empty()) {
+        Log.error("client_type is empty");
+        return false;
+    }
+
+    auto bundle_id = Config.get_package_name(client_type);
+    if (!bundle_id) {
+        Log.error("Failed to get bundle ID for client_type:", client_type);
+        return false;
+    }
+
+    // 使用 WDA 的 /wda/apps/launch 接口启动应用
+    json::object launch_params;
+    launch_params["bundleId"] = bundle_id.value();
+
+    auto response = http_post("/session/" + m_session_id + "/wda/apps/launch", launch_params.to_string());
+    if (!response.success()) {
+        Log.error("Failed to start game, status:", response.status_code);
+        return false;
+    }
+
+    Log.info("Game started successfully:", bundle_id.value());
     return true;
 }
 
-bool asst::WDAController::stop_game(const std::string& client_type [[maybe_unused]])
+bool asst::WDAController::stop_game(const std::string& client_type)
 {
-    Log.info("stop_game is not fully supported on WDA");
+    LogTraceFunction;
+
+    if (client_type.empty()) {
+        Log.error("client_type is empty");
+        return false;
+    }
+
+    auto bundle_id = Config.get_package_name(client_type);
+    if (!bundle_id) {
+        Log.error("Failed to get bundle ID for client_type:", client_type);
+        return false;
+    }
+
+    // 使用 WDA 的 /wda/apps/terminate 接口停止应用
+    json::object terminate_params;
+    terminate_params["bundleId"] = bundle_id.value();
+
+    auto response = http_post("/session/" + m_session_id + "/wda/apps/terminate", terminate_params.to_string());
+    if (!response.success()) {
+        Log.error("Failed to stop game, status:", response.status_code);
+        return false;
+    }
+
+    Log.info("Game stopped successfully:", bundle_id.value());
     return true;
 }
 
@@ -188,9 +257,26 @@ bool asst::WDAController::click(const Point& p)
     return true;
 }
 
-bool asst::WDAController::input(const std::string& text [[maybe_unused]])
+bool asst::WDAController::input(const std::string& text)
 {
-    Log.info("InputText is not fully supported on WDA");
+    LogTraceFunction;
+
+    if (text.empty()) {
+        return true;
+    }
+
+    // WDA 使用 /wda/keys 接口输入文本
+    // 注意：这需要当前有一个聚焦的输入框
+    json::object keys_params;
+    keys_params["value"] = json::array { text };
+
+    auto response = http_post("/session/" + m_session_id + "/wda/keys", keys_params.to_string());
+    if (!response.success()) {
+        Log.error("WDA input text failed, status:", response.status_code);
+        return false;
+    }
+
+    Log.info("WDA input text success:", text);
     return true;
 }
 
@@ -198,10 +284,10 @@ bool asst::WDAController::swipe(
     const Point& p1,
     const Point& p2,
     int duration,
-    bool extra_swipe,
+    bool extra_swipe [[maybe_unused]],
     double slope_in [[maybe_unused]],
     double slope_out [[maybe_unused]],
-    bool with_pause [[maybe_unused]])
+    bool with_pause)
 {
     // Clamp在MAA坐标空间
     int x1 = std::clamp(p1.x, 0, m_screen_size.first - 1);
@@ -213,33 +299,33 @@ bool asst::WDAController::swipe(
     auto [wda_x1, wda_y1] = transform_to_wda_coords(x1, y1);
     auto [wda_x2, wda_y2] = transform_to_wda_coords(x2, y2);
 
+    const auto& opt = Config.get_options();
+    int actual_duration_ms = duration > 0 ? duration : opt.minitouch_swipe_default_duration;
+
+    // 转换为秒，WDA的 dragfromtoforduration 端点需要秒为单位
+    // WDA支持精确的短时间滑动，最小值设为0.1秒（100ms）
+    // 最大值为60秒（WDA限制）
+    double duration_sec = std::clamp(actual_duration_ms / 1000.0, 0.1, 60.0);
+
     Log.trace("WDA swipe: MAA(", x1, ",", y1, "->", x2, ",", y2,
               ") -> WDA(", wda_x1, ",", wda_y1, "->", wda_x2, ",", wda_y2,
-              ") duration:", duration);
+              ") duration:", duration_sec, "s");
 
-    const auto& opt = Config.get_options();
-    int actual_duration = duration > 0 ? duration : opt.minitouch_swipe_default_duration;
-
-    std::string action_json = build_w3c_swipe_action(wda_x1, wda_y1, wda_x2, wda_y2, actual_duration);
-    auto response = http_post("/session/" + m_session_id + "/actions", action_json);
-
-    if (!response.success()) {
-        Log.error("WDA swipe failed, status:", response.status_code);
+    // 使用WDA原生的drag API，duration控制精确
+    if (!perform_drag(wda_x1, wda_y1, wda_x2, wda_y2, duration_sec)) {
+        Log.error("WDA swipe failed");
         return false;
     }
 
-    // extra_swipe处理
-    if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
+    // with_pause: 滑动结束后暂停一段时间
+    if (with_pause) {
         std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
-
-        // 计算extra swipe的终点（MAA坐标空间）
-        int extra_y2 = y2 - opt.minitouch_extra_swipe_dist;
-        auto [extra_wda_x2, extra_wda_y2] = transform_to_wda_coords(x2, extra_y2);
-
-        std::string extra_action = build_w3c_swipe_action(
-            wda_x2, wda_y2, extra_wda_x2, extra_wda_y2, opt.minitouch_extra_swipe_duration);
-        http_post("/session/" + m_session_id + "/actions", extra_action);
     }
+
+    // 注意：WDA不需要extra_swipe
+    // extra_swipe是为了解决ADB的bug（滑动后惯性太大，需要反向短滑动来"刹车"）
+    // WDA的dragfromtoforduration API是精确的，滑动结束就会停止，不需要额外的滑动
+    // 如果启用extra_swipe，反而会导致滑动不停止（因为又发起了一次新的滑动）
 
     return true;
 }
@@ -260,30 +346,188 @@ void asst::WDAController::back_to_home() noexcept
     Log.info("HOME is not supported on WDA");
 }
 
+bool asst::WDAController::ensure_connection()
+{
+    // 如果socket不存在或已关闭，重新建立连接
+    if (!m_socket || !m_socket->is_open()) {
+        try {
+            m_socket = std::make_unique<tcp::socket>(m_context);
+            tcp::resolver resolver(m_context);
+
+            Log.trace("Establishing HTTP connection to", m_host, ":", m_port);
+            boost::asio::connect(*m_socket, resolver.resolve(m_host, std::to_string(m_port)));
+
+            // 设置socket选项以保持连接
+            m_socket->set_option(tcp::no_delay(true));  // 禁用Nagle算法，降低延迟
+
+            Log.trace("HTTP connection established");
+            return true;
+        }
+        catch (const std::exception& e) {
+            Log.error("Failed to establish HTTP connection:", e.what());
+            m_socket.reset();
+            return false;
+        }
+    }
+    return true;
+}
+
+void asst::WDAController::close_connection()
+{
+    if (m_socket && m_socket->is_open()) {
+        try {
+            boost::system::error_code ec;
+            m_socket->shutdown(tcp::socket::shutdown_both, ec);
+            m_socket->close(ec);
+            Log.trace("HTTP connection closed");
+        }
+        catch (const std::exception& e) {
+            Log.warn("Error closing HTTP connection:", e.what());
+        }
+    }
+    m_socket.reset();
+}
+
 asst::WDAController::HttpResponse asst::WDAController::http_get(const std::string& path)
 {
     HttpResponse response;
-    try {
-        tcp::socket socket(m_context);
-        tcp::resolver resolver(m_context);
-        boost::asio::connect(socket, resolver.resolve(m_host, std::to_string(m_port)));
 
+    if (!ensure_connection()) {
+        response.status_code = 0;
+        return response;
+    }
+
+    try {
+        // 使用 HTTP/1.1 Keep-Alive
         std::string request = "GET " + path + " HTTP/1.1\r\n"
                               "Host: " + m_host + ":" + std::to_string(m_port) + "\r\n"
                               "Accept: application/json\r\n"
-                              "Connection: close\r\n\r\n";
+                              "Connection: keep-alive\r\n\r\n";
 
-        boost::asio::write(socket, boost::asio::buffer(request));
+        boost::asio::write(*m_socket, boost::asio::buffer(request));
 
         boost::asio::streambuf response_buf;
         boost::system::error_code ec;
 
-        boost::asio::read_until(socket, response_buf, "\r\n", ec);
+        // 读取状态行
+        boost::asio::read_until(*m_socket, response_buf, "\r\n", ec);
+        if (ec) {
+            Log.warn("Connection error during read, reconnecting...");
+            close_connection();
+            if (!ensure_connection()) {
+                response.status_code = 0;
+                return response;
+            }
+            // 重试一次
+            boost::asio::write(*m_socket, boost::asio::buffer(request));
+            boost::asio::read_until(*m_socket, response_buf, "\r\n", ec);
+        }
+
         std::istream response_stream(&response_buf);
         std::string http_version;
         response_stream >> http_version >> response.status_code;
 
-        boost::asio::read_until(socket, response_buf, "\r\n\r\n", ec);
+        // 读取header
+        boost::asio::read_until(*m_socket, response_buf, "\r\n\r\n", ec);
+
+        std::string header;
+        size_t content_length = 0;
+        bool chunked = false;
+
+        while (std::getline(response_stream, header) && header != "\r") {
+            if (header.find("Content-Length:") != std::string::npos ||
+                header.find("content-length:") != std::string::npos) {
+                auto pos = header.find(':');
+                if (pos != std::string::npos) {
+                    content_length = std::stoul(header.substr(pos + 1));
+                }
+            }
+            if (header.find("Transfer-Encoding: chunked") != std::string::npos ||
+                header.find("transfer-encoding: chunked") != std::string::npos) {
+                chunked = true;
+            }
+        }
+
+        // 读取body
+        if (chunked) {
+            // 处理chunked编码（WDA通常不用，但为了完整性添加）
+            std::ostringstream ss;
+            ss << &response_buf;
+            response.body = ss.str();
+        }
+        else if (content_length > 0) {
+            size_t remaining = content_length;
+            if (response_buf.size() > 0) {
+                std::ostringstream ss;
+                ss << &response_buf;
+                response.body = ss.str();
+                remaining = content_length > response.body.size() ? content_length - response.body.size() : 0;
+            }
+            if (remaining > 0) {
+                std::vector<char> buf(remaining);
+                boost::asio::read(*m_socket, boost::asio::buffer(buf), ec);
+                response.body.append(buf.data(), buf.size());
+            }
+        }
+        else {
+            // 没有Content-Length，读取到连接关闭
+            std::ostringstream ss;
+            boost::asio::read(*m_socket, response_buf, ec);
+            ss << &response_buf;
+            response.body = ss.str();
+        }
+    }
+    catch (const std::exception& e) {
+        Log.error("HTTP GET failed:", e.what());
+        response.status_code = 0;
+        close_connection();  // 出错时关闭连接，下次会重新建立
+    }
+    return response;
+}
+
+asst::WDAController::HttpResponse asst::WDAController::http_post(const std::string& path, const std::string& json_body)
+{
+    HttpResponse response;
+
+    if (!ensure_connection()) {
+        response.status_code = 0;
+        return response;
+    }
+
+    try {
+        // 使用 HTTP/1.1 Keep-Alive
+        std::string request = "POST " + path + " HTTP/1.1\r\n"
+                              "Host: " + m_host + ":" + std::to_string(m_port) + "\r\n"
+                              "Content-Type: application/json\r\n"
+                              "Content-Length: " + std::to_string(json_body.size()) + "\r\n"
+                              "Accept: application/json\r\n"
+                              "Connection: keep-alive\r\n\r\n" + json_body;
+
+        boost::asio::write(*m_socket, boost::asio::buffer(request));
+
+        boost::asio::streambuf response_buf;
+        boost::system::error_code ec;
+
+        // 读取状态行
+        boost::asio::read_until(*m_socket, response_buf, "\r\n", ec);
+        if (ec) {
+            Log.warn("Connection error during POST, reconnecting...");
+            close_connection();
+            if (!ensure_connection()) {
+                response.status_code = 0;
+                return response;
+            }
+            // 重试一次
+            boost::asio::write(*m_socket, boost::asio::buffer(request));
+            boost::asio::read_until(*m_socket, response_buf, "\r\n", ec);
+        }
+
+        std::istream response_stream(&response_buf);
+        std::string http_version;
+        response_stream >> http_version >> response.status_code;
+
+        // 读取header
+        boost::asio::read_until(*m_socket, response_buf, "\r\n\r\n", ec);
 
         std::string header;
         size_t content_length = 0;
@@ -297,6 +541,7 @@ asst::WDAController::HttpResponse asst::WDAController::http_get(const std::strin
             }
         }
 
+        // 读取body
         if (content_length > 0) {
             size_t remaining = content_length;
             if (response_buf.size() > 0) {
@@ -307,67 +552,21 @@ asst::WDAController::HttpResponse asst::WDAController::http_get(const std::strin
             }
             if (remaining > 0) {
                 std::vector<char> buf(remaining);
-                boost::asio::read(socket, boost::asio::buffer(buf), ec);
+                boost::asio::read(*m_socket, boost::asio::buffer(buf), ec);
                 response.body.append(buf.data(), buf.size());
             }
         }
         else {
             std::ostringstream ss;
-            boost::asio::read(socket, response_buf, ec);
+            boost::asio::read(*m_socket, response_buf, ec);
             ss << &response_buf;
             response.body = ss.str();
         }
     }
     catch (const std::exception& e) {
-        Log.error("HTTP GET failed:", e.what());
-        response.status_code = 0;
-    }
-    return response;
-}
-
-asst::WDAController::HttpResponse asst::WDAController::http_post(const std::string& path, const std::string& json_body)
-{
-    HttpResponse response;
-    try {
-        tcp::socket socket(m_context);
-        tcp::resolver resolver(m_context);
-        boost::asio::connect(socket, resolver.resolve(m_host, std::to_string(m_port)));
-
-        std::string request = "POST " + path + " HTTP/1.1\r\n"
-                              "Host: " + m_host + ":" + std::to_string(m_port) + "\r\n"
-                              "Content-Type: application/json\r\n"
-                              "Content-Length: " + std::to_string(json_body.size()) + "\r\n"
-                              "Accept: application/json\r\n"
-                              "Connection: close\r\n\r\n" + json_body;
-
-        boost::asio::write(socket, boost::asio::buffer(request));
-
-        boost::asio::streambuf response_buf;
-        boost::system::error_code ec;
-
-        boost::asio::read_until(socket, response_buf, "\r\n", ec);
-        std::istream response_stream(&response_buf);
-        std::string http_version;
-        response_stream >> http_version >> response.status_code;
-
-        boost::asio::read_until(socket, response_buf, "\r\n\r\n", ec);
-        boost::asio::read(socket, response_buf, ec);
-
-        std::ostringstream ss;
-        ss << &response_buf;
-        std::string full_response = ss.str();
-
-        auto body_start = full_response.find("\r\n\r\n");
-        if (body_start != std::string::npos) {
-            response.body = full_response.substr(body_start + 4);
-        }
-        else {
-            response.body = full_response;
-        }
-    }
-    catch (const std::exception& e) {
         Log.error("HTTP POST failed:", e.what());
         response.status_code = 0;
+        close_connection();
     }
     return response;
 }
@@ -375,27 +574,44 @@ asst::WDAController::HttpResponse asst::WDAController::http_post(const std::stri
 asst::WDAController::HttpResponse asst::WDAController::http_delete(const std::string& path)
 {
     HttpResponse response;
-    try {
-        tcp::socket socket(m_context);
-        tcp::resolver resolver(m_context);
-        boost::asio::connect(socket, resolver.resolve(m_host, std::to_string(m_port)));
 
+    if (!ensure_connection()) {
+        response.status_code = 0;
+        return response;
+    }
+
+    try {
+        // 使用 HTTP/1.1 Keep-Alive
         std::string request = "DELETE " + path + " HTTP/1.1\r\n"
                               "Host: " + m_host + ":" + std::to_string(m_port) + "\r\n"
                               "Accept: application/json\r\n"
-                              "Connection: close\r\n\r\n";
+                              "Connection: keep-alive\r\n\r\n";
 
-        boost::asio::write(socket, boost::asio::buffer(request));
+        boost::asio::write(*m_socket, boost::asio::buffer(request));
 
         boost::asio::streambuf response_buf;
         boost::system::error_code ec;
 
-        boost::asio::read_until(socket, response_buf, "\r\n", ec);
+        // 读取状态行
+        boost::asio::read_until(*m_socket, response_buf, "\r\n", ec);
+        if (ec) {
+            Log.warn("Connection error during DELETE, reconnecting...");
+            close_connection();
+            if (!ensure_connection()) {
+                response.status_code = 0;
+                return response;
+            }
+            // 重试一次
+            boost::asio::write(*m_socket, boost::asio::buffer(request));
+            boost::asio::read_until(*m_socket, response_buf, "\r\n", ec);
+        }
+
         std::istream response_stream(&response_buf);
         std::string http_version;
         response_stream >> http_version >> response.status_code;
 
-        boost::asio::read(socket, response_buf, ec);
+        // 读取剩余数据
+        boost::asio::read(*m_socket, response_buf, ec);
         std::ostringstream ss;
         ss << &response_buf;
         response.body = ss.str();
@@ -403,6 +619,7 @@ asst::WDAController::HttpResponse asst::WDAController::http_delete(const std::st
     catch (const std::exception& e) {
         Log.error("HTTP DELETE failed:", e.what());
         response.status_code = 0;
+        close_connection();
     }
     return response;
 }
@@ -421,7 +638,35 @@ bool asst::WDAController::check_wda_status()
         return false;
     }
 
-    Log.info("WDA status check passed");
+    // 尝试从 /status 响应中提取设备UDID
+    // WDA响应格式: {"value": {"ios": {"udid": "..."}}}
+    // 或: {"sessionId": null, "value": {"udid": "..."}}
+    if (json_opt->contains("value") && json_opt->at("value").is_object()) {
+        const auto& value = json_opt->at("value");
+
+        // 优先从 ios.udid 获取
+        if (value.contains("ios") && value.at("ios").is_object()) {
+            const auto& ios = value.at("ios");
+            if (ios.contains("udid") && ios.at("udid").is_string()) {
+                m_uuid = ios.at("udid").as_string();
+                Log.info("Device UDID from ios.udid:", m_uuid);
+            }
+        }
+
+        // 备选：直接从 value.udid 获取
+        if (m_uuid.empty() && value.contains("udid") && value.at("udid").is_string()) {
+            m_uuid = value.at("udid").as_string();
+            Log.info("Device UDID from value.udid:", m_uuid);
+        }
+    }
+
+    // 如果仍然没有获取到UDID，使用host:port作为标识
+    if (m_uuid.empty()) {
+        m_uuid = m_host + ":" + std::to_string(m_port);
+        Log.info("Using address as UUID:", m_uuid);
+    }
+
+    Log.info("WDA status check passed, UUID:", m_uuid);
     return true;
 }
 
@@ -529,6 +774,42 @@ bool asst::WDAController::destroy_session()
     return response.success();
 }
 
+bool asst::WDAController::reconnect()
+{
+    Log.info("Attempting to reconnect to WDA...");
+
+    // 先销毁旧的session
+    destroy_session();
+
+    // 检查WDA状态
+    if (!check_wda_status()) {
+        Log.error("WDA is not running during reconnect");
+        return false;
+    }
+
+    // 创建新session
+    if (!create_session()) {
+        Log.error("Failed to create new WDA session during reconnect");
+        return false;
+    }
+
+    // 配置快速模式
+    if (!configure_fast_mode()) {
+        Log.warn("Failed to configure fast mode during reconnect");
+    }
+
+    // 重新获取逻辑分辨率
+    if (!fetch_screen_size()) {
+        Log.error("Failed to fetch screen size during reconnect");
+        return false;
+    }
+
+    m_connected = true;
+    Log.info("WDA reconnected successfully");
+
+    return true;
+}
+
 std::string asst::WDAController::build_w3c_tap_action(int x, int y)
 {
     json::object actions;
@@ -546,7 +827,7 @@ std::string asst::WDAController::build_w3c_tap_action(int x, int y)
 
     json::object move_action;
     move_action["type"] = "pointerMove";
-    move_action["duration"] = 0;
+    move_action["duration"] = 1;
     move_action["x"] = x;
     move_action["y"] = y;
     actions_seq.emplace_back(std::move(move_action));
@@ -573,50 +854,30 @@ std::string asst::WDAController::build_w3c_tap_action(int x, int y)
     return actions.to_string();
 }
 
-std::string asst::WDAController::build_w3c_swipe_action(int x1, int y1, int x2, int y2, int duration_ms)
+bool asst::WDAController::perform_drag(int from_x, int from_y, int to_x, int to_y, double duration_sec)
 {
-    json::object actions;
-    json::array action_list;
+    // 使用 WDA 的原生拖拽端点
+    // 端点: POST /session/{sessionId}/wda/dragfromtoforduration
+    // 参考: https://github.com/appium/appium-xcuitest-driver/blob/master/docs/endpoints-wda.md
+    json::object drag_params;
+    drag_params["fromX"] = from_x;
+    drag_params["fromY"] = from_y;
+    drag_params["toX"] = to_x;
+    drag_params["toY"] = to_y;
+    drag_params["duration"] = duration_sec;  // 秒为单位
 
-    json::object pointer_action;
-    pointer_action["type"] = "pointer";
-    pointer_action["id"] = "finger1";
+    Log.info("WDA perform_drag: from(", from_x, ",", from_y, ") to(", to_x, ",", to_y, ") duration:", duration_sec, "s");
+    Log.trace("WDA drag params:", drag_params.to_string());
 
-    json::object params;
-    params["pointerType"] = "touch";
-    pointer_action["parameters"] = std::move(params);
+    auto response = http_post("/session/" + m_session_id + "/wda/dragfromtoforduration", drag_params.to_string());
 
-    json::array actions_seq;
+    if (!response.success()) {
+        Log.error("WDA drag failed, status:", response.status_code, "body:", response.body);
+        return false;
+    }
 
-    json::object move_start;
-    move_start["type"] = "pointerMove";
-    move_start["duration"] = 0;
-    move_start["x"] = x1;
-    move_start["y"] = y1;
-    actions_seq.emplace_back(std::move(move_start));
-
-    json::object down_action;
-    down_action["type"] = "pointerDown";
-    down_action["button"] = 0;
-    actions_seq.emplace_back(std::move(down_action));
-
-    json::object move_end;
-    move_end["type"] = "pointerMove";
-    move_end["duration"] = duration_ms;
-    move_end["x"] = x2;
-    move_end["y"] = y2;
-    actions_seq.emplace_back(std::move(move_end));
-
-    json::object up_action;
-    up_action["type"] = "pointerUp";
-    up_action["button"] = 0;
-    actions_seq.emplace_back(std::move(up_action));
-
-    pointer_action["actions"] = std::move(actions_seq);
-    action_list.emplace_back(std::move(pointer_action));
-    actions["actions"] = std::move(action_list);
-
-    return actions.to_string();
+    Log.trace("WDA drag succeeded, response:", response.body);
+    return true;
 }
 
 std::pair<int, int> asst::WDAController::transform_to_wda_coords(int maa_x, int maa_y) const
