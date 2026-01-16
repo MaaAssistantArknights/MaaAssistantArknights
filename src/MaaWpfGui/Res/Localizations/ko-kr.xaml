@@ -135,7 +135,6 @@
     <system:String x:Key="InfrastReceptionClueExchange">단서 교환 수행</system:String>
     <system:String x:Key="ClueExchangeUnlocked">단서 교환 시작</system:String>
     <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
-    <system:String x:Key="ReceptionOptionsRequireInfrast">인프라 교대 필요</system:String>
     <system:String x:Key="ContinueTraining">스킬 훈련 완료 시 이어서 훈련 시도</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
