@@ -241,7 +241,7 @@
             ["Robin", "罗宾"],
             ["Jaye", "孑"],
             ["Weedy", "温蒂"],
-            ["Phantom", "傀影"],
+            ["^Phantom$", "傀影"],
             ["Aak", "阿"],
             ["^Snowsant$", "雪雉"],
             ["Waai Fu", "槐琥"],
