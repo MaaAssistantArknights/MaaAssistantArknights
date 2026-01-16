@@ -29,36 +29,25 @@ namespace MaaWpfGui.Models;
 public class TaskSettingVisibilityInfo : PropertyChangedBase
 {
     // public const string DefaultVisibleTaskSetting = "Combat";
-    private bool _startUp;
-    private bool _recruit;
-    private bool _infrast;
-    private bool _fight;
-    private bool _mall;
-    private bool _award;
-    private bool _roguelike;
-    private bool _reclamation;
-    private bool _postAction;
-    private bool _custom;
+    public bool StartUp { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool WakeUp { get => _startUp; set => SetAndNotify(ref _startUp, value); }
+    public bool Recruit { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Recruiting { get => _recruit; set => SetAndNotify(ref _recruit, value); }
+    public bool Infrast { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Base { get => _infrast; set => SetAndNotify(ref _infrast, value); }
+    public bool Fight { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Combat { get => _fight; set => SetAndNotify(ref _fight, value); }
+    public bool Mall { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Mall { get => _mall; set => SetAndNotify(ref _mall, value); }
+    public bool Award { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Mission { get => _award; set => SetAndNotify(ref _award, value); }
+    public bool Roguelike { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool AutoRoguelike { get => _roguelike; set => SetAndNotify(ref _roguelike, value); }
+    public bool Reclamation { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Reclamation { get => _reclamation; set => SetAndNotify(ref _reclamation, value); }
+    public bool AfterAction { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool AfterAction { get => _postAction; set => SetAndNotify(ref _postAction, value); }
-
-    public bool Custom { get => _custom; set => SetAndNotify(ref _custom, value); }
+    public bool Custom { get => field; set => SetAndNotify(ref field, value); }
 
     public static TaskSettingVisibilityInfo Instance { get; } = new();
 
@@ -96,6 +85,11 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         NotifyOfPropertyChange(nameof(IsCurrentTaskRunning));
     }
 
+    /// <summary>
+    /// 修改任务设置可见性, 用于 TaskQueueItem 设置按钮的切换. 先设 true 再设 false 刷新 UI.
+    /// </summary>
+    /// <param name="taskIndex">index</param>
+    /// <param name="enable">启用与否</param>
     public void Set(int taskIndex, bool enable)
     {
         if (Guide && enable)
@@ -112,20 +106,20 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         if (enable || ConfigFactory.CurrentConfig.TaskQueue[taskIndex].GetType() != ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].GetType())
         {
             _ = ConfigFactory.CurrentConfig.TaskQueue[taskIndex] switch {
-                StartUpTask => WakeUp = enable,
-                RecruitTask => Recruiting = enable,
-                InfrastTask => Base = enable,
-                FightTask => Combat = enable,
+                StartUpTask => StartUp = enable,
+                RecruitTask => Recruit = enable,
+                InfrastTask => Infrast = enable,
+                FightTask => Fight = enable,
                 MallTask => Mall = enable,
-                AwardTask => Mission = enable,
-                RoguelikeTask => AutoRoguelike = enable,
+                AwardTask => Award = enable,
+                RoguelikeTask => Roguelike = enable,
                 ReclamationTask => Reclamation = enable,
                 CustomTask => Custom = enable,
                 _ => throw new NotImplementedException(),
             };
         }
         EnableAdvancedSettings = false;
-        AdvancedSettingsVisibility = !Mission && !WakeUp;
+        AdvancedSettingsVisibility = !Award && !StartUp;
 
         if (enable)
         {
@@ -168,10 +162,6 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     public bool Guide
     {
         get => _guide;
-        set {
-            SetAndNotify(ref _guide, value);
-
-            // Set(_currentEnableSetting, !value);
-        }
+        set => SetAndNotify(ref _guide, value);
     }
 }
