@@ -604,6 +604,13 @@ public class AsstProxy
         }
 
         _runningState.SetInit(true);
+
+        // Force WDA touch mode for WDA connection
+        if (SettingsViewModel.ConnectSettings.ConnectConfig == "WDA")
+        {
+            SettingsViewModel.ConnectSettings.TouchMode = "wda";
+        }
+
         AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode);
         AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
         AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
