@@ -99,8 +99,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 Execute.OnUIThreadAsync(() =>
                 {
                     ToastNotification.ShowDirect(
-                        LocalizationHelper.GetString("WDANoAutoDetect"),
-                        ToastNotification.DisplayDuration.Short);
+                        LocalizationHelper.GetString("WDANoAutoDetect"));
                 });
                 return;
             }
