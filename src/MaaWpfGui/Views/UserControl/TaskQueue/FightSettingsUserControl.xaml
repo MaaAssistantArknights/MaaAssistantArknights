@@ -294,7 +294,7 @@
                                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                                      Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
-                                        Text="{Binding Value}"
+                                        Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                                         ToolTip="{DynamicResource CustomStageCodeTip}"
                                         Visibility="{c:Binding CustomStageCode,
                                                                Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />

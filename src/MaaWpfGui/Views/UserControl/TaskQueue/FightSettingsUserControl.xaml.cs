@@ -11,10 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#nullable enable
-
-using MaaWpfGui.ViewModels.UserControl.TaskQueue;
-
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
 /// <summary>

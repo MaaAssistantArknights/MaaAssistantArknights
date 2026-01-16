@@ -76,7 +76,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         private set => SetAndNotify(ref field, value);
     } = [];
 
-    private readonly Dictionary<string, string> _stageDictionary = new()
+    private static readonly Dictionary<string, string> _stageDictionary = new()
         {
             { "AN", "Annihilation" },
             { "剿灭", "Annihilation" },
@@ -156,13 +156,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     public bool CustomStageCode
     {
         get => GetTaskConfig<FightTask>().IsStageManually;
-        set {
-            if (!value)
-            {
-            }
-
-            SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
-        }
+        set => SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
     }
 
     /// <summary>
@@ -607,7 +601,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    private string ToUpperAndCheckStage(string value)
+    private static string ToUpperAndCheckStage(string value)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -620,14 +614,14 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return stage;
         }
 
-        if (StageListSource == null)
+        if (Instance.StageListSource == null)
         {
             return value;
         }
 
-        foreach (var item in StageListSource)
+        foreach (var item in Instance.StageListSource)
         {
-            if (upperValue == item.Value.ToUpper() || upperValue == item.Display.ToUpper())
+            if (upperValue.Equals(item.Value, StringComparison.CurrentCultureIgnoreCase) || upperValue.Equals(item.Display, StringComparison.CurrentCultureIgnoreCase))
             {
                 return item.Value;
             }
@@ -926,10 +920,20 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         {
             get => field;
             set {
+                if (TaskSettingVisibilityInfo.CurrentTask is FightTask task && task.UseOptionalStage)
+                {
+                    // 从后往前删
+                    if (value.Length != 3)
+                    {
+                        value = ToUpperAndCheckStage(value);
+                    }
+                }
+
                 if (!SetAndNotify(ref field, value))
                 {
                     return;
                 }
+
                 IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true;
             }
         } = string.Empty;
