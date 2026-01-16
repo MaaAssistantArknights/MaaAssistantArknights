@@ -182,6 +182,26 @@ void AsstSetConnectionExtras(const char* name, const char* extras)
     asst::ResourceLoader::get_instance().set_connection_extras(name, jopt->as_object());
 }
 
+#ifdef _WIN32
+AsstAsyncCallId AsstAsyncAttachWindow(
+    AsstHandle handle,
+    void* hwnd,
+    uint64_t screencap_method,
+    uint64_t mouse_method,
+    uint64_t keyboard_method,
+    AsstBool block)
+{
+    if (!inited() || handle == nullptr) {
+        return InvalidId;
+    }
+    auto* assistant = dynamic_cast<asst::Assistant*>(handle);
+    if (!assistant) {
+        return InvalidId;
+    }
+    return assistant->async_attach_window(hwnd, screencap_method, mouse_method, keyboard_method, block);
+}
+#endif
+
 AsstTaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 {
     if (!inited() || handle == nullptr) {

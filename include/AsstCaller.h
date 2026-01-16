@@ -6,6 +6,33 @@
 struct AsstExtAPI;
 typedef struct AsstExtAPI* AsstHandle;
 
+#ifdef _WIN32
+// Win32 截图方式
+typedef enum AsstWin32ScreencapMethodEnum
+{
+    AsstWin32ScreencapMethod_None = 0,
+    AsstWin32ScreencapMethod_GDI = 1,
+    AsstWin32ScreencapMethod_FramePool = 1 << 1,
+    AsstWin32ScreencapMethod_DXGI_DesktopDup = 1 << 2,
+    AsstWin32ScreencapMethod_DXGI_DesktopDup_Window = 1 << 3,
+    AsstWin32ScreencapMethod_PrintWindow = 1 << 4,
+    AsstWin32ScreencapMethod_ScreenDC = 1 << 5,
+} AsstWin32ScreencapMethodEnum;
+
+// Win32 输入方式
+typedef enum AsstWin32InputMethodEnum
+{
+    AsstWin32InputMethod_None = 0,
+    AsstWin32InputMethod_Seize = 1,
+    AsstWin32InputMethod_SendMessage = 1 << 1,
+    AsstWin32InputMethod_PostMessage = 1 << 2,
+    AsstWin32InputMethod_LegacyEvent = 1 << 3,
+    AsstWin32InputMethod_PostThreadMessage = 1 << 4,
+    AsstWin32InputMethod_SendMessageWithCursorPos = 1 << 5,
+    AsstWin32InputMethod_PostMessageWithCursorPos = 1 << 6,
+} AsstWin32InputMethodEnum;
+#endif
+
 typedef uint8_t AsstBool;
 typedef uint64_t AsstSize;
 
@@ -60,6 +87,21 @@ extern "C"
         const char* config,
         AsstBool block);
     void ASSTAPI AsstSetConnectionExtras(const char* name, const char* extras);
+
+#ifdef _WIN32
+    // 绑定到 Win32 窗口（仅 Windows 平台）
+    // hwnd: 目标窗口句柄
+    // screencap_method: 截图方式，参见 Win32ScreencapMethod
+    // mouse_method: 鼠标输入方式，参见 Win32InputMethod
+    // keyboard_method: 键盘输入方式，参见 Win32InputMethod
+    AsstAsyncCallId ASSTAPI AsstAsyncAttachWindow(
+        AsstHandle handle,
+        void* hwnd,
+        uint64_t screencap_method,
+        uint64_t mouse_method,
+        uint64_t keyboard_method,
+        AsstBool block);
+#endif
 
     AsstAsyncCallId ASSTAPI AsstAsyncClick(AsstHandle handle, int32_t x, int32_t y, AsstBool block);
     AsstAsyncCallId ASSTAPI AsstAsyncScreencap(AsstHandle handle, AsstBool block);

@@ -4,6 +4,7 @@
 
 #include "Common/AsstTypes.h"
 #include "Config/GeneralConfig.h"
+#include "SwipeHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
@@ -183,50 +184,55 @@ bool asst::MinitouchController::swipe(
 
     constexpr int TimeInterval = Minitoucher::DefaultSwipeDelay;
 
-    auto cubic_spline = [](double slope_0, double slope_1, double t) {
-        const double a = slope_0;
-        const double b = -(2 * slope_0 + slope_1 - 3);
-        const double c = -(-slope_0 - slope_1 + 2);
-        return a * t + b * std::pow(t, 2) + c * std::pow(t, 3);
-    }; // TODO: move this to math.hpp
-
     bool need_pause = with_pause && use_swipe_with_pause();
     const auto& opt = Config.get_options();
     std::future<void> pause_future;
+
+    auto bounds_check = [this](int x, int y) {
+        return x >= 0 && x <= m_minitouch_props.max_x && y >= 0 && y <= m_minitouch_props.max_y;
+    };
+
+    auto move_func = [this](int x, int y) { return m_minitoucher->move(x, y); };
+
+    auto pause_check = [&opt](int cur_x, int cur_y, int start_x, int start_y) {
+        return std::sqrt(std::pow(cur_x - start_x, 2) + std::pow(cur_y - start_y, 2)) >
+               opt.swipe_with_pause_required_distance;
+    };
+
+    auto pause_action = [this, &pause_future]() {
+        if (m_use_maa_touch) {
+            constexpr int EscKeyCode = 111;
+            m_minitoucher->key_down(EscKeyCode);
+            m_minitoucher->key_up(EscKeyCode, 0);
+        }
+        else {
+            pause_future = std::async(std::launch::async, [this]() { press_esc(); });
+        }
+    };
+
     auto minitouch_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
-        for (int cur_time = TimeInterval; cur_time < _duration; cur_time += TimeInterval) {
-            double progress = cubic_spline(slope_in, slope_out, static_cast<double>(cur_time) / duration);
-            int cur_x = static_cast<int>(std::lerp(_x1, _x2, progress));
-            int cur_y = static_cast<int>(std::lerp(_y1, _y2, progress));
-            if (need_pause && std::sqrt(std::pow(cur_x - _x1, 2) + std::pow(cur_y - _y1, 2)) >
-                                  opt.swipe_with_pause_required_distance) {
-                need_pause = false;
-                if (m_use_maa_touch) {
-                    constexpr int EscKeyCode = 111;
-                    if (!m_minitoucher->key_down(EscKeyCode)) {
-                        return false;
-                    }
-                    if (!m_minitoucher->key_up(EscKeyCode, 0)) {
-                        return false;
-                    }
-                }
-                else {
-                    pause_future = std::async(std::launch::async, [&]() { press_esc(); });
-                }
-            }
-            if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
-                continue;
-            }
-            if (!m_minitoucher->move(cur_x, cur_y)) {
-                return false;
-            }
+        if (need_pause) {
+            bool result = interpolate_swipe_with_pause(
+                _x1,
+                _y1,
+                _x2,
+                _y2,
+                _duration,
+                TimeInterval,
+                slope_in,
+                slope_out,
+                move_func,
+                bounds_check,
+                pause_check,
+                [&]() {
+                    need_pause = false;
+                    pause_action();
+                });
+            return result;
         }
-        if (_x2 >= 0 && _x2 <= m_minitouch_props.max_x && _y2 >= 0 && _y2 <= m_minitouch_props.max_y) {
-            if (!m_minitoucher->move(_x2, _y2)) {
-                return false;
-            }
+        else {
+            return interpolate_swipe(_x1, _y1, _x2, _y2, _duration, TimeInterval, slope_in, slope_out, move_func, bounds_check);
         }
-        return true;
     };
 
     if (!minitouch_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration)) {
@@ -235,7 +241,7 @@ bool asst::MinitouchController::swipe(
 
     if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
         if (!m_minitoucher->wait(opt.minitouch_swipe_extra_end_delay)) {
-            return false; // 停留终点
+            return false;
         }
         if (!minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration)) {
             return false;

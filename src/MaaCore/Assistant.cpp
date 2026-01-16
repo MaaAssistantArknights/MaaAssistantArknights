@@ -193,6 +193,34 @@ bool asst::Assistant::ctrl_connect(const std::string& adb_path, const std::strin
     return ret;
 }
 
+#ifdef _WIN32
+bool asst::Assistant::ctrl_attach_window(
+    void* hwnd,
+    Win32ScreencapMethod screencap_method,
+    Win32InputMethod mouse_method,
+    Win32InputMethod keyboard_method)
+{
+    LogTraceFunction;
+
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    // 仍有任务进行，attach 前需要 stop
+    if (!m_thread_idle) {
+        return false;
+    }
+
+    m_thread_idle = false;
+
+    bool ret = m_ctrler->attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
+    if (ret) {
+        m_uuid = m_ctrler->get_uuid();
+    }
+
+    m_thread_idle = true;
+    return ret;
+}
+#endif
+
 bool asst::Assistant::ctrl_click(int x, int y)
 {
     return m_ctrler->click(Point(x, y));
@@ -345,6 +373,27 @@ asst::Assistant::AsyncCallId asst::Assistant::async_connect(
         AsyncCallItem::ConnectParams { .adb_path = adb_path, .address = address, .config = config },
         block);
 }
+
+#ifdef _WIN32
+asst::Assistant::AsyncCallId asst::Assistant::async_attach_window(
+    void* hwnd,
+    Win32ScreencapMethod screencap_method,
+    Win32InputMethod mouse_method,
+    Win32InputMethod keyboard_method,
+    bool block)
+{
+    LogTraceFunction;
+
+    return append_async_call(
+        AsyncCallItem::Type::AttachWindow,
+        AsyncCallItem::AttachWindowParams {
+            .hwnd = hwnd,
+            .screencap_method = screencap_method,
+            .mouse_method = mouse_method,
+            .keyboard_method = keyboard_method },
+        block);
+}
+#endif
 
 asst::Assistant::AsyncCallId asst::Assistant::async_click(int x, int y, bool block)
 {
@@ -580,6 +629,14 @@ void asst::Assistant::call_proc()
             const auto& [adb_path, address, config] = std::get<AsyncCallItem::ConnectParams>(call_item.params);
             ret = ctrl_connect(adb_path, address, config);
         } break;
+#ifdef _WIN32
+        case AsyncCallItem::Type::AttachWindow: {
+            what = "AttachWindow";
+            const auto& [hwnd, screencap_method, mouse_method, keyboard_method] =
+                std::get<AsyncCallItem::AttachWindowParams>(call_item.params);
+            ret = ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
+        } break;
+#endif
         case AsyncCallItem::Type::Click: {
             what = "Click";
             const auto& [x, y] = std::get<AsyncCallItem::ClickParams>(call_item.params);
