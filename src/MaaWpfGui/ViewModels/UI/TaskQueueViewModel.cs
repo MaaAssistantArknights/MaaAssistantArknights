@@ -1240,8 +1240,7 @@ public class TaskQueueViewModel : Screen
         var dialog = new Views.Dialogs.TextDialogUserControl(
             LocalizationHelper.GetString("RenameTask"),
             LocalizationHelper.GetString("RenameTaskPrompt"),
-            currentName)
-        {
+            currentName) {
             Owner = Application.Current.MainWindow,
         };
 
@@ -1272,8 +1271,9 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
+        var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
         var result = MessageBoxHelper.Show(
-            string.Format(LocalizationHelper.GetString("ConfirmDeleteTaskMessage"), taskItem.Name),
+            string.Format(LocalizationHelper.GetString("ConfirmDeleteTaskMessage"), LocalizationHelper.GetString(taskType.ToString()), taskItem.Name),
             LocalizationHelper.GetString("ConfirmDeleteTask"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);

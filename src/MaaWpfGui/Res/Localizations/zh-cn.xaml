@@ -298,7 +298,7 @@
     <system:String x:Key="RenameTask">重命名任务</system:String>
     <system:String x:Key="RenameTaskPrompt">请输入新的任务名称：</system:String>
     <system:String x:Key="ConfirmDeleteTask">确认删除</system:String>
-    <system:String x:Key="ConfirmDeleteTaskMessage">确定要删除任务 "{0}" 吗？</system:String>
+    <system:String x:Key="ConfirmDeleteTaskMessage">确定要删除 {0} 任务 "{1}" 吗？</system:String>
     <system:String x:Key="TaskRenamed">任务已重命名为: {0}</system:String>
     <system:String x:Key="TaskDeleted">已删除任务: {0}</system:String>
     <system:String x:Key="HotKeyShowGui">[热键] 显示/收起 MAA</system:String>

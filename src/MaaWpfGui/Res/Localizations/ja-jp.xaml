@@ -298,7 +298,7 @@
     <system:String x:Key="RenameTask">タスク名を変更</system:String>
     <system:String x:Key="RenameTaskPrompt">新しいタスク名を入力してください：</system:String>
     <system:String x:Key="ConfirmDeleteTask">削除の確認</system:String>
-    <system:String x:Key="ConfirmDeleteTaskMessage">タスク "{0}" を削除してもよろしいですか？</system:String>
+    <system:String x:Key="ConfirmDeleteTaskMessage">タスク "{1}" ({0}) を削除してもよろしいですか？</system:String>
     <system:String x:Key="TaskRenamed">タスク名を変更しました: {0}</system:String>
     <system:String x:Key="TaskDeleted">タスクを削除しました: {0}</system:String>
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>

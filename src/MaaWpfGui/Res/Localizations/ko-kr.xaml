@@ -298,7 +298,7 @@
     <system:String x:Key="RenameTask">작업 이름 바꾸기</system:String>
     <system:String x:Key="RenameTaskPrompt">새 작업 이름을 입력하세요:</system:String>
     <system:String x:Key="ConfirmDeleteTask">삭제 확인</system:String>
-    <system:String x:Key="ConfirmDeleteTaskMessage">작업 "{0}"을(를) 삭제하시겠습니까?</system:String>
+    <system:String x:Key="ConfirmDeleteTaskMessage">정말로 {0} 번째 작업 "{1}"을 삭제하시겠습니까?</system:String>
     <system:String x:Key="TaskRenamed">작업 이름이 변경되었습니다: {0}</system:String>
     <system:String x:Key="TaskDeleted">작업이 삭제되었습니다: {0}</system:String>
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
