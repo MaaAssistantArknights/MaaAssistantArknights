@@ -482,9 +482,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     /// 基建任务完成一次后, 自动切换到下一个; 仅非时间轮换有效
     /// </summary>
     /// <param name="infrast">基建任务</param>
-    public static void IncreaseCustomInfrastPlanIndex(InfrastTask infrast)
+    public static void IncreaseCustomInfrastPlanIndex(InfrastTask? infrast)
     {
-        if (infrast.Mode != Mode.Custom || infrast.PlanSelect == -1 || infrast.PlanSelect >= infrast.InfrastPlan.Count)
+        if (infrast is null || infrast.Mode != Mode.Custom || infrast.PlanSelect == -1 || infrast.PlanSelect >= infrast.InfrastPlan.Count)
         {
             return;
         }
