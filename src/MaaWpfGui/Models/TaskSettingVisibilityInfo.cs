@@ -19,6 +19,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.Models;
@@ -29,25 +30,25 @@ namespace MaaWpfGui.Models;
 public class TaskSettingVisibilityInfo : PropertyChangedBase
 {
     // public const string DefaultVisibleTaskSetting = "Combat";
-    public bool StartUp { get => field; set => SetAndNotify(ref field, value); }
+    public int StartUp { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Recruit { get => field; set => SetAndNotify(ref field, value); }
+    public int Recruit { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Infrast { get => field; set => SetAndNotify(ref field, value); }
+    public int Infrast { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Fight { get => field; set => SetAndNotify(ref field, value); }
+    public int Fight { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Mall { get => field; set => SetAndNotify(ref field, value); }
+    public int Mall { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Award { get => field; set => SetAndNotify(ref field, value); }
+    public int Award { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Roguelike { get => field; set => SetAndNotify(ref field, value); }
+    public int Roguelike { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Reclamation { get => field; set => SetAndNotify(ref field, value); }
+    public int Reclamation { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool AfterAction { get => field; set => SetAndNotify(ref field, value); }
+    public int Custom { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Custom { get => field; set => SetAndNotify(ref field, value); }
+    public bool PostAction { get => field; set => SetAndNotify(ref field, value); }
 
     public static TaskSettingVisibilityInfo Instance { get; } = new();
 
@@ -55,9 +56,9 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     public int CurrentIndex
     {
         get {
-            if (ConfigFactory.CurrentConfig.TaskSelectedIndex < 0 || ConfigFactory.CurrentConfig.TaskSelectedIndex >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+            if (ConfigFactory.CurrentConfig.TaskSelectedIndex < -1 || ConfigFactory.CurrentConfig.TaskSelectedIndex >= ConfigFactory.CurrentConfig.TaskQueue.Count)
             {
-                ConfigFactory.CurrentConfig.TaskSelectedIndex = 0;
+                ConfigFactory.CurrentConfig.TaskSelectedIndex = -1;
             }
 
             return ConfigFactory.CurrentConfig.TaskSelectedIndex;
@@ -86,7 +87,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     }
 
     /// <summary>
-    /// 修改任务设置可见性, 用于 TaskQueueItem 设置按钮的切换. 先设 true 再设 false 刷新 UI.
+    /// 修改任务设置可见性, 用于 TaskQueueItem 设置按钮的切换.
     /// </summary>
     /// <param name="taskIndex">index</param>
     /// <param name="enable">启用与否</param>
@@ -103,27 +104,42 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         {
             CurrentIndex = taskIndex;
         }
-        if (enable || ConfigFactory.CurrentConfig.TaskQueue[taskIndex].GetType() != ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].GetType())
+
+        if (ConfigFactory.CurrentConfig.TaskQueue.Count <= taskIndex || taskIndex < 0)
         {
-            _ = ConfigFactory.CurrentConfig.TaskQueue[taskIndex] switch {
-                StartUpTask => StartUp = enable,
-                RecruitTask => Recruit = enable,
-                InfrastTask => Infrast = enable,
-                FightTask => Fight = enable,
-                MallTask => Mall = enable,
-                AwardTask => Award = enable,
-                RoguelikeTask => Roguelike = enable,
-                ReclamationTask => Reclamation = enable,
-                CustomTask => Custom = enable,
-                _ => throw new NotImplementedException(),
-            };
+            Log.Warning("尝试设置不存在的任务设置可见性, 索引: {TaskIndex}", taskIndex);
         }
-        EnableAdvancedSettings = false;
-        AdvancedSettingsVisibility = !Award && !StartUp;
+        else
+        {
+            SetTaskSettingVisible(ConfigFactory.CurrentConfig.TaskQueue[taskIndex], enable);
+        }
 
         if (enable)
         {
             Instances.TaskQueueViewModel.RefreshTaskModel(ConfigFactory.CurrentConfig.TaskQueue[taskIndex]);
+        }
+    }
+
+    public void SetTaskSettingVisible(BaseTask task, bool enable)
+    {
+        _ = task switch {
+            StartUpTask => enable ? ++StartUp : --StartUp,
+            RecruitTask => enable ? ++Recruit : --Recruit,
+            InfrastTask => enable ? ++Infrast : --Infrast,
+            FightTask => enable ? ++Fight : --Fight,
+            MallTask => enable ? ++Mall : --Mall,
+            AwardTask => enable ? ++Award : --Award,
+            RoguelikeTask => enable ? ++Roguelike : --Roguelike,
+            ReclamationTask => enable ? ++Reclamation : --Reclamation,
+            CustomTask => enable ? ++Custom : --Custom,
+            _ => throw new NotImplementedException(),
+        };
+        EnableAdvancedSettings = false;
+        AdvancedSettingsVisibility = Award == 0 && StartUp == 0;
+
+        if (StartUp == 0 && Recruit == 0 && Infrast == 0 && Fight == 0 && Mall == 0 && Award == 0 && Roguelike == 0 && Reclamation == 0 && Custom == 0)
+        {
+            CurrentIndex = -1;
         }
     }
 
@@ -138,24 +154,12 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         AutoRoguelike = false;
         Reclamation = false;
         Custom = false;*/
-        AfterAction = value;
+        PostAction = value;
     }
 
-    private bool _enableAdvancedSettings;
+    public bool EnableAdvancedSettings { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool EnableAdvancedSettings
-    {
-        get => _enableAdvancedSettings;
-        set => SetAndNotify(ref _enableAdvancedSettings, value);
-    }
-
-    private bool _advancedSettingsVisibility;
-
-    public bool AdvancedSettingsVisibility
-    {
-        get => _advancedSettingsVisibility;
-        set => SetAndNotify(ref _advancedSettingsVisibility, value);
-    }
+    public bool AdvancedSettingsVisibility { get => field; set => SetAndNotify(ref field, value); }
 
     private bool _guide = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0) < SettingsViewModel.GuideMaxStep;
 

@@ -19,9 +19,8 @@ namespace MaaWpfGui.ViewModels;
 
 public class TaskItemViewModel : PropertyChangedBase
 {
-    public TaskItemViewModel(int index, string name, bool? isCheckedWithNull)
+    public TaskItemViewModel(string name, bool? isCheckedWithNull)
     {
-        _index = index;
         _name = name;
         _isCheckedWithNull = isCheckedWithNull;
     }
@@ -33,7 +32,7 @@ public class TaskItemViewModel : PropertyChangedBase
         get => _name;
         set {
             SetAndNotify(ref _name, value);
-            ConfigFactory.CurrentConfig.TaskQueue[_index].Name = value;
+            ConfigFactory.CurrentConfig.TaskQueue[Index].Name = value;
         }
     }
 
@@ -44,29 +43,21 @@ public class TaskItemViewModel : PropertyChangedBase
         get => _isCheckedWithNull;
         set {
             SetAndNotify(ref _isCheckedWithNull, value);
-            ConfigFactory.CurrentConfig.TaskQueue[_index].IsEnable = value;
+            ConfigFactory.CurrentConfig.TaskQueue[Index].IsEnable = value;
         }
     }
 
-    private int _index;
-
-    public int Index
-    {
-        get => _index;
-        set => SetAndNotify(ref _index, value);
-    }
-
-    private bool _enableSetting;
+    public int Index { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether the setting enabled.
     /// </summary>
     public bool EnableSetting
     {
-        get => _enableSetting;
+        get => field;
         set {
-            SetAndNotify(ref _enableSetting, value);
-            TaskSettingVisibilityInfo.Instance.Set(_index, value);
+            SetAndNotify(ref field, value);
+            TaskSettingVisibilityInfo.Instance.Set(Index, value);
         }
     }
 }

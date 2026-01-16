@@ -147,11 +147,22 @@ public class TaskQueueViewModel : Screen
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                TaskItemViewModels[e.NewStartingIndex].EnableSetting = true; // 请勿变动顺序, 先设true后false
-                var task = TaskItemViewModels.FirstOrDefault(i => i.EnableSetting);
-                if (task is { })
+                TaskItemViewModels.FirstOrDefault(i => i.EnableSetting)?.EnableSetting = false;
+                TaskItemViewModels[e.NewStartingIndex].EnableSetting = true;
+                TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                if (e.OldStartingIndex >= 0 && e.OldStartingIndex < ConfigFactory.CurrentConfig.TaskQueue.Count)
                 {
-                    task.EnableSetting = false;
+                    TaskSettingVisibilities.SetTaskSettingVisible(ConfigFactory.CurrentConfig.TaskQueue[e.OldStartingIndex], false);
+                    ConfigFactory.CurrentConfig.TaskQueue.RemoveAt(e.OldStartingIndex);
+                }
+
+                TaskItemViewModels.FirstOrDefault(i => i.Index == e.OldStartingIndex)?.EnableSetting = true;
+                for (int i = e.OldStartingIndex; i < TaskItemViewModels.Count; i++) // 更新后续任务的索引
+                {
+                    TaskItemViewModels[i].Index = i;
                 }
             }
         });
@@ -1216,7 +1227,7 @@ public class TaskQueueViewModel : Screen
         {
             task.Name = TaskTypeList.FirstOrDefault(t => t.Value == taskName)?.Display ?? taskName.Name;
             ConfigFactory.CurrentConfig.TaskQueue.Add(task);
-            TaskItemViewModels.Add(new TaskItemViewModel(TaskItemViewModels.Count, task.Name, task.IsEnable));
+            TaskItemViewModels.Add(new TaskItemViewModel(task.Name, task.IsEnable));
         }
         else
         {
@@ -1283,15 +1294,7 @@ public class TaskQueueViewModel : Screen
             var index = taskItem.Index;
             if (index < ConfigFactory.CurrentConfig.TaskQueue.Count)
             {
-                ConfigFactory.CurrentConfig.TaskQueue.RemoveAt(index);
                 TaskItemViewModels.RemoveAt(index);
-
-                // 更新后续任务的索引
-                for (int i = index; i < TaskItemViewModels.Count; i++)
-                {
-                    TaskItemViewModels[i].Index = i;
-                }
-
                 AddLog(string.Format(LocalizationHelper.GetString("TaskDeleted"), taskItem.Name), UiLogColor.Info);
             }
         }

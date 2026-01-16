@@ -31,7 +31,7 @@ public class SpecificConfig : INotifyPropertyChanged
     public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
 
     [JsonInclude]
-    public int TaskSelectedIndex { get; set; }
+    public int TaskSelectedIndex { get; set; } = -1;
 
     [JsonInclude]
     public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = [];
