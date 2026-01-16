@@ -67,6 +67,20 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "client_type": "Official",
+   "start_game_enabled": true,
+   "account_name": "123****4567"
+}
+```
+
+</details>
+
 - `CloseDown`  
    게임 종료
 
@@ -80,6 +94,18 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
 ::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "client_type": "Official"
+}
+```
+
+</details>
 
 - `Fight`  
    이성 사용 작전
@@ -149,6 +175,34 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 오리지늄 사용 확인 창에서 대기하다가, 현재 1이성이 회복되면 즉시 오리지늄을 사용  
 :::  
 ::::  
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "stage": "1-7",
+   "medicine": 1,
+   "expiring_medicine": 0,
+   "stone": 0,
+   "times": 10,
+   "series": 0,
+   "drops": {
+      "30011": 10
+   },
+   "report_to_penguin": true,
+   "penguin_id": "123456",
+   "report_to_yituliu": true,
+   "yituliu_id": "123456",
+   "server": "CN",
+   "client_type": "Official",
+   "DrGrandet": false
+}
+```
+
+</details>
+
 일부 소수 자원 스테이지명도 지원합니다. [통합 예시](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/zh-cn.xaml#L260)를 참고하세요
 
 - `Recruit`  
@@ -220,6 +274,36 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "refresh": true,
+   "select": [5, 4],
+   "confirm": [4, 3],
+   "first_tags": ["高级资深干员"],
+   "extra_tags_mode": 1,
+   "times": 4,
+   "set_time": true,
+   "expedite": false,
+   "expedite_times": 0,
+   "skip_robot": true,
+   "recruitment_time": {
+      "3": 540,
+      "4": 540
+   },
+   "report_to_penguin": false,
+   "penguin_id": "123456",
+   "report_to_yituliu": false,
+   "yituliu_id": "123456",
+   "server": "CN"
+}
+```
+
+</details>
+
 - `Infrast`  
    기반시설 교대
 
@@ -283,6 +367,29 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "mode": 0,
+   "facility": ["Mfg", "Trade", "Reception"],
+   "drones": "PureGold",
+   "threshold": 0.3,
+   "replenish": true,
+   "dorm_notstationed_enabled": false,
+   "dorm_trust_enabled": true,
+   "reception_message_board": true,
+   "reception_clue_exchange": true,
+   "reception_send_clue": true,
+   "filename": "schedules/base.json",
+   "plan_index": 1
+}
+```
+
+</details>
+
 - `Mall`  
    크레딧 수령 및 상점 구매  
    먼저 `buy_first` 목록 순서대로 구매하고, 그 다음 `blacklist`를 제외하고 왼쪽에서 오른쪽으로 구매하며, 크레딧이 넘칠 경우 블랙리스트를 무시하고 넘치지 않을 때까지 구매
@@ -322,6 +429,26 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "visit_friends": true,
+   "shopping": true,
+   "buy_first": ["招聘许可", "龙门币"],
+   "blacklist": ["家具零件"],
+   "force_shopping_if_credit_full": false,
+   "only_buy_discount": true,
+   "reserve_max_credit": false,
+   "credit_fight": false,
+   "formation_index": 0
+}
+```
+
+</details>
+
 - `Award`  
    각종 보상 수령
 
@@ -348,6 +475,23 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 5주년 등 이벤트 월정액 보상 수령  
 :::  
 ::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "award": true,
+   "mail": true,
+   "recruit": true,
+   "orundum": false,
+   "mining": true,
+   "specialaccess": false
+}
+```
+
+</details>
 
 - `Roguelike`  
    통합 전략 무한 반복
@@ -388,10 +532,10 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `7` - 심층 조사 보상 파밍, 모드 적응 외엔 모드 0과 동일  
 :::  
-::: field name="squad" type="string" optional default="지휘 분대"  
+::: field name="squad" type="string" optional default="指挥分队"  
 시작 분대명  
 :::  
-::: field name="roles" type="string" optional default="적재적소 활용"  
+::: field name="roles" type="string" optional default="取长补短"  
 시작 모집 조합  
 :::  
 ::: field name="core_char" type="string" optional  
@@ -499,7 +643,58 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 고정 시드 사용  
 :::  
-::::  
+::::   
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "theme": "Sami",
+   "mode": 5,
+   "squad": "指挥分队",
+   "roles": "取长补短",
+   "core_char": "塑心",
+   "use_support": false,
+   "use_nonfriend_support": false,
+   "starts_count": 3,
+   "difficulty": 8,
+   "stop_at_final_boss": false,
+   "stop_at_max_level": false,
+   "investment_enabled": true,
+   "investments_count": 2,
+   "stop_when_investment_full": false,
+   "investment_with_more_score": false,
+   "start_with_elite_two": false,
+   "only_start_with_elite_two": false,
+   "refresh_trader_with_dice": false,
+   "first_floor_foldartal": "",
+   "start_foldartal_list": [],
+   "collectible_mode_start_list": {
+      "hot_water": true,
+      "shield": false,
+      "ingot": false,
+      "hope": true,
+      "random": false,
+      "key": false,
+      "dice": false,
+      "ideas": false
+   },
+   "use_foldartal": true,
+   "check_collapsal_paradigms": true,
+   "double_check_collapsal_paradigms": true,
+   "expected_collapsal_paradigms": ["目空一些", "睁眼瞎"],
+   "monthly_squad_auto_iterate": false,
+   "monthly_squad_check_comms": false,
+   "deep_exploration_auto_iterate": false,
+   "collectible_mode_shopping": false,
+   "collectible_mode_squad": "",
+   "start_with_seed": false
+}
+```
+
+</details>
 
 붕괴 패러다임 파밍 기능에 대한 자세한 내용은 [통합 전략 보조 프로토콜](./integrated-strategy-schema.md#탐험가의-은빛-서리-끝자락-—-붕괴-패러다임)을 참고하세요.
 
@@ -572,6 +767,32 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 작전 JSON은 [자동지휘 프로토콜](./copilot-schema.md)을 참고하세요.
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "filename": "copilot/1-7.json",
+   "loop_times": 2,
+   "use_sanity_potion": false,
+   "formation": true,
+   "formation_index": 1,
+   "user_additional": [
+      {
+         "name": "能天使",
+         "skill": 3
+      }
+   ],
+   "add_trust": true,
+   "ignore_requirements": false,
+   "support_unit_usage": 2,
+   "support_unit_name": "艾雅法拉"
+}
+```
+
+</details>
+
 - `SSSCopilot`  
    보안 파견 자동지휘
 
@@ -588,17 +809,46 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 ::::  
 보안 파견 작전 JSON은 [보안 파견 프로토콜](./sss-schema.md)을 참고하세요.
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "filename": "sss/plan.json",
+   "loop_times": 1
+}
+```
+
+</details>
+
 - `ParadoxCopilot`
   패러독스 시뮬레이션 작전 계획 자동 수행
 
-```json5
-// Task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+본 작업 활성화 여부.  
+:::  
+::: field name="filename" type="string" required  
+단일 작전 JSON 파일 경로, 절대/상대 경로 모두 가능. 실행 중 설정 불가. 필수, list와 택일.  
+:::  
+::: field name="list" type="array<string>" required  
+작전 JSON 목록, 절대/상대 경로 모두 가능. 실행 중 설정 불가. 필수, filename과 택일.  
+:::  
+::::
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-   "enable": bool,        // 해당 작업의 활성화 여부. 기본값은 true
-   "filename": string,    // 개별 작업 JSON 파일 경로. 절대 경로 및 상대 경로 모두 가능하며, 실행 중 설정은 지원하지 않음. list와 둘 중 하나를 반드시 선택(필수)
-   "list" : list<string>  // 작업 JSON 파일 목록. 절대 경로 및 상대 경로 모두 가능하며, 실행 중 설정은 지원하지 않음. filename과 둘 중 하나를 반드시 선택(필수)
+   "enable": true,
+   "filename": "paradox/exusiai.json",
+   "list": []
 }
 ```
+
+</details>
 
 - `Depot`  
    창고 인식
@@ -609,6 +859,17 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true
+}
+```
+
+</details>
+
 - `OperBox`  
    오퍼레이터 인식
 
@@ -617,6 +878,17 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 본 작업 활성화 여부  
 :::  
 ::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true
+}
+```
+
+</details>
 
 - `Reclamation`  
    생존 연산
@@ -654,6 +926,22 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "theme": "Fire",
+   "mode": 1,
+   "tools_to_craft": ["荧光棒", "发电机"],
+   "increment_mode": 0,
+   "num_craft_batches": 12
+}
+```
+
+</details>
+
 - `Custom`  
    사용자 정의 작업
 
@@ -665,6 +953,18 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 배열 중 첫 번째로 매칭된 작업(및 후속 next 등)을 실행. 여러 작업을 실행하려면 Custom task를 여러 번 append  
 :::  
 ::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "task_names": ["StartUp", "Infrast", "Fight"]
+}
+```
+
+</details>
 
 - `SingleStep`  
    단일 단계 작업 (현재 전투만 지원)
@@ -690,6 +990,22 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "type": "copilot",
+   "subtask": "stage",
+   "details": {
+      "stage": "1-7"
+   }
+}
+```
+
+</details>
+
 - `VideoRecognition`  
   영상 인식, 현재 작전(전투) 영상만 지원
 
@@ -701,6 +1017,18 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 영상 파일 경로, 절대/상대 경로 모두 가능. 실행 중 설정 불가  
 :::  
 ::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "filename": "videos/copilot.mp4"
+}
+```
+
+</details>
 
 ### `AsstSetTaskParams`
 
