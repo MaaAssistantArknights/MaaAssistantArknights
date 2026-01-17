@@ -1219,7 +1219,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowFailed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
     <system:String x:Key="UseAttachWindow">PC クライアントに接続（実験的機能、非常に不安定）</system:String>
     <system:String x:Key="UseAttachWindowTip">エミュレータや携帯電話への ADB 接続ではなく、アークナイツ PC クライアントに Win32 ウィンドウバインディングを使用します</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">実験的機能、非常に不安定、推奨されません！&#10;1. MAAを管理者として起動する必要があります&#10;2. ゲームウィンドウは最小化できません&#10;3. アークナイツの設定 - ゲーム - UIスケールを100に設定する必要があります</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">実験的機能、非常に不安定、お試し用です！&#10;1. MAAを管理者として起動する必要があります&#10;2. ゲームウィンドウは最小化できません&#10;3. アークナイツの設定 - ゲーム - UIスケールを100に設定する必要があります</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>

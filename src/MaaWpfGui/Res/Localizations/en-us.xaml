@@ -1218,7 +1218,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
     <system:String x:Key="UseAttachWindow">Connect to PC Client (Experimental, Highly Unstable)</system:String>
     <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">Experimental feature, extremely unstable, not recommended!&#10;1. MAA must be run as administrator&#10;2. Game window cannot be minimized&#10;3. In Arknights Settings - Game - UI Scale must be set to 100</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">Experimental feature, extremely unstable, for early adopters only!&#10;1. MAA must be run as administrator&#10;2. Game window cannot be minimized&#10;3. In Arknights Settings - Game - UI Scale must be set to 100</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>

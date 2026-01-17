@@ -1220,7 +1220,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowFailed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
     <system:String x:Key="UseAttachWindow">PC 클라이언트 연결 (실험적 기능, 매우 불안정)</system:String>
     <system:String x:Key="UseAttachWindowTip">에뮬레이터나 휴대폰용 ADB 연결 대신 명일방주 PC 클라이언트에 Win32 창 바인딩을 사용합니다</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">실험적 기능, 매우 불안정, 권장하지 않습니다!&#10;1. MAA를 관리자 권한으로 실행해야 합니다&#10;2. 게임 창을 최소화할 수 없습니다&#10;3. 명일방주 설정 - 게임 - UI 배율을 100으로 설정해야 합니다</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">실험적 기능, 매우 불안정, 체험용입니다!&#10;1. MAA를 관리자 권한으로 실행해야 합니다&#10;2. 게임 창을 최소화할 수 없습니다&#10;3. 명일방주 설정 - 게임 - UI 배율을 100으로 설정해야 합니다</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
