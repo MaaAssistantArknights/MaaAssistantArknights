@@ -521,7 +521,7 @@ Theme.
 <br>
 `Sarkaz` - Tales of the Unfathomable
 <br>
-`JieGarden` - Boundary Garden  
+`JieGarden` - Sui's Garden of Grotesqueries  
 :::  
 ::: field name="mode" type="number" optional default="0"  
 Mode.

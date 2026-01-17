@@ -522,7 +522,7 @@ OF-1 実行時に使用する編成スロットのインデックス。
 <br>
 `Sarkaz` - サルカズの炉辺奇談
 <br>
-`JieGarden` - 界園  
+`JieGarden` - 歳の界園志異  
 :::  
 ::: field name="mode" type="number" optional default="0"  
 モード。
