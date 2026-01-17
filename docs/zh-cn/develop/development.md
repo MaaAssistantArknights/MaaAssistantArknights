@@ -68,7 +68,7 @@ icon: iconoir:developer
    cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
    ```
 
-7. 双击打开 `build/MAA.sln` 文件，Visual Studio 会自动加载整个项目。
+7. 双击打开 `build/MAA.slnx` 文件，Visual Studio 会自动加载整个项目。
 8. 设置 VS
    - VS 上方配置选择 `Debug` `x64`
    - 右键 `MaaWpfGui` - 设为启动项目
@@ -117,7 +117,7 @@ icon: iconoir:developer
        git merge # 合并
        ```
 
-    4. 重复上述 7, 8, 9, 10 中的操作
+    4. 重复上述 8, 9, 10, 11 中的操作
 
 ::: tip
 在打开 VS 之后，和 Git 有关的操作可以不用命令行工具，直接使用 VS 自带的“Git 更改”即可

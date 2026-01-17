@@ -7,6 +7,12 @@ icon: material-symbols:summarize
 
 maa-cli의 주요 기능은 MaaCore를 호출하여 명일방주의 게임 작업을 자동화하는 것입니다. 또한 사용의 편의성을 위해 MaaCore 관리 기능도 제공합니다.
 
+::: tip
+
+Windows 패키지 관리자 (winget) 를 통해 maa-cli를 설치한 사용자는 다음 명령에서 `maa` 를 `maa-cli` 로 대체해야 합니다.
+
+:::
+
 ## MaaCore 관리
 
 maa-cli는 MaaCore 및 리소스를 설치하고 업데이트할 수 있습니다. 다음 명령어를 실행하세요:

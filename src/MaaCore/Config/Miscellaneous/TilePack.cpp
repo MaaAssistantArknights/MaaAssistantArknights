@@ -54,14 +54,25 @@ bool proc_data(
     using TileInfo = asst::TilePack::TileInfo;
 
     static const std::unordered_map<std::string, TileKey> TileKeyMapping = {
-        { "tile_forbidden", TileKey::Forbidden }, { "tile_wall", TileKey::Wall },
-        { "tile_road", TileKey::Road },           { "tile_end", TileKey::Home },
-        { "tile_start", TileKey::EnemyHome },     { "tile_flystart", TileKey::Airport },
-        { "tile_floor", TileKey::Floor },         { "tile_hole", TileKey::Hole },
-        { "tile_telin", TileKey::Telin },         { "tile_telout", TileKey::Telout },
-        { "tile_grass", TileKey::Grass },         { "tile_deepsea", TileKey::DeepSea },
-        { "tile_deepwater", TileKey::DeepSea },   { "tile_volcano", TileKey::Volcano },
-        { "tile_healing", TileKey::Healing },     { "tile_fence", TileKey::Fence },
+        { "tile_forbidden", TileKey::Forbidden },
+        { "tile_wall", TileKey::Wall },
+        { "tile_road", TileKey::Road },
+        { "tile_end", TileKey::Home },
+        { "tile_start", TileKey::EnemyHome },
+        { "tile_green", TileKey::Green },
+        { "tile_flystart", TileKey::Airport },
+        { "tile_floor", TileKey::Floor },
+        { "tile_hole", TileKey::Hole },
+        { "tile_telin", TileKey::Telin },
+        { "tile_telout", TileKey::Telout },
+        { "tile_grass", TileKey::Grass },
+        { "tile_deepsea", TileKey::DeepSea },
+        { "tile_deepwater", TileKey::DeepSea },
+        { "tile_volcano", TileKey::Volcano },
+        { "tile_healing", TileKey::Healing },
+        { "tile_fence", TileKey::Fence /* 疑似弃用, 改为 tile_fence_bound */ },
+        { "tile_fence_bound", TileKey::Fence },
+        { "tile_infection", TileKey::Infection },
     };
 
     auto key = TileKey::Invalid;
@@ -70,7 +81,7 @@ bool proc_data(
     }
     else {
         key = TileKey::Invalid;
-        Log.warn("Unknown tile type:", tile.tileKey);
+        LogWarn << "Unknown tile type" << loc << ":" << tile.tileKey;
     }
 
     dst.emplace(

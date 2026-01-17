@@ -153,7 +153,7 @@ public partial class NotifyIcon
 
     private static void ToggleOverlay(object sender, RoutedEventArgs e)
     {
-        Instances.TaskQueueViewModel?.ToggleOverlay();
+        TaskQueueViewModel.ToggleOverlay();
     }
 
     private static void App_restart(object sender, RoutedEventArgs e)

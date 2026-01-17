@@ -24,6 +24,7 @@
 @ stdcall AsstAsyncScreencap(ptr long) WineShimAsstAsyncScreencap
 
 @ stdcall AsstGetImage(ptr ptr long) WineShimAsstGetImage
+@ stdcall AsstGetImageBgr(ptr ptr long) WineShimAsstGetImageBgr
 @ stdcall AsstGetUUID(ptr ptr long) WineShimAsstGetUUID
 @ stdcall AsstGetTasksList(ptr ptr long) WineShimAsstGetTasksList
 @ stdcall AsstGetNullSize() WineShimAsstGetNullSize

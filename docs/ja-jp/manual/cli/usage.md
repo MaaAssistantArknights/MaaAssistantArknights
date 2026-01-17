@@ -11,6 +11,12 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 
 maa-cli 主要功能是通过调用 MaaCore，自动化完成明日方舟的游戏任务。此外，为了方便使用，maa-cli 还提供了管理 MaaCore 的功能。
 
+::: tip
+
+对于使用 Windows 包管理器 (winget) 安装 maa-cli 的用户，以下命令中的 `maa` 需要替换为 `maa-cli` 。
+
+:::
+
 ## 管理 MaaCore
 
 maa-cli 可以安装和更新 MaaCore 及资源，只需运行以下命令：

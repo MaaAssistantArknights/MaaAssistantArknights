@@ -659,13 +659,21 @@
         "baseTask": "JieGarden@Roguelike@MissionFailedFlag",
         "template": "JieGarden@Roguelike@MissionFailedFlag.png",
         "action": "ClickSelf",
+        "reduceOtherTimes": ["JieGarden@Roguelike@OperationFailedReCheck*20"],
         "next": [
             "JieGarden@Roguelike@OperationFailed@NextAfterLoadingIcon",
             "JieGarden@Roguelike@OperationFailed@NextAfterLoadingText",
             "JieGarden@Roguelike@OperationFailed",
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@NextLevel#next"
+            "JieGarden@Roguelike@NextLevel#next",
+            "JieGarden@Roguelike@OperationFailedReCheck"
         ]
+    },
+    "JieGarden@Roguelike@OperationFailedReCheck": {
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "maxTimes": 20,
+        "next": ["JieGarden@Roguelike@OperationFailed#next"]
     },
     "JieGarden@Roguelike@RandomPick": {
         "action": "ClickSelf",

@@ -36,6 +36,7 @@ void dl_init_maacore()
     FILL_DL_FUNC(maacore, AsstAsyncScreencap)
 
     FILL_DL_FUNC(maacore, AsstGetImage)
+    FILL_DL_FUNC(maacore, AsstGetImageBgr)
     FILL_DL_FUNC(maacore, AsstGetUUID)
     FILL_DL_FUNC(maacore, AsstGetTasksList)
     FILL_DL_FUNC(maacore, AsstGetNullSize)

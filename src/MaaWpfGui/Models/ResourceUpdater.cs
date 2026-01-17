@@ -28,7 +28,7 @@ using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
-using static MaaWpfGui.ViewModels.UI.VersionUpdateViewModel;
+using static MaaWpfGui.ViewModels.Dialogs.VersionUpdateDialogViewModel;
 
 namespace MaaWpfGui.Models;
 

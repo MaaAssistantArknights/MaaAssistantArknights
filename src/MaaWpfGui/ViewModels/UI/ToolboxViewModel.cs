@@ -523,8 +523,15 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        var details = JObject.Parse(json);
-        DepotParse(details);
+        try
+        {
+            var details = JObject.Parse(json);
+            DepotParse(details);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error("parse depot json failed,\n{str}", json, ex);
+        }
     }
 
     /// <summary>
@@ -1185,6 +1192,7 @@ public class ToolboxViewModel : Screen
             if (!value)
             {
                 _gachaTimer.Stop();
+                GachaInfo = LocalizationHelper.GetString("GachaInitTip");
             }
         }
     }
@@ -1485,6 +1493,7 @@ public class ToolboxViewModel : Screen
                 }
 
                 IsPeepInProgress = false;
+                IsGachaInProgress = false;
                 return;
             }
 

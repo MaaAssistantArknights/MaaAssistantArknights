@@ -38,7 +38,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     protected override void OnViewLoaded()
     {
         // 更新直接重启
-        if (Instances.VersionUpdateViewModel.CheckAndUpdateNow())
+        if (Instances.VersionUpdateDialogViewModel.CheckAndUpdateNow())
         {
             Bootstrapper.RestartAfterUpdate();
             return;
@@ -53,24 +53,24 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         }
 
         Task.Run(async () => {
-            await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
-            if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
+            await Instances.AnnouncementDialogViewModel.CheckAndDownloadAnnouncement();
+            if (Instances.AnnouncementDialogViewModel.DoNotRemindThisAnnouncementAgain)
             {
                 return;
             }
 
-            if (Instances.AnnouncementViewModel.DoNotShowAnnouncement)
+            if (Instances.AnnouncementDialogViewModel.DoNotShowAnnouncement)
             {
                 return;
             }
 
-            if (Instances.AnnouncementViewModel.AnnouncementInfo != string.Empty)
+            if (Instances.AnnouncementDialogViewModel.AnnouncementInfo != string.Empty)
             {
-                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementDialogViewModel));
             }
         });
 
-        _ = Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
+        _ = Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();
     }
 
     private static async Task InitProxy()

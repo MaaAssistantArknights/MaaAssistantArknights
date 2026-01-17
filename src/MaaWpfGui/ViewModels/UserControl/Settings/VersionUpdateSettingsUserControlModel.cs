@@ -28,6 +28,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.Dialogs;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -300,7 +301,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             if (value.Length == 24)
             {
                 Task.Run(async () => {
-                    await Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
+                    await Instances.VersionUpdateDialogViewModel.VersionUpdateAndAskToRestartAsync();
                     await ResourceUpdater.ResourceUpdateAndReloadAsync();
                 });
             }
@@ -517,19 +518,19 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate();
+        var ret = await Instances.VersionUpdateDialogViewModel.CheckAndDownloadVersionUpdate();
 
         var toastMessage = ret switch {
-            VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
-            VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion => LocalizationHelper.GetString("NoNeedToUpdateDebugVersion"),
-            VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
-            VersionUpdateViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
-            VersionUpdateViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
-            VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("GetReleaseNoteFailed"),
-            VersionUpdateViewModel.CheckUpdateRetT.OK => string.Empty,
-            VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt => LocalizationHelper.GetString("NewVersionIsBeingBuilt"),
-            VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated => LocalizationHelper.GetString("GameResourceUpdated"),
-            VersionUpdateViewModel.CheckUpdateRetT.NoMirrorChyanCdk => LocalizationHelper.GetString("MirrorChyanSoftwareUpdateTip"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion => LocalizationHelper.GetString("NoNeedToUpdateDebugVersion"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("GetReleaseNoteFailed"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.OK => string.Empty,
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt => LocalizationHelper.GetString("NewVersionIsBeingBuilt"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.OnlyGameResourceUpdated => LocalizationHelper.GetString("GameResourceUpdated"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NoMirrorChyanCdk => LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"),
             _ => string.Empty,
         };
 
@@ -538,9 +539,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             ToastNotification.ShowDirect(toastMessage);
         }
 
-        if (ret == VersionUpdateViewModel.CheckUpdateRetT.OK)
+        if (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.OK)
         {
-            _ = Instances.VersionUpdateViewModel.AskToRestart();
+            _ = Instances.VersionUpdateDialogViewModel.AskToRestart();
         }
     }
 
@@ -562,9 +563,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         var (ret, uri, releaseNote) = await ResourceUpdater.CheckFromMirrorChyanAsync();
         var toastMessage = ret switch {
-            VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
-            VersionUpdateViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
-            VersionUpdateViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
             _ => string.Empty,
         };
 
@@ -573,7 +574,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             ToastNotification.ShowDirect(toastMessage);
         }
 
-        if (ret == VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest)
+        if (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest)
         {
             IsCheckingForUpdates = false;
             return;
@@ -581,7 +582,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         bool success = UpdateSource switch {
             "Github" => await ResourceUpdater.UpdateFromGithubAsync(),
-            "MirrorChyan" => (ret == VersionUpdateViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri, releaseNote),
+            "MirrorChyan" => (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri, releaseNote),
             _ => await ResourceUpdater.UpdateFromGithubAsync(),
         };
 
@@ -601,7 +602,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public void ShowChangelog()
     {
-        if (Instances.VersionUpdateViewModel.View is System.Windows.Window window)
+        if (Instances.VersionUpdateDialogViewModel.View is System.Windows.Window window)
         {
             if (window.WindowState == System.Windows.WindowState.Minimized)
             {
@@ -612,7 +613,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
         else
         {
-            Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
+            Instances.WindowManager.ShowWindow(Instances.VersionUpdateDialogViewModel);
         }
     }
 }

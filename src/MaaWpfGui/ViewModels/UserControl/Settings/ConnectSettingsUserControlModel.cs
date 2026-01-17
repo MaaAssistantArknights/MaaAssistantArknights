@@ -285,11 +285,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 string[] possibleUninstallKeys =
                 [
                     @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0",
-                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer"
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer",
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayerGlobal-12.0",
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\YXArkNights-12.0",
                 ];
 
                 const string UninstallExeName = @"\uninstall.exe";
-                string? uninstallString = null;
+                var detectedPaths = new List<string>();
+
                 foreach (var keyPath in possibleUninstallKeys)
                 {
                     using var driverKey = Registry.LocalMachine.OpenSubKey(keyPath);
@@ -298,28 +301,47 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                         continue;
                     }
 
-                    uninstallString = driverKey.GetValue("UninstallString") as string;
-                    if (!string.IsNullOrEmpty(uninstallString) && uninstallString.Contains(UninstallExeName))
+                    var uninstallString = driverKey.GetValue("UninstallString") as string;
+                    if (string.IsNullOrEmpty(uninstallString) || !uninstallString.Contains(UninstallExeName))
                     {
-                        break;
+                        continue;
+                    }
+
+                    var match = Regex.Match(uninstallString,
+                        $"""
+                         ^"(.*?){Regex.Escape(UninstallExeName)}
+                         """,
+                        RegexOptions.IgnoreCase);
+
+                    if (match.Success && Directory.Exists(match.Groups[1].Value))
+                    {
+                        var path = match.Groups[1].Value;
+                        if (!detectedPaths.Contains(path))
+                        {
+                            detectedPaths.Add(path);
+                        }
                     }
                 }
 
-                if (string.IsNullOrEmpty(uninstallString) || string.IsNullOrEmpty(uninstallString) || !uninstallString.Contains(UninstallExeName))
+                if (detectedPaths.Count == 0)
                 {
                     EmulatorPath = string.Empty;
                     return;
                 }
 
-                var match = Regex.Match(uninstallString,
-                    $"""
-                     ^"(.*?){Regex.Escape(UninstallExeName)}
-                     """,
-                    RegexOptions.IgnoreCase);
-
-                if (match.Success && Directory.Exists(match.Groups[1].Value))
+                if (detectedPaths.Count == 1)
                 {
-                    EmulatorPath = match.Groups[1].Value;
+                    EmulatorPath = detectedPaths[0];
+                    return;
+                }
+
+                // 多个路径，弹出选择框
+                var selectionWindow = new Views.Dialogs.EmulatorPathSelectionDialogView(detectedPaths) {
+                    Owner = Application.Current.MainWindow,
+                };
+                if (selectionWindow.ShowDialog() == true && !string.IsNullOrEmpty(selectionWindow.SelectedPath))
+                {
+                    EmulatorPath = selectionWindow.SelectedPath;
                 }
             }
             catch (Exception e)
@@ -479,6 +501,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 ];
 
                 const string InstallDirValueName = "InstallDir";
+                var detectedPaths = new List<string>();
 
                 foreach (var regPath in possiblePaths)
                 {
@@ -491,9 +514,30 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     var installDir = driverKey.GetValue(InstallDirValueName) as string;
                     if (!string.IsNullOrEmpty(installDir) && Directory.Exists(installDir))
                     {
-                        EmulatorPath = installDir;
-                        break;
+                        if (!detectedPaths.Contains(installDir))
+                        {
+                            detectedPaths.Add(installDir);
+                        }
                     }
+                }
+
+                if (detectedPaths.Count == 0)
+                {
+                    EmulatorPath = string.Empty;
+                    return;
+                }
+
+                if (detectedPaths.Count == 1)
+                {
+                    EmulatorPath = detectedPaths[0];
+                    return;
+                }
+
+                // 多个路径，弹出选择框
+                var selectionWindow = new Views.Dialogs.EmulatorPathSelectionDialogView(detectedPaths);
+                if (selectionWindow.ShowDialog() == true && !string.IsNullOrEmpty(selectionWindow.SelectedPath))
+                {
+                    EmulatorPath = selectionWindow.SelectedPath;
                 }
             }
             catch (Exception e)

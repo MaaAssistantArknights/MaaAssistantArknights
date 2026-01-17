@@ -1023,7 +1023,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     body["server"] = m_server;
     body["source"] = UploadDataSource;
     body["version"] = MAA_VERSION;
-    body["uuid"] = /* m_yituliu_id */ m_penguin_id;
+    body["uuid"] = m_yituliu_id;
 
     if (!m_report_yituliu_task_ptr) {
         m_report_yituliu_task_ptr = std::make_shared<ReportDataTask>(report_yituliu_callback, this);

@@ -32,6 +32,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Serilog;
@@ -525,6 +526,9 @@ public class SettingsViewModel : Screen
         {
             ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
 
+            // 配置数量大于 1 时，标题栏显示配置名
+            UpdateWindowTitle();
+
             var growlInfo = new GrowlInfo {
                 IsCustom = true,
                 Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName),
@@ -552,6 +556,10 @@ public class SettingsViewModel : Screen
         if (ConfigurationHelper.DeleteConfiguration(delete.Display))
         {
             ConfigurationList.Remove(delete);
+            if (ConfigurationList.Count <= 1)
+            {
+                UpdateWindowTitle();
+            }
         }
     }
 
@@ -559,7 +567,7 @@ public class SettingsViewModel : Screen
 
     #region SettingsGuide
 
-    public static int GuideMaxStep => 6;
+    public static int GuideMaxStep => 7;
 
     private int _guideStepIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0"));
 
@@ -823,7 +831,7 @@ public class SettingsViewModel : Screen
 
         try
         {
-            if (Instances.AnnouncementViewModel.View is System.Windows.Window window)
+            if (Instances.AnnouncementDialogViewModel.View is System.Windows.Window window)
             {
                 if (window.WindowState == WindowState.Minimized)
                 {
@@ -834,10 +842,10 @@ public class SettingsViewModel : Screen
             }
             else
             {
-                Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel);
+                Instances.WindowManager.ShowWindow(Instances.AnnouncementDialogViewModel);
             }
 
-            await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+            await Instances.AnnouncementDialogViewModel.CheckAndDownloadAnnouncement();
         }
         finally
         {
@@ -855,7 +863,7 @@ public class SettingsViewModel : Screen
         var newVersionFoundInfo = VersionUpdateSettings.NewVersionFoundInfo;
         var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
         var startupUpdateCheck = VersionUpdateSettings.StartupUpdateCheck;
-        var isDebug = Instances.VersionUpdateViewModel.IsDebugVersion();
+        var isDebug = Instances.VersionUpdateDialogViewModel.IsDebugVersion();
 
         if (newVersionFoundInfo != uiVersion && !isDebug && !string.IsNullOrEmpty(newVersionFoundInfo) && startupUpdateCheck)
         {
@@ -883,7 +891,11 @@ public class SettingsViewModel : Screen
             switch (select)
             {
                 case "1": // 配置名
-                    currentConfiguration = $" ({CurrentConfiguration})";
+                    if (ConfigurationList.Count > 1)
+                    {
+                        currentConfiguration = $" ({CurrentConfiguration})";
+                    }
+
                     break;
 
                 case "2": // 连接模式

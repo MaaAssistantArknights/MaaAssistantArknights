@@ -172,9 +172,12 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
 
             if (auto ocr_res = ocr_analyzer.analyze()) {
                 int available = 0;
-                if (utils::chars_to_number(ocr_res->text, available) && available == vacancy_cnt) {
-                    Rect click_rect = confirm_task->roi.move(confirm_task->rect_move);
-                    ctrler()->click(click_rect);
+                if (utils::chars_to_number(ocr_res->text, available)) {
+                    Log.info("vacancy_cnt:", vacancy_cnt, ", available:", available);
+                    if (available == vacancy_cnt) {
+                        Rect click_rect = confirm_task->roi.move(confirm_task->rect_move);
+                        ctrler()->click(click_rect);
+                    }
                 }
             }
 

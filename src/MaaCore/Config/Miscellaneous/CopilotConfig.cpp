@@ -60,7 +60,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
             if (auto req_opt = oper_info.find("requirements")) {
                 // oper.requirements.elite = req_opt->get("elite", 0);
                 // oper.requirements.level = req_opt->get("level", 0);
-                // oper.requirements.skill_level = req_opt->get("skill_level", 0);
+                oper.requirements.skill_level = req_opt->get("skill_level", 0);
                 oper.requirements.module = req_opt->get("module", -1);
                 // oper.requirements.potentiality = req_opt->get("potentiality", 0);
             }
@@ -86,7 +86,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
                 if (auto req_opt = oper_info.find("requirements")) {
                     // oper.requirements.elite = req_opt->get("elite", 0);
                     // oper.requirements.level = req_opt->get("level", 0);
-                    // oper.requirements.skill_level = req_opt->get("skill_level", 0);
+                    oper.requirements.skill_level = req_opt->get("skill_level", 0);
                     oper.requirements.module = req_opt->get("module", -1);
                     // oper.requirements.potentiality = req_opt->get("potentiality", 0);
                 }
