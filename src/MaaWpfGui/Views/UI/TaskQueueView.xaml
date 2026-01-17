@@ -676,13 +676,17 @@
                         <Button
                             Width="27"
                             Height="27"
-                            Click="{s:Action ToggleOverlay}"
-                            MouseRightButtonDown="{s:Action ChooseOverlayTarget}" />
+                            Click="{s:Action ToggleOverlay,
+                                             Target={x:Type ui_vms:TaskQueueViewModel}}"
+                            MouseRightButtonDown="{s:Action ChooseOverlayTarget,
+                                                            Target={x:Type ui_vms:TaskQueueViewModel}}" />
                         <controls:TooltipBlock
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
-                            MouseLeftButtonDown="{s:Action ToggleOverlay}"
-                            MouseRightButtonDown="{s:Action ChooseOverlayTarget}"
+                            MouseLeftButtonDown="{s:Action ToggleOverlay,
+                                                           Target={x:Type ui_vms:TaskQueueViewModel}}"
+                            MouseRightButtonDown="{s:Action ChooseOverlayTarget,
+                                                            Target={x:Type ui_vms:TaskQueueViewModel}}"
                             NormalOpacity="0.25"
                             TooltipText="{DynamicResource ProcessPickerToolTip}" />
                     </Grid>
