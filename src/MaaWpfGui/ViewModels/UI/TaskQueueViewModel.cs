@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -545,6 +546,11 @@ public class TaskQueueViewModel : Screen
             }
         };
         _runningState.TimeoutOccurred += RunningState_TimeOut;
+
+        if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
+        {
+            CanShowAutoReload = true;
+        }
     }
 
     private void RunningState_TimeOut(object? sender, string message)
@@ -1561,21 +1567,9 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private bool _canShowAutoReload;
+    public bool CanShowAutoReload { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool CanShowAutoReload
-    {
-        get => _canShowAutoReload;
-        set => SetAndNotify(ref _canShowAutoReload, value);
-    }
-
-    private bool _enableAutoReload;
-
-    public bool EnableAutoReload
-    {
-        get => _enableAutoReload;
-        set => SetAndNotify(ref _enableAutoReload, value);
-    }
+    public bool EnableAutoReload { get => field; set => SetAndNotify(ref field, value); }
 
     private DateTime? _taskStartTime;
 
