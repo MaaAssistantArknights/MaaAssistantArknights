@@ -3172,8 +3172,7 @@
     },
     "InfrastClueQuickInsert": {
         "Doc": "快速置入：官服新增的批量置入线索按钮模板占位",
-        "roi": [1058, 572, 148, 148],
-        "next": ["InfrastClueQuickInsertConfirm", "Stop"]
+        "roi": [1058, 572, 148, 148]
     },
     "InfrastClueQuickInsertConfirm": {
         "baseTask": "NumberOcrReplace",
