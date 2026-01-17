@@ -1092,7 +1092,7 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
             static const std::unordered_map<TileKey, int> TileKeyMedicWeights = {
                 { TileKey::Invalid, 0 },    { TileKey::Forbidden, 0 }, { TileKey::Wall, 1000 },
                 { TileKey::Road, 1000 },    { TileKey::Home, 0 },      { TileKey::EnemyHome, 0 },
-                { TileKey::Airport, 0 },    { TileKey::Green, 0 },     { TileKey::Floor, 0 },
+                { TileKey::Green, 0 },      { TileKey::Airport, 0 },   { TileKey::Floor, 0 },
                 { TileKey::Hole, 0 },       { TileKey::Telin, 0 },     { TileKey::Telout, 0 },
                 { TileKey::Grass, 500 },    { TileKey::DeepSea, 0 },   { TileKey::Volcano, 1000 },
                 { TileKey::Healing, 1000 }, { TileKey::Fence, 1000 },  { TileKey::Infection, 1000 },
