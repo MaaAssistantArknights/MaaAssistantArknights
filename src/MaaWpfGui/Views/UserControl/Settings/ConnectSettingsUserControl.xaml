@@ -18,7 +18,6 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -32,33 +31,10 @@
         <StackPanel
             Grid.Row="0"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <StackPanel
-                HorizontalAlignment="Center"
-                Orientation="Horizontal">
-                <CheckBox
-                    Margin="10,10,0,10"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource UseAttachWindow}"
-                    IsChecked="{Binding UseAttachWindow}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource UseAttachWindowTip}" />
-            </StackPanel>
-            <TextBlock
-                Margin="10,0,10,10"
-                HorizontalAlignment="Center"
-                Foreground="Red"
-                Text="{DynamicResource UseAttachWindowWarning}"
-                TextWrapping="Wrap"
-                Visibility="{c:Binding UseAttachWindow}" />
-        </StackPanel>
-        <StackPanel
-            Grid.Row="1"
-            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal"
             Visibility="{c:Binding '!UseAttachWindow'}">
-            <StackPanel Orientation="Horizontal" IsEnabled="{Binding IsAdbConfigEnabled}">
+            <StackPanel Orientation="Horizontal">
                 <CheckBox
                     Margin="10,10,0,10"
                     HorizontalAlignment="Center"
@@ -72,42 +48,36 @@
                 VerticalAlignment="Center"
                 Content="{DynamicResource AlwaysAutoDetectConnection}"
                 IsChecked="{Binding AlwaysAutoDetectConnection}"
-                IsEnabled="{Binding IsAdbConfigEnabled}"
                 Visibility="{c:Binding AutoDetectConnection}" />
         </StackPanel>
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center">
-            <!-- ADB 连接配置区域 -->
-            <StackPanel IsEnabled="{Binding IsAdbConfigEnabled}" Visibility="{c:Binding '!UseAttachWindow'}">
-                <StackPanel
-                    Margin="10"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{c:Binding !AutoDetectConnection}"
-                    Orientation="Horizontal">
-                    <controls:TooltipBlock Visibility="Hidden" />
-                    <Grid Width="420">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <hc:TextBox
-                            Height="30"
-                            hc:BorderElement.CornerRadius="4,0,0,4"
-                            hc:TitleElement.Title="{DynamicResource AdbPath}"
-                            hc:TitleElement.TitlePlacement="Left"
-                            Text="{Binding AdbPath}" />
-                        <Button
-                            Grid.Column="1"
-                            Width="60"
-                            Height="30"
-                            HorizontalAlignment="Right"
-                            hc:BorderElement.CornerRadius="0,4,4,0"
-                            BorderThickness="0,1,1,1"
-                            Command="{s:Action SelectFile}"
-                            Content="{DynamicResource Select}" />
-                    </Grid>
-                    <controls:TooltipBlock Visibility="Hidden" />
-                </StackPanel>
 
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+            <hc:ComboBox
+                Width="300"
+                Height="30"
+                Margin="10"
+                HorizontalAlignment="Center"
+                hc:TitleElement.Title="{DynamicResource ConnectionPreset}"
+                hc:TitleElement.TitlePlacement="Left"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding ConnectConfigList}"
+                SelectedValue="{Binding ConnectConfig}"
+                SelectedValuePath="Value" />
+            <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <TextBlock
+                    Margin="10,0"
+                    HorizontalAlignment="Center"
+                    Foreground="Red"
+                    Text="{DynamicResource UseAttachWindowWarning}"
+                    TextWrapping="Wrap"
+                    Visibility="{c:Binding UseAttachWindow}" />
+            </StackPanel>
+
+            <!--  ADB 连接配置区域  -->
+            <StackPanel Visibility="{c:Binding '!UseAttachWindow'}">
                 <StackPanel
                     Margin="10"
                     HorizontalAlignment="Center"
@@ -149,27 +119,39 @@
                     </hc:ComboBox>
                     <controls:TooltipBlock TooltipText="{DynamicResource ConnectionAddressTip}" />
                 </StackPanel>
-
                 <StackPanel
                     Margin="10"
                     HorizontalAlignment="Center"
+                    IsEnabled="{c:Binding !AutoDetectConnection}"
                     Orientation="Horizontal">
                     <controls:TooltipBlock Visibility="Hidden" />
-                    <hc:ComboBox
-                        Width="300"
-                        Height="30"
-                        hc:TitleElement.Title="{DynamicResource ConnectionPreset}"
-                        hc:TitleElement.TitlePlacement="Left"
-                        DisplayMemberPath="Display"
-                        ItemsSource="{Binding ConnectConfigList}"
-                        SelectedValue="{Binding ConnectConfig}"
-                        SelectedValuePath="Value" />
+                    <Grid Width="420">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <hc:TextBox
+                            Height="30"
+                            hc:BorderElement.CornerRadius="4,0,0,4"
+                            hc:TitleElement.Title="{DynamicResource AdbPath}"
+                            hc:TitleElement.TitlePlacement="Left"
+                            Text="{Binding AdbPath}" />
+                        <Button
+                            Grid.Column="1"
+                            Width="60"
+                            Height="30"
+                            HorizontalAlignment="Right"
+                            hc:BorderElement.CornerRadius="0,4,4,0"
+                            BorderThickness="0,1,1,1"
+                            Command="{s:Action SelectFile}"
+                            Content="{DynamicResource Select}" />
+                    </Grid>
                     <controls:TooltipBlock Visibility="Hidden" />
                 </StackPanel>
             </StackPanel>
 
-            <!-- AttachWindow 窗口绑定配置区域 -->
-            <StackPanel IsEnabled="{Binding IsAttachWindowConfigEnabled}" Visibility="{c:Binding UseAttachWindow}">
+            <!--  PC 窗口绑定配置区域  -->
+            <StackPanel Visibility="{c:Binding UseAttachWindow}">
                 <StackPanel
                     Margin="10"
                     HorizontalAlignment="Center"
@@ -215,14 +197,12 @@
                         SelectedValuePath="Value" />
                 </StackPanel>
             </StackPanel>
-
         </StackPanel>
 
         <StackPanel
-            Grid.Row="3"
-            Margin="10"
-            IsEnabled="{c:Binding '!AutoDetectConnection and IsAdbConfigEnabled}'}"
-            Visibility="{c:Binding '!UseAttachWindow'}">
+            Grid.Row="2"
+            IsEnabled="{c:Binding !AutoDetectConnection}"
+            Visibility="{c:Binding !UseAttachWindow}">
             <StackPanel>
                 <StackPanel Visibility="{c:Binding 'ConnectConfig==&quot;MuMuEmulator12&quot;'}">
                     <CheckBox
@@ -297,7 +277,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="4"
+            Grid.Row="3"
             HorizontalAlignment="Center"
             Orientation="Vertical">
             <Button
@@ -314,12 +294,15 @@
         </StackPanel>
 
         <controls:TextBlock
-            Grid.Row="5"
+            Grid.Row="4"
             Margin="10"
             HorizontalAlignment="Center"
             Text="{c:Binding ScreencapCost}" />
 
-        <StackPanel Grid.Row="6" HorizontalAlignment="Center" IsEnabled="{Binding IsAdbConfigEnabled}" Visibility="{c:Binding '!UseAttachWindow'}">
+        <StackPanel
+            Grid.Row="5"
+            HorizontalAlignment="Center"
+            Visibility="{c:Binding '!UseAttachWindow'}">
             <StackPanel Orientation="Horizontal">
                 <CheckBox
                     Margin="20,10,0,10"
@@ -338,10 +321,9 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="7"
+            Grid.Row="6"
             HorizontalAlignment="Center"
             Orientation="Horizontal"
-            IsEnabled="{Binding IsAdbConfigEnabled}"
             Visibility="{c:Binding '!UseAttachWindow'}">
             <hc:ComboBox
                 Height="30"
@@ -361,7 +343,7 @@
                 Content="{DynamicResource ForcedReplaceAdb}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="8" IsEnabled="{Binding IsAdbConfigEnabled}" Visibility="{c:Binding '!UseAttachWindow'}">
+        <StackPanel Grid.Row="7" Visibility="{c:Binding '!UseAttachWindow'}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox
                     Margin="20,10"
@@ -379,7 +361,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="9"
+            Grid.Row="8"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal" />

@@ -174,6 +174,7 @@
     <system:String x:Key="Nox">夜神模拟器</system:String>
     <system:String x:Key="XYAZ">逍遥模拟器</system:String>
     <system:String x:Key="WSA">WSA 旧版本</system:String>
+    <system:String x:Key="PC">PC 端</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">兼容模式</system:String>
     <system:String x:Key="SecondResolution">第二分辨率</system:String>

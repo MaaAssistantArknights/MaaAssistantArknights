@@ -29,6 +29,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.WineCompat;
@@ -52,6 +53,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         Instance = new();
     }
 
+    private ConnectSettingsUserControlModel()
+    {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
+    }
+
     public static ConnectSettingsUserControlModel Instance { get; }
 
     private static readonly ILogger _logger = Log.ForContext<ConnectSettingsUserControlModel>();
@@ -70,6 +76,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
             new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
             new() { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
+            new() { Display = LocalizationHelper.GetString("PC"), Value = "PC" },
             new() { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
             new() { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
             new() { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
@@ -1196,41 +1203,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     #region AttachWindow (Win32窗口绑定) 配置
 
-    private bool _useAttachWindow = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAttachWindow, bool.FalseString));
-
     /// <summary>
-    /// Gets or sets a value indicating whether to use AttachWindow mode instead of ADB connection.
+    /// Gets a value indicating whether to use AttachWindow mode instead of ADB connection.
     /// </summary>
-    public bool UseAttachWindow
-    {
-        get => _useAttachWindow;
-        set {
-            if (!SetAndNotify(ref _useAttachWindow, value))
-            {
-                return;
-            }
-
-            Instances.AsstProxy.Connected = false;
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseAttachWindow, value.ToString());
-
-            // 通知UI更新互斥状态
-            NotifyOfPropertyChange(nameof(IsAdbConfigEnabled));
-            NotifyOfPropertyChange(nameof(IsAttachWindowConfigEnabled));
-        }
-    }
+    [PropertyDependsOn(nameof(ConnectConfig))]
+    public bool UseAttachWindow => ConnectConfig == "PC";
 
     /// <summary>
-    /// Gets a value indicating whether ADB connection settings are enabled (read-only when UseAttachWindow is true).
-    /// </summary>
-    public bool IsAdbConfigEnabled => !UseAttachWindow;
-
-    /// <summary>
-    /// Gets a value indicating whether AttachWindow settings are enabled (read-only when UseAttachWindow is false).
-    /// </summary>
-    public bool IsAttachWindowConfigEnabled => UseAttachWindow;
-
-    /// <summary>
-    /// Win32 截图方式枚举（与 AsstCaller.h 中 AsstWin32ScreencapMethodEnum 对应）
+    /// Gets win32 截图方式枚举（与 AsstCaller.h 中 AsstWin32ScreencapMethodEnum 对应）
     /// </summary>
     public List<CombinedData> AttachWindowScreencapMethodList { get; } =
     [
