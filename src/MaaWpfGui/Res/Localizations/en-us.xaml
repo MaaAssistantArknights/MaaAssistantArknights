@@ -888,7 +888,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@RM-1">Secondary Plan RM-1</system:String>
     <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">Farm RM-TR-1 for about 3 hours. In the construction strategy, take the stone mining line to the bottom point,&#10;Special appointment specifies Wistoria, then try to E2 S3 as much as possible, carrying Skill 1,&#10;Bring a full 12 operators, the other 11's deployment costs need to be lower than Wistoria's,&#10;Each production module carries 1, manually enter the stage and exit,&#10;Place RM-1 in the center of the screen, run MAA.</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - Mikage Consultation Office - Mini Game</system:String>
-    <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">Start the task from the event screen (there is a ｢Open for Business｣ button in the bottom right corner).</system:String>
+    <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">Start the task from the event screen (there is a ｢Open｣ button in the bottom right corner).</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">Duel Channel: Green Grassville</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a ｢Join Event｣ button in the bottom right corner).&#10;&#10;Follow the Duck Lord's choice.</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruit">Contest Channel: Honeydew</system:String>
