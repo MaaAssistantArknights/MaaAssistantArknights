@@ -3452,27 +3452,27 @@
     "InfrastOverview-NameRect": {
         "doc": "房间名区域，相对于 Anchor 的偏移 [x, y, w, h]",
         "template": "empty.png",
-        "roi": [-752, 0, 187, 135]
+        "roi": [-747, 0, 187, 135]
     },
     "InfrastOverview-Slot-0": {
         "doc": "第1个槽位，相对于 Anchor 的偏移 [x, y, w, h]。计算: 624 - 1182 = -558",
         "template": "empty.png",
-        "roi": [-570, 0, 114, 134]
+        "roi": [-566, 0, 114, 134]
     },
     "InfrastOverview-Slot-1": {
         "doc": "第2个槽位",
         "template": "empty.png",
-        "roi": [-456, 0, 114, 134]
+        "roi": [-453, 0, 114, 134]
     },
     "InfrastOverview-Slot-2": {
         "doc": "第3个槽位",
         "template": "empty.png",
-        "roi": [-342, 0, 114, 134]
+        "roi": [-340, 0, 114, 134]
     },
     "InfrastOverview-Slot-3": {
         "doc": "第4个槽位",
         "template": "empty.png",
-        "roi": [-228, 0, 114, 134]
+        "roi": [-227, 0, 114, 134]
     },
     "InfrastOverview-Slot-4": {
         "doc": "第5个槽位",
@@ -3484,6 +3484,27 @@
         "templThreshold": 0.85,
         "doc": "空槽位图标，ROI由C++动态覆盖",
         "roi": [0, 0, 100, 100]
+    },
+    "InfrastOverview-MoodProgressBar": {
+        "template": "empty.png",
+        "templThreshold_Doc": "这里的templThreshold，作为进度条最小灰度阈值使用",
+        "templThreshold": 160,
+        "specialParams": [20],
+        "specialParams_Doc": "作为进度条相邻点最大变化阈值使用",
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [21, 8, 85, 4]
+    },
+    "InfrastOverviewSmileyRest": {
+        "template": "InfrastOverviewSmileyRest.png",
+        "templThreshold": 0.8
+    },
+    "InfrastOverviewSmileyWork": {
+        "template": "InfrastOverviewSmileyWork.png",
+        "templThreshold": 0.8
+    },
+    "InfrastOverviewSmileyDistract": {
+        "template": "InfrastOverviewSmileyDistract.png",
+        "templThreshold": 0.8
     },
     "BattleStageName": {
         "algorithm": "OcrDetect",

@@ -31,7 +31,8 @@ bool asst::InfrastIntelligentTask::scan_overview_and_report()
                  Log.info("  Slot", i+1, "is Empty");
                  // 空槽位
             } else {
-                 Log.info("  Slot", i+1, "has Operator");
+                double mood_ratio = room.slots_mood[i];
+                 Log.info("  Slot", i+1, "has Operator and Mood Ratio:", mood_ratio);
                  // 在这里可以把 ROI 存下来，准备去进行心情识别
             }
         }

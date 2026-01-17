@@ -161,5 +161,6 @@ struct InfrastRoomInfo
     Rect name_rect;               // 房间名 ROI
     std::vector<Rect> slots_rect; // 5个槽位的 ROI
     std::vector<bool> slots_empty;    // 5个槽位是否为空
+    std::vector<double> slots_mood;   // 5个槽位的心情数值
 };
 } // namespace asst::infrast

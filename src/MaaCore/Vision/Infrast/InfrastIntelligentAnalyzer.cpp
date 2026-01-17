@@ -4,26 +4,15 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
-
+#include "InfrastSmileyImageAnalyzer.h"
 #include "Utils/NoWarningCV.h"
-
-// 硬编码的坐标参数，模仿你的需求
-namespace
-{
-    const int ROOM_NAME_X = 430;
-    const int ROOM_NAME_W = 187;
-    const int ROOM_HEIGHT = 135;
-    const std::vector<int> SLOT_X_OFFSETS = { 624, 736, 847, 958, 1073 };
-    const int SLOT_WIDTH_AVG = 114;
-    const int SLOT_HEIGHT_AVG = 134;
-}
 
 bool asst::InfrastIntelligentAnalyzer::analyze()
 {
     LogTraceFunction;
-    m_result.clear(); // 每次分析前清空上次结果
+    m_result.clear();
 
-    // --- 1. 使用 MultiMatcher 寻找所有房间锚点 ---
+    // --- 1. 寻找并排序锚点 ---
     MultiMatcher anchor_matcher(m_image);
     anchor_matcher.set_task_info("InfrastOverview-Anchor");
 
@@ -32,86 +21,196 @@ bool asst::InfrastIntelligentAnalyzer::analyze()
         return false;
     }
 
-    // 获取房间名配置 (虽然后面暂时只画框，不识别)
-    const auto& name_task_ptr = Task.get("InfrastOverview-NameRect");
-    // 获取空槽位判断配置
-    const auto& empty_check_task_ptr = Task.get("InfrastOverview-SlotEmpty");
-    
     auto anchors = anchor_matcher.get_result();
-    
-    // 排序：按 Y 坐标从小到大（从上到下）
     std::sort(anchors.begin(), anchors.end(), [](const MatchRect& a, const MatchRect& b) {
         return a.rect.y < b.rect.y;
     });
 
-    // --- 2. 遍历锚点，构建每一行的数据 ---
+    // --- 2. 遍历锚点处理每个房间 ---
     for (const auto& match : anchors) {
-        const auto& anchor_rect = match.rect;
-        
-#ifdef ASST_DEBUG
-        // 绿色：锚点
-        cv::rectangle(m_image_draw, make_rect<cv::Rect>(anchor_rect), cv::Scalar(0, 255, 0), 2);
-#endif
-
-        infrast::InfrastRoomInfo room_info;
-        room_info.anchor_rect = anchor_rect; // 记录锚点位置（调试用）
-        // 2.1 确定房间名区域
-        if (name_task_ptr) {
-            // move函数逻辑：new_x = anchor.x + task.roi.x, new_y = anchor.y + task.roi.y ...
-            // 注意：MAA的Rect::move实现可能根据版本有所不同，但通常用于相对偏移
-            room_info.name_rect = anchor_rect.move(name_task_ptr->roi);
-
-#ifdef ASST_DEBUG
-            // 蓝色：房间名区域
-            cv::rectangle(m_image_draw, make_rect<cv::Rect>(room_info.name_rect), cv::Scalar(255, 0, 0), 2);
-#endif
-        }
-
-        // 2.2 遍历 5 个槽位
-        for (size_t i = 0; i < SLOT_X_OFFSETS.size(); ++i) {
-            std::string task_name = "InfrastOverview-Slot-" + std::to_string(i);
-            const auto& slot_task_ptr = Task.get(task_name);
-
-            if (!slot_task_ptr) {
-                Log.warn("Missing task config:", task_name);
-                continue;
-            }
-            // 计算该槽位的绝对 ROI
-            auto slot_roi = anchor_rect.move(slot_task_ptr->roi);
-
-            // 边界检查，防止越界
-            if ((slot_roi.x + slot_roi.width > m_image.cols) ||
-                (slot_roi.y + slot_roi.height > m_image.rows)) {
-                room_info.slots_rect.emplace_back(); // 存个空的占位
-                room_info.slots_empty.push_back(false);
-                continue;
-            }
-
-            room_info.slots_rect.push_back(slot_roi);
-
-            // 识别是否为空位
-            bool is_empty = false;
-            if (empty_check_task_ptr) {
-                Matcher empty_matcher(m_image);
-                empty_matcher.set_task_info(empty_check_task_ptr);
-                empty_matcher.set_roi(slot_roi); // 限定在槽位区域内找
-                
-                if (empty_matcher.analyze()) {
-                    is_empty = true;
-                }
-            }
-            room_info.slots_empty.push_back(is_empty);
-
-#ifdef ASST_DEBUG
-            // 黄色：空位；青色：有人
-            cv::Scalar color = is_empty ? cv::Scalar(0, 255, 255) : cv::Scalar(255, 255, 0);
-            cv::rectangle(m_image_draw, make_rect<cv::Rect>(slot_roi), color, 2);
-#endif
-        }
-        
-        // 将这一行的数据存入结果集
-        m_result.emplace_back(std::move(room_info));
+        analyze_room(match.rect);
     }
 
     return !m_result.empty();
+}
+
+void asst::InfrastIntelligentAnalyzer::analyze_room(const Rect& anchor_rect)
+{
+    infrast::InfrastRoomInfo room_info;
+    room_info.anchor_rect = anchor_rect;
+
+#ifdef ASST_DEBUG
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(anchor_rect), cv::Scalar(0, 255, 0), 2);
+#endif
+
+    // 2.1 确定房间名区域
+    const auto& name_task_ptr = Task.get("InfrastOverview-NameRect");
+    if (name_task_ptr) {
+        room_info.name_rect = anchor_rect.move(name_task_ptr->roi);
+#ifdef ASST_DEBUG
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(room_info.name_rect), cv::Scalar(255, 0, 0), 2);
+#endif
+    }
+
+    // 2.2 遍历 5 个槽位
+    for (int i = 0; i < 5; ++i) {
+        analyze_slot(i, anchor_rect, room_info);
+    }
+
+    m_result.emplace_back(room_info);
+    // return room_info;
+}
+
+void asst::InfrastIntelligentAnalyzer::analyze_slot(int slot_idx, const Rect& anchor_rect, infrast::InfrastRoomInfo& room_info)
+{
+    std::string task_name = "InfrastOverview-Slot-" + std::to_string(slot_idx);
+    const auto& slot_task_ptr = Task.get(task_name);
+    if (!slot_task_ptr) return;
+
+    auto slot_roi = anchor_rect.move(slot_task_ptr->roi);
+
+    // 边界检查
+    if ((slot_roi.x + slot_roi.width > m_image.cols) || (slot_roi.y + slot_roi.height > m_image.rows)) {
+        room_info.slots_rect.emplace_back();
+        room_info.slots_empty.push_back(false);
+        room_info.slots_mood.push_back(-1.0);
+        return;
+    }
+
+    room_info.slots_rect.push_back(slot_roi);
+
+    // 识别是否为空位
+    bool is_empty = false;
+    const auto& empty_check_task_ptr = Task.get("InfrastOverview-SlotEmpty");
+    if (empty_check_task_ptr) {
+        Matcher empty_matcher(m_image);
+        empty_matcher.set_task_info(empty_check_task_ptr);
+        empty_matcher.set_roi(slot_roi);
+        if (empty_matcher.analyze()) {
+            is_empty = true;
+        }
+    }
+    room_info.slots_empty.push_back(is_empty);
+
+    // 识别心情
+    double mood_ratio = -1.0;
+    if (!is_empty) {
+        mood_ratio = identify_smiley_and_mood(slot_roi);
+    }
+    room_info.slots_mood.push_back(mood_ratio);
+
+#ifdef ASST_DEBUG
+    cv::Scalar color = is_empty ? cv::Scalar(0, 255, 255) : cv::Scalar(255, 255, 0);
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(slot_roi), color, 2);
+    if (!is_empty) {
+        std::string mood_str = mood_ratio >= 0 ? std::to_string(mood_ratio).substr(0, 4) : "Err";
+        cv::putText(m_image_draw, mood_str, cv::Point(slot_roi.x, slot_roi.y + 20), 
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 255), 1);
+    }
+#endif
+}
+
+double asst::InfrastIntelligentAnalyzer::identify_smiley_and_mood(const Rect& slot_roi)
+{
+    static const std::vector<std::pair<infrast::SmileyType, std::string>> smiley_tasks = {
+        { infrast::SmileyType::Work,     "InfrastOverviewSmileyWork" },
+        { infrast::SmileyType::Rest,     "InfrastOverviewSmileyRest" },
+        { infrast::SmileyType::Distract, "InfrastOverviewSmileyDistract" }
+    };
+
+    for (const auto& [type, smiley_task_name] : smiley_tasks) {
+        Matcher smiley_matcher(m_image);
+        const auto& s_task_ptr = Task.get<MatchTaskInfo>(smiley_task_name);
+        if (!s_task_ptr) continue;
+
+        smiley_matcher.set_task_info(s_task_ptr);
+        smiley_matcher.set_roi(slot_roi);
+
+        if (smiley_matcher.analyze()) {
+            const auto& res = smiley_matcher.get_result();
+#ifdef ASST_DEBUG
+            cv::rectangle(m_image_draw, make_rect<cv::Rect>(res.rect), cv::Scalar(0, 0, 255), 1);
+#endif
+            switch (type) {
+                case infrast::SmileyType::Distract: return 0.0;
+                case infrast::SmileyType::Rest:     return 1.0;
+                case infrast::SmileyType::Work:     return calculate_mood_ratio(res.rect);
+            }
+        }
+    }
+    return -1.0;
+}
+
+double asst::InfrastIntelligentAnalyzer::calculate_mood_ratio(const Rect& smiley_rect)
+{
+    // 需要在 tasks.json 中定义这个任务，配置 relative roi (rect_move)
+    const auto prg_task_ptr = Task.get<MatchTaskInfo>("InfrastOverview-MoodProgressBar");
+    if (!prg_task_ptr) {
+        Log.warn("Missing Task: InfrastOverview-MoodProgressBar");
+        return 0.5; // fallback
+    }
+    // 参数读取 (灰度阈值，跳变阈值)
+    uint8_t prg_lower_limit = 160; // 默认值
+    int prg_diff_thres = 20;       // 默认值
+   
+    // 如果配置了 specialParams 则覆盖默认值 (模仿原代码)
+    if (!prg_task_ptr->templ_thresholds.empty()) {
+        prg_lower_limit = static_cast<uint8_t>(prg_task_ptr->templ_thresholds.front());
+    }
+    if (!prg_task_ptr->special_params.empty()) {
+        prg_diff_thres = prg_task_ptr->special_params.front();
+    }
+
+    // 计算进度条的绝对 ROI (基于笑脸位置偏移)
+    // 注意：InfrastOverview 界面的布局可能和进驻界面不同，需要重新测量 rect_move
+    Rect bar_roi = smiley_rect.move(prg_task_ptr->rect_move);
+    Log.info("Debug | bar_roi ROI:", bar_roi.x, bar_roi.y, bar_roi.width, bar_roi.height);
+    // 边界保护
+    if ((bar_roi.x + bar_roi.width > m_image.cols) ||
+        (bar_roi.y + bar_roi.height > m_image.rows)) {
+        return 0.0;
+    }
+
+    // 图像处理：切图 -> 转灰度
+    cv::Mat prg_image = m_image(make_rect<cv::Rect>(bar_roi));
+    cv::Mat prg_gray;
+    cv::cvtColor(prg_image, prg_gray, cv::COLOR_BGR2GRAY);
+
+    int max_white_length = 0;
+
+    // 扫描白色像素长度 (原汁原味的算法)
+    for (int i = 0; i < prg_gray.rows; ++i) {
+        int cur_white_length = 0;
+        uint8_t left_value = prg_lower_limit;
+       
+        for (int j = 0; j < prg_gray.cols; ++j) {
+            auto value = prg_gray.at<uint8_t>(i, j);
+           
+            if (value >= prg_lower_limit && left_value < value + prg_diff_thres) {
+                left_value = value;
+                ++cur_white_length;
+                if (max_white_length < cur_white_length) {
+                    max_white_length = cur_white_length;
+                }
+            } else {
+                if (max_white_length < cur_white_length) {
+                    max_white_length = cur_white_length;
+                }
+                left_value = prg_lower_limit;
+                cur_white_length = 0;
+                // 遇到黑点直接中断这一行的扫描? 原代码是 break，我们保持一致
+                break;
+            }
+        }
+    }
+
+    double ratio = static_cast<double>(max_white_length) / bar_roi.width;
+
+#ifdef ASST_DEBUG
+    // 在进度条位置画线，方便调试 rect_move 是否对齐
+    cv::line(m_image_draw, cv::Point(bar_roi.x, bar_roi.y),
+             cv::Point(bar_roi.x + max_white_length, bar_roi.y), cv::Scalar(0, 255, 0), 2);
+#endif
+
+    return ratio;
 }

@@ -20,5 +20,11 @@ public:
 protected:
     // 存储分析结果
     std::vector<infrast::InfrastRoomInfo> m_result;
+
+private:
+    void analyze_room(const Rect& anchor_rect);
+    void analyze_slot(int slot_idx, const Rect& anchor_rect, infrast::InfrastRoomInfo& room_info);
+    double identify_smiley_and_mood(const Rect& slot_roi);
+    double calculate_mood_ratio(const Rect& smiley_rect);
 };
 }
