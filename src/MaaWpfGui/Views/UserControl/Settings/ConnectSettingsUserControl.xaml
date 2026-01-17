@@ -213,7 +213,6 @@
                         ItemsSource="{Binding AttachWindowInputMethodList}"
                         SelectedValue="{Binding AttachWindowKeyboardMethod}"
                         SelectedValuePath="Value" />
-                    <controls:TooltipBlock Visibility="Hidden" />
                 </StackPanel>
             </StackPanel>
 
