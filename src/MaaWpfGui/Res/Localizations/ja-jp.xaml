@@ -1029,7 +1029,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTaskListTabMismatch">「{key=UseCopilotList}」を使用中です。現在のタブは「{0}」ですが、リストは「{1}」のものです。対応するタブに切り替えてから開始してください。</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
-    <!--  ErrorDialogView  -->
+    <!--  ErrorView  -->
     <system:String x:Key="Error">エラー</system:String>
     <system:String x:Key="ErrorCongratulations">おめでとうございます</system:String>
     <system:String x:Key="ErrorProlog">MAA に問題が発生しました</system:String>
@@ -1046,10 +1046,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorCrashMessageHeader">上記の問題により、プログラムが異常終了しました。</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」に移動してログを確認し、エラーが発生した具体的な原因を確認できます。</system:String>
     <system:String x:Key="ErrorCrashMessageGenerateReport">「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」を使用してエラーレポートを生成し、青色の ｢{key=Issue}｣ リンクをクリックしてフィードバックを送信してください。</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">他人に助けを求める場合は、このウィンドウのスクリーンショットや写真ではなく、生成されたエラーレポートファイルを送信してください。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">他人に助けを求める場合は、このウィンドウのスクリーンショット、画面録画、写真、撮影した動画、手描きの図、写し書きした内容ではなく、生成されたエラーレポートファイルを送信してください。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">前回のクラッシュ原因</system:String>
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
-    <!--  !ErrorDialogView  -->
+    <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADBファイルが存在しません</system:String>
@@ -1766,10 +1766,4 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="BadModules.Warning.Epilog">MAA に関連する問題がある場合は、関連ソフトウェアの除外リストに MAA を追加するか、関連ソフトウェアをアンインストールした後、問題がまだ存在するかどうかを確認してください。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">この警告を再表示しない</system:String>
     <!--  !BadModules  -->
-
-    <!--  EmulatorPathSelection  -->
-    <system:String x:Key="SelectEmulatorPath">エミュレータパスを選択</system:String>
-    <system:String x:Key="MultipleEmulatorsDetected">複数のエミュレータインストールパスが検出されました。使用するパスを選択してください：</system:String>
-    <system:String x:Key="PleaseSelectPath">パスを選択してください</system:String>
-    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>

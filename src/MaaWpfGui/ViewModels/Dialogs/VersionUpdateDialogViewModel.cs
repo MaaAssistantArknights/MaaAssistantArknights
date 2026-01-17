@@ -528,6 +528,25 @@ public class VersionUpdateDialogViewModel : Screen
         {
             _ = AskToRestart();
         }
+
+        var toastMessage = ret switch {
+            CheckUpdateRetT.NoNeedToUpdate => string.Empty,
+            CheckUpdateRetT.NoNeedToUpdateDebugVersion => string.Empty,
+            CheckUpdateRetT.AlreadyLatest => string.Empty,
+            CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
+            CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
+            CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("GetReleaseNoteFailed"),
+            CheckUpdateRetT.OK => string.Empty,
+            CheckUpdateRetT.NewVersionIsBeingBuilt => string.Empty,
+            CheckUpdateRetT.OnlyGameResourceUpdated => string.Empty,
+            CheckUpdateRetT.NoMirrorChyanCdk => LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"),
+            _ => string.Empty,
+        };
+
+        if (toastMessage != string.Empty)
+        {
+            ToastNotification.ShowDirect(toastMessage);
+        }
     }
 
     /// <summary>
@@ -889,10 +908,10 @@ public class VersionUpdateDialogViewModel : Screen
 
     private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string versionType)
     {
-        var json = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json");
+        var json = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json", false);
         if (json is null)
         {
-            return CheckUpdateRetT.FailedToGetInfo;
+            return CheckUpdateRetT.NetworkError;
         }
 
         string? latestVersion = json["version"]?.ToString();

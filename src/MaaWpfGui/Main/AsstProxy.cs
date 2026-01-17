@@ -1452,11 +1452,10 @@ public class AsstProxy
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators"), UiLogColor.Error);
                         }
 
-                        /*
                         if (missingOpers is not null && missingOpers.Count >= 2)
                         {
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.Irreplaceable);
-                        }*/
+                        }
                     }
 
                     break;

@@ -1030,7 +1030,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTaskListTabMismatch">현재 탭은 ｢{0}｣이지만 작업 목록은 ｢{1}｣에서 왔습니다. 해당 탭으로 전환한 뒤 시작해 주세요.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
-    <!--  ErrorDialogView  -->
+    <!--  ErrorView  -->
     <system:String x:Key="Error">오류</system:String>
     <system:String x:Key="ErrorCongratulations">축하합니다</system:String>
     <system:String x:Key="ErrorProlog">MAA에서 오류가 발생했습니다</system:String>
@@ -1047,10 +1047,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorCrashMessageHeader">위 문제로 인해 프로그램이 비정상 종료되었습니다.</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」로 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
     <system:String x:Key="ErrorCrashMessageGenerateReport">「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷이나 사진이 아니라 생성된 오류 보고서 파일을 보내 주세요.</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷, 화면 녹화, 화면 사진, 촬영한 영상, 손그림, 옮겨 적은 내용이 아니라 생성된 오류 보고서 파일을 보내 주세요.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">마지막 충돌 원인</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
-    <!--  !ErrorDialogView  -->
+    <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 전체 패키지를 다시 다운로드하세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>
@@ -1767,10 +1767,4 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="BadModules.Warning.Epilog">MAA에서 관련 문제가 발생하는 경우, 관련 소프트웨어의 제외 목록에 MAA를 추가하거나 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인하세요.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">이 경고를 다시 표시하지 않음</system:String>
     <!--  !BadModules  -->
-
-    <!--  EmulatorPathSelection  -->
-    <system:String x:Key="SelectEmulatorPath">에뮬레이터 경로 선택</system:String>
-    <system:String x:Key="MultipleEmulatorsDetected">여러 에뮬레이터 설치 경로가 감지되었습니다. 사용할 경로를 선택하세요:</system:String>
-    <system:String x:Key="PleaseSelectPath">경로를 선택하세요</system:String>
-    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>

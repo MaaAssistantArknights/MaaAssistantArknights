@@ -1029,7 +1029,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotTaskListTabMismatch">正在使用 ｢{key=UseCopilotList}｣，目前標籤頁為「{0}」，但列表來自「{1}」，請切換到對應標籤頁後再啟動</system:String>
     <!--  !日誌  -->
     <!--  !Copilot  -->
-    <!--  ErrorDialogView  -->
+    <!--  ErrorView  -->
     <system:String x:Key="Error">錯誤</system:String>
     <system:String x:Key="ErrorCongratulations">喜報</system:String>
     <system:String x:Key="ErrorProlog">MAA 遇到了問題</system:String>
@@ -1046,10 +1046,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorCrashMessageHeader">以上問題導致程式異常關閉。</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」查看日誌，了解錯誤發生的具體原因。</system:String>
     <system:String x:Key="ErrorCrashMessageGenerateReport">請使用「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」產生錯誤報告，並點擊藍色的 ｢{key=Issue}｣ 連結提交回報。</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">如果要尋求他人協助，請傳送產生的錯誤報告檔案，而不是傳送這個視窗的截圖或照片。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">如果要尋求他人協助，請傳送產生的錯誤報告檔案，而不要傳送此視窗的截圖、螢幕錄影、螢幕照片、拍攝的影片、手繪圖片或誊抄的畫面內容。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程式崩潰原因</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
-    <!--  !ErrorDialogView  -->
+    <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">檔案損毀，請重新下載完整安裝檔。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路徑不存在</system:String>
@@ -1766,10 +1766,4 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BadModules.Warning.Epilog">如果您注意到 MAA 存在相關問題，請嘗試將 MAA 加入相關軟體的排除名單，或卸載相關軟體後檢查問題是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再顯示此警告</system:String>
     <!--  !BadModules  -->
-
-    <!--  EmulatorPathSelection  -->
-    <system:String x:Key="SelectEmulatorPath">選擇模擬器路徑</system:String>
-    <system:String x:Key="MultipleEmulatorsDetected">檢測到多個模擬器安裝路徑，請選擇您要使用的路徑：</system:String>
-    <system:String x:Key="PleaseSelectPath">請選擇一個路徑</system:String>
-    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>

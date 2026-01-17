@@ -15695,6 +15695,150 @@
         "stageId": "act48side_08",
         "width": 12
     },
+    "act48side_ex01#f#-activities/act48side/level_act48side_ex01": {
+        "code": "ME-EX-1",
+        "filename": "act48side_ex01#f#-activities-act48side-level_act48side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act48side/level_act48side_ex01",
+        "name": "进场歌",
+        "stageId": "act48side_ex01#f#",
+        "width": 11
+    },
+    "act48side_ex01-activities/act48side/level_act48side_ex01": {
+        "code": "ME-EX-1",
+        "filename": "act48side_ex01-activities-act48side-level_act48side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act48side/level_act48side_ex01",
+        "name": "进场歌",
+        "stageId": "act48side_ex01",
+        "width": 11
+    },
+    "act48side_ex02#f#-activities/act48side/level_act48side_ex02": {
+        "code": "ME-EX-2",
+        "filename": "act48side_ex02#f#-activities-act48side-level_act48side_ex02.json",
+        "height": 9,
+        "levelId": "activities/act48side/level_act48side_ex02",
+        "name": "背景",
+        "stageId": "act48side_ex02#f#",
+        "width": 12
+    },
+    "act48side_ex02-activities/act48side/level_act48side_ex02": {
+        "code": "ME-EX-2",
+        "filename": "act48side_ex02-activities-act48side-level_act48side_ex02.json",
+        "height": 9,
+        "levelId": "activities/act48side/level_act48side_ex02",
+        "name": "背景",
+        "stageId": "act48side_ex02",
+        "width": 12
+    },
+    "act48side_ex03#f#-activities/act48side/level_act48side_ex03": {
+        "code": "ME-EX-3",
+        "filename": "act48side_ex03#f#-activities-act48side-level_act48side_ex03.json",
+        "height": 9,
+        "levelId": "activities/act48side/level_act48side_ex03",
+        "name": "主题",
+        "stageId": "act48side_ex03#f#",
+        "width": 11
+    },
+    "act48side_ex03-activities/act48side/level_act48side_ex03": {
+        "code": "ME-EX-3",
+        "filename": "act48side_ex03-activities-act48side-level_act48side_ex03.json",
+        "height": 9,
+        "levelId": "activities/act48side/level_act48side_ex03",
+        "name": "主题",
+        "stageId": "act48side_ex03",
+        "width": 11
+    },
+    "act48side_ex04#f#-activities/act48side/level_act48side_ex04": {
+        "code": "ME-EX-4",
+        "filename": "act48side_ex04#f#-activities-act48side-level_act48side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act48side/level_act48side_ex04",
+        "name": "转折",
+        "stageId": "act48side_ex04#f#",
+        "width": 12
+    },
+    "act48side_ex04-activities/act48side/level_act48side_ex04": {
+        "code": "ME-EX-4",
+        "filename": "act48side_ex04-activities-act48side-level_act48side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act48side/level_act48side_ex04",
+        "name": "转折",
+        "stageId": "act48side_ex04",
+        "width": 12
+    },
+    "act48side_ex05#f#-activities/act48side/level_act48side_ex05": {
+        "code": "ME-EX-5",
+        "filename": "act48side_ex05#f#-activities-act48side-level_act48side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act48side/level_act48side_ex05",
+        "name": "铺陈",
+        "stageId": "act48side_ex05#f#",
+        "width": 13
+    },
+    "act48side_ex05-activities/act48side/level_act48side_ex05": {
+        "code": "ME-EX-5",
+        "filename": "act48side_ex05-activities-act48side-level_act48side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act48side/level_act48side_ex05",
+        "name": "铺陈",
+        "stageId": "act48side_ex05",
+        "width": 13
+    },
+    "act48side_ex06#f#-activities/act48side/level_act48side_ex06": {
+        "code": "ME-EX-6",
+        "filename": "act48side_ex06#f#-activities-act48side-level_act48side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act48side/level_act48side_ex06",
+        "name": "对驳",
+        "stageId": "act48side_ex06#f#",
+        "width": 11
+    },
+    "act48side_ex06-activities/act48side/level_act48side_ex06": {
+        "code": "ME-EX-6",
+        "filename": "act48side_ex06-activities-act48side-level_act48side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act48side/level_act48side_ex06",
+        "name": "对驳",
+        "stageId": "act48side_ex06",
+        "width": 11
+    },
+    "act48side_ex07#f#-activities/act48side/level_act48side_ex07": {
+        "code": "ME-EX-7",
+        "filename": "act48side_ex07#f#-activities-act48side-level_act48side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act48side/level_act48side_ex07",
+        "name": "高潮",
+        "stageId": "act48side_ex07#f#",
+        "width": 12
+    },
+    "act48side_ex07-activities/act48side/level_act48side_ex07": {
+        "code": "ME-EX-7",
+        "filename": "act48side_ex07-activities-act48side-level_act48side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act48side/level_act48side_ex07",
+        "name": "高潮",
+        "stageId": "act48side_ex07",
+        "width": 12
+    },
+    "act48side_ex08#f#-activities/act48side/level_act48side_ex08": {
+        "code": "ME-EX-8",
+        "filename": "act48side_ex08#f#-activities-act48side-level_act48side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act48side/level_act48side_ex08",
+        "name": "合唱歌",
+        "stageId": "act48side_ex08#f#",
+        "width": 13
+    },
+    "act48side_ex08-activities/act48side/level_act48side_ex08": {
+        "code": "ME-EX-8",
+        "filename": "act48side_ex08-activities-act48side-level_act48side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act48side/level_act48side_ex08",
+        "name": "合唱歌",
+        "stageId": "act48side_ex08",
+        "width": 13
+    },
     "act48side_tr01-activities/act48side/level_act48side_tr01": {
         "code": "ME-TR-1",
         "filename": "act48side_tr01-activities-act48side-level_act48side_tr01.json",

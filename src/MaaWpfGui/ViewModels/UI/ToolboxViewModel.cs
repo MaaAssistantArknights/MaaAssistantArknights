@@ -1192,6 +1192,7 @@ public class ToolboxViewModel : Screen
             if (!value)
             {
                 _gachaTimer.Stop();
+                GachaInfo = LocalizationHelper.GetString("GachaInitTip");
             }
         }
     }
@@ -1492,6 +1493,7 @@ public class ToolboxViewModel : Screen
                 }
 
                 IsPeepInProgress = false;
+                IsGachaInProgress = false;
                 return;
             }
 

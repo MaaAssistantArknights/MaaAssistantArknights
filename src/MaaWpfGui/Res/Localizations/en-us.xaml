@@ -1028,7 +1028,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CopilotTaskListTabMismatch">You're using ｢{key=UseCopilotList}｣. Current tab is ｢{0}｣, but the list is from ｢{1}｣. Please switch to the corresponding tab before starting.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
-    <!--  ErrorDialogView  -->
+    <!--  ErrorView  -->
     <system:String x:Key="Error">Error</system:String>
     <system:String x:Key="ErrorCongratulations">Congratulations</system:String>
     <system:String x:Key="ErrorProlog">MAA has encountered an error</system:String>
@@ -1045,10 +1045,10 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">The above issue caused the program to crash.</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">You can go to “{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}” to view the logs and check the specific cause of the error.</system:String>
     <system:String x:Key="ErrorCrashMessageGenerateReport">Please use “{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}” to generate an error report, and click the blue ｢{key=Issue}｣ link to submit feedback.</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">If you need help from others, please send the generated error report file instead of sending a screenshot or photo of this window.</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">If you need help from others, please send the generated error report file instead of sending screenshots, screen recordings, photos of the screen, recorded videos, hand-drawn pictures, or transcribed content of this window.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">Reason for the last crash</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
-    <!--  !ErrorDialogView  -->
+    <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
@@ -1765,10 +1765,4 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
     <!--  !BadModules  -->
-
-    <!--  EmulatorPathSelection  -->
-    <system:String x:Key="SelectEmulatorPath">Select Emulator Path</system:String>
-    <system:String x:Key="MultipleEmulatorsDetected">Multiple emulator installation paths detected. Please select the path you want to use:</system:String>
-    <system:String x:Key="PleaseSelectPath">Please select a path</system:String>
-    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>
