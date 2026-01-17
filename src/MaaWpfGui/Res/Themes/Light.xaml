@@ -62,9 +62,9 @@
     <SolidColorBrush x:Key="RareOperatorLogBrush" Color="DarkOrange" />
     <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="DarkGray" />
 
-    <SolidColorBrush x:Key="TaskQueue.TaskStatus.InProgress" Color="LightCyan" />
-    <SolidColorBrush x:Key="TaskQueue.TaskStatus.Completed" Color="#4090EE90" />
-    <SolidColorBrush x:Key="TaskQueue.TaskStatus.Error" Color="MistyRose" />
+    <SolidColorBrush x:Key="TaskQueue.TaskStatus.InProgress" Color="#206C9CF3" />
+    <SolidColorBrush x:Key="TaskQueue.TaskStatus.Completed" Color="#2060D060" />
+    <SolidColorBrush x:Key="TaskQueue.TaskStatus.Error" Color="#20FF6666" />
 
     <SolidColorBrush x:Key="Star1OperatorLogBrush" Color="Black" />
     <SolidColorBrush x:Key="Star1OperatorLogBrushPotentialFull" Color="#66000000" />
