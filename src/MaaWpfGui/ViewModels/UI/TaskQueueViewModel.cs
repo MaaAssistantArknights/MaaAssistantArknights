@@ -147,8 +147,7 @@ public class TaskQueueViewModel : Screen
         });
     }
 
-    // a:Action 绑定，不能为 static
-    public void ChooseOverlayTarget()
+    public static void ChooseOverlayTarget()
     {
         try
         {
@@ -175,39 +174,33 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private bool _isOverlayEnabled;
+    public bool IsOverlayEnabled { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool IsOverlayEnabled
+    public static void EnableOverlay()
     {
-        get => _isOverlayEnabled;
-        set => SetAndNotify(ref _isOverlayEnabled, value);
-    }
-
-    public void EnableOverlay()
-    {
-        if (IsOverlayEnabled)
+        if (Instances.TaskQueueViewModel.IsOverlayEnabled)
         {
             return;
         }
 
-        IsOverlayEnabled = true;
+        Instances.TaskQueueViewModel.IsOverlayEnabled = true;
         Instances.OverlayViewModel?.EnsureCreated();
     }
 
-    public void DisableOverlay()
+    public static void DisableOverlay()
     {
-        if (!IsOverlayEnabled)
+        if (!Instances.TaskQueueViewModel.IsOverlayEnabled)
         {
             return;
         }
 
-        IsOverlayEnabled = false;
+        Instances.TaskQueueViewModel.IsOverlayEnabled = false;
         Instances.OverlayViewModel?.Close();
     }
 
-    public void ToggleOverlay()
+    public static void ToggleOverlay()
     {
-        if (IsOverlayEnabled)
+        if (Instances.TaskQueueViewModel.IsOverlayEnabled)
         {
             DisableOverlay();
         }
