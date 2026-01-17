@@ -1,4 +1,4 @@
-## v6.2.1
+## v6.2.2
 
 ### Highlights
 
@@ -69,6 +69,61 @@ We've added some achievements covering multiple scenarios, waiting for you to ex
 ----
 
 以下是详细内容：
+
+## v6.2.2
+
+### 新增 | New
+
+* 只有一个配置时标题栏隐藏配置名 @ABA2396
+* 检查更新失败时吐司通知 @ABA2396
+* 新增截图增强模拟器路径的选择窗口 @ABA2396
+* 自动战斗-自动编队支持技能等级要求 (#15355) @status102
+* 设置指引中添加使用指引页 @ABA2396
+
+### 改进 | Improved
+
+* 调整 ViewModels 目录结构，规范 ViewModels 命名 (#15389) @ABA2396
+* 优化动画效果 @ABA2396
+* 优化仓库识别二值化阈值 @ABA2396
+* 悬浮窗改 static @status102
+
+### 修复 | Fix
+
+* 界园指挥避战刷钱增加黑屏等待 @Saratoga-Official
+* 有猪把成就注释掉了 @ABA2396
+* 修复特殊路径下执行 adb 命令可能失败的问题 (#15381) (#15382) @sylw114
+* 修复 TaskDialog 按钮文本赋值时的语法错误及空引用保护 (#15377) @hcl55
+* 修复牛牛抽卡点击停止之后文字提示不会停止变化 @ABA2396
+* 仓库数据 parse 失败时返回空数据 @ABA2396
+* 修复肉鸽快速编队按钮边缘无法点击导致出错 @Saratoga-Official
+* 修复矿石"杀手"识别 @Saratoga-Official
+* 肉鸽增加黑屏等待时间 @Saratoga-Official
+* 悖论模拟-作业列表额外等待 @status102
+* 修复构建警告 @ABA2396
+* 收到关卡名识别失败回调时更新卡片 @ABA2396
+* Fix phantom puppet not deploying @Constrat
+* Fix AT ClickStage t -> T @Constrat
+* Add AsstGetImageBgr to wine shim @dantmnf
+
+### 文档 | Docs
+
+* 更新开发指南 @ABA2396
+* Update cli usage.md with Windows installation note (#15369) @JasonHuang79
+
+### 其他 | Other
+
+* 快捷置入显示加点判断日志 @ABA2396
+* 制造站加入苍苔组，避免苍苔与阿罗玛冲突 (#15343) @drway
+* 地块类型标注 TileType (#15373) @status102
+* 抽卡任务结束后提示还原为默认 @ABA2396
+* 一图流上报 id 单独实现 @ABA2396
+* EN tweak to inventory display @Constrat
+* AT updates @Constrat
+* YostarJP AT updates @Manicsteiner
+* YostarKR AT updates @HX3N
+* Preload AT + new alter operators regex for EN @Constrat
+* YostarJP AT preload and ocr edit @Manicsteiner
+* Update OrundumActivities for EN @Constrat
 
 ## v6.2.1
 
