@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
@@ -34,13 +33,13 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
 
     public static CustomSettingsUserControlModel Instance { get; }
 
-    private string _taskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.DebugTaskName, string.Empty);
+    private string _taskName = string.Empty;
 
     public string TaskName
     {
         get => _taskName;
         set {
-            value = value.Replace("，", ",").Replace("；", ";");
+            value = value.Replace("，", ",");
             SetAndNotify(ref _taskName, value);
             OnPropertyChanged(nameof(FormattedTaskNames));
         }
@@ -48,7 +47,7 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
 
     public void SaveTaskName()
     {
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.DebugTaskName, TaskName);
+        SetTaskConfig<CustomTask>(t => t.CustomTaskName == TaskName, t => t.CustomTaskName = TaskName);
     }
 
     public string FormattedTaskNames
@@ -59,11 +58,7 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
                 return string.Empty;
             }
 
-            var taskGroups = TaskName.Split(';', StringSplitOptions.RemoveEmptyEntries)
-                .Select(group =>
-                    "[" + string.Join(", ",
-                        group.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                            .Select(t => $"\"{t.Trim()}\"")) + "]");
+            var taskGroups = "[" + string.Join(", ", TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(t => $"\"{t.Trim()}\"")) + "]";
 
             return string.Join("," + Environment.NewLine, taskGroups);
         }
@@ -71,8 +66,9 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
 
     public override void RefreshUI(BaseTask baseTask)
     {
-        if (baseTask is CustomTask)
+        if (baseTask is CustomTask custom)
         {
+            _taskName = custom.CustomTaskName;
             Refresh();
         }
     }
@@ -120,7 +116,7 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
         }
 
         var task = new AsstCustomTask() {
-            CustomTasks = [.. custom.TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
+            CustomTasks = [.. custom.CustomTaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
         };
         return taskId switch {
             int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),

@@ -426,6 +426,8 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationClearStore);
 
+                ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.DebugTaskName, out var _);
+
                 // 任务导入排序
                 List<(string OldName, int Index, bool IsEnable)> taskList = [("WakeUp", 0, true), ("Recruiting", 1, true), ("Base", 2, true), ("Combat", 3, true), ("Mall", 4, true), ("Mission", 5, true), ("AutoRoguelike", 6, false)];
                 if (ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty) is not "txwy")

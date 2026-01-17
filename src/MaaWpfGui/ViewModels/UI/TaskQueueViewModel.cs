@@ -148,9 +148,9 @@ public class TaskQueueViewModel : Screen
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
+                TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
                 TaskItemViewModels.FirstOrDefault(i => i.EnableSetting)?.EnableSetting = false;
                 TaskItemViewModels[e.NewStartingIndex].EnableSetting = true;
-                TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
@@ -550,6 +550,7 @@ public class TaskQueueViewModel : Screen
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
         {
             CanShowAutoReload = true;
+            ShowDebugTask = true;
         }
     }
 
@@ -1566,6 +1567,8 @@ public class TaskQueueViewModel : Screen
             rvm.TaskProgress = (MainTasksCompletedCount, MainTasksSelectedCount);
         }
     }
+
+    public bool ShowDebugTask { get => field; set => SetAndNotify(ref field, value); }
 
     public bool CanShowAutoReload { get => field; set => SetAndNotify(ref field, value); }
 

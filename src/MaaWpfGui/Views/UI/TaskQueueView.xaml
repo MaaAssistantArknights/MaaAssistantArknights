@@ -234,12 +234,12 @@
                                             Command="{s:Action AddTaskQueueTask}"
                                             CommandParameter="{Binding TaskTypeList[7].Value}"
                                             Header="{Binding TaskTypeList[7].Display}" />
-                                        <!--
                                         <MenuItem
                                             Padding="0,3"
                                             Command="{s:Action AddTaskQueueTask}"
                                             CommandParameter="{Binding TaskTypeList[8].Value}"
-                                            Header="{Binding TaskTypeList[8].Display}" />-->
+                                            Header="{Binding TaskTypeList[8].Display}"
+                                            Visibility="{c:Binding ShowDebugTask}" />
                                     </ContextMenu>
                                 </hc:ContextMenuButton.Menu>
                             </hc:ContextMenuButton>
