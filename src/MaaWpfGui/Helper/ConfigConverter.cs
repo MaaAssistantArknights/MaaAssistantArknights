@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -50,31 +49,19 @@ public class ConfigConverter
             return false;
         }
 
-        var parsedNew = ParseJsonFile(ConfigurationNewFile);
-
-        int curVersion = 0;
+        var root = ParseJsonFile(ConfigurationNewFile);
         bool ret = true;
-        if (parsedNew?.TryGetValue(nameof(ConfigFactory.Root.ConfigVersion), out JToken? configVersion) is true && configVersion is { Type: JTokenType.Integer } version)
+        if (root?["Configurations"]?["Default"]?["TaskQueueOrder"] is not null)
         {
-            curVersion = version.ToObject<int>();
-            if (curVersion == new Root().ConfigVersion)
-            {
-                return true;
-            }
+            ret &= ConvertTaskQueue();
         }
 
-        ret &= ConvertTaskQueue(curVersion);
         return ret;
     }
 
     // 迁移任务队列，v5.15编写
-    private static bool ConvertTaskQueue(int curVersion)
+    private static bool ConvertTaskQueue()
     {
-        if (curVersion >= 1)
-        {
-            return true;
-        }
-
         try
         {
             File.Copy(ConfigurationOldFile, ConfigurationOldBakFile, true);
