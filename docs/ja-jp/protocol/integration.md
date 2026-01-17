@@ -562,7 +562,7 @@ OF-1 実行時に使用する編成スロットのインデックス。
 探索を開始する回数。到達後自動でタスクを停止。  
 :::  
 ::: field name="difficulty" type="number" optional default="0"  
-難易度を指定。**Phantom 以外**のテーマのみに対応。未解放の場合は、現在解放されている最高難易度を選択。  
+難易度を指定。未解放の場合は、現在解放されている最高難易度を選択。  
 :::  
 ::: field name="stop_at_final_boss" type="boolean" optional default="false"  
 第 5 層の最終ボス ノードの前でタスクを停止するかどうか。**Phantom 以外**のテーマのみに対応。  

@@ -561,7 +561,7 @@ Whether non-friend support operators are allowed. Only effective when `use_suppo
 Number of times to start exploration. Stops automatically upon reaching limit.  
 :::  
 ::: field name="difficulty" type="number" optional default="0"  
-Specified difficulty level. Only applicable to themes **excluding Phantom**. Selects the highest unlocked difficulty if the desired one is not unlocked.  
+Specified difficulty level. Selects the highest unlocked difficulty if the desired one is not unlocked.  
 :::  
 ::: field name="stop_at_final_boss" type="boolean" optional default="false"  
 Whether to stop before the level 5 final boss node. Only applicable to themes **excluding Phantom**.  

@@ -551,7 +551,7 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 탐색 시작 횟수. 도달 시 자동 정지  
 :::  
 ::: field name="difficulty" type="number" optional default="0"  
-지정 난이도 등급. **Phantom 제외** 테마에만 적용. 미해금 시 현재 해금된 최고 난이도 선택  
+지정 난이도 등급. 미해금 시 현재 해금된 최고 난이도 선택  
 :::  
 ::: field name="stop_at_final_boss" type="boolean" optional default="false"  
 5층 보스 노드 앞에서 정지할지 여부. **Phantom 제외** 테마에만 적용  

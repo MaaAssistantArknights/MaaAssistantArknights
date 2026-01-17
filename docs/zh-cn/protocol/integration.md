@@ -561,7 +561,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 开始探索的次数。达到后自动停止任务。  
 :::  
 ::: field name="difficulty" type="number" optional default="0"  
-指定难度等级。仅适用于**除 Phantom 以外**的主题。若未解锁难度，则会选择当前已解锁的最高难度。  
+指定难度等级。若未解锁难度，则会选择当前已解锁的最高难度。  
 :::  
 ::: field name="stop_at_final_boss" type="boolean" optional default="false"  
 是否在第 5 层险路恶敌节点前停止任务。仅适用于**除 Phantom 以外**的主题。  
