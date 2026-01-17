@@ -150,7 +150,7 @@ jobs:
         with:
           repository: MaaXYZ/MaaFramework
           latest: true
-          fileName: '*win-x64*.zip'
+          fileName: '*win-x86_64*.zip'
           extract: true
           out-file-path: MaaFramework-temp
 
