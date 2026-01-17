@@ -4,6 +4,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/RegionOCRer.h"
 #include "InfrastSmileyImageAnalyzer.h"
 #include "Utils/NoWarningCV.h"
 
@@ -43,16 +44,32 @@ void asst::InfrastIntelligentAnalyzer::analyze_room(const Rect& anchor_rect)
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(anchor_rect), cv::Scalar(0, 255, 0), 2);
 #endif
 
-    // 2.1 确定房间名区域
-    const auto& name_task_ptr = Task.get("InfrastOverview-NameRect");
-    if (name_task_ptr) {
-        room_info.name_rect = anchor_rect.move(name_task_ptr->roi);
+// --- 1. 获取房间名切图并识别 ---
+    const auto& name_rect_task = Task.get("InfrastOverview-NameRect");
+    if (name_rect_task) {
+        room_info.name_rect = anchor_rect.move(name_rect_task->rect_move);
+        Log.info("IntelligentAnalyzer | Name Rect:", room_info.name_rect.to_string());
+        cv::Mat name_img = m_image(make_rect<cv::Rect>(room_info.name_rect));
+        const auto& ocr_replace_ptr = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+        if (ocr_replace_ptr) {
+            RegionOCRer name_analyzer;
+            name_analyzer.set_replace(ocr_replace_ptr->replace_map, ocr_replace_ptr->replace_full);
+            name_analyzer.set_image(name_img);
+            name_analyzer.set_bin_expansion(0);
+
+            if (name_analyzer.analyze()) {
+                room_info.room_name = name_analyzer.get_result().text;
+                Log.info("IntelligentAnalyzer | Scanned Room Name:", room_info.room_name);
+            }
+        }
+
 #ifdef ASST_DEBUG
+        // 画框和文字调试
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(room_info.name_rect), cv::Scalar(255, 0, 0), 2);
 #endif
     }
 
-    // 2.2 遍历 5 个槽位
+    // 2 遍历 5 个槽位
     for (int i = 0; i < 5; ++i) {
         analyze_slot(i, anchor_rect, room_info);
     }
