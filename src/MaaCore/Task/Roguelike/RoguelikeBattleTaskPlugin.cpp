@@ -1083,20 +1083,19 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
             static const std::unordered_map<TileKey, int> TileKeyFightWeights = {
                 { TileKey::Invalid, 0 },    { TileKey::Forbidden, 0 },  { TileKey::Wall, 500 },
                 { TileKey::Road, 1000 },    { TileKey::Home, 500 },     { TileKey::EnemyHome, 1000 },
-                { TileKey::Airport, 1000 }, { TileKey::Floor, 1000 },   { TileKey::Hole, 0 },
-                { TileKey::Telin, 700 },    { TileKey::Telout, 800 },   { TileKey::Grass, 500 },
-                { TileKey::DeepSea, 1000 }, { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
-                { TileKey::Fence, 800 },
-                // Todo:  TileKey::Green, TileKey::Infection
+                { TileKey::Green, 0 },      { TileKey::Airport, 1000 }, { TileKey::Floor, 1000 },
+                { TileKey::Hole, 0 },       { TileKey::Telin, 700 },    { TileKey::Telout, 800 },
+                { TileKey::Grass, 500 },    { TileKey::DeepSea, 1000 }, { TileKey::Volcano, 1000 },
+                { TileKey::Healing, 1000 }, { TileKey::Fence, 800 },    { TileKey::Infection, 100 },
             };
             // 治疗干员朝向的权重
             static const std::unordered_map<TileKey, int> TileKeyMedicWeights = {
-                { TileKey::Invalid, 0 },  { TileKey::Forbidden, 0 },  { TileKey::Wall, 1000 },
-                { TileKey::Road, 1000 },  { TileKey::Home, 0 },       { TileKey::EnemyHome, 0 },
-                { TileKey::Airport, 0 },  { TileKey::Floor, 0 },      { TileKey::Hole, 0 },
-                { TileKey::Telin, 0 },    { TileKey::Telout, 0 },     { TileKey::Grass, 500 },
-                { TileKey::DeepSea, 0 },  { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
-                { TileKey::Fence, 1000 },
+                { TileKey::Invalid, 0 },    { TileKey::Forbidden, 0 }, { TileKey::Wall, 1000 },
+                { TileKey::Road, 1000 },    { TileKey::Home, 0 },      { TileKey::EnemyHome, 0 },
+                { TileKey::Green, 0 },      { TileKey::Airport, 0 },   { TileKey::Floor, 0 },
+                { TileKey::Hole, 0 },       { TileKey::Telin, 0 },     { TileKey::Telout, 0 },
+                { TileKey::Grass, 500 },    { TileKey::DeepSea, 0 },   { TileKey::Volcano, 1000 },
+                { TileKey::Healing, 1000 }, { TileKey::Fence, 1000 },  { TileKey::Infection, 1000 },
             };
 
             switch (oper.role) {
@@ -1106,13 +1105,17 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
                     BattleData.get_role(iter->second) != battle::Role::Drone) { // 根据哪个方向上人多决定朝向哪
                     score += 10000;
                 }
-                if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end()) {
-                    score += TileKeyMedicWeights.at(iter->second.key);
+                if (auto iter = m_side_tile_info.find(absolute_pos); iter == m_side_tile_info.end()) {
+                }
+                else if (auto it = TileKeyMedicWeights.find(iter->second.key); it != TileKeyMedicWeights.end()) {
+                    score += it->second;
                 }
                 break;
             default:
-                if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end()) {
-                    score += TileKeyFightWeights.at(iter->second.key);
+                if (auto iter = m_side_tile_info.find(absolute_pos); iter == m_side_tile_info.end()) {
+                }
+                else if (auto it = TileKeyFightWeights.find(iter->second.key); it != TileKeyFightWeights.end()) {
+                    score += it->second;
                 }
                 break;
             }
