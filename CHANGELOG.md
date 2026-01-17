@@ -125,8 +125,6 @@ We've added some achievements covering multiple scenarios, waiting for you to ex
 * YostarJP AT preload and ocr edit @Manicsteiner
 * Update OrundumActivities for EN @Constrat
 
-----
-
 ## v6.2.1
 
 ### 新增 | New
@@ -159,8 +157,6 @@ We've added some achievements covering multiple scenarios, waiting for you to ex
 
 * 调整战斗结束后的点击位置 @ABA2396
 * 悖论模拟自动战斗任务翻译 @ABA2396
-
-----
 
 ## v6.2.0
 
