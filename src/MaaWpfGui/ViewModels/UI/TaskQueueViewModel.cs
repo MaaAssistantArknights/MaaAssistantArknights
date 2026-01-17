@@ -1661,7 +1661,7 @@ public class TaskQueueViewModel : Screen
 
         // 直接遍历TaskItemViewModels里面的内容，是排序后的
         int count = 0;
-        foreach (var item in ConfigFactory.CurrentConfig.TaskQueue)
+        foreach (var (index, item) in ConfigFactory.CurrentConfig.TaskQueue.Select((task, i) => (i, task)))
         {
             if (item.IsEnable == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsEnable == null))
             {
@@ -1672,7 +1672,7 @@ public class TaskQueueViewModel : Screen
             {
                 case true:
                     ++count;
-                    item.TaskId = Instances.AsstProxy.TasksStatus.Last().Key;
+                    Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId = Instances.AsstProxy.TasksStatus.Last().Key;
                     break;
                 case false:
                     taskRet = false;

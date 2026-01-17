@@ -80,6 +80,7 @@
                                         <CheckBox
                                             Grid.Column="0"
                                             MaxWidth="140"
+                                            Margin="6,0,0,0"
                                             HorizontalAlignment="Left"
                                             IsChecked="{Binding IsEnable}"
                                             IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
@@ -105,7 +106,7 @@
                                         <controls:TextBlock
                                             Grid.Column="0"
                                             Grid.ColumnSpan="2"
-                                            Margin="22,0,0,0"
+                                            Margin="26,0,0,0"
                                             HorizontalAlignment="Left"
                                             Background="Transparent"
                                             IsHitTestVisible="False"
@@ -164,6 +165,7 @@
                             <ListBox.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Padding" Value="0" />
                                 </Style>
                             </ListBox.ItemContainerStyle>
                         </ListBox>

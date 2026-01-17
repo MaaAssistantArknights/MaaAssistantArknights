@@ -694,7 +694,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        return SerializeTask(fight, TaskSettingVisibilityInfo.CurrentTask.TaskId);
+        if (ConfigFactory.CurrentConfig.TaskQueue.IndexOf(fight) is int index && index > -1)
+        {
+            return SerializeTask(fight, Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId);
+        }
+        _logger.Error("Failed to set fight params: current task is not in the task queue.");
+        return null;
     }
 
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)

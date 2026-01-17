@@ -1003,14 +1003,17 @@ public class AsstProxy
         {
             case AsstMsg.TaskChainStopped:
                 Instances.TaskQueueViewModel.SetStopped();
-                TaskStatusUpdate(taskId, TaskStatus.Completed);
-                ConfigFactory.CurrentConfig.TaskQueue.ForEach(t => { t.TaskId = 0; });
+                UpdateTaskStatus(taskId, TaskStatus.Completed);
+                foreach (var i in Instances.TaskQueueViewModel.TaskItemViewModels)
+                {
+                    i.TaskId = 0;
+                }
                 _tasksStatus.Clear();
                 break;
 
             case AsstMsg.TaskChainError:
                 {
-                    TaskStatusUpdate(taskId, TaskStatus.Completed);
+                    UpdateTaskStatus(taskId, TaskStatus.Error);
                     _tasksStatus.TryGetValue(taskId, out var value);
 
                     var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
@@ -1039,7 +1042,7 @@ public class AsstProxy
             case AsstMsg.TaskChainStart:
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(taskChain), splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-                    TaskStatusUpdate(taskId, TaskStatus.InProgress);
+                    UpdateTaskStatus(taskId, TaskStatus.InProgress);
 
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
                     Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot") /* or "VideoRecognition") */
@@ -1052,7 +1055,7 @@ public class AsstProxy
             case AsstMsg.TaskChainCompleted:
                 {
                     // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
-                    TaskStatusUpdate(taskId, TaskStatus.Completed);
+                    UpdateTaskStatus(taskId, TaskStatus.Completed);
                     if (_tasksStatus.TryGetValue(taskId, out var taskInfo))
                     {
                         if (_mainTaskTypes.Contains(taskInfo.Type))
@@ -1065,8 +1068,12 @@ public class AsstProxy
                     {
                         case "Infrast":
                             {
-                                var infrastTask = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(t => t.TaskId == taskId) as InfrastTask;
+                                var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(t => t.TaskId == taskId)?.Index ?? 0;
+                                if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+                                {
+                                    var infrastTask = ConfigFactory.CurrentConfig.TaskQueue[index] as InfrastTask;
                                 InfrastSettingsUserControlModel.IncreaseCustomInfrastPlanIndex(infrastTask);
+                                }
                                 break;
                             }
                     }
@@ -1140,7 +1147,10 @@ public class AsstProxy
                 }
 
                 bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
-                ConfigFactory.CurrentConfig.TaskQueue.ForEach(t => { t.TaskId = 0; });
+                foreach (var i in Instances.TaskQueueViewModel.TaskItemViewModels)
+                {
+                    i.TaskId = 0;
+                }
                 _tasksStatus.Clear();
 
                 Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
@@ -1385,7 +1395,11 @@ public class AsstProxy
 
                     // 剿灭放弃上传企鹅物流的特殊处理
                     Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var value);
-                    if (value is { Type: TaskType.Fight } && ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(i => i.TaskId == taskId) is Configuration.Single.MaaTask.FightTask fight && FightSettingsUserControlModel.GetFightStage(fight.StagePlan) is "Annihilation")
+                    if (value is { Type: TaskType.Fight }
+                        && (Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskId == taskId)?.Index ?? -1) is int index and > -1
+                        && index <= ConfigFactory.CurrentConfig.TaskQueue.Count
+                        && ConfigFactory.CurrentConfig.TaskQueue[index] is Configuration.Single.MaaTask.FightTask fight
+                        && FightSettingsUserControlModel.GetFightStage(fight.StagePlan) is "Annihilation")
                     {
                         Instances.TaskQueueViewModel.AddLog("AnnihilationStage, " + LocalizationHelper.GetString("GiveUpUploadingPenguins"));
                         break;
@@ -2558,15 +2572,19 @@ public class AsstProxy
 
     public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
 
-    private bool TaskStatusUpdate(AsstTaskId id, TaskStatus status)
+    private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status)
     {
         if (id <= 0)
         {
             return false;
         }
 
-        if (_tasksStatus.TryGetValue(id, out var value))
+        if (!_tasksStatus.TryGetValue(id, out var value))
         {
+            _logger.Error("Task ID {TaskId} not found in _tasksStatus", id);
+            return false;
+        }
+
             if (value.Status == TaskStatus.Idle && status == TaskStatus.InProgress)
             {
                 RunningState.Instance.ResetTimeout(); // 进入新任务时重置超时计时
@@ -2580,10 +2598,6 @@ public class AsstProxy
 
             return true;
         }
-
-        _logger.Error("Task ID {TaskId} not found in _tasksStatus", id);
-        return false;
-    }
 
     public bool AsstAppendCloseDown(string clientType)
     {
@@ -2866,6 +2880,11 @@ public enum TaskStatus
     /// 已完成
     /// </summary>
     Completed = 2,
+
+    /// <summary>
+    /// 错误终止
+    /// </summary>
+    Error = 3,
 }
 
 public enum AsstStaticOptionKey

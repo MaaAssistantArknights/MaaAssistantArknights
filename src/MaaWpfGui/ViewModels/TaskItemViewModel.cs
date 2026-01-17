@@ -60,4 +60,9 @@ public class TaskItemViewModel : PropertyChangedBase
             TaskSettingVisibilityInfo.Instance.Set(Index, value);
         }
     }
+
+    /// <summary>
+    /// Gets or sets 任务id，默认为0，添加后任务id应 > 0；执行后应置为0
+    /// </summary>
+    public int TaskId { get; set; }
 }

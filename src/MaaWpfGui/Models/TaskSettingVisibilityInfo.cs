@@ -74,7 +74,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     public bool IsCurrentTaskRunning =>
         ConfigFactory.CurrentConfig.TaskQueue.Count > CurrentIndex &&
         CurrentIndex >= 0 &&
-        Instances.AsstProxy.TasksStatus.TryGetValue(ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].TaskId, out var status) &&
+        Instances.AsstProxy.TasksStatus.TryGetValue(Instances.TaskQueueViewModel.TaskItemViewModels[CurrentIndex].TaskId, out var status) &&
         status.Status == TaskStatus.InProgress;
 
     public static BaseTask? CurrentTask =>
@@ -95,8 +95,6 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     {
         if (Guide && enable)
         {
-            // TODO Config修复引导
-            // _currentEnableSetting = taskName;
             enable = false;
         }
 
