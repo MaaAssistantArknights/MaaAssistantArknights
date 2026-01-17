@@ -76,6 +76,30 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="Opacity" Value="1" />
+                                                <Style.Triggers>
+                                                    <!--  运行中 - 蓝色  -->
+                                                    <DataTrigger Binding="{Binding Status}" Value="1">
+                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.InProgress}" />
+                                                    </DataTrigger>
+                                                    <!--  成功完成 - 绿色  -->
+                                                    <DataTrigger Binding="{Binding Status}" Value="2">
+                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.Completed}" />
+                                                    </DataTrigger>
+                                                    <!--  出现错误 - 红色  -->
+                                                    <DataTrigger Binding="{Binding Status}" Value="3">
+                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.Error}" />
+                                                    </DataTrigger>
+                                                    <!--  已跳过 - 灰色  -->
+                                                    <DataTrigger Binding="{Binding Status}" Value="4">
+                                                        <Setter Property="Opacity" Value="0.5" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
 
                                         <CheckBox
                                             Grid.Column="0"

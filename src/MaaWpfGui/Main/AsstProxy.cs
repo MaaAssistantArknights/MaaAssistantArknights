@@ -1007,6 +1007,7 @@ public class AsstProxy
                 foreach (var i in Instances.TaskQueueViewModel.TaskItemViewModels)
                 {
                     i.TaskId = 0;
+                    i.Status = (int)TaskStatus.Idle;
                 }
                 _tasksStatus.Clear();
                 break;
@@ -1072,7 +1073,7 @@ public class AsstProxy
                                 if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count)
                                 {
                                     var infrastTask = ConfigFactory.CurrentConfig.TaskQueue[index] as InfrastTask;
-                                InfrastSettingsUserControlModel.IncreaseCustomInfrastPlanIndex(infrastTask);
+                                    InfrastSettingsUserControlModel.IncreaseCustomInfrastPlanIndex(infrastTask);
                                 }
                                 break;
                             }
@@ -1150,6 +1151,7 @@ public class AsstProxy
                 foreach (var i in Instances.TaskQueueViewModel.TaskItemViewModels)
                 {
                     i.TaskId = 0;
+                    i.Status = (int)TaskStatus.Idle;
                 }
                 _tasksStatus.Clear();
 
@@ -2585,19 +2587,20 @@ public class AsstProxy
             return false;
         }
 
-            if (value.Status == TaskStatus.Idle && status == TaskStatus.InProgress)
-            {
-                RunningState.Instance.ResetTimeout(); // 进入新任务时重置超时计时
-            }
-
-            value.Status = status;
-            if (status == TaskStatus.InProgress)
-            {
-                TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
-            }
-
-            return true;
+        if (value.Status == TaskStatus.Idle && status == TaskStatus.InProgress)
+        {
+            RunningState.Instance.ResetTimeout(); // 进入新任务时重置超时计时
         }
+
+        value.Status = status;
+        if (status == TaskStatus.InProgress)
+        {
+            TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
+        }
+
+        Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(item => item.TaskId == id)?.Status = (int)status;
+        return true;
+    }
 
     public bool AsstAppendCloseDown(string clientType)
     {

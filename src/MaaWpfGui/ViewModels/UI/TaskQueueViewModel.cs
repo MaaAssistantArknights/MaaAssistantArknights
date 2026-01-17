@@ -1665,6 +1665,7 @@ public class TaskQueueViewModel : Screen
         {
             if (item.IsEnable == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsEnable == null))
             {
+                Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;
                 continue;
             }
 
@@ -1677,9 +1678,11 @@ public class TaskQueueViewModel : Screen
                 case false:
                     taskRet = false;
                     AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Error);
+                    Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = (int)Main.TaskStatus.Error;
                     break;
                 case null:
                     AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;
                     break;
             }
         }
