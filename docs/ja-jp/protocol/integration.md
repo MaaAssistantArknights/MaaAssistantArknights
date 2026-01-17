@@ -619,6 +619,8 @@ OF-1 実行時に使用する編成スロットのインデックス。
 `dice`: ダイスロール回数報酬。Mizuki テーマのみに有効。
 <br>
 `ideas`: 2 つの構想報酬。Sarkaz テーマのみに有効。
+<br>
+`ticket`: 遊覧券報酬。JieGarden テーマのみに有効。
 :::  
 ::: field name="use_foldartal" type="boolean" optional  
 啓示板を使用するか。モード 5 ではデフォルト false、他のモードではデフォルト true。Sami テーマのみに対応。  

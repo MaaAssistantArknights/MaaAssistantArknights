@@ -618,6 +618,8 @@ Desired starting rewards, all false by default. Only valid in mode 4.
 `dice`: Dice reward, only available in Mizuki theme.
 <br>
 `ideas`: 2 Ideas reward, only available in Sarkaz theme.
+<br>
+`ticket`: Ticket reward, only available in JieGarden theme.
 :::  
 ::: field name="use_foldartal" type="boolean" optional  
 Whether to use Foldartals. Default is `false` in mode 5 and `true` in other modes. Only applicable to the Sami theme.  

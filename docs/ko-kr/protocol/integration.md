@@ -607,7 +607,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `dice`: 주사위 보상, Mizuki 테마 전용
 <br>
-`ideas`: 구상 2개 보상, Sarkaz 테마 전용  
+`ideas`: 구상 2개 보상, Sarkaz 테마 전용
+<br>
+`ticket`: 티켓 보상, JieGarden 테마 전용
 :::  
 ::: field name="use_foldartal" type="boolean" optional  
 암호문 사용 여부. 모드 5 기본값 `false`, 기타 모드 기본값 `true`. Sami 테마 전용  

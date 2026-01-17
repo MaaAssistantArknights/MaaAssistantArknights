@@ -617,6 +617,8 @@ Tag 等級（大於等於 3）和對應的希望招募時限，單位為分鐘�
 `dice`: 骰子獎勵，僅在 Mizuki 主題時有效。
 <br>
 `ideas`: 2 构想獎勵，僅在 Sarkaz 主題時有效。
+<br>
+`ticket`: 票券獎勵，僅在 JieGarden 主題時有效。
 :::  
 ::: field name="use_foldartal" type="boolean" optional  
 是否使用密文板。模式 5 下預設值 `false`，其他模式下預設值 `true`。僅適用於 Sami 主題。  
