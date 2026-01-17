@@ -142,10 +142,19 @@ public class TaskQueueViewModel : Screen
         Application.Current.Dispatcher.InvokeAsync(() => {
             if (e.Action == NotifyCollectionChangedAction.Move)
             {
-                ConfigFactory.CurrentConfig.TaskQueue.Move(e.OldStartingIndex, e.NewStartingIndex);
-                TaskItemViewModels[e.OldStartingIndex].Index = e.OldStartingIndex;
-                TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
-                TaskSettingVisibilities.CurrentIndex = e.NewStartingIndex;
+                int oldIndex = e.OldStartingIndex;
+                int newIndex = e.NewStartingIndex;
+
+                ConfigFactory.CurrentConfig.TaskQueue.Move(oldIndex, newIndex);
+
+                int start = Math.Min(oldIndex, newIndex);
+                int end = Math.Max(oldIndex, newIndex);
+
+                // Move 会导致区间内所有任务顺序变化，必须全部更新
+                for (int i = start; i <= end; i++)
+                {
+                    TaskItemViewModels[i].Index = i;
+                }
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
