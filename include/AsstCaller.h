@@ -89,7 +89,20 @@ extern "C"
     void ASSTAPI AsstSetConnectionExtras(const char* name, const char* extras);
 
 #ifdef _WIN32
-    // 绑定到 Win32 窗口（仅 Windows 平台）
+    // 同步绑定到 Win32 窗口，功能已完全被异步绑定取代
+    // FIXME: 5.0 版本将废弃此接口
+    // hwnd: 目标窗口句柄
+    // screencap_method: 截图方式，参见 Win32ScreencapMethod
+    // mouse_method: 鼠标输入方式，参见 Win32InputMethod
+    // keyboard_method: 键盘输入方式，参见 Win32InputMethod
+    /* deprecated */ AsstBool ASSTAPI AsstAttachWindow(
+        AsstHandle handle,
+        void* hwnd,
+        uint64_t screencap_method,
+        uint64_t mouse_method,
+        uint64_t keyboard_method);
+
+    // 异步绑定到 Win32 窗口（仅 Windows 平台）
     // hwnd: 目标窗口句柄
     // screencap_method: 截图方式，参见 Win32ScreencapMethod
     // mouse_method: 鼠标输入方式，参见 Win32InputMethod

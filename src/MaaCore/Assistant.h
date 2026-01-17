@@ -86,6 +86,13 @@ public:
         const std::string& config,
         bool block = false) override;
 #ifdef _WIN32
+    // 同步绑定到 Win32 窗口，功能已完全被异步绑定取代
+    // FIXME: 5.0 版本将废弃此接口
+    bool attach_window(
+        void* hwnd,
+        Win32ScreencapMethod screencap_method,
+        Win32InputMethod mouse_method,
+        Win32InputMethod keyboard_method);
     AsyncCallId async_attach_window(
         void* hwnd,
         Win32ScreencapMethod screencap_method,

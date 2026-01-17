@@ -375,6 +375,17 @@ asst::Assistant::AsyncCallId asst::Assistant::async_connect(
 }
 
 #ifdef _WIN32
+bool asst::Assistant::attach_window(
+    void* hwnd,
+    Win32ScreencapMethod screencap_method,
+    Win32InputMethod mouse_method,
+    Win32InputMethod keyboard_method)
+{
+    LogTraceFunction;
+
+    return ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
+}
+
 asst::Assistant::AsyncCallId asst::Assistant::async_attach_window(
     void* hwnd,
     Win32ScreencapMethod screencap_method,
