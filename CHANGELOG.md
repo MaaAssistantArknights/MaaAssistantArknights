@@ -1,4 +1,4 @@
-## v6.2.2
+## v6.2.3
 
 ### Highlights
 
@@ -69,6 +69,18 @@ We've added some achievements covering multiple scenarios, waiting for you to ex
 ----
 
 以下是详细内容：
+
+## v6.2.3
+
+### 修复 | Fix
+
+* 肉鸽自动站位算法遇到未设置优先级地块崩溃 @status102
+* ↑有猪 肉鸽遇到源石地板会闪退 @ABA2396
+* vertical alignment to top instead of center for updatesettings (#15359) @Constrat @ABA2396
+
+### 其他 | Other
+
+* EN tweak for ATO minigame @Constrat
 
 ## v6.2.2
 
