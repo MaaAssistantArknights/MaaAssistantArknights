@@ -243,6 +243,8 @@
                     dd:DragDrop.IsDropTarget="{Binding UseAlternateStage}"
                     BorderThickness="{c:Binding 'UseAlternateStage ? 1 : 0'}"
                     ClipToBounds="False"
+                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                     ItemsSource="{Binding Path=StagePlan}"
                     PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
                                                  Target={x:Type helper:MouseWheelHelper}}"
@@ -262,8 +264,6 @@
                                     <!--  当 CustomStageCode 为 false 时显示 ComboBox  -->
                                     <ComboBox
                                         DisplayMemberPath="Display"
-                                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                                         ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                         SelectedValue="{Binding Value}"
@@ -291,8 +291,6 @@
                                     <TextBox
                                         Height="30"
                                         hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                                         ToolTip="{DynamicResource CustomStageCodeTip}"

@@ -29,6 +29,11 @@ namespace MaaWpfGui.Models;
 /// </summary>
 public class TaskSettingVisibilityInfo : PropertyChangedBase
 {
+    public TaskSettingVisibilityInfo()
+    {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
+    }
+
     // public const string DefaultVisibleTaskSetting = "Combat";
     public bool StartUp { get => field; set => SetAndNotify(ref field, value); }
 

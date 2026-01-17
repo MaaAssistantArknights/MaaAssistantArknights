@@ -2592,13 +2592,13 @@ public class AsstProxy
             RunningState.Instance.ResetTimeout(); // 进入新任务时重置超时计时
         }
 
-        value.Status = status;
+        _tasksStatus[id] = (value.Type, status);
+        Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(item => item.TaskId == id)?.Status = (int)status;
         if (status == TaskStatus.InProgress)
         {
             TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
         }
 
-        Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(item => item.TaskId == id)?.Status = (int)status;
         return true;
     }
 
