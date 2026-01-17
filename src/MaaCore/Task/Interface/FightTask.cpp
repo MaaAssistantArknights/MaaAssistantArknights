@@ -87,8 +87,9 @@ bool asst::FightTask::set_params(const json::value& params)
     }
 
     bool enable_penguin = params.get("report_to_penguin", false);
-    bool enable_yituliu = params.get("report_to_yituliu", false);
     std::string penguin_id = params.get("penguin_id", "");
+    bool enable_yituliu = params.get("report_to_yituliu", false);
+    std::string yituliu_id = params.get("yituliu_id", "");
     std::string server = params.get("server", "CN");
     std::string client_type = params.get("client_type", std::string());
     bool is_dr_grandet = params.get("DrGrandet", false);
@@ -145,6 +146,7 @@ bool asst::FightTask::set_params(const json::value& params)
     m_stage_drops_plugin_ptr->set_enable_penguin(enable_penguin);
     m_stage_drops_plugin_ptr->set_penguin_id(penguin_id);
     m_stage_drops_plugin_ptr->set_enable_yituliu(enable_yituliu);
+    m_stage_drops_plugin_ptr->set_yituliu_id(penguin_id);
 
     m_sidestory_reopen_task_ptr->set_medicine(medicine);
     m_sidestory_reopen_task_ptr->set_expiring_medicine(expiring_medicine);

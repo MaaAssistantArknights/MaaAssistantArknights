@@ -265,17 +265,29 @@ public static class MessageBoxHelper
 
         if (!string.IsNullOrEmpty(cancel))
         {
-            page.Buttons.FirstOrDefault(b => b == System.Windows.Forms.TaskDialogButton.Cancel)?.Text = cancel;
+            var cancelButton = page.Buttons.FirstOrDefault(b => b == TaskDialogButton.Cancel);
+            if (cancelButton != null)
+            {
+                cancelButton.Text = cancel;
+            }
         }
 
         if (!string.IsNullOrEmpty(yes))
         {
-            page.Buttons.FirstOrDefault(b => b == TaskDialogButton.Yes)?.Text = yes;
+            var yesButton = page.Buttons.FirstOrDefault(b => b == TaskDialogButton.Yes);
+            if (yesButton != null)
+            {
+                yesButton.Text = yes;
+            }
         }
 
         if (!string.IsNullOrEmpty(no))
         {
-            page.Buttons.FirstOrDefault(b => b == TaskDialogButton.No)?.Text = no;
+            var noButton = page.Buttons.FirstOrDefault(b => b == TaskDialogButton.No);
+            if (noButton != null)
+            {
+                noButton.Text = no;
+            }
         }
 
         // Allow cancel

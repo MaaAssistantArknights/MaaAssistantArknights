@@ -1019,7 +1019,7 @@ public class AsstProxy
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                     }
-                    else if (value is { Type: TaskType.Copilot }) /* or { Type: TaskType.VideoRec }) */
+                    else if (value is { Type: TaskType.Copilot }/* or { Type: TaskType.VideoRec }) */)
                     {
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
@@ -1434,11 +1434,10 @@ public class AsstProxy
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators"), UiLogColor.Error);
                         }
 
-                        /*
                         if (missingOpers is not null && missingOpers.Count >= 2)
                         {
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.Irreplaceable);
-                        }*/
+                        }
                     }
 
                     break;
@@ -1950,7 +1949,7 @@ public class AsstProxy
                 }
 
             case "StageInfoError":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, updateCardImage: true);
                 break;
 
             case "BattleFormation":

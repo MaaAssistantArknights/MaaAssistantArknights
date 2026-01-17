@@ -7,6 +7,12 @@ icon: material-symbols:summarize
 
 maa-cli's main functionality is to automate Arknights game tasks by calling MaaCore. Additionally, for convenience, maa-cli also provides functions to manage MaaCore.
 
+::: tip
+
+For users who installed maa-cli via the Windows Package Manager (winget) , `maa` in the following commands needs to be replaced with `maa-cli` .
+
+:::
+
 ## Manage MaaCore
 
 maa-cli can install and update MaaCore and resources by running the following commands:

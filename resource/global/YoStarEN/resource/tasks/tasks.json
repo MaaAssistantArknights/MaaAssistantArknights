@@ -1,4 +1,7 @@
 {
+    "BattleQuickFormationModulePage": {
+        "text": ["Branch"]
+    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
@@ -35,7 +38,7 @@
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
         "ocrReplace": [
             [":", ""],
-            ["SilverAsh", "银灰"],
+            ["^SilverAsh$", "银灰"],
             ["^Blaze$", "煌"],
             ["Surtr", "史尔特尔"],
             ["^Ch'en$", "陈"],
@@ -85,7 +88,7 @@
             ["Suzuran", "铃兰"],
             ["Mayer", "梅尔"],
             ["Magallan", "麦哲伦"],
-            ["Pramanix", "初雪"],
+            ["^Pramanix$", "初雪"],
             ["Gnosis", "灵知"],
             ["Glaucus", "格劳克斯"],
             ["Shamare", "巫恋"],
@@ -101,7 +104,7 @@
             ["Ansel?", "安赛尔"],
             ["Myrrh", "末药"],
             ["^Gavial$", "嘉维尔"],
-            ["Perfumer", "调香师"],
+            ["^Perfumer$", "调香师"],
             ["Ptilopsis", "白面鸮"],
             ["^Silence$", "赫默"],
             ["Warfarin", "华法琳"],
@@ -238,7 +241,7 @@
             ["Robin", "罗宾"],
             ["Jaye", "孑"],
             ["Weedy", "温蒂"],
-            ["Phantom", "傀影"],
+            ["^Phantom$", "傀影"],
             ["Aak", "阿"],
             ["^Snowsant$", "雪雉"],
             ["Waai Fu", "槐琥"],
@@ -383,7 +386,7 @@
             ["Entitative Program Controller", "实体程式控制"],
             ["Reserve Operator *-* *D[efender]*", "预备干员-重装"],
             ["R-31a Heavy Power Armor", "R-31a重型动力装甲"],
-            ["Astgenne", "星源"],
+            ["^Astgenne$", "星源"],
             ["(L? *ight *t* *n?[ifGg]?re?v?y *th?n?er?|Greyy the Lightningbe[arer]*)", "承曦格雷伊"],
             ["Dorothy", "多萝西"],
             ["R-31 Heavy Power Armor", "R-31重型动力装甲"],
@@ -938,7 +941,15 @@
             ["Dive", "戴乌"],
             ["Raidian", "电弧"],
             ["Cycle", "赛柯"],
-            ["Artifact Center", "遗物中枢"]
+            ["Artifact Center", "遗物中枢"],
+            ["Zero-Stress Helper", "压力归零帮手"],
+            ["Stress-Relief Helper", "压力舒缓帮手"],
+            ["Fate Striker", "天命来袭"],
+            ["Kichisei", "吉星"],
+            ["Matsukiri", "松桐"],
+            ["Haruka", "遥"],
+            ["'Zan'", "“斩”"],
+            ["Hoshiguma the Breacher", "斩业星熊"]
         ]
     },
     "GameStartCheckResourceOCR": {
@@ -1027,7 +1038,18 @@
         "text": ["Provisional", "Mining", "Permit"]
     },
     "OrundumActivities": {
-        "text": ["Lucky Strips", "Wishing", "Lucky", "Wall", "Bazaar", "Shrine", "Nurtury", "Wish", "Board"],
+        "text": [
+            "Lucky Strips",
+            "Wishing",
+            "Lucky",
+            "Wall",
+            "Bazaar",
+            "Shrine",
+            "Nurtury",
+            "Wish",
+            "Board",
+            "Enmusubi"
+        ],
         "roi": [67, 69, 115, 219]
     },
     "OrundumActivitiesChoose": {
@@ -1495,9 +1517,6 @@
     "BattleQuickFormationOCR": {
         "rectMove": [0, 231, 116, 22],
         "specialParams": [105, 2, 7, 0, 3, 10]
-    },
-    "BattleQuickFormationModulePage": {
-        "text": ["Branch"]
     },
     "BattleStartPre": {
         "text": ["Start", "Start Challenge"]

@@ -28,11 +28,14 @@ struct OperatorRequirements
 {
     // int elite = -1;        // 精英化等级
     // int level = -1;        // 干员等级
-    // int skill_level = -1;  // 技能等级
     // int potentiality = -1; // 潜能要求
-    int module = -1; // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
+    int skill_level = -1; // 技能等级
+    int module = -1;      // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
 
-    bool operator==(const OperatorRequirements& req) const { return module == req.module; }
+    bool operator==(const OperatorRequirements& req) const
+    {
+        return skill_level == req.skill_level && module == req.module;
+    }
 };
 
 // 干员编队状态

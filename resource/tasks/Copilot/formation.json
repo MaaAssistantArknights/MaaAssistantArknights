@@ -6,6 +6,101 @@
         "postDelay": 1000,
         "next": ["BattleQuickFormationExpandRole", "Formation-EnterQuickFormation", "Stop"]
     },
+    "BattleQuickFormationSkill1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [106, 385, 1, 100]
+    },
+    "BattleQuickFormationSkill2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [106, 560, 1, 30]
+    },
+    "BattleQuickFormationSkill3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [106, 650, 1, 30]
+    },
+    "BattleQuickFormationSkillLevel-Check": {
+        "template": [
+            "BattleQuickFormationSkillLevel-10.png",
+            "BattleQuickFormationSkillLevel-09.png",
+            "BattleQuickFormationSkillLevel-08.png",
+            "BattleQuickFormationSkillLevel-07.png"
+        ],
+        "templThreshold": 0.75,
+        "rectMove_Doc": "识别后 move 给 click 用",
+        "rectMove": [-5, 0, 360, 355]
+    },
+    "BattleQuickFormationSkillLevel-OCR": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [-50, -66, 20, 20],
+        "binThreshold": [100, 255]
+    },
+    "BattleQuickFormationSkillLevel-Base": {
+        "roi_Doc": "用于裁切出技能区域的 rect",
+        "roi": [0, 365, 360, 355],
+        "rectMove_Doc": "move for SkillLevel-Check and SkillLevel-OCR",
+        "rectMove": [-54, -68, 25, 25]
+    },
+    "BattleQuickFormationSkillLevel-Swipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [15, 650, 10, 10],
+        "rectMove": [15, 550, 10, 10],
+        "postDelay": 500
+    },
+    "BattleQuickFormationSkill-SwipeToTheUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 100,
+        "specificRect": [15, 400, 80, 10],
+        "rectMove": [15, 700, 80, 20],
+        "specialParams": [150, 0, 1, 1]
+    },
+    "BattleQuickFormationSkill-SwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 100,
+        "specificRect": [15, 525, 80, 10],
+        "rectMove": [15, 200, 80, 100],
+        "specialParams": [150, 0, 1, 1]
+    },
+    "BattleQuickFormationModulePage": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["分支"],
+        "roi": [185, 320, 180, 40],
+        "postDelay": 500
+    },
+    "BattleQuickFormationModule-Item": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [5, 370, 80, 350],
+        "postDelay": 300
+    },
+    "BattleQuickFormationModule-0": {
+        "baseTask": "BattleQuickFormationModule-Item"
+    },
+    "BattleQuickFormationModule-1": {
+        "baseTask": "BattleQuickFormationModule-Item"
+    },
+    "BattleQuickFormationModule-2": {
+        "doc": "y模组匹配，由于y模组的字母有两种形式，所以需要两个模板",
+        "baseTask": "BattleQuickFormationModule-Item",
+        "template": ["BattleQuickFormationModule-2-A.png", "BattleQuickFormationModule-2-B.png"]
+    },
+    "BattleQuickFormationModule-3": {
+        "baseTask": "BattleQuickFormationModule-Item"
+    },
+    "BattleQuickFormationModule-4": {
+        "baseTask": "BattleQuickFormationModule-Item"
+    },
+    "BattleQuickFormationConfirm": {
+        "action": "ClickSelf",
+        "roi": [880, 608, 400, 112],
+        "postDelay": 1000
+    },
     "SupportListAnalyzer-SupportUnit": {
         "doc": ["匹配助战干员时，应用于 Matcher 的配置任务", "| specificRect: 截取助战干员的 templ 时所使用的 rect"],
         "template": "empty.png",

@@ -1632,6 +1632,7 @@
         "action": "ClickSelf",
         "preDelay": 500,
         "roi": [905, 593, 375, 127],
+        "reduceOtherTimes": ["Roguelike@StartActionReCheck*20"],
         "next": [
             "Roguelike@NoneSelected",
             "Roguelike@InBattleFlag",
@@ -1644,8 +1645,15 @@
             "Roguelike@StartAction@LoadingText",
             "Roguelike@StartAction@LoadingIcon",
             "Roguelike@NextLevel",
-            "Roguelike@NextLevel#next"
+            "Roguelike@NextLevel#next",
+            "Roguelike@StartActionReCheck"
         ]
+    },
+    "Roguelike@StartActionReCheck": {
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "maxTimes": 20,
+        "next": ["Roguelike@StartAction#next"]
     },
     "Roguelike@StartExplore": {
         "Doc": "base_task",

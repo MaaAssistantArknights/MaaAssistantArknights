@@ -1,0 +1,55 @@
+<hc:Window
+    x:Class="MaaWpfGui.Views.Dialogs.EmulatorPathSelectionDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    Title="{DynamicResource SelectEmulatorPath}"
+    Width="600"
+    Height="400"
+    Background="{DynamicResource RegionBrush}"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Margin="0,0,0,15"
+            FontSize="14"
+            Text="{DynamicResource MultipleEmulatorsDetected}"
+            TextWrapping="Wrap" />
+
+        <ListBox
+            Grid.Row="1"
+            Margin="0,0,0,15"
+            ItemsSource="{Binding Paths}"
+            SelectedItem="{Binding SelectedPath}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Width="80"
+                Margin="0,0,10,0"
+                Click="OnConfirmClick"
+                Content="{DynamicResource Confirm}"
+                IsDefault="True" />
+            <Button
+                Width="80"
+                Click="OnCancelClick"
+                Content="{DynamicResource Cancel}"
+                IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</hc:Window>
