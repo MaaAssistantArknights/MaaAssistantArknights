@@ -143,13 +143,15 @@
                                                 Style="{DynamicResource RadioGroupItemSingle}"
                                                 ToolTip="{DynamicResource TaskSettings}">
                                                 <RadioButton.ContextMenu>
-                                                    <ContextMenu DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                    <ContextMenu>
                                                         <MenuItem
-                                                            Command="{s:Action RenameTask}"
+                                                            Command="{s:Action RenameTask,
+                                                                               Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                             CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                             Header="{DynamicResource Rename}" />
                                                         <MenuItem
-                                                            Command="{s:Action RemoveTask}"
+                                                            Command="{s:Action RemoveTask,
+                                                                               Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                             CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                             Header="{DynamicResource Delete}" />
                                                     </ContextMenu>
