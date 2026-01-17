@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
@@ -29,7 +30,11 @@
                 VerticalAlignment="Top"
                 Orientation="Horizontal"
                 Visibility="{c:Binding CreditVisitFriendsEnabled}">
-                <controls:TextBlock Margin="2.5,0,7.5,0" Text="└" />
+                <controls:TextBlock
+                    Margin="2.5,0,7.5,0"
+                    Opacity="{c:Binding 'Idle and Inited ? 1 : 0.5',
+                                        Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    Text="└" />
                 <CheckBox
                     Block.TextAlignment="Left"
                     Content="{DynamicResource OnlyOnceADay}"
@@ -57,7 +62,11 @@
                 VerticalAlignment="Top"
                 Orientation="Horizontal"
                 Visibility="{c:Binding CreditFightTaskEnabled}">
-                <controls:TextBlock Margin="2.5,0,7.5,0" Text="├" />
+                <controls:TextBlock
+                    Margin="2.5,0,7.5,0"
+                    Opacity="{c:Binding 'Idle and Inited ? 1 : 0.5',
+                                        Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    Text="├" />
                 <CheckBox
                     Block.TextAlignment="Left"
                     Content="{DynamicResource OnlyOnceADay}"
@@ -68,8 +77,12 @@
                 Margin="10,5,10,0"
                 Orientation="Horizontal"
                 Visibility="{c:Binding CreditFightTaskEnabled}">
-                <controls:TextBlock Margin="2.5,0,7.5,0" Text="└" />
-                <controls:TextBlock Text="{DynamicResource UseFormation}" />
+                <controls:TextBlock
+                    Margin="2.5,0,7.5,0"
+                    Opacity="{c:Binding 'Idle and Inited ? 1 : 0.5',
+                                        Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    Text="└" />
+                <controls:TextBlock Opacity="{c:Binding 'Idle and Inited ? 1 : 0.5', Source={x:Static helper:Instances.TaskQueueViewModel}}" Text="{DynamicResource UseFormation}" />
                 <ComboBox
                     Margin="6,0,0,0"
                     HorizontalAlignment="Left"
@@ -87,16 +100,16 @@
                 IsChecked="{Binding CreditShopping}" />
 
             <TextBlock
-                Margin="8,0,0,1"
+                Margin="10,0,0,5"
                 Foreground="{DynamicResource ThirdlyTextBrush}"
                 Text="{DynamicResource ReceptionOptionsRequireInfrast}"
                 TextWrapping="Wrap" />
             <Border
-                Padding="10,0"
+                Margin="10,0"
                 BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="4">
-                <StackPanel>
+                <StackPanel Opacity="{c:Binding 'Idle and Inited ? 1 : 0.5', Source={x:Static helper:Instances.TaskQueueViewModel}}">
                     <controls:TextBlock
                         Margin="6,8"
                         HorizontalAlignment="Stretch"
