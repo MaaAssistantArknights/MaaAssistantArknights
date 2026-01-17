@@ -15,5 +15,6 @@ protected:
 private:
     // 单次扫描处理函数（返回房间扫描信息）
     bool scan_overview_and_report();
+    void swipe_overview_vertical();
 };
 }

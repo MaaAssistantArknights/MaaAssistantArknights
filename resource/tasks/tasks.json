@@ -3453,7 +3453,9 @@
         "algorithm": "OcrDetect",
         "text": [],
         "rectMove_Doc": "基于锚点的位置移动",
-        "rectMove": [-750, 9, 100, 29]
+        "rectMove": [-750, 6, 100, 38],
+        "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
+        "specificRect": [235, 255, 0, 0]
     },
     "InfrastOverview-Slot-0": {
         "doc": "第1个槽位，相对于 Anchor 的偏移 [x, y, w, h]。计算: 624 - 1182 = -558",
@@ -3506,6 +3508,20 @@
     "InfrastOverviewSmileyDistract": {
         "template": "InfrastOverviewSmileyDistract.png",
         "templThreshold": 0.8
+    },
+    "InfrastOverviewSwipeUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "doc": "手指从下往上拖动，查看列表底部内容",
+        "specificRect": [600, 600, 100, 100], 
+        "rectMove": [600, 200, 100, 100], 
+        "specialParams": [
+            500,
+            1,
+            2,
+            0
+        ],
+        "postDelay": 500
     },
     "BattleStageName": {
         "algorithm": "OcrDetect",
