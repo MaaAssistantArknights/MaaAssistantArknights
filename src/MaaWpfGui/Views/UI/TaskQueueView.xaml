@@ -61,6 +61,7 @@
                             Margin="0,10,0,0"
                             HorizontalAlignment="Center"
                             d:ItemsSource="{d:SampleData ItemCount=16}"
+                            dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
                             dd:DragDrop.IsDragSource="{Binding Idle}"
                             dd:DragDrop.IsDropTarget="{Binding Idle}"
                             Background="Transparent"
