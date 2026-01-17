@@ -1105,13 +1105,17 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
                     BattleData.get_role(iter->second) != battle::Role::Drone) { // 根据哪个方向上人多决定朝向哪
                     score += 10000;
                 }
-                if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end()) {
-                    score += TileKeyMedicWeights.at(iter->second.key);
+                if (auto iter = m_side_tile_info.find(absolute_pos); iter == m_side_tile_info.end()) {
+                }
+                else if (auto it = TileKeyMedicWeights.find(iter->second.key); it != TileKeyMedicWeights.end()) {
+                    score += it->second;
                 }
                 break;
             default:
-                if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end()) {
-                    score += TileKeyFightWeights.at(iter->second.key);
+                if (auto iter = m_side_tile_info.find(absolute_pos); iter == m_side_tile_info.end()) {
+                }
+                else if (auto it = TileKeyFightWeights.find(iter->second.key); it != TileKeyFightWeights.end()) {
+                    score += it->second;
                 }
                 break;
             }
