@@ -260,8 +260,7 @@ bool Win32Controller::inject_input_event(const InputEvent& event)
 bool Win32Controller::press_esc()
 {
     LogTraceFunction;
-    constexpr int VK_ESCAPE = 27;
-    return unit_click_key(VK_ESCAPE);
+    return unit_click_key(VK_ESCAPE); // VK_ESCAPE = 0x1B, defined in WinUser.h
 }
 
 ControlFeat::Feat Win32Controller::support_features() const noexcept

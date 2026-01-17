@@ -5,13 +5,15 @@
 #include <memory>
 #include <string>
 
+#include "MaaUtils/SafeWindows.hpp"
+
+#include "Common/AsstMsg.h"
 #include "ControllerAPI.h"
 #include "InstHelper.h"
 #include "Win32ControlUnitLoader.h"
 
 namespace asst
 {
-
 class Assistant;
 
 class Win32Controller : public ControllerAPI, private InstHelper
@@ -26,7 +28,11 @@ public:
     Win32Controller& operator=(Win32Controller&&) = delete;
 
     // 绑定到窗口（替代 connect）
-    bool attach(void* hwnd, Win32ScreencapMethod screencap_method, Win32InputMethod mouse_method, Win32InputMethod keyboard_method);
+    bool attach(
+        void* hwnd,
+        Win32ScreencapMethod screencap_method,
+        Win32InputMethod mouse_method,
+        Win32InputMethod keyboard_method);
 
 public: // ControllerAPI 接口
     virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) override;
@@ -35,6 +41,7 @@ public: // ControllerAPI 接口
     virtual const std::string& get_uuid() const override;
 
     virtual size_t get_pipe_data_size() const noexcept override { return 0; }
+
     virtual size_t get_version() const noexcept override { return 0; }
 
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
@@ -90,7 +97,6 @@ private:
     Win32InputMethod m_mouse_method = Win32Input::None;
     Win32InputMethod m_keyboard_method = Win32Input::None;
 };
-
 } // namespace asst
 
 #endif // _WIN32

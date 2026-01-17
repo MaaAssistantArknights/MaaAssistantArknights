@@ -7,12 +7,13 @@
 #include <memory>
 #include <string>
 
+#include "MaaUtils/SafeWindows.hpp"
+
 #include "Common/AsstTypes.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
 
 namespace asst
 {
-
 // 与 MaaFramework 的 ControlUnitAPI 接口保持 ABI 兼容
 // 虚函数表布局必须与 MaaFramework 完全一致
 class MaaControlUnitInterface
@@ -80,7 +81,11 @@ public:
     const char* get_version() const;
 
     // 创建控制单元
-    void* create(void* hwnd, Win32ScreencapMethod screencap_method, Win32InputMethod mouse_method, Win32InputMethod keyboard_method);
+    void* create(
+        void* hwnd,
+        Win32ScreencapMethod screencap_method,
+        Win32InputMethod mouse_method,
+        Win32InputMethod keyboard_method);
 
     // 销毁控制单元
     void destroy(void* handle);
@@ -97,7 +102,6 @@ private:
     CreateFunc m_create = nullptr;
     DestroyFunc m_destroy = nullptr;
 };
-
 } // namespace asst
 
 #endif // _WIN32

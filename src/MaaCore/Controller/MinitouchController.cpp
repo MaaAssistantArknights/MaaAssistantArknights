@@ -202,8 +202,8 @@ bool asst::MinitouchController::swipe(
     auto pause_action = [this, &pause_future]() {
         if (m_use_maa_touch) {
             constexpr int EscKeyCode = 111;
-            m_minitoucher->key_down(EscKeyCode);
-            m_minitoucher->key_up(EscKeyCode, 0);
+            (void)m_minitoucher->key_down(EscKeyCode);
+            (void)m_minitoucher->key_up(EscKeyCode, 0);
         }
         else {
             pause_future = std::async(std::launch::async, [this]() { press_esc(); });

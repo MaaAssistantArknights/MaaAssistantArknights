@@ -95,7 +95,7 @@ void* Win32ControlUnitLoader::create(
         return nullptr;
     }
 
-    Log.info("Created Win32ControlUnit", VAR_VOIDP(handle));
+    Log.info("Created Win32ControlUnit:", reinterpret_cast<void*>(handle));
     return handle;
 }
 
@@ -110,7 +110,7 @@ void Win32ControlUnitLoader::destroy(void* handle)
 
     if (handle) {
         m_destroy(handle);
-        Log.info("Destroyed Win32ControlUnit", VAR_VOIDP(handle));
+        Log.info("Destroyed Win32ControlUnit:", reinterpret_cast<void*>(handle));
     }
 }
 
