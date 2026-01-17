@@ -325,7 +325,7 @@ public static class ConfigFactory
         if (_saveTask is not null)
         {
             _logger.Information("Waiting for save task to complete");
-            _saveTask?.Wait();
+            _saveTask.Wait();
         }
         lock (_lock)
         {

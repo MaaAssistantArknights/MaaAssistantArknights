@@ -577,7 +577,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="UseExpiringMedicine">48시간 미만 이성 회복제 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
     <system:String x:Key="HideSeries">{key=Series} 숨기기</system:String>
-    <!--<system:String x:Key="CustomInfrastPlanShowInFightSettings">기반시설 계획 표시</system:String>-->
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
     <system:String x:Key="CustomStageCode">스테이지 코드 수동 입력</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">대부분의 기본 스테이지 이름과 원래 스테이지 이름 목록 지원 (예: 4-10, AP-5, H10-1-Hard)
