@@ -145,6 +145,7 @@ public class TaskQueueViewModel : Screen
                 ConfigFactory.CurrentConfig.TaskQueue.Move(e.OldStartingIndex, e.NewStartingIndex);
                 TaskItemViewModels[e.OldStartingIndex].Index = e.OldStartingIndex;
                 TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
+                TaskSettingVisibilities.CurrentIndex = e.NewStartingIndex;
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
