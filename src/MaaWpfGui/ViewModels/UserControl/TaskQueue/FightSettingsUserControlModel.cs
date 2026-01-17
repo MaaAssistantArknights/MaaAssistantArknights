@@ -100,27 +100,22 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     [UsedImplicitly]
     public void AddStageToPlan()
     {
-        var item = new StagePlanItem { Index = StagePlan.Count };
+        var item = new StagePlanItem();
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
     }
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void RemoveStageFromPlan(int index)
+    public void RemoveStageFromPlan(StagePlanItem plan)
     {
-        if (index < 0 || index >= StagePlan.Count)
-        {
-            _logger.Error("Attempted to remove stage from plan with invalid index: {Index}", index);
-            return;
-        }
         if (StagePlan.Count == 1)
         {
             _logger.Warning("Attempted to remove the last stage from the plan. Operation aborted.");
             return;
         }
 
-        StagePlan.RemoveAt(index);
+        StagePlan.Remove(plan);
     }
 
     /// <summary>
@@ -815,7 +810,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return;
         }
         var plan = GetTaskConfig<FightTask>().StagePlan.ToList();
-        var list = plan.Select((i, index) => new StagePlanItem() { Value = i, Index = index }).ToList();
+        var list = plan.Select((i, index) => new StagePlanItem() { Value = i }).ToList();
         foreach (var item in list)
         {
             item.PropertyChanged += (_, __) => SaveStagePlan();
@@ -828,10 +823,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     {
         var list = StagePlan.Select(i => i.Value).ToList();
         SetTaskConfig<FightTask>(t => t.StagePlan.SequenceEqual(list), t => t.StagePlan = list);
-        for (int i = 0; i < StagePlan.Count; i++)
-        {
-            StagePlan[i].Index = i;
-        }
     }
 
     private void RefreshWeeklySchedule()
@@ -921,6 +912,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         {
             get => field;
             set {
+                value ??= string.Empty;
                 if (TaskSettingVisibilityInfo.CurrentTask is FightTask task && task.UseOptionalStage)
                 {
                     // 从后往前删
@@ -938,8 +930,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true;
             }
         } = string.Empty;
-
-        public int Index { get; set; }
 
         public bool IsOpen
         {
