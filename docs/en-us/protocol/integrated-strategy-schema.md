@@ -789,32 +789,32 @@ For farming hidden Collapsal Paradigms, N10 difficulty is recommended, with the 
 {
     "theme": "JieGarden",                                    // I.S. Theme name (JieGarden here)
     "addons": {                                              // Copper addon attribute descriptions (notes only, no effect on program)
-        "锈色": "投出时，每经过一个节点，获得源石锭+1",
-        "存护": "加入钱盒时，获得护盾值+2",
-        "入幻": "加入钱盒时，获得希望+1",
-        "引光": "加入钱盒时，获得烛火+1",
-        "巡游": "投出时，每完成一场战斗，获得票券+1"
+        "锈色": "When cast, gain Originium Ingots +1 for every node passed",
+        "存护": "When added to wallet, gain Shield +2",
+        "入幻": "When added to wallet, gain Hope +1",
+        "引光": "When added to wallet, gain Candlelight +1",
+        "巡游": "When cast, gain Tickets +1 for every battle completed"
     },
     "coppers": [                                             // Copper list
         {
-            "name": "大炎通宝",                              // Copper name
-            "desc": "普通又空白，什么也没有",                // Copper effect description (notes only, no effect on program)
+            "name": "大炎通宝",                              // Copper name (Yan Copper)
+            "desc": "Ordinary and blank, nothing special",  // Copper effect description (notes only, no effect on program)
             "rarity": "NORMAL",                             // Rarity: NONE/NORMAL/RARE/SUPER_RARE (notes only, no effect on program)
             "pickup_priority": 0,                           // Pickup priority, used when selecting drops, higher value = higher priority pickup
             "discard_priority": 1000                        // Discard priority, used during exchange, higher value = higher priority discard
         },
         {
-            "name": "衡-奇土生金",
-            "desc": "投出时，立即获得源石锭+4（下次投钱前变化为-大炎通宝）",
+            "name": "衡-奇土生金",                          // Balance - Bountiful Land (name kept in Chinese as game-specific term)
+            "desc": "When cast, immediately gain Originium Ingots +4 (transforms into Yan Copper before next cast)",
             "rarity": "NORMAL",
             "pickup_priority": 200,
             "discard_priority": 800,
             "cast_discard_priority": 999                    // Optional field, discard priority when cast, only replaces discard_priority when cast and value >= 0
-                                                            // This typically applies to coppers whose effects change after casting (like coppers that become 大炎通宝)
+                                                            // This typically applies to coppers whose effects change after casting (like coppers that become Yan Copper)
         },
         {
-            "name": "厉-西廉贞",
-            "desc": "投出时，精英及领袖敌人的生命值、攻击力+10%，在险路恶敌及岁兽残识中攻击力、生命值额外+20％",
+            "name": "厉-西廉贞",                            // Risk - Xi Lianzhen (name kept in Chinese as game-specific term)
+            "desc": "When cast, Elite and Leader enemies gain HP and ATK +10%, with additional +20% in Dangerous Operations and Nian Beast Remnant Cognition",
             "rarity": "NORMAL",
             "pickup_priority": 0,
             "discard_priority": 1998,
@@ -847,13 +847,13 @@ Copper exchange functionality is only enabled in the following modes:
 
 3. **Special Handling for Cast Coppers**:
    - For coppers marked with `cast_discard_priority`, use this priority when cast instead of `discard_priority`
-   - This typically applies to coppers whose effects change after casting (like coppers that become 大炎通宝)
+   - This typically applies to coppers whose effects change after casting (like coppers that transform into Yan Copper 大炎通宝)
 
 #### Copper Recognition Mechanism
 
 MAA uses the following methods to recognize and handle coppers:
 
-1. Recognize copper type icons (厉/衡/花) through template matching
+1. Recognize copper type icons (厉/衡/花 - Risk/Balance/Flower) through template matching
 2. Based on type icon position, use ROI offset for OCR recognition of copper name
 3. Recognize whether copper is in "cast" state
 4. Auto-scroll list in copper exchange interface, scan all coppers for comparison
