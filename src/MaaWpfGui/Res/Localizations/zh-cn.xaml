@@ -1213,6 +1213,23 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RestartAdb">正在尝试重启 ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">正在尝试关闭并重启 ADB 进程</system:String>
     <system:String x:Key="CheckSettings">请 ｢检查连接设置｣ → ｢尝试重启模拟器与 ADB｣ → ｢重启电脑｣</system:String>
+    <system:String x:Key="AttachWindowNotFound">未找到窗口 "{0}"，请确保游戏已启动</system:String>
+    <system:String x:Key="AttachWindowMultipleFound">找到 {0} 个 "{1}" 窗口，将使用第一个</system:String>
+    <system:String x:Key="AttachWindowFound">找到窗口 "{0}"</system:String>
+    <system:String x:Key="AttachWindowFailed">AttachWindow 绑定窗口失败，请检查截图/输入方式配置</system:String>
+    <system:String x:Key="UseAttachWindow">连接 PC 端（实验性功能，极度不稳定）</system:String>
+    <system:String x:Key="UseAttachWindowTip">使用 Win32 窗口绑定明日方舟 PC 端，而非 ADB 连接模拟器或手机</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">实验性功能，极端不稳定，不推荐使用！&#10;1. 需要以管理员启动 MAA&#10;2. 游戏窗口不能最小化&#10;3. 需要在明日方舟设置 - 游戏 - UI缩放改为 100</system:String>
+    <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
+    <system:String x:Key="AttachWindowMouseMethod">鼠标输入方式</system:String>
+    <system:String x:Key="AttachWindowKeyboardMethod">键盘输入方式</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（默认，后台）</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（后台，备用1）</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（后台，备用2）</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（前台，更稳定）</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize（前台，更稳定）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor（半后台）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor（半后台，备用）</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">强制显示MAA</system:String>

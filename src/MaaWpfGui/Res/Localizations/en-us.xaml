@@ -1212,6 +1212,23 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>
     <system:String x:Key="CheckSettings">Please ｢Check connection settings｣ → ｢Try restarting the emulator and ADB｣ → ｢Restart the computer｣</system:String>
+    <system:String x:Key="AttachWindowNotFound">Window "{0}" not found, please ensure the game is running</system:String>
+    <system:String x:Key="AttachWindowMultipleFound">Found {0} "{1}" windows, using the first one</system:String>
+    <system:String x:Key="AttachWindowFound">Found window "{0}"</system:String>
+    <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
+    <system:String x:Key="UseAttachWindow">Connect to PC Client (Experimental, Highly Unstable)</system:String>
+    <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">Experimental feature, extremely unstable, not recommended!&#10;1. MAA must be run as administrator&#10;2. Game window cannot be minimized&#10;3. In Arknights Settings - Game - UI Scale must be set to 100</system:String>
+    <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
+    <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
+    <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Default, Background)</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (Background, Backup 1)</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup 2)</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, More Stable)</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, More Stable)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor (Semi-background)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor (Semi-background, Backup)</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">Force display of MAA</system:String>

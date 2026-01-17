@@ -12,7 +12,6 @@
 
 namespace asst
 {
-
 Win32Controller::Win32Controller(const AsstCallback& callback, Assistant* inst) :
     InstHelper(inst),
     m_callback(callback),
@@ -53,7 +52,7 @@ bool Win32Controller::attach(
 
     // 加载 DLL
     if (!m_loader->loaded()) {
-        auto dll_path = ResDir.get() / "MaaWin32ControlUnit";
+        auto dll_path = "MaaWin32ControlUnit";
         if (!m_loader->load(dll_path)) {
             Log.error("Failed to load MaaWin32ControlUnit.dll");
             return false;
@@ -206,10 +205,22 @@ bool Win32Controller::swipe(
         return x >= 0 && x <= width && y >= 0 && y <= height;
     };
 
-    auto move_func = [this](int x, int y) { return unit_touch_move(0, x, y, 0); };
+    auto move_func = [this](int x, int y) {
+        return unit_touch_move(0, x, y, 0);
+    };
 
     auto do_swipe = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
-        return interpolate_swipe(_x1, _y1, _x2, _y2, _duration, DefaultSwipeDelay, slope_in, slope_out, move_func, bounds_check);
+        return interpolate_swipe(
+            _x1,
+            _y1,
+            _x2,
+            _y2,
+            _duration,
+            DefaultSwipeDelay,
+            slope_in,
+            slope_out,
+            move_func,
+            bounds_check);
     };
 
     if (!do_swipe(x1, y1, x2, y2, actual_duration)) {
@@ -367,7 +378,6 @@ bool Win32Controller::unit_click_key(int key)
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     return unit->key_up(key);
 }
-
 } // namespace asst
 
 #endif // _WIN32

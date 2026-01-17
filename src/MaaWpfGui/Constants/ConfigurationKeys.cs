@@ -87,6 +87,12 @@ public static class ConfigurationKeys
     public const string TouchMode = "Connect.TouchMode";
     public const string AdbReplaced = "Connect.AdbReplaced";
 
+    // AttachWindow (Win32窗口绑定) 配置
+    public const string UseAttachWindow = "Connect.UseAttachWindow";
+    public const string AttachWindowScreencapMethod = "Connect.AttachWindow.ScreencapMethod";
+    public const string AttachWindowMouseMethod = "Connect.AttachWindow.MouseMethod";
+    public const string AttachWindowKeyboardMethod = "Connect.AttachWindow.KeyboardMethod";
+
     public const string StartGame = "Start.StartGame";
     public const string ClientType = "Start.ClientType";
     public const string AccountName = "Start.AccountName";

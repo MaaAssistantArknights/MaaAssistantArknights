@@ -1213,6 +1213,23 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartAdb">ADBサーバーの再起動を試みています</system:String>
     <system:String x:Key="HardRestartAdb">ADBプロセスの再起動を試みています</system:String>
     <system:String x:Key="CheckSettings">「接続設定を確認」→「エミュレーターとADBを再起動してみる」→「コンピュータを再起動」してください</system:String>
+    <system:String x:Key="AttachWindowNotFound">ウィンドウ "{0}" が見つかりません。ゲームが起動していることを確認してください</system:String>
+    <system:String x:Key="AttachWindowMultipleFound">{0} 個の "{1}" ウィンドウが見つかりました。最初のものを使用します</system:String>
+    <system:String x:Key="AttachWindowFound">ウィンドウ "{0}" が見つかりました</system:String>
+    <system:String x:Key="AttachWindowFailed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
+    <system:String x:Key="UseAttachWindow">PC クライアントに接続（実験的機能、非常に不安定）</system:String>
+    <system:String x:Key="UseAttachWindowTip">エミュレータや携帯電話への ADB 接続ではなく、アークナイツ PC クライアントに Win32 ウィンドウバインディングを使用します</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">実験的機能、非常に不安定、推奨されません！&#10;1. MAAを管理者として起動する必要があります&#10;2. ゲームウィンドウは最小化できません&#10;3. アークナイツの設定 - ゲーム - UIスケールを100に設定する必要があります</system:String>
+    <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
+    <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
+    <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（デフォルト、バックグラウンド）</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（バックグラウンド、予備1）</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（バックグラウンド、予備2）</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（フォアグラウンド、より安定）</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize（フォアグラウンド、より安定）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor（半バックグラウンド）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor（半バックグラウンド、予備）</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAAの強制表示</system:String>

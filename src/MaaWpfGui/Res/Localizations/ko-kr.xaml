@@ -1214,6 +1214,23 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartAdb">ADB 서버 재시작을 시도 중입니다</system:String>
     <system:String x:Key="HardRestartAdb">ADB 프로세스 재시작을 시도 중입니다</system:String>
     <system:String x:Key="CheckSettings">｢연결 설정 확인｣ → ｢에뮬레이터와 ADB 재시작 시도｣ → ｢컴퓨터 재부팅｣ 해 주세요</system:String>
+    <system:String x:Key="AttachWindowNotFound">창 "{0}"을(를) 찾을 수 없습니다. 게임이 실행 중인지 확인하세요</system:String>
+    <system:String x:Key="AttachWindowMultipleFound">{0}개의 "{1}" 창을 찾았습니다. 첫 번째 창을 사용합니다</system:String>
+    <system:String x:Key="AttachWindowFound">창 "{0}"을(를) 찾았습니다</system:String>
+    <system:String x:Key="AttachWindowFailed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
+    <system:String x:Key="UseAttachWindow">PC 클라이언트 연결 (실험적 기능, 매우 불안정)</system:String>
+    <system:String x:Key="UseAttachWindowTip">에뮬레이터나 휴대폰용 ADB 연결 대신 명일방주 PC 클라이언트에 Win32 창 바인딩을 사용합니다</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">실험적 기능, 매우 불안정, 권장하지 않습니다!&#10;1. MAA를 관리자 권한으로 실행해야 합니다&#10;2. 게임 창을 최소화할 수 없습니다&#10;3. 명일방주 설정 - 게임 - UI 배율을 100으로 설정해야 합니다</system:String>
+    <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
+    <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
+    <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (기본값, 백그라운드)</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (백그라운드, 백업 1)</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (백그라운드, 백업 2)</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (포그라운드, 더 안정적)</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize (포그라운드, 더 안정적)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor (반 백그라운드)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor (반 백그라운드, 백업)</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAA 강제 표시</system:String>
