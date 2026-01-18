@@ -4,6 +4,7 @@
 
 #include "Config/GeneralConfig.h"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "SwipeHelper.hpp"
 
 using boost::asio::ip::tcp;
 namespace socket_ops = boost::asio::detail::socket_ops;
@@ -153,26 +154,15 @@ bool asst::PlayToolsController::swipe(
 
     toucher_down(p1);
 
-    auto cubic_spline = [](double slope_0, double slope_1, double t) {
-        const double a = slope_0;
-        const double b = -(2 * slope_0 + slope_1 - 3);
-        const double c = -(-slope_0 - slope_1 + 2);
-        return a * t + b * std::pow(t, 2) + c * std::pow(t, 3);
-    }; // TODO: move this to math.hpp
+    auto bounds_check = [width, height](int x, int y) { return x >= 0 && x <= width && y >= 0 && y <= height; };
 
-    const auto progressive_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
-        for (int cur_time = DefaultSwipeDelay; cur_time < _duration; cur_time += DefaultSwipeDelay) {
-            double progress = cubic_spline(slope_in, slope_out, static_cast<double>(cur_time) / duration);
-            int cur_x = static_cast<int>(std::lerp(_x1, _x2, progress));
-            int cur_y = static_cast<int>(std::lerp(_y1, _y2, progress));
-            if (cur_x < 0 || cur_x > width || cur_y < 0 || cur_y > height) {
-                continue;
-            }
-            toucher_move({ cur_x, cur_y });
-        }
-        if (_x2 >= 0 && _x2 <= width && _y2 >= 0 && _y2 <= height) {
-            toucher_move({ _x2, _y2 });
-        }
+    auto move_func = [this](int x, int y) {
+        toucher_move({ x, y });
+        return true;
+    };
+
+    auto progressive_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
+        interpolate_swipe(_x1, _y1, _x2, _y2, _duration, DefaultSwipeDelay, slope_in, slope_out, move_func, bounds_check);
     };
 
     const auto& opt = Config.get_options();
@@ -180,7 +170,7 @@ bool asst::PlayToolsController::swipe(
     progressive_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration);
 
     if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
-        toucher_wait(opt.minitouch_swipe_extra_end_delay); // 停留终点
+        toucher_wait(opt.minitouch_swipe_extra_end_delay);
         progressive_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
     }
 

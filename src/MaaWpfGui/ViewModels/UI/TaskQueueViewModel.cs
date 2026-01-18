@@ -1368,6 +1368,14 @@ public class TaskQueueViewModel : Screen
         string errMsg = string.Empty;
         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
 
+        if (!connected && SettingsViewModel.ConnectSettings.UseAttachWindow)
+        {
+            AddLog(errMsg, UiLogColor.Error);
+            _runningState.SetIdle(true);
+            SetStopped();
+            return false;
+        }
+
         // 尝试启动模拟器
         if (!connected && SettingsViewModel.ConnectSettings.RetryOnDisconnected)
         {

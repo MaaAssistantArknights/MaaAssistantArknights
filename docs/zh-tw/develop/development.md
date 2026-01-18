@@ -74,6 +74,10 @@ icon: iconoir:developer
    - 右鍵 `MaaWpfGui` - 設為啟動項目
    - 按 F5 運行
 
+   ::: tip
+   若需調試 Win32Controller（Windows 視窗控制）相關功能，需要自行從 [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) 下載對應平台的壓縮包，將 `bin` 目錄中的 `MaaWin32ControlUnit.dll` 放到 MAA 的 DLL 同目錄下（如 `build/bin/Debug`）。歡迎 PR 一個自動下載腳本！
+   :::
+
 9. 到這裡，你就可以愉快地 ~~瞎 JB 改~~ 發電了
 10. 開發過程中，每一定數量，記得提交一個 Commit, 別忘了寫上 Message  
     假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev` 上

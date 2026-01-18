@@ -174,6 +174,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">Old version of WSA</system:String>
+    <system:String x:Key="PC">PC Client</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
     <system:String x:Key="SecondResolution">2nd Resolution</system:String>
@@ -1213,6 +1214,31 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>
     <system:String x:Key="CheckSettings">Please ｢Check connection settings｣ → ｢Try restarting the emulator and ADB｣ → ｢Restart the computer｣</system:String>
+    <system:String x:Key="AttachWindowNotFound">Window "{0}" not found, please ensure the game is running</system:String>
+    <system:String x:Key="AttachWindowMultipleFound">Found {0} "{1}" windows, using the first one</system:String>
+    <system:String x:Key="AttachWindowFound">Found window "{0}"</system:String>
+    <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
+    <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC connection (experimental feature, stability not guaranteed)
+MAA does not provide maintenance or compatibility support for PC usage:
+● If the feature works properly, you may choose to continue using it
+● If it fails to run or has issues, PC-related issues will not be accepted
+● Community adaptations and Pull Requests are welcome
+
+Before use, please ensure:
+1. MAA is launched with administrator privileges
+2. The game window is not minimized
+3. Arknights Settings → Game → UI Scaling is set to 100%</system:String>
+    <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
+    <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
+    <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Default, Background)</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (Background, Backup 1)</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup 2)</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, More Stable)</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, More Stable)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor (Semi-background)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor (Semi-background, Backup)</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">Force display of MAA</system:String>

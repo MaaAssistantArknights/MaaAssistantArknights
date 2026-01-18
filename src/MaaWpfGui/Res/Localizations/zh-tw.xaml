@@ -174,6 +174,7 @@
     <system:String x:Key="Nox">夜神模擬器</system:String>
     <system:String x:Key="XYAZ">逍遙模擬器</system:String>
     <system:String x:Key="WSA">WSA 舊版本</system:String>
+    <system:String x:Key="PC">PC 端</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">相容模式</system:String>
     <system:String x:Key="SecondResolution">第二解析度</system:String>
@@ -1214,6 +1215,31 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RestartAdb">正在嘗試重開 ADB 伺服器</system:String>
     <system:String x:Key="HardRestartAdb">正在嘗試重開 ADB 程式</system:String>
     <system:String x:Key="CheckSettings">請 ｢檢查連接設定｣ → ｢嘗試重開模擬器與 ADB｣ → ｢重開電腦｣</system:String>
+    <system:String x:Key="AttachWindowNotFound">未找到視窗 "{0}"，請確保遊戲已啟動</system:String>
+    <system:String x:Key="AttachWindowMultipleFound">找到 {0} 個 "{1}" 視窗，將使用第一個</system:String>
+    <system:String x:Key="AttachWindowFound">找到視窗 "{0}"</system:String>
+    <system:String x:Key="AttachWindowFailed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式配置</system:String>
+    <system:String x:Key="UseAttachWindowTip">使用 Win32 視窗綁定明日方舟 PC 端，而非 ADB 連接模擬器或手機</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">連接 PC 端（實驗性功能，穩定性無法保證）
+MAA 不對 PC 端的運行情況提供維護或適配支援：
+● 在功能可正常使用的情況下，可自行選擇繼續使用
+● 若無法運行或出現問題，不受理 PC 端相關的 Issue
+● 歡迎社群自行適配並提交 Pull Request
+
+使用前請確認：
+1. 需以系統管理員身分啟動 MAA
+2. 遊戲視窗不可最小化
+3. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%</system:String>
+    <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
+    <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
+    <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（預設，背景）</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（背景，備用1）</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（背景，備用2）</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（前台，更穩定）</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize（前台，更穩定）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor（半背景）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor（半背景，備用）</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">強制顯示 MAA</system:String>

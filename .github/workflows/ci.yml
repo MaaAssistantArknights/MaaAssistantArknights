@@ -144,6 +144,21 @@ jobs:
           mkdir -p install
           cmake --install build --prefix install --config RelWithDebInfo
 
+      - name: Download MaaFramework
+        if: matrix.arch == 'x64'
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: MaaXYZ/MaaFramework
+          latest: true
+          fileName: '*win-x86_64*.zip'
+          extract: true
+          out-file-path: MaaFramework-temp
+
+      - name: Copy MaaWin32ControlUnit
+        if: matrix.arch == 'x64'
+        run: |
+          cp MaaFramework-temp/bin/*Win32ControlUnit* install/
+
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
         uses: actions/cache@v5
