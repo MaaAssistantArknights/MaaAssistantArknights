@@ -67,6 +67,20 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "client_type": "Official",
+   "start_game_enabled": true,
+   "account_name": "123****4567"
+}
+```
+
+</details>
+
 - `CloseDown`  
    关闭游戏
 
@@ -81,6 +95,18 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "client_type": "Official"
+}
+```
+
+</details>
+
 - `Fight`  
    理智作战
 
@@ -89,15 +115,20 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 是否启用本任务。  
 :::  
 ::: field name="stage" type="string" optional  
-关卡名，默认为空，识别当前/上次的关卡。不支持运行中设置。
-<br>
-支持全部主线关卡，如 `"1-7"`、`"S3-2"`等。
-<br>
-可在关卡结尾输入`Normal`/`Hard`表示需要切换标准与磨难难度。
-<br>
-剿灭作战，必须输入 `"Annihilation"`。
-<br>
-当期 SS 活动 后三关，必须输入完整关卡编号。  
+关卡名，默认为空，识别当前/上次的关卡。不支持运行中设置。  
+目前支持导航的关卡有：
+- 全部主线关卡。可在关卡末尾添加 `-NORMAL` 或 `-HARD` 来切换标准或磨难关卡。
+- 龙门币、作战记录的 5 / 6 关，但必须输入 `CE-6` / `LS-6`。MAA 会在第六关无法代理的情况下自动切换至第五关。
+- 技能书、采购凭证、碳本第 5 关，必须输入 `CA-5` / `AP-5` / `SK-5`。
+- 所有芯片本。必须输入完整关卡编号，如 `PR-A-1`。
+- 剿灭模式支持以下传入值，必须使用对应的 Value：
+  - 当期剿灭：Annihilation
+  - 切尔诺伯格：Chernobog@Annihilation
+  - 龙门外环：LungmenOutskirts@Annihilation
+  - 龙门市区：LungmenDowntown@Annihilation
+- 别传中的 OF-1 / OF-F3 / GT-5。
+- 当期 SS 活动 后三关。可访问 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 获取支持的关卡列表。需额外加载 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 文件中的活动关卡导航。
+- 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
 :::  
 ::: field name="medicine" type="number" optional default="0"  
 最大使用理智药数量。  
@@ -133,6 +164,13 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 ::: field name="penguin_id" type="string" optional  
 企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
 :::  
+:::  
+::: field name="report_to_yituliu" type="boolean" optional default="false"  
+是否汇报一图流。  
+:::  
+::: field name="yituliu_id" type="string" optional  
+一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
+:::  
 ::: field name="server" type="string" optional default="CN"  
 服务器，会影响掉落识别及上传。
 <br>
@@ -148,8 +186,34 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 <br>
 在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
 :::  
-::::  
-另支持少部分资源关卡名请参考[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/zh-cn.xaml#L260)
+::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "stage": "1-7",
+   "medicine": 1,
+   "expiring_medicine": 0,
+   "stone": 0,
+   "times": 10,
+   "series": 0,
+   "drops": {
+      "30011": 10
+   },
+   "report_to_penguin": true,
+   "penguin_id": "123456",
+   "report_to_yituliu": true,
+   "yituliu_id": "123456",
+   "server": "CN",
+   "client_type": "Official",
+   "DrGrandet": false
+}
+```
+
+</details>
 
 - `Recruit`  
   公开招募
@@ -220,6 +284,36 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "refresh": true,
+   "select": [5, 4],
+   "confirm": [4, 3],
+   "first_tags": ["高级资深干员"],
+   "extra_tags_mode": 1,
+   "times": 4,
+   "set_time": true,
+   "expedite": false,
+   "expedite_times": 0,
+   "skip_robot": true,
+   "recruitment_time": {
+      "3": 540,
+      "4": 540
+   },
+   "report_to_penguin": false,
+   "penguin_id": "123456",
+   "report_to_yituliu": false,
+   "yituliu_id": "123456",
+   "server": "CN"
+}
+```
+
+</details>
+
 - `Infrast`  
    基建换班
 
@@ -283,6 +377,29 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "mode": 0,
+   "facility": ["Mfg", "Trade", "Reception"],
+   "drones": "PureGold",
+   "threshold": 0.3,
+   "replenish": true,
+   "dorm_notstationed_enabled": false,
+   "dorm_trust_enabled": true,
+   "reception_message_board": true,
+   "reception_clue_exchange": true,
+   "reception_send_clue": true,
+   "filename": "schedules/base.json",
+   "plan_index": 1
+}
+```
+
+</details>
+
 - `Mall`  
    领取信用及商店购物。  
    会先有序的按 `buy_first` 购买一遍，再从左到右并避开 `blacklist` 购买第二遍，在信用溢出时则会无视黑名单从左到右购买第三遍直到不再溢出
@@ -322,6 +439,26 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "visit_friends": true,
+   "shopping": true,
+   "buy_first": ["招聘许可", "龙门币"],
+   "blacklist": ["家具零件"],
+   "force_shopping_if_credit_full": false,
+   "only_buy_discount": true,
+   "reserve_max_credit": false,
+   "credit_fight": false,
+   "formation_index": 0
+}
+```
+
+</details>
+
 - `Award`  
    领取各种奖励
 
@@ -349,6 +486,23 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "award": true,
+   "mail": true,
+   "recruit": true,
+   "orundum": false,
+   "mining": true,
+   "specialaccess": false
+}
+```
+
+</details>
+
 - `Roguelike`  
    无限刷肉鸽
 
@@ -367,7 +521,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `Sarkaz` - 萨卡兹的无终奇语
 <br>
-`JieGarden` - 界园  
+`JieGarden` - 岁的界园志异  
 :::  
 ::: field name="mode" type="number" optional default="0"  
 模式。
@@ -407,7 +561,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 开始探索的次数。达到后自动停止任务。  
 :::  
 ::: field name="difficulty" type="number" optional default="0"  
-指定难度等级。仅适用于**除 Phantom 以外**的主题。若未解锁难度，则会选择当前已解锁的最高难度。  
+指定难度等级。若未解锁难度，则会选择当前已解锁的最高难度。  
 :::  
 ::: field name="stop_at_final_boss" type="boolean" optional default="false"  
 是否在第 5 层险路恶敌节点前停止任务。仅适用于**除 Phantom 以外**的主题。  
@@ -464,6 +618,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 `dice`: 骰子奖励，仅在 Mizuki 主题时有效。
 <br>
 `ideas`: 2 构想奖励，仅在 Sarkaz 主题时有效。
+<br>
+`ticket`: 票券奖励，仅在 JieGarden 主题时有效。
 :::  
 ::: field name="use_foldartal" type="boolean" optional  
 是否使用密文板。模式 5 下默认值 `false`，其他模式下默认值 `true`。仅适用于 Sami 主题。  
@@ -500,7 +656,59 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 使用固定种子。  
 :::  
 ::::  
-刷坍缩范式功能具体请参考 [肉鸽辅助协议](./integrated-strategy-schema.md#萨米肉鸽——坍缩范式)
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "theme": "Sami",
+   "mode": 5,
+   "squad": "指挥分队",
+   "roles": "取长补短",
+   "core_char": "塑心",
+   "use_support": false,
+   "use_nonfriend_support": false,
+   "starts_count": 3,
+   "difficulty": 8,
+   "stop_at_final_boss": false,
+   "stop_at_max_level": false,
+   "investment_enabled": true,
+   "investments_count": 2,
+   "stop_when_investment_full": false,
+   "investment_with_more_score": false,
+   "start_with_elite_two": false,
+   "only_start_with_elite_two": false,
+   "refresh_trader_with_dice": false,
+   "first_floor_foldartal": "",
+   "start_foldartal_list": [],
+   "collectible_mode_start_list": {
+      "hot_water": true,
+      "shield": false,
+      "ingot": false,
+      "hope": true,
+      "random": false,
+      "key": false,
+      "dice": false,
+      "ideas": false
+   },
+   "use_foldartal": true,
+   "check_collapsal_paradigms": true,
+   "double_check_collapsal_paradigms": true,
+   "expected_collapsal_paradigms": ["目空一些", "睁眼瞎"],
+   "monthly_squad_auto_iterate": false,
+   "monthly_squad_check_comms": false,
+   "deep_exploration_auto_iterate": false,
+   "collectible_mode_shopping": false,
+   "collectible_mode_squad": "",
+   "start_with_seed": false
+}
+```
+
+</details>
+
+刷坍缩范式功能具体请参考 [肉鸽辅助协议](./integrated-strategy-schema.md#萨米肉鸽——坍缩范式) 
 
 - `Copilot`  
    自动抄作业
@@ -571,6 +779,32 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 作业 JSON 请参考 [战斗流程协议](./copilot-schema.md)
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "filename": "copilot/1-7.json",
+   "loop_times": 2,
+   "use_sanity_potion": false,
+   "formation": true,
+   "formation_index": 1,
+   "user_additional": [
+      {
+         "name": "能天使",
+         "skill": 3
+      }
+   ],
+   "add_trust": true,
+   "ignore_requirements": false,
+   "support_unit_usage": 2,
+   "support_unit_name": "艾雅法拉"
+}
+```
+
+</details>
+
 - `SSSCopilot`  
    自动抄保全作业
 
@@ -587,17 +821,46 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::::  
 保全作业 JSON 请参考 [保全派驻协议](./sss-schema.md)
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "filename": "sss/plan.json",
+   "loop_times": 1
+}
+```
+
+</details>
+
 - `ParadoxCopilot`
   自动抄悖论模拟作业
 
-```json5
-// Task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+是否启用本任务。  
+:::  
+::: field name="filename" type="string" required  
+单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。必选，与 list 二选一。  
+:::  
+::: field name="list" type="array<string>" required  
+作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。必选，与 filename 二选一。  
+:::  
+::::
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-   "enable": bool,        // 是否启用本任务。默认为 true
-   "filename": string,    // 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。必选，与 list 二选一
-   "list" : list<string>  // 作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。必选，与 filename 二选一
+   "enable": true,
+   "filename": "paradox/exusiai.json",
+   "list": []
 }
 ```
+
+</details>
 
 - `Depot`  
    仓库识别
@@ -608,6 +871,17 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true
+}
+```
+
+</details>
+
 - `OperBox`  
    干员 box 识别
 
@@ -616,6 +890,17 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 是否启用本任务。  
 :::  
 ::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true
+}
+```
+
+</details>
 
 - `Reclamation`  
    生息演算
@@ -638,7 +923,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `1` - 沙中之火：刷赤金，联络员买水后基地锻造；沙洲遗闻：自动制造物品并读档刷货币。  
 :::  
-::: field name="tools_to_craft" type="array<string>" optional default="['荧光棒']"  
+::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
 自动制造的物品，建议填写子串。  
 :::  
 ::: field name="increment_mode" type="number" optional default="0"  
@@ -653,6 +938,22 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "theme": "Fire",
+   "mode": 1,
+   "tools_to_craft": ["荧光棒", "发电机"],
+   "increment_mode": 0,
+   "num_craft_batches": 12
+}
+```
+
+</details>
+
 - `Custom`  
    自定义任务
 
@@ -664,6 +965,18 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 执行数组中第一个匹配上的任务（及后续 next 等）。若想执行多个任务，可多次 append Custom task。  
 :::  
 ::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "task_names": ["StartUp", "Infrast", "Fight"]
+}
+```
+
+</details>
 
 - `SingleStep`  
    单步任务（目前仅支持战斗）
@@ -689,6 +1002,22 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::::
 
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "type": "copilot",
+   "subtask": "stage",
+   "details": {
+      "stage": "1-7"
+   }
+}
+```
+
+</details>
+
 - `VideoRecognition`  
   视频识别，目前仅支持作业（作战）视频
 
@@ -700,6 +1029,18 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 视频的文件路径，绝对、相对路径均可。不支持运行期设置。  
 :::  
 ::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "filename": "videos/copilot.mp4"
+}
+```
+
+</details>
 
 ### `AsstSetTaskParams`
 

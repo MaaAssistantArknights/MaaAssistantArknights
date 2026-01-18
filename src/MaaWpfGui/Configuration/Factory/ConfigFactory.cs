@@ -24,6 +24,7 @@ using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Single;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
@@ -42,7 +43,13 @@ public static class ConfigFactory
 
     private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
+    private static Task? _saveTask;
+    private const int PendingDelayMs = 200;
+
+    private static bool _isReleasing = false;
+
+    private static readonly Timer _debounceTimer = new(CreateSaveTask, null, Timeout.Infinite, Timeout.Infinite);
 
     private static readonly SemaphoreSlim _semaphore = new(1, 1);
 
@@ -163,12 +170,11 @@ public static class ConfigFactory
             void SpecificConfigBind(string name, SpecificConfig config)
             {
                 var key = "Root.Configurations." + name + ".";
+                config.PropertyChanged += OnPropertyChangedFactory(key);
                 config.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
                 config.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
-                config.TaskQueueOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.TaskQueueOrder) + ".");
-                /*
-                config.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) =>
-                {
+
+                config.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) => {
                     switch (args.Action)
                     {
                         case NotifyCollectionChangedAction.Add:
@@ -184,11 +190,12 @@ public static class ConfigFactory
                                     value.PropertyChanged += OnPropertyChangedFactory(key + value.GetType().Name + ".");
                                 }
                             }
-
+                            OnPropertyChanged(parsed.Current + ".TaskQueue", null, null);
                             break;
                         case NotifyCollectionChangedAction.Remove:
                         case NotifyCollectionChangedAction.Move:
                         case NotifyCollectionChangedAction.Reset:
+                            OnPropertyChanged(parsed.Current + ".TaskQueue", null, null);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -196,9 +203,8 @@ public static class ConfigFactory
                 };
                 foreach (var task in config.TaskQueue)
                 {
-                    // TODO 改名
-                    task.PropertyChanged += OnPropertyChangedFactory(key + ".zdjd.");
-                }*/
+                    task.PropertyChanged += OnPropertyChangedFactory($"{key}.{task.Name}.");
+                }
             }
         }
     });
@@ -241,25 +247,37 @@ public static class ConfigFactory
 
     public static SpecificConfig CurrentConfig => Root.CurrentConfig;
 
-    private static async void OnPropertyChanged(string key, object? oldValue, object? newValue)
+    private static void OnPropertyChanged(string key, object? oldValue, object? newValue)
     {
-        try
+        _debounceTimer.Change(PendingDelayMs, Timeout.Infinite);
+
+        ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
+        _logger.Debug("Configuration {Key} has been set to `{NewValue}`, save scheduled", key, newValue);
+    }
+
+    private static void CreateSaveTask(object? state)
+    {
+        if (_isReleasing)
         {
-            var result = await SaveAsync();
-            if (result)
-            {
-                ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
-                _logger.Debug("Configuration {Key} has been set to `{NewValue}`", key, newValue);
-            }
-            else
-            {
-                _logger.Warning("Failed to save configuration {Key} to `{NewValue}`", key, newValue);
-            }
+            _logger.Error("Application is releasing, skip create save task");
+            return;
         }
-        catch (Exception e)
-        {
-            _logger.Error(e, "Failed to save configuration {Key} to {NewValue}, Exception: {Message}", key, newValue, e.Message);
-        }
+
+        // 创建保存任务（只在 Timer 触发时才创建）
+        _saveTask = Task.Run(async () => {
+            try
+            {
+                var result = await SaveAsync();
+                if (result)
+                {
+                    _logger.Debug("Configuration saved");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to save configuration");
+            }
+        });
     }
 
     private static bool Save(string? file = null, Root? root = null)
@@ -303,6 +321,12 @@ public static class ConfigFactory
 
     public static void Release()
     {
+        _isReleasing = true;
+        if (_saveTask is not null)
+        {
+            _logger.Information("Waiting for save task to complete");
+            _saveTask.Wait();
+        }
         lock (_lock)
         {
             if (Save())

@@ -29,6 +29,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.WineCompat;
@@ -52,6 +53,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         Instance = new();
     }
 
+    private ConnectSettingsUserControlModel()
+    {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
+    }
+
     public static ConnectSettingsUserControlModel Instance { get; }
 
     private static readonly ILogger _logger = Log.ForContext<ConnectSettingsUserControlModel>();
@@ -69,6 +75,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
             new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
             new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
+            new() { Display = LocalizationHelper.GetString("PC"), Value = "PC" },
             new() { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
             new() { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
             new() { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
@@ -1193,4 +1200,80 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     }
 
     public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, bool.FalseString));
+
+    #region AttachWindow (Win32窗口绑定) 配置
+
+    /// <summary>
+    /// Gets a value indicating whether to use AttachWindow mode instead of ADB connection.
+    /// </summary>
+    [PropertyDependsOn(nameof(ConnectConfig))]
+    public bool UseAttachWindow => ConnectConfig == "PC";
+
+    /// <summary>
+    /// Gets win32 截图方式枚举（与 AsstCaller.h 中 AsstWin32ScreencapMethodEnum 对应）
+    /// </summary>
+    public List<CombinedData> AttachWindowScreencapMethodList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("AttachWindowScreencapFramePool"), Value = "2" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowScreencapPrintWindow"), Value = "16" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowScreencapScreenDC"), Value = "32" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowScreencapDesktopDupWindow"), Value = "8" },
+    ];
+
+    private string _attachWindowScreencapMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowScreencapMethod, "2"); // 默认 FramePool
+
+    /// <summary>
+    /// Gets or sets the screencap method for AttachWindow mode.
+    /// </summary>
+    public string AttachWindowScreencapMethod
+    {
+        get => _attachWindowScreencapMethod;
+        set {
+            Instances.AsstProxy.Connected = false;
+            SetAndNotify(ref _attachWindowScreencapMethod, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AttachWindowScreencapMethod, value);
+        }
+    }
+
+    /// <summary>
+    /// Win32 输入方式枚举（与 AsstCaller.h 中 AsstWin32InputMethodEnum 对应）
+    /// </summary>
+    public List<CombinedData> AttachWindowInputMethodList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputSeize"), Value = "1" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputPostWithCursor"), Value = "64" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputSendWithCursor"), Value = "32" },
+    ];
+
+    private string _attachWindowMouseMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowMouseMethod, "64"); // 默认 PostMessageWithCursorPos
+
+    /// <summary>
+    /// Gets or sets the mouse input method for AttachWindow mode.
+    /// </summary>
+    public string AttachWindowMouseMethod
+    {
+        get => _attachWindowMouseMethod;
+        set {
+            Instances.AsstProxy.Connected = false;
+            SetAndNotify(ref _attachWindowMouseMethod, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AttachWindowMouseMethod, value);
+        }
+    }
+
+    private string _attachWindowKeyboardMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowKeyboardMethod, "64"); // 默认 PostMessageWithCursorPos
+
+    /// <summary>
+    /// Gets or sets the keyboard input method for AttachWindow mode.
+    /// </summary>
+    public string AttachWindowKeyboardMethod
+    {
+        get => _attachWindowKeyboardMethod;
+        set {
+            Instances.AsstProxy.Connected = false;
+            SetAndNotify(ref _attachWindowKeyboardMethod, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AttachWindowKeyboardMethod, value);
+        }
+    }
+
+    #endregion
 }

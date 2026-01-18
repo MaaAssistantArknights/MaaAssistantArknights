@@ -1,0 +1,59 @@
+<hc:Window
+    x:Class="MaaWpfGui.Views.Dialogs.TextDialogUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="TextDialogWindow"
+    Title="{DynamicResource RenameTask}"
+    Width="400"
+    Height="200"
+    Background="{DynamicResource RegionBrush}"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  提示文本  -->
+        <controls:TextBlock
+            x:Name="PromptTextBlock"
+            Grid.Row="0"
+            Margin="0,0,0,15"
+            Text="{DynamicResource RenameTaskPrompt}"
+            TextWrapping="Wrap" />
+
+        <!--  输入框  -->
+        <TextBox
+            x:Name="InputTextBox"
+            Grid.Row="1"
+            Margin="0,0,0,20"
+            VerticalAlignment="Top"
+            FontSize="14" />
+
+        <!--  按钮  -->
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Width="80"
+                Height="32"
+                Margin="0,0,10,0"
+                Click="BtnOk_Click"
+                Content="{DynamicResource Ok}"
+                IsDefault="True" />
+            <Button
+                Width="80"
+                Height="32"
+                Content="{DynamicResource Cancel}"
+                IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</hc:Window>

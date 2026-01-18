@@ -80,6 +80,10 @@ icon: iconoir:developer
    - `MaaWpfGui` 右クリック → スタートアップ プロジェクトに設定
    - F5 キーを押して実行
 
+   ::: tip
+   Win32Controller（Windows ウィンドウ制御）関連機能をデバッグする場合は、[MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) から対応プラットフォームのアーカイブをダウンロードし、`bin` ディレクトリ内の `MaaWin32ControlUnit.dll` を MAA の DLL と同じディレクトリ（例：`build/bin/Debug`）に配置してください。自動ダウンロードスクリプトの PR 歓迎！
+   :::
+
 9. これで自由に ~~改造~~ 開発を始められます
 10. 一定量の変更ごにコミット（メッセージ記入必須）  
     Git 未経験者は dev ブランチ直接変更ではなく新規ブランチ作成推奨：

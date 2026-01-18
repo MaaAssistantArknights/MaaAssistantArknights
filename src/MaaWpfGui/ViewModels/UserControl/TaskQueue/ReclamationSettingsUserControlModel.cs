@@ -29,7 +29,7 @@ using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class ReclamationSettingsUserControlModel : TaskViewModel
+public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
 {
     static ReclamationSettingsUserControlModel()
     {
@@ -47,18 +47,13 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
             new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = Theme.Tales },
         ];
 
-    private Theme _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, Theme.Tales);
-
     /// <summary>
     /// Gets or sets the Reclamation theme.
     /// </summary>
     public Theme ReclamationTheme
     {
-        get => _reclamationTheme;
-        set {
-            SetAndNotify(ref _reclamationTheme, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationTheme, value.ToString());
-        }
+        get => GetTaskConfig<ReclamationTask>().Theme;
+        set => SetTaskConfig<ReclamationTask>(t => t.Theme == value, t => t.Theme = value);
     }
 
     /// <summary>
@@ -70,79 +65,57 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
             new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = Mode.Archive },
         ];
 
-    private Mode _reclamationMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, Mode.Archive);
-
     /// <summary>
     /// Gets or sets 策略，无存档刷生息点数 / 有存档刷生息点数
     /// </summary>
     public Mode ReclamationMode
     {
-        get => _reclamationMode;
-        set {
-            SetAndNotify(ref _reclamationMode, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMode, value.ToString());
-        }
+        get => GetTaskConfig<ReclamationTask>().Mode;
+        set => SetTaskConfig<ReclamationTask>(t => t.Mode == value, t => t.Mode = value);
     }
-
-    private string _reclamationToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty).Replace('；', ';');
 
     public string ReclamationToolToCraft
     {
-        get {
-            if (string.IsNullOrEmpty(_reclamationToolToCraft))
-            {
-                return LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
-            }
-
-            return _reclamationToolToCraft;
-        }
+        get => GetTaskConfig<ReclamationTask>().ToolToCraft;
 
         set {
-            value = value.Replace('；', ';');
-            SetAndNotify(ref _reclamationToolToCraft, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, value);
-        }
-    }
-
-    private int _reclamationIncrementMode = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, "0"));
-
-    public int ReclamationIncrementMode
-    {
-        get => _reclamationIncrementMode;
-        set {
-            SetAndNotify(ref _reclamationIncrementMode, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationIncrementMode, value.ToString());
+            value = value.Replace('；', ';').Trim();
+            SetTaskConfig<ReclamationTask>(t => t.ToolToCraft == value, t => t.ToolToCraft = value);
         }
     }
 
     /// <summary>
     /// Gets the list of reclamation increment modes.
     /// </summary>
-    public List<CombinedData> ReclamationIncrementModeList { get; } =
+    public List<GenericCombinedData<int>> ReclamationIncrementModeList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeClick"), Value = "0" },
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = "1" },
+            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeClick"), Value = 0 },
+            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = 1 },
         ];
 
-    private string _reclamationMaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, "16");
+    public int ReclamationIncrementMode
+    {
+        get => GetTaskConfig<ReclamationTask>().IncrementMode;
+        set => SetTaskConfig<ReclamationTask>(t => t.IncrementMode == value, t => t.IncrementMode = value);
+    }
 
     public int ReclamationMaxCraftCountPerRound
     {
-        get => int.Parse(_reclamationMaxCraftCountPerRound);
-        set {
-            SetAndNotify(ref _reclamationMaxCraftCountPerRound, value.ToString());
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
-        }
+        get => GetTaskConfig<ReclamationTask>().MaxCraftCountPerRound;
+        set => SetTaskConfig<ReclamationTask>(t => t.MaxCraftCountPerRound == value, t => t.MaxCraftCountPerRound = value);
     }
-
-    private bool _reclamationClearStore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationClearStore, bool.FalseString));
 
     public bool ReclamationClearStore
     {
-        get => _reclamationClearStore;
-        set {
-            SetAndNotify(ref _reclamationClearStore, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationClearStore, value.ToString());
+        get => GetTaskConfig<ReclamationTask>().ClearStore;
+        set => SetTaskConfig<ReclamationTask>(t => t.ClearStore == value, t => t.ClearStore = value);
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is ReclamationTask)
+        {
+            Refresh();
         }
     }
 
@@ -168,6 +141,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// <param name="tools_to_craft">要组装的支援道具。</param>
     /// <param name="clear_store">刷完点数后是否清空商店。</param>
     /// <returns>返回(Asst任务类型, 参数)</returns>
+    [Obsolete("使用SerializeTask作为代替")]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         return new AsstReclamationTask {
@@ -180,30 +154,27 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
         }.Serialize();
     }
 
-    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
-        if (baseTask is not ReclamationTask task)
+        if (baseTask is not ReclamationTask reclamation)
         {
             return null;
         }
 
-        var toolToCraft = !string.IsNullOrEmpty(task.ToolToCraft) ? task.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
-        var asstTask = new AsstReclamationTask() {
-            Theme = task.Theme,
-            Mode = task.Mode,
-            IncrementMode = task.IncrementMode,
-            MaxCraftCountPerRound = task.MaxCraftCountPerRound,
+        var toolToCraft = !string.IsNullOrEmpty(reclamation.ToolToCraft) ? reclamation.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
+        var task = new AsstReclamationTask() {
+            Theme = reclamation.Theme,
+            Mode = reclamation.Mode,
+            IncrementMode = reclamation.IncrementMode,
+            MaxCraftCountPerRound = reclamation.MaxCraftCountPerRound,
             ToolToCraft = [.. toolToCraft.Split(';').Select(s => s.Trim())],
-            ClearStore = task.ClearStore,
+            ClearStore = reclamation.ClearStore,
         };
 
-        if (taskId is int id)
-        {
-            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, asstTask);
-        }
-        else
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, asstTask);
-        }
+        return taskId switch {
+            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, task),
+            _ => null,
+        };
     }
 }

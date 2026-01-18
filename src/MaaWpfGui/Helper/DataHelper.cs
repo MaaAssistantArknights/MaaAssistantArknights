@@ -38,7 +38,6 @@ public static class DataHelper
 
     public static readonly Dictionary<string, string> ClientLanguageMapper = new()
     {
-        { string.Empty, "zh-cn" },
         { "Official", "zh-cn" },
         { "Bilibili", "zh-cn" },
         { "YoStarEN", "en-us" },

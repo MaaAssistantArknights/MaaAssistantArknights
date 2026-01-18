@@ -148,10 +148,11 @@
             <StackPanel>
                 <ListBox
                     Margin="0,5"
-                    d:ItemsSource="{d:SampleData ItemCount=9}"
+                    d:ItemsSource="{d:SampleData ItemCount=3}"
+                    dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
                     dd:DragDrop.IsDragSource="True"
                     dd:DragDrop.IsDropTarget="True"
-                    ItemsSource="{Binding Path=InfrastItemViewModels}"
+                    ItemsSource="{Binding Path=InfrastRoomModels}"
                     PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                                  Target={x:Type helper:MouseWheelHelper}}"
                     Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
@@ -159,7 +160,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsCheckedWithNull}" />
+                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsEnabled}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

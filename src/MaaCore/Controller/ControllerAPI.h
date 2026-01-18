@@ -15,6 +15,9 @@ enum class ControllerType
     Minitouch,
     Maatouch,
     MacPlayTools,
+#ifdef _WIN32
+    Win32,
+#endif
 };
 
 class ControllerAPI

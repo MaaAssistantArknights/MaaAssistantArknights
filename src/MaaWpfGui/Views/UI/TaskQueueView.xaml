@@ -61,6 +61,7 @@
                             Margin="0,10,0,0"
                             HorizontalAlignment="Center"
                             d:ItemsSource="{d:SampleData ItemCount=16}"
+                            dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
                             dd:DragDrop.IsDragSource="{Binding Idle}"
                             dd:DragDrop.IsDropTarget="{Binding Idle}"
                             Background="Transparent"
@@ -70,102 +71,225 @@
                             ToolTip="{DynamicResource LabelSequenceTip}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
+                                    <Border CornerRadius="4">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="Opacity" Value="1" />
+                                                <Style.Triggers>
+                                                    <!--  运行中 - 蓝色  -->
+                                                    <DataTrigger Binding="{Binding Status}" Value="1">
+                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.InProgress}" />
+                                                    </DataTrigger>
+                                                    <!--  成功完成 - 绿色  -->
+                                                    <DataTrigger Binding="{Binding Status}" Value="2">
+                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.Completed}" />
+                                                    </DataTrigger>
+                                                    <!--  出现错误 - 红色  -->
+                                                    <DataTrigger Binding="{Binding Status}" Value="3">
+                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.Error}" />
+                                                    </DataTrigger>
+                                                    <!--  已跳过 - 灰色  -->
+                                                    <DataTrigger Binding="{Binding Status}" Value="4">
+                                                        <Setter Property="Opacity" Value="0.5" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
 
-                                        <CheckBox
-                                            Grid.Column="0"
-                                            MaxWidth="140"
-                                            HorizontalAlignment="Left"
-                                            IsChecked="{Binding IsCheckedWithNull}"
-                                            IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
-                                            MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                                          Target={x:Type helper:CheckBoxHelper}}">
-                                            <controls:TextBlock Text="{Binding Name}" Visibility="Hidden" />
-                                            <CheckBox.ToolTip>
-                                                <ToolTip>
-                                                    <ToolTip.Style>
-                                                        <Style BasedOn="{StaticResource ToolTipBaseStyle}" TargetType="{x:Type ToolTip}">
-                                                            <Setter Property="Content" Value="{DynamicResource CheckBoxesNotSavedAsNull}" />
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True">
-                                                                    <Setter Property="Content" Value="{DynamicResource CheckBoxesNotSavedAsNullInvert}" />
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </ToolTip.Style>
-                                                </ToolTip>
-                                            </CheckBox.ToolTip>
-                                        </CheckBox>
+                                            <CheckBox
+                                                Grid.Column="0"
+                                                MaxWidth="140"
+                                                Margin="6,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                IsChecked="{Binding IsEnable}"
+                                                IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
+                                                MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                                              Target={x:Type helper:CheckBoxHelper}}">
+                                                <controls:TextBlock Text="{Binding Name}" Visibility="Hidden" />
+                                                <CheckBox.ToolTip>
+                                                    <ToolTip>
+                                                        <ToolTip.Style>
+                                                            <Style BasedOn="{StaticResource ToolTipBaseStyle}" TargetType="{x:Type ToolTip}">
+                                                                <Setter Property="Content" Value="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True">
+                                                                        <Setter Property="Content" Value="{DynamicResource CheckBoxesNotSavedAsNullInvert}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ToolTip.Style>
+                                                    </ToolTip>
+                                                </CheckBox.ToolTip>
+                                            </CheckBox>
 
-                                        <controls:TextBlock
-                                            Grid.Column="0"
-                                            Grid.ColumnSpan="2"
-                                            Margin="22,0,0,0"
-                                            HorizontalAlignment="Left"
-                                            Background="Transparent"
-                                            IsHitTestVisible="False"
-                                            Text="{Binding Name}">
-                                            <TextBlock.Style>
-                                                <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="{x:Type TextBlock}">
-                                                    <Style.Triggers>
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
-                                                                <Condition Binding="{Binding IsCheckedWithNull}" Value="{x:Null}" />
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
-                                                        </MultiDataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </controls:TextBlock>
-
-                                        <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <RadioButton
-                                                Margin="0"
-                                                HorizontalAlignment="Stretch"
-                                                HorizontalContentAlignment="Right"
-                                                hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                                hc:VisualElement.HighlightBackground="Transparent"
-                                                hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                            <controls:TextBlock
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                Margin="26,0,0,0"
+                                                HorizontalAlignment="Left"
                                                 Background="Transparent"
-                                                BorderThickness="0"
-                                                Foreground="{DynamicResource SecondaryTextBrush}"
-                                                GroupName="TaskSettings"
-                                                IsChecked="{Binding EnableSetting}"
-                                                Style="{DynamicResource RadioGroupItemSingle}"
-                                                ToolTip="{DynamicResource TaskSettings}" />
-                                        </hc:ButtonGroup>
-                                    </Grid>
+                                                IsHitTestVisible="False"
+                                                Text="{Binding Name}">
+                                                <TextBlock.Style>
+                                                    <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="{x:Type TextBlock}">
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
+                                                                    <Condition Binding="{Binding IsEnable}" Value="{x:Null}" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </controls:TextBlock>
+
+                                            <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Stretch">
+                                                <RadioButton
+                                                    x:Name="TaskSettingRadioButton"
+                                                    Margin="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    HorizontalContentAlignment="Right"
+                                                    hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                                    hc:VisualElement.HighlightBackground="Transparent"
+                                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    ContextMenuService.IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                                    GroupName="TaskSettings"
+                                                    IsChecked="{Binding EnableSetting}"
+                                                    Style="{DynamicResource RadioGroupItemSingle}"
+                                                    ToolTip="{DynamicResource TaskSettings}">
+                                                    <RadioButton.ContextMenu>
+                                                        <ContextMenu>
+                                                            <MenuItem
+                                                                Command="{s:Action RenameTask,
+                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                Header="{DynamicResource Rename}" />
+                                                            <MenuItem
+                                                                Command="{s:Action RemoveTask,
+                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                Header="{DynamicResource Delete}" />
+                                                        </ContextMenu>
+                                                    </RadioButton.ContextMenu>
+                                                </RadioButton>
+                                            </hc:ButtonGroup>
+                                        </Grid>
+                                    </Border>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Padding" Value="0" />
                                 </Style>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Button
-                                Width="{Binding SelectedAllWidth}"
+                            <hc:ContextMenuButton
+                                Grid.Column="0"
+                                Width="30"
                                 Height="30"
+                                Padding="0"
                                 VerticalAlignment="Top"
+                                hc:BorderElement.CornerRadius="4,0,0,4"
+                                hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                IsEnabled="{Binding Idle}"
+                                Style="{StaticResource ButtonBaseStyle}">
+                                <hc:ContextMenuButton.Menu>
+                                    <ContextMenu
+                                        Width="200"
+                                        Padding="0"
+                                        HorizontalOffset="-7"
+                                        Placement="Bottom"
+                                        VerticalOffset="-7">
+                                        <ContextMenu.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical" />
+                                            </ItemsPanelTemplate>
+                                        </ContextMenu.ItemsPanel>
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[0].Value}"
+                                            Header="{Binding TaskTypeList[0].Display}" />
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[1].Value}"
+                                            Header="{Binding TaskTypeList[1].Display}" />
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[2].Value}"
+                                            Header="{Binding TaskTypeList[2].Display}" />
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[3].Value}"
+                                            Header="{Binding TaskTypeList[3].Display}" />
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[4].Value}"
+                                            Header="{Binding TaskTypeList[4].Display}" />
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[5].Value}"
+                                            Header="{Binding TaskTypeList[5].Display}" />
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[6].Value}"
+                                            Header="{Binding TaskTypeList[6].Display}" />
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[7].Value}"
+                                            Header="{Binding TaskTypeList[7].Display}" />
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[8].Value}"
+                                            Header="{Binding TaskTypeList[8].Display}"
+                                            Visibility="{c:Binding ShowDebugTask}" />
+                                    </ContextMenu>
+                                </hc:ContextMenuButton.Menu>
+                            </hc:ContextMenuButton>
+                            <Button
+                                Grid.Column="1"
+                                Height="30"
+                                Margin="-1,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top"
+                                hc:BorderElement.CornerRadius="0"
                                 Command="{s:Action SelectedAll}"
                                 Content="{DynamicResource SelectAll}"
                                 IsEnabled="{Binding Idle}" />
                             <hc:SplitButton
-                                Grid.Column="1"
-                                Width="90"
+                                Grid.Column="2"
                                 Height="30"
+                                Padding="0,0,5,0"
+                                HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
+                                hc:BorderElement.CornerRadius="0,4,4,0"
                                 Background="{DynamicResource RegionBrushOpacity25}"
                                 Command="{s:Action InverseSelected}"
                                 Content="{Binding InverseShowText}"
@@ -193,9 +317,9 @@
                                 </hc:SplitButton.DropDownContent>
                             </hc:SplitButton>
                             <Button
-                                Grid.Column="1"
-                                Width="90"
+                                Grid.Column="2"
                                 Height="30"
+                                HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
                                 Command="{s:Action InverseSelected}"
                                 Content="{Binding InverseShowText}"
@@ -302,7 +426,7 @@
                 </Grid.RowDefinitions>
                 <hc:ScrollViewer
                     Grid.Row="0"
-                    Grid.RowSpan="{c:Binding 'TaskSettingVisibilities.AfterAction ? 2:1'}"
+                    Grid.RowSpan="{c:Binding 'TaskSettingVisibilities.PostAction ? 2:1'}"
                     Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
@@ -311,23 +435,28 @@
                     PanningMode="Both"
                     VerticalScrollBarVisibility="Auto">
                     <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
-                        <taskQueue:FightSettingsUserControl DataContext="{Binding FightTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Combat, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                        <taskQueue:FightSettingsUserControl
+                            d:Visibility="Visible"
+                            DataContext="{Binding FightTask}"
+                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Fight,
+                                                   RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                  AncestorType={x:Type UserControl}}}" />
                         <taskQueue:RecruitSettingsUserControl
                             DataContext="{Binding RecruitTask}"
                             IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Recruiting,
+                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Recruit,
                                                    RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                   AncestorType={x:Type UserControl}}}" />
                         <taskQueue:StartUpTaskUserControl
                             DataContext="{Binding StartUpTask}"
                             IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.WakeUp,
+                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.StartUp,
                                                    RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                   AncestorType={x:Type UserControl}}}" />
                         <taskQueue:InfrastSettingsUserControl
                             DataContext="{Binding InfrastTask}"
                             IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Base,
+                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Infrast,
                                                    RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                   AncestorType={x:Type UserControl}}}" />
                         <taskQueue:MallSettingsUserControl
@@ -339,13 +468,13 @@
                         <taskQueue:AwardSettingsUserControl
                             DataContext="{Binding AwardTask}"
                             IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Mission,
+                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Award,
                                                    RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                   AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:RoguelikeSettingsUserControl DataContext="{Binding RoguelikeTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.AutoRoguelike, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                        <taskQueue:RoguelikeSettingsUserControl DataContext="{Binding RoguelikeTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Roguelike, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                         <taskQueue:ReclamationSettingsUserControl DataContext="{Binding ReclamationTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Reclamation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:PostActionUserControl DataContext="{Binding PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.AfterAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                         <taskQueue:CustomUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                        <taskQueue:PostActionUserControl DataContext="{Binding PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.PostAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                     </hc:SimpleStackPanel>
                 </hc:ScrollViewer>
                 <hc:ButtonGroup
@@ -353,7 +482,7 @@
                     Width="220"
                     Margin="0,0,10,0"
                     Orientation="Horizontal"
-                    Visibility="{c:Binding !TaskSettingVisibilities.AfterAction,
+                    Visibility="{c:Binding !TaskSettingVisibilities.PostAction,
                                            FalseToVisibility=Hidden}">
                     <RadioButton
                         hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"

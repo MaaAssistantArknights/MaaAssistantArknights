@@ -135,7 +135,7 @@
     <system:String x:Key="InfrastReceptionClueExchange">Conduct Clue Exchange</system:String>
     <system:String x:Key="ClueExchangeUnlocked">Clue Exchange Unlocked</system:String>
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
-    <system:String x:Key="ReceptionOptionsRequireInfrast">Requires Infrastructure Shift</system:String>
+    <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current skill</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
@@ -174,6 +174,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">Old version of WSA</system:String>
+    <system:String x:Key="PC">PC Client</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
     <system:String x:Key="SecondResolution">2nd Resolution</system:String>
@@ -293,6 +294,14 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Ok">OK</system:String>
     <system:String x:Key="Cancel">Cancel</system:String>
     <system:String x:Key="Confirm">Confirm</system:String>
+    <system:String x:Key="Rename">Rename</system:String>
+    <system:String x:Key="Delete">Delete</system:String>
+    <system:String x:Key="RenameTask">Rename Task</system:String>
+    <system:String x:Key="RenameTaskPrompt">Please enter a new task name:</system:String>
+    <system:String x:Key="ConfirmDeleteTask">Confirm Delete</system:String>
+    <system:String x:Key="ConfirmDeleteTaskMessage">Are you sure you want to delete {0} task "{1}"?</system:String>
+    <system:String x:Key="TaskRenamed">Task renamed to: {0}</system:String>
+    <system:String x:Key="TaskDeleted">Task deleted: {0}</system:String>
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">Press Backspace / Esc / Delete to clear the current value</system:String>
@@ -412,6 +421,7 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="StartGameLaunchClient">Launch Client on Start</system:String>
     <system:String x:Key="AutoRestartOption">Restart when game disconnects</system:String>
+    <system:String x:Key="UseWeeklySchedule">Enable Weekly Schedule</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
@@ -486,7 +496,7 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
 3. If the highest unlocked difficulty is &lt; N3 or the relevant tech is not unlocked, do not use the command-avoid-combat strategy; otherwise, it may cause errors
 4. When difficulty ≥ N15, 6★ Hope cost +1; using some squads may make it impossible to recruit a 6★ operator at the start, causing errors or failures</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the tech related to ｢{key=RoguelikeThemeJieGarden}｣, {key=LeaderSquad} exploring at difficulty N3 or higher will carry an additional ｢End of Time｣, enabling a ｢one-battle-one-skip｣ saving strategy.
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ tech, related to ｢{key=RoguelikeThemeJieGarden}｣, using {key=LeaderSquad} to explore at difficulty N3 or higher will carry an additional ｢End of Time｣, enabling a ｢one-battle-one-skip｣ saving strategy.
 If this tech is not unlocked, do not select difficulty N3 or above (including ｢MAX｣);
 To enable this mechanism, make sure the selected difficulty is N3 or higher (excluding ｢{key=NotSwitch} (-1)｣).</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
@@ -505,7 +515,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="RoguelikeStartWithKey">Key</system:String>
     <system:String x:Key="RoguelikeStartWithDice">Dice</system:String>
     <system:String x:Key="RoguelikeStartWithIdea">Thought</system:String>
-    <system:String x:Key="RoguelikeStartWithTicket">Ticket[i18n]</system:String>
+    <system:String x:Key="RoguelikeStartWithTicket">Ticket</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
     <system:String x:Key="PenguinId">Penguin Report ID (Number part)</system:String>
     <system:String x:Key="EnablePenguin">Report Penguin</system:String>
@@ -565,12 +575,9 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="AllowUseStoneSave">Save ｢Use Originium｣</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
-    <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">Farm the specified stage after completing the main task, won't use sanity potion or Originium</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring (&lt;48h) sanity potion</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
     <system:String x:Key="HideSeries">Hide series</system:String>
-    <system:String x:Key="CustomInfrastPlanShowInFightSettings">Show Base Plan</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
@@ -722,6 +729,7 @@ If the number of battles is not enough to complete the set multiplier (such as o
 Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Alternative</system:String>
+    <system:String x:Key="AddStage">Add stage</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
     <!--<system:String x:Key="Amend">Amend</system:String>-->
@@ -776,6 +784,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
+    <system:String x:Key="TaskAppend.Skip">{0}: {1} task skip</system:String>
+    <system:String x:Key="TaskAppend.Error">{0}: {1} append task failed</system:String>
     <system:String x:Key="AdbReplacementTips">If nothing happens or appears stuck, please go to ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣, or turn on ADB Input (Deprecated).</system:String>
     <system:String x:Key="Waiting">Waiting for the mission completion…</system:String>
     <system:String x:Key="Stopping">Stopping……</system:String>
@@ -790,8 +800,6 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="HibernatePrompt">Task(s) completed, about to hibernate</system:String>
     <system:String x:Key="SleepPrompt">Completed, about to sleep</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">Unknown ending action</system:String>
-    <system:String x:Key="AnnihilationTaskTip">The stage selected is an annihilation task. After the task is completed, the remaining alternative stages will be attempted. Some battle settings will not take effect.</system:String>
-    <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective.</system:String>
     <system:String x:Key="ProcessPickerTitle">Select Window</system:String>
     <system:String x:Key="ProcessPickerRefresh">Refresh</system:String>
     <system:String x:Key="ProcessPickerConfirm">OK</system:String>
@@ -1190,7 +1198,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BattleFormationParseFailed">Formation parse failed</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator} unavailable: {0}, reason: {1}</system:String>
-    <system:String x:Key="BattleFormationModuleUnavailable">Required module not unlocked</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">Skill level too low</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Module">Required module not unlocked</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">Elapsed time: {0}ms</system:String>
     <system:String x:Key="Deploy">Deploy</system:String>
@@ -1212,6 +1221,31 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>
     <system:String x:Key="CheckSettings">Please ｢Check connection settings｣ → ｢Try restarting the emulator and ADB｣ → ｢Restart the computer｣</system:String>
+    <system:String x:Key="AttachWindowNotFound">Window "{0}" not found, please ensure the game is running</system:String>
+    <system:String x:Key="AttachWindowMultipleFound">Found {0} "{1}" windows, using the first one</system:String>
+    <system:String x:Key="AttachWindowFound">Found window "{0}"</system:String>
+    <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
+    <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC connection (experimental feature, stability not guaranteed)
+MAA does not provide maintenance or compatibility support for PC usage:
+● If the feature works properly, you may choose to continue using it
+● If it fails to run or has issues, PC-related issues will not be accepted
+● Community adaptations and Pull Requests are welcome
+
+Before use, please ensure:
+1. MAA is launched with administrator privileges
+2. The game window is not minimized
+3. Arknights Settings → Game → UI Scaling is set to 100%</system:String>
+    <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
+    <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
+    <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Default, Background)</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (Background, Backup 1)</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup 2)</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, More Stable)</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, More Stable)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor (Semi-background)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor (Semi-background, Backup)</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">Force display of MAA</system:String>

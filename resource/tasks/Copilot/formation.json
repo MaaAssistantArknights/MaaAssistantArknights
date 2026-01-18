@@ -48,12 +48,12 @@
         "action": "Swipe",
         "specificRect": [15, 650, 10, 10],
         "rectMove": [15, 550, 10, 10],
-        "postDelay": 500
+        "postDelay": 600
     },
     "BattleQuickFormationSkill-SwipeToTheUp": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "postDelay": 100,
+        "postDelay": 600,
         "specificRect": [15, 400, 80, 10],
         "rectMove": [15, 700, 80, 20],
         "specialParams": [150, 0, 1, 1]
@@ -61,7 +61,7 @@
     "BattleQuickFormationSkill-SwipeToTheDown": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "postDelay": 100,
+        "postDelay": 600,
         "specificRect": [15, 525, 80, 10],
         "rectMove": [15, 200, 80, 100],
         "specialParams": [150, 0, 1, 1]
