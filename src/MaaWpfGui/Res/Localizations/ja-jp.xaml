@@ -135,7 +135,7 @@
     <system:String x:Key="InfrastReceptionClueExchange">手がかり交換を実施</system:String>
     <system:String x:Key="ClueExchangeUnlocked">手がかり交換を開始しました</system:String>
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
-    <system:String x:Key="ReceptionOptionsRequireInfrast">インフラシフト実行が必要</system:String>
+    <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
@@ -294,6 +294,14 @@
     <system:String x:Key="Ok">はい</system:String>
     <system:String x:Key="Cancel">キャンセル</system:String>
     <system:String x:Key="Confirm">認識する</system:String>
+    <system:String x:Key="Rename">名前を変更</system:String>
+    <system:String x:Key="Delete">削除</system:String>
+    <system:String x:Key="RenameTask">タスク名を変更</system:String>
+    <system:String x:Key="RenameTaskPrompt">新しいタスク名を入力してください：</system:String>
+    <system:String x:Key="ConfirmDeleteTask">削除の確認</system:String>
+    <system:String x:Key="ConfirmDeleteTaskMessage">タスク "{1}" ({0}) を削除してもよろしいですか？</system:String>
+    <system:String x:Key="TaskRenamed">タスク名を変更しました: {0}</system:String>
+    <system:String x:Key="TaskDeleted">タスクを削除しました: {0}</system:String>
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>
     <system:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</system:String>
     <system:String x:Key="HotKeyChangingTip">バックスペース/Esc/デリート キーを押すことで初期化できます</system:String>
@@ -413,6 +421,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
     <system:String x:Key="AutoRestartOption">ゲームが切断されたときに自動的に再接続する</system:String>
+    <system:String x:Key="UseWeeklySchedule">週次スケジュールを有効にする</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
@@ -566,12 +575,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSave">源石の数を割る保存状態を許可</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。「{key=Confirm}」ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
-    <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたステージを選択しても、理性剤も源石も使わない</system:String>
     <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="HideSeries">連戦回数を隠します</system:String>
-    <system:String x:Key="CustomInfrastPlanShowInFightSettings">基地計画を表示する</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">(テスト機能)ステージ名と番号（例: 4-10、AP-5、H10-1-Hardなど）
@@ -724,6 +730,7 @@ C:\\leidian\\LDPlayer9
 ゲーム内で代理乗数の設定を調整しません。</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代替ステージ</system:String>
+    <system:String x:Key="AddStage">ステージを追加</system:String>
     <system:String x:Key="RemainingSanityStage">余剰理性の消費</system:String>
     <system:String x:Key="NoUse">使用しない</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
@@ -778,6 +785,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
+    <system:String x:Key="TaskAppend.Skip">{0}: {1} タスクをスキップしました</system:String>
+    <system:String x:Key="TaskAppend.Error">{0}: {1} タスクの追加に失敗しました</system:String>
     <system:String x:Key="AdbReplacementTips">タスクが応答なしになる場合は、「{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}」、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
     <system:String x:Key="Waiting">ミッション終了を待っています……</system:String>
     <system:String x:Key="Stopping">動作停止中……</system:String>
@@ -792,8 +801,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています</system:String>
     <system:String x:Key="SleepPrompt">完了しました、スリープ状態に入ります</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知の終了動作</system:String>
-    <system:String x:Key="AnnihilationTaskTip">ステージ選択が殲滅作戦になっています。任務終了後、残りの代替ステージが試されます。一部の戦闘設定は有効になりません。</system:String>
-    <system:String x:Key="AnnihilationTaskFailed">殲滅作戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません。</system:String>
     <system:String x:Key="ProcessPickerTitle">ウィンドウを選択</system:String>
     <system:String x:Key="ProcessPickerRefresh">更新</system:String>
     <system:String x:Key="ProcessPickerConfirm">OK</system:String>

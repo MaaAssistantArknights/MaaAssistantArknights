@@ -10,24 +10,35 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+#nullable enable
+using System.ComponentModel;
 using System.Text.Json.Serialization;
+using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using ObservableCollections;
 
 namespace MaaWpfGui.Configuration.Single;
 
-public class SpecificConfig
+public class SpecificConfig : INotifyPropertyChanged
 {
-    [JsonInclude]
-    public ObservableDictionary<string, int> InfrastOrder { get; private set; } = [];
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     [JsonInclude]
-    public ObservableDictionary<string, int> TaskQueueOrder { get; private set; } = [];
+    public ObservableDictionary<string, int> InfrastOrder { get; private set; } = [];
 
     [JsonInclude]
     public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
 
     [JsonInclude]
+    public int TaskSelectedIndex { get; set; } = -1;
+
+    [JsonInclude]
     public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = [];
+
+    [UsedImplicitly]
+    public void OnPropertyChanged(string propertyName, object before, object after)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
+    }
 }

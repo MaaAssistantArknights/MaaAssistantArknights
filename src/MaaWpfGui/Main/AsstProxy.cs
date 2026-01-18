@@ -32,6 +32,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Data;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -436,7 +438,7 @@ public class AsstProxy
         _tasksStatus.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<AsstTaskId, (TaskType, TaskStatus)>> args) => {
             if (args.Action == NotifyCollectionChangedAction.Reset)
             {
-                TaskSettingVisibilityInfo.Instance.CurrentTask = string.Empty;
+                TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
             }
         };
 
@@ -1019,44 +1021,38 @@ public class AsstProxy
         {
             case AsstMsg.TaskChainStopped:
                 Instances.TaskQueueViewModel.SetStopped();
-                TaskStatusUpdate(taskId, TaskStatus.Completed);
+                UpdateTaskStatus(taskId, TaskStatus.Completed);
+                foreach (var i in Instances.TaskQueueViewModel.TaskItemViewModels)
+                {
+                    i.TaskId = 0;
+                    i.Status = (int)TaskStatus.Idle;
+                }
                 _tasksStatus.Clear();
                 break;
 
             case AsstMsg.TaskChainError:
                 {
-                    // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
-                    TaskStatusUpdate(taskId, TaskStatus.Completed);
+                    UpdateTaskStatus(taskId, TaskStatus.Error);
                     _tasksStatus.TryGetValue(taskId, out var value);
-                    if (value is { Type: TaskType.Fight } &&
-                        TaskQueueViewModel.FightTask.Stage == "Annihilation" &&
-                        TaskQueueViewModel.FightTask.UseAlternateStage &&
-                        TaskQueueViewModel.FightTask.Stages.Any(stage =>
-                            Instances.TaskQueueViewModel.IsStageOpen(stage ?? string.Empty) &&
-                            stage != "Annihilation"))
+
+                    var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
+                    Task.Run(async () => {
+                        var screenshot = await AsstGetImageAsync();
+                        Execute.OnUIThread(() => {
+                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, toolTip: screenshot?.CreateTooltip(), updateCardImage: true, fetchLatestImage: true);
+                        });
+                    });
+
+                    ToastNotification.ShowDirect(log);
+                    if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                        ExternalNotificationService.Send(log, log);
                     }
-                    else if (value is { Type: TaskType.Copilot }/* or { Type: TaskType.VideoRec }) */)
+
+                    if (value is { Type: TaskType.Copilot })
                     {
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
-                    }
-                    else
-                    {
-                        var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
-                        Task.Run(async () => {
-                            var screenshot = await AsstGetImageAsync();
-                            Execute.OnUIThread(() => {
-                                Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, toolTip: screenshot?.CreateTooltip(), updateCardImage: true, fetchLatestImage: true);
-                            });
-                        });
-
-                        ToastNotification.ShowDirect(log);
-                        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
-                        {
-                            ExternalNotificationService.Send(log, log);
-                        }
                     }
 
                     break;
@@ -1065,7 +1061,7 @@ public class AsstProxy
             case AsstMsg.TaskChainStart:
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(taskChain), splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-                    TaskStatusUpdate(taskId, TaskStatus.InProgress);
+                    UpdateTaskStatus(taskId, TaskStatus.InProgress);
 
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
                     Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot") /* or "VideoRecognition") */
@@ -1078,10 +1074,10 @@ public class AsstProxy
             case AsstMsg.TaskChainCompleted:
                 {
                     // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
-                    TaskStatusUpdate(taskId, TaskStatus.Completed);
-                    if (_tasksStatus.TryGetValue(taskId, out var task))
+                    UpdateTaskStatus(taskId, TaskStatus.Completed);
+                    if (_tasksStatus.TryGetValue(taskId, out var taskInfo))
                     {
-                        if (_mainTaskTypes.Contains(task.Type))
+                        if (_mainTaskTypes.Contains(taskInfo.Type))
                         {
                             Instances.TaskQueueViewModel.UpdateMainTasksProgress();
                         }
@@ -1090,8 +1086,15 @@ public class AsstProxy
                     switch (taskChain)
                     {
                         case "Infrast":
-                            InfrastSettingsUserControlModel.Instance.IncreaseCustomInfrastPlanIndex();
-                            break;
+                            {
+                                var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(t => t.TaskId == taskId)?.Index ?? 0;
+                                if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+                                {
+                                    var infrastTask = ConfigFactory.CurrentConfig.TaskQueue[index] as InfrastTask;
+                                    InfrastSettingsUserControlModel.IncreaseCustomInfrastPlanIndex(infrastTask);
+                                }
+                                break;
+                            }
                     }
 
                     if (taskChain == "Fight" && FightTask.SanityReport is not null)
@@ -1163,6 +1166,11 @@ public class AsstProxy
                 }
 
                 bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
+                foreach (var i in Instances.TaskQueueViewModel.TaskItemViewModels)
+                {
+                    i.TaskId = 0;
+                    i.Status = (int)TaskStatus.Idle;
+                }
                 _tasksStatus.Clear();
 
                 Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
@@ -1407,7 +1415,11 @@ public class AsstProxy
 
                     // 剿灭放弃上传企鹅物流的特殊处理
                     Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var value);
-                    if (value is { Type: TaskType.Fight } && TaskQueueViewModel.FightTask.Stage == "Annihilation")
+                    if (value is { Type: TaskType.Fight }
+                        && (Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskId == taskId)?.Index ?? -1) is int index and > -1
+                        && index <= ConfigFactory.CurrentConfig.TaskQueue.Count
+                        && ConfigFactory.CurrentConfig.TaskQueue[index] is Configuration.Single.MaaTask.FightTask fight
+                        && FightSettingsUserControlModel.GetFightStage(fight.StagePlan) is "Annihilation")
                     {
                         Instances.TaskQueueViewModel.AddLog("AnnihilationStage, " + LocalizationHelper.GetString("GiveUpUploadingPenguins"));
                         break;
@@ -2636,12 +2648,6 @@ public class AsstProxy
         /// <summary>理智作战</summary>
         Fight,
 
-        /// <summary>关卡选择为剿灭时的备选理智作战</summary>
-        FightAnnihilationAlternate,
-
-        /// <summary>剩余理智</summary>
-        FightRemainingSanity,
-
         /// <summary>自动公招</summary>
         Recruit,
 
@@ -2691,8 +2697,6 @@ public class AsstProxy
     [
         TaskType.StartUp,
         TaskType.Fight,
-        TaskType.FightAnnihilationAlternate,
-        TaskType.FightRemainingSanity,
         TaskType.Recruit,
         TaskType.Infrast,
         TaskType.Mall,
@@ -2705,31 +2709,32 @@ public class AsstProxy
 
     public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
 
-    private bool TaskStatusUpdate(AsstTaskId id, TaskStatus status)
+    private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status)
     {
         if (id <= 0)
         {
             return false;
         }
 
-        if (_tasksStatus.TryGetValue(id, out var value))
+        if (!_tasksStatus.TryGetValue(id, out var value))
         {
-            if (value.Status == TaskStatus.Idle && status == TaskStatus.InProgress)
-            {
-                RunningState.Instance.ResetTimeout(); // 进入新任务时重置超时计时
-            }
-
-            value.Status = status;
-            if (status == TaskStatus.InProgress)
-            {
-                TaskSettingVisibilityInfo.Instance.CurrentTask = value.Type.ToString();
-            }
-
-            return true;
+            _logger.Error("Task ID {TaskId} not found in _tasksStatus", id);
+            return false;
         }
 
-        _logger.Error("Task ID {TaskId} not found in _tasksStatus", id);
-        return false;
+        if (value.Status == TaskStatus.Idle && status == TaskStatus.InProgress)
+        {
+            RunningState.Instance.ResetTimeout(); // 进入新任务时重置超时计时
+        }
+
+        _tasksStatus[id] = (value.Type, status);
+        Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(item => item.TaskId == id)?.Status = (int)status;
+        if (status == TaskStatus.InProgress)
+        {
+            TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
+        }
+
+        return true;
     }
 
     public bool AsstAppendCloseDown(string clientType)
@@ -3013,6 +3018,11 @@ public enum TaskStatus
     /// 已完成
     /// </summary>
     Completed = 2,
+
+    /// <summary>
+    /// 错误终止
+    /// </summary>
+    Error = 3,
 }
 
 public enum AsstStaticOptionKey
