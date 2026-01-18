@@ -3516,7 +3516,7 @@
         "maskRange": [1, 255],
         "templThreshold": 0.9
     },
-    "InfrastOverviewSwipeUp": {
+    "InfrastOverviewSwipeDown": {
         "algorithm": "JustReturn",
         "action": "Swipe",
         "doc": "手指从下往上拖动，查看列表底部内容",
@@ -3524,15 +3524,35 @@
         "rectMove": [600, 250, 20, 20], 
         "specialParams": [
             1000,
+            0,
             1,
-            2,
-            0
+            1
+        ],
+        "postDelay": 500
+    },
+    "InfrastOverviewSwipeUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "doc": "手指从上往下拖动，查看列表上部内容",
+        "specificRect": [600, 250, 20, 20], 
+        "rectMove": [600, 600, 20, 20], 
+        "specialParams": [
+            1000,
+            0,
+            1,
+            1
         ],
         "postDelay": 500
     },
     "InfrastEnterDorm": {
         "template": "InfrastEnterTrim.png",
         "roi": [1000, 0, 150, 100],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "InfrastEnterWorkspace": {
+        "template": "InfrastEnterWorkspace.png",
+        "roi": [840, 0, 150, 100],
         "action": "ClickSelf",
         "postDelay": 500
     },
