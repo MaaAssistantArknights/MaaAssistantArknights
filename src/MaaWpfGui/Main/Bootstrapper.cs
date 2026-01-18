@@ -42,7 +42,6 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.Dialogs;
-using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 using Serilog;
@@ -50,7 +49,6 @@ using Serilog.Core;
 using Serilog.Events;
 using Stylet;
 using StyletIoC;
-using static MaaWpfGui.States.RunningState;
 
 namespace MaaWpfGui.Main;
 
@@ -196,6 +194,26 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         try
         {
+            if (Directory.Exists($"{Environment.GetEnvironmentVariable("LocalAppData")}/CrashDumps"))
+            {
+                if (Directory.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug/dumps")))
+                {
+                    Directory.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug/dumps"), true);
+                }
+                Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug/dumps"));
+
+                var time = File.GetLastWriteTime(crashFile);
+                foreach (var file in new DirectoryInfo($"{Environment.GetEnvironmentVariable("LocalAppData")}/CrashDumps").EnumerateFiles("MAA.exe.*.dmp"))
+                {
+                    if (file.LastWriteTime >= time.AddMinutes(-10) && file.LastWriteTime <= time.AddMinutes(10))
+                    {
+                        _logger.Information("Found crash dump file: {CrashDumpFile}", file.FullName);
+                        File.Copy(file.FullName, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug", file.Name), true);
+                    }
+                }
+                _logger.Information("Crash dumps are stored in {CrashDumpsDir}", "%LocalAppdata%/CrashDumps");
+            }
+
             string[] lines = File.ReadAllLines(crashFile, Encoding.UTF8);
 
             StringBuilder message = new StringBuilder();
@@ -246,15 +264,15 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                     LocalizationHelper.GetString("ErrorCrashDialogTitle"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
+            }
 
-                try
-                {
-                    File.Delete(crashFile);
-                }
-                catch
-                {
-                    // ignored
-                }
+            try
+            {
+                File.Delete(crashFile);
+            }
+            catch
+            {
+                // ignored
             }
         }
         catch
