@@ -3207,7 +3207,7 @@
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [0, 0, 180, 80],
-        "next": ["ReceptionFlag"],
+        "next": ["ReceptionFlag", "CloseSendClue"],
         "postDelay": 3000
     },
     "SendClues": {
