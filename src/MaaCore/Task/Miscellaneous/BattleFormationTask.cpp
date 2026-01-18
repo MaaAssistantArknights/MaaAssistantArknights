@@ -705,6 +705,7 @@ bool asst::BattleFormationTask::check_and_select_skill(
             return true;
         }
         ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheUp" }).run();
+        sleep(swipe_task->post_delay);
         image = ctrler()->get_image(); // 一般不会走到这里, 翻回顶部走通用逻辑
         roi_image = make_roi(image, make_rect<cv::Rect>(base_task->roi));
     }
