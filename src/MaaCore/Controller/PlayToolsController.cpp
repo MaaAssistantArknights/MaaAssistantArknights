@@ -154,7 +154,9 @@ bool asst::PlayToolsController::swipe(
 
     toucher_down(p1);
 
-    auto bounds_check = [width, height](int x, int y) { return x >= 0 && x <= width && y >= 0 && y <= height; };
+    auto bounds_check = [width, height](int x, int y) {
+        return x >= 0 && x <= width && y >= 0 && y <= height;
+    };
 
     auto move_func = [this](int x, int y) {
         toucher_move({ x, y });
@@ -162,7 +164,17 @@ bool asst::PlayToolsController::swipe(
     };
 
     auto progressive_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
-        interpolate_swipe(_x1, _y1, _x2, _y2, _duration, DefaultSwipeDelay, slope_in, slope_out, move_func, bounds_check);
+        interpolate_swipe(
+            _x1,
+            _y1,
+            _x2,
+            _y2,
+            _duration,
+            DefaultSwipeDelay,
+            slope_in,
+            slope_out,
+            move_func,
+            bounds_check);
     };
 
     const auto& opt = Config.get_options();

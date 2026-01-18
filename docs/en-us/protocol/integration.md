@@ -117,6 +117,7 @@ Whether to enable this task.
 ::: field name="stage" type="string" optional  
 Stage name, by default empty, recognizes current/last stage. Editing in run-time is not supported.  
 Currently supported stages for navigation include:
+
 - All mainline stages. You can add `-NORMAL` or `-HARD` at the end of the stage to switch between standard or challenge mode.
 - For LMD and Battle Record stages 5/6, must input `CE-6` / `LS-6`. MAA will automatically switch to stage 5 if stage 6 cannot be delegated.
 - Skill Summary, Voucher, and Carbon stage 5, must input `CA-5` / `AP-5` / `SK-5`.
@@ -129,64 +130,64 @@ Currently supported stages for navigation include:
 - OF-1 / OF-F3 / GT-5 in side stories.
 - Last three stages of current SS events. Visit [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) for the list of supported stages. Requires additional loading of event stage navigation in [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) file.
 - Rerun SS events. Input `SSReopen-<stage prefix>` to farm XX-1 ~ XX-9 stages at once, e.g. `SSReopen-IC`.
-:::  
-::: field name="medicine" type="number" optional default="0"  
-Maximum number of Sanity Potions used.  
-:::  
-::: field name="expiring_medicine" type="number" optional default="0"  
-Maximum number of Sanity Potions expiring within 48 hours.  
-:::  
-::: field name="stone" type="number" optional default="0"  
-Maximum number of Originite Prime used.  
-:::  
-::: field name="times" type="number" optional default="2147483647"  
-Number of battles.  
-:::  
-::: field name="series" type="number" optional  
-Number of consecutive battles, -1~6.
-<br>
-`-1` to disable switching.
-<br>
-`0` to automatically switch to the current maximum available times, if current sanity is not enough for 6 times, select the minimum available times.
-<br>
-`1~6` to specify number of consecutive battles.  
-:::  
-::: field name="drops" type="object" optional  
-Specifying the number of drops, no specification by default. key is item_id, value is quantity. key can refer to `resource/item_index.json` file.  
-<br>
-Example: `{ "30011": 10, "30062": 5 }`  
-<br>
-All above are OR relations, i.e. task stops when any one is reached.  
-:::  
-::: field name="report_to_penguin" type="boolean" optional default="false"  
-Whether to upload data to Penguin Statistics.  
-:::  
-::: field name="penguin_id" type="string" optional  
-Penguin Statistics report id, empty by default. Only effective when `report_to_penguin` is true.  
-:::  
-:::  
-::: field name="report_to_yituliu" type="boolean" optional default="false"  
-Whether to report to YITULIU.  
-:::  
-::: field name="yituliu_id" type="string" optional  
-YITULIU report id, empty by default. Only effective when `report_to_yituliu` is true.  
-:::  
-::: field name="server" type="string" optional default="CN"  
-Server, will affect drop recognition and upload.
-<br>
-Options: `CN` | `US` | `JP` | `KR`  
-:::  
-::: field name="client_type" type="string" optional  
-Client version, empty by default. Used to restart and reconnect after game crash, does not enable this feature if empty.
-<br>
-Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-:::  
-::: field name="DrGrandet" type="boolean" optional default="false"  
-Sanity-saving Originite usage mode, only effective when Originite usage may occur.
-<br>
-Wait at the Originite confirmation screen until the current 1 sanity point is restored, then immediately use Originite.  
-:::  
-::::
+  :::  
+  ::: field name="medicine" type="number" optional default="0"  
+  Maximum number of Sanity Potions used.  
+  :::  
+  ::: field name="expiring_medicine" type="number" optional default="0"  
+  Maximum number of Sanity Potions expiring within 48 hours.  
+  :::  
+  ::: field name="stone" type="number" optional default="0"  
+  Maximum number of Originite Prime used.  
+  :::  
+  ::: field name="times" type="number" optional default="2147483647"  
+  Number of battles.  
+  :::  
+  ::: field name="series" type="number" optional  
+  Number of consecutive battles, -1~6.
+  <br>
+  `-1` to disable switching.
+  <br>
+  `0` to automatically switch to the current maximum available times, if current sanity is not enough for 6 times, select the minimum available times.
+  <br>
+  `1~6` to specify number of consecutive battles.  
+  :::  
+  ::: field name="drops" type="object" optional  
+  Specifying the number of drops, no specification by default. key is item_id, value is quantity. key can refer to `resource/item_index.json` file.  
+  <br>
+  Example: `{ "30011": 10, "30062": 5 }`  
+  <br>
+  All above are OR relations, i.e. task stops when any one is reached.  
+  :::  
+  ::: field name="report_to_penguin" type="boolean" optional default="false"  
+  Whether to upload data to Penguin Statistics.  
+  :::  
+  ::: field name="penguin_id" type="string" optional  
+  Penguin Statistics report id, empty by default. Only effective when `report_to_penguin` is true.  
+  :::  
+  :::  
+  ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+  Whether to report to YITULIU.  
+  :::  
+  ::: field name="yituliu_id" type="string" optional  
+  YITULIU report id, empty by default. Only effective when `report_to_yituliu` is true.  
+  :::  
+  ::: field name="server" type="string" optional default="CN"  
+  Server, will affect drop recognition and upload.
+  <br>
+  Options: `CN` | `US` | `JP` | `KR`  
+  :::  
+  ::: field name="client_type" type="string" optional  
+  Client version, empty by default. Used to restart and reconnect after game crash, does not enable this feature if empty.
+  <br>
+  Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+  :::  
+  ::: field name="DrGrandet" type="boolean" optional default="false"  
+  Sanity-saving Originite usage mode, only effective when Originite usage may occur.
+  <br>
+  Wait at the Originite confirmation screen until the current 1 sanity point is restored, then immediately use Originite.  
+  :::  
+  ::::
 
 <details>
 <summary>Example</summary>
@@ -335,7 +336,7 @@ Facilities for shifting (ordered). Editing in run-time is not supported.
 <br>
 Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
-::: field name="drones" type="string" optional default="_NotUse"  
+::: field name="drones" type="string" optional default="\_NotUse"  
 Usage of drones. This field is ignored when `mode = 10000`.
 <br>
 Options: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
@@ -375,7 +376,7 @@ Plan index number in the configuration. Editing in run-time is not supported.
 <br>
 <Badge type="warning" text="Only effective when mode = 10000" />  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -437,7 +438,7 @@ Formation slot index used for the OF-1 battle.
 <br>
 Integer between 0–4, where 0 = current squad, 1–4 = first, second, third, fourth squad.  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -484,7 +485,7 @@ Collect Orundum from limited mining licenses.
 ::: field name="specialaccess" type="boolean" optional default="false"  
 Collect monthly card rewards from 5th anniversary.  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -655,7 +656,7 @@ Only possible to be true in Sarkaz theme, Investment mode, with "点刺成锭分
 <br>
 Uses fixed seed.  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -725,56 +726,57 @@ List of jobs, mutually exclusive with filename (required, choose one); when both
 <br>
 Each object contains:
 <br>
+
 - `filename`: Path to the job JSON file; both relative and absolute paths are supported
-<br>
+  <br>
 - `stage_name`: Stage name, refer to [PRTS.Map](https://map.ark-nights.com) for details
-<br>
+  <br>
 - `is_raid`: Whether to switch to Challenge Mode (Raid), optional, default false
-:::  
-::: field name="loop_times" type="number" optional default="1"  
-Number of loops. Effective only in single job mode (i.e., when filename is specified); set_params can only be executed once when this parameter is in effect.  
-:::  
-::: field name="use_sanity_potion" type="boolean" optional default="false"  
-Whether to use sanity potions when sanity is insufficient.  
-:::  
-::: field name="formation" type="boolean" optional default="false"  
-Whether to enable auto formation.  
-:::  
-::: field name="formation_index" type="number" optional default="0"  
-The index of the formation slot to use in auto formation. Only effective when formation is true.
-<br>
-An integer between 0–4: 0 means the current formation, 1–4 refer to the 1st–4th formations.  
-:::  
-::: field name="user_additional" type="array<object>" optional default="[]"  
-Custom additional operators list. Only effective when formation is true.
-<br>
-Each object contains:
-<br>
+  :::  
+  ::: field name="loop_times" type="number" optional default="1"  
+  Number of loops. Effective only in single job mode (i.e., when filename is specified); set_params can only be executed once when this parameter is in effect.  
+  :::  
+  ::: field name="use_sanity_potion" type="boolean" optional default="false"  
+  Whether to use sanity potions when sanity is insufficient.  
+  :::  
+  ::: field name="formation" type="boolean" optional default="false"  
+  Whether to enable auto formation.  
+  :::  
+  ::: field name="formation_index" type="number" optional default="0"  
+  The index of the formation slot to use in auto formation. Only effective when formation is true.
+  <br>
+  An integer between 0–4: 0 means the current formation, 1–4 refer to the 1st–4th formations.  
+  :::  
+  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  Custom additional operators list. Only effective when formation is true.
+  <br>
+  Each object contains:
+  <br>
 - `name`: Operator name, optional, default "", if left empty this operator will be ignored
-<br>
+  <br>
 - `skill`: Skill to bring, optional, default 1; must be an integer between 1–3; otherwise, follows the in-game default
-:::  
-::: field name="add_trust" type="boolean" optional default="false"  
-Whether to auto-fill empty slots by ascending trust value during auto formation. Only effective when formation is true.  
-:::  
-::: field name="ignore_requirements" type="boolean" optional default="false"  
-Whether to ignore operator attribute requirements during auto formation. Only effective when formation is true.  
-:::  
-::: field name="support_unit_usage" type="number" optional default="0"  
-Support operator usage mode. Integer between 0–3. Only effective when formation is true.
-<br>
-`0` - Do not use support operators
-<br>
-`1` - Use support operator only if exactly one operator is missing; otherwise, do not use support
-<br>
-`2` - Use support operator if one is missing; otherwise, use the specified support operator
-<br>
-`3` - Use support operator if one is missing; otherwise, use a random support operator
-:::  
-::: field name="support_unit_name" type="string" optional default=""  
-Specified support operator name. Only effective when support_unit_usage is 2.  
-:::  
-::::  
+  :::  
+  ::: field name="add_trust" type="boolean" optional default="false"  
+  Whether to auto-fill empty slots by ascending trust value during auto formation. Only effective when formation is true.  
+  :::  
+  ::: field name="ignore_requirements" type="boolean" optional default="false"  
+  Whether to ignore operator attribute requirements during auto formation. Only effective when formation is true.  
+  :::  
+  ::: field name="support_unit_usage" type="number" optional default="0"  
+  Support operator usage mode. Integer between 0–3. Only effective when formation is true.
+  <br>
+  `0` - Do not use support operators
+  <br>
+  `1` - Use support operator only if exactly one operator is missing; otherwise, do not use support
+  <br>
+  `2` - Use support operator if one is missing; otherwise, use the specified support operator
+  <br>
+  `3` - Use support operator if one is missing; otherwise, use a random support operator
+  :::  
+  ::: field name="support_unit_name" type="string" optional default=""  
+  Specified support operator name. Only effective when support_unit_usage is 2.  
+  :::  
+  ::::
 
 For more details about auto-combat JSON, please refer to [Combat Operation Protocol](./copilot-schema.md)
 
@@ -817,7 +819,7 @@ Filename and path of the task JSON, supporting absolute/relative paths. Editing 
 ::: field name="loop_times" type="number" optional  
 Number of times to loop execution.  
 :::  
-::::  
+::::
 
 For more details about Stationary Security Service JSON, please refer to [SSS Schema](./sss-schema.md)
 
@@ -847,7 +849,7 @@ File path of a single operation JSON, supports absolute/relative paths. Runtime 
 ::: field name="list" type="array<string>" required  
 List of operation JSON files, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with filename (required, choose one).  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -869,7 +871,7 @@ List of operation JSON files, supports absolute/relative paths. Runtime editing 
 ::: field name="enable" type="boolean" optional default="true"  
 Whether to enable this task.  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -889,7 +891,7 @@ Whether to enable this task.
 ::: field name="enable" type="boolean" optional default="true"  
 Whether to enable this task.  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -912,9 +914,9 @@ Whether to enable this task.
 ::: field name="theme" type="string" optional default="Fire"  
 Theme.
 <br>
-`Fire` - *Fire Within the Sand*
+`Fire` - _Fire Within the Sand_
 <br>
-`Tales` - *Tales Within the Sand*
+`Tales` - _Tales Within the Sand_
 :::  
 ::: field name="mode" type="number" optional default="0"  
 Mode.
@@ -936,7 +938,7 @@ Click type.
 ::: field name="num_craft_batches" type="number" optional default="16"  
 Maximum number of craft batches per session.  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -964,7 +966,7 @@ Whether to enable this task.
 ::: field name="task_names" type="array<string>" required  
 Execute the task on the first match in the array (and subsequent next, etc.). If you want to perform multiple tasks, you can append Custom task multiple times.  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -1000,7 +1002,7 @@ Subtask type.
 ::: field name="details" type="object" optional  
 Detailed parameters for the subtask.  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -1028,7 +1030,7 @@ Whether to enable this task.
 ::: field name="filename" type="string" required  
 Video file path, supporting absolute/relative paths. Editing in run-time is not supported.  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -1068,7 +1070,7 @@ Instance handle
 ::: field name="task" type="AsstTaskId" required  
 Task ID, the return value of `AsstAppendTask`  
 :::  
-::: field name="params" type="const char*" required  
+::: field name="params" type="const char\*" required  
 Task parameter in JSON, same as `AsstAppendTask`.  
 For those fields that do not mention "Editing in run-time is not supported" can be changed during run-time. Otherwise these changes will be ignored when the task is running.  
 :::  
@@ -1097,7 +1099,7 @@ Set process-level parameters
 ::: field name="key" type="AsstStaticOptionKey" required  
 key  
 :::  
-::: field name="value" type="const char*" required  
+::: field name="value" type="const char\*" required  
 value  
 :::  
 ::::
@@ -1132,7 +1134,7 @@ handle
 ::: field name="key" type="AsstInstanceOptionKey" required  
 key  
 :::  
-::: field name="value" type="const char*" required  
+::: field name="value" type="const char\*" required  
 value  
 :::  
 ::::

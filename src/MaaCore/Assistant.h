@@ -195,7 +195,11 @@ private:
 
     bool ctrl_connect(const std::string& adb_path, const std::string& address, const std::string& config);
 #ifdef _WIN32
-    bool ctrl_attach_window(void* hwnd, Win32ScreencapMethod screencap_method, Win32InputMethod mouse_method, Win32InputMethod keyboard_method);
+    bool ctrl_attach_window(
+        void* hwnd,
+        Win32ScreencapMethod screencap_method,
+        Win32InputMethod mouse_method,
+        Win32InputMethod keyboard_method);
 #endif
     bool ctrl_click(int x, int y);
     bool ctrl_screencap();

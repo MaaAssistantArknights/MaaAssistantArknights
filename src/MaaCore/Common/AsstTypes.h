@@ -60,6 +60,7 @@ enum class TouchMode
 
 // Win32 截图方式，与 MaaFramework 的 MaaWin32ScreencapMethod 保持一致
 using Win32ScreencapMethod = uint64_t;
+
 namespace Win32Screencap
 {
 constexpr Win32ScreencapMethod None = 0ULL;
@@ -73,6 +74,7 @@ constexpr Win32ScreencapMethod ScreenDC = 1ULL << 5;
 
 // Win32 输入方式，与 MaaFramework 的 MaaWin32InputMethod 保持一致
 using Win32InputMethod = uint64_t;
+
 namespace Win32Input
 {
 constexpr Win32InputMethod None = 0ULL;

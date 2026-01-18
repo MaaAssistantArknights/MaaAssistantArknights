@@ -71,6 +71,7 @@ Alternative stages are selected based on daily stage availability - MAA will cho
 This functions like a schedule, not as a fallback if the primary stage selection fails.
 
 Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
+
 - If `CE-6/5` is open today, MAA will run it and ignore the alternatives. If you haven't unlocked auto-deploy for CE-6/5, the task will fail.
 - If `CE-6/5` is closed today, MAA will run `1-7` instead. If you haven't unlocked auto-deploy for 1-7, the task will fail.
 - Since `1-7` is a permanent stage that appears before `LS-6/5` in the list, MAA will never run `LS-6/5` in this scenario.
@@ -89,6 +90,7 @@ MAA will use the specified battle multiplier setting:
 - **Disabled mode** (-1):
   - Doesn't change the in-game multiplier setting
   - If sanity is insufficient for the current in-game multiplier setting, ends the task
+
 ### Perform Battles
 
 MAA will run up to the specified number of battles.
