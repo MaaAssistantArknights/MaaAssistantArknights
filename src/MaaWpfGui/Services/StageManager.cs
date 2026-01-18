@@ -725,7 +725,7 @@ public class StageManager
     /// </summary>
     /// <param name="dayOfWeek">Day of week</param>
     /// <returns>Open stage list</returns>
-    public IEnumerable<CombinedData> GetStageList(DayOfWeek dayOfWeek)
+    public IEnumerable<StageInfo> GetStageList(DayOfWeek dayOfWeek)
     {
         return _stages.Values.Where(stage => !stage.IsHidden && stage.IsStageOpen(dayOfWeek));
     }
@@ -734,7 +734,7 @@ public class StageManager
     /// Gets all open or will open stage list
     /// </summary>
     /// <returns>Open or will open stage list</returns>
-    public IEnumerable<CombinedData> GetStageList()
+    public IEnumerable<StageInfo> GetStageList()
     {
         return _stages.Values.Where(stage => !stage.IsHidden && stage.IsStageOpenOrWillOpen());
     }

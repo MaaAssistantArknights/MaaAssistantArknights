@@ -59,6 +59,9 @@
             ["天師府分隊", "天师府分队"]
         ]
     },
+    "RoguelikeFormationOcr": {
+        "roi": [205, 83, 130, 23]
+    },
     "RoguelikeRecruitLevel": {
         "Doc": "日服的等级字体比国服大一圈，要改roi",
         "rectMove": [-172, -1, 18, 12]

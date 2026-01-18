@@ -10,11 +10,16 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+#nullable enable
 using System;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.Models;
@@ -24,217 +29,158 @@ namespace MaaWpfGui.Models;
 /// </summary>
 public class TaskSettingVisibilityInfo : PropertyChangedBase
 {
-    public const string DefaultVisibleTaskSetting = "Combat";
+    public TaskSettingVisibilityInfo()
+    {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
+    }
 
-    private bool _startUp;
-    private bool _recruit;
-    private bool _infrast;
-    private bool _fight;
-    private bool _mall;
-    private bool _award;
-    private bool _roguelike;
-    private bool _reclamation;
-    private bool _postAction;
-    private bool _custom;
+    // public const string DefaultVisibleTaskSetting = "Combat";
+    public bool StartUp { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool WakeUp { get => _startUp; set => SetAndNotify(ref _startUp, value); }
+    public bool Recruit { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Recruiting { get => _recruit; set => SetAndNotify(ref _recruit, value); }
+    public bool Infrast { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Base { get => _infrast; set => SetAndNotify(ref _infrast, value); }
+    public bool Fight { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Combat { get => _fight; set => SetAndNotify(ref _fight, value); }
+    public bool Mall { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Mall { get => _mall; set => SetAndNotify(ref _mall, value); }
+    public bool Award { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Mission { get => _award; set => SetAndNotify(ref _award, value); }
+    public bool Roguelike { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool AutoRoguelike { get => _roguelike; set => SetAndNotify(ref _roguelike, value); }
+    public bool Reclamation { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Reclamation { get => _reclamation; set => SetAndNotify(ref _reclamation, value); }
+    public bool Custom { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool AfterAction { get => _postAction; set => SetAndNotify(ref _postAction, value); }
-
-    public bool Custom { get => _custom; set => SetAndNotify(ref _custom, value); }
+    public bool PostAction { get => field; set => SetAndNotify(ref field, value); }
 
     public static TaskSettingVisibilityInfo Instance { get; } = new();
 
     // 长草任务当前选中
-    public int CurrentIndex { get; set; }
-
-    public void Set(string taskName, bool enable)
+    public int CurrentIndex
     {
-        bool ret = false;
+        get {
+            if (ConfigFactory.CurrentConfig.TaskSelectedIndex < -1 || ConfigFactory.CurrentConfig.TaskSelectedIndex >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+            {
+                ConfigFactory.CurrentConfig.TaskSelectedIndex = -1;
+            }
+
+            return ConfigFactory.CurrentConfig.TaskSelectedIndex;
+        }
+
+        set {
+            ConfigFactory.CurrentConfig.TaskSelectedIndex = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    [PropertyDependsOn(nameof(CurrentIndex))]
+    public bool IsCurrentTaskRunning =>
+        ConfigFactory.CurrentConfig.TaskQueue.Count > CurrentIndex &&
+        CurrentIndex >= 0 &&
+        Instances.AsstProxy.TasksStatus.TryGetValue(Instances.TaskQueueViewModel.TaskItemViewModels[CurrentIndex].TaskId, out var status) &&
+        status.Status == TaskStatus.InProgress;
+
+    public static BaseTask? CurrentTask =>
+        ConfigFactory.CurrentConfig.TaskQueue.Count > Instance.CurrentIndex &&
+        Instance.CurrentIndex >= 0 ? ConfigFactory.CurrentConfig.TaskQueue[Instance.CurrentIndex] : null;
+
+    public void NotifyOfTaskStatus()
+    {
+        NotifyOfPropertyChange(nameof(IsCurrentTaskRunning));
+    }
+
+    /// <summary>
+    /// 修改任务设置可见性, 用于 TaskQueueItem 设置按钮的切换.
+    /// </summary>
+    /// <param name="taskIndex">index</param>
+    /// <param name="enable">启用与否</param>
+    public void Set(int taskIndex, bool enable)
+    {
         if (Guide && enable)
         {
-            _currentEnableSetting = taskName;
             enable = false;
         }
 
-        switch (taskName)
+        // 边界检查
+        if (taskIndex < 0 || taskIndex >= ConfigFactory.CurrentConfig.TaskQueue.Count)
         {
-            case "WakeUp":
-                WakeUp = enable;
-                SetRunning("StartUp");
-                break;
-            case "Recruiting":
-                Recruiting = enable;
-                SetRunning("Recruit");
-                break;
-            case "Base":
-                Base = enable;
-                SetRunning("Infrast");
-                break;
-            case "Combat":
-                Combat = enable;
-                SetRunning("Fight");
-                break;
-            case "Mall":
-                Mall = enable;
-                SetRunning("Mall");
-                break;
-            case "Mission":
-                Mission = enable;
-                SetRunning("Award");
-                break;
-            case "AutoRoguelike":
-                AutoRoguelike = enable;
-                SetRunning("Roguelike");
-                break;
-            case "Reclamation":
-                Reclamation = enable;
-                SetRunning("Reclamation");
-                break;
-            case "AfterAction":
-                AfterAction = enable;
-                break;
-            case "Custom":
-                Custom = enable;
-                SetRunning("Custom");
-                break;
+            Log.Error("尝试设置不存在的任务设置可见性, 索引: {TaskIndex}", taskIndex);
+            return;
         }
 
+        var task = ConfigFactory.CurrentConfig.TaskQueue[taskIndex];
+        if (enable)
+        {
+            CurrentIndex = taskIndex;
+            SetTaskSettingVisible(task, enable);
+        }
+        else if (CurrentIndex == taskIndex)
+        {
+            CurrentIndex = -1;
+            SetTaskSettingVisible(task, enable);
+        }
+
+        if (enable)
+        {
+            Instances.TaskQueueViewModel.RefreshTaskModel(task);
+        }
+    }
+
+    public void SetTaskSettingVisible(BaseTask task, bool enable)
+    {
+        if (enable)
+        {
+            ResetVisible();
+        }
+        _ = task switch {
+            StartUpTask => StartUp = enable,
+            RecruitTask => Recruit = enable,
+            InfrastTask => Infrast = enable,
+            FightTask => Fight = enable,
+            MallTask => Mall = enable,
+            AwardTask => Award = enable,
+            RoguelikeTask => Roguelike = enable,
+            ReclamationTask => Reclamation = enable,
+            CustomTask => Custom = enable,
+            _ => throw new NotImplementedException(),
+        };
         EnableAdvancedSettings = false;
-        if (Mission || WakeUp || AfterAction)
-        {
-            AdvancedSettingsVisibility = false;
-        }
-        else
-        {
-            AdvancedSettingsVisibility = true;
-        }
-
-        // 如果切换到的不是当前运行任务
-        if (enable && !ret)
-        {
-            IsCurrentTaskRunning = false;
-        }
-
-        void SetRunning(in string task)
-        {
-            if (enable && CurrentTask.StartsWith(task))
-            {
-                IsCurrentTaskRunning = true;
-                ret = true;
-            }
-        }
+        AdvancedSettingsVisibility = !Award && !StartUp;
     }
 
-    private string _currentTask = string.Empty;
-
-    // 重构前的临时过渡
-    public string CurrentTask
+    private void ResetVisible()
     {
-        get => _currentTask;
-        set
+        StartUp = false;
+        Recruit = false;
+        Infrast = false;
+        Fight = false;
+        Mall = false;
+        Award = false;
+        Roguelike = false;
+        Reclamation = false;
+        Custom = false;
+    }
+
+    public void SetPostAction(bool value)
+    {
+        if (value)
         {
-            _currentTask = value;
-            if (string.IsNullOrEmpty(value))
-            {
-                IsCurrentTaskRunning = false;
-                return;
-            }
-
-            bool ret = false;
-            CheckTask("StartUp", _startUp);
-            CheckTask("Recruit", _recruit);
-            CheckTask("Infrast", _infrast);
-            CheckTask("Fight", _fight);
-            CheckTask("Mall", _mall);
-            CheckTask("Award", _award);
-            CheckTask("Roguelike", _roguelike);
-            CheckTask("Reclamation", _reclamation);
-            CheckTask("Custom", _custom);
-
-            // 如果没有匹配上任何任务
-            if (!ret)
-            {
-                IsCurrentTaskRunning = false;
-            }
-
-            void CheckTask(string taskName, bool taskIsShown)
-            {
-                if (taskIsShown && value.StartsWith(taskName))
-                {
-                    IsCurrentTaskRunning = true;
-                    ret = true;
-                }
-            }
+            ResetVisible();
         }
+        PostAction = value;
     }
 
-    private bool _isCurrentTaskRunning;
+    public bool EnableAdvancedSettings { get => field; set => SetAndNotify(ref field, value); }
 
-    /// <summary> Gets or sets a value indicating whether 当前选中的任务是否正在运行 </summary>
-    public bool IsCurrentTaskRunning
-    {
-        get => _isCurrentTaskRunning;
-        set => SetAndNotify(ref _isCurrentTaskRunning, value);
-    }
+    public bool AdvancedSettingsVisibility { get => field; set => SetAndNotify(ref field, value); }
 
-    private bool _enableAdvancedSettings;
-
-    public bool EnableAdvancedSettings
-    {
-        get => _enableAdvancedSettings;
-        set => SetAndNotify(ref _enableAdvancedSettings, value);
-    }
-
-    private bool _advancedSettingsVisibility;
-
-    public bool AdvancedSettingsVisibility
-    {
-        get => _advancedSettingsVisibility;
-        set => SetAndNotify(ref _advancedSettingsVisibility, value);
-    }
-
-    private string _currentEnableSetting;
-
-    private bool _guide = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0")) < SettingsViewModel.GuideMaxStep;
+    private bool _guide = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0) < SettingsViewModel.GuideMaxStep;
 
     public bool Guide
     {
         get => _guide;
-        set
-        {
-            SetAndNotify(ref _guide, value);
-            Set(_currentEnableSetting, !value);
-        }
+        set => SetAndNotify(ref _guide, value);
     }
-
-    #region 双入口设置可见性
-
-    private bool _customInfrastPlanShowInFightSettings = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, bool.FalseString));
-
-    public bool CustomInfrastPlanShowInFightSettings
-    {
-        get => _customInfrastPlanShowInFightSettings;
-        set
-        {
-            SetAndNotify(ref _customInfrastPlanShowInFightSettings, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, value.ToString());
-        }
-    }
-
-    #endregion
 }

@@ -135,7 +135,7 @@
     <system:String x:Key="InfrastReceptionClueExchange">단서 교환 수행</system:String>
     <system:String x:Key="ClueExchangeUnlocked">단서 교환 시작</system:String>
     <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
-    <system:String x:Key="ReceptionOptionsRequireInfrast">인프라 교대 필요</system:String>
+    <system:String x:Key="ReceptionOptionsRequireInfrast">다음 함수들은 {key=Infrast}에서 설정 및 실행되어야 합니다.</system:String>
     <system:String x:Key="ContinueTraining">스킬 훈련 완료 시 이어서 훈련 시도</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
@@ -174,6 +174,7 @@
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">WSA 레거시 버전</system:String>
+    <system:String x:Key="PC">PC 클라이언트</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">호환 모드</system:String>
     <system:String x:Key="SecondResolution">분할 화면</system:String>
@@ -293,6 +294,14 @@
     <system:String x:Key="Ok">확인</system:String>
     <system:String x:Key="Cancel">취소</system:String>
     <system:String x:Key="Confirm">확인</system:String>
+    <system:String x:Key="Rename">이름 변경</system:String>
+    <system:String x:Key="Delete">삭제</system:String>
+    <system:String x:Key="RenameTask">작업 이름 변경</system:String>
+    <system:String x:Key="RenameTaskPrompt">새 작업 이름을 입력하세요:</system:String>
+    <system:String x:Key="ConfirmDeleteTask">삭제 확인</system:String>
+    <system:String x:Key="ConfirmDeleteTaskMessage">정말로 {0} 번째 작업 "{1}"을 삭제하시겠습니까?</system:String>
+    <system:String x:Key="TaskRenamed">작업 이름 변경: {0}</system:String>
+    <system:String x:Key="TaskDeleted">작업 삭제: {0}</system:String>
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
     <system:String x:Key="HotKeyLinkStart">[단축키] Link 시작/중지</system:String>
     <system:String x:Key="HotKeyChangingTip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
@@ -412,6 +421,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트 실행</system:String>
     <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
+    <system:String x:Key="UseWeeklySchedule">주간 일정 활성화</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터 실행</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
@@ -565,12 +575,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSave">순오리지늄 사용 상태 저장 허용</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. ｢{key=Confirm}｣ 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
-    <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">주 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제/오리지늄을 사용하지 않습니다</system:String>
     <system:String x:Key="UseExpiringMedicine">48시간 미만 이성 회복제 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
     <system:String x:Key="HideSeries">{key=Series} 숨기기</system:String>
-    <system:String x:Key="CustomInfrastPlanShowInFightSettings">기반시설 계획 표시</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
     <system:String x:Key="CustomStageCode">스테이지 코드 수동 입력</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">대부분의 기본 스테이지 이름과 원래 스테이지 이름 목록 지원 (예: 4-10, AP-5, H10-1-Hard)
@@ -724,6 +731,7 @@ C:\\leidian\\LDPlayer9
 연속 대리 지휘 횟수를 조정하지 않습니다.</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="StageSelect2">대안</system:String>
+    <system:String x:Key="AddStage">스테이지 추가</system:String>
     <system:String x:Key="RemainingSanityStage">남은 이성</system:String>
     <system:String x:Key="NoUse">미사용</system:String>
     <!--<system:String x:Key="Amend">수정</system:String>-->
@@ -778,6 +786,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
+    <system:String x:Key="TaskAppend.Skip">{0}: {1} 작업 스킵</system:String>
+    <system:String x:Key="TaskAppend.Error">{0}: {1} 작업 추가 실패</system:String>
     <system:String x:Key="AdbReplacementTips">작업이 전혀 반응하지 않을 경우, ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣를 사용하거나, 터치 모드에서 ADB Input(권장하지 않음)을 선택해 보세요.</system:String>
     <system:String x:Key="Waiting">전투가 끝나기를 기다리며……</system:String>
     <system:String x:Key="Stopping">중지 중……</system:String>
@@ -792,8 +802,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="HibernatePrompt">작업이 완료되었으며, 곧 최대 절전 모드로 전환됩니다</system:String>
     <system:String x:Key="SleepPrompt">작업이 완료되었으며, 곧 절전 모드로 전환됩니다</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">알 수 없는 종료 동작</system:String>
-    <system:String x:Key="AnnihilationTaskTip">선택한 스테이지는 섬멸 임무입니다. 임무 완료 후 남은 대체 스테이지가 시도됩니다. 일부 전투 설정은 적용되지 않습니다.</system:String>
-    <system:String x:Key="AnnihilationTaskFailed">섬멸 작전에 실패하여 대체 스테이지를 진행합니다. 일부 전투 설정이 무시될 수 있습니다</system:String>
     <system:String x:Key="ProcessPickerTitle">창 선택</system:String>
     <system:String x:Key="ProcessPickerRefresh">새로고침</system:String>
     <system:String x:Key="ProcessPickerConfirm">확인</system:String>
@@ -1192,7 +1200,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationParseFailed">편성 분석에 실패했습니다</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용 불가 {key=Operator}: {0}, 사유: {1}</system:String>
-    <system:String x:Key="BattleFormationModuleUnavailable">필요한 모듈이 잠금 해제되지 않음</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">스킬 레벨이 너무 낮음</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Module">필요한 모듈이 잠금 해제되지 않음</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">경과 시간: {0}ms</system:String>
     <system:String x:Key="Deploy">배치</system:String>
@@ -1214,6 +1223,31 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartAdb">ADB 서버 재시작을 시도 중입니다</system:String>
     <system:String x:Key="HardRestartAdb">ADB 프로세스 재시작을 시도 중입니다</system:String>
     <system:String x:Key="CheckSettings">｢연결 설정 확인｣ → ｢에뮬레이터와 ADB 재시작 시도｣ → ｢컴퓨터 재부팅｣ 해 주세요</system:String>
+    <system:String x:Key="AttachWindowNotFound">창 "{0}"을(를) 찾을 수 없습니다. 게임이 실행 중인지 확인하세요</system:String>
+    <system:String x:Key="AttachWindowMultipleFound">{0}개의 "{1}" 창을 찾았습니다. 첫 번째 창을 사용합니다</system:String>
+    <system:String x:Key="AttachWindowFound">창 "{0}"을(를) 찾았습니다</system:String>
+    <system:String x:Key="AttachWindowFailed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
+    <system:String x:Key="UseAttachWindowTip">에뮬레이터나 휴대폰용 ADB 연결 대신 명일방주 PC 클라이언트에 Win32 창 바인딩을 사용합니다</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 연결 (실험적 기능이며 안정성은 보장되지 않습니다)
+MAA는 PC 환경에서의 동작에 대해 유지보수 또는 호환 지원을 제공하지 않습니다:
+● 정상적으로 동작하는 경우에 한해 사용자 판단하에 사용할 수 있습니다
+● 실행되지 않거나 문제가 발생할 경우 PC 관련 Issue는 접수하지 않습니다
+● 커뮤니티의 자체 대응 및 Pull Request 제출은 환영합니다
+
+사용 전 확인 사항:
+1. MAA를 관리자 권한으로 실행해야 합니다
+2. 게임 창을 최소화하면 안 됩니다
+3. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다</system:String>
+    <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
+    <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
+    <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (기본값, 백그라운드)</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (백그라운드, 백업 1)</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (백그라운드, 백업 2)</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (포그라운드, 더 안정적)</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize (포그라운드, 더 안정적)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor (반 백그라운드)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor (반 백그라운드, 백업)</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAA 강제 표시</system:String>

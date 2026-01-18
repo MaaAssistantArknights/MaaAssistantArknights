@@ -79,6 +79,10 @@ icon: iconoir:developer
    - `MaaWpfGui` 우클릭 → 시작 프로젝트로 설정
    - F5 키를 눌러 실행
 
+   ::: tip
+   Win32Controller(Windows 창 제어) 관련 기능을 디버깅하려면 [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases)에서 해당 플랫폼 압축 파일을 다운로드하고, `bin` 디렉토리의 `MaaWin32ControlUnit.dll`을 MAA DLL과 같은 디렉토리(예: `build/bin/Debug`)에 배치해야 합니다. 자동 다운로드 스크립트 PR 환영!
+   :::
+
 9. 이제 자유롭게 ~~개조~~ 개발 시작!
 10. 주기적 커밋 (메시지 필수 작성)  
     Git 초보자는 dev 브랜치 대신 새 브랜치 생성 권장:

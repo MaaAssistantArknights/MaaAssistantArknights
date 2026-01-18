@@ -23,6 +23,9 @@
 #include "MaatouchController.h"
 #include "MinitouchController.h"
 #include "PlayToolsController.h"
+#ifdef _WIN32
+#include "Win32Controller.h"
+#endif
 
 #include "Common/AsstTypes.h"
 #include "Utils/Logger.hpp"
@@ -283,6 +286,66 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     return true;
 }
+
+#ifdef _WIN32
+bool asst::Controller::attach_window(
+    void* hwnd,
+    Win32ScreencapMethod screencap_method,
+    Win32InputMethod mouse_method,
+    Win32InputMethod keyboard_method)
+{
+    LogTraceFunction;
+
+    clear_info();
+
+    auto win32_controller = std::make_shared<Win32Controller>(m_callback, m_inst);
+    if (!win32_controller->attach(hwnd, screencap_method, mouse_method, keyboard_method)) {
+        Log.error("attach_window failed");
+        return false;
+    }
+
+    m_controller = win32_controller;
+    m_controller_type = ControllerType::Win32;
+    m_uuid = m_controller->get_uuid();
+
+    // 尝试截图
+    if (!screencap()) {
+        Log.error("Cannot screencap!");
+        return false;
+    }
+
+    auto proxy_callback = [&](const json::object& details) {
+        json::value connection_info = json::object {
+            { "uuid", m_uuid },
+            { "details",
+              json::object {
+                  { "hwnd", reinterpret_cast<uintptr_t>(hwnd) },
+                  { "screencap_method", screencap_method },
+                  { "mouse_method", mouse_method },
+                  { "keyboard_method", keyboard_method },
+              } },
+        } | details;
+        callback(AsstMsg::ConnectionInfo, connection_info);
+    };
+
+    try {
+        m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot create controller proxy: {}", e.what());
+        return false;
+    }
+
+    if (!m_scale_proxy) {
+        Log.error("Cannot create controller proxy!");
+        return false;
+    }
+
+    m_scale_size = m_scale_proxy->get_scale_size();
+
+    return true;
+}
+#endif
 
 bool asst::Controller::inited() noexcept
 {

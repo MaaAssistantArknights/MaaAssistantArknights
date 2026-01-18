@@ -27,7 +27,7 @@ public class RoguelikeTask : BaseTask
     /// <summary>
     /// Gets or sets 肉鸽主题
     /// </summary>
-    public RoguelikeTheme Theme { get; set; } = RoguelikeTheme.Phantom;
+    public RoguelikeTheme Theme { get; set; } = RoguelikeTheme.JieGarden;
 
     public int Difficulty { get; set; } = int.MaxValue;
 
@@ -109,6 +109,11 @@ public class RoguelikeTask : BaseTask
     /// Gets or sets a value indicating whether 深入调查自动切换
     /// </summary>
     public bool DeepExplorationAutoIterate { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets FindPlaytime 模式的目标常乐节点子类型
+    /// </summary>
+    public RoguelikeBoskySubNodeType FindPlaytimeTarget { get; set; } = RoguelikeBoskySubNodeType.Ling;
 
     /// <summary>
     /// Gets or sets a value indicating whether 使用好友助战

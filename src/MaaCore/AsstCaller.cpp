@@ -182,6 +182,44 @@ void AsstSetConnectionExtras(const char* name, const char* extras)
     asst::ResourceLoader::get_instance().set_connection_extras(name, jopt->as_object());
 }
 
+#ifdef _WIN32
+AsstBool AsstAttachWindow(
+    AsstHandle handle,
+    void* hwnd,
+    uint64_t screencap_method,
+    uint64_t mouse_method,
+    uint64_t keyboard_method)
+{
+    if (!inited() || handle == nullptr) {
+        Log.error(__FUNCTION__, "Cannot attach to window, asst not inited or handle is null", inited(), handle);
+        return AsstFalse;
+    }
+    auto* assistant = dynamic_cast<asst::Assistant*>(handle);
+    if (!assistant) {
+        return AsstFalse;
+    }
+    return assistant->attach_window(hwnd, screencap_method, mouse_method, keyboard_method) ? AsstTrue : AsstFalse;
+}
+
+AsstAsyncCallId AsstAsyncAttachWindow(
+    AsstHandle handle,
+    void* hwnd,
+    uint64_t screencap_method,
+    uint64_t mouse_method,
+    uint64_t keyboard_method,
+    AsstBool block)
+{
+    if (!inited() || handle == nullptr) {
+        return InvalidId;
+    }
+    auto* assistant = dynamic_cast<asst::Assistant*>(handle);
+    if (!assistant) {
+        return InvalidId;
+    }
+    return assistant->async_attach_window(hwnd, screencap_method, mouse_method, keyboard_method, block);
+}
+#endif
+
 AsstTaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 {
     if (!inited() || handle == nullptr) {

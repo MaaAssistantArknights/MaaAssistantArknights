@@ -44,12 +44,6 @@ public class BaseTask : INotifyPropertyChanged
     public bool? IsEnable { get; set; } = false;
 
     /// <summary>
-    /// Gets or sets 任务id，默认为0，添加后任务id应 > 0；执行后应置为0
-    /// </summary>
-    [JsonIgnore]
-    public int TaskId { get; set; }
-
-    /// <summary>
     /// Gets 任务类型，用于添加任务时使用
     /// </summary>
     public TaskType TaskType { get; init; }
@@ -77,12 +71,6 @@ public class SSSCopilotTask : BaseTask
 public class SingleStepTask : BaseTask
 {
 }
-
-/*
-public class VideoRecognition : BaseTask
-{
-}
-*/
 
 public class DepotTask : BaseTask
 {

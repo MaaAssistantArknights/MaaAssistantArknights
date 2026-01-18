@@ -55,6 +55,10 @@ internal static partial class MaaService
     internal static unsafe partial bool AsstConnect(AsstHandle handle, byte* adbPath, byte* address, byte* config);
 
     [LibraryImport("MaaCore.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool AsstAttachWindow(AsstHandle handle, IntPtr hwnd, ulong screencapMethod, ulong mouseMethod, ulong keyboardMethod);
+
+    [LibraryImport("MaaCore.dll")]
     internal static unsafe partial AsstTaskId AsstAppendTask(AsstHandle handle, byte* type, byte* taskParams);
 
     [LibraryImport("MaaCore.dll")]

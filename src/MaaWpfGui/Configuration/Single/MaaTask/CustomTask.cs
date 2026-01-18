@@ -22,5 +22,5 @@ public class CustomTask : BaseTask
     /// <summary>
     /// Gets or sets 要直接执行的任务名
     /// </summary>
-    public string TaskName { get; set; } = string.Empty;
+    public string CustomTaskName { get; set; } = string.Empty;
 }
