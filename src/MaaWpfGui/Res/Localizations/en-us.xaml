@@ -496,7 +496,7 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
 3. If the highest unlocked difficulty is &lt; N3 or the relevant tech is not unlocked, do not use the command-avoid-combat strategy; otherwise, it may cause errors
 4. When difficulty ≥ N15, 6★ Hope cost +1; using some squads may make it impossible to recruit a 6★ operator at the start, causing errors or failures</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the tech related to ｢{key=RoguelikeThemeJieGarden}｣, {key=LeaderSquad} exploring at difficulty N3 or higher will carry an additional ｢End of Time｣, enabling a ｢one-battle-one-skip｣ saving strategy.
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ tech, related to ｢{key=RoguelikeThemeJieGarden}｣, using {key=LeaderSquad} to explore at difficulty N3 or higher will carry an additional ｢End of Time｣, enabling a ｢one-battle-one-skip｣ saving strategy.
 If this tech is not unlocked, do not select difficulty N3 or above (including ｢MAX｣);
 To enable this mechanism, make sure the selected difficulty is N3 or higher (excluding ｢{key=NotSwitch} (-1)｣).</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
