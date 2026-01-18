@@ -211,6 +211,13 @@
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">{key=AutoRoguelike} 중지 시 전투 종료 대기</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">최대 레벨 달성 시 중지</system:String>
+    <system:String x:Key="RoguelikeDurationLimit">시간 제한</system:String>
+    <system:String x:Key="Hour">시간</system:String>
+    <system:String x:Key="Minute">분</system:String>
+    <system:String x:Key="DurationFormatHoursMinutes">{0}{key=Hour}{1}{key=Minute}</system:String>
+    <system:String x:Key="DurationFormatMinutesOnly">{0}{key=Minute}</system:String>
+    <system:String x:Key="RoguelikeDurationLimitReached">로그라이크 실행 시간이 {0} 제한에 도달했습니다, 작업을 중지합니다</system:String>
+    <system:String x:Key="RoguelikeDurationRemaining">로그라이크 남은 시간: {0}</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">월간 분대 자동 전환</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">월간 분대 통신</system:String>

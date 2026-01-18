@@ -960,6 +960,59 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private bool _roguelikeDurationLimitEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDurationLimitEnabled, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 肉鸽时长限制已启用
+    /// </summary>
+    public bool RoguelikeDurationLimitEnabled
+    {
+        get => _roguelikeDurationLimitEnabled;
+        set
+        {
+            SetAndNotify(ref _roguelikeDurationLimitEnabled, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDurationLimitEnabled, value.ToString());
+        }
+    }
+
+    private int _roguelikeDurationLimitHours = int.TryParse(
+        ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDurationLimitHours, "0"),
+        out var hours) ? hours : 0;
+
+    /// <summary>
+    /// Gets or sets 肉鸽时长限制 - 小时数 (0-23)
+    /// </summary>
+    public int RoguelikeDurationLimitHours
+    {
+        get => _roguelikeDurationLimitHours;
+        set
+        {
+            // 限制范围：0-23 小时
+            value = Math.Clamp(value, 0, 23);
+            SetAndNotify(ref _roguelikeDurationLimitHours, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDurationLimitHours, value.ToString());
+        }
+    }
+
+    private int _roguelikeDurationLimitMinutes = int.TryParse(
+        ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDurationLimitMinutes, "0"),
+        out var minutes) ? minutes : 0;
+
+    /// <summary>
+    /// Gets or sets 肉鸽时长限制 - 分钟数 (0-59)
+    /// </summary>
+    public int RoguelikeDurationLimitMinutes
+    {
+        get => _roguelikeDurationLimitMinutes;
+        set
+        {
+            // 限制范围：0-59 分钟
+            value = Math.Clamp(value, 0, 59);
+            SetAndNotify(ref _roguelikeDurationLimitMinutes, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDurationLimitMinutes, value.ToString());
+        }
+    }
+
     private bool _roguelikeDelayAbortUntilCombatComplete = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, bool.FalseString));
 
     /// <summary>
@@ -1191,6 +1244,50 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 }
 
                 break;
+
+            case "RoguelikeDurationLimitReached":
+                {
+                    int durationMinutes = subTaskDetails!["duration_limit_minutes"]?.ToObject<int>() ?? 0;
+                    int hours = durationMinutes / 60;
+                    int minutes = durationMinutes % 60;
+
+                    string timeFormat = hours > 0
+                        ? LocalizationHelper.GetString("DurationFormatHoursMinutes")
+                        : LocalizationHelper.GetString("DurationFormatMinutesOnly");
+
+                    string timeString = hours > 0
+                        ? string.Format(timeFormat, hours, minutes)
+                        : string.Format(timeFormat, minutes);
+
+                    string message = string.Format(
+                        LocalizationHelper.GetString("RoguelikeDurationLimitReached"),
+                        timeString);
+
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Info);
+                    break;
+                }
+
+            case "RoguelikeDurationRemaining":
+                {
+                    int remainingMinutes = subTaskDetails!["remaining_minutes"]?.ToObject<int>() ?? 0;
+                    int hours = remainingMinutes / 60;
+                    int minutes = remainingMinutes % 60;
+
+                    string timeFormat = hours > 0
+                        ? LocalizationHelper.GetString("DurationFormatHoursMinutes")
+                        : LocalizationHelper.GetString("DurationFormatMinutesOnly");
+
+                    string timeString = hours > 0
+                        ? string.Format(timeFormat, hours, minutes)
+                        : string.Format(timeFormat, minutes);
+
+                    string message = string.Format(
+                        LocalizationHelper.GetString("RoguelikeDurationRemaining"),
+                        timeString);
+
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Message);
+                    break;
+                }
         }
     }
 
@@ -1266,6 +1363,21 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             }
         }
 
-        return task.Serialize();
+        var (taskType, taskParams) = task.Serialize();
+
+        // 只有启用时长限制时才添加参数
+        if (RoguelikeDurationLimitEnabled)
+        {
+            // 计算总分钟数
+            int durationLimitMinutes = RoguelikeDurationLimitHours * 60 + RoguelikeDurationLimitMinutes;
+
+            // 添加到参数中
+            if (durationLimitMinutes > 0)
+            {
+                taskParams["duration_limit_minutes"] = durationLimitMinutes;
+            }
+        }
+
+        return (taskType, taskParams);
     }
 }

@@ -165,6 +165,9 @@ public static class ConfigurationKeys
     public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause";
     public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss";
     public const string RoguelikeStopAtMaxLevel = "Roguelike.StopAtMaxLevel";
+    public const string RoguelikeDurationLimitEnabled = "Roguelike.DurationLimitEnabled";
+    public const string RoguelikeDurationLimitHours = "Roguelike.DurationLimitHours";
+    public const string RoguelikeDurationLimitMinutes = "Roguelike.DurationLimitMinutes";
     public const string RoguelikeStartWithSeed = "Roguelike.StartWithSeed";
     public const string RoguelikeMonthlySquadAutoIterate = "Roguelike.MonthlySquadAutoIterate";
     public const string RoguelikeMonthlySquadCheckComms = "Roguelike.MonthlySquadCheckComms";

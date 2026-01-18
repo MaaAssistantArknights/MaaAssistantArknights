@@ -211,6 +211,13 @@
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲 ｢{key=Stop}｣ 動作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>
+    <system:String x:Key="RoguelikeDurationLimit">時長限制</system:String>
+    <system:String x:Key="Hour">小時</system:String>
+    <system:String x:Key="Minute">分鐘</system:String>
+    <system:String x:Key="DurationFormatHoursMinutes">{0}{key=Hour}{1}{key=Minute}</system:String>
+    <system:String x:Key="DurationFormatMinutesOnly">{0}{key=Minute}</system:String>
+    <system:String x:Key="RoguelikeDurationLimitReached">肉鴿運行時長已達 {0} 限制，停止任務</system:String>
+    <system:String x:Key="RoguelikeDurationRemaining">肉鴿剩餘運行時間: {0}</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">啟用刷錢種子</system:String>
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小隊自動切換</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小隊通訊</system:String>
