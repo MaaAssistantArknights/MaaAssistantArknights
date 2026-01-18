@@ -12,9 +12,12 @@ public:
 
 protected:
     virtual bool _run() override;
-    bool scan_overview();
+    bool scan_overview_workspace();
+    bool scan_overview_dormitory();
     void swipe_overview_up();
-    void remove_duplicates();
+    void remove_room_duplicates();
+    void remove_dorm_duplicates();
     std::vector<infrast::InfrastRoomInfo> m_room_infos;
+    std::vector<infrast::InfrastDormInfo> m_dorm_infos;
 };
 }

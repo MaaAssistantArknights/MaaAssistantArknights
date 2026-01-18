@@ -6,12 +6,12 @@
 
 namespace asst
 {
-class InfrastIntelligentAnalyzer : public VisionHelper
+class InfrastIntelligentWorkspaceAnalyzer : public VisionHelper
 {
 public:
 
     using VisionHelper::VisionHelper;
-    virtual ~InfrastIntelligentAnalyzer() override = default;
+    virtual ~InfrastIntelligentWorkspaceAnalyzer() override = default;
 
     bool analyze(bool is_end = false);
 

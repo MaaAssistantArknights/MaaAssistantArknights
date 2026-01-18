@@ -6,35 +6,66 @@
 #include "Status.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
-#include "Vision/Infrast/InfrastIntelligentAnalyzer.h"
+#include "Vision/Infrast/InfrastIntelligentWorkspaceAnalyzer.h"
+#include "Vision/Infrast/InfrastIntelligentDormitoryAnalyzer.h"
 #include <algorithm>
 using namespace std::string_literals;
-
-void asst::InfrastIntelligentTask::remove_duplicates()
-{
-    if (m_room_infos.empty()) return;
-    std::vector<infrast::InfrastRoomInfo> temp_rooms = std::move(m_room_infos);
-    m_room_infos.clear(); 
-    std::vector<std::string> room_names;
-    
-    m_room_infos.reserve(temp_rooms.size());
-
-    for (auto& room : temp_rooms) {
-        if (room.room_name.empty()) continue;
-        if (std::find(room_names.begin(), room_names.end(), room.room_name) == room_names.end()) {
-            room_names.push_back(room.room_name);
-            m_room_infos.push_back(std::move(room));
-        } else {
-            // Log.debug("Duplicate removed:", room.room_name);
-        }
-    }
-}
 
 void asst::InfrastIntelligentTask::swipe_overview_up()
 {
     ProcessTask(*this, { "InfrastOverviewSwipeUp" }).run();
 }
-bool asst::InfrastIntelligentTask::scan_overview()
+
+void asst::InfrastIntelligentTask::remove_room_duplicates()
+{
+    if (m_room_infos.empty()) return;
+
+    std::vector<infrast::InfrastRoomInfo> temp_rooms = std::move(m_room_infos);
+    m_room_infos.clear(); 
+    
+    m_room_infos.reserve(temp_rooms.size());
+    
+    std::vector<std::string> has_names;
+    has_names.reserve(temp_rooms.size());
+
+    for (auto& room : temp_rooms) {
+        if (room.room_name.empty()) continue;
+        if (std::find(has_names.begin(), has_names.end(), room.room_name) == has_names.end()) {
+            has_names.push_back(room.room_name);
+            m_room_infos.push_back(std::move(room));
+        } else {
+            // Log.debug("Duplicate Room removed:", room.room_name);
+        }
+    }
+}
+
+// 2. 针对宿舍 (Dormitory) 的去重
+void asst::InfrastIntelligentTask::remove_dorm_duplicates()
+{
+    if (m_dorm_infos.empty()) return;
+
+    // 将原数据 move 到临时容器
+    std::vector<infrast::InfrastDormInfo> temp_dorms = std::move(m_dorm_infos);
+    m_dorm_infos.clear(); 
+    
+    m_dorm_infos.reserve(temp_dorms.size());
+
+    std::vector<std::string> has_names;
+    has_names.reserve(temp_dorms.size());
+
+    for (auto& dorm : temp_dorms) {
+        if (dorm.room_name.empty()) continue;
+        
+        // 逻辑完全一致，只是操作对象变为 dorm
+        if (std::find(has_names.begin(), has_names.end(), dorm.room_name) == has_names.end()) {
+            has_names.push_back(dorm.room_name);
+            m_dorm_infos.push_back(std::move(dorm));
+        } else {
+            // Log.debug("Duplicate Dorm removed:", dorm.room_name);
+        }
+    }
+}
+bool asst::InfrastIntelligentTask::scan_overview_workspace()
 {
     LogTraceFunction;
     m_room_infos.clear();
@@ -43,7 +74,7 @@ bool asst::InfrastIntelligentTask::scan_overview()
     int scroll_count = 0;
     while (true) {
         auto image = ctrler()->get_image();
-        InfrastIntelligentAnalyzer analyzer(image);
+        InfrastIntelligentWorkspaceAnalyzer analyzer(image);
 
         if (!analyzer.analyze()) {
             Log.warn("No rooms found in current view. Retrying or Aborting...");
@@ -88,7 +119,7 @@ bool asst::InfrastIntelligentTask::scan_overview()
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
-    remove_duplicates();
+    remove_room_duplicates();
 
     Log.info("=== Infrast Overview Scan Completed ===");
     Log.info("Total raw rows scanned:", m_room_infos.size());
@@ -99,6 +130,70 @@ bool asst::InfrastIntelligentTask::scan_overview()
                 Log.info("  Slot", i + 1, "is Empty");
             } else {
                 Log.info("  Slot", i + 1, "has Operator with Mood Ratio:", room_info.slots_mood[i]);
+            }
+        }
+    }
+
+    return true;
+}
+
+bool asst::InfrastIntelligentTask::scan_overview_dormitory()
+{
+    LogTraceFunction;
+    m_dorm_infos.clear(); // 扫描前清空历史数据
+    std::vector<std::string> prev_page_signatures; // 用于记录上一页的房间名，判断是否到底
+    int max_scroll_times = 20;
+    int scroll_count = 0;
+
+    while (true) {
+        auto image = ctrler()->get_image();
+        InfrastIntelligentDormitoryAnalyzer analyzer(image);
+
+        if (!analyzer.analyze()) {
+            Log.warn("No rooms found in current view. Retrying or Aborting...");
+            // 如果第一页就什么都没扫到，返回 false；如果是中间某页没扫到，可能只是这页识别失败，尝试结束扫描保留已有数据
+            if (m_dorm_infos.empty()) return false;
+            break;
+        }
+
+        const auto& current_results = analyzer.get_result();
+        std::vector<std::string> current_page_signatures;
+        for (const auto& dorm : current_results) {
+            current_page_signatures.push_back(dorm.room_name);
+        }
+        if (!current_page_signatures.empty() && current_page_signatures == prev_page_signatures) {
+            Log.info("InfrastIntelligentTask | Reached bottom of the list (Content unchanged).");
+            break;
+        }
+
+        for (const auto& dorm : current_results) {
+            m_dorm_infos.push_back(dorm);
+            Log.info("Scanned Dorm:", dorm.room_name);
+        }
+
+        prev_page_signatures = current_page_signatures;
+        scroll_count++;
+        if (scroll_count >= max_scroll_times) {
+            Log.warn("InfrastIntelligentTask | Max scroll limit reached.");
+            break;
+        }
+
+        Log.info("InfrastIntelligentTask | Swiping up... (", scroll_count, ")");
+        swipe_overview_up();
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+
+    remove_dorm_duplicates();
+
+    Log.info("=== Infrast Overview Dormitory Scan Completed ===");
+    Log.info("Total raw rows scanned:", m_dorm_infos.size());
+    for (const auto& dorm_info : m_dorm_infos) {
+        Log.info("Room:", dorm_info.room_name);
+        for (size_t i = 0; i < dorm_info.slots_rect.size(); ++i) {
+            if (dorm_info.slots_lock[i]) {
+                Log.info("  Slot", i + 1, "is Locked");
+            } else {
+                Log.info("  Slot", i + 1, "has Operator with Mood Ratio:", dorm_info.slots_mood[i]);
             }
         }
     }
@@ -117,9 +212,20 @@ bool asst::InfrastIntelligentTask::_run()
         Log.error("InfrastIntelligentTask | Failed to enter intelligent view");
         return false;
     }
-    // 2) 进入后进行循环扫描 + 滑动，直到到底或达到最大滑动次数
-    if (!scan_overview()) {
-        Log.warn("InfrastIntelligentTask | initial scan failed");
+     // 2) 进入后进行循环扫描 + 滑动，直到到底或达到最大滑动次数
+     if (!scan_overview_workspace()) {
+         Log.warn("InfrastIntelligentTask | scan overview failed");
+         return false;
+     }
+    // 3) 点击进入宿舍界面
+    ProcessTask entrydorm_task(*this, { "InfrastEnterDorm" }); 
+    if (!entrydorm_task.run()) {
+        Log.error("InfrastIntelligentTask | Failed to enter dorm view");
+        return false;
+    }
+    // 4) 扫描宿舍信息
+    if (!scan_overview_dormitory()) {
+        Log.warn("InfrastIntelligentTask | scan overview failed");
         return false;
     }
     return true;

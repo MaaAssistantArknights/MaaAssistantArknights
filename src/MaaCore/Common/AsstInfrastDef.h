@@ -164,4 +164,14 @@ struct InfrastRoomInfo
     std::vector<bool> slots_empty;    // 5个槽位是否为空
     std::vector<double> slots_mood;   // 5个槽位的心情数值
 };
+
+struct InfrastDormInfo
+{
+    Rect anchor_rect;             // 锚点位置（调试用）
+    Rect name_rect;               // 房间名 ROI
+    std::string room_name;        // 识别到的房间名
+    std::vector<Rect> slots_rect; // 5个槽位的 ROI
+    std::vector<bool> slots_lock;    // 5个槽位是否锁定
+    std::vector<double> slots_mood;   // 5个槽位的心情数值
+};
 } // namespace asst::infrast

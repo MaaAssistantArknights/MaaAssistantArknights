@@ -3443,7 +3443,7 @@
         "postDelay": 1500,
         "action": "ClickSelf"
     },
-    "InfrastOverview-Anchor": {
+    "InfrastOverviewAnchor": {
         "template": "InfrastSingleRoomQueueRotation.png",
         "roi": [1182, 78, 55, 644],
         "templThreshold": 0.8,
@@ -3486,13 +3486,13 @@
         "template": "empty.png",
         "roi": [-114, 0, 114, 134]
     },
-    "InfrastOverview-SlotEmpty": {
-        "template": "InfrastOverviewEmpty2.png",
+    "InfrastOverviewSlotEmpty": {
+        "template": "InfrastOverviewEmpty.png",
         "templThreshold": 0.85,
-        "doc": "空槽位图标，ROI由C++动态覆盖",
+        "doc": "空槽位图标，ROI由C++覆写为Slot的ROI",
         "roi": [0, 0, 100, 100]
     },
-    "InfrastOverview-MoodProgressBar": {
+    "InfrastOverviewMoodProgressBar": {
         "template": "empty.png",
         "templThreshold_Doc": "这里的templThreshold，作为进度条最小灰度阈值使用",
         "templThreshold": 160,
@@ -3503,15 +3503,18 @@
     },
     "InfrastOverviewSmileyRest": {
         "template": "InfrastOverviewSmileyRest.png",
-        "templThreshold": 0.8
+        "maskRange": [1, 255],
+        "templThreshold": 0.9
     },
     "InfrastOverviewSmileyWork": {
         "template": "InfrastOverviewSmileyWork.png",
-        "templThreshold": 0.8
+        "maskRange": [1, 255],
+        "templThreshold": 0.9
     },
     "InfrastOverviewSmileyDistract": {
         "template": "InfrastOverviewSmileyDistract.png",
-        "templThreshold": 0.8
+        "maskRange": [1, 255],
+        "templThreshold": 0.9
     },
     "InfrastOverviewSwipeUp": {
         "algorithm": "JustReturn",
@@ -3526,6 +3529,67 @@
             0
         ],
         "postDelay": 500
+    },
+    "InfrastEnterDorm": {
+        "template": "InfrastEnterTrim.png",
+        "roi": [1000, 0, 150, 100],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "InfrastOverviewDormAnchor": {
+        "template": "InfrastOverviewDormIcon.png",
+        "roi": [510, 82, 66, 578],
+        "templThreshold": 0.8,
+        "doc": "锚点：宿舍五个点的图标"
+    },
+    "InfrastOverviewDormNameRect": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于锚点的位置移动",
+        "rectMove": [-83, -13, 82, 50],
+        "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
+        "specificRect": [235, 255, 0, 0],
+        "ocrReplaceDoc": "利用正则捕获组提取：组1是房间名，组2是1-9的数字。其余部分(包括0、符号)全部被.*吞掉并删除",
+        "ocrReplace": [
+            ["^(宿舍)([1-9])?.*$","$1$2"]
+        ]
+    },
+    "InfrastOverviewDormRect": {
+        "doc": "单个宿舍位置",
+        "template": "empty.png",
+        "roi": [-83, -13, 800, 135]
+    },
+    "InfrastOverviewDormSlot0": {
+        "doc": "第1个槽位，相对于 Anchor 的偏移 [x, y, w, h]。计算: 624 - 1182 = -558",
+        "template": "empty.png",
+        "roi": [109, -12, 114, 135]
+    },
+    "InfrastOverviewDormSlot1": {
+        "doc": "第2个槽位",
+        "template": "empty.png",
+        "roi": [222, -12, 114, 135]
+    },
+    "InfrastOverviewDormSlot2": {
+        "doc": "第3个槽位",
+        "template": "empty.png",
+        "roi": [335, -12, 114, 135]
+    },
+    "InfrastOverviewDormSlot3": {
+        "doc": "第4个槽位",
+        "template": "empty.png",
+        "roi": [448, -12, 114, 135]
+    },
+    "InfrastOverviewDormSlot4": {
+        "doc": "第5个槽位",
+        "template": "empty.png",
+        "roi": [561, -12, 114, 135]
+    },
+    "InfrastOverviewDormSlotLock": {
+        "template": "InfrastOverviewDormLock.png",
+        "templThreshold": 0.85,
+        "doc": "宿舍锁定图标，ROI由C++覆写为Slot的ROI",
+        "maskRange": [1, 255],
+        "roi": [0, 0, 100, 100]
     },
     "BattleStageName": {
         "algorithm": "OcrDetect",
