@@ -216,14 +216,9 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        var creditFight = mall.IsCreditFightAvailable;
         var fightStage = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(x => x is FightTask)?.IsEnable is not false
                          && ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).Cast<FightTask>().FirstOrDefault()?.StagePlan.First() == string.Empty;
-        if (fightStage)
-        {
-            creditFight = false;
-        }
-
+        var creditFight = mall.IsCreditFightAvailable && !fightStage;
         var visitFriends = mall.IsVisitFriendsAvailable;
 
         var task = new AsstMallTask() {
