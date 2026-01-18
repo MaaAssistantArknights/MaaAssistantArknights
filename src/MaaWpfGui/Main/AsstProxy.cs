@@ -1419,7 +1419,7 @@ public class AsstProxy
                         && (Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskId == taskId)?.Index ?? -1) is int index and > -1
                         && index <= ConfigFactory.CurrentConfig.TaskQueue.Count
                         && ConfigFactory.CurrentConfig.TaskQueue[index] is Configuration.Single.MaaTask.FightTask fight
-                        && FightSettingsUserControlModel.GetFightStage(fight.StagePlan) is "Annihilation")
+                        && FightTask.GetFightStage(fight.StagePlan) is "Annihilation")
                     {
                         Instances.TaskQueueViewModel.AddLog("AnnihilationStage, " + LocalizationHelper.GetString("GiveUpUploadingPenguins"));
                         break;
