@@ -397,11 +397,10 @@ asst::Assistant::AsyncCallId asst::Assistant::async_attach_window(
 
     return append_async_call(
         AsyncCallItem::Type::AttachWindow,
-        AsyncCallItem::AttachWindowParams {
-            .hwnd = hwnd,
-            .screencap_method = screencap_method,
-            .mouse_method = mouse_method,
-            .keyboard_method = keyboard_method },
+        AsyncCallItem::AttachWindowParams { .hwnd = hwnd,
+                                            .screencap_method = screencap_method,
+                                            .mouse_method = mouse_method,
+                                            .keyboard_method = keyboard_method },
         block);
 }
 #endif
