@@ -216,13 +216,15 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        var fightStage = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(x => x is FightTask)?.IsEnable is not false
-                         && ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).Cast<FightTask>().FirstOrDefault()?.StagePlan.First() == string.Empty;
-        var creditFight = mall.IsCreditFightAvailable && !fightStage;
+        var fightStageEmpty = ConfigFactory.CurrentConfig.TaskQueue
+            .OfType<FightTask>()
+            .Where(task => task.IsEnable == true)
+            .Any(task => string.IsNullOrEmpty(FightSettingsUserControlModel.GetFightStage(task.StagePlan)));
+        var creditFight = mall.IsCreditFightAvailable;
         var visitFriends = mall.IsVisitFriendsAvailable;
 
         var task = new AsstMallTask() {
-            CreditFight = creditFight && !fightStage,
+            CreditFight = creditFight && !fightStageEmpty,
             FormationIndex = mall.CreditFightFormation,
             VisitFriends = visitFriends,
             WithShopping = mall.Shopping,
