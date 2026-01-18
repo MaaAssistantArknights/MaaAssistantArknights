@@ -293,14 +293,14 @@
     <system:String x:Key="Ok">확인</system:String>
     <system:String x:Key="Cancel">취소</system:String>
     <system:String x:Key="Confirm">확인</system:String>
-    <system:String x:Key="Rename">이름 바꾸기</system:String>
+    <system:String x:Key="Rename">이름 변경</system:String>
     <system:String x:Key="Delete">삭제</system:String>
-    <system:String x:Key="RenameTask">작업 이름 바꾸기</system:String>
+    <system:String x:Key="RenameTask">작업 이름 변경</system:String>
     <system:String x:Key="RenameTaskPrompt">새 작업 이름을 입력하세요:</system:String>
     <system:String x:Key="ConfirmDeleteTask">삭제 확인</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">정말로 {0} 번째 작업 "{1}"을 삭제하시겠습니까?</system:String>
-    <system:String x:Key="TaskRenamed">작업 이름이 변경되었습니다: {0}</system:String>
-    <system:String x:Key="TaskDeleted">작업이 삭제되었습니다: {0}</system:String>
+    <system:String x:Key="TaskRenamed">작업 이름 변경: {0}</system:String>
+    <system:String x:Key="TaskDeleted">작업 삭제: {0}</system:String>
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
     <system:String x:Key="HotKeyLinkStart">[단축키] Link 시작/중지</system:String>
     <system:String x:Key="HotKeyChangingTip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
@@ -730,7 +730,7 @@ C:\\leidian\\LDPlayer9
 연속 대리 지휘 횟수를 조정하지 않습니다.</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="StageSelect2">대안</system:String>
-    <system:String x:Key="AddStage">무대 추가</system:String>
+    <system:String x:Key="AddStage">스테이지 추가</system:String>
     <system:String x:Key="RemainingSanityStage">남은 이성</system:String>
     <system:String x:Key="NoUse">미사용</system:String>
     <!--<system:String x:Key="Amend">수정</system:String>-->
@@ -785,7 +785,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
-    <system:String x:Key="TaskAppend.Skip">{0}: {1} 작업 건너뛰기</system:String>
+    <system:String x:Key="TaskAppend.Skip">{0}: {1} 작업 스킵</system:String>
     <system:String x:Key="TaskAppend.Error">{0}: {1} 작업 추가 실패</system:String>
     <system:String x:Key="AdbReplacementTips">작업이 전혀 반응하지 않을 경우, ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣를 사용하거나, 터치 모드에서 ADB Input(권장하지 않음)을 선택해 보세요.</system:String>
     <system:String x:Key="Waiting">전투가 끝나기를 기다리며……</system:String>
