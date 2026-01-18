@@ -40,6 +40,7 @@ MAA now supports running on PC, but will not provide maintenance or adaptation s
 
 ### 修复 | Fix
 
+* 在赠送线索时弹出上次线索交流结束的提示时无法返回 @ABA2396
 * 有猪乱写 OF-1 和 当前/上次 的条件 @ABA2396
 
 ## v6.3.0-beta.1
