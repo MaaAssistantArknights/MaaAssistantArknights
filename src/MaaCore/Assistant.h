@@ -85,6 +85,21 @@ public:
         const std::string& address,
         const std::string& config,
         bool block = false) override;
+#ifdef _WIN32
+    // 同步绑定到 Win32 窗口，功能已完全被异步绑定取代
+    // FIXME: 5.0 版本将废弃此接口
+    bool attach_window(
+        void* hwnd,
+        Win32ScreencapMethod screencap_method,
+        Win32InputMethod mouse_method,
+        Win32InputMethod keyboard_method);
+    AsyncCallId async_attach_window(
+        void* hwnd,
+        Win32ScreencapMethod screencap_method,
+        Win32InputMethod mouse_method,
+        Win32InputMethod keyboard_method,
+        bool block = false);
+#endif
     virtual AsyncCallId async_click(int x, int y, bool block = false) override;
     virtual AsyncCallId async_screencap(bool block = false) override;
 
@@ -121,6 +136,9 @@ private:
         enum class Type
         {
             Connect,
+#ifdef _WIN32
+            AttachWindow,
+#endif
             Click,
             Screencap,
         };
@@ -132,6 +150,16 @@ private:
             std::string config;
         };
 
+#ifdef _WIN32
+        struct AttachWindowParams
+        {
+            void* hwnd = nullptr;
+            Win32ScreencapMethod screencap_method = Win32Screencap::None;
+            Win32InputMethod mouse_method = Win32Input::None;
+            Win32InputMethod keyboard_method = Win32Input::None;
+        };
+#endif
+
         struct ClickParams
         {
             int x = 0;
@@ -142,7 +170,11 @@ private:
         {
         };
 
+#ifdef _WIN32
+        using Parmas = std::variant<ConnectParams, AttachWindowParams, ClickParams, ScreencapParams>;
+#else
         using Parmas = std::variant<ConnectParams, ClickParams, ScreencapParams>;
+#endif
 
         AsyncCallId id;
         Type type;
@@ -162,6 +194,9 @@ private:
     bool inited() const noexcept;
 
     bool ctrl_connect(const std::string& adb_path, const std::string& address, const std::string& config);
+#ifdef _WIN32
+    bool ctrl_attach_window(void* hwnd, Win32ScreencapMethod screencap_method, Win32InputMethod mouse_method, Win32InputMethod keyboard_method);
+#endif
     bool ctrl_click(int x, int y);
     bool ctrl_screencap();
 

@@ -48,6 +48,7 @@ using Newtonsoft.Json.Linq;
 using ObservableCollections;
 using Serilog;
 using Stylet;
+using Windows.Win32;
 using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = nint;
 using AsstInstanceOptionKey = System.Int32;
@@ -138,6 +139,16 @@ public class AsstProxy
         {
             MaaService.AsstSetConnectionExtras(ptr1, ptr2);
         }
+    }
+
+    private static bool AsstAttachWindow(AsstHandle handle, IntPtr hwnd, ulong screencapMethod, ulong mouseMethod, ulong keyboardMethod)
+    {
+        _logger.Information("handle: {Handle}, hwnd: {Hwnd}, screencapMethod: {ScreencapMethod}, mouseMethod: {MouseMethod}, keyboardMethod: {KeyboardMethod}",
+            (long)handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
+
+        bool ret = MaaService.AsstAttachWindow(handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
+        _logger.Information("handle: {Handle}, hwnd: {Hwnd}, return: {Ret}", (long)handle, hwnd, ret);
+        return ret;
     }
 
     private static void AsstSetConnectionExtrasMuMu12(string extras)
@@ -473,6 +484,13 @@ public class AsstProxy
             CopyTasksJson(globalCacheRes);
             loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCacheRes);
             loaded &= LoadResIfExists(globalRes) && LoadResIfExists(globalCacheRes);
+        }
+
+        // 使用窗口绑定模式时，额外加载 PC 平台差异资源
+        if (SettingsViewModel.ConnectSettings.UseAttachWindow)
+        {
+            string pcPlatformRes = Path.Combine(mainRes, "platform_diff", "PC", "resource");
+            loaded &= LoadResIfExists(pcPlatformRes);
         }
 
         return loaded;
@@ -1656,6 +1674,7 @@ public class AsstProxy
                                     AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ClueUseGroup);
                                     AchievementTrackerHelper.Instance.ClueObsessionAdd();
                                     break;
+
                                 case "SendClues":
                                     AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ClueSendGroup);
                                     break;
@@ -1709,11 +1728,11 @@ public class AsstProxy
                 ProcRecruitCalcMsg(details);
                 break;
 
-            /*
-            case "VideoRecognition":
-                ProcVideoRecMsg(details);
-                break;
-            */
+                /*
+                case "VideoRecognition":
+                    ProcVideoRecMsg(details);
+                    break;
+                */
         }
 
         var subTaskDetails = details["details"];
@@ -2337,6 +2356,121 @@ public class AsstProxy
     /// <param name="error">具体的连接错误。</param>
     /// <returns>是否成功。</returns>
     public bool AsstConnect(ref string error)
+    {
+        // 如果启用了 AttachWindow 模式，则使用窗口绑定而非 ADB 连接
+        if (SettingsViewModel.ConnectSettings.UseAttachWindow)
+        {
+            return AsstAttachWindowConnect(ref error);
+        }
+
+        return AsstAdbConnect(ref error);
+    }
+
+    /// <summary>
+    /// 搜索指定窗口标题的窗口句柄。
+    /// </summary>
+    /// <param name="windowName">窗口标题（完全匹配）。</param>
+    /// <returns>找到的窗口句柄列表。</returns>
+    private static List<IntPtr> FindWindowsByName(string windowName)
+    {
+        var results = new List<IntPtr>();
+
+        PInvoke.EnumWindows((hWnd, lParam) => {
+            if (!PInvoke.IsWindowVisible(hWnd))
+            {
+                return true;
+            }
+
+            var len = PInvoke.GetWindowTextLength(hWnd);
+            if (len <= 0)
+            {
+                return true;
+            }
+
+            Span<char> buffer = len <= 1024 ? stackalloc char[len + 1] : new char[len + 1];
+            int written = PInvoke.GetWindowText(hWnd, buffer);
+            var title = new string(buffer[..Math.Max(0, Math.Min(written, buffer.Length))]);
+
+            if (title == windowName)
+            {
+                results.Add((IntPtr)hWnd);
+            }
+
+            return true;
+        }, IntPtr.Zero);
+
+        return results;
+    }
+
+    /// <summary>
+    /// 通过 AttachWindow 绑定 Win32 窗口。
+    /// 自动搜索 "明日方舟" 窗口。
+    /// </summary>
+    /// <param name="error">具体的连接错误。</param>
+    /// <returns>是否成功。</returns>
+    private bool AsstAttachWindowConnect(ref string error)
+    {
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Warning);
+
+        const string TargetWindowName = "明日方舟";
+        var foundWindows = FindWindowsByName(TargetWindowName);
+
+        if (foundWindows.Count == 0)
+        {
+            error = string.Format(LocalizationHelper.GetString("AttachWindowNotFound"), TargetWindowName);
+            Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
+            _logger.Warning("AttachWindow: No window found with name {WindowName}", TargetWindowName);
+            return false;
+        }
+
+        var hwnd = foundWindows[0];
+
+        if (foundWindows.Count > 1)
+        {
+            // 找到多个窗口，使用第一个并记录日志
+            var multipleMsg = string.Format(LocalizationHelper.GetString("AttachWindowMultipleFound"), foundWindows.Count, TargetWindowName);
+            Instances.TaskQueueViewModel.AddLog(multipleMsg, UiLogColor.Info);
+            _logger.Warning("AttachWindow: Multiple windows found with name {WindowName}, count: {Count}, using first one: {Hwnd}", TargetWindowName, foundWindows.Count, hwnd);
+        }
+        else
+        {
+            var foundMsg = string.Format(LocalizationHelper.GetString("AttachWindowFound"), TargetWindowName);
+            Instances.TaskQueueViewModel.AddLog(foundMsg, UiLogColor.Info);
+            _logger.Information("AttachWindow: Found window \"{WindowName}\" with HWND: {Hwnd}", TargetWindowName, hwnd);
+        }
+
+        if (!ulong.TryParse(SettingsViewModel.ConnectSettings.AttachWindowScreencapMethod, out var screencapMethod))
+        {
+            screencapMethod = 2; // 默认 FramePool
+        }
+
+        if (!ulong.TryParse(SettingsViewModel.ConnectSettings.AttachWindowMouseMethod, out var mouseMethod))
+        {
+            mouseMethod = 64; // 默认 PostMessageWithCursorPos
+        }
+
+        if (!ulong.TryParse(SettingsViewModel.ConnectSettings.AttachWindowKeyboardMethod, out var keyboardMethod))
+        {
+            keyboardMethod = 64; // 默认 PostMessageWithCursorPos
+        }
+
+        bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
+
+        if (!ret)
+        {
+            error = LocalizationHelper.GetString("AttachWindowFailed");
+            Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// 通过 ADB 连接模拟器。
+    /// </summary>
+    /// <param name="error">具体的连接错误。</param>
+    /// <returns>是否成功。</returns>
+    private bool AsstAdbConnect(ref string error)
     {
         switch (SettingsViewModel.ConnectSettings.ConnectConfig)
         {
