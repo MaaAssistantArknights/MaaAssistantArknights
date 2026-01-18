@@ -194,9 +194,12 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
     [Obsolete("使用SerializeTask作为代替")]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var fightEnable = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(x => x is FightTask)?.IsEnable is not false;
+        var fightStageEmpty = ConfigFactory.CurrentConfig.TaskQueue
+            .OfType<FightTask>()
+            .Where(task => task.IsEnable is not false)
+            .Any(task => string.IsNullOrEmpty(FightSettingsUserControlModel.GetFightStage(task.StagePlan)));
         var task = new AsstMallTask() {
-            // CreditFight = fightEnable ? (!string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage) && CreditFightTaskEnabled) : CreditFightTaskEnabled,
+            CreditFight = CreditFightTaskEnabled && !fightStageEmpty,
             FormationIndex = CreditFightSelectFormation,
             VisitFriends = CreditVisitFriendsEnabled,
             WithShopping = CreditShopping,
@@ -216,22 +219,15 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        var fightStage = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(x => x is FightTask)?.IsEnable is not false
-                         && ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).Cast<FightTask>().FirstOrDefault()?.StagePlan.First() == string.Empty;
-        if (fightStage)
-        {
-            Log.Warning("理智作战 当前/上次 导致无法 OF-1"); // 需要移除
-#if Release
-            Debug.Assert(false, "需要移除");
-#endif
-            return false;
-        }
-
+        var fightStageEmpty = ConfigFactory.CurrentConfig.TaskQueue
+            .OfType<FightTask>()
+            .Where(task => task.IsEnable is not false)
+            .Any(task => string.IsNullOrEmpty(FightSettingsUserControlModel.GetFightStage(task.StagePlan)));
         var creditFight = mall.IsCreditFightAvailable;
         var visitFriends = mall.IsVisitFriendsAvailable;
 
         var task = new AsstMallTask() {
-            CreditFight = creditFight && !fightStage,
+            CreditFight = creditFight && !fightStageEmpty,
             FormationIndex = mall.CreditFightFormation,
             VisitFriends = visitFriends,
             WithShopping = mall.Shopping,
