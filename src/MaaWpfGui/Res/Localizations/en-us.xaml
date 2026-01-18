@@ -515,7 +515,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="RoguelikeStartWithKey">Key</system:String>
     <system:String x:Key="RoguelikeStartWithDice">Dice</system:String>
     <system:String x:Key="RoguelikeStartWithIdea">Thought</system:String>
-    <system:String x:Key="RoguelikeStartWithTicket">Ticket[i18n]</system:String>
+    <system:String x:Key="RoguelikeStartWithTicket">Ticket</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
     <system:String x:Key="PenguinId">Penguin Report ID (Number part)</system:String>
     <system:String x:Key="EnablePenguin">Report Penguin</system:String>
