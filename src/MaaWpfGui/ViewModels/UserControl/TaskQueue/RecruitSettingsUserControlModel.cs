@@ -370,6 +370,20 @@ public class RecruitSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private bool _autoUpdateOperBox = ConfigurationHelper.GetValue(ConfigurationKeys.AutoUpdateOperBox, false);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to update operator information after receiving awards.
+    /// </summary>
+    public bool AutoUpdateOperBox
+    {
+        get => _autoUpdateOperBox;
+        set {
+            SetAndNotify(ref _autoUpdateOperBox, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AutoUpdateOperBox, value.ToString());
+        }
+    }
+
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstRecruitTask() {

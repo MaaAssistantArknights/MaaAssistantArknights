@@ -616,6 +616,11 @@ public class RemoteControlService
 
                     case "Recruiting":
                         taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, RecruitSettingsUserControlModel.Instance.Serialize());
+                        // Append OperBoxTask if auto-update is enabled
+                        if (RecruitSettingsUserControlModel.Instance.AutoUpdateOperBox)
+                        {
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperBox, AsstTaskType.OperBox);
+                        }
                         break;
 
                     case "Mall":

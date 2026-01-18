@@ -139,6 +139,10 @@
                 Content="{DynamicResource AutoSelectLevel6}"
                 IsChecked="False"
                 IsEnabled="False" />
+            <CheckBox 
+                Margin="0,10"
+                Content="{DynamicResource UpdateOperatorInfo}" 
+                IsChecked="{Binding AutoUpdateOperBox}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

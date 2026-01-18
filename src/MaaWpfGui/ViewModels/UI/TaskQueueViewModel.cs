@@ -34,6 +34,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -1608,6 +1609,11 @@ public class TaskQueueViewModel : Screen
 
                 case "Recruiting":
                     taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Recruit, RecruitTask.Serialize());
+                    // Append OperBoxTask if auto-update is enabled
+                    if (RecruitTask.AutoUpdateOperBox)
+                    {
+                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.OperBox, AsstTaskType.OperBox);
+                    }
                     break;
 
                 case "Mall":
@@ -1907,7 +1913,13 @@ public class TaskQueueViewModel : Screen
                 ServerType = Instances.SettingsViewModel.ServerType,
                 ClientType = SettingsViewModel.GameSettings.ClientType,
             };
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.FightRemainingSanity, type, task.Serialize().Params);
+            mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.FightRemainingSanity, type, task.Serialize().Params);
+        }
+
+        // Append DepotTask if auto-update is enabled
+        if (mainFightRet && FightTask.AutoUpdateDepot)
+        {
+            mainFightRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Depot, AsstTaskType.Depot);
         }
 
         return mainFightRet;

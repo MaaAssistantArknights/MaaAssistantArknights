@@ -111,6 +111,8 @@ public static class ConfigurationKeys
     public const string ManualStopWithScript = "Start.ManualStopWithScript";
     public const string BlockSleep = "Start.BlockSleep";
     public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn";
+    public const string AutoUpdateDepot = "Start.AutoUpdateDepot";
+    public const string AutoUpdateOperBox = "Start.AutoUpdateOperBox";
 
     public const string ChooseLevel3 = "Recruit.ChooseLevel3";
     public const string ChooseLevel4 = "Recruit.ChooseLevel4";
