@@ -604,6 +604,13 @@ public class AsstProxy
         }
 
         _runningState.SetInit(true);
+
+        // Force WDA touch mode for WDA connection
+        if (SettingsViewModel.ConnectSettings.ConnectConfig == "wda")
+        {
+            SettingsViewModel.ConnectSettings.TouchMode = "wda";
+        }
+
         AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode);
         AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
         AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
@@ -2388,7 +2395,7 @@ public class AsstProxy
             }
         }
 
-        bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig);
+        bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig == "wda" ? "" : SettingsViewModel.ConnectSettings.ConnectConfig);
 
         // 尝试默认的备选端口
         if (!ret && SettingsViewModel.ConnectSettings.AutoDetectConnection)
@@ -2398,7 +2405,7 @@ public class AsstProxy
                 foreach (var address in value
                              .TakeWhile(_ => !_runningState.GetIdle()))
                 {
-                    ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, address, SettingsViewModel.ConnectSettings.ConnectConfig);
+                    ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, address, SettingsViewModel.ConnectSettings.ConnectConfig == "wda" ? "" : SettingsViewModel.ConnectSettings.ConnectConfig);
                     if (!ret)
                     {
                         continue;

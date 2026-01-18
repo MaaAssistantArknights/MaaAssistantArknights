@@ -70,6 +70,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
             new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
             new() { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
+            new() { Display = LocalizationHelper.GetString("WDA"), Value = "wda" },
             new() { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
             new() { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
             new() { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
@@ -83,6 +84,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("MiniTouchMode"), Value = "minitouch" },
             new() { Display = LocalizationHelper.GetString("MaaTouchMode"), Value = "maatouch" },
             new() { Display = LocalizationHelper.GetString("AdbTouchMode"), Value = "adb" },
+            new() { Display = LocalizationHelper.GetString("WDATouchMode"), Value = "wda" },
         ];
 
     private bool _autoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, bool.TrueString));
@@ -91,6 +93,17 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         get => _autoDetectConnection;
         set {
+            // WDA does not support auto-detection
+            if (ConnectConfig == "wda" && value)
+            {
+                Execute.OnUIThreadAsync(() =>
+                {
+                    ToastNotification.ShowDirect(
+                        LocalizationHelper.GetString("WDANoAutoDetect"));
+                });
+                return;
+            }
+
             if (!SetAndNotify(ref _autoDetectConnection, value))
             {
                 return;
@@ -193,6 +206,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         get => _adbPath;
         set {
+            // WDA does not require ADB path
+            if (ConnectConfig == "wda")
+            {
+                SetAndNotify(ref _adbPath, string.Empty);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AdbPath, string.Empty);
+                return;
+            }
+
             if (!Path.GetFileName(value).ToLower().Contains("adb"))
             {
                 var count = 3;
@@ -812,6 +833,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             { "Nox", ["127.0.0.1:62001", "127.0.0.1:59865"] },
             { "XYAZ", ["127.0.0.1:21503"] },
             { "WSA", ["127.0.0.1:58526"] },
+            { "wda", ["127.0.0.1:8100"] },
         };
 
     /// <summary>

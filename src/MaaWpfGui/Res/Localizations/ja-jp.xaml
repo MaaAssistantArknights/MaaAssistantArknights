@@ -429,6 +429,9 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MiniTouchMode">Minitouch (標準)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
+    <system:String x:Key="WDA">WDA (iOS)</system:String>
+    <system:String x:Key="WDATouchMode">WDA（iOSデバイス）</system:String>
+    <system:String x:Key="WDANoAutoDetect">WDAは自動検出をサポートしていません。デバイスアドレスを手動で入力してください（例：127.0.0.1:8100）</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">エミュレーター起動パラメータの追加コマンド（例：「--instance 1」は 1 番インスタンス）。&#10;コマンド形式はエミュレーターにより異なり、通常はインスタンス番号やウィンドウモードなどを含みます。</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>

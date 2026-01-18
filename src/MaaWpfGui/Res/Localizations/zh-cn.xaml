@@ -429,6 +429,9 @@
     <system:String x:Key="MiniTouchMode">Minitouch（默认）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推荐使用）</system:String>
+    <system:String x:Key="WDA">WDA (iOS)</system:String>
+    <system:String x:Key="WDATouchMode">WDA（iOS 设备）</system:String>
+    <system:String x:Key="WDANoAutoDetect">WDA 不支持自动检测，请手动输入设备地址（例如：127.0.0.1:8100）</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用于指定模拟器启动参数（如 ｢--instance 1｣ 表示启动 1 号实例）。&#10;不同模拟器的命令格式不同，通常包括实例编号、窗口模式等参数，请参考您使用的模拟器文档</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
