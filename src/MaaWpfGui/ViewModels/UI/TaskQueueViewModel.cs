@@ -28,15 +28,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -44,6 +46,7 @@ using MaaWpfGui.Views.Dialogs;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
 using Task = System.Threading.Tasks.Task;
@@ -64,7 +67,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Gets or private sets the view models of task items.
     /// </summary>
-    public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; private set; } = [];
+    public ObservableCollection<TaskItemViewModel> TaskItemViewModels { get; private set; } = [];
 
     /// <summary>
     /// Gets the visibility of task setting views.
@@ -127,22 +130,56 @@ public class TaskQueueViewModel : Screen
 
     #endregion 长草任务Model
 
-    private static readonly IEnumerable<TaskViewModel> _taskViewModelTypes = InitTaskViewModelList();
+    private static readonly IEnumerable<TaskSettingsViewModel> _taskViewModelTypes = InitTaskViewModelList();
 
     /// <summary>
     /// 实时更新任务顺序
     /// </summary>
     /// <param name="sender">ignored object</param>
     /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
-    public void TaskItemSelectionChanged(object? sender = null, NotifyCollectionChangedEventArgs? e = null)
+    public void TaskItemSelectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        _ = (sender, e);
-        Execute.OnUIThread(() => {
-            int index = 0;
-            foreach (var item in TaskItemViewModels)
+        Application.Current.Dispatcher.InvokeAsync(() => {
+            if (e.Action == NotifyCollectionChangedAction.Move)
             {
-                ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
-                ++index;
+                int oldIndex = e.OldStartingIndex;
+                int newIndex = e.NewStartingIndex;
+
+                ConfigFactory.CurrentConfig.TaskQueue.Move(oldIndex, newIndex);
+
+                int start = Math.Min(oldIndex, newIndex);
+                int end = Math.Max(oldIndex, newIndex);
+
+                // Move 会导致区间内所有任务顺序变化，必须全部更新
+                for (int i = start; i <= end; i++)
+                {
+                    TaskItemViewModels[i].Index = i;
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
+                TaskItemViewModels.FirstOrDefault(i => i.EnableSetting)?.EnableSetting = false;
+                TaskItemViewModels[e.NewStartingIndex].EnableSetting = true;
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                if (e.OldStartingIndex >= 0 && e.OldStartingIndex < ConfigFactory.CurrentConfig.TaskQueue.Count)
+                {
+                    TaskSettingVisibilities.SetTaskSettingVisible(ConfigFactory.CurrentConfig.TaskQueue[e.OldStartingIndex], false);
+                    ConfigFactory.CurrentConfig.TaskQueue.RemoveAt(e.OldStartingIndex);
+                }
+
+                for (int i = e.OldStartingIndex; i < TaskItemViewModels.Count; i++) // 更新后续任务的索引
+                {
+                    TaskItemViewModels[i].Index = i;
+                }
+                if (e.OldStartingIndex == TaskSettingVisibilities.CurrentIndex)
+                {
+                    var task = TaskItemViewModels.FirstOrDefault(i => i.Index == e.OldStartingIndex);
+                    task ??= TaskItemViewModels.FirstOrDefault(i => i.Index == e.OldStartingIndex - 1);
+                    task?.EnableSetting = true;
+                }
             }
         });
     }
@@ -351,7 +388,7 @@ public class TaskQueueViewModel : Screen
         get => _enableAfterActionSetting;
         set {
             SetAndNotify(ref _enableAfterActionSetting, value);
-            TaskSettingVisibilityInfo.Instance.Set("AfterAction", value);
+            TaskSettingVisibilityInfo.Instance.SetPostAction(value);
         }
     }
 
@@ -512,6 +549,12 @@ public class TaskQueueViewModel : Screen
             }
         };
         _runningState.TimeoutOccurred += RunningState_TimeOut;
+
+        if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
+        {
+            CanShowAutoReload = true;
+            ShowDebugTask = true;
+        }
     }
 
     private void RunningState_TimeOut(object? sender, string message)
@@ -649,7 +692,7 @@ public class TaskQueueViewModel : Screen
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
-            InfrastTask.RefreshCustomInfrastPlanDisplay();
+            InfrastTask.RefreshInfrastTimeRotationDisplay();
 
             await HandleTimerLogic(currentTime);
         }
@@ -881,76 +924,28 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     private void InitializeItems()
     {
-        List<string> taskList =
-        [
-            "WakeUp",
-            "Recruiting",
-            "Base",
-            "Combat",
-            "Mall",
-            "Mission",
-            "AutoRoguelike",
-            "Reclamation"
-        ];
-
-        if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
+        List<TaskItemViewModel> taskqueue = [];
+        for (int i = 0; i < ConfigFactory.CurrentConfig.TaskQueue.Count; i++)
         {
-            taskList.Add("Custom");
-            CanShowAutoReload = true;
-        }
-
-        var tempOrderList = new List<DragItemViewModel?>(new DragItemViewModel[taskList.Count]);
-        var nonOrderList = new List<DragItemViewModel?>();
-        for (int i = 0; i != taskList.Count; ++i)
-        {
-            var task = taskList[i];
-            bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
-
-            DragItemViewModel vm = new DragItemViewModel(
-                LocalizationHelper.GetString(task),
-                task,
-                "TaskQueue.",
-                task is not ("AutoRoguelike" or "Reclamation" or "Custom"));
-
-            if (task == TaskSettingVisibilityInfo.DefaultVisibleTaskSetting)
+            var task = ConfigFactory.CurrentConfig.TaskQueue.ElementAt(i);
+            if (task is not null)
             {
-                vm.EnableSetting = true;
-            }
-
-            if (!parsed || order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
-            {
-                nonOrderList.Add(vm);
-            }
-            else
-            {
-                tempOrderList[order] = vm;
+                taskqueue.Add(new TaskItemViewModel(task.Name, task.IsEnable) { Index = i });
             }
         }
 
-        foreach (var newVm in nonOrderList)
-        {
-            if (newVm == null)
-            {
-                continue;
-            }
-
-            int i = 0;
-            while (tempOrderList[i] != null)
-            {
-                ++i;
-            }
-
-            tempOrderList[i] = newVm;
-            ConfigurationHelper.SetTaskOrder(newVm.OriginalName, i.ToString());
-        }
-
-        TaskItemViewModels = [.. tempOrderList.OfType<DragItemViewModel>()];
+        TaskItemViewModels = [.. taskqueue];
         TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
+        var taskItem = TaskItemViewModels.ElementAtOrDefault(ConfigFactory.CurrentConfig.TaskSelectedIndex);
+        taskItem ??= TaskItemViewModels.FirstOrDefault(i => ConfigFactory.CurrentConfig.TaskQueue[i.Index] is FightTask);
+        taskItem ??= TaskItemViewModels.FirstOrDefault();
+        if (taskItem is { })
+        {
+            taskItem.EnableSetting = true;
+        }
 
-        FightTask.InitDrops();
         NeedToUpdateDatePrompt();
         UpdateDatePromptAndStagesLocally();
-        InfrastTask.ParseCustomInfrastPlan();
 
         if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
         {
@@ -1034,6 +1029,7 @@ public class TaskQueueViewModel : Screen
         var builder = new StringBuilder(LocalizationHelper.GetString("TodaysStageTip") + "\n");
 
         // Closed activity stages
+        /*
         foreach (var stage in FightTask.Stages)
         {
             if (stage == null || Instances.StageManager.GetStageInfo(stage).IsActivityClosed() != true)
@@ -1042,7 +1038,7 @@ public class TaskQueueViewModel : Screen
             }
 
             builder.Append(stage).Append(": ").AppendLine(LocalizationHelper.GetString("ClosedStage"));
-        }
+        }*/
 
         // Open stages today
         var openStages = Instances.StageManager.GetStageTips(CurDayOfWeek);
@@ -1215,19 +1211,111 @@ public class TaskQueueViewModel : Screen
     {
         foreach (var item in TaskItemViewModels)
         {
-            switch (item.OriginalName)
+            switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
             {
-                case "AutoRoguelike":
-                case "Reclamation":
-                case "Custom":
+                case TaskType.Roguelike:
+                case TaskType.Reclamation:
+                case TaskType.Custom:
                     continue;
             }
 
-            item.IsChecked = true;
+            item.IsEnable = true;
         }
     }
 
-    private bool _inverseMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString));
+    public static ReadOnlyCollection<GenericCombinedData<Type>> TaskTypeList { get; } = Array.AsReadOnly(
+        [
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("StartUp"), Value = typeof(StartUpTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Fight"), Value = typeof(FightTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Infrast"), Value = typeof(InfrastTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Recruit"), Value = typeof(RecruitTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Mall"), Value = typeof(MallTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Award"), Value = typeof(AwardTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Roguelike"), Value = typeof(RoguelikeTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Reclamation"), Value = typeof(ReclamationTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Custom"), Value = typeof(CustomTask) },
+        ]);
+
+    public void AddTaskQueueTask(Type taskName)
+    {
+        if (Activator.CreateInstance(taskName) is BaseTask task)
+        {
+            task.Name = TaskTypeList.FirstOrDefault(t => t.Value == taskName)?.Display ?? taskName.Name;
+            ConfigFactory.CurrentConfig.TaskQueue.Add(task);
+            TaskItemViewModels.Add(new TaskItemViewModel(task.Name, task.IsEnable));
+        }
+        else
+        {
+            AddLog("could NOT create instance of " + taskName, UiLogColor.Error);
+        }
+    }
+
+    /// <summary>
+    /// 重命名任务
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    [UsedImplicitly]
+    public void RenameTask(TaskItemViewModel taskItem)
+    {
+        if (taskItem == null || !Idle)
+        {
+            return;
+        }
+
+        var currentName = taskItem.Name;
+        var dialog = new Views.Dialogs.TextDialogUserControl(
+            LocalizationHelper.GetString("RenameTask"),
+            LocalizationHelper.GetString("RenameTaskPrompt"),
+            currentName) {
+            Owner = Application.Current.MainWindow,
+        };
+
+        var result = dialog.ShowDialog();
+
+        if (result == true && !string.IsNullOrWhiteSpace(dialog.InputText))
+        {
+            var newName = dialog.InputText.Trim();
+            taskItem.Name = newName;
+            if (taskItem.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+            {
+                ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].Name = newName;
+            }
+
+            AddLog(string.Format(LocalizationHelper.GetString("TaskRenamed"), newName), UiLogColor.Info);
+        }
+    }
+
+    /// <summary>
+    /// 删除任务
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    [UsedImplicitly]
+    public void RemoveTask(TaskItemViewModel taskItem)
+    {
+        if (taskItem == null || !Idle)
+        {
+            return;
+        }
+
+        var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
+        var result = MessageBoxHelper.Show(
+            string.Format(LocalizationHelper.GetString("ConfirmDeleteTaskMessage"), LocalizationHelper.GetString(taskType.ToString()), taskItem.Name),
+            LocalizationHelper.GetString("ConfirmDeleteTask"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.Yes)
+        {
+            var index = taskItem.Index;
+            if (index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+            {
+                TaskItemViewModels.RemoveAt(index);
+                AddLog(string.Format(LocalizationHelper.GetString("TaskDeleted"), taskItem.Name), UiLogColor.Info);
+            }
+        }
+    }
+
+    private bool _inverseMode = ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use inverse mode.
@@ -1318,23 +1406,22 @@ public class TaskQueueViewModel : Screen
         {
             foreach (var item in TaskItemViewModels)
             {
-                switch (item.OriginalName)
+                switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
                 {
-                    case "AutoRoguelike":
-                    case "Reclamation":
-                    case "Custom":
-                        item.IsChecked = false;
+                    case TaskType.Roguelike:
+                    case TaskType.Reclamation:
+                    case TaskType.Custom:
                         continue;
                 }
 
-                item.IsChecked = !item.IsChecked;
+                item.IsEnable = !(item.IsEnable ?? true);
             }
         }
         else
         {
             foreach (var item in TaskItemViewModels)
             {
-                item.IsChecked = false;
+                item.IsEnable = false;
             }
         }
     }
@@ -1346,9 +1433,9 @@ public class TaskQueueViewModel : Screen
     {
         foreach (var item in TaskItemViewModels)
         {
-            if (item.IsCheckedWithNull == null)
+            if (item.IsEnable == null)
             {
-                item.IsChecked = GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction;
+                item.IsEnable = GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction;
             }
         }
     }
@@ -1358,8 +1445,20 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public void ResetAllTemporaryVariable()
     {
-        FightTask.ResetFightVariables();
-        RecruitTask.ResetRecruitVariables();
+        foreach (var item in ConfigFactory.CurrentConfig.TaskQueue)
+        {
+            switch (item)
+            {
+                case FightTask fight:
+                    FightSettingsUserControlModel.ResetFightVariables(fight);
+                    if (TaskSettingVisibilityInfo.CurrentTask == fight)
+                    {
+                        RefreshTaskModel(fight);
+                    }
+                    break;
+            }
+        }
+        RecruitSettingsUserControlModel.ResetRecruitVariables();
         ResetTaskSelection();
     }
 
@@ -1453,7 +1552,7 @@ public class TaskQueueViewModel : Screen
 
     public int MainTasksCompletedCount { get; set; }
 
-    public int MainTasksSelectedCount => TaskItemViewModels.Count(x => x.IsChecked);
+    public int MainTasksSelectedCount => TaskItemViewModels.Count(x => (x.IsEnable ?? true));
 
     /// <summary>
     /// updates the main tasks progress.
@@ -1480,21 +1579,11 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private bool _canShowAutoReload;
+    public bool ShowDebugTask { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool CanShowAutoReload
-    {
-        get => _canShowAutoReload;
-        set => SetAndNotify(ref _canShowAutoReload, value);
-    }
+    public bool CanShowAutoReload { get => field; set => SetAndNotify(ref field, value); }
 
-    private bool _enableAutoReload;
-
-    public bool EnableAutoReload
-    {
-        get => _enableAutoReload;
-        set => SetAndNotify(ref _enableAutoReload, value);
-    }
+    public bool EnableAutoReload { get => field; set => SetAndNotify(ref field, value); }
 
     private DateTime? _taskStartTime;
 
@@ -1546,9 +1635,8 @@ public class TaskQueueViewModel : Screen
         _runningState.SetIdle(false);
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
-        TaskItemSelectionChanged();
-        InfrastTask.InfrastOrderSelectionChanged();
-
+        // TaskItemSelectionChanged();
+        // InfrastTask.InfrastOrderSelectionChanged();
         await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
         AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
@@ -1584,73 +1672,30 @@ public class TaskQueueViewModel : Screen
 
         // 直接遍历TaskItemViewModels里面的内容，是排序后的
         int count = 0;
-        foreach (var item in TaskItemViewModels)
+        foreach (var (index, item) in ConfigFactory.CurrentConfig.TaskQueue.Select((task, i) => (i, task)))
         {
-            if (item.IsChecked == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsCheckedWithNull == null))
+            if (item.IsEnable == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsEnable == null))
             {
+                Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;
                 continue;
             }
 
-            ++count;
-            switch (item.OriginalName)
+            switch (SerializeTask(item))
             {
-                case "Base":
-                    taskRet &= AppendInfrast();
+                case true:
+                    ++count;
+                    Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId = Instances.AsstProxy.TasksStatus.Last().Key;
                     break;
-
-                case "WakeUp":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, StartUpTask.Serialize());
+                case false:
+                    taskRet = false;
+                    AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Error);
+                    Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = (int)Main.TaskStatus.Error;
                     break;
-
-                case "Combat":
-                    taskRet &= AppendFight();
-                    break;
-
-                case "Recruiting":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Recruit, RecruitTask.Serialize());
-                    break;
-
-                case "Mall":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Mall, MallTask.Serialize());
-                    break;
-
-                case "Mission":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Award, AwardTask.Serialize());
-                    break;
-
-                case "AutoRoguelike":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Roguelike, RoguelikeTask.Serialize());
-                    break;
-
-                case "Reclamation":
-                    taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, ReclamationTask.Serialize());
-                    break;
-
-                case "Custom":
-                    {
-                        var tasks = CustomTask.SerializeMultiTasks();
-                        foreach (var (type, param) in tasks)
-                        {
-                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Custom, type, param);
-                        }
-
-                        break;
-                    }
-
-                default:
-                    --count;
-                    _logger.Error("Unknown task: " + item.OriginalName);
+                case null:
+                    AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;
                     break;
             }
-
-            if (taskRet)
-            {
-                continue;
-            }
-
-            AddLog($"{LocalizationHelper.GetString(item.OriginalName)} task append error", UiLogColor.Error);
-            taskRet = true;
-            --count;
         }
 
         if (count == 0)
@@ -1805,9 +1850,8 @@ public class TaskQueueViewModel : Screen
         _taskStartTime = DateTime.Now; // 快速修复
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
-        TaskItemSelectionChanged();
-        InfrastTask.InfrastOrderSelectionChanged();
-
+        // TaskItemSelectionChanged();
+        // InfrastTask.InfrastOrderSelectionChanged();
         ClearLog();
 
         await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
@@ -1842,7 +1886,7 @@ public class TaskQueueViewModel : Screen
         }
 
         bool taskRet = true;
-        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.StartUp, StartUpTask.Serialize());
+        taskRet &= StartUpTask.SerializeTask(TaskSettingVisibilityInfo.CurrentTask) is true;
         taskRet &= Instances.AsstProxy.AsstStart();
 
         if (taskRet)
@@ -1857,125 +1901,7 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    public bool AppendFight()
-    {
-        string curStage = FightTask.Stage;
-
-        var (type, mainParam) = FightTask.Serialize();
-        bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Fight, type, mainParam);
-        if (!mainFightRet)
-        {
-            AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);
-            return false;
-        }
-
-        if ((curStage == "Annihilation") && FightTask.UseAlternateStage)
-        {
-            foreach (var stage in FightTask.Stages)
-            {
-                if (stage is null || !IsStageOpen(stage) || (stage == curStage))
-                {
-                    continue;
-                }
-
-                AddLog(LocalizationHelper.GetString("AnnihilationTaskTip"), UiLogColor.Info);
-                var task = mainParam.ToObject<AsstFightTask>();
-                if (task != null)
-                {
-                    task.Stage = stage;
-                    task.Stone = 0;
-                    task.MaxTimes = int.MaxValue;
-                    task.Drops = [];
-                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
-                }
-
-                break;
-            }
-        }
-
-        if (mainFightRet && FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(FightTask.RemainingSanityStage))
-        {
-            var task = new AsstFightTask() {
-                Stage = FightTask.RemainingSanityStage,
-                MaxTimes = int.MaxValue,
-                Series = 0,
-                IsDrGrandet = FightTask.IsDrGrandet,
-                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-                PenguinId = SettingsViewModel.GameSettings.PenguinId,
-                YituliuId = SettingsViewModel.GameSettings.PenguinId,
-                ServerType = Instances.SettingsViewModel.ServerType,
-                ClientType = SettingsViewModel.GameSettings.ClientType,
-            };
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.FightRemainingSanity, type, task.Serialize().Params);
-        }
-
-        return mainFightRet;
-    }
-
     public bool EnableSetFightParams { get; set; } = true;
-
-    /// <summary>
-    /// Sets parameters.
-    /// </summary>
-    public void SetFightParams()
-    {
-        var type = AsstProxy.TaskType.Fight;
-        var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
-        if (!EnableSetFightParams || id == 0)
-        {
-            return;
-        }
-
-        var taskParams = FightTask.Serialize().Params;
-        Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
-    }
-
-    public static void SetFightRemainingSanityParams()
-    {
-        var type = AsstProxy.TaskType.FightRemainingSanity;
-        var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
-        if (id == 0)
-        {
-            return;
-        }
-
-        var task = new AsstFightTask() {
-            Stage = FightTask.RemainingSanityStage ?? string.Empty,
-            MaxTimes = int.MaxValue,
-            Series = 0,
-            IsDrGrandet = FightTask.IsDrGrandet,
-            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-            PenguinId = SettingsViewModel.GameSettings.PenguinId,
-            YituliuId = SettingsViewModel.GameSettings.PenguinId,
-            ServerType = Instances.SettingsViewModel.ServerType,
-            ClientType = SettingsViewModel.GameSettings.ClientType,
-        };
-
-        var taskParams = task.Serialize().Params;
-        Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
-    }
-
-    public bool AppendInfrast()
-    {
-        if (InfrastTask.InfrastMode == InfrastMode.Custom && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanList.Count == 0))
-        {
-            AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
-            return false;
-        }
-
-        try
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Infrast, InfrastTask.Serialize());
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "AppendInfrast error");
-            AddLog("Append Infrast Error: " + ex.Message, UiLogColor.Error);
-            return false;
-        }
-    }
 
     private bool _inited = false;
 
@@ -2081,11 +2007,11 @@ public class TaskQueueViewModel : Screen
     }
     */
 
-    private static IEnumerable<TaskViewModel> InitTaskViewModelList()
+    private static IEnumerable<TaskSettingsViewModel> InitTaskViewModelList()
     {
         var types = Assembly.GetExecutingAssembly()
             .GetTypes()
-            .Where(t => t is { Namespace: "MaaWpfGui.ViewModels.UserControl.TaskQueue", IsClass: true, IsAbstract: false } && t.IsSubclassOf(typeof(TaskViewModel)));
+            .Where(t => t is { Namespace: "MaaWpfGui.ViewModels.UserControl.TaskQueue", IsClass: true, IsAbstract: false } && t.IsSubclassOf(typeof(TaskSettingsViewModel)));
         foreach (var type in types)
         {
             // 获取 Instance 字段
@@ -2095,7 +2021,7 @@ public class TaskQueueViewModel : Screen
             }
 
             // 获取实例
-            if (property.GetValue(null) is TaskViewModel instance)
+            if (property.GetValue(null) is TaskSettingsViewModel instance)
             {
                 yield return instance;
             }
@@ -2109,5 +2035,28 @@ public class TaskQueueViewModel : Screen
             // 调用 ProcSubTaskMsg 方法
             instance.ProcSubTaskMsg(msg, details);
         }
+    }
+
+    public void RefreshTaskModel(BaseTask task)
+    {
+        foreach (var instance in _taskViewModelTypes)
+        {
+            instance.RefreshUI(task);
+        }
+    }
+
+    /// <summary>序列化任务</summary>
+    /// <param name="task">存储的任务</param>
+    /// <param name="taskId">任务id, null时追加任务, 非null为设置任务参数</param>
+    /// <returns>null为未序列化, false失败, true成功</returns>
+    private static bool? SerializeTask(BaseTask task, int? taskId = null)
+    {
+        bool? ret = null;
+        foreach (var instance in _taskViewModelTypes)
+        {
+            ret ??= instance.SerializeTask(task, taskId);
+        }
+
+        return ret;
     }
 }

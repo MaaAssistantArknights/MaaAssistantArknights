@@ -70,22 +70,10 @@ icon: hugeicons:brain-02
 Alternative stages are selected based on daily stage availability - MAA will choose the first available stage in the list.
 This functions like a schedule, not as a fallback if the primary stage selection fails.
 
-1. Example: If primary stage is `CE-6/5` with alternatives `1-7` and `LS-6/5`:
-   - If `CE-6/5` is open today, MAA will run it and ignore the alternatives. If you haven't unlocked auto-deploy for CE-6/5, the task will fail.
-   - If `CE-6/5` is closed today, MAA will run `1-7` instead. If you haven't unlocked auto-deploy for 1-7, the task will fail.
-   - Since `1-7` is a permanent stage that appears before `LS-6/5` in the list, MAA will never run `LS-6/5` in this scenario.
-2. If the primary stage is `Annihilation Mode`:
-   - Annihilation results won't affect the alternative stage logic - even if Annihilation fails, the task will continue.
-   - Alternative stages will only inherit the `Use Sanity Potion` and `Multiplier` settings, ignoring `Use Originium`, `Perform Battles`, and `Material` settings.
-
-### Remaining Sanity
-
-This option activates after the main `Sanity Farming` task ends, ignoring all `Use Sanity Potion`, `Use Originium`, `Perform Battles`, `Material`, and `Multiplier` settings. It simply uses up any remaining sanity and stops.
-
-- Useful for farming a low-cost stage (like 1-7) with leftover sanity after your main stage becomes unaffordable.
-- Also useful for automatically switching to single runs when you have insufficient sanity for your configured multiplier (e.g., if you set 1-7 for 6x runs but only have 30 sanity, it will automatically run five single 1-7 runs instead).
-- The task will end if remaining sanity is insufficient (e.g., less than 6 sanity).
-- If the selected remaining sanity stage is closed or unavailable, the task will fail.
+Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
+- If `CE-6/5` is open today, MAA will run it and ignore the alternatives. If you haven't unlocked auto-deploy for CE-6/5, the task will fail.
+- If `CE-6/5` is closed today, MAA will run `1-7` instead. If you haven't unlocked auto-deploy for 1-7, the task will fail.
+- Since `1-7` is a permanent stage that appears before `LS-6/5` in the list, MAA will never run `LS-6/5` in this scenario.
 
 ### Multiplier
 
@@ -93,16 +81,14 @@ MAA will use the specified battle multiplier setting:
 
 - **AUTO mode** (0):
   - Automatically identifies and uses the maximum possible multiplier without wasting sanity
-  - Proceeds to the `Remaining Sanity` option afterward (if enabled)
 
 - **Fixed value mode** (1-6):
   - Uses exactly the specified multiplier
-  - If current sanity is insufficient for the set multiplier (e.g., only enough for 5× but set to 6×), ends the task and proceeds to `Remaining Sanity` (if enabled)
+  - If current sanity is insufficient for the set multiplier (e.g., only enough for 5× but set to 6×), ends the task
 
 - **Disabled mode** (-1):
   - Doesn't change the in-game multiplier setting
-  - If sanity is insufficient for the current in-game multiplier setting, ends the task and proceeds to `Remaining Sanity` (if enabled)
-
+  - If sanity is insufficient for the current in-game multiplier setting, ends the task
 ### Perform Battles
 
 MAA will run up to the specified number of battles.

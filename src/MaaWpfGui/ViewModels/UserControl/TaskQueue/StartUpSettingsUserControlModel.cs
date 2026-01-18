@@ -12,9 +12,11 @@
 // </copyright>
 
 #nullable enable
+using System;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models.AsstTasks;
@@ -25,7 +27,7 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class StartUpSettingsUserControlModel : TaskViewModel
+public class StartUpSettingsUserControlModel : TaskSettingsViewModel
 {
     static StartUpSettingsUserControlModel()
     {
@@ -34,15 +36,12 @@ public class StartUpSettingsUserControlModel : TaskViewModel
 
     public static StartUpSettingsUserControlModel Instance { get; }
 
-    private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty).Trim();
-
     public string AccountName
     {
-        get => _accountName;
+        get => GetTaskConfig<StartUpTask>().AccountName;
         set {
             value = value.Trim();
-            SetAndNotify(ref _accountName, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
+            SetTaskConfig<StartUpTask>(t => t.AccountName == value, t => t.AccountName = value);
         }
     }
 
@@ -61,12 +60,21 @@ public class StartUpSettingsUserControlModel : TaskViewModel
         }
     }
 
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is StartUpTask)
+        {
+            Refresh();
+        }
+    }
+
+    [Obsolete("使用SerializeTask作为代替")]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var clientType = SettingsViewModel.GameSettings.ClientType;
         var startGame = SettingsViewModel.GameSettings.StartGame;
         var accountName = clientType switch {
-            "Official" or "Bilibili" => AccountName,
+            ClientType.Official or ClientType.Bilibili => AccountName,
             _ => string.Empty,
         };
 
@@ -79,7 +87,7 @@ public class StartUpSettingsUserControlModel : TaskViewModel
         return task.Serialize();
     }
 
-    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not StartUpTask startUp)
         {
@@ -88,7 +96,7 @@ public class StartUpSettingsUserControlModel : TaskViewModel
 
         var clientType = SettingsViewModel.GameSettings.ClientType;
         var accountName = clientType switch {
-            "Official" or "Bilibili" => startUp.AccountName,
+            ClientType.Official or ClientType.Bilibili => startUp.AccountName,
             _ => string.Empty,
         };
 
@@ -98,13 +106,10 @@ public class StartUpSettingsUserControlModel : TaskViewModel
             AccountName = accountName,
         };
 
-        if (taskId is int id)
-        {
-            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
-        }
-        else
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, task);
-        }
+        return taskId switch {
+            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, task),
+            _ => null,
+        };
     }
 }

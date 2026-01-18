@@ -1,4 +1,4 @@
-// <copyright file="CustomTask.cs" company="MaaAssistantArknights">
+// <copyright file="ClientType.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -10,17 +10,18 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-#nullable enable
-using static MaaWpfGui.Main.AsstProxy;
 
-namespace MaaWpfGui.Configuration.Single.MaaTask;
+namespace MaaWpfGui.Constants.Enums;
 
-public class CustomTask : BaseTask
+/// <summary>
+/// 客户端类型
+/// </summary>
+public static class ClientType
 {
-    public CustomTask() => TaskType = TaskType.Custom;
-
-    /// <summary>
-    /// Gets or sets 要直接执行的任务名
-    /// </summary>
-    public string CustomTaskName { get; set; } = string.Empty;
+    public const string Official = "Official";
+    public const string Bilibili = "Bilibili";
+    public const string EN = "YoStarEN";
+    public const string JP = "YoStarJP";
+    public const string KR = "YoStarKR";
+    public const string Txwy = "txwy";
 }

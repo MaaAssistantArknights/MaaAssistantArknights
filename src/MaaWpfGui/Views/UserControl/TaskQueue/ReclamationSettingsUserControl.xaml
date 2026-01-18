@@ -57,6 +57,7 @@
                 Margin="0,5"
                 d:IsEnabled="True"
                 hc:InfoElement.Title="{DynamicResource ReclamationIncrementMode}"
+                DisplayMemberPath="Display"
                 IsEnabled="{c:Binding 'ReclamationMode == task:ReclamationMode.Archive',
                                       Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}"
                 IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"

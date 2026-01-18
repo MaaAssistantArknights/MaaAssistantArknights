@@ -12,6 +12,9 @@
 // </copyright>
 
 #nullable enable
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -26,7 +29,7 @@ public class FightTask : BaseTask
     /// <summary>
     /// Gets or sets a value indicating whether 是否使用理智药
     /// </summary>
-    public bool UseMedicine { get; set; }
+    public bool? UseMedicine { get; set; } = false;
 
     /// <summary>
     /// Gets or sets 理智药数量
@@ -36,7 +39,7 @@ public class FightTask : BaseTask
     /// <summary>
     /// Gets or sets a value indicating whether 是否碎石
     /// </summary>
-    public bool UseStone { get; set; }
+    public bool? UseStone { get; set; } = false;
 
     /// <summary>
     /// Gets or sets 碎石数量
@@ -44,17 +47,89 @@ public class FightTask : BaseTask
     public int StoneCount { get; set; }
 
     /// <summary>
-    /// Gets or sets 首选关卡
+    /// Gets or sets a value indicating whether 是否启用指定掉落
     /// </summary>
-    public string Stage1 { get; set; } = string.Empty;
+    public bool? EnableTargetDrop { get; set; } = false;
 
     /// <summary>
-    /// Gets or sets 备选关卡
+    /// Gets or sets 掉落物品id
     /// </summary>
-    public string Stage2 { get; set; } = string.Empty;
+    public string DropId { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets 备选关卡
+    /// Gets or sets 掉落数量
     /// </summary>
-    public string Stage3 { get; set; } = string.Empty;
+    public int DropCount { get; set; }
+
+    /// <summary>
+    /// Gets or sets 是否启用次数限制
+    /// </summary>
+    public bool? EnableTimesLimit { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets 最大战斗次数
+    /// </summary>
+    public int TimesLimit { get; set; } = int.MaxValue;
+
+    /// <summary>
+    /// Gets or sets 代理倍率
+    /// </summary>
+    public int Series { get; set; }
+
+    /// <summary>
+    /// Gets or sets 关卡列表, 从上往下选择第一个可用关卡
+    /// </summary>
+    public List<string> StagePlan { get; set; } = [string.Empty];
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 博朗台模式
+    /// </summary>
+    public bool IsDrGrandet { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 使用临期药
+    /// </summary>
+    public bool UseExpiringMedicine { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 剿灭关卡自定
+    /// </summary>
+    public bool UseCustomAnnihilation { get; set; }
+
+    /// <summary>
+    /// Gets or sets 剿灭关卡
+    /// </summary>
+    public string AnnihilationStage { get; set; } = "Annihilation";
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 隐藏不可用关卡
+    /// </summary>
+    public bool HideUnavailableStage { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 手动输入关卡
+    /// </summary>
+    public bool IsStageManually { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 使用备选关卡
+    /// </summary>
+    public bool UseOptionalStage { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 允许保存碎石状态
+    /// </summary>
+    public bool UseStoneAllowSave { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 隐藏代理倍率
+    /// </summary>
+    public bool HideSeries { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 是否启用周计划
+    /// </summary>
+    public bool UseWeeklySchedule { get; set; }
+
+    public Dictionary<DayOfWeek, bool> WeeklySchedule { get; set; } = Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
 }
