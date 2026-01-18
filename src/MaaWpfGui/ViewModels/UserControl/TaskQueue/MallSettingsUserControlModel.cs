@@ -194,9 +194,12 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
     [Obsolete("使用SerializeTask作为代替")]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var fightEnable = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(x => x is FightTask)?.IsEnable is not false;
+        var fightStageEmpty = ConfigFactory.CurrentConfig.TaskQueue
+            .OfType<FightTask>()
+            .Where(task => task.IsEnable is not false)
+            .Any(task => string.IsNullOrEmpty(FightSettingsUserControlModel.GetFightStage(task.StagePlan)));
         var task = new AsstMallTask() {
-            // CreditFight = fightEnable ? (!string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage) && CreditFightTaskEnabled) : CreditFightTaskEnabled,
+            CreditFight = CreditFightTaskEnabled && !fightStageEmpty,
             FormationIndex = CreditFightSelectFormation,
             VisitFriends = CreditVisitFriendsEnabled,
             WithShopping = CreditShopping,
@@ -218,7 +221,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
 
         var fightStageEmpty = ConfigFactory.CurrentConfig.TaskQueue
             .OfType<FightTask>()
-            .Where(task => task.IsEnable == true)
+            .Where(task => task.IsEnable is not false)
             .Any(task => string.IsNullOrEmpty(FightSettingsUserControlModel.GetFightStage(task.StagePlan)));
         var creditFight = mall.IsCreditFightAvailable;
         var visitFriends = mall.IsVisitFriendsAvailable;
