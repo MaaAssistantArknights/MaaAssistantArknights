@@ -1218,12 +1218,20 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AttachWindowMultipleFound">找到 {0} 個 "{1}" 視窗，將使用第一個</system:String>
     <system:String x:Key="AttachWindowFound">找到視窗 "{0}"</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式配置</system:String>
-    <system:String x:Key="UseAttachWindow">連接 PC 端（實驗性功能，極度不穩定）</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 視窗綁定明日方舟 PC 端，而非 ADB 連接模擬器或手機</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">實驗性功能，極度不穩定，僅供嚐鮮！&#10;1. 需要以管理員啟動 MAA&#10;2. 遊戲視窗不能最小化&#10;3. 需要在明日方舟設定 - 遊戲 - UI縮放改為 100</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">連接 PC 端（實驗性功能，穩定性無法保證）
+MAA 不對 PC 端的運行情況提供維護或適配支援：
+● 在功能可正常使用的情況下，可自行選擇繼續使用
+● 若無法運行或出現問題，不受理 PC 端相關的 Issue
+● 歡迎社群自行適配並提交 Pull Request
+
+使用前請確認：
+1. 需以系統管理員身分啟動 MAA
+2. 遊戲視窗不可最小化
+3. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
-    <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入方式</system:String>
-    <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入方式</system:String>
+    <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
+    <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>
     <system:String x:Key="AttachWindowScreencapFramePool">FramePool（預設，背景）</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（背景，備用1）</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（背景，備用2）</system:String>

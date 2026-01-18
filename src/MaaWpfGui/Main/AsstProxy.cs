@@ -2408,7 +2408,6 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     private bool AsstAttachWindowConnect(ref string error)
     {
-        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindow"), UiLogColor.Warning);
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Warning);
 
         const string TargetWindowName = "明日方舟";

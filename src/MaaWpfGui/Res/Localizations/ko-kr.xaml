@@ -1219,9 +1219,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowMultipleFound">{0}개의 "{1}" 창을 찾았습니다. 첫 번째 창을 사용합니다</system:String>
     <system:String x:Key="AttachWindowFound">창 "{0}"을(를) 찾았습니다</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
-    <system:String x:Key="UseAttachWindow">PC 클라이언트 연결 (실험적 기능, 매우 불안정)</system:String>
     <system:String x:Key="UseAttachWindowTip">에뮬레이터나 휴대폰용 ADB 연결 대신 명일방주 PC 클라이언트에 Win32 창 바인딩을 사용합니다</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">실험적 기능, 매우 불안정, 체험용입니다!&#10;1. MAA를 관리자 권한으로 실행해야 합니다&#10;2. 게임 창을 최소화할 수 없습니다&#10;3. 명일방주 설정 - 게임 - UI 배율을 100으로 설정해야 합니다</system:String>
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 연결 (실험적 기능이며 안정성은 보장되지 않습니다)
+MAA는 PC 환경에서의 동작에 대해 유지보수 또는 호환 지원을 제공하지 않습니다:
+● 정상적으로 동작하는 경우에 한해 사용자 판단하에 사용할 수 있습니다
+● 실행되지 않거나 문제가 발생할 경우 PC 관련 Issue는 접수하지 않습니다
+● 커뮤니티의 자체 대응 및 Pull Request 제출은 환영합니다
+
+사용 전 확인 사항:
+1. MAA를 관리자 권한으로 실행해야 합니다
+2. 게임 창을 최소화하면 안 됩니다
+3. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
