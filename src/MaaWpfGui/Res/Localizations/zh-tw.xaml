@@ -1191,7 +1191,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormationParseFailed">編隊解析失敗</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇{key=Operator}: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用: {0}, 原因: {1}</system:String>
-    <system:String x:Key="BattleFormationModuleUnavailable">所需模組未解鎖</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等級不足</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Module">所需模組未解鎖</system:String>
     <system:String x:Key="CurrentSteps">目前步驟: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">經過時間: {0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>

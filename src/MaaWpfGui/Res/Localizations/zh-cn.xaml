@@ -704,8 +704,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <!--  战斗设置  -->
-    <system:String x:Key="UseSanityPotion">药剂恢复</system:String>
-    <system:String x:Key="UseOriginitePrime">源石恢复</system:String>
+    <system:String x:Key="UseSanityPotion">使用药剂</system:String>
+    <system:String x:Key="UseOriginitePrime">使用源石</system:String>
     <system:String x:Key="PerformBattles">指定次数</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取数量</system:String>
@@ -1191,7 +1191,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormationParseFailed">编队解析失败</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择{key=Operator}: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用: {0}, 原因: {1}</system:String>
-    <system:String x:Key="BattleFormationModuleUnavailable">所需模组未解锁</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等级不足</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Module">所需模组未解锁</system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">当前计时器: {0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>
