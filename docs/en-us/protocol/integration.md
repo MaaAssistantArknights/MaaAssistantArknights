@@ -27,447 +27,1027 @@ Appends a task.
 
 #### Parameter Description
 
-- `AsstHandle handle`  
-   Instance handle
-- `const char* type`  
-   Task type
-- `const char* params`  
-   Task parameters in JSON
+:::: field-group  
+::: field name="handle" type="AsstHandle" required  
+Instance handle  
+:::  
+::: field name="type" type="const char*" required  
+Task type  
+:::  
+::: field name="params" type="const char*" required  
+Task parameters, json string  
+:::  
+::::
 
 ##### List of Task Types
 
 - `StartUp`  
    Start-up
 
-```json5
-// Corresponding task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="client_type" type="string" required  
+Client version.  
+<br>
+Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+:::  
+::: field name="start_game_enabled" type="boolean" optional default="false"  
+Whether to launch client automatically.  
+:::  
+::: field name="account_name" type="string" optional  
+Switch account, don't switch by default.  
+<br>
+Only supports switching to already logged-in accounts, using login name for identification, ensure the input content is unique among all logged-in accounts.  
+<br>
+Official server: `123****4567`, can input `123****4567`, `4567`, `123`, or `3****4567`  
+<br>
+Bilibili server: `Zhang San`, can input `Zhang San`, `Zhang`, or `San`  
+:::  
+::::
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,              // Whether to enable this task, optional, true by default
-    "client_type": string,       // Client version, required
-                                 // Options: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
-    "start_game_enabled": bool,  // Whether to launch client automatically, optional, false by default
-    "account_name": string       // Switch account, optional, don't switch by default
-                                 // Only supports switching to already logged-in accounts, using login name for identification
-                                 // Official server: 123****4567, can input 123****4567, 4567, 123, or 3****4567
-                                 // Bilibili server: Zhang San, can input Zhang San, Zhang, or San
+   "enable": true,
+   "client_type": "Official",
+   "start_game_enabled": true,
+   "account_name": "123****4567"
 }
 ```
+
+</details>
 
 - `CloseDown`  
    Close Game Client
 
-```json5
-// Corresponding task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="client_type" type="string" required  
+Client version, no execution if left blank.  
+<br>
+Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+:::  
+::::
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,              // Whether to enable this task, optional, true by default
-    "client_type": string,       // Client version, required, no execution if left blank
-                                 // Options: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
+   "enable": true,
+   "client_type": "Official"
 }
 ```
+
+</details>
 
 - `Fight`  
    Operation
 
-```json5
-// Corresponding task parameters
-{
-    "enable": bool,             // Whether to enable this task, optional, true by default
-    "stage": string,            // Stage name, optional, by default current/last stage. Editing in run-time is not supported.
-                                // Supports all mainline stages, such as "1-7", "S3-2", etc.
-                                // At the end of the level, enter Normal/Hard to switch between Normal and Tough difficulty
-                                // Annihilation. The input should be `Annihilation`.
-                                // For current SS event last three stages, must input complete stage code.
-    "medicine": int,            // Maximum number of Sanity Potions used, optional, by default 0
-    "expiring_medicine": int,   // Maximum number of expired Sanity Potions within 48 hours, optional, by default 0
-    "stone": int,               // Maximum number of Originite Prime used, optional, by default 0
-    "times": int,               // Fight times, optional, by int32.max
-    "series": int,              // Number of series, optional, -1~6
-                                // -1  To disable switching series
-                                // 0   To automatically switch to the maximum number of series currently available, if the current sanity is less than 6 times, select the minimum number of times available
-                                // 1~6 To modify to a specified number of times
-    "drops": {                  // Specifying the number of drops, optional, no specification by default
-        "30011": int,           // Key: item ID; value: number of items. Key refers to resource/item_index.json
-        "30062": int            // OR combination
-    },
-    /* Items are combined with OR operators, i.e. the task stops when any condition meets. */
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="stage" type="string" optional  
+Stage name, by default empty, recognizes current/last stage. Editing in run-time is not supported.  
+Currently supported stages for navigation include:
+- All mainline stages. You can add `-NORMAL` or `-HARD` at the end of the stage to switch between standard or challenge mode.
+- For LMD and Battle Record stages 5/6, must input `CE-6` / `LS-6`. MAA will automatically switch to stage 5 if stage 6 cannot be delegated.
+- Skill Summary, Voucher, and Carbon stage 5, must input `CA-5` / `AP-5` / `SK-5`.
+- All chip stages. Must input complete stage code, e.g. `PR-A-1`.
+- Annihilation mode supports the following values, must use corresponding Value:
+  - Current Annihilation: Annihilation
+  - Chernobog: Chernobog@Annihilation
+  - Lungmen Outskirts: LungmenOutskirts@Annihilation
+  - Lungmen Downtown: LungmenDowntown@Annihilation
+- OF-1 / OF-F3 / GT-5 in side stories.
+- Last three stages of current SS events. Visit [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) for the list of supported stages. Requires additional loading of event stage navigation in [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) file.
+- Rerun SS events. Input `SSReopen-<stage prefix>` to farm XX-1 ~ XX-9 stages at once, e.g. `SSReopen-IC`.
+:::  
+::: field name="medicine" type="number" optional default="0"  
+Maximum number of Sanity Potions used.  
+:::  
+::: field name="expiring_medicine" type="number" optional default="0"  
+Maximum number of Sanity Potions expiring within 48 hours.  
+:::  
+::: field name="stone" type="number" optional default="0"  
+Maximum number of Originite Prime used.  
+:::  
+::: field name="times" type="number" optional default="2147483647"  
+Number of battles.  
+:::  
+::: field name="series" type="number" optional  
+Number of consecutive battles, -1~6.
+<br>
+`-1` to disable switching.
+<br>
+`0` to automatically switch to the current maximum available times, if current sanity is not enough for 6 times, select the minimum available times.
+<br>
+`1~6` to specify number of consecutive battles.  
+:::  
+::: field name="drops" type="object" optional  
+Specifying the number of drops, no specification by default. key is item_id, value is quantity. key can refer to `resource/item_index.json` file.  
+<br>
+Example: `{ "30011": 10, "30062": 5 }`  
+<br>
+All above are OR relations, i.e. task stops when any one is reached.  
+:::  
+::: field name="report_to_penguin" type="boolean" optional default="false"  
+Whether to upload data to Penguin Statistics.  
+:::  
+::: field name="penguin_id" type="string" optional  
+Penguin Statistics report id, empty by default. Only effective when `report_to_penguin` is true.  
+:::  
+:::  
+::: field name="report_to_yituliu" type="boolean" optional default="false"  
+Whether to report to YITULIU.  
+:::  
+::: field name="yituliu_id" type="string" optional  
+YITULIU report id, empty by default. Only effective when `report_to_yituliu` is true.  
+:::  
+::: field name="server" type="string" optional default="CN"  
+Server, will affect drop recognition and upload.
+<br>
+Options: `CN` | `US` | `JP` | `KR`  
+:::  
+::: field name="client_type" type="string" optional  
+Client version, empty by default. Used to restart and reconnect after game crash, does not enable this feature if empty.
+<br>
+Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+:::  
+::: field name="DrGrandet" type="boolean" optional default="false"  
+Sanity-saving Originite usage mode, only effective when Originite usage may occur.
+<br>
+Wait at the Originite confirmation screen until the current 1 sanity point is restored, then immediately use Originite.  
+:::  
+::::
 
-    "report_to_penguin": bool,  // Whether to upload data to Penguin Statistics, optional, by default false
-    "penguin_id": string,       // Penguin Statistics ID, optional, by default empty. Available only when `report_to_penguin` is `true`.
-    "server": string,           // Server, optional, by default "CN", will affect the drop recognition and upload
-                                // Options："CN" | "US" | "JP" | "KR"
-    "client_type": string,      // Client version, optional, empty by default. Used to reconnect after the game crashed. Empty means to disable this feature
-                                // Options: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
-    "DrGrandet": bool,          // Save sanity by using Originites, optional, false by default. effective only when Originites may be used
-                                // Wait in the using Originites confirmation screen until the 1 point of sanity has been restored and then immediately use the Originite.
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "stage": "1-7",
+   "medicine": 1,
+   "expiring_medicine": 0,
+   "stone": 0,
+   "times": 10,
+   "series": 0,
+   "drops": {
+      "30011": 10
+   },
+   "report_to_penguin": true,
+   "penguin_id": "123456",
+   "report_to_yituliu": true,
+   "yituliu_id": "123456",
+   "server": "CN",
+   "client_type": "Official",
+   "DrGrandet": false
 }
 ```
 
-Supports some of the special stages, please refer to [autoLocalization example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/en-us.xaml#L260).
+</details>
 
 - `Recruit`  
    Recruitment
 
-```json5
-// Corresponding task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="refresh" type="boolean" optional default="false"  
+Whether to refresh 3★ tags.  
+:::  
+::: field name="select" type="array<number>" required  
+Tag levels to click.  
+:::  
+::: field name="confirm" type="array<number>" required  
+Tag levels for confirmation. Can be set to empty array for calculation only.  
+:::  
+::: field name="first_tags" type="array<string>" optional  
+Preferred Tags, valid only if 3★ tags. By default empty.
+<br>
+When Tag is level-3, as many Tags here as possible (if any) will be selected, and it's a forced selection, i.e. it ignores all "unselect 3★ Tags" settings.  
+:::  
+::: field name="extra_tags_mode" type="number" optional default="0"  
+Select more tags.
+<br>
+`0` - default behavior
+<br>
+`1` - select 3 tags even if they may conflict
+<br>
+`2` - if possible, select more high star tag combinations even if they might conflict  
+:::  
+::: field name="times" type="number" optional default="0"  
+Number of recruitments. Can be set to 0 for calculation only.  
+:::  
+::: field name="set_time" type="boolean" optional default="true"  
+Whether to set recruitment time limit. Only effective when `times` is 0.  
+:::  
+::: field name="expedite" type="boolean" optional default="false"  
+Whether to use Expedited Plans.  
+:::  
+::: field name="expedite_times" type="number" optional  
+Number of expedites, only effective when `expedite` is true. By default unlimited (until `times` limit is reached).  
+:::  
+::: field name="skip_robot" type="boolean" optional default="true"  
+Whether to skip when robot tag is recognized.  
+:::  
+::: field name="recruitment_time" type="object" optional  
+Tag level (greater than or equal to 3) and corresponding desired recruitment time limit, in minutes, all default to 540 (i.e. 09:00:00).
+<br>
+Example: `{ "3": 540, "4": 540 }`  
+:::  
+::: field name="report_to_penguin" type="boolean" optional default="false"  
+Whether to report to Penguin Statistics.  
+:::  
+::: field name="penguin_id" type="string" optional  
+Penguin Statistics report id, empty by default. Only effective when `report_to_penguin` is true.  
+:::  
+::: field name="report_to_yituliu" type="boolean" optional default="false"  
+Whether to report to YITULIU data.  
+:::  
+::: field name="yituliu_id" type="string" optional  
+YITULIU report id, empty by default. Only effective when `report_to_yituliu` is true.  
+:::  
+::: field name="server" type="string" optional default="CN"  
+Server, will affect upload.
+<br>
+Options: `CN` | `US` | `JP` | `KR`  
+:::  
+::::
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,             // Whether to enable this task, optional, by default true
-    "refresh": bool,            // Whether to refresh 3★ tags, optional, by default false
-    "select": [                 // Tag level to click, required
-        int,
-        ...
-    ],
-    "confirm": [                // Tag level for confirmation, required. Can be set to empty array for calculation only.
-        int,
-        ...
-    ],
-    "first_tags": [             // Preferred Tags, valid only if 3★ tags. Optional, by default empty
-        string,                 // When Tag is level-3, as many Tags here as possible (if any) will be selected.
-        ...                     // It's a forced selection, i.e. it ignores all "unselect 3★ Tags" settings.
-    ],
-    "extra_tags_mode": int,     // Select more tags, optional, default is 0
-                                // 0 - default behavior
-                                // 1 - select 3 tags even if they may conflict
-                                // 2 - select more high star tag combinations if possible, even if they might conflict
-    "times": int,               // The times of recruitment, optional, by default 0. Can be set to 0 for calculation only.
-    "set_time": bool,           // Whether to set time to 9 hours, available only when `times` is 0, optional, by default true
-    "expedite": bool,           // Whether to use expedited plans, optional, by default false
-    "expedite_times": int,      // The times of using expedited plans, available only when `expedite` is `true`
-                                // Optional, by default infinity until `times` reaches its limitation.
-    "skip_robot": bool,         // Whether to skip when robot tag is recognized, optional, skip by default.
-    "recruitment_time": {       // Tags level and set duration in minutes, optional, by default 540 (i.e. 9 hours)
-        "3": int,
-        "4": int,
-        ...
-    },
-    "report_to_penguin": bool,  // Whether to report to Penguin Statistics, optional, by default false.
-    "penguin_id": string,       // Penguin Statistics user id, optional, by default empty. Valid only if report_to_penguin is true.
-    "report_to_yituliu": bool,  // Whether to report to YITULIU, optional, by default false.
-    "yituliu_id": string,       // YITULIU user id, optional, by default empty. Valid only if report_to_yituliu is true.
-    "server": string,           // Server, optional, by default "CN", will affect upload
-                                // Options: "CN" | "US" | "JP" | "KR"
+   "enable": true,
+   "refresh": true,
+   "select": [5, 4],
+   "confirm": [4, 3],
+   "first_tags": ["高级资深干员"],
+   "extra_tags_mode": 1,
+   "times": 4,
+   "set_time": true,
+   "expedite": false,
+   "expedite_times": 0,
+   "skip_robot": true,
+   "recruitment_time": {
+      "3": 540,
+      "4": 540
+   },
+   "report_to_penguin": false,
+   "penguin_id": "123456",
+   "report_to_yituliu": false,
+   "yituliu_id": "123456",
+   "server": "CN"
 }
 ```
+
+</details>
 
 - `Infrast`  
    Infrastructure shifting
 
-```json5
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="mode" type="number" optional default="0"  
+Shift mode. Editing in run-time is not supported.
+<br>
+`0` - `Default`: Default shift mode, single facility optimal solution.
+<br>
+`10000` - `Custom`: Custom shift mode, reads user configuration, see [Base Scheduling Schema](./base-scheduling-schema.md).
+<br>
+`20000` - `Rotation`: One-key rotation mode, skips control center, power station, dormitory and office, other facilities do not change shifts but retain basic operations (such as using drones, reception room logic).  
+:::  
+::: field name="facility" type="array<string>" required  
+Facilities for shifting (ordered). Editing in run-time is not supported.
+<br>
+Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
+:::  
+::: field name="drones" type="string" optional default="_NotUse"  
+Usage of drones. This field is ignored when `mode = 10000`.
+<br>
+Options: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+:::  
+::: field name="threshold" type="number" optional default="0.3"  
+Morale threshold, range [0, 1.0].
+<br>
+When `mode = 10000`, this field is only effective for "autofill".
+<br>
+This field is ignored when `mode = 20000`.  
+:::  
+::: field name="replenish" type="boolean" optional default="false"  
+Whether to replenish Originium Shard in trading post.  
+:::  
+::: field name="dorm_notstationed_enabled" type="boolean" optional default="false"  
+Whether to enable "Not Stationed in Dorm" option.  
+:::  
+::: field name="dorm_trust_enabled" type="boolean" optional default="false"  
+Whether to fill dormitory with operators not at max trust.  
+:::  
+::: field name="reception_message_board" type="boolean" optional default="true"  
+Whether to collect credits from reception room message board.  
+:::  
+::: field name="reception_clue_exchange" type="boolean" optional default="true"  
+Whether to perform clue exchange.  
+:::  
+::: field name="reception_send_clue" type="boolean" optional default="true"  
+Whether to send clues.  
+:::  
+::: field name="filename" type="string" required  
+Custom config path. Editing in run-time is not supported.
+<br>
+<Badge type="warning" text="Only effective when mode = 10000" />  
+:::  
+::: field name="plan_index" type="number" required  
+Plan index number in the configuration. Editing in run-time is not supported.
+<br>
+<Badge type="warning" text="Only effective when mode = 10000" />  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,         // Whether to enable this task, optional, by default true
-    "mode": int,            // Shift mode, optional. Editing in run-time is not supported.
-                            // 0     - Default: Default shift mode, single facility optimal solution
-                            // 10000 - Custom: Custom shift mode, reads user configuration, see protocol/base-scheduling-schema.md
-                            // 20000 - Rotation: One-key rotation mode, skips control center, power station, dormitory and office, other facilities do not change shifts but retain basic operations (such as using drones, reception room logic)
-    "facility": [           // Facilities for shifting (ordered), required. Editing in run-time is not supported.
-        string,             // Facility name: "Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm" | "Processing" | "Training"
-        ...
-    ],
-    "drones": string,       // Usage of drones, optional, by default "_NotUse"
-                            // This field is ignored when mode = 10000
-                            // "_NotUse" | "Money" | "SyntheticJade" | "CombatRecord" | "PureGold" | "OriginStone" | "Chip"
-    "threshold": float,     // Morale threshold with range [0, 1.0], optional, by default 0.3
-                            // When mode = 10000, this field is only effective for "autofill"
-                            // This field is ignored when mode = 20000
-    "replenish": bool,      // Whether to replenish Originium Shard in trading post, optional, by default false
-
-    "dorm_notstationed_enabled": bool, // Whether to enable "Not Stationed in Dorm" option, optional, by default false
-    "dorm_trust_enabled": bool,        // Whether to fill dormitory with operators not at max trust, optional, by default false
-    "reception_message_board": bool,   // Whether to collect credits from reception room message board, optional, by default true
-    "reception_clue_exchange": bool,   // Whether to perform clue exchange, optional, by default true
-    "reception_send_clue": bool,       // Whether to send clues, optional, by default true
-
-    /* The following parameters are only effective when mode = 10000, otherwise they are ignored */
-    "filename": string,     // Custom config path, required. Editing in run-time is not supported.
-    "plan_index": int,      // Plan index number in the configuration, required. Editing in run-time is not supported.
+   "enable": true,
+   "mode": 0,
+   "facility": ["Mfg", "Trade", "Reception"],
+   "drones": "PureGold",
+   "threshold": 0.3,
+   "replenish": true,
+   "dorm_notstationed_enabled": false,
+   "dorm_trust_enabled": true,
+   "reception_message_board": true,
+   "reception_clue_exchange": true,
+   "reception_send_clue": true,
+   "filename": "schedules/base.json",
+   "plan_index": 1
 }
 ```
+
+</details>
 
 - `Mall`  
    Collecting Credits and auto-purchasing.  
    Will buy items in order following `buy_first` list, buy other items from left to right ignoring items in `blacklist`, and buy other items from left to right ignoring the `blacklist` while credit overflows.
 
-```json5
-// Corresponding task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="visit_friends" type="boolean" optional default="true"  
+Whether to visit friends' base to obtain Credits.  
+:::  
+::: field name="shopping" type="boolean" optional default="true"  
+Whether to buy items from the store.  
+:::  
+::: field name="buy_first" type="array<string>" optional default="[]"  
+Items to be purchased with priority. Item name, e.g. `"招聘许可"` (Recruitment Permit), `"龙门币"` (LMD), etc.  
+:::  
+::: field name="blacklist" type="array<string>" optional default="[]"  
+Blacklist. Item name, e.g. `"加急许可"` (Expedited Plan), `"家具零件"` (Furniture Part), etc.  
+:::  
+::: field name="force_shopping_if_credit_full" type="boolean" optional default="false"  
+Whether to ignore the Blacklist if credit overflows.  
+:::  
+::: field name="only_buy_discount" type="boolean" optional default="false"  
+Whether to purchase only discounted items, applicable only on the second round of purchases.  
+:::  
+::: field name="reserve_max_credit" type="boolean" optional default="false"  
+Whether to stop purchasing when credit points fall below 300, applicable only on the second round of purchases.  
+:::  
+::: field name="credit_fight" type="boolean" optional default="false"  
+Whether to run one battle of OF-1 to gain more Credits the next day.  
+:::  
+::: field name="formation_index" type="number" optional default="0"  
+Formation slot index used for the OF-1 battle.
+<br>
+Integer between 0–4, where 0 = current squad, 1–4 = first, second, third, fourth squad.  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,         // Whether to enable this task, optional, by default true
-    "visit_friends": bool,  // Whether to visit friends' base to obtain Credits; optional, default is true
-    "shopping": bool,       // Whether to buy items from the store, optional, by default false. Editing in run-time is not supported.
-    "buy_first": [          // Items to be purchased with priority, optional. Editing in run-time is not supported.
-        string,             // Item name, e.g. "招聘许可" (Recruitment Permit), "龙门币" (LMD), etc.
-        ...
-    ],
-    "blacklist": [          // Blacklist, optional. Editing in run-time is not supported.
-        string,             // Item name, e.g. "加急许可" (Expedited Plan), "家具零件" (Furniture Part), etc.
-        ...
-    ],
-    "force_shopping_if_credit_full": bool,  // Whether to ignore the Blacklist if credit overflows, by default true
-    "only_buy_discount": bool,              // Whether to purchase only discounted items, applicable only on the second round of purchases, by default false
-    "reserve_max_credit": bool,             // Whether to stop purchasing when credit points fall below 300, applicable only on the second round of purchases, by default false
-    "credit_fight": bool,                   // Whether to run one battle of OF-1 with support units to gain more Credits the next day; optional, default is false
-    "formation_index": int                  // Formation slot index used for the OF-1 battle; optional, default is 0;
-                                            // Integer between 0–4, where 0 = current squad, 1–4 = first, second, third, fourth squad
-                                            // <Badge type="warning" text="Requires Infrastructure Shift task to take effect" />
+   "enable": true,
+   "visit_friends": true,
+   "shopping": true,
+   "buy_first": ["招聘许可", "龙门币"],
+   "blacklist": ["家具零件"],
+   "force_shopping_if_credit_full": false,
+   "only_buy_discount": true,
+   "reserve_max_credit": false,
+   "credit_fight": false,
+   "formation_index": 0
 }
 ```
+
+</details>
 
 - `Award`  
    Collecting various rewards
 
-```json5
-// Corresponding task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="award" type="boolean" optional default="true"  
+Collect daily/weekly task rewards.  
+:::  
+::: field name="mail" type="boolean" optional default="false"  
+Collect all mail rewards.  
+:::  
+::: field name="recruit" type="boolean" optional default="false"  
+Collect daily free pulls from limited banners.  
+:::  
+::: field name="orundum" type="boolean" optional default="false"  
+Collect Orundum from lucky drop wall.  
+:::  
+::: field name="mining" type="boolean" optional default="false"  
+Collect Orundum from limited mining licenses.  
+:::  
+::: field name="specialaccess" type="boolean" optional default="false"  
+Collect monthly card rewards from 5th anniversary.  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,            // Whether to enable this task, optional, by default true
-    "award": bool,             // Collect daily/weekly task rewards, default true
-    "mail": bool,              // Collect all mail rewards, default false
-    "recruit": bool,           // Collect daily free pulls from limited banners, default false
-    "orundum": bool,           // Collect Originium from lucky drop wall, default false
-    "mining": bool,            // Collect Originium from limited mining licenses, default false
-    "specialaccess": bool      // Collect monthly card rewards from 5th anniversary, default false
+   "enable": true,
+   "award": true,
+   "mail": true,
+   "recruit": true,
+   "orundum": false,
+   "mining": true,
+   "specialaccess": false
 }
 ```
+
+</details>
 
 - `Roguelike`  
    Integrated Strategies
 
-```json5
-// Task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="theme" type="string" optional default="Phantom"  
+Theme.
+<br>
+`Phantom` - Phantom & Crimson Solitaire
+<br>
+`Mizuki` - Mizuki & Caerula Arbor
+<br>
+`Sami` - Expeditioner's Jǫklumarkar
+<br>
+`Sarkaz` - Tales of the Unfathomable
+<br>
+`JieGarden` - Sui's Garden of Grotesqueries  
+:::  
+::: field name="mode" type="number" optional default="0"  
+Mode.
+<br>
+`0` - Score farming/reward points, aiming to consistently reach higher levels.
+<br>
+`1` - Originium Ingot farming, exit after investing in the first layer.
+<br>
+`2` - <Badge type="danger" text="Deprecated" /> Balances modes 0 and 1; continues until the next investment, exits otherwise.
+<br>
+`3` - Under development...
+<br>
+`4` - Opening reset; first reaches the third layer at difficulty 0, then restarts and switches to the specified difficulty to reset the opening reward. If not the desired item, restart at difficulty 0; in the Phantom theme, retry only in the current difficulty.
+<br>
+`5` - Collapsal Paradigm farming; only for the Sami theme; accelerates collapsal buildup via missed enemies; if the first collapsal paradigm encountered is in the `expected_collapsal_paradigms` list, stops the task; otherwise, restarts.
+<br>
+`6` - Monthly squad rewards farming, same as mode 0 except for specific mode adaptations.
+<br>
+`7` - Deep Dive rewards farming, same as mode 0 except for specific mode adaptations.
+:::  
+::: field name="squad" type="string" optional default="指挥分队"  
+Starting squad name.  
+:::  
+::: field name="roles" type="string" optional default="取长补短"  
+Starting role group.  
+:::  
+::: field name="core_char" type="string" optional  
+Starting operator name. Supports only single operator **Chinese name**, regardless of server; leave empty or set to `""` to auto-select based on level.  
+:::  
+::: field name="use_support" type="boolean" optional default="false"  
+Whether the starting operator is a support operator.  
+:::  
+::: field name="use_nonfriend_support" type="boolean" optional default="false"  
+Whether non-friend support operators are allowed. Only effective when `use_support` is true.  
+:::  
+::: field name="starts_count" type="number" optional default="2147483647"  
+Number of times to start exploration. Stops automatically upon reaching limit.  
+:::  
+::: field name="difficulty" type="number" optional default="0"  
+Specified difficulty level. Selects the highest unlocked difficulty if the desired one is not unlocked.  
+:::  
+::: field name="stop_at_final_boss" type="boolean" optional default="false"  
+Whether to stop before the level 5 final boss node. Only applicable to themes **excluding Phantom**.  
+:::  
+::: field name="stop_at_max_level" type="boolean" optional default="false"  
+Whether to stop if max level for roguelike has been achieved.  
+:::  
+::: field name="investment_enabled" type="boolean" optional default="true"  
+Whether to invest Originium Ingots.  
+:::  
+::: field name="investments_count" type="number" optional default="2147483647"  
+Number of Originium Ingot investments. Stops automatically upon reaching limit.  
+:::  
+::: field name="stop_when_investment_full" type="boolean" optional default="false"  
+Whether to stop automatically when investment limit is reached.  
+:::  
+::: field name="investment_with_more_score" type="boolean" optional default="false"  
+Whether to try shopping after investment. Only applicable to mode 1.  
+:::  
+::: field name="start_with_elite_two" type="boolean" optional default="false"  
+Whether to reset for an Elite 2 operator at start. Only applicable to mode 4.  
+:::  
+::: field name="only_start_with_elite_two" type="boolean" optional default="false"  
+Whether to reset only for Elite 2 operator while ignoring other starting conditions. Only effective when mode is 4 and `start_with_elite_two` is true.  
+:::  
+::: field name="refresh_trader_with_dice" type="boolean" optional default="false"  
+Whether to refresh the shop with dice for special items. Only applicable to the Mizuki theme, used to refresh Scale of Past.  
+:::  
+::: field name="first_floor_foldartal" type="string" optional  
+Desired Foldartal to acquire in the first floor foresight phase. Only applicable to the Sami theme, any mode; task stops once obtained successfully.  
+:::  
+::: field name="start_foldartal_list" type="array<string>" optional default="[]"  
+Desired Foldartals for the starting reward phase during opening reset. Effective only for Sami theme and mode 4.
+<br>
+Reset is successful only when all Foldartals in the list are present in the opening rewards.
+<br>
+Note: This parameter must be used with the "生活至上分队" (Life-Sustaining Squad) as other squads do not obtain Foldartals in the opening reward phase.  
+:::  
+::: field name="collectible_mode_start_list" type="object" optional  
+Desired starting rewards, all false by default. Only valid in mode 4.
+<br>
+`hot_water`: Hot Water reward, typically used to trigger boiling mechanism (universal).
+<br>
+`shield`: Shield reward, equivalent to extra HP (universal).
+<br>
+`ingot`: Originium Ingot reward (universal).
+<br>
+`hope`: Hope reward (universal, note: not available in JieGarden theme).
+<br>
+`random`: Random reward option: consumes all Ingots for a random collectible (universal).
+<br>
+`key`: Key reward, only available in Mizuki theme.
+<br>
+`dice`: Dice reward, only available in Mizuki theme.
+<br>
+`ideas`: 2 Ideas reward, only available in Sarkaz theme.
+<br>
+`ticket`: Ticket reward, only available in JieGarden theme.
+:::  
+::: field name="use_foldartal" type="boolean" optional  
+Whether to use Foldartals. Default is `false` in mode 5 and `true` in other modes. Only applicable to the Sami theme.  
+:::  
+::: field name="check_collapsal_paradigms" type="boolean" optional  
+Whether to check obtained Collapsal Paradigms. Default is `true` in mode 5 and `false` in other modes.  
+:::  
+::: field name="double_check_collapsal_paradigms" type="boolean" optional default="true"  
+Whether to perform additional checks to prevent missed Collapsal Paradigms. Only effective when theme is Sami and `check_collapsal_paradigms` is true. Default is `true` in mode 5 and `false` in other modes.  
+:::  
+::: field name="expected_collapsal_paradigms" type="array<string>" optional default="['目空一些', '睁眼瞎', '图像损坏', '一抹黑']"  
+Desired Collapsal Paradigms to trigger. Only effective when theme is Sami and mode is 5.  
+:::  
+::: field name="monthly_squad_auto_iterate" type="boolean" optional  
+Whether to enable automatic monthly squad rotation.  
+:::  
+::: field name="monthly_squad_check_comms" type="boolean" optional  
+Whether to also check monthly squad communications as rotation criteria.  
+:::  
+::: field name="deep_exploration_auto_iterate" type="boolean" optional  
+Whether to enable automatic deep exploration rotation.  
+:::  
+::: field name="collectible_mode_shopping" type="boolean" optional default="false"  
+Whether to enable shopping in hot water mode.  
+:::  
+::: field name="collectible_mode_squad" type="string" optional  
+Squad to use in hot water mode, default synced with squad, when squad is empty and collectible_mode_squad not specified, uses 指挥分队.  
+:::  
+::: field name="start_with_seed" type="boolean" optional default="false"  
+Use seed for money farming.
+<br>
+Only possible to be true in Sarkaz theme, Investment mode, with "点刺成锭分队" (Point-Stab Ingot Squad) or "后勤分队" (Logistics Squad).
+<br>
+Uses fixed seed.  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,  // Whether to enable this task, optional, default is true
-    "theme": string, // Theme, optional, default is "Phantom"
-                     //   Phantom   - Phantom & Crimson Solitaire
-                     //   Mizuki    - Mizuki & Caerula Arbor
-                     //   Sami      - Expeditioner's Jǫklumarkar
-                     //   Sarkaz    - 萨卡兹的无终奇语 (Sarkaz Endless Tale)
-                     //   JieGarden - 界园 (Boundary Garden)
-    "mode": int,     // Mode, optional, default is 0
-                     //   0 - Score farming/reward points, aiming to consistently reach higher levels
-                     //   1 - Source stone farming, exit after investing in the first layer
-                     //   2 - [Deprecated] Balances modes 0 and 1; continues until the next investment, exits otherwise
-                     //   3 - Under development...
-                     //   4 - Opening reset; first reaches the third layer at difficulty 0, then restarts and switches to the specified difficulty to reset
-                     //       the opening reward. If not a specific item, restart at difficulty 0; in the Phantom theme, retry only in the current difficulty
-                     //   5 - Collapsal Paradigm farming; only for the Sami theme; accelerates collapsal buildup via missed enemies;
-                     //       if the first collapsal paradigm encountered is in the `expected_collapsal_paradigms` list, stops the task; otherwise, restarts
-                     //   6 - Monthly squad rewards farming, same as mode 0 except for specific mode adaptations
-                     //   7 - Deep Dive rewards farming, same as mode 0 except for specific mode adaptations
-    "squad": string,                // Starting squad name, optional, default is "指挥分队" (Command Squad);
-    "roles": string,                // Starting role group, optional, default is "取长补短" (Complementary Strength);
-    "core_char": string,            // Starting operator name, optional; supports only single operator **in Chinese**, regardless of server;
-                                    // leave empty or set to "" to auto-select based on level
-    "use_support": bool,            // Whether the starting operator is a support operator, optional, default is false
-    "use_nonfriend_support": bool,  // Whether non-friend support operators are allowed, optional, default is false; only effective when `use_support` is true
-    "starts_count": int,                // Number of times to start exploration, optional, default is INT_MAX; stops automatically upon reaching limit
-    "difficulty": int,                  // Specified difficulty level, optional, default is 0; only applicable to themes **excluding Phantom**;
-                                        // selects the highest unlocked difficulty if the desired one is not unlocked
-    "stop_at_final_boss": bool,         // Whether to stop before the level 5 final boss node, optional, default is false; only applicable to themes **excluding Phantom**
-    "stop_at_max_level": bool,          // Whether to stop if max level for roguelike has been achieved, optional, default is false
-    "investment_enabled": bool,         // Whether to invest source stones, optional, default is true
-    "investments_count": int,           // Number of source stone investments, optional, default is INT_MAX; stops automatically upon reaching limit
-    "stop_when_investment_full": bool,  // Whether to stop automatically when investment limit is reached, optional, default is false
-    "investment_with_more_score": bool, // Whether to try shopping after investment, optional, default is false; only applicable to mode 1
-    "start_with_elite_two": bool,       // Whether to start with an Elite 2 operator reset, optional, default is false; only applicable to mode 4
-    "only_start_with_elite_two": bool,  // Whether to reset only for Elite 2 operator while ignoring other starting conditions, optional, default is false;
-                                        // only effective when mode is 4 and `start_with_elite_two` is true
-    "refresh_trader_with_dice": bool,   // Whether to refresh the shop with dice for special items, optional, default is false; only applicable to the Mizuki theme, used to refresh pointers
-    "first_floor_foldartal": string,    // Desired Foldartal to acquire in the first floor foresight phase, optional; only applicable to the Sami theme, any mode;
-                                        // task stops once obtained successfully
-    "start_foldartal_list": [           // Desired Foldartals for the starting reward phase during opening reset, optional, default is []; effective only for Sami theme and mode 4;
-      string,                           // Reset is successful only when all Foldartals in the list are present in the opening rewards;
-      ...                               // Note: This parameter must be used with the "生活至上分队" (Life-Sustaining Squad) as other squads do not obtain Foldartals in the opening reward phase;
-    ],
-    "collectible_mode_start_list": {    // Desired starting rewards (optional), all false by default; only valid in mode 4
-        "hot_water": bool,              // Hot Water reward, typically used to trigger boiling mechanism (universal)
-        "shield": bool,                 // Shield reward, equivalent to extra HP (universal)
-        "ingot": bool,                  // Originium Ingot reward (universal)
-        "hope": bool,                   // Hope reward (universal, note: not available in JieGarden theme)
-        "random": bool,                 // Random reward option: consumes all Ingots for a random collectible (universal)
-        "key": bool,                    // Key reward, only available in Mizuki theme
-        "dice": bool,                   // Dice reward, only available in Mizuki theme
-        "ideas": bool,                  // 2 Ideas reward, only available in Sarkaz theme
-    },
-    "use_foldartal": bool,                    // Whether to use Foldartals, default is false in mode 5 and true in other modes; only applicable to the Sami theme
-    "check_collapsal_paradigms": bool,        // Whether to check obtained Collapsal Paradigms, default is true in mode 5 and false in other modes
-    "double_check_collapsal_paradigms": bool, // Whether to perform additional checks to prevent missed Collapsal Paradigms, default is true in mode 5 and false in other modes;
-                                              // only effective when theme is Sami and `check_collapsal_paradigms` is true
-    "expected_collapsal_paradigms": [         // Desired Collapsal Paradigms to trigger, default is ["目空一些" (Blank Somewhat), "睁眼瞎" (Blind Eye), "图像损坏" (Image Distortion), "一抹黑" (Pitch Black)];
-        string,                               // only effective when theme is Sami and mode is 5
-        ...
-    ],
-    "monthly_squad_auto_iterate": bool,    // Whether to enable automatic monthly squad rotation
-    "monthly_squad_check_comms": bool,     // Whether to also check monthly squad communications as rotation criteria
-    "deep_exploration_auto_iterate": bool, // Whether to enable automatic deep exploration rotation
-    "collectible_mode_shopping": bool,  // Whether to enable shopping in hot water mode, default false
-    "collectible_mode_squad": string,   // Squad to use in hot water mode, default synced with squad, when squad is empty and collectible_mode_squad not specified, uses Command Squad
-    "collectible_mode_start_list": {    // Desired rewards for hot water mode, all false by default, key options:
-        "hot_water": bool,              // [hot_water: Hot water, shield: Shield, ingot: Originium Ingot, hope: Hope, random: Random reward, key: Key, dice: Dice, ideas: Ideas]
-        ...
-    },
-    "start_with_seed": bool,        // Use seed for money farming, effective when true
-                                    // Only possible to be true in Sarkaz theme, Investment mode, with "点刺成锭分队" (Point-Stab Ingot Squad) or "后勤分队" (Logistics Squad)
-                                    // Uses fixed seed
+   "enable": true,
+   "theme": "Sami",
+   "mode": 5,
+   "squad": "指挥分队",
+   "roles": "取长补短",
+   "core_char": "塑心",
+   "use_support": false,
+   "use_nonfriend_support": false,
+   "starts_count": 3,
+   "difficulty": 8,
+   "stop_at_final_boss": false,
+   "stop_at_max_level": false,
+   "investment_enabled": true,
+   "investments_count": 2,
+   "stop_when_investment_full": false,
+   "investment_with_more_score": false,
+   "start_with_elite_two": false,
+   "only_start_with_elite_two": false,
+   "refresh_trader_with_dice": false,
+   "first_floor_foldartal": "",
+   "start_foldartal_list": [],
+   "collectible_mode_start_list": {
+      "hot_water": true,
+      "shield": false,
+      "ingot": false,
+      "hope": true,
+      "random": false,
+      "key": false,
+      "dice": false,
+      "ideas": false
+   },
+   "use_foldartal": true,
+   "check_collapsal_paradigms": true,
+   "double_check_collapsal_paradigms": true,
+   "expected_collapsal_paradigms": ["目空一些", "睁眼瞎"],
+   "monthly_squad_auto_iterate": false,
+   "monthly_squad_check_comms": false,
+   "deep_exploration_auto_iterate": false,
+   "collectible_mode_shopping": false,
+   "collectible_mode_squad": "指挥分队",
+   "start_with_seed": false
 }
 ```
+
+</details>
 
 For specific information about the Collapsal Paradigm farming feature, please refer to [Integrated Strategy Schema](./integrated-strategy-schema.md#sami-integrated-strategy-collapsal-paradigms)
 
 - `Copilot`  
    Auto combat feature
 
-```json5
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="filename" type="string"  
+Path to a single job JSON file, mutually exclusive with copilot_list (required, choose one); both relative and absolute paths are supported.  
+:::  
+::: field name="copilot_list" type="array<object>"  
+List of jobs, mutually exclusive with filename (required, choose one); when both filename and copilot_list are present, copilot_list will be ignored; set_params can only be executed once when this parameter is in effect.
+<br>
+Each object contains:
+<br>
+- `filename`: Path to the job JSON file; both relative and absolute paths are supported
+<br>
+- `stage_name`: Stage name, refer to [PRTS.Map](https://map.ark-nights.com) for details
+<br>
+- `is_raid`: Whether to switch to Challenge Mode (Raid), optional, default false
+:::  
+::: field name="loop_times" type="number" optional default="1"  
+Number of loops. Effective only in single job mode (i.e., when filename is specified); set_params can only be executed once when this parameter is in effect.  
+:::  
+::: field name="use_sanity_potion" type="boolean" optional default="false"  
+Whether to use sanity potions when sanity is insufficient.  
+:::  
+::: field name="formation" type="boolean" optional default="false"  
+Whether to enable auto formation.  
+:::  
+::: field name="formation_index" type="number" optional default="0"  
+The index of the formation slot to use in auto formation. Only effective when formation is true.
+<br>
+An integer between 0–4: 0 means the current formation, 1–4 refer to the 1st–4th formations.  
+:::  
+::: field name="user_additional" type="array<object>" optional default="[]"  
+Custom additional operators list. Only effective when formation is true.
+<br>
+Each object contains:
+<br>
+- `name`: Operator name, optional, default "", if left empty this operator will be ignored
+<br>
+- `skill`: Skill to bring, optional, default 1; must be an integer between 1–3; otherwise, follows the in-game default
+:::  
+::: field name="add_trust" type="boolean" optional default="false"  
+Whether to auto-fill empty slots by ascending trust value during auto formation. Only effective when formation is true.  
+:::  
+::: field name="ignore_requirements" type="boolean" optional default="false"  
+Whether to ignore operator attribute requirements during auto formation. Only effective when formation is true.  
+:::  
+::: field name="support_unit_usage" type="number" optional default="0"  
+Support operator usage mode. Integer between 0–3. Only effective when formation is true.
+<br>
+`0` - Do not use support operators
+<br>
+`1` - Use support operator only if exactly one operator is missing; otherwise, do not use support
+<br>
+`2` - Use support operator if one is missing; otherwise, use the specified support operator
+<br>
+`3` - Use support operator if one is missing; otherwise, use a random support operator
+:::  
+::: field name="support_unit_name" type="string" optional default=""  
+Specified support operator name. Only effective when support_unit_usage is 2.  
+:::  
+::::  
+
+For more details about auto-combat JSON, please refer to [Combat Operation Protocol](./copilot-schema.md)
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,               // Whether to enable this task. Optional, default is true.
-    "filename": string,           // Path to a single job JSON file. Required (mutually exclusive with copilot_list). Both relative and absolute paths are supported.
-    "copilot_list": [             // List of jobs. Required (mutually exclusive with filename). When both filename and copilot_list are present, copilot_list will be ignored; set_params can only be executed once when this parameter is in effect.
-        {
-            "filename": string,   // Path to the job JSON file. Both relative and absolute paths are supported.
-            "stage_name": string, // Stage name. Refer to [PRTS.Map](https://map.ark-nights.com) for details.
-            "is_raid": bool       // Whether to switch to Challenge Mode (Raid), optional, default false.
-        },
-        ...
-    ],
-    "loop_times": int,            // Number of loops. Optional, default is 1. Effective only in single job mode (i.e., when filename is specified); set_params can only be executed once when this parameter is in effect.
-    "use_sanity_potion": bool,    // Whether to use sanity potions when sanity is insufficient. Optional, default is false.
-    "formation": bool,            // Whether to enable auto formation. Optional, default is false.
-    "formation_index": int,       // The index of the formation slot to use in auto formation. Optional, default is 0.
-                                  // An integer between 0–4: 0 means the current formation, 1–4 refer to the 1st–4th formations.
-    "user_additional": [          // Custom additional operators list. Optional, default is []. Effective only when formation is true.
-        {
-            "name": string,       // Operator name. Optional, default is "". If left empty, this operator will be ignored.
-            "skill": int          // Skill to bring. Optional, default is 1. Must be an integer between 1–3; otherwise, follows the in-game default.
-        },
-        ...
-    ],
-    "add_trust": bool,            // Whether to auto-fill empty slots by ascending trust value during auto formation. Optional, default is false. Effective only when formation is true.
-    "ignore_requirements": bool,  // Whether to ignore operator attribute requirements during auto formation. Optional, default is false. Effective only when formation is true.
-    "support_unit_usage": int,    // Support operator usage mode. Optional, default is 0. Integer between 0–3. Effective only when formation is true.
-                                  //   0 - Do not use support operators.
-                                  //   1 - Use support operator only if exactly one operator is missing; otherwise, do not use support.
-                                  //   2 - Use support operator if one is missing; otherwise, use the specified support operator.
-                                  //   3 - Use support operator if one is missing; otherwise, use a random support operator.
-    "support_unit_name": string   // Specified support operator name. Optional, default is "". Effective only when support_unit_usage = 2.
+   "enable": true,
+   "filename": "copilot/1-7.json",
+   "loop_times": 2,
+   "use_sanity_potion": false,
+   "formation": true,
+   "formation_index": 1,
+   "user_additional": [
+      {
+         "name": "能天使",
+         "skill": 3
+      }
+   ],
+   "add_trust": true,
+   "ignore_requirements": false,
+   "support_unit_usage": 2,
+   "support_unit_name": "艾雅法拉"
 }
 ```
 
-For more details about auto-combat JSON, please refer to [Combat Operation Protocol](./copilot-schema.md)
+</details>
 
 - `SSSCopilot`  
    Auto combat feature for Stationary Security Service
 
-```json5
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="filename" type="string" required  
+Filename and path of the task JSON, supporting absolute/relative paths. Editing in run-time is not supported.  
+:::  
+::: field name="loop_times" type="number" optional  
+Number of times to loop execution.  
+:::  
+::::  
+
+For more details about Stationary Security Service JSON, please refer to [SSS Schema](./sss-schema.md)
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,             // Whether to enable this task, optional, by default true
-    "filename": string,         // Filename and path of the task JSON, supporting absolute/relative paths. Editing in run-time is not supported.
-    "loop_times": int           // Number of times to loop execution
+   "enable": true,
+   "filename": "sss/plan.json",
+   "loop_times": 1
 }
 ```
 
-For more details about Stationary Security Service JSON, please refer to [SSS Schema](./sss-schema.md)
+</details>
 
 - `ParadoxCopilot`
   Automatically run Paradox Simulation operations
 
-```json5
-// Task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="filename" type="string" required  
+File path of a single operation JSON, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with list (required, choose one).  
+:::  
+::: field name="list" type="array<string>" required  
+List of operation JSON files, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with filename (required, choose one).  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-   "enable": bool,        // Whether to enable this task. Optional, default is true
-   "filename": string,    // File path of a single operation JSON, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with list (required, choose one)
-   "list" : list<string>  // List of operation JSON files, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with filename (required, choose one)
+   "enable": true,
+   "filename": "paradox/exusiai.json",
+   "list": []
 }
 ```
+
+</details>
 
 - `Depot`
   Depot recognition
 
-```json5
-// Corresponding task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool          // Whether to enable this task, optional, by default true
+   "enable": true
 }
 ```
+
+</details>
 
 - `OperBox`  
    Operator box recognition
 
-```json5
-// Corresponding task parameters
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool          // Whether to enable this task, optional, by default true
+   "enable": true
 }
 ```
+
+</details>
 
 - `Reclamation`  
    Reclamation Algorithm
 
-```json5
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="theme" type="string" optional default="Fire"  
+Theme.
+<br>
+`Fire` - *Fire Within the Sand*
+<br>
+`Tales` - *Tales Within the Sand*
+:::  
+::: field name="mode" type="number" optional default="0"  
+Mode.
+<br>
+`0` - Farm badges & construction pts (exiting the stage immediately).
+<br>
+`1` - Fire Within the Sand: Farm Crude Gold (forging Gold at headquarter after purchasing water); Tales Within the Sand: Automatically craft items and load to earn currency.
+:::  
+::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
+Automatically crafted items. Suggested to fill in the substring.  
+:::  
+::: field name="increment_mode" type="number" optional default="0"  
+Click type.
+<br>
+`0` - Rapid Click
+<br>
+`1` - Long Press
+:::  
+::: field name="num_craft_batches" type="number" optional default="16"  
+Maximum number of craft batches per session.  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,
-    "theme": string,            // Theme, optional, Fire by default
-                                // Fire  - *Fire Within the Sand*
-                                // Tales - *Tales Within the Sand*
-    "mode": int,                // Mode, optional, 0 by default
-                                // 0 - Farm badges & construction pts (exiting the stage immediately)
-                                // 1 - Fire Within the Sand: Farm Crude Gold (forging Gold at headquarter after purchasing water)
-                                //     Tales Within the Sand: Automatically craft items and load to earn currency
-    "tools_to_craft": [
-        string,                 // Automatically crafted items, optional, glow stick by default
-        ...
-    ]
-                                // Suggested to fill in the substring
-    "increment_mode": int,      // Click type, optional. 0 by default
-                                // 0 - Rapid Click
-                                // 1 - Long Press
-    "num_craft_batches": int    // Maximum number of craft batches per session, optional. 16 by default
+   "enable": true,
+   "theme": "Fire",
+   "mode": 1,
+   "tools_to_craft": ["荧光棒", "发电机"],
+   "increment_mode": 0,
+   "num_craft_batches": 12
 }
 ```
+
+</details>
 
 - `Custom`  
    Custom Task
 
-```json5
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="task_names" type="array<string>" required  
+Execute the task on the first match in the array (and subsequent next, etc.). If you want to perform multiple tasks, you can append Custom task multiple times.  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,
-    "task_names": [     // Execute the task on the first match in the array (and subsequent next, etc.)
-                        // If you want to perform multiple tasks, you can append Custom task multiple times
-        string,
-        ...
-    ]
+   "enable": true,
+   "task_names": ["StartUp", "Infrast", "Fight"]
 }
 ```
+
+</details>
 
 - `SingleStep`  
    Single-step task (currently only supports copilot)
 
-```json5
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="type" type="string" required default="copilot"  
+Currently only supports `"copilot"`.  
+:::  
+::: field name="subtask" type="string" required  
+Subtask type.
+<br>
+`stage` - Set stage name, requires `"details": { "stage": "xxxx" }`.
+<br>
+`start` - Start mission, without details.
+<br>
+`action` - Single battle action, details is single action in Copilot, e.g.: `"details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }`, see [Combat Operation Protocol](./copilot-schema.md) for details.
+:::  
+::: field name="details" type="object" optional  
+Detailed parameters for the subtask.  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,
-    "type": string,     // currently only supports "copilot"
-    "subtask": string,  // "stage" | "start" | "action"
-                        // "stage" to set stage name, eg: "details": { "stage": "xxxx" }
-                        // "start" to start mission, without details
-                        // "action": single battle action, details is single action in Copilot,
-                        //           eg: "details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }, see protocol/copilot-schema.md for details
-    "details": {
-        ...
-    }
+   "enable": true,
+   "type": "copilot",
+   "subtask": "stage",
+   "details": {
+      "stage": "1-7"
+   }
 }
 ```
+
+</details>
 
 - `VideoRecognition`  
    Video recognition, currently only supports operation (combat) video
 
-```json5
+:::: field-group  
+::: field name="enable" type="boolean" optional default="true"  
+Whether to enable this task.  
+:::  
+::: field name="filename" type="string" required  
+Video file path, supporting absolute/relative paths. Editing in run-time is not supported.  
+:::  
+::::  
+
+<details>
+<summary>Example</summary>
+
+```json
 {
-    "enable": bool,
-    "filename": string, // Video file path, supporting absolute/relative paths. Editing in run-time is not supported.
+   "enable": true,
+   "filename": "videos/copilot.mp4"
 }
 ```
+
+</details>
 
 ### `AsstSetTaskParams`
 
 #### Prototype
 
 ```cpp
-bool ASSTAPI AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params);
+bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params);
 ```
 
 #### Description
@@ -481,13 +1061,18 @@ Set task parameters
 
 #### Parameter Description
 
-- `AsstHandle handle`  
-   Instance handle
-- `TaskId task`  
-   Task ID, the return value of `AsstAppendTask`
-- `const char* params`  
-   Task parameter in JSON, same as `AsstAppendTask`
-  For those fields that do not mention "Editing in run-time is not supported" can be changed during run-time. Otherwise these changes will be ignored when the task is running.
+:::: field-group  
+::: field name="handle" type="AsstHandle" required  
+Instance handle  
+:::  
+::: field name="task" type="AsstTaskId" required  
+Task ID, the return value of `AsstAppendTask`  
+:::  
+::: field name="params" type="const char*" required  
+Task parameter in JSON, same as `AsstAppendTask`.  
+For those fields that do not mention "Editing in run-time is not supported" can be changed during run-time. Otherwise these changes will be ignored when the task is running.  
+:::  
+::::
 
 ### `AsstSetStaticOption`
 
@@ -508,10 +1093,14 @@ Set process-level parameters
 
 #### Parameter Description
 
-- `AsstStaticOptionKey key`  
-   key
-- `const char* value`  
-   value
+:::: field-group  
+::: field name="key" type="AsstStaticOptionKey" required  
+key  
+:::  
+::: field name="value" type="const char*" required  
+value  
+:::  
+::::
 
 ##### List of Key and value
 
@@ -536,27 +1125,37 @@ Set instance-level parameters
 
 #### Parameter Description
 
-- `AsstHandle handle`  
-   handle
-- `AsstInstanceOptionKey key`  
-   key
-- `const char* value`  
-   value
+:::: field-group  
+::: field name="handle" type="AsstHandle" required  
+handle  
+:::  
+::: field name="key" type="AsstInstanceOptionKey" required  
+key  
+:::  
+::: field name="value" type="const char*" required  
+value  
+:::  
+::::
 
 ##### List of Key and value
 
-```cpp
-    enum InstanceOptionKey
-    {
-        Invalid = 0,
-        // Deprecated // MinitouchEnabled = 1,   // Is minitouch enabled
-                                // If you can't use minitouch, it's useless to turn it on.
-                                // "1" - on, "0" - off
-        TouchMode = 2,          // Touch mode, minitouch by default
-                                // minitouch | maatouch | adb
-        DeploymentWithPause = 3,    // Deployment with Pause (Works for IS, Copilot and Stationary Security Service)
-                                    // "1" | "0"
-        AdbLiteEnabled = 4,     // Enable AdbLite or not, "0" | "1"
-        KillAdbOnExit = 5,      // Release Adb on exit, "0" | "1"
-    };
-```
+:::: field-group  
+::: field name="Invalid" type="number" optional default="0"  
+Invalid placeholder. Enum value: 0.  
+:::  
+::: field name="MinitouchEnabled" type="boolean" optional  
+Deprecated. Originally for enabling minitouch; "1" - on, "0" - off. Note that the device may not support it. Enum value: 1 (deprecated).  
+:::  
+::: field name="TouchMode" type="string" optional default="minitouch"  
+Touch mode setting. Options: minitouch | maatouch | adb. Default minitouch. Enum value: 2.  
+:::  
+::: field name="DeploymentWithPause" type="boolean" optional  
+Whether to pause when deploying operators (affects IS, Copilot and Stationary Security Service). Options: "1" | "0". Enum value: 3.  
+:::  
+::: field name="AdbLiteEnabled" type="boolean" optional  
+Whether to enable AdbLite or not. Options: "0" | "1". Enum value: 4.  
+:::  
+::: field name="KillAdbOnExit" type="boolean" optional  
+Release Adb on exit. Options: "0" | "1". Enum value: 5.  
+:::  
+::::
