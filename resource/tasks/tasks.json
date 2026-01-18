@@ -3449,13 +3449,17 @@
         "templThreshold": 0.8,
         "doc": "锚点：每行右侧的队列切换按钮"
     },
-    "InfrastOverview-NameRect": {
+    "InfrastOverviewNameRect": {
         "algorithm": "OcrDetect",
         "text": [],
         "rectMove_Doc": "基于锚点的位置移动",
-        "rectMove": [-750, 6, 100, 38],
+        "rectMove": [-756, 0, 117, 44],
         "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
-        "specificRect": [235, 255, 0, 0]
+        "specificRect": [235, 255, 0, 0],
+        "ocrReplaceDoc": "利用正则捕获组提取：组1是房间名，组2是1-9的数字。其余部分(包括0、符号)全部被.*吞掉并删除",
+        "ocrReplace": [
+            ["^(控制中枢|会客室|办公室|制造站|贸易站|发电站|宿舍|训练室|加工站)([1-9])?.*$","$1$2"]
+        ]
     },
     "InfrastOverview-Slot-0": {
         "doc": "第1个槽位，相对于 Anchor 的偏移 [x, y, w, h]。计算: 624 - 1182 = -558",
@@ -3483,7 +3487,7 @@
         "roi": [-114, 0, 114, 134]
     },
     "InfrastOverview-SlotEmpty": {
-        "template": "InfrastOverviewEmpty.png",
+        "template": "InfrastOverviewEmpty2.png",
         "templThreshold": 0.85,
         "doc": "空槽位图标，ROI由C++动态覆盖",
         "roi": [0, 0, 100, 100]
@@ -3513,10 +3517,10 @@
         "algorithm": "JustReturn",
         "action": "Swipe",
         "doc": "手指从下往上拖动，查看列表底部内容",
-        "specificRect": [600, 600, 100, 100], 
-        "rectMove": [600, 200, 100, 100], 
+        "specificRect": [600, 600, 20, 20], 
+        "rectMove": [600, 250, 20, 20], 
         "specialParams": [
-            500,
+            1000,
             1,
             2,
             0

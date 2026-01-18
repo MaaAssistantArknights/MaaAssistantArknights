@@ -13,7 +13,7 @@ public:
     using VisionHelper::VisionHelper;
     virtual ~InfrastIntelligentAnalyzer() override = default;
 
-    bool analyze();
+    bool analyze(bool is_end = false);
 
     auto get_result() const noexcept -> const std::vector<infrast::InfrastRoomInfo>& { return m_result; }
 

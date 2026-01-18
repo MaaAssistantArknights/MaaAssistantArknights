@@ -7,18 +7,37 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 #include "Vision/Infrast/InfrastIntelligentAnalyzer.h"
+#include <algorithm>
 using namespace std::string_literals;
 
-// 定义滑动辅助函数
-void asst::InfrastIntelligentTask::swipe_overview_vertical()
+void asst::InfrastIntelligentTask::remove_duplicates()
 {
-    // 调用垂直滑动任务 (需要你在 JSON 里定义 InfrastOverviewSwipeUp)
+    if (m_room_infos.empty()) return;
+    std::vector<infrast::InfrastRoomInfo> temp_rooms = std::move(m_room_infos);
+    m_room_infos.clear(); 
+    std::vector<std::string> room_names;
+    
+    m_room_infos.reserve(temp_rooms.size());
+
+    for (auto& room : temp_rooms) {
+        if (room.room_name.empty()) continue;
+        if (std::find(room_names.begin(), room_names.end(), room.room_name) == room_names.end()) {
+            room_names.push_back(room.room_name);
+            m_room_infos.push_back(std::move(room));
+        } else {
+            // Log.debug("Duplicate removed:", room.room_name);
+        }
+    }
+}
+
+void asst::InfrastIntelligentTask::swipe_overview_up()
+{
     ProcessTask(*this, { "InfrastOverviewSwipeUp" }).run();
 }
-bool asst::InfrastIntelligentTask::scan_overview_and_report()
+bool asst::InfrastIntelligentTask::scan_overview()
 {
     LogTraceFunction;
-    std::vector<infrast::InfrastRoomInfo> all_room_infos;
+    m_room_infos.clear();
     std::vector<std::string> prev_page_signatures;
     int max_scroll_times = 20; 
     int scroll_count = 0;
@@ -28,7 +47,7 @@ bool asst::InfrastIntelligentTask::scan_overview_and_report()
 
         if (!analyzer.analyze()) {
             Log.warn("No rooms found in current view. Retrying or Aborting...");
-            if (all_room_infos.empty()) return false;
+            if (m_room_infos.empty()) return false;
             break;
         }
         const auto& current_results = analyzer.get_result();
@@ -38,12 +57,20 @@ bool asst::InfrastIntelligentTask::scan_overview_and_report()
         }
         if (!current_page_signatures.empty() && current_page_signatures == prev_page_signatures) {
             Log.info("InfrastIntelligentTask | Reached bottom of the list (Content unchanged).");
+            //确认到底后，将当前页面重新扫描一遍
+            if (!analyzer.analyze(true)) {
+                Log.warn("No rooms found in current view on final scan.");
+                break;
+            }
+            const auto& final_results = analyzer.get_result();
+            for (const auto& room : final_results) {
+                m_room_infos.push_back(room);
+            }
             break;
         }
         
-
         for (const auto& room : current_results) {
-            all_room_infos.push_back(room);
+            m_room_infos.push_back(room);
             Log.info("Scanned:", room.room_name, "| Moods:", 
                      room.slots_mood[0], room.slots_mood[1], room.slots_mood[2], 
                      room.slots_mood[3], room.slots_mood[4]);
@@ -57,15 +84,15 @@ bool asst::InfrastIntelligentTask::scan_overview_and_report()
         }
 
         Log.info("InfrastIntelligentTask | Swiping up... (", scroll_count, ")");
-        swipe_overview_vertical();
+        swipe_overview_up();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
+    remove_duplicates();
 
-    // --- 扫描结束，汇报总结 ---
     Log.info("=== Infrast Overview Scan Completed ===");
-    Log.info("Total raw rows scanned:", all_room_infos.size());
-    for (const auto& room_info : all_room_infos) {
+    Log.info("Total raw rows scanned:", m_room_infos.size());
+    for (const auto& room_info : m_room_infos) {
         Log.info("Room:", room_info.room_name);
         for (size_t i = 0; i < room_info.slots_rect.size(); ++i) {
             if (room_info.slots_empty[i]) {
@@ -75,24 +102,6 @@ bool asst::InfrastIntelligentTask::scan_overview_and_report()
             }
         }
     }
-    // const auto m_image = ctrler()->get_image();
-    // InfrastIntelligentAnalyzer analyzer(m_image);
-    // if (!analyzer.analyze()) {
-    //     Log.warn("No rooms found in overview");
-    //     return false;
-    // }
-    // const auto& results = analyzer.get_result();
-    // for (const auto& room : results) {
-    //     Log.info("Room detected at:", room.anchor_rect.to_string());
-    //     Log.info("Room name:", room.room_name);
-    //     for (size_t i = 0; i < room.slots_rect.size(); ++i) {
-    //         if (room.slots_empty[i]) {
-    //              Log.info("  Slot", i+1, "is Empty");
-    //         } else {
-    //              Log.info("  Slot", i+1, "has Operator and Mood Ratio:", room.slots_mood[i]);
-    //         }
-    //     }
-    // }
 
     return true;
 }
@@ -109,7 +118,7 @@ bool asst::InfrastIntelligentTask::_run()
         return false;
     }
     // 2) 进入后进行循环扫描 + 滑动，直到到底或达到最大滑动次数
-    if (!scan_overview_and_report()) {
+    if (!scan_overview()) {
         Log.warn("InfrastIntelligentTask | initial scan failed");
         return false;
     }

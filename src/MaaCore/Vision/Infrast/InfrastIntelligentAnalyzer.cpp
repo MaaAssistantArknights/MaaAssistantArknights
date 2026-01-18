@@ -8,7 +8,7 @@
 #include "InfrastSmileyImageAnalyzer.h"
 #include "Utils/NoWarningCV.h"
 
-bool asst::InfrastIntelligentAnalyzer::analyze()
+bool asst::InfrastIntelligentAnalyzer::analyze(bool is_end)
 {
     LogTraceFunction;
     m_result.clear();
@@ -17,7 +17,7 @@ bool asst::InfrastIntelligentAnalyzer::analyze()
     MultiMatcher anchor_matcher(m_image);
     anchor_matcher.set_task_info("InfrastOverview-Anchor");
 
-    if (!anchor_matcher.analyze()) {
+    if (!anchor_matcher.analyze() || anchor_matcher.get_result().empty()) {
         Log.info("InfrastIntelligentAnalyzer | No anchors found");
         return false;
     }
@@ -27,9 +27,33 @@ bool asst::InfrastIntelligentAnalyzer::analyze()
         return a.rect.y < b.rect.y;
     });
 
-    // --- 2. 遍历锚点处理每个房间 ---
-    for (const auto& match : anchors) {
-        analyze_room(match.rect);
+    if(!is_end) {
+        // --- 2. 遍历锚点处理每个房间 ---
+        for (const auto& match : anchors) {
+            analyze_room(match.rect);
+        }
+    }
+
+    if (is_end) {
+        // --- 3. 处理最后没有anchor的房间 ---
+        int row_pitch = 200; 
+        if (anchors.size() >= 2) {
+            row_pitch = (anchors.back().rect.y - anchors.front().rect.y) / static_cast<int>(anchors.size() - 1);
+        }
+        Rect last_rect = anchors.back().rect;
+        Rect virtual_rect1 = last_rect;
+        virtual_rect1.y += row_pitch;
+        if (virtual_rect1.y < m_image.rows) {
+            Log.info("IntelligentAnalyzer | Scanning Virtual Room 1:", virtual_rect1.to_string());
+            analyze_room(virtual_rect1);
+        }
+
+        Rect virtual_rect2 = virtual_rect1;
+        virtual_rect2.y += row_pitch;
+        if (virtual_rect2.y < m_image.rows) {
+            Log.info("IntelligentAnalyzer | Scanning Virtual Room 2:", virtual_rect2.to_string());
+            analyze_room(virtual_rect2);
+        }
     }
 
     return !m_result.empty();
@@ -45,24 +69,19 @@ void asst::InfrastIntelligentAnalyzer::analyze_room(const Rect& anchor_rect)
 #endif
 
 // --- 1. 获取房间名切图并识别 ---
-    const auto& name_rect_task = Task.get("InfrastOverview-NameRect");
-    if (name_rect_task) {
-        room_info.name_rect = anchor_rect.move(name_rect_task->rect_move);
+    const auto& name_task = Task.get<OcrTaskInfo>("InfrastOverviewNameRect");
+    if (name_task) {
+        room_info.name_rect = anchor_rect.move(name_task->rect_move);
         Log.info("IntelligentAnalyzer | Name Rect:", room_info.name_rect.to_string());
         cv::Mat name_img = m_image(make_rect<cv::Rect>(room_info.name_rect));
-        const auto& ocr_replace_ptr = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
-        if (ocr_replace_ptr) {
-            RegionOCRer name_analyzer;
-            name_analyzer.set_replace(ocr_replace_ptr->replace_map, ocr_replace_ptr->replace_full);
-            name_analyzer.set_image(name_img);
-            name_analyzer.set_bin_expansion(0);
-
-            if (name_analyzer.analyze()) {
-                room_info.room_name = name_analyzer.get_result().text;
-                Log.info("IntelligentAnalyzer | Scanned Room Name:", room_info.room_name);
-            }
+        RegionOCRer name_analyzer;
+        name_analyzer.set_replace(name_task->replace_map, name_task->replace_full);
+        name_analyzer.set_image(name_img);
+        name_analyzer.set_bin_expansion(0);
+        if (name_analyzer.analyze()) {
+            room_info.room_name = name_analyzer.get_result().text;
+            Log.info("IntelligentAnalyzer | Scanned Room Name:", room_info.room_name);
         }
-
 #ifdef ASST_DEBUG
         // 画框和文字调试
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(room_info.name_rect), cv::Scalar(255, 0, 0), 2);
@@ -75,7 +94,6 @@ void asst::InfrastIntelligentAnalyzer::analyze_room(const Rect& anchor_rect)
     }
 
     m_result.emplace_back(room_info);
-    // return room_info;
 }
 
 void asst::InfrastIntelligentAnalyzer::analyze_slot(int slot_idx, const Rect& anchor_rect, infrast::InfrastRoomInfo& room_info)
