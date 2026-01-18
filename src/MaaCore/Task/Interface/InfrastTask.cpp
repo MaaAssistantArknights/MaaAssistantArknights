@@ -86,15 +86,15 @@ bool asst::InfrastTask::set_params(const json::value& params)
         if (mode == Mode::Intelligent) {
             // Intelligent 模式为独立任务链：InfrastBegin -> InfrastIntelligentTask
             m_subtasks.emplace_back(m_intelligent_task_ptr);
-            // for (const auto& facility_json : facility_opt.value()) {
-            //     if (!facility_json.is_string()) {
-            //         m_subtasks.clear();
-            //         append_infrast_begin();
-            //         return false;
-            //     }
-            //     std::string facility = facility_json.as_string();
-            //     //这个facility是可以操作的，在InfrastIntelligentTask设置
-            // }
+            for (const auto& facility_json : facility_opt.value()) {
+                if (!facility_json.is_string()) {
+                    m_subtasks.clear();
+                    append_infrast_begin();
+                    return false;
+                }
+                std::string facility = facility_json.as_string();
+                m_intelligent_task_ptr->set_facility_allow(facility);
+            }
         }
         else {
             if (mode == Mode::Rotation) {

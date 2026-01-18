@@ -124,12 +124,61 @@ bool asst::InfrastIntelligentTask::scan_overview_workspace()
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
+
     remove_room_duplicates();
 
+    for(auto& room : m_room_infos) {
+        for (size_t slot = 0; slot < room.slots_empty.size(); ++slot) {
+            double mood = room.slots_mood[slot];
+            if (!room.slots_empty[slot] && 0 <= mood && mood < m_mood_threshold) {
+                room.worker_num++;
+                if (mood < room.min_mood) {
+                    room.min_mood = mood;
+                }
+            }
+        }
+        if (room.room_name.find("控制中枢") != std::string::npos && control_allow) {
+            room.is_allowed = true;
+            room.facility_priority = 1;
+        }
+        else if (room.room_name.find("会客室") != std::string::npos && reception_allow) {
+            room.is_allowed = true;
+            room.facility_priority = 5;
+        }
+        else if (room.room_name.find("制造站") != std::string::npos && mfg_allow) {
+            room.is_allowed = true;
+            room.facility_priority = 3;
+        }
+        else if (room.room_name.find("贸易站") != std::string::npos && trade_allow) {
+            room.is_allowed = true;
+            room.facility_priority = 2;
+        }
+        else if (room.room_name.find("发电站") != std::string::npos && power_allow) {
+            room.is_allowed = true;
+            room.facility_priority = 4;
+        }
+        else if (room.room_name.find("办公室") != std::string::npos && office_allow) {
+            room.is_allowed = true;
+            room.facility_priority = 6;
+        }
+        else if (room.room_name.find("训练室") != std::string::npos && training_allow) {
+            if(room.is_training){
+                room.is_allowed = false;
+            } else {
+                room.is_allowed = true;
+            }
+            room.facility_priority = 7;
+        }
+        else if (room.room_name.find("加工站") != std::string::npos && processing_allow) {
+            room.is_allowed = true;
+            room.facility_priority = 8;
+        }
+    }
     Log.info("=== Infrast Overview Scan Completed ===");
     Log.info("Total raw rows scanned:", m_room_infos.size());
     for (const auto& room_info : m_room_infos) {
         Log.info("Room:", room_info.room_name);
+        Log.info("is_allowed:", room_info.is_allowed);
         for (size_t i = 0; i < room_info.slots_rect.size(); ++i) {
             if (room_info.slots_empty[i]) {
                 Log.info("  Slot", i + 1, "is Empty");
@@ -206,21 +255,6 @@ bool asst::InfrastIntelligentTask::scan_overview_dormitory()
     return true;
 }
 
-// struct RoomGroupCandidate {
-//     int room_index;          // 在 m_room_infos 中的索引
-//     std::string room_name;   // 房间名
-//     int worker_num;      // 该房间当前干员总数
-//     double min_mood;         // 该房间内最低的心情值（排序主键）
-//     int type_priority;       // 房间类型优先级（排序副键）
-
-//     bool operator<(const RoomGroupCandidate& other) const {
-//         if (std::abs(min_mood - other.min_mood) > 0.001) {
-//             return min_mood < other.min_mood;
-//         }
-//         return type_priority < other.type_priority;
-//     }
-// };
-
 int asst::InfrastIntelligentTask::process_dormitory_capacity()
 {
     int total_capacity = 0;
@@ -241,24 +275,10 @@ std::vector<asst::infrast::InfrastRoomInfo> asst::InfrastIntelligentTask::proces
 {
     Log.info("InfrastIntelligentTask | Calculating GROUP rotation plan...");
     std::vector<asst::infrast::InfrastRoomInfo> candidates;
-    const double WORK_ROTATION_THRESHOLD = m_mood_threshold; 
-    Log.info("InfrastIntelligentTask | Work Rotation Mood Threshold:", WORK_ROTATION_THRESHOLD);
+    Log.info("InfrastIntelligentTask | Work Rotation Mood Threshold:", m_mood_threshold);
     for (size_t i = 0; i < m_room_infos.size(); ++i) {
         auto& room = m_room_infos[i];
-        for (size_t slot = 0; slot < room.slots_empty.size(); ++slot) {
-            double mood = room.slots_mood[slot];
-            if (!room.slots_empty[slot] && 0 <= mood && mood < WORK_ROTATION_THRESHOLD) {
-                room.worker_num++;
-                if (mood < room.min_mood) {
-                    room.min_mood = mood;
-                }
-            }
-        }
-        if (room.worker_num > 0 && room.min_mood < WORK_ROTATION_THRESHOLD) {
-            if (room.room_name.find("控制中枢") != std::string::npos) room.facility_priority = 1;
-            else if (room.room_name.find("贸易站") != std::string::npos) room.facility_priority = 2;
-            else if (room.room_name.find("制造站") != std::string::npos) room.facility_priority = 3;
-            else if (room.room_name.find("发电站") != std::string::npos) room.facility_priority = 4;
+        if (room.worker_num > 0 && room.min_mood < m_mood_threshold && room.is_allowed) {
             candidates.push_back(room);
         }
     }

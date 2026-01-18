@@ -164,6 +164,8 @@ struct InfrastRoomInfo
     std::vector<Rect> slots_rect; // 5个槽位的 ROI
     std::vector<bool> slots_empty;    // 5个槽位是否为空
     std::vector<double> slots_mood;   // 5个槽位的心情数值
+    bool is_allowed = false;              // 该房间是否在可操作列表内
+    bool is_training = false;              // 训练中
     int worker_num = 0;        // 当前宿舍内干员数量
     double min_mood = 2.0; // 排序依据1
     int facility_priority = 99;     // 排序依据2

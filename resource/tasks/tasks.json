@@ -3461,6 +3461,14 @@
             ["^(控制中枢|会客室|办公室|制造站|贸易站|发电站|宿舍|训练室|加工站)([1-9])?.*$","$1$2"]
         ]
     },
+    "InfrastOverviewTrainingStatus": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于锚点的位置移动",
+        "rectMove": [-420, 85, 68, 26],
+        "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
+        "specificRect": [235, 255, 0, 0]
+    },
     "InfrastOverview-Slot-0": {
         "doc": "第1个槽位，相对于 Anchor 的偏移 [x, y, w, h]。计算: 624 - 1182 = -558",
         "template": "empty.png",

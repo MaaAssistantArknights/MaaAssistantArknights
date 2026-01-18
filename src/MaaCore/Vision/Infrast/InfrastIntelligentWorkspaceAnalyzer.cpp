@@ -87,7 +87,24 @@ void asst::InfrastIntelligentWorkspaceAnalyzer::analyze_room(const Rect& anchor_
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(room_info.name_rect), cv::Scalar(255, 0, 0), 2);
 #endif
     }
-
+    // 训练室特判
+    if (room_info.room_name.find("训练室") != std::string::npos) {
+        const auto& training_status_task = Task.get<OcrTaskInfo>("InfrastOverviewTrainingStatus");
+        Rect training_status_rect = anchor_rect.move(training_status_task->rect_move);
+        Log.info("IntelligentAnalyzer | Training Status Rect:", training_status_rect.to_string());
+        cv::Mat status_img = m_image(make_rect<cv::Rect>(training_status_rect));
+        RegionOCRer status_analyzer;
+        status_analyzer.set_replace(training_status_task->replace_map, training_status_task->replace_full);
+        status_analyzer.set_image(status_img);
+        status_analyzer.set_bin_expansion(0);
+        if (status_analyzer.analyze()) {
+            std::string status_text = status_analyzer.get_result().text;
+            if (status_text.find("训练中") != std::string::npos) {
+                Log.info("IntelligentAnalyzer | Room is confirmed: In Training.");
+                room_info.is_training = true;
+            }
+        }
+    }
     // 2 遍历 5 个槽位
     for (int i = 0; i < 5; ++i) {
         analyze_slot(i, anchor_rect, room_info);
