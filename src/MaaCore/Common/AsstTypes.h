@@ -593,7 +593,7 @@ struct TaskPipelineInfo
     TaskList sub;                // 子任务（列表）
     TaskList on_error_next;      // 任务出错之后要去执行什么
     TaskList exceeded_next;      // 达到最多次数了之后，下一个可能的任务（列表）
-    TaskList reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。例如执行了药剂恢复，
+    TaskList reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。例如执行了使用理智药，
                                  // 则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1
 };
 
