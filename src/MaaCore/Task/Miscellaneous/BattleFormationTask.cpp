@@ -652,6 +652,7 @@ bool asst::BattleFormationTask::check_and_select_skill(
     if (level_required <= 0 || level_required > 10) { // skill level 不需要检查
         if (skill == 3) {
             ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
+            sleep(500); // 等待回弹动画
         }
         ctrler()->click(SkillRectArray.at(skill - 1ULL));
         sleep(delay);
@@ -692,6 +693,7 @@ bool asst::BattleFormationTask::check_and_select_skill(
     }
     else {
         ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
+        sleep(500); // 等待回弹动画
         image = ctrler()->get_image();
         roi_image = make_roi(image, make_rect<cv::Rect>(base_task->roi));
         auto result = find_skill(roi_image, skill, true);
