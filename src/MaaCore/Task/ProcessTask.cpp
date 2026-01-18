@@ -283,7 +283,7 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
     status()->set_number(Status::ProcessTaskLastTimePrefix + task_name, time(nullptr));
 
     // 减少其他任务的执行次数
-    // 例如，进入药剂恢复的界面了，相当于上一次点蓝色开始行动没生效
+    // 例如，进入使用理智药的界面了，相当于上一次点蓝色开始行动没生效
     // 所以要给蓝色开始行动的次数减一
     for (const std::string& other_task : task->reduce_other_times) {
         if (int& v = m_exec_times[other_task]; v > 0) {
