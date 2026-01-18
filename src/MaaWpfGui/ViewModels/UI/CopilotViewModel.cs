@@ -784,11 +784,8 @@ public partial class CopilotViewModel : Screen
     /// <summary>
     /// Gets or private sets the UrlText.
     /// </summary>
-    public string UrlText
-    {
-        get => _urlText;
-        private set => SetAndNotify(ref _urlText, value);
-    }
+    [PropertyDependsOn(nameof(CopilotUrl))]
+    public string UrlText => CopilotUrl == CopilotUiUrl ? LocalizationHelper.GetString("PrtsPlus") : LocalizationHelper.GetString("VideoLink");
 
     private const string CopilotUiUrl = MaaUrls.PrtsPlus;
 
@@ -801,7 +798,6 @@ public partial class CopilotViewModel : Screen
     {
         get => _copilotUrl;
         private set {
-            UrlText = value == CopilotUiUrl ? LocalizationHelper.GetString("PrtsPlus") : LocalizationHelper.GetString("VideoLink");
             SetAndNotify(ref _copilotUrl, value);
         }
     }
@@ -881,6 +877,7 @@ public partial class CopilotViewModel : Screen
         if (Clipboard.ContainsText())
         {
             await GetCopilotSetAsync(Clipboard.GetText().Trim());
+            CopilotUrl = CopilotUiUrl;
         }
 
         StartEnabled = true;
