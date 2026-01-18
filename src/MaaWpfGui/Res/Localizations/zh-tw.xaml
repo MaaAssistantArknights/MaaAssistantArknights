@@ -1,8 +1,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
-    <system:String x:Key="GeneralSettings">常規設定</system:String>
-    <system:String x:Key="AdvancedSettings">高級設定</system:String>
+    <system:String x:Key="GeneralSettings">一般設定</system:String>
+    <system:String x:Key="AdvancedSettings">進階設定</system:String>
     <system:String x:Key="PerformanceSettings">性能設定</system:String>
     <system:String x:Key="GameSettings">執行設定</system:String>
     <system:String x:Key="BaseSettings">基建設定</system:String>
@@ -420,7 +420,7 @@
     <system:String x:Key="ClientType">用戶端類型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否啟動用戶端</system:String>
     <system:String x:Key="AutoRestartOption">遊戲斷線時自動重連</system:String>
-    <system:String x:Key="UseWeeklySchedule">啟用週計畫</system:String>
+    <system:String x:Key="UseWeeklySchedule">使用週計畫</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服適配滯銷，幫幫我們！不會程式也可以。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
@@ -729,7 +729,7 @@ C:\\leidian\\LDPlayer9。\n
 不調整遊戲內代理倍率設定</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
     <system:String x:Key="StageSelect2">備選</system:String>
-    <system:String x:Key="AddStage">添加關卡</system:String>
+    <system:String x:Key="AddStage">新增關卡</system:String>
     <system:String x:Key="RemainingSanityStage">剩餘理智</system:String>
     <system:String x:Key="NoUse">不選擇</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
@@ -742,7 +742,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低需求: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
     <system:String x:Key="Inventory">庫存</system:String>
-    <system:String x:Key="InventoryUpdateTip">可逋過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存數據</system:String>
+    <system:String x:Key="InventoryUpdateTip">可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存數據</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
