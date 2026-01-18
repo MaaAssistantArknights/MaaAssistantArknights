@@ -1,4 +1,4 @@
-## v6.3.0-beta.1
+## v6.3.0-beta.2
 
 ### Highlights
 
@@ -35,6 +35,14 @@ MAA now supports running on PC, but will not provide maintenance or adaptation s
 - Community-contributed adaptations and pull requests are welcome
 
 ----
+
+## v6.3.0-beta.2
+
+### 修复 | Fix
+
+* 有猪乱写 OF-1 和 当前/上次 的条件 @ABA2396
+
+## v6.3.0-beta.1
 
 ### 新增 | New
 
