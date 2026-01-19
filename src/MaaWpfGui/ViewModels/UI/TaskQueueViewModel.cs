@@ -2075,9 +2075,16 @@ public class TaskQueueViewModel : Screen
         bool? ret = null;
         foreach (var instance in _taskViewModelTypes)
         {
-            ret ??= instance.SerializeTask(task, taskId);
+            try
+            {
+                ret ??= instance.SerializeTask(task, taskId);
+            }
+            catch (Exception ex)
+            {
+                Instances.TaskQueueViewModel.AddLog($"SerializeTask failed for {task.TaskType} - {task.Name}: {ex.Message}", UiLogColor.Error);
+                return false;
+            }
         }
-
         return ret;
     }
 }
