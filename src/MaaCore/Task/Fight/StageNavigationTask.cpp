@@ -1,6 +1,7 @@
 #include "StageNavigationTask.h"
 
 #include <boost/regex.hpp>
+#include <ranges>
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -76,7 +77,16 @@ bool asst::StageNavigationTask::_run()
     LogTraceFunction;
 
     if (m_is_directly) {
-        return ProcessTask(*this, { m_directly_task }).set_retry_times(RetryTimesDefault).run();
+        ProcessTask task(*this, { m_directly_task });
+        task.set_retry_times(RetryTimesDefault);
+        bool ret = task.run();
+        if (!ret && task.get_last_task_name().empty() && std::ranges::find(m_annihilation_tasks, m_directly_task) != m_annihilation_tasks.end()) {
+            m_fight_task_ptr->set_enable(false);
+            return true;
+        }
+        else {
+            return ret;
+        }
     }
 
     return chapter_wayfinding() && swipe_and_find_stage();
