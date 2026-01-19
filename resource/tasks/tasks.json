@@ -3457,9 +3457,7 @@
         "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
         "specificRect": [235, 255, 0, 0],
         "ocrReplaceDoc": "利用正则捕获组提取：组1是房间名，组2是1-9的数字。其余部分(包括0、符号)全部被.*吞掉并删除",
-        "ocrReplace": [
-            ["^(控制中枢|会客室|办公室|制造站|贸易站|发电站|宿舍|训练室|加工站)([1-9])?.*$","$1$2"]
-        ]
+        "ocrReplace": [["^(控制中枢|会客室|办公室|制造站|贸易站|发电站|宿舍|训练室|加工站)([1-9])?.*$", "$1$2"]]
     },
     "InfrastOverviewTrainingStatus": {
         "algorithm": "OcrDetect",
@@ -3528,28 +3526,18 @@
         "algorithm": "JustReturn",
         "action": "Swipe",
         "doc": "手指从下往上拖动，查看列表底部内容",
-        "specificRect": [600, 600, 20, 20], 
-        "rectMove": [600, 250, 20, 20], 
-        "specialParams": [
-            1000,
-            0,
-            1,
-            1
-        ],
+        "specificRect": [600, 600, 20, 20],
+        "rectMove": [600, 250, 20, 20],
+        "specialParams": [1000, 0, 1, 1],
         "postDelay": 500
     },
     "InfrastOverviewSwipeUp": {
         "algorithm": "JustReturn",
         "action": "Swipe",
         "doc": "手指从上往下拖动，查看列表上部内容",
-        "specificRect": [600, 250, 20, 20], 
-        "rectMove": [600, 600, 20, 20], 
-        "specialParams": [
-            1000,
-            0,
-            1,
-            1
-        ],
+        "specificRect": [600, 250, 20, 20],
+        "rectMove": [600, 600, 20, 20],
+        "specialParams": [1000, 0, 1, 1],
         "postDelay": 500
     },
     "InfrastEnterWorkspace": {
@@ -3584,9 +3572,7 @@
         "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
         "specificRect": [235, 255, 0, 0],
         "ocrReplaceDoc": "利用正则捕获组提取：组1是房间名，组2是1-9的数字。其余部分(包括0、符号)全部被.*吞掉并删除",
-        "ocrReplace": [
-            ["^(宿舍)([1-9])?.*$","$1$2"]
-        ]
+        "ocrReplace": [["^(宿舍)([1-9])?.*$", "$1$2"]]
     },
     "InfrastOverviewDormRect": {
         "doc": "单个宿舍位置",
@@ -3646,7 +3632,7 @@
         "action": "ClickRect",
         "specificRect": [780, 380, 30, 30],
         "postDelay": 500,
-        "next": ["InfrastOverviewTrainingClickRole1"] 
+        "next": ["InfrastOverviewTrainingClickRole1"]
     },
 
     "InfrastOverviewTrainingClickRole1": {

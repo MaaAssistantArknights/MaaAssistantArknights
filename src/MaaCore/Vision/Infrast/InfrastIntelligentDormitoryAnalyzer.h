@@ -1,6 +1,6 @@
 #pragma once
-#include "Vision/VisionHelper.h"
 #include "Common/AsstInfrastDef.h"
+#include "Vision/VisionHelper.h"
 
 #include <vector>
 
@@ -9,7 +9,6 @@ namespace asst
 class InfrastIntelligentDormitoryAnalyzer : public VisionHelper
 {
 public:
-
     using VisionHelper::VisionHelper;
     virtual ~InfrastIntelligentDormitoryAnalyzer() override = default;
 
@@ -18,7 +17,6 @@ public:
     auto get_result() const noexcept -> const std::vector<infrast::InfrastDormInfo>& { return m_result; }
 
 protected:
-    // 存储分析结果
     std::vector<infrast::InfrastDormInfo> m_result;
 
 private:

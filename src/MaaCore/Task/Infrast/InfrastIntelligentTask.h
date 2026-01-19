@@ -1,6 +1,6 @@
 #pragma once
-#include "InfrastAbstractTask.h"
 #include "Common/AsstInfrastDef.h"
+#include "InfrastAbstractTask.h"
 
 namespace asst
 {
@@ -9,7 +9,9 @@ class InfrastIntelligentTask final : public InfrastAbstractTask
 public:
     using InfrastAbstractTask::InfrastAbstractTask;
     virtual ~InfrastIntelligentTask() override = default;
-    void set_facility_allow(std::string facility){
+
+    void set_facility_allow(std::string facility)
+    {
         if (facility == "Dorm") {
             dorm_allow = true;
         }
@@ -38,7 +40,9 @@ public:
             training_allow = true;
         }
     }
-    void set_continue_training(){ continue_training = true; }
+
+    void set_continue_training() { continue_training = true; }
+
 protected:
     virtual bool _run() override;
     bool dorm_allow = false;
@@ -60,7 +64,7 @@ protected:
     int process_dormitory_capacity();
     std::vector<infrast::InfrastRoomInfo> process_workspace_priority();
     bool find_and_do_room(int target_index);
-    bool find_and_do_special(int target_index);  
+    bool find_and_do_special(int target_index);
     std::vector<infrast::InfrastRoomInfo> m_room_infos;
     std::vector<infrast::InfrastDormInfo> m_dorm_infos;
 };

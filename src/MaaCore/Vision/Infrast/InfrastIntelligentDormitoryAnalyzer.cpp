@@ -1,12 +1,12 @@
 #include "InfrastIntelligentDormitoryAnalyzer.h"
 
 #include "Config/TaskData.h"
+#include "InfrastSmileyImageAnalyzer.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
-#include "InfrastSmileyImageAnalyzer.h"
-#include "Utils/NoWarningCV.h"
 
 bool asst::InfrastIntelligentDormitoryAnalyzer::analyze()
 {
@@ -38,11 +38,12 @@ bool asst::InfrastIntelligentDormitoryAnalyzer::analyze()
 
 void asst::InfrastIntelligentDormitoryAnalyzer::analyze_room(const Rect& anchor_rect)
 {
-    // 边界检查
     const auto& room_task_ptr = Task.get("InfrastOverviewDormRect");
-    if (!room_task_ptr) return;
+    if (!room_task_ptr) {
+        return;
+    }
     auto room_roi = anchor_rect.move(room_task_ptr->roi);
-    if( (room_roi.x + room_roi.width > m_image.cols) || (room_roi.y + room_roi.height > m_image.rows)) {
+    if ((room_roi.x + room_roi.width > m_image.cols) || (room_roi.y + room_roi.height > m_image.rows)) {
         Log.warn("InfrastIntelligentDormitoryAnalyzer | Room ROI out of image bounds:", room_roi.to_string());
         return;
     }
@@ -54,7 +55,7 @@ void asst::InfrastIntelligentDormitoryAnalyzer::analyze_room(const Rect& anchor_
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(anchor_rect), cv::Scalar(0, 255, 0), 2);
 #endif
 
-// --- 1. 获取房间名切图并识别 ---
+    // 获取房间名
     const auto& name_task = Task.get<OcrTaskInfo>("InfrastOverviewDormNameRect");
     if (name_task) {
         room_info.name_rect = anchor_rect.move(name_task->rect_move);
@@ -69,7 +70,6 @@ void asst::InfrastIntelligentDormitoryAnalyzer::analyze_room(const Rect& anchor_
             Log.info("IntelligentAnalyzer | Scanned Room Name:", room_info.room_name);
         }
 #ifdef ASST_DEBUG
-        // 画框和文字调试
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(room_info.name_rect), cv::Scalar(255, 0, 0), 2);
 #endif
     }
@@ -79,16 +79,17 @@ void asst::InfrastIntelligentDormitoryAnalyzer::analyze_room(const Rect& anchor_
         analyze_slot(i, anchor_rect, room_info);
     }
 
-    //特判第四个房间的第五个槽位
-    if(room_info.room_name == "宿舍4" && room_info.slots_lock[4] == false){
+    // 特判第四个房间的第五个槽位
+    if (room_info.room_name == "宿舍4" && room_info.slots_lock[4] == false) {
         const auto& dorm_status_task = Task.get<OcrTaskInfo>("InfrastOverviewDormStatus");
-        cv::Mat dorm_status_img = m_image(make_rect<cv::Rect>(room_info.slots_rect[4].move(dorm_status_task->rect_move)));
+        cv::Mat dorm_status_img =
+            m_image(make_rect<cv::Rect>(room_info.slots_rect[4].move(dorm_status_task->rect_move)));
         RegionOCRer dorm_status_analyzer;
         dorm_status_analyzer.set_replace(dorm_status_task->replace_map, dorm_status_task->replace_full);
         dorm_status_analyzer.set_image(dorm_status_img);
         dorm_status_analyzer.set_bin_expansion(0);
         if (dorm_status_analyzer.analyze()) {
-            if(dorm_status_analyzer.get_result().text.find("休息中") != std::string::npos){
+            if (dorm_status_analyzer.get_result().text.find("休息中") != std::string::npos) {
                 room_info.slots_mood[4] = 0.0;
             }
             Log.info("IntelligentAnalyzer | Scanned Room Name:", room_info.room_name);
@@ -97,11 +98,16 @@ void asst::InfrastIntelligentDormitoryAnalyzer::analyze_room(const Rect& anchor_
     m_result.emplace_back(room_info);
 }
 
-void asst::InfrastIntelligentDormitoryAnalyzer::analyze_slot(int slot_idx, const Rect& anchor_rect, infrast::InfrastDormInfo& room_info)
+void asst::InfrastIntelligentDormitoryAnalyzer::analyze_slot(
+    int slot_idx,
+    const Rect& anchor_rect,
+    infrast::InfrastDormInfo& room_info)
 {
     std::string task_name = "InfrastOverviewDormSlot" + std::to_string(slot_idx);
     const auto& slot_task_ptr = Task.get(task_name);
-    if (!slot_task_ptr) return;
+    if (!slot_task_ptr) {
+        return;
+    }
 
     auto slot_roi = anchor_rect.move(slot_task_ptr->roi);
 
@@ -140,8 +146,14 @@ void asst::InfrastIntelligentDormitoryAnalyzer::analyze_slot(int slot_idx, const
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(slot_roi), color, 2);
     if (!is_lock) {
         std::string mood_str = mood_ratio >= 0 ? std::to_string(mood_ratio).substr(0, 4) : "Err";
-        cv::putText(m_image_draw, mood_str, cv::Point(slot_roi.x, slot_roi.y + 20), 
-                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 255), 1);
+        cv::putText(
+            m_image_draw,
+            mood_str,
+            cv::Point(slot_roi.x, slot_roi.y + 20),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.5,
+            cv::Scalar(255, 0, 255),
+            1);
     }
 #endif
 }
@@ -149,8 +161,8 @@ void asst::InfrastIntelligentDormitoryAnalyzer::analyze_slot(int slot_idx, const
 double asst::InfrastIntelligentDormitoryAnalyzer::identify_smiley_and_mood(const Rect& slot_roi)
 {
     static const std::vector<std::pair<infrast::SmileyType, std::string>> smiley_tasks = {
-        { infrast::SmileyType::Work,     "InfrastOverviewSmileyWork" },
-        { infrast::SmileyType::Rest,     "InfrastOverviewSmileyRest" },
+        { infrast::SmileyType::Work, "InfrastOverviewSmileyWork" },
+        { infrast::SmileyType::Rest, "InfrastOverviewSmileyRest" },
         { infrast::SmileyType::Distract, "InfrastOverviewSmileyDistract" }
     };
 
@@ -161,7 +173,9 @@ double asst::InfrastIntelligentDormitoryAnalyzer::identify_smiley_and_mood(const
     for (const auto& [type, smiley_task_name] : smiley_tasks) {
         Matcher smiley_matcher(m_image);
         const auto& s_task_ptr = Task.get<MatchTaskInfo>(smiley_task_name);
-        if (!s_task_ptr) continue;
+        if (!s_task_ptr) {
+            continue;
+        }
         smiley_matcher.set_task_info(s_task_ptr);
         smiley_matcher.set_roi(slot_roi);
         if (smiley_matcher.analyze()) {
@@ -176,14 +190,16 @@ double asst::InfrastIntelligentDormitoryAnalyzer::identify_smiley_and_mood(const
 
     if (best_type.has_value()) {
 #ifdef ASST_DEBUG
-        // 只绘制最终选定的那个最佳框
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(best_rect), cv::Scalar(0, 0, 255), 1);
         Log.debug("Best smiley match:", int(best_type.value()), "score:", max_score);
 #endif
         switch (best_type.value()) {
-            case infrast::SmileyType::Distract: return 0.0;
-            case infrast::SmileyType::Rest:     return 1.0;
-            case infrast::SmileyType::Work:     return calculate_mood_ratio(best_rect);
+        case infrast::SmileyType::Distract:
+            return 0.0;
+        case infrast::SmileyType::Rest:
+            return 1.0;
+        case infrast::SmileyType::Work:
+            return calculate_mood_ratio(best_rect);
         }
     }
     return -1.0;
@@ -191,17 +207,14 @@ double asst::InfrastIntelligentDormitoryAnalyzer::identify_smiley_and_mood(const
 
 double asst::InfrastIntelligentDormitoryAnalyzer::calculate_mood_ratio(const Rect& smiley_rect)
 {
-    // 需要在 tasks.json 中定义这个任务，配置 relative roi (rect_move)
     const auto prg_task_ptr = Task.get<MatchTaskInfo>("InfrastOverviewMoodProgressBar");
     if (!prg_task_ptr) {
         Log.warn("Missing Task: InfrastOverviewMoodProgressBar");
-        return 0.5; // fallback
+        return 0.5;
     }
-    // 参数读取 (灰度阈值，跳变阈值)
-    uint8_t prg_lower_limit = 160; // 默认值
-    int prg_diff_thres = 20;       // 默认值
-   
-    // 如果配置了 specialParams 则覆盖默认值 (模仿原代码)
+    uint8_t prg_lower_limit = 160;
+    int prg_diff_thres = 20;
+
     if (!prg_task_ptr->templ_thresholds.empty()) {
         prg_lower_limit = static_cast<uint8_t>(prg_task_ptr->templ_thresholds.front());
     }
@@ -209,44 +222,37 @@ double asst::InfrastIntelligentDormitoryAnalyzer::calculate_mood_ratio(const Rec
         prg_diff_thres = prg_task_ptr->special_params.front();
     }
 
-    // 计算进度条的绝对 ROI (基于笑脸位置偏移)
-    // 注意：InfrastOverview 界面的布局可能和进驻界面不同，需要重新测量 rect_move
     Rect bar_roi = smiley_rect.move(prg_task_ptr->rect_move);
     Log.info("Debug | bar_roi ROI:", bar_roi.x, bar_roi.y, bar_roi.width, bar_roi.height);
-    // 边界保护
-    if ((bar_roi.x + bar_roi.width > m_image.cols) ||
-        (bar_roi.y + bar_roi.height > m_image.rows)) {
+    if ((bar_roi.x + bar_roi.width > m_image.cols) || (bar_roi.y + bar_roi.height > m_image.rows)) {
         return 0.0;
     }
 
-    // 图像处理：切图 -> 转灰度
     cv::Mat prg_image = m_image(make_rect<cv::Rect>(bar_roi));
     cv::Mat prg_gray;
     cv::cvtColor(prg_image, prg_gray, cv::COLOR_BGR2GRAY);
 
     int max_white_length = 0;
-
-    // 扫描白色像素长度 (原汁原味的算法)
     for (int i = 0; i < prg_gray.rows; ++i) {
         int cur_white_length = 0;
         uint8_t left_value = prg_lower_limit;
-       
+
         for (int j = 0; j < prg_gray.cols; ++j) {
             auto value = prg_gray.at<uint8_t>(i, j);
-           
+
             if (value >= prg_lower_limit && left_value < value + prg_diff_thres) {
                 left_value = value;
                 ++cur_white_length;
                 if (max_white_length < cur_white_length) {
                     max_white_length = cur_white_length;
                 }
-            } else {
+            }
+            else {
                 if (max_white_length < cur_white_length) {
                     max_white_length = cur_white_length;
                 }
                 left_value = prg_lower_limit;
                 cur_white_length = 0;
-                // 遇到黑点直接中断这一行的扫描? 原代码是 break，我们保持一致
                 break;
             }
         }
@@ -255,9 +261,12 @@ double asst::InfrastIntelligentDormitoryAnalyzer::calculate_mood_ratio(const Rec
     double ratio = static_cast<double>(max_white_length) / bar_roi.width;
 
 #ifdef ASST_DEBUG
-    // 在进度条位置画线，方便调试 rect_move 是否对齐
-    cv::line(m_image_draw, cv::Point(bar_roi.x, bar_roi.y),
-             cv::Point(bar_roi.x + max_white_length, bar_roi.y), cv::Scalar(0, 255, 0), 2);
+    cv::line(
+        m_image_draw,
+        cv::Point(bar_roi.x, bar_roi.y),
+        cv::Point(bar_roi.x + max_white_length, bar_roi.y),
+        cv::Scalar(0, 255, 0),
+        2);
 #endif
 
     return ratio;

@@ -6,6 +6,7 @@
 #include "Task/Infrast/InfrastControlTask.h"
 #include "Task/Infrast/InfrastDormTask.h"
 #include "Task/Infrast/InfrastInfoTask.h"
+#include "Task/Infrast/InfrastIntelligentTask.h"
 #include "Task/Infrast/InfrastMfgTask.h"
 #include "Task/Infrast/InfrastOfficeTask.h"
 #include "Task/Infrast/InfrastPowerTask.h"
@@ -13,7 +14,6 @@
 #include "Task/Infrast/InfrastReceptionTask.h"
 #include "Task/Infrast/InfrastTradeTask.h"
 #include "Task/Infrast/InfrastTrainingTask.h"
-#include "Task/Infrast/InfrastIntelligentTask.h"
 #include "Task/Infrast/ReplenishOriginiumShardTaskPlugin.h"
 #include "Task/ProcessTask.h"
 
@@ -73,7 +73,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
         if (!facility_opt) {
             return false;
         }
-        
+
         auto append_infrast_begin = [&]() {
             m_subtasks.emplace_back(m_infrast_begin_task_ptr);
         };
@@ -83,23 +83,27 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
         if (mode == Mode::Rotation) {
             m_subtasks.emplace_back(m_queue_rotation_task);
-        }if (mode == Mode::Intelligent) {
+        }
+        if (mode == Mode::Intelligent) {
             m_subtasks.emplace_back(m_intelligent_task_ptr);
         }
 
         m_subtasks.emplace_back(m_info_task_ptr);
 
         std::unordered_set<std::string> rotation_skip_facilities = { "Dorm", "Power", "Office", "Control" };
-        static const std::unordered_set<std::string> mfg_drone_modes = { "CombatRecord", "PureGold", "OriginStone", "Chip" };
+        static const std::unordered_set<std::string> mfg_drone_modes = { "CombatRecord",
+                                                                         "PureGold",
+                                                                         "OriginStone",
+                                                                         "Chip" };
         static const std::unordered_set<std::string> trade_drone_modes = { "Money", "SyntheticJade" };
 
         for (const auto& facility_json : facility_opt.value()) {
             if (!facility_json.is_string()) {
-                    m_subtasks.clear();
+                m_subtasks.clear();
                 append_infrast_begin();
                 return false;
             }
-            
+
             std::string facility = facility_json.as_string();
 
             if (mode == Mode::Rotation && rotation_skip_facilities.find(facility) != rotation_skip_facilities.cend()) {
@@ -112,7 +116,8 @@ bool asst::InfrastTask::set_params(const json::value& params)
                 std::string drones = params.get("drones", "_NotUse");
                 bool replenish_enable = params.get("replenish", false);
                 bool continue_training_enable = params.get("continue_training", false);
-                if (facility == "Dorm" || facility == "Power" || facility == "Office" || facility == "Control" || facility == "Processing") {
+                if (facility == "Dorm" || facility == "Power" || facility == "Office" || facility == "Control" ||
+                    facility == "Processing") {
                     Log.info("skip facility in intelligent mode (Processing):", facility);
                     continue;
                 }
@@ -124,7 +129,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
                 }
                 if (facility == "Trade") {
                     if (trade_drone_modes.find(drones) == trade_drone_modes.end()) {
-                         Log.info("skip Trade (Drone mode mismatch or disabled):", drones);
+                        Log.info("skip Trade (Drone mode mismatch or disabled):", drones);
                         continue;
                     }
                 }
@@ -171,7 +176,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
             append_infrast_begin();
         }
     }
-    
+
     bool continue_training = params.get("continue_training", false);
     m_training_task_ptr->set_continue_training(continue_training);
 
