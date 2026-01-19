@@ -498,10 +498,16 @@ public class SettingsViewModel : Screen
     {
         get => _currentConfiguration;
         set {
-            SetAndNotify(ref _currentConfiguration, value);
-            ConfigurationHelper.SwitchConfiguration(value);
-            ConfigFactory.SwitchConfig(value);
+            bool ret = ConfigurationHelper.SwitchConfiguration(value);
+            ret &= ConfigFactory.SwitchConfig(value);
 
+            if (!ret)
+            {
+                ConfigurationHelper.SwitchConfiguration(_currentConfiguration);
+                ConfigFactory.SwitchConfig(_currentConfiguration);
+                return;
+            }
+            SetAndNotify(ref _currentConfiguration, value);
             Bootstrapper.ShutdownAndRestartWithoutArgs();
         }
     }
@@ -540,6 +546,8 @@ public class SettingsViewModel : Screen
         }
         else
         {
+            ConfigurationHelper.DeleteConfiguration(NewConfigurationName);
+            ConfigFactory.DeleteConfiguration(NewConfigurationName);
             var growlInfo = new GrowlInfo {
                 IsCustom = true,
                 Message = string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName),
