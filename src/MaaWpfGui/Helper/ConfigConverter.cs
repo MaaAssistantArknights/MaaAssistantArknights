@@ -124,13 +124,13 @@ public class ConfigConverter
             }
             else if (ConfigFactory.AddConfiguration(configName) is false)
             {
-                Log.Error("配置迁移失败，无法添加配置: {ConfigName}", configName);
+                _logger.Error("配置迁移失败，无法添加配置: {ConfigName}", configName);
                 throw new Exception($"配置迁移失败，无法添加配置{configName}");
             }
 
             if (!ConfigFactory.SwitchConfig(configName))
             {
-                Log.Error("配置迁移失败，无法切换到配置: {ConfigName}", configName);
+                _logger.Error("配置迁移失败，无法切换到配置: {ConfigName}", configName);
                 throw new Exception($"配置迁移失败，无法切换到配置{configName}");
             }
 
@@ -298,7 +298,7 @@ public class ConfigConverter
                     }
                     else
                     {
-                        Log.Error("Enum.TryParse<InfrastRoomType> 失败，room: {Room}", room);
+                        _logger.Error("Enum.TryParse<InfrastRoomType> 失败，room: {Room}", room);
                     }
                 }
 
@@ -530,6 +530,14 @@ public class ConfigConverter
             }
         }
 
+        var list = ConfigurationHelper.GetConfigurationList();
+        foreach (var name in ConfigFactory.ConfigList.ToList())
+        {
+            if (!list.Contains(name))
+            {
+                ConfigFactory.DeleteConfiguration(name);
+            }
+        }
         return true;
     }
 
@@ -548,7 +556,7 @@ public class ConfigConverter
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Failed to deserialize json file: {FilePath}", filePath);
+            _logger.Error(ex, "Failed to deserialize json file: {FilePath}", filePath);
         }
 
         return null;
