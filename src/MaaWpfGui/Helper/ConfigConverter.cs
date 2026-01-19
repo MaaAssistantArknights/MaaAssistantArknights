@@ -534,6 +534,8 @@ public class ConfigConverter
             }
         }
 
+        ConfigurationHelper.SwitchConfiguration(currentConfigName);
+        ConfigFactory.SwitchConfig(currentConfigName);
         return true;
     }
 
