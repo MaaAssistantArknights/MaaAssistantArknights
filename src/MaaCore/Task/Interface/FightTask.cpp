@@ -35,6 +35,7 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst) :
         .set_times_limit("EndOfAction", 0)
         .set_retry_times(5);
 
+    m_stage_navigation_task_ptr->set_fight_task_ptr(m_fight_task_ptr);
     m_stage_navigation_task_ptr->set_enable(false).set_retry_times(0);
     m_sidestory_reopen_task_ptr->set_enable(false).set_retry_times(0);
 
