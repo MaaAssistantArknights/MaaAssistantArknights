@@ -68,7 +68,6 @@ public class ConfigConverter
 
             foreach (var key in extraKeys)
             {
-                ConfigFactory.DeleteConfiguration(key);
                 configurations.Remove(key);
             }
         }
