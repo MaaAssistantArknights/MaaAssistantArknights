@@ -5,7 +5,7 @@ icon: bxs:bot
 
 # Issue Bot 使用方法
 
-Issue Bot 使用的 Action 為 [issue-checker](https://github.com/zzyyyl/issue-checker)，設定檔為 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
+Issue Bot 使用的 Action 為 [issue-checker](https://github.com/zzyyyl/issue-checker)，配置檔案為 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
 
 ::: warning
 拉取請求（PR）被加上 `ambiguous` 標籤是因為沒有按照 Commitizen 規範提交。
@@ -16,7 +16,7 @@ Issue Bot 使用的 Action 為 [issue-checker](https://github.com/zzyyyl/issue-c
 ### 自動觸發
 
 - 針對議題 (Issue) 與拉取請求 (Pull Request)，Issue Bot 會根據關鍵字自動進行分類，並加上 `module` 系列、`Client` 系列、`ambiguous`、`translation required` 等標籤。    
-  具體關鍵字可以參考[設定檔](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
+  具體關鍵字可以參閱 [設定檔案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
 - 針對身分設為公開 (Public) 的 MAA 成員，為其發起的議題與拉取請求加上 `MAA Team` 標籤。
 
 #### 議題 (Issue) 及其評論
@@ -51,7 +51,7 @@ Issue Bot 會對拉取請求標題的格式進行簡單審查。除非標題以�
   - `fixed by https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH}`
   - `{VERSION} fixed`
   - `fixed by {VERSION}`
-- `Duplicate of #{ISSUE_NUMBER}`：可以為當前議題增加 `duplicate` 標籤。
+- `Duplicate of #{ISSUE_NUMBER}`：可以為目前議題增加 `duplicate` 標籤。
 - **當您知道自己的議題評論會導致 Issue Bot 誤解時，請盡量添加一些 skip 操作。**
 
 ::: info 注意

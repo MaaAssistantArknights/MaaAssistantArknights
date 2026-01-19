@@ -74,7 +74,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
   - `pr-auto-tag.yml` 對正式版 / 公測版產生 Tag
 
 ::: tip
-上述檔名內的 ota 意為 Over-the-Air（雲端更新），也就是我們常說的「增量更新包」，因此 MAA 的發版過程實際上包含了對過往版本建置 OTA 包的步驟。
+上述檔名內的 ota 意為 Over-the-Air（雲端更新），也就是我們常說的「增量更新檔案」，因此 MAA 的發版過程實際上包含了對過往版本建置 OTA 包的步驟。
 :::
 
 #### 內測版
@@ -87,7 +87,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 #### 正式版 / 公測版
 
-這兩個通道的發布流程相對複雜，我們透過模擬一次發布步驟來解釋各工作流的作用：
+這兩個版本的發布流程相對複雜，我們透過模擬一次發布步驟來解釋各工作流的作用：
 
 1. 建立從 `dev` 到 `master` 分支的 PR，且該 PR 的標題需為 `Release v******`。
 2. `release-preparation.yml` 會產生從最近版本到當前版本的 Changelog（以一個新 PR 的形式呈現）。
@@ -101,7 +101,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 - `res-update-game.yml` 定期執行，從指定倉庫拉取遊戲資源。
 - `sync-resource.yml` 將資源同步到 MaaResource 倉庫，用於資源更新。
-- `optimize-templates.yml` 優化包括模板圖在內的圖片檔案大小。
+- `optimize-templates.yml` 優化包括範本圖片在內的圖片檔案大小。
 
 ### 網站建置
 

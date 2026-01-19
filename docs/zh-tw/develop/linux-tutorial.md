@@ -8,12 +8,12 @@ icon: teenyicons:linux-alt-solid
 **本教學需要讀者具備一定的 Linux 環境配置能力與程式設計基礎！** 若您僅希望直接安裝 MAA 而非自行編譯，請參閱[用戶手冊 - Linux 模擬器與容器](../manual/device/linux.md)。
 
 ::: info 注意
-MAA 的建置方法仍在討論中，本教學內容可能過時，請以 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134) 中的指令碼為準。  
+MAA 的建置方法仍在討論中，本教學內容可能過時，請以 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134) 中的腳本為準。  
 您也可以參考 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) 或 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)。
 :::
 
 ::: info
-Mac 使用者可以使用 `tools/build_macos_universal.zsh` 指令碼進行編譯。  
+Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯。  
 建議參考 MaaAssistantArknights/MaaMacGui 專案的 [README.md](https://github.com/MaaAssistantArknights/MaaMacGui/blob/master/README.md)。
 :::
 
@@ -39,19 +39,19 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 指令碼進行編�
 
 2. 建置第三方函式庫
 
-   可以選擇下載預編譯的依賴庫，或從頭開始編譯。
-   - 下載預編譯的第三方庫（推薦）
+   可以選擇下載預編譯的函式庫，或從原始碼編譯。
+   - 下載預編譯的第三方函式庫（推薦）
 
      > [!Note]
-     > ~~先前提供的動態庫是在較新的 Linux 發行版 (Ubuntu 22.04) 中編譯的，若您的系統 libstdc++ 版本較舊，可能會遇到 ABI 不相容的問題。~~  
-     > 目前已透過交叉編譯降低了執行環境要求，僅需依賴 glibc 2.31 (Ubuntu 20.04)。
+     > ~~先前提供的動態連結庫是在較新的 Linux 發行版 (Ubuntu 22.04) 中編譯的，若您的系統 libstdc++ 版本較舊，可能會遇到 ABI 不相容的問題。~~  
+     > 目前已透過交叉編譯降低了執行環境要求，僅需相依於 glibc 2.31 (Ubuntu 20.04)。
 
      ```bash
      python tools/maadeps-download.py
      ```
 
    如果您發現上述預編譯庫因 ABI 版本等原因無法在您的系統執行，且不打算使用容器等方案，也可以嘗試自行編譯。
-   - 自行建置第三方庫（耗時較長）
+   - 自行建置第三方函式庫（耗時較長）
 
      ```bash
      git clone https://github.com/MaaAssistantArknights/MaaDeps

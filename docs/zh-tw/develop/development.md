@@ -23,15 +23,15 @@ icon: iconoir:developer
 
 我們預置了多種不同的開發環境以供選擇：
 
-- 空白環境，純 Linux 容器（預設）
+- 基礎環境，純 Linux 容器（預設）
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
-- 輕量環境，適合文件站前端開發
+- 精簡環境，適合文件站前端開發
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
 
-- 全量環境，適合 MAA Core 相關開發（不推薦使用，建議在地開發，完整配置相關環境。詳見下一章節）
+- 完整環境，適合 MAA Core 相關開發（不推薦使用，建議本機開發，完整配置相關環境。詳見下一章節）
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
 
@@ -75,7 +75,7 @@ icon: iconoir:developer
    - 按 F5 執行。
 
    ::: tip
-   若需偵錯 Win32Controller（Windows 視窗控制）相關功能，需要自行從 [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) 下載對應平台的壓縮檔案，將 `bin` 目錄中的 `MaaWin32ControlUnit.dll` 放到 MAA 的 DLL 同目錄下（如 `build/bin/Debug`）。歡迎 PR 一個自動下載腳本！
+   若需針對 Win32Controller（Windows 視窗控制）相關功能進行除錯，需要自行從 [MaaFramework Releases](https://github.com/MaaModular/MaaFramework/releases) 下載對應平台的壓縮檔案，將 `bin` 目錄中的 `MaaWin32ControlUnit.dll` 放到 MAA 的 DLL 同目錄下（例如 `build/bin/Debug`）。歡迎 PR 一個自動下載腳本！
    :::
 
 9. 到這裡，你就可以愉快地 ~~瞎雞巴改~~ 發電了
@@ -95,7 +95,7 @@ git checkout your_own_branch
     git push origin dev
     ```
 
-12. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request（PR），等待管理員通過。別忘了您是在 dev 分支上修改，別提交到 master 分支去了。
+12. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。別忘了您是在 dev 分支上修改，別提交到 master 分支去了。
 
 13. 當 MAA 原倉庫出現更改（他人貢獻）時，您可能需要把這些更改同步到您的分支：
     1. 關聯 MAA 原倉庫

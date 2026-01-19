@@ -9,13 +9,13 @@ icon: jam:write-f
 本文件的目的在於指導文件編寫者更好地使用主題提供的功能，以此達到更易讀的效果。
 :::
 
-我們的文件基於 [VuePress](https://github.com/vuejs/vuepress) 建置，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主題。您也可以查看[官方文件](https://theme-plume.vuejs.press/)來獲取更詳細的說明。這裡僅介紹一些常用的功能。
+我們的文件基於 [VuePress](https://github.com/vuejs/vuepress) 建置，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主題。您也可以查看 [官方文件](https://theme-plume.vuejs.press/) 來獲取更詳細的說明。本文僅介紹部分常用功能，或經我們自定義後的特殊功能。
 
-## 在地開發
+## 本機開發
 
-1. 安裝 [pnpm](https://pnpm.io/installation)，並參考 [Pull Request 流程簡述](./development.md#github-pull-request-流程簡述)將倉庫複製（Clone）到在地。
-2. 在 `docs` 目錄下開啟終端機，執行 `pnpm i` 安裝依賴項目。
-3. 執行 `pnpm run dev` 啟動開發伺服器。
+1. 安裝 [pnpm](https://pnpm.io/installation)，並參考 [Pull Request 流程簡述](./development.md#github-pull-request-流程簡述) 將倉庫複製（Clone）到本機。
+2. 在 `docs` 目錄下開啟終端機，執行 `pnpm i` 安裝相依套件。
+3. 執行 `pnpm run dev` 啟動開發預覽環境。
 
 ## 容器與卡片
 
@@ -182,13 +182,14 @@ MaaAssistantArknights 是由 ==很多豬== 開發的
    :::
 
 4. 結束
+
 ::::
 
 ## 智慧圖片容器
 
-我們基於主題提供的功能包裝了一個圖片容器。該容器能夠在亮暗主題下自動顯示對應主題的圖片，同時支援自動佈局。
+我們基於主題提供的功能包裝了一個圖片容器。該容器能夠在淺色與深色主題下自動顯示對應主題的圖片，同時支援自動適應排版。
 
-您可以在 Markdown 正文中使用 `<ImageGrid>` 組件來呼叫該方法，具體的語法和效果如下：
+您可以在 Markdown 正文中使用 `<ImageGrid>` 元件來呼叫該方法，具體的語法和效果如下：
 
 ::: demo-wrapper
 
@@ -232,7 +233,7 @@ MaaAssistantArknights 是由 ==很多豬== 開發的
 
 ## 欄位容器
 
-該語法較為複雜，請參考 [官方文件](https://theme-plume.vuejs.press/guide/markdown/field/) 進行使用。
+該語法較為複雜，請參閱 [官方文件](https://theme-plume.vuejs.press/guide/markdown/field/) 進行使用。
 
 效果展示如下：
 
@@ -284,13 +285,13 @@ icon: jam:write-f
 
 ### 在文件中使用圖示
 
-您可以使用 `<Icon />` 組件在 Markdown 中添加圖示。該組件有以下屬性：
+您可以使用 `<Icon />` 元件在 Markdown 中新增圖示。該元件有以下屬性：
 
 - `icon` 接受圖示關鍵字及 URL，如 `jam:write-f`，`ic:round-home` 等。
 - `color` 接受 CSS 風格的顏色值，如 `#fff`，`red` 等（該選項僅對 SVG 圖示有效）。
 - `size` 接受 CSS 風格的大小，如 `1rem`，`2em`，`100px` 等。
 
-::: demo-wrapper 案例
+::: demo-wrapper 範例
 
 輸入：
 

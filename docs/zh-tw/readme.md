@@ -32,7 +32,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 亮點功能
 
-- 理智作戰，掉落辨識及上傳 [企鵝物流](https://penguin-stats.io/)，[一圖流](https://ark.yituliu.cn/)
+- 刷理智，掉落辨識及上傳 [企鵝物流](https://penguin-stats.io/)，[一圖流](https://ark.yituliu.cn/)
 - 智慧基建換班，自動計算幹員效率，單設施內最佳解；同時也支援 [自定義排班](./protocol/base-scheduling-schema.md)
 - 自動公招，可選使用加急許可，一次全部刷完！公招數據自動上傳 [企鵝物流](https://penguin-stats.io/result/stage/recruit/recruit)，[一圖流](https://ark.yituliu.cn/survey/maarecruitdata)
 - 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推進之王呢還是推進之王呢）~~
