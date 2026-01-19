@@ -39,9 +39,12 @@ bool Win32ControlUnitLoader::load(const std::filesystem::path& dll_path)
         return false;
     }
 
-    m_get_version = reinterpret_cast<GetVersionFunc>(GetProcAddress(static_cast<HMODULE>(m_module), "MaaWin32ControlUnitGetVersion"));
-    m_create = reinterpret_cast<CreateFunc>(GetProcAddress(static_cast<HMODULE>(m_module), "MaaWin32ControlUnitCreate"));
-    m_destroy = reinterpret_cast<DestroyFunc>(GetProcAddress(static_cast<HMODULE>(m_module), "MaaWin32ControlUnitDestroy"));
+    m_get_version = reinterpret_cast<GetVersionFunc>(
+        GetProcAddress(static_cast<HMODULE>(m_module), "MaaWin32ControlUnitGetVersion"));
+    m_create =
+        reinterpret_cast<CreateFunc>(GetProcAddress(static_cast<HMODULE>(m_module), "MaaWin32ControlUnitCreate"));
+    m_destroy =
+        reinterpret_cast<DestroyFunc>(GetProcAddress(static_cast<HMODULE>(m_module), "MaaWin32ControlUnitDestroy"));
 
     if (!m_create || !m_destroy) {
         Log.error("Failed to get function pointers from DLL");

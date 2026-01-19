@@ -46,7 +46,11 @@ public:
 
     bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
 #ifdef _WIN32
-    bool attach_window(void* hwnd, Win32ScreencapMethod screencap_method, Win32InputMethod mouse_method, Win32InputMethod keyboard_method);
+    bool attach_window(
+        void* hwnd,
+        Win32ScreencapMethod screencap_method,
+        Win32InputMethod mouse_method,
+        Win32InputMethod keyboard_method);
 #endif
     bool inited() noexcept;
     void set_touch_mode(const TouchMode& mode) noexcept;

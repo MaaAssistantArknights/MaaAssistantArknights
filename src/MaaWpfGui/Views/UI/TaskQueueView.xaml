@@ -166,10 +166,24 @@
                                                     Foreground="{DynamicResource SecondaryTextBrush}"
                                                     GroupName="TaskSettings"
                                                     IsChecked="{Binding EnableSetting}"
-                                                    Style="{DynamicResource RadioGroupItemSingle}"
-                                                    ToolTip="{DynamicResource TaskSettings}">
+                                                    Style="{DynamicResource RadioGroupItemSingle}">
+                                                    <RadioButton.ToolTip>
+                                                        <ToolTip>
+                                                            <StackPanel>
+                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
+                                                                <TextBlock Text="{DynamicResource TaskSettings}" />
+
+                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
+                                                                <TextBlock>
+                                                                    <Run Text="{DynamicResource Rename}" />
+                                                                    <Run Text=" / " />
+                                                                    <Run Text="{DynamicResource Delete}" />
+                                                                </TextBlock>
+                                                            </StackPanel>
+                                                        </ToolTip>
+                                                    </RadioButton.ToolTip>
                                                     <RadioButton.ContextMenu>
-                                                        <ContextMenu>
+                                                        <ContextMenu Width="150">
                                                             <MenuItem
                                                                 Command="{s:Action RenameTask,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"

@@ -86,6 +86,8 @@
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <system:String x:Key="Copy">복사</system:String>
     <!--  설정 가이드  -->
+    <system:String x:Key="LeftClick">왼쪽 클릭</system:String>
+    <system:String x:Key="RightClick">오른쪽 클릭</system:String>
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
     <system:String x:Key="GuideStepClarification" xml:space="preserve">ADB가 활성화되어 있는지 확인하세요:
@@ -95,10 +97,11 @@
     <system:String x:Key="NextGuide">다음 단계</system:String>
     <system:String x:Key="DoneGuide">완료</system:String>
     <system:String x:Key="ToolTipGuide">마우스를 올리면 팁이 보입니다↓→</system:String>
-    <system:String x:Key="TaskGuide">↑작업</system:String>
-    <system:String x:Key="OftenUsedGuide">↓자주 쓰는 설정</system:String>
-    <system:String x:Key="SometimesUsedGuide">가끔 쓰는 설정↑</system:String>
+    <system:String x:Key="TaskGuide">↑ 작업</system:String>
+    <system:String x:Key="OftenUsedGuide">↓ 자주 쓰는 설정</system:String>
+    <system:String x:Key="SometimesUsedGuide">가끔 쓰는 설정 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 연결 및 동작 시작</system:String>
+    <system:String x:Key="RightClickRenameDelete">↓ 우클릭하여 이름 변경/삭제</system:String>
     <system:String x:Key="UserGuide">사용 가이드</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 공식 웹사이트 및 문서</system:String>
     <system:String x:Key="GuideDocumentationPath">"{key=Settings} - {key=AboutUs} - {key=Website}"에서 MAA의 공식 웹사이트와 전체 문서를 찾을 수 있습니다.</system:String>
@@ -402,6 +405,7 @@
     <system:String x:Key="TimerCustomConfigTip">2분 전에 재시작해 설정을 전환합니다</system:String>
     <system:String x:Key="Timer">타이머</system:String>
     <system:String x:Key="GlobalConfigTip">이 페이지는 전역(Global) 구성 설정입니다</system:String>
+    <system:String x:Key="MultiTasksShareTip">다음 옵션은 여러 작업에 적용됩니다</system:String>
     <system:String x:Key="SwitchConfiguration">구성 전환</system:String>
     <system:String x:Key="ConfigurationName">구성 이름</system:String>
     <system:String x:Key="AddConfiguration">추가</system:String>
@@ -1229,10 +1233,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowFailed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
     <system:String x:Key="UseAttachWindowTip">에뮬레이터나 휴대폰용 ADB 연결 대신 명일방주 PC 클라이언트에 Win32 창 바인딩을 사용합니다</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 연결 (실험적 기능이며 안정성은 보장되지 않습니다)
-MAA는 PC 환경에서의 동작에 대해 유지보수 또는 호환 지원을 제공하지 않습니다:
-● 정상적으로 동작하는 경우에 한해 사용자 판단하에 사용할 수 있습니다
-● 실행되지 않거나 문제가 발생할 경우 PC 관련 Issue는 접수하지 않습니다
-● 커뮤니티의 자체 대응 및 Pull Request 제출은 환영합니다
+MAA Team의 개발 인력이 제한되어 있어 PC 지원은 전담 관리가 부족하며, 기능 오류나 불안정한 동작이 발생할 수 있습니다:
+● 문제 발생 시 신속한 대응이나 수정이 어려울 수 있습니다
+● 정상 작동하지 않을 경우, ADB 모드로 Android 에뮬레이터 또는 모바일 기기 연결을 권장합니다
+● PC 지원 개선을 위한 개발자의 Pull Request를 진심으로 환영합니다
 
 사용 전 확인 사항:
 1. MAA를 관리자 권한으로 실행해야 합니다

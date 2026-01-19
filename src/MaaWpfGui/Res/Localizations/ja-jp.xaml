@@ -86,6 +86,8 @@
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
     <system:String x:Key="Copy">コピー</system:String>
     <!--  設定ガイド  -->
+    <system:String x:Key="LeftClick">左クリック</system:String>
+    <system:String x:Key="RightClick">右クリック</system:String>
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
     <system:String x:Key="GuideStepClarification" xml:space="preserve">ADBが有効になっていることを確認してください：
@@ -95,10 +97,11 @@
     <system:String x:Key="NextGuide">次へ</system:String>
     <system:String x:Key="DoneGuide">完了</system:String>
     <system:String x:Key="ToolTipGuide">マウスを乗せるとヒントあり↓→</system:String>
-    <system:String x:Key="TaskGuide">↑タスク</system:String>
-    <system:String x:Key="OftenUsedGuide">↓よく使われる</system:String>
-    <system:String x:Key="SometimesUsedGuide">あまり使われていない↑</system:String>
+    <system:String x:Key="TaskGuide">↑ タスク</system:String>
+    <system:String x:Key="OftenUsedGuide">↓ よく使われる</system:String>
+    <system:String x:Key="SometimesUsedGuide">あまり使われていない ↑</system:String>
     <system:String x:Key="LinkStartGuide">← タスクを開始</system:String>
+    <system:String x:Key="RightClickRenameDelete">↓ 右クリックで名前変更/削除</system:String>
     <system:String x:Key="UserGuide">使用ガイド</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 公式サイトとドキュメント</system:String>
     <system:String x:Key="GuideDocumentationPath">MAA の公式サイトと完全なドキュメントは「{key=Settings} - {key=AboutUs} - {key=Website}」でご覧いただけます。</system:String>
@@ -402,6 +405,7 @@
     <system:String x:Key="TimerCustomConfigTip">2分前に再起動して設定を切り替えます</system:String>
     <system:String x:Key="Timer">タイマー</system:String>
     <system:String x:Key="GlobalConfigTip">このオプション ページはグローバル設定用です</system:String>
+    <system:String x:Key="MultiTasksShareTip">以下のオプションは複数のタスクで共有されます</system:String>
     <system:String x:Key="SwitchConfiguration">構成を切り替える</system:String>
     <system:String x:Key="ConfigurationName">構成名</system:String>
     <system:String x:Key="AddConfiguration">追加</system:String>
@@ -1228,10 +1232,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowFailed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
     <system:String x:Key="UseAttachWindowTip">エミュレータや携帯電話への ADB 接続ではなく、アークナイツ PC クライアントに Win32 ウィンドウバインディングを使用します</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 接続（実験的機能・動作の安定性は保証されません）
-MAA は PC 環境での動作について、保守や互換対応を行いません：
-● 正常に動作する場合は、自己判断でご利用ください
-● 起動不可または問題が発生した場合、PC 関連の Issue は受け付けません
-● コミュニティによる対応および Pull Request は歓迎します
+MAA Team の開発リソースが限られているため、PC 対応は専任のメンテナンスがなく、機能の不具合や動作の不安定が生じる可能性があります：
+● 問題が発生した場合、迅速な対応や修正が難しい場合があります
+● 正常に動作しない場合は、ADB モードで Android エミュレータまたはモバイルデバイスへの接続をご検討ください
+● PC 対応の改善にご協力いただける開発者の Pull Request を心より歓迎いたします
 
 使用前にご確認ください：
 1. MAA を管理者権限で起動してください

@@ -10,6 +10,7 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
@@ -18,8 +19,8 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <StackPanel Visibility="{c:Binding !UseAttachWindow, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
-            <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot;', Source={x:Static ui_vms:SettingsViewModel.GameSettings}}">
+        <StackPanel Visibility="{c:Binding !UseAttachWindow, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+            <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot;', Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
@@ -49,26 +50,33 @@
                     hc:BorderElement.CornerRadius="0,4,4,0"
                     BorderThickness="0,1,1,1"
                     Command="{s:Action AccountSwitchManualRun}"
-                    Content="{DynamicResource AccountSwitchManualRun}" />
+                    Content="{DynamicResource AccountSwitchManualRun}"
+                    IsEnabled="{c:Binding 'AccountName != &quot;&quot;'}" />
             </Grid>
 
+            <controls:TextBlock
+                Margin="0,5"
+                HorizontalAlignment="Center"
+                FontWeight="Bold"
+                Text="{DynamicResource MultiTasksShareTip}"
+                TextAlignment="Center" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource StartGameLaunchClient}"
+                IsChecked="{Binding StartGame, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}" />
             <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ClientType}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                ItemsSource="{Binding ClientTypeList, Source={x:Static ui_vms:SettingsViewModel.GameSettings}}"
-                SelectedValue="{Binding ClientType, Source={x:Static ui_vms:SettingsViewModel.GameSettings}}"
+                ItemsSource="{Binding ClientTypeList, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
+                SelectedValue="{Binding ClientType, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
                 SelectedValuePath="Value"
                 Visibility="{c:Binding !TaskSettingVisibilities.Guide,
                                        Source={x:Static helper:Instances.SettingsViewModel}}" />
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource StartGameLaunchClient}"
-                IsChecked="{Binding StartGame, Source={x:Static ui_vms:SettingsViewModel.GameSettings}}" />
         </StackPanel>
 
-        <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
+        <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
             <StackPanel Visibility="{c:Binding '!UseAttachWindow'}">
                 <StackPanel Margin="0,10" Orientation="Horizontal">
                     <CheckBox Content="{DynamicResource AutoDetectConnection}" IsChecked="{Binding AutoDetectConnection}" />

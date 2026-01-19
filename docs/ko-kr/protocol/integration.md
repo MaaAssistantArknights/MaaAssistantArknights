@@ -174,7 +174,7 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 <br>
 오리지늄 사용 확인 창에서 대기하다가, 현재 1이성이 회복되면 즉시 오리지늄을 사용  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -645,7 +645,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 고정 시드 사용  
 :::  
-::::   
+::::
 
 <details>
 <summary>Example</summary>

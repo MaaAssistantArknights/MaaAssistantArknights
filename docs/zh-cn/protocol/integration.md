@@ -117,6 +117,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 ::: field name="stage" type="string" optional  
 关卡名，默认为空，识别当前/上次的关卡。不支持运行中设置。  
 目前支持导航的关卡有：
+
 - 全部主线关卡。可在关卡末尾添加 `-NORMAL` 或 `-HARD` 来切换标准或磨难关卡。
 - 龙门币、作战记录的 5 / 6 关，但必须输入 `CE-6` / `LS-6`。MAA 会在第六关无法代理的情况下自动切换至第五关。
 - 技能书、采购凭证、碳本第 5 关，必须输入 `CA-5` / `AP-5` / `SK-5`。
@@ -129,64 +130,64 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 - 别传中的 OF-1 / OF-F3 / GT-5。
 - 当期 SS 活动 后三关。可访问 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 获取支持的关卡列表。需额外加载 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 文件中的活动关卡导航。
 - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
-:::  
-::: field name="medicine" type="number" optional default="0"  
-最大使用理智药数量。  
-:::  
-::: field name="expiring_medicine" type="number" optional default="0"  
-最大使用 48 小时内过期理智药数量。  
-:::  
-::: field name="stone" type="number" optional default="0"  
-最大吃石头数量。  
-:::  
-::: field name="times" type="number" optional default="2147483647"  
-战斗次数。  
-:::  
-::: field name="series" type="number" optional  
-连战次数, -1~6。
-<br>
-`-1` 为禁用切换。
-<br>
-`0` 为自动切换为当前可用的最大次数, 如当前理智不够6次, 则选择最低可用次数。
-<br>
-`1~6` 为指定连战次数。  
-:::  
-::: field name="drops" type="object" optional  
-指定掉落数量，默认不指定。key 为 item_id, value 为数量。key 可参考 `resource/item_index.json` 文件。  
-<br>
-例如: `{ "30011": 10, "30062": 5 }`  
-<br>
-以上全部是或的关系，即任一达到即停止任务。  
-:::  
-::: field name="report_to_penguin" type="boolean" optional default="false"  
-是否汇报企鹅数据。  
-:::  
-::: field name="penguin_id" type="string" optional  
-企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
-:::  
-:::  
-::: field name="report_to_yituliu" type="boolean" optional default="false"  
-是否汇报一图流。  
-:::  
-::: field name="yituliu_id" type="string" optional  
-一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
-:::  
-::: field name="server" type="string" optional default="CN"  
-服务器，会影响掉落识别及上传。
-<br>
-选项：`CN` | `US` | `JP` | `KR`  
-:::  
-::: field name="client_type" type="string" optional  
-客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。
-<br>
-选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-:::  
-::: field name="DrGrandet" type="boolean" optional default="false"  
-节省理智碎石模式，仅在可能产生碎石效果时生效。
-<br>
-在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
-:::  
-::::
+  :::  
+  ::: field name="medicine" type="number" optional default="0"  
+  最大使用理智药数量。  
+  :::  
+  ::: field name="expiring_medicine" type="number" optional default="0"  
+  最大使用 48 小时内过期理智药数量。  
+  :::  
+  ::: field name="stone" type="number" optional default="0"  
+  最大吃石头数量。  
+  :::  
+  ::: field name="times" type="number" optional default="2147483647"  
+  战斗次数。  
+  :::  
+  ::: field name="series" type="number" optional  
+  连战次数, -1~6。
+  <br>
+  `-1` 为禁用切换。
+  <br>
+  `0` 为自动切换为当前可用的最大次数, 如当前理智不够6次, 则选择最低可用次数。
+  <br>
+  `1~6` 为指定连战次数。  
+  :::  
+  ::: field name="drops" type="object" optional  
+  指定掉落数量，默认不指定。key 为 item_id, value 为数量。key 可参考 `resource/item_index.json` 文件。  
+  <br>
+  例如: `{ "30011": 10, "30062": 5 }`  
+  <br>
+  以上全部是或的关系，即任一达到即停止任务。  
+  :::  
+  ::: field name="report_to_penguin" type="boolean" optional default="false"  
+  是否汇报企鹅数据。  
+  :::  
+  ::: field name="penguin_id" type="string" optional  
+  企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
+  :::  
+  :::  
+  ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+  是否汇报一图流。  
+  :::  
+  ::: field name="yituliu_id" type="string" optional  
+  一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
+  :::  
+  ::: field name="server" type="string" optional default="CN"  
+  服务器，会影响掉落识别及上传。
+  <br>
+  选项：`CN` | `US` | `JP` | `KR`  
+  :::  
+  ::: field name="client_type" type="string" optional  
+  客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。
+  <br>
+  选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+  :::  
+  ::: field name="DrGrandet" type="boolean" optional default="false"  
+  节省理智碎石模式，仅在可能产生碎石效果时生效。
+  <br>
+  在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
+  :::  
+  ::::
 
 <details>
 <summary>Example</summary>
@@ -655,7 +656,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 使用固定种子。  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -708,7 +709,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-刷坍缩范式功能具体请参考 [肉鸽辅助协议](./integrated-strategy-schema.md#萨米肉鸽——坍缩范式) 
+刷坍缩范式功能具体请参考 [肉鸽辅助协议](./integrated-strategy-schema.md#萨米肉鸽——坍缩范式)
 
 - `Copilot`  
    自动抄作业
