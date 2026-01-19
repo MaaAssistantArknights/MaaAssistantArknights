@@ -183,7 +183,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     [
         new() { Display = LocalizationHelper.GetString("InfrastModeNormal"), Value = Mode.Normal },
         new() { Display = LocalizationHelper.GetString("InfrastModeRotation"), Value = Mode.Rotation },
-        new() { Display = LocalizationHelper.GetString("InfrastModeIntelligentCustom"), Value = Mode.IntelligentRotation },
+        new() { Display = LocalizationHelper.GetString("InfrastModeIntelligentRotation"), Value = Mode.IntelligentRotation },
         new() { Display = LocalizationHelper.GetString("InfrastModeCustom"), Value = Mode.Custom },
     ];
 
