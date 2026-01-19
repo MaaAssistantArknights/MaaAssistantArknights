@@ -416,7 +416,7 @@ bool asst::InfrastIntelligentTask::find_and_do_room(int target_index)
                 }
                 for (size_t slot = 0; slot < room.slots_empty.size(); ++slot) {
                     double mood = room.slots_mood[slot];
-                    if (!room.slots_empty[slot] && 0 <= mood) {
+                    if (!room.slots_empty[slot]) {
                         if (new_min_mood == -1.0 || mood < new_min_mood) {
                             new_min_mood = mood;
                         }
