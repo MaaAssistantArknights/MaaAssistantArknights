@@ -94,29 +94,20 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
 
     public bool? UseExpeditedWithNull
     {
-        get => field;
+        get => GetTaskConfig<RecruitTask>().UseExpedited;
         set {
             if (value == true)
             {
                 value = null;
             }
 
-            SetAndNotify(ref field, value);
+            SetTaskConfig<RecruitTask>(t => t.UseExpedited == value, t => t.UseExpedited = value);
         }
-    } = false;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to use expedited.
-    /// </summary>
-    public bool UseExpedited
-    {
-        get => UseExpeditedWithNull != false;
-        set => UseExpeditedWithNull = value;
     }
 
-    public static void ResetRecruitVariables()
+    public static void ResetRecruitVariables(RecruitTask? recruit)
     {
-        Instance.UseExpeditedWithNull ??= false;
+        recruit?.UseExpedited ??= false;
     }
 
     /// <summary>
@@ -266,7 +257,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
             ForceRefresh = ForceRefresh,
             SetRecruitTime = true,
             RecruitTimes = RecruitMaxTimes,
-            UseExpedited = UseExpedited,
+            // UseExpedited = UseExpedited,
             ExpeditedTimes = RecruitMaxTimes,
             SelectExtraTags = SelectExtraTags,
             Level3FirstList = AutoRecruitFirstList.Cast<CombinedData>().Select(i => i.Value).ToList(),
@@ -319,7 +310,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
             ForceRefresh = recruit.ForceRefresh,
             SetRecruitTime = true,
             RecruitTimes = recruit.MaxTimes,
-            UseExpedited = recruit.UseExpedited,
+            UseExpedited = recruit.UseExpedited is not false,
             ExpeditedTimes = recruit.MaxTimes,
             SelectExtraTags = recruit.ExtraTagMode,
             Level3FirstList = recruit.Level3PreferTags,

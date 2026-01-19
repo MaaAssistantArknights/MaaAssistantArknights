@@ -635,19 +635,21 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public override void RefreshUI(BaseTask baseTask)
     {
-        if (baseTask is FightTask fight)
+        if (baseTask is not FightTask fight)
         {
-            IsRefreshingUI = true;
-            if (!UseAlternateStage && fight.StagePlan.Count == 0)
-            {
-                fight.StagePlan.Add(string.Empty);
-            }
-            InitDrops();
-            RefreshCurrentStagePlan();
-            RefreshWeeklySchedule();
-            Refresh();
-            IsRefreshingUI = false;
+            return;
         }
+        IsRefreshingUI = true;
+        if (!UseAlternateStage && fight.StagePlan.Count == 0)
+        {
+            fight.StagePlan.Add(string.Empty);
+        }
+        InitDrops();
+        UpdateStageList(); // 临时修复, 应为同步
+        RefreshCurrentStagePlan();
+        RefreshWeeklySchedule();
+        Refresh();
+        IsRefreshingUI = false;
     }
 
     [Obsolete("使用SerializeTask作为代替")]
@@ -885,11 +887,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         public DayOfWeek DayOfWeek { get; } = dayOfWeek;
 
-        public bool Value
-        {
-            get => field;
-            set => SetAndNotify(ref field, value);
-        } = true;
+        public bool Value { get => field; set => SetAndNotify(ref field, value); } = true;
     }
 
     public class StageSourceItem : PropertyChangedBase
@@ -898,17 +896,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         public string Value { get; set; } = string.Empty;
 
-        public bool IsOpen
-        {
-            get => field;
-            set => SetAndNotify(ref field, value);
-        } = true;
+        public bool IsOpen { get => field; set => SetAndNotify(ref field, value); } = true;
 
-        public bool IsVisible
-        {
-            get => field;
-            set => SetAndNotify(ref field, value);
-        } = true;
+        public bool IsVisible { get => field; set => SetAndNotify(ref field, value); } = true;
     }
 
     public class StagePlanItem : PropertyChangedBase
@@ -936,10 +926,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             }
         } = string.Empty;
 
-        public bool IsOpen
-        {
-            get => field;
-            set => SetAndNotify(ref field, value);
-        } = true;
+        public bool IsOpen { get => field; set => SetAndNotify(ref field, value); } = true;
     }
 }

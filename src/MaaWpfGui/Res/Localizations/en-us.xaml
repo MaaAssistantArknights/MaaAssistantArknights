@@ -86,6 +86,8 @@
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
     <system:String x:Key="Copy">Copy</system:String>
     <!--  Settings Guide  -->
+    <system:String x:Key="LeftClick">Left Click</system:String>
+    <system:String x:Key="RightClick">Right Click</system:String>
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>
     <system:String x:Key="GuideStepClarification" xml:space="preserve">Make sure ADB is enabled:
@@ -95,10 +97,11 @@
     <system:String x:Key="NextGuide">Next</system:String>
     <system:String x:Key="DoneGuide">Done</system:String>
     <system:String x:Key="ToolTipGuide">Prompt appears when hovered↓→</system:String>
-    <system:String x:Key="TaskGuide">↑Task</system:String>
-    <system:String x:Key="OftenUsedGuide">↓Often Used</system:String>
-    <system:String x:Key="SometimesUsedGuide">Sometimes Used↑</system:String>
+    <system:String x:Key="TaskGuide">↑ Task</system:String>
+    <system:String x:Key="OftenUsedGuide">↓ Often Used</system:String>
+    <system:String x:Key="SometimesUsedGuide">Sometimes Used ↑</system:String>
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
+    <system:String x:Key="RightClickRenameDelete">↓ Right Click to Rename/Delete</system:String>
     <system:String x:Key="UserGuide">User Guide</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 Website &amp; Documentation</system:String>
     <system:String x:Key="GuideDocumentationPath">You can find MAA's official website and complete documentation at "{key=Settings} - {key=AboutUs} - {key=Website}".</system:String>
@@ -402,6 +405,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="TimerCustomConfigTip">Restart and switch configuration two minutes in advance</system:String>
     <system:String x:Key="Timer">Timer</system:String>
     <system:String x:Key="GlobalConfigTip">This option page is for global config</system:String>
+    <system:String x:Key="MultiTasksShareTip">The following options are for multiple tasks.</system:String>
     <system:String x:Key="SwitchConfiguration">Configuration</system:String>
     <system:String x:Key="ConfigurationName">Config</system:String>
     <system:String x:Key="AddConfiguration">Add</system:String>
@@ -515,7 +519,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="RoguelikeStartWithKey">Key</system:String>
     <system:String x:Key="RoguelikeStartWithDice">Dice</system:String>
     <system:String x:Key="RoguelikeStartWithIdea">Thought</system:String>
-    <system:String x:Key="RoguelikeStartWithTicket">Ticket</system:String>
+    <system:String x:Key="RoguelikeStartWithTicket">Coupon</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
     <system:String x:Key="PenguinId">Penguin Report ID (Number part)</system:String>
     <system:String x:Key="EnablePenguin">Report Penguin</system:String>
@@ -1227,10 +1231,10 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
     <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC connection (experimental feature, stability not guaranteed)
-MAA does not provide maintenance or compatibility support for PC usage:
-● If the feature works properly, you may choose to continue using it
-● If it fails to run or has issues, PC-related issues will not be accepted
-● Community adaptations and Pull Requests are welcome
+Due to limited development resources within the MAA Team, PC support lacks dedicated maintenance and may experience instability or functional issues:
+● We may not be able to promptly respond to or fix PC-related issues
+● If unavailable, consider switching to ADB mode to connect via Android emulator or mobile device
+● We sincerely welcome Pull Requests from developers to help improve PC support
 
 Before use, please ensure:
 1. MAA is launched with administrator privileges

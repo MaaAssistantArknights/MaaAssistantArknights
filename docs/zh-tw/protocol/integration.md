@@ -29,13 +29,13 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 :::: field-group  
 ::: field name="handle" type="AsstHandle" required  
-執行個體控制代碼 (Handle)   
+執行個體控制代碼 (Handle)  
 :::  
 ::: field name="type" type="const char*" required  
 任務類型  
 :::  
 ::: field name="params" type="const char*" required  
-任務參數，json String   
+任務參數，json String  
 :::  
 ::::
 
@@ -116,77 +116,78 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 :::  
 ::: field name="stage" type="string" optional  
 關卡名稱。預設為空，將辨識 `目前/上次` 關卡。不支援在執行中更改設定。  
-目前支援導航的關卡包含：  
-- **全部主線關卡**：可在關卡末尾新增 `-NORMAL` 或 `-HARD` 以切換標準或磨難難度。  
-- **資源收集**：  
-  - 龍門幣、作戰記錄： 支援第 5 / 6 關，但必須輸入 `CE-6` / `LS-6`。若第六關無法代理，MAA 會自動切換至第五關。  
-  - 技能書、採購憑證、碳本：支援第 5 關，必須輸入 `CA-5` / `AP-5` / `SK-5`。  
-  - 晶片關卡：支援所有關卡，必須輸入完整編號，例如`PR-A-1`。  
-- **剿滅作戰**：支援以下傳入值（必須使用對應的 Value）：  
-  - 當期剿滅：`Annihilation`  
-  - 切爾諾伯格：`Chernobog@Annihilation`  
-  - 龍門外環：`LungmenOutskirts@Annihilation`  
-  - 龍門市區：`LungmenDowntown@Annihilation`  
-- **別傳**：支援 `OF-1` / `OF-F3` / `GT-5`。  
-- **當期 SideStory 活動**：支援活動後三關。可查閱 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 獲取支援的關卡列表。需額外加載 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 中的活動關卡導航。  
+目前支援導航的關卡包含：
+
+- **全部主線關卡**：可在關卡末尾新增 `-NORMAL` 或 `-HARD` 以切換標準或磨難難度。
+- **資源收集**：
+  - 龍門幣、作戰記錄： 支援第 5 / 6 關，但必須輸入 `CE-6` / `LS-6`。若第六關無法代理，MAA 會自動切換至第五關。
+  - 技能書、採購憑證、碳本：支援第 5 關，必須輸入 `CA-5` / `AP-5` / `SK-5`。
+  - 晶片關卡：支援所有關卡，必須輸入完整編號，例如`PR-A-1`。
+- **剿滅作戰**：支援以下傳入值（必須使用對應的 Value）：
+  - 當期剿滅：`Annihilation`
+  - 切爾諾伯格：`Chernobog@Annihilation`
+  - 龍門外環：`LungmenOutskirts@Annihilation`
+  - 龍門市區：`LungmenDowntown@Annihilation`
+- **別傳**：支援 `OF-1` / `OF-F3` / `GT-5`。
+- **當期 SideStory 活動**：支援活動後三關。可查閱 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 獲取支援的關卡列表。需額外加載 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 中的活動關卡導航。
 - **復刻 SideStory 活動**：輸入 `SSReopen-<關卡前綴>` ，可一次性刷完 XX-1 ~ XX-9 關，如 `SSReopen-IC`。
-:::  
-::: field name="medicine" type="number" optional default="0"  
-理智藥最大使用量。  
-:::  
-::: field name="expiring_medicine" type="number" optional default="0"  
-48 小時內過期理智藥最大使用量。  
-:::  
-::: field name="stone" type="number" optional default="0"  
-碎石最大數量。  
-:::  
-::: field name="times" type="number" optional default="2147483647"  
-戰鬥次數。  
-:::  
-::: field name="series" type="number" optional  
-連戰次數，`-1` ~ `6`。
-<br>
-`-1`：停用自動切換連戰。
-<br>
-`0`：自動切換為當前可用的最大連戰次數（若理智不足以進行 6 連戰，則選擇最低可用次數）。
-<br>
-`1` ~ `6`：指定固定的連戰次數。  
-:::  
-::: field name="drops" type="object" optional  
-指定物品掉落數量，預設不指定。key 為 `item_id`，value 為數量。key 可參考 `resource/item_index.json` 檔案。  
-<br>
-例如：`{ "30011": 10, "30062": 5 }`  
-<br>
-上述所有條件（次數、掉落等）均為「或」的關係，任一條件達成即停止任務。  
-:::  
-::: field name="report_to_penguin" type="boolean" optional default="false"  
-是否回報企鵝物流  
-:::  
-::: field name="penguin_id" type="string" optional  
-企鵝物流回報 ID，預設為空。僅在 `report_to_penguin` 為 `true` 時有效。  
-:::  
-::: field name="report_to_yituliu" type="boolean" optional default="false"  
-是否回報一圖流。  
-:::  
-::: field name="yituliu_id" type="string" optional  
-一圖流回報 ID，預設為空。僅在 `report_to_yituliu` 為 `true` 時有效。  
-:::  
-::: field name="server" type="string" optional default="CN"  
-遊戲伺服器，會影響掉落物辨識及數據上傳。  
-<br>
-選項：`CN` | `US` | `JP` | `KR`  
-:::  
-::: field name="client_type" type="string" optional  
-用戶端版本，預設為空。用於遊戲崩潰後自動重啟並接續任務；若為空則不啟用自動重啟功能。
-<br>
-選項：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-:::  
-::: field name="DrGrandet" type="boolean" optional default="false"  
-博朗台模式（節省理智碎石模式），僅在產生碎石需求時才起作用。
-<br>
-在碎石確認介面等待，直到目前理智自動恢復 1 點後，再立刻執行碎石回復，以避免浪費自然恢復。  
-:::  
-::::
+  :::  
+  ::: field name="medicine" type="number" optional default="0"  
+  理智藥最大使用量。  
+  :::  
+  ::: field name="expiring_medicine" type="number" optional default="0"  
+  48 小時內過期理智藥最大使用量。  
+  :::  
+  ::: field name="stone" type="number" optional default="0"  
+  碎石最大數量。  
+  :::  
+  ::: field name="times" type="number" optional default="2147483647"  
+  戰鬥次數。  
+  :::  
+  ::: field name="series" type="number" optional  
+  連戰次數，`-1` ~ `6`。
+  <br>
+  `-1`：停用自動切換連戰。
+  <br>
+  `0`：自動切換為當前可用的最大連戰次數（若理智不足以進行 6 連戰，則選擇最低可用次數）。
+  <br>
+  `1` ~ `6`：指定固定的連戰次數。  
+  :::  
+  ::: field name="drops" type="object" optional  
+  指定物品掉落數量，預設不指定。key 為 `item_id`，value 為數量。key 可參考 `resource/item_index.json` 檔案。  
+  <br>
+  例如：`{ "30011": 10, "30062": 5 }`  
+  <br>
+  上述所有條件（次數、掉落等）均為「或」的關係，任一條件達成即停止任務。  
+  :::  
+  ::: field name="report_to_penguin" type="boolean" optional default="false"  
+  是否回報企鵝物流  
+  :::  
+  ::: field name="penguin_id" type="string" optional  
+  企鵝物流回報 ID，預設為空。僅在 `report_to_penguin` 為 `true` 時有效。  
+  :::  
+  ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+  是否回報一圖流。  
+  :::  
+  ::: field name="yituliu_id" type="string" optional  
+  一圖流回報 ID，預設為空。僅在 `report_to_yituliu` 為 `true` 時有效。  
+  :::  
+  ::: field name="server" type="string" optional default="CN"  
+  遊戲伺服器，會影響掉落物辨識及數據上傳。  
+  <br>
+  選項：`CN` | `US` | `JP` | `KR`  
+  :::  
+  ::: field name="client_type" type="string" optional  
+  用戶端版本，預設為空。用於遊戲崩潰後自動重啟並接續任務；若為空則不啟用自動重啟功能。
+  <br>
+  選項：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+  :::  
+  ::: field name="DrGrandet" type="boolean" optional default="false"  
+  博朗台模式（節省理智碎石模式），僅在產生碎石需求時才起作用。
+  <br>
+  在碎石確認介面等待，直到目前理智自動恢復 1 點後，再立刻執行碎石回復，以避免浪費自然恢復。  
+  :::  
+  ::::
 
 <details>
 <summary>Example</summary>
@@ -402,7 +403,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 - `Mall`  
    領取信用點數及商店購物。  
-   會先依據 `buy_first` 清單依序購買；接著由左至右掃描商店，避開 `blacklist` 進行第二輪購買；若信用點數溢出，則會無視黑名單再次由左至右購買，直到信用點數不再溢出為止。  
+   會先依據 `buy_first` 清單依序購買；接著由左至右掃描商店，避開 `blacklist` 進行第二輪購買；若信用點數溢出，則會無視黑名單再次由左至右購買，直到信用點數不再溢出為止。
 
 :::: field-group  
 ::: field name="enable" type="boolean" optional default="true"  
@@ -655,7 +656,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 使用固定種子。  
 :::  
-::::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -708,7 +709,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-刷坍縮範式功能，具體請參閱 [肉鴿輔助協定](./integrated-strategy-schema.md#薩米肉鴿——坍縮範式)  
+刷坍縮範式功能，具體請參閱 [肉鴿輔助協定](./integrated-strategy-schema.md#薩米肉鴿——坍縮範式)
 
 - `Copilot`  
    自動抄作業
@@ -777,7 +778,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
   :::  
   ::::
 
-作業 json 請參閱 [戰鬥流程協定](./copilot-schema.md)  
+作業 json 請參閱 [戰鬥流程協定](./copilot-schema.md)
 
 <details>
 <summary>Example</summary>
@@ -819,7 +820,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 循環執行次數。  
 :::  
 ::::  
-保全派駐作業 json 請參考 [保全派駐協定](./sss-schema.md)  
+保全派駐作業 json 請參考 [保全派駐協定](./sss-schema.md)
 
 <details>
 <summary>Example</summary>
@@ -1063,7 +1064,7 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 
 :::: field-group  
 ::: field name="handle" type="AsstHandle" required  
-實例控制代碼（Handle）。   
+實例控制代碼（Handle）。  
 :::  
 ::: field name="task" type="AsstTaskId" required  
 任務 ID，為 `AsstAppendTask` 介面的回傳值。  
@@ -1095,10 +1096,10 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 
 :::: field-group  
 ::: field name="key" type="AsstStaticOptionKey" required  
-鍵（Key）。   
+鍵（Key）。  
 :::  
 ::: field name="value" type="const char\*" required  
-值（Value）。    
+值（Value）。  
 :::  
 ::::
 
@@ -1121,16 +1122,16 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 #### 回傳值
 
 - `bool`  
-   回傳是否設定成功。  
+   回傳是否設定成功。
 
 #### 參數說明
 
 :::: field-group  
 ::: field name="handle" type="AsstHandle" required  
-實例控制代碼（Handle）。   
+實例控制代碼（Handle）。  
 :::  
 ::: field name="key" type="AsstInstanceOptionKey" required  
-鍵（Key）。   
+鍵（Key）。  
 :::  
 ::: field name="value" type="const char\*" required  
 值（Value）。  

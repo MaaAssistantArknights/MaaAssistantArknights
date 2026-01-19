@@ -29,7 +29,7 @@ public class RecruitTask : BaseTask
     /// Gets or sets a value indicating whether 是否使用公招加速卷
     /// </summary>
     [JsonIgnore]
-    public bool UseExpedited { get; set; }
+    public bool? UseExpedited { get; set; } = false;
 
     /// <summary>
     /// Gets or sets 单轮最大公招次数

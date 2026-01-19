@@ -944,6 +944,18 @@ public class TaskQueueViewModel : Screen
             taskItem.EnableSetting = true;
         }
 
+        if (TaskItemViewModels.Count == 0)
+        {
+            AddTaskQueueTask(typeof(StartUpTask));
+            AddTaskQueueTask(typeof(FightTask));
+            AddTaskQueueTask(typeof(InfrastTask));
+            AddTaskQueueTask(typeof(RecruitTask));
+            AddTaskQueueTask(typeof(MallTask));
+            AddTaskQueueTask(typeof(AwardTask));
+            AddTaskQueueTask(typeof(RoguelikeTask));
+            AddTaskQueueTask(typeof(ReclamationTask));
+        }
+
         NeedToUpdateDatePrompt();
         UpdateDatePromptAndStagesLocally();
 
@@ -1242,7 +1254,7 @@ public class TaskQueueViewModel : Screen
         {
             task.Name = TaskTypeList.FirstOrDefault(t => t.Value == taskName)?.Display ?? taskName.Name;
             ConfigFactory.CurrentConfig.TaskQueue.Add(task);
-            TaskItemViewModels.Add(new TaskItemViewModel(task.Name, task.IsEnable));
+            TaskItemViewModels.Add(new TaskItemViewModel(task.Name));
         }
         else
         {
@@ -1433,10 +1445,7 @@ public class TaskQueueViewModel : Screen
     {
         foreach (var item in TaskItemViewModels)
         {
-            if (item.IsEnable == null)
-            {
-                item.IsEnable = GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction;
-            }
+            item.IsEnable ??= GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction;
         }
     }
 
@@ -1456,9 +1465,16 @@ public class TaskQueueViewModel : Screen
                         RefreshTaskModel(fight);
                     }
                     break;
+
+                case RecruitTask recruit:
+                    RecruitSettingsUserControlModel.ResetRecruitVariables(recruit);
+                    if (TaskSettingVisibilityInfo.CurrentTask == recruit)
+                    {
+                        RefreshTaskModel(recruit);
+                    }
+                    break;
             }
         }
-        RecruitSettingsUserControlModel.ResetRecruitVariables();
         ResetTaskSelection();
     }
 
@@ -1674,7 +1690,7 @@ public class TaskQueueViewModel : Screen
         int count = 0;
         foreach (var (index, item) in ConfigFactory.CurrentConfig.TaskQueue.Select((task, i) => (i, task)))
         {
-            if (item.IsEnable == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsEnable == null))
+            if (item.IsEnable == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsEnable != true))
             {
                 Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;
                 continue;

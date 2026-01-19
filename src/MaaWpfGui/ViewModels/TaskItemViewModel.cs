@@ -19,10 +19,10 @@ namespace MaaWpfGui.ViewModels;
 
 public class TaskItemViewModel : PropertyChangedBase
 {
-    public TaskItemViewModel(string name, bool? isCheckedWithNull)
+    public TaskItemViewModel(string name, bool? isCheckedWithNull = true)
     {
         _name = name;
-        _isCheckedWithNull = isCheckedWithNull;
+        _isEnable = isCheckedWithNull;
     }
 
     private string _name;
@@ -36,13 +36,13 @@ public class TaskItemViewModel : PropertyChangedBase
         }
     }
 
-    private bool? _isCheckedWithNull;
+    private bool? _isEnable;
 
     public bool? IsEnable
     {
-        get => _isCheckedWithNull;
+        get => _isEnable;
         set {
-            SetAndNotify(ref _isCheckedWithNull, value);
+            SetAndNotify(ref _isEnable, value);
             ConfigFactory.CurrentConfig.TaskQueue[Index].IsEnable = value;
         }
     }

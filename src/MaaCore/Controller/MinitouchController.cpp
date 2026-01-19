@@ -192,7 +192,9 @@ bool asst::MinitouchController::swipe(
         return x >= 0 && x <= m_minitouch_props.max_x && y >= 0 && y <= m_minitouch_props.max_y;
     };
 
-    auto move_func = [this](int x, int y) { return m_minitoucher->move(x, y); };
+    auto move_func = [this](int x, int y) {
+        return m_minitoucher->move(x, y);
+    };
 
     auto pause_check = [&opt](int cur_x, int cur_y, int start_x, int start_y) {
         return std::sqrt(std::pow(cur_x - start_x, 2) + std::pow(cur_y - start_y, 2)) >
@@ -231,7 +233,17 @@ bool asst::MinitouchController::swipe(
             return result;
         }
         else {
-            return interpolate_swipe(_x1, _y1, _x2, _y2, _duration, TimeInterval, slope_in, slope_out, move_func, bounds_check);
+            return interpolate_swipe(
+                _x1,
+                _y1,
+                _x2,
+                _y2,
+                _duration,
+                TimeInterval,
+                slope_in,
+                slope_out,
+                move_func,
+                bounds_check);
         }
     };
 
