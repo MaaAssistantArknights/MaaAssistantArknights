@@ -169,7 +169,7 @@
                                                     Style="{DynamicResource RadioGroupItemSingle}"
                                                     ToolTip="{DynamicResource TaskSettings}">
                                                     <RadioButton.ContextMenu>
-                                                        <ContextMenu>
+                                                        <ContextMenu Width="150">
                                                             <MenuItem
                                                                 Command="{s:Action RenameTask,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
