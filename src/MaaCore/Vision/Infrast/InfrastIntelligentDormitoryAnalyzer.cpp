@@ -79,6 +79,21 @@ void asst::InfrastIntelligentDormitoryAnalyzer::analyze_room(const Rect& anchor_
         analyze_slot(i, anchor_rect, room_info);
     }
 
+    //特判第四个房间的第五个槽位
+    if(room_info.room_name == "宿舍4" && room_info.slots_lock[4] == false){
+        const auto& dorm_status_task = Task.get<OcrTaskInfo>("InfrastOverviewDormStatus");
+        cv::Mat dorm_status_img = m_image(make_rect<cv::Rect>(room_info.slots_rect[4].move(dorm_status_task->rect_move)));
+        RegionOCRer dorm_status_analyzer;
+        dorm_status_analyzer.set_replace(dorm_status_task->replace_map, dorm_status_task->replace_full);
+        dorm_status_analyzer.set_image(dorm_status_img);
+        dorm_status_analyzer.set_bin_expansion(0);
+        if (dorm_status_analyzer.analyze()) {
+            if(dorm_status_analyzer.get_result().text.find("休息中") != std::string::npos){
+                room_info.slots_mood[4] = 0.0;
+            }
+            Log.info("IntelligentAnalyzer | Scanned Room Name:", room_info.room_name);
+        }
+    }
     m_result.emplace_back(room_info);
 }
 

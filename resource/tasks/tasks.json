@@ -3616,7 +3616,7 @@
     "InfrastOverviewDormSlot4": {
         "doc": "第5个槽位",
         "template": "empty.png",
-        "roi": [561, -12, 114, 135]
+        "roi": [557, -12, 114, 135]
     },
     "InfrastOverviewDormSlotLock": {
         "template": "InfrastOverviewDormLock.png",
@@ -3624,6 +3624,14 @@
         "doc": "宿舍锁定图标，ROI由C++覆写为Slot的ROI",
         "maskRange": [1, 255],
         "roi": [0, 0, 100, 100]
+    },
+    "InfrastOverviewDormStatus": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于锚点的位置移动",
+        "rectMove": [44, 91, 60, 21],
+        "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
+        "specificRect": [235, 255, 0, 0]
     },
     "InfrastOverviewProcessingClear": {
         "algorithm": "JustReturn",
