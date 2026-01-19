@@ -86,6 +86,8 @@
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
     <system:String x:Key="Copy">Copy</system:String>
     <!--  Settings Guide  -->
+    <system:String x:Key="LeftClick">Left Click</system:String>
+    <system:String x:Key="RightClick">Right Click</system:String>
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>
     <system:String x:Key="GuideStepClarification" xml:space="preserve">Make sure ADB is enabled:

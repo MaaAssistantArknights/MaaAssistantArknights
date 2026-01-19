@@ -86,6 +86,8 @@
     <system:String x:Key="GpuAllowDeprecated">允许使用不推荐的 GPU</system:String>
     <system:String x:Key="Copy">复制</system:String>
     <!--  设置指引  -->
+    <system:String x:Key="LeftClick">左键</system:String>
+    <system:String x:Key="RightClick">右键</system:String>
     <system:String x:Key="TaskSettings">任务设置</system:String>
     <system:String x:Key="SettingsGuide">设置指引</system:String>
     <system:String x:Key="GuideStepClarification" xml:space="preserve">请确保 ADB 已启用：
