@@ -643,6 +643,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 fight.StagePlan.Add(string.Empty);
             }
             InitDrops();
+            UpdateStageList(); // 临时修复, 应为同步
             RefreshCurrentStagePlan();
             RefreshWeeklySchedule();
             Refresh();
