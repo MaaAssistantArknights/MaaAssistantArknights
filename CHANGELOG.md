@@ -1,4 +1,4 @@
-## v6.3.0-beta.2
+## v6.3.0-beta.3
 
 ### Highlights
 
@@ -35,6 +35,40 @@ MAA now supports running on PC, but will not provide maintenance or adaptation s
 - Community-contributed adaptations and pull requests are welcome
 
 ----
+
+## v6.3.0-beta.3
+
+### 新增 | New
+
+* 设置指引增加右键重命名 / 删除提示 @ABA2396
+* PC 端说明文案调整 @MistEO
+
+### 改进 | Improved
+
+* 优化任务设置按钮悬浮提示 @ABA2396
+* 开始唤醒多任务共用参数提示 @status102
+* 开始唤醒任务未设置账号切换时，禁用手动切换按钮 @status102
+* 优化设置右键菜单布局 @ABA2396
+* 更换 Config 迁移检查逻辑 @status102
+
+### 修复 | Fix
+
+* 修复右键“跳过一次”异常行为 @status102
+* 修复新 Config 丢失 Default 的问题 @status102
+* 修复 Config 仅剩最后一个时移除按钮状态错误 @status102
+* 修复删除配置时未清理 `.new` 文件的问题 @ABA2396
+* 修复公招加速券相关异常 @status102
+* 修复启动客户端绑定失效的问题 @status102
+* 修复关卡列表显示不刷新的问题 @status102
+* 修复启动客户端绑定流程异常 @status102
+* 修复收取信用检查逻辑问题 @status102
+* 修复启动 MAA 时无任何任务未自动追加默认任务的问题 @status102
+* YostarEN refresh node template @Constrat
+
+### 其他 | Other
+
+* style @status102
+* EN fix @Constrat
 
 ## v6.3.0-beta.2
 
