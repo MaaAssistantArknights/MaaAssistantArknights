@@ -10,12 +10,9 @@
 
 由于现已支持 ｢理智作战｣ 周计划并可添加多个同类型任务，本次更新**移除了原有 ｢剿灭作战｣ 任务失败后自动尝试下一个已开放的备选逻辑**。如有相关需要，请手动新增一个 ｢理智作战｣ 任务，并**在关卡中选择“剿灭作战”**。
 
-#### 支持连接 PC 端
+#### PC 端明日方舟
 
-MAA 现已支持连接 PC 端运行，但后续不会对 PC 端运行情况提供维护或适配支持：
-- 功能可正常使用的情况下，可自行选择继续使用  
-- **若无法运行或存在问题，不受理 PC 端相关的 Issue 与反馈**  
-- 欢迎社区自行适配并提交 Pull Request
+MAA 现已支持 PC 端明日方舟的运行。但由于维护人手有限，PC 端版本可能长期处于不稳定状态，部分功能可能出现异常或暂时无法使用。我们非常欢迎社区开发者协助适配并提交改进，共同完善对 PC 端的支持。
 
 ----
 
@@ -27,12 +24,9 @@ Now supports **adding repeating task types** and renaming them; introduces **Com
 
 Since the "Combat" weekly schedule is now supported and multiple similar tasks can be added, this update **removes the original automatic attempt to use the next available alternate stage after "Annihilation" task failure**. If you need this, please manually add a "Combat" task and **select "Annihilation" in the stage**.
 
-#### Supports Connection to PC (CN only)
+#### PC version of Arknights (CN only)
 
-MAA now supports running on PC, but will not provide maintenance or adaptation support for PC-side situations in the future:
-- If the functionality works properly, you can choose to continue using it
-- **If it cannot run or there are issues, PC-related issues and feedback will not be accepted**
-- Community-contributed adaptations and pull requests are welcome
+MAA now supports the PC version of Arknights. However, due to limited maintenance resources, the PC version may remain unstable for an extended period, with some features potentially malfunctioning or temporarily unavailable. We warmly welcome community developers to assist in adaptation and submit improvements to collectively enhance PC support.
 
 ----
 
