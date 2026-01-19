@@ -95,10 +95,11 @@
     <system:String x:Key="NextGuide">下一步</system:String>
     <system:String x:Key="DoneGuide">完成</system:String>
     <system:String x:Key="ToolTipGuide">滑鼠移至此處會有提示喔↓→</system:String>
-    <system:String x:Key="TaskGuide">↑任務</system:String>
-    <system:String x:Key="OftenUsedGuide">↓常用的</system:String>
-    <system:String x:Key="SometimesUsedGuide">不常用的↑</system:String>
+    <system:String x:Key="TaskGuide">↑ 任務</system:String>
+    <system:String x:Key="OftenUsedGuide">↓ 常用的</system:String>
+    <system:String x:Key="SometimesUsedGuide">不常用的 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 開始任務</system:String>
+    <system:String x:Key="RightClickRenameDelete">↓ 右鍵重新命名/刪除</system:String>
     <system:String x:Key="UserGuide">使用指引</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 官網與文件</system:String>
     <system:String x:Key="GuideDocumentationPath">您可以在「{key=Settings} - {key=AboutUs} - {key=Website}」找到 MAA 的官方網站和完整文件。</system:String>

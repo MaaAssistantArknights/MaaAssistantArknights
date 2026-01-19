@@ -95,10 +95,11 @@
     <system:String x:Key="NextGuide">Next</system:String>
     <system:String x:Key="DoneGuide">Done</system:String>
     <system:String x:Key="ToolTipGuide">Prompt appears when hovered↓→</system:String>
-    <system:String x:Key="TaskGuide">↑Task</system:String>
-    <system:String x:Key="OftenUsedGuide">↓Often Used</system:String>
-    <system:String x:Key="SometimesUsedGuide">Sometimes Used↑</system:String>
+    <system:String x:Key="TaskGuide">↑ Task</system:String>
+    <system:String x:Key="OftenUsedGuide">↓ Often Used</system:String>
+    <system:String x:Key="SometimesUsedGuide">Sometimes Used ↑</system:String>
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
+    <system:String x:Key="RightClickRenameDelete">↓ Right Click to Rename/Delete</system:String>
     <system:String x:Key="UserGuide">User Guide</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 Website &amp; Documentation</system:String>
     <system:String x:Key="GuideDocumentationPath">You can find MAA's official website and complete documentation at "{key=Settings} - {key=AboutUs} - {key=Website}".</system:String>
