@@ -380,7 +380,7 @@ bool asst::InfrastIntelligentTask::find_and_do_room(int target_index){
             const auto& target_room_on_screen = current_rooms[relative_index];
             Log.info("InfrastIntelligentTask | Clicking room anchor:", target_room_on_screen.anchor_rect.to_string());
             ctrler()->click(target_room_on_screen.anchor_rect);
-            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            std::this_thread::sleep_for(std::chrono::seconds(2));
 
             // 检查是否换班后心情上升
             auto check_image = ctrler()->get_image();
@@ -396,13 +396,15 @@ bool asst::InfrastIntelligentTask::find_and_do_room(int target_index){
                 if (room.room_name != target_name)  continue;
                 for (size_t slot = 0; slot < room.slots_empty.size(); ++slot) {
                     double mood = room.slots_mood[slot];
-                    if (!room.slots_empty[slot] && 0 <= mood && mood < new_min_mood) {
-                        new_min_mood = mood;
+                    if (!room.slots_empty[slot] && 0 <= mood) {
+                        if (new_min_mood == -1.0 || mood < new_min_mood) {
+                            new_min_mood = mood;
+                        }
                     }
                 }
             }
             if(new_min_mood <= old_min_mood + 0.01){
-                Log.error("InfrastIntelligentTask | Room operation may have FAILED (Mood not increased).");
+                Log.error("InfrastIntelligentTask | Mood not increase: Old Min Mood:", old_min_mood, "New Min Mood:", new_min_mood, ". Retrying...");
                 ctrler()->click(target_room_on_screen.anchor_rect);
                 std::this_thread::sleep_for(std::chrono::milliseconds(2000));
                 return false;
@@ -465,14 +467,12 @@ bool asst::InfrastIntelligentTask::_run()
                  "| MinMood:", cand.min_mood,
                  "| Priority:", cand.facility_priority);
     }
-
+    // 3) 点击进入宿舍界面 (Refresh Status)
+    ProcessTask entrydorm_task(*this, { "InfrastEnterDorm" }); 
+    if (!entrydorm_task.run()) return false;
     // --- 开始循环 (步骤 3-7) ---
     while (!candidates.empty()) 
     {
-        // 3) 点击进入宿舍界面 (Refresh Status)
-        ProcessTask entrydorm_task(*this, { "InfrastEnterDorm" }); 
-        if (!entrydorm_task.run()) return false;
-
         // 4) 扫描宿舍信息
         if (!scan_overview_dormitory()) return false;
 
@@ -537,7 +537,12 @@ bool asst::InfrastIntelligentTask::_run()
         }
         candidates = next_round_candidates;
         Log.info("InfrastIntelligentTask | Round finished. Remaining candidates:", candidates.size());
-    }
 
+        // 3) 点击进入宿舍界面 (Refresh Status)
+        ProcessTask entrydorm_task(*this, { "InfrastEnterDorm" }); 
+        if (!entrydorm_task.run()) return false;
+
+    }
+    Log.info("InfrastIntelligentTask | All done. Exiting intelligent task.");
     return true;
 }
