@@ -51,11 +51,26 @@ public class ConfigConverter
 
         var root = ParseJsonFile(ConfigurationNewFile);
         bool ret = true;
-        if (ConfigurationHelper.ContainsKey(ConfigurationKeys.Stage1))
+        var needConvert = root?["Configurations"] is not JObject jObj || jObj.Count == 0 // 有神秘小配置Config里没东西
+            || jObj["Default"]?["TaskQueueOrder"] is not null; // 常规撤
+        if (needConvert)
         {
             ret &= ConvertTaskQueue();
         }
+        else
+        { // for 6.3.0-beta 出错用户
+            bool needConvert2 = root?["Configurations"] is JObject configurations && configurations.Properties()
+                .Where(p => p.Value is JObject config && config.ContainsKey("TaskQueue"))
+                .Any(p => {
+                    var taskQueue = ((JObject)p.Value)["TaskQueue"];
+                    return taskQueue == null || (taskQueue is JArray jsonArray && jsonArray.Count == 0);
+                });
 
+            if (needConvert2)
+            {
+                ret &= ConvertTaskQueue();
+            }
+        }
         return ret;
     }
 
