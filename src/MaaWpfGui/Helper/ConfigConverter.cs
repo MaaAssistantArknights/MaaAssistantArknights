@@ -50,17 +50,17 @@ public class ConfigConverter
         }
 
         var root = ParseJsonFile(ConfigurationNewFile);
+
         bool ret = true;
-        var needConvert = root?["Configurations"] is not JObject jObj || jObj.Count == 0 // 有神秘小配置Config里没东西
-            || jObj["Default"]?["TaskQueueOrder"] is not null; // 常规撤
-        if (needConvert)
+        JObject? configurations = null;
+        JObject? oldConfigurations = null;
+
+        if (root?["Configurations"] is JObject jObj && parsedOld["Configurations"] is JObject oldObj)
         {
-            ret &= ConvertTaskQueue();
-        }
-        else if (root?["Configurations"] is JObject configurations && parsedOld["Configurations"] is JObject oldConfigurations)
-        {
-            // for 6.3.0-beta 出错用户
-            // 检查 root 中是否存在 parsedOld 没有的配置，多余的先删除
+            configurations = jObj;
+            oldConfigurations = oldObj;
+
+            // 删除多余配置
             var extraKeys = configurations.Properties()
                 .Select(p => p.Name)
                 .Except(oldConfigurations.Properties().Select(p => p.Name))
@@ -71,8 +71,18 @@ public class ConfigConverter
                 ConfigFactory.DeleteConfiguration(key);
                 configurations.Remove(key);
             }
+        }
 
-            // 删除多余配置后，检查是否仍然需要转换 TaskQueue
+        bool needConvert = configurations == null || configurations.Count == 0
+            || configurations["Default"]?["TaskQueueOrder"] is not null;
+
+        if (needConvert)
+        {
+            ret &= ConvertTaskQueue();
+        }
+        else if (configurations != null) // 保证 configurations 可用
+        {
+            // 6.3.0-beta 出错用户，检查 TaskQueue
             bool needConvert2 = configurations.Properties()
                 .Where(p => p.Value is JObject config && config.ContainsKey("TaskQueue"))
                 .Any(p => {
@@ -85,6 +95,7 @@ public class ConfigConverter
                 ret &= ConvertTaskQueue();
             }
         }
+
         return ret;
     }
 
