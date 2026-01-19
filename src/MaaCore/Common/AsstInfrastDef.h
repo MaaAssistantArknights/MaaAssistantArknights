@@ -153,4 +153,13 @@ struct CustomDronesConfig
     int index = 0;
     Order order = Order::Pre;
 };
+
+// 定义单行房间的识别结果结构
+struct InfrastRoomInfo
+{
+    Rect anchor_rect;             // 锚点位置（调试用）
+    Rect name_rect;               // 房间名 ROI
+    std::vector<Rect> slots_rect; // 5个槽位的 ROI
+    std::vector<bool> slots_empty;    // 5个槽位是否为空
+};
 } // namespace asst::infrast

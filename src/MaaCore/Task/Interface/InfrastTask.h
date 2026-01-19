@@ -17,6 +17,7 @@ class InfrastTrainingTask;
 class InfrastDormTask;
 class ReplenishOriginiumShardTaskPlugin;
 class InfrastProcessingTask;
+class InfrastIntelligentTask;
 
 class InfrastTask final : public InterfaceTask
 {
@@ -25,6 +26,7 @@ class InfrastTask final : public InterfaceTask
         Default = 0,
         Custom = 10000,
         Rotation = 20000,
+        Intelligent = 30000, // 新增：智能轮换（对应 UI 的 IntelligentRotation）
     };
 
 public:
@@ -40,6 +42,7 @@ private:
 
     std::shared_ptr<ProcessTask> m_infrast_begin_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_queue_rotation_task = nullptr;
+    std::shared_ptr<InfrastIntelligentTask> m_intelligent_task_ptr = nullptr;
     std::shared_ptr<InfrastInfoTask> m_info_task_ptr = nullptr;
     std::shared_ptr<InfrastMfgTask> m_mfg_task_ptr = nullptr;
     std::shared_ptr<InfrastTradeTask> m_trade_task_ptr = nullptr;

@@ -3434,6 +3434,57 @@
         "roi": [538, 6, 650, 64],
         "templThreshold": 0.7
     },
+    "InfrastEnterIntelligent": {
+        "template": "InfrastOverviewEnter.png",
+        "doc": "直接复用Rotation的识别参数(RGBCount)，因为它能抗红点干扰",
+        "method": "RGBCount",
+        "colorScales": [[250, 255]],
+        "roi": [120, 50, 160, 160],
+        "postDelay": 1500,
+        "action": "ClickSelf"
+    },
+    "InfrastOverview-Anchor": {
+        "template": "InfrastSingleRoomQueueRotation.png",
+        "roi": [1182, 78, 55, 644],
+        "templThreshold": 0.8,
+        "doc": "锚点：每行右侧的队列切换按钮"
+    },
+    "InfrastOverview-NameRect": {
+        "doc": "房间名区域，相对于 Anchor 的偏移 [x, y, w, h]",
+        "template": "empty.png",
+        "roi": [-752, 0, 187, 135]
+    },
+    "InfrastOverview-Slot-0": {
+        "doc": "第1个槽位，相对于 Anchor 的偏移 [x, y, w, h]。计算: 624 - 1182 = -558",
+        "template": "empty.png",
+        "roi": [-570, 0, 114, 134]
+    },
+    "InfrastOverview-Slot-1": {
+        "doc": "第2个槽位",
+        "template": "empty.png",
+        "roi": [-456, 0, 114, 134]
+    },
+    "InfrastOverview-Slot-2": {
+        "doc": "第3个槽位",
+        "template": "empty.png",
+        "roi": [-342, 0, 114, 134]
+    },
+    "InfrastOverview-Slot-3": {
+        "doc": "第4个槽位",
+        "template": "empty.png",
+        "roi": [-228, 0, 114, 134]
+    },
+    "InfrastOverview-Slot-4": {
+        "doc": "第5个槽位",
+        "template": "empty.png",
+        "roi": [-114, 0, 114, 134]
+    },
+    "InfrastOverview-SlotEmpty": {
+        "template": "InfrastOverviewEmpty.png",
+        "templThreshold": 0.85,
+        "doc": "空槽位图标，ROI由C++动态覆盖",
+        "roi": [0, 0, 100, 100]
+    },
     "BattleStageName": {
         "algorithm": "OcrDetect",
         "text": [],
