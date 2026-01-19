@@ -64,10 +64,114 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     for (auto&& task : shift_tasks) {
         if (task) {
-            task->set_skip_shift(mode == Mode::Rotation);
+            task->set_skip_shift(mode == Mode::Rotation || mode == Mode::Intelligent);
         }
     }
-    std::unordered_set<std::string> rotation_skip_facilities = { "Dorm", "Power", "Office", "Control" };
+
+    if (!m_running) {
+        auto facility_opt = params.find<json::array>("facility");
+        if (!facility_opt) {
+            return false;
+        }
+        
+        auto append_infrast_begin = [&]() {
+            m_subtasks.emplace_back(m_infrast_begin_task_ptr);
+        };
+
+        m_subtasks.clear();
+        append_infrast_begin();
+
+        if (mode == Mode::Rotation) {
+            m_subtasks.emplace_back(m_queue_rotation_task);
+        }
+        if (mode == Mode::Intelligent) {
+            m_subtasks.emplace_back(m_intelligent_task_ptr);
+        }
+
+        m_subtasks.emplace_back(m_info_task_ptr);
+
+        std::unordered_set<std::string> rotation_skip_facilities = { "Dorm", "Power", "Office", "Control" };
+        static const std::unordered_set<std::string> mfg_drone_modes = { "CombatRecord", "PureGold", "OriginStone", "Chip" };
+        static const std::unordered_set<std::string> trade_drone_modes = { "Money", "SyntheticJade" };
+
+        for (const auto& facility_json : facility_opt.value()) {
+            if (!facility_json.is_string()) {
+                    m_subtasks.clear();
+                append_infrast_begin();
+                return false;
+            }
+            
+            std::string facility = facility_json.as_string();
+
+            if (mode == Mode::Rotation && rotation_skip_facilities.find(facility) != rotation_skip_facilities.cend()) {
+                Log.info("skip facility in rotation mode", facility);
+                continue;
+            }
+
+            if (mode == Mode::Intelligent) {
+                m_intelligent_task_ptr->set_facility_allow(facility);
+                std::string drones = params.get("drones", "_NotUse");
+                bool replenish_enable = params.get("replenish", false);
+                bool continue_training_enable = params.get("continue_training", false);
+                if (facility == "Dorm" || facility == "Power" || facility == "Office" || facility == "Control" || facility == "Processing") {
+                    Log.info("skip facility in intelligent mode (Processing):", facility);
+                    continue;
+                }
+                if (facility == "Mfg") {
+                    if (mfg_drone_modes.find(drones) == mfg_drone_modes.end() || !replenish_enable) {
+                        Log.info("skip Mfg (Drone mode mismatch or disabled):", drones);
+                        continue;
+                    }
+                }
+                if (facility == "Trade") {
+                    if (trade_drone_modes.find(drones) == trade_drone_modes.end()) {
+                         Log.info("skip Trade (Drone mode mismatch or disabled):", drones);
+                        continue;
+                    }
+                }
+                if (facility == "Training" && !continue_training_enable) {
+                    m_intelligent_task_ptr->set_continue_training();
+                    Log.info("skip facility in intelligent mode (No Training):", facility);
+                    continue;
+                }
+            }
+
+            if (facility == "Dorm") {
+                m_subtasks.emplace_back(m_dorm_task_ptr);
+            }
+            else if (facility == "Mfg") {
+                m_subtasks.emplace_back(m_mfg_task_ptr);
+            }
+            else if (facility == "Trade") {
+                m_subtasks.emplace_back(m_trade_task_ptr);
+            }
+            else if (facility == "Power") {
+                m_subtasks.emplace_back(m_power_task_ptr);
+            }
+            else if (facility == "Office") {
+                m_subtasks.emplace_back(m_office_task_ptr);
+            }
+            else if (facility == "Reception") {
+                m_subtasks.emplace_back(m_reception_task_ptr);
+            }
+            else if (facility == "Control") {
+                m_subtasks.emplace_back(m_control_task_ptr);
+            }
+            else if (facility == "Processing") {
+                m_subtasks.emplace_back(m_processing_task_ptr);
+            }
+            else if (facility == "Training") {
+                m_subtasks.emplace_back(m_training_task_ptr);
+            }
+            else {
+                Log.error(__FUNCTION__, "| Unknown facility", facility);
+                m_subtasks.clear();
+                append_infrast_begin();
+                return false;
+            }
+            append_infrast_begin();
+        }
+    }
     
     bool continue_training = params.get("continue_training", false);
     m_training_task_ptr->set_continue_training(continue_training);
@@ -108,81 +212,6 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
-
-    if (!m_running) {
-        auto facility_opt = params.find<json::array>("facility");
-        if (!facility_opt) {
-            return false;
-        }
-        
-        auto append_infrast_begin = [&]() {
-            m_subtasks.emplace_back(m_infrast_begin_task_ptr);
-        };
-
-        m_subtasks.clear();
-        append_infrast_begin();
-
-        if (mode == Mode::Rotation) {
-            m_subtasks.emplace_back(m_queue_rotation_task);
-        }
-        if (mode == Mode::Intelligent){
-            m_subtasks.emplace_back(m_intelligent_task_ptr);
-        }
-        m_subtasks.emplace_back(m_info_task_ptr);
-
-        for (const auto& facility_json : facility_opt.value()) {
-            if (!facility_json.is_string()) {
-                    m_subtasks.clear();
-                append_infrast_begin();
-                return false;
-            }
-            
-            std::string facility = facility_json.as_string();
-
-            m_intelligent_task_ptr->set_facility_allow(facility);
-            if (mode == Mode::Rotation || mode == Mode::Intelligent) {
-                if (rotation_skip_facilities.find(facility) != rotation_skip_facilities.cend()) {
-                    Log.info("skip facility in (intelligence) rotation mode", facility);
-                    continue;
-                }
-                // if()
-            }
-            if (facility == "Dorm") {
-                m_subtasks.emplace_back(m_dorm_task_ptr);
-            }
-            else if (facility == "Mfg") {
-                m_subtasks.emplace_back(m_mfg_task_ptr);
-            }
-            else if (facility == "Trade") {
-                m_subtasks.emplace_back(m_trade_task_ptr);
-            }
-            else if (facility == "Power") {
-                m_subtasks.emplace_back(m_power_task_ptr);
-            }
-            else if (facility == "Office") {
-                m_subtasks.emplace_back(m_office_task_ptr);
-            }
-            else if (facility == "Reception") {
-                m_subtasks.emplace_back(m_reception_task_ptr);
-            }
-            else if (facility == "Control") {
-                m_subtasks.emplace_back(m_control_task_ptr);
-            }
-            else if (facility == "Processing") {
-                m_subtasks.emplace_back(m_processing_task_ptr);
-            }
-            else if (facility == "Training") {
-                m_subtasks.emplace_back(m_training_task_ptr);
-            }
-            else {
-                Log.error(__FUNCTION__, "| Unknown facility", facility);
-                m_subtasks.clear();
-                append_infrast_begin();
-                return false;
-            }
-            append_infrast_begin();
-        }
-    }
 
     if (mode == Mode::Custom && !m_running) {
         auto filename_opt = params.find<std::string>("filename");

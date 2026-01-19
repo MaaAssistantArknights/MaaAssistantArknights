@@ -38,6 +38,7 @@ public:
             training_allow = true;
         }
     }
+    void set_continue_training(){ continue_training = true; }
 protected:
     virtual bool _run() override;
     bool dorm_allow = false;
@@ -49,6 +50,7 @@ protected:
     bool control_allow = false;
     bool processing_allow = false;
     bool training_allow = false;
+    bool continue_training = false;
     bool scan_overview_workspace();
     bool scan_overview_dormitory();
     void swipe_overview_down();

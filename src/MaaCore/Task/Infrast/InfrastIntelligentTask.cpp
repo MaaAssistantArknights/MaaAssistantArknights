@@ -161,7 +161,7 @@ bool asst::InfrastIntelligentTask::scan_overview_workspace()
             room.is_allowed = true;
             room.facility_priority = 6;
         }
-        else if (room.room_name.find("训练室") != std::string::npos && training_allow) {
+        else if (room.room_name.find("训练室") != std::string::npos && training_allow && !continue_training) {
             if(room.is_training){
                 room.is_allowed = false;
             } else {
@@ -539,7 +539,6 @@ bool asst::InfrastIntelligentTask::_run()
         Log.info("InfrastIntelligentTask | Round finished. Remaining candidates:", candidates.size());
 
         // 3) 点击进入宿舍界面 (Refresh Status)
-        ProcessTask entrydorm_task(*this, { "InfrastEnterDorm" }); 
         if (!entrydorm_task.run()) return false;
 
     }
