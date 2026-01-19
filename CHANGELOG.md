@@ -61,6 +61,7 @@ MAA now supports running on PC, but will not provide maintenance or adaptation s
 * 修复启动客户端绑定失效的问题 @status102
 * 修复关卡列表显示不刷新的问题 @status102
 * 修复启动客户端绑定流程异常 @status102
+* OF-1 跳过条件又有猪改错了 ↓ @ABA2396
 * 修复收取信用检查逻辑问题 @status102
 * 修复启动 MAA 时无任何任务未自动追加默认任务的问题 @status102
 * YostarEN refresh node template @Constrat
