@@ -1229,8 +1229,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UseAttachWindowTip">使用 Win32 視窗綁定明日方舟 PC 端，而非 ADB 連接模擬器或手機</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">連接 PC 端（實驗性功能，穩定性無法保證）
 由於 MAA Team 開發人手有限，PC 端功能長期缺乏專人維護，可能存在功能異常或運行不穩定等問題：
-● 若 PC 端無法正常使用，建議切換至 ADB 模式連接 Android 模擬器或行動裝置
 ● 遇到問題時，我們可能無法及時回應或修復
+● 若無法正常使用，建議切換至 ADB 模式連接 Android 模擬器或行動裝置
 ● 誠摯歡迎有開發能力的用戶提交 Pull Request，共同完善 PC 端支援
 
 使用前請確認：
