@@ -456,92 +456,94 @@ bool asst::InfrastIntelligentTask::_run()
          return false;
      }
     // 2.2) 生成候选列表
-    auto candidates = process_workspace_priority();
-    if (candidates.empty()) {
-        Log.info("InfrastIntelligentTask | No rooms require rotation at this time.");
-        return true;
-    }
-    for (const auto& cand : candidates) {
-        Log.info("    -> Candidate:", cand.room_name, 
-                 "| Workers:", cand.worker_num, 
-                 "| MinMood:", cand.min_mood,
-                 "| Priority:", cand.facility_priority);
-    }
+    // auto candidates = process_workspace_priority();
+    // if (candidates.empty()) {
+    //     Log.info("InfrastIntelligentTask | No rooms require rotation at this time.");
+    //     return true;
+    // }
+    // for (const auto& cand : candidates) {
+    //     Log.info("    -> Candidate:", cand.room_name, 
+    //              "| Workers:", cand.worker_num, 
+    //              "| MinMood:", cand.min_mood,
+    //              "| Priority:", cand.facility_priority);
+    // }
     // 3) 点击进入宿舍界面 (Refresh Status)
     ProcessTask entrydorm_task(*this, { "InfrastEnterDorm" }); 
     if (!entrydorm_task.run()) return false;
-    // --- 开始循环 (步骤 3-7) ---
-    while (!candidates.empty()) 
-    {
-        // 4) 扫描宿舍信息
-        if (!scan_overview_dormitory()) return false;
-
-        // 5) 获取当前真实的宿舍空位
-        int current_real_capacity = process_dormitory_capacity();
-        Log.info("InfrastIntelligentTask | [Loop Check] Real Dorm Capacity:", current_real_capacity);
-
-        // [跳出条件 A]：如果真的没空位了，且之前的操作已经确认过了，那就彻底结束
-        if (current_real_capacity == 0) {
-            Log.info("InfrastIntelligentTask | Dorm is physically full. Stop rotation.");
-            break; 
-        }
-
-        // 6) 切换回工作区界面 (准备干活)
-        ProcessTask entrywork_task(*this, { "InfrastEnterWorkspace" }); 
-        if (!entrywork_task.run()) return false;
-
-        // 7) 贪心选择 (Batch Processing)
-        // 这一步我们要尝试填满 current_real_capacity
-        int used_capacity_prediction = 0; // 记录本轮预测消耗的空位
-        std::vector<int> processed_indices; // 记录本轮处理成功的房间下标
-
-        for (int i = 0; i < candidates.size(); ++i) {
-            const auto& cand = candidates[i];
-
-            // 这个房间塞进去就爆了
-            if (used_capacity_prediction + cand.worker_num > current_real_capacity) {
-                // 这里不 break，而是 continue 看看后面有没有更小的房间能塞进去
-                continue; 
-            }
-
-            // 执行换班
-            if (find_and_do_room(cand.page_index)) {
-                Log.info(" [PROCESSED] Room:", cand.room_name);
-                processed_indices.push_back(i);
-                used_capacity_prediction += cand.worker_num;
-            } else {
-                Log.error(" [FAILED] Room operation failed:", cand.room_name);
-                processed_indices.push_back(i); 
-            }
-
-            // 如果预测值已经把空位填满了，结束本轮 Batch
-            if (used_capacity_prediction == current_real_capacity) {
-                break;
-            }
-        }
-
-        // [跳出条件 B]：本轮如果没有处理任何房间（可能是因为所有房间都需要的人数 > 当前空位）
-        if (processed_indices.empty()) {
-            Log.info("InfrastIntelligentTask | Capacity remains but no suitable candidates fit. Stop.");
-            break;
-        }
-        std::vector<asst::infrast::InfrastRoomInfo> next_round_candidates;
-        for (int i = 0; i < candidates.size(); ++i) {
-            bool processed = false;
-            for (int idx : processed_indices) {
-                if (i == idx) { processed = true; break; }
-            }
-            if (!processed) {
-                next_round_candidates.push_back(candidates[i]);
-            }
-        }
-        candidates = next_round_candidates;
-        Log.info("InfrastIntelligentTask | Round finished. Remaining candidates:", candidates.size());
-
-        // 3) 点击进入宿舍界面 (Refresh Status)
-        if (!entrydorm_task.run()) return false;
-
-    }
-    Log.info("InfrastIntelligentTask | All done. Exiting intelligent task.");
+    if (!scan_overview_dormitory()) return false;
     return true;
+    // --- 开始循环 (步骤 3-7) ---
+    // while (!candidates.empty()) 
+    // {
+    //     // 4) 扫描宿舍信息
+    //     if (!scan_overview_dormitory()) return false;
+
+    //     // 5) 获取当前真实的宿舍空位
+    //     int current_real_capacity = process_dormitory_capacity();
+    //     Log.info("InfrastIntelligentTask | [Loop Check] Real Dorm Capacity:", current_real_capacity);
+
+    //     // [跳出条件 A]：如果真的没空位了，且之前的操作已经确认过了，那就彻底结束
+    //     if (current_real_capacity == 0) {
+    //         Log.info("InfrastIntelligentTask | Dorm is physically full. Stop rotation.");
+    //         break; 
+    //     }
+
+    //     // 6) 切换回工作区界面 (准备干活)
+    //     ProcessTask entrywork_task(*this, { "InfrastEnterWorkspace" }); 
+    //     if (!entrywork_task.run()) return false;
+
+    //     // 7) 贪心选择 (Batch Processing)
+    //     // 这一步我们要尝试填满 current_real_capacity
+    //     int used_capacity_prediction = 0; // 记录本轮预测消耗的空位
+    //     std::vector<int> processed_indices; // 记录本轮处理成功的房间下标
+
+    //     for (int i = 0; i < candidates.size(); ++i) {
+    //         const auto& cand = candidates[i];
+
+    //         // 这个房间塞进去就爆了
+    //         if (used_capacity_prediction + cand.worker_num > current_real_capacity) {
+    //             // 这里不 break，而是 continue 看看后面有没有更小的房间能塞进去
+    //             continue; 
+    //         }
+
+    //         // 执行换班
+    //         if (find_and_do_room(cand.page_index)) {
+    //             Log.info(" [PROCESSED] Room:", cand.room_name);
+    //             processed_indices.push_back(i);
+    //             used_capacity_prediction += cand.worker_num;
+    //         } else {
+    //             Log.error(" [FAILED] Room operation failed:", cand.room_name);
+    //             processed_indices.push_back(i); 
+    //         }
+
+    //         // 如果预测值已经把空位填满了，结束本轮 Batch
+    //         if (used_capacity_prediction == current_real_capacity) {
+    //             break;
+    //         }
+    //     }
+
+    //     // [跳出条件 B]：本轮如果没有处理任何房间（可能是因为所有房间都需要的人数 > 当前空位）
+    //     if (processed_indices.empty()) {
+    //         Log.info("InfrastIntelligentTask | Capacity remains but no suitable candidates fit. Stop.");
+    //         break;
+    //     }
+    //     std::vector<asst::infrast::InfrastRoomInfo> next_round_candidates;
+    //     for (int i = 0; i < candidates.size(); ++i) {
+    //         bool processed = false;
+    //         for (int idx : processed_indices) {
+    //             if (i == idx) { processed = true; break; }
+    //         }
+    //         if (!processed) {
+    //             next_round_candidates.push_back(candidates[i]);
+    //         }
+    //     }
+    //     candidates = next_round_candidates;
+    //     Log.info("InfrastIntelligentTask | Round finished. Remaining candidates:", candidates.size());
+
+    //     // 3) 点击进入宿舍界面 (Refresh Status)
+    //     if (!entrydorm_task.run()) return false;
+
+    // }
+    // Log.info("InfrastIntelligentTask | All done. Exiting intelligent task.");
+    // return true;
 }

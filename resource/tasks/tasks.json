@@ -3512,17 +3512,17 @@
     "InfrastOverviewSmileyRest": {
         "template": "InfrastOverviewSmileyRest.png",
         "maskRange": [1, 255],
-        "templThreshold": 0.88
+        "templThreshold": 0.6
     },
     "InfrastOverviewSmileyWork": {
         "template": "InfrastOverviewSmileyWork.png",
         "maskRange": [1, 255],
-        "templThreshold": 0.88
+        "templThreshold": 0.6
     },
     "InfrastOverviewSmileyDistract": {
         "template": "InfrastOverviewSmileyDistract.png",
         "maskRange": [1, 255],
-        "templThreshold": 0.88
+        "templThreshold": 0.6
     },
     "InfrastOverviewSwipeDown": {
         "algorithm": "JustReturn",

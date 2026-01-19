@@ -170,24 +170,36 @@ double asst::InfrastIntelligentWorkspaceAnalyzer::identify_smiley_and_mood(const
         { infrast::SmileyType::Distract, "InfrastOverviewSmileyDistract" }
     };
 
+    double max_score = -1.0;
+    std::optional<infrast::SmileyType> best_type = std::nullopt;
+    Rect best_rect;
+
     for (const auto& [type, smiley_task_name] : smiley_tasks) {
         Matcher smiley_matcher(m_image);
         const auto& s_task_ptr = Task.get<MatchTaskInfo>(smiley_task_name);
         if (!s_task_ptr) continue;
-
         smiley_matcher.set_task_info(s_task_ptr);
         smiley_matcher.set_roi(slot_roi);
-
         if (smiley_matcher.analyze()) {
             const auto& res = smiley_matcher.get_result();
-#ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw, make_rect<cv::Rect>(res.rect), cv::Scalar(0, 0, 255), 1);
-#endif
-            switch (type) {
-                case infrast::SmileyType::Distract: return 0.0;
-                case infrast::SmileyType::Rest:     return 1.0;
-                case infrast::SmileyType::Work:     return calculate_mood_ratio(res.rect);
+            if (res.score > max_score) {
+                max_score = res.score;
+                best_type = type;
+                best_rect = res.rect;
             }
+        }
+    }
+
+    if (best_type.has_value()) {
+#ifdef ASST_DEBUG
+        // 只绘制最终选定的那个最佳框
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(best_rect), cv::Scalar(0, 0, 255), 1);
+        Log.debug("Best smiley match:", int(best_type.value()), "score:", max_score);
+#endif
+        switch (best_type.value()) {
+            case infrast::SmileyType::Distract: return 0.0;
+            case infrast::SmileyType::Rest:     return 1.0;
+            case infrast::SmileyType::Work:     return calculate_mood_ratio(best_rect);
         }
     }
     return -1.0;

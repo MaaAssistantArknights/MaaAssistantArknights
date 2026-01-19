@@ -83,8 +83,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
         if (mode == Mode::Rotation) {
             m_subtasks.emplace_back(m_queue_rotation_task);
-        }
-        if (mode == Mode::Intelligent) {
+        }if (mode == Mode::Intelligent) {
             m_subtasks.emplace_back(m_intelligent_task_ptr);
         }
 
@@ -109,31 +108,32 @@ bool asst::InfrastTask::set_params(const json::value& params)
             }
 
             if (mode == Mode::Intelligent) {
-                m_intelligent_task_ptr->set_facility_allow(facility);
-                std::string drones = params.get("drones", "_NotUse");
-                bool replenish_enable = params.get("replenish", false);
-                bool continue_training_enable = params.get("continue_training", false);
-                if (facility == "Dorm" || facility == "Power" || facility == "Office" || facility == "Control" || facility == "Processing") {
-                    Log.info("skip facility in intelligent mode (Processing):", facility);
-                    continue;
-                }
-                if (facility == "Mfg") {
-                    if (mfg_drone_modes.find(drones) == mfg_drone_modes.end() || !replenish_enable) {
-                        Log.info("skip Mfg (Drone mode mismatch or disabled):", drones);
-                        continue;
-                    }
-                }
-                if (facility == "Trade") {
-                    if (trade_drone_modes.find(drones) == trade_drone_modes.end()) {
-                         Log.info("skip Trade (Drone mode mismatch or disabled):", drones);
-                        continue;
-                    }
-                }
-                if (facility == "Training" && !continue_training_enable) {
-                    m_intelligent_task_ptr->set_continue_training();
-                    Log.info("skip facility in intelligent mode (No Training):", facility);
-                    continue;
-                }
+                continue;
+                // m_intelligent_task_ptr->set_facility_allow(facility);
+                // std::string drones = params.get("drones", "_NotUse");
+                // bool replenish_enable = params.get("replenish", false);
+                // bool continue_training_enable = params.get("continue_training", false);
+                // if (facility == "Dorm" || facility == "Power" || facility == "Office" || facility == "Control" || facility == "Processing") {
+                //     Log.info("skip facility in intelligent mode (Processing):", facility);
+                //     continue;
+                // }
+                // if (facility == "Mfg") {
+                //     if (mfg_drone_modes.find(drones) == mfg_drone_modes.end() || !replenish_enable) {
+                //         Log.info("skip Mfg (Drone mode mismatch or disabled):", drones);
+                //         continue;
+                //     }
+                // }
+                // if (facility == "Trade") {
+                //     if (trade_drone_modes.find(drones) == trade_drone_modes.end()) {
+                //          Log.info("skip Trade (Drone mode mismatch or disabled):", drones);
+                //         continue;
+                //     }
+                // }
+                // if (facility == "Training" && !continue_training_enable) {
+                //     m_intelligent_task_ptr->set_continue_training();
+                //     Log.info("skip facility in intelligent mode (No Training):", facility);
+                //     continue;
+                // }
             }
 
             if (facility == "Dorm") {
