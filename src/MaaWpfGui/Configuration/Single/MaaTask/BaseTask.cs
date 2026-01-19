@@ -41,7 +41,7 @@ public class BaseTask : INotifyPropertyChanged
 
     public string Name { get; set; } = string.Empty;
 
-    public bool? IsEnable { get; set; } = false;
+    public bool? IsEnable { get; set; } = true;
 
     /// <summary>
     /// Gets 任务类型，用于添加任务时使用
