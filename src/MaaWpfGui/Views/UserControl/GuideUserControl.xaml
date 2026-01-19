@@ -312,8 +312,9 @@
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl
+                            Width="500"
                             Height="270"
-                            d:Visibility="Collapsed"
+                            d:Visibility="Visible"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 3'}">
                             <hc:RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -349,10 +350,25 @@
                                                 BorderThickness="0"
                                                 Foreground="{DynamicResource SecondaryTextBrush}"
                                                 Style="{DynamicResource RadioGroupItemSingle}"
-                                                ToolTip="{DynamicResource TaskSettings}" />
+                                                ToolTip="{DynamicResource TaskSettings}">
+                                                <RadioButton.ContextMenu>
+                                                    <ContextMenu Width="150">
+                                                        <MenuItem Header="{DynamicResource Rename}" />
+                                                        <MenuItem Header="{DynamicResource Delete}" />
+                                                    </ContextMenu>
+                                                </RadioButton.ContextMenu>
+                                            </RadioButton>
                                         </hc:ButtonGroup>
                                     </StackPanel>
                                 </Border>
+                                <TextBlock
+                                    Name="RightClickRenameDelete"
+                                    Margin="-22,10"
+                                    HorizontalAlignment="Left"
+                                    hc:RelativePanel.Above="{Binding ElementName=Task}"
+                                    hc:RelativePanel.RightOf="{Binding ElementName=Task}"
+                                    FontSize="14"
+                                    Text="{DynamicResource RightClickRenameDelete}" />
                                 <TextBlock
                                     Name="TaskGuide"
                                     Margin="10"
@@ -557,7 +573,10 @@
                             </hc:UniformSpacingPanel>
                         </hc:TransitioningContentControl>
 
-                        <hc:TransitioningContentControl TransitionMode="{Binding GuideTransitionMode}" Visibility="{c:Binding 'GuideStepIndex == 6'}">
+                        <hc:TransitioningContentControl
+                            d:Visibility="Collapsed"
+                            TransitionMode="{Binding GuideTransitionMode}"
+                            Visibility="{c:Binding 'GuideStepIndex == 6'}">
                             <ScrollViewer MaxHeight="400" VerticalScrollBarVisibility="Auto">
                                 <hc:UniformSpacingPanel
                                     MaxWidth="550"
