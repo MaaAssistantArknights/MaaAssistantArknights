@@ -608,7 +608,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         }
         else if (infrast.PlanSelect != -1 && infrast.InfrastPlan.Count <= infrast.PlanSelect)
         {
-            throw new InvalidOperationException("CustomInfrastPlanSelect is out of range");
+            throw new InvalidOperationException(LocalizationHelper.GetString("CustomInfrastPlanSelectOutOfIndex"));
         }
         else if (infrast.PlanSelect >= 0)
         {

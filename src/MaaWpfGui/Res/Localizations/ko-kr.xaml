@@ -163,6 +163,7 @@
     <system:String x:Key="CustomInfrastTimeSchedule">로테이션 시간 ({0})</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">기반시설 구성 인식 실패!</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">{Key=InfrastModeCustom} 설정 중 일부 계획에만 시간대가 설정되어 있어, 예기치 않은 동작이 발생할 수 있습니다. 교대 시간대를 설정하려면 모든 계획에 시간대를 설정하거나, 그렇지 않으면 모두 비워 두세요.</system:String>
+    <system:String x:Key="CustomInfrastPlanSelectOutOfIndex">사용자 지정 인프라 구성 선택 항목이 인덱스를 초과했습니다.</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">기반시설 구성: </system:String>
     <system:String x:Key="CustomInfrastPlan">기반시설 계획</system:String>
     <system:String x:Key="CustomInfrastPlanToolTip">

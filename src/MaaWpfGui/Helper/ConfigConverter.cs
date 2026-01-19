@@ -50,16 +50,40 @@ public class ConfigConverter
         }
 
         var root = ParseJsonFile(ConfigurationNewFile);
+
         bool ret = true;
-        var needConvert = root?["Configurations"] is not JObject jObj || jObj.Count == 0 // 有神秘小配置Config里没东西
-            || jObj["Default"]?["TaskQueueOrder"] is not null; // 常规撤
+        JObject? configurations = null;
+        JObject? oldConfigurations = null;
+
+        if (root?["Configurations"] is JObject jObj && parsedOld["Configurations"] is JObject oldObj)
+        {
+            configurations = jObj;
+            oldConfigurations = oldObj;
+
+            // 删除多余配置
+            var extraKeys = configurations.Properties()
+                .Select(p => p.Name)
+                .Except(oldConfigurations.Properties().Select(p => p.Name))
+                .ToList();
+
+            foreach (var key in extraKeys)
+            {
+                ConfigFactory.DeleteConfiguration(key);
+                configurations.Remove(key);
+            }
+        }
+
+        bool needConvert = configurations == null || configurations.Count == 0
+            || configurations["Default"]?["TaskQueueOrder"] is not null;
+
         if (needConvert)
         {
             ret &= ConvertTaskQueue();
         }
-        else
-        { // for 6.3.0-beta 出错用户
-            bool needConvert2 = root?["Configurations"] is JObject configurations && configurations.Properties()
+        else if (configurations != null) // 保证 configurations 可用
+        {
+            // 6.3.0-beta 出错用户，检查 TaskQueue
+            bool needConvert2 = configurations.Properties()
                 .Where(p => p.Value is JObject config && config.ContainsKey("TaskQueue"))
                 .Any(p => {
                     var taskQueue = ((JObject)p.Value)["TaskQueue"];
@@ -71,6 +95,7 @@ public class ConfigConverter
                 ret &= ConvertTaskQueue();
             }
         }
+
         return ret;
     }
 
@@ -90,6 +115,10 @@ public class ConfigConverter
             ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled, ConfigurationKeys.CustomInfrastPlanShowInFightSettings,
         ];
 
+        foreach (var name in ConfigFactory.ConfigList.ToList())
+        {
+            ConfigFactory.DeleteConfiguration(name);
+        }
         var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
         {
@@ -99,13 +128,13 @@ public class ConfigConverter
             }
             else if (ConfigFactory.AddConfiguration(configName) is false)
             {
-                Log.Error("配置迁移失败，无法添加配置: {ConfigName}", configName);
+                _logger.Error("配置迁移失败，无法添加配置: {ConfigName}", configName);
                 throw new Exception($"配置迁移失败，无法添加配置{configName}");
             }
 
             if (!ConfigFactory.SwitchConfig(configName))
             {
-                Log.Error("配置迁移失败，无法切换到配置: {ConfigName}", configName);
+                _logger.Error("配置迁移失败，无法切换到配置: {ConfigName}", configName);
                 throw new Exception($"配置迁移失败，无法切换到配置{configName}");
             }
 
@@ -250,6 +279,7 @@ public class ConfigConverter
                 catch
                 {
                 }
+                infrastTask.PlanSelect = Math.Clamp(infrastTask.PlanSelect, -1, infrastTask.InfrastPlan.Count - 1);
 
                 infrastTask.RoomList = [];
                 var roomTypes = Enum.GetNames<InfrastRoomType>();
@@ -272,7 +302,7 @@ public class ConfigConverter
                     }
                     else
                     {
-                        Log.Error("Enum.TryParse<InfrastRoomType> 失败，room: {Room}", room);
+                        _logger.Error("Enum.TryParse<InfrastRoomType> 失败，room: {Room}", room);
                     }
                 }
 
@@ -522,7 +552,7 @@ public class ConfigConverter
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Failed to deserialize json file: {FilePath}", filePath);
+            _logger.Error(ex, "Failed to deserialize json file: {FilePath}", filePath);
         }
 
         return null;
