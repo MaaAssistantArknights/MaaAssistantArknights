@@ -1415,6 +1415,7 @@
     "AnnihilationConfirm": {
         "action": "ClickSelf",
         "roi": [992, 584, 288, 136],
+        "onErrorNext": ["Stop"],
         "next": ["EndOfActionAnnihilation", "EndOfAction"]
     },
     "StageSNFlag": {
