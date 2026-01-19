@@ -208,7 +208,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                     if (file.LastWriteTime >= time.AddMinutes(-10) && file.LastWriteTime <= time.AddMinutes(10))
                     {
                         _logger.Information("Found crash dump file: {CrashDumpFile}", file.FullName);
-                        File.Copy(file.FullName, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug", file.Name), true);
+                        File.Copy(file.FullName, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug/dumps", file.Name), true);
                     }
                 }
                 _logger.Information("Crash dumps are stored in {CrashDumpsDir}", "%LocalAppdata%/CrashDumps");
