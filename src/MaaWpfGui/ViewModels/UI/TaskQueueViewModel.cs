@@ -1701,21 +1701,29 @@ public class TaskQueueViewModel : Screen
                 continue;
             }
 
-            switch (SerializeTask(item))
+            try
             {
-                case true:
-                    ++count;
-                    Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId = Instances.AsstProxy.TasksStatus.Last().Key;
-                    break;
-                case false:
-                    taskRet = false;
-                    AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Error);
-                    Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = (int)Main.TaskStatus.Error;
-                    break;
-                case null:
-                    AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Info);
-                    Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;
-                    break;
+                switch (SerializeTask(item))
+                {
+                    case true:
+                        ++count;
+                        Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId = Instances.AsstProxy.TasksStatus.Last().Key;
+                        break;
+                    case false:
+                        taskRet = false;
+                        AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Error);
+                        Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = (int)Main.TaskStatus.Error;
+                        break;
+                    case null:
+                        AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Info);
+                        Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                taskRet = false;
+                AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name) + "\n" + ex.Message, UiLogColor.Error);
             }
         }
 
@@ -2075,15 +2083,7 @@ public class TaskQueueViewModel : Screen
         bool? ret = null;
         foreach (var instance in _taskViewModelTypes)
         {
-            try
-            {
-                ret ??= instance.SerializeTask(task, taskId);
-            }
-            catch (Exception ex)
-            {
-                Instances.TaskQueueViewModel.AddLog($"SerializeTask failed for {task.TaskType} - {task.Name}: {ex.Message}", UiLogColor.Error);
-                return false;
-            }
+            ret ??= instance.SerializeTask(task, taskId);
         }
         return ret;
     }
