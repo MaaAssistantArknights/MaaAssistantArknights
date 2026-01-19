@@ -23,6 +23,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -218,7 +219,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
 
         var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
         var fightStageEmpty = false;
-        if (index > -1 && ConfigFactory.CurrentConfig.TaskQueue.Take(index).LastOrDefault(i => i.IsEnable is not false) is FightTask fight)
+        if (index > -1 && ConfigFactory.CurrentConfig.TaskQueue.Take(index).LastOrDefault(i => i.IsEnable != false && (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable == true)) is FightTask fight)
         {
             fightStageEmpty = FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == string.Empty;
         }

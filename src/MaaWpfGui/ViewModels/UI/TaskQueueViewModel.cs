@@ -1254,7 +1254,7 @@ public class TaskQueueViewModel : Screen
         {
             task.Name = TaskTypeList.FirstOrDefault(t => t.Value == taskName)?.Display ?? taskName.Name;
             ConfigFactory.CurrentConfig.TaskQueue.Add(task);
-            TaskItemViewModels.Add(new TaskItemViewModel(task.Name, task.IsEnable));
+            TaskItemViewModels.Add(new TaskItemViewModel(task.Name));
         }
         else
         {
@@ -1445,10 +1445,7 @@ public class TaskQueueViewModel : Screen
     {
         foreach (var item in TaskItemViewModels)
         {
-            if (item.IsEnable == null)
-            {
-                item.IsEnable = GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction;
-            }
+            item.IsEnable ??= GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction;
         }
     }
 
@@ -1693,7 +1690,7 @@ public class TaskQueueViewModel : Screen
         int count = 0;
         foreach (var (index, item) in ConfigFactory.CurrentConfig.TaskQueue.Select((task, i) => (i, task)))
         {
-            if (item.IsEnable == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsEnable == null))
+            if (item.IsEnable == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsEnable != true))
             {
                 Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;
                 continue;
