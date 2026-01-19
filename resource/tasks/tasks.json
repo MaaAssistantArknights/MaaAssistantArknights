@@ -1277,7 +1277,8 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "roi": [900, 70, 380, 400],
-        "maskRange": [1, 255]
+        "maskRange": [1, 255],
+        "onErrorNext": ["Stop"]
     },
     "StageBegin": {
         "algorithm": "JustReturn",
