@@ -1229,8 +1229,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UseAttachWindowTip">エミュレータや携帯電話への ADB 接続ではなく、アークナイツ PC クライアントに Win32 ウィンドウバインディングを使用します</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 接続（実験的機能・動作の安定性は保証されません）
 MAA Team の開発リソースが限られているため、PC 対応は専任のメンテナンスがなく、機能の不具合や動作の不安定が生じる可能性があります：
-● PC モードが正常に動作しない場合は、ADB モードで Android エミュレータまたはモバイルデバイスへの接続をご検討ください
 ● 問題が発生した場合、迅速な対応や修正が難しい場合があります
+● 正常に動作しない場合は、ADB モードで Android エミュレータまたはモバイルデバイスへの接続をご検討ください
 ● PC 対応の改善にご協力いただける開発者の Pull Request を心より歓迎いたします
 
 使用前にご確認ください：
