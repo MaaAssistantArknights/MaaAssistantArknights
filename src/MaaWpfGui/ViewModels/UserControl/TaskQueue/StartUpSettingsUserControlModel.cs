@@ -102,7 +102,7 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel
 
         var task = new AsstStartUpTask() {
             ClientType = clientType,
-            StartGame = !string.IsNullOrEmpty(clientType),
+            StartGame = SettingsViewModel.GameSettings.StartGame,
             AccountName = accountName,
         };
 
