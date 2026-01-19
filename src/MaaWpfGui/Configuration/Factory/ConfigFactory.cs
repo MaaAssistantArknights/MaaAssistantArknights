@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -26,6 +27,7 @@ using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
+using Newtonsoft.Json.Linq;
 using ObservableCollections;
 using Serilog;
 using static MaaWpfGui.Helper.PathsHelper;
@@ -165,6 +167,16 @@ public static class ConfigFactory
                 _logger.Warning("{File} save failed", _configBakFile);
             }
 
+            if (ParseJsonFile(ConfigurationHelper.ConfigFile) is JObject oldConfigJson && oldConfigJson["Configurations"] is JObject configurationsObj)
+            {
+                var configNames = configurationsObj.Properties().Select(i => i.Name);
+                foreach (var name in parsed.Configurations.Select(i => i.Key).Except(configNames))
+                {
+                    parsed.Configurations.Remove(name);
+                    _logger.Information("Configuration {ConfigName} does not exist in old configuration, remove it", name);
+                }
+            }
+
             return parsed;
 
             void SpecificConfigBind(string name, SpecificConfig config)
@@ -205,6 +217,27 @@ public static class ConfigFactory
                 {
                     task.PropertyChanged += OnPropertyChangedFactory($"{key}.{task.Name}.");
                 }
+            }
+
+            JObject? ParseJsonFile(string filePath)
+            {
+                if (File.Exists(filePath) is false)
+                {
+                    return null;
+                }
+
+                var str = File.ReadAllText(filePath);
+                try
+                {
+                    var obj = (JObject?)Newtonsoft.Json.JsonConvert.DeserializeObject(str);
+                    return obj ?? throw new Exception("Failed to parse json file");
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to deserialize json file: {FilePath}", filePath);
+                }
+
+                return null;
             }
         }
     });
