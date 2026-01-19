@@ -57,9 +57,23 @@ public class ConfigConverter
         {
             ret &= ConvertTaskQueue();
         }
-        else
-        { // for 6.3.0-beta 出错用户
-            bool needConvert2 = root?["Configurations"] is JObject configurations && configurations.Properties()
+        else if (root?["Configurations"] is JObject configurations && parsedOld["Configurations"] is JObject oldConfigurations)
+        {
+            // for 6.3.0-beta 出错用户
+            // 检查 root 中是否存在 parsedOld 没有的配置，多余的先删除
+            var extraKeys = configurations.Properties()
+                .Select(p => p.Name)
+                .Except(oldConfigurations.Properties().Select(p => p.Name))
+                .ToList();
+
+            foreach (var key in extraKeys)
+            {
+                ConfigFactory.DeleteConfiguration(key);
+                configurations.Remove(key);
+            }
+
+            // 删除多余配置后，检查是否仍然需要转换 TaskQueue
+            bool needConvert2 = configurations.Properties()
                 .Where(p => p.Value is JObject config && config.ContainsKey("TaskQueue"))
                 .Any(p => {
                     var taskQueue = ((JObject)p.Value)["TaskQueue"];
