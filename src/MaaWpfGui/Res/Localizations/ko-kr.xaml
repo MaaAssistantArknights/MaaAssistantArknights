@@ -402,6 +402,7 @@
     <system:String x:Key="TimerCustomConfigTip">2분 전에 재시작해 설정을 전환합니다</system:String>
     <system:String x:Key="Timer">타이머</system:String>
     <system:String x:Key="GlobalConfigTip">이 페이지는 전역(Global) 구성 설정입니다</system:String>
+    <system:String x:Key="MultiTasksShareTip">다음 옵션은 여러 작업에 적용됩니다</system:String>
     <system:String x:Key="SwitchConfiguration">구성 전환</system:String>
     <system:String x:Key="ConfigurationName">구성 이름</system:String>
     <system:String x:Key="AddConfiguration">추가</system:String>
