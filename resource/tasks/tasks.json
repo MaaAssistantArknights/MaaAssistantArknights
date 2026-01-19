@@ -3552,17 +3552,23 @@
         ],
         "postDelay": 500
     },
-    "InfrastEnterDorm": {
-        "template": "InfrastEnterTrim.png",
-        "roi": [1000, 0, 150, 100],
-        "action": "ClickSelf",
-        "postDelay": 500
-    },
     "InfrastEnterWorkspace": {
         "template": "InfrastEnterWorkspace.png",
         "roi": [840, 0, 150, 100],
         "action": "ClickSelf",
         "postDelay": 500
+    },
+    "InfrastEnterDorm": {
+        "template": "InfrastEnterTrim.png",
+        "roi": [1000, 0, 150, 100],
+        "action": "ClickSelf",
+        "next": ["InfrastDormRest", "InfrastEnterDorm"]
+    },
+    "InfrastDormRest": {
+        "template": "InfrastOperatorTrim.png",
+        "roi": [1020, 600, 150, 120],
+        "postDelay": 1000,
+        "action": "ClickSelf"
     },
     "InfrastOverviewDormAnchor": {
         "template": "InfrastOverviewDormIcon.png",
