@@ -1228,10 +1228,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AttachWindowFailed">AttachWindow 绑定窗口失败，请检查截图/输入方式配置</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 窗口绑定明日方舟 PC 端，而非 ADB 连接模拟器或手机</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">连接 PC 端（实验性功能，稳定性无法保证）
-MAA 不对 PC 端运行情况提供维护或适配支持：
-● 功能可正常使用的情况下，可自行选择继续使用
-● 若无法运行或存在问题，不受理 PC 端相关的 Issue
-● 欢迎社区自行适配并提交 Pull Request
+由于 MAA Team 开发人手有限，PC 端功能长期缺乏专人维护，可能存在功能异常或运行不稳定等问题：
+● 若 PC 端无法正常使用，建议切换至 ADB 模式连接 Android 模拟器或移动设备
+● 遇到问题时，我们可能无法及时响应或修复
+● 诚挚欢迎有开发能力的用户提交 Pull Request，共同完善 PC 端支持
 
 使用前请确认：
 1. 需要以管理员身份启动 MAA

@@ -1228,10 +1228,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowFailed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
     <system:String x:Key="UseAttachWindowTip">エミュレータや携帯電話への ADB 接続ではなく、アークナイツ PC クライアントに Win32 ウィンドウバインディングを使用します</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 接続（実験的機能・動作の安定性は保証されません）
-MAA は PC 環境での動作について、保守や互換対応を行いません：
-● 正常に動作する場合は、自己判断でご利用ください
-● 起動不可または問題が発生した場合、PC 関連の Issue は受け付けません
-● コミュニティによる対応および Pull Request は歓迎します
+MAA Team の開発リソースが限られているため、PC 対応は専任のメンテナンスがなく、機能の不具合や動作の不安定が生じる可能性があります：
+● PC モードが正常に動作しない場合は、ADB モードで Android エミュレータまたはモバイルデバイスへの接続をご検討ください
+● 問題が発生した場合、迅速な対応や修正が難しい場合があります
+● PC 対応の改善にご協力いただける開発者の Pull Request を心より歓迎いたします
 
 使用前にご確認ください：
 1. MAA を管理者権限で起動してください
