@@ -52,35 +52,30 @@ public class ConfigConverter
         var root = ParseJsonFile(ConfigurationNewFile);
 
         bool ret = true;
-        JObject? configurations = null;
-        JObject? oldConfigurations = null;
-
-        if (root?["Configurations"] is JObject jObj && parsedOld["Configurations"] is JObject oldObj)
-        {
-            configurations = jObj;
-            oldConfigurations = oldObj;
-
-            // 删除多余配置
-            var extraKeys = configurations.Properties()
-                .Select(p => p.Name)
-                .Except(oldConfigurations.Properties().Select(p => p.Name))
-                .ToList();
-
-            foreach (var key in extraKeys)
-            {
-                configurations.Remove(key);
-            }
-        }
+        JObject? configurations = root?["Configurations"] as JObject;
 
         bool needConvert = configurations == null || configurations.Count == 0
             || configurations["Default"]?["TaskQueueOrder"] is not null;
-
         if (needConvert)
         {
             ret &= ConvertTaskQueue();
         }
         else if (configurations != null) // 保证 configurations 可用
         {
+            if (parsedOld["Configurations"] is JObject oldConfigurations)
+            {
+                // 删除多余配置
+                var extraKeys = configurations.Properties()
+                    .Select(p => p.Name)
+                    .Except(oldConfigurations.Properties().Select(p => p.Name))
+                    .ToList();
+
+                foreach (var key in extraKeys)
+                {
+                    configurations.Remove(key);
+                }
+            }
+
             // 6.3.0-beta 出错用户，检查 TaskQueue
             bool needConvert2 = configurations.Properties()
                 .Where(p => p.Value is JObject config && config.ContainsKey("TaskQueue"))
