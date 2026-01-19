@@ -14,19 +14,16 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants.Enums;
-using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
-using Serilog;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -219,10 +216,12 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        var fightStageEmpty = ConfigFactory.CurrentConfig.TaskQueue
-            .OfType<FightTask>()
-            .Where(task => task.IsEnable is not false)
-            .Any(task => string.IsNullOrEmpty(FightSettingsUserControlModel.GetFightStage(task.StagePlan)));
+        var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
+        var fightStageEmpty = false;
+        if (index > -1 && ConfigFactory.CurrentConfig.TaskQueue.Take(index).LastOrDefault(i => i.IsEnable is not false) is FightTask fight)
+        {
+            fightStageEmpty = FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == string.Empty;
+        }
         var creditFight = mall.IsCreditFightAvailable;
         var visitFriends = mall.IsVisitFriendsAvailable;
 
