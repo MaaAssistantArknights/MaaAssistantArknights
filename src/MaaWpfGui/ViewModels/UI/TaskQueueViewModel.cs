@@ -1468,9 +1468,16 @@ public class TaskQueueViewModel : Screen
                         RefreshTaskModel(fight);
                     }
                     break;
+
+                case RecruitTask recruit:
+                    RecruitSettingsUserControlModel.ResetRecruitVariables(recruit);
+                    if (TaskSettingVisibilityInfo.CurrentTask == recruit)
+                    {
+                        RefreshTaskModel(recruit);
+                    }
+                    break;
             }
         }
-        RecruitSettingsUserControlModel.ResetRecruitVariables();
         ResetTaskSelection();
     }
 
