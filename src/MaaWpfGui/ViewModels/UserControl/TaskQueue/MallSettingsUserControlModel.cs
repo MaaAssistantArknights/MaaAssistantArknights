@@ -219,7 +219,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
 
         var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
         var fightStageEmpty = false;
-        if (index > -1 && ConfigFactory.CurrentConfig.TaskQueue.Take(index).LastOrDefault(i => i.IsEnable != false && (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable == true)) is FightTask fight)
+        if (index > -1 && ConfigFactory.CurrentConfig.TaskQueue.Skip(index + 1).FirstOrDefault(i => i.IsEnable != false && (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable == true)) is FightTask fight)
         {
             fightStageEmpty = FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == string.Empty;
         }
