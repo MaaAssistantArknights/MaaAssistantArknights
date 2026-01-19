@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading;
@@ -167,14 +168,24 @@ public static class ConfigFactory
                 _logger.Warning("{File} save failed", _configBakFile);
             }
 
-            if (ParseJsonFile(ConfigurationHelper.ConfigFile) is JObject oldConfigJson && oldConfigJson["Configurations"] is JObject configurationsObj)
+            if (ParseJsonFile(ConfigurationHelper.ConfigFile) is JsonObject oldConfigJson && oldConfigJson["Configurations"] is JsonObject configurationsObj)
             {
-                var configNames = configurationsObj.Properties().Select(i => i.Name);
+                if (oldConfigJson["Current"]?.GetValue<string>() is string oldCurrent && parsed.Current != oldCurrent)
+                {
+                    _logger.Warning("Current configuration in old configuration is {OldCurrent}, but in new configuration is {NewCurrent}, switching to old current", oldCurrent, parsed.Current);
+                    parsed.Current = oldCurrent;
+                }
+                var configNames = configurationsObj.Select(i => i.Key);
                 foreach (var name in parsed.Configurations.Select(i => i.Key).Except(configNames))
                 {
                     parsed.Configurations.Remove(name);
                     _logger.Information("Configuration {ConfigName} does not exist in old configuration, remove it", name);
                 }
+            }
+
+            if (parsed.Configurations.All(i => i.Key != parsed.Current))
+            {
+                parsed.Configurations.Add(parsed.Current, new SpecificConfig());
             }
 
             return parsed;
@@ -219,7 +230,7 @@ public static class ConfigFactory
                 }
             }
 
-            JObject? ParseJsonFile(string filePath)
+            JsonObject? ParseJsonFile(string filePath)
             {
                 if (File.Exists(filePath) is false)
                 {
@@ -229,7 +240,7 @@ public static class ConfigFactory
                 var str = File.ReadAllText(filePath);
                 try
                 {
-                    var obj = (JObject?)Newtonsoft.Json.JsonConvert.DeserializeObject(str);
+                    var obj = JsonSerializer.Deserialize<JsonObject>(str);
                     return obj ?? throw new Exception("Failed to parse json file");
                 }
                 catch (Exception ex)
