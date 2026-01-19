@@ -115,6 +115,10 @@ public class ConfigConverter
             ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled, ConfigurationKeys.CustomInfrastPlanShowInFightSettings,
         ];
 
+        foreach (var name in ConfigFactory.ConfigList.ToList())
+        {
+            ConfigFactory.DeleteConfiguration(name);
+        }
         var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
         {
@@ -530,14 +534,6 @@ public class ConfigConverter
             }
         }
 
-        var oldConfigList = ConfigurationHelper.GetConfigurationList();
-        foreach (var name in ConfigFactory.ConfigList.ToList())
-        {
-            if (!oldConfigList.Contains(name))
-            {
-                ConfigFactory.DeleteConfiguration(name);
-            }
-        }
         return true;
     }
 
