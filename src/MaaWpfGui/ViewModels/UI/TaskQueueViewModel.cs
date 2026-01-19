@@ -155,6 +155,11 @@ public class TaskQueueViewModel : Screen
                 {
                     TaskItemViewModels[i].Index = i;
                 }
+
+                if (TaskSettingVisibilities.CurrentIndex == oldIndex)
+                {
+                    TaskSettingVisibilities.CurrentIndex = newIndex;
+                }
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
