@@ -944,6 +944,18 @@ public class TaskQueueViewModel : Screen
             taskItem.EnableSetting = true;
         }
 
+        if (TaskItemViewModels.Count == 0)
+        {
+            AddTaskQueueTask(typeof(StartUpTask));
+            AddTaskQueueTask(typeof(FightTask));
+            AddTaskQueueTask(typeof(InfrastTask));
+            AddTaskQueueTask(typeof(RecruitTask));
+            AddTaskQueueTask(typeof(MallTask));
+            AddTaskQueueTask(typeof(AwardTask));
+            AddTaskQueueTask(typeof(RoguelikeTask));
+            AddTaskQueueTask(typeof(ReclamationTask));
+        }
+
         NeedToUpdateDatePrompt();
         UpdateDatePromptAndStagesLocally();
 
