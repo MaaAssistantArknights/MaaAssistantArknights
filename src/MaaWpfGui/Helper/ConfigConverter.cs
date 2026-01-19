@@ -530,10 +530,10 @@ public class ConfigConverter
             }
         }
 
-        var list = ConfigurationHelper.GetConfigurationList();
+        var oldConfigList = ConfigurationHelper.GetConfigurationList();
         foreach (var name in ConfigFactory.ConfigList.ToList())
         {
-            if (!list.Contains(name))
+            if (!oldConfigList.Contains(name))
             {
                 ConfigFactory.DeleteConfiguration(name);
             }
