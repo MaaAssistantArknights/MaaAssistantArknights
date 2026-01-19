@@ -1277,7 +1277,8 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "roi": [900, 70, 380, 400],
-        "maskRange": [1, 255]
+        "maskRange": [1, 255],
+        "onErrorNext": ["Stop"]
     },
     "StageBegin": {
         "algorithm": "JustReturn",
@@ -4000,6 +4001,10 @@
         "useRaw": false,
         "ocrReplace": [
             ["—{1,2}", "-"],
+            ["[Oo]", "0"],
+            ["[Ii]", "1"],
+            ["[Ll]", "1"],
+            ["\\|", "1"],
             ["^.+-EX-?\\d+.*$", "_INVALID_"],
             ["^.+-S-?\\d+.*$", "_INVALID_"],
             ["^.+-MO-?\\d+.*$", "_INVALID_"],
