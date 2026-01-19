@@ -554,7 +554,7 @@ public class SettingsViewModel : Screen
     [UsedImplicitly]
     public void DeleteConfiguration(CombinedData delete)
     {
-        if (ConfigurationHelper.DeleteConfiguration(delete.Display))
+        if (ConfigurationHelper.DeleteConfiguration(delete.Display) && ConfigFactory.DeleteConfiguration(delete.Display))
         {
             ConfigurationList.Remove(delete);
             if (ConfigurationList.Count <= 1)
