@@ -3512,17 +3512,17 @@
     "InfrastOverviewSmileyRest": {
         "template": "InfrastOverviewSmileyRest.png",
         "maskRange": [1, 255],
-        "templThreshold": 0.9
+        "templThreshold": 0.88
     },
     "InfrastOverviewSmileyWork": {
         "template": "InfrastOverviewSmileyWork.png",
         "maskRange": [1, 255],
-        "templThreshold": 0.9
+        "templThreshold": 0.88
     },
     "InfrastOverviewSmileyDistract": {
         "template": "InfrastOverviewSmileyDistract.png",
         "maskRange": [1, 255],
-        "templThreshold": 0.9
+        "templThreshold": 0.88
     },
     "InfrastOverviewSwipeDown": {
         "algorithm": "JustReturn",
@@ -3618,6 +3618,57 @@
         "doc": "宿舍锁定图标，ROI由C++覆写为Slot的ROI",
         "maskRange": [1, 255],
         "roi": [0, 0, 100, 100]
+    },
+    "InfrastOverviewProcessingClear": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [666, 580, 30, 30],
+        "postDelay": 500,
+        "next": ["InfrastOverviewClearClickRole"]
+    },
+
+    "InfrastOverviewTrainingClear": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [780, 380, 30, 30],
+        "postDelay": 500,
+        "next": ["InfrastOverviewTrainingClickRole1"] 
+    },
+
+    "InfrastOverviewTrainingClickRole1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [454, 184, 56, 75],
+        "postDelay": 500,
+        "next": ["InfrastOverviewTrainingEnsure1"]
+    },
+    "InfrastOverviewTrainingEnsure1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1141, 660, 76, 34],
+        "postDelay": 2000,
+        "next": ["InfrastOverviewTrainingSupportClear"]
+    },
+    "InfrastOverviewTrainingSupportClear": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [666, 380, 30, 30],
+        "postDelay": 500,
+        "next": ["InfrastOverviewClearClickRole"]
+    },
+    "InfrastOverviewClearClickRole": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [454, 184, 56, 75],
+        "postDelay": 500,
+        "next": ["InfrastOverviewClearEnsure"]
+    },
+    "InfrastOverviewClearEnsure": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1141, 660, 76, 34],
+        "postDelay": 2000,
+        "next": ["Stop"]
     },
     "BattleStageName": {
         "algorithm": "OcrDetect",

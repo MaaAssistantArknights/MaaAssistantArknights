@@ -58,6 +58,7 @@ protected:
     int process_dormitory_capacity();
     std::vector<infrast::InfrastRoomInfo> process_workspace_priority();
     bool find_and_do_room(int target_index);
+    bool find_and_do_special(int target_index);  
     std::vector<infrast::InfrastRoomInfo> m_room_infos;
     std::vector<infrast::InfrastDormInfo> m_dorm_infos;
 };

@@ -291,6 +291,42 @@ std::vector<asst::infrast::InfrastRoomInfo> asst::InfrastIntelligentTask::proces
     return candidates;
 }
 
+bool asst::InfrastIntelligentTask::find_and_do_special(int target_index){
+    std::string target_name = m_room_infos[target_index].room_name;
+    std::vector<std::string> prev_page_signatures;
+    int max_retries = 15;
+    while (max_retries-- > 0){
+        auto image = ctrler()->get_image();
+        InfrastIntelligentWorkspaceAnalyzer analyzer(image);
+        if (!analyzer.analyze()) {
+            Log.warn("InfrastIntelligentTask | Analyze failed during navigation.");
+            return false;
+        }
+        const auto& current_results = analyzer.get_result();
+        std::vector<std::string> current_page_signatures;
+        for (const auto& dorm : current_results) {
+            current_page_signatures.push_back(dorm.room_name);
+        }
+        Log.info("Current Page Signatures:", current_page_signatures, "Previous Page Signatures:", prev_page_signatures);
+        if (!current_page_signatures.empty() && current_page_signatures == prev_page_signatures) {
+            Log.info("InfrastIntelligentTask | Reached bottom of the list (Content unchanged).");
+            if(target_name.find("加工站") != std::string::npos){
+                Log.info("InfrastIntelligentTask | Target is a Processing Station. Initiating Processing Clear.");
+                ProcessTask(*this, { "InfrastOverviewProcessingClear" }).run();
+                return true;
+            }
+            else if(target_name.find("训练室") != std::string::npos){
+                Log.info("InfrastIntelligentTask | Target is a Training Room. Initiating Training Clear.");
+                ProcessTask(*this, { "InfrastOverviewTrainingClear" }).run();
+                return true;
+            }
+        }
+        swipe_overview_down();
+        prev_page_signatures = current_page_signatures;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+    return false;
+}
 bool asst::InfrastIntelligentTask::find_and_do_room(int target_index){
     if (target_index < 0 || target_index >= m_room_infos.size()) {
         Log.error("InfrastIntelligentTask | Invalid room index:", target_index);
@@ -298,6 +334,10 @@ bool asst::InfrastIntelligentTask::find_and_do_room(int target_index){
     }
     std::string target_name = m_room_infos[target_index].room_name;
     Log.info("InfrastIntelligentTask | Navigating to room [Index", target_index, "]:", target_name);
+    if(target_name.find("加工站") != std::string::npos || target_name.find("训练室") != std::string::npos){
+        Log.info("InfrastIntelligentTask | Target is a Processing Station. Special handling required.");
+        return find_and_do_special(target_index);
+    }
     std::vector<std::string> prev_page_signatures;
     int max_retries = 15;
     while (max_retries-- > 0) {
@@ -367,6 +407,7 @@ bool asst::InfrastIntelligentTask::find_and_do_room(int target_index){
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
+    
     return false;
 }
 bool asst::InfrastIntelligentTask::_run()
