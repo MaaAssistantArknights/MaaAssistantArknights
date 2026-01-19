@@ -51,7 +51,7 @@ public class ConfigConverter
 
         var root = ParseJsonFile(ConfigurationNewFile);
         bool ret = true;
-        if (root?["Configurations"]?["Default"]?["TaskQueueOrder"] is not null)
+        if (ConfigurationHelper.ContainsKey(ConfigurationKeys.Stage1))
         {
             ret &= ConvertTaskQueue();
         }
