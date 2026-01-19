@@ -33,9 +33,6 @@ protected:
     std::string m_difficulty_task;
     std::string m_stage_code;
     std::shared_ptr<ProcessTask> m_fight_task_ptr = nullptr;
-    std::array<std::string, 4> m_annihilation_tasks { "Annihilation",
-                                                      "Chernobog@Annihilation",
-                                                      "LungmenOutskirts@Annihilation",
-                                                      "LungmenDowntown@Annihilation" };
+    static constexpr std::string_view AnnihilationSuffix = "Annihilation";
 };
 }
