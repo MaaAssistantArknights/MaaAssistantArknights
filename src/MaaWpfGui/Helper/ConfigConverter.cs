@@ -275,6 +275,7 @@ public class ConfigConverter
                 catch
                 {
                 }
+                infrastTask.PlanSelect = Math.Clamp(infrastTask.PlanSelect, -1, infrastTask.InfrastPlan.Count - 1);
 
                 infrastTask.RoomList = [];
                 var roomTypes = Enum.GetNames<InfrastRoomType>();
