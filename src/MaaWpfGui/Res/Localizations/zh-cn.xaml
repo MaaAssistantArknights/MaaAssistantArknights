@@ -577,7 +577,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
     <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为 1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为 1920x1080</system:String>
-    <system:String x:Key="AllowUseStoneSave">允许源石恢复保存状态</system:String>
+    <system:String x:Key="AllowUseStoneSave">允许使用源石保存状态</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃 48 小时内过期的理智药</system:String>
