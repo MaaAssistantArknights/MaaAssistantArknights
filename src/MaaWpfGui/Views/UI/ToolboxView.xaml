@@ -235,48 +235,74 @@
                         Header="{c:Binding OperBoxNotHaveList.Count}"
                         HeaderStringFormat="{StaticResource OperBoxNotHaveList}"
                         Visibility="{c:Binding 'OperBoxNotHaveList.Count != 0'}">
-                        <controls:NoAutomationDataGrid
-                            Width="680"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Stretch"
-                            AutoGenerateColumns="False"
-                            HeadersVisibility="None"
-                            IsReadOnly="True"
-                            ItemsSource="{Binding OperBoxNotHaveList}"
-                            ScrollViewer.CanContentScroll="True"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                            VirtualizingPanel.ScrollUnit="Pixel">
-                            <DataGrid.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <vwp:VirtualizingWrapPanel HorizontalAlignment="Center" />
-                                </ItemsPanelTemplate>
-                            </DataGrid.ItemsPanel>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn MinWidth="130" Binding="{Binding Name}" />
-                            </DataGrid.Columns>
-                        </controls:NoAutomationDataGrid>
+                        <hc:ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl
+                                HorizontalAlignment="Center"
+                                ItemsSource="{Binding OperBoxNotHaveList}"
+                                ScrollViewer.CanContentScroll="True"
+                                VirtualizingPanel.IsVirtualizing="True"
+                                VirtualizingPanel.VirtualizationMode="Recycling">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="5" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Margin="5"
+                                            Padding="10,15"
+                                            Background="{DynamicResource RegionBrushOpacity50}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="4">
+                                            <controls:TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="13"
+                                                Text="{Binding Name}"
+                                                TextAlignment="Center"
+                                                TextWrapping="Wrap" />
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </hc:ScrollViewer>
                     </TabItem>
                     <TabItem Header="{c:Binding OperBoxHaveList.Count}" HeaderStringFormat="{StaticResource OperBoxHaveList}">
-                        <controls:NoAutomationDataGrid
-                            Width="680"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Stretch"
-                            AutoGenerateColumns="False"
-                            HeadersVisibility="None"
-                            IsReadOnly="True"
-                            ItemsSource="{Binding OperBoxHaveList}"
-                            ScrollViewer.CanContentScroll="True"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                            VirtualizingPanel.ScrollUnit="Pixel">
-                            <DataGrid.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <vwp:VirtualizingWrapPanel HorizontalAlignment="Center" />
-                                </ItemsPanelTemplate>
-                            </DataGrid.ItemsPanel>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn MinWidth="130" Binding="{Binding Name}" />
-                            </DataGrid.Columns>
-                        </controls:NoAutomationDataGrid>
+                        <hc:ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl
+                                HorizontalAlignment="Center"
+                                ItemsSource="{Binding OperBoxHaveList}"
+                                ScrollViewer.CanContentScroll="True"
+                                VirtualizingPanel.IsVirtualizing="True"
+                                VirtualizingPanel.VirtualizationMode="Recycling">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="5" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Margin="5"
+                                            Padding="10,15"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="4">
+                                            <controls:TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="13"
+                                                Text="{Binding Name}"
+                                                TextAlignment="Center"
+                                                TextWrapping="Wrap" />
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </hc:ScrollViewer>
                     </TabItem>
                 </TabControl>
                 <StackPanel
@@ -333,37 +359,54 @@
                         TextWrapping="Wrap"
                         Visibility="{c:Binding 'DepotInfo.Length > 0'}" />
                 </StackPanel>
-                <controls:NoAutomationDataGrid
+                <hc:ScrollViewer
                     Grid.Row="1"
-                    Width="680"
-                    HorizontalAlignment="Center"
-                    AutoGenerateColumns="False"
-                    HeadersVisibility="None"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding DepotResult}"
-                    ScrollViewer.CanContentScroll="True"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    VirtualizingPanel.ScrollUnit="Pixel">
-                    <DataGrid.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <vwp:VirtualizingWrapPanel HorizontalAlignment="Center" />
-                        </ItemsPanelTemplate>
-                    </DataGrid.ItemsPanel>
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image
-                                        Width="30"
-                                        Height="30"
-                                        Source="{Binding Image}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                        <DataGridTextColumn Binding="{Binding DisplayCount}" Header="Count" />
-                    </DataGrid.Columns>
-                </controls:NoAutomationDataGrid>
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+                    <ItemsControl
+                        HorizontalAlignment="Center"
+                        ItemsSource="{Binding DepotResult}"
+                        ScrollViewer.CanContentScroll="True"
+                        VirtualizingPanel.IsVirtualizing="True"
+                        VirtualizingPanel.VirtualizationMode="Recycling">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="5" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    MinWidth="125"
+                                    Margin="5"
+                                    Padding="2"
+                                    Background="{DynamicResource RegionBrushOpacity25}"
+                                    BorderBrush="{DynamicResource BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="4">
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                                        <Image
+                                            Width="50"
+                                            Height="50"
+                                            Source="{Binding Image}" />
+                                        <controls:TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontSize="12"
+                                            Text="{Binding Name}"
+                                            TextAlignment="Center"
+                                            TextWrapping="Wrap" />
+                                        <controls:TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding DisplayCount}"
+                                            TextAlignment="Center" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </hc:ScrollViewer>
                 <StackPanel
                     Grid.Row="2"
                     Margin="0,10,0,0"
