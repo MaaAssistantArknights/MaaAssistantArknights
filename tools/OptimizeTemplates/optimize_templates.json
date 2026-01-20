@@ -3705,5 +3705,14 @@
     "docs/zh-cn/pr-tutorial/pr-4-light": "d01f3d315ff230269d95d82358403112b8cc0cccf290685461a20e0663407ffa",
     "resource/global/YoStarKR/resource/template/MiniGame/AT/MiniGame@AT@Confirm": "6a3ec476f9d54399409e03e2bc305d4e04ea498a4a6f07b6ca6ff2bd60679bf8",
     "resource/global/YoStarJP/resource/template/MiniGame/AT/MiniGame@AT@Confirm": "2c0a27a67f43004eb3ecdc302e4142cd5e39309dff5ef598ece417db38ec447c",
-    "resource/global/YoStarEN/resource/template/MiniGame/AT/MiniGame@AT@Confirm": "78c062f02bca14683fcbc398e47e024059a598cce43adce53c01521c5add1f2b"
+    "resource/global/YoStarEN/resource/template/MiniGame/AT/MiniGame@AT@Confirm": "78c062f02bca14683fcbc398e47e024059a598cce43adce53c01521c5add1f2b",
+    "docs/zh-tw/combat-start-interface-example": "0a1c3ce38f2b57342d3580be2d82f15557af7ce5e9cca9b3ff801098cf1bd402",
+    "docs/zh-tw/readme/2-dark": "b42c098b9f2702e32d11b0db4ae205ea923319b0182530d9f955ff63b051f234",
+    "docs/zh-tw/readme/1-dark": "ef6b28f376512dd0a8da6f822629ceec2211d1fb093d342073d4eac378d4266c",
+    "docs/zh-tw/readme/3-light": "a8978e3959722460f7acaf7ee6871031923b8db12d956b25ae72e5f5de2535c6",
+    "docs/zh-tw/readme/2-light": "4a46ab91c7a0fffd7385fe8563b5f8ca771309c6c98ffa2dd77ea7daac11a496",
+    "docs/zh-tw/readme/1-light": "4642e8c7fe1a42b4fc8bad78dd320084a08f21554995fa8213e5ae92a652ab98",
+    "docs/zh-tw/readme/4-dark": "a11c02a80abda01e1e98ad3a1b60f03405e23a10b18ecbc0e6db5fb14c9038a2",
+    "docs/zh-tw/readme/3-dark": "ba61f096b03f2cdbed04731afe2e1079ccff1e616ef61f8fa279dd71d6eda348",
+    "docs/zh-tw/readme/4-light": "6a6edd3f301c94fd00df1846e76d45ca9465d4173ce3d83e690dc42a1901a832"
 }
