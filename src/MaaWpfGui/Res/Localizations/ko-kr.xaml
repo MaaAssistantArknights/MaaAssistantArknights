@@ -533,7 +533,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1 스테이지에서 지원유닛을 사용, 클리어하여 30 크레딧을 획득합니다.
 현재 스테이지가 ｢{key=DefaultStage}｣으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
 OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</system:String>
-    <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Mall}｣ 작업 완료 후, 처음 활성화되는 ｢{key=Fight}｣ 작업은 ｢{key=DefaultStage}｣을 선택하고, OF-1에서 지원 유닛을 사용한 전투를 건너뜁니다.</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ 임무의 스테이지 목록에 ｢{key=DefaultStage}｣가 존재하여, ｢{key=Mall}｣ 임무는 OF-1에서 지원 유닛과의 전투를 건너뜁니다.</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (｢;｣ 로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (｢;｣ 로 구분)</system:String>
     <system:String x:Key="HighPriorityDefault">모집 허가증</system:String>

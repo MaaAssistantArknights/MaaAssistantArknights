@@ -220,10 +220,14 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
 
         var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
         var fightStageEmpty = false;
-        if (index > -1 && ConfigFactory.CurrentConfig.TaskQueue.Skip(index + 1).FirstOrDefault(i => i.IsEnable is true || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable is null)) is FightTask fight)
+        if (index > -1)
         {
-            fightStageEmpty = FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == string.Empty;
+            var tasks = ConfigFactory.CurrentConfig.TaskQueue;
+            fightStageEmpty = tasks
+                .OfType<FightTask>()
+                .Any(t => t.StagePlan.Any(s => string.IsNullOrWhiteSpace(s)));
         }
+
         if (mall.IsCreditFightAvailable && fightStageEmpty)
         {
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CreditFightWhenOF-1Warning"), UiLogColor.Warning);

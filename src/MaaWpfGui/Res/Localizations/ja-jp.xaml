@@ -533,7 +533,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30FP獲得できます。
 この機能は、ステージを「{key=DefaultStage}」に選択している場合は無効です。
 ステージOF-1がアンロックされていない場合は、チェックしないでください。</system:String>
-    <system:String x:Key="CreditFightWhenOF-1Warning">「{key=Mall}」タスクの後、最初に有効になった「{key=Fight}」タスクは「{key=DefaultStage}」を選択し、OF-1での戦友サポート借用の戦闘をスキップします。</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">「{key=Fight}」タスクのステージリストに「{key=DefaultStage}」が存在するため、「{key=Mall}」タスクはOF-1での戦友サポート借用の戦闘をスキップします。</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="HighPriorityDefault">求人票</system:String>
