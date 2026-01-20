@@ -164,7 +164,7 @@ public class ConfigConverter
                 fightTask.UseMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, false);
                 fightTask.MedicineCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, 999);
                 fightTask.UseStone = ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, false);
-                fightTask.StoneCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 999);
+                fightTask.StoneCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 0);
                 fightTask.EnableTimesLimit = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, false);
                 fightTask.TimesLimit = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, 5);
                 fightTask.Series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 0);
@@ -495,7 +495,7 @@ public class ConfigConverter
                             fightTask.Name = LocalizationHelper.GetString(task.OldName, local);
                             fightTask2.Name = LocalizationHelper.GetString("RemainingSanityStage", local);
                             fightTask.IsEnable = task.IsEnable;
-                            fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true);
+                            fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true) && ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) != string.Empty;
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask);
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask2);
                             break;
