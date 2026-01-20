@@ -7,9 +7,9 @@ icon: icon-park-solid:other
 
 ## GPU 加速推論
 
-使用 DirectML 呼叫 GPU 進行辨識推論加速<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9236)</sup>，可透過少量的 GPU 佔用降低大量的 CPU 佔用，推薦啟用。
+使用 DirectML 呼叫 GPU 進行辨識推論加速 <sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9236)</sup>，可透過少量的 GPU 佔用降低大量的 CPU 佔用，推薦啟用。
 
-經測試，部分顯示卡因缺少功能或效能較低，在使用本功能時會出現辨識問題。MAA 已內建了部分 GPU 黑名單<sup>[PR1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)[PR2](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12134)</sup>，若列表外的顯示卡在啟用本功能後也出現辨識問題，請發 Issue。
+經測試，部分顯示卡因缺少功能或效能較低，在使用本功能時會出現辨識問題。MAA 已內建了部分 GPU 黑名單 <sup>[PR1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)[PR2](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12134)</sup>，若列表外的顯示卡在啟用本功能後也出現辨識問題，請發 Issue。
 
 ## 僅一次
 
@@ -25,9 +25,9 @@ MAA 支援透過啟動參數自動切換配置，在 MAA 程序名稱後附加 `
 
 部分符號需要轉義，參考 JSON。範例：在配置名稱為 `"官服"` 時，參數應為 `--config \"官服\"`。
 
-## 開始前 / 結束後指令碼
+## 開始前 / 結束後腳本
 
-v4.13.0 後支援設定開始前 / 結束後指令碼，可在任務前後自動執行批次檔。輸入框內需填寫批次檔即 `*.bat` 的絕對或相對路徑。
+v4.13.0 後支援設定開始前 / 結束後腳本，可在任務前後自動執行批次檔。輸入框內需填寫批次檔即 `*.bat` 的絕對或相對路徑。
 
 ## 配置遷移
 
