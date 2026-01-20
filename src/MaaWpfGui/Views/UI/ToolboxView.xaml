@@ -11,7 +11,6 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
     d:DataContext="{d:DesignInstance {x:Type ui_vms:ToolboxViewModel}}"
     d:DesignHeight="600"
     d:DesignWidth="800"

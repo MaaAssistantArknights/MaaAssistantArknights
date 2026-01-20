@@ -7,13 +7,6 @@
         <Setter Property="uiBehaviors:ClipboardInterceptor.EnableSafeClipboard" Value="True" />
     </Style>
 
-    <Style BasedOn="{StaticResource DataGridBaseStyle}" TargetType="{x:Type controls:NoAutomationDataGrid}">
-        <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
-        <Setter Property="CellStyle" Value="{DynamicResource TransparentDataGridCellStyle}" />
-        <Setter Property="RowStyle" Value="{DynamicResource TransparentDataGridRowStyle}" />
-        <Setter Property="uiBehaviors:ClipboardInterceptor.EnableSafeClipboard" Value="True" />
-    </Style>
-
     <Style
         x:Key="TransparentDataGridCellStyle"
         BasedOn="{StaticResource DataGridCellStyle}"
