@@ -501,6 +501,25 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private string _githubToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.GithubToken, string.Empty));
+
+    /// <summary>
+    /// Gets or sets the GitHub personal access token.
+    /// </summary>
+    public string GithubToken
+    {
+        get => _githubToken;
+        set {
+            if (!SetAndNotify(ref _githubToken, value))
+            {
+                return;
+            }
+
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.GithubToken, value);
+        }
+    }
+
     private bool _isCheckingForUpdates;
 
     /// <summary>

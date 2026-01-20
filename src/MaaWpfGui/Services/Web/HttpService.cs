@@ -92,6 +92,9 @@ public class HttpService : IHttpService
             
             var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, Version = HttpVersion.Version20, };
 
+            // Add GitHub token if the request is to GitHub
+            AddGithubTokenIfNeeded(request, extraHeader);
+
             if (extraHeader != null)
             {
                 foreach (var kvp in extraHeader)
@@ -160,6 +163,10 @@ public class HttpService : IHttpService
         uri = GithubUrlHelper.ReplaceGithubDomain(uri);
         
         var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20, };
+        
+        // Add GitHub token if the request is to GitHub
+        AddGithubTokenIfNeeded(request, extraHeader);
+        
         if (extraHeader != null)
         {
             foreach (var kvp in extraHeader)
@@ -209,6 +216,10 @@ public class HttpService : IHttpService
         uri = GithubUrlHelper.ReplaceGithubDomain(uri);
         
         var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20 };
+        
+        // Add GitHub token if the request is to GitHub
+        AddGithubTokenIfNeeded(message, extraHeader);
+        
         if (extraHeader is not null)
         {
             foreach (var header in extraHeader)
@@ -462,6 +473,35 @@ public class HttpService : IHttpService
     {
         var proxyIsUri = Uri.TryCreate(Proxy, UriKind.RelativeOrAbsolute, out var uri);
         return (proxyIsUri && (!string.IsNullOrEmpty(Proxy))) is false ? null : new WebProxy(uri);
+    }
+
+    private void AddGithubTokenIfNeeded(HttpRequestMessage request, Dictionary<string, string>? extraHeader)
+    {
+        if (request.RequestUri == null)
+        {
+            return;
+        }
+
+        // Check if this is a GitHub request
+        var host = request.RequestUri.Host.ToLower();
+        bool isGithubRequest = host.Contains("github.com") || host.Contains("githubusercontent.com");
+
+        // If extraHeader already contains Authorization, don't override
+        if (extraHeader?.ContainsKey("Authorization") == true)
+        {
+            return;
+        }
+
+        // If it's a GitHub request and user has configured a token, add it
+        if (isGithubRequest)
+        {
+            var token = SettingsViewModel.VersionUpdateSettings.GithubToken;
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                _logger.Information("Added GitHub token to request for {Host}", host);
+            }
+        }
     }
 
     private HttpClient BuildHttpClient()

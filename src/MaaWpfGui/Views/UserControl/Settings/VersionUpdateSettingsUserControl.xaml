@@ -239,6 +239,30 @@
                             hc:InfoElement.TitlePlacement="Left"
                             InputMethod.IsInputMethodEnabled="False"
                             Text="{Binding GithubApiDomain}" />
+                        
+                        <!--  GitHub Token Setting  -->
+                        <controls:TextBlock
+                            Margin="0,10,0,5"
+                            HorizontalAlignment="Center"
+                            FontWeight="Bold"
+                            Text="GitHub Token (Optional)" />
+                        <hc:PasswordBox
+                            Width="150"
+                            Margin="0,2"
+                            VerticalAlignment="Center"
+                            hc:InfoElement.Placeholder="ghp_xxxxxxxxxxxx"
+                            hc:InfoElement.Title="Token"
+                            hc:InfoElement.TitlePlacement="Left"
+                            IsSafeEnabled="False"
+                            ShowEyeButton="True"
+                            UnsafePassword="{Binding GithubToken}" />
+                        <controls:TextBlock
+                            MaxWidth="150"
+                            Margin="0,2,0,0"
+                            FontSize="9"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="To avoid rate limits"
+                            TextWrapping="Wrap" />
                     </StackPanel>
                     
                     <Grid Grid.Row="3">
