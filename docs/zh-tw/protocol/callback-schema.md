@@ -22,32 +22,32 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
   ```cpp
   enum class AsstMsg
-	{
-		/* Global Info */
-		InternalError     = 0,           // 內部錯誤
-		InitFailed        = 1,           // 初始化失敗
-		ConnectionInfo    = 2,           // 連線相關資訊
-		AllTasksCompleted = 3,           // 全部任務完成
-		AsyncCallInfo     = 4,           // 外部非同步調用資訊
-		Destroyed         = 5,           // 執行個體已銷毀
+  {
+   /* Global Info */
+   InternalError     = 0,           // 內部錯誤
+   InitFailed        = 1,           // 初始化失敗
+   ConnectionInfo    = 2,           // 連線相關資訊
+   AllTasksCompleted = 3,           // 全部任務完成
+   AsyncCallInfo     = 4,           // 外部非同步調用資訊
+   Destroyed         = 5,           // 執行個體已銷毀
 
-		/* TaskChain Info */
-		TaskChainError     = 10000,      // 任務鏈執行 / 辨識錯誤
-		TaskChainStart     = 10001,      // 任務鏈開始
-		TaskChainCompleted = 10002,      // 任務鏈完成
-		TaskChainExtraInfo = 10003,      // 任務鏈額外資訊
-		TaskChainStopped   = 10004,      // 任務鏈手動停止
+   /* TaskChain Info */
+   TaskChainError     = 10000,      // 任務鏈執行 / 辨識錯誤
+   TaskChainStart     = 10001,      // 任務鏈開始
+   TaskChainCompleted = 10002,      // 任務鏈完成
+   TaskChainExtraInfo = 10003,      // 任務鏈額外資訊
+   TaskChainStopped   = 10004,      // 任務鏈手動停止
 
-		/* SubTask Info */
-		SubTaskError      = 20000,       // 原子任務執行 / 辨識錯誤
-		SubTaskStart      = 20001,       // 原子任務開始
-		SubTaskCompleted  = 20002,       // 原子任務完成
-		SubTaskExtraInfo  = 20003,       // 原子任務額外資訊
-		SubTaskStopped    = 20004,       // 原子任務手動停止
+   /* SubTask Info */
+   SubTaskError      = 20000,       // 原子任務執行 / 辨識錯誤
+   SubTaskStart      = 20001,       // 原子任務開始
+   SubTaskCompleted  = 20002,       // 原子任務完成
+   SubTaskExtraInfo  = 20003,       // 原子任務額外資訊
+   SubTaskStopped    = 20004,       // 原子任務手動停止
 
-		/* Web Request */
-		ReportRequest     = 30000,       // 彙報請求
-	};
+   /* Web Request */
+   ReportRequest     = 30000,       // 彙報請求
+  };
   ```
 
 - `const char* details`  
@@ -305,7 +305,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `StageDreadfulFoe`  
    肉鴿關卡：險路惡敵
 - `StartGameTask`
-   打開客戶端失敗（設定檔與傳入 client_type 不匹配）
+  打開客戶端失敗（設定檔與傳入 client_type 不匹配）
 - Todo 其他
 
 ### SubTaskExtraInfo
