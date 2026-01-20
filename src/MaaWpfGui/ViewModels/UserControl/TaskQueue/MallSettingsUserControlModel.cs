@@ -226,6 +226,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             fightStageEmpty = tasks
                 .OfType<FightTask>()
                 .Where(i => i.IsEnable is true || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable is null))
+                .Where(i => !i.UseWeeklySchedule || !i.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) || isEnabled)
                 .Any(t => t.StagePlan.Any(s => string.IsNullOrWhiteSpace(s)));
         }
 
