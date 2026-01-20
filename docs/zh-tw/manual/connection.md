@@ -78,7 +78,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
   ```text
   List of devices attached
-  127.0.0.1:<連接埠>    device
+  127.0.0.1:<連接埠>   device
   emulator-<四位數字>  device
   ```
 
@@ -137,7 +137,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
    2. 初次使用請先執行一次 MAA 以產生設定檔。
    
-   3. **先關閉** MAA，**再**開啟 `gui.json`。找到 `Configurations` 下目前的設定名稱（可在 `設定-切換配置` 中查看，預設為 `Default`），搜尋 `Bluestacks.Config.Path` 並填入 `bluestacks.conf` 的完整路徑（斜線請使用轉義符 \\）。
+   3. **先關閉** MAA，**再**開啟 `gui.json`。找到 `Configurations` 下目前的設定名稱（可在 `設定-切換配置` 中查看，預設為 `Default`），搜尋 `Bluestacks.Config.Path` 並填入 `bluestacks.conf` 的完整路徑（斜線請使用轉義符 `\\`）。
 
    ::: details 範例
    以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 為例：
