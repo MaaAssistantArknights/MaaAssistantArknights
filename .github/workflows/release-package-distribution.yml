@@ -129,7 +129,7 @@ jobs:
   maa_cos:
     name: Upload to MAA COS
     needs: meta
-    if: ${{ github.event.inputs.maa_cos == 'true' }}
+    if: ${{ github.event.inputs.maa_cos == 'true' && !contains(needs.meta.outputs.RELEASE_TAG, '-') }}
     runs-on: windows-latest
     continue-on-error: true
     env:
