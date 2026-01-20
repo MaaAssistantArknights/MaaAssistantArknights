@@ -980,9 +980,9 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="CopilotSkill">技能</system:String>
     <system:String x:Key="CopilotModule">模組</system:String>
     <system:String x:Key="CopilotWithoutModule">不使用模組</system:String>
-    <system:String x:Key="TotalOperatorsCount">共 {0} 名 {key=Operator}</system:String>
+    <system:String x:Key="TotalOperatorsCount">共 {0} 名{key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">導能組件：</system:String>
-    <system:String x:Key="OtherOperators">其他 {key=Operator}：</system:String>
+    <system:String x:Key="OtherOperators">其他{key=Operator}：</system:String>
     <system:String x:Key="Warrior">近衛</system:String>
     <system:String x:Key="Pioneer">先鋒</system:String>
     <system:String x:Key="Medic">醫療</system:String>
@@ -1007,9 +1007,9 @@ C:\\leidian\\LDPlayer9\n
         1. 使用前請確認作業與所選擇的關卡類型一致。\n\n
         2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}：請在關卡介面右下角顯示 ｢開始行動｣ 按鈕的畫面啟動。\n\n
         3. {key=SSS}：resource/copilot 資料夾內建多份作業。請先手動編隊，在右下角顯示 ｢開始部署｣ 按鈕的介面啟動，可配合 ｢{key=LoopTimes}｣。\n\n
-        4. {key=ParadoxSimulation}：選好技能後，在技能選擇介面顯示 ｢開始模擬｣ 按鈕的畫面啟動；1/2 星 {key=Operator}（無技能）在右下角顯示 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從{key=Operator}列表的「等級/稀有度」標籤頁啟動。\n\n
+        4. {key=ParadoxSimulation}：選好技能後，在技能選擇介面顯示 ｢開始模擬｣ 按鈕的畫面啟動；1/2 星{key=Operator}（無技能）在右下角顯示 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從{key=Operator}列表的「等級/稀有度」標籤頁啟動。\n\n
         5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇{key=Operator}後，在編隊介面右下角顯示 ｢開始行動｣ 按鈕的畫面啟動。\n\n
-        6.{key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除特別關注，或在報錯後關閉 ｢{key=AutoSquad}｣，並依據提示手動補充缺少的 {key=Operator}。\n\n
+        6. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除特別關注，或在報錯後關閉 ｢{key=AutoSquad}｣，並依據提示手動補充缺少的 {key=Operator}。\n\n
         7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：\n
         ● 點選第 2 個按鈕 = 新增作業。\n
         ● 點選第 3 個按鈕 = 新增作業集。\n\n
@@ -1103,8 +1103,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="TheEx">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="MissingOperators">缺少以下{key=Operator}組的 {key=Operator}：</system:String>
-    <system:String x:Key="RecruitSupportOperator">編入助戰 {key=Operator}：{0}</system:String>
+    <system:String x:Key="MissingOperators">缺少以下{key=Operator}組的{key=Operator}：</system:String>
+    <system:String x:Key="RecruitSupportOperator">編入助戰{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">關卡佇列：</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
     <system:String x:Key="MissionStart">已開始行動</system:String>
@@ -1121,7 +1121,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="FightMissionFailedAndStop">代理失敗次數已達上限，任務已停止</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新標籤</system:String>
     <system:String x:Key="RecruitConfirm">已確認招募</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator} 衝突</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}衝突</system:String>
     <system:String x:Key="BegunToExplore">已開始探索</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">前方戰鬥數：{0}，重新規劃路線</system:String>
     <system:String x:Key="ExplorationAbandoned">已放棄本次探索</system:String>
@@ -1203,7 +1203,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationParseFailed">編隊解析失敗</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇{key=Operator}：</system:String>
-    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator} 不可用：{0}，原因：{1}</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用：{0}，原因：{1}</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">所需模組未解鎖</system:String>
     <system:String x:Key="CurrentSteps">目前步驟：{0} {1}</system:String>
@@ -1570,7 +1570,7 @@ C:\\leidian\\LDPlayer9\n
 
     <system:String x:Key="Achievement.Irreplaceable.Title">無可替代</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">或許我應該換一份作業？</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢{key=Copilot} - {key=AutoSquad}｣ 時，缺少至少兩名 {key=Operator}</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢{key=Copilot} - {key=AutoSquad}｣ 時，缺少至少兩名{key=Operator}</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">高 ping 戰士</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Description">「卡了」</system:String>
