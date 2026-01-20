@@ -197,6 +197,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             var localAppData = Environment.GetEnvironmentVariable("LocalAppData");
             if (localAppData is not null && Directory.Exists($"{localAppData}/CrashDumps"))
             {
+                var crashDumpsSource = Path.Combine(localAppData, "CrashDumps");
                 var dumpDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug", "dumps");
                 if (Directory.Exists(dumpDir))
                 {
@@ -205,15 +206,20 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 Directory.CreateDirectory(dumpDir);
 
                 var time = File.GetLastWriteTime(crashFile);
-                foreach (var file in new DirectoryInfo($"{localAppData}/CrashDumps").EnumerateFiles("MAA.exe.*.dmp"))
+                bool foundDump = false;
+                foreach (var file in new DirectoryInfo(crashDumpsSource).EnumerateFiles("MAA.exe.*.dmp"))
                 {
                     if (file.LastWriteTime >= time.AddMinutes(-10) && file.LastWriteTime <= time.AddMinutes(10))
                     {
                         _logger.Information("Found crash dump file: {CrashDumpFile}", file.FullName);
                         File.Copy(file.FullName, Path.Combine(dumpDir, file.Name), true);
+                        foundDump = true;
                     }
                 }
-                _logger.Information("Crash dumps are stored in {CrashDumpsDir}", $"{localAppData}/CrashDumps");
+                if (foundDump)
+                {
+                    _logger.Information("Crash dumps are copied to {DumpDir}", dumpDir);
+                }
             }
 
             string[] lines = File.ReadAllLines(crashFile, Encoding.UTF8);
