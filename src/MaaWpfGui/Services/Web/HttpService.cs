@@ -228,6 +228,18 @@ public class HttpService : IHttpService
         HttpResponseMessage response;
         try
         {
+            var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, Version = HttpVersion.Version20, };
+            request.Headers.Add("Accept", contentType ?? "application/octet-stream");
+            var headResponse = await _client.SendAsync(request);
+            
+            bool supportsRangeRequests = headResponse.Headers.AcceptRanges?.Contains("bytes") ?? false;
+            long? contentLength = headResponse.Content.Headers.ContentLength;
+
+            if (supportsRangeRequests && contentLength.HasValue && contentLength.Value > 10 * 1024 * 1024) // > 10MB
+            {
+                return await DownloadFileWithMultiThreadAsync(uri, fullFilePath, fullFilePathWithTemp, contentLength.Value, contentType);
+            }
+
             response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType ?? "application/octet-stream" } }, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -295,6 +307,143 @@ public class HttpService : IHttpService
         }
 
         return success;
+    }
+
+    private async Task<bool> DownloadFileWithMultiThreadAsync(Uri uri, string fullFilePath, string fullFilePathWithTemp, long fileSize, string? contentType)
+    {
+        _logger.Information("Using multi-threaded download for {Uri}, file size: {FileSize} bytes", uri, fileSize);
+
+        // 动态计算线程数：文件每10MB一个线程，最少2个，最多8个
+        int threadCount = Math.Max(2, Math.Min(8, (int)(fileSize / (10 * 1024 * 1024))));
+        long chunkSize = fileSize / threadCount;
+
+        _logger.Information("Download thread count: {ThreadCount}, chunk size: {ChunkSize} bytes", threadCount, chunkSize);
+
+        var tasks = new List<Task<(bool success, long bytesDownloaded)>>();
+        var chunkFiles = new List<string>();
+
+        try
+        {
+            // 记录初始化
+            long totalBytesDownloaded = 0;
+            int valueInOneSecond = 0;
+            DateTime beforeDt = DateTime.Now;
+            var progressLock = new object();
+
+            // Dangerous action
+            VersionUpdateDialogViewModel.OutputDownloadProgress();
+
+            for (int i = 0; i < threadCount; i++)
+            {
+                long start = i * chunkSize;
+                long end = (i == threadCount - 1) ? fileSize - 1 : start + chunkSize - 1;
+                string chunkFile = $"{fullFilePathWithTemp}.part{i}";
+                chunkFiles.Add(chunkFile);
+
+                int threadId = i;
+                tasks.Add(Task.Run(async () =>
+                {
+                    try
+                    {
+                        var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20 };
+                        request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(start, end);
+                        request.Headers.Add("Accept", contentType ?? "application/octet-stream");
+
+                        var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            _logger.Error("Thread {ThreadId} failed with status {StatusCode}", threadId, response.StatusCode);
+                            return (false, 0L);
+                        }
+
+                        var stream = await response.Content.ReadAsStreamAsync();
+                        await using (var fileStream = new FileStream(chunkFile, FileMode.Create, FileAccess.Write))
+                        {
+                            byte[] buffer = new byte[81920];
+                            int bytesRead;
+                            long chunkBytesDownloaded = 0;
+
+                            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                            {
+                                await fileStream.WriteAsync(buffer, 0, bytesRead);
+                                chunkBytesDownloaded += bytesRead;
+
+                                lock (progressLock)
+                                {
+                                    valueInOneSecond += bytesRead;
+                                    totalBytesDownloaded += bytesRead;
+                                    double ts = DateTime.Now.Subtract(beforeDt).TotalSeconds;
+                                    if (ts > 1)
+                                    {
+                                        beforeDt = DateTime.Now;
+                                        // Dangerous action
+                                        VersionUpdateDialogViewModel.OutputDownloadProgress(totalBytesDownloaded, fileSize, valueInOneSecond, ts);
+                                        valueInOneSecond = 0;
+                                    }
+                                }
+                            }
+                        }
+
+                        _logger.Information("Thread {ThreadId} completed, downloaded {Bytes} bytes", threadId, chunkBytesDownloaded);
+                        return (true, chunkBytesDownloaded);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(e, "Thread {ThreadId} failed with exception", threadId);
+                        return (false, 0L);
+                    }
+                }));
+            }
+
+            var results = await Task.WhenAll(tasks);
+
+            // 检查所有线程是否成功
+            if (results.Any(r => !r.success))
+            {
+                _logger.Error("Some download threads failed");
+                return false;
+            }
+
+            // 合并文件
+            _logger.Information("Merging {Count} chunk files", chunkFiles.Count);
+            await using (var outputStream = new FileStream(fullFilePathWithTemp, FileMode.Create, FileAccess.Write))
+            {
+                foreach (var chunkFile in chunkFiles)
+                {
+                    await using (var chunkStream = new FileStream(chunkFile, FileMode.Open, FileAccess.Read))
+                    {
+                        await chunkStream.CopyToAsync(outputStream);
+                    }
+                }
+            }
+
+            File.Copy(fullFilePathWithTemp, fullFilePath, true);
+            _logger.Information("Multi-threaded download completed successfully");
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Multi-threaded download failed");
+            return false;
+        }
+        finally
+        {
+            // 清理临时文件
+            if (File.Exists(fullFilePathWithTemp))
+            {
+                _logger.Information("Remove download temp file {TempFile}", fullFilePathWithTemp);
+                File.Delete(fullFilePathWithTemp);
+            }
+
+            foreach (var chunkFile in chunkFiles)
+            {
+                if (File.Exists(chunkFile))
+                {
+                    _logger.Information("Remove chunk file {ChunkFile}", chunkFile);
+                    File.Delete(chunkFile);
+                }
+            }
+        }
     }
 
     private static WebProxy? GetProxy()
