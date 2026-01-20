@@ -13,7 +13,7 @@ icon: fluent:people-24-filled
 
 當辨識到出現 1、5、6 星 Tag 都會彈出通知提示。
 
-公招重新整理時會自動將公招 Tag 數據上傳到 [企鵝物流數據統計](https://penguin-stats.cn/) 和 [一圖流](https://ark.yituliu.cn/)。
+公招重新整理時會自動將公招 Tag 數據上傳到 [企鵝物流數據統計](https://penguin-stats.io/) 和 [一圖流](https://ark.yituliu.cn/)。
 
 ## 進階設定
 

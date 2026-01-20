@@ -37,8 +37,8 @@ MAA 的意思是 MAA Assistant Arknights
 - 自動公招，可選使用加急許可，一次全部刷完！公招數據自動上傳 [企鵝物流](https://penguin-stats.io/result/stage/recruit/recruit)，[一圖流](https://ark.yituliu.cn/survey/maarecruitdata)
 - 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推進之王呢還是推進之王呢）~~
 - 支援辨識幹員列表，統計已有和未有幹員及潛能，並在公招辨識顯示
-- 支援辨識養成材料，並匯出至 [企鵝物流刷圖規劃](https://penguin-stats.cn/planner)、[明日方舟工具箱](https://arkntools.app/#/material)、[ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings)
-- 造訪好友、收取信用及購物、領取日常獎勵等，一鍵全日常自動長草
+- 支援辨識養成材料，並匯出至 [企鵝物流刷圖規劃](https://penguin-stats.io/planner)、[明日方舟工具箱](https://arkntools.app/#/material)、[ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings)
+- 造訪好友、獲取信用及購物、領取日常獎勵等，一鍵全日常自動長草
 - 肉鴿全自動刷源石錠和等級，自動燒水和凹直升，智慧辨識幹員及練度
 - 選擇作業 JSON 檔案，自動抄作業， [影片展示](https://www.bilibili.com/video/BV1H841177Fk/)
 - 支援 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多種介面，方便整合呼叫，自定義你的 MAA！
@@ -47,20 +47,20 @@ MAA 的意思是 MAA Assistant Arknights
 
 <ImageGrid :imageList="[
   {
-    light: 'images/zh-cn/readme/1-light.png',
-    dark: 'images/zh-cn/readme/1-dark.png'
+    light: 'images/zh-tw/readme/1-light.png',
+    dark: 'images/zh-tw/readme/1-dark.png'
   },
   {
-    light: 'images/zh-cn/readme/2-light.png',
-    dark: 'images/zh-cn/readme/2-dark.png'
+    light: 'images/zh-tw/readme/2-light.png',
+    dark: 'images/zh-tw/readme/2-dark.png'
   },
   {
-    light: 'images/zh-cn/readme/3-light.png',
-    dark: 'images/zh-cn/readme/3-dark.png'
+    light: 'images/zh-tw/readme/3-light.png',
+    dark: 'images/zh-tw/readme/3-dark.png'
   },
   {
-    light: 'images/zh-cn/readme/4-light.png',
-    dark: 'images/zh-cn/readme/4-dark.png'
+    light: 'images/zh-tw/readme/4-light.png',
+    dark: 'images/zh-tw/readme/4-dark.png'
   }
 ]" />
 

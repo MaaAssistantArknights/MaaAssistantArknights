@@ -19,7 +19,7 @@ icon: octicon:tools-16
 
 支援從首頁自動進入倉庫。若自動跳轉失敗，請手動切換到倉庫 `養成材料` 介面並**滑動到最左側**後開始功能。
 
-目前支援匯出到 [企鵝物流刷圖規劃器](https://penguin-stats.cn/planner)、[明日方舟工具箱](https://arkntools.app/#/material)、[明日方舟 - 幹員培養表](https://ark-nights.com/settings)。
+目前支援匯出到 [企鵝物流刷圖規劃器](https://penguin-stats.io/planner)、[明日方舟工具箱](https://arkntools.app/#/material)、[明日方舟 - 幹員培養表](https://ark-nights.com/settings)。
 
 如果您是某個數據站的站長，也歡迎聯絡我們適配貴站的材料 json 協定～
 

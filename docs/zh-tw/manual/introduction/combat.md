@@ -57,7 +57,7 @@ icon: hugeicons:brain-02
   - 復刻的 SS 活動。輸入 `SSReopen-<關卡前綴>` ，可一次性刷完 XX-1 ~ XX-9 關，如 `SSReopen-IC`。
 
 ::: details 範例畫面
-![範例畫面](/images/zh-cn/combat-start-interface-example.png)
+![範例畫面](/images/zh-tw/combat-start-interface-example.png)
 :::
 
 ### 剿滅模式
@@ -104,7 +104,7 @@ MAA 執行的戰鬥次數不會超過「指定次數」。
 
 ### 掉落辨識
 
-- 支援自動辨識並統計材料掉落，同時上傳至 [企鵝物流數據統計](https://penguin-stats.cn/) 和 [一圖流](https://ark.yituliu.cn/)。
+- 支援自動辨識並統計材料掉落，同時上傳至 [企鵝物流數據統計](https://penguin-stats.io/) 和 [一圖流](https://ark.yituliu.cn/)。
 - 支援自定義企鵝物流使用者 ID。
 
 ## 異常檢測
