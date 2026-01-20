@@ -12,17 +12,24 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Models;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using Serilog;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
 
-public class InfrastTask : BaseTask
+public class InfrastTask : BaseTask, IJsonOnDeserialized
 {
+    private static readonly ILogger _logger = Log.ForContext<InfrastTask>();
+
     public InfrastTask() => TaskType = TaskType.Infrast;
 
     /// <summary>
@@ -80,6 +87,7 @@ public class InfrastTask : BaseTask
     /// </summary>
     public string Filename { get; set; } = string.Empty;
 
+    [JsonIgnore]
     public List<CustomInfrastConfig.Plan> InfrastPlan { get; set; } = [];
 
     /// <summary>
@@ -89,6 +97,47 @@ public class InfrastTask : BaseTask
 
     public List<RoomInfo> RoomList { get; set; } =
        [.. typeof(InfrastRoomType).GetEnumValues().OfType<InfrastRoomType>().Select<InfrastRoomType, RoomInfo>(i => new(i, true))];
+
+    public void OnDeserialized()
+    {
+        if (Mode != InfrastMode.Custom || string.IsNullOrWhiteSpace(Filename) || !File.Exists(Filename))
+        {
+            return;
+        }
+        try
+        {
+            string jsonStr = File.ReadAllText(Filename);
+            if (Newtonsoft.Json.JsonConvert.DeserializeObject<CustomInfrastConfig>(jsonStr) is not CustomInfrastConfig root)
+            {
+                throw new JsonException("DeserializeObject returned null");
+            }
+            var planList = root.Plans;
+            for (int i = 0; i < planList.Count; ++i)
+            {
+                var plan = planList[i];
+                plan.Index = i;
+                plan.Name ??= "Plan " + ((char)('A' + i));
+                plan.Description ??= string.Empty;
+                plan.DescriptionPost ??= string.Empty;
+                InfrastPlan.Add(plan);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "InfrastTask: OnDeserialized failed");
+            PlanSelect = 0;
+        }
+        if (PlanSelect < -1)
+        {
+            PlanSelect = -1;
+            _logger.Warning("InfrastTask: PlanSelect < -1, reset to -1");
+        }
+        else if (PlanSelect >= InfrastPlan.Count)
+        {
+            PlanSelect = 0;
+            _logger.Warning("InfrastTask: PlanSelect >= InfrastPlan.Count, reset to 0");
+        }
+    }
 
     public record RoomInfo(InfrastRoomType Room, bool IsEnabled);
 }
