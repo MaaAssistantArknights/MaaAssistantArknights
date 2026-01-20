@@ -127,7 +127,7 @@ jobs:
           token: ${{ secrets.MAABOT_WINGET_TOKEN }}
 
   maa_cos:
-    name: Upload to WinGet
+    name: Upload to MAA COS
     needs: meta
     if: ${{ github.event.inputs.maa_cos == 'true' }}
     runs-on: windows-latest
