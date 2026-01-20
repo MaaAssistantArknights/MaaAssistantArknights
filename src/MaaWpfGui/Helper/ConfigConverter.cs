@@ -492,6 +492,7 @@ public class ConfigConverter
                             fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true) && fightTask2.StagePlan.FirstOrDefault() != string.Empty;
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask);
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask2);
+                            ConfigurationHelper.DeleteValue(ConfigurationKeys.UseRemainingSanityStage);
                             break;
                         case "Mission":
                             awardTask.Name = LocalizationHelper.GetString(task.OldName, local);
