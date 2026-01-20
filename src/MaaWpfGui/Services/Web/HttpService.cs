@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -89,7 +90,7 @@ public class HttpService : IHttpService
         {
             // Replace GitHub domains if needed
             uri = GithubUrlHelper.ReplaceGithubDomain(uri);
-            
+
             var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, Version = HttpVersion.Version20, };
 
             // Add GitHub token if the request is to GitHub
@@ -161,12 +162,12 @@ public class HttpService : IHttpService
     {
         // Replace GitHub domains if needed
         uri = GithubUrlHelper.ReplaceGithubDomain(uri);
-        
+
         var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20, };
-        
+
         // Add GitHub token if the request is to GitHub
         AddGithubTokenIfNeeded(request, extraHeader);
-        
+
         if (extraHeader != null)
         {
             foreach (var kvp in extraHeader)
@@ -214,12 +215,12 @@ public class HttpService : IHttpService
     {
         // Replace GitHub domains if needed
         uri = GithubUrlHelper.ReplaceGithubDomain(uri);
-        
+
         var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20 };
-        
+
         // Add GitHub token if the request is to GitHub
         AddGithubTokenIfNeeded(message, extraHeader);
-        
+
         if (extraHeader is not null)
         {
             foreach (var header in extraHeader)
@@ -241,7 +242,7 @@ public class HttpService : IHttpService
     {
         // Replace GitHub domains if needed
         uri = GithubUrlHelper.ReplaceGithubDomain(uri);
-        
+
         string fileDir = PathsHelper.BaseDir;
         string fileNameWithTemp = fileName + ".temp";
         string fullFilePath = Path.Combine(fileDir, fileName);
@@ -254,7 +255,7 @@ public class HttpService : IHttpService
             var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, Version = HttpVersion.Version20, };
             request.Headers.Add("Accept", contentType ?? "application/octet-stream");
             var headResponse = await _client.SendAsync(request);
-            
+
             bool supportsRangeRequests = headResponse.Headers.AcceptRanges?.Contains("bytes") ?? false;
             long? contentLength = headResponse.Content.Headers.ContentLength;
 
@@ -366,6 +367,7 @@ public class HttpService : IHttpService
                 int threadId = i;
                 tasks.Add(Task.Run(async () =>
                 {
+                    long chunkBytesDownloaded = 0;
                     try
                     {
                         var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20 };
@@ -384,7 +386,6 @@ public class HttpService : IHttpService
                         {
                             byte[] buffer = new byte[81920];
                             int bytesRead;
-                            long chunkBytesDownloaded = 0;
 
                             while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                             {
@@ -399,6 +400,7 @@ public class HttpService : IHttpService
                                     if (ts > 1)
                                     {
                                         beforeDt = DateTime.Now;
+
                                         // Dangerous action
                                         VersionUpdateDialogViewModel.OutputDownloadProgress(totalBytesDownloaded, fileSize, valueInOneSecond, ts);
                                         valueInOneSecond = 0;

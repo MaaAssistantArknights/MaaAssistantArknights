@@ -35,7 +35,7 @@ public static class GithubUrlHelper
         }
 
         var settings = SettingsViewModel.VersionUpdateSettings;
-        
+
         // Replace github.com
         if (!string.IsNullOrEmpty(settings.GithubMainDomain) && settings.GithubMainDomain != "github.com")
         {
@@ -71,7 +71,7 @@ public static class GithubUrlHelper
 
         var urlString = uri.ToString();
         var replacedUrl = ReplaceGithubDomain(urlString);
-        
+
         return replacedUrl == urlString ? uri : new Uri(replacedUrl);
     }
 }
