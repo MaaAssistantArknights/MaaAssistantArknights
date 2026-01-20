@@ -1,5 +1,5 @@
 ---
-title: 協議文件
+title: 協定文件
 icon: basil:document-solid
 index: false
 dir:

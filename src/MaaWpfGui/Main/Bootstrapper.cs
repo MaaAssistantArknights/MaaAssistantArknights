@@ -42,7 +42,6 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.Dialogs;
-using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 using Serilog;
@@ -195,6 +194,34 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         try
         {
+            var localAppData = Environment.GetEnvironmentVariable("LocalAppData");
+            if (localAppData is not null && Directory.Exists($"{localAppData}/CrashDumps"))
+            {
+                var crashDumpsSource = Path.Combine(localAppData, "CrashDumps");
+                var dumpDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug", "dumps");
+                if (Directory.Exists(dumpDir))
+                {
+                    Directory.Delete(dumpDir, true);
+                }
+                Directory.CreateDirectory(dumpDir);
+
+                var time = File.GetLastWriteTime(crashFile);
+                bool foundDump = false;
+                foreach (var file in new DirectoryInfo(crashDumpsSource).EnumerateFiles("MAA.exe.*.dmp"))
+                {
+                    if (file.LastWriteTime >= time.AddMinutes(-10) && file.LastWriteTime <= time.AddMinutes(10))
+                    {
+                        _logger.Information("Found crash dump file: {CrashDumpFile}", file.FullName);
+                        File.Copy(file.FullName, Path.Combine(dumpDir, file.Name), true);
+                        foundDump = true;
+                    }
+                }
+                if (foundDump)
+                {
+                    _logger.Information("Crash dumps are copied to {DumpDir}", dumpDir);
+                }
+            }
+
             string[] lines = File.ReadAllLines(crashFile, Encoding.UTF8);
 
             StringBuilder message = new StringBuilder();
@@ -245,15 +272,15 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                     LocalizationHelper.GetString("ErrorCrashDialogTitle"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
+            }
 
-                try
-                {
-                    File.Delete(crashFile);
-                }
-                catch
-                {
-                    // ignored
-                }
+            try
+            {
+                File.Delete(crashFile);
+            }
+            catch
+            {
+                // ignored
             }
         }
         catch

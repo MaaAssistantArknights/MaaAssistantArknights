@@ -1,5 +1,5 @@
 ---
-title: 功能介绍
+title: 功能介紹
 icon: mdi:information-outline
 index: false
 dir:
