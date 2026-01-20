@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -219,17 +220,15 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
 
         var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
         var fightStageEmpty = false;
-        if (index > -1 && ConfigFactory.CurrentConfig.TaskQueue.Skip(index + 1).FirstOrDefault(i => i.IsEnable != false && (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable == true)) is FightTask fight)
+        if (index > -1 && ConfigFactory.CurrentConfig.TaskQueue.Skip(index + 1).FirstOrDefault(i => i.IsEnable is true || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable is null)) is FightTask fight)
         {
             fightStageEmpty = FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == string.Empty;
         }
-        var creditFight = mall.IsCreditFightAvailable;
-        var visitFriends = mall.IsVisitFriendsAvailable;
 
         var task = new AsstMallTask() {
-            CreditFight = creditFight && !fightStageEmpty,
+            CreditFight = mall.IsCreditFightAvailable && !fightStageEmpty,
             FormationIndex = mall.CreditFightFormation,
-            VisitFriends = visitFriends,
+            VisitFriends = mall.IsVisitFriendsAvailable,
             WithShopping = mall.Shopping,
             FirstList = [.. mall.FirstList.Split(';').Select(s => s.Trim())],
             Blacklist = [.. mall.BlackList.Split(';').Select(s => s.Trim()).Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType])],
