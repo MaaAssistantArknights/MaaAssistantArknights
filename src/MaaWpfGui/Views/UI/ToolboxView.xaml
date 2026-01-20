@@ -346,7 +346,7 @@
                     VirtualizingPanel.ScrollUnit="Pixel">
                     <DataGrid.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <vwp:VirtualizingWrapPanel HorizontalAlignment="Center" />
+                            <WrapPanel HorizontalAlignment="Center" />
                         </ItemsPanelTemplate>
                     </DataGrid.ItemsPanel>
                     <DataGrid.Columns>
