@@ -130,10 +130,11 @@ jobs:
     name: Upload to MAA COS
     needs: meta
     if: ${{ github.event.inputs.maa_cos == 'true' && !contains(needs.meta.outputs.RELEASE_TAG, '-') }}
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     continue-on-error: true
     env:
       FILENAME: MAA-${{ needs.meta.outputs.RELEASE_TAG }}-win-x64.zip
+
     steps:
       - uses: robinraju/release-downloader@v1
         with:
