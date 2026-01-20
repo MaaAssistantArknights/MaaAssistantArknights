@@ -17,8 +17,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading;
@@ -26,6 +28,7 @@ using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
+using Newtonsoft.Json.Linq;
 using ObservableCollections;
 using Serilog;
 using static MaaWpfGui.Helper.PathsHelper;
@@ -58,7 +61,7 @@ public static class ConfigFactory
     // ReSharper disable once EventNeverSubscribedTo.Global
     public static event ConfigurationUpdateEventHandler? ConfigurationUpdateEvent;
 
-    private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs, UnicodeRanges.CjkSymbolsandPunctuation, UnicodeRanges.HalfwidthandFullwidthForms), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
+    private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.All), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
     // TODO: 参考 ConfigurationHelper ，拆几个函数出来
     private static readonly Lazy<Root> _rootConfig = new(() => {
@@ -165,6 +168,26 @@ public static class ConfigFactory
                 _logger.Warning("{File} save failed", _configBakFile);
             }
 
+            if (ParseJsonFile(ConfigurationHelper.ConfigFile) is JsonObject oldConfigJson && oldConfigJson["Configurations"] is JsonObject configurationsObj)
+            {
+                if (oldConfigJson["Current"]?.GetValue<string>() is string oldCurrent && parsed.Current != oldCurrent)
+                {
+                    _logger.Warning("Current configuration in old configuration is {OldCurrent}, but in new configuration is {NewCurrent}, switching to old current", oldCurrent, parsed.Current);
+                    parsed.Current = oldCurrent;
+                }
+                var configNames = configurationsObj.Select(i => i.Key);
+                foreach (var name in parsed.Configurations.Select(i => i.Key).Except(configNames))
+                {
+                    parsed.Configurations.Remove(name);
+                    _logger.Information("Configuration {ConfigName} does not exist in old configuration, remove it", name);
+                }
+            }
+
+            if (parsed.Configurations.All(i => i.Key != parsed.Current))
+            {
+                parsed.Configurations.Add(parsed.Current, new SpecificConfig());
+            }
+
             return parsed;
 
             void SpecificConfigBind(string name, SpecificConfig config)
@@ -205,6 +228,27 @@ public static class ConfigFactory
                 {
                     task.PropertyChanged += OnPropertyChangedFactory($"{key}.{task.Name}.");
                 }
+            }
+
+            JsonObject? ParseJsonFile(string filePath)
+            {
+                if (File.Exists(filePath) is false)
+                {
+                    return null;
+                }
+
+                var str = File.ReadAllText(filePath);
+                try
+                {
+                    var obj = JsonSerializer.Deserialize<JsonObject>(str);
+                    return obj ?? throw new Exception("Failed to parse json file");
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to deserialize json file: {FilePath}", filePath);
+                }
+
+                return null;
             }
         }
     });

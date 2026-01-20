@@ -493,6 +493,10 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         Instances.TaskQueueViewModel.AddLog(infrast.InfrastPlan[infrast.PlanSelect].DescriptionPost);
 
         ++infrast.PlanSelect;
+        if (infrast.PlanSelect >= infrast.InfrastPlan.Count)
+        {
+            infrast.PlanSelect = 0;
+        }
         OutputCurrentCustomPlanInfo(infrast);
     }
 
@@ -574,7 +578,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
             {
                 task.PlanIndex = 0;
                 _logger.Warning("No valid plan found for current time, use PlanIndex 0");
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastPlanNotFoundByPeriod"), UiLogColor.Error);
             }
         }
 

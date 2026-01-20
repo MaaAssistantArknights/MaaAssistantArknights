@@ -164,6 +164,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">Some rotations in the {Key=InfrastModeCustom} configuration have time periods set, which may lead to unexpected behavior. To set shift change time periods, ensure all rotations have time periods configured; otherwise, leave them all blank.</system:String>
     <system:String x:Key="CustomInfrastPlanSelectOutOfIndex">Custom infrast plan selection is out of index</system:String>
+    <system:String x:Key="CustomInfrastPlanNotFoundByPeriod">No plan was found for the specified time period in the custom infrastructure configuration.</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">Base Configuration:&#160;</system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
     <system:String x:Key="CustomInfrastPlanToolTip">
@@ -533,6 +534,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.
 This function is invalid when the stage is selected as ｢{key=DefaultStage}｣.
 Please do not check it when the stage OF-1 is not unlocked.</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">A ｢{key=Fight}｣ task has ｢{key=DefaultStage}｣ in its stage list, ｢{key=Mall}｣ task will skip the Combat with Support Unit in OF-1. Task: {0} (index: {1}), Stage index in list: {2}</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
     <system:String x:Key="HighPriorityDefault">Recruitment Permit</system:String>

@@ -3,17 +3,13 @@ order: 1
 icon: material-symbols:download
 ---
 
-# 安装及编译
+# 安裝及編譯
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
-:::
+maa-cli 提供多種方式安裝，包括預編譯執行檔、套件管理員以及透過 `cargo` 自行編譯安裝。
 
-maa-cli 提供多种方式安装，包括预编译二进制文件、包管理器和通过 `cargo` 自行编译安装。
+## 預編譯執行檔
 
-## 预编译二进制文件
-
-安装 maa-cli 最简单的方式是使用安装脚本一键安装：
+安裝 maa-cli 最簡單的方式是使用安裝指令碼一鍵安裝：
 
 ::: tabs#pre-compile
 
@@ -31,27 +27,27 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MaaAssistantArknights/
 
 :::
 
-后续你可以通过 `maa self update` 来更新 maa-cli。
+後續您可以透過 `maa self update` 來更新 maa-cli。
 
-如果你的平台不在上述列表中，可以尝试自行[编译安装](#编译安装)。
+如果您的平台不在上述列表中，可以嘗試自行[編譯安裝](#編譯安裝)。
 
-## 通过包管理器安装
+## 透過套件管理員安裝
 
-对于 macOS 和受支持的 Linux 发行版用户，可以使用包管理器安装 maa-cli。
+對於 macOS 和受支援的 Linux 發行版使用者，可以使用套件管理員安裝 maa-cli。
 
 ### macOS
 
-Homebrew 用户可以通过非官方的 [tap](https://github.com/MaaAssistantArknights/homebrew-tap/) 安装 maa-cli：
+Homebrew 使用者可以透過非官方的 [tap](https://github.com/MaaAssistantArknights/homebrew-tap/) 安裝 maa-cli：
 
 ::: code-tabs
 
-@tab:active 稳定版
+@tab:active 穩定版本
 
 ```bash :no-line-numbers
 brew install MaaAssistantArknights/tap/maa-cli
 ```
 
-@tab 不稳定版/预发行版
+@tab 不穩定版本 / 預發行版本
 
 ```bash :no-line-numbers
 brew install MaaAssistantArknights/tap/maa-cli-beta
@@ -61,11 +57,11 @@ brew install MaaAssistantArknights/tap/maa-cli-beta
 
 ### Linux
 
-Arch、Nix 以及 Linux Homebrew 用户可以通过包管理器安装 maa-cli。
+Arch、Nix 以及 Linux Homebrew 使用者可以透過套件管理員安裝 maa-cli。
 
 #### Arch Linux
 
-可以安装 [AUR 包](https://aur.archlinux.org/packages/maa-cli/)：
+可以安裝 [AUR 套件](https://aur.archlinux.org/packages/maa-cli/)：
 
 ::: code-tabs
 
@@ -85,17 +81,17 @@ yay -S maa-cli
 
 #### ❄️ Nix
 
-用户可以直接运行:
+使用者可以直接執行：
 
 ::: code-tabs
 
-@tab:active 稳定版
+@tab:active 穩定版本
 
 ```bash :no-line-numbers
 nix run nixpkgs#maa-cli
 ```
 
-@tab 每夜构建
+@tab Nightly 版本
 
 ```bash :no-line-numbers
 nix run github:Cryolitia/nur-packages#maa-cli-nightly
@@ -103,31 +99,31 @@ nix run github:Cryolitia/nur-packages#maa-cli-nightly
 
 :::
 
-稳定版打包至 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix) 中，使用 `nixpkgs` 中的 Rust 工具链；每夜构建位于 [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix) 中，使用 Beta channel 的 Rust 工具链，由 Github Actions 每日自动更新和构建验证。
+穩定版本已收錄至 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix) 中，並使用 `nixpkgs` 中的 Rust 工具鏈；Nightly 版本則位於 [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix)，使用 Beta 分支的 Rust 工具鏈，且每日經由 GitHub Actions 自動更新與驗證建置結果。
 
 #### Homebrew
 
-对于在 Linux 上使用 Homebrew 的用户，请参见上述 macOS 的安装方式。
+對於在 Linux 上使用 Homebrew 的使用者，請參考上述 macOS 的安裝方式。
 
 #### 其他发行版
 
-请使用 [预编译二进制文件](#预编译二进制文件) 或是 [自行编译安装](#编译安装)。
+請使用 [預編譯執行檔](#預編譯執行檔) 或是 [自行編譯安裝](#編譯安裝)。
 
-我们也欢迎各位有兴趣的开发者将 maa-cli 提交到更多发行版的官方仓库或是用户仓库！
+我們也歡迎各位有興趣的開發者將 maa-cli 提交到更多發行版的官方倉庫或是使用者倉庫！
 
-## 编译安装
+## 編譯安裝
 
-Rust 开发者可以通过 `cargo` 自行编译安装 maa-cli：
+Rust 開發者可以透過 `cargo` 自行編譯安裝 maa-cli：
 
 ::: code-tabs
 
-@tab:active 稳定版本
+@tab:active 穩定版本
 
 ```bash :no-line-numbers
 cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin maa --tag stable --locked
 ```
 
-@tab 开发版本
+@tab 開發版本
 
 ```bash :no-line-numbers
 cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin maa --locked
@@ -136,49 +132,49 @@ cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin m
 :::
 
 ::: warning
-maa-cli 目前的最低支持 Rust 版本 (MSRV) 为 1.88。请注意，MSRV 可能随时发生变化，我们建议始终使用最新的 Rust 工具链以获得最佳体验。
+maa-cli 目前的最低支援 Rust 版本 (MSRV) 為 1.88。請注意，MSRV 可能隨時發生變化，我們建議始終使用最新的 Rust 工具鏈以獲得最佳體驗。
 :::
 
-### 编译选项
+### 編譯選項
 
-从源码编译时，你可以通过 `--no-default-features` 禁用默认的特性，然后通过 `--features` 来启用特定的特性。目前可用的特性有：
+從原始碼編譯時，您可以透過 `--no-default-features` 停用預設的特性，然後透過 `--features` 來啟用特定的特性。目前可用的特性有：
 
-- `cli_installer`: 启用 `maa self update` 命令，用于更新自身，这个特性默认启用；
-- `core_installer`: 启用 `maa install` 和 `maa update` 命令，用于安装和更新 MaaCore 及资源，这个特性默认启用；
-- `git2`: 提供 `libgit2` 资源更新后端，这个特性默认启用。
+- `cli_installer`: 啟用 `maa self update` 指令，用於更新自身，這個特性預設啟用。
+- `core_installer`: 啟用 `maa install` 和 `maa update` 指令，用於安裝和更新 MaaCore 及資源，這個特性預設啟用。
+- `git2`: 提供 `libgit2` 資源更新後端，這個特性預設啟用。
 
-## 安装 MaaCore 及资源
+## 安裝 MaaCore 及資源
 
-maa-cli 只提供了一个命令行界面，它需要 MaaCore 和资源来运行任务。
+maa-cli 只提供了一個命令列介面，它需要 MaaCore 和資源來執行任務。
 
-根据安装方式和平台的不同，你的操作也有所区别：
+根據安裝方式和平台的不同，您的操作也會有所區別：
 
 ::: tabs#maacore
 
-@tab:active 预编译
-对于使用预编译二进制或者自行编译的用户，maa-cli 可以帮助你安装和更新：
+@tab:active 預編譯
+對於使用預編譯執行檔或者自行編譯的使用者，maa-cli 可以協助您安裝和更新：
 
 ```bash :no-line-numbers
 maa install
 ```
 
 @tab Windows
-对于 Windows 平台的用户，在运行 `maa install` 命令前，请以管理员身份在命令提示符或 PowerShell 中运行以下命令，以安装必要组件 VC++ 运行库：
+對於 Windows 使用者，在執行 `maa install` 指令前，請以管理員身份在命令提示字元或 PowerShell 中執行以下指令，以安裝必要組件 VC++ 執行環境 (Redistributable)：
 
 ```bat :no-line-numbers
 winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --uninstall-previous --accept-package-agreements --force
 ```
 
-然后再运行 `maa install`。
+然後再執行 `maa install`。
 
 @tab Arch
-你可以使用 maa-cli 安装预编译的 MaaCore:
+您可以使用 maa-cli 安裝預編譯的 MaaCore：
 
 ```bash :no-line-numbers
 maa install
 ```
 
-你也可以通过 [AUR](https://aur.archlinux.org/packages/maa-assistant-arknights/) 安装 maa-core
+您也可以透過 [AUR](https://aur.archlinux.org/packages/maa-assistant-arknights/) 安裝 maa-core
 
 ```bash :no-line-numbers
 paru -S maa-assistant-arknights
@@ -191,10 +187,10 @@ yay -S maa-assistant-arknights
 ```
 
 @tab Nix
-Nix 上的 maa-cli 强制依赖 MaaCore，因此 Nix 用户无需，也不应该手动安装 MaaCore。
+Nix 上的 maa-cli 強制依賴 MaaCore，因此 Nix 使用者無需、也不應該手動安裝 MaaCore。
 
 :::
 
 ::: warning
-`maa install` 下载的是 MAA 官方预编译的 MaaCore，而包管理器安装的 MaaCore 可能使用与官方预编译版本不同的编译选项和依赖版本，这也许会导致性能和功能上的略微差异。
+`maa install` 下載的是 MAA 官方預編譯的 MaaCore，而套件管理員安裝的 MaaCore 可能使用與官方預編譯版本不同的編譯選項和依賴版本，這也許會導致效能和功能上的些微差異。
 :::

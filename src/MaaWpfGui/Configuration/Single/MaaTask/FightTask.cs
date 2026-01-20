@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -22,7 +23,7 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 /// <summary>
 /// 理智作战
 /// </summary>
-public class FightTask : BaseTask
+public class FightTask : BaseTask, IJsonOnDeserialized
 {
     public FightTask() => TaskType = TaskType.Fight;
 
@@ -132,4 +133,12 @@ public class FightTask : BaseTask
     public bool UseWeeklySchedule { get; set; }
 
     public Dictionary<DayOfWeek, bool> WeeklySchedule { get; set; } = Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
+
+    public void OnDeserialized()
+    {
+        if (UseStoneAllowSave == false)
+        {
+            UseStone = false;
+        }
+    }
 }
