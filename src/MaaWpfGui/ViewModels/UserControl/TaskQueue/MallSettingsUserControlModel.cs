@@ -224,6 +224,10 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
         {
             fightStageEmpty = FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == string.Empty;
         }
+        if (mall.IsCreditFightAvailable && fightStageEmpty)
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CreditFightWhenOF-1Warning"), UiLogColor.Warning);
+        }
 
         var task = new AsstMallTask() {
             CreditFight = mall.IsCreditFightAvailable && !fightStageEmpty,
