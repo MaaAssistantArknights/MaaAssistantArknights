@@ -6,79 +6,79 @@ icon: iconoir:developer
 # 開發指南
 
 ::: tip
-本頁面主要描述了 PR 流程以及 MAA 的檔案格式化要求，如果你想要具體了解如何對 MAA 的運行邏輯做出更改，請參看 [協議文檔](../protocol/)
+本頁面主要描述了 PR 流程以及 MAA 的檔案格式化要求，如果您想要具體了解如何對 MAA 的運行邏輯進行更改，請參閱 [協議文件](../protocol/)
 :::
 
 ::: tip
-你可以 [向 DeepWiki 詢問](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)，以初步了解 MAA 專案的整體架構。
+您可以 [向 DeepWiki 詢問](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)，以初步了解 MAA 專案的整體架構。
 :::
 
-## 我不懂寫程式，只是想改一點點 JSON 文件/文件等，要怎麼操作？
+## 我不懂程式設計，只想改一點點 JSON 檔案 / 文件等，要怎麼操作？
 
-歡迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （純網頁端操作 Github.com）
+歡迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （純網頁端操作 github.com）
 
-## 我只想簡單修改幾行代碼，但配置環境太麻煩，純網頁編輯又很難用，怎麼辦？
+## 我只想簡單修改幾行程式碼，但配置環境太麻煩，純網頁編輯又很難用，怎麼辦？
 
-請使用 [GitHub Codespaces](https://github.com/codespaces) 在線開發環境，盡情嘗試！
+請使用 [GitHub Codespaces](https://github.com/codespaces) 線上開發環境，盡情嘗試！
 
 我們預置了多種不同的開發環境以供選擇：
 
-- 空白環境，裸 Linux 容器（默認）
+- 基礎環境，純 Linux 容器（預設）
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
-- 輕量環境，適合文檔站前端開發
+- 精簡環境，適合文件站前端開發
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
 
-- 全量環境，適合 MAA Core 相關開發（不推薦使用，建議本地開發，完整配置相關環境。詳見下一章節）
+- 完整環境，適合 MAA Core 相關開發（不推薦使用，建議本機開發，完整配置相關環境。詳見下一章節）
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
 
 ## 完整環境配置流程（Windows）
 
-1. 如果很久以前 Fork 過，先在自己倉庫的 `Settings` 裡，翻到最下面，刪除
-2. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，點擊 `Fork`，繼續點擊 `Create fork`
-3. 複製你自己倉庫下的 dev 分支到本地，並拉取子模組
+1. 如果很久以前 Fork 過，先在自己倉庫的 `Settings` 裡，翻到最下面，將其刪除。
+2. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，點擊 `Fork`，繼續點擊 `Create fork`。
+3. 複製（Clone）您自己倉庫下的 dev 分支到在地，並拉取子模組（Submodules）。
 
    ```bash
-   git clone --recurse-submodules <你的倉庫的 git 連結> -b dev
+   git clone --recurse-submodules <您的倉庫 git 連結> -b dev
    ```
 
    ::: warning
    如果正在使用 Visual Studio 等不附帶 `--recurse-submodules` 參數的 Git GUI，則需在複製後再執行 `git submodule update --init` 以拉取子模組。
    :::
 
-4. 下載預構建的第三方庫
+4. 下載預編譯的第三方函式庫
 
-   **需要有 Python 環境，請自行搜索 Python 安裝教學**
+   **需要有 Python 環境，請自行搜尋 Python 安裝教學。**
 
    ```cmd
    python tools/maadeps-download.py
    ```
 
-5. 配置編程環境
+5. 配置開發環境
    - 下載並安裝 `CMake`
-   - 下載並安裝 `Visual Studio 2026 Community`, 安裝的時候需要選中 `基於 C++ 的桌面開發` 和 `.NET 桌面開發`。
+   - 下載並安裝 `Visual Studio 2026 Community`，安裝時需要選中 `使用 C++ 的桌面開發` 和 `.NET 桌面開發`。
 
-6. 執行 cmake 項目配置
+6. 執行 CMake 專案配置
 
    ```cmd
    mkdir -p build
    cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
    ```
 
-7. 雙擊打開 `build/MAA.slnx` 文件，Visual Studio 會自動載入整個項目。
-8. 設置 VS
-   - VS 上方配置選擇 `Debug` `x64`
-   - 右鍵 `MaaWpfGui` - 設為啟動項目
-   - 按 F5 運行
+7. 雙擊開啟 `build/MAA.sln` 檔案，Visual Studio 會自動載入整個專案。
+8. 設定 Visual Studio
+   - Visual Studio 上方配置選擇 `Debug` `x64`
+   - 右鍵點擊 `MaaWpfGui` - 設為啟動專案。
+   - 按 F5 執行。
 
    ::: tip
-   若需調試 Win32Controller（Windows 視窗控制）相關功能，需要自行從 [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) 下載對應平台的壓縮包，將 `bin` 目錄中的 `MaaWin32ControlUnit.dll` 放到 MAA 的 DLL 同目錄下（如 `build/bin/Debug`）。歡迎 PR 一個自動下載腳本！
+   若需針對 Win32Controller（Windows 視窗控制）相關功能進行除錯，需要自行從 [MaaFramework Releases](https://github.com/MaaModular/MaaFramework/releases) 下載對應平台的壓縮檔案，將 `bin` 目錄中的 `MaaWin32ControlUnit.dll` 放到 MAA 的 DLL 同目錄下（例如 `build/bin/Debug`）。歡迎 PR 一個自動下載腳本！
    :::
 
-9. 到這裡，你就可以愉快地 ~~瞎 JB 改~~ 發電了
+9. 到這裡，你就可以愉快地 ~~瞎雞巴改~~ 發電了
 10. 開發過程中，每一定數量，記得提交一個 Commit, 別忘了寫上 Message  
     假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev` 上
 
@@ -89,14 +89,15 @@ git checkout your_own_branch
 
 這樣你的提交就能在新的分支上生長，不會受到 `dev` 更新的打擾
 
-11. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠程（Fork 的倉庫）
+11. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠端（Fork 的倉庫）
 
     ```bash
     git push origin dev
     ```
 
-12. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。別忘了你是在 dev 分支上修改，別提交到 master 分支去了
-13. 當 MAA 原倉庫出現更改（別人做的），你可能需要把這些更改同步到你的分支
+12. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。別忘了您是在 dev 分支上修改，別提交到 master 分支去了。
+
+13. 當 MAA 原倉庫出現更改（他人貢獻）時，您可能需要把這些更改同步到您的分支：
     1. 關聯 MAA 原倉庫
 
        ```bash
@@ -124,18 +125,18 @@ git checkout your_own_branch
     4. 重複上述 8, 9, 10, 11 中的操作
 
 ::: tip
-在打開 VS 之後，和 Git 有關的操作可以不用命令行工具，直接使用 VS 自帶的“Git 更改”即可
+開啟 Visual Studio 之後，和 Git 有關的操作可以不用命令列工具，直接使用 Visual Studio 內建的「Git 變更」功能即可。
 :::
 
 ## MAA 的檔案格式化要求
 
-MAA 使用一系列的格式化工具來保證倉庫中的代碼和資源文件美觀統一，以便於維護和閱讀
+MAA 使用一系列的格式化工具來確保倉庫中的程式碼和資源檔案美觀統一，以便於維護和閱讀。
 
-請確保在提交之前已經格式化，或是[啟用 Pre-commit Hooks 來進行自動格式化](#利用-pre-commit-hooks-自動進行程式碼格式化)
+請確保在提交之前已經完成格式化，或是[啟用 Pre-commit Hooks 來進行自動格式化](#利用-pre-commit-hooks-自動進行程式碼格式化)
 
 目前啟用的格式化工具如下：
 
-| 文件類型  | 格式化工具                                                      |
+| 檔案類型  | 格式化工具                                                      |
 | --------- | --------------------------------------------------------------- |
 | C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
 | Json/Yaml | [Prettier](https://prettier.io/)                                |
@@ -143,18 +144,18 @@ MAA 使用一系列的格式化工具來保證倉庫中的代碼和資源文件�
 
 ### 利用 Pre-commit Hooks 自動進行程式碼格式化
 
-1. 確保你的電腦上有 Python 與 Node 環境
+1. 確保您的電腦上有 Python 與 Node 環境
 
-2. 在項目根目錄下執行以下命令
+2. 在專案根目錄下執行以下命令：
 
    ```bash
    pip install pre-commit
    pre-commit install
    ```
 
-如果pip安裝後依然無法運行 Pre-commit，請確認 PIP 安裝地址已被添加到 PATH
+如果 pip 安裝後依然無法執行 pre-commit，請確認 pip 安裝路徑已被添加到 PATH。
 
-接下來，每次提交時都將會自動運行格式化工具，來確保你的代碼格式符合規範
+接下來，每次提交時都將會自動執行格式化工具，以確保您的程式碼格式符合規範。
 
 ### 在 Visual Studio 中啟用 clang-format
 
@@ -164,15 +165,16 @@ MAA 使用一系列的格式化工具來保證倉庫中的代碼和資源文件�
    python -m pip install clang-format
    ```
 
-2. 使用 Everything 等工具 找到 clang-format.exe 的安裝位置。作為參考，若您使用了 Anaconda，clang-format.exe 將安裝在 YourAnacondaPath/Scripts/clang-format.exe
+2. 使用 Everything 等工具找到 `clang-format.exe` 的安裝位置。作為參考，若您使用了 Anaconda，`clang-format.exe` 將安裝在 `YourAnacondaPath/Scripts/clang-format.exe`
 
-3. 在 Visual Studio `工具-選項` 中搜索 `clang-format`
-4. 點擊 `啟用 ClangFormat 支持`，然後選擇下面的 `使用自訂 clang-format.exe 文件`，選擇第 2 步找到的 `clang-format.exe`
+3. 在 Visual Studio `工具-選項` 中搜尋 `clang-format`
 
-![Visual Studio 設置 clang-format](/images/zh-cn/development-enable-vs-clang-format.png)
+4. 點擊 `啟用 ClangFormat 支援`，然後選擇下方的 `使用自定義 clang-format.exe 檔案`，選擇第 2 步找到的 `clang-format.exe`
 
-然後你的 Visual Studio 就能愉快的使用支持 C++20 語法的 clang-format 啦！
+![Visual Studio 設定 clang-format](/images/zh-cn/development-enable-vs-clang-format.png)
 
-你也可以使用 `tools\ClangFormatter\clang-formatter.py` 來直接調用你的 clang-format 來進行格式化，只需要在項目根目錄下執行：
+然後您的 Visual Studio 就能愉快地使用支援 C++20 語法的 clang-format 啦！
+
+您也可以使用 `tools\ClangFormatter\clang-formatter.py` 來直接呼叫 clang-format 進行格式化，只需在專案根目錄下執行：
 
 - `python tools\ClangFormatter\clang-formatter.py --clang-format=PATH\TO\YOUR\clang-format.exe --input=src\MaaCore`
