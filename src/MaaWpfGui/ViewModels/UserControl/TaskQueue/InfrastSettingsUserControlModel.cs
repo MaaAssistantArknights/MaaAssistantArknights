@@ -578,7 +578,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
             {
                 task.PlanIndex = 0;
                 _logger.Warning("No valid plan found for current time, use PlanIndex 0");
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastPlanNotFoundByPeriod"), UiLogColor.Error);
             }
         }
 
