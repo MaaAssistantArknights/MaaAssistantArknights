@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -220,9 +219,31 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
 
         var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
         var fightStageEmpty = false;
-        if (index > -1 && ConfigFactory.CurrentConfig.TaskQueue.Skip(index + 1).FirstOrDefault(i => i.IsEnable is true || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable is null)) is FightTask fight)
+        if (index == -1)
         {
-            fightStageEmpty = FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == string.Empty;
+        }
+        else
+        {
+            var list = ConfigFactory.CurrentConfig.TaskQueue
+                .Take(index)
+                .OfType<FightTask>()
+                .Where(task => task.IsEnable is true || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && task.IsEnable is null))
+                .Select(i => FightSettingsUserControlModel.GetFightStage(i.StagePlan));
+            if (ConfigFactory.CurrentConfig.TaskQueue.Skip(index + 1).FirstOrDefault(i => i.IsEnable is true || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable is null)) is FightTask fight)
+            { // 检查后续第一个刷理智是否选择 当前/上次
+                fightStageEmpty = FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == string.Empty;
+            }
+            else
+            { // 检查前置刷理智是否选择 当前/上次
+                var fightBeforeMall = ConfigFactory.CurrentConfig.TaskQueue.Take(index)
+                    .OfType<FightTask>()
+                    .Where(task => task.IsEnable is true || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && task.IsEnable is null))
+                    .Select(i => FightSettingsUserControlModel.GetFightStage(i.StagePlan));
+                if (fightBeforeMall.Any() && fightBeforeMall.FirstOrDefault() == string.Empty)
+                {
+                    fightStageEmpty = true;
+                }
+            }
         }
 
         var task = new AsstMallTask() {
