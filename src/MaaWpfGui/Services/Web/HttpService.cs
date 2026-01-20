@@ -335,37 +335,197 @@ public class HttpService : IHttpService
 
     private async Task<bool> DownloadFileWithMultiThreadAsync(Uri uri, string fullFilePath, string fullFilePathWithTemp, long fileSize, string? contentType)
     {
-        _logger.Information("Using multi-threaded download for {Uri}, file size: {FileSize} bytes", uri, fileSize);
+        _logger.Information("Using dynamic multi-threaded download for {Uri}, file size: {FileSize} bytes", uri, fileSize);
 
-        // 动态计算线程数：文件每10MB一个线程，最少2个，最多8个
-        int threadCount = Math.Max(2, Math.Min(8, (int)(fileSize / (10 * 1024 * 1024))));
-        long chunkSize = fileSize / threadCount;
+        // 动态线程管理：初始线程数为2，范围1-64，根据实时下载速度动态调整
+        int currentThreadCount = 2;
+        const int minThreads = 1;
+        const int maxThreads = 64;
 
-        _logger.Information("Download thread count: {ThreadCount}, chunk size: {ChunkSize} bytes", threadCount, chunkSize);
+        var progressLock = new object();
+        long totalBytesDownloaded = 0;
+        long previousBytesDownloaded = 0;
+        DateTime lastSpeedCheck = DateTime.Now;
+        DateTime lastAdjustmentTime = DateTime.Now;
+        double currentSpeed = 0; // bytes per second
+        double previousSpeed = 0;
 
-        var tasks = new List<Task<(bool success, long bytesDownloaded)>>();
-        var chunkFiles = new List<string>();
+        var activeThreads = new Dictionary<int, DownloadThreadInfo>();
+        var completedChunks = new HashSet<int>();
+        int nextThreadId = 0;
 
         try
         {
-            // 记录初始化
-            long totalBytesDownloaded = 0;
-            int valueInOneSecond = 0;
-            DateTime beforeDt = DateTime.Now;
-            var progressLock = new object();
-
-            // Dangerous action
+            // 初始化进度显示
             VersionUpdateDialogViewModel.OutputDownloadProgress();
 
-            for (int i = 0; i < threadCount; i++)
+            // 启动初始线程
+            for (int i = 0; i < currentThreadCount; i++)
             {
-                long start = i * chunkSize;
-                long end = (i == threadCount - 1) ? fileSize - 1 : start + chunkSize - 1;
-                string chunkFile = $"{fullFilePathWithTemp}.part{i}";
-                chunkFiles.Add(chunkFile);
+                StartNewThread(i);
+            }
 
-                int threadId = i;
-                tasks.Add(Task.Run(async () =>
+            // 动态监控和调整线程
+            while (true)
+            {
+                await Task.Delay(1000); // 每秒检查一次
+
+                List<KeyValuePair<int, DownloadThreadInfo>> completedThreads;
+                bool shouldExit = false;
+                bool shouldUpdate = false;
+                int threadsToStart = 0;
+
+                lock (progressLock)
+                {
+                    // 计算当前下载速度
+                    double elapsed = DateTime.Now.Subtract(lastSpeedCheck).TotalSeconds;
+                    if (elapsed >= 1.0)
+                    {
+                        long bytesDownloadedSinceLastCheck = totalBytesDownloaded - previousBytesDownloaded;
+                        currentSpeed = bytesDownloadedSinceLastCheck / elapsed;
+                        previousBytesDownloaded = totalBytesDownloaded;
+                        lastSpeedCheck = DateTime.Now;
+                        shouldUpdate = true;
+
+                        // 动态调整线程数（每3秒调整一次）
+                        double timeSinceLastAdjustment = DateTime.Now.Subtract(lastAdjustmentTime).TotalSeconds;
+                        if (timeSinceLastAdjustment >= 3.0)
+                        {
+                            AdjustThreadCount();
+                            lastAdjustmentTime = DateTime.Now;
+                        }
+                    }
+
+                    // 检查是否所有线程都已完成
+                    if (activeThreads.Count == 0 && totalBytesDownloaded >= fileSize)
+                    {
+                        shouldExit = true;
+                    }
+
+                    // 清理已完成的线程
+                    completedThreads = activeThreads.Where(t => t.Value.Task.IsCompleted).ToList();
+
+                    // 计算需要启动的新线程数
+                    if (totalBytesDownloaded < fileSize && activeThreads.Count - completedThreads.Count < currentThreadCount)
+                    {
+                        threadsToStart = currentThreadCount - (activeThreads.Count - completedThreads.Count);
+                    }
+                }
+
+                // 更新进度显示（在锁外）
+                if (shouldUpdate)
+                {
+                    long bytesDownloadedSinceLastCheck = totalBytesDownloaded - previousBytesDownloaded;
+                    double elapsed = DateTime.Now.Subtract(lastSpeedCheck).TotalSeconds;
+                    VersionUpdateDialogViewModel.OutputDownloadProgress(
+                        totalBytesDownloaded,
+                        fileSize,
+                        (int)bytesDownloadedSinceLastCheck,
+                        elapsed);
+                }
+
+                // 处理已完成的线程（在锁外）
+                foreach (var thread in completedThreads)
+                {
+                    var result = await thread.Value.Task;
+
+                    lock (progressLock)
+                    {
+                        if (result.success)
+                        {
+                            completedChunks.Add(thread.Key);
+                            _logger.Information("Thread {ThreadId} completed successfully", thread.Key);
+                        }
+                        else
+                        {
+                            _logger.Error("Thread {ThreadId} failed", thread.Key);
+                            return false;
+                        }
+
+                        activeThreads.Remove(thread.Key);
+                    }
+                }
+
+                // 启动新线程（在锁外）
+                for (int i = 0; i < threadsToStart; i++)
+                {
+                    lock (progressLock)
+                    {
+                        if (totalBytesDownloaded < fileSize)
+                        {
+                            StartNewThread(nextThreadId++);
+                        }
+                    }
+                }
+
+                if (shouldExit)
+                {
+                    break;
+                }
+            }
+
+            // 合并所有下载的块
+            _logger.Information("Merging {Count} chunk files", completedChunks.Count);
+            await using (var outputStream = new FileStream(fullFilePathWithTemp, FileMode.Create, FileAccess.Write))
+            {
+                foreach (var chunkId in completedChunks.OrderBy(c => c))
+                {
+                    string chunkFile = $"{fullFilePathWithTemp}.part{chunkId}";
+                    if (File.Exists(chunkFile))
+                    {
+                        await using (var chunkStream = new FileStream(chunkFile, FileMode.Open, FileAccess.Read))
+                        {
+                            await chunkStream.CopyToAsync(outputStream);
+                        }
+                    }
+                }
+            }
+
+            File.Copy(fullFilePathWithTemp, fullFilePath, true);
+            _logger.Information("Dynamic multi-threaded download completed successfully with {ThreadCount} total threads used", nextThreadId);
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Dynamic multi-threaded download failed");
+            return false;
+        }
+        finally
+        {
+            // 清理临时文件
+            if (File.Exists(fullFilePathWithTemp))
+            {
+                File.Delete(fullFilePathWithTemp);
+            }
+
+            for (int i = 0; i < nextThreadId; i++)
+            {
+                string chunkFile = $"{fullFilePathWithTemp}.part{i}";
+                if (File.Exists(chunkFile))
+                {
+                    File.Delete(chunkFile);
+                }
+            }
+        }
+
+        void StartNewThread(int threadId)
+        {
+            lock (progressLock)
+            {
+                // 计算此线程应下载的范围
+                long chunkSize = Math.Max(1024 * 1024, fileSize / 100); // 至少1MB，或文件的1%
+                long start = totalBytesDownloaded;
+                long end = Math.Min(start + chunkSize - 1, fileSize - 1);
+
+                if (start >= fileSize)
+                {
+                    return; // 没有更多数据需要下载
+                }
+
+                string chunkFile = $"{fullFilePathWithTemp}.part{threadId}";
+                totalBytesDownloaded = end + 1; // 预留此范围
+
+                var task = Task.Run(async () =>
                 {
                     long chunkBytesDownloaded = 0;
                     try
@@ -391,25 +551,9 @@ public class HttpService : IHttpService
                             {
                                 await fileStream.WriteAsync(buffer, 0, bytesRead);
                                 chunkBytesDownloaded += bytesRead;
-
-                                lock (progressLock)
-                                {
-                                    valueInOneSecond += bytesRead;
-                                    totalBytesDownloaded += bytesRead;
-                                    double ts = DateTime.Now.Subtract(beforeDt).TotalSeconds;
-                                    if (ts > 1)
-                                    {
-                                        beforeDt = DateTime.Now;
-
-                                        // Dangerous action
-                                        VersionUpdateDialogViewModel.OutputDownloadProgress(totalBytesDownloaded, fileSize, valueInOneSecond, ts);
-                                        valueInOneSecond = 0;
-                                    }
-                                }
                             }
                         }
 
-                        _logger.Information("Thread {ThreadId} completed, downloaded {Bytes} bytes", threadId, chunkBytesDownloaded);
                         return (true, chunkBytesDownloaded);
                     }
                     catch (Exception e)
@@ -417,58 +561,55 @@ public class HttpService : IHttpService
                         _logger.Error(e, "Thread {ThreadId} failed with exception", threadId);
                         return (false, 0L);
                     }
-                }));
+                });
+
+                activeThreads[threadId] = new DownloadThreadInfo { Task = task, StartByte = start, EndByte = end };
+                _logger.Information("Started thread {ThreadId} for range {Start}-{End} (target threads: {CurrentThreadCount})", threadId, start, end, currentThreadCount);
             }
+        }
 
-            var results = await Task.WhenAll(tasks);
-
-            // 检查所有线程是否成功
-            if (results.Any(r => !r.success))
+        void AdjustThreadCount()
+        {
+            // 根据速度变化调整线程数
+            if (previousSpeed > 0)
             {
-                _logger.Error("Some download threads failed");
-                return false;
-            }
+                double speedRatio = currentSpeed / previousSpeed;
 
-            // 合并文件
-            _logger.Information("Merging {Count} chunk files", chunkFiles.Count);
-            await using (var outputStream = new FileStream(fullFilePathWithTemp, FileMode.Create, FileAccess.Write))
-            {
-                foreach (var chunkFile in chunkFiles)
+                if (speedRatio > 1.2 && currentThreadCount < maxThreads)
                 {
-                    await using (var chunkStream = new FileStream(chunkFile, FileMode.Open, FileAccess.Read))
-                    {
-                        await chunkStream.CopyToAsync(outputStream);
-                    }
+                    // 速度显著提升，增加线程
+                    currentThreadCount = Math.Min(maxThreads, currentThreadCount + 2);
+                    _logger.Information("Increasing thread count to {ThreadCount} (speed improved: {SpeedRatio:F2}x)", currentThreadCount, speedRatio);
+                }
+                else if (speedRatio < 0.8 && currentThreadCount > minThreads)
+                {
+                    // 速度下降，减少线程
+                    currentThreadCount = Math.Max(minThreads, currentThreadCount - 1);
+                    _logger.Information("Decreasing thread count to {ThreadCount} (speed decreased: {SpeedRatio:F2}x)", currentThreadCount, speedRatio);
                 }
             }
 
-            File.Copy(fullFilePathWithTemp, fullFilePath, true);
-            _logger.Information("Multi-threaded download completed successfully");
-            return true;
-        }
-        catch (Exception e)
-        {
-            _logger.Error(e, "Multi-threaded download failed");
-            return false;
-        }
-        finally
-        {
-            // 清理临时文件
-            if (File.Exists(fullFilePathWithTemp))
+            // 如果当前速度很快，继续增加线程（每MB/s增加1个线程，最多到maxThreads）
+            if (currentSpeed > 1024 * 1024) // > 1 MB/s
             {
-                _logger.Information("Remove download temp file {TempFile}", fullFilePathWithTemp);
-                File.Delete(fullFilePathWithTemp);
-            }
-
-            foreach (var chunkFile in chunkFiles)
-            {
-                if (File.Exists(chunkFile))
+                int targetThreads = Math.Min(maxThreads, (int)(currentSpeed / (1024 * 1024)) + 1);
+                if (targetThreads > currentThreadCount)
                 {
-                    _logger.Information("Remove chunk file {ChunkFile}", chunkFile);
-                    File.Delete(chunkFile);
+                    currentThreadCount = targetThreads;
+                    _logger.Information("Adjusting thread count to {ThreadCount} based on current speed {Speed:F2} MB/s",
+                        currentThreadCount, currentSpeed / (1024 * 1024));
                 }
             }
+
+            previousSpeed = currentSpeed;
         }
+    }
+
+    private class DownloadThreadInfo
+    {
+        public Task<(bool success, long bytesDownloaded)> Task { get; set; } = null!;
+        public long StartByte { get; set; }
+        public long EndByte { get; set; }
     }
 
     private static WebProxy? GetProxy()
