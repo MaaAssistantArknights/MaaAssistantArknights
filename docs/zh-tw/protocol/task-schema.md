@@ -3,12 +3,12 @@ order: 4
 icon: material-symbols:task
 ---
 
-# 任務流程協議
+# 任務流程協定
 
 `resource/tasks` 的使用方法及各欄位說明
 
 ::: tip
-推薦使用 [Visual Studio Code](https://code.visualstudio.com/) 並安裝 [Maa Pipeline Support](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) 擴充功能以實作高效編輯，詳情請查閱擴充功能首頁和[文件](../develop/vsc-ext-tutorial.md)
+推薦使用 [Visual Studio Code](https://code.visualstudio.com/) 並安裝 [Maa Pipeline Support](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) 擴充功能以實作高效編輯，詳情請查閱擴充功能首頁和 [文件](../develop/vsc-ext-tutorial.md)。
 :::
 
 ::: warning

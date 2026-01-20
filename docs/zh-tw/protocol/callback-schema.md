@@ -3,10 +3,10 @@ order: 2
 icon: material-symbols:u-turn-left
 ---
 
-# 回呼訊息協定 (Callback)
+# 回呼訊息協定
 
 ::: info 注意
-回呼訊息隨版本更新快速迭代中，本文件可能過時。如需獲取最新內容可參考 [C# 整合原始碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaWpfGui/Main/AsstProxy.cs)
+回呼訊息 (Callback) 隨版本更新快速迭代中，本文件可能過時。如需獲取最新內容可參考 [C# 整合原始碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaWpfGui/Main/AsstProxy.cs)
 :::
 
 ## 回呼函式原型
@@ -332,19 +332,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 - `StageDrops`  
   關卡材料掉落資訊。`details` 欄位結構如下：
-  - `drops` (array, required): 本次辨識到的掉落材料，陣列每一項包含：
-    - `itemId` (string, required): 材料 ID。
-    - `quantity` (number, required): 掉落數量。
-    - `itemName` (string, required): 材料名稱。
-  - `stage` (object, required): 關卡資訊，包含：
-    - `stageCode` (string, required): 關卡編號。
-    - `stageId` (string, required): 關卡 ID。
-  - `stars` (number, required): 行動結束星級。
-  - `stats` (array, required): 本次執行期間總計材料掉落，陣列每一項包含：
-    - `itemId` (string, required): 材料 ID。
-    - `itemName` (string, required): 材料名稱。
-    - `quantity` (number, required): 總計數量。
-    - `addQuantity` (number, required): 本次新增的掉落數量。
+  - `drops` (array, required)：本次辨識到的掉落材料，陣列每一項包含：
+    - `itemId` (string, required)：材料 ID。
+    - `quantity` (number, required)：掉落數量。
+    - `itemName` (string, required)：材料名稱。
+  - `stage` (object, required)：關卡資訊，包含：
+    - `stageCode` (string, required)：關卡編號。
+    - `stageId` (string, required)：關卡 ID。
+  - `stars` (number, required)：行動結束星級。
+  - `stats` (array, required)：本次執行期間總計材料掉落，陣列每一項包含：
+    - `itemId` (string, required)：材料 ID。
+    - `itemName` (string, required)：材料名稱。
+    - `quantity` (number, required)：總計數量。
+    - `addQuantity` (number, required)：本次新增的掉落數量。
 
 - `RecruitTagsDetected`  
   公招辨識到了 Tags。`details` 欄位內容如下：
@@ -366,14 +366,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 - `RecruitResult`  
   公招辨識結果。`details` 欄位結構如下：
-  - `tags` (array, required): 所有辨識到的 tags，目前固定為 5 個。
-  - `level` (number, required): 組合的最高星級。
-  - `result` (array, required): 具體的組合結果，陣列每一項包含：
-    - `tags` (array, required): 參與組合的 tags。
-    - `level` (number, required): 這組 tags 的星級。
-    - `opers` (array, required): 可能招募到的幹員，陣列每一項包含：
-      - `name` (string, required): 幹員名稱。
-      - `level` (number, required): 幹員星級。
+  - `tags` (array, required)：所有辨識到的 tags，目前固定為 5 個。
+  - `level` (number, required)：組合的最高星級。
+  - `result` (array, required)：具體的組合結果，陣列每一項包含：
+    - `tags` (array, required)：參與組合的 tags。
+    - `level` (number, required)：這組 tags 的星級。
+    - `opers` (array, required)：可能招募到的幹員，陣列每一項包含：
+      - `name` (string, required)：幹員名稱。
+      - `level` (number, required)：幹員星級。
 
 - `RecruitTagsRefreshed`  
   公招刷新了 Tags。`details` 欄位內容如下：
@@ -473,25 +473,25 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 - `Depot`  
   倉庫辨識結果。`details` 欄位結構如下：
-  - `done` (boolean, required): 是否已經辨識完了，為 false 表示仍在辨識中（過程中的數據）。
-  - `data` (string, required): json 字串，格式為 {"物品ID": 數量, ...}，例如 {"2001":18000,"31043":317}。
+  - `done` (boolean, required)：是否已經辨識完了，為 false 表示仍在辨識中（過程中的數據）。
+  - `data` (string, required)：json 字串，格式為 {"物品ID": 數量, ...}，例如 {"2001":18000,"31043":317}。
 
 - `OperBox`  
   幹員辨識結果。`details` 欄位結構如下：
-  - `done` (boolean, required): 是否已經辨識完了，為 false 表示仍在辨識中（過程中的數據）。
-  - `all_oper` (array, required): 全幹員列表，陣列每一項包含：
-    - `id` (string, required): 幹員 ID。
-    - `name` (string, required): 幹員名稱。
-    - `own` (boolean, required): 是否擁有。
-    - `rarity` (number, required): 幹員稀有度 [1, 6]。
-  - `own_opers` (array, required): 已擁有幹員的詳細資訊列表，陣列每一項包含：
-    - `id` (string, required): 幹員 ID。
-    - `name` (string, required): 幹員名稱。
-    - `own` (boolean, required): 是否擁有。
-    - `elite` (number, required): 精英等級 [0, 2]。
-    - `level` (number, required): 幹員等級。
-    - `potential` (number, required): 幹員潛能 [1, 6]。
-    - `rarity` (number, required): 幹員稀有度 [1, 6]。
+  - `done` (boolean, required)：是否已經辨識完了，為 false 表示仍在辨識中（過程中的數據）。
+  - `all_oper` (array, required)：全幹員列表，陣列每一項包含：
+    - `id` (string, required)：幹員 ID。
+    - `name` (string, required)：幹員名稱。
+    - `own` (boolean, required)：是否擁有。
+    - `rarity` (number, required)：幹員稀有度 [1, 6]。
+  - `own_opers` (array, required)：已擁有幹員的詳細資訊列表，陣列每一項包含：
+    - `id` (string, required)：幹員 ID。
+    - `name` (string, required)：幹員名稱。
+    - `own` (boolean, required)：是否擁有。
+    - `elite` (number, required)：精英等級 [0, 2]。
+    - `level` (number, required)：幹員等級。
+    - `potential` (number, required)：幹員潛能 [1, 6]。
+    - `rarity` (number, required)：幹員稀有度 [1, 6]。
 
 - `UnsupportedLevel`  
   自動抄作業，不支援的關卡名稱。`details` 欄位為空。

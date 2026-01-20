@@ -11,19 +11,19 @@ icon: game-icons:prisoner
 
 ```json
 {
-    "type": "SSS", // 協定類型，SSS 表示保全派駐，必選，不可修改
-    "stage_name": "多索雷斯在建地塊", // 保全派駐地圖名稱，必選
-    "minimum_required": "v4.9.0", // 最低要求 MAA 版本號，必選
+    "type": "SSS", // 協定類型，SSS 表示保全派駐，必填，不可修改
+    "stage_name": "多索雷斯在建地塊", // 保全派駐地圖名稱，必填
+    "minimum_required": "v4.9.0", // 最低要求 MAA 版本號，必填
     "doc": {
-        // 描述，可選
+        // 描述，選填
         "title": "低練度高成功率作業",
         "title_color": "dark",
         "details": "對練度要求很低之類的……", // 建議在這裡寫上您的名字！（作者名稱）、參考的影片攻略連結等
         "details_color": "dark"
     },
-    "buff": "自適應補給元件", // 開局導能元件選擇，可選
+    "buff": "自適應補給元件", // 開局導能元件選擇，選填
     "equipment": [
-        // 開局裝備選擇，橫著數，可選
+        // 開局裝備選擇，橫著數，選填
         // 目前版本暫未實現，只會在介面上顯示一下
         "A",
         "A",
@@ -34,10 +34,10 @@ icon: game-icons:prisoner
         "B",
         "B"
     ],
-    "strategy": "優選策略", // 或者 自由策略，可選
+    "strategy": "優選策略", // 或者 自由策略，選填
     // 目前版本暫未實現，只會在介面上顯示一下
     "opers": [
-        // 指定幹員，可選
+        // 指定幹員，選填
         {
             "name": "棘刺",
             "skill": 3,
@@ -45,7 +45,7 @@ icon: game-icons:prisoner
         }
     ],
     "tool_men": {
-        // 剩餘所需各職業人數，按費用排序隨便拿，可選
+        // 剩餘所需各職業人數，按費用排序隨便拿，選填
         // 目前版本暫未實現，只會在介面上顯示一下
         "Pioneer": 13,
         "近衛": 2, // 中英文均可
@@ -64,18 +64,18 @@ icon: game-icons:prisoner
         "改派發訊器"
     ],
     "blacklist": [
-        // 黑名單，可選。在 drops 裡不會選這些人。
+        // 黑名單，選填。在 drops 裡不會選這些人。
         // 後續版本支援編隊後，編隊工具人也不會選這些人
         "夜半",
         "梅爾"
     ],
     "stages": [
         {
-            "stage_name": "蜂擁而上", // 單層關卡名稱，必選
+            "stage_name": "蜂擁而上", // 單層關卡名稱，必填
             // 支援 name, stageId, levelId，推薦 stageId 或 levelId
             // 請勿使用 code（例如 LT-1），因為會與其他保全關卡衝突
             "strategies": [
-                // 必選
+                // 必填
                 // 每次檢查都會從頭自上而下依次進行，並跳過執行完畢的策略
                 // 若當前策略的工具人已經部署完畢
                 //      若沒有 core，則認為此策略執行完畢
@@ -127,9 +127,9 @@ icon: game-icons:prisoner
                     "direction": "Left"
                 }
             ],
-            "draw_as_possible": true, // 「調配幹員」按鈕，是否好了就用，可選，預設 true
+            "draw_as_possible": true, // 「調配幹員」按鈕，是否好了就用，選填，預設 true
             "actions": [
-                // 可選
+                // 選填
                 // 基本複用抄作業的邏輯，可參考 protocol/copilot-schema.md
                 // 符合 action 的條件就執行 action，否則執行上面的 strategies 邏輯
                 {
