@@ -184,7 +184,7 @@
     <system:String x:Key="SecondResolution">第二解析度</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（阻擋異常輸出）</system:String>
     <system:String x:Key="DormThreshold">基建工作心情閾值</system:String>
-    <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該欄位僅針對自動填充 (autofill) 和 {key=Operator}編組 的房間有效</system:String>
+    <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該欄位僅針對自動填充 (autofill) 和{key=Operator}編組的房間有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，投資完成後自動退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二{key=Operator}開局</system:String>
@@ -391,7 +391,7 @@
     <system:String x:Key="CheckNetworking">請檢查網路連線或 Proxy 代理設定。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">取得更新資訊失敗。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先別急.jpg</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整檔案並將 resource 資料夾移至回收桶及 .old，如有需要請手動備份</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整檔案並將 resource 資料夾移至資源回收桶及 .old，如有需要請手動備份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在準備下載更新檔……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下載失敗</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
@@ -540,7 +540,7 @@
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
     <system:String x:Key="OnlyBuyDiscount">只購買打折的信用商品</system:String>
-    <system:String x:Key="ReserveMaxCredit">300 以下信用點停止購買商品</system:String>
+    <system:String x:Key="ReserveMaxCredit">300 以下信用點數停止購買商品</system:String>
     <system:String x:Key="OnlyBuyDiscountTips">⚠ 可能會導致信用點數溢出！仍然會購買未打折的商品！</system:String>
     <system:String x:Key="ReserveMaxCreditTips">低於 300 信用點數也仍然會購買白名單物品！</system:String>
     <system:String x:Key="CreditFullOnlyBuyDiscount">博士！\n只購買折扣商品讓信用點數溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
@@ -581,7 +581,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下 ｢{key=Confirm}｣ 鍵即視為您了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseExpiringMedicine">無限吃 48 小時內過期的理智藥</system:String>
-    <system:String x:Key="HideUnavailableStage">隱藏目前不開放關卡</system:String>
+    <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
     <system:String x:Key="HideSeries">隱藏代理倍率</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡名稱</system:String>
@@ -668,7 +668,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="Combat">刷理智</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Visiting">訪問好友</system:String>
-    <system:String x:Key="Mall">取得信用及購物</system:String>
+    <system:String x:Key="Mall">獲取信用及購物</system:String>
     <system:String x:Key="Mission">領取獎勵</system:String>
     <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
@@ -820,8 +820,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="RecruitmentRecognition">公招辨識</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動開啟遊戲公招 Tags 介面後使用 ~</system:String>
     <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
-    <system:String x:Key="RecruitmentShowPotential">顯示 {key=Operator} 潛能（4/5/6★ Tags）</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">請使用 ｢{key=OperBoxRecognition}｣ 取得 {key=Operator} 資訊。</system:String>
+    <system:String x:Key="RecruitmentShowPotential">顯示{key=Operator}潛能（4/5/6★ Tags）</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">請使用 ｢{key=OperBoxRecognition}｣ 取得{key=Operator}資訊。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自動選擇 3 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自動選擇 4 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自動選擇 5 星 Tags</system:String>
@@ -841,7 +841,7 @@ C:\\leidian\\LDPlayer9\n
     <!--  日誌  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}辨識</system:String>
     <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">特別關注會影響 {key=Operator} 辨識準確率，如有特別關注的 {key=Operator} 辨識錯誤請自行判斷。</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">特別關注會影響{key=Operator}辨識準確率，如有特別關注的{key=Operator}辨識錯誤請自行判斷。</system:String>
     <system:String x:Key="OperBoxHaveList">已擁有：{0} 名</system:String>
     <system:String x:Key="OperBoxNotHaveList">未擁有：{0} 名</system:String>
     <system:String x:Key="StartToOperBoxRecognition">開始辨識</system:String>
@@ -934,7 +934,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ParadoxCopilot">{key=ParadoxSimulation}</system:String>
     <system:String x:Key="CopilotLocation">作業路徑 / 神秘代碼</system:String>
     <system:String x:Key="CopilotTaskName">關卡名稱</system:String>
-    <system:String x:Key="CopilotTaskNameTip">關卡名稱，例：1-7</system:String>
+    <system:String x:Key="CopilotTaskNameTip">關卡名稱，例如：1-7</system:String>
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">讀取剪貼簿並新增為作業</system:String>
@@ -944,19 +944,19 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="FailedToLikeWebJson">出現錯誤，評價失敗 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感謝評價！\n網頁已經開放評論區，歡迎前往留下您的評論！</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
-    <system:String x:Key="AutoSquadTip">自動編隊可能無法辨識 ｢特別關注｣ 的 {key=Operator}</system:String>
+    <system:String x:Key="AutoSquadTip">自動編隊可能無法辨識 ｢特別關注｣ 的{key=Operator}</system:String>
     <system:String x:Key="SupportUnitUsage">借助戰</system:String>
     <system:String x:Key="SupportUnitUsage.Tip">缺一個還勉強可以，缺兩個以上還是換份作業吧</system:String>
     <system:String x:Key="SupportUnitUsage.None">不借用</system:String>
     <system:String x:Key="SupportUnitUsage.WhenNeeded">僅用於補漏</system:String>
     <system:String x:Key="SupportUnitUsage.Random">隨機</system:String>
     <system:String x:Key="AddTrust">補充低信賴 {key=Operator}</system:String>
-    <system:String x:Key="Copilot.IgnoreRequirements">忽略 {key=Operator} 屬性要求</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements">忽略{key=Operator}屬性要求</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">某些作業需要特定模組等作為前置條件
 勾選此項將跳過這些檢查，但可能導致作業無法正常執行</system:String>
-    <system:String x:Key="AddUserAdditional">追加自定義 {key=Operator}</system:String>
-    <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔 {key=Operator} 姓名和技能，例如：史爾特爾,3;艾雅法拉,1</system:String>
-    <system:String x:Key="UserAdditional.OperatorName">{key=Operator} 名稱</system:String>
+    <system:String x:Key="AddUserAdditional">追加自定義{key=Operator}</system:String>
+    <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔{key=Operator}姓名和技能，例如：史爾特爾,3;艾雅法拉,1</system:String>
+    <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名稱</system:String>
     <system:String x:Key="UserAdditional.Skill">技能</system:String>
     <system:String x:Key="UserAdditional.Action">操作</system:String>
     <system:String x:Key="UserAdditional.Add">新增</system:String>
@@ -965,7 +965,7 @@ C:\\leidian\\LDPlayer9\n
   1. {key=MainStage}：同一章節內導航
   2. {key=SideStory}：目前頁面內導航（普通/EX/S 不能互跳）
   3. {key=StoryCollection}：目前頁面內導航
-  4. {key=ParadoxSimulation}：從 {key=Operator} 列表啟動
+  4. {key=ParadoxSimulation}：從{key=Operator}列表啟動
 請在對應介面啟動，不支援跨章節導航
 
 當 ｢{key=UseCopilotList}｣ 啟用後，選擇單一作業時會自動新增至 ｢{key=UseCopilotList}｣</system:String>
@@ -1007,9 +1007,9 @@ C:\\leidian\\LDPlayer9\n
         1. 使用前請確認作業與所選擇的關卡類型一致。\n\n
         2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}：請在關卡介面右下角顯示 ｢開始行動｣ 按鈕的畫面啟動。\n\n
         3. {key=SSS}：resource/copilot 資料夾內建多份作業。請先手動編隊，在右下角顯示 ｢開始部署｣ 按鈕的介面啟動，可配合 ｢{key=LoopTimes}｣。\n\n
-        4. {key=ParadoxSimulation}：選好技能後，在技能選擇介面顯示 ｢開始模擬｣ 按鈕的畫面啟動；1/2 星 {key=Operator}（無技能）在右下角顯示 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從 {key=Operator} 列表的「等級/稀有度」標籤頁啟動。\n\n
-        5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇 {key=Operator} 後，在編隊介面右下角顯示 ｢開始行動｣ 按鈕的畫面啟動。\n\n
-        6. {key=Operator} 若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除特別關注，或在報錯後關閉 ｢{key=AutoSquad}｣，並依據提示手動補充缺少的 {key=Operator}。\n\n
+        4. {key=ParadoxSimulation}：選好技能後，在技能選擇介面顯示 ｢開始模擬｣ 按鈕的畫面啟動；1/2 星 {key=Operator}（無技能）在右下角顯示 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從{key=Operator}列表的「等級/稀有度」標籤頁啟動。\n\n
+        5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇{key=Operator}後，在編隊介面右下角顯示 ｢開始行動｣ 按鈕的畫面啟動。\n\n
+        6.{key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除特別關注，或在報錯後關閉 ｢{key=AutoSquad}｣，並依據提示手動補充缺少的 {key=Operator}。\n\n
         7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：\n
         ● 點選第 2 個按鈕 = 新增作業。\n
         ● 點選第 3 個按鈕 = 新增作業集。\n\n
@@ -1059,7 +1059,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ErrorCrashMessageHeader">以上問題導致程式異常關閉。</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」查看日誌，了解錯誤發生的具體原因。</system:String>
     <system:String x:Key="ErrorCrashMessageGenerateReport">請使用「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」產生錯誤報告，並點擊藍色的 ｢{key=Issue}｣ 連結提交回報。</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">如果要尋求他人協助，請傳送產生的錯誤報告檔案，而不是傳送此視窗的截圖或照片。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">若要尋求協助，請直接傳送產生的 「錯誤報告檔案」；請勿傳送此視窗的截圖、錄影、螢幕照片、翻拍影片、手繪圖片或抄寫的內容。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程式崩潰原因</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
     <!--  !ErrorView  -->
@@ -1103,7 +1103,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="TheEx">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="MissingOperators">缺少以下 {key=Operator} 組的 {key=Operator}：</system:String>
+    <system:String x:Key="MissingOperators">缺少以下{key=Operator}組的 {key=Operator}：</system:String>
     <system:String x:Key="RecruitSupportOperator">編入助戰 {key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">關卡佇列：</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
@@ -1177,8 +1177,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="FurnitureDrop">傢俱</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">目前設施：</system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">符合編組：</system:String>
-    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">符合 {key=Operator} 編組失敗，編組列表：</system:String>
-    <system:String x:Key="RoomOperators" xml:space="preserve">首選 {key=Operator}：</system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">符合{key=Operator}編組失敗，編組列表：</system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">首選{key=Operator}：</system:String>
     <system:String x:Key="ProductIncorrect">產物與配置不符。</system:String>
     <system:String x:Key="ProductUnknown">無法辨識的產物</system:String>
     <system:String x:Key="ProductChanged">產物已切換</system:String>
@@ -1190,7 +1190,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="Refreshed">目前欄位已刷新</system:String>
     <system:String x:Key="ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">無招聘許可，已返回</system:String>
-    <system:String x:Key="NotEnoughStaff">可用 {key=Operator} 不足</system:String>
+    <system:String x:Key="NotEnoughStaff">可用{key=Operator}不足</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">公招多選 Tags 的策略</system:String>
     <system:String x:Key="DefaultNoExtraTags">預設不選擇額外的 Tags</system:String>
     <system:String x:Key="SelectExtraTags">選擇高星時總是選擇三個 Tags</system:String>
@@ -1202,9 +1202,10 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="Current">目前</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationParseFailed">編隊解析失敗</system:String>
-    <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇 {key=Operator}：</system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇{key=Operator}：</system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator} 不可用：{0}，原因：{1}</system:String>
-    <system:String x:Key="BattleFormationModuleUnavailable">所需模組未解鎖</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等級不足</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Module">所需模組未解鎖</system:String>
     <system:String x:Key="CurrentSteps">目前步驟：{0} {1}</system:String>
     <system:String x:Key="ElapsedTime">經過時間：{0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>
@@ -1291,7 +1292,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="AutoSelectLevel4">自動確認 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自動確認 5 星</system:String>
     <system:String x:Key="AutoSelectLevel6">自動確認 6 星</system:String>
-    <system:String x:Key="Level1Tip">勾選後，若辨識到 1 星 Tag 將跳過該次招募；未勾選則忽略 1 星 Tag。</system:String>    <!--  !AutoRecruitSettings  -->
+    <system:String x:Key="Level1Tip">勾選後，若辨識到 1 星 Tag 將跳過該次招募；未勾選則忽略 1 星 Tag。</system:String>
+    <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">博士，歡迎加入這盛大的魚人慶典！聽說可露希爾小姐的商店裡新上架了美酒，要去來一杯嗎？</system:String>
     <system:String x:Key="Burping">呃……咳嗯</system:String>
@@ -1299,7 +1301,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="Hangover">下次不能喝、喝這麼多了……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 正式版不會出現 Debug 模式。如果你在執行時看到 Debug 選項，請立即關閉軟體，不要點擊它，並聯絡最近的 MAA 開發者。\n
-2. 基建換班是自動的。如果你發現某個 {key=Operator} 連續工作了 72 小時以上，請手動調整班次，並檢查系統時間是否正常。\n
+2. 基建換班是自動的。如果你發現某個{key=Operator}連續工作了 72 小時以上，請手動調整班次，並檢查系統時間是否正常。\n
 3. 公開招募的標籤不會改變。如果發現標籤在倒數計時結束前自行更換，不要繼續招募，重啟 MAA 後再操作。\n
 4. MAA 不會主動發送好友申請。如果收到來自 ｢MAA_System｣ 的好友請求，不要接受，並刪除該帳號。\n
 5. 肉鴿輔助僅提供建議。若遊戲自動選擇了不存在的選項，強制退出並重新啟動用戶端。\n
@@ -1345,8 +1347,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="RemoteControlConnectionTestSuccess">連線測試成功！</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">連線測試失敗，原因：{0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">連線測試失敗，連線端點為空。</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">連線測試失敗，連線端點非 http(s) 位址。</system:String>
-    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">連線端點未啟用 https，可能不安全。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">連線測試失敗，連線端點非 HTTP(S) 位址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">連線端點未啟用 HTTPS，可能不安全。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到遠端任務 {0}，任務 ID：{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成遠端任務 {0}，任務 ID：{1}。</system:String>
     <system:String x:Key="RemoteControlTooltips">注意：隨意輸入未知來源的位址可能會導致您的帳號遭受損失。</system:String>
@@ -1372,9 +1374,9 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 目前生息演算的支援仍處於中期階段，使用時請注意以下幾點：
 
- 透過開局刷點數：（注意：已有存檔可能會被刪除）
+ 透過開局刷點數：（請注意：已有存檔可能會被刪除）
   1. 點數刷滿後會輸出 ｢任務完成｣，自動停止任務。
-  2. 不要在生息演算的編隊中有 {key=Operator} 的情況下使用。
+  2. 不要在生息演算的編隊中有{key=Operator}的情況下使用。
   3. 請手動確認存檔情況，以免 MAA 刪除您的珍貴存檔。
   4. 導航功能尚未完成，無法從生息演算以外的位置開始任務。
   5. 若任務過程中報錯、點數未刷滿就顯示任務完成，請前往 GitHub 提交 Issue。
@@ -1782,7 +1784,7 @@ C:\\leidian\\LDPlayer9\n
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">悲報</system:String>
     <system:String x:Key="BadModules.Warning.Prolog">以下注入到 MAA 的 DLL 可能會導致 MAA 閃退或介面渲染異常：</system:String>
-    <system:String x:Key="BadModules.Warning.Epilog">如果您發現 MAA 存在相關問題，請嘗試將 MAA 加入該軟體的排除名單，或解除安裝相關軟體後檢查問題是否仍然存在。</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog">如果您發現 MAA 存在相關問題，請嘗試將 MAA 加入相關軟體的排除名單，或解除安裝相關軟體後檢查問題是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再顯示此警告</system:String>
     <!--  !BadModules  -->
 
