@@ -204,7 +204,44 @@
                         hc:InfoElement.Placeholder="&lt;IP&gt;:&lt;Port&gt;"
                         InputMethod.IsInputMethodEnabled="False"
                         Text="{Binding Proxy}" />
-                    <Grid Grid.Row="2">
+                    
+                    <!--  GitHub Domain Settings  -->
+                    <StackPanel Grid.Row="2" Margin="0,5,0,5">
+                        <controls:TextBlock
+                            Margin="0,0,0,5"
+                            HorizontalAlignment="Center"
+                            FontWeight="Bold"
+                            Text="GitHub Domain Replacement" />
+                        <hc:TextBox
+                            Width="150"
+                            Margin="0,2"
+                            VerticalAlignment="Center"
+                            hc:InfoElement.Placeholder="github.com"
+                            hc:InfoElement.Title="Main Domain"
+                            hc:InfoElement.TitlePlacement="Left"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Text="{Binding GithubMainDomain}" />
+                        <hc:TextBox
+                            Width="150"
+                            Margin="0,2"
+                            VerticalAlignment="Center"
+                            hc:InfoElement.Placeholder="raw.githubusercontent.com"
+                            hc:InfoElement.Title="Raw Domain"
+                            hc:InfoElement.TitlePlacement="Left"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Text="{Binding GithubRawDomain}" />
+                        <hc:TextBox
+                            Width="150"
+                            Margin="0,2"
+                            VerticalAlignment="Center"
+                            hc:InfoElement.Placeholder="api.github.com"
+                            hc:InfoElement.Title="API Domain"
+                            hc:InfoElement.TitlePlacement="Left"
+                            InputMethod.IsInputMethodEnabled="False"
+                            Text="{Binding GithubApiDomain}" />
+                    </StackPanel>
+                    
+                    <Grid Grid.Row="3">
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />

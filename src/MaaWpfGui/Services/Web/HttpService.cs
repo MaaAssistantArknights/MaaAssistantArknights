@@ -87,6 +87,9 @@ public class HttpService : IHttpService
     {
         try
         {
+            // Replace GitHub domains if needed
+            uri = GithubUrlHelper.ReplaceGithubDomain(uri);
+            
             var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, Version = HttpVersion.Version20, };
 
             if (extraHeader != null)
@@ -153,6 +156,9 @@ public class HttpService : IHttpService
 
     public async Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, UriPartial uriPartial = UriPartial.Query)
     {
+        // Replace GitHub domains if needed
+        uri = GithubUrlHelper.ReplaceGithubDomain(uri);
+        
         var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20, };
         if (extraHeader != null)
         {
@@ -199,6 +205,9 @@ public class HttpService : IHttpService
 
     public async Task<HttpResponseMessage> PostAsync(Uri uri, HttpContent content, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
     {
+        // Replace GitHub domains if needed
+        uri = GithubUrlHelper.ReplaceGithubDomain(uri);
+        
         var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20 };
         if (extraHeader is not null)
         {
@@ -219,6 +228,9 @@ public class HttpService : IHttpService
 
     public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = "application/octet-stream")
     {
+        // Replace GitHub domains if needed
+        uri = GithubUrlHelper.ReplaceGithubDomain(uri);
+        
         string fileDir = PathsHelper.BaseDir;
         string fileNameWithTemp = fileName + ".temp";
         string fullFilePath = Path.Combine(fileDir, fileName);
