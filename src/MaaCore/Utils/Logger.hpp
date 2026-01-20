@@ -890,7 +890,7 @@ private:
         }
 
         // 返回 EXCEPTION_EXECUTE_HANDLER 让程序正常终止
-        return EXCEPTION_CONTINUE_EXECUTION;
+        return EXCEPTION_EXECUTE_HANDLER;
     }
 #endif
 
