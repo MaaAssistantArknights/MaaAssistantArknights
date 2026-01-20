@@ -3,12 +3,8 @@ order: 6
 icon: lucide:gift
 ---
 
-# 领取奖励
+# 領取獎勵
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
-:::
+自動領取每日獎勵與每週獎勵。
 
-自动领取每日奖励和每周奖励。
-
-同时支持其他奖励类型，具体请查看设置。
+同時支援其他獎勵類型，具體請查看設定。

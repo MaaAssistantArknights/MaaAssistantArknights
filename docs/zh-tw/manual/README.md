@@ -1,5 +1,5 @@
 ---
-title: 用戶說明書
+title: 使用手冊
 icon: mdi:user
 index: false
 dir:
