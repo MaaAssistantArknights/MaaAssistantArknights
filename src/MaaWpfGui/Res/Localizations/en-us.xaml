@@ -533,7 +533,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.
 This function is invalid when the stage is selected as ｢{key=DefaultStage}｣.
 Please do not check it when the stage OF-1 is not unlocked.</system:String>
-    <system:String x:Key="CreditFightWhenOF-1Warning">After the ｢{key=Mall}｣ task, the first enabled ｢{key=Fight}｣ task selects ｢{key=DefaultStage}｣, skip the Combat with Support Unit in OF-1.</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">First enabled ｢{key=Fight}｣ task after ｢{key=Mall}｣ task has stage selection set to ｢{key=DefaultStage}｣, will no longer clear OF-1 with support unit.</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
     <system:String x:Key="HighPriorityDefault">Recruitment Permit</system:String>
