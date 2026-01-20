@@ -493,6 +493,10 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         Instances.TaskQueueViewModel.AddLog(infrast.InfrastPlan[infrast.PlanSelect].DescriptionPost);
 
         ++infrast.PlanSelect;
+        if (infrast.PlanSelect >= infrast.InfrastPlan.Count)
+        {
+            infrast.PlanSelect = 0;
+        }
         OutputCurrentCustomPlanInfo(infrast);
     }
 
