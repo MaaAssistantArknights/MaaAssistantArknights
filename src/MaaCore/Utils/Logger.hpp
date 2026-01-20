@@ -883,10 +883,13 @@ private:
             logger.error("User Dir", UserDir.get());
             logger.error("============================");
             logger.flush();
+            write_crash_file("UNHANDLED EXCEPTION");
         }
         catch (...) {
-            // 如果日志记录失败，直接写入文件
-            write_crash_file("Unhandled Exception", "Failed to capture stack trace");
+            std::cerr << "=== FATAL ERROR ===" << std::endl;
+            std::cerr << "Failed to log exception details to file" << std::endl;
+            std::cerr << "Unhandled exception caught, program terminating..." << std::endl;
+            std::cerr << "===================" << std::endl;
         }
 
         // 返回 EXCEPTION_EXECUTE_HANDLER 让程序正常终止
