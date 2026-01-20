@@ -570,34 +570,49 @@ public class HttpService : IHttpService
 
         void AdjustThreadCount()
         {
-            // 根据速度变化调整线程数
-            if (previousSpeed > 0)
-            {
-                double speedRatio = currentSpeed / previousSpeed;
+            // 根据当前速度调整线程数：速度慢时增加线程，速度快时减少线程
+            // 目标：解决中国大陆直连GitHub速度慢的问题，通过多线程提升慢速连接的速度
 
-                if (speedRatio > 1.2 && currentThreadCount < maxThreads)
-                {
-                    // 速度显著提升，增加线程
-                    currentThreadCount = Math.Min(maxThreads, currentThreadCount + 2);
-                    _logger.Information("Increasing thread count to {ThreadCount} (speed improved: {SpeedRatio:F2}x)", currentThreadCount, speedRatio);
-                }
-                else if (speedRatio < 0.8 && currentThreadCount > minThreads)
-                {
-                    // 速度下降，减少线程
-                    currentThreadCount = Math.Max(minThreads, currentThreadCount - 1);
-                    _logger.Information("Decreasing thread count to {ThreadCount} (speed decreased: {SpeedRatio:F2}x)", currentThreadCount, speedRatio);
-                }
+            // 定义速度阈值：512 KB/s 作为"慢速"的判断标准
+            const double slowSpeedThreshold = 512 * 1024; // 512 KB/s
+            const double goodSpeedThreshold = 2 * 1024 * 1024; // 2 MB/s
+
+            if (currentSpeed < slowSpeedThreshold && currentThreadCount < maxThreads)
+            {
+                // 速度过慢，增加线程以尝试提升速度
+                int increaseAmount = currentSpeed < slowSpeedThreshold / 2 ? 4 : 2; // 非常慢时增加更多
+                currentThreadCount = Math.Min(maxThreads, currentThreadCount + increaseAmount);
+                _logger.Information("Speed is slow ({Speed:F2} KB/s < {Threshold:F2} KB/s), increasing threads to {ThreadCount}",
+                    currentSpeed / 1024, slowSpeedThreshold / 1024, currentThreadCount);
             }
-
-            // 如果当前速度很快，继续增加线程（每MB/s增加1个线程，最多到maxThreads）
-            if (currentSpeed > 1024 * 1024) // > 1 MB/s
+            else if (currentSpeed >= goodSpeedThreshold && currentThreadCount > minThreads)
             {
-                int targetThreads = Math.Min(maxThreads, (int)(currentSpeed / (1024 * 1024)) + 1);
-                if (targetThreads > currentThreadCount)
+                // 速度良好，减少线程以避免不必要的资源消耗
+                currentThreadCount = Math.Max(minThreads, currentThreadCount - 1);
+                _logger.Information("Speed is good ({Speed:F2} MB/s >= {Threshold:F2} MB/s), decreasing threads to {ThreadCount}",
+                    currentSpeed / (1024 * 1024), goodSpeedThreshold / (1024 * 1024), currentThreadCount);
+            }
+            else if (currentSpeed >= slowSpeedThreshold && currentSpeed < goodSpeedThreshold)
+            {
+                // 速度中等，根据趋势微调
+                if (previousSpeed > 0)
                 {
-                    currentThreadCount = targetThreads;
-                    _logger.Information("Adjusting thread count to {ThreadCount} based on current speed {Speed:F2} MB/s",
-                        currentThreadCount, currentSpeed / (1024 * 1024));
+                    double speedRatio = currentSpeed / previousSpeed;
+
+                    if (speedRatio < 0.7 && currentThreadCount < maxThreads)
+                    {
+                        // 速度明显下降，尝试增加线程
+                        currentThreadCount = Math.Min(maxThreads, currentThreadCount + 2);
+                        _logger.Information("Speed dropping (ratio: {SpeedRatio:F2}), increasing threads to {ThreadCount}",
+                            speedRatio, currentThreadCount);
+                    }
+                    else if (speedRatio > 1.5 && currentThreadCount > minThreads)
+                    {
+                        // 速度显著提升，可以减少一些线程
+                        currentThreadCount = Math.Max(minThreads, currentThreadCount - 1);
+                        _logger.Information("Speed improving (ratio: {SpeedRatio:F2}), decreasing threads to {ThreadCount}",
+                            speedRatio, currentThreadCount);
+                    }
                 }
             }
 
