@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -217,19 +218,39 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
         var fightStageEmpty = false;
-        if (index > -1 && ConfigFactory.CurrentConfig.TaskQueue.Skip(index + 1).FirstOrDefault(i => i.IsEnable != false && (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable == true)) is FightTask fight)
+        var tasks = ConfigFactory.CurrentConfig.TaskQueue;
+        int taskIndex = -1, stageIndex = -1;
+        for (int i = 0; i < tasks.Count; i++)
         {
-            fightStageEmpty = FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == string.Empty;
+            if (ConfigFactory.CurrentConfig.TaskQueue.ElementAt(i) is not FightTask t)
+            {
+                continue;
+            }
+            else if (t.IsEnable is false || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && t.IsEnable is null))
+            {
+                continue;
+            }
+
+            var weekly = Enum.GetValues<DayOfWeek>().Where(d => !t.UseWeeklySchedule || (t.WeeklySchedule.TryGetValue(d, out var isEnabled) && isEnabled));
+            if (weekly.Any(day => GetStageForDayOfWeek(t, day) == string.Empty))
+            {
+                taskIndex = i;
+                stageIndex = t.StagePlan.IndexOf(string.Empty);
+                fightStageEmpty = true;
+                break;
+            }
         }
-        var creditFight = mall.IsCreditFightAvailable;
-        var visitFriends = mall.IsVisitFriendsAvailable;
+
+        if (mall.IsCreditFightAvailable && fightStageEmpty)
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("CreditFightWhenOF-1Warning", ConfigFactory.CurrentConfig.TaskQueue[taskIndex].Name, taskIndex + 1, stageIndex + 1), UiLogColor.Warning);
+        }
 
         var task = new AsstMallTask() {
-            CreditFight = creditFight && !fightStageEmpty,
+            CreditFight = mall.IsCreditFightAvailable && !fightStageEmpty,
             FormationIndex = mall.CreditFightFormation,
-            VisitFriends = visitFriends,
+            VisitFriends = mall.IsVisitFriendsAvailable,
             WithShopping = mall.Shopping,
             FirstList = [.. mall.FirstList.Split(';').Select(s => s.Trim())],
             Blacklist = [.. mall.BlackList.Split(';').Select(s => s.Trim()).Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType])],
@@ -243,5 +264,12 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task),
             _ => null,
         };
+
+        string? GetStageForDayOfWeek(FightTask fightTask, DayOfWeek day)
+        {
+            var result = fightTask.StagePlan.FirstOrDefault(stage => Instances.StageManager.IsStageOpen(stage, day));
+            result ??= fightTask.StagePlan.FirstOrDefault();
+            return result;
+        }
     }
 }

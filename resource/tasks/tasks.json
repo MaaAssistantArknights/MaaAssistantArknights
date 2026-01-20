@@ -1277,8 +1277,7 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "roi": [900, 70, 380, 400],
-        "maskRange": [1, 255],
-        "onErrorNext": ["Stop"]
+        "maskRange": [1, 255]
     },
     "StageBegin": {
         "algorithm": "JustReturn",
@@ -1416,6 +1415,7 @@
     "AnnihilationConfirm": {
         "action": "ClickSelf",
         "roi": [992, 584, 288, 136],
+        "onErrorNext": ["Stop"],
         "next": ["EndOfActionAnnihilation", "EndOfAction"]
     },
     "StageSNFlag": {

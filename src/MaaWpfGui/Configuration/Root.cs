@@ -35,6 +35,7 @@ public class Root : INotifyPropertyChanged
 
     public int ConfigVersion { get; set; } = 1;
 
+    [JsonInclude]
     public string Current { get; set; } = ConfigurationKeys.DefaultConfiguration;
 
     [JsonInclude]
@@ -50,18 +51,9 @@ public class Root : INotifyPropertyChanged
     public SpecificConfig CurrentConfig
     {
         get {
-            if (Configurations.TryGetValue(Current, out var result))
-            {
-                return result;
-            }
-            else
-            {
-                var defaultConfig = new SpecificConfig();
-                Configurations[Current] = defaultConfig;
-                return defaultConfig;
-            }
+            Configurations.TryGetValue(Current, out var result);
+            return result!;
         }
-
         set => Configurations[Current] = value;
     }
 

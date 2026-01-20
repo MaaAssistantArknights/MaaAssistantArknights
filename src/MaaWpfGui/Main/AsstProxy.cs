@@ -35,6 +35,7 @@ using HandyControl.Data;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -2252,6 +2253,15 @@ public class AsstProxy
             return;
         }
 
+        string subTask = details["subtask"]?.ToString() ?? string.Empty;
+
+        // 企鹅物流不收集 txwy 客户端数据
+        if (SettingsViewModel.GameSettings.ClientType == ClientType.Txwy && (subTask == "ReportToPenguinStats"))
+        {
+            _logger.Information("PenguinStats report skipped for txwy client type.");
+            return;
+        }
+
         var headersToken = details["headers"];
         Dictionary<string, string> headers = [];
         if (headersToken is JObject headersObj)
@@ -2270,8 +2280,6 @@ public class AsstProxy
         }
 
         var content = new StringContent(body, Encoding.UTF8, "application/json");
-
-        string subTask = details["subtask"]?.ToString() ?? string.Empty;
 
         bool success = false;
         try

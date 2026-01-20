@@ -164,6 +164,7 @@
     <system:String x:Key="CustomInfrastFileParseFailed">基地構成ファイルのパースエラー！</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">カスタムインフラストラクチャ設定では、一部のプランにのみ時間帯が設定されている場合があり、予期しない動作が発生する可能性があります。シフト交代時間帯を設定する必要がある場合は、すべてのプランに時間帯が設定されていることを確認してください。設定されていない場合は、すべてのプランを空白のままにしてください。</system:String>
     <system:String x:Key="CustomInfrastPlanSelectOutOfIndex">カスタムインフラストラクチャ構成の選択がインデックスを超えています</system:String>
+    <system:String x:Key="CustomInfrastPlanNotFoundByPeriod">カスタム インフラストラクチャ構成では、対応する期間のプランが見つかりません</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">基地構成ファイルの設定: </system:String>
     <system:String x:Key="CustomInfrastPlan">基地計画</system:String>
     <system:String x:Key="CustomInfrastPlanToolTip">
@@ -533,6 +534,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30FP獲得できます。
 この機能は、ステージを「{key=DefaultStage}」に選択している場合は無効です。
 ステージOF-1がアンロックされていない場合は、チェックしないでください。</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">「{key=Fight}」タスクのステージリストに「{key=DefaultStage}」が存在するし、「{key=Mall}」タスクはOF-1での戦友サポート借用の戦闘をスキップします。タスク名: {0} (シーケンス番号 {1})、レベル シーケンス番号 {2}</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="HighPriorityDefault">求人票</system:String>

@@ -3,6 +3,8 @@
 
 namespace asst
 {
+class ProcessTask;
+
 class StageNavigationTask : public AbstractTask
 {
 public:
@@ -10,6 +12,11 @@ public:
     virtual ~StageNavigationTask() noexcept override = default;
 
     bool set_stage_name(const std::string& stage_name);
+
+    void set_fight_task_ptr(std::shared_ptr<ProcessTask> fight_task_ptr) noexcept
+    {
+        m_fight_task_ptr = fight_task_ptr;
+    };
 
 protected:
     virtual bool _run() override;
@@ -25,5 +32,7 @@ protected:
     std::string m_chapter_task;
     std::string m_difficulty_task;
     std::string m_stage_code;
+    std::shared_ptr<ProcessTask> m_fight_task_ptr = nullptr;
+    static constexpr std::string_view AnnihilationSuffix = "Annihilation";
 };
 }

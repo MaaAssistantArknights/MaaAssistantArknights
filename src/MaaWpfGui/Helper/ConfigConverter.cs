@@ -52,40 +52,34 @@ public class ConfigConverter
         var root = ParseJsonFile(ConfigurationNewFile);
 
         bool ret = true;
-        JObject? configurations = null;
-        JObject? oldConfigurations = null;
-
-        if (root?["Configurations"] is JObject jObj && parsedOld["Configurations"] is JObject oldObj)
-        {
-            configurations = jObj;
-            oldConfigurations = oldObj;
-
-            // 删除多余配置
-            var extraKeys = configurations.Properties()
-                .Select(p => p.Name)
-                .Except(oldConfigurations.Properties().Select(p => p.Name))
-                .ToList();
-
-            foreach (var key in extraKeys)
-            {
-                ConfigFactory.DeleteConfiguration(key);
-                configurations.Remove(key);
-            }
-        }
+        JObject? configurations = root?["Configurations"] as JObject;
 
         bool needConvert = configurations == null || configurations.Count == 0
             || configurations["Default"]?["TaskQueueOrder"] is not null;
-
         if (needConvert)
         {
             ret &= ConvertTaskQueue();
         }
         else if (configurations != null) // 保证 configurations 可用
         {
+            if (parsedOld["Configurations"] is JObject oldConfigurations)
+            {
+                // 删除多余配置
+                var extraKeys = configurations.Properties()
+                    .Select(p => p.Name)
+                    .Except(oldConfigurations.Properties().Select(p => p.Name))
+                    .ToList();
+
+                foreach (var key in extraKeys)
+                {
+                    configurations.Remove(key);
+                }
+            }
+
             // 6.3.0-beta 出错用户，检查 TaskQueue
             bool needConvert2 = configurations.Properties()
                 .Where(p => p.Value is JObject config && config.ContainsKey("TaskQueue"))
-                .Any(p => {
+                .All(p => {
                     var taskQueue = ((JObject)p.Value)["TaskQueue"];
                     return taskQueue == null || (taskQueue is JArray jsonArray && jsonArray.Count == 0);
                 });
@@ -164,7 +158,7 @@ public class ConfigConverter
                 fightTask.UseMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, false);
                 fightTask.MedicineCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, 999);
                 fightTask.UseStone = ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, false);
-                fightTask.StoneCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 999);
+                fightTask.StoneCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 0);
                 fightTask.EnableTimesLimit = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, false);
                 fightTask.TimesLimit = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, 5);
                 fightTask.Series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 0);
@@ -495,9 +489,10 @@ public class ConfigConverter
                             fightTask.Name = LocalizationHelper.GetString(task.OldName, local);
                             fightTask2.Name = LocalizationHelper.GetString("RemainingSanityStage", local);
                             fightTask.IsEnable = task.IsEnable;
-                            fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true);
+                            fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true) && fightTask2.StagePlan.FirstOrDefault() != string.Empty;
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask);
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask2);
+                            ConfigurationHelper.DeleteValue(ConfigurationKeys.UseRemainingSanityStage);
                             break;
                         case "Mission":
                             awardTask.Name = LocalizationHelper.GetString(task.OldName, local);
@@ -534,6 +529,8 @@ public class ConfigConverter
             }
         }
 
+        ConfigurationHelper.SwitchConfiguration(currentConfigName);
+        ConfigFactory.SwitchConfig(currentConfigName);
         return true;
     }
 

@@ -227,10 +227,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             }
 
             SetFightParams();
-            if (GetTaskConfig<FightTask>().UseStoneAllowSave)
-            {
-                SetTaskConfig<FightTask>(t => t.UseStone == value, t => t.UseStone = value);
-            }
+            SetTaskConfig<FightTask>(t => t.UseStone == value, t => t.UseStone = value);
         }
     }
 

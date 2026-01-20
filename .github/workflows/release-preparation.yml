@@ -95,7 +95,7 @@ jobs:
             AnnAngela
 
       - name: Assign reviewers to release PR
-        uses: kentaro-m/auto-assign-action@v2.0.0
+        uses: kentaro-m/auto-assign-action@v2.0.1
         with:
           configuration-path: ".github/release_reviewers.yaml"
 

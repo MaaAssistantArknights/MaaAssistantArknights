@@ -164,6 +164,7 @@
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">自定义基建配置仅有部分计划存在时间段，可能会存在预期外的行为。如需设置换班时间段请保证所有计划均设置时间段，否则请全部留空。</system:String>
     <system:String x:Key="CustomInfrastPlanSelectOutOfIndex">自定义基建配置选择超出索引</system:String>
+    <system:String x:Key="CustomInfrastPlanNotFoundByPeriod">自定义基建配置未找到对应时间段的计划</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">自定义基建配置: </system:String>
     <system:String x:Key="CustomInfrastPlan">基建计划</system:String>
     <system:String x:Key="CustomInfrastPlanToolTip">
@@ -533,6 +534,7 @@
     <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把 OF-1 赚 30 信用。
 关卡选择为 ｢{key=DefaultStage}｣ 时此功能无效。
 别传 ｢火蓝之心｣ 关卡OF-1未解锁时请勿勾选。</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">存在 ｢{key=Fight}｣ 任务关卡列表中有 ｢{key=DefaultStage}｣, ｢{key=Mall}｣ 任务不再借助战打一把 OF-1. 任务名: {0} (序号{1}), 关卡序号 {2}</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘许可</system:String>
@@ -577,7 +579,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
     <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为 1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为 1920x1080</system:String>
-    <system:String x:Key="AllowUseStoneSave">允许源石恢复保存状态</system:String>
+    <system:String x:Key="AllowUseStoneSave">允许使用源石保存状态</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃 48 小时内过期的理智药</system:String>
