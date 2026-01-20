@@ -133,7 +133,7 @@ jobs:
     runs-on: windows-latest
     continue-on-error: true
     env:
-      FILENAME: MAA-v${{ needs.meta.outputs.RELEASE_TAG }}-win-x64.zip
+      FILENAME: MAA-${{ needs.meta.outputs.RELEASE_TAG }}-win-x64.zip
     steps:
       - uses: robinraju/release-downloader@v1
         with:
