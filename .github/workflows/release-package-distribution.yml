@@ -18,6 +18,11 @@ on:
         type: boolean
         required: false
         default: true
+      maa_cos:
+        description: "Upload to MAA COS"
+        type: boolean
+        required: false
+        default: true
 
 env:
   RELEASE_TAG_RAW: ${{ github.event.inputs.release_tag || 'latest' }}
@@ -120,3 +125,30 @@ jobs:
           release-tag: ${{ env.RELEASE_TAG }}
           fork-user: MaaAssistantArknights
           token: ${{ secrets.MAABOT_WINGET_TOKEN }}
+
+  maa_cos:
+    name: Upload to MAA COS
+    needs: meta
+    if: ${{ github.event.inputs.maa_cos == 'true' && !contains(needs.meta.outputs.RELEASE_TAG, '-') }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      FILENAME: MAA-${{ needs.meta.outputs.RELEASE_TAG }}-win-x64.zip
+
+    steps:
+      - uses: robinraju/release-downloader@v1
+        with:
+          repository: 'MaaAssistantArknights/MaaAssistantArknights'
+          latest: true
+          fileName: ${{ env.FILENAME }}
+          out-file-path: 'downloads'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload to COS
+        uses: zkqiang/tencent-cos-action@v0.1.0
+        with:
+          args: upload -rs downloads/${{ env.FILENAME }} MAA/MAA-latest-win-x64.zip
+          secret_id: ${{ secrets.MISTEO_MAA_COS_SECRET_ID }}
+          secret_key: ${{ secrets.MISTEO_MAA_COS_SECRET_KEY }}
+          bucket: ${{ secrets.MISTEO_MAA_COS_BUCKET }}
+          region: ${{ secrets.MISTEO_MAA_COS_REG }}
