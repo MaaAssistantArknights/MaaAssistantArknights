@@ -218,21 +218,33 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
         var fightStageEmpty = false;
-        if (index > -1)
+        var tasks = ConfigFactory.CurrentConfig.TaskQueue;
+        int taskIndex = -1, stageIndex = -1;
+        for (int i = 0; i < tasks.Count; i++)
         {
-            var tasks = ConfigFactory.CurrentConfig.TaskQueue;
-            fightStageEmpty = tasks
-                .OfType<FightTask>()
-                .Where(i => i.IsEnable is true || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable is null))
-                .Where(i => !i.UseWeeklySchedule || !i.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) || isEnabled)
-                .Any(t => t.StagePlan.Any(s => string.IsNullOrWhiteSpace(s)));
+            if (ConfigFactory.CurrentConfig.TaskQueue.ElementAt(i) is not FightTask t)
+            {
+                continue;
+            }
+            else if (t.IsEnable is false || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && t.IsEnable is null))
+            {
+                continue;
+            }
+
+            var weekly = Enum.GetValues<DayOfWeek>().Where(d => !t.UseWeeklySchedule || (t.WeeklySchedule.TryGetValue(d, out var isEnabled) && isEnabled));
+            if (weekly.Any(day => GetStageForDayOfWeek(t, day) == string.Empty))
+            {
+                taskIndex = i;
+                stageIndex = t.StagePlan.IndexOf(string.Empty);
+                fightStageEmpty = true;
+                break;
+            }
         }
 
         if (mall.IsCreditFightAvailable && fightStageEmpty)
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CreditFightWhenOF-1Warning"), UiLogColor.Warning);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("CreditFightWhenOF-1Warning", ConfigFactory.CurrentConfig.TaskQueue[taskIndex].Name, taskIndex, stageIndex), UiLogColor.Warning);
         }
 
         var task = new AsstMallTask() {
@@ -252,5 +264,12 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task),
             _ => null,
         };
+
+        string? GetStageForDayOfWeek(FightTask fightTask, DayOfWeek day)
+        {
+            var result = fightTask.StagePlan.FirstOrDefault(stage => Instances.StageManager.IsStageOpen(stage, day));
+            result ??= fightTask.StagePlan.FirstOrDefault();
+            return result;
+        }
     }
 }
