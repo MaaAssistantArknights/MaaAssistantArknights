@@ -194,24 +194,26 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         try
         {
-            if (Directory.Exists($"{Environment.GetEnvironmentVariable("LocalAppData")}/CrashDumps"))
+            var localAppData = Environment.GetEnvironmentVariable("LocalAppData");
+            if (localAppData is not null && Directory.Exists($"{localAppData}/CrashDumps"))
             {
-                if (Directory.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug/dumps")))
+                var dumpDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug", "dumps");
+                if (Directory.Exists(dumpDir))
                 {
-                    Directory.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug/dumps"), true);
+                    Directory.Delete(dumpDir, true);
                 }
-                Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug/dumps"));
+                Directory.CreateDirectory(dumpDir);
 
                 var time = File.GetLastWriteTime(crashFile);
-                foreach (var file in new DirectoryInfo($"{Environment.GetEnvironmentVariable("LocalAppData")}/CrashDumps").EnumerateFiles("MAA.exe.*.dmp"))
+                foreach (var file in new DirectoryInfo($"{localAppData}/CrashDumps").EnumerateFiles("MAA.exe.*.dmp"))
                 {
                     if (file.LastWriteTime >= time.AddMinutes(-10) && file.LastWriteTime <= time.AddMinutes(10))
                     {
                         _logger.Information("Found crash dump file: {CrashDumpFile}", file.FullName);
-                        File.Copy(file.FullName, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug/dumps", file.Name), true);
+                        File.Copy(file.FullName, Path.Combine(dumpDir, file.Name), true);
                     }
                 }
-                _logger.Information("Crash dumps are stored in {CrashDumpsDir}", "%LocalAppdata%/CrashDumps");
+                _logger.Information("Crash dumps are stored in {CrashDumpsDir}", $"{localAppData}/CrashDumps");
             }
 
             string[] lines = File.ReadAllLines(crashFile, Encoding.UTF8);
