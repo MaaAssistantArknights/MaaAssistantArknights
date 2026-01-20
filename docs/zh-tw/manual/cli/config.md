@@ -61,7 +61,7 @@ params = { plan_index = 2 }
 
 這裡的 `condition` 欄位用於確定應使用哪一個變體，而匹配成功的變體其 `params` 欄位將會被合併到任務的參數中。
 
-**注意**：如果您的自定義基建計畫檔案使用相對路徑，應該相對於 `$MAA_CONFIG_DIR/infrast`。此外，由於基建檔案是由 MaaCore 而非 maa-cli 讀取的，因此這些檔案的格式必須是 JSON。同時，maa-cli 不會讀取基建檔案，也不會根據其中定義的時間段來選擇對應的子計畫。因此，必須透過 `condition` 欄位來指定在對應時間段使用正確的基建計畫參數中的 `plan_index` 欄位。這樣可以確保在適當的時間段使用正確的基建計畫。
+**請注意**：如果您的自定義基建計畫檔案使用相對路徑，應該相對於 `$MAA_CONFIG_DIR/infrast`。此外，由於基建檔案是由 MaaCore 而非 maa-cli 讀取的，因此這些檔案的格式必須是 JSON。同時，maa-cli 不會讀取基建檔案，也不會根據其中定義的時間段來選擇對應的子計畫。因此，必須透過 `condition` 欄位來指定在對應時間段使用正確的基建計畫參數中的 `plan_index` 欄位。這樣可以確保在適當的時間段使用正確的基建計畫。
 
 除了 `Time` 條件，還有 `DateTime`，`Weekday`，`DayMod` 條件。`DateTime` 條件用於指定一個時間段，`Weekday` 條件用於指定一週中的某些天，`DayMod` 用於指定一個自定義週期的某些天。
 
@@ -275,10 +275,10 @@ default = 1000
 description = "medicine to use"
 ```
 
-對於 `Input` 類型，當執行任務時，您將會被提示輸入一個值。如果您輸入了一個空值，如果有預設值，那麼預設值將會被使用，否則您將會被提示重新輸入。
-對於 `Select` 類型，當執行任務時，您將會被提示輸入一個索引或者自定義的值（如果允許）。如果您輸入了一個空值，如果有預設值，那麼預設值將會被使用，否則您將會被提示重新輸入。
+對於 `Input` 類型，執行任務時您會被提示輸入一個值。若輸入為空且設有預設值，將自動採用該預設值，否則會提示重新輸入。
+對於 `Select` 類型，執行任務時您會被提示輸入索引或自訂值（若允許）。若輸入為空且設有預設值，將自動採用該預設值，否則會提示重新輸入。
 
-`--batch` 選項可以用於在執行任務時跳過所有的輸入，這將會使用預設值；如果有任何輸入沒有預設值，那麼將會導致錯誤。
+`--batch` 選項可用於在執行任務時跳過所有輸入，此時系統將自動採用預設值；若有任何輸入項未設定預設值，則會產生錯誤。
 
 ## MaaCore 相關配置
 
@@ -320,7 +320,7 @@ address = = "emulator-5554" # 連線位址，例如 "emulator-5554" 或者 "127.
 config = "General" # 連線配置，通常不需要修改
 ```
 
-`adb_path` 是 `adb` 執行檔的路徑，您可以指定其路徑，或者將其添加到環境變數 `PATH` 中，以便 MaaCore 可以找到它。大多數模擬器內建 `adb`，您可以直接使用其內建的 `adb`，而不需要額外安裝，否則您需要自行安裝 `adb`。`address` 是 `adb` 的連線位址。對於模擬器，您可以使用 `127.0.0.1:[連接埠號]`，常用的模擬器連接埠號可參考[常見問題][emulator-ports]。如果您沒有指定 `address`，那麼會嘗試透過 `adb devices` 來獲取連線的設備，如果有多個設備連線，那麼將會使用第一個設備，如果沒有找到任何設備，那麼將會嘗試連線到 `emulator-5554`。`config` 於指定一些平台和模擬器相關的配置。對於 Linux 它預設為 `CompatPOSIXShell`，對於 macOS 它預設為 `CompatMac`，對於 Windows 它預設為 `General`。更多可選配置可以在資源資料夾中的 `config.json` 檔案中找到。
+`adb_path` 是 `adb` 執行檔的路徑，您可以指定其路徑，或者將其添加到環境變數 `PATH` 中，以便 MaaCore 可以找到它。大多數模擬器內建 `adb`，您可以直接使用其內建的 `adb`，而不需要額外安裝，否則您需要自行安裝 `adb`。`address` 是 `adb` 的連線位址。對於模擬器，您可以使用 `127.0.0.1:[連接埠號]`，常用的模擬器連接埠號可參閱 [常見問題][emulator-ports]。如果您沒有指定 `address`，那麼會嘗試透過 `adb devices` 來獲取連線的設備，如果有多個設備連線，那麼將會使用第一個設備，如果沒有找到任何設備，那麼將會嘗試連線到 `emulator-5554`。`config` 於指定一些平台和模擬器相關的配置。對於 Linux 它預設為 `CompatPOSIXShell`，對於 macOS 它預設為 `CompatMac`，對於 Windows 它預設為 `General`。更多可選配置可以在資源資料夾中的 `config.json` 檔案中找到。
 
 對於一些常用的模擬器，您可以直接使用 `preset` 來使用預設的配置：
 
@@ -462,13 +462,13 @@ passphrase = "password"       # ssh 金鑰的密碼
 
 您可以在 [`schemas` 目錄][schema-dir] 中找到 maa-cli 的 JSON Schema 檔案，您可以使用這些檔案來驗證您的配置檔案，或者在編輯器中獲得自動補全。
 
-- 自訂任務檔案的 JSON Schema 檔案為 [`task.schema.json`][task-schema]；
+- 自定義任務檔案的 JSON Schema 檔案為 [`task.schema.json`][task-schema]；
 - MaaCore 配置的 JSON Schema 檔案為 [`asst.schema.json`][asst-schema]；
 - CLI 配置的 JSON Schema 檔案為 [`cli.schema.json`][cli-schema]。
 
-[task-types]: ../../protocol/integration.md#任务类型一览
-[emulator-ports]: ../../manual/connection.md#获取端口号
-[playcover-doc]: ../../manual/device/macos.md#✅-playcover-原生运行最流畅-🚀
+[task-types]: ../../protocol/integration.md#任務類型一覽
+[emulator-ports]: ../../manual/connection.md#模擬器連接埠相關文件
+[playcover-doc]: ../../manual/device/macos.md#✅-playcover-原生執行最流暢-🚀
 [waydroid-doc]: ../../manual/device/linux.md#✅-waydroid
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/main/home/dot_config/maa

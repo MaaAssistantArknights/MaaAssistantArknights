@@ -19,7 +19,7 @@ MAA WPF GUI 當前可以透過 Wine 執行。
 
 #### 安裝步驟
 
-1. 前往 [.NET 發佈頁](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)下載並安裝 Windows 版 .NET **桌面**執行環境 (Runtime)。
+1. 前往 [.NET 發佈頁](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) 下載並安裝 Windows 版 .NET **桌面**執行環境 (Runtime)。
 
 2. 下載 Windows 版 MAA，解壓縮後執行 `wine MAA.exe`。
 
@@ -72,7 +72,7 @@ MAA WPF GUI 當前可以透過 Wine 執行。
 2. ADB 配置
    1. 找到 [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/b4fc3528decd6777441a8aca684c22d35d2b2574/src/Python/sample.py#L62) 一欄
    2. ADB 工具呼叫
-      - 如果模擬器使用 `Android Studio` 的 `avd`，其內建 ADB。可以直接在 `adb.exe` 一欄填寫 ADB 路徑，一般在 `$HOME/Android/Sdk/platform-tools/` 裡面可以找到，例如：
+      - 如果模擬器使用 `Android Studio` 的 `avd`，其內建 ADB。可以直接在 `adb.exe` 一欄填寫 ADB 路徑，通常在 `$HOME/Android/Sdk/platform-tools/` 裡面可以找到，例如：
 
       ```python
       if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模擬器的 ADB 位址"):

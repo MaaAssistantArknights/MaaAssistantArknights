@@ -7,7 +7,7 @@ icon: basil:apple-solid
 
 ## Apple Silicon 晶片
 
-### ✅ [PlayCover](https://playcover.io)（原生執行最流暢 🚀）
+### ✅ [PlayCover](https://playcover.io) 原生執行最流暢 🚀
 
 實驗性支援，遇到問題請多加提交 Issue，並在標題中提及 `MacOS`。
 
@@ -17,17 +17,17 @@ icon: basil:apple-solid
 
 1. 下載 [fork 版本的 PlayCover](https://github.com/hguandl/PlayCover/releases) 並安裝。
 
-2. 下載 [脫殼的明日方舟客戶端安裝包](https://decrypt.day/app/id1454663939)，並在 PlayCover 中安裝。
+2. 下載 [脫殼的《明日方舟》客戶端安裝包](https://decrypt.day/app/id1454663939)，並在 PlayCover 中安裝。
 
-3. 在 PlayCover 中右鍵點選明日方舟，選擇 `設定` - `繞過`，勾選 `啟用 PlayChain`、`啟用繞過越獄偵測`、`插入內省庫`、`MaaTools`，然後點選 `好`。
+3. 在 PlayCover 中右鍵點選《明日方舟》，選擇 `設定` - `繞過`，勾選 `啟用 PlayChain`、`啟用繞過越獄偵測`、`插入內省庫`、`MaaTools`，然後點選 `好`。
 
-4. 此時再啟動明日方舟，即可正常執行。標題列結尾會有 `[localhost:連接埠號]`，說明已經成功啟用。
+4. 此時再啟動《明日方舟》，即可正常執行。標題列結尾會有 `[localhost:連接埠號]`，說明已經成功啟用。
 
 5. 在 MAA 中，點選 `設定 - 連線設定`，`觸控模式` 選擇 `MacPlayTools`。`連線位址` 填入上面標題列 `[]` 內容。
 
 6. 設定完成，MAA 可以連線了。如果遇到圖像識別出錯，可以嘗試在 PlayCover 內將解析度設定為 1080P。
 
-7. 3-5 步驟只需要做一次，之後只需要啟動明日方舟即可。在明日方舟每次更新客戶端之後，需要重新執行第 2 步。
+7. 3-5 步驟只需要做一次，之後只需要啟動《明日方舟》即可。在《明日方舟》每次更新客戶端之後，需要重新執行第 2 步。
 
 ### ✅ [MuMu 模擬器 Pro](https://mumu.163.com/mac/)
 

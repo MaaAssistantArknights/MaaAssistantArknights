@@ -137,7 +137,7 @@ icon: mingcute:android-fill
 2. 將第一個檔案重新命名為 `startup.bat`，第二個檔案重新命名為 `finish.bat`。
    - 如果重新命名後沒有彈出修改副檔名的確認對話框，且檔案圖示沒有變化，請自行搜尋「Windows 如何顯示檔案副檔名」。
 
-3. 在 MAA 的 `設定 - 連線設定 - 開始前指令碼` 和 `結束後指令碼` 中分別填入 `startup.bat` 和 `finish.bat。
+3. 在 MAA 的 `設定 - 連線設定 - 開始前腳本` 和 `結束後腳本` 中分別填入 `startup.bat` 和 `finish.bat`。
 
 ## 連線 MAA
 
@@ -161,7 +161,7 @@ icon: mingcute:android-fill
 
    ```bash
    adb tcpip 5555
-   # 存在多台設備則添加參數 -s 以指定序號
+   # 存在多台設備則新增參數 -s 以指定序號
    ```
 
 2. 查看設備 IP 位址
