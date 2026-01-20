@@ -225,6 +225,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             var tasks = ConfigFactory.CurrentConfig.TaskQueue;
             fightStageEmpty = tasks
                 .OfType<FightTask>()
+                .Where(i => i.IsEnable is true || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && i.IsEnable is null))
                 .Any(t => t.StagePlan.Any(s => string.IsNullOrWhiteSpace(s)));
         }
 
