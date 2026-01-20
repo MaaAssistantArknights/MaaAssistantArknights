@@ -822,10 +822,10 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
     <system:String x:Key="RecruitmentShowPotential">顯示{key=Operator}潛能（4/5/6★ Tags）</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">請使用 ｢{key=OperBoxRecognition}｣ 取得{key=Operator}資訊。</system:String>
-    <system:String x:Key="AutoSelectLevel3Tags">自動選擇 3 星 Tags</system:String>
-    <system:String x:Key="AutoSelectLevel4Tags">自動選擇 4 星 Tags</system:String>
-    <system:String x:Key="AutoSelectLevel5Tags">自動選擇 5 星 Tags</system:String>
-    <system:String x:Key="AutoSelectLevel6Tags">自動選擇 6 星 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">自動選擇 3★ Tags</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">自動選擇 4★ Tags</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">自動選擇 5★ Tags</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">自動選擇 6★ Tags</system:String>
     <system:String x:Key="StartToRecruit">開始辨識</system:String>
     <!--  !公招辨識  -->
     <!--  倉庫辨識  -->
@@ -1007,9 +1007,9 @@ C:\\leidian\\LDPlayer9\n
         1. 使用前請確認作業與所選擇的關卡類型一致。\n\n
         2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}：請在關卡介面右下角顯示 ｢開始行動｣ 按鈕的畫面啟動。\n\n
         3. {key=SSS}：resource/copilot 資料夾內建多份作業。請先手動編隊，在右下角顯示 ｢開始部署｣ 按鈕的介面啟動，可配合 ｢{key=LoopTimes}｣。\n\n
-        4. {key=ParadoxSimulation}：選好技能後，在技能選擇介面顯示 ｢開始模擬｣ 按鈕的畫面啟動；1/2 星{key=Operator}（無技能）在右下角顯示 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從{key=Operator}列表的「等級/稀有度」標籤頁啟動。\n\n
+        4. {key=ParadoxSimulation}：選好技能後，在技能選擇介面顯示 ｢開始模擬｣ 按鈕的畫面啟動；1/2★ {key=Operator}（無技能）在右下角顯示 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從{key=Operator}列表的「等級 / 稀有度」標籤頁啟動。\n\n
         5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇{key=Operator}後，在編隊介面右下角顯示 ｢開始行動｣ 按鈕的畫面啟動。\n\n
-        6. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除特別關注，或在報錯後關閉 ｢{key=AutoSquad}｣，並依據提示手動補充缺少的 {key=Operator}。\n\n
+        6. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除特別關注，或在報錯後關閉 ｢{key=AutoSquad}｣，並依據提示手動補充缺少的{key=Operator}。\n\n
         7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：\n
         ● 點選第 2 個按鈕 = 新增作業。\n
         ● 點選第 3 個按鈕 = 新增作業集。\n\n
@@ -1184,7 +1184,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ProductChanged">產物已切換</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">公招辨識結果：</system:String>
     <system:String x:Key="RecruitingTips">公招提示</system:String>
-    <system:String x:Key="RecruitmentOfStar">公招出現 {0} 星囉！</system:String>
+    <system:String x:Key="RecruitmentOfStar">公招出現 {0}★ 囉！</system:String>
     <system:String x:Key="RecruitmentOfBot">公招出現小車囉！</system:String>
     <system:String x:Key="Choose">選擇</system:String>
     <system:String x:Key="Refreshed">目前欄位已刷新</system:String>
@@ -1195,7 +1195,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="DefaultNoExtraTags">預設不選擇額外的 Tags</system:String>
     <system:String x:Key="SelectExtraTags">選擇高星時總是選擇三個 Tags</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">盡可能多選且只選高星 Tags</system:String>
-    <system:String x:Key="AutoRecruitHighPriority">3 星 Tags 時的 Tags 傾向</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">3★ Tags 時的 Tags 傾向</system:String>
     <system:String x:Key="AutoRecruitHighPriorityTooltip">會盡可能多選傾向的 Tags</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="UseFormation">使用編隊</system:String>
@@ -1280,19 +1280,19 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="GenerateSupportPayloadException">產生壓縮檔時發生問題：</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
-    <system:String x:Key="AutoRefresh">自動刷新 3 星 Tags</system:String>
+    <system:String x:Key="AutoRefresh">自動刷新 3★ Tags</system:String>
     <system:String x:Key="ForceRefresh">無招聘許可時繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自動使用加急許可*</system:String>
-    <system:String x:Key="Level3UseShortTime">3 星設定 7:40 而非 9:00</system:String>
-    <system:String x:Key="Level3UseShortTime2">3 星設定 1:00 而非 9:00</system:String>
+    <system:String x:Key="Level3UseShortTime">3★ 設定 7:40 而非 9:00</system:String>
+    <system:String x:Key="Level3UseShortTime2">3★ 設定 1:00 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影響其他星級 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次執行時最大招募次數</system:String>
-    <system:String x:Key="ManuallySelectLevel1">手動確認 1 星</system:String>
-    <system:String x:Key="AutoSelectLevel3">自動確認 3 星</system:String>
-    <system:String x:Key="AutoSelectLevel4">自動確認 4 星</system:String>
-    <system:String x:Key="AutoSelectLevel5">自動確認 5 星</system:String>
-    <system:String x:Key="AutoSelectLevel6">自動確認 6 星</system:String>
-    <system:String x:Key="Level1Tip">勾選後，若辨識到 1 星 Tag 將跳過該次招募；未勾選則忽略 1 星 Tag。</system:String>
+    <system:String x:Key="ManuallySelectLevel1">手動確認 1★</system:String>
+    <system:String x:Key="AutoSelectLevel3">自動確認 3★</system:String>
+    <system:String x:Key="AutoSelectLevel4">自動確認 4★</system:String>
+    <system:String x:Key="AutoSelectLevel5">自動確認 5★</system:String>
+    <system:String x:Key="AutoSelectLevel6">自動確認 6★</system:String>
+    <system:String x:Key="Level1Tip">勾選後，若辨識到 1★ Tag 將跳過該次招募；未勾選則忽略 1★ Tag。</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">博士，歡迎加入這盛大的魚人慶典！聽說可露希爾小姐的商店裡新上架了美酒，要去來一杯嗎？</system:String>
