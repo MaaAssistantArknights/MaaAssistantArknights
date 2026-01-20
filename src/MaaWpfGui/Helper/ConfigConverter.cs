@@ -79,7 +79,7 @@ public class ConfigConverter
             // 6.3.0-beta 出错用户，检查 TaskQueue
             bool needConvert2 = configurations.Properties()
                 .Where(p => p.Value is JObject config && config.ContainsKey("TaskQueue"))
-                .Any(p => {
+                .All(p => {
                     var taskQueue = ((JObject)p.Value)["TaskQueue"];
                     return taskQueue == null || (taskQueue is JArray jsonArray && jsonArray.Count == 0);
                 });
