@@ -30,7 +30,7 @@ struct OperatorRequirements
     int level = -1;       // 干员等级
     int skill_level = -1; // 技能等级
     int module = -1;      // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
-                     // int potentiality = -1; // 潜能要求
+                          // int potentiality = -1; // 潜能要求
 
     bool operator==(const OperatorRequirements& req) const
     {
