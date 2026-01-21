@@ -977,7 +977,7 @@ C:\\leidian\\LDPlayer9
 右クリックで非アクティブなタスクをクリア</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
-    <system:String x:Key="CopilotFormationRequirement.Level">精{0} {1}</system:String>
+    <system:String x:Key="CopilotFormationRequirement.Level">エリート{0} レベル{1}</system:String>
     <system:String x:Key="CopilotSkill">スキル</system:String>
     <system:String x:Key="CopilotModule">モジュール</system:String>
     <system:String x:Key="CopilotWithoutModule">モジュールなし</system:String>
