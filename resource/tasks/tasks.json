@@ -3617,6 +3617,17 @@
     "BattleQuickFormation-OperNameFlag7": {
         "baseTask": "BattleQuickFormation-OperNameFlagBase"
     },
+    "BattleQuickFormation-Level":{
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于BattleQuickFormation-OperNameFlag进行偏移",
+        "rectMove": [-1, 201, 39, 24],
+        "isAscii": true
+    },
+    "BattleQuickFormation-Elite": {
+        "template": ["BattleQuickFormation-Elite2.png", "BattleQuickFormation-Elite1.png"],
+        "rectMove": [7, 151, 24, 35]
+    },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,

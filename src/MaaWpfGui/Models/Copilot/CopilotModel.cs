@@ -73,7 +73,7 @@ public class CopilotModel : CopilotBase
         {
             count++;
             var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name);
-            var log = $"{localizedName} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}{PrintSkillLevel(oper)} {GetModuleInfo(oper.Requirements)}".Trim();
+            var log = $"{localizedName}{PrintLevelInfo(oper)} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}{PrintSkillLevel(oper)} {GetModuleInfo(oper.Requirements)}".Trim();
             output.Add((log, UiLogColor.Message));
         }
 
@@ -88,8 +88,17 @@ public class CopilotModel : CopilotBase
             output.Add((groupName + string.Join(" / ", operInfos), UiLogColor.Message));
         }
 
-        output.Add((string.Format(LocalizationHelper.GetString("TotalOperatorsCount"), count), UiLogColor.Message));
+        output.Add((LocalizationHelper.GetStringFormat("TotalOperatorsCount", count), UiLogColor.Message));
         return output;
+    }
+
+    private static string PrintLevelInfo(Oper oper)
+    {
+        if (oper.Requirements is not { } req || (req.Elite == 0 && req.Level <= 0))
+        {
+            return string.Empty;
+        }
+        return $" [{LocalizationHelper.GetStringFormat("CopilotFormationRequirement.Level", req.Elite, req.Level)}]";
     }
 
     private static string PrintSkillLevel(Oper oper)

@@ -976,6 +976,7 @@ Right click to add challenge difficulty</system:String>
 Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
+    <system:String x:Key="CopilotFormationRequirement.Level">精{0} {1}</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
     <system:String x:Key="CopilotModule">Module</system:String>
     <system:String x:Key="CopilotWithoutModule">Without Module</system:String>

@@ -977,6 +977,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
+    <system:String x:Key="CopilotFormationRequirement.Level">精{0} {1}</system:String>
     <system:String x:Key="CopilotSkill">技能</system:String>
     <system:String x:Key="CopilotModule">模組</system:String>
     <system:String x:Key="CopilotWithoutModule">不使用模組</system:String>
