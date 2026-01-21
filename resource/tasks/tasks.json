@@ -3618,7 +3618,7 @@
     "BattleQuickFormation-OperNameFlag7": {
         "baseTask": "BattleQuickFormation-OperNameFlagBase"
     },
-    "BattleQuickFormation-Level":{
+    "BattleQuickFormation-Level": {
         "algorithm": "OcrDetect",
         "text": [],
         "rectMove_Doc": "基于BattleQuickFormation-OperNameFlag进行偏移",
