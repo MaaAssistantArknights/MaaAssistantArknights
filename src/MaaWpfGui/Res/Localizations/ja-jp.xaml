@@ -1789,6 +1789,12 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="BadModules.Warning.Prolog">以下の DLL を MAA に注入すると、MAA がクラッシュしたり、インターフェースのレンダリングに異常が発生する可能性があります：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">MAA に関連する問題がある場合は、関連ソフトウェアの除外リストに MAA を追加するか、関連ソフトウェアをアンインストールした後、問題がまだ存在するかどうかを確認してください。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">この警告を再表示しない</system:String>
+    <system:String x:Key="BadModules.Confirmation.Heading">警告：パフォーマンスへの影響</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">警告を表示しないように選択すると、MAA はハードウェアレンダリングではなくソフトウェアレンダリングを使用します。これにより以下の結果が生じます：&#x0a;&#x0a;• パフォーマンスの低下&#x0a;• UI のラグ&#x0a;• CPU 使用率の増加&#x0a;&#x0a;警告を抑制し、これらの影響を受け入れることを確認しますか？</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRendering">ソフトウェアレンダリングを使用</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRenderingTip">有効にすると、不良モジュールの警告が表示されなくなり、ソフトウェアレンダリングモードが使用されます。これにより、パフォーマンスの低下、UI のラグ、CPU 使用率の増加が発生します。チェックを外すとハードウェアレンダリングに戻ります。</system:String>
+    <system:String x:Key="BadModules.ResetWarning">ソフトウェアレンダリングモードが有効になりました。この設定を適用するには MAA を再起動してください。</system:String>
+    <system:String x:Key="BadModules.ResetSuccess">ハードウェアレンダリングモードに戻しました。変更を適用するには MAA を再起動する必要があります。今すぐ再起動しますか？</system:String>
     <!--  !BadModules  -->
 
     <!--  EmulatorPathSelection  -->
