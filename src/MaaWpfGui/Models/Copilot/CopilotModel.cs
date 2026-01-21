@@ -116,14 +116,13 @@ public class CopilotModel : CopilotBase
         {
             return string.Empty;
         }
+        string[] moduleName = [string.Empty, "χ", "γ", "α", "Δ"];
+        //var moduleLevel = req.ModuleLevel > 0 ? $" [Lv.{req.ModuleLevel}]" : string.Empty;
 
         // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
         return req.Module switch {
             0 => $"{LocalizationHelper.GetString("CopilotWithoutModule")}",
-            1 => $"{LocalizationHelper.GetString("CopilotModule")} χ",
-            2 => $"{LocalizationHelper.GetString("CopilotModule")} γ",
-            3 => $"{LocalizationHelper.GetString("CopilotModule")} α",
-            4 => $"{LocalizationHelper.GetString("CopilotModule")} Δ",
+            1 or 2 or 3 or 4 => $"{LocalizationHelper.GetString("CopilotModule")} {moduleName[req.Module]}",
             _ => string.Empty,
         };
     }
@@ -318,6 +317,13 @@ public class CopilotModel : CopilotBase
         /// </summary>
         [JsonProperty("module")]
         public int Module { get; set; } = -1;
+        /*
+        /// <summary>
+        /// Gets or sets 模组编号。可选，默认为 -1。
+        /// </summary>
+        [JsonProperty("module_level")]
+        public int ModuleLevel { get; set; } = 0;
+        */
 
         /// <summary>
         /// Gets or sets 潜能要求。可选，默认为 0。
