@@ -1205,6 +1205,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationParseFailed">フォーメーション解析に失敗しました</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}を選択: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}が使用できません: {0}、理由: {1}</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Level">{key=Operator}レベル不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">スキルレベルが低すぎる</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">必要なモジュールが未解除</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
