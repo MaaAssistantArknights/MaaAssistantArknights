@@ -16,7 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using Serilog;
 using Windows.Win32;
 
@@ -71,6 +73,12 @@ internal class BadModules
             return;
         }
 
+        // 如果用户已经选择忽略警告并使用软件渲染，则不再显示警告
+        if (ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering)
+        {
+            return;
+        }
+
         var allBadModules = GetBadInjectedModules();
         if (allBadModules.Length == 0)
         {
@@ -96,10 +104,41 @@ internal class BadModules
             Icon = TaskDialogIcon.Warning,
             Buttons = { TaskDialogButton.OK },
             SizeToContent = true,
+            Verification = new()
+            {
+                Text = LocalizationHelper.GetString("BadModules.Warning.DoNotShowAgain"),
+                Checked = false,
+            },
         };
 
-        TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
+        var result = TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
         _logger.Warning("Detected bad injected modules:\n{Modules}", sb.ToString());
+
+        // 如果用户勾选了"不再显示"选项
+        if (page.Verification.Checked)
+        {
+            // 弹出第二个确认对话框
+            var confirmPage = new TaskDialogPage
+            {
+                Caption = "MAA",
+                Heading = LocalizationHelper.GetString("BadModules.Confirmation.Heading"),
+                Text = LocalizationHelper.GetString("BadModules.Confirmation.Text"),
+                Icon = TaskDialogIcon.Warning,
+                Buttons = { TaskDialogButton.Yes, TaskDialogButton.No },
+                SizeToContent = true,
+                DefaultButton = TaskDialogButton.No,
+            };
+
+            var confirmResult = TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), confirmPage);
+
+            // 如果用户确认，则保存设置
+            if (confirmResult == TaskDialogButton.Yes)
+            {
+                ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering = true;
+                _logger.Information("User chose to ignore bad modules warning and use software rendering");
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
+            }
+        }
 
         static string BreakLongPath(string path, int maxLen)
         {

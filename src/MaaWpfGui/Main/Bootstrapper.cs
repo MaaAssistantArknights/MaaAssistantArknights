@@ -372,6 +372,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         LocalizationHelper.Load();
         ETagCache.Load();
 
+        if (ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering)
+        {
+            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            _logger.Information("Using software rendering mode due to user preference (bad modules detected)");
+        }
+
         // 检查 MaaCore.dll 是否存在
         if (!File.Exists("MaaCore.dll"))
         {

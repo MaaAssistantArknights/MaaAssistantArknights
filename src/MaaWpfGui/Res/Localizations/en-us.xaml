@@ -1788,6 +1788,12 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="BadModules.Warning.Prolog">The following DLL(s) injected into MAA may crash MAA or corrupt MAA user interface:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
+    <system:String x:Key="BadModules.Confirmation.Heading">Warning: Performance Impact</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">If you choose to suppress this warning, MAA will use software rendering instead of hardware rendering. This will cause:&#x0a;&#x0a;• Performance degradation&#x0a;• UI lag&#x0a;• Increased CPU usage&#x0a;&#x0a;&#x0a;Do you confirm to suppress the warning and accept these consequences?</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRendering">Use Software Rendering</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRenderingTip">When enabled, bad module warnings will be suppressed and software rendering mode will be used. This causes performance degradation, UI lag, and increased CPU usage. Uncheck to restore hardware rendering.</system:String>
+    <system:String x:Key="BadModules.ResetWarning">Software rendering mode is now enabled. Restart MAA to apply this setting.</system:String>
+    <system:String x:Key="BadModules.ResetSuccess">Hardware rendering mode has been restored. Restart MAA to apply changes. Restart now?</system:String>
     <!--  !BadModules  -->
 
     <!--  EmulatorPathSelection  -->

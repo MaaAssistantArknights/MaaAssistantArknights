@@ -1790,6 +1790,12 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="BadModules.Warning.Prolog">다음 DLL이 MAA에 주입되면 MAA가 충돌하거나 UI 렌더링에 문제가 발생할 수 있습니다:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">MAA에서 관련 문제가 발생하는 경우, 관련 소프트웨어의 제외 목록에 MAA를 추가하거나 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인하세요.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">이 경고를 다시 표시하지 않음</system:String>
+    <system:String x:Key="BadModules.Confirmation.Heading">경고: 성능 영향</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">경고를 숨기도록 선택하면 MAA는 하드웨어 렌더링 대신 소프트웨어 렌더링을 사용합니다. 이로 인해 다음과 같은 문제가 발생합니다:&#x0a;&#x0a;• 성능 저하&#x0a;• UI 지연&#x0a;• CPU 사용량 증가&#x0a;&#x0a;경고를 숨기고 이러한 결과를 수락하시겠습니까?</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRendering">소프트웨어 렌더링 사용</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRenderingTip">활성화하면 잘못된 모듈 경고가 표시되지 않고 소프트웨어 렌더링 모드가 사용됩니다. 이로 인해 성능 저하, UI 지연 및 CPU 사용량 증가가 발생합니다. 체크 해제하면 하드웨어 렌더링으로 복원됩니다.</system:String>
+    <system:String x:Key="BadModules.ResetWarning">소프트웨어 렌더링 모드가 활성화되었습니다. 이 설정을 적용하려면 MAA를 다시 시작하세요.</system:String>
+    <system:String x:Key="BadModules.ResetSuccess">하드웨어 렌더링 모드로 복원되었습니다. 변경 사항을 적용하려면 MAA를 다시 시작해야 합니다. 지금 다시 시작하시겠습니까?</system:String>
     <!--  !BadModules  -->
 
     <!--  EmulatorPathSelection  -->

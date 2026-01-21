@@ -481,4 +481,46 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             return _language;
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to ignore bad modules and use software rendering.
+    /// </summary>
+    public bool IgnoreBadModulesAndUseSoftwareRendering
+    {
+        get => ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering;
+        set {
+            ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering = value;
+            NotifyOfPropertyChange();
+            if (value)
+            {
+                var result = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("BadModules.ResetWarning"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+            else
+            {
+                var mainWindow = Application.Current.MainWindow;
+                if (mainWindow != null)
+                {
+                    mainWindow.Show();
+                    mainWindow.WindowState = WindowState.Normal;
+                    mainWindow.Activate();
+                }
+
+                var result = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("BadModules.ResetSuccess"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Information,
+                    ok: LocalizationHelper.GetString("Ok"),
+                    cancel: LocalizationHelper.GetString("ManualRestart"));
+                if (result == MessageBoxResult.OK)
+                {
+                    Bootstrapper.ShutdownAndRestartWithoutArgs();
+                }
+            }
+        }
+    }
 }
