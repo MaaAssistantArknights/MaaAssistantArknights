@@ -978,7 +978,7 @@ C:\\leidian\\LDPlayer9
 우클릭으로 비활성 작업 지우기</system:String>
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
-    <system:String x:Key="CopilotFormationRequirement.Level">엘리트.{A} 레벨.{1}</system:String>
+    <system:String x:Key="CopilotFormationRequirement.Level">{A}차 정예화 레벨 {1}</system:String>
     <system:String x:Key="CopilotSkill">스킬</system:String>
     <system:String x:Key="CopilotModule">모듈</system:String>
     <system:String x:Key="CopilotWithoutModule">모듈 없이 시작</system:String>
