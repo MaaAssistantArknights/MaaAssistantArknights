@@ -29,7 +29,6 @@ using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
-using MaaWpfGui.ViewModels.Items;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -493,6 +492,14 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         Instances.TaskQueueViewModel.AddLog(infrast.InfrastPlan[infrast.PlanSelect].DescriptionPost);
 
         ++infrast.PlanSelect;
+        if (infrast.PlanSelect >= infrast.InfrastPlan.Count)
+        {
+            infrast.PlanSelect = 0;
+        }
+        if (TaskSettingVisibilityInfo.CurrentTask == infrast)
+        {
+            Instance.NotifyOfPropertyChange(nameof(CustomInfrastPlanSelect));
+        }
         OutputCurrentCustomPlanInfo(infrast);
     }
 
@@ -574,7 +581,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
             {
                 task.PlanIndex = 0;
                 _logger.Warning("No valid plan found for current time, use PlanIndex 0");
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastPlanNotFoundByPeriod"), UiLogColor.Error);
             }
         }
 

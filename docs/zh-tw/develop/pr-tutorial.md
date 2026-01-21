@@ -5,22 +5,22 @@ icon: mingcute:git-pull-request-fill
 
 # 純網頁端 PR 教學
 
-牛牛也能看懂的 GitHub Pull Request 使用指南 (\*´▽｀)ノノ
+牛牛也能看懂的 GitHub Pull Request 使用指南 (\*´▽ ｀)ノノ
 
 ::: warning
-本教學中對很多概念進行了簡化，為了讓更多朋友能實際用起來，甚至有一些很不優雅~~但是簡單~~的操作，還有一些不那麽正確的解釋，還請大佬們輕噴。  
-若您有一定的 git 使用經驗及程式基礎，~~那你還看個~~🔨，可以看稍微進階一點的教學 [Github Pull Request 流程簡述](development.md)
+本教學中對許多概念進行了簡化，為了讓更多朋友能實際上手，甚至有一些不那麼「優雅」~~但簡單~~的操作，以及一些不完全精確的解釋，還請各位大神手下留情。  
+若您具備一定的 Git 使用經驗及程式設計基礎，~~那你還看這個 🔨~~，可以參考進階版的教學：[GitHub Pull Request 流程簡述](./development.md)。
 :::
 
 ## 基本概念及名詞解釋
 
-這一章節內容略微枯燥，不感興趣可以直接跳過到下面實作部分，有不理解的再回來看
+這一章節內容略顯枯燥，如果不感興趣可以直接跳到下面的實作部分，遇到不理解的地方再回來查看。
 
 ### Repository（倉庫）
 
-簡稱 repo，存放我們代碼及其他資源檔案的地方
+簡稱 Repo 或倉庫，是存放程式碼及其他資源檔案的地方。
 
-👇 可以簡單理解為目前這個網頁及裡面所有的內容，就是 MAA 的倉庫（我們一般稱之為 MAA 的主倉庫）
+👇 可以簡單理解為目前這個網頁及其所有內容，就是 MAA 的倉庫（我們一般稱之為 MAA 的主倉庫）。
 
 <ImageGrid :imageList="[
   {
@@ -31,12 +31,11 @@ icon: mingcute:git-pull-request-fill
 
 ### Fork（複製）
 
-複製，字面意思，將 MAA 的代碼複製一份，然後可以進行後續修改等等的操作，避免把原來的弄壞了  
-但一般說中文 “複製” 我們可能首先想到的是 copy 的意思，fork 也沒有其他明確的翻譯，所以我們一般習慣直接說英文，比如 “把代碼 fork 一份走”
+複製，字面意思就是將 MAA 的程式碼完整複製一份到自己的帳號下，以便進行後續修改，避免不小心弄壞原本的內容。  
+在中文語境中，「複製」一詞首先想到的可能是 copy，而 fork 也沒有其他明確的中文翻譯，所以我們通常直接說英文，例如：「把程式碼 Fork 一份走」。
 
-既然是複製後的，那就是 `MAA (1)`（bushi）  
-為了和原本的倉庫區分開，所以我們一般將原本的 MAA 倉庫稱為 “主倉庫”、“upstream （上遊倉庫）”、“origin （原倉庫）”；  
-因為每個人都可以自己複製一份走，所以複製後的稱之為 “個人倉庫”
+為了區分，我們通常將原本的 MAA 倉庫稱為 **「主倉庫」** 或 **「Upstream（上游倉庫）」**。  
+而從主倉庫 Fork 出來的則稱為 **「個人倉庫」** 或 **「Origin（遠端倉庫）」**。
 
 <ImageGrid :imageList="[
   {
@@ -47,12 +46,12 @@ icon: mingcute:git-pull-request-fill
 
 ### Pull Request（拉取請求、合併請求）
 
-簡稱 PR，“拉取請求” 這個太直譯了，聽起來很奇怪，~~而且字太多了打起來太累~~，所以也是一樣的大家一般就直接說： “來個 PR”  
-書接上文，你 fork（複製）的個人倉庫，修改完了，怎麽把內容提供給主倉庫呢？這時候我們就可以開一個 PR，申請將自己修改的內容加入到主倉庫中。
+簡稱 PR。因為「拉取請求」聽起來很生硬且字數較多，~~而且字太多了打起来太累~~，大家通常直接說：「發個 PR」。  
+延續前文，當您在 Fork 出來的個人倉庫修改完成後，該如何將內容提供給主倉庫呢？這時就可以發起一個 PR，申請將自己修改的內容合併到主倉庫中。
 
-當然啦，既然是 “請求”，那自然是需要審批的，MAA Team 的各位可能會針對你的修改提一些意見等，當然我們的意見也不一定完全正確，大家合理討論 ~
+當然，既然是「請求」，就代表需要經過審核。MAA Team 的成員會針對您的修改提供建議，大家可以理性討論，共同完善內容。
 
-👇 下面的是目前大佬們提的 PR，正在等待審批的
+👇 以下是目前大佬發起的 PR，正等待審核中。
 
 <ImageGrid :imageList="[
   {
@@ -63,14 +62,14 @@ icon: mingcute:git-pull-request-fill
 
 ### Conflict（衝突）
 
-假設一下，主倉庫中有個 A 檔案，它的內容是 111  
-你 fork 了一份，將其內容改成了 222，但是你剛準備提交 PR，這時候張三也 fork 了一份並提交了 PR，並將 A 檔案改成了 333  
-這時候我們就會看到，你倆都修改了 A 檔案，並且修改的不同，那聽誰的好呢？這就是 Conflict（衝突）  
-衝突解決起來比較麻煩，這裡僅闡述概念，方便實際遇到時能理解發生了什麽，暫不闡述解決方案
+假設主倉庫中有個 A 檔案，內容是 `111`。  
+您 Fork 了一份並改為 `222`；但在您提交 PR 之前，另一位開發者張三也提交了 PR 並將 A 檔案改成了 `333`。  
+這時系統會發現你們兩人都修改了同一個地方，且內容不同，程式不知道該聽誰的，這就是 Conflict（衝突）。  
+衝突處理起來較為複雜，此處僅闡述概念，讓您在遇到時能理解發生了什麼事。
 
 ## 純網頁端 PR 操作全流程
 
-1. 首先進入 MAA 主倉庫，fork 一份代碼
+1. 首先進入 MAA 主倉庫，點擊右上角的 Fork 按鈕。
 
    <ImageGrid :imageList="[
      {
@@ -79,7 +78,7 @@ icon: mingcute:git-pull-request-fill
      }
    ]" />
 
-2. 把 “僅 master 分支” 這個選項去掉，然後點擊 Create Fork
+2. 接著直接點擊 Create Fork。
 
    <ImageGrid :imageList="[
      {
@@ -88,7 +87,7 @@ icon: mingcute:git-pull-request-fill
      }
    ]" />
 
-3. 接下來來到了你的個人倉庫，可以看到標題是 “你的名字/MaaAssistantArknights”，下面一行小字 forked from MaaAssistantArknights/MaaAssistantArknights （複製自 MAA 主倉庫）
+3. 現在來到了您的個人倉庫，標題會顯示為 `您的帳號名稱/MaaAssistantArknights`，下方會有一行小字標註 `forked from MaaAssistantArknights/MaaAssistantArknights`（複製自 MAA 主倉庫）。
 
    <ImageGrid :imageList="[
      {
@@ -97,7 +96,7 @@ icon: mingcute:git-pull-request-fill
      }
    ]" />
 
-4. 找到你要改的檔案，可以點 “Go to file” 進行全局搜尋，也可以直接在下面的資料夾裡翻（如果你知道檔案在哪的話）
+4. 找到要修改的檔案。可以點擊 Go to file 進行全域搜尋，如果您知道文件在哪裡的話，也可以直接在下方的資料夾翻找。
 
    <ImageGrid :imageList="[
      {
@@ -106,7 +105,7 @@ icon: mingcute:git-pull-request-fill
      }
    ]" />
 
-5. 打開檔案後，直接點擊檔案右上角的 ✏️ 進行編輯
+5. 開啟檔案後，點擊右上角的 ✏️ 按鈕進行編輯。
 
    <ImageGrid :imageList="[
      {
@@ -115,8 +114,9 @@ icon: mingcute:git-pull-request-fill
      }
    ]" />
 
-6. 開改！（當然如果是資源檔案這種，我們建議先在你電腦上的 MAA 資料夾裡測試修改，確認沒問題了再貼上到網頁上，避免改錯了）
-7. 改完了，翻到最下面，寫一下你改了啥
+6. 開始修改！（如果是資源檔案，建議先在電腦上的 MAA 資料夾測試，確認沒問題後再貼到網頁上，以免改錯）。
+
+7. 修改完成後，點擊右上角的 👇 這個按鈕開啟提交頁面，並寫下您的修改說明。
 
    <ImageGrid :imageList="[
      {
@@ -125,6 +125,8 @@ icon: mingcute:git-pull-request-fill
      }
    ]" />
 
+   我們有一套簡單的提交標題[命名格式](https://www.conventionalcommits.org/zh-hans/v1.0.0/)，建議盡量遵守；若暫時無法理解，也可以先簡單描述。
+
    <ImageGrid :imageList="[
      {
        light: 'images/zh-cn/pr-tutorial/pr-7-2-light.png',
@@ -132,9 +134,10 @@ icon: mingcute:git-pull-request-fill
      }
    ]" />
 
-8. 還有第二個檔案要改的？改完了發現弄錯了想再改改？都沒關係！重複 5-8 即可！
-9. 全改好了進行 PR ！直接點 **個人倉庫** 裡的 Pull Request 標籤頁  
-   如果有 Compare & Pull Request 按鈕，那最好，直接點他！如果沒有也不用著急，點下面的 New Pull Request 也是一樣的（請看步驟 11）
+8. 還有其他檔案要改？或是發現改錯了想再修補？沒關係！重複步驟 4-7 即可。
+
+9. 全部改好後，準備發起 PR！點擊 Code 回到**個人倉庫**首頁。  
+   如果有出現 Compare & Pull Request 按鈕，請直接點擊它；若沒看到，點擊下方的 Contribute（貢獻）按鈕，再點 Open Pull Request 也是一樣的。
 
    <ImageGrid :imageList="[
      {
@@ -143,8 +146,8 @@ icon: mingcute:git-pull-request-fill
      }
    ]" />
 
-10. 這時候來到了主倉庫，請核對一下你要 PR 的是否確認。  
-    如圖中，中間有個向左的箭頭，是將右邊的 個人姓名/MAA 的 dev 分支，申請合併到 主倉庫/MAA 的 dev 分支。
+10. 此時會進入主倉庫的 PR 頁面，請核對提交內容是否正確。  
+    如下圖所示，箭頭方向是將右側「您的帳號 / MAA」的 `dev` 分支合併到「主倉庫 / MAA」的 `dev` 分支。頁面下方會顯示兩者間的差異。
 
     <ImageGrid :imageList="[
       {
@@ -153,7 +156,8 @@ icon: mingcute:git-pull-request-fill
       }
     ]" />
 
-    然後寫一下標題，你修改的具體內容等等的，然後點確認
+    接著填寫標題與具體修改內容，最後點擊確認。  
+    PR 標題同樣建議遵循[命名格式](https://www.conventionalcommits.org/zh-hans/v1.0.0/)。
 
     <ImageGrid :imageList="[
       {
@@ -162,42 +166,31 @@ icon: mingcute:git-pull-request-fill
       }
     ]" />
 
-11. 等待 MAA Team 的大佬們審核吧！當然他們也可能會提意見  
-    👇 比如（純屬娛樂切勿當真）
+11. 接下來請耐心等待 MAA Team 的審核！當然他們可能也會提出自己的意見。
+    👇 比如（純屬娛樂，請勿當真）
 
     <ImageGrid :imageList="[
-        {
-          light: 'images/zh-cn/pr-tutorial/pr-11-light.png',
-          dark: 'images/zh-cn/pr-tutorial/pr-11-dark.png'
-        }
-      ]" />
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-11-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-11-dark.png'
+      }
+    ]" />
 
-12. 如果大佬們說要再修改一些小問題的話，回到 **你的個人倉庫**，切換到先前的 dev 分支，重複 步驟 3-9 即可！  
-    注意不需要操作步驟 2（重新 fork），也不需要操作步驟 10（重新 Pull Request），你目前的 Pull Request 仍處於待審核狀態，後續的修改會直接進入到這個 Pull Request 中  
-    👇 比如可以看到最下面多了一條 “重新修改演示” 的內容
+12. 若大佬要求針對細節進行修正，請回到**您的個人倉庫**，重複步驟 4-7 即可。  
+    請注意，不需要重新 Fork（步驟 1-2）或重新發起 PR（步驟 9-10）。您目前的 PR 仍處於開啟狀態，後續的修改會自動更新到同一個 PR 中。
+    👇 可以看到最下面多了一條「重新修改演示」的內容
 
     <ImageGrid :imageList="[
-        {
-          light: 'images/zh-cn/pr-tutorial/pr-12-light.png',
-          dark: 'images/zh-cn/pr-tutorial/pr-12-dark.png'
-        }
-      ]" />
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-12-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-12-dark.png'
+      }
+    ]" />
 
-13. 等大佬們審批通過，就全部完成啦！**版本發布後**，你的 GitHub 頭像將會自動進入到貢獻者列表名單中，非常感謝各位的無私奉獻！  
-    ~~怎麽全是二次元啊，哦我也是啊，那沒事了~~
-    ::: tip 貢獻 / 參與者
-    感謝所有參與到開發 / 測試中的朋友們，是大家的幫助讓 MAA 越來越好！ (\*´▽｀)ノノ
+13. 當大佬們審核通過並被合併（Merged）後，就大功告成了！您的修改已正式進入 MAA 主倉庫。
 
-    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
-    :::
-
-14. 下次如果還想提別的 PR，請先切換到 dev 分支，然後直接如下圖操作  
-    ::: warning
-    這個操作會強制將你的個人倉庫同步到和主倉庫一模一樣的狀態，這是最簡單粗暴但行之有效的解決衝突的方法。但如果你的個人倉庫已經有額外的編輯了，會被直接刪掉！
-    :::
-    如果確定不會造成衝突，請使用右側綠色的 `Update Branch` 按鈕
-
-    如果你不清楚 / 不 care 我上面說的這一大堆，也請點擊左側的按鈕
+14. 下次若想再發起新的 PR，請先回到個人倉庫首頁，點擊 Sync fork 讓您的倉庫與主倉庫同步。  
+    注意：若出現紅色的 Discard 1 commit，請優先點擊它；若無，則點擊綠色的 Update branch。接著即可重複步驟 4-10 進行新的修改。
 
     <ImageGrid :imageList="[
       {
@@ -210,4 +203,10 @@ icon: mingcute:git-pull-request-fill
       }
     ]" />
 
-    接著重複步驟 3-14，修改、提 PR 即可 ~
+在**版本發布後**，您的 GitHub 頭像將會自動出現在貢獻者名單中。非常感謝您的無私奉獻！
+~~怎麼全是二次元啊，哦我也是，那沒事了~~
+::: tip 貢獻/參與者
+感謝所有參與開發與測試的朋友，是大家的幫助讓 MAA 變得更好！ (\*´▽ ｀)ノノ
+
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+:::

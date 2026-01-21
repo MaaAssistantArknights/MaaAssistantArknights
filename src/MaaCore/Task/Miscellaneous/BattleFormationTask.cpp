@@ -792,6 +792,8 @@ bool asst::BattleFormationTask::check_and_select_skill(
         // 使用模板匹配检测重叠区域
         Matcher match(stitched_image);
         match.set_templ(make_roi(roi_image_new, cv::Rect { 0, 0, roi_image_new.cols, 30 }));
+        match.set_method(MatchMethod::Ccoeff);
+        match.set_threshold(0.8);
         if (!match.analyze()) {
             retry++;
             continue;

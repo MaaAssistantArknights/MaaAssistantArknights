@@ -1,5 +1,5 @@
 ---
-title: 模擬器和設備支持
+title: 模擬器與設備支援
 icon: mingcute:laptop-fill
 index: false
 dir:

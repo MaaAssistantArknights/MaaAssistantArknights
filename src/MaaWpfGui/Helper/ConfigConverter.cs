@@ -79,7 +79,7 @@ public class ConfigConverter
             // 6.3.0-beta 出错用户，检查 TaskQueue
             bool needConvert2 = configurations.Properties()
                 .Where(p => p.Value is JObject config && config.ContainsKey("TaskQueue"))
-                .Any(p => {
+                .All(p => {
                     var taskQueue = ((JObject)p.Value)["TaskQueue"];
                     return taskQueue == null || (taskQueue is JArray jsonArray && jsonArray.Count == 0);
                 });
@@ -489,9 +489,10 @@ public class ConfigConverter
                             fightTask.Name = LocalizationHelper.GetString(task.OldName, local);
                             fightTask2.Name = LocalizationHelper.GetString("RemainingSanityStage", local);
                             fightTask.IsEnable = task.IsEnable;
-                            fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true) && ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) != string.Empty;
+                            fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true) && fightTask2.StagePlan.FirstOrDefault() != string.Empty;
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask);
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask2);
+                            ConfigurationHelper.DeleteValue(ConfigurationKeys.UseRemainingSanityStage);
                             break;
                         case "Mission":
                             awardTask.Name = LocalizationHelper.GetString(task.OldName, local);

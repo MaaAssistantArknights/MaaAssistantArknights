@@ -164,6 +164,7 @@
     <system:String x:Key="CustomInfrastFileParseFailed">기반시설 구성 인식 실패!</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">{Key=InfrastModeCustom} 설정 중 일부 계획에만 시간대가 설정되어 있어, 예기치 않은 동작이 발생할 수 있습니다. 교대 시간대를 설정하려면 모든 계획에 시간대를 설정하거나, 그렇지 않으면 모두 비워 두세요.</system:String>
     <system:String x:Key="CustomInfrastPlanSelectOutOfIndex">사용자 지정 인프라 구성 선택 항목이 인덱스를 초과했습니다.</system:String>
+    <system:String x:Key="CustomInfrastPlanNotFoundByPeriod">사용자 지정 인프라 구성에서 지정된 시간대에 대한 계획을 찾을 수 없습니다.</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">기반시설 구성: </system:String>
     <system:String x:Key="CustomInfrastPlan">기반시설 계획</system:String>
     <system:String x:Key="CustomInfrastPlanToolTip">
@@ -533,6 +534,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1 스테이지에서 지원유닛을 사용, 클리어하여 30 크레딧을 획득합니다.
 현재 스테이지가 ｢{key=DefaultStage}｣으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
 OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ 임무의 스테이지 목록에 ｢{key=DefaultStage}｣가 존재하여, ｢{key=Mall}｣ 임무는 OF-1에서 지원 유닛과의 전투를 건너뜁니다. 작업 이름: {0} (순서 번호 {1}), 레벨 순서 번호 {2}</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (｢;｣ 로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (｢;｣ 로 구분)</system:String>
     <system:String x:Key="HighPriorityDefault">모집 허가증</system:String>
@@ -1790,5 +1792,17 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="BadModules.Warning.Prolog">다음 DLL이 MAA에 주입되면 MAA가 충돌하거나 UI 렌더링에 문제가 발생할 수 있습니다:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">MAA에서 관련 문제가 발생하는 경우, 관련 소프트웨어의 제외 목록에 MAA를 추가하거나 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인하세요.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">이 경고를 다시 표시하지 않음</system:String>
+    <system:String x:Key="BadModules.Confirmation.Heading">경고: 성능 영향</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">경고를 숨기도록 선택하면 MAA는 하드웨어 렌더링 대신 소프트웨어 렌더링을 사용합니다. 이로 인해 다음과 같은 문제가 발생합니다:&#x0a;&#x0a;• 성능 저하&#x0a;• UI 지연&#x0a;• CPU 사용량 증가&#x0a;&#x0a;경고를 숨기고 이러한 결과를 수락하시겠습니까?</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRendering">소프트웨어 렌더링 사용</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRenderingTip">활성화하면 잘못된 모듈 경고가 표시되지 않고 소프트웨어 렌더링 모드가 사용됩니다. 이로 인해 성능 저하, UI 지연 및 CPU 사용량 증가가 발생합니다. 체크 해제하면 하드웨어 렌더링으로 복원됩니다.</system:String>
+    <system:String x:Key="BadModules.ResetWarning">소프트웨어 렌더링 모드가 활성화되었습니다. 이 설정을 적용하려면 MAA를 다시 시작하세요.</system:String>
+    <system:String x:Key="BadModules.ResetSuccess">하드웨어 렌더링 모드로 복원되었습니다. 변경 사항을 적용하려면 MAA를 다시 시작해야 합니다. 지금 다시 시작하시겠습니까?</system:String>
     <!--  !BadModules  -->
+
+    <!--  EmulatorPathSelection  -->
+    <system:String x:Key="SelectEmulatorPath">에뮬레이터 경로 선택</system:String>
+    <system:String x:Key="MultipleEmulatorsDetected">여러 에뮬레이터 설치 경로가 감지되었습니다. 사용할 경로를 선택하세요:</system:String>
+    <system:String x:Key="PleaseSelectPath">경로를 선택하세요</system:String>
+    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>

@@ -5,157 +5,141 @@ icon: ph:question-fill
 
 # 常見問題
 
-如果是第一次使用 MAA，請閱讀[新手上路](./newbie.md)。
+如果是第一次使用 MAA，請先閱讀 [新手上路](./newbie.md)。
 
 ::: warning
 
-若 MAA 在某次更新後無法運行，或者純粹是從 MAA 的報錯窗口來到這裡，那大概率是由於運行庫未更新導致的問題。  
-出現次數最多的問題都是運行庫問題，而總是有人看不到文檔到處問，所以我們把置頂換成了這個。很氣。
+若 MAA 在某次更新後無法執行，或是因為報錯視窗而導引至此，通常是因為執行庫未更新所致。  
+執行庫問題是最常見的錯誤原因，且經常被忽略，因此我們將此說明置頂。
 
-請運行 MAA 目錄下的 `DependencySetup_依赖库安装.bat`，或者在終端中運行以下命令，
+請執行 MAA 目錄下的 `DependencySetup_依赖库安装.bat`，或在終端機中執行以下指令：
 
 ```sh
 winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
 
-或者手動下載並安裝以下<u>**兩個**</u>運行庫來解決問題。
+也可以手動下載並安裝以下<u>**兩個**</u>執行庫來解決問題：
 
-- [Visual C++ 可再發行程序包](https://aka.ms/vc14/vc_redist.x64.exe)
-- [.NET 桌面運行時 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
+- [Visual C++ 可再發行套件](https://aka.ms/vc14/vc_redist.x64.exe)
+- [.NET 桌面執行階段 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 
-## 軟件無法運行/閃退/報錯
+## 軟體無法執行 / 閃退 / 報錯
 
-### 下載/安裝問題
+### 下載與安裝問題
 
-- 完整 MAA 軟件壓縮包命名格式為 "MAA-`版本`-`平台`-`架構`.zip"，其餘均為無法單獨使用的“零部件”，請仔細閱讀。
-  在大部分情況下，您需要使用 x64 架構的 MAA，即您需要下載 `MAA-*-win-x64.zip`，而非 `MAA-*-win-arm64.zip`。
-- 如果在某次自動更新後發現功能缺失或無法使用，可能是自動更新過程中出現了問題。請重新下載並解壓完整安裝包。解壓後，將舊 `MAA` 文件夾中的 `config` 文件夾直接拖入新解壓後的 `MAA` 文件夾中。
+- 完整的 MAA 壓縮檔案命名格式為 "MAA-`版本`-`平台`-`架構`.zip"，其餘檔案皆為無法單獨執行的組成元件，請務必確認下載檔案是否完整。
+  多數情況下，您需要下載 x64 架構的版本，即 `MAA-*-win-x64.zip`，而非 `MAA-*-win-arm64.zip`。
+- 若自動更新後發現功能缺失或無法使用，可能是更新過程中出現錯誤，建議重新下載完整程式壓縮檔並再次解壓縮。  
+  您可以將舊 `MAA` 資料夾中的 `config` 資料夾直接移至新解壓縮後的 `MAA` 資料夾中以保留設定。
 
-### 運行庫問題
+### 執行庫問題
 
-找到網頁右下角的向上 ↑ 箭頭，點一下它。
+請點擊網頁右下角的 ↑ （向上箭頭）回到頂端並查看說明。
 
 ### 系統問題
 
-- MAA 不支持 32 位操作系統，不支持 Windows 7 / 8 / 8.1。
-- 以上運行庫安裝均需要依賴組件存儲服務（CBS、TrustedInstaller/TiWorker、WinSxS）。
-  如果組件存儲服務被破壞，將不能正常安裝。
+- MAA 不支援 32 位元作業系統，亦不支援 Windows 7 / 8 / 8.1。
+- 以上執行庫安裝均需要依賴元件存儲服務（CBS、TrustedInstaller/TiWorker、WinSxS）。
+  若該服務受損，將無法正常安裝。
 
-我們無法提供除重裝系統以外的修復建議，請避免使用未標明精簡項及精簡風險的“精簡版”系統，或者萬年前的舊版系統。
+我們無法提供除重灌系統以外的修復建議，請避免使用過度精簡的系統版本或過舊的作業系統。
 
 #### Windows N/KN
 
-對於 Windows N/KN（歐洲/韓國），還需安裝[媒體功能包](https://support.microsoft.com/zh-tw/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
+若您使用的是 Windows N / KN（歐洲或韓國版本），需額外安裝 [Media Feature Pack](https://support.microsoft.com/zh-tw/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
 
 #### Windows 7
 
-.NET 10 不支持 Windows 7 / 8 / 8.1 系統<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同樣不再支持。最後一個可用的 .NET 8 版本為 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)；最後一個可用的 .NET 4.8 版本為 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)。尚未確定自行編譯的可行性。
+由於 .NET 10 已停止支援 Windows 7 / 8 / 8.1 系統 <sup>[來源](https://github.com/dotnet/core/issues/7556)</sup>，MAA 亦隨之停止支援。若您仍需在這些系統上執行，請下載以下相容版本：
 
-對於 Windows 7，在安裝上文提到的兩個運行庫之前，還需檢查以下補丁是否已安裝：
+- 支援 .NET 8 的最後版本：[`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)
+- 支援 .NET 4.8 的最後版本：[`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)  
+  （目前尚未確定自行編譯的可行性。）
+
+若要在 Windows 7 安裝上述執行庫，請先確認系統已安裝下列修正程式：
 
 1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-tw/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
-2. SHA-2 代碼簽名修補程式：
+2. SHA-2 程式碼簽署修正程式：
    - KB4474419：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
    - KB4490628：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
 3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[下載連結 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[下載連結 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
-##### .NET 8 應用在 Windows 7 上運行異常的緩解措施 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
+##### .NET 8 應用程式於 Windows 7 執行異常之緩解措施 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
 
-在 Windows 7 上運行 .NET 8 應用時，會出現內存佔用異常的問題，請參閱下文實施緩解措施。Windows 8/8.1 未經測試，若存在相同問題，請順手發個 Issue 提醒我們補充文檔。
+在 Windows 7 執行 .NET 8 應用程式時，可能出現記憶體佔用異常。請參考下列步驟操作：  
+（Windows 8 / 8.1 未經測試，若有相同問題，歡迎提交 Issue 協助我們補充文件）
 
-1. 打開 `計算機`，右鍵空白處，點擊屬性，點擊左側 `高級系統設置`，點擊 `環境變量`。
-2. 新建一個系統變量，變量名 `DOTNET_EnableWriteXorExecute`，變量值 `0`。
-3. 重啟電腦。
+1. 開啟 `本機`（電腦），在空白處點擊右鍵選擇 `內容`，點擊左側 `進階系統設定`，點擊 `環境變數`。
+2. 新建一個「系統變數」，變數名稱：`DOTNET_EnableWriteXorExecute`，變數值：`0`。
+3. 重新啟動電腦。
 
-## 連接錯誤
+## 連線錯誤
 
-- 提示：請參考 [模擬器支援](./device/) 確定正在使用的模擬器通過了支援性測試。
-- 若使用了遊戲加速器等軟體，請關閉軟體並 **重開電腦** 後再次嘗試。
-- 請檢查您的解壓縮軟體 — 部分情況下使用如 `7z` 或 _其他小眾解壓縮軟體_ 會導致 `Minitouch` 相關檔案出錯
+### 確認 ADB 與連線位址設定
 
-### 方式 1 : 確認 adb 及連接地址正確
+請參閱 [連線設定](./connection.md) 檢查相關設定。
 
-- 確認 MAA `設定` - `連接設定` - `adb 路徑` 是否已自動填寫，若已填寫請忽略這步。若未填寫：
-  - 找到模擬器安裝路徑，Windows 可在執行模擬器時在工作管理員中右鍵程式點擊 `開啟檔案位置`。
-  - 頂層或下層目錄中大概會有一個 `adb.exe`（不一定就叫這個名字，可能叫 `nox_adb.exe`；`HD-adb.exe`；`adb_server.exe` 等等，總之是名字帶 `adb` 的 exe），尋找它，選擇它！
-- 確認連接地址填寫正確。可在網上搜尋正在使用的模擬器 adb 偵錯地址是什麼，一般是類似 `127.0.0.1:5555` 這樣的格式（雷電模擬器除外）。
+### 關閉殘留的 ADB 程序
 
-#### 常見安卓模擬器adb通訊埠
+關閉 MAA 後，請檢查 `工作管理員 - 詳細資料` 標籤中是否仍有 `adb` 相關程序。若有，請將其結束後再重新嘗試連線。
 
-- 單開情況 / 多開時 首個模擬器
+### 多個 ADB 版本衝突問題
 
-  針對模擬器單開情況，參考各個模擬器文件和網易遊戲高級遊戲開發工程師@趙青青的[博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)，常見安卓模擬器的 adb 通訊埠如下：
+當環境中存在多個不同版本的 ADB 時，新啟動的程序可能會中斷舊有的程序。  
+若您需要同時執行多個工具（如 Android Studio、Alas、手機助手等），請確保所有工具使用的 ADB 版本一致。
 
-  | 模擬器               |  主模擬器預設通訊埠  |
-  | -------------------- | :------------------: |
-  | 網易 MuMu 模擬器 6/X |         7555         |
-  | 網易 MuMu 模擬器 12  |        16384         |
-  | 夜神安卓模擬器       |        62001         |
-  | 逍遙安卓模擬器       |        21503         |
-  | 藍疊安卓模擬器       |         5555         |
-  | 雷電安卓模擬器 9     | 5555 / emulator-5554 |
+### 避免加速器干擾
 
-  純數字的預設通訊埠可以直接使用 `127.0.0.1:[port]` 來連接，雷電模擬器進行了封裝，也可以使用 `emulator-5554` 進行連接。
+部分加速器在啟動或停止加速後，需重新啟動 MAA、ADB 與模擬器才能正常連線。
 
-  在 Windows 與 Mac 的 `設定` - `連接設定` - `連接地址` 配置中，如果有情況需要修改則可以參照上表。
+MuMu 模擬器與 UU 加速器同時使用的設定可參閱 [官方說明文件](https://mumu.163.com/help/20240321/35047_1144608.html)。
 
-- 多開情況
-  - 夜神模擬器第一個設備通訊埠為 `62001` ，第二個通訊埠從 `62025` 開始遞增。
-  - 網易 MuMu 模擬器 12 版本多開時 adb 通訊埠無規律，可以通過點擊 MuMu 多開器 12，啟動需要執行的模擬器，點擊右上角的 ADB 圖示，即可查看目前正在執行的模擬器 adb 通訊埠資訊。
-  - 雷電模擬器從 9 版本開始，模擬器 adb 從本地通訊埠 `5555` 開始逐個遞增 2 ，比如第二個模擬器本地通訊埠為 `5557`。
+### 重新啟動電腦
 
-### 方式 2 : 關閉冗餘 adb 程式
+重新啟動電腦能解决 97% 的問題。（確信
 
-- 關閉 MAA 後查找 `工作管理員` - `詳細資料` 中有無名稱包含 `adb` 的程式（通常和上文中填寫的 `adb` 檔案同名），如有，結束它後重試連接。
+### 更換模擬器
 
-### 方式 3 : 重開電腦
+若上述方法皆無效，請參閱 [模擬器與設備支援](./device/)。
 
-- 重開能解決 99% 的問題。（確信
+## 連線正常，但無動作
 
-### 方式 4 : 換模擬器
+部分模擬器內建的 ADB 版本過於老舊，無法支援 `Minitouch` 或 `MaaTouch`。
 
-- 請參考 [模擬器支援](./device/)
+請嘗試以系統管理員權限開啟 MAA，關閉模擬器並重啟 MAA 後，點擊 `MAA 設定 - 連線設定 - 強制替換 ADB`。
 
-## 連接正常，但是無操作
+模擬器更新後可能會重新覆蓋 ADB 檔案。若問題再次出現，請重新操作替換，或參閱 [其他 ADB 解決方案](./connection.md#google-adb)。
 
-部分模擬器內建的 `adb` 版本過於老舊，不支援 `Minitouch` 相關操作。
+## 連線正常，但操作異常、卡頓或頻繁出錯
 
-請使用系統管理員身分打開 MAA，點擊 `MAA 設定` - `連接設定` - `強制替換 ADB`。（建議關閉模擬器、重開 MAA 後再操作，否則可能替換失敗）
+- 若開啟了 `螢幕 UI 調整`，請嘗試將其歸零。
+- 若遊玩非官服（外服）客戶端，請確認 `設定 - 遊戲設定 - 客戶端類型` 已正確切換。外服部分功能可能未完全適配，請參考對應的外服使用文件。
+- 執行自動肉鴿時，請參閱 [自動肉鴿文件](./introduction/integrated-strategy.md)，並確認 `自動肉鴿` → `肉鴿主題` 選擇正確。
+- 若自動戰鬥頻繁暫停且不部署幹員，請關閉 `設定 - 執行設定` 中的 `劃火柴模式`。
+- 自動編隊若無法辨識幹員，請取消該幹員的「特別關注」。
+- 使用 `Adb Input` 觸控模式時，操作較緩慢為正常現象。
+- MuMu 模擬器使用者請勿將 `顯存使用策略` 設定為 `資源佔用更小`。
 
-模擬器更新後可能會重新覆蓋 adb 檔案。若更新後問題復現，請再次嘗試替換。
+### 提示截圖耗時較長或過長
 
-如果這樣也無法正常使用，可將 `連接設定` - `觸控模式` 從 `Minitouch` 切換到 `MaaTouch` 再次嘗試。由於 `Adb Input` 操作過於緩慢，請僅將其作為萬不得已的模式。
+- MAA 目前支持 `RawByNc`、`RawWithGzip`、`Encode` 三種基於 ADB 的截圖方式。當執行任務的平均截圖耗時大於 400 或 800 毫秒時，會顯示一次提示訊息（單次任務僅會顯示一次）。
+- 在 `設定 - 連線設定` 中會顯示最近 30 次截圖耗時的 最小值 / 平均值 / 最大值，每 10 次截圖更新一次。
+- 自動戰鬥類功能（如自動肉鴿）受截圖耗時的影響較大。
+- 此耗時與 MAA 無關，通常受電腦效能、背景程序佔用或模擬器設定影響；可嘗試清理背景程序、更換模擬器或提升硬體配置。
 
-## 連接正常，但是操作卡頓、異常或頻繁出錯
+## 系統管理員權限相關說明
 
-- 若使用了 `異形螢幕 UI 適配`，請將其調整為 0。
-- 若正在遊玩非陸服用戶端，請先在 `設定` - `遊戲設定` - `用戶端類型` 中選擇用戶端版本。非陸服部分功能可能並非完全適配，請參考對應的外服使用文件。
-- 若正在進行自動肉鴿，請參考 [文件](./introduction/integrated-strategy.md)，並在 `任務設定` - `自動肉鴿` - `肉鴿主題` 中正確選擇主題。
-- 若自動戰鬥頻繁暫停且不下幹員，請關閉 `設置` - `運行設置` 中的 `劃火柴模式`。
-- 若自動編隊無法正常識別幹員，請取消對應幹員的特別關注。
-- `Adb Input` 觸控模式操作緩慢為正常情況，如需自動戰鬥等請嘗試切換其他模式。
-- 若正在使用 MuMu 模擬器，請勿將 `視訊記憶體使用策略` 設置為 `資源占用更小`。
+MAA 在一般情況下，無需以 UAC（系統管理員身分）執行即可使用所有功能。目前與權限相關的功能主要包括：
 
-### 提示截圖用時較長 / 過長
+1. `自動偵測連線`：當目標模擬器以系統管理員身份執行時，MAA 也需要對應權限。
+2. `完成後關閉模擬器`：當目標模擬器以系統管理員身分執行時，需要對應權限。
+3. `開機自動啟動 MAA`：無法在系統管理員身份下設定開機自動啟動。
+4. 當 MAA 被錯誤地解壓縮到需要系統管理員權限才能寫入的路徑時（例如 `C:\`、`C:\Program Files\`）。
 
-- MAA 目前支援 `RawByNc` 、 `RawWithGzip` 、 `Encode` 三種截圖方式，當執行任務平均截圖耗時 >400 / >800 時會輸出一次提示訊息（單次任務只會輸出一次）
-- `設定 - 連線設定` 中會顯示近30次截圖耗時的 最小/平均/最大值，每10次截圖刷新
-- 自動戰鬥類功能（如自動肉鴿）受截圖耗時影響較大
-- 此項耗時與MAA無關，與電腦效能、目前佔用或模擬器相關，可嘗試清理後台/更換模擬器/升級電腦配置
+有些案例反映，若關閉了 Windows 的 UAC 功能，系統會出現「即使沒有點選右鍵選擇以系統管理員身分執行，也會自動提升權限啟動」的問題，建議保持開啟狀態以避免非預期的權限提升行為。
 
-## 管理員權限相關問題
+## 下載中斷或提示「權限驗證失敗」
 
-MAA 理應無需以 Windows UAC 管理員權限運行即可實現所有功能。現與管理員權限有關的功能主要包括：
-
-1. `自動檢測連接`：當目標模擬器以管理員身份運行時需要管理員權限。
-2. `完成後關閉模擬器`：當目標模擬器以管理員身份運行時需要管理員權限。
-3. `開機自動啟動 MAA`：無法在管理員身份下設置開機自啟。
-4. 當 MAA 被錯誤解壓到需要管理員權限進行寫入的路徑時，例如 `C:\`、`C:\Program Files\`。
-
-有報告稱關閉了 UAC 的系統存在“即使沒有右鍵選擇管理員運行也會以管理員權限啟動”的問題，建議開啟 UAC 以避免意料之外的提權行為。
-
-## 下載到一半提示 “登錄” / “鑑權”
-
-請使用 瀏覽器 / IDM / FDM 等正規下載器下載檔案，**不要用傻逼迅雷！**
+請使用瀏覽器或 IDM、FDM 等專門的下載工具，**不要用 ↑↓ 迅雷！**

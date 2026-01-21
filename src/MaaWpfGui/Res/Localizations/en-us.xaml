@@ -164,6 +164,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">Some rotations in the {Key=InfrastModeCustom} configuration have time periods set, which may lead to unexpected behavior. To set shift change time periods, ensure all rotations have time periods configured; otherwise, leave them all blank.</system:String>
     <system:String x:Key="CustomInfrastPlanSelectOutOfIndex">Custom infrast plan selection is out of index</system:String>
+    <system:String x:Key="CustomInfrastPlanNotFoundByPeriod">No plan was found for the specified time period in the custom infrastructure configuration.</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">Base Configuration:&#160;</system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
     <system:String x:Key="CustomInfrastPlanToolTip">
@@ -533,6 +534,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.
 This function is invalid when the stage is selected as ｢{key=DefaultStage}｣.
 Please do not check it when the stage OF-1 is not unlocked.</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">A ｢{key=Fight}｣ task has ｢{key=DefaultStage}｣ in its stage list, ｢{key=Mall}｣ task will skip the Combat with Support Unit in OF-1. Task: {0} (index: {1}), Stage index in list: {2}</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
     <system:String x:Key="HighPriorityDefault">Recruitment Permit</system:String>
@@ -1788,5 +1790,17 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="BadModules.Warning.Prolog">The following DLL(s) injected into MAA may crash MAA or corrupt MAA user interface:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
+    <system:String x:Key="BadModules.Confirmation.Heading">Warning: Performance Impact</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">If you choose to suppress this warning, MAA will use software rendering instead of hardware rendering. This will cause:&#x0a;&#x0a;• Performance degradation&#x0a;• UI lag&#x0a;• Increased CPU usage&#x0a;&#x0a;&#x0a;Do you confirm to suppress the warning and accept these consequences?</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRendering">Use Software Rendering</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRenderingTip">When enabled, bad module warnings will be suppressed and software rendering mode will be used. This causes performance degradation, UI lag, and increased CPU usage. Uncheck to restore hardware rendering.</system:String>
+    <system:String x:Key="BadModules.ResetWarning">Software rendering mode is now enabled. Restart MAA to apply this setting.</system:String>
+    <system:String x:Key="BadModules.ResetSuccess">Hardware rendering mode has been restored. Restart MAA to apply changes. Restart now?</system:String>
     <!--  !BadModules  -->
+
+    <!--  EmulatorPathSelection  -->
+    <system:String x:Key="SelectEmulatorPath">Select Emulator Path</system:String>
+    <system:String x:Key="MultipleEmulatorsDetected">Multiple emulator installation paths detected, please select the path you want to use:</system:String>
+    <system:String x:Key="PleaseSelectPath">Please select a path</system:String>
+    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>

@@ -227,9 +227,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             }
 
             SetFightParams();
-                SetTaskConfig<FightTask>(t => t.UseStone == value, t => t.UseStone = value);
-            }
+            SetTaskConfig<FightTask>(t => t.UseStone == value, t => t.UseStone = value);
         }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether to use originiums.
@@ -793,7 +793,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             {
                 current.StagePlan = listCurrent;
             }
-            foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.Where(i => i is FightTask).OfType<FightTask>())
+            foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.Where(i => i is FightTask fight && !fight.IsStageManually).OfType<FightTask>())
             {
                 var removeList = task.StagePlan.Where(i => !stageList.Any(p => p.Value == i)).ToList();
                 if (removeList.Count != 0)

@@ -6,52 +6,58 @@ icon: jam:write-f
 # 文件編寫指南
 
 ::: tip
-本文件的目的在於指導文件編寫者更好地使用主題提供的功能，以達到更易讀的效果。
+本文件的目的在於指導文件編寫者更好地使用主題提供的功能，以此達到更易讀的效果。
 :::
 
-我們的文件基於 [vuepress](https://github.com/vuejs/vuepress) 構建，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主題，你也可以查看[官方文件](https://theme-plume.vuejs.press/)來獲取更詳細的說明，這裡僅介紹一些常用的功能。
+我們的文件基於 [VuePress](https://github.com/vuejs/vuepress) 建置，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主題。您也可以查看 [官方文件](https://theme-plume.vuejs.press/) 來獲取更詳細的說明。本文僅介紹部分常用功能，或經我們自定義後的特殊功能。
 
-## 本地部署
+## 本機開發
 
-1. 安裝 [pnpm](https://pnpm.io/zh/installation)，並參考 [Pull Request 流程簡述](./development.md#github-pull-request-流程簡述)將倉庫克隆到本地。
-2. 在 `docs` 目錄下新建終端，運行 `pnpm i` 下載依賴。
-3. 運行 `pnpm run dev` 進行部署。
+1. 安裝 [pnpm](https://pnpm.io/installation)，並參考 [Pull Request 流程簡述](./development.md#github-pull-request-流程簡述) 將倉庫複製（Clone）到本機。
+2. 在 `docs` 目錄下開啟終端機，執行 `pnpm i` 安裝相依套件。
+3. 執行 `pnpm run dev` 啟動開發預覽環境。
 
-## 容器
+## 容器與卡片
 
-~~不是 docker 那個容器~~
-
-該主題提供了關於提示、注釋、信息、注意、警告和詳情自定義容器的支持，我們可以利用這一特性來強調部分內容。
+該主題提供了關於提示、註釋、資訊、注意、警告和詳情自定義容器的支援，我們可以利用這一特性來強調部分內容。
 
 容器的使用方法：
 
 ```markdown
-::: [容器類型] [容器標題（可選）]
-你想寫的內容
+::: [容器類型] [容器標題（選填）]
+您想寫的內容
 :::
 ```
 
-接受的容器内容与其默认标题如下：
+或是使用 GitHub 風格語法：
+
+```markdown
+> [!容器類型]
+> 您想寫的內容
+```
+
+可接受的容器類型與其預設標題如下：
 
 - `tip` 提示
-- `note` 注釋
-- `info` 信息
+- `note` 註釋
+- `info` 相關資訊
 - `warning` 注意
 - `danger` 警告
 - `details` 詳情
+- `demo-warpper` ==特殊容器==
 
-### 容器示例
+### 容器範例
 
 ::: tip
 這是提示容器
 :::
 
 ::: note
-這是注釋容器
+這是註釋容器
 :::
 
 ::: info
-這是信息容器
+這是資訊容器
 :::
 
 ::: warning
@@ -59,30 +65,216 @@ icon: jam:write-f
 :::
 
 ::: danger
-這是危險容器
+這是警告容器
 :::
 
 ::: details
 這是詳情容器
 :::
 
-## 圖標
+::: demo-wrapper
+這是一個很特殊的容器
+:::
 
-該主題提供了圖標支持，你可以在以下地方使用圖標：
+## 麥克筆標記
 
-- 文件標題：在 frontmatter 中設置文件標題旁邊的圖標
+您可以使用標記語法來對想要顯示的內容進行標記，用於強調重點事項。
 
-- 導航欄/側邊欄：設置在導航欄與側邊欄中顯示的圖標
+使用方法：用 `==標記內容=={標記顏色（選填）}` 的語法進行標記，請注意標記兩邊需要有空格。
 
-- 文件內容：在文件中使用圖標
+**輸入：**
 
-### 設置文件的圖標
+```markdown
+MaaAssistantArknights 是由 ==很多豬== 開發的
+```
 
-你可以在文件的 [frontmatter](#frontmatter) 中使用 icon 來設置文件的圖標。
+**輸出：**
 
-这个图标会显示在文档标题的旁边。
+MaaAssistantArknights 是由 ==很多豬== 開發的
 
-::: details 本文件的 frontmatter 設置
+主題還內建了以下的配色方案：
+
+- **default**: `==Default==` - ==Default==
+- **info**: `==Info=={.info}` - ==Info=={.info}
+- **note**: `==Note=={.note}` - ==Note=={.note}
+- **tip**: `==Tip=={.tip}` - ==Tip=={.tip}
+- **warning**: `==Warning=={.warning}` - ==Warning=={.warning}
+- **danger**: `==Danger=={.danger}` - ==Danger=={.danger}
+- **caution**: `==Caution=={.caution}` - ==Caution=={.caution}
+- **important**: `==Important=={.important}` - ==Important=={.important}
+
+## 隱藏文字
+
+出於某種原因，您可能需要將文件的某部分暫時塗黑，在這種情況下您可以使用隱藏文字功能。
+
+您可以使用 `!!需要隱秘的內容!!{配置（選填）}` 的語法來使用，預設效果如下：
+
+!!總感覺在看萌娘百科（劃掉!!
+
+有以下配置可以使用：
+
+::: demo-wrapper
+輸入：
+
+```markdown
++ 遮罩層效果 + 滑鼠懸停：!!滑鼠懸停看到我了!!{.mask .hover}
++ 遮罩層效果 + 點擊：!!點擊看到我了!!{.mask .click}
++ 文字模糊效果 + 滑鼠懸停：!!滑鼠懸停看到我了!!{.blur .hover}
++ 文字模糊效果 + 點擊：!!點擊看到我了!!{.blur .click}
+```
+
+輸出：
+
+- 遮罩層效果 + 滑鼠懸停：!!滑鼠懸停看到我了!!{.mask .hover}
+- 遮罩層效果 + 點擊：!!點擊看到我了!!{.mask .click}
+- 文字模糊效果 + 滑鼠懸停：!!滑鼠懸停看到我了!!{.blur .hover}
+- 文字模糊效果 + 點擊：!!點擊看到我了!!{.blur .click}
+
+:::
+
+## 步驟
+
+當您正在撰寫一個步驟化的教學時，有序列表可能會因為嵌套而失去層次感，這種時候 `steps` 容器就是最好的選擇。
+
+注意該容器用四個冒號來標記開始和結束，與常規的容器不同。
+
+輸入：
+
+````markdown
+:::: steps
+1. 步驟 1
+
+   ```ts
+   console.log('Hello World!')
+   ```
+
+2. 步驟 2
+
+   這裡是步驟 2 的相關內容
+
+3. 步驟 3
+
+   ::: tip
+   提示容器
+   :::
+
+4. 結束
+::::
+````
+
+輸出：
+
+:::: steps
+
+1. 步驟 1
+
+   ```ts
+   console.log('Hello World!')
+   ```
+
+2. 步驟 2
+
+   這裡是步驟 2 的相關內容
+
+3. 步驟 3
+
+   ::: tip
+   提示容器
+   :::
+
+4. 結束
+
+::::
+
+## 智慧圖片容器
+
+我們基於主題提供的功能包裝了一個圖片容器。該容器能夠在淺色與深色主題下自動顯示對應主題的圖片，同時支援自動適應排版。
+
+您可以在 Markdown 正文中使用 `<ImageGrid>` 元件來呼叫該方法，具體的語法和效果如下：
+
+::: demo-wrapper
+
+這是語法：
+
+```markdown
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/readme/1-light.png',
+    dark: 'images/zh-cn/readme/1-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/2-light.png',
+    dark: 'images/zh-cn/readme/2-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/3-light.png',
+    dark: 'images/zh-cn/readme/3-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/4-light.png',
+    dark: 'images/zh-cn/readme/4-dark.png'
+  }
+]" />
+```
+
+這是渲染效果：
+
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/readme/1-light.png',
+    dark: 'images/zh-cn/readme/1-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/2-light.png',
+    dark: 'images/zh-cn/readme/2-dark.png'
+  }
+]" />
+
+:::
+
+## 欄位容器
+
+該語法較為複雜，請參閱 [官方文件](https://theme-plume.vuejs.press/guide/markdown/field/) 進行使用。
+
+效果展示如下：
+
+:::: field-group
+::: field name="theme" type="ThemeConfig" required default="{ base: '/' }"
+主題配置
+:::
+
+::: field name="enabled" type="boolean" optional default="true"
+是否啟用
+:::
+
+::: field name="callback" type="(...args: any[]) => void" optional default="() => {}"
+<Badge type="tip" text="v1.0.0 新增"  />
+回呼函數
+:::
+
+::: field name="other" type="string" deprecated
+<Badge type="danger" text="v0.9.0 棄用"  />
+已棄用屬性
+:::
+::::
+
+## 圖示
+
+該主題提供了圖示支援，您可以在以下地方使用圖示：
+
+- 文件標題：在 frontmatter 中設定文件標題旁邊的圖示。
+
+- 導覽列 / 側邊欄：設定在導覽列與側邊欄中顯示的圖示。
+
+- 文件內容：在文件內部使用圖示。
+
+### 設定文件的圖示
+
+您可以在文件的 [frontmatter](#frontmatter) 中使用 `icon` 來設定文件的圖示。
+
+這個圖示會顯示在文件標題的旁邊。
+
+::: details 本文件的 frontmatter 設定
 
 ```markdown
 ---
@@ -92,36 +284,41 @@ icon: jam:write-f
 
 :::
 
-### 在文件中使用圖標
+### 在文件中使用圖示
 
-你可以使用 `<HopeIcon />` 組件在 markdown 中添加圖標。該組件有以下屬性：
+您可以使用 `<Icon />` 元件在 Markdown 中新增圖示。該元件有以下屬性：
 
-- `icon` 接受圖標關鍵字及 Url，如 `jam:write-f`，`ic:round-home` 等
-- `color` 接受 css 風格的顏色值，如 `#fff`，`red` 等（該選項僅對 svg 圖標有效）
-- `size` 接受 css 風格的大小，如 `1rem`，`2em`，`100px` 等
+- `icon` 接受圖示關鍵字及 URL，如 `jam:write-f`，`ic:round-home` 等。
+- `color` 接受 CSS 風格的顏色值，如 `#fff`，`red` 等（該選項僅對 SVG 圖示有效）。
+- `size` 接受 CSS 風格的大小，如 `1rem`，`2em`，`100px` 等。
 
-::: details 案例
-<HopeIcon icon="ic:round-home" color="#1f1e33"/>
+::: demo-wrapper 範例
+
+輸入：
 
 ```markdown
-<HopeIcon icon="ic:round-home" color="#1f1e33"/>
+- home - <Icon name="material-symbols:home" color="currentColor" size="1em" />
+- vscode - <Icon name="skill-icons:vscode-dark" size="2em" />
+- twitter - <Icon name="skill-icons:twitter" size="2em" />
 ```
 
-<HopeIcon icon="/images/maa-logo_512x512.png" size="4rem" />
-```markdown
-<HopeIcon icon="/images/maa-logo_512x512.png" size="4rem" />
-```
+輸出：
+
+- home - <Icon name="material-symbols:home" color="currentColor" size="1em" />
+- vscode - <Icon name="skill-icons:vscode-dark" size="2em" />
+- twitter - <Icon name="skill-icons:twitter" size="2em" />
+
 :::
 
-### 圖標關鍵字的獲取
+### 圖示關鍵字的獲取
 
-本文件使用的圖標來自於 [iconify](https://iconify.design/)，你可以在其給出的 [圖標搜索界面](https://icon-sets.iconify.design/) 中搜索你想要的圖標，然後復制其關鍵字。
+本文件使用的圖示來自於 [iconify](https://iconify.design/)，您可以在其提供的 [圖示搜尋介面](https://icon-sets.iconify.design/) 中搜尋您想要的圖示，然後複製其關鍵字。
 
 ## Frontmatter
 
-Frontmatter 是 Markdown 文件開頭一段用 --- 包裹起來的內容，其內部使用 yml 語法。通過 Frontmatter，我們可以標識文件的編輯時間，使用的圖標，分類，標籤等等。
+Frontmatter 是 Markdown 文件開頭一段用 `---` 包裹起來的內容，其內部使用 YAML 語法。透過 Frontmatter，我們可以標示文件的編輯時間、使用的圖示、分類、標籤等等。
 
-::: details 示例
+::: details 範例
 
 ```markdown
 ---
@@ -137,8 +334,8 @@ order: 1
 
 :::
 
-各字段含義如下：
+各欄位含義如下：
 
-- `date` 文件的編輯時間
-- `icon` 文件標題旁邊的圖標
-- `order` 文件在側邊欄中的排序
+- `date`：文件的編輯時間
+- `icon`：文件標題旁邊的圖示
+- `order`：文件在側邊欄中的排序
