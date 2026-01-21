@@ -1791,4 +1791,10 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="BadModules.Warning.Epilog">MAA에서 관련 문제가 발생하는 경우, 관련 소프트웨어의 제외 목록에 MAA를 추가하거나 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인하세요.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">이 경고를 다시 표시하지 않음</system:String>
     <!--  !BadModules  -->
+
+    <!--  EmulatorPathSelection  -->
+    <system:String x:Key="SelectEmulatorPath">에뮬레이터 경로 선택</system:String>
+    <system:String x:Key="MultipleEmulatorsDetected">여러 에뮬레이터 설치 경로가 감지되었습니다. 사용할 경로를 선택하세요:</system:String>
+    <system:String x:Key="PleaseSelectPath">경로를 선택하세요</system:String>
+    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>
