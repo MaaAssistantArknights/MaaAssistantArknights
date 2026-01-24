@@ -183,6 +183,12 @@ def ArgParser():
         default=[],
     )
     parser.add_argument("-q", "--quiet", dest="quiet", action="store_true")
+    parser.add_argument(
+        "--no-cleanup",
+        dest="no_cleanup",
+        action="store_true",
+        help="disable cleanup of deleted templates from cache",
+    )
     return parser
 
 
@@ -190,6 +196,7 @@ if __name__ == "__main__":
     args = ArgParser().parse_args()
     paths = args.path
     quiet = args.quiet
+    no_cleanup = args.no_cleanup
 
     perfect_pngs = {}
     optimized_png_paths = []
@@ -231,18 +238,19 @@ if __name__ == "__main__":
             if file_id:
                 existing_file_ids.add(file_id)
 
-    removed_count = 0
-    for file_id in list(perfect_pngs.keys()):
-        if file_id not in existing_file_ids:
-            del perfect_pngs[file_id]
-            removed_count += 1
+    if not no_cleanup:
+        removed_count = 0
+        for file_id in list(perfect_pngs.keys()):
+            if file_id not in existing_file_ids:
+                del perfect_pngs[file_id]
+                removed_count += 1
+                if not quiet:
+                    print(f"Removed deleted file from cache: {file_id}")
+        
+        if removed_count > 0:
+            update_perfect_png_dict(perfect_pngs)
             if not quiet:
-                print(f"Removed deleted file from cache: {file_id}")
-
-    if removed_count > 0:
-        update_perfect_png_dict(perfect_pngs)
-        if not quiet:
-            print(f"Cleaned up {removed_count} removed file(s) from cache")
+                print(f"Cleaned up {removed_count} removed file(s) from cache")
 
     total_diff_sz = 0
     if quiet:
