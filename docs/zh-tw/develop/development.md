@@ -84,7 +84,7 @@ icon: iconoir:developer
 
    :::
 
-7. 雙擊開啟 `build/MAA.sln` 檔案，Visual Studio 會自動載入整個專案。
+7. 雙擊開啟 `build/MAA.slnx` 檔案，Visual Studio 會自動載入整個專案。
 8. 設定 Visual Studio
    - Visual Studio 上方配置選擇 `Debug` `x64`
    - 右鍵點擊 `MaaWpfGui` - 設為啟動專案。
