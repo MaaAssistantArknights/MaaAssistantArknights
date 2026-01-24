@@ -12797,6 +12797,36 @@
             "profession": "TRAP",
             "rangeId": ["3-13", "3-13", "3-13"],
             "rarity": 1
+        },
+        "trap_790_dytswd": {
+            "name": "宿傲",
+            "name_en": "宿傲",
+            "name_en_unavailable": true,
+            "name_jp": "宿傲",
+            "name_jp_unavailable": true,
+            "name_kr": "宿傲",
+            "name_kr_unavailable": true,
+            "name_tw": "宿傲",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_791_dytfre": {
+            "name": "宿怒",
+            "name_en": "宿怒",
+            "name_en_unavailable": true,
+            "name_jp": "宿怒",
+            "name_jp_unavailable": true,
+            "name_kr": "宿怒",
+            "name_kr_unavailable": true,
+            "name_tw": "宿怒",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
         }
     },
     "ranges": {
