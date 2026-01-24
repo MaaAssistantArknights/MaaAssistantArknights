@@ -74,6 +74,22 @@ icon: iconoir:developer
    cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
    ```
 
+   ::: tip
+   VSCode の CMake Tools 拡張を使用している場合は、`.vscode/settings.json` に以下の設定を追加できます：
+
+   ```json
+   {
+      "cmake.generator": "Visual Studio 18 2026",
+      "cmake.buildDirectory": "${workspaceFolder}/build",
+      "cmake.configureSettings": {
+         "BUILD_WPF_GUI": "ON",
+         "BUILD_DEBUG_DEMO": "ON"
+      }
+   }
+   ```
+
+   :::
+
 7. `build/MAA.slnx` をダブルクリックで開き、Visual Studio にプロジェクトを自動ロード
 8. VS の設定
    - 上部設定バーで `Debug` `x64` を選択
