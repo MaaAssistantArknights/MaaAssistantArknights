@@ -151,6 +151,9 @@
     <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣ 的换班逻辑与游戏内基建右下角的「{key=InfrastModeRotation}」完全一致：
 当当前班次中任意干员心情值为 0 时，会整队替换为下一班干员。
 若需自定义轮换班次，请使用「{key=InfrastModeCustom}」。</system:String>
+    <system:String x:Key="InfrastModeIntelligentRotation">智能队列轮换</system:String>
+    <system:String x:Key="InfrastModeIntelligentRotationToolTip" xml:space="preserve">根据宿舍空余位置数，自动
+选择若干房间进行队列轮换。</system:String>
     <system:String x:Key="InfrastModeCustom">自定义基建配置</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
