@@ -68,6 +68,22 @@ We've preset several different development environments for you to choose from:
    cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
    ```
 
+   ::: tip
+   If you are using the CMake Tools extension in VSCode, you can consider adding the following configuration to `.vscode/settings.json`:
+
+   ```json
+   {
+      "cmake.generator": "Visual Studio 18 2026",
+      "cmake.buildDirectory": "${workspaceFolder}/build",
+      "cmake.configureSettings": {
+         "BUILD_WPF_GUI": "ON",
+         "BUILD_DEBUG_DEMO": "ON"
+      }
+   }
+   ```
+
+   :::
+
 7. Double-click `build/MAA.slnx` to open the project in Visual Studio.
 8. Configure Visual Studio settings
    - Select `Debug` and `x64` in the top configuration bar

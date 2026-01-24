@@ -68,6 +68,22 @@ icon: iconoir:developer
    cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
    ```
 
+   ::: tip
+   若使用 VSCode 中的 CMake Tools 擴充功能，可以考慮在 `.vscode/settings.json` 中加入以下設定：
+
+   ```json
+   {
+      "cmake.generator": "Visual Studio 18 2026",
+      "cmake.buildDirectory": "${workspaceFolder}/build",
+      "cmake.configureSettings": {
+         "BUILD_WPF_GUI": "ON",
+         "BUILD_DEBUG_DEMO": "ON"
+      }
+   }
+   ```
+
+   :::
+
 7. 雙擊開啟 `build/MAA.sln` 檔案，Visual Studio 會自動載入整個專案。
 8. 設定 Visual Studio
    - Visual Studio 上方配置選擇 `Debug` `x64`
