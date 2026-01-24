@@ -1676,6 +1676,7 @@ public class AsstProxy
             case "ProcessTask":
                 var taskName = details["details"]?["task"]?.ToString();
                 var taskChain = details["taskchain"]?.ToString();
+                AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
                 switch (taskChain)
                 {
                     case "Infrast":
@@ -1713,15 +1714,27 @@ public class AsstProxy
                             switch (taskName)
                             {
                                 case "EndOfActionThenStop":
-                                    TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
-                                    AchievementTrackerHelper.Instance.AddProgress(AchievementIds.MosquitoLeg);
-                                    break;
+                                    {
+                                        var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(t => t.TaskId == taskId)?.Index ?? 0;
+                                        if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count && ConfigFactory.CurrentConfig.TaskQueue[index] is MallTask mall)
+                                        {
+                                            mall.CreditFightLastTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                        }
+                                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
+                                        AchievementTrackerHelper.Instance.AddProgress(AchievementIds.MosquitoLeg);
+                                        break;
+                                    }
 
                                 case "VisitLimited" or "VisitNextBlack":
-                                    TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
-                                    break;
+                                    {
+                                        var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(t => t.TaskId == taskId)?.Index ?? 0;
+                                        if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count && ConfigFactory.CurrentConfig.TaskQueue[index] is MallTask mall)
+                                        {
+                                            mall.VisitFriendsLastTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                        }
+                                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
+                                        break;
+                                    }
                             }
 
                             break;
