@@ -248,6 +248,9 @@
     <system:String x:Key="IS5NewSquad6">花团锦簇分队（占位）</system:String>
     <system:String x:Key="IS5NewSquad7">棋行险着分队（占位）</system:String>
     <system:String x:Key="IS5NewSquad8">岁影回音分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad9">代理人分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad10">知学分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad11">商贾分队（占位）</system:String>
     <system:String x:Key="SpecialForceSquad">特別行動分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
