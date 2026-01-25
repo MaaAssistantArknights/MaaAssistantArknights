@@ -248,6 +248,9 @@
     <system:String x:Key="IS5NewSquad6">화단금족 분대 (花团锦簇分队)</system:String>
     <system:String x:Key="IS5NewSquad7">기행험착 분대 (棋行险着分队)</system:String>
     <system:String x:Key="IS5NewSquad8">세영회음 분대 (岁影回音分队)</system:String>
+    <system:String x:Key="IS5NewSquad9">대리인 분대 (代理人分队)</system:String>
+    <system:String x:Key="IS5NewSquad10">지학 분대 (知学分队)</system:String>
+    <system:String x:Key="IS5NewSquad11">상고 분대 (商贾分队)</system:String>
     <system:String x:Key="SpecialForceSquad">특근 분대</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
