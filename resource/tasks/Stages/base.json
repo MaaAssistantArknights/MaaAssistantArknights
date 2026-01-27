@@ -54,8 +54,8 @@
         "next": ["Stop"]
     },
     "SS@Store@WearCostume": {
-        "doc": "获得新时装后，识别画面右下角按钮中 “穿戴” 文字左侧的衣架图标",
-        "roi": [1146, 595, 120, 44],
+        "doc": "获得新时装后，识别画面右中部位置的 “FLOT” 文字",
+        "roi": [793, 348, 109, 46], 
         "next": ["SS@Store@RecruitSkipClick"]
     },
     "SS@Store@RecruitSkip": {
