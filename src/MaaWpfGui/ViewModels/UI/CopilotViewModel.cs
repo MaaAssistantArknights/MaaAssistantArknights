@@ -707,7 +707,7 @@ public partial class CopilotViewModel : Screen
         set => SetAndNotify(ref _useSupportUnitUsage, value);
     }
 
-    private int _supportUnitUsage = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSupportUnitUsage, 0);
+    private int _supportUnitUsage = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSupportUnitUsage, 1);
 
     public int SupportUnitUsage
     {
