@@ -188,7 +188,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and {key=Operator} groups</system:String>
     <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, clear as many nodes as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Invests coins, exits automatically after investment completes</system:String>
-    <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite II {key=Operator}s</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite 2 {key=Operator}s</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">Farm collapse paradigms, restart immediately after encountering a non-rare collapse paradigm</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">Grind Monthly Squad, clear as far as possible</system:String>
@@ -248,6 +248,9 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="IS5NewSquad6">Cluster of Blooms Squad (花团锦簇分队)</system:String>
     <system:String x:Key="IS5NewSquad7">Daring Gambit Squad (棋行险着分队)</system:String>
     <system:String x:Key="IS5NewSquad8">Echoes of Time Squad (岁影回音分队)</system:String>
+    <system:String x:Key="IS5NewSquad9">Agent Squad (代理人分队)</system:String>
+    <system:String x:Key="IS5NewSquad10">Knowledge Squad (知学分队)</system:String>
+    <system:String x:Key="IS5NewSquad11">Merchant Squad (商贾分队)</system:String>
     <system:String x:Key="SpecialForceSquad">Special Squad</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
@@ -978,6 +981,7 @@ Right click to add challenge difficulty</system:String>
 Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
+    <system:String x:Key="CopilotFormationRequirement.Level">E{0} Lv.{1}</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
     <system:String x:Key="CopilotModule">Module</system:String>
     <system:String x:Key="CopilotWithoutModule">Without Module</system:String>
@@ -1205,6 +1209,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BattleFormationParseFailed">Formation parse failed</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator} unavailable: {0}, reason: {1}</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Level">{key=Operator} level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">Skill level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">Required module not unlocked</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
@@ -1788,5 +1793,17 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="BadModules.Warning.Prolog">The following DLL(s) injected into MAA may crash MAA or corrupt MAA user interface:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
+    <system:String x:Key="BadModules.Confirmation.Heading">Warning: Performance Impact</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">If you choose to suppress this warning, MAA will use software rendering instead of hardware rendering. This will cause:&#x0a;&#x0a;• Performance degradation&#x0a;• UI lag&#x0a;• Increased CPU usage&#x0a;&#x0a;&#x0a;Do you confirm to suppress the warning and accept these consequences?</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRendering">Use Software Rendering</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRenderingTip">When enabled, bad module warnings will be suppressed and software rendering mode will be used. This causes performance degradation, UI lag, and increased CPU usage. Uncheck to restore hardware rendering.</system:String>
+    <system:String x:Key="BadModules.ResetWarning">Software rendering mode is now enabled. Restart MAA to apply this setting.</system:String>
+    <system:String x:Key="BadModules.ResetSuccess">Hardware rendering mode has been restored. Restart MAA to apply changes. Restart now?</system:String>
     <!--  !BadModules  -->
+
+    <!--  EmulatorPathSelection  -->
+    <system:String x:Key="SelectEmulatorPath">Select Emulator Path</system:String>
+    <system:String x:Key="MultipleEmulatorsDetected">Multiple emulator installation paths detected, please select the path you want to use:</system:String>
+    <system:String x:Key="PleaseSelectPath">Please select a path</system:String>
+    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>

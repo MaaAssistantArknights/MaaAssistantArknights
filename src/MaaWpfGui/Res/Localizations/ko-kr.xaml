@@ -138,7 +138,7 @@
     <system:String x:Key="InfrastReceptionClueExchange">단서 교환 수행</system:String>
     <system:String x:Key="ClueExchangeUnlocked">단서 교환 시작</system:String>
     <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
-    <system:String x:Key="ReceptionOptionsRequireInfrast">다음 함수들은 {key=Infrast}에서 설정 및 실행되어야 합니다.</system:String>
+    <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
     <system:String x:Key="ContinueTraining">스킬 훈련 완료 시 이어서 훈련 시도</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
@@ -248,6 +248,9 @@
     <system:String x:Key="IS5NewSquad6">화단금족 분대 (花团锦簇分队)</system:String>
     <system:String x:Key="IS5NewSquad7">기행험착 분대 (棋行险着分队)</system:String>
     <system:String x:Key="IS5NewSquad8">세영회음 분대 (岁影回音分队)</system:String>
+    <system:String x:Key="IS5NewSquad9">대리인 분대 (代理人分队)</system:String>
+    <system:String x:Key="IS5NewSquad10">지학 분대 (知学分队)</system:String>
+    <system:String x:Key="IS5NewSquad11">상고 분대 (商贾分队)</system:String>
     <system:String x:Key="SpecialForceSquad">특근 분대</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
@@ -534,7 +537,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1 스테이지에서 지원유닛을 사용, 클리어하여 30 크레딧을 획득합니다.
 현재 스테이지가 ｢{key=DefaultStage}｣으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
 OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</system:String>
-    <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ 임무의 스테이지 목록에 ｢{key=DefaultStage}｣가 존재하여, ｢{key=Mall}｣ 임무는 OF-1에서 지원 유닛과의 전투를 건너뜁니다. 작업 이름: {0} (순서 번호 {1}), 레벨 순서 번호 {2}</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ 작업의 스테이지 목록에 ｢{key=DefaultStage}｣가 존재하여, ｢{key=Mall}｣ 작업은 OF-1에서 지원 유닛을 사용한 전투를 건너뜁니다. 작업 이름: {0} (순서 {1}), 스테이지 순서 {2}</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (｢;｣ 로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (｢;｣ 로 구분)</system:String>
     <system:String x:Key="HighPriorityDefault">모집 허가증</system:String>
@@ -980,6 +983,7 @@ C:\\leidian\\LDPlayer9
 우클릭으로 비활성 작업 지우기</system:String>
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
+    <system:String x:Key="CopilotFormationRequirement.Level">{0}차 정예화 레벨 {1}</system:String>
     <system:String x:Key="CopilotSkill">스킬</system:String>
     <system:String x:Key="CopilotModule">모듈</system:String>
     <system:String x:Key="CopilotWithoutModule">모듈 없이 시작</system:String>
@@ -1207,6 +1211,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationParseFailed">편성 분석에 실패했습니다</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용 불가 {key=Operator}: {0}, 사유: {1}</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Level">{key=Operator}불충분한 수준</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">스킬 레벨이 너무 낮음</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">필요한 모듈이 잠금 해제되지 않음</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
@@ -1790,5 +1795,17 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="BadModules.Warning.Prolog">다음 DLL이 MAA에 주입되면 MAA가 충돌하거나 UI 렌더링에 문제가 발생할 수 있습니다:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">MAA에서 관련 문제가 발생하는 경우, 관련 소프트웨어의 제외 목록에 MAA를 추가하거나 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인하세요.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">이 경고를 다시 표시하지 않음</system:String>
+    <system:String x:Key="BadModules.Confirmation.Heading">경고: 성능 영향</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">경고를 숨기도록 선택하면 MAA는 하드웨어 렌더링 대신 소프트웨어 렌더링을 사용합니다. 이로 인해 다음과 같은 문제가 발생합니다:&#x0a;&#x0a;• 성능 저하&#x0a;• UI 지연&#x0a;• CPU 사용량 증가&#x0a;&#x0a;경고를 숨기고 이러한 결과를 수락하시겠습니까?</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRendering">소프트웨어 렌더링 사용</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRenderingTip">활성화하면 잘못된 모듈 경고가 표시되지 않고 소프트웨어 렌더링 모드가 사용됩니다. 이로 인해 성능 저하, UI 지연 및 CPU 사용량 증가가 발생합니다. 체크 해제하면 하드웨어 렌더링으로 복원됩니다.</system:String>
+    <system:String x:Key="BadModules.ResetWarning">소프트웨어 렌더링 모드가 활성화되었습니다. 이 설정을 적용하려면 MAA를 다시 시작하세요.</system:String>
+    <system:String x:Key="BadModules.ResetSuccess">하드웨어 렌더링 모드로 복원되었습니다. 변경 사항을 적용하려면 MAA를 다시 시작해야 합니다. 지금 다시 시작하시겠습니까?</system:String>
     <!--  !BadModules  -->
+
+    <!--  EmulatorPathSelection  -->
+    <system:String x:Key="SelectEmulatorPath">에뮬레이터 경로 선택</system:String>
+    <system:String x:Key="MultipleEmulatorsDetected">여러 에뮬레이터 설치 경로가 감지되었습니다. 사용할 경로를 선택하세요:</system:String>
+    <system:String x:Key="PleaseSelectPath">경로를 선택하세요</system:String>
+    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>

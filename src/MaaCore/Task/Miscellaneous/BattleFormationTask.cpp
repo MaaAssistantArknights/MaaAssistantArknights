@@ -476,7 +476,6 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
 {
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     std::vector<asst::BattleFormationTask::QuickFormationOper> opers_result;
-    cv::Mat select;
     for (int i = 0; i < 8; ++i) {
         std::string task_name = "BattleQuickFormation-OperNameFlag" + std::to_string(i);
 
@@ -486,7 +485,8 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
         if (!multi.analyze()) [[unlikely]] {
             continue;
         }
-        for (const auto& flag : multi.get_result()) {
+        const auto& multi_result = multi.get_result();
+        for (const auto& flag : multi_result) {
             OperNameAnalyzer region(image);
             region.set_task_info(ocr_task);
             region.set_roi(flag.rect.move(ocr_task->rect_move));
@@ -508,6 +508,7 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
             res.score = ocr_result.score;
             res.flag_rect = flag.rect;
             res.flag_score = flag.score;
+            res.role = Roles[i];
 
             constexpr int kMinDistance = 5;
             auto find_it =
@@ -518,9 +519,12 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
             if (find_it != opers_result.end() || res.text.empty()) {
                 continue;
             }
-            select = make_roi(image, res.flag_rect.move({ 0, -10, 5, 4 }));
-            cv::inRange(select, cv::Scalar(200, 140, 0), cv::Scalar(255, 180, 100), select);
-            res.is_selected = cv::hasNonZero(select);
+
+            // 判断是否已被选中
+            cv::Mat selected_image = make_roi(image, res.flag_rect.move({ 0, -10, 5, 4 }));
+            cv::inRange(selected_image, cv::Scalar(200, 140, 0), cv::Scalar(255, 180, 100), selected_image);
+            res.is_selected = cv::hasNonZero(selected_image);
+
             opers_result.emplace_back(std::move(res));
         }
     }
@@ -541,7 +545,8 @@ bool asst::BattleFormationTask::enter_selection_page(const cv::Mat& img)
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperGroup*>& groups)
 {
-    const auto& opers_result = analyzer_opers(ctrler()->get_image());
+    const auto& image = ctrler()->get_image();
+    const auto& opers_result = analyzer_opers(image);
 
     if (!opers_result.empty()) {
         if (m_last_oper_name == opers_result.back().text) {
@@ -574,10 +579,21 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             continue;
         }
         else if (!oper) {
-            Log.error(__FUNCTION__, "| Oper was founded, but pointer is null");
+            LogError << __FUNCTION__ << "| Oper was founded, but pointer is null";
             continue;
         }
 
+        if (!check_oper_level(
+                image,
+                res.flag_rect,
+                res.text,
+                oper->requirements.elite,
+                oper->requirements.level,
+                m_ignore_requirements)) {
+            // 继续检查同组其他干员
+            oper->status = battle::OperStatus::Unavailable;
+            continue;
+        }
         ctrler()->click(res.flag_rect);
         sleep(delay);
         if (!check_and_select_skill(
@@ -592,6 +608,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             oper->status = battle::OperStatus::Unavailable;
             continue;
         }
+
         if (oper->requirements.module >= 0 && oper->requirements.module <= 4) {
             ret = ProcessTask(*this, { "BattleQuickFormationModulePage" }).run();
             ret =
@@ -630,6 +647,60 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
         oper = nullptr; // reset oper pointer
     }
 
+    return true;
+}
+
+bool asst::BattleFormationTask::check_oper_level(
+    const cv::Mat image,
+    asst::Rect flag,
+    const std::string& name,
+    int elite,
+    int level,
+    bool ignore)
+{
+    const auto& level_task = Task.get<OcrTaskInfo>("BattleQuickFormation-Level");
+    const auto& elite_task = Task.get<MatchTaskInfo>("BattleQuickFormation-Elite");
+
+    int _elite = 0;
+    int _level = 0;
+
+    // 识别精二
+    Matcher elite_analyzer(image);
+    elite_analyzer.set_task_info(elite_task);
+    Rect roi = flag.move(elite_task->rect_move);
+    elite_analyzer.set_roi(roi);
+    if (!elite_analyzer.analyze()) {
+        LogError << __FUNCTION__ << "| failed to analyze elite of oper:" << name;
+    }
+    else {
+        auto elite_str = elite_analyzer.get_result().templ_name;
+        elite_str = elite_str.substr(elite_str.size() - 5, 1);
+        if (!utils::chars_to_number(elite_str, _elite)) {
+            LogError << __FUNCTION__ << "| failed to parse elite from template:" << elite_str;
+        }
+    }
+
+    // 识别等级
+    RegionOCRer level_ocrer(image);
+    level_ocrer.set_task_info(level_task);
+    level_ocrer.set_roi(flag.move(level_task->rect_move));
+    if (!level_ocrer.analyze()) {
+        LogError << __FUNCTION__ << "| failed to analyze level of oper:" << name;
+    }
+    else if (!utils::chars_to_number(level_ocrer.get_result().text, _level)) {
+        LogError << __FUNCTION__ << "| failed to parse level from text:" << level_ocrer.get_result().text;
+    }
+
+    if (_level < level || _elite < elite) {
+        LogWarn << __FUNCTION__ << "| Elite" << _elite << "level" << _level << ", require:" << elite << level;
+        json::value info = basic_info_with_what("BattleFormationOperUnavailable");
+        info["details"]["oper_name"] = name;
+        info["details"]["requirement_type"] = "level";
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        if (!ignore) {
+            return false;
+        }
+    }
     return true;
 }
 

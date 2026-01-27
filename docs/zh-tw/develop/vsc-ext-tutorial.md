@@ -25,7 +25,7 @@ icon: iconoir:code-brackets
 
 ### 控制面板
 
-左側活動列添加了專用控制面板，圖示如下：  ![MaaSupport ControlPanel](/images/maa-support-panel.svg)
+左側活動列添加了專用控制面板，圖示如下： ![MaaSupport ControlPanel](/images/maa-support-panel.svg)
 
 擴充功能絕大部分的功能皆基於 `interface.json` 配置。在控制面板最上方可以選擇目前生效的 `interface.json`。
 

@@ -6975,7 +6975,7 @@
     },
     {
         "apCost": 9,
-        "code": "ME-1",
+        "code": "OR-1",
         "dropInfos": [
             {
                 "dropType": "NORMAL_DROP",
@@ -7006,11 +7006,11 @@
                 "itemId": "furni"
             }
         ],
-        "stageId": "act48side_01"
+        "stageId": "act40side_01_rep"
     },
     {
         "apCost": 9,
-        "code": "ME-2",
+        "code": "OR-2",
         "dropInfos": [
             {
                 "dropType": "NORMAL_DROP",
@@ -7041,34 +7041,50 @@
                 "itemId": "furni"
             }
         ],
-        "stageId": "act48side_02"
+        "stageId": "act40side_02_rep"
     },
     {
-        "apCost": 12,
-        "code": "ME-3",
+        "apCost": 9,
+        "code": "OR-3",
         "dropInfos": [
             {
                 "dropType": "NORMAL_DROP",
-                "itemId": "30022"
+                "itemId": "30011"
             },
             {
                 "dropType": "NORMAL_DROP",
-                "itemId": "30062"
+                "itemId": "30021"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
             },
             {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
             }
         ],
-        "stageId": "act48side_03"
+        "stageId": "act40side_03_rep"
     },
     {
         "apCost": 12,
-        "code": "ME-4",
+        "code": "OR-4",
         "dropInfos": [
             {
                 "dropType": "NORMAL_DROP",
-                "itemId": "30032"
+                "itemId": "30012"
             },
             {
                 "dropType": "NORMAL_DROP",
@@ -7079,15 +7095,15 @@
                 "itemId": "furni"
             }
         ],
-        "stageId": "act48side_04"
+        "stageId": "act40side_04_rep"
     },
     {
         "apCost": 12,
-        "code": "ME-5",
+        "code": "OR-5",
         "dropInfos": [
             {
                 "dropType": "NORMAL_DROP",
-                "itemId": "30032"
+                "itemId": "30052"
             },
             {
                 "dropType": "NORMAL_DROP",
@@ -7098,52 +7114,71 @@
                 "itemId": "furni"
             }
         ],
-        "stageId": "act48side_05"
+        "stageId": "act40side_05_rep"
     },
     {
-        "apCost": 21,
-        "code": "ME-6",
+        "apCost": 12,
+        "code": "OR-6",
         "dropInfos": [
             {
                 "dropType": "NORMAL_DROP",
-                "itemId": "30013"
+                "itemId": "30022"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30032"
             },
             {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
             }
         ],
-        "stageId": "act48side_06"
+        "stageId": "act40side_06_rep"
     },
     {
         "apCost": 21,
-        "code": "ME-7",
+        "code": "OR-7",
         "dropInfos": [
             {
                 "dropType": "NORMAL_DROP",
-                "itemId": "30043"
+                "itemId": "30063"
             },
             {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
             }
         ],
-        "stageId": "act48side_07"
+        "stageId": "act40side_07_rep"
     },
     {
         "apCost": 21,
-        "code": "ME-8",
+        "code": "OR-8",
         "dropInfos": [
             {
                 "dropType": "NORMAL_DROP",
-                "itemId": "31093"
+                "itemId": "31023"
             },
             {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
             }
         ],
-        "stageId": "act48side_08"
+        "stageId": "act40side_08_rep"
+    },
+    {
+        "apCost": 21,
+        "code": "OR-9",
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31063"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act40side_09_rep"
     },
     {
         "apCost": 9,
