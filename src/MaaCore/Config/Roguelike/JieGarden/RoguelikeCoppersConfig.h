@@ -118,7 +118,7 @@ private:
         int cast_discard_priority = -1; // 可选字段，已投出时的丢弃优先级，仅在已投出且值>=0时替代 discard_priority;
                                         // 这通常适用于一些投出后效果发生变化的通宝 (如变为大炎通宝的通宝)
 
-        MEO_JSONIZATION(name, MEO_OPT desc, rarity, pickup_priority, discard_priority, MEO_OPT cast_discard_priority);
+        MEO_JSONIZATION(name, MEO_OPT desc, rarity, MEO_OPT pickup_priority, MEO_OPT discard_priority, MEO_OPT cast_discard_priority);
     };
 
     // 解析JSON配置文件
