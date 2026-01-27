@@ -163,6 +163,7 @@ public class TaskQueueViewModel : Screen
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
+                EnableAfterActionSetting = false;
                 TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
                 TaskItemViewModels.FirstOrDefault(i => i.EnableSetting)?.EnableSetting = false;
                 TaskItemViewModels[e.NewStartingIndex].EnableSetting = true;
