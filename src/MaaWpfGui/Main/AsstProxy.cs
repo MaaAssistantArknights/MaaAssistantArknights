@@ -2029,9 +2029,10 @@ public class AsstProxy
                 {
                     var oper_name = DataHelper.GetLocalizedCharacterName(subTaskDetails!["oper_name"]?.ToString());
                     var requirement_type = subTaskDetails["requirement_type"]?.ToString() switch {
+                        "level" => LocalizationHelper.GetString("BattleFormationOperUnavailable.Level"),
                         "skill_level" => LocalizationHelper.GetString("BattleFormationOperUnavailable.SkillLevel"),
                         "module" => LocalizationHelper.GetString("BattleFormationOperUnavailable.Module"),
-                        _ => subTaskDetails["requirement_type"]?.ToString() ?? "UnknownRequirementType",
+                        _ => subTaskDetails["requirement_type"]?.ToString() ?? "Unknown Type",
                     };
 
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("BattleFormationOperUnavailable", oper_name ?? string.Empty, requirement_type), Instances.CopilotViewModel.IgnoreRequirements ? UiLogColor.Warning : UiLogColor.Error);
