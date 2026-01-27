@@ -63,6 +63,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         var item = new StagePlanItem();
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
+        InitDrops();
     }
 
     public static FightSettingsUserControlModel Instance { get; }
@@ -385,17 +386,14 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
         DropsList = [.. AllDrops];
-        if (AllDrops.FirstOrDefault(i => i.Value == DropsItemId) is { } item)
+
+        foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>())
         {
-            DropsItemName = item.Display;
-            NotifyOfPropertyChange(nameof(DropsItemName));
-        }
-        else
+            if (AllDrops.FirstOrDefault(i => i.Value == task.DropId) is not { } item)
         {
-            DropsItemId = string.Empty;
-            DropsItemName = string.Empty;
-            NotifyOfPropertyChange(nameof(DropsItemName));
+                task.DropId = string.Empty;
         }
+    }
     }
 
     /// <summary>
@@ -418,7 +416,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// <summary>
     /// Gets or sets the item Name of drops.
     /// </summary>
-    public string DropsItemName { get; set; } = string.Empty;
+    public string DropsItemName { get => field; set => SetAndNotify(ref field, value); } = string.Empty;
 
     // UI 绑定的方法
     [UsedImplicitly]
@@ -641,10 +639,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         {
             fight.StagePlan.Add(string.Empty);
         }
-        InitDrops();
         UpdateStageList(); // 临时修复, 应为同步
         RefreshCurrentStagePlan();
         RefreshWeeklySchedule();
+        RefreshDropName();
         Refresh();
         IsRefreshingUI = false;
     }
@@ -847,6 +845,20 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         var dict = WeeklyScheduleSource.ToDictionary(i => i.DayOfWeek, i => i.Value);
         SetTaskConfig<FightTask>(t => t.WeeklySchedule.SequenceEqual(dict), t => t.WeeklySchedule = dict);
+    }
+
+    private void RefreshDropName()
+    {
+        var id = GetTaskConfig<FightTask>().DropId;
+        if (AllDrops.FirstOrDefault(i => i.Value == id) is { } item)
+        {
+            DropsItemName = item.Display;
+        }
+        else
+        {
+            SetTaskConfig<FightTask>(t => t.DropId == string.Empty, t => t.DropId = string.Empty);
+            DropsItemName = AllDrops.FirstOrDefault(i => i.Value == string.Empty)?.Display ?? string.Empty;
+        }
     }
 
     #endregion 关卡列表更新
