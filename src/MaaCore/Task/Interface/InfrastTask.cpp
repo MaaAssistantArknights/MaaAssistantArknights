@@ -302,6 +302,18 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                     room_config.candidates.emplace_back(std::move(name));
                 }
             }
+
+            // 黑名单
+            if (auto blacklist_opt = room_info.find<json::array>("blacklist")) {
+                for (const auto& blacklist_name : blacklist_opt.value()) {
+                    std::string name = blacklist_name.as_string();
+                    if (name.empty()) {
+                        Log.warn("operators.blacklist is empty");
+                        continue;
+                    }
+                    room_config.blacklist.emplace_back(std::move(name));
+                }
+            }
             facility_config.emplace_back(std::move(room_config));
         }
 
