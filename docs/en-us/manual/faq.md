@@ -49,25 +49,9 @@ We cannot provide repair solutions other than reinstalling your system. Please a
 
 For Windows N/KN (European/Korean versions), you also need to install the [Media Feature Pack](https://support.microsoft.com/en-us/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a).
 
-#### Windows 7
+#### Windows 7/8/8.1
 
-.NET 10 doesn't support Windows 7/8/8.1 systems<sup>[source](https://github.com/dotnet/core/issues/7556)</sup>, so MAA no longer supports them either. The last usable .NET 8 version is [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7); the last usable .NET 4.8 version is [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8). Self-compilation feasibility remains undetermined.
-
-For Windows 7, before installing the two runtime libraries mentioned above, check if these patches are installed:
-
-1. [Windows 7 Service Pack 1](https://support.microsoft.com/en-us/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
-2. SHA-2 code signing patches:
-   - KB4474419: [Download link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu), [Download link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-   - KB4490628: [Download link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu), [Download link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-3. Platform Update for Windows 7 (DXGI 1.2, Direct3D 11.1, KB2670838): [Download link 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu), [Download link 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
-
-##### Workaround for .NET 8 applications running abnormally on Windows 7 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
-
-When running .NET 8 applications on Windows 7, abnormal memory usage can occur. Follow these steps to mitigate it. Windows 8/8.1 hasn't been tested; if similar issues occur, please open an Issue to remind us to update the documentation.
-
-1. Open `Computer`, right-click in empty space, click Properties, click `Advanced system settings` on the left, and click `Environment Variables`.
-2. Create a new system variable with name `DOTNET_EnableWriteXorExecute` and value `0`.
-3. Restart your computer.
+.NET 10 doesn't support Windows 7/8/8.1 systems<sup>[source](https://github.com/dotnet/core/issues/7556)</sup>, so MAA no longer supports them either. 
 
 ## Connection errors
 
