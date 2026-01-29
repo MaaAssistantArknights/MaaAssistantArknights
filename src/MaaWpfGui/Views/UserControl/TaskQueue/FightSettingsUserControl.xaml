@@ -226,8 +226,11 @@
                         Grid.Row="1"
                         Margin="6"
                         VerticalAlignment="Bottom"
+                        d:IsHitTestVisible="True"
                         Command="{s:Action AddStageToPlan}"
                         Content="{DynamicResource AddStage}"
+                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         Visibility="{c:Binding UseAlternateStage}" />
                 </Grid>
                 <ListBox
