@@ -108,7 +108,7 @@ protected:
     bool select_opers_in_cur_page(const std::vector<OperGroup*>& groups);
     // 检查干员等级
     bool check_oper_level(
-        const cv::Mat image,
+        const cv::Mat& image,
         asst::Rect flag,
         const std::string& name,
         int elite,
