@@ -651,7 +651,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
 }
 
 bool asst::BattleFormationTask::check_oper_level(
-    const cv::Mat image,
+    const cv::Mat& image,
     asst::Rect flag,
     const std::string& name,
     int elite,
