@@ -68,7 +68,7 @@ icon: iconoir:developer
    cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
    ```
 
-7. 雙擊開啟 `build/MAA.sln` 檔案，Visual Studio 會自動載入整個專案。
+7. 雙擊開啟 `build/MAA.slnx` 檔案，Visual Studio 會自動載入整個專案。
 8. 設定 Visual Studio
    - Visual Studio 上方配置選擇 `Debug` `x64`
    - 右鍵點擊 `MaaWpfGui` - 設為啟動專案。
@@ -82,12 +82,12 @@ icon: iconoir:developer
 10. 開發過程中，每一定數量，記得提交一個 Commit, 別忘了寫上 Message  
     假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev` 上
 
-```bash
-git branch your_own_branch
-git checkout your_own_branch
-```
+    ```bash
+    git branch your_own_branch
+    git checkout your_own_branch
+    ```
 
-這樣你的提交就能在新的分支上生長，不會受到 `dev` 更新的打擾
+    這樣你的提交就能在新的分支上生長，不會受到 `dev` 更新的打擾
 
 11. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠端（Fork 的倉庫）
 
