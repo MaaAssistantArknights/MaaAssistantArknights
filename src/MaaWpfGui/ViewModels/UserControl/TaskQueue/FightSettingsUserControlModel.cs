@@ -71,11 +71,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// <summary>
     /// Gets or private sets the list of stages.
     /// </summary>
-    public ObservableCollection<StageSourceItem> StageListSource
-    {
-        get => field;
-        private set => SetAndNotify(ref field, value);
-    } = [];
+    public ObservableCollection<StageSourceItem> StageListSource { get => field; private set => SetAndNotify(ref field, value); } = [];
 
     private static readonly Dictionary<string, string> _stageDictionary = new()
         {
