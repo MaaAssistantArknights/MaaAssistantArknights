@@ -910,7 +910,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">イベント画面（右下角に ｢営業開始｣ ボタンがあります）でタスクを開始します。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">デュエルチャンネル：グリーングラスシティ</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">手動でチュートリアルの会話をスキップし、直接退出することができます。&#10;イベント画面（右下角に「試合観戦」ボタンがあります）でタスクを開始します。&#10;&#10;ダック卿の選択をフォローする。</system:String>
-    <system:String x:Key="MiniGame@ALL@HoneyFruit">デュエルチャンネル：ハニーフルーツシティ（非公式）</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruit">デュエルチャンネル：ハニーデューシティ</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">エンディング</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event">シリーズ事件の優先順位</system:String>
