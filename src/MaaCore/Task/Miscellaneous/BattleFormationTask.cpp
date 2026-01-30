@@ -151,8 +151,16 @@ bool asst::BattleFormationTask::_run()
     // 对于有在干员组中存在的自定干员，无法提前得知是否成功编入，故不提前加入编队
     if (!m_user_additional.empty()) {
         std::unordered_map<battle::Role, std::vector<OperGroup>> user_formation; // 解析后用户自定编队
-        auto limit = 12 - (int)m_opers_in_formation->size();
+        auto limit = 12 + m_used_support_unit - (int)m_opers_in_formation->size();
         for (const auto& [name, skill] : m_user_additional) {
+            if (BattleData.is_name_invalid(name)) {
+                Log.error(__FUNCTION__, "| User additional oper", name, "is invalid");
+                json::value info = basic_info();
+                info["why"] = "UserAdditionalOperInvalid";
+                info["details"]["oper_name"] = name;
+                callback(AsstMsg::SubTaskError, info);
+                return false;
+            }
             if (m_opers_in_formation->contains(name)) {
                 continue;
             }
