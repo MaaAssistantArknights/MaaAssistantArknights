@@ -909,7 +909,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">Start the task from the event screen (there is a ｢OPEN｣ button in the bottom right corner).</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">Duel Channel: Green Grassville</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a ｢Join Event｣ button in the bottom right corner).&#10;&#10;Follow the Duck Lord's choice.</system:String>
-    <system:String x:Key="MiniGame@ALL@HoneyFruit">Contest Channel: Honeydew</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruit">Duel Channel: Honeydew</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">Ending</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event">Priority for Series of Events</system:String>
