@@ -99,6 +99,15 @@ bool ProcessTask::run()
             to_be_recognized = next_task_ptr->exceeded_next;
             break;
         case NodeStatus::Success:
+            // 允许插件覆盖 next 链（用于阶段变换场景）
+            if (auto override_task = this->status()->get_str(Status::PluginOverrideNextTo)) {
+                if (!override_task->empty()) {
+                    this->status()->set_str(Status::PluginOverrideNextTo, "");
+                    Log.info("插件请求覆盖 next 链至:", *override_task);
+                    to_be_recognized = { *override_task };
+                    break;
+                }
+            }
             // 成功匹配且执行成功，下一个匹配列表是 next
             to_be_recognized = next_task_ptr->next;
             break;
@@ -268,6 +277,15 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
     if (!m_enable) {
         Log.info("task disabled after SubTaskStart callback, pass", basic_info().to_string());
         return NodeStatus::Interrupted;
+    }
+
+    // 允许插件跳过当前任务的执行
+    if (auto skip_flag = status()->get_str(Status::PluginSkipExecution)) {
+        if (*skip_flag == "true") {
+            status()->set_str(Status::PluginSkipExecution, "");
+            Log.info("插件请求跳过执行", basic_info().to_string());
+            return NodeStatus::Success;
+        }
     }
 
     // 前置固定延时
