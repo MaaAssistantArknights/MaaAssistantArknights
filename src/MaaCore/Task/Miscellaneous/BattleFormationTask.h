@@ -118,7 +118,8 @@ protected:
     bool check_and_select_skill(const std::string& name, int skill, int level_required, bool ignore, int delay);
     // 查找并匹配技能, return 技能区域及技能等级, reverse 为反向查找3技能; skip_check 跳过技能等级检查,
     // 返回的rect略大于技能icon区域
-    std::optional<std::pair<asst::Rect, int>> find_skill(const cv::Mat& image, int skill, bool reverse, bool skip_check = false);
+    std::optional<std::pair<asst::Rect, int>>
+        find_skill(const cv::Mat& image, int skill, bool reverse, bool skip_check = false);
     void swipe_page();
     void swipe_to_the_left(int times = 2);
     bool confirm_selection();
