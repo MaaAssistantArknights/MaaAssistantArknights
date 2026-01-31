@@ -367,7 +367,7 @@ bool asst::BattleFormationTask::add_trust_operators()
     }
 
     // 需要追加的信赖干员数量
-    int append_count = 12 + m_used_support_unit - (int)m_opers_in_formation->size();
+    int append_count = 12 - (int)m_opers_in_formation->size();
     if (append_count == 0) {
         return true;
     }
