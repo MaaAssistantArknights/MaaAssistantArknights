@@ -773,7 +773,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AnnihilationStage">섬멸 작전</system:String>
     <system:String x:Key="UseCustomAnnihilation">커스텀 {key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">섬멸 모드</system:String>
-    <system:String x:Key="Annihilation">이번 섬멸 작전</system:String>
+    <system:String x:Key="Annihilation.Current">이번 섬멸 작전</system:String>
     <system:String x:Key="Chernobog">체르노보그</system:String>
     <system:String x:Key="LungmenOutskirts">용문 외곽</system:String>
     <system:String x:Key="LungmenDowntown">용문 시내</system:String>
