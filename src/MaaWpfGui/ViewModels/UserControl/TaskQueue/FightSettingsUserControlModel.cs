@@ -953,7 +953,14 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                     return;
                 }
 
-                IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true;
+                if (value == Instance.InvalidStage.Value)
+                {
+                    IsOpen = false;
+                }
+                else
+                {
+                    IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true;
+                }
             }
         } = string.Empty;
 
