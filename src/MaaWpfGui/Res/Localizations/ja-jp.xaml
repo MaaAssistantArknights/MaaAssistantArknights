@@ -772,7 +772,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AnnihilationStage">殲滅ステージ</system:String>
     <system:String x:Key="UseCustomAnnihilation">カスタム{key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">殲滅作戦</system:String>
-    <system:String x:Key="Annihilation">今期の殲滅作戦</system:String>
+    <system:String x:Key="Annihilation.Current">今期の殲滅作戦</system:String>
     <system:String x:Key="Chernobog">チェルノボーグ</system:String>
     <system:String x:Key="LungmenOutskirts">龍門郊外</system:String>
     <system:String x:Key="LungmenDowntown">龍門市街</system:String>

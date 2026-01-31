@@ -446,7 +446,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public static Dictionary<string, string> AnnihilationModeList { get; } = new()
     {
-        { LocalizationHelper.GetString("Annihilation"), "Annihilation" },
+        { LocalizationHelper.GetString("Annihilation.Current"), "Annihilation" },
         { LocalizationHelper.GetString("Chernobog"), "Chernobog@Annihilation" },
         { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@Annihilation" },
         { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
