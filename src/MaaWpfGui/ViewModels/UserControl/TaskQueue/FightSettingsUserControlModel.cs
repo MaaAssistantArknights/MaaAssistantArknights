@@ -577,16 +577,14 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public ObservableCollection<WeeklyScheduleItem> WeeklyScheduleSource { get; set; } = new(Enum.GetValues<DayOfWeek>().Select(i => new WeeklyScheduleItem(i)));
 
-    private bool _autoRestartOnDrop = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, true);
-
     public bool AutoRestartOnDrop
     {
-        get => _autoRestartOnDrop;
+        get => field;
         set {
-            SetAndNotify(ref _autoRestartOnDrop, value);
+            SetAndNotify(ref field, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
         }
-    }
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, true);
 
     private static string ToUpperAndCheckStage(string value)
     {
