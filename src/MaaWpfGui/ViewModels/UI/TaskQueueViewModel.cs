@@ -988,6 +988,13 @@ public class TaskQueueViewModel : Screen
     public string GetValidStage(string stage) => IsStageOpen(stage) ? stage : string.Empty;
 
     /// <summary>
+    /// Returns whether the task is enabled
+    /// </summary>
+    /// <param name="baseTask">The TaskQueue task</param>
+    /// <returns>whether the task is enabled</returns>
+    public static bool IsTaskEnable(BaseTask baseTask) => baseTask.IsEnable is true || (baseTask.IsEnable is null && !GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction);
+
+    /// <summary>
     /// 更新日期提示和关卡列表
     /// </summary>
     public void UpdateDatePromptAndStagesLocally()
@@ -1696,7 +1703,7 @@ public class TaskQueueViewModel : Screen
         int count = 0;
         foreach (var (index, item) in ConfigFactory.CurrentConfig.TaskQueue.Select((task, i) => (i, task)))
         {
-            if (item.IsEnable == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsEnable != true))
+            if (!IsTaskEnable(item))
             {
                 Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;
                 continue;
