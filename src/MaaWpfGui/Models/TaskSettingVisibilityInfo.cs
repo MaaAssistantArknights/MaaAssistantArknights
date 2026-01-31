@@ -176,5 +176,5 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool AdvancedSettingsVisibility { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Guide { get => field; set => SetAndNotify(ref field, value); } = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0) < SettingsViewModel.GuideMaxStep
+    public bool Guide { get => field; set => SetAndNotify(ref field, value); } = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0) < SettingsViewModel.GuideMaxStep;
 }
