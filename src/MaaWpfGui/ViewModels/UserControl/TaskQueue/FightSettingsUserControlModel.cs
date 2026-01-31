@@ -464,7 +464,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     public string AnnihilationStage
     {
         get => GetTaskConfig<FightTask>().AnnihilationStage;
-        set => SetTaskConfig<FightTask>(t => t.AnnihilationStage == value, t => t.AnnihilationStage = value);
+        set {
+            SetTaskConfig<FightTask>(t => t.AnnihilationStage == value, t => t.AnnihilationStage = value);
+            StageListSource.FirstOrDefault(i => i.Value == "Annihilation")?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == value).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+        }
     }
 
     /// <summary>
@@ -823,6 +826,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false });
         }
         listSource.Add(InvalidStage); // 无效关卡
+        listSource.FirstOrDefault(i => i.Value == "Annihilation")?.Display = current.UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == current.AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
         StageListSource = new ObservableCollection<StageSourceItem>(listSource);
         current.StagePlan = listCurrent; // StageListSource更新后, 恢复StagePlan
     }
@@ -923,7 +927,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public class StageSourceItem : PropertyChangedBase
     {
-        public string Display { get; set; } = string.Empty;
+        public string Display { get => field; set => SetAndNotify(ref field, value); } = string.Empty;
 
         public string Value { get; set; } = string.Empty;
 
