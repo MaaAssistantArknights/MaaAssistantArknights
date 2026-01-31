@@ -793,7 +793,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 for (int i = 0; i < task.StagePlan.Count; i++)
                 {
                     var stage = task.StagePlan[i];
-                    if (!stageList.Any(p => p.Value == stage))
+                    if (stage != InvalidStage.Value && !stageList.Any(p => p.Value == stage))
                     {
                         task.StagePlan[i] = task.StageResetMode switch {
                             FightStageResetMode.Current => string.Empty,
