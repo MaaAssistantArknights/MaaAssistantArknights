@@ -401,7 +401,7 @@
             <StackPanel
                 Margin="0,6"
                 Orientation="Horizontal"
-                Visibility="{c:Binding CustomStageCode}">
+                Visibility="{c:Binding !CustomStageCode}">
                 <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource InvalidStageResetMode}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
                 <ComboBox
