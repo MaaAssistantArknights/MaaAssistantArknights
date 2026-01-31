@@ -1213,7 +1213,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="BattleFormationOperUnavailable.Level">{key=Operator}等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">所需模組未解鎖</system:String>
-    <system:String x:Key="BattleFormationUserAdditionalNameInvalid">追加自定義{key=Operator}名稱無效：{0}，請檢查拼寫</system:String>
+    <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自定義{key=Operator}名稱無效：{0}，請檢查拼寫</system:String>
     <system:String x:Key="CurrentSteps">目前步驟：{0} {1}</system:String>
     <system:String x:Key="ElapsedTime">經過時間：{0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>

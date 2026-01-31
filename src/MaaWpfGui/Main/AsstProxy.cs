@@ -1470,12 +1470,16 @@ public class AsstProxy
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.Irreplaceable);
                         }
                     }
-                    else if (why == "UserAdditionalOperInvalid")
+                    break;
+                }
+            case "CopilotTask":
+                {
+                    var why = details.TryGetValue("why", out var whyObj) ? whyObj.ToString() : string.Empty;
+                    if (why == "UserAdditionalOperInvalid")
                     {
                         var operName = details["details"]?["oper_name"]?.ToString();
-                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("BattleFormationUserAdditionalNameInvalid"), operName ?? string.Empty), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("CopilotUserAdditionalNameInvalid"), operName ?? string.Empty), UiLogColor.Error);
                     }
-
                     break;
                 }
         }
