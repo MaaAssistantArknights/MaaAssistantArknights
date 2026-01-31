@@ -20,7 +20,7 @@ protected:
 
 private:
     // 遍历配置里的组合
-    void use_enable_pair(std::vector<std::string>& list, const asst::RoguelikeFoldartalCombination& usage);
+    bool use_enable_pair(std::vector<std::string>& list, const asst::RoguelikeFoldartalCombination& usage);
     // 使用板子对结果
     enum class UseBoardResult
     {

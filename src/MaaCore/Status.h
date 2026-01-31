@@ -41,6 +41,13 @@ public:
 
     static inline const std::string ProcessTaskLastTimePrefix = "#LastTime#";
 
+    // 允许插件请求 ProcessTask 跳过当前执行
+    static inline const std::string PluginSkipExecution = "ProcessTask.SkipExecution";
+
+    // 允许插件覆盖 ProcessTask 的 next 链至指定任务
+    // 值为目标任务名（如 "Sami@Roguelike@Stages"）
+    static inline const std::string PluginOverrideNextTo = "ProcessTask.OverrideNextTo";
+
 private:
     std::unordered_map<std::string, int64_t> m_number;
     std::unordered_map<std::string, Rect> m_rect;
