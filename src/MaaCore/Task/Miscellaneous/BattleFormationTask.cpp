@@ -720,6 +720,7 @@ bool asst::BattleFormationTask::check_and_select_skill(
         Task.get("BattleQuickFormationSkill3")->specific_rect,
     };
 
+    /*
     if (level_required <= 0 || level_required > 10) { // skill level 不需要检查
         if (skill == 3) {
             ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
@@ -727,7 +728,7 @@ bool asst::BattleFormationTask::check_and_select_skill(
         ctrler()->click(SkillRectArray.at(skill - 1ULL));
         sleep(delay);
         return true;
-    }
+    }*/
 
     const auto& base_task = Task.get("BattleQuickFormationSkillLevel-Base");
     const auto& check_task = Task.get("BattleQuickFormationSkillLevel-Check");
@@ -751,7 +752,7 @@ bool asst::BattleFormationTask::check_and_select_skill(
     if (skill == 1 || skill == 2) {
         image = ctrler()->get_image();
         roi_image = make_roi(image, make_rect<cv::Rect>(base_task->roi));
-        auto result = find_skill(roi_image, skill, false);
+        auto result = find_skill(roi_image, skill, false, level_required == 0);
         if (result) { // 提前找到快速返回, 否则回退到图片合并及滑动
             if (!check_level(result->second)) {
                 return false;
@@ -765,7 +766,7 @@ bool asst::BattleFormationTask::check_and_select_skill(
         ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
         image = ctrler()->get_image();
         roi_image = make_roi(image, make_rect<cv::Rect>(base_task->roi));
-        auto result = find_skill(roi_image, skill, true);
+        auto result = find_skill(roi_image, skill, true, level_required == 0);
         if (result) { // 提前找到快速返回, 否则回退到图片合并及滑动
             if (!check_level(result->second)) {
                 return false;
@@ -825,7 +826,7 @@ bool asst::BattleFormationTask::check_and_select_skill(
 
         retry = 0; // 成功拼接，重置重试计数
         // 短路检测, 在已拼接的图片上尝试查找目标技能
-        auto result = find_skill(stitched_image, skill, false);
+        auto result = find_skill(stitched_image, skill, false, level_required == 0);
         if (result) {
             if (!check_level(result->second)) {
                 return false;
@@ -842,7 +843,7 @@ bool asst::BattleFormationTask::check_and_select_skill(
         }
     }
 
-    auto result = find_skill(stitched_image, skill, false);
+    auto result = find_skill(stitched_image, skill, false, level_required == 0);
     if (result) {
         if (!check_level(result->second)) {
             return false;
@@ -861,13 +862,16 @@ bool asst::BattleFormationTask::check_and_select_skill(
 }
 
 std::optional<std::pair<asst::Rect, int>>
-    asst::BattleFormationTask::find_skill(const cv::Mat& image, int skill, bool reverse)
+    asst::BattleFormationTask::find_skill(const cv::Mat& image, int skill, bool reverse, bool skip_check)
 {
     const auto& base_task = Task.get("BattleQuickFormationSkillLevel-Base");
     const auto& check_task = Task.get("BattleQuickFormationSkillLevel-Check");
     const auto& ocr_task = Task.get("BattleQuickFormationSkillLevel-OCR");
 
     const auto match_skill = [&](asst::Rect rect) -> std::optional<std::pair<asst::Rect, int>> {
+        if (skip_check) {
+            return std::make_pair(rect.move(base_task->rect_move), 0);
+        }
         Matcher level_matcher(image);
         level_matcher.set_task_info(check_task);
         level_matcher.set_roi(rect.move(base_task->rect_move));
