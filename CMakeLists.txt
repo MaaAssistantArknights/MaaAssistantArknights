@@ -43,6 +43,24 @@ endif()
 
 if(INSTALL_RESOURCE)
     install(DIRECTORY resource DESTINATION .)
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+    if(Python3_Interpreter_FOUND)
+        install(CODE "
+            set(minify_script \"${PROJECT_SOURCE_DIR}/tools/minify_json_folder.py\")
+            set(resource_dir \"\$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/resource\")
+            execute_process(
+                COMMAND \"${Python3_EXECUTABLE}\" \"\${minify_script}\" \"\${resource_dir}\"
+                RESULT_VARIABLE minify_result
+                ERROR_VARIABLE minify_error
+                OUTPUT_QUIET
+            )
+            if(minify_result)
+                message(WARNING \"minify_json_folder.py failed (exit \${minify_result}), resource JSON not minified\")
+            endif()
+        ")
+    else()
+        message(STATUS "Python3 not found, skipping JSON minify during install")
+    endif()
 endif()
 
 if(BUILD_DEBUG_DEMO OR BUILD_SMOKE_TEST)
