@@ -38,6 +38,7 @@ using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Helper.CopilotHelper;
@@ -447,6 +448,10 @@ public partial class CopilotViewModel : Screen
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotUserAdditional, value);
         }
     }
+
+    [PropertyDependsOn(nameof(UserAdditional))]
+    public string UserAdditionalPrettyJson => string.IsNullOrWhiteSpace(UserAdditional) ? string.Empty
+        : JToken.Parse(UserAdditional).ToString(Formatting.None).Replace("},", "},\n");
 
     private bool _isUserAdditionalPopupOpen;
 
