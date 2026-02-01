@@ -587,7 +587,7 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring (&lt;48h) sanity potion</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
-    <system:String x:Key="FightStageResetMode">Unopened stage is reseted to</system:String>
+    <system:String x:Key="FightStageResetMode">Unopened stage is reset to</system:String>
     <system:String x:Key="HideSeries">Hide series</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
