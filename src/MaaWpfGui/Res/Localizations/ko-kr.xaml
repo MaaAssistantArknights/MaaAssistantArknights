@@ -587,6 +587,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseExpiringMedicine">48시간 미만 이성 회복제 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
+    <system:String x:Key="FightStageResetMode">열지 않은 레벨은 초기화됩니다</system:String>
     <system:String x:Key="HideSeries">{key=Series} 숨기기</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
     <system:String x:Key="CustomStageCode">스테이지 코드 수동 입력</system:String>
@@ -748,6 +749,7 @@ C:\\leidian\\LDPlayer9
     <!--<system:String x:Key="CurrentStage">현재 스테이지</system:String>
     <system:String x:Key="LastBattle">최근 작전</system:String>-->
     <system:String x:Key="DefaultStage">현재/최근</system:String>
+    <system:String x:Key="InvalidStage">잘못된 레벨</system:String>
     <system:String x:Key="ClosedStage">이벤트가 닫혀 있습니다</system:String>
     <system:String x:Key="UnsupportedStages">미지원 스테이지</system:String>
     <system:String x:Key="LowVersion">낮은 버전</system:String>
