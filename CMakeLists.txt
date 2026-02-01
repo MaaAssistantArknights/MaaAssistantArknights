@@ -48,6 +48,7 @@ if(INSTALL_RESOURCE)
         install(CODE "
             set(minify_script \"${PROJECT_SOURCE_DIR}/tools/minify_json_folder.py\")
             set(resource_dir \"\$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/resource\")
+            message(STATUS \"minifying resource JSON in \${resource_dir} with \${minify_script}\")
             execute_process(
                 COMMAND \"${Python3_EXECUTABLE}\" \"\${minify_script}\" \"\${resource_dir}\"
                 RESULT_VARIABLE minify_result
