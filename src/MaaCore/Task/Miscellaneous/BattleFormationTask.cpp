@@ -714,13 +714,14 @@ bool asst::BattleFormationTask::check_and_select_skill(
     if (skill < 1 || skill > 3) {
         return true;
     }
+
+    /*
     static const std::array<Rect, 3> SkillRectArray = {
         Task.get("BattleQuickFormationSkill1")->specific_rect,
         Task.get("BattleQuickFormationSkill2")->specific_rect,
         Task.get("BattleQuickFormationSkill3")->specific_rect,
     };
 
-    /*
     if (level_required <= 0 || level_required > 10) { // skill level 不需要检查
         if (skill == 3) {
             ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
