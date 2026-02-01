@@ -93,6 +93,7 @@
     <Resource Include="Res\Backgrounds\*" />
     <Resource Include="Res\Img\*" />
     <Resource Include="Res\Img\EasterEgg\*" />
+    <Resource Include="Res\Img\Operator\*" />
     <None Include="..\..\README.md" Pack="True" PackagePath="/" />
   </ItemGroup>
 
