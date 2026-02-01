@@ -273,13 +273,12 @@
                         </StackPanel>
 
                         <!--  UseFormation  -->
-                        <StackPanel Orientation="Horizontal" Visibility="{c:Binding '(CopilotTabIndex == 0 or CopilotTabIndex == 3) and Form'}">
+                        <StackPanel Height="28" Orientation="Horizontal" Visibility="{c:Binding '(CopilotTabIndex == 0 or CopilotTabIndex == 3) and Form'}">
                             <CheckBox
                                 Margin="2.5,5"
                                 Content="{DynamicResource UseFormation}"
                                 IsChecked="{c:Binding UseFormation}" />
                             <ComboBox
-                                Height="20"
                                 DisplayMemberPath="Display"
                                 ItemsSource="{Binding FormationSelectList}"
                                 SelectedValue="{Binding FormationIndex}"
@@ -297,24 +296,22 @@
                         </StackPanel>
 
                         <!--  SupportUnitUsage  -->
-                        <WrapPanel Orientation="Horizontal" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
-                            <CheckBox
-                                Margin="2.5,5"
-                                Content="{DynamicResource SupportUnitUsage}"
-                                IsChecked="{Binding UseSupportUnitUsage}" />
+                        <WrapPanel Orientation="Vertical" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
                             <StackPanel Orientation="Horizontal">
-                                <hc:ComboBox
-                                    Height="20"
-                                    MinWidth="100"
-                                    Margin="2.5,0"
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding SupportUnitUsageList}"
-                                    SelectedValue="{Binding SupportUnitUsage}"
-                                    SelectedValuePath="Value"
-                                    Visibility="{c:Binding UseSupportUnitUsage}" />
+                                <CheckBox
+                                    Margin="2.5,5"
+                                    Content="{DynamicResource SupportUnitUsage}"
+                                    IsChecked="{Binding UseSupportUnitUsage}" />
                                 <controls:TooltipBlock TooltipText="{DynamicResource SupportUnitUsage.Tip}" />
                             </StackPanel>
-
+                            <hc:ComboBox
+                                MinWidth="100"
+                                Margin="24,0,0,0"
+                                DisplayMemberPath="Display"
+                                ItemsSource="{Binding SupportUnitUsageList}"
+                                SelectedValue="{Binding SupportUnitUsage}"
+                                SelectedValuePath="Value"
+                                Visibility="{c:Binding UseSupportUnitUsage}" />
                         </WrapPanel>
 
                         <!--  AddTrust  -->
@@ -341,7 +338,8 @@
                                     hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                     BorderThickness="0"
                                     Command="{s:Action OpenUserAdditionalPopup}"
-                                    ToolTip="{Binding UserAdditional}" />
+                                    ToolTip="{Binding UserAdditionalPrettyJson}"
+                                    ToolTipService.ShowOnDisabled="True" />
                                 <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" />
                                 <Popup
                                     IsOpen="{Binding IsUserAdditionalPopupOpen}"
@@ -591,6 +589,7 @@
                     <Grid Grid.Row="1" Grid.Column="1">
                         <hc:TextBox
                             Height="30"
+                            MinWidth="80"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             hc:BorderElement.CornerRadius="0"
