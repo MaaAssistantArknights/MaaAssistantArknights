@@ -227,7 +227,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             {
                 continue;
             }
-            else if (t.IsEnable is false || (!GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && t.IsEnable is null))
+            else if (!TaskQueueViewModel.IsTaskEnable(t))
             {
                 continue;
             }

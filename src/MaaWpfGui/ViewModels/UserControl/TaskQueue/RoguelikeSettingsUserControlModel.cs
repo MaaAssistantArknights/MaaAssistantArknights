@@ -226,6 +226,9 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
             ("IS5NewSquad6", "花团锦簇分队"),
             ("IS5NewSquad7", "棋行险着分队"),
             ("IS5NewSquad8", "岁影回音分队"),
+            ("IS5NewSquad9", "代理人分队"),
+            ("IS5NewSquad10", "知学分队"),
+            ("IS5NewSquad11", "商贾分队"),
         ],
     };
 

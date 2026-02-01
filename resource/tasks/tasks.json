@@ -761,7 +761,7 @@
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用，中文被拆成3字节处理，需要包括号",
         "fullMatch": true,
         "ocrReplace": [
-            ["^(?:[<4~]|《|。)+", ""],
+            ["^(?:[<4~]|《|。ぐ)+", ""],
             ["^c(?!ast)", ""],
             ["^\\^一", ""],
             ["^_(?=.)", ""],
@@ -828,7 +828,8 @@
             ["^(“|”|\\\\|\")?斩(“|”|\\\\|\")?$", "“斩”"],
             ["八.*海铃", "八幡海铃"],
             [".*英调香师", "撷英调香师"],
-            ["矿石.*杀手.*", "矿石“杀手”"]
+            ["矿石.*杀手.*", "矿石“杀手”"],
+            [".*涤火杰西卡", "涤火杰西卡"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -3617,6 +3618,17 @@
     "BattleQuickFormation-OperNameFlag7": {
         "baseTask": "BattleQuickFormation-OperNameFlagBase"
     },
+    "BattleQuickFormation-Level": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于BattleQuickFormation-OperNameFlag进行偏移",
+        "rectMove": [-1, 201, 39, 24],
+        "isAscii": true
+    },
+    "BattleQuickFormation-Elite": {
+        "template": ["BattleQuickFormation-Elite2.png", "BattleQuickFormation-Elite1.png"],
+        "rectMove": [7, 151, 24, 35]
+    },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
@@ -4001,17 +4013,14 @@
         "useRaw": false,
         "ocrReplace": [
             ["—{1,2}", "-"],
-            ["[Oo]", "0"],
-            ["[Ii]", "1"],
-            ["[Ll]", "1"],
-            ["\\|", "1"],
+            ["-[IiLl\\|]", "1"],
+            ["-\\d+[Oo]", "0"],
             ["^.+-EX-?\\d+.*$", "_INVALID_"],
             ["^.+-S-?\\d+.*$", "_INVALID_"],
             ["^.+-MO-?\\d+.*$", "_INVALID_"],
             ["^OF-1$", "_INVALID_"],
             ["^Ap-", "AP-"],
-            ["^Bl-", "BI-"],
-            ["-1O$", "-10"]
+            ["^Bl-", "BI-"]
         ],
         "roi": [140, 60, 200, 55]
     },

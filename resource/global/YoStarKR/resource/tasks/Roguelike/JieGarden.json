@@ -21,7 +21,7 @@
     "JieGarden@Roguelike@CoppersNameOcrReplace": {
         "doc": "/resource/roguelike/JieGarden/coppers.json의 coppes",
         "ocrReplace": [
-            ["[\\s$().\"/'—_\\-+=,:《》■~シ]", ""],
+            ["[ $().\"/'—_\\-+=,:《》■~シ]", ""],
             ["([가-힣]+)[^가-힣]+$", "$1"],
             ["균형가뭄", "衡-旱热"],
             ["균형군의둔전", "衡-军屯垦"],
@@ -239,7 +239,7 @@
     "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
         "doc": "/resource/roguelike/JieGarden/encounter/default.json의 option_text",
         "ocrReplace": [
-            ["[\\s$().\"/'—_\\-+=,《》■~シ]", ""],
+            ["[ $().\"/'—_\\-+=,《》■~シ]", ""],
             ["^[a-zA-Z]", ""],
             ["([가-힣]+)[^가-힣]+$", "$1"],
             ["배부르게식사한다", "饱餐一顿"],

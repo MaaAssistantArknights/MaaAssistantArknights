@@ -136,8 +136,8 @@ waydroid prop set persist.waydroid.height 720
 
 設定 ADB 的 IP 位址：開啟 `設定` - `關於` - `IP地址` ，記錄第一個 `IP` ，將 `${記錄的IP}:5555` 填入 `sample.py` 的 adb IP 一欄。
 
-如果使用 amdgpu，`screencap` 指令可能向 stderr 輸出資訊導致圖片解碼失敗。 
-可以執行 `adb exec-out screencap | xxd | head` 並檢查輸出中是否有類似 `/vendor/etc/hwdata/amdgpu.ids: No such file...` 的文字來確認這一點。 
+如果使用 amdgpu，`screencap` 指令可能向 stderr 輸出資訊導致圖片解碼失敗。
+可以執行 `adb exec-out screencap | xxd | head` 並檢查輸出中是否有類似 `/vendor/etc/hwdata/amdgpu.ids: No such file...` 的文字來確認這一點。
 嘗試將 `resource/config.json` 中的截圖指令由 `adb exec-out screencap` 改為 `adb exec-out 'screencap 2>/dev/null'`。
 
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)

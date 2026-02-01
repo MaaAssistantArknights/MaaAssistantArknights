@@ -85,15 +85,15 @@ icon: iconoir:developer
    :::
 
 9. これで自由に ~~改造~~ 開発を始められます
-10. 一定量の変更ごにコミット（メッセージ記入必須）  
+10. 一定量の変更ごとにコミット（メッセージ記入必須）  
     Git 未経験者は dev ブランチ直接変更ではなく新規ブランチ作成推奨：
 
-```bash
-git branch your_own_branch
-git checkout your_own_branch
-```
+    ```bash
+    git branch your_own_branch
+    git checkout your_own_branch
+    ```
 
-これで dev の更新影響を受けずに開発可能
+    これで dev の更新影響を受けずに開発可能
 
 11. 開発完了後、変更をリモートリポジトリへプッシュ：
 

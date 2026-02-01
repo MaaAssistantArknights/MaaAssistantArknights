@@ -163,6 +163,7 @@ public class TaskQueueViewModel : Screen
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
+                EnableAfterActionSetting = false;
                 TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
                 TaskItemViewModels.FirstOrDefault(i => i.EnableSetting)?.EnableSetting = false;
                 TaskItemViewModels[e.NewStartingIndex].EnableSetting = true;
@@ -987,6 +988,13 @@ public class TaskQueueViewModel : Screen
     public string GetValidStage(string stage) => IsStageOpen(stage) ? stage : string.Empty;
 
     /// <summary>
+    /// Returns whether the task is enabled
+    /// </summary>
+    /// <param name="baseTask">The TaskQueue task</param>
+    /// <returns>whether the task is enabled</returns>
+    public static bool IsTaskEnable(BaseTask baseTask) => baseTask.IsEnable is true || (baseTask.IsEnable is null && !GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction);
+
+    /// <summary>
     /// 更新日期提示和关卡列表
     /// </summary>
     public void UpdateDatePromptAndStagesLocally()
@@ -1279,9 +1287,10 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
+        var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
         var currentName = taskItem.Name;
         var dialog = new Views.Dialogs.TextDialogUserControl(
-            LocalizationHelper.GetString("RenameTask"),
+            LocalizationHelper.GetString("RenameTask") + $" {taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}",
             LocalizationHelper.GetString("RenameTaskPrompt"),
             currentName) {
             Owner = Application.Current.MainWindow,
@@ -1316,7 +1325,7 @@ public class TaskQueueViewModel : Screen
 
         var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
         var result = MessageBoxHelper.Show(
-            string.Format(LocalizationHelper.GetString("ConfirmDeleteTaskMessage"), LocalizationHelper.GetString(taskType.ToString()), taskItem.Name),
+            string.Format(LocalizationHelper.GetString("ConfirmDeleteTaskMessage"), $"{taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}", taskItem.Name),
             LocalizationHelper.GetString("ConfirmDeleteTask"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
@@ -1695,7 +1704,7 @@ public class TaskQueueViewModel : Screen
         int count = 0;
         foreach (var (index, item) in ConfigFactory.CurrentConfig.TaskQueue.Select((task, i) => (i, task)))
         {
-            if (item.IsEnable == false || (GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction && item.IsEnable != true))
+            if (!IsTaskEnable(item))
             {
                 Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;
                 continue;

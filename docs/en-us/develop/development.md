@@ -82,12 +82,12 @@ We've preset several different development environments for you to choose from:
 10. Commit regularly with meaningful messages during development  
     If you're not familiar with git usage, you might want to create a new branch for changes instead of committing directly to `dev`:
 
-```bash
-git branch your_own_branch
-git checkout your_own_branch
-```
+    ```bash
+    git branch your_own_branch
+    git checkout your_own_branch
+    ```
 
-This keeps your changes isolated from upstream `dev` updates.
+    This keeps your changes isolated from upstream `dev` updates.
 
 11. After development, push your local branch (e.g. `dev`) to your remote repository:
 

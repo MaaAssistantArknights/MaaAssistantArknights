@@ -118,7 +118,7 @@ public class MallTask : BaseTask
         {
             if (!VisitFriendsOnceADay)
             {
-                return true;
+                return VisitFriends;
             }
 
             try
