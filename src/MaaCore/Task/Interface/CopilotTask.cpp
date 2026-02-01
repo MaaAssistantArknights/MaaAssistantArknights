@@ -172,7 +172,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
             if (BattleData.is_name_invalid(name)) {
                 Log.error(__FUNCTION__, "| User additional oper", name, "is invalid");
                 json::value info = basic_info_with_what("UserAdditionalOperInvalid");
-                info["details"]["oper_name"] = name;
+                info["details"]["name"] = name;
                 callback(AsstMsg::SubTaskError, info);
                 return false;
             }

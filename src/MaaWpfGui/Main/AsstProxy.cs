@@ -1477,7 +1477,7 @@ public class AsstProxy
                     var what = details["what"]?.ToString() ?? string.Empty;
                     if (what == "UserAdditionalOperInvalid")
                     {
-                        var operName = details["details"]?["oper_name"]?.ToString();
+                        var operName = details["details"]?["name"]?.ToString();
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("CopilotUserAdditionalNameInvalid", operName ?? string.Empty), UiLogColor.Error);
                     }
                     break;
