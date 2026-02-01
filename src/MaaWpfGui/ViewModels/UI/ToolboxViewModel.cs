@@ -1128,6 +1128,7 @@ public class ToolboxViewModel : Screen
     public async Task StartOperBox()
     {
         OperBoxSelectedIndex = 1;
+        _operBoxPotential = null;
         _tempOperHaveSet = [];
         OperBoxHaveList = [];
         OperBoxNotHaveList = [];
