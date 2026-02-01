@@ -703,7 +703,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     private bool? SetFightParams()
     {
-        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
+        if (IsRefreshingUI || TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
         {
             return null;
         }
@@ -718,7 +718,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
-        if (baseTask is not FightTask fight || taskId <= 0)
+        if (baseTask is not FightTask fight || taskId is int and <= 0)
         {
             return null;
         }
@@ -965,6 +965,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 {
                     IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true;
                 }
+                Instance.SetFightParams();
             }
         } = string.Empty;
 
