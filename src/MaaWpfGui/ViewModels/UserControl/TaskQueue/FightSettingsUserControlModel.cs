@@ -22,6 +22,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
@@ -90,6 +91,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             { "碳", "SK-5" },
             { "炭", "SK-5" },
         };
+
+    private readonly StageSourceItem InvalidStage = new() { Display = LocalizationHelper.GetString("InvalidStage"), Value = "__INVALID__", IsOpen = false, IsVisible = false };
 
     public ObservableCollection<StagePlanItem> StagePlan { get => field; set => SetAndNotify(ref field, value); } = [new()];
 
@@ -386,10 +389,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>())
         {
             if (AllDrops.FirstOrDefault(i => i.Value == task.DropId) is not { } item)
-        {
+            {
                 task.DropId = string.Empty;
+            }
         }
-    }
     }
 
     /// <summary>
@@ -461,7 +464,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     public string AnnihilationStage
     {
         get => GetTaskConfig<FightTask>().AnnihilationStage;
-        set => SetTaskConfig<FightTask>(t => t.AnnihilationStage == value, t => t.AnnihilationStage = value);
+        set {
+            SetTaskConfig<FightTask>(t => t.AnnihilationStage == value, t => t.AnnihilationStage = value);
+            StageListSource.FirstOrDefault(i => i.Value == "Annihilation")?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == value).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+        }
     }
 
     /// <summary>
@@ -484,6 +490,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             if (value)
             {
                 HideUnavailableStage = false;
+                StageResetMode = FightStageResetMode.Invalid;
             }
             else
             {
@@ -549,12 +556,25 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             if (value)
             {
                 UseAlternateStage = false;
+                StageResetMode = FightStageResetMode.Current;
             }
             if (update)
             {
-                UpdateStageList();
+                RefreshStageList();
             }
         }
+    }
+
+    public List<GenericCombinedData<FightStageResetMode>> StageResetModeList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = FightStageResetMode.Current },
+        new() { Display = LocalizationHelper.GetString("InvalidStage"), Value = FightStageResetMode.Invalid },
+    ];
+
+    public FightStageResetMode StageResetMode
+    {
+        get => GetTaskConfig<FightTask>().StageResetMode;
+        set => SetTaskConfig<FightTask>(t => t.StageResetMode == value, t => t.StageResetMode = value);
     }
 
     /// <summary>
@@ -617,8 +637,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public static string? GetFightStage(IEnumerable<string> stageNames)
     {
-        var stage = stageNames.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen);
-        stage ??= stageNames.FirstOrDefault();
+        var list = stageNames.Where(i => i != Instance.InvalidStage.Value);
+        var stage = list.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen);
+        stage ??= list.FirstOrDefault();
         return stage;
     }
 
@@ -633,7 +654,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         {
             fight.StagePlan.Add(string.Empty);
         }
-        UpdateStageList(); // 临时修复, 应为同步
+        RefreshStageList();
         RefreshCurrentStagePlan();
         RefreshWeeklySchedule();
         RefreshDropName();
@@ -680,12 +701,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     private bool? SetFightParams()
     {
-        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
+        if (IsRefreshingUI || TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
         {
             return null;
         }
 
-        if (ConfigFactory.CurrentConfig.TaskQueue.IndexOf(fight) is int index && index > -1)
+        if (ConfigFactory.CurrentConfig.TaskQueue.IndexOf(fight) is int index && index > -1 && Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId > 0)
         {
             return SerializeTask(fight, Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId);
         }
@@ -695,7 +716,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
-        if (baseTask is not FightTask fight)
+        if (baseTask is not FightTask fight || taskId is int and <= 0)
         {
             return null;
         }
@@ -766,37 +787,46 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         Execute.PostToUIThreadAsync(() => {
             _logger.Information("Updating stage list...");
             using var scope = _lock.EnterScope();
-            bool isFightTaskShow = TaskSettingVisibilityInfo.CurrentTask is FightTask;
-            var hideUnavailble = isFightTaskShow && HideUnavailableStage;
-            var stageList = Instances.StageManager.GetStageList().ToList();
-            var listCurrent = StagePlan.Select(i => i.Value).ToList();
-
-            var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = !hideUnavailble || i.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek), IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == i.Value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
-            if (isFightTaskShow)
-            {
-                foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i))) // 补未开放进来
-                {
-                    listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false });
-                }
-            }
-            StageListSource = new ObservableCollection<StageSourceItem>(listSource);
-
-            if (TaskSettingVisibilityInfo.CurrentTask is FightTask current)
-            {
-                current.StagePlan = listCurrent;
-            }
+            var stageList = Instances.StageManager.GetStageList();
+            RefreshStageList();
             foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.Where(i => i is FightTask fight && !fight.IsStageManually).OfType<FightTask>())
             {
-                var removeList = task.StagePlan.Where(i => !stageList.Any(p => p.Value == i)).ToList();
-                if (removeList.Count != 0)
+                for (int i = 0; i < task.StagePlan.Count; i++)
                 {
-                    _logger.Information("Removed non-existing stage from plan: {Stage}", removeList);
-                    task.StagePlan = [.. task.StagePlan.Where(i => stageList.Any(p => p.Value == i))];
+                    var stage = task.StagePlan[i];
+                    if (stage != InvalidStage.Value && !stageList.Any(p => p.Value == stage))
+                    {
+                        task.StagePlan[i] = task.StageResetMode switch {
+                            FightStageResetMode.Current => string.Empty,
+                            FightStageResetMode.Invalid => InvalidStage.Value,
+                            _ => string.Empty,
+                        };
+                        _logger.Information("Reset non-existing stage from plan: {Stage} to {}", stage, task.StagePlan[i]);
+                    }
                 }
             }
-
             RefreshCurrentStagePlan();
         });
+    }
+
+    private void RefreshStageList()
+    {
+        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask current)
+        {
+            return;
+        }
+        var stageList = Instances.StageManager.GetStageList().ToList();
+        var listCurrent = StagePlan.Select(i => i.Value).ToList();
+
+        var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = !HideUnavailableStage || i.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek), IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == i.Value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
+        foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i))) // 补未开放进来
+        {
+            listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false });
+        }
+        listSource.Add(InvalidStage); // 无效关卡
+        listSource.FirstOrDefault(i => i.Value == "Annihilation")?.Display = current.UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == current.AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+        StageListSource = new ObservableCollection<StageSourceItem>(listSource);
+        current.StagePlan = listCurrent; // StageListSource更新后, 恢复StagePlan
     }
 
     private void RefreshCurrentStagePlan()
@@ -895,7 +925,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public class StageSourceItem : PropertyChangedBase
     {
-        public string Display { get; set; } = string.Empty;
+        public string Display { get => field; set => SetAndNotify(ref field, value); } = string.Empty;
 
         public string Value { get; set; } = string.Empty;
 
@@ -925,7 +955,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                     return;
                 }
 
-                IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true;
+                if (value == Instance.InvalidStage.Value)
+                {
+                    IsOpen = false;
+                }
+                else
+                {
+                    IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true;
+                }
+                Instance.SetFightParams();
             }
         } = string.Empty;
 
