@@ -708,7 +708,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        if (ConfigFactory.CurrentConfig.TaskQueue.IndexOf(fight) is int index && index > -1)
+        if (ConfigFactory.CurrentConfig.TaskQueue.IndexOf(fight) is int index && index > -1 && Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId > 0)
         {
             return SerializeTask(fight, Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId);
         }
@@ -718,7 +718,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
-        if (baseTask is not FightTask fight)
+        if (baseTask is not FightTask fight || taskId <= 0)
         {
             return null;
         }
