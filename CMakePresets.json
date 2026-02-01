@@ -1,5 +1,10 @@
 {
     "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 4,
+        "minor": 2,
+        "patch": 0
+    },
     "configurePresets": [
         {
             "name": "windows",
