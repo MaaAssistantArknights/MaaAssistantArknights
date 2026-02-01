@@ -92,7 +92,7 @@
                             Margin="1"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Stretch"
-                            Background="{DynamicResource RegionBrushOpacity50}"
+                            Background="{DynamicResource RegionBrushOpacity25}"
                             BorderThickness="0"
                             Cursor="Hand"
                             Focusable="False"
