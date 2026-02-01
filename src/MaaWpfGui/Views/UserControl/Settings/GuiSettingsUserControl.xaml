@@ -37,7 +37,7 @@
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="0"
-                VerticalAlignment="Center">
+                VerticalAlignment="Top">
                 <CheckBox
                     Margin="8"
                     Content="{DynamicResource UseTray}"
@@ -66,12 +66,21 @@
                     </CheckBox>
                     <controls:TooltipBlock TooltipText="{DynamicResource MainTasksNullFunctionalityTip}" />
                 </StackPanel>
+                <StackPanel Margin="8" Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding IgnoreBadModulesAndUseSoftwareRendering}">
+                        <controls:TextBlock
+                            MaxWidth="200"
+                            Text="{DynamicResource BadModules.UseSoftwareRendering}"
+                            TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock TooltipText="{DynamicResource BadModules.UseSoftwareRenderingTip}" />
+                </StackPanel>
                 <CheckBox
                     Margin="8"
                     Content="{DynamicResource UseCardLog}"
                     IsChecked="{Binding UseCardLog}" />
                 <StackPanel
-                    Margin="5"
+                    Margin="8"
                     HorizontalAlignment="Left"
                     Visibility="{c:Binding UseCardLog}">
                     <controls:TextBlock
@@ -89,7 +98,7 @@
                 </StackPanel>
                 <ComboBox
                     Width="180"
-                    Margin="5"
+                    Margin="8"
                     HorizontalAlignment="Left"
                     hc:InfoElement.Title="{DynamicResource LogItemDateFormatString}"
                     ItemsSource="{Binding LogItemDateFormatStringList}"
@@ -99,38 +108,38 @@
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="1"
-                VerticalAlignment="Center">
+                VerticalAlignment="Top">
                 <ComboBox
                     x:Name="LanguageSelector"
-                    Margin="10,5"
+                    Margin="8"
                     hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding LanguageList}"
                     SelectedValue="{Binding Language}"
                     SelectedValuePath="Value" />
                 <ComboBox
-                    Margin="10,5"
+                    Margin="8"
                     hc:InfoElement.Title="{DynamicResource OperNameLanguage}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding OperNameLanguageModeList}"
                     SelectedValue="{Binding OperNameLanguage}"
                     SelectedValuePath="Value" />
                 <ComboBox
-                    Margin="10,5"
+                    Margin="8"
                     hc:InfoElement.Title="{DynamicResource UiTheme}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding DarkModeList}"
                     SelectedValue="{Binding DarkMode}"
                     SelectedValuePath="Value" />
                 <ComboBox
-                    Margin="10,5"
+                    Margin="8"
                     hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
                     DisplayMemberPath="Display"
                     IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding InverseClearModeList}"
                     SelectedValue="{Binding InverseClearMode}"
                     SelectedValuePath="Value" />
-                <StackPanel Margin="10,5" HorizontalAlignment="Left">
+                <StackPanel Margin="8" HorizontalAlignment="Left">
                     <controls:TextBlock
                         Margin="8,0,0,5"
                         HorizontalAlignment="Left"

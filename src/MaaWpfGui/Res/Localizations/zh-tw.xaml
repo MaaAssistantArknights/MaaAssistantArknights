@@ -248,6 +248,9 @@
     <system:String x:Key="IS5NewSquad6">花團錦簇分隊（佔位）</system:String>
     <system:String x:Key="IS5NewSquad7">棋行險著分隊（佔位）</system:String>
     <system:String x:Key="IS5NewSquad8">歲影回音分隊（佔位）</system:String>
+    <system:String x:Key="IS5NewSquad9">代理人分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad10">知学分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad11">商贾分队（占位）</system:String>
     <system:String x:Key="SpecialForceSquad">特勤分隊（佔位）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
@@ -583,7 +586,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下 ｢{key=Confirm}｣ 鍵即視為您了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseExpiringMedicine">無限吃 48 小時內過期的理智藥</system:String>
-    <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
+    <system:String x:Key="HideUnavailableStage">下拉選單中隱藏當日不開放關卡</system:String>
+    <system:String x:Key="FightStageResetMode">未開放關卡重設為</system:String>
     <system:String x:Key="HideSeries">隱藏代理倍率</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡名稱</system:String>
@@ -737,13 +741,14 @@ C:\\leidian\\LDPlayer9\n
 不調整遊戲內代理倍率設定</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
     <system:String x:Key="StageSelect2">備選</system:String>
-    <system:String x:Key="AddStage">新增關卡</system:String>
+    <system:String x:Key="AddStage">新增備選</system:String>
     <system:String x:Key="RemainingSanityStage">剩餘理智</system:String>
     <system:String x:Key="NoUse">不選擇</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
     <!--<system:String x:Key="CurrentStage">目前關卡</system:String>-->
     <!--<system:String x:Key="LastBattle">上次作戰</system:String>-->
     <system:String x:Key="DefaultStage">目前/上次</system:String>
+    <system:String x:Key="InvalidStage">無效關卡</system:String>
     <system:String x:Key="ClosedStage">活動未開放</system:String>
     <system:String x:Key="UnsupportedStages">不支援的關卡</system:String>
     <system:String x:Key="LowVersion">版本過低</system:String>
@@ -769,7 +774,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="AnnihilationStage">剿滅關卡</system:String>
     <system:String x:Key="UseCustomAnnihilation">自定義{key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">剿滅模式</system:String>
-    <system:String x:Key="Annihilation">當期剿滅</system:String>
+    <system:String x:Key="Annihilation.Current">當期剿滅</system:String>
     <system:String x:Key="Chernobog">切爾諾伯格</system:String>
     <system:String x:Key="LungmenOutskirts">龍門外環</system:String>
     <system:String x:Key="LungmenDowntown">龍門市區</system:String>
@@ -979,6 +984,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
+    <system:String x:Key="CopilotFormationRequirement.Level">精{0} {1}</system:String>
     <system:String x:Key="CopilotSkill">技能</system:String>
     <system:String x:Key="CopilotModule">模組</system:String>
     <system:String x:Key="CopilotWithoutModule">不使用模組</system:String>
@@ -1204,10 +1210,12 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="Current">目前</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationParseFailed">編隊解析失敗</system:String>
-    <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇{key=Operator}：</system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇{key=Operator}: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用：{0}，原因：{1}</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Level">{key=Operator}等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">所需模組未解鎖</system:String>
+    <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自定義{key=Operator}名稱無效：{0}，請檢查拼寫</system:String>
     <system:String x:Key="CurrentSteps">目前步驟：{0} {1}</system:String>
     <system:String x:Key="ElapsedTime">經過時間：{0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>
@@ -1327,7 +1335,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ConfirmExitTitle">MAA 正在執行任務</system:String>
     <system:String x:Key="ConfirmExitText">確定要關閉程式嗎？</system:String>
     <system:String x:Key="UpdateConfirmExitTitle">MAA 正在更新</system:String>
-    <system:String x:Key="UpdateConfirmExitText">正在執行更新，此時關閉 MAA 可能導致資源毀損。\n確定要結束嗎？</system:String>    <!--  !RootViewModel  -->
+    <system:String x:Key="UpdateConfirmExitText">正在執行更新，此時關閉 MAA 可能導致資源毀損。\n確定要結束嗎？</system:String>
+    <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">熱更新資料取得成功</system:String>
     <system:String x:Key="GameResourceUpdating">遊戲資源正在更新。</system:String>
@@ -1788,6 +1797,12 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="BadModules.Warning.Prolog">以下注入到 MAA 的 DLL 可能會導致 MAA 閃退或介面渲染異常：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">如果您發現 MAA 存在相關問題，請嘗試將 MAA 加入相關軟體的排除名單，或解除安裝相關軟體後檢查問題是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再顯示此警告</system:String>
+    <system:String x:Key="BadModules.Confirmation.Heading">警告：效能影響</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">選擇不再顯示警告後，MAA 將使用軟體渲染而不是硬體渲染。這將導致以下後果：&#x0a;&#x0a;• 效能下降&#x0a;• 介面卡頓&#x0a;• CPU 佔用率增高&#x0a;&#x0a;是否確認忽略警告並接受這些影響？</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRendering">使用軟體渲染</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRenderingTip">啟用後將不再顯示壞模組警告，並使用軟體渲染模式。這會導致效能下降、介面卡頓、CPU 佔用增高等後果。取消勾選可恢復硬體渲染。</system:String>
+    <system:String x:Key="BadModules.ResetWarning">已啟用軟體渲染模式。該設定需要重新啟動 MAA 才能生效。</system:String>
+    <system:String x:Key="BadModules.ResetSuccess">已重置為硬體渲染模式。需要重新啟動 MAA 後生效。是否立即重新啟動？</system:String>
     <!--  !BadModules  -->
 
     <!--  EmulatorPathSelection  -->

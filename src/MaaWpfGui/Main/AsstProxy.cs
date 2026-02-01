@@ -1470,7 +1470,16 @@ public class AsstProxy
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.Irreplaceable);
                         }
                     }
-
+                    break;
+                }
+            case "CopilotTask":
+                {
+                    var what = details["what"]?.ToString() ?? string.Empty;
+                    if (what == "UserAdditionalOperInvalid")
+                    {
+                        var operName = details["details"]?["name"]?.ToString();
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("CopilotUserAdditionalNameInvalid", operName ?? string.Empty), UiLogColor.Error);
+                    }
                     break;
                 }
         }
@@ -1676,6 +1685,7 @@ public class AsstProxy
             case "ProcessTask":
                 var taskName = details["details"]?["task"]?.ToString();
                 var taskChain = details["taskchain"]?.ToString();
+                AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
                 switch (taskChain)
                 {
                     case "Infrast":
@@ -1713,15 +1723,27 @@ public class AsstProxy
                             switch (taskName)
                             {
                                 case "EndOfActionThenStop":
-                                    TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
-                                    AchievementTrackerHelper.Instance.AddProgress(AchievementIds.MosquitoLeg);
-                                    break;
+                                    {
+                                        var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(t => t.TaskId == taskId)?.Index ?? 0;
+                                        if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count && ConfigFactory.CurrentConfig.TaskQueue[index] is MallTask mall)
+                                        {
+                                            mall.CreditFightLastTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                        }
+                                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
+                                        AchievementTrackerHelper.Instance.AddProgress(AchievementIds.MosquitoLeg);
+                                        break;
+                                    }
 
                                 case "VisitLimited" or "VisitNextBlack":
-                                    TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
-                                    break;
+                                    {
+                                        var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(t => t.TaskId == taskId)?.Index ?? 0;
+                                        if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count && ConfigFactory.CurrentConfig.TaskQueue[index] is MallTask mall)
+                                        {
+                                            mall.VisitFriendsLastTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                        }
+                                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
+                                        break;
+                                    }
                             }
 
                             break;
@@ -2016,9 +2038,10 @@ public class AsstProxy
                 {
                     var oper_name = DataHelper.GetLocalizedCharacterName(subTaskDetails!["oper_name"]?.ToString());
                     var requirement_type = subTaskDetails["requirement_type"]?.ToString() switch {
+                        "level" => LocalizationHelper.GetString("BattleFormationOperUnavailable.Level"),
                         "skill_level" => LocalizationHelper.GetString("BattleFormationOperUnavailable.SkillLevel"),
                         "module" => LocalizationHelper.GetString("BattleFormationOperUnavailable.Module"),
-                        _ => subTaskDetails["requirement_type"]?.ToString() ?? "UnknownRequirementType",
+                        _ => subTaskDetails["requirement_type"]?.ToString() ?? "Unknown Type",
                     };
 
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("BattleFormationOperUnavailable", oper_name ?? string.Empty, requirement_type), Instances.CopilotViewModel.IgnoreRequirements ? UiLogColor.Warning : UiLogColor.Error);

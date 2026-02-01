@@ -26,15 +26,15 @@ enum class SkillUsage // 技能用法
 // 干员练度需求
 struct OperatorRequirements
 {
-    // int elite = -1;        // 精英化等级
-    // int level = -1;        // 干员等级
-    // int potentiality = -1; // 潜能要求
+    int elite = -1;       // 精英化等级
+    int level = -1;       // 干员等级
     int skill_level = -1; // 技能等级
     int module = -1;      // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
+                          // int potentiality = -1; // 潜能要求
 
     bool operator==(const OperatorRequirements& req) const
     {
-        return skill_level == req.skill_level && module == req.module;
+        return elite == req.elite && level == req.level && skill_level == req.skill_level && module == req.module;
     }
 };
 
@@ -76,15 +76,15 @@ enum class DeployDirection
 enum class Role
 {
     Unknown,
-    Caster,
-    Medic,
-    Pioneer,
-    Sniper,
-    Special,
-    Support,
-    Tank,
-    Warrior,
-    Drone
+    Caster,  // 术士
+    Medic,   // 医疗
+    Pioneer, // 先锋
+    Sniper,  // 狙击
+    Special, // 特种
+    Support, // 辅助
+    Tank,    // 重装
+    Warrior, // 近卫
+    Drone    // 无人机
 };
 
 inline static Role get_role_type(const std::string& role_name)

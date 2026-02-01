@@ -122,7 +122,8 @@ MAA 會以 1 秒的間隔持續輪詢此端點，嘗試獲取要執行的任務�
 https://myqqbot.com/maa/getTask
 https://myqqbot.com/maa/reportStatus
 ```
-為了提升使用者體驗，他的 getTask 介面不論接收何種參數，均預設回傳 200 OK 與空的 tasks 列表。   
+
+為了提升使用者體驗，他的 getTask 介面不論接收何種參數，均預設回傳 200 OK 與空的 tasks 列表。  
 每當接收到請求，他會檢查資料庫是否有重複的 device；若無，則將該 device 與 user 記錄在資料庫中。  
 意即在此工作流下，該介面同時承擔了使用者註冊的功能。
 

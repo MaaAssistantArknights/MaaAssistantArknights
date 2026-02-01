@@ -53,9 +53,10 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 #### Windows 7
 
 由於 .NET 10 已停止支援 Windows 7 / 8 / 8.1 系統 <sup>[來源](https://github.com/dotnet/core/issues/7556)</sup>，MAA 亦隨之停止支援。若您仍需在這些系統上執行，請下載以下相容版本：
-* 支援 .NET 8 的最後版本：[`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)
-* 支援 .NET 4.8 的最後版本：[`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)  
-（目前尚未確定自行編譯的可行性。）
+
+- 支援 .NET 8 的最後版本：[`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)
+- 支援 .NET 4.8 的最後版本：[`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)  
+  （目前尚未確定自行編譯的可行性。）
 
 若要在 Windows 7 安裝上述執行庫，請先確認系統已安裝下列修正程式：
 

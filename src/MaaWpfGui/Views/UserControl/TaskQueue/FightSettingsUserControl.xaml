@@ -226,8 +226,11 @@
                         Grid.Row="1"
                         Margin="6"
                         VerticalAlignment="Bottom"
+                        d:IsHitTestVisible="True"
                         Command="{s:Action AddStageToPlan}"
                         Content="{DynamicResource AddStage}"
+                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         Visibility="{c:Binding UseAlternateStage}" />
                 </Grid>
                 <ListBox
@@ -377,18 +380,6 @@
                 <CheckBox Content="{DynamicResource DrGrandet}" IsChecked="{Binding IsDrGrandet}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource DrGrandetTip}" />
             </StackPanel>
-            <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding CustomStageCode}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
-            </StackPanel>
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource UseAlternateStage}"
-                IsChecked="{Binding UseAlternateStage}" />
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource AllowUseStoneSave}"
-                IsChecked="{Binding AllowUseStoneSave}" />
             <CheckBox Margin="0,10" IsChecked="{Binding UseExpiringMedicine}">
                 <TextBlock
                     Block.TextAlignment="Left"
@@ -397,12 +388,38 @@
             </CheckBox>
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource HideUnavailableStage}"
-                IsChecked="{Binding HideUnavailableStage}" />
-            <CheckBox
-                Margin="0,10"
                 Content="{DynamicResource HideSeries}"
                 IsChecked="{Binding HideSeries}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AllowUseStoneSave}"
+                IsChecked="{Binding AllowUseStoneSave}" />
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding CustomStageCode}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
+            </StackPanel>
+            <StackPanel
+                Margin="0,6"
+                Orientation="Horizontal"
+                Visibility="{c:Binding !CustomStageCode}">
+                <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource FightStageResetMode}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
+                <ComboBox
+                    Width="100"
+                    Margin="5,0,0,0"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding StageResetModeList}"
+                    SelectedValue="{Binding StageResetMode}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource UseAlternateStage}"
+                IsChecked="{Binding UseAlternateStage}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource HideUnavailableStage}"
+                IsChecked="{Binding HideUnavailableStage}" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource UseWeeklySchedule}"

@@ -255,13 +255,20 @@
                                             BorderBrush="{DynamicResource BorderBrush}"
                                             BorderThickness="1"
                                             CornerRadius="4">
-                                            <controls:TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="13"
-                                                Text="{Binding Name}"
-                                                TextAlignment="Center"
-                                                TextWrapping="Wrap" />
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <controls:TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    FontSize="13"
+                                                    Text="{Binding Name}"
+                                                    TextAlignment="Center"
+                                                    TextWrapping="Wrap" />
+                                                <controls:TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
+                                                    FontSize="11"
+                                                    Text="{Binding RarityStars}"
+                                                    TextAlignment="Center" />
+                                            </StackPanel>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -290,13 +297,57 @@
                                             BorderBrush="{DynamicResource BorderBrush}"
                                             BorderThickness="1"
                                             CornerRadius="4">
-                                            <controls:TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="13"
-                                                Text="{Binding Name}"
-                                                TextAlignment="Center"
-                                                TextWrapping="Wrap" />
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <controls:TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    FontSize="13"
+                                                    Text="{Binding Name}"
+                                                    TextAlignment="Center"
+                                                    TextWrapping="Wrap" />
+                                                <controls:TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
+                                                    FontSize="11"
+                                                    Text="{Binding RarityStars}"
+                                                    TextAlignment="Center" />
+                                                <StackPanel
+                                                    Margin="0,0,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <Image
+                                                        Width="18"
+                                                        Height="18"
+                                                        Source="{Binding EliteIconPath}"
+                                                        Stretch="Uniform"
+                                                        ToolTip="{Binding Elite}">
+                                                        <Image.Effect>
+                                                            <DropShadowEffect
+                                                                BlurRadius="8"
+                                                                Opacity="0.5"
+                                                                ShadowDepth="2"
+                                                                Color="Black" />
+                                                        </Image.Effect>
+                                                    </Image>
+                                                    <controls:TextBlock
+                                                        Margin="2.5,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="11"
+                                                        Text="{Binding Level, StringFormat={}Lv.{0}}" />
+                                                    <Image
+                                                        Width="18"
+                                                        Height="18"
+                                                        Source="{Binding PotentialIconPath}"
+                                                        ToolTip="{Binding Potential}">
+                                                        <Image.Effect>
+                                                            <DropShadowEffect
+                                                                BlurRadius="8"
+                                                                Opacity="0.5"
+                                                                ShadowDepth="2"
+                                                                Color="Black" />
+                                                        </Image.Effect>
+                                                    </Image>
+                                                </StackPanel>
+                                            </StackPanel>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

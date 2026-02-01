@@ -74,8 +74,8 @@
     <SolidColorBrush x:Key="Star3OperatorLogBrushPotentialFull" Color="#663399FF" />
     <SolidColorBrush x:Key="Star4OperatorLogBrush" Color="#9966FF" />
     <SolidColorBrush x:Key="Star4OperatorLogBrushPotentialFull" Color="#669966FF" />
-    <SolidColorBrush x:Key="Star5OperatorLogBrush" Color="#FFAA33" />
-    <SolidColorBrush x:Key="Star5OperatorLogBrushPotentialFull" Color="#66FFAA33" />
+    <SolidColorBrush x:Key="Star5OperatorLogBrush" Color="#EED904" />
+    <SolidColorBrush x:Key="Star5OperatorLogBrushPotentialFull" Color="#66EED904" />
     <SolidColorBrush x:Key="Star6OperatorLogBrush" Color="DarkOrange" />
     <SolidColorBrush x:Key="Star6OperatorLogBrushPotentialFull" Color="#66FF8C00" />
 

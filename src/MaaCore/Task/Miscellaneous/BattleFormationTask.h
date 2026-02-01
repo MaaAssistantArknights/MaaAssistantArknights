@@ -34,6 +34,7 @@ public:
 
     struct QuickFormationOper : public asst::TemplDetOCRer::Result
     {
+        battle::Role role = battle::Role::Unknown;
         bool is_selected = false; // 是否选中
     };
 
@@ -105,10 +106,20 @@ protected:
     bool add_trust_operators();
     // 选择当前页中的干员, return 是否继续翻页
     bool select_opers_in_cur_page(const std::vector<OperGroup*>& groups);
+    // 检查干员等级
+    bool check_oper_level(
+        const cv::Mat& image,
+        asst::Rect flag,
+        const std::string& name,
+        int elite,
+        int level,
+        bool ignore);
     // 检查并选中技能, return 技能是否达到要求
     bool check_and_select_skill(const std::string& name, int skill, int level_required, bool ignore, int delay);
-    // 查找并匹配技能, return 技能区域及技能等级, reverse 为反向查找3技能
-    std::optional<std::pair<asst::Rect, int>> find_skill(const cv::Mat& image, int skill, bool reverse);
+    // 查找并匹配技能, return 技能区域及技能等级, reverse 为反向查找3技能; skip_check 跳过技能等级检查,
+    // 返回的rect略大于技能icon区域
+    std::optional<std::pair<asst::Rect, int>>
+        find_skill(const cv::Mat& image, int skill, bool reverse, bool skip_check = false);
     void swipe_page();
     void swipe_to_the_left(int times = 2);
     bool confirm_selection();
@@ -157,5 +168,10 @@ protected:
     bool m_used_support_unit = false; // 是否已经招募助战干员
     // ———————— 以下变量为指定助战干员设置，仅当 m_support_unit_usage == SupportUnitUsage::Specific 时有效 ————————
     battle::RequiredOper m_specific_support_unit;
+
+private:
+    static constexpr battle::Role Roles[] = { battle::Role::Caster,  battle::Role::Medic,   battle::Role::Pioneer,
+                                              battle::Role::Warrior, battle::Role::Special, battle::Role::Tank,
+                                              battle::Role::Sniper,  battle::Role::Support };
 };
 } // namespace asst

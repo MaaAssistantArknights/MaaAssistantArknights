@@ -248,6 +248,9 @@
     <system:String x:Key="IS5NewSquad6">花团锦簇分队（占位）</system:String>
     <system:String x:Key="IS5NewSquad7">棋行险着分队（占位）</system:String>
     <system:String x:Key="IS5NewSquad8">岁影回音分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad9">代理人分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad10">知学分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad11">商贾分队（占位）</system:String>
     <system:String x:Key="SpecialForceSquad">特別行動分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
@@ -583,7 +586,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。「{key=Confirm}」ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる回復剤を無制限に使用</system:String>
-    <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
+    <system:String x:Key="HideUnavailableStage">リストに当日開放されないステージを隠す</system:String>
+    <system:String x:Key="FightStageResetMode">未開放のレベルをこれにリセットする</system:String>
     <system:String x:Key="HideSeries">連戦回数を隠します</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
@@ -744,6 +748,7 @@ C:\\leidian\\LDPlayer9
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String> -->
     <!--<system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">現在/前回</system:String>
+    <system:String x:Key="InvalidStage">無効なレベル</system:String>
     <system:String x:Key="ClosedStage">ステージが未公開か既に終了している</system:String>
     <system:String x:Key="UnsupportedStages">未サポートステージ</system:String>
     <system:String x:Key="LowVersion">バージョンの更新が必要</system:String>
@@ -769,7 +774,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AnnihilationStage">殲滅ステージ</system:String>
     <system:String x:Key="UseCustomAnnihilation">カスタム{key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">殲滅作戦</system:String>
-    <system:String x:Key="Annihilation">今期の殲滅作戦</system:String>
+    <system:String x:Key="Annihilation.Current">今期の殲滅作戦</system:String>
     <system:String x:Key="Chernobog">チェルノボーグ</system:String>
     <system:String x:Key="LungmenOutskirts">龍門郊外</system:String>
     <system:String x:Key="LungmenDowntown">龍門市街</system:String>
@@ -907,7 +912,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">イベント画面（右下角に ｢営業開始｣ ボタンがあります）でタスクを開始します。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">デュエルチャンネル：グリーングラスシティ</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">手動でチュートリアルの会話をスキップし、直接退出することができます。&#10;イベント画面（右下角に「試合観戦」ボタンがあります）でタスクを開始します。&#10;&#10;ダック卿の選択をフォローする。</system:String>
-    <system:String x:Key="MiniGame@ALL@HoneyFruit">デュエルチャンネル：ハニーフルーツシティ（非公式）</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruit">デュエルチャンネル：ハニーデューシティ</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">エンディング</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event">シリーズ事件の優先順位</system:String>
@@ -979,6 +984,7 @@ C:\\leidian\\LDPlayer9
 右クリックで非アクティブなタスクをクリア</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
+    <system:String x:Key="CopilotFormationRequirement.Level">昇進{0} レベル{1}</system:String>
     <system:String x:Key="CopilotSkill">スキル</system:String>
     <system:String x:Key="CopilotModule">モジュール</system:String>
     <system:String x:Key="CopilotWithoutModule">モジュールなし</system:String>
@@ -1206,8 +1212,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationParseFailed">フォーメーション解析に失敗しました</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}を選択: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}が使用できません: {0}、理由: {1}</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Level">{key=Operator}レベル不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">スキルレベルが低すぎる</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">必要なモジュールが未解除</system:String>
+    <system:String x:Key="CopilotUserAdditionalNameInvalid">追加のカスタム{key=Operator}名が無効です: {0}、スペルを確認してください</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">経過時間: {0}ms</system:String>
     <system:String x:Key="Deploy">配置</system:String>
@@ -1789,5 +1797,17 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="BadModules.Warning.Prolog">以下の DLL を MAA に注入すると、MAA がクラッシュしたり、インターフェースのレンダリングに異常が発生する可能性があります：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">MAA に関連する問題がある場合は、関連ソフトウェアの除外リストに MAA を追加するか、関連ソフトウェアをアンインストールした後、問題がまだ存在するかどうかを確認してください。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">この警告を再表示しない</system:String>
+    <system:String x:Key="BadModules.Confirmation.Heading">警告：パフォーマンスへの影響</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">警告を表示しないように選択すると、MAA はハードウェアレンダリングではなくソフトウェアレンダリングを使用します。これにより以下の結果が生じます：&#x0a;&#x0a;• パフォーマンスの低下&#x0a;• UI のラグ&#x0a;• CPU 使用率の増加&#x0a;&#x0a;警告を抑制し、これらの影響を受け入れることを確認しますか？</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRendering">ソフトウェアレンダリングを使用</system:String>
+    <system:String x:Key="BadModules.UseSoftwareRenderingTip">有効にすると、不良モジュールの警告が表示されなくなり、ソフトウェアレンダリングモードが使用されます。これにより、パフォーマンスの低下、UI のラグ、CPU 使用率の増加が発生します。チェックを外すとハードウェアレンダリングに戻ります。</system:String>
+    <system:String x:Key="BadModules.ResetWarning">ソフトウェアレンダリングモードが有効になりました。この設定を適用するには MAA を再起動してください。</system:String>
+    <system:String x:Key="BadModules.ResetSuccess">ハードウェアレンダリングモードに戻しました。変更を適用するには MAA を再起動する必要があります。今すぐ再起動しますか？</system:String>
     <!--  !BadModules  -->
+
+    <!--  EmulatorPathSelection  -->
+    <system:String x:Key="SelectEmulatorPath">エミュレータのパスを選択</system:String>
+    <system:String x:Key="MultipleEmulatorsDetected">複数のエミュレータのインストールパスが検出されました。使用するパスを選択してください：</system:String>
+    <system:String x:Key="PleaseSelectPath">パスを選択してください</system:String>
+    <!--  !EmulatorPathSelection  -->
 </ResourceDictionary>

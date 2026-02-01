@@ -910,15 +910,21 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _operBoxInfo, value);
     }
 
-    private List<OperBoxData.OperData> _operBoxDataArray = [];
-
+    /// <summary>
+    /// Gets OperBoxDataArray from OperBoxHaveList for backward compatibility
+    /// </summary>
+    [Obsolete("Use OperBoxHaveList instead")]
     public List<OperBoxData.OperData> OperBoxDataArray
     {
-        get => _operBoxDataArray;
-        set {
-            SetAndNotify(ref _operBoxDataArray, value);
-            _operBoxPotential = null; // reset
-        }
+        get => [.. OperBoxHaveList.Select(op => new OperBoxData.OperData {
+            Id = op.Id,
+            Name = op.Name,
+            Rarity = op.Rarity,
+            Elite = op.Elite,
+            Level = op.Level,
+            Potential = op.Potential,
+            Own = true,
+        })];
     }
 
     private Dictionary<string, int>? _operBoxPotential;
@@ -931,12 +937,12 @@ public class ToolboxViewModel : Screen
                 return _operBoxPotential;
             }
 
-            _operBoxPotential = OperBoxDataArray.ToDictionary(oper => oper.Id, oper => oper.Potential);
+            _operBoxPotential = OperBoxHaveList.ToDictionary(oper => oper.Id, oper => oper.Potential);
             return _operBoxPotential;
         }
     }
 
-    public class Operator(string id, string name, int rarity)
+    public class Operator(string id, string name, int rarity, int elite = 0, int level = 0, int potential = 0)
     {
         [JsonProperty("id")]
         public string Id { get; } = id;
@@ -947,6 +953,34 @@ public class ToolboxViewModel : Screen
         [JsonProperty("rarity")]
         public int Rarity { get; } = rarity;
 
+        [JsonProperty("elite")]
+        public int Elite { get; } = elite;
+
+        [JsonProperty("level")]
+        public int Level { get; } = level;
+
+        [JsonProperty("potential")]
+        public int Potential { get; } = potential;
+
+        public string RarityStars => IsPallas ? LocalizationHelper.GetPallasString(6, 6) : new('★', Rarity);
+
+        /// <summary>
+        /// Gets the path to the Elite icon image
+        /// </summary>
+        public string EliteIconPath => $"/Res/Img/Operator/Elite_{Elite}.png";
+
+        /// <summary>
+        /// Gets the path to the Potential icon image
+        /// </summary>
+        public string PotentialIconPath => Potential > 0 && Potential <= 6
+            ? $"/Res/Img/Operator/Potential_{Potential}.png"
+            : "/Res/Img/Operator/Potential_1.png";
+
+        /// <summary>
+        /// Gets the resource key based on rarity
+        /// </summary>
+        public string RarityColorResourceKey => IsPallas ? "HiddenMedalBrush" : $"Star{Rarity}OperatorLogBrush";
+
         public bool Equals(Operator? other) => other != null && Name == other.Name && Rarity == other.Rarity;
 
         public override bool Equals(object? obj) => obj is Operator other && Equals(other);
@@ -954,6 +988,8 @@ public class ToolboxViewModel : Screen
         public override int GetHashCode() => HashCode.Combine(Id, Name, Rarity);
 
         public override string ToString() => $"{Name} (★{Rarity})";
+
+        private bool IsPallas => Id == "char_485_pallas";
     }
 
     private ObservableCollection<Operator> _operBoxHaveList = [];
@@ -998,16 +1034,15 @@ public class ToolboxViewModel : Screen
                 return;
             }
 
-            OperBoxDataArray = ownOpers;
-            var ids = ownOpers.Select(o => o.Id).ToHashSet();
+            var operDataMap = ownOpers.ToDictionary(o => o.Id);
             foreach (var (id, oper) in DataHelper.Operators)
             {
                 if (DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType))
                 {
                     var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
-                    if (ids.Contains(id))
+                    if (operDataMap.TryGetValue(id, out var operData))
                     {
-                        OperBoxHaveList.Add(new Operator(id, name, oper.Rarity));
+                        OperBoxHaveList.Add(new Operator(id, name, oper.Rarity, operData.Elite, operData.Level, operData.Potential));
 
                         if (id == "char_485_pallas")
                         {
@@ -1050,7 +1085,7 @@ public class ToolboxViewModel : Screen
             if (_tempOperHaveSet.Add(oper.Id))
             {
                 var name = DataHelper.GetLocalizedCharacterName(DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value) ?? "???";
-                OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity));
+                OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity, oper.Elite, oper.Level, oper.Potential));
                 if (oper.Id == "char_485_pallas")
                 {
                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
@@ -1079,7 +1114,6 @@ public class ToolboxViewModel : Screen
         }
 
         OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}\n{LocalizationHelper.GetString("OperBoxRecognitionTip")}";
-        OperBoxDataArray = ownOpers;
         SaveOperBoxDetails(ownOpers);
         _tempOperHaveSet = [];
         return true;
@@ -1094,6 +1128,7 @@ public class ToolboxViewModel : Screen
     public async Task StartOperBox()
     {
         OperBoxSelectedIndex = 1;
+        _operBoxPotential = null;
         _tempOperHaveSet = [];
         OperBoxHaveList = [];
         OperBoxNotHaveList = [];
@@ -1119,13 +1154,13 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public void ExportOperBox()
     {
-        if (OperBoxDataArray.Count == 0)
+        if (OperBoxHaveList.Count == 0)
         {
             return;
         }
 
         var exportList = new List<OperBoxData.OperData>();
-        var userOperMap = OperBoxDataArray.ToDictionary(op => op.Id);
+        var userOperMap = OperBoxHaveList.ToDictionary(op => op.Id);
 
         foreach (var (operId, operInfo) in DataHelper.Operators)
         {
@@ -1137,7 +1172,15 @@ public class ToolboxViewModel : Screen
             var operName = DataHelper.GetLocalizedCharacterName(operInfo) ?? "???";
             if (userOperMap.TryGetValue(operId, out var value))
             {
-                exportList.Add(value);
+                exportList.Add(new OperBoxData.OperData() {
+                    Id = value.Id,
+                    Name = value.Name,
+                    Rarity = value.Rarity,
+                    Elite = value.Elite,
+                    Level = value.Level,
+                    Potential = value.Potential,
+                    Own = true,
+                });
             }
             else
             {
@@ -1145,6 +1188,7 @@ public class ToolboxViewModel : Screen
                     Id = operId,
                     Name = operName,
                     Rarity = operInfo.Rarity,
+                    Own = false,
                 });
             }
         }

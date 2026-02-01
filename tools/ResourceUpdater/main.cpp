@@ -265,6 +265,11 @@ bool run_parallel_tasks(
                 if (error_occurred.load()) {
                     return;
                 }
+                // Skip recruitment for txwy
+                if (out == "txwy") {
+                    std::cout << "------- Skipping recruitment data for " << out << " -------" << '\n';
+                    return;
+                }
                 std::cout << "------- Update recruitment data " << out << " -------" << '\n';
                 if (!update_recruitment_data(
                         overseas_data_dir / in / "gamedata" / "excel",
