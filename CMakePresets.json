@@ -14,6 +14,11 @@
             "cacheVariables": {
                 "BUILD_WPF_GUI": "ON",
                 "BUILD_DEBUG_DEMO": "ON"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
             }
         }
     ]
