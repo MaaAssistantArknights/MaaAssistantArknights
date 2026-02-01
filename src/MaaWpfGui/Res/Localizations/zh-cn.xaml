@@ -586,7 +586,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃 48 小时内过期的理智药</system:String>
-    <system:String x:Key="HideUnavailableStage">隐藏当日不开放关卡</system:String>
+    <system:String x:Key="HideUnavailableStage">下拉框中隐藏当日不开放关卡</system:String>
+    <system:String x:Key="FightStageResetMode">未开放关卡重置为</system:String>
     <system:String x:Key="HideSeries">隐藏代理倍率</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
     <system:String x:Key="CustomStageCode">手动输入关卡名</system:String>
@@ -738,15 +739,16 @@ C:\\leidian\\LDPlayer9。\n
 
 • {key=NotSwitch}:
 不调整游戏内代理倍率设定</system:String>
-    <system:String x:Key="StageSelect">关卡选择</system:String>
-    <system:String x:Key="StageSelect2">关卡备选</system:String>
-    <system:String x:Key="AddStage">添加关卡</system:String>
+    <system:String x:Key="StageSelect">关卡指定</system:String>
+    <system:String x:Key="StageSelect2">候选关卡</system:String>
+    <system:String x:Key="AddStage">添加候选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
     <system:String x:Key="NoUse">不使用</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String> -->
     <!--<system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">当前/上次</system:String>
+    <system:String x:Key="InvalidStage">无效关卡</system:String>
     <system:String x:Key="ClosedStage">活动未开放</system:String>
     <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
     <system:String x:Key="LowVersion">版本过低</system:String>
