@@ -2,6 +2,7 @@
 
 #include "Arknights-Tile-Pos/TileCalc2.hpp"
 
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
@@ -161,12 +162,19 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_support_unit_usage(support_unit_usage);
     m_formation_task_ptr->set_specific_support_unit(support_unit_name);
 
-    if (auto opt = params.find<json::array>("user_additional"); add_user_additional && opt) {
+    if (auto opt = params.find<json::array>("user_additional"); with_formation && add_user_additional && opt) {
         std::vector<std::pair<std::string, int>> user_additional;
         for (const auto& op : *opt) {
             std::string name = op.get("name", std::string());
             if (name.empty()) {
                 continue;
+            }
+            if (BattleData.is_name_invalid(name)) {
+                Log.error(__FUNCTION__, "| User additional oper", name, "is invalid");
+                json::value info = basic_info_with_what("UserAdditionalOperInvalid");
+                info["details"]["oper_name"] = name;
+                callback(AsstMsg::SubTaskError, info);
+                return false;
             }
             user_additional.emplace_back(std::pair<std::string, int> { std::move(name), op.get("skill", 1) });
         }
