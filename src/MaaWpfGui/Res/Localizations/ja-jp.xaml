@@ -586,8 +586,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。「{key=Confirm}」ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる回復剤を無制限に使用</system:String>
-    <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
-    <system:String x:Key="FightStageResetMode">未開封のレベルは</system:String>
+    <system:String x:Key="HideUnavailableStage">リストに当日開放されないステージを隠す</system:String>
+    <system:String x:Key="FightStageResetMode">未開放のレベルをこれにリセットする</system:String>
     <system:String x:Key="HideSeries">連戦回数を隠します</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
