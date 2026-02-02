@@ -176,7 +176,8 @@ public class TaskQueueViewModel : Screen
                     ConfigFactory.CurrentConfig.TaskQueue.RemoveAt(e.OldStartingIndex);
                 }
 
-                for (int i = e.OldStartingIndex; i < TaskItemViewModels.Count; i++) // 更新后续任务的索引
+                // 更新后续任务的索引
+                for (int i = e.OldStartingIndex; i < TaskItemViewModels.Count; i++)
                 {
                     TaskItemViewModels[i].Index = i;
                 }
