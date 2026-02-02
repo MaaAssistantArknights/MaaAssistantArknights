@@ -816,7 +816,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return;
         }
         var stageList = Instances.StageManager.GetStageList().ToList();
-        var listCurrent = StagePlan.Select(i => i.Value).ToList();
+        var listCurrent = current.StagePlan.ToList();
 
         var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = !HideUnavailableStage || i.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek), IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == i.Value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
         foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i))) // 补未开放进来
