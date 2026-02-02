@@ -479,3 +479,6 @@ install
 
 # pnpm cache
 .pnpm-store
+
+# CMake user presets
+CMakeUserPresets.json

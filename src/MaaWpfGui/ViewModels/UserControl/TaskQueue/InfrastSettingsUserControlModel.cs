@@ -68,7 +68,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     {
         var preList = GetTaskConfig<InfrastTask>().RoomList;
         var set = new HashSet<InfrastRoomType>(preList.Select(i => i.Room));
-        if (set.Count != Enum.GetValues<InfrastRoomType>().Length || set.Count != preList.Count) // 房间列表不完整，补全
+
+        // 房间列表不完整，补全
+        if (set.Count != Enum.GetValues<InfrastRoomType>().Length || set.Count != preList.Count)
         {
             var list = new List<InfrastTask.RoomInfo>(preList);
             foreach (var room in Enum.GetValues<InfrastRoomType>())

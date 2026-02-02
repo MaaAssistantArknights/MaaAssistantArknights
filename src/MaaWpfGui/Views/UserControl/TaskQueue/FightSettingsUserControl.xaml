@@ -398,20 +398,12 @@
                 <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding CustomStageCode}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
             </StackPanel>
-            <StackPanel
-                Margin="0,6"
-                Orientation="Horizontal"
-                Visibility="{c:Binding !CustomStageCode}">
-                <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource FightStageResetMode}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
-                <ComboBox
-                    Width="100"
-                    Margin="5,0,0,0"
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding StageResetModeList}"
-                    SelectedValue="{Binding StageResetMode}"
-                    SelectedValuePath="Value" />
-            </StackPanel>
+            <ComboBox
+                hc:InfoElement.Title="{DynamicResource FightStageResetMode}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding StageResetModeList}"
+                SelectedValue="{Binding StageResetMode}"
+                SelectedValuePath="Value" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource UseAlternateStage}"
