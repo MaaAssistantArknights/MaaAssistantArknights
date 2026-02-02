@@ -40,10 +40,6 @@ MAA now supports the PC version of Arknights. However, due to limited maintenanc
 
 * 切换刷理智任务时读取到错误的关卡列表 @status102
 
-### 文档 | Docs
-
-* Auto Update Changelogs of v6.3.0-beta.6 (#15571) @github-actions[bot] @github-actions[bot]
-
 ### 其他 | Other
 
 * 消除部分编译警告 (#15578) @yali-hzy
