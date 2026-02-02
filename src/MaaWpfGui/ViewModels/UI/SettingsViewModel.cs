@@ -501,12 +501,16 @@ public class SettingsViewModel : Screen
 
     public ObservableCollection<CombinedData> ConfigurationList { get; set; } = [];
 
-    private string? _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
+    private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
 
     public string? CurrentConfiguration
     {
         get => _currentConfiguration;
         set {
+            if (value == null)
+            {
+                return;
+            }
             bool ret = ConfigurationHelper.SwitchConfiguration(value);
             ret &= ConfigFactory.SwitchConfig(value);
 
