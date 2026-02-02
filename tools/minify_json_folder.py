@@ -8,6 +8,7 @@
 import argparse
 import json
 import logging
+import os
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
@@ -24,13 +25,29 @@ def minify_json_file(json_path: Path, ensure_ascii: bool = False) -> bool:
     try:
         with open(json_path, "r", encoding="utf-8") as f:
             data = json.load(f)
-        with open(json_path, "w", encoding="utf-8") as f:
-            json.dump(
-                data,
-                f,
-                ensure_ascii=ensure_ascii,
-                separators=(",", ":"),
-            )
+
+        # 写入临时文件，再原子替换，避免中断时导致原文件损坏
+        tmp_path = f"{json_path}.tmp"
+        try:
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(
+                    data,
+                    f,
+                    ensure_ascii=ensure_ascii,
+                    separators=(",", ":"),
+                )
+                # 确保内容落盘，再进行原子替换
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(tmp_path, json_path)
+        finally:
+            # 如果中间出错，尽量清理临时文件（忽略清理失败）
+            try:
+                if os.path.exists(tmp_path):
+                    os.remove(tmp_path)
+            except Exception:
+                pass
+
         return True
     except Exception as e:
         logger.error("处理失败 %s: %s", json_path, e)
