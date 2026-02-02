@@ -831,11 +831,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     private void RefreshCurrentStagePlan()
     {
-        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask)
+        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask current)
         {
             return;
         }
-        var plan = GetTaskConfig<FightTask>().StagePlan.ToList();
+        var plan = current.StagePlan.ToList();
         var list = plan.Select((i, index) => new StagePlanItem() { Value = i }).ToList();
         foreach (var item in list)
         {
