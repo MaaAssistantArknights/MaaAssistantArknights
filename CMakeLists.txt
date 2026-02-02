@@ -43,37 +43,6 @@ endif()
 
 if(INSTALL_RESOURCE)
     install(DIRECTORY resource DESTINATION .)
-    find_package(Python3 COMPONENTS Interpreter QUIET)
-    if(Python3_Interpreter_FOUND)
-        install(CODE "
-            # 从 install manifest 推导 resource 目录（与 CI 中 --prefix install 相对路径一致时也能得到正确绝对路径）
-            set(manifest_copy \${CMAKE_INSTALL_MANIFEST_FILES})
-            list(FILTER manifest_copy INCLUDE REGEX \"resource[/\\\\]\")
-            list(LENGTH manifest_copy manifest_len)
-            if(manifest_len GREATER 0)
-                list(GET manifest_copy 0 first_resource_file)
-                get_filename_component(resource_parent \"\${first_resource_file}\" DIRECTORY)
-                get_filename_component(resource_dir \"\${resource_parent}\" DIRECTORY)
-                set(minify_script \"${PROJECT_SOURCE_DIR}/tools/minify_json_folder.py\")
-                message(STATUS \"minifying resource JSON in \${resource_dir} with \${minify_script}\")
-                execute_process(
-                    COMMAND \"${Python3_EXECUTABLE}\" \"\${minify_script}\" \"\${resource_dir}\"
-                    RESULT_VARIABLE minify_result
-                    ERROR_VARIABLE minify_error
-                    OUTPUT_QUIET
-                )
-                if(minify_result)
-                    message(WARNING \"minify_json_folder.py failed (exit \${minify_result}), resource JSON not minified\")
-                else()
-                    message(STATUS \"minify_json_folder.py succeeded, resource JSON minified\")
-                endif()
-            else()
-                message(WARNING \"resource not found in install manifest, skipping JSON minify\")
-            endif()
-        ")
-    else()
-        message(STATUS "Python3 not found, skipping JSON minify during install")
-    endif()
 endif()
 
 if(BUILD_DEBUG_DEMO OR BUILD_SMOKE_TEST)
