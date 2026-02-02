@@ -93,7 +93,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
 
             if (Directory.Exists(PathsHelper.DebugDir))
             {
-                Directory.Delete(PathsHelper.DebugDir, recursive: true);
+                DeleteDirectoryContentsExcept(PathsHelper.DebugDir, ["asst.log", "gui.log"]);
                 clearedDirs.Add("debug");
             }
 
@@ -242,6 +242,28 @@ public class IssueReportUserControlModel : PropertyChangedBase
         {
             ShowGrowl($"{LocalizationHelper.GetString("GenerateSupportPayloadException")}\n{ex.Message}");
             Log.Error(ex, "Failed to create support payload");
+        }
+    }
+
+    /// <summary>
+    /// 删除目录下的所有文件和子目录，排除指定的文件名。
+    /// </summary>
+    private static void DeleteDirectoryContentsExcept(string dir, IEnumerable<string> excludeFileNames)
+    {
+        var excludeSet = excludeFileNames.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var file in Directory.EnumerateFiles(dir))
+        {
+            if (excludeSet.Contains(Path.GetFileName(file)))
+            {
+                continue;
+            }
+
+            File.Delete(file);
+        }
+
+        foreach (var subDir in Directory.EnumerateDirectories(dir))
+        {
+            Directory.Delete(subDir, recursive: true);
         }
     }
 
