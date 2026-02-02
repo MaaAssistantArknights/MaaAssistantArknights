@@ -83,7 +83,7 @@
     "RA@Store@Purchase": {
         "text": ["支付"],
         "roi": [640, 400, 424, 220],
-        "next": ["RA@Store@PurchasedConfirm", "RA@Store@RecruitSkip", "RA@Store@Underfunded"]
+        "next": ["RA@Store@PurchasedConfirm", "RA@Store@RecruitSkip", "RA@Store@WearCostume", "RA@Store@Underfunded"]
     },
     "RA@Store@Underfunded": {
         "template": "ReceivedAllMail.png",
@@ -92,8 +92,15 @@
         "colorScales": [[250, 255]],
         "next": ["Stop"]
     },
+    "RA@Store@WearCostume": {
+        "doc": "获得新时装后，识别画面右下角按钮中 “穿戴” 文字左侧的衣架图标",
+        "template": ["SS@Store@WearCostume.png"],
+        "roi": [1146, 595, 120, 44],
+        "next": ["RA@Store@RecruitSkipClick"]
+    },
     "RA@Store@RecruitSkip": {
-        "template": "SS@Store@RecruitSkip.png",
+        "doc": "SS@Store@RecruitSkip.png 为招募动画 Skip；SS@Store@CostumeSkip.png 为购买时装动画 Skip",
+        "template": ["SS@Store@RecruitSkip.png", "SS@Store@CostumeSkip.png"],
         "roi": [1143, 0, 137, 150],
         "next": ["RA@Store@RecruitSkipClick"]
     },
