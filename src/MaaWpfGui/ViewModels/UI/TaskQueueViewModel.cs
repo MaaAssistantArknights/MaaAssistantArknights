@@ -1467,7 +1467,8 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// 还原所有临时变量（右键半选）
     /// </summary>
-    public void ResetAllTemporaryVariable()
+    /// <param name="refreshUI">是否刷新UI</param>
+    public void ResetAllTemporaryVariable(bool refreshUI = true)
     {
         foreach (var item in ConfigFactory.CurrentConfig.TaskQueue)
         {
@@ -1475,7 +1476,7 @@ public class TaskQueueViewModel : Screen
             {
                 case FightTask fight:
                     FightSettingsUserControlModel.ResetFightVariables(fight);
-                    if (TaskSettingVisibilityInfo.CurrentTask == fight)
+                    if (refreshUI && TaskSettingVisibilityInfo.CurrentTask == fight)
                     {
                         RefreshTaskModel(fight);
                     }
@@ -1483,7 +1484,7 @@ public class TaskQueueViewModel : Screen
 
                 case RecruitTask recruit:
                     RecruitSettingsUserControlModel.ResetRecruitVariables(recruit);
-                    if (TaskSettingVisibilityInfo.CurrentTask == recruit)
+                    if (refreshUI && TaskSettingVisibilityInfo.CurrentTask == recruit)
                     {
                         RefreshTaskModel(recruit);
                     }
