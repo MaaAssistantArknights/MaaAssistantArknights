@@ -1,4 +1,4 @@
-## v6.3.0-beta.6
+## v6.3.0-beta.7
 
 ### Highlights
 
@@ -29,6 +29,25 @@ Since the "Combat" weekly schedule is now supported and multiple similar tasks c
 MAA now supports the PC version of Arknights. However, due to limited maintenance resources, the PC version may remain unstable for an extended period, with some features potentially malfunctioning or temporarily unavailable. We warmly welcome community developers to assist in adaptation and submit improvements to collectively enhance PC support.
 
 ----
+
+## v6.3.0-beta.7
+
+### 改进 | Improved
+
+* 备选关卡读取后检查 @status102
+
+### 修复 | Fix
+
+* 切换刷理智任务时读取到错误的关卡列表 @status102
+
+### 文档 | Docs
+
+* Auto Update Changelogs of v6.3.0-beta.6 (#15571) @github-actions[bot] @github-actions[bot]
+
+### 其他 | Other
+
+* 消除部分编译警告 (#15578) @yali-hzy
+* 刷理智高级设置使用hc:InfoElement.Title显示设置项名 @status102
 
 ## v6.3.0-beta.6
 
