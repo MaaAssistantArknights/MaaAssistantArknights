@@ -143,5 +143,9 @@ public class FightTask : BaseTask, IJsonOnDeserialized
         {
             UseStone = false;
         }
+        if (!UseOptionalStage)
+        {
+            StagePlan = StagePlan.Count == 1 ? StagePlan : [.. StagePlan.Append(string.Empty).Take(1)];
+        }
     }
 }

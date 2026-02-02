@@ -816,10 +816,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return;
         }
         var stageList = Instances.StageManager.GetStageList().ToList();
-        var listCurrent = StagePlan.Select(i => i.Value).ToList();
+        var listCurrent = current.StagePlan.ToList();
 
         var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = !HideUnavailableStage || i.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek), IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == i.Value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
-        foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i))) // 补未开放进来
+
+        // 补未开放进来
+        foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i)))
         {
             listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false });
         }
@@ -831,11 +833,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     private void RefreshCurrentStagePlan()
     {
-        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask)
+        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask current)
         {
             return;
         }
-        var plan = GetTaskConfig<FightTask>().StagePlan.ToList();
+        var plan = current.StagePlan.ToList();
         var list = plan.Select((i, index) => new StagePlanItem() { Value = i }).ToList();
         foreach (var item in list)
         {

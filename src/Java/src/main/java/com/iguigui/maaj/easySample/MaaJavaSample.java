@@ -49,13 +49,16 @@ public class MaaJavaSample {
 
         //开始执行
         instance.AsstStart(pointer);
-        new Scanner(System.in).next();
+        Scanner scanner = new Scanner(System.in);
+        scanner.next();
 
         //停止执行，会清空taskChain
         instance.AsstStop(pointer);
 
         //销毁实例，释放连接
         instance.AsstDestroy(pointer);
+
+        scanner.close();
     }
 
 
