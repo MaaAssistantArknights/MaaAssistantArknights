@@ -503,14 +503,10 @@ public class SettingsViewModel : Screen
 
     private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
 
-    public string? CurrentConfiguration
+    public string CurrentConfiguration
     {
         get => _currentConfiguration;
         set {
-            if (value == null)
-            {
-                return;
-            }
             bool ret = ConfigurationHelper.SwitchConfiguration(value);
             ret &= ConfigFactory.SwitchConfig(value);
 
