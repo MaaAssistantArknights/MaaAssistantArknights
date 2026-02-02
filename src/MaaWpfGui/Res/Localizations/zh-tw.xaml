@@ -1288,6 +1288,10 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="OpenDebugFolder">打開紀錄資料夾</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">壓縮檔產生成功</system:String>
     <system:String x:Key="GenerateSupportPayloadException">產生壓縮檔時發生問題：</system:String>
+    <system:String x:Key="ClearCache">清空快取</system:String>
+    <system:String x:Key="ClearCacheSuccessful">快取已清空</system:String>
+    <system:String x:Key="ClearCacheAlreadyEmpty">快取目錄為空</system:String>
+    <system:String x:Key="ClearCacheException">清空快取時發生問題：</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自動刷新 3★ Tags</system:String>

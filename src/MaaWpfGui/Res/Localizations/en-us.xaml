@@ -1287,6 +1287,10 @@ Before use, please ensure:
     <system:String x:Key="OpenDebugFolder">Open Debug Folder</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">Support payload generated successfully</system:String>
     <system:String x:Key="GenerateSupportPayloadException">An error occurred while generating the support payload:</system:String>
+    <system:String x:Key="ClearCache">Clear Cache</system:String>
+    <system:String x:Key="ClearCacheSuccessful">Cache cleared successfully</system:String>
+    <system:String x:Key="ClearCacheAlreadyEmpty">Cache directories are already empty</system:String>
+    <system:String x:Key="ClearCacheException">An error occurred while clearing cache:</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>

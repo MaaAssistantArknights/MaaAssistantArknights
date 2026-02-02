@@ -1288,6 +1288,10 @@ MAA Team の開発リソースが限られているため、PC 対応は専任�
     <system:String x:Key="OpenDebugFolder">デバッグフォルダーを開く</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">サポート用ZIPの生成に成功しました</system:String>
     <system:String x:Key="GenerateSupportPayloadException">サポート用ZIPの生成中にエラーが発生しました：</system:String>
+    <system:String x:Key="ClearCache">キャッシュをクリア</system:String>
+    <system:String x:Key="ClearCacheSuccessful">キャッシュをクリアしました</system:String>
+    <system:String x:Key="ClearCacheAlreadyEmpty">キャッシュディレクトリは既に空です</system:String>
+    <system:String x:Key="ClearCacheException">キャッシュのクリア中にエラーが発生しました：</system:String>
     <!--  !Issues  -->
     <!--  自動募集設定  -->
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>

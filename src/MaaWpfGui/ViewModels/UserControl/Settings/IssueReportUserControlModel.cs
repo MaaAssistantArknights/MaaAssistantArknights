@@ -77,6 +77,43 @@ public class IssueReportUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
+    /// 清空缓存 包括cache目录和debug目录
+    /// </summary>
+    public void ClearCache()
+    {
+        try
+        {
+            var clearedDirs = new List<string>();
+
+            if (Directory.Exists(PathsHelper.CacheDir))
+            {
+                Directory.Delete(PathsHelper.CacheDir, recursive: true);
+                clearedDirs.Add("cache");
+            }
+
+            if (Directory.Exists(PathsHelper.DebugDir))
+            {
+                Directory.Delete(PathsHelper.DebugDir, recursive: true);
+                clearedDirs.Add("debug");
+            }
+
+            if (clearedDirs.Count > 0)
+            {
+                ShowGrowl(LocalizationHelper.GetString("ClearCacheSuccessful"));
+            }
+            else
+            {
+                ShowGrowl(LocalizationHelper.GetString("ClearCacheAlreadyEmpty"));
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowGrowl($"{LocalizationHelper.GetString("ClearCacheException")}\n{ex.Message}");
+            Log.Error(ex, "Failed to clear cache");
+        }
+    }
+
+    /// <summary>
     /// 生成日志压缩包
     /// </summary>
     public void GenerateSupportPayload()
