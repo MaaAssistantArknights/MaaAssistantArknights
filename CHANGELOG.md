@@ -48,6 +48,7 @@ MAA now supports the PC version of Arknights. However, due to limited maintenanc
 
 * 消除部分编译警告 (#15578) @yali-hzy
 * 刷理智高级设置使用hc:InfoElement.Title显示设置项名 @status102
+* 添加 CMakePresets.json (#15568) @yali-hzy
 
 ## v6.3.0-beta.6
 
