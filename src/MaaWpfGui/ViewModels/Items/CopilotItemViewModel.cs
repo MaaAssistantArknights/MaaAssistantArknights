@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.IO;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Stylet;
@@ -31,7 +32,7 @@ public class CopilotItemViewModel : PropertyChangedBase
     public CopilotItemViewModel(string name, string filePath, bool isRaid = false, int copilotId = 0, bool isChecked = true)
     {
         Name = name;
-        FilePath = filePath;
+        FilePath = Path.GetFullPath(filePath); // 之后可以改回去。只要启动一次 maa，配置就改好了
         _isRaid = isRaid;
         CopilotId = copilotId;
         _isChecked = isChecked;

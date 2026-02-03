@@ -1638,11 +1638,13 @@ public partial class CopilotViewModel : Screen
         }
 
         var fileName = !string.IsNullOrEmpty(stageCode) ? stageCode : DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-        var cachePath = $"{CopilotJsonDir}/{fileName}.json";
+        var cachePath = Path.Combine(CopilotJsonDir, $"{fileName}.json");
+
+        // assert: cachePath == Path.GetFullPath(cachePath) && i.FilePath == Path.GetFullPath(i.FilePath)
         await _semaphore.WaitAsync();
         if (File.Exists(cachePath) && CopilotItemViewModels.Any(i => i.FilePath == cachePath))
         {
-            cachePath = $"{CopilotJsonDir}/{fileName}_{DateTimeOffset.Now.ToUnixTimeMilliseconds()}.json";
+            cachePath = Path.Combine(CopilotJsonDir, $"{fileName}_{DateTimeOffset.Now.ToUnixTimeMilliseconds()}.json");
             if (CopilotItemViewModels.Any(i => i.FilePath == cachePath))
             {
                 _logger.Error("Could not add copilot task with duplicate stage name: {StageName}", copilot.StageName);
