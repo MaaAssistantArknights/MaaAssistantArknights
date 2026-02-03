@@ -1290,8 +1290,8 @@ MAA Team의 개발 인력이 제한되어 있어 PC 지원은 전담 관리가 �
     <system:String x:Key="GenerateSupportPayloadSuccessful">압축 파일 생성 성공</system:String>
     <system:String x:Key="GenerateSupportPayloadException">압축 파일 생성 중 오류가 발생했습니다:</system:String>
     <system:String x:Key="ClearCache">캐시 비우기</system:String>
-    <system:String x:Key="ClearCacheSuccessful">캐시가 비워졌습니다</system:String>
-    <system:String x:Key="ClearCacheAlreadyEmpty">캐시 디렉토리가 이미 비어 있습니다</system:String>
+    <system:String x:Key="ClearCacheSuccessful">캐시 비우기 성공</system:String>
+    <system:String x:Key="ClearCacheAlreadyEmpty">캐시 폴더가 이미 비어 있음</system:String>
     <system:String x:Key="ClearCacheException">캐시 비우기 중 오류가 발생했습니다:</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
