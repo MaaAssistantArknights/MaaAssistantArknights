@@ -217,7 +217,7 @@
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">{key=AutoRoguelike} 중지 시 전투 종료 대기</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">최대 레벨 달성 시 중지</system:String>
-    <system:String x:Key="RoguelikeStartWithSeed">씨앗부터 시작하세요</system:String>
+    <system:String x:Key="RoguelikeStartWithSeed">지정 시드로 시작</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">월간 분대 자동 전환</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">월간 분대 통신</system:String>
