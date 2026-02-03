@@ -90,16 +90,10 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public ObservableCollection<CopilotFileItem> FileItems { get; } = [];
 
-    private bool _isFilePopupOpen;
-
     /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether the file dropdown popup is open.
     /// </summary>
-    public bool IsFilePopupOpen
-    {
-        get => _isFilePopupOpen;
-        set => SetAndNotify(ref _isFilePopupOpen, value);
-    }
+    public bool IsFilePopupOpen { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or private sets the view models of Copilot items.
@@ -1638,11 +1632,11 @@ public partial class CopilotViewModel : Screen
         }
 
         var fileName = !string.IsNullOrEmpty(stageCode) ? stageCode : DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-        var cachePath = $"{CopilotJsonDir}/{fileName}.json";
+        var cachePath = Path.GetRelativePath(BaseDir, $"{CopilotJsonDir}/{fileName}.json");
         await _semaphore.WaitAsync();
         if (File.Exists(cachePath) && CopilotItemViewModels.Any(i => i.FilePath == cachePath))
         {
-            cachePath = $"{CopilotJsonDir}/{fileName}_{DateTimeOffset.Now.ToUnixTimeMilliseconds()}.json";
+            cachePath = Path.GetRelativePath(BaseDir, $"{CopilotJsonDir}/{fileName}_{DateTimeOffset.Now.ToUnixTimeMilliseconds()}.json");
             if (CopilotItemViewModels.Any(i => i.FilePath == cachePath))
             {
                 _logger.Error("Could not add copilot task with duplicate stage name: {StageName}", copilot.StageName);
