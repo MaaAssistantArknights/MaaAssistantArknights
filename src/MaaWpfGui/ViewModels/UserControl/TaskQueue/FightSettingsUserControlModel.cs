@@ -561,6 +561,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             if (update)
             {
                 RefreshStageList();
+                RefreshCurrentStagePlan(); // 这个刷新可以优化
             }
         }
     }
@@ -789,7 +790,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             using var scope = _lock.EnterScope();
             var stageList = Instances.StageManager.GetStageList();
             RefreshStageList();
-            foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.Where(i => i is FightTask fight && !fight.IsStageManually).OfType<FightTask>())
+            foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Where(i => !i.IsStageManually))
             {
                 for (int i = 0; i < task.StagePlan.Count; i++)
                 {
