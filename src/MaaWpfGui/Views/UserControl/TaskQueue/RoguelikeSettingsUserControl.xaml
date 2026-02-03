@@ -392,7 +392,15 @@
                     Text="{DynamicResource RoguelikeStartWithSeed}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <TextBox Text="{Binding RoguelikeSeed}" Visibility="{c:Binding RoguelikeStartWithSeed}" />
+            <hc:TextBox Margin="0,2,0,10" Visibility="{c:Binding RoguelikeStartWithSeed}">
+                <hc:TextBox.Text>
+                    <Binding Path="RoguelikeSeed" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <hc:RegexRule Pattern="^[\da-zA-Z]+,rogue_\d,\d$" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </hc:TextBox.Text>
+            </hc:TextBox>
             <controls:TextBlock
                 Margin="0,5"
                 HorizontalAlignment="Center"
