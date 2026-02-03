@@ -217,7 +217,8 @@
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲 ｢{key=Stop}｣ 動作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>
-    <system:String x:Key="RoguelikeStartWithSeed">啟用刷錢種子</system:String>
+    <system:String x:Key="RoguelikeStartWithSeed">使用指定种子开局</system:String>
+    <!--<system:String x:Key="RoguelikeStartWithSeed">啟用刷錢種子</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小隊自動切換</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小隊通訊</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入調查自動切換</system:String>

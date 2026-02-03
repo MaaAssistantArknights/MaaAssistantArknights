@@ -1,12 +1,15 @@
 #include "RoguelikeInputSeedTaskPlugin.h"
 
-#include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeInputSeedTaskPlugin::load_params([[maybe_unused]] const json::value& params)
 {
-    return false;
+    if (auto seed = params.find<std::string>("start_with_seed")) {
+        m_seed = *seed;
+    }
+    return !m_seed.empty();
 }
 
 bool asst::RoguelikeInputSeedTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -29,7 +32,12 @@ bool asst::RoguelikeInputSeedTaskPlugin::verify(AsstMsg msg, const json::value& 
 
 bool asst::RoguelikeInputSeedTaskPlugin::_run()
 {
-    return ProcessTask(*this, { m_config->get_theme() + "@Roguelike@StartExploreWithSeed" })
-        .set_times_limit("Roguelike@StartExplore", 0)
-        .run();
+    LogTraceFunction;
+
+    bool ret = ProcessTask(*this, { m_config->get_theme() + "@Roguelike@StartExploreWithSeed-Open" }).run();
+    ret = ret && ctrler()->input(m_seed);
+    ret = ret && ProcessTask(*this, { "Roguelike@StartExploreWithSeed-Confirm" })
+                     .set_times_limit("Roguelike@StartExplore", 0)
+                     .run();
+    return ret;
 }
