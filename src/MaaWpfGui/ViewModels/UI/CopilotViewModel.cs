@@ -306,26 +306,21 @@ public partial class CopilotViewModel : Screen
         }
     }
 
-    private string _filename = string.Empty;
-
     /// <summary>
     /// Gets or sets the filename.
     /// </summary>
     public string Filename
     {
-        get => _filename;
+        get => field;
         set {
             var processedValue = ProcessFilePath(value);
-            SetAndNotify(ref _filename, processedValue);
+            SetAndNotify(ref field, processedValue);
             UpdateDisplayFilename(processedValue);
             ClearLog();
             UpdateCopilotUrl(processedValue);
-            if (!string.IsNullOrWhiteSpace(processedValue))
-            {
-                _ = UpdateFilename(processedValue);
-            }
+            _ = UpdateFilename(processedValue);
         }
-    }
+    } = string.Empty;
 
     private string ProcessFilePath(string value)
     {
@@ -1047,6 +1042,10 @@ public partial class CopilotViewModel : Screen
         bool writeToCache = false;
         object? payload;
 
+        if (string.IsNullOrEmpty(filename))
+        {
+            return;
+        }
         if (File.Exists(filename))
         {
             var fileSize = new FileInfo(filename).Length;
@@ -1566,11 +1565,14 @@ public partial class CopilotViewModel : Screen
 
         try
         {
-            if (_copilotCache is CopilotModel { } copilot)
+            if (_copilotCache is null)
+            {
+            }
+            else if (_copilotCache is CopilotModel { } copilot)
             {
                 await AddCopilotTaskToList(copilot, !isRaid ? CopilotModel.DifficultyFlags.Normal : CopilotModel.DifficultyFlags.Raid, stageName, CopilotId);
             }
-            else
+            else if (_copilotCache is SSSCopilotModel { } sss)
             {
                 AddLog(LocalizationHelper.GetString("CopilotSSSNotSupport"), UiLogColor.Error, showTime: false);
             }
