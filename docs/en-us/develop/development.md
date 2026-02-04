@@ -126,6 +126,38 @@ We've preset several different development environments for you to choose from:
 After opening Visual Studio, Git operations can be performed using VS's built-in "Git Changes" instead of command-line tools.
 :::
 
+## Using VSCode for Development (Optional)
+
+If you prefer VSCode, you can use CMake, clangd, and related extensions for code completion, navigation, and debugging. After completing steps 1–6 above (clone, dependencies, CMake configuration), follow these steps:
+
+### Recommended Extensions
+
+Install from the VSCode marketplace:
+
+| Extension                                                                                           | Purpose                                                    |
+| --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)            | CMake configure, build, and debug integration              |
+| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ IntelliSense, code navigation, diagnostics (LSP-based) |
+| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | Debug C++ programs (works with CMake Tools or launch.json) |
+
+::: tip
+When using clangd, set `C_Cpp.intelliSenseEngine` to `disabled` to avoid conflicts with the C/C++ extension's IntelliSense.
+:::
+
+### Setup Steps
+
+1. Open the project root folder in VSCode
+2. **CMake Tools**:
+   - Select a Configure Preset from the status bar (e.g. `windows-x64`, `linux-x64`)
+   - Select a Build Preset and run configure/build
+3. **clangd**: Works on Windows with MSVC without needing `compile_commands.json`. On Linux/macOS, presets enable `CMAKE_EXPORT_COMPILE_COMMANDS` and clangd uses `build/compile_commands.json` automatically
+4. **Debugging**: The project includes `.vscode/launch.json` for launching MaaWpfGui or Debug Demo
+
+### Build and Debug Shortcuts
+
+- **Build**: `Ctrl+Shift+B` or via CMake Tools status bar
+- **Debug**: F5 or choose a configuration from the Run and Debug panel
+
 ## MAA File Formatting Requirements
 
 MAA uses a series of formatting tools to ensure that the code and resource files in the repository are visually unified for easy maintenance and reading.

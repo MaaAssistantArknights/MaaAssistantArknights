@@ -127,6 +127,38 @@ icon: iconoir:developer
 開啟 Visual Studio 之後，和 Git 有關的操作可以不用命令列工具，直接使用 Visual Studio 內建的「Git 變更」功能即可。
 :::
 
+## 使用 VSCode 進行開發（可選）
+
+如果您偏好使用 VSCode，可以搭配 CMake、clangd 等擴充套件獲得程式碼補全、跳轉與除錯能力。完成前述 1–6 步（複製、相依、CMake 設定）後，可依下列步驟設定：
+
+### 推薦擴充套件
+
+於 VSCode 擴充套件市集安裝：
+
+| 擴充套件                                                                                            | 作用                                                |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)            | CMake 設定、建置、除錯整合                          |
+| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ 智慧提示、程式碼跳轉、診斷（基於 LSP）          |
+| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | 除錯 C++ 程式（與 CMake Tools 或 launch.json 搭配） |
+
+::: tip
+使用 clangd 時，建議停用 C/C++ 擴充套件的 IntelliSense（將 `C_Cpp.intelliSenseEngine` 設為 `disabled`），以免與 clangd 衝突。
+:::
+
+### 設定步驟
+
+1. 使用 VSCode 開啟專案根目錄
+2. **CMake Tools**：
+   - 於狀態列選擇 Configure Preset（如 `windows-x64`、`linux-x64` 等）
+   - 選擇 Build Preset，執行設定與建置
+3. **clangd**：在 Windows 上搭配 MSVC 使用時無需 `compile_commands.json` 即可正常開發。Linux/macOS 下預設已開啟 `CMAKE_EXPORT_COMPILE_COMMANDS`，clangd 會自動使用 `build/compile_commands.json`
+4. **除錯**：專案已包含 `.vscode/launch.json`，可直接啟動 MaaWpfGui 或 Debug Demo 進行除錯
+
+### 快速建置與除錯
+
+- **建置**：`Ctrl+Shift+B` 或透過 CMake Tools 狀態列
+- **除錯**：F5 或於執行與除錯面板選擇對應設定
+
 ## MAA 的檔案格式化要求
 
 MAA 使用一系列的格式化工具來確保倉庫中的程式碼和資源檔案美觀統一，以便於維護和閱讀。

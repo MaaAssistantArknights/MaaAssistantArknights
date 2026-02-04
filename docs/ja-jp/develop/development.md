@@ -132,6 +132,36 @@ icon: iconoir:developer
 Visual Studio 起動後、Git 操作は「Git 変更」画面からコマンドライン不要で可能
 :::
 
+## VSCodeでの開発（オプション）
+
+VSCodeを好む場合、CMake、clangdなどの拡張機能でコード補完、ナビゲーション、デバッグが可能です。前述の手順1～6（クローン、依存関係、CMake設定）を完了した後、以下の手順で設定できます。
+
+### 推奨拡張機能
+
+VSCode Marketplace からインストール：
+
+| 拡張機能                                                                                            | 用途                                                              |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)            | CMake の設定、ビルド、デバッグ統合                                |
+| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ インテリセンス、コードナビゲーション、診断（LSPベース）       |
+| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | C++ プログラムのデバッグ（CMake Tools または launch.json と連携） |
+
+::: tip
+clangd を使用する場合、C/C++ 拡張機能の IntelliSense を無効化（`C_Cpp.intelliSenseEngine` を `disabled` に設定）することを推奨します。競合を避けるためです。
+:::
+
+### 設定手順
+
+1. VSCode でプロジェクトルートを開く
+2. **CMake Tools**：ステータスバーで Configure Preset（例：`windows-x64`、`linux-x64`）を選択し、Build Preset でビルドを実行
+3. **clangd**：Windows で MSVC を使用する場合、`compile_commands.json` がなくても clangd で開発可能。Linux/macOS ではプリセットで `CMAKE_EXPORT_COMPILE_COMMANDS` が有効となり、clangd は `build/compile_commands.json` を自動使用
+4. **デバッグ**：プロジェクトには `.vscode/launch.json` が含まれており、MaaWpfGui や Debug Demo の起動が可能
+
+### ビルドとデバッグのショートカット
+
+- **ビルド**：`Ctrl+Shift+B` または CMake Tools ステータスバー
+- **デバッグ**：F5 または Run and Debug パネルで設定を選択
+
 ## MAAのファイルフォーマット要件
 
 MAAは、リポジトリ内のコードとリソースファイルが美しく統一されるよう、一連のフォーマットツールを使用してメンテナンスと読み取りを容易にしています。
