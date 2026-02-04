@@ -168,6 +168,10 @@ public class RoguelikeTask : BaseTask
     /// Gets or sets a value indicating whether 等级满了停
     /// </summary>
     public bool StopWhenLevelMax { get; set; }
+
+    public bool StartWithSeed { get; set; }
+
+    public string Seed { get; set; } = string.Empty;
 }
 
 public enum RoguelikeTheme

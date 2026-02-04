@@ -1272,6 +1272,9 @@
         "template": "JieGarden@Roguelike@StartExplore.png",
         "roi": [1014, 481, 266, 219]
     },
+    "JieGarden@Roguelike@StartExploreWithSeed-Open":{
+        "roi": [870, 567, 95, 33]
+    },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [
