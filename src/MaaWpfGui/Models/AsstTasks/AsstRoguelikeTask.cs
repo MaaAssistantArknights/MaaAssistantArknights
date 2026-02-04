@@ -195,9 +195,9 @@ public class AsstRoguelikeTask : AsstBaseTask
     public bool StopAtMaxLevel { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 是否使用刷钱种子
+    /// Gets or sets 开局时使用的种子
     /// </summary>
-    public bool StartWithSeed { get; set; }
+    public string? StartWithSeed { get; set; }
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
@@ -281,6 +281,10 @@ public class AsstRoguelikeTask : AsstBaseTask
         taskParams["use_support"] = UseSupport;
         taskParams["use_nonfriend_support"] = UseSupportNonFriend;
         taskParams["refresh_trader_with_dice"] = Theme == RoguelikeTheme.Mizuki && RefreshTraderWithDice;
+        if (!string.IsNullOrEmpty(StartWithSeed))
+        {
+            taskParams["start_with_seed"] = StartWithSeed;
+        }
 
         return (TaskType, taskParams);
     }
