@@ -152,9 +152,9 @@
         },
         {
             "name": "smoke-test",
-            "hidden": true,
             "inherits": "macos-arm64",
             "displayName": "macOS (Ninja arm64 Smoke Test)",
+            "installDir": "install",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "BUILD_SMOKE_TEST": "ON",
@@ -237,7 +237,6 @@
         },
         {
             "name": "smoke-test",
-            "hidden": true,
             "displayName": "Build macOS arm64 Smoke Test",
             "configuration": "Debug",
             "configurePreset": "smoke-test"
