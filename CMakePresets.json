@@ -13,7 +13,8 @@
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "BUILD_WPF_GUI": "ON",
-                "BUILD_DEBUG_DEMO": "ON"
+                "BUILD_DEBUG_DEMO": "ON",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             },
             "condition": {
                 "type": "equals",
