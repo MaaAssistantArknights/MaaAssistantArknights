@@ -208,43 +208,19 @@ public partial class CopilotViewModel : Screen
 
     #region 属性
 
-    private bool _idle;
-
     /// <summary>
     /// Gets a value indicating whether it is idle.
     /// </summary>
-    public bool Idle
-    {
-        get => _idle;
-        private set => SetAndNotify(ref _idle, value);
-    }
+    public bool Idle { get => field; private set => SetAndNotify(ref field, value); }
 
-    private bool _inited;
+    public bool Inited { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Inited
-    {
-        get => _inited;
-        set => SetAndNotify(ref _inited, value);
-    }
-
-    private bool _stopping;
-
-    public bool Stopping
-    {
-        get => _stopping;
-        set => SetAndNotify(ref _stopping, value);
-    }
-
-    private bool _startEnabled = true;
+    public bool Stopping { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or sets a value indicating whether the start button is enabled.
     /// </summary>
-    public bool StartEnabled
-    {
-        get => _startEnabled;
-        set => SetAndNotify(ref _startEnabled, value);
-    }
+    public bool StartEnabled { get => field; set => SetAndNotify(ref field, value); }
 
     private int _copilotTabIndex = 0;
 
@@ -379,49 +355,29 @@ public partial class CopilotViewModel : Screen
         set => SetAndNotify(ref _form, value);
     }
 
-    private bool _addTrust;
+    /// <summary>
+    /// Gets or sets a value indicating whether to use auto-formation.
+    /// </summary>
+    public bool AddTrust { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or sets a value indicating whether to use auto-formation.
     /// </summary>
-    public bool AddTrust
-    {
-        get => _addTrust;
-        set => SetAndNotify(ref _addTrust, value);
-    }
+    public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
 
-    private bool _ignoreRequirements;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to use auto-formation.
-    /// </summary>
-    public bool IgnoreRequirements
-    {
-        get => _ignoreRequirements;
-        set => SetAndNotify(ref _ignoreRequirements, value);
-    }
-
-    private bool _useSanityPotion;
-
-    public bool UseSanityPotion
-    {
-        get => _useSanityPotion;
-        set => SetAndNotify(ref _useSanityPotion, value);
-    }
-
-    private bool _addUserAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false);
+    public bool UseSanityPotion { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or sets a value indicating whether to use auto-formation.
     /// </summary>
     public bool AddUserAdditional
     {
-        get => _addUserAdditional;
+        get => field;
         set {
-            SetAndNotify(ref _addUserAdditional, value);
+            SetAndNotify(ref field, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotAddUserAdditional, value.ToString());
         }
-    }
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false);
 
     private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty).Trim();
 
@@ -442,16 +398,10 @@ public partial class CopilotViewModel : Screen
     public string UserAdditionalPrettyJson => string.IsNullOrWhiteSpace(UserAdditional) ? string.Empty
         : JToken.Parse(UserAdditional).ToString(Formatting.None).Replace("},", "},\n");
 
-    private bool _isUserAdditionalPopupOpen;
-
     /// <summary>
     /// Gets or sets a value indicating whether the UserAdditional popup is open.
     /// </summary>
-    public bool IsUserAdditionalPopupOpen
-    {
-        get => _isUserAdditionalPopupOpen;
-        set => SetAndNotify(ref _isUserAdditionalPopupOpen, value);
-    }
+    public bool IsUserAdditionalPopupOpen { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets the view models of UserAdditional items.
