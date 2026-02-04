@@ -220,7 +220,7 @@ public partial class CopilotViewModel : Screen
     /// <summary>
     /// Gets or sets a value indicating whether the start button is enabled.
     /// </summary>
-    public bool StartEnabled { get => field; set => SetAndNotify(ref field, value); }
+    public bool StartEnabled { get => field; set => SetAndNotify(ref field, value); } = true;
 
     private int _copilotTabIndex = 0;
 
