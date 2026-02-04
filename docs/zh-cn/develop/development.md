@@ -64,8 +64,7 @@ icon: iconoir:developer
 6. 执行 cmake 项目配置
 
    ```cmd
-   mkdir -p build
-   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   cmake --preset windows-x64
    ```
 
 7. 双击打开 `build/MAA.slnx` 文件，Visual Studio 会自动加载整个项目。

@@ -69,8 +69,7 @@ icon: iconoir:developer
 6. cmake 프로젝트 구성 실행
 
    ```cmd
-   mkdir -p build
-   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   cmake --preset windows-x64
    ```
 
 7. `build/MAA.slnx` 파일을 더블 클릭하여 엽니다. Visual Studio가 자동으로 전체 프로젝트를 로드합니다.

@@ -64,8 +64,7 @@ We've preset several different development environments for you to choose from:
 6. Execute cmake project configuration
 
    ```cmd
-   mkdir -p build
-   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   cmake --preset windows-x64
    ```
 
 7. Double-click `build/MAA.slnx` to open the project in Visual Studio.
