@@ -1690,7 +1690,7 @@
         "Doc": "使用种子开局，由 cpp 内启用",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["启用参数"],
+        "text": ["启用", "参数"],
         "roi": [851, 567, 93, 33],
         "next": ["Roguelike@StartExploreWithSeed-ClickPen"]
     },
@@ -1707,19 +1707,19 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["参数"],
-        "roi": [323, 267, 200, 147]
+        "roi": [323, 267, 200, 147],
+        "next": ["Stop"]
     },
     "Roguelike@StartExploreWithSeed-ClickPen": {
-        "template": "Roguelike@StartExploreWithSeed-ClickPen.png",
         "action": "ClickSelf",
         "roi": [640, 163, 145, 141],
         "next": ["Roguelike@StartExploreWithSeed-ClickInputBox"]
     },
     "Roguelike@StartExploreWithSeed-Confirm": {
         "Doc": "找到一个 “RecruitConfirm.png” 可能复用，但是分数太低，放弃",
-        "template": "Roguelike@StartExploreWithSeed-Confirm.png",
         "action": "ClickSelf",
         "roi": [645, 393, 585, 173],
+        "preDelay": 500,
         "postDelay": 1000,
         "next": [
             "Roguelike@StartExploreWithSeed-Confirm",
