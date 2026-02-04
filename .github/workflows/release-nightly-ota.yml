@@ -185,19 +185,11 @@ jobs:
         run: |
           python3 tools/maadeps-download.py ${{ matrix.arch }}-windows
 
-      - name: Config cmake
+      - name: Configure, build and install
         run: |
-          mkdir -p build
-          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=RelWithDebInfo -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DINSTALL_PYTHON=ON -DMAA_HASH_VERSION='${{ steps.set_tag.outputs.tag }}' -DBUILD_WPF_GUI=OFF
-
-      - name: Build
-        run: |
-          cmake --build build --config RelWithDebInfo --parallel $env:NUMBER_OF_PROCESSORS
-
-      - name: Install
-        run: |
-          mkdir -p install
-          cmake --install build --prefix install --config RelWithDebInfo
+          cmake -B build --preset ${{ matrix.arch == 'arm64' && 'windows-publish-arm64' || 'windows-publish-x64' }} -DMAA_HASH_VERSION='${{ steps.set_tag.outputs.tag }}'
+          cmake --build build --preset ${{ matrix.arch == 'arm64' && 'windows-publish-arm64' || 'windows-publish-x64' }} --parallel $env:NUMBER_OF_PROCESSORS
+          cmake --install build --config RelWithDebInfo
 
       - name: Download MaaFramework
         if: matrix.arch == 'x64'

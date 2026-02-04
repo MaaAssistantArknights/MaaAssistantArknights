@@ -1,20 +1,34 @@
 {
-    "version": 3,
+    "version": 10,
     "cmakeMinimumRequired": {
-        "major": 4,
-        "minor": 2,
+        "major": 3,
+        "minor": 23,
         "patch": 0
     },
     "configurePresets": [
         {
-            "name": "windows",
-            "displayName": "Windows (Visual Studio 18 2026)",
+            "name": "publish-base",
+            "hidden": true,
+            "installDir": "install",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "INSTALL_RESOURCE": "ON",
+                "INSTALL_PYTHON": "ON",
+                "BUILD_WPF_GUI": "OFF",
+                "BUILD_DEBUG_DEMO": "OFF"
+            }
+        },
+        {
+            "name": "windows-base",
+            "hidden": true,
             "generator": "Visual Studio 18 2026",
             "binaryDir": "${sourceDir}/build",
+            "$comment": "Base for Windows presets; options listed explicitly to show full list.",
             "cacheVariables": {
                 "BUILD_WPF_GUI": "ON",
                 "BUILD_DEBUG_DEMO": "ON",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+                "INSTALL_RESOURCE": "OFF",
+                "INSTALL_PYTHON": "OFF"
             },
             "condition": {
                 "type": "equals",
@@ -23,19 +37,210 @@
             }
         },
         {
-            "name": "linux",
-            "displayName": "Linux x64 (Unix Makefiles)",
-            "generator": "Unix Makefiles",
+            "name": "windows-x64",
+            "inherits": "windows-base",
+            "displayName": "Windows (Visual Studio 18 2026 x64)",
+            "architecture": "x64",
+            "cacheVariables": {
+                "MAADEPS_TRIPLET": "maa-x64-windows"
+            }
+        },
+        {
+            "name": "windows-arm64",
+            "inherits": "windows-base",
+            "displayName": "Windows (Visual Studio 18 2026 ARM64)",
+            "architecture": "ARM64",
+            "cacheVariables": {
+                "MAADEPS_TRIPLET": "maa-arm64-windows"
+            }
+        },
+        {
+            "name": "windows-publish-x64",
+            "inherits": ["publish-base", "windows-x64"],
+            "$comment": "github actions only support Visual Studio 17 2022",
+            "generator": "Visual Studio 17 2022",
+            "displayName": "Windows (Visual Studio 18 2026 x64 Publish)"
+        },
+        {
+            "name": "windows-publish-arm64",
+            "inherits": ["publish-base", "windows-arm64"],
+            "$comment": "github actions only support Visual Studio 17 2022",
+            "generator": "Visual Studio 17 2022",
+            "displayName": "Windows (Visual Studio 18 2026 ARM64 Publish)"
+        },
+        {
+            "name": "linux-base",
+            "hidden": true,
+            "generator": "Ninja",
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
-                "BUILD_DEBUG_DEMO": "ON",
-                "CMAKE_TOOLCHAIN_FILE": "src/MaaUtils/MaaDeps/cmake/maa-x64-linux-toolchain.cmake"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Linux"
             }
+        },
+        {
+            "name": "linux-x64",
+            "inherits": "linux-base",
+            "displayName": "Linux (Ninja x64)",
+            "toolchainFile": "src/MaaUtils/MaaDeps/cmake/maa-x64-linux-toolchain.cmake",
+            "cacheVariables": {
+                "MAADEPS_TRIPLET": "maa-x64-linux"
+            }
+        },
+        {
+            "name": "linux-arm64",
+            "inherits": "linux-base",
+            "displayName": "Linux (Ninja arm64)",
+            "toolchainFile": "src/MaaUtils/MaaDeps/cmake/maa-arm64-linux-toolchain.cmake",
+            "cacheVariables": {
+                "MAADEPS_TRIPLET": "maa-arm64-linux"
+            }
+        },
+        {
+            "name": "linux-publish-x64",
+            "inherits": ["publish-base", "linux-x64"],
+            "displayName": "Linux (Ninja x64 Publish)"
+        },
+        {
+            "name": "linux-publish-arm64",
+            "inherits": ["publish-base", "linux-arm64"],
+            "displayName": "Linux (Ninja arm64 Publish)"
+        },
+        {
+            "name": "macos-base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        },
+        {
+            "name": "macos-arm64",
+            "inherits": "macos-base",
+            "displayName": "macOS (Ninja arm64)",
+            "cacheVariables": {
+                "CMAKE_OSX_ARCHITECTURES": "arm64"
+            }
+        },
+        {
+            "name": "macos-x86_64",
+            "inherits": "macos-base",
+            "displayName": "macOS (Ninja x86_64)",
+            "cacheVariables": {
+                "CMAKE_OSX_ARCHITECTURES": "x86_64"
+            }
+        },
+        {
+            "name": "macos-publish-arm64",
+            "inherits": ["publish-base", "macos-arm64"],
+            "displayName": "macOS (Ninja arm64 Publish)"
+        },
+        {
+            "name": "macos-publish-x86_64",
+            "inherits": ["publish-base", "macos-x86_64"],
+            "displayName": "macOS (Ninja x86_64 Publish)"
+        },
+        {
+            "name": "smoke-test",
+            "hidden": true,
+            "inherits": "macos-arm64",
+            "displayName": "macOS (Ninja arm64 Smoke Test)",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "BUILD_SMOKE_TEST": "ON",
+                "INSTALL_RESOURCE": "ON",
+                "WITH_HASH_VERSION": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "publish-base",
+            "hidden": true,
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "windows-x64",
+            "displayName": "Build Windows x64",
+            "configurePreset": "windows-x64"
+        },
+        {
+            "name": "windows-arm64",
+            "displayName": "Build Windows ARM64",
+            "configurePreset": "windows-arm64"
+        },
+        {
+            "name": "windows-publish-x64",
+            "displayName": "Build Windows x64 Publish",
+            "inherits": "publish-base",
+            "configurePreset": "windows-publish-x64"
+        },
+        {
+            "name": "windows-publish-arm64",
+            "displayName": "Build Windows ARM64 Publish",
+            "inherits": "publish-base",
+            "configurePreset": "windows-publish-arm64"
+        },
+        {
+            "name": "linux-x64",
+            "displayName": "Build Linux x64",
+            "configurePreset": "linux-x64"
+        },
+        {
+            "name": "linux-arm64",
+            "displayName": "Build Linux arm64",
+            "configurePreset": "linux-arm64"
+        },
+        {
+            "name": "linux-publish-x64",
+            "displayName": "Build Linux x64 Publish",
+            "inherits": "publish-base",
+            "configurePreset": "linux-publish-x64"
+        },
+        {
+            "name": "linux-publish-arm64",
+            "displayName": "Build Linux arm64 Publish",
+            "inherits": "publish-base",
+            "configurePreset": "linux-publish-arm64"
+        },
+        {
+            "name": "macos-arm64",
+            "displayName": "Build macOS arm64",
+            "configurePreset": "macos-arm64"
+        },
+        {
+            "name": "macos-x86_64",
+            "displayName": "Build macOS x86_64",
+            "configurePreset": "macos-x86_64"
+        },
+        {
+            "name": "macos-publish-arm64",
+            "displayName": "Build macOS arm64 Publish",
+            "inherits": "publish-base",
+            "configurePreset": "macos-publish-arm64"
+        },
+        {
+            "name": "macos-publish-x86_64",
+            "displayName": "Build macOS x86_64 Publish",
+            "inherits": "publish-base",
+            "configurePreset": "macos-publish-x86_64"
+        },
+        {
+            "name": "smoke-test",
+            "hidden": true,
+            "displayName": "Build macOS arm64 Smoke Test",
+            "configuration": "Debug",
+            "configurePreset": "smoke-test"
         }
     ]
 }
