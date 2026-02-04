@@ -1686,14 +1686,6 @@
         "postDelay": 1000,
         "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]
     },
-    "Roguelike@StartExploreWithSeed-Open": {
-        "Doc": "使用种子开局，由 cpp 内启用",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["启用", "参数"],
-        "roi": [851, 567, 93, 33],
-        "next": ["Roguelike@StartExploreWithSeed-ClickPen"]
-    },
     "Roguelike@StartExploreWithSeed-BackToMainPage": {
         "Doc": "识别到 ‘停用参数’ 就行了，不做难度解锁的检查了",
         "algorithm": "OcrDetect",
@@ -1726,6 +1718,14 @@
             "Roguelike@StartExploreWithSeed-SetDifficulty",
             "Roguelike@StartExploreWithSeed-BackToMainPage"
         ]
+    },
+    "Roguelike@StartExploreWithSeed-Open": {
+        "Doc": "使用种子开局，由 cpp 内启用",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["启用", "参数"],
+        "roi": [851, 567, 93, 33],
+        "next": ["Roguelike@StartExploreWithSeed-ClickPen"]
     },
     "Roguelike@StartExploreWithSeed-SetDifficulty": {
         "algorithm": "OcrDetect",
