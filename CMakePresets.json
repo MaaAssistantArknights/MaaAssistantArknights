@@ -83,20 +83,6 @@
             }
         },
         {
-            "name": "windows-publish-x64",
-            "inherits": ["publish-base", "windows-x64"],
-            "$comment": "github actions only support Visual Studio 17 2022",
-            "generator": "Visual Studio 17 2022",
-            "displayName": "Windows x64 Publish"
-        },
-        {
-            "name": "windows-publish-arm64",
-            "inherits": ["publish-base", "windows-arm64"],
-            "$comment": "github actions only support Visual Studio 17 2022",
-            "generator": "Visual Studio 17 2022",
-            "displayName": "Windows ARM64 Publish"
-        },
-        {
             "name": "linux-x64",
             "inherits": "linux-base",
             "displayName": "Linux x64",
@@ -115,16 +101,6 @@
             }
         },
         {
-            "name": "linux-publish-x64",
-            "inherits": ["publish-base", "linux-x64"],
-            "displayName": "Linux x64 Publish"
-        },
-        {
-            "name": "linux-publish-arm64",
-            "inherits": ["publish-base", "linux-arm64"],
-            "displayName": "Linux arm64 Publish"
-        },
-        {
             "name": "macos-arm64",
             "inherits": "macos-base",
             "displayName": "macOS arm64",
@@ -139,6 +115,30 @@
             "cacheVariables": {
                 "CMAKE_OSX_ARCHITECTURES": "x86_64"
             }
+        },
+        {
+            "name": "windows-publish-x64",
+            "inherits": ["publish-base", "windows-x64"],
+            "$comment": "github actions only support Visual Studio 17 2022",
+            "generator": "Visual Studio 17 2022",
+            "displayName": "Windows x64 Publish"
+        },
+        {
+            "name": "windows-publish-arm64",
+            "inherits": ["publish-base", "windows-arm64"],
+            "$comment": "github actions only support Visual Studio 17 2022",
+            "generator": "Visual Studio 17 2022",
+            "displayName": "Windows ARM64 Publish"
+        },
+        {
+            "name": "linux-publish-x64",
+            "inherits": ["publish-base", "linux-x64"],
+            "displayName": "Linux x64 Publish"
+        },
+        {
+            "name": "linux-publish-arm64",
+            "inherits": ["publish-base", "linux-arm64"],
+            "displayName": "Linux arm64 Publish"
         },
         {
             "name": "macos-publish-arm64",
@@ -163,11 +163,6 @@
         }
     ],
     "buildPresets": [
-        {
-            "name": "publish-base",
-            "hidden": true,
-            "configuration": "RelWithDebInfo"
-        },
         {
             "name": "windows-x64-Debug",
             "displayName": "Build Windows x64 Debug",
@@ -203,18 +198,6 @@
             "displayName": "Build Windows ARM64 RelWithDebInfo",
             "configurePreset": "windows-arm64",
             "configuration": "RelWithDebInfo"
-        },
-        {
-            "name": "windows-publish-x64",
-            "displayName": "Build Windows x64 Publish",
-            "inherits": "publish-base",
-            "configurePreset": "windows-publish-x64"
-        },
-        {
-            "name": "windows-publish-arm64",
-            "displayName": "Build Windows ARM64 Publish",
-            "inherits": "publish-base",
-            "configurePreset": "windows-publish-arm64"
         },
         {
             "name": "linux-x64-Debug",
@@ -253,18 +236,6 @@
             "configuration": "RelWithDebInfo"
         },
         {
-            "name": "linux-publish-x64",
-            "displayName": "Build Linux x64 Publish",
-            "inherits": "publish-base",
-            "configurePreset": "linux-publish-x64"
-        },
-        {
-            "name": "linux-publish-arm64",
-            "displayName": "Build Linux arm64 Publish",
-            "inherits": "publish-base",
-            "configurePreset": "linux-publish-arm64"
-        },
-        {
             "name": "macos-arm64-Debug",
             "displayName": "Build macOS arm64 Debug",
             "configurePreset": "macos-arm64",
@@ -301,22 +272,46 @@
             "configuration": "RelWithDebInfo"
         },
         {
+            "name": "windows-publish-x64",
+            "displayName": "Build Windows x64 Publish",
+            "configurePreset": "windows-publish-x64",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "windows-publish-arm64",
+            "displayName": "Build Windows ARM64 Publish",
+            "configurePreset": "windows-publish-arm64",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "linux-publish-x64",
+            "displayName": "Build Linux x64 Publish",
+            "configurePreset": "linux-publish-x64",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "linux-publish-arm64",
+            "displayName": "Build Linux arm64 Publish",
+            "configurePreset": "linux-publish-arm64",
+            "configuration": "RelWithDebInfo"
+        },
+        {
             "name": "macos-publish-arm64",
             "displayName": "Build macOS arm64 Publish",
-            "inherits": "publish-base",
-            "configurePreset": "macos-publish-arm64"
+            "configurePreset": "macos-publish-arm64",
+            "configuration": "RelWithDebInfo"
         },
         {
             "name": "macos-publish-x86_64",
             "displayName": "Build macOS x86_64 Publish",
-            "inherits": "publish-base",
-            "configurePreset": "macos-publish-x86_64"
+            "configurePreset": "macos-publish-x86_64",
+            "configuration": "RelWithDebInfo"
         },
         {
             "name": "smoke-test",
             "displayName": "Build macOS arm64 Smoke Test",
-            "configuration": "Debug",
-            "configurePreset": "smoke-test"
+            "configurePreset": "smoke-test",
+            "configuration": "Debug"
         }
     ]
 }
