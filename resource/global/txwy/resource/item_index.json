@@ -2071,6 +2071,14 @@
         "sortId": -10000,
         "usage": "用於對遏制單元進行數據迭代。"
     },
+    "act5collection_point_token": {
+        "classifyType": "NONE",
+        "description": "為了激勵外勤人員，羅德島發放了一定數量的特殊兌換點數。憑藉兌換點數可兌換急需的物資。",
+        "icon": "act5collection_point_token.png",
+        "name": "特殊兌換點數",
+        "sortId": -10000,
+        "usage": "用於兌換相應的階段性活動獎勵。"
+    },
     "act5d0_point_medal": {
         "classifyType": "NONE",
         "description": "毫無意義的奢華純金打造，由龍門頂級雕金匠親手鑄造而成，全泰拉限量發行，明明是杯子卻叫做勳章，象徵著大帝的最高讚譽，每一口都價值千金。但不要用來煮熱咖啡！",
@@ -2743,6 +2751,14 @@
         "sortId": -10000,
         "usage": null
     },
+    "rogue_5_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_5_token_bp.png",
+        "name": "迷路幼倀",
+        "sortId": -10000,
+        "usage": null
+    },
     "sandbox_1_tokencoin": {
         "classifyType": "NONE",
         "description": "在荒地上揮灑下的每一滴汗水，都會成為泰拉文明繁榮的見證。",
@@ -2750,6 +2766,14 @@
         "name": "繁榮點數",
         "sortId": -10000,
         "usage": "用於在“繁榮饋贈”中兌換獎勵的憑證。"
+    },
+    "so_char_exp_1": {
+        "classifyType": "NONE",
+        "description": "特勤幹員作戰環境更加複雜，情況十分多變，錄製過程相當艱苦。但能為日後的作戰提供幫助，一切都是值得的。\n此次的總集篇特別追加了花絮版。",
+        "icon": "so_char_exp_1.png",
+        "name": "特勤作戰記錄",
+        "sortId": -10000,
+        "usage": "記錄了特勤幹員作戰錄影的儲存裝置，可以增加特勤幹員的經驗值。"
     },
     "token_Obsidian": {
         "classifyType": "NONE",
