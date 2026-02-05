@@ -14,14 +14,18 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using HandyControl.Controls;
+using HandyControl.Data;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using Serilog;
 using Stylet;
 using DarkModeType = MaaWpfGui.Configuration.Global.GUI.DarkModeType;
 
@@ -521,6 +525,76 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                     Bootstrapper.ShutdownAndRestartWithoutArgs();
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// 清空缓存 包括cache目录和debug目录
+    /// </summary>
+    public static void ClearCache()
+    {
+        try
+        {
+            var clearedDirs = new List<string>();
+
+            if (Directory.Exists(PathsHelper.CacheDir))
+            {
+                Directory.Delete(PathsHelper.CacheDir, recursive: true);
+                clearedDirs.Add("cache");
+            }
+
+            if (Directory.Exists(PathsHelper.DebugDir))
+            {
+                DeleteDirectoryContentsExcept(PathsHelper.DebugDir, ["asst.log", "asst.bak.log", "gui.log", "gui.bak.log"]);
+                clearedDirs.Add("debug");
+            }
+
+            if (clearedDirs.Count > 0)
+            {
+                ShowGrowl(LocalizationHelper.GetString("ClearCacheSuccessful"));
+            }
+            else
+            {
+                ShowGrowl(LocalizationHelper.GetString("ClearCacheAlreadyEmpty"));
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowGrowl($"{LocalizationHelper.GetString("ClearCacheException")}\n{ex.Message}");
+            Log.Error(ex, "Failed to clear cache");
+        }
+
+        void ShowGrowl(string message)
+        {
+            var growlInfo = new GrowlInfo {
+                IsCustom = true,
+                Message = message,
+                IconKey = "HangoverGeometry",
+                IconBrushKey = "PallasBrush",
+            };
+            Growl.Info(growlInfo);
+        }
+    }
+
+    /// <summary>
+    /// 删除目录下的所有文件和子目录，排除指定的文件名。
+    /// </summary>
+    private static void DeleteDirectoryContentsExcept(string dir, IEnumerable<string> excludeFileNames)
+    {
+        var excludeSet = excludeFileNames.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var file in Directory.EnumerateFiles(dir))
+        {
+            if (excludeSet.Contains(Path.GetFileName(file)))
+            {
+                continue;
+            }
+
+            File.Delete(file);
+        }
+
+        foreach (var subDir in Directory.EnumerateDirectories(dir))
+        {
+            Directory.Delete(subDir, recursive: true);
         }
     }
 }

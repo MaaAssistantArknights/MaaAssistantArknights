@@ -13,7 +13,6 @@
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:GuiSettingsUserControlModel}}"
-    d:DesignHeight="350"
     d:DesignWidth="550"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -152,6 +151,12 @@
                         DisplayMemberPath="Value"
                         ItemsSource="{Binding WindowTitleAllShowDict}" />
                 </StackPanel>
+                <Button
+                    Width="Auto"
+                    Margin="5,2"
+                    Command="{s:Action ClearCache,
+                                       Target={x:Type settings_vms:GuiSettingsUserControlModel}}"
+                    Content="{DynamicResource ClearCache}" />
             </StackPanel>
         </Grid>
     </StackPanel>
