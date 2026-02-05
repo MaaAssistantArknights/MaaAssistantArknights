@@ -11,7 +11,10 @@
             "hidden": true,
             "generator": "Visual Studio 18 2026",
             "binaryDir": "${sourceDir}/build",
-            "$comment": "Base for Windows presets; Visual Studio is multi-config (Debug/Release/RelWithDebInfo in same build dir)",
+            "$comment": [
+                "Base for Windows presets; Visual Studio is multi-config (Debug/Release/RelWithDebInfo in same build dir)",
+                "see https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2018%202026.html"
+            ],
             "cacheVariables": {
                 "BUILD_WPF_GUI": "ON",
                 "BUILD_DEBUG_DEMO": "ON",
@@ -29,6 +32,13 @@
             "hidden": true,
             "generator": "Ninja Multi-Config",
             "binaryDir": "${sourceDir}/build",
+            "$comment": [
+                "Base for Linux presets; Ninja is multi-config (Debug/Release/RelWithDebInfo in same build dir)",
+                "see https://cmake.org/cmake/help/latest/generator/Ninja%20Multi-Config.html",
+                "clangd uses compile_commands.json to provide code completion and navigation",
+                "so CMAKE_EXPORT_COMPILE_COMMANDS is set to ON",
+                "see https://clangd.llvm.org/installation.html"
+            ],
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             },
@@ -43,6 +53,13 @@
             "hidden": true,
             "generator": "Ninja Multi-Config",
             "binaryDir": "${sourceDir}/build",
+            "$comment": [
+                "Base for macOS presets; Ninja is multi-config (Debug/Release/RelWithDebInfo in same build dir)",
+                "see https://cmake.org/cmake/help/latest/generator/Ninja%20Multi-Config.html",
+                "clangd uses compile_commands.json to provide code completion and navigation",
+                "so CMAKE_EXPORT_COMPILE_COMMANDS is set to ON",
+                "see https://clangd.llvm.org/installation.html"
+            ],
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             },
