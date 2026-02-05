@@ -375,8 +375,8 @@ jobs:
 
       - name: Configure, build and install
         run: |
-          cmake -B build --preset ${{ matrix.arch == 'x86_64' && 'macos-publish-x86_64' || 'macos-publish-arm64' }} -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
-          cmake --build --preset ${{ matrix.arch == 'x86_64' && 'macos-publish-x86_64' || 'macos-publish-arm64' }} --parallel $(sysctl -n hw.logicalcpu)
+          cmake -B build --preset ${{ matrix.arch == 'x86_64' && 'macos-publish-x64' || 'macos-publish-arm64' }} -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake --build --preset ${{ matrix.arch == 'x86_64' && 'macos-publish-x64' || 'macos-publish-arm64' }} --parallel $(sysctl -n hw.logicalcpu)
           cmake --install build --config RelWithDebInfo
 
       - name: Upload MAA to GitHub

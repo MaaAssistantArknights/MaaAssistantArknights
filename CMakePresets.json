@@ -81,7 +81,7 @@
         {
             "name": "windows-arm64",
             "inherits": "windows-base",
-            "displayName": "Windows ARM64",
+            "displayName": "Windows arm64",
             "architecture": "ARM64",
             "cacheVariables": {
                 "MAADEPS_TRIPLET": "maa-arm64-windows"
@@ -114,9 +114,9 @@
             }
         },
         {
-            "name": "macos-x86_64",
+            "name": "macos-x64",
             "inherits": "macos-base",
-            "displayName": "macOS x86_64",
+            "displayName": "macOS x64",
             "cacheVariables": {
                 "CMAKE_OSX_ARCHITECTURES": "x86_64"
             }
@@ -155,7 +155,7 @@
                 "see https://github.com/actions/runner-images/issues/13291"
             ],
             "generator": "Visual Studio 17 2022",
-            "displayName": "Windows ARM64 Publish"
+            "displayName": "Windows arm64 Publish"
         },
         {
             "name": "linux-publish-x64",
@@ -168,14 +168,14 @@
             "displayName": "Linux arm64 Publish"
         },
         {
+            "name": "macos-publish-x64",
+            "inherits": ["publish-base", "macos-x64"],
+            "displayName": "macOS x64 Publish"
+        },
+        {
             "name": "macos-publish-arm64",
             "inherits": ["publish-base", "macos-arm64"],
             "displayName": "macOS arm64 Publish"
-        },
-        {
-            "name": "macos-publish-x86_64",
-            "inherits": ["publish-base", "macos-x86_64"],
-            "displayName": "macOS x86_64 Publish"
         },
         {
             "name": "smoke-test",
@@ -214,19 +214,19 @@
         },
         {
             "name": "windows-arm64-Debug",
-            "displayName": "Build Windows ARM64 Debug",
+            "displayName": "Build Windows arm64 Debug",
             "configurePreset": "windows-arm64",
             "configuration": "Debug"
         },
         {
             "name": "windows-arm64-Release",
-            "displayName": "Build Windows ARM64 Release",
+            "displayName": "Build Windows arm64 Release",
             "configurePreset": "windows-arm64",
             "configuration": "Release"
         },
         {
             "name": "windows-arm64-RelWithDebInfo",
-            "displayName": "Build Windows ARM64 RelWithDebInfo",
+            "displayName": "Build Windows arm64 RelWithDebInfo",
             "configurePreset": "windows-arm64",
             "configuration": "RelWithDebInfo"
         },
@@ -267,6 +267,24 @@
             "configuration": "RelWithDebInfo"
         },
         {
+            "name": "macos-x64-Debug",
+            "displayName": "Build macOS x64 Debug",
+            "configurePreset": "macos-x64",
+            "configuration": "Debug"
+        },
+        {
+            "name": "macos-x64-Release",
+            "displayName": "Build macOS x64 Release",
+            "configurePreset": "macos-x64",
+            "configuration": "Release"
+        },
+        {
+            "name": "macos-x64-RelWithDebInfo",
+            "displayName": "Build macOS x64 RelWithDebInfo",
+            "configurePreset": "macos-x64",
+            "configuration": "RelWithDebInfo"
+        },
+        {
             "name": "macos-arm64-Debug",
             "displayName": "Build macOS arm64 Debug",
             "configurePreset": "macos-arm64",
@@ -285,24 +303,6 @@
             "configuration": "RelWithDebInfo"
         },
         {
-            "name": "macos-x86_64-Debug",
-            "displayName": "Build macOS x86_64 Debug",
-            "configurePreset": "macos-x86_64",
-            "configuration": "Debug"
-        },
-        {
-            "name": "macos-x86_64-Release",
-            "displayName": "Build macOS x86_64 Release",
-            "configurePreset": "macos-x86_64",
-            "configuration": "Release"
-        },
-        {
-            "name": "macos-x86_64-RelWithDebInfo",
-            "displayName": "Build macOS x86_64 RelWithDebInfo",
-            "configurePreset": "macos-x86_64",
-            "configuration": "RelWithDebInfo"
-        },
-        {
             "name": "windows-publish-x64",
             "displayName": "Build Windows x64 Publish",
             "configurePreset": "windows-publish-x64",
@@ -310,7 +310,7 @@
         },
         {
             "name": "windows-publish-arm64",
-            "displayName": "Build Windows ARM64 Publish",
+            "displayName": "Build Windows arm64 Publish",
             "configurePreset": "windows-publish-arm64",
             "configuration": "RelWithDebInfo"
         },
@@ -327,15 +327,15 @@
             "configuration": "RelWithDebInfo"
         },
         {
-            "name": "macos-publish-arm64",
-            "displayName": "Build macOS arm64 Publish",
-            "configurePreset": "macos-publish-arm64",
+            "name": "macos-publish-x64",
+            "displayName": "Build macOS x64 Publish",
+            "configurePreset": "macos-publish-x64",
             "configuration": "RelWithDebInfo"
         },
         {
-            "name": "macos-publish-x86_64",
-            "displayName": "Build macOS x86_64 Publish",
-            "configurePreset": "macos-publish-x86_64",
+            "name": "macos-publish-arm64",
+            "displayName": "Build macOS arm64 Publish",
+            "configurePreset": "macos-publish-arm64",
             "configuration": "RelWithDebInfo"
         },
         {
