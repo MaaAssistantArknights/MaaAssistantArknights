@@ -184,25 +184,13 @@ jobs:
         run: |
           python3 tools/maadeps-download.py arm64-osx
 
-      - name: Config cmake
+      - name: Config, Build & Install ResourceUpdater
         if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
           cd tools/ResourceUpdater
-          mkdir -p build
-          cmake -B build -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DMAADEPS_TRIPLET='maa-arm64-osx' \
-            -DWITH_HASH_VERSION=ON
-
-      - name: Build
-        if: steps.resupd-cache.outputs.cache-hit != 'true'
-        run: |
-          cmake --build tools/ResourceUpdater/build --config Release --parallel $(sysctl -n hw.logicalcpu)
-
-      - name: Install
-        if: steps.resupd-cache.outputs.cache-hit != 'true'
-        run: |
-          cmake --install tools/ResourceUpdater/build --prefix tools/ResourceUpdater --config Release
+          cmake --preset res-updater-macos-arm64
+          cmake --build build --preset res-updater-macos-arm64 --parallel $(sysctl -n hw.logicalcpu)
+          cmake --install build --config Release
 
       - name: Save ResourceUpdater to cache
         if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
