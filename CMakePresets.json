@@ -7,18 +7,6 @@
     },
     "configurePresets": [
         {
-            "name": "publish-base",
-            "hidden": true,
-            "installDir": "install",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-                "INSTALL_RESOURCE": "ON",
-                "INSTALL_PYTHON": "ON",
-                "BUILD_WPF_GUI": "OFF",
-                "BUILD_DEBUG_DEMO": "OFF"
-            }
-        },
-        {
             "name": "windows-base",
             "hidden": true,
             "generator": "Visual Studio 18 2026",
@@ -117,16 +105,38 @@
             }
         },
         {
+            "name": "publish-base",
+            "$comment":[
+                "All the name contains 'publish' are used for github actions",
+                "see .github/workflows/ci.yml"
+            ],
+            "hidden": true,
+            "installDir": "install",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "INSTALL_RESOURCE": "ON",
+                "INSTALL_PYTHON": "ON",
+                "BUILD_WPF_GUI": "OFF",
+                "BUILD_DEBUG_DEMO": "OFF"
+            }
+        },
+        {
             "name": "windows-publish-x64",
             "inherits": ["publish-base", "windows-x64"],
-            "$comment": "github actions only support Visual Studio 17 2022",
+            "$comment": [
+                "github actions only support Visual Studio 17 2022",
+                "see https://github.com/actions/runner-images/issues/13291"
+            ],
             "generator": "Visual Studio 17 2022",
             "displayName": "Windows x64 Publish"
         },
         {
             "name": "windows-publish-arm64",
             "inherits": ["publish-base", "windows-arm64"],
-            "$comment": "github actions only support Visual Studio 17 2022",
+            "$comment": [
+                "github actions only support Visual Studio 17 2022",
+                "see https://github.com/actions/runner-images/issues/13291"
+            ],
             "generator": "Visual Studio 17 2022",
             "displayName": "Windows ARM64 Publish"
         },
@@ -152,6 +162,10 @@
         },
         {
             "name": "smoke-test",
+            "$comment":[
+                "this preset is used for smoke testing",
+                "see .github/workflows/smoke-testing.yml"
+            ],
             "inherits": "macos-arm64",
             "displayName": "macOS arm64 Smoke Test",
             "installDir": "install",
