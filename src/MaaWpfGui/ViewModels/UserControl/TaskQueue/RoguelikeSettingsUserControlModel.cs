@@ -247,6 +247,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
     private void UpdateRoguelikeSquadList()
     {
         var roguelikeSquad = RoguelikeSquad;
+        var roguelikeSquadCollectible = RoguelikeCollectibleModeSquad;
         RoguelikeSquadList = [];
 
         // 优先匹配 Theme_Mode，其次匹配 Theme_Default
@@ -273,7 +274,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
 
         // 选择当前分队
         RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : "指挥分队";
-        RoguelikeCollectibleModeSquad = RoguelikeSquadList.Any(x => x.Value == RoguelikeCollectibleModeSquad) ? RoguelikeCollectibleModeSquad : RoguelikeSquad;
+        RoguelikeCollectibleModeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquadCollectible) ? roguelikeSquadCollectible : RoguelikeSquad;
     }
 
     private void UpdateRoguelikeCoreCharList()
