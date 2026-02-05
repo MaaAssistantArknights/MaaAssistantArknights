@@ -45,7 +45,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -94,13 +93,6 @@
                 Margin="5,2"
                 Command="{s:Action OpenDebugFolder}"
                 Content="{DynamicResource OpenDebugFolder}" />
-            <Button
-                Grid.Row="2"
-                Grid.Column="1"
-                Width="Auto"
-                Margin="5,2"
-                Command="{s:Action ClearCache}"
-                Content="{DynamicResource ClearCache}" />
         </Grid>
     </StackPanel>
 </UserControl>
