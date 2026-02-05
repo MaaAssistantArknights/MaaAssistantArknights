@@ -8,7 +8,7 @@
     "configurePresets": [
         {
             "name": "windows",
-            "displayName": "Windows(Visual Studio 18 2026)",
+            "displayName": "Windows (Visual Studio 18 2026)",
             "generator": "Visual Studio 18 2026",
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
@@ -19,6 +19,21 @@
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
+            }
+        },
+        {
+            "name": "linux",
+            "displayName": "Linux x64 (Unix Makefiles)",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "BUILD_DEBUG_DEMO": "ON",
+                "CMAKE_TOOLCHAIN_FILE": "src/MaaUtils/MaaDeps/cmake/maa-x64-linux-toolchain.cmake"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
             }
         }
     ]
