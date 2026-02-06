@@ -78,6 +78,7 @@ public static class ConfigurationKeys
     public const string LdPlayerEmulatorPath = "Connect.LdPlayerEmulatorPath";
     public const string LdPlayerManualSetIndex = "Connect.LdPlayerManualSetIndex";
     public const string LdPlayerIndex = "Connect.LdPlayerIndex";
+    public const string AVDExtrasEnabled = "Connect.AVDExtras.Enabled";
     public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
     public const string AllowAdbRestart = "Connect.AllowADBRestart";
     public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart";

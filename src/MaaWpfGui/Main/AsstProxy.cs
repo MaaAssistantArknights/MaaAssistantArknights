@@ -150,6 +150,11 @@ public class AsstProxy
         AsstSetConnectionExtras("LDPlayer", extras);
     }
 
+    private static void AsstSetConnectionExtrasAVD(string extras)
+    {
+        AsstSetConnectionExtras("AVD", extras);
+    }
+
     private static unsafe AsstTaskId AsstAppendTask(AsstHandle handle, string type, string taskParams)
     {
         fixed (byte* ptr1 = EncodeNullTerminatedUtf8(type),
@@ -2301,6 +2306,13 @@ public class AsstProxy
 
             case "LDPlayer":
                 AsstSetConnectionExtrasLdPlayer(SettingsViewModel.ConnectSettings.LdPlayerExtras.Config);
+                break;
+
+            case "AVD":
+                if (Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerExtrasEnabled, bool.FalseString))) {
+                    // 任意非空对象即可触发
+                    AsstSetConnectionExtrasAVD("{\"mode\": \"shm\"}");
+                }
                 break;
         }
 

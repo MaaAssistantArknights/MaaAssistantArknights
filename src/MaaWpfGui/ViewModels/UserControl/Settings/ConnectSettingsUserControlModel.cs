@@ -67,6 +67,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
             new() { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
             new() { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
+            new() { Display = LocalizationHelper.GetString("AVD"), Value = "AVD" },
             new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
             new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
             new() { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },

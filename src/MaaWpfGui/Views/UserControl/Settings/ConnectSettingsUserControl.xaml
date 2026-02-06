@@ -215,6 +215,13 @@
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
+                <StackPanel Visibility="{c:Binding 'ConnectConfig==&quot;AVD&quot;'}">
+                    <CheckBox
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Content="{DynamicResource AVDExtrasEnabled}"
+                        IsChecked="{Binding AVDExtras.Enable}" />
+                </StackPanel>
             </StackPanel>
         </StackPanel>
 

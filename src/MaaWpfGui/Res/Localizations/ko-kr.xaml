@@ -159,6 +159,7 @@
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu Player</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
+    <system:String x:Key="AVD">Android Virtual Device (AVD)</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">WSA 레거시 버전</system:String>
@@ -586,6 +587,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣ 수동 입력</system:String>
     <system:String x:Key="LdIndex">인스턴스 번호</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
+    <system:String x:Key="AVDExtrasEnabled">AVD 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="RetryOnDisconnected">연결 실패 시 에뮬레이터 재시작</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">재연결을 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">에뮬레이터 경로가 비어 있습니다! ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ 를 입력한 후 다시 선택하세요.</system:String>
