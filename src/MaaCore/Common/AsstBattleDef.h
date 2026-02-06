@@ -377,7 +377,7 @@ struct OperProps
     std::string name_tw;
     Role role = Role::Unknown;
     std::array<std::string, 3> ranges;
-    int rarity = 0;
+    int rarity = 0;                  // 稀有度 1-6
     LocationType location_type = LocationType::None;
     std::vector<std::string> tokens; // 召唤物名字
 };
