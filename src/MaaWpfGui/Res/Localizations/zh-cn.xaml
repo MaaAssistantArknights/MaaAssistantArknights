@@ -1231,6 +1231,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DrawCard">调配干员</system:String>
     <system:String x:Key="CheckIfStartOver">检查是否重开</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 尝试更新资源版本！</system:String>
+    <system:String x:Key="UnsupportedSkill">{0} 不支持技能 {1}, 不再选择技能</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在尝试重连</system:String>
