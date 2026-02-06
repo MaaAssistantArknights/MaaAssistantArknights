@@ -1,0 +1,25 @@
+{
+    "version": 10,
+    "cmakeMinimumRequired": { "major": 3, "minor": 28, "patch": 0 },
+    "configurePresets": [
+        {
+            "name": "res-updater-macos-arm64",
+            "displayName": "ResourceUpdater macOS arm64 Release",
+            "$comment": ["see .github/workflows/res-update-game.yml"],
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "MAADEPS_TRIPLET": "maa-arm64-osx",
+                "WITH_HASH_VERSION": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "res-updater-macos-arm64",
+            "displayName": "Build ResourceUpdater macOS arm64",
+            "configurePreset": "res-updater-macos-arm64"
+        }
+    ]
+}

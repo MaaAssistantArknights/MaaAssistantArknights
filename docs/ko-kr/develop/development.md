@@ -69,8 +69,7 @@ icon: iconoir:developer
 6. cmake 프로젝트 구성 실행
 
    ```cmd
-   mkdir -p build
-   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   cmake --preset windows-x64
    ```
 
 7. `build/MAA.slnx` 파일을 더블 클릭하여 엽니다. Visual Studio가 자동으로 전체 프로젝트를 로드합니다.
@@ -131,6 +130,40 @@ icon: iconoir:developer
 ::: tip
 Visual Studio 실행 시 Git 작업은 "Git 변경" 탭에서 명령어 없이 처리 가능
 :::
+
+## VSCode로 개발하기 (선택 사항)
+
+::: warning
+**Visual Studio를 사용한 개발을 권장합니다.** MAA 프로젝트는 주로 Visual Studio를 기반으로 구축되며, 위의 완전한 환경 설정 과정이 모든 개발 요구를 충족하여 최상의 즉시 사용 가능한 경험을 제공합니다. VSCode 워크플로는 VSCode + CMake + clangd에 이미 익숙한 개발자를 위한 대안으로만 제공되며, 설정 난이도가 상대적으로 높습니다.
+:::
+
+VSCode를 선호한다면 CMake, clangd 등의 확장을 사용해 코드 완성, 탐색, 디버깅을 할 수 있습니다. 위 1–6단계(클론, 의존성, CMake 설정)를 완료한 후 다음 단계로 설정하세요.
+
+### 추천 확장
+
+VSCode Marketplace에서 설치:
+
+| 확장                                                                                                | 용도                                                      |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)            | CMake 설정, 빌드, 디버깅 통합                             |
+| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ IntelliSense, 코드 탐색, 진단 (LSP 기반)              |
+| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | C++ 프로그램 디버깅 (CMake Tools 또는 launch.json과 연동) |
+
+::: tip
+clangd 사용 시 C/C++ 확장의 IntelliSense를 비활성화(`C_Cpp.intelliSenseEngine`을 `disabled`로 설정)하는 것을 권장합니다. 충돌을 피하기 위함입니다.
+:::
+
+### 설정 단계
+
+1. VSCode에서 프로젝트 루트 열기
+2. **CMake Tools**: 상태 표시줄에서 Configure Preset(예: `windows-x64`, `linux-x64`) 선택 후 Build Preset으로 빌드 실행
+3. **clangd**: Windows에서 MSVC 사용 시 `compile_commands.json` 없이도 clangd로 개발 가능. Linux/macOS에서는 프리셋에서 `CMAKE_EXPORT_COMPILE_COMMANDS`가 활성화되어 clangd가 `build/compile_commands.json`을 자동 사용
+4. **디버깅**: 프로젝트에 `.vscode/launch.json`이 포함되어 MaaWpfGui 또는 Debug Demo를 바로 실행 가능
+
+### 빌드 및 디버깅 단축키
+
+- **빌드**: `Ctrl+Shift+B` 또는 CMake Tools 상태 표시줄
+- **디버깅**: F5 또는 Run and Debug 패널에서 구성 선택
 
 ## MAA 파일의 포매팅 요구 사항
 

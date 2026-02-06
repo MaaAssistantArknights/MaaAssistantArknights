@@ -70,8 +70,7 @@ icon: iconoir:developer
 6. cmake プロジェクト設定を実行
 
    ```cmd
-   mkdir -p build
-   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   cmake --preset windows-x64
    ```
 
 7. `build/MAA.slnx` をダブルクリックで開き、Visual Studio にプロジェクトを自動ロード
@@ -132,6 +131,40 @@ icon: iconoir:developer
 ::: tip
 Visual Studio 起動後、Git 操作は「Git 変更」画面からコマンドライン不要で可能
 :::
+
+## VSCodeでの開発（オプション）
+
+::: warning
+**Visual Studio での開発を推奨します。** MAA プロジェクトは主に Visual Studio をベースに構築されており、上記の完全な環境セットアップですべての開発ニーズをカバーし、すぐに使える最高の体験を提供します。VSCode ワークフローは、VSCode + CMake + clangd に精通した開発者向けの代替手段としてのみ提供されており、設定のハードルが比較的高くなります。
+:::
+
+VSCodeを好む場合、CMake、clangdなどの拡張機能でコード補完、ナビゲーション、デバッグが可能です。前述の手順1～6（クローン、依存関係、CMake設定）を完了した後、以下の手順で設定できます。
+
+### 推奨拡張機能
+
+VSCode Marketplace からインストール：
+
+| 拡張機能                                                                                            | 用途                                                              |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)            | CMake の設定、ビルド、デバッグ統合                                |
+| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ インテリセンス、コードナビゲーション、診断（LSPベース）       |
+| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | C++ プログラムのデバッグ（CMake Tools または launch.json と連携） |
+
+::: tip
+clangd を使用する場合、C/C++ 拡張機能の IntelliSense を無効化（`C_Cpp.intelliSenseEngine` を `disabled` に設定）することを推奨します。競合を避けるためです。
+:::
+
+### 設定手順
+
+1. VSCode でプロジェクトルートを開く
+2. **CMake Tools**：ステータスバーで Configure Preset（例：`windows-x64`、`linux-x64`）を選択し、Build Preset でビルドを実行
+3. **clangd**：Windows で MSVC を使用する場合、`compile_commands.json` がなくても clangd で開発可能。Linux/macOS ではプリセットで `CMAKE_EXPORT_COMPILE_COMMANDS` が有効となり、clangd は `build/compile_commands.json` を自動使用
+4. **デバッグ**：プロジェクトには `.vscode/launch.json` が含まれており、MaaWpfGui や Debug Demo の起動が可能
+
+### ビルドとデバッグのショートカット
+
+- **ビルド**：`Ctrl+Shift+B` または CMake Tools ステータスバー
+- **デバッグ**：F5 または Run and Debug パネルで設定を選択
 
 ## MAAのファイルフォーマット要件
 
