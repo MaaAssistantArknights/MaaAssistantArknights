@@ -1448,7 +1448,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="Achievement.SanitySpender1.Conditions">Complete 10 auto-battle operations</system:String>
 
     <system:String x:Key="Achievement.SanitySpender2.Title">Auto-Battle Pioneer</system:String>
-    <system:String x:Key="Achievement.SanitySpender2.Description">Even more Skilled than me</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Description">Even more skilled than me</system:String>
     <system:String x:Key="Achievement.SanitySpender2.Conditions">Complete 50 auto-battle operations</system:String>
 
     <system:String x:Key="Achievement.SanitySpender3.Title">ZOOT</system:String>
