@@ -139,7 +139,7 @@
     <system:String x:Key="ClueExchangeUnlocked">Clue Exchange Unlocked</system:String>
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
-    <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current skill</system:String>
+    <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>
@@ -962,7 +962,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Some jobs require specific Modules or other prerequisites.
 Enabling this will skip these checks, but may cause the job to fail.</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
-    <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and Skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>
     <system:String x:Key="UserAdditional.Skill">Skill</system:String>
     <system:String x:Key="UserAdditional.Action">Action</system:String>
@@ -1015,7 +1015,7 @@ Right-click to clear inactive jobs</system:String>
         1. Before using, please confirm the job file matches your selected stage type.\n\n
         2. {key=MainStage}, {key=StoryCollection}, {key=SideStory}: Please start from the screen where the blue "Start" button appears in the bottom right corner.\n\n
         3. {key=SSS}: Multiple built-in files are in the resource/copilot folder. First create your squad manually, then start from the screen where the "Start Deployment" button appears in the bottom right. Can be used with ｢{key=LoopTimes}｣.\n\n
-        4. {key=ParadoxSimulation}: After selecting skills, start from the skill selection screen where the "Start Simulation" button appears. For 1/2★ {key=Operator}s (without skills), start from the screen with the "Start Simulation" button in the bottom right. If using ｢{key=UseCopilotList}｣, please start from the ｢Level/Rarity｣ tab in the {key=Operator} list.\n\n
+        4. {key=ParadoxSimulation}: After selecting Skills, start from the Skill selection screen where the "Start Simulation" button appears. For 1/2★ {key=Operator}s (without Skills), start from the screen with the "Start Simulation" button in the bottom right. If using ｢{key=UseCopilotList}｣, please start from the ｢Level/Rarity｣ tab in the {key=Operator} list.\n\n
         5. When using a support unit, turn off ｢{key=AutoSquad}｣ and ｢{key=UseCopilotList}｣, manually select the {key=Operator}, then start from the squad screen where the "Mission Start" button appears in the bottom right.\n\n
         6. {key=Operator}s marked as "Favorite" may affect ｢{key=AutoSquad}｣ recognition and selection. When using ｢{key=AutoSquad}｣, consider removing favorites, or if errors occur, turn off ｢{key=AutoSquad}｣ and manually supplement the missing {key=Operator}s as prompted.\n\n
         7. In the Copilot workstation, you can paste codes by clicking the paste button on the right side of the input box:\n
@@ -1230,7 +1230,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="DrawCard">Deploy Operator</system:String>
     <system:String x:Key="CheckIfStartOver">Check If Restart</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ and try updating the resource version!</system:String>
-    <system:String x:Key="UnsupportedSkill">{0} does not support skill {1}, so the skill will no longer be selected.</system:String>
+    <system:String x:Key="UnsupportedSkill">{0} does not support Skill {1}, so the Skill will no longer be selected.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
@@ -1292,7 +1292,7 @@ Before use, please ensure:
     <system:String x:Key="ClearCache">Clear Cache</system:String>
     <system:String x:Key="ClearCacheSuccessful">Cache cleared successfully</system:String>
     <system:String x:Key="ClearCacheAlreadyEmpty">Cache directories are already empty</system:String>
-    <system:String x:Key="ClearCacheException">An error occurred while clearing cache:</system:String>
+    <system:String x:Key="ClearCacheException">An error occurred while clearing the cache:</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>
@@ -1448,7 +1448,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="Achievement.SanitySpender1.Conditions">Complete 10 auto-battle operations</system:String>
 
     <system:String x:Key="Achievement.SanitySpender2.Title">Auto-Battle Pioneer</system:String>
-    <system:String x:Key="Achievement.SanitySpender2.Description">Even more skilled than me</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Description">Even more Skilled than me</system:String>
     <system:String x:Key="Achievement.SanitySpender2.Conditions">Complete 50 auto-battle operations</system:String>
 
     <system:String x:Key="Achievement.SanitySpender3.Title">ZOOT</system:String>
