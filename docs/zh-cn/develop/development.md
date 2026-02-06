@@ -128,6 +128,10 @@ icon: iconoir:developer
 
 ## 使用 VSCode 进行开发（可选）
 
+::: warning
+**推荐优先使用 Visual Studio 进行开发。** MAA 项目主要基于 Visual Studio 构建，上述完整环境配置流程已涵盖所有开发需求，开箱即用体验最佳。VSCode 方案仅作为备选，适合已经熟悉 VSCode + CMake + clangd 工作流的开发者，配置门槛相对较高。
+:::
+
 如果你偏好使用 VSCode，可以配合 CMake、clangd 等扩展获得代码补全、跳转和调试能力。在完成前述 1–6 步（克隆、依赖、CMake 配置）后，可按以下步骤配置：
 
 ### 推荐扩展

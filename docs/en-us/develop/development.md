@@ -128,6 +128,10 @@ After opening Visual Studio, Git operations can be performed using VS's built-in
 
 ## Using VSCode for Development (Optional)
 
+::: warning
+**Visual Studio is the recommended IDE for development.** The MAA project is primarily built around Visual Studio, and the complete environment setup described above covers all development needs with the best out-of-the-box experience. The VSCode workflow is provided only as an alternative for developers already familiar with VSCode + CMake + clangd, and requires more configuration effort.
+:::
+
 If you prefer VSCode, you can use CMake, clangd, and related extensions for code completion, navigation, and debugging. After completing steps 1–6 above (clone, dependencies, CMake configuration), follow these steps:
 
 ### Recommended Extensions
