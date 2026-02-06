@@ -87,6 +87,8 @@ struct AdbCfg
     std::string call_minitouch;
     std::string call_maatouch;
     std::string back_to_home;
+    std::string emu_webrtc_start;
+    std::string emu_webrtc_stop;
     json::object extras;
 };
 

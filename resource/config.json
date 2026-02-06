@@ -81,7 +81,9 @@
             "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]",
             "back_to_home": "[Adb] -s [AdbSerial] shell input keyevent HOME",
             "release": "[Adb] kill-server",
-            "pressEsc": "[Adb] -s [AdbSerial] shell input keyevent 111"
+            "pressEsc": "[Adb] -s [AdbSerial] shell input keyevent 111",
+            "emuWebrtcStart": "[Adb] -s [AdbSerial] emu screenrecord webrtc start",
+            "emuWebrtcStop": "[Adb] -s [AdbSerial] emu screenrecord webrtc stop"
         },
         {
             "configName": "CapWithShell",
@@ -146,6 +148,10 @@
             "start": "[Adb] -s [AdbSerial] shell am start --windowingMode 4 -n [PackageName]/com.u8.sdk.U8UnityContext",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\""
+        },
+        {
+            "configName": "AVD",
+            "baseConfig": "General"
         }
     ]
 }

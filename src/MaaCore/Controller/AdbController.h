@@ -7,6 +7,7 @@
 
 #include "Platform/PlatformFactory.h"
 
+#include "AVDExtras.h"
 #include "Common/AsstMsg.h"
 #include "Config/GeneralConfig.h"
 #include "InstHelper.h"
@@ -152,6 +153,7 @@ protected:
             MumuExtras,
             LDExtras,
 #endif
+            AVDExtras,
         } screencap_method = ScreencapMethod::UnknownYet;
     } m_adb;
 
@@ -173,5 +175,6 @@ protected:
     MumuExtras m_mumu_extras;
     LDExtras m_ld_extras;
 #endif
+    AVDExtras m_avd_extras;
 };
 } // namespace asst

@@ -661,6 +661,25 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             }
         }
 #endif
+        if (m_avd_extras.inited()) {
+            start_time = steady_clock::now();
+            if (m_avd_extras.screencap()) {
+                auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
+                if (duration < min_cost) {
+                    m_adb.screencap_method = AdbProperty::ScreencapMethod::AVDExtras;
+                    m_inited = true;
+                    min_cost = duration;
+                }
+                Log.info("AVDExtras cost", duration.count(), "ms");
+                all_methods_cost.emplace_back(
+                    AdbProperty::ScreencapMethod::AVDExtras,
+                    std::to_string(duration.count()));
+            }
+            else {
+                Log.info("AVDExtras is not supported");
+                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::AVDExtras, "???");
+            }
+        }
 
         static const std::unordered_map<AdbProperty::ScreencapMethod, std::string> MethodName = {
             { AdbProperty::ScreencapMethod::UnknownYet, "UnknownYet" },
@@ -671,6 +690,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             { AdbProperty::ScreencapMethod::MumuExtras, "MumuExtras" },
             { AdbProperty::ScreencapMethod::LDExtras, "LDExtras" },
 #endif
+            { AdbProperty::ScreencapMethod::AVDExtras, "AVDExtras" },
         };
         Log.info("The fastest way is", MethodName.at(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
         if (m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet) {
@@ -738,6 +758,20 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             }
         } break;
 #endif
+        case AdbProperty::ScreencapMethod::AVDExtras: {
+            auto img_opt = m_avd_extras.screencap();
+            screencap_ret = img_opt.has_value();
+
+            if (!screencap_ret && allow_reconnect) {
+                m_avd_extras.reload();
+                img_opt = m_avd_extras.screencap();
+                screencap_ret = img_opt.has_value();
+            }
+
+            if (screencap_ret) {
+                image_payload = img_opt.value();
+            }
+        } break;
         default:
             break;
         }
@@ -949,8 +983,9 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
                     callback(AsstMsg::ConnectionInfo, info);
                     return false;
                 }
-            } else {
-                json::value info = get_info_json() | json::object{
+            }
+            else {
+                json::value info = get_info_json() | json::object {
                     { "what", "ConnectFailed" },
                     { "why", "Connection command failed to exec" },
                 };
@@ -1161,6 +1196,11 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     }
     else if (config == "LDPlayer") {
         init_ld_extras(adb_cfg, address);
+    }
+    else if (config == "AVD") {
+        if (!adb_cfg.extras.empty()) {
+            m_avd_extras.init(cmd_replace(adb_cfg.emu_webrtc_start), cmd_replace(adb_cfg.emu_webrtc_stop));
+        }
     }
 
     if (need_exit()) {

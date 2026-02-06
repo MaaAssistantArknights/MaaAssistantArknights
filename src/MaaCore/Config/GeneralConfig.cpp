@@ -88,6 +88,8 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.call_minitouch = cfg_json.get("callMinitouch", base_cfg.call_minitouch);
         adb.call_maatouch = cfg_json.get("callMaatouch", base_cfg.call_maatouch);
         adb.back_to_home = cfg_json.get("back_to_home", base_cfg.back_to_home);
+        adb.emu_webrtc_start = cfg_json.get("emuWebrtcStart", base_cfg.emu_webrtc_start);
+        adb.emu_webrtc_stop = cfg_json.get("emuWebrtcStop", base_cfg.emu_webrtc_stop);
     }
 
     return true;
