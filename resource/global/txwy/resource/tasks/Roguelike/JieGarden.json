@@ -100,6 +100,7 @@
         "text": ["放棄行動"]
     },
     "JieGarden@Roguelike@NextLevel": {
+        "ocrReplace": [["見字柯", "見字祠"]],
         "text": ["洪陸樓", "山水閣", "雲瓦亭", "汝吾門", "見字祠", "始末陵", "是非境"]
     },
     "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
@@ -117,7 +118,7 @@
             ["山水閣", "_default"],
             ["雲(瓦)?(亭|亨)", "_default"],
             ["汝吾(門)?", "_default"],
-            ["見字祠", "_default"],
+            ["見字(祠|柯)", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_boskyPassageDefault"]
         ]
@@ -128,7 +129,7 @@
             ["山水閣", "_aggressive"],
             ["雲(瓦)?(亭|亨)", "_pragmatic"],
             ["汝吾(門)?", "_pragmatic"],
-            ["見字祠", "_default"],
+            ["見字(祠|柯)", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_boskyPassageDefault"]
         ]
@@ -139,7 +140,7 @@
             ["山水閣", "_restart"],
             ["雲(瓦)?(亭|亨)", "_restart"],
             ["汝吾(門)?", "_restart"],
-            ["見字祠", "_restart"],
+            ["見字(祠|柯)", "_restart"],
             ["始末陵", "_restart"],
             ["是非境", "_leaveBoskyPassage"]
         ]
@@ -150,7 +151,7 @@
             ["山水閣", "_restart"],
             ["雲(瓦)?(亭|亨)", "_restart"],
             ["汝吾(門)?", "_restart"],
-            ["見字祠", "_restart"],
+            ["見字(祠|柯)", "_restart"],
             ["始末陵", "_restart"],
             ["是非境", "_leaveBoskyPassage"]
         ]
@@ -161,7 +162,7 @@
             ["山水閣", "_restart"],
             ["雲(瓦)?(亭|亨)", "_restart"],
             ["汝吾(門)?", "_restart"],
-            ["見字祠", "_restart"],
+            ["見字(祠|柯)", "_restart"],
             ["始末陵", "_restart"],
             ["是非境", "_leaveBoskyPassage"]
         ]
@@ -172,7 +173,7 @@
             ["山水閣", "_restart"],
             ["雲(瓦)?(亭|亨)", "_restart"],
             ["汝吾(門)?", "_restart"],
-            ["見字祠", "_restart"],
+            ["見字(祠|柯)", "_restart"],
             ["始末陵", "_restart"],
             ["是非境", "_boskyPassageDefault"]
         ]
@@ -183,7 +184,7 @@
             ["山水閣", "_exit"],
             ["雲(瓦)?(亭|亨)", "_exit"],
             ["汝吾(門)?", "_exit"],
-            ["見字祠", "_exit"],
+            ["見字(祠|柯)", "_exit"],
             ["始末陵", "_exit"],
             ["是非境", "_leaveBoskyPassage"]
         ]
@@ -194,7 +195,7 @@
             ["山水閣", "_exit"],
             ["雲(瓦)?(亭|亨)", "_exit"],
             ["汝吾(門)?", "_exit"],
-            ["見字祠", "_exit"],
+            ["見字(祠|柯)", "_exit"],
             ["始末陵", "_exit"],
             ["是非境", "_leaveBoskyPassage"]
         ]
@@ -205,7 +206,7 @@
             ["山水閣", "_default"],
             ["雲(瓦)?(亭|亨)", "_default"],
             ["汝吾(門)?", "_default"],
-            ["見字祠", "_default"],
+            ["見字(祠|柯)", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_boskyPassageDefault"]
         ]
@@ -216,7 +217,7 @@
             ["山水閣", "_default"],
             ["雲(瓦)?(亭|亨)", "_default"],
             ["汝吾(門)?", "_default"],
-            ["見字祠", "_default"],
+            ["見字(祠|柯)", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_boskyPassageDefault"]
         ]
