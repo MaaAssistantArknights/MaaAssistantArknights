@@ -2309,7 +2309,7 @@ public class AsstProxy
                 break;
 
             case "AVD":
-                if (Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerExtrasEnabled, bool.FalseString))) {
+                if (Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AVDExtrasEnabled, bool.FalseString))) {
                     // 任意非空对象即可触发
                     AsstSetConnectionExtrasAVD("{\"mode\": \"shm\"}");
                 }

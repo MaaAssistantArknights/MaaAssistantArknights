@@ -91,16 +91,16 @@ bool AVDExtras::init_screencap()
 #ifdef _WIN32
     std::wstring wname(m_shm_name.begin(), m_shm_name.end());
     m_shm_handle = OpenFileMappingW(FILE_MAP_READ, false, wname.c_str());
-
     if (m_shm_handle == nullptr) {
         LogError << "AVDExtras failed to create file mapping: " << VAR(GetLastError());
         return false;
     }
 
     m_shm = MapViewOfFile(m_shm_handle, FILE_MAP_READ, 0, 0, 0);
-
     if (m_shm == nullptr) {
         LogError << "AVDExtras failed to map view of file: " << VAR(GetLastError());
+        CloseHandle(m_shm_handle);
+        m_shm_handle = nullptr;
         return false;
     }
 #else
@@ -113,6 +113,8 @@ bool AVDExtras::init_screencap()
     struct stat st;
     if (fstat(m_shm_fd, &st) == -1) {
         LogError << "AVDExtras failed to stat shared memory: " << VAR(errno);
+        close(m_shm_fd);
+        m_shm_fd = -1;
         return false;
     }
     m_shm_size = st.st_size;
