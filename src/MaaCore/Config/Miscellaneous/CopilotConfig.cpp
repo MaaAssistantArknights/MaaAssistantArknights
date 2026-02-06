@@ -2,6 +2,7 @@
 
 #include <meojson/json.hpp>
 
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "TilePack.h"
 #include "Utils/Logger.hpp"
 
@@ -56,6 +57,23 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
             oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
             oper.skill_times = oper_info.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
+            int rarity = BattleDataConfig::get_instance().get_rarity(oper.name); // 修复旧作业中不合理的技能选择
+            if (oper.skill == 3 && rarity < 6) {
+                LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                         << " cannot use skill index 3, set to 0.";
+                oper.skill = 0;
+            }
+            else if (oper.skill == 2 && rarity < 4) {
+                LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                         << " cannot use skill index 2, set to 0.";
+                oper.skill = 0;
+            }
+            else if (oper.skill == 1 && rarity < 3) {
+                LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                         << " cannot use skill index 1, set to 0.";
+                oper.skill = 0;
+            }
+
             // 解析练度需求
             if (auto req_opt = oper_info.find("requirements")) {
                 oper.requirements.elite = req_opt->get("elite", 0);
@@ -81,6 +99,23 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
                 oper.skill = oper_info.get("skill", 1);
                 oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
                 oper.skill_times = oper_info.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
+
+                int rarity = BattleDataConfig::get_instance().get_rarity(oper.name); // 修复旧作业中不合理的技能选择
+                if (oper.skill == 3 && rarity < 6) {
+                    LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                             << " cannot use skill index 3, set to 0.";
+                    oper.skill = 0;
+                }
+                else if (oper.skill == 2 && rarity < 4) {
+                    LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                             << " cannot use skill index 2, set to 0.";
+                    oper.skill = 0;
+                }
+                else if (oper.skill == 1 && rarity < 3) {
+                    LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                             << " cannot use skill index 1, set to 0.";
+                    oper.skill = 0;
+                }
 
                 // 解析练度需求
                 if (auto req_opt = oper_info.find("requirements")) {
