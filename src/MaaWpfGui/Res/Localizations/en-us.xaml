@@ -1230,6 +1230,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="DrawCard">Deploy Operator</system:String>
     <system:String x:Key="CheckIfStartOver">Check If Restart</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ and try updating the resource version!</system:String>
+    <system:String x:Key="UnsupportedSkill">{0} does not support skill {1}, so the skill will no longer be selected.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
@@ -1291,7 +1292,7 @@ Before use, please ensure:
     <system:String x:Key="ClearCache">Clear Cache</system:String>
     <system:String x:Key="ClearCacheSuccessful">Cache cleared successfully</system:String>
     <system:String x:Key="ClearCacheAlreadyEmpty">Cache directories are already empty</system:String>
-    <system:String x:Key="ClearCacheException">An error occurred while clearing cache: </system:String>
+    <system:String x:Key="ClearCacheException">An error occurred while clearing cache:</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>

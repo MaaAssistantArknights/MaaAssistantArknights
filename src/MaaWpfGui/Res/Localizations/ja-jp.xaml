@@ -1231,6 +1231,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DrawCard">オペレーター配分</system:String>
     <system:String x:Key="CheckIfStartOver">再開確認</system:String>
     <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、「{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}」に移動してリソースバージョンを更新してみてください！</system:String>
+    <system:String x:Key="UnsupportedSkill">{0} スキルはサポートされていません。{1} スキルが選択されていません</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>

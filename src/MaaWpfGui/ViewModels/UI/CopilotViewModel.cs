@@ -1137,23 +1137,23 @@ public partial class CopilotViewModel : Screen
         }
 
         var list = copilot.Opers.Concat(copilot.Groups.SelectMany(g => g.Opers)).ToList();
-        foreach (var item in list)
+        foreach (var oper in list)
         {
-            int rarity = DataHelper.GetCharacterByNameOrAlias(item.Name)?.Rarity ?? -1;
-            if (item.Skill == 3 && rarity < 6)
+            int rarity = DataHelper.GetCharacterByNameOrAlias(oper.Name)?.Rarity ?? -1;
+            if (oper.Skill == 3 && rarity < 6)
             {
-                AddLog(item.Name + " dosen't support skill " + item.Skill, UiLogColor.Warning, showTime: false);
-                item.Skill = 0;
+                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
+                oper.Skill = 0;
             }
-            else if (item.Skill == 2 && rarity < 4)
+            else if (oper.Skill == 2 && rarity < 4)
             {
-                AddLog(item.Name + " dosen't support skill " + item.Skill, UiLogColor.Warning, showTime: false);
-                item.Skill = 0;
+                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
+                oper.Skill = 0;
             }
-            else if (item.Skill == 1 && rarity < 3)
+            else if (oper.Skill == 1 && rarity < 3)
             {
-                AddLog(item.Name + " dosen't support skill " + item.Skill, UiLogColor.Warning, showTime: false);
-                item.Skill = 0;
+                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
+                oper.Skill = 0;
             }
         }
         foreach (var (output, color) in copilot.Output())
