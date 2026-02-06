@@ -87,27 +87,12 @@ jobs:
         run: |
           python3 tools/maadeps-download.py arm64-osx
 
-      - name: Config cmake
+      - name: Configure, build and install
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         run: |
-          mkdir -p build
-          cmake -B build -GNinja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DMAADEPS_TRIPLET='maa-arm64-osx' \
-            -DBUILD_SMOKE_TEST=ON \
-            -DINSTALL_RESOURCE=ON \
-            -DWITH_HASH_VERSION=ON
-
-      - name: Build
-        if: steps.smoke-cache.outputs.cache-hit != 'true'
-        run: |
-          cmake --build build --config Debug --parallel $(sysctl -n hw.logicalcpu)
-
-      - name: Install
-        if: steps.smoke-cache.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p install
-          cmake --install build --prefix install --config Debug
+          cmake -B build --preset smoke-test
+          cmake --build build --preset smoke-test --parallel $(sysctl -n hw.logicalcpu)
+          cmake --install build --config Debug
 
       - name: Make link to Smoke Test cache
         if: steps.smoke-cache.outputs.cache-hit == 'true'
