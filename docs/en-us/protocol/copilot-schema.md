@@ -20,7 +20,7 @@ Please note that JSON files do not support comments. The comments in this docume
         // Specified operators
         {
             "name": "重岳", // Operator name ("重岳" = "Chongyue")
-            "skill": 3, // Skill number. Optional, default is 1, range [1, 3]
+            "skill": 3, // Skill number. Optional, default is 1, range [0, 3]
             "skill_usage": 2, // Skill usage method. Optional, default is 0
             // 0 - Do not use automatically (depends on "actions" field)
             // 1 - Use whenever ready, as many times as possible (e.g., Thorns S3, Myrtle S1, etc.)
