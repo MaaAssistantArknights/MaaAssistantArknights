@@ -142,6 +142,11 @@ public static class UiLogColor
     /// </summary>
     public const string LdSpecialScreenshot = "LdSpecialScreenshot";
 
+    /// <summary>
+    /// The recommended color for AVD special screenshot.
+    /// </summary>
+    public const string AVDSpecialScreenshot = "AVDSpecialScreenshot";
+
     // I.S. Colors
 
     /// <summary>

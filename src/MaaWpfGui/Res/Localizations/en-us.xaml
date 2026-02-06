@@ -586,6 +586,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="LdIndex">Instance Index</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="AVDExtrasEnabled">Enable AVD's screenshot enhancement mode</system:String>
+    <system:String x:Key="AVDExtrasNotEnabledMessage">AVD screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after failed reconnect attempt, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ and reselect.</system:String>

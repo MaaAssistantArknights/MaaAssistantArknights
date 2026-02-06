@@ -875,6 +875,25 @@ public class AsstProxy
                             }
 
                             break;
+
+                        case "AVD":
+                            if (!SettingsViewModel.ConnectSettings.AvdExtras.Enable)
+                            {
+                                break;
+                            }
+
+                            if (method != "AVDExtras")
+                            {
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AVDExtrasNotEnabledMessage"), UiLogColor.Error);
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("AVDExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
+                                needToStop = true;
+                            }
+                            else if (timeCost < 100)
+                            {
+                                color = UiLogColor.AVDSpecialScreenshot;
+                            }
+
+                            break;
                     }
 
                     fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));

@@ -220,7 +220,7 @@
                         Margin="10"
                         HorizontalAlignment="Center"
                         Content="{DynamicResource AVDExtrasEnabled}"
-                        IsChecked="{Binding AVDExtras.Enable}" />
+                        IsChecked="{Binding AvdExtras.Enable}" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
