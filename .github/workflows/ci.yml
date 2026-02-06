@@ -144,6 +144,9 @@ jobs:
           mkdir -p install
           cmake --install build --prefix install --config RelWithDebInfo
 
+      - name: Minify JSON in resource
+        run: python3 tools/minify_json_folder.py install/resource
+
       - name: Download MaaFramework
         if: matrix.arch == 'x64'
         uses: robinraju/release-downloader@v1
@@ -285,6 +288,9 @@ jobs:
         run: |
           mkdir -p install
           cmake --install build --prefix install --config RelWithDebInfo
+
+      - name: Minify JSON in resource
+        run: python3 tools/minify_json_folder.py install/resource
 
       - name: Setup cross compile toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
@@ -477,6 +483,7 @@ jobs:
           ln -vs libonnxruntime*.dylib libonnxruntime.dylib
           ln -vs libopencv_world4*.dylib libopencv_world4.dylib
           cp -vr ../../resource .
+          python3 ../../tools/minify_json_folder.py resource
           cd .. || exit 1
           zip -yrX9 "$name.zip" "$name"
 
