@@ -1142,17 +1142,17 @@ public partial class CopilotViewModel : Screen
             int rarity = DataHelper.GetCharacterByNameOrAlias(oper.Name)?.Rarity ?? -1;
             if (oper.Skill == 3 && rarity < 6)
             {
-                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
+                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
                 oper.Skill = 0;
             }
             else if (oper.Skill == 2 && rarity < 4)
             {
-                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
+                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
                 oper.Skill = 0;
             }
             else if (oper.Skill == 1 && rarity < 3)
             {
-                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
+                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
                 oper.Skill = 0;
             }
         }
