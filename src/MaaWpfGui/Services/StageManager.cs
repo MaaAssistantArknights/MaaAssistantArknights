@@ -24,7 +24,6 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
-using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json.Linq;
