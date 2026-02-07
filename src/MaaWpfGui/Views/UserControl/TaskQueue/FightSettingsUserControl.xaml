@@ -295,7 +295,7 @@
                                         Height="30"
                                         hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
-                                        Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                                        Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
                                         ToolTip="{DynamicResource CustomStageCodeTip}"
                                         Visibility="{c:Binding CustomStageCode,
                                                                Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
