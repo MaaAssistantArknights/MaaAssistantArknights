@@ -269,7 +269,7 @@
                                         DisplayMemberPath="Display"
                                         ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
-                                        SelectedValue="{Binding Value}"
+                                        SelectedValue="{Binding Stage}"
                                         SelectedValuePath="Value"
                                         Visibility="{c:Binding !CustomStageCode,
                                                                Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}">

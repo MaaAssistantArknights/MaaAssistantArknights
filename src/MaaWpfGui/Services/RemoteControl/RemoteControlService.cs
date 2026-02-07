@@ -418,7 +418,7 @@ public class RemoteControlService
                             TaskQueueViewModel.FightTask.StagePlan.Clear();
                             TaskQueueViewModel.FightTask.StagePlan.Add(new());
                         }
-                        TaskQueueViewModel.FightTask.StagePlan[0].Value = data;
+                        TaskQueueViewModel.FightTask.StagePlan[0].Stage = data;
                     });
                     break;
                 default:
