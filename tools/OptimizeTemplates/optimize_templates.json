@@ -2284,7 +2284,7 @@
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@StageTraderLeaveConfirm": "f48ceb53c8849709ed278822f97488a4ae4815f49eca875cfeb08cbe29b6f690",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@RecruitCloseGuide": "d2826623391d104e41a97ec8edbe286a99a5a39154721ab12a75d17999ef065e",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@StartAction": "e91264662c6f688e55b79e6cb2c2f3225a6d73a278e4c5f1d9228d9e04d83a2d",
-    "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@TraderRandomShoppingConfirm": "dec28e25960df2a19dc1c1327d882a8ade55b992f314d8f9bcbbfe9a3a1f5c57",
+    "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@TraderRandomShoppingConfirm": "37c89c431447bc2217076153a64a67fb95f9062eb88d476c7581aa7752f9af6e",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@ChooseOperConfirm": "fa196acb4790b4c90089fb9739f59080553c0e53a5dfdd83a488a0c7b32ad3b7",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@DropsFlag": "2bec5b55c70befc17792b30cc3946fbdb81319103624e6927265c412184a29fb",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@StageTraderInvestSystemLeave": "6c98d3dd241891f56588defe57856bf3f7b59069218bf67c64189d848b4773de",
@@ -3142,7 +3142,6 @@
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageFilterTruthHD": "894ebd77cb8604aa5531cbb2ace7826bf8796e11fc158f4d1e05d58722291315",
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageSafeHouseEnter": "419a89f3ded00bcce7cdf02314c1c09aafde544b27ab0b00dfcdc00a3de55f26",
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageSafeHouse": "5f220faf744b5b99d1b28dd529acf769369d1c64a95a4e0d82701e9270e0e892",
-    "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StartExploreWithSeed-Confirm": "c92b871ec98d4ced5d3836d614777f5c2f55a43dbcc66bb446aac4857fdafa3c",
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@LastReward4": "fbcdb62dc97a56628aadc9cb0ca7bfee19738c6b4cff57e9aee769a3e91a5055",
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StartExplore": "743d01fa8c0b6628d8b1258597126c86da5f21d4147480a9aada47be7b8d6833",
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@LastReward5": "8a5b7371f19762935224917df1b52035e2a504ccc4c448c2810e49c0030ea8a5",
@@ -3194,7 +3193,6 @@
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageEncounterSpecialClose": "a8860dd950e6d2cb3165f4e1c48cdba2f24543dc633c365aefc1d0754390b2ab",
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@GetDropSelect": "f7af1f6401156ff83a5063567f7381aa74a5fe3689cec1350f068ea287edda9c",
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StartExploreWithSeed-SetDifficulty": "9f89f71a16b17cef60d593b31d4b6923c8ee6033e28f003641228ff23a02b98d",
-    "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StartExploreWithSeed-ClickPen": "0aedd195c376f098e4cfcadcb55ac2da19ae3e8d20fe9e6947ce048135f9950c",
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@LastReward3": "238c59a26f7fea969024a920605e2a3217d41a7004e4a1ad3aa855560ce1afd7",
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageSafeHouseCR": "93904dac9b370b999bf1e261ec4b0da6a37f01f58d33798089688772c7042f2a",
     "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageTraderEnter": "8f6c26094d7bd7e97c27e57b1f5e06c6f91b13b4dd7c6a20024d47b44b177cf5",
@@ -3788,5 +3786,7 @@
     "resource/global/YoStarKR/resource/template/UiTheme/JieGarden/Terminal": "d355fb910ecb54dcaed58770c922d5e6620cc012f6d38b6626448c2bcbbfdc30",
     "resource/template/Battle/Formation/BattleQuickFormation/BattleQuickFormation-Elite1": "1b9b3a86921d2f6bc5f31137319f74f0ff39e61fb8c6af0effecae2e4abbb29a",
     "resource/template/Battle/Formation/BattleQuickFormation/BattleQuickFormation-Elite2": "a142e58d10cdd92e3b0ed03518b64f0658a6f62530a8143ae0339b5b3706bce5",
-    "resource/template/items/act7collection_point_token": "76a2fc9931af1e5db4f06bfc534f09381caa0e3060ef5ff4a15a82c21867dc77"
+    "resource/template/items/act7collection_point_token": "76a2fc9931af1e5db4f06bfc534f09381caa0e3060ef5ff4a15a82c21867dc77",
+    "resource/template/Roguelike/base/Roguelike@StartExploreWithSeed-ClickPen": "0aedd195c376f098e4cfcadcb55ac2da19ae3e8d20fe9e6947ce048135f9950c",
+    "resource/template/Roguelike/base/Roguelike@StartExploreWithSeed-Confirm": "c92b871ec98d4ced5d3836d614777f5c2f55a43dbcc66bb446aac4857fdafa3c"
 }
