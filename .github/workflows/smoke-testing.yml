@@ -90,7 +90,7 @@ jobs:
       - name: Configure, build and install
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         run: |
-          cmake -B build --preset smoke-test
+          cmake --preset smoke-test
           cmake --build build --preset smoke-test --parallel $(sysctl -n hw.logicalcpu)
           cmake --install build --config Debug
 
