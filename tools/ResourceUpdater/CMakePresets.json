@@ -8,6 +8,7 @@
             "$comment": ["see .github/workflows/res-update-game.yml"],
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build",
+            "installDir": ".",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "MAADEPS_TRIPLET": "maa-arm64-osx",
