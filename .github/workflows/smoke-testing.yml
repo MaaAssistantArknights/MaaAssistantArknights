@@ -91,7 +91,7 @@ jobs:
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         run: |
           cmake --preset smoke-test
-          cmake --build build --preset smoke-test --parallel $(sysctl -n hw.logicalcpu)
+          cmake --build --preset smoke-test --parallel $(sysctl -n hw.logicalcpu)
           cmake --install build --config Debug
 
       - name: Make link to Smoke Test cache
