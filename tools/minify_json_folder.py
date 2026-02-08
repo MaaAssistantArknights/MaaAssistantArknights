@@ -14,19 +14,24 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 
-def minify_json_file(json_path: Path, ensure_ascii: bool = False) -> bool:
+def minify_json_file(
+    json_path: Path, ensure_ascii: bool = False
+) -> tuple[bool, int, int]:
     """
-    将单个 JSON 文件紧凑化：去除多余空格和换行。
+    Minify a single JSON file by removing unnecessary whitespace and newlines.
 
-    :param json_path: JSON 文件路径
-    :param ensure_ascii: 是否将非 ASCII 字符转义为 \\uxxxx
-    :return: 是否成功
+    :param json_path: Path to the JSON file
+    :param ensure_ascii: Whether to escape non-ASCII characters to \\uxxxx
+    :return: (success, original_size, minified_size)
     """
     try:
+        original_size = json_path.stat().st_size
+
         with open(json_path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        # 写入临时文件，再原子替换，避免中断时导致原文件损坏
+        # Write to a temporary file first, then atomically replace
+        # to avoid corrupting the original file if interrupted
         tmp_path = f"{json_path}.tmp"
         try:
             with open(tmp_path, "w", encoding="utf-8") as f:
@@ -36,22 +41,32 @@ def minify_json_file(json_path: Path, ensure_ascii: bool = False) -> bool:
                     ensure_ascii=ensure_ascii,
                     separators=(",", ":"),
                 )
-                # 确保内容落盘，再进行原子替换
+                # Flush to disk before atomic replace
                 f.flush()
                 os.fsync(f.fileno())
             os.replace(tmp_path, json_path)
         finally:
-            # 如果中间出错，尽量清理临时文件（忽略清理失败）
+            # Clean up temp file on error (ignore cleanup failures)
             try:
                 if os.path.exists(tmp_path):
                     os.remove(tmp_path)
             except Exception:
                 pass
 
-        return True
+        minified_size = json_path.stat().st_size
+        return True, original_size, minified_size
     except Exception as e:
-        logger.error("处理失败 %s: %s", json_path, e)
-        return False
+        logger.error("Failed to process %s: %s", json_path, e)
+        return False, 0, 0
+
+
+def _format_size(size_bytes: int) -> str:
+    """Format byte size to a human-readable string."""
+    for unit in ("B", "KB", "MB", "GB"):
+        if abs(size_bytes) < 1024:
+            return f"{size_bytes:.2f} {unit}"
+        size_bytes /= 1024
+    return f"{size_bytes:.2f} TB"
 
 
 def minify_json_in_folder(
@@ -60,36 +75,64 @@ def minify_json_in_folder(
     dry_run: bool = False,
 ) -> None:
     """
-    递归处理文件夹及子文件夹中的所有 JSON 文件，消除多余空格和换行。
+    Recursively minify all JSON files in a folder and its subfolders.
 
-    :param folder_path: 目标文件夹路径
-    :param ensure_ascii: 是否将非 ASCII 字符转义
-    :param dry_run: 若为 True，仅列出将要处理的文件，不实际修改
+    :param folder_path: Target folder path
+    :param ensure_ascii: Whether to escape non-ASCII characters
+    :param dry_run: If True, only list files without modifying them
     """
     root = Path(folder_path)
     if not root.is_dir():
-        logger.error("'%s' 不是有效文件夹路径", folder_path)
+        logger.error("'%s' is not a valid directory", folder_path)
         return
 
     json_files = list(root.rglob("*.json"))
     if not json_files:
-        logger.warning("在 '%s' 及其子文件夹中未找到 JSON 文件", folder_path)
+        logger.warning("No JSON files found in '%s'", folder_path)
         return
 
-    logger.info("找到 %d 个 JSON 文件", len(json_files))
+    logger.info("Found %d JSON file(s)", len(json_files))
     if dry_run:
         for f in json_files:
             logger.info("  - %s", f)
-        logger.info("(dry_run 模式，未实际修改)")
+        logger.info("(dry-run mode, no files modified)")
         return
 
     success_count = 0
+    total_original = 0
+    total_minified = 0
     for json_path in json_files:
-        logger.info("处理: %s", json_path)
-        if minify_json_file(json_path, ensure_ascii):
+        success, original_size, minified_size = minify_json_file(
+            json_path, ensure_ascii
+        )
+        if success:
             success_count += 1
+            total_original += original_size
+            total_minified += minified_size
+            saved = original_size - minified_size
+            if saved > 0:
+                logger.info(
+                    "Minified: %s (%s -> %s, saved %s)",
+                    json_path,
+                    _format_size(original_size),
+                    _format_size(minified_size),
+                    _format_size(saved),
+                )
+            else:
+                logger.info(
+                    "Unchanged: %s (%s)", json_path, _format_size(original_size)
+                )
 
-    logger.info("完成: 成功处理 %d/%d 个文件", success_count, len(json_files))
+    total_saved = total_original - total_minified
+    logger.info(
+        "Done: %d/%d file(s) processed. Total size: %s -> %s (saved %s, %.1f%%)",
+        success_count,
+        len(json_files),
+        _format_size(total_original),
+        _format_size(total_minified),
+        _format_size(total_saved),
+        (total_saved / total_original * 100) if total_original > 0 else 0,
+    )
 
 
 def main():
