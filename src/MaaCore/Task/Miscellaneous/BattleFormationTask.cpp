@@ -1,6 +1,7 @@
 #include "BattleFormationTask.h"
 
 #include <ranges>
+#include <set>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -15,6 +16,15 @@
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
+
+asst::BattleFormationTask::BattleFormationTask(
+    const AsstCallback& callback,
+    Assistant* inst,
+    std::string_view task_chain) :
+    AbstractTask(callback, inst, task_chain),
+    m_quick_formation_ui(callback, inst, task_chain)
+{
+}
 
 bool asst::BattleFormationTask::set_specific_support_unit(const std::string& name)
 {
@@ -583,25 +593,14 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             continue;
         }
 
-        if (!check_oper_level(
-                image,
-                res.flag_rect,
-                res.text,
-                oper->requirements.elite,
-                oper->requirements.level,
-                m_ignore_requirements)) {
+        if (!check_oper_level(image, res.flag_rect, *oper, m_ignore_requirements)) {
             // 继续检查同组其他干员
             oper->status = battle::OperStatus::Unavailable;
             continue;
         }
         ctrler()->click(res.flag_rect);
         sleep(delay);
-        if (!check_and_select_skill(
-                res.text,
-                oper->skill,
-                oper->requirements.skill_level,
-                m_ignore_requirements,
-                delay)) {
+        if (!check_and_select_skill(*oper, m_ignore_requirements, delay)) {
             ctrler()->click(res.flag_rect); // 选择技能失败时反选干员
             sleep(delay);
             // 继续检查同组其他干员
@@ -653,48 +652,21 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
 bool asst::BattleFormationTask::check_oper_level(
     const cv::Mat& image,
     asst::Rect flag,
-    const std::string& name,
-    int elite,
-    int level,
+    const battle::OperUsage& oper,
     bool ignore)
 {
-    const auto& level_task = Task.get<OcrTaskInfo>("BattleQuickFormation-Level");
-    const auto& elite_task = Task.get<MatchTaskInfo>("BattleQuickFormation-Elite");
-
-    int _elite = 0;
-    int _level = 0;
-
-    // 识别精二
-    Matcher elite_analyzer(image);
-    elite_analyzer.set_task_info(elite_task);
-    Rect roi = flag.move(elite_task->rect_move);
-    elite_analyzer.set_roi(roi);
-    if (!elite_analyzer.analyze()) {
-        LogError << __FUNCTION__ << "| failed to analyze elite of oper:" << name;
-    }
-    else {
-        auto elite_str = elite_analyzer.get_result().templ_name;
-        elite_str = elite_str.substr(elite_str.size() - 5, 1);
-        if (!utils::chars_to_number(elite_str, _elite)) {
-            LogError << __FUNCTION__ << "| failed to parse elite from template:" << elite_str;
-        }
+    auto [_elite, _level] = m_quick_formation_ui.analyze_oper_level(image, flag);
+    if (_elite == -1 || _level == -1) {
+        LogWarn << __FUNCTION__ << "| Cannot recognize oper" << oper.name << "level info, reset to 0,0";
+        _elite = 0;
+        _level = 0;
     }
 
-    // 识别等级
-    RegionOCRer level_ocrer(image);
-    level_ocrer.set_task_info(level_task);
-    level_ocrer.set_roi(flag.move(level_task->rect_move));
-    if (!level_ocrer.analyze()) {
-        LogError << __FUNCTION__ << "| failed to analyze level of oper:" << name;
-    }
-    else if (!utils::chars_to_number(level_ocrer.get_result().text, _level)) {
-        LogError << __FUNCTION__ << "| failed to parse level from text:" << level_ocrer.get_result().text;
-    }
-
-    if (_level < level || _elite < elite) {
-        LogWarn << __FUNCTION__ << "| Elite" << _elite << "level" << _level << ", require:" << elite << level;
+    if (_elite < oper.requirements.elite || _level < oper.requirements.level) {
+        LogWarn << __FUNCTION__ << "| Elite" << _elite << "level" << _level << ", require:" << oper.requirements.elite
+                << oper.requirements.level;
         json::value info = basic_info_with_what("BattleFormationOperUnavailable");
-        info["details"]["oper_name"] = name;
+        info["details"]["oper_name"] = oper.name;
         info["details"]["requirement_type"] = "level";
         callback(AsstMsg::SubTaskExtraInfo, info);
         if (!ignore) {
@@ -704,18 +676,13 @@ bool asst::BattleFormationTask::check_oper_level(
     return true;
 }
 
-bool asst::BattleFormationTask::check_and_select_skill(
-    const std::string& name,
-    int skill,
-    int level_required,
-    bool ignore,
-    int delay)
+bool asst::BattleFormationTask::check_and_select_skill(const battle::OperUsage& oper, bool ignore, int delay)
 {
-    if (skill < 1 || skill > 3) {
+    if (oper.skill < 1 || oper.skill > 3) {
         return true;
     }
 
-    /*
+    /* 外服技能描述过长, 无法盲点
     static const std::array<Rect, 3> SkillRectArray = {
         Task.get("BattleQuickFormationSkill1")->specific_rect,
         Task.get("BattleQuickFormationSkill2")->specific_rect,
@@ -731,211 +698,26 @@ bool asst::BattleFormationTask::check_and_select_skill(
         return true;
     }*/
 
-    const auto& base_task = Task.get("BattleQuickFormationSkillLevel-Base");
-    const auto& check_task = Task.get("BattleQuickFormationSkillLevel-Check");
-    const auto& swipe_task = Task.get("BattleQuickFormationSkillLevel-Swipe");
-
-    const auto check_level = [&](int level) {
-        if (level < level_required) {
-            LogWarn << __FUNCTION__ << "| Skill" << skill << "level" << level << ", require:" << level_required;
-            json::value info = basic_info_with_what("BattleFormationOperUnavailable");
-            info["details"]["oper_name"] = name;
-            info["details"]["requirement_type"] = "skill_level";
-            callback(AsstMsg::SubTaskExtraInfo, info);
-            if (!ignore) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    cv::Mat image, roi_image;
-    if (skill == 1 || skill == 2) {
-        image = ctrler()->get_image();
-        roi_image = make_roi(image, make_rect<cv::Rect>(base_task->roi));
-        auto result = find_skill(roi_image, skill, false, level_required == 0);
-        if (result) { // 提前找到快速返回, 否则回退到图片合并及滑动
-            if (!check_level(result->second)) {
-                return false;
-            }
-            ctrler()->click(base_task->roi.move(result->first));
-            sleep(delay);
-            return true;
-        }
+    auto result = m_quick_formation_ui.find_oper_skill(oper.skill, oper.requirements.skill_level == 0);
+    if (!result) {
+        LogError << __FUNCTION__ << "| Skill" << oper.skill << "not found in quick detection";
+        return false;
     }
-    else {
-        ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
-        image = ctrler()->get_image();
-        roi_image = make_roi(image, make_rect<cv::Rect>(base_task->roi));
-        auto result = find_skill(roi_image, skill, true, level_required == 0);
-        if (result) { // 提前找到快速返回, 否则回退到图片合并及滑动
-            if (!check_level(result->second)) {
-                return false;
-            }
-            ctrler()->click(base_task->roi.move(result->first));
-            sleep(delay);
-            return true;
-        }
-        ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheUp" }).run();
-        image = ctrler()->get_image(); // 一般不会走到这里, 翻回顶部走通用逻辑
-        roi_image = make_roi(image, make_rect<cv::Rect>(base_task->roi));
-    }
-
-    int retry = 0;
-    int last_y = -1;
-    cv::Mat stitched_image = roi_image;
-    while (!need_exit() && retry < 3) {
-        ctrler()->swipe(swipe_task->specific_rect, swipe_task->rect_move, 300, true, 3.7, 0.1);
-        sleep(swipe_task->post_delay);
-
-        image = ctrler()->get_image();
-        auto roi_image_new = make_roi(image, make_rect<cv::Rect>(base_task->roi));
-
-        // 使用模板匹配检测重叠区域
-        Matcher match(stitched_image);
-        match.set_templ(make_roi(roi_image_new, cv::Rect { 0, 0, roi_image_new.cols, 30 }));
-        match.set_method(MatchMethod::Ccoeff);
-        match.set_threshold(0.8);
-        if (!match.analyze()) {
-            retry++;
-            continue;
-        }
-
-        int current_y = match.get_result().rect.y;
-        if (last_y != -1 && std::abs(current_y - last_y) < 5) { // 检测是否已经滑动到末端
-            LogInfo << __FUNCTION__ << "| Reached the end of skill list, y offset unchanged: " << current_y;
-            break;
-        }
-
-        last_y = current_y;
-
-        // 即时拼接图片：保留新图片中未重叠的部分
-        int overlap_height = stitched_image.rows - current_y;
-        if (overlap_height > 0 && overlap_height < roi_image_new.rows) {
-            cv::Mat non_overlap_part =
-                roi_image_new(cv::Rect(0, overlap_height, roi_image_new.cols, roi_image_new.rows - overlap_height));
-
-            cv::vconcat(stitched_image, non_overlap_part, stitched_image); // 立即拼接到已有图片
-            LogInfo << __FUNCTION__ << "| Stitched image updated, current size: " << stitched_image.cols << "x"
-                    << stitched_image.rows;
-        }
-        else {
-            LogWarn << __FUNCTION__ << "| Invalid overlap detected, overlap_height: " << overlap_height;
-            retry++;
-            continue;
-        }
-
-        retry = 0; // 成功拼接，重置重试计数
-        // 短路检测, 在已拼接的图片上尝试查找目标技能
-        auto result = find_skill(stitched_image, skill, false, level_required == 0);
-        if (result) {
-            if (!check_level(result->second)) {
-                return false;
-            }
-
-            // 需要将拼接图片中的坐标转换回实际点击坐标
-            Rect rect { result->first.x,
-                        result->first.y + current_y - base_task->roi.y,
-                        result->first.width,
-                        result->first.height };
-            ctrler()->click(VisionHelper::correct_rect(rect.move(check_task->rect_move), Rect { 0, 0, 1280, 720 }));
-            sleep(delay);
-            return true;
-        }
-    }
-
-    auto result = find_skill(stitched_image, skill, false, level_required == 0);
-    if (result) {
-        if (!check_level(result->second)) {
+    if (result->level < oper.requirements.skill_level) {
+        LogWarn << __FUNCTION__ << "| Skill" << oper.skill << "level" << result->level
+                << ", require:" << oper.requirements.skill_level;
+        json::value info = basic_info_with_what("BattleFormationOperUnavailable");
+        info["details"]["oper_name"] = oper.name;
+        info["details"]["requirement_type"] = "skill_level";
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        if (!ignore) {
             return false;
         }
-
-        // 需要将拼接图片中的坐标转换回实际点击坐标
-        Rect rect { result->first.x,
-                    result->first.y + last_y - base_task->roi.y,
-                    result->first.width,
-                    result->first.height };
-        ctrler()->click(VisionHelper::correct_rect(rect.move(check_task->rect_move), Rect { 0, 0, 1280, 720 }));
-        sleep(delay);
-        return true;
-    }
-    return false;
-}
-
-std::optional<std::pair<asst::Rect, int>>
-    asst::BattleFormationTask::find_skill(const cv::Mat& image, int skill, bool reverse, bool skip_check)
-{
-    const auto& base_task = Task.get("BattleQuickFormationSkillLevel-Base");
-    const auto& check_task = Task.get("BattleQuickFormationSkillLevel-Check");
-    const auto& ocr_task = Task.get("BattleQuickFormationSkillLevel-OCR");
-
-    const auto match_skill = [&](asst::Rect rect) -> std::optional<std::pair<asst::Rect, int>> {
-        if (skip_check) {
-            return std::make_pair(rect.move(base_task->rect_move), 0);
-        }
-        Matcher level_matcher(image);
-        level_matcher.set_task_info(check_task);
-        level_matcher.set_roi(rect.move(base_task->rect_move));
-        if (level_matcher.analyze()) {
-            int level;
-            auto pos = level_matcher.get_result().templ_name.find_last_of('-');
-            if (pos != std::string::npos &&
-                utils::chars_to_number<int>(level_matcher.get_result().templ_name.substr(pos + 1, 2), level)) {
-                LogDebug << __FUNCTION__ << "| skill" << skill << "level:" << level;
-                return std::make_pair(rect.move(base_task->rect_move), level);
-            }
-            else {
-                LogError << __FUNCTION__ << "| skill" << skill
-                         << "level parsing failed from template name:" << level_matcher.get_result().templ_name;
-            }
-        }
-
-        RegionOCRer ocrer(image);
-        ocrer.set_task_info(ocr_task);
-        ocrer.set_roi(rect.move(ocr_task->roi));
-        if (ocrer.analyze()) {
-            int level;
-            if (utils::chars_to_number<int>(ocrer.get_result().text, level)) {
-                LogDebug << __FUNCTION__ << "| skill" << skill << "level:" << level;
-                return std::make_pair(rect.move(ocr_task->roi), level);
-            }
-            else {
-                LogError << __FUNCTION__ << "| skill" << skill
-                         << "level parsing failed from OCR text:" << ocrer.get_result().text;
-            }
-        }
-
-        LogError << __FUNCTION__ << "| skill" << skill << "level not found";
-        save_img(utils::path("debug/copilot/formation"));
-        return std::nullopt;
-    };
-
-    int index = 0;
-
-    MultiMatcher matcher(image);
-    matcher.set_templ("BattleQuickFormationSkillLevel-Base.png");
-    matcher.set_threshold(0.8);
-    matcher.set_method(MatchMethod::Ccoeff);
-    if (matcher.analyze()) { // 匹配成功, 检查技能等级
-        if (reverse && skill == 3) {
-            auto results = matcher.get_result();
-            if (!results.empty()) {
-                return match_skill(results.back().rect);
-            }
-        }
-        else if (reverse) {
-            LogError << __FUNCTION__ << "| Only skill 3 can be reverse matched";
-        }
-
-        for (const auto& match : matcher.get_result()) {
-            if (need_exit() || ++index != skill) {
-                continue;
-            }
-            return match_skill(match.rect);
-        }
     }
 
-    return std::nullopt;
+    ctrler()->click(result->rect);
+    sleep(delay);
+    return true;
 }
 
 void asst::BattleFormationTask::swipe_page()
