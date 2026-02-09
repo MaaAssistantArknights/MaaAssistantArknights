@@ -3788,5 +3788,9 @@
     "resource/template/Battle/Formation/BattleQuickFormation/BattleQuickFormation-Elite2": "a142e58d10cdd92e3b0ed03518b64f0658a6f62530a8143ae0339b5b3706bce5",
     "resource/template/items/act7collection_point_token": "76a2fc9931af1e5db4f06bfc534f09381caa0e3060ef5ff4a15a82c21867dc77",
     "resource/template/Roguelike/base/Roguelike@StartExploreWithSeed-ClickPen": "0aedd195c376f098e4cfcadcb55ac2da19ae3e8d20fe9e6947ce048135f9950c",
-    "resource/template/Roguelike/base/Roguelike@StartExploreWithSeed-Confirm": "c92b871ec98d4ced5d3836d614777f5c2f55a43dbcc66bb446aac4857fdafa3c"
+    "resource/template/Roguelike/base/Roguelike@StartExploreWithSeed-Confirm": "c92b871ec98d4ced5d3836d614777f5c2f55a43dbcc66bb446aac4857fdafa3c",
+    "resource/template/items/act49side_token_draft": "48461050e58f90fb0fc45df486af06c62cfe530cc97fb7f156a48ccdad3e3e56",
+    "resource/template/infrast/Bskill_ord_spd&tag2": "a0253952306593e4a232187fdd18480d173457acc7b5605c97725f7d7d5cd3db",
+    "resource/template/infrast/Bskill_meet_bd_to_spd": "ea506d6e4fa64814e0e0eb0ff39375ea3132578cedc2533d76504bafd4b8c214",
+    "resource/template/infrast/Bskill_ctrl_tra&prod": "eedb83c8584d488fd95d9ad5d88c74a7c28e2361881f91e7049286f94d384a0a"
 }
