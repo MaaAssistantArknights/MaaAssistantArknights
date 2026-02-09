@@ -1289,10 +1289,14 @@ Before use, please ensure:
     <system:String x:Key="OpenDebugFolder">Open Debug Folder</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">Support payload generated successfully</system:String>
     <system:String x:Key="GenerateSupportPayloadException">An error occurred while generating the support payload:</system:String>
-    <system:String x:Key="ClearCache">Clear Cache</system:String>
-    <system:String x:Key="ClearCacheSuccessful">Cache cleared successfully</system:String>
-    <system:String x:Key="ClearCacheAlreadyEmpty">Cache directories are already empty</system:String>
-    <system:String x:Key="ClearCacheException">An error occurred while clearing the cache:</system:String>
+    <system:String x:Key="ClearImageCache">Clear Image Cache</system:String>
+    <system:String x:Key="ClearImageCacheTip" xml:space="preserve">Manual cleanup is usually unnecessary.
+Images in the DEBUG directory have a quantity limit, and old images are automatically cleaned when exceeded.
+Manual cleanup deletes all images, which may result in missing screenshots for troubleshooting.
+Cache files (such as maps, operator avatars, etc.) need to be regenerated after clearing, which may affect user experience.</system:String>
+    <system:String x:Key="ClearImageCacheSuccessful">Image cache cleared successfully</system:String>
+    <system:String x:Key="ClearImageCacheAlreadyEmpty">Image cache is already empty</system:String>
+    <system:String x:Key="ClearImageCacheException">An error occurred while clearing the image cache:</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>

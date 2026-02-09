@@ -1290,10 +1290,14 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="OpenDebugFolder">打开日志文件夹</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">生成压缩包成功</system:String>
     <system:String x:Key="GenerateSupportPayloadException">生成压缩包时出现问题：</system:String>
-    <system:String x:Key="ClearCache">清空缓存</system:String>
-    <system:String x:Key="ClearCacheSuccessful">缓存已清空</system:String>
-    <system:String x:Key="ClearCacheAlreadyEmpty">缓存目录为空</system:String>
-    <system:String x:Key="ClearCacheException">清空缓存时出现问题：</system:String>
+    <system:String x:Key="ClearImageCache">清空图片缓存</system:String>
+    <system:String x:Key="ClearImageCacheTip" xml:space="preserve">正常情况下无需手动清理。
+DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图片。
+手动清理会删除所有图片，可能导致问题排查时缺少截图依据。
+缓存文件（如地图、干员头像等）清理后需要重新生成，可能影响使用体验。</system:String>
+    <system:String x:Key="ClearImageCacheSuccessful">图片缓存已清空</system:String>
+    <system:String x:Key="ClearImageCacheAlreadyEmpty">图片缓存为空</system:String>
+    <system:String x:Key="ClearImageCacheException">清空图片缓存时出现问题：</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自动刷新 3 星 Tags</system:String>

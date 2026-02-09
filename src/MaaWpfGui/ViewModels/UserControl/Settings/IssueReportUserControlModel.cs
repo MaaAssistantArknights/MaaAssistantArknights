@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
 using JetBrains.Annotations;
@@ -77,40 +78,81 @@ public class IssueReportUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 清空缓存 包括 cache 目录和 debug 目录
+    /// 清空图片缓存 仅删除 cache 目录和 debug 目录中的图片文件，保留文件夹结构
     /// </summary>
-    public static void ClearCache()
+    public static void ClearImageCache()
     {
+        var result = MessageBoxHelper.Show(
+            LocalizationHelper.GetString("ClearImageCacheTip"),
+            LocalizationHelper.GetString("Warning"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Error,
+            no: LocalizationHelper.GetString("Confirm"),
+            yes: LocalizationHelper.GetString("Cancel"));
+        if (result == MessageBoxResult.Yes)
+        {
+            return;
+        }
+
         try
         {
-            var clearedDirs = new List<string>();
+            var imageExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ".jpg", ".jpeg", ".png",
+            };
+
+            int deletedCount = 0;
 
             if (Directory.Exists(PathsHelper.CacheDir))
             {
-                Directory.Delete(PathsHelper.CacheDir, recursive: true);
-                clearedDirs.Add("cache");
+                deletedCount += DeleteImageFiles(PathsHelper.CacheDir, imageExtensions);
             }
 
             if (Directory.Exists(PathsHelper.DebugDir))
             {
-                DeleteDirectoryContentsExcept(PathsHelper.DebugDir, ["asst.log", "gui.log"]);
-                clearedDirs.Add("debug");
+                deletedCount += DeleteImageFiles(PathsHelper.DebugDir, imageExtensions);
             }
 
-            if (clearedDirs.Count > 0)
+            if (deletedCount > 0)
             {
-                ShowGrowl(LocalizationHelper.GetString("ClearCacheSuccessful"));
+                ShowGrowl(LocalizationHelper.GetString("ClearImageCacheSuccessful"));
             }
             else
             {
-                ShowGrowl(LocalizationHelper.GetString("ClearCacheAlreadyEmpty"));
+                ShowGrowl(LocalizationHelper.GetString("ClearImageCacheAlreadyEmpty"));
             }
         }
         catch (Exception ex)
         {
-            ShowGrowl($"{LocalizationHelper.GetString("ClearCacheException")}\n{ex.Message}");
-            Log.Error(ex, "Failed to clear cache");
+            ShowGrowl($"{LocalizationHelper.GetString("ClearImageCacheException")}\n{ex.Message}");
+            Log.Error(ex, "Failed to clear image cache");
         }
+    }
+
+    /// <summary>
+    /// 删除指定目录及其子目录中的所有图片文件。
+    /// </summary>
+    private static int DeleteImageFiles(string dir, HashSet<string> imageExtensions)
+    {
+        int deletedCount = 0;
+        foreach (var file in Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories))
+        {
+            string extension = Path.GetExtension(file);
+            if (imageExtensions.Contains(extension))
+            {
+                try
+                {
+                    File.Delete(file);
+                    deletedCount++;
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, $"Failed to delete image file: {file}");
+                }
+            }
+        }
+
+        return deletedCount;
     }
 
     /// <summary>
@@ -245,6 +287,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
         }
     }
 
+    /*
     /// <summary>
     /// 删除目录下的所有文件和子目录，排除指定的文件名。
     /// </summary>
@@ -266,6 +309,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             Directory.Delete(subDir, recursive: true);
         }
     }
+    */
 
     /// <summary>
     /// 从 sourceDir 复制文件到 targetDir，支持过滤。

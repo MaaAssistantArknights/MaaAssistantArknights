@@ -37,7 +37,7 @@ MAA now supports the PC version of Arknights. However, due to limited maintenanc
 * 界园肉鸽可选难度提高至 18 @SherkeyXD
 * 芯片本支持显示库存数量 @ABA2396
 * 发布时 minify resource 文件下的 json (#15567) @soundofautumn
-* WpfGui 清空缓存按钮 (#15582) @soundofautumn @Constrat @HX3N
+* wpf 增加清理图片缓存功能 @soundofautumn @Constrat @HX3N @status102 @ABA2396
 * 界园肉鸽指定种子开局 (#15588) @status102 @HX3N @Manicsteiner
 
 ### 改进 | Improved
@@ -46,7 +46,6 @@ MAA now supports the PC version of Arknights. However, due to limited maintenanc
 * 自动战斗不支持技能重置说明中, 干员名遵循干员名语言设置 @status102
 * 移除过时的参数兼容 @status102
 * 追加自定干员允许不切换技能 @status102
-* 清空缓存移动到界面设置 @status102
 * 自动战斗作业列表使用相对路径代替绝对路径 @status102
 * TaskQueue 任务开始&完成显示修改后的任务名 @status102
 

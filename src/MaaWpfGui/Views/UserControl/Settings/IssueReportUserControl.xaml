@@ -41,67 +41,58 @@
             TextWrapping="Wrap"
             Visibility="{c:Binding 'NewVersionFoundInfo.Length + NewResourceFoundInfo.Length == 0',
                                    Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}" />
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-
-            <controls:TextBlock
-                Grid.Row="0"
+            <StackPanel
                 Grid.Column="0"
-                Margin="5,0"
+                Margin="5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
-                <Hyperlink
-                    Cursor="Hand"
-                    NavigateUri="{Binding Source={x:Static constants:MaaUrls.HelpUri}}"
-                    TextDecorations="None">
-                    <TextBlock Text="{DynamicResource Help}" />
-                </Hyperlink>
-            </controls:TextBlock>
-
-            <controls:TextBlock
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="5,0"
+                <controls:TextBlock Margin="5" HorizontalAlignment="Center">
+                    <Hyperlink
+                        Cursor="Hand"
+                        NavigateUri="{Binding Source={x:Static constants:MaaUrls.HelpUri}}"
+                        TextDecorations="None">
+                        <TextBlock Text="{DynamicResource Help}" />
+                    </Hyperlink>
+                </controls:TextBlock>
+                <controls:TextBlock Margin="5" HorizontalAlignment="Center">
+                    <Hyperlink
+                        Command="{s:Action SetAcknowledgedNightlyWarning}"
+                        Cursor="Hand"
+                        NavigateUri="{Binding Source={x:Static constants:MaaUrls.GitHubIssues}}"
+                        TextDecorations="None">
+                        <TextBlock Text="{DynamicResource Issue}" />
+                    </Hyperlink>
+                </controls:TextBlock>
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                Margin="5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
-                <Hyperlink
-                    Command="{s:Action SetAcknowledgedNightlyWarning}"
-                    Cursor="Hand"
-                    NavigateUri="{Binding Source={x:Static constants:MaaUrls.GitHubIssues}}"
-                    TextDecorations="None">
-                    <TextBlock Text="{DynamicResource Issue}" />
-                </Hyperlink>
-            </controls:TextBlock>
-            <Button
-                Grid.Row="0"
-                Grid.Column="1"
-                Width="Auto"
-                Margin="5,2"
-                Command="{s:Action GenerateSupportPayload}"
-                Content="{DynamicResource GenerateSupportPayload}" />
-            <Button
-                Grid.Row="1"
-                Grid.Column="1"
-                Width="Auto"
-                Margin="5,2"
-                Command="{s:Action OpenDebugFolder}"
-                Content="{DynamicResource OpenDebugFolder}" />
-            <Button
-                Grid.Row="2"
-                Grid.Column="1"
-                Width="Auto"
-                Margin="5,2"
-                Command="{s:Action ClearCache,
-                                   Target={x:Type settings_vms:IssueReportUserControlModel}}"
-                Content="{DynamicResource ClearCache}" />
+                <Button
+                    Margin="5,2"
+                    HorizontalAlignment="Left"
+                    Command="{s:Action GenerateSupportPayload}"
+                    Content="{DynamicResource GenerateSupportPayload}" />
+                <Button
+                    Margin="5,2"
+                    HorizontalAlignment="Left"
+                    Command="{s:Action OpenDebugFolder}"
+                    Content="{DynamicResource OpenDebugFolder}" />
+                <StackPanel Margin="5,2" Orientation="Horizontal">
+                    <Button
+                        HorizontalAlignment="Left"
+                        Command="{s:Action ClearImageCache,
+                                           Target={x:Type settings_vms:IssueReportUserControlModel}}"
+                        Content="{DynamicResource ClearImageCache}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource ClearImageCacheTip}" />
+                </StackPanel>
+            </StackPanel>
         </Grid>
     </StackPanel>
 </UserControl>
