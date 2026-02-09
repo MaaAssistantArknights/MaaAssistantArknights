@@ -34,6 +34,7 @@ MAA now supports the PC version of Arknights. However, due to limited maintenanc
 
 ### 新增 | New
 
+* 界园肉鸽可选难度提高至 18 @SherkeyXD
 * 芯片本支持显示库存数量 @ABA2396
 * 发布时minify resource文件下的json (#15567) @soundofautumn
 * WpfGui清空缓存按钮 (#15582) @soundofautumn @Constrat @HX3N
@@ -41,6 +42,7 @@ MAA now supports the PC version of Arknights. However, due to limited maintenanc
 
 ### 改进 | Improved
 
+* 自动战斗自动编队检查干员等级&精英化及技能等级拆分 @status102
 * 自动战斗不支持技能重置说明中, 干员名遵循干员名语言设置 @status102
 * 移除过时的参数兼容 @status102
 * 追加自定干员允许不切换技能 @status102
@@ -50,6 +52,9 @@ MAA now supports the PC version of Arknights. However, due to limited maintenanc
 
 ### 修复 | Fix
 
+* 修复任务出错日志可能晚于任务完成日志显示的问题 @ABA2396
+* 自动编队干员技能描述过长时点击位置错误 @status102
+* 干员等级跨精英化时判断出错修复 @status102
 * NumberOcrReplace移除`|`和`/` (#15625) @status102
 * EN IS ShoppingConfirm text font change. @Constrat
 * 过期关卡重置模式补充自动迁移 @status102
@@ -64,6 +69,7 @@ MAA now supports the PC version of Arknights. However, due to limited maintenanc
 * 刷理智取消勾选`下拉框中隐藏非当日关卡`后关卡选择框不显示内容 @status102
 * 退出MAA时重置变量不再刷新UI @status102
 * egg 炸了 @ABA2396
+* EN IS TradeInvest templates text font change. @Constrat
 
 ### 文档 | Docs
 
