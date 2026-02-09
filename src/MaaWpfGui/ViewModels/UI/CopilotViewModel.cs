@@ -90,16 +90,10 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public ObservableCollection<CopilotFileItem> FileItems { get; } = [];
 
-    private bool _isFilePopupOpen;
-
     /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether the file dropdown popup is open.
     /// </summary>
-    public bool IsFilePopupOpen
-    {
-        get => _isFilePopupOpen;
-        set => SetAndNotify(ref _isFilePopupOpen, value);
-    }
+    public bool IsFilePopupOpen { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or private sets the view models of Copilot items.
@@ -214,43 +208,19 @@ public partial class CopilotViewModel : Screen
 
     #region 属性
 
-    private bool _idle;
-
     /// <summary>
     /// Gets a value indicating whether it is idle.
     /// </summary>
-    public bool Idle
-    {
-        get => _idle;
-        private set => SetAndNotify(ref _idle, value);
-    }
+    public bool Idle { get => field; private set => SetAndNotify(ref field, value); }
 
-    private bool _inited;
+    public bool Inited { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Inited
-    {
-        get => _inited;
-        set => SetAndNotify(ref _inited, value);
-    }
-
-    private bool _stopping;
-
-    public bool Stopping
-    {
-        get => _stopping;
-        set => SetAndNotify(ref _stopping, value);
-    }
-
-    private bool _startEnabled = true;
+    public bool Stopping { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or sets a value indicating whether the start button is enabled.
     /// </summary>
-    public bool StartEnabled
-    {
-        get => _startEnabled;
-        set => SetAndNotify(ref _startEnabled, value);
-    }
+    public bool StartEnabled { get => field; set => SetAndNotify(ref field, value); } = true;
 
     private int _copilotTabIndex = 0;
 
@@ -312,26 +282,21 @@ public partial class CopilotViewModel : Screen
         }
     }
 
-    private string _filename = string.Empty;
-
     /// <summary>
     /// Gets or sets the filename.
     /// </summary>
     public string Filename
     {
-        get => _filename;
+        get => field;
         set {
             var processedValue = ProcessFilePath(value);
-            SetAndNotify(ref _filename, processedValue);
+            SetAndNotify(ref field, processedValue);
             UpdateDisplayFilename(processedValue);
             ClearLog();
             UpdateCopilotUrl(processedValue);
-            if (!string.IsNullOrWhiteSpace(processedValue))
-            {
-                _ = UpdateFilename(processedValue);
-            }
+            _ = UpdateFilename(processedValue);
         }
-    }
+    } = string.Empty;
 
     private string ProcessFilePath(string value)
     {
@@ -390,49 +355,29 @@ public partial class CopilotViewModel : Screen
         set => SetAndNotify(ref _form, value);
     }
 
-    private bool _addTrust;
+    /// <summary>
+    /// Gets or sets a value indicating whether to use auto-formation.
+    /// </summary>
+    public bool AddTrust { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or sets a value indicating whether to use auto-formation.
     /// </summary>
-    public bool AddTrust
-    {
-        get => _addTrust;
-        set => SetAndNotify(ref _addTrust, value);
-    }
+    public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
 
-    private bool _ignoreRequirements;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to use auto-formation.
-    /// </summary>
-    public bool IgnoreRequirements
-    {
-        get => _ignoreRequirements;
-        set => SetAndNotify(ref _ignoreRequirements, value);
-    }
-
-    private bool _useSanityPotion;
-
-    public bool UseSanityPotion
-    {
-        get => _useSanityPotion;
-        set => SetAndNotify(ref _useSanityPotion, value);
-    }
-
-    private bool _addUserAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false);
+    public bool UseSanityPotion { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or sets a value indicating whether to use auto-formation.
     /// </summary>
     public bool AddUserAdditional
     {
-        get => _addUserAdditional;
+        get => field;
         set {
-            SetAndNotify(ref _addUserAdditional, value);
+            SetAndNotify(ref field, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotAddUserAdditional, value.ToString());
         }
-    }
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false);
 
     private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty).Trim();
 
@@ -453,16 +398,10 @@ public partial class CopilotViewModel : Screen
     public string UserAdditionalPrettyJson => string.IsNullOrWhiteSpace(UserAdditional) ? string.Empty
         : JToken.Parse(UserAdditional).ToString(Formatting.None).Replace("},", "},\n");
 
-    private bool _isUserAdditionalPopupOpen;
-
     /// <summary>
     /// Gets or sets a value indicating whether the UserAdditional popup is open.
     /// </summary>
-    public bool IsUserAdditionalPopupOpen
-    {
-        get => _isUserAdditionalPopupOpen;
-        set => SetAndNotify(ref _isUserAdditionalPopupOpen, value);
-    }
+    public bool IsUserAdditionalPopupOpen { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets the view models of UserAdditional items.
@@ -1053,6 +992,10 @@ public partial class CopilotViewModel : Screen
         bool writeToCache = false;
         object? payload;
 
+        if (string.IsNullOrEmpty(filename))
+        {
+            return;
+        }
         if (File.Exists(filename))
         {
             var fileSize = new FileInfo(filename).Length;
@@ -1193,6 +1136,26 @@ public partial class CopilotViewModel : Screen
             }
         }
 
+        var list = copilot.Opers.Concat(copilot.Groups.SelectMany(g => g.Opers)).ToList();
+        foreach (var oper in list)
+        {
+            int rarity = DataHelper.GetCharacterByNameOrAlias(oper.Name)?.Rarity ?? -1;
+            if (oper.Skill == 3 && rarity < 6)
+            {
+                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
+                oper.Skill = 0;
+            }
+            else if (oper.Skill == 2 && rarity < 4)
+            {
+                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
+                oper.Skill = 0;
+            }
+            else if (oper.Skill == 1 && rarity < 3)
+            {
+                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
+                oper.Skill = 0;
+            }
+        }
         foreach (var (output, color) in copilot.Output())
         {
             AddLog(output, color ?? UiLogColor.Message, showTime: false);
@@ -1572,11 +1535,14 @@ public partial class CopilotViewModel : Screen
 
         try
         {
-            if (_copilotCache is CopilotModel { } copilot)
+            if (_copilotCache is null)
+            {
+            }
+            else if (_copilotCache is CopilotModel { } copilot)
             {
                 await AddCopilotTaskToList(copilot, !isRaid ? CopilotModel.DifficultyFlags.Normal : CopilotModel.DifficultyFlags.Raid, stageName, CopilotId);
             }
-            else
+            else if (_copilotCache is SSSCopilotModel { } sss)
             {
                 AddLog(LocalizationHelper.GetString("CopilotSSSNotSupport"), UiLogColor.Error, showTime: false);
             }
@@ -1638,11 +1604,11 @@ public partial class CopilotViewModel : Screen
         }
 
         var fileName = !string.IsNullOrEmpty(stageCode) ? stageCode : DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-        var cachePath = $"{CopilotJsonDir}/{fileName}.json";
+        var cachePath = Path.GetRelativePath(BaseDir, $"{CopilotJsonDir}/{fileName}.json");
         await _semaphore.WaitAsync();
         if (File.Exists(cachePath) && CopilotItemViewModels.Any(i => i.FilePath == cachePath))
         {
-            cachePath = $"{CopilotJsonDir}/{fileName}_{DateTimeOffset.Now.ToUnixTimeMilliseconds()}.json";
+            cachePath = Path.GetRelativePath(BaseDir, $"{CopilotJsonDir}/{fileName}_{DateTimeOffset.Now.ToUnixTimeMilliseconds()}.json");
             if (CopilotItemViewModels.Any(i => i.FilePath == cachePath))
             {
                 _logger.Error("Could not add copilot task with duplicate stage name: {StageName}", copilot.StageName);

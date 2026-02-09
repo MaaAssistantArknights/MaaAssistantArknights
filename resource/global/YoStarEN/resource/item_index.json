@@ -1871,6 +1871,14 @@
         "sortId": -10000,
         "usage": "Can be exchanged for the corresponding event stage reward."
     },
+    "act2enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Apparently, using it can send a fullscreen fireworks effect along with a message to the entire Duel Channel. But what the richie-riches who break the TOS to spam them in public chat all day might not know is that they can be blocked with a click of a button on the website.",
+        "icon": "act2enemyduel_milestone_point.png",
+        "name": "Grand Duel Fireworks",
+        "sortId": -10000,
+        "usage": "One of the more expensive Duel Channel gifts, and can be exchanged on the website for material rewards, with free shipping and home delivery."
+    },
     "act2mainss_token": {
         "classifyType": "NONE",
         "description": "To help calm the children anxious about leaving the landship, Raidian made these pin badges with paging and messaging functionalities, encouraging them to keep on smiling and stay in contact. After hearing about them, many operators asked her for some, recording words of encouragement on them before hiding them all over prior to the evacuation.",

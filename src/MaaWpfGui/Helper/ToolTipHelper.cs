@@ -85,7 +85,7 @@ public static class ToolTipHelper
     /// <param name="width">图片宽度，默认 640</param>
     /// <param name="height">图片高度，默认 360</param>
     /// <returns>ToolTip</returns>
-    public static ToolTip CreateTooltip(this BitmapImage image, PlacementMode? placementMode = null, double width = 640, double height = 360)
+    public static ToolTip CreateTooltip(this BitmapSource image, PlacementMode? placementMode = null, double width = 640, double height = 360)
     {
         var img = new Image
         {

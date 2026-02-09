@@ -25,6 +25,7 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -449,7 +450,15 @@ public class SettingsViewModel : Screen
         //     return true;
         // }
         string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
-        return wineList.Any(TaskQueueViewModel.MallTask.CreditFirstList.Contains);
+        foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>())
+        {
+            if (wineList.Any(task.FirstList.Contains))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion EasterEggs

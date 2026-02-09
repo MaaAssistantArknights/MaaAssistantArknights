@@ -1,4 +1,4 @@
-## v6.3.0-beta.7
+## v6.3.0-beta.8
 
 ### Highlights
 
@@ -29,6 +29,60 @@ Since the "Combat" weekly schedule is now supported and multiple similar tasks c
 MAA now supports the PC version of Arknights. However, due to limited maintenance resources, the PC version may remain unstable for an extended period, with some features potentially malfunctioning or temporarily unavailable. We warmly welcome community developers to assist in adaptation and submit improvements to collectively enhance PC support.
 
 ----
+
+## v6.3.0-beta.8
+
+### 新增 | New
+
+* 界园肉鸽可选难度提高至 18 @SherkeyXD
+* 芯片本支持显示库存数量 @ABA2396
+* 发布时 minify resource 文件下的 json (#15567) @soundofautumn
+* wpf 增加清理图片缓存功能 @soundofautumn @Constrat @HX3N @status102 @ABA2396
+* 界园肉鸽指定种子开局 (#15588) @status102 @HX3N @Manicsteiner
+
+### 改进 | Improved
+
+* 自动战斗自动编队检查干员等级&精英化及技能等级拆分 @status102
+* 自动战斗不支持技能重置说明中, 干员名遵循干员名语言设置 @status102
+* 移除过时的参数兼容 @status102
+* 追加自定干员允许不切换技能 @status102
+* 自动战斗作业列表使用相对路径代替绝对路径 @status102
+* TaskQueue 任务开始&完成显示修改后的任务名 @status102
+
+### 修复 | Fix
+
+* 修复任务出错日志可能晚于任务完成日志显示的问题 @ABA2396
+* 自动编队干员技能描述过长时点击位置错误 @status102
+* 干员等级跨精英化时判断出错修复 @status102
+* NumberOcrReplace 移除 `|` 和 `/` (#15625) @status102
+* 过期关卡重置模式补充自动迁移 @status102
+* UI绑定 @status102
+* 无效关卡未能显示 i18n 文本 @status102
+* 修复生息演算商店无法正常购买皮肤的问题 (#15585) @drway
+* 先兼容旧作业中不合理的技能选择 @status102
+* 干员组干员未解析精英化及等级属性 @status102
+* 肉鸽烧水分队切换界面后错误重置 @status102
+* 初始化 StartEnabled 属性为 true (#15596) @yali-hzy
+* 自动战斗切换活动类型未清空解析缓存 @status102
+* 刷理智取消勾选`下拉框中隐藏非当日关卡`后关卡选择框不显示内容 @status102
+* 退出 MAA 时重置变量不再刷新 UI @status102
+* egg 炸了 @ABA2396
+* EN IS ShoppingConfirm text font change. @Constrat
+* EN IS TradeInvest templates text font change. @Constrat
+
+### 文档 | Docs
+
+* 自动战斗作业文档干员技能值范围补上 0 @status102
+
+### 其他 | Other
+
+* 自动战斗-自动编队干员不支持技能说明 (#15609) @status102 @Constrat @HX3N @Manicsteiner
+* NumberOcrReplace 新增规则 (#14186) @Manicsteiner
+* devcontainer 适配 CMakePresets.json (#15606) @lucienshawls
+* 优化 emoji @ABA2396
+* YostarJP AveMujica preload @Manicsteiner
+* YostarKR preload AveMujica @HX3N
+* preload AveMujica EN @Constrat
 
 ## v6.3.0-beta.7
 

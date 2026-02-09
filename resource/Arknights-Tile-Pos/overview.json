@@ -16874,6 +16874,15 @@
         "stageId": "camp_r_30",
         "width": 13
     },
+    "camp_r_31-obt/campaign/level_camp_r_31": {
+        "code": "卡兹戴尔",
+        "filename": "camp_r_31-obt-campaign-level_camp_r_31.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_31",
+        "name": "炽灼车间",
+        "stageId": "camp_r_31",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",

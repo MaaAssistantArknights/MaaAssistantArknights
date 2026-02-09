@@ -15,5 +15,6 @@
     "files.associations": {
         "**/resource/tasks/**/*.json": "jsonc"
     },
-    "C_Cpp.exclusionPolicy": "checkFilesAndFolders"
+    "C_Cpp.exclusionPolicy": "checkFilesAndFolders",
+    "cmake.outputLogEncoding": "UTF-8"
 }

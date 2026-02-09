@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,17 +29,18 @@ public class StageInfo : CombinedData
     /// <summary>
     /// Gets or sets the stage tip
     /// </summary>
-    public string Tip { get; set; }
+    public string Tip { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the stage open days
+    /// Gets or sets the days of week when the stage is open (used for resource stages like CE-6, PR-A-1)
+    /// Null or Empty means the stage is always open
     /// </summary>
-    public IEnumerable<DayOfWeek> OpenDays { get; set; }
+    public IEnumerable<DayOfWeek>? OpenDaysOfWeek { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the stage associated activity
     /// </summary>
-    public StageActivityInfo Activity { get; set; }
+    public StageActivityInfo? Activity { get; set; } = null;
 
     /// <summary>
     /// Gets or sets a value indicating whether the stage is hidden
@@ -47,7 +50,14 @@ public class StageInfo : CombinedData
     /// <summary>
     /// Gets or sets the stage drop
     /// </summary>
-    public string Drop { get; set; }
+    public string? Drop { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the stage drops grouped by stage (e.g. for chip stages PR-A-1 and PR-A-2)
+    /// Each sub-list represents drops for one stage variant
+    /// Example: [[drop1_stageA, drop2_stageA], [drop1_stageB, drop2_stageB]]
+    /// </summary>
+    public List<List<string>>? DropGroups { get; set; } = null;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StageInfo"/> class.
@@ -57,23 +67,41 @@ public class StageInfo : CombinedData
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="StageInfo"/> class with tip and open days.
+    /// Initializes a new instance of the <see cref="StageInfo"/> class for resource stages with weekly schedule.
+    /// Used for stages like CE-6 (Tuesday/Thursday/Saturday/Sunday), PR-A-1 (Monday/Thursday/Friday/Sunday), etc.
     /// </summary>
     /// <param name="name">Stage name</param>
     /// <param name="tipKey">Localization key of tip</param>
-    /// <param name="openDays">Open days of week</param>
-    /// <param name="activity">Associated activity</param>
-    public StageInfo(string name, string tipKey, IEnumerable<DayOfWeek> openDays, StageActivityInfo activity)
+    /// <param name="openDaysOfWeek">Days of week when this stage is available</param>
+    /// <param name="activity">Associated activity (typically resource collection activity)</param>
+    /// <param name="dropGroups">Grouped drop items (used for chip stages with multiple variants)</param>
+    public StageInfo(string name, string tipKey, IEnumerable<DayOfWeek> openDaysOfWeek, StageActivityInfo activity, List<List<string>>? dropGroups = null)
     {
         Value = name;
         Display = LocalizationHelper.GetString(name);
-        OpenDays = openDays;
+        OpenDaysOfWeek = openDaysOfWeek;
         Activity = activity;
+        DropGroups = dropGroups;
 
         if (!string.IsNullOrEmpty(tipKey))
         {
             Tip = LocalizationHelper.GetString(tipKey);
         }
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StageInfo"/> class for activity stages.
+    /// </summary>
+    /// <param name="display">Stage display name</param>
+    /// <param name="value">Stage value</param>
+    /// <param name="drop">Stage drop item</param>
+    /// <param name="activity">Associated activity</param>
+    public StageInfo(string display, string value, string? drop, StageActivityInfo activity)
+    {
+        Display = display;
+        Value = value;
+        Drop = drop;
+        Activity = activity;
     }
 
     /// <summary>
@@ -109,9 +137,9 @@ public class StageInfo : CombinedData
         }
 
         // resource stage
-        if (OpenDays != null && OpenDays.Any())
+        if (OpenDaysOfWeek != null && OpenDaysOfWeek.Any())
         {
-            return OpenDays.Contains(dayOfWeek);
+            return OpenDaysOfWeek.Contains(dayOfWeek);
         }
 
         // regular stage, always open

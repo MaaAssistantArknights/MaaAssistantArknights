@@ -105,7 +105,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         Theme.Mizuki => 18,
         Theme.Sami => 15,
         Theme.Sarkaz => 18,
-        Theme.JieGarden => 15,
+        Theme.JieGarden => 18,
         _ => 20,
     };
 
@@ -247,6 +247,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
     private void UpdateRoguelikeSquadList()
     {
         var roguelikeSquad = RoguelikeSquad;
+        var roguelikeSquadCollectible = RoguelikeCollectibleModeSquad;
         RoguelikeSquadList = [];
 
         // 优先匹配 Theme_Mode，其次匹配 Theme_Default
@@ -273,7 +274,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
 
         // 选择当前分队
         RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : "指挥分队";
-        RoguelikeCollectibleModeSquad = RoguelikeSquadList.Any(x => x.Value == RoguelikeCollectibleModeSquad) ? RoguelikeCollectibleModeSquad : RoguelikeSquad;
+        RoguelikeCollectibleModeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquadCollectible) ? roguelikeSquadCollectible : RoguelikeSquad;
     }
 
     private void UpdateRoguelikeCoreCharList()
@@ -824,17 +825,22 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    private bool _roguelikeStartWithSeed = false;
-
     /// <summary>
-    /// Gets or sets a value indicating whether start with seed when investing in Sarkaz.
+    /// Gets or sets a value indicating whether start with seed
     /// </summary>
     public bool RoguelikeStartWithSeed
     {
-        get => _roguelikeStartWithSeed;
-        set {
-            SetAndNotify(ref _roguelikeStartWithSeed, value);
-        }
+        get => GetTaskConfig<RoguelikeTask>().StartWithSeed;
+        set => SetTaskConfig<RoguelikeTask>(t => t.StartWithSeed == value, t => t.StartWithSeed = value);
+    }
+
+    /// <summary>
+    /// Gets or sets the seed value for the roguelike task.
+    /// </summary>
+    public string RoguelikeSeed
+    {
+        get => GetTaskConfig<RoguelikeTask>().Seed;
+        set => SetTaskConfig<RoguelikeTask>(t => t.Seed == value, t => t.Seed = value);
     }
 
     public override void RefreshUI(BaseTask baseTask)
@@ -1097,7 +1103,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
             SamiNewSquad2StartingFoldartals = Roguelike3NewSquad2StartingFoldartals.Split(';').Where(i => !string.IsNullOrEmpty(i)).Take(3).ToList(),
 
             ExpectedCollapsalParadigms = RoguelikeExpectedCollapsalParadigms.Split(';').Where(i => !string.IsNullOrEmpty(i)).ToList(),
-            StartWithSeed = RoguelikeStartWithSeed && RoguelikeTheme == Theme.Sarkaz && RoguelikeMode == Mode.Investment && RoguelikeSquad is "点刺成锭分队" or "后勤分队",
+            // StartWithSeed = RoguelikeStartWithSeed && RoguelikeTheme == Theme.Sarkaz && RoguelikeMode == Mode.Investment && RoguelikeSquad is "点刺成锭分队" or "后勤分队",
         };
 
         if (RoguelikeMode == Mode.Collectible && !RoguelikeOnlyStartWithEliteTwo)
@@ -1180,7 +1186,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
 
             ExpectedCollapsalParadigms = [.. roguelike.ExpectedCollapsalParadigms.Split(';').Where(i => !string.IsNullOrEmpty(i))],
 
-            // StartWithSeed = roguelike.StartWithSeed && RoguelikeTheme == Theme.Sarkaz && RoguelikeMode == Mode.Investment && RoguelikeSquad is "点刺成锭分队" or "后勤分队",
+            StartWithSeed = roguelike.StartWithSeed ? roguelike.Seed : null,
         };
 
         if (RoguelikeMode == Mode.Collectible && !RoguelikeOnlyStartWithEliteTwo)

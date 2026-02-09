@@ -30,7 +30,7 @@
         ],
         "templThreshold": 0.75,
         "rectMove_Doc": "识别后 move 给 click 用",
-        "rectMove": [-5, 0, 360, 355]
+        "rectMove": [-5, 0, 350, 100]
     },
     "BattleQuickFormationSkillLevel-OCR": {
         "baseTask": "NumberOcrReplace",
@@ -40,7 +40,7 @@
     "BattleQuickFormationSkillLevel-Base": {
         "roi_Doc": "用于裁切出技能区域的 rect",
         "roi": [0, 365, 360, 355],
-        "rectMove_Doc": "move for SkillLevel-Check and SkillLevel-OCR",
+        "rectMove_Doc": "从template移动到 SkillLevel-Check and SkillLevel-OCR 的 roi 区域",
         "rectMove": [-54, -68, 25, 25]
     },
     "BattleQuickFormationSkillLevel-Swipe": {
