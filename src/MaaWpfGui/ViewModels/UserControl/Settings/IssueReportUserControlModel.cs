@@ -77,6 +77,43 @@ public class IssueReportUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
+    /// 清空缓存 包括cache目录和debug目录
+    /// </summary>
+    public void ClearCache()
+    {
+        try
+        {
+            var clearedDirs = new List<string>();
+
+            if (Directory.Exists(PathsHelper.CacheDir))
+            {
+                Directory.Delete(PathsHelper.CacheDir, recursive: true);
+                clearedDirs.Add("cache");
+            }
+
+            if (Directory.Exists(PathsHelper.DebugDir))
+            {
+                DeleteDirectoryContentsExcept(PathsHelper.DebugDir, ["asst.log", "gui.log"]);
+                clearedDirs.Add("debug");
+            }
+
+            if (clearedDirs.Count > 0)
+            {
+                ShowGrowl(LocalizationHelper.GetString("ClearCacheSuccessful"));
+            }
+            else
+            {
+                ShowGrowl(LocalizationHelper.GetString("ClearCacheAlreadyEmpty"));
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowGrowl($"{LocalizationHelper.GetString("ClearCacheException")}\n{ex.Message}");
+            Log.Error(ex, "Failed to clear cache");
+        }
+    }
+
+    /// <summary>
     /// 生成日志压缩包
     /// </summary>
     public void GenerateSupportPayload()
@@ -205,6 +242,28 @@ public class IssueReportUserControlModel : PropertyChangedBase
         {
             ShowGrowl($"{LocalizationHelper.GetString("GenerateSupportPayloadException")}\n{ex.Message}");
             Log.Error(ex, "Failed to create support payload");
+        }
+    }
+
+    /// <summary>
+    /// 删除目录下的所有文件和子目录，排除指定的文件名。
+    /// </summary>
+    private static void DeleteDirectoryContentsExcept(string dir, IEnumerable<string> excludeFileNames)
+    {
+        var excludeSet = excludeFileNames.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var file in Directory.EnumerateFiles(dir))
+        {
+            if (excludeSet.Contains(Path.GetFileName(file)))
+            {
+                continue;
+            }
+
+            File.Delete(file);
+        }
+
+        foreach (var subDir in Directory.EnumerateDirectories(dir))
+        {
+            Directory.Delete(subDir, recursive: true);
         }
     }
 
