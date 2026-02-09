@@ -64,34 +64,15 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
-    bool use_sanity_potion = params.get("use_sanity_potion", false); // 是否使用理智药
-    bool with_formation = params.get("formation", false);            // 是否使用自动编队
-    int formation_index = params.get("formation_index", 0);          // 选择第几个编队，0为不选择
-    if (!params.contains("formation_index") && params.contains("select_formation")) {
-        Log.warn("================  DEPRECATED  ================");
-        Log.warn("`select_formation` has been deprecated since v5.23.3; Please use 'formation_index'");
-        Log.warn("================  DEPRECATED  ================");
-        formation_index = params.get("select_formation", 0);
-    }
+    bool use_sanity_potion = params.get("use_sanity_potion", false);                 // 是否使用理智药
+    bool with_formation = params.get("formation", false);                            // 是否使用自动编队
+    int formation_index = params.get("formation_index", 0);                          // 选择第几个编队，0为不选择
     bool add_trust = params.get("add_trust", false);                                 // 是否自动补信赖
     bool ignore_requirements = params.get("ignore_requirements", false);             // 跳过未满足的干员属性要求
     bool add_user_additional = params.contains("user_additional");                   // 是否自动补用户自定义干员
     auto support_unit_usage = static_cast<SupportUnitUsage>(
         params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::None))); // 助战干员使用模式
     std::string support_unit_name = params.get("support_unit_name", std::string());
-
-    // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
-    auto nav_opt1 = params.find<bool>("need_navigate");
-    auto nav_opt2 = params.find<bool>("navigate_name");
-    if (nav_opt1 || nav_opt2) {
-        Log.warn("================  DEPRECATED  ================");
-        LogWarn << "`need_navigate`, `navigate_name` and `is_raid` has been deprecated since v5.23.3;";
-        Log.warn("================  DEPRECATED  ================");
-        if (nav_opt1.value_or(false) || nav_opt2.value_or(false)) // 不启用导航时仅警告
-        {
-            return false;
-        }
-    }
 
     auto filename_opt = params.find<std::string>("filename");
     auto multi_tasks_opt = params.find<json::array>("copilot_list"); // 多任务列表

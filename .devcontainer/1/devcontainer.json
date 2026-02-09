@@ -60,10 +60,6 @@
                 "python.terminal.activateEnvironment": false,
 
                 // CMake settings
-                "cmake.configureSettings": {
-                    "BUILD_DEBUG_DEMO": "ON",
-                    "CMAKE_TOOLCHAIN_FILE": "src/MaaUtils/MaaDeps/cmake/maa-x64-linux-toolchain.cmake"
-                },
                 "cmake.configureOnOpen": false,
 
                 // Performance optimizations

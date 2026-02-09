@@ -94,7 +94,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     private readonly StageSourceItem InvalidStage = new() { Display = LocalizationHelper.GetString("InvalidStage"), Value = "__INVALID__", IsOpen = false, IsVisible = false };
 
-    public ObservableCollection<StagePlanItem> StagePlan { get => field; set => SetAndNotify(ref field, value); } = [new()];
+    public ObservableCollection<StagePlanItem> StagePlan { get => field; set => SetAndNotify(ref field, value); } = [];
 
     // UI 绑定的方法
     [UsedImplicitly]
@@ -561,6 +561,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             if (update)
             {
                 RefreshStageList();
+                RefreshCurrentStagePlan(); // 这个刷新可以优化
             }
         }
     }
@@ -789,7 +790,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             using var scope = _lock.EnterScope();
             var stageList = Instances.StageManager.GetStageList();
             RefreshStageList();
-            foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.Where(i => i is FightTask fight && !fight.IsStageManually).OfType<FightTask>())
+            foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Where(i => !i.IsStageManually))
             {
                 for (int i = 0; i < task.StagePlan.Count; i++)
                 {
@@ -820,8 +821,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = !HideUnavailableStage || i.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek), IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == i.Value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
 
-        // 补未开放进来
-        foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i)))
+        // 补过期关卡进来
+        foreach (var item in listCurrent.Where(i => i != InvalidStage.Value && !listSource.Any(p => p.Value == i)))
         {
             listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false });
         }
@@ -838,7 +839,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return;
         }
         var plan = current.StagePlan.ToList();
-        var list = plan.Select((i, index) => new StagePlanItem() { Value = i }).ToList();
+        var list = plan.Select((i, index) => new StagePlanItem(i)).ToList();
         foreach (var item in list)
         {
             item.PropertyChanged += (_, __) => SaveStagePlan();
@@ -849,7 +850,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     private void SaveStagePlan()
     {
-        var list = StagePlan.Select(i => i.Value).ToList();
+        var list = StagePlan.Select(i => i.Stage).ToList();
         SetTaskConfig<FightTask>(t => t.StagePlan.SequenceEqual(list), t => t.StagePlan = list);
     }
 
@@ -936,9 +937,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         public bool IsVisible { get => field; set => SetAndNotify(ref field, value); } = true;
     }
 
-    public class StagePlanItem : PropertyChangedBase
+    public class StagePlanItem(string stage = "") : PropertyChangedBase
     {
-        public string Value
+        public string Stage
         {
             get => field;
             set {
@@ -967,7 +968,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 }
                 Instance.SetFightParams();
             }
-        } = string.Empty;
+        } = stage;
 
         public bool IsOpen { get => field; set => SetAndNotify(ref field, value); } = true;
     }

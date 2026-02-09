@@ -1096,12 +1096,6 @@
         "template": "Sarkaz@Roguelike@StartExplore.png",
         "roi": [1014, 481, 266, 219]
     },
-    "Sarkaz@Roguelike@StartExploreWithSeed-ClickPen": {},
-    "Sarkaz@Roguelike@StartExploreWithSeed-Confirm": {},
-    "Sarkaz@Roguelike@StartExploreWithSeed-InputSeed": {
-        "inputText": "U1eIA1I29844Ae925i,rogue_4,6"
-    },
-    "Sarkaz@Roguelike@StartExploreWithSeed-SetDifficulty": {},
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "baseTask": "Sarkaz@Roguelike@StrategyChange_mode1",
         "text": ["_fastInvestment", "_exit"],

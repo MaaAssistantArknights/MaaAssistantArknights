@@ -309,7 +309,7 @@ public static class LocalizationHelper
         return result;
     }
 
-    private static readonly string[] _pallasChars = ["💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🍷", "🍸", "🍺", "🍻"];
+    private static readonly string[] _pallasChars = ["💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
     private static readonly Random _pallasRand = new();
 
     public static string GetPallasString(int low = 3, int high = 6)

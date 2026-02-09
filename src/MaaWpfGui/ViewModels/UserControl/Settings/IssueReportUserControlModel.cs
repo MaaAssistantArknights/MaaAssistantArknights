@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
 using JetBrains.Annotations;
@@ -74,6 +75,84 @@ public class IssueReportUserControlModel : PropertyChangedBase
             ToastNotification.ShowDirect($"Failed to open reports folder\n{ex.Message}");
             Log.Error(ex, "Failed to open reports folder");
         }
+    }
+
+    /// <summary>
+    /// 清空图片缓存 仅删除 cache 目录和 debug 目录中的图片文件，保留文件夹结构
+    /// </summary>
+    public static void ClearImageCache()
+    {
+        var result = MessageBoxHelper.Show(
+            LocalizationHelper.GetString("ClearImageCacheTip"),
+            LocalizationHelper.GetString("Warning"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Error,
+            no: LocalizationHelper.GetString("Confirm"),
+            yes: LocalizationHelper.GetString("Cancel"));
+        if (result == MessageBoxResult.Yes)
+        {
+            return;
+        }
+
+        try
+        {
+            var imageExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ".jpg", ".jpeg", ".png",
+            };
+
+            int deletedCount = 0;
+
+            if (Directory.Exists(PathsHelper.CacheDir))
+            {
+                deletedCount += DeleteImageFiles(PathsHelper.CacheDir, imageExtensions);
+            }
+
+            if (Directory.Exists(PathsHelper.DebugDir))
+            {
+                deletedCount += DeleteImageFiles(PathsHelper.DebugDir, imageExtensions);
+            }
+
+            if (deletedCount > 0)
+            {
+                ShowGrowl(LocalizationHelper.GetString("ClearImageCacheSuccessful"));
+            }
+            else
+            {
+                ShowGrowl(LocalizationHelper.GetString("ClearImageCacheAlreadyEmpty"));
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowGrowl($"{LocalizationHelper.GetString("ClearImageCacheException")}\n{ex.Message}");
+            Log.Error(ex, "Failed to clear image cache");
+        }
+    }
+
+    /// <summary>
+    /// 删除指定目录及其子目录中的所有图片文件。
+    /// </summary>
+    private static int DeleteImageFiles(string dir, HashSet<string> imageExtensions)
+    {
+        int deletedCount = 0;
+        foreach (var file in Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories))
+        {
+            string extension = Path.GetExtension(file);
+            if (imageExtensions.Contains(extension))
+            {
+                try
+                {
+                    File.Delete(file);
+                    deletedCount++;
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, $"Failed to delete image file: {file}");
+                }
+            }
+        }
+
+        return deletedCount;
     }
 
     /// <summary>
@@ -207,6 +286,30 @@ public class IssueReportUserControlModel : PropertyChangedBase
             Log.Error(ex, "Failed to create support payload");
         }
     }
+
+    /*
+    /// <summary>
+    /// 删除目录下的所有文件和子目录，排除指定的文件名。
+    /// </summary>
+    private static void DeleteDirectoryContentsExcept(string dir, IEnumerable<string> excludeFileNames)
+    {
+        var excludeSet = excludeFileNames.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var file in Directory.EnumerateFiles(dir))
+        {
+            if (excludeSet.Contains(Path.GetFileName(file)))
+            {
+                continue;
+            }
+
+            File.Delete(file);
+        }
+
+        foreach (var subDir in Directory.EnumerateDirectories(dir))
+        {
+            Directory.Delete(subDir, recursive: true);
+        }
+    }
+    */
 
     /// <summary>
     /// 从 sourceDir 复制文件到 targetDir，支持过滤。

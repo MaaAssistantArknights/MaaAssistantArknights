@@ -217,7 +217,8 @@
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">{key=AutoRoguelike} 중지 시 전투 종료 대기</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">최대 레벨 달성 시 중지</system:String>
-    <system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>
+    <system:String x:Key="RoguelikeStartWithSeed">지정 시드로 시작</system:String>
+    <!--<system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">월간 분대 자동 전환</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">월간 분대 통신</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">심층 조사 자동 전환</system:String>
@@ -1231,6 +1232,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DrawCard">오퍼레이터 배치</system:String>
     <system:String x:Key="CheckIfStartOver">재시작 여부 확인</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
+    <system:String x:Key="UnsupportedSkill">{0}은 {1} 스킬을 지원하지 않으므로, 스킬이 선택되지 않음</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>
@@ -1289,6 +1291,14 @@ MAA Team의 개발 인력이 제한되어 있어 PC 지원은 전담 관리가 �
     <system:String x:Key="OpenDebugFolder">로그 폴더 열기</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">압축 파일 생성 성공</system:String>
     <system:String x:Key="GenerateSupportPayloadException">압축 파일 생성 중 오류가 발생했습니다:</system:String>
+    <system:String x:Key="ClearImageCache">이미지 캐시 비우기</system:String>
+    <system:String x:Key="ClearImageCacheTip" xml:space="preserve">일반적으로 수동 정리가 필요하지 않습니다.
+DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 시 오래된 이미지가 자동으로 정리됩니다.
+수동 정리는 모든 이미지를 삭제하므로 문제 해결 시 스크린샷이 부족할 수 있습니다.
+캐시 파일(지도, 오퍼레이터 아바타 등)은 정리 후 재생성이 필요하며 사용 경험에 영향을 줄 수 있습니다.</system:String>
+    <system:String x:Key="ClearImageCacheSuccessful">이미지 캐시 비우기 성공</system:String>
+    <system:String x:Key="ClearImageCacheAlreadyEmpty">이미지 캐시가 이미 비어 있음</system:String>
+    <system:String x:Key="ClearImageCacheException">이미지 캐시 비우기 중 오류가 발생했습니다:</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">★3 태그 자동 새로고침</system:String>

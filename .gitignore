@@ -411,10 +411,10 @@ FodyWeavers.xsd
 # VS Code files for those working on multiple tools
 **/.vscode/*
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
 *.code-workspace
 
 # Local History for Visual Studio Code
@@ -434,7 +434,6 @@ FodyWeavers.xsd
 screen.png
 adb_screen.png
 tools/**/*.png
-.vscode
 enc_temp_folder/*
 
 # RoguelikeRecruitmentTool 导出的 Excel 文件

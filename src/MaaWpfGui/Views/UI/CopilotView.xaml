@@ -273,7 +273,10 @@
                         </StackPanel>
 
                         <!--  UseFormation  -->
-                        <StackPanel Height="28" Orientation="Horizontal" Visibility="{c:Binding '(CopilotTabIndex == 0 or CopilotTabIndex == 3) and Form'}">
+                        <StackPanel
+                            Height="28"
+                            Orientation="Horizontal"
+                            Visibility="{c:Binding '(CopilotTabIndex == 0 or CopilotTabIndex == 3) and Form'}">
                             <CheckBox
                                 Margin="2.5,5"
                                 Content="{DynamicResource UseFormation}"
@@ -396,7 +399,7 @@
                                                                     Height="20"
                                                                     InputMethod.IsInputMethodEnabled="False"
                                                                     Maximum="3"
-                                                                    Minimum="1"
+                                                                    Minimum="0"
                                                                     Value="{Binding Skill, UpdateSourceTrigger=PropertyChanged}" />
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellTemplate>
@@ -521,6 +524,7 @@
                         Grid.ColumnSpan="4"
                         HorizontalContentAlignment="Stretch"
                         d:ItemsSource="{d:SampleData ItemCount=7}"
+                        dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         hc:BorderElement.CornerRadius="4,4,0,0"

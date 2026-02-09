@@ -217,7 +217,8 @@
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲 ｢{key=Stop}｣ 動作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>
-    <system:String x:Key="RoguelikeStartWithSeed">啟用刷錢種子</system:String>
+    <system:String x:Key="RoguelikeStartWithSeed">使用指定種子開局</system:String>
+    <!--<system:String x:Key="RoguelikeStartWithSeed">啟用刷錢種子</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小隊自動切換</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小隊通訊</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入調查自動切換</system:String>
@@ -1230,6 +1231,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="DrawCard">調配幹員</system:String>
     <system:String x:Key="CheckIfStartOver">檢查是否重開</system:String>
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 嘗試更新資源版本！</system:String>
+    <system:String x:Key="UnsupportedSkill">{0} 不支援技能 {1}, 不再選擇技能</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果：</system:String>
     <system:String x:Key="ConnectFailed">連線失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重連</system:String>
@@ -1288,6 +1290,14 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="OpenDebugFolder">打開紀錄資料夾</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">壓縮檔產生成功</system:String>
     <system:String x:Key="GenerateSupportPayloadException">產生壓縮檔時發生問題：</system:String>
+    <system:String x:Key="ClearImageCache">清空圖片快取</system:String>
+    <system:String x:Key="ClearImageCacheTip" xml:space="preserve">正常情況下無需手動清理。
+DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖片。
+手動清理會刪除所有圖片，可能導致問題排查時缺少截圖依據。
+快取檔案（如地圖、幹員頭像等）清理後需要重新產生，可能影響使用體驗。</system:String>
+    <system:String x:Key="ClearImageCacheSuccessful">圖片快取已清空</system:String>
+    <system:String x:Key="ClearImageCacheAlreadyEmpty">圖片快取為空</system:String>
+    <system:String x:Key="ClearImageCacheException">清空圖片快取時發生錯誤：</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自動刷新 3★ Tags</system:String>

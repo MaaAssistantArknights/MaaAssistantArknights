@@ -616,7 +616,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         // MessageBox.Show("O(∩_∩)O 拜拜");
         try
         {
-            Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
+            Instances.TaskQueueViewModel.ResetAllTemporaryVariable(false);
         }
         catch
         {
