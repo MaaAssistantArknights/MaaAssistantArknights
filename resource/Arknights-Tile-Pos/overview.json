@@ -26090,6 +26090,15 @@
         "stageId": "mem_wyvern_1",
         "width": 11
     },
+    "mem_xingzh_1-obt/memory/level_memory_xingzh_1": {
+        "code": "mem_xingzh_1",
+        "filename": "mem_xingzh_1-obt-memory-level_memory_xingzh_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_xingzh_1",
+        "name": "难得荒唐",
+        "stageId": "mem_xingzh_1",
+        "width": 9
+    },
     "mem_yak_1-obt/memory/level_memory_yak_1": {
         "code": "mem_yak_1",
         "filename": "mem_yak_1-obt-memory-level_memory_yak_1.json",
@@ -26098,6 +26107,15 @@
         "name": " 岿然不动",
         "stageId": "mem_yak_1",
         "width": 11
+    },
+    "mem_yu_1-obt/memory/level_memory_yu_1": {
+        "code": "mem_yu_1",
+        "filename": "mem_yu_1-obt-memory-level_memory_yu_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_yu_1",
+        "name": "闲客莫进",
+        "stageId": "mem_yu_1",
+        "width": 9
     },
     "mem_yuki_1-obt/memory/level_memory_yuki_1": {
         "code": "mem_yuki_1",
