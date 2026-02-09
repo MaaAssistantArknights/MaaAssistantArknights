@@ -77,9 +77,9 @@ public class IssueReportUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 清空缓存 包括cache目录和debug目录
+    /// 清空缓存 包括 cache 目录和 debug 目录
     /// </summary>
-    public void ClearCache()
+    public static void ClearCache()
     {
         try
         {
