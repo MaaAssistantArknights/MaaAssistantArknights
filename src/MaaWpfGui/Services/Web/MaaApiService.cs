@@ -45,7 +45,7 @@ public class MaaApiService : IMaaApiService
     private async Task<JObject?> TryRequest(string api, string baseUrl, bool allowFallbackToCache = true)
     {
         var url = baseUrl + api;
-        var cache = CacheDir + api;
+        var cache = Path.Combine(CacheDir, api);
 
         var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cache));
         if (response == null)
