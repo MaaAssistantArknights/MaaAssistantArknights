@@ -148,7 +148,7 @@ std::optional<asst::BattleQuickFormation::SkillResult>
         if (result) {
             // 拼接图片中的技能等级icon坐标转换回全图的icon坐标
             Rect rect { result->first.x,
-                        result->first.y + current_y - base_task->roi.y,
+                        result->first.y + base_task->roi.y - last_y,
                         result->first.width,
                         result->first.height };
 
@@ -164,7 +164,7 @@ std::optional<asst::BattleQuickFormation::SkillResult>
     if (result) {
         // 拼接图片中的技能等级icon坐标转换回全图的icon坐标
         Rect rect { result->first.x,
-                    result->first.y + last_y - base_task->roi.y,
+                    result->first.y + base_task->roi.y - last_y,
                     result->first.width,
                     result->first.height };
 
