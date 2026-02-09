@@ -36,7 +36,6 @@ MAA now supports the PC version of Arknights. However, due to limited maintenanc
 
 * 界园肉鸽可选难度提高至 18 @SherkeyXD
 * 芯片本支持显示库存数量 @ABA2396
-* 发布时 minify resource 文件下的 json (#15567) @soundofautumn
 * wpf 增加清理图片缓存功能 @soundofautumn @Constrat @HX3N @status102 @ABA2396
 * 界园肉鸽指定种子开局 (#15588) @status102 @HX3N @Manicsteiner
 
