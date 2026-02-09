@@ -1037,12 +1037,7 @@ public class AsstProxy
                     _tasksStatus.TryGetValue(taskId, out var value);
 
                     var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
-                    Task.Run(async () => {
-                        var screenshot = await AsstGetImageAsync();
-                        Execute.OnUIThread(() => {
-                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, toolTip: screenshot?.CreateTooltip(), updateCardImage: true, fetchLatestImage: true);
-                        });
-                    });
+                    Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true);
 
                     ToastNotification.ShowDirect(log);
                     if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)

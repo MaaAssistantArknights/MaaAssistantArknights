@@ -300,7 +300,7 @@ public class TaskQueueViewModel : Screen
 
     private static int MaxLogItemsWithThumbnails => SettingsViewModel.GuiSettings.MaxNumberOfLogThumbnails;
 
-    private async Task AttachThumbnailToCardAsync(LogCardItemViewModel card, bool forceScreencap)
+    private async Task AttachThumbnailToCardAsync(LogCardItemViewModel card, bool forceScreencap, bool setToolTipOnLastLogItem = false)
     {
         if (card is null)
         {
@@ -324,6 +324,13 @@ public class TaskQueueViewModel : Screen
                 }
                 card.Thumbnail = thumbnail;
                 TrimOldThumbnails();
+
+                // 若需要将当前 Card 图片作为 ToolTip，在缩略图挂载完成后设置最后一条日志的 ToolTip
+                if (setToolTipOnLastLogItem && card.Items.Count > 0)
+                {
+                    var lastLogItem = card.Items[^1];
+                    lastLogItem.ToolTip = thumbnail?.CreateTooltip();
+                }
             });
         }
         catch
@@ -1125,8 +1132,16 @@ public class TaskQueueViewModel : Screen
     /// <param name="toolTip">The toolTip</param>
     /// <param name="updateCardImage">Whether to update the containing card's image/thumbnail.</param>
     /// <param name="fetchLatestImage">Whether to force fetching a fresh screenshot instead of using cache.</param>
+    /// <param name="useCardImageAsToolTip">Whether to use the current card's image as toolTip.</param>
     /// <param name="splitMode">Whether to split cards before/after this log.</param>
-    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null, bool updateCardImage = false, bool fetchLatestImage = false, LogCardSplitMode splitMode = LogCardSplitMode.None)
+    public void AddLog(string? content,
+        string color = UiLogColor.Trace,
+        string weight = "Regular",
+        ToolTip? toolTip = null,
+        bool updateCardImage = false,
+        bool fetchLatestImage = false,
+        bool useCardImageAsToolTip = false,
+        LogCardSplitMode splitMode = LogCardSplitMode.None)
     {
         bool isEmpty = string.IsNullOrEmpty(content);
         bool needsBeforeSplit = splitMode == LogCardSplitMode.Before || splitMode == LogCardSplitMode.Both;
@@ -1146,7 +1161,6 @@ public class TaskQueueViewModel : Screen
 
             if (LogCardViewModels.Count > 0)
             {
-                // 如果有内容，添加到卡片
                 if (!isEmpty)
                 {
                     TryMergeIntoLastCard(content!, color, weight, toolTip);
@@ -1154,7 +1168,7 @@ public class TaskQueueViewModel : Screen
 
                 if (updateCardImage)
                 {
-                    _ = AttachThumbnailToCardAsync(LogCardViewModels[^1], fetchLatestImage);
+                    _ = AttachThumbnailToCardAsync(LogCardViewModels[^1], fetchLatestImage, setToolTipOnLastLogItem: useCardImageAsToolTip);
                 }
             }
 
