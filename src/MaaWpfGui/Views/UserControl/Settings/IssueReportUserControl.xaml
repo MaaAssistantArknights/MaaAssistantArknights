@@ -99,7 +99,8 @@
                 Grid.Column="1"
                 Width="Auto"
                 Margin="5,2"
-                Command="{s:Action ClearCache}"
+                Command="{s:Action ClearCache,
+                                   Target={x:Type settings_vms:IssueReportUserControlModel}}"
                 Content="{DynamicResource ClearCache}" />
         </Grid>
     </StackPanel>
