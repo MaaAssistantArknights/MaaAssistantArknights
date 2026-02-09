@@ -105,7 +105,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         Theme.Mizuki => 18,
         Theme.Sami => 15,
         Theme.Sarkaz => 18,
-        Theme.JieGarden => 15,
+        Theme.JieGarden => 18,
         _ => 20,
     };
 
