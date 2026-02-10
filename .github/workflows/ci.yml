@@ -366,7 +366,7 @@ jobs:
         id: setup-ndk
         uses: nttld/setup-ndk@v1
         with:
-          ndk-version: r28c
+          ndk-version: r29
 
       - name: Configure, build and install
         run: |
