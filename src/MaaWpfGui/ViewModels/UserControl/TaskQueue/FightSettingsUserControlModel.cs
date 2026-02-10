@@ -722,7 +722,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         {
             return SerializeTask(fight, Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId);
         }
-        _logger.Error("Failed to set fight params: current task is not in the task queue.");
         return null;
     }
 
