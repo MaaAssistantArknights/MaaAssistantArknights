@@ -25,6 +25,13 @@
         "roi": [1163, 27, 84, 28],
         "text": ["Movements"]
     },
+    "EnterEpisodeNew": {
+        "baseTask": "#none",
+        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf"
+    },
     "LevelOfDifficulty": {
         "text": ["Environment", "PRTS"]
     },
@@ -387,7 +394,7 @@
             ["Reserve Operator *-* *D[efender]*", "预备干员-重装"],
             ["R-31a Heavy Power Armor", "R-31a重型动力装甲"],
             ["^Astgenne$", "星源"],
-            ["(L? *ight *t* *n?[ifGg]?re?v?y *th?n?er?|Greyy the Lightningbe[arer]*)", "承曦格雷伊"],
+            ["(L? *ight *t* *n?[ifGg]?re?v?y *th?n?er?|Gre[vy][vy] the Lightningbe[arer]*)", "承曦格雷伊"],
             ["Dorothy", "多萝西"],
             ["R-31 Heavy Power Armor", "R-31重型动力装甲"],
             ["R-11 Assault Power Armor", "R-11突击动力装甲"],
@@ -949,7 +956,17 @@
             ["Matsukiri", "松桐"],
             ["Haruka", "遥"],
             ["'Zan'", "“斩”"],
-            ["Hoshiguma the Breacher", "斩业星熊"]
+            ["Hoshiguma the Breacher", "斩业星熊"],
+            ["Life Support Monitor Addon", "维生监测配件"],
+            ["'Moonlight Cocoon'", "“月影之茧”"],
+            ["Microspike Addon", "微型尖刺配件"],
+            ["Mutsumi Wakaba", "若叶睦"],
+            ["Umiri Yahata", "八幡海铃"],
+            ["Sakiko Togawa", "丰川祥子"],
+            ["Counter Armor Set", "反制装甲套组"],
+            ["Uika Misumi", "三角初华"],
+            ["'Unwavering Assistant'", "“绝对助手”"],
+            ["Nyamu Y.?tenji", "祐天寺若麦"]
         ]
     },
     "GameStartCheckResourceOCR": {

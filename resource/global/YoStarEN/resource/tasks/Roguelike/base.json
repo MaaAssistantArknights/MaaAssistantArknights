@@ -1188,7 +1188,7 @@
             ["FinishingTouch", "点睛"],
             ["ButterflyofElm", "榆蝶"],
             ["UninvitedGuest", "不速之客"],
-            ["SowCause.*ReapConsequence", "种因得果"],
+            ["SowCause.*ReapConse[qg]uence", "种因得果"],
             ["AChancetoLive", "生机"],
             ["HundredClanRebellion", "百氏之乱"],
             ["TheFinishingStroke", "收笔"],

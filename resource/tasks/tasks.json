@@ -220,7 +220,8 @@
     "EnterEpisodeNew": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "next": ["EnterEpisodeNew-Click"]
     },
     "00@EnterEpisodeNew": {},
     "01@EnterEpisodeNew": {},
@@ -239,6 +240,12 @@
     "14@EnterEpisodeNew": {},
     "15@EnterEpisodeNew": {},
     "16@EnterEpisodeNew": {},
+    "EnterEpisodeNew-Click": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["前往章节"],
+        "roi": [1078, 595, 112, 42]
+    },
     "EnterEpisode": {
         "Doc": "base_task",
         "baseTask": "EpisodeOcrReplace",
@@ -782,14 +789,14 @@
             [".*威龙陈", "假日威龙陈"],
             ["青积", "青枳"],
             [".*烬艾雅法.*", "纯烬艾雅法拉"],
-            ["^(山.+|一山$)", "山"],
+            ["^(山|一山)$", "山"],
             ["^一余$", "余"],
             ["^一锏$", "锏"],
-            ["^(煌.*|一煌$)", "煌"],
-            ["^(年.?|一年)$", "年"],
+            ["^(煌|一煌)$", "煌"],
+            ["^(年|一年)$", "年"],
             ["^(委|泰|一黍)$", "黍"],
-            ["^(令.+|一令$)", "令"],
-            ["^(夕.*|H$|一夕$)", "夕"],
+            ["^(令|一令)$", "令"],
+            ["^(夕|H|一夕)$", "夕"],
             ["12E", "12F"],
             ["归.*幽灵鲨", "归溟幽灵鲨"],
             ["(临六$|^临光.*)", "临光"],

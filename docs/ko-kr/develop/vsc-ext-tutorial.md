@@ -3,7 +3,7 @@ order: 8
 icon: iconoir:code-brackets
 ---
 
-# 전용 VSCode 확장 프로그램 가이드
+# 전용 VS Code 확장 프로그램 가이드
 
 이 확장 프로그램은 MaaAssistantArknights/MaaFramework에 대해 다음과 같은 기능들을 포함한 편리한 개발 기능들을 제공합니다:
 
@@ -14,7 +14,7 @@ icon: iconoir:code-brackets
 
 ## 설치
 
-VSCode 확장 프로그램 목록에서 `Maa`를 검색하여 직접 설치하는 것을 권장합니다.
+VS Code 확장 프로그램 목록에서 `Maa`를 검색하여 직접 설치하는 것을 권장합니다.
 
 ::: tip
 처음 사용할 때 확장 프로그램은 사전 설정된 버전의 리소스를 자동으로 다운로드합니다.
@@ -90,7 +90,7 @@ VSCode 확장 프로그램 목록에서 `Maa`를 검색하여 직접 설치하�
 
 ### 스크린샷 캡처 및 자르기 / 빠른 인식
 
-VSCode 명령 팔레트에서 `Maa: 스크린샷 도구 열기(Maa: open crop tool)`를 검색하고 실행하여 `스크린샷 / 자르기(Screenshots / Crop)` 패널을 열 수 있습니다.
+VS Code 명령 팔레트에서 `Maa: 스크린샷 도구 열기(Maa: open crop tool)`를 검색하고 실행하여 `스크린샷 / 자르기(Screenshots / Crop)` 패널을 열 수 있습니다.
 
 > `Ctrl+Shift+P` (MacOS의 경우 `Command+Shift+P`)를 사용하여 명령 팔레트를 엽니다.
 
@@ -114,11 +114,11 @@ MAA의 경우, 확장 프로그램에서 사용되는 모델을 자동으로 관
 
 #### MaaFramework 로그
 
-VSCode 명령 팔레트에서 `Maa: maa 로그 열기(Maa: open maa log)`를 검색하고 실행하여 디버깅 중에 생성된 `maa.log` 로그를 볼 수 있습니다.
+VS Code 명령 팔레트에서 `Maa: maa 로그 열기(Maa: open maa log)`를 검색하고 실행하여 디버깅 중에 생성된 `maa.log` 로그를 볼 수 있습니다.
 
 #### Maa Pipeline Support 확장 로그
 
-VSCode 명령 팔레트에서 `Maa: 확장 로그 열기(Maa: open extension log)`를 검색하고 실행하여 디버깅 중에 생성된 `mse.log` 로그를 볼 수 있습니다.
+VS Code 명령 팔레트에서 `Maa: 확장 로그 열기(Maa: open extension log)`를 검색하고 실행하여 디버깅 중에 생성된 `mse.log` 로그를 볼 수 있습니다.
 
 ### 하단 상태 표시줄
 

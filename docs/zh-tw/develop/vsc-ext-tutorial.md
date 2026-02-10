@@ -3,7 +3,7 @@ order: 8
 icon: iconoir:code-brackets
 ---
 
-# 專用 VSCode 擴充功能教學
+# 專用 VS Code 擴充功能教學
 
 此擴充功能針對 MaaAssistantArknights/MaaFramework 提供了一系列便利開發的功能，包括但不限於以下項目：
 
@@ -14,7 +14,7 @@ icon: iconoir:code-brackets
 
 ## 安裝
 
-推薦直接在 VSCode 的擴充功能清單中搜尋 `Maa` 進行安裝。
+推薦直接在 VS Code 的擴充功能清單中搜尋 `Maa` 進行安裝。
 
 ::: tip
 首次使用時，擴充功能會自動下載預設版本的資源。  
@@ -90,7 +90,7 @@ icon: iconoir:code-brackets
 
 ### 截圖裁剪與快速辨識
 
-在 VSCode 的命令面板中搜尋並執行 `Maa: 開啟截圖工具`，即可開啟 `截圖 / 裁剪` 面板。
+在 VS Code 的命令面板中搜尋並執行 `Maa: 開啟截圖工具`，即可開啟 `截圖 / 裁剪` 面板。
 
 > 使用 `Ctrl + Shift + P` (macOS 為 `Command + Shift + P`) 呼叫命令面板。
 
@@ -112,11 +112,11 @@ icon: iconoir:code-brackets
 
 #### MaaFramework 日誌
 
-在 VSCode 的命令面板中搜尋並執行 `Maa: 開啟 maa 日誌`，可查看偵錯期間產生的 `maa.log` 日誌。
+在 VS Code 的命令面板中搜尋並執行 `Maa: 開啟 maa 日誌`，可查看偵錯期間產生的 `maa.log` 日誌。
 
 #### MAA Pipeline Support 擴充功能日誌
 
-在 VSCode 的命令面板中搜尋並執行 `Maa: 開啟插件日誌`，可查看擴充功能運作期間產生的 `mse.log` 日誌。
+在 VS Code 的命令面板中搜尋並執行 `Maa: 開啟插件日誌`，可查看擴充功能運作期間產生的 `mse.log` 日誌。
 
 ### 底部狀態列
 

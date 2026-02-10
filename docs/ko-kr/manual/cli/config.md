@@ -335,7 +335,7 @@ address = "127.0.0.1:7777" # 필요 시 사전 설정된 주소를 재정의할 
 
 #### 특수 프리셋
 
-현재 `PlayCover (MacOS)`, `Waydroid (Linux)` 두 가지 특수 프리셋이 사전 구성되어 있습니다.
+현재 `PlayCover (macOS)`, `Waydroid (Linux)` 두 가지 특수 프리셋이 사전 구성되어 있습니다.
 
 - `PlayCover`는 macOS에서 `PlayCover`를 통해 네이티브로 실행되는 게임 클라이언트에 연결하는 데 사용됩니다. 이 경우 `adb_path`를 지정할 필요가 없으며, `address`는 `adb` 연결 주소가 아닌 `PlayTools`의 주소입니다. 자세한 내용은 [PlayCover 지원 문서][playcover-doc]를 참고하세요.
 

@@ -549,6 +549,13 @@
                 "name": ["秘传交涉术"],
                 "template": "Bskill_ctrl_token_t_spd.png"
             },
+            "bskill_ctrl_tra&prod": {
+                "desc": [
+                    "进驻控制中枢时，若外势大于等于实地，所有贸易站订单效率+7%；若实地大于外势，所有制造站生产力+2%（同种效果取最高）"
+                ],
+                "name": ["权变"],
+                "template": "Bskill_ctrl_tra&prod.png"
+            },
             "bskill_ctrl_trade_mortis": {
                 "desc": [
                     "进驻控制中枢时，热情值+20；每有8点热情值，自身心情每小时消耗+0.01，所有贸易站订单效率+1%（同种效果取最高）"
@@ -2882,6 +2889,11 @@
                 "name": ["饱餐的干劲"],
                 "template": "Bskill_meet_bd_dungeon.png"
             },
+            "bskill_meet_bd_to_spd": {
+                "desc": ["进驻会客室时，线索搜集速度提升20%，同时每10点人间烟火额外提升1%"],
+                "name": ["扶危行侠"],
+                "template": "Bskill_meet_bd_to_spd.png"
+            },
             "bskill_meet_blacksteel2": {
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）",
@@ -3208,12 +3220,13 @@
                 "desc": [
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索",
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索",
+                    "进驻会客室时，更容易获得线索板上尚未拥有的线索",
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索"
                 ],
                 "efficient": {
                     "all": 1
                 },
-                "name": ["不容遗漏·α", "情报分析", "见微知著"],
+                "name": ["不容遗漏·α", "情报分析", "见微知著", "萍踪浪迹"],
                 "template": "Bskill_meet_spdNotOwned1.png"
             },
             "bskill_meet_spdNotOwned2": {
@@ -3294,6 +3307,13 @@
                 ],
                 "name": ["精英小队"],
                 "template": "Bskill_ord_spd&tag1.png"
+            },
+            "bskill_ord_spd&tag2": {
+                "desc": [
+                    "进驻贸易站时，基建内（不包含副手及活动室）每有一间进驻岁干员的设施，订单获取效率+4%（最多5间）"
+                ],
+                "name": ["“孺子可教！”"],
+                "template": "Bskill_ord_spd&tag2.png"
             },
             "bskill_tra_Lappland1": {
                 "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+2"],

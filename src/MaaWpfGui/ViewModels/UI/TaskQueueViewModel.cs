@@ -1720,6 +1720,11 @@ public class TaskQueueViewModel : Screen
         int count = 0;
         foreach (var (index, item) in ConfigFactory.CurrentConfig.TaskQueue.Select((task, i) => (i, task)))
         {
+            _logger.Information("Index {Index}, Type {TaskType}, Name {TaskName}, IsEnable {IsEnable}",
+                index,
+                item.TaskType,
+                item.Name,
+                item.IsEnable);
             if (!IsTaskEnable(item))
             {
                 Instances.TaskQueueViewModel.TaskItemViewModels[index].Status = 4;

@@ -11,7 +11,7 @@ icon: mingcute:git-pull-request-fill
 
 ::: warning
 このガイドでは、多くの概念を簡略化し、より多くの人々が実際に使用できるように、不格好であるが簡単な操作が含まれています。また、正しくない説明もありますので、大変恐れ入りますが、専門家の方々にはお許しください。
-Gitの使用経験とプログラミングの基礎がある場合、[Github Pull Request プロセス概要](./development.md#github-pull-request-プロセス概要)など、より上級のチュートリアルを見ることができます。
+Gitの使用経験とプログラミングの基礎がある場合、[GitHub Pull Request プロセス概要](./development.md#github-pull-request-プロセス概要)など、より上級のチュートリアルを見ることができます。
 :::
 
 ## 基本概念および用語の説明

@@ -23,7 +23,7 @@ MAA 会以 1 秒的间隔持续轮询这个端点，尝试获取他要执行的�
 
 被控 MAA 需要将该端点填写到 MAA 配置的`获取任务端点`文本框中。
 
-该端点必需能够接受一个 `Content-Type=application/json` 的 POST 请求，并该请求必须可以接受下面这个 Json 作为请求的 content：
+该端点必需能够接受一个 `Content-Type=application/json` 的 POST 请求，并该请求必须可以接受下面这个 JSON 作为请求的 content：
 
 ```json
 {
@@ -33,7 +33,7 @@ MAA 会以 1 秒的间隔持续轮询这个端点，尝试获取他要执行的�
 }
 ```
 
-该端点必须返回一个 Json 格式的 Response，并且至少要满足下列格式：
+该端点必须返回一个 JSON 格式的 Response，并且至少要满足下列格式：
 
 ```json
 {
@@ -99,7 +99,7 @@ MAA 会以 1 秒的间隔持续轮询这个端点，尝试获取他要执行的�
 
 被控 MAA 需要将该端点填写到 MAA 配置的 `汇报任务端点` 文本框中。
 
-该端点必需能够接受一个 `Content-Type=application/json` 的 POST 请求，并该请求必须可以接受下面这个 Json 作为请求的 content：
+该端点必需能够接受一个 `Content-Type=application/json` 的 POST 请求，并该请求必须可以接受下面这个 JSON 作为请求的 content：
 
 ```json
 {

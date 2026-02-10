@@ -142,7 +142,7 @@ VSCodeを好む場合、CMake、clangdなどの拡張機能でコード補完、
 
 ### 推奨拡張機能
 
-VSCode Marketplace からインストール：
+VS Code Marketplace からインストール：
 
 | 拡張機能                                                                                            | 用途                                                              |
 | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
@@ -156,7 +156,7 @@ clangd を使用する場合、C/C++ 拡張機能の IntelliSense を無効化�
 
 ### 設定手順
 
-1. VSCode でプロジェクトルートを開く
+1. VS Code でプロジェクトルートを開く
 2. **CMake Tools**：ステータスバーで Configure Preset（例：`windows-x64`、`linux-x64`）を選択し、Build Preset でビルドを実行
 3. **clangd**：Windows で MSVC を使用する場合、`compile_commands.json` がなくても clangd で開発可能。Linux/macOS ではプリセットで `CMAKE_EXPORT_COMPILE_COMMANDS` が有効となり、clangd は `build/compile_commands.json` を自動使用
 4. **デバッグ**：プロジェクトには `.vscode/launch.json` が含まれており、MaaWpfGui や Debug Demo の起動が可能
@@ -177,7 +177,7 @@ MAAは、リポジトリ内のコードとリソースファイルが美しく�
 | ファイルタイプ | フォーマットツール                                              |
 | -------------- | --------------------------------------------------------------- |
 | C++            | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
-| Json/Yaml      | [Prettier](https://prettier.io/)                                |
+| JSON/YAML      | [Prettier](https://prettier.io/)                                |
 | Markdown       | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
 
 ### Pre-commit Hooksを使用してコードを自動フォーマット

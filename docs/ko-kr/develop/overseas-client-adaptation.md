@@ -162,4 +162,4 @@ ROI 범위를 수정하는 방법:
 
 ## 변경사항 제출
 
-[Github Pull Request 가이드](./pr-tutorial.md)를 참고하세요!
+[GitHub Pull Request 가이드](./pr-tutorial.md)를 참고하세요!

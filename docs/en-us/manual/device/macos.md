@@ -9,7 +9,7 @@ icon: basil:apple-solid
 
 ### ✅ [PlayCover](https://playcover.io) (Runs most fluently as it's native 🚀)
 
-Experimental support. Please submit issues if you encounter problems, and include `MacOS` in the title.
+Experimental support. Please submit issues if you encounter problems, and include `macOS` in the title.
 
 Note: Due to macOS system limitations, screenshot issues may occur when minimizing the game window, switching to other windows while in Stage Manager, or moving the window to other desktops/screens. Related issue: [#4371](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
 

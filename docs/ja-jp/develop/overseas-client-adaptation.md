@@ -163,4 +163,4 @@ ROIの範囲を変更するには
 
 ## 変更を送信する
 
-[Github Pull Requst ガイド](../develop/development.md#github-pull-request-プロセス概要)を参照してください。
+[GitHub Pull Request ガイド](../develop/development.md#github-pull-request-プロセス概要)を参照してください。

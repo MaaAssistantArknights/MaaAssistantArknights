@@ -1,0 +1,243 @@
+{
+    "JieGarden@Roguelike@CheckLevel": {
+        "text": ["遊園紀念"]
+    },
+    "JieGarden@Roguelike@ConfirmToGiveUp": {
+        "text": ["放棄行動"]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
+        "text": ["已投出"]
+    },
+    "JieGarden@Roguelike@CoppersExchangeFinish": {
+        "text": ["交換"]
+    },
+    "JieGarden@Roguelike@CoppersNameOcrReplace": {
+        "ocrReplace": [
+            ["_+$", ""],
+            ["\\.+$", ""],
+            ["=", "-"],
+            ["^(屬|雇|層|腐|罠|醫)", "厲"],
+            ["^衛", "衡"],
+            ["大炎通寶", "大炎通宝"],
+            ["厲-西廉貞", "厉-西廉贞"],
+            ["厲-北刺面", "厉-北刺面"],
+            ["厲-南見山", "厉-南见山"],
+            ["厲-東缺角", "厉-东缺角"],
+            ["衡-奇[土士]生金", "衡-奇土生金"],
+            ["衡-水生木護", "衡-水生木护"],
+            ["衡-金寒水衍", "衡-金寒水衍"],
+            ["花-[火人]灼土沃", "花-火灼土沃"],
+            ["衡-匪風", "衡-匪风"],
+            ["衡-(露.*|轟醒)", "衡-霹雳"],
+            ["衡-[早旱]熱", "衡-旱热"],
+            ["衡-霧[凇淞淋]?", "衡-雾凇"],
+            ["花-馳道長", "花-驰道长"],
+            ["花-武人之爭", "花-武人之争"],
+            ["花-百業俱興", "花-百业俱兴"],
+            ["厲-寒窗志", "厉-寒窗志"],
+            ["衡-志欲遂", "衡-志欲遂"],
+            ["衡-慧避災", "衡-慧避灾"],
+            ["厲-戰血流", "厉-战血流"],
+            ["厲-遇良弈", "厉-遇良弈"],
+            ["厲-隱市憂", "厉-隐市忧"],
+            ["厲-法與律", "厉-法与律"],
+            ["厲-兩江春", "厉-两江春"],
+            ["厲-凡物變", "厉-凡物变"],
+            ["厲-人間長存", "厉-人间长存"],
+            ["厲-神農守", "厉-神农守"],
+            ["厲-夢奇物", "厉-梦奇物"],
+            ["厲[-—一]+字落", "厉-一字落"],
+            ["厲-待機緣", "厉-待机缘"],
+            ["厲-畫人間", "厉-画人间"],
+            ["厲-[恣洛恐]狂情", "厉-恣狂情"],
+            ["衡-挪移", "衡-挪移"],
+            ["衡-迅步", "衡-迅步"],
+            ["厲-生材百相", "厉-生材百相"],
+            ["衡-重鎧", "衡-重铠"],
+            ["厲-[火人]機", "厉-火机"],
+            ["厲-歲醒天時", "厉-岁醒天时"],
+            ["厲-無皎之昧", "厉-无皎之昧"],
+            ["衡-慶豐收", "衡-庆丰收"],
+            ["衡-塞上月", "衡-塞上月"],
+            ["花-聚力則強", "花-聚力则强"],
+            ["衡-軍[屯中]墾", "衡-军屯垦"],
+            ["厲-安碩.*", "厉-安硕鼷"],
+            ["衡-詭意代幣", "衡-诡意代币"],
+            ["厲-合乎禮", "厉-合乎礼"],
+            ["花-繭成絹", "花-茧成绢"],
+            ["厲-黑子伏", "厉-黑子伏"],
+            ["花-平沙之盾", "花-平沙之盾"],
+            ["花-[火人]上之灶", "花-火上之灶"],
+            ["花-界園行", "花-界园行"],
+            ["衡-債難償", "衡-债难偿"],
+            ["衡-觸鎖代幣", "衡-触锁代币"],
+            ["花-延識鎮木", "花-延识镇木"],
+            ["厲-移山難", "厉-移山难"],
+            ["衡-移山繁", "衡-移山繁"],
+            ["厲-朝聞道", "厉-朝闻道"],
+            ["衡-天下先", "衡-天下先"],
+            ["衡-初有文", "衡-初有文"],
+            ["花-載道遠", "花-载道远"],
+            ["衡-勤運體", "衡-勤运体"],
+            ["花-修性情", "花-修性情"],
+            ["花-心無患", "花-心无患"],
+            ["花-鴨爵金幣", "花-鸭爵金币"],
+            ["衡-鴻蒙開荒", "衡-鸿蒙开荒"],
+            ["花-[己已]任重", "花-己任重"],
+            ["花-聖[迢詔]封神", "花-圣诏封神"],
+            ["花-神秘商賈", "花-神秘商贾"],
+            ["厲-誅邪雷法", "厉-诛邪雷法"],
+            ["厲-商路難行", "厉-商路难行"],
+            ["花-孜孜不倦", "花-孜孜不倦"],
+            ["衡-虹霓", "衡-虹霓"],
+            ["衡-霖[雨兩]", "衡-霖雨"],
+            ["衡-投木[炎災]延", "衡-投木炎延"]
+        ]
+    },
+    "JieGarden@Roguelike@GiveUpOperation": {
+        "text": ["放棄行動"]
+    },
+    "JieGarden@Roguelike@NextLevel": {
+        "ocrReplace": [["見字柯", "見字祠"]],
+        "text": ["洪陸樓", "山水閣", "雲瓦亭", "汝吾門", "見字祠", "始末陵", "是非境"]
+    },
+    "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
+        "text": ["確認留存"]
+    },
+    "JieGarden@Roguelike@SelectTheme": {
+        "text": ["遊園紀念"]
+    },
+    "JieGarden@Roguelike@StageSafeHouseReuse": {
+        "text": ["活用安全屋"]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            ["洪陸樓", "_default"],
+            ["山水閣", "_default"],
+            ["雲(瓦)?(亭|亨)", "_default"],
+            ["汝吾(門)?", "_default"],
+            ["見字(祠|柯)", "_default"],
+            ["始末陵", "_default"],
+            ["是非境", "_boskyPassageDefault"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
+        "ocrReplace": [
+            ["洪陸樓", "_aggressive"],
+            ["山水閣", "_aggressive"],
+            ["雲(瓦)?(亭|亨)", "_pragmatic"],
+            ["汝吾(門)?", "_pragmatic"],
+            ["見字(祠|柯)", "_default"],
+            ["始末陵", "_default"],
+            ["是非境", "_boskyPassageDefault"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["洪陸樓", "_default"],
+            ["山水閣", "_restart"],
+            ["雲(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(門)?", "_restart"],
+            ["見字(祠|柯)", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_leaveBoskyPassage"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode1-FastPass": {
+        "ocrReplace": [
+            ["洪陸樓", "_fastPass"],
+            ["山水閣", "_restart"],
+            ["雲(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(門)?", "_restart"],
+            ["見字(祠|柯)", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_leaveBoskyPassage"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode10001": {
+        "ocrReplace": [
+            ["洪陸樓", "_fastPass"],
+            ["山水閣", "_restart"],
+            ["雲(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(門)?", "_restart"],
+            ["見字(祠|柯)", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_leaveBoskyPassage"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode20001": {
+        "ocrReplace": [
+            ["洪陸樓", "_default"],
+            ["山水閣", "_restart"],
+            ["雲(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(門)?", "_restart"],
+            ["見字(祠|柯)", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_boskyPassageDefault"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            ["洪陸樓", "_default"],
+            ["山水閣", "_exit"],
+            ["雲(瓦)?(亭|亨)", "_exit"],
+            ["汝吾(門)?", "_exit"],
+            ["見字(祠|柯)", "_exit"],
+            ["始末陵", "_exit"],
+            ["是非境", "_leaveBoskyPassage"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
+        "ocrReplace": [
+            ["洪陸樓", "_fastPass"],
+            ["山水閣", "_exit"],
+            ["雲(瓦)?(亭|亨)", "_exit"],
+            ["汝吾(門)?", "_exit"],
+            ["見字(祠|柯)", "_exit"],
+            ["始末陵", "_exit"],
+            ["是非境", "_leaveBoskyPassage"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["洪陸樓", "_default"],
+            ["山水閣", "_default"],
+            ["雲(瓦)?(亭|亨)", "_default"],
+            ["汝吾(門)?", "_default"],
+            ["見字(祠|柯)", "_default"],
+            ["始末陵", "_default"],
+            ["是非境", "_boskyPassageDefault"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["洪陸樓", "_default"],
+            ["山水閣", "_default"],
+            ["雲(瓦)?(亭|亨)", "_default"],
+            ["汝吾(門)?", "_default"],
+            ["見字(祠|柯)", "_default"],
+            ["始末陵", "_default"],
+            ["是非境", "_boskyPassageDefault"]
+        ]
+    },
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "ocrReplace": [
+            ["[_—,，\\.]+$", ""],
+            ["^[_—,，\\.]+", ""],
+            ["^[儡蟹]+", ""],
+            ["飽餐一頓", "饱餐一顿"],
+            ["鼓舞士氣", "鼓舞士气"],
+            ["醫治傷口", "医治伤口"],
+            ["搖動令旗", "摇动令旗"],
+            ["稍事休息", "稍事休息"],
+            ["重整編制", "重整编制"],
+            ["布下陣法", "布下阵法"],
+            ["點燃蠟燭", "点燃蜡烛"],
+            ["想要亥時的", "想要亥时的"],
+            ["找黍溯果", "找黍溯果"],
+            ["睜開雙眼.*", "睁开双眼——"],
+            ["飲一口缸中水，祈求好運", "饮一口缸中水，祈求好运"],
+            ["奉碑行儀", "奉碑行仪"]
+        ]
+    }
+}

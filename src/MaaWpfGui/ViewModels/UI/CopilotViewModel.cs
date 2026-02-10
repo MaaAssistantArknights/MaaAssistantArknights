@@ -1321,7 +1321,6 @@ public partial class CopilotViewModel : Screen
             }
         }
 
-        ClearLog();
         Log(copilotSet.Name, copilotSet.Description);
         return;
 
