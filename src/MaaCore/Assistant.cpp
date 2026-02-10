@@ -142,6 +142,10 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
             return true;
         }
+        else if (constexpr std::string_view Android = "Android"; value == Android) {
+            m_ctrler->set_touch_mode(TouchMode::Android);
+            return true;
+        }
         else if (constexpr std::string_view MaaFwAdb = "MaaFwAdb"; value == MaaFwAdb) {
             m_ctrler->set_touch_mode(TouchMode::MaaFwAdb);
             return true;
@@ -636,6 +640,12 @@ void asst::Assistant::call_proc()
 {
     LogTraceFunction;
 
+#ifdef __ANDROID__
+    auto& lib = AndroidExternalLib::instance();
+    auto env = lib.AttachThread();
+    LogInfo << "Use Android AttachThread env: " << env;
+#endif
+
     while (true) {
         std::unique_lock<std::mutex> lock(m_call_mutex);
         if (m_thread_exit) {
@@ -707,6 +717,13 @@ void asst::Assistant::call_proc()
         };
         append_callback(AsstMsg::AsyncCallInfo, cb_info);
     }
+
+#ifdef ANDROID
+    if (env) {
+        LogInfo << "Use Android AttachThread";
+        lib.DetachThread(env);
+    }
+#endif
 }
 
 void Assistant::append_callback(AsstMsg msg, const json::value& detail)
