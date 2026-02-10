@@ -36,6 +36,9 @@ enum class StaticOptionKey
     CpuOCR = 1, // use CPU to OCR, no value. It does not support switching after the resource is loaded.
     GpuOCR = 2, // use GPU to OCR, value is gpu_id int to string. It does not support switching after the resource
                 // is loaded.
+#ifdef __ANDROID__
+    AndroidExternalLib = 3
+#endif // __ANDROID__
 };
 
 enum class InstanceOptionKey
@@ -54,6 +57,9 @@ enum class TouchMode
     Minitouch = 1,
     Maatouch = 2,
     MacPlayTools = 3,
+#ifdef __ANDROID__
+    Android = 4,
+#endif // __ANDROID__
 };
 
 #ifdef _WIN32
@@ -152,7 +158,7 @@ struct Point
     {                                                                     \
         return { lhs.x Op rhs.x, lhs.y Op rhs.y };                        \
     }                                                                     \
-    friend Point& operator Op##=(Point& val, const Point& opd) noexcept   \
+    friend Point& operator Op## =(Point& val, const Point& opd) noexcept   \
     {                                                                     \
         val.x Op## = opd.x;                                               \
         val.y Op## = opd.y;                                               \
@@ -257,7 +263,7 @@ struct Rect
     static Rect bounding_box(const std::vector<Rect>& rects)
     {
         if (rects.empty()) {
-            return {};
+            return { };
         }
 
         int min_x = INT_MAX;
@@ -300,11 +306,11 @@ struct AnalyzerResult
 {
     virtual ~AnalyzerResult() = default;
 
-    virtual std::string to_string() const { return {}; };
+    virtual std::string to_string() const { return { }; };
 
     explicit operator std::string() const { return to_string(); }
 
-    virtual json::object to_json() const { return {}; };
+    virtual json::object to_json() const { return { }; };
 
     explicit operator json::object() const { return to_json(); }
 };
@@ -415,8 +421,8 @@ struct pair_hash
 {
     size_t operator()(const std::pair<T1, T2>& p) const noexcept
     {
-        std::size_t hash1 = std::hash<T1> {}(p.first);
-        std::size_t hash2 = std::hash<T2> {}(p.second);
+        std::size_t hash1 = std::hash<T1> { }(p.first);
+        std::size_t hash2 = std::hash<T2> { }(p.second);
         hash1 ^= hash2 + 0x9e3779b9 + (hash1 << 6) + (hash1 >> 2);
 
         hash1 ^= hash1 >> 32;
