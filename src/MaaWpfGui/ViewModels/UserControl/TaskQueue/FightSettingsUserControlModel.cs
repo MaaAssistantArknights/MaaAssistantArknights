@@ -636,10 +636,22 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         return value;
     }
 
-    public static string? GetFightStage(IEnumerable<string> stageNames)
+    public static string? GetFightStage(FightTask fightTask)
     {
-        var stage = stageNames.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen);
-        stage ??= stageNames.FirstOrDefault();
+        if (fightTask == null)
+        {
+            return null;
+        }
+
+        // 不再显式标明过期关卡后, 需要提前过滤掉过期关卡
+        var stageList = Instances.StageManager.GetStageList();
+        var list = fightTask.StagePlan;
+        if (!fightTask.IsStageManually)
+        {
+            list = [.. list.Where(stage => stageList.Any(p => p.Value == stage))];
+        }
+        var stage = list?.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen);
+        stage ??= list?.FirstOrDefault();
         return stage;
     }
 
@@ -727,7 +739,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
 
         using var scope = _lock.EnterScope();
-        var stage = GetFightStage(fight.StagePlan);
+        var stage = GetFightStage(fight);
         if (stage is null)
         {
             return null;
