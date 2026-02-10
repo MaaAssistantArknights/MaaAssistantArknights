@@ -128,7 +128,7 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool HideSeries { get; set; }
 
-    public FightStageResetMode StageResetMode { get; set; } = FightStageResetMode.Current;
+    public FightStageResetMode StageResetMode { get; set; } = FightStageResetMode.DoNotReset;
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否启用周计划

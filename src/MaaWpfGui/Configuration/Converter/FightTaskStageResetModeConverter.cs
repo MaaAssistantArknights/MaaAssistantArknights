@@ -63,7 +63,7 @@ internal class FightTaskStageResetModeConverter : JsonConverter<Root>
                                 }
                                 else
                                 {
-                                    fightTask.StageResetMode = FightStageResetMode.Current;
+                                    fightTask.StageResetMode = FightStageResetMode.DoNotReset;
                                 }
                             }
                         }

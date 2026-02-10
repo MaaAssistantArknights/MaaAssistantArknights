@@ -24,4 +24,9 @@ public enum FightStageResetMode
     /// 无效关卡
     /// </summary>
     Invalid,
+
+    /// <summary>
+    /// 不重置
+    /// </summary>
+    DoNotReset,
 }

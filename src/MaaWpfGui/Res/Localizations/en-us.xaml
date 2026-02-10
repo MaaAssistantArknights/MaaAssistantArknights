@@ -749,6 +749,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <!--<system:String x:Key="LastBattle">Last Battle</system:String>-->
     <system:String x:Key="DefaultStage">Cur/Last</system:String>
     <system:String x:Key="InvalidStage">Invalid</system:String>
+    <system:String x:Key="DoNotResetStage">Do Not Reset</system:String>
     <system:String x:Key="ClosedStage">The event is not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
     <system:String x:Key="LowVersion">Old Version, Update required</system:String>
