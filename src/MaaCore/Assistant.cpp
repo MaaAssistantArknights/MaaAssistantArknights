@@ -142,13 +142,13 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
             return true;
         }
+        else if (constexpr std::string_view MaaFwAdb = "MaaFwAdb"; value == MaaFwAdb) {
+            m_ctrler->set_touch_mode(TouchMode::MaaFwAdb);
+            return true;
+        }
 #ifdef __ANDROID__
         else if (constexpr std::string_view Android = "Android"; value == Android) {
             m_ctrler->set_touch_mode(TouchMode::Android);
-            return true;
-        }
-        else if (constexpr std::string_view MaaFwAdb = "MaaFwAdb"; value == MaaFwAdb) {
-            m_ctrler->set_touch_mode(TouchMode::MaaFwAdb);
             return true;
         }
         break;
