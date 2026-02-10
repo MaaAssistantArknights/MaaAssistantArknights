@@ -159,6 +159,39 @@
             }
         },
         {
+            "name": "android-base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "$comment": [
+                "Base for Android presets; cross-compilation via NDK toolchain",
+                "CMAKE_TOOLCHAIN_FILE must be passed externally pointing to NDK's android.toolchain.cmake"
+            ],
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Android",
+                "ANDROID_PLATFORM": "android-28",
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "android-arm64",
+            "inherits": "android-base",
+            "displayName": "Android arm64",
+            "cacheVariables": {
+                "ANDROID_ABI": "arm64-v8a",
+                "MAADEPS_TRIPLET": "maa-arm64-android"
+            }
+        },
+        {
+            "name": "android-x64",
+            "inherits": "android-base",
+            "displayName": "Android x64",
+            "cacheVariables": {
+                "ANDROID_ABI": "x86_64",
+                "MAADEPS_TRIPLET": "maa-x64-android"
+            }
+        },
+        {
             "name": "publish-base",
             "$comment": [
                 "All the name contains 'publish' are used for github actions",
@@ -231,6 +264,22 @@
                 "macos-arm64"
             ],
             "displayName": "macOS arm64 Publish"
+        },
+        {
+            "name": "android-publish-arm64",
+            "inherits": ["publish-base", "android-arm64"],
+            "displayName": "Android arm64 Publish",
+            "cacheVariables": {
+                "INSTALL_PYTHON": "OFF"
+            }
+        },
+        {
+            "name": "android-publish-x64",
+            "inherits": ["publish-base", "android-x64"],
+            "displayName": "Android x64 Publish",
+            "cacheVariables": {
+                "INSTALL_PYTHON": "OFF"
+            }
         },
         {
             "name": "smoke-test",
@@ -392,6 +441,16 @@
             "displayName": "Build macOS arm64 Publish",
             "configurePreset": "macos-publish-arm64",
             "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "android-publish-arm64",
+            "displayName": "Build Android arm64 Publish",
+            "configurePreset": "android-publish-arm64"
+        },
+        {
+            "name": "android-publish-x64",
+            "displayName": "Build Android x64 Publish",
+            "configurePreset": "android-publish-x64"
         },
         {
             "name": "smoke-test",

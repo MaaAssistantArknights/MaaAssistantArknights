@@ -370,16 +370,8 @@ jobs:
 
       - name: Configure, build and install
         run: |
-          cmake -B build -G Ninja \
+          cmake -B build --preset 'android-publish-${{ matrix.arch }}' \
             -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake \
-            -DANDROID_ABI=${{ matrix.arch == 'arm64' && 'arm64-v8a' || 'x86_64' }} \
-            -DANDROID_PLATFORM=android-28 \
-            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-            -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-android' \
-            -DINSTALL_RESOURCE=ON \
-            -DINSTALL_PYTHON=OFF \
-            -DBUILD_WPF_GUI=OFF \
-            -DBUILD_DEBUG_DEMO=OFF \
             -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
           cmake --build build --parallel $(sysctl -n hw.logicalcpu)
           cmake --install build --prefix install
