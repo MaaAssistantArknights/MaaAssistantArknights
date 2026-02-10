@@ -113,20 +113,6 @@ public class AwardSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    [Obsolete("使用SerializeTask作为代替")]
-    public override (AsstTaskType Type, JObject Params) Serialize()
-    {
-        var task = new AsstAwardTask() {
-            Award = ReceiveAward,
-            Mail = ReceiveMail,
-            FreeGacha = ReceiveFreeGacha,
-            Orundum = ReceiveOrundum,
-            Mining = ReceiveMining,
-            SpecialAccess = ReceiveSpecialAccess,
-        };
-        return task.Serialize();
-    }
-
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not AwardTask award)

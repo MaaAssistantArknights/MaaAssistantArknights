@@ -73,41 +73,6 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    [Obsolete("使用SerializeTask作为代替")]
-    public override (AsstTaskType Type, JObject Params) Serialize()
-    {
-        var task = new AsstCustomTask() {
-            CustomTasks = TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(task => task.Trim())
-                .ToList(),
-        };
-        return task.Serialize();
-    }
-
-    [Obsolete("使用SerializeTask作为代替")]
-    public List<(AsstTaskType Type, JObject Params)> SerializeMultiTasks()
-    {
-        if (string.IsNullOrWhiteSpace(TaskName))
-        {
-            return [];
-        }
-
-        if (!TaskName.Contains(';'))
-        {
-            return [Serialize()];
-        }
-
-        var taskGroups = TaskName.Split(';', StringSplitOptions.RemoveEmptyEntries);
-
-        return taskGroups.Select(group => new AsstCustomTask() {
-            CustomTasks = group.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(task => task.Trim())
-                    .ToList(),
-        })
-            .Select(task => task.Serialize())
-            .ToList();
-    }
-
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not CustomTask custom)

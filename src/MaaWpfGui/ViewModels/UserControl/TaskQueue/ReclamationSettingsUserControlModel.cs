@@ -12,17 +12,13 @@
 // </copyright>
 
 #nullable enable
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
-using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 using Mode = MaaWpfGui.Configuration.Single.MaaTask.ReclamationMode;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
@@ -48,7 +44,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
         ];
 
     /// <summary>
-    /// Gets or sets the Reclamation theme.
+    /// Gets or sets 生息演算主题["Tales"].
     /// </summary>
     public Theme ReclamationTheme
     {
@@ -67,6 +63,17 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
 
     /// <summary>
     /// Gets or sets 策略，无存档刷生息点数 / 有存档刷生息点数
+    /// 可用值包括：
+    /// <list type="bullet">
+    ///     <item>
+    ///         <term><c>0</c></term>
+    ///         <description>无存档时通过进出关卡刷生息点数</description>
+    ///     </item>
+    ///     <item>
+    ///         <term><c>1</c></term>
+    ///         <description>有存档时通过合成支援道具刷生息点数</description>
+    ///     </item>
+    /// </list>
     /// </summary>
     public Mode ReclamationMode
     {
@@ -74,10 +81,12 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
         set => SetTaskConfig<ReclamationTask>(t => t.Mode == value, t => t.Mode = value);
     }
 
+    /// <summary>
+    /// Gets or sets 要组装的支援道具
+    /// </summary>
     public string ReclamationToolToCraft
     {
         get => GetTaskConfig<ReclamationTask>().ToolToCraft;
-
         set {
             value = value.Replace('；', ';').Trim();
             SetTaskConfig<ReclamationTask>(t => t.ToolToCraft == value, t => t.ToolToCraft = value);
@@ -93,18 +102,27 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
             new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = 1 },
         ];
 
+    /// <summary>
+    /// Gets or sets 点击类型：0 连点；1 长按
+    /// </summary>
     public int ReclamationIncrementMode
     {
         get => GetTaskConfig<ReclamationTask>().IncrementMode;
         set => SetTaskConfig<ReclamationTask>(t => t.IncrementMode == value, t => t.IncrementMode = value);
     }
 
+    /// <summary>
+    /// Gets or sets 单次最大制造轮数
+    /// </summary>
     public int ReclamationMaxCraftCountPerRound
     {
         get => GetTaskConfig<ReclamationTask>().MaxCraftCountPerRound;
         set => SetTaskConfig<ReclamationTask>(t => t.MaxCraftCountPerRound == value, t => t.MaxCraftCountPerRound = value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 刷完点数后是否清空商店
+    /// </summary>
     public bool ReclamationClearStore
     {
         get => GetTaskConfig<ReclamationTask>().ClearStore;
@@ -117,41 +135,6 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
         {
             Refresh();
         }
-    }
-
-    /// <summary>
-    /// 自动生息演算。
-    /// </summary>
-    /// <param name="theme">生息演算主题["Tales"]</param>
-    /// <param name="mode">
-    /// 策略。可用值包括：
-    /// <list type="bullet">
-    ///     <item>
-    ///         <term><c>0</c></term>
-    ///         <description>无存档时通过进出关卡刷生息点数</description>
-    ///     </item>
-    ///     <item>
-    ///         <term><c>1</c></term>
-    ///         <description>有存档时通过合成支援道具刷生息点数</description>
-    ///     </item>
-    /// </list>
-    /// </param>
-    /// <param name="increment_mode">点击类型：0 连点；1 长按</param>
-    /// <param name="num_craft_batches">单次最大制造轮数</param>
-    /// <param name="tools_to_craft">要组装的支援道具。</param>
-    /// <param name="clear_store">刷完点数后是否清空商店。</param>
-    /// <returns>返回(Asst任务类型, 参数)</returns>
-    [Obsolete("使用SerializeTask作为代替")]
-    public override (AsstTaskType Type, JObject Params) Serialize()
-    {
-        return new AsstReclamationTask {
-            Theme = ReclamationTheme,
-            Mode = ReclamationMode,
-            IncrementMode = ReclamationIncrementMode,
-            MaxCraftCountPerRound = ReclamationMaxCraftCountPerRound,
-            ToolToCraft = ReclamationToolToCraft.Split(';').Select(s => s.Trim()).ToList(),
-            ClearStore = ReclamationClearStore,
-        }.Serialize();
     }
 
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)

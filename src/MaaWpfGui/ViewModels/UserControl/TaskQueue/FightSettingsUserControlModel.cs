@@ -684,43 +684,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         IsRefreshingUI = false;
     }
 
-    [Obsolete("使用SerializeTask作为代替")]
-    public override (AsstTaskType Type, JObject Params) Serialize()
-    {
-        var task = new AsstFightTask() {
-            // Stage = Stage,
-            Medicine = UseMedicine != false ? MedicineNumber : 0,
-            Stone = UseStoneDisplay ? StoneNumber : 0,
-            Series = Series,
-            MaxTimes = HasTimesLimited != false ? MaxTimes : int.MaxValue,
-            ExpiringMedicine = UseExpiringMedicine ? 9999 : 0,
-            IsDrGrandet = IsDrGrandet,
-            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-            PenguinId = SettingsViewModel.GameSettings.PenguinId,
-            YituliuId = SettingsViewModel.GameSettings.PenguinId,
-            ServerType = Instances.SettingsViewModel.ServerType,
-            ClientType = SettingsViewModel.GameSettings.ClientType,
-        };
-
-        if (task.Stage == "Annihilation" && UseCustomAnnihilation)
-        {
-            task.Stage = AnnihilationStage;
-        }
-
-        if (IsSpecifiedDrops != false && !string.IsNullOrEmpty(DropsItemId))
-        {
-            task.Drops.Add(DropsItemId, DropsQuantity);
-        }
-
-        if (HasTimesLimited is not false && Series > 0 && MaxTimes % Series != 0)
-        {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", MaxTimes, Series), UiLogColor.Warning);
-        }
-
-        return task.Serialize();
-    }
-
     private bool? SetFightParams()
     {
         if (IsRefreshingUI || TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
