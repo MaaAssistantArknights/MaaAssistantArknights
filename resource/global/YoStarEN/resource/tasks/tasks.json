@@ -956,7 +956,17 @@
             ["Matsukiri", "松桐"],
             ["Haruka", "遥"],
             ["'Zan'", "“斩”"],
-            ["Hoshiguma the Breacher", "斩业星熊"]
+            ["Hoshiguma the Breacher", "斩业星熊"],
+            ["Life Support Monitor Addon", "维生监测配件"],
+            ["'Moonlight Cocoon'", "“月影之茧”"],
+            ["Microspike Addon", "微型尖刺配件"],
+            ["Mutsumi Wakaba", "若叶睦"],
+            ["Umiri Yahata", "八幡海铃"],
+            ["Sakiko Togawa", "丰川祥子"],
+            ["Counter Armor Set", "反制装甲套组"],
+            ["Uika Misumi", "三角初华"],
+            ["'Unwavering Assistant'", "“绝对助手”"],
+            ["Nyamu Yūtenji", "祐天寺若麦"]
         ]
     },
     "GameStartCheckResourceOCR": {

@@ -3707,8 +3707,7 @@
         },
         "char_4182_oblvns": {
             "name": "丰川祥子",
-            "name_en": "丰川祥子",
-            "name_en_unavailable": true,
+            "name_en": "Sakiko Togawa",
             "name_jp": "豊川祥子",
             "name_kr": "토가와 사키코",
             "name_tw": "丰川祥子",
@@ -3720,8 +3719,7 @@
         },
         "char_4183_mortis": {
             "name": "若叶睦",
-            "name_en": "若叶睦",
-            "name_en_unavailable": true,
+            "name_en": "Mutsumi Wakaba",
             "name_jp": "若葉睦",
             "name_kr": "와카바 무츠미",
             "name_tw": "若叶睦",
@@ -3733,8 +3731,7 @@
         },
         "char_4184_dolris": {
             "name": "三角初华",
-            "name_en": "三角初华",
-            "name_en_unavailable": true,
+            "name_en": "Uika Misumi",
             "name_jp": "三角初華",
             "name_kr": "미스미 우이카",
             "name_tw": "三角初华",
@@ -3746,8 +3743,7 @@
         },
         "char_4185_amoris": {
             "name": "祐天寺若麦",
-            "name_en": "祐天寺若麦",
-            "name_en_unavailable": true,
+            "name_en": "Nyamu Yūtenji",
             "name_jp": "祐天寺にゃむ",
             "name_kr": "유텐지 냐무",
             "name_tw": "祐天寺若麦",
@@ -3759,8 +3755,7 @@
         },
         "char_4186_tmoris": {
             "name": "八幡海铃",
-            "name_en": "八幡海铃",
-            "name_en_unavailable": true,
+            "name_en": "Umiri Yahata",
             "name_jp": "八幡海鈴",
             "name_kr": "야하타 우미리",
             "name_tw": "八幡海铃",
@@ -10293,8 +10288,7 @@
         },
         "trap_249_mjcsdw": {
             "name": "“月影之茧”",
-            "name_en": "“月影之茧”",
-            "name_en_unavailable": true,
+            "name_en": "'Moonlight Cocoon'",
             "name_jp": "「月影の繭」",
             "name_kr": "'달그림자 고치'",
             "name_tw": "“月影之茧”",
@@ -12923,8 +12917,7 @@
         },
         "trap_783_tnkspk": {
             "name": "反制装甲套组",
-            "name_en": "反制装甲套组",
-            "name_en_unavailable": true,
+            "name_en": "Counter Armor Set",
             "name_jp": "カウンターアーマーセット",
             "name_kr": "역제압 장갑 세트",
             "name_tw": "反制装甲套组",
@@ -12936,8 +12929,7 @@
         },
         "trap_784_tnkspka": {
             "name": "微型尖刺配件",
-            "name_en": "微型尖刺配件",
-            "name_en_unavailable": true,
+            "name_en": "Microspike Addon",
             "name_jp": "鍼治療キットパーツ",
             "name_kr": "소형 스파이크 키트",
             "name_tw": "微型尖刺配件",
@@ -12949,8 +12941,7 @@
         },
         "trap_785_tnkspkb": {
             "name": "维生监测配件",
-            "name_en": "维生监测配件",
-            "name_en_unavailable": true,
+            "name_en": "Life Support Monitor Addon",
             "name_jp": "バイタルモニターパーツ",
             "name_kr": "바이탈 모니터링 키트",
             "name_tw": "维生监测配件",
@@ -12962,8 +12953,7 @@
         },
         "trap_786_fxdtwr": {
             "name": "“绝对助手”",
-            "name_en": "“绝对助手”",
-            "name_en_unavailable": true,
+            "name_en": "'Unwavering Assistant'",
             "name_jp": "「パーフェクトサポーター」",
             "name_kr": "'완벽한 조수'",
             "name_tw": "“绝对助手”",
