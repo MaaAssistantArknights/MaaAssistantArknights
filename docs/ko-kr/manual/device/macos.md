@@ -61,7 +61,7 @@ Mac 버전 개발에 인력이 부족하여 업데이트 속도가 비교적 느
 
 완벽하게 지원됩니다.
 
-추가로, macOS에서 녹스 에뮬레이터의 adb 이진 파일의 위치는 `/Applications/NoxAppPlayer.app/Contents/MacOS/adb`이며 부모 디렉토리 `MacOS`에서 `adb devices` 명령을 사용하여 adb 포트를 확인할 수 있습니다.
+추가로, macOS에서 녹스 에뮬레이터의 adb 이진 파일의 위치는 `/Applications/NoxAppPlayer.app/Contents/macOS/adb`이며 부모 디렉토리 `macOS`에서 `adb devices` 명령을 사용하여 adb 포트를 확인할 수 있습니다.
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 

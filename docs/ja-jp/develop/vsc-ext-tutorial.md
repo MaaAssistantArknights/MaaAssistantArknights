@@ -3,7 +3,7 @@ order: 8
 icon: iconoir:code-brackets
 ---
 
-# Dedicated VSCode Extension Tutorial
+# Dedicated VS Code Extension Tutorial
 
 The extension provides a series of convenient development capabilities for MaaAssistantArknights/MaaFramework, including but not limited to the following features:
 
@@ -14,7 +14,7 @@ For details, please visit [Extension Store](https://marketplace.visualstudio.com
 
 ## Installation
 
-Searching `Maa` and installing it from VSCode extensions list is recommended.
+Searching `Maa` and installing it from VS Code extensions list is recommended.
 
 ::: tip
 When used for the first time, the extension will automatically download the preset version of resources.
@@ -90,9 +90,9 @@ Scanning and selecting controllers, selecting resource, adding and manipulating 
 
 ### Take screenshots and crop images / Quick recognition
 
-Searching and launching `Maa: open crop tool` inside VSCode command panel can open `Screenshots / Crop` panel.
+Searching and launching `Maa: open crop tool` inside VS Code command panel can open `Screenshots / Crop` panel.
 
-> Use `Ctrl+Shift+P` (`Command+Shift+P` on MacOS) to open command panel
+> Use `Ctrl+Shift+P` (`Command+Shift+P` on macOS) to open command panel
 
 - After selecting and connecting to the controller, use `Screencap` button to obtain screenshots
 - Use `Upload` button to manually upload images.
@@ -114,11 +114,11 @@ For MAA, the extension will maintain the models used automatically; you only nee
 
 #### MaaFramework Log
 
-Search and execute `Maa: open maa log` in the VSCode command panel to view the `maa.log` generated during debugging.
+Search and execute `Maa: open maa log` in the VS Code command panel to view the `maa.log` generated during debugging.
 
 #### Maa Pipeline Support Extension Log
 
-Search and execute `Maa: open extension log` in the VSCode command panel to view the `mse.log` generated during debugging.
+Search and execute `Maa: open extension log` in the VS Code command panel to view the `mse.log` generated during debugging.
 
 ### Bottom status bar
 

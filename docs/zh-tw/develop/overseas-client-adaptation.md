@@ -162,4 +162,4 @@ amplified roi: 426, 272, 177, 201
 
 ## 提交您的修改
 
-請參考 [Github Pull Request 指南](./pr-tutorial.md)
+請參考 [GitHub Pull Request 指南](./pr-tutorial.md)

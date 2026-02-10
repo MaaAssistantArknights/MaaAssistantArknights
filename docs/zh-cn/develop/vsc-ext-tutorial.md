@@ -3,7 +3,7 @@ order: 8
 icon: iconoir:code-brackets
 ---
 
-# 专用 VSCode 插件教程
+# 专用 VS Code 插件教程
 
 该插件针对 MaaAssistantArknights/MaaFramework 提供了一系列方便开发的能力，包括但不限于以下功能：
 
@@ -14,7 +14,7 @@ icon: iconoir:code-brackets
 
 ## 安装
 
-推荐直接在 VSCode 的插件列表中搜索 `Maa` 来安装
+推荐直接在 VS Code 的插件列表中搜索 `Maa` 来安装
 
 ::: tip
 首次使用时, 插件会自动下载预设版本的资源
@@ -90,9 +90,9 @@ icon: iconoir:code-brackets
 
 ### 截图裁剪 / 快速识别
 
-在 VSCode 的命令面板中搜索执行 `Maa: 打开截图工具`, 可打开 `截图 / 裁剪` 面板.
+在 VS Code 的命令面板中搜索执行 `Maa: 打开截图工具`, 可打开 `截图 / 裁剪` 面板.
 
-> 使用 `Ctrl+Shift+P` (MacOS 上则是 `Command+Shift+P`) 呼出命令面板
+> 使用 `Ctrl+Shift+P` (macOS 上则是 `Command+Shift+P`) 呼出命令面板
 
 - 选择并连接控制器后, 可使用 `截图` 按钮直接获取截图
 - 可使用 `上传` 按钮手动上传
@@ -114,11 +114,11 @@ icon: iconoir:code-brackets
 
 #### MaaFramework日志
 
-在 VSCode 的命令面板中搜索执行 `Maa: 打开maa日志`, 可查看调试期间产生的`maa.log`日志.
+在 VS Code 的命令面板中搜索执行 `Maa: 打开maa日志`, 可查看调试期间产生的`maa.log`日志.
 
 #### Maa Pipeline Support扩展日志
 
-在 VSCode 的命令面板中搜索执行 `Maa: 打开插件日志`, 可查看调试期间产生的`mse.log`日志.
+在 VS Code 的命令面板中搜索执行 `Maa: 打开插件日志`, 可查看调试期间产生的`mse.log`日志.
 
 ### 底部状态栏
 
