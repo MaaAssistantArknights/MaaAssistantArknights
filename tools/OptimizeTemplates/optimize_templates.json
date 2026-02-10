@@ -2119,7 +2119,7 @@
     "resource/global/YoStarEN/resource/template/UiTheme/DahuangCity/OperBoxEnter": "6f0c34a0954cfef3957dfa90eb747454b572ec16865bfc3ad75028ae7ecef830",
     "resource/global/YoStarEN/resource/template/UiTheme/DahuangCity/Friends": "61e3ff4515b24d506fa3244cb8ca00e7c96f3c85b4e3c5384fd64cc99e4df12a",
     "resource/global/YoStarEN/resource/template/Recruit/RecruitRefresh": "4b78b3fba14a6709d5a08d098782970f2b2b8a82222fccc7f3462e53613cebb5",
-    "resource/global/YoStarEN/resource/template/Recruit/RecruitFinish": "f2a448251822f006c59e2a8a02fe7fa75e33a28d60e0e294e0df778d2e5a1205",
+    "resource/global/YoStarEN/resource/template/Recruit/RecruitFinish": "ed0effe7f6f757e003c392617996936ce5f65f01eec33c4c4fb5e5dca3160253",
     "resource/global/YoStarEN/resource/template/MiniGame/SS@Store/SS@Store@CheckUnlimited": "98d59c868d2b3290c752002c3c82c396fa95259023060466969a432aebec9de7",
     "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@SelectTeam": "07fae8625057eaad29f0230913e41cfe7d878442695bd1fad56cec8f3338a010",
     "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@End": "fbcc9c7870620d7f0b522d3088a9a736a318fbfa90c77f4ed41ba1709122cfa4",
@@ -3839,5 +3839,8 @@
     "resource/global/txwy/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@RolesDefault": "045a534738908167ca4bc8fa61d40b621fddf81f738a4f50d4d217b545b1a7f4",
     "resource/global/txwy/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersAbandonExchange": "a7ff3dfb49e56a795cf79e24e77e55228347b83f03deaf34236d1fe4ff610704",
     "resource/global/txwy/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GamePass": "270101b9ba5272bd656082107673faf1b2a7725feed6cf155abcf355c2df550b",
-    "resource/global/txwy/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MissionFailedFlag": "f1f0511dec355b192b710821be0367e18770e7f24d3ff311b635cf2eed3de4e5"
+    "resource/global/txwy/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MissionFailedFlag": "f1f0511dec355b192b710821be0367e18770e7f24d3ff311b635cf2eed3de4e5",
+    "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/GachaEnter": "22181867362f20e599deb876d1d69e0c100c32371cac5ce27593e623b5371469",
+    "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/Mall": "a8554e0cff0d0eb8513f0c453c779e733cccfd64d5ce9cc3a03825015615a333",
+    "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/Recruit": "08e718920c5d5371d3606cde876e31f16b2b52fb169592e21f7e15fe4fa25a0b"
 }
