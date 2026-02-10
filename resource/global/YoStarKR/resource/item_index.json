@@ -975,6 +975,14 @@
         "sortId": 40003,
         "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 특정 시간 동안 특수한 인재를 모집하는 데 쓰인다. 1회 모집으로 10명을 채용할 수 있다."
     },
+    "LINKAGE_TKT_GACHA_10_6501": {
+        "classifyType": "NORMAL",
+        "description": "인재 확보를 위해 박사가 준비해달라 요구했던 긴급수단. 해당 헤드헌팅 항목은 타겟팅과 타임 리미트가 적용되었으며, 그리고 아주 작은 리스크가 존재한다.",
+        "icon": "LINKAGE_TKT_GACHA_10_6501.png",
+        "name": "꿈에 잠긴 애가 헤드헌팅 10회 허가증",
+        "sortId": 40003,
+        "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 특정 시간 동안 특수한 인재를 모집하는 데 쓰인다. 1회 모집으로 10명을 채용할 수 있다."
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
@@ -2055,6 +2063,14 @@
         "sortId": -10000,
         "usage": "연예 기획사에서 나눠준 추첨 자격으로 교환할 수 있는 티켓. 어떤 사건이 발생한 후, 한동안 중고시장의 인기 상품이 되어 거의 모든 물건과 교환할 수 있었다."
     },
+    "act45side_token_puzzlepieces": {
+        "classifyType": "NONE",
+        "description": "아무리 아름다운 꿈이라도 언젠가는 사라진다. 그 꿈을 간직하기 위해, 꿈의 성 주인들은 저마다 미술관을 만들어 꿈을 소중한 예술품처럼 보관한다. 성주들마다 취향이 제각각이니, 잘못 주지 않도록 조심할 것.",
+        "icon": "act45side_token_puzzlepieces.png",
+        "name": "꿈의 조각",
+        "sortId": -10000,
+        "usage": "선명하고 아름다운 꿈의 퍼즐 조각. 꿈의 성 곳곳에 흩어져 있다. 끈기를 가지고 모으면 아름다운 꿈의 한 순간이 차례로 되살아날 것이다."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
@@ -2127,6 +2143,14 @@
         "sortId": -10000,
         "usage": "협의의 상징. 더 많은 위기 협약 내용을 개방하는데 사용된다."
     },
+    "act6collection_point_token": {
+        "classifyType": "NONE",
+        "description": "외근 오퍼레이터를 위해 로도스 아일랜드에서 발급한 특별 교환 포인트. 포인트로 긴급 필요 물자를 교환할 수 있다.",
+        "icon": "act6collection_point_token.png",
+        "name": "특별 교환 포인트",
+        "sortId": -10000,
+        "usage": "상응하는 단계별 이벤트 보상을 교환하는 데 사용된다."
+    },
     "act6d5_point_firecracker": {
         "classifyType": "NONE",
         "description": "폭발을 통해 자신의 존재를 증명하는 전통 민속 도구. 만약 당신이 폭발음을 듣지 못했다면, 이것은 존재한 적이 없다는 뜻이다.",
@@ -2197,7 +2221,7 @@
         "icon": "advanced_material_issue_voucher.png",
         "name": "고급 재료 수령권",
         "sortId": 30201,
-        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 기간 동안 고급 정예 재료를 받을 수 있다."
+        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 한정 기간 동안, 사용 시 고급 정예화 재료를 받을 수 있다."
     },
     "advanced_material_voucher_perm": {
         "classifyType": "CONSUME",
@@ -2205,7 +2229,7 @@
         "icon": "advanced_material_voucher_perm.png",
         "name": "고급 재료 수령권",
         "sortId": 60005,
-        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 기간 동안 고급 정예 재료를 받을 수 있다."
+        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 시 고급 정예화 재료를 받을 수 있다."
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
@@ -2461,7 +2485,7 @@
         "icon": "premium_material_issue_voucher.png",
         "name": "특급 재료 수령권",
         "sortId": 30200,
-        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 기간 동안 특급 정예 재료를 받을 수 있다."
+        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 한정 기간 동안, 사용 시 특급 정예화 재료를 받을 수 있다."
     },
     "premium_material_voucher_perm": {
         "classifyType": "CONSUME",
@@ -2469,7 +2493,7 @@
         "icon": "premium_material_voucher_perm.png",
         "name": "특급 재료 수령권",
         "sortId": 60004,
-        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 기간 동안 특급 정예 재료를 받을 수 있다."
+        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 시 특급 정예화 재료를 받을 수 있다."
     },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
