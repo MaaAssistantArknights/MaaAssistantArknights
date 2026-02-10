@@ -334,13 +334,7 @@ jobs:
     runs-on: macos-26
     strategy:
       matrix:
-        include:
-          - arch: arm64
-            abi: arm64-v8a
-            triplet: arm64-android
-          - arch: x64
-            abi: x86_64
-            triplet: x64-android
+        arch: [arm64, x64]
       fail-fast: false
 
     steps:
@@ -359,14 +353,14 @@ jobs:
         continue-on-error: true
         with:
           path: ./src/MaaUtils/MaaDeps
-          key: ${{ runner.os }}-${{ matrix.triplet }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-android-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 tools/maadeps-download.py ${{ matrix.triplet }}
+          python3 tools/maadeps-download.py ${{ matrix.arch }}-android
 
       - name: Setup Android NDK
         id: setup-ndk
@@ -378,10 +372,10 @@ jobs:
         run: |
           cmake -B build -G Ninja \
             -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake \
-            -DANDROID_ABI=${{ matrix.abi }} \
+            -DANDROID_ABI=${{ matrix.arch == 'arm64' && 'arm64-v8a' || 'x86_64' }} \
             -DANDROID_PLATFORM=android-28 \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-            -DMAADEPS_TRIPLET='maa-${{ matrix.triplet }}' \
+            -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-android' \
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=OFF \
             -DBUILD_WPF_GUI=OFF \
