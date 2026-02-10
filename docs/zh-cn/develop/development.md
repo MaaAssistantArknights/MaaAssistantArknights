@@ -15,7 +15,7 @@ icon: iconoir:developer
 
 ## 我不懂编程，只是想改一点点 JSON 文件/文档等，要怎么操作？
 
-欢迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （纯网页端操作 Github.com）
+欢迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （纯网页端操作 GitHub.com）
 
 ## 我只想简单修改几行代码，但配置环境太麻烦，纯网页编辑又很难用，怎么办？
 
@@ -126,17 +126,17 @@ icon: iconoir:developer
 在打开 VS 之后，和 Git 有关的操作可以不用命令行工具，直接使用 VS 自带的“Git 更改”即可
 :::
 
-## 使用 VSCode 进行开发（可选）
+## 使用 VS Code 进行开发（可选）
 
 ::: warning
-**推荐优先使用 Visual Studio 进行开发。** MAA 项目主要基于 Visual Studio 构建，上述完整环境配置流程已涵盖所有开发需求，开箱即用体验最佳。VSCode 方案仅作为备选，适合已经熟悉 VSCode + CMake + clangd 工作流的开发者，配置门槛相对较高。
+**推荐优先使用 Visual Studio 进行开发。** MAA 项目主要基于 Visual Studio 构建，上述完整环境配置流程已涵盖所有开发需求，开箱即用体验最佳。VSCode 方案仅作为备选，适合已经熟悉 VS Code + CMake + clangd 工作流的开发者，配置门槛相对较高。
 :::
 
 如果你偏好使用 VSCode，可以配合 CMake、clangd 等扩展获得代码补全、跳转和调试能力。在完成前述 1–6 步（克隆、依赖、CMake 配置）后，可按以下步骤配置：
 
 ### 推荐扩展
 
-在 VSCode 扩展市场安装：
+在 VS Code 扩展市场安装：
 
 | 扩展                                                                                                | 作用                                                |
 | --------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
@@ -150,7 +150,7 @@ icon: iconoir:developer
 
 ### 配置步骤
 
-1. 用 VSCode 打开项目根目录
+1. 用 VS Code 打开项目根目录
 2. 使用 **CMake Tools**：
    - 状态栏选择 Configure Preset（如 `windows-x64`、`linux-x64` 等）
    - 选择 Build Preset，执行配置与构建
@@ -173,7 +173,7 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
 | 文件类型  | 格式化工具                                                      |
 | --------- | --------------------------------------------------------------- |
 | C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
-| Json/Yaml | [Prettier](https://prettier.io/)                                |
+| JSON/YAML | [Prettier](https://prettier.io/)                                |
 | Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
 
 ### 利用 Pre-commit Hooks 自动进行代码格式化

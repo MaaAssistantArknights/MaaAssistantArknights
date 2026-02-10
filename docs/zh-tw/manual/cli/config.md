@@ -335,7 +335,7 @@ address = "127.0.0.1:7777" # 如果您需要的話，可以覆蓋預設的位址
 
 #### 特殊預設
 
-目前預先配置了兩種預設，為 `PlayCover (MacOS)`, `Waydroid (Linux)`
+目前預先配置了兩種預設，為 `PlayCover (macOS)`, `Waydroid (Linux)`
 
 - `PlayCover` 用於在 macOS 上連線直接透過 `PlayCover` 原生執行的遊戲客戶端。這種情況下不需要指定 `adb_path` 且 `address` 不是 `adb` 連線的位址而是 `PlayTools` 的位址，具體使用方式可參考 [PlayCover 支援文件][playcover-doc].
 

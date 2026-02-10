@@ -9,9 +9,9 @@ icon: basil:apple-solid
 
 ### ✅ [PlayCover](https://playcover.io)（原生运行最流畅 🚀）
 
-试验性支持，遇到问题请多多提 Issue，并在标题中提及 `MacOS`。
+试验性支持，遇到问题请多多提 Issue，并在标题中提及 `macOS`。
 
-注意：由于 `MacOS` 本身机制的问题，将游戏窗口最小化、台前调度状态下切换到别的窗口、将窗口移动到别的桌面/屏幕之后，截图会出现问题，导致无法正确运行。相关 Issue [#4371](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
+注意：由于 `macOS` 本身机制的问题，将游戏窗口最小化、台前调度状态下切换到别的窗口、将窗口移动到别的桌面/屏幕之后，截图会出现问题，导致无法正确运行。相关 Issue [#4371](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
 
 0. 要求：MAA 版本 v4.13.0-rc.1 以上
 

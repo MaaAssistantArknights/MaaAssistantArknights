@@ -29,7 +29,7 @@ icon: jam:write-f
 :::
 ```
 
-或是使用 Github 风格语法
+或是使用 GitHub 风格语法
 
 ```markdown
 > [!容器类型]

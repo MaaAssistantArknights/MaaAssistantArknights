@@ -134,14 +134,14 @@ Visual Studio 실행 시 Git 작업은 "Git 변경" 탭에서 명령어 없이 �
 ## VSCode로 개발하기 (선택 사항)
 
 ::: warning
-**Visual Studio를 사용한 개발을 권장합니다.** MAA 프로젝트는 주로 Visual Studio를 기반으로 구축되며, 위의 완전한 환경 설정 과정이 모든 개발 요구를 충족하여 최상의 즉시 사용 가능한 경험을 제공합니다. VSCode 워크플로는 VSCode + CMake + clangd에 이미 익숙한 개발자를 위한 대안으로만 제공되며, 설정 난이도가 상대적으로 높습니다.
+**Visual Studio를 사용한 개발을 권장합니다.** MAA 프로젝트는 주로 Visual Studio를 기반으로 구축되며, 위의 완전한 환경 설정 과정이 모든 개발 요구를 충족하여 최상의 즉시 사용 가능한 경험을 제공합니다. VS Code 워크플로는 VS Code + CMake + clangd에 이미 익숙한 개발자를 위한 대안으로만 제공되며, 설정 난이도가 상대적으로 높습니다.
 :::
 
 VSCode를 선호한다면 CMake, clangd 등의 확장을 사용해 코드 완성, 탐색, 디버깅을 할 수 있습니다. 위 1–6단계(클론, 의존성, CMake 설정)를 완료한 후 다음 단계로 설정하세요.
 
 ### 추천 확장
 
-VSCode Marketplace에서 설치:
+VS Code Marketplace에서 설치:
 
 | 확장                                                                                                | 용도                                                      |
 | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
@@ -176,7 +176,7 @@ MAA는 리포지토리의 코드 및 리소스 파일들을 아름답고 일관�
 | 파일 유형 | 포매팅 도구                                                     |
 | --------- | --------------------------------------------------------------- |
 | C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
-| Json/Yaml | [Prettier](https://prettier.io/)                                |
+| JSON/YAML | [Prettier](https://prettier.io/)                                |
 | Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
 
 ### Pre-commit Hooks를 사용하여 자동 포매팅을 활성화
