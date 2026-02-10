@@ -30,6 +30,13 @@
     "ClickChapterNewOverview": {
         "text": ["서사"]
     },
+    "EnterEpisodeNew": {
+        "baseTask": "#none",
+        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf"
+    },
     "LevelOfDifficulty": {
         "text": ["환경", "PRTS"]
     },
@@ -988,7 +995,17 @@
             ["마츠키리", "松桐"],
             ["하루카", "遥"],
             ["^참$", "“斩”"],
-            ["호시구마더브리처", "斩业星熊"]
+            ["호시구마더브리처", "斩业星熊"],
+            ["바이탈모니터링키트", "维生监测配件"],
+            [".?달그림자고치.?", "“月影之茧”"],
+            ["소형스파이크키트", "微型尖刺配件"],
+            ["와카바무츠미", "若叶睦"],
+            ["야하타우미리", "八幡海铃"],
+            ["토가와사키코", "丰川祥子"],
+            ["역제압장갑세트", "反制装甲套组"],
+            ["미스미우이카", "三角初华"],
+            [".?완벽한조수.?", "“绝对助手”"],
+            ["유텐지냐무", "祐天寺若麦"]
         ]
     },
     "StartUpThemes": {

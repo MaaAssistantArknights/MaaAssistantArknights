@@ -25,6 +25,13 @@
     "ClickChapterNewOverview": {
         "text": ["楽章"]
     },
+    "EnterEpisodeNew": {
+        "baseTask": "#none",
+        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf"
+    },
     "EnterChapterDifficultyHard": {
         "text": ["作戦へ"]
     },
@@ -936,7 +943,17 @@
             ["マツキリ", "松桐"],
             ["ハルカ", "遥"],
             ["「斬」", "“斩”"],
-            ["斬業ホシグマ", "斩业星熊"]
+            ["斬業ホシグマ", "斩业星熊"],
+            ["バイタルモニターパーツ", "维生监测配件"],
+            ["「月影の繭」", "“月影之茧”"],
+            ["鍼治療キットパーツ", "微型尖刺配件"],
+            ["若葉睦", "若叶睦"],
+            ["八.*海鈴", "八幡海铃"],
+            ["豊川祥子", "丰川祥子"],
+            ["カウンターアーマーセット", "反制装甲套组"],
+            ["三角初華", "三角初华"],
+            ["「パーフェクトサポーター」", "“绝对助手”"],
+            ["祐天寺にゃむ", "祐天寺若麦"]
         ]
     },
     "GameStartCheckResourceOCR": {

@@ -127,17 +127,17 @@ icon: iconoir:developer
 開啟 Visual Studio 之後，和 Git 有關的操作可以不用命令列工具，直接使用 Visual Studio 內建的「Git 變更」功能即可。
 :::
 
-## 使用 VSCode 進行開發（可選）
+## 使用 VS Code 進行開發（可選）
 
 ::: warning
-**建議優先使用 Visual Studio 進行開發。** MAA 專案主要基於 Visual Studio 建置，上述完整環境配置流程已涵蓋所有開發需求，開箱即用體驗最佳。VSCode 方案僅作為備選，適合已經熟悉 VSCode + CMake + clangd 工作流的開發者，配置門檻相對較高。
+**建議優先使用 Visual Studio 進行開發。** MAA 專案主要基於 Visual Studio 建置，上述完整環境配置流程已涵蓋所有開發需求，開箱即用體驗最佳。VSCode 方案僅作為備選，適合已經熟悉 VS Code + CMake + clangd 工作流的開發者，配置門檻相對較高。
 :::
 
 如果您偏好使用 VSCode，可以搭配 CMake、clangd 等擴充套件獲得程式碼補全、跳轉與除錯能力。完成前述 1–6 步（複製、相依、CMake 設定）後，可依下列步驟設定：
 
 ### 推薦擴充套件
 
-於 VSCode 擴充套件市集安裝：
+於 VS Code 擴充套件市集安裝：
 
 | 擴充套件                                                                                            | 作用                                                |
 | --------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
@@ -151,7 +151,7 @@ icon: iconoir:developer
 
 ### 設定步驟
 
-1. 使用 VSCode 開啟專案根目錄
+1. 使用 VS Code 開啟專案根目錄
 2. **CMake Tools**：
    - 於狀態列選擇 Configure Preset（如 `windows-x64`、`linux-x64` 等）
    - 選擇 Build Preset，執行設定與建置
@@ -174,7 +174,7 @@ MAA 使用一系列的格式化工具來確保倉庫中的程式碼和資源檔�
 | 檔案類型  | 格式化工具                                                      |
 | --------- | --------------------------------------------------------------- |
 | C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
-| Json/Yaml | [Prettier](https://prettier.io/)                                |
+| JSON/YAML | [Prettier](https://prettier.io/)                                |
 | Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
 
 ### 利用 Pre-commit Hooks 自動進行程式碼格式化

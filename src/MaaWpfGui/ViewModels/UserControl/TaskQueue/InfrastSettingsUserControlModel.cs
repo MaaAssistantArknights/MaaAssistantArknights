@@ -543,53 +543,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    [Obsolete("使用SerializeTask作为代替")]
-    public override (AsstTaskType Type, JObject Params) Serialize()
-    {
-        var task = new AsstInfrastTask {
-            Mode = InfrastMode,
-            Facilitys = GetInfrastOrderList(),
-            UsesOfDrones = UsesOfDrones,
-            ContinueTraining = ContinueTraining,
-            DormThreshold = DormThreshold / 100.0,
-            DormFilterNotStationedEnabled = DormFilterNotStationedEnabled,
-            DormTrustEnabled = DormTrustEnabled,
-            OriginiumShardAutoReplenishment = OriginiumShardAutoReplenishment,
-            ReceptionMessageBoard = ReceptionMessageBoardReceive,
-            ReceptionClueExchange = ReceptionClueExchange,
-            ReceptionSendClue = ReceptionSendClue,
-            Filename = CustomInfrastFile,
-        };
-
-        if (InfrastMode != Mode.Custom)
-        {
-        }
-        else if (CustomInfrastPlanSelect != -1 && CustomInfrastPlanList.Count <= CustomInfrastPlanSelect)
-        {
-            throw new InvalidOperationException("CustomInfrastPlanSelect is out of range");
-        }
-        else if (CustomInfrastPlanSelect >= 0)
-        {
-            task.PlanIndex = CustomInfrastPlanSelect;
-        }
-        else
-        {
-            var now = TimeOnly.FromDateTime(DateTime.Now.ToLocalTime());
-            if (CustomInfrastPlanList.FirstOrDefault(i => i.Period.Any(p => p[0] <= now && now <= p[1])) is { } plan)
-            {
-                task.PlanIndex = plan.Index;
-            }
-            else
-            {
-                task.PlanIndex = 0;
-                _logger.Warning("No valid plan found for current time, use PlanIndex 0");
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastPlanNotFoundByPeriod"), UiLogColor.Error);
-            }
-        }
-
-        return task.Serialize();
-    }
-
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not InfrastTask infrast)

@@ -190,27 +190,6 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    [Obsolete("使用SerializeTask作为代替")]
-    public override (AsstTaskType Type, JObject Params) Serialize()
-    {
-        var fightStageEmpty = ConfigFactory.CurrentConfig.TaskQueue
-            .OfType<FightTask>()
-            .Where(task => task.IsEnable is not false)
-            .Any(task => string.IsNullOrEmpty(FightSettingsUserControlModel.GetFightStage(task.StagePlan)));
-        var task = new AsstMallTask() {
-            CreditFight = CreditFightTaskEnabled && !fightStageEmpty,
-            FormationIndex = CreditFightSelectFormation,
-            VisitFriends = CreditVisitFriendsEnabled,
-            WithShopping = CreditShopping,
-            FirstList = CreditFirstList.Split(';').Select(s => s.Trim()).ToList(),
-            Blacklist = CreditBlackList.Split(';').Select(s => s.Trim()).Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType]).ToList(),
-            ForceShoppingIfCreditFull = CreditForceShoppingIfCreditFull,
-            OnlyBuyDiscount = CreditOnlyBuyDiscount,
-            ReserveMaxCredit = CreditReserveMaxCredit,
-        };
-        return task.Serialize();
-    }
-
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not MallTask mall)

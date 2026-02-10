@@ -266,28 +266,44 @@
                                     Margin="-10,0,0,0">
                                     <!--  当 CustomStageCode 为 false 时显示 ComboBox  -->
                                     <ComboBox
-                                        DisplayMemberPath="Display"
                                         ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
-                                        Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
+                                        ScrollViewer.CanContentScroll="False"
                                         SelectedValue="{Binding Stage}"
                                         SelectedValuePath="Value"
                                         Visibility="{c:Binding !CustomStageCode,
                                                                Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}">
+
                                         <ComboBox.ItemContainerStyle>
                                             <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsVisible}" Value="False">
                                                         <Setter Property="Visibility" Value="Collapsed" />
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsOpen}" Value="False">
-                                                        <Setter Property="Opacity" Value="0.4" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsOpen}" Value="True">
-                                                        <Setter Property="Opacity" Value="1" />
-                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </ComboBox.ItemContainerStyle>
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Display}">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsOutdated}" Value="True">
+                                                                    <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                                    <Setter Property="Foreground" Value="{DynamicResource ErrorLogBrush}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsOpen}" Value="False">
+                                                                    <Setter Property="Opacity" Value="0.5" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsOpen}" Value="True">
+                                                                    <Setter Property="Opacity" Value="1" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
                                     </ComboBox>
 
                                     <!--  当 CustomStageCode 为 true 时显示 TextBox  -->

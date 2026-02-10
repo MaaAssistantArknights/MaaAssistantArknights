@@ -9,7 +9,7 @@ icon: mingcute:git-pull-request-fill
 
 ::: warning
 本教程中对很多概念进行了简化，为了让更多朋友能实际用起来，甚至有一些很不优雅~~但是简单~~的操作，还有一些不那么正确的解释，还请大佬们轻喷。  
-若您有一定的 git 使用经验及编程基础，~~那你还看个 🔨~~，可以看稍微进阶一点的教程 [Github Pull Request 流程简述](./development.md)
+若您有一定的 git 使用经验及编程基础，~~那你还看个 🔨~~，可以看稍微进阶一点的教程 [GitHub Pull Request 流程简述](./development.md)
 :::
 
 ## 基本概念及名词解释

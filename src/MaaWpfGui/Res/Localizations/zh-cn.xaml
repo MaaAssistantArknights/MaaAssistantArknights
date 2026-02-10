@@ -367,7 +367,7 @@
 </system:String>
     <system:String x:Key="GlobalSource">海外源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">强制使用 GitHub</system:String>
-    <system:String x:Key="ForceGithubGlobalSourceTip">检测到更新后，强制从 Github 下载更新包</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">检测到更新后，强制从 GitHub 下载更新包</system:String>
     <system:String x:Key="MirrorChyan">Mirror酱</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">请前往 ｢{key=Settings} - {key=UpdateSettings}｣ 配置 Mirror酱 CDK 或切换海外源。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新: {0}。请前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
@@ -749,7 +749,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String> -->
     <!--<system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">当前/上次</system:String>
-    <system:String x:Key="InvalidStage">无效关卡</system:String>
+    <!--<system:String x:Key="InvalidStage">无效关卡</system:String>-->
     <system:String x:Key="ClosedStage">活动未开放</system:String>
     <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
     <system:String x:Key="LowVersion">版本过低</system:String>
@@ -1622,7 +1622,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Achievement.Lucky.Conditions">启动 MAA 时有极！小！概率触发</system:String>
 
     <system:String x:Key="Achievement.CdnTorture.Title">网络折磨人</system:String>
-    <system:String x:Key="Achievement.CdnTorture.Description">比宇宙更远的地方，是 Github 的服务器。</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Description">比宇宙更远的地方，是 GitHub 的服务器。</system:String>
     <system:String x:Key="Achievement.CdnTorture.Conditions">下载资源失败超过 3 次</system:String>
 
     <system:String x:Key="Achievement.AfkWatcher.Title">摇人挂机党</system:String>

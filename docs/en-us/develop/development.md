@@ -15,7 +15,7 @@ You can [Ask DeepWiki](https://deepwiki.com/MaaAssistantArknights/MaaAssistantAr
 
 ## I don't know programming but just want to modify some JSON files/documents, how can I do it?
 
-Welcome to the [Web-based PR Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on Github.com)
+Welcome to the [Web-based PR Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on GitHub.com)
 
 ## I want to make simple modifications to a few lines of code, but configuring the environment is too tedious and pure web editing is difficult to use. What should I do?
 
@@ -126,17 +126,17 @@ We've preset several different development environments for you to choose from:
 After opening Visual Studio, Git operations can be performed using VS's built-in "Git Changes" instead of command-line tools.
 :::
 
-## Using VSCode for Development (Optional)
+## Using VS Code for Development (Optional)
 
 ::: warning
-**Visual Studio is the recommended IDE for development.** The MAA project is primarily built around Visual Studio, and the complete environment setup described above covers all development needs with the best out-of-the-box experience. The VSCode workflow is provided only as an alternative for developers already familiar with VSCode + CMake + clangd, and requires more configuration effort.
+**Visual Studio is the recommended IDE for development.** The MAA project is primarily built around Visual Studio, and the complete environment setup described above covers all development needs with the best out-of-the-box experience. The VS Code workflow is provided only as an alternative for developers already familiar with VS Code + CMake + clangd, and requires more configuration effort.
 :::
 
-If you prefer VSCode, you can use CMake, clangd, and related extensions for code completion, navigation, and debugging. After completing steps 1–6 above (clone, dependencies, CMake configuration), follow these steps:
+If you prefer VS Code, you can use CMake, clangd, and related extensions for code completion, navigation, and debugging. After completing steps 1–6 above (clone, dependencies, CMake configuration), follow these steps:
 
 ### Recommended Extensions
 
-Install from the VSCode marketplace:
+Install from the VS Code marketplace:
 
 | Extension                                                                                           | Purpose                                                    |
 | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
@@ -150,7 +150,7 @@ When using clangd, set `C_Cpp.intelliSenseEngine` to `disabled` to avoid conflic
 
 ### Setup Steps
 
-1. Open the project root folder in VSCode
+1. Open the project root folder in VS Code
 2. **CMake Tools**:
    - Select a Configure Preset from the status bar (e.g. `windows-x64`, `linux-x64`)
    - Select a Build Preset and run configure/build
@@ -173,7 +173,7 @@ The currently enabled formatting tools are as follows:
 | File Type | Format Tool                                                     |
 | --------- | --------------------------------------------------------------- |
 | C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
-| Json/Yaml | [Prettier](https://prettier.io/)                                |
+| JSON/YAML | [Prettier](https://prettier.io/)                                |
 | Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
 
 ### Use Pre-commit Hooks to Automatically Format Code

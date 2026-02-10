@@ -367,7 +367,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
 </system:String>
     <system:String x:Key="GlobalSource">Global Source</system:String>
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
-    <system:String x:Key="ForceGithubGlobalSourceTip">When updates are detected, force download update packages from Github</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">When updates are detected, force download update packages from GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">Please go to ｢{key=Settings} - {key=UpdateSettings}｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
@@ -748,7 +748,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <!--<system:String x:Key="CurrentStage">Current Stage</system:String>-->
     <!--<system:String x:Key="LastBattle">Last Battle</system:String>-->
     <system:String x:Key="DefaultStage">Cur/Last</system:String>
-    <system:String x:Key="InvalidStage">Invalid</system:String>
+    <!--<system:String x:Key="InvalidStage">Invalid</system:String>-->
     <system:String x:Key="ClosedStage">The event is not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
     <system:String x:Key="LowVersion">Old Version, Update required</system:String>
@@ -1031,9 +1031,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
     <system:String x:Key="NetworkServiceError">Network service error!</system:String>
-    <system:String x:Key="CopilotJsonError">Copilot Json Error!</system:String>
+    <system:String x:Key="CopilotJsonError">Copilot JSON Error!</system:String>
     <system:String x:Key="NotCopilotJson">Malformed file!</system:String>
-    <system:String x:Key="CheckTheFile">Malformed Copilot Json!</system:String>
+    <system:String x:Key="CheckTheFile">Malformed Copilot JSON!</system:String>
     <system:String x:Key="CopilotSSSNotSupport">Unsupported type: SSS</system:String>
     <system:String x:Key="CopilotInvalidStageNameForNavigation">Invalid stage name for navigation</system:String>
     <system:String x:Key="CopilotStageNameNotFound">{0} not found, and also no stage name specified</system:String>
@@ -1272,9 +1272,9 @@ Before use, please ensure:
     <!--  About  -->
     <system:String x:Key="Website">MAA Website</system:String>
     <system:String x:Key="Github">Source code: GitHub</system:String>
-    <system:String x:Key="PrtsPlus">Copilot Json sharing site</system:String>
+    <system:String x:Key="PrtsPlus">Copilot JSON sharing site</system:String>
     <system:String x:Key="MapPrts">Copilot Map and Coordinate</system:String>
-    <system:String x:Key="CustomInfrastGenerator">Custom Base Json Generator</system:String>
+    <system:String x:Key="CustomInfrastGenerator">Custom Base JSON Generator</system:String>
     <system:String x:Key="QqGroup">QQ group</system:String>
     <system:String x:Key="QqChannel">QQ channel</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>

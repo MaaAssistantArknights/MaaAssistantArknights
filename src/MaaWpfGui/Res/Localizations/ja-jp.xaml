@@ -749,7 +749,7 @@ C:\\leidian\\LDPlayer9
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String> -->
     <!--<system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">現在/前回</system:String>
-    <system:String x:Key="InvalidStage">無効なレベル</system:String>
+    <!--<system:String x:Key="InvalidStage">無効なレベル</system:String>-->
     <system:String x:Key="ClosedStage">ステージが未公開か既に終了している</system:String>
     <system:String x:Key="UnsupportedStages">未サポートステージ</system:String>
     <system:String x:Key="LowVersion">バージョンの更新が必要</system:String>

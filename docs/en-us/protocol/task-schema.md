@@ -440,4 +440,4 @@ Configured in `MaaCore.vcxporj`, works out of the box. Prompts are somewhat cryp
 
 ### Visual Studio Code
 
-Configured in `.vscode/settings.json`, use VSCode to open the **project folder** to use. Better prompt quality.
+Configured in `.vscode/settings.json`, use VS Code to open the **project folder** to use. Better prompt quality.

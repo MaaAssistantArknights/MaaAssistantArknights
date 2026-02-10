@@ -12,7 +12,7 @@ function(create_resource_link TARGET_NAME OUTPUT_DIR)
             COMMENT "Creating junction for resource directory for ${TARGET_NAME}"
         )
     else()
-        # Unix/Linux/macOS 使用符号链接
+        # UNIX/Linux/macOS 使用符号链接
         add_custom_command(
             TARGET ${TARGET_NAME}
             POST_BUILD
