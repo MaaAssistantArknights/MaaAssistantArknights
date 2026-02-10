@@ -378,6 +378,11 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
     case TouchMode::MacPlayTools:
         m_controller_type = ControllerType::MacPlayTools;
         break;
+#ifdef __ANDROID__
+    case TouchMode::Android:
+        m_controller_type = ControllerType::Android;
+        break;
+#endif
     default:
         m_controller_type = ControllerType::Minitouch;
     }
@@ -409,7 +414,7 @@ cv::Mat asst::Controller::get_image(bool raw)
 {
     if (get_scale_size() == std::pair(0, 0)) {
         Log.error("Unknown image size");
-        return {};
+        return { };
     }
 
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
@@ -433,7 +438,7 @@ cv::Mat asst::Controller::get_image(bool raw)
             { "uuid", m_uuid },
             { "what", "ScreencapFailed" },
             { "why", "ScreencapFailed" },
-            { "details", json::object {} },
+            { "details", json::object { } },
         };
         callback(AsstMsg::ConnectionInfo, info);
 
