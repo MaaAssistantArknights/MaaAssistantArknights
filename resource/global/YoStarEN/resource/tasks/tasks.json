@@ -26,6 +26,8 @@
         "text": ["Movements"]
     },
     "EnterEpisodeNew": {
+        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
+        "baseTask": "#none",
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf"
