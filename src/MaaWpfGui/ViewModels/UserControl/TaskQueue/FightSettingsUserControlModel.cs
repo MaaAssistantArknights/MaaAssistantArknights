@@ -151,7 +151,23 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     public bool CustomStageCode
     {
         get => GetTaskConfig<FightTask>().IsStageManually;
-        set => SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
+        set {
+            bool ret = SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
+            if (ret && !value)
+            {
+                var stagePlan = GetTaskConfig<FightTask>().StagePlan;
+                for (int i = 0; i < stagePlan.Count; i++)
+                {
+                    var stage = stagePlan[i];
+                    if (!Instances.StageManager.GetStageList().Any(p => p.Value == stage))
+                    {
+                        stagePlan[i] = string.Empty;
+                    }
+                }
+                SetTaskConfig<FightTask>(t => t.StagePlan.SequenceEqual(stagePlan), t => t.StagePlan = stagePlan);
+                RefreshCurrentStagePlan();
+            }
+        }
     }
 
     /// <summary>
@@ -833,7 +849,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         // 补过期关卡进来
         foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i)))
         {
-            listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false });
+            listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false, IsOutdated = true });
         }
         listSource.FirstOrDefault(i => i.Value == "Annihilation")?.Display = current.UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == current.AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
         StageListSource = new ObservableCollection<StageSourceItem>(listSource);
@@ -943,6 +959,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         public bool IsOpen { get => field; set => SetAndNotify(ref field, value); } = true;
 
         public bool IsVisible { get => field; set => SetAndNotify(ref field, value); } = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether 过期活动关卡, 加删除线
+        /// </summary>
+        public bool IsOutdated { get; set; } = false;
     }
 
     public class StagePlanItem(string stage = "") : PropertyChangedBase
@@ -973,10 +994,5 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         // 仅供 ComboBox本身 和 手写Stage的TextBlock 绑定使用
         public bool IsOpen { get => field; set => SetAndNotify(ref field, value); } = Instances.TaskQueueViewModel.IsStageOpen(stage);
-
-        /// <summary>
-        /// Gets or sets a value indicating whether 过期活动关卡
-        /// </summary>
-        public bool IsOutdated { get => field; set => SetAndNotify(ref field, value); } = Instances.StageManager.GetStageList().Any(p => p.Value == stage);
     }
 }
