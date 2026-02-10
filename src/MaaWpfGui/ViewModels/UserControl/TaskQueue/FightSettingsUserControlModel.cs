@@ -570,6 +570,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     [
         new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = FightStageResetMode.Current },
         new() { Display = LocalizationHelper.GetString("InvalidStage"), Value = FightStageResetMode.Invalid },
+        new() { Display = LocalizationHelper.GetString("DoNotResetStage"), Value = FightStageResetMode.DoNotReset },
     ];
 
     public FightStageResetMode StageResetMode
@@ -797,6 +798,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                     var stage = task.StagePlan[i];
                     if (stage != InvalidStage.Value && !stageList.Any(p => p.Value == stage))
                     {
+                        if (task.StageResetMode == FightStageResetMode.DoNotReset)
+                        {
+                            // 不重置，跳过
+                            continue;
+                        }
                         task.StagePlan[i] = task.StageResetMode switch {
                             FightStageResetMode.Current => string.Empty,
                             FightStageResetMode.Invalid => InvalidStage.Value,
