@@ -84,7 +84,7 @@ We warmly welcome community developers to assist with adaptation and submit impr
 ### 改进 | Improved
 
 * Wpf 一键长草任务配置重构，支持添加多个同类型任务、重命名和周计划设置 (#15385) @status102 @ABA2396 @momomochi987 @HX3N
-* 过期关卡使用删除线表示 (#15657) @status102 @ABA2396
+* 刷理智过期关卡逻辑/样式优化 @status102 @ABA2396
 * 关卡候选列表刷新及关卡选择下拉列表刷新 (#15562) @status102 @HX3N @Constrat @Manicsteiner @momomochi987
 * 优化自动战斗界面布局 (#15512) @yali-hzy
 * 优化任务设置按钮悬浮提示 @ABA2396
@@ -161,6 +161,7 @@ We warmly welcome community developers to assist with adaptation and submit impr
 
 ### 其他 | Other
 
+* 作业集 Parse 后不删除历史记录，避免错过作业抛出的错误 @ABA2396
 * 辞岁行地图 2026-02-10 Map 更新 @status102
 * 繁中服不上报企鹅物流 @ABA2396
 * devcontainer 适配 CMakePresets.json (#15606) @lucienshawls
