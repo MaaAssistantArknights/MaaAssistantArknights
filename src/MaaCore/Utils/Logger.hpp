@@ -251,7 +251,7 @@ public:
     }
 
 private:
-    std::vector<id> m_state {};
+    std::vector<id> m_state { };
 };
 } // namespace detail
 
@@ -320,7 +320,7 @@ public:
     requires has_stream_insertion_operator<std::ostream, T>
     ostreams& operator<<(T&& x)
     {
-        streams_put(m_ofss, x, std::index_sequence_for<Args...> {});
+        streams_put(m_ofss, x, std::index_sequence_for<Args...> { });
         return *this;
     }
 
@@ -332,7 +332,7 @@ public:
 
     ostreams& operator<<(std::ostream& (*pf)(std::ostream&))
     {
-        streams_put(m_ofss, pf, std::index_sequence_for<Args...> {});
+        streams_put(m_ofss, pf, std::index_sequence_for<Args...> { });
         return *this;
     }
 
@@ -476,7 +476,7 @@ public:
 #else
                 int pid = ::getpid();
 #endif
-                auto tid = static_cast<uint16_t>(std::hash<std::thread::id> {}(std::this_thread::get_id()));
+                auto tid = static_cast<uint16_t>(std::hash<std::thread::id> { }(std::this_thread::get_id()));
 
                 s << std::format("[{}][{}][Px{}][Tx{}]", MAA_NS::format_now(), v.str, pid, tid);
             }
@@ -491,7 +491,7 @@ public:
             }
             else if constexpr (std::ranges::input_range<T>) {
                 s << "[";
-                std::string_view comma_space {};
+                std::string_view comma_space { };
                 for (const auto& elem : std::forward<T>(v)) {
                     s << comma_space;
                     stream_put(s, elem);
@@ -979,11 +979,14 @@ private:
         // Windows: 设置未处理异常过滤器
         SetUnhandledExceptionFilter(unhandled_exception_filter);
 #endif
-
+// android not need this
+#ifndef __ANDROID__
         std::signal(SIGSEGV, signal_handler);
         std::signal(SIGABRT, signal_handler);
         std::signal(SIGFPE, signal_handler);
         std::signal(SIGILL, signal_handler);
+#endif
+
 #ifdef ASST_DEBUG
         const auto& path = UserDir.get() / "debug" / "crash.log";
         if (std::filesystem::exists(path)) {
@@ -1032,7 +1035,7 @@ private:
     std::ostream m_of;
     std::size_t m_file_size = 0;
 
-    static inline utils::NullStreambuf null_buf {};
+    static inline utils::NullStreambuf null_buf { };
     static inline std::ostream null_stream { &null_buf };
     const std::size_t MaxLogSize = 64LL * 1024 * 1024;
 };

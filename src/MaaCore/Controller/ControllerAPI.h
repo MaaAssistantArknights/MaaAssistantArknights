@@ -18,6 +18,9 @@ enum class ControllerType
 #ifdef _WIN32
     Win32,
 #endif
+#ifdef __ANDROID__
+    Android,
+#endif
 };
 
 class ControllerAPI

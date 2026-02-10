@@ -27,6 +27,10 @@
 #include "Win32Controller.h"
 #endif
 
+#ifdef __ANDROID__
+#include "Android/AndroidController.h"
+#endif
+
 #include "Common/AsstTypes.h"
 #include "Utils/Logger.hpp"
 
@@ -64,6 +68,12 @@ std::shared_ptr<asst::ControllerAPI> asst::Controller::create_controller(
         case ControllerType::MacPlayTools:
             controller = std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
             break;
+#ifdef __ANDROID__
+        case ControllerType::Android:
+            Log.debug("Use Android");
+            controller = std::make_shared<AndroidController>(m_callback, m_inst);
+            break;
+#endif
         default:
             return nullptr;
         }
