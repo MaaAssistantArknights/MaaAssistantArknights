@@ -31,6 +31,10 @@
 #ifdef ASST_DEBUG
 #include "Task/Interface/DebugTask.h"
 #endif
+#ifdef __ANDROID__
+#include "Controller/Android/AndroidExternalLib.h"
+#endif
+
 
 using namespace asst;
 
@@ -52,6 +56,11 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
         OnnxSessions::get_instance().use_gpu(device_id);
         return true;
     } break;
+#ifdef __ANDROID__
+        case StaticOptionKey::AndroidExternalLib: {
+        return AndroidExternalLib::load(value);
+        }
+#endif
     default:
         Log.error(__FUNCTION__, "| unknown key:", static_cast<int>(key));
         break;
@@ -131,6 +140,10 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
         }
         else if (constexpr std::string_view MacPlayTools = "MacPlayTools"; value == MacPlayTools) {
             m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
+            return true;
+        }
+        else if (constexpr std::string_view Android = "Android"; value == Android) {
+            m_ctrler->set_touch_mode(TouchMode::Android);
             return true;
         }
         break;
@@ -614,10 +627,16 @@ void asst::Assistant::call_proc()
 {
     LogTraceFunction;
 
+#ifdef __ANDROID__
+    auto& lib = AndroidExternalLib::instance();
+    auto env = lib.AttachThread();
+    LogInfo << "Use Android AttachThread env: " << env;
+#endif
+
     while (true) {
         std::unique_lock<std::mutex> lock(m_call_mutex);
         if (m_thread_exit) {
-            return;
+            break;
         }
 
         if (m_call_queue.empty()) {
@@ -685,6 +704,13 @@ void asst::Assistant::call_proc()
         };
         append_callback(AsstMsg::AsyncCallInfo, cb_info);
     }
+
+#ifdef ANDROID
+    if (env) {
+        LogInfo << "Use Android AttachThread";
+        lib.DetachThread(env);
+    }
+#endif
 }
 
 void Assistant::append_callback(AsstMsg msg, const json::value& detail)
