@@ -92,7 +92,7 @@ public class MaaApiService : IMaaApiService
 
     public JObject? LoadApiCache(string api)
     {
-        var cache = CacheDir + api;
+        var cache = Path.Combine(CacheDir, api);
         if (!File.Exists(cache))
         {
             return null;
