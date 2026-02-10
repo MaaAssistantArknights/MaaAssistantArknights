@@ -750,7 +750,7 @@ C:\\leidian\\LDPlayer9
     <!--<system:String x:Key="CurrentStage">현재 스테이지</system:String>
     <system:String x:Key="LastBattle">최근 작전</system:String>-->
     <system:String x:Key="DefaultStage">현재/최근</system:String>
-    <system:String x:Key="InvalidStage">잘못된 스테이지</system:String>
+    <!--<system:String x:Key="InvalidStage">잘못된 스테이지</system:String>-->
     <system:String x:Key="ClosedStage">미개방 스테이지</system:String>
     <system:String x:Key="UnsupportedStages">미지원 스테이지</system:String>
     <system:String x:Key="LowVersion">낮은 버전</system:String>

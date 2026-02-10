@@ -196,7 +196,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
         var fightStageEmpty = ConfigFactory.CurrentConfig.TaskQueue
             .OfType<FightTask>()
             .Where(task => task.IsEnable is not false)
-            .Any(task => string.IsNullOrEmpty(FightSettingsUserControlModel.GetFightStage(task.StagePlan)));
+            .Any(task => string.IsNullOrEmpty(FightSettingsUserControlModel.GetFightStage(task)));
         var task = new AsstMallTask() {
             CreditFight = CreditFightTaskEnabled && !fightStageEmpty,
             FormationIndex = CreditFightSelectFormation,
