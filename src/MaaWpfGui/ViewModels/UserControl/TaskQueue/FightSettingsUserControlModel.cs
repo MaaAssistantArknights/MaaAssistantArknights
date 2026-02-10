@@ -733,8 +733,17 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         // 如果设置为"不重置"，只选择第一个开放的关卡，如果没有开放的则返回 null
         if (fight.StageResetMode == FightStageResetMode.DoNotReset)
         {
-            var list = fight.StagePlan.Where(i => i != InvalidStage.Value);
+            var list = fight.StagePlan.Where(i => i != InvalidStage.Value && !string.IsNullOrEmpty(i)).ToList();
+            _logger.Information("DoNotReset mode: StagePlan contains {Count} stages: {Stages}", list.Count, string.Join(", ", list));
             stage = list.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen);
+            if (stage != null)
+            {
+                _logger.Information("DoNotReset mode: Selected open stage: {Stage}", stage);
+            }
+            else
+            {
+                _logger.Information("DoNotReset mode: No open stage found in StagePlan, task will be skipped");
+            }
         }
         else
         {
