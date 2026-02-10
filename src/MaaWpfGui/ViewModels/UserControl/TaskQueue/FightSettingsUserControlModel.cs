@@ -643,13 +643,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
-        // 不再显式标明过期关卡后, 需要提前过滤掉过期关卡
-        var stageList = Instances.StageManager.GetStageList();
         var list = fightTask.StagePlan;
-        if (!fightTask.IsStageManually)
-        {
-            list = [.. list.Where(stage => stageList.Any(p => p.Value == stage))];
-        }
         var stage = list?.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen);
         stage ??= list?.FirstOrDefault();
         return stage;
