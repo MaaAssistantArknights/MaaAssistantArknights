@@ -290,6 +290,7 @@
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding IsOutdated}" Value="True">
                                                                     <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                                    <Setter Property="Foreground" Value="{DynamicResource ErrorLogBrush}" />
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding IsOpen}" Value="False">
                                                                     <Setter Property="Opacity" Value="0.5" />
