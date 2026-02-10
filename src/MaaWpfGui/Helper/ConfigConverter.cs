@@ -60,8 +60,9 @@ public class ConfigConverter
         {
             ret &= ConvertTaskQueue();
         }
-        else if (configurations != null) // 保证 configurations 可用
+        else if (configurations != null)
         {
+            // 保证 configurations 可用
             if (parsedOld["Configurations"] is JObject oldConfigurations)
             {
                 // 删除多余配置

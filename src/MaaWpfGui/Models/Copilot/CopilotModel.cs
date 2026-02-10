@@ -117,6 +117,7 @@ public class CopilotModel : CopilotBase
             return string.Empty;
         }
         string[] moduleName = [string.Empty, "χ", "γ", "α", "Δ"];
+
         // var moduleLevel = req.ModuleLevel > 0 ? $" [Lv.{req.ModuleLevel}]" : string.Empty;
 
         // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ

@@ -257,6 +257,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
             ForceRefresh = ForceRefresh,
             SetRecruitTime = true,
             RecruitTimes = RecruitMaxTimes,
+
             // UseExpedited = UseExpedited,
             ExpeditedTimes = RecruitMaxTimes,
             SelectExtraTags = SelectExtraTags,

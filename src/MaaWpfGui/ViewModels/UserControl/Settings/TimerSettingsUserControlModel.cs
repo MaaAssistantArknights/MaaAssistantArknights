@@ -143,16 +143,16 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
                 }
             }
 
-            private string? _timerConfig;
+            private string _timerConfig;
 
             /// <summary>
             /// Gets or sets the config of the timer.
             /// </summary>
-            public string? TimerConfig
+            public string TimerConfig
             {
                 get => _timerConfig;
                 set {
-                    SetAndNotify(ref _timerConfig, value ?? ConfigurationHelper.GetCurrentConfiguration());
+                    SetAndNotify(ref _timerConfig, value);
                     ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig);
                 }
             }
