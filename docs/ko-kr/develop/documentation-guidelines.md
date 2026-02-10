@@ -29,7 +29,7 @@ icon: jam:write-f
 :::
 ```
 
-또는 Github 스타일 구문 사용:
+또는 GitHub 스타일 구문 사용:
 
 ```markdown
 > [!컨테이너 타입]

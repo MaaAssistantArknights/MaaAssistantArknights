@@ -99,7 +99,7 @@ nix run github:Cryolitia/nur-packages#maa-cli-nightly
 
 :::
 
-안정 버전은 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix)에 패키징되어 있으며, `nixpkgs`의 Rust 툴체인을 사용합니다. 나이틀리 빌드는 [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix)에 있으며, 베타 채널의 Rust 툴체인을 사용하며 Github Action에 의해 매일 자동으로 업데이트되고 빌드가 검증됩니다.
+안정 버전은 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix)에 패키징되어 있으며, `nixpkgs`의 Rust 툴체인을 사용합니다. 나이틀리 빌드는 [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix)에 있으며, 베타 채널의 Rust 툴체인을 사용하며 GitHub Action에 의해 매일 자동으로 업데이트되고 빌드가 검증됩니다.
 
 #### Homebrew
 
