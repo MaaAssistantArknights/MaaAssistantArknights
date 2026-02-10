@@ -21,7 +21,7 @@ public enum FightStageResetMode
     Current,
 
     /// <summary>
-    /// 无效关卡
+    /// 忽略 / 不变
     /// </summary>
-    Invalid,
+    Ignore,
 }

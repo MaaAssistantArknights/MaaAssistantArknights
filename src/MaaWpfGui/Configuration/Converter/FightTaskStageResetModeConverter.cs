@@ -57,13 +57,13 @@ internal class FightTaskStageResetModeConverter : JsonConverter<Root>
                         {
                             if (!taskElement.TryGetProperty("StageResetMode", out _))
                             {
-                                if (fightTask.UseOptionalStage)
+                                if (fightTask.HideUnavailableStage)
                                 {
-                                    fightTask.StageResetMode = FightStageResetMode.Invalid;
+                                    fightTask.StageResetMode = FightStageResetMode.Current;
                                 }
                                 else
                                 {
-                                    fightTask.StageResetMode = FightStageResetMode.Current;
+                                    fightTask.StageResetMode = FightStageResetMode.Ignore;
                                 }
                             }
                         }
