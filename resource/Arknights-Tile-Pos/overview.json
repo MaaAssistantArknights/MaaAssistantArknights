@@ -15848,6 +15848,258 @@
         "stageId": "act48side_tr01",
         "width": 9
     },
+    "act49side_01-activities/act49side/level_act49side_01": {
+        "code": "TA-1",
+        "filename": "act49side_01-activities-act49side-level_act49side_01.json",
+        "height": 7,
+        "levelId": "activities/act49side/level_act49side_01",
+        "name": "激石波",
+        "stageId": "act49side_01",
+        "width": 9
+    },
+    "act49side_02-activities/act49side/level_act49side_02": {
+        "code": "TA-2",
+        "filename": "act49side_02-activities-act49side-level_act49side_02.json",
+        "height": 7,
+        "levelId": "activities/act49side/level_act49side_02",
+        "name": "大头鬼",
+        "stageId": "act49side_02",
+        "width": 9
+    },
+    "act49side_03-activities/act49side/level_act49side_03": {
+        "code": "TA-3",
+        "filename": "act49side_03-activities-act49side-level_act49side_03.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_03",
+        "name": "聚墨痕",
+        "stageId": "act49side_03",
+        "width": 11
+    },
+    "act49side_04-activities/act49side/level_act49side_04": {
+        "code": "TA-4",
+        "filename": "act49side_04-activities-act49side-level_act49side_04.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_04",
+        "name": "小雪崩",
+        "stageId": "act49side_04",
+        "width": 11
+    },
+    "act49side_05-activities/act49side/level_act49side_05": {
+        "code": "TA-5",
+        "filename": "act49side_05-activities-act49side-level_act49side_05.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_05",
+        "name": "双飞燕",
+        "stageId": "act49side_05",
+        "width": 12
+    },
+    "act49side_06-activities/act49side/level_act49side_06": {
+        "code": "TA-6",
+        "filename": "act49side_06-activities-act49side-level_act49side_06.json",
+        "height": 7,
+        "levelId": "activities/act49side/level_act49side_06",
+        "name": "裹锋",
+        "stageId": "act49side_06",
+        "width": 11
+    },
+    "act49side_07-activities/act49side/level_act49side_07": {
+        "code": "TA-7",
+        "filename": "act49side_07-activities-act49side-level_act49side_07.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_07",
+        "name": "相思断",
+        "stageId": "act49side_07",
+        "width": 12
+    },
+    "act49side_08-activities/act49side/level_act49side_08": {
+        "code": "TA-8",
+        "filename": "act49side_08-activities-act49side-level_act49side_08.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_08",
+        "name": "金错刀",
+        "stageId": "act49side_08",
+        "width": 13
+    },
+    "act49side_09-activities/act49side/level_act49side_09": {
+        "code": "TA-9",
+        "filename": "act49side_09-activities-act49side-level_act49side_09.json",
+        "height": 7,
+        "levelId": "activities/act49side/level_act49side_09",
+        "name": "气合",
+        "stageId": "act49side_09",
+        "width": 13
+    },
+    "act49side_10-activities/act49side/level_act49side_10": {
+        "code": "TA-10",
+        "filename": "act49side_10-activities-act49side-level_act49side_10.json",
+        "height": 31,
+        "levelId": "activities/act49side/level_act49side_10",
+        "name": "镇神头",
+        "stageId": "act49side_10",
+        "width": 37
+    },
+    "act49side_11-activities/act49side/level_act49side_11": {
+        "code": "TA-11",
+        "filename": "act49side_11-activities-act49side-level_act49side_11.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_11",
+        "name": "长生劫",
+        "stageId": "act49side_11",
+        "width": 13
+    },
+    "act49side_ex01#f#-activities/act49side/level_act49side_ex01": {
+        "code": "TA-EX-1",
+        "filename": "act49side_ex01#f#-activities-act49side-level_act49side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act49side/level_act49side_ex01",
+        "name": "《谈轶》",
+        "stageId": "act49side_ex01#f#",
+        "width": 12
+    },
+    "act49side_ex01-activities/act49side/level_act49side_ex01": {
+        "code": "TA-EX-1",
+        "filename": "act49side_ex01-activities-act49side-level_act49side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act49side/level_act49side_ex01",
+        "name": "《谈轶》",
+        "stageId": "act49side_ex01",
+        "width": 12
+    },
+    "act49side_ex02#f#-activities/act49side/level_act49side_ex02": {
+        "code": "TA-EX-2",
+        "filename": "act49side_ex02#f#-activities-act49side-level_act49side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_ex02",
+        "name": "《夜话》",
+        "stageId": "act49side_ex02#f#",
+        "width": 11
+    },
+    "act49side_ex02-activities/act49side/level_act49side_ex02": {
+        "code": "TA-EX-2",
+        "filename": "act49side_ex02-activities-act49side-level_act49side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_ex02",
+        "name": "《夜话》",
+        "stageId": "act49side_ex02",
+        "width": 11
+    },
+    "act49side_ex03#f#-activities/act49side/level_act49side_ex03": {
+        "code": "TA-EX-3",
+        "filename": "act49side_ex03#f#-activities-act49side-level_act49side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_ex03",
+        "name": "《逸闻》",
+        "stageId": "act49side_ex03#f#",
+        "width": 12
+    },
+    "act49side_ex03-activities/act49side/level_act49side_ex03": {
+        "code": "TA-EX-3",
+        "filename": "act49side_ex03-activities-act49side-level_act49side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_ex03",
+        "name": "《逸闻》",
+        "stageId": "act49side_ex03",
+        "width": 12
+    },
+    "act49side_ex04#f#-activities/act49side/level_act49side_ex04": {
+        "code": "TA-EX-4",
+        "filename": "act49side_ex04#f#-activities-act49side-level_act49side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_ex04",
+        "name": "《蒙尘录》",
+        "stageId": "act49side_ex04#f#",
+        "width": 12
+    },
+    "act49side_ex04-activities/act49side/level_act49side_ex04": {
+        "code": "TA-EX-4",
+        "filename": "act49side_ex04-activities-act49side-level_act49side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_ex04",
+        "name": "《蒙尘录》",
+        "stageId": "act49side_ex04",
+        "width": 12
+    },
+    "act49side_ex05#f#-activities/act49side/level_act49side_ex05": {
+        "code": "TA-EX-5",
+        "filename": "act49side_ex05#f#-activities-act49side-level_act49side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_ex05",
+        "name": "《发迹考》",
+        "stageId": "act49side_ex05#f#",
+        "width": 12
+    },
+    "act49side_ex05-activities/act49side/level_act49side_ex05": {
+        "code": "TA-EX-5",
+        "filename": "act49side_ex05-activities-act49side-level_act49side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_ex05",
+        "name": "《发迹考》",
+        "stageId": "act49side_ex05",
+        "width": 12
+    },
+    "act49side_ex06#f#-activities/act49side/level_act49side_ex06": {
+        "code": "TA-EX-6",
+        "filename": "act49side_ex06#f#-activities-act49side-level_act49side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_ex06",
+        "name": "《杨柳见闻》",
+        "stageId": "act49side_ex06#f#",
+        "width": 13
+    },
+    "act49side_ex06-activities/act49side/level_act49side_ex06": {
+        "code": "TA-EX-6",
+        "filename": "act49side_ex06-activities-act49side-level_act49side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_ex06",
+        "name": "《杨柳见闻》",
+        "stageId": "act49side_ex06",
+        "width": 13
+    },
+    "act49side_ex07#f#-activities/act49side/level_act49side_ex07": {
+        "code": "TA-EX-7",
+        "filename": "act49side_ex07#f#-activities-act49side-level_act49side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_ex07",
+        "name": "《小史摘钞》",
+        "stageId": "act49side_ex07#f#",
+        "width": 12
+    },
+    "act49side_ex07-activities/act49side/level_act49side_ex07": {
+        "code": "TA-EX-7",
+        "filename": "act49side_ex07-activities-act49side-level_act49side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_ex07",
+        "name": "《小史摘钞》",
+        "stageId": "act49side_ex07",
+        "width": 12
+    },
+    "act49side_ex08#f#-activities/act49side/level_act49side_ex08": {
+        "code": "TA-EX-8",
+        "filename": "act49side_ex08#f#-activities-act49side-level_act49side_ex08.json",
+        "height": 32,
+        "levelId": "activities/act49side/level_act49side_ex08",
+        "name": "《朝野汇编》",
+        "stageId": "act49side_ex08#f#",
+        "width": 33
+    },
+    "act49side_ex08-activities/act49side/level_act49side_ex08": {
+        "code": "TA-EX-8",
+        "filename": "act49side_ex08-activities-act49side-level_act49side_ex08.json",
+        "height": 32,
+        "levelId": "activities/act49side/level_act49side_ex08",
+        "name": "《朝野汇编》",
+        "stageId": "act49side_ex08",
+        "width": 33
+    },
+    "act49side_tr01-activities/act49side/level_act49side_tr01": {
+        "code": "TA-TR-1",
+        "filename": "act49side_tr01-activities-act49side-level_act49side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act49side/level_act49side_tr01",
+        "name": "乌金拓",
+        "stageId": "act49side_tr01",
+        "width": 10
+    },
     "act4bossrush_01-activities/act4bossrush/level_bossrush4_01": {
         "code": "TN-1",
         "filename": "act4bossrush_01-activities-act4bossrush-level_bossrush4_01.json",
