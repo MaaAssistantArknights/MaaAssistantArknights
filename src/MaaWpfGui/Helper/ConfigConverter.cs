@@ -212,7 +212,7 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.HideUnavailableStage);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomStageCode);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.UseAlternateStage);
-                fightTask.StageResetMode = fightTask.UseOptionalStage ? FightStageResetMode.Invalid : FightStageResetMode.Current;
+                fightTask.StageResetMode = fightTask.HideUnavailableStage ? FightStageResetMode.Current : FightStageResetMode.Ignore;
 
                 if (fightTask.Series > 6)
                 {
