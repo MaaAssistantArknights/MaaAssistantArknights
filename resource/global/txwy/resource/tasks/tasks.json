@@ -20,6 +20,11 @@
     "ClickChapterNewOverview": {
         "text": ["樂章"]
     },
+    "EnterEpisodeNew": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf"
+    },
     "LevelOfDifficulty": {
         "text": ["環境", "PRTS"]
     },
@@ -1327,10 +1332,5 @@
     },
     "YellowTicket@Store@Purchase": {
         "text": ["購買物品"]
-    },
-    "EnterEpisodeNew": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
     }
 }

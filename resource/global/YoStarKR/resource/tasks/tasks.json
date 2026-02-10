@@ -30,6 +30,11 @@
     "ClickChapterNewOverview": {
         "text": ["서사"]
     },
+    "EnterEpisodeNew": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf"
+    },
     "LevelOfDifficulty": {
         "text": ["환경", "PRTS"]
     },
@@ -1679,10 +1684,5 @@
     },
     "YellowTicket@Store@Purchase": {
         "text": ["물품", "구매"]
-    },
-    "EnterEpisodeNew": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
     }
 }
