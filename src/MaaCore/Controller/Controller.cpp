@@ -28,6 +28,10 @@
 #include "Win32Controller.h"
 #endif
 
+#ifdef __ANDROID__
+#include "Android/AndroidController.h"
+#endif
+
 #include "Common/AsstTypes.h"
 #include "Utils/Logger.hpp"
 
@@ -58,6 +62,11 @@ std::shared_ptr<asst::ControllerAPI>
             return std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
         case ControllerType::MaaFwAdb:
             return std::make_shared<MaaFwAdbController>(m_callback, m_inst, platform_type);
+#ifdef __ANDROID__
+        case ControllerType::Android:
+            Log.debug("Use Android");
+            return std::make_shared<AndroidController>(m_callback, m_inst);
+#endif
         default:
             return nullptr;
         }

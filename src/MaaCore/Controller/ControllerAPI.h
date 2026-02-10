@@ -19,6 +19,9 @@ enum class ControllerType
     Win32,
 #endif
     MaaFwAdb,
+#ifdef __ANDROID__
+    Android,
+#endif
 };
 
 class ControllerAPI
