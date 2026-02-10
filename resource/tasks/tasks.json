@@ -220,7 +220,8 @@
     "EnterEpisodeNew": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "next": ["EnterEpisodeNew-Click"]
     },
     "00@EnterEpisodeNew": {},
     "01@EnterEpisodeNew": {},
@@ -239,6 +240,12 @@
     "14@EnterEpisodeNew": {},
     "15@EnterEpisodeNew": {},
     "16@EnterEpisodeNew": {},
+    "EnterEpisodeNew-Click": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["前往章节"],
+        "roi": [1078, 595, 112, 42]
+    },
     "EnterEpisode": {
         "Doc": "base_task",
         "baseTask": "EpisodeOcrReplace",
