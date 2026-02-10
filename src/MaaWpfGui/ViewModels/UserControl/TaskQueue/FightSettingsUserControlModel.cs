@@ -729,7 +729,17 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
 
         using var scope = _lock.EnterScope();
-        var stage = GetFightStage(fight.StagePlan);
+        string? stage;
+        // 如果设置为"不重置"，只选择第一个开放的关卡，如果没有开放的则返回 null
+        if (fight.StageResetMode == FightStageResetMode.DoNotReset)
+        {
+            var list = fight.StagePlan.Where(i => i != InvalidStage.Value);
+            stage = list.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen);
+        }
+        else
+        {
+            stage = GetFightStage(fight.StagePlan);
+        }
         if (stage is null)
         {
             return null;
