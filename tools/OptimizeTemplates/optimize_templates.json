@@ -887,7 +887,7 @@
     "resource/global/YoStarKR/resource/template/UiTheme/DahuangCity/OperBoxEnter": "34aa0e7df2e92bfdb1c413c0448e0f23790c6f5ab899832adb6c1eedf69416f8",
     "resource/global/YoStarKR/resource/template/UiTheme/DahuangCity/Friends": "e8a36b10b177401555c5698f56caf38b4c4fe7d61b1c98220a8ce8457bb6fc54",
     "resource/global/YoStarKR/resource/template/Recruit/RecruitRefresh": "53cee49702d398e8df0b56492833f80c1e2b0a8a0a26053c80eeeaf7229a934b",
-    "resource/global/YoStarKR/resource/template/Recruit/RecruitFinish": "edf246ed7434738f00e1483a0c2b0644d33c787fc67685699be27d52464613e3",
+    "resource/global/YoStarKR/resource/template/Recruit/RecruitFinish": "5985c1cf23d76b6fc04a4004809d266e98d02338144efd814fa6753e2cae28bc",
     "resource/global/YoStarKR/resource/template/MiniGame/SS@Store/SS@Store@CheckUnlimited": "8a2c63891876c6cc2b96933c135b3b9205d0e30fed4178f70dfd6a09aba3f909",
     "resource/global/YoStarKR/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@SelectTeam": "fcc85563963cb68b4f741fdb63791d862f8d354bc0103d5b7db2c50335c621b5",
     "resource/global/YoStarKR/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@End": "476e483b19170b993cf8f20585db26f56bc9af2f2b08cb666f985f2f6a8b000c",
@@ -3792,5 +3792,8 @@
     "resource/template/items/act49side_token_draft": "48461050e58f90fb0fc45df486af06c62cfe530cc97fb7f156a48ccdad3e3e56",
     "resource/template/infrast/Bskill_ord_spd&tag2": "a0253952306593e4a232187fdd18480d173457acc7b5605c97725f7d7d5cd3db",
     "resource/template/infrast/Bskill_meet_bd_to_spd": "ea506d6e4fa64814e0e0eb0ff39375ea3132578cedc2533d76504bafd4b8c214",
-    "resource/template/infrast/Bskill_ctrl_tra&prod": "eedb83c8584d488fd95d9ad5d88c74a7c28e2361881f91e7049286f94d384a0a"
+    "resource/template/infrast/Bskill_ctrl_tra&prod": "eedb83c8584d488fd95d9ad5d88c74a7c28e2361881f91e7049286f94d384a0a",
+    "resource/global/YoStarKR/resource/template/UiTheme/AveMujica/GachaEnter": "d51ebca51d5bc3df6465d2c74cd77207d0b61c518299d0486e773b8412b9eb20",
+    "resource/global/YoStarKR/resource/template/UiTheme/AveMujica/Mall": "1a09ffa79aae4c5b672834ee9bef853b17cd75d18b9499356fafbaf84d317719",
+    "resource/global/YoStarKR/resource/template/UiTheme/AveMujica/Recruit": "b1b4a12176156c2023760d939103aa87dfe19e0e0c96e72c38d5676d6b7c4c6a"
 }
