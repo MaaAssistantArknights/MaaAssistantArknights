@@ -1,0 +1,58 @@
+{
+    "TA-5": {
+        "algorithm": "JustReturn",
+        "sub": ["TA-5@TA-OpenOpt"],
+        "next": ["TA-5@SideStoryStage", "TA-5@SwipeToStage"]
+    },
+    "TA-5@SideStoryStage": {
+        "text": ["TA-5"]
+    },
+    "TA-7": {
+        "algorithm": "JustReturn",
+        "sub": ["TA-7@TA-OpenOpt"],
+        "next": ["TA-7@SideStoryStage", "TA-7@SwipeToStage"]
+    },
+    "TA-7@SideStoryStage": {
+        "text": ["TA-7"]
+    },
+    "TA-8": {
+        "algorithm": "JustReturn",
+        "sub": ["TA-8@TA-OpenOpt"],
+        "next": ["TA-8@SideStoryStage", "TA-8@SwipeToStage"]
+    },
+    "TA-8@SideStoryStage": {
+        "text": ["TA-8"]
+    },
+    "TA-9": {
+        "algorithm": "JustReturn",
+        "sub": ["TA-9@TA-OpenOpt"],
+        "next": ["TA-9@SideStoryStage", "TA-9@SwipeToStage"]
+    },
+    "TA-9@SideStoryStage": {
+        "text": ["TA-9"]
+    },
+    "TA-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["TA-OpenOcr", "TA-Open"]
+    },
+    "TA-Open": {
+        "baseTask": "SS-Open",
+        "postDelay": 3000,
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["TAChapterToTA"]
+    },
+    "TA-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "postDelay": 3000,
+        "text": ["辞岁行", "望春遗事", "待笔新篇"],
+        "next": ["TAChapterToTA"]
+    },
+    "TAChapterToTA": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["霜秋实录"],
+        "postDelay": 2000,
+        "roi": [993, 418, 89, 35],
+        "next": ["#self", "SideStoryStage", "ChapterSwipeToTheRight"]
+    }
+}
