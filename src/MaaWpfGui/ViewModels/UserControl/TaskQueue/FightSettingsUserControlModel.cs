@@ -556,7 +556,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             if (value)
             {
                 UseAlternateStage = false;
-                StageResetMode = FightStageResetMode.Current;
+                StageResetMode = FightStageResetMode.DoNotReset;
             }
             if (update)
             {
