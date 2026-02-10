@@ -25,6 +25,11 @@
         "roi": [1163, 27, 84, 28],
         "text": ["Movements"]
     },
+    "EnterEpisodeNew": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf"
+    },
     "LevelOfDifficulty": {
         "text": ["Environment", "PRTS"]
     },
@@ -1665,10 +1670,5 @@
     },
     "YellowTicket@Store@Purchase": {
         "text": ["Buy"]
-    },
-    "EnterEpisodeNew": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
     }
 }

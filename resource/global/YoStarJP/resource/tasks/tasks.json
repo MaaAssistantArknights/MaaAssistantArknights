@@ -25,6 +25,11 @@
     "ClickChapterNewOverview": {
         "text": ["楽章"]
     },
+    "EnterEpisodeNew": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf"
+    },
     "EnterChapterDifficultyHard": {
         "text": ["作戦へ"]
     },
@@ -1526,10 +1531,5 @@
     },
     "YellowTicket@Store@Purchase": {
         "text": ["購入"]
-    },
-    "EnterEpisodeNew": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
     }
 }
