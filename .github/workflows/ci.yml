@@ -328,6 +328,79 @@ jobs:
             release/*.AppImage
             release/*.tar.gz
 
+  android:
+    name: Build for Android
+    needs: meta
+    runs-on: macos-26
+    strategy:
+      matrix:
+        include:
+          - arch: arm64
+            abi: arm64-v8a
+            triplet: arm64-android
+          - arch: x64
+            abi: x86_64
+            triplet: x64-android
+      fail-fast: false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          show-progress: false
+
+      - name: Fetch submodules
+        run: |
+          git submodule update --init --depth 1 src/MaaUtils
+
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v5
+        continue-on-error: true
+        with:
+          path: ./src/MaaUtils/MaaDeps
+          key: ${{ runner.os }}-${{ matrix.triplet }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
+
+      - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 tools/maadeps-download.py ${{ matrix.triplet }}
+
+      - name: Setup Android NDK
+        id: setup-ndk
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r28c
+
+      - name: Configure, build and install
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake \
+            -DANDROID_ABI=${{ matrix.abi }} \
+            -DANDROID_PLATFORM=android-28 \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DMAADEPS_TRIPLET='maa-${{ matrix.triplet }}' \
+            -DINSTALL_RESOURCE=ON \
+            -DINSTALL_PYTHON=OFF \
+            -DBUILD_WPF_GUI=OFF \
+            -DBUILD_DEBUG_DEMO=OFF \
+            -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake --build build --parallel $(sysctl -n hw.logicalcpu)
+          cmake --install build --prefix install
+
+      - name: Tar files
+        run: |
+          cd install
+          tar czvf $GITHUB_WORKSPACE/MAA-${{ needs.meta.outputs.tag }}-android-${{ matrix.arch }}.tar.gz .
+
+      - name: Upload MAA to GitHub
+        uses: actions/upload-artifact@v6
+        with:
+          name: MAA-android-${{ matrix.arch }}
+          path: MAA-*.tar.gz
+
   macOS-Core:
     name: Build Core for macOS
     needs: meta
@@ -540,7 +613,7 @@ jobs:
   release:
     name: Publish Release
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [meta, windows, ubuntu, macOS-Core, macOS-GUI]
+    needs: [meta, windows, ubuntu, android, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
       - name: Download MAA from GitHub
