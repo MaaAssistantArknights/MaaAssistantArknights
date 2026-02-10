@@ -1679,5 +1679,10 @@
     },
     "YellowTicket@Store@Purchase": {
         "text": ["물품", "구매"]
+    },
+    "EnterEpisodeNew": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf"
     }
 }
