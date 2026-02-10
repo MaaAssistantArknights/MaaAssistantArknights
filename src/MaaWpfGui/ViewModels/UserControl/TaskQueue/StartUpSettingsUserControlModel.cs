@@ -68,25 +68,6 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    [Obsolete("使用SerializeTask作为代替")]
-    public override (AsstTaskType Type, JObject Params) Serialize()
-    {
-        var clientType = SettingsViewModel.GameSettings.ClientType;
-        var startGame = SettingsViewModel.GameSettings.StartGame;
-        var accountName = clientType switch {
-            ClientType.Official or ClientType.Bilibili => AccountName,
-            _ => string.Empty,
-        };
-
-        var task = new AsstStartUpTask() {
-            ClientType = clientType,
-            StartGame = startGame,
-            AccountName = accountName,
-        };
-
-        return task.Serialize();
-    }
-
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not StartUpTask startUp)

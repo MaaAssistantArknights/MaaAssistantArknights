@@ -78,13 +78,6 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
     /// <param name="baseTask">需要刷新的任务</param>
     public abstract void RefreshUI(BaseTask baseTask);
 
-    /// <summary>
-    /// 序列化MAA任务
-    /// </summary>
-    /// <returns>返回(Asst任务类型, 参数)</returns>
-    [Obsolete("使用SerializeTask作为代替")]
-    public abstract (AsstTaskType Type, JObject Params) Serialize();
-
     /// <summary>序列化任务</summary>
     /// <param name="baseTask">存储的任务</param>
     /// <param name="taskId">任务id, null时追加任务, 非null为设置任务参数</param>

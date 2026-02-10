@@ -249,55 +249,6 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    [Obsolete("使用SerializeTask作为代替")]
-    public override (AsstTaskType Type, JObject Params) Serialize()
-    {
-        var task = new AsstRecruitTask() {
-            Refresh = RefreshLevel3,
-            ForceRefresh = ForceRefresh,
-            SetRecruitTime = true,
-            RecruitTimes = RecruitMaxTimes,
-            // UseExpedited = UseExpedited,
-            ExpeditedTimes = RecruitMaxTimes,
-            SelectExtraTags = SelectExtraTags,
-            Level3FirstList = AutoRecruitFirstList.Cast<CombinedData>().Select(i => i.Value).ToList(),
-            NotChooseLevel1 = NotChooseLevel1,
-            ChooseLevel3Time = ChooseLevel3Time,
-            ChooseLevel4Time = ChooseLevel4Time,
-            ChooseLevel5Time = ChooseLevel5Time,
-            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-            PenguinId = SettingsViewModel.GameSettings.PenguinId,
-            YituliuId = SettingsViewModel.GameSettings.PenguinId,
-            ServerType = Instances.SettingsViewModel.ServerType,
-        };
-
-        if (!task.NotChooseLevel1)
-        {
-            task.ConfirmList.Add(1);
-        }
-
-        if (ChooseLevel3)
-        {
-            task.ConfirmList.Add(3);
-        }
-
-        if (ChooseLevel4)
-        {
-            task.SelectList.Add(4);
-            task.ConfirmList.Add(4);
-        }
-
-        // ReSharper disable once InvertIf
-        if (ChooseLevel5)
-        {
-            task.SelectList.Add(5);
-            task.ConfirmList.Add(5);
-        }
-
-        return task.Serialize();
-    }
-
     public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
     {
         if (baseTask is not RecruitTask recruit)
