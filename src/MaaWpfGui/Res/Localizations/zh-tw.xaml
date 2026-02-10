@@ -750,7 +750,6 @@ C:\\leidian\\LDPlayer9\n
     <!--<system:String x:Key="LastBattle">上次作戰</system:String>-->
     <system:String x:Key="DefaultStage">目前/上次</system:String>
     <system:String x:Key="InvalidStage">無效關卡</system:String>
-    <system:String x:Key="DoNotResetStage">不重置</system:String>
     <system:String x:Key="ClosedStage">活動未開放</system:String>
     <system:String x:Key="UnsupportedStages">不支援的關卡</system:String>
     <system:String x:Key="LowVersion">版本過低</system:String>
