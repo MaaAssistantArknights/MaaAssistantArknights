@@ -260,11 +260,14 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 #endif
 
+    // Android uses lazy loading; no need to check in advance
+#ifndef __ANDROID__
     // try to find the fastest way
     if (!screencap()) {
         Log.error("Cannot find a proper way to screencap!");
         return false;
     }
+#endif
 
     auto proxy_callback = [&](const json::object& details) {
         json::value connection_info = json::object {
