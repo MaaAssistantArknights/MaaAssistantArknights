@@ -111,18 +111,18 @@ bool AndroidController::screencap(cv::Mat& image, [[maybe_unused]] bool allow_re
         return false;
     }
 
-    auto& library = AndroidExternalLib::instance();
-    auto info = library.GetLockedPixels();
+    const auto& library = AndroidExternalLib::instance();
+    const auto info = library.GetLockedPixels();
 
     if (!info.data || info.width == 0 || info.height == 0) {
         LogError << "GetLockedPixels returned invalid data";
         return false;
     }
 
-    cv::Mat src(info.height, info.width, CV_8UC4, info.data, info.stride);
+    const cv::Mat src(info.height, info.width, CV_8UC4, info.data, info.stride);
     cv::Mat bgr;
 
-    auto cvt_start = std::chrono::high_resolution_clock::now();
+    const auto cvt_start = std::chrono::high_resolution_clock::now();
     cv::cvtColor(src, bgr, cv::COLOR_RGBA2BGR);
     auto cvt_end = std::chrono::high_resolution_clock::now();
     auto cvt_duration = std::chrono::duration_cast<std::chrono::microseconds>(cvt_end - cvt_start);
