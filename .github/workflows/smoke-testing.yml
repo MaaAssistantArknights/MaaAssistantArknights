@@ -4,6 +4,8 @@ permissions:
 
 on:
   push:
+    branches:
+      - "dev"
     paths:
       - ".github/workflows/smoke-testing.yml"
       - "3rdparty/include/**"

@@ -4,8 +4,8 @@ on:
   push:
     tags:
       - "v*"
-    branches-ignore:
-      - "master"
+    branches:
+      - "dev"
     paths:
       - ".github/workflows/ci.yml"
       - "3rdparty/include/**"
@@ -17,8 +17,6 @@ on:
       - "tools/maadeps-download.py"
       - "!**/*.md"
   pull_request:
-    branches:
-      - "dev"
     paths:
       - ".github/workflows/ci.yml"
       - "3rdparty/include/**"
