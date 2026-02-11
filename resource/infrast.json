@@ -2891,6 +2891,9 @@
             },
             "bskill_meet_bd_to_spd": {
                 "desc": ["进驻会客室时，线索搜集速度提升20%，同时每10点人间烟火额外提升1%"],
+                "efficient": {
+                    "General": 20
+                },
                 "name": ["扶危行侠"],
                 "template": "Bskill_meet_bd_to_spd.png"
             },
@@ -2925,6 +2928,9 @@
             },
             "bskill_meet_exchange2": {
                 "desc": ["进驻会客室时，处于线索交流时线索搜集速度提升30%"],
+                "efficient": {
+                    "General": 15
+                },
                 "name": ["特殊渠道顾问"],
                 "template": "Bskill_meet_exchange2.png"
             },
