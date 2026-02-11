@@ -789,14 +789,8 @@
             [".*威龙陈", "假日威龙陈"],
             ["青积", "青枳"],
             [".*烬艾雅法.*", "纯烬艾雅法拉"],
-            ["^一?山\\w*$", "山"],
-            ["^一?余\\w*$", "余"],
-            ["^一?锏\\w*$", "锏"],
-            ["^一?煌\\w*$", "煌"],
-            ["^一?年\\w*$", "年"],
-            ["^一?[委泰黍]\\w*$", "黍"],
-            ["^一?令\\w*$", "令"],
-            ["^一?[H夕]\\w*$", "夕"],
+            ["^[委泰黍]$", "黍"],
+            ["^[H夕]$", "夕"],
             ["12E", "12F"],
             ["归.*幽灵鲨", "归溟幽灵鲨"],
             ["(临六$|^临光.*)", "临光"],
@@ -3649,9 +3643,9 @@
             "trim_threshold_low",
             "trim_threshold_high",
             "左侧收缩时检测图的底部屏蔽高度",
-            "左侧收缩时连续n像素低于bin_thresh"
+            "左侧收缩时连续 n 像素低于 bin_thresh"
         ],
-        "specialParams": [140, 2, 0, 0, 3, 10]
+        "specialParams": [160, 4, 0, 0, 3, 10]
     },
     "BattleStartPre": {
         "algorithm": "OcrDetect",
@@ -3780,16 +3774,32 @@
     "BattleOperName": {
         "algorithm": "OcrDetect",
         "text": [],
-        "useRaw": false,
         "fullMatch": true,
-        "roi": [5, 177, 191, 37]
+        "roi": [5, 177, 191, 37],
+        "specialParams_doc": [
+            "bin_threshold",
+            "bin_expansion",
+            "trim_threshold_low",
+            "trim_threshold_high",
+            "收缩时检测图的底部屏蔽高度",
+            "右侧收缩时连续 n 像素低于 bin_thresh"
+        ],
+        "specialParams": [160, 4, 0, 0, 0, 10]
     },
     "SSSBattleOperName": {
         "algorithm": "OcrDetect",
         "text": [],
-        "useRaw": false,
         "fullMatch": true,
-        "roi": [0, 102, 190, 37]
+        "roi": [0, 102, 190, 37],
+        "specialParams_doc": [
+            "bin_threshold",
+            "bin_expansion",
+            "trim_threshold_low",
+            "trim_threshold_high",
+            "收缩时检测图的底部屏蔽高度",
+            "右侧收缩时连续 n 像素低于 bin_thresh"
+        ],
+        "specialParams": [160, 4, 0, 0, 0, 10]
     },
     "BattleOfficiallyBegin": {
         "roi": [1165, 20, 75, 65],
