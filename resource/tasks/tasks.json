@@ -3780,6 +3780,7 @@
     "BattleOperName": {
         "algorithm": "OcrDetect",
         "text": [],
+        "useRaw": false,
         "fullMatch": true,
         "roi": [5, 177, 191, 37]
     },
