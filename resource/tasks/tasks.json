@@ -3787,6 +3787,7 @@
     "SSSBattleOperName": {
         "algorithm": "OcrDetect",
         "text": [],
+        "useRaw": false,
         "fullMatch": true,
         "roi": [0, 102, 190, 37]
     },
