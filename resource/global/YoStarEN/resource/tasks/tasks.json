@@ -877,7 +877,7 @@
             ["Scoring Station", "大战记分站"],
             ["Gramophone Pedestal", "“留声机”底座"],
             ["Blaze the Igniting Spark", "烛煌"],
-            ["Yu", "余"],
+            ["^Yu$", "余"],
             ["Surfer", "寻澜"],
             ["Xingzhu", "行箸"],
             ["Stove", "火灶"],
