@@ -1016,7 +1016,12 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
     sort_by_score_(*det_result_opt);
     const auto& det_name = det_result_opt->front().text;
 
-    return BattleData.is_name_invalid(det_name) ? std::string() : det_name;
+    if (!BattleData.is_name_invalid(det_name)) {
+        return det_name;
+    }
+
+    det_analyzer.save_img(utils::path("debug") / utils::path("battle"));
+    return std::string();
 }
 
 std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const
