@@ -16,6 +16,7 @@
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
+#include "Vision/Miscellaneous/OperNameAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 #include <ranges>
@@ -996,8 +997,16 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
     const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     const auto& task = Task.get<OcrTaskInfo>(oper_name_ocr_task_name());
 
-    RegionOCRer preproc_analyzer(image);
+    // 使用 OperNameAnalyzer 处理左对齐文本
+    OperNameAnalyzer preproc_analyzer(image);
     preproc_analyzer.set_task_info(task);
+    preproc_analyzer.set_text_alignment(OperNameAnalyzer::TextAlignment::Left); // 左对齐
+    const auto& params = task->special_params;
+    preproc_analyzer.set_bin_threshold(params[0]);
+    preproc_analyzer.set_bin_expansion(params[1]);
+    preproc_analyzer.set_bin_trim_threshold(params[2], params[3]);
+    preproc_analyzer.set_bottom_line_height(params[4]);
+    preproc_analyzer.set_width_threshold(params[5]);
     preproc_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
     auto preproc_result_opt = preproc_analyzer.analyze();
 

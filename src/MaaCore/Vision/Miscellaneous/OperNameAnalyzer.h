@@ -12,6 +12,12 @@ public:
     using Result = OCRer::Result;
     using ResultOpt = std::optional<Result>;
 
+    enum class TextAlignment
+    {
+        Right, // 右对齐，从右往左扫描截断左侧
+        Left   // 左对齐，从左往右扫描截断右侧
+    };
+
 public:
     using VisionHelper::VisionHelper;
     virtual ~OperNameAnalyzer() override = default;
@@ -23,6 +29,8 @@ public:
     void set_bottom_line_height(int height) { m_bottom_line_height = height; }
 
     void set_width_threshold(int threshold) { m_width_threshold = threshold; }
+
+    void set_text_alignment(TextAlignment alignment) { m_text_alignment = alignment; }
 
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
     const auto& get_result() const noexcept { return m_result; }
@@ -36,7 +44,8 @@ private:
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
     mutable Result m_result;
     bool m_use_raw = true;
-    int m_bottom_line_height = 3; // 底部线条高度
-    int m_width_threshold = 5;    // 宽度阈值
+    int m_bottom_line_height = 0;                          // 底部线条高度
+    int m_width_threshold = 5;                             // 宽度阈值
+    TextAlignment m_text_alignment = TextAlignment::Right; // 默认右对齐（保持向后兼容）
 };
 }; // namespace asst
