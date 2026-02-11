@@ -30,7 +30,7 @@
         ],
         "templThreshold": 0.75,
         "rectMove_Doc": "识别后 move 给 click 用",
-        "rectMove": [-5, 0, 350, 70]
+        "rectMove": [-5, 0, 50, 70]
     },
     "BattleQuickFormationSkillLevel-OCR": {
         "baseTask": "NumberOcrReplace",
