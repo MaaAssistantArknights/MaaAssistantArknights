@@ -43,6 +43,9 @@ if [ -n "$error_clients" ]; then
                 *"[ERR]"*)
                     printf "\033[31m%s\033[0m\n" "$line"
                     ;;
+                *"[INF]"*)
+                    printf "\033[36m%s\033[0m\n" "$line"
+                    ;;
                 *)
                     echo "$line"
                     ;;
