@@ -2176,7 +2176,7 @@
     "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@GetDropSelectReward": "86bd1512d3f6030b9bc7556e5490a57464cec676ae5723fcdc5107ae6661bbdf",
     "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageDreadfulFoeEnter": "f289f82bcef76f462845b9c75e0b3a76c0474866a6aaa217322c5e0cc49083c7",
     "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageRefreshConfirm": "6679c6d21601218204d002d48cf3146f5339a91d597ae45bbea36ed0af16a12b",
-    "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageRefresh": "396efa1ade74ca2134bd87348eff31cfe781a9907db9ed64a0f8f1aaf52c3dd1",
+    "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageRefresh": "1dc8772767d155ec8cdf55e610166ad76c01440d6c6eeefca152b1b77eb2c76c",
     "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@SquadDefault": "c68982d274657986fdd8d79931ca4a3631f5c63ab7383c34b7c38bcb6e1976f9",
     "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@ChooseDifficulty": "157c77ade8a30f1bd54fdeb388403246028f1bad16882433abd7f0f042d57dc5",
     "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@GetDrop3": "589f03ca5f180f82296b482bf51457b6c676e2c238f2abd6de2347ee1b024d3b",
@@ -3842,6 +3842,5 @@
     "resource/global/txwy/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MissionFailedFlag": "f1f0511dec355b192b710821be0367e18770e7f24d3ff311b635cf2eed3de4e5",
     "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/GachaEnter": "22181867362f20e599deb876d1d69e0c100c32371cac5ce27593e623b5371469",
     "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/Mall": "a8554e0cff0d0eb8513f0c453c779e733cccfd64d5ce9cc3a03825015615a333",
-    "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/Recruit": "08e718920c5d5371d3606cde876e31f16b2b52fb169592e21f7e15fe4fa25a0b",
-    "YoStarEN/Sarkaz@Roguelike@StageRefresh": "1dc8772767d155ec8cdf55e610166ad76c01440d6c6eeefca152b1b77eb2c76c"
+    "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/Recruit": "08e718920c5d5371d3606cde876e31f16b2b52fb169592e21f7e15fe4fa25a0b"
 }
