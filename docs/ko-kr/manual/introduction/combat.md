@@ -51,7 +51,7 @@ icon: hugeicons:brain-02
     - 용문 시내：LungmenDowntown@Annihilation
 
   - 상시 개방 이벤트의 경우 `OF-1`/`OF-F3`/`GT-5`와 같이 입력합니다.
-  - 현재 개방된 사이드 스토리 이벤트의 세 개의 스테이지입니다. [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json)에서 업데이트를 자동으로 다운로드 한 후 화면 하단에 표시됩니다.
+  - 현재 개방된 사이드 스토리 이벤트의 세 개의 스테이지입니다. [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json)에서 업데이트를 자동으로 다운로드 한 후 화면 하단에 표시됩니다.
   - 재개방된 사이드 스토리 이벤트. `SSReopen-<스테이지 접두사>`를 입력하면 XX-1~XX-9 스테이지를 한 번에 완료할 수 있습니다. 예: `SSReopen-IC`.
 
 ::: details 예시 화면

@@ -36,6 +36,8 @@ if [[ ${#error_clients} -gt 0 ]]; then
         while IFS= read -r line; do
             if [[ "$line" == *"[ERR]"* ]]; then
                 print -P "%F{red}${line}%f"
+            elif [[ "$line" == *"[INF]"* ]]; then
+                print -P "%F{cyan}${line}%f"
             else
                 echo "$line"
             fi

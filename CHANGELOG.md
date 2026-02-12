@@ -1,4 +1,4 @@
-## v6.3.0
+## v6.3.1
 
 ### 拉电线不知天地为何物 | Highlight
 
@@ -18,9 +18,12 @@
 
 #### PC 端初步支持
 
-本次更新，牛牛已支持控制 PC 端明日方舟了~
+本次更新，牛牛已支持控制 PC 端明日方舟了~不过有以下限制：
 
-但由于维护人手有限，PC 端的适配可能长期处于不稳定状态，部分功能可能出现异常或暂时无法使用。
+* 由于 Windows 的限制，PC 端在被控制时**不可以处于最小化窗口状态**，否则游戏画面不会被渲染，也就无法被牛牛识别；
+* 由于 Win32 API 和某反作弊软件的限制，牛牛在控制 PC 端时**必须要直接控制鼠标（不能模拟点击）**，期间不建议你使用鼠标。
+
+另外，由于维护人手有限，PC 端的适配可能长期处于不稳定状态，部分功能可能出现异常或暂时无法使用。
 
 我们非常欢迎社区开发者协助适配并提交改进，共同完善对 PC 端的支持。
 
@@ -61,6 +64,49 @@ We warmly welcome community developers to assist with adaptation and submit impr
 ----
 
 以下是详细内容：
+
+## v6.3.1
+
+### 新增 | New
+
+* OperNameAnalyzer 支持左对齐检测 (#15682) @ABA2396
+
+### 改进 | Improved
+
+* 配置迁移自动为启用备选且首个关卡为剿灭模式的刷理智任务自动添加额外的刷理智任务 @status102
+* 忽略干员属性要求 不再允许跳过精英化要求 (#15697) @status102 @Constrat @HX3N
+
+### 修复 | Fix
+
+* JP AveMujica event ocr @Manicsteiner
+* EN IS StageRefresh @Constrat
+* i'm kinda stupid @Constrat
+* update refresh node EN IS5 @Constrat
+* EN IS fix trader store templates AGAIN @Constrat
+* EN Yu OCR for Yutenji @Constrat
+* 自动编队选择技能时点击到技能描述/技能范围 @status102
+* 自动编队期间如有干员属性要求被忽略, 则禁用自动化投票 @status102
+
+### 文档 | Docs
+
+* 更新 api 链接 @ABA2396
+
+### 其他 | Other
+
+* UserAdditional 非 json 格式返回原始字符串 @status102
+* 使用屏幕宽高常量代替硬编码 @status102
+* 屏幕外的干员跳过技能就绪检测 @status102
+* 調整繁中服界園肉鴿 OCR (2/?) @momomochi987
+* color [INF] for smoke testing as well @Constrat
+* 调整单字干员正则 @ABA2396
+* 調整繁中服界園肉鴿 OCR (#15678) @momomochi987
+* 删除干员名开头/末尾的_<> @ABA2396
+* 添加响石、赤刃明霄陈基建技能加成 (#15674) @drway
+* 保全派驻自动战斗使用二值化结果识别干员名 @ABA2396
+* 删除无用的正则替换 @ABA2396
+* 自动战斗使用二值化结果识别干员名 @ABA2396
+* 仅在 VS Code 中添加辅助项目 (#15669) @status102
+* JP OperNameAnalyzer specialParams @Manicsteiner
 
 ## v6.3.0
 

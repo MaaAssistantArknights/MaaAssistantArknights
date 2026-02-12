@@ -35,6 +35,8 @@ if ($error_client.Count -gt 0) {
     Get-Content ./install/debug/asst_$client.log | ForEach-Object {
       if ($_ -match $pattern) {
         Write-Host $_ -ForegroundColor DarkRed
+      } elseif ($_ -match "[INF]") {
+        Write-Host $_ -ForegroundColor Cyan
       } else {
         Write-Host $_
       }

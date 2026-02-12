@@ -771,8 +771,8 @@
             ["^(?:[<4~]|《|。ぐ)+", ""],
             ["^c(?!ast)", ""],
             ["^\\^一", ""],
-            ["^_(?=.)", ""],
-            ["^_$", ""],
+            ["^[_<>]*(?=.)", ""],
+            ["[_<>]*$", ""],
             [".*弦惊.*", "“弦惊”"],
             [".*亚梅塔", "菲亚梅塔"],
             [".*逍遥.*", "“逍遥”"],
@@ -789,14 +789,8 @@
             [".*威龙陈", "假日威龙陈"],
             ["青积", "青枳"],
             [".*烬艾雅法.*", "纯烬艾雅法拉"],
-            ["^(山|一山)$", "山"],
-            ["^一余$", "余"],
-            ["^一锏$", "锏"],
-            ["^(煌|一煌)$", "煌"],
-            ["^(年|一年)$", "年"],
-            ["^(委|泰|一黍)$", "黍"],
-            ["^(令|一令)$", "令"],
-            ["^(夕|H|一夕)$", "夕"],
+            ["^[委泰黍]$", "黍"],
+            ["^[H夕]$", "夕"],
             ["12E", "12F"],
             ["归.*幽灵鲨", "归溟幽灵鲨"],
             ["(临六$|^临光.*)", "临光"],
@@ -3649,9 +3643,9 @@
             "trim_threshold_low",
             "trim_threshold_high",
             "左侧收缩时检测图的底部屏蔽高度",
-            "左侧收缩时连续n像素低于bin_thresh"
+            "左侧收缩时连续 n 像素低于 bin_thresh"
         ],
-        "specialParams": [140, 2, 0, 0, 3, 10]
+        "specialParams": [160, 4, 0, 0, 3, 10]
     },
     "BattleStartPre": {
         "algorithm": "OcrDetect",
@@ -3781,13 +3775,31 @@
         "algorithm": "OcrDetect",
         "text": [],
         "fullMatch": true,
-        "roi": [5, 177, 191, 37]
+        "roi": [5, 177, 191, 37],
+        "specialParams_doc": [
+            "bin_threshold",
+            "bin_expansion",
+            "trim_threshold_low",
+            "trim_threshold_high",
+            "收缩时检测图的底部屏蔽高度",
+            "右侧收缩时连续 n 像素低于 bin_thresh"
+        ],
+        "specialParams": [160, 4, 0, 0, 0, 10]
     },
     "SSSBattleOperName": {
         "algorithm": "OcrDetect",
         "text": [],
         "fullMatch": true,
-        "roi": [0, 102, 190, 37]
+        "roi": [0, 102, 190, 37],
+        "specialParams_doc": [
+            "bin_threshold",
+            "bin_expansion",
+            "trim_threshold_low",
+            "trim_threshold_high",
+            "收缩时检测图的底部屏蔽高度",
+            "右侧收缩时连续 n 像素低于 bin_thresh"
+        ],
+        "specialParams": [160, 4, 0, 0, 0, 10]
     },
     "BattleOfficiallyBegin": {
         "roi": [1165, 20, 75, 65],

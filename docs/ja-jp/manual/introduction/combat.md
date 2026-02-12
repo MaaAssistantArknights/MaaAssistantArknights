@@ -51,7 +51,7 @@ icon: hugeicons:brain-02
     - 龍門市街：LungmenDowntown@Annihilation
 
   - サイドストーリー内の `OF-1` / `OF-F3` / `GT-5`。
-  - 当期 SS イベントの後半 3 ステージ。自動で [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) から更新を取得後、画面下部に表示されます。
+  - 当期 SS イベントの後半 3 ステージ。自動で [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) から更新を取得後、画面下部に表示されます。
   - 復刻 SS イベント。`SSReopen-<ステージ接頭辞>` を入力すると、XX-1 ～ XX-9 を一括周回します（例：`SSReopen-IC`）。
 
 ::: details サンプル画面

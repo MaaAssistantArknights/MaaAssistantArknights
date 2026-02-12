@@ -129,7 +129,7 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
   - 龍門外環：`LungmenOutskirts@Annihilation`
   - 龍門市區：`LungmenDowntown@Annihilation`
 - **別傳**：支援 `OF-1` / `OF-F3` / `GT-5`。
-- **當期 SideStory 活動**：支援活動後三關。可查閱 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 獲取支援的關卡列表。需額外加載 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 中的活動關卡導航。
+- **當期 SideStory 活動**：支援活動後三關。可查閱 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 獲取支援的關卡列表。需額外加載 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 中的活動關卡導航。
 - **復刻 SideStory 活動**：輸入 `SSReopen-<關卡前綴>` ，可一次性刷完 XX-1 ~ XX-9 關，如 `SSReopen-IC`。
   :::  
   ::: field name="medicine" type="number" optional default="0"  
