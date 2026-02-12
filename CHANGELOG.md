@@ -170,6 +170,7 @@ We warmly welcome community developers to assist with adaptation and submit impr
 
 ### 其他 | Other
 
+* 調整繁中服界園肉鴿 OCR (2/?) @momomochi987
 * color [INF] for smoke testing as well @Constrat
 * 调整单字干员正则 @ABA2396
 * 調整繁中服界園肉鴿 OCR (#15678) @momomochi987
