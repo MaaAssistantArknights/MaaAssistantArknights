@@ -707,7 +707,7 @@ void asst::Assistant::call_proc()
         append_callback(AsstMsg::AsyncCallInfo, cb_info);
     }
 
-#ifdef ANDROID
+#ifdef __ANDROID__
     if (env) {
         LogInfo << "Use Android AttachThread";
         lib.DetachThread(env);
