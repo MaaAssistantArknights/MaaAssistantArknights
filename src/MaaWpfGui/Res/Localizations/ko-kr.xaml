@@ -1214,8 +1214,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationParseFailed">편성 분석에 실패했습니다</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용 불가 {key=Operator}: {0}, 사유: {1}</system:String>
-    <system:String x:Key="BattleFormationOperUnavailable.Elite">엘리트 수준이 너무 낮다</system:String>
-    <system:String x:Key="BattleFormationOperUnavailable.Level">불충분한 수준</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Elite">정예화 수준이 너무 낮음</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Level">레벨이 너무 낮음</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">스킬 레벨이 너무 낮음</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">필요한 모듈이 잠금 해제되지 않음</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">추가된 커스텀 {key=Operator} 이름이 유효하지 않음: {0}, 철자를 확인하세요</system:String>
