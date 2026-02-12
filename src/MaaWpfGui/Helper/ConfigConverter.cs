@@ -491,6 +491,11 @@ public class ConfigConverter
                             fightTask2.Name = LocalizationHelper.GetString("RemainingSanityStage", local);
                             fightTask.IsEnable = task.IsEnable;
                             fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true) && fightTask2.StagePlan.FirstOrDefault() != string.Empty;
+                            if (fightTask.UseOptionalStage && fightTask.StagePlan.FirstOrDefault() == "Annihilation")
+                            {
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask() { Name = LocalizationHelper.GetString("AnnihilationMode"), StagePlan = ["Annihilation"] });
+                                fightTask.StagePlan.RemoveAt(0);
+                            }
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask);
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask2);
                             ConfigurationHelper.DeleteValue(ConfigurationKeys.UseRemainingSanityStage);
