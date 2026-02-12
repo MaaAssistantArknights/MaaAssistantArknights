@@ -128,7 +128,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
   - 龙门外环：LungmenOutskirts@Annihilation
   - 龙门市区：LungmenDowntown@Annihilation
 - 别传中的 OF-1 / OF-F3 / GT-5。
-- 当期 SS 活动 后三关。可访问 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 获取支持的关卡列表。需额外加载 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 文件中的活动关卡导航。
+- 当期 SS 活动 后三关。可访问 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 获取支持的关卡列表。需额外加载 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 文件中的活动关卡导航。
 - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
   :::  
   ::: field name="medicine" type="number" optional default="0"  

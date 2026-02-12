@@ -53,7 +53,7 @@ icon: hugeicons:brain-02
     - 龍門市區：LungmenDowntown@Annihilation
 
   - 別傳中的 `OF-1` / `OF-F3` / `GT-5`。
-  - 當期 SS 活動後三關。在自動存取 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 下載更新後會在介面下方顯示。
+  - 當期 SS 活動後三關。在自動存取 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 下載更新後會在介面下方顯示。
   - 復刻的 SS 活動。輸入 `SSReopen-<關卡前綴>` ，可一次性刷完 XX-1 ~ XX-9 關，如 `SSReopen-IC`。
 
 ::: details 範例畫面

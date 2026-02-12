@@ -128,7 +128,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   - 龍門郊外：LungmenOutskirts@Annihilation
   - 龍門市街：LungmenDowntown@Annihilation
 - 別伝の OF-1 / OF-F3 / GT-5。
-- 当期 SS イベントの最後の 3 ステージ。[API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) にアクセスして、サポートされているステージ リストを取得できます。[tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) ファイルのイベント ステージ ナビゲーションを追加でロードする必要があります。
+- 当期 SS イベントの最後の 3 ステージ。[API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) にアクセスして、サポートされているステージ リストを取得できます。[tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) ファイルのイベント ステージ ナビゲーションを追加でロードする必要があります。
 - 復刻 SS イベント。`SSReopen-<ステージ プレフィックス>` と入力します。例えば `SSReopen-IC` と入力すると、XX-1～XX-9 ステージを一度に完了できます。
   :::  
   ::: field name="medicine" type="number" optional default="0"  
