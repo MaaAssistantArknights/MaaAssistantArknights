@@ -3842,5 +3842,6 @@
     "resource/global/txwy/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MissionFailedFlag": "f1f0511dec355b192b710821be0367e18770e7f24d3ff311b635cf2eed3de4e5",
     "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/GachaEnter": "22181867362f20e599deb876d1d69e0c100c32371cac5ce27593e623b5371469",
     "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/Mall": "a8554e0cff0d0eb8513f0c453c779e733cccfd64d5ce9cc3a03825015615a333",
-    "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/Recruit": "08e718920c5d5371d3606cde876e31f16b2b52fb169592e21f7e15fe4fa25a0b"
+    "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/Recruit": "08e718920c5d5371d3606cde876e31f16b2b52fb169592e21f7e15fe4fa25a0b",
+    "resource/global/YoStarEN/resource/template/UiTheme/AveMujica/Terminal": "0e470a9283c9c8f87333f276dc7b5891853bd576bf5b1fafcf53fb21f93d7208"
 }
