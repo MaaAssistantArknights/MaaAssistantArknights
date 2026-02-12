@@ -2042,6 +2042,7 @@ public class AsstProxy
 
             case "BattleFormationOperUnavailable":
                 {
+                    Instances.CopilotViewModel.HasRequirementIgnored = true;
                     var oper_name = DataHelper.GetLocalizedCharacterName(subTaskDetails!["oper_name"]?.ToString());
                     var requirement_type = subTaskDetails["requirement_type"]?.ToString() switch {
                         "level" => LocalizationHelper.GetString("BattleFormationOperUnavailable.Level"),
@@ -2083,6 +2084,7 @@ public class AsstProxy
 
             case "CopilotListLoadTaskFileSuccess":
                 Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails!["file_name"]}[{subTaskDetails["stage_name"]}] Success");
+                Instances.CopilotViewModel.HasRequirementIgnored = false;
                 break;
 
             case "SSSStage":
