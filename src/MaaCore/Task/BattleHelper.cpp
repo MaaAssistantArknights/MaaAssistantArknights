@@ -16,6 +16,7 @@
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
+#include "Vision/Miscellaneous/OperNameAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 #include <ranges>
@@ -537,8 +538,6 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
 bool asst::BattleHelper::is_skill_ready(const Point& loc, const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattlefieldClassifier skill_analyzer(image);
-    skill_analyzer.set_object_of_interest({ .skill_ready = true });
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {
@@ -546,6 +545,12 @@ bool asst::BattleHelper::is_skill_ready(const Point& loc, const cv::Mat& reusabl
         return false;
     }
     const Point& battlefield_point = target_iter->second.pos;
+    static const Rect screen_rect = { 0, 0, WindowWidthDefault, WindowHeightDefault };
+    if (!screen_rect.include(battlefield_point)) {
+        return false;
+    }
+    BattlefieldClassifier skill_analyzer(image);
+    skill_analyzer.set_object_of_interest({ .skill_ready = true });
     skill_analyzer.set_base_point(battlefield_point);
 
     return skill_analyzer.analyze()->skill_ready.ready;
@@ -996,8 +1001,16 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
     const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     const auto& task = Task.get<OcrTaskInfo>(oper_name_ocr_task_name());
 
-    RegionOCRer preproc_analyzer(image);
+    // 使用 OperNameAnalyzer 处理左对齐文本
+    OperNameAnalyzer preproc_analyzer(image);
     preproc_analyzer.set_task_info(task);
+    preproc_analyzer.set_text_alignment(OperNameAnalyzer::TextAlignment::Left); // 左对齐
+    const auto& params = task->special_params;
+    preproc_analyzer.set_bin_threshold(params[0]);
+    preproc_analyzer.set_bin_expansion(params[1]);
+    preproc_analyzer.set_bin_trim_threshold(params[2], params[3]);
+    preproc_analyzer.set_bottom_line_height(params[4]);
+    preproc_analyzer.set_width_threshold(params[5]);
     preproc_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
     auto preproc_result_opt = preproc_analyzer.analyze();
 
@@ -1016,7 +1029,12 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
     sort_by_score_(*det_result_opt);
     const auto& det_name = det_result_opt->front().text;
 
-    return BattleData.is_name_invalid(det_name) ? std::string() : det_name;
+    if (!BattleData.is_name_invalid(det_name)) {
+        return det_name;
+    }
+
+    det_analyzer.save_img(utils::path("debug") / utils::path("battle"));
+    return std::string();
 }
 
 std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const

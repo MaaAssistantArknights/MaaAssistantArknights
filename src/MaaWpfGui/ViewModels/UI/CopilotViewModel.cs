@@ -365,6 +365,11 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 真正有干员被忽略了要求
+    /// </summary>
+    public bool HasRequirementIgnored { get; set; } = false;
+
     public bool UseSanityPotion { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
@@ -395,8 +400,24 @@ public partial class CopilotViewModel : Screen
     }
 
     [PropertyDependsOn(nameof(UserAdditional))]
-    public string UserAdditionalPrettyJson => string.IsNullOrWhiteSpace(UserAdditional) ? string.Empty
-        : JToken.Parse(UserAdditional).ToString(Formatting.None).Replace("},", "},\n");
+    public string UserAdditionalPrettyJson
+    {
+        get {
+            if (string.IsNullOrWhiteSpace(UserAdditional))
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                return JToken.Parse(UserAdditional).ToString(Formatting.None).Replace("},", "},\n");
+            }
+            catch
+            {
+                return UserAdditional; // 解析失败时返回原始字符串
+            }
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the UserAdditional popup is open.
@@ -1683,7 +1704,7 @@ public partial class CopilotViewModel : Screen
 
                 model.IsChecked = false;
 
-                if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) == -1)
+                if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) == -1 && !HasRequirementIgnored)
                 {
                     _ = RateCopilot(model.CopilotId);
                 }
