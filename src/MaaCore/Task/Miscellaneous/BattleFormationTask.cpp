@@ -662,7 +662,16 @@ bool asst::BattleFormationTask::check_oper_level(
         _level = 0;
     }
 
-    if (_elite < oper.requirements.elite || (_elite == oper.requirements.elite && _level < oper.requirements.level)) {
+    if (_elite < oper.requirements.elite) {
+        LogWarn << __FUNCTION__ << "| Elite" << _elite << ", require:" << oper.requirements.elite;
+        json::value info = basic_info_with_what("BattleFormationOperUnavailable");
+        info["details"]["oper_name"] = oper.name;
+        info["details"]["requirement_type"] = "elite";
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        return false;
+    }
+
+    if (_elite == oper.requirements.elite && _level < oper.requirements.level) {
         LogWarn << __FUNCTION__ << "| Elite" << _elite << "level" << _level << ", require:" << oper.requirements.elite
                 << oper.requirements.level;
         json::value info = basic_info_with_what("BattleFormationOperUnavailable");
