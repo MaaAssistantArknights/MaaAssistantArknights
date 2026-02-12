@@ -52,7 +52,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 #### Windows 7 / 8 / 8.1
 
-.NET 10 不支持 Windows 7 / 8 / 8.1 系統<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同樣不再支持。
+.NET 10 不支援 Windows 7 / 8 / 8.1 系統<sup>[來源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同樣不再支援。
 
 ## 連線錯誤
 
