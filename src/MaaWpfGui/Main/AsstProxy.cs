@@ -2044,7 +2044,7 @@ public class AsstProxy
                 {
                     var oper_name = DataHelper.GetLocalizedCharacterName(subTaskDetails!["oper_name"]?.ToString());
                     var type = subTaskDetails["requirement_type"]?.ToString() ?? "Unknown Type";
-                    bool isError = Instances.CopilotViewModel.IgnoreRequirements;
+                    bool isError = !Instances.CopilotViewModel.IgnoreRequirements;
                     switch (type)
                     {
                         case "elite":
