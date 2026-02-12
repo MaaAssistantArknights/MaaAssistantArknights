@@ -75,7 +75,7 @@ std::optional<asst::BattleQuickFormation::SkillResult>
             return SkillResult {
                 VisionHelper::correct_rect(
                     base_task->roi.move(result->first).move(check_task->rect_move),
-                    Rect { 0, 0, 1280, 720 }),
+                    Rect { 0, 0, WindowWidthDefault, WindowHeightDefault }),
                 result->second,
             };
         }
@@ -89,7 +89,7 @@ std::optional<asst::BattleQuickFormation::SkillResult>
             return SkillResult {
                 VisionHelper::correct_rect(
                     base_task->roi.move(result->first).move(check_task->rect_move),
-                    Rect { 0, 0, 1280, 720 }),
+                    Rect { 0, 0, WindowWidthDefault, WindowHeightDefault }),
                 result->second,
             };
         }
@@ -154,7 +154,9 @@ std::optional<asst::BattleQuickFormation::SkillResult>
 
             // 偏移为技能范围rect, 并根据图片大小修正
             return SkillResult {
-                VisionHelper::correct_rect(rect.move(check_task->rect_move), Rect { 0, 0, 1280, 720 }),
+                VisionHelper::correct_rect(
+                    rect.move(check_task->rect_move),
+                    Rect { 0, 0, WindowWidthDefault, WindowHeightDefault }),
                 result->second,
             };
         }
@@ -170,7 +172,9 @@ std::optional<asst::BattleQuickFormation::SkillResult>
 
         // 偏移为技能范围rect, 并根据图片大小修正
         return SkillResult {
-            VisionHelper::correct_rect(rect.move(check_task->rect_move), Rect { 0, 0, 1280, 720 }),
+            VisionHelper::correct_rect(
+                rect.move(check_task->rect_move),
+                Rect { 0, 0, WindowWidthDefault, WindowHeightDefault }),
             result->second,
         };
     }

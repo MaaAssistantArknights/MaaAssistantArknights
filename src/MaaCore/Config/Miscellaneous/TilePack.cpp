@@ -119,9 +119,9 @@ asst::TilePack::result_type asst::TilePack::calc_(const Map::Level& level, doubl
             if (tile.tileKey == "tile_start" || tile.tileKey == "tile_end") {
                 // 检查 screen_pos 是否在允许的范围内（带5%容差）
                 constexpr double MIN_X = 0.0;
-                constexpr double MAX_X = 1280.0;
+                constexpr double MAX_X = WindowWidthDefault;
                 constexpr double MIN_Y = 0.0;
-                constexpr double MAX_Y = 720.0;
+                constexpr double MAX_Y = WindowHeightDefault;
                 constexpr double TOLERANCE = 0.05;
 
                 constexpr double x_tolerance = MAX_X * TOLERANCE;
