@@ -8,6 +8,7 @@
 #include "AndroidExternalLib.h"
 #include "Common/AsstTypes.h"
 #include "Config/GeneralConfig.h"
+#include "Controller/SwipeHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "opencv2/imgproc.hpp"
 
@@ -315,79 +316,66 @@ bool AndroidController::swipe(
 
     constexpr int TimeInterval = 2; // 类似 Minitoucher::DefaultSwipeDelay
 
-    auto cubic_spline = [](double slope_0, double slope_1, double t) {
-        const double a = slope_0;
-        const double b = -(2 * slope_0 + slope_1 - 3);
-        const double c = -(-slope_0 - slope_1 + 2);
-        return a * t + b * std::pow(t, 2) + c * std::pow(t, 3);
-    };
-
     bool need_pause = with_pause;
     const auto& opt = Config.get_options();
-    int swipe_with_pause_required_distance = opt.swipe_with_pause_required_distance;
 
-    auto android_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
-        for (int cur_time = TimeInterval; cur_time < _duration; cur_time += TimeInterval) {
-            double progress = cubic_spline(slope_in, slope_out, static_cast<double>(cur_time) / duration);
-            int cur_x = static_cast<int>(std::lerp(_x1, _x2, progress));
-            int cur_y = static_cast<int>(std::lerp(_y1, _y2, progress));
+    auto bounds_check = [this](int x, int y) {
+        return x >= 0 && x <= m_screen_resolution.first && y >= 0 && y <= m_screen_resolution.second;
+    };
 
-            // 暂停逻辑
-            if (need_pause &&
-                std::sqrt(std::pow(cur_x - _x1, 2) + std::pow(cur_y - _y1, 2)) > swipe_with_pause_required_distance) {
-                need_pause = false;
-                // send esc
-                constexpr int EscKeyCode = 27;
-                MethodParam key_down_param;
-                key_down_param.display_id = m_display_id;
-                key_down_param.method = KEY_DOWN;
-                key_down_param.args.key.key_code = EscKeyCode;
+    auto move_func = [&](int x, int y) -> bool {
+        MethodParam touch_move_param;
+        touch_move_param.display_id = m_display_id;
+        touch_move_param.method = TOUCH_MOVE;
+        touch_move_param.args.touch.p = { x, y };
 
-                MethodParam key_up_param;
-                key_up_param.display_id = m_display_id;
-                key_up_param.method = KEY_UP;
-                key_up_param.args.key.key_code = EscKeyCode;
-
-                if (library.DispatchInputMessage(key_down_param) != 0 ||
-                    library.DispatchInputMessage(key_up_param) != 0) {
-                    LogWarn << "Failed to send ESC key during swipe pause";
-                }
-            }
-
-            if (cur_x < 0 || cur_x > m_screen_resolution.first || cur_y < 0 || cur_y > m_screen_resolution.second) {
-                continue;
-            }
-
-            MethodParam touch_move_param;
-            touch_move_param.display_id = m_display_id;
-            touch_move_param.method = TOUCH_MOVE;
-            touch_move_param.args.touch.p = { cur_x, cur_y };
-
-            if (library.DispatchInputMessage(touch_move_param) != 0) {
-                return false;
-            }
-
-            std::this_thread::sleep_for(std::chrono::milliseconds(TimeInterval));
+        if (library.DispatchInputMessage(touch_move_param) != 0) {
+            return false;
         }
-
-        // 最终移动到终点
-        if (_x2 >= 0 && _x2 <= m_screen_resolution.first && _y2 >= 0 && _y2 <= m_screen_resolution.second) {
-            MethodParam final_move_param;
-            final_move_param.display_id = m_display_id;
-            final_move_param.method = TOUCH_MOVE;
-            final_move_param.args.touch.p = { _x2, _y2 };
-
-            if (library.DispatchInputMessage(final_move_param) != 0) {
-                return false;
-            }
-        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(TimeInterval));
         return true;
     };
 
-    // 默认滑动时长
-    int swipe_duration = duration > 0 ? duration : 500; // 默认500ms
+    auto android_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
+        if (need_pause) {
+            auto pause_check = [&opt](int cur_x, int cur_y, int start_x, int start_y) {
+                return std::sqrt(std::pow(cur_x - start_x, 2) + std::pow(cur_y - start_y, 2)) >
+                       opt.swipe_with_pause_required_distance;
+            };
 
-    if (!android_move(x1, y1, x2, y2, swipe_duration)) {
+            return interpolate_swipe_with_pause(
+                _x1,
+                _y1,
+                _x2,
+                _y2,
+                _duration,
+                TimeInterval,
+                slope_in,
+                slope_out,
+                move_func,
+                bounds_check,
+                pause_check,
+                [&]() {
+                    need_pause = false;
+                    press_esc();
+                });
+        }
+        else {
+            return interpolate_swipe(
+                _x1,
+                _y1,
+                _x2,
+                _y2,
+                _duration,
+                TimeInterval,
+                slope_in,
+                slope_out,
+                move_func,
+                bounds_check);
+        }
+    };
+
+    if (!android_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration)) {
         LogError << "Failed during main swipe movement";
         // key_up
         MethodParam touch_up_param;
@@ -399,14 +387,10 @@ bool AndroidController::swipe(
     }
 
     // 额外滑动逻辑
-    if (extra_swipe) {
-        constexpr int extra_end_delay = 50;
-        constexpr int extra_swipe_dist = 10;
-        constexpr int extra_swipe_duration = 100;
+    if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(extra_end_delay));
-
-        if (!android_move(x2, y2, x2, y2 - extra_swipe_dist, extra_swipe_duration)) {
+        if (!android_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration)) {
             LogWarn << "Failed during extra swipe movement";
         }
     }
