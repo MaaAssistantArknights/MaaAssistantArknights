@@ -71,8 +71,14 @@ We warmly welcome community developers to assist with adaptation and submit impr
 
 * OperNameAnalyzer 支持左对齐检测 (#15682) @ABA2396
 
+### 改进 | Improved
+
+* 配置迁移自动为启用备选且首个关卡为剿灭模式的刷理智任务自动添加额外的刷理智任务 @status102
+* 忽略干员属性要求 不再允许跳过精英化要求 (#15697) @status102 @Constrat @HX3N
+
 ### 修复 | Fix
 
+* JP AveMujica event ocr @Manicsteiner
 * EN IS StageRefresh @Constrat
 * i'm kinda stupid @Constrat
 * update refresh node EN IS5 @Constrat
@@ -80,6 +86,10 @@ We warmly welcome community developers to assist with adaptation and submit impr
 * EN Yu OCR for Yutenji @Constrat
 * 自动编队选择技能时点击到技能描述/技能范围 @status102
 * 自动编队期间如有干员属性要求被忽略, 则禁用自动化投票 @status102
+
+### 文档 | Docs
+
+* 更新 api 链接 @ABA2396
 
 ### 其他 | Other
 
