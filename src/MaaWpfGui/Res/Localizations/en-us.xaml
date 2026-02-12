@@ -1212,7 +1212,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BattleFormationParseFailed">Formation parse failed</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator} unavailable: {0}, reason: {1}</system:String>
-    <system:String x:Key="BattleFormationOperUnavailable.Level">{key=Operator} level too low</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Elite">elite too low</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Level">level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">Skill level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">Required module not unlocked</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">Additional custom {key=Operator} name invalid: {0}, please check spelling</system:String>
