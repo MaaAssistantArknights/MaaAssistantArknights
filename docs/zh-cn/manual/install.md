@@ -23,7 +23,7 @@ MAA 提供多种下载方式，包括官网下载，从包管理器安装，群�
 
 官网一般会自动选择正确的版本架构，对于大多数阅读本文的用户来说，应为 Windows x64。
 
-#### 通过 [Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA&source=maagh-release) 下载最新的 MAA 软件包
+#### 通过 [Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA&source=maadocs-install) 下载最新的 MAA 软件包
 
 请确认系统架构并下载对应的软件包。对于大多数阅读本文的 Windows 用户来说，应为 Windows x64。
 
@@ -64,7 +64,7 @@ Mirror酱 不提供通用软件包，请确认您的芯片架构（arm/x86）后
 
 ::: tip
 
-需要提供 CDK 才能在 Mirror酱 下载 MAA 的软件包。该 CDK 需要付费订阅，但连通性良好且速度较快。这并不代表 MAA 本体需要付费使用。关于订阅价格和方式，请访问 [Mirror酱](https://mirrorchyan.com/zh/) 了解更多信息。
+[Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA&source=maadocs-install) 是独立的第三方下载加速服务，需要付费使用，而非 MAA 收费。其运营成本由订阅收入支撑，部分收益将回馈项目开发者。欢迎订阅 CDK 享受高速下载，同时支持项目持续开发。
 
 :::
 
