@@ -1213,7 +1213,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="BattleFormationParseFailed">編隊解析失敗</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇{key=Operator}: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用：{0}，原因：{1}</system:String>
-    <system:String x:Key="BattleFormationOperUnavailable.Level">{key=Operator}等級不足</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Elite">精英化不足</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable.Level">等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">所需模組未解鎖</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自定義{key=Operator}名稱無效：{0}，請檢查拼寫</system:String>
