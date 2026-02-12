@@ -538,8 +538,6 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
 bool asst::BattleHelper::is_skill_ready(const Point& loc, const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattlefieldClassifier skill_analyzer(image);
-    skill_analyzer.set_object_of_interest({ .skill_ready = true });
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {
@@ -547,6 +545,12 @@ bool asst::BattleHelper::is_skill_ready(const Point& loc, const cv::Mat& reusabl
         return false;
     }
     const Point& battlefield_point = target_iter->second.pos;
+    static const Rect screen_rect = { 0, 0, WindowWidthDefault, WindowHeightDefault };
+    if (!screen_rect.include(battlefield_point)) {
+        return false;
+    }
+    BattlefieldClassifier skill_analyzer(image);
+    skill_analyzer.set_object_of_interest({ .skill_ready = true });
     skill_analyzer.set_base_point(battlefield_point);
 
     return skill_analyzer.analyze()->skill_ready.ready;
