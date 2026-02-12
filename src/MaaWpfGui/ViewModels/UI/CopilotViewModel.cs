@@ -395,8 +395,24 @@ public partial class CopilotViewModel : Screen
     }
 
     [PropertyDependsOn(nameof(UserAdditional))]
-    public string UserAdditionalPrettyJson => string.IsNullOrWhiteSpace(UserAdditional) ? string.Empty
-        : JToken.Parse(UserAdditional).ToString(Formatting.None).Replace("},", "},\n");
+    public string UserAdditionalPrettyJson
+    {
+        get {
+            if (string.IsNullOrWhiteSpace(UserAdditional))
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                return JToken.Parse(UserAdditional).ToString(Formatting.None).Replace("},", "},\n");
+            }
+            catch
+            {
+                return UserAdditional; // 解析失败时返回原始字符串
+            }
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the UserAdditional popup is open.
