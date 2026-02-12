@@ -941,6 +941,7 @@
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
+            ["\\s+o+\\s*$", ""],
             [" |<|>|-", ""],
             ["^\\d+", ""],
             ["Disappear\\.\\.\\.", "消失......"],
@@ -1193,7 +1194,8 @@
             ["HundredClanRebellion", "百氏之乱"],
             ["TheFinishingStroke", "收笔"],
             ["MeetingaFriend", "会友"]
-        ]
+        ],
+        "roi": [0, 395, 725, 235]
     },
     "Roguelike@StageTraderInvestSystem": {
         "maskRange": [1, 255]
