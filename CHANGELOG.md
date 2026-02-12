@@ -79,6 +79,7 @@ We warmly welcome community developers to assist with adaptation and submit impr
 * EN IS fix trader store templates AGAIN @Constrat
 * EN Yu OCR for Yutenji @Constrat
 * 自动编队选择技能时点击到技能描述/技能范围 @status102
+* 自动编队期间如有干员属性要求被忽略, 则禁用自动化投票 @status102
 
 ### 其他 | Other
 
