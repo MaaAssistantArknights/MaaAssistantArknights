@@ -1,4 +1,4 @@
-## v6.3.0
+## v6.3.1
 
 ### 拉电线不知天地为何物 | Highlight
 
@@ -18,9 +18,12 @@
 
 #### PC 端初步支持
 
-本次更新，牛牛已支持控制 PC 端明日方舟了~
+本次更新，牛牛已支持控制 PC 端明日方舟了~不过有以下限制：
 
-但由于维护人手有限，PC 端的适配可能长期处于不稳定状态，部分功能可能出现异常或暂时无法使用。
+* 由于 Windows 的限制，PC 端在被控制时**不可以处于最小化窗口状态**，否则游戏画面不会被渲染，也就无法被牛牛识别；
+* 由于 Win32 API 和某反作弊软件的限制，牛牛在控制 PC 端时**必须要直接控制鼠标（不能模拟点击）**，期间不建议你使用鼠标。
+
+另外，由于维护人手有限，PC 端的适配可能长期处于不稳定状态，部分功能可能出现异常或暂时无法使用。
 
 我们非常欢迎社区开发者协助适配并提交改进，共同完善对 PC 端的支持。
 
@@ -62,10 +65,9 @@ We warmly welcome community developers to assist with adaptation and submit impr
 
 以下是详细内容：
 
-## v6.3.0
-
 ### 新增 | New
 
+* OperNameAnalyzer 支持左对齐检测 (#15682) @ABA2396
 * 支持 PC 端明日方舟 (#15407) @MistEO @ABA2396
 * SideStory「辞岁行」导航及地图数据更新 @SherkeyXD @status102
 * 界园肉鸽 DLC 2 分队更新、通宝数据更新、可选难度提高至 18、支持指定种子开局 (#15588) @SherkeyXD @status102 @HX3N @Manicsteiner
@@ -109,6 +111,13 @@ We warmly welcome community developers to assist with adaptation and submit impr
 
 ### 修复 | Fix
 
+* EN IS StageRefresh @Constrat
+* i'm kinda stupid @Constrat
+* update refresh node EN IS5 @Constrat
+* EN IS fix trader store templates AGAIN @Constrat
+* EN Yu OCR for Yutenji @Constrat
+* 自动编队选择技能时点击到技能描述教程了 @status102
+* 自动编队选择技能时点击到技能范围 @status102
 * 配置迁移相关问题修复：迁移后切换回原配置、删除配置时未删除 .new、多配置用户删除 Default 配置时迁移异常、剩余理智启用状态和关卡选择迁移问题 @status102 @ABA2396
 * 刷理智任务相关修复：切换刷理智任务时读取错误关卡列表、运行时不允许添加关卡 @status102
 * 自动编队相关修复：识别技能等级匹配失败、干员技能描述过长时点击位置错误、禁用快速选中以修复外服干员技能描述过长的错误选中、干员等级跨精英化时判断出错、干员等级不足 i18n 未启用、干员组干员未解析精英化及等级属性、先兼容旧作业中不合理的技能选择 @status102
@@ -161,6 +170,15 @@ We warmly welcome community developers to assist with adaptation and submit impr
 
 ### 其他 | Other
 
+* color [INF] for smoke testing as well @Constrat
+* 调整单字干员正则 @ABA2396
+* 調整繁中服界園肉鴿 OCR (#15678) @momomochi987
+* 删除干员名开头/末尾的_<> @ABA2396
+* 添加响石、赤刃明霄陈基建技能加成 (#15674) @drway
+* 保全派驻自动战斗使用二值化结果识别干员名 @ABA2396
+* 删除无用的正则替换 @ABA2396
+* 自动战斗使用二值化结果识别干员名 @ABA2396
+* 仅在VS Code中添加辅助项目 (#15669) @status102
 * 作业集 Parse 后不删除历史记录，避免错过作业抛出的错误 @ABA2396
 * 辞岁行地图 2026-02-10 Map 更新 @status102
 * 繁中服不上报企鹅物流 @ABA2396
