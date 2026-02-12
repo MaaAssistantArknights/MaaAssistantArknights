@@ -1699,7 +1699,7 @@ public partial class CopilotViewModel : Screen
 
                 model.IsChecked = false;
 
-                if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) == -1)
+                if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) == -1 && !IgnoreRequirements)
                 {
                     _ = RateCopilot(model.CopilotId);
                 }
