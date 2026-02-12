@@ -365,6 +365,11 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 真正有干员被忽略了要求
+    /// </summary>
+    public bool HasRequirementIgnored { get; set; } = false;
+
     public bool UseSanityPotion { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
@@ -1699,7 +1704,7 @@ public partial class CopilotViewModel : Screen
 
                 model.IsChecked = false;
 
-                if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) == -1 && !IgnoreRequirements)
+                if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) == -1 && !HasRequirementIgnored)
                 {
                     _ = RateCopilot(model.CopilotId);
                 }
