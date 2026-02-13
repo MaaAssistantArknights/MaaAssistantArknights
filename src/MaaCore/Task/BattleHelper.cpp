@@ -650,9 +650,11 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
                 if (m_in_speedup && !check_in_speedup()) {
                     speed_up(); // 跳过剧情会退出2倍速
                     m_inst_helper.sleep(Config.get_options().task_delay);
-                    while (!m_inst_helper.need_exit() && !check_in_speedup()) {
+                    int times = 0;
+                    while (times < 20 && !m_inst_helper.need_exit() && !check_in_speedup()) {
                         speed_up(); // 跳过剧情会退出2倍速
                         m_inst_helper.sleep(Config.get_options().task_delay);
+                        times++;
                     }
                 }
             }
