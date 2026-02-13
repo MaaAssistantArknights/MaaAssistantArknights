@@ -51,7 +51,7 @@ For Windows N/KN (European/Korean versions), you also need to install the [Media
 
 #### Windows 7/8/8.1
 
-.NET 10 doesn't support Windows 7/8/8.1 systems<sup>[source](https://github.com/dotnet/core/issues/7556)</sup>, so MAA no longer supports them either. 
+.NET 10 doesn't support Windows 7/8/8.1 systems<sup>[source](https://github.com/dotnet/core/issues/7556)</sup>, so MAA no longer supports them either.
 
 ## Connection errors
 
