@@ -612,7 +612,7 @@ bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
     return ret;
 }
 
-bool asst::BattleHelper::check_in_speed_up(const cv::Mat& reusable)
+bool asst::BattleHelper::check_in_speedup(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     Matcher analyzer(image);
@@ -625,7 +625,15 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     if (weak) {
         BattlefieldMatcher analyzer(image);
-        m_in_battle = analyzer.analyze().has_value();
+        auto result = analyzer.analyze();
+        m_in_battle = result.has_value();
+        if (m_in_battle && !result->pause_button) {
+            if (check_skip_plot_button(image)) {
+                if (m_in_speedup && check_in_speedup(image)) {
+                    speed_up(); // 跳过剧情会退出2倍速
+                }
+            }
+        }
     }
     else {
         check_skip_plot_button(image);

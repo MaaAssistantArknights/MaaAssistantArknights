@@ -67,7 +67,7 @@ protected:
     bool use_skill(const Point& loc, bool keep_waiting = true);
     bool check_pause_button(const cv::Mat& reusable = cv::Mat());
     bool check_skip_plot_button(const cv::Mat& reusable = cv::Mat());
-    bool check_in_speed_up(const cv::Mat& reusable = cv::Mat());
+    bool check_in_speedup(const cv::Mat& reusable = cv::Mat());
     virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true);
     virtual bool wait_until_start(bool weak = true);
     bool wait_until_end(bool weak = true);
@@ -115,6 +115,7 @@ protected:
     std::unordered_map<std::string, int> m_skill_error_count;
     std::unordered_map<std::string, std::chrono::steady_clock::time_point> m_last_use_skill_time;
     int m_camera_count = 0;
+    bool m_in_speedup = false; // 是否处于2倍速
     std::pair<double, double> m_camera_shift = { 0., 0. };
 
     /* 实时更新的数据 */
