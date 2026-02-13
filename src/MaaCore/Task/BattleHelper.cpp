@@ -612,6 +612,19 @@ bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
     return ret;
 }
 
+bool asst::BattleHelper::check_avatar_dialog(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+
+    Matcher battle_plot_analyzer(image);
+    battle_plot_analyzer.set_task_info("BattleAvatarDialog");
+    bool ret = battle_plot_analyzer.analyze().has_value();
+    if (ret) {
+        ProcessTask(this_task(), { "BattleAvatarDialog" }).run();
+    }
+    return ret;
+}
+
 bool asst::BattleHelper::check_in_speedup(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
@@ -631,6 +644,16 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
             if (check_skip_plot_button(image)) {
                 if (m_in_speedup && check_in_speedup(image)) {
                     speed_up(); // 跳过剧情会退出2倍速
+                }
+            }
+            else if (check_avatar_dialog(image)) {
+                if (m_in_speedup && !check_in_speedup()) {
+                    speed_up(); // 跳过剧情会退出2倍速
+                    m_inst_helper.sleep(Config.get_options().task_delay);
+                    while (!m_inst_helper.need_exit() && !check_in_speedup()) {
+                        speed_up(); // 跳过剧情会退出2倍速
+                        m_inst_helper.sleep(Config.get_options().task_delay);
+                    }
                 }
             }
         }
