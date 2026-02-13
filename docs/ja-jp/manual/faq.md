@@ -49,25 +49,9 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 Windows N/KN（ヨーロッパ/韓国）の場合、[メディア機能パック](https://support.microsoft.com/ja-jp/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)をインストールする必要があります。
 
-#### Windows 7 関連
+#### Windows 7 / 8 / 8.1 関連
 
-.NET 10 は Windows 7 / 8 / 8.1 システムをサポートしていないため<sup>[ソース](https://github.com/dotnet/core/issues/7556)</sup>、MAA も同様にサポートしていません。最後に利用可能な .NET 8 バージョンは [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7) です。最後に利用可能な .NET 4.8 バージョンは [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8) です。自己コンパイルの実現可能性はまだ確認されていません。
-
-Windows 7 の場合、上記の 2 つのランタイムライブラリをインストールする前に、以下のパッチがインストールされているかどうかを確認する必要があります：
-
-1. [Windows 7 Service Pack 1](https://support.microsoft.com/ja-jp/windows/windows-7-service-pack-1-sp1-%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B-b3da2c0f-cdb6-0572-8596-bab972897f61)
-2. SHA-2 コード署名：
-   - KB4474419：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-   - KB4490628：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
-
-##### .NET 8 アプリケーションが Windows 7 で異常に動作する場合の緩和策 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
-
-Windows 7 で .NET 8 アプリケーションを実行すると、メモリ使用量が異常になる問題があります。以下の緩和策を参照してください。Windows 8/8.1 はテストされていません。同じ問題がある場合は、ドキュメントを更新するために Issue を提出してください。
-
-1. `コンピュータ` を開き、空白部分を右クリックしてプロパティをクリックし、左側の `システムの詳細設定` をクリックし、`環境変数` をクリックします。
-2. 新しいシステム変数を作成し、変数名を `DOTNET_EnableWriteXorExecute`、変数値を `0` に設定します。
-3. コンピュータを再起動します。
+.NET 10 は Windows 7 / 8 / 8.1 システムをサポートしていないため<sup>[ソース](https://github.com/dotnet/core/issues/7556)</sup>、MAA も同様にサポートしていません。
 
 #### 公式統合パック（確信）
 
