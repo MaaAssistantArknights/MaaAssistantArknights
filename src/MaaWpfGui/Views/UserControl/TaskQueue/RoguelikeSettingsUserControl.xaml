@@ -396,7 +396,7 @@
                 <hc:TextBox.Text>
                     <Binding Path="RoguelikeSeed" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <hc:RegexRule Pattern="^[\da-zA-Z]+,rogue_\d,\d$" />
+                            <hc:RegexRule Pattern="^[\da-zA-Z]+,rogue_\d+,\d+$" />
                         </Binding.ValidationRules>
                     </Binding>
                 </hc:TextBox.Text>
