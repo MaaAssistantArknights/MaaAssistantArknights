@@ -108,24 +108,12 @@ public class ToolboxViewModel : Screen
 
     #region Recruit
 
-    private string _recruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
-
     /// <summary>
     /// Gets or sets the recruit info.
     /// </summary>
-    public string RecruitInfo
-    {
-        get => _recruitInfo;
-        set => SetAndNotify(ref _recruitInfo, value);
-    }
+    public string RecruitInfo { get => field; set => SetAndNotify(ref field, value); } = LocalizationHelper.GetString("RecruitmentRecognitionTip");
 
-    private ObservableCollection<Inline> _recruitResultInlines = [];
-
-    public ObservableCollection<Inline> RecruitResultInlines
-    {
-        get => _recruitResultInlines;
-        set => SetAndNotify(ref _recruitResultInlines, value);
-    }
+    public ObservableCollection<Inline> RecruitResultInlines { get => field; set => SetAndNotify(ref field, value); } = [];
 
     public void UpdateRecruitResult(JArray? resultArray)
     {
@@ -227,47 +215,41 @@ public class ToolboxViewModel : Screen
         }
     }
 
-    private bool _chooseLevel3 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, bool.FalseString));
-
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 3.
     /// </summary>
     public bool ChooseLevel3
     {
-        get => _chooseLevel3;
+        get => field;
         set {
-            SetAndNotify(ref _chooseLevel3, value);
+            SetAndNotify(ref field, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel3, value.ToString());
         }
-    }
-
-    private bool _chooseLevel4 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4, bool.TrueString));
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, true);
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 4.
     /// </summary>
     public bool ChooseLevel4
     {
-        get => _chooseLevel4;
+        get => field;
         set {
-            SetAndNotify(ref _chooseLevel4, value);
+            SetAndNotify(ref field, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel4, value.ToString());
         }
-    }
-
-    private bool _chooseLevel5 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5, bool.TrueString));
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4, true);
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 5.
     /// </summary>
     public bool ChooseLevel5
     {
-        get => _chooseLevel5;
+        get => field;
         set {
-            SetAndNotify(ref _chooseLevel5, value);
+            SetAndNotify(ref field, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel5, value.ToString());
         }
-    }
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5, true);
 
     private bool _chooseLevel6 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel6, bool.TrueString));
 
@@ -282,6 +264,90 @@ public class ToolboxViewModel : Screen
             ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel6, value.ToString());
         }
     }
+
+    [PropertyDependsOn(nameof(ChooseLevel3Time))]
+    public int ChooseLevel3Hour
+    {
+        get => ChooseLevel3Time / 60;
+        set => ChooseLevel3Time = (value * 60) + ChooseLevel3Min;
+    }
+
+    [PropertyDependsOn(nameof(ChooseLevel3Time))]
+    public int ChooseLevel3Min
+    {
+        get => (ChooseLevel3Time % 60) / 10 * 10;
+        set => ChooseLevel3Time = (ChooseLevel3Hour * 60) + value;
+    }
+
+    public int ChooseLevel3Time
+    {
+        get => field;
+        set {
+            value = value switch {
+                < 60 => 9 * 60,
+                > 9 * 60 => 60,
+                _ => value / 10 * 10,
+            };
+            SetAndNotify(ref field, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ToolBoxChooseLevel3Time, value.ToString());
+        }
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel3Time, 540);
+
+    [PropertyDependsOn(nameof(ChooseLevel4Time))]
+    public int ChooseLevel4Hour
+    {
+        get => ChooseLevel4Time / 60;
+        set => ChooseLevel4Time = (value * 60) + ChooseLevel4Min;
+    }
+
+    [PropertyDependsOn(nameof(ChooseLevel3Time))]
+    public int ChooseLevel4Min
+    {
+        get => (ChooseLevel4Time % 60) / 10 * 10;
+        set => ChooseLevel4Time = (ChooseLevel4Hour * 60) + value;
+    }
+
+    public int ChooseLevel4Time
+    {
+        get => field;
+        set {
+            value = value switch {
+                < 60 => 9 * 60,
+                > 9 * 60 => 60,
+                _ => value / 10 * 10,
+            };
+            SetAndNotify(ref field, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ToolBoxChooseLevel4Time, value.ToString());
+        }
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel4Time, 540);
+
+    [PropertyDependsOn(nameof(ChooseLevel5Time))]
+    public int ChooseLevel5Hour
+    {
+        get => ChooseLevel5Time / 60;
+        set => ChooseLevel5Time = (value * 60) + ChooseLevel5Min;
+    }
+
+    [PropertyDependsOn(nameof(ChooseLevel5Time))]
+    public int ChooseLevel5Min
+    {
+        get => (ChooseLevel5Time % 60) / 10 * 10;
+        set => ChooseLevel5Time = (ChooseLevel5Hour * 60) + value;
+    }
+
+    public int ChooseLevel5Time
+    {
+        get => field;
+        set {
+            value = value switch {
+                < 60 => 9 * 60,
+                > 9 * 60 => 60,
+                _ => value / 10 * 10,
+            };
+            SetAndNotify(ref field, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ToolBoxChooseLevel5Time, value.ToString());
+        }
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel5Time, 540);
 
     private bool _autoSetTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, bool.TrueString));
 

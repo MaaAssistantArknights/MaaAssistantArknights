@@ -113,8 +113,11 @@ public static class ConfigurationKeys
     public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn";
 
     public const string ChooseLevel3 = "Recruit.ChooseLevel3";
+    public const string ToolBoxChooseLevel3Time = "Toolbox.Recruit.ChooseLevel3.Time";
     public const string ChooseLevel4 = "Recruit.ChooseLevel4";
+    public const string ToolBoxChooseLevel4Time = "Toolbox.Recruit.ChooseLevel4.Time";
     public const string ChooseLevel5 = "Recruit.ChooseLevel5";
+    public const string ToolBoxChooseLevel5Time = "Toolbox.Recruit.ChooseLevel5.Time";
     public const string ChooseLevel6 = "Recruit.ChooseLevel6";
     public const string AutoSetTime = "Recruit.AutoSetTime";
     public const string RecruitmentShowPotential = "Recruit.ShowPotential";
