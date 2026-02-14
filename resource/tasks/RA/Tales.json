@@ -143,6 +143,7 @@
         "doc": "识别到要组装的道具后点击",
         "algorithm": "OcrDetect",
         "text": ["荧光棒"],
+        "fullMatch": true,
         "roi": [274, 68, 960, 535],
         "action": "ClickSelf",
         "postDelay": 500
