@@ -95,3 +95,15 @@ if(WIN32)
         $<TARGET_FILE_DIR:MaaCore>
         COMMAND_EXPAND_LISTS)
 endif()
+
+if(ANDROID)
+    if(CMAKE_STRIP)
+        add_custom_command(
+            TARGET MaaCore
+            POST_BUILD
+            COMMAND ${CMAKE_STRIP} --strip-all $<TARGET_FILE:MaaCore>
+            COMMENT "Stripping MaaCore for Android")
+    else()
+        message(WARNING "CMAKE_STRIP not found, Android library will not be stripped")
+    endif()
+endif()
