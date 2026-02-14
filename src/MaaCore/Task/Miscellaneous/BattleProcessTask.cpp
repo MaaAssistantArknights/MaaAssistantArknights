@@ -238,6 +238,9 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::SwitchSpeed:
         ret = speed_up();
+        if (ret) {
+            m_in_speedup = !m_in_speedup;
+        }
         break;
 
     case ActionType::BulletTime:
@@ -480,31 +483,12 @@ void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
     const auto start = std::chrono::steady_clock::now();
     const auto delay = millisecond * 1ms;
 
-    while (!need_exit() && std::chrono::steady_clock::now() - start < delay) {
-        do_strategic_action();
+    
+    cv::Mat image = ctrler()->get_image();
+    while (!need_exit() && check_in_battle(image) && std::chrono::steady_clock::now() - start < delay) {
+        do_strategic_action(image);
         std::this_thread::yield();
-    }
-}
 
-bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak)
-{
-    LogTraceFunction;
-
-    cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
-
-    if (weak) {
-        BattlefieldMatcher analyzer(image);
-        auto result = analyzer.analyze();
-        m_in_battle = result.has_value();
-        if (m_in_battle && !result->pause_button) {
-            if (check_skip_plot_button(image) && check_in_speed_up(image)) {
-                speed_up();
-            }
-        }
+        image = ctrler()->get_image();
     }
-    else {
-        check_skip_plot_button(image);
-        m_in_battle = check_pause_button(image);
-    }
-    return m_in_battle;
 }
