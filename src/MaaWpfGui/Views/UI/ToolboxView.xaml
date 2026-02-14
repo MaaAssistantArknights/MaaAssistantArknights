@@ -375,7 +375,7 @@
                         Margin="30,0"
                         Command="{s:Action StartOperBox}"
                         Content="{DynamicResource StartToOperBoxRecognition}"
-                        IsEnabled="{Binding 'Idle and Inited'}" />
+                        IsEnabled="{c:Binding 'Idle and Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>
