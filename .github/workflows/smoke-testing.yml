@@ -47,6 +47,15 @@ jobs:
         with:
           show-progress: false
 
+      - name: Merge target branch into PR
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git config user.email "actions@github.com"
+          git config user.name "github-actions"
+          git checkout ${{ github.event.pull_request.head.sha }}
+          git merge origin/${{ github.event.pull_request.base.ref }} --no-edit || { git merge --abort; echo "::warning::Merge had conflicts, skipped. CI is running on PR head without merging target branch."; exit 0; }
+
       - name: Generate cache key
         id: cache_key
         continue-on-error: true
