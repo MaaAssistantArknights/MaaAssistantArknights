@@ -246,61 +246,6 @@
         "text": ["前往章节"],
         "roi": [1078, 595, 112, 42]
     },
-    "EnterEpisode": {
-        "Doc": "base_task",
-        "baseTask": "EpisodeOcrReplace",
-        "action": "ClickRect",
-        "isAscii": true,
-        "text": [],
-        "roi": [244, 270, 129, 49],
-        "specificRect": [787, 281, 154, 154],
-        "next": ["#self", "Stop"]
-    },
-    "00@EnterEpisode": {
-        "text": ["EPISODE00"]
-    },
-    "01@EnterEpisode": {
-        "text": ["EPISODE01"]
-    },
-    "02@EnterEpisode": {
-        "text": ["EPISODE02"]
-    },
-    "03@EnterEpisode": {
-        "text": ["EPISODE03"]
-    },
-    "04@EnterEpisode": {
-        "text": ["EPISODE04"]
-    },
-    "05@EnterEpisode": {
-        "text": ["EPISODE05"]
-    },
-    "06@EnterEpisode": {
-        "text": ["EPISODE06"]
-    },
-    "07@EnterEpisode": {
-        "text": ["EPISODE07"]
-    },
-    "08@EnterEpisode": {
-        "text": ["EPISODE08"]
-    },
-    "09@EnterEpisode": {
-        "text": ["EPISODE09"]
-    },
-    "10@EnterEpisode": {
-        "text": ["EPISODE10"]
-    },
-    "11@EnterEpisode": {
-        "text": ["EPISODE11"]
-    },
-    "12@EnterEpisode": {
-        "text": ["EPISODE12"]
-    },
-    "13@EnterEpisode": {
-        "text": ["EPISODE13"]
-    },
-    "14@EnterEpisode": {
-        "text": ["EPISODE14"]
-    },
     "LevelOfDifficulty": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -333,65 +278,6 @@
         "action": "ClickSelf",
         "text": ["进入作战"],
         "roi": [473, 572, 329, 144]
-    },
-    "SwipeLeftToEpisode": {
-        "Doc": "base_task",
-        "baseTask": "EpisodeOcrReplace",
-        "action": "Swipe",
-        "isAscii": true,
-        "text": [],
-        "roi": [244, 270, 129, 49],
-        "specificRect": [790, 310, 10, 10],
-        "rectMove": [1200, 310, 10, 10],
-        "specialParams": [200, 0, 2, 0],
-        "maxTimes": 20,
-        "next": ["EnterEpisode", "#self"],
-        "postDelay": 500
-    },
-    "14@SwipeLeftToEpisode": {
-        "text": ["EPISODE15"]
-    },
-    "13@SwipeLeftToEpisode": {
-        "text": ["EPISODE14", "EPISODE15"]
-    },
-    "12@SwipeLeftToEpisode": {
-        "text": ["EPISODE13", "EPISODE14", "EPISODE15"]
-    },
-    "11@SwipeLeftToEpisode": {
-        "text": ["EPISODE12", "EPISODE13", "EPISODE14", "EPISODE15"]
-    },
-    "10@SwipeLeftToEpisode": {
-        "text": ["EPISODE11", "EPISODE12", "EPISODE13", "EPISODE14", "EPISODE15"]
-    },
-    "09@SwipeLeftToEpisode": {
-        "text": ["EPISODE10", "EPISODE11", "EPISODE12", "EPISODE13", "EPISODE14", "EPISODE15"]
-    },
-    "08@SwipeLeftToEpisode": {
-        "text": ["_SKIP_"]
-    },
-    "07@SwipeLeftToEpisode": {
-        "text": ["EPISODE08"]
-    },
-    "06@SwipeLeftToEpisode": {
-        "text": ["EPISODE07", "EPISODE08"]
-    },
-    "05@SwipeLeftToEpisode": {
-        "text": ["EPISODE06", "EPISODE07", "EPISODE08"]
-    },
-    "04@SwipeLeftToEpisode": {
-        "text": ["EPISODE05", "EPISODE06", "EPISODE07", "EPISODE08"]
-    },
-    "03@SwipeLeftToEpisode": {
-        "text": ["_SKIP_"]
-    },
-    "02@SwipeLeftToEpisode": {
-        "text": ["EPISODE03"]
-    },
-    "01@SwipeLeftToEpisode": {
-        "text": ["EPISODE02", "EPISODE03"]
-    },
-    "00@SwipeLeftToEpisode": {
-        "text": ["EPISODE01", "EPISODE02", "EPISODE03"]
     },
     "StageNavigationBegin": {
         "algorithm": "JustReturn",
@@ -480,14 +366,8 @@
         "template": ["NormalDifficulty.png", "NormalDifficulty-Chapter15.png"],
         "next": []
     },
-    "Episode": {
-        "Doc": "base_task",
-        "algorithm": "JustReturn",
-        "next": ["EnterEpisodeNew", "SwipeLeftToEpisode", "EnterEpisode"]
-    },
     "EpisodeNew": {
         "Doc": "base_task",
-        "Doc2": "15 章开始全部用新导航",
         "algorithm": "JustReturn",
         "next": ["EnterEpisodeNew", "SwipeUpToEpisode"]
     },
@@ -501,64 +381,64 @@
         "exceededNext": ["Stop"]
     },
     "Episode0": {
-        "baseTask": "00@Episode",
-        "sub": ["ToChapter1@StageTheme"]
+        "baseTask": "00@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode1": {
-        "baseTask": "01@Episode",
-        "sub": ["ToChapter1@StageTheme"]
+        "baseTask": "01@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode2": {
-        "baseTask": "02@Episode",
-        "sub": ["ToChapter1@StageTheme"]
+        "baseTask": "02@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode3": {
-        "baseTask": "03@Episode",
-        "sub": ["ToChapter1@StageTheme"]
+        "baseTask": "03@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode4": {
-        "baseTask": "04@Episode",
-        "sub": ["ToChapter2@StageTheme"]
+        "baseTask": "04@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode5": {
-        "baseTask": "05@Episode",
-        "sub": ["ToChapter2@StageTheme"]
+        "baseTask": "05@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode6": {
-        "baseTask": "06@Episode",
-        "sub": ["ToChapter2@StageTheme"]
+        "baseTask": "06@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode7": {
-        "baseTask": "07@Episode",
-        "sub": ["ToChapter2@StageTheme"]
+        "baseTask": "07@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode8": {
-        "baseTask": "08@Episode",
-        "sub": ["ToChapter2@StageTheme"]
+        "baseTask": "08@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode9": {
-        "baseTask": "09@Episode",
-        "sub": ["ToChapter3@StageTheme"]
+        "baseTask": "09@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode10": {
-        "baseTask": "10@Episode",
-        "sub": ["ToChapter3@StageTheme"]
+        "baseTask": "10@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode11": {
-        "baseTask": "11@Episode",
-        "sub": ["ToChapter3@StageTheme"]
+        "baseTask": "11@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode12": {
-        "baseTask": "12@Episode",
-        "sub": ["ToChapter3@StageTheme"]
+        "baseTask": "12@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode13": {
-        "baseTask": "13@Episode",
-        "sub": ["ToChapter3@StageTheme"]
+        "baseTask": "13@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode14": {
-        "baseTask": "14@Episode",
-        "sub": ["ToChapter3@StageTheme"]
+        "baseTask": "14@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
     },
     "Episode15": {
         "baseTask": "15@EpisodeNew",
