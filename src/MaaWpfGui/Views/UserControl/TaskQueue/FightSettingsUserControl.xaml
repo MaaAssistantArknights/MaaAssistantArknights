@@ -458,7 +458,8 @@
                 HorizontalAlignment="Center"
                 FontWeight="Bold"
                 Text="{DynamicResource MultiTasksShareTip}"
-                TextAlignment="Center" />
+                TextWrapping="Wrap"
+                TextAlignment="Left" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoRestartOption}"
