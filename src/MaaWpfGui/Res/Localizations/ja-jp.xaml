@@ -321,7 +321,7 @@
     <system:String x:Key="SpecifiedDropsTip">この機能では最適なステージを自動的に計算しません</system:String>
     <system:String x:Key="StartupUpdateCheck">起動時の更新チェック</system:String>
     <system:String x:Key="UpdateAutoCheck">定期的な更新チェック</system:String>
-    <system:String x:Key="UpdateAutoCheckTip">04:00 / 22:00 Server Time</system:String>
+    <system:String x:Key="UpdateAutoCheckTip">ゲーム内 00:00 / 18:00（サーバー現地時間 04:00 / 22:00）</system:String>
     <system:String x:Key="UpdateAutoDownload">自動アップデート</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自動インストール更新</system:String>
     <system:String x:Key="UpdateCheckStable">安定版</system:String>
@@ -432,6 +432,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
     <system:String x:Key="AutoRestartOption">ゲームが切断されたときに自動的に再接続する</system:String>
     <system:String x:Key="UseWeeklySchedule">週次スケジュールを有効にする</system:String>
+    <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>

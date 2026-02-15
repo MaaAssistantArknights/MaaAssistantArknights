@@ -428,10 +428,10 @@
                 Margin="0,10"
                 Content="{DynamicResource HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}" />
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource UseWeeklySchedule}"
-                IsChecked="{Binding UseWeeklySchedule}" />
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource UseWeeklySchedule}" IsChecked="{Binding UseWeeklySchedule}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource UseWeeklyScheduleTip}" />
+            </StackPanel>
             <ListBox
                 MaxHeight="300"
                 Margin="6,5"
@@ -458,8 +458,8 @@
                 HorizontalAlignment="Center"
                 FontWeight="Bold"
                 Text="{DynamicResource MultiTasksShareTip}"
-                TextWrapping="Wrap"
-                TextAlignment="Left" />
+                TextAlignment="Left"
+                TextWrapping="Wrap" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoRestartOption}"
