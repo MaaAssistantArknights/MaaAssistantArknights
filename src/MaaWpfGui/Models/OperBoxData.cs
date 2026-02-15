@@ -23,15 +23,27 @@ public class OperBoxData
         [JsonProperty("id")]
         public string Id { get; set; } = null!; // char_2024_chyue
 
+        /// <summary>
+        /// Gets or sets 干员名称
+        /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; } = null!; // 重岳
 
+        /// <summary>
+        /// Gets or sets 精英化等级
+        /// </summary>
         [JsonProperty("elite")]
         public int Elite { get; set; } = 0;
 
+        /// <summary>
+        /// Gets or sets 等级
+        /// </summary>
         [JsonProperty("level")]
         public int Level { get; set; } = 0;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether 是否拥有
+        /// </summary>
         [JsonProperty("own")]
         public bool Own { get; set; } = false;
 

@@ -1028,6 +1028,8 @@ public class ToolboxViewModel : Screen
         [JsonProperty("potential")]
         public int Potential { get; } = potential;
 
+        public int IdNumber { get; } = ExtractIdNumber(id);
+
         public string RarityStars => IsPallas ? LocalizationHelper.GetPallasString(6, 6) : new('★', Rarity);
 
         /// <summary>
@@ -1056,6 +1058,15 @@ public class ToolboxViewModel : Screen
         public override string ToString() => $"{Name} (★{Rarity})";
 
         private bool IsPallas => Id == "char_485_pallas";
+
+        private static int ExtractIdNumber(string id)
+        {
+            // char_002_amiya
+            //      ↑取中间
+            int start = id.IndexOf('_') + 1;
+            int end = id.IndexOf('_', start);
+            return int.Parse(id.AsSpan(start, end - start));
+        }
     }
 
     private ObservableCollection<Operator> _operBoxHaveList = [];
@@ -1079,6 +1090,27 @@ public class ToolboxViewModel : Screen
         // var json = details.ToString(Formatting.None);
         // ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, json);
         JsonDataHelper.Set(JsonDataKey.OperBoxData, JArray.FromObject(details));
+    }
+
+    private void SortOperBoxLists()
+    {
+        OperBoxHaveList = SortOperBoxList(OperBoxHaveList);
+        OperBoxNotHaveList = SortOperBoxList(OperBoxNotHaveList);
+    }
+
+    private static ObservableCollection<Operator> SortOperBoxList(ObservableCollection<Operator> list)
+    {
+        if (list == null || list.Count <= 0)
+        {
+            return list ?? [];
+        }
+
+        return [.. list
+            .OrderByDescending(x => x.Rarity)
+            .ThenByDescending(x => x.Elite)
+            .ThenByDescending(x => x.Level)
+            .ThenByDescending(x => x.Potential)
+            .ThenByDescending(x => x.IdNumber)];
     }
 
     private void LoadOperBoxDetails()
@@ -1121,6 +1153,8 @@ public class ToolboxViewModel : Screen
                     }
                 }
             }
+
+            SortOperBoxLists();
         }
         catch
         {
@@ -1173,6 +1207,8 @@ public class ToolboxViewModel : Screen
                 OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
             }
         }
+
+        SortOperBoxLists();
 
         if (OperBoxNotHaveList.Count > 0)
         {
