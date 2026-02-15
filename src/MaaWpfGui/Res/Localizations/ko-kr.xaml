@@ -932,6 +932,16 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">이벤트 상점 페이지에서 시작하세요&#10;구매 수량이 무제한인 아이템은 구매하지 않아요</system:String>
     <system:String x:Key="MiniGameNameRAStore">생존 연산 상점</system:String>
     <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">생존 연산 상점 페이지에서 시작하세요</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast">界园肉鸽通宝重投</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastTip" xml:space="preserve">请在界园肉鸽存在钱盒(打开或关闭)的界面开始该任务，该任务会持续重投通宝直到满足任一条件。</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricTicket">票券</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricHp">生命</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricHope">希望</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricIngot">源石锭</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricCount">重投次数</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetric">监控项</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastComparator">比较方式</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastThreshold">阈值</system:String>
     <!--  !미니게임  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">인식 중……</system:String>

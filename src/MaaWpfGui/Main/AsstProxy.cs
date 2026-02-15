@@ -2852,13 +2852,24 @@ public class AsstProxy
     /// 小游戏。
     /// </summary>
     /// <param name="taskName">任务名（tasks.json 中的 key）</param>
+    /// <param name="extraParams">额外参数（可选）</param>
     /// <returns>是否成功。</returns>
-    public bool AsstMiniGame(string taskName)
+    public bool AsstMiniGame(string taskName, JObject? extraParams = null)
     {
         var task = new AsstCustomTask() {
             CustomTasks = [taskName],
         };
         var (type, param) = task.Serialize();
+
+        // 合并额外参数
+        if (extraParams != null)
+        {
+            foreach (var prop in extraParams.Properties())
+            {
+                param[prop.Name] = prop.Value;
+            }
+        }
+
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
     }
 
