@@ -73,9 +73,16 @@ bool asst::WDAController::connect(
         return false;
     }
 
+    // Take an initial screenshot to determine physical screen size
+    // This is needed before ControlScaleProxy is created
+    cv::Mat dummy_image;
+    if (!screencap(dummy_image, false)) {
+        Log.error("Failed to capture initial screenshot");
+        return false;
+    }
+
     m_connected = true;
-    Log.info("WDA connected, logical size:", m_wda_logical_size.first, "x", m_wda_logical_size.second,
-             "(Physical size will be determined from first screenshot)");
+    Log.info("WDA connected, screen size:", m_screen_size.first, "x", m_screen_size.second);
     return true;
 }
 
