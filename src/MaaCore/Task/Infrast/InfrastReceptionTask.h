@@ -19,6 +19,7 @@ public:
 
 protected:
     virtual bool _run() override;
+    virtual bool on_run_fails() override;
 
 private:
     virtual int operlist_swipe_times() const noexcept override { return 4; }
