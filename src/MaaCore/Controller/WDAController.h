@@ -35,6 +35,9 @@ public:
     virtual bool start_game(const std::string& client_type) override;
     virtual bool stop_game(const std::string& client_type) override;
 
+    // Pre-start game before connection (uses temporary HTTP session)
+    bool pre_start_game(const std::string& client_type);
+
     virtual bool click(const Point& p) override;
 
     virtual bool input(const std::string& text) override;

@@ -22,6 +22,8 @@ public:
 
     StartGameTaskPlugin& set_client_type(std::string client_type) noexcept;
 
+    const std::string& get_client_type() const noexcept { return m_client_type; }
+
 protected:
     bool _run() override;
 

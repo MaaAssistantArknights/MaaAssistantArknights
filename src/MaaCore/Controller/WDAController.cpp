@@ -73,16 +73,14 @@ bool asst::WDAController::connect(
         return false;
     }
 
-    // Take an initial screenshot to determine physical screen size
-    // This is needed before ControlScaleProxy is created
-    cv::Mat dummy_image;
-    if (!screencap(dummy_image, false)) {
-        Log.error("Failed to capture initial screenshot");
-        return false;
-    }
+    // Set a default landscape resolution for iOS devices
+    // The actual resolution will be determined from the first screenshot
+    // This allows ControlScaleProxy to be created without failing resolution checks
+    m_screen_size = std::make_pair(1280, 720);
 
     m_connected = true;
-    Log.info("WDA connected, screen size:", m_screen_size.first, "x", m_screen_size.second);
+    Log.info("WDA connected, using default resolution:", m_screen_size.first, "x", m_screen_size.second,
+             "(will be updated after first screenshot)");
     return true;
 }
 
@@ -211,6 +209,38 @@ bool asst::WDAController::start_game(const std::string& client_type)
 
     Log.info("Game started successfully:", bundle_id.value());
     return true;
+}
+
+bool asst::WDAController::pre_start_game(const std::string& client_type)
+{
+    LogTraceFunction;
+
+    Log.info("Pre-starting game before connection:", client_type);
+
+    // Create temporary session for pre-start
+    if (!check_wda_status()) {
+        Log.warn("WDA not ready for pre-start, will try during normal flow");
+        return false;
+    }
+
+    if (!create_session()) {
+        Log.warn("Failed to create session for pre-start");
+        return false;
+    }
+
+    // Start the game
+    bool result = start_game(client_type);
+
+    // Clean up temporary session
+    destroy_session();
+    m_connected = false;
+
+    if (result) {
+        Log.info("Game pre-started successfully, waiting for rotation...");
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+    }
+
+    return result;
 }
 
 bool asst::WDAController::stop_game(const std::string& client_type)
@@ -940,6 +970,16 @@ bool asst::WDAController::decode_base64_png(const std::string& base64_data, cv::
     if (m_physical_screen_size.first == 0) {
         m_physical_screen_size = { original_width, original_height };
         Log.info("Physical screen size detected:", original_width, "x", original_height);
+
+        // Re-fetch WDA logical size after first screenshot
+        // The device may have rotated since connect(), so we need updated logical size
+        if (fetch_screen_size()) {
+            Log.info("Updated WDA logical size after first screenshot:",
+                     m_wda_logical_size.first, "x", m_wda_logical_size.second);
+        }
+        else {
+            Log.warn("Failed to update WDA logical size after first screenshot");
+        }
     }
 
     // ControlScaleProxy 的检查阈值是 1e-7，所以这里也必须更严格

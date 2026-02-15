@@ -17,6 +17,9 @@ public:
 
     bool set_params(const json::value& params) override;
 
+protected:
+    bool _run() override;
+
 private:
     std::shared_ptr<StartGameTaskPlugin> m_start_game_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;

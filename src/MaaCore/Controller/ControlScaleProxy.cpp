@@ -25,36 +25,50 @@ asst::ControlScaleProxy::ControlScaleProxy(
         },
     } };
 
-    if (width < WindowWidthDefault || height < WindowHeightDefault) {
-        info["what"] = "UnsupportedResolution";
-        info["why"] = "Low screen resolution";
-        callback(info);
-        throw std::runtime_error("Unsupported resolution");
-    }
-    else if (
-        std::fabs(
-            static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault) -
-            static_cast<double>(width) / static_cast<double>(height)) > 1e-7) {
-        info["what"] = "UnsupportedResolution";
-        info["why"] = "Not 16:9";
-        callback(info);
-        throw std::runtime_error("Unsupported resolution");
-    }
+    try {
+        if (width < WindowWidthDefault || height < WindowHeightDefault) {
+            info["what"] = "UnsupportedResolution";
+            info["why"] = "Low screen resolution";
+            callback(info);
 
-    /* calc ratio */
-    constexpr double DefaultRatio = static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault);
-    double cur_ratio = static_cast<double>(width) / static_cast<double>(height);
+            // Log detailed error instead of just throwing
+            Log.error("Resolution too low:", width, "x", height,
+                     "minimum required:", WindowWidthDefault, "x", WindowHeightDefault);
+            throw std::runtime_error("Unsupported resolution");
+        }
+        else if (
+            std::fabs(
+                static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault) -
+                static_cast<double>(width) / static_cast<double>(height)) > 1e-7) {
+            info["what"] = "UnsupportedResolution";
+            info["why"] = "Not 16:9";
+            callback(info);
 
-    if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9，按照高度计算缩放
-        || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
-        int scale_width = static_cast<int>(cur_ratio * WindowHeightDefault);
-        m_scale_size = std::make_pair(scale_width, WindowHeightDefault);
-        m_control_scale = static_cast<double>(height) / static_cast<double>(WindowHeightDefault);
+            // Log detailed error
+            Log.error("Aspect ratio not 16:9:", width, "x", height,
+                     "aspect ratio:", static_cast<double>(width) / height);
+            throw std::runtime_error("Unsupported resolution");
+        }
+
+        /* calc ratio */
+        constexpr double DefaultRatio = static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault);
+        double cur_ratio = static_cast<double>(width) / static_cast<double>(height);
+
+        if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9,按照高度计算缩放
+            || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
+            int scale_width = static_cast<int>(cur_ratio * WindowHeightDefault);
+            m_scale_size = std::make_pair(scale_width, WindowHeightDefault);
+            m_control_scale = static_cast<double>(height) / static_cast<double>(WindowHeightDefault);
+        }
+        else { // 否则可能是偏正方形的屏幕，按宽度计算
+            int scale_height = static_cast<int>(WindowWidthDefault / cur_ratio);
+            m_scale_size = std::make_pair(WindowWidthDefault, scale_height);
+            m_control_scale = static_cast<double>(width) / static_cast<double>(WindowWidthDefault);
+        }
     }
-    else { // 否则可能是偏正方形的屏幕，按宽度计算
-        int scale_height = static_cast<int>(WindowWidthDefault / cur_ratio);
-        m_scale_size = std::make_pair(WindowWidthDefault, scale_height);
-        m_control_scale = static_cast<double>(width) / static_cast<double>(WindowWidthDefault);
+    catch (const std::exception& e) {
+        Log.error("ControlScaleProxy initialization failed:", e.what());
+        throw;  // Re-throw after logging
     }
 }
 

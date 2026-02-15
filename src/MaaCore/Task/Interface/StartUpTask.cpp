@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "Config/GeneralConfig.h"
+#include "Controller/Controller.h"
 #include "Task/Miscellaneous/AccountSwitchTask.h"
 #include "Task/Miscellaneous/StartGameTaskPlugin.h"
 #include "Task/ProcessTask.h"
@@ -43,4 +44,25 @@ bool asst::StartUpTask::set_params(const json::value& params)
     m_account_switch_task_ptr->set_account(std::move(account_name));
     m_account_switch_task_ptr->set_client_type(std::move(client_type));
     return true;
+}
+
+bool asst::StartUpTask::_run()
+{
+    LogTraceFunction;
+
+    // For WDA with auto-start, pre-start game before running subtasks
+    if (m_start_game_task_ptr->get_enable() &&
+        ctrler()->get_controller_type() == ControllerType::WDA) {
+
+        Log.info("WDA auto-start enabled, pre-starting game...");
+
+        std::string client_type = m_start_game_task_ptr->get_client_type();
+        if (!client_type.empty()) {
+            ctrler()->pre_start_game(client_type);
+            // Note: Failure is non-fatal, subtasks will proceed anyway
+        }
+    }
+
+    // Continue with normal subtask execution
+    return InterfaceTask::_run();
 }

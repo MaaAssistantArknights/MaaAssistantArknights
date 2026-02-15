@@ -163,15 +163,37 @@ bool asst::Controller::stop_game(const std::string& client_type)
     return m_controller->stop_game(client_type);
 }
 
+bool asst::Controller::pre_start_game(const std::string& client_type)
+{
+    if (m_controller_type != ControllerType::WDA) {
+        return false;  // Only supported for WDA
+    }
+
+    auto wda_ctrl = std::dynamic_pointer_cast<WDAController>(m_controller);
+    if (!wda_ctrl) {
+        return false;
+    }
+
+    return wda_ctrl->pre_start_game(client_type);
+}
+
 bool asst::Controller::click(const Point& p)
 {
     CHECK_EXIST(m_controller, false);
+    if (!ensure_proxy_initialized()) {
+        Log.error("Failed to initialize proxy for click operation");
+        return false;
+    }
     return m_scale_proxy->click(p);
 }
 
 bool asst::Controller::click(const Rect& rect)
 {
     CHECK_EXIST(m_controller, false);
+    if (!ensure_proxy_initialized()) {
+        Log.error("Failed to initialize proxy for click operation");
+        return false;
+    }
     return m_scale_proxy->click(rect);
 }
 
@@ -191,6 +213,10 @@ bool asst::Controller::swipe(
     bool with_pause)
 {
     CHECK_EXIST(m_controller, false);
+    if (!ensure_proxy_initialized()) {
+        Log.error("Failed to initialize proxy for swipe operation");
+        return false;
+    }
     return m_scale_proxy->swipe(p1, p2, duration, extra_swipe, slope_in, slope_out, with_pause);
 }
 
@@ -205,6 +231,10 @@ bool asst::Controller::swipe(
     bool high_resolution_swipe_fix)
 {
     CHECK_EXIST(m_controller, false);
+    if (!ensure_proxy_initialized()) {
+        Log.error("Failed to initialize proxy for swipe operation");
+        return false;
+    }
     return m_scale_proxy
         ->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, with_pause, high_resolution_swipe_fix);
 }
@@ -251,6 +281,14 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 #endif
 
+    // For WDA, skip initial screencap to avoid portrait orientation issues
+    // The screencap will be done when actually needed (after game starts)
+    if (m_controller_type == ControllerType::WDA) {
+        Log.info("WDA connection successful, deferring screencap and proxy creation until first use");
+        m_deferred_proxy_init = true;
+        return true;
+    }
+
     // try to find the fastest way
     if (!screencap()) {
         Log.error("Cannot find a proper way to screencap!");
@@ -274,7 +312,11 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
     }
     catch (const std::exception& e) {
-        Log.error("Cannot create controller proxy: {}", e.what());
+        Log.error("Cannot create controller proxy:", e.what());
+        Log.error("Screen resolution:", m_controller->get_screen_res().first,
+                 "x", m_controller->get_screen_res().second);
+
+        // Return false instead of crashing
         return false;
     }
 
@@ -292,6 +334,50 @@ bool asst::Controller::inited() noexcept
 {
     CHECK_EXIST(m_controller, false);
     return m_controller->inited();
+}
+
+bool asst::Controller::ensure_proxy_initialized()
+{
+    if (!m_deferred_proxy_init || m_scale_proxy) {
+        return true;  // Already initialized or not deferred
+    }
+
+    Log.info("Completing deferred proxy initialization for WDA");
+
+    // Now perform the screencap
+    if (!screencap()) {
+        Log.error("Cannot screencap during deferred initialization");
+        return false;
+    }
+
+    auto proxy_callback = [&](const json::object& details) {
+        json::value connection_info = json::object {
+            { "uuid", m_uuid },
+            { "details", details },
+        };
+        callback(AsstMsg::ConnectionInfo, connection_info);
+    };
+
+    try {
+        m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot create controller proxy during deferred init:", e.what());
+        Log.error("Screen resolution:", m_controller->get_screen_res().first,
+                 "x", m_controller->get_screen_res().second);
+        return false;
+    }
+
+    if (!m_scale_proxy) {
+        Log.error("scale_proxy is nullptr after deferred init");
+        return false;
+    }
+
+    m_scale_size = m_scale_proxy->get_scale_size();
+    m_deferred_proxy_init = false;
+
+    Log.info("Deferred proxy initialization completed successfully");
+    return true;
 }
 
 void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
@@ -341,6 +427,12 @@ const std::string& asst::Controller::get_uuid() const
 
 cv::Mat asst::Controller::get_image(bool raw)
 {
+    // Ensure proxy is initialized (for WDA deferred init)
+    if (!ensure_proxy_initialized()) {
+        Log.error("Failed to initialize proxy");
+        return {};
+    }
+
     if (get_scale_size() == std::pair(0, 0)) {
         Log.error("Unknown image size");
         return {};

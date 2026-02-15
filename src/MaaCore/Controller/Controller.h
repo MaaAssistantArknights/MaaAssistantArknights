@@ -66,6 +66,9 @@ public:
     bool start_game(const std::string& client_type);
     bool stop_game(const std::string& client_type);
 
+    // Pre-start game before connection (WDA only)
+    bool pre_start_game(const std::string& client_type);
+
     bool click(const Point& p);
     bool click(const Rect& rect);
     bool input(const std::string& text);
@@ -123,8 +126,12 @@ private:
 
     bool m_swipe_with_pause = false;
     bool m_kill_adb_on_exit = false;
+    bool m_deferred_proxy_init = false;  // For WDA: defer proxy creation until first use
 
     mutable std::shared_mutex m_image_mutex;
     cv::Mat m_cache_image;
+
+    // Ensure proxy is initialized (for WDA deferred init)
+    bool ensure_proxy_initialized();
 };
 } // namespace asst
