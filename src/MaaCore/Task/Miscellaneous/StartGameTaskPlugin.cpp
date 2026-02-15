@@ -33,7 +33,17 @@ bool StartGameTaskPlugin::_run()
     // check for MAC / iOS
     if (ctrler()->get_controller_type() == ControllerType::MacPlayTools ||
         ctrler()->get_controller_type() == ControllerType::WDA) {
-        return ctrler()->start_game(m_client_type);
+        if (!ctrler()->start_game(m_client_type)) {
+            return false;
+        }
+
+        // Wait for screen rotation (portrait -> landscape) on iOS devices
+        if (ctrler()->get_controller_type() == ControllerType::WDA) {
+            Log.info("Waiting 3 seconds for screen rotation...");
+            sleep(3000);
+        }
+
+        return true;
     }
 
     // check for android version, because it leads to different magic values
