@@ -238,13 +238,15 @@
                         <hc:ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                             <ItemsControl
                                 HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                d:ItemsSource="{d:SampleData ItemCount=1}"
                                 ItemsSource="{Binding OperBoxNotHaveList}"
                                 ScrollViewer.CanContentScroll="True"
                                 VirtualizingPanel.IsVirtualizing="True"
                                 VirtualizingPanel.VirtualizationMode="Recycling">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <UniformGrid Columns="5" />
+                                        <UniformGrid Columns="{c:Binding 'OperBoxNotHaveList.Count >= 5 ? 5 : OperBoxNotHaveList.Count'}" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
@@ -280,13 +282,15 @@
                         <hc:ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                             <ItemsControl
                                 HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                d:ItemsSource="{d:SampleData ItemCount=1}"
                                 ItemsSource="{Binding OperBoxHaveList}"
                                 ScrollViewer.CanContentScroll="True"
                                 VirtualizingPanel.IsVirtualizing="True"
                                 VirtualizingPanel.VirtualizationMode="Recycling">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <UniformGrid Columns="5" />
+                                        <UniformGrid Columns="{c:Binding 'OperBoxHaveList.Count >= 5 ? 5 : OperBoxHaveList.Count'}" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
@@ -416,13 +420,15 @@
                     VerticalScrollBarVisibility="Auto">
                     <ItemsControl
                         HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        d:ItemsSource="{d:SampleData ItemCount=1}"
                         ItemsSource="{Binding DepotResult}"
                         ScrollViewer.CanContentScroll="True"
                         VirtualizingPanel.IsVirtualizing="True"
                         VirtualizingPanel.VirtualizationMode="Recycling">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <UniformGrid Columns="5" />
+                                <UniformGrid Columns="{c:Binding 'DepotResult.Count >= 5 ? 5 : DepotResult.Count'}" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
