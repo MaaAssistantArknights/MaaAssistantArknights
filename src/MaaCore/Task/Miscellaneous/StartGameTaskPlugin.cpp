@@ -31,7 +31,8 @@ bool StartGameTaskPlugin::_run()
     }
 
     // check for MAC / iOS
-    if (ctrler()->get_controller_type() == ControllerType::MacPlayTools) {
+    if (ctrler()->get_controller_type() == ControllerType::MacPlayTools ||
+        ctrler()->get_controller_type() == ControllerType::WDA) {
         return ctrler()->start_game(m_client_type);
     }
 
