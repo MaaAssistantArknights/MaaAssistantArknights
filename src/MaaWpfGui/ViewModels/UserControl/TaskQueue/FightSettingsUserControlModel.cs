@@ -738,7 +738,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         if (task.Stage == "Annihilation" && fight.UseCustomAnnihilation)
         {
-            task.Stage = AnnihilationStage;
+            task.Stage = fight.AnnihilationStage;
         }
 
         if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId))
