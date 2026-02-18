@@ -2143,7 +2143,7 @@
     },
     "VisitLimited": {
         "algorithm": "OcrDetect",
-        "text": ["114514"],
+        "text": ["今日参与", "已达上限"],
         "roi": [900, 50, 375, 140],
         "next": ["Home@ReturnButtons#next"]
     },
