@@ -1197,9 +1197,6 @@
         ],
         "roi": [0, 395, 725, 235]
     },
-    "Roguelike@StageTraderInvestSystem": {
-        "maskRange": [1, 255]
-    },
     "Roguelike@StageTraderInvestSystemFull": {
         "text": ["Storage full"]
     },
