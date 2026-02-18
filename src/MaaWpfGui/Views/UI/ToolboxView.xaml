@@ -11,6 +11,7 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
+    d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui_vms:ToolboxViewModel}}"
     d:DesignHeight="600"
     d:DesignWidth="800"
@@ -107,7 +108,7 @@
                                     Maximum="9"
                                     Minimum="1"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel3Hour, Source={x:Static ui_vms:TaskQueueViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel3Hour}" />
                                 <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
@@ -115,7 +116,7 @@
                                     Maximum="50"
                                     Minimum="0"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel3Min, Source={x:Static ui_vms:TaskQueueViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel3Min}" />
                             </StackPanel>
                         </StackPanel>
 
@@ -132,7 +133,7 @@
                                     Maximum="9"
                                     Minimum="1"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel4Hour, Source={x:Static ui_vms:TaskQueueViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel4Hour}" />
                                 <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
@@ -140,7 +141,7 @@
                                     Maximum="50"
                                     Minimum="0"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel4Min, Source={x:Static ui_vms:TaskQueueViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel4Min}" />
                             </StackPanel>
                         </StackPanel>
 
@@ -157,7 +158,7 @@
                                     Maximum="9"
                                     Minimum="1"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel5Hour, Source={x:Static ui_vms:TaskQueueViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel5Hour}" />
                                 <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
@@ -165,7 +166,7 @@
                                     Maximum="50"
                                     Minimum="0"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel5Min, Source={x:Static ui_vms:TaskQueueViewModel.RecruitTask}}" />
+                                    Value="{Binding ChooseLevel5Min}" />
                             </StackPanel>
                         </StackPanel>
 
@@ -237,13 +238,15 @@
                         <hc:ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                             <ItemsControl
                                 HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                d:ItemsSource="{d:SampleData ItemCount=1}"
                                 ItemsSource="{Binding OperBoxNotHaveList}"
                                 ScrollViewer.CanContentScroll="True"
                                 VirtualizingPanel.IsVirtualizing="True"
                                 VirtualizingPanel.VirtualizationMode="Recycling">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <UniformGrid Columns="5" />
+                                        <UniformGrid Columns="{c:Binding 'OperBoxNotHaveList.Count >= 5 ? 5 : OperBoxNotHaveList.Count'}" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
@@ -279,13 +282,15 @@
                         <hc:ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                             <ItemsControl
                                 HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                d:ItemsSource="{d:SampleData ItemCount=1}"
                                 ItemsSource="{Binding OperBoxHaveList}"
                                 ScrollViewer.CanContentScroll="True"
                                 VirtualizingPanel.IsVirtualizing="True"
                                 VirtualizingPanel.VirtualizationMode="Recycling">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <UniformGrid Columns="5" />
+                                        <UniformGrid Columns="{c:Binding 'OperBoxHaveList.Count >= 5 ? 5 : OperBoxHaveList.Count'}" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
@@ -375,7 +380,7 @@
                         Margin="30,0"
                         Command="{s:Action StartOperBox}"
                         Content="{DynamicResource StartToOperBoxRecognition}"
-                        IsEnabled="{Binding 'Idle and Inited'}" />
+                        IsEnabled="{c:Binding 'Idle and Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -415,13 +420,15 @@
                     VerticalScrollBarVisibility="Auto">
                     <ItemsControl
                         HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        d:ItemsSource="{d:SampleData ItemCount=1}"
                         ItemsSource="{Binding DepotResult}"
                         ScrollViewer.CanContentScroll="True"
                         VirtualizingPanel.IsVirtualizing="True"
                         VirtualizingPanel.VirtualizationMode="Recycling">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <UniformGrid Columns="5" />
+                                <UniformGrid Columns="{c:Binding 'DepotResult.Count >= 5 ? 5 : DepotResult.Count'}" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>

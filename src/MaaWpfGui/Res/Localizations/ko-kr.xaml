@@ -321,7 +321,7 @@
     <system:String x:Key="SpecifiedDropsTip">이 기능은 최적의 스테이지를 자동으로 계산하지 않습니다</system:String>
     <system:String x:Key="StartupUpdateCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
-    <system:String x:Key="UpdateAutoCheckTip">04:00 / 22:00 Server Time</system:String>
+    <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 자동 다운로드</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">업데이트 패키지 자동 설치</system:String>
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
@@ -432,6 +432,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트 실행</system:String>
     <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
     <system:String x:Key="UseWeeklySchedule">주간 일정 활성화</system:String>
+    <system:String x:Key="UseWeeklyScheduleTip">여기서 요일은 게임 내 시간을 기준으로 하며, 실제 시간이 아닙니다. 예를 들어 게임이 4:00에 초기화되면 3:59는 여전히 전날로 계산됩니다.</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터 실행</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>

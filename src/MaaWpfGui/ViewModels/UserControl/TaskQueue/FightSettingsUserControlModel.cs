@@ -26,12 +26,10 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
@@ -474,7 +472,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     public bool UseCustomAnnihilation
     {
         get => GetTaskConfig<FightTask>().UseCustomAnnihilation;
-        set => SetTaskConfig<FightTask>(t => t.UseCustomAnnihilation == value, t => t.UseCustomAnnihilation = value);
+        set {
+            bool ret = SetTaskConfig<FightTask>(t => t.UseCustomAnnihilation == value, t => t.UseCustomAnnihilation = value);
+            if (ret)
+            {
+                StageListSource.FirstOrDefault(i => i.Value == "Annihilation")?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+            }
+        }
     }
 
     public string AnnihilationStage
@@ -734,7 +738,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         if (task.Stage == "Annihilation" && fight.UseCustomAnnihilation)
         {
-            task.Stage = AnnihilationStage;
+            task.Stage = fight.AnnihilationStage;
         }
 
         if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId))

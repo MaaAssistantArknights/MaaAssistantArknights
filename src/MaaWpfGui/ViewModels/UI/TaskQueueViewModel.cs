@@ -507,9 +507,17 @@ public class TaskQueueViewModel : Screen
         {
             actions.LoadPostActions();
 
-            // 休眠提示
-            AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
-            await Task.Delay(10000);
+            await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
+            if (await TimerCanceledAsync(
+                    LocalizationHelper.GetString("Hibernate"),
+                    LocalizationHelper.GetString("HibernatePrompt"),
+                    LocalizationHelper.GetString("Cancel"),
+                    60))
+            {
+                return;
+            }
+
+            _logger.Information("Hibernate not canceled, proceeding to hibernate.");
             PowerManagement.Hibernate();
         }
 
@@ -536,9 +544,17 @@ public class TaskQueueViewModel : Screen
         {
             actions.LoadPostActions();
 
-            // 休眠提示
-            AddLog(LocalizationHelper.GetString("SleepPrompt"), UiLogColor.Error);
-            await Task.Delay(10000);
+            await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
+            if (await TimerCanceledAsync(
+                    LocalizationHelper.GetString("Sleep"),
+                    LocalizationHelper.GetString("SleepPrompt"),
+                    LocalizationHelper.GetString("Cancel"),
+                    60))
+            {
+                return;
+            }
+
+            _logger.Information("Sleep not canceled, proceeding to sleep.");
             PowerManagement.Sleep();
         }
     }

@@ -49,25 +49,9 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 Windows 8/8.1/10/11 N/KN(유럽/한국) 버전을 사용하는 경우, [미디어 기능 팩](https://support.microsoft.com/ko-kr/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)을 설치해야 합니다.
 
-#### Windows 7 관련
+#### Windows 7 / 8 / 8.1 관련
 
-.NET 10은 Windows 7 / 8 / 8.1 시스템을 지원하지 않으므로<sup>[출처](https://github.com/dotnet/core/issues/7556)</sup>, MAA도 더 이상 지원하지 않습니다. 마지막으로 사용 가능한 .NET 8 버전은 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)입니다. 마지막으로 사용 가능한 .NET 4.8 버전은 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)입니다. 자체 컴파일의 실현 가능성은 아직 확인되지 않았습니다.
-
-Windows 7의 경우, 위에서 언급한 두 개의 런타임 라이브러리를 설치하기 전에 다음 패치가 설치되어 있는지 확인해야 합니다:
-
-1. [Windows 7 Service Pack 1](https://support.microsoft.com/ko-kr/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
-2. SHA-2 코드 서명 패치:
-   - KB4474419：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[다운로드 링크 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-   - KB4490628：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[다운로드 링크 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1,KB2670838）：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[다운로드 링크 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
-
-##### .NET 8 애플리케이션이 Windows 7에서 비정상적으로 실행되는 문제 완화 조치 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
-
-Windows 7에서 .NET 8 애플리케이션을 실행할 때 메모리 사용량이 비정상적으로 증가하는 문제가 있습니다. 아래의 완화 조치를 참조하세요. Windows 8/8.1은 테스트되지 않았습니다. 동일한 문제가 있는 경우, 문서를 업데이트할 수 있도록 Issue를 제출해 주세요.
-
-1. `컴퓨터`를 열고 빈 공간을 마우스 오른쪽 버튼으로 클릭하여 속성을 클릭하고, 왼쪽의 `고급 시스템 설정`을 클릭한 다음 `환경 변수`를 클릭합니다.
-2. 새 시스템 변수를 만들고, 변수 이름을 `DOTNET_EnableWriteXorExecute`, 변수 값을 `0`으로 설정합니다.
-3. 컴퓨터를 재시작합니다.
+.NET 10은 Windows 7 / 8 / 8.1 시스템을 지원하지 않으므로<sup>[출처](https://github.com/dotnet/core/issues/7556)</sup>, MAA도 더 이상 지원하지 않습니다.
 
 ## 연결 오류
 

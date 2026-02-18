@@ -321,7 +321,7 @@
     <system:String x:Key="SpecifiedDropsTip">该选项不会自动计算最优关卡</system:String>
     <system:String x:Key="StartupUpdateCheck">启动时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
-    <system:String x:Key="UpdateAutoCheckTip">04:00 / 22:00 Server Time</system:String>
+    <system:String x:Key="UpdateAutoCheckTip">游戏内 00:00 / 18:00（对应服务器当地时间 04:00 / 22:00）</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自动安装更新包</system:String>
     <system:String x:Key="UpdateCheckStable">正式版</system:String>
@@ -432,6 +432,7 @@
     <system:String x:Key="StartGameLaunchClient">是否启动客户端</system:String>
     <system:String x:Key="AutoRestartOption">游戏掉线时自动重连</system:String>
     <system:String x:Key="UseWeeklySchedule">启用周计划</system:String>
+    <system:String x:Key="UseWeeklyScheduleTip">此处星期根据游戏时间计算，并非现实时间。例如游戏在 4:00 刷新，则 3:59 仍算作前一天。</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服适配滞销，帮帮我们！不会编程也可以。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">启动 MAA 后自动开启模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
