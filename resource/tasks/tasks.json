@@ -2100,6 +2100,8 @@
         "text": ["访问下位"],
         "action": "ClickSelf",
         "roi": [1080, 570, 200, 130],
+        "maxTimes": 20,
+        "exceededNext": ["Home@ReturnButtons#next"],
         "next": ["VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
     },
     "MallBegin": {
