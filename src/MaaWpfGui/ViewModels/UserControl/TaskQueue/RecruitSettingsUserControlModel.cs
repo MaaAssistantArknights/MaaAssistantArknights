@@ -18,10 +18,9 @@ using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.Services;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
-using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -165,12 +164,14 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
         set => SetTaskConfig<RecruitTask>(t => t.Level5Choose == value, t => t.Level5Choose = value);
     }
 
+    [PropertyDependsOn(nameof(ChooseLevel3Time))]
     public int ChooseLevel3Hour
     {
         get => ChooseLevel3Time / 60;
         set => ChooseLevel3Time = (value * 60) + ChooseLevel3Min;
     }
 
+    [PropertyDependsOn(nameof(ChooseLevel3Time))]
     public int ChooseLevel3Min
     {
         get => (ChooseLevel3Time % 60) / 10 * 10;
@@ -190,12 +191,14 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
+    [PropertyDependsOn(nameof(ChooseLevel4Time))]
     public int ChooseLevel4Hour
     {
         get => ChooseLevel4Time / 60;
         set => ChooseLevel4Time = (value * 60) + ChooseLevel4Min;
     }
 
+    [PropertyDependsOn(nameof(ChooseLevel4Time))]
     public int ChooseLevel4Min
     {
         get => (ChooseLevel4Time % 60) / 10 * 10;
@@ -215,12 +218,14 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
+    [PropertyDependsOn(nameof(ChooseLevel5Time))]
     public int ChooseLevel5Hour
     {
         get => ChooseLevel5Time / 60;
         set => ChooseLevel5Time = (value * 60) + ChooseLevel5Min;
     }
 
+    [PropertyDependsOn(nameof(ChooseLevel5Time))]
     public int ChooseLevel5Min
     {
         get => (ChooseLevel5Time % 60) / 10 * 10;

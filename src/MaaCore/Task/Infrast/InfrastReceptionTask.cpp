@@ -74,6 +74,16 @@ bool asst::InfrastReceptionTask::_run()
     return true;
 }
 
+bool asst::InfrastReceptionTask::on_run_fails()
+{
+    if (asst::InfrastAbstractTask::on_run_fails()) {
+        return true;
+    }
+
+    ProcessTask(*this, { "CloseSendClue", "Stop" }).run();
+    return asst::InfrastAbstractTask::on_run_fails();
+}
+
 bool asst::InfrastReceptionTask::receive_message_board()
 {
     return ProcessTask(*this, { "InfrastReceptionReceiveMessageBoard" }).run();

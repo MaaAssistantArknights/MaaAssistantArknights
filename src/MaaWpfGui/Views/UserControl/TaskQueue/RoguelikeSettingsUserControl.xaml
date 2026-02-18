@@ -396,7 +396,7 @@
                 <hc:TextBox.Text>
                     <Binding Path="RoguelikeSeed" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <hc:RegexRule Pattern="^[\da-zA-Z]+,rogue_\d,\d$" />
+                            <hc:RegexRule Pattern="^[\da-zA-Z]+,rogue_\d+,\d+$" />
                         </Binding.ValidationRules>
                     </Binding>
                 </hc:TextBox.Text>
@@ -406,7 +406,8 @@
                 HorizontalAlignment="Center"
                 FontWeight="Bold"
                 Text="{DynamicResource MultiTasksShareTip}"
-                TextAlignment="Center" />
+                TextWrapping="Wrap"
+                TextAlignment="Left" />
             <CheckBox Margin="0,10" IsChecked="{Binding RoguelikeDelayAbortUntilCombatComplete}">
                 <TextBlock
                     Block.TextAlignment="Left"
