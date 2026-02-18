@@ -1061,11 +1061,31 @@ public class ToolboxViewModel : Screen
 
         private static int ExtractIdNumber(string id)
         {
-            // char_002_amiya
-            //      ↑取中间
-            int start = id.IndexOf('_') + 1;
-            int end = id.IndexOf('_', start);
-            return int.Parse(id.AsSpan(start, end - start));
+            // Expected format: "char_002_amiya"
+            if (string.IsNullOrEmpty(id))
+            {
+                return 0;
+            }
+
+            int firstUnderscore = id.IndexOf('_');
+            if (firstUnderscore < 0 || firstUnderscore >= id.Length - 1)
+            {
+                return 0;
+            }
+
+            int secondUnderscore = id.IndexOf('_', firstUnderscore + 1);
+            if (secondUnderscore < 0 || secondUnderscore <= firstUnderscore + 1)
+            {
+                return 0;
+            }
+
+            ReadOnlySpan<char> numericSpan = id.AsSpan(firstUnderscore + 1, secondUnderscore - firstUnderscore - 1);
+            if (int.TryParse(numericSpan, out int value))
+            {
+                return value;
+            }
+
+            return 0;
         }
     }
 
