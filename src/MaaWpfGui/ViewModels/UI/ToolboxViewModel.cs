@@ -300,7 +300,7 @@ public class ToolboxViewModel : Screen
         set => ChooseLevel4Time = (value * 60) + ChooseLevel4Min;
     }
 
-    [PropertyDependsOn(nameof(ChooseLevel3Time))]
+    [PropertyDependsOn(nameof(ChooseLevel4Time))]
     public int ChooseLevel4Min
     {
         get => (ChooseLevel4Time % 60) / 10 * 10;
