@@ -731,7 +731,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// <summary>
     /// Restarts the application with administrator privileges via UAC elevation.
     /// </summary>
-    /// <returns><c>true</c> if the elevated process was started successfully; <c>false</c> if the user declined UAC or the launch failed.</returns>
+    /// <returns><c>true</c> if the elevated process was started successfully; <c>false</c> if the elevation failed.</returns>
     public static bool RestartAsAdmin()
     {
         if (Environment.ProcessPath is null)
@@ -752,7 +752,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             Execute.OnUIThread(Application.Current.Shutdown);
             return true;
         }
-        catch (System.ComponentModel.Win32Exception)
+        catch (Exception)
         {
             return false;
         }

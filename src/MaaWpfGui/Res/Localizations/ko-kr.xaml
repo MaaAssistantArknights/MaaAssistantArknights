@@ -1248,6 +1248,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Administrator">관리자</system:String>
     <system:String x:Key="AttachWindowNeedAdmin">PC 연결에는 관리자 권한이 필요합니다.\n관리자로 MAA를 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="RestartingAsAdmin">관리자로 다시 시작하는 중…</system:String>
+    <system:String x:Key="RestartAsAdminFailed">MAA를 관리자 권한으로 직접 실행해 주세요.</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
     <system:String x:Key="UseAttachWindowTip">에뮬레이터나 휴대폰용 ADB 연결 대신 명일방주 PC 클라이언트에 Win32 창 바인딩을 사용합니다</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 연결 (실험적 기능이며 안정성은 보장되지 않습니다)

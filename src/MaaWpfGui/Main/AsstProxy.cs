@@ -2484,12 +2484,20 @@ public class AsstProxy
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question));
 
-            if (result == MessageBoxResult.Yes)
+            if (result == MessageBoxResult.No)
             {
-                Bootstrapper.RestartAsAdmin();
-                error = LocalizationHelper.GetString("RestartingAsAdmin");
+                error = LocalizationHelper.GetString("RestartAsAdminFailed");
                 return false;
             }
+
+            if (!Bootstrapper.RestartAsAdmin())
+            {
+                _logger.Error("Failed to elevate to administrator");
+                error = LocalizationHelper.GetString("RestartAsAdminFailed");
+                return false;
+            }
+
+            return false;
         }
 
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Warning);
