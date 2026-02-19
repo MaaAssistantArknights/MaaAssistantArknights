@@ -2475,6 +2475,23 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     private bool AsstAttachWindowConnect(ref string error)
     {
+        if (!Bootstrapper.IsUserAdministrator())
+        {
+            var result = Application.Current.Dispatcher.Invoke(() =>
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("AttachWindowNeedAdmin"),
+                    "MAA",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question));
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Bootstrapper.RestartAsAdmin();
+                error = LocalizationHelper.GetString("RestartingAsAdmin");
+                return false;
+            }
+        }
+
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Warning);
 
         const string TargetWindowName = "明日方舟";

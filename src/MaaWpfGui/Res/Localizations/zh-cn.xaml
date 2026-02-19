@@ -1244,6 +1244,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AttachWindowNotFound">未找到窗口 "{0}"，请确保游戏已启动</system:String>
     <system:String x:Key="AttachWindowMultipleFound">找到 {0} 个 "{1}" 窗口，将使用第一个</system:String>
     <system:String x:Key="AttachWindowFound">找到窗口 "{0}"</system:String>
+    <system:String x:Key="AttachWindowNeedAdmin">PC 端连接需要管理员权限。\n是否以管理员身份重启 MAA？</system:String>
+    <system:String x:Key="RestartingAsAdmin">正在以管理员身份重启…</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 绑定窗口失败，请检查截图/输入方式配置</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 窗口绑定明日方舟 PC 端，而非 ADB 连接模拟器或手机</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">连接 PC 端（实验性功能，稳定性无法保证）

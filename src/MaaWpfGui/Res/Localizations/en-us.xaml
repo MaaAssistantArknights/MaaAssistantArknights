@@ -1243,6 +1243,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="AttachWindowNotFound">Window "{0}" not found, please ensure the game is running</system:String>
     <system:String x:Key="AttachWindowMultipleFound">Found {0} "{1}" windows, using the first one</system:String>
     <system:String x:Key="AttachWindowFound">Found window "{0}"</system:String>
+    <system:String x:Key="AttachWindowNeedAdmin">PC connection requires administrator privileges.\nRestart MAA as administrator?</system:String>
+    <system:String x:Key="RestartingAsAdmin">Restarting as administrator…</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
     <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC connection (experimental feature, stability not guaranteed)
