@@ -2069,7 +2069,7 @@
         "pureColor": true,
         "roi": [952, 105, 267, 601],
         "templThreshold": 0.8,
-        "next": ["VisitNext", "VisitNext@LoadingText", "VisitNextOcr"],
+        "next": ["VisitNext", "VisitNext@LoadingText", "VisitNextBlack"],
         "postDelay": 2000
     },
     "VisitNext": {
@@ -2082,24 +2082,18 @@
             ]
         ],
         "roi": [1080, 570, 200, 130],
-        "next": ["VisitLimited", "VisitNextOcr"]
+        "next": ["VisitLimited", "VisitNext", "VisitNextBlack"]
     },
     "VisitNextBlack": {
         "method": "HSVCount",
         "colorScales": [
             [
-                [0, 0, 40],
+                [0, 0, 0],
                 [179, 20, 80]
             ]
         ],
         "roi": [1080, 570, 200, 130],
         "next": ["Home@ReturnButtons#next"]
-    },
-    "VisitNextOcr": {
-        "algorithm": "OcrDetect",
-        "text": ["访问下位"],
-        "roi": [1080, 570, 200, 130],
-        "next": ["VisitLimited", "VisitNext", "VisitNextBlack"]
     },
     "MallBegin": {
         "algorithm": "JustReturn",
