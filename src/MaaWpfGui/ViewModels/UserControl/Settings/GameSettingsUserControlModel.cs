@@ -46,7 +46,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
     public bool StartGame
     {
-        get => field;
+        get => SettingsViewModel.ConnectSettings.UseAttachWindow ? false : field;
         set {
             SetAndNotify(ref field, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.StartGame, value.ToString());
