@@ -5,6 +5,7 @@
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
+#include <deque>
 
 #include "Platform/PlatformFactory.h"
 
@@ -70,6 +71,10 @@ protected:
     std::string m_address;
     std::pair<int, int> m_screen_size = { 0, 0 };
 
+    std::deque<long long> m_screencap_cost; // 截图用时
+    int m_screencap_times = 0;              // 截图次数
+    bool m_screencap_cost_reported = false; // 是否已报告截图耗时
+    
     enum class TouchPhase
     {
         Began = 0,
@@ -93,5 +98,6 @@ private:
     bool check_version();
     bool fetch_screen_res();
     bool toucher_commit(const TouchPhase phase, const Point& p, const int delay);
+    void recordScreencapCost(long long cost, bool success);
 };
 } // namespace asst

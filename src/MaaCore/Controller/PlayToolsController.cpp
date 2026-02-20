@@ -1,6 +1,9 @@
 #include "PlayToolsController.h"
 
 #include <boost/asio.hpp>
+#include <chrono>
+#include <numeric>
+#include <ranges>
 
 #include "Config/GeneralConfig.h"
 #include "MaaUtils/NoWarningCV.hpp"
@@ -61,11 +64,16 @@ size_t asst::PlayToolsController::get_version() const noexcept
 
 bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
+    using namespace std::chrono;
     LogTraceFunction;
+
+    auto start_time = high_resolution_clock::now();
+    bool screencap_ret = false;
 
     open();
     uint32_t image_size = 0;
 
+    auto request_start = high_resolution_clock::now();
     try {
         constexpr char request[6] = { 0, 4, 'S', 'C', 'R', 'N' };
         boost::asio::write(m_socket, boost::asio::buffer(request));
@@ -74,25 +82,48 @@ bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_rec
     }
     catch (const std::exception& e) {
         Log.error("Cannot get screencap:", e.what());
+        auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+        recordScreencapCost(duration.count(), false);
         return false;
     }
+    auto request_time = duration_cast<milliseconds>(high_resolution_clock::now() - request_start).count();
 
     if (image_size == 0) {
         Log.error("Cannot get screencap: invalid image size");
+        auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+        recordScreencapCost(duration.count(), false);
         return false;
     }
 
     try {
         std::vector<uint8_t> buffer(image_size);
+        
+        auto recv_start = high_resolution_clock::now();
         boost::asio::read(m_socket, boost::asio::buffer(buffer, image_size));
+        auto recv_time = duration_cast<milliseconds>(high_resolution_clock::now() - recv_start).count();
+        
+        auto convert_start = high_resolution_clock::now();
         image_payload = cv::Mat(m_screen_size.second, m_screen_size.first, CV_8UC4, buffer.data());
         cv::cvtColor(image_payload, image_payload, cv::COLOR_RGBA2BGR);
+        auto convert_time = duration_cast<milliseconds>(high_resolution_clock::now() - convert_start).count();
+        
+        screencap_ret = true;
+        
+        // 记录详细的性能分析（前 5 次）
+        if (m_screencap_times < 5) {
+            Log.info("PlayTools screencap breakdown: request=", request_time, "ms, recv=", recv_time, 
+                    "ms, convert=", convert_time, "ms, size=", image_size / 1024, "KB");
+        }
     }
     catch (const std::exception& e) {
         Log.error("Cannot get screencap:", e.what());
+        auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+        recordScreencapCost(duration.count(), false);
         return false;
     }
 
+    auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+    recordScreencapCost(duration.count(), screencap_ret);
     return true;
 }
 
@@ -229,7 +260,11 @@ void asst::PlayToolsController::toucher_wait(const int delay)
 void asst::PlayToolsController::close()
 {
     m_screen_size = { 0, 0 };
-
+    // 重置截图性能统计数据
+    m_screencap_cost.clear();
+    m_screencap_times = 0;
+    m_screencap_cost_reported = false;
+    
     if (m_socket.is_open()) {
         try {
             m_socket.shutdown(tcp::socket::shutdown_both);
@@ -355,4 +390,49 @@ bool asst::PlayToolsController::toucher_commit(const TouchPhase phase, const Poi
 
     toucher_wait(delay);
     return true;
+}
+
+void asst::PlayToolsController::recordScreencapCost(long long cost, bool success)
+{
+    // 记录截图耗时，仅在首次（开始任务时）统计并显示一次
+    m_screencap_cost.emplace_back(success ? cost : -1);
+    ++m_screencap_times;
+
+    if (m_screencap_cost.size() > 30) {
+        m_screencap_cost.pop_front();
+    }
+
+    // 只在首次达到10次截图时统计并显示一次
+    if (m_screencap_times > 9 && !m_screencap_cost_reported) {
+        m_screencap_cost_reported = true; // 标记已报告，后续不再显示
+        
+        auto filtered_cost = m_screencap_cost | std::views::filter([](auto num) { return num > 0; });
+        if (filtered_cost.empty()) {
+            return;
+        }
+
+        // 过滤后的有效截图用时次数
+        auto filtered_count = m_screencap_cost.size() - std::ranges::count(m_screencap_cost, -1);
+        auto [screencap_cost_min, screencap_cost_max] = std::ranges::minmax(filtered_cost);
+
+        json::value info = json::object {
+            { "uuid", get_uuid() },
+            { "what", "ScreencapCost" },
+            { "details",
+              json::object {
+                  { "min", screencap_cost_min },
+                  { "max", screencap_cost_max },
+                  { "avg",
+                    filtered_count > 0
+                        ? std::accumulate(filtered_cost.begin(), filtered_cost.end(), 0ll) / filtered_count
+                        : -1 },
+              } },
+        };
+
+        if (m_screencap_cost.size() > filtered_count) {
+            info["details"]["fault_times"] = m_screencap_cost.size() - filtered_count;
+        }
+
+        m_callback(AsstMsg::ConnectionInfo, info, inst());
+    }
 }
