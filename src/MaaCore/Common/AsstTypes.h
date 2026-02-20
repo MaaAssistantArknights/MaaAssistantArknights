@@ -85,6 +85,8 @@ constexpr Win32InputMethod LegacyEvent = 1ULL << 3;
 constexpr Win32InputMethod PostThreadMessage = 1ULL << 4;
 constexpr Win32InputMethod SendMessageWithCursorPos = 1ULL << 5;
 constexpr Win32InputMethod PostMessageWithCursorPos = 1ULL << 6;
+constexpr Win32InputMethod SendMessageWithWindowPos = 1ULL << 7;
+constexpr Win32InputMethod PostMessageWithWindowPos = 1ULL << 8;
 } // namespace Win32Input
 
 #endif // _WIN32
