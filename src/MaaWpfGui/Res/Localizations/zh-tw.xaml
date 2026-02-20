@@ -1255,7 +1255,8 @@ C:\\leidian\\LDPlayer9\n
 使用前請確認：
 1. 需以系統管理員身分啟動 MAA
 2. 遊戲視窗不可最小化
-3. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%</system:String>
+3. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%
+4. 遊戲解析度需為 16:9，推薦設定 720×1280 或 1080×1920</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>

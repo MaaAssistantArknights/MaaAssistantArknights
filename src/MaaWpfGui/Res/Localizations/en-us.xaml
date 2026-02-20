@@ -1254,7 +1254,8 @@ Due to limited development resources within the MAA Team, PC support lacks dedic
 Before use, please ensure:
 1. MAA is launched with administrator privileges
 2. The game window is not minimized
-3. Arknights Settings → Game → UI Scaling is set to 100%</system:String>
+3. Arknights Settings → Game → UI Scaling is set to 100%
+4. Game resolution must be 16:9, recommended settings: 720×1280 or 1080×1920</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
