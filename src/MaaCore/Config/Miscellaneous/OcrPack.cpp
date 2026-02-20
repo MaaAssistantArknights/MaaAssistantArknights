@@ -70,7 +70,7 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     return !m_det_model_path.empty() && !m_rec_model_path.empty() && !m_rec_label_path.empty();
 }
 
-asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool without_det)
+asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool without_det, const Rect& roi)
 {
     if (!check_and_load()) {
         Log.error(__FUNCTION__, "check_and_load failed");
@@ -127,7 +127,17 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
     auto costs =
         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
     std::string class_type = utils::demangle(typeid(*this).name());
-    Log.trace(class_type, raw_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
+    if (roi.x != 0 || roi.y != 0) {
+        ResultsVec log_results = raw_results;
+        for (auto& r : log_results) {
+            r.rect.x += roi.x;
+            r.rect.y += roi.y;
+        }
+        Log.trace(class_type, log_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
+    }
+    else {
+        Log.trace(class_type, raw_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
+    }
     return raw_results;
 }
 
