@@ -1,7 +1,5 @@
 #include "PlayToolsIPCController.h"
 
-#ifdef __APPLE__
-
 #include <opencv2/imgproc.hpp>
 #include <algorithm>
 #include <chrono>
@@ -9,14 +7,19 @@
 #include <numeric>
 #include <ranges>
 #include <sstream>
+#include <cstring>
+#include <time.h>
+#include <cerrno>
+
+#ifdef __APPLE__
+
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <sys/mman.h>
 #include <semaphore.h>
 #include <unistd.h>
-#include <cstring>
-#include <time.h>
-#include <cerrno>
+
+#endif // __APPLE__
 
 #include "Config/GeneralConfig.h"
 #include "MaaUtils/NoWarningCV.hpp"
@@ -40,8 +43,12 @@ PlayToolsIPCController::PlayToolsIPCController(
 
 PlayToolsIPCController::~PlayToolsIPCController()
 {
+#ifdef __APPLE__
     close();
+#endif
 }
+
+#ifdef __APPLE__
 
 bool PlayToolsIPCController::connect(
     const std::string& adb_path [[maybe_unused]],
@@ -1030,6 +1037,89 @@ void PlayToolsIPCController::recordScreencapCost(long long cost, bool success)
     }
 }
 
-} // namespace asst
+#else // Non-Apple platform stub implementations
+
+bool PlayToolsIPCController::connect(
+    const std::string& adb_path [[maybe_unused]],
+    const std::string& address [[maybe_unused]],
+    const std::string& config [[maybe_unused]])
+{
+    LogInfo << "PlayToolsIPC is only supported on macOS";
+    return false;
+}
+
+bool PlayToolsIPCController::inited() const noexcept
+{
+    return false;
+}
+
+const std::string& PlayToolsIPCController::get_uuid() const
+{
+    static const std::string uuid("com.hypergryph.arknights.ipc.unsupported");
+    return uuid;
+}
+
+size_t PlayToolsIPCController::get_pipe_data_size() const noexcept
+{
+    return 0;
+}
+
+size_t PlayToolsIPCController::get_version() const noexcept
+{
+    return 0;
+}
+
+bool PlayToolsIPCController::screencap(cv::Mat& image_payload [[maybe_unused]], bool allow_reconnect [[maybe_unused]])
+{
+    return false;
+}
+
+bool PlayToolsIPCController::start_game(const std::string& client_type [[maybe_unused]])
+{
+    return false;
+}
+
+bool PlayToolsIPCController::stop_game(const std::string& client_type [[maybe_unused]])
+{
+    return false;
+}
+
+bool PlayToolsIPCController::click(const Point& p [[maybe_unused]])
+{
+    return false;
+}
+
+bool PlayToolsIPCController::input(const std::string& text [[maybe_unused]])
+{
+    return false;
+}
+
+bool PlayToolsIPCController::swipe(
+    const Point& p1 [[maybe_unused]],
+    const Point& p2 [[maybe_unused]],
+    int duration [[maybe_unused]],
+    bool extra_swipe [[maybe_unused]],
+    double slope_in [[maybe_unused]],
+    double slope_out [[maybe_unused]],
+    bool with_pause [[maybe_unused]])
+{
+    return false;
+}
+
+bool PlayToolsIPCController::press_esc()
+{
+    return false;
+}
+
+std::pair<int, int> PlayToolsIPCController::get_screen_res() const noexcept
+{
+    return { 0, 0 };
+}
+
+void PlayToolsIPCController::back_to_home() noexcept
+{
+}
 
 #endif // __APPLE__
+
+} // namespace asst

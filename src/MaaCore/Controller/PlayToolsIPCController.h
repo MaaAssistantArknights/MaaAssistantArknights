@@ -223,6 +223,7 @@ private:
     static constexpr int MinimalVersion = 2;
     static constexpr uint32_t IPCMagic = 0x53435049; // 'IPCS'
     
+#ifdef __APPLE__
     void close();
     bool open();
     bool find_socket_path(std::string& socket_path) const;
@@ -241,6 +242,7 @@ private:
     bool wait_event(uint32_t expected_seq_id, int timeout_ms = 5000,
                     IPCEventPacket* out_pkt = nullptr);
     bool toucher_commit(IPCCommandType phase, const Point& p, const int delay);
+#endif
     void recordScreencapCost(long long cost, bool success);
     bool is_socket_alive() const noexcept;
     bool reconnect();
