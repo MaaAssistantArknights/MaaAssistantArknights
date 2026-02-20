@@ -23,6 +23,7 @@
 #include "MaatouchController.h"
 #include "MinitouchController.h"
 #include "PlayToolsController.h"
+#include "PlayToolsIPCController.h"
 #ifdef _WIN32
 #include "Win32Controller.h"
 #endif
@@ -63,6 +64,9 @@ std::shared_ptr<asst::ControllerAPI> asst::Controller::create_controller(
             break;
         case ControllerType::MacPlayTools:
             controller = std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
+            break;
+        case ControllerType::MacPlayToolsIPC:
+            controller = std::make_shared<PlayToolsIPCController>(m_callback, m_inst, platform_type);
             break;
         default:
             return nullptr;
@@ -367,6 +371,9 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
         break;
     case TouchMode::MacPlayTools:
         m_controller_type = ControllerType::MacPlayTools;
+        break;
+    case TouchMode::MacPlayToolsIPC:
+        m_controller_type = ControllerType::MacPlayToolsIPC;
         break;
     default:
         m_controller_type = ControllerType::Minitouch;

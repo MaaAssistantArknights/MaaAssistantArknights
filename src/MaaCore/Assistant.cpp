@@ -133,6 +133,10 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
             return true;
         }
+        else if (constexpr std::string_view MacPlayToolsIPC = "MacPlayToolsIPC"; value == MacPlayToolsIPC) {
+            m_ctrler->set_touch_mode(TouchMode::MacPlayToolsIPC);
+            return true;
+        }
         break;
     case InstanceOptionKey::DeploymentWithPause:
         if (constexpr std::string_view Enable = "1"; value == Enable) {

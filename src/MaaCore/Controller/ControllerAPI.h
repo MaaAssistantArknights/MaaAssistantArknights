@@ -14,7 +14,8 @@ enum class ControllerType
     Adb,
     Minitouch,
     Maatouch,
-    MacPlayTools,
+    MacPlayTools,      // PlayCover TCP 通信
+    MacPlayToolsIPC,   // PlayCover IPC 通信（测试中）
 #ifdef _WIN32
     Win32,
 #endif

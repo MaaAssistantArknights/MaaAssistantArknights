@@ -53,7 +53,8 @@ enum class TouchMode
     Adb = 0,
     Minitouch = 1,
     Maatouch = 2,
-    MacPlayTools = 3,
+    MacPlayTools = 3,      // TCP Socket 通信
+    MacPlayToolsIPC = 4,   // IPC 通信（测试中）
 };
 
 #ifdef _WIN32
