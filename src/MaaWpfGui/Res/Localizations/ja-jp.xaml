@@ -1267,6 +1267,8 @@ MAA Team の開発リソースが限られているため、PC 対応は専任�
     <system:String x:Key="AttachWindowInputSeize">Seize（フォアグラウンド、より安定）</system:String>
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor（半バックグラウンド）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor（半バックグラウンド、予備）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMessageWithWindowPos（バックグラウンドウィンドウ）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMessageWithWindowPos（バックグラウンドウィンドウ、予備）</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAAの強制表示</system:String>

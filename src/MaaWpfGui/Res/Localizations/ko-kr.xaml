@@ -1268,6 +1268,8 @@ MAA Team의 개발 인력이 제한되어 있어 PC 지원은 전담 관리가 �
     <system:String x:Key="AttachWindowInputSeize">Seize (포그라운드, 더 안정적)</system:String>
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor (반 백그라운드)</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor (반 백그라운드, 백업)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMessageWithWindowPos (백그라운드 윈도우)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMessageWithWindowPos (백그라운드 윈도우, 백업)</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAA 강제 표시</system:String>

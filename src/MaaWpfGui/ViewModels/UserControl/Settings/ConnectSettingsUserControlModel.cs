@@ -1243,6 +1243,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         new() { Display = LocalizationHelper.GetString("AttachWindowInputSeize"), Value = "1" },
         new() { Display = LocalizationHelper.GetString("AttachWindowInputPostWithCursor"), Value = "64" },
         new() { Display = LocalizationHelper.GetString("AttachWindowInputSendWithCursor"), Value = "32" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputPostWithWindowPos"), Value = "256" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputSendWithWindowPos"), Value = "128" },
     ];
 
     private string _attachWindowMouseMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowMouseMethod, "64"); // 默认 PostMessageWithCursorPos
