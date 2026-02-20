@@ -1267,6 +1267,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="AttachWindowInputSeize">Seize（前台，更穩定）</system:String>
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor（半背景）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor（半背景，備用）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMessageWithWindowPos（後台視窗）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMessageWithWindowPos（後台視窗，備用）</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">強制顯示 MAA</system:String>
