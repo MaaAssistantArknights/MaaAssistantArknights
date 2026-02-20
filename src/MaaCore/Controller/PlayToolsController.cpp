@@ -404,16 +404,20 @@ void asst::PlayToolsController::recordScreencapCost(long long cost, bool success
 
     // 只在首次达到10次截图时统计并显示一次
     if (m_screencap_times > 9 && !m_screencap_cost_reported) {
-        m_screencap_cost_reported = true; // 标记已报告，后续不再显示
-        
         auto filtered_cost = m_screencap_cost | std::views::filter([](auto num) { return num > 0; });
-        if (filtered_cost.empty()) {
+        
+        // 检查是否有有效数据
+        if (std::ranges::begin(filtered_cost) == std::ranges::end(filtered_cost)) {
             return;
         }
 
+        m_screencap_cost_reported = true; // 标记已报告，后续不再显示
+
         // 过滤后的有效截图用时次数
         auto filtered_count = m_screencap_cost.size() - std::ranges::count(m_screencap_cost, -1);
-        auto [screencap_cost_min, screencap_cost_max] = std::ranges::minmax(filtered_cost);
+        auto [min_it, max_it] = std::ranges::minmax_element(filtered_cost);
+        auto screencap_cost_min = *min_it;
+        auto screencap_cost_max = *max_it;
 
         json::value info = json::object {
             { "uuid", get_uuid() },
