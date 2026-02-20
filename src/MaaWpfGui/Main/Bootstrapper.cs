@@ -664,6 +664,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             }
         }
 
+        if (_restartStartInfo is not null)
+        {
+            Process.Start(_restartStartInfo);
+            return;
+        }
+
         if (!_isRestartingWithoutArgs)
         {
             return;
@@ -702,6 +708,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     private static bool _isRestartingWithoutArgs;
+    private static ProcessStartInfo _restartStartInfo;
 
     /// <summary>
     /// 重启，不带参数
@@ -711,6 +718,18 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         _isRestartingWithoutArgs = true;
         _logger.Information("Shutdown and restart without Args, call by `{Caller}`", caller);
+        Execute.OnUIThread(Application.Current.Shutdown);
+    }
+
+    /// <summary>
+    /// 重启，使用自定义启动参数
+    /// </summary>
+    /// <param name="startInfo">新进程的启动参数。</param>
+    /// <param name="caller">Caller Member Name</param>
+    public static void ShutdownAndRestartWith(ProcessStartInfo startInfo, [CallerMemberName] string caller = "")
+    {
+        _restartStartInfo = startInfo;
+        _logger.Information("Shutdown and restart with custom StartInfo, call by `{Caller}`", caller);
         Execute.OnUIThread(Application.Current.Shutdown);
     }
 
@@ -729,33 +748,21 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     /// <summary>
-    /// Restarts the application with administrator privileges via UAC elevation.
+    /// 以管理员权限重启应用，UAC 弹窗在退出时触发。
     /// </summary>
-    /// <returns><c>true</c> if the elevated process was started successfully; <c>false</c> if the elevation failed.</returns>
-    public static bool RestartAsAdmin()
+    public static void RestartAsAdmin()
     {
         if (Environment.ProcessPath is null)
         {
-            return false;
+            return;
         }
 
-        try
+        ShutdownAndRestartWith(new ProcessStartInfo
         {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = Environment.ProcessPath,
-                UseShellExecute = true,
-                Verb = "runas",
-            };
-
-            Process.Start(startInfo);
-            Execute.OnUIThread(Application.Current.Shutdown);
-            return true;
-        }
-        catch (Exception)
-        {
-            return false;
-        }
+            FileName = Environment.ProcessPath,
+            UseShellExecute = true,
+            Verb = "runas",
+        });
     }
 
     private static bool _isWaitingToRestart;

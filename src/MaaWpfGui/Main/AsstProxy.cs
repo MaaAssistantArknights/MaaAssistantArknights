@@ -2490,13 +2490,7 @@ public class AsstProxy
                 return false;
             }
 
-            if (!Bootstrapper.RestartAsAdmin())
-            {
-                _logger.Error("Failed to elevate to administrator");
-                error = LocalizationHelper.GetString("RestartAsAdminFailed");
-                return false;
-            }
-
+            Bootstrapper.RestartAsAdmin();
             return false;
         }
 
