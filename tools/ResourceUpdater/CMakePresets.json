@@ -1,11 +1,56 @@
 {
     "version": 10,
-    "cmakeMinimumRequired": { "major": 3, "minor": 28, "patch": 0 },
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 28,
+        "patch": 0
+    },
     "configurePresets": [
         {
-            "name": "res-updater-macos-arm64",
-            "displayName": "ResourceUpdater macOS arm64 Release",
-            "$comment": ["see .github/workflows/res-update-game.yml"],
+            "name": "windows-x64-clang",
+            "displayName": "Windows x64 (clang-cl)",
+            "$comment": [
+                "NOT for building — only for generating compile_commands.json for clangd / VS Code",
+                "run from 'x64 Native Tools Command Prompt for VS' or ensure clang-cl is in PATH",
+                "to build, use windows-x64 preset with Visual Studio generator"
+            ],
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang-cl",
+                "CMAKE_CXX_COMPILER": "clang-cl",
+                "CMAKE_C_COMPILER_TARGET": "x86_64-pc-windows-msvc",
+                "CMAKE_CXX_COMPILER_TARGET": "x86_64-pc-windows-msvc",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "MAADEPS_TRIPLET": "maa-x64-windows"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "windows-x64",
+            "displayName": "Windows x64",
+            "generator": "Visual Studio 18 2026",
+            "architecture": "x64",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "MAADEPS_TRIPLET": "maa-x64-windows"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "macos-arm64",
+            "displayName": "macOS arm64 Release",
+            "$comment": [
+                "see .github/workflows/res-update-game.yml"
+            ],
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
@@ -18,9 +63,27 @@
     ],
     "buildPresets": [
         {
-            "name": "res-updater-macos-arm64",
-            "displayName": "Build ResourceUpdater macOS arm64",
-            "configurePreset": "res-updater-macos-arm64"
+            "name": "windows-x64-Debug",
+            "displayName": "Build Windows x64 Debug",
+            "configurePreset": "windows-x64",
+            "configuration": "Debug"
+        },
+        {
+            "name": "windows-x64-Release",
+            "displayName": "Build Windows x64 Release",
+            "configurePreset": "windows-x64",
+            "configuration": "Release"
+        },
+        {
+            "name": "windows-x64-RelWithDebInfo",
+            "displayName": "Build Windows x64 RelWithDebInfo",
+            "configurePreset": "windows-x64",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "macos-arm64",
+            "displayName": "Build macOS arm64",
+            "configurePreset": "macos-arm64"
         }
     ]
 }

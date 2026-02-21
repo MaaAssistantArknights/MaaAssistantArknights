@@ -189,8 +189,8 @@ jobs:
         if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
           cd tools/ResourceUpdater
-          cmake --preset res-updater-macos-arm64
-          cmake --build --preset res-updater-macos-arm64 --parallel $(sysctl -n hw.logicalcpu)
+          cmake --preset macos-arm64
+          cmake --build --preset macos-arm64 --parallel $(sysctl -n hw.logicalcpu)
           cmake --install build --config Release
 
       - name: Save ResourceUpdater to cache
