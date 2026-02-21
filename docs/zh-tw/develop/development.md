@@ -155,7 +155,27 @@ icon: iconoir:developer
 2. **CMake Tools**：
    - 於狀態列選擇 Configure Preset（如 `windows-x64`、`linux-x64` 等）
    - 選擇 Build Preset，執行設定與建置
-3. **clangd**：在 Windows 上搭配 MSVC 使用時無需 `compile_commands.json` 即可正常開發。Linux/macOS 下預設已開啟 `CMAKE_EXPORT_COMPILE_COMMANDS`，clangd 會自動使用 `build/compile_commands.json`
+3. **clangd**：Linux/macOS 下預設已開啟 `CMAKE_EXPORT_COMPILE_COMMANDS`，clangd 會自動使用 `build/compile_commands.json`。在 Windows 上如需 clangd 的補全與跳轉，需先生成 `compile_commands.json`：
+
+   ::: warning Windows 下 clangd 設定說明
+   - 在 VS Installer 中勾選安裝 **用於 Windows 的 C++ Clang 編譯器**（clang-cl）
+   - 需切換為 `windows-x64-clang` 執行一次 Configure 以在 `build/` 下生成 `compile_commands.json`，此後 clangd 即可使用
+   - **該 preset 使用 clang-cl 而非 MSVC，無法直接編譯出可用產物**，實際建置時必須切回 `windows-x64`
+   - clangd 基於 clang-cl 的編譯資訊進行分析，部分程式碼（如 MSVC 特有擴充）可能仍會顯示報錯，可忽略，不影響實際 MSVC 編譯
+
+   **命令列切換 preset 範例**（在專案根目錄執行）：
+
+   ```cmd
+   rem 生成 compile_commands.json（僅 Configure，不建置）
+   cmake --preset windows-x64-clang
+
+   rem 切回 MSVC 進行實際建置
+   cmake --preset windows-x64
+   cmake --build --preset windows-x64-RelWithDebInfo
+   ```
+
+   :::
+
 4. **除錯**：專案已包含 `.vscode/launch.json`，可直接啟動 MaaWpfGui 或 Debug Demo 進行除錯
 
 ### 快速建置與除錯

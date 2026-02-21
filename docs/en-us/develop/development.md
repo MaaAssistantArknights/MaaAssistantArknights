@@ -154,7 +154,27 @@ When using clangd, set `C_Cpp.intelliSenseEngine` to `disabled` to avoid conflic
 2. **CMake Tools**:
    - Select a Configure Preset from the status bar (e.g. `windows-x64`, `linux-x64`)
    - Select a Build Preset and run configure/build
-3. **clangd**: Works on Windows with MSVC without needing `compile_commands.json`. On Linux/macOS, presets enable `CMAKE_EXPORT_COMPILE_COMMANDS` and clangd uses `build/compile_commands.json` automatically
+3. **clangd**: On Linux/macOS, presets enable `CMAKE_EXPORT_COMPILE_COMMANDS` and clangd uses `build/compile_commands.json` automatically. On Windows, clangd's code completion and navigation require generating `compile_commands.json` first:
+
+   ::: warning clangd Setup on Windows
+   - In **VS Installer**, check **C++ Clang compiler for Windows** (clang-cl)
+   - Switch to the `windows-x64-clang` preset and run Configure once to generate `compile_commands.json` in `build/`, then clangd will work
+   - **This preset uses clang-cl instead of MSVC and cannot produce valid build artifacts**; switch back to `windows-x64` for actual builds
+   - clangd analyzes based on clang-cl; some code (e.g. MSVC-specific extensions) may show errors—these can be ignored and do not affect MSVC compilation
+
+   **Command-line preset switching example** (run from project root):
+
+   ```cmd
+   rem Generate compile_commands.json (Configure only, no build)
+   cmake --preset windows-x64-clang
+
+   rem Switch back to MSVC for actual build
+   cmake --preset windows-x64
+   cmake --build --preset windows-x64-RelWithDebInfo
+   ```
+
+   :::
+
 4. **Debugging**: The project includes `.vscode/launch.json` for launching MaaWpfGui or Debug Demo
 
 ### Build and Debug Shortcuts
