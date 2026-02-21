@@ -1230,9 +1230,10 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_totem_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_encounter_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_char_names;
+    // static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_coppers_names;
 
     if (base_stage_names.empty() || base_item_names.empty() || base_totem_names.empty() ||
-        base_encounter_names.empty()) {
+        base_encounter_names.empty() || base_char_names.empty() /*|| base_coppers_names.empty()*/) {
         auto rg_opt = json::open(base_dir / "roguelike_topic_table.json");
         if (!rg_opt) {
             std::cerr << "Failed to open roguelike_topic_table for" << base_dir << '\n';
@@ -1257,6 +1258,10 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
                     if (id.starts_with(rogue_index + "_totem")) {
                         base_totem_names.emplace(id, item_obj["name"].as_string());
                     }
+                    // if (id.starts_with(rogue_index + "_copper") && !id.starts_with(rogue_index + "_copper_draw") &&
+                    //     !id.starts_with(rogue_index + "_copper_buff")) {
+                    //     base_coppers_names.emplace(id, item_obj["name"].as_string());
+                    // }
                 }
             }
             for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
@@ -1296,6 +1301,7 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
     std::unordered_map</*id*/ std::string, /*name*/ std::string> totem_names;
     std::unordered_map</*id*/ std::string, /*name*/ std::string> encounter_names;
     std::unordered_map</*id*/ std::string, /*name*/ std::string> char_names;
+    // std::unordered_map</*id*/ std::string, /*name*/ std::string> coppers_names;
 
     bool remove_spaces = input_dir.string().ends_with("kr\\gamedata\\excel");
 
@@ -1344,6 +1350,15 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
                 }
                 totem_names.emplace(id, name_buffer);
             }
+
+            // if (id.starts_with(rogue_index + "_copper") && !id.starts_with(rogue_index + "_copper_draw") &&
+            //     !id.starts_with(rogue_index + "_copper_buff")) {
+            //     name_buffer = item_obj["name"].as_string();
+            //     if (remove_spaces) {
+            //         name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
+            //     }
+            //     coppers_names.emplace(id, name_buffer);
+            // }
         }
 
         for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
@@ -1400,6 +1415,14 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
     }
     auto& roguelike_sami_json = roguelike_sami_opt.value();
 
+    // auto roguelike_jiegarden_path = tasks_base_path / "Roguelike" / "Jiegarden.json";
+    // auto roguelike_jiegarden_opt = json::open(roguelike_jiegarden_path);
+    // if (!roguelike_jiegarden_opt) {
+    //     std::cerr << "Failed to open Roguelike Jiegarden file: " << roguelike_jiegarden_path << '\n';
+    //     return false;
+    // }
+    // auto& roguelike_jiegarden_json = roguelike_jiegarden_opt.value();
+
     auto proc = [](json::array& replace_array,
                    const std::unordered_map<std::string, std::string>& base_map,
                    const std::unordered_map<std::string, std::string>& cur_map) {
@@ -1435,6 +1458,7 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
         base_totem_names,
         totem_names);
     proc(roguelike_sami_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
+    // proc(roguelike_jiegarden_json["JieGarden@Roguelike@CoppersNameOcrReplace"]["ocrReplace"].as_array(), base_coppers_names, coppers_names);
     proc(roguelike_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(), base_encounter_names, encounter_names);
 
     std::ofstream tasks_ofs(tasks_path, std::ios::out);
@@ -1448,6 +1472,10 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
     std::ofstream roguelike_sami_ofs(roguelike_sami_path, std::ios::out);
     roguelike_sami_ofs << roguelike_sami_json.format() << '\n';
     roguelike_sami_ofs.close();
+
+    // std::ofstream roguelike_jiegarden_ofs(roguelike_jiegarden_path, std::ios::out);
+    // roguelike_jiegarden_ofs << roguelike_jiegarden_json.format() << '\n';
+    // roguelike_jiegarden_ofs.close();
 
     return true;
 }
