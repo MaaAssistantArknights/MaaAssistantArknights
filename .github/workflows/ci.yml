@@ -107,8 +107,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          fetch-depth: ${{ github.event_name == 'pull_request' && 0 || 1 }}
           show-progress: false
+          fetch-depth: ${{ github.event_name != 'pull_request' && 1 || 0 }}
 
       - name: Merge target branch into PR
         if: github.event_name == 'pull_request'
@@ -243,8 +243,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          fetch-depth: ${{ github.event_name == 'pull_request' && 0 || 1 }}
           show-progress: false
+          fetch-depth: ${{ github.event_name != 'pull_request' && 1 || 0 }}
 
       - name: Merge target branch into PR
         if: github.event_name == 'pull_request'
@@ -360,8 +360,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          fetch-depth: ${{ github.event_name == 'pull_request' && 0 || 1 }}
           show-progress: false
+          fetch-depth: ${{ github.event_name != 'pull_request' && 1 || 0 }}
 
       - name: Merge target branch into PR
         if: github.event_name == 'pull_request'
@@ -415,17 +415,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          fetch-depth: ${{ github.event_name == 'pull_request' && 0 || 1 }}
           show-progress: false
-
-      - name: Merge target branch into PR
-        if: github.event_name == 'pull_request'
-        run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }}
-          git config user.email "actions@github.com"
-          git config user.name "github-actions"
-          git checkout ${{ github.event.pull_request.head.sha }}
-          git merge origin/${{ github.event.pull_request.base.ref }} --no-edit || { git merge --abort; echo "::warning::Merge had conflicts, skipped. CI is running on PR head without merging target branch."; exit 0; }
 
       - name: Install dependencies
         if: startsWith(github.ref, 'refs/tags/v')

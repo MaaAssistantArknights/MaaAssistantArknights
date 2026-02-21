@@ -46,6 +46,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           show-progress: false
+          fetch-depth: ${{ github.event_name != 'pull_request' && 1 || 0 }}
 
       - name: Merge target branch into PR
         if: github.event_name == 'pull_request'
