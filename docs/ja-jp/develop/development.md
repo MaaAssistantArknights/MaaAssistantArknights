@@ -158,7 +158,27 @@ clangd を使用する場合、C/C++ 拡張機能の IntelliSense を無効化�
 
 1. VS Code でプロジェクトルートを開く
 2. **CMake Tools**：ステータスバーで Configure Preset（例：`windows-x64`、`linux-x64`）を選択し、Build Preset でビルドを実行
-3. **clangd**：Windows で MSVC を使用する場合、`compile_commands.json` がなくても clangd で開発可能。Linux/macOS ではプリセットで `CMAKE_EXPORT_COMPILE_COMMANDS` が有効となり、clangd は `build/compile_commands.json` を自動使用
+3. **clangd**：Linux/macOS ではプリセットで `CMAKE_EXPORT_COMPILE_COMMANDS` が有効となり、clangd は `build/compile_commands.json` を自動使用。Windows で clangd の補完・ナビゲーションを使う場合は、まず `compile_commands.json` を生成する必要があります：
+
+   ::: warning Windows での clangd 設定
+   - VS Installer で **C++ Clang コンパイラ for Windows**（clang-cl）をインストールに含める
+   - `windows-x64-clang` プリセットに切り替えて Configure を1回実行すると `build/` に `compile_commands.json` が生成され、clangd が利用可能になります
+   - **このプリセットは clang-cl を使用するため MSVC と異なり、ビルド成果物を直接生成できません**。実際のビルド時は `windows-x64` に切り替えてください
+   - clangd は clang-cl のコンパイル情報で解析するため、一部コード（MSVC 専用拡張など）でエラー表示が出る場合がありますが、無視して問題ありません。実際の MSVC ビルドには影響しません
+
+   **コマンドラインでのプリセット切り替え例**（プロジェクトルートで実行）：
+
+   ```cmd
+   rem compile_commands.json を生成（Configure のみ、ビルドなし）
+   cmake --preset windows-x64-clang
+
+   rem MSVC に戻して実際のビルドを行う
+   cmake --preset windows-x64
+   cmake --build --preset windows-x64-RelWithDebInfo
+   ```
+
+   :::
+
 4. **デバッグ**：プロジェクトには `.vscode/launch.json` が含まれており、MaaWpfGui や Debug Demo の起動が可能
 
 ### ビルドとデバッグのショートカット
