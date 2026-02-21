@@ -1102,9 +1102,6 @@
     "VisitNextBlack": {
         "templThreshold": 0.85
     },
-    "VisitNextOcr": {
-        "text": ["Visit Next"]
-    },
     "CreditStoreOcr": {
         "text": ["Credit Store"]
     },
