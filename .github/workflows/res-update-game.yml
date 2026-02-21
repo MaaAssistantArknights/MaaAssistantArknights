@@ -153,10 +153,6 @@ jobs:
           show-progress: false
           fetch-depth: 3
 
-      - name: Fetch submodules
-        run: |
-          git submodule update --init --depth 1 src/MaaUtils
-
       - name: Restore ResourceUpdater from cache
         id: resupd-cache
         uses: actions/cache/restore@v5
@@ -166,6 +162,11 @@ jobs:
           path: |
             ./tools/ResourceUpdater/libopencv_world4.4.11.0.dylib
             ./tools/ResourceUpdater/res_updater
+
+      - name: Fetch submodules
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
+        run: |
+          git submodule update --init --depth 1 src/MaaUtils
 
       - name: Cache MaaDeps
         if: steps.resupd-cache.outputs.cache-hit != 'true'
