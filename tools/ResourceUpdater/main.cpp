@@ -574,33 +574,18 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
     json::value& root = old_json;
     std::unordered_set<std::string> rooms;
 
-    static const std::unordered_map<int, std::string> RoomTypeMapInt = {
-        { 1, "Control" }, { 2, "Power" },   { 4, "Mfg" }, { 16, "Dorm" }, { 32, "Reception" },
-        { 64, "Office" }, { 512, "Trade" }, { 1024, "" }, { 2048, "" },
-    };
-
-    static const std::unordered_map<std::string, std::string> RoomTypeMapString = {
+    static const std::unordered_map<std::string, std::string> RoomTypeMap = {
         { "POWER", "Power" },       { "CONTROL", "Control" }, { "DORMITORY", "Dorm" },
         { "WORKSHOP", "" },         { "MANUFACTURE", "Mfg" }, { "TRADING", "Trade" },
         { "MEETING", "Reception" }, { "HIRE", "Office" },     { "TRAINING", "" },
     };
 
-    // TODO: new meojson seems not support basic_object | std::views::values
     for (auto& [key, val] : buffs) {
         std::ignore = key;
         auto& buff_obj = val;
-    // }
-    // for (auto& buff_obj : buffs | std::views::values) {
-        std::string room_type;
 
-        if (buff_obj["roomType"].is_number()) {
-            int raw_room_type = buff_obj["roomType"].as_integer();
-            room_type = RoomTypeMapInt.at(raw_room_type);
-        }
-        else {
-            std::string raw_room_type = buff_obj["roomType"].as_string();
-            room_type = RoomTypeMapString.at(raw_room_type);
-        }
+        std::string raw_room_type = buff_obj["roomType"].as_string();
+        std::string room_type = RoomTypeMap.at(raw_room_type);
 
         if (room_type.empty()) {
             continue;
