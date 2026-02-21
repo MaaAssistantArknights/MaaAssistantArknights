@@ -93,7 +93,7 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     /// <summary>
     /// Gets or sets 自定义配置计划编号
     /// </summary>
-    public int PlanSelect { get; set; }
+    public int PlanSelect { get; set; } = -1;
 
     public List<RoomInfo> RoomList { get; set; } =
        [.. typeof(InfrastRoomType).GetEnumValues().OfType<InfrastRoomType>().Select<InfrastRoomType, RoomInfo>(i => new(i, true))];
