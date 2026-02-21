@@ -10,6 +10,7 @@
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}",
                 "MAADEPS_TRIPLET": "maa-arm64-osx",
                 "WITH_HASH_VERSION": "ON"
             }
