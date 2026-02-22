@@ -2097,6 +2097,7 @@
     },
     "VisitNextOcr": {
         "algorithm": "OcrDetect",
+        "action": "ClickSelf",
         "text": ["访问下位"],
         "roi": [1080, 570, 200, 130],
         "next": ["VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
