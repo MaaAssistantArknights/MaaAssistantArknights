@@ -1052,6 +1052,9 @@
     "NoFriends": {
         "text": ["戦友があリませれ"]
     },
+    "VisitNextOcr": {
+        "text": ["次を訪問"]
+    },
     "CreditStoreOcr": {
         "text": ["FP交換所"]
     },

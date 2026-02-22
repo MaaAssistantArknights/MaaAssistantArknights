@@ -1146,6 +1146,9 @@
     "StartToVisit": {
         "templThreshold": 0.7
     },
+    "VisitNextOcr": {
+        "text": ["다음", "방문"]
+    },
     "CreditStoreOcr": {
         "ocrReplace": [["크레.+", "크레딧"]],
         "text": ["크레딧"]
