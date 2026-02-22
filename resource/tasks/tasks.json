@@ -896,7 +896,8 @@
             "StartUp@StartUpThemes#next",
             "StartUpBegin@LoadingIcon",
             "StartUp@ReturnButtons#next",
-            "StartUp@EndOfAction"
+            "StartUp@EndOfAction",
+            "StartUp@PRTS#next"
         ]
     },
     "GameStart": {
