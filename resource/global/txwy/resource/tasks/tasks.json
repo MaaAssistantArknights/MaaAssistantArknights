@@ -815,7 +815,7 @@
     "VisitNextBlack": {
         "templThreshold": 0.85
     },
-     "VisitNextOcr": {
+    "VisitNextOcr": {
         "text": ["訪問下位"]
     },
     "VisitLimited": {
