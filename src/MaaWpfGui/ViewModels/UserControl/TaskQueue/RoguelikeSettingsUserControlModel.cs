@@ -1111,28 +1111,27 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 StartWithSeed = roguelike.StartWithSeed ? roguelike.Seed : null,
             };
 
-            if (Instance.RoguelikeMode == Mode.Collectible && !Instance.RoguelikeOnlyStartWithEliteTwo)
+            bool squadIsProfessional = roguelike.Mode == Mode.Collectible && roguelike.Theme != Theme.Phantom && roguelike.Squad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
+            bool roguelikeOnlyStartWithEliteTwo = roguelike.StartWithEliteTwoOnly && roguelike.StartWithEliteTwo && squadIsProfessional;
+
+            if (roguelike.Mode == Mode.Collectible && !roguelikeOnlyStartWithEliteTwo)
             {
                 var rewardKeys = new Dictionary<RoguelikeCollectibleAward, string>
                 {
-                { RoguelikeCollectibleAward.HotWater, "hot_water" },
-                { RoguelikeCollectibleAward.Shield, "shield" },
-                { RoguelikeCollectibleAward.Ingot, "ingot" },
-                { RoguelikeCollectibleAward.Hope, "hope" },
-                { RoguelikeCollectibleAward.Random, "random" },
-                { RoguelikeCollectibleAward.Key, "key" },
-                { RoguelikeCollectibleAward.Dice, "dice" },
-                { RoguelikeCollectibleAward.Idea, "ideas" },
-                { RoguelikeCollectibleAward.Ticket, "ticket" },
-            };
+                    { RoguelikeCollectibleAward.HotWater, "hot_water" },
+                    { RoguelikeCollectibleAward.Shield, "shield" },
+                    { RoguelikeCollectibleAward.Ingot, "ingot" },
+                    { RoguelikeCollectibleAward.Hope, "hope" },
+                    { RoguelikeCollectibleAward.Random, "random" },
+                    { RoguelikeCollectibleAward.Key, "key" },
+                    { RoguelikeCollectibleAward.Dice, "dice" },
+                    { RoguelikeCollectibleAward.Idea, "ideas" },
+                    { RoguelikeCollectibleAward.Ticket, "ticket" },
+                };
 
-                var startWithSelect = new JObject();
-                foreach (var select in Instance.RoguelikeStartWithSelectList.Cast<GenericCombinedData<RoguelikeCollectibleAward>>())
+                foreach (var reward in rewardKeys.Keys)
                 {
-                    if (rewardKeys.TryGetValue(select.Value, out var paramKey))
-                    {
-                        task.CollectibleModeStartRewards[paramKey] = true;
-                    }
+                    task.CollectibleModeStartRewards[rewardKeys[reward]] = roguelike.CollectibleStartAwards.HasFlag(reward);
                 }
             }
 
