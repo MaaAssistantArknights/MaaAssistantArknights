@@ -25,7 +25,7 @@ using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
+public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, ReclamationSettingsUserControlModel.ISerialize
 {
     static ReclamationSettingsUserControlModel()
     {
@@ -137,27 +137,32 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize)?.Serialize(baseTask, taskId);
+
+    private interface ISerialize : ITaskQueueModelSerialize
     {
-        if (baseTask is not ReclamationTask reclamation)
+        bool? ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
-            return null;
+            if (baseTask is not ReclamationTask reclamation)
+            {
+                return null;
+            }
+
+            var toolToCraft = !string.IsNullOrEmpty(reclamation.ToolToCraft) ? reclamation.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
+            var task = new AsstReclamationTask() {
+                Theme = reclamation.Theme,
+                Mode = reclamation.Mode,
+                IncrementMode = reclamation.IncrementMode,
+                MaxCraftCountPerRound = reclamation.MaxCraftCountPerRound,
+                ToolToCraft = [.. toolToCraft.Split(';').Select(s => s.Trim())],
+                ClearStore = reclamation.ClearStore,
+            };
+
+            return taskId switch {
+                int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, task),
+                _ => null,
+            };
         }
-
-        var toolToCraft = !string.IsNullOrEmpty(reclamation.ToolToCraft) ? reclamation.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
-        var task = new AsstReclamationTask() {
-            Theme = reclamation.Theme,
-            Mode = reclamation.Mode,
-            IncrementMode = reclamation.IncrementMode,
-            MaxCraftCountPerRound = reclamation.MaxCraftCountPerRound,
-            ToolToCraft = [.. toolToCraft.Split(';').Select(s => s.Trim())],
-            ClearStore = reclamation.ClearStore,
-        };
-
-        return taskId switch {
-            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, task),
-            _ => null,
-        };
     }
 }

@@ -13,18 +13,15 @@
 
 #nullable enable
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.Services;
-using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class CustomSettingsUserControlModel : TaskSettingsViewModel
+public class CustomSettingsUserControlModel : TaskSettingsViewModel, CustomSettingsUserControlModel.ISerialize
 {
     static CustomSettingsUserControlModel()
     {
@@ -73,20 +70,25 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
-    {
-        if (baseTask is not CustomTask custom)
-        {
-            return null;
-        }
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
-        var task = new AsstCustomTask() {
-            CustomTasks = [.. custom.CustomTaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
-        };
-        return taskId switch {
-            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, task),
-            _ => null,
-        };
+    private interface ISerialize : ITaskQueueModelSerialize
+    {
+        bool? ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
+        {
+            if (baseTask is not CustomTask custom)
+            {
+                return null;
+            }
+
+            var task = new AsstCustomTask() {
+                CustomTasks = [.. custom.CustomTaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
+            };
+            return taskId switch {
+                int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, task),
+                _ => null,
+            };
+        }
     }
 }
