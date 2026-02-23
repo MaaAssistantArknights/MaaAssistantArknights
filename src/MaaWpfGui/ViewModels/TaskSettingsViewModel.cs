@@ -13,16 +13,11 @@
 
 #nullable enable
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -83,4 +78,10 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
     /// <param name="taskId">任务id, null时追加任务, 非null为设置任务参数</param>
     /// <returns>null为未序列化, false失败, true成功</returns>
     public abstract bool? SerializeTask(BaseTask? baseTask, int? taskId = null);
+}
+
+public interface ITaskQueueModelSerialize
+{
+    /// <inheritdoc cref="TaskSettingsViewModel.SerializeTask"/>
+    public abstract bool? Serialize(BaseTask? baseTask, int? taskId);
 }

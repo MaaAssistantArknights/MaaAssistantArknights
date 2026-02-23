@@ -12,7 +12,6 @@
 // </copyright>
 
 #nullable enable
-using System;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -20,14 +19,13 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.Services;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class StartUpSettingsUserControlModel : TaskSettingsViewModel
+public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSettingsUserControlModel.ISerialize
 {
     static StartUpSettingsUserControlModel()
     {
@@ -68,29 +66,34 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize)?.Serialize(baseTask, taskId);
+
+    private interface ISerialize : ITaskQueueModelSerialize
     {
-        if (baseTask is not StartUpTask startUp)
+        bool? ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
-            return null;
+            if (baseTask is not StartUpTask startUp)
+            {
+                return null;
+            }
+
+            var clientType = SettingsViewModel.GameSettings.ClientType;
+            var accountName = clientType switch {
+                ClientType.Official or ClientType.Bilibili => startUp.AccountName,
+                _ => string.Empty,
+            };
+
+            var task = new AsstStartUpTask() {
+                ClientType = clientType,
+                StartGame = SettingsViewModel.GameSettings.StartGame,
+                AccountName = accountName,
+            };
+
+            return taskId switch {
+                int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, task),
+                _ => null,
+            };
         }
-
-        var clientType = SettingsViewModel.GameSettings.ClientType;
-        var accountName = clientType switch {
-            ClientType.Official or ClientType.Bilibili => startUp.AccountName,
-            _ => string.Empty,
-        };
-
-        var task = new AsstStartUpTask() {
-            ClientType = clientType,
-            StartGame = SettingsViewModel.GameSettings.StartGame,
-            AccountName = accountName,
-        };
-
-        return taskId switch {
-            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, task),
-            _ => null,
-        };
     }
 }

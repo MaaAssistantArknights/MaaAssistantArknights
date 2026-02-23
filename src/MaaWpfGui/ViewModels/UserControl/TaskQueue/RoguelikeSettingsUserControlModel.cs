@@ -23,7 +23,6 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
@@ -36,7 +35,7 @@ using Theme = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
+public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, RoguelikeSettingsUserControlModel.ISerialize
 {
     static RoguelikeSettingsUserControlModel()
     {
@@ -536,10 +535,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     public string RoguelikeThemeTip
     {
-        get
-        {
-            var key = RoguelikeTheme switch
-            {
+        get {
+            var key = RoguelikeTheme switch {
                 Theme.Phantom => "RoguelikeThemeTipPhantom",
                 Theme.Mizuki => "RoguelikeThemeTipMizuki",
                 Theme.Sami => "RoguelikeThemeTipSami",
@@ -1055,65 +1052,69 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize)?.Serialize(baseTask, taskId);
+
+    private interface ISerialize : ITaskQueueModelSerialize
     {
-        if (baseTask is not RoguelikeTask roguelike)
+        bool? ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
-            return null;
-        }
-
-        bool roguelikeSquadIsProfessional = roguelike.Mode == Mode.Collectible && roguelike.Theme != Theme.Phantom && roguelike.Squad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
-        bool roguelikeSquadIsFoldartal = roguelike.Mode == Mode.Collectible && roguelike.Theme == Theme.Sami && roguelike.Squad == "生活至上分队";
-        var task = new AsstRoguelikeTask() {
-            Theme = roguelike.Theme,
-            Mode = roguelike.Mode,
-            Starts = roguelike.StartCount,
-            Difficulty = roguelike.Difficulty,
-            Squad = roguelike.Squad,
-            Roles = roguelike.Roles,
-            CoreChar = DataHelper.GetCharacterByNameOrAlias(roguelike.CoreChar)?.Name ?? roguelike.CoreChar,
-            UseSupport = roguelike.UseSupport,
-            UseSupportNonFriend = roguelike.UseSupportNonFriend,
-
-            InvestmentEnabled = roguelike.Investment,
-            InvestmentCount = roguelike.InvestCount,
-            InvestmentStopWhenFull = roguelike.StopWhenDepositFull,
-            InvestmentWithMoreScore = roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
-            RefreshTraderWithDice = roguelike.Theme == Theme.Mizuki && roguelike.RefreshTraderWithDice,
-
-            StopAtFinalBoss = roguelike.StopAtFinalBoss,
-            StopAtMaxLevel = roguelike.StopWhenLevelMax,
-
-            // 刷开局
-            CollectibleModeSquad = roguelike.SquadCollectible,
-            CollectibleModeShopping = roguelike.CollectibleShopping,
-            StartWithEliteTwo = roguelike.StartWithEliteTwo && roguelikeSquadIsProfessional && roguelike.Theme is Theme.Mizuki or Theme.Sami,
-            StartWithEliteTwoNonBattle = roguelike.StartWithEliteTwoOnly && roguelike.Theme is Theme.Mizuki or Theme.Sami,
-
-            // 月度小队
-            MonthlySquadAutoIterate = roguelike.MonthlySquadAutoIterate,
-            MonthlySquadCheckComms = roguelike.MonthlySquadCheckComms,
-
-            // 深入探索
-            DeepExplorationAutoIterate = roguelike.DeepExplorationAutoIterate,
-
-            // 刷常乐节点
-            FindPlaytimeTarget = roguelike.FindPlaytimeTarget, // 等待添加到 RoguelikeTask
-
-            SamiFirstFloorFoldartal = roguelike.Theme == Theme.Sami && roguelike.Mode == Mode.Collectible && roguelike.SamiFirstFloorFoldartal,
-            SamiStartFloorFoldartal = roguelike.SamiFirstFloorFoldartals,
-            SamiNewSquad2StartingFoldartal = roguelike.SamiNewSquad2StartingFoldartal && roguelikeSquadIsFoldartal,
-            SamiNewSquad2StartingFoldartals = [.. roguelike.SamiNewSquad2StartingFoldartals.Split(';').Where(i => !string.IsNullOrEmpty(i)).Take(3)],
-
-            ExpectedCollapsalParadigms = [.. roguelike.ExpectedCollapsalParadigms.Split(';').Where(i => !string.IsNullOrEmpty(i))],
-
-            StartWithSeed = roguelike.StartWithSeed ? roguelike.Seed : null,
-        };
-
-        if (RoguelikeMode == Mode.Collectible && !RoguelikeOnlyStartWithEliteTwo)
-        {
-            var rewardKeys = new Dictionary<RoguelikeCollectibleAward, string>
+            if (baseTask is not RoguelikeTask roguelike)
             {
+                return null;
+            }
+
+            bool roguelikeSquadIsProfessional = roguelike.Mode == Mode.Collectible && roguelike.Theme != Theme.Phantom && roguelike.Squad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
+            bool roguelikeSquadIsFoldartal = roguelike.Mode == Mode.Collectible && roguelike.Theme == Theme.Sami && roguelike.Squad == "生活至上分队";
+            var task = new AsstRoguelikeTask() {
+                Theme = roguelike.Theme,
+                Mode = roguelike.Mode,
+                Starts = roguelike.StartCount,
+                Difficulty = roguelike.Difficulty,
+                Squad = roguelike.Squad,
+                Roles = roguelike.Roles,
+                CoreChar = DataHelper.GetCharacterByNameOrAlias(roguelike.CoreChar)?.Name ?? roguelike.CoreChar,
+                UseSupport = roguelike.UseSupport,
+                UseSupportNonFriend = roguelike.UseSupportNonFriend,
+
+                InvestmentEnabled = roguelike.Investment,
+                InvestmentCount = roguelike.InvestCount,
+                InvestmentStopWhenFull = roguelike.StopWhenDepositFull,
+                InvestmentWithMoreScore = roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
+                RefreshTraderWithDice = roguelike.Theme == Theme.Mizuki && roguelike.RefreshTraderWithDice,
+
+                StopAtFinalBoss = roguelike.StopAtFinalBoss,
+                StopAtMaxLevel = roguelike.StopWhenLevelMax,
+
+                // 刷开局
+                CollectibleModeSquad = roguelike.SquadCollectible,
+                CollectibleModeShopping = roguelike.CollectibleShopping,
+                StartWithEliteTwo = roguelike.StartWithEliteTwo && roguelikeSquadIsProfessional && roguelike.Theme is Theme.Mizuki or Theme.Sami,
+                StartWithEliteTwoNonBattle = roguelike.StartWithEliteTwoOnly && roguelike.Theme is Theme.Mizuki or Theme.Sami,
+
+                // 月度小队
+                MonthlySquadAutoIterate = roguelike.MonthlySquadAutoIterate,
+                MonthlySquadCheckComms = roguelike.MonthlySquadCheckComms,
+
+                // 深入探索
+                DeepExplorationAutoIterate = roguelike.DeepExplorationAutoIterate,
+
+                // 刷常乐节点
+                FindPlaytimeTarget = roguelike.FindPlaytimeTarget, // 等待添加到 RoguelikeTask
+
+                SamiFirstFloorFoldartal = roguelike.Theme == Theme.Sami && roguelike.Mode == Mode.Collectible && roguelike.SamiFirstFloorFoldartal,
+                SamiStartFloorFoldartal = roguelike.SamiFirstFloorFoldartals,
+                SamiNewSquad2StartingFoldartal = roguelike.SamiNewSquad2StartingFoldartal && roguelikeSquadIsFoldartal,
+                SamiNewSquad2StartingFoldartals = [.. roguelike.SamiNewSquad2StartingFoldartals.Split(';').Where(i => !string.IsNullOrEmpty(i)).Take(3)],
+
+                ExpectedCollapsalParadigms = [.. roguelike.ExpectedCollapsalParadigms.Split(';').Where(i => !string.IsNullOrEmpty(i))],
+
+                StartWithSeed = roguelike.StartWithSeed ? roguelike.Seed : null,
+            };
+
+            if (Instance.RoguelikeMode == Mode.Collectible && !Instance.RoguelikeOnlyStartWithEliteTwo)
+            {
+                var rewardKeys = new Dictionary<RoguelikeCollectibleAward, string>
+                {
                 { RoguelikeCollectibleAward.HotWater, "hot_water" },
                 { RoguelikeCollectibleAward.Shield, "shield" },
                 { RoguelikeCollectibleAward.Ingot, "ingot" },
@@ -1125,20 +1126,21 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
                 { RoguelikeCollectibleAward.Ticket, "ticket" },
             };
 
-            var startWithSelect = new JObject();
-            foreach (var select in RoguelikeStartWithSelectList.Cast<GenericCombinedData<RoguelikeCollectibleAward>>())
-            {
-                if (rewardKeys.TryGetValue(select.Value, out var paramKey))
+                var startWithSelect = new JObject();
+                foreach (var select in Instance.RoguelikeStartWithSelectList.Cast<GenericCombinedData<RoguelikeCollectibleAward>>())
                 {
-                    task.CollectibleModeStartRewards[paramKey] = true;
+                    if (rewardKeys.TryGetValue(select.Value, out var paramKey))
+                    {
+                        task.CollectibleModeStartRewards[paramKey] = true;
+                    }
                 }
             }
-        }
 
-        return taskId switch {
-            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, task),
-            _ => null,
-        };
+            return taskId switch {
+                int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, task),
+                _ => null,
+            };
+        }
     }
 }
