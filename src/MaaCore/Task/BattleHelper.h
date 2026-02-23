@@ -69,6 +69,7 @@ protected:
     bool check_skip_plot_button(const cv::Mat& reusable = cv::Mat());
     // 检查是否有战斗中带头像的对话框
     bool check_avatar_dialog(const cv::Mat& reusable = cv::Mat());
+    // 检查是否处于二倍速
     bool check_in_speedup(const cv::Mat& reusable = cv::Mat());
     virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true);
     virtual bool wait_until_start(bool weak = true);

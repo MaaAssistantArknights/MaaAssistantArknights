@@ -642,7 +642,7 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
         m_in_battle = result.has_value();
         if (m_in_battle && !result->pause_button) {
             if (check_skip_plot_button(image)) {
-                if (m_in_speedup && check_in_speedup(image)) {
+                if (m_in_speedup && !check_in_speedup()) {
                     speed_up(); // 跳过剧情会退出2倍速
                 }
             }
