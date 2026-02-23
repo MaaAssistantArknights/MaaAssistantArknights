@@ -276,7 +276,7 @@
         "next": ["Tales@RA@BackLight", "Tales@RA@PIS-ProsperityReachLimit-StartTodayAfterLoadSave"]
     },
     "Tales@RA@PIS-ResourceGained": {
-        "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
+        "doc": "获得物资, 点击 <获得物资> 文字位置",
         "baseTask": "Tales@RA@ResourceGained",
         "next": ["#self", "Stop"]
     },
@@ -719,10 +719,10 @@
         "action": "DoNothing"
     },
     "Tales@RA@ResourceGained": {
-        "doc": "模板任务: 获得物资, 点击 <点击空白处继续> 文字位置",
+        "doc": "模板任务: 获得物资, 点击 <获得物资> 文字位置",
         "algorithm": "OcrDetect",
-        "text": ["点击空白处继续"],
-        "roi": [500, 445, 280, 41],
+        "text": ["获得物资"],
+        "roi": [565, 240, 152, 40],
         "action": "ClickSelf"
     },
     "Tales@RA@ReturnToOrigin": {

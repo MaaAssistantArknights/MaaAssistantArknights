@@ -95,7 +95,7 @@ bool asst::ReclamationCraftTaskPlugin::_run()
                 ProcessTask(*this, { theme + "@RA@CancelCraft" }).run();
             }
             else {
-                // 点击开始组装图标, 获得物资, 点击 <点击空白处继续> 文字位置
+                // 点击开始组装图标, 获得物资, 点击 <获得物资> 文字位置
                 ProcessTask(*this, { theme + "@RA@PIS-Craft" }).run();
             }
             sleep(500);
