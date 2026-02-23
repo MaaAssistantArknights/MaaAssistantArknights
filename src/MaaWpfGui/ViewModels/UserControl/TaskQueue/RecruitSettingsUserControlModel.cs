@@ -28,7 +28,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 自动公招model
 /// </summary>
-public class RecruitSettingsUserControlModel : TaskSettingsViewModel
+public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSettingsUserControlModel.ISerialize
 {
     static RecruitSettingsUserControlModel()
     {
@@ -254,60 +254,65 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize)?.Serialize(baseTask, taskId);
+
+    private interface ISerialize : ITaskQueueModelSerialize
     {
-        if (baseTask is not RecruitTask recruit)
+        bool? ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
-            return null;
+            if (baseTask is not RecruitTask recruit)
+            {
+                return null;
+            }
+
+            var task = new AsstRecruitTask() {
+                Refresh = recruit.RefreshLevel3,
+                ForceRefresh = recruit.ForceRefresh,
+                SetRecruitTime = true,
+                RecruitTimes = recruit.MaxTimes,
+                UseExpedited = recruit.UseExpedited is not false,
+                ExpeditedTimes = recruit.MaxTimes,
+                SelectExtraTags = recruit.ExtraTagMode,
+                Level3FirstList = recruit.Level3PreferTags,
+                NotChooseLevel1 = recruit.Level1NotChoose,
+                ChooseLevel3Time = recruit.Level3Time,
+                ChooseLevel4Time = recruit.Level4Time,
+                ChooseLevel5Time = recruit.Level5Time,
+                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                ServerType = Instances.SettingsViewModel.ServerType,
+            };
+
+            if (recruit.Level1NotChoose)
+            {
+                task.ConfirmList.Add(1);
+            }
+
+            if (recruit.Level3Choose)
+            {
+                task.ConfirmList.Add(3);
+            }
+
+            if (recruit.Level4Choose)
+            {
+                task.SelectList.Add(4);
+                task.ConfirmList.Add(4);
+            }
+
+            // ReSharper disable once InvertIf
+            if (recruit.Level5Choose)
+            {
+                task.SelectList.Add(5);
+                task.ConfirmList.Add(5);
+            }
+
+            return taskId switch {
+                int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, task),
+                _ => null,
+            };
         }
-
-        var task = new AsstRecruitTask() {
-            Refresh = recruit.RefreshLevel3,
-            ForceRefresh = recruit.ForceRefresh,
-            SetRecruitTime = true,
-            RecruitTimes = recruit.MaxTimes,
-            UseExpedited = recruit.UseExpedited is not false,
-            ExpeditedTimes = recruit.MaxTimes,
-            SelectExtraTags = recruit.ExtraTagMode,
-            Level3FirstList = recruit.Level3PreferTags,
-            NotChooseLevel1 = recruit.Level1NotChoose,
-            ChooseLevel3Time = recruit.Level3Time,
-            ChooseLevel4Time = recruit.Level4Time,
-            ChooseLevel5Time = recruit.Level5Time,
-            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-            PenguinId = SettingsViewModel.GameSettings.PenguinId,
-            YituliuId = SettingsViewModel.GameSettings.PenguinId,
-            ServerType = Instances.SettingsViewModel.ServerType,
-        };
-
-        if (recruit.Level1NotChoose)
-        {
-            task.ConfirmList.Add(1);
-        }
-
-        if (recruit.Level3Choose)
-        {
-            task.ConfirmList.Add(3);
-        }
-
-        if (recruit.Level4Choose)
-        {
-            task.SelectList.Add(4);
-            task.ConfirmList.Add(4);
-        }
-
-        // ReSharper disable once InvertIf
-        if (recruit.Level5Choose)
-        {
-            task.SelectList.Add(5);
-            task.ConfirmList.Add(5);
-        }
-
-        return taskId switch {
-            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, task),
-            _ => null,
-        };
     }
 }

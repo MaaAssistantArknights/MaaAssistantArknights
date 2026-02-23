@@ -12,19 +12,15 @@
 // </copyright>
 
 #nullable enable
-using System;
 using System.Windows;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.Services;
-using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class AwardSettingsUserControlModel : TaskSettingsViewModel
+public class AwardSettingsUserControlModel : TaskSettingsViewModel, AwardSettingsUserControlModel.ISerialize
 {
     static AwardSettingsUserControlModel()
     {
@@ -113,25 +109,30 @@ public class AwardSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
-    {
-        if (baseTask is not AwardTask award)
-        {
-            return null;
-        }
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
-        var task = new AsstAwardTask() {
-            Award = award.Award,
-            Mail = award.Mail,
-            FreeGacha = award.FreeGacha,
-            Orundum = award.Orundum,
-            Mining = award.Mining,
-            SpecialAccess = award.SpecialAccess,
-        };
-        return taskId switch {
-            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, task),
-            _ => null,
-        };
+    private interface ISerialize : ITaskQueueModelSerialize
+    {
+        bool? ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
+        {
+            if (baseTask is not AwardTask award)
+            {
+                return null;
+            }
+
+            var task = new AsstAwardTask() {
+                Award = award.Award,
+                Mail = award.Mail,
+                FreeGacha = award.FreeGacha,
+                Orundum = award.Orundum,
+                Mining = award.Mining,
+                SpecialAccess = award.SpecialAccess,
+            };
+            return taskId switch {
+                int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, task),
+                _ => null,
+            };
+        }
     }
 }
