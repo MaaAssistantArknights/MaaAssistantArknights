@@ -25,13 +25,11 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -42,7 +40,7 @@ using Mode = InfrastMode;
 /// <summary>
 /// 基建任务
 /// </summary>
-public class InfrastSettingsUserControlModel : TaskSettingsViewModel
+public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSettingsUserControlModel.ISerialize
 {
     static InfrastSettingsUserControlModel()
     {
@@ -543,59 +541,64 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
+
+    private interface ISerialize : ITaskQueueModelSerialize
     {
-        if (baseTask is not InfrastTask infrast)
+        bool? ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
-            return null;
-        }
-
-        var task = new AsstInfrastTask {
-            Mode = infrast.Mode,
-            Facilitys = [.. infrast.RoomList.Where(i => i.IsEnabled).Select(i => i.Room.ToString())],
-            UsesOfDrones = infrast.UsesOfDrones,
-            ContinueTraining = infrast.ContinueTraining,
-            DormThreshold = infrast.DormThreshold / 100.0,
-            DormFilterNotStationedEnabled = infrast.DormFilterNotStationed,
-            DormTrustEnabled = infrast.DormTrustEnabled,
-            OriginiumShardAutoReplenishment = infrast.OriginiumShardAutoReplenishment,
-            ReceptionMessageBoard = infrast.ReceptionMessageBoard,
-            ReceptionClueExchange = infrast.ReceptionClueExchange,
-            ReceptionSendClue = infrast.SendClue,
-            Filename = infrast.Filename,
-        };
-
-        if (infrast.Mode != Mode.Custom)
-        {
-        }
-        else if (infrast.PlanSelect != -1 && infrast.InfrastPlan.Count <= infrast.PlanSelect)
-        {
-            throw new InvalidOperationException(LocalizationHelper.GetString("CustomInfrastPlanSelectOutOfIndex"));
-        }
-        else if (infrast.PlanSelect >= 0)
-        {
-            task.PlanIndex = infrast.PlanSelect;
-        }
-        else
-        {
-            var now = TimeOnly.FromDateTime(DateTime.Now.ToLocalTime());
-            if (infrast.InfrastPlan.FirstOrDefault(i => i.Period.Any(p => p[0] <= now && now <= p[1])) is { } plan)
+            if (baseTask is not InfrastTask infrast)
             {
-                task.PlanIndex = plan.Index;
+                return null;
+            }
+
+            var task = new AsstInfrastTask {
+                Mode = infrast.Mode,
+                Facilitys = [.. infrast.RoomList.Where(i => i.IsEnabled).Select(i => i.Room.ToString())],
+                UsesOfDrones = infrast.UsesOfDrones,
+                ContinueTraining = infrast.ContinueTraining,
+                DormThreshold = infrast.DormThreshold / 100.0,
+                DormFilterNotStationedEnabled = infrast.DormFilterNotStationed,
+                DormTrustEnabled = infrast.DormTrustEnabled,
+                OriginiumShardAutoReplenishment = infrast.OriginiumShardAutoReplenishment,
+                ReceptionMessageBoard = infrast.ReceptionMessageBoard,
+                ReceptionClueExchange = infrast.ReceptionClueExchange,
+                ReceptionSendClue = infrast.SendClue,
+                Filename = infrast.Filename,
+            };
+
+            if (infrast.Mode != Mode.Custom)
+            {
+            }
+            else if (infrast.PlanSelect != -1 && infrast.InfrastPlan.Count <= infrast.PlanSelect)
+            {
+                throw new InvalidOperationException(LocalizationHelper.GetString("CustomInfrastPlanSelectOutOfIndex"));
+            }
+            else if (infrast.PlanSelect >= 0)
+            {
+                task.PlanIndex = infrast.PlanSelect;
             }
             else
             {
-                task.PlanIndex = 0;
-                _logger.Warning("No valid plan found for current time, use PlanIndex 0");
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Error);
+                var now = TimeOnly.FromDateTime(DateTime.Now.ToLocalTime());
+                if (infrast.InfrastPlan.FirstOrDefault(i => i.Period.Any(p => p[0] <= now && now <= p[1])) is { } plan)
+                {
+                    task.PlanIndex = plan.Index;
+                }
+                else
+                {
+                    task.PlanIndex = 0;
+                    _logger.Warning("No valid plan found for current time, use PlanIndex 0");
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Error);
+                }
             }
-        }
 
-        return taskId switch {
-            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, task),
-            _ => null,
-        };
+            return taskId switch {
+                int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, task),
+                _ => null,
+            };
+        }
     }
 }
 

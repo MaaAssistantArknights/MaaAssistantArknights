@@ -39,7 +39,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 理智作战
 /// </summary>
-public class FightSettingsUserControlModel : TaskSettingsViewModel
+public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSettingsUserControlModel.ISerialize
 {
     private static readonly ILogger _logger = Log.ForContext<FightSettingsUserControlModel>();
     private static readonly Lock _lock = new();
@@ -702,61 +702,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         return null;
     }
 
-    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
-    {
-        if (baseTask is not FightTask fight || taskId is int and <= 0)
-        {
-            return null;
-        }
-
-        if (fight.UseWeeklySchedule && fight.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
-        {
-            return null;
-        }
-
-        using var scope = _lock.EnterScope();
-        var stage = GetFightStage(fight);
-        if (stage is null)
-        {
-            return null;
-        }
-        var task = new AsstFightTask() {
-            Stage = stage,
-            Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
-            Stone = fight.UseStone != false ? fight.StoneCount : 0,
-            Series = fight.Series,
-            MaxTimes = fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue,
-            ExpiringMedicine = fight.UseExpiringMedicine ? 9999 : 0,
-            IsDrGrandet = fight.IsDrGrandet,
-            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-            PenguinId = SettingsViewModel.GameSettings.PenguinId,
-            YituliuId = SettingsViewModel.GameSettings.PenguinId,
-            ServerType = Instances.SettingsViewModel.ServerType,
-            ClientType = SettingsViewModel.GameSettings.ClientType,
-        };
-
-        if (task.Stage == "Annihilation" && fight.UseCustomAnnihilation)
-        {
-            task.Stage = fight.AnnihilationStage;
-        }
-
-        if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId))
-        {
-            task.Drops.Add(fight.DropId, fight.DropCount);
-        }
-
-        if (fight.EnableTimesLimit is not false && fight.Series > 0 && fight.TimesLimit % fight.Series != 0)
-        {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", fight.TimesLimit, fight.Series), UiLogColor.Warning);
-        }
-
-        return taskId switch {
-            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task),
-            _ => null,
-        };
-    }
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
     #region 关卡列表更新
 
@@ -961,5 +907,64 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         // 仅供 ComboBox本身 和 手写Stage的TextBlock 绑定使用
         public bool IsOpen { get => field; set => SetAndNotify(ref field, value); } = Instances.TaskQueueViewModel.IsStageOpen(stage);
+    }
+
+    private interface ISerialize : ITaskQueueModelSerialize
+    {
+        bool? ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
+        {
+            if (baseTask is not FightTask fight || taskId is int and <= 0)
+            {
+                return null;
+            }
+
+            if (fight.UseWeeklySchedule && fight.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
+            {
+                return null;
+            }
+
+            using var scope = _lock.EnterScope();
+            var stage = GetFightStage(fight);
+            if (stage is null)
+            {
+                return null;
+            }
+            var task = new AsstFightTask() {
+                Stage = stage,
+                Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
+                Stone = fight.UseStone != false ? fight.StoneCount : 0,
+                Series = fight.Series,
+                MaxTimes = fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue,
+                ExpiringMedicine = fight.UseExpiringMedicine ? 9999 : 0,
+                IsDrGrandet = fight.IsDrGrandet,
+                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                ServerType = Instances.SettingsViewModel.ServerType,
+                ClientType = SettingsViewModel.GameSettings.ClientType,
+            };
+
+            if (task.Stage == "Annihilation" && fight.UseCustomAnnihilation)
+            {
+                task.Stage = fight.AnnihilationStage;
+            }
+
+            if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId))
+            {
+                task.Drops.Add(fight.DropId, fight.DropCount);
+            }
+
+            if (fight.EnableTimesLimit is not false && fight.Series > 0 && fight.TimesLimit % fight.Series != 0)
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", fight.TimesLimit, fight.Series), UiLogColor.Warning);
+            }
+
+            return taskId switch {
+                int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task),
+                _ => null,
+            };
+        }
     }
 }
