@@ -54,6 +54,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 {
     LogTraceFunction;
 
+    static const std::string invalid_stage_code = "_INVALID_";
     std::string stage_code;
     Rect text_rect;
 
@@ -69,7 +70,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
     }
 
     // 如果不带 '-'，用非 char 模型再识别一次（适配剿灭/活动等特殊关卡码）
-    if (stage_code.find('-') == std::string::npos) {
+    if (stage_code != invalid_stage_code && stage_code.find('-') == std::string::npos) {
         RegionOCRer analyzer(m_image);
         analyzer.set_task_info("StageDrops-StageName");
         analyzer.set_use_char_model(false);
