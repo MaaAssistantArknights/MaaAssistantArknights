@@ -700,17 +700,30 @@ public class StageManager
             if (stage.DropGroups != null && stage.DropGroups.Count > 0)
             {
                 var groupTexts = new List<string>();
+                bool hasPositiveCount = false;
                 foreach (var dropGroup in stage.DropGroups)
                 {
                     var itemCounts = dropGroup
-                        .Select(dropId => Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.DisplayCount ?? "-1")
+                        .Select(dropId => {
+                            var depotItem = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId);
+                            if ((depotItem?.Count ?? 0) > 0)
+                            {
+                                hasPositiveCount = true;
+                            }
+
+                            var displayCount = depotItem?.DisplayCount;
+                            return string.IsNullOrEmpty(displayCount) || displayCount == "-1" ? "0" : displayCount;
+                        })
                         .ToList();
                     groupTexts.Add(string.Join(" & ", itemCounts));
                 }
 
                 string inventoryLabel = LocalizationHelper.GetString("Inventory");
                 string inventoryText = $" ({inventoryLabel} {string.Join(" / ", groupTexts)})";
-                lines.Add(inventoryText);
+                if (hasPositiveCount)
+                {
+                    lines.Add(inventoryText);
+                }
             }
         }
 
