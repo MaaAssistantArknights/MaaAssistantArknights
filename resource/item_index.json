@@ -1959,6 +1959,14 @@
         "sortId": -10000,
         "usage": "用于对遏制单元进行数据迭代。"
     },
+    "act2break_milestone_point": {
+        "classifyType": "NONE",
+        "description": "普通的标识牌。 在圆凳滑行赛中被作为加速指示牌使用之后，受到了关注这项赛事的干员们的喜爱，逐渐成为一种收藏品。",
+        "icon": "act2break_milestone_point.png",
+        "name": "“小心地滑”",
+        "sortId": -10000,
+        "usage": "可在突破里程碑中兑换奖励。"
+    },
     "act2collection_point_token": {
         "classifyType": "NONE",
         "description": "为了激励在各项集成战略行动中做出贡献的外勤人员，罗德岛发放了一定量的特殊奖励兑换点数。凭借兑换点数可兑换急需的物资。",

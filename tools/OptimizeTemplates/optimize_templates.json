@@ -3860,5 +3860,6 @@
     "resource/global/txwy/resource/template/UiTheme/Dreamland/Night/Mall": "45f1f97febcb88c7a534b3db2a0eb379e3cb7b26b10a6cbf25f59681ef6ed3d5",
     "resource/global/txwy/resource/template/UiTheme/Dreamland/Night/OperBoxEnter": "2b215e4d620a3a7ceecbfdaa51a386b582d926b27dd8c2e7ccdcb7a936f46f0d",
     "resource/global/txwy/resource/template/UiTheme/Dreamland/Night/Recruit": "fd0dd3c611c3c24871cbc957037e85049072156b93b932ba6b8121a0e375d61e",
-    "resource/global/txwy/resource/template/UiTheme/Dreamland/Night/Task": "66174d53fcd1bc6809a9a8ce59dfadf27a45bbf85c08b4166eeaa2258fbe5f80"
+    "resource/global/txwy/resource/template/UiTheme/Dreamland/Night/Task": "66174d53fcd1bc6809a9a8ce59dfadf27a45bbf85c08b4166eeaa2258fbe5f80",
+    "resource/template/items/act2break_milestone_point": "49055468a05329a54d70a9312bd7c3198093e9e8e963684958656eff5a7bcb00"
 }
