@@ -10034,6 +10034,195 @@
         "stageId": "act2bossrush_tm04",
         "width": 21
     },
+    "act2break_01-activities/act2break/level_act2break_01": {
+        "code": "VEC-01",
+        "filename": "act2break_01-activities-act2break-level_act2break_01.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_01",
+        "name": "此面朝上",
+        "stageId": "act2break_01",
+        "width": 9
+    },
+    "act2break_02-activities/act2break/level_act2break_02": {
+        "code": "VEC-02",
+        "filename": "act2break_02-activities-act2break-level_act2break_02.json",
+        "height": 6,
+        "levelId": "activities/act2break/level_act2break_02",
+        "name": "高心率追逐",
+        "stageId": "act2break_02",
+        "width": 9
+    },
+    "act2break_03-activities/act2break/level_act2break_03": {
+        "code": "VEC-03",
+        "filename": "act2break_03-activities-act2break-level_act2break_03.json",
+        "height": 5,
+        "levelId": "activities/act2break/level_act2break_03",
+        "name": "蜿蜒单行道",
+        "stageId": "act2break_03",
+        "width": 13
+    },
+    "act2break_04-activities/act2break/level_act2break_04": {
+        "code": "VEC-04",
+        "filename": "act2break_04-activities-act2break-level_act2break_04.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_04",
+        "name": "空间盲点",
+        "stageId": "act2break_04",
+        "width": 11
+    },
+    "act2break_05-activities/act2break/level_act2break_05": {
+        "code": "VEC-05",
+        "filename": "act2break_05-activities-act2break-level_act2break_05.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_05",
+        "name": "一线胜机",
+        "stageId": "act2break_05",
+        "width": 9
+    },
+    "act2break_06-activities/act2break/level_act2break_06": {
+        "code": "VEC-06",
+        "filename": "act2break_06-activities-act2break-level_act2break_06.json",
+        "height": 8,
+        "levelId": "activities/act2break/level_act2break_06",
+        "name": "灰烬游行团",
+        "stageId": "act2break_06",
+        "width": 12
+    },
+    "act2break_07-activities/act2break/level_act2break_07": {
+        "code": "VEC-07",
+        "filename": "act2break_07-activities-act2break-level_act2break_07.json",
+        "height": 8,
+        "levelId": "activities/act2break/level_act2break_07",
+        "name": "真光层下",
+        "stageId": "act2break_07",
+        "width": 11
+    },
+    "act2break_08-activities/act2break/level_act2break_08": {
+        "code": "VEC-08",
+        "filename": "act2break_08-activities-act2break-level_act2break_08.json",
+        "height": 8,
+        "levelId": "activities/act2break/level_act2break_08",
+        "name": "脉冲隔绝术",
+        "stageId": "act2break_08",
+        "width": 12
+    },
+    "act2break_09-activities/act2break/level_act2break_09": {
+        "code": "VEC-09",
+        "filename": "act2break_09-activities-act2break-level_act2break_09.json",
+        "height": 8,
+        "levelId": "activities/act2break/level_act2break_09",
+        "name": "紧急逃生",
+        "stageId": "act2break_09",
+        "width": 12
+    },
+    "act2break_10-activities/act2break/level_act2break_10": {
+        "code": "VEC-10",
+        "filename": "act2break_10-activities-act2break-level_act2break_10.json",
+        "height": 8,
+        "levelId": "activities/act2break/level_act2break_10",
+        "name": "涣散喧嚣",
+        "stageId": "act2break_10",
+        "width": 10
+    },
+    "act2break_11-activities/act2break/level_act2break_11": {
+        "code": "VEC-11",
+        "filename": "act2break_11-activities-act2break-level_act2break_11.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_11",
+        "name": "生人勿近",
+        "stageId": "act2break_11",
+        "width": 11
+    },
+    "act2break_12-activities/act2break/level_act2break_12": {
+        "code": "VEC-12",
+        "filename": "act2break_12-activities-act2break-level_act2break_12.json",
+        "height": 8,
+        "levelId": "activities/act2break/level_act2break_12",
+        "name": "维度误导",
+        "stageId": "act2break_12",
+        "width": 13
+    },
+    "act2break_sp01-activities/act2break/level_act2break_sp01": {
+        "code": "VEC-SP01",
+        "filename": "act2break_sp01-activities-act2break-level_act2break_sp01.json",
+        "height": 5,
+        "levelId": "activities/act2break/level_act2break_sp01",
+        "name": "自有方圆",
+        "stageId": "act2break_sp01",
+        "width": 8
+    },
+    "act2break_sp02-activities/act2break/level_act2break_sp02": {
+        "code": "VEC-SP02",
+        "filename": "act2break_sp02-activities-act2break-level_act2break_sp02.json",
+        "height": 5,
+        "levelId": "activities/act2break/level_act2break_sp02",
+        "name": "物归原主",
+        "stageId": "act2break_sp02",
+        "width": 8
+    },
+    "act2break_sp03-activities/act2break/level_act2break_sp03": {
+        "code": "VEC-SP03",
+        "filename": "act2break_sp03-activities-act2break-level_act2break_sp03.json",
+        "height": 5,
+        "levelId": "activities/act2break/level_act2break_sp03",
+        "name": "心中一泓",
+        "stageId": "act2break_sp03",
+        "width": 8
+    },
+    "act2break_sp04-activities/act2break/level_act2break_sp04": {
+        "code": "VEC-SP04",
+        "filename": "act2break_sp04-activities-act2break-level_act2break_sp04.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_sp04",
+        "name": "蜂鸣不绝",
+        "stageId": "act2break_sp04",
+        "width": 9
+    },
+    "act2break_sp05-activities/act2break/level_act2break_sp05": {
+        "code": "VEC-SP05",
+        "filename": "act2break_sp05-activities-act2break-level_act2break_sp05.json",
+        "height": 5,
+        "levelId": "activities/act2break/level_act2break_sp05",
+        "name": "污染危机",
+        "stageId": "act2break_sp05",
+        "width": 11
+    },
+    "act2break_sp06-activities/act2break/level_act2break_sp06": {
+        "code": "VEC-SP06",
+        "filename": "act2break_sp06-activities-act2break-level_act2break_sp06.json",
+        "height": 6,
+        "levelId": "activities/act2break/level_act2break_sp06",
+        "name": "躁动冲刺",
+        "stageId": "act2break_sp06",
+        "width": 9
+    },
+    "act2break_sp07-activities/act2break/level_act2break_sp07": {
+        "code": "VEC-SP07",
+        "filename": "act2break_sp07-activities-act2break-level_act2break_sp07.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_sp07",
+        "name": "慧眼如炬",
+        "stageId": "act2break_sp07",
+        "width": 10
+    },
+    "act2break_sp08-activities/act2break/level_act2break_sp08": {
+        "code": "VEC-SP13",
+        "filename": "act2break_sp08-activities-act2break-level_act2break_sp08.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_sp08",
+        "name": "南辕北辙",
+        "stageId": "act2break_sp08",
+        "width": 12
+    },
+    "act2break_sp09-activities/act2break/level_act2break_sp09": {
+        "code": "VEC-SP14",
+        "filename": "act2break_sp09-activities-act2break-level_act2break_sp09.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_sp09",
+        "name": "刺骨苦难",
+        "stageId": "act2break_sp09",
+        "width": 10
+    },
     "act2enemyduel_01a-activities/act2enemyduel/level_act2enemyduel_01a": {
         "code": "VS-1",
         "filename": "act2enemyduel_01a-activities-act2enemyduel-level_act2enemyduel_01a.json",
@@ -16090,6 +16279,87 @@
         "name": "《朝野汇编》",
         "stageId": "act49side_ex08",
         "width": 33
+    },
+    "act49side_mo01-activities/act49side/level_act49side_mo01": {
+        "code": "TA-MO-1",
+        "filename": "act49side_mo01-activities-act49side-level_act49side_mo01.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_mo01",
+        "name": "待启封的锦囊",
+        "stageId": "act49side_mo01",
+        "width": 13
+    },
+    "act49side_s01#f#-activities/act49side/level_act49side_sub-1-1": {
+        "code": "TA-S-1",
+        "filename": "act49side_s01#f#-activities-act49side-level_act49side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_sub-1-1",
+        "name": "《幄机》",
+        "stageId": "act49side_s01#f#",
+        "width": 12
+    },
+    "act49side_s01-activities/act49side/level_act49side_sub-1-1": {
+        "code": "TA-S-1",
+        "filename": "act49side_s01-activities-act49side-level_act49side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act49side/level_act49side_sub-1-1",
+        "name": "《幄机》",
+        "stageId": "act49side_s01",
+        "width": 12
+    },
+    "act49side_s02#f#-activities/act49side/level_act49side_sub-1-2": {
+        "code": "TA-S-2",
+        "filename": "act49side_s02#f#-activities-act49side-level_act49side_sub-1-2.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_sub-1-2",
+        "name": "《山河武略》",
+        "stageId": "act49side_s02#f#",
+        "width": 13
+    },
+    "act49side_s02-activities/act49side/level_act49side_sub-1-2": {
+        "code": "TA-S-2",
+        "filename": "act49side_s02-activities-act49side-level_act49side_sub-1-2.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_sub-1-2",
+        "name": "《山河武略》",
+        "stageId": "act49side_s02",
+        "width": 13
+    },
+    "act49side_s03#f#-activities/act49side/level_act49side_sub-1-3": {
+        "code": "TA-S-3",
+        "filename": "act49side_s03#f#-activities-act49side-level_act49side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_sub-1-3",
+        "name": "《塞语》",
+        "stageId": "act49side_s03#f#",
+        "width": 13
+    },
+    "act49side_s03-activities/act49side/level_act49side_sub-1-3": {
+        "code": "TA-S-3",
+        "filename": "act49side_s03-activities-act49side-level_act49side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_sub-1-3",
+        "name": "《塞语》",
+        "stageId": "act49side_s03",
+        "width": 13
+    },
+    "act49side_s04#f#-activities/act49side/level_act49side_sub-1-4": {
+        "code": "TA-S-4",
+        "filename": "act49side_s04#f#-activities-act49side-level_act49side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_sub-1-4",
+        "name": "《经纬运筹》",
+        "stageId": "act49side_s04#f#",
+        "width": 13
+    },
+    "act49side_s04-activities/act49side/level_act49side_sub-1-4": {
+        "code": "TA-S-4",
+        "filename": "act49side_s04-activities-act49side-level_act49side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act49side/level_act49side_sub-1-4",
+        "name": "《经纬运筹》",
+        "stageId": "act49side_s04",
+        "width": 13
     },
     "act49side_tr01-activities/act49side/level_act49side_tr01": {
         "code": "TA-TR-1",

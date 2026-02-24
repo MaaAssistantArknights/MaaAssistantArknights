@@ -10788,6 +10788,21 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
         },
+        "trap_328_newlamp": {
+            "name": "城市霓虹",
+            "name_en": "城市霓虹",
+            "name_en_unavailable": true,
+            "name_jp": "城市霓虹",
+            "name_jp_unavailable": true,
+            "name_kr": "城市霓虹",
+            "name_kr_unavailable": true,
+            "name_tw": "城市霓虹",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["x-5", "x-5", "x-5"],
+            "rarity": 1
+        },
         "trap_330_ycwang": {
             "name": "演出望",
             "name_en": "演出望",
