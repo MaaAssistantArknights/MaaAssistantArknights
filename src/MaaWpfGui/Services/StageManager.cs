@@ -699,29 +699,24 @@ public class StageManager
             // Drop groups tips (for chip stages like PR-A-1/2)
             if (stage.DropGroups != null && stage.DropGroups.Count > 0)
             {
-                var groupTexts = new List<string>();
-                bool hasPositiveCount = false;
-                foreach (var dropGroup in stage.DropGroups)
-                {
-                    var itemCounts = dropGroup
+                var normalizedCountGroups = stage.DropGroups
+                    .Select(dropGroup => dropGroup
                         .Select(dropId => {
                             var depotItem = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId);
-                            if ((depotItem?.Count ?? 0) > 0)
-                            {
-                                hasPositiveCount = true;
-                            }
-
-                            var displayCount = depotItem?.DisplayCount;
-                            return string.IsNullOrEmpty(displayCount) || displayCount == "-1" ? "0" : displayCount;
+                            return depotItem is { Count: > 0 } ? depotItem.Count : 0;
                         })
-                        .ToList();
-                    groupTexts.Add(string.Join(" & ", itemCounts));
-                }
+                        .ToList())
+                    .ToList();
 
-                string inventoryLabel = LocalizationHelper.GetString("Inventory");
-                string inventoryText = $" ({inventoryLabel} {string.Join(" / ", groupTexts)})";
+                bool hasPositiveCount = normalizedCountGroups.SelectMany(group => group).Any(count => count > 0);
                 if (hasPositiveCount)
                 {
+                    var groupTexts = normalizedCountGroups
+                        .Select(group => string.Join(" & ", group.Select(count => count.FormatNumber(false))))
+                        .ToList();
+
+                    string inventoryLabel = LocalizationHelper.GetString("Inventory");
+                    string inventoryText = $" ({inventoryLabel} {string.Join(" / ", groupTexts)})";
                     lines.Add(inventoryText);
                 }
             }
