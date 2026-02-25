@@ -309,6 +309,16 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
         }
     }
 
+    if (kills_text.length() <= pos + 1) {
+        Log.error(
+            "kills_text length is too short: text='{}', length={}, pos={}",
+            kills_text,
+            kills_text.size(),
+            pos
+        );
+        return {};
+    }
+
     // 例子中的"0"
     std::string kills_count = kills_text.substr(0, pos);
     if (kills_count.empty() || !std::ranges::all_of(kills_count, [](char c) -> bool { return std::isdigit(c); })) {

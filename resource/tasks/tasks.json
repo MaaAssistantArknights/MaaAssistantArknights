@@ -3771,7 +3771,7 @@
         "algorithm": "OcrDetect",
         "isAscii": true,
         "text": [],
-        "roi": [50, 0, 100, 40],
+        "roi": [50, -20, 100, 40],
         "useRaw": false,
         "specialParams_doc": "Kill区域变化阈值, 模板匹配, 100=1.0; 正常在 0.997-1 之间波动, 少有0.995; _5->_6 的分数最高, 可达0.94",
         "specialParams": [98]
