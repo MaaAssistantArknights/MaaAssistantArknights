@@ -1,4 +1,7 @@
 {
+    "BattleQuickFormationSkillPage":{
+        "text": "Skill"
+    },
     "BattleQuickFormationModulePage": {
         "text": ["Branch"]
     },

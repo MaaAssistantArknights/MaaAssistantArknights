@@ -1,4 +1,8 @@
 {
+    "BattleQuickFormationSkillPage":{
+        "baseTask": "#none",
+        "algorithm": "JustReturn"
+    },
     "BattleQuickFormationModulePage": {
         "text": ["세부", "분류"]
     },
