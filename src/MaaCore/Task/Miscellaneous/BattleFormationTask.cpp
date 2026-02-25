@@ -600,6 +600,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
         }
         ctrler()->click(res.flag_rect);
         sleep(delay);
+        ret = ProcessTask(*this, { "BattleQuickFormationSkillPage" }).run();
         if (!check_and_select_skill(*oper, m_ignore_requirements, delay)) {
             ctrler()->click(res.flag_rect); // 选择技能失败时反选干员
             sleep(delay);

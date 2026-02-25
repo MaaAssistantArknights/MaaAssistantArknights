@@ -66,6 +66,13 @@
         "rectMove": [15, 200, 80, 100],
         "specialParams": [150, 0, 1, 1]
     },
+    "BattleQuickFormationSkillPage": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["技能"],
+        "roi": [0, 320, 180, 40],
+        "postDelay": 500
+    },
     "BattleQuickFormationModulePage": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
