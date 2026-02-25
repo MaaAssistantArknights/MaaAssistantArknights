@@ -48,9 +48,7 @@
         {
             "name": "macos-arm64",
             "displayName": "macOS arm64 Release",
-            "$comment": [
-                "see .github/workflows/res-update-game.yml"
-            ],
+            "$comment": ["see .github/workflows/res-update-game.yml"],
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
