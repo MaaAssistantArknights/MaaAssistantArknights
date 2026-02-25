@@ -18,6 +18,7 @@
             "cacheVariables": {
                 "BUILD_WPF_GUI": "ON",
                 "BUILD_DEBUG_DEMO": "ON",
+                "BUILD_RESOURCE_UPDATER": "ON",
                 "INSTALL_RESOURCE": "OFF",
                 "INSTALL_PYTHON": "OFF"
             },
@@ -25,6 +26,42 @@
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
+            }
+        },
+        {
+            "name": "windows-clang-base",
+            "hidden": true,
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build",
+            "$comment": [
+                "NOT for building — only for generating compile_commands.json for clangd / VS Code",
+                "run from 'x64 Native Tools Command Prompt for VS' or ensure clang-cl is in PATH",
+                "to build, use the Visual Studio presets (windows-x64, windows-arm64)"
+            ],
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang-cl",
+                "CMAKE_CXX_COMPILER": "clang-cl",
+                "CMAKE_C_COMPILER_TARGET": "x86_64-pc-windows-msvc",
+                "CMAKE_CXX_COMPILER_TARGET": "x86_64-pc-windows-msvc",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "BUILD_WPF_GUI": "OFF",
+                "BUILD_DEBUG_DEMO": "ON",
+                "BUILD_RESOURCE_UPDATER": "ON",
+                "INSTALL_RESOURCE": "OFF",
+                "INSTALL_PYTHON": "OFF"
+            }
+        },
+        {
+            "name": "windows-x64-clang",
+            "inherits": "windows-clang-base",
+            "displayName": "Windows x64 (clang-cl)",
+            "cacheVariables": {
+                "MAADEPS_TRIPLET": "maa-x64-windows"
             }
         },
         {
@@ -123,7 +160,7 @@
         },
         {
             "name": "publish-base",
-            "$comment":[
+            "$comment": [
                 "All the name contains 'publish' are used for github actions",
                 "see .github/workflows/ci.yml"
             ],
@@ -139,7 +176,10 @@
         },
         {
             "name": "windows-publish-x64",
-            "inherits": ["publish-base", "windows-x64"],
+            "inherits": [
+                "publish-base",
+                "windows-x64"
+            ],
             "$comment": [
                 "github actions only support Visual Studio 17 2022",
                 "see https://github.com/actions/runner-images/issues/13291"
@@ -149,7 +189,10 @@
         },
         {
             "name": "windows-publish-arm64",
-            "inherits": ["publish-base", "windows-arm64"],
+            "inherits": [
+                "publish-base",
+                "windows-arm64"
+            ],
             "$comment": [
                 "github actions only support Visual Studio 17 2022",
                 "see https://github.com/actions/runner-images/issues/13291"
@@ -159,27 +202,39 @@
         },
         {
             "name": "linux-publish-x64",
-            "inherits": ["publish-base", "linux-x64"],
+            "inherits": [
+                "publish-base",
+                "linux-x64"
+            ],
             "displayName": "Linux x64 Publish"
         },
         {
             "name": "linux-publish-arm64",
-            "inherits": ["publish-base", "linux-arm64"],
+            "inherits": [
+                "publish-base",
+                "linux-arm64"
+            ],
             "displayName": "Linux arm64 Publish"
         },
         {
             "name": "macos-publish-x64",
-            "inherits": ["publish-base", "macos-x64"],
+            "inherits": [
+                "publish-base",
+                "macos-x64"
+            ],
             "displayName": "macOS x64 Publish"
         },
         {
             "name": "macos-publish-arm64",
-            "inherits": ["publish-base", "macos-arm64"],
+            "inherits": [
+                "publish-base",
+                "macos-arm64"
+            ],
             "displayName": "macOS arm64 Publish"
         },
         {
             "name": "smoke-test",
-            "$comment":[
+            "$comment": [
                 "this preset is used for smoke testing",
                 "see .github/workflows/smoke-testing.yml"
             ],
