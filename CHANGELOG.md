@@ -1,4 +1,4 @@
-## v6.3.4
+## v6.3.5
 
 ### 拉电线不知天地为何物 | Highlight
 
@@ -64,6 +64,16 @@ We warmly welcome community developers to assist with adaptation and submit impr
 ----
 
 以下是详细内容：
+
+## v6.3.5
+
+### 修复 | Fix
+
+* 击杀数部分识别错误情况下闪退 @ABA2396
+
+### 其他 | Other
+
+* 调整 BattleKills roi @ABA2396
 
 ## v6.3.4
 
