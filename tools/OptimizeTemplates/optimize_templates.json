@@ -2653,7 +2653,7 @@
     "resource/template/Battle/BattleFlag/EndOfAction": "3a4e90ae88d0ff83304c793bd05695335888d67d0b3224066a22b465c5f53f0b",
     "resource/template/Battle/BattleFlag/BattleSpeedUp": "f81a6ea54970ec3fdfbea14c2887e067e60ca3ba7d3c7168da7b19c5a62c91ca",
     "resource/template/Battle/BattleFlag/BattleSkillReadyOnClick-TopView2": "9de4d366eab581c30dfde35346a94197727a6397e7c8f99da07a828f70b89607",
-    "resource/template/Battle/BattleFlag/BattleKillsFlag": "7b5db70e0fd69ea0f09db643d6e3c31999fe521a6439fe3ab47aa85a014f3b59",
+    "resource/template/Battle/BattleFlag/BattleKillsFlag": "fa79f797794e7647c7189c07e518d06532f81c674af197cacce92ee113885b5d",
     "resource/template/Battle/BattleFlag/AbandonAction": "052a60fec1eb98ff3ab12814e40426ff682377b89c9ee844d3cff210c662559e",
     "resource/template/Battle/BattleFlag/BattleSkillReady": "6dcb381619811d91419ffda02fa4764908e3d61107abe2ecd0c8e92b631a6746",
     "resource/template/Battle/BattleFlag/PrtsErrorConfirm": "57ce7a88d0a231a8b77ea24c7f69e4cce65038095dda68d6782afddbcd37566e",
