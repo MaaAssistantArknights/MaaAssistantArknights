@@ -1,4 +1,4 @@
-## v6.3.3
+## v6.3.4
 
 ### 拉电线不知天地为何物 | Highlight
 
@@ -64,6 +64,16 @@ We warmly welcome community developers to assist with adaptation and submit impr
 ----
 
 以下是详细内容：
+
+## v6.3.4
+
+### 修复 | Fix
+
+* 沟槽的 yj 怎么有倒计时的时候击杀数图标都不一样 @ABA2396
+
+### 其他 | Other
+
+* 调整 BattleKillsFlag height @ABA2396
 
 ## v6.3.3
 
