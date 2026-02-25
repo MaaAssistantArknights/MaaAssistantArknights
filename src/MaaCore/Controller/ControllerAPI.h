@@ -68,6 +68,10 @@ public:
     ControllerAPI& operator=(ControllerAPI&&) = delete;
 
     virtual void back_to_home() noexcept {}
+
+    // 将光标移到被控窗口外，避免悬停效果干扰游戏画面。
+    // 默认空实现；Win32Controller 会覆盖此方法。
+    virtual void move_cursor_out_of_view() noexcept {}
 };
 
 struct InputEvent
