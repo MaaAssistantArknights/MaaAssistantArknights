@@ -33,7 +33,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 信用购物
 /// </summary>
-public class MallSettingsUserControlModel : TaskSettingsViewModel
+public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsUserControlModel.ISerialize
 {
     static MallSettingsUserControlModel()
     {
@@ -190,65 +190,70 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null)
+    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize)?.Serialize(baseTask, taskId);
+
+    private interface ISerialize : ITaskQueueModelSerialize
     {
-        if (baseTask is not MallTask mall)
+        bool? ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
-            return null;
-        }
-
-        var fightStageEmpty = false;
-        var tasks = ConfigFactory.CurrentConfig.TaskQueue;
-        int taskIndex = -1, stageIndex = -1;
-        for (int i = 0; i < tasks.Count; i++)
-        {
-            if (ConfigFactory.CurrentConfig.TaskQueue.ElementAt(i) is not FightTask t)
+            if (baseTask is not MallTask mall)
             {
-                continue;
-            }
-            else if (!TaskQueueViewModel.IsTaskEnable(t))
-            {
-                continue;
+                return null;
             }
 
-            var weekly = Enum.GetValues<DayOfWeek>().Where(d => !t.UseWeeklySchedule || (t.WeeklySchedule.TryGetValue(d, out var isEnabled) && isEnabled));
-            if (weekly.Any(day => GetStageForDayOfWeek(t, day) == string.Empty))
+            var fightStageEmpty = false;
+            var tasks = ConfigFactory.CurrentConfig.TaskQueue;
+            int taskIndex = -1, stageIndex = -1;
+            for (int i = 0; i < tasks.Count; i++)
             {
-                taskIndex = i;
-                stageIndex = t.StagePlan.IndexOf(string.Empty);
-                fightStageEmpty = true;
-                break;
+                if (ConfigFactory.CurrentConfig.TaskQueue.ElementAt(i) is not FightTask t)
+                {
+                    continue;
+                }
+                else if (!TaskQueueViewModel.IsTaskEnable(t))
+                {
+                    continue;
+                }
+
+                var weekly = Enum.GetValues<DayOfWeek>().Where(d => !t.UseWeeklySchedule || (t.WeeklySchedule.TryGetValue(d, out var isEnabled) && isEnabled));
+                if (weekly.Any(day => GetStageForDayOfWeek(t, day) == string.Empty))
+                {
+                    taskIndex = i;
+                    stageIndex = t.StagePlan.IndexOf(string.Empty);
+                    fightStageEmpty = true;
+                    break;
+                }
             }
-        }
 
-        if (mall.IsCreditFightAvailable && fightStageEmpty)
-        {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("CreditFightWhenOF-1Warning", ConfigFactory.CurrentConfig.TaskQueue[taskIndex].Name, taskIndex + 1, stageIndex + 1), UiLogColor.Warning);
-        }
+            if (mall.IsCreditFightAvailable && fightStageEmpty)
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("CreditFightWhenOF-1Warning", ConfigFactory.CurrentConfig.TaskQueue[taskIndex].Name, taskIndex + 1, stageIndex + 1), UiLogColor.Warning);
+            }
 
-        var task = new AsstMallTask() {
-            CreditFight = mall.IsCreditFightAvailable && !fightStageEmpty,
-            FormationIndex = mall.CreditFightFormation,
-            VisitFriends = mall.IsVisitFriendsAvailable,
-            WithShopping = mall.Shopping,
-            FirstList = [.. mall.FirstList.Split(';').Select(s => s.Trim())],
-            Blacklist = [.. mall.BlackList.Split(';').Select(s => s.Trim()).Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType])],
-            ForceShoppingIfCreditFull = mall.ShoppingIgnoreBlackListWhenFull,
-            OnlyBuyDiscount = mall.OnlyBuyDiscount,
-            ReserveMaxCredit = mall.ReserveMaxCredit,
-        };
+            var task = new AsstMallTask() {
+                CreditFight = mall.IsCreditFightAvailable && !fightStageEmpty,
+                FormationIndex = mall.CreditFightFormation,
+                VisitFriends = mall.IsVisitFriendsAvailable,
+                WithShopping = mall.Shopping,
+                FirstList = [.. mall.FirstList.Split(';').Select(s => s.Trim())],
+                Blacklist = [.. mall.BlackList.Split(';').Select(s => s.Trim()).Union(Instance._blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType])],
+                ForceShoppingIfCreditFull = mall.ShoppingIgnoreBlackListWhenFull,
+                OnlyBuyDiscount = mall.OnlyBuyDiscount,
+                ReserveMaxCredit = mall.ReserveMaxCredit,
+            };
 
-        return taskId switch {
-            int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
-            null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task),
-            _ => null,
-        };
+            return taskId switch {
+                int id when id > 0 => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task),
+                _ => null,
+            };
 
-        string? GetStageForDayOfWeek(FightTask fightTask, DayOfWeek day)
-        {
-            var result = fightTask.StagePlan.FirstOrDefault(stage => Instances.StageManager.IsStageOpen(stage, day));
-            result ??= fightTask.StagePlan.FirstOrDefault();
-            return result;
+            string? GetStageForDayOfWeek(FightTask fightTask, DayOfWeek day)
+            {
+                var result = fightTask.StagePlan.FirstOrDefault(stage => Instances.StageManager.IsStageOpen(stage, day));
+                result ??= fightTask.StagePlan.FirstOrDefault();
+                return result;
+            }
         }
     }
 }
