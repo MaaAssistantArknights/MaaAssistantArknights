@@ -1,4 +1,8 @@
 {
+    "BattleQuickFormationSkillPage":{
+        "baseTask": "#none",
+        "algorithm": "JustReturn"
+    },
     "ClickChapter1": {
         "text": ["覺醒"]
     },
