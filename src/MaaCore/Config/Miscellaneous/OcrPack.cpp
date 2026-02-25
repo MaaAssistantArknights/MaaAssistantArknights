@@ -105,39 +105,30 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
         // the box rect like ↓
         // 0 - 1
         // 3 - 2
+        Rect abs_rect;
         Rect det_rect;
-        if (!without_det && i < ocr_result.boxes.size()) {
+        if (i < ocr_result.boxes.size()) {
             const auto& box = ocr_result.boxes.at(i);
             int x_collect[] = { box[0], box[2], box[4], box[6] };
             int y_collect[] = { box[1], box[3], box[5], box[7] };
             auto [left, right] = std::ranges::minmax(x_collect);
             auto [top, bottom] = std::ranges::minmax(y_collect);
-            det_rect = Rect(left, top, right - left, bottom - top);
+            abs_rect = Rect(left, top, right - left, bottom - top);
         }
-        else {
-            det_rect = Rect(0, 0, image.cols, image.rows);
-        }
-
+        
+        det_rect = Rect(0, 0, image.cols, image.rows);
+        
 #ifdef ASST_DEBUG
         cv::rectangle(draw, make_rect<cv::Rect>(det_rect), cv::Scalar(0, 0, 255), 2);
 #endif
-        raw_results.emplace_back(Result(det_rect, ocr_result.rec_scores.at(i), std::move(ocr_result.text.at(i))));
+        raw_results.emplace_back(Result(abs_rect, det_rect, ocr_result.rec_scores.at(i), std::move(ocr_result.text.at(i))));
     }
 
     auto costs =
         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
     std::string class_type = utils::demangle(typeid(*this).name());
-    if (roi.x != 0 || roi.y != 0) {
-        ResultsVec log_results = raw_results;
-        for (auto& r : log_results) {
-            r.rect.x += roi.x;
-            r.rect.y += roi.y;
-        }
-        Log.trace(class_type, log_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
-    }
-    else {
-        Log.trace(class_type, raw_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
-    }
+
+    Log.trace(class_type, raw_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
     return raw_results;
 }
 

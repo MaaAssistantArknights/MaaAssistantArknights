@@ -12,8 +12,8 @@ public:
     {
         using TextRect::TextRect;
 
-        Result(Rect r, double s, std::string t, Rect f_r, double f_s) :
-            TextRect(r, s, std::move(t)),
+        Result(Rect a, Rect r, double s, std::string t, Rect f_r, double f_s) :
+            TextRect(a, r, s, std::move(t)),
             flag_rect(f_r),
             flag_score(f_s)
         {
