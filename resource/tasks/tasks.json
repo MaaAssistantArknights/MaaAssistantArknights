@@ -3763,7 +3763,7 @@
         "rectMove": [-48, -48, 96, 96]
     },
     "BattleKillsFlag": {
-        "roi": [150, 0, 600, 60],
+        "roi": [150, 0, 600, 70],
         "maskRange": [1, 255],
         "templThreshold": 0.6
     },
