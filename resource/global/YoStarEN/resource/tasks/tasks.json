@@ -1,7 +1,6 @@
 {
     "BattleQuickFormationSkillPage":{
-        "baseTask": "#none",
-        "algorithm": "JustReturn"
+        "text": "Skill"
     },
     "BattleQuickFormationModulePage": {
         "text": ["Branch"]
