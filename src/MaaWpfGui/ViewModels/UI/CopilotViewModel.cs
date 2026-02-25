@@ -240,8 +240,6 @@ public partial class CopilotViewModel : Screen
             {
                 return;
             }
-
-            Filename = string.Empty;
         }
     }
 
@@ -1179,11 +1177,12 @@ public partial class CopilotViewModel : Screen
         }
         foreach (var (output, color) in copilot.Output())
         {
-            AddLog(output, color ?? UiLogColor.Message, showTime: false);
+            AddLog(output, color ?? UiLogColor.Message, showTime: false); // 作业信息输出
         }
 
         MapUrl = MapUiUrl.Replace("areas", "map/" + copilot.StageName);
-        var navigateName = DataHelper.FindMap(copilot.StageName)?.Code;
+        var mapInfo = DataHelper.FindMap(copilot.StageName);
+        var navigateName = mapInfo?.Code;
         if (navigateName is null)
         {
             // 不支持的关卡
@@ -1192,8 +1191,16 @@ public partial class CopilotViewModel : Screen
             _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
         }
-
         CopilotTaskName = navigateName;
+
+        if (mapInfo?.StageId is { } stageId)
+        {
+            if (stageId.StartsWith("mem_"))
+            {
+                CopilotTabIndex = 2;
+            }
+        }
+
         if (!writeToCache)
         {// 现在是暂时将所有本地作业不添加到列表
         }
@@ -1236,6 +1243,7 @@ public partial class CopilotViewModel : Screen
         }
 
         _taskType = AsstTaskType.SSSCopilot;
+        CopilotTabIndex = 1;
         _copilotCache = copilot;
         MapUrl = MapUiUrl.Replace("areas", "map/" + copilot.StageName);
         if (copilot.Documentation?.Details is not null)
