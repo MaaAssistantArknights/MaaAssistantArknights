@@ -1,10 +1,10 @@
 {
-    "BattleQuickFormationSkillPage":{
-        "baseTask": "#none",
-        "algorithm": "JustReturn"
-    },
     "BattleQuickFormationModulePage": {
         "text": ["職分"]
+    },
+    "BattleQuickFormationSkillPage": {
+        "algorithm": "JustReturn",
+        "baseTask": "#none"
     },
     "ClickChapter1": {
         "text": ["覚醒"]

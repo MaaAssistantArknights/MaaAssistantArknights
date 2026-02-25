@@ -1,10 +1,10 @@
 {
-    "BattleQuickFormationSkillPage":{
-        "baseTask": "#none",
-        "algorithm": "JustReturn"
-    },
     "BattleQuickFormationModulePage": {
         "text": ["세부", "분류"]
+    },
+    "BattleQuickFormationSkillPage": {
+        "algorithm": "JustReturn",
+        "baseTask": "#none"
     },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
