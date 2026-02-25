@@ -1351,6 +1351,7 @@ public partial class CopilotViewModel : Screen
         }
 
         Log(copilotSet.Name, copilotSet.Description);
+        _copilotCache = null;
         return;
 
         void Log(string? name, string? description)
