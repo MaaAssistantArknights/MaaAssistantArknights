@@ -180,11 +180,6 @@
                 "publish-base",
                 "windows-x64"
             ],
-            "$comment": [
-                "github actions only support Visual Studio 17 2022",
-                "see https://github.com/actions/runner-images/issues/13291"
-            ],
-            "generator": "Visual Studio 17 2022",
             "displayName": "Windows x64 Publish"
         },
         {
@@ -193,11 +188,6 @@
                 "publish-base",
                 "windows-arm64"
             ],
-            "$comment": [
-                "github actions only support Visual Studio 17 2022",
-                "see https://github.com/actions/runner-images/issues/13291"
-            ],
-            "generator": "Visual Studio 17 2022",
             "displayName": "Windows arm64 Publish"
         },
         {
