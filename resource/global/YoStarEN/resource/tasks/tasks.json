@@ -1,9 +1,9 @@
 {
-    "BattleQuickFormationSkillPage":{
-        "text": "Skill"
-    },
     "BattleQuickFormationModulePage": {
         "text": ["Branch"]
+    },
+    "BattleQuickFormationSkillPage": {
+        "text": "Skill"
     },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
