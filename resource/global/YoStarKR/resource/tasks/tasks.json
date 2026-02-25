@@ -2,6 +2,10 @@
     "BattleQuickFormationModulePage": {
         "text": ["세부", "분류"]
     },
+    "BattleQuickFormationSkillPage": {
+        "algorithm": "JustReturn",
+        "baseTask": "#none"
+    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1622,7 +1626,8 @@
             [".*사이언스아카.*", "皇家科学院望远镜"],
             ["보안인재.*", "保全人才合作协议"],
             ["소형조준.*", "轻型瞄准测距仪"],
-            ["천공야행세트", "天工夜行套装"]
+            ["천공야행세트", "天工夜行套装"],
+            ["역제압장갑세트", "反制装甲套组"]
         ]
     },
     "SSSBuffChooseConfirm": {

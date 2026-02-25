@@ -234,7 +234,7 @@ public class ConfigConverter
                 infrastTask.DormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, false);
                 infrastTask.OriginiumShardAutoReplenishment = ConfigurationHelper.GetValue(ConfigurationKeys.OriginiumShardAutoReplenishment, true);
                 infrastTask.Filename = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastFile, string.Empty);
-                infrastTask.PlanSelect = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanSelect, 0);
+                infrastTask.PlanSelect = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanSelect, -1);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastMode);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.UsesOfDrones);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive);

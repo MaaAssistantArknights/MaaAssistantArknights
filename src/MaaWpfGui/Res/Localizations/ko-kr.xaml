@@ -1256,7 +1256,8 @@ MAA Team의 개발 인력이 제한되어 있어 PC 지원은 전담 관리가 �
 사용 전 확인 사항:
 1. MAA를 관리자 권한으로 실행해야 합니다
 2. 게임 창을 최소화하면 안 됩니다
-3. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다</system:String>
+3. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다
+4. 게임 해상도는 16:9이어야 하며, 권장 설정: 720×1280 또는 1080×1920</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
@@ -1267,6 +1268,8 @@ MAA Team의 개발 인력이 제한되어 있어 PC 지원은 전담 관리가 �
     <system:String x:Key="AttachWindowInputSeize">Seize (포그라운드, 더 안정적)</system:String>
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor (반 백그라운드)</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor (반 백그라운드, 백업)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMessageWithWindowPos (백그라운드 윈도우)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMessageWithWindowPos (백그라운드 윈도우, 백업)</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAA 강제 표시</system:String>

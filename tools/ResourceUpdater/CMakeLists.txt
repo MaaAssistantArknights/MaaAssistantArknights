@@ -6,9 +6,13 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build." FORCE)
 endif ()
 
-set(BUILD_MAA_UTILS OFF)
-set(MAA_PROJECT_DIR "${CMAKE_SOURCE_DIR}/../../")
-include(${MAA_PROJECT_DIR}/src/MaaUtils/MaaUtils.cmake)
+# When built as a subdirectory of the main project, MaaUtils is already loaded.
+# When built standalone, load it ourselves.
+set(MAA_PROJECT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../")
+if(NOT TARGET HeaderOnlyLibraries)
+    set(BUILD_MAA_UTILS OFF)
+    include(${MAA_PROJECT_DIR}/src/MaaUtils/MaaUtils.cmake)
+endif()
 
 add_executable(res_updater main.cpp)
 

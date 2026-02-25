@@ -2,6 +2,9 @@
     "BattleQuickFormationModulePage": {
         "text": ["Branch"]
     },
+    "BattleQuickFormationSkillPage": {
+        "text": "Skill"
+    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
@@ -90,7 +93,7 @@
             ["Reserve Operator *-* *M[elee]*", "预备干员-近战"],
             ["Angelina", "安洁莉娜"],
             ["Sora", "空"],
-            ["Ss?k?ad?i? the Co?rru?pt?ing ?[Heart]*", "浊心斯卡蒂"],
+            ["Skadi the Corrupting ?[Heart]*", "浊心斯卡蒂"],
             ["Scene", "稀音"],
             ["Suzuran", "铃兰"],
             ["Mayer", "梅尔"],
@@ -1532,7 +1535,7 @@
         "text": ["All"]
     },
     "BattleQuickFormationOCR": {
-        "rectMove": [0, 231, 116, 22],
+        "rectMove": [0, 234, 116, 22],
         "specialParams": [105, 2, 7, 0, 3, 10]
     },
     "BattleStartPre": {
@@ -1586,7 +1589,7 @@
     },
     "OperBoxNameOCR": {
         "rectMove_doc": "for overwidth",
-        "rectMove": [0, 265, 128, 22],
+        "rectMove": [0, 264, 133, 24],
         "specialParams": [160, 4, 0, 0, 3, 10]
     },
     "SSSBegin": {

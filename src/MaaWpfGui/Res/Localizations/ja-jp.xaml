@@ -1255,7 +1255,8 @@ MAA Team の開発リソースが限られているため、PC 対応は専任�
 使用前にご確認ください：
 1. MAA を管理者権限で起動してください
 2. ゲームウィンドウを最小化しないでください
-3. アークナイツ設定 → ゲーム → UI スケーリングを 100% に設定してください</system:String>
+3. アークナイツ設定 → ゲーム → UI スケーリングを 100% に設定してください
+4. ゲーム解像度は 16:9 である必要があります。推奨設定：720×1280 または 1080×1920</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
@@ -1266,6 +1267,8 @@ MAA Team の開発リソースが限られているため、PC 対応は専任�
     <system:String x:Key="AttachWindowInputSeize">Seize（フォアグラウンド、より安定）</system:String>
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor（半バックグラウンド）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor（半バックグラウンド、予備）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMessageWithWindowPos（バックグラウンドウィンドウ）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMessageWithWindowPos（バックグラウンドウィンドウ、予備）</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAAの強制表示</system:String>

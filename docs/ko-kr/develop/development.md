@@ -157,7 +157,27 @@ clangd 사용 시 C/C++ 확장의 IntelliSense를 비활성화(`C_Cpp.intelliSen
 
 1. VSCode에서 프로젝트 루트 열기
 2. **CMake Tools**: 상태 표시줄에서 Configure Preset(예: `windows-x64`, `linux-x64`) 선택 후 Build Preset으로 빌드 실행
-3. **clangd**: Windows에서 MSVC 사용 시 `compile_commands.json` 없이도 clangd로 개발 가능. Linux/macOS에서는 프리셋에서 `CMAKE_EXPORT_COMPILE_COMMANDS`가 활성화되어 clangd가 `build/compile_commands.json`을 자동 사용
+3. **clangd**: Linux/macOS에서는 프리셋에서 `CMAKE_EXPORT_COMPILE_COMMANDS`가 활성화되어 clangd가 `build/compile_commands.json`을 자동 사용합니다. Windows에서 clangd의 코드 완성 및 탐색 기능을 사용하려면 먼저 `compile_commands.json`을 생성해야 합니다:
+
+   ::: warning Windows에서 clangd 설정 안내
+   - VS Installer에서 **C++용 Clang 컴파일러 (Windows)**(clang-cl)를 선택하여 설치
+   - `windows-x64-clang` 프리셋으로 전환 후 Configure를 한 번 실행하면 `build/`에 `compile_commands.json`이 생성되며, 이후 clangd가 동작합니다
+   - **해당 프리셋은 clang-cl을 사용하므로 MSVC가 아니어서 실제 빌드 산출물을 생성할 수 없습니다**. 실제 빌드 시에는 `windows-x64`로 다시 전환해야 합니다
+   - clangd는 clang-cl의 컴파일 정보로 분석하므로, 일부 코드(예: MSVC 전용 확장)에서 오류가 표시될 수 있으나 무시해도 되며 실제 MSVC 빌드에는 영향을 주지 않습니다
+
+   **명령줄에서 프리셋 전환 예시** (프로젝트 루트에서 실행):
+
+   ```cmd
+   rem compile_commands.json 생성 (Configure만, 빌드 없음)
+   cmake --preset windows-x64-clang
+
+   rem MSVC로 전환하여 실제 빌드 수행
+   cmake --preset windows-x64
+   cmake --build --preset windows-x64-RelWithDebInfo
+   ```
+
+   :::
+
 4. **디버깅**: 프로젝트에 `.vscode/launch.json`이 포함되어 MaaWpfGui 또는 Debug Demo를 바로 실행 가능
 
 ### 빌드 및 디버깅 단축키

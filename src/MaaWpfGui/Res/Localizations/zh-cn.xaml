@@ -1255,7 +1255,8 @@ C:\\leidian\\LDPlayer9。\n
 使用前请确认：
 1. 需要以管理员身份启动 MAA
 2. 游戏窗口不能最小化
-3. 明日方舟设置 → 游戏 → UI 缩放需设为 100%</system:String>
+3. 明日方舟设置 → 游戏 → UI 缩放需设为 100%
+4. 游戏分辨率需为 16:9，推荐设置 720×1280 或 1080×1920</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">鼠标输入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">键盘输入</system:String>
@@ -1266,6 +1267,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AttachWindowInputSeize">Seize（前台，更稳定）</system:String>
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor（半后台）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor（半后台，备用）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMessageWithWindowPos（后台窗口）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMessageWithWindowPos（后台窗口，备用）</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">强制显示MAA</system:String>

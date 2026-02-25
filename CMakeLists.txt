@@ -11,6 +11,7 @@ option(INSTALL_RESOURCE "install resource" OFF)
 option(INSTALL_FLATTEN "do not use bin lib include directory" ON)
 option(WITH_EMULATOR_EXTRAS "build with emulator extras" ${WIN32})
 option(WITH_HASH_VERSION "generate version from git hash" OFF)
+option(BUILD_RESOURCE_UPDATER "build resource updater tool" OFF)
 
 if(INSTALL_FLATTEN)
     set(RPATH_LIBRARY_INSTALL_DIR .)
@@ -54,4 +55,8 @@ endif()
 
 if(BUILD_DEBUG_DEMO OR BUILD_SMOKE_TEST)
     add_subdirectory(src/Cpp)
+endif()
+
+if(BUILD_RESOURCE_UPDATER)
+    add_subdirectory(tools/ResourceUpdater)
 endif()

@@ -600,8 +600,9 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
         }
         ctrler()->click(res.flag_rect);
         sleep(delay);
+        ret = ProcessTask(*this, { "BattleQuickFormationSkillPage" }).run(); // 矢量突破S2不会自动重置回技能页
         if (!check_and_select_skill(*oper, m_ignore_requirements, delay)) {
-            ctrler()->click(res.flag_rect); // 选择技能失败时反选干员
+            ctrler()->click(res.flag_rect);                                  // 选择技能失败时反选干员
             sleep(delay);
             // 继续检查同组其他干员
             oper->status = battle::OperStatus::Unavailable;
@@ -655,6 +656,9 @@ bool asst::BattleFormationTask::check_oper_level(
     const battle::OperUsage& oper,
     bool ignore)
 {
+    if (oper.requirements.elite == 0 && oper.requirements.level == 0) {
+        return true; // 无等级要求
+    }
     auto [_elite, _level] = m_quick_formation_ui.analyze_oper_level(image, flag);
     if (_elite == -1 || _level == -1) {
         LogWarn << __FUNCTION__ << "| Cannot recognize oper" << oper.name << "level info, reset to 0,0";
@@ -707,6 +711,9 @@ bool asst::BattleFormationTask::check_and_select_skill(const battle::OperUsage& 
         return true;
     }*/
 
+    if (oper.requirements.skill_level == 0) {
+        return true; // 无技能等级要求
+    }
     auto result = m_quick_formation_ui.find_oper_skill(oper.skill, oper.requirements.skill_level == 0);
     if (!result) {
         LogError << __FUNCTION__ << "| Skill" << oper.skill << "not found in quick detection";
