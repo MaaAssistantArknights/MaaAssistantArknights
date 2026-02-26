@@ -769,7 +769,7 @@ std::optional<asst::TextRect>
     const auto& color_scale = std::get<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front());
 
     Rect quantity_roi = roi.move(task_ptr->roi);
-    cv::Mat quantity_img = m_image(make_rect<cv::Rect>(quantity_roi));
+    cv::Mat quantity_img = m_image(make_rect<cv::Rect>(correct_rect(quantity_roi, m_image)));
 
     cv::Mat gray, bin;
     cv::cvtColor(quantity_img, gray, cv::COLOR_BGR2GRAY);
