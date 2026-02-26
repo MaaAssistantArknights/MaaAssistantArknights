@@ -711,9 +711,6 @@ bool asst::BattleFormationTask::check_and_select_skill(const battle::OperUsage& 
         return true;
     }*/
 
-    if (oper.requirements.skill_level == 0) {
-        return true; // 无技能等级要求
-    }
     auto result = m_quick_formation_ui.find_oper_skill(oper.skill, oper.requirements.skill_level == 0);
     if (!result) {
         LogError << __FUNCTION__ << "| Skill" << oper.skill << "not found in quick detection";
