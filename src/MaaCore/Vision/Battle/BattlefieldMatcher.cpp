@@ -103,7 +103,7 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
         battle::DeploymentOper oper;
         oper.rect = flag_res.rect.move(click_move);
 
-        Rect role_rect = flag_res.rect.move(role_move);
+        Rect role_rect = correct_rect(flag_res.rect.move(role_move), m_image);
         oper.role = oper_role_analyze(role_rect);
         if (oper.role == battle::Role::Unknown) {
             Log.warn("Unknown role");
@@ -113,10 +113,10 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
         if (oper.rect.x + oper.rect.width >= m_image.cols) {
             oper.rect.width = m_image.cols - oper.rect.x;
         }
-        Rect avatar_rect = oper.rect.move(avatar_move);
+        Rect avatar_rect = correct_rect(oper.rect.move(avatar_move), m_image);
         oper.avatar = m_image(make_rect<cv::Rect>(avatar_rect));
 
-        Rect available_rect = flag_res.rect.move(avlb_move);
+        Rect available_rect = correct_rect(flag_res.rect.move(avlb_move), m_image);
         oper.available = oper_available_analyze(available_rect);
 
 #ifdef ASST_DEBUG
