@@ -221,6 +221,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                     _logger.Information("Crash dumps are copied to {DumpDir}", dumpDir);
                 }
             }
+            else
+            {
+                _logger.Information("%LocalAppData%/CrashDumps not found");
+            }
 
             string[] lines = File.ReadAllLines(crashFile, Encoding.UTF8);
 
