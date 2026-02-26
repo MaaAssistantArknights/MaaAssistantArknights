@@ -3,6 +3,10 @@ order: 4
 icon: mingcute:android-fill
 ---
 
+::: tip
+现已推出安卓牛牛，由 [MAA](https://maa.plus) 和 [Shizuku](https://shizuku.rikka.app/zh-hans/) 强力驱动，前往 [Maa-Meow](https://github.com/Aliothmoon/MAA-Meow) 以了解详情。
+:::
+
 # Android 实体设备
 
 ::: warning
