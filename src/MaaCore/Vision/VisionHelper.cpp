@@ -83,20 +83,14 @@ Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
     if (rect.empty()) {
         return { 0, 0, image.cols, image.rows };
     }
-    if (rect.x >= image.cols || rect.y >= image.rows || rect.x + rect.width < 0 || rect.y + rect.height < 0) {
+    if (rect.x >= image.cols || rect.y >= image.rows) {
         Log.error(__FUNCTION__, "roi is out of range", image.cols, image.rows, rect.to_string());
-        return { 0, 0, 0, 0 };
+        return rect;
     }
 
     Rect res = rect;
     res.x = std::clamp(res.x, 0, image.cols - 1);
     res.y = std::clamp(res.y, 0, image.rows - 1);
-    if (res.x > rect.x) {
-        res.width = rect.width - (res.x - rect.x);
-    }
-    if (res.y > rect.y) {
-        res.height = rect.height - (res.y - rect.y);
-    }
     res.width = std::clamp(res.width, 1, image.cols - res.x);
     res.height = std::clamp(res.height, 1, image.rows - res.y);
 
