@@ -129,6 +129,12 @@ labels:
   - name: remove client-ZH_TW
     content:
     regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)ZH_TW(?:`|)"
+  - name: skip client-PC
+    content:
+    regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)PC(?:`|)"
+  - name: remove client-PC
+    content:
+    regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)PC(?:`|)"
 
   - name: skip ambiguous
     content:
@@ -407,6 +413,18 @@ labels:
       - remove all
       - remove client
       - remove client-ZH_TW
+
+  # `client: PC`
+  - name: "client: PC"
+    regexes: '(?:[Pp][Cc]|[Ww]indows|[Ww]in)\s*(?:版|端|客户端)'
+    skip-if:
+      - skip all
+      - skip client
+      - skip client-PC
+    remove-if:
+      - remove all
+      - remove client
+      - remove client-PC
 
   # `ambiguous`
   - name: pr-ambiguous
