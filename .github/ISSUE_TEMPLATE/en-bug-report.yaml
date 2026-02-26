@@ -44,7 +44,8 @@ body:
       label: Log and config files
       description: |
         **Please locate the Generate Support Payload button under MAA Settings -> Issue Report, click the button, and upload the generated zip file**  
-        **If the archive to upload is larger than 25MB, please upload smaller archives from the same date folder instead.**  
+        **If the archive to upload is larger than 25MB, please upload smaller archives from the same date folder instead.**
+        **If the issue is related to MAA crashing, please upload the MAA.exe.dmp file found in %LOCALAPPDATA%\CrashDumps if it exists**
         If you are using macOS, please click the "File" option in the top-left corner of the screen, then click "Open Log Folder".
       placeholder: |
         Please confirm that MAA is not running before uploading files.
