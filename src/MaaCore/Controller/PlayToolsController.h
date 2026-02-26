@@ -67,8 +67,16 @@ protected:
     boost::asio::io_context m_context;
     boost::asio::ip::tcp::socket m_socket;
 
+    std::vector<uint8_t> m_screencap_buffer;
+
     std::string m_address;
     std::pair<int, int> m_screen_size = { 0, 0 };
+
+    enum class ScreencapMethod
+    {
+        RGBA,
+        BGR,
+    } m_screencap_method = ScreencapMethod::RGBA;
 
     enum class TouchPhase
     {
@@ -87,11 +95,14 @@ protected:
     void toucher_wait(const int delay);
 
 private:
-    static constexpr int MinimalVersion = 2;
+    unsigned m_minimal_version = 2;
     void close();
     bool open();
     bool check_version();
     bool fetch_screen_res();
     bool toucher_commit(const TouchPhase phase, const Point& p, const int delay);
+
+    bool screencap_rgba(cv::Mat& image_payload, bool allow_reconnect);
+    bool screencap_bgr(cv::Mat& image_payload, bool allow_reconnect);
 };
 } // namespace asst
