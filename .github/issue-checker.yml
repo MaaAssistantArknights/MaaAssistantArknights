@@ -129,6 +129,12 @@ labels:
   - name: remove client-ZH_TW
     content:
     regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)ZH_TW(?:`|)"
+  - name: skip client-PC
+    content:
+    regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)PC(?:`|)"
+  - name: remove client-PC
+    content:
+    regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)PC(?:`|)"
 
   - name: skip ambiguous
     content:
@@ -408,6 +414,18 @@ labels:
       - remove client
       - remove client-ZH_TW
 
+  # `client: PC`
+  - name: "client: PC"
+    regexes: '(?:[Pp][Cc]|[Ww]indows|[Ww]in)\s*(?:版|端|客户端)'
+    skip-if:
+      - skip all
+      - skip client
+      - skip client-PC
+    remove-if:
+      - remove all
+      - remove client
+      - remove client-PC
+
   # `ambiguous`
   - name: pr-ambiguous
     # 不符合 commitizen 的 PR
@@ -522,7 +540,7 @@ labels:
   # `incomplete`
   - name: incomplete
     content: incomplete
-    regexes: '(?:\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\))|<!-- Uploading "(log|report)[^"]*\.zip"\.\.\. -->'
+    regexes: '(?:\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\))|<!-- (?:Failed to upload|Uploading) "(log|report)[^"]*\.zip"(?:\.\.\.)? -->'
     mode: add
     skip-if:
       - skip all
@@ -547,7 +565,7 @@ labels:
 
 comments:
   - name: Log upload failed
-    regexes: '\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\)|<!-- Uploading "log[^"]*\.zip"\.\.\. -->'
+    regexes: '(?:\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\))|<!-- (?:Failed to upload|Uploading) "(log|report)[^"]*\.zip"(?:\.\.\.)? -->'
     content: "你的日志没有上传成功，请重新上传。\n\n\
       Your log did not upload successfully, please re-upload it."
     mode: add

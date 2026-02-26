@@ -1,4 +1,4 @@
-## v6.3.5
+## v6.3.6
 
 ### 拉电线不知天地为何物 | Highlight
 
@@ -64,6 +64,23 @@ We warmly welcome community developers to assist with adaptation and submit impr
 ----
 
 以下是详细内容：
+
+## v6.3.6
+
+### 改进 | Improved
+
+* Wpf 增加未找到 CrashDumps 文件夹 Log, correct_rect 增加 rect.empty() log @status102
+
+### 修复 | Fix
+
+* 刷理智-掉落识别 rect 超限导致崩溃 @status102
+* 修复自动战斗中待部署区干员匹配标志 rect 后处理越界 @status102
+* 移除多余检查 @status102
+
+### 其他 | Other
+
+* issue 模板添加闪退上传 dmp 提示 @Saratoga-Official
+* Revert "fix: 超出范围的 Rect 使用 {0, 0, 0, 0} 代替原样返回, x, y为负值时 width 和 height 改正错误 (#15695)" @status102
 
 ## v6.3.5
 
