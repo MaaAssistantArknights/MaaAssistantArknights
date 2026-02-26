@@ -7,11 +7,11 @@ icon: material-symbols:download-2-rounded
 
 # 下载与安装
 
-::: tip
+> [tip]
+>
+>你正在查阅 MAA GUI 的下载与安装说明文档。若你需要查阅 maa-cli 的下载与安装说明，请访问 maa-cli 的 [安装及编译](./cli/install.md) 文档。目前安卓牛牛（MAA 安卓版）已开放测试，请前往 [MAA-Meow](https://github.com/Aliothmoon/MAA-Meow) 了解更多情况。
 
-你正在查阅 MAA GUI 的下载与安装说明文档。若你需要查阅 maa-cli 的下载与安装说明，请访问 maa-cli 的 [安装及编译](./cli/install.md) 文档。目前安卓牛牛（MAA 安卓版）已开放测试，请前往 [MAA-Meow](https://github.com/Aliothmoon/MAA-Meow) 了解更多情况。
 
-:::
 
 ## 下载 MAA
 
@@ -31,7 +31,7 @@ MAA 提供多种下载方式，包括官网下载，从包管理器安装，群�
 
 :::
 
-### 通过 Winget 源 使用 Windows 包管理器安装
+### 使用 Windows 包管理器（Winget）安装
 
 ::: tip
 
@@ -80,7 +80,7 @@ MAA GUI **暂未支持** Linux 和其他操作系统。你可以使用 **maa-cli
 
 ::: tip
 
-通过 Windows 包管理器（Winget）安装的用户，可直接在命令行中输入 `maa` 来启动 MAA 而无需解压缩、安装运行库等额外操作。若 PATH 中有 MAA-Cli，可能需要额外步骤以区分二者。
+通过 Windows 包管理器（Winget）安装的用户，可直接在命令行中输入 `maa` 来启动 MAA 而无需解压缩、安装运行库等额外操作。若 PATH 中有 `maa-cli`，可能需要额外步骤以区分二者。
 
 :::
 
