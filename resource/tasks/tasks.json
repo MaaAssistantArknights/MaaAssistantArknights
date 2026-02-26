@@ -1204,6 +1204,7 @@
         "action": "ClickRect",
         "specificRect": [1180, 20, 90, 50],
         "maxTimes": 10,
+        "postDelay": 1300,
         "next": ["AnnihilationCheckReturnSuccess"]
     },
     "AnnihilationCheckReturnSuccess": {
