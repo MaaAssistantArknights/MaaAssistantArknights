@@ -1135,6 +1135,14 @@
         "sortId": 10321,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_6401": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_6401.png",
+        "name": "尋訪數據契約",
+        "sortId": 10322,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -2023,6 +2031,22 @@
         "sortId": -10000,
         "usage": "工期爆炸，片場高壓，但“神秘黑影”總是時不時出現，讓焦頭爛額的工作人員甚至開始疑神疑鬼。如果能找出黑影在哪裡，他們一定會好好感謝你。"
     },
+    "act44side_token_information": {
+        "classifyType": "NONE",
+        "description": "坊間流傳的瑣碎話語，看似無用，卻藏著不少秘密的線索。對懂得利用的人而言，即使最微小的八卦也可能成為交易的敲門磚。",
+        "icon": "act44side_token_information.png",
+        "name": "閒言碎語",
+        "sortId": -10000,
+        "usage": "用於在相談室開啟一天的營業日。畢竟每天的好故事都是從閒聊開始的。"
+    },
+    "act44side_token_ticket": {
+        "classifyType": "NONE",
+        "description": "票券抽的是參加某位藝人“畢業”告別會的資格。正式活動早已取消，但它仍在粉絲之間私下流轉，以此紀念她的職業生涯轉捩點。",
+        "icon": "act44side_token_ticket.png",
+        "name": "藝人見面抽選券",
+        "sortId": -10000,
+        "usage": "由演藝事務所分發，用於兌換抽獎資格的票券。在某起事件後，一度成為特典中古市場上的搶手貨，幾乎可以換到任何東西。"
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
@@ -2302,6 +2326,14 @@
         "name": "特別版！超強！老闆獎章",
         "sortId": -10000,
         "usage": "似乎以昂貴的金屬製作而成，可用於兌換龍門幣。"
+    },
+    "itempack_gold_2": {
+        "classifyType": "NONE",
+        "description": "這不是什麼在高級百貨公司之類的地方花一筆錢就能買到的禮品。這是她根據自己的口味並推測你的喜好，一瓶一瓶裝起來然後密封好的。考慮到你的工作性質，裡面還有一瓶完全不含酒精的沙士。",
+        "icon": "itempack_gold_2.png",
+        "name": "精心準備的試喝套組",
+        "sortId": -10000,
+        "usage": "一份精心準備的試喝套組，可兌換龍門幣。"
     },
     "itempack_main_1": {
         "classifyType": "NONE",
