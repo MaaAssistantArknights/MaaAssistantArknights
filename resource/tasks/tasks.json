@@ -3816,7 +3816,7 @@
     },
     "BattleOpersFlag": {
         "templThreshold": 0.65,
-        "roi": [35, 588, 1210, 18],
+        "roi": [35, 588, 1245, 18],
         "maskRange": [1, 255]
     },
     "BattleAvatarReMatch": {
