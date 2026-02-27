@@ -7,11 +7,11 @@ icon: material-symbols:download-2-rounded
 
 # 下载与安装
 
-> [tip]
->
->你正在查阅 MAA GUI 的下载与安装说明文档。若你需要查阅 maa-cli 的下载与安装说明，请访问 maa-cli 的 [安装及编译](./cli/install.md) 文档。目前安卓牛牛（MAA 安卓版）已开放测试，请前往 [MAA-Meow](https://github.com/Aliothmoon/MAA-Meow) 了解更多情况。
+::: tip
 
+你正在查阅 MAA GUI 的下载与安装说明文档。若你需要查阅 maa-cli 的下载与安装说明，请访问 maa-cli 的 [安装及编译](./cli/install.md) 文档。目前安卓牛牛（MAA 安卓版）已开放测试，请前往 [MAA-Meow](https://github.com/Aliothmoon/MAA-Meow) 了解更多情况。
 
+:::
 
 ## 下载 MAA
 
