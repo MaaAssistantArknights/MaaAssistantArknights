@@ -284,6 +284,9 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
         return {};
     }
     const std::string& kills_text = kills_opt->front().text;
+    if (kills_text.empty()) {
+        return {};
+    }
 
     size_t pos = kills_text.find('/');
     if (pos == std::string::npos) {
