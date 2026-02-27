@@ -283,10 +283,6 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
         return {};
     }
 
-    cv::Mat draw = m_image.clone();
-    cv::rectangle(draw, make_rect<cv::Rect>(flag_rect.value()), cv::Scalar(0, 255, 0), 2);
-    cv::rectangle(draw, make_rect<cv::Rect>(flag_rect->move({ 50, 0, 100, 40 })), cv::Scalar(0, 255, 0), 2);
-
     const auto& ocr_task = Task.get<OcrTaskInfo>("BattleKills");
     RegionOCRer flag_analyzer(m_image);
     flag_analyzer.set_roi(flag_rect->move({ 50, 0, 100, 40 })); // ocr_task->roi);
