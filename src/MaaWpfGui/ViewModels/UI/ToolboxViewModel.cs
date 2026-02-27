@@ -16,6 +16,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -35,10 +36,12 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using RecastConstants = MaaWpfGui.Constants.RecastConstants;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI;
@@ -50,6 +53,12 @@ public class ToolboxViewModel : Screen
 {
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<ToolboxViewModel>();
+
+    /// <summary>
+    /// Gets the mini game recast settings model.
+    /// 小游戏重新投钱设置 model
+    /// </summary>
+    public static MiniGameRecastUserControlModel MiniGameRecastSettings { get; } = MiniGameRecastUserControlModel.Instance;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ToolboxViewModel"/> class.
@@ -1849,11 +1858,40 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+        // If it's the recast task, pass the condition parameters
+        // 如果是重新投钱任务,传递条件参数
+        caught = Instances.AsstProxy.AsstMiniGame(MiniGameTaskName, BuildMiniGameExtraParams());
         if (!caught)
         {
             _runningState.SetIdle(true);
         }
+    }
+
+    /// <summary>
+    /// Builds extra parameters for the current mini game task.
+    /// 构建当前小游戏任务的额外参数
+    /// </summary>
+    /// <returns>Extra parameters as JObject, or null if none needed.</returns>
+    private JObject? BuildMiniGameExtraParams()
+    {
+        if (MiniGameTaskName != RecastConstants.TaskName)
+        {
+            return null;
+        }
+
+        var conditions = MiniGameRecastSettings.RecastConditions;
+        if (conditions == null || conditions.Count == 0)
+        {
+            return null;
+        }
+
+        var conditionsArray = new JArray();
+        foreach (var condition in conditions)
+        {
+            conditionsArray.Add(condition.ToJObject());
+        }
+
+        return new JObject { ["conditions"] = conditionsArray };
     }
 
     #endregion

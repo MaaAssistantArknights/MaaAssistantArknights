@@ -931,6 +931,16 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">請在活動商店頁面開始。&#10;不購買無限量物品。</system:String>
     <system:String x:Key="MiniGameNameRAStore">生息演算商店</system:String>
     <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">請在活動商店頁面開始。</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast">界園肉鴿通寶重投</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastTip" xml:space="preserve">請在界園肉鴿存在錢盒(打開或關閉)的介面開始該任務，該任務會持續重投通寶直到滿足任一條件。</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricTicket">票券</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricHp">生命</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricHope">希望</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricIngot">源石錠</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricCount">重投次數</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetric">監控項</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastComparator">比較方式</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastThreshold">閾值</system:String>
     <!--  !小遊戲  -->
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>

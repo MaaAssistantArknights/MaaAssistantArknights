@@ -520,6 +520,20 @@
         "roi": [100, 430, 1100, 63],
         "next": ["Sami@Roguelike@LastRewardConfirm"]
     },
+    "Sami@Roguelike@HopeLeftFlag": {
+        "template": "Roguelike@HopeLeftFlag.png"
+    },
+    "Sami@Roguelike@HopeRightFlag": {
+        "template": "Roguelike@HopeRightFlag.png"
+    },
+    "Sami@Roguelike@HopeRecognition": {},
+    "Sami@Roguelike@IngotFlag": {
+        "template": "Roguelike@IngotFlag.png"
+    },
+    "Sami@Roguelike@IngotRecognition": {
+        "Doc": "右侧仅两种资源时的源石锭识别",
+        "baseTask": "Roguelike@IngotRecognition-1"
+    },
     "Sami@Roguelike@InitialDrop": {},
     "Sami@Roguelike@LastReward": {},
     "Sami@Roguelike@LastReward-EnterPoint": {

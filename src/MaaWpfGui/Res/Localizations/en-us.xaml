@@ -930,6 +930,16 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">Please start from the event shop page.&#10;Won't buy items with unlimited purchase quantities.</system:String>
     <system:String x:Key="MiniGameNameRAStore">Reclamation Algorithm Shop</system:String>
     <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">Please start from the event shop page.</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast">Jie Garden Roguelike Coppers Recast</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastTip" xml:space="preserve">Please start this task on the Jie Garden Roguelike interface where a money box exists (opened or closed). This task will continuously recast coppers until any condition is met.</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricTicket">Tickets</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricHp">HP</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricHope">Hope</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricIngot">Originium Ingots</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetricCount">Recast Count</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastMetric">Monitoring Item</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastComparator">Comparison Method</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastThreshold">Threshold</system:String>
     <!--  !Minigame  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
