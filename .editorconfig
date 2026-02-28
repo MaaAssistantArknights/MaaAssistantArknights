@@ -10,3 +10,6 @@ end_of_line = lf
 [*.json]
 
 indent_size = 4
+
+[*.makefile]
+indent_style = tab

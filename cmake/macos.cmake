@@ -1,3 +1,5 @@
+# This file is no longer used in the official build process,
+# but is kept for reference and potential future use.
 if (BUILD_XCFRAMEWORK)
     set(XCFRAMEWORK_DIR "${CMAKE_BINARY_DIR}/xcframework")
     file(MAKE_DIRECTORY ${XCFRAMEWORK_DIR})
