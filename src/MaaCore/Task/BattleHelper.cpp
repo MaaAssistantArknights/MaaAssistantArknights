@@ -612,7 +612,20 @@ bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
     return ret;
 }
 
-bool asst::BattleHelper::check_in_speed_up(const cv::Mat& reusable)
+bool asst::BattleHelper::check_avatar_dialog(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+
+    Matcher battle_plot_analyzer(image);
+    battle_plot_analyzer.set_task_info("BattleAvatarDialog");
+    bool ret = battle_plot_analyzer.analyze().has_value();
+    if (ret) {
+        ProcessTask(this_task(), { "BattleAvatarDialog" }).run();
+    }
+    return ret;
+}
+
+bool asst::BattleHelper::check_in_speedup(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     Matcher analyzer(image);
@@ -625,7 +638,27 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     if (weak) {
         BattlefieldMatcher analyzer(image);
-        m_in_battle = analyzer.analyze().has_value();
+        auto result = analyzer.analyze();
+        m_in_battle = result.has_value();
+        if (m_in_battle && !result->pause_button) {
+            if (check_skip_plot_button(image)) {
+                if (m_in_speedup && !check_in_speedup()) {
+                    speed_up(); // 跳过剧情会退出2倍速
+                }
+            }
+            else if (check_avatar_dialog(image)) {
+                if (m_in_speedup && !check_in_speedup()) {
+                    speed_up(); // 跳过剧情会退出2倍速
+                    m_inst_helper.sleep(Config.get_options().task_delay);
+                    int times = 0;
+                    while (times < 20 && !m_inst_helper.need_exit() && !check_in_speedup()) {
+                        speed_up(); // 跳过剧情会退出2倍速
+                        m_inst_helper.sleep(Config.get_options().task_delay);
+                        times++;
+                    }
+                }
+            }
+        }
     }
     else {
         check_skip_plot_button(image);

@@ -44,8 +44,6 @@ protected:
     bool enter_bullet_time(const std::string& name, const Point& location);
     void sleep_and_do_strategy(unsigned millisecond);
 
-    virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true) override;
-
     battle::copilot::CombatData m_combat_data;
     std::unordered_map</*group*/ std::string, /*oper*/ std::string> m_oper_in_group;
 
