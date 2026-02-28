@@ -1170,12 +1170,48 @@
         "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
         "algorithm": "JustReturn",
         "next": [
+            "Fight@BeforeAnnihilationCheck",
             "Fight@UsePrts-Annihilation",
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
             "Fight@PRTS#next"
         ]
+    },
+    "BeforeAnnihilationCheck": {
+        "Docs": "检查剿灭是否已经完成",
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["每周报酬", "合成玉"],
+        "roi": [92, 594, 184, 54],
+        "postDelay": 1300,
+        "sub": ["AnnihilationCheckResultSwitcher"],
+        "next": ["UsePrts-Annihilation", "UsePrts", "StartButton1"]
+    },
+    "AnnihilationCheckResultSwitcher": { 
+        "algorithm": "JustReturn",
+        "next": ["AnnihilationCheck", "AnnihilationChecked"]
+    },
+    "AnnihilationCheck": {
+        "templThreshold": 0.98,
+        "roi": [1104, 641, 48, 56],
+        "sub": ["AnnihilationChecked"],
+        "next": ["Home@ReturnButtons#next"]
+    },
+    "AnnihilationChecked": {
+        "Doc": "检查已经完成，返回可识别的界面",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1180, 20, 90, 50],
+        "maxTimes": 10,
+        "postDelay": 1300,
+        "next": ["AnnihilationCheckReturnSuccess"]
+    },
+    "AnnihilationCheckReturnSuccess": {
+        "Doc": "返回到可以识别的界面",
+        "algorithm": "OcrDetect",
+        "text": ["每周报酬", "合成玉"],
+        "roi": [92, 594, 184, 54]
     },
     "LastOrCurBattleBegin": {
         "algorithm": "JustReturn",
@@ -1404,6 +1440,7 @@
         "specificRect": [1000, 20, 270, 50],
         "maxTimes": 10,
         "next": [
+            "BeforeAnnihilationCheck",
             "StartButton1",
             "StartButton2",
             "UseMedicine",
