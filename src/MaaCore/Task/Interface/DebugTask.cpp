@@ -1,6 +1,9 @@
 #include "DebugTask.h"
 
+#include "MaaUtils/Encoding.h"
+#include <boost/regex.hpp>
 #include <filesystem>
+#include <shared_mutex>
 
 #include "Common/AsstTypes.h"
 #include "Config/TaskData.h"
@@ -9,7 +12,10 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
+#include "Vision/BestMatcher.h"
+#include "Vision/FeatureMatcher.h"
 #include "Vision/Matcher.h"
+#include "Config/TemplResource.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 #include "Vision/MultiMatcher.h"
@@ -23,6 +29,42 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
+    auto image_dep = MaaNS::imread(utils::path("C:\\Users\\status102\\Desktop\\deploy.png"));
+    static const std::unordered_map<std::string, battle::Role> RoleMap = {
+        { "Caster", battle::Role::Caster }, { "Medic", battle::Role::Medic },     { "Pioneer", battle::Role::Pioneer },
+        { "Sniper", battle::Role::Sniper }, { "Special", battle::Role::Special }, { "Support", battle::Role::Support },
+        { "Tank", battle::Role::Tank },     { "Warrior", battle::Role::Warrior }, { "Drone", battle::Role::Drone },
+    };
+
+    auto image = MaaNS::imread(utils::path("C:\\Users\\status102\\Desktop\\kill_1080p_Vec.png"));
+
+    cv::Mat template_image = TemplResource::get_instance().get_templ("BattleKillsFlag.png");
+    auto task = Task.get("BattleKillsFlag");
+
+    // 对模板进行高斯模糊预处理（解决小尺寸模板的细线条缩放问题）
+    cv::Mat template_blurred;
+    cv::GaussianBlur(template_image, template_blurred, cv::Size(3, 3), 0);
+
+    // 同时对输入图像应用相同的模糊处理
+    cv::Mat image_blurred;
+    cv::GaussianBlur(make_roi(image, task->roi), image_blurred, cv::Size(3, 3), 0);
+
+    // 使用模糊后的图像进行匹配
+    Matcher analyzer(image_blurred);
+    analyzer.set_task_info("BattleKillsFlag");
+    analyzer.set_roi({ 0, 0, task->roi.width, task->roi.height });
+    if (!analyzer.analyze()) {
+        Log.info("flag not found");
+    }
+    // 使用模糊后的图像进行匹配
+    Matcher analyzer2(image_blurred);
+    analyzer2.set_task_info("BattleKillsFlag");
+    analyzer2.set_templ(template_blurred);
+    analyzer2.set_roi({ 0, 0, task->roi.width, task->roi.height });
+    if (!analyzer2.analyze()) {
+        Log.info("flag not found");
+    }
+
     return true;
 }
 

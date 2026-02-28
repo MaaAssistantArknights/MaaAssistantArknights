@@ -3771,7 +3771,7 @@
         "algorithm": "OcrDetect",
         "isAscii": true,
         "text": [],
-        "roi": [50, -20, 100, 40],
+        "roi": [50, 0, 100, 40],
         "useRaw": false,
         "specialParams_doc": "Kill区域变化阈值, 模板匹配, 100=1.0; 正常在 0.997-1 之间波动, 少有0.995; _5->_6 的分数最高, 可达0.94",
         "specialParams": [98]
@@ -3816,7 +3816,7 @@
     },
     "BattleOpersFlag": {
         "templThreshold": 0.65,
-        "roi": [35, 588, 1210, 18],
+        "roi": [35, 588, 1245, 18],
         "maskRange": [1, 255]
     },
     "BattleAvatarReMatch": {
@@ -3933,6 +3933,12 @@
         "isAscii": false,
         "text": [],
         "roi": [73, 378, 221, 31]
+    },
+    "StageDrops-NoDropCheck": {
+        "template": "empty.png",
+        "roi": [60, 510, 150, 160],
+        "specialParams_Doc": "灰度过滤阈值",
+        "specialParams": [120]
     },
     "StageDrops-BaseLine": {
         "template": "empty.png",

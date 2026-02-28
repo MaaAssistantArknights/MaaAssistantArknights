@@ -14,12 +14,18 @@ using namespace asst;
 
 VisionHelper::VisionHelper(const cv::Mat& image, const Rect& roi, Assistant* inst) :
     InstHelper(inst),
-    m_image(image),
+    m_image(image)
 #ifdef ASST_DEBUG
-    m_image_draw(image.clone()),
+    ,
+    m_image_draw(image.clone())
 #endif
-    m_roi(correct_rect(roi, image))
 {
+    if (roi.empty()) {
+        m_roi = { 0, 0, image.cols, image.rows };
+    }
+    else {
+        m_roi = correct_rect(roi, image);
+    }
 }
 
 void VisionHelper::set_image(const cv::Mat& image)
@@ -90,6 +96,14 @@ Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
     }
 
     Rect res = rect;
+    if (res.x < 0) {
+        res.x = 0;
+        res.width += rect.x;
+    }
+    if (res.y < 0) {
+        res.y = 0;
+        res.height += rect.y;
+    }
     res.x = std::clamp(res.x, 0, image.cols - 1);
     res.y = std::clamp(res.y, 0, image.rows - 1);
     res.width = std::clamp(res.width, 1, image.cols - res.x);
