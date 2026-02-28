@@ -829,7 +829,7 @@ public partial class CopilotViewModel : Screen
     [UsedImplicitly]
     public async Task PasteClipboardCopilotSet()
     {
-        if (CopilotTabIndex is 1 or 3)
+        if (CopilotTabIndex is 1)
         {
             return;
         }
@@ -1204,8 +1204,8 @@ public partial class CopilotViewModel : Screen
         if (!writeToCache)
         {// 现在是暂时将所有本地作业不添加到列表
         }
-        else if (CopilotTabIndex is 1 or 3)
-        { // 保全/其他活动 不使用多作业列表
+        else if (CopilotTabIndex is 1)
+        { // 保全 不使用多作业列表
         }
         else if (copilotList)
         {
@@ -1351,6 +1351,7 @@ public partial class CopilotViewModel : Screen
         }
 
         Log(copilotSet.Name, copilotSet.Description);
+        _copilotCache = null;
         return;
 
         void Log(string? name, string? description)
