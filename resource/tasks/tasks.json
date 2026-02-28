@@ -3934,6 +3934,12 @@
         "text": [],
         "roi": [73, 378, 221, 31]
     },
+    "StageDrops-NoDropCheck": {
+        "template": "empty.png",
+        "roi": [60, 510, 150, 160],
+        "specialParams_Doc": "灰度过滤阈值",
+        "specialParams": [120]
+    },
     "StageDrops-BaseLine": {
         "template": "empty.png",
         "roi": [0, 636, 1280, 2],
