@@ -3,6 +3,7 @@
 #include "Config/Roguelike/Sami/RoguelikeFoldartalConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
@@ -89,23 +90,40 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 
     auto foldartal_list = m_config->status().foldartal_list;
     Log.trace("All foldartal got yet:", foldartal_list);
+
+    bool any_board_used = false;
+
     auto filter =
         std::views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
     for (const auto& comb : combination | filter) {
         if (need_exit()) {
             break;
         }
-        use_enable_pair(foldartal_list, comb);
+        if (use_enable_pair(foldartal_list, comb)) {
+            any_board_used = true;
+        }
     }
+
     m_config->status().foldartal_list = std::move(foldartal_list);
+
+    // Signal ProcessTask to skip its action and redirect to stages scan
+    if (any_board_used) {
+        status()->set_str(Status::PluginSkipExecution, "true");
+        // Redirect to Sami@Roguelike@Stages to continue roguelike loop
+        status()->set_str(Status::PluginOverrideNextTo, m_config->get_theme() + "@Roguelike@Stages");
+        Log.info("Foldartal applied to stage, requesting ProcessTask skip and redirect to Stages");
+    }
+
     return true;
 }
 
-void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
+bool asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
     std::vector<std::string>& list,
     const asst::RoguelikeFoldartalCombination& usage)
 {
     LogTraceFunction;
+    bool success = false;
+
     auto check_pair = [&](const auto& pair) {
         // 存储需要跳过的板子
         std::set<std::string> boards_to_skip;
@@ -171,6 +189,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                     list.erase(std::ranges::find(list, up_board));
                     list.erase(std::ranges::find(list, down_board));
                     Log.trace("Board pair used, up:", up_board, ", down:", down_board);
+                    success = true;
                     break;
                 }
             }
@@ -178,8 +197,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
     };
 
     std::ranges::for_each(usage.pairs, check_pair);
-
-    return;
+    return success;
 }
 
 asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult
