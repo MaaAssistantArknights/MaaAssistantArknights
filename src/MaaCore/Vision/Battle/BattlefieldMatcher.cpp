@@ -273,19 +273,37 @@ bool BattlefieldMatcher::kills_flag_analyze() const
 
 BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_analyze() const
 {
-    auto [hit_cache, flag_rect] = hit_kills_cache();
-    if (hit_cache) {
-        return { .status = MatchStatus::HitCache };
-    }
+    const auto& flag_task = Task.get<MatchTaskInfo>("BattleKillsFlag");
+    cv::Mat template_image = TemplResource::get_instance().get_templ("BattleKillsFlag.png");
+    cv::Mat match_image = make_roi(m_image, flag_task->roi);
 
-    if (flag_rect == std::nullopt) {
+    // 对模板图和截图都进行一次模糊，减少yj缩放对文字及细节的影响，提升命中率
+    cv::Mat template_blur, image_blur;
+    cv::GaussianBlur(template_image, template_blur, cv::Size(3, 3), 0);
+    cv::GaussianBlur(match_image, image_blur, cv::Size(3, 3), 0);
+
+    Matcher flag_match(image_blur);
+    flag_match.set_mask_ranges(flag_task->mask_ranges);
+    flag_match.set_roi({ 0, 0, flag_task->roi.width, flag_task->roi.height });
+    flag_match.set_templ(template_blur);
+    flag_match.set_method(MatchMethod::Ccoeff);
+    flag_match.set_threshold(flag_task->templ_thresholds);
+    if (!flag_match.analyze()) {
         LogWarn << __FUNCTION__ << "kill flag not found";
         return {};
     }
 
+    auto flag_rect = flag_match.get_result().rect;
+    flag_rect.x += flag_task->roi.x;
+    flag_rect.y += flag_task->roi.y;
+
+    if (hit_kills_cache(flag_rect)) {
+        return { .status = MatchStatus::HitCache };
+    }
+
     const auto& ocr_task = Task.get<OcrTaskInfo>("BattleKills");
     RegionOCRer flag_analyzer(m_image);
-    flag_analyzer.set_roi(flag_rect->move(ocr_task->roi));
+    flag_analyzer.set_roi(flag_rect.move(ocr_task->roi));
     flag_analyzer.set_use_char_model(ocr_task->is_ascii);
     flag_analyzer.set_use_raw(ocr_task->use_raw);
     flag_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
@@ -351,39 +369,17 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
     return { .value = std::make_pair(kills, total_kills), .status = MatchStatus::Success };
 }
 
-std::pair<bool, std::optional<Rect>> asst::BattlefieldMatcher::hit_kills_cache() const
+bool asst::BattlefieldMatcher::hit_kills_cache(Rect flag_rect) const
 {
-    const auto& flag_task = Task.get<MatchTaskInfo>("BattleKillsFlag");
-    cv::Mat template_image = TemplResource::get_instance().get_templ("BattleKillsFlag.png");
-    cv::Mat match_image = make_roi(m_image, flag_task->roi);
-
-    // 对模板图和截图都进行一次模糊，减少yj缩放对文字及细节的影响，提升命中率
-    cv::Mat template_blur, image_blur;
-    cv::GaussianBlur(template_image, template_blur, cv::Size(3, 3), 0);
-    cv::GaussianBlur(match_image, image_blur, cv::Size(3, 3), 0);
-
-    Matcher flag_match(image_blur);
-    flag_match.set_mask_ranges(flag_task->mask_ranges);
-    flag_match.set_roi({ 0, 0, flag_task->roi.width, flag_task->roi.height });
-    flag_match.set_templ(template_blur);
-    flag_match.set_method(MatchMethod::Ccoeff);
-    flag_match.set_threshold(flag_task->templ_thresholds);
-    if (!flag_match.analyze()) {
-        return { false, std::nullopt };
-    }
-
-    auto flag_rect = flag_match.get_result().rect;
-    flag_rect.x += flag_task->roi.x;
-    flag_rect.y += flag_task->roi.y;
     if (m_image_prev.empty() || m_image.size != m_image_prev.size) {
-        return { false, flag_rect };
+        return false;
     }
 
     const auto& ocr_task = Task.get<OcrTaskInfo>("BattleKills");
     const auto& roi = flag_rect.move(ocr_task->roi);
 
-    cv::Mat kills_image_cache = make_roi(m_image_prev, roi);
-    cv::Mat kills_image = make_roi(m_image, roi);
+    cv::Mat kills_image_cache = make_roi(m_image_prev, correct_rect(roi, m_image_prev));
+    cv::Mat kills_image = make_roi(m_image, correct_rect(roi, m_image));
     cv::cvtColor(kills_image_cache, kills_image_cache, cv::COLOR_BGR2GRAY);
     cv::cvtColor(kills_image, kills_image, cv::COLOR_BGR2GRAY);
     cv::Mat match;
@@ -393,7 +389,7 @@ std::pair<bool, std::optional<Rect>> asst::BattlefieldMatcher::hit_kills_cache()
     // 正常在 0.997-1 之间波动, 少有0.995
     // _5->_6 的分数最高, 可达0.94
     const double threshold = static_cast<double>(ocr_task->special_params[0]) / 100;
-    return { mark > threshold, flag_rect };
+    return mark > threshold;
 }
 
 bool BattlefieldMatcher::cost_symbol_analyze() const
