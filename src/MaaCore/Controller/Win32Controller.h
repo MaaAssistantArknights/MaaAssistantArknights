@@ -67,6 +67,8 @@ public: // ControllerAPI 接口
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
 
+    virtual void move_cursor_out_of_view() noexcept override;
+
 private:
     void callback(AsstMsg msg, const json::value& details);
 
