@@ -47,6 +47,7 @@ jobs:
         with:
           # 仅检查内部链接，排除所有外部链接
           args: >
+            --root-dir ./docs/.vuepress/public
             --verbose --no-progress
             --cache --max-cache-age 1d --cache-exclude-status '429, 500..599'
             --exclude 'https?://.*'

@@ -1,6 +1,6 @@
 ---
 order: 1
-icon: material-symbols:download
+icon: material-symbols:download-2-rounded
 ---
 
 # 安装及编译
