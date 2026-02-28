@@ -201,7 +201,7 @@
                         hc:IconElement.Geometry="{StaticResource ClipboardLinkSet20Regular}"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action PasteClipboardCopilotSet}"
-                        IsEnabled="{c:Binding '(Idle) and (StartEnabled) and (CopilotTabIndex == 0 or CopilotTabIndex == 2)'}" />
+                        IsEnabled="{c:Binding '(Idle) and (StartEnabled) and CopilotTabIndex != 1'}" />
                     <controls:TooltipBlock
                         Grid.Column="1"
                         HorizontalAlignment="Right"
@@ -475,8 +475,9 @@
                         <!--  UseCopilotList  -->
                         <StackPanel
                             Margin="2.5,5"
+                            IsEnabled="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 2'}"
                             Orientation="Horizontal"
-                            Visibility="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 2'}">
+                            Visibility="{c:Binding 'CopilotTabIndex != 1'}">
                             <CheckBox Content="{DynamicResource UseCopilotList}" IsChecked="{Binding UseCopilotList}" />
                             <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
                         </StackPanel>
@@ -507,7 +508,7 @@
                 <Grid
                     Grid.Column="1"
                     Margin="5,0,0,10"
-                    Visibility="{c:Binding 'UseCopilotList and (CopilotTabIndex == 0 or CopilotTabIndex == 2)'}">
+                    Visibility="{c:Binding '(UseCopilotList and (CopilotTabIndex == 0 or CopilotTabIndex == 2)) or CopilotTabIndex == 3'}">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
@@ -557,9 +558,18 @@
                                         IsChecked="{Binding IsChecked}"
                                         IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                         IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
-                                        ToolTip="{c:Binding CopilotId}">
+                                        ToolTip="{c:Binding CopilotId}"
+                                        Visibility="{c:Binding 'DataContext.CopilotTabIndex != 3',
+                                                               RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                         <TextBlock Text="{Binding Name}" ToolTip="{Binding CopilotId}" />
                                     </CheckBox>
+                                    <controls:TextBlock
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        Text="{Binding Name}"
+                                        ToolTip="{Binding CopilotId}"
+                                        Visibility="{c:Binding 'DataContext.CopilotTabIndex == 3',
+                                                               RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
                                     <Button
                                         Grid.Column="1"
                                         Margin="0"
