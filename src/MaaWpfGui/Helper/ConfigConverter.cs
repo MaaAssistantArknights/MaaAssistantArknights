@@ -54,8 +54,7 @@ public class ConfigConverter
         bool ret = true;
         JObject? configurations = root?["Configurations"] as JObject;
 
-        bool needConvert = configurations == null || configurations.Count == 0
-            || configurations["Default"]?["TaskQueueOrder"] is not null;
+        bool needConvert = configurations?.Count == 0 || configurations?["Default"]?["TaskQueueOrder"] is not null;
         if (needConvert)
         {
             ret &= ConvertTaskQueue();
