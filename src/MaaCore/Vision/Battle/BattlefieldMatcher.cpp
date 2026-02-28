@@ -285,7 +285,7 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
 
     const auto& ocr_task = Task.get<OcrTaskInfo>("BattleKills");
     RegionOCRer flag_analyzer(m_image);
-    flag_analyzer.set_roi(flag_rect->move({ 50, 0, 100, 40 })); // ocr_task->roi);
+    flag_analyzer.set_roi(flag_rect->move(ocr_task->roi));
     flag_analyzer.set_use_char_model(ocr_task->is_ascii);
     flag_analyzer.set_use_raw(ocr_task->use_raw);
     flag_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
@@ -380,7 +380,7 @@ std::pair<bool, std::optional<Rect>> asst::BattlefieldMatcher::hit_kills_cache()
     }
 
     const auto& ocr_task = Task.get<OcrTaskInfo>("BattleKills");
-    const auto& roi = flag_rect.move({ 50, 0, 100, 40 }); // ocr_task->roi);
+    const auto& roi = flag_rect.move(ocr_task->roi);
 
     cv::Mat kills_image_cache = make_roi(m_image_prev, roi);
     cv::Mat kills_image = make_roi(m_image, roi);
