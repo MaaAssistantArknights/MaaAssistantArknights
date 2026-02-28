@@ -79,7 +79,7 @@ public static class ComboBoxExtensions
             _logger.Debug("Searching for: {SearchTerm}", searchTerm);
 
             // 如果文字完全匹配某个选项，恢复完整列表
-            object exactMatchItem = targetComboBox.ItemsSource.Cast<object>().FirstOrDefault(obj => obj?.ToString() == searchTerm);
+            object exactMatchItem = targetComboBox.ItemsSource.Cast<object>().FirstOrDefault(obj => string.Equals(obj?.ToString(), searchTerm, StringComparison.CurrentCultureIgnoreCase));
 
             if (exactMatchItem != null)
             {
@@ -96,7 +96,7 @@ public static class ComboBoxExtensions
             }
             else
             {
-                targetComboBox.Items.Filter = item => item?.ToString()?.Contains(searchTerm) ?? false;
+                targetComboBox.Items.Filter = item => item?.ToString()?.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ?? false;
             }
         };
 
