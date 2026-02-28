@@ -97,6 +97,8 @@ icon: material-symbols:view-quilt-rounded
                     // 若 operators 为空，则该房间完整的使用原先算法进行排班
                     // 若 operators 不为空，将仅考虑单干员效率，而不考虑整个组合效率
                     // 注意可能和后面自定义的干员产生冲突，比如把后面需要的干员拿到这里用了，请谨慎使用，或将 autofill 的房间顺序放到最后
+                    "blacklist": ["Lancet-2"], // 将指定干员排除出当前房间autofill的范围，可选
+                    // 若被指定的干员信赖未满，仍然可能会在填入信赖未满干员时被填入宿舍
                     "product": "Battle Record" // 当前制造产物，可选。
                     // 若识别到当前设施与作业中设置的产物不符合，界面会弹个红色字样提示，以后可能有更多作用
                     // 取值范围： "Battle Record" | "Pure Gold" |  "Dualchip" | "Originium Shard" | "LMD" | "Orundum"
