@@ -313,7 +313,11 @@ struct TextRect : public AnalyzerResult
 {
     TextRect() = default;
 
-    TextRect(Rect r, double s, std::string t) :
+    TextRect(Rect a, Rect r, double s, std::string t) :
+        // Check OcrPack.cpp for details
+        // abs_rect is the rect in the absolute coordinate system of the image for easier debugging
+        abs_rect(a),
+        // rect is the rect in the coordinate system of the roi
         rect(r),
         score(s),
         text(std::move(t))
@@ -332,6 +336,7 @@ struct TextRect : public AnalyzerResult
                  { "text", text } };
     }
 
+    Rect abs_rect;
     Rect rect;
     double score = 0.0;
     std::string text;

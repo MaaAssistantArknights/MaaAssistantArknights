@@ -29,6 +29,7 @@ TemplDetOCRer::ResultsVecOpt TemplDetOCRer::analyze() const
         }
         Result result;
         result.text = ocr_opt->text;
+        result.abs_rect = ocr_opt->abs_rect;
         result.rect = ocr_opt->rect;
         result.score = ocr_opt->score;
         result.flag_rect = matched.rect;
