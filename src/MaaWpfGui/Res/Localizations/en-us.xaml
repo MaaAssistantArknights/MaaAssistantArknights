@@ -960,8 +960,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="SupportUnitUsage.Random">Random</system:String>
     <system:String x:Key="AddTrust">Add low-trust {key=Operator}s</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} requirements</system:String>
-    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Some jobs require specific Modules or other prerequisites.
-Enabling this will skip these checks, but may cause the job to fail.</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Some jobs require specific skill level, Modules or other prerequisites.
+Enabling this will skip these checks, but may cause the job to fail.
+Operator's Elite level can NOT be skipped. If any requirements are skipped, the operation will no longer be automatically rated after the battle.</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and Skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>

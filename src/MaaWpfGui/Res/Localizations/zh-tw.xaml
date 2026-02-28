@@ -962,7 +962,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="AddTrust">補充低信賴 {key=Operator}</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">忽略{key=Operator}屬性要求</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">某些作業需要特定模組等作為前置條件
-勾選此項將跳過這些檢查，但可能導致作業無法正常執行</system:String>
+勾選此項將跳過這些檢查，但可能導致作業無法正常執行
+幹員精英化等級無法被跳過，如果跳過了任何需求，則戰鬥完成後不再為作業自動點贊</system:String>
     <system:String x:Key="AddUserAdditional">追加自定義{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔{key=Operator}姓名和技能，例如：史爾特爾,3;艾雅法拉,1</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名稱</system:String>
