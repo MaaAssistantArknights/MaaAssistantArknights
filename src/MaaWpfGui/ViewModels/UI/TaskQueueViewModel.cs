@@ -1319,7 +1319,7 @@ public class TaskQueueViewModel : Screen
         }
 
         var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
-        var currentName = taskItem.Name;
+        var currentName = taskItem.Name.Replace("\r", string.Empty).Replace("\n", string.Empty);
         var dialog = new Views.Dialogs.TextDialogUserControl(
             LocalizationHelper.GetString("RenameTask") + $" {taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}",
             LocalizationHelper.GetString("RenameTaskPrompt"),
@@ -1331,7 +1331,7 @@ public class TaskQueueViewModel : Screen
 
         if (result == true && !string.IsNullOrWhiteSpace(dialog.InputText))
         {
-            var newName = dialog.InputText.Trim();
+            var newName = dialog.InputText.Trim().Replace("\r", string.Empty).Replace("\n", string.Empty);
             taskItem.Name = newName;
             if (taskItem.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
             {
