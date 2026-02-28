@@ -7,6 +7,7 @@
 
 #include "Common/AsstTypes.h"
 #include "Config/TaskData.h"
+#include "Config/TemplResource.h"
 #include "MaaUtils/ImageIo.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
@@ -15,7 +16,6 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/FeatureMatcher.h"
 #include "Vision/Matcher.h"
-#include "Config/TemplResource.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 #include "Vision/MultiMatcher.h"
