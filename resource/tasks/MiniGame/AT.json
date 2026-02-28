@@ -44,7 +44,7 @@
     },
     "MiniGame@AT@Confirm": {
         "action": "ClickSelf",
-        "roi": [1036, 242, 225, 301],
+        "roi": [1120, 270, 130, 255],
         "next": ["#self", "MiniGame@AT@ClickToContinue"]
     },
     "MiniGame@AT@EndTheConversation": {
