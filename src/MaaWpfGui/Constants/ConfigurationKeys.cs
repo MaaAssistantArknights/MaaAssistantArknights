@@ -230,6 +230,10 @@ public static class ConfigurationKeys
     public const string UpdateProxy = "VersionUpdate.Proxy";
     public const string ProxyType = "VersionUpdate.ProxyType";
     public const string VersionType = "VersionUpdate.VersionType";
+    public const string GithubMainDomain = "VersionUpdate.Github.MainDomain";
+    public const string GithubRawDomain = "VersionUpdate.Github.RawDomain";
+    public const string GithubApiDomain = "VersionUpdate.Github.ApiDomain";
+    public const string GithubToken = "VersionUpdate.Github.Token";
 
     // MirrorChyanCdk 迁到新配置的话就直接叫 UpdateSource，现在本体更新也加上了 MirrorChyan
     public const string UpdateSource = "VersionUpdate.ResourceUpdateSource";
