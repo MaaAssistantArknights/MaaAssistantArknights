@@ -27,6 +27,10 @@
 #include "Win32Controller.h"
 #endif
 
+#ifdef __ANDROID__
+#include "Android/AndroidController.h"
+#endif
+
 #include "Common/AsstTypes.h"
 #include "Utils/Logger.hpp"
 
@@ -64,6 +68,12 @@ std::shared_ptr<asst::ControllerAPI> asst::Controller::create_controller(
         case ControllerType::MacPlayTools:
             controller = std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
             break;
+#ifdef __ANDROID__
+        case ControllerType::Android:
+            Log.debug("Use Android");
+            controller = std::make_shared<AndroidController>(m_callback, m_inst);
+            break;
+#endif
         default:
             return nullptr;
         }
@@ -250,11 +260,14 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 #endif
 
+    // Android uses lazy loading; no need to check in advance
+#ifndef __ANDROID__
     // try to find the fastest way
     if (!screencap()) {
         Log.error("Cannot find a proper way to screencap!");
         return false;
     }
+#endif
 
     auto proxy_callback = [&](const json::object& details) {
         json::value connection_info = json::object {
@@ -368,6 +381,11 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
     case TouchMode::MacPlayTools:
         m_controller_type = ControllerType::MacPlayTools;
         break;
+#ifdef __ANDROID__
+    case TouchMode::Android:
+        m_controller_type = ControllerType::Android;
+        break;
+#endif
     default:
         m_controller_type = ControllerType::Minitouch;
     }
@@ -399,7 +417,7 @@ cv::Mat asst::Controller::get_image(bool raw)
 {
     if (get_scale_size() == std::pair(0, 0)) {
         Log.error("Unknown image size");
-        return {};
+        return { };
     }
 
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
@@ -423,7 +441,7 @@ cv::Mat asst::Controller::get_image(bool raw)
             { "uuid", m_uuid },
             { "what", "ScreencapFailed" },
             { "why", "ScreencapFailed" },
-            { "details", json::object {} },
+            { "details", json::object { } },
         };
         callback(AsstMsg::ConnectionInfo, info);
 

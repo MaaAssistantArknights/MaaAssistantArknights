@@ -45,6 +45,13 @@ if(BUILD_WPF_GUI)
     endif()
 endif()
 
+if (ANDROID)
+    add_library(stdc++fs INTERFACE)
+    add_compile_options(-Wno-unused-parameter)
+    add_compile_options(-ffunction-sections -fdata-sections)
+    add_link_options(-Wl,--gc-sections)
+endif()
+
 if(INSTALL_PYTHON)
     install(DIRECTORY src/Python DESTINATION .)
 endif()
