@@ -3317,6 +3317,242 @@
         "roi": [538, 6, 650, 64],
         "templThreshold": 0.7
     },
+    "InfrastEnterIntelligent": {
+        "template": "InfrastOverviewEnter.png",
+        "doc": "直接复用Rotation的识别参数(RGBCount)，因为它能抗红点干扰",
+        "method": "RGBCount",
+        "colorScales": [[250, 255]],
+        "roi": [120, 50, 160, 160],
+        "postDelay": 1500,
+        "action": "ClickSelf"
+    },
+    "InfrastOverviewAnchor": {
+        "template": "InfrastSingleRoomQueueRotation.png",
+        "roi": [1182, 78, 55, 644],
+        "templThreshold": 0.8,
+        "doc": "锚点：每行右侧的队列切换按钮"
+    },
+    "InfrastOverviewNameRect": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于锚点的位置移动",
+        "rectMove": [-756, 0, 117, 44],
+        "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
+        "specificRect": [235, 255, 0, 0],
+        "ocrReplaceDoc": "利用正则捕获组提取：组1是房间名，组2是1-9的数字。其余部分(包括0、符号)全部被.*吞掉并删除",
+        "ocrReplace": [["^(控制中枢|会客室|办公室|制造站|贸易站|发电站|宿舍|训练室|加工站)([1-9])?.*$", "$1$2"]]
+    },
+    "InfrastOverviewTrainingStatus": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于锚点的位置移动",
+        "rectMove": [-420, 85, 68, 26],
+        "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
+        "specificRect": [235, 255, 0, 0]
+    },
+    "InfrastOverview-Slot-0": {
+        "doc": "第1个槽位，相对于 Anchor 的偏移 [x, y, w, h]。计算: 624 - 1182 = -558",
+        "template": "empty.png",
+        "roi": [-566, 0, 114, 134]
+    },
+    "InfrastOverview-Slot-1": {
+        "doc": "第2个槽位",
+        "template": "empty.png",
+        "roi": [-453, 0, 114, 134]
+    },
+    "InfrastOverview-Slot-2": {
+        "doc": "第3个槽位",
+        "template": "empty.png",
+        "roi": [-340, 0, 114, 134]
+    },
+    "InfrastOverview-Slot-3": {
+        "doc": "第4个槽位",
+        "template": "empty.png",
+        "roi": [-227, 0, 114, 134]
+    },
+    "InfrastOverview-Slot-4": {
+        "doc": "第5个槽位",
+        "template": "empty.png",
+        "roi": [-114, 0, 114, 134]
+    },
+    "InfrastOverviewSlotEmpty": {
+        "template": "InfrastOverviewEmpty.png",
+        "templThreshold": 0.85,
+        "doc": "空槽位图标，ROI由C++覆写为Slot的ROI",
+        "roi": [0, 0, 100, 100]
+    },
+    "InfrastOverviewMoodProgressBar": {
+        "template": "empty.png",
+        "templThreshold_Doc": "这里的templThreshold，作为进度条最小灰度阈值使用",
+        "templThreshold": 160,
+        "specialParams": [20],
+        "specialParams_Doc": "作为进度条相邻点最大变化阈值使用",
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [21, 8, 85, 4]
+    },
+    "InfrastOverviewSmileyRest": {
+        "template": "InfrastOverviewSmileyRest.png",
+        "maskRange": [1, 255],
+        "templThreshold": 0.6
+    },
+    "InfrastOverviewSmileyWork": {
+        "template": "InfrastOverviewSmileyWork.png",
+        "maskRange": [1, 255],
+        "templThreshold": 0.6
+    },
+    "InfrastOverviewSmileyDistract": {
+        "template": "InfrastOverviewSmileyDistract.png",
+        "maskRange": [1, 255],
+        "templThreshold": 0.6
+    },
+    "InfrastOverviewSwipeDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "doc": "手指从下往上拖动，查看列表底部内容",
+        "specificRect": [600, 600, 20, 20],
+        "rectMove": [600, 250, 20, 20],
+        "specialParams": [1000, 0, 1, 1],
+        "postDelay": 500
+    },
+    "InfrastOverviewSwipeUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "doc": "手指从上往下拖动，查看列表上部内容",
+        "specificRect": [600, 250, 20, 20],
+        "rectMove": [600, 600, 20, 20],
+        "specialParams": [1000, 0, 1, 1],
+        "postDelay": 500
+    },
+    "InfrastEnterWorkspace": {
+        "template": "InfrastEnterWorkspace.png",
+        "roi": [840, 0, 150, 100],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "InfrastEnterDorm": {
+        "template": "InfrastEnterTrim.png",
+        "roi": [1000, 0, 150, 100],
+        "action": "ClickSelf",
+        "next": ["InfrastDormRest", "InfrastEnterDorm"]
+    },
+    "InfrastDormRest": {
+        "template": "InfrastOperatorTrim.png",
+        "roi": [1020, 600, 150, 120],
+        "postDelay": 1000,
+        "action": "ClickSelf"
+    },
+    "InfrastOverviewDormAnchor": {
+        "template": "InfrastOverviewDormIcon.png",
+        "roi": [510, 82, 66, 578],
+        "templThreshold": 0.8,
+        "doc": "锚点：宿舍五个点的图标"
+    },
+    "InfrastOverviewDormNameRect": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于锚点的位置移动",
+        "rectMove": [-83, -13, 82, 50],
+        "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
+        "specificRect": [235, 255, 0, 0],
+        "ocrReplaceDoc": "利用正则捕获组提取：组1是房间名，组2是1-9的数字。其余部分(包括0、符号)全部被.*吞掉并删除",
+        "ocrReplace": [["^(宿舍)([1-9])?.*$", "$1$2"]]
+    },
+    "InfrastOverviewDormRect": {
+        "doc": "单个宿舍位置",
+        "template": "empty.png",
+        "roi": [-83, -13, 800, 135]
+    },
+    "InfrastOverviewDormSlot0": {
+        "doc": "第1个槽位，相对于 Anchor 的偏移 [x, y, w, h]。计算: 624 - 1182 = -558",
+        "template": "empty.png",
+        "roi": [109, -12, 114, 135]
+    },
+    "InfrastOverviewDormSlot1": {
+        "doc": "第2个槽位",
+        "template": "empty.png",
+        "roi": [222, -12, 114, 135]
+    },
+    "InfrastOverviewDormSlot2": {
+        "doc": "第3个槽位",
+        "template": "empty.png",
+        "roi": [335, -12, 114, 135]
+    },
+    "InfrastOverviewDormSlot3": {
+        "doc": "第4个槽位",
+        "template": "empty.png",
+        "roi": [448, -12, 114, 135]
+    },
+    "InfrastOverviewDormSlot4": {
+        "doc": "第5个槽位",
+        "template": "empty.png",
+        "roi": [557, -12, 114, 135]
+    },
+    "InfrastOverviewDormSlotLock": {
+        "template": "InfrastOverviewDormLock.png",
+        "templThreshold": 0.85,
+        "doc": "宿舍锁定图标，ROI由C++覆写为Slot的ROI",
+        "maskRange": [1, 255],
+        "roi": [0, 0, 100, 100]
+    },
+    "InfrastOverviewDormStatus": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于锚点的位置移动",
+        "rectMove": [44, 91, 60, 21],
+        "specificRect_Doc": "前两位拿来当文字灰度二值化下限与上限来用",
+        "specificRect": [235, 255, 0, 0]
+    },
+    "InfrastOverviewProcessingClear": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [666, 580, 30, 30],
+        "postDelay": 500,
+        "next": ["InfrastOverviewClearClickRole"]
+    },
+
+    "InfrastOverviewTrainingClear": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [780, 380, 30, 30],
+        "postDelay": 500,
+        "next": ["InfrastOverviewTrainingClickRole1"]
+    },
+
+    "InfrastOverviewTrainingClickRole1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [454, 184, 56, 75],
+        "postDelay": 500,
+        "next": ["InfrastOverviewTrainingEnsure1"]
+    },
+    "InfrastOverviewTrainingEnsure1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1141, 660, 76, 34],
+        "postDelay": 2000,
+        "next": ["InfrastOverviewTrainingSupportClear"]
+    },
+    "InfrastOverviewTrainingSupportClear": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [666, 380, 30, 30],
+        "postDelay": 500,
+        "next": ["InfrastOverviewClearClickRole"]
+    },
+    "InfrastOverviewClearClickRole": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [454, 184, 56, 75],
+        "postDelay": 500,
+        "next": ["InfrastOverviewClearEnsure"]
+    },
+    "InfrastOverviewClearEnsure": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1141, 660, 76, 34],
+        "postDelay": 2000,
+        "next": ["Stop"]
+    },
     "BattleStageName": {
         "algorithm": "OcrDetect",
         "text": [],
