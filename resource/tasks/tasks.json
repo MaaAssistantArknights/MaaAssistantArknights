@@ -1170,7 +1170,7 @@
         "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
         "algorithm": "JustReturn",
         "next": [
-            "Fight@BeforeAnnihilationCheck",
+            "Fight@AnnihilationPreCheck",
             "Fight@UsePrts-Annihilation",
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
@@ -1178,40 +1178,23 @@
             "Fight@PRTS#next"
         ]
     },
-    "BeforeAnnihilationCheck": {
-        "Docs": "检查剿灭是否已经完成",
-        "action": "ClickSelf",
+    "AnnihilationPreCheck": {
+        "Docs": "检查剿灭是否已经完成, 先匹配左下角合成玉icon",
+        "roi": [15, 600, 85, 100],
+        "maxTimes": 3,
+        "exceededNext": ["ClickCorner#next ^ #self"],
+        "next": ["UsePrts-Annihilation", "AnnihilationPreCheck"]
+    },
+    "AnnihilationCheckOcr": {
         "algorithm": "OcrDetect",
-        "text": ["每周报酬", "合成玉"],
-        "roi": [92, 594, 184, 54],
-        "postDelay": 1300,
-        "sub": ["AnnihilationCheckResultSwitcher"],
-        "next": ["UsePrts-Annihilation", "UsePrts", "StartButton1"]
-    },
-    "AnnihilationCheckResultSwitcher": { 
-        "algorithm": "JustReturn",
-        "next": ["AnnihilationCheck", "AnnihilationChecked"]
-    },
-    "AnnihilationCheck": {
-        "templThreshold": 0.98,
-        "roi": [1104, 641, 48, 56],
-        "sub": ["AnnihilationChecked"],
-        "next": ["Home@ReturnButtons#next"]
-    },
-    "AnnihilationChecked": {
-        "Doc": "检查已经完成，返回可识别的界面",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [1180, 20, 90, 50],
-        "maxTimes": 10,
-        "postDelay": 1300,
-        "next": ["AnnihilationCheckReturnSuccess"]
-    },
-    "AnnihilationCheckReturnSuccess": {
-        "Doc": "返回到可以识别的界面",
-        "algorithm": "OcrDetect",
-        "text": ["每周报酬", "合成玉"],
-        "roi": [92, 594, 184, 54]
+        "text": ["__PASS__"],
+        "roi": [100, 638, 180, 40],
+        "isAscii": true,
+        "ocrReplace": [
+            ["[Oo]", "0"],
+            ["[Ii]|[Ll]", "1"],
+            [ "(\\d+)\\/\\1", "__PASS__" ]
+        ]
     },
     "LastOrCurBattleBegin": {
         "algorithm": "JustReturn",
@@ -1309,7 +1292,7 @@
         "postDelay": 1000,
         "roi": [1010, 625, 260, 61],
         "exceededNext": ["StageSNReturnFlag", "Stop"],
-        "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*10"],
+        "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner+AnnihilationPreCheck)*10"],
         "next": [
             "StartButton2",
             "UseMedicine",
@@ -1440,7 +1423,7 @@
         "specificRect": [1000, 20, 270, 50],
         "maxTimes": 10,
         "next": [
-            "BeforeAnnihilationCheck",
+            "AnnihilationPreCheck",
             "StartButton1",
             "StartButton2",
             "UseMedicine",
