@@ -1181,20 +1181,28 @@
     "AnnihilationPreCheck": {
         "Docs": "检查剿灭是否已经完成, 先匹配左下角合成玉icon",
         "roi": [15, 600, 85, 100],
-        "maxTimes": 3,
-        "exceededNext": ["ClickCorner#next ^ #self"],
-        "next": ["UsePrts-Annihilation", "AnnihilationPreCheck"]
+        "next": ["AnnihilationCheckOcrPass", "AnnihilationCheckOcr"]
     },
-    "AnnihilationCheckOcr": {
+    "AnnihilationCheckOcrPass": {
         "algorithm": "OcrDetect",
-        "text": ["__PASS__"],
+        "text": ["__EQUAL__"],
         "roi": [100, 638, 180, 40],
         "isAscii": true,
         "ocrReplace": [
             ["[Oo]", "0"],
             ["[Ii]|[Ll]", "1"],
-            [ "(\\d+)\\/\\1", "__PASS__" ]
+            ["(\\d+)\\/\\1$", "__EQUAL__"]
         ]
+    },
+    "AnnihilationCheckOcr": {
+        "baseTask": "AnnihilationCheckOcrPass",
+        "text": ["__NEQ__"],
+        "ocrReplace": [
+            ["[Oo]", "0"],
+            ["[Ii]|[Ll]", "1"],
+            ["^(\\d+)\\/(?!\\1\\b)\\d+", "__NEQ__"]
+        ],
+        "next": ["UsePrts-Annihilation", "UsePrts", "UsePrts-StageSN", "(ClickCorner#next ^ (AnnihilationPreCheck + #self))"]
     },
     "LastOrCurBattleBegin": {
         "algorithm": "JustReturn",
@@ -1292,7 +1300,7 @@
         "postDelay": 1000,
         "roi": [1010, 625, 260, 61],
         "exceededNext": ["StageSNReturnFlag", "Stop"],
-        "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner+AnnihilationPreCheck)*10"],
+        "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*10"],
         "next": [
             "StartButton2",
             "UseMedicine",
