@@ -962,7 +962,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AddTrust">信頼度低の{key=Operator}追加</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator}要件を無視</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">一部の攻略は特定のモジュールなどを前提条件とします
-この項目を選択するとこれらのチェックをスキップしますが、タスクが正常に動作しなくなる可能性があります。</system:String>
+この項目を選択するとこれらのチェックをスキップしますが、タスクが正常に動作しなくなる可能性があります。
+オペレーターのエリートレベルはスキップできません。いずれかの条件をスキップした場合、戦闘後にオペレーションは自動的に評価されなくなります。</system:String>
     <system:String x:Key="AddUserAdditional">カスタム{key=Operator}追加</system:String>
     <system:String x:Key="AddUserAdditionalTip">「;」はセパレータ、「,」で{key=Operator}の名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla, 1</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>

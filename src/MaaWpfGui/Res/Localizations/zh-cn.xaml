@@ -961,8 +961,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="SupportUnitUsage.Random">随机</system:String>
     <system:String x:Key="AddTrust">补充低信赖{key=Operator}</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">忽略{key=Operator}属性要求</system:String>
-    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">某些作业需要特定模组等作为前置条件
-勾选此项将跳过这些检查，但可能导致作业无法正常运行</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">某些作业需要特定技能等级、模组等作为前置条件
+勾选此项将跳过这些检查，但可能导致作业无法正常运行
+干员精英化等级无法被跳过，如果跳过了任何需求，则战斗完成后不再进行自动点赞</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">以英文 ｢;｣ 为分隔符，英文 ｢,｣ 分隔{key=Operator}名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
