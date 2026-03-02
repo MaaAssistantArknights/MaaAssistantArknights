@@ -131,10 +131,15 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
 #endif
 
         Rect screen_rect(roi_offset.x + abs_rect.x, roi_offset.y + abs_rect.y, abs_rect.width, abs_rect.height);
-        if (i > 0) raw_log += ", ";
-        raw_log += std::format("{{ text: {}, abs_rect: {}, rect: {}, score: {:.6f} }}",
-                               ocr_result.text.at(i), screen_rect.to_string(), det_rect.to_string(),
-                               ocr_result.rec_scores.at(i));
+        if (i > 0) {
+            raw_log += ", ";
+        }
+        raw_log += std::format(
+            "{{ text: {}, abs_rect: {}, rect: {}, score: {:.6f} }}",
+            ocr_result.text.at(i),
+            screen_rect.to_string(),
+            det_rect.to_string(),
+            ocr_result.rec_scores.at(i));
 
         raw_results.emplace_back(Result(det_rect, ocr_result.rec_scores.at(i), std::move(ocr_result.text.at(i))));
     }
