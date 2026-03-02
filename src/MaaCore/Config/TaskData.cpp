@@ -290,7 +290,7 @@ bool asst::TaskData::parse(const json::value& json)
         return false;
     }
 
-#ifndef ASST_DEBUG 
+#ifndef ASST_DEBUG
     // 本来重构之后完全支持惰性加载，但是发现模板图片不支持（
     // generate_task_info 中会把模板图片名加入 m_templ_required, 而 ASST_DEBUG 中语法检查已经生成过
     for (const std::string& name : m_json_all_tasks_info | std::views::keys) {
