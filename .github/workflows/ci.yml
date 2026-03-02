@@ -88,7 +88,7 @@ jobs:
           echo "[已有 Mirror酱 CDK？前往 Mirror酱 高速下载](https://mirrorchyan.com/zh/projects?rid=MAA&source=maagh-release)" >> CHANGELOG.md
 
       - name: Upload changelog to GitHub
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: startsWith(github.ref, 'refs/tags/v')
         with:
           name: changelog
@@ -195,7 +195,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload PDB files
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: MAAComponent-DebugSymbol-win-${{ matrix.arch }}
           path: install/MAAComponent-DebugSymbol-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip
@@ -216,7 +216,7 @@ jobs:
           Compress-Archive -Destination MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip -Path ./*
 
       - name: Upload MAA to GitHub
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: MAA-win-${{ matrix.arch }}
           path: install/MAA-*.zip
@@ -321,7 +321,7 @@ jobs:
           tar czvf $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.tar.gz .
 
       - name: Upload MAA to GitHub
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: MAA-linux-${{ matrix.arch }}
           path: |
@@ -372,7 +372,7 @@ jobs:
           cmake --install build --config RelWithDebInfo
 
       - name: Upload MAA to GitHub
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: MAACore-macos-${{ matrix.arch }}
           path: "install/*.dylib"
@@ -398,13 +398,13 @@ jobs:
           git submodule update --init --depth 1 src/MaaMacGui
 
       - name: Download MAA (arm64) from GitHub
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: MAACore-macos-arm64
           path: install-arm64
 
       - name: Download MAA (x64) from GitHub
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: MAACore-macos-x86_64
           path: install-x86_64
@@ -450,7 +450,7 @@ jobs:
           zip -yrX9 "$name.zip" "$name"
 
       - name: Upload MAA runtime to GitHub
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: MAA-macos-runtime-universal
           path: runtime/MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal.zip
@@ -532,7 +532,7 @@ jobs:
         working-directory: release
 
       - name: Upload MAA to GitHub
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: MAA-macos-universal
           path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
@@ -544,7 +544,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download MAA from GitHub
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: assets
 
