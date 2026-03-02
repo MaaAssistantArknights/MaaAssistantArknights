@@ -1538,9 +1538,6 @@
         "rectMove": [0, 234, 116, 22],
         "specialParams": [105, 2, 7, 0, 3, 10]
     },
-    "BattleDeployWhenPause": {
-        "specialParams": [0]
-    },
     "BattleStartPre": {
         "text": ["Start", "Start Challenge"]
     },
@@ -1559,6 +1556,9 @@
     },
     "SSSBattleOperName": {
         "roi": [0, 105, 300, 31]
+    },
+    "BattleDeployWhenPause": {
+        "specialParams": [0]
     },
     "StageDrops-TimesCheck": {
         "text": ["Continuous", "Auto", "Operation"]
