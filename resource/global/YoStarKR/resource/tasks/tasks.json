@@ -1565,6 +1565,9 @@
     "BattleQuickFormationRole-All-OCR": {
         "text": ["전체"]
     },
+    "BattleDeployWhenPause": {
+        "specialParams": [0]
+    },
     "BattleStartPre": {
         "ocrReplace": [
             [".+드모드", "하드모드"],

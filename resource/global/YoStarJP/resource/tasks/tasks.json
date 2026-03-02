@@ -1433,6 +1433,9 @@
     "BattleQuickFormationOCR": {
         "specialParams": [160, 4, 0, 0, 3, 12]
     },
+    "BattleDeployWhenPause": {
+        "specialParams": [0]
+    },
     "BattleStartPre": {
         "ocrReplace": [["算.*", ""]],
         "text": ["行動開始", "開始", "試練", "挑戦", "作戦", "推論"]
