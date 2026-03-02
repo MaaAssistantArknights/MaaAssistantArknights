@@ -1138,9 +1138,6 @@
     "BattleQuickFormationFilter-Cost": {
         "text": ["部署費用"]
     },
-    "BattleDeployWhenPause": {
-        "specialParams": [0]
-    },
     "BattleStartPre": {
         "ocrReplace": [["開始試.*", "開始試煉"]],
         "text": ["開始行動", "開始突襲", "開始試煉", "開始測試", "開始作戰", "開始推演"]
@@ -1150,6 +1147,9 @@
     },
     "BattleStartSimulationForTwo": {
         "text": ["開始", "模擬"]
+    },
+    "BattleDeployWhenPause": {
+        "specialParams": [0]
     },
     "StageDrops-TimesCheck": {
         "text": ["連續", "成功", "代理", "作戰"]
