@@ -1,0 +1,18 @@
+{
+  "source": "Auto",
+  "startedAt": "2026-02-28T09:12:30.0000000+00:00",
+  "finishedAt": "2026-02-28T09:12:30.2430000+00:00",
+  "success": true,
+  "importedGuiNew": true,
+  "importedGui": true,
+  "mappedFieldCount": 312,
+  "defaultFallbackCount": 5,
+  "conflictCount": 8,
+  "warnings": [
+    "Some legacy keys were not mapped and used defaults"
+  ],
+  "errors": [],
+  "outputConfigPath": ".../config/avalonia.json",
+  "reportPath": ".../debug/config-import-report.json",
+  "summary": "mapped=312, fallback=5, conflicts=8"
+}

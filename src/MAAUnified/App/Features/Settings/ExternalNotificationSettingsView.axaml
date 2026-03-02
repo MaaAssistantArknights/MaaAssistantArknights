@@ -1,0 +1,11 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MAAUnified.App.Features.Settings.ExternalNotificationSettingsView">
+  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
+    <StackPanel Spacing="6">
+      <TextBlock FontSize="18" FontWeight="Bold" Text="ExternalNotificationSettings" />
+      <TextBlock Text="MAAUnified Settings 模块：ExternalNotificationSettings" TextWrapping="Wrap" />
+      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
+    </StackPanel>
+  </Border>
+</UserControl>

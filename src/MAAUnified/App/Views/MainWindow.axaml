@@ -1,0 +1,91 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="MAAUnified.App.Views.MainWindow"
+        Width="1400"
+        Height="900"
+        Title="MAAUnified">
+  <Grid ColumnDefinitions="320,*" RowDefinitions="Auto,Auto,*,Auto" Margin="12">
+    <Border Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,10" Padding="12" BorderBrush="#3A4A55" BorderThickness="1" CornerRadius="8">
+      <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Spacing="4">
+          <TextBlock FontSize="22" FontWeight="SemiBold" Text="MAAUnified - 全功能复刻工作区" />
+          <TextBlock Text="{Binding StartupStatus}" TextWrapping="Wrap" />
+          <TextBlock Text="{Binding CurrentProfileText}" />
+          <TextBlock Text="{Binding ProfileCountText}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Top">
+          <Button Content="连接" Click="OnConnectClick" />
+          <Button Content="追加任务" Click="OnAppendClick" />
+          <Button Content="开始" Click="OnStartClick" />
+          <Button Content="停止" Click="OnStopClick" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="1" Grid.Column="0" Margin="0,0,10,10" Padding="10" BorderBrush="#3A4A55" BorderThickness="1" CornerRadius="8">
+      <StackPanel Spacing="8">
+        <TextBlock FontWeight="Bold" Text="模块导航" />
+        <TextBox Watermark="过滤模块" Text="{Binding ModuleFilter}" />
+        <ListBox Name="ModulesList"
+                 ItemsSource="{Binding Modules}"
+                 SelectedItem="{Binding SelectedModule}"
+                 SelectionChanged="OnModuleSelectionChanged"
+                 Height="540">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Margin="2">
+                <TextBlock FontWeight="SemiBold" Text="{Binding Title}" />
+                <TextBlock Opacity="0.75" Text="{Binding Group}" />
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </StackPanel>
+    </Border>
+
+    <Border Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Padding="10" BorderBrush="#3A4A55" BorderThickness="1" CornerRadius="8">
+      <Grid RowDefinitions="Auto,Auto,*">
+        <StackPanel Margin="0,0,0,8">
+          <TextBlock FontSize="20" FontWeight="Bold" Text="{Binding SelectedModuleTitle}" />
+          <TextBlock Text="{Binding SelectedModuleDescription}" TextWrapping="Wrap" />
+          <TextBlock Opacity="0.7" Text="{Binding SelectedModuleScope, StringFormat=作用域: {0}}" />
+          <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,6,0,0">
+            <Button Content="执行模块动作" Click="OnRunModuleActionClick" />
+            <TextBlock VerticalAlignment="Center" Text="{Binding ModuleActionStatus}" TextWrapping="Wrap" />
+          </StackPanel>
+        </StackPanel>
+
+        <Border Grid.Row="1" Margin="0,0,0,8" Padding="8" BorderBrush="#3A4A55" BorderThickness="1" CornerRadius="6">
+          <StackPanel Spacing="6">
+            <TextBlock FontWeight="Bold" Text="配置迁移（手动导入旧版配置）" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <ComboBox Width="240" ItemsSource="{Binding ImportSourceOptions}" SelectedItem="{Binding SelectedImportSource}" />
+              <Button Content="手动导入旧版配置" Click="OnImportClick" />
+            </StackPanel>
+            <TextBlock Text="{Binding ImportStatus}" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+
+        <ContentControl Name="ModuleHost" Grid.Row="2" />
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,10" Padding="10" BorderBrush="#3A4A55" BorderThickness="1" CornerRadius="8">
+      <Grid ColumnDefinitions="*,*">
+        <StackPanel Margin="0,0,4,0">
+          <TextBlock FontWeight="Bold" Text="平台能力状态（降级可见）" Margin="0,0,0,8" />
+          <TextBlock Text="{Binding CapabilityStatus}" TextWrapping="Wrap" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="4,0,0,0">
+          <TextBlock FontWeight="Bold" Text="运行日志" Margin="0,0,0,8" />
+          <ListBox ItemsSource="{Binding Logs}" Height="220" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Opacity="0.7" Text="配置主文件: config/avalonia.json；旧配置仅导入不回写；新增文件仅位于 src/MAAUnified" />
+  </Grid>
+</Window>
