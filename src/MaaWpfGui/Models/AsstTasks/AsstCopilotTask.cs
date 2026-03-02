@@ -128,10 +128,10 @@ public class AsstCopilotTask : AsstBaseTask
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets 技能序号，可选，默认为 1，取值范围 [1, 3]
+        /// Gets or sets 技能序号，可选，默认为 0，取值范围 [0, 3]
         /// </summary>
         [JsonProperty("skill")]
-        public int Skill { get; set; } = 1;
+        public int Skill { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets 模组编号，可选，默认为 0
