@@ -58,15 +58,15 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public List<CombinedData> ClientTypeList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
-            new() { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
-            new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
-            new() { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
-            new() { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
-            new() { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
+            new() { Display = LocalizationHelper.GetString("Official"), Value = Constants.Enums.ClientType.Official },
+            new() { Display = LocalizationHelper.GetString("Bilibili"), Value = Constants.Enums.ClientType.Bilibili },
+            new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = Constants.Enums.ClientType.EN },
+            new() { Display = LocalizationHelper.GetString("YoStarJP"), Value = Constants.Enums.ClientType.JP },
+            new() { Display = LocalizationHelper.GetString("YoStarKR"), Value = Constants.Enums.ClientType.KR },
+            new() { Display = LocalizationHelper.GetString("Txwy"), Value = Constants.Enums.ClientType.Txwy },
         ];
 
-    private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official");
+    private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, Constants.Enums.ClientType.Official);
 
     /// <summary>
     /// Gets or sets the client type.

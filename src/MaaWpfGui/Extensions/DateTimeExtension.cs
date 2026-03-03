@@ -28,13 +28,12 @@ public static class DateTimeExtension
 
     private static readonly Dictionary<string, int> _clientTypeTimezone = new()
     {
-        { string.Empty, 8 },
-        { "Official", 8 },
-        { "Bilibili", 8 },
-        { "txwy", 8 },
-        { "YoStarEN", -7 },
-        { "YoStarJP", 9 },
-        { "YoStarKR", 9 },
+        { Constants.Enums.ClientType.Official, 8 },
+        { Constants.Enums.ClientType.Bilibili, 8 },
+        { Constants.Enums.ClientType.Txwy, 8 },
+        { Constants.Enums.ClientType.EN, -7 },
+        { Constants.Enums.ClientType.JP, 9 },
+        { Constants.Enums.ClientType.KR, 9 },
     };
 
     public static DateTime ToYjDateTime(this DateTime dt)

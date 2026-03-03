@@ -474,7 +474,7 @@ public class AsstProxy
         string globalCacheRes = Path.Combine(mainCacheRes, "global", clientType, "resource");
 
         bool loaded;
-        if (clientType is "" or "Official" or "Bilibili")
+        if (clientType is ClientType.Official or ClientType.Bilibili)
         {
             // Read resources first, then read cache
             CopyTasksJson(mainCacheRes);
