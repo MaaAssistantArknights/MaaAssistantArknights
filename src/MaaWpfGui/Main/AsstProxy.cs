@@ -44,6 +44,7 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
@@ -463,7 +464,7 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool LoadResource()
     {
-        _logger.Information("Load Resource");
+        using var log = new LogScope(_logger);
 
         string clientType = SettingsViewModel.GameSettings.ClientType;
 

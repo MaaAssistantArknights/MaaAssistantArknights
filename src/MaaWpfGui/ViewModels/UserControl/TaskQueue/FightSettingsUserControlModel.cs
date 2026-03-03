@@ -715,7 +715,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     public void UpdateStageList()
     {
         Execute.PostToUIThreadAsync(() => {
-            _logger.Information("Updating stage list...");
+            using var log = new LogScope(_logger);
             using var scope = _lock.EnterScope();
             var stageList = Instances.StageManager.GetStageList();
             RefreshStageList();
