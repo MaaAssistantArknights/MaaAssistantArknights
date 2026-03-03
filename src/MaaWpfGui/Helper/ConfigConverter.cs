@@ -197,8 +197,8 @@ public class ConfigConverter
                 fightTask.UseStoneAllowSave = ConfigurationHelper.GetValue(ConfigurationKeys.AllowUseStoneSave, false);
                 fightTask.HideSeries = ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, false);
                 fightTask.UseExpiringMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, false);
-                fightTask.AnnihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, "Annihilation");
-                fightTask.UseCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false) && fightTask.AnnihilationStage != "Annihilation";
+                fightTask.AnnihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, FightSettingsUserControlModel.AnnihilationName);
+                fightTask.UseCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false) && fightTask.AnnihilationStage != FightSettingsUserControlModel.AnnihilationName;
                 fightTask.HideUnavailableStage = ConfigurationHelper.GetValue(ConfigurationKeys.HideUnavailableStage, true);
                 fightTask.IsStageManually = ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, false);
                 fightTask.UseOptionalStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false);
@@ -490,9 +490,9 @@ public class ConfigConverter
                             fightTask2.Name = LocalizationHelper.GetString("RemainingSanityStage", local);
                             fightTask.IsEnable = task.IsEnable;
                             fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true) && fightTask2.StagePlan.FirstOrDefault() != string.Empty;
-                            if (fightTask.UseOptionalStage && fightTask.StagePlan.FirstOrDefault() == "Annihilation")
+                            if (fightTask.UseOptionalStage && fightTask.StagePlan.FirstOrDefault() == FightSettingsUserControlModel.AnnihilationName)
                             {
-                                ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask() { Name = LocalizationHelper.GetString("AnnihilationMode"), StagePlan = ["Annihilation"] });
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask() { Name = LocalizationHelper.GetString("AnnihilationMode"), StagePlan = [FightSettingsUserControlModel.AnnihilationName] });
                                 fightTask.StagePlan.RemoveAt(0);
                             }
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask);
