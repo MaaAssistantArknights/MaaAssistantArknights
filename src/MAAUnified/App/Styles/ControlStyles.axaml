@@ -1,0 +1,26 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Style Selector="Window">
+    <Setter Property="Background" Value="{DynamicResource MAA.BackgroundBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+  </Style>
+
+  <Style Selector="Border.section">
+    <Setter Property="Background" Value="{DynamicResource MAA.RegionBrushOpacity25}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.BorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Padding" Value="8" />
+  </Style>
+
+  <Style Selector="TextBlock.section-title">
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="Margin" Value="0,0,0,4" />
+  </Style>
+
+  <Style Selector="Button.action">
+    <Setter Property="MinWidth" Value="88" />
+    <Setter Property="Height" Value="32" />
+  </Style>
+</Styles>

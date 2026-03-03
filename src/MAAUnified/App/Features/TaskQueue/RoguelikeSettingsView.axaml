@@ -1,11 +1,40 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.RoguelikeSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="RoguelikeSettings" />
-      <TextBlock Text="MAAUnified TaskQueue 模块：RoguelikeSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="Roguelike" />
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,160,Auto,120,Auto,160">
+      <TextBlock VerticalAlignment="Center" Text="主题" />
+      <ComboBox SelectedIndex="0">
+        <ComboBoxItem Content="傀影与猩红孤钻" />
+        <ComboBoxItem Content="水月与深蓝之树" />
+        <ComboBoxItem Content="探索者的银凇止境" />
+      </ComboBox>
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="难度" />
+      <NumericUpDown Grid.Column="3" Minimum="0" Maximum="15" Value="0" />
+      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="策略" />
+      <ComboBox Grid.Column="5" SelectedIndex="0">
+        <ComboBoxItem Content="刷烛台" />
+        <ComboBoxItem Content="冲层数" />
+        <ComboBoxItem Content="收藏品模式" />
+      </ComboBox>
+    </Grid>
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,180,Auto,180">
+      <TextBlock VerticalAlignment="Center" Text="开局队伍" />
+      <TextBox Text="先锋+术师" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="核心干员" />
+      <TextBox Grid.Column="3" Text="桃金娘, 艾雅法拉" />
+    </Grid>
+    <WrapPanel Grid.Row="3" Orientation="Horizontal" ItemWidth="180">
+      <CheckBox Content="核心干员校验" />
+      <CheckBox Content="投资模式" />
+      <CheckBox Content="收藏模式" />
+      <CheckBox Content="探索模式细项" />
+      <CheckBox Content="支持干员" />
+      <CheckBox Content="延迟中止到战斗结束" />
+      <CheckBox Content="到终局停止" />
+      <CheckBox Content="到满级停止" />
+    </WrapPanel>
+    <TextBlock Grid.Row="4" Text="大量条件显示开关已保留，可按主题细分。" />
+  </Grid>
 </UserControl>

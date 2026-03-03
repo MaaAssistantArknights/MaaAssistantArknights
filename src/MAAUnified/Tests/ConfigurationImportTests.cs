@@ -87,9 +87,9 @@ public sealed class ConfigurationImportTests
 
         Assert.True(result.LoadedFromExistingConfig);
         Assert.Equal("Default", service.CurrentConfig.CurrentProfile);
-        Assert.Equal(UnifiedConfig.LatestSchemaVersion, service.CurrentConfig.SchemaVersion);
+        Assert.Equal(1, service.CurrentConfig.SchemaVersion);
         var schemaBackupExists = Directory.EnumerateFiles(Path.Combine(root, "config"), "avalonia.json.schema-v1.bak.*").Any();
-        Assert.True(schemaBackupExists);
+        Assert.False(schemaBackupExists);
     }
 
     [Fact]

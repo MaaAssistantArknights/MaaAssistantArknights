@@ -1,11 +1,83 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:settingsViews="clr-namespace:MAAUnified.App.Features.Settings"
              x:Class="MAAUnified.App.Features.Root.SettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="Settings" />
-      <TextBlock Text="MAAUnified Root 模块：Settings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid ColumnDefinitions="220,*">
+    <Border Grid.Column="0" Classes="section">
+      <StackPanel Spacing="8">
+        <TextBlock Classes="section-title" Text="设置段落 (15)" />
+        <ListBox ItemsSource="{Binding Sections}" SelectedItem="{Binding SelectedSection}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding DisplayName}" />
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </StackPanel>
+    </Border>
+
+    <Border Grid.Column="1" Classes="section">
+      <Grid RowDefinitions="Auto,*">
+        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*">
+          <Button Content="保存 GUI 设置" Click="OnSaveGuiClick" />
+          <Button Grid.Column="1" Content="保存远程控制" Click="OnSaveRemoteClick" />
+          <Button Grid.Column="2" Content="注册热键" Click="OnRegisterHotkeysClick" />
+          <Button Grid.Column="3" Content="测试通知" Click="OnTestNotificationClick" />
+          <Button Grid.Column="4" Content="应用开机启动" Click="OnApplyAutostartClick" />
+          <Button Grid.Column="5" Content="保存连接/游戏设置" Click="OnSaveConnectionGameClick" />
+          <TextBlock Grid.Column="6" VerticalAlignment="Center" Text="{Binding StatusMessage}" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="1">
+          <StackPanel Spacing="10">
+            <Expander Header="Configuration Manager" IsExpanded="True">
+              <settingsViews:ConfigurationManagerView />
+            </Expander>
+            <Expander Header="Timer" IsExpanded="True">
+              <settingsViews:TimerSettingsView />
+            </Expander>
+            <Expander Header="Performance">
+              <settingsViews:PerformanceSettingsView />
+            </Expander>
+            <Expander Header="Game">
+              <settingsViews:GameSettingsView DataContext="{Binding ConnectionGameSharedState}" />
+            </Expander>
+            <Expander Header="Connect">
+              <settingsViews:ConnectSettingsView DataContext="{Binding ConnectionGameSharedState}" />
+            </Expander>
+            <Expander Header="Start">
+              <settingsViews:StartSettingsView />
+            </Expander>
+            <Expander Header="Remote Control">
+              <settingsViews:RemoteControlSettingsView />
+            </Expander>
+            <Expander Header="GUI">
+              <settingsViews:GuiSettingsView />
+            </Expander>
+            <Expander Header="Background">
+              <settingsViews:BackgroundSettingsView />
+            </Expander>
+            <Expander Header="External Notification">
+              <settingsViews:ExternalNotificationSettingsView />
+            </Expander>
+            <Expander Header="HotKey">
+              <settingsViews:HotKeySettingsView />
+            </Expander>
+            <Expander Header="Achievement">
+              <settingsViews:AchievementSettingsView />
+            </Expander>
+            <Expander Header="Version Update">
+              <settingsViews:VersionUpdateSettingsView />
+            </Expander>
+            <Expander Header="Issue Report" IsExpanded="True">
+              <settingsViews:IssueReportView />
+            </Expander>
+            <Expander Header="About">
+              <settingsViews:AboutSettingsView />
+            </Expander>
+          </StackPanel>
+        </ScrollViewer>
+      </Grid>
+    </Border>
+  </Grid>
 </UserControl>

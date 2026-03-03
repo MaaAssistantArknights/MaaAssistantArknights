@@ -1,11 +1,16 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.CustomSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="CustomSettings" />
-      <TextBlock Text="MAAUnified TaskQueue 模块：CustomSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
+  <Grid RowDefinitions="Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="Custom" />
+    <TextBox Grid.Row="1"
+             AcceptsReturn="True"
+             Height="120"
+             Text="自定义任务名规则&#10;支持变量: {date}, {profile}, {taskIndex}" />
+    <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8">
+      <Button Content="保存规则" />
+      <Button Content="载入默认规则" />
+      <TextBlock VerticalAlignment="Center" Text="支持一键保存与回滚。" />
     </StackPanel>
-  </Border>
+  </Grid>
 </UserControl>

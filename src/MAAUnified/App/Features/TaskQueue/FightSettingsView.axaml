@@ -1,11 +1,66 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.FightSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="FightSettings" />
-      <TextBlock Text="MAAUnified TaskQueue 模块：FightSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="{Binding Texts[Fight.Title]}" />
+
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,220,Auto,120">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Fight.Stage]}" />
+      <TextBox Text="{Binding Stage}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Fight.StageResetMode]}" />
+      <ComboBox Grid.Column="3"
+                ItemsSource="{Binding StageResetModeOptions}"
+                SelectedItem="{Binding StageResetMode}" />
+    </Grid>
+
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,120,Auto,Auto,Auto,120">
+      <CheckBox Content="{Binding Texts[Fight.UseMedicine]}" IsChecked="{Binding UseMedicine}" />
+      <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Texts[Fight.Medicine]}" />
+      <NumericUpDown Grid.Column="2" Grid.ColumnSpan="2" Minimum="0" Maximum="999" Value="{Binding Medicine}" />
+      <CheckBox Grid.Column="4" Content="{Binding Texts[Fight.UseStone]}" IsChecked="{Binding UseStone}" />
+      <TextBlock Grid.Column="5" VerticalAlignment="Center" Text="{Binding Texts[Fight.Stone]}" />
+      <NumericUpDown Grid.Column="6" Grid.ColumnSpan="2" Minimum="0" Maximum="999" Value="{Binding Stone}" />
+    </Grid>
+
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto,120,Auto,120">
+      <CheckBox Content="{Binding Texts[Fight.EnableTimesLimit]}" IsChecked="{Binding EnableTimesLimit}" />
+      <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Texts[Fight.Times]}" />
+      <NumericUpDown Grid.Column="2" Grid.ColumnSpan="2" Minimum="0" Maximum="999999" Value="{Binding Times}" />
+      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Fight.Series]}" />
+      <NumericUpDown Grid.Column="5" Minimum="-1" Maximum="6" Value="{Binding Series}" />
+    </Grid>
+
+    <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto,220,Auto,120">
+      <CheckBox Content="{Binding Texts[Fight.EnableTargetDrop]}" IsChecked="{Binding EnableTargetDrop}" />
+      <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Texts[Fight.DropId]}" />
+      <TextBox Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding DropId}" />
+      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Fight.DropCount]}" />
+      <NumericUpDown Grid.Column="5" Minimum="1" Maximum="999" Value="{Binding DropCount}" />
+    </Grid>
+
+    <Grid Grid.Row="5" ColumnDefinitions="Auto,Auto,Auto,200">
+      <CheckBox Content="{Binding Texts[Fight.UseCustomAnnihilation]}" IsChecked="{Binding UseCustomAnnihilation}" />
+      <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Texts[Fight.AnnihilationStage]}" />
+      <TextBox Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding AnnihilationStage}" />
+    </Grid>
+
+    <WrapPanel Grid.Row="6" ItemWidth="230" Orientation="Horizontal">
+      <CheckBox Content="{Binding Texts[Fight.UseAlternateStage]}" IsChecked="{Binding UseAlternateStage}" />
+      <CheckBox Content="{Binding Texts[Fight.HideUnavailableStage]}" IsChecked="{Binding HideUnavailableStage}" />
+      <CheckBox Content="{Binding Texts[Fight.UseExpiringMedicine]}" IsChecked="{Binding UseExpiringMedicine}" />
+      <CheckBox Content="{Binding Texts[Fight.DrGrandet]}" IsChecked="{Binding IsDrGrandet}" />
+    </WrapPanel>
+
+    <Grid Grid.Row="7" RowDefinitions="Auto,Auto,Auto">
+      <TextBlock Text="{Binding StatusMessage}" />
+      <TextBlock Grid.Row="1"
+                 Foreground="{DynamicResource MAA.ErrorBrush}"
+                 Text="{Binding LastErrorMessage}"
+                 TextWrapping="Wrap" />
+      <StackPanel Grid.Row="2">
+        <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
+        <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
+      </StackPanel>
+    </Grid>
+  </Grid>
 </UserControl>

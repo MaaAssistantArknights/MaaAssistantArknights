@@ -1,11 +1,32 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.AwardSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="AwardSettings" />
-      <TextBlock Text="MAAUnified TaskQueue 模块：AwardSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="{Binding Texts[Award.Title]}" />
+
+    <WrapPanel Grid.Row="1" ItemWidth="220" Orientation="Horizontal">
+      <CheckBox Content="{Binding Texts[Award.Award]}" IsChecked="{Binding Award}" />
+      <CheckBox Content="{Binding Texts[Award.Mail]}" IsChecked="{Binding Mail}" />
+      <CheckBox Content="{Binding Texts[Award.Recruit]}" IsChecked="{Binding Recruit}" />
+      <CheckBox Content="{Binding Texts[Award.Orundum]}" IsChecked="{Binding Orundum}" />
+      <CheckBox Content="{Binding Texts[Award.Mining]}" IsChecked="{Binding Mining}" />
+      <CheckBox Content="{Binding Texts[Award.Special]}" IsChecked="{Binding SpecialAccess}" />
+    </WrapPanel>
+
+    <Border Grid.Row="2"
+            Padding="8"
+            Margin="0,8,0,0"
+            CornerRadius="6"
+            BorderThickness="1"
+            BorderBrush="{DynamicResource MAA.WarningBrush}"
+            IsVisible="{Binding PendingRecruitConfirmation}">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Award.RecruitTip]}" />
+        <Button Content="{Binding Texts[Award.Confirm]}" Click="OnConfirmRecruitClick" />
+        <Button Content="{Binding Texts[Award.Cancel]}" Click="OnCancelRecruitClick" />
+      </StackPanel>
+    </Border>
+
+    <TextBlock Grid.Row="3" Foreground="{DynamicResource MAA.WarningBrush}" Text="{Binding StatusMessage}" />
+  </Grid>
 </UserControl>

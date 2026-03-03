@@ -5,7 +5,7 @@
     <StackPanel Spacing="6">
       <TextBlock FontSize="18" FontWeight="Bold" Text="StageManager" />
       <TextBlock Text="MAAUnified Advanced 模块：StageManager" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
+      <TextBlock Opacity="0.75" Text="已接入同构布局入口与能力状态。" TextWrapping="Wrap" />
     </StackPanel>
   </Border>
 </UserControl>

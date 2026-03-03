@@ -1,11 +1,60 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.TaskQueue"
              x:Class="MAAUnified.App.Features.TaskQueue.InfrastSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="InfrastSettings" />
-      <TextBlock Text="MAAUnified TaskQueue 模块：InfrastSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="{Binding Texts[Infrast.Title]}" />
+
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,180,Auto,160,Auto,100">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Infrast.Mode]}" />
+      <ComboBox x:Name="ModeCombo" SelectionChanged="OnModeSelectionChanged">
+        <ComboBoxItem Content="{Binding Texts[Infrast.Mode.Normal]}" />
+        <ComboBoxItem Content="{Binding Texts[Infrast.Mode.Custom]}" />
+        <ComboBoxItem Content="{Binding Texts[Infrast.Mode.Rotation]}" />
+      </ComboBox>
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Infrast.Drones]}" />
+      <ComboBox Grid.Column="3" ItemsSource="{Binding DroneOptions}" SelectedItem="{Binding Drones}" />
+      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Infrast.Threshold]}" />
+      <NumericUpDown Grid.Column="5" Minimum="0" Maximum="100" Value="{Binding DormThresholdPercent}" />
+    </Grid>
+
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto,120,Auto">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Infrast.File]}" />
+      <TextBox Text="{Binding CustomFilePath}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Infrast.Plan]}" />
+      <ComboBox Grid.Column="3"
+                ItemsSource="{Binding PlanOptions}"
+                SelectedItem="{Binding SelectedPlan}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="vm:InfrastModuleViewModel+PlanOption">
+            <TextBlock Text="{Binding Display}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+      <Button Grid.Column="4" Content="{Binding Texts[Infrast.Plan.Refresh]}" Click="OnReloadPlansClick" />
+    </Grid>
+
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,*">
+      <TextBlock VerticalAlignment="Top" Text="{Binding Texts[Infrast.Facility]}" />
+      <TextBox AcceptsReturn="True" Height="80" Text="{Binding FacilityText}" />
+    </Grid>
+
+    <StackPanel Grid.Row="4" Orientation="Horizontal" Spacing="8">
+      <Button Content="{Binding Texts[Infrast.SelectAll]}" Click="OnSelectAllFacilityClick" />
+      <Button Content="{Binding Texts[Infrast.Clear]}" Click="OnClearFacilityClick" />
+      <CheckBox Content="{Binding Texts[Infrast.ContinueTraining]}" IsChecked="{Binding ContinueTraining}" />
     </StackPanel>
-  </Border>
+
+    <WrapPanel Grid.Row="5" ItemWidth="180" Orientation="Horizontal">
+      <CheckBox Content="{Binding Texts[Infrast.Trust]}" IsChecked="{Binding DormTrustEnabled}" />
+      <CheckBox Content="{Binding Texts[Infrast.NotStationed]}" IsChecked="{Binding DormNotStationedEnabled}" />
+      <CheckBox Content="{Binding Texts[Infrast.Replenish]}" IsChecked="{Binding Replenish}" />
+      <CheckBox Content="{Binding Texts[Infrast.ReceptionBoard]}" IsChecked="{Binding ReceptionMessageBoard}" />
+      <CheckBox Content="{Binding Texts[Infrast.ReceptionExchange]}" IsChecked="{Binding ReceptionClueExchange}" />
+      <CheckBox Content="{Binding Texts[Infrast.ReceptionSend]}" IsChecked="{Binding ReceptionSendClue}" />
+    </WrapPanel>
+
+    <TextBlock Grid.Row="6" Foreground="{DynamicResource MAA.WarningBrush}" Text="{Binding StatusMessage}" TextWrapping="Wrap" />
+    <TextBlock Grid.Row="7" Foreground="{DynamicResource MAA.ErrorBrush}" Text="{Binding LastErrorMessage}" TextWrapping="Wrap" />
+  </Grid>
 </UserControl>

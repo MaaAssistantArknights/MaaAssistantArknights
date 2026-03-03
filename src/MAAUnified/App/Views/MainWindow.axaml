@@ -2,90 +2,191 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:rootViews="clr-namespace:MAAUnified.App.Features.Root"
+        xmlns:advancedViews="clr-namespace:MAAUnified.App.Features.Advanced"
         mc:Ignorable="d"
         x:Class="MAAUnified.App.Views.MainWindow"
         Width="1400"
-        Height="900"
-        Title="MAAUnified">
-  <Grid ColumnDefinitions="320,*" RowDefinitions="Auto,Auto,*,Auto" Margin="12">
-    <Border Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,10" Padding="12" BorderBrush="#3A4A55" BorderThickness="1" CornerRadius="8">
-      <Grid ColumnDefinitions="*,Auto">
-        <StackPanel Spacing="4">
-          <TextBlock FontSize="22" FontWeight="SemiBold" Text="MAAUnified - 全功能复刻工作区" />
-          <TextBlock Text="{Binding StartupStatus}" TextWrapping="Wrap" />
-          <TextBlock Text="{Binding CurrentProfileText}" />
-          <TextBlock Text="{Binding ProfileCountText}" />
+        Height="920"
+        MinWidth="1200"
+        MinHeight="760"
+        Title="{Binding WindowTitle}"
+        Topmost="{Binding IsWindowTopMost}">
+  <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Margin="12">
+    <Border Grid.Row="0"
+            Background="{DynamicResource MAA.RegionBrushOpacity50}"
+            BorderBrush="{DynamicResource MAA.BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="10"
+            Padding="10">
+      <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+        <StackPanel Grid.Column="0" Orientation="Vertical" Spacing="2" Margin="0,0,12,0">
+          <TextBlock Text="{Binding WindowVersionUpdateInfo}"
+                     Foreground="{DynamicResource MAA.WarningBrush}"
+                     IsVisible="{Binding HasWindowVersionUpdateInfo}"
+                     PointerPressed="OnManualUpdateClick" />
+          <TextBlock Text="{Binding WindowResourceUpdateInfo}"
+                     Foreground="{DynamicResource MAA.WarningBrush}"
+                     IsVisible="{Binding HasWindowResourceUpdateInfo}"
+                     PointerPressed="OnManualUpdateResourceClick" />
         </StackPanel>
-        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Top">
-          <Button Content="连接" Click="OnConnectClick" />
-          <Button Content="追加任务" Click="OnAppendClick" />
-          <Button Content="开始" Click="OnStartClick" />
-          <Button Content="停止" Click="OnStopClick" />
+
+        <StackPanel Grid.Column="1" Orientation="Vertical" Spacing="2">
+          <TextBlock FontSize="20" FontWeight="SemiBold" Text="{Binding WindowTitle}" />
+          <TextBlock Text="{Binding GlobalStatus}" />
+          <TextBlock Foreground="{DynamicResource MAA.ErrorBrush}" Text="{Binding LastError}" IsVisible="{Binding HasLastError}" />
         </StackPanel>
+
+        <ToggleButton Grid.Column="2"
+                      Width="48"
+                      Height="32"
+                      Margin="8,0,0,0"
+                      Content="📌"
+                      IsChecked="{Binding IsWindowTopMost}" />
+
+        <Button Grid.Column="3"
+                Width="90"
+                Height="32"
+                Margin="8,0,0,0"
+                Content="托盘菜单">
+          <Button.ContextMenu>
+            <ContextMenu>
+              <MenuItem Header="开始" Click="OnStartClick" IsEnabled="{Binding CanStartExecution}" />
+              <MenuItem Header="停止" Click="OnStopClick" />
+              <MenuItem Header="切语言" Click="OnSwitchLanguageClick" />
+              <MenuItem Header="强制显示" Click="OnForceShowClick" />
+              <MenuItem Header="隐藏托盘" Click="OnHideTrayClick" />
+              <MenuItem Header="切换悬浮窗" Click="OnToggleOverlayClick" />
+              <MenuItem Header="重启" Click="OnRestartClick" />
+              <MenuItem Header="退出" Click="OnExitClick" />
+            </ContextMenu>
+          </Button.ContextMenu>
+        </Button>
       </Grid>
     </Border>
 
-    <Border Grid.Row="1" Grid.Column="0" Margin="0,0,10,10" Padding="10" BorderBrush="#3A4A55" BorderThickness="1" CornerRadius="8">
-      <StackPanel Spacing="8">
-        <TextBlock FontWeight="Bold" Text="模块导航" />
-        <TextBox Watermark="过滤模块" Text="{Binding ModuleFilter}" />
-        <ListBox Name="ModulesList"
-                 ItemsSource="{Binding Modules}"
-                 SelectedItem="{Binding SelectedModule}"
-                 SelectionChanged="OnModuleSelectionChanged"
-                 Height="540">
+    <Border Grid.Row="1"
+            IsVisible="{Binding HasBlockingConfigIssues}"
+            Margin="0,10,0,0"
+            Background="{DynamicResource MAA.RegionBrushOpacity25}"
+            BorderBrush="{DynamicResource MAA.WarningBrush}"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="8">
+      <Grid RowDefinitions="Auto,*">
+        <TextBlock FontWeight="SemiBold">
+          <Run Text="配置校验阻断中（" />
+          <Run Text="{Binding BlockingConfigIssueCount}" />
+          <Run Text="）: Start/LinkStart 已禁用" />
+        </TextBlock>
+        <ListBox Grid.Row="1"
+                 Margin="0,6,0,0"
+                 MaxHeight="120"
+                 ItemsSource="{Binding ConfigIssueDetails}">
           <ListBox.ItemTemplate>
             <DataTemplate>
-              <StackPanel Margin="2">
-                <TextBlock FontWeight="SemiBold" Text="{Binding Title}" />
-                <TextBlock Opacity="0.75" Text="{Binding Group}" />
-              </StackPanel>
+              <TextBlock TextWrapping="Wrap">
+                <Run Text="{Binding Scope}" />
+                <Run Text=" | " />
+                <Run Text="{Binding Code}" />
+                <Run Text=" | blocking=" />
+                <Run Text="{Binding Blocking}" />
+                <Run Text=" | field=" />
+                <Run Text="{Binding Field}" />
+                <Run Text=" | profile=" />
+                <Run Text="{Binding ProfileName}" />
+                <Run Text=" | taskIndex=" />
+                <Run Text="{Binding TaskIndex}" />
+                <Run Text=" | taskName=" />
+                <Run Text="{Binding TaskName}" />
+                <Run Text=" | " />
+                <Run Text="{Binding Message}" />
+                <Run Text=" | action=" />
+                <Run Text="{Binding SuggestedAction}" />
+              </TextBlock>
             </DataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>
-      </StackPanel>
-    </Border>
-
-    <Border Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Padding="10" BorderBrush="#3A4A55" BorderThickness="1" CornerRadius="8">
-      <Grid RowDefinitions="Auto,Auto,*">
-        <StackPanel Margin="0,0,0,8">
-          <TextBlock FontSize="20" FontWeight="Bold" Text="{Binding SelectedModuleTitle}" />
-          <TextBlock Text="{Binding SelectedModuleDescription}" TextWrapping="Wrap" />
-          <TextBlock Opacity="0.7" Text="{Binding SelectedModuleScope, StringFormat=作用域: {0}}" />
-          <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,6,0,0">
-            <Button Content="执行模块动作" Click="OnRunModuleActionClick" />
-            <TextBlock VerticalAlignment="Center" Text="{Binding ModuleActionStatus}" TextWrapping="Wrap" />
-          </StackPanel>
-        </StackPanel>
-
-        <Border Grid.Row="1" Margin="0,0,0,8" Padding="8" BorderBrush="#3A4A55" BorderThickness="1" CornerRadius="6">
-          <StackPanel Spacing="6">
-            <TextBlock FontWeight="Bold" Text="配置迁移（手动导入旧版配置）" />
-            <StackPanel Orientation="Horizontal" Spacing="8">
-              <ComboBox Width="240" ItemsSource="{Binding ImportSourceOptions}" SelectedItem="{Binding SelectedImportSource}" />
-              <Button Content="手动导入旧版配置" Click="OnImportClick" />
-            </StackPanel>
-            <TextBlock Text="{Binding ImportStatus}" TextWrapping="Wrap" />
-          </StackPanel>
-        </Border>
-
-        <ContentControl Name="ModuleHost" Grid.Row="2" />
       </Grid>
     </Border>
 
-    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,10" Padding="10" BorderBrush="#3A4A55" BorderThickness="1" CornerRadius="8">
+    <Border Grid.Row="2"
+            Margin="0,10,0,10"
+            Background="{DynamicResource MAA.RegionBrushOpacity25}"
+            BorderBrush="{DynamicResource MAA.BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="8">
+      <Grid ColumnDefinitions="Auto,220,180,220,*,Auto,Auto">
+        <TextBlock VerticalAlignment="Center" Text="连接:" />
+        <TextBox Grid.Column="1" Text="{Binding ConnectionGameSharedState.ConnectAddress}" Watermark="127.0.0.1:5555" />
+        <ComboBox Grid.Column="2"
+                  ItemsSource="{Binding ConnectionGameSharedState.ConnectConfigOptions}"
+                  SelectedItem="{Binding ConnectionGameSharedState.ConnectConfig}" />
+        <TextBox Grid.Column="3" Text="{Binding ConnectionGameSharedState.AdbPath}" Watermark="ADB Path (optional)" />
+        <ComboBox Grid.Column="4"
+                  ItemsSource="{Binding ImportSourceOptions}"
+                  SelectedItem="{Binding SelectedImportSource}" />
+        <Button Grid.Column="5" Content="连接" Click="OnConnectClick" />
+        <Button Grid.Column="6" Content="导入旧配置" Click="OnImportClick" />
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="3" ColumnDefinitions="*,280">
+      <Border Grid.Column="0"
+              Background="{DynamicResource MAA.RegionBrushOpacity25}"
+              BorderBrush="{DynamicResource MAA.BorderBrush}"
+              BorderThickness="1"
+              CornerRadius="10"
+              Padding="8"
+              Margin="0,0,10,0">
+        <TabControl SelectedIndex="{Binding SelectedRootTabIndex}">
+          <TabItem Header="任务队列">
+            <rootViews:TaskQueueView DataContext="{Binding TaskQueuePage}" />
+          </TabItem>
+          <TabItem Header="Copilot">
+            <advancedViews:CopilotView DataContext="{Binding CopilotPage}" />
+          </TabItem>
+          <TabItem Header="Toolbox">
+            <advancedViews:ToolboxView DataContext="{Binding ToolboxPage}" />
+          </TabItem>
+          <TabItem Header="设置">
+            <rootViews:SettingsView DataContext="{Binding SettingsPage}" />
+          </TabItem>
+        </TabControl>
+      </Border>
+
+      <Border Grid.Column="1"
+              Background="{DynamicResource MAA.RegionBrushOpacity50}"
+              BorderBrush="{DynamicResource MAA.BorderBrush}"
+              BorderThickness="1"
+              CornerRadius="10"
+              Padding="8">
+        <Grid RowDefinitions="Auto,Auto,*">
+          <TextBlock FontWeight="SemiBold" Text="Growl / 能力状态" />
+          <TextBlock Text="{Binding CapabilitySummary}" TextWrapping="Wrap" />
+          <ListBox Grid.Row="2" ItemsSource="{Binding GrowlMessages}" />
+        </Grid>
+      </Border>
+    </Grid>
+
+    <Border Grid.Row="4"
+            Margin="0,10,0,0"
+            Background="{DynamicResource MAA.RegionBrushOpacity25}"
+            BorderBrush="{DynamicResource MAA.BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="8">
       <Grid ColumnDefinitions="*,*">
-        <StackPanel Margin="0,0,4,0">
-          <TextBlock FontWeight="Bold" Text="平台能力状态（降级可见）" Margin="0,0,0,8" />
-          <TextBlock Text="{Binding CapabilityStatus}" TextWrapping="Wrap" />
+        <StackPanel Grid.Column="0">
+          <TextBlock FontWeight="SemiBold" Text="导入状态" />
+          <TextBlock Text="{Binding ImportStatus}" TextWrapping="Wrap" />
         </StackPanel>
-        <StackPanel Grid.Column="1" Margin="4,0,0,0">
-          <TextBlock FontWeight="Bold" Text="运行日志" Margin="0,0,0,8" />
-          <ListBox ItemsSource="{Binding Logs}" Height="220" />
+        <StackPanel Grid.Column="1">
+          <TextBlock FontWeight="SemiBold" Text="主日志" />
+          <ListBox MaxHeight="140" ItemsSource="{Binding RootLogs}" />
         </StackPanel>
       </Grid>
     </Border>
-
-    <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Opacity="0.7" Text="配置主文件: config/avalonia.json；旧配置仅导入不回写；新增文件仅位于 src/MAAUnified" />
   </Grid>
 </Window>

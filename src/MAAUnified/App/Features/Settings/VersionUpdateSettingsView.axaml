@@ -1,11 +1,26 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.VersionUpdateSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="VersionUpdateSettings" />
-      <TextBlock Text="MAAUnified Settings 模块：VersionUpdateSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="Version Update" />
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,180,Auto,180,Auto,180">
+      <TextBlock VerticalAlignment="Center" Text="更新通道" />
+      <ComboBox SelectedIndex="0">
+        <ComboBoxItem Content="Stable" />
+        <ComboBoxItem Content="Beta" />
+        <ComboBoxItem Content="Nightly" />
+      </ComboBox>
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="代理" />
+      <TextBox Grid.Column="3" Watermark="http://127.0.0.1:7890" />
+      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="MirrorChyan" />
+      <TextBox Grid.Column="5" Watermark="CDK" />
+    </Grid>
+    <WrapPanel Grid.Row="2" ItemWidth="180">
+      <Button Content="检查更新" />
+      <Button Content="手动更新" />
+      <Button Content="资源更新" />
+      <CheckBox Content="开机检查更新" />
+    </WrapPanel>
+    <TextBlock Grid.Row="3" Text="版本信息卡会展示当前核心版本、资源版本、更新源。" />
+  </Grid>
 </UserControl>

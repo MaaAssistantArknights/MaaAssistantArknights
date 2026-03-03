@@ -1,0 +1,13 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+    <SolidColorBrush x:Key="MAA.BackgroundBrush" Color="#FFF4F7FA" />
+    <SolidColorBrush x:Key="MAA.RegionBrush" Color="#FFFDFEFF" />
+    <SolidColorBrush x:Key="MAA.RegionBrushOpacity50" Color="#80FFFFFF" />
+    <SolidColorBrush x:Key="MAA.RegionBrushOpacity25" Color="#40FFFFFF" />
+    <SolidColorBrush x:Key="MAA.BorderBrush" Color="#FFCCD4DE" />
+    <SolidColorBrush x:Key="MAA.WarningBrush" Color="#FFB36C00" />
+    <SolidColorBrush x:Key="MAA.ErrorBrush" Color="#FFC13C3C" />
+    <SolidColorBrush x:Key="MAA.SuccessBrush" Color="#FF1D8C5F" />
+  </Styles.Resources>
+</Styles>

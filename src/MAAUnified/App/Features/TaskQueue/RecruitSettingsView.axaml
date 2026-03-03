@@ -1,11 +1,51 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.RecruitSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="RecruitSettings" />
-      <TextBlock Text="MAAUnified TaskQueue 模块：RecruitSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="{Binding Texts[Recruit.Title]}" />
+
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,120,Auto,Auto,Auto,Auto">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Recruit.Times]}" />
+      <NumericUpDown Minimum="0" Maximum="99" Value="{Binding Times}" />
+      <CheckBox Grid.Column="2" Content="{Binding Texts[Recruit.Refresh]}" IsChecked="{Binding Refresh}" />
+      <CheckBox Grid.Column="3" Content="{Binding Texts[Recruit.ForceRefresh]}" IsChecked="{Binding ForceRefresh}" />
+      <CheckBox Grid.Column="4" Content="{Binding Texts[Recruit.UseExpedited]}" IsChecked="{Binding UseExpedited}" />
+      <CheckBox Grid.Column="5" Content="{Binding Texts[Recruit.SkipRobot]}" IsChecked="{Binding SkipRobot}" />
+    </Grid>
+
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,Auto">
+      <CheckBox Content="{Binding Texts[Recruit.ChooseLevel3]}" IsChecked="{Binding ChooseLevel3}" />
+      <CheckBox Grid.Column="1" Content="{Binding Texts[Recruit.ChooseLevel4]}" IsChecked="{Binding ChooseLevel4}" />
+      <CheckBox Grid.Column="2" Content="{Binding Texts[Recruit.ChooseLevel5]}" IsChecked="{Binding ChooseLevel5}" />
+      <CheckBox Grid.Column="3" Content="{Binding Texts[Recruit.SetTime]}" IsChecked="{Binding SetTime}" />
+    </Grid>
+
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,120,Auto,120,Auto,120">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Recruit.Level3Time]}" />
+      <NumericUpDown Minimum="60" Maximum="540" Increment="10" Value="{Binding Level3Time}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Recruit.Level4Time]}" />
+      <NumericUpDown Grid.Column="3" Minimum="60" Maximum="540" Increment="10" Value="{Binding Level4Time}" />
+      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Recruit.Level5Time]}" />
+      <NumericUpDown Grid.Column="5" Minimum="60" Maximum="540" Increment="10" Value="{Binding Level5Time}" />
+    </Grid>
+
+    <Grid Grid.Row="4" ColumnDefinitions="Auto,120,Auto,*">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Recruit.ExtraTagsMode]}" />
+      <NumericUpDown Minimum="0" Maximum="3" Value="{Binding ExtraTagsMode}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Recruit.FirstTags]}" />
+      <TextBox Grid.Column="3" Text="{Binding FirstTagsText}" />
+    </Grid>
+
+    <Grid Grid.Row="5" RowDefinitions="Auto,Auto,Auto">
+      <TextBlock Text="{Binding StatusMessage}" />
+      <TextBlock Grid.Row="1"
+                 Foreground="{DynamicResource MAA.ErrorBrush}"
+                 Text="{Binding LastErrorMessage}"
+                 TextWrapping="Wrap" />
+      <StackPanel Grid.Row="2">
+        <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
+        <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
+      </StackPanel>
+    </Grid>
+  </Grid>
 </UserControl>

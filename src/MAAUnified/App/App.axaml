@@ -3,5 +3,7 @@
              x:Class="MAAUnified.App.App">
   <Application.Styles>
     <FluentTheme />
+    <StyleInclude Source="avares://MAAUnified/Styles/ColorTokens.axaml" />
+    <StyleInclude Source="avares://MAAUnified/Styles/ControlStyles.axaml" />
   </Application.Styles>
 </Application>

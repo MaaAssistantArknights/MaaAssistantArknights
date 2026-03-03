@@ -1,11 +1,13 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.HotKeyEditorView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="HotKeyEditor" />
-      <TextBlock Text="MAAUnified Settings 模块：HotKeyEditor" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <StackPanel Margin="4" Spacing="6">
+    <TextBlock Classes="section-title" Text="HotKey Editor" />
+    <TextBlock Text="全局热键编辑器（显示 GUI / LinkStart）。" />
+    <Grid ColumnDefinitions="Auto,160,Auto">
+      <TextBlock VerticalAlignment="Center" Text="快捷键" />
+      <TextBox Text="Ctrl+Shift+M" />
+      <Button Grid.Column="2" Content="监听录入" />
+    </Grid>
+  </StackPanel>
 </UserControl>

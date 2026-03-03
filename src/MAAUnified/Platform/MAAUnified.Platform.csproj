@@ -5,4 +5,11 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.2.8" />
+    <PackageReference Include="H.NotifyIcon" Version="2.4.1" />
+    <PackageReference Include="SharpHook" Version="7.1.1" />
+    <PackageReference Include="DesktopNotifications" Version="1.3.1" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,1925 @@
+{
+  "schema_version": "1.0.0",
+  "baseline_ref": "src/MAAUnified/Compat/Mapping/Baseline/baseline.freeze.v1.json",
+  "matrix": {
+    "strategy": "tiered",
+    "tier_1": {
+      "scope": "Root + Settings + System entries",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ]
+    },
+    "tier_2": {
+      "scope": "Other feature pages",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "extra_rule": "All-language text/error key validation is mandatory."
+    }
+  },
+  "global_requirements": [
+    "Any failure must not crash the process.",
+    "Any fallback must be visible to users, recorded in logs, and locatable by scope/case id.",
+    "All checklist items remain P0 for Package A."
+  ],
+  "waiver_policy": {
+    "allow_waiver": true,
+    "required_fields": [
+      "owner",
+      "reason",
+      "expires_on",
+      "alternative_validation"
+    ],
+    "rule": "Waiver is allowed only for blockers and must include expiry and replacement validation plan."
+  },
+  "cases": [
+    {
+      "case_id": "ACC-001",
+      "tier": "Tier-1",
+      "item_id": "RootDashboard",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open RootDashboard.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-002",
+      "tier": "Tier-1",
+      "item_id": "TaskQueueRoot",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open TaskQueueRoot.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-003",
+      "tier": "Tier-1",
+      "item_id": "SettingsRoot",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open SettingsRoot.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-004",
+      "tier": "Tier-1",
+      "item_id": "Settings.About",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.About.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-005",
+      "tier": "Tier-1",
+      "item_id": "Settings.Achievement",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.Achievement.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-006",
+      "tier": "Tier-1",
+      "item_id": "Settings.Background",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.Background.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-007",
+      "tier": "Tier-1",
+      "item_id": "Settings.ConfigurationManager",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.ConfigurationManager.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-008",
+      "tier": "Tier-1",
+      "item_id": "Settings.Connect",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.Connect.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-009",
+      "tier": "Tier-1",
+      "item_id": "Settings.ExternalNotification",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.ExternalNotification.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-010",
+      "tier": "Tier-1",
+      "item_id": "Settings.Game",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.Game.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-011",
+      "tier": "Tier-1",
+      "item_id": "Settings.Gui",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.Gui.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-012",
+      "tier": "Tier-1",
+      "item_id": "Settings.HotKey",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.HotKey.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-013",
+      "tier": "Tier-1",
+      "item_id": "Settings.HotKeyEditor",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.HotKeyEditor.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-014",
+      "tier": "Tier-1",
+      "item_id": "Settings.IssueReport",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.IssueReport.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-015",
+      "tier": "Tier-1",
+      "item_id": "Settings.Performance",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.Performance.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-016",
+      "tier": "Tier-1",
+      "item_id": "Settings.RemoteControl",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.RemoteControl.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-017",
+      "tier": "Tier-1",
+      "item_id": "Settings.Start",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.Start.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-018",
+      "tier": "Tier-1",
+      "item_id": "Settings.Timer",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.Timer.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-019",
+      "tier": "Tier-1",
+      "item_id": "Settings.VersionUpdate",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Settings.VersionUpdate.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-020",
+      "tier": "Tier-2",
+      "item_id": "Task.StartUp",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Task.StartUp.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-021",
+      "tier": "Tier-2",
+      "item_id": "Task.Fight",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Task.Fight.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-022",
+      "tier": "Tier-2",
+      "item_id": "Task.Recruit",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Task.Recruit.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-023",
+      "tier": "Tier-2",
+      "item_id": "Task.Infrast",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Task.Infrast.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-024",
+      "tier": "Tier-2",
+      "item_id": "Task.Mall",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Task.Mall.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-025",
+      "tier": "Tier-2",
+      "item_id": "Task.Award",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Task.Award.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-026",
+      "tier": "Tier-2",
+      "item_id": "Task.Roguelike",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Task.Roguelike.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-027",
+      "tier": "Tier-2",
+      "item_id": "Task.Reclamation",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Task.Reclamation.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-028",
+      "tier": "Tier-2",
+      "item_id": "Task.Custom",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Task.Custom.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-029",
+      "tier": "Tier-2",
+      "item_id": "Task.PostAction",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Task.PostAction.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-030",
+      "tier": "Tier-2",
+      "item_id": "Advanced.Copilot",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Advanced.Copilot.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-031",
+      "tier": "Tier-2",
+      "item_id": "Advanced.Toolbox",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Advanced.Toolbox.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-032",
+      "tier": "Tier-2",
+      "item_id": "Advanced.RemoteControlCenter",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Advanced.RemoteControlCenter.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-033",
+      "tier": "Tier-2",
+      "item_id": "Advanced.Overlay",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Advanced.Overlay.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-034",
+      "tier": "Tier-2",
+      "item_id": "Advanced.TrayIntegration",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Advanced.TrayIntegration.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-035",
+      "tier": "Tier-2",
+      "item_id": "Advanced.StageManager",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Advanced.StageManager.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-036",
+      "tier": "Tier-2",
+      "item_id": "Advanced.WebApi",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Advanced.WebApi.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-037",
+      "tier": "Tier-2",
+      "item_id": "Advanced.ExternalNotificationProviders",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Advanced.ExternalNotificationProviders.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-038",
+      "tier": "Tier-2",
+      "item_id": "Dialog.Announcement",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Dialog.Announcement.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-039",
+      "tier": "Tier-2",
+      "item_id": "Dialog.VersionUpdate",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Dialog.VersionUpdate.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-040",
+      "tier": "Tier-2",
+      "item_id": "Dialog.ProcessPicker",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Dialog.ProcessPicker.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-041",
+      "tier": "Tier-2",
+      "item_id": "Dialog.EmulatorPath",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Dialog.EmulatorPath.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-042",
+      "tier": "Tier-2",
+      "item_id": "Dialog.Error",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Dialog.Error.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-043",
+      "tier": "Tier-2",
+      "item_id": "Dialog.AchievementList",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Dialog.AchievementList.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-044",
+      "tier": "Tier-2",
+      "item_id": "Dialog.TextDialog",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open Dialog.TextDialog.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": false
+    },
+    {
+      "case_id": "ACC-045",
+      "tier": "Tier-1",
+      "item_id": "System.Connect",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.Connect.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-046",
+      "tier": "Tier-1",
+      "item_id": "System.ImportLegacyConfig",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.ImportLegacyConfig.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-047",
+      "tier": "Tier-1",
+      "item_id": "System.TrayMenu.Start",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.TrayMenu.Start.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-048",
+      "tier": "Tier-1",
+      "item_id": "System.TrayMenu.Stop",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.TrayMenu.Stop.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-049",
+      "tier": "Tier-1",
+      "item_id": "System.TrayMenu.SwitchLanguage",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.TrayMenu.SwitchLanguage.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-050",
+      "tier": "Tier-1",
+      "item_id": "System.TrayMenu.ForceShow",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.TrayMenu.ForceShow.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-051",
+      "tier": "Tier-1",
+      "item_id": "System.TrayMenu.HideTray",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.TrayMenu.HideTray.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-052",
+      "tier": "Tier-1",
+      "item_id": "System.TrayMenu.ToggleOverlay",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.TrayMenu.ToggleOverlay.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-053",
+      "tier": "Tier-1",
+      "item_id": "System.TrayMenu.Restart",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.TrayMenu.Restart.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-054",
+      "tier": "Tier-1",
+      "item_id": "System.TrayMenu.Exit",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.TrayMenu.Exit.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-055",
+      "tier": "Tier-1",
+      "item_id": "System.CapabilitySummary",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.CapabilitySummary.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-056",
+      "tier": "Tier-1",
+      "item_id": "System.GlobalErrorChannel",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.GlobalErrorChannel.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-057",
+      "tier": "Tier-1",
+      "item_id": "System.PageErrorChannel",
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Open System.PageErrorChannel.",
+        "Execute primary interaction.",
+        "Trigger one controlled failure path."
+      ],
+      "expected": [
+        "Behavior matches frozen defaults and interaction semantics.",
+        "Failure is visible to user and written to debug logs.",
+        "Application process remains alive."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
+    }
+  ]
+}

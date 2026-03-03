@@ -1,11 +1,65 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Advanced.CopilotView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="Copilot" />
-      <TextBlock Text="MAAUnified Advanced 模块：Copilot" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid ColumnDefinitions="2*,3,2*" Margin="4">
+    <Border Grid.Column="0" Classes="section">
+      <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+        <TabControl Grid.Row="0" SelectedIndex="{Binding SelectedTypeIndex}">
+          <TabItem Header="主线" />
+          <TabItem Header="SSS" />
+          <TabItem Header="悖论" />
+          <TabItem Header="活动" />
+        </TabControl>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto">
+          <TextBox Text="{Binding FilePath}" Watermark="本地文件 / 拖拽路径 / 剪贴板 JSON" />
+          <Button Grid.Column="1" Content="导入文件" Click="OnImportFileClick" />
+          <Button Grid.Column="2" Content="剪贴板" Click="OnImportClipboardClick" />
+        </Grid>
+
+        <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,Auto">
+          <CheckBox Content="自动编队" IsChecked="{Binding AutoSquad}" />
+          <CheckBox Grid.Column="1" Content="借助战" IsChecked="{Binding UseSupportUnit}" />
+          <CheckBox Grid.Column="2" Content="刷信赖" IsChecked="{Binding AddTrust}" />
+          <CheckBox Grid.Column="3" Content="Overlay" IsChecked="{Binding OverlayEnabled}" />
+        </Grid>
+
+        <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+          <Button Content="开始" Click="OnStartClick" />
+          <Button Grid.Column="1" Content="停止" Click="OnStopClick" />
+          <Button Grid.Column="2" Content="新增" Click="OnAddItemClick" />
+          <Button Grid.Column="3" Content="删除" Click="OnRemoveItemClick" />
+          <Button Grid.Column="4" Content="清空" Click="OnClearClick" />
+          <Button Grid.Column="5" Content="点赞" Click="OnLikeClick" />
+        </Grid>
+
+        <ListBox Grid.Row="4" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Border BorderThickness="1"
+                      BorderBrush="{DynamicResource MAA.BorderBrush}"
+                      CornerRadius="4"
+                      Padding="6"
+                      Margin="0,2">
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                  <TextBlock Text="{Binding Name}" />
+                  <TextBlock Grid.Column="1" Text="{Binding Type}" />
+                  <TextBlock Grid.Column="2" Text="{Binding Status}" />
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
+    </Border>
+
+    <Border Grid.Column="2" Classes="section">
+      <Grid RowDefinitions="Auto,Auto,*">
+        <TextBlock Classes="section-title" Text="右侧日志 / 反馈" />
+        <TextBlock Text="{Binding StatusMessage}" />
+        <TextBlock Grid.Row="1" Foreground="{DynamicResource MAA.ErrorBrush}" Text="{Binding LastErrorMessage}" />
+        <ListBox Grid.Row="2" ItemsSource="{Binding Logs}" />
+      </Grid>
+    </Border>
+  </Grid>
 </UserControl>

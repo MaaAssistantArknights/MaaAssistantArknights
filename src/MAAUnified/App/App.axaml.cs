@@ -22,7 +22,7 @@ public partial class App : Avalonia.Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var vm = new MainViewModel(Runtime);
+            var vm = new MainShellViewModel(Runtime);
             desktop.MainWindow = new MainWindow
             {
                 DataContext = vm,

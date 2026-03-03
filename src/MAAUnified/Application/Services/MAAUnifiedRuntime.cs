@@ -20,6 +20,8 @@ public sealed class MAAUnifiedRuntime : IAsyncDisposable
 
     public required UiLogService LogService { get; init; }
 
+    public required UiDiagnosticsService DiagnosticsService { get; init; }
+
     public required IConnectFeatureService ConnectFeatureService { get; init; }
 
     public required ITaskQueueFeatureService TaskQueueFeatureService { get; init; }
@@ -30,14 +32,42 @@ public sealed class MAAUnifiedRuntime : IAsyncDisposable
 
     public required IRemoteControlFeatureService RemoteControlFeatureService { get; init; }
 
+    public required IPlatformCapabilityService PlatformCapabilityService { get; init; }
+
     public required IOverlayFeatureService OverlayFeatureService { get; init; }
 
     public required INotificationProviderFeatureService NotificationProviderFeatureService { get; init; }
 
+    public required ISettingsFeatureService SettingsFeatureService { get; init; }
+
     public required IDialogFeatureService DialogFeatureService { get; init; }
+
+    public required IPostActionFeatureService PostActionFeatureService { get; init; }
 
     public ValueTask DisposeAsync()
     {
+        try
+        {
+            if (Platform.TrayService is IDisposable trayDisposable)
+            {
+                trayDisposable.Dispose();
+            }
+
+            if (Platform.HotkeyService is IDisposable hotkeyDisposable)
+            {
+                hotkeyDisposable.Dispose();
+            }
+
+            if (Platform.OverlayService is IDisposable overlayDisposable)
+            {
+                overlayDisposable.Dispose();
+            }
+        }
+        catch
+        {
+            // Best-effort disposal.
+        }
+
         return CoreBridge.DisposeAsync();
     }
 }
@@ -47,6 +77,7 @@ public static class MAAUnifiedRuntimeFactory
     public static MAAUnifiedRuntime Create(string baseDirectory)
     {
         var logService = new UiLogService();
+        var diagnosticsService = new UiDiagnosticsService(baseDirectory, logService);
         var store = new AvaloniaJsonConfigStore(baseDirectory);
         var configService = new UnifiedConfigurationService(
             store,
@@ -61,14 +92,20 @@ public static class MAAUnifiedRuntimeFactory
         var sessionService = new UnifiedSessionService(bridge, configService, logService, stateMachine);
         var platform = PlatformServicesFactory.CreateDefaults();
 
-        var connectFeatureService = new ConnectFeatureService(sessionService);
-        var taskQueueFeatureService = new TaskQueueFeatureService(sessionService);
+        var connectFeatureService = new ConnectFeatureService(sessionService, configService);
+        var taskQueueFeatureService = new TaskQueueFeatureService(sessionService, configService);
         var copilotFeatureService = new CopilotFeatureService();
         var toolboxFeatureService = new ToolboxFeatureService();
         var remoteControlFeatureService = new RemoteControlFeatureService();
-        var overlayFeatureService = new OverlayFeatureService(platform.OverlayService);
+        var platformCapabilityService = new PlatformCapabilityFeatureService(platform, diagnosticsService);
+        var overlayFeatureService = new OverlayFeatureService(platformCapabilityService);
         var notificationProviderFeatureService = new NotificationProviderFeatureService();
-        var dialogFeatureService = new DialogFeatureService();
+        var settingsFeatureService = new SettingsFeatureService(configService, platformCapabilityService, diagnosticsService);
+        var dialogFeatureService = new DialogFeatureService(diagnosticsService);
+        var postActionFeatureService = new PostActionFeatureService(
+            configService,
+            diagnosticsService,
+            platform.PostActionExecutorService);
 
         return new MAAUnifiedRuntime {
             CoreBridge = bridge,
@@ -77,14 +114,18 @@ public static class MAAUnifiedRuntimeFactory
             SessionService = sessionService,
             Platform = platform,
             LogService = logService,
+            DiagnosticsService = diagnosticsService,
             ConnectFeatureService = connectFeatureService,
             TaskQueueFeatureService = taskQueueFeatureService,
             CopilotFeatureService = copilotFeatureService,
             ToolboxFeatureService = toolboxFeatureService,
             RemoteControlFeatureService = remoteControlFeatureService,
+            PlatformCapabilityService = platformCapabilityService,
             OverlayFeatureService = overlayFeatureService,
             NotificationProviderFeatureService = notificationProviderFeatureService,
+            SettingsFeatureService = settingsFeatureService,
             DialogFeatureService = dialogFeatureService,
+            PostActionFeatureService = postActionFeatureService,
         };
     }
 }

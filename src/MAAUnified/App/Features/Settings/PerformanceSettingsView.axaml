@@ -1,11 +1,13 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.PerformanceSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="PerformanceSettings" />
-      <TextBlock Text="MAAUnified Settings 模块：PerformanceSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <StackPanel Margin="4" Spacing="6">
+    <TextBlock Classes="section-title" Text="Performance" />
+    <WrapPanel ItemWidth="220">
+      <CheckBox Content="启用 GPU 推理" />
+      <CheckBox Content="过滤弃用项" />
+      <CheckBox Content="启用低功耗模式" />
+      <CheckBox Content="任务日志限流" />
+    </WrapPanel>
+  </StackPanel>
 </UserControl>

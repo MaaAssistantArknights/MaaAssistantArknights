@@ -1,11 +1,23 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.RemoteControlSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="RemoteControlSettings" />
-      <TextBlock Text="MAAUnified Settings 模块：RemoteControlSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="Remote Control" />
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+      <TextBlock VerticalAlignment="Center" Text="拉任务接口" />
+      <TextBox Text="{Binding RemoteGetTaskEndpoint}" Watermark="https://example.com/get-task" />
+    </Grid>
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+      <TextBlock VerticalAlignment="Center" Text="上报接口" />
+      <TextBox Text="{Binding RemoteReportEndpoint}" Watermark="https://example.com/report" />
+    </Grid>
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,120,Auto,180,Auto,Auto">
+      <TextBlock VerticalAlignment="Center" Text="轮询间隔(ms)" />
+      <NumericUpDown Minimum="500" Maximum="60000" Value="{Binding RemotePollInterval}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="用户/设备标识" />
+      <TextBox Grid.Column="3" Watermark="userId-deviceId" />
+      <Button Grid.Column="4" Content="连通测试" />
+      <Button Grid.Column="5" Content="文档入口" />
+    </Grid>
+  </Grid>
 </UserControl>

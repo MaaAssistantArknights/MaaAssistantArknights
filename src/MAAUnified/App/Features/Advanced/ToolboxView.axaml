@@ -1,11 +1,64 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Advanced.ToolboxView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="Toolbox" />
-      <TextBlock Text="MAAUnified Advanced 模块：Toolbox" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid RowDefinitions="Auto,*">
+    <Border Classes="section">
+      <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+        <CheckBox Content="我已阅读免责声明" IsChecked="{Binding DisclaimerAccepted}" />
+        <Button Grid.Column="1" Content="执行当前工具" Click="OnExecuteClick" />
+        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding StatusMessage}" />
+        <TextBlock Grid.Column="3" VerticalAlignment="Center" Foreground="{DynamicResource MAA.ErrorBrush}" Text="{Binding LastErrorMessage}" />
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="1" ColumnDefinitions="2*,3,3*">
+      <Border Grid.Column="0" Classes="section">
+        <TabControl SelectedIndex="{Binding SelectedTabIndex}">
+          <TabItem Header="招募识别">
+            <StackPanel Spacing="6">
+              <TextBlock Text="识别标签 / 自动计算时间 / 结果导出" />
+              <Button Content="开始识别" Click="OnExecuteClick" />
+            </StackPanel>
+          </TabItem>
+          <TabItem Header="干员识别">
+            <StackPanel Spacing="6">
+              <TextBlock Text="识别已拥有/未拥有干员，支持导出。" />
+              <Button Content="开始识别" Click="OnExecuteClick" />
+            </StackPanel>
+          </TabItem>
+          <TabItem Header="仓库识别">
+            <StackPanel Spacing="6">
+              <TextBlock Text="仓库物品识别，支持结果导出。" />
+              <Button Content="开始识别" Click="OnExecuteClick" />
+            </StackPanel>
+          </TabItem>
+          <TabItem Header="抽卡">
+            <StackPanel Spacing="6">
+              <TextBlock Text="抽卡记录识别与统计。" />
+              <Button Content="开始识别" Click="OnExecuteClick" />
+            </StackPanel>
+          </TabItem>
+          <TabItem Header="窥屏">
+            <StackPanel Spacing="6">
+              <TextBlock Text="实时截图/窥屏测试。" />
+              <Button Content="开始识别" Click="OnExecuteClick" />
+            </StackPanel>
+          </TabItem>
+          <TabItem Header="小游戏">
+            <StackPanel Spacing="6">
+              <TextBlock Text="小游戏工具入口。" />
+              <Button Content="开始执行" Click="OnExecuteClick" />
+            </StackPanel>
+          </TabItem>
+        </TabControl>
+      </Border>
+
+      <Border Grid.Column="2" Classes="section">
+        <Grid RowDefinitions="Auto,*">
+          <TextBlock Classes="section-title" Text="结果与动态状态" />
+          <TextBlock Grid.Row="1" Text="{Binding ResultText}" TextWrapping="Wrap" />
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
 </UserControl>

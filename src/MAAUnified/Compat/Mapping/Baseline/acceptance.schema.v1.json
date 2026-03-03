@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MAAUnified.AcceptanceTemplate.v1",
+  "title": "MAAUnified Acceptance Template v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "baseline_ref",
+    "matrix",
+    "cases"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "baseline_ref": {
+      "type": "string"
+    },
+    "matrix": {
+      "type": "object"
+    },
+    "cases": {
+      "type": "array"
+    }
+  }
+}

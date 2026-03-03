@@ -1,11 +1,57 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.PostActionSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="PostActionSettings" />
-      <TextBlock Text="MAAUnified TaskQueue 模块：PostActionSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="{Binding Texts[PostAction.Title]}" />
+
+    <WrapPanel Grid.Row="1" ItemWidth="230" Orientation="Horizontal">
+      <CheckBox Content="{Binding Texts[PostAction.Once]}" IsChecked="{Binding Once}" />
+      <CheckBox Content="{Binding Texts[PostAction.BackToHome]}" IsChecked="{Binding BackToAndroidHome}" />
+      <CheckBox Content="{Binding Texts[PostAction.ExitArknights]}" IsChecked="{Binding ExitArknights}" />
+      <CheckBox Content="{Binding Texts[PostAction.ExitEmulator]}" IsChecked="{Binding ExitEmulator}" />
+      <CheckBox Content="{Binding Texts[PostAction.ExitSelf]}" IsChecked="{Binding ExitSelf}" />
+      <CheckBox Content="{Binding Texts[PostAction.IfNoOther]}" IsChecked="{Binding IfNoOtherMaa}" />
+    </WrapPanel>
+
+    <WrapPanel Grid.Row="2" ItemWidth="160" Orientation="Horizontal">
+      <CheckBox Content="{Binding Texts[PostAction.Sleep]}" IsChecked="{Binding Sleep}" />
+      <CheckBox Content="{Binding Texts[PostAction.Hibernate]}" IsChecked="{Binding Hibernate}" />
+      <CheckBox Content="{Binding Texts[PostAction.Shutdown]}" IsChecked="{Binding Shutdown}" />
+      <Button Content="{Binding Texts[PostAction.Clear]}" Click="OnClearClick" />
+    </WrapPanel>
+
+    <Grid Grid.Row="3" RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="220,*" Margin="0,8,0,0">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[PostAction.Cmd.ExitArknights]}" />
+      <TextBox Grid.Column="1"
+               Text="{Binding ExitArknightsCommand}"
+               Watermark="{Binding Texts[PostAction.Cmd.Watermark]}" />
+
+      <TextBlock Grid.Row="1" VerticalAlignment="Center" Text="{Binding Texts[PostAction.Cmd.BackToHome]}" />
+      <TextBox Grid.Row="1"
+               Grid.Column="1"
+               Text="{Binding BackToAndroidHomeCommand}"
+               Watermark="{Binding Texts[PostAction.Cmd.Watermark]}" />
+
+      <TextBlock Grid.Row="2" VerticalAlignment="Center" Text="{Binding Texts[PostAction.Cmd.ExitEmulator]}" />
+      <TextBox Grid.Row="2"
+               Grid.Column="1"
+               Text="{Binding ExitEmulatorCommand}"
+               Watermark="{Binding Texts[PostAction.Cmd.Watermark]}" />
+
+      <TextBlock Grid.Row="3" VerticalAlignment="Center" Text="{Binding Texts[PostAction.Cmd.ExitSelf]}" />
+      <TextBox Grid.Row="3"
+               Grid.Column="1"
+               Text="{Binding ExitSelfCommand}"
+               Watermark="{Binding Texts[PostAction.Cmd.Watermark]}" />
+    </Grid>
+
+    <TextBlock Grid.Row="4"
+               Foreground="{DynamicResource MAA.WarningBrush}"
+               Text="{Binding StatusMessage}"
+               TextWrapping="Wrap" />
+    <TextBlock Grid.Row="5"
+               Foreground="{DynamicResource MAA.ErrorBrush}"
+               Text="{Binding LastErrorMessage}"
+               TextWrapping="Wrap" />
+  </Grid>
 </UserControl>

@@ -1,11 +1,29 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.ReclamationSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="ReclamationSettings" />
-      <TextBlock Text="MAAUnified TaskQueue 模块：ReclamationSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="Reclamation" />
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,200,Auto,180">
+      <TextBlock VerticalAlignment="Center" Text="主题" />
+      <ComboBox SelectedIndex="0">
+        <ComboBoxItem Content="萨尔贡沙洲遗闻" />
+      </ComboBox>
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="策略" />
+      <ComboBox Grid.Column="3" SelectedIndex="0">
+        <ComboBoxItem Content="刷材料" />
+        <ComboBoxItem Content="刷分" />
+      </ComboBox>
+    </Grid>
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,220,Auto,120,Auto">
+      <TextBlock VerticalAlignment="Center" Text="合成目标" />
+      <TextBox Text="应急理智剂" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="回合上限" />
+      <NumericUpDown Grid.Column="3" Minimum="1" Maximum="999" Value="50" />
+      <CheckBox Grid.Column="4" Content="增量模式" />
+    </Grid>
+    <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="12">
+      <CheckBox Content="清仓策略" />
+      <CheckBox Content="回合结束自动退出" />
     </StackPanel>
-  </Border>
+  </Grid>
 </UserControl>

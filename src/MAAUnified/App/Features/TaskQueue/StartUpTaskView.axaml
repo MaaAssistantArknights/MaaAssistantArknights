@@ -1,11 +1,61 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.StartUpTaskView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="StartUpTask" />
-      <TextBlock Text="MAAUnified TaskQueue 模块：StartUpTask" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="{Binding Texts[StartUp.Title]}" />
+
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,200,Auto,180,Auto,140">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[StartUp.AccountName]}" />
+      <TextBox Text="{Binding AccountName}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[StartUp.ClientType]}" />
+      <ComboBox Grid.Column="3" ItemsSource="{Binding ClientTypeOptions}" SelectedItem="{Binding ClientType}" />
+      <CheckBox Grid.Column="4"
+                Grid.ColumnSpan="2"
+                Margin="8,0,0,0"
+                VerticalAlignment="Center"
+                Content="{Binding Texts[StartUp.StartGameEnabled]}"
+                IsChecked="{Binding StartGameEnabled}"
+                IsEnabled="{Binding CanEditStartGameEnabled}" />
+    </Grid>
+
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,200,Auto,220">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[StartUp.ConnectConfig]}" />
+      <ComboBox ItemsSource="{Binding ConnectConfigOptions}" SelectedItem="{Binding ConnectConfig}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[StartUp.ConnectAddress]}" />
+      <TextBox Grid.Column="3" Text="{Binding ConnectAddress}" />
+    </Grid>
+
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,260,Auto,180,Auto,120">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[StartUp.AdbPath]}" />
+      <TextBox Text="{Binding AdbPath}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[StartUp.TouchMode]}" />
+      <ComboBox Grid.Column="3" ItemsSource="{Binding TouchModeOptions}" SelectedItem="{Binding TouchMode}" />
+      <CheckBox Grid.Column="4"
+                Grid.ColumnSpan="2"
+                Margin="8,0,0,0"
+                VerticalAlignment="Center"
+                Content="{Binding Texts[StartUp.AutoDetect]}"
+                IsChecked="{Binding AutoDetectConnection}" />
+    </Grid>
+
+    <Grid Grid.Row="4" ColumnDefinitions="Auto,100,Auto,100,Auto,100">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[StartUp.AttachScreencap]}" />
+      <TextBox Text="{Binding AttachWindowScreencapMethod}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[StartUp.AttachMouse]}" />
+      <TextBox Grid.Column="3" Text="{Binding AttachWindowMouseMethod}" />
+      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[StartUp.AttachKeyboard]}" />
+      <TextBox Grid.Column="5" Text="{Binding AttachWindowKeyboardMethod}" />
+    </Grid>
+
+    <TextBlock Grid.Row="5" Text="{Binding StatusMessage}" />
+    <TextBlock Grid.Row="6"
+               Foreground="{DynamicResource MAA.ErrorBrush}"
+               Text="{Binding LastErrorMessage}"
+               TextWrapping="Wrap" />
+
+    <StackPanel Grid.Row="7">
+      <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
+      <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
     </StackPanel>
-  </Border>
+  </Grid>
 </UserControl>

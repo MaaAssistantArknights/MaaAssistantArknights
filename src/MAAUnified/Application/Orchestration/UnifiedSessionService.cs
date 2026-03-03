@@ -1,5 +1,6 @@
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Services;
+using MAAUnified.Application.Services.TaskParams;
 using MAAUnified.CoreBridge;
 using System.Text.Json;
 
@@ -26,6 +27,8 @@ public sealed class UnifiedSessionService
     }
 
     public SessionState CurrentState => _stateMachine.CurrentState;
+
+    public event Action<CoreCallbackEvent>? CallbackReceived;
 
     public async Task<CoreResult<bool>> ConnectAsync(string address, string connectConfig, string? adbPath, CancellationToken cancellationToken = default)
     {
@@ -56,8 +59,28 @@ public sealed class UnifiedSessionService
         int appended = 0;
         foreach (var task in profile.TaskQueue.Where(t => t.IsEnabled))
         {
+            var compiled = TaskParamCompiler.CompileTask(task, profile, _configService.CurrentConfig, strict: true);
+            var blockingIssues = compiled.Issues.Where(i => i.Blocking).ToList();
+            if (blockingIssues.Count > 0)
+            {
+                var details = string.Join(
+                    "; ",
+                    blockingIssues.Select(i => $"{i.Code}:{i.Field}:{i.Message}"));
+                _logService.Warn($"Append task blocked `{task.Name}`: {details}");
+                return CoreResult<int>.Fail(new CoreError(
+                    CoreErrorCode.InvalidRequest,
+                    $"Task `{task.Name}` validation failed: {details}"));
+            }
+
+            foreach (var warning in compiled.Issues.Where(i => !i.Blocking))
+            {
+                _logService.Warn($"Task warning `{task.Name}`: {warning.Code}:{warning.Field}:{warning.Message}");
+            }
+
+            task.Type = compiled.NormalizedType;
+            task.Params = compiled.Params;
             var appendResult = await _bridge.AppendTaskAsync(
-                new CoreTaskRequest(task.Type, task.Name, task.IsEnabled, task.Params?.ToJsonString() ?? "{}"),
+                new CoreTaskRequest(compiled.NormalizedType, task.Name, task.IsEnabled, compiled.Params.ToJsonString()),
                 cancellationToken);
 
             if (!appendResult.Success)
@@ -105,6 +128,7 @@ public sealed class UnifiedSessionService
         await foreach (var callback in _bridge.CallbackStreamAsync(cancellationToken))
         {
             ApplyCallbackToState(callback);
+            CallbackReceived?.Invoke(callback);
             await onEvent(callback);
         }
     }

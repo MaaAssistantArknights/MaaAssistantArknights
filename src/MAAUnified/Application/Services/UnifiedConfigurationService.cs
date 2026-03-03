@@ -1,6 +1,7 @@
 using System.Text.Json;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
+using MAAUnified.Application.Services.TaskParams;
 
 namespace MAAUnified.Application.Services;
 
@@ -15,6 +16,7 @@ public sealed class UnifiedConfigurationService
     private readonly IConfigImporter _guiNewImporter;
     private readonly IConfigImporter _guiImporter;
     private readonly string _baseDirectory;
+    private List<ConfigValidationIssue> _currentValidationIssues = [];
 
     public UnifiedConfigurationService(
         IUnifiedConfigStore store,
@@ -34,7 +36,39 @@ public sealed class UnifiedConfigurationService
 
     public UnifiedConfig CurrentConfig { get; private set; } = new();
 
+    public IReadOnlyList<ConfigValidationIssue> CurrentValidationIssues => _currentValidationIssues;
+
+    public bool HasBlockingValidationIssues => _currentValidationIssues.Any(i => i.Blocking);
+
     public event Action<UnifiedConfig>? ConfigChanged;
+
+    public IReadOnlyList<ConfigValidationIssue> RevalidateCurrentConfig(bool logIssues = false)
+    {
+        var issues = ValidateCurrentConfig();
+        UpdateValidationIssues(issues);
+        if (logIssues)
+        {
+            LogValidationIssues(issues);
+        }
+
+        return CurrentValidationIssues;
+    }
+
+    public bool TryGetCurrentProfile(out UnifiedProfile profile)
+    {
+        return CurrentConfig.Profiles.TryGetValue(CurrentConfig.CurrentProfile, out profile!);
+    }
+
+    public async Task SaveAsync(CancellationToken cancellationToken = default)
+    {
+        CurrentConfig.SchemaVersion = UnifiedConfig.LatestSchemaVersion;
+        await _store.SaveAsync(CurrentConfig, cancellationToken);
+        var validationIssues = ValidateCurrentConfig();
+        UpdateValidationIssues(validationIssues);
+        LogValidationIssues(validationIssues);
+        ConfigChanged?.Invoke(CurrentConfig);
+        LogService.Info("Saved config/avalonia.json");
+    }
 
     public async Task<ConfigLoadResult> LoadOrBootstrapAsync(CancellationToken cancellationToken = default)
     {
@@ -45,32 +79,38 @@ public sealed class UnifiedConfigurationService
                 var loaded = await _store.LoadAsync(cancellationToken);
                 if (loaded is not null)
                 {
-                    var migrated = await TryMigrateSchemaAsync(loaded, cancellationToken);
-                    if (migrated.SchemaVersion != loaded.SchemaVersion)
+                    CurrentConfig = loaded;
+                    if (CurrentConfig.SchemaVersion != UnifiedConfig.LatestSchemaVersion)
                     {
-                        var suffix = $".schema-v{loaded.SchemaVersion}.bak.{DateTimeOffset.UtcNow:yyyyMMddHHmmss}";
-                        await _store.BackupAsync(suffix, cancellationToken);
-                        await _store.SaveAsync(migrated, cancellationToken);
-                        LogService.Info($"Migrated config schema {loaded.SchemaVersion} -> {migrated.SchemaVersion}, backup: {_store.ConfigPath}{suffix}");
+                        LogService.Warn(
+                            $"config/avalonia.json schema is {CurrentConfig.SchemaVersion}, latest is {UnifiedConfig.LatestSchemaVersion}. " +
+                            "No automatic migration is applied.");
                     }
 
-                    CurrentConfig = migrated;
+                    var validationIssues = ValidateCurrentConfig();
+                    UpdateValidationIssues(validationIssues);
+                    LogValidationIssues(validationIssues);
                     LogService.Info("Loaded config/avalonia.json and skipped legacy auto import");
                     ConfigChanged?.Invoke(CurrentConfig);
 
                     return new ConfigLoadResult {
                         Config = CurrentConfig,
                         LoadedFromExistingConfig = true,
+                        ValidationIssues = validationIssues,
                     };
                 }
 
                 LogService.Warn("config/avalonia.json exists but could not be parsed; rebuilding avalonia.json from defaults and skipping legacy import");
                 CurrentConfig = new UnifiedConfig();
                 await _store.SaveAsync(CurrentConfig, cancellationToken);
+                var rebuildIssues = ValidateCurrentConfig();
+                UpdateValidationIssues(rebuildIssues);
+                LogValidationIssues(rebuildIssues);
                 ConfigChanged?.Invoke(CurrentConfig);
                 return new ConfigLoadResult {
                     Config = CurrentConfig,
                     LoadedFromExistingConfig = true,
+                    ValidationIssues = rebuildIssues,
                 };
             }
             catch (Exception ex)
@@ -78,20 +118,28 @@ public sealed class UnifiedConfigurationService
                 LogService.Warn($"Failed to load config/avalonia.json ({ex.Message}); rebuilding defaults and skipping legacy import");
                 CurrentConfig = new UnifiedConfig();
                 await _store.SaveAsync(CurrentConfig, cancellationToken);
+                var fallbackIssues = ValidateCurrentConfig();
+                UpdateValidationIssues(fallbackIssues);
+                LogValidationIssues(fallbackIssues);
                 ConfigChanged?.Invoke(CurrentConfig);
                 return new ConfigLoadResult {
                     Config = CurrentConfig,
                     LoadedFromExistingConfig = true,
+                    ValidationIssues = fallbackIssues,
                 };
             }
         }
 
         var report = await ImportLegacyAsync(ImportSource.Auto, manualImport: false, cancellationToken: cancellationToken);
+        var importValidationIssues = ValidateCurrentConfig();
+        UpdateValidationIssues(importValidationIssues);
+        LogValidationIssues(importValidationIssues);
 
         return new ConfigLoadResult {
             Config = CurrentConfig,
             LoadedFromExistingConfig = false,
             ImportReport = report,
+            ValidationIssues = importValidationIssues,
         };
     }
 
@@ -150,6 +198,9 @@ public sealed class UnifiedConfigurationService
 
             await _store.SaveAsync(config, cancellationToken);
             CurrentConfig = config;
+            var validationIssues = ValidateCurrentConfig();
+            UpdateValidationIssues(validationIssues);
+            LogValidationIssues(validationIssues);
             ConfigChanged?.Invoke(CurrentConfig);
 
             report.Success = report.Errors.Count == 0;
@@ -170,46 +221,87 @@ public sealed class UnifiedConfigurationService
         return report;
     }
 
-    private Task<UnifiedConfig> TryMigrateSchemaAsync(UnifiedConfig loaded, CancellationToken cancellationToken)
+    private IReadOnlyList<ConfigValidationIssue> ValidateCurrentConfig()
     {
-        cancellationToken.ThrowIfCancellationRequested();
+        var issues = new List<ConfigValidationIssue>();
 
-        if (loaded.SchemaVersion >= UnifiedConfig.LatestSchemaVersion)
+        if (CurrentConfig.Profiles.Count == 0)
         {
-            return Task.FromResult(loaded);
+            issues.Add(new ConfigValidationIssue
+            {
+                Scope = "ConfigLoad",
+                Code = "ProfileMissing",
+                Field = "profiles",
+                Message = "No profile was found in config.",
+                Blocking = true,
+                SuggestedAction = "Create a new profile and reconfigure task queue.",
+            });
+            return issues;
         }
 
-        var migrated = new UnifiedConfig
+        if (!CurrentConfig.Profiles.ContainsKey(CurrentConfig.CurrentProfile))
         {
-            SchemaVersion = UnifiedConfig.LatestSchemaVersion,
-            CurrentProfile = loaded.CurrentProfile,
-            GlobalValues = loaded.GlobalValues,
-            Profiles = new Dictionary<string, UnifiedProfile>(StringComparer.OrdinalIgnoreCase),
-            Migration = loaded.Migration ?? new UnifiedMigrationMetadata(),
-        };
+            issues.Add(new ConfigValidationIssue
+            {
+                Scope = "ConfigLoad",
+                Code = "CurrentProfileMissing",
+                Field = "current_profile",
+                Message = $"Current profile `{CurrentConfig.CurrentProfile}` is missing.",
+                Blocking = true,
+                SuggestedAction = "Switch to an existing profile or recreate the current profile.",
+            });
+        }
 
-        foreach (var (profileName, profile) in loaded.Profiles)
+        foreach (var (profileName, profile) in CurrentConfig.Profiles)
         {
-            var migratedProfile = new UnifiedProfile
+            for (var index = 0; index < profile.TaskQueue.Count; index++)
             {
-                Values = profile.Values,
-            };
-
-            foreach (var task in profile.TaskQueue)
-            {
-                if (!LegacyTaskSchemaConverter.TryUpgradeTaskToSchemaV2(task, profile, loaded, out var convertedTask, out var error))
+                var task = profile.TaskQueue[index];
+                var compiled = TaskParamCompiler.CompileTask(task, profile, CurrentConfig, strict: true);
+                foreach (var issue in compiled.Issues)
                 {
-                    migrated.Migration.Warnings.Add(error ?? $"Task `{task.Name}` migration failed.");
-                    LogService.Warn(error ?? $"Task `{task.Name}` migration failed.");
+                    issues.Add(new ConfigValidationIssue
+                    {
+                        Scope = "TaskValidation",
+                        Code = issue.Code,
+                        Field = issue.Field,
+                        Message = issue.Message,
+                        Blocking = issue.Blocking,
+                        ProfileName = profileName,
+                        TaskIndex = index,
+                        TaskName = task.Name,
+                        SuggestedAction = issue.Blocking
+                            ? $"Open task `{task.Name}` ({TaskParamCompiler.NormalizeTaskType(task.Type)}) and save again."
+                            : null,
+                    });
                 }
-
-                migratedProfile.TaskQueue.Add(convertedTask);
             }
-
-            migrated.Profiles[profileName] = migratedProfile;
         }
 
-        return Task.FromResult(migrated);
+        return issues;
+    }
+
+    private void LogValidationIssues(IReadOnlyList<ConfigValidationIssue> issues)
+    {
+        if (issues.Count == 0)
+        {
+            return;
+        }
+
+        LogService.Warn($"Detected {issues.Count} config validation issue(s).");
+        foreach (var issue in issues)
+        {
+            var location = issue.TaskIndex is int taskIndex
+                ? $"profile={issue.ProfileName},taskIndex={taskIndex},taskName={issue.TaskName}"
+                : $"profile={issue.ProfileName ?? "-"}";
+            LogService.Warn(
+                $"[{issue.Scope}] {issue.Code} field={issue.Field} blocking={issue.Blocking} {location} message={issue.Message}");
+        }
+    }
+
+    private void UpdateValidationIssues(IReadOnlyList<ConfigValidationIssue> issues)
+    {
+        _currentValidationIssues = [.. issues];
     }
 
     private List<(IConfigImporter Importer, bool FillMissingOnly)> BuildImportPlan(ImportSource source)

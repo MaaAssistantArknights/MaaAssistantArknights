@@ -1,11 +1,16 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.IssueReportView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="IssueReport" />
-      <TextBlock Text="MAAUnified Settings 模块：IssueReport" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="Issue Report" />
+    <WrapPanel Grid.Row="1" ItemWidth="180">
+      <Button Content="帮助文档" />
+      <Button Content="Issue 入口" />
+      <Button Content="生成支持包" Click="OnBuildIssueReportClick" />
+      <Button Content="打开 debug 目录" />
+      <Button Content="清理图像缓存" />
+    </WrapPanel>
+    <TextBlock Grid.Row="2" Text="{Binding IssueReportPath}" />
+    <TextBlock Grid.Row="3" Text="支持包默认包含：avalonia.json、导入报告、UI 错误日志、UI 事件日志。" />
+  </Grid>
 </UserControl>

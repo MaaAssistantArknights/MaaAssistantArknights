@@ -1,11 +1,15 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Dialogs.AnnouncementDialogView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="AnnouncementDialog" />
-      <TextBlock Text="MAAUnified Dialogs 模块：AnnouncementDialog" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
+  <Grid Margin="8" RowDefinitions="Auto,*,Auto">
+    <TextBlock Classes="section-title" Text="Announcement" />
+    <ScrollViewer Grid.Row="1">
+      <TextBlock TextWrapping="Wrap"
+                 Text="公告内容支持 Markdown 渲染（标题、链接、代码块）。" />
+    </ScrollViewer>
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+      <Button Content="忽略" />
+      <Button Content="查看详情" />
     </StackPanel>
-  </Border>
+  </Grid>
 </UserControl>

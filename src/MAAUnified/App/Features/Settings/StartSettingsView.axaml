@@ -1,11 +1,21 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.StartSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="StartSettings" />
-      <TextBlock Text="MAAUnified Settings 模块：StartSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="Start" />
+    <WrapPanel Grid.Row="1" ItemWidth="200">
+      <CheckBox Content="开机启动" IsChecked="{Binding StartSelf}" />
+      <CheckBox Content="启动后最小化" />
+      <CheckBox Content="自动开模拟器" />
+      <CheckBox Content="自动重连" />
+    </WrapPanel>
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,260,Auto,220">
+      <TextBlock VerticalAlignment="Center" Text="模拟器路径" />
+      <TextBox />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="附加参数" />
+      <TextBox Grid.Column="3" />
+    </Grid>
+    <TextBlock Grid.Row="3" Text="重连策略与等待时间在连接页联动配置。" />
+    <TextBlock Grid.Row="4" Text="{Binding AutostartStatus}" />
+  </Grid>
 </UserControl>

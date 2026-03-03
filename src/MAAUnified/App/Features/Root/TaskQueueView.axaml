@@ -1,11 +1,145 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:taskViews="clr-namespace:MAAUnified.App.Features.TaskQueue"
              x:Class="MAAUnified.App.Features.Root.TaskQueueView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="TaskQueue" />
-      <TextBlock Text="MAAUnified Root 模块：TaskQueue" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid RowDefinitions="Auto,*">
+    <Border Classes="section">
+      <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+        <TextBlock VerticalAlignment="Center" Text="今日关卡提示:" />
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding DailyStageHint}" />
+        <CheckBox Grid.Column="2" VerticalAlignment="Center" Content="高级模式" IsChecked="{Binding ShowAdvanced}" />
+        <CheckBox Grid.Column="3" VerticalAlignment="Center" Content="自动重载" IsChecked="{Binding AutoReload}" />
+        <Button Grid.Column="4"
+                Classes="action"
+                Content="{Binding RunButtonText}"
+                IsEnabled="{Binding CanToggleRun}"
+                Click="OnToggleRunClick" />
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="1" ColumnDefinitions="280,*,320">
+      <Border Grid.Column="0" Classes="section">
+        <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto">
+          <TextBlock Classes="section-title" Text="任务列表" />
+
+          <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
+            <ComboBox ItemsSource="{Binding TaskModules}" SelectedItem="{Binding SelectedTaskModule}" />
+            <Button Grid.Column="1" Margin="6,0,0,0" Content="添加" Click="OnAddTaskClick" />
+          </Grid>
+
+          <TextBox Grid.Row="2"
+                   Text="{Binding NewTaskName}"
+                   Watermark="新任务名称（空则用模块名）" />
+
+          <ListBox Grid.Row="3"
+                   ItemsSource="{Binding Tasks}"
+                   SelectedItem="{Binding SelectedTask}">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Border BorderThickness="1"
+                        BorderBrush="{Binding StatusBrush}"
+                        CornerRadius="4"
+                        Padding="6"
+                        Margin="0,2">
+                  <Grid ColumnDefinitions="Auto,*,Auto">
+                    <CheckBox IsChecked="{Binding IsEnabled}" />
+                    <StackPanel Grid.Column="1" Margin="6,0,0,0">
+                      <TextBlock FontWeight="SemiBold" Text="{Binding Name}" />
+                      <TextBlock Opacity="0.8" Text="{Binding Type}" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2" Text="{Binding Status}" VerticalAlignment="Center" />
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+
+          <Grid Grid.Row="4" ColumnDefinitions="*,*">
+            <Button Content="全选" Click="OnSelectAllClick" />
+            <Button Grid.Column="1" Content="反选" Click="OnInverseClick" />
+          </Grid>
+
+          <Grid Grid.Row="5" ColumnDefinitions="*,*">
+            <Button Content="上移" Click="OnMoveUpClick" />
+            <Button Grid.Column="1" Content="下移" Click="OnMoveDownClick" />
+          </Grid>
+
+          <Grid Grid.Row="6" ColumnDefinitions="*,*">
+            <Button Content="重命名" Click="OnRenameClick" />
+            <Button Grid.Column="1" Content="删除" Click="OnRemoveClick" />
+          </Grid>
+        </Grid>
+      </Border>
+
+      <Border Grid.Column="1" Classes="section">
+        <Grid RowDefinitions="Auto,*">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <TextBlock Classes="section-title" Text="任务配置（10 模块）" />
+            <TextBox Width="220"
+                     Text="{Binding RenameTargetName}"
+                     Watermark="重命名输入框（选中任务）" />
+            <Button Content="保存配置" Click="OnSaveClick" />
+            <Button Content="WaitAndStop" Click="OnWaitAndStopClick" />
+          </StackPanel>
+
+          <TabControl Grid.Row="1">
+            <TabItem Header="StartUp">
+              <taskViews:StartUpTaskView DataContext="{Binding StartUpModule}" />
+            </TabItem>
+            <TabItem Header="Fight">
+              <taskViews:FightSettingsView DataContext="{Binding FightModule}" />
+            </TabItem>
+            <TabItem Header="Recruit">
+              <taskViews:RecruitSettingsView DataContext="{Binding RecruitModule}" />
+            </TabItem>
+            <TabItem Header="Infrast">
+              <taskViews:InfrastSettingsView DataContext="{Binding InfrastModule}" />
+            </TabItem>
+            <TabItem Header="Mall">
+              <taskViews:MallSettingsView DataContext="{Binding MallModule}" />
+            </TabItem>
+            <TabItem Header="Award">
+              <taskViews:AwardSettingsView DataContext="{Binding AwardModule}" />
+            </TabItem>
+            <TabItem Header="Roguelike">
+              <taskViews:RoguelikeSettingsView />
+            </TabItem>
+            <TabItem Header="Reclamation">
+              <taskViews:ReclamationSettingsView />
+            </TabItem>
+            <TabItem Header="Custom">
+              <taskViews:CustomSettingsView />
+            </TabItem>
+            <TabItem Header="PostAction">
+              <taskViews:PostActionSettingsView DataContext="{Binding PostActionModule}" />
+            </TabItem>
+          </TabControl>
+        </Grid>
+      </Border>
+
+      <Border Grid.Column="2" Classes="section">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+          <TextBlock Classes="section-title" Text="运行与 Overlay" />
+
+          <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto,Auto">
+            <TextBlock VerticalAlignment="Center" Text="{Binding OverlayStatusText}" />
+            <ComboBox Grid.Column="1" Width="240" ItemsSource="{Binding OverlayTargets}" SelectedItem="{Binding SelectedOverlayTarget}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding DisplayName}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="2" Content="Overlay 开关" Click="OnToggleOverlayClick" />
+            <Button Grid.Column="3" Content="刷新目标" Click="OnReloadOverlayTargetsClick" />
+          </Grid>
+
+          <TextBlock Grid.Row="2" Text="{Binding StatusMessage}" />
+          <TextBlock Grid.Row="3" Foreground="{DynamicResource MAA.ErrorBrush}" Text="{Binding LastErrorMessage}" />
+
+          <ListBox Grid.Row="4" ItemsSource="{Binding Logs}" />
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
 </UserControl>

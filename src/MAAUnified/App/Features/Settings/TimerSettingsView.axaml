@@ -1,11 +1,21 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.TimerSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="TimerSettings" />
-      <TextBlock Text="MAAUnified Settings 模块：TimerSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid RowDefinitions="Auto,Auto,*" Margin="4">
+    <TextBlock Classes="section-title" Text="Timer (8 组)" />
+    <TextBlock Grid.Row="1" Text="支持强制定时启动、按配置执行、启动前显示窗口。" />
+    <ItemsControl Grid.Row="2" ItemsSource="{Binding Timers}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="Auto,100,Auto,120,Auto,Auto" Margin="0,2">
+            <CheckBox Content="{Binding Index, StringFormat=Timer {0}}" IsChecked="{Binding Enabled}" />
+            <TextBox Grid.Column="1" Text="{Binding Time}" />
+            <TextBox Grid.Column="2" Width="130" Text="{Binding Profile}" />
+            <CheckBox Grid.Column="3" Content="强制定时启动" IsChecked="{Binding ForceStart}" />
+            <CheckBox Grid.Column="4" Content="启动前显示窗口" IsChecked="{Binding ShowWindowBeforeStart}" />
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </Grid>
 </UserControl>

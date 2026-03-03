@@ -55,6 +55,7 @@ public static class ConfigurationKeys
     public const string Hangover = "GUI.Hangover";
     public const string LastBuyWineTime = "GUI.LastBuyWineTime";
     public const string CustomCulture = "GUI.CustomCulture";
+    public const string HotKeys = "HotKeys";
 
     public const string BackgroundImagePath = "GUI.Background.ImagePath";
     public const string BackgroundImageStretchMode = "GUI.Background.StretchMode";

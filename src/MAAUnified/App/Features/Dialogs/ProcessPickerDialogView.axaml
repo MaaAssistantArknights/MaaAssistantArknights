@@ -1,11 +1,17 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Dialogs.ProcessPickerDialogView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="ProcessPickerDialog" />
-      <TextBlock Text="MAAUnified Dialogs 模块：ProcessPickerDialog" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
+  <Grid Margin="8" RowDefinitions="Auto,*,Auto">
+    <TextBlock Classes="section-title" Text="Process Picker" />
+    <ListBox Grid.Row="1">
+      <ListBoxItem Content="MAA Emulator - pid: 1234" />
+      <ListBoxItem Content="MuMu Player - pid: 5678" />
+      <ListBoxItem Content="LDPlayer - pid: 9012" />
+    </ListBox>
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+      <Button Content="刷新" />
+      <Button Content="取消" />
+      <Button Content="选择" />
     </StackPanel>
-  </Border>
+  </Grid>
 </UserControl>

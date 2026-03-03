@@ -1,11 +1,15 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.AchievementSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="AchievementSettings" />
-      <TextBlock Text="MAAUnified Settings 模块：AchievementSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="Achievement" />
+    <WrapPanel Grid.Row="1" ItemWidth="200">
+      <Button Content="查看成就列表" />
+      <Button Content="备份成就" />
+      <Button Content="恢复成就" />
+      <CheckBox Content="成就通知" />
+      <Button Content="调试入口" />
+    </WrapPanel>
+    <TextBlock Grid.Row="2" Text="成就存档操作会写入支持包，便于问题追踪。" />
+  </Grid>
 </UserControl>

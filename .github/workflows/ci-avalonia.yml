@@ -84,11 +84,19 @@ jobs:
         run: dotnet restore src/MAAUnified/App/MAAUnified.App.csproj
 
       - name: Restore tests
-        if: matrix.name == 'linux-x64'
+        if: matrix.name != 'macos-x64'
         run: dotnet restore src/MAAUnified/Tests/MAAUnified.Tests.csproj
 
-      - name: Run import tests
-        if: matrix.name == 'linux-x64'
+      - name: Run platform capability tests
+        if: matrix.name != 'macos-x64'
+        run: dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --filter "FullyQualifiedName~PlatformCapabilityContractTests"
+
+      - name: Run platform localization tests
+        if: matrix.name != 'macos-x64'
+        run: dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --filter "FullyQualifiedName~PlatformCapabilityTextMap_ContainsAllErrorAndMenuKeys_ForAllSupportedLanguages"
+
+      - name: Run Avalonia tests
+        if: matrix.name != 'macos-x64'
         run: dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore
 
       - name: Bootstrap MaaDeps

@@ -1,11 +1,25 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.BackgroundSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="BackgroundSettings" />
-      <TextBlock Text="MAAUnified Settings 模块：BackgroundSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="Background" />
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto">
+      <TextBlock VerticalAlignment="Center" Text="背景图路径" />
+      <TextBox Text="{Binding BackgroundImagePath}" />
+      <Button Grid.Column="2" Content="选择" />
+    </Grid>
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,120,Auto,120,Auto,140">
+      <TextBlock VerticalAlignment="Center" Text="透明度(0-100)" />
+      <NumericUpDown Minimum="0" Maximum="100" Value="{Binding BackgroundOpacity}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="模糊" />
+      <NumericUpDown Grid.Column="3" Minimum="0" Maximum="80" Value="{Binding BackgroundBlur}" />
+      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="拉伸模式" />
+      <ComboBox Grid.Column="5" SelectedIndex="0">
+        <ComboBoxItem Content="UniformToFill" />
+        <ComboBoxItem Content="Uniform" />
+        <ComboBoxItem Content="Fill" />
+      </ComboBox>
+    </Grid>
+    <TextBlock Grid.Row="3" Text="背景图与模糊参数与 Windows 保持同名配置键。" />
+  </Grid>
 </UserControl>

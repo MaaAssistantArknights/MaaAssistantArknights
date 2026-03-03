@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MAAUnified.BaselineFreeze.v1",
+  "title": "MAAUnified Baseline Freeze v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "frozen_at_utc",
+    "wpf_baseline_commit",
+    "themes",
+    "locales",
+    "items",
+    "config_key_mappings",
+    "fallback_capabilities"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "frozen_at_utc": {
+      "type": "string"
+    },
+    "wpf_baseline_commit": {
+      "type": "string"
+    },
+    "themes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "locales": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "items": {
+      "type": "array"
+    },
+    "config_key_mappings": {
+      "type": "array"
+    },
+    "fallback_capabilities": {
+      "type": "array"
+    }
+  }
+}

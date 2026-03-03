@@ -1,11 +1,16 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Dialogs.AchievementListDialogView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="AchievementListDialog" />
-      <TextBlock Text="MAAUnified Dialogs 模块：AchievementListDialog" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
+  <Grid Margin="8" RowDefinitions="Auto,*,Auto">
+    <TextBlock Classes="section-title" Text="Achievement List" />
+    <ListBox Grid.Row="1">
+      <ListBoxItem Content="任务达人 - 已完成" />
+      <ListBoxItem Content="连续签到王 - 已完成" />
+      <ListBoxItem Content="资源收集者 - 进行中" />
+    </ListBox>
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+      <Button Content="导出" />
+      <Button Content="关闭" />
     </StackPanel>
-  </Border>
+  </Grid>
 </UserControl>

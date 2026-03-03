@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Avalonia.Threading;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Services;
+using MAAUnified.Platform;
 
 namespace MAAUnified.App.ViewModels;
 
@@ -297,11 +298,20 @@ public sealed class MainViewModel : INotifyPropertyChanged
         var p = _runtime.Platform;
         return string.Join(
             Environment.NewLine,
-            $"Tray: {(p.TrayService.Capability.Supported ? "Supported" : "Fallback")} - {p.TrayService.Capability.Message}",
-            $"Notification: {(p.NotificationService.Capability.Supported ? "Supported" : "Fallback")} - {p.NotificationService.Capability.Message}",
-            $"Hotkey: {(p.HotkeyService.Capability.Supported ? "Supported" : "Fallback")} - {p.HotkeyService.Capability.Message}",
-            $"Autostart: {(p.AutostartService.Capability.Supported ? "Supported" : "Fallback")} - {p.AutostartService.Capability.Message}",
-            $"Overlay: {(p.OverlayService.Capability.Supported ? "Supported" : "Fallback")} - {p.OverlayService.Capability.Message}");
+            BuildCapabilityLine("Tray", p.TrayService.Capability),
+            BuildCapabilityLine("Notification", p.NotificationService.Capability),
+            BuildCapabilityLine("Hotkey", p.HotkeyService.Capability),
+            BuildCapabilityLine("Autostart", p.AutostartService.Capability),
+            BuildCapabilityLine("Overlay", p.OverlayService.Capability));
+    }
+
+    private static string BuildCapabilityLine(string name, PlatformCapabilityStatus status)
+    {
+        var mode = status.Supported ? "Supported" : "Fallback";
+        var fallback = status.HasFallback && !string.IsNullOrWhiteSpace(status.FallbackMode)
+            ? $", fallback={status.FallbackMode}"
+            : string.Empty;
+        return $"{name}: {mode} (provider={status.Provider}{fallback}) - {status.Message}";
     }
 
     private bool SetProperty<T>(ref T backingField, T value, [CallerMemberName] string? propertyName = null)

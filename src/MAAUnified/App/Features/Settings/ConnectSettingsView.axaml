@@ -1,11 +1,23 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.ConnectSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="ConnectSettings" />
-      <TextBlock Text="MAAUnified Settings 模块：ConnectSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="Connect" />
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,220,Auto,220" Margin="0,6,0,0">
+      <TextBlock VerticalAlignment="Center" Text="Connect Config" />
+      <ComboBox ItemsSource="{Binding ConnectConfigOptions}" SelectedItem="{Binding ConnectConfig}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="Address" />
+      <TextBox Grid.Column="3" Text="{Binding ConnectAddress}" Watermark="127.0.0.1:5555" />
+    </Grid>
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,220,Auto,220" Margin="0,6,0,0">
+      <TextBlock VerticalAlignment="Center" Text="ADB Path" />
+      <TextBox Text="{Binding AdbPath}" Watermark="/path/to/adb" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="Touch Mode" />
+      <ComboBox Grid.Column="3" ItemsSource="{Binding TouchModeOptions}" SelectedItem="{Binding TouchMode}" />
+    </Grid>
+    <CheckBox Grid.Row="3"
+              Margin="0,8,0,0"
+              Content="自动检测连接"
+              IsChecked="{Binding AutoDetect}" />
+  </Grid>
 </UserControl>

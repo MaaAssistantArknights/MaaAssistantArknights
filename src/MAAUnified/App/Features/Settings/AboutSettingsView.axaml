@@ -1,11 +1,14 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.AboutSettingsView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="AboutSettings" />
-      <TextBlock Text="MAAUnified Settings 模块：AboutSettings" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="目标：与现有前端功能保持一致。" TextWrapping="Wrap" />
-    </StackPanel>
-  </Border>
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="About" />
+    <WrapPanel Grid.Row="1" ItemWidth="200">
+      <Button Content="官网" />
+      <Button Content="社区" />
+      <Button Content="检查公告" />
+      <Button Content="下载页" />
+    </WrapPanel>
+    <TextBlock Grid.Row="2" Text="跨平台 Avalonia UI 复刻版，行为与 Windows 客户端保持一致优先。" />
+  </Grid>
 </UserControl>
