@@ -1264,15 +1264,15 @@ Before use, please ensure:
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Default, Background)</system:String>
-    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (Background, Backup 1)</system:String>
-    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup 2)</system:String>
-    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, More Stable)</system:String>
-    <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, More Stable)</system:String>
-    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor (Semi-background)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor (Semi-background, Backup)</system:String>
-    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMessageWithWindowPos (Background Window)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMessageWithWindowPos (Background Window, Backup)</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Background, Efficient, Can Minimize)</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (Background, Stable, Can Minimize)</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup, Cannot Minimize)</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, No Occlusion)</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, Fully Captures Mouse)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (Full Background, No Mouse Capture, Window May Move, Recommend Minimizing)</system:String>
+    <system:String x:Key="AttachWindowInputSendMsg">SendMsg (Stable)</system:String>
+    <system:String x:Key="AttachWindowInputPostMsg">PostMsg (Efficient)</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">Force display of MAA</system:String>

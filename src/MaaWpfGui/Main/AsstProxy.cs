@@ -2531,12 +2531,12 @@ public class AsstProxy
 
         if (!ulong.TryParse(SettingsViewModel.ConnectSettings.AttachWindowMouseMethod, out var mouseMethod))
         {
-            mouseMethod = 64; // 默认 PostMessageWithCursorPos
+            mouseMethod = 32; // 默认 SendMessageWithCursorPos
         }
 
         if (!ulong.TryParse(SettingsViewModel.ConnectSettings.AttachWindowKeyboardMethod, out var keyboardMethod))
         {
-            keyboardMethod = 64; // 默认 PostMessageWithCursorPos
+            keyboardMethod = 2; // 默认 SendMessage
         }
 
         bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);

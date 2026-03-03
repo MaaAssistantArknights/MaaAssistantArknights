@@ -177,7 +177,7 @@
                         hc:TitleElement.Title="{DynamicResource AttachWindowMouseMethod}"
                         hc:TitleElement.TitlePlacement="Left"
                         DisplayMemberPath="Display"
-                        ItemsSource="{Binding AttachWindowInputMethodList}"
+                        ItemsSource="{Binding AttachWindowMouseMethodList}"
                         SelectedValue="{Binding AttachWindowMouseMethod}"
                         SelectedValuePath="Value" />
                 </StackPanel>
@@ -192,7 +192,7 @@
                         hc:TitleElement.Title="{DynamicResource AttachWindowKeyboardMethod}"
                         hc:TitleElement.TitlePlacement="Left"
                         DisplayMemberPath="Display"
-                        ItemsSource="{Binding AttachWindowInputMethodList}"
+                        ItemsSource="{Binding AttachWindowKeyboardMethodList}"
                         SelectedValue="{Binding AttachWindowKeyboardMethod}"
                         SelectedValuePath="Value" />
                 </StackPanel>

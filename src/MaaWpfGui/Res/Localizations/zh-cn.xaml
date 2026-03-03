@@ -1265,15 +1265,15 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">鼠标输入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">键盘输入</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（默认，后台）</system:String>
-    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（后台，备用1）</system:String>
-    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（后台，备用2）</system:String>
-    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（前台，更稳定）</system:String>
-    <system:String x:Key="AttachWindowInputSeize">Seize（前台，更稳定）</system:String>
-    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor（半后台）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor（半后台，备用）</system:String>
-    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMessageWithWindowPos（后台窗口）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMessageWithWindowPos（后台窗口，备用）</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">WGC（后台，高效，可最小化）</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（后台，稳定，可最小化）</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（后台，备用，不可最小化）</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（前台，不可遮挡）</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize（前台，完全抢鼠标）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半后台，短暂抢鼠标）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（全后台，不抢鼠标，窗口会乱飞但不影响使用，建议最小化）</system:String>
+    <system:String x:Key="AttachWindowInputSendMsg">SendMsg（稳定）</system:String>
+    <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高效）</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">强制显示MAA</system:String>
