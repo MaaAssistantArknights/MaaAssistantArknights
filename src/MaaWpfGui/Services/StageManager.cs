@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.ViewModels.UI;
@@ -114,9 +115,9 @@ public class StageManager
         var clientType = SettingsViewModel.GameSettings.ClientType;
 
         // 官服和B服使用同样的资源
-        if (clientType is "Bilibili" or "")
+        if (clientType is ClientType.Bilibili)
         {
-            clientType = "Official";
+            clientType = ClientType.Official;
         }
 
         return clientType;
@@ -162,7 +163,7 @@ public class StageManager
         var activityJson = await activityTask;
         var tasksJson = await tasksTask;
         JObject? globalTasksJson = null;
-        if (clientType != "Official" && tasksJson != null)
+        if (clientType != ClientType.Official && tasksJson != null)
         {
             var tasksPath = "resource/global/" + clientType + '/' + TasksApi;
 
@@ -177,7 +178,7 @@ public class StageManager
             return null;
         }
 
-        if (clientType != "Official" && globalTasksJson is null)
+        if (clientType != ClientType.Official && globalTasksJson is null)
         {
             return null;
         }

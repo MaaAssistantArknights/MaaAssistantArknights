@@ -41,7 +41,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// </summary>
 public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSettingsUserControlModel.ISerialize
 {
-    public static readonly string AnnihilationName = "Annihilation";
+    public const string AnnihilationName = "Annihilation";
     private static readonly ILogger _logger = Log.ForContext<FightSettingsUserControlModel>();
     private static readonly Lock _lock = new();
 

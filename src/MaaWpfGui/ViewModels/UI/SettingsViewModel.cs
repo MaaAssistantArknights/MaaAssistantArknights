@@ -27,6 +27,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -959,13 +960,12 @@ public class SettingsViewModel : Screen
 
     private static readonly Dictionary<string, string> _serverMapping = new()
     {
-        { string.Empty, "CN" },
-        { "Official", "CN" },
-        { "Bilibili", "CN" },
-        { "YoStarEN", "US" },
-        { "YoStarJP", "JP" },
-        { "YoStarKR", "KR" },
-        { "txwy", "ZH_TW" },
+        { ClientType.Official, "CN" },
+        { ClientType.Bilibili, "CN" },
+        { ClientType.EN, "US" },
+        { ClientType.JP, "JP" },
+        { ClientType.KR, "KR" },
+        { ClientType.Txwy, "ZH_TW" },
     };
 
     /// <summary>
