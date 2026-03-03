@@ -70,7 +70,7 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     return !m_det_model_path.empty() && !m_rec_model_path.empty() && !m_rec_label_path.empty();
 }
 
-asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool without_det, const Rect& roi_offset)
+asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& output_offset)
 {
     if (!check_and_load()) {
         Log.error(__FUNCTION__, "check_and_load failed");
