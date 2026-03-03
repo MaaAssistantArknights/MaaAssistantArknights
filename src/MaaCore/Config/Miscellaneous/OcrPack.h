@@ -44,7 +44,7 @@ public:
 
     void use_gpu(int gpu_id) { m_gpu_id = gpu_id; }
 
-    ResultsVec recognize(const cv::Mat& image, bool without_det = false, const Rect& roi_offset = {});
+    ResultsVec recognize(const cv::Mat& image, bool without_det = false, const std::optional<Rect>& rect_offset = {});
 
 protected:
     OcrPack();
