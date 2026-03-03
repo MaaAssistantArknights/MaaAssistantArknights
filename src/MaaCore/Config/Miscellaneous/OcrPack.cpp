@@ -70,7 +70,8 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     return !m_det_model_path.empty() && !m_rec_model_path.empty() && !m_rec_label_path.empty();
 }
 
-asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& output_offset)
+asst::OcrPack::ResultsVec
+    asst::OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
 {
     if (!check_and_load()) {
         Log.error(__FUNCTION__, "check_and_load failed");
@@ -133,16 +134,12 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
         if (i > 0) {
             raw_log += ", ";
         }
-        if (output_offset) {
-            Rect screen_rect(
-                output_offset->x + abs_rect.x,
-                output_offset->y + abs_rect.y,
-                det_rect.width,
-                det_rect.height);
+        if (base_roi) {
+            Rect moved_rect(base_roi->x + abs_rect.x, base_roi->y + abs_rect.y, det_rect.width, det_rect.height);
             raw_log += std::format(
                 "{{ text: {}, moved_rect: {}, rect: {}, score: {:.6f} }}",
                 ocr_result.text.at(i),
-                screen_rect.to_string(),
+                moved_rect.to_string(),
                 det_rect.to_string(),
                 ocr_result.rec_scores.at(i));
         }
