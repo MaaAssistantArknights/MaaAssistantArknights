@@ -130,7 +130,7 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
         cv::rectangle(draw, make_rect<cv::Rect>(det_rect), cv::Scalar(0, 0, 255), 2);
 #endif
 
-        Rect screen_rect(roi_offset.x + abs_rect.x, roi_offset.y + abs_rect.y, abs_rect.width, abs_rect.height);
+        Rect screen_rect(roi_offset.x + abs_rect.x, roi_offset.y + abs_rect.y, det_rect.width, det_rect.height);
         if (i > 0) {
             raw_log += ", ";
         }
