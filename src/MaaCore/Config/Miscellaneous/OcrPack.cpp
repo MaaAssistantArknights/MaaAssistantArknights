@@ -130,16 +130,29 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
         cv::rectangle(draw, make_rect<cv::Rect>(det_rect), cv::Scalar(0, 0, 255), 2);
 #endif
 
-        Rect screen_rect(roi_offset.x + abs_rect.x, roi_offset.y + abs_rect.y, det_rect.width, det_rect.height);
         if (i > 0) {
             raw_log += ", ";
         }
-        raw_log += std::format(
-            "{{ text: {}, abs_rect: {}, rect: {}, score: {:.6f} }}",
-            ocr_result.text.at(i),
-            screen_rect.to_string(),
-            det_rect.to_string(),
-            ocr_result.rec_scores.at(i));
+        if (output_offset) {
+            Rect screen_rect(
+                output_offset->x + abs_rect.x,
+                output_offset->y + abs_rect.y,
+                det_rect.width,
+                det_rect.height);
+            raw_log += std::format(
+                "{{ text: {}, moved_rect: {}, rect: {}, score: {:.6f} }}",
+                ocr_result.text.at(i),
+                screen_rect.to_string(),
+                det_rect.to_string(),
+                ocr_result.rec_scores.at(i));
+        }
+        else {
+            raw_log += std::format(
+                "{{ text: {}, rect: {}, score: {:.6f} }}",
+                ocr_result.text.at(i),
+                det_rect.to_string(),
+                ocr_result.rec_scores.at(i));
+        }
 
         raw_results.emplace_back(Result(det_rect, ocr_result.rec_scores.at(i), std::move(ocr_result.text.at(i))));
     }
