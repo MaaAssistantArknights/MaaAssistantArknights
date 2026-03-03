@@ -26,67 +26,69 @@ public class MaaApiService : IMaaApiService
 {
     private static readonly string CacheDir = PathsHelper.CacheDir;
 
-    public async Task<JObject?> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true)
+    public async Task<(bool Cached, JObject? Response)> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true)
     {
         return await RequestWithFallback(api, MaaUrls.MaaApi, MaaUrls.MaaApi2, allowFallbackToCache);
     }
 
-    private async Task<JObject?> RequestWithFallback(string api, string primaryBaseUrl, string? fallbackBaseUrl = null, bool allowFallbackToCache = true)
+    private async Task<(bool Cached, JObject? Response)> RequestWithFallback(string api, string primaryBaseUrl, string? fallbackBaseUrl = null, bool allowFallbackToCache = true)
     {
-        var json = await TryRequest(api, primaryBaseUrl, allowFallbackToCache);
-        if (json != null || string.IsNullOrEmpty(fallbackBaseUrl))
+        var result = await TryRequest(api, primaryBaseUrl, allowFallbackToCache);
+        if (result.Response != null || string.IsNullOrEmpty(fallbackBaseUrl))
         {
-            return json;
+            return result;
         }
 
         return await TryRequest(api, fallbackBaseUrl, allowFallbackToCache);
     }
 
-    private async Task<JObject?> TryRequest(string api, string baseUrl, bool allowFallbackToCache = true)
+    private async Task<(bool Cached, JObject? Response)> TryRequest(string api, string baseUrl, bool allowFallbackToCache = true)
     {
         var url = baseUrl + api;
-        var cache = Path.Combine(CacheDir, api);
-
-        var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cache));
-        if (response == null)
+        var cachePath = Path.Combine(CacheDir, api);
+        var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cachePath));
+        if (response?.StatusCode == System.Net.HttpStatusCode.NotModified)
         {
-            return allowFallbackToCache ? LoadApiCache(api) : null;
+            var cache = LoadApiCache(api);
+            return (cache != null, cache);
         }
 
-        if (response.StatusCode == System.Net.HttpStatusCode.NotModified)
+        if (response == null || response.StatusCode != System.Net.HttpStatusCode.OK)
         {
-            return LoadApiCache(api);
-        }
+            if (!allowFallbackToCache)
+            {
+                return (false, null);
+            }
 
-        if (response.StatusCode != System.Net.HttpStatusCode.OK)
-        {
-            return allowFallbackToCache ? LoadApiCache(api) : null;
+            var cache = LoadApiCache(api);
+            return (cache != null, cache);
         }
 
         var body = await HttpResponseHelper.GetStringAsync(response);
         if (string.IsNullOrEmpty(body))
         {
-            return LoadApiCache(api);
+            var cache = LoadApiCache(api);
+            return (cache != null, cache);
         }
 
         try
         {
             var json = (JObject?)JsonConvert.DeserializeObject(body);
-            string? directoryPath = Path.GetDirectoryName(cache);
+            string? directoryPath = Path.GetDirectoryName(cachePath);
 
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath!);
             }
 
-            await File.WriteAllTextAsync(cache, body);
+            await File.WriteAllTextAsync(cachePath, body);
             ETagCache.Set(response, url);
 
-            return json;
+            return (false, json);
         }
         catch
         {
-            return null;
+            return (false, null);
         }
     }
 
