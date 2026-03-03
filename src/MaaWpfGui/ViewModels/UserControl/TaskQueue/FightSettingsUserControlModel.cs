@@ -656,16 +656,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         return value;
     }
 
-    public static string? GetFightStage(FightTask fightTask)
+    public static string? GetFightStage(IEnumerable<string> list)
     {
-        if (fightTask == null)
-        {
-            return null;
-        }
-
-        var list = fightTask.StagePlan;
-        var stage = list?.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen);
+        var stage = list?.FirstOrDefault(s => Instances.StageManager.IsStageOpen(s, Instances.TaskQueueViewModel.CurDayOfWeek));
         stage ??= list?.FirstOrDefault();
+        _logger.Information("GetFightStage: from {list}, selected {stage}", list, stage);
         return stage;
     }
 
@@ -924,7 +919,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             }
 
             using var scope = _lock.EnterScope();
-            var stage = GetFightStage(fight);
+            var stage = FightSettingsUserControlModel.GetFightStage(fight.StagePlan);
             if (stage is null)
             {
                 return null;
