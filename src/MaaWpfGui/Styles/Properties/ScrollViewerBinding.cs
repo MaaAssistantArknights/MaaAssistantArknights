@@ -341,15 +341,15 @@ public static class ScrollViewerBinding
         var dividerOffsetList = (
             from child in rootGrid.Children.OfType<Grid>()
             orderby Grid.GetRow(child)
-            let divider = FindFirstDivider(child)
-            where divider != null
-            let pos = divider.TransformToVisual(scrollViewer).Transform(point)
+            let sectionHeader = FindFirstSectionHeader(child)
+            where sectionHeader != null
+            let pos = sectionHeader.TransformToVisual(scrollViewer).Transform(point)
             select pos.Y).ToList();
 
         SetDividerVerticalOffsetList(scrollViewer, dividerOffsetList);
     }
 
-    private static FrameworkElement FindFirstDivider(DependencyObject root)
+    private static FrameworkElement FindFirstSectionHeader(DependencyObject root)
     {
         int count = VisualTreeHelper.GetChildrenCount(root);
         for (int i = 0; i < count; i++)
@@ -360,7 +360,12 @@ public static class ScrollViewerBinding
                 return divider;
             }
 
-            var found = FindFirstDivider(child);
+            if (child is Expander expander)
+            {
+                return expander;
+            }
+
+            var found = FindFirstSectionHeader(child);
             if (found != null)
             {
                 return found;
