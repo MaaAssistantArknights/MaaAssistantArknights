@@ -19,6 +19,8 @@ protected:
     virtual bool _run() override;
 
 private:
+    // 尝试使用foldartal
+    bool try_use_foldartal_for_stage();
     // 遍历配置里的组合
     bool use_enable_pair(std::vector<std::string>& list, const asst::RoguelikeFoldartalCombination& usage);
     // 使用板子对结果

@@ -21,24 +21,24 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         return false;
     }
 
-    auto mode = m_config->get_mode();
-    std::string task_name_pre = m_config->get_theme() + "@Roguelike@Stage";
     const std::string& task = details.get("details", "task", "");
-    std::string_view task_view = task;
 
-    if (task_view.starts_with(task_name_pre)) {
-        task_view.remove_prefix(task_name_pre.length());
+    // 只匹配CheckFoldartal开头的任务
+    std::string prefix = m_config->get_theme() + "@Roguelike@CheckFoldartal";
+    if (!task.starts_with(prefix)) {
+        return false;
     }
-    // 不知道是不是不对纵向节点用比较好，先写上
-    task_name_pre = "task_name_pre";
-    if (task_view.starts_with("Vertical")) {
-        task_view.remove_prefix(task_name_pre.length());
-    }
-    const std::string task_name_suf = "AI6";
-    if (task_view.ends_with(task_name_suf)) {
-        task_view.remove_suffix(task_name_suf.length());
-    }
-    if (task_view == "CombatOps" || task_view == "EmergencyOps" || task_view == "FerociousPresage") {
+
+    // 从任务名中提取stage类型
+    // 例如：Sami@Roguelike@CheckFoldartalTrader → Trader
+    std::string_view task_view = task;
+    task_view.remove_prefix(prefix.length());
+    std::string stage_type(task_view);
+
+    auto mode = m_config->get_mode();
+
+    // 映射stage类型到m_stage值
+    if (stage_type == "CombatOps" || stage_type == "EmergencyOps" || stage_type == "FerociousPresage") {
         if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
             m_stage = "SkipBattle";
         }
@@ -47,27 +47,26 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         }
         return true;
     }
-    if (task_view == "DreadfulFoe-5" && mode == RoguelikeMode::Exp) {
+    if (stage_type == "DreadfulFoe5" && mode == RoguelikeMode::Exp) {
         m_stage = "Boss";
         return true;
     }
-    if (task_view == "Trader" && mode == RoguelikeMode::Exp) {
+    if (stage_type == "Trader" && mode == RoguelikeMode::Exp) {
         m_stage = "Trader";
         return true;
     }
-    if (task_view == "Encounter" && mode == RoguelikeMode::Exp) {
+    if (stage_type == "Encounter" && mode == RoguelikeMode::Exp) {
         m_stage = "Encounter";
         return true;
     }
-    if ((task_view == "Gambling" || task_view == "EmergencyTransportation" || task_view == "WindAndRain" ||
-         task_view == "MysteriousPresage") &&
+    if ((stage_type == "Gambling" || stage_type == "EmergencyTransportation" || stage_type == "WindAndRain" ||
+         stage_type == "MysteriousPresage") &&
         mode == RoguelikeMode::Exp) {
         m_stage = "Gambling";
         return true;
     }
-    else {
-        return false;
-    }
+
+    return false;
 }
 
 bool asst::RoguelikeFoldartalUseTaskPlugin::load_params(const json::value& params)
@@ -83,6 +82,13 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::load_params(const json::value& param
 }
 
 bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
+{
+    LogTraceFunction;
+    try_use_foldartal_for_stage();
+    return true;
+}
+
+bool asst::RoguelikeFoldartalUseTaskPlugin::try_use_foldartal_for_stage()
 {
     LogTraceFunction;
 
@@ -106,15 +112,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 
     m_config->status().foldartal_list = std::move(foldartal_list);
 
-    // Signal ProcessTask to skip its action and redirect to stages scan
-    if (any_board_used) {
-        status()->set_str(Status::PluginSkipExecution, "true");
-        // Redirect to Sami@Roguelike@Stages to continue roguelike loop
-        status()->set_str(Status::PluginOverrideNextTo, m_config->get_theme() + "@Roguelike@Stages");
-        Log.info("Foldartal applied to stage, requesting ProcessTask skip and redirect to Stages");
-    }
-
-    return true;
+    return any_board_used;
 }
 
 bool asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
