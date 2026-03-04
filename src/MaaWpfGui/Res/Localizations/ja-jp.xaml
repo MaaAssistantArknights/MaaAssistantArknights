@@ -971,6 +971,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UserAdditional.Action">操作</system:String>
     <system:String x:Key="UserAdditional.Add">追加</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
+    <system:String x:Key="CopilotList">作业列表</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">以下のモードのみ対応:
   1. {key=MainStage}: 同じ章内でのナビゲーション

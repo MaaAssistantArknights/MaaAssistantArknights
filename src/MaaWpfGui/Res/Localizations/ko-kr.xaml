@@ -972,6 +972,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UserAdditional.Action">작업</system:String>
     <system:String x:Key="UserAdditional.Add">추가</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
+    <system:String x:Key="CopilotList">作业列表</system:String>
     <system:String x:Key="UseCopilotList">작업 목록</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">다음 모드에서만 지원됩니다:
   1. {key=MainStage}: 동일 챕터 내에서 이동
