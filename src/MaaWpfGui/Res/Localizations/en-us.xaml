@@ -970,7 +970,8 @@ Operators' Elite level CANNOT be ignored. If any requirements are ignored, the o
     <system:String x:Key="UserAdditional.Action">Action</system:String>
     <system:String x:Key="UserAdditional.Add">Add</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
-    <system:String x:Key="UseCopilotList">Battle list</system:String>
+    <system:String x:Key="CopilotList">Job List</system:String>
+    <system:String x:Key="UseCopilotList">Multi-Job mode</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">Only supported in the following modes:
   1. {key=MainStage}: Navigate within the same chapter
   2. {key=SideStory}: Navigate within the current page (cannot jump between Normal/EX/S)
@@ -978,7 +979,7 @@ Operators' Elite level CANNOT be ignored. If any requirements are ignored, the o
   4. {key=ParadoxSimulation}: Start from the {key=Operator} list
 Please start from the corresponding screen. Cross-chapter navigation is not supported.
 
-When ｢{key=UseCopilotList}｣ is enabled, individual jobs will be automatically added to ｢{key=UseCopilotList}｣.</system:String>
+When ｢{key=UseCopilotList}｣ is enabled, individual jobs will be automatically added to the ｢{key=CopilotList}｣.</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
 Right click to add challenge difficulty</system:String>

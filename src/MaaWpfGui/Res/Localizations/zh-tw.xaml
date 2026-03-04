@@ -970,7 +970,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="UserAdditional.Skill">技能</system:String>
     <system:String x:Key="UserAdditional.Action">操作</system:String>
     <system:String x:Key="UserAdditional.Add">新增</system:String>
-    <system:String x:Key="UseCopilotList">戰鬥列表</system:String>
+    <system:String x:Key="CopilotList">作業列表</system:String>
+    <system:String x:Key="UseCopilotList">多作業模式</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">僅支援以下模式：
   1. {key=MainStage}：同一章節內導航
   2. {key=SideStory}：目前頁面內導航（普通/EX/S 不能互跳）
@@ -978,7 +979,7 @@ C:\\leidian\\LDPlayer9\n
   4. {key=ParadoxSimulation}：從{key=Operator}列表啟動
 請在對應介面啟動，不支援跨章節導航
 
-當 ｢{key=UseCopilotList}｣ 啟用後，選擇單一作業時會自動新增至 ｢{key=UseCopilotList}｣</system:String>
+當 ｢{key=UseCopilotList}｣ 啟用後，選擇單一作業時會自動新增至 ｢{key=CopilotList}｣</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突襲)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左鍵加入普通難度
 右鍵加入突襲難度</system:String>
@@ -1041,7 +1042,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="CopilotInvalidStageNameForNavigation">關卡名稱無效，無法導航</system:String>
     <system:String x:Key="CopilotStageNameNotFound">未找到 {0}，且未指定關卡名稱</system:String>
     <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">關卡名稱與導航名稱不一致，已改用導航名稱</system:String>
-    <system:String x:Key="CopilotEmptyError">作業內容為空</system:String>
+    <system:String x:Key="CopilotEmptyError">未選擇作業</system:String>
     <system:String x:Key="CopilotStartError">啟動作業失敗：</system:String>
     <system:String x:Key="CopilotTaskTypeMismatch">目前選擇的作業與標籤頁類型不符</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">存在關卡名稱為空的作業</system:String>
