@@ -1042,7 +1042,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="CopilotInvalidStageNameForNavigation">關卡名稱無效，無法導航</system:String>
     <system:String x:Key="CopilotStageNameNotFound">未找到 {0}，且未指定關卡名稱</system:String>
     <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">關卡名稱與導航名稱不一致，已改用導航名稱</system:String>
-    <system:String x:Key="CopilotEmptyError">作業內容為空</system:String>
+    <system:String x:Key="CopilotEmptyError">未選擇作業</system:String>
     <system:String x:Key="CopilotStartError">啟動作業失敗：</system:String>
     <system:String x:Key="CopilotTaskTypeMismatch">目前選擇的作業與標籤頁類型不符</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">存在關卡名稱為空的作業</system:String>
