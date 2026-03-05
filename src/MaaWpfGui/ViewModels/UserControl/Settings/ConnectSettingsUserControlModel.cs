@@ -118,7 +118,20 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         get => _alwaysAutoDetectConnection;
         set {
-            SetAndNotify(ref _alwaysAutoDetectConnection, value);
+            if (!SetAndNotify(ref _alwaysAutoDetectConnection, value))
+            {
+                return;
+            }
+
+            if (value)
+            {
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("AlwaysAutoDetectConnectionTip"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
+
             ConfigurationHelper.SetValue(ConfigurationKeys.AlwaysAutoDetect, value.ToString());
         }
     }

@@ -598,8 +598,13 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 可輸入 ｢SSReopen-XX｣ 一次性代理 SS 複刻的普通關</system:String>
     <system:String x:Key="AutoDetectConnection">自動偵測連線</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">該連線配置不支援自動偵測連線，請嘗試手動填寫通訊埠編號</system:String>
-    <system:String x:Key="AutoDetectConnectionTip">每次偵測完成後會自動取消勾選，若需要重新偵測可再次勾選</system:String>
+    <system:String x:Key="AutoDetectConnectionTip" xml:space="preserve">每次偵測完成後會自動取消勾選，如需重新偵測可再次勾選。
+僅當通訊埠經常發生變化時，才需要勾選 ｢{key=AlwaysAutoDetectConnection}｣ 選項。
+偵測時請確保只開啟需要連線的模擬器，同時開啟多個模擬器可能會導致連線到錯誤的目標。</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新偵測</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnectionTip" xml:space="preserve">不推薦勾選此選項。
+偵測時請確保只開啟需要連線的模擬器，同時開啟多個模擬器可能會導致連線到錯誤的目標。
+僅當通訊埠經常發生變化且確認只執行單個模擬器時才建議勾選。</system:String>
     <system:String x:Key="AccountSwitch">帳號切換</system:String>
     <system:String x:Key="AccountSwitchManualRun">立即切換</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換到的帳號，留空以停用。

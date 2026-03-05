@@ -598,8 +598,13 @@ At the end of the stage, enter ｢Normal/Hard｣ to switch between Standard and 
 Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS rerun events</system:String>
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">Automatic connection detection is not supported for this configuration, please try manually entering the port number</system:String>
-    <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
+    <system:String x:Key="AutoDetectConnectionTip" xml:space="preserve">This checkbox will be automatically unchecked after each detection is completed, and can be checked again if you need to re-detect.
+Only check the "{key=AlwaysAutoDetectConnection}" option when the port changes frequently.
+Please ensure only the target emulator is running during detection. Running multiple emulators simultaneously may result in connecting to the wrong target.</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnectionTip" xml:space="preserve">This option is not recommended.
+Please ensure only the target emulator is running during detection. Running multiple emulators simultaneously may result in connecting to the wrong target.
+Only enable this option when the port changes frequently and you are certain only one emulator is running.</system:String>
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
     <system:String x:Key="AccountSwitchManualRun">Switch now</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching.
