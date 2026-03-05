@@ -34,21 +34,34 @@
             VerticalAlignment="Center"
             Orientation="Horizontal"
             Visibility="{c:Binding '!UseAttachWindow'}">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox
-                    Margin="10,10,0,10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Content="{DynamicResource AutoDetectConnection}"
                     IsChecked="{Binding AutoDetectConnection}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource AutoDetectConnectionTip}" />
             </StackPanel>
-            <CheckBox
-                Margin="10"
-                VerticalAlignment="Center"
-                Content="{DynamicResource AlwaysAutoDetectConnection}"
-                IsChecked="{Binding AlwaysAutoDetectConnection}"
-                Visibility="{c:Binding AutoDetectConnection}" />
+            <StackPanel
+                Margin="5"
+                Orientation="Horizontal"
+                Visibility="{c:Binding AutoDetectConnection}">
+                <CheckBox Content="{DynamicResource AlwaysAutoDetectConnection}" IsChecked="{Binding AlwaysAutoDetectConnection}">
+                    <CheckBox.Style>
+                        <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Foreground" Value="{DynamicResource ErrorLogBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+                <controls:TooltipBlock TooltipText="{DynamicResource AlwaysAutoDetectConnectionTip}" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Row="1" HorizontalAlignment="Center">
