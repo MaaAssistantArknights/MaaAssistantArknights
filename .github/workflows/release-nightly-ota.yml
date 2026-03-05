@@ -263,6 +263,7 @@ jobs:
           rm -rf install/*.h
 
           cp tools/DependencySetup_依赖库安装.bat install
+          cp tools/RemoveAutoStartReg_移除开机自启注册表项.bat install
 
       - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v7
