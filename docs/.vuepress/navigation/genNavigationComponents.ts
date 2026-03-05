@@ -52,9 +52,9 @@ function getMetaData(dir: string, entry: fs.Dirent): MetaData | null {
   // 获取图标
   const icon = String(meta?.icon ?? '')
   // 是否添加到索引，文件永远为true，目录则看meta.index，默认true
-  const index = entry.isDirectory() ? (Boolean(meta?.index) ?? true) : true
+  const index = entry.isDirectory() ? Boolean(meta?.index ?? true) : true
   // 是否默认折叠，对文件无效，目录则看meta.collapsed，默认true
-  const collapsed = entry.isDirectory() ? (Boolean(meta?.collapsed) ?? true) : true
+  const collapsed = entry.isDirectory() ? Boolean(meta?.collapsed ?? true) : true
 
   return {
     baseName: baseName,
