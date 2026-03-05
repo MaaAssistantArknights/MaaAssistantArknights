@@ -35,6 +35,9 @@ public sealed class BaselineContractTests
             Assert.False(string.IsNullOrWhiteSpace(item.Evidence.LogPath));
             Assert.False(string.IsNullOrWhiteSpace(item.Evidence.Scope));
             Assert.False(string.IsNullOrWhiteSpace(item.Evidence.CaseId));
+
+            AssertParityAndWaiverConsistency(item.ParityStatus, item.Waiver);
+            AssertWaiverScopeSubset(item.WaiverScope, ["windows", "macos", "linux"], baseline.Themes, baseline.Locales, item.Waiver);
         });
 
         Assert.All(baseline.ConfigKeyMappings, mapping =>
@@ -48,6 +51,8 @@ public sealed class BaselineContractTests
             Assert.False(string.IsNullOrWhiteSpace(mapping.Evidence.LogPath));
             Assert.False(string.IsNullOrWhiteSpace(mapping.Evidence.Scope));
             Assert.False(string.IsNullOrWhiteSpace(mapping.Evidence.CaseId));
+
+            AssertParityAndWaiverConsistency(mapping.ParityStatus, mapping.Waiver);
         });
 
         Assert.All(baseline.FallbackCapabilities, capability =>
@@ -65,33 +70,98 @@ public sealed class BaselineContractTests
             Assert.False(string.IsNullOrWhiteSpace(capability.Evidence.LogPath));
             Assert.False(string.IsNullOrWhiteSpace(capability.Evidence.Scope));
             Assert.False(string.IsNullOrWhiteSpace(capability.Evidence.CaseId));
+
+            AssertParityAndWaiverConsistency(capability.ParityStatus, capability.Waiver);
+            AssertWaiverScopeSubset(capability.WaiverScope, ["windows", "macos", "linux"], baseline.Themes, baseline.Locales, capability.Waiver);
         });
 
         Assert.Equal(baseline.Items.Count(i => i.Kind == "Feature"), baseline.Metadata.FeatureItemCount);
         Assert.Equal(baseline.Items.Count(i => i.Kind == "System"), baseline.Metadata.SystemItemCount);
         Assert.Equal(baseline.ConfigKeyMappings.Count, baseline.Metadata.ConfigKeyCount);
         Assert.Equal(baseline.FallbackCapabilities.Count, baseline.Metadata.FallbackRecordCount);
+
+        Assert.All(acceptance.Cases, testCase =>
+        {
+            Assert.False(string.IsNullOrWhiteSpace(testCase.CaseId));
+            if (testCase.Waiver is not null)
+            {
+                AssertValidWaiver(testCase.Waiver);
+            }
+
+            AssertWaiverScopeSubset(testCase.WaiverScope, testCase.Platforms, testCase.Themes, testCase.Locales, testCase.Waiver);
+        });
     }
 
     [Fact]
     public void BaselineP0Policy_ShouldContainNoUnapprovedDefers()
     {
         var baseline = BaselineTestSupport.LoadBaseline();
+        var acceptance = BaselineTestSupport.LoadAcceptanceTemplate();
 
         Assert.All(baseline.Items, item => Assert.Equal(BaselineConstants.PriorityP0, item.Priority));
         Assert.All(baseline.ConfigKeyMappings, mapping => Assert.Equal(BaselineConstants.PriorityP0, mapping.Priority));
         Assert.All(baseline.FallbackCapabilities, capability => Assert.Equal(BaselineConstants.PriorityP0, capability.Priority));
 
+        var waivedItems = baseline.Items.Where(i => i.ParityStatus == "Waived").ToList();
         var waivedMappings = baseline.ConfigKeyMappings.Where(m => m.ParityStatus == "Waived").ToList();
+        var waivedCases = acceptance.Cases.Where(c => c.Waiver is not null).ToList();
+
+        foreach (var waived in waivedItems)
+        {
+            AssertValidWaiver(waived.Waiver);
+        }
 
         foreach (var waived in waivedMappings)
         {
-            Assert.NotNull(waived.Waiver);
-            Assert.False(string.IsNullOrWhiteSpace(waived.Waiver!.Owner));
-            Assert.False(string.IsNullOrWhiteSpace(waived.Waiver.Reason));
-            Assert.False(string.IsNullOrWhiteSpace(waived.Waiver.AlternativeValidation));
-            Assert.True(DateOnly.TryParse(waived.Waiver.ExpiresOn, out _));
+            AssertValidWaiver(waived.Waiver);
         }
+
+        foreach (var waived in waivedCases)
+        {
+            AssertValidWaiver(waived.Waiver);
+        }
+    }
+
+    private static void AssertParityAndWaiverConsistency(string parityStatus, WaiverSpec? waiver)
+    {
+        if (string.Equals(parityStatus, "Waived", StringComparison.Ordinal))
+        {
+            AssertValidWaiver(waiver);
+            return;
+        }
+
+        Assert.Null(waiver);
+    }
+
+    private static void AssertValidWaiver(WaiverSpec? waiver)
+    {
+        Assert.NotNull(waiver);
+        Assert.False(string.IsNullOrWhiteSpace(waiver!.Owner));
+        Assert.False(string.IsNullOrWhiteSpace(waiver.Reason));
+        Assert.False(string.IsNullOrWhiteSpace(waiver.AlternativeValidation));
+        Assert.True(DateOnly.TryParse(waiver.ExpiresOn, out var expiresOn));
+        Assert.True(expiresOn >= DateOnly.FromDateTime(DateTime.UtcNow.Date));
+    }
+
+    private static void AssertWaiverScopeSubset(
+        WaiverScope? waiverScope,
+        IEnumerable<string> allowedPlatforms,
+        IEnumerable<string> allowedThemes,
+        IEnumerable<string> allowedLocales,
+        WaiverSpec? waiver)
+    {
+        if (waiverScope is null)
+        {
+            return;
+        }
+
+        Assert.NotNull(waiver);
+        Assert.True(
+            waiverScope.Platforms.Count > 0 || waiverScope.Themes.Count > 0 || waiverScope.Locales.Count > 0,
+            "Waiver scope must include at least one constrained dimension.");
+        Assert.All(waiverScope.Platforms, platform => Assert.Contains(platform, allowedPlatforms));
+        Assert.All(waiverScope.Themes, theme => Assert.Contains(theme, allowedThemes));
+        Assert.All(waiverScope.Locales, locale => Assert.Contains(locale, allowedLocales));
     }
 }
 
@@ -166,12 +236,21 @@ internal static class BaselineTestSupport
 
         var featureAligned = featureItems.Count(i => i.ParityStatus == "Aligned");
         var featureGap = featureItems.Count(i => i.ParityStatus == "Gap");
+        var featureWaived = featureItems.Count(i => i.ParityStatus == "Waived");
         var cfgAligned = baseline.ConfigKeyMappings.Count(i => i.ParityStatus == "Aligned");
         var cfgGap = baseline.ConfigKeyMappings.Count(i => i.ParityStatus == "Gap");
+        var cfgWaived = baseline.ConfigKeyMappings.Count(i => i.ParityStatus == "Waived");
 
         var alignedMappings = baseline.ConfigKeyMappings
             .Where(m => m.ParityStatus == "Aligned" && !string.IsNullOrWhiteSpace(m.MappingTarget))
             .OrderBy(m => m.Key, StringComparer.Ordinal)
+            .ToList();
+        var featureWaivers = featureItems.Where(i => i.Waiver is not null).OrderBy(i => i.ItemId, StringComparer.Ordinal).ToList();
+        var mappingWaivers = baseline.ConfigKeyMappings.Where(m => m.Waiver is not null).OrderBy(m => m.Key, StringComparer.Ordinal).ToList();
+        var fallbackWaivers = baseline.FallbackCapabilities
+            .Where(row => row.Waiver is not null)
+            .OrderBy(row => row.CapabilityId, StringComparer.Ordinal)
+            .ThenBy(row => row.Platform, StringComparer.Ordinal)
             .ToList();
 
         var sb = new StringBuilder();
@@ -192,6 +271,7 @@ internal static class BaselineTestSupport
         sb.AppendLine("## Feature Parity");
         sb.AppendLine($"- Aligned: `{featureAligned}`");
         sb.AppendLine($"- Gap: `{featureGap}`");
+        sb.AppendLine($"- Waived: `{featureWaived}`");
         sb.AppendLine();
         sb.AppendLine("| Item ID | Group | Parity | Avalonia Path |");
         sb.AppendLine("| --- | --- | --- | --- |");
@@ -213,12 +293,54 @@ internal static class BaselineTestSupport
         sb.AppendLine("## Config Key Mapping Summary");
         sb.AppendLine($"- Aligned: `{cfgAligned}`");
         sb.AppendLine($"- Gap: `{cfgGap}`");
-        sb.AppendLine("- Waived: `0`");
+        sb.AppendLine($"- Waived: `{cfgWaived}`");
         sb.AppendLine();
         sb.AppendLine("### Aligned Config Keys");
         foreach (var mapping in alignedMappings)
         {
             sb.AppendLine($"- `{mapping.Key}` -> `{mapping.MappingTarget}`");
+        }
+
+        sb.AppendLine();
+        sb.AppendLine("## Waiver Entries");
+        if (featureWaivers.Count == 0 && mappingWaivers.Count == 0 && fallbackWaivers.Count == 0)
+        {
+            sb.AppendLine("- None");
+        }
+        else
+        {
+            if (featureWaivers.Count > 0)
+            {
+                sb.AppendLine("### Feature Waivers");
+                foreach (var row in featureWaivers)
+                {
+                    var waiver = row.Waiver!;
+                    sb.AppendLine(
+                        $"- `{row.ItemId}` owner={waiver.Owner}; expires_on={waiver.ExpiresOn}; reason={waiver.Reason}; alternative_validation={waiver.AlternativeValidation}{RenderWaiverScope(row.WaiverScope)}");
+                }
+            }
+
+            if (mappingWaivers.Count > 0)
+            {
+                sb.AppendLine("### Config Key Waivers");
+                foreach (var row in mappingWaivers)
+                {
+                    var waiver = row.Waiver!;
+                    sb.AppendLine(
+                        $"- `{row.Key}` owner={waiver.Owner}; expires_on={waiver.ExpiresOn}; reason={waiver.Reason}; alternative_validation={waiver.AlternativeValidation}");
+                }
+            }
+
+            if (fallbackWaivers.Count > 0)
+            {
+                sb.AppendLine("### Fallback Waivers");
+                foreach (var row in fallbackWaivers)
+                {
+                    var waiver = row.Waiver!;
+                    sb.AppendLine(
+                        $"- `{row.CapabilityId}:{row.Platform}` owner={waiver.Owner}; expires_on={waiver.ExpiresOn}; reason={waiver.Reason}; alternative_validation={waiver.AlternativeValidation}{RenderWaiverScope(row.WaiverScope)}");
+                }
+            }
         }
 
         sb.AppendLine();
@@ -273,6 +395,23 @@ internal static class BaselineTestSupport
             sb.AppendLine($"| `{testCase.CaseId}` | {testCase.Tier} | `{testCase.ItemId}` | {string.Join(", ", testCase.Platforms)} | {string.Join(", ", testCase.Themes)} | {string.Join(", ", testCase.Locales)} |");
         }
 
+        var caseWaivers = acceptance.Cases.Where(c => c.Waiver is not null).OrderBy(c => c.CaseId, StringComparer.Ordinal).ToList();
+        sb.AppendLine();
+        sb.AppendLine("## Case Waivers");
+        if (caseWaivers.Count == 0)
+        {
+            sb.AppendLine("- None");
+        }
+        else
+        {
+            foreach (var testCase in caseWaivers)
+            {
+                var waiver = testCase.Waiver!;
+                sb.AppendLine(
+                    $"- `{testCase.CaseId}` owner={waiver.Owner}; expires_on={waiver.ExpiresOn}; reason={waiver.Reason}; alternative_validation={waiver.AlternativeValidation}{RenderWaiverScope(testCase.WaiverScope)}");
+            }
+        }
+
         sb.AppendLine();
         sb.AppendLine("## Waiver Policy");
         sb.AppendLine($"- Allowed: `{acceptance.WaiverPolicy.AllowWaiver}`");
@@ -283,5 +422,33 @@ internal static class BaselineTestSupport
         sb.AppendLine("- This checklist file is generated from `acceptance.template.v1.json`.");
 
         return sb.ToString();
+    }
+
+    private static string RenderWaiverScope(WaiverScope? scope)
+    {
+        if (scope is null)
+        {
+            return string.Empty;
+        }
+
+        var segments = new List<string>();
+        if (scope.Platforms.Count > 0)
+        {
+            segments.Add($"platforms[{string.Join(",", scope.Platforms)}]");
+        }
+
+        if (scope.Themes.Count > 0)
+        {
+            segments.Add($"themes[{string.Join(",", scope.Themes)}]");
+        }
+
+        if (scope.Locales.Count > 0)
+        {
+            segments.Add($"locales[{string.Join(",", scope.Locales)}]");
+        }
+
+        return segments.Count == 0
+            ? string.Empty
+            : $"; scope={string.Join(" ", segments)}";
     }
 }

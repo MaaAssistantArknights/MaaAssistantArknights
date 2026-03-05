@@ -27,7 +27,7 @@ public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
 
     protected MAAUnifiedRuntime Runtime { get; }
 
-    protected LocalizedTextMap Texts { get; }
+    public LocalizedTextMap Texts { get; }
 
     protected string Scope { get; }
 
@@ -131,16 +131,32 @@ public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
             return false;
         }
 
+        var preValidationIssues = ValidateBeforeSave();
+        if (preValidationIssues.Any(i => i.Blocking))
+        {
+            ApplyValidationIssues(preValidationIssues);
+            var preMessage = BuildValidationSummary(preValidationIssues.Where(i => i.Blocking));
+            LastErrorMessage = preMessage;
+            await Runtime.DiagnosticsService.RecordFailedResultAsync(
+                $"{Scope}.Validate",
+                UiOperationResult.Fail("TaskValidationFailed", preMessage, BuildValidationDetails(preValidationIssues)),
+                cancellationToken);
+            return false;
+        }
+
         var dto = BuildDto();
         var compiled = CompileDto(dto, profile, Runtime.ConfigurationService.CurrentConfig);
-        ApplyValidationIssues(compiled.Issues);
-        if (compiled.HasBlockingIssues)
+        var allIssues = preValidationIssues.Count == 0
+            ? compiled.Issues
+            : preValidationIssues.Concat(compiled.Issues).ToList();
+        ApplyValidationIssues(allIssues);
+        if (allIssues.Any(i => i.Blocking))
         {
-            var message = BuildValidationSummary(compiled.Issues.Where(i => i.Blocking));
+            var message = BuildValidationSummary(allIssues.Where(i => i.Blocking));
             LastErrorMessage = message;
             await Runtime.DiagnosticsService.RecordFailedResultAsync(
                 $"{Scope}.Validate",
-                UiOperationResult.Fail("TaskValidationFailed", message, BuildValidationDetails(compiled.Issues)),
+                UiOperationResult.Fail("TaskValidationFailed", message, BuildValidationDetails(allIssues)),
                 cancellationToken);
             return false;
         }
@@ -205,6 +221,11 @@ public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
     protected static string BuildValidationDetails(IEnumerable<TaskValidationIssue> issues)
     {
         return string.Join(" | ", issues.Select(i => $"{i.Code}:{i.Field}:{i.Message}"));
+    }
+
+    protected virtual IReadOnlyList<TaskValidationIssue> ValidateBeforeSave()
+    {
+        return [];
     }
 
     protected abstract Task<UiOperationResult<TDto>> LoadDtoAsync(int index, CancellationToken cancellationToken);

@@ -2,14 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:settingsViews="clr-namespace:MAAUnified.App.Features.Settings"
              x:Class="MAAUnified.App.Features.Root.SettingsView">
-  <Grid ColumnDefinitions="220,*">
+  <Grid ColumnDefinitions="{StaticResource MAA.Layout.Settings.Columns}">
     <Border Grid.Column="0" Classes="section">
-      <StackPanel Spacing="8">
+      <StackPanel Spacing="{DynamicResource MAA.Spacing.Medium}">
         <TextBlock Classes="section-title" Text="设置段落 (15)" />
         <ListBox ItemsSource="{Binding Sections}" SelectedItem="{Binding SelectedSection}">
           <ListBox.ItemTemplate>
             <DataTemplate>
-              <TextBlock Text="{Binding DisplayName}" />
+              <TextBlock Classes="long-ellipsis" Text="{Binding DisplayName}" />
             </DataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>
@@ -18,18 +18,21 @@
 
     <Border Grid.Column="1" Classes="section">
       <Grid RowDefinitions="Auto,*">
-        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*">
-          <Button Content="保存 GUI 设置" Click="OnSaveGuiClick" />
-          <Button Grid.Column="1" Content="保存远程控制" Click="OnSaveRemoteClick" />
-          <Button Grid.Column="2" Content="注册热键" Click="OnRegisterHotkeysClick" />
-          <Button Grid.Column="3" Content="测试通知" Click="OnTestNotificationClick" />
-          <Button Grid.Column="4" Content="应用开机启动" Click="OnApplyAutostartClick" />
-          <Button Grid.Column="5" Content="保存连接/游戏设置" Click="OnSaveConnectionGameClick" />
-          <TextBlock Grid.Column="6" VerticalAlignment="Center" Text="{Binding StatusMessage}" />
+        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*">
+          <Button Classes="action" Content="保存 GUI 设置" Click="OnSaveGuiClick" />
+          <Button Grid.Column="1" Classes="action" Content="保存远程控制" Click="OnSaveRemoteClick" />
+          <Button Grid.Column="2" Classes="action" Content="注册热键" Click="OnRegisterHotkeysClick" />
+          <Button Grid.Column="3" Classes="action" Content="测试通知" Click="OnTestNotificationClick" />
+          <Button Grid.Column="4" Classes="action" Content="应用开机启动" Click="OnApplyAutostartClick" />
+          <Button Grid.Column="5" Classes="action" Content="保存连接/游戏设置" Click="OnSaveConnectionGameClick" />
+          <Button Grid.Column="6" Classes="action" Content="保存启动/性能设置" Click="OnSaveStartPerformanceClick" />
+          <Button Grid.Column="7" Classes="action" Content="保存定时设置" Click="OnSaveTimerClick" />
+          <Button Grid.Column="8" Classes="action" Content="切换语言" Click="OnSwitchLanguageClick" />
+          <TextBlock Grid.Column="9" VerticalAlignment="Center" Classes="long-wrap" Text="{Binding StatusMessage}" />
         </Grid>
 
         <ScrollViewer Grid.Row="1">
-          <StackPanel Spacing="10">
+          <StackPanel Spacing="{DynamicResource MAA.Spacing.Large}">
             <Expander Header="Configuration Manager" IsExpanded="True">
               <settingsViews:ConfigurationManagerView />
             </Expander>

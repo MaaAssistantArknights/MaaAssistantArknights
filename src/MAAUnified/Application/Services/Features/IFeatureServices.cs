@@ -22,9 +22,27 @@ public interface IConnectFeatureService
     Task<UiOperationResult<ImportReport>> ImportLegacyConfigAsync(ImportSource source, bool manualImport, CancellationToken cancellationToken = default);
 }
 
+public interface IShellFeatureService
+{
+    Task<UiOperationResult> ConnectAsync(string address, string config, string? adbPath, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<ImportReport>> ImportLegacyConfigAsync(ImportSource source, bool manualImport, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<string>> SwitchLanguageAsync(
+        string currentLanguage,
+        string? targetLanguage = null,
+        CancellationToken cancellationToken = default);
+
+    IReadOnlyList<string> GetSupportedLanguages();
+}
+
 public interface ITaskQueueFeatureService
 {
     Task<CoreResult<int>> QueueEnabledTasksAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<IReadOnlyList<TaskQueuePrecheckWarning>>> GetStartPrecheckWarningsAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<IReadOnlyList<TaskQueuePrecheckWarning>>> ApplyStartPrecheckDowngradesAsync(CancellationToken cancellationToken = default);
 
     Task<UiOperationResult<IReadOnlyList<UnifiedTaskItem>>> GetCurrentTaskQueueAsync(CancellationToken cancellationToken = default);
 
@@ -52,13 +70,25 @@ public interface ITaskQueueFeatureService
 
     Task<UiOperationResult<RecruitTaskParamsDto>> GetRecruitParamsAsync(int index, CancellationToken cancellationToken = default);
 
+    Task<UiOperationResult<RoguelikeTaskParamsDto>> GetRoguelikeParamsAsync(int index, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<ReclamationTaskParamsDto>> GetReclamationParamsAsync(int index, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<CustomTaskParamsDto>> GetCustomParamsAsync(int index, CancellationToken cancellationToken = default);
+
     Task<UiOperationResult> SaveStartUpParamsAsync(int index, StartUpTaskParamsDto dto, CancellationToken cancellationToken = default);
 
     Task<UiOperationResult> SaveFightParamsAsync(int index, FightTaskParamsDto dto, CancellationToken cancellationToken = default);
 
     Task<UiOperationResult> SaveRecruitParamsAsync(int index, RecruitTaskParamsDto dto, CancellationToken cancellationToken = default);
 
-    Task<UiOperationResult<IReadOnlyList<TaskValidationIssue>>> ValidateTaskAsync(int index, CancellationToken cancellationToken = default);
+    Task<UiOperationResult> SaveRoguelikeParamsAsync(int index, RoguelikeTaskParamsDto dto, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SaveReclamationParamsAsync(int index, ReclamationTaskParamsDto dto, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SaveCustomParamsAsync(int index, CustomTaskParamsDto dto, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<TaskValidationReport>> ValidateTaskAsync(int index, CancellationToken cancellationToken = default);
 
     Task<UiOperationResult> FlushTaskParamWritesAsync(CancellationToken cancellationToken = default);
 
@@ -80,12 +110,19 @@ public interface IToolboxFeatureService
 {
     Task<string> RunToolAsync(string toolName, CancellationToken cancellationToken = default);
 
-    Task<UiOperationResult<string>> ExecuteToolAsync(string toolName, CancellationToken cancellationToken = default);
+    Task<UiOperationResult<string>> ExecuteToolAsync(
+        string toolName,
+        string? parameterSummary = null,
+        CancellationToken cancellationToken = default);
 }
 
 public interface IRemoteControlFeatureService
 {
     Task<CoreResult<bool>> StartRemotePollingAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<RemoteControlConnectivityResult>> TestConnectivityAsync(
+        RemoteControlConnectivityRequest request,
+        CancellationToken cancellationToken = default);
 }
 
 public interface IOverlayFeatureService
@@ -102,11 +139,23 @@ public interface IOverlayFeatureService
 public interface INotificationProviderFeatureService
 {
     Task<string[]> GetAvailableProvidersAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> ValidateProviderParametersAsync(
+        NotificationProviderRequest request,
+        CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SendTestAsync(
+        NotificationProviderTestRequest request,
+        CancellationToken cancellationToken = default);
 }
 
 public interface ISettingsFeatureService
 {
     Task<UiOperationResult> SaveGlobalSettingAsync(string key, string value, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SaveGlobalSettingsAsync(
+        IReadOnlyDictionary<string, string> updates,
+        CancellationToken cancellationToken = default);
 
     Task<UiOperationResult> TestNotificationAsync(string title, string message, CancellationToken cancellationToken = default);
 
@@ -117,6 +166,55 @@ public interface ISettingsFeatureService
     Task<UiOperationResult> SetAutostartAsync(bool enabled, CancellationToken cancellationToken = default);
 
     Task<UiOperationResult<string>> BuildIssueReportAsync(CancellationToken cancellationToken = default);
+}
+
+public interface IVersionUpdateFeatureService
+{
+    Task<UiOperationResult<VersionUpdatePolicy>> LoadPolicyAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SavePolicyAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<string>> CheckForUpdatesAsync(
+        VersionUpdatePolicy policy,
+        CancellationToken cancellationToken = default);
+}
+
+public interface IAchievementFeatureService
+{
+    Task<UiOperationResult<AchievementPolicy>> LoadPolicyAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SavePolicyAsync(AchievementPolicy policy, CancellationToken cancellationToken = default);
+}
+
+public interface IAnnouncementFeatureService
+{
+    Task<UiOperationResult<AnnouncementState>> LoadStateAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SaveStateAsync(AnnouncementState state, CancellationToken cancellationToken = default);
+}
+
+public interface IStageManagerFeatureService
+{
+    Task<UiOperationResult<StageManagerConfig>> LoadConfigAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SaveConfigAsync(StageManagerConfig config, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<IReadOnlyList<string>>> ValidateStageCodesAsync(
+        string stageCodesText,
+        CancellationToken cancellationToken = default);
+}
+
+public interface IWebApiFeatureService
+{
+    Task<UiOperationResult<WebApiConfig>> LoadConfigAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SaveConfigAsync(WebApiConfig config, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<bool>> GetRunningStatusAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> StartAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> StopAsync(CancellationToken cancellationToken = default);
 }
 
 public interface IPlatformCapabilityService

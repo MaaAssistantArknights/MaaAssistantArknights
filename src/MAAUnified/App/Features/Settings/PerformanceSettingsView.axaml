@@ -1,13 +1,33 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.PerformanceSettingsView">
-  <StackPanel Margin="4" Spacing="6">
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
     <TextBlock Classes="section-title" Text="Performance" />
-    <WrapPanel ItemWidth="220">
-      <CheckBox Content="启用 GPU 推理" />
-      <CheckBox Content="过滤弃用项" />
-      <CheckBox Content="启用低功耗模式" />
-      <CheckBox Content="任务日志限流" />
-    </WrapPanel>
-  </StackPanel>
+
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto" Margin="0,6,0,0">
+      <CheckBox Content="启用 GPU 推理" IsChecked="{Binding PerformanceUseGpu}" />
+      <TextBlock Grid.Column="1" Margin="6,0,14,0" VerticalAlignment="Center" Opacity="0.7" Text="重启后生效" />
+      <CheckBox Grid.Column="2" Content="允许弃用 GPU" IsChecked="{Binding PerformanceAllowDeprecatedGpu}" />
+      <TextBlock Grid.Column="3" Margin="6,0,0,0" VerticalAlignment="Center" Opacity="0.7" Text="重启后生效" />
+    </Grid>
+
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,*" Margin="0,8,0,0">
+      <TextBlock VerticalAlignment="Center" Text="Preferred GPU Description" />
+      <TextBox Grid.Column="1" Text="{Binding PerformancePreferredGpuDescription}" />
+    </Grid>
+
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,*" Margin="0,8,0,0">
+      <TextBlock VerticalAlignment="Center" Text="Preferred GPU InstancePath" />
+      <TextBox Grid.Column="1" Text="{Binding PerformancePreferredGpuInstancePath}" />
+    </Grid>
+
+    <StackPanel Grid.Row="4" Margin="0,8,0,0" Spacing="4">
+      <TextBlock Classes="state-warning"
+                 Text="{Binding StartPerformanceValidationMessage}"
+                 IsVisible="{Binding HasStartPerformanceValidationMessage}" />
+      <TextBlock Classes="state-warning"
+                 Text="存在未保存的 Start/Performance 变更。"
+                 IsVisible="{Binding HasPendingStartPerformanceChanges}" />
+    </StackPanel>
+  </Grid>
 </UserControl>

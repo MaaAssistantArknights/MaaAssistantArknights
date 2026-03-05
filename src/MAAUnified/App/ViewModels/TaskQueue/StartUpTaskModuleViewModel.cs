@@ -194,13 +194,6 @@ public sealed class StartUpTaskModuleViewModel : TypedTaskModuleViewModelBase<St
     protected override void ApplyDto(StartUpTaskParamsDto dto)
     {
         AccountName = dto.AccountName;
-        ClientType = dto.ClientType;
-        StartGameEnabled = dto.StartGameEnabled;
-        ConnectConfig = dto.ConnectConfig;
-        ConnectAddress = dto.ConnectAddress;
-        AdbPath = dto.AdbPath;
-        TouchMode = dto.TouchMode;
-        AutoDetectConnection = dto.AutoDetectConnection;
         AttachWindowScreencapMethod = dto.AttachWindowScreencapMethod;
         AttachWindowMouseMethod = dto.AttachWindowMouseMethod;
         AttachWindowKeyboardMethod = dto.AttachWindowKeyboardMethod;

@@ -1,21 +1,50 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.StartSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
     <TextBlock Classes="section-title" Text="Start" />
-    <WrapPanel Grid.Row="1" ItemWidth="200">
+
+    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8" Margin="0,6,0,0">
       <CheckBox Content="开机启动" IsChecked="{Binding StartSelf}" />
-      <CheckBox Content="启动后最小化" />
-      <CheckBox Content="自动开模拟器" />
-      <CheckBox Content="自动重连" />
-    </WrapPanel>
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,260,Auto,220">
-      <TextBlock VerticalAlignment="Center" Text="模拟器路径" />
-      <TextBox />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="附加参数" />
-      <TextBox Grid.Column="3" />
+      <TextBlock VerticalAlignment="Center" Opacity="0.7" Text="即时生效（点击顶部“应用开机启动”）" />
+    </StackPanel>
+
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,Auto" Margin="0,8,0,0">
+      <CheckBox Content="启动后执行任务" IsChecked="{Binding RunDirectly}" />
+      <TextBlock Grid.Column="1" Margin="6,0,14,0" VerticalAlignment="Center" Opacity="0.7" Text="下次启动生效" />
+      <CheckBox Grid.Column="2" Content="启动后最小化" IsChecked="{Binding MinimizeDirectly}" />
+      <TextBlock Grid.Column="3" Margin="6,0,0,0" VerticalAlignment="Center" Opacity="0.7" Text="下次启动生效" />
     </Grid>
-    <TextBlock Grid.Row="3" Text="重连策略与等待时间在连接页联动配置。" />
-    <TextBlock Grid.Row="4" Text="{Binding AutostartStatus}" />
+
+    <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+      <CheckBox Content="自动开模拟器" IsChecked="{Binding OpenEmulatorAfterLaunch}" />
+      <TextBlock VerticalAlignment="Center" Opacity="0.7" Text="下次执行生效" />
+    </StackPanel>
+
+    <Grid Grid.Row="4" ColumnDefinitions="Auto,260,Auto,220" Margin="0,8,0,0">
+      <TextBlock VerticalAlignment="Center" Text="模拟器路径" />
+      <TextBox Text="{Binding EmulatorPath}" Watermark="/path/to/emulator" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="附加参数" />
+      <TextBox Grid.Column="3" Text="{Binding EmulatorAddCommand}" />
+    </Grid>
+
+    <Grid Grid.Row="5" ColumnDefinitions="Auto,120,Auto" Margin="0,8,0,0">
+      <TextBlock VerticalAlignment="Center" Text="等待秒数" />
+      <NumericUpDown Grid.Column="1"
+                     Minimum="0"
+                     Maximum="600"
+                     Value="{Binding EmulatorWaitSeconds}" />
+      <TextBlock Grid.Column="2" Margin="8,0,0,0" VerticalAlignment="Center" Opacity="0.7" Text="范围 0-600，下次执行生效" />
+    </Grid>
+
+    <StackPanel Grid.Row="6" Margin="0,8,0,0" Spacing="4">
+      <TextBlock Classes="state-warning"
+                 Text="{Binding StartPerformanceValidationMessage}"
+                 IsVisible="{Binding HasStartPerformanceValidationMessage}" />
+      <TextBlock Classes="state-warning"
+                 Text="存在未保存的 Start/Performance 变更。"
+                 IsVisible="{Binding HasPendingStartPerformanceChanges}" />
+      <TextBlock Text="{Binding AutostartStatus}" />
+    </StackPanel>
   </Grid>
 </UserControl>

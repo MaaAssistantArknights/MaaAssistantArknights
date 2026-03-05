@@ -1,16 +1,13 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.GuiSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
     <TextBlock Classes="section-title" Text="GUI" />
     <Grid Grid.Row="1" ColumnDefinitions="Auto,120,Auto,120,Auto,140">
       <TextBlock VerticalAlignment="Center" Text="主题" />
-      <ComboBox SelectedItem="{Binding Theme}">
-        <ComboBoxItem Content="Light" />
-        <ComboBoxItem Content="Dark" />
-      </ComboBox>
+      <ComboBox ItemsSource="{Binding ThemeOptions}" SelectedItem="{Binding Theme}" />
       <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="语言" />
-      <TextBox Grid.Column="3" Text="{Binding Language}" />
+      <ComboBox Grid.Column="3" ItemsSource="{Binding SupportedLanguages}" SelectedItem="{Binding Language}" />
       <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="日志模式" />
       <ComboBox Grid.Column="5" SelectedIndex="0">
         <ComboBoxItem Content="普通日志" />
@@ -23,6 +20,8 @@
       <CheckBox Content="标题滚动" IsChecked="{Binding WindowTitleScrollable}" />
       <CheckBox Content="坏模块渲染策略：报错可见" IsChecked="True" />
     </WrapPanel>
-    <TextBlock Grid.Row="3" Text="隐藏/菜单行为保持与 Windows 客户端一致。" />
+    <TextBlock Grid.Row="3" Classes="state-warning" Text="{Binding GuiValidationMessage}" IsVisible="{Binding HasGuiValidationMessage}" />
+    <TextBlock Grid.Row="4" Classes="state-warning" Text="存在未保存的 GUI 变更。" IsVisible="{Binding HasPendingGuiChanges}" />
+    <TextBlock Grid.Row="5" Text="隐藏/菜单行为保持与 Windows 客户端一致。已启用 GUI 自动保存（文本提交时，勾选即时）。" />
   </Grid>
 </UserControl>

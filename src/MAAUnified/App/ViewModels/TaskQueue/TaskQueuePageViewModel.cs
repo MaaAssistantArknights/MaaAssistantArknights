@@ -5,7 +5,9 @@ using Avalonia.Threading;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.App.ViewModels.Settings;
 using MAAUnified.Application.Models;
+using MAAUnified.Application.Models.TaskParams;
 using MAAUnified.Application.Services;
+using MAAUnified.Application.Services.Localization;
 using MAAUnified.CoreBridge;
 using MAAUnified.Compat.Mapping;
 using MAAUnified.Platform;
@@ -15,7 +17,10 @@ namespace MAAUnified.App.ViewModels.TaskQueue;
 public sealed class TaskQueuePageViewModel : PageViewModelBase
 {
     private readonly SemaphoreSlim _taskBindingLock = new(1, 1);
+    private readonly object _pendingBindingGate = new();
     private readonly ConnectionGameSharedStateViewModel _connectionGameSharedState;
+    private readonly Action<LocalizationFallbackInfo>? _localizationFallbackReporter;
+    private Task _pendingBindingTask = Task.CompletedTask;
     private bool _isRunning;
     private bool _hasBlockingConfigIssues;
     private int _blockingConfigIssueCount;
@@ -29,13 +34,21 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
     private OverlayTarget? _selectedOverlayTarget = new("preview", "Preview + Logs", true);
     private bool _overlayVisible;
     private string _currentRunId = "-";
+    private string _selectedTaskValidationSummary = string.Empty;
+    private bool _selectedTaskHasBlockingValidationIssues;
+    private int _selectedTaskValidationIssueCount;
+    private string _startPrecheckWarningMessage = string.Empty;
     private TaskRuntimeStatusSnapshot? _lastRuntimeStatus;
     private TaskQueueItemViewModel? _selectedTask;
 
-    public TaskQueuePageViewModel(MAAUnifiedRuntime runtime, ConnectionGameSharedStateViewModel connectionGameSharedState)
+    public TaskQueuePageViewModel(
+        MAAUnifiedRuntime runtime,
+        ConnectionGameSharedStateViewModel connectionGameSharedState,
+        Action<LocalizationFallbackInfo>? localizationFallbackReporter = null)
         : base(runtime)
     {
         _connectionGameSharedState = connectionGameSharedState;
+        _localizationFallbackReporter = localizationFallbackReporter;
         TaskModules = new ObservableCollection<string>(WpfFeatureBaseline.TaskModules);
         Tasks = new ObservableCollection<TaskQueueItemViewModel>();
         Logs = new ObservableCollection<string>();
@@ -53,6 +66,9 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         InfrastModule = new InfrastModuleViewModel(runtime, Texts);
         MallModule = new MallModuleViewModel(runtime, Texts);
         AwardModule = new AwardModuleViewModel(runtime, Texts);
+        RoguelikeModule = new RoguelikeModuleViewModel(runtime, Texts);
+        ReclamationModule = new ReclamationModuleViewModel(runtime, Texts);
+        CustomModule = new CustomModuleViewModel(runtime, Texts);
         PostActionModule = new PostActionModuleViewModel(runtime, Texts);
 
         runtime.LogService.LogReceived += log =>
@@ -73,7 +89,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         {
             Dispatcher.UIThread.Post(() =>
             {
-                Texts.Language = ResolveLanguage();
+                SetLanguage(ResolveLanguage());
                 RefreshConfigValidationState(runtime.ConfigurationService.CurrentValidationIssues);
             });
         };
@@ -101,6 +117,12 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
 
     public AwardModuleViewModel AwardModule { get; }
 
+    public RoguelikeModuleViewModel RoguelikeModule { get; }
+
+    public ReclamationModuleViewModel ReclamationModule { get; }
+
+    public CustomModuleViewModel CustomModule { get; }
+
     public PostActionModuleViewModel PostActionModule { get; }
 
     public TaskRuntimeStatusSnapshot? LastRuntimeStatus
@@ -108,6 +130,38 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         get => _lastRuntimeStatus;
         private set => SetProperty(ref _lastRuntimeStatus, value);
     }
+
+    public string SelectedTaskValidationSummary
+    {
+        get => _selectedTaskValidationSummary;
+        private set => SetProperty(ref _selectedTaskValidationSummary, value);
+    }
+
+    public bool SelectedTaskHasBlockingValidationIssues
+    {
+        get => _selectedTaskHasBlockingValidationIssues;
+        private set => SetProperty(ref _selectedTaskHasBlockingValidationIssues, value);
+    }
+
+    public int SelectedTaskValidationIssueCount
+    {
+        get => _selectedTaskValidationIssueCount;
+        private set => SetProperty(ref _selectedTaskValidationIssueCount, value);
+    }
+
+    public string StartPrecheckWarningMessage
+    {
+        get => _startPrecheckWarningMessage;
+        private set
+        {
+            if (SetProperty(ref _startPrecheckWarningMessage, value))
+            {
+                OnPropertyChanged(nameof(HasStartPrecheckWarningMessage));
+            }
+        }
+    }
+
+    public bool HasStartPrecheckWarningMessage => !string.IsNullOrWhiteSpace(StartPrecheckWarningMessage);
 
     public TaskQueueItemViewModel? SelectedTask
     {
@@ -120,7 +174,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             }
 
             RenameTargetName = value?.Name ?? string.Empty;
-            _ = BindSelectedTaskAsync();
+            ScheduleBindSelectedTask();
         }
     }
 
@@ -218,7 +272,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
-        Texts.Language = ResolveLanguage();
+        SetLanguage(ResolveLanguage());
         RefreshConfigValidationState(Runtime.ConfigurationService.CurrentValidationIssues);
         await ReloadTasksAsync(cancellationToken);
         await ReloadOverlayTargetsAsync(cancellationToken);
@@ -227,7 +281,12 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
 
     public void SetLanguage(string language)
     {
-        Texts.Language = language;
+        Texts.Language = UiLanguageCatalog.Normalize(language);
+        DailyStageHint = Texts.GetOrDefault(
+            "TaskQueue.DailyStageHintDefault",
+            "Daily stage hints will be shown after resources are loaded.");
+        OverlayStatusText = Texts.GetOrDefault("TaskQueue.OverlayDisconnected", "Overlay disconnected");
+        _ = RefreshOverlayStatusTextAsync();
     }
 
     public async Task ReloadTasksAsync(CancellationToken cancellationToken = default)
@@ -249,6 +308,29 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         }
 
         SelectedTask = Tasks.FirstOrDefault();
+        await WaitForPendingBindingAsync(cancellationToken);
+    }
+
+    public async Task WaitForPendingBindingAsync(CancellationToken cancellationToken = default)
+    {
+        while (true)
+        {
+            Task pending;
+            lock (_pendingBindingGate)
+            {
+                pending = _pendingBindingTask;
+            }
+
+            await pending.WaitAsync(cancellationToken);
+
+            lock (_pendingBindingGate)
+            {
+                if (ReferenceEquals(pending, _pendingBindingTask))
+                {
+                    return;
+                }
+            }
+        }
     }
 
     public async Task AddTaskAsync(CancellationToken cancellationToken = default)
@@ -382,6 +464,47 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             return;
         }
 
+        var precheckWarnings = await Runtime.TaskQueueFeatureService.GetStartPrecheckWarningsAsync(cancellationToken);
+        if (!precheckWarnings.Success)
+        {
+            _ = await ApplyResultAsync(precheckWarnings, "TaskQueue.Start.Precheck", cancellationToken);
+            return;
+        }
+
+        var warnings = precheckWarnings.Value ?? [];
+        if (warnings.Count > 0)
+        {
+            StartPrecheckWarningMessage = string.Join(
+                " ",
+                warnings.Select(static warning => warning.Message));
+            await Runtime.DiagnosticsService.RecordEventAsync(
+                "TaskQueue.Start.PrecheckWarning",
+                StartPrecheckWarningMessage,
+                cancellationToken);
+        }
+        else
+        {
+            StartPrecheckWarningMessage = string.Empty;
+        }
+
+        if (warnings.Any(static warning => string.Equals(
+                warning.Code,
+                UiErrorCode.MallCreditFightDowngraded,
+                StringComparison.Ordinal)))
+        {
+            var downgradeResult = await Runtime.TaskQueueFeatureService.ApplyStartPrecheckDowngradesAsync(cancellationToken);
+            if (!downgradeResult.Success)
+            {
+                _ = await ApplyResultAsync(downgradeResult, "TaskQueue.Start.PrecheckApply", cancellationToken);
+                return;
+            }
+        }
+
+        if (!await ValidateEnabledTasksBeforeStartAsync(cancellationToken))
+        {
+            return;
+        }
+
         RefreshConfigValidationState(Runtime.ConfigurationService.RevalidateCurrentConfig());
         if (HasBlockingConfigIssues)
         {
@@ -422,6 +545,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         }
 
         IsRunning = false;
+        StartPrecheckWarningMessage = string.Empty;
         foreach (var task in Tasks.Where(t => t.Status == "Running"))
         {
             task.Status = "Success";
@@ -439,6 +563,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         }
 
         IsRunning = false;
+        StartPrecheckWarningMessage = string.Empty;
         foreach (var task in Tasks.Where(t => t.Status == "Running"))
         {
             task.Status = "Skipped";
@@ -475,7 +600,10 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         }
         else
         {
-            OverlayStatusText = PlatformCapabilityTextMap.FormatSnapshotUnavailable(Texts.Language, snapshotResult.Message);
+            OverlayStatusText = PlatformCapabilityTextMap.FormatSnapshotUnavailable(
+                Texts.Language,
+                snapshotResult.Message,
+                _localizationFallbackReporter);
         }
     }
 
@@ -491,13 +619,123 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
 
     private string BuildCapabilityLine(PlatformCapabilityId capability, PlatformCapabilityStatus status)
     {
-        return PlatformCapabilityTextMap.FormatCapabilityLine(Texts.Language, capability, status);
+        return PlatformCapabilityTextMap.FormatCapabilityLine(
+            Texts.Language,
+            capability,
+            status,
+            _localizationFallbackReporter);
     }
 
     private void RefreshConfigValidationState(IReadOnlyList<ConfigValidationIssue> issues)
     {
         BlockingConfigIssueCount = issues.Count(i => i.Blocking);
         HasBlockingConfigIssues = BlockingConfigIssueCount > 0;
+    }
+
+    private void ResetSelectedTaskValidationSummary()
+    {
+        SelectedTaskValidationIssueCount = 0;
+        SelectedTaskHasBlockingValidationIssues = false;
+        SelectedTaskValidationSummary = string.Empty;
+    }
+
+    private async Task RefreshSelectedTaskValidationSummaryAsync(int index, CancellationToken cancellationToken)
+    {
+        var result = await Runtime.TaskQueueFeatureService.ValidateTaskAsync(index, cancellationToken);
+        if (!result.Success || result.Value is null)
+        {
+            SelectedTaskValidationIssueCount = 0;
+            SelectedTaskHasBlockingValidationIssues = false;
+            SelectedTaskValidationSummary = Texts.GetOrDefault(
+                "TaskQueue.Validation.LoadFailed",
+                "Failed to load validation report.");
+            LastErrorMessage = result.Message;
+            return;
+        }
+
+        UpdateSelectedTaskValidationSummary(result.Value);
+    }
+
+    private void UpdateSelectedTaskValidationSummary(TaskValidationReport report)
+    {
+        SelectedTaskValidationIssueCount = report.Issues.Count;
+        SelectedTaskHasBlockingValidationIssues = report.HasBlockingIssues;
+
+        if (report.Issues.Count == 0)
+        {
+            SelectedTaskValidationSummary = Texts.GetOrDefault(
+                "TaskQueue.Validation.Clean",
+                "Validation passed.");
+            return;
+        }
+
+        if (report.HasBlockingIssues)
+        {
+            var blockingCount = report.Issues.Count(i => i.Blocking);
+            SelectedTaskValidationSummary = string.Format(
+                Texts.GetOrDefault("TaskQueue.Validation.BlockingCount", "{0} blocking issue(s)."),
+                blockingCount);
+            return;
+        }
+
+        SelectedTaskValidationSummary = string.Format(
+            Texts.GetOrDefault("TaskQueue.Validation.WarningCount", "{0} warning issue(s)."),
+            report.Issues.Count);
+    }
+
+    private async Task<bool> ValidateEnabledTasksBeforeStartAsync(CancellationToken cancellationToken)
+    {
+        for (var index = 0; index < Tasks.Count; index++)
+        {
+            if (!Tasks[index].IsEnabled)
+            {
+                continue;
+            }
+
+            var result = await Runtime.TaskQueueFeatureService.ValidateTaskAsync(index, cancellationToken);
+            if (!result.Success || result.Value is null)
+            {
+                LastErrorMessage = result.Message;
+                await Runtime.DiagnosticsService.RecordFailedResultAsync(
+                    "TaskQueue.ValidateTask",
+                    UiOperationResult.Fail(
+                        result.Error?.Code ?? UiErrorCode.TaskValidationFailed,
+                        result.Message,
+                        result.Error?.Details),
+                    cancellationToken);
+                return false;
+            }
+
+            var report = result.Value;
+            if (SelectedTask is not null && Tasks.IndexOf(SelectedTask) == index)
+            {
+                UpdateSelectedTaskValidationSummary(report);
+            }
+
+            if (!report.HasBlockingIssues)
+            {
+                continue;
+            }
+
+            var firstBlocking = report.Issues.First(i => i.Blocking);
+            var issueDetail = $"{firstBlocking.Code}:{firstBlocking.Field}:{firstBlocking.Message}";
+            LastErrorMessage = string.Format(
+                Texts.GetOrDefault(
+                    "TaskQueue.Error.BlockingValidation",
+                    "Task `{0}` blocked by validation: {1}"),
+                report.TaskName,
+                issueDetail);
+            await Runtime.DiagnosticsService.RecordFailedResultAsync(
+                "TaskQueue.ValidateTask",
+                UiOperationResult.Fail(
+                    UiErrorCode.TaskValidationFailed,
+                    LastErrorMessage,
+                    issueDetail),
+                cancellationToken);
+            return false;
+        }
+
+        return true;
     }
 
     private async Task BindSelectedTaskAsync(CancellationToken cancellationToken = default)
@@ -513,12 +751,14 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             if (SelectedTask is null)
             {
                 ClearTaskModuleBindings();
+                ResetSelectedTaskValidationSummary();
                 return;
             }
 
             var index = Tasks.IndexOf(SelectedTask);
             if (index < 0)
             {
+                ResetSelectedTaskValidationSummary();
                 return;
             }
 
@@ -531,6 +771,10 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
                 InfrastModule.ClearBinding();
                 MallModule.ClearBinding();
                 AwardModule.ClearBinding();
+                RoguelikeModule.ClearBinding();
+                ReclamationModule.ClearBinding();
+                CustomModule.ClearBinding();
+                await RefreshSelectedTaskValidationSummaryAsync(index, cancellationToken);
                 return;
             }
 
@@ -542,6 +786,10 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
                 InfrastModule.ClearBinding();
                 MallModule.ClearBinding();
                 AwardModule.ClearBinding();
+                RoguelikeModule.ClearBinding();
+                ReclamationModule.ClearBinding();
+                CustomModule.ClearBinding();
+                await RefreshSelectedTaskValidationSummaryAsync(index, cancellationToken);
                 return;
             }
 
@@ -553,17 +801,70 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
                 InfrastModule.ClearBinding();
                 MallModule.ClearBinding();
                 AwardModule.ClearBinding();
+                RoguelikeModule.ClearBinding();
+                ReclamationModule.ClearBinding();
+                CustomModule.ClearBinding();
+                await RefreshSelectedTaskValidationSummaryAsync(index, cancellationToken);
+                return;
+            }
+
+            if (string.Equals(moduleType, TaskModuleTypes.Roguelike, StringComparison.OrdinalIgnoreCase))
+            {
+                await RoguelikeModule.BindAsync(index, cancellationToken);
+                StartUpModule.ClearBinding();
+                FightModule.ClearBinding();
+                RecruitModule.ClearBinding();
+                InfrastModule.ClearBinding();
+                MallModule.ClearBinding();
+                AwardModule.ClearBinding();
+                ReclamationModule.ClearBinding();
+                CustomModule.ClearBinding();
+                await RefreshSelectedTaskValidationSummaryAsync(index, cancellationToken);
+                return;
+            }
+
+            if (string.Equals(moduleType, TaskModuleTypes.Reclamation, StringComparison.OrdinalIgnoreCase))
+            {
+                await ReclamationModule.BindAsync(index, cancellationToken);
+                StartUpModule.ClearBinding();
+                FightModule.ClearBinding();
+                RecruitModule.ClearBinding();
+                InfrastModule.ClearBinding();
+                MallModule.ClearBinding();
+                AwardModule.ClearBinding();
+                RoguelikeModule.ClearBinding();
+                CustomModule.ClearBinding();
+                await RefreshSelectedTaskValidationSummaryAsync(index, cancellationToken);
+                return;
+            }
+
+            if (string.Equals(moduleType, TaskModuleTypes.Custom, StringComparison.OrdinalIgnoreCase))
+            {
+                await CustomModule.BindAsync(index, cancellationToken);
+                StartUpModule.ClearBinding();
+                FightModule.ClearBinding();
+                RecruitModule.ClearBinding();
+                InfrastModule.ClearBinding();
+                MallModule.ClearBinding();
+                AwardModule.ClearBinding();
+                RoguelikeModule.ClearBinding();
+                ReclamationModule.ClearBinding();
+                await RefreshSelectedTaskValidationSummaryAsync(index, cancellationToken);
                 return;
             }
 
             StartUpModule.ClearBinding();
             FightModule.ClearBinding();
             RecruitModule.ClearBinding();
+            RoguelikeModule.ClearBinding();
+            ReclamationModule.ClearBinding();
+            CustomModule.ClearBinding();
 
             var paramsResult = await Runtime.TaskQueueFeatureService.GetTaskParamsAsync(index, cancellationToken);
             if (!paramsResult.Success || paramsResult.Value is null)
             {
                 LastErrorMessage = paramsResult.Message;
+                ResetSelectedTaskValidationSummary();
                 return;
             }
 
@@ -593,10 +894,41 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             {
                 AwardModule.ClearBinding();
             }
+
+            await RefreshSelectedTaskValidationSummaryAsync(index, cancellationToken);
         }
         finally
         {
             _taskBindingLock.Release();
+        }
+    }
+
+    private void ScheduleBindSelectedTask()
+    {
+        var bindTask = ExecuteTrackedBindingAsync();
+        lock (_pendingBindingGate)
+        {
+            _pendingBindingTask = bindTask;
+        }
+    }
+
+    private async Task ExecuteTrackedBindingAsync()
+    {
+        try
+        {
+            await BindSelectedTaskAsync();
+        }
+        catch (OperationCanceledException)
+        {
+            // no-op
+        }
+        catch (Exception ex)
+        {
+            LastErrorMessage = ex.Message;
+            await Runtime.DiagnosticsService.RecordErrorAsync(
+                "TaskQueue.BindSelectedTask",
+                "Bind selected task failed.",
+                ex);
         }
     }
 
@@ -608,6 +940,10 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         InfrastModule.ClearBinding();
         MallModule.ClearBinding();
         AwardModule.ClearBinding();
+        RoguelikeModule.ClearBinding();
+        ReclamationModule.ClearBinding();
+        CustomModule.ClearBinding();
+        ResetSelectedTaskValidationSummary();
     }
 
     private async Task<bool> SaveBoundTaskModulesAsync(CancellationToken cancellationToken = default)
@@ -627,6 +963,24 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         if (!await RecruitModule.SaveIfDirtyAsync(cancellationToken))
         {
             LastErrorMessage = RecruitModule.LastErrorMessage;
+            return false;
+        }
+
+        if (!await RoguelikeModule.SaveIfDirtyAsync(cancellationToken))
+        {
+            LastErrorMessage = RoguelikeModule.LastErrorMessage;
+            return false;
+        }
+
+        if (!await ReclamationModule.SaveIfDirtyAsync(cancellationToken))
+        {
+            LastErrorMessage = ReclamationModule.LastErrorMessage;
+            return false;
+        }
+
+        if (!await CustomModule.SaveIfDirtyAsync(cancellationToken))
+        {
+            LastErrorMessage = CustomModule.LastErrorMessage;
             return false;
         }
 
@@ -956,9 +1310,24 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             && jsonValue.TryGetValue(out string? language)
             && !string.IsNullOrWhiteSpace(language))
         {
-            return language;
+            return UiLanguageCatalog.Normalize(language);
         }
 
-        return "zh-cn";
+        return UiLanguageCatalog.DefaultLanguage;
+    }
+
+    private async Task RefreshOverlayStatusTextAsync(CancellationToken cancellationToken = default)
+    {
+        var snapshotResult = await Runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken);
+        if (snapshotResult.Success && snapshotResult.Value is not null)
+        {
+            OverlayStatusText = BuildCapabilityLine(PlatformCapabilityId.Overlay, snapshotResult.Value.Overlay);
+            return;
+        }
+
+        OverlayStatusText = PlatformCapabilityTextMap.FormatSnapshotUnavailable(
+            Texts.Language,
+            snapshotResult.Message,
+            _localizationFallbackReporter);
     }
 }

@@ -24,6 +24,8 @@ public sealed class MAAUnifiedRuntime : IAsyncDisposable
 
     public required IConnectFeatureService ConnectFeatureService { get; init; }
 
+    public required IShellFeatureService ShellFeatureService { get; init; }
+
     public required ITaskQueueFeatureService TaskQueueFeatureService { get; init; }
 
     public required ICopilotFeatureService CopilotFeatureService { get; init; }
@@ -40,9 +42,21 @@ public sealed class MAAUnifiedRuntime : IAsyncDisposable
 
     public required ISettingsFeatureService SettingsFeatureService { get; init; }
 
+    public IVersionUpdateFeatureService VersionUpdateFeatureService { get; init; } = new VersionUpdateFeatureService();
+
+    public IAchievementFeatureService AchievementFeatureService { get; init; } = new AchievementFeatureService();
+
+    public IAnnouncementFeatureService AnnouncementFeatureService { get; init; } = new AnnouncementFeatureService();
+
+    public IStageManagerFeatureService StageManagerFeatureService { get; init; } = new StageManagerFeatureService();
+
+    public IWebApiFeatureService WebApiFeatureService { get; init; } = new WebApiFeatureService();
+
     public required IDialogFeatureService DialogFeatureService { get; init; }
 
     public required IPostActionFeatureService PostActionFeatureService { get; init; }
+
+    public IAppLifecycleService AppLifecycleService { get; init; } = new NoOpAppLifecycleService();
 
     public ValueTask DisposeAsync()
     {
@@ -93,6 +107,7 @@ public static class MAAUnifiedRuntimeFactory
         var platform = PlatformServicesFactory.CreateDefaults();
 
         var connectFeatureService = new ConnectFeatureService(sessionService, configService);
+        var shellFeatureService = new ShellFeatureService(connectFeatureService);
         var taskQueueFeatureService = new TaskQueueFeatureService(sessionService, configService);
         var copilotFeatureService = new CopilotFeatureService();
         var toolboxFeatureService = new ToolboxFeatureService();
@@ -101,11 +116,17 @@ public static class MAAUnifiedRuntimeFactory
         var overlayFeatureService = new OverlayFeatureService(platformCapabilityService);
         var notificationProviderFeatureService = new NotificationProviderFeatureService();
         var settingsFeatureService = new SettingsFeatureService(configService, platformCapabilityService, diagnosticsService);
+        var versionUpdateFeatureService = new VersionUpdateFeatureService(configService);
+        var achievementFeatureService = new AchievementFeatureService(configService);
+        var announcementFeatureService = new AnnouncementFeatureService(configService);
+        var stageManagerFeatureService = new StageManagerFeatureService(configService);
+        var webApiFeatureService = new WebApiFeatureService(configService);
         var dialogFeatureService = new DialogFeatureService(diagnosticsService);
         var postActionFeatureService = new PostActionFeatureService(
             configService,
             diagnosticsService,
             platform.PostActionExecutorService);
+        var appLifecycleService = new ProcessAppLifecycleService();
 
         return new MAAUnifiedRuntime {
             CoreBridge = bridge,
@@ -116,6 +137,7 @@ public static class MAAUnifiedRuntimeFactory
             LogService = logService,
             DiagnosticsService = diagnosticsService,
             ConnectFeatureService = connectFeatureService,
+            ShellFeatureService = shellFeatureService,
             TaskQueueFeatureService = taskQueueFeatureService,
             CopilotFeatureService = copilotFeatureService,
             ToolboxFeatureService = toolboxFeatureService,
@@ -124,8 +146,14 @@ public static class MAAUnifiedRuntimeFactory
             OverlayFeatureService = overlayFeatureService,
             NotificationProviderFeatureService = notificationProviderFeatureService,
             SettingsFeatureService = settingsFeatureService,
+            VersionUpdateFeatureService = versionUpdateFeatureService,
+            AchievementFeatureService = achievementFeatureService,
+            AnnouncementFeatureService = announcementFeatureService,
+            StageManagerFeatureService = stageManagerFeatureService,
+            WebApiFeatureService = webApiFeatureService,
             DialogFeatureService = dialogFeatureService,
             PostActionFeatureService = postActionFeatureService,
+            AppLifecycleService = appLifecycleService,
         };
     }
 }

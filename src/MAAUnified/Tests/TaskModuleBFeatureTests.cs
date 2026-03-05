@@ -109,6 +109,90 @@ public sealed class TaskModuleBFeatureTests
     }
 
     [Fact]
+    public async Task GetStartPrecheckWarnings_ReportsMallCreditFightDowngrade_WithoutMutatingTaskParams()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var profile = fixture.Config.CurrentConfig.Profiles["Default"];
+        profile.TaskQueue.Add(new UnifiedTaskItem
+        {
+            Type = "Fight",
+            Name = "fight",
+            IsEnabled = true,
+            Params = new JsonObject
+            {
+                ["stage"] = string.Empty,
+                ["medicine"] = 0,
+                ["stone"] = 0,
+                ["times"] = 1,
+                ["series"] = 1,
+            },
+        });
+        profile.TaskQueue.Add(new UnifiedTaskItem
+        {
+            Type = "Mall",
+            Name = "mall",
+            IsEnabled = true,
+            Params = new JsonObject
+            {
+                ["credit_fight"] = true,
+            },
+        });
+
+        var warnings = await fixture.TaskQueue.GetStartPrecheckWarningsAsync();
+        Assert.True(warnings.Success);
+        var warning = Assert.Single(warnings.Value ?? []);
+        Assert.Equal(UiErrorCode.MallCreditFightDowngraded, warning.Code);
+        Assert.Contains("Mall credit fight disabled", warning.Message, StringComparison.OrdinalIgnoreCase);
+        Assert.False(warning.Blocking);
+        Assert.True(profile.TaskQueue[1].Params["credit_fight"]?.GetValue<bool>());
+    }
+
+    [Fact]
+    public async Task TaskQueuePage_StartAsync_BlockingFightValidation_StillShowsPrecheckWarning_AndAppliesDowngrade()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var profile = fixture.Config.CurrentConfig.Profiles["Default"];
+        profile.TaskQueue.Add(new UnifiedTaskItem
+        {
+            Type = "Fight",
+            Name = "fight",
+            IsEnabled = true,
+            Params = new JsonObject
+            {
+                ["stage"] = string.Empty,
+                ["medicine"] = 0,
+                ["stone"] = 0,
+                ["times"] = 1,
+                ["series"] = 1,
+            },
+        });
+        profile.TaskQueue.Add(new UnifiedTaskItem
+        {
+            Type = "Mall",
+            Name = "mall",
+            IsEnabled = true,
+            Params = new JsonObject
+            {
+                ["credit_fight"] = true,
+            },
+        });
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        await vm.StartAsync();
+
+        Assert.False(vm.IsRunning);
+        Assert.True(vm.HasStartPrecheckWarningMessage);
+        Assert.Contains("Mall credit fight disabled", vm.StartPrecheckWarningMessage, StringComparison.OrdinalIgnoreCase);
+        Assert.False(profile.TaskQueue[1].Params["credit_fight"]?.GetValue<bool>());
+
+        var eventLog = await File.ReadAllTextAsync(Path.Combine(fixture.Root, "debug", "avalonia-ui-events.log"));
+        Assert.Contains("TaskQueue.Start.PrecheckWarning", eventLog, StringComparison.Ordinal);
+        Assert.Contains("Mall credit fight disabled", eventLog, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public async Task Mall_ListNormalization_DedupTrimCaseInsensitive()
     {
         await using var fixture = await TestFixture.CreateAsync("en-us");
@@ -620,6 +704,7 @@ public sealed class TaskModuleBFeatureTests
 
             var capability = new PlatformCapabilityFeatureService(platform, diagnostics);
             var postAction = new PostActionFeatureService(config, diagnostics, platform.PostActionExecutorService);
+            var connectFeatureService = new ConnectFeatureService(session, config);
             var runtime = new MAAUnifiedRuntime
             {
                 CoreBridge = bridge,
@@ -629,7 +714,8 @@ public sealed class TaskModuleBFeatureTests
                 Platform = platform,
                 LogService = log,
                 DiagnosticsService = diagnostics,
-                ConnectFeatureService = new ConnectFeatureService(session, config),
+                ConnectFeatureService = connectFeatureService,
+                ShellFeatureService = new ShellFeatureService(connectFeatureService),
                 TaskQueueFeatureService = taskQueue,
                 CopilotFeatureService = new CopilotFeatureService(),
                 ToolboxFeatureService = new ToolboxFeatureService(),

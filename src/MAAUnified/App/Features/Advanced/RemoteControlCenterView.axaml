@@ -1,11 +1,41 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Advanced.RemoteControlCenterView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="RemoteControlCenter" />
-      <TextBlock Text="MAAUnified Advanced 模块：RemoteControlCenter" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="已接入同构布局入口与能力状态。" TextWrapping="Wrap" />
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
+    <TextBlock Classes="section-title" Text="Remote Control Center" />
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+      <TextBlock VerticalAlignment="Center" Text="GetTask Endpoint" />
+      <TextBox Text="{Binding GetTaskEndpoint}" Watermark="https://example.com/get-task" />
+    </Grid>
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+      <TextBlock VerticalAlignment="Center" Text="Report Endpoint" />
+      <TextBox Text="{Binding ReportEndpoint}" Watermark="https://example.com/report" />
+    </Grid>
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,120,Auto,*">
+      <TextBlock VerticalAlignment="Center" Text="Poll (ms)" />
+      <NumericUpDown Grid.Column="1"
+                     Minimum="500"
+                     Maximum="60000"
+                     Value="{Binding PollIntervalMs}" />
+      <Button Grid.Column="2"
+              Classes="action"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+              Content="连通性测试"
+              Click="OnTestConnectivityClick" />
+      <Button Grid.Column="3"
+              Classes="action"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+              HorizontalAlignment="Left"
+              Content="保存"
+              Click="OnSaveClick" />
+    </Grid>
+    <TextBlock Grid.Row="4"
+               Classes="state-warning long-wrap"
+               Text="{Binding WarningMessage}"
+               IsVisible="{Binding HasWarningMessage}" />
+    <StackPanel Grid.Row="5" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <TextBlock Text="{Binding StatusMessage}" />
+      <TextBlock Classes="state-error long-wrap" Text="{Binding LastErrorMessage}" />
     </StackPanel>
-  </Border>
+  </Grid>
 </UserControl>

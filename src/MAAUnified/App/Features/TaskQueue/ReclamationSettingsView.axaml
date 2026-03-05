@@ -1,29 +1,40 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.ReclamationSettingsView">
-  <Grid RowDefinitions="Auto,Auto,Auto,Auto" Margin="2">
-    <TextBlock Classes="section-title" Text="Reclamation" />
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,200,Auto,180">
-      <TextBlock VerticalAlignment="Center" Text="主题" />
-      <ComboBox SelectedIndex="0">
-        <ComboBoxItem Content="萨尔贡沙洲遗闻" />
-      </ComboBox>
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="策略" />
-      <ComboBox Grid.Column="3" SelectedIndex="0">
-        <ComboBoxItem Content="刷材料" />
-        <ComboBoxItem Content="刷分" />
-      </ComboBox>
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="{Binding Texts[Reclamation.Title]}" />
+
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,180,Auto,120,Auto,120">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Reclamation.Theme]}" />
+      <ComboBox ItemsSource="{Binding ThemeOptions}" SelectedItem="{Binding Theme}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Reclamation.Mode]}" />
+      <NumericUpDown Grid.Column="3" Minimum="0" Maximum="99999" Value="{Binding Mode}" />
+      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Reclamation.IncrementMode]}" />
+      <NumericUpDown Grid.Column="5" Minimum="0" Maximum="99999" Value="{Binding IncrementMode}" />
     </Grid>
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,220,Auto,120,Auto">
-      <TextBlock VerticalAlignment="Center" Text="合成目标" />
-      <TextBox Text="应急理智剂" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="回合上限" />
-      <NumericUpDown Grid.Column="3" Minimum="1" Maximum="999" Value="50" />
-      <CheckBox Grid.Column="4" Content="增量模式" />
+
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,120,Auto">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Reclamation.NumCraftBatches]}" />
+      <NumericUpDown Minimum="1" Maximum="99999" Value="{Binding NumCraftBatches}" />
+      <CheckBox Grid.Column="2" Content="{Binding Texts[Reclamation.ClearStore]}" IsChecked="{Binding ClearStore}" />
     </Grid>
-    <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="12">
-      <CheckBox Content="清仓策略" />
-      <CheckBox Content="回合结束自动退出" />
-    </StackPanel>
+
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,*">
+      <TextBlock VerticalAlignment="Top" Text="{Binding Texts[Reclamation.ToolsToCraft]}" />
+      <TextBox AcceptsReturn="True" Height="96" Text="{Binding ToolsToCraftText}" />
+    </Grid>
+
+    <Grid Grid.Row="4" RowDefinitions="Auto,Auto,Auto,Auto">
+      <TextBlock Text="{Binding Texts[Common.LoadingTaskHint]}" />
+      <TextBlock Grid.Row="1" Text="{Binding StatusMessage}" />
+      <TextBlock Grid.Row="2"
+                 Foreground="{DynamicResource MAA.ErrorBrush}"
+                 Text="{Binding LastErrorMessage}"
+                 TextWrapping="Wrap" />
+      <StackPanel Grid.Row="3">
+        <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
+        <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
+      </StackPanel>
+    </Grid>
   </Grid>
 </UserControl>

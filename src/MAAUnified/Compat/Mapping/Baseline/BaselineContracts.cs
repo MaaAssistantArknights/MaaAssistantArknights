@@ -108,6 +108,12 @@ public sealed record FeatureBaselineItem
 
     [JsonPropertyName("evidence")]
     public EvidenceSpec Evidence { get; init; } = new();
+
+    [JsonPropertyName("waiver")]
+    public WaiverSpec? Waiver { get; init; }
+
+    [JsonPropertyName("waiver_scope")]
+    public WaiverScope? WaiverScope { get; init; }
 }
 
 public sealed record FieldSpec
@@ -234,6 +240,12 @@ public sealed record FallbackCapabilitySpec
 
     [JsonPropertyName("evidence")]
     public EvidenceSpec Evidence { get; init; } = new();
+
+    [JsonPropertyName("waiver")]
+    public WaiverSpec? Waiver { get; init; }
+
+    [JsonPropertyName("waiver_scope")]
+    public WaiverScope? WaiverScope { get; init; }
 }
 
 public sealed record EvidenceSpec
@@ -264,6 +276,18 @@ public sealed record WaiverSpec
 
     [JsonPropertyName("alternative_validation")]
     public string AlternativeValidation { get; init; } = string.Empty;
+}
+
+public sealed record WaiverScope
+{
+    [JsonPropertyName("platforms")]
+    public List<string> Platforms { get; init; } = [];
+
+    [JsonPropertyName("themes")]
+    public List<string> Themes { get; init; } = [];
+
+    [JsonPropertyName("locales")]
+    public List<string> Locales { get; init; } = [];
 }
 
 public sealed record AcceptanceTemplate
@@ -348,6 +372,12 @@ public sealed record AcceptanceCaseSpec
 
     [JsonPropertyName("locales")]
     public List<string> Locales { get; init; } = [];
+
+    [JsonPropertyName("waiver")]
+    public WaiverSpec? Waiver { get; init; }
+
+    [JsonPropertyName("waiver_scope")]
+    public WaiverScope? WaiverScope { get; init; }
 
     [JsonPropertyName("steps")]
     public List<string> Steps { get; init; } = [];

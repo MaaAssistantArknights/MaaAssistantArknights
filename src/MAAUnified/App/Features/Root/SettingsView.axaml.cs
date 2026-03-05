@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MAAUnified.App.ViewModels;
 using MAAUnified.App.ViewModels.Settings;
 
 namespace MAAUnified.App.Features.Root;
@@ -12,6 +13,16 @@ public partial class SettingsView : UserControl
     }
 
     private SettingsPageViewModel? VM => DataContext as SettingsPageViewModel;
+
+    private MainShellViewModel? ShellVM
+    {
+        get
+        {
+            return TopLevel.GetTopLevel(this) is Window window
+                ? window.DataContext as MainShellViewModel
+                : null;
+        }
+    }
 
     private async void OnSaveGuiClick(object? sender, RoutedEventArgs e)
     {
@@ -58,6 +69,30 @@ public partial class SettingsView : UserControl
         if (VM is not null)
         {
             await VM.SaveConnectionGameSettingsAsync();
+        }
+    }
+
+    private async void OnSaveStartPerformanceClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.SaveStartPerformanceSettingsAsync();
+        }
+    }
+
+    private async void OnSaveTimerClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.SaveTimerSettingsAsync();
+        }
+    }
+
+    private async void OnSwitchLanguageClick(object? sender, RoutedEventArgs e)
+    {
+        if (ShellVM is not null)
+        {
+            await ShellVM.SwitchLanguageCycleAsync();
         }
     }
 }

@@ -1,16 +1,30 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.CustomSettingsView">
-  <Grid RowDefinitions="Auto,Auto,Auto" Margin="2">
-    <TextBlock Classes="section-title" Text="Custom" />
-    <TextBox Grid.Row="1"
-             AcceptsReturn="True"
-             Height="120"
-             Text="自定义任务名规则&#10;支持变量: {date}, {profile}, {taskIndex}" />
-    <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8">
-      <Button Content="保存规则" />
-      <Button Content="载入默认规则" />
-      <TextBlock VerticalAlignment="Center" Text="支持一键保存与回滚。" />
-    </StackPanel>
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="2">
+    <TextBlock Classes="section-title" Text="{Binding Texts[Custom.Title]}" />
+
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+      <TextBlock VerticalAlignment="Top" Text="{Binding Texts[Custom.TaskNames]}" />
+      <TextBox AcceptsReturn="True" Height="120" Text="{Binding TaskNamesText}" />
+    </Grid>
+
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+      <TextBlock VerticalAlignment="Top" Text="{Binding Texts[Custom.TaskNamesPreview]}" />
+      <TextBlock Text="{Binding TaskNamesPreview}" TextWrapping="Wrap" />
+    </Grid>
+
+    <Grid Grid.Row="3" RowDefinitions="Auto,Auto,Auto,Auto">
+      <TextBlock Text="{Binding Texts[Common.LoadingTaskHint]}" />
+      <TextBlock Grid.Row="1" Text="{Binding StatusMessage}" />
+      <TextBlock Grid.Row="2"
+                 Foreground="{DynamicResource MAA.ErrorBrush}"
+                 Text="{Binding LastErrorMessage}"
+                 TextWrapping="Wrap" />
+      <StackPanel Grid.Row="3">
+        <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
+        <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
+      </StackPanel>
+    </Grid>
   </Grid>
 </UserControl>

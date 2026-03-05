@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.RemoteControlSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
     <TextBlock Classes="section-title" Text="Remote Control" />
     <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
       <TextBlock VerticalAlignment="Center" Text="拉任务接口" />
@@ -11,13 +11,33 @@
       <TextBlock VerticalAlignment="Center" Text="上报接口" />
       <TextBox Text="{Binding RemoteReportEndpoint}" Watermark="https://example.com/report" />
     </Grid>
-    <Grid Grid.Row="3" ColumnDefinitions="Auto,120,Auto,180,Auto,Auto">
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,120,Auto,Auto">
       <TextBlock VerticalAlignment="Center" Text="轮询间隔(ms)" />
       <NumericUpDown Minimum="500" Maximum="60000" Value="{Binding RemotePollInterval}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="用户/设备标识" />
-      <TextBox Grid.Column="3" Watermark="userId-deviceId" />
-      <Button Grid.Column="4" Content="连通测试" />
-      <Button Grid.Column="5" Content="文档入口" />
+      <Button Grid.Column="2" Content="保存配置" Click="OnSaveRemoteClick" />
+      <Button Grid.Column="3" Content="连通测试" Click="OnTestRemoteConnectivityClick" />
     </Grid>
+    <Grid Grid.Row="4" ColumnDefinitions="Auto,220,Auto,220">
+      <TextBlock VerticalAlignment="Center" Text="用户标识" />
+      <TextBox Grid.Column="1"
+               Text="{Binding RemoteUserIdentity}"
+               Watermark="remote-user-id" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="设备标识" />
+      <TextBox Grid.Column="3"
+               Text="{Binding RemoteDeviceIdentity}"
+               Watermark="remote-device-id" />
+    </Grid>
+    <TextBlock Grid.Row="5" Text="{Binding RemoteControlStatusMessage}" />
+    <StackPanel Grid.Row="6" Spacing="4">
+      <TextBlock Classes="state-warning"
+                 Text="{Binding RemoteControlWarningMessage}"
+                 IsVisible="{Binding HasRemoteControlWarningMessage}" />
+      <TextBlock Classes="state-error"
+                 Text="{Binding RemoteControlErrorMessage}"
+                 IsVisible="{Binding HasRemoteControlErrorMessage}" />
+    </StackPanel>
+    <TextBlock Grid.Row="7"
+               Text="连通测试会对 GetTask/Report 两个端点执行网络探测，失败会区分参数错误/网络失败/不支持。"
+               TextWrapping="Wrap" />
   </Grid>
 </UserControl>

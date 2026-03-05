@@ -37,22 +37,36 @@ public sealed class TaskQueueItemViewModel : ObservableObject
         {
             if (SetProperty(ref _status, value))
             {
-                OnPropertyChanged(nameof(StatusBrush));
+                OnPropertyChanged(nameof(IsStatusRunning));
+                OnPropertyChanged(nameof(IsStatusSuccess));
+                OnPropertyChanged(nameof(IsStatusError));
+                OnPropertyChanged(nameof(IsStatusSkipped));
+                OnPropertyChanged(nameof(IsStatusIdle));
             }
         }
     }
 
-    public string StatusBrush => Status switch
-    {
-        "Running" => "#4A9EFF",
-        "Success" => "#2FA66A",
-        "Error" => "#E45757",
-        "Skipped" => "#8F9099",
-        _ => "#C8CCD3",
-    };
+    public bool IsStatusRunning => IsStatus("Running");
+
+    public bool IsStatusSuccess => IsStatus("Success");
+
+    public bool IsStatusError => IsStatus("Error");
+
+    public bool IsStatusSkipped => IsStatus("Skipped");
+
+    public bool IsStatusIdle =>
+        !IsStatusRunning
+        && !IsStatusSuccess
+        && !IsStatusError
+        && !IsStatusSkipped;
 
     public static TaskQueueItemViewModel FromUnifiedTask(UnifiedTaskItem task)
     {
         return new TaskQueueItemViewModel(task.Type, task.Name, task.IsEnabled);
+    }
+
+    private bool IsStatus(string expected)
+    {
+        return string.Equals(Status, expected, StringComparison.OrdinalIgnoreCase);
     }
 }

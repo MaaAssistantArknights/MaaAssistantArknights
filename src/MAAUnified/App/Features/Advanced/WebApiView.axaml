@@ -1,11 +1,33 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Advanced.WebApiView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="WebApi" />
-      <TextBlock Text="MAAUnified Advanced 模块：WebApi" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="已接入同构布局入口与能力状态。" TextWrapping="Wrap" />
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+    <TextBlock Classes="section-title" Text="WebApi" />
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,160,Auto,120,Auto,*">
+      <CheckBox Content="启用 WebApi" IsChecked="{Binding Enabled}" />
+      <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Host" />
+      <TextBox Grid.Column="2" Text="{Binding Host}" Width="200" />
+      <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="Port" />
+      <NumericUpDown Grid.Column="4"
+                     Minimum="1"
+                     Maximum="65535"
+                     Value="{Binding Port}" />
+      <TextBlock Grid.Column="5" VerticalAlignment="Center" Text="运行状态" />
+      <TextBlock Grid.Column="6" VerticalAlignment="Center" Text="{Binding IsRunning}" />
+    </Grid>
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+      <TextBlock VerticalAlignment="Center" Text="Access Token" />
+      <TextBox Text="{Binding AccessToken}" />
+    </Grid>
+    <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <Button Classes="action" Content="保存配置" Click="OnSaveClick" />
+      <Button Classes="action" Content="启动服务" Click="OnStartClick" />
+      <Button Classes="action" Content="停止服务" Click="OnStopClick" />
+      <Button Classes="action" Content="刷新状态" Click="OnRefreshStatusClick" />
     </StackPanel>
-  </Border>
+    <StackPanel Grid.Row="4" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <TextBlock Text="{Binding StatusMessage}" />
+      <TextBlock Classes="state-error long-wrap" Text="{Binding LastErrorMessage}" />
+    </StackPanel>
+  </Grid>
 </UserControl>

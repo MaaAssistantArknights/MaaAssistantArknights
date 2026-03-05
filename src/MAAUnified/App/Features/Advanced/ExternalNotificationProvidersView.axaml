@@ -1,11 +1,27 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Advanced.ExternalNotificationProvidersView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="ExternalNotificationProviders" />
-      <TextBlock Text="MAAUnified Advanced 模块：ExternalNotificationProviders" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="已接入同构布局入口与能力状态。" TextWrapping="Wrap" />
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+    <TextBlock Classes="section-title" Text="External Notification Providers" />
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,200,Auto,*">
+      <TextBlock VerticalAlignment="Center" Text="Provider" />
+      <ComboBox ItemsSource="{Binding Providers}" SelectedItem="{Binding SelectedProvider}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="参数(JSON)" />
+      <TextBox Grid.Column="3" Text="{Binding ParametersText}" Watermark="key=value;key2=value2" />
+    </Grid>
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,200,Auto,*">
+      <TextBlock VerticalAlignment="Center" Text="标题" />
+      <TextBox Text="{Binding Title}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="内容" />
+      <TextBox Grid.Column="3" Text="{Binding Message}" />
+    </Grid>
+    <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <Button Classes="action" Content="校验参数" Click="OnValidateClick" />
+      <Button Classes="action" Content="发送测试" Click="OnSendTestClick" />
     </StackPanel>
-  </Border>
+    <StackPanel Grid.Row="4" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <TextBlock Text="{Binding StatusMessage}" />
+      <TextBlock Classes="state-error long-wrap" Text="{Binding LastErrorMessage}" />
+    </StackPanel>
+  </Grid>
 </UserControl>

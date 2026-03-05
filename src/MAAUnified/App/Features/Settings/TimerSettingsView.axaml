@@ -1,18 +1,35 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.TimerSettingsView">
-  <Grid RowDefinitions="Auto,Auto,*" Margin="4">
+  <Grid RowDefinitions="Auto,Auto,Auto,*" Margin="4">
     <TextBlock Classes="section-title" Text="Timer (8 组)" />
-    <TextBlock Grid.Row="1" Text="支持强制定时启动、按配置执行、启动前显示窗口。" />
-    <ItemsControl Grid.Row="2" ItemsSource="{Binding Timers}">
+
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Margin="0,6,0,0">
+      <CheckBox Content="强制定时启动" IsChecked="{Binding ForceScheduledStart}" />
+      <TextBlock Grid.Column="1" Margin="6,0,14,0" VerticalAlignment="Center" Opacity="0.7" Text="即时生效" />
+      <CheckBox Grid.Column="2" Content="强制启动前显示窗口" IsChecked="{Binding ShowWindowBeforeForceScheduledStart}" />
+      <TextBlock Grid.Column="3" Margin="6,0,14,0" VerticalAlignment="Center" Opacity="0.7" Text="即时生效" />
+      <CheckBox Grid.Column="4" Content="按槽位配置执行" IsChecked="{Binding CustomTimerConfig}" />
+      <TextBlock Grid.Column="5" Margin="6,0,0,0" VerticalAlignment="Center" Opacity="0.7" Text="即时生效" />
+    </Grid>
+
+    <StackPanel Grid.Row="2" Margin="0,8,0,0" Spacing="4">
+      <TextBlock Classes="state-warning"
+                 Text="{Binding TimerValidationMessage}"
+                 IsVisible="{Binding HasTimerValidationMessage}" />
+      <TextBlock Classes="state-warning"
+                 Text="存在未保存的 Timer 变更。"
+                 IsVisible="{Binding HasPendingTimerChanges}" />
+    </StackPanel>
+
+    <ItemsControl Grid.Row="3" Margin="0,8,0,0" ItemsSource="{Binding Timers}">
       <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <Grid ColumnDefinitions="Auto,100,Auto,120,Auto,Auto" Margin="0,2">
+          <Grid ColumnDefinitions="Auto,80,Auto,180" Margin="0,2">
             <CheckBox Content="{Binding Index, StringFormat=Timer {0}}" IsChecked="{Binding Enabled}" />
-            <TextBox Grid.Column="1" Text="{Binding Time}" />
-            <TextBox Grid.Column="2" Width="130" Text="{Binding Profile}" />
-            <CheckBox Grid.Column="3" Content="强制定时启动" IsChecked="{Binding ForceStart}" />
-            <CheckBox Grid.Column="4" Content="启动前显示窗口" IsChecked="{Binding ShowWindowBeforeStart}" />
+            <TextBox Grid.Column="1" Watermark="HH:mm" Text="{Binding Time}" />
+            <TextBlock Grid.Column="2" Margin="12,0,8,0" VerticalAlignment="Center" Text="配置名" />
+            <TextBox Grid.Column="3" Text="{Binding Profile}" />
           </Grid>
         </DataTemplate>
       </ItemsControl.ItemTemplate>

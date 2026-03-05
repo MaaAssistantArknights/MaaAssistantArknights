@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "frozen_at_utc": "2026-03-03T03:50:59Z",
+  "frozen_at_utc": "2026-03-04T07:48:13Z",
   "wpf_baseline_commit": "23ddd271b40a3d0c18de8a6ae8305357cc032e19",
   "scope": "src/MAAUnified/**",
   "matrix_mode": "tiered",
@@ -74,7 +74,7 @@
       "display_name": "任务队列主页",
       "wpf_reference": "WPF::任务队列主页",
       "avalonia_path": "App/Features/Root/TaskQueueView.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -1446,7 +1446,7 @@
       "display_name": "Copilot",
       "wpf_reference": "WPF::Copilot",
       "avalonia_path": "App/Features/Advanced/CopilotView.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -1486,7 +1486,9 @@
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Feature.Advanced.Copilot",
         "case_id": "BL-030"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "item_id": "Advanced.Toolbox",
@@ -1495,7 +1497,7 @@
       "display_name": "Toolbox",
       "wpf_reference": "WPF::Toolbox",
       "avalonia_path": "App/Features/Advanced/ToolboxView.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -1535,7 +1537,9 @@
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Feature.Advanced.Toolbox",
         "case_id": "BL-031"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "item_id": "Advanced.RemoteControlCenter",
@@ -1544,7 +1548,7 @@
       "display_name": "Remote Control Center",
       "wpf_reference": "WPF::Remote Control Center",
       "avalonia_path": "App/Features/Advanced/RemoteControlCenterView.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -1584,7 +1588,9 @@
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Feature.Advanced.RemoteControlCenter",
         "case_id": "BL-032"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "item_id": "Advanced.Overlay",
@@ -1593,7 +1599,7 @@
       "display_name": "Overlay",
       "wpf_reference": "WPF::Overlay",
       "avalonia_path": "App/Features/Advanced/OverlayView.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -1633,7 +1639,9 @@
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Feature.Advanced.Overlay",
         "case_id": "BL-033"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "item_id": "Advanced.TrayIntegration",
@@ -1642,7 +1650,7 @@
       "display_name": "Tray Integration",
       "wpf_reference": "WPF::Tray Integration",
       "avalonia_path": "App/Features/Advanced/TrayIntegrationView.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -1682,7 +1690,9 @@
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Feature.Advanced.TrayIntegration",
         "case_id": "BL-034"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "item_id": "Advanced.StageManager",
@@ -1691,7 +1701,7 @@
       "display_name": "Stage Manager",
       "wpf_reference": "WPF::Stage Manager",
       "avalonia_path": "App/Features/Advanced/StageManagerView.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -1731,7 +1741,9 @@
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Feature.Advanced.StageManager",
         "case_id": "BL-035"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "item_id": "Advanced.WebApi",
@@ -1740,7 +1752,7 @@
       "display_name": "Web API",
       "wpf_reference": "WPF::Web API",
       "avalonia_path": "App/Features/Advanced/WebApiView.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -1780,7 +1792,9 @@
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Feature.Advanced.WebApi",
         "case_id": "BL-036"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "item_id": "Advanced.ExternalNotificationProviders",
@@ -1789,7 +1803,7 @@
       "display_name": "Notification Providers",
       "wpf_reference": "WPF::Notification Providers",
       "avalonia_path": "App/Features/Advanced/ExternalNotificationProvidersView.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -1829,7 +1843,9 @@
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Feature.Advanced.ExternalNotificationProviders",
         "case_id": "BL-037"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "item_id": "Dialog.Announcement",
@@ -2181,7 +2197,7 @@
       "display_name": "Connect Command",
       "wpf_reference": "WPF::Connect Command",
       "avalonia_path": "App/Views/MainWindow.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -2475,7 +2491,7 @@
       "display_name": "Tray Hide",
       "wpf_reference": "WPF::Tray Hide",
       "avalonia_path": "App/Views/MainWindow.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -2573,7 +2589,7 @@
       "display_name": "Tray Restart",
       "wpf_reference": "WPF::Tray Restart",
       "avalonia_path": "App/Views/MainWindow.axaml",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
       "fields": [
         {
@@ -2816,80 +2832,104 @@
     {
       "key": "Current",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Current",
         "case_id": "CFG-001"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Current]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Default",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Default",
         "case_id": "CFG-002"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Default]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Global",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Global",
         "case_id": "CFG-003"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Global]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Configurations",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Configurations",
         "case_id": "CFG-004"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Configurations]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Data",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Data",
         "case_id": "CFG-005"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Data]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Cron",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Cron",
         "case_id": "CFG-006"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Cron]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "GUI.Localization",
@@ -2908,9 +2948,9 @@
     {
       "key": "GUI.OperNameLanguage",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -2949,9 +2989,9 @@
     {
       "key": "GUI.HideCloseButton",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -2976,9 +3016,9 @@
     {
       "key": "GUI.LogItemDateFormatString",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -2989,9 +3029,9 @@
     {
       "key": "GUI.Placement",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3002,9 +3042,9 @@
     {
       "key": "GUI.Placement.Load",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3015,9 +3055,9 @@
     {
       "key": "GUI.Placement.SaveOnClosing",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3028,9 +3068,9 @@
     {
       "key": "GUI.UseAlternateStage",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3041,9 +3081,9 @@
     {
       "key": "GUI.AllowUseStoneSave",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3054,9 +3094,9 @@
     {
       "key": "GUI.HideUnavailableStage",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3067,9 +3107,9 @@
     {
       "key": "GUI.HideSeries",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3080,9 +3120,9 @@
     {
       "key": "GUI.CustomStageCode",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3093,9 +3133,9 @@
     {
       "key": "GUI.InverseClearMode",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3106,9 +3146,9 @@
     {
       "key": "GUI.WindowTitlePrefix",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3119,9 +3159,9 @@
     {
       "key": "GUI.MaxNumberOfLogThumbnails",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3132,9 +3172,9 @@
     {
       "key": "GUI.UseCardLog",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3145,9 +3185,9 @@
     {
       "key": "GUI.WindowTitleSelectShowList",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3158,9 +3198,9 @@
     {
       "key": "GUI.SoberLanguage",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3171,9 +3211,9 @@
     {
       "key": "GUI.Cheers",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3184,9 +3224,9 @@
     {
       "key": "GUI.Hangover",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3197,9 +3237,9 @@
     {
       "key": "GUI.LastBuyWineTime",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3210,9 +3250,9 @@
     {
       "key": "GUI.CustomCulture",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3223,15 +3263,19 @@
     {
       "key": "HotKeys",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.HotKeys",
         "case_id": "CFG-032"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[HotKeys]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "GUI.Background.ImagePath",
@@ -3250,9 +3294,9 @@
     {
       "key": "GUI.Background.StretchMode",
       "owner_item_id": "Settings.Gui",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/GuiSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3291,9 +3335,9 @@
     {
       "key": "Connect.AddressHistory",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3304,9 +3348,9 @@
     {
       "key": "Connect.AutoDetect",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3317,9 +3361,9 @@
     {
       "key": "Connect.AlwaysAutoDetect",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3330,9 +3374,9 @@
     {
       "key": "Connect.MumuBridgeConnection",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3343,9 +3387,9 @@
     {
       "key": "Connect.Address",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3356,9 +3400,9 @@
     {
       "key": "Connect.AdbPath",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3369,9 +3413,9 @@
     {
       "key": "Connect.ConnectConfig",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3382,9 +3426,9 @@
     {
       "key": "Connect.MuMu12Extras.Enabled",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3395,9 +3439,9 @@
     {
       "key": "Connect.MuMu12EmulatorPath",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3408,9 +3452,9 @@
     {
       "key": "Connect.MuMu12Index",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3421,9 +3465,9 @@
     {
       "key": "Connect.MuMu12Display",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3434,9 +3478,9 @@
     {
       "key": "Connect.LdPlayerExtras.Enabled",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3447,9 +3491,9 @@
     {
       "key": "Connect.LdPlayerEmulatorPath",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3460,9 +3504,9 @@
     {
       "key": "Connect.LdPlayerManualSetIndex",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3473,9 +3517,9 @@
     {
       "key": "Connect.LdPlayerIndex",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3486,9 +3530,9 @@
     {
       "key": "Connect.RetryOnDisconnected",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3499,9 +3543,9 @@
     {
       "key": "Connect.AllowADBRestart",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3512,9 +3556,9 @@
     {
       "key": "Connect.AllowADBHardRestart",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3525,9 +3569,9 @@
     {
       "key": "Connect.AdbLiteEnabled",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3538,9 +3582,9 @@
     {
       "key": "Connect.KillAdbOnExit",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3551,9 +3595,9 @@
     {
       "key": "Connect.TouchMode",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3564,9 +3608,9 @@
     {
       "key": "Connect.AdbReplaced",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3577,9 +3621,9 @@
     {
       "key": "Connect.UseAttachWindow",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3590,9 +3634,9 @@
     {
       "key": "Connect.AttachWindow.ScreencapMethod",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3603,9 +3647,9 @@
     {
       "key": "Connect.AttachWindow.MouseMethod",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3616,9 +3660,9 @@
     {
       "key": "Connect.AttachWindow.KeyboardMethod",
       "owner_item_id": "Settings.Connect",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ConnectSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3629,9 +3673,9 @@
     {
       "key": "Start.StartGame",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3642,9 +3686,9 @@
     {
       "key": "Start.ClientType",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3655,9 +3699,9 @@
     {
       "key": "Start.AccountName",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3668,9 +3712,9 @@
     {
       "key": "Start.RunDirectly",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3681,9 +3725,9 @@
     {
       "key": "Start.MinimizeDirectly",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3694,9 +3738,9 @@
     {
       "key": "Start.OpenEmulatorAfterLaunch",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3707,9 +3751,9 @@
     {
       "key": "Start.EmulatorPath",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3720,9 +3764,9 @@
     {
       "key": "Start.EmulatorAddCommand",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3733,9 +3777,9 @@
     {
       "key": "Start.EmulatorWaitSeconds",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3746,9 +3790,9 @@
     {
       "key": "Start.AutoRestartOnDrop",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3759,9 +3803,9 @@
     {
       "key": "Start.StartsWithScript",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3772,9 +3816,9 @@
     {
       "key": "Start.EndsWithScript",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3785,9 +3829,9 @@
     {
       "key": "Start.CopilotWithScript",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3798,9 +3842,9 @@
     {
       "key": "Start.ManualStopWithScript",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3811,9 +3855,9 @@
     {
       "key": "Start.BlockSleep",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3824,9 +3868,9 @@
     {
       "key": "Start.BlockSleepWithScreenOn",
       "owner_item_id": "Settings.Start",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/StartSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3837,9 +3881,9 @@
     {
       "key": "Recruit.ChooseLevel3",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3850,22 +3894,26 @@
     {
       "key": "Toolbox.Recruit.ChooseLevel3.Time",
       "owner_item_id": "Advanced.Toolbox",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/ToolboxView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Toolbox.Recruit.ChooseLevel3.Time",
         "case_id": "CFG-080"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Toolbox settings bridge",
+      "read_path": "App/ViewModels/Toolbox/ToolboxPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::ToolboxFeatureService"
     },
     {
       "key": "Recruit.ChooseLevel4",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3876,22 +3924,26 @@
     {
       "key": "Toolbox.Recruit.ChooseLevel4.Time",
       "owner_item_id": "Advanced.Toolbox",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/ToolboxView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Toolbox.Recruit.ChooseLevel4.Time",
         "case_id": "CFG-082"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Toolbox settings bridge",
+      "read_path": "App/ViewModels/Toolbox/ToolboxPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::ToolboxFeatureService"
     },
     {
       "key": "Recruit.ChooseLevel5",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3902,22 +3954,26 @@
     {
       "key": "Toolbox.Recruit.ChooseLevel5.Time",
       "owner_item_id": "Advanced.Toolbox",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/ToolboxView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Toolbox.Recruit.ChooseLevel5.Time",
         "case_id": "CFG-084"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Toolbox settings bridge",
+      "read_path": "App/ViewModels/Toolbox/ToolboxPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::ToolboxFeatureService"
     },
     {
       "key": "Recruit.ChooseLevel6",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3928,9 +3984,9 @@
     {
       "key": "Recruit.AutoSetTime",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3941,9 +3997,9 @@
     {
       "key": "Recruit.ShowPotential",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3954,22 +4010,26 @@
     {
       "key": "Depot.DepotResult",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Depot.DepotResult",
         "case_id": "CFG-088"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Depot.DepotResult]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Infrast.InfrastMode",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3980,9 +4040,9 @@
     {
       "key": "Infrast.DormThreshold",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -3993,9 +4053,9 @@
     {
       "key": "Infrast.UsesOfDrones",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4006,9 +4066,9 @@
     {
       "key": "Infrast.ReceptionMessageBoardReceive",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4019,9 +4079,9 @@
     {
       "key": "Infrast.ReceptionClueExchange",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4032,9 +4092,9 @@
     {
       "key": "Infrast.ReceptionSendClue",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4045,9 +4105,9 @@
     {
       "key": "Infrast.ContinueTraining",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4058,9 +4118,9 @@
     {
       "key": "Infrast.DefaultInfrast",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4071,9 +4131,9 @@
     {
       "key": "Infrast.IsCustomInfrastFileReadOnly",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4084,9 +4144,9 @@
     {
       "key": "Infrast.DormFilterNotStationedEnabled",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4097,9 +4157,9 @@
     {
       "key": "Infrast.DormTrustEnabled",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4110,9 +4170,9 @@
     {
       "key": "Infrast.OriginiumShardAutoReplenishment",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4123,9 +4183,9 @@
     {
       "key": "Infrast.CustomInfrastEnabled",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4136,9 +4196,9 @@
     {
       "key": "Infrast.CustomInfrastFile",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4149,9 +4209,9 @@
     {
       "key": "Infrast.CustomInfrastPlanIndex",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4162,9 +4222,9 @@
     {
       "key": "Infrast.CustomInfrastPlanSelect",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4175,9 +4235,9 @@
     {
       "key": "Infrast.CustomInfrastPlanShowInFightSettings",
       "owner_item_id": "Task.Infrast",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/InfrastSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4188,9 +4248,9 @@
     {
       "key": "Fight.UseRemainingSanityStage",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4201,9 +4261,9 @@
     {
       "key": "Fight.UseExpiringMedicine",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4214,9 +4274,9 @@
     {
       "key": "Fight.RemainingSanityStage",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4227,9 +4287,9 @@
     {
       "key": "Roguelike.RoguelikeTheme",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4240,9 +4300,9 @@
     {
       "key": "Roguelike.Difficulty",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4253,9 +4313,9 @@
     {
       "key": "Roguelike.Mode",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4266,9 +4326,9 @@
     {
       "key": "Roguelike.Squad",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4279,9 +4339,9 @@
     {
       "key": "Roguelike.CollectibleModeSquad",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4292,9 +4352,9 @@
     {
       "key": "Roguelike.Roles",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4305,9 +4365,9 @@
     {
       "key": "Roguelike.CoreChar",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4318,9 +4378,9 @@
     {
       "key": "Roguelike.RoguelikeStartWithEliteTwo",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4331,9 +4391,9 @@
     {
       "key": "Roguelike.RoguelikeOnlyStartWithEliteTwo",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4344,9 +4404,9 @@
     {
       "key": "Roguelike.RoguelikeStartWithSelectList",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4357,9 +4417,9 @@
     {
       "key": "Roguelike.Roguelike3FirstFloorFoldartal",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4370,9 +4430,9 @@
     {
       "key": "Roguelike.Roguelike3StartFloorFoldartal",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4383,9 +4443,9 @@
     {
       "key": "Roguelike.Roguelike3NewSquad2StartingFoldartal",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4396,9 +4456,9 @@
     {
       "key": "Roguelike.Roguelike3NewSquad2StartingFoldartals",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4409,9 +4469,9 @@
     {
       "key": "Roguelike.RoguelikeExpectedCollapsalParadigms",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4422,9 +4482,9 @@
     {
       "key": "Roguelike.RoguelikeUseSupportUnit",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4435,9 +4495,9 @@
     {
       "key": "Roguelike.RoguelikeEnableNonfriendSupport",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4448,9 +4508,9 @@
     {
       "key": "Roguelike.RoguelikeDelayAbortUntilCombatComplete",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4461,9 +4521,9 @@
     {
       "key": "Roguelike.StartsCount",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4474,9 +4534,9 @@
     {
       "key": "Roguelike.InvestmentEnabled",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4487,9 +4547,9 @@
     {
       "key": "Roguelike.InvestmentEnterSecondFloor",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4500,9 +4560,9 @@
     {
       "key": "Roguelike.CollectibleModeShopping",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4513,9 +4573,9 @@
     {
       "key": "Roguelike.RefreshTraderWithDice",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4526,9 +4586,9 @@
     {
       "key": "Roguelike.InvestsCount",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4539,9 +4599,9 @@
     {
       "key": "Roguelike.StopWhenInvestmentFull",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4552,9 +4612,9 @@
     {
       "key": "Roguelike.DeploymentWithPause",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4565,9 +4625,9 @@
     {
       "key": "Roguelike.ExitAtFinalBoss",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4578,9 +4638,9 @@
     {
       "key": "Roguelike.StopAtMaxLevel",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4591,9 +4651,9 @@
     {
       "key": "Roguelike.StartWithSeed",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4604,9 +4664,9 @@
     {
       "key": "Roguelike.MonthlySquadAutoIterate",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4617,9 +4677,9 @@
     {
       "key": "Roguelike.MonthlySquadCheckComms",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4630,9 +4690,9 @@
     {
       "key": "Roguelike.DeepExplorationAutoIterate",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4643,9 +4703,9 @@
     {
       "key": "Roguelike.FindPlaytimeTarget",
       "owner_item_id": "Task.Roguelike",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RoguelikeSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4656,9 +4716,9 @@
     {
       "key": "Reclamation.Theme",
       "owner_item_id": "Task.Reclamation",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/ReclamationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4669,9 +4729,9 @@
     {
       "key": "Reclamation.Mode",
       "owner_item_id": "Task.Reclamation",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/ReclamationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4682,9 +4742,9 @@
     {
       "key": "Reclamation.ToolToCraft",
       "owner_item_id": "Task.Reclamation",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/ReclamationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4695,9 +4755,9 @@
     {
       "key": "Reclamation.ReclamationIncrementMode",
       "owner_item_id": "Task.Reclamation",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/ReclamationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4708,9 +4768,9 @@
     {
       "key": "Reclamation.ReclamationMaxCraftCountPerRound",
       "owner_item_id": "Task.Reclamation",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/ReclamationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4721,9 +4781,9 @@
     {
       "key": "Reclamation.ReclamationClearStore",
       "owner_item_id": "Task.Reclamation",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/ReclamationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4734,9 +4794,9 @@
     {
       "key": "AutoRecruit.MaxTimes",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4747,9 +4807,9 @@
     {
       "key": "AutoRecruit.AutoRecruitFirstList",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4760,9 +4820,9 @@
     {
       "key": "AutoRecruit.RefreshLevel3",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4773,9 +4833,9 @@
     {
       "key": "AutoRecruit.ForceRefresh",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4786,9 +4846,9 @@
     {
       "key": "AutoRecruit.SelectExtraTags",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4799,9 +4859,9 @@
     {
       "key": "AutoRecruit.NotChooseLevel1",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4812,9 +4872,9 @@
     {
       "key": "AutoRecruit.ChooseLevel3",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4825,9 +4885,9 @@
     {
       "key": "AutoRecruit.ChooseLevel3.Time",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4838,9 +4898,9 @@
     {
       "key": "AutoRecruit.ChooseLevel4",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4851,9 +4911,9 @@
     {
       "key": "AutoRecruit.ChooseLevel4.Time",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4864,9 +4924,9 @@
     {
       "key": "AutoRecruit.ChooseLevel5",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4877,9 +4937,9 @@
     {
       "key": "AutoRecruit.ChooseLevel5.Time",
       "owner_item_id": "Task.Recruit",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/RecruitSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4890,9 +4950,9 @@
     {
       "key": "Visit.LastCreditFightTaskTime",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4903,9 +4963,9 @@
     {
       "key": "Visit.CreditFightTaskEnabled",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4916,9 +4976,9 @@
     {
       "key": "Visit.CreditFightOnceADay",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4929,9 +4989,9 @@
     {
       "key": "Visit.CreditFightSelectFormation",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4942,9 +5002,9 @@
     {
       "key": "Mall.LastCreditVisitFriendsTime",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4955,9 +5015,9 @@
     {
       "key": "Mall.CreditVisitOnceADay",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4968,9 +5028,9 @@
     {
       "key": "Mall.CreditVisitFriendsEnabled",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4981,9 +5041,9 @@
     {
       "key": "Mall.CreditShopping",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -4994,9 +5054,9 @@
     {
       "key": "Mall.CreditFirstListNew",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5007,9 +5067,9 @@
     {
       "key": "Mall.CreditBlackListNew",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5020,9 +5080,9 @@
     {
       "key": "Mall.CreditForceShoppingIfCreditFull",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5033,9 +5093,9 @@
     {
       "key": "Mall.CreditOnlyBuyDiscount",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5046,9 +5106,9 @@
     {
       "key": "Mall.CreidtReserveMaxCredit",
       "owner_item_id": "Task.Mall",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/MallSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5059,9 +5119,9 @@
     {
       "key": "Mission.ReceiveAward",
       "owner_item_id": "Task.Award",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/AwardSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5072,9 +5132,9 @@
     {
       "key": "Mission.ReceiveMail",
       "owner_item_id": "Task.Award",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/AwardSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5085,9 +5145,9 @@
     {
       "key": "Mission.ReceiveFreeRecruit",
       "owner_item_id": "Task.Award",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/AwardSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5098,9 +5158,9 @@
     {
       "key": "Mission.ReceiveOrundum",
       "owner_item_id": "Task.Award",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/AwardSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5111,9 +5171,9 @@
     {
       "key": "Mission.ReceiveMining",
       "owner_item_id": "Task.Award",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/AwardSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5124,9 +5184,9 @@
     {
       "key": "Mission.ReceiveSpecialAccess",
       "owner_item_id": "Task.Award",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/AwardSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5137,399 +5197,519 @@
     {
       "key": "Copilot.AddUserAdditional",
       "owner_item_id": "Advanced.Copilot",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/CopilotView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Copilot.AddUserAdditional",
         "case_id": "CFG-179"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Copilot settings bridge",
+      "read_path": "App/ViewModels/Copilot/CopilotPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::CopilotFeatureService"
     },
     {
       "key": "Copilot.UserAdditional",
       "owner_item_id": "Advanced.Copilot",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/CopilotView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Copilot.UserAdditional",
         "case_id": "CFG-180"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Copilot settings bridge",
+      "read_path": "App/ViewModels/Copilot/CopilotPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::CopilotFeatureService"
     },
     {
       "key": "Copilot.SelectFormation",
       "owner_item_id": "Advanced.Copilot",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/CopilotView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Copilot.SelectFormation",
         "case_id": "CFG-181"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Copilot settings bridge",
+      "read_path": "App/ViewModels/Copilot/CopilotPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::CopilotFeatureService"
     },
     {
       "key": "Copilot.SupportUnitUsage",
       "owner_item_id": "Advanced.Copilot",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/CopilotView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Copilot.SupportUnitUsage",
         "case_id": "CFG-182"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Copilot settings bridge",
+      "read_path": "App/ViewModels/Copilot/CopilotPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::CopilotFeatureService"
     },
     {
       "key": "Copilot.LoopTimes",
       "owner_item_id": "Advanced.Copilot",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/CopilotView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Copilot.LoopTimes",
         "case_id": "CFG-183"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Copilot settings bridge",
+      "read_path": "App/ViewModels/Copilot/CopilotPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::CopilotFeatureService"
     },
     {
       "key": "Copilot.CopilotTaskList",
       "owner_item_id": "Advanced.Copilot",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/CopilotView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Copilot.CopilotTaskList",
         "case_id": "CFG-184"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Copilot settings bridge",
+      "read_path": "App/ViewModels/Copilot/CopilotPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::CopilotFeatureService"
     },
     {
       "key": "VersionUpdate.Proxy",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.Proxy",
         "case_id": "CFG-185"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.ProxyType",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.ProxyType",
         "case_id": "CFG-186"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.VersionType",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.VersionType",
         "case_id": "CFG-187"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.ResourceUpdateSource",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.ResourceUpdateSource",
         "case_id": "CFG-188"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.UpdateSource.ForceGithubGlobalSource",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.UpdateSource.ForceGithubGlobalSource",
         "case_id": "CFG-189"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.ResourceUpdateSource.MirrorChyanCdk",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.ResourceUpdateSource.MirrorChyanCdk",
         "case_id": "CFG-190"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.UpdateSource.MirrorChyanCdkExpired",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.UpdateSource.MirrorChyanCdkExpired",
         "case_id": "CFG-191"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.StartupUpdateCheck",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.StartupUpdateCheck",
         "case_id": "CFG-192"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.ScheduledUpdateCheck",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.ScheduledUpdateCheck",
         "case_id": "CFG-193"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.ResourceApi",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.ResourceApi",
         "case_id": "CFG-194"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.AllowNightlyUpdates",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.AllowNightlyUpdates",
         "case_id": "CFG-195"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.HasAcknowledgedNightlyWarning",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.HasAcknowledgedNightlyWarning",
         "case_id": "CFG-196"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.UseAria2",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.UseAria2",
         "case_id": "CFG-197"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.AutoDownloadUpdatePackage",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.AutoDownloadUpdatePackage",
         "case_id": "CFG-198"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.AutoInstallUpdatePackage",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.AutoInstallUpdatePackage",
         "case_id": "CFG-199"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "Penguin.Id",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Penguin.Id",
         "case_id": "CFG-200"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Penguin.Id]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Penguin.IsDrGrandet",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Penguin.IsDrGrandet",
         "case_id": "CFG-201"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Penguin.IsDrGrandet]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Penguin.EnablePenguin",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Penguin.EnablePenguin",
         "case_id": "CFG-202"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Penguin.EnablePenguin]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Yituliu.EnableYituliu",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Yituliu.EnableYituliu",
         "case_id": "CFG-203"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Yituliu.EnableYituliu]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "TimeOut.Timer.TaskTimeoutMinutes",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.TimeOut.Timer.TaskTimeoutMinutes",
         "case_id": "CFG-204"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[TimeOut.Timer.TaskTimeoutMinutes]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "TimeOut.Timer.ReminderIntervalMinutes",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.TimeOut.Timer.ReminderIntervalMinutes",
         "case_id": "CFG-205"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[TimeOut.Timer.ReminderIntervalMinutes]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Bluestacks.Config.Path",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Bluestacks.Config.Path",
         "case_id": "CFG-206"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Bluestacks.Config.Path]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Bluestacks.Config.Keyword",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Bluestacks.Config.Keyword",
         "case_id": "CFG-207"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Bluestacks.Config.Keyword]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Bluestacks.Config.Error",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Bluestacks.Config.Error",
         "case_id": "CFG-208"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Bluestacks.Config.Error]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "MainFunction.PostActions",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5540,9 +5720,9 @@
     {
       "key": "MainFunction.InverseMode",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5553,9 +5733,9 @@
     {
       "key": "MainFunction.Stage1",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5566,9 +5746,9 @@
     {
       "key": "MainFunction.Stage2",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5579,9 +5759,9 @@
     {
       "key": "MainFunction.Stage3",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5592,9 +5772,9 @@
     {
       "key": "MainFunction.Stage4",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5605,9 +5785,9 @@
     {
       "key": "MainFunction.Annihilation.UseCustom",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5618,9 +5798,9 @@
     {
       "key": "MainFunction.Annihilation.Stage",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5631,9 +5811,9 @@
     {
       "key": "MainFunction.UseMedicine",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5644,9 +5824,9 @@
     {
       "key": "MainFunction.UseMedicine.Quantity",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5657,9 +5837,9 @@
     {
       "key": "MainFunction.UseStone",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5670,9 +5850,9 @@
     {
       "key": "MainFunction.UseStone.Quantity",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5683,9 +5863,9 @@
     {
       "key": "MainFunction.TimesLimited",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5696,9 +5876,9 @@
     {
       "key": "MainFunction.TimesLimited.Quantity",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5709,9 +5889,9 @@
     {
       "key": "MainFunction.Series.Quantity",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5722,9 +5902,9 @@
     {
       "key": "MainFunction.Drops.Enable",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5735,9 +5915,9 @@
     {
       "key": "MainFunction.Drops.ItemId",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5748,9 +5928,9 @@
     {
       "key": "MainFunction.Drops.ItemName",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5761,9 +5941,9 @@
     {
       "key": "MainFunction.Drops.Quantity",
       "owner_item_id": "Task.Fight",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5802,9 +5982,9 @@
     {
       "key": "RemoteControl.RemoteControlUserIdentity",
       "owner_item_id": "Settings.RemoteControl",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Bound to SettingsPageViewModel.RemoteUserIdentity for read/save round-trip with identity sanitization.",
       "evidence": {
         "ui_path": "App/Features/Settings/RemoteControlSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5815,9 +5995,9 @@
     {
       "key": "RemoteControl.RemoteControlDeviceIdentity",
       "owner_item_id": "Settings.RemoteControl",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Bound to SettingsPageViewModel.RemoteDeviceIdentity for read/save round-trip with identity sanitization.",
       "evidence": {
         "ui_path": "App/Features/Settings/RemoteControlSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5842,9 +6022,9 @@
     {
       "key": "ExternalNotification.Enabled",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5855,9 +6035,9 @@
     {
       "key": "ExternalNotification.SendWhenComplete",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5868,9 +6048,9 @@
     {
       "key": "ExternalNotification.EnableDetails",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5881,9 +6061,9 @@
     {
       "key": "ExternalNotification.SendWhenError",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5894,9 +6074,9 @@
     {
       "key": "ExternalNotification.SendWhenTimeout",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5907,9 +6087,9 @@
     {
       "key": "ExternalNotification.Smtp.Server",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5920,9 +6100,9 @@
     {
       "key": "ExternalNotification.Smtp.Port",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5933,9 +6113,9 @@
     {
       "key": "ExternalNotification.Smtp.User",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5946,9 +6126,9 @@
     {
       "key": "ExternalNotification.Smtp.Password",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5959,9 +6139,9 @@
     {
       "key": "ExternalNotification.Smtp.UseSsl",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5972,9 +6152,9 @@
     {
       "key": "ExternalNotification.Smtp.RequiresAuthentication",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5985,9 +6165,9 @@
     {
       "key": "ExternalNotification.Smtp.From",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -5998,9 +6178,9 @@
     {
       "key": "ExternalNotification.Smtp.To",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6011,9 +6191,9 @@
     {
       "key": "ExternalNotification.ServerChan.SendKey",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6024,9 +6204,9 @@
     {
       "key": "ExternalNotification.Discord.BotToken",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6037,9 +6217,9 @@
     {
       "key": "ExternalNotification.Discord.UserId",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6050,9 +6230,9 @@
     {
       "key": "ExternalNotification.Discord.WebhookUrl",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6063,9 +6243,9 @@
     {
       "key": "ExternalNotification.DingTalk.AccessToken",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Mapped via DingTalk provider accessToken parameter in SettingsPageViewModel and validated by NotificationProviderFeatureService.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6076,9 +6256,9 @@
     {
       "key": "ExternalNotification.DingTalk.Secret",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Mapped via DingTalk provider secret parameter in SettingsPageViewModel and optional signature flow in NotificationProviderFeatureService.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6089,9 +6269,9 @@
     {
       "key": "ExternalNotification.Telegram.BotToken",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6102,9 +6282,9 @@
     {
       "key": "ExternalNotification.Telegram.ChatId",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6115,9 +6295,9 @@
     {
       "key": "ExternalNotification.TelegramTopicId",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6128,9 +6308,9 @@
     {
       "key": "ExternalNotification.Bark.SendKey",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6141,9 +6321,9 @@
     {
       "key": "ExternalNotification.Bark.Server",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6154,9 +6334,9 @@
     {
       "key": "ExternalNotification.Qmsg.Server",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6167,9 +6347,9 @@
     {
       "key": "ExternalNotification.Qmsg.Key",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6180,9 +6360,9 @@
     {
       "key": "ExternalNotification.Qmsg.User",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6193,9 +6373,9 @@
     {
       "key": "ExternalNotification.Qmsg.Bot",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6206,9 +6386,9 @@
     {
       "key": "ExternalNotification.Gotify.Server",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6219,9 +6399,9 @@
     {
       "key": "ExternalNotification.Gotify.Token",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6232,9 +6412,9 @@
     {
       "key": "ExternalNotification.CustomWebhook.Url",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6245,9 +6425,9 @@
     {
       "key": "ExternalNotification.CustomWebhook.Body",
       "owner_item_id": "Settings.ExternalNotification",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/ExternalNotificationSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6258,9 +6438,9 @@
     {
       "key": "Performance.UseGpu",
       "owner_item_id": "Settings.Performance",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/PerformanceSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6271,9 +6451,9 @@
     {
       "key": "Performance.PreferredGpuDescription",
       "owner_item_id": "Settings.Performance",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/PerformanceSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6284,9 +6464,9 @@
     {
       "key": "Performance.PreferredGpuInstancePath",
       "owner_item_id": "Settings.Performance",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/PerformanceSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6297,9 +6477,9 @@
     {
       "key": "Performance.AllowDeprecatedGpu",
       "owner_item_id": "Settings.Performance",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/PerformanceSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6310,126 +6490,162 @@
     {
       "key": "VersionUpdate.name",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.name",
         "case_id": "CFG-269"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.body",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.body",
         "case_id": "CFG-270"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.isfirstboot",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.isfirstboot",
         "case_id": "CFG-271"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.package",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.package",
         "case_id": "CFG-272"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "VersionUpdate.doNotShowUpdate",
       "owner_item_id": "Settings.VersionUpdate",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/VersionUpdateSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.VersionUpdate.doNotShowUpdate",
         "case_id": "CFG-273"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "VersionUpdatePolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::VersionUpdateFeatureService.SavePolicyAsync"
     },
     {
       "key": "OperBox.Data",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.OperBox.Data",
         "case_id": "CFG-274"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[OperBox.Data]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Gacha.ShowDisclaimerNoMore",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Gacha.ShowDisclaimerNoMore",
         "case_id": "CFG-275"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Gacha.ShowDisclaimerNoMore]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Peep.TargetFps",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Peep.TargetFps",
         "case_id": "CFG-276"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Peep.TargetFps]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Guide.StepIndex",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Guide.StepIndex",
         "case_id": "CFG-277"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Guide.StepIndex]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "Timer.ForceScheduledStart",
       "owner_item_id": "Settings.Timer",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/TimerSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6440,9 +6656,9 @@
     {
       "key": "Timer.ShowWindowBeforeForceScheduledStart",
       "owner_item_id": "Settings.Timer",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/TimerSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6453,9 +6669,9 @@
     {
       "key": "Timer.CustomConfig",
       "owner_item_id": "Settings.Timer",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
       "evidence": {
         "ui_path": "App/Features/Settings/TimerSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
@@ -6466,132 +6682,172 @@
     {
       "key": "Debug.TaskName",
       "owner_item_id": "RootDashboard",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Root/RootDashboardView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Debug.TaskName",
         "case_id": "CFG-281"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "UnifiedConfigurationService.CurrentConfig.GlobalValues[Debug.TaskName]",
+      "read_path": "Application/Configuration/LegacyTaskSchemaConverter.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
     },
     {
       "key": "MiniGame.TaskName",
       "owner_item_id": "Advanced.Toolbox",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/ToolboxView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.MiniGame.TaskName",
         "case_id": "CFG-282"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Toolbox settings bridge",
+      "read_path": "App/ViewModels/Toolbox/ToolboxPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::ToolboxFeatureService"
     },
     {
       "key": "MiniGame.SecretFrontEnding",
       "owner_item_id": "Advanced.Toolbox",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/ToolboxView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.MiniGame.SecretFrontEnding",
         "case_id": "CFG-283"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Toolbox settings bridge",
+      "read_path": "App/ViewModels/Toolbox/ToolboxPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::ToolboxFeatureService"
     },
     {
       "key": "MiniGame.SecretFrontEvent",
       "owner_item_id": "Advanced.Toolbox",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/ToolboxView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.MiniGame.SecretFrontEvent",
         "case_id": "CFG-284"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "Toolbox settings bridge",
+      "read_path": "App/ViewModels/Toolbox/ToolboxPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::ToolboxFeatureService"
     },
     {
       "key": "Achievement.PopupDisabled",
       "owner_item_id": "Settings.Achievement",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/AchievementSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Achievement.PopupDisabled",
         "case_id": "CFG-285"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "AchievementPolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::AchievementFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::AchievementFeatureService.SavePolicyAsync"
     },
     {
       "key": "Achievement.PopupAutoClose",
       "owner_item_id": "Settings.Achievement",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Settings/AchievementSettingsView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Achievement.PopupAutoClose",
         "case_id": "CFG-286"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "AchievementPolicy",
+      "read_path": "Application/Services/Features/FeatureServices.cs::AchievementFeatureService.LoadPolicyAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::AchievementFeatureService.SavePolicyAsync"
     },
     {
       "key": "Overlay.Target",
       "owner_item_id": "Advanced.Overlay",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Advanced/OverlayView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Overlay.Target",
         "case_id": "CFG-287"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "OverlayAdvancedPageViewModel.SelectedTarget",
+      "read_path": "App/ViewModels/Advanced/OverlayAdvancedPageViewModel.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::OverlayFeatureService"
     },
     {
       "key": "Announcement.AnnouncementInfo",
       "owner_item_id": "Dialog.Announcement",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Dialogs/AnnouncementDialogView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Announcement.AnnouncementInfo",
         "case_id": "CFG-288"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "AnnouncementState",
+      "read_path": "Application/Services/Features/FeatureServices.cs::AnnouncementFeatureService.LoadStateAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::AnnouncementFeatureService.SaveStateAsync"
     },
     {
       "key": "Announcement.DoNotRemindThisAnnouncementAgain",
       "owner_item_id": "Dialog.Announcement",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Dialogs/AnnouncementDialogView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Announcement.DoNotRemindThisAnnouncementAgain",
         "case_id": "CFG-289"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "AnnouncementState",
+      "read_path": "Application/Services/Features/FeatureServices.cs::AnnouncementFeatureService.LoadStateAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::AnnouncementFeatureService.SaveStateAsync"
     },
     {
       "key": "Announcement.DoNotShowAnnouncement",
       "owner_item_id": "Dialog.Announcement",
-      "parity_status": "Gap",
+      "parity_status": "Aligned",
       "priority": "P0",
-      "notes": "Not yet bound in Avalonia runtime; kept as explicit P0 gap.",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
       "evidence": {
         "ui_path": "App/Features/Dialogs/AnnouncementDialogView.axaml",
         "log_path": "debug/avalonia-ui-events.log",
         "scope": "Config.Announcement.DoNotShowAnnouncement",
         "case_id": "CFG-290"
-      }
+      },
+      "waiver": null,
+      "mapping_target": "AnnouncementState",
+      "read_path": "Application/Services/Features/FeatureServices.cs::AnnouncementFeatureService.LoadStateAsync",
+      "write_path": "Application/Services/Features/FeatureServices.cs::AnnouncementFeatureService.SaveStateAsync"
     }
   ],
   "fallback_capabilities": [
@@ -6599,19 +6855,21 @@
       "capability_id": "Tray",
       "platform": "windows",
       "expected_mode": "full",
-      "current_mode": "fallback",
-      "parity_status": "Gap",
+      "current_mode": "full",
+      "parity_status": "Aligned",
       "priority": "P0",
       "visible": true,
       "recorded": true,
       "locatable": true,
-      "message": "System tray is not supported in this environment",
+      "message": "Native mode is available by default in healthy Windows environments; fallback remains exception-only.",
       "evidence": {
         "ui_path": "App/Views/MainWindow.axaml",
         "log_path": "debug/avalonia-ui-errors.log",
         "scope": "Capability.Tray.windows",
         "case_id": "FAL-WIN-TRA"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "capability_id": "Tray",
@@ -6653,19 +6911,21 @@
       "capability_id": "Notification",
       "platform": "windows",
       "expected_mode": "full",
-      "current_mode": "fallback",
-      "parity_status": "Gap",
+      "current_mode": "full",
+      "parity_status": "Aligned",
       "priority": "P0",
       "visible": true,
       "recorded": true,
       "locatable": true,
-      "message": "System notification is unavailable, fallback to in-app notifications",
+      "message": "Native mode is available by default in healthy Windows environments; fallback remains exception-only.",
       "evidence": {
         "ui_path": "App/Views/MainWindow.axaml",
         "log_path": "debug/avalonia-ui-errors.log",
         "scope": "Capability.Notification.windows",
         "case_id": "FAL-WIN-NOT"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "capability_id": "Notification",
@@ -6707,19 +6967,21 @@
       "capability_id": "Hotkey",
       "platform": "windows",
       "expected_mode": "full",
-      "current_mode": "fallback",
-      "parity_status": "Gap",
+      "current_mode": "full",
+      "parity_status": "Aligned",
       "priority": "P0",
       "visible": true,
       "recorded": true,
       "locatable": true,
-      "message": "Global hotkey is unavailable, fallback to window-scoped hotkeys",
+      "message": "Native mode is available by default in healthy Windows environments; fallback remains exception-only.",
       "evidence": {
         "ui_path": "App/Views/MainWindow.axaml",
         "log_path": "debug/avalonia-ui-errors.log",
         "scope": "Capability.Hotkey.windows",
         "case_id": "FAL-WIN-HOT"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "capability_id": "Hotkey",
@@ -6761,19 +7023,21 @@
       "capability_id": "Autostart",
       "platform": "windows",
       "expected_mode": "full",
-      "current_mode": "fallback",
-      "parity_status": "Gap",
+      "current_mode": "full",
+      "parity_status": "Aligned",
       "priority": "P0",
       "visible": true,
       "recorded": true,
       "locatable": true,
-      "message": "Autostart is unavailable on current platform runtime",
+      "message": "Native mode is available by default in healthy Windows environments; fallback remains exception-only.",
       "evidence": {
         "ui_path": "App/Views/MainWindow.axaml",
         "log_path": "debug/avalonia-ui-errors.log",
         "scope": "Capability.Autostart.windows",
         "case_id": "FAL-WIN-AUT"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "capability_id": "Autostart",
@@ -6815,19 +7079,21 @@
       "capability_id": "Overlay",
       "platform": "windows",
       "expected_mode": "full",
-      "current_mode": "fallback",
-      "parity_status": "Gap",
+      "current_mode": "full",
+      "parity_status": "Aligned",
       "priority": "P0",
       "visible": true,
       "recorded": true,
       "locatable": true,
-      "message": "Overlay attachment is unsupported, fallback to preview and logs only",
+      "message": "Native mode is available by default in healthy Windows environments; fallback remains exception-only.",
       "evidence": {
         "ui_path": "App/Views/MainWindow.axaml",
         "log_path": "debug/avalonia-ui-errors.log",
         "scope": "Capability.Overlay.windows",
         "case_id": "FAL-WIN-OVE"
-      }
+      },
+      "waiver": null,
+      "waiver_scope": null
     },
     {
       "capability_id": "Overlay",

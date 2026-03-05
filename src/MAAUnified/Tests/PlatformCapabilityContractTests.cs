@@ -289,7 +289,7 @@ public sealed class PlatformCapabilityContractTests
     [Fact]
     public void PlatformCapabilityTextMap_ContainsAllErrorAndMenuKeys_ForAllSupportedLanguages()
     {
-        var languages = new[] { "zh-cn", "en-us", "ja-jp", "ko-kr", "zh-tw" };
+        var languages = new[] { "zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr", "pallas" };
         var requiredErrorCodes = typeof(PlatformErrorCodes)
             .GetFields(BindingFlags.Public | BindingFlags.Static)
             .Where(field => field.FieldType == typeof(string))
@@ -312,6 +312,8 @@ public sealed class PlatformCapabilityContractTests
             Assert.False(string.IsNullOrWhiteSpace(trayMenu.ForceShow));
             Assert.False(string.IsNullOrWhiteSpace(trayMenu.HideTray));
             Assert.False(string.IsNullOrWhiteSpace(trayMenu.ToggleOverlay));
+            Assert.False(string.IsNullOrWhiteSpace(trayMenu.SwitchLanguage));
+            Assert.False(string.IsNullOrWhiteSpace(trayMenu.Restart));
             Assert.False(string.IsNullOrWhiteSpace(trayMenu.Exit));
 
             Assert.False(string.IsNullOrWhiteSpace(PlatformCapabilityTextMap.GetCapabilityName(language, PlatformCapabilityId.Tray)));

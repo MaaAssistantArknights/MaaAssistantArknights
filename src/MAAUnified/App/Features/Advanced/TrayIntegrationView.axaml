@@ -1,11 +1,38 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Advanced.TrayIntegrationView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="TrayIntegration" />
-      <TextBlock Text="MAAUnified Advanced 模块：TrayIntegration" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="已接入同构布局入口与能力状态。" TextWrapping="Wrap" />
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+    <TextBlock Classes="section-title" Text="Tray Integration" />
+    <TextBlock Grid.Row="1" Classes="long-wrap" Text="{Binding CapabilitySummary}" />
+    <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,*">
+      <CheckBox Content="Tray 可见" IsChecked="{Binding TrayVisible}" />
+      <Button Grid.Column="1"
+              Classes="action"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+              Content="应用可见性"
+              Click="OnApplyTrayVisibilityClick" />
+      <Button Grid.Column="2"
+              Classes="action"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+              Content="同步菜单状态"
+              Click="OnSyncMenuStateClick" />
+      <Button Grid.Column="3"
+              Classes="action"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+              HorizontalAlignment="Left"
+              Content="刷新能力"
+              Click="OnRefreshCapabilityClick" />
+    </Grid>
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,200,Auto,*">
+      <TextBlock VerticalAlignment="Center" Text="通知标题" />
+      <TextBox Text="{Binding TrayMessageTitle}" />
+      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="通知内容" />
+      <TextBox Grid.Column="3" Text="{Binding TrayMessageBody}" />
+    </Grid>
+    <StackPanel Grid.Row="4" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <Button Classes="action" Content="发送托盘通知" Click="OnSendTrayMessageClick" />
+      <TextBlock Text="{Binding StatusMessage}" />
+      <TextBlock Classes="state-error long-wrap" Text="{Binding LastErrorMessage}" />
     </StackPanel>
-  </Border>
+  </Grid>
 </UserControl>

@@ -114,7 +114,8 @@ public sealed class TaskModuleAFeatureTests
 
         var validate = await fixture.TaskQueue.ValidateTaskAsync(0);
         Assert.True(validate.Success);
-        Assert.Contains(validate.Value!, issue => issue.Code == "FightTimesMayNotExhausted" && !issue.Blocking);
+        Assert.NotNull(validate.Value);
+        Assert.Contains(validate.Value!.Issues, issue => issue.Code == "FightTimesMayNotExhausted" && !issue.Blocking);
     }
 
     [Fact]
@@ -442,7 +443,7 @@ public sealed class TaskModuleAFeatureTests
     public void Localization_HasModuleAKeys_ForAllSupportedLanguages()
     {
         var text = new LocalizedTextMap();
-        var languages = new[] { "zh-cn", "en-us", "ja-jp", "ko-kr", "zh-tw" };
+        var languages = new[] { "zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr", "pallas" };
         var requiredKeys = GetRequiredLocalizationKeys();
 
         foreach (var language in languages)
@@ -462,10 +463,11 @@ public sealed class TaskModuleAFeatureTests
         var localeFields = new Dictionary<string, string>
         {
             ["zh-cn"] = "ZhCn",
+            ["zh-tw"] = "ZhTw",
             ["en-us"] = "EnUs",
             ["ja-jp"] = "JaJp",
             ["ko-kr"] = "KoKr",
-            ["zh-tw"] = "ZhTw",
+            ["pallas"] = "Pallas",
         };
         var requiredKeys = GetRequiredLocalizationKeys();
 
@@ -525,6 +527,7 @@ public sealed class TaskModuleAFeatureTests
         var session = new UnifiedSessionService(bridge, config, log, new SessionStateMachine());
         var platform = PlatformServicesFactory.CreateDefaults();
         var platformCapabilityService = new PlatformCapabilityFeatureService(platform, diagnostics);
+        var connectFeatureService = new ConnectFeatureService(session, config);
         var runtime = new MAAUnifiedRuntime
         {
             CoreBridge = bridge,
@@ -534,7 +537,8 @@ public sealed class TaskModuleAFeatureTests
             Platform = platform,
             LogService = log,
             DiagnosticsService = diagnostics,
-            ConnectFeatureService = new ConnectFeatureService(session, config),
+            ConnectFeatureService = connectFeatureService,
+            ShellFeatureService = new ShellFeatureService(connectFeatureService),
             TaskQueueFeatureService = new TaskQueueFeatureService(session, config),
             CopilotFeatureService = new CopilotFeatureService(),
             ToolboxFeatureService = new ToolboxFeatureService(),

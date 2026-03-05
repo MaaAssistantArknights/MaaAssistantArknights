@@ -27,7 +27,7 @@ Single-directory implementation root for the new Avalonia frontend replacement.
 
 本轮统一目标是：
 
-1. 以 WPF 现有行为为基线，完成 UI 布局、默认值、交互、配置语义、错误反馈的一致化迁移。
+1. 以 WPF 现有行为为基线，完成 UI 布局、默认值、交互、配置语义、错误反馈的一致化迁移。所有功能、界面要求与 WPF 保持一致
 2. 保持现有平台降级策略（fallback）不变，但必须做到“可见、可记录、可定位”。
 3. 建立可持续交付能力：模块化任务拆分、可并行开发、统一验收口径、自动化门禁。
 

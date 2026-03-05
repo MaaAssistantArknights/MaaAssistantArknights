@@ -1,15 +1,23 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Dialogs.AnnouncementDialogView">
-  <Grid Margin="8" RowDefinitions="Auto,*,Auto">
+  <Grid Margin="8" RowDefinitions="Auto,*,Auto,Auto">
     <TextBlock Classes="section-title" Text="Announcement" />
     <ScrollViewer Grid.Row="1">
-      <TextBlock TextWrapping="Wrap"
-                 Text="公告内容支持 Markdown 渲染（标题、链接、代码块）。" />
+      <TextBox TextWrapping="Wrap"
+               AcceptsReturn="True"
+               Height="160"
+               Text="{Binding AnnouncementInfo}"
+               Watermark="公告内容支持 Markdown 渲染（标题、链接、代码块）。" />
     </ScrollViewer>
-    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-      <Button Content="忽略" />
-      <Button Content="查看详情" />
+    <WrapPanel Grid.Row="2" ItemWidth="220">
+      <CheckBox Content="不再提醒本条公告" IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
+      <CheckBox Content="不再显示公告" IsChecked="{Binding DoNotShowAnnouncement}" />
+      <Button Content="保存状态" Click="OnSaveClick" />
+    </WrapPanel>
+    <StackPanel Grid.Row="3" Spacing="4">
+      <TextBlock Classes="long-wrap" Text="{Binding StatusMessage}" />
+      <TextBlock Classes="state-error long-wrap" Text="{Binding LastErrorMessage}" />
     </StackPanel>
   </Grid>
 </UserControl>

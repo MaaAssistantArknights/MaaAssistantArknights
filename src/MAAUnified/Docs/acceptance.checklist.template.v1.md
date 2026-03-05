@@ -3,7 +3,7 @@
 ## 摘要
 - Schema version: `1.0.0`
 - Baseline ref: `src/MAAUnified/Compat/Mapping/Baseline/baseline.freeze.v1.json`
-- Case count: `57`
+- Case count: `58`
 
 ## Matrix Strategy
 - Tier-1: Root + Settings + System entries, full platform/theme/locale matrix.
@@ -79,6 +79,10 @@
 | `ACC-055` | Tier-1 | `System.CapabilitySummary` | windows, macos, linux | Light, Dark | zh-cn, zh-tw, en-us, ja-jp, ko-kr, pallas |
 | `ACC-056` | Tier-1 | `System.GlobalErrorChannel` | windows, macos, linux | Light, Dark | zh-cn, zh-tw, en-us, ja-jp, ko-kr, pallas |
 | `ACC-057` | Tier-1 | `System.PageErrorChannel` | windows, macos, linux | Light, Dark | zh-cn, zh-tw, en-us, ja-jp, ko-kr, pallas |
+| `ACC-058` | Tier-2 | `TaskQueueRoot` | windows | Light | zh-cn, zh-tw, en-us, ja-jp, ko-kr, pallas |
+
+## Case Waivers
+- None
 
 ## Waiver Policy
 - Allowed: `True`

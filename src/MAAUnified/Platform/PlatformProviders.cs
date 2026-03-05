@@ -330,6 +330,8 @@ public sealed class WindowsNotifyIconTrayService : ITrayService
         menu.Items.Add(CreateMenuItem(TrayCommandId.ForceShow, _menuText.ForceShow));
         menu.Items.Add(CreateMenuItem(TrayCommandId.HideTray, _menuText.HideTray));
         menu.Items.Add(CreateMenuItem(TrayCommandId.ToggleOverlay, _menuText.ToggleOverlay));
+        menu.Items.Add(CreateMenuItem(TrayCommandId.SwitchLanguage, _menuText.SwitchLanguage));
+        menu.Items.Add(CreateMenuItem(TrayCommandId.Restart, _menuText.Restart));
         menu.Items.Add(new PopupMenuSeparator());
         menu.Items.Add(CreateMenuItem(TrayCommandId.Exit, _menuText.Exit));
         return menu;
@@ -358,6 +360,8 @@ public sealed class WindowsNotifyIconTrayService : ITrayService
         SetEnabled(TrayCommandId.ToggleOverlay, _menuState.OverlayEnabled);
         SetEnabled(TrayCommandId.ForceShow, _menuState.ForceShowEnabled);
         SetEnabled(TrayCommandId.HideTray, _menuState.HideTrayEnabled);
+        SetEnabled(TrayCommandId.SwitchLanguage, true);
+        SetEnabled(TrayCommandId.Restart, true);
         SetEnabled(TrayCommandId.Exit, true);
     }
 
@@ -638,6 +642,8 @@ public sealed class AvaloniaTrayIconTrayService : ITrayService, IDisposable
         menu.Items.Add(CreateMenuItem(TrayCommandId.ForceShow, _menuText.ForceShow));
         menu.Items.Add(CreateMenuItem(TrayCommandId.HideTray, _menuText.HideTray));
         menu.Items.Add(CreateMenuItem(TrayCommandId.ToggleOverlay, _menuText.ToggleOverlay));
+        menu.Items.Add(CreateMenuItem(TrayCommandId.SwitchLanguage, _menuText.SwitchLanguage));
+        menu.Items.Add(CreateMenuItem(TrayCommandId.Restart, _menuText.Restart));
         menu.Items.Add(new NativeMenuItemSeparator());
         menu.Items.Add(CreateMenuItem(TrayCommandId.Exit, _menuText.Exit));
         _trayIcon.Menu = menu;
@@ -658,6 +664,8 @@ public sealed class AvaloniaTrayIconTrayService : ITrayService, IDisposable
         SetEnabled(TrayCommandId.ToggleOverlay, _menuState.OverlayEnabled);
         SetEnabled(TrayCommandId.ForceShow, _menuState.ForceShowEnabled);
         SetEnabled(TrayCommandId.HideTray, _menuState.HideTrayEnabled);
+        SetEnabled(TrayCommandId.SwitchLanguage, true);
+        SetEnabled(TrayCommandId.Restart, true);
         SetEnabled(TrayCommandId.Exit, true);
     }
 

@@ -1920,6 +1920,37 @@
       ],
       "non_crash_required": true,
       "requires_fallback_trace": true
+    },
+    {
+      "case_id": "ACC-058",
+      "tier": "Tier-2",
+      "item_id": "TaskQueueRoot",
+      "platforms": [
+        "windows"
+      ],
+      "themes": [
+        "Light"
+      ],
+      "locales": [
+        "zh-cn",
+        "zh-tw",
+        "en-us",
+        "ja-jp",
+        "ko-kr",
+        "pallas"
+      ],
+      "steps": [
+        "Configure one enabled Fight task with empty stage and one enabled Mall task with credit_fight=true.",
+        "Invoke TaskQueuePage.StartAsync and force a blocking validation outcome.",
+        "Inspect TaskQueue precheck warning and debug event logs."
+      ],
+      "expected": [
+        "Precheck warning remains visible before start exits due to blocking validation.",
+        "Mall credit_fight is downgraded to false in profile state.",
+        "Log trace contains `TaskQueue.Start.PrecheckWarning` and `Mall credit fight disabled`."
+      ],
+      "non_crash_required": true,
+      "requires_fallback_trace": true
     }
   ]
 }

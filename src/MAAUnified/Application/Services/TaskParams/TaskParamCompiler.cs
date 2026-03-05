@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Models.TaskParams;
 
@@ -22,6 +23,32 @@ public static class TaskParamCompiler
     private const string UiStageResetMode = "_ui_stage_reset_mode";
     private const string UiUseCustomAnnihilation = "_ui_use_custom_annihilation";
     private const string UiAnnihilationStage = "_ui_annihilation_stage";
+    private static readonly Regex RoguelikeSeedRegex = new("^[0-9A-Za-z]+,rogue_\\d+,\\d+$", RegexOptions.Compiled);
+    private static readonly HashSet<int> RoguelikeModes = [0, 1, 4, 5, 6, 7, 20001];
+    private static readonly HashSet<string> RoguelikeThemes = new(StringComparer.OrdinalIgnoreCase) { "JieGarden", "Phantom", "Mizuki", "Sami", "Sarkaz" };
+    private static readonly HashSet<string> ReclamationThemes = new(StringComparer.OrdinalIgnoreCase) { "Tales", "Fire" };
+    private static readonly HashSet<int> ReclamationModes = [0, 1];
+    private static readonly HashSet<string> RoguelikeProfessionalSquads = new(StringComparer.Ordinal)
+    {
+        "突击战术分队",
+        "堡垒战术分队",
+        "远程战术分队",
+        "破坏战术分队",
+    };
+    private static readonly HashSet<string> CustomKnownTaskTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "StartUp",
+        "CloseDown",
+        "Fight",
+        "Recruit",
+        "Infrast",
+        "Mall",
+        "Award",
+        "Roguelike",
+        "Reclamation",
+        "Custom",
+        "PostAction",
+    };
 
     public static string NormalizeTaskType(string? type)
     {
@@ -65,6 +92,9 @@ public static class TaskParamCompiler
             "StartUp" => (normalizedType, CompileStartUp(new StartUpTaskParamsDto(), profile, config).Params),
             "Fight" => (normalizedType, CompileFight(new FightTaskParamsDto(), profile, config).Params),
             "Recruit" => (normalizedType, CompileRecruit(new RecruitTaskParamsDto(), profile, config).Params),
+            "Roguelike" => (normalizedType, CompileRoguelike(new RoguelikeTaskParamsDto(), profile, config).Params),
+            "Reclamation" => (normalizedType, CompileReclamation(new ReclamationTaskParamsDto(), profile, config).Params),
+            "Custom" => (normalizedType, CompileCustom(new CustomTaskParamsDto(), profile, config).Params),
             _ => (normalizedType, new JsonObject()),
         };
     }
@@ -77,11 +107,18 @@ public static class TaskParamCompiler
     {
         var issues = new List<TaskValidationIssue>();
         var parameters = task.Params ?? new JsonObject();
+        var profileClientType = ResolveStringSetting(profile, config, "ClientType");
+        var clientType = !string.IsNullOrWhiteSpace(profileClientType)
+            ? profileClientType
+            : ReadString(parameters, "client_type", strict, issues, "start_up.client_type", "Official");
+        var startGameEnabled = TryResolveBooleanSetting(profile, config, "StartGame", out var profileStartGame)
+            ? profileStartGame
+            : ReadBool(parameters, "start_game_enabled", strict, issues, "start_up.start_game_enabled", true);
 
         var dto = new StartUpTaskParamsDto
         {
-            ClientType = ReadString(parameters, "client_type", strict, issues, "start_up.client_type", ResolveStringSetting(profile, config, "ClientType") ?? "Official"),
-            StartGameEnabled = ReadBool(parameters, "start_game_enabled", strict, issues, "start_up.start_game_enabled", ResolveBooleanSetting(profile, config, "StartGame", true)),
+            ClientType = clientType,
+            StartGameEnabled = startGameEnabled,
             AccountName = ReadString(parameters, "account_name", strict, issues, "start_up.account_name", string.Empty),
             ConnectConfig = ResolveStringSetting(profile, config, "ConnectConfig") ?? "General",
             ConnectAddress = ResolveStringSetting(profile, config, "ConnectAddress") ?? "127.0.0.1:5555",
@@ -413,6 +450,415 @@ public static class TaskParamCompiler
         };
     }
 
+    public static (RoguelikeTaskParamsDto Dto, IReadOnlyList<TaskValidationIssue> Issues) ReadRoguelike(
+        UnifiedTaskItem task,
+        bool strict)
+    {
+        var issues = new List<TaskValidationIssue>();
+        var parameters = task.Params ?? new JsonObject();
+
+        var mode = ReadInt(parameters, "mode", strict, issues, "roguelike.mode", 0);
+
+        var dto = new RoguelikeTaskParamsDto
+        {
+            Mode = mode,
+            Theme = ReadString(parameters, "theme", strict, issues, "roguelike.theme", "JieGarden"),
+            Difficulty = ReadInt(parameters, "difficulty", strict, issues, "roguelike.difficulty", int.MaxValue),
+            StartsCount = ReadInt(parameters, "starts_count", strict, issues, "roguelike.starts_count", 999999),
+            InvestmentEnabled = ReadBool(parameters, "investment_enabled", strict, issues, "roguelike.investment_enabled", true),
+            InvestmentWithMoreScore = ReadBool(parameters, "investment_with_more_score", false, issues, "roguelike.investment_with_more_score", false),
+            InvestmentsCount = ReadInt(parameters, "investments_count", false, issues, "roguelike.investments_count", 999),
+            StopWhenInvestmentFull = ReadBool(parameters, "stop_when_investment_full", false, issues, "roguelike.stop_when_investment_full", false),
+            Squad = ReadString(parameters, "squad", false, issues, "roguelike.squad", string.Empty),
+            Roles = ReadString(parameters, "roles", false, issues, "roguelike.roles", string.Empty),
+            CoreChar = ReadString(parameters, "core_char", false, issues, "roguelike.core_char", string.Empty),
+            UseSupport = ReadBool(parameters, "use_support", strict, issues, "roguelike.use_support", false),
+            UseNonfriendSupport = ReadBool(parameters, "use_nonfriend_support", strict, issues, "roguelike.use_nonfriend_support", false),
+            RefreshTraderWithDice = ReadBool(parameters, "refresh_trader_with_dice", strict, issues, "roguelike.refresh_trader_with_dice", false),
+            StopAtFinalBoss = ReadBool(parameters, "stop_at_final_boss", false, issues, "roguelike.stop_at_final_boss", false),
+            StopAtMaxLevel = ReadBool(parameters, "stop_at_max_level", false, issues, "roguelike.stop_at_max_level", false),
+            CollectibleModeShopping = ReadBool(parameters, "collectible_mode_shopping", false, issues, "roguelike.collectible_mode_shopping", false),
+            CollectibleModeSquad = ReadString(parameters, "collectible_mode_squad", false, issues, "roguelike.collectible_mode_squad", string.Empty),
+            StartWithEliteTwo = ReadBool(parameters, "start_with_elite_two", false, issues, "roguelike.start_with_elite_two", false),
+            OnlyStartWithEliteTwo = ReadBool(parameters, "only_start_with_elite_two", false, issues, "roguelike.only_start_with_elite_two", false),
+            CollectibleModeStartList = ReadCollectibleStartList(parameters["collectible_mode_start_list"], issues, "roguelike.collectible_mode_start_list"),
+            MonthlySquadAutoIterate = ReadBool(parameters, "monthly_squad_auto_iterate", false, issues, "roguelike.monthly_squad_auto_iterate", true),
+            MonthlySquadCheckComms = ReadBool(parameters, "monthly_squad_check_comms", false, issues, "roguelike.monthly_squad_check_comms", true),
+            DeepExplorationAutoIterate = ReadBool(parameters, "deep_exploration_auto_iterate", false, issues, "roguelike.deep_exploration_auto_iterate", true),
+            FindPlayTimeTarget = ReadIntWithAliases(
+                parameters,
+                ["find_playTime_target", "find_playtime_target"],
+                false,
+                issues,
+                "roguelike.find_playTime_target",
+                1),
+            FirstFloorFoldartal = ReadString(parameters, "first_floor_foldartal", false, issues, "roguelike.first_floor_foldartal", string.Empty),
+            StartFoldartalList = ReadStringArrayCompat(parameters, "start_foldartal_list", false, issues, "roguelike.start_foldartal_list"),
+            ExpectedCollapsalParadigms = ReadStringArrayCompat(parameters, "expected_collapsal_paradigms", false, issues, "roguelike.expected_collapsal_paradigms"),
+            StartWithSeed = ReadString(parameters, "start_with_seed", false, issues, "roguelike.start_with_seed", string.Empty),
+        };
+
+        return (dto, issues);
+    }
+
+    public static TaskCompileOutput CompileRoguelike(
+        RoguelikeTaskParamsDto dto,
+        UnifiedProfile profile,
+        UnifiedConfig config)
+    {
+        _ = profile;
+        _ = config;
+
+        var issues = new List<TaskValidationIssue>();
+
+        var mode = dto.Mode;
+        if (!RoguelikeModes.Contains(mode))
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeModeInvalid", "roguelike.mode", "Roguelike mode is not supported by current schema."));
+            mode = 0;
+        }
+
+        var theme = string.IsNullOrWhiteSpace(dto.Theme) ? "JieGarden" : dto.Theme.Trim();
+        if (!RoguelikeThemes.Contains(theme))
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeThemeUnknown", "roguelike.theme", "Unknown roguelike theme, fallback to JieGarden.", Blocking: false));
+            theme = "JieGarden";
+        }
+
+        if (dto.Difficulty < 0)
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeDifficultyOutOfRange", "roguelike.difficulty", "Difficulty must be greater than or equal to zero.", Blocking: false));
+        }
+
+        if (dto.StartsCount < 0)
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeStartsCountOutOfRange", "roguelike.starts_count", "Starts count must be greater than or equal to zero.", Blocking: false));
+        }
+
+        if (dto.InvestmentsCount < 0)
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeInvestmentsCountOutOfRange", "roguelike.investments_count", "Investments count must be greater than or equal to zero.", Blocking: false));
+        }
+
+        if (!string.Equals(theme, "Mizuki", StringComparison.OrdinalIgnoreCase) && dto.RefreshTraderWithDice)
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeRefreshTraderThemeMismatch", "roguelike.refresh_trader_with_dice", "Refresh trader with dice is only supported in Mizuki theme.", Blocking: false));
+        }
+
+        if (mode == 20001 && !string.Equals(theme, "JieGarden", StringComparison.OrdinalIgnoreCase))
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeFindPlaytimeThemeMismatch", "roguelike.theme", "FindPlaytime mode requires JieGarden theme, fallback applied.", Blocking: false));
+            theme = "JieGarden";
+        }
+
+        var findPlayTimeTarget = dto.FindPlayTimeTarget;
+        if (mode == 20001 && (findPlayTimeTarget is < 1 or > 3))
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeFindPlaytimeTargetOutOfRange", "roguelike.find_playTime_target", "FindPlaytime target must be between 1 and 3.", Blocking: false));
+            findPlayTimeTarget = 1;
+        }
+
+        var startWithEliteTwo = dto.StartWithEliteTwo;
+        var onlyStartWithEliteTwo = dto.OnlyStartWithEliteTwo;
+        var squad = (dto.Squad ?? string.Empty).Trim();
+        var modeAllowsEliteTwo = mode == 4
+            && (string.Equals(theme, "Mizuki", StringComparison.OrdinalIgnoreCase) || string.Equals(theme, "Sami", StringComparison.OrdinalIgnoreCase))
+            && IsRoguelikeProfessionalSquad(squad);
+        if (startWithEliteTwo && !modeAllowsEliteTwo)
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeEliteTwoModeMismatch", "roguelike.start_with_elite_two", "StartWithEliteTwo is only supported in collectible mode with professional squad.", Blocking: false));
+            startWithEliteTwo = false;
+        }
+
+        if (onlyStartWithEliteTwo && !startWithEliteTwo)
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeOnlyEliteTwoRequiresEliteTwo", "roguelike.only_start_with_elite_two", "OnlyStartWithEliteTwo requires StartWithEliteTwo to be enabled.", Blocking: false));
+            onlyStartWithEliteTwo = false;
+        }
+
+        if (dto.UseSupport && startWithEliteTwo)
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeEliteTwoSupportConflict", "roguelike.use_support", "UseSupport conflicts with StartWithEliteTwo under current strategy.", Blocking: false));
+            startWithEliteTwo = false;
+            onlyStartWithEliteTwo = false;
+        }
+
+        var startFoldartalList = ParseDelimitedList(dto.StartFoldartalList);
+        if (startFoldartalList.Count > 3)
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeStartFoldartalListTrimmed", "roguelike.start_foldartal_list", "Start foldartal list exceeds max size and will be trimmed to 3.", Blocking: false));
+            startFoldartalList = startFoldartalList.Take(3).ToList();
+        }
+
+        var expectedCollapsalParadigms = ParseDelimitedList(dto.ExpectedCollapsalParadigms);
+
+        var startWithSeed = (dto.StartWithSeed ?? string.Empty).Trim();
+        if (!string.IsNullOrWhiteSpace(startWithSeed) && !RoguelikeSeedRegex.IsMatch(startWithSeed))
+        {
+            issues.Add(new TaskValidationIssue("RoguelikeStartWithSeedInvalid", "roguelike.start_with_seed", "Seed format is invalid. Expected `<alnum>,rogue_<id>,<step>`."));
+        }
+
+        var parameters = new JsonObject
+        {
+            ["mode"] = mode,
+            ["theme"] = theme,
+            ["difficulty"] = Math.Max(0, dto.Difficulty),
+            ["starts_count"] = Math.Max(0, dto.StartsCount),
+            ["investment_enabled"] = dto.InvestmentEnabled,
+            ["use_support"] = dto.UseSupport,
+            ["use_nonfriend_support"] = dto.UseNonfriendSupport,
+            ["refresh_trader_with_dice"] = string.Equals(theme, "Mizuki", StringComparison.OrdinalIgnoreCase) && dto.RefreshTraderWithDice,
+        };
+
+        if (dto.InvestmentEnabled)
+        {
+            parameters["investment_with_more_score"] = dto.InvestmentWithMoreScore && mode == 1;
+            parameters["investments_count"] = Math.Max(0, dto.InvestmentsCount);
+            parameters["stop_when_investment_full"] = dto.StopWhenInvestmentFull;
+        }
+
+        if (!string.IsNullOrWhiteSpace(squad))
+        {
+            parameters["squad"] = squad;
+        }
+
+        if (!string.IsNullOrWhiteSpace(dto.Roles))
+        {
+            parameters["roles"] = dto.Roles.Trim();
+        }
+
+        if (!string.IsNullOrWhiteSpace(dto.CoreChar))
+        {
+            parameters["core_char"] = dto.CoreChar.Trim();
+        }
+
+        if (mode == 0)
+        {
+            parameters["stop_at_final_boss"] = dto.StopAtFinalBoss;
+            parameters["stop_at_max_level"] = dto.StopAtMaxLevel;
+        }
+
+        if (mode == 4)
+        {
+            parameters["collectible_mode_shopping"] = dto.CollectibleModeShopping;
+            parameters["collectible_mode_squad"] = dto.CollectibleModeSquad.Trim();
+            parameters["start_with_elite_two"] = startWithEliteTwo;
+            parameters["only_start_with_elite_two"] = onlyStartWithEliteTwo;
+            parameters["collectible_mode_start_list"] = CompileCollectibleStartList(dto.CollectibleModeStartList);
+        }
+
+        if (mode == 6)
+        {
+            parameters["monthly_squad_auto_iterate"] = dto.MonthlySquadAutoIterate;
+            parameters["monthly_squad_check_comms"] = dto.MonthlySquadCheckComms;
+        }
+
+        if (mode == 7)
+        {
+            parameters["deep_exploration_auto_iterate"] = dto.DeepExplorationAutoIterate;
+        }
+
+        if (mode == 20001)
+        {
+            parameters["find_playTime_target"] = findPlayTimeTarget;
+        }
+
+        if (!string.IsNullOrWhiteSpace(dto.FirstFloorFoldartal))
+        {
+            parameters["first_floor_foldartal"] = dto.FirstFloorFoldartal.Trim();
+        }
+
+        if (startFoldartalList.Count > 0)
+        {
+            parameters["start_foldartal_list"] = ToJsonArray(startFoldartalList);
+        }
+
+        if (mode == 5)
+        {
+            parameters["expected_collapsal_paradigms"] = ToJsonArray(expectedCollapsalParadigms);
+        }
+
+        if (!string.IsNullOrWhiteSpace(startWithSeed))
+        {
+            parameters["start_with_seed"] = startWithSeed;
+        }
+
+        return new TaskCompileOutput
+        {
+            NormalizedType = "Roguelike",
+            Params = parameters,
+            Issues = issues,
+        };
+    }
+
+    public static (ReclamationTaskParamsDto Dto, IReadOnlyList<TaskValidationIssue> Issues) ReadReclamation(
+        UnifiedTaskItem task,
+        bool strict)
+    {
+        var issues = new List<TaskValidationIssue>();
+        var parameters = task.Params ?? new JsonObject();
+
+        var dto = new ReclamationTaskParamsDto
+        {
+            Theme = ReadString(parameters, "theme", strict, issues, "reclamation.theme", "Tales"),
+            Mode = ReadInt(parameters, "mode", strict, issues, "reclamation.mode", 1),
+            IncrementMode = ReadInt(parameters, "increment_mode", strict, issues, "reclamation.increment_mode", 0),
+            NumCraftBatches = ReadInt(parameters, "num_craft_batches", strict, issues, "reclamation.num_craft_batches", 1),
+            ToolsToCraft = ReadStringArrayCompat(parameters, "tools_to_craft", false, issues, "reclamation.tools_to_craft"),
+            ClearStore = ReadBool(parameters, "clear_store", strict, issues, "reclamation.clear_store", true),
+        };
+
+        return (dto, issues);
+    }
+
+    public static TaskCompileOutput CompileReclamation(
+        ReclamationTaskParamsDto dto,
+        UnifiedProfile profile,
+        UnifiedConfig config)
+    {
+        _ = profile;
+        _ = config;
+
+        var issues = new List<TaskValidationIssue>();
+
+        var theme = string.IsNullOrWhiteSpace(dto.Theme) ? "Tales" : dto.Theme.Trim();
+        if (!ReclamationThemes.Contains(theme))
+        {
+            issues.Add(new TaskValidationIssue("ReclamationThemeUnknown", "reclamation.theme", "Unknown reclamation theme, fallback to Tales.", Blocking: false));
+            theme = "Tales";
+        }
+
+        var mode = dto.Mode;
+        if (!ReclamationModes.Contains(mode))
+        {
+            issues.Add(new TaskValidationIssue("ReclamationModeInvalid", "reclamation.mode", "Reclamation mode is not supported by current schema."));
+            mode = 1;
+        }
+
+        var incrementMode = dto.IncrementMode;
+        if (incrementMode is < 0 or > 1)
+        {
+            issues.Add(new TaskValidationIssue("ReclamationIncrementModeOutOfRange", "reclamation.increment_mode", "Increment mode must be 0 or 1.", Blocking: false));
+            incrementMode = 0;
+        }
+
+        var numCraftBatches = dto.NumCraftBatches;
+        if (numCraftBatches is < 1 or > 99999)
+        {
+            issues.Add(new TaskValidationIssue("ReclamationNumCraftBatchesOutOfRange", "reclamation.num_craft_batches", "NumCraftBatches must be between 1 and 99999.", Blocking: false));
+            numCraftBatches = Math.Clamp(numCraftBatches, 1, 99999);
+        }
+
+        var toolsToCraft = ParseDelimitedList(dto.ToolsToCraft);
+        if (toolsToCraft.Any(ContainsStructuredToken))
+        {
+            issues.Add(new TaskValidationIssue("ReclamationToolNameInvalid", "reclamation.tools_to_craft", "ToolsToCraft contains unparseable structured tokens."));
+        }
+
+        if (mode == 0 && toolsToCraft.Count > 0)
+        {
+            issues.Add(new TaskValidationIssue("ReclamationToolsIgnoredInNoArchive", "reclamation.tools_to_craft", "ToolsToCraft is ignored in no-archive mode and will be cleared.", Blocking: false));
+            toolsToCraft = [];
+        }
+
+        var clearStore = dto.ClearStore;
+        if (mode == 1 && clearStore)
+        {
+            issues.Add(new TaskValidationIssue(
+                "ReclamationClearStoreIgnoredInArchive",
+                "reclamation.clear_store",
+                "ClearStore is ignored in archive mode and will be disabled.",
+                Blocking: false));
+            clearStore = false;
+        }
+
+        var parameters = new JsonObject
+        {
+            ["theme"] = theme,
+            ["mode"] = mode,
+            ["increment_mode"] = incrementMode,
+            ["num_craft_batches"] = numCraftBatches,
+            ["tools_to_craft"] = ToJsonArray(toolsToCraft),
+            ["clear_store"] = clearStore,
+        };
+
+        return new TaskCompileOutput
+        {
+            NormalizedType = "Reclamation",
+            Params = parameters,
+            Issues = issues,
+        };
+    }
+
+    public static (CustomTaskParamsDto Dto, IReadOnlyList<TaskValidationIssue> Issues) ReadCustom(
+        UnifiedTaskItem task,
+        bool strict)
+    {
+        var issues = new List<TaskValidationIssue>();
+        var parameters = task.Params ?? new JsonObject();
+        var taskNames = ReadStringArrayCompat(parameters, "task_names", strict, issues, "custom.task_names");
+
+        var dto = new CustomTaskParamsDto
+        {
+            TaskNames = taskNames,
+        };
+
+        return (dto, issues);
+    }
+
+    public static TaskCompileOutput CompileCustom(
+        CustomTaskParamsDto dto,
+        UnifiedProfile profile,
+        UnifiedConfig config)
+    {
+        _ = profile;
+        _ = config;
+
+        var issues = new List<TaskValidationIssue>();
+        var taskNames = ParseDelimitedList(dto.TaskNames);
+        if (taskNames.Count == 0)
+        {
+            issues.Add(new TaskValidationIssue("CustomTaskNamesEmpty", "custom.task_names", "Custom task names list is empty.", Blocking: false));
+        }
+
+        var normalizedTaskNames = new List<string>(taskNames.Count);
+        var normalizedChanged = false;
+        foreach (var taskName in taskNames)
+        {
+            if (ContainsStructuredToken(taskName))
+            {
+                issues.Add(new TaskValidationIssue("CustomTaskNameInvalid", "custom.task_names", $"Custom task name `{taskName}` contains unparseable structured tokens."));
+                continue;
+            }
+
+            var normalizedName = NormalizeTaskType(taskName);
+            if (!CustomKnownTaskTypes.Contains(normalizedName))
+            {
+                issues.Add(new TaskValidationIssue("CustomTaskNameUnknown", "custom.task_names", $"Custom task name `{taskName}` is not recognized.", Blocking: false));
+            }
+
+            normalizedTaskNames.Add(normalizedName);
+            normalizedChanged |= !string.Equals(taskName, normalizedName, StringComparison.Ordinal);
+        }
+
+        if (normalizedChanged || normalizedTaskNames.Count != taskNames.Count || taskNames.Count != dto.TaskNames.Count)
+        {
+            issues.Add(new TaskValidationIssue("CustomTaskNamesNormalized", "custom.task_names", "Custom task names were normalized and deduplicated.", Blocking: false));
+        }
+
+        var parameters = new JsonObject
+        {
+            ["task_names"] = ToJsonArray(normalizedTaskNames),
+        };
+
+        return new TaskCompileOutput
+        {
+            NormalizedType = "Custom",
+            Params = parameters,
+            Issues = issues,
+        };
+    }
+
     public static TaskCompileOutput CompileTask(
         UnifiedTaskItem task,
         UnifiedProfile profile,
@@ -426,6 +872,9 @@ public static class TaskParamCompiler
             "StartUp" => CompileStartUpFromTask(task, profile, config, strict),
             "Fight" => CompileFightFromTask(task, profile, config, strict),
             "Recruit" => CompileRecruitFromTask(task, profile, config, strict),
+            "Roguelike" => CompileRoguelikeFromTask(task, profile, config, strict),
+            "Reclamation" => CompileReclamationFromTask(task, profile, config, strict),
+            "Custom" => CompileCustomFromTask(task, profile, config, strict),
             _ => new TaskCompileOutput
             {
                 NormalizedType = normalized,
@@ -486,6 +935,57 @@ public static class TaskParamCompiler
         };
     }
 
+    private static TaskCompileOutput CompileRoguelikeFromTask(
+        UnifiedTaskItem task,
+        UnifiedProfile profile,
+        UnifiedConfig config,
+        bool strict)
+    {
+        var (dto, readIssues) = ReadRoguelike(task, strict);
+        var compiled = CompileRoguelike(dto, profile, config);
+        var allIssues = readIssues.Concat(compiled.Issues).ToList();
+        return new TaskCompileOutput
+        {
+            NormalizedType = compiled.NormalizedType,
+            Params = compiled.Params,
+            Issues = allIssues,
+        };
+    }
+
+    private static TaskCompileOutput CompileReclamationFromTask(
+        UnifiedTaskItem task,
+        UnifiedProfile profile,
+        UnifiedConfig config,
+        bool strict)
+    {
+        var (dto, readIssues) = ReadReclamation(task, strict);
+        var compiled = CompileReclamation(dto, profile, config);
+        var allIssues = readIssues.Concat(compiled.Issues).ToList();
+        return new TaskCompileOutput
+        {
+            NormalizedType = compiled.NormalizedType,
+            Params = compiled.Params,
+            Issues = allIssues,
+        };
+    }
+
+    private static TaskCompileOutput CompileCustomFromTask(
+        UnifiedTaskItem task,
+        UnifiedProfile profile,
+        UnifiedConfig config,
+        bool strict)
+    {
+        var (dto, readIssues) = ReadCustom(task, strict);
+        var compiled = CompileCustom(dto, profile, config);
+        var allIssues = readIssues.Concat(compiled.Issues).ToList();
+        return new TaskCompileOutput
+        {
+            NormalizedType = compiled.NormalizedType,
+            Params = compiled.Params,
+            Issues = allIssues,
+        };
+    }
+
     public static void ApplyStartUpSharedProfileValues(UnifiedProfile profile, StartUpTaskParamsDto dto)
     {
         profile.Values["ConnectConfig"] = JsonValue.Create(dto.ConnectConfig);
@@ -528,6 +1028,74 @@ public static class TaskParamCompiler
         return array;
     }
 
+    private static List<string> ParseDelimitedList(IEnumerable<string> values)
+    {
+        return values
+            .Where(v => !string.IsNullOrWhiteSpace(v))
+            .Select(v => v.Trim())
+            .Where(v => !string.IsNullOrWhiteSpace(v))
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+    }
+
+    private static bool IsRoguelikeProfessionalSquad(string squad)
+    {
+        return RoguelikeProfessionalSquads.Contains(squad);
+    }
+
+    private static bool ContainsStructuredToken(string value)
+    {
+        return value.IndexOfAny(['[', ']', '{', '}', ':', '"', '\r', '\n']) >= 0
+               || value.Any(c => char.IsControl(c) && c != '\t');
+    }
+
+    private static JsonObject CompileCollectibleStartList(RoguelikeCollectibleStartListDto? dto)
+    {
+        dto ??= new RoguelikeCollectibleStartListDto();
+        return new JsonObject
+        {
+            ["hot_water"] = dto.HotWater,
+            ["shield"] = dto.Shield,
+            ["ingot"] = dto.Ingot,
+            ["hope"] = dto.Hope,
+            ["random"] = dto.Random,
+            ["key"] = dto.Key,
+            ["dice"] = dto.Dice,
+            ["ideas"] = dto.Ideas,
+            ["ticket"] = dto.Ticket,
+        };
+    }
+
+    private static RoguelikeCollectibleStartListDto ReadCollectibleStartList(
+        JsonNode? node,
+        ICollection<TaskValidationIssue> issues,
+        string field)
+    {
+        if (node is null)
+        {
+            return new RoguelikeCollectibleStartListDto();
+        }
+
+        if (node is not JsonObject value)
+        {
+            issues.Add(new TaskValidationIssue("TaskFieldTypeInvalid", field, "Task field has incompatible type."));
+            return new RoguelikeCollectibleStartListDto();
+        }
+
+        return new RoguelikeCollectibleStartListDto
+        {
+            HotWater = ReadBool(value, "hot_water", false, issues, $"{field}.hot_water", false),
+            Shield = ReadBool(value, "shield", false, issues, $"{field}.shield", false),
+            Ingot = ReadBool(value, "ingot", false, issues, $"{field}.ingot", false),
+            Hope = ReadBool(value, "hope", false, issues, $"{field}.hope", false),
+            Random = ReadBool(value, "random", false, issues, $"{field}.random", false),
+            Key = ReadBool(value, "key", false, issues, $"{field}.key", false),
+            Dice = ReadBool(value, "dice", false, issues, $"{field}.dice", false),
+            Ideas = ReadBool(value, "ideas", false, issues, $"{field}.ideas", false),
+            Ticket = ReadBool(value, "ticket", false, issues, $"{field}.ticket", false),
+        };
+    }
+
     private static List<int> ReadIntArray(JsonObject obj, string key)
     {
         if (obj[key] is not JsonArray array)
@@ -566,6 +1134,67 @@ public static class TaskParamCompiler
         return result;
     }
 
+    private static List<string> ReadStringArrayCompat(
+        JsonObject obj,
+        string key,
+        bool strict,
+        ICollection<TaskValidationIssue> issues,
+        string field)
+    {
+        if (!obj.TryGetPropertyValue(key, out var node))
+        {
+            if (strict)
+            {
+                issues.Add(new TaskValidationIssue("TaskFieldMissing", field, $"Required task field `{key}` is missing."));
+            }
+
+            return [];
+        }
+
+        if (node is JsonArray array)
+        {
+            var result = new List<string>();
+            var hasInvalidEntry = false;
+            foreach (var item in array)
+            {
+                if (item is JsonValue jsonValue
+                    && jsonValue.TryGetValue(out string? parsed)
+                    && !string.IsNullOrWhiteSpace(parsed))
+                {
+                    result.Add(parsed.Trim());
+                    continue;
+                }
+
+                if (item is not null)
+                {
+                    hasInvalidEntry = true;
+                }
+            }
+
+            if (hasInvalidEntry)
+            {
+                issues.Add(new TaskValidationIssue("TaskFieldTypeInvalid", field, "Task field has incompatible type."));
+            }
+
+            return result
+                .Where(v => !string.IsNullOrWhiteSpace(v))
+                .Distinct(StringComparer.Ordinal)
+                .ToList();
+        }
+
+        if (node is JsonValue value && value.TryGetValue(out string? text) && !string.IsNullOrWhiteSpace(text))
+        {
+            return text
+                .Split(new[] { '\r', '\n', ';', ',', '|' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Where(v => !string.IsNullOrWhiteSpace(v))
+                .Distinct(StringComparer.Ordinal)
+                .ToList();
+        }
+
+        issues.Add(new TaskValidationIssue("TaskFieldTypeInvalid", field, "Task field has incompatible type."));
+        return [];
+    }
+
     private static string ReadString(
         JsonObject obj,
         string key,
@@ -574,12 +1203,17 @@ public static class TaskParamCompiler
         string field,
         string fallback)
     {
-        if (obj.TryGetPropertyValue(key, out var value)
-            && value is JsonValue jsonValue
-            && jsonValue.TryGetValue(out string? text)
-            && text is not null)
+        if (obj.TryGetPropertyValue(key, out var value))
         {
-            return text;
+            if (value is JsonValue jsonValue
+                && jsonValue.TryGetValue(out string? text)
+                && text is not null)
+            {
+                return text;
+            }
+
+            issues.Add(new TaskValidationIssue("TaskFieldTypeInvalid", field, $"Task field `{key}` has incompatible type."));
+            return fallback;
         }
 
         if (strict)
@@ -598,9 +1232,14 @@ public static class TaskParamCompiler
         string field,
         int fallback)
     {
-        if (obj.TryGetPropertyValue(key, out var value)
-            && value is JsonValue jsonValue)
+        if (obj.TryGetPropertyValue(key, out var value))
         {
+            if (value is not JsonValue jsonValue)
+            {
+                issues.Add(new TaskValidationIssue("TaskFieldTypeInvalid", field, $"Task field `{key}` has incompatible type."));
+                return fallback;
+            }
+
             if (jsonValue.TryGetValue(out int parsed))
             {
                 return parsed;
@@ -615,11 +1254,65 @@ public static class TaskParamCompiler
             {
                 return parsedText;
             }
+
+            issues.Add(new TaskValidationIssue("TaskFieldTypeInvalid", field, $"Task field `{key}` has incompatible type."));
+            return fallback;
         }
 
         if (strict)
         {
             issues.Add(new TaskValidationIssue("TaskFieldMissing", field, $"Required task field `{key}` is missing."));
+        }
+
+        return fallback;
+    }
+
+    private static int ReadIntWithAliases(
+        JsonObject obj,
+        IReadOnlyList<string> keys,
+        bool strict,
+        ICollection<TaskValidationIssue> issues,
+        string field,
+        int fallback)
+    {
+        var foundAlias = false;
+        foreach (var key in keys)
+        {
+            if (!obj.TryGetPropertyValue(key, out var value)
+                || value is null)
+            {
+                continue;
+            }
+
+            foundAlias = true;
+            if (value is not JsonValue jsonValue)
+            {
+                issues.Add(new TaskValidationIssue("TaskFieldTypeInvalid", field, $"Task field `{key}` has incompatible type."));
+                return fallback;
+            }
+
+            if (jsonValue.TryGetValue(out int parsed))
+            {
+                return parsed;
+            }
+
+            if (jsonValue.TryGetValue(out long parsedLong))
+            {
+                return Convert.ToInt32(parsedLong);
+            }
+
+            if (jsonValue.TryGetValue(out string? text) && int.TryParse(text, out var parsedText))
+            {
+                return parsedText;
+            }
+
+            issues.Add(new TaskValidationIssue("TaskFieldTypeInvalid", field, $"Task field `{key}` has incompatible type."));
+            return fallback;
+        }
+
+        if (!foundAlias && strict)
+        {
+            issues.Add(new TaskValidationIssue("TaskFieldMissing", field, $"Required task field `{keys[0]}` is missing."));
         }
 
         return fallback;
@@ -633,9 +1326,14 @@ public static class TaskParamCompiler
         string field,
         bool fallback)
     {
-        if (obj.TryGetPropertyValue(key, out var value)
-            && value is JsonValue jsonValue)
+        if (obj.TryGetPropertyValue(key, out var value))
         {
+            if (value is not JsonValue jsonValue)
+            {
+                issues.Add(new TaskValidationIssue("TaskFieldTypeInvalid", field, $"Task field `{key}` has incompatible type."));
+                return fallback;
+            }
+
             if (jsonValue.TryGetValue(out bool parsed))
             {
                 return parsed;
@@ -650,6 +1348,9 @@ public static class TaskParamCompiler
             {
                 return parsedText;
             }
+
+            issues.Add(new TaskValidationIssue("TaskFieldTypeInvalid", field, $"Task field `{key}` has incompatible type."));
+            return fallback;
         }
 
         if (strict)
@@ -691,47 +1392,73 @@ public static class TaskParamCompiler
 
     private static bool ResolveBooleanSetting(UnifiedProfile profile, UnifiedConfig config, string key, bool fallback = false)
     {
-        if (profile.Values.TryGetValue(key, out var profileValue))
+        if (TryResolveBooleanSetting(profile, config, key, out var value))
         {
-            return ToBoolean(profileValue, fallback);
-        }
-
-        if (config.GlobalValues.TryGetValue(key, out var globalValue))
-        {
-            return ToBoolean(globalValue, fallback);
-        }
-
-        if (config.GlobalValues.TryGetValue($"GUI.{key}", out var guiValue))
-        {
-            return ToBoolean(guiValue, fallback);
+            return value;
         }
 
         return fallback;
     }
 
+    private static bool TryResolveBooleanSetting(UnifiedProfile profile, UnifiedConfig config, string key, out bool value)
+    {
+        if (profile.Values.TryGetValue(key, out var profileValue) && TryReadBooleanNode(profileValue, out value))
+        {
+            return true;
+        }
+
+        if (config.GlobalValues.TryGetValue(key, out var globalValue) && TryReadBooleanNode(globalValue, out value))
+        {
+            return true;
+        }
+
+        if (config.GlobalValues.TryGetValue($"GUI.{key}", out var guiValue) && TryReadBooleanNode(guiValue, out value))
+        {
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
     private static bool ToBoolean(JsonNode? node, bool fallback)
     {
-        if (node is not JsonValue value)
+        if (TryReadBooleanNode(node, out var parsed))
         {
-            return fallback;
-        }
-
-        if (value.TryGetValue(out bool parsedBool))
-        {
-            return parsedBool;
-        }
-
-        if (value.TryGetValue(out int parsedInt))
-        {
-            return parsedInt != 0;
-        }
-
-        if (value.TryGetValue(out string? text) && bool.TryParse(text, out var parsedText))
-        {
-            return parsedText;
+            return parsed;
         }
 
         return fallback;
+    }
+
+    private static bool TryReadBooleanNode(JsonNode? node, out bool value)
+    {
+        if (node is not JsonValue jsonValue)
+        {
+            value = default;
+            return false;
+        }
+
+        if (jsonValue.TryGetValue(out bool parsedBool))
+        {
+            value = parsedBool;
+            return true;
+        }
+
+        if (jsonValue.TryGetValue(out int parsedInt))
+        {
+            value = parsedInt != 0;
+            return true;
+        }
+
+        if (jsonValue.TryGetValue(out string? text) && bool.TryParse(text, out var parsedText))
+        {
+            value = parsedText;
+            return true;
+        }
+
+        value = default;
+        return false;
     }
 
     private static bool ReadBool(JsonObject obj, string key, bool fallback)

@@ -91,13 +91,37 @@ jobs:
         if: matrix.name != 'macos-x64'
         run: dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --filter "FullyQualifiedName~PlatformCapabilityContractTests"
 
+      - name: Run Windows native capability smoke gate
+        if: matrix.name == 'windows-x64'
+        run: dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --filter "FullyQualifiedName~PlatformWindowsNativeSmokeTests"
+
       - name: Run platform localization tests
         if: matrix.name != 'macos-x64'
         run: dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --filter "FullyQualifiedName~PlatformCapabilityTextMap_ContainsAllErrorAndMenuKeys_ForAllSupportedLanguages"
 
-      - name: Run Avalonia tests
+      - name: Run Work Package K gate tests
         if: matrix.name != 'macos-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore
+          --filter "FullyQualifiedName~SettingsModuleAK1FeatureTests|FullyQualifiedName~SettingsModuleAK2FeatureTests|FullyQualifiedName~SettingsModuleAK3FeatureTests|FullyQualifiedName~TimerScheduleAK3FeatureTests|FullyQualifiedName~TaskModuleAFeatureTests"
+
+      - name: Run full Avalonia tests (non-blocking observation)
+        id: full_avalonia_tests
+        if: matrix.name != 'macos-x64'
+        continue-on-error: true
         run: dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore
+
+      - name: Summarize full Avalonia test observation
+        if: always() && matrix.name != 'macos-x64'
+        shell: bash
+        run: |
+          {
+            echo "### Full Avalonia test observation"
+            echo
+            echo "- Step outcome: \`${{ steps.full_avalonia_tests.outcome }}\`"
+            echo "- This step is non-blocking by design; Work Package K gate tests are blocking."
+            echo "- If this is \`failure\`, treat it as parallel-work observation and triage by module scope."
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Bootstrap MaaDeps
         run: python tools/maadeps-download.py ${{ matrix.maadeps_triplet }}

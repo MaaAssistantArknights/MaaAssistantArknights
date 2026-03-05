@@ -73,6 +73,8 @@ public sealed record TrayMenuText(
     string ForceShow,
     string HideTray,
     string ToggleOverlay,
+    string SwitchLanguage,
+    string Restart,
     string Exit)
 {
     public static TrayMenuText Default { get; } = new(
@@ -81,6 +83,8 @@ public sealed record TrayMenuText(
         ForceShow: "Force Show",
         HideTray: "Hide Tray",
         ToggleOverlay: "Toggle Overlay",
+        SwitchLanguage: "Switch Language",
+        Restart: "Restart",
         Exit: "Exit");
 }
 
@@ -92,6 +96,8 @@ public enum TrayCommandId
     HideTray = 3,
     ToggleOverlay = 4,
     Exit = 5,
+    SwitchLanguage = 6,
+    Restart = 7,
 }
 
 public sealed record TrayCommandEvent(

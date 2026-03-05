@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
+using Avalonia.Threading;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Services;
+using MAAUnified.CoreBridge;
 
 namespace MAAUnified.App.ViewModels.Copilot;
 
@@ -12,6 +14,8 @@ public sealed class CopilotPageViewModel : PageViewModelBase
     private bool _useSupportUnit;
     private bool _addTrust;
     private bool _overlayEnabled;
+    private bool _isRunning;
+    private string? _activeItemName;
     private CopilotItemViewModel? _selectedItem;
 
     public CopilotPageViewModel(MAAUnifiedRuntime runtime)
@@ -20,6 +24,7 @@ public sealed class CopilotPageViewModel : PageViewModelBase
         Types = new[] { "主线", "SSS", "悖论", "活动" };
         Items = new ObservableCollection<CopilotItemViewModel>();
         Logs = new ObservableCollection<string>();
+        runtime.SessionService.CallbackReceived += callback => _ = HandleCallbackAsync(callback);
     }
 
     public IReadOnlyList<string> Types { get; }
@@ -68,6 +73,12 @@ public sealed class CopilotPageViewModel : PageViewModelBase
     {
         get => _selectedItem;
         set => SetProperty(ref _selectedItem, value);
+    }
+
+    public bool IsRunning
+    {
+        get => _isRunning;
+        private set => SetProperty(ref _isRunning, value);
     }
 
     public Task InitializeAsync(CancellationToken cancellationToken = default)
@@ -144,10 +155,19 @@ public sealed class CopilotPageViewModel : PageViewModelBase
             return;
         }
 
-        foreach (var item in Items)
+        if (Items.Count == 0)
         {
-            item.Status = "Running";
+            return;
         }
+
+        _activeItemName = (SelectedItem ?? Items.First()).Name;
+        var active = Items.FirstOrDefault(item => string.Equals(item.Name, _activeItemName, StringComparison.Ordinal));
+        if (active is not null)
+        {
+            active.Status = "Queued";
+        }
+
+        IsRunning = true;
     }
 
     public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -161,6 +181,9 @@ public sealed class CopilotPageViewModel : PageViewModelBase
         {
             item.Status = "Stopped";
         }
+
+        IsRunning = false;
+        _activeItemName = null;
     }
 
     public async Task SendLikeAsync(bool like, CancellationToken cancellationToken = default)
@@ -175,5 +198,57 @@ public sealed class CopilotPageViewModel : PageViewModelBase
             await Runtime.CopilotFeatureService.SubmitFeedbackAsync(SelectedItem.Name, like, cancellationToken),
             "Copilot.Feedback",
             cancellationToken);
+    }
+
+    private async Task HandleCallbackAsync(CoreCallbackEvent callback)
+    {
+        await Dispatcher.UIThread.InvokeAsync(() => HandleCallbackCore(callback));
+    }
+
+    private void HandleCallbackCore(CoreCallbackEvent callback)
+    {
+        Logs.Add($"[{callback.Timestamp:HH:mm:ss}] {callback.MsgName} {callback.PayloadJson}");
+        const int maxLogs = 200;
+        while (Logs.Count > maxLogs)
+        {
+            Logs.RemoveAt(0);
+        }
+
+        if (string.IsNullOrWhiteSpace(_activeItemName))
+        {
+            return;
+        }
+
+        var active = Items.FirstOrDefault(item => string.Equals(item.Name, _activeItemName, StringComparison.Ordinal));
+        if (active is null)
+        {
+            return;
+        }
+
+        switch (callback.MsgName)
+        {
+            case "TaskChainStart":
+                active.Status = "Running";
+                IsRunning = true;
+                break;
+            case "TaskChainCompleted":
+            case "AllTasksCompleted":
+                active.Status = "Success";
+                IsRunning = false;
+                _activeItemName = null;
+                break;
+            case "TaskChainStopped":
+                active.Status = "Stopped";
+                IsRunning = false;
+                _activeItemName = null;
+                break;
+            case "TaskChainError":
+            case "SubTaskError":
+                active.Status = "Error";
+                LastErrorMessage = $"{callback.MsgName}: {callback.PayloadJson}";
+                IsRunning = false;
+                _activeItemName = null;
+                break;
+        }
     }
 }

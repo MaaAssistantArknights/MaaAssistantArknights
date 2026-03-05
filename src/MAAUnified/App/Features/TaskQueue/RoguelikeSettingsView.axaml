@@ -1,40 +1,100 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.RoguelikeSettingsView">
-  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="2">
-    <TextBlock Classes="section-title" Text="Roguelike" />
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,160,Auto,120,Auto,160">
-      <TextBlock VerticalAlignment="Center" Text="主题" />
-      <ComboBox SelectedIndex="0">
-        <ComboBoxItem Content="傀影与猩红孤钻" />
-        <ComboBoxItem Content="水月与深蓝之树" />
-        <ComboBoxItem Content="探索者的银凇止境" />
-      </ComboBox>
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="难度" />
-      <NumericUpDown Grid.Column="3" Minimum="0" Maximum="15" Value="0" />
-      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="策略" />
-      <ComboBox Grid.Column="5" SelectedIndex="0">
-        <ComboBoxItem Content="刷烛台" />
-        <ComboBoxItem Content="冲层数" />
-        <ComboBoxItem Content="收藏品模式" />
-      </ComboBox>
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="2">
+      <TextBlock Classes="section-title" Text="{Binding Texts[Roguelike.Title]}" />
+
+      <Grid Grid.Row="1" ColumnDefinitions="Auto,160,Auto,120,Auto,120,Auto,120">
+        <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Roguelike.Theme]}" />
+        <ComboBox ItemsSource="{Binding ThemeOptions}" SelectedItem="{Binding Theme}" />
+        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Roguelike.Mode]}" />
+        <ComboBox Grid.Column="3" ItemsSource="{Binding ModeOptions}" SelectedItem="{Binding Mode}" />
+        <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Roguelike.Difficulty]}" />
+        <NumericUpDown Grid.Column="5" Minimum="0" Maximum="2147483647" Value="{Binding Difficulty}" />
+        <TextBlock Grid.Column="6" VerticalAlignment="Center" Text="{Binding Texts[Roguelike.StartsCount]}" />
+        <NumericUpDown Grid.Column="7" Minimum="0" Maximum="9999999" Value="{Binding StartsCount}" />
+      </Grid>
+
+      <Grid Grid.Row="2" ColumnDefinitions="Auto,200,Auto,200,Auto,200">
+        <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Roguelike.Squad]}" />
+        <TextBox Text="{Binding Squad}" />
+        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Roguelike.Roles]}" />
+        <TextBox Grid.Column="3" Text="{Binding Roles}" />
+        <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Roguelike.CoreChar]}" />
+        <TextBox Grid.Column="5" Text="{Binding CoreChar}" />
+      </Grid>
+
+      <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto,120,Auto,Auto">
+        <CheckBox Content="{Binding Texts[Roguelike.InvestmentEnabled]}" IsChecked="{Binding InvestmentEnabled}" />
+        <CheckBox Grid.Column="1" Content="{Binding Texts[Roguelike.InvestmentWithMoreScore]}" IsChecked="{Binding InvestmentWithMoreScore}" />
+        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Roguelike.InvestmentsCount]}" />
+        <NumericUpDown Grid.Column="3" Minimum="0" Maximum="999999" Value="{Binding InvestmentsCount}" />
+        <CheckBox Grid.Column="4" Content="{Binding Texts[Roguelike.StopWhenInvestmentFull]}" IsChecked="{Binding StopWhenInvestmentFull}" />
+        <CheckBox Grid.Column="5" Content="{Binding Texts[Roguelike.RefreshTraderWithDice]}" IsChecked="{Binding RefreshTraderWithDice}" />
+      </Grid>
+
+      <WrapPanel Grid.Row="4" ItemWidth="230" Orientation="Horizontal">
+        <CheckBox Content="{Binding Texts[Roguelike.UseSupport]}" IsChecked="{Binding UseSupport}" />
+        <CheckBox Content="{Binding Texts[Roguelike.UseNonfriendSupport]}" IsChecked="{Binding UseNonfriendSupport}" />
+        <CheckBox Content="{Binding Texts[Roguelike.StopAtFinalBoss]}" IsChecked="{Binding StopAtFinalBoss}" />
+        <CheckBox Content="{Binding Texts[Roguelike.StopAtMaxLevel]}" IsChecked="{Binding StopAtMaxLevel}" />
+      </WrapPanel>
+
+      <Grid Grid.Row="5" ColumnDefinitions="Auto,Auto,Auto,220,Auto,Auto,Auto">
+        <CheckBox Content="{Binding Texts[Roguelike.CollectibleModeShopping]}" IsChecked="{Binding CollectibleModeShopping}" />
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Texts[Roguelike.CollectibleModeSquad]}" />
+        <TextBox Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding CollectibleModeSquad}" />
+        <CheckBox Grid.Column="4" Content="{Binding Texts[Roguelike.StartWithEliteTwo]}" IsChecked="{Binding StartWithEliteTwo}" />
+        <CheckBox Grid.Column="5" Grid.ColumnSpan="2" Content="{Binding Texts[Roguelike.OnlyStartWithEliteTwo]}" IsChecked="{Binding OnlyStartWithEliteTwo}" />
+      </Grid>
+
+      <WrapPanel Grid.Row="6" ItemWidth="160" Orientation="Horizontal">
+        <CheckBox Content="{Binding Texts[Roguelike.Collectible.HotWater]}" IsChecked="{Binding CollectibleHotWater}" />
+        <CheckBox Content="{Binding Texts[Roguelike.Collectible.Shield]}" IsChecked="{Binding CollectibleShield}" />
+        <CheckBox Content="{Binding Texts[Roguelike.Collectible.Ingot]}" IsChecked="{Binding CollectibleIngot}" />
+        <CheckBox Content="{Binding Texts[Roguelike.Collectible.Hope]}" IsChecked="{Binding CollectibleHope}" />
+        <CheckBox Content="{Binding Texts[Roguelike.Collectible.Random]}" IsChecked="{Binding CollectibleRandom}" />
+        <CheckBox Content="{Binding Texts[Roguelike.Collectible.Key]}" IsChecked="{Binding CollectibleKey}" />
+        <CheckBox Content="{Binding Texts[Roguelike.Collectible.Dice]}" IsChecked="{Binding CollectibleDice}" />
+        <CheckBox Content="{Binding Texts[Roguelike.Collectible.Ideas]}" IsChecked="{Binding CollectibleIdeas}" />
+        <CheckBox Content="{Binding Texts[Roguelike.Collectible.Ticket]}" IsChecked="{Binding CollectibleTicket}" />
+      </WrapPanel>
+
+      <Grid Grid.Row="7" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,120">
+        <CheckBox Content="{Binding Texts[Roguelike.MonthlySquadAutoIterate]}" IsChecked="{Binding MonthlySquadAutoIterate}" />
+        <CheckBox Grid.Column="1" Content="{Binding Texts[Roguelike.MonthlySquadCheckComms]}" IsChecked="{Binding MonthlySquadCheckComms}" />
+        <CheckBox Grid.Column="2" Content="{Binding Texts[Roguelike.DeepExplorationAutoIterate]}" IsChecked="{Binding DeepExplorationAutoIterate}" />
+        <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="{Binding Texts[Roguelike.FindPlayTimeTarget]}" />
+        <NumericUpDown Grid.Column="4" Grid.ColumnSpan="2" Minimum="1" Maximum="999999" Value="{Binding FindPlayTimeTarget}" />
+      </Grid>
+
+      <Grid Grid.Row="8" ColumnDefinitions="Auto,260,Auto,260">
+        <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Roguelike.FirstFloorFoldartal]}" />
+        <TextBox Text="{Binding FirstFloorFoldartal}" />
+        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Roguelike.StartWithSeed]}" />
+        <TextBox Grid.Column="3" Text="{Binding StartWithSeed}" />
+      </Grid>
+
+      <Grid Grid.Row="9" ColumnDefinitions="Auto,*,Auto,*">
+        <TextBlock VerticalAlignment="Top" Text="{Binding Texts[Roguelike.StartFoldartalList]}" />
+        <TextBox AcceptsReturn="True" Height="72" Text="{Binding StartFoldartalListText}" />
+        <TextBlock Grid.Column="2" VerticalAlignment="Top" Text="{Binding Texts[Roguelike.ExpectedCollapsalParadigms]}" />
+        <TextBox Grid.Column="3" AcceptsReturn="True" Height="72" Text="{Binding ExpectedCollapsalParadigmsText}" />
+      </Grid>
+
+      <Grid Grid.Row="10" RowDefinitions="Auto,Auto,Auto,Auto">
+        <TextBlock Text="{Binding Texts[Common.LoadingTaskHint]}" />
+        <TextBlock Grid.Row="1" Text="{Binding StatusMessage}" />
+        <TextBlock Grid.Row="2"
+                   Foreground="{DynamicResource MAA.ErrorBrush}"
+                   Text="{Binding LastErrorMessage}"
+                   TextWrapping="Wrap" />
+        <StackPanel Grid.Row="3">
+          <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
+          <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
+        </StackPanel>
+      </Grid>
     </Grid>
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,180,Auto,180">
-      <TextBlock VerticalAlignment="Center" Text="开局队伍" />
-      <TextBox Text="先锋+术师" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="核心干员" />
-      <TextBox Grid.Column="3" Text="桃金娘, 艾雅法拉" />
-    </Grid>
-    <WrapPanel Grid.Row="3" Orientation="Horizontal" ItemWidth="180">
-      <CheckBox Content="核心干员校验" />
-      <CheckBox Content="投资模式" />
-      <CheckBox Content="收藏模式" />
-      <CheckBox Content="探索模式细项" />
-      <CheckBox Content="支持干员" />
-      <CheckBox Content="延迟中止到战斗结束" />
-      <CheckBox Content="到终局停止" />
-      <CheckBox Content="到满级停止" />
-    </WrapPanel>
-    <TextBlock Grid.Row="4" Text="大量条件显示开关已保留，可按主题细分。" />
-  </Grid>
+  </ScrollViewer>
 </UserControl>

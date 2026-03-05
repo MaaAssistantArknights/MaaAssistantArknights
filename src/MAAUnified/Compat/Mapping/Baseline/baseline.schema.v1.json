@@ -36,13 +36,91 @@
       }
     },
     "items": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "waiver": {
+            "$ref": "#/$defs/waiver"
+          },
+          "waiver_scope": {
+            "$ref": "#/$defs/waiver_scope"
+          }
+        }
+      }
     },
     "config_key_mappings": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "waiver": {
+            "$ref": "#/$defs/waiver"
+          }
+        }
+      }
     },
     "fallback_capabilities": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "waiver": {
+            "$ref": "#/$defs/waiver"
+          },
+          "waiver_scope": {
+            "$ref": "#/$defs/waiver_scope"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "waiver": {
+      "type": "object",
+      "required": [
+        "owner",
+        "reason",
+        "expires_on",
+        "alternative_validation"
+      ],
+      "properties": {
+        "owner": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "expires_on": {
+          "type": "string"
+        },
+        "alternative_validation": {
+          "type": "string"
+        }
+      }
+    },
+    "waiver_scope": {
+      "type": "object",
+      "properties": {
+        "platforms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "themes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "locales": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }

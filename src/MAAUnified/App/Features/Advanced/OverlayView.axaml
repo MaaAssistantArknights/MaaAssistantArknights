@@ -1,11 +1,28 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Advanced.OverlayView">
-  <Border Padding="12" BorderThickness="1" BorderBrush="#3A4A55" CornerRadius="8" Margin="4">
-    <StackPanel Spacing="6">
-      <TextBlock FontSize="18" FontWeight="Bold" Text="Overlay" />
-      <TextBlock Text="MAAUnified Advanced 模块：Overlay" TextWrapping="Wrap" />
-      <TextBlock Opacity="0.75" Text="已接入同构布局入口与能力状态。" TextWrapping="Wrap" />
+  <Grid RowDefinitions="Auto,Auto,Auto,*">
+    <TextBlock Classes="section-title" Text="Overlay" />
+    <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,Auto">
+      <TextBlock VerticalAlignment="Center" Text="目标窗口" />
+      <ComboBox ItemsSource="{Binding Targets}"
+                SelectedItem="{Binding SelectedTarget}"
+                DisplayMemberBinding="{Binding DisplayName}" />
+      <Button Grid.Column="2"
+              Classes="action"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+              Content="刷新目标"
+              Click="OnReloadTargetsClick" />
+      <Button Grid.Column="3"
+              Classes="action"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+              Content="切换显示"
+              Click="OnToggleOverlayClick" />
+    </Grid>
+    <TextBlock Grid.Row="2" Classes="long-wrap" Text="{Binding CapabilitySummary}" />
+    <StackPanel Grid.Row="3" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <TextBlock Text="{Binding StatusMessage}" />
+      <TextBlock Classes="state-error long-wrap" Text="{Binding LastErrorMessage}" />
     </StackPanel>
-  </Border>
+  </Grid>
 </UserControl>

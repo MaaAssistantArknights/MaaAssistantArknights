@@ -5,6 +5,7 @@ using Avalonia.Platform;
 using MAAUnified.App.ViewModels;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Models;
+using MAAUnified.Application.Services.Localization;
 using MAAUnified.Platform;
 
 namespace MAAUnified.App.Views;
@@ -36,14 +37,10 @@ public partial class MainWindow : Window
 
         var trayInit = await VM.PlatformCapabilityService.InitializeTrayAsync(
             "MaaAssistantArknights",
-            PlatformCapabilityTextMap.CreateTrayMenuText(VM.SettingsPage.Language));
+            PlatformCapabilityTextMap.CreateTrayMenuText(VM.SettingsPage.Language, VM.ReportLocalizationFallback));
         await HandlePlatformResultAsync("PlatformCapability.Tray.Initialize", trayInit);
 
-        var registerShow = await VM.PlatformCapabilityService.RegisterGlobalHotkeyAsync("ShowGui", VM.SettingsPage.HotkeyShowGui);
-        await HandlePlatformResultAsync("PlatformCapability.Hotkey.Register.ShowGui", registerShow);
-
-        var registerLink = await VM.PlatformCapabilityService.RegisterGlobalHotkeyAsync("LinkStart", VM.SettingsPage.HotkeyLinkStart);
-        await HandlePlatformResultAsync("PlatformCapability.Hotkey.Register.LinkStart", registerLink);
+        await VM.RegisterHotkeysAtStartupAsync();
 
         await EnsureOverlayHostBoundAsync();
     }
@@ -71,8 +68,7 @@ public partial class MainWindow : Window
     {
         if (VM is not null)
         {
-            await VM.ConnectAsync();
-            VM.PushGrowl("连接命令已执行");
+            await VM.ExecuteConnectAsync();
         }
     }
 
@@ -80,82 +76,59 @@ public partial class MainWindow : Window
     {
         if (VM is not null)
         {
-            await VM.ManualImportAsync();
-            VM.PushGrowl("旧配置导入已执行");
+            await VM.ExecuteManualImportAsync();
         }
     }
 
     private async void OnStartClick(object? sender, RoutedEventArgs e)
     {
-        if (VM is not null)
-        {
-            if (!VM.CanStartExecution)
-            {
-                VM.PushGrowl("存在阻断级配置错误，Start/LinkStart 已禁用。");
-                return;
-            }
-
-            await VM.StartAsync();
-            VM.PushGrowl(VM.TaskQueuePage.IsRunning ? "开始执行" : "启动被阻断，请先修复错误。");
-        }
+        await DispatchTrayCommandAsync(TrayCommandId.Start, "window-shell-menu");
     }
 
     private async void OnStopClick(object? sender, RoutedEventArgs e)
     {
-        if (VM is not null)
-        {
-            await VM.StopAsync();
-            VM.PushGrowl("停止执行");
-        }
+        await DispatchTrayCommandAsync(TrayCommandId.Stop, "window-shell-menu");
     }
 
-    private async void OnSwitchLanguageClick(object? sender, RoutedEventArgs e)
+    private async void OnSwitchLanguageToClick(object? sender, RoutedEventArgs e)
     {
         if (VM is null)
         {
             return;
         }
 
-        var next = VM.SwitchLanguageCycle();
-        VM.PushGrowl($"语言切换为: {next}");
-        var refreshResult = await VM.PlatformCapabilityService.InitializeTrayAsync(
-            "MaaAssistantArknights",
-            PlatformCapabilityTextMap.CreateTrayMenuText(next));
-        await HandlePlatformResultAsync("PlatformCapability.Tray.Initialize", refreshResult);
+        var targetLanguage = (sender as MenuItem)?.Tag as string;
+        if (string.IsNullOrWhiteSpace(targetLanguage))
+        {
+            return;
+        }
+
+        await VM.ExecuteTrayLanguageSwitchAsync(targetLanguage, "window-shell-menu");
     }
 
-    private void OnForceShowClick(object? sender, RoutedEventArgs e)
+    private async void OnForceShowClick(object? sender, RoutedEventArgs e)
     {
-        Show();
-        Activate();
-        VM?.PushGrowl("主窗口已强制显示");
+        await DispatchTrayCommandAsync(TrayCommandId.ForceShow, "window-shell-menu");
     }
 
     private async void OnHideTrayClick(object? sender, RoutedEventArgs e)
     {
-        if (VM is not null)
-        {
-            await VM.SetTrayVisibleAsync(false);
-        }
+        await DispatchTrayCommandAsync(TrayCommandId.HideTray, "window-shell-menu");
     }
 
     private async void OnToggleOverlayClick(object? sender, RoutedEventArgs e)
     {
-        if (VM is not null)
-        {
-            await VM.ToggleOverlayFromTrayAsync();
-            VM.PushGrowl("Overlay 切换已触发");
-        }
+        await DispatchTrayCommandAsync(TrayCommandId.ToggleOverlay, "window-shell-menu");
     }
 
-    private void OnRestartClick(object? sender, RoutedEventArgs e)
+    private async void OnRestartClick(object? sender, RoutedEventArgs e)
     {
-        VM?.PushGrowl("重启命令已记录。请手动重启进程（当前为跨平台占位实现）。");
+        await DispatchTrayCommandAsync(TrayCommandId.Restart, "window-shell-menu");
     }
 
-    private void OnExitClick(object? sender, RoutedEventArgs e)
+    private async void OnExitClick(object? sender, RoutedEventArgs e)
     {
-        Close();
+        await DispatchTrayCommandAsync(TrayCommandId.Exit, "window-shell-menu");
     }
 
     private void OnManualUpdateClick(object? sender, PointerPressedEventArgs e)
@@ -185,7 +158,8 @@ public partial class MainWindow : Window
             VM.PushGrowl(PlatformCapabilityTextMap.GetUiText(
                 VM.SettingsPage.Language,
                 "Ui.OverlayHostUnavailable",
-                "Overlay host handle unavailable."));
+                "Overlay host handle unavailable.",
+                VM.ReportLocalizationFallback));
             await App.Runtime.DiagnosticsService.RecordFailedResultAsync(
                 "PlatformCapability.Overlay.BindHost",
                 UiOperationResult.Fail(PlatformErrorCodes.OverlayHostNotBound, "Overlay host handle unavailable."),
@@ -203,6 +177,14 @@ public partial class MainWindow : Window
 
     private async void OnTrayCommandInvoked(object? sender, TrayCommandEvent e)
     {
+        await DispatchTrayCommandAsync(e.Command, e.Source);
+    }
+
+    private async Task DispatchTrayCommandAsync(
+        TrayCommandId command,
+        string source,
+        CancellationToken cancellationToken = default)
+    {
         if (VM is null)
         {
             return;
@@ -210,34 +192,19 @@ public partial class MainWindow : Window
 
         try
         {
-            switch (e.Command)
+            var action = await VM.ExecuteTrayCommandAsync(command, source, cancellationToken);
+            switch (action)
             {
-                case TrayCommandId.Start:
-                    await VM.StartAsync();
+                case ShellUiAction.None:
                     break;
-                case TrayCommandId.Stop:
-                    await VM.StopAsync();
-                    break;
-                case TrayCommandId.ForceShow:
+                case ShellUiAction.ShowMainWindow:
                     Show();
                     Activate();
                     break;
-                case TrayCommandId.HideTray:
-                    await VM.SetTrayVisibleAsync(false);
-                    break;
-                case TrayCommandId.ToggleOverlay:
-                    await VM.ToggleOverlayFromTrayAsync();
-                    break;
-                case TrayCommandId.Exit:
+                case ShellUiAction.CloseMainWindow:
                     Close();
                     break;
                 default:
-                    VM.PushGrowl(string.Format(
-                        PlatformCapabilityTextMap.GetUiText(
-                            VM.SettingsPage.Language,
-                            "Ui.UnknownTrayCommand",
-                            "Unknown tray command: {0}"),
-                        e.Command));
                     break;
             }
         }
@@ -245,7 +212,7 @@ public partial class MainWindow : Window
         {
             await App.Runtime.DiagnosticsService.RecordErrorAsync(
                 "PlatformCapability.TrayCommand",
-                "Tray command execution failed.",
+                $"Tray command execution failed. command={command} source={source}",
                 ex);
         }
     }
@@ -268,10 +235,7 @@ public partial class MainWindow : Window
 
             if (string.Equals(e.Name, "LinkStart", StringComparison.OrdinalIgnoreCase))
             {
-                if (VM.CanStartExecution)
-                {
-                    await VM.StartAsync();
-                }
+                await DispatchTrayCommandAsync(TrayCommandId.Start, "hotkey-linkstart");
             }
         }
         catch (Exception ex)
@@ -285,8 +249,14 @@ public partial class MainWindow : Window
 
     private string Localize(UiOperationResult result)
     {
-        var language = VM?.SettingsPage.Language ?? "en-us";
-        return PlatformCapabilityTextMap.FormatErrorCode(language, result.Error?.Code, result.Message);
+        var vm = VM;
+        var language = vm?.SettingsPage.Language ?? "en-us";
+        Action<LocalizationFallbackInfo>? reporter = vm is null ? null : vm.ReportLocalizationFallback;
+        return PlatformCapabilityTextMap.FormatErrorCode(
+            language,
+            result.Error?.Code,
+            result.Message,
+            reporter);
     }
 
     private async Task HandlePlatformResultAsync(

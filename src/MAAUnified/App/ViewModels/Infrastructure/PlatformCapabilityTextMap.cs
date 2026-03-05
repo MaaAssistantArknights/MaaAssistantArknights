@@ -1,4 +1,5 @@
 using MAAUnified.Platform;
+using MAAUnified.Application.Services.Localization;
 
 namespace MAAUnified.App.ViewModels.Infrastructure;
 
@@ -11,42 +12,69 @@ public static class PlatformCapabilityTextMap
         ["ja-jp"] = BuildJaJp(),
         ["ko-kr"] = BuildKoKr(),
         ["zh-tw"] = BuildZhTw(),
+        ["pallas"] = BuildPallas(),
     };
 
-    public static string FormatCapabilityLine(string language, string name, PlatformCapabilityStatus status)
+    public static string FormatCapabilityLine(
+        string language,
+        string name,
+        PlatformCapabilityStatus status,
+        Action<LocalizationFallbackInfo>? fallbackReporter = null)
     {
         var mode = status.Supported
-            ? Get(language, "Status.Supported")
-            : Get(language, "Status.Fallback");
+            ? Get(language, "Status.Supported", "PlatformCapabilityText", fallbackReporter)
+            : Get(language, "Status.Fallback", "PlatformCapabilityText", fallbackReporter);
         var fallback = status.HasFallback && !string.IsNullOrWhiteSpace(status.FallbackMode)
-            ? string.Format(Get(language, "Capability.FallbackSuffix"), status.FallbackMode)
+            ? string.Format(
+                Get(language, "Capability.FallbackSuffix", "PlatformCapabilityText", fallbackReporter),
+                status.FallbackMode)
             : string.Empty;
         return string.Format(
-            Get(language, "Capability.Line"),
+            Get(language, "Capability.Line", "PlatformCapabilityText", fallbackReporter),
             name,
             mode,
             status.Provider,
             fallback);
     }
 
-    public static string FormatCapabilityLine(string language, PlatformCapabilityId capability, PlatformCapabilityStatus status)
+    public static string FormatCapabilityLine(
+        string language,
+        PlatformCapabilityId capability,
+        PlatformCapabilityStatus status,
+        Action<LocalizationFallbackInfo>? fallbackReporter = null)
     {
-        return FormatCapabilityLine(language, GetCapabilityName(language, capability), status);
+        return FormatCapabilityLine(
+            language,
+            GetCapabilityName(language, capability, fallbackReporter),
+            status,
+            fallbackReporter);
     }
 
-    public static string FormatSnapshotUnavailable(string language, string message)
+    public static string FormatSnapshotUnavailable(
+        string language,
+        string message,
+        Action<LocalizationFallbackInfo>? fallbackReporter = null)
     {
-        return string.Format(Get(language, "Snapshot.Unavailable"), message);
+        return string.Format(
+            Get(language, "Snapshot.Unavailable", "PlatformCapabilityText", fallbackReporter),
+            message);
     }
 
-    public static string FormatAutostartStatus(string language, bool enabled)
+    public static string FormatAutostartStatus(
+        string language,
+        bool enabled,
+        Action<LocalizationFallbackInfo>? fallbackReporter = null)
     {
         return enabled
-            ? Get(language, "Autostart.Enabled")
-            : Get(language, "Autostart.Disabled");
+            ? Get(language, "Autostart.Enabled", "PlatformCapabilityText", fallbackReporter)
+            : Get(language, "Autostart.Disabled", "PlatformCapabilityText", fallbackReporter);
     }
 
-    public static string FormatErrorCode(string language, string? errorCode, string fallbackMessage)
+    public static string FormatErrorCode(
+        string language,
+        string? errorCode,
+        string fallbackMessage,
+        Action<LocalizationFallbackInfo>? fallbackReporter = null)
     {
         if (string.IsNullOrWhiteSpace(errorCode))
         {
@@ -54,7 +82,7 @@ public static class PlatformCapabilityTextMap
         }
 
         var key = $"Error.{errorCode}";
-        var localized = Get(language, key);
+        var localized = Get(language, key, "PlatformCapabilityText", fallbackReporter);
         if (string.Equals(localized, key, StringComparison.Ordinal))
         {
             return fallbackMessage;
@@ -63,7 +91,10 @@ public static class PlatformCapabilityTextMap
         return localized;
     }
 
-    public static string GetCapabilityName(string language, PlatformCapabilityId capability)
+    public static string GetCapabilityName(
+        string language,
+        PlatformCapabilityId capability,
+        Action<LocalizationFallbackInfo>? fallbackReporter = null)
     {
         var key = capability switch
         {
@@ -74,45 +105,86 @@ public static class PlatformCapabilityTextMap
             PlatformCapabilityId.Overlay => "CapabilityName.Overlay",
             _ => "CapabilityName.Unknown",
         };
-        return Get(language, key);
+        return Get(language, key, "PlatformCapabilityText", fallbackReporter);
     }
 
-    public static TrayMenuText CreateTrayMenuText(string language)
+    public static TrayMenuText CreateTrayMenuText(
+        string language,
+        Action<LocalizationFallbackInfo>? fallbackReporter = null)
     {
         return new TrayMenuText(
-            Start: Get(language, "TrayMenu.Start"),
-            Stop: Get(language, "TrayMenu.Stop"),
-            ForceShow: Get(language, "TrayMenu.ForceShow"),
-            HideTray: Get(language, "TrayMenu.HideTray"),
-            ToggleOverlay: Get(language, "TrayMenu.ToggleOverlay"),
-            Exit: Get(language, "TrayMenu.Exit"));
+            Start: Get(language, "TrayMenu.Start", "PlatformCapabilityText", fallbackReporter),
+            Stop: Get(language, "TrayMenu.Stop", "PlatformCapabilityText", fallbackReporter),
+            ForceShow: Get(language, "TrayMenu.ForceShow", "PlatformCapabilityText", fallbackReporter),
+            HideTray: Get(language, "TrayMenu.HideTray", "PlatformCapabilityText", fallbackReporter),
+            ToggleOverlay: Get(language, "TrayMenu.ToggleOverlay", "PlatformCapabilityText", fallbackReporter),
+            SwitchLanguage: Get(language, "TrayMenu.SwitchLanguage", "PlatformCapabilityText", fallbackReporter),
+            Restart: Get(language, "TrayMenu.Restart", "PlatformCapabilityText", fallbackReporter),
+            Exit: Get(language, "TrayMenu.Exit", "PlatformCapabilityText", fallbackReporter));
     }
 
-    public static string GetUiText(string language, string key, string fallback)
+    public static string GetUiText(
+        string language,
+        string key,
+        string fallback,
+        Action<LocalizationFallbackInfo>? fallbackReporter = null)
     {
-        var value = Get(language, key);
+        var value = Get(language, key, "PlatformCapabilityText", fallbackReporter);
         return string.Equals(value, key, StringComparison.Ordinal) ? fallback : value;
     }
 
-    private static string Get(string language, string key)
+    private static string Get(
+        string language,
+        string key,
+        string scope,
+        Action<LocalizationFallbackInfo>? fallbackReporter)
     {
-        if (!Map.TryGetValue(language ?? string.Empty, out var langMap))
+        var result = Lookup(language, key);
+        if (result.IsFallback)
         {
-            langMap = Map["en-us"];
+            fallbackReporter?.Invoke(
+                new LocalizationFallbackInfo(
+                    Scope: scope,
+                    Language: result.NormalizedLanguage,
+                    Key: key,
+                    FallbackSource: result.FallbackSource));
         }
 
-        if (langMap.TryGetValue(key, out var value))
-        {
-            return value;
-        }
-
-        if (Map["en-us"].TryGetValue(key, out value))
-        {
-            return value;
-        }
-
-        return key;
+        return result.Value;
     }
+
+    private static LookupResult Lookup(string language, string key)
+    {
+        var requestedLanguage = UiLanguageCatalog.Normalize(language);
+        if (!Map.TryGetValue(requestedLanguage, out var languageMap))
+        {
+            languageMap = Map[UiLanguageCatalog.FallbackLanguage];
+            requestedLanguage = UiLanguageCatalog.FallbackLanguage;
+        }
+
+        if (languageMap.TryGetValue(key, out var value))
+        {
+            return new LookupResult(value, requestedLanguage, false, "none");
+        }
+
+        if (Map[UiLanguageCatalog.FallbackLanguage].TryGetValue(key, out value))
+        {
+            return new LookupResult(value, requestedLanguage, true, UiLanguageCatalog.FallbackLanguage);
+        }
+
+        if (Map[UiLanguageCatalog.DefaultLanguage].TryGetValue(key, out value))
+        {
+            return new LookupResult(value, requestedLanguage, true, UiLanguageCatalog.DefaultLanguage);
+        }
+
+        return new LookupResult(key, requestedLanguage, true, "key");
+    }
+
+    private readonly record struct LookupResult(
+        string Value,
+        string NormalizedLanguage,
+        bool IsFallback,
+        string FallbackSource);
 
     private static Dictionary<string, string> BuildZhCn()
     {
@@ -135,6 +207,8 @@ public static class PlatformCapabilityTextMap
             ["TrayMenu.ForceShow"] = "显示主窗口",
             ["TrayMenu.HideTray"] = "隐藏托盘",
             ["TrayMenu.ToggleOverlay"] = "切换 Overlay",
+            ["TrayMenu.SwitchLanguage"] = "循环切换语言",
+            ["TrayMenu.Restart"] = "重启",
             ["TrayMenu.Exit"] = "退出",
             ["Ui.OverlayHostUnavailable"] = "Overlay 宿主句柄不可用",
             ["Ui.UnknownTrayCommand"] = "未知托盘命令: {0}",
@@ -196,6 +270,8 @@ public static class PlatformCapabilityTextMap
             ["TrayMenu.ForceShow"] = "Force Show",
             ["TrayMenu.HideTray"] = "Hide Tray",
             ["TrayMenu.ToggleOverlay"] = "Toggle Overlay",
+            ["TrayMenu.SwitchLanguage"] = "Cycle Language",
+            ["TrayMenu.Restart"] = "Restart",
             ["TrayMenu.Exit"] = "Exit",
             ["Ui.OverlayHostUnavailable"] = "Overlay host handle is unavailable.",
             ["Ui.UnknownTrayCommand"] = "Unknown tray command: {0}",
@@ -257,6 +333,8 @@ public static class PlatformCapabilityTextMap
             ["TrayMenu.ForceShow"] = "メイン画面を表示",
             ["TrayMenu.HideTray"] = "トレイを隠す",
             ["TrayMenu.ToggleOverlay"] = "Overlay 切替",
+            ["TrayMenu.SwitchLanguage"] = "言語を切り替え",
+            ["TrayMenu.Restart"] = "再起動",
             ["TrayMenu.Exit"] = "終了",
             ["Ui.OverlayHostUnavailable"] = "Overlay ホストハンドルを取得できません。",
             ["Ui.UnknownTrayCommand"] = "不明なトレイコマンド: {0}",
@@ -318,6 +396,8 @@ public static class PlatformCapabilityTextMap
             ["TrayMenu.ForceShow"] = "메인 창 표시",
             ["TrayMenu.HideTray"] = "트레이 숨기기",
             ["TrayMenu.ToggleOverlay"] = "Overlay 전환",
+            ["TrayMenu.SwitchLanguage"] = "언어 순환 전환",
+            ["TrayMenu.Restart"] = "재시작",
             ["TrayMenu.Exit"] = "종료",
             ["Ui.OverlayHostUnavailable"] = "Overlay 호스트 핸들을 사용할 수 없습니다.",
             ["Ui.UnknownTrayCommand"] = "알 수 없는 트레이 명령: {0}",
@@ -379,6 +459,8 @@ public static class PlatformCapabilityTextMap
             ["TrayMenu.ForceShow"] = "顯示主視窗",
             ["TrayMenu.HideTray"] = "隱藏托盤",
             ["TrayMenu.ToggleOverlay"] = "切換 Overlay",
+            ["TrayMenu.SwitchLanguage"] = "循環切換語言",
+            ["TrayMenu.Restart"] = "重新啟動",
             ["TrayMenu.Exit"] = "退出",
             ["Ui.OverlayHostUnavailable"] = "Overlay 宿主句柄不可用",
             ["Ui.UnknownTrayCommand"] = "未知托盤命令: {0}",
@@ -417,5 +499,10 @@ public static class PlatformCapabilityTextMap
             ["Error.PostActionExecutionFailed"] = "後置動作執行失敗",
             ["Error.PostActionPowerActionsDisabled"] = "系統電源動作已停用",
         };
+    }
+
+    private static Dictionary<string, string> BuildPallas()
+    {
+        return new Dictionary<string, string>(BuildEnUs(), StringComparer.OrdinalIgnoreCase);
     }
 }
