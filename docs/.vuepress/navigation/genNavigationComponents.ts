@@ -11,6 +11,7 @@ interface MetaData {
   title: string
   icon: string
   index: boolean
+  collapsed?: boolean
 }
 
 interface NavigationComponents {
@@ -52,6 +53,8 @@ function getMetaData(dir: string, entry: fs.Dirent): MetaData | null {
   const icon = String(meta?.icon ?? '')
   // 是否添加到索引，文件永远为true，目录则看meta.index，默认true
   const index = entry.isDirectory() ? (Boolean(meta?.index) ?? true) : true
+  // 是否默认折叠，对文件无效，目录则看meta.collapsed，默认true
+  const collapsed = entry.isDirectory() ? (Boolean(meta?.collapsed) ?? true) : true
 
   return {
     baseName: baseName,
@@ -59,6 +62,7 @@ function getMetaData(dir: string, entry: fs.Dirent): MetaData | null {
     title: title,
     icon: icon,
     index: index,
+    collapsed: collapsed,
   }
 }
 
@@ -89,7 +93,7 @@ function getSidebarItems(dir: string): SidebarItem[] {
         icon: metaData.icon,
         // 目前没有文档使用了badge这个特性，故不处理
         // badge: undefined,
-        collapsed: true,
+        collapsed: metaData.collapsed,
         // 前面不能加斜杠，必须用相对路径
         prefix: `${metaData.baseName}/`,
         items: children,
