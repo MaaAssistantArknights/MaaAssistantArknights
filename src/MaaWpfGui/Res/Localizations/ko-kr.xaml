@@ -598,8 +598,13 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 ｢SSReopen-XX｣ 일회성 프록시 SS 포크의 일반 수준을 입력할 수 있습니다</system:String>
     <system:String x:Key="AutoDetectConnection">연결 자동 감지</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">이 연결 구성에서는 자동 연결 감지가 지원되지 않습니다. 수동으로 포트 번호를 입력해보세요</system:String>
-    <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요</system:String>
+    <system:String x:Key="AutoDetectConnectionTip" xml:space="preserve">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요.
+포트가 자주 변경되는 경우에만 "{key=AlwaysAutoDetectConnection}" 옵션을 체크하세요.
+감지 시 연결할 에뮬레이터만 실행되어 있는지 확인하세요. 여러 에뮬레이터를 동시에 실행하면 잘못된 대상에 연결될 수 있습니다.</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">매번 재감지</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnectionTip" xml:space="preserve">이 옵션은 권장되지 않습니다.
+감지 시 연결할 에뮬레이터만 실행되어 있는지 확인하세요. 여러 에뮬레이터를 동시에 실행하면 잘못된 대상에 연결될 수 있습니다.
+포트가 자주 변경되고 단일 에뮬레이터만 실행 중임을 확인한 경우에만 이 옵션을 활성화하세요.</system:String>
     <system:String x:Key="AccountSwitch">계정 전환</system:String>
     <system:String x:Key="AccountSwitchManualRun">수동 스위치</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계정을 입력하고, 계정 전환을 종료하려면 공백으로 남겨두세요.

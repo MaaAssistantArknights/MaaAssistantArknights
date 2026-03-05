@@ -598,8 +598,13 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 可输入 ｢SSReopen-XX｣ 一次性代理 SS 复刻的普通关</system:String>
     <system:String x:Key="AutoDetectConnection">自动检测连接</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">该连接配置不支持自动检测连接，请尝试手动填写端口号</system:String>
-    <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接</system:String>
+    <system:String x:Key="AutoDetectConnectionTip" xml:space="preserve">每次检测完成后会自动取消勾选，如需重新检测可再次勾选。
+仅当端口经常发生变化时，才需要勾选 ｢{key=AlwaysAutoDetectConnection}｣ 选项。
+检测时请确保只开启需要连接的模拟器，同时开启多个模拟器可能会导致连接到错误的目标。</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新检测</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnectionTip" xml:space="preserve">不推荐勾选此选项。
+检测时请确保只开启需要连接的模拟器，同时开启多个模拟器可能会导致连接到错误的目标。
+仅当端口经常发生变化且确认只运行单个模拟器时才建议勾选。</system:String>
     <system:String x:Key="AccountSwitch">账号切换</system:String>
     <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用。
