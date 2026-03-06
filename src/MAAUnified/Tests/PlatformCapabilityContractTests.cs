@@ -1,6 +1,8 @@
 using System.IO.Compression;
 using System.Reflection;
 using System.Text.Json;
+using MAAUnified.Application.Models;
+using MAAUnified.Application.Services.Localization;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Services;
 using MAAUnified.Application.Services.Features;
@@ -287,6 +289,166 @@ public sealed class PlatformCapabilityContractTests
     }
 
     [Fact]
+    public async Task PlatformCapabilityFeatureService_GetAutostartEnabledAsync_FailedQuery_WritesUiErrorLog()
+    {
+        var root = CreateTempRoot();
+        var diagnostics = new UiDiagnosticsService(root, new UiLogService());
+        var bundle = new PlatformServiceBundle
+        {
+            TrayService = new NoOpTrayService(),
+            NotificationService = new NoOpNotificationService(),
+            HotkeyService = new NoOpGlobalHotkeyService(),
+            AutostartService = new FailingAutostartService(),
+            FileDialogService = new NoOpFileDialogService(),
+            OverlayService = new NoOpOverlayCapabilityService(),
+            PostActionExecutorService = new NoOpPostActionExecutorService(),
+        };
+
+        var service = new PlatformCapabilityFeatureService(bundle, diagnostics);
+        var result = await service.GetAutostartEnabledAsync();
+
+        Assert.False(result.Success);
+        Assert.NotNull(result.Error);
+        Assert.Equal(PlatformErrorCodes.AutostartQueryFailed, result.Error!.Code);
+        Assert.True(File.Exists(diagnostics.ErrorLogPath));
+        var content = await File.ReadAllTextAsync(diagnostics.ErrorLogPath);
+        Assert.Contains("PlatformCapability.Autostart.query", content, StringComparison.Ordinal);
+        Assert.Contains(PlatformErrorCodes.AutostartQueryFailed, content, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task PlatformCapabilityFeatureService_QueryOverlayTargetsAsync_ProviderThrows_ReturnsOverlayQueryFailed_AndWritesLogs()
+    {
+        var root = CreateTempRoot();
+        var diagnostics = new UiDiagnosticsService(root, new UiLogService());
+        var bundle = new PlatformServiceBundle
+        {
+            TrayService = new NoOpTrayService(),
+            NotificationService = new NoOpNotificationService(),
+            HotkeyService = new NoOpGlobalHotkeyService(),
+            AutostartService = new NoOpAutostartService(),
+            FileDialogService = new NoOpFileDialogService(),
+            OverlayService = new ThrowingOverlayService(),
+            PostActionExecutorService = new NoOpPostActionExecutorService(),
+        };
+
+        var service = new PlatformCapabilityFeatureService(bundle, diagnostics);
+        var result = await service.QueryOverlayTargetsAsync();
+
+        Assert.False(result.Success);
+        Assert.NotNull(result.Error);
+        Assert.Equal(PlatformErrorCodes.OverlayQueryFailed, result.Error!.Code);
+
+        Assert.True(File.Exists(diagnostics.PlatformEventLogPath));
+        var platformLines = await File.ReadAllLinesAsync(diagnostics.PlatformEventLogPath);
+        Assert.NotEmpty(platformLines);
+        using (var doc = JsonDocument.Parse(platformLines[^1]))
+        {
+            var payload = doc.RootElement;
+            Assert.Equal("query-targets", payload.GetProperty("Action").GetString());
+            Assert.False(payload.GetProperty("Success").GetBoolean());
+            Assert.Equal(PlatformErrorCodes.OverlayQueryFailed, payload.GetProperty("ErrorCode").GetString());
+        }
+
+        Assert.True(File.Exists(diagnostics.ErrorLogPath));
+        var content = await File.ReadAllTextAsync(diagnostics.ErrorLogPath);
+        Assert.Contains("PlatformCapability.Overlay.query-targets", content, StringComparison.Ordinal);
+        Assert.Contains(PlatformErrorCodes.OverlayQueryFailed, content, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task PlatformCapabilityFeatureService_TrayCallbackSubscriberThrows_DoesNotBreakMainFlow_AndErrorIsLocatable()
+    {
+        var root = CreateTempRoot();
+        var diagnostics = new UiDiagnosticsService(root, new UiLogService());
+        var tray = new TriggerableTrayService();
+        var bundle = new PlatformServiceBundle
+        {
+            TrayService = tray,
+            NotificationService = new NoOpNotificationService(),
+            HotkeyService = new NoOpGlobalHotkeyService(),
+            AutostartService = new NoOpAutostartService(),
+            FileDialogService = new NoOpFileDialogService(),
+            OverlayService = new NoOpOverlayCapabilityService(),
+            PostActionExecutorService = new NoOpPostActionExecutorService(),
+        };
+
+        var service = new PlatformCapabilityFeatureService(bundle, diagnostics);
+        service.TrayCommandInvoked += (_, _) => throw new InvalidOperationException("synthetic tray subscriber error");
+
+        tray.Emit(TrayCommandId.Start, "test-tray");
+        var operation = await service.SetTrayVisibleAsync(false);
+
+        Assert.True(operation.Success);
+        await WaitUntilAsync(async () =>
+        {
+            if (!File.Exists(diagnostics.ErrorLogPath))
+            {
+                return false;
+            }
+
+            var content = await File.ReadAllTextAsync(diagnostics.ErrorLogPath);
+            return content.Contains("PlatformCapability.TrayCommand", StringComparison.Ordinal)
+                   && content.Contains("Tray command callback failed.", StringComparison.Ordinal);
+        });
+    }
+
+    [Fact]
+    public async Task PlatformCapabilityFeatureService_HotkeyCallbackSubscriberThrows_DoesNotBreakMainFlow_AndErrorIsLocatable()
+    {
+        var root = CreateTempRoot();
+        var diagnostics = new UiDiagnosticsService(root, new UiLogService());
+        var hotkey = new TriggerableHotkeyService();
+        var bundle = new PlatformServiceBundle
+        {
+            TrayService = new NoOpTrayService(),
+            NotificationService = new NoOpNotificationService(),
+            HotkeyService = hotkey,
+            AutostartService = new NoOpAutostartService(),
+            FileDialogService = new NoOpFileDialogService(),
+            OverlayService = new NoOpOverlayCapabilityService(),
+            PostActionExecutorService = new NoOpPostActionExecutorService(),
+        };
+
+        var service = new PlatformCapabilityFeatureService(bundle, diagnostics);
+        service.GlobalHotkeyTriggered += (_, _) => throw new InvalidOperationException("synthetic hotkey subscriber error");
+
+        hotkey.Emit("ShowGui", "Ctrl+Shift+Alt+M");
+        var operation = await service.RegisterGlobalHotkeyAsync("ShowGui", "Ctrl+Shift+Alt+M");
+
+        Assert.True(operation.Success);
+        await WaitUntilAsync(async () =>
+        {
+            if (!File.Exists(diagnostics.ErrorLogPath))
+            {
+                return false;
+            }
+
+            var content = await File.ReadAllTextAsync(diagnostics.ErrorLogPath);
+            return content.Contains("PlatformCapability.HotkeyTriggered", StringComparison.Ordinal)
+                   && content.Contains("Hotkey callback failed.", StringComparison.Ordinal);
+        });
+    }
+
+    [Fact]
+    public void PlatformCapabilityTextMap_MissingKeyFallback_ShouldBeObservableViaFallbackReporter()
+    {
+        var fallbacks = new List<LocalizationFallbackInfo>();
+        var text = PlatformCapabilityTextMap.GetUiText(
+            "zh-cn",
+            "Missing.Key.For.Q1",
+            "fallback-value",
+            info => fallbacks.Add(info));
+
+        Assert.Equal("fallback-value", text);
+        var fallback = Assert.Single(fallbacks);
+        Assert.Equal("PlatformCapabilityText", fallback.Scope);
+        Assert.Equal("zh-cn", fallback.Language);
+        Assert.Equal("Missing.Key.For.Q1", fallback.Key);
+        Assert.Equal("key", fallback.FallbackSource);
+    }
+
+    [Fact]
     public void PlatformCapabilityTextMap_ContainsAllErrorAndMenuKeys_ForAllSupportedLanguages()
     {
         var languages = new[] { "zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr", "pallas" };
@@ -331,6 +493,20 @@ public sealed class PlatformCapabilityContractTests
         return root;
     }
 
+    private static async Task WaitUntilAsync(Func<Task<bool>> condition, int timeoutMs = 2000)
+    {
+        var startedAt = Environment.TickCount64;
+        while (!await condition())
+        {
+            if (Environment.TickCount64 - startedAt > timeoutMs)
+            {
+                throw new TimeoutException("Condition not reached in expected time.");
+            }
+
+            await Task.Delay(25);
+        }
+    }
+
     private sealed class FailingTrayService : ITrayService
     {
         public PlatformCapabilityStatus Capability { get; } = new(
@@ -356,5 +532,104 @@ public sealed class PlatformCapabilityContractTests
 
         public Task<PlatformOperationResult> SetVisibleAsync(bool visible, CancellationToken cancellationToken = default)
             => Task.FromResult(PlatformOperation.Failed(Capability.Provider, "visible failed", PlatformErrorCodes.TrayInitFailed, "tray.setVisible"));
+    }
+
+    private sealed class FailingAutostartService : IAutostartService
+    {
+        public PlatformCapabilityStatus Capability { get; } = new(
+            Supported: true,
+            Message: "failing autostart",
+            Provider: "failing-autostart",
+            HasFallback: true,
+            FallbackMode: "noop");
+
+        public Task<PlatformOperationResult<bool>> IsEnabledAsync(CancellationToken cancellationToken = default)
+            => Task.FromResult(
+                PlatformOperation.Failed<bool>(
+                    Capability.Provider,
+                    "query failed",
+                    PlatformErrorCodes.AutostartQueryFailed,
+                    "autostart.query",
+                    value: false));
+
+        public Task<PlatformOperationResult> SetEnabledAsync(bool enabled, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "set", "autostart.set"));
+    }
+
+    private sealed class ThrowingOverlayService : IOverlayCapabilityService
+    {
+        public PlatformCapabilityStatus Capability { get; } = new(
+            Supported: true,
+            Message: "throwing overlay",
+            Provider: "throwing-overlay",
+            HasFallback: true,
+            FallbackMode: "preview");
+
+        public Task<PlatformOperationResult> BindHostWindowAsync(
+            nint hostWindowHandle,
+            bool clickThrough,
+            double opacity,
+            CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "bound", "overlay.bind-host"));
+
+        public Task<PlatformOperationResult<IReadOnlyList<OverlayTarget>>> QueryTargetsAsync(CancellationToken cancellationToken = default)
+            => throw new InvalidOperationException("synthetic overlay query failure");
+
+        public Task<PlatformOperationResult> SelectTargetAsync(string targetId, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "selected", "overlay.select-target"));
+
+        public Task<PlatformOperationResult> SetVisibleAsync(bool visible, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "visible", "overlay.set-visible"));
+    }
+
+    private sealed class TriggerableTrayService : ITrayService
+    {
+        public PlatformCapabilityStatus Capability { get; } = new(
+            Supported: true,
+            Message: "trigger tray",
+            Provider: "trigger-tray",
+            HasFallback: true,
+            FallbackMode: "window-menu");
+
+        public event EventHandler<TrayCommandEvent>? CommandInvoked;
+
+        public Task<PlatformOperationResult> InitializeAsync(string appTitle, TrayMenuText? menuText, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "init", "tray.initialize"));
+
+        public Task<PlatformOperationResult> ShutdownAsync(CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "shutdown", "tray.shutdown"));
+
+        public Task<PlatformOperationResult> ShowAsync(string title, string message, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "show", "tray.show"));
+
+        public Task<PlatformOperationResult> SetMenuStateAsync(TrayMenuState state, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "menu", "tray.set-menu"));
+
+        public Task<PlatformOperationResult> SetVisibleAsync(bool visible, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "visible", "tray.set-visible"));
+
+        public void Emit(TrayCommandId command, string source)
+            => CommandInvoked?.Invoke(this, new TrayCommandEvent(command, source, DateTimeOffset.UtcNow));
+    }
+
+    private sealed class TriggerableHotkeyService : IGlobalHotkeyService
+    {
+        public PlatformCapabilityStatus Capability { get; } = new(
+            Supported: true,
+            Message: "trigger hotkey",
+            Provider: "trigger-hotkey",
+            HasFallback: true,
+            FallbackMode: "window-scoped");
+
+        public event EventHandler<GlobalHotkeyTriggeredEvent>? Triggered;
+
+        public Task<PlatformOperationResult> RegisterAsync(string name, string gesture, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "register", "hotkey.register"));
+
+        public Task<PlatformOperationResult> UnregisterAsync(string name, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "unregister", "hotkey.unregister"));
+
+        public void Emit(string name, string gesture)
+            => Triggered?.Invoke(this, new GlobalHotkeyTriggeredEvent(name, gesture, DateTimeOffset.UtcNow));
     }
 }

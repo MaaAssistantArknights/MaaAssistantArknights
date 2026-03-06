@@ -1,6 +1,8 @@
 using System.Runtime.CompilerServices;
+using System.Text.Json.Nodes;
 using System.Threading.Channels;
 using MAAUnified.Application.Configuration;
+using MAAUnified.Application.Models;
 using MAAUnified.Application.Orchestration;
 using MAAUnified.Application.Services;
 using MAAUnified.CoreBridge;
@@ -206,14 +208,191 @@ public sealed class SessionStateSyncTests
         bridge.Publish(new CoreCallbackEvent(10004, "TaskChainStopped", "{}", DateTimeOffset.UtcNow));
         await WaitUntilAsync(() => session.CurrentState == SessionState.Connected);
 
+        cts.Cancel();
+        bridge.Complete();
+        await pumpTask;
+
         Assert.Contains(
             logService.Snapshot,
             log => string.Equals(log.Level, "WARN", StringComparison.OrdinalIgnoreCase)
                    && log.Message.Contains("Session.Callback handler failed", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Fact]
+    public async Task CallbackStream_CallbackReceivedSubscriberThrows_ShouldWarnAndContinuePump()
+    {
+        var bridge = new FakeBridge();
+        var logService = new UiLogService();
+        var session = new UnifiedSessionService(bridge, CreateConfigService(), logService, new SessionStateMachine());
+        session.CallbackReceived += _ => throw new InvalidOperationException("synthetic callback subscriber error");
+
+        using var cts = new CancellationTokenSource();
+        var pumpTask = Task.Run(async () =>
+        {
+            try
+            {
+                await session.StartCallbackPumpAsync(_ => Task.CompletedTask, cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // expected on cancellation
+            }
+        });
+
+        bridge.Publish(new CoreCallbackEvent(10001, "TaskChainStart", "{}", DateTimeOffset.UtcNow));
+        await WaitUntilAsync(() => session.CurrentState == SessionState.Running);
+
+        bridge.Publish(new CoreCallbackEvent(10004, "TaskChainStopped", "{}", DateTimeOffset.UtcNow));
+        await WaitUntilAsync(() => session.CurrentState == SessionState.Connected);
 
         cts.Cancel();
         bridge.Complete();
         await pumpTask;
+
+        Assert.Contains(
+            logService.Snapshot,
+            log => string.Equals(log.Level, "WARN", StringComparison.OrdinalIgnoreCase)
+                   && log.Message.Contains("Session.Callback subscriber failed", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Fact]
+    public async Task CallbackStream_ConnectionInfoUnknownWhat_ShouldNotJumpState_AndShouldWarn()
+    {
+        var bridge = new FakeBridge();
+        var logService = new UiLogService();
+        var session = new UnifiedSessionService(bridge, CreateConfigService(), logService, new SessionStateMachine());
+
+        using var cts = new CancellationTokenSource();
+        var pumpTask = Task.Run(async () =>
+        {
+            try
+            {
+                await session.StartCallbackPumpAsync(_ => Task.CompletedTask, cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // expected on cancellation
+            }
+        });
+
+        bridge.Publish(new CoreCallbackEvent(2, "ConnectionInfo", """{"what":"Connected"}""", DateTimeOffset.UtcNow));
+        await WaitUntilAsync(() => session.CurrentState == SessionState.Connected);
+
+        bridge.Publish(new CoreCallbackEvent(2, "ConnectionInfo", """{"what":"AlienState"}""", DateTimeOffset.UtcNow));
+        await Task.Delay(50);
+        Assert.Equal(SessionState.Connected, session.CurrentState);
+
+        bridge.Publish(new CoreCallbackEvent(10001, "TaskChainStart", "{}", DateTimeOffset.UtcNow));
+        await WaitUntilAsync(() => session.CurrentState == SessionState.Running);
+
+        cts.Cancel();
+        bridge.Complete();
+        await pumpTask;
+
+        Assert.Contains(
+            logService.Snapshot,
+            log => string.Equals(log.Level, "WARN", StringComparison.OrdinalIgnoreCase)
+                   && log.Message.Contains("unknown ConnectionInfo.what", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Fact]
+    public async Task CallbackStream_ConnectionInfoWhatNotString_ShouldWarnAndContinuePump()
+    {
+        var bridge = new FakeBridge();
+        var logService = new UiLogService();
+        var session = new UnifiedSessionService(bridge, CreateConfigService(), logService, new SessionStateMachine());
+
+        using var cts = new CancellationTokenSource();
+        var pumpTask = Task.Run(async () =>
+        {
+            try
+            {
+                await session.StartCallbackPumpAsync(_ => Task.CompletedTask, cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // expected on cancellation
+            }
+        });
+
+        bridge.Publish(new CoreCallbackEvent(2, "ConnectionInfo", """{"what":123}""", DateTimeOffset.UtcNow));
+        bridge.Publish(new CoreCallbackEvent(10001, "TaskChainStart", "{}", DateTimeOffset.UtcNow));
+        await WaitUntilAsync(() => session.CurrentState == SessionState.Running);
+
+        cts.Cancel();
+        bridge.Complete();
+        await pumpTask;
+
+        Assert.Contains(
+            logService.Snapshot,
+            log => string.Equals(log.Level, "WARN", StringComparison.OrdinalIgnoreCase)
+                   && log.Message.Contains("property `what` is not a string", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Fact]
+    public void TryBeginRun_EndRun_ShouldEnforceOwnerMutualExclusion()
+    {
+        var session = new UnifiedSessionService(new FakeBridge(), CreateConfigService(), new UiLogService(), new SessionStateMachine());
+
+        Assert.True(session.TryBeginRun("TaskQueue", out var owner1));
+        Assert.Equal("TaskQueue", owner1);
+        Assert.True(session.IsRunOwner("TaskQueue"));
+
+        Assert.False(session.TryBeginRun("Copilot", out var currentOwner));
+        Assert.Equal("TaskQueue", currentOwner);
+        Assert.True(session.IsRunOwner("TaskQueue"));
+
+        session.EndRun("Copilot");
+        Assert.True(session.IsRunOwner("TaskQueue"));
+
+        session.EndRun("TaskQueue");
+        Assert.False(session.IsRunOwner("TaskQueue"));
+        Assert.True(session.TryBeginRun("Copilot", out var owner2));
+        Assert.Equal("Copilot", owner2);
+    }
+
+    [Fact]
+    public async Task AppendTasksFromCurrentProfile_BlockingIssue_ShouldFailAndClearTaskIdMappings()
+    {
+        var bridge = new FakeBridge();
+        var logService = new UiLogService();
+        var configService = CreateConfigService();
+        var profile = configService.CurrentConfig.Profiles[configService.CurrentConfig.CurrentProfile];
+        profile.TaskQueue.Clear();
+        profile.TaskQueue.Add(new UnifiedTaskItem
+        {
+            Type = "Fight",
+            Name = "Fight",
+            IsEnabled = true,
+            Params = new JsonObject
+            {
+                ["stage"] = "1-7",
+                ["medicine"] = 0,
+                ["stone"] = 0,
+                ["times"] = 1,
+                ["series"] = 1,
+            },
+        });
+        profile.TaskQueue.Add(new UnifiedTaskItem
+        {
+            Type = "Recruit",
+            Name = "Recruit",
+            IsEnabled = true,
+            Params = new JsonObject
+            {
+                ["times"] = 4,
+            },
+        });
+
+        var session = new UnifiedSessionService(bridge, configService, logService, new SessionStateMachine());
+        var result = await session.AppendTasksFromCurrentProfileAsync();
+
+        Assert.False(result.Success);
+        Assert.False(session.TryResolveTaskIndexByCoreTaskId(1, out _));
+        Assert.Contains(
+            logService.Snapshot,
+            log => string.Equals(log.Level, "WARN", StringComparison.OrdinalIgnoreCase)
+                   && log.Message.Contains("Append task blocked `Recruit`", StringComparison.Ordinal));
     }
 
     private static async Task WaitUntilAsync(Func<bool> condition, int timeoutMs = 2000)

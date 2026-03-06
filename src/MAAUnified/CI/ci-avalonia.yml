@@ -84,12 +84,47 @@ jobs:
         run: dotnet restore src/MAAUnified/App/MAAUnified.App.csproj
 
       - name: Restore tests
-        if: matrix.name == 'linux-x64'
+        if: matrix.name != 'macos-x64'
         run: dotnet restore src/MAAUnified/Tests/MAAUnified.Tests.csproj
 
-      - name: Run import tests
+      - name: Run Linux baseline consistency gate
         if: matrix.name == 'linux-x64'
-        run: dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=baseline-consistency.trx"
+          --filter "FullyQualifiedName~BaselineContractTests|FullyQualifiedName~BaselineCoverageTests|FullyQualifiedName~BaselineRenderSyncTests|FullyQualifiedName~ParityMatrixSyncTests"
+
+      - name: Run Linux full MAAUnified test gate
+        if: matrix.name == 'linux-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=full-maaunified-tests.trx"
+
+      - name: Run Windows platform capability contract gate
+        if: matrix.name == 'windows-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=platform-capability-contract.trx"
+          --filter "FullyQualifiedName~PlatformCapabilityContractTests"
+
+      - name: Run Windows native capability smoke gate
+        if: matrix.name == 'windows-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=platform-windows-native-smoke.trx"
+          --filter "FullyQualifiedName~PlatformWindowsNativeSmokeTests"
+
+      - name: Upload test result artifacts on failure
+        if: failure() && matrix.name != 'macos-x64'
+        uses: actions/upload-artifact@v6
+        with:
+          name: MAAUnified-TestResults-${{ matrix.name }}
+          path: TestResults/${{ matrix.name }}/*.trx
+          if-no-files-found: ignore
 
       - name: Bootstrap MaaDeps
         run: python tools/maadeps-download.py ${{ matrix.maadeps_triplet }}

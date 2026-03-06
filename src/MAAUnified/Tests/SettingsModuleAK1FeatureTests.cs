@@ -46,7 +46,7 @@ public sealed class SettingsModuleAK1FeatureTests
         var expected = SnapshotConnectionValues(profile);
 
         ClearConnectionValues(profile);
-        InvokePrivateMethod(shell, "SyncConnectionToProfile");
+        InvokePrivateMethod(shell, "SyncConnectionToProfile", (string?)null);
         var actual = SnapshotConnectionValues(profile);
 
         Assert.Equal(expected, actual);
@@ -222,11 +222,33 @@ public sealed class SettingsModuleAK1FeatureTests
         }
     }
 
-    private static void InvokePrivateMethod(object target, string methodName)
+    private static void InvokePrivateMethod(object target, string methodName, params object?[] suppliedArguments)
     {
         var method = target.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
         Assert.NotNull(method);
-        method!.Invoke(target, null);
+        var parameters = method!.GetParameters();
+        Assert.True(
+            suppliedArguments.Length <= parameters.Length,
+            $"Method '{methodName}' expects {parameters.Length} parameters but got {suppliedArguments.Length}.");
+
+        var invokeArguments = new object?[parameters.Length];
+        for (var index = 0; index < parameters.Length; index++)
+        {
+            if (index < suppliedArguments.Length)
+            {
+                invokeArguments[index] = suppliedArguments[index];
+                continue;
+            }
+
+            Assert.True(
+                parameters[index].HasDefaultValue,
+                $"Method '{methodName}' parameter '{parameters[index].Name}' is required.");
+            invokeArguments[index] = parameters[index].DefaultValue is DBNull
+                ? Type.Missing
+                : parameters[index].DefaultValue;
+        }
+
+        method.Invoke(target, invokeArguments);
     }
 
     private static async Task WaitUntilAsync(Func<bool> condition, int timeoutMs = 2000)
