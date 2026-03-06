@@ -212,6 +212,20 @@
             "Mizuki@Roguelike@GetDropBox"
         ]
     },
+    "Mizuki@Roguelike@HopeLeftFlag": {
+        "template": "Roguelike@HopeLeftFlag.png"
+    },
+    "Mizuki@Roguelike@HopeRightFlag": {
+        "template": "Roguelike@HopeRightFlag.png"
+    },
+    "Mizuki@Roguelike@HopeRecognition": {},
+    "Mizuki@Roguelike@IngotFlag": {
+        "template": "Roguelike@IngotFlag.png"
+    },
+    "Mizuki@Roguelike@IngotRecognition": {
+        "Doc": "右侧有第三种资源时源石锭识别",
+        "baseTask": "Roguelike@IngotRecognition-2"
+    },
     "Mizuki@Roguelike@InitialDrop": {},
     "Mizuki@Roguelike@LastReward": {},
     "Mizuki@Roguelike@LastReward-EnterPoint": {

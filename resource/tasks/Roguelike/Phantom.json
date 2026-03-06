@@ -109,6 +109,20 @@
             "Phantom@Roguelike@GetDropRecruit"
         ]
     },
+    "Phantom@Roguelike@HopeLeftFlag": {
+        "template": "Roguelike@HopeLeftFlag.png"
+    },
+    "Phantom@Roguelike@HopeRightFlag": {
+        "template": "Roguelike@HopeRightFlag.png"
+    },
+    "Phantom@Roguelike@HopeRecognition": {},
+    "Phantom@Roguelike@IngotFlag": {
+        "template": "Roguelike@IngotFlag.png"
+    },
+    "Phantom@Roguelike@IngotRecognition": {
+        "Doc": "右侧仅两种资源时的源石锭识别",
+        "baseTask": "Roguelike@IngotRecognition-1"
+    },
     "Phantom@Roguelike@InitialDrop": {},
     "Phantom@Roguelike@LastReward": {},
     "Phantom@Roguelike@LastReward-EnterPoint": {
