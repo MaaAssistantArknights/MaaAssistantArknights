@@ -44,6 +44,10 @@ if(APPLE AND WITH_MAC_SCK)
                                   "-framework ScreenCaptureKit")
 endif()
 
+if(ANDROID)
+    target_link_libraries(MaaCore log dl)
+endif()
+
 file(GLOB_RECURSE MaaCore_PUBLIC_HEADERS ${PROJECT_SOURCE_DIR}/include/*.h)
 target_sources(MaaCore PUBLIC ${MaaCore_PUBLIC_HEADERS})
 set_target_properties(MaaCore PROPERTIES PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS}")
