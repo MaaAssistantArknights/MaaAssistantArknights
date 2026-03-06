@@ -6,6 +6,16 @@ namespace MAAUnified.Tests;
 public sealed class TaskQueueItemViewModelTests
 {
     [Fact]
+    public void StatusConstants_ShouldMatchExpectedValues()
+    {
+        Assert.Equal("Idle", TaskQueueItemStatus.Idle);
+        Assert.Equal("Running", TaskQueueItemStatus.Running);
+        Assert.Equal("Success", TaskQueueItemStatus.Success);
+        Assert.Equal("Error", TaskQueueItemStatus.Error);
+        Assert.Equal("Skipped", TaskQueueItemStatus.Skipped);
+    }
+
+    [Fact]
     public void DefaultStatus_ShouldMapToIdleClass()
     {
         var vm = new TaskQueueItemViewModel("Fight", "fight", true);

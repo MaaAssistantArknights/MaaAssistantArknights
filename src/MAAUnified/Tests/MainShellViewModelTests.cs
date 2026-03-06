@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using MAAUnified.App.Features.Dialogs;
 using MAAUnified.App.ViewModels;
-using MAAUnified.App.ViewModels.TaskQueue;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Orchestration;
@@ -16,23 +16,28 @@ namespace MAAUnified.Tests;
 public sealed class MainShellViewModelTests
 {
     [Theory]
-    [InlineData(false, false)]
-    [InlineData(false, true)]
-    [InlineData(true, false)]
-    [InlineData(true, true)]
-    public async Task CanStartExecution_ShouldMatchTrayStartState(bool isRunning, bool hasBlockingIssue)
+    [InlineData(SessionState.Connected, false, true, false)]
+    [InlineData(SessionState.Connected, true, false, false)]
+    [InlineData(SessionState.Running, false, false, true)]
+    [InlineData(SessionState.Idle, false, false, false)]
+    public async Task CanStartExecution_ShouldMatchTrayStartState(
+        SessionState sessionState,
+        bool hasBlockingIssue,
+        bool expectedStartEnabled,
+        bool expectedStopEnabled)
     {
         await using var fixture = await TestFixture.CreateAsync();
-        SetTaskQueueRunning(fixture.ViewModel.TaskQueuePage, isRunning);
+        await SetSessionStateAsync(fixture.Runtime.SessionService, sessionState);
         InvokeRefreshConfigValidationState(
             fixture.ViewModel,
             hasBlockingIssue ? [CreateBlockingIssue()] : []);
         await InvokeSyncTrayMenuStateAsync(fixture.ViewModel);
 
-        var expected = !isRunning && !hasBlockingIssue;
-        Assert.Equal(expected, fixture.ViewModel.CanStartExecution);
+        Assert.Equal(expectedStartEnabled, fixture.ViewModel.CanStartExecution);
+        Assert.Equal(expectedStopEnabled, fixture.ViewModel.CanStopExecution);
         Assert.NotNull(fixture.TrayService.LastMenuState);
-        Assert.Equal(expected, fixture.TrayService.LastMenuState!.StartEnabled);
+        Assert.Equal(expectedStartEnabled, fixture.TrayService.LastMenuState!.StartEnabled);
+        Assert.Equal(expectedStopEnabled, fixture.TrayService.LastMenuState.StopEnabled);
     }
 
     [Fact]
@@ -75,6 +80,58 @@ public sealed class MainShellViewModelTests
         Assert.Equal("-", detail.TaskName);
         Assert.Equal("Need fix", detail.Message);
         Assert.Equal("-", detail.SuggestedAction);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_WithBlockingValidationIssues_ShouldDisableStartAndExposeIssueDetails()
+    {
+        await using var fixture = await TestFixture.CreateAsync(existingAvaloniaJson: CreateBlockingConfigJson());
+        await fixture.ViewModel.InitializeAsync();
+        await SetSessionStateAsync(fixture.Runtime.SessionService, SessionState.Connected);
+        await InvokeSyncTrayMenuStateAsync(fixture.ViewModel);
+
+        Assert.True(fixture.ViewModel.HasBlockingConfigIssues);
+        Assert.False(fixture.ViewModel.CanStartExecution);
+        Assert.NotEmpty(fixture.ViewModel.ConfigIssueDetails);
+
+        var detail = fixture.ViewModel.ConfigIssueDetails[0];
+        Assert.NotEqual("-", detail.Scope);
+        Assert.NotEqual("-", detail.Code);
+        Assert.NotEqual("-", detail.Field);
+        Assert.NotEqual("-", detail.Message);
+        Assert.NotEqual("-", detail.SuggestedAction);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_OutdatedSchema_ShowsMigrationDialog()
+    {
+        var dialogService = new CapturingDialogService();
+        await using var fixture = await TestFixture.CreateAsync(
+            existingAvaloniaJson: CreateOutdatedSchemaConfigJson(),
+            dialogService: dialogService);
+
+        await fixture.ViewModel.InitializeAsync();
+
+        Assert.Equal(1, dialogService.ShowTextCallCount);
+        Assert.NotNull(dialogService.LastTextRequest);
+        Assert.Equal("App.Shell.Config.SchemaMigration", dialogService.LastTextScope);
+        Assert.Contains("工作包D", dialogService.LastTextRequest!.Title, StringComparison.Ordinal);
+        Assert.Contains("当前版本: v1", dialogService.LastTextRequest.Prompt, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_OutdatedSchema_DialogUnavailable_DoesNotBlockStartup()
+    {
+        await using var fixture = await TestFixture.CreateAsync(
+            existingAvaloniaJson: CreateOutdatedSchemaConfigJson(),
+            dialogService: NoOpAppDialogService.Instance);
+
+        await fixture.ViewModel.InitializeAsync();
+
+        Assert.NotEqual("Initializing...", fixture.ViewModel.GlobalStatus);
+        Assert.True(await WaitForLogContainsAsync(
+            fixture.Runtime.DiagnosticsService.EventLogPath,
+            "Config.SchemaMigration.DialogUnavailable"));
     }
 
     [Fact]
@@ -243,6 +300,123 @@ public sealed class MainShellViewModelTests
     }
 
     [Fact]
+    public async Task ExecuteManualImportAsync_ShouldRefreshTaskQueueSettingsAndConnectionState()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Directory.CreateDirectory(Path.Combine(fixture.Root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(fixture.Root, "config", "gui.new.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "TaskQueue": [
+                    { "$type": "FightTask", "Name": "Fight", "IsEnable": true }
+                  ],
+                  "ConnectAddress": "10.8.0.1:5555",
+                  "ConnectConfig": "Mumu",
+                  "AdbPath": "/tmp/adb-imported"
+                }
+              },
+              "GUI": {
+                "Localization": "en-us"
+              }
+            }
+            """);
+
+        fixture.ViewModel.SelectedImportSource = "仅 gui.new.json";
+
+        await fixture.ViewModel.ExecuteManualImportAsync();
+
+        Assert.Equal("en-us", fixture.ViewModel.SettingsPage.Language);
+        Assert.Equal("10.8.0.1:5555", fixture.ViewModel.ConnectionGameSharedState.ConnectAddress);
+        Assert.Equal("Mumu", fixture.ViewModel.ConnectionGameSharedState.ConnectConfig);
+        Assert.Equal("/tmp/adb-imported", fixture.ViewModel.ConnectionGameSharedState.AdbPath);
+        Assert.Contains(
+            fixture.ViewModel.TaskQueuePage.Tasks,
+            task => string.Equals(task.Type, "Fight", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public async Task ExecuteManualImportAsync_ShouldRefreshConnectionState_FromLegacyConnectionKeys()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Directory.CreateDirectory(Path.Combine(fixture.Root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(fixture.Root, "config", "gui.new.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "TaskQueue": [
+                    { "$type": "FightTask", "Name": "Fight", "IsEnable": true }
+                  ],
+                  "Connect.Address": "172.16.1.8:6000",
+                  "Connect.ConnectConfig": "BlueStacks",
+                  "Connect.AdbPath": "/tmp/adb-legacy"
+                }
+              }
+            }
+            """);
+
+        fixture.ViewModel.SelectedImportSource = "仅 gui.new.json";
+        await fixture.ViewModel.ExecuteManualImportAsync();
+
+        Assert.Equal("172.16.1.8:6000", fixture.ViewModel.ConnectionGameSharedState.ConnectAddress);
+        Assert.Equal("BlueStacks", fixture.ViewModel.ConnectionGameSharedState.ConnectConfig);
+        Assert.Equal("/tmp/adb-legacy", fixture.ViewModel.ConnectionGameSharedState.AdbPath);
+    }
+
+    [Fact]
+    public async Task ExecuteManualImportAsync_ShouldEmitImportRefreshEvent()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Directory.CreateDirectory(Path.Combine(fixture.Root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(fixture.Root, "config", "gui.new.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "TaskQueue": [
+                    { "$type": "FightTask", "Name": "Fight", "IsEnable": true }
+                  ]
+                }
+              }
+            }
+            """);
+
+        fixture.ViewModel.SelectedImportSource = "仅 gui.new.json";
+        await fixture.ViewModel.ExecuteManualImportAsync();
+
+        Assert.True(await WaitForLogContainsAsync(
+            fixture.Runtime.DiagnosticsService.EventLogPath,
+            "App.Shell.ImportLegacy.Refresh"));
+    }
+
+    [Theory]
+    [InlineData("自动(gui.new + gui)", ImportSource.Auto)]
+    [InlineData("仅 gui.new.json", ImportSource.GuiNewOnly)]
+    [InlineData("仅 gui.json", ImportSource.GuiOnly)]
+    public async Task ExecuteManualImportAsync_ShouldMapSelectedImportSource(
+        string selectedImportSource,
+        ImportSource expectedSource)
+    {
+        var shellSpy = new SpyShellFeatureService("zh-cn");
+        await using var fixture = await TestFixture.CreateAsync(shellService: shellSpy);
+
+        fixture.ViewModel.SelectedImportSource = selectedImportSource;
+        await fixture.ViewModel.ExecuteManualImportAsync();
+
+        Assert.Equal(1, shellSpy.ImportLegacyCallCount);
+        Assert.Equal(expectedSource, shellSpy.LastImportSource);
+        Assert.True(shellSpy.LastImportManualImport);
+    }
+
+    [Fact]
     public async Task RuntimeFactory_ShouldInjectShellFeatureService()
     {
         var root = Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
@@ -306,13 +480,69 @@ public sealed class MainShellViewModelTests
         };
     }
 
-    private static void SetTaskQueueRunning(TaskQueuePageViewModel vm, bool value)
+    private static string CreateBlockingConfigJson()
     {
-        var property = typeof(TaskQueuePageViewModel).GetProperty(nameof(TaskQueuePageViewModel.IsRunning));
-        Assert.NotNull(property);
-        var setter = property!.GetSetMethod(nonPublic: true);
-        Assert.NotNull(setter);
-        setter!.Invoke(vm, [value]);
+        return
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {},
+                  "TaskQueue": [
+                    {
+                      "Type": "Recruit",
+                      "Name": "Recruit",
+                      "IsEnabled": true,
+                      "Params": {
+                        "times": 4
+                      }
+                    }
+                  ]
+                }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """;
+    }
+
+    private static string CreateOutdatedSchemaConfigJson()
+    {
+        return
+            """
+            {
+              "SchemaVersion": 1,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {},
+                  "TaskQueue": []
+                }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """;
+    }
+
+    private static async Task SetSessionStateAsync(UnifiedSessionService sessionService, SessionState targetState)
+    {
+        switch (targetState)
+        {
+            case SessionState.Idle:
+                break;
+            case SessionState.Connected:
+                Assert.True((await sessionService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
+                break;
+            case SessionState.Running:
+                Assert.True((await sessionService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
+                Assert.True((await sessionService.StartAsync()).Success);
+                break;
+            default:
+                throw new NotSupportedException($"Test helper does not support target state {targetState}.");
+        }
     }
 
     private static void InvokeRefreshConfigValidationState(MainShellViewModel vm, IReadOnlyList<ConfigValidationIssue> issues)
@@ -429,10 +659,18 @@ public sealed class MainShellViewModelTests
         public static async Task<TestFixture> CreateAsync(
             IShellFeatureService? shellService = null,
             IAppLifecycleService? appLifecycleService = null,
-            IGlobalHotkeyService? hotkeyService = null)
+            IGlobalHotkeyService? hotkeyService = null,
+            string? existingAvaloniaJson = null,
+            IAppDialogService? dialogService = null)
         {
             var root = Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(Path.Combine(root, "config"));
+            if (!string.IsNullOrWhiteSpace(existingAvaloniaJson))
+            {
+                await File.WriteAllTextAsync(
+                    Path.Combine(root, "config", "avalonia.json"),
+                    existingAvaloniaJson);
+            }
 
             var log = new UiLogService();
             var diagnostics = new UiDiagnosticsService(root, log);
@@ -489,7 +727,7 @@ public sealed class MainShellViewModelTests
                 AppLifecycleService = appLifecycleService ?? new NoOpAppLifecycleService(),
             };
 
-            return new TestFixture(root, runtime, new MainShellViewModel(runtime), tray);
+            return new TestFixture(root, runtime, new MainShellViewModel(runtime, dialogService), tray);
         }
 
         public void Dispose()
@@ -508,6 +746,96 @@ public sealed class MainShellViewModelTests
             {
                 // ignore cleanup failures in temporary test directories
             }
+        }
+    }
+
+    private sealed class CapturingDialogService : IAppDialogService
+    {
+        public int ShowTextCallCount { get; private set; }
+
+        public string? LastTextScope { get; private set; }
+
+        public TextDialogRequest? LastTextRequest { get; private set; }
+
+        public Task<DialogCompletion<AnnouncementDialogPayload>> ShowAnnouncementAsync(
+            AnnouncementDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new DialogCompletion<AnnouncementDialogPayload>(
+                DialogReturnSemantic.Close,
+                null,
+                "captured"));
+        }
+
+        public Task<DialogCompletion<VersionUpdateDialogPayload>> ShowVersionUpdateAsync(
+            VersionUpdateDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new DialogCompletion<VersionUpdateDialogPayload>(
+                DialogReturnSemantic.Close,
+                null,
+                "captured"));
+        }
+
+        public Task<DialogCompletion<ProcessPickerDialogPayload>> ShowProcessPickerAsync(
+            ProcessPickerDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new DialogCompletion<ProcessPickerDialogPayload>(
+                DialogReturnSemantic.Close,
+                null,
+                "captured"));
+        }
+
+        public Task<DialogCompletion<EmulatorPathDialogPayload>> ShowEmulatorPathAsync(
+            EmulatorPathDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new DialogCompletion<EmulatorPathDialogPayload>(
+                DialogReturnSemantic.Close,
+                null,
+                "captured"));
+        }
+
+        public Task<DialogCompletion<ErrorDialogPayload>> ShowErrorAsync(
+            ErrorDialogRequest request,
+            string sourceScope,
+            Func<CancellationToken, Task<UiOperationResult>>? openIssueReportAsync = null,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new DialogCompletion<ErrorDialogPayload>(
+                DialogReturnSemantic.Close,
+                null,
+                "captured"));
+        }
+
+        public Task<DialogCompletion<AchievementListDialogPayload>> ShowAchievementListAsync(
+            AchievementListDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new DialogCompletion<AchievementListDialogPayload>(
+                DialogReturnSemantic.Close,
+                null,
+                "captured"));
+        }
+
+        public Task<DialogCompletion<TextDialogPayload>> ShowTextAsync(
+            TextDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+        {
+            ShowTextCallCount++;
+            LastTextScope = sourceScope;
+            LastTextRequest = request;
+            return Task.FromResult(new DialogCompletion<TextDialogPayload>(
+                DialogReturnSemantic.Confirm,
+                new TextDialogPayload(request.DefaultText),
+                "captured"));
         }
     }
 
@@ -544,6 +872,12 @@ public sealed class MainShellViewModelTests
 
         public string? LastTargetLanguage { get; private set; }
 
+        public int ImportLegacyCallCount { get; private set; }
+
+        public ImportSource? LastImportSource { get; private set; }
+
+        public bool LastImportManualImport { get; private set; }
+
         public Task<UiOperationResult> ConnectAsync(
             string address,
             string config,
@@ -558,7 +892,14 @@ public sealed class MainShellViewModelTests
             bool manualImport,
             CancellationToken cancellationToken = default)
         {
-            return Task.FromResult(UiOperationResult<ImportReport>.Ok(new ImportReport(), "Imported."));
+            ImportLegacyCallCount++;
+            LastImportSource = source;
+            LastImportManualImport = manualImport;
+            return Task.FromResult(UiOperationResult<ImportReport>.Ok(new ImportReport
+            {
+                Source = source,
+                Success = true,
+            }, "Imported."));
         }
 
         public Task<UiOperationResult<string>> SwitchLanguageAsync(

@@ -3,11 +3,20 @@ using MAAUnified.Application.Models;
 
 namespace MAAUnified.App.ViewModels.TaskQueue;
 
+public static class TaskQueueItemStatus
+{
+    public const string Idle = "Idle";
+    public const string Running = "Running";
+    public const string Success = "Success";
+    public const string Error = "Error";
+    public const string Skipped = "Skipped";
+}
+
 public sealed class TaskQueueItemViewModel : ObservableObject
 {
     private bool _isEnabled;
     private string _name;
-    private string _status = "Idle";
+    private string _status = TaskQueueItemStatus.Idle;
 
     public TaskQueueItemViewModel(string type, string name, bool isEnabled)
     {
@@ -46,13 +55,13 @@ public sealed class TaskQueueItemViewModel : ObservableObject
         }
     }
 
-    public bool IsStatusRunning => IsStatus("Running");
+    public bool IsStatusRunning => IsStatus(TaskQueueItemStatus.Running);
 
-    public bool IsStatusSuccess => IsStatus("Success");
+    public bool IsStatusSuccess => IsStatus(TaskQueueItemStatus.Success);
 
-    public bool IsStatusError => IsStatus("Error");
+    public bool IsStatusError => IsStatus(TaskQueueItemStatus.Error);
 
-    public bool IsStatusSkipped => IsStatus("Skipped");
+    public bool IsStatusSkipped => IsStatus(TaskQueueItemStatus.Skipped);
 
     public bool IsStatusIdle =>
         !IsStatusRunning

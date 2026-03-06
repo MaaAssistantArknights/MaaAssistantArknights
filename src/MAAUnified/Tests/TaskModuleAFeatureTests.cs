@@ -557,6 +557,7 @@ public sealed class TaskModuleAFeatureTests
         try
         {
             var page = new TaskQueuePageViewModel(runtime, new ConnectionGameSharedStateViewModel());
+            Assert.True((await runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
             await page.StartAsync();
             Assert.True(page.HasBlockingConfigIssues);
             Assert.True(page.BlockingConfigIssueCount > 0);

@@ -13,11 +13,19 @@ public partial class VersionUpdateSettingsView : UserControl
 
     private SettingsPageViewModel? VM => DataContext as SettingsPageViewModel;
 
-    private async void OnSaveVersionUpdateClick(object? sender, RoutedEventArgs e)
+    private async void OnSaveVersionUpdateChannelClick(object? sender, RoutedEventArgs e)
     {
         if (VM is not null)
         {
-            await VM.SaveVersionUpdateSettingsAsync();
+            await VM.SaveVersionUpdateChannelAsync();
+        }
+    }
+
+    private async void OnSaveVersionUpdateProxyClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.SaveVersionUpdateProxyAsync();
         }
     }
 
@@ -25,7 +33,7 @@ public partial class VersionUpdateSettingsView : UserControl
     {
         if (VM is not null)
         {
-            await VM.CheckVersionUpdateAsync();
+            await VM.CheckVersionUpdateWithDialogAsync();
         }
     }
 }

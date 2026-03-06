@@ -1,16 +1,30 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="MAAUnified.App.Features.Dialogs.TextDialogView">
-  <Grid Margin="8" RowDefinitions="Auto,*,Auto">
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MAAUnified.App.Features.Dialogs.TextDialogView"
+        Width="620"
+        Height="320"
+        MinWidth="480"
+        MinHeight="260"
+        WindowStartupLocation="CenterOwner">
+  <Grid Margin="10" RowDefinitions="Auto,Auto,*,Auto">
     <TextBlock Classes="section-title" Text="Text Dialog" />
-    <TextBox Grid.Row="1"
-             AcceptsReturn="True"
-             Height="160"
+    <TextBlock x:Name="PromptText"
+               Grid.Row="1"
+               Margin="0,8,0,0"
+               Classes="long-wrap"
+               Text="Prompt" />
+    <TextBox x:Name="InputBox"
+             Grid.Row="2"
+             Margin="0,8,0,0"
              TextWrapping="Wrap"
-             Text="支持 Markdown 预览或纯文本显示。" />
-    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-      <Button Content="取消" />
-      <Button Content="确认" />
+             AcceptsReturn="False" />
+    <StackPanel Grid.Row="3"
+                Orientation="Horizontal"
+                Spacing="8"
+                HorizontalAlignment="Right"
+                Margin="0,12,0,0">
+      <Button x:Name="CancelButton" Content="Cancel" Click="OnCancelClick" />
+      <Button x:Name="ConfirmButton" Classes="action" Content="Confirm" Click="OnConfirmClick" />
     </StackPanel>
   </Grid>
-</UserControl>
+</Window>

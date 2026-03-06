@@ -3,63 +3,125 @@
              x:Class="MAAUnified.App.Features.Advanced.ToolboxView">
   <Grid RowDefinitions="Auto,*">
     <Border Classes="section">
-      <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+      <Grid ColumnDefinitions="Auto,Auto,Auto,*">
         <CheckBox Content="我已阅读免责声明" IsChecked="{Binding DisclaimerAccepted}" />
-        <Button Grid.Column="1" Classes="action" Content="执行当前工具" Click="OnExecuteClick" />
-        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding StatusMessage}" />
-        <TextBlock Grid.Column="3"
-                   VerticalAlignment="Center"
-                   Classes="state-error"
-                   Text="{Binding LastErrorMessage}" />
+        <Button Grid.Column="1"
+                Classes="action"
+                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                Content="执行当前工具"
+                Click="OnExecuteClick" />
+        <Button Grid.Column="2"
+                Classes="action"
+                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                Content="执行成功示例"
+                Click="OnExecuteSuccessPresetClick" />
+        <Button Grid.Column="3"
+                Classes="action"
+                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                HorizontalAlignment="Left"
+                Content="执行失败示例"
+                Click="OnExecuteFailurePresetClick" />
       </Grid>
     </Border>
 
     <Grid Grid.Row="1" ColumnDefinitions="{StaticResource MAA.Layout.Toolbox.Columns}">
       <Border Grid.Column="0" Classes="section">
-        <Grid RowDefinitions="Auto,*">
-          <Grid ColumnDefinitions="Auto,*">
-            <TextBlock VerticalAlignment="Center" Text="参数摘要" />
-            <TextBox Text="{Binding CurrentToolParameters}"
-                     Watermark="key=value;key2=value2"
-                     Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}" />
-          </Grid>
-          <TabControl Grid.Row="1" SelectedIndex="{Binding SelectedTabIndex}">
-          <TabItem Header="招募识别">
-            <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
-              <TextBlock Text="识别标签 / 自动计算时间 / 结果导出" />
-              <Button Classes="action" Content="开始识别" Click="OnExecuteClick" />
-            </StackPanel>
-          </TabItem>
-          <TabItem Header="干员识别">
-            <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
-              <TextBlock Text="识别已拥有/未拥有干员，支持导出。" />
-              <Button Classes="action" Content="开始识别" Click="OnExecuteClick" />
-            </StackPanel>
-          </TabItem>
-          <TabItem Header="仓库识别">
-            <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
-              <TextBlock Text="仓库物品识别，支持结果导出。" />
-              <Button Classes="action" Content="开始识别" Click="OnExecuteClick" />
-            </StackPanel>
-          </TabItem>
-          <TabItem Header="抽卡">
-            <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
-              <TextBlock Text="抽卡记录识别与统计。" />
-              <Button Classes="action" Content="开始识别" Click="OnExecuteClick" />
-            </StackPanel>
-          </TabItem>
-          <TabItem Header="窥屏">
-            <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
-              <TextBlock Text="实时截图/窥屏测试。" />
-              <Button Classes="action" Content="开始识别" Click="OnExecuteClick" />
-            </StackPanel>
-          </TabItem>
-          <TabItem Header="小游戏">
-            <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
-              <TextBlock Text="小游戏工具入口。" />
-              <Button Classes="action" Content="开始执行" Click="OnExecuteClick" />
-            </StackPanel>
-          </TabItem>
+        <Grid RowDefinitions="Auto,Auto,*">
+          <TextBlock Classes="section-title" Text="工具参数" />
+          <TextBlock Grid.Row="1" Classes="long-wrap" Text="{Binding CurrentToolParameters}" />
+
+          <TabControl Grid.Row="2" SelectedIndex="{Binding SelectedTabIndex}">
+            <TabItem Header="招募识别">
+              <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
+                <Grid ColumnDefinitions="Auto,*">
+                  <TextBlock VerticalAlignment="Center" Text="三星时间(分钟)" />
+                  <TextBox Grid.Column="1" Text="{Binding RecruitLevel3TimeInput}" />
+                </Grid>
+                <Grid ColumnDefinitions="Auto,*">
+                  <TextBlock VerticalAlignment="Center" Text="四星时间(分钟)" />
+                  <TextBox Grid.Column="1" Text="{Binding RecruitLevel4TimeInput}" />
+                </Grid>
+                <Grid ColumnDefinitions="Auto,*">
+                  <TextBlock VerticalAlignment="Center" Text="五星时间(分钟)" />
+                  <TextBox Grid.Column="1" Text="{Binding RecruitLevel5TimeInput}" />
+                </Grid>
+                <CheckBox Content="自动设置时间" IsChecked="{Binding RecruitAutoSetTime}" />
+                <TextBlock Classes="long-wrap" Text="成功示例：540/540/540；失败示例：三星时间=55" />
+              </StackPanel>
+            </TabItem>
+
+            <TabItem Header="干员识别">
+              <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
+                <Grid ColumnDefinitions="Auto,*">
+                  <TextBlock VerticalAlignment="Center" Text="识别模式" />
+                  <ComboBox Grid.Column="1"
+                            ItemsSource="{Binding OperBoxModeOptions}"
+                            SelectedItem="{Binding OperBoxMode}" />
+                </Grid>
+                <TextBlock Classes="long-wrap" Text="成功示例：owned；失败示例：invalid" />
+              </StackPanel>
+            </TabItem>
+
+            <TabItem Header="仓库识别">
+              <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
+                <Grid ColumnDefinitions="Auto,*">
+                  <TextBlock VerticalAlignment="Center" Text="结果格式" />
+                  <ComboBox Grid.Column="1"
+                            ItemsSource="{Binding DepotFormatOptions}"
+                            SelectedItem="{Binding DepotFormat}" />
+                </Grid>
+                <Grid ColumnDefinitions="Auto,*">
+                  <TextBlock VerticalAlignment="Center" Text="TopN" />
+                  <TextBox Grid.Column="1" Text="{Binding DepotTopNInput}" />
+                </Grid>
+                <TextBlock Classes="long-wrap" Text="成功示例：summary + 50；失败示例：TopN=0" />
+              </StackPanel>
+            </TabItem>
+
+            <TabItem Header="抽卡">
+              <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
+                <Grid ColumnDefinitions="Auto,*">
+                  <TextBlock VerticalAlignment="Center" Text="抽卡次数" />
+                  <ComboBox Grid.Column="1"
+                            ItemsSource="{Binding GachaDrawCountOptions}"
+                            SelectedItem="{Binding GachaDrawCountInput}" />
+                </Grid>
+                <CheckBox Content="不再显示抽卡免责声明" IsChecked="{Binding GachaShowDisclaimerNoMore}" />
+                <TextBlock Classes="long-wrap" Text="成功示例：10；失败示例：3" />
+              </StackPanel>
+            </TabItem>
+
+            <TabItem Header="窥屏">
+              <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
+                <Grid ColumnDefinitions="Auto,*">
+                  <TextBlock VerticalAlignment="Center" Text="目标帧率(FPS)" />
+                  <TextBox Grid.Column="1" Text="{Binding VideoRecognitionTargetFpsInput}" />
+                </Grid>
+                <TextBlock Classes="long-wrap" Text="成功示例：20；失败示例：0" />
+              </StackPanel>
+            </TabItem>
+
+            <TabItem Header="小游戏">
+              <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
+                <Grid ColumnDefinitions="Auto,*">
+                  <TextBlock VerticalAlignment="Center" Text="任务名" />
+                  <ComboBox Grid.Column="1"
+                            ItemsSource="{Binding MiniGameTaskNameOptions}"
+                            SelectedItem="{Binding MiniGameTaskName}" />
+                </Grid>
+                <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding IsMiniGameSecretFront}">
+                  <TextBlock VerticalAlignment="Center" Text="结局" />
+                  <ComboBox Grid.Column="1"
+                            ItemsSource="{Binding MiniGameSecretFrontEndingOptions}"
+                            SelectedItem="{Binding MiniGameSecretFrontEnding}" />
+                </Grid>
+                <Grid ColumnDefinitions="Auto,*">
+                  <TextBlock VerticalAlignment="Center" Text="事件" />
+                  <TextBox Grid.Column="1" Text="{Binding MiniGameSecretFrontEvent}" />
+                </Grid>
+                <TextBlock Classes="long-wrap" Text="成功示例：SS@Store@Begin；失败示例：MiniGame@SecretFront + 空结局" />
+              </StackPanel>
+            </TabItem>
           </TabControl>
         </Grid>
       </Border>
@@ -67,8 +129,11 @@
       <Border Grid.Column="2" Classes="section">
         <Grid RowDefinitions="Auto,Auto,Auto,*">
           <TextBlock Classes="section-title" Text="结果与动态状态" />
-          <TextBlock Grid.Row="1" Text="{Binding ResultText}" TextWrapping="Wrap" />
-          <TextBlock Grid.Row="2" Text="{Binding IsExecuting}" />
+          <TextBlock Grid.Row="1" Classes="long-wrap" Text="{Binding ResultText}" />
+          <StackPanel Grid.Row="2" Spacing="{DynamicResource MAA.Spacing.Small}">
+            <TextBlock Text="{Binding StatusMessage}" />
+            <TextBlock Classes="state-error long-wrap" Text="{Binding LastErrorMessage}" />
+          </StackPanel>
           <ListBox Grid.Row="3" ItemsSource="{Binding ExecutionHistory}">
             <ListBox.ItemTemplate>
               <DataTemplate>
@@ -76,10 +141,14 @@
                   <Run Text="{Binding ExecutedAt}" />
                   <Run Text=" | " />
                   <Run Text="{Binding ToolName}" />
+                  <Run Text=" | params=" />
+                  <Run Text="{Binding ParameterSummary}" />
                   <Run Text=" | success=" />
                   <Run Text="{Binding Success}" />
-                  <Run Text=" | " />
+                  <Run Text=" | result=" />
                   <Run Text="{Binding ResultSummary}" />
+                  <Run Text=" | code=" />
+                  <Run Text="{Binding ErrorCode}" />
                 </TextBlock>
               </DataTemplate>
             </ListBox.ItemTemplate>

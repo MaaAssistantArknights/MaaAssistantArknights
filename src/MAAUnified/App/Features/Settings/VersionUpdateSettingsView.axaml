@@ -48,7 +48,8 @@
       <TextBox Text="{Binding VersionUpdateBody}" AcceptsReturn="True" Height="80" TextWrapping="Wrap" />
     </Grid>
     <StackPanel Grid.Row="7" Orientation="Horizontal" Spacing="8">
-      <Button Content="保存更新配置" Click="OnSaveVersionUpdateClick" />
+      <Button Content="保存通道配置" Click="OnSaveVersionUpdateChannelClick" />
+      <Button Content="保存代理配置" Click="OnSaveVersionUpdateProxyClick" />
       <Button Content="检查更新" Click="OnCheckUpdateClick" />
       <CheckBox Content="首次启动" IsChecked="{Binding VersionUpdateIsFirstBoot}" />
     </StackPanel>

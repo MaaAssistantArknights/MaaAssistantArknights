@@ -20,4 +20,36 @@ public partial class IssueReportView : UserControl
             await VM.BuildIssueReportAsync();
         }
     }
+
+    private async void OnOpenHelpClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.OpenIssueReportHelpAsync();
+        }
+    }
+
+    private async void OnOpenIssueEntryClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.OpenIssueReportEntryAsync();
+        }
+    }
+
+    private async void OnOpenDebugDirectoryClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.OpenIssueReportDebugDirectoryAsync();
+        }
+    }
+
+    private async void OnClearImageCacheClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.ClearIssueReportImageCacheAsync();
+        }
+    }
 }

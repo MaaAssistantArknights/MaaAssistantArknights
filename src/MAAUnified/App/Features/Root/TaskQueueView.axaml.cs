@@ -33,7 +33,7 @@ public partial class TaskQueueView : UserControl
     {
         if (VM is not null)
         {
-            await VM.RenameSelectedTaskAsync();
+            await VM.RenameSelectedTaskWithDialogAsync();
         }
     }
 
@@ -98,6 +98,14 @@ public partial class TaskQueueView : UserControl
         if (VM is not null)
         {
             await VM.ToggleOverlayAsync();
+        }
+    }
+
+    private async void OnPickOverlayTargetClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.PickOverlayTargetWithDialogAsync();
         }
     }
 

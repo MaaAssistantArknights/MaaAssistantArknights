@@ -25,7 +25,11 @@ public partial class CopilotView : UserControl
     {
         if (VM is not null)
         {
-            await VM.ImportFromClipboardAsync(VM.FilePath);
+            var topLevel = TopLevel.GetTopLevel(this);
+            var payload = topLevel?.Clipboard is null
+                ? string.Empty
+                : await topLevel.Clipboard.GetTextAsync() ?? string.Empty;
+            await VM.ImportFromClipboardAsync(payload);
         }
     }
 
@@ -66,6 +70,22 @@ public partial class CopilotView : UserControl
         if (VM is not null)
         {
             await VM.ClearAllAsync();
+        }
+    }
+
+    private async void OnMoveUpClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.MoveSelectedUpAsync();
+        }
+    }
+
+    private async void OnMoveDownClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.MoveSelectedDownAsync();
         }
     }
 

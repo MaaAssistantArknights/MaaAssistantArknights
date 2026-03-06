@@ -63,9 +63,10 @@ public sealed class GuiJsonConfigImporter : IConfigImporter
 
                     foreach (var valueProp in configProp.Value.EnumerateObject())
                     {
+                        var normalizedKey = NormalizeProfileKey(valueProp.Name);
                         JsonImportMergeHelper.MergeProfileValue(
                             profile,
-                            valueProp.Name,
+                            normalizedKey,
                             JsonImportMergeHelper.ToJsonNode(valueProp.Value),
                             fillMissingOnly,
                             report);
@@ -92,5 +93,25 @@ public sealed class GuiJsonConfigImporter : IConfigImporter
         {
             report.Errors.Add($"Failed to import gui.json: {ex.Message}");
         }
+    }
+
+    private static string NormalizeProfileKey(string key)
+    {
+        if (string.Equals(key, "Connect.Address", StringComparison.OrdinalIgnoreCase))
+        {
+            return "ConnectAddress";
+        }
+
+        if (string.Equals(key, "Connect.ConnectConfig", StringComparison.OrdinalIgnoreCase))
+        {
+            return "ConnectConfig";
+        }
+
+        if (string.Equals(key, "Connect.AdbPath", StringComparison.OrdinalIgnoreCase))
+        {
+            return "AdbPath";
+        }
+
+        return key;
     }
 }

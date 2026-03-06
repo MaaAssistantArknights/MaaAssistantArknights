@@ -46,16 +46,50 @@ public sealed class ExternalNotificationProvidersPageViewModel : PageViewModelBa
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
-        var providers = await Runtime.NotificationProviderFeatureService.GetAvailableProvidersAsync(cancellationToken);
-        Providers.Clear();
-        foreach (var provider in providers)
-        {
-            Providers.Add(provider);
-        }
+        await RefreshProvidersAsync(cancellationToken);
+    }
 
-        if (Providers.Count > 0)
+    public async Task RefreshProvidersAsync(CancellationToken cancellationToken = default)
+    {
+        try
         {
-            SelectedProvider = Providers[0];
+            var providers = await Runtime.NotificationProviderFeatureService.GetAvailableProvidersAsync(cancellationToken);
+            Providers.Clear();
+            foreach (var provider in providers)
+            {
+                Providers.Add(provider);
+            }
+
+            if (Providers.Count == 0)
+            {
+                SelectedProvider = string.Empty;
+                StatusMessage = "No external notification provider available.";
+                LastErrorMessage = string.Empty;
+                await RecordEventAsync("Advanced.ExternalNotificationProviders.Query", StatusMessage, cancellationToken);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(SelectedProvider) || !Providers.Contains(SelectedProvider))
+            {
+                SelectedProvider = Providers[0];
+            }
+
+            StatusMessage = $"Loaded {Providers.Count} external notification provider(s).";
+            LastErrorMessage = string.Empty;
+            await RecordEventAsync("Advanced.ExternalNotificationProviders.Query", StatusMessage, cancellationToken);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            await RecordUnhandledExceptionAsync(
+                "Advanced.ExternalNotificationProviders.Query",
+                ex,
+                UiErrorCode.NotificationProviderFailed,
+                "Failed to query external notification providers.",
+                cancellationToken);
         }
     }
 

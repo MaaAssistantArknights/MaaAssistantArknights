@@ -75,28 +75,42 @@ public sealed class WebApiPageViewModel : PageViewModelBase
 
     public async Task StartAsync(CancellationToken cancellationToken = default)
     {
-        await ApplyResultAsync(
+        if (!await ApplyResultAsync(
             await Runtime.WebApiFeatureService.StartAsync(cancellationToken),
             "Advanced.WebApi.Start",
-            cancellationToken);
+            cancellationToken))
+        {
+            return;
+        }
+
         await RefreshRunningStatusAsync(cancellationToken);
     }
 
     public async Task StopAsync(CancellationToken cancellationToken = default)
     {
-        await ApplyResultAsync(
+        if (!await ApplyResultAsync(
             await Runtime.WebApiFeatureService.StopAsync(cancellationToken),
             "Advanced.WebApi.Stop",
-            cancellationToken);
+            cancellationToken))
+        {
+            return;
+        }
+
         await RefreshRunningStatusAsync(cancellationToken);
     }
 
     public async Task RefreshRunningStatusAsync(CancellationToken cancellationToken = default)
     {
+        var statusResult = await Runtime.WebApiFeatureService.GetRunningStatusAsync(cancellationToken);
         var status = await ApplyResultAsync(
-            await Runtime.WebApiFeatureService.GetRunningStatusAsync(cancellationToken),
+            statusResult,
             "Advanced.WebApi.Status",
             cancellationToken);
+        if (!statusResult.Success)
+        {
+            return;
+        }
+
         IsRunning = status;
     }
 }

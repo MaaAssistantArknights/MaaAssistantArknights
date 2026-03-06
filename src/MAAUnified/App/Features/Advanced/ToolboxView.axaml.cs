@@ -20,4 +20,26 @@ public partial class ToolboxView : UserControl
             await VM.ExecuteCurrentToolAsync();
         }
     }
+
+    private async void OnExecuteSuccessPresetClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is null)
+        {
+            return;
+        }
+
+        VM.ApplySuccessPresetForCurrentTool();
+        await VM.ExecuteCurrentToolAsync();
+    }
+
+    private async void OnExecuteFailurePresetClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is null)
+        {
+            return;
+        }
+
+        VM.ApplyFailurePresetForCurrentTool();
+        await VM.ExecuteCurrentToolAsync();
+    }
 }

@@ -42,6 +42,8 @@ public sealed class MAAUnifiedRuntime : IAsyncDisposable
 
     public required ISettingsFeatureService SettingsFeatureService { get; init; }
 
+    public IConfigurationProfileFeatureService ConfigurationProfileFeatureService { get; init; } = new ConfigurationProfileFeatureService();
+
     public IVersionUpdateFeatureService VersionUpdateFeatureService { get; init; } = new VersionUpdateFeatureService();
 
     public IAchievementFeatureService AchievementFeatureService { get; init; } = new AchievementFeatureService();
@@ -116,6 +118,7 @@ public static class MAAUnifiedRuntimeFactory
         var overlayFeatureService = new OverlayFeatureService(platformCapabilityService);
         var notificationProviderFeatureService = new NotificationProviderFeatureService();
         var settingsFeatureService = new SettingsFeatureService(configService, platformCapabilityService, diagnosticsService);
+        var configurationProfileFeatureService = new ConfigurationProfileFeatureService(configService);
         var versionUpdateFeatureService = new VersionUpdateFeatureService(configService);
         var achievementFeatureService = new AchievementFeatureService(configService);
         var announcementFeatureService = new AnnouncementFeatureService(configService);
@@ -146,6 +149,7 @@ public static class MAAUnifiedRuntimeFactory
             OverlayFeatureService = overlayFeatureService,
             NotificationProviderFeatureService = notificationProviderFeatureService,
             SettingsFeatureService = settingsFeatureService,
+            ConfigurationProfileFeatureService = configurationProfileFeatureService,
             VersionUpdateFeatureService = versionUpdateFeatureService,
             AchievementFeatureService = achievementFeatureService,
             AnnouncementFeatureService = announcementFeatureService,

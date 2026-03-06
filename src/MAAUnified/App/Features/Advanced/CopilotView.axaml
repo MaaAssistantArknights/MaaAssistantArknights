@@ -25,13 +25,15 @@
           <CheckBox Grid.Column="3" Content="Overlay" IsChecked="{Binding OverlayEnabled}" />
         </Grid>
 
-        <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
-          <Button Classes="action" Content="开始" Click="OnStartClick" />
-          <Button Grid.Column="1" Classes="action" Content="停止" Click="OnStopClick" />
+        <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+          <Button Classes="action" Content="开始" Click="OnStartClick" IsEnabled="{Binding CanStart}" />
+          <Button Grid.Column="1" Classes="action" Content="停止" Click="OnStopClick" IsEnabled="{Binding CanStop}" />
           <Button Grid.Column="2" Classes="action" Content="新增" Click="OnAddItemClick" />
-          <Button Grid.Column="3" Classes="action" Content="删除" Click="OnRemoveItemClick" />
+          <Button Grid.Column="3" Classes="action" Content="删除" Click="OnRemoveItemClick" IsEnabled="{Binding HasSelection}" />
           <Button Grid.Column="4" Classes="action" Content="清空" Click="OnClearClick" />
-          <Button Grid.Column="5" Classes="action" Content="点赞" Click="OnLikeClick" />
+          <Button Grid.Column="5" Classes="action" Content="上移" Click="OnMoveUpClick" IsEnabled="{Binding CanMoveSelectedUp}" />
+          <Button Grid.Column="6" Classes="action" Content="下移" Click="OnMoveDownClick" IsEnabled="{Binding CanMoveSelectedDown}" />
+          <Button Grid.Column="7" Classes="action" Content="点赞" Click="OnLikeClick" IsEnabled="{Binding HasSelection}" />
         </Grid>
 
         <ListBox Grid.Row="4" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">

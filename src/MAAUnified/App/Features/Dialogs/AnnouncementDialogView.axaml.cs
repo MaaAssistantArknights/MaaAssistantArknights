@@ -1,23 +1,41 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using MAAUnified.App.ViewModels.Dialogs;
+using MAAUnified.Application.Models;
 
 namespace MAAUnified.App.Features.Dialogs;
 
-public partial class AnnouncementDialogView : UserControl
+public partial class AnnouncementDialogView : Window
 {
     public AnnouncementDialogView()
     {
         InitializeComponent();
     }
 
-    private AnnouncementDialogViewModel? VM => DataContext as AnnouncementDialogViewModel;
-
-    private async void OnSaveClick(object? sender, RoutedEventArgs e)
+    public void ApplyRequest(AnnouncementDialogRequest request)
     {
-        if (VM is not null)
-        {
-            await VM.SaveAsync();
-        }
+        Title = request.Title;
+        AnnouncementInfoBox.Text = request.AnnouncementInfo;
+        DoNotRemindBox.IsChecked = request.DoNotRemindThisAnnouncementAgain;
+        DoNotShowBox.IsChecked = request.DoNotShowAnnouncement;
+        ConfirmButton.Content = request.ConfirmText;
+        CancelButton.Content = request.CancelText;
+    }
+
+    public AnnouncementDialogPayload BuildPayload()
+    {
+        return new AnnouncementDialogPayload(
+            AnnouncementInfo: AnnouncementInfoBox.Text ?? string.Empty,
+            DoNotRemindThisAnnouncementAgain: DoNotRemindBox.IsChecked ?? false,
+            DoNotShowAnnouncement: DoNotShowBox.IsChecked ?? false);
+    }
+
+    private void OnConfirmClick(object? sender, RoutedEventArgs e)
+    {
+        Close(DialogReturnSemantic.Confirm);
+    }
+
+    private void OnCancelClick(object? sender, RoutedEventArgs e)
+    {
+        Close(DialogReturnSemantic.Cancel);
     }
 }

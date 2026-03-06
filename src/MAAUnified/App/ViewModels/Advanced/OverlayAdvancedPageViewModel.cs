@@ -61,25 +61,38 @@ public sealed class OverlayAdvancedPageViewModel : PageViewModelBase
 
         SelectedTarget = Targets.FirstOrDefault(t => t.IsPrimary) ?? Targets.FirstOrDefault();
 
-        var snapshot = await Runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken);
-        if (snapshot.Success && snapshot.Value is not null)
+        var snapshot = await ApplyResultAsync(
+            await Runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken),
+            "Advanced.Overlay.QueryCapability",
+            cancellationToken);
+        if (snapshot is not null)
         {
-            var capability = snapshot.Value.Overlay;
+            var capability = snapshot.Overlay;
             CapabilitySummary = $"provider={capability.Provider}; supported={capability.Supported}; fallback={capability.FallbackMode ?? "none"}";
         }
     }
 
     public async Task ToggleOverlayAsync(CancellationToken cancellationToken = default)
     {
-        await ApplyResultAsync(
+        var selectResult = await ApplyResultAsync(
             await Runtime.OverlayFeatureService.SelectOverlayTargetAsync(SelectedTarget?.Id ?? "preview", cancellationToken),
             "Advanced.Overlay.SelectTarget",
             cancellationToken);
+        if (!selectResult)
+        {
+            return;
+        }
 
-        Visible = !Visible;
-        await ApplyResultAsync(
-            await Runtime.OverlayFeatureService.ToggleOverlayVisibilityAsync(Visible, cancellationToken),
+        var requestedVisible = !Visible;
+        var toggleResult = await Runtime.OverlayFeatureService.ToggleOverlayVisibilityAsync(requestedVisible, cancellationToken);
+        if (!await ApplyResultAsync(
+            toggleResult,
             "Advanced.Overlay.ToggleVisible",
-            cancellationToken);
+            cancellationToken))
+        {
+            return;
+        }
+
+        Visible = requestedVisible;
     }
 }

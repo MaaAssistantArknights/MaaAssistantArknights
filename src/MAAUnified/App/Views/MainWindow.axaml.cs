@@ -1,7 +1,11 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
+using Avalonia.Threading;
+using MAAUnified.App.Features.Dialogs;
 using MAAUnified.App.ViewModels;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Models;
@@ -13,11 +17,20 @@ namespace MAAUnified.App.Views;
 public partial class MainWindow : Window
 {
     private bool _platformBound;
+    private bool _dialogErrorBound;
+    private bool _processingDialogErrors;
+    private readonly object _dialogErrorGate = new();
+    private readonly Queue<DialogErrorRaisedEvent> _pendingDialogErrors = [];
+    private readonly HashSet<string> _pendingDialogErrorKeys = new(StringComparer.Ordinal);
+    private readonly IAppDialogService _dialogService;
     private OverlayHostWindow? _overlayHostWindow;
 
     public MainWindow()
     {
         InitializeComponent();
+        _dialogService = Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime
+            ? new AvaloniaDialogService(App.Runtime)
+            : NoOpAppDialogService.Instance;
         Opened += OnWindowOpened;
         Closed += OnWindowClosed;
     }
@@ -26,6 +39,12 @@ public partial class MainWindow : Window
 
     private async void OnWindowOpened(object? sender, EventArgs e)
     {
+        if (!_dialogErrorBound)
+        {
+            App.Runtime.DialogFeatureService.ErrorRaised += OnDialogErrorRaised;
+            _dialogErrorBound = true;
+        }
+
         if (VM is null || _platformBound)
         {
             return;
@@ -47,6 +66,19 @@ public partial class MainWindow : Window
 
     private async void OnWindowClosed(object? sender, EventArgs e)
     {
+        if (_dialogErrorBound)
+        {
+            App.Runtime.DialogFeatureService.ErrorRaised -= OnDialogErrorRaised;
+            lock (_dialogErrorGate)
+            {
+                _pendingDialogErrors.Clear();
+                _pendingDialogErrorKeys.Clear();
+                _processingDialogErrors = false;
+            }
+
+            _dialogErrorBound = false;
+        }
+
         if (VM is not null && _platformBound)
         {
             VM.PlatformCapabilityService.TrayCommandInvoked -= OnTrayCommandInvoked;
@@ -247,6 +279,94 @@ public partial class MainWindow : Window
         }
     }
 
+    private void OnDialogErrorRaised(object? sender, DialogErrorRaisedEvent e)
+    {
+        Dispatcher.UIThread.Post(() => EnqueueDialogError(e));
+    }
+
+    private void EnqueueDialogError(DialogErrorRaisedEvent dialogError)
+    {
+        var key = BuildDialogErrorKey(dialogError);
+        var shouldPump = false;
+        lock (_dialogErrorGate)
+        {
+            if (!_pendingDialogErrorKeys.Add(key))
+            {
+                return;
+            }
+
+            _pendingDialogErrors.Enqueue(dialogError);
+            if (!_processingDialogErrors)
+            {
+                _processingDialogErrors = true;
+                shouldPump = true;
+            }
+        }
+
+        if (shouldPump)
+        {
+            _ = ProcessDialogErrorQueueAsync();
+        }
+    }
+
+    private async Task ProcessDialogErrorQueueAsync()
+    {
+        while (true)
+        {
+            DialogErrorRaisedEvent dialogError;
+            string key;
+            lock (_dialogErrorGate)
+            {
+                if (_pendingDialogErrors.Count == 0)
+                {
+                    _processingDialogErrors = false;
+                    return;
+                }
+
+                dialogError = _pendingDialogErrors.Dequeue();
+                key = BuildDialogErrorKey(dialogError);
+            }
+
+            try
+            {
+                await ShowErrorDialogAsync(dialogError);
+            }
+            catch (Exception ex)
+            {
+                await App.Runtime.DiagnosticsService.RecordErrorAsync(
+                    "Dialog.ErrorPopup",
+                    $"Failed to show error dialog. context={dialogError.Context} code={dialogError.Result.Error?.Code ?? UiErrorCode.UiOperationFailed}",
+                    ex);
+            }
+            finally
+            {
+                lock (_dialogErrorGate)
+                {
+                    _pendingDialogErrorKeys.Remove(key);
+                }
+            }
+        }
+    }
+
+    private async Task ShowErrorDialogAsync(DialogErrorRaisedEvent dialogError)
+    {
+        var request = new ErrorDialogRequest(
+            Title: "错误提示",
+            Context: dialogError.Context,
+            Result: dialogError.Result,
+            Suggestion: BuildErrorSuggestion(dialogError.Result),
+            ConfirmText: "关闭",
+            CancelText: "忽略");
+        Func<CancellationToken, Task<UiOperationResult>>? openIssueReportAsync = VM is null
+            ? null
+            : VM.SettingsPage.OpenIssueReportEntryForDialogAsync;
+        await _dialogService.ShowErrorAsync(
+            request,
+            "MainWindow.DialogFeature.ErrorPopup",
+            openIssueReportAsync,
+            CancellationToken.None);
+    }
+
     private string Localize(UiOperationResult result)
     {
         var vm = VM;
@@ -292,5 +412,21 @@ public partial class MainWindow : Window
         return message.Contains("fallback", StringComparison.OrdinalIgnoreCase)
                || message.Contains("降级", StringComparison.OrdinalIgnoreCase)
                || message.Contains("preview", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string BuildDialogErrorKey(DialogErrorRaisedEvent dialogError)
+    {
+        var code = dialogError.Result.Error?.Code ?? UiErrorCode.UiOperationFailed;
+        return $"{dialogError.Context}|{code}|{dialogError.Result.Message}";
+    }
+
+    private static string BuildErrorSuggestion(UiOperationResult result)
+    {
+        if (string.Equals(result.Error?.Code, UiErrorCode.PlatformOperationFailed, StringComparison.Ordinal))
+        {
+            return "请检查平台能力状态后重试，可复制错误并通过 IssueReport 提交。";
+        }
+
+        return "可复制错误详情并跳转 IssueReport 进行上报。";
     }
 }

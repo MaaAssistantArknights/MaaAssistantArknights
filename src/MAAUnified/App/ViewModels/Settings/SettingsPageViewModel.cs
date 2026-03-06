@@ -1,9 +1,12 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using LegacyConfigurationKeys = MAAUnified.Compat.Constants.ConfigurationKeys;
+using MAAUnified.App.Features.Dialogs;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Services;
@@ -37,6 +40,12 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private const int TimerMinuteMax = 59;
     private const int DefaultTimerHour = 7;
     private const int DefaultTimerMinute = 0;
+    private const string IssueReportHelpUrl = "https://maa.plus/docs/";
+    private const string IssueReportIssueEntryUrl = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new/choose";
+    private const string AboutOfficialWebsiteUrl = "https://maa.plus/";
+    private const string AboutCommunityUrl = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions";
+    private const string AboutDownloadUrl = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases";
+    private const string AchievementGuideUrl = "https://maa.plus/docs/manual/introduction/";
     private static readonly string[] DefaultNotificationProviders =
     [
         "Smtp",
@@ -130,6 +139,8 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private string _notificationTitle = "MAA Test";
     private string _notificationMessage = "Cross-platform notification test";
     private string _issueReportPath = string.Empty;
+    private string _issueReportStatusMessage = string.Empty;
+    private string _issueReportErrorMessage = string.Empty;
     private string _remoteGetTaskEndpoint = string.Empty;
     private string _remoteReportEndpoint = string.Empty;
     private string _remoteUserIdentity = string.Empty;
@@ -196,21 +207,37 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private bool _versionUpdateDoNotShow;
     private string _versionUpdateStatusMessage = string.Empty;
     private string _versionUpdateErrorMessage = string.Empty;
+    private string _configurationManagerSelectedProfile = string.Empty;
+    private string _configurationManagerNewProfileName = string.Empty;
+    private string _configurationManagerStatusMessage = string.Empty;
+    private string _configurationManagerErrorMessage = string.Empty;
     private bool _achievementPopupDisabled;
     private bool _achievementPopupAutoClose;
     private string _achievementStatusMessage = string.Empty;
     private string _achievementErrorMessage = string.Empty;
+    private string _achievementPolicySummary = string.Empty;
+    private string _aboutVersionInfo = string.Empty;
+    private string _aboutStatusMessage = string.Empty;
+    private string _aboutErrorMessage = string.Empty;
     private readonly Dictionary<string, string> _notificationProviderParameters =
         new(StringComparer.OrdinalIgnoreCase);
+    private readonly Func<string, CancellationToken, Task<UiOperationResult>> _openExternalTargetAsync;
+    private readonly IAppDialogService _dialogService;
 
     public SettingsPageViewModel(
         MAAUnifiedRuntime runtime,
         ConnectionGameSharedStateViewModel connectionGameSharedState,
-        Action<LocalizationFallbackInfo>? localizationFallbackReporter = null)
+        Action<LocalizationFallbackInfo>? localizationFallbackReporter = null,
+        Func<string, CancellationToken, Task<UiOperationResult>>? openExternalTargetAsync = null,
+        IAppDialogService? dialogService = null)
         : base(runtime)
     {
         _localizationFallbackReporter = localizationFallbackReporter;
+        _openExternalTargetAsync = openExternalTargetAsync ?? OpenExternalTargetAsync;
+        _dialogService = dialogService ?? NoOpAppDialogService.Instance;
         ConnectionGameSharedState = connectionGameSharedState;
+        _aboutVersionInfo = BuildAboutVersionInfo();
+        UpdateAchievementPolicySummary(AchievementPolicy.Default);
         Sections = new ObservableCollection<SettingsSectionViewModel>
         {
             new("ConfigurationManager", "Configuration Manager"),
@@ -245,6 +272,8 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public ObservableCollection<SettingsSectionViewModel> Sections { get; }
 
     public ObservableCollection<TimerSlotViewModel> Timers { get; }
+
+    public ObservableCollection<string> ConfigurationProfiles { get; } = new();
 
     public ConnectionGameSharedStateViewModel ConnectionGameSharedState { get; }
 
@@ -403,6 +432,26 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         get => _issueReportPath;
         set => SetProperty(ref _issueReportPath, value);
     }
+
+    public string IssueReportStatusMessage
+    {
+        get => _issueReportStatusMessage;
+        private set => SetProperty(ref _issueReportStatusMessage, value);
+    }
+
+    public string IssueReportErrorMessage
+    {
+        get => _issueReportErrorMessage;
+        private set
+        {
+            if (SetProperty(ref _issueReportErrorMessage, value))
+            {
+                OnPropertyChanged(nameof(HasIssueReportErrorMessage));
+            }
+        }
+    }
+
+    public bool HasIssueReportErrorMessage => !string.IsNullOrWhiteSpace(IssueReportErrorMessage);
 
     public string RemoteGetTaskEndpoint
     {
@@ -567,6 +616,38 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public bool HasExternalNotificationWarningMessage => !string.IsNullOrWhiteSpace(ExternalNotificationWarningMessage);
 
     public bool HasExternalNotificationErrorMessage => !string.IsNullOrWhiteSpace(ExternalNotificationErrorMessage);
+
+    public string ConfigurationManagerSelectedProfile
+    {
+        get => _configurationManagerSelectedProfile;
+        set => SetProperty(ref _configurationManagerSelectedProfile, value?.Trim() ?? string.Empty);
+    }
+
+    public string ConfigurationManagerNewProfileName
+    {
+        get => _configurationManagerNewProfileName;
+        set => SetProperty(ref _configurationManagerNewProfileName, value ?? string.Empty);
+    }
+
+    public string ConfigurationManagerStatusMessage
+    {
+        get => _configurationManagerStatusMessage;
+        private set => SetProperty(ref _configurationManagerStatusMessage, value);
+    }
+
+    public string ConfigurationManagerErrorMessage
+    {
+        get => _configurationManagerErrorMessage;
+        private set
+        {
+            if (SetProperty(ref _configurationManagerErrorMessage, value))
+            {
+                OnPropertyChanged(nameof(HasConfigurationManagerErrorMessage));
+            }
+        }
+    }
+
+    public bool HasConfigurationManagerErrorMessage => !string.IsNullOrWhiteSpace(ConfigurationManagerErrorMessage);
 
     public string VersionUpdateProxy
     {
@@ -739,6 +820,38 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     }
 
     public bool HasAchievementErrorMessage => !string.IsNullOrWhiteSpace(AchievementErrorMessage);
+
+    public string AchievementPolicySummary
+    {
+        get => _achievementPolicySummary;
+        private set => SetProperty(ref _achievementPolicySummary, value);
+    }
+
+    public string AboutVersionInfo
+    {
+        get => _aboutVersionInfo;
+        private set => SetProperty(ref _aboutVersionInfo, value);
+    }
+
+    public string AboutStatusMessage
+    {
+        get => _aboutStatusMessage;
+        private set => SetProperty(ref _aboutStatusMessage, value);
+    }
+
+    public string AboutErrorMessage
+    {
+        get => _aboutErrorMessage;
+        private set
+        {
+            if (SetProperty(ref _aboutErrorMessage, value))
+            {
+                OnPropertyChanged(nameof(HasAboutErrorMessage));
+            }
+        }
+    }
+
+    public bool HasAboutErrorMessage => !string.IsNullOrWhiteSpace(AboutErrorMessage);
 
     public string BackgroundImagePath
     {
@@ -1029,9 +1142,10 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
         await LoadFromConfigAsync(Runtime.ConfigurationService.CurrentConfig, cancellationToken);
+        await RefreshConfigurationProfilesAsync(cancellationToken);
         LoadConnectionSharedStateFromConfig();
         await RefreshAutostartStatusAsync(cancellationToken);
-        await Runtime.DiagnosticsService.RecordEventAsync("Settings", "Settings page initialized.", cancellationToken);
+        await RecordEventAsync("Settings", "Settings page initialized.", cancellationToken);
     }
 
     public async Task SaveGuiSettingsAsync(CancellationToken cancellationToken = default)
@@ -1054,7 +1168,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             RemoteControlStatusMessage = "远程控制配置保存失败。";
             LastErrorMessage = RemoteControlErrorMessage;
             StatusMessage = RemoteControlStatusMessage;
-            await Runtime.DiagnosticsService.RecordFailedResultAsync(
+            await RecordFailedResultAsync(
                 "Settings.RemoteControl.Save.Validation",
                 validation,
                 cancellationToken);
@@ -1100,7 +1214,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             RemoteControlStatusMessage = $"连通测试成功。{summary}";
             StatusMessage = RemoteControlStatusMessage;
             LastErrorMessage = string.Empty;
-            await Runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Settings.RemoteControl.Test",
                 RemoteControlStatusMessage,
                 cancellationToken);
@@ -1127,9 +1241,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
         RemoteControlStatusMessage = "连通测试失败。";
         LastErrorMessage = message;
-        await Runtime.DiagnosticsService.RecordFailedResultAsync(
+        await RecordFailedResultAsync(
             "Settings.RemoteControl.Test",
-            UiOperationResult.Fail(result.Error?.Code ?? "RemoteControlConnectivityFailed", message, result.Error?.Details),
+            UiOperationResult.Fail(result.Error?.Code ?? UiErrorCode.RemoteControlConnectivityFailed, message, result.Error?.Details),
             cancellationToken);
     }
 
@@ -1146,7 +1260,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             ExternalNotificationStatusMessage = $"Provider `{provider}` 参数校验通过。";
             StatusMessage = ExternalNotificationStatusMessage;
             LastErrorMessage = string.Empty;
-            await Runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Settings.ExternalNotification.Validate",
                 ExternalNotificationStatusMessage,
                 cancellationToken);
@@ -1173,7 +1287,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             ExternalNotificationStatusMessage = $"Provider `{provider}` 测试发送成功。";
             StatusMessage = ExternalNotificationStatusMessage;
             LastErrorMessage = string.Empty;
-            await Runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Settings.ExternalNotification.TestSend",
                 ExternalNotificationStatusMessage,
                 cancellationToken);
@@ -1249,27 +1363,136 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         ExternalNotificationWarningMessage = string.Empty;
         StatusMessage = ExternalNotificationStatusMessage;
         LastErrorMessage = string.Empty;
-        await Runtime.DiagnosticsService.RecordEventAsync(
+        await RecordEventAsync(
             "Settings.ExternalNotification.Save",
             ExternalNotificationStatusMessage,
             cancellationToken);
     }
 
+    public async Task RefreshConfigurationProfilesAsync(CancellationToken cancellationToken = default)
+    {
+        await LoadConfigurationProfilesAsync("Settings.ConfigurationManager.Load", cancellationToken);
+    }
+
+    public async Task AddConfigurationProfileAsync(CancellationToken cancellationToken = default)
+    {
+        ClearConfigurationManagerStatus();
+        var profileName = (ConfigurationManagerNewProfileName ?? string.Empty).Trim();
+        var copyFrom = string.IsNullOrWhiteSpace(ConfigurationManagerSelectedProfile)
+            ? null
+            : ConfigurationManagerSelectedProfile;
+        var result = await Runtime.ConfigurationProfileFeatureService.AddProfileAsync(
+            profileName,
+            copyFrom,
+            cancellationToken);
+        await HandleConfigurationProfileResultAsync(
+            result,
+            "Settings.ConfigurationManager.Add",
+            successMessage: $"配置 `{profileName}` 已新增。",
+            failureMessage: "配置新增失败。",
+            cancellationToken);
+        if (result.Success)
+        {
+            ConfigurationManagerNewProfileName = string.Empty;
+        }
+    }
+
+    public async Task DeleteConfigurationProfileAsync(CancellationToken cancellationToken = default)
+    {
+        ClearConfigurationManagerStatus();
+        var target = ConfigurationManagerSelectedProfile;
+        var result = await Runtime.ConfigurationProfileFeatureService.DeleteProfileAsync(target, cancellationToken);
+        await HandleConfigurationProfileResultAsync(
+            result,
+            "Settings.ConfigurationManager.Delete",
+            successMessage: $"配置 `{target}` 已删除。",
+            failureMessage: "配置删除失败。",
+            cancellationToken);
+    }
+
+    public async Task MoveConfigurationProfileUpAsync(CancellationToken cancellationToken = default)
+    {
+        ClearConfigurationManagerStatus();
+        var target = ConfigurationManagerSelectedProfile;
+        var result = await Runtime.ConfigurationProfileFeatureService.MoveProfileAsync(target, -1, cancellationToken);
+        await HandleConfigurationProfileResultAsync(
+            result,
+            "Settings.ConfigurationManager.MoveUp",
+            successMessage: $"配置 `{target}` 已上移。",
+            failureMessage: "配置上移失败。",
+            cancellationToken);
+    }
+
+    public async Task MoveConfigurationProfileDownAsync(CancellationToken cancellationToken = default)
+    {
+        ClearConfigurationManagerStatus();
+        var target = ConfigurationManagerSelectedProfile;
+        var result = await Runtime.ConfigurationProfileFeatureService.MoveProfileAsync(target, 1, cancellationToken);
+        await HandleConfigurationProfileResultAsync(
+            result,
+            "Settings.ConfigurationManager.MoveDown",
+            successMessage: $"配置 `{target}` 已下移。",
+            failureMessage: "配置下移失败。",
+            cancellationToken);
+    }
+
+    public async Task SwitchConfigurationProfileAsync(CancellationToken cancellationToken = default)
+    {
+        ClearConfigurationManagerStatus();
+        var target = ConfigurationManagerSelectedProfile;
+        var result = await Runtime.ConfigurationProfileFeatureService.SwitchProfileAsync(target, cancellationToken);
+        await HandleConfigurationProfileResultAsync(
+            result,
+            "Settings.ConfigurationManager.Switch",
+            successMessage: $"已切换至配置 `{target}`。",
+            failureMessage: "配置切换失败。",
+            cancellationToken);
+    }
+
     public async Task SaveVersionUpdateSettingsAsync(CancellationToken cancellationToken = default)
+    {
+        await SaveVersionUpdateChannelAsync(cancellationToken);
+        if (HasVersionUpdateErrorMessage)
+        {
+            return;
+        }
+
+        await SaveVersionUpdateProxyAsync(cancellationToken);
+    }
+
+    public async Task SaveVersionUpdateChannelAsync(CancellationToken cancellationToken = default)
     {
         VersionUpdateStatusMessage = string.Empty;
         VersionUpdateErrorMessage = string.Empty;
 
         var policy = BuildVersionUpdatePolicy();
-        var saveResult = await Runtime.VersionUpdateFeatureService.SavePolicyAsync(policy, cancellationToken);
-        if (!await ApplyResultAsync(saveResult, "Settings.VersionUpdate.Save", cancellationToken))
+        var saveResult = await Runtime.VersionUpdateFeatureService.SaveChannelAsync(policy, cancellationToken);
+        if (!await ApplyResultAsync(saveResult, "Settings.VersionUpdate.Channel.Save", cancellationToken))
         {
             VersionUpdateErrorMessage = saveResult.Message;
-            VersionUpdateStatusMessage = "版本更新配置保存失败。";
+            VersionUpdateStatusMessage = "版本更新通道配置保存失败。";
             return;
         }
 
-        VersionUpdateStatusMessage = "版本更新配置保存成功。";
+        VersionUpdateStatusMessage = "版本更新通道配置保存成功。";
+        VersionUpdateErrorMessage = string.Empty;
+    }
+
+    public async Task SaveVersionUpdateProxyAsync(CancellationToken cancellationToken = default)
+    {
+        VersionUpdateStatusMessage = string.Empty;
+        VersionUpdateErrorMessage = string.Empty;
+
+        var policy = BuildVersionUpdatePolicy();
+        var saveResult = await Runtime.VersionUpdateFeatureService.SaveProxyAsync(policy, cancellationToken);
+        if (!await ApplyResultAsync(saveResult, "Settings.VersionUpdate.Proxy.Save", cancellationToken))
+        {
+            VersionUpdateErrorMessage = saveResult.Message;
+            VersionUpdateStatusMessage = "版本更新代理配置保存失败。";
+            return;
+        }
+
+        VersionUpdateStatusMessage = "版本更新代理配置保存成功。";
         VersionUpdateErrorMessage = string.Empty;
     }
 
@@ -1292,6 +1515,39 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         VersionUpdateErrorMessage = string.Empty;
     }
 
+    public async Task CheckVersionUpdateWithDialogAsync(CancellationToken cancellationToken = default)
+    {
+        VersionUpdateStatusMessage = string.Empty;
+        VersionUpdateErrorMessage = string.Empty;
+
+        var policy = BuildVersionUpdatePolicy();
+        var checkResult = await Runtime.VersionUpdateFeatureService.CheckForUpdatesAsync(policy, cancellationToken);
+        var payload = await ApplyResultAsync(checkResult, "Settings.VersionUpdate.Check", cancellationToken);
+        if (payload is null)
+        {
+            VersionUpdateErrorMessage = checkResult.Message;
+            VersionUpdateStatusMessage = "检查更新失败。";
+            return;
+        }
+
+        var request = new VersionUpdateDialogRequest(
+            Title: "Version Update",
+            CurrentVersion: string.IsNullOrWhiteSpace(VersionUpdateName) ? "unknown" : VersionUpdateName,
+            TargetVersion: string.IsNullOrWhiteSpace(VersionUpdatePackage) ? "no-package" : VersionUpdatePackage,
+            Summary: payload,
+            Body: VersionUpdateBody ?? string.Empty,
+            ConfirmText: "Confirm",
+            CancelText: "Later");
+        var dialogResult = await _dialogService.ShowVersionUpdateAsync(request, "Settings.VersionUpdate.Dialog", cancellationToken);
+        VersionUpdateStatusMessage = dialogResult.Return switch
+        {
+            DialogReturnSemantic.Confirm => "版本更新弹窗确认完成。",
+            DialogReturnSemantic.Cancel => "版本更新弹窗已取消。",
+            _ => "版本更新弹窗已关闭。",
+        };
+        VersionUpdateErrorMessage = string.Empty;
+    }
+
     public async Task SaveAchievementSettingsAsync(CancellationToken cancellationToken = default)
     {
         AchievementStatusMessage = string.Empty;
@@ -1308,7 +1564,77 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             return;
         }
 
+        UpdateAchievementPolicySummary(policy);
         AchievementStatusMessage = "成就配置保存成功。";
+        AchievementErrorMessage = string.Empty;
+    }
+
+    public async Task RefreshAchievementPolicyAsync(CancellationToken cancellationToken = default)
+    {
+        AchievementStatusMessage = string.Empty;
+        AchievementErrorMessage = string.Empty;
+        var result = await Runtime.AchievementFeatureService.LoadPolicyAsync(cancellationToken);
+        var policy = await ApplyResultAsync(result, "Settings.Achievement.Refresh", cancellationToken);
+        if (policy is null)
+        {
+            AchievementErrorMessage = result.Message;
+            AchievementStatusMessage = "成就配置刷新失败。";
+            return;
+        }
+
+        ApplyAchievementPolicy(policy);
+        UpdateAchievementPolicySummary(policy);
+        AchievementStatusMessage = "成就配置已刷新。";
+        AchievementErrorMessage = string.Empty;
+    }
+
+    public async Task OpenAchievementGuideAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await _openExternalTargetAsync(AchievementGuideUrl, cancellationToken);
+        if (!await ApplyResultAsync(result, "Settings.Achievement.OpenGuide", cancellationToken))
+        {
+            AchievementStatusMessage = "打开成就说明失败。";
+            AchievementErrorMessage = result.Message;
+            return;
+        }
+
+        AchievementStatusMessage = "已打开成就说明。";
+        AchievementErrorMessage = string.Empty;
+    }
+
+    public async Task ShowAchievementListDialogAsync(CancellationToken cancellationToken = default)
+    {
+        var items = new[]
+        {
+            new AchievementListItem(
+                Id: "achievement-popup-disabled",
+                Title: "Popup Disabled",
+                Description: "Whether achievement popup is disabled.",
+                Status: AchievementPopupDisabled ? "enabled" : "disabled"),
+            new AchievementListItem(
+                Id: "achievement-popup-auto-close",
+                Title: "Popup Auto Close",
+                Description: "Whether achievement popup auto closes.",
+                Status: AchievementPopupAutoClose ? "enabled" : "disabled"),
+            new AchievementListItem(
+                Id: "achievement-policy-summary",
+                Title: "Policy Summary",
+                Description: AchievementPolicySummary ?? string.Empty,
+                Status: "snapshot"),
+        };
+        var request = new AchievementListDialogRequest(
+            Title: "Achievement List",
+            Items: items,
+            InitialFilter: string.Empty,
+            ConfirmText: "Confirm",
+            CancelText: "Cancel");
+        var dialogResult = await _dialogService.ShowAchievementListAsync(request, "Settings.Achievement.Dialog", cancellationToken);
+        AchievementStatusMessage = dialogResult.Return switch
+        {
+            DialogReturnSemantic.Confirm => "成就列表弹窗确认完成。",
+            DialogReturnSemantic.Cancel => "成就列表弹窗已取消。",
+            _ => "成就列表弹窗已关闭。",
+        };
         AchievementErrorMessage = string.Empty;
     }
 
@@ -1317,9 +1643,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (!Runtime.ConfigurationService.TryGetCurrentProfile(out var profile))
         {
             LastErrorMessage = "Current profile is missing.";
-            await Runtime.DiagnosticsService.RecordErrorAsync(
+            await RecordFailedResultAsync(
                 "Settings.ConnectionGame.Save",
-                LastErrorMessage,
+                UiOperationResult.Fail(UiErrorCode.ProfileMissing, LastErrorMessage),
                 cancellationToken: cancellationToken);
             return;
         }
@@ -1341,7 +1667,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             HasPendingTimerChanges = true;
             TimerValidationMessage = validation.Message;
             LastErrorMessage = validation.Message;
-            await Runtime.DiagnosticsService.RecordFailedResultAsync(
+            await RecordFailedResultAsync(
                 "Settings.Save.Timer.Validation",
                 validation,
                 cancellationToken);
@@ -1369,7 +1695,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
         if (readBackWarnings.Count > 0)
         {
-            await Runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Settings.Timer.Normalize",
                 string.Join(" | ", readBackWarnings),
                 cancellationToken);
@@ -1387,7 +1713,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             HasPendingStartPerformanceChanges = true;
             StartPerformanceValidationMessage = validation.Message;
             LastErrorMessage = validation.Message;
-            await Runtime.DiagnosticsService.RecordFailedResultAsync(
+            await RecordFailedResultAsync(
                 "Settings.Save.StartPerformance.Validation",
                 validation,
                 cancellationToken);
@@ -1415,6 +1741,28 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         LastSuccessfulStartPerformanceSaveAt = DateTimeOffset.Now;
     }
 
+    public async Task SelectEmulatorPathWithDialogAsync(CancellationToken cancellationToken = default)
+    {
+        var candidates = BuildEmulatorPathDialogCandidates();
+        var request = new EmulatorPathDialogRequest(
+            Title: "Emulator Path Selection",
+            CandidatePaths: candidates,
+            SelectedPath: EmulatorPath,
+            ConfirmText: "Confirm",
+            CancelText: "Cancel");
+        var dialogResult = await _dialogService.ShowEmulatorPathAsync(request, "Settings.Start.SelectEmulatorPath.Dialog", cancellationToken);
+        if (dialogResult.Return == DialogReturnSemantic.Confirm && dialogResult.Payload is not null)
+        {
+            EmulatorPath = dialogResult.Payload.SelectedPath;
+            StatusMessage = $"模拟器路径已更新：{EmulatorPath}";
+            return;
+        }
+
+        StatusMessage = dialogResult.Return == DialogReturnSemantic.Cancel
+            ? "模拟器路径选择已取消。"
+            : "模拟器路径选择弹窗已关闭。";
+    }
+
     public async Task RegisterHotkeysAsync(
         HotkeyRegistrationSource source = HotkeyRegistrationSource.Manual,
         CancellationToken cancellationToken = default)
@@ -1438,9 +1786,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             HotkeyStatusMessage = $"{GetHotkeySourceText(source)}: {ShowGuiHotkeyName} 注册失败，未继续注册 {LinkStartHotkeyName}。";
             LastErrorMessage = HotkeyErrorMessage;
             StatusMessage = HotkeyStatusMessage;
-            await Runtime.DiagnosticsService.RecordFailedResultAsync(
+            await RecordFailedResultAsync(
                 "Settings.Hotkey.Batch",
-                UiOperationResult.Fail(showResult.Error?.Code ?? "HotkeyRegistrationFailed", HotkeyStatusMessage),
+                UiOperationResult.Fail(showResult.Error?.Code ?? UiErrorCode.HotkeyRegistrationFailed, HotkeyStatusMessage),
                 cancellationToken);
             await RefreshHotkeyFallbackWarningAsync(source, cancellationToken);
             return;
@@ -1477,13 +1825,13 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             HotkeyStatusMessage = $"{GetHotkeySourceText(source)}: 热键注册成功，但持久化失败。";
             LastErrorMessage = HotkeyErrorMessage;
             StatusMessage = HotkeyStatusMessage;
-            await Runtime.DiagnosticsService.RecordErrorAsync(
+            await RecordErrorAsync(
                 "Settings.Hotkey.Save",
                 HotkeyErrorMessage,
                 cancellationToken: cancellationToken);
-            await Runtime.DiagnosticsService.RecordFailedResultAsync(
+            await RecordFailedResultAsync(
                 "Settings.Hotkey.Batch",
-                UiOperationResult.Fail(saveResult.Error?.Code ?? "HotkeyPersistenceFailed", HotkeyStatusMessage),
+                UiOperationResult.Fail(saveResult.Error?.Code ?? UiErrorCode.HotkeyPersistenceFailed, HotkeyStatusMessage),
                 cancellationToken);
             await RefreshHotkeyFallbackWarningAsync(source, cancellationToken);
             return;
@@ -1500,16 +1848,16 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             HotkeyStatusMessage = $"{GetHotkeySourceText(source)}: ShowGui / LinkStart 热键注册成功。";
             HotkeyErrorMessage = string.Empty;
             LastErrorMessage = string.Empty;
-            await Runtime.DiagnosticsService.RecordEventAsync("Settings.Hotkey.Batch", HotkeyStatusMessage, cancellationToken);
+            await RecordEventAsync("Settings.Hotkey.Batch", HotkeyStatusMessage, cancellationToken);
         }
         else
         {
             HotkeyErrorMessage = BuildHotkeyErrorMessage(LinkStartHotkeyName, linkResult);
             HotkeyStatusMessage = $"{GetHotkeySourceText(source)}: ShowGui 注册成功，LinkStart 注册失败（已保留历史配置值）。";
             LastErrorMessage = HotkeyErrorMessage;
-            await Runtime.DiagnosticsService.RecordFailedResultAsync(
+            await RecordFailedResultAsync(
                 "Settings.Hotkey.Batch",
-                UiOperationResult.Fail(linkResult.Error?.Code ?? "HotkeyRegistrationFailed", HotkeyStatusMessage),
+                UiOperationResult.Fail(linkResult.Error?.Code ?? UiErrorCode.HotkeyRegistrationFailed, HotkeyStatusMessage),
                 cancellationToken);
         }
 
@@ -1527,6 +1875,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     public async Task BuildIssueReportAsync(CancellationToken cancellationToken = default)
     {
+        ClearIssueReportStatus();
         var outputPath = await ApplyResultAsync(
             await Runtime.SettingsFeatureService.BuildIssueReportAsync(cancellationToken),
             "Settings.IssueReport.Build",
@@ -1535,7 +1884,205 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (!string.IsNullOrWhiteSpace(outputPath))
         {
             IssueReportPath = outputPath;
+            IssueReportStatusMessage = $"支持包已生成：{outputPath}";
+            IssueReportErrorMessage = string.Empty;
+            return;
         }
+
+        IssueReportStatusMessage = "生成支持包失败。";
+        IssueReportErrorMessage = LastErrorMessage;
+    }
+
+    public async Task OpenIssueReportHelpAsync(CancellationToken cancellationToken = default)
+    {
+        ClearIssueReportStatus();
+        var result = await _openExternalTargetAsync(IssueReportHelpUrl, cancellationToken);
+        if (!await ApplyResultAsync(result, "Settings.IssueReport.OpenHelp", cancellationToken))
+        {
+            IssueReportStatusMessage = "打开帮助文档失败。";
+            IssueReportErrorMessage = result.Message;
+            return;
+        }
+
+        IssueReportStatusMessage = "已打开帮助文档。";
+        IssueReportErrorMessage = string.Empty;
+    }
+
+    public async Task OpenIssueReportEntryAsync(CancellationToken cancellationToken = default)
+    {
+        ClearIssueReportStatus();
+        var result = await OpenIssueReportEntryForDialogAsync(cancellationToken);
+        if (!await ApplyResultAsync(result, "Settings.IssueReport.OpenEntry", cancellationToken))
+        {
+            IssueReportStatusMessage = "打开 Issue 入口失败。";
+            IssueReportErrorMessage = result.Message;
+            return;
+        }
+
+        IssueReportStatusMessage = "已打开 Issue 入口。";
+        IssueReportErrorMessage = string.Empty;
+    }
+
+    public Task<UiOperationResult> OpenIssueReportEntryForDialogAsync(CancellationToken cancellationToken = default)
+    {
+        return _openExternalTargetAsync(IssueReportIssueEntryUrl, cancellationToken);
+    }
+
+    public async Task OpenIssueReportDebugDirectoryAsync(CancellationToken cancellationToken = default)
+    {
+        ClearIssueReportStatus();
+        var debugDirectory = ResolveDebugDirectoryPath();
+        Directory.CreateDirectory(debugDirectory);
+        var result = await _openExternalTargetAsync(debugDirectory, cancellationToken);
+        if (!await ApplyResultAsync(result, "Settings.IssueReport.OpenDebugDirectory", cancellationToken))
+        {
+            IssueReportStatusMessage = "打开 debug 目录失败。";
+            IssueReportErrorMessage = result.Message;
+            return;
+        }
+
+        IssueReportStatusMessage = $"已打开目录：{debugDirectory}";
+        IssueReportErrorMessage = string.Empty;
+    }
+
+    public async Task ClearIssueReportImageCacheAsync(CancellationToken cancellationToken = default)
+    {
+        ClearIssueReportStatus();
+        var imageCacheDirectory = ResolveImageCacheDirectoryPath();
+        try
+        {
+            var removedFiles = 0;
+            var removedDirectories = 0;
+            if (Directory.Exists(imageCacheDirectory))
+            {
+                var files = Directory.EnumerateFiles(imageCacheDirectory, "*", SearchOption.AllDirectories).ToList();
+                foreach (var file in files)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    File.Delete(file);
+                    removedFiles++;
+                }
+
+                var directories = Directory.EnumerateDirectories(imageCacheDirectory, "*", SearchOption.AllDirectories)
+                    .OrderByDescending(static path => path.Length)
+                    .ToList();
+                foreach (var directory in directories)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    Directory.Delete(directory, recursive: false);
+                    removedDirectories++;
+                }
+            }
+
+            Directory.CreateDirectory(imageCacheDirectory);
+            var result = UiOperationResult.Ok(
+                removedFiles == 0 && removedDirectories == 0
+                    ? $"图像缓存目录为空：{imageCacheDirectory}"
+                    : $"图像缓存已清理：文件 {removedFiles} 个，目录 {removedDirectories} 个。");
+            if (!await ApplyResultAsync(result, "Settings.IssueReport.ClearImageCache", cancellationToken))
+            {
+                IssueReportStatusMessage = "清理图像缓存失败。";
+                IssueReportErrorMessage = result.Message;
+                return;
+            }
+
+            IssueReportStatusMessage = result.Message;
+            IssueReportErrorMessage = string.Empty;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            var failure = UiOperationResult.Fail(
+                UiErrorCode.IssueReportImageCacheClearFailed,
+                $"清理图像缓存失败：{ex.Message}",
+                ex.Message);
+            _ = await ApplyResultAsync(failure, "Settings.IssueReport.ClearImageCache", cancellationToken);
+            IssueReportStatusMessage = "清理图像缓存失败。";
+            IssueReportErrorMessage = failure.Message;
+        }
+    }
+
+    public async Task OpenAboutOfficialWebsiteAsync(CancellationToken cancellationToken = default)
+    {
+        await OpenAboutExternalTargetAsync(AboutOfficialWebsiteUrl, "Settings.About.OpenOfficialWebsite", "已打开官网。", cancellationToken);
+    }
+
+    public async Task OpenAboutCommunityAsync(CancellationToken cancellationToken = default)
+    {
+        await OpenAboutExternalTargetAsync(AboutCommunityUrl, "Settings.About.OpenCommunity", "已打开社区入口。", cancellationToken);
+    }
+
+    public async Task OpenAboutDownloadAsync(CancellationToken cancellationToken = default)
+    {
+        await OpenAboutExternalTargetAsync(AboutDownloadUrl, "Settings.About.OpenDownload", "已打开下载页。", cancellationToken);
+    }
+
+    public async Task CheckAboutAnnouncementAsync(CancellationToken cancellationToken = default)
+    {
+        ClearAboutStatus();
+        var result = await Runtime.AnnouncementFeatureService.LoadStateAsync(cancellationToken);
+        var state = await ApplyResultAsync(result, "Settings.About.CheckAnnouncement", cancellationToken);
+        if (state is null)
+        {
+            AboutStatusMessage = "公告读取失败。";
+            AboutErrorMessage = result.Message;
+            return;
+        }
+
+        var info = string.IsNullOrWhiteSpace(state.AnnouncementInfo)
+            ? "当前没有公告内容。"
+            : state.AnnouncementInfo;
+        var flag = $"不再提醒={state.DoNotRemindThisAnnouncementAgain}; 不显示={state.DoNotShowAnnouncement}";
+        AboutStatusMessage = $"公告状态：{flag}。{info}";
+        AboutErrorMessage = string.Empty;
+    }
+
+    public async Task CheckAboutAnnouncementWithDialogAsync(CancellationToken cancellationToken = default)
+    {
+        ClearAboutStatus();
+        var result = await Runtime.AnnouncementFeatureService.LoadStateAsync(cancellationToken);
+        var state = await ApplyResultAsync(result, "Settings.About.CheckAnnouncement", cancellationToken);
+        if (state is null)
+        {
+            AboutStatusMessage = "公告读取失败。";
+            AboutErrorMessage = result.Message;
+            return;
+        }
+
+        var request = new AnnouncementDialogRequest(
+            Title: "Announcement",
+            AnnouncementInfo: state.AnnouncementInfo,
+            DoNotRemindThisAnnouncementAgain: state.DoNotRemindThisAnnouncementAgain,
+            DoNotShowAnnouncement: state.DoNotShowAnnouncement,
+            ConfirmText: "Confirm",
+            CancelText: "Cancel");
+        var dialogResult = await _dialogService.ShowAnnouncementAsync(request, "Settings.About.Announcement.Dialog", cancellationToken);
+        if (dialogResult.Return == DialogReturnSemantic.Confirm && dialogResult.Payload is not null)
+        {
+            var nextState = new AnnouncementState(
+                AnnouncementInfo: dialogResult.Payload.AnnouncementInfo,
+                DoNotRemindThisAnnouncementAgain: dialogResult.Payload.DoNotRemindThisAnnouncementAgain,
+                DoNotShowAnnouncement: dialogResult.Payload.DoNotShowAnnouncement);
+            var saveResult = await Runtime.AnnouncementFeatureService.SaveStateAsync(nextState, cancellationToken);
+            if (!await ApplyResultAsync(saveResult, "Settings.About.Announcement.Save", cancellationToken))
+            {
+                AboutStatusMessage = "公告状态保存失败。";
+                AboutErrorMessage = saveResult.Message;
+                return;
+            }
+
+            AboutStatusMessage = "公告状态已保存。";
+            AboutErrorMessage = string.Empty;
+            return;
+        }
+
+        AboutStatusMessage = dialogResult.Return == DialogReturnSemantic.Cancel
+            ? "公告弹窗已取消。"
+            : "公告弹窗已关闭。";
+        AboutErrorMessage = string.Empty;
     }
 
     public async Task ApplyAutostartAsync(CancellationToken cancellationToken = default)
@@ -1560,9 +2107,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             AutostartStatus = result.Message;
             LastErrorMessage = result.Message;
-            await Runtime.DiagnosticsService.RecordFailedResultAsync(
+            await RecordFailedResultAsync(
                 "Settings.Autostart.Query",
-                UiOperationResult.Fail(result.Error?.Code ?? "AutostartQueryFailed", result.Message, result.Error?.Details),
+                UiOperationResult.Fail(result.Error?.Code ?? UiErrorCode.AutostartQueryFailed, result.Message, result.Error?.Details),
                 cancellationToken);
             return;
         }
@@ -1592,7 +2139,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
                 HasPendingGuiChanges = true;
                 GuiValidationMessage = validation.Message;
                 LastErrorMessage = validation.Message;
-                await Runtime.DiagnosticsService.RecordFailedResultAsync("Settings.Save.GuiBatch.Validation", validation, cancellationToken);
+                await RecordFailedResultAsync("Settings.Save.GuiBatch.Validation", validation, cancellationToken);
                 return;
             }
 
@@ -1611,7 +2158,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
             if (triggeredByAutoSave)
             {
-                await Runtime.DiagnosticsService.RecordEventAsync(
+                await RecordEventAsync(
                     "Settings.Save.GuiBatch.Auto",
                     "GUI settings auto-save succeeded.",
                     cancellationToken);
@@ -1625,8 +2172,12 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             HasPendingGuiChanges = true;
             GuiValidationMessage = $"GUI settings save failed: {ex.Message}";
-            LastErrorMessage = GuiValidationMessage;
-            await Runtime.DiagnosticsService.RecordErrorAsync("Settings.Save.GuiBatch", GuiValidationMessage, ex, cancellationToken);
+            await RecordUnhandledExceptionAsync(
+                "Settings.Save.GuiBatch",
+                ex,
+                UiErrorCode.SettingsSaveFailed,
+                GuiValidationMessage,
+                cancellationToken);
         }
         finally
         {
@@ -1711,6 +2262,118 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         ExternalNotificationErrorMessage = string.Empty;
     }
 
+    private void ClearConfigurationManagerStatus()
+    {
+        ConfigurationManagerStatusMessage = string.Empty;
+        ConfigurationManagerErrorMessage = string.Empty;
+    }
+
+    private void ClearIssueReportStatus()
+    {
+        IssueReportStatusMessage = string.Empty;
+        IssueReportErrorMessage = string.Empty;
+    }
+
+    private void ClearAboutStatus()
+    {
+        AboutStatusMessage = string.Empty;
+        AboutErrorMessage = string.Empty;
+    }
+
+    private async Task LoadConfigurationProfilesAsync(string scope, CancellationToken cancellationToken, bool updateStatus = true)
+    {
+        var stateResult = await Runtime.ConfigurationProfileFeatureService.LoadStateAsync(cancellationToken);
+        if (!stateResult.Success || stateResult.Value is null)
+        {
+            if (updateStatus)
+            {
+                await ApplyResultAsync(stateResult, scope, cancellationToken);
+            }
+            else
+            {
+                    await RecordFailedResultAsync(
+                        scope,
+                        UiOperationResult.Fail(
+                            stateResult.Error?.Code ?? UiErrorCode.ConfigurationProfileLoadFailed,
+                            stateResult.Message,
+                            stateResult.Error?.Details),
+                        cancellationToken);
+            }
+
+            if (updateStatus)
+            {
+                ConfigurationManagerErrorMessage = stateResult.Message;
+                ConfigurationManagerStatusMessage = "配置列表加载失败。";
+            }
+
+            return;
+        }
+
+        if (updateStatus)
+        {
+            await ApplyResultAsync(stateResult, scope, cancellationToken);
+        }
+        else
+        {
+            await RecordEventAsync(scope, stateResult.Message, cancellationToken);
+        }
+
+        ApplyConfigurationProfileState(stateResult.Value);
+        if (updateStatus)
+        {
+            ConfigurationManagerErrorMessage = string.Empty;
+            ConfigurationManagerStatusMessage = "配置列表已同步。";
+        }
+    }
+
+    private async Task HandleConfigurationProfileResultAsync(
+        UiOperationResult<ConfigurationProfileState> result,
+        string scope,
+        string successMessage,
+        string failureMessage,
+        CancellationToken cancellationToken)
+    {
+        var payload = await ApplyResultAsync(result, scope, cancellationToken);
+        if (payload is null)
+        {
+            ConfigurationManagerErrorMessage = result.Message;
+            ConfigurationManagerStatusMessage = failureMessage;
+            await LoadConfigurationProfilesAsync(
+                "Settings.ConfigurationManager.ReloadAfterFailure",
+                cancellationToken,
+                updateStatus: false);
+            return;
+        }
+
+        ApplyConfigurationProfileState(payload);
+        LoadConnectionSharedStateFromConfig();
+        ConfigurationManagerStatusMessage = successMessage;
+        ConfigurationManagerErrorMessage = string.Empty;
+    }
+
+    private void ApplyConfigurationProfileState(ConfigurationProfileState state)
+    {
+        ConfigurationProfiles.Clear();
+        foreach (var profile in state.OrderedProfiles)
+        {
+            ConfigurationProfiles.Add(profile);
+        }
+
+        if (ConfigurationProfiles.Count == 0)
+        {
+            ConfigurationManagerSelectedProfile = string.Empty;
+            return;
+        }
+
+        var selected = state.CurrentProfile;
+        if (string.IsNullOrWhiteSpace(selected) || !ConfigurationProfiles.Contains(selected, StringComparer.OrdinalIgnoreCase))
+        {
+            selected = ConfigurationProfiles[0];
+        }
+
+        ConfigurationManagerSelectedProfile = selected;
+    }
+
     private string NormalizeNotificationProvider(string? provider)
     {
         if (string.IsNullOrWhiteSpace(provider))
@@ -1744,10 +2407,11 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         catch (Exception ex)
         {
             providers = DefaultNotificationProviders;
-            await Runtime.DiagnosticsService.RecordErrorAsync(
+            await RecordUnhandledExceptionAsync(
                 "Settings.ExternalNotification.Providers",
-                $"Failed to load provider list. Falling back to defaults: {ex.Message}",
                 ex,
+                UiErrorCode.NotificationProviderFailed,
+                $"Failed to load provider list. Falling back to defaults: {ex.Message}",
                 cancellationToken);
         }
 
@@ -1961,9 +2625,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
         ExternalNotificationStatusMessage = "外部通知操作失败。";
         LastErrorMessage = message;
-        await Runtime.DiagnosticsService.RecordFailedResultAsync(
+        await RecordFailedResultAsync(
             scope,
-            UiOperationResult.Fail(result.Error?.Code ?? "NotificationProviderFailed", message, result.Error?.Details),
+            UiOperationResult.Fail(result.Error?.Code ?? UiErrorCode.NotificationProviderFailed, message, result.Error?.Details),
             cancellationToken);
     }
 
@@ -1984,16 +2648,16 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         var scope = $"Settings.Hotkey.Register.{hotkeyName}";
         if (result.Success)
         {
-            await Runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 scope,
                 $"source={hotkeyName} gesture={gesture} message={result.Message}",
                 cancellationToken);
             return;
         }
 
-        await Runtime.DiagnosticsService.RecordFailedResultAsync(
+        await RecordFailedResultAsync(
             scope,
-            UiOperationResult.Fail(result.Error?.Code ?? "HotkeyRegistrationFailed", result.Message, result.Error?.Details),
+            UiOperationResult.Fail(result.Error?.Code ?? UiErrorCode.HotkeyRegistrationFailed, result.Message, result.Error?.Details),
             cancellationToken);
     }
 
@@ -2041,7 +2705,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             _localizationFallbackReporter);
         HotkeyWarningMessage =
             $"{localizedFallback} provider={hotkeyCapability.Provider}, mode={hotkeyCapability.FallbackMode ?? "unknown"}";
-        await Runtime.DiagnosticsService.RecordEventAsync(
+        await RecordEventAsync(
             "Settings.Hotkey.Fallback",
             $"source={source} provider={hotkeyCapability.Provider} mode={hotkeyCapability.FallbackMode ?? "unknown"} message={hotkeyCapability.Message}",
             cancellationToken);
@@ -2100,7 +2764,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (!string.IsNullOrWhiteSpace(snapshot.BackgroundImagePath) && !File.Exists(snapshot.BackgroundImagePath))
         {
             return UiOperationResult.Fail(
-                "BackgroundImagePathNotFound",
+                UiErrorCode.BackgroundImagePathNotFound,
                 $"Background image path does not exist: {snapshot.BackgroundImagePath}");
         }
 
@@ -2200,6 +2864,138 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     {
         AchievementPopupDisabled = policy.PopupDisabled;
         AchievementPopupAutoClose = policy.PopupAutoClose;
+    }
+
+    private void UpdateAchievementPolicySummary(AchievementPolicy policy)
+    {
+        AchievementPolicySummary =
+            $"当前策略：禁用弹窗={policy.PopupDisabled}；自动关闭={policy.PopupAutoClose}";
+    }
+
+    private static string BuildAboutVersionInfo()
+    {
+        var assembly = typeof(SettingsPageViewModel).Assembly.GetName();
+        var version = assembly.Version?.ToString() ?? "unknown";
+        return
+            $"{assembly.Name} {version} | .NET {Environment.Version} | {RuntimeInformation.OSDescription}";
+    }
+
+    private string ResolveDebugDirectoryPath()
+    {
+        var debugDirectory = Path.GetDirectoryName(Runtime.DiagnosticsService.EventLogPath);
+        if (!string.IsNullOrWhiteSpace(debugDirectory))
+        {
+            return debugDirectory;
+        }
+
+        return Path.Combine(ResolveRuntimeBaseDirectory(), "debug");
+    }
+
+    private string ResolveImageCacheDirectoryPath()
+    {
+        return Path.Combine(ResolveRuntimeBaseDirectory(), "cache", "images");
+    }
+
+    private IReadOnlyList<string> BuildEmulatorPathDialogCandidates()
+    {
+        var candidates = new List<string>();
+        void AddCandidate(string? value)
+        {
+            var normalized = (value ?? string.Empty).Trim();
+            if (normalized.Length == 0)
+            {
+                return;
+            }
+
+            if (candidates.Any(existing => string.Equals(existing, normalized, StringComparison.OrdinalIgnoreCase)))
+            {
+                return;
+            }
+
+            candidates.Add(normalized);
+        }
+
+        AddCandidate(EmulatorPath);
+        var globalValues = Runtime.ConfigurationService.CurrentConfig.GlobalValues;
+        AddCandidate(ReadConfigValue(globalValues, LegacyConfigurationKeys.EmulatorPath));
+        AddCandidate(ReadConfigValue(globalValues, LegacyConfigurationKeys.MuMu12EmulatorPath));
+        AddCandidate(ReadConfigValue(globalValues, LegacyConfigurationKeys.LdPlayerEmulatorPath));
+        return candidates;
+    }
+
+    private static string ReadConfigValue(IReadOnlyDictionary<string, JsonNode?> values, string key)
+    {
+        if (!values.TryGetValue(key, out var node) || node is null)
+        {
+            return string.Empty;
+        }
+
+        return node.ToString().Trim();
+    }
+
+    private string ResolveRuntimeBaseDirectory()
+    {
+        var debugDirectory = Path.GetDirectoryName(Runtime.DiagnosticsService.EventLogPath);
+        if (!string.IsNullOrWhiteSpace(debugDirectory))
+        {
+            var parent = Directory.GetParent(debugDirectory);
+            if (parent is not null)
+            {
+                return parent.FullName;
+            }
+        }
+
+        return Environment.CurrentDirectory;
+    }
+
+    private async Task OpenAboutExternalTargetAsync(
+        string target,
+        string scope,
+        string successMessage,
+        CancellationToken cancellationToken)
+    {
+        ClearAboutStatus();
+        var result = await _openExternalTargetAsync(target, cancellationToken);
+        if (!await ApplyResultAsync(result, scope, cancellationToken))
+        {
+            AboutStatusMessage = "外链打开失败。";
+            AboutErrorMessage = result.Message;
+            return;
+        }
+
+        AboutStatusMessage = successMessage;
+        AboutErrorMessage = string.Empty;
+    }
+
+    private static Task<UiOperationResult> OpenExternalTargetAsync(
+        string target,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (string.IsNullOrWhiteSpace(target))
+        {
+            return Task.FromResult(
+                UiOperationResult.Fail(
+                    UiErrorCode.ExternalTargetMissing,
+                    "External target cannot be empty."));
+        }
+
+        try
+        {
+            _ = Process.Start(new ProcessStartInfo
+            {
+                FileName = target,
+                UseShellExecute = true,
+            });
+            return Task.FromResult(UiOperationResult.Ok($"Opened target: {target}"));
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(UiOperationResult.Fail(
+                UiErrorCode.ExternalTargetOpenFailed,
+                $"Failed to open target `{target}`: {ex.Message}",
+                ex.Message));
+        }
     }
 
     private async Task LoadFromConfigAsync(UnifiedConfig config, CancellationToken cancellationToken)
@@ -2316,10 +3112,12 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (achievementPolicyResult.Success && achievementPolicyResult.Value is not null)
         {
             ApplyAchievementPolicy(achievementPolicyResult.Value);
+            UpdateAchievementPolicySummary(achievementPolicyResult.Value);
             AchievementErrorMessage = string.Empty;
         }
         else
         {
+            UpdateAchievementPolicySummary(AchievementPolicy.Default);
             AchievementErrorMessage = achievementPolicyResult.Message;
         }
 
@@ -2337,7 +3135,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             GuiValidationMessage = string.Join(" ", warnings);
             StatusMessage = GuiValidationMessage;
-            await Runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Settings.Gui.Normalize",
                 string.Join(" | ", warnings),
                 cancellationToken);
@@ -2350,7 +3148,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (hotkeyWarnings.Count > 0)
         {
             HotkeyWarningMessage = string.Join(" ", hotkeyWarnings);
-            await Runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Settings.Hotkey.Normalize",
                 string.Join(" | ", hotkeyWarnings),
                 cancellationToken);
@@ -2363,7 +3161,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (startPerformanceWarnings.Count > 0)
         {
             StartPerformanceValidationMessage = string.Join(" ", startPerformanceWarnings);
-            await Runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Settings.StartPerformance.Normalize",
                 string.Join(" | ", startPerformanceWarnings),
                 cancellationToken);
@@ -2376,7 +3174,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (timerWarnings.Count > 0)
         {
             TimerValidationMessage = string.Join(" ", timerWarnings);
-            await Runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Settings.Timer.Normalize",
                 string.Join(" | ", timerWarnings),
                 cancellationToken);
@@ -2483,7 +3281,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (snapshot.EmulatorWaitSeconds < EmulatorWaitSecondsMin || snapshot.EmulatorWaitSeconds > EmulatorWaitSecondsMax)
         {
             return UiOperationResult.Fail(
-                "EmulatorWaitSecondsOutOfRange",
+                UiErrorCode.EmulatorWaitSecondsOutOfRange,
                 $"Emulator wait seconds must be within {EmulatorWaitSecondsMin}-{EmulatorWaitSecondsMax}.");
         }
 
@@ -2495,14 +3293,14 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (string.IsNullOrWhiteSpace(snapshot.EmulatorPath))
         {
             return UiOperationResult.Fail(
-                "EmulatorPathMissing",
+                UiErrorCode.EmulatorPathMissing,
                 "Emulator path is required when OpenEmulatorAfterLaunch is enabled.");
         }
 
         if (!File.Exists(snapshot.EmulatorPath))
         {
             return UiOperationResult.Fail(
-                "EmulatorPathNotFound",
+                UiErrorCode.EmulatorPathNotFound,
                 $"Emulator path does not exist: {snapshot.EmulatorPath}");
         }
 
@@ -2584,7 +3382,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (snapshot.Slots.Count != TimerSlotCount)
         {
             return UiOperationResult.Fail(
-                "TimerSlotCountMismatch",
+                UiErrorCode.TimerSlotCountMismatch,
                 $"Expected {TimerSlotCount} timer slots but got {snapshot.Slots.Count}.");
         }
 
@@ -2593,14 +3391,14 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             if (slot.Index < 1 || slot.Index > TimerSlotCount)
             {
                 return UiOperationResult.Fail(
-                    "TimerSlotIndexOutOfRange",
+                    UiErrorCode.TimerSlotIndexOutOfRange,
                     $"Timer slot index must be within 1-{TimerSlotCount}, got {slot.Index}.");
             }
 
             if (slot.Enabled && !TryParseTimerTime(slot.Time, out _, out _))
             {
                 return UiOperationResult.Fail(
-                    "TimerTimeInvalid",
+                    UiErrorCode.TimerTimeInvalid,
                     $"Timer {slot.Index} time must be HH:mm (00:00-23:59).");
             }
 
@@ -2612,14 +3410,14 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             if (string.IsNullOrWhiteSpace(slot.Profile))
             {
                 return UiOperationResult.Fail(
-                    "TimerProfileMissing",
+                    UiErrorCode.TimerProfileMissing,
                     $"Timer {slot.Index} profile cannot be empty when CustomConfig is enabled.");
             }
 
             if (!Runtime.ConfigurationService.CurrentConfig.Profiles.ContainsKey(slot.Profile))
             {
                 return UiOperationResult.Fail(
-                    "TimerProfileNotFound",
+                    UiErrorCode.TimerProfileNotFound,
                     $"Timer {slot.Index} profile `{slot.Profile}` does not exist.");
             }
         }

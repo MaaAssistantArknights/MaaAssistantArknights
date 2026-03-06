@@ -21,11 +21,15 @@
       <TextBlock VerticalAlignment="Center" Opacity="0.7" Text="下次执行生效" />
     </StackPanel>
 
-    <Grid Grid.Row="4" ColumnDefinitions="Auto,260,Auto,220" Margin="0,8,0,0">
+    <Grid Grid.Row="4" ColumnDefinitions="Auto,260,Auto,220,Auto" Margin="0,8,0,0">
       <TextBlock VerticalAlignment="Center" Text="模拟器路径" />
       <TextBox Text="{Binding EmulatorPath}" Watermark="/path/to/emulator" />
       <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="附加参数" />
       <TextBox Grid.Column="3" Text="{Binding EmulatorAddCommand}" />
+      <Button Grid.Column="4"
+              Margin="8,0,0,0"
+              Content="选择路径"
+              Click="OnSelectEmulatorPathClick" />
     </Grid>
 
     <Grid Grid.Row="5" ColumnDefinitions="Auto,120,Auto" Margin="0,8,0,0">

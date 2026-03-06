@@ -1,16 +1,39 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="MAAUnified.App.Features.Dialogs.AchievementListDialogView">
-  <Grid Margin="8" RowDefinitions="Auto,*,Auto">
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MAAUnified.App.Features.Dialogs.AchievementListDialogView"
+        Width="760"
+        Height="520"
+        MinWidth="640"
+        MinHeight="420"
+        WindowStartupLocation="CenterOwner">
+  <Grid Margin="10" RowDefinitions="Auto,Auto,*,Auto">
     <TextBlock Classes="section-title" Text="Achievement List" />
-    <ListBox Grid.Row="1">
-      <ListBoxItem Content="任务达人 - 已完成" />
-      <ListBoxItem Content="连续签到王 - 已完成" />
-      <ListBoxItem Content="资源收集者 - 进行中" />
+    <TextBox x:Name="FilterInput"
+             Grid.Row="1"
+             Margin="0,8,0,0"
+             Watermark="Filter"
+             TextChanged="OnFilterChanged" />
+    <ListBox x:Name="AchievementList"
+             Grid.Row="2"
+             Margin="0,8,0,0"
+             SelectionMode="Multiple">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <StackPanel>
+            <TextBlock FontWeight="SemiBold" Text="{Binding Title}" />
+            <TextBlock Opacity="0.85" Classes="long-wrap" Text="{Binding Description}" />
+            <TextBlock Opacity="0.75" Text="{Binding Status}" />
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
     </ListBox>
-    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-      <Button Content="导出" />
-      <Button Content="关闭" />
+    <StackPanel Grid.Row="3"
+                Orientation="Horizontal"
+                Spacing="8"
+                HorizontalAlignment="Right"
+                Margin="0,12,0,0">
+      <Button x:Name="CancelButton" Content="Cancel" Click="OnCancelClick" />
+      <Button x:Name="ConfirmButton" Classes="action" Content="Confirm" Click="OnConfirmClick" />
     </StackPanel>
   </Grid>
-</UserControl>
+</Window>

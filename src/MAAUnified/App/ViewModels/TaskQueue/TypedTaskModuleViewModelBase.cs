@@ -75,7 +75,7 @@ public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
             LastErrorMessage = loaded.Message;
             await Runtime.DiagnosticsService.RecordFailedResultAsync(
                 $"{Scope}.Load",
-                UiOperationResult.Fail(loaded.Error?.Code ?? "TaskLoadFailed", loaded.Message, loaded.Error?.Details),
+                UiOperationResult.Fail(loaded.Error?.Code ?? UiErrorCode.TaskLoadFailed, loaded.Message, loaded.Error?.Details),
                 cancellationToken);
             return;
         }
@@ -139,7 +139,7 @@ public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
             LastErrorMessage = preMessage;
             await Runtime.DiagnosticsService.RecordFailedResultAsync(
                 $"{Scope}.Validate",
-                UiOperationResult.Fail("TaskValidationFailed", preMessage, BuildValidationDetails(preValidationIssues)),
+                UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, preMessage, BuildValidationDetails(preValidationIssues)),
                 cancellationToken);
             return false;
         }
@@ -156,7 +156,7 @@ public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
             LastErrorMessage = message;
             await Runtime.DiagnosticsService.RecordFailedResultAsync(
                 $"{Scope}.Validate",
-                UiOperationResult.Fail("TaskValidationFailed", message, BuildValidationDetails(allIssues)),
+                UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, message, BuildValidationDetails(allIssues)),
                 cancellationToken);
             return false;
         }

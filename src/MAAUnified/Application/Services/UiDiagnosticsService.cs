@@ -51,7 +51,11 @@ public sealed class UiDiagnosticsService
     public Task RecordFailedResultAsync(string scope, UiOperationResult result, CancellationToken cancellationToken = default)
     {
         var details = result.Error?.Details;
-        var payload = $"{DateTimeOffset.UtcNow:O} [FAILED] [{scope}] {result.Message} | code={result.Error?.Code}";
+        var code = string.IsNullOrWhiteSpace(result.Error?.Code)
+            ? UiErrorCode.UiOperationFailed
+            : result.Error!.Code;
+        var caseId = code;
+        var payload = $"{DateTimeOffset.UtcNow:O} [FAILED] [{scope}] {result.Message} | code={code} | case_id={caseId}";
         if (!string.IsNullOrWhiteSpace(details))
         {
             payload += $" | details={details}";
@@ -64,12 +68,13 @@ public sealed class UiDiagnosticsService
     {
         var scope = issue?.Scope ?? "ConfigValidation";
         var code = issue?.Code ?? "ConfigValidationBlocked";
+        var caseId = code;
         var field = issue?.Field ?? "config";
         var profile = issue?.ProfileName ?? "-";
         var taskIndex = issue?.TaskIndex?.ToString() ?? "-";
         var message = issue?.Message ?? "Execution blocked due to config validation issues.";
         var payload =
-            $"{DateTimeOffset.UtcNow:O} [FAILED][{scope}] code={code} field={field} profile={profile} taskIndex={taskIndex} message={message}";
+            $"{DateTimeOffset.UtcNow:O} [FAILED][{scope}] code={code} case_id={caseId} field={field} profile={profile} taskIndex={taskIndex} message={message}";
         return WriteLineAsync(ErrorLogPath, payload, cancellationToken);
     }
 
@@ -128,11 +133,31 @@ public sealed class UiDiagnosticsService
         }
 
         using var archive = ZipFile.Open(outputPath, ZipArchiveMode.Create);
-        TryAddFile(archive, Path.Combine(baseDirectory, "config", "avalonia.json"), "config/avalonia.json");
-        TryAddFile(archive, Path.Combine(baseDirectory, "debug", "config-import-report.json"), "debug/config-import-report.json");
-        TryAddFile(archive, ErrorLogPath, "debug/avalonia-ui-errors.log");
-        TryAddFile(archive, EventLogPath, "debug/avalonia-ui-events.log");
-        TryAddFile(archive, PlatformEventLogPath, "debug/avalonia-platform-events.log");
+        AddFileOrPlaceholder(
+            archive,
+            Path.Combine(baseDirectory, "config", "avalonia.json"),
+            "config/avalonia.json",
+            "avalonia.json not found when bundle was generated.");
+        AddFileOrPlaceholder(
+            archive,
+            Path.Combine(baseDirectory, "debug", "config-import-report.json"),
+            "debug/config-import-report.json",
+            "config-import-report.json not found when bundle was generated.");
+        AddFileOrPlaceholder(
+            archive,
+            ErrorLogPath,
+            "debug/avalonia-ui-errors.log",
+            "UI error log is empty or missing.");
+        AddFileOrPlaceholder(
+            archive,
+            EventLogPath,
+            "debug/avalonia-ui-events.log",
+            "UI event log is empty or missing.");
+        AddFileOrPlaceholder(
+            archive,
+            PlatformEventLogPath,
+            "debug/avalonia-platform-events.log",
+            "Platform event log is empty or missing.");
 
         await RecordEventAsync("IssueReport", $"Support bundle generated: {outputPath}", cancellationToken);
         return outputPath;
@@ -151,14 +176,22 @@ public sealed class UiDiagnosticsService
         }
     }
 
-    private static void TryAddFile(ZipArchive archive, string filePath, string entryName)
+    private static void AddFileOrPlaceholder(
+        ZipArchive archive,
+        string filePath,
+        string entryName,
+        string placeholderMessage)
     {
-        if (!File.Exists(filePath))
+        if (File.Exists(filePath))
         {
+            archive.CreateEntryFromFile(filePath, entryName);
             return;
         }
 
-        archive.CreateEntryFromFile(filePath, entryName);
+        var entry = archive.CreateEntry(entryName);
+        using var stream = entry.Open();
+        using var writer = new StreamWriter(stream, Encoding.UTF8);
+        writer.WriteLine(placeholderMessage);
     }
 
     private sealed record PlatformEventLogLine(

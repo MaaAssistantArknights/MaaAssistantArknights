@@ -2,10 +2,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using Avalonia.Threading;
+using MAAUnified.App.Features.Dialogs;
 using MAAUnified.App.ViewModels.Advanced;
 using MAAUnified.App.ViewModels.Copilot;
 using MAAUnified.App.ViewModels.Infrastructure;
@@ -14,6 +16,7 @@ using MAAUnified.App.ViewModels.TaskQueue;
 using MAAUnified.App.ViewModels.Toolbox;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
+using MAAUnified.Application.Orchestration;
 using MAAUnified.Application.Services;
 using MAAUnified.Application.Services.Features;
 using MAAUnified.Application.Services.Localization;
@@ -29,6 +32,7 @@ public sealed class MainShellViewModel : ObservableObject
     private readonly HashSet<string> _reportedLocalizationFallbacks = new(StringComparer.OrdinalIgnoreCase);
     private readonly object _localizationFallbackGate = new();
     private readonly DispatcherTimer _timerScheduleTimer;
+    private readonly IAppDialogService _dialogService;
     private readonly Dictionary<int, string> _timerSlotMinuteDedup = [];
     private bool _syncingConnectionState;
     private int _timerScheduleProcessing;
@@ -44,15 +48,21 @@ public sealed class MainShellViewModel : ObservableObject
     private string _selectedImportSource = "自动(gui.new + gui)";
     private bool _hasBlockingConfigIssues;
     private int _blockingConfigIssueCount;
+    private SessionState _currentSessionState;
     private string _appliedTheme = "Light";
     private Bitmap? _shellBackgroundImage;
     private double _shellBackgroundOpacity = 0.45;
     private int _shellBackgroundBlur = 12;
     private Stretch _shellBackgroundStretch = Stretch.UniformToFill;
+    private bool _schemaMigrationNoticeShown;
 
-    public MainShellViewModel(MAAUnifiedRuntime runtime)
+    public MainShellViewModel(MAAUnifiedRuntime runtime, IAppDialogService? dialogService = null)
     {
         _runtime = runtime;
+        _dialogService = dialogService ??
+            (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime
+                ? new AvaloniaDialogService(runtime)
+                : NoOpAppDialogService.Instance);
         _connectionGameSharedState = new ConnectionGameSharedStateViewModel();
         _connectionGameSharedState.PropertyChanged += OnSharedConnectionStateChanged;
 
@@ -68,7 +78,7 @@ public sealed class MainShellViewModel : ObservableObject
             "仅 gui.json",
         };
 
-        TaskQueuePage = new TaskQueuePageViewModel(runtime, _connectionGameSharedState, ReportLocalizationFallback);
+        TaskQueuePage = new TaskQueuePageViewModel(runtime, _connectionGameSharedState, ReportLocalizationFallback, _dialogService);
         CopilotPage = new CopilotPageViewModel(runtime);
         ToolboxPage = new ToolboxPageViewModel(runtime);
         RemoteControlCenterPage = new RemoteControlCenterPageViewModel(runtime);
@@ -77,10 +87,11 @@ public sealed class MainShellViewModel : ObservableObject
         StageManagerPage = new StageManagerPageViewModel(runtime);
         WebApiPage = new WebApiPageViewModel(runtime);
         ExternalNotificationProvidersPage = new ExternalNotificationProvidersPageViewModel(runtime);
-        SettingsPage = new SettingsPageViewModel(runtime, _connectionGameSharedState, ReportLocalizationFallback);
+        SettingsPage = new SettingsPageViewModel(runtime, _connectionGameSharedState, ReportLocalizationFallback, dialogService: _dialogService);
         SettingsPage.GuiSettingsApplied += OnGuiSettingsApplied;
-        TaskQueuePage.PropertyChanged += OnTaskQueuePagePropertyChanged;
         TaskQueuePage.Texts.FallbackReported += OnTaskQueueLocalizationFallbackReported;
+        _currentSessionState = runtime.SessionService.CurrentState;
+        runtime.SessionService.SessionStateChanged += OnSessionStateChanged;
         _timerScheduleTimer = new DispatcherTimer
         {
             Interval = TimeSpan.FromSeconds(1),
@@ -290,7 +301,22 @@ public sealed class MainShellViewModel : ObservableObject
         private set => SetProperty(ref _blockingConfigIssueCount, value);
     }
 
-    public bool CanStartExecution => !TaskQueuePage.IsRunning && !HasBlockingConfigIssues;
+    public SessionState CurrentSessionState
+    {
+        get => _currentSessionState;
+        private set
+        {
+            if (SetProperty(ref _currentSessionState, value))
+            {
+                OnPropertyChanged(nameof(CanStartExecution));
+                OnPropertyChanged(nameof(CanStopExecution));
+            }
+        }
+    }
+
+    public bool CanStartExecution => CurrentSessionState == SessionState.Connected && !HasBlockingConfigIssues;
+
+    public bool CanStopExecution => CurrentSessionState == SessionState.Running;
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
@@ -317,20 +343,27 @@ public sealed class MainShellViewModel : ObservableObject
                     loadResult.ValidationIssues
                         .Take(3)
                         .Select(i => $"{i.Code}:{i.Field}:{i.Message}"));
-                await _runtime.DiagnosticsService.RecordErrorAsync(
+                await RecordFailedResultAsync(
                     "Config.LoadValidation",
-                    $"{summary} | {LastError}",
+                    UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, $"{summary} | {LastError}"),
                     cancellationToken: cancellationToken);
             }
 
             SyncConnectionFromProfile();
             RefreshConfigValidationState(loadResult.ValidationIssues);
+            await ShowSchemaMigrationNoticeIfNeededAsync(loadResult, cancellationToken);
 
             var initResult = await _runtime.ResourceWorkflowService.InitializeCoreAsync(_runtime.ConfigurationService.CurrentConfig, cancellationToken);
             if (!initResult.Success)
             {
                 LastError = $"Core 初始化失败: {initResult.Error?.Code} {initResult.Error?.Message}";
-                await _runtime.DiagnosticsService.RecordErrorAsync("App.Initialize", LastError, cancellationToken: cancellationToken);
+                await RecordFailedResultAsync(
+                    "App.Initialize",
+                    UiOperationResult.Fail(
+                        initResult.Error?.Code.ToString() ?? UiErrorCode.CoreUnknown,
+                        LastError,
+                        initResult.Error?.Exception),
+                    cancellationToken);
             }
 
             await TaskQueuePage.InitializeAsync(cancellationToken);
@@ -365,8 +398,12 @@ public sealed class MainShellViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            LastError = $"初始化异常: {ex.Message}";
-            await _runtime.DiagnosticsService.RecordErrorAsync("App.Initialize", LastError, ex, cancellationToken);
+            await RecordUnhandledExceptionAsync(
+                "App.Initialize",
+                ex,
+                UiErrorCode.UiError,
+                $"初始化异常: {ex.Message}",
+                cancellationToken);
         }
     }
 
@@ -389,8 +426,13 @@ public sealed class MainShellViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            LastError = $"Startup hotkey registration failed: {ex.Message}";
-            await _runtime.DiagnosticsService.RecordErrorAsync("App.Shell.Hotkey.Startup", LastError, ex, cancellationToken);
+            var message = $"Startup hotkey registration failed: {ex.Message}";
+            await RecordUnhandledExceptionAsync(
+                "App.Shell.Hotkey.Startup",
+                ex,
+                UiErrorCode.HotkeyRegistrationFailed,
+                message,
+                cancellationToken);
         }
     }
 
@@ -406,54 +448,86 @@ public sealed class MainShellViewModel : ObservableObject
                 _connectionGameSharedState.ConnectConfig,
                 string.IsNullOrWhiteSpace(_connectionGameSharedState.AdbPath) ? null : _connectionGameSharedState.AdbPath,
                 cancellationToken);
-            if (!result.Success)
+
+            CurrentSessionState = _runtime.SessionService.CurrentState;
+            if (!await ApplyResultAsync(result, "App.Shell.Connect", cancellationToken))
             {
-                LastError = result.Message;
                 PushGrowl(result.Message);
-                await _runtime.DiagnosticsService.RecordFailedResultAsync("App.Shell.Connect", result, cancellationToken);
                 return;
             }
 
             GlobalStatus = result.Message;
             PushGrowl(result.Message);
-            await _runtime.DiagnosticsService.RecordEventAsync("App.Shell.Connect", result.Message, cancellationToken);
         }
         catch (Exception ex)
         {
-            LastError = ex.Message;
-            await _runtime.DiagnosticsService.RecordErrorAsync("App.Shell.Connect", "Connection failed unexpectedly.", ex, cancellationToken);
+            await RecordUnhandledExceptionAsync(
+                "App.Shell.Connect",
+                ex,
+                UiErrorCode.CoreUnknown,
+                "Connection failed unexpectedly.",
+                cancellationToken);
+            PushGrowl(LastError);
         }
     }
 
     public async Task StartAsync(CancellationToken cancellationToken = default)
     {
+        CurrentSessionState = _runtime.SessionService.CurrentState;
         var latestIssues = _runtime.ConfigurationService.RevalidateCurrentConfig();
         RefreshConfigValidationState(latestIssues);
 
-        if (TaskQueuePage.IsRunning)
+        if (CurrentSessionState is SessionState.Running or SessionState.Stopping)
         {
-            LastError = "Execution is already running.";
+            await ApplyResultAsync(
+                UiOperationResult.Fail(UiErrorCode.OperationAlreadyRunning, "Execution is already running."),
+                "App.Shell.Start",
+                cancellationToken);
             return;
         }
 
         if (!CanStartExecution)
         {
+            if (CurrentSessionState != SessionState.Connected)
+            {
+                await ApplyResultAsync(
+                    UiOperationResult.Fail(UiErrorCode.SessionStateNotAllowed, $"Session state `{CurrentSessionState}` does not allow Start."),
+                    "App.Shell.Start",
+                    cancellationToken);
+                return;
+            }
+
             var first = _runtime.ConfigurationService.CurrentValidationIssues.FirstOrDefault(i => i.Blocking);
             var message = first is null
                 ? "Config validation has blocking issues."
                 : $"{first.Scope}:{first.Code}:{first.Field}:{first.Message}";
-            LastError = message;
-            await _runtime.DiagnosticsService.RecordConfigValidationFailureAsync(first, cancellationToken);
+            await ApplyResultAsync(
+                UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, message),
+                "App.Shell.Start",
+                cancellationToken);
+            await RecordConfigValidationFailureAsync(first, cancellationToken);
             return;
         }
 
         await TaskQueuePage.StartAsync(cancellationToken);
+        CurrentSessionState = _runtime.SessionService.CurrentState;
         await SyncTrayMenuStateAsync(cancellationToken);
     }
 
     public async Task StopAsync(CancellationToken cancellationToken = default)
     {
+        CurrentSessionState = _runtime.SessionService.CurrentState;
+        if (!CanStopExecution)
+        {
+            await ApplyResultAsync(
+                UiOperationResult.Fail(UiErrorCode.SessionStateNotAllowed, $"Session state `{CurrentSessionState}` does not allow Stop."),
+                "App.Shell.Stop",
+                cancellationToken);
+            return;
+        }
+
         await TaskQueuePage.StopAsync(cancellationToken);
+        CurrentSessionState = _runtime.SessionService.CurrentState;
         await SyncTrayMenuStateAsync(cancellationToken);
     }
 
@@ -470,19 +544,15 @@ public sealed class MainShellViewModel : ObservableObject
         };
 
         var result = await _runtime.ShellFeatureService.ImportLegacyConfigAsync(source, manualImport: true, cancellationToken);
-        if (!result.Success || result.Value is null)
+        var report = await ApplyResultAsync(result, "App.Shell.ImportLegacy", cancellationToken);
+        if (report is null)
         {
             ImportStatus = result.Message;
-            LastError = result.Message;
             PushGrowl(result.Message);
-            await _runtime.DiagnosticsService.RecordFailedResultAsync(
-                "App.Shell.ImportLegacy",
-                UiOperationResult.Fail(result.Error?.Code ?? "ImportFailed", result.Message, result.Error?.Details),
-                cancellationToken);
             return;
         }
 
-        ImportStatus = $"导入完成: {result.Value.Summary}";
+        ImportStatus = $"导入完成: {report.Summary}";
         GlobalStatus = ImportStatus;
         await TaskQueuePage.ReloadTasksAsync(cancellationToken);
         await SettingsPage.InitializeAsync(cancellationToken);
@@ -490,7 +560,7 @@ public sealed class MainShellViewModel : ObservableObject
         SyncConnectionFromProfile();
         RefreshConfigValidationState(_runtime.ConfigurationService.CurrentValidationIssues);
         PushGrowl(ImportStatus);
-        await _runtime.DiagnosticsService.RecordEventAsync("App.Shell.ImportLegacy", ImportStatus, cancellationToken);
+        await RecordEventAsync("App.Shell.ImportLegacy.Refresh", ImportStatus, cancellationToken);
     }
 
     public Task SwitchLanguageCycleAsync(CancellationToken cancellationToken = default)
@@ -547,11 +617,15 @@ public sealed class MainShellViewModel : ObservableObject
                 case TrayCommandId.Start:
                     if (!CanStartExecution)
                     {
-                        var blockedMessage = TaskQueuePage.IsRunning
-                            ? "任务正在执行中，Start 已禁用。"
-                            : "存在阻断级配置错误，Start/LinkStart 已禁用。";
+                        CurrentSessionState = _runtime.SessionService.CurrentState;
+                        var blockedMessage = CurrentSessionState switch
+                        {
+                            SessionState.Running or SessionState.Stopping => "任务正在执行中，Start 已禁用。",
+                            SessionState.Connected => "存在阻断级配置错误，Start/LinkStart 已禁用。",
+                            _ => $"当前会话状态为 {CurrentSessionState}，Start 已禁用。",
+                        };
                         PushGrowl(blockedMessage);
-                        await _runtime.DiagnosticsService.RecordEventAsync(
+                        await RecordEventAsync(
                             scope,
                             $"source={source}; blocked",
                             cancellationToken);
@@ -559,17 +633,30 @@ public sealed class MainShellViewModel : ObservableObject
                     }
 
                     await StartAsync(cancellationToken);
-                    PushGrowl(TaskQueuePage.IsRunning ? "开始执行" : "启动被阻断，请先修复错误。");
-                    await _runtime.DiagnosticsService.RecordEventAsync(
+                    CurrentSessionState = _runtime.SessionService.CurrentState;
+                    PushGrowl(CurrentSessionState == SessionState.Running ? "开始执行" : "启动被阻断，请先修复错误。");
+                    await RecordEventAsync(
                         scope,
-                        $"source={source}; running={TaskQueuePage.IsRunning}",
+                        $"source={source}; session={CurrentSessionState}",
                         cancellationToken);
                     return ShellUiAction.None;
 
                 case TrayCommandId.Stop:
+                    CurrentSessionState = _runtime.SessionService.CurrentState;
+                    if (!CanStopExecution)
+                    {
+                        var blockedStopMessage = $"当前会话状态为 {CurrentSessionState}，Stop 已禁用。";
+                        PushGrowl(blockedStopMessage);
+                        await RecordEventAsync(
+                            scope,
+                            $"source={source}; blocked",
+                            cancellationToken);
+                        return ShellUiAction.None;
+                    }
+
                     await StopAsync(cancellationToken);
                     PushGrowl("停止执行");
-                    await _runtime.DiagnosticsService.RecordEventAsync(
+                    await RecordEventAsync(
                         scope,
                         $"source={source}; stopped",
                         cancellationToken);
@@ -577,7 +664,7 @@ public sealed class MainShellViewModel : ObservableObject
 
                 case TrayCommandId.ForceShow:
                     PushGrowl("主窗口已强制显示");
-                    await _runtime.DiagnosticsService.RecordEventAsync(
+                    await RecordEventAsync(
                         scope,
                         $"source={source}; show",
                         cancellationToken);
@@ -585,7 +672,7 @@ public sealed class MainShellViewModel : ObservableObject
 
                 case TrayCommandId.HideTray:
                     await SetTrayVisibleAsync(false, cancellationToken);
-                    await _runtime.DiagnosticsService.RecordEventAsync(
+                    await RecordEventAsync(
                         scope,
                         $"source={source}; hide-requested",
                         cancellationToken);
@@ -593,7 +680,7 @@ public sealed class MainShellViewModel : ObservableObject
 
                 case TrayCommandId.ToggleOverlay:
                     await ToggleOverlayFromTrayAsync(cancellationToken);
-                    await _runtime.DiagnosticsService.RecordEventAsync(
+                    await RecordEventAsync(
                         scope,
                         $"source={source}; toggled",
                         cancellationToken);
@@ -607,7 +694,7 @@ public sealed class MainShellViewModel : ObservableObject
                     return ShellUiAction.None;
 
                 case TrayCommandId.Exit:
-                    await _runtime.DiagnosticsService.RecordEventAsync(
+                    await RecordEventAsync(
                         scope,
                         $"source={source}; close",
                         cancellationToken);
@@ -615,16 +702,14 @@ public sealed class MainShellViewModel : ObservableObject
 
                 case TrayCommandId.Restart:
                     var restartResult = await _runtime.AppLifecycleService.RestartAsync(cancellationToken);
-                    if (!restartResult.Success)
+                    if (!await ApplyResultAsync(restartResult, scope, cancellationToken))
                     {
-                        LastError = restartResult.Message;
                         PushGrowl(restartResult.Message);
-                        await _runtime.DiagnosticsService.RecordFailedResultAsync(scope, restartResult, cancellationToken);
                         return ShellUiAction.None;
                     }
 
                     PushGrowl("重启命令已触发。");
-                    await _runtime.DiagnosticsService.RecordEventAsync(
+                    await RecordEventAsync(
                         scope,
                         $"source={source}; restart-launched",
                         cancellationToken);
@@ -633,22 +718,22 @@ public sealed class MainShellViewModel : ObservableObject
                 default:
                     var unknownMessage = $"未知托盘命令: {command}";
                     PushGrowl(unknownMessage);
-                    await _runtime.DiagnosticsService.RecordFailedResultAsync(
+                    _ = await ApplyResultAsync(
+                        UiOperationResult.Fail(UiErrorCode.UnknownTrayCommand, unknownMessage),
                         scope,
-                        UiOperationResult.Fail("UnknownTrayCommand", unknownMessage),
                         cancellationToken);
                     return ShellUiAction.None;
             }
         }
         catch (Exception ex)
         {
-            LastError = ex.Message;
-            PushGrowl(ex.Message);
-            await _runtime.DiagnosticsService.RecordErrorAsync(
+            await RecordUnhandledExceptionAsync(
                 scope,
-                $"Tray command execution failed. source={source}",
                 ex,
+                UiErrorCode.UiOperationFailed,
+                $"Tray command execution failed. source={source}",
                 cancellationToken);
+            PushGrowl(ex.Message);
             return ShellUiAction.None;
         }
     }
@@ -663,7 +748,7 @@ public sealed class MainShellViewModel : ObservableObject
         }
     }
 
-    private void SyncConnectionToProfile()
+    private void SyncConnectionToProfile(string? changedPropertyName = null)
     {
         if (_syncingConnectionState)
         {
@@ -675,7 +760,7 @@ public sealed class MainShellViewModel : ObservableObject
             return;
         }
 
-        ConnectionGameProfileSync.WriteToProfile(profile, _connectionGameSharedState);
+        ConnectionGameProfileSync.WritePropertyToProfile(profile, _connectionGameSharedState, changedPropertyName);
     }
 
     private void SyncConnectionFromProfile()
@@ -705,16 +790,7 @@ public sealed class MainShellViewModel : ObservableObject
 
         if (ConnectionGameProfileSync.ShouldSyncProperty(e.PropertyName))
         {
-            SyncConnectionToProfile();
-        }
-    }
-
-    private void OnTaskQueuePagePropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(TaskQueuePageViewModel.IsRunning))
-        {
-            OnPropertyChanged(nameof(CanStartExecution));
-            _ = SyncTrayMenuStateAsync();
+            SyncConnectionToProfile(e.PropertyName);
         }
     }
 
@@ -792,20 +868,22 @@ public sealed class MainShellViewModel : ObservableObject
         string minuteKey,
         CancellationToken cancellationToken)
     {
+        CurrentSessionState = _runtime.SessionService.CurrentState;
+        var sessionRunning = CurrentSessionState is SessionState.Running or SessionState.Stopping;
         var triggerMessage =
-            $"slot={slot.Index}; time={slot.Time}; minute={minuteKey}; running={TaskQueuePage.IsRunning}; force={SettingsPage.ForceScheduledStart}";
-        await _runtime.DiagnosticsService.RecordEventAsync("Timer.Schedule.Trigger", triggerMessage, cancellationToken);
+            $"slot={slot.Index}; time={slot.Time}; minute={minuteKey}; session={CurrentSessionState}; force={SettingsPage.ForceScheduledStart}";
+        await RecordEventAsync("Timer.Schedule.Trigger", triggerMessage, cancellationToken);
 
-        if (TaskQueuePage.IsRunning && !SettingsPage.ForceScheduledStart)
+        if (sessionRunning && !SettingsPage.ForceScheduledStart)
         {
-            await _runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Timer.Schedule.Skip",
                 $"slot={slot.Index}; reason=running-without-force",
                 cancellationToken);
             return;
         }
 
-        if (TaskQueuePage.IsRunning && SettingsPage.ForceScheduledStart)
+        if (sessionRunning && SettingsPage.ForceScheduledStart)
         {
             if (SettingsPage.ShowWindowBeforeForceScheduledStart)
             {
@@ -813,7 +891,8 @@ public sealed class MainShellViewModel : ObservableObject
             }
 
             await StopAsync(cancellationToken);
-            if (TaskQueuePage.IsRunning)
+            CurrentSessionState = _runtime.SessionService.CurrentState;
+            if (CurrentSessionState is SessionState.Running or SessionState.Stopping)
             {
                 await RecordTimerScheduleErrorAsync(
                     $"slot={slot.Index}; stop failed before force scheduled restart; lastError={LastError}",
@@ -827,9 +906,10 @@ public sealed class MainShellViewModel : ObservableObject
             }
 
             await StartAsync(cancellationToken);
-            if (TaskQueuePage.IsRunning)
+            CurrentSessionState = _runtime.SessionService.CurrentState;
+            if (CurrentSessionState == SessionState.Running)
             {
-                await _runtime.DiagnosticsService.RecordEventAsync(
+                await RecordEventAsync(
                     "Timer.Schedule.StopAndStart",
                     $"slot={slot.Index}; profile={_runtime.ConfigurationService.CurrentConfig.CurrentProfile}",
                     cancellationToken);
@@ -850,9 +930,10 @@ public sealed class MainShellViewModel : ObservableObject
         }
 
         await StartAsync(cancellationToken);
-        if (TaskQueuePage.IsRunning)
+        CurrentSessionState = _runtime.SessionService.CurrentState;
+        if (CurrentSessionState == SessionState.Running)
         {
-            await _runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Timer.Schedule.Start",
                 $"slot={slot.Index}; profile={_runtime.ConfigurationService.CurrentConfig.CurrentProfile}",
                 cancellationToken);
@@ -901,7 +982,7 @@ public sealed class MainShellViewModel : ObservableObject
             await TaskQueuePage.ReloadTasksAsync(cancellationToken);
             await TaskQueuePage.WaitForPendingBindingAsync(cancellationToken);
             SyncConnectionFromProfile();
-            await _runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 "Timer.Schedule.SwitchProfile",
                 $"slot={slot.Index}; profile={targetProfile}",
                 cancellationToken);
@@ -923,10 +1004,14 @@ public sealed class MainShellViewModel : ObservableObject
         CancellationToken cancellationToken = default)
     {
         LastError = message;
-        await _runtime.DiagnosticsService.RecordErrorAsync(
+        await RecordErrorAsync(
             "Timer.Schedule.Error",
             message,
             exception,
+            cancellationToken);
+        await RecordFailedResultAsync(
+            "Timer.Schedule.Error",
+            UiOperationResult.Fail(UiErrorCode.UiOperationFailed, message, exception?.ToString()),
             cancellationToken);
     }
 
@@ -1009,7 +1094,7 @@ public sealed class MainShellViewModel : ObservableObject
             if (!trayRefresh.Success)
             {
                 LastError = trayRefresh.Message;
-                await _runtime.DiagnosticsService.RecordFailedResultAsync(
+                await RecordFailedResultAsync(
                     "App.Gui.Apply.TrayRefresh",
                     trayRefresh,
                     cancellationToken);
@@ -1021,8 +1106,12 @@ public sealed class MainShellViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            LastError = $"GUI apply failed: {ex.Message}";
-            await _runtime.DiagnosticsService.RecordErrorAsync("App.Gui.Apply", LastError, ex, cancellationToken);
+            await RecordUnhandledExceptionAsync(
+                "App.Gui.Apply",
+                ex,
+                UiErrorCode.SettingsSaveFailed,
+                $"GUI apply failed: {ex.Message}",
+                cancellationToken);
         }
         finally
         {
@@ -1049,10 +1138,13 @@ public sealed class MainShellViewModel : ObservableObject
         {
             ShellBackgroundImage = null;
             LastError = $"Background image load failed: {ex.Message}";
-            _ = _runtime.DiagnosticsService.RecordErrorAsync(
+            _ = RecordErrorAsync(
                 "App.Gui.Apply.Background",
                 LastError,
                 ex);
+            _ = RecordFailedResultAsync(
+                "App.Gui.Apply.Background",
+                UiOperationResult.Fail(UiErrorCode.BackgroundImagePathNotFound, LastError, ex.ToString()));
         }
     }
 
@@ -1088,6 +1180,65 @@ public sealed class MainShellViewModel : ObservableObject
         _ = SyncTrayMenuStateAsync();
     }
 
+    private async Task ShowSchemaMigrationNoticeIfNeededAsync(
+        ConfigLoadResult loadResult,
+        CancellationToken cancellationToken = default)
+    {
+        var notice = loadResult.SchemaMigrationNotice;
+        if (_schemaMigrationNoticeShown || notice is null)
+        {
+            return;
+        }
+
+        _schemaMigrationNoticeShown = true;
+        var prompt = string.Join(
+            Environment.NewLine,
+            "检测到配置版本落后于最新 schema。",
+            $"当前版本: v{notice.CurrentSchemaVersion}",
+            $"最新版本: v{notice.LatestSchemaVersion}",
+            string.Empty,
+            notice.Message,
+            $"建议动作: {notice.SuggestedAction}",
+            $"保存后会先备份为 avalonia.json.schema-v{notice.CurrentSchemaVersion}.bak.<timestamp> 再写入最新 schema。");
+        try
+        {
+            var completion = await _dialogService.ShowTextAsync(
+                new TextDialogRequest(
+                    Title: "[工作包D] 配置版本迁移提示",
+                    Prompt: prompt,
+                    DefaultText: string.Empty,
+                    MultiLine: true,
+                    ConfirmText: "我知道了",
+                    CancelText: "关闭"),
+                "App.Shell.Config.SchemaMigration",
+                cancellationToken);
+            await RecordEventAsync(
+                "Config.SchemaMigration.Notice",
+                $"schema={notice.CurrentSchemaVersion}->{notice.LatestSchemaVersion}; return={completion.Return}; summary={completion.Summary}",
+                cancellationToken);
+            if (string.Equals(completion.Summary, "dialog-service-unavailable", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(completion.Summary, "owner-unavailable", StringComparison.OrdinalIgnoreCase))
+            {
+                await RecordEventAsync(
+                    "Config.SchemaMigration.DialogUnavailable",
+                    $"schema={notice.CurrentSchemaVersion}->{notice.LatestSchemaVersion}",
+                    cancellationToken);
+            }
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            await RecordErrorAsync(
+                "Config.SchemaMigration.DialogError",
+                "Failed to show schema migration notice dialog.",
+                ex,
+                cancellationToken);
+        }
+    }
+
     private async Task RefreshCapabilitySummaryAsync(CancellationToken cancellationToken = default)
     {
         var snapshotResult = await _runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken);
@@ -1114,15 +1265,12 @@ public sealed class MainShellViewModel : ObservableObject
     public async Task SetTrayVisibleAsync(bool visible, CancellationToken cancellationToken = default)
     {
         var result = await _runtime.PlatformCapabilityService.SetTrayVisibleAsync(visible, cancellationToken);
-        if (!result.Success)
+        if (!await ApplyResultAsync(result, "App.Shell.Tray.SetVisible", cancellationToken))
         {
-            LastError = result.Message;
             PushGrowl(result.Message);
-            await _runtime.DiagnosticsService.RecordFailedResultAsync("App.Shell.Tray.SetVisible", result, cancellationToken);
             return;
         }
 
-        await _runtime.DiagnosticsService.RecordEventAsync("App.Shell.Tray.SetVisible", result.Message, cancellationToken);
         PushGrowl(result.Message);
     }
 
@@ -1138,20 +1286,20 @@ public sealed class MainShellViewModel : ObservableObject
                 ? "Overlay 已开启。"
                 : "Overlay 已关闭。";
             PushGrowl(message);
-            await _runtime.DiagnosticsService.RecordEventAsync(
+            await RecordEventAsync(
                 scope,
                 $"visible={TaskQueuePage.OverlayVisible}",
                 cancellationToken);
         }
         catch (Exception ex)
         {
-            LastError = ex.Message;
-            PushGrowl(ex.Message);
-            await _runtime.DiagnosticsService.RecordErrorAsync(
+            await RecordUnhandledExceptionAsync(
                 scope,
-                "Toggle overlay from tray failed.",
                 ex,
+                UiErrorCode.PlatformOperationFailed,
+                "Toggle overlay from tray failed.",
                 cancellationToken);
+            PushGrowl(ex.Message);
         }
     }
 
@@ -1169,13 +1317,9 @@ public sealed class MainShellViewModel : ObservableObject
             "MaaAssistantArknights",
             PlatformCapabilityTextMap.CreateTrayMenuText(next, ReportLocalizationFallback),
             cancellationToken);
-        if (!trayRefresh.Success)
+        if (!await ApplyResultAsync(trayRefresh, "App.Shell.SwitchLanguage.TrayRefresh", cancellationToken))
         {
-            LastError = trayRefresh.Message;
-            await _runtime.DiagnosticsService.RecordFailedResultAsync(
-                "App.Shell.SwitchLanguage.TrayRefresh",
-                trayRefresh,
-                cancellationToken);
+            return;
         }
     }
 
@@ -1191,14 +1335,13 @@ public sealed class MainShellViewModel : ObservableObject
             cancellationToken);
         if (!switchResult.Success || string.IsNullOrWhiteSpace(switchResult.Value))
         {
-            LastError = switchResult.Message;
             PushGrowl(switchResult.Message);
-            await _runtime.DiagnosticsService.RecordFailedResultAsync(
-                successScope,
+            _ = await ApplyResultAsync(
                 UiOperationResult.Fail(
-                    switchResult.Error?.Code ?? "LanguageSwitchFailed",
+                    switchResult.Error?.Code ?? UiErrorCode.LanguageSwitchFailed,
                     switchResult.Message,
                     switchResult.Error?.Details),
+                successScope,
                 cancellationToken);
             return;
         }
@@ -1210,7 +1353,7 @@ public sealed class MainShellViewModel : ObservableObject
         var message = source is null
             ? $"Language switched to {next}."
             : $"source={source}; target={(string.IsNullOrWhiteSpace(targetLanguage) ? "cycle" : targetLanguage)}; result={next}";
-        await _runtime.DiagnosticsService.RecordEventAsync(
+        await RecordEventAsync(
             successScope,
             message,
             cancellationToken);
@@ -1234,7 +1377,7 @@ public sealed class MainShellViewModel : ObservableObject
             }
         }
 
-        _ = _runtime.DiagnosticsService.RecordEventAsync(
+        _ = RecordEventAsync(
             "Localization.Fallback",
             $"scope={info.Scope}; language={language}; key={key}; fallback={info.FallbackSource}");
     }
@@ -1244,6 +1387,22 @@ public sealed class MainShellViewModel : ObservableObject
         ReportLocalizationFallback(info);
     }
 
+    private void OnSessionStateChanged(SessionState state)
+    {
+        if (Dispatcher.UIThread.CheckAccess())
+        {
+            CurrentSessionState = state;
+            _ = SyncTrayMenuStateAsync();
+            return;
+        }
+
+        Dispatcher.UIThread.Post(() =>
+        {
+            CurrentSessionState = state;
+            _ = SyncTrayMenuStateAsync();
+        });
+    }
+
     private static string NormalizeIssueText(string? value)
     {
         return string.IsNullOrWhiteSpace(value) ? "-" : value.Trim();
@@ -1251,9 +1410,10 @@ public sealed class MainShellViewModel : ObservableObject
 
     private async Task SyncTrayMenuStateAsync(CancellationToken cancellationToken = default)
     {
+        CurrentSessionState = _runtime.SessionService.CurrentState;
         var state = new TrayMenuState(
             StartEnabled: CanStartExecution,
-            StopEnabled: TaskQueuePage.IsRunning,
+            StopEnabled: CanStopExecution,
             OverlayEnabled: true,
             ForceShowEnabled: true,
             HideTrayEnabled: true);
@@ -1261,7 +1421,7 @@ public sealed class MainShellViewModel : ObservableObject
         if (!result.Success)
         {
             LastError = result.Message;
-            await _runtime.DiagnosticsService.RecordFailedResultAsync("App.Shell.Tray.SyncState", result, cancellationToken);
+            await RecordFailedResultAsync("App.Shell.Tray.SyncState", result, cancellationToken);
         }
     }
 
@@ -1288,6 +1448,75 @@ public sealed class MainShellViewModel : ObservableObject
             capability,
             status,
             ReportLocalizationFallback);
+    }
+
+    private Task RecordEventAsync(string scope, string message, CancellationToken cancellationToken = default)
+    {
+        return _runtime.DiagnosticsService.RecordEventAsync(scope, message, cancellationToken);
+    }
+
+    private Task RecordFailedResultAsync(string scope, UiOperationResult result, CancellationToken cancellationToken = default)
+    {
+        return _runtime.DiagnosticsService.RecordFailedResultAsync(scope, result, cancellationToken);
+    }
+
+    private Task RecordErrorAsync(string scope, string message, Exception? ex = null, CancellationToken cancellationToken = default)
+    {
+        return _runtime.DiagnosticsService.RecordErrorAsync(scope, message, ex, cancellationToken);
+    }
+
+    private Task RecordConfigValidationFailureAsync(ConfigValidationIssue? issue, CancellationToken cancellationToken = default)
+    {
+        return _runtime.DiagnosticsService.RecordConfigValidationFailureAsync(issue, cancellationToken);
+    }
+
+    private async Task<bool> ApplyResultAsync(UiOperationResult result, string scope, CancellationToken cancellationToken = default)
+    {
+        if (result.Success)
+        {
+            LastError = string.Empty;
+            await RecordEventAsync(scope, result.Message, cancellationToken);
+            return true;
+        }
+
+        LastError = result.Message;
+        await RecordFailedResultAsync(scope, result, cancellationToken);
+        return false;
+    }
+
+    private async Task<T?> ApplyResultAsync<T>(UiOperationResult<T> result, string scope, CancellationToken cancellationToken = default)
+    {
+        if (result.Success)
+        {
+            LastError = string.Empty;
+            await RecordEventAsync(scope, result.Message, cancellationToken);
+            return result.Value;
+        }
+
+        LastError = result.Message;
+        await RecordFailedResultAsync(
+            scope,
+            UiOperationResult.Fail(
+                result.Error?.Code ?? UiErrorCode.UiOperationFailed,
+                result.Message,
+                result.Error?.Details),
+            cancellationToken);
+        return default;
+    }
+
+    private async Task RecordUnhandledExceptionAsync(
+        string scope,
+        Exception ex,
+        string code,
+        string contextMessage,
+        CancellationToken cancellationToken = default)
+    {
+        LastError = contextMessage;
+        await RecordErrorAsync(scope, contextMessage, ex, cancellationToken);
+        await RecordFailedResultAsync(
+            scope,
+            UiOperationResult.Fail(code, ex.Message, ex.ToString()),
+            cancellationToken);
     }
 }
 

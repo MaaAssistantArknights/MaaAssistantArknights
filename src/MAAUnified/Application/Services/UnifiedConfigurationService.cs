@@ -11,6 +11,8 @@ public sealed class UnifiedConfigurationService
     {
         WriteIndented = true,
     };
+    private const string ParseNullWarningCode = "ConfigRepair.DeserializeNull";
+    private const string ParseExceptionWarningCode = "ConfigRepair.DeserializeException";
 
     private readonly IUnifiedConfigStore _store;
     private readonly IConfigImporter _guiNewImporter;
@@ -44,14 +46,7 @@ public sealed class UnifiedConfigurationService
 
     public IReadOnlyList<ConfigValidationIssue> RevalidateCurrentConfig(bool logIssues = false)
     {
-        var issues = ValidateCurrentConfig();
-        UpdateValidationIssues(issues);
-        if (logIssues)
-        {
-            LogValidationIssues(issues);
-        }
-
-        return CurrentValidationIssues;
+        return RefreshValidationState(logIssues);
     }
 
     public bool TryGetCurrentProfile(out UnifiedProfile profile)
@@ -61,13 +56,7 @@ public sealed class UnifiedConfigurationService
 
     public async Task SaveAsync(CancellationToken cancellationToken = default)
     {
-        CurrentConfig.SchemaVersion = UnifiedConfig.LatestSchemaVersion;
-        await _store.SaveAsync(CurrentConfig, cancellationToken);
-        var validationIssues = ValidateCurrentConfig();
-        UpdateValidationIssues(validationIssues);
-        LogValidationIssues(validationIssues);
-        ConfigChanged?.Invoke(CurrentConfig);
-        LogService.Info("Saved config/avalonia.json");
+        await SaveCoreAsync(CurrentConfig, logSavedConfig: true, cancellationToken);
     }
 
     public async Task<ConfigLoadResult> LoadOrBootstrapAsync(CancellationToken cancellationToken = default)
@@ -80,16 +69,15 @@ public sealed class UnifiedConfigurationService
                 if (loaded is not null)
                 {
                     CurrentConfig = loaded;
-                    if (CurrentConfig.SchemaVersion != UnifiedConfig.LatestSchemaVersion)
+                    var schemaMigrationNotice = BuildSchemaMigrationNotice();
+                    if (schemaMigrationNotice is not null)
                     {
                         LogService.Warn(
                             $"config/avalonia.json schema is {CurrentConfig.SchemaVersion}, latest is {UnifiedConfig.LatestSchemaVersion}. " +
                             "No automatic migration is applied.");
                     }
 
-                    var validationIssues = ValidateCurrentConfig();
-                    UpdateValidationIssues(validationIssues);
-                    LogValidationIssues(validationIssues);
+                    var validationIssues = RefreshValidationState(logIssues: true);
                     LogService.Info("Loaded config/avalonia.json and skipped legacy auto import");
                     ConfigChanged?.Invoke(CurrentConfig);
 
@@ -97,49 +85,43 @@ public sealed class UnifiedConfigurationService
                         Config = CurrentConfig,
                         LoadedFromExistingConfig = true,
                         ValidationIssues = validationIssues,
+                        SchemaMigrationNotice = schemaMigrationNotice,
                     };
                 }
 
-                LogService.Warn("config/avalonia.json exists but could not be parsed; rebuilding avalonia.json from defaults and skipping legacy import");
-                CurrentConfig = new UnifiedConfig();
-                await _store.SaveAsync(CurrentConfig, cancellationToken);
-                var rebuildIssues = ValidateCurrentConfig();
-                UpdateValidationIssues(rebuildIssues);
-                LogValidationIssues(rebuildIssues);
-                ConfigChanged?.Invoke(CurrentConfig);
+                LogService.Warn(
+                    $"[{ParseNullWarningCode}] config/avalonia.json parse returned null; rebuilding defaults and skipping legacy import");
+                var rebuildIssues = await SaveCoreAsync(new UnifiedConfig(), logSavedConfig: false, cancellationToken);
                 return new ConfigLoadResult {
                     Config = CurrentConfig,
                     LoadedFromExistingConfig = true,
                     ValidationIssues = rebuildIssues,
+                    SchemaMigrationNotice = BuildSchemaMigrationNotice(),
                 };
             }
             catch (Exception ex)
             {
-                LogService.Warn($"Failed to load config/avalonia.json ({ex.Message}); rebuilding defaults and skipping legacy import");
-                CurrentConfig = new UnifiedConfig();
-                await _store.SaveAsync(CurrentConfig, cancellationToken);
-                var fallbackIssues = ValidateCurrentConfig();
-                UpdateValidationIssues(fallbackIssues);
-                LogValidationIssues(fallbackIssues);
-                ConfigChanged?.Invoke(CurrentConfig);
+                LogService.Warn(
+                    $"[{ParseExceptionWarningCode}] failed to load config/avalonia.json ({ex.GetType().Name}: {ex.Message}); rebuilding defaults and skipping legacy import");
+                var fallbackIssues = await SaveCoreAsync(new UnifiedConfig(), logSavedConfig: false, cancellationToken);
                 return new ConfigLoadResult {
                     Config = CurrentConfig,
                     LoadedFromExistingConfig = true,
                     ValidationIssues = fallbackIssues,
+                    SchemaMigrationNotice = BuildSchemaMigrationNotice(),
                 };
             }
         }
 
         var report = await ImportLegacyAsync(ImportSource.Auto, manualImport: false, cancellationToken: cancellationToken);
-        var importValidationIssues = ValidateCurrentConfig();
-        UpdateValidationIssues(importValidationIssues);
-        LogValidationIssues(importValidationIssues);
+        var importValidationIssues = RefreshValidationState(logIssues: true);
 
         return new ConfigLoadResult {
             Config = CurrentConfig,
             LoadedFromExistingConfig = false,
             ImportReport = report,
             ValidationIssues = importValidationIssues,
+            SchemaMigrationNotice = BuildSchemaMigrationNotice(),
         };
     }
 
@@ -196,12 +178,7 @@ public sealed class UnifiedConfigurationService
                 Warnings = [.. report.Warnings],
             };
 
-            await _store.SaveAsync(config, cancellationToken);
-            CurrentConfig = config;
-            var validationIssues = ValidateCurrentConfig();
-            UpdateValidationIssues(validationIssues);
-            LogValidationIssues(validationIssues);
-            ConfigChanged?.Invoke(CurrentConfig);
+            await SaveCoreAsync(config, logSavedConfig: false, cancellationToken);
 
             report.Success = report.Errors.Count == 0;
             LogService.Info($"Legacy import complete: {report.Summary}");
@@ -224,6 +201,19 @@ public sealed class UnifiedConfigurationService
     private IReadOnlyList<ConfigValidationIssue> ValidateCurrentConfig()
     {
         var issues = new List<ConfigValidationIssue>();
+        var schemaMigrationNotice = BuildSchemaMigrationNotice();
+        if (schemaMigrationNotice is not null)
+        {
+            issues.Add(new ConfigValidationIssue
+            {
+                Scope = "ConfigMigration",
+                Code = "SchemaOutdated",
+                Field = "schema_version",
+                Message = schemaMigrationNotice.Message,
+                Blocking = false,
+                SuggestedAction = schemaMigrationNotice.SuggestedAction,
+            });
+        }
 
         if (CurrentConfig.Profiles.Count == 0)
         {
@@ -281,6 +271,22 @@ public sealed class UnifiedConfigurationService
         return issues;
     }
 
+    private SchemaMigrationNotice? BuildSchemaMigrationNotice()
+    {
+        if (CurrentConfig.SchemaVersion == UnifiedConfig.LatestSchemaVersion)
+        {
+            return null;
+        }
+
+        var current = CurrentConfig.SchemaVersion;
+        var latest = UnifiedConfig.LatestSchemaVersion;
+        return new SchemaMigrationNotice(
+            CurrentSchemaVersion: current,
+            LatestSchemaVersion: latest,
+            Message: $"Detected outdated schema version v{current}. Configuration will stay on compatible read mode until an explicit save.",
+            SuggestedAction: "Review settings and save configuration to migrate to the latest schema. A schema backup will be created before overwrite.");
+    }
+
     private void LogValidationIssues(IReadOnlyList<ConfigValidationIssue> issues)
     {
         if (issues.Count == 0)
@@ -302,6 +308,46 @@ public sealed class UnifiedConfigurationService
     private void UpdateValidationIssues(IReadOnlyList<ConfigValidationIssue> issues)
     {
         _currentValidationIssues = [.. issues];
+    }
+
+    private IReadOnlyList<ConfigValidationIssue> RefreshValidationState(bool logIssues)
+    {
+        var issues = ValidateCurrentConfig();
+        UpdateValidationIssues(issues);
+        if (logIssues)
+        {
+            LogValidationIssues(issues);
+        }
+
+        return CurrentValidationIssues;
+    }
+
+    private async Task<IReadOnlyList<ConfigValidationIssue>> SaveCoreAsync(
+        UnifiedConfig config,
+        bool logSavedConfig,
+        CancellationToken cancellationToken)
+    {
+        var sourceSchemaVersion = config.SchemaVersion;
+        if (sourceSchemaVersion != UnifiedConfig.LatestSchemaVersion && _store.Exists())
+        {
+            var suffix = $".schema-v{sourceSchemaVersion}.bak.{DateTimeOffset.UtcNow:yyyyMMddHHmmss}";
+            await _store.BackupAsync(suffix, cancellationToken);
+            LogService.Warn(
+                $"Schema migration write detected: v{sourceSchemaVersion} -> v{UnifiedConfig.LatestSchemaVersion}. Backup created at {_store.ConfigPath}{suffix}");
+        }
+
+        config.SchemaVersion = UnifiedConfig.LatestSchemaVersion;
+        await _store.SaveAsync(config, cancellationToken);
+        CurrentConfig = config;
+        var issues = RefreshValidationState(logIssues: true);
+        ConfigChanged?.Invoke(CurrentConfig);
+
+        if (logSavedConfig)
+        {
+            LogService.Info("Saved config/avalonia.json");
+        }
+
+        return issues;
     }
 
     private List<(IConfigImporter Importer, bool FillMissingOnly)> BuildImportPlan(ImportSource source)

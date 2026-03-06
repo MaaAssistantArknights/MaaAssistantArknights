@@ -13,6 +13,14 @@ public partial class ExternalNotificationProvidersView : UserControl
 
     private ExternalNotificationProvidersPageViewModel? VM => DataContext as ExternalNotificationProvidersPageViewModel;
 
+    private async void OnRefreshProvidersClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.RefreshProvidersAsync();
+        }
+    }
+
     private async void OnValidateClick(object? sender, RoutedEventArgs e)
     {
         if (VM is not null)

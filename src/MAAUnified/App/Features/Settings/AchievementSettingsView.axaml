@@ -1,19 +1,19 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.AchievementSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
     <TextBlock Classes="section-title" Text="Achievement" />
     <WrapPanel Grid.Row="1" ItemWidth="240">
-      <Button Content="查看成就列表" />
-      <Button Content="备份成就" />
-      <Button Content="恢复成就" />
+      <Button Content="刷新成就状态" Click="OnRefreshAchievementClick" />
+      <Button Content="打开成就说明" Click="OnOpenAchievementGuideClick" />
+      <Button Content="查看成就列表" Click="OnShowAchievementListClick" />
       <CheckBox Content="禁用成就弹窗" IsChecked="{Binding AchievementPopupDisabled}" />
       <CheckBox Content="成就弹窗自动关闭" IsChecked="{Binding AchievementPopupAutoClose}" />
-      <Button Content="调试入口" />
       <Button Content="保存成就配置" Click="OnSaveAchievementClick" />
     </WrapPanel>
-    <TextBlock Grid.Row="2" Text="成就存档操作会写入支持包，便于问题追踪。" />
-    <StackPanel Grid.Row="3" Spacing="4">
+    <TextBlock Grid.Row="2" Classes="long-wrap" Text="{Binding AchievementPolicySummary}" />
+    <TextBlock Grid.Row="3" Text="成就配置变更会写入 avalonia.json，可通过 Issue Report 导出诊断信息。" />
+    <StackPanel Grid.Row="4" Spacing="4">
       <TextBlock Text="{Binding AchievementStatusMessage}" />
       <TextBlock Classes="state-error"
                  Text="{Binding AchievementErrorMessage}"

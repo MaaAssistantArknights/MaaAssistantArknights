@@ -52,12 +52,50 @@ public sealed class ConfigurationImportTests
         var result = await service.LoadOrBootstrapAsync();
 
         Assert.False(result.LoadedFromExistingConfig);
+        var import = Assert.IsType<ImportReport>(result.ImportReport);
+        Assert.True(import.ImportedGuiNew);
+        Assert.True(import.ImportedGui);
+        Assert.True(import.ConflictCount > 0);
         Assert.True(service.CurrentConfig.Profiles["Default"].TaskQueue.Count == 1);
         Assert.Equal(UnifiedConfig.LatestSchemaVersion, service.CurrentConfig.SchemaVersion);
         Assert.Equal("Fight", service.CurrentConfig.Profiles["Default"].TaskQueue[0].Type);
         Assert.Equal("127.0.0.1:5555", service.CurrentConfig.Profiles["Default"].Values["ConnectAddress"]?.GetValue<string>());
         Assert.Equal("maatouch", service.CurrentConfig.Profiles["Default"].Values["TouchMode"]?.GetValue<string>());
         Assert.True(service.CurrentConfig.Profiles["Default"].TaskQueue[0].Params.ContainsKey("stage"));
+    }
+
+    [Fact]
+    public async Task GuiNewImport_ShouldNormalizeLegacyConnectionKeys_ToCanonicalProfileValues()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "gui.new.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "Connect.Address": "10.6.0.6:7555",
+                  "Connect.ConnectConfig": "LDPlayer",
+                  "Connect.AdbPath": "/tmp/adb-normalized"
+                }
+              }
+            }
+            """);
+
+        var service = CreateService(root);
+        var report = await service.ImportLegacyAsync(ImportSource.GuiNewOnly, manualImport: false);
+
+        Assert.True(report.Success);
+        var profile = service.CurrentConfig.Profiles["Default"];
+        Assert.Equal("10.6.0.6:7555", profile.Values["ConnectAddress"]?.GetValue<string>());
+        Assert.Equal("LDPlayer", profile.Values["ConnectConfig"]?.GetValue<string>());
+        Assert.Equal("/tmp/adb-normalized", profile.Values["AdbPath"]?.GetValue<string>());
+        Assert.False(profile.Values.ContainsKey("Connect.Address"));
+        Assert.False(profile.Values.ContainsKey("Connect.ConnectConfig"));
+        Assert.False(profile.Values.ContainsKey("Connect.AdbPath"));
     }
 
     [Fact]
@@ -90,6 +128,194 @@ public sealed class ConfigurationImportTests
         Assert.Equal(1, service.CurrentConfig.SchemaVersion);
         var schemaBackupExists = Directory.EnumerateFiles(Path.Combine(root, "config"), "avalonia.json.schema-v1.bak.*").Any();
         Assert.False(schemaBackupExists);
+    }
+
+    [Fact]
+    public async Task CorruptedAvaloniaConfig_RebuildsDefaults_AndDoesNotCrash()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(Path.Combine(root, "config", "avalonia.json"), "{ invalid json");
+
+        var service = CreateService(root);
+        var result = await service.LoadOrBootstrapAsync();
+
+        Assert.True(result.LoadedFromExistingConfig);
+        Assert.Equal(UnifiedConfig.LatestSchemaVersion, service.CurrentConfig.SchemaVersion);
+        Assert.Equal("Default", service.CurrentConfig.CurrentProfile);
+        Assert.True(File.Exists(Path.Combine(root, "config", "avalonia.json")));
+    }
+
+    [Fact]
+    public async Task CorruptedAvaloniaConfig_EmitsWarningLog()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(Path.Combine(root, "config", "avalonia.json"), "{ invalid json");
+
+        var service = CreateService(root);
+        await service.LoadOrBootstrapAsync();
+
+        Assert.Contains(
+            service.LogService.Snapshot,
+            log => string.Equals(log.Level, "WARN", StringComparison.Ordinal) &&
+                   log.Message.Contains("ConfigRepair.DeserializeException", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public async Task OutdatedSchema_LoadsWithMigrationWarningIssue()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "avalonia.json"),
+            """
+            {
+              "SchemaVersion": 1,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": { "Values": {}, "TaskQueue": [] }
+              },
+              "GlobalValues": {},
+              "Migration": { "ImportedBy": "test" }
+            }
+            """);
+
+        var service = CreateService(root);
+        var result = await service.LoadOrBootstrapAsync();
+
+        var issue = Assert.Single(result.ValidationIssues.Where(i =>
+            string.Equals(i.Scope, "ConfigMigration", StringComparison.Ordinal) &&
+            string.Equals(i.Code, "SchemaOutdated", StringComparison.Ordinal)));
+        Assert.False(issue.Blocking);
+        Assert.Equal("schema_version", issue.Field);
+        Assert.NotNull(result.SchemaMigrationNotice);
+        Assert.Equal(1, result.SchemaMigrationNotice!.CurrentSchemaVersion);
+        Assert.Equal(UnifiedConfig.LatestSchemaVersion, result.SchemaMigrationNotice.LatestSchemaVersion);
+    }
+
+    [Fact]
+    public async Task OutdatedSchema_SaveCreatesSchemaBackup()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "avalonia.json"),
+            """
+            {
+              "SchemaVersion": 1,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": { "Values": {}, "TaskQueue": [] }
+              },
+              "GlobalValues": {},
+              "Migration": { "ImportedBy": "test" }
+            }
+            """);
+
+        var service = CreateService(root);
+        await service.LoadOrBootstrapAsync();
+        await service.SaveAsync();
+
+        var backupExists = Directory
+            .EnumerateFiles(Path.Combine(root, "config"), "avalonia.json.schema-v1.bak.*")
+            .Any();
+        Assert.True(backupExists);
+        Assert.Equal(UnifiedConfig.LatestSchemaVersion, service.CurrentConfig.SchemaVersion);
+    }
+
+    [Fact]
+    public async Task LoadOrBootstrapAsync_ShouldSyncValidationIssues_WithServiceState()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "avalonia.json"),
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {},
+                  "TaskQueue": [
+                    {
+                      "Type": "Recruit",
+                      "Name": "Recruit",
+                      "IsEnabled": true,
+                      "Params": {
+                        "times": 4
+                      }
+                    }
+                  ]
+                }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """);
+
+        var service = CreateService(root);
+        var load = await service.LoadOrBootstrapAsync();
+
+        Assert.NotEmpty(load.ValidationIssues);
+        Assert.Equal(service.CurrentValidationIssues.Count, load.ValidationIssues.Count);
+        Assert.Equal(service.HasBlockingValidationIssues, load.HasBlockingValidationIssues);
+        Assert.True(service.HasBlockingValidationIssues);
+    }
+
+    [Fact]
+    public async Task SaveAsync_ShouldRefreshValidationStateAndBlockingFlag()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+
+        var service = CreateService(root);
+        await service.LoadOrBootstrapAsync();
+        Assert.False(service.HasBlockingValidationIssues);
+
+        service.CurrentConfig.Profiles.Clear();
+        await service.SaveAsync();
+
+        Assert.True(service.HasBlockingValidationIssues);
+        Assert.Contains(service.CurrentValidationIssues, issue => issue.Code == "ProfileMissing");
+    }
+
+    [Fact]
+    public async Task LoadOrBootstrap_AutoImportFailure_WritesDebugReport()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(Path.Combine(root, "config", "gui.new.json"), "{ invalid json");
+
+        var service = CreateService(root);
+        var result = await service.LoadOrBootstrapAsync();
+
+        Assert.False(result.LoadedFromExistingConfig);
+        var report = Assert.IsType<ImportReport>(result.ImportReport);
+        Assert.False(report.Success);
+        Assert.NotEmpty(report.Errors);
+        var reportPath = Path.Combine(root, "debug", "config-import-report.json");
+        Assert.True(File.Exists(reportPath));
+        var reportJson = await File.ReadAllTextAsync(reportPath);
+        Assert.Contains("errors", reportJson, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public async Task LoadOrBootstrap_AutoImportFailure_DoesNotCrash_AndCanSave()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(Path.Combine(root, "config", "gui.new.json"), "{ invalid json");
+
+        var service = CreateService(root);
+        var result = await service.LoadOrBootstrapAsync();
+
+        Assert.NotNull(result.ImportReport);
+        Assert.False(result.ImportReport!.Success);
+        await service.SaveAsync();
+        Assert.True(File.Exists(Path.Combine(root, "config", "avalonia.json")));
     }
 
     [Fact]

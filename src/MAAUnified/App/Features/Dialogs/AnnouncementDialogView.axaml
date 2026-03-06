@@ -1,23 +1,35 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="MAAUnified.App.Features.Dialogs.AnnouncementDialogView">
-  <Grid Margin="8" RowDefinitions="Auto,*,Auto,Auto">
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MAAUnified.App.Features.Dialogs.AnnouncementDialogView"
+        Width="720"
+        Height="520"
+        MinWidth="620"
+        MinHeight="420"
+        WindowStartupLocation="CenterOwner">
+  <Grid Margin="10" RowDefinitions="Auto,*,Auto">
     <TextBlock Classes="section-title" Text="Announcement" />
-    <ScrollViewer Grid.Row="1">
-      <TextBox TextWrapping="Wrap"
+    <Grid Grid.Row="1" RowDefinitions="*,Auto,Auto" Margin="0,8,0,0">
+      <TextBox x:Name="AnnouncementInfoBox"
                AcceptsReturn="True"
-               Height="160"
-               Text="{Binding AnnouncementInfo}"
-               Watermark="公告内容支持 Markdown 渲染（标题、链接、代码块）。" />
-    </ScrollViewer>
-    <WrapPanel Grid.Row="2" ItemWidth="220">
-      <CheckBox Content="不再提醒本条公告" IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
-      <CheckBox Content="不再显示公告" IsChecked="{Binding DoNotShowAnnouncement}" />
-      <Button Content="保存状态" Click="OnSaveClick" />
-    </WrapPanel>
-    <StackPanel Grid.Row="3" Spacing="4">
-      <TextBlock Classes="long-wrap" Text="{Binding StatusMessage}" />
-      <TextBlock Classes="state-error long-wrap" Text="{Binding LastErrorMessage}" />
+               TextWrapping="Wrap"
+               VerticalAlignment="Stretch"
+               HorizontalAlignment="Stretch" />
+      <CheckBox x:Name="DoNotRemindBox"
+                Grid.Row="1"
+                Margin="0,8,0,0"
+                Content="Do not remind this announcement again" />
+      <CheckBox x:Name="DoNotShowBox"
+                Grid.Row="2"
+                Margin="0,6,0,0"
+                Content="Do not show announcement" />
+    </Grid>
+    <StackPanel Grid.Row="2"
+                Orientation="Horizontal"
+                Spacing="8"
+                HorizontalAlignment="Right"
+                Margin="0,12,0,0">
+      <Button x:Name="CancelButton" Content="Cancel" Click="OnCancelClick" />
+      <Button x:Name="ConfirmButton" Classes="action" Content="Confirm" Click="OnConfirmClick" />
     </StackPanel>
   </Grid>
-</UserControl>
+</Window>

@@ -62,11 +62,57 @@ public sealed class ConnectFeatureService : IConnectFeatureService
     {
         if (wait <= TimeSpan.Zero)
         {
-            return UiOperationResult.Fail("InvalidWaitTime", "Wait time must be greater than zero.");
+            return UiOperationResult.Fail(UiErrorCode.InvalidWaitTime, "Wait time must be greater than zero.");
         }
 
-        await Task.Delay(wait, cancellationToken);
+        var initialState = _sessionService.CurrentState;
+        if (!IsExecutionActiveState(initialState))
+        {
+            return UiOperationResult.Ok($"Session already stopped (state={initialState}).");
+        }
+
+        var stateExitedTask = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        void HandleSessionStateChanged(SessionState state)
+        {
+            if (!IsExecutionActiveState(state))
+            {
+                stateExitedTask.TrySetResult();
+            }
+        }
+
+        _sessionService.SessionStateChanged += HandleSessionStateChanged;
+        try
+        {
+            if (!IsExecutionActiveState(_sessionService.CurrentState))
+            {
+                return UiOperationResult.Ok("Task execution already stopped during wait.");
+            }
+
+            var delayTask = Task.Delay(wait, cancellationToken);
+            var completed = await Task.WhenAny(delayTask, stateExitedTask.Task);
+            if (completed == stateExitedTask.Task)
+            {
+                return UiOperationResult.Ok("Task execution already stopped during wait.");
+            }
+
+            await delayTask;
+        }
+        finally
+        {
+            _sessionService.SessionStateChanged -= HandleSessionStateChanged;
+        }
+
+        if (!IsExecutionActiveState(_sessionService.CurrentState))
+        {
+            return UiOperationResult.Ok("Task execution already stopped during wait.");
+        }
+
         return await StopAsync(cancellationToken);
+    }
+
+    private static bool IsExecutionActiveState(SessionState state)
+    {
+        return state is SessionState.Running or SessionState.Stopping;
     }
 
     public async Task<UiOperationResult<ImportReport>> ImportLegacyConfigAsync(
@@ -77,7 +123,7 @@ public sealed class ConnectFeatureService : IConnectFeatureService
         var report = await _configService.ImportLegacyAsync(source, manualImport, cancellationToken);
         if (!report.Success)
         {
-            return UiOperationResult<ImportReport>.Fail("ImportFailed", string.Join("; ", report.Errors));
+            return UiOperationResult<ImportReport>.Fail(UiErrorCode.ImportFailed, string.Join("; ", report.Errors));
         }
 
         return UiOperationResult<ImportReport>.Ok(report, report.Summary);
@@ -123,7 +169,7 @@ public sealed class ShellFeatureService : IShellFeatureService
             {
                 return Task.FromResult(
                     UiOperationResult<string>.Fail(
-                        "LanguageNotSupported",
+                        UiErrorCode.LanguageNotSupported,
                         $"Unsupported language: {targetLanguage}."));
             }
 
@@ -176,7 +222,7 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetProfile(out var profile, out var error))
         {
-            return Task.FromResult(UiOperationResult<IReadOnlyList<TaskQueuePrecheckWarning>>.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult<IReadOnlyList<TaskQueuePrecheckWarning>>.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         var warnings = CollectMallCreditFightWarnings(profile, mutate: false);
@@ -192,7 +238,7 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetProfile(out var profile, out var error))
         {
-            return Task.FromResult(UiOperationResult<IReadOnlyList<TaskQueuePrecheckWarning>>.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult<IReadOnlyList<TaskQueuePrecheckWarning>>.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         var warnings = CollectMallCreditFightWarnings(profile, mutate: true);
@@ -208,7 +254,7 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetProfile(out var profile, out var error))
         {
-            return Task.FromResult(UiOperationResult<IReadOnlyList<UnifiedTaskItem>>.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult<IReadOnlyList<UnifiedTaskItem>>.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         IReadOnlyList<UnifiedTaskItem> copied = profile.TaskQueue
@@ -223,12 +269,12 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (string.IsNullOrWhiteSpace(type))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskTypeMissing", "Task type cannot be empty."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskTypeMissing, "Task type cannot be empty."));
         }
 
         if (!TryGetProfile(out var profile, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         var (normalizedType, managedDefaults) = TaskParamCompiler.NormalizeTypeAndCreateDefaultParams(
@@ -255,12 +301,12 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (string.IsNullOrWhiteSpace(newName))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskNameMissing", "Task name cannot be empty."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskNameMissing, "Task name cannot be empty."));
         }
 
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         task.Name = newName.Trim();
@@ -272,12 +318,12 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetProfile(out var profile, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         if (index < 0 || index >= profile.TaskQueue.Count)
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskNotFound", $"Task index {index} is out of range."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskNotFound, $"Task index {index} is out of range."));
         }
 
         var name = profile.TaskQueue[index].Name;
@@ -290,12 +336,12 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetProfile(out var profile, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         if (fromIndex < 0 || fromIndex >= profile.TaskQueue.Count || toIndex < 0 || toIndex >= profile.TaskQueue.Count)
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskMoveOutOfRange", "Task move index is out of range."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskMoveOutOfRange, "Task move index is out of range."));
         }
 
         if (fromIndex == toIndex)
@@ -314,11 +360,51 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         task.IsEnabled = enabled ?? false;
         return Task.FromResult(UiOperationResult.Ok($"Task `{task.Name}` enabled: {task.IsEnabled}."));
+    }
+
+    public Task<UiOperationResult> SetAllTasksEnabledAsync(bool enabled, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (!TryGetProfile(out var profile, out var error))
+        {
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
+        }
+
+        var affected = 0;
+        foreach (var task in profile.TaskQueue)
+        {
+            if (task.IsEnabled == enabled)
+            {
+                continue;
+            }
+
+            task.IsEnabled = enabled;
+            affected++;
+        }
+
+        return Task.FromResult(UiOperationResult.Ok(
+            $"Set {affected} task(s) to enabled={enabled}."));
+    }
+
+    public Task<UiOperationResult> InvertTasksEnabledAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (!TryGetProfile(out var profile, out var error))
+        {
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
+        }
+
+        foreach (var task in profile.TaskQueue)
+        {
+            task.IsEnabled = !task.IsEnabled;
+        }
+
+        return Task.FromResult(UiOperationResult.Ok($"Inverted enabled state for {profile.TaskQueue.Count} task(s)."));
     }
 
     public Task<UiOperationResult<JsonObject>> GetTaskParamsAsync(int index, CancellationToken cancellationToken = default)
@@ -326,7 +412,7 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult<JsonObject>.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult<JsonObject>.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         var parameters = task.Params.DeepClone() as JsonObject ?? new JsonObject();
@@ -365,23 +451,23 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult<StartUpTaskParamsDto>.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult<StartUpTaskParamsDto>.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!TryGetProfile(out var profile, out error))
         {
-            return Task.FromResult(UiOperationResult<StartUpTaskParamsDto>.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult<StartUpTaskParamsDto>.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.StartUp))
         {
-            return Task.FromResult(UiOperationResult<StartUpTaskParamsDto>.Fail("TaskTypeMismatch", "Selected task is not a StartUp task."));
+            return Task.FromResult(UiOperationResult<StartUpTaskParamsDto>.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a StartUp task."));
         }
 
         var (dto, issues) = TaskParamCompiler.ReadStartUp(task, profile, _configService.CurrentConfig, strict: false);
         if (issues.Any(i => i.Blocking))
         {
-            return Task.FromResult(UiOperationResult<StartUpTaskParamsDto>.Fail("TaskParamsCorrupted", BuildIssueMessage(issues)));
+            return Task.FromResult(UiOperationResult<StartUpTaskParamsDto>.Fail(UiErrorCode.TaskParamsCorrupted, BuildIssueMessage(issues)));
         }
 
         return Task.FromResult(UiOperationResult<StartUpTaskParamsDto>.Ok(dto, $"Loaded StartUp params for `{task.Name}`."));
@@ -392,18 +478,18 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult<FightTaskParamsDto>.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult<FightTaskParamsDto>.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.Fight))
         {
-            return Task.FromResult(UiOperationResult<FightTaskParamsDto>.Fail("TaskTypeMismatch", "Selected task is not a Fight task."));
+            return Task.FromResult(UiOperationResult<FightTaskParamsDto>.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a Fight task."));
         }
 
         var (dto, issues) = TaskParamCompiler.ReadFight(task, strict: false);
         if (issues.Any(i => i.Blocking))
         {
-            return Task.FromResult(UiOperationResult<FightTaskParamsDto>.Fail("TaskParamsCorrupted", BuildIssueMessage(issues)));
+            return Task.FromResult(UiOperationResult<FightTaskParamsDto>.Fail(UiErrorCode.TaskParamsCorrupted, BuildIssueMessage(issues)));
         }
 
         return Task.FromResult(UiOperationResult<FightTaskParamsDto>.Ok(dto, $"Loaded Fight params for `{task.Name}`."));
@@ -414,18 +500,18 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult<RecruitTaskParamsDto>.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult<RecruitTaskParamsDto>.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.Recruit))
         {
-            return Task.FromResult(UiOperationResult<RecruitTaskParamsDto>.Fail("TaskTypeMismatch", "Selected task is not a Recruit task."));
+            return Task.FromResult(UiOperationResult<RecruitTaskParamsDto>.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a Recruit task."));
         }
 
         var (dto, issues) = TaskParamCompiler.ReadRecruit(task, strict: false);
         if (issues.Any(i => i.Blocking))
         {
-            return Task.FromResult(UiOperationResult<RecruitTaskParamsDto>.Fail("TaskParamsCorrupted", BuildIssueMessage(issues)));
+            return Task.FromResult(UiOperationResult<RecruitTaskParamsDto>.Fail(UiErrorCode.TaskParamsCorrupted, BuildIssueMessage(issues)));
         }
 
         return Task.FromResult(UiOperationResult<RecruitTaskParamsDto>.Ok(dto, $"Loaded Recruit params for `{task.Name}`."));
@@ -436,18 +522,18 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult<RoguelikeTaskParamsDto>.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult<RoguelikeTaskParamsDto>.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.Roguelike))
         {
-            return Task.FromResult(UiOperationResult<RoguelikeTaskParamsDto>.Fail("TaskTypeMismatch", "Selected task is not a Roguelike task."));
+            return Task.FromResult(UiOperationResult<RoguelikeTaskParamsDto>.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a Roguelike task."));
         }
 
         var (dto, issues) = TaskParamCompiler.ReadRoguelike(task, strict: false);
         if (issues.Any(i => i.Blocking))
         {
-            return Task.FromResult(UiOperationResult<RoguelikeTaskParamsDto>.Fail("TaskParamsCorrupted", BuildIssueMessage(issues)));
+            return Task.FromResult(UiOperationResult<RoguelikeTaskParamsDto>.Fail(UiErrorCode.TaskParamsCorrupted, BuildIssueMessage(issues)));
         }
 
         return Task.FromResult(UiOperationResult<RoguelikeTaskParamsDto>.Ok(dto, $"Loaded Roguelike params for `{task.Name}`."));
@@ -458,18 +544,18 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult<ReclamationTaskParamsDto>.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult<ReclamationTaskParamsDto>.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.Reclamation))
         {
-            return Task.FromResult(UiOperationResult<ReclamationTaskParamsDto>.Fail("TaskTypeMismatch", "Selected task is not a Reclamation task."));
+            return Task.FromResult(UiOperationResult<ReclamationTaskParamsDto>.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a Reclamation task."));
         }
 
         var (dto, issues) = TaskParamCompiler.ReadReclamation(task, strict: false);
         if (issues.Any(i => i.Blocking))
         {
-            return Task.FromResult(UiOperationResult<ReclamationTaskParamsDto>.Fail("TaskParamsCorrupted", BuildIssueMessage(issues)));
+            return Task.FromResult(UiOperationResult<ReclamationTaskParamsDto>.Fail(UiErrorCode.TaskParamsCorrupted, BuildIssueMessage(issues)));
         }
 
         return Task.FromResult(UiOperationResult<ReclamationTaskParamsDto>.Ok(dto, $"Loaded Reclamation params for `{task.Name}`."));
@@ -480,18 +566,18 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult<CustomTaskParamsDto>.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult<CustomTaskParamsDto>.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.Custom))
         {
-            return Task.FromResult(UiOperationResult<CustomTaskParamsDto>.Fail("TaskTypeMismatch", "Selected task is not a Custom task."));
+            return Task.FromResult(UiOperationResult<CustomTaskParamsDto>.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a Custom task."));
         }
 
         var (dto, issues) = TaskParamCompiler.ReadCustom(task, strict: false);
         if (issues.Any(i => i.Blocking))
         {
-            return Task.FromResult(UiOperationResult<CustomTaskParamsDto>.Fail("TaskParamsCorrupted", BuildIssueMessage(issues)));
+            return Task.FromResult(UiOperationResult<CustomTaskParamsDto>.Fail(UiErrorCode.TaskParamsCorrupted, BuildIssueMessage(issues)));
         }
 
         return Task.FromResult(UiOperationResult<CustomTaskParamsDto>.Ok(dto, $"Loaded Custom params for `{task.Name}`."));
@@ -502,23 +588,23 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!TryGetProfile(out var profile, out error))
         {
-            return Task.FromResult(UiOperationResult.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.StartUp))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskTypeMismatch", "Selected task is not a StartUp task."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a StartUp task."));
         }
 
         var compiled = TaskParamCompiler.CompileStartUp(dto, profile, _configService.CurrentConfig);
         if (compiled.HasBlockingIssues)
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskValidationFailed", BuildIssueMessage(compiled.Issues)));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, BuildIssueMessage(compiled.Issues)));
         }
 
         task.Type = compiled.NormalizedType;
@@ -546,23 +632,23 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!TryGetProfile(out var profile, out error))
         {
-            return Task.FromResult(UiOperationResult.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.Fight))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskTypeMismatch", "Selected task is not a Fight task."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a Fight task."));
         }
 
         var compiled = TaskParamCompiler.CompileFight(dto, profile, _configService.CurrentConfig);
         if (compiled.HasBlockingIssues)
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskValidationFailed", BuildIssueMessage(compiled.Issues)));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, BuildIssueMessage(compiled.Issues)));
         }
 
         task.Type = compiled.NormalizedType;
@@ -580,23 +666,23 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!TryGetProfile(out var profile, out error))
         {
-            return Task.FromResult(UiOperationResult.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.Recruit))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskTypeMismatch", "Selected task is not a Recruit task."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a Recruit task."));
         }
 
         var compiled = TaskParamCompiler.CompileRecruit(dto, profile, _configService.CurrentConfig);
         if (compiled.HasBlockingIssues)
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskValidationFailed", BuildIssueMessage(compiled.Issues)));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, BuildIssueMessage(compiled.Issues)));
         }
 
         task.Type = compiled.NormalizedType;
@@ -610,23 +696,23 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!TryGetProfile(out var profile, out error))
         {
-            return Task.FromResult(UiOperationResult.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.Roguelike))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskTypeMismatch", "Selected task is not a Roguelike task."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a Roguelike task."));
         }
 
         var compiled = TaskParamCompiler.CompileRoguelike(dto, profile, _configService.CurrentConfig);
         if (compiled.HasBlockingIssues)
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskValidationFailed", BuildIssueMessage(compiled.Issues)));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, BuildIssueMessage(compiled.Issues)));
         }
 
         task.Type = compiled.NormalizedType;
@@ -644,23 +730,23 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!TryGetProfile(out var profile, out error))
         {
-            return Task.FromResult(UiOperationResult.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.Reclamation))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskTypeMismatch", "Selected task is not a Reclamation task."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a Reclamation task."));
         }
 
         var compiled = TaskParamCompiler.CompileReclamation(dto, profile, _configService.CurrentConfig);
         if (compiled.HasBlockingIssues)
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskValidationFailed", BuildIssueMessage(compiled.Issues)));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, BuildIssueMessage(compiled.Issues)));
         }
 
         task.Type = compiled.NormalizedType;
@@ -678,23 +764,23 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!TryGetProfile(out var profile, out error))
         {
-            return Task.FromResult(UiOperationResult.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         if (!IsTaskType(task, TaskModuleTypes.Custom))
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskTypeMismatch", "Selected task is not a Custom task."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskTypeMismatch, "Selected task is not a Custom task."));
         }
 
         var compiled = TaskParamCompiler.CompileCustom(dto, profile, _configService.CurrentConfig);
         if (compiled.HasBlockingIssues)
         {
-            return Task.FromResult(UiOperationResult.Fail("TaskValidationFailed", BuildIssueMessage(compiled.Issues)));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, BuildIssueMessage(compiled.Issues)));
         }
 
         task.Type = compiled.NormalizedType;
@@ -712,12 +798,12 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (!TryGetTaskByIndex(index, out var task, out var error))
         {
-            return Task.FromResult(UiOperationResult<TaskValidationReport>.Fail("TaskNotFound", error));
+            return Task.FromResult(UiOperationResult<TaskValidationReport>.Fail(UiErrorCode.TaskNotFound, error));
         }
 
         if (!TryGetProfile(out var profile, out error))
         {
-            return Task.FromResult(UiOperationResult<TaskValidationReport>.Fail("ProfileMissing", error));
+            return Task.FromResult(UiOperationResult<TaskValidationReport>.Fail(UiErrorCode.ProfileMissing, error));
         }
 
         var compiled = TaskParamCompiler.CompileTask(task, profile, _configService.CurrentConfig, strict: true);
@@ -928,42 +1014,75 @@ public sealed class CopilotFeatureService : ICopilotFeatureService
         return Task.FromResult($"Copilot import queued from {source}");
     }
 
-    public Task<UiOperationResult> ImportFromFileAsync(string filePath, CancellationToken cancellationToken = default)
+    public async Task<UiOperationResult> ImportFromFileAsync(string filePath, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (string.IsNullOrWhiteSpace(filePath))
+        var normalizedPath = (filePath ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(normalizedPath))
         {
-            return Task.FromResult(UiOperationResult.Fail("CopilotFileMissing", "Copilot file path cannot be empty."));
+            return UiOperationResult.Fail(
+                UiErrorCode.CopilotFileMissing,
+                "作业文件路径为空。请粘贴本地 JSON 文件路径后重试。");
         }
 
-        if (!File.Exists(filePath))
+        if (!File.Exists(normalizedPath))
         {
-            return Task.FromResult(UiOperationResult.Fail("CopilotFileNotFound", $"Copilot file does not exist: {filePath}"));
+            return UiOperationResult.Fail(
+                UiErrorCode.CopilotFileNotFound,
+                $"作业文件不存在：{normalizedPath}。请检查路径是否正确。");
         }
 
-        var payload = File.ReadAllText(filePath);
-        if (!TryValidateCopilotPayload(payload, out var validationError))
+        string payload;
+        try
         {
-            return Task.FromResult(UiOperationResult.Fail("CopilotPayloadInvalid", validationError));
+            payload = await File.ReadAllTextAsync(normalizedPath, cancellationToken);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or NotSupportedException)
+        {
+            return UiOperationResult.Fail(
+                UiErrorCode.CopilotFileReadFailed,
+                $"读取作业文件失败：{normalizedPath}。请确认文件可访问且内容为 UTF-8 JSON。",
+                ex.Message);
         }
 
-        return Task.FromResult(UiOperationResult.Ok($"Copilot file imported: {filePath}"));
+        if (!TryValidateCopilotPayload(payload, out var errorCode, out var errorMessage))
+        {
+            return UiOperationResult.Fail(errorCode, errorMessage);
+        }
+
+        return UiOperationResult.Ok($"已导入作业文件：{normalizedPath}");
     }
 
     public Task<UiOperationResult> ImportFromClipboardAsync(string payload, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (string.IsNullOrWhiteSpace(payload))
+        var normalized = (payload ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(normalized))
         {
-            return Task.FromResult(UiOperationResult.Fail("CopilotClipboardEmpty", "Clipboard payload is empty."));
+            return Task.FromResult(UiOperationResult.Fail(
+                UiErrorCode.CopilotClipboardEmpty,
+                "剪贴板内容为空。请复制本地路径或 JSON 内容后重试。"));
         }
 
-        if (!TryValidateCopilotPayload(payload, out var validationError))
+        var pathCandidate = NormalizePotentialPathText(normalized);
+        if (File.Exists(pathCandidate))
         {
-            return Task.FromResult(UiOperationResult.Fail("CopilotPayloadInvalid", validationError));
+            return ImportFromFileAsync(pathCandidate, cancellationToken);
         }
 
-        return Task.FromResult(UiOperationResult.Ok("Clipboard copilot payload accepted."));
+        if (!LooksLikeJsonPayload(normalized) && LooksLikePathText(pathCandidate))
+        {
+            return Task.FromResult(UiOperationResult.Fail(
+                UiErrorCode.CopilotFileNotFound,
+                $"剪贴板内容看起来是文件路径，但文件不存在：{pathCandidate}。请检查路径后重试。"));
+        }
+
+        if (!TryValidateCopilotPayload(normalized, out var errorCode, out var errorMessage))
+        {
+            return Task.FromResult(UiOperationResult.Fail(errorCode, errorMessage));
+        }
+
+        return Task.FromResult(UiOperationResult.Ok("已接受剪贴板作业内容。"));
     }
 
     public Task<UiOperationResult> SubmitFeedbackAsync(string copilotId, bool like, CancellationToken cancellationToken = default)
@@ -971,15 +1090,19 @@ public sealed class CopilotFeatureService : ICopilotFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (string.IsNullOrWhiteSpace(copilotId))
         {
-            return Task.FromResult(UiOperationResult.Fail("CopilotIdMissing", "Copilot id cannot be empty."));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.CopilotIdMissing, "Copilot id cannot be empty."));
         }
 
         return Task.FromResult(UiOperationResult.Ok($"Feedback submitted for {copilotId}: {(like ? "like" : "dislike")}"));
     }
 
-    private static bool TryValidateCopilotPayload(string payload, out string error)
+    private static bool TryValidateCopilotPayload(
+        string payload,
+        out string errorCode,
+        out string errorMessage)
     {
-        error = string.Empty;
+        errorCode = string.Empty;
+        errorMessage = string.Empty;
         JsonNode? node;
         try
         {
@@ -987,13 +1110,15 @@ public sealed class CopilotFeatureService : ICopilotFeatureService
         }
         catch (Exception ex)
         {
-            error = $"Copilot payload is not valid JSON: {ex.Message}";
+            errorCode = UiErrorCode.CopilotPayloadInvalidJson;
+            errorMessage = $"剪贴板/文件内容不是合法 JSON：{ex.Message}。请检查括号、引号和逗号。";
             return false;
         }
 
         if (node is null)
         {
-            error = "Copilot payload is empty.";
+            errorCode = UiErrorCode.CopilotPayloadInvalidType;
+            errorMessage = "作业内容为空 JSON 节点。请提供 JSON 对象或数组。";
             return false;
         }
 
@@ -1001,20 +1126,24 @@ public sealed class CopilotFeatureService : ICopilotFeatureService
         {
             if (array.Count == 0)
             {
-                error = "Copilot payload array cannot be empty.";
+                errorCode = UiErrorCode.CopilotPayloadEmptyArray;
+                errorMessage = "作业数组为空。请至少提供一个作业对象。";
                 return false;
             }
 
-            if (array[0] is not JsonObject first)
+            for (var i = 0; i < array.Count; i++)
             {
-                error = "Copilot payload array item must be an object.";
-                return false;
-            }
+                if (array[i] is not JsonObject item)
+                {
+                    errorCode = UiErrorCode.CopilotPayloadInvalidType;
+                    errorMessage = $"第{i + 1}个作业不是 JSON 对象。请改为对象结构。";
+                    return false;
+                }
 
-            if (!HasRequiredCopilotFields(first))
-            {
-                error = "Copilot payload array item lacks required fields: `stage_name` or `type`.";
-                return false;
+                if (!TryValidateCopilotObject(item, i, out errorCode, out errorMessage))
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -1022,61 +1151,425 @@ public sealed class CopilotFeatureService : ICopilotFeatureService
 
         if (node is JsonObject obj)
         {
-            if (!HasRequiredCopilotFields(obj))
+            if (!TryValidateCopilotObject(obj, null, out errorCode, out errorMessage))
             {
-                error = "Copilot payload object lacks required fields: `stage_name` or `type`.";
                 return false;
             }
 
             return true;
         }
 
-        error = "Copilot payload must be a JSON object or array.";
+        errorCode = UiErrorCode.CopilotPayloadInvalidType;
+        errorMessage = "作业内容必须是 JSON 对象或数组。";
         return false;
     }
 
-    private static bool HasRequiredCopilotFields(JsonObject obj)
+    private static bool TryValidateCopilotObject(
+        JsonObject obj,
+        int? index,
+        out string errorCode,
+        out string errorMessage)
     {
-        return obj.ContainsKey("stage_name")
-               || obj.ContainsKey("type")
-               || obj.ContainsKey("actions");
+        errorCode = string.Empty;
+        errorMessage = string.Empty;
+
+        var position = index.HasValue ? $"第{index.Value + 1}个作业" : "作业对象";
+        if (!TryGetRequiredStringProperty(obj, "stage_name", out _))
+        {
+            errorCode = UiErrorCode.CopilotPayloadMissingFields;
+            errorMessage = $"{position}缺少必填字段 `stage_name`（非空字符串）。";
+            return false;
+        }
+
+        if (!TryGetRequiredStringProperty(obj, "minimum_required", out _))
+        {
+            errorCode = UiErrorCode.CopilotPayloadMissingFields;
+            errorMessage = $"{position}缺少必填字段 `minimum_required`（非空字符串）。";
+            return false;
+        }
+
+        if (TryGetPropertyCaseInsensitive(obj, "type", out var typeNode)
+            && !TryGetStringValue(typeNode, out var typeValue))
+        {
+            errorCode = UiErrorCode.CopilotPayloadInvalidType;
+            errorMessage = $"{position}字段 `type` 必须是字符串。";
+            return false;
+        }
+
+        var isSss = TryGetPropertyCaseInsensitive(obj, "type", out var resolvedTypeNode)
+                    && TryGetStringValue(resolvedTypeNode, out var resolvedType)
+                    && string.Equals(resolvedType, "SSS", StringComparison.OrdinalIgnoreCase);
+        if (isSss)
+        {
+            return true;
+        }
+
+        if (!TryGetPropertyCaseInsensitive(obj, "actions", out var actionsNode))
+        {
+            errorCode = UiErrorCode.CopilotPayloadMissingFields;
+            errorMessage = $"{position}缺少必填字段 `actions`（非空数组）。";
+            return false;
+        }
+
+        if (actionsNode is not JsonArray actionsArray)
+        {
+            errorCode = UiErrorCode.CopilotPayloadInvalidType;
+            errorMessage = $"{position}字段 `actions` 必须是数组。";
+            return false;
+        }
+
+        if (actionsArray.Count == 0)
+        {
+            errorCode = UiErrorCode.CopilotPayloadMissingFields;
+            errorMessage = $"{position}字段 `actions` 不能为空数组。";
+            return false;
+        }
+
+        return true;
+    }
+
+    private static bool TryGetRequiredStringProperty(JsonObject obj, string key, out string value)
+    {
+        value = string.Empty;
+        if (!TryGetPropertyCaseInsensitive(obj, key, out var node) || !TryGetStringValue(node, out var raw))
+        {
+            return false;
+        }
+
+        value = raw.Trim();
+        return !string.IsNullOrWhiteSpace(value);
+    }
+
+    private static bool TryGetStringValue(JsonNode? node, out string value)
+    {
+        value = string.Empty;
+        if (node is not JsonValue jsonValue || !jsonValue.TryGetValue(out string? raw))
+        {
+            return false;
+        }
+
+        value = raw ?? string.Empty;
+        return true;
+    }
+
+    private static bool TryGetPropertyCaseInsensitive(JsonObject obj, string key, out JsonNode? value)
+    {
+        foreach (var property in obj)
+        {
+            if (string.Equals(property.Key, key, StringComparison.OrdinalIgnoreCase))
+            {
+                value = property.Value;
+                return true;
+            }
+        }
+
+        value = null;
+        return false;
+    }
+
+    private static bool LooksLikeJsonPayload(string text)
+    {
+        var span = text.AsSpan().TrimStart();
+        return span.StartsWith("{".AsSpan(), StringComparison.Ordinal)
+               || span.StartsWith("[".AsSpan(), StringComparison.Ordinal);
+    }
+
+    private static string NormalizePotentialPathText(string text)
+    {
+        var trimmed = text.Trim();
+        if (trimmed.Length >= 2
+            && ((trimmed[0] == '"' && trimmed[^1] == '"')
+                || (trimmed[0] == '\'' && trimmed[^1] == '\'')))
+        {
+            return trimmed[1..^1].Trim();
+        }
+
+        return trimmed;
+    }
+
+    private static bool LooksLikePathText(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return false;
+        }
+
+        if (Path.IsPathRooted(text))
+        {
+            return true;
+        }
+
+        return text.Contains('\\')
+               || text.Contains('/')
+               || text.EndsWith(".json", StringComparison.OrdinalIgnoreCase)
+               || text.StartsWith("./", StringComparison.Ordinal)
+               || text.StartsWith(".\\", StringComparison.Ordinal)
+               || text.StartsWith("../", StringComparison.Ordinal)
+               || text.StartsWith("..\\", StringComparison.Ordinal);
     }
 }
 
 public sealed class ToolboxFeatureService : IToolboxFeatureService
 {
-    private static readonly HashSet<string> _supportedTools = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly IReadOnlyDictionary<ToolboxToolKind, TimeSpan> DefaultTimeouts =
+        new Dictionary<ToolboxToolKind, TimeSpan>
+        {
+            [ToolboxToolKind.Recruit] = TimeSpan.FromSeconds(15),
+            [ToolboxToolKind.OperBox] = TimeSpan.FromSeconds(20),
+            [ToolboxToolKind.Depot] = TimeSpan.FromSeconds(20),
+            [ToolboxToolKind.Gacha] = TimeSpan.FromSeconds(20),
+            [ToolboxToolKind.VideoRecognition] = TimeSpan.FromSeconds(10),
+            [ToolboxToolKind.MiniGame] = TimeSpan.FromSeconds(30),
+        };
+
+    private static readonly HashSet<string> PreservedErrorCodes = new(StringComparer.Ordinal)
     {
-        "Recruit",
-        "OperBox",
-        "Depot",
-        "Gacha",
-        "VideoRecognition",
-        "MiniGame",
+        UiErrorCode.ToolNotSupported,
+        UiErrorCode.ToolboxInvalidParameters,
+        UiErrorCode.ToolboxExecutionTimedOut,
+        UiErrorCode.ToolboxExecutionCancelled,
+        UiErrorCode.ToolboxExecutionFailed,
     };
 
-    public Task<string> RunToolAsync(string toolName, CancellationToken cancellationToken = default)
+    private readonly IReadOnlyDictionary<ToolboxToolKind, Func<ToolboxExecuteRequest, CancellationToken, Task<UiOperationResult<string>>>> _handlers;
+    private readonly IReadOnlyDictionary<ToolboxToolKind, TimeSpan> _timeouts;
+
+    public ToolboxFeatureService()
+        : this(null, null)
     {
-        return Task.FromResult($"Toolbox action dispatched: {toolName}");
     }
 
-    public Task<UiOperationResult<string>> ExecuteToolAsync(
-        string toolName,
-        string? parameterSummary = null,
+    public ToolboxFeatureService(
+        IReadOnlyDictionary<ToolboxToolKind, Func<ToolboxExecuteRequest, CancellationToken, Task<UiOperationResult<string>>>>? handlers,
+        IReadOnlyDictionary<ToolboxToolKind, TimeSpan>? timeouts)
+    {
+        _handlers = handlers ?? CreateDefaultHandlers();
+        _timeouts = timeouts ?? DefaultTimeouts;
+    }
+
+    public async Task<UiOperationResult<ToolboxExecuteResult>> ExecuteToolAsync(
+        ToolboxExecuteRequest request,
         CancellationToken cancellationToken = default)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        if (!_supportedTools.Contains(toolName))
+        if (request is null)
         {
-            return Task.FromResult(UiOperationResult<string>.Fail("ToolNotSupported", $"Tool `{toolName}` is not supported."));
+            return UiOperationResult<ToolboxExecuteResult>.Fail(
+                UiErrorCode.ToolboxInvalidParameters,
+                "Toolbox execute request cannot be null.");
         }
 
-        var normalizedSummary = string.IsNullOrWhiteSpace(parameterSummary)
-            ? "none"
-            : parameterSummary.Trim();
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return UiOperationResult<ToolboxExecuteResult>.Fail(
+                UiErrorCode.ToolboxExecutionCancelled,
+                $"Tool `{request.Tool}` execution cancelled by caller.");
+        }
+
+        if (!_handlers.TryGetValue(request.Tool, out var handler))
+        {
+            return UiOperationResult<ToolboxExecuteResult>.Fail(
+                UiErrorCode.ToolNotSupported,
+                $"Tool `{request.Tool}` is not supported.");
+        }
+
+        var parameterText = request.ParameterText ?? string.Empty;
+        var parameterIssue = ValidateParameterText(parameterText);
+        if (parameterIssue is not null)
+        {
+            return UiOperationResult<ToolboxExecuteResult>.Fail(
+                UiErrorCode.ToolboxInvalidParameters,
+                parameterIssue,
+                BuildExecutionDetails(request, TimeSpan.Zero, BuildParameterSummary(parameterText)));
+        }
+
+        if (!TryResolveTimeout(request.Tool, request.TimeoutOverride, out var timeout, out var timeoutIssue))
+        {
+            return UiOperationResult<ToolboxExecuteResult>.Fail(
+                UiErrorCode.ToolboxInvalidParameters,
+                timeoutIssue!,
+                BuildExecutionDetails(request, TimeSpan.Zero, BuildParameterSummary(parameterText)));
+        }
+
+        var normalized = request with { ParameterText = parameterText.Trim() };
+        var parameterSummary = BuildParameterSummary(normalized.ParameterText);
+
+        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        linkedCts.CancelAfter(timeout);
+        try
+        {
+            var handlerResult = await handler(normalized, linkedCts.Token);
+            if (!handlerResult.Success)
+            {
+                var errorCode = NormalizeErrorCode(handlerResult.Error?.Code);
+                return UiOperationResult<ToolboxExecuteResult>.Fail(
+                    errorCode,
+                    handlerResult.Message,
+                    MergeDetails(
+                        BuildExecutionDetails(normalized, timeout, parameterSummary),
+                        handlerResult.Error?.Details));
+            }
+
+            var resultText = handlerResult.Value ?? handlerResult.Message;
+            return UiOperationResult<ToolboxExecuteResult>.Ok(
+                new ToolboxExecuteResult(normalized.Tool, resultText, parameterSummary, DateTimeOffset.Now),
+                handlerResult.Message);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            return UiOperationResult<ToolboxExecuteResult>.Fail(
+                UiErrorCode.ToolboxExecutionCancelled,
+                $"Tool `{normalized.Tool}` execution cancelled by caller.",
+                BuildExecutionDetails(normalized, timeout, parameterSummary));
+        }
+        catch (OperationCanceledException)
+        {
+            return UiOperationResult<ToolboxExecuteResult>.Fail(
+                UiErrorCode.ToolboxExecutionTimedOut,
+                $"Tool `{normalized.Tool}` execution timed out after {timeout.TotalSeconds:0.#}s.",
+                BuildExecutionDetails(normalized, timeout, parameterSummary));
+        }
+        catch (TimeoutException ex)
+        {
+            return UiOperationResult<ToolboxExecuteResult>.Fail(
+                UiErrorCode.ToolboxExecutionTimedOut,
+                $"Tool `{normalized.Tool}` execution timed out after {timeout.TotalSeconds:0.#}s.",
+                MergeDetails(
+                    BuildExecutionDetails(normalized, timeout, parameterSummary),
+                    ex.ToString()));
+        }
+        catch (Exception ex)
+        {
+            return UiOperationResult<ToolboxExecuteResult>.Fail(
+                UiErrorCode.ToolboxExecutionFailed,
+                $"Tool `{normalized.Tool}` execution failed: {ex.Message}",
+                MergeDetails(
+                    BuildExecutionDetails(normalized, timeout, parameterSummary),
+                    ex.ToString()));
+        }
+    }
+
+    private static string NormalizeErrorCode(string? code)
+    {
+        return code is not null && PreservedErrorCodes.Contains(code)
+            ? code
+            : UiErrorCode.ToolboxExecutionFailed;
+    }
+
+    private static IReadOnlyDictionary<ToolboxToolKind, Func<ToolboxExecuteRequest, CancellationToken, Task<UiOperationResult<string>>>>
+        CreateDefaultHandlers()
+    {
+        var handlers = new Dictionary<ToolboxToolKind, Func<ToolboxExecuteRequest, CancellationToken, Task<UiOperationResult<string>>>>();
+        foreach (var tool in Enum.GetValues<ToolboxToolKind>())
+        {
+            handlers[tool] = DefaultExecuteHandlerAsync;
+        }
+
+        return handlers;
+    }
+
+    private static Task<UiOperationResult<string>> DefaultExecuteHandlerAsync(
+        ToolboxExecuteRequest request,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var parameterSummary = BuildParameterSummary(request.ParameterText);
         return Task.FromResult(UiOperationResult<string>.Ok(
-            $"`{toolName}` execution started with params: {normalizedSummary}.",
-            $"Tool `{toolName}` dispatched."));
+            $"`{request.Tool}` execution started with params: {parameterSummary}.",
+            $"Tool `{request.Tool}` dispatched."));
+    }
+
+    private bool TryResolveTimeout(
+        ToolboxToolKind tool,
+        TimeSpan? requested,
+        out TimeSpan timeout,
+        out string? error)
+    {
+        timeout = TimeSpan.Zero;
+        error = null;
+        if (!_timeouts.TryGetValue(tool, out var fallbackTimeout))
+        {
+            error = $"No timeout configured for tool `{tool}`.";
+            return false;
+        }
+
+        timeout = requested ?? fallbackTimeout;
+        if (timeout <= TimeSpan.Zero)
+        {
+            error = $"Tool `{tool}` timeout must be greater than zero.";
+            return false;
+        }
+
+        if (timeout > TimeSpan.FromMinutes(5))
+        {
+            error = $"Tool `{tool}` timeout cannot exceed 300 seconds.";
+            return false;
+        }
+
+        return true;
+    }
+
+    private static string? ValidateParameterText(string text)
+    {
+        if (text.Length > 4096)
+        {
+            return "Toolbox parameter text cannot exceed 4096 characters.";
+        }
+
+        for (var i = 0; i < text.Length; i++)
+        {
+            var ch = text[i];
+            if (ch == '\0')
+            {
+                return "Toolbox parameter text contains null character.";
+            }
+
+            if (char.IsControl(ch)
+                && ch != '\r'
+                && ch != '\n'
+                && ch != '\t')
+            {
+                return $"Toolbox parameter text contains unsupported control character at index {i}.";
+            }
+        }
+
+        return null;
+    }
+
+    private static string BuildExecutionDetails(ToolboxExecuteRequest request, TimeSpan timeout, string parameterSummary)
+    {
+        return JsonSerializer.Serialize(new
+        {
+            tool = request.Tool.ToString(),
+            timeoutMs = timeout == TimeSpan.Zero ? (double?)null : timeout.TotalMilliseconds,
+            parameterSummary,
+            correlationId = string.IsNullOrWhiteSpace(request.CorrelationId) ? null : request.CorrelationId.Trim(),
+        });
+    }
+
+    private static string MergeDetails(string context, string? details)
+    {
+        if (string.IsNullOrWhiteSpace(details))
+        {
+            return context;
+        }
+
+        return $"{context} | {details}";
+    }
+
+    private static string BuildParameterSummary(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return "none";
+        }
+
+        var normalized = text.Trim()
+            .Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace('\n', ';')
+            .Replace('\t', ' ');
+        return normalized.Length <= 180
+            ? normalized
+            : normalized[..177] + "...";
     }
 }
 
@@ -2356,9 +2849,9 @@ public sealed class PlatformCapabilityFeatureService : IPlatformCapabilityServic
         {
             await _diagnostics.RecordFailedResultAsync(
                 "PlatformCapability.Autostart.query",
-                UiOperationResult.Fail(result.ErrorCode ?? "AutostartQueryFailed", result.Message),
+                UiOperationResult.Fail(result.ErrorCode ?? UiErrorCode.AutostartQueryFailed, result.Message),
                 cancellationToken);
-            return UiOperationResult<bool>.Fail(result.ErrorCode ?? "AutostartQueryFailed", result.Message);
+            return UiOperationResult<bool>.Fail(result.ErrorCode ?? UiErrorCode.AutostartQueryFailed, result.Message);
         }
 
         return result.Value
@@ -2440,9 +2933,9 @@ public sealed class PlatformCapabilityFeatureService : IPlatformCapabilityServic
         {
             await _diagnostics.RecordFailedResultAsync(
                 $"PlatformCapability.{capability}.{action}",
-                UiOperationResult.Fail(result.ErrorCode ?? "PlatformOperationFailed", result.Message),
+                UiOperationResult.Fail(result.ErrorCode ?? UiErrorCode.PlatformOperationFailed, result.Message),
                 cancellationToken);
-            return UiOperationResult.Fail(result.ErrorCode ?? "PlatformOperationFailed", result.Message);
+            return UiOperationResult.Fail(result.ErrorCode ?? UiErrorCode.PlatformOperationFailed, result.Message);
         }
 
         return UiOperationResult.Ok(result.Message);
@@ -2505,7 +2998,7 @@ public sealed class SettingsFeatureService : ISettingsFeatureService
     {
         if (string.IsNullOrWhiteSpace(key))
         {
-            return UiOperationResult.Fail("SettingKeyMissing", "Setting key cannot be empty.");
+            return UiOperationResult.Fail(UiErrorCode.SettingKeyMissing, "Setting key cannot be empty.");
         }
 
         return await SaveGlobalSettingsAsync(
@@ -2522,7 +3015,7 @@ public sealed class SettingsFeatureService : ISettingsFeatureService
     {
         if (updates.Count == 0)
         {
-            return UiOperationResult.Fail("SettingBatchEmpty", "No settings were provided.");
+            return UiOperationResult.Fail(UiErrorCode.SettingBatchEmpty, "No settings were provided.");
         }
 
         var oldValues = new Dictionary<string, JsonNode?>(StringComparer.OrdinalIgnoreCase);
@@ -2531,7 +3024,7 @@ public sealed class SettingsFeatureService : ISettingsFeatureService
         {
             if (string.IsNullOrWhiteSpace(key))
             {
-                return UiOperationResult.Fail("SettingKeyMissing", "Setting key cannot be empty.");
+                return UiOperationResult.Fail(UiErrorCode.SettingKeyMissing, "Setting key cannot be empty.");
             }
 
             if (_configService.CurrentConfig.GlobalValues.TryGetValue(key, out var oldValue))
@@ -2567,7 +3060,7 @@ public sealed class SettingsFeatureService : ISettingsFeatureService
             }
 
             await _diagnostics.RecordErrorAsync("Settings.SaveBatch", "Failed to save settings batch.", ex, cancellationToken);
-            return UiOperationResult.Fail("SettingsSaveFailed", $"Failed to save settings: {ex.Message}");
+            return UiOperationResult.Fail(UiErrorCode.SettingsSaveFailed, $"Failed to save settings: {ex.Message}");
         }
     }
 
@@ -2593,9 +3086,40 @@ public sealed class SettingsFeatureService : ISettingsFeatureService
 
     public async Task<UiOperationResult<string>> BuildIssueReportAsync(CancellationToken cancellationToken = default)
     {
-        var baseDirectory = AppContext.BaseDirectory;
-        var bundlePath = await _diagnostics.BuildIssueReportBundleAsync(baseDirectory, cancellationToken);
-        return UiOperationResult<string>.Ok(bundlePath, "Issue report bundle generated.");
+        cancellationToken.ThrowIfCancellationRequested();
+        try
+        {
+            var baseDirectory = ResolveIssueReportBaseDirectory();
+            var bundlePath = await _diagnostics.BuildIssueReportBundleAsync(baseDirectory, cancellationToken);
+            return UiOperationResult<string>.Ok(bundlePath, "Issue report bundle generated.");
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            await _diagnostics.RecordErrorAsync("Settings.IssueReport.Build", "Failed to generate issue report bundle.", ex, cancellationToken);
+            return UiOperationResult<string>.Fail(
+                UiErrorCode.IssueReportBundleBuildFailed,
+                $"Failed to generate issue report bundle: {ex.Message}",
+                ex.Message);
+        }
+    }
+
+    private string ResolveIssueReportBaseDirectory()
+    {
+        var debugDirectory = Path.GetDirectoryName(_diagnostics.EventLogPath);
+        if (!string.IsNullOrWhiteSpace(debugDirectory))
+        {
+            var parent = Directory.GetParent(debugDirectory);
+            if (parent is not null)
+            {
+                return parent.FullName;
+            }
+        }
+
+        return AppContext.BaseDirectory;
     }
 }
 
@@ -2651,27 +3175,49 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         return Task.FromResult(UiOperationResult<VersionUpdatePolicy>.Ok(policy, "Loaded version update policy."));
     }
 
+    public async Task<UiOperationResult> SaveChannelAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var validation = ValidateChannelPolicy(policy);
+        if (!validation.Success)
+        {
+            return validation;
+        }
+
+        return await PersistGlobalSettingsWithRollbackAsync(
+            policy.ToChannelSettingUpdates(),
+            "Version update channel settings saved.",
+            cancellationToken);
+    }
+
+    public async Task<UiOperationResult> SaveProxyAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var validation = ValidateProxyPolicy(policy);
+        if (!validation.Success)
+        {
+            return validation;
+        }
+
+        return await PersistGlobalSettingsWithRollbackAsync(
+            policy.ToProxySettingUpdates(),
+            "Version update proxy settings saved.",
+            cancellationToken);
+    }
+
     public async Task<UiOperationResult> SavePolicyAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (_configService is null)
-        {
-            return UiOperationResult.Fail("VersionUpdateServiceUnavailable", "Version update service is not initialized.");
-        }
-
         var validation = ValidatePolicy(policy);
         if (!validation.Success)
         {
             return validation;
         }
 
-        foreach (var (key, value) in policy.ToGlobalSettingUpdates())
-        {
-            _configService.CurrentConfig.GlobalValues[key] = JsonValue.Create(value);
-        }
-
-        await _configService.SaveAsync(cancellationToken);
-        return UiOperationResult.Ok("Version update policy saved.");
+        return await PersistGlobalSettingsWithRollbackAsync(
+            policy.ToGlobalSettingUpdates(),
+            "Version update policy saved.",
+            cancellationToken);
     }
 
     public Task<UiOperationResult<string>> CheckForUpdatesAsync(
@@ -2697,11 +3243,36 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
 
     private UiOperationResult ValidatePolicy(VersionUpdatePolicy policy)
     {
+        var channelValidation = ValidateChannelPolicy(policy);
+        if (!channelValidation.Success)
+        {
+            return channelValidation;
+        }
+
+        return ValidateProxyPolicy(policy);
+    }
+
+    private UiOperationResult ValidateChannelPolicy(VersionUpdatePolicy policy)
+    {
         if (!AllowedVersionTypes.Contains(policy.VersionType))
         {
             return UiOperationResult.Fail(
                 UiErrorCode.VersionUpdateInvalidParameters,
                 $"Version type `{policy.VersionType}` is unsupported.");
+        }
+
+        return UiOperationResult.Ok("Version update channel validation passed.");
+    }
+
+    private static UiOperationResult ValidateProxyPolicy(VersionUpdatePolicy policy)
+    {
+        if (!string.Equals(policy.ProxyType, "system", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(policy.ProxyType, "http", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(policy.ProxyType, "https", StringComparison.OrdinalIgnoreCase))
+        {
+            return UiOperationResult.Fail(
+                UiErrorCode.VersionUpdateInvalidParameters,
+                $"Proxy type `{policy.ProxyType}` is unsupported.");
         }
 
         if (!string.IsNullOrWhiteSpace(policy.Proxy))
@@ -2715,7 +3286,51 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
             }
         }
 
-        return UiOperationResult.Ok("Version update policy validation passed.");
+        return UiOperationResult.Ok("Version update proxy validation passed.");
+    }
+
+    private async Task<UiOperationResult> PersistGlobalSettingsWithRollbackAsync(
+        IReadOnlyDictionary<string, string> updates,
+        string successMessage,
+        CancellationToken cancellationToken)
+    {
+        if (_configService is null)
+        {
+            return UiOperationResult.Fail(UiErrorCode.VersionUpdateServiceUnavailable, "Version update service is not initialized.");
+        }
+
+        var config = _configService.CurrentConfig;
+        var snapshot = CloneGlobalSettings(config);
+        try
+        {
+            foreach (var (key, value) in updates)
+            {
+                config.GlobalValues[key] = JsonValue.Create(value);
+            }
+
+            await _configService.SaveAsync(cancellationToken);
+            return UiOperationResult.Ok(successMessage);
+        }
+        catch (Exception ex)
+        {
+            config.GlobalValues = snapshot;
+            _configService.RevalidateCurrentConfig(logIssues: false);
+            return UiOperationResult.Fail(
+                UiErrorCode.VersionUpdateSaveFailed,
+                $"Failed to save version update settings: {ex.Message}",
+                ex.Message);
+        }
+    }
+
+    private static Dictionary<string, JsonNode?> CloneGlobalSettings(UnifiedConfig config)
+    {
+        var clone = new Dictionary<string, JsonNode?>(StringComparer.OrdinalIgnoreCase);
+        foreach (var (key, value) in config.GlobalValues)
+        {
+            clone[key] = value?.DeepClone();
+        }
+
+        return clone;
     }
 
     private bool TryGetConfig(
@@ -2726,7 +3341,7 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         {
             config = null!;
             failure = UiOperationResult<VersionUpdatePolicy>.Fail(
-                "VersionUpdateServiceUnavailable",
+                UiErrorCode.VersionUpdateServiceUnavailable,
                 "Version update service is not initialized.");
             return false;
         }
@@ -2790,7 +3405,7 @@ public sealed class AchievementFeatureService : IAchievementFeatureService
         if (_configService is null)
         {
             return Task.FromResult(UiOperationResult<AchievementPolicy>.Fail(
-                "AchievementServiceUnavailable",
+                UiErrorCode.AchievementServiceUnavailable,
                 "Achievement service is not initialized."));
         }
 
@@ -2806,7 +3421,7 @@ public sealed class AchievementFeatureService : IAchievementFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (_configService is null)
         {
-            return UiOperationResult.Fail("AchievementServiceUnavailable", "Achievement service is not initialized.");
+            return UiOperationResult.Fail(UiErrorCode.AchievementServiceUnavailable, "Achievement service is not initialized.");
         }
 
         foreach (var (key, value) in policy.ToGlobalSettingUpdates())
@@ -2858,7 +3473,7 @@ public sealed class AnnouncementFeatureService : IAnnouncementFeatureService
         if (_configService is null)
         {
             return Task.FromResult(UiOperationResult<AnnouncementState>.Fail(
-                "AnnouncementServiceUnavailable",
+                UiErrorCode.AnnouncementServiceUnavailable,
                 "Announcement service is not initialized."));
         }
 
@@ -2875,7 +3490,7 @@ public sealed class AnnouncementFeatureService : IAnnouncementFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (_configService is null)
         {
-            return UiOperationResult.Fail("AnnouncementServiceUnavailable", "Announcement service is not initialized.");
+            return UiOperationResult.Fail(UiErrorCode.AnnouncementServiceUnavailable, "Announcement service is not initialized.");
         }
 
         if (state.AnnouncementInfo.Length > 32768)
@@ -2943,7 +3558,7 @@ public sealed class StageManagerFeatureService : IStageManagerFeatureService
         if (_configService is null)
         {
             return Task.FromResult(UiOperationResult<StageManagerConfig>.Fail(
-                "StageManagerServiceUnavailable",
+                UiErrorCode.StageManagerServiceUnavailable,
                 "Stage manager service is not initialized."));
         }
 
@@ -2962,7 +3577,7 @@ public sealed class StageManagerFeatureService : IStageManagerFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (_configService is null)
         {
-            return UiOperationResult.Fail("StageManagerServiceUnavailable", "Stage manager service is not initialized.");
+            return UiOperationResult.Fail(UiErrorCode.StageManagerServiceUnavailable, "Stage manager service is not initialized.");
         }
 
         var validation = ValidateStageCodes(config.StageCodes);
@@ -3107,7 +3722,7 @@ public sealed class WebApiFeatureService : IWebApiFeatureService
         if (_configService is null)
         {
             return Task.FromResult(UiOperationResult<WebApiConfig>.Fail(
-                "WebApiServiceUnavailable",
+                UiErrorCode.WebApiServiceUnavailable,
                 "WebApi service is not initialized."));
         }
 
@@ -3125,7 +3740,7 @@ public sealed class WebApiFeatureService : IWebApiFeatureService
         cancellationToken.ThrowIfCancellationRequested();
         if (_configService is null)
         {
-            return UiOperationResult.Fail("WebApiServiceUnavailable", "WebApi service is not initialized.");
+            return UiOperationResult.Fail(UiErrorCode.WebApiServiceUnavailable, "WebApi service is not initialized.");
         }
 
         var validation = ValidateConfig(config);
@@ -3156,7 +3771,7 @@ public sealed class WebApiFeatureService : IWebApiFeatureService
         if (!configResult.Success || configResult.Value is null)
         {
             return UiOperationResult.Fail(
-                configResult.Error?.Code ?? "WebApiLoadFailed",
+                configResult.Error?.Code ?? UiErrorCode.WebApiLoadFailed,
                 configResult.Message,
                 configResult.Error?.Details);
         }
@@ -3170,7 +3785,7 @@ public sealed class WebApiFeatureService : IWebApiFeatureService
 
         if (!config.Enabled)
         {
-            return UiOperationResult.Fail("WebApiDisabled", "WebApi is disabled by configuration.");
+            return UiOperationResult.Fail(UiErrorCode.WebApiDisabled, "WebApi is disabled by configuration.");
         }
 
         if (!IsPortAvailable(config.Host, config.Port))
@@ -3278,6 +3893,8 @@ public sealed class DialogFeatureService : IDialogFeatureService
 {
     private readonly UiDiagnosticsService _diagnostics;
 
+    public event EventHandler<DialogErrorRaisedEvent>? ErrorRaised;
+
     public DialogFeatureService(UiDiagnosticsService diagnostics)
     {
         _diagnostics = diagnostics;
@@ -3290,7 +3907,61 @@ public sealed class DialogFeatureService : IDialogFeatureService
 
     public async Task<UiOperationResult> ReportErrorAsync(string context, string message, CancellationToken cancellationToken = default)
     {
-        await _diagnostics.RecordEventAsync("DialogError", $"{context}: {message}", cancellationToken);
-        return UiOperationResult.Fail("UiError", message);
+        var result = UiOperationResult.Fail(UiErrorCode.UiError, message);
+        return await ReportErrorAsync(context, result, cancellationToken);
+    }
+
+    public async Task<DialogTraceToken> BeginDialogAsync(
+        DialogType dialogType,
+        string sourceScope,
+        string title,
+        CancellationToken cancellationToken = default)
+    {
+        var token = new DialogTraceToken(
+            TraceId: Guid.NewGuid().ToString("N"),
+            DialogType: dialogType,
+            SourceScope: sourceScope,
+            OpenedAtUtc: DateTimeOffset.UtcNow);
+        await _diagnostics.RecordEventAsync(
+            "Dialog.Open",
+            $"trace={token.TraceId}; dialog={dialogType}; source={sourceScope}; title={title}",
+            cancellationToken);
+        return token;
+    }
+
+    public async Task<UiOperationResult> RecordDialogActionAsync(
+        DialogTraceToken token,
+        string action,
+        string detail,
+        CancellationToken cancellationToken = default)
+    {
+        await _diagnostics.RecordEventAsync(
+            "Dialog.Action",
+            $"trace={token.TraceId}; dialog={token.DialogType}; source={token.SourceScope}; action={action}; detail={detail}",
+            cancellationToken);
+        return UiOperationResult.Ok("Dialog action recorded.");
+    }
+
+    public async Task<UiOperationResult> CompleteDialogAsync(
+        DialogTraceToken token,
+        DialogReturnSemantic semantic,
+        string summary,
+        CancellationToken cancellationToken = default)
+    {
+        await _diagnostics.RecordEventAsync(
+            "Dialog.Close",
+            $"trace={token.TraceId}; dialog={token.DialogType}; source={token.SourceScope}; return={semantic}; summary={summary}",
+            cancellationToken);
+        return UiOperationResult.Ok("Dialog completion recorded.");
+    }
+
+    public async Task<UiOperationResult> ReportErrorAsync(
+        string context,
+        UiOperationResult result,
+        CancellationToken cancellationToken = default)
+    {
+        await _diagnostics.RecordFailedResultAsync(context, result, cancellationToken);
+        ErrorRaised?.Invoke(this, new DialogErrorRaisedEvent(context, result, DateTimeOffset.UtcNow));
+        return result;
     }
 }

@@ -61,9 +61,10 @@ public sealed class GuiNewJsonConfigImporter : IConfigImporter
                             continue;
                         }
 
+                        var normalizedKey = NormalizeProfileKey(valueProp.Name);
                         JsonImportMergeHelper.MergeProfileValue(
                             profile,
-                            valueProp.Name,
+                            normalizedKey,
                             JsonImportMergeHelper.ToJsonNode(valueProp.Value),
                             fillMissingOnly,
                             report);
@@ -156,5 +157,25 @@ public sealed class GuiNewJsonConfigImporter : IConfigImporter
             profile.TaskQueue.Add(convertedTask);
             report.MappedFieldCount += 1;
         }
+    }
+
+    private static string NormalizeProfileKey(string key)
+    {
+        if (string.Equals(key, "Connect.Address", StringComparison.OrdinalIgnoreCase))
+        {
+            return "ConnectAddress";
+        }
+
+        if (string.Equals(key, "Connect.ConnectConfig", StringComparison.OrdinalIgnoreCase))
+        {
+            return "ConnectConfig";
+        }
+
+        if (string.Equals(key, "Connect.AdbPath", StringComparison.OrdinalIgnoreCase))
+        {
+            return "AdbPath";
+        }
+
+        return key;
     }
 }

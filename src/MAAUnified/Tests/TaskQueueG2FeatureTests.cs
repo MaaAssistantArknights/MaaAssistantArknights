@@ -215,6 +215,37 @@ public sealed class TaskQueueG2FeatureTests
     }
 
     [Fact]
+    public async Task CallbackPayloadMalformed_ShouldWarnAndContinue()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Fight", "fight-a")).Success);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        await InvokeCallbackAsync(vm, new CoreCallbackEvent(
+            10001,
+            "TaskChainStart",
+            "{not-json}",
+            DateTimeOffset.UtcNow));
+
+        Assert.Contains(
+            fixture.Runtime.LogService.Snapshot,
+            log => string.Equals(log.Level, "WARN", StringComparison.OrdinalIgnoreCase)
+                && log.Message.Contains("TaskQueue callback payload parse failed", StringComparison.Ordinal));
+
+        await InvokeCallbackAsync(vm, new CoreCallbackEvent(
+            10001,
+            "TaskChainStart",
+            """{"task_chain":"Fight","task_index":0,"run_id":"run-g2-malformed"}""",
+            DateTimeOffset.UtcNow));
+
+        Assert.Equal(TaskQueueItemStatus.Running, vm.Tasks[0].Status);
+        var eventLog = await ReadEventLogAsync(fixture.Root);
+        Assert.Contains("TaskQueue.Callback.Parse", eventLog);
+    }
+
+    [Fact]
     public async Task Callback_AllTasksCompleted_ShouldExecutePostActionOncePerRunId()
     {
         await using var fixture = await TestFixture.CreateAsync();

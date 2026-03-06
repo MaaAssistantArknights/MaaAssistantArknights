@@ -1,17 +1,29 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.ConfigurationManagerView">
-  <Grid RowDefinitions="Auto,Auto,Auto" Margin="4">
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="4">
     <TextBlock Classes="section-title" Text="Configuration Manager" />
-    <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto,Auto,Auto">
-      <ComboBox>
-        <ComboBoxItem Content="Default" />
-      </ComboBox>
-      <Button Grid.Column="1" Content="新增" />
-      <Button Grid.Column="2" Content="删除" />
-      <Button Grid.Column="3" Content="上移" />
-      <Button Grid.Column="4" Content="下移" />
+    <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" Margin="0,8,0,0">
+      <ComboBox ItemsSource="{Binding ConfigurationProfiles}"
+                SelectedItem="{Binding ConfigurationManagerSelectedProfile}" />
+      <Button Grid.Column="1" Content="切换" Click="OnSwitchProfileClick" />
+      <Button Grid.Column="2" Content="刷新" Click="OnRefreshProfilesClick" />
     </Grid>
-    <TextBlock Grid.Row="2" Text="配置切换/新增/删除/排序将同步到 avalonia.json。" />
+    <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+      <TextBox Text="{Binding ConfigurationManagerNewProfileName}" Watermark="新配置名" />
+      <Button Grid.Column="1" Content="新增" Click="OnAddProfileClick" />
+    </Grid>
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto" Margin="0,8,0,0">
+      <Button Content="删除" Click="OnDeleteProfileClick" />
+      <Button Grid.Column="1" Content="上移" Click="OnMoveProfileUpClick" />
+      <Button Grid.Column="2" Content="下移" Click="OnMoveProfileDownClick" />
+    </Grid>
+    <StackPanel Grid.Row="4" Spacing="4" Margin="0,8,0,0">
+      <TextBlock Text="配置切换/新增/删除/排序将同步到 avalonia.json。" />
+      <TextBlock Text="{Binding ConfigurationManagerStatusMessage}" />
+      <TextBlock Classes="state-error"
+                 Text="{Binding ConfigurationManagerErrorMessage}"
+                 IsVisible="{Binding HasConfigurationManagerErrorMessage}" />
+    </StackPanel>
   </Grid>
 </UserControl>

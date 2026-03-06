@@ -47,14 +47,16 @@ public sealed class TrayIntegrationPageViewModel : PageViewModelBase
 
     public async Task RefreshCapabilitySummaryAsync(CancellationToken cancellationToken = default)
     {
-        var snapshot = await Runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken);
-        if (!snapshot.Success || snapshot.Value is null)
+        var snapshot = await ApplyResultAsync(
+            await Runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken),
+            "Advanced.TrayIntegration.QueryCapability",
+            cancellationToken);
+        if (snapshot is null)
         {
-            CapabilitySummary = snapshot.Message;
             return;
         }
 
-        var tray = snapshot.Value.Tray;
+        var tray = snapshot.Tray;
         CapabilitySummary = $"provider={tray.Provider}; supported={tray.Supported}; fallback={tray.FallbackMode ?? "none"}";
     }
 

@@ -72,4 +72,38 @@ public sealed record VersionUpdatePolicy(
             [ConfigurationKeys.VersionUpdateDoNotShowUpdate] = DoNotShowUpdate.ToString(),
         };
     }
+
+    public IReadOnlyDictionary<string, string> ToChannelSettingUpdates()
+    {
+        return new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            [ConfigurationKeys.VersionType] = VersionType,
+            [ConfigurationKeys.UpdateSource] = ResourceUpdateSource,
+            [ConfigurationKeys.ForceGithubGlobalSource] = ForceGithubGlobalSource.ToString(),
+            [ConfigurationKeys.MirrorChyanCdk] = MirrorChyanCdk,
+            [ConfigurationKeys.MirrorChyanCdkExpiredTime] = MirrorChyanCdkExpired,
+            [ConfigurationKeys.StartupUpdateCheck] = StartupUpdateCheck.ToString(),
+            [ConfigurationKeys.UpdateAutoCheck] = ScheduledUpdateCheck.ToString(),
+            [ConfigurationKeys.AllowNightlyUpdates] = AllowNightlyUpdates.ToString(),
+            [ConfigurationKeys.HasAcknowledgedNightlyWarning] = HasAcknowledgedNightlyWarning.ToString(),
+            [ConfigurationKeys.UseAria2] = UseAria2.ToString(),
+            [ConfigurationKeys.AutoDownloadUpdatePackage] = AutoDownloadUpdatePackage.ToString(),
+            [ConfigurationKeys.AutoInstallUpdatePackage] = AutoInstallUpdatePackage.ToString(),
+            [ConfigurationKeys.VersionName] = VersionName,
+            [ConfigurationKeys.VersionUpdateBody] = VersionBody,
+            [ConfigurationKeys.VersionUpdateIsFirstBoot] = IsFirstBoot.ToString(),
+            [ConfigurationKeys.VersionUpdatePackage] = VersionPackage,
+            [ConfigurationKeys.VersionUpdateDoNotShowUpdate] = DoNotShowUpdate.ToString(),
+        };
+    }
+
+    public IReadOnlyDictionary<string, string> ToProxySettingUpdates()
+    {
+        return new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            [ConfigurationKeys.UpdateProxy] = Proxy,
+            [ConfigurationKeys.ProxyType] = ProxyType,
+            [ConfigurationKeys.ResourceApi] = ResourceApi,
+        };
+    }
 }

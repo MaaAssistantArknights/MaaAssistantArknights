@@ -1,17 +1,31 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="MAAUnified.App.Features.Dialogs.ProcessPickerDialogView">
-  <Grid Margin="8" RowDefinitions="Auto,*,Auto">
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MAAUnified.App.Features.Dialogs.ProcessPickerDialogView"
+        Width="620"
+        Height="460"
+        MinWidth="520"
+        MinHeight="360"
+        WindowStartupLocation="CenterOwner">
+  <Grid Margin="10" RowDefinitions="Auto,*,Auto">
     <TextBlock Classes="section-title" Text="Process Picker" />
-    <ListBox Grid.Row="1">
-      <ListBoxItem Content="MAA Emulator - pid: 1234" />
-      <ListBoxItem Content="MuMu Player - pid: 5678" />
-      <ListBoxItem Content="LDPlayer - pid: 9012" />
+    <ListBox x:Name="ProcessList"
+             Grid.Row="1"
+             Margin="0,8,0,0"
+             SelectionMode="Single">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Classes="long-wrap" Text="{Binding DisplayName}" />
+        </DataTemplate>
+      </ListBox.ItemTemplate>
     </ListBox>
-    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-      <Button Content="刷新" />
-      <Button Content="取消" />
-      <Button Content="选择" />
+    <StackPanel Grid.Row="2"
+                Orientation="Horizontal"
+                Spacing="8"
+                HorizontalAlignment="Right"
+                Margin="0,12,0,0">
+      <Button Content="Refresh" Click="OnRefreshClick" />
+      <Button x:Name="CancelButton" Content="Cancel" Click="OnCancelClick" />
+      <Button x:Name="ConfirmButton" Classes="action" Content="Select" Click="OnConfirmClick" />
     </StackPanel>
   </Grid>
-</UserControl>
+</Window>

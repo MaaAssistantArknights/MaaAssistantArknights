@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using MAAUnified.Application.Models;
 
@@ -8,6 +9,9 @@ internal static class ConnectionGameProfileSync
     private const string ConnectAddressKey = "ConnectAddress";
     private const string ConnectConfigKey = "ConnectConfig";
     private const string AdbPathKey = "AdbPath";
+    private const string ConnectAddressLegacyKey = "Connect.Address";
+    private const string ConnectConfigLegacyKey = "Connect.ConnectConfig";
+    private const string AdbPathLegacyKey = "Connect.AdbPath";
     private const string ClientTypeKey = "ClientType";
     private const string StartGameKey = "StartGame";
     private const string TouchModeKey = "TouchMode";
@@ -48,6 +52,40 @@ internal static class ConnectionGameProfileSync
         profile.Values[AutoDetectKey] = JsonValue.Create(state.AutoDetect);
     }
 
+    public static void WritePropertyToProfile(
+        UnifiedProfile profile,
+        ConnectionGameSharedStateViewModel state,
+        string? propertyName)
+    {
+        switch (propertyName)
+        {
+            case nameof(ConnectionGameSharedStateViewModel.ConnectAddress):
+                profile.Values[ConnectAddressKey] = JsonValue.Create((state.ConnectAddress ?? string.Empty).Trim());
+                return;
+            case nameof(ConnectionGameSharedStateViewModel.ConnectConfig):
+                profile.Values[ConnectConfigKey] = JsonValue.Create((state.ConnectConfig ?? string.Empty).Trim());
+                return;
+            case nameof(ConnectionGameSharedStateViewModel.AdbPath):
+                profile.Values[AdbPathKey] = JsonValue.Create((state.AdbPath ?? string.Empty).Trim());
+                return;
+            case nameof(ConnectionGameSharedStateViewModel.ClientType):
+                profile.Values[ClientTypeKey] = JsonValue.Create((state.ClientType ?? string.Empty).Trim());
+                return;
+            case nameof(ConnectionGameSharedStateViewModel.StartGameEnabled):
+                profile.Values[StartGameKey] = JsonValue.Create(state.StartGameEnabled);
+                return;
+            case nameof(ConnectionGameSharedStateViewModel.TouchMode):
+                profile.Values[TouchModeKey] = JsonValue.Create((state.TouchMode ?? string.Empty).Trim());
+                return;
+            case nameof(ConnectionGameSharedStateViewModel.AutoDetect):
+                profile.Values[AutoDetectKey] = JsonValue.Create(state.AutoDetect);
+                return;
+            default:
+                WriteToProfile(profile, state);
+                return;
+        }
+    }
+
     public static void ReadFromProfile(
         UnifiedProfile profile,
         ConnectionGameSharedStateViewModel state,
@@ -61,26 +99,73 @@ internal static class ConnectionGameProfileSync
         var fallbackTouchMode = tolerateMissing ? state.TouchMode : DefaultTouchMode;
         var fallbackAutoDetect = tolerateMissing ? state.AutoDetect : DefaultAutoDetect;
 
-        state.ConnectAddress = ReadProfileString(profile, ConnectAddressKey, fallbackConnectAddress);
-        state.ConnectConfig = ReadProfileString(profile, ConnectConfigKey, fallbackConnectConfig);
-        state.AdbPath = ReadProfileString(profile, AdbPathKey, fallbackAdbPath);
+        state.ConnectAddress = ReadProfileStringWithAliases(
+            profile,
+            fallbackConnectAddress,
+            ConnectAddressKey,
+            ConnectAddressLegacyKey);
+        state.ConnectConfig = ReadProfileStringWithAliases(
+            profile,
+            fallbackConnectConfig,
+            ConnectConfigKey,
+            ConnectConfigLegacyKey);
+        state.AdbPath = ReadProfileStringWithAliases(
+            profile,
+            fallbackAdbPath,
+            AdbPathKey,
+            AdbPathLegacyKey);
         state.ClientType = ReadProfileString(profile, ClientTypeKey, fallbackClientType);
         state.StartGameEnabled = ReadProfileBool(profile, StartGameKey, fallbackStartGame);
         state.TouchMode = ReadProfileString(profile, TouchModeKey, fallbackTouchMode);
         state.AutoDetect = ReadProfileBool(profile, AutoDetectKey, fallbackAutoDetect);
     }
 
-    private static string ReadProfileString(UnifiedProfile profile, string key, string fallback)
+    private static string ReadProfileStringWithAliases(UnifiedProfile profile, string fallback, params string[] keys)
     {
-        if (profile.Values.TryGetValue(key, out var node)
-            && node is JsonValue value
-            && value.TryGetValue(out string? text)
-            && !string.IsNullOrWhiteSpace(text))
+        foreach (var key in keys)
         {
-            return text;
+            if (TryReadProfileString(profile, key, out var value))
+            {
+                return value;
+            }
         }
 
         return fallback;
+    }
+
+    private static string ReadProfileString(UnifiedProfile profile, string key, string fallback)
+    {
+        return TryReadProfileString(profile, key, out var value)
+            ? value
+            : fallback;
+    }
+
+    private static bool TryReadProfileString(UnifiedProfile profile, string key, out string value)
+    {
+        if (profile.Values.TryGetValue(key, out var node)
+            && node is JsonValue jsonValue
+            && jsonValue.TryGetValue(out string? text)
+            && !string.IsNullOrWhiteSpace(text))
+        {
+            value = text;
+            return true;
+        }
+
+        if (profile.Values.TryGetValue(key, out node)
+            && node is JsonValue valueNode
+            && valueNode.TryGetValue(out JsonElement rawElement)
+            && rawElement.ValueKind == JsonValueKind.String)
+        {
+            var rawText = rawElement.GetString();
+            if (!string.IsNullOrWhiteSpace(rawText))
+            {
+                value = rawText;
+                return true;
+            }
+        }
+
+        value = string.Empty;
+        return false;
     }
 
     private static bool ReadProfileBool(UnifiedProfile profile, string key, bool fallback)

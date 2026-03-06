@@ -24,7 +24,7 @@ public sealed record UiOperationResult(
             return Ok(successMessage);
         }
 
-        var code = core.Error?.Code.ToString() ?? "CoreUnknown";
+        var code = core.Error?.Code.ToString() ?? UiErrorCode.CoreUnknown;
         var message = core.Error?.Message ?? "Core operation failed.";
         var details = core.Error?.NativeDetails ?? core.Error?.Exception;
         return Fail(code, message, details);
@@ -52,7 +52,7 @@ public sealed record UiOperationResult<T>(
             return Ok(core.Value, successMessage);
         }
 
-        var code = core.Error?.Code.ToString() ?? "CoreUnknown";
+        var code = core.Error?.Code.ToString() ?? UiErrorCode.CoreUnknown;
         var message = core.Error?.Message ?? "Core operation failed.";
         var details = core.Error?.NativeDetails ?? core.Error?.Exception;
         return Fail(code, message, details);

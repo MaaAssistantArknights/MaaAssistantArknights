@@ -68,7 +68,7 @@
           <Button.ContextMenu>
             <ContextMenu>
               <MenuItem Header="开始" Click="OnStartClick" IsEnabled="{Binding CanStartExecution}" />
-              <MenuItem Header="停止" Click="OnStopClick" />
+              <MenuItem Header="停止" Click="OnStopClick" IsEnabled="{Binding CanStopExecution}" />
               <MenuItem Header="切换语言">
                 <MenuItem Header="简体中文 (zh-cn)" Tag="zh-cn" Click="OnSwitchLanguageToClick" />
                 <MenuItem Header="English (en-us)" Tag="en-us" Click="OnSwitchLanguageToClick" />

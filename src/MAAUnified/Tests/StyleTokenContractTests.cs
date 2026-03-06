@@ -109,6 +109,19 @@ public sealed class StyleTokenContractTests
     }
 
     [Fact]
+    public void TaskQueueView_ShouldBindCanEditAndCanWaitAndStop()
+    {
+        var root = GetMaaUnifiedRoot();
+        var taskQueuePath = Path.Combine(root, "App", "Features", "Root", "TaskQueueView.axaml");
+        var text = File.ReadAllText(taskQueuePath);
+
+        Assert.Contains("Grid.Column=\"0\" Classes=\"section\" IsEnabled=\"{Binding CanEdit}\"", text, StringComparison.Ordinal);
+        Assert.Contains("IsEnabled=\"{Binding CanEdit}\"", text, StringComparison.Ordinal);
+        Assert.Contains("IsEnabled=\"{Binding CanWaitAndStop}\"", text, StringComparison.Ordinal);
+        Assert.Contains("TabControl Grid.Row=\"2\" IsEnabled=\"{Binding CanEdit}\"", text, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void CoreEntryViews_ShouldNotContainHardcodedColorOrSizeLiterals()
     {
         var root = GetMaaUnifiedRoot();

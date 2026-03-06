@@ -58,10 +58,10 @@
 | --- | --- |
 | Copilot | InProgress |
 | Toolbox | InProgress |
-| Remote Control Center | InProgress |
-| Overlay | InProgress |
-| Tray Integration | InProgress |
-| StageManager / Web API / Notification Providers | InProgress |
+| Remote Control Center | Implemented |
+| Overlay | Implemented |
+| Tray Integration | Implemented |
+| StageManager / Web API / Notification Providers | Implemented |
 
 ## E. 对话框
 

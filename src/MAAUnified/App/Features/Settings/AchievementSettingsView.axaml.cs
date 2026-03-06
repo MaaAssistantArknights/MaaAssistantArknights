@@ -20,4 +20,28 @@ public partial class AchievementSettingsView : UserControl
             await VM.SaveAchievementSettingsAsync();
         }
     }
+
+    private async void OnRefreshAchievementClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.RefreshAchievementPolicyAsync();
+        }
+    }
+
+    private async void OnOpenAchievementGuideClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.OpenAchievementGuideAsync();
+        }
+    }
+
+    private async void OnShowAchievementListClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is not null)
+        {
+            await VM.ShowAchievementListDialogAsync();
+        }
+    }
 }

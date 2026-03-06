@@ -56,6 +56,10 @@ public interface ITaskQueueFeatureService
 
     Task<UiOperationResult> SetTaskEnabledAsync(int index, bool? enabled, CancellationToken cancellationToken = default);
 
+    Task<UiOperationResult> SetAllTasksEnabledAsync(bool enabled, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> InvertTasksEnabledAsync(CancellationToken cancellationToken = default);
+
     Task<UiOperationResult<JsonObject>> GetTaskParamsAsync(int index, CancellationToken cancellationToken = default);
 
     Task<UiOperationResult> UpdateTaskParamsAsync(
@@ -108,11 +112,8 @@ public interface ICopilotFeatureService
 
 public interface IToolboxFeatureService
 {
-    Task<string> RunToolAsync(string toolName, CancellationToken cancellationToken = default);
-
-    Task<UiOperationResult<string>> ExecuteToolAsync(
-        string toolName,
-        string? parameterSummary = null,
+    Task<UiOperationResult<ToolboxExecuteResult>> ExecuteToolAsync(
+        ToolboxExecuteRequest request,
         CancellationToken cancellationToken = default);
 }
 
@@ -168,9 +169,36 @@ public interface ISettingsFeatureService
     Task<UiOperationResult<string>> BuildIssueReportAsync(CancellationToken cancellationToken = default);
 }
 
+public interface IConfigurationProfileFeatureService
+{
+    Task<UiOperationResult<ConfigurationProfileState>> LoadStateAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<ConfigurationProfileState>> AddProfileAsync(
+        string profileName,
+        string? copyFrom = null,
+        CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<ConfigurationProfileState>> DeleteProfileAsync(
+        string profileName,
+        CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<ConfigurationProfileState>> MoveProfileAsync(
+        string profileName,
+        int offset,
+        CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<ConfigurationProfileState>> SwitchProfileAsync(
+        string profileName,
+        CancellationToken cancellationToken = default);
+}
+
 public interface IVersionUpdateFeatureService
 {
     Task<UiOperationResult<VersionUpdatePolicy>> LoadPolicyAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SaveChannelAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> SaveProxyAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default);
 
     Task<UiOperationResult> SavePolicyAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default);
 
@@ -259,9 +287,34 @@ public interface IPlatformCapabilityService
 
 public interface IDialogFeatureService
 {
+    event EventHandler<DialogErrorRaisedEvent>? ErrorRaised;
+
     Task<string> PrepareDialogPayloadAsync(string dialogType, CancellationToken cancellationToken = default);
 
     Task<UiOperationResult> ReportErrorAsync(string context, string message, CancellationToken cancellationToken = default);
+
+    Task<DialogTraceToken> BeginDialogAsync(
+        DialogType dialogType,
+        string sourceScope,
+        string title,
+        CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> RecordDialogActionAsync(
+        DialogTraceToken token,
+        string action,
+        string detail,
+        CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> CompleteDialogAsync(
+        DialogTraceToken token,
+        DialogReturnSemantic semantic,
+        string summary,
+        CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> ReportErrorAsync(
+        string context,
+        UiOperationResult result,
+        CancellationToken cancellationToken = default);
 }
 
 public interface IPostActionFeatureService

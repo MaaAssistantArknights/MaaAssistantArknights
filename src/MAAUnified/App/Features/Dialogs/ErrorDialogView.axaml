@@ -1,18 +1,35 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="MAAUnified.App.Features.Dialogs.ErrorDialogView">
-  <Grid Margin="8" RowDefinitions="Auto,Auto,*,Auto">
-    <TextBlock Classes="section-title" Foreground="{DynamicResource MAA.ErrorBrush}" Text="Error" />
-    <TextBlock Grid.Row="1" Text="发生错误，详情如下：" />
-    <TextBox Grid.Row="2"
-             AcceptsReturn="True"
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MAAUnified.App.Features.Dialogs.ErrorDialogView"
+        Width="760"
+        Height="540"
+        MinWidth="640"
+        MinHeight="420"
+        WindowStartupLocation="CenterOwner">
+  <Grid Margin="10" RowDefinitions="Auto,Auto,*,Auto">
+    <TextBlock Classes="section-title"
+               Foreground="{DynamicResource MAA.ErrorBrush}"
+               Text="Error" />
+    <TextBlock x:Name="ContextLine"
+               Grid.Row="1"
+               Margin="0,8,0,0"
+               Classes="long-wrap"
+               Text="Context" />
+    <TextBox x:Name="ErrorDetailBox"
+             Grid.Row="2"
+             Margin="0,8,0,0"
              IsReadOnly="True"
-             Text="ErrorCode: ...&#10;Message: ...&#10;Details: ..."
-             Height="140" />
-    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-      <Button Content="复制错误" />
-      <Button Content="打开 IssueReport" />
-      <Button Content="关闭" />
+             AcceptsReturn="True"
+             TextWrapping="Wrap" />
+    <StackPanel Grid.Row="3"
+                Orientation="Horizontal"
+                Spacing="8"
+                HorizontalAlignment="Right"
+                Margin="0,12,0,0">
+      <Button Content="Copy" Click="OnCopyClick" />
+      <Button Content="IssueReport" Click="OnOpenIssueReportClick" />
+      <Button x:Name="CancelButton" Content="Ignore" Click="OnCancelClick" />
+      <Button x:Name="ConfirmButton" Classes="action" Content="Close" Click="OnConfirmClick" />
     </StackPanel>
   </Grid>
-</UserControl>
+</Window>

@@ -361,6 +361,8 @@ public sealed class TimerScheduleAK3FeatureTests
 
             var shell = new MainShellViewModel(runtime);
             await shell.InitializeAsync();
+            var connectResult = await runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null);
+            Assert.True(connectResult.Success, connectResult.Message);
             StopTimerScheduler(shell);
             await shell.TaskQueuePage.ReloadTasksAsync();
 

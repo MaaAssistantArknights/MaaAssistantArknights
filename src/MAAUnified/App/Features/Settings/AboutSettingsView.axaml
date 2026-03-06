@@ -1,14 +1,19 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.AboutSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto">
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
     <TextBlock Classes="section-title" Text="About" />
     <WrapPanel Grid.Row="1" ItemWidth="200">
-      <Button Content="官网" />
-      <Button Content="社区" />
-      <Button Content="检查公告" />
-      <Button Content="下载页" />
+      <Button Content="官网" Click="OnOpenOfficialWebsiteClick" />
+      <Button Content="社区" Click="OnOpenCommunityClick" />
+      <Button Content="下载页" Click="OnOpenDownloadClick" />
+      <Button Content="检查公告" Click="OnCheckAnnouncementClick" />
     </WrapPanel>
-    <TextBlock Grid.Row="2" Text="跨平台 Avalonia UI 复刻版，行为与 Windows 客户端保持一致优先。" />
+    <TextBlock Grid.Row="2" Classes="long-wrap" Text="{Binding AboutVersionInfo}" />
+    <TextBlock Grid.Row="3" Classes="long-wrap" Text="{Binding AboutStatusMessage}" />
+    <TextBlock Grid.Row="4"
+               Classes="state-error long-wrap"
+               Text="{Binding AboutErrorMessage}"
+               IsVisible="{Binding HasAboutErrorMessage}" />
   </Grid>
 </UserControl>

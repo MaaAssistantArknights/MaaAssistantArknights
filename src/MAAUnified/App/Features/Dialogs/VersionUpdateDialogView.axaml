@@ -1,16 +1,36 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="MAAUnified.App.Features.Dialogs.VersionUpdateDialogView">
-  <Grid Margin="8" RowDefinitions="Auto,Auto,*,Auto">
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MAAUnified.App.Features.Dialogs.VersionUpdateDialogView"
+        Width="680"
+        Height="520"
+        MinWidth="580"
+        MinHeight="420"
+        WindowStartupLocation="CenterOwner">
+  <Grid Margin="10" RowDefinitions="Auto,Auto,Auto,*,Auto">
     <TextBlock Classes="section-title" Text="Version Update" />
-    <TextBlock Grid.Row="1" Text="发现新版本: v5.0.0 -> v5.1.0" />
-    <ScrollViewer Grid.Row="2">
-      <TextBlock TextWrapping="Wrap" Text="- 更新内容支持 Markdown 展示&#10;- 支持手动/自动更新&#10;- 支持资源包更新" />
-    </ScrollViewer>
-    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-      <Button Content="稍后" />
-      <Button Content="下载更新" />
-      <Button Content="立即更新" />
+    <TextBlock x:Name="VersionLine"
+               Grid.Row="1"
+               Margin="0,8,0,0"
+               Classes="long-wrap"
+               Text="Current -> Target" />
+    <TextBlock x:Name="SummaryLine"
+               Grid.Row="2"
+               Margin="0,6,0,0"
+               Classes="long-wrap"
+               Text="Summary" />
+    <TextBox x:Name="BodyBox"
+             Grid.Row="3"
+             Margin="0,10,0,0"
+             IsReadOnly="True"
+             TextWrapping="Wrap"
+             AcceptsReturn="True" />
+    <StackPanel Grid.Row="4"
+                Orientation="Horizontal"
+                Spacing="8"
+                HorizontalAlignment="Right"
+                Margin="0,12,0,0">
+      <Button x:Name="CancelButton" Content="Later" Click="OnCancelClick" />
+      <Button x:Name="ConfirmButton" Classes="action" Content="Confirm" Click="OnConfirmClick" />
     </StackPanel>
   </Grid>
-</UserControl>
+</Window>

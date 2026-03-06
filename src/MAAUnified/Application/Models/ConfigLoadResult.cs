@@ -8,7 +8,9 @@ public sealed class ConfigLoadResult
 
     public ImportReport? ImportReport { get; init; }
 
-    public IReadOnlyList<ConfigValidationIssue> ValidationIssues { get; init; } = [];
+    public required IReadOnlyList<ConfigValidationIssue> ValidationIssues { get; init; }
+
+    public SchemaMigrationNotice? SchemaMigrationNotice { get; init; }
 
     public bool HasBlockingValidationIssues => ValidationIssues.Any(i => i.Blocking);
 }
@@ -33,3 +35,9 @@ public sealed class ConfigValidationIssue
 
     public string? SuggestedAction { get; init; }
 }
+
+public sealed record SchemaMigrationNotice(
+    int CurrentSchemaVersion,
+    int LatestSchemaVersion,
+    string Message,
+    string SuggestedAction);

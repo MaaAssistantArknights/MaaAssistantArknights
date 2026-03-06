@@ -19,7 +19,7 @@ public sealed class ProcessAppLifecycleService : IAppLifecycleService
             var executable = Environment.ProcessPath;
             if (string.IsNullOrWhiteSpace(executable))
             {
-                return Task.FromResult(UiOperationResult.Fail("AppRestartExecutableMissing", "Current executable path is unavailable."));
+                return Task.FromResult(UiOperationResult.Fail(UiErrorCode.AppRestartExecutableMissing, "Current executable path is unavailable."));
             }
 
             var arguments = Environment.GetCommandLineArgs().Skip(1).Select(Quote).ToArray();
@@ -35,7 +35,7 @@ public sealed class ProcessAppLifecycleService : IAppLifecycleService
         }
         catch (Exception ex)
         {
-            return Task.FromResult(UiOperationResult.Fail("AppRestartFailed", $"Failed to restart process: {ex.Message}"));
+            return Task.FromResult(UiOperationResult.Fail(UiErrorCode.AppRestartFailed, $"Failed to restart process: {ex.Message}"));
         }
     }
 
@@ -54,6 +54,6 @@ public sealed class NoOpAppLifecycleService : IAppLifecycleService
     public Task<UiOperationResult> RestartAsync(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return Task.FromResult(UiOperationResult.Fail("AppRestartUnsupported", "Restart lifecycle service is unavailable."));
+        return Task.FromResult(UiOperationResult.Fail(UiErrorCode.AppRestartUnsupported, "Restart lifecycle service is unavailable."));
     }
 }

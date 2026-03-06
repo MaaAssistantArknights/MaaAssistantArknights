@@ -47,6 +47,21 @@ public sealed class SessionStateUiProjectionTests
     }
 
     [Fact]
+    public async Task TaskQueuePage_ShouldDisableLinkStart_WhenConfigHasBlockingIssues()
+    {
+        await using var fixture = await TestFixture.CreateAsync(existingAvaloniaJson: CreateBlockingConfigJson());
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.True((await fixture.Runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
+        await WaitUntilAsync(() => vm.CurrentSessionState == SessionState.Connected);
+
+        Assert.True(vm.HasBlockingConfigIssues);
+        Assert.False(vm.CanToggleRun);
+        Assert.True(vm.BlockingConfigIssueCount > 0);
+    }
+
+    [Fact]
     public async Task CopilotPage_ShouldProjectSessionState_ToRunControls()
     {
         await using var fixture = await TestFixture.CreateAsync();
@@ -161,6 +176,34 @@ public sealed class SessionStateUiProjectionTests
         throw new TimeoutException("Condition not reached in expected time.");
     }
 
+    private static string CreateBlockingConfigJson()
+    {
+        return
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {},
+                  "TaskQueue": [
+                    {
+                      "Type": "Recruit",
+                      "Name": "Recruit",
+                      "IsEnabled": true,
+                      "Params": {
+                        "times": 4
+                      }
+                    }
+                  ]
+                }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """;
+    }
+
     private sealed class TestFixture : IAsyncDisposable
     {
         private TestFixture(string root, MAAUnifiedRuntime runtime, FakeBridge bridge)
@@ -176,10 +219,16 @@ public sealed class SessionStateUiProjectionTests
 
         public FakeBridge Bridge { get; }
 
-        public static async Task<TestFixture> CreateAsync()
+        public static async Task<TestFixture> CreateAsync(string? existingAvaloniaJson = null)
         {
             var root = Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(Path.Combine(root, "config"));
+            if (!string.IsNullOrWhiteSpace(existingAvaloniaJson))
+            {
+                await File.WriteAllTextAsync(
+                    Path.Combine(root, "config", "avalonia.json"),
+                    existingAvaloniaJson);
+            }
 
             var log = new UiLogService();
             var diagnostics = new UiDiagnosticsService(root, log);

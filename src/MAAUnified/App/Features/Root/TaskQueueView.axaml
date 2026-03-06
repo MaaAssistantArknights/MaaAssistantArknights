@@ -18,7 +18,7 @@
     </Border>
 
     <Grid Grid.Row="1" ColumnDefinitions="{StaticResource MAA.Layout.TaskQueue.Columns}">
-      <Border Grid.Column="0" Classes="section">
+      <Border Grid.Column="0" Classes="section" IsEnabled="{Binding CanEdit}">
         <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto">
           <TextBlock Classes="section-title" Text="任务列表" />
 
@@ -81,10 +81,11 @@
           <StackPanel Orientation="Horizontal" Spacing="{DynamicResource MAA.Spacing.Small}">
             <TextBlock Classes="section-title" Text="任务配置（10 模块）" />
             <TextBox Width="{DynamicResource MAA.Size.TaskQueue.RenameTextWidth}"
+                     IsEnabled="{Binding CanEdit}"
                      Text="{Binding RenameTargetName}"
                      Watermark="重命名输入框（选中任务）" />
-            <Button Classes="action" Content="保存配置" Click="OnSaveClick" />
-            <Button Classes="action" Content="WaitAndStop" Click="OnWaitAndStopClick" />
+            <Button Classes="action" Content="保存配置" IsEnabled="{Binding CanEdit}" Click="OnSaveClick" />
+            <Button Classes="action" Content="{Binding WaitAndStopButtonText}" IsEnabled="{Binding CanWaitAndStop}" Click="OnWaitAndStopClick" />
           </StackPanel>
 
           <TextBlock Grid.Row="1"
@@ -93,7 +94,7 @@
                      Text="{Binding SelectedTaskValidationSummary}"
                      />
 
-          <TabControl Grid.Row="2">
+          <TabControl Grid.Row="2" IsEnabled="{Binding CanEdit}">
             <TabItem Header="StartUp">
               <taskViews:StartUpTaskView DataContext="{Binding StartUpModule}" />
             </TabItem>
@@ -132,7 +133,7 @@
         <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
           <TextBlock Classes="section-title" Text="运行与 Overlay" />
 
-          <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto,Auto">
+          <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto,Auto,Auto">
             <TextBlock VerticalAlignment="Center" Classes="long-wrap" Text="{Binding OverlayStatusText}" />
             <ComboBox Grid.Column="1"
                       Width="{DynamicResource MAA.Size.TaskQueue.OverlayTargetWidth}"
@@ -144,8 +145,9 @@
                 </DataTemplate>
               </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button Grid.Column="2" Classes="action" Content="Overlay 开关" Click="OnToggleOverlayClick" />
-            <Button Grid.Column="3" Classes="action" Content="刷新目标" Click="OnReloadOverlayTargetsClick" />
+            <Button Grid.Column="2" Classes="action" Content="选择目标" Click="OnPickOverlayTargetClick" />
+            <Button Grid.Column="3" Classes="action" Content="Overlay 开关" Click="OnToggleOverlayClick" />
+            <Button Grid.Column="4" Classes="action" Content="刷新目标" Click="OnReloadOverlayTargetsClick" />
           </Grid>
 
           <TextBlock Grid.Row="2" Classes="long-wrap" Text="{Binding StatusMessage}" />

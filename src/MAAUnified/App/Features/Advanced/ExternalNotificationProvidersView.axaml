@@ -16,6 +16,7 @@
       <TextBox Grid.Column="3" Text="{Binding Message}" />
     </Grid>
     <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <Button Classes="action" Content="刷新 Provider" Click="OnRefreshProvidersClick" />
       <Button Classes="action" Content="校验参数" Click="OnValidateClick" />
       <Button Classes="action" Content="发送测试" Click="OnSendTestClick" />
     </StackPanel>
