@@ -71,14 +71,17 @@ inline bool LibraryHolder<T>::load_library(const std::filesystem::path& libname)
 
 #ifdef _WIN32
     module_ = LoadLibrary(libname.c_str());
-#else
-    module_ = dlopen(libname.c_str(), RTLD_LAZY);
-#endif
-
     if (module_ == nullptr) {
-        LogError << "Failed to load library" << VAR(libname);
+        LogError << "LoadLibrary failed" << VAR(libname) << VAR(GetLastError());
         return false;
     }
+#else
+    module_ = dlopen(libname.c_str(), RTLD_LAZY);
+    if (module_ == nullptr) {
+        LogError << "dlopen failed" << VAR(libname) << VAR(dlerror());
+        return false;
+    }
+#endif
 
     libname_ = libname;
     ++ref_count_;
