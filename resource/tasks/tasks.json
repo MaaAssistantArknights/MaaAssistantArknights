@@ -3577,6 +3577,13 @@
         "template": "SkipThePreBattlePlotConfirm.png",
         "next": ["EndOfPlot"]
     },
+    "BattleAvatarDialog": {
+        "doc": "战斗中带头像对话框, 类似于 SkipThePreBattlePlot(可见于画中人关卡) 的, 但是缺少 跳过 按钮",
+        "action": "ClickSelf",
+        "roi": [70, 30, 120, 30],
+        "next": ["BattleAvatarDialog", "Stop"],
+        "rectMove": [125, 20, 200, 60]
+    },
     "EndOfPlot": {
         "roi": [520, 0, 243, 206],
         "action": "ClickRect",
