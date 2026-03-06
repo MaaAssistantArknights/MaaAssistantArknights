@@ -8701,8 +8701,7 @@
         },
         "trap_1500_lhgras": {
             "name": "草丛",
-            "name_en": "草丛",
-            "name_en_unavailable": true,
+            "name_en": "Bush",
             "name_jp": "草むら",
             "name_kr": "수풀",
             "name_tw": "草丛",
@@ -8714,8 +8713,7 @@
         },
         "trap_1501_lhpark": {
             "name": "花丛",
-            "name_en": "花丛",
-            "name_en_unavailable": true,
+            "name_en": "Flower Bush",
             "name_jp": "花咲く草むら",
             "name_kr": "꽃밭",
             "name_tw": "花丛",
@@ -8727,8 +8725,7 @@
         },
         "trap_1502_lhrock": {
             "name": "岩石",
-            "name_en": "岩石",
-            "name_en_unavailable": true,
+            "name_en": "Rock",
             "name_jp": "岩石",
             "name_kr": "암석",
             "name_tw": "岩石",
@@ -8740,8 +8737,7 @@
         },
         "trap_1503_lhshan": {
             "name": "山脉",
-            "name_en": "山脉",
-            "name_en_unavailable": true,
+            "name_en": "Mountain",
             "name_jp": "山脈",
             "name_kr": "산맥",
             "name_tw": "山脉",
@@ -8753,8 +8749,7 @@
         },
         "trap_1504_lhtree": {
             "name": "林地",
-            "name_en": "林地",
-            "name_en_unavailable": true,
+            "name_en": "Woods",
             "name_jp": "森林",
             "name_kr": "숲지",
             "name_tw": "林地",
@@ -8766,8 +8761,7 @@
         },
         "trap_1505_lhfrst": {
             "name": "密林",
-            "name_en": "密林",
-            "name_en_unavailable": true,
+            "name_en": "Forest",
             "name_jp": "密林",
             "name_kr": "정글",
             "name_tw": "密林",
@@ -8779,8 +8773,7 @@
         },
         "trap_1506_lhhe": {
             "name": "河流",
-            "name_en": "河流",
-            "name_en_unavailable": true,
+            "name_en": "River",
             "name_jp": "河川",
             "name_kr": "수로",
             "name_tw": "河流",
@@ -8792,8 +8785,7 @@
         },
         "trap_1507_lhukmi": {
             "name": "富集矿区",
-            "name_en": "富集矿区",
-            "name_en_unavailable": true,
+            "name_en": "Rich Vein",
             "name_jp": "豊かな鉱山",
             "name_kr": "광맥 지대",
             "name_tw": "富集矿区",
@@ -8805,8 +8797,7 @@
         },
         "trap_1508_lhmine": {
             "name": "源石矿场",
-            "name_en": "源石矿场",
-            "name_en_unavailable": true,
+            "name_en": "Originium Mine",
             "name_jp": "源石採掘場",
             "name_kr": "오리지늄 광산",
             "name_tw": "源石矿场",
@@ -8818,8 +8809,7 @@
         },
         "trap_1509_lhbot": {
             "name": "勘探器",
-            "name_en": "勘探器",
-            "name_en_unavailable": true,
+            "name_en": "Surveyor",
             "name_jp": "探査装置",
             "name_kr": "탐사기",
             "name_tw": "勘探器",
@@ -8831,8 +8821,7 @@
         },
         "trap_1510_lhplt": {
             "name": "源石晶簇",
-            "name_en": "源石晶簇",
-            "name_en_unavailable": true,
+            "name_en": "Originium Formation",
             "name_jp": "源石クラスター",
             "name_kr": "오리지늄 결정 군집",
             "name_tw": "源石晶簇",
@@ -8844,8 +8833,7 @@
         },
         "trap_1511_lhfac": {
             "name": "晶簇稳定器",
-            "name_en": "晶簇稳定器",
-            "name_en_unavailable": true,
+            "name_en": "Formation Stabilizer",
             "name_jp": "クラスター安定化装置",
             "name_kr": "결정 군집 안정기",
             "name_tw": "晶簇稳定器",
@@ -8857,8 +8845,7 @@
         },
         "trap_1512_lhfarm": {
             "name": "源石回收炉",
-            "name_en": "源石回收炉",
-            "name_en_unavailable": true,
+            "name_en": "Originium Recycler",
             "name_jp": "源石回収炉",
             "name_kr": "오리지늄 회수로",
             "name_tw": "源石回收炉",
@@ -8870,8 +8857,7 @@
         },
         "trap_1513_lhshop": {
             "name": "冶铸车",
-            "name_en": "冶铸车",
-            "name_en_unavailable": true,
+            "name_en": "Foundry Car",
             "name_jp": "鍛冶車",
             "name_kr": "주조차",
             "name_tw": "冶铸车",
@@ -8883,8 +8869,7 @@
         },
         "trap_1514_lhpad": {
             "name": "田地",
-            "name_en": "田地",
-            "name_en_unavailable": true,
+            "name_en": "Farmland",
             "name_jp": "農地",
             "name_kr": "논밭",
             "name_tw": "田地",
@@ -8896,8 +8881,7 @@
         },
         "trap_1515_lhfacp": {
             "name": "被污染的回收炉",
-            "name_en": "被污染的回收炉",
-            "name_en_unavailable": true,
+            "name_en": "Polluted Recycler",
             "name_jp": "汚染された回収炉",
             "name_kr": "오염된 회수로",
             "name_tw": "被污染的回收炉",
@@ -8909,8 +8893,7 @@
         },
         "trap_1516_lhnat": {
             "name": "供能基站",
-            "name_en": "供能基站",
-            "name_en_unavailable": true,
+            "name_en": "Power Station",
             "name_jp": "動力供給地点",
             "name_kr": "에너지 공급소",
             "name_tw": "供能基站",
@@ -8922,8 +8905,7 @@
         },
         "trap_1517_lhcol": {
             "name": "藏书馆",
-            "name_en": "藏书馆",
-            "name_en_unavailable": true,
+            "name_en": "Archive",
             "name_jp": "書物庫",
             "name_kr": "서고",
             "name_tw": "藏书馆",
@@ -8935,8 +8917,7 @@
         },
         "trap_1518_lhdoor": {
             "name": "改良巫术祭坛",
-            "name_en": "改良巫术祭坛",
-            "name_en_unavailable": true,
+            "name_en": "Improved Witchcraft Altar",
             "name_jp": "改良型巫術祭壇",
             "name_kr": "개량형 주술 제단",
             "name_tw": "改良巫术祭坛",
@@ -8948,8 +8929,7 @@
         },
         "trap_1519_lhrift": {
             "name": "巫术村落",
-            "name_en": "巫术村落",
-            "name_en_unavailable": true,
+            "name_en": "Witchcraft Village",
             "name_jp": "巫術の集落",
             "name_kr": "주술 마을",
             "name_tw": "巫术村落",
@@ -8972,8 +8952,7 @@
         },
         "trap_1520_lhcolb": {
             "name": "大图书馆",
-            "name_en": "大图书馆",
-            "name_en_unavailable": true,
+            "name_en": "Great Library",
             "name_jp": "大図書館",
             "name_kr": "도서관",
             "name_tw": "大图书馆",
@@ -8985,8 +8964,7 @@
         },
         "trap_1521_lhmagd": {
             "name": "术法岗哨",
-            "name_en": "术法岗哨",
-            "name_en_unavailable": true,
+            "name_en": "Arts Outpost",
             "name_jp": "アーツ哨所",
             "name_kr": "아츠 초소",
             "name_tw": "术法岗哨",
@@ -8998,8 +8976,7 @@
         },
         "trap_1522_lhvlg": {
             "name": "先遣侦测器",
-            "name_en": "先遣侦测器",
-            "name_en_unavailable": true,
+            "name_en": "Advance Detector",
             "name_jp": "先遣偵察機",
             "name_kr": "선발 탐지기",
             "name_tw": "先遣侦测器",
@@ -9011,8 +8988,7 @@
         },
         "trap_1523_lhtown": {
             "name": "侦测中心",
-            "name_en": "侦测中心",
-            "name_en_unavailable": true,
+            "name_en": "Sensor Hub",
             "name_jp": "偵察センター",
             "name_kr": "탐지 센터",
             "name_tw": "侦测中心",
@@ -9024,8 +9000,7 @@
         },
         "trap_1524_lhport": {
             "name": "装卸机",
-            "name_en": "装卸机",
-            "name_en_unavailable": true,
+            "name_en": "Loader",
             "name_jp": "クレーン",
             "name_kr": "하역기",
             "name_tw": "装卸机",
@@ -9037,8 +9012,7 @@
         },
         "trap_1525_lhswer": {
             "name": "水产村落",
-            "name_en": "水产村落",
-            "name_en_unavailable": true,
+            "name_en": "Waterside Village",
             "name_jp": "漁師の集落",
             "name_kr": "수산 마을",
             "name_tw": "水产村落",
@@ -9050,8 +9024,7 @@
         },
         "trap_1526_lharen": {
             "name": "冲突围栏",
-            "name_en": "冲突围栏",
-            "name_en_unavailable": true,
+            "name_en": "Impact Fence",
             "name_jp": "衝突ケージ",
             "name_kr": "황야의 결투장",
             "name_tw": "冲突围栏",
@@ -9063,8 +9036,7 @@
         },
         "trap_1527_lhtwer": {
             "name": "警戒岗哨",
-            "name_en": "警戒岗哨",
-            "name_en_unavailable": true,
+            "name_en": "Warning Outpost",
             "name_jp": "偵察哨所",
             "name_kr": "경계 초소",
             "name_tw": "警戒岗哨",
@@ -9076,8 +9048,7 @@
         },
         "trap_1528_lhruin": {
             "name": "废墟",
-            "name_en": "废墟",
-            "name_en_unavailable": true,
+            "name_en": "Ruins",
             "name_jp": "廃墟",
             "name_kr": "폐허",
             "name_tw": "废墟",
@@ -9089,8 +9060,7 @@
         },
         "trap_1529_lhsht": {
             "name": "岗哨",
-            "name_en": "岗哨",
-            "name_en_unavailable": true,
+            "name_en": "Outpost",
             "name_jp": "哨所",
             "name_kr": "초소",
             "name_tw": "岗哨",
@@ -9113,8 +9083,7 @@
         },
         "trap_1530_lhcamp": {
             "name": "荒野村落",
-            "name_en": "荒野村落",
-            "name_en_unavailable": true,
+            "name_en": "Wilderness Village",
             "name_jp": "荒野の集落",
             "name_kr": "황야 마을",
             "name_tw": "荒野村落",
@@ -9126,8 +9095,7 @@
         },
         "trap_1531_lhcampa": {
             "name": "猎户村落",
-            "name_en": "猎户村落",
-            "name_en_unavailable": true,
+            "name_en": "Hunting Village",
             "name_jp": "狩人の集落",
             "name_kr": "사냥꾼 마을",
             "name_tw": "猎户村落",
@@ -9139,8 +9107,7 @@
         },
         "trap_1532_lhcampb": {
             "name": "山地村落",
-            "name_en": "山地村落",
-            "name_en_unavailable": true,
+            "name_en": "Hill Village",
             "name_jp": "山奥の集落",
             "name_kr": "산지 마을",
             "name_tw": "山地村落",
@@ -9152,8 +9119,7 @@
         },
         "trap_1533_lhcampc": {
             "name": "牧场村落",
-            "name_en": "牧场村落",
-            "name_en_unavailable": true,
+            "name_en": "Pasture Village",
             "name_jp": "牧場の集落",
             "name_kr": "목장 마을",
             "name_tw": "牧场村落",
@@ -9165,8 +9131,7 @@
         },
         "trap_1534_lheqp": {
             "name": "插件补给点",
-            "name_en": "插件补给点",
-            "name_en_unavailable": true,
+            "name_en": "Plug-in Supply Depot",
             "name_jp": "プラグイン補給地点",
             "name_kr": "플러그인 보급소",
             "name_tw": "插件补给点",
@@ -9178,8 +9143,7 @@
         },
         "trap_1535_lhupgd": {
             "name": "插件强化点",
-            "name_en": "插件强化点",
-            "name_en_unavailable": true,
+            "name_en": "Plug-in Upgrade Depot",
             "name_jp": "プラグイン強化地点",
             "name_kr": "플러그인 강화소",
             "name_tw": "插件强化点",
@@ -9191,8 +9155,7 @@
         },
         "trap_1536_lhbat": {
             "name": "噬血诅地",
-            "name_en": "噬血诅地",
-            "name_en_unavailable": true,
+            "name_en": "Cursed Bloodground",
             "name_jp": "吸血の悪地",
             "name_kr": "핏빛 저주의 땅",
             "name_tw": "噬血诅地",
@@ -9204,8 +9167,7 @@
         },
         "trap_1537_lhside": {
             "name": "信号基站",
-            "name_en": "信号基站",
-            "name_en_unavailable": true,
+            "name_en": "Base Station",
             "name_jp": "基地局",
             "name_kr": "기지국",
             "name_tw": "信号基站",
@@ -9217,8 +9179,7 @@
         },
         "trap_1538_lhblod": {
             "name": "血裔胞体",
-            "name_en": "血裔胞体",
-            "name_en_unavailable": true,
+            "name_en": "Bloodborn Cytoplasm",
             "name_jp": "血裔の胞体",
             "name_kr": "혈족 배아",
             "name_tw": "血裔胞体",
@@ -9230,8 +9191,7 @@
         },
         "trap_1539_lhflwr": {
             "name": "精怪实验室",
-            "name_en": "精怪实验室",
-            "name_en_unavailable": true,
+            "name_en": "Fae Lab",
             "name_jp": "精霊実験室",
             "name_kr": "페이 실험실",
             "name_tw": "精怪实验室",
@@ -9243,8 +9203,7 @@
         },
         "trap_1540_lhpad2": {
             "name": "温室拱棚",
-            "name_en": "温室拱棚",
-            "name_en_unavailable": true,
+            "name_en": "Greenhouse Shed",
             "name_jp": "温室",
             "name_kr": "비닐하우스",
             "name_tw": "温室拱棚",
