@@ -910,10 +910,10 @@ Completing ｢Standard Simulation｣ manually allows faster score farming
 Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectives｣ must be completed</system:String>
     <system:String x:Key="MiniGame@OS">OS-Karlan Trade Technology R&amp;D Department</system:String>
     <system:String x:Key="MiniGame@OSTip">Start the task at the main event interface (where there is "Start Rebuild" in the lower right corner).</system:String>
-    <system:String x:Key="MiniGame@RM-TR-1">Secondary Plan RM-TR-1</system:String>
-    <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">After finishing the tutorial, enter the Outpost Support Point and swipe to the far left of the screen.</system:String>
-    <system:String x:Key="MiniGame@RM-1">Secondary Plan RM-1</system:String>
-    <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">Farm RM-TR-1 for about 3 hours. In the construction strategy, take the stone mining line to the bottom point,&#10;Special appointment specifies Wistoria, then try to E2 S3 as much as possible, carrying Skill 1,&#10;Bring a full 12 operators, the other 11's deployment costs need to be lower than Wistoria's,&#10;Each production module carries 1, manually enter the stage and exit,&#10;Place RM-1 in the center of the screen, run MAA.</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1">Rebuilding Mandate RM-TR-1</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">After completing the tutorial, enter the Frontier Outposts and swipe all the way to the far left of the screen.</system:String>
+    <system:String x:Key="MiniGame@RM-1">Rebuilding Mandate RM-1</system:String>
+    <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">Farming RM-TR-1 takes about 3 hours.&#10;In the Construction Strategies, max out the Stone Quarrying line;&#10;assign Wiš'adel as the Special Appointment, then promote her to Elite 2 with Mastery 3 on Skill 1;&#10;bring a full squad of 12 operators. The remaining 11 must each have a lower deployment cost than Wiš'adel;&#10;bring 1 production module each, then manually enter the stage and exit;&#10;position RM-1 in the center of the screen and run MAA.</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - Mikage Consultation Office - Mini Game</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">Start the task from the event screen (there is a ｢OPEN｣ button in the bottom right corner).</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">Duel Channel: Green Grassville</system:String>
