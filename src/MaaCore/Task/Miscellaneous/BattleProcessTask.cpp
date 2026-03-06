@@ -483,7 +483,6 @@ void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
     const auto start = std::chrono::steady_clock::now();
     const auto delay = millisecond * 1ms;
 
-    
     cv::Mat image = ctrler()->get_image();
     while (!need_exit() && check_in_battle(image) && std::chrono::steady_clock::now() - start < delay) {
         do_strategic_action(image);
