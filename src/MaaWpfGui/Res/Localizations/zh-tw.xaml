@@ -626,7 +626,7 @@ nx_device/12.0/shell/sdk/external_renderer_ipc/external_renderer_ipc.dll 或
 shell/sdk/external_renderer_ipc/external_renderer_ipc.dll\n
 請確認安裝目錄。</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-需使用官版或方舟專版 MuMu V4.0.0 或更新版本，國際版暫不支援。
+需使用官版或方舟專版 MuMu V4.0.0 或更新版本，國際版需 V5.21.3 或更新版本。
 強烈建議在開啟本功能後立刻執行一次截圖測試。
 MAA 會自動透過登錄檔取得安裝路徑，若取得失敗則請手動填寫。\n
 安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器執行檔路徑為：
