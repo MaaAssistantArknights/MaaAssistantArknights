@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Models;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Serilog;
 using static MaaWpfGui.Main.AsstProxy;
@@ -139,5 +140,5 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
         }
     }
 
-    public record RoomInfo(InfrastRoomType Room, bool IsEnabled);
+    public record RoomInfo(InfrastRoomType Room, [property: JsonPredict("IsEnabled", false)] bool IsEnabled);
 }
