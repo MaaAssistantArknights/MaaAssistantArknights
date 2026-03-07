@@ -54,6 +54,7 @@ enum class TouchMode
     Minitouch = 1,
     Maatouch = 2,
     MacPlayTools = 3,
+    MaaFwAdb = 4,
 };
 
 #ifdef _WIN32
