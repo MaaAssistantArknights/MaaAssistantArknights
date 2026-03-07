@@ -459,6 +459,67 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private string _githubMainDomain = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.GithubMainDomain, "github.com");
+
+    /// <summary>
+    /// Gets or sets the GitHub main domain replacement.
+    /// </summary>
+    public string GithubMainDomain
+    {
+        get => _githubMainDomain;
+        set {
+            SetAndNotify(ref _githubMainDomain, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.GithubMainDomain, value);
+        }
+    }
+
+    private string _githubRawDomain = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.GithubRawDomain, "raw.githubusercontent.com");
+
+    /// <summary>
+    /// Gets or sets the GitHub raw domain replacement.
+    /// </summary>
+    public string GithubRawDomain
+    {
+        get => _githubRawDomain;
+        set {
+            SetAndNotify(ref _githubRawDomain, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.GithubRawDomain, value);
+        }
+    }
+
+    private string _githubApiDomain = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.GithubApiDomain, "api.github.com");
+
+    /// <summary>
+    /// Gets or sets the GitHub API domain replacement.
+    /// </summary>
+    public string GithubApiDomain
+    {
+        get => _githubApiDomain;
+        set {
+            SetAndNotify(ref _githubApiDomain, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.GithubApiDomain, value);
+        }
+    }
+
+    private string _githubToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.GithubToken, string.Empty));
+
+    /// <summary>
+    /// Gets or sets the GitHub personal access token.
+    /// </summary>
+    public string GithubToken
+    {
+        get => _githubToken;
+        set {
+            if (!SetAndNotify(ref _githubToken, value))
+            {
+                return;
+            }
+
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.GithubToken, value);
+        }
+    }
+
     private bool _isCheckingForUpdates;
 
     /// <summary>
