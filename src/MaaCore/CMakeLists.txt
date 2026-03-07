@@ -1,5 +1,14 @@
 file(GLOB_RECURSE maa_src *.h *.hpp *.cpp)
 
+if(WITH_MAC_SCK)
+    if(APPLE)
+        list(APPEND maa_src Controller/MacSCKHelper.mm)
+    else()
+        message(WARNING "MacSCK is only supported on Apple platforms, ignoring")
+        set(WITH_MAC_SCK OFF)
+    endif()
+endif()
+
 add_library(MaaCore SHARED ${maa_src})
 
 if(WITH_EMULATOR_EXTRAS)
@@ -12,6 +21,7 @@ if(WITH_EMULATOR_EXTRAS)
 endif()
 
 target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=$<BOOL:${WITH_EMULATOR_EXTRAS}>)
+target_compile_definitions(MaaCore PRIVATE ASST_WITH_MAC_SCK=$<BOOL:${WITH_MAC_SCK}>)
 
 target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE .)
 add_dependencies(MaaCore MaaUtils)
@@ -23,6 +33,15 @@ endif()
 
 if(LINUX)
     target_link_libraries(MaaCore pthread dl)
+endif()
+
+if(APPLE AND WITH_MAC_SCK)
+    target_link_libraries(MaaCore "-framework Accelerate"
+                                  "-framework Foundation"
+                                  "-framework CoreGraphics"
+                                  "-framework CoreMedia"
+                                  "-framework CoreVideo"
+                                  "-framework ScreenCaptureKit")
 endif()
 
 file(GLOB_RECURSE MaaCore_PUBLIC_HEADERS ${PROJECT_SOURCE_DIR}/include/*.h)
