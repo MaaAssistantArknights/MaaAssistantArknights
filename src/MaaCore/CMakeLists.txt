@@ -32,10 +32,10 @@ set_target_properties(MaaCore PROPERTIES PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${maa_src})
 
 # 收集resource/tasks目录下的所有文件作为资源
-file(GLOB_RECURSE TASKS_RESOURCE_FILES 
+file(GLOB_RECURSE TASKS_RESOURCE_FILES
     "${PROJECT_SOURCE_DIR}/resource/tasks/*"
 )
-file(GLOB_RECURSE GLOBAL_TASKS_RESOURCE_FILES 
+file(GLOB_RECURSE GLOBAL_TASKS_RESOURCE_FILES
     "${PROJECT_SOURCE_DIR}/resource/global/*/resource/tasks/*"
 )
 
@@ -44,8 +44,8 @@ target_sources(MaaCore PRIVATE ${TASKS_RESOURCE_FILES})
 target_sources(MaaCore PRIVATE ${GLOBAL_TASKS_RESOURCE_FILES})
 
 # 使用source_group创建正确的文件夹结构
-source_group(TREE "${PROJECT_SOURCE_DIR}/resource/tasks" 
-    PREFIX "Resource Files/tasks/CN" 
+source_group(TREE "${PROJECT_SOURCE_DIR}/resource/tasks"
+    PREFIX "Resource Files/tasks/CN"
     FILES ${TASKS_RESOURCE_FILES}
 )
 
@@ -53,20 +53,20 @@ source_group(TREE "${PROJECT_SOURCE_DIR}/resource/tasks"
 foreach(GLOBAL_FILE ${GLOBAL_TASKS_RESOURCE_FILES})
     # 从完整路径中提取A部分：${PROJECT_SOURCE_DIR}/resource/global/A/resource/tasks/xxx
     string(REGEX REPLACE "${PROJECT_SOURCE_DIR}/resource/global/([^/]+)/resource/tasks/.*" "\\1" FOLDER_NAME "${GLOBAL_FILE}")
-    
+
     # 获取相对于resource/tasks的文件路径部分
     string(REGEX REPLACE "${PROJECT_SOURCE_DIR}/resource/global/[^/]+/resource/tasks/(.*)" "\\1" REL_FILE_PATH "${GLOBAL_FILE}")
-    
+
     # 获取文件的目录部分
     get_filename_component(FILE_DIR "${REL_FILE_PATH}" DIRECTORY)
-    
+
     # 构建VS中的显示路径
     if(FILE_DIR)
         set(VS_GROUP "Resource Files/tasks/${FOLDER_NAME}/${FILE_DIR}")
     else()
         set(VS_GROUP "Resource Files/tasks/${FOLDER_NAME}")
     endif()
-    
+
     # 设置单个文件的source_group
     source_group("${VS_GROUP}" FILES "${GLOBAL_FILE}")
 endforeach()
@@ -78,6 +78,8 @@ endif()
 
 if(APPLE)
     set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "@loader_path/")
+    set_target_properties(MaaCore PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
+    set_target_properties(MaaUtils PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
 elseif(UNIX)
     set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "$ORIGIN/")
 endif()
