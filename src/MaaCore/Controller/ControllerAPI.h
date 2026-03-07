@@ -18,6 +18,7 @@ enum class ControllerType
 #ifdef _WIN32
     Win32,
 #endif
+    MaaFwAdb,
 };
 
 class ControllerAPI

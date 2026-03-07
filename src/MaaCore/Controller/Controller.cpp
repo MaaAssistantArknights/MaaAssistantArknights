@@ -20,6 +20,7 @@
 
 #include "AdbController.h"
 #include "ControllerAPI.h"
+#include "MaaFwAdbController.h"
 #include "MaatouchController.h"
 #include "MinitouchController.h"
 #include "PlayToolsController.h"
@@ -63,6 +64,9 @@ std::shared_ptr<asst::ControllerAPI> asst::Controller::create_controller(
             break;
         case ControllerType::MacPlayTools:
             controller = std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
+            break;
+        case ControllerType::MaaFwAdb:
+            controller = std::make_shared<MaaFwAdbController>(m_callback, m_inst, platform_type);
             break;
         default:
             return nullptr;
@@ -367,6 +371,9 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
         break;
     case TouchMode::MacPlayTools:
         m_controller_type = ControllerType::MacPlayTools;
+        break;
+    case TouchMode::MaaFwAdb:
+        m_controller_type = ControllerType::MaaFwAdb;
         break;
     default:
         m_controller_type = ControllerType::Minitouch;
