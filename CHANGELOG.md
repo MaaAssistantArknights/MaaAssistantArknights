@@ -46,7 +46,7 @@ A new security prompt warns if MAA is started without administrator rights on th
 
 #### Auto combat job-set support for other activities
 
-Auto Combat now supports loading a job list in the “Other Activities” mode, allowing you to pick a job set for events like raids, co-op, etc. One configuration fits all, no more redundant editing.
+Auto Combat now supports loading a job list in the ""Other Activities"" mode, allowing you to pick a job set for events like raids, co-op, etc. One configuration fits all, no more redundant editing.
 
 ---
 
