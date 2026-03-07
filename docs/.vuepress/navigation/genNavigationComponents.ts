@@ -10,7 +10,8 @@ interface MetaData {
   order: number
   title: string
   icon: string
-  index: boolean
+  index?: boolean
+  collapsed?: boolean
 }
 
 interface NavigationComponents {
@@ -50,8 +51,10 @@ function getMetaData(dir: string, entry: fs.Dirent): MetaData | null {
   const title = String(meta?.title ?? RegExp('# (.+)').exec(fileContent)?.[1] ?? baseName)
   // 获取图标
   const icon = String(meta?.icon ?? '')
-  // 是否添加到索引，文件永远为true，目录则看meta.index，默认true
-  const index = entry.isDirectory() ? (Boolean(meta?.index) ?? true) : true
+  // 是否添加链接，对文件无效（总会为文件添加链接），目录则看meta.index，默认值为true
+  const index = entry.isDirectory() ? Boolean(meta?.index ?? true) : undefined
+  // 是否默认折叠，对文件无效（文件没有折叠的概念），目录则看meta.collapsed，默认值为true
+  const collapsed = entry.isDirectory() ? Boolean(meta?.collapsed ?? true) : undefined
 
   return {
     baseName: baseName,
@@ -59,6 +62,7 @@ function getMetaData(dir: string, entry: fs.Dirent): MetaData | null {
     title: title,
     icon: icon,
     index: index,
+    collapsed: collapsed,
   }
 }
 
@@ -87,14 +91,12 @@ function getSidebarItems(dir: string): SidebarItem[] {
         // 只有当目录设置了index: true时，才生成链接，否则点击时不跳转、只切换折叠状态
         link: metaData.index ? `${metaData.baseName}/` : undefined,
         icon: metaData.icon,
-        // 目前没有文档使用了badge这个特性，故不处理
-        // badge: undefined,
-        collapsed: true,
+        collapsed: metaData.collapsed,
         // 前面不能加斜杠，必须用相对路径
         prefix: `${metaData.baseName}/`,
         items: children,
       }
-    } else if (entry.isFile() && entry.name.endsWith('.md') && entry.name.toLowerCase() !== 'readme.md') {
+    } else {
       // 普通文件，取完整文件名作为链接
       sidebarItem = entry.name
     }

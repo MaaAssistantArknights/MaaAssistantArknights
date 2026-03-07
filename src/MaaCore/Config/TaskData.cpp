@@ -140,16 +140,14 @@ bool asst::TaskData::lazy_parse(const json::value& json)
                         }
                         // 检查是否有 JustReturn 任务不是最后一个任务
                         if (enable_justreturn_check && !justreturn_task_name.empty()) [[unlikely]] {
-                            Log.error(
-                                (std::string(name) += "->") += list_type,
-                                "has a not-final JustReturn task:",
-                                justreturn_task_name);
+                            LogError << ((std::string(name) += "->") += list_type)
+                                     << "has a not-final JustReturn task:" << justreturn_task_name;
                             justreturn_task_name = "";
                             validity = false;
                         }
 
                         if (auto ptr = get(task_name); ptr == nullptr) [[unlikely]] {
-                            Log.error(task_name, "in", (std::string(name) += "->") += list_type, "is null");
+                            LogError << task_name << " in " << ((std::string(name) += "->") += list_type) << " is null";
                             validity = false;
                             continue;
                         }
@@ -292,10 +290,13 @@ bool asst::TaskData::parse(const json::value& json)
         return false;
     }
 
+#ifndef ASST_DEBUG
     // 本来重构之后完全支持惰性加载，但是发现模板图片不支持（
+    // generate_task_info 中会把模板图片名加入 m_templ_required, 而 ASST_DEBUG 中语法检查已经生成过
     for (const std::string& name : m_json_all_tasks_info | std::views::keys) {
         generate_task_info(name);
     }
+#endif
 
     return true;
 }

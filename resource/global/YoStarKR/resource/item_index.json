@@ -1687,6 +1687,126 @@
         "sortId": -10000,
         "usage": "돌파 마일스톤에서 보상을 교환할 수 있다."
     },
+    "act1vhalfidle_asc_cst": {
+        "classifyType": "NONE",
+        "description": "정예 캐스터 오퍼레이터 직함을 상징하는 증표. 이를 소지하고 있다는 것은, 소유자가 전초기지의 생산과 건설에서 충분한 인정을 받았음을 의미한다.",
+        "icon": "act1vhalfidle_asc_cst.png",
+        "name": "캐스터 정예화 증표",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 정예화 승진에 사용된다."
+    },
+    "act1vhalfidle_asc_grd": {
+        "classifyType": "NONE",
+        "description": "정예 가드 오퍼레이터 직함을 상징하는 증표. 이를 소지하고 있다는 것은, 소유자가 전초기지의 생산과 건설에서 충분한 인정을 받았음을 의미한다.",
+        "icon": "act1vhalfidle_asc_grd.png",
+        "name": "가드 정예화 증표",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 정예화 승진에 사용된다."
+    },
+    "act1vhalfidle_asc_med": {
+        "classifyType": "NONE",
+        "description": "정예 메딕 오퍼레이터 직함을 상징하는 증표. 이를 소지하고 있다는 것은, 소유자가 전초기지의 생산과 건설에서 충분한 인정을 받았음을 의미한다.",
+        "icon": "act1vhalfidle_asc_med.png",
+        "name": "메딕 정예화 증표",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 정예화 승진에 사용된다."
+    },
+    "act1vhalfidle_asc_pio": {
+        "classifyType": "NONE",
+        "description": "정예 뱅가드 오퍼레이터 직함을 상징하는 증표. 이를 소지하고 있다는 것은, 소유자가 전초기지의 생산과 건설에서 충분한 인정을 받았음을 의미한다.",
+        "icon": "act1vhalfidle_asc_pio.png",
+        "name": "뱅가드 정예화 증표",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 정예화 승진에 사용된다."
+    },
+    "act1vhalfidle_asc_snp": {
+        "classifyType": "NONE",
+        "description": "정예 스나이퍼 오퍼레이터 직함을 상징하는 증표. 이를 소지하고 있다는 것은, 소유자가 전초기지의 생산과 건설에서 충분한 인정을 받았음을 의미한다.",
+        "icon": "act1vhalfidle_asc_snp.png",
+        "name": "스나이퍼 정예화 증표",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 정예화 승진에 사용된다."
+    },
+    "act1vhalfidle_asc_spc": {
+        "classifyType": "NONE",
+        "description": "정예 스페셜리스트 오퍼레이터 직함을 상징하는 증표. 이를 소지하고 있다는 것은, 소유자가 전초기지의 생산과 건설에서 충분한 인정을 받았음을 의미한다.",
+        "icon": "act1vhalfidle_asc_spc.png",
+        "name": "스페셜리스트 정예화 증표",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 정예화 승진에 사용된다."
+    },
+    "act1vhalfidle_asc_sup": {
+        "classifyType": "NONE",
+        "description": "정예 서포터 오퍼레이터 직함을 상징하는 증표. 이를 소지하고 있다는 것은, 소유자가 전초기지의 생산과 건설에서 충분한 인정을 받았음을 의미한다.",
+        "icon": "act1vhalfidle_asc_sup.png",
+        "name": "서포터 정예화 증표",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 정예화 승진에 사용된다."
+    },
+    "act1vhalfidle_asc_tnk": {
+        "classifyType": "NONE",
+        "description": "정예 디펜더 오퍼레이터 직함을 상징하는 증표. 이를 소지하고 있다는 것은, 소유자가 전초기지의 생산과 건설에서 충분한 인정을 받았음을 의미한다.",
+        "icon": "act1vhalfidle_asc_tnk.png",
+        "name": "디펜더 정예화 증표",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 정예화 승진에 사용된다."
+    },
+    "act1vhalfidle_gacha_newplayer": {
+        "classifyType": "NONE",
+        "description": "밀봉된 광핵을 정제하여 얻은 산물. 그 수량이 극히 적어, 일반적으로 새로운 생산 기지를 개척할 때 초기 자원으로 사용된다.",
+        "icon": "act1vhalfidle_gacha_newplayer.png",
+        "name": "정제된 광핵",
+        "sortId": -10000,
+        "usage": "전문 임명에서 오퍼레이터를 임명하는 데 사용된다."
+    },
+    "act1vhalfidle_gacha_normal": {
+        "classifyType": "NONE",
+        "description": "오리지늄 광맥의 핵심 위치에서 채취 및 밀봉한 광석 샘플. 정제 기술이 부족한 환경에서 밀봉된 광핵은 고순도 오리지늄 연료의 대체품이 될 수 있다.",
+        "icon": "act1vhalfidle_gacha_normal.png",
+        "name": "밀봉된 광핵",
+        "sortId": -10000,
+        "usage": "랜덤 임명에서 오퍼레이터를 임명하는 데 사용된다."
+    },
+    "act1vhalfidle_itempack_asc": {
+        "classifyType": "NONE",
+        "description": "정예 칭호를 상징하는 증표. 이를 소지하고 있다는 것은, 소유자가 전초기지의 생산과 건설에서 충분한 인정을 받았음을 의미한다.",
+        "icon": "act1vhalfidle_itempack_asc.png",
+        "name": "정예화 승진 증표",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 정예화 승진에 사용된다."
+    },
+    "act1vhalfidle_level_exp": {
+        "classifyType": "NONE",
+        "description": "전초기지에서 가장 중요한 것은 고난을 두려워하지 않는 용기와 겸손하고 배우려는 자세이다. 명심할 것. 안전 생산은 모두의 책임이며, 처음부터 배우고 일분일초를 다투어야 한다.",
+        "icon": "act1vhalfidle_level_exp.png",
+        "name": "훈련 수첩",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 훈련 레벨을 올리는 데 사용된다."
+    },
+    "act1vhalfidle_skill_exp": {
+        "classifyType": "NONE",
+        "description": "생산 건설에 필요한 기술은 전쟁터에서 싸우는 기술 못지않다. 명심할 것. 늘 주의하고, 늘 경계하며, 뜻을 모아 함께 나아가야 한다.",
+        "icon": "act1vhalfidle_skill_exp.png",
+        "name": "기술 수첩",
+        "sortId": -10000,
+        "usage": "재건 계획에서 오퍼레이터의 스킬 레벨을 올리는 데 사용된다."
+    },
+    "act1vhalfidle_strategy_point": {
+        "classifyType": "NONE",
+        "description": "클로저의 암호화 사인 데이터가 포함된 가상 비콘. 그녀의 정밀한 계산에 따라 투입 수량이 조정되어, 로도스 아일랜드에서 파견되는 지원이 더욱 효율적으로 사용할 수 있도록 한다.\n“딱딱한 생산 계획표보다, 이런 게 더 재미있지 않아?”",
+        "icon": "act1vhalfidle_strategy_point.png",
+        "name": "전략 비콘",
+        "sortId": -10000,
+        "usage": "재건 계획에서 건설 전략을 운용하는 데 사용된다."
+    },
+    "act1vhalfidle_token_point": {
+        "classifyType": "NONE",
+        "description": "로도스 아일랜드는 하루아침에 이루어진 것이 아니다. 그러나 우리는 어제보다 더 강한 로도스 아일랜드를 만들어 갈 것이다.\n“로도스 아일랜드를 위하여.”",
+        "icon": "act1vhalfidle_token_point.png",
+        "name": "자원 포인트",
+        "sortId": -10000,
+        "usage": "각종 건설 자원을 환산하여 얻은 포인트. 클로저에게서 보상으로 교환할 수 있다."
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "수많은 필체의 흔적으로부터 잡지가 얼마나 많은 사람들의 손을 거쳐 갔는지 알 수 있다. 대부분은 무의미한 낙서이지만, 반짝이는 지성 또한 사이사이에 숨어 있다.",

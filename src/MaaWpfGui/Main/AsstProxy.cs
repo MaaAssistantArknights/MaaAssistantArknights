@@ -44,6 +44,7 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
@@ -463,7 +464,7 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool LoadResource()
     {
-        _logger.Information("Load Resource");
+        using var log = new LogScope(_logger);
 
         string clientType = SettingsViewModel.GameSettings.ClientType;
 
@@ -473,7 +474,7 @@ public class AsstProxy
         string globalCacheRes = Path.Combine(mainCacheRes, "global", clientType, "resource");
 
         bool loaded;
-        if (clientType is "" or "Official" or "Bilibili")
+        if (clientType is ClientType.Official or ClientType.Bilibili)
         {
             // Read resources first, then read cache
             CopyTasksJson(mainCacheRes);
@@ -1426,7 +1427,7 @@ public class AsstProxy
                         && (Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(t => t.TaskId == taskId)?.Index ?? -1) is int index and > -1
                         && index <= ConfigFactory.CurrentConfig.TaskQueue.Count
                         && ConfigFactory.CurrentConfig.TaskQueue[index] is Configuration.Single.MaaTask.FightTask fight
-                        && FightTask.GetFightStage(fight) is "Annihilation")
+                        && FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == FightSettingsUserControlModel.AnnihilationName)
                     {
                         Instances.TaskQueueViewModel.AddLog("AnnihilationStage, " + LocalizationHelper.GetString("GiveUpUploadingPenguins"));
                         break;
@@ -2475,6 +2476,25 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     private bool AsstAttachWindowConnect(ref string error)
     {
+        if (!Bootstrapper.IsUserAdministrator())
+        {
+            var result = Application.Current.Dispatcher.Invoke(() =>
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("AttachWindowNeedAdmin"),
+                    "MAA",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question));
+
+            if (result == MessageBoxResult.No)
+            {
+                error = LocalizationHelper.GetString("RestartAsAdminFailed");
+                return false;
+            }
+
+            Bootstrapper.RestartAsAdmin();
+            return false;
+        }
+
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Warning);
 
         const string TargetWindowName = "明日方舟";
@@ -2511,12 +2531,12 @@ public class AsstProxy
 
         if (!ulong.TryParse(SettingsViewModel.ConnectSettings.AttachWindowMouseMethod, out var mouseMethod))
         {
-            mouseMethod = 64; // 默认 PostMessageWithCursorPos
+            mouseMethod = 32; // 默认 SendMessageWithCursorPos
         }
 
         if (!ulong.TryParse(SettingsViewModel.ConnectSettings.AttachWindowKeyboardMethod, out var keyboardMethod))
         {
-            keyboardMethod = 64; // 默认 PostMessageWithCursorPos
+            keyboardMethod = 2; // 默认 SendMessage
         }
 
         bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);

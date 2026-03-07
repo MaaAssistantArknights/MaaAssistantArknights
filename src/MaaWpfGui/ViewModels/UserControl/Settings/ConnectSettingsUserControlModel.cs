@@ -118,7 +118,20 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         get => _alwaysAutoDetectConnection;
         set {
-            SetAndNotify(ref _alwaysAutoDetectConnection, value);
+            if (!SetAndNotify(ref _alwaysAutoDetectConnection, value))
+            {
+                return;
+            }
+
+            if (value)
+            {
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("AlwaysAutoDetectConnectionTip"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
+
             ConfigurationHelper.SetValue(ConfigurationKeys.AlwaysAutoDetect, value.ToString());
         }
     }
@@ -1236,18 +1249,45 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// Win32 输入方式枚举（与 AsstCaller.h 中 AsstWin32InputMethodEnum 对应）
+    /// Win32 鼠标输入方式枚举（与 AsstCaller.h 中 AsstWin32InputMethodEnum 对应）
     /// </summary>
-    public List<CombinedData> AttachWindowInputMethodList { get; } =
+    private static readonly List<CombinedData> _attachWindowMouseMethodList =
     [
         new() { Display = LocalizationHelper.GetString("AttachWindowInputSeize"), Value = "1" },
-        new() { Display = LocalizationHelper.GetString("AttachWindowInputPostWithCursor"), Value = "64" },
         new() { Display = LocalizationHelper.GetString("AttachWindowInputSendWithCursor"), Value = "32" },
-        new() { Display = LocalizationHelper.GetString("AttachWindowInputPostWithWindowPos"), Value = "256" },
         new() { Display = LocalizationHelper.GetString("AttachWindowInputSendWithWindowPos"), Value = "128" },
     ];
 
-    private string _attachWindowMouseMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowMouseMethod, "64"); // 默认 PostMessageWithCursorPos
+    public List<CombinedData> AttachWindowMouseMethodList => _attachWindowMouseMethodList;
+
+    /// <summary>
+    /// Win32 键盘输入方式枚举（与 AsstCaller.h 中 AsstWin32InputMethodEnum 对应）
+    /// </summary>
+    private static readonly List<CombinedData> _attachWindowKeyboardMethodList =
+    [
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputSeize"), Value = "1" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputSendMsg"), Value = "2" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputPostMsg"), Value = "4" },
+    ];
+
+    public List<CombinedData> AttachWindowKeyboardMethodList => _attachWindowKeyboardMethodList;
+
+    private static string ValidateAttachWindowMethod(string key, string defaultValue, List<CombinedData> list)
+    {
+        var stored = ConfigurationHelper.GetValue(key, defaultValue);
+        if (list.Any(item => item.Value == stored))
+        {
+            return stored;
+        }
+
+        ConfigurationHelper.SetValue(key, defaultValue);
+        return defaultValue;
+    }
+
+    private string _attachWindowMouseMethod = ValidateAttachWindowMethod(
+        ConfigurationKeys.AttachWindowMouseMethod,
+        "32",
+        _attachWindowMouseMethodList); // 默认 SendMessageWithCursorPos
 
     /// <summary>
     /// Gets or sets the mouse input method for AttachWindow mode.
@@ -1262,7 +1302,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private string _attachWindowKeyboardMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowKeyboardMethod, "64"); // 默认 PostMessageWithCursorPos
+    private string _attachWindowKeyboardMethod = ValidateAttachWindowMethod(
+        ConfigurationKeys.AttachWindowKeyboardMethod,
+        "2",
+        _attachWindowKeyboardMethodList); // 默认 SendMessage
 
     /// <summary>
     /// Gets or sets the keyboard input method for AttachWindow mode.

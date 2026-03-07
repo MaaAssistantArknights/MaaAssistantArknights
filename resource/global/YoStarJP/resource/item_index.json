@@ -1687,6 +1687,126 @@
         "sortId": -10000,
         "usage": "突破記録において報酬と交換できる。"
     },
+    "act1vhalfidle_asc_cst": {
+        "classifyType": "NONE",
+        "description": "精鋭術師オペレーターの肩書きを示す証。所持者が前哨基地の生産・建設において十分な評価を得ていることを表す。",
+        "icon": "act1vhalfidle_asc_cst.png",
+        "name": "術師昇進許可",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターの昇進に用いられる。"
+    },
+    "act1vhalfidle_asc_grd": {
+        "classifyType": "NONE",
+        "description": "精鋭前衛オペレーターの肩書きを示す証。所持者が前哨基地の生産・建設において十分な評価を得ていることを表す。",
+        "icon": "act1vhalfidle_asc_grd.png",
+        "name": "前衛昇進許可",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターの昇進に用いられる。"
+    },
+    "act1vhalfidle_asc_med": {
+        "classifyType": "NONE",
+        "description": "精鋭医療オペレーターの肩書きを示す証。所持者が前哨基地の生産・建設において十分な評価を得ていることを表す。",
+        "icon": "act1vhalfidle_asc_med.png",
+        "name": "医療昇進許可",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターの昇進に用いられる。"
+    },
+    "act1vhalfidle_asc_pio": {
+        "classifyType": "NONE",
+        "description": "精鋭先鋒オペレーターの肩書きを示す証。所持者が前哨基地の生産・建設において十分な評価を得ていることを表す。",
+        "icon": "act1vhalfidle_asc_pio.png",
+        "name": "先鋒昇進許可",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターの昇進に用いられる。"
+    },
+    "act1vhalfidle_asc_snp": {
+        "classifyType": "NONE",
+        "description": "精鋭狙撃オペレーターの肩書きを示す証。所持者が前哨基地の生産・建設において十分な評価を得ていることを表す。",
+        "icon": "act1vhalfidle_asc_snp.png",
+        "name": "狙撃昇進許可",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターの昇進に用いられる。"
+    },
+    "act1vhalfidle_asc_spc": {
+        "classifyType": "NONE",
+        "description": "精鋭特殊オペレーターの肩書きを示す証。所持者が前哨基地の生産・建設において十分な評価を得ていることを表す。",
+        "icon": "act1vhalfidle_asc_spc.png",
+        "name": "特殊昇進許可",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターの昇進に用いられる。"
+    },
+    "act1vhalfidle_asc_sup": {
+        "classifyType": "NONE",
+        "description": "精鋭補助オペレーターの肩書きを示す証。所持者が前哨基地の生産・建設において十分な評価を得ていることを表す。",
+        "icon": "act1vhalfidle_asc_sup.png",
+        "name": "補助昇進許可",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターの昇進に用いられる。"
+    },
+    "act1vhalfidle_asc_tnk": {
+        "classifyType": "NONE",
+        "description": "精鋭重装オペレーターの肩書きを示す証。所持者が前哨基地の生産・建設において十分な評価を得ていることを表す。",
+        "icon": "act1vhalfidle_asc_tnk.png",
+        "name": "重装昇進許可",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターの昇進に用いられる。"
+    },
+    "act1vhalfidle_gacha_newplayer": {
+        "classifyType": "NONE",
+        "description": "密封鉱核を精錬・純化した生産物で、ストックは限られている。基本的には新たな生産拠点を開拓する際の初期資源として用いられる。",
+        "icon": "act1vhalfidle_gacha_newplayer.png",
+        "name": "精錬鉱核",
+        "sortId": -10000,
+        "usage": "特別任命において、オペレーターの任命に用いられる。"
+    },
+    "act1vhalfidle_gacha_normal": {
+        "classifyType": "NONE",
+        "description": "源石鉱脈の中心部から採取し、適切に密封された鉱石サンプル。精錬・純化に必要な工業プロセスを欠く環境下では、密封鉱核が高純度源石燃料の代替品となりうる。",
+        "icon": "act1vhalfidle_gacha_normal.png",
+        "name": "密封鉱核",
+        "sortId": -10000,
+        "usage": "ランダム任命において、オペレーターの任命に用いられる。"
+    },
+    "act1vhalfidle_itempack_asc": {
+        "classifyType": "NONE",
+        "description": "精鋭の肩書きを示す証。所持者が前哨基地の生産・建設において十分な評価を得ていることを表す。",
+        "icon": "act1vhalfidle_itempack_asc.png",
+        "name": "昇進許可",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターのスキルランクアップに用いられる。"
+    },
+    "act1vhalfidle_level_exp": {
+        "classifyType": "NONE",
+        "description": "前哨基地に足を踏み入れるにあたり、最も必要なことは苦難を恐れぬ勇気と謙虚に学ぶ姿勢である。安全な生産に対して各々が責任をもってあたるため、基礎から学び直し、一分一秒を争う必要があるということを肝に銘じておくこと。",
+        "icon": "act1vhalfidle_level_exp.png",
+        "name": "訓練マニュアル",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターの訓練レベルアップに用いられる。"
+    },
+    "act1vhalfidle_skill_exp": {
+        "classifyType": "NONE",
+        "description": "生産・建設においても、戦場での戦いに必要なものと同程度の技術が求められる。常に気を配ってあらゆる場面に目を光らせることと、心を一つにして共に高め合うことを肝に銘じておくべし。",
+        "icon": "act1vhalfidle_skill_exp.png",
+        "name": "技術マニュアル",
+        "sortId": -10000,
+        "usage": "再建画策において、オペレーターのスキルランクアップに用いられる。"
+    },
+    "act1vhalfidle_strategy_point": {
+        "classifyType": "NONE",
+        "description": "クロージャの暗号署名付きの仮想ビーコン。彼女の綿密な計算に基づいた設置数により、ロドス本部からの支援がより効率的に活用されるようになる。\n「退屈な生産計画表よりも、こっちの方が面白いでしょ？」",
+        "icon": "act1vhalfidle_strategy_point.png",
+        "name": "策略ビーコン",
+        "sortId": -10000,
+        "usage": "再建画策において、建造戦略の適用に用いられる。"
+    },
+    "act1vhalfidle_token_point": {
+        "classifyType": "NONE",
+        "description": "ロドスは一日して成らず。それでも我々は、昨日よりもたくましいロドスを築き上げていく。\n「ロドスのために。」",
+        "icon": "act1vhalfidle_token_point.png",
+        "name": "資源ポイント",
+        "sortId": -10000,
+        "usage": "各種建設資源を換算したポイント。ポイントに応じてクロージャの元で報酬と交換できる。"
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "紙の上には様々な筆跡が残されており、その数から多くの人の手を経てきたものであることが分かる。内容のほとんどは落書きであるが、まれに鋭いアイデアも隠れている。",

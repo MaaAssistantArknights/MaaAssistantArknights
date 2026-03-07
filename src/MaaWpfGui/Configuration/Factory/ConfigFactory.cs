@@ -204,21 +204,21 @@ public static class ConfigFactory
                         case NotifyCollectionChangedAction.Replace:
                             if (args.IsSingleItem)
                             {
-                                args.NewItem.PropertyChanged += OnPropertyChangedFactory(key + args.NewItem.GetType().Name + ".");
+                                args.NewItem.PropertyChanged += TaskQueueItemOnPropertyChangedFactory(config.TaskQueue, key);
                             }
                             else
                             {
                                 foreach (var value in args.NewItems)
                                 {
-                                    value.PropertyChanged += OnPropertyChangedFactory(key + value.GetType().Name + ".");
+                                    value.PropertyChanged += TaskQueueItemOnPropertyChangedFactory(config.TaskQueue, key);
                                 }
                             }
-                            OnPropertyChanged(parsed.Current + ".TaskQueue", null, null);
+                            OnPropertyChanged(key + "TaskQueue", null, null);
                             break;
                         case NotifyCollectionChangedAction.Remove:
                         case NotifyCollectionChangedAction.Move:
                         case NotifyCollectionChangedAction.Reset:
-                            OnPropertyChanged(parsed.Current + ".TaskQueue", null, null);
+                            OnPropertyChanged(key + "TaskQueue", null, null);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -226,7 +226,7 @@ public static class ConfigFactory
                 };
                 foreach (var task in config.TaskQueue)
                 {
-                    task.PropertyChanged += OnPropertyChangedFactory($"{key}.{task.Name}.");
+                    task.PropertyChanged += TaskQueueItemOnPropertyChangedFactory(config.TaskQueue, key);
                 }
             }
 
@@ -276,6 +276,26 @@ public static class ConfigFactory
             }
 
             OnPropertyChanged(key + o?.GetType().Name + "." + args.PropertyName, null, after);
+        };
+    }
+
+    private static PropertyChangedEventHandler TaskQueueItemOnPropertyChangedFactory(ObservableList<BaseTask> taskQueue, string key = "")
+    {
+        return (o, args) => {
+            object? after = null;
+            if (args is PropertyChangedEventDetailArgs detailArgs)
+            {
+                after = detailArgs.NewValue;
+            }
+
+            int index = -1;
+            var taskName = string.Empty;
+            if (o is BaseTask task)
+            {
+                index = taskQueue.IndexOf(task);
+                taskName = task.Name;
+            }
+            OnPropertyChanged($"{key}[{index}]{taskName}({o?.GetType().Name})." + args.PropertyName, null, after);
         };
     }
 

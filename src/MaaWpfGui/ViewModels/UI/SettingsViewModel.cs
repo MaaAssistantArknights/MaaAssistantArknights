@@ -27,6 +27,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -794,6 +795,160 @@ public class SettingsViewModel : Screen
 
     #endregion 设置页面列表和滚动视图联动绑定
 
+    #region 折叠框展开状态
+
+    public bool IsSwitchConfigurationExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderSwitchConfiguration;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderSwitchConfiguration = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsScheduleSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderScheduleSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderScheduleSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsPerformanceSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderPerformanceSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderPerformanceSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsGameSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderGameSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderGameSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsConnectionSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderConnectionSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderConnectionSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsStartupSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderStartupSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderStartupSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsRemoteControlSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderRemoteControlSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderRemoteControlSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsUiSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderUiSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderUiSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsBackgroundSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderBackgroundSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderBackgroundSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsExternalNotificationSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderExternalNotificationSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderExternalNotificationSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsHotKeySettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderHotKeySettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderHotKeySettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsAchievementSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderAchievementSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderAchievementSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsUpdateSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderUpdateSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderUpdateSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsIssueReportExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderIssueReport;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderIssueReport = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsAboutUsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderAboutUs;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderAboutUs = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    #endregion 折叠框展开状态
+
     /// <summary>
     /// Requires the user to restart to apply settings.
     /// </summary>
@@ -938,7 +1093,8 @@ public class SettingsViewModel : Screen
             ? $" - {LocalizationHelper.FormatVersion(VersionUpdateSettings.ResourceVersion, VersionUpdateSettings.ResourceDateTime)}"
             : string.Empty;
         string uiVersionDisplay = LocalizationHelper.FormatVersion(uiVersion, VersionUpdateSettingsUserControlModel.BuildDateTime);
-        rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {uiVersionDisplay}{resourceVersionDisplay}{connectConfigName}{connectAddress}{clientName}";
+        string adminTag = Bootstrapper.IsAdministratorWithUac() ? $" ({LocalizationHelper.GetString("Administrator")})" : string.Empty;
+        rvm.WindowTitle = $"{prefix}MAA{adminTag}{currentConfiguration} - {uiVersionDisplay}{resourceVersionDisplay}{connectConfigName}{connectAddress}{clientName}";
     }
 
     /// <summary>
@@ -958,13 +1114,12 @@ public class SettingsViewModel : Screen
 
     private static readonly Dictionary<string, string> _serverMapping = new()
     {
-        { string.Empty, "CN" },
-        { "Official", "CN" },
-        { "Bilibili", "CN" },
-        { "YoStarEN", "US" },
-        { "YoStarJP", "JP" },
-        { "YoStarKR", "KR" },
-        { "txwy", "ZH_TW" },
+        { ClientType.Official, "CN" },
+        { ClientType.Bilibili, "CN" },
+        { ClientType.EN, "US" },
+        { ClientType.JP, "JP" },
+        { ClientType.KR, "KR" },
+        { ClientType.Txwy, "ZH_TW" },
     };
 
     /// <summary>

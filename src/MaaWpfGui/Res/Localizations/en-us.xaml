@@ -598,8 +598,13 @@ At the end of the stage, enter ｢Normal/Hard｣ to switch between Standard and 
 Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS rerun events</system:String>
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">Automatic connection detection is not supported for this configuration, please try manually entering the port number</system:String>
-    <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
+    <system:String x:Key="AutoDetectConnectionTip" xml:space="preserve">This checkbox will be automatically unchecked after each detection is completed, and can be checked again if you need to re-detect.
+Only check the "{key=AlwaysAutoDetectConnection}" option when the port changes frequently.
+Please ensure only the target emulator is running during detection. Running multiple emulators simultaneously may result in connecting to the wrong target.</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnectionTip" xml:space="preserve">This option is not recommended.
+Please ensure only the target emulator is running during detection. Running multiple emulators simultaneously may result in connecting to the wrong target.
+Only enable this option when the port changes frequently and you are certain only one emulator is running.</system:String>
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
     <system:String x:Key="AccountSwitchManualRun">Switch now</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching.
@@ -620,7 +625,7 @@ Expected relative path: nx_device/12.0/shell/sdk/external_renderer_ipc/external_
 shell/sdk/external_renderer_ipc/external_renderer_ipc.dll\n
 Please verify the installation directory.</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu V4.0.0 or later is required.
+MuMu / MuMu Arknights V4.0.0 or later is required. MuMu Global requires V5.21.3 or later.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
@@ -905,10 +910,10 @@ Completing ｢Standard Simulation｣ manually allows faster score farming
 Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectives｣ must be completed</system:String>
     <system:String x:Key="MiniGame@OS">OS-Karlan Trade Technology R&amp;D Department</system:String>
     <system:String x:Key="MiniGame@OSTip">Start the task at the main event interface (where there is "Start Rebuild" in the lower right corner).</system:String>
-    <system:String x:Key="MiniGame@RM-TR-1">Secondary Plan RM-TR-1</system:String>
-    <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">After finishing the tutorial, enter the Outpost Support Point and swipe to the far left of the screen.</system:String>
-    <system:String x:Key="MiniGame@RM-1">Secondary Plan RM-1</system:String>
-    <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">Farm RM-TR-1 for about 3 hours. In the construction strategy, take the stone mining line to the bottom point,&#10;Special appointment specifies Wistoria, then try to E2 S3 as much as possible, carrying Skill 1,&#10;Bring a full 12 operators, the other 11's deployment costs need to be lower than Wistoria's,&#10;Each production module carries 1, manually enter the stage and exit,&#10;Place RM-1 in the center of the screen, run MAA.</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1">Rebuilding Mandate RM-TR-1</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">After completing the tutorial, enter the Frontier Outposts and swipe all the way to the far left of the screen.</system:String>
+    <system:String x:Key="MiniGame@RM-1">Rebuilding Mandate RM-1</system:String>
+    <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">Farming RM-TR-1 takes about 3 hours.&#10;In the Construction Strategies, max out the Stone Quarrying line;&#10;assign Wiš'adel as the Special Appointment, then promote her to Elite 2 with Mastery 3 on Skill 1;&#10;bring a full squad of 12 operators. The remaining 11 must each have a lower deployment cost than Wiš'adel;&#10;bring 1 production module each, then manually enter the stage and exit;&#10;position RM-1 in the center of the screen and run MAA.</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - Mikage Consultation Office - Mini Game</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">Start the task from the event screen (there is a ｢OPEN｣ button in the bottom right corner).</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">Duel Channel: Green Grassville</system:String>
@@ -960,8 +965,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="SupportUnitUsage.Random">Random</system:String>
     <system:String x:Key="AddTrust">Add low-trust {key=Operator}s</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} requirements</system:String>
-    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Some jobs require specific Modules or other prerequisites.
-Enabling this will skip these checks, but may cause the job to fail.</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Some jobs require specific skill levels, Modules or other prerequisites.
+Enabling this will skip these checks, but may cause the job to fail.
+Operators' Elite level CANNOT be ignored. If any requirements are ignored, the operation will no longer be automatically rated after the battle.</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and Skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>
@@ -969,7 +975,8 @@ Enabling this will skip these checks, but may cause the job to fail.</system:Str
     <system:String x:Key="UserAdditional.Action">Action</system:String>
     <system:String x:Key="UserAdditional.Add">Add</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
-    <system:String x:Key="UseCopilotList">Battle list</system:String>
+    <system:String x:Key="CopilotList">Job List</system:String>
+    <system:String x:Key="UseCopilotList">Multi-Job mode</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">Only supported in the following modes:
   1. {key=MainStage}: Navigate within the same chapter
   2. {key=SideStory}: Navigate within the current page (cannot jump between Normal/EX/S)
@@ -977,7 +984,7 @@ Enabling this will skip these checks, but may cause the job to fail.</system:Str
   4. {key=ParadoxSimulation}: Start from the {key=Operator} list
 Please start from the corresponding screen. Cross-chapter navigation is not supported.
 
-When ｢{key=UseCopilotList}｣ is enabled, individual jobs will be automatically added to ｢{key=UseCopilotList}｣.</system:String>
+When ｢{key=UseCopilotList}｣ is enabled, individual jobs will be automatically added to the ｢{key=CopilotList}｣.</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
 Right click to add challenge difficulty</system:String>
@@ -1243,6 +1250,10 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="AttachWindowNotFound">Window "{0}" not found, please ensure the game is running</system:String>
     <system:String x:Key="AttachWindowMultipleFound">Found {0} "{1}" windows, using the first one</system:String>
     <system:String x:Key="AttachWindowFound">Found window "{0}"</system:String>
+    <system:String x:Key="Administrator">Admin</system:String>
+    <system:String x:Key="AttachWindowNeedAdmin">PC connection requires administrator privileges.\nRestart MAA as administrator?</system:String>
+    <system:String x:Key="RestartingAsAdmin">Restarting as administrator…</system:String>
+    <system:String x:Key="RestartAsAdminFailed">Please run MAA as administrator manually.</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
     <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC connection (experimental feature, stability not guaranteed)
@@ -1253,21 +1264,21 @@ Due to limited development resources within the MAA Team, PC support lacks dedic
 
 Before use, please ensure:
 1. MAA is launched with administrator privileges
-2. The game window is not minimized
+2. For some screencap methods, the game window cannot be minimized
 3. Arknights Settings → Game → UI Scaling is set to 100%
 4. Game resolution must be 16:9, recommended settings: 720×1280 or 1080×1920</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Default, Background)</system:String>
-    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (Background, Backup 1)</system:String>
-    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup 2)</system:String>
-    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, More Stable)</system:String>
-    <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, More Stable)</system:String>
-    <system:String x:Key="AttachWindowInputPostWithCursor">PostMessageWithCursor (Semi-background)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithCursor">SendMessageWithCursor (Semi-background, Backup)</system:String>
-    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMessageWithWindowPos (Background Window)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMessageWithWindowPos (Background Window, Backup)</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Background, Efficient, Can Minimize)</system:String>
+    <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (Background, Stable, Can Minimize)</system:String>
+    <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup, Cannot Minimize)</system:String>
+    <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, No Occlusion)</system:String>
+    <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, Fully Captures Mouse)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (Full Background, No Mouse Capture, Window May Move, Recommend Minimizing)</system:String>
+    <system:String x:Key="AttachWindowInputSendMsg">SendMsg (Stable)</system:String>
+    <system:String x:Key="AttachWindowInputPostMsg">PostMsg (Efficient)</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">Force display of MAA</system:String>

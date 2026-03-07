@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import sys
 from pathlib import Path
 
@@ -11,10 +12,16 @@ from maadeps_download import main as download_main
 REPO = "MaaAssistantArknights/MaaDeps"
 VERSION = "v2.10.1-maa.1"
 
+parser = argparse.ArgumentParser()
+parser.add_argument("triplet", nargs="?")
+parser.add_argument("--cache-asset", action="store_true")
+
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        target_triplet = sys.argv[1]
+    args = parser.parse_args()
+
+    if args.triplet:
+        target_triplet = args.triplet
     else:
         target_triplet = detect_host_triplet()
 
-    download_main(target_triplet, REPO, VERSION)
+    download_main(target_triplet, REPO, VERSION, args.cache_asset)

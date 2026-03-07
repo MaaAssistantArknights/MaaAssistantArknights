@@ -449,9 +449,9 @@ public partial class CopilotViewModel : Screen
                     }
 
                     int skill = op.Skill;
-                    if (skill < 1)
+                    if (skill < 0)
                     {
-                        skill = 1;
+                        skill = 0;
                     }
                     else if (skill > 3)
                     {
@@ -477,10 +477,10 @@ public partial class CopilotViewModel : Screen
                     {
                         var name = match.Groups["name"].Value.Trim();
                         var skillStr = match.Groups["skill"].Value;
-                        int skill = string.IsNullOrEmpty(skillStr) ? 1 : int.Parse(skillStr);
-                        if (skill < 1)
+                        int skill = string.IsNullOrEmpty(skillStr) ? 0 : int.Parse(skillStr);
+                        if (skill < 0)
                         {
-                            skill = 1;
+                            skill = 0;
                         }
                         else if (skill > 3)
                         {
@@ -505,7 +505,7 @@ public partial class CopilotViewModel : Screen
         // 如果列表为空，添加一行空行
         if (UserAdditionalItems.Count == 0)
         {
-            var newItem = new UserAdditionalItemViewModel { Name = string.Empty, Skill = 1, Module = 0 };
+            var newItem = new UserAdditionalItemViewModel { Name = string.Empty, Skill = 0, Module = 0 };
             UserAdditionalItems.Add(newItem);
         }
 
@@ -527,9 +527,9 @@ public partial class CopilotViewModel : Screen
             }
 
             int skill = item.Skill;
-            if (skill < 1)
+            if (skill < 0)
             {
-                skill = 1;
+                skill = 0;
             }
             else if (skill > 3)
             {
@@ -573,7 +573,7 @@ public partial class CopilotViewModel : Screen
             return;
         }
 
-        var newItem = new UserAdditionalItemViewModel { Name = string.Empty, Skill = 1, Module = 0 };
+        var newItem = new UserAdditionalItemViewModel { Name = string.Empty, Skill = 0, Module = 0 };
         UserAdditionalItems.Add(newItem);
     }
 
@@ -829,7 +829,7 @@ public partial class CopilotViewModel : Screen
     [UsedImplicitly]
     public async Task PasteClipboardCopilotSet()
     {
-        if (CopilotTabIndex is 1 or 3)
+        if (CopilotTabIndex is 1)
         {
             return;
         }
@@ -1204,8 +1204,8 @@ public partial class CopilotViewModel : Screen
         if (!writeToCache)
         {// 现在是暂时将所有本地作业不添加到列表
         }
-        else if (CopilotTabIndex is 1 or 3)
-        { // 保全/其他活动 不使用多作业列表
+        else if (CopilotTabIndex is 1)
+        { // 保全 不使用多作业列表
         }
         else if (copilotList)
         {
@@ -1351,6 +1351,7 @@ public partial class CopilotViewModel : Screen
         }
 
         Log(copilotSet.Name, copilotSet.Description);
+        _copilotCache = null;
         return;
 
         void Log(string? name, string? description)

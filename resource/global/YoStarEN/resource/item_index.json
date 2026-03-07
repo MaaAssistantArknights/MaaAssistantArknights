@@ -1687,6 +1687,126 @@
         "sortId": -10000,
         "usage": "Can be exchanged at Breakthrough Milestones for rewards."
     },
+    "act1vhalfidle_asc_cst": {
+        "classifyType": "NONE",
+        "description": "Token that represents Elite Caster Operators, signifying that the holder has earned recognition for their production work at the Frontier Outposts.",
+        "icon": "act1vhalfidle_asc_cst.png",
+        "name": "Caster Advancement Token",
+        "sortId": -10000,
+        "usage": "Can be used to promote Operators in Rebuilding Mandate."
+    },
+    "act1vhalfidle_asc_grd": {
+        "classifyType": "NONE",
+        "description": "Token that represents Elite Guard Operators, signifying that the holder has earned recognition for their production work at the Frontier Outposts.",
+        "icon": "act1vhalfidle_asc_grd.png",
+        "name": "Guard Advancement Token",
+        "sortId": -10000,
+        "usage": "Can be used to promote Operators in Rebuilding Mandate."
+    },
+    "act1vhalfidle_asc_med": {
+        "classifyType": "NONE",
+        "description": "Token that represents Elite Medic Operators, signifying that the holder has earned recognition for their production work at the Frontier Outposts.",
+        "icon": "act1vhalfidle_asc_med.png",
+        "name": "Medic Advancement Token",
+        "sortId": -10000,
+        "usage": "Can be used to promote Operators in Rebuilding Mandate."
+    },
+    "act1vhalfidle_asc_pio": {
+        "classifyType": "NONE",
+        "description": "Token that represents Elite Vanguard Operators, signifying that the holder has earned recognition for their production work at the Frontier Outposts.",
+        "icon": "act1vhalfidle_asc_pio.png",
+        "name": "Vanguard Advancement Token",
+        "sortId": -10000,
+        "usage": "Can be used to promote Operators in Rebuilding Mandate."
+    },
+    "act1vhalfidle_asc_snp": {
+        "classifyType": "NONE",
+        "description": "Token that represents Elite Sniper Operators, signifying that the holder has earned recognition for their production work at the Frontier Outposts.",
+        "icon": "act1vhalfidle_asc_snp.png",
+        "name": "Sniper Advancement Token",
+        "sortId": -10000,
+        "usage": "Can be used to promote Operators in Rebuilding Mandate."
+    },
+    "act1vhalfidle_asc_spc": {
+        "classifyType": "NONE",
+        "description": "Token that represents Elite Specialist Operators, signifying that the holder has earned recognition for their production work at the Frontier Outposts.",
+        "icon": "act1vhalfidle_asc_spc.png",
+        "name": "Specialist Advancement Token",
+        "sortId": -10000,
+        "usage": "Can be used to promote Operators in Rebuilding Mandate."
+    },
+    "act1vhalfidle_asc_sup": {
+        "classifyType": "NONE",
+        "description": "Token that represents Elite Supporter Operators, signifying that the holder has earned recognition for their production work at the Frontier Outposts.",
+        "icon": "act1vhalfidle_asc_sup.png",
+        "name": "Supporter Advancement Token",
+        "sortId": -10000,
+        "usage": "Can be used to promote Operators in Rebuilding Mandate."
+    },
+    "act1vhalfidle_asc_tnk": {
+        "classifyType": "NONE",
+        "description": "Token that represents Elite Defender Operators, signifying that the holder has earned recognition for their production work at the Frontier Outposts.",
+        "icon": "act1vhalfidle_asc_tnk.png",
+        "name": "Defender Advancement Token",
+        "sortId": -10000,
+        "usage": "Can be used to promote Operators in Rebuilding Mandate."
+    },
+    "act1vhalfidle_gacha_newplayer": {
+        "classifyType": "NONE",
+        "description": "Obtained by refining Packaged Cores. Difficult to obtain, and typically used to launch new production bases.",
+        "icon": "act1vhalfidle_gacha_newplayer.png",
+        "name": "Refined Core",
+        "sortId": -10000,
+        "usage": "Can be used to appoint Operators in Specialized Appointment."
+    },
+    "act1vhalfidle_gacha_normal": {
+        "classifyType": "NONE",
+        "description": "Packaged ore sample extracted from the center of an Originium vein. It is an acceptable substitute for refined Originium fuel when refining facilities are not available.",
+        "icon": "act1vhalfidle_gacha_normal.png",
+        "name": "Packaged Core",
+        "sortId": -10000,
+        "usage": "Can be used to appoint Operators in Random Appointment."
+    },
+    "act1vhalfidle_itempack_asc": {
+        "classifyType": "NONE",
+        "description": "Token that represents Elite Operators, signifying that the holder has earned recognition for their production work at the Frontier Outposts.",
+        "icon": "act1vhalfidle_itempack_asc.png",
+        "name": "Elite Advancement Token",
+        "sortId": -10000,
+        "usage": "Can be used to promote Operators in Rebuilding Mandate."
+    },
+    "act1vhalfidle_level_exp": {
+        "classifyType": "NONE",
+        "description": "The most important things in the Frontier Outposts are courage, perseverance, and humility. Live, learn, produce.",
+        "icon": "act1vhalfidle_level_exp.png",
+        "name": "Training Handbook",
+        "sortId": -10000,
+        "usage": "Can be used to increase Operator training level in Rebuilding Mandate."
+    },
+    "act1vhalfidle_skill_exp": {
+        "classifyType": "NONE",
+        "description": "Building and producing is no less a chore than fighting and killing. Remain vigilant and work together.",
+        "icon": "act1vhalfidle_skill_exp.png",
+        "name": "Skill Handbook",
+        "sortId": -10000,
+        "usage": "Can be used to increase Operator skill level in Rebuilding Mandate."
+    },
+    "act1vhalfidle_strategy_point": {
+        "classifyType": "NONE",
+        "description": "Virtual marker with Closure's crypto-signature. The quantity deployed is carefully calculated, ensuring that aid provided by Rhodes Island HQ is utilized efficiently.\n'More interesting than a plain paper production plan, don't you think?'",
+        "icon": "act1vhalfidle_strategy_point.png",
+        "name": "Strategic Beacon",
+        "sortId": -10000,
+        "usage": "Can be used to apply Construction Strategies in Rebuilding Mandate."
+    },
+    "act1vhalfidle_token_point": {
+        "classifyType": "NONE",
+        "description": "Rhodes Island was not built in a day, but we build it up day by day.\n'For Rhodes Island.'",
+        "icon": "act1vhalfidle_token_point.png",
+        "name": "Resource Point",
+        "sortId": -10000,
+        "usage": "Credits derived from total resources, which can be used to obtain rewards from Closure."
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "The pages retain handwriting of all shapes and sizes, the amount even serving to tell you how often the magazine's changed hands. Most of it is meaningless scrawls, but flashes of wisdom are scattered throughout.",

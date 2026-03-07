@@ -30,20 +30,20 @@ public static class DataHelper
 {
     public static readonly Dictionary<string, string> ClientDirectoryMapper = new()
     {
-        { "zh-tw", "txwy" },
-        { "en-us", "YoStarEN" },
-        { "ja-jp", "YoStarJP" },
-        { "ko-kr", "YoStarKR" },
+        { "zh-tw", ClientType.Txwy },
+        { "en-us", ClientType.EN },
+        { "ja-jp", ClientType.JP },
+        { "ko-kr", ClientType.KR },
     };
 
     public static readonly Dictionary<string, string> ClientLanguageMapper = new()
     {
-        { "Official", "zh-cn" },
-        { "Bilibili", "zh-cn" },
-        { "YoStarEN", "en-us" },
-        { "YoStarJP", "ja-jp" },
-        { "YoStarKR", "ko-kr" },
-        { "txwy", "zh-tw" },
+        { ClientType.Official, "zh-cn" },
+        { ClientType.Bilibili, "zh-cn" },
+        { ClientType.EN, "en-us" },
+        { ClientType.JP, "ja-jp" },
+        { ClientType.KR, "ko-kr" },
+        { ClientType.Txwy, "zh-tw" },
     };
 
     /// <summary>
@@ -191,15 +191,15 @@ public static class DataHelper
     {
         return str switch
         {
-            "zh-cn" or "Official" or "Bilibili" =>
+            "zh-cn" or ClientType.Official or ClientType.Bilibili =>
                 v => CharacterNames.Add(v.Name ?? string.Empty),
-            "zh-tw" or "txwy" =>
+            "zh-tw" or ClientType.Txwy =>
                 v => CharacterNames.Add(v.NameTw ?? string.Empty),
-            "en-us" or "YoStarEN" =>
+            "en-us" or ClientType.EN =>
                 v => CharacterNames.Add(v.NameEn ?? string.Empty),
-            "ja-jp" or "YoStarJP" =>
+            "ja-jp" or ClientType.JP =>
                 v => CharacterNames.Add(v.NameJp ?? string.Empty),
-            "ko-kr" or "YoStarKR" =>
+            "ko-kr" or ClientType.KR =>
                 v => CharacterNames.Add(v.NameKr ?? string.Empty),
             _ =>
                 v => CharacterNames.Add(v.Name ?? string.Empty),
@@ -295,10 +295,10 @@ public static class DataHelper
 
         return clientType switch
         {
-            "zh-tw" or "txwy" => !character.NameTwUnavailable,
-            "en-us" or "YoStarEN" => !character.NameEnUnavailable,
-            "ja-jp" or "YoStarJP" => !character.NameJpUnavailable,
-            "ko-kr" or "YoStarKR" => !character.NameKrUnavailable,
+            "zh-tw" or ClientType.Txwy => !character.NameTwUnavailable,
+            "en-us" or ClientType.EN => !character.NameEnUnavailable,
+            "ja-jp" or ClientType.JP => !character.NameJpUnavailable,
+            "ko-kr" or ClientType.KR => !character.NameKrUnavailable,
             _ => true,
         };
     }

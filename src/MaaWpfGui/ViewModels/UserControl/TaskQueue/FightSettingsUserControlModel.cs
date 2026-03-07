@@ -41,6 +41,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// </summary>
 public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSettingsUserControlModel.ISerialize
 {
+    public const string AnnihilationName = "Annihilation";
     private static readonly ILogger _logger = Log.ForContext<FightSettingsUserControlModel>();
     private static readonly Lock _lock = new();
 
@@ -656,16 +657,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         return value;
     }
 
-    public static string? GetFightStage(FightTask fightTask)
+    public static string? GetFightStage(IEnumerable<string> list)
     {
-        if (fightTask == null)
-        {
-            return null;
-        }
-
-        var list = fightTask.StagePlan;
-        var stage = list?.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen);
+        var stage = list?.FirstOrDefault(s => Instances.StageManager.IsStageOpen(s, Instances.TaskQueueViewModel.CurDayOfWeek));
         stage ??= list?.FirstOrDefault();
+        _logger.Information("GetFightStage: from {list}, selected {stage}", list, stage);
         return stage;
     }
 
@@ -719,7 +715,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     public void UpdateStageList()
     {
         Execute.PostToUIThreadAsync(() => {
-            _logger.Information("Updating stage list...");
+            using var log = new LogScope(_logger);
             using var scope = _lock.EnterScope();
             var stageList = Instances.StageManager.GetStageList();
             RefreshStageList();
@@ -924,7 +920,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             }
 
             using var scope = _lock.EnterScope();
-            var stage = GetFightStage(fight);
+            var stage = FightSettingsUserControlModel.GetFightStage(fight.StagePlan);
             if (stage is null)
             {
                 return null;

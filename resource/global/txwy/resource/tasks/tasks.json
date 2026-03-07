@@ -1148,6 +1148,9 @@
     "BattleStartSimulationForTwo": {
         "text": ["開始", "模擬"]
     },
+    "BattleDeployWhenPause": {
+        "specialParams": [0]
+    },
     "StageDrops-TimesCheck": {
         "text": ["連續", "成功", "代理", "作戰"]
     },

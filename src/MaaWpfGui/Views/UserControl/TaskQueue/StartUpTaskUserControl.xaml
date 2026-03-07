@@ -59,8 +59,8 @@
                 HorizontalAlignment="Center"
                 FontWeight="Bold"
                 Text="{DynamicResource MultiTasksShareTip}"
-                TextWrapping="Wrap"
-                TextAlignment="Left" />
+                TextAlignment="Left"
+                TextWrapping="Wrap" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource StartGameLaunchClient}"
@@ -83,11 +83,26 @@
                     <CheckBox Content="{DynamicResource AutoDetectConnection}" IsChecked="{Binding AutoDetectConnection}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource AutoDetectConnectionTip}" />
                 </StackPanel>
-                <CheckBox
+                <StackPanel
                     Margin="0,10"
-                    Content="{DynamicResource AlwaysAutoDetectConnection}"
-                    IsChecked="{Binding AlwaysAutoDetectConnection}"
-                    Visibility="{c:Binding AutoDetectConnection}" />
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding AutoDetectConnection}">
+                    <CheckBox Content="{DynamicResource AlwaysAutoDetectConnection}" IsChecked="{Binding AlwaysAutoDetectConnection}">
+                        <CheckBox.Style>
+                            <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource ErrorLogBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
+                    <controls:TooltipBlock TooltipText="{DynamicResource AlwaysAutoDetectConnectionTip}" />
+                </StackPanel>
             </StackPanel>
 
             <!--  连接配置  -->
@@ -197,7 +212,7 @@
                     Margin="0,5"
                     hc:InfoElement.Title="{DynamicResource AttachWindowMouseMethod}"
                     DisplayMemberPath="Display"
-                    ItemsSource="{Binding AttachWindowInputMethodList}"
+                    ItemsSource="{Binding AttachWindowMouseMethodList}"
                     SelectedValue="{Binding AttachWindowMouseMethod}"
                     SelectedValuePath="Value" />
 
@@ -205,7 +220,7 @@
                     Margin="0,5"
                     hc:InfoElement.Title="{DynamicResource AttachWindowKeyboardMethod}"
                     DisplayMemberPath="Display"
-                    ItemsSource="{Binding AttachWindowInputMethodList}"
+                    ItemsSource="{Binding AttachWindowKeyboardMethodList}"
                     SelectedValue="{Binding AttachWindowKeyboardMethod}"
                     SelectedValuePath="Value" />
             </StackPanel>

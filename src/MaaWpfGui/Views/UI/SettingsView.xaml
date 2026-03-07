@@ -44,134 +44,329 @@
             PanningMode="Both">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="{c:Binding SwitchConfigurationSetting.Value}" d:Grid.Row="0">
-                    <hc:Divider Content="{Binding SwitchConfigurationSetting.Display}" />
-                    <settings:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <Grid
+                    Grid.Row="{c:Binding SwitchConfigurationSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="0">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding SwitchConfigurationSetting.Display}"
+                        IsExpanded="{Binding IsSwitchConfigurationExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{c:Binding ScheduleSettingsSetting.Value}" d:Grid.Row="1">
-                    <hc:Divider Content="{Binding ScheduleSettingsSetting.Display}" />
-                    <settings:TimerSettingsUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding TimerSettings}" />
+                <Grid
+                    Grid.Row="{c:Binding ScheduleSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="1">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding ScheduleSettingsSetting.Display}"
+                        IsExpanded="{Binding IsScheduleSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:TimerSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding TimerSettings}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding PerformanceSettingsSetting.Value}" d:Grid.Row="2">
-                    <hc:Divider Content="{Binding PerformanceSettingsSetting.Display}" />
-                    <settings:PerformanceUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding PerformanceSettings}"
-                        IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                <Grid
+                    Grid.Row="{Binding PerformanceSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="2">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding PerformanceSettingsSetting.Display}"
+                        IsExpanded="{Binding IsPerformanceSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:PerformanceUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding PerformanceSettings}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding GameSettingsSetting.Value}" d:Grid.Row="3">
-                    <hc:Divider Content="{Binding GameSettingsSetting.Display}" />
-                    <settings:GameSettingsUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding GameSettings}" />
+                <Grid
+                    Grid.Row="{Binding GameSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="3">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding GameSettingsSetting.Display}"
+                        IsExpanded="{Binding IsGameSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:GameSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding GameSettings}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding ConnectionSettingsSetting.Value}" d:Grid.Row="4">
-                    <hc:Divider Content="{Binding ConnectionSettingsSetting.Display}" />
-                    <settings:ConnectSettingsUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding ConnectSettings}"
-                        IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                <Grid
+                    Grid.Row="{Binding ConnectionSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="4">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding ConnectionSettingsSetting.Display}"
+                        IsExpanded="{Binding IsConnectionSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:ConnectSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding ConnectSettings}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding StartupSettingsSetting.Value}" d:Grid.Row="5">
-                    <hc:Divider Content="{Binding StartupSettingsSetting.Display}" />
-                    <settings:StartSettingsUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding StartSettings}" />
+                <Grid
+                    Grid.Row="{Binding StartupSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="5">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding StartupSettingsSetting.Display}"
+                        IsExpanded="{Binding IsStartupSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:StartSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding StartSettings}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding RemoteControlSettingsSetting.Value}" d:Grid.Row="6">
-                    <hc:Divider Content="{Binding RemoteControlSettingsSetting.Display}" />
-                    <settings:RemoteControlUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding RemoteControlSettings}" />
+                <Grid
+                    Grid.Row="{Binding RemoteControlSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="6">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding RemoteControlSettingsSetting.Display}"
+                        IsExpanded="{Binding IsRemoteControlSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:RemoteControlUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding RemoteControlSettings}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding UiSettingsSetting.Value}" d:Grid.Row="7">
-                    <hc:Divider Content="{Binding UiSettingsSetting.Display}" />
-                    <settings:GuiSettingsUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding GuiSettings}" />
+                <Grid
+                    Grid.Row="{Binding UiSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="7">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding UiSettingsSetting.Display}"
+                        IsExpanded="{Binding IsUiSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:GuiSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding GuiSettings}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding BackgroundSettingsSetting.Value}" d:Grid.Row="8">
-                    <hc:Divider Content="{Binding BackgroundSettingsSetting.Display}" />
-                    <settings:BackgroundSettingsUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding BackgroundSettings}" />
+                <Grid
+                    Grid.Row="{Binding BackgroundSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="8">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding BackgroundSettingsSetting.Display}"
+                        IsExpanded="{Binding IsBackgroundSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:BackgroundSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding BackgroundSettings}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding ExternalNotificationSettingsSetting.Value}" d:Grid.Row="9">
-                    <hc:Divider Content="{Binding ExternalNotificationSettingsSetting.Display}" />
-                    <settings:ExternalNotificationSettingsUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding ExternalNotificationSettings}" />
+                <Grid
+                    Grid.Row="{Binding ExternalNotificationSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="9">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding ExternalNotificationSettingsSetting.Display}"
+                        IsExpanded="{Binding IsExternalNotificationSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:ExternalNotificationSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding ExternalNotificationSettings}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding HotKeySettingsSetting.Value}" d:Grid.Row="10">
-                    <hc:Divider Content="{Binding HotKeySettingsSetting.Display}" />
-                    <settings:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <Grid
+                    Grid.Row="{Binding HotKeySettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="10">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding HotKeySettingsSetting.Display}"
+                        IsExpanded="{Binding IsHotKeySettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding AchievementSettingsSetting.Value}" d:Grid.Row="11">
-                    <hc:Divider Content="{Binding AchievementSettingsSetting.Display}" />
-                    <settings:AchievementSettingsUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding AchievementSettings}" />
+                <Grid
+                    Grid.Row="{Binding AchievementSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="11">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding AchievementSettingsSetting.Display}"
+                        IsExpanded="{Binding IsAchievementSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:AchievementSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding AchievementSettings}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding UpdateSettingsSetting.Value}" d:Grid.Row="12">
-                    <hc:Divider Content="{Binding UpdateSettingsSetting.Display}" />
-                    <settings:VersionUpdateSettingsUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding VersionUpdateSettings}" />
+                <Grid
+                    Grid.Row="{Binding UpdateSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="12">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding UpdateSettingsSetting.Display}"
+                        IsExpanded="{Binding IsUpdateSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:VersionUpdateSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding VersionUpdateSettings}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding IssueReportSetting.Value}" d:Grid.Row="13">
-                    <hc:Divider Content="{Binding IssueReportSetting.Display}" />
-                    <settings:IssueReportUserControl
-                        Margin="0,20"
-                        HorizontalAlignment="Center"
-                        DataContext="{Binding IssueReportSettings}" />
+                <Grid
+                    Grid.Row="{Binding IssueReportSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="13">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding IssueReportSetting.Display}"
+                        IsExpanded="{Binding IsIssueReportExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:IssueReportUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding IssueReportSettings}" />
+                        </Border>
+                    </Expander>
                 </Grid>
 
-                <Grid Grid.Row="{Binding AboutUsSetting.Value}" d:Grid.Row="14">
-                    <hc:Divider Content="{Binding AboutUsSetting.Display}" />
-                    <settings:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <Grid
+                    Grid.Row="{Binding AboutUsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="14">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding AboutUsSetting.Display}"
+                        IsExpanded="{Binding IsAboutUsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
+                        </Border>
+                    </Expander>
                 </Grid>
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
             </Grid>
