@@ -284,6 +284,21 @@ std::pair<int, int> Win32Controller::get_screen_res() const noexcept
     return m_screen_size;
 }
 
+void Win32Controller::move_cursor_out_of_view() noexcept
+{
+    if (!m_hwnd || !m_inited) {
+        return;
+    }
+
+    RECT rect;
+    if (!GetWindowRect(static_cast<HWND>(m_hwnd), &rect)) {
+        return;
+    }
+    // 将光标移到被控窗口矩形的左下角正下方一像素处。
+    // 该位置基于窗口的实际屏幕坐标计算，可正确处理多显示器布局。
+    SetCursorPos(rect.left, rect.bottom);
+}
+
 void Win32Controller::callback(AsstMsg msg, const json::value& details)
 {
     if (m_callback) {
