@@ -4,8 +4,13 @@
 
 using namespace asst;
 
-bool StartGameTaskPlugin::start_game_with_retries(size_t pipe_data_size_limit, bool newer_android) const
+bool StartGameTaskPlugin::start_game_with_retries([[maybe_unused]] size_t pipe_data_size_limit,
+                                                  [[maybe_unused]] bool newer_android) const
 {
+#ifdef __ANDROID__
+    // On Android, start_game returns true only after the game is actually started
+    return !need_exit() && ctrler()->start_game(m_client_type);
+#else
     int extra_runs = 0;
     for (int i = 0; i < 30; ++i) {
         if (need_exit() || !ctrler()->start_game(m_client_type)) {
@@ -22,6 +27,7 @@ bool StartGameTaskPlugin::start_game_with_retries(size_t pipe_data_size_limit, b
     }
 
     return false;
+#endif
 }
 
 bool StartGameTaskPlugin::_run()
