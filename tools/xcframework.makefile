@@ -25,7 +25,11 @@ else
     SRC_DIRS := install-$(ARCH)
 endif
 
-get_srcs = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/$(1)))
+_get_and_check = $(if $(filter-out 1,$(words $(wildcard $(1)/$(2)))),\
+	$(error Ambiguous dylibs: $(wildcard $(1)/$(2))),\
+	$(wildcard $(1)/$(2)))
+
+get_srcs = $(foreach dir,$(SRC_DIRS),$(call _get_and_check,$(dir),$(1)))
 
 $(BUILD_DIR)/MaaCore.xcframework: $(call get_srcs,libMaaCore.dylib)
 $(BUILD_DIR)/MaaUtils.xcframework: $(call get_srcs,libMaaUtils.dylib)
