@@ -3,6 +3,7 @@
 #include <fastdeploy/vision/ocr/ppocr/utils/clipper.h>
 #include <thread>
 
+#include "Common/AsstMsg.h"
 #include "Config/GeneralConfig.h"
 #include "Controller/MaaFwControlUnitInterface.h"
 #include "Utils/Logger.hpp"
@@ -74,6 +75,20 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
     LogTraceFunction;
 
     m_inited = false;
+    m_uuid.clear();
+    m_screen_size = { 0, 0 };
+
+    auto get_info_json = [&]() -> json::object {
+        return json::object {
+            { "uuid", m_uuid },
+            { "details",
+              json::object {
+                  { "adb", adb_path },
+                  { "address", address },
+                  { "config", config },
+              } },
+        };
+    };
 
     if (!init_library()) {
         return false;
@@ -106,23 +121,66 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
         LogError << "MaaAdbControlUnit failed to connect";
         m_destroy_func(m_unit_handle);
         m_unit_handle = nullptr;
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ConnectFailed" },
+                { "why", "MaaAdbControlUnit failed to connect" },
+            } | get_info_json());
         return false;
     }
 
     if (!m_unit_handle->request_uuid(m_uuid)) {
-        LogWarn << "Failed to get UUID from MaaFwAdbControlUnit, fallback to address";
-        m_uuid = address;
+        LogWarn << "Failed to get UUID from MaaFwAdbControlUnit";
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ConnectFailed" },
+                { "why", "MaaFwAdbControlUnit failed to get UUID" },
+            } | get_info_json());
+        return false;
     }
+
+    callback(
+        AsstMsg::ConnectionInfo,
+        json::object {
+            { "what", "UuidGot" },
+            { "why", "" },
+            { "details",
+              json::object {
+                  { "uuid", m_uuid },
+              } },
+        } | get_info_json());
 
     // 尝试进行一次截图以获取屏幕分辨率
     cv::Mat image;
-    if (m_unit_handle->screencap(image)) {
-        m_screen_size = { image.cols, image.rows };
-        LogInfo << "Connected to ADB. Screen size:" << m_screen_size.first << "x" << m_screen_size.second
-                << VAR(m_unit_handle) << VAR(this);
+    if (!m_unit_handle->screencap(image) || image.cols == 0 || image.rows == 0) {
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ResolutionError" },
+                { "why", "Get resolution failed" },
+            } | get_info_json());
+        return false;
     }
+    m_screen_size = { image.cols, image.rows };
+    LogInfo << "Connected to ADB. Screen size:" << m_screen_size.first << "x" << m_screen_size.second;
+    callback(
+        AsstMsg::ConnectionInfo,
+        json::object {
+            { "what", "ResolutionGot" },
+            { "why", "" },
+            { "width", m_screen_size.first },
+            { "height", m_screen_size.second },
+        } | get_info_json());
 
     m_inited = true;
+    callback(
+        AsstMsg::ConnectionInfo,
+        json::object {
+            { "what", "Connected" },
+            { "why", "" },
+        } | get_info_json());
     return true;
 }
 
