@@ -1,5 +1,57 @@
 ## v6.4.0
 
+### Highlight  
+
+这一版更新虽不大，但功能堆得满满——主题新衣、设置折叠、PC 管理员重启提示、自动战斗加载作业集、以及更聪明的战斗内检测和速度记忆。给大家准备了不少“用起来更顺手”的改动。
+
+#### Rebuilding Mandate (Global)
+
+* JP/EN 的 **Rebuilding Mandate** 和 **Together** 两个主题终于上线，视觉党可以换装了。
+* MuMu 国际版的截图增强提示也加入提示气泡，帮助玩家识别何时切换截图模式。
+
+#### 设置页面可折叠
+
+设置界面整页支持折叠，子项太多滚不过去？点一下就好了，界面更清爽。
+
+#### PC 客户端需管理员重启
+
+PC 端运行时新增安全提示——如果检测到非管理员启动，MAA 会要求重启提升权限，避免控制失败的问题。
+
+> ⚠️ 注意：控制 PC 端时仍需保持窗口非最小化，并且目前仅支持真实鼠标点击（不能模拟）。
+
+#### 自动战斗：其他活动也能用作业集
+
+自动战斗在“其他活动”模式下也能 **加载作业列表并从中选择**，配方、突袭、联机活动都能用同一套作业集，省去重复编辑。
+
+---
+
+#### Highlight
+
+This update may seem compact, but it's packed with features — new themes, collapsible settings, an admin restart prompt for PC, job-set loading in auto combat, and smarter in-battle detection with speed memory. We've prepared many usability improvements for you.
+
+#### Rebuilding Mandate for Global
+
+* New EN/JP/KR **Rebuilding Mandate** and **Together** themes are available.
+* MuMu international build now shows a tooltip to remind you when to switch screenshot modes.
+
+#### Collapsible settings panel
+
+The entire settings panel is now collapsible. Too many options to scroll through? Just collapse a section and enjoy a cleaner UI.
+
+#### PC client admin restart prompt
+
+A new security prompt warns if MAA is started without administrator rights on the PC client. It will ask you to restart with elevated privileges to avoid control failures.
+
+> ⚠️ Note: The PC client must stay unminimized during control, and only real mouse clicks are supported (no simulation).
+
+#### Auto combat job-set support for other activities
+
+Auto Combat now supports loading a job list in the “Other Activities” mode, allowing you to pick a job set for events like raids, co-op, etc. One configuration fits all, no more redundant editing.
+
+---
+
+### 以下是详细内容：
+
 ### 新增 | New
 
 * JP RebuildingMandate and Together theme (#15931) @Manicsteiner
