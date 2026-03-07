@@ -361,8 +361,8 @@ bool asst::PlayToolsController::open()
 #ifdef ASST_WITH_MAC_SCK
         return m_sck_helper.init(m_bundle_id, port, m_screen_size, m_frame_rect);
 #else
-        Log.error("MacSCK is not built, fallback to RGBA screencap method");
-        m_screencap_method = ScreencapMethod::RGBA;
+        Log.error("MacSCK is not built, fallback to BGR screencap method");
+        m_screencap_method = ScreencapMethod::BGR;
 #endif // ASST_WITH_MAC_SCK
     }
 

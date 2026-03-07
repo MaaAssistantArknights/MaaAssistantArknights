@@ -70,10 +70,10 @@ bool asst::MacSCKHelper::requestPermission()
 struct asst::MacSCKHelper::Impl {
     ~Impl();
 
-    __strong SCStream* m_stream;
-    __strong MacSCKOutput* m_output;
+    SCStream* m_stream = nil;
+    MacSCKOutput* m_output = nil;
 
-    dispatch_queue_t m_queue;
+    dispatch_queue_t m_queue = nil;
 
     bool init(std::string_view bundle_id, std::string_view port, std::pair<int, int> size, std::array<int16_t, 8> rect);
     bool capture(std::vector<uint8_t>& bgrData) const;
@@ -83,8 +83,11 @@ asst::MacSCKHelper::Impl::~Impl()
 {
     if (m_stream) {
         [m_stream stopCaptureWithCompletionHandler:nil];
+        [m_stream release];
         m_stream = nil;
     }
+
+    [m_output release];
     m_output = nil;
 
     if (m_queue) {
@@ -181,6 +184,7 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
         result = false;
     }
 
+    dispatch_release(sem);
     return result;
 }
 
@@ -253,6 +257,7 @@ bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
         result = false;
     }
 
+    dispatch_release(sem);
     return result;
 }
 
