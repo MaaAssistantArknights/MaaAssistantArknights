@@ -148,6 +148,9 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
         m_output = [[MacSCKOutput alloc] init];
         m_stream = [[SCStream alloc] initWithFilter:filter configuration:config delegate:m_output];
 
+        [config release];
+        [filter release];
+
         m_queue = dispatch_queue_create("plus.maa.MacSCKOutput", NULL);
         [m_stream addStreamOutput:m_output
                              type:SCStreamOutputTypeScreen
@@ -192,6 +195,12 @@ bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
 {
     auto sem = dispatch_semaphore_create(0);
     __block bool result = false;
+
+    if (!m_queue || !m_output) {
+        Log.error("Stream output is not initialized");
+        dispatch_release(sem);
+        return false;
+    }
 
     dispatch_async(m_queue, ^{
         if (!m_output.running) {

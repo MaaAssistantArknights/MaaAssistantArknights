@@ -480,6 +480,11 @@ bool asst::PlayToolsController::fetch_bundle_id()
         return false;
     }
 
+    if (length == 0 || length > BUFSIZ) {
+        Log.error("Invalid bundle ID length:", length);
+        return false;
+    }
+
     try {
         m_bundle_id.resize(length);
         boost::asio::read(m_socket, boost::asio::buffer(m_bundle_id.data(), length));
