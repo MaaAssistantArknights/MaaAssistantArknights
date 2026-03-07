@@ -77,7 +77,7 @@ bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_rec
     case ScreencapMethod::BGR:
         return screencap_bgr(image_payload, allow_reconnect);
     case ScreencapMethod::MacSCK: {
-#ifdef ASST_WITH_MAC_SCK
+#if ASST_WITH_MAC_SCK
         if (!m_sck_helper.capture(m_screencap_buffer)) {
             return false;
         }
@@ -358,7 +358,7 @@ bool asst::PlayToolsController::open()
         if (!fetch_frame_rect() || !fetch_bundle_id()) {
             return false;
         }
-#ifdef ASST_WITH_MAC_SCK
+#if ASST_WITH_MAC_SCK
         return m_sck_helper.init(m_bundle_id, port, m_screen_size, m_frame_rect);
 #else
         Log.error("MacSCK is not built, fallback to BGR screencap method");

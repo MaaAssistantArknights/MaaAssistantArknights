@@ -113,7 +113,7 @@ private:
     bool fetch_frame_rect();
     bool fetch_bundle_id();
 
-#ifdef ASST_WITH_MAC_SCK
+#if ASST_WITH_MAC_SCK
     MacSCKHelper m_sck_helper;
 #endif // ASST_WITH_MAC_SCK
 };
