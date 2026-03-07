@@ -117,7 +117,8 @@
             "JieGarden@Roguelike@Stages#next",
             "JieGarden@Roguelike@DropsFlag",
             "JieGarden@Roguelike@CloseEvent",
-            "JieGarden@Roguelike@ChooseOperFlag"
+            "JieGarden@Roguelike@ChooseOperFlag",
+            "JieGarden@Roguelike@CoppersAfterAction"
         ]
     },
     "JieGarden@Roguelike@CloseCollectionContinue": {
@@ -128,7 +129,8 @@
             "JieGarden@Roguelike@Stages#next",
             "JieGarden@Roguelike@DropsFlag",
             "JieGarden@Roguelike@CloseEvent",
-            "JieGarden@Roguelike@ChooseOperFlag"
+            "JieGarden@Roguelike@ChooseOperFlag",
+            "JieGarden@Roguelike@CoppersAfterAction"
         ]
     },
     "JieGarden@Roguelike@CloseEvent": {
@@ -242,7 +244,7 @@
         "Doc": "交换通宝的确认按钮",
         "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
         "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
-        "next": ["JieGarden@Roguelike@CoppersExchangeFinish", "#self"]
+        "next": ["JieGarden@Roguelike@CoppersAfterAction", "#self"]
     },
     "JieGarden@Roguelike@CoppersExchangeFinish": {
         "Doc": "通宝交换完成后的交换按钮 (用于确认交换操作完成)",
@@ -365,14 +367,25 @@
         "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
         "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
         "postDelay": 3000,
-        "next": ["JieGarden@Roguelike@CoppersRecastResult", "#self"]
+        "next": ["JieGarden@Roguelike@CoppersRecastResult", "JieGarden@Roguelike@CoppersAfterAction", "#self"]
     },
     "JieGarden@Roguelike@CoppersRecastResult": {
         "Doc": "点击投钱结果界面的对号 有时延迟时间比较长会失败 目前依赖retry_times有20次兜底",
         "action": "ClickSelf",
         "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
         "postDelay": 500,
-        "roi": [1033, 462, 153, 155]
+        "roi": [1033, 462, 153, 155],
+        "next": ["JieGarden@Roguelike@CoppersAfterAction", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersAfterAction": {
+        "template": "empty.png",
+        "Doc": "通宝操作完成后的跳转逻辑",
+        "next": [
+            "JieGarden@Roguelike@CoppersExchangeFinish",
+            "JieGarden@Roguelike@CoppersRecastConfirm",
+            "JieGarden@Roguelike@CloseCollectionContinue",
+            "JieGarden@Roguelike@CloseCollectionClose"
+        ]
     },
     "JieGarden@Roguelike@CoppersTakeConfirm": {
         "Doc": "交换通宝确认按钮 (用于插件 RoguelikeCoppersTaskPlugin 的确认操作)",
