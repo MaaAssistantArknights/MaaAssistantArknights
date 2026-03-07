@@ -55,7 +55,7 @@ We've also optimized other content.
 
 For the Mac version of the game, we've also adapted PlayCover's BGR-optimized screenshots.
 
-For the PC version of the game, due to its security policy restrictions, if you need MAA to control the PC version, you need to run MAA as an administrator. ~~(Not the little penguin from the Endfield)~~
+For the PC version of the game, due to its security policy restrictions, if you need MAA to control the PC version, you need to run MAA as an administrator. ~~(Not the Endministrator from the Endfield)~~
 
 > ⚠️ Note: When controlling the PC version, the game window **must not** be minimized, and currently only real mouse clicks are supported (simulated clicks are not supported, and MAA will take over mouse control to perform automatic clicks).
 
