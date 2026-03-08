@@ -478,7 +478,6 @@
             ["Hypnotic Censer", "安眠迷香"],
             ["Modular Computing Station", "模块演算设施"],
             ["Refreshing Potion", "醒神秘药"],
-            ["Bush", "灌木丛"],
             ["Base", "基地"],
             ["Old Isin", "老伊辛"],
             ["Fortification", "防御工事"],
@@ -969,7 +968,49 @@
             ["Counter Armor Set", "反制装甲套组"],
             ["Uika Misumi", "三角初华"],
             ["'Unwavering Assistant'", "“绝对助手”"],
-            ["Nyamu Y.?tenji", "祐天寺若麦"]
+            ["Nyamu Y.?tenji", "祐天寺若麦"],
+            ["Greenhouse Shed", "温室拱棚"],
+            ["Bloodborn Cytoplasm", "血裔胞体"],
+            ["Cursed Bloodground", "噬血诅地"],
+            ["Plug-in Upgrade Depot", "插件强化点"],
+            ["Plug-in Supply Depot", "插件补给点"],
+            ["Hill Village", "山地村落"],
+            ["^Ruins$", "废墟"],
+            ["Warning Outpost", "警戒岗哨"],
+            ["Advance Detector", "先遣侦测器"],
+            ["Great Library", "大图书馆"],
+            ["Improved Witchcraft Altar", "改良巫术祭坛"],
+            ["Archive", "藏书馆"],
+            ["Power Station", "供能基站"],
+            ["Polluted Recycler", "被污染的回收炉"],
+            ["Foundry Car", "冶铸车"],
+            ["Forest", "密林"],
+            ["^Bush$", "草丛"],
+            ["^Bush$", "灌木丛"],
+            ["Loader", "装卸机"],
+            ["Fae Lab", "精怪实验室"],
+            ["Originium Mine", "源石矿场"],
+            ["Hunting Village", "猎户村落"],
+            ["Pasture Village", "牧场村落"],
+            ["Flower Bush", "花丛"],
+            ["Formation Stabilizer", "晶簇稳定器"],
+            ["Wilderness Village", "荒野村落"],
+            ["Woods", "林地"],
+            ["Surveyor", "勘探器"],
+            ["Originium Recycler", "源石回收炉"],
+            ["^Rock$", "岩石"],
+            ["Sensor Hub", "侦测中心"],
+            ["^Outpost$", "岗哨"],
+            ["Witchcraft Village", "巫术村落"],
+            ["Mountain", "山脉"],
+            ["Impact Fence", "冲突围栏"],
+            ["Originium Formation", "源石晶簇"],
+            ["^River$", "河流"],
+            ["Rich Vein", "富集矿区"],
+            ["Arts Outpost", "术法岗哨"],
+            ["Farmland", "田地"],
+            ["Waterside Village", "水产村落"],
+            ["Base Station", "信号基站"]
         ]
     },
     "GameStartCheckResourceOCR": {
@@ -1556,6 +1597,9 @@
     },
     "SSSBattleOperName": {
         "roi": [0, 105, 300, 31]
+    },
+    "BattleDeployWhenPause": {
+        "specialParams": [0]
     },
     "StageDrops-TimesCheck": {
         "text": ["Continuous", "Auto", "Operation"]

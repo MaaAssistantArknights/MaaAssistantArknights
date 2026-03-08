@@ -10142,6 +10142,42 @@
         "stageId": "act2break_12",
         "width": 13
     },
+    "act2break_h01-activities/act2break/level_act2break_13": {
+        "code": "VEC-A",
+        "filename": "act2break_h01-activities-act2break-level_act2break_13.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_13",
+        "name": "可变性方程",
+        "stageId": "act2break_h01",
+        "width": 11
+    },
+    "act2break_h02-activities/act2break/level_act2break_14": {
+        "code": "VEC-B",
+        "filename": "act2break_h02-activities-act2break-level_act2break_14.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_14",
+        "name": "十九号车道",
+        "stageId": "act2break_h02",
+        "width": 13
+    },
+    "act2break_h03-activities/act2break/level_act2break_15": {
+        "code": "VEC-C",
+        "filename": "act2break_h03-activities-act2break-level_act2break_15.json",
+        "height": 7,
+        "levelId": "activities/act2break/level_act2break_15",
+        "name": "自适应悖论",
+        "stageId": "act2break_h03",
+        "width": 11
+    },
+    "act2break_h04-activities/act2break/level_act2break_16": {
+        "code": "VEC-D",
+        "filename": "act2break_h04-activities-act2break-level_act2break_16.json",
+        "height": 8,
+        "levelId": "activities/act2break/level_act2break_16",
+        "name": "认知剥离界域",
+        "stageId": "act2break_h04",
+        "width": 12
+    },
     "act2break_sp01-activities/act2break/level_act2break_sp01": {
         "code": "VEC-SP01",
         "filename": "act2break_sp01-activities-act2break-level_act2break_sp01.json",
@@ -10222,6 +10258,69 @@
         "name": "刺骨苦难",
         "stageId": "act2break_sp09",
         "width": 10
+    },
+    "act2break_sp10-activities/act2break/level_act2break_sp10": {
+        "code": "VEC-SP08",
+        "filename": "act2break_sp10-activities-act2break-level_act2break_sp10.json",
+        "height": 5,
+        "levelId": "activities/act2break/level_act2break_sp10",
+        "name": "速递怪谈",
+        "stageId": "act2break_sp10",
+        "width": 9
+    },
+    "act2break_sp11-activities/act2break/level_act2break_sp11": {
+        "code": "VEC-SP09",
+        "filename": "act2break_sp11-activities-act2break-level_act2break_sp11.json",
+        "height": 6,
+        "levelId": "activities/act2break/level_act2break_sp11",
+        "name": "向死而生",
+        "stageId": "act2break_sp11",
+        "width": 8
+    },
+    "act2break_sp12-activities/act2break/level_act2break_sp12": {
+        "code": "VEC-SP10",
+        "filename": "act2break_sp12-activities-act2break-level_act2break_sp12.json",
+        "height": 4,
+        "levelId": "activities/act2break/level_act2break_sp12",
+        "name": "狭岸相逢",
+        "stageId": "act2break_sp12",
+        "width": 8
+    },
+    "act2break_sp13-activities/act2break/level_act2break_sp13": {
+        "code": "VEC-SP11",
+        "filename": "act2break_sp13-activities-act2break-level_act2break_sp13.json",
+        "height": 6,
+        "levelId": "activities/act2break/level_act2break_sp13",
+        "name": "过度狂热",
+        "stageId": "act2break_sp13",
+        "width": 8
+    },
+    "act2break_sp14-activities/act2break/level_act2break_sp14": {
+        "code": "VEC-SP12",
+        "filename": "act2break_sp14-activities-act2break-level_act2break_sp14.json",
+        "height": 5,
+        "levelId": "activities/act2break/level_act2break_sp14",
+        "name": "水土不服",
+        "stageId": "act2break_sp14",
+        "width": 7
+    },
+    "act2break_sp15-activities/act2break/level_act2break_sp15": {
+        "code": "VEC-SP15",
+        "filename": "act2break_sp15-activities-act2break-level_act2break_sp15.json",
+        "height": 6,
+        "levelId": "activities/act2break/level_act2break_sp15",
+        "name": "殊途同归",
+        "stageId": "act2break_sp15",
+        "width": 8
+    },
+    "act2break_sp16-activities/act2break/level_act2break_sp16": {
+        "code": "VEC-SP16",
+        "filename": "act2break_sp16-activities-act2break-level_act2break_sp16.json",
+        "height": 8,
+        "levelId": "activities/act2break/level_act2break_sp16",
+        "name": "夺命光影",
+        "stageId": "act2break_sp16",
+        "width": 11
     },
     "act2enemyduel_01a-activities/act2enemyduel/level_act2enemyduel_01a": {
         "code": "VS-1",

@@ -2,6 +2,7 @@
 title: 功能介紹
 icon: mdi:information-outline
 index: false
+collapsed: false
 dir:
   order: 4
 ---

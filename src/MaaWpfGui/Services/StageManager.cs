@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.ViewModels.UI;
@@ -114,9 +115,9 @@ public class StageManager
         var clientType = SettingsViewModel.GameSettings.ClientType;
 
         // 官服和B服使用同样的资源
-        if (clientType is "Bilibili" or "")
+        if (clientType is ClientType.Bilibili)
         {
-            clientType = "Official";
+            clientType = ClientType.Official;
         }
 
         return clientType;
@@ -162,7 +163,7 @@ public class StageManager
         var activityJson = await activityTask;
         var tasksJson = await tasksTask;
         JObject? globalTasksJson = null;
-        if (clientType != "Official" && tasksJson != null)
+        if (clientType != ClientType.Official && tasksJson != null)
         {
             var tasksPath = "resource/global/" + clientType + '/' + TasksApi;
 
@@ -177,7 +178,7 @@ public class StageManager
             return null;
         }
 
-        if (clientType != "Official" && globalTasksJson is null)
+        if (clientType != ClientType.Official && globalTasksJson is null)
         {
             return null;
         }
@@ -579,7 +580,7 @@ public class StageManager
             { "Annihilation", new() { Display = LocalizationHelper.GetString("AnnihilationMode"), Value = "Annihilation" } },
 
             // 芯片本 - dropGroups 格式：[[PR-X-1的掉落], [PR-X-2的掉落]]
-            { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3231", "3261"], ["3232", "3262"]]) },
+            { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"]]) },
             { "PR-A-2", new("PR-A-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
             { "PR-B-1", new("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection, [["3251", "3241"], ["3252", "3242"]]) },
             { "PR-B-2", new("PR-B-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
