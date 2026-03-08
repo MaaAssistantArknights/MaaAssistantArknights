@@ -39,6 +39,10 @@ bool asst::PlayToolsController::connect(
         m_screencap_method = ScreencapMethod::BGR;
         m_minimal_version = 3;
     }
+    else if (config == "MacSCK") {
+        m_screencap_method = ScreencapMethod::MacSCK;
+        m_minimal_version = 3;
+    }
 
     return open();
 }
@@ -72,6 +76,19 @@ bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_rec
         return screencap_rgba(image_payload, allow_reconnect);
     case ScreencapMethod::BGR:
         return screencap_bgr(image_payload, allow_reconnect);
+    case ScreencapMethod::MacSCK: {
+#if ASST_WITH_MAC_SCK
+        if (!m_sck_helper.capture(m_screencap_buffer)) {
+            return false;
+        }
+        auto mat = cv::Mat(m_screen_size.second, m_screen_size.first, CV_8UC3, m_screencap_buffer.data());
+        mat.copyTo(image_payload);
+        return true;
+#else
+        Log.error("MacSCK is not built, cannot capture screencap with this method");
+        return false;
+#endif // ASST_WITH_MAC_SCK
+    }
     default:
         return false;
     }
@@ -333,7 +350,23 @@ bool asst::PlayToolsController::open()
         return false;
     }
 
-    return check_version() && fetch_screen_res();
+    if (!check_version() || !fetch_screen_res()) {
+        return false;
+    }
+
+    if (m_screencap_method == ScreencapMethod::MacSCK) {
+        if (!fetch_frame_rect() || !fetch_bundle_id()) {
+            return false;
+        }
+#if ASST_WITH_MAC_SCK
+        return m_sck_helper.init(m_bundle_id, port, m_screen_size, m_frame_rect);
+#else
+        Log.error("MacSCK is not built, fallback to BGR screencap method");
+        m_screencap_method = ScreencapMethod::BGR;
+#endif // ASST_WITH_MAC_SCK
+    }
+
+    return true;
 }
 
 bool asst::PlayToolsController::check_version()
@@ -408,5 +441,58 @@ bool asst::PlayToolsController::toucher_commit(const TouchPhase phase, const Poi
     }
 
     toucher_wait(delay);
+    return true;
+}
+
+bool asst::PlayToolsController::fetch_frame_rect()
+{
+    constexpr char request[] = { 0, 4, 'R', 'E', 'C', 'T' };
+
+    try {
+        boost::asio::write(m_socket, boost::asio::buffer(request));
+        boost::asio::read(m_socket, boost::asio::buffer(m_frame_rect));
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot get frame rectangle:", e.what());
+        return false;
+    }
+
+    for (auto& val : m_frame_rect) {
+        val = socket_ops::network_to_host_short(val);
+    }
+
+    return true;
+}
+
+bool asst::PlayToolsController::fetch_bundle_id()
+{
+    uint32_t length = 0;
+
+    constexpr char request[] = { 0, 4, 'B', 'N', 'D', 'L' };
+
+    try {
+        boost::asio::write(m_socket, boost::asio::buffer(request));
+        boost::asio::read(m_socket, boost::asio::buffer(&length, sizeof(length)));
+        length = socket_ops::network_to_host_long(length);
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot get bundle ID length:", e.what());
+        return false;
+    }
+
+    if (length == 0 || length > BUFSIZ) {
+        Log.error("Invalid bundle ID length:", length);
+        return false;
+    }
+
+    try {
+        m_bundle_id.resize(length);
+        boost::asio::read(m_socket, boost::asio::buffer(m_bundle_id.data(), length));
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot get bundle ID:", e.what());
+        return false;
+    }
+
     return true;
 }
