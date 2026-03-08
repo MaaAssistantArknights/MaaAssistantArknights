@@ -451,6 +451,7 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (Deprecated)</system:String>
+    <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (Experimental)</system:String>
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">Additional commands for emulator parameters (e.g. ｢--instance 1｣ for instance 1).&#10;Command formats vary by emulator, typically including instance numbers and window modes, please consult your emulator's documentation.</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
