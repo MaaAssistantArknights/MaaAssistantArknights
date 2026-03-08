@@ -110,7 +110,7 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
         : config == "AVD"          ? "{\"extras\":{\"avd\":{\"enable\":true}}}"
                                    : "{}",
         // MaaAgentBinary目录
-        ResDir.get().c_str());
+        utils::path_to_utf8_string(ResDir.get()).c_str());
 
     if (!m_unit_handle) {
         LogError << "Failed to create MaaAdbControlUnit";
