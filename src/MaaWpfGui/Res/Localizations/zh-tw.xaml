@@ -176,6 +176,7 @@
     <system:String x:Key="BlueStacks">藍疊模擬器</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu 模擬器 12</system:String>
     <system:String x:Key="LDPlayer">雷電模擬器</system:String>
+    <system:String x:Key="AVD">Android 虛擬裝置（AVD）</system:String>
     <system:String x:Key="Nox">夜神模擬器</system:String>
     <system:String x:Key="XYAZ">逍遙模擬器</system:String>
     <system:String x:Key="WSA">WSA 舊版本</system:String>

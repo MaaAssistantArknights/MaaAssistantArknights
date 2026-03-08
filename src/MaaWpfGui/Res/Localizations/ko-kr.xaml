@@ -176,6 +176,7 @@
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu Player</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
+    <system:String x:Key="AVD">Android Virtual Device (AVD)</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">WSA 레거시 버전</system:String>
