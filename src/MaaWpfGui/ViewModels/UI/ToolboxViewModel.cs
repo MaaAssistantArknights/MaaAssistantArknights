@@ -1047,7 +1047,7 @@ public class ToolboxViewModel : Screen
         /// <summary>
         /// Gets the resource key based on rarity
         /// </summary>
-        public string RarityColorResourceKey => IsPallas ? "HiddenMedalBrush" : $"Star{Rarity}OperatorLogBrush";
+        public string RarityColorResourceKey => IsPallas ? "AchievementBrush.Rare.LinearGradientBrush" : $"Star{Rarity}OperatorLogBrush";
 
         public bool Equals(Operator? other) => other != null && Name == other.Name && Rarity == other.Rarity;
 
@@ -1057,7 +1057,7 @@ public class ToolboxViewModel : Screen
 
         public override string ToString() => $"{Name} (★{Rarity})";
 
-        private bool IsPallas => Id == "char_485_pallas";
+        public bool IsPallas => Id == "char_485_pallas";
 
         private static int ExtractIdNumber(string id)
         {
@@ -1126,7 +1126,8 @@ public class ToolboxViewModel : Screen
         }
 
         return [.. list
-            .OrderByDescending(x => x.Rarity)
+            .OrderByDescending(x => x.IsPallas)
+            .ThenByDescending(x => x.Rarity)
             .ThenByDescending(x => x.Elite)
             .ThenByDescending(x => x.Level)
             .ThenByDescending(x => x.Potential)
