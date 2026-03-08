@@ -10,7 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+#nullable enable
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
@@ -18,7 +18,7 @@ namespace MaaWpfGui.Services.Web;
 
 public interface IMaaApiService
 {
-    Task<JObject> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true);
+    Task<(bool Cached, JObject? Response)> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true);
 
-    JObject LoadApiCache(string api);
+    JObject? LoadApiCache(string api);
 }

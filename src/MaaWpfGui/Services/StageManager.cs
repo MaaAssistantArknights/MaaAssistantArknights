@@ -91,13 +91,11 @@ public class StageManager
             }
         }
 
-        var webStages = await LoadWebStages();
-        if (webStages is null)
+        var loaded = await LoadWebStages();
+        if (!loaded)
         {
             return;
         }
-
-        MergePermanentAndActivityStages(webStages);
 
         _ = Execute.OnUIThreadAsync(() => {
             var growlInfo = new GrowlInfo {
@@ -123,9 +121,9 @@ public class StageManager
         return clientType;
     }
 
-    private static JObject LoadLocalStages()
+    private static JObject? LoadLocalStages()
     {
-        JObject activity = Instances.MaaApiService.LoadApiCache(StageApi);
+        JObject? activity = Instances.MaaApiService.LoadApiCache(StageApi);
         return activity;
     }
 
@@ -137,7 +135,7 @@ public class StageManager
         const string AllFileDownloadCompleteFile = "allFileDownloadComplete.json";
         JObject localLastUpdatedJson = Instances.MaaApiService.LoadApiCache(StageAndTasksUpdateTime);
         JObject allFileDownloadCompleteJson = Instances.MaaApiService.LoadApiCache(AllFileDownloadCompleteFile);
-        JObject webLastUpdatedJson = await Instances.MaaApiService.RequestMaaApiWithCache(StageAndTasksUpdateTime).ConfigureAwait(false);
+        var (_, webLastUpdatedJson) = await Instances.MaaApiService.RequestMaaApiWithCache(StageAndTasksUpdateTime).ConfigureAwait(false);
 
         if (localLastUpdatedJson?["timestamp"] == null || webLastUpdatedJson?["timestamp"] == null)
         {
@@ -151,7 +149,7 @@ public class StageManager
     }
     */
 
-    private static async Task<JObject?> LoadWebStages()
+    private async Task<bool> LoadWebStages()
     {
         var clientType = GetClientType();
 
@@ -160,9 +158,10 @@ public class StageManager
 
         await Task.WhenAll(activityTask, tasksTask);
 
-        var activityJson = await activityTask;
-        var tasksJson = await tasksTask;
+        var (activityCached, activityJson) = await activityTask;
+        var (taskCached, tasksJson) = await tasksTask;
         JObject? globalTasksJson = null;
+        bool globalTasksCached = true;
         if (clientType != ClientType.Official && tasksJson != null)
         {
             var tasksPath = "resource/global/" + clientType + '/' + TasksApi;
@@ -170,23 +169,31 @@ public class StageManager
             // Download the client specific resources only when the Official ones are successfully downloaded so that the client specific resource version is the actual version
             // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
             // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
-            globalTasksJson = await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath, false);
+            (globalTasksCached, globalTasksJson) = await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath, false);
         }
 
         if (activityJson is null || tasksJson is null)
         {
-            return null;
+            return false;
         }
 
         if (clientType != ClientType.Official && globalTasksJson is null)
         {
-            return null;
+            return false;
         }
 
-        await Task.Run(() => {
-            _ = Instances.AsstProxy.LoadResourceWhenIdleAsync();
-        });
-        return activityJson;
+        if (!taskCached || !globalTasksCached)
+        {
+            await Task.Run(() => {
+                _ = Instances.AsstProxy.LoadResourceWhenIdleAsync();
+            });
+        }
+
+        if (!activityCached)
+        {
+            MergePermanentAndActivityStages(activityJson);
+        }
+        return true;
     }
 
     private void MergePermanentAndActivityStages(JObject? activity)
