@@ -55,6 +55,36 @@ public class GUI : INotifyPropertyChanged
 
     public bool IgnoreBadModulesAndUseSoftwareRendering { get; set; } = false;
 
+    public bool ExpanderSwitchConfiguration { get; set; } = true;
+
+    public bool ExpanderScheduleSettings { get; set; } = true;
+
+    public bool ExpanderPerformanceSettings { get; set; } = true;
+
+    public bool ExpanderGameSettings { get; set; } = true;
+
+    public bool ExpanderConnectionSettings { get; set; } = true;
+
+    public bool ExpanderStartupSettings { get; set; } = true;
+
+    public bool ExpanderRemoteControlSettings { get; set; } = true;
+
+    public bool ExpanderUiSettings { get; set; } = true;
+
+    public bool ExpanderBackgroundSettings { get; set; } = true;
+
+    public bool ExpanderExternalNotificationSettings { get; set; } = true;
+
+    public bool ExpanderHotKeySettings { get; set; } = true;
+
+    public bool ExpanderAchievementSettings { get; set; } = true;
+
+    public bool ExpanderUpdateSettings { get; set; } = true;
+
+    public bool ExpanderIssueReport { get; set; } = true;
+
+    public bool ExpanderAboutUs { get; set; } = true;
+
     [UsedImplicitly]
     public void OnPropertyChanged(string propertyName, object before, object after)
     {

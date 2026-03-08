@@ -37,7 +37,7 @@ jobs:
             /gamedata/excel/activity_table.json
 
       - name: Upload Official resources
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: official
           path: ./Official
@@ -80,7 +80,7 @@ jobs:
             /kr/gamedata/excel/activity_table.json
 
       - name: Upload Overseas resources
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: overseas
           path: ./Overseas
@@ -133,7 +133,7 @@ jobs:
           fi
 
       - name: Upload Taiwan resources
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: txwy
           path: ./excel
@@ -214,19 +214,19 @@ jobs:
           ttl: 15
 
       - name: Download txwy
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: txwy
           path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
 
       - name: Download Overseas
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: overseas
           path: ./tools/ResourceUpdater/Overseas
 
       - name: Download Official
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: official
           path: ./tools/ResourceUpdater/Official

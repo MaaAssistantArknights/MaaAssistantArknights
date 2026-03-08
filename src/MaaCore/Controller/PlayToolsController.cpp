@@ -28,11 +28,16 @@ asst::PlayToolsController::~PlayToolsController()
 bool asst::PlayToolsController::connect(
     const std::string& adb_path [[maybe_unused]],
     const std::string& address,
-    const std::string& config [[maybe_unused]])
+    const std::string& config)
 {
     if (m_address != address) {
         close();
         m_address = address;
+    }
+
+    if (config == "MacBGR") {
+        m_screencap_method = ScreencapMethod::BGR;
+        m_minimal_version = 3;
     }
 
     return open();
@@ -59,10 +64,21 @@ size_t asst::PlayToolsController::get_version() const noexcept
     return size_t();
 }
 
-bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
+bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_reconnect)
 {
     LogTraceFunction;
+    switch (m_screencap_method) {
+    case ScreencapMethod::RGBA:
+        return screencap_rgba(image_payload, allow_reconnect);
+    case ScreencapMethod::BGR:
+        return screencap_bgr(image_payload, allow_reconnect);
+    default:
+        return false;
+    }
+}
 
+bool asst::PlayToolsController::screencap_rgba(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
+{
     open();
     uint32_t image_size = 0;
 
@@ -83,10 +99,48 @@ bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_rec
     }
 
     try {
-        std::vector<uint8_t> buffer(image_size);
-        boost::asio::read(m_socket, boost::asio::buffer(buffer, image_size));
-        image_payload = cv::Mat(m_screen_size.second, m_screen_size.first, CV_8UC4, buffer.data());
-        cv::cvtColor(image_payload, image_payload, cv::COLOR_RGBA2BGR);
+        m_screencap_buffer.resize(image_size);
+        boost::asio::read(m_socket, boost::asio::buffer(m_screencap_buffer));
+        auto mat = cv::Mat(m_screen_size.second, m_screen_size.first, CV_8UC4, m_screencap_buffer.data());
+        cv::cvtColor(mat, image_payload, cv::COLOR_RGBA2BGR);
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot get screencap:", e.what());
+        return false;
+    }
+
+    return true;
+}
+
+bool asst::PlayToolsController::screencap_bgr(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
+{
+    open();
+    std::array<uint32_t, 3> header;
+
+    try {
+        constexpr char request[] = { 0, 4, 'B', 'G', 'R', 1 };
+        boost::asio::write(m_socket, boost::asio::buffer(request));
+        boost::asio::read(m_socket, boost::asio::buffer(header));
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot get screencap:", e.what());
+        return false;
+    }
+
+    uint32_t image_width = socket_ops::network_to_host_long(header[0]);
+    uint32_t image_height = socket_ops::network_to_host_long(header[1]);
+    uint32_t image_size = socket_ops::network_to_host_long(header[2]);
+
+    if (image_size == 0) {
+        Log.error("Cannot get screencap: invalid image size");
+        return false;
+    }
+
+    try {
+        m_screencap_buffer.resize(image_size);
+        boost::asio::read(m_socket, boost::asio::buffer(m_screencap_buffer));
+        auto mat = cv::Mat(image_height, image_width, CV_8UC3, m_screencap_buffer.data());
+        mat.copyTo(image_payload);
     }
     catch (const std::exception& e) {
         Log.error("Cannot get screencap:", e.what());
@@ -297,7 +351,7 @@ bool asst::PlayToolsController::check_version()
     }
 
     version = socket_ops::network_to_host_long(version);
-    if (version < MinimalVersion) {
+    if (version < m_minimal_version) {
         Log.error("Unsupported MaaTools version:", version);
 
         json::value details;

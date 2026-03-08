@@ -157,7 +157,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
                 callback(AsstMsg::SubTaskError, info);
                 return false;
             }
-            user_additional.emplace_back(std::pair<std::string, int> { std::move(name), op.get("skill", 1) });
+            user_additional.emplace_back(std::pair<std::string, int> { std::move(name), op.get("skill", 0) });
         }
         m_formation_task_ptr->set_user_additional(std::move(user_additional));
     }

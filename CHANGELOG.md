@@ -1,365 +1,120 @@
-## v6.3.7
+## v6.4.0
 
-### 拉电线不知天地为何物 | Highlight
+### 何忆卫？ | Highlight  
 
-本次版本更新真的是千呼万唤始出来，也恰逢新年版本和 PC 端的发布，我们在这个版本提供了对 PC 端的初步支持，也合并了 SideStory ｢辞岁行｣ 的数据。
+这一版更新不大，但都是提升使用体验的改动~
 
-#### Windows 端一键长草任务配置重构
+#### 自动战斗优化
 
-本次更新我们对 Windows 端 ｢一键长草｣ 任务配置进行了重构，解决了一些痛点。
+在这个版本，我们优化了自动战斗的多项体验：
 
-现在牛牛支持添加多个重复类型任务，并支持重命名。现在你可以通过 ｢一键长草｣ 任务左下角的加号按钮添加多个同类型任务，并可以通过拖拽任务来调整任务执行顺序，以及右键点击任务右侧的齿轮图标重命名和删除任务，这样你就可以更灵活地管理任务。
+* 我们针对没有跳过按钮的对话流程进行了优化，使其能被正确处理，跳过对话后能继续保留二倍速状态；
+* 现在其他活动选项卡也支持加载作业集，可通过作业列表快捷切换不同作业（仅支持手动切换，不支持如主线/SideStory 的多作业连续作战）。
 
-牛牛也新增了理智作战任务的周计划设置，可按星期数（如星期三、星期二、星期五等）设置任务是否执行。这样你就可以结合上面提到的添加任务，<u>在理智作战任务前添加另一个理智作战任务，并将其设置为仅打当期剿灭、仅在星期一运行</u>，更多用法等你探索~
+我们还优化了其他内容。
 
-另外，在牛牛执行一键长草流程时，各个任务的勾选框会根据其运行状态以不同颜色进行区分，直观反馈任务被跳过、已完成、运行中或执行失败等状态。
+#### 功能适配
 
-注：由于牛牛现已支持 ｢理智作战｣ 周计划并可添加多个同类型任务，本次更新**移除了原有 ｢剿灭作战｣ 任务失败后自动尝试下一个已开放的备选逻辑**，如有需要请参照上方的示例添加对应任务。
+在这个版本，我们支持了国服的游戏内暂停期间可部署干员的功能。
 
-#### PC 端初步支持
+国际服方面，我们新增了对国际服次生预案自动刷取的支持，还是那句话：「次生预案」玩法类似《循环勇士》，带有种田要素，越早布置生产产线，就能越早挂机产出资源。不要等到最后一天再开始刷，会来不及。
 
-本次更新，牛牛已支持控制 PC 端明日方舟了~不过有以下限制：
+我们新增了对国际服“齐聚”主题的支持。
 
-* 由于 Windows 的限制，PC 端在被控制时**不可以处于最小化窗口状态**，否则游戏画面不会被渲染，也就无法被牛牛识别；
-* 由于 Win32 API 和某反作弊软件的限制，牛牛在控制 PC 端时**必须要直接控制鼠标（不能模拟点击）**，期间不建议你使用鼠标。
+对于游戏 MAC 端，我们也适配了 PlayCover 的 BGR 优化截图。
 
-另外，由于维护人手有限，PC 端的适配可能长期处于不稳定状态，部分功能可能出现异常或暂时无法使用。
+对于游戏 PC 端，由于其安全策略限制，如果需要牛牛控制 PC 端，则需要以管理员身份运行 MAA。 ~~（不是终末地那个咕咕嘎嘎小企鹅）~~
 
-我们非常欢迎社区开发者协助适配并提交改进，共同完善对 PC 端的支持。
+> ⚠️ 注意：控制 PC 端时仍需保持游戏窗口**不能**最小化，并且目前仅支持真实鼠标点击（不能模拟，会抢鼠标）。
 
 #### 其他方面
 
-* 我们继续对界园肉鸽进行适配，包括 DLC 2 的更新支持；
-* 我们优化了自动编队的识别，现在支持对作业要求的精英化、等级和模组的识别，如果发现你的干员不满足要求将会有对应提示；
-* 相应的，干员识别功能也支持显示精英化和等级了。
+我们优化了包括自动检测连接、每次重新检测、PC 端连接设置、自动编队忽略干员属性要求等多处文本描述，以便你更好地理解相关内容。
 
-----
+---
 
-#### Restructuring of *Farming* Configuration for Windows
+This update is minor, but all changes improve the user experience.
 
-In this update, we have restructured the *Farming* configuration for Windows, addressing several pain points.
+#### _Copilot_ Optimization
 
-MAA now supports adding multiple tasks of the same type and renaming them. You can add multiple tasks of the same type using the plus button at the bottom left of the *Farming* panel, adjust the execution order by dragging tasks, and rename or delete tasks by right-clicking the gear icon on the right side of each task. This allows for more flexible task management.
+In this version, we've optimized several aspects of the _Copilot_ experience:
 
-MAA also supports weekly schedule settings for *Combat* tasks, allowing you to specify on which days of the week (e.g., Monday, Thursday) a task should run. For example, you can add another *Combat* task before your existing one and set it to only run Current Annihilation on Mondays. More usage scenarios await your exploration!
+* We've optimized dialogue flows without a skip button, ensuring they are handled correctly and that the 2x speed mode is retained after skipping dialogue.
 
-Additionally, when MAA executes the *Farming* process, the checkboxes for each task will be color-coded to indicate their status: skipped, completed, running, or failed, providing intuitive feedback.
+* _Other Activities_ tabs now support loading job sets, allowing quick switching between different jobs via the Job List (manual switching only; continuous multi-job operation like in MainTheme/SideStory is not supported).
 
-Note: Since MAA now supports weekly schedules for *Combat* tasks and allows adding multiple tasks of the same type, this update **removes the previous logic that automatically attempted the next available alternative stage after a "Current Annihilation" task failure**. If needed, please refer to the example above to add corresponding tasks.
+We've also optimized other content.
 
-#### Preliminary PC Client Support (**[CN ONLY]**)
+#### Feature Adaptation
 
-In this update, MAA now supports controlling the PC client of Arknights.
+**\[CN ONLY\]** In this version, we support the ability to deploy operators during in-game pauses in the Chinese server.
 
-However, due to limited maintenance resources, PC client adaptation may remain unstable for a long period, and some features may experience issues or be temporarily unavailable.
+**\[GLOBAL ONLY\]** We've added support for automatic farming of _Rebuilding Mandate_. As mentioned before, _Rebuilding Mandate_ is similar to _Loop Hero_, with resource-gathering elements. The sooner you set up your resource production in the stages, the sooner you can start passively generating resources. Don't wait until the last day to start farming; it will be too late.
 
-We warmly welcome community developers to assist with adaptation and submit improvements to collectively enhance PC client support.
+**\[GLOBAL ONLY\]** We've added support for the _Together_ theme.
 
-#### Other Updates
+For the Mac version of the game, we've also adapted PlayCover's BGR-optimized screenshots.
 
-* Continued adaptation for *Sui's Garden of Grotesqueries*, including support for DLC 2 updates (**[CN ONLY]**)
-* Optimized recognition in *Auto Squad*, which now supports identifying elite, level, and module requirements. If your operators do not meet the requirements, you will receive corresponding prompts.
-* The operator recognition feature now also supports displaying elite and level information.
+For the PC version of the game, due to its security policy restrictions, if you need MAA to control the PC version, you need to run MAA as an administrator. ~~(Not the Endministrator from the Endfield)~~
 
-----
+> ⚠️ Note: When controlling the PC version, the game window **must not** be minimized, and currently only real mouse clicks are supported (simulated clicks are not supported, and MAA will take over mouse control to perform automatic clicks).
 
-以下是详细内容：
+#### Other Aspects
 
-## v6.3.7
+We have optimized several text descriptions, including _Auto detect connection_, _Re-detect every times_, _Connection_ setting for PC version of the game, and _Ignore Operator requirements_ for _Auto Squad_, to help you better understand the relevant content.
 
-### 改进 | Improved
+---
 
-* 重构战斗中击杀识别, 击杀图标匹配使用高斯模糊预处理 (#15868) @status102
-
-### 修复 | Fix
-
-* 自动战斗最右侧单位无法识别 @status102
-* 自动战斗击杀数识别便宜 @status102
-* correct_rect在x y负方向超限不完全的情况下, 校正后width height错误 @status102
-
-### 文档 | Docs
-
-* 修族谱 (#15856) @JasonHuang79
-* Add dedicated "MAA GUI download and installation guide" (#15138) @JasonHuang79 @Rbqwow
-
-### 其他 | Other
-
-* 繁中服「墟」活動導航 (#15849) @momomochi987
-
-## v6.3.6
-
-### 改进 | Improved
-
-* Wpf 增加未找到 CrashDumps 文件夹 Log, correct_rect 增加 rect.empty() log @status102
-
-### 修复 | Fix
-
-* 刷理智-掉落识别 rect 超限导致崩溃 @status102
-* 修复自动战斗中待部署区干员匹配标志 rect 后处理越界 @status102
-* 移除多余检查 @status102
-
-### 其他 | Other
-
-* issue 模板添加闪退上传 dmp 提示 @Saratoga-Official
-* Revert "fix: 超出范围的 Rect 使用 {0, 0, 0, 0} 代替原样返回, x, y为负值时 width 和 height 改正错误 (#15695)" @status102
-
-## v6.3.5
-
-### 修复 | Fix
-
-* 击杀数部分识别错误情况下闪退 @ABA2396
-
-### 其他 | Other
-
-* 调整 BattleKills roi @ABA2396
-
-## v6.3.4
-
-### 修复 | Fix
-
-* 沟槽的 yj 怎么有倒计时的时候击杀数图标都不一样 @ABA2396
-
-### 其他 | Other
-
-* 调整 BattleKillsFlag height @ABA2396
-
-## v6.3.3
+### 以下是详细内容：
 
 ### 新增 | New
 
-* 适配 maafw 新 Win32 触控方式 (#15755) @MistEO
-* PC 提示新增分辨率要求 @ABA2396
-* PC 端忽略启动客户端设置 @SherkeyXD
+* 调整 mumu 国际版截图增强支持提示 @ABA2396
+* 合并 `处于战斗中` 检测, 增加倍速记忆, 支持战斗中不带跳过按钮的带头像对话教程 (#15706) @status102
+* 设置界面选项页允许折叠 @ABA2396
+* PC 端运行时要求以管理员身份重启 MAA (#15748) @SherkeyXD
+* 自动战斗-其他活动支持使用作业列表加载作业集并从中选择作业 (#15804) @status102
+* JP RebuildingMandate and Together theme (#15931) @Manicsteiner
+* YostarEN RebuildingMandate + Together @Constrat
 
 ### 改进 | Improved
 
-* 被禁用的关卡错误进入关卡名二次识别 @status102
-* 长草任务序列化接口重构拆分 (#15773) @status102
-* 开始唤醒支持战斗中识别 @status102
-* 自动编队无干员等级、技能等级要求时跳过识别 @status102
-* 悖论和保全作业解析后自动切换作业类型 @status102
-* 优化击杀数模板图 @ABA2396
+* 优化自动检测连接与每次重新检测连接提示 @ABA2396
+* ASST_DEBUG 在 lazy_parse 后不再重新生成任务信息 (#15895) @status102
+* scopeLog 记录函数进出时间 @status102
+* TaskQueue 任务属性变更记录路径优化 @status102
+* 适配国服游戏内暂停期间部署 (#15888) @status102
+* 适配 PlayCover 的 BGR 优化截图 (#15810) @hguandl
+* EN, JP, KR MiniGame AT「相談室‧御影」小遊戲 (#15870) @Daydreamer114
+* optimize png @Constrat
 
 ### 修复 | Fix
 
-* 修复游戏内快捷编队在矢量突破 S2 不会自动重置回技能选择界面 (#15802) @status102
-* 刷理智关卡名识别错误替换 @status102
-* 超出范围的 Rect 使用 {0, 0, 0, 0} 代替原样返回，x, y为负值时 width 和 height 改正错误 (#15695) @status102
-* 修复自定义基建计划在迁移时基建计划选择转换错误 @status102
-* 小工具-公招识别 3~5 星设置时间配置读取错误 @status102
-* IS6 EN yostar decided to finally fix the tongbaos releasing an official translation + resource updater copper-ability @Constrat
-* EN Operator OCR roi fixes + skadi alter simplification @Constrat
-* IS6 EN encounter regex post ROI increase @Constrat
-* touch screen support for version updated page (#15747) @undefined-moe
-* invert dice refresh with invest system priority in IS3 (#15740) @Constrat
-* IS6 EN tongbao regex @Constrat
-* YostarEN GO navigation fix @Constrat
-* IS6 EN encounter regex @Constrat
-* YostarJP ocr fix (#15793) @Manicsteiner
-
-### 其他 | Other
-
-* YostarKR SSS#9 SSSBuffChoose @HX3N
-* updates to Resource Updater and clangd (#15758) @Constrat @soundofautumn
-
-## v6.3.2
-
-### 新增 | New
-
-* 睡眠休眠前增加倒计时弹窗 @ABA2396
-* 生息演算支援道具名称改为全字匹配 @ABA2396
-
-### 改进 | Improved
-
-* 干员识别按照 稀有度->精英化->等级->潜能->Id 排序 @ABA2396
-* 优化识别工具中列表小于 5 时的显示效果 @ABA2396
-* optimize templates @Constrat
-* increase score for AddOperatorTradeAggressive EN @Constrat
-
-### 修复 | Fix
-
-* 4 星公招时间显示错误 @ABA2396
-* 刷理智自定义剿灭关卡在特定情况的绑定错误 @status102
-* 在禁用刷理智-自定义剿灭关卡后需要手动切换任务以刷新列表中显示的剿灭关卡, 尽管不影响实际运行 @status102
-* 会客室任务失败重试时尝试关闭赠送线索界面 @ABA2396
-* 肉鸽开局种子无法通过 Wpf 设置两位数难度 @status102
-* 小工具-公招识别 3~5 星选择时间无法修改 @status102
-* 小工具-干员识别 开始识别按钮启用状态绑定失效 @status102
-* 自动公招任务 3~5 星确认时间在修改后未能刷新 UI @status102
-* EN AveMujica terminal new template @Constrat
-* EN IS tentative fix increasing roi for encounter and more replace regex @Constrat
-* English text overflow on long strings in middle column @Constrat
+* 修复今日关卡小提示中奶盾芯片数量顺序错误 @ABA2396
+* 移除不必要的配置迁移触发条件 @status102
+* 修改任务名过滤换行 @status102
+* Fix YoStarJP Sidestory GO OCR error (#15906) @JasonHuang79
+* Make Starting Operator searching dropdown case insensitive for en (#15879) @Zenith00
 
 ### 文档 | Docs
 
-* 删除一些过时内容 (#15700) @JasonHuang79
+* 使文档站中侧边栏的功能介绍板块默认展开 (#15927) @lucienshawls
 
 ### 其他 | Other
 
-* 增加 id 格式验证 @ABA2396
-* 明确周计划和定时更新使用游戏时间而非现实时间 @ABA2396
-* 移除老主线导航逻辑 (#15644) @SherkeyXD
-* 繁中服「夢鄉」主題 (#15699) @momomochi987
-* Yostar servers SSS#9 and ShamareThumbnail (#15732) @Manicsteiner @Constrat
-
-## v6.3.1
-
-### 新增 | New
-
-* OperNameAnalyzer 支持左对齐检测 (#15682) @ABA2396
-
-### 改进 | Improved
-
-* 配置迁移自动为启用备选且首个关卡为剿灭模式的刷理智任务自动添加额外的刷理智任务 @status102
-* 忽略干员属性要求 不再允许跳过精英化要求 (#15697) @status102 @Constrat @HX3N
-
-### 修复 | Fix
-
-* JP AveMujica event ocr @Manicsteiner
-* EN IS StageRefresh @Constrat
-* i'm kinda stupid @Constrat
-* update refresh node EN IS5 @Constrat
-* EN IS fix trader store templates AGAIN @Constrat
-* EN Yu OCR for Yutenji @Constrat
-* 自动编队选择技能时点击到技能描述/技能范围 @status102
-* 自动编队期间如有干员属性要求被忽略, 则禁用自动化投票 @status102
-
-### 文档 | Docs
-
-* 更新 api 链接 @ABA2396
-
-### 其他 | Other
-
-* UserAdditional 非 json 格式返回原始字符串 @status102
-* 使用屏幕宽高常量代替硬编码 @status102
-* 屏幕外的干员跳过技能就绪检测 @status102
-* 調整繁中服界園肉鴿 OCR (2/?) @momomochi987
-* color [INF] for smoke testing as well @Constrat
-* 调整单字干员正则 @ABA2396
-* 調整繁中服界園肉鴿 OCR (#15678) @momomochi987
-* 删除干员名开头/末尾的_<> @ABA2396
-* 添加响石、赤刃明霄陈基建技能加成 (#15674) @drway
-* 保全派驻自动战斗使用二值化结果识别干员名 @ABA2396
-* 删除无用的正则替换 @ABA2396
-* 自动战斗使用二值化结果识别干员名 @ABA2396
-* 仅在 VS Code 中添加辅助项目 (#15669) @status102
-* JP OperNameAnalyzer specialParams @Manicsteiner
-
-## v6.3.0
-
-### 新增 | New
-
-* 支持 PC 端明日方舟 (#15407) @MistEO @ABA2396
-* SideStory「辞岁行」导航及地图数据更新 @SherkeyXD @status102
-* 界园肉鸽 DLC 2 分队更新、通宝数据更新、可选难度提高至 18、支持指定种子开局 (#15588) @SherkeyXD @status102 @HX3N @Manicsteiner
-* 繁中服界園肉鴿初步適配 (#15605) @momomochi987
-* 干员识别支持显示精英化、等级与潜能 @ABA2396
-* 自动编队识别精英化、等级及模组要求 (#15161) @status102 @Manicsteiner @Constrat @HX3N
-* 芯片本支持显示库存数量 @ABA2396
-* 新增注入弹窗不再提醒的勾选框，勾选后使用软件渲染 @ABA2396
-* WpfGui 清空缓存按钮 (#15582) @soundofautumn @Constrat @HX3N @momomochi987
-* 自定干员名称无效时的错误处理及本地化支持 (#15556) @yali-hzy @HX3N
-* 设置指引增加右键重命名/删除提示 @ABA2396
-* 新 Config 加载时移除旧 Config 中不存在的配置 @status102
-* 日志中额外记录 TaskChain 与 taskId ~~免得有人把 Fight 改成开始唤醒~~ @ABA2396
-* YostarEN/JP/KR Dreamland、JieGarden 和 AveMujica 主题支持 @Constrat @Manicsteiner @HX3N
-
-### 改进 | Improved
-
-* Wpf 一键长草任务配置重构，支持添加多个同类型任务、重命名和周计划设置 (#15385) @status102 @ABA2396 @momomochi987 @HX3N
-* 刷理智过期关卡逻辑/样式优化 @status102 @ABA2396
-* 关卡候选列表刷新及关卡选择下拉列表刷新 (#15562) @status102 @HX3N @Constrat @Manicsteiner @momomochi987
-* 优化自动战斗界面布局 (#15512) @yali-hzy
-* 优化任务设置按钮悬浮提示 @ABA2396
-* 优化设置右键菜单布局 @ABA2396
-* 优化干员识别、仓库识别显示 @ABA2396
-* 配置迁移检查优化与简化 @status102 @ABA2396
-* 开始唤醒任务未设置账号切换时，禁用手动切换按钮 @status102
-* 自动战斗掉线重连、自动肉鸽在战斗结束前延迟｢停止｣动作添加多任务共用提示 @ABA2396 @status102
-* 剿灭卡使用到上限时不报错停止 @ABA2396
-* 剿灭关卡通过 ends_with 判断 @ABA2396
-* 刷理智任务高级设置 UI 调整选项顺序和显示优化 @status102
-* 自动战斗自动编队检查`干员等级&精英化`及`技能等级`拆分 @status102
-* 自动战斗不支持技能重置说明中，干员名遵循干员名语言设置 @status102
-* 自动战斗作业列表使用相对路径代替绝对路径 @status102
-* TaskQueue 重命名与移除时显示任务序号 @status102
-* TaskQueue 任务开始&完成显示修改后的任务名 @status102
-* 追加自定干员允许不切换技能 @status102
-* 存在 crash.log 时，Wpf 尝试获取 dumps 文件 (#15432) @status102
-* 移除过时的参数兼容 @status102
-* 消除部分编译警告 (#15578) @yali-hzy
-* NumberOcrReplace 新增规则 (#14186) @Manicsteiner
-
-### 修复 | Fix
-
-* 配置迁移相关问题修复：迁移后切换回原配置、删除配置时未删除 .new、多配置用户删除 Default 配置时迁移异常、剩余理智启用状态和关卡选择迁移问题 @status102 @ABA2396
-* 刷理智任务相关修复：切换刷理智任务时读取错误关卡列表、运行时不允许添加关卡 @status102
-* 自动编队相关修复：识别技能等级匹配失败、干员技能描述过长时点击位置错误、禁用快速选中以修复外服干员技能描述过长的错误选中、干员等级跨精英化时判断出错、干员等级不足 i18n 未启用、干员组干员未解析精英化及等级属性、先兼容旧作业中不合理的技能选择 @status102
-* 公招加速券识别问题修复 @status102
-* LoadApiCache 路径拼接错误 @ABA2396
-* 主线导航及外服主线导航问题修复 @SherkeyXD @ABA2396
-* 在赠送线索时弹出上次线索交流结束的提示时无法返回 @ABA2396
-* 粘贴作业集代码后下方的链接未重置为作业站链接 @ABA2396
-* 修复移动已打开设置的任务后，当前的设置面板无法继续修改的问题 @ABA2396
-* 萨米肉鸽刷开局功能异常 @ABA2396
-* 肉鸽烧水分队切换界面后错误重置 @status102
-* 保证通宝优先级未定义时不会加载崩溃 fallback 到默认值 @SherkeyXD
-* SEH 错误终止运行 @status102
-* 启动 MAA 时若没有任何任务，则追加一套默认任务 @status102
-* 启动客户端绑定失效问题修复 @status102
-* 关卡列表显示不刷新 @status102
-* 选中完成后动作时添加新任务未能隐藏完成后动作设置 UI @status102
-* 刷理智使用源石 CheckBox 勾选后不生效 @status102
-* 退出 MAA 时重置变量不再刷新 UI @status102
-* 初始化 StartEnabled 属性为 true (#15596) @yali-hzy
-* 自动战斗切换活动类型未清空解析缓存 @status102
-* 修复任务出错日志可能晚于任务完成日志显示的问题 @ABA2396
-* 开始干员识别前重置潜能状态 @ABA2396
-* 修复生息演算商店无法正常购买皮肤的问题 (#15585) @drway
-* 手动输入关卡名时，不移除过期关卡 @status102
-* 过期关卡重置模式补充自动迁移 @status102
-* OR 关卡掉落界面关卡名识别问题 @ABA2396
-* EX 关符合时 1 被识别为 | @ABA2396
-* NumberOcrReplace 移除`|`和`/` (#15625) @status102
-* 移除单字干员 ocr 替换中的 +*？避免误判 @Saratoga-Official
-* 涤火杰西卡识别 @ABA2396
-* 日服酒神、見字祠识别 @Saratoga-Official
-* YostarKR Roguelike@ChooseOperConfirm @HX3N
-* YostarKR use ' ' in ocrReplace to preserve '\n' for InfrastTrainingTask @HX3N
-* EN Greyy Alter regex @Constrat
-* EN IS6 encounter @Constrat
-* EN IS TradeInvest templates text font change @Constrat
-* EN IS ShoppingConfirm text font change @Constrat
-* EN refresh node template @Constrat
-* JP AT minigame confirm (#15427) @Manicsteiner
-* JP JieGardenStrategyChange @Saratoga-Official
-* add MaaWin32ControlUnit to nightly build (#15447) @Manicsteiner
-
-### 文档 | Docs
-
-* 集成文档统一格式，同时显示 field-group 和示例代码 (#15409) @ABA2396 @Manicsteiner @Constrat @momomochi987
-* 繁中文件大更新 (#15480) @momomochi987
-* 修正开发文档中的格式错误及笔误 (#15516) @yali-hzy
-* 自动战斗作业文档干员技能值范围补上 0 @status102
-
-### 其他 | Other
-
-* 作业集 Parse 后不删除历史记录，避免错过作业抛出的错误 @ABA2396
-* 辞岁行地图 2026-02-10 Map 更新 @status102
-* 繁中服不上报企鹅物流 @ABA2396
-* devcontainer 适配 CMakePresets.json (#15606) @lucienshawls
-* 移除不再使用的 VirtualizingWrapPanel 与 NoAutomationDataGrid @ABA2396
-* 调整清理图片缓存样式，增加提示 @ABA2396
-* 补全缺少的翻译 @ABA2396
-* 优化 emoji @ABA2396
-* 自动战斗-自动编队干员不支持技能说明国际化 (#15609) @status102 @Constrat @HX3N @Manicsteiner
-* 自动战斗编队技能等级不足 i18n，CN 使用理智药及碎石文案 (#15435) @status102 @HX3N
-* 增加借助战 OF-1 在后续刷理智选择`当前/上次`导致禁用时的输出 (#15478) @status102 @Manicsteiner @Constrat @HX3N @ABA2396 @momomochi987
-* remove regex from `text` field in EN Sui IS @Constrat
-* KR AnnouncementNotFinishedConfirm、ReceptionOptionsRequireInfrast、CreditFightWhenOF-1Warning、MiniGame ConversationRoom and HoneyFruit 支持 @HX3N
-* EN minigame honeyfruit、IS6 tip 支持 @Constrat
-* JP MiniGame HoneyFruit 支持 @Manicsteiner
-* YostarJP ocr fix for roguelike @Manicsteiner
-* manual data for txwy @Constrat
-* optimize templates @Constrat
-* fix casing typo and related context (#15656) @ittuann @Daydreamer114
+* 调整每次重新检测勾选框选中时的颜色 @ABA2396
+* 繁中服「墟」導航文字 (#15925) @momomochi987
+* `战斗列表` 选项更名为 `多作业模式`, 以区分于作业容器 (#15913) @status102 @Constrat @HX3N @Manicsteiner
+* 更正最小化的描述 @MistEO
+* 调整 PC 端输入选项及描述 @MistEO
+* ClientType 常量替换 @status102
+* 剿灭 string 常量 @status102
+* 刷理智筛选候选关卡后在日志中记录 @status102
+* 自动战斗协议 `干员技能默认值` 变更为 0 (不指定技能) (#15898) @status102
+* 自动战斗跳过干员属性要求提示 增加 `精英化例外` 及 `跳过后不点赞说明` (#15881) @status102 @Constrat @HX3N @momomochi987
+* macOS build scripts (#15936) @hguandl
+* MaaDeps cache asset (#15933) @hguandl
+* KR RebuildingMandate ocr edit @HX3N
+* EN Rebuilding Mandate @Constrat
+* KR RebuildingMandate and Together UiTheme (#15932) @HX3N
+* cleanup warnings - unused variables and unused includes @Constrat

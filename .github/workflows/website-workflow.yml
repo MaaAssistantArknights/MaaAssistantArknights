@@ -61,7 +61,7 @@ jobs:
         working-directory: "./docs"
 
       - name: Upload artifact to GitHub
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: "./docs/.vuepress/dist"

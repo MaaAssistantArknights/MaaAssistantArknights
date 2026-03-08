@@ -1,2 +1,5 @@
 CompileFlags:
   CompilationDatabase: build
+  Add: [-Wunused-variables]
+Diagnostics:
+  UnusedIncludes: None  

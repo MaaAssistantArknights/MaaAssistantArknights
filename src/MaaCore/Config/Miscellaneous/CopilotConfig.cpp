@@ -53,7 +53,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
         for (const auto& oper_info : opt.value()) {
             OperUsage oper;
             oper.name = oper_info.at("name").as_string();
-            oper.skill = oper_info.get("skill", 1);
+            oper.skill = oper_info.get("skill", 0);
             oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
             oper.skill_times = oper_info.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
@@ -96,7 +96,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
             for (const auto& oper_info : group_info.at("opers").as_array()) {
                 OperUsage oper;
                 oper.name = oper_info.at("name").as_string();
-                oper.skill = oper_info.get("skill", 1);
+                oper.skill = oper_info.get("skill", 0);
                 oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
                 oper.skill_times = oper_info.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
