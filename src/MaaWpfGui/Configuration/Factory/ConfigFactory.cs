@@ -146,7 +146,7 @@ public static class ConfigFactory
                         throw new ArgumentOutOfRangeException();
                 }
 
-                OnPropertyChanged("Root.Configurations", null, null);
+                OnPropertyChanged("Root.Configurations." + args.NewItem.Key, args.OldItem.Value, args.NewItem.Value);
             };
 
             parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Global.Timer>("Root.Timers.");
@@ -213,12 +213,14 @@ public static class ConfigFactory
                                     value.PropertyChanged += TaskQueueItemOnPropertyChangedFactory(config.TaskQueue, key);
                                 }
                             }
-                            OnPropertyChanged(key + "TaskQueue", null, null);
+                            OnPropertyChanged($"({args.Action}){key}TaskQueue[{args.NewStartingIndex}]", args.OldItem, args.NewItem);
+                            break;
+                        case NotifyCollectionChangedAction.Move:
+                            OnPropertyChanged($"({args.Action}){key}TaskQueue[{args.OldStartingIndex}]->[{args.NewStartingIndex}]", args.OldItem, args.NewItem);
                             break;
                         case NotifyCollectionChangedAction.Remove:
-                        case NotifyCollectionChangedAction.Move:
                         case NotifyCollectionChangedAction.Reset:
-                            OnPropertyChanged(key + "TaskQueue", null, null);
+                            OnPropertyChanged($"({args.Action}){key}TaskQueue[{args.NewStartingIndex}]", args.OldItem, args.NewItem);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -269,23 +271,27 @@ public static class ConfigFactory
     private static PropertyChangedEventHandler OnPropertyChangedFactory(string key = "")
     {
         return (o, args) => {
-            object? after = null;
+            object? oldValue = null;
+            object? newValue = null;
             if (args is PropertyChangedEventDetailArgs detailArgs)
             {
-                after = detailArgs.NewValue;
+                oldValue = detailArgs.OldValue;
+                newValue = detailArgs.NewValue;
             }
 
-            OnPropertyChanged(key + o?.GetType().Name + "." + args.PropertyName, null, after);
+            OnPropertyChanged(key + o?.GetType().Name + "." + args.PropertyName, oldValue, newValue);
         };
     }
 
     private static PropertyChangedEventHandler TaskQueueItemOnPropertyChangedFactory(ObservableList<BaseTask> taskQueue, string key = "")
     {
         return (o, args) => {
-            object? after = null;
+            object? oldValue = null;
+            object? newValue = null;
             if (args is PropertyChangedEventDetailArgs detailArgs)
             {
-                after = detailArgs.NewValue;
+                oldValue = detailArgs.OldValue;
+                newValue = detailArgs.NewValue;
             }
 
             int index = -1;
@@ -295,14 +301,14 @@ public static class ConfigFactory
                 index = taskQueue.IndexOf(task);
                 taskName = task.Name;
             }
-            OnPropertyChanged($"{key}[{index}]{taskName}({o?.GetType().Name})." + args.PropertyName, null, after);
+            OnPropertyChanged($"{key}[{index}]{taskName}({o?.GetType().Name})." + args.PropertyName, oldValue, newValue);
         };
     }
 
     private static NotifyCollectionChangedEventHandler<KeyValuePair<T1, T2>> OnCollectionChangedFactory<T1, T2>(string key)
     {
         return (in NotifyCollectionChangedEventArgs<KeyValuePair<T1, T2>> args) => {
-            OnPropertyChanged(key + args.NewItem.Key, null, args.NewItem.Value);
+            OnPropertyChanged(key + args.NewItem.Key, args.OldItem.Value, args.NewItem.Value);
         };
     }
 
@@ -316,7 +322,7 @@ public static class ConfigFactory
         _debounceTimer.Change(PendingDelayMs, Timeout.Infinite);
 
         ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
-        _logger.Debug("Configuration {Key} has been set to `{NewValue}`, save scheduled", key, newValue);
+        _logger.Debug("Configuration {Key} has been set: `{OldValue}` -> `{NewValue}`, save scheduled", key, oldValue, newValue);
     }
 
     private static void CreateSaveTask(object? state)
