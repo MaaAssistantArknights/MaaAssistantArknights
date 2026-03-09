@@ -11,6 +11,7 @@
 #include "ControllerAPI.h"
 #include "InstHelper.h"
 #include "Win32ControlUnitLoader.h"
+#include "WindowGuard.h"
 
 namespace asst
 {
@@ -19,7 +20,7 @@ class Assistant;
 class Win32Controller : public ControllerAPI, private InstHelper
 {
 public:
-    Win32Controller(const AsstCallback& callback, Assistant* inst);
+    Win32Controller(const AsstCallback& callback, Assistant* inst, void* hwnd);
     virtual ~Win32Controller() override;
 
     Win32Controller(const Win32Controller&) = delete;
@@ -96,6 +97,8 @@ private:
     Win32ScreencapMethod m_screencap_method = Win32Screencap::None;
     Win32InputMethod m_mouse_method = Win32Input::None;
     Win32InputMethod m_keyboard_method = Win32Input::None;
+
+    std::unique_ptr<WindowGuard> window_guard;
 };
 } // namespace asst
 

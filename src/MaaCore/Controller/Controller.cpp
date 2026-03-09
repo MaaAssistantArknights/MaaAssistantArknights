@@ -298,7 +298,7 @@ bool asst::Controller::attach_window(
 
     clear_info();
 
-    auto win32_controller = std::make_shared<Win32Controller>(m_callback, m_inst);
+    auto win32_controller = std::make_shared<Win32Controller>(m_callback, m_inst, hwnd);
     if (!win32_controller->attach(hwnd, screencap_method, mouse_method, keyboard_method)) {
         Log.error("attach_window failed");
         return false;

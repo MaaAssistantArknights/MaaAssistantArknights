@@ -12,10 +12,11 @@
 
 namespace asst
 {
-Win32Controller::Win32Controller(const AsstCallback& callback, Assistant* inst) :
+Win32Controller::Win32Controller(const AsstCallback& callback, Assistant* inst, void* hwnd) :
     InstHelper(inst),
     m_callback(callback),
-    m_loader(std::make_unique<Win32ControlUnitLoader>())
+    m_loader(std::make_unique<Win32ControlUnitLoader>()),
+    window_guard(std::make_unique<WindowGuard>(hwnd))
 {
     LogTraceFunction;
 }
