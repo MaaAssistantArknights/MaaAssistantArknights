@@ -10,6 +10,10 @@ WindowGuard::WindowGuard(void* hwnd) :
     m_style(GetWindowLongPtr(m_hwnd, GWL_STYLE)),
     m_clientRect { }
 {
+    if (m_hwnd == nullptr || !IsWindow(m_hwnd)) {
+        Log.error(__FUNCTION__, "hwnd iellegal!");
+        return;
+    }
     if ((m_style & WS_POPUP) != 0) {
         Log.error(__FUNCTION__, "Does not support full screen!");
         return;
@@ -27,6 +31,9 @@ WindowGuard::WindowGuard(void* hwnd) :
         m_clientRect.top,
         ", bottom: ",
         m_clientRect.bottom);
+    POINT centerPoint;
+    centerPoint.x = (m_clientRect.left + m_clientRect.right) / 2;
+    centerPoint.y = (m_clientRect.top + m_clientRect.bottom) / 2;
     if (std::fabs(
             static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault) -
             static_cast<double>(m_clientRect.right - m_clientRect.left) /
@@ -35,7 +42,7 @@ WindowGuard::WindowGuard(void* hwnd) :
         m_restore = true;
         LONG_PTR exStyle = GetWindowLongPtr(m_hwnd, GWL_EXSTYLE);
         BOOL hasMenu = (GetMenu(m_hwnd) != NULL);
-        RECT rect = { 0, 0, 1920, 1080 };
+        RECT rect = { 0, 0, WindowWidthDefault, WindowHeightDefault };
         AdjustWindowRectEx(&rect, (DWORD)m_style, hasMenu, (DWORD)exStyle);
         Log.info(
             __FUNCTION__,
@@ -55,11 +62,15 @@ WindowGuard::WindowGuard(void* hwnd) :
             rect.right - rect.left,
             rect.bottom - rect.top,
             SWP_SHOWWINDOW | SWP_FRAMECHANGED);
-        // 将光标移动到窗口中央防止因UI偏斜导致后续找图失败
-        SetCursorPos(960, 540);
+
+        if (GetClientRect(m_hwnd, &rect)) {
+            centerPoint.x = (rect.left + rect.right) / 2;
+            centerPoint.y = (rect.top + rect.bottom) / 2;
+        }
     }
-    else {
-        SetCursorPos((m_clientRect.right - m_clientRect.left) / 2, (m_clientRect.bottom - m_clientRect.top) / 2);
+    // 将光标移动到窗口中央防止因UI偏斜导致后续找图失败
+    if (ClientToScreen(m_hwnd, &centerPoint)) {
+        SetCursorPos(centerPoint.x, centerPoint.y);
     }
 }
 
