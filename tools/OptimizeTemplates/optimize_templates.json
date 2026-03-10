@@ -3889,5 +3889,10 @@
     "resource/global/YoStarKR/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@StartExecution": "07596b680a9a3b29f82f945555b3b7c84279d661c14d3cde284b1408c7ebd596",
     "resource/global/YoStarKR/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@WaitForEnd": "4ae2469a416a634bcc48a08a87cbcf6bd89d642008783b123dfffecfebbd080e",
     "resource/global/YoStarKR/resource/template/UiTheme/Together/Friends": "cba5cafe7f5f07176676abf8a86c6fd7ce38627aef8273db0cc3afab9c486a67",
-    "resource/template/Battle/Plot/BattleAvatarDialog": "ac20bdea27ab2f6ed71504638b45feb3bbaedb807c88e5ff49a0b2bd992a63af"
+    "resource/template/Battle/Plot/BattleAvatarDialog": "ac20bdea27ab2f6ed71504638b45feb3bbaedb807c88e5ff49a0b2bd992a63af",
+    "resource/template/infrast/Bskill_meet_spd&cost_condChargoat2": "1aeafbdcafc4f07944cba2bfad2b89ba61ae39fc0347bf3755fd46b4f755e9a6",
+    "resource/template/infrast/Bskill_meet_spd&cost_condChargoat": "76a3927ee16be377aaa317e32062e4056790633e397970bbc049c7f9c908c610",
+    "resource/template/infrast/Bskill_tra_demetr": "428551ef4106379af0ed53ac30d73dbb87aa8a143da2c27414ecc440b47ec6e6",
+    "resource/template/infrast/Bskill_tra_ord_spd_ext2": "c0332e173916fb1745d7cfafdedd1e142d5551998ec1785833ec9a26239d4897",
+    "resource/template/infrast/Bskill_tra_ord_spd_ext3": "b97302a989b0f611554574383b7ecb48d0eea21928278583af74045d99d85747"
 }

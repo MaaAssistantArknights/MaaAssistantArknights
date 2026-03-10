@@ -2698,6 +2698,21 @@
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 5
         },
+        "char_4031_liesel": {
+            "name": "复奏",
+            "name_en": "复奏",
+            "name_en_unavailable": true,
+            "name_jp": "复奏",
+            "name_jp_unavailable": true,
+            "name_kr": "复奏",
+            "name_kr_unavailable": true,
+            "name_tw": "复奏",
+            "name_tw_unavailable": true,
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": ["2-3", "3-6", "3-6"],
+            "rarity": 5
+        },
         "char_4032_provs": {
             "name": "但书",
             "name_en": "Proviso",
@@ -2719,6 +2734,22 @@
             "profession": "SPECIAL",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5
+        },
+        "char_4037_demetr": {
+            "name": "贝洛内",
+            "name_en": "贝洛内",
+            "name_en_unavailable": true,
+            "name_jp": "贝洛内",
+            "name_jp_unavailable": true,
+            "name_kr": "贝洛内",
+            "name_kr_unavailable": true,
+            "name_tw": "贝洛内",
+            "name_tw_unavailable": true,
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 6,
+            "tokens": ["牵绊"]
         },
         "char_4039_horn": {
             "name": "号角",
@@ -5668,6 +5699,21 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 6
         },
+        "token_10065_demetr_dmtpos": {
+            "name": "牵绊",
+            "name_en": "牵绊",
+            "name_en_unavailable": true,
+            "name_jp": "牵绊",
+            "name_jp_unavailable": true,
+            "name_kr": "牵绊",
+            "name_kr_unavailable": true,
+            "name_tw": "牵绊",
+            "name_tw_unavailable": true,
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 6
+        },
         "trap_001_crate": {
             "name": "障碍物",
             "name_en": "Roadblock",
@@ -7254,14 +7300,14 @@
             "rarity": 1
         },
         "trap_1043_acarm043": {
-            "name": "坚定维式重锤",
-            "name_en": "坚定维式重锤",
+            "name": "坚固维式重锤",
+            "name_en": "坚固维式重锤",
             "name_en_unavailable": true,
-            "name_jp": "坚定维式重锤",
+            "name_jp": "坚固维式重锤",
             "name_jp_unavailable": true,
-            "name_kr": "坚定维式重锤",
+            "name_kr": "坚固维式重锤",
             "name_kr_unavailable": true,
-            "name_tw": "坚定维式重锤",
+            "name_tw": "坚固维式重锤",
             "name_tw_unavailable": true,
             "position": "NONE",
             "profession": "TRAP",
@@ -7329,14 +7375,14 @@
             "rarity": 1
         },
         "trap_1048_acarm048": {
-            "name": "口袋法阵",
-            "name_en": "口袋法阵",
+            "name": "奥术法阵",
+            "name_en": "奥术法阵",
             "name_en_unavailable": true,
-            "name_jp": "口袋法阵",
+            "name_jp": "奥术法阵",
             "name_jp_unavailable": true,
-            "name_kr": "口袋法阵",
+            "name_kr": "奥术法阵",
             "name_kr_unavailable": true,
-            "name_tw": "口袋法阵",
+            "name_tw": "奥术法阵",
             "name_tw_unavailable": true,
             "position": "NONE",
             "profession": "TRAP",
@@ -7621,14 +7667,14 @@
             "rarity": 1
         },
         "trap_1066_acarm066": {
-            "name": "幸运硬币",
-            "name_en": "幸运硬币",
+            "name": "盟约之币",
+            "name_en": "盟约之币",
             "name_en_unavailable": true,
-            "name_jp": "幸运硬币",
+            "name_jp": "盟约之币",
             "name_jp_unavailable": true,
-            "name_kr": "幸运硬币",
+            "name_kr": "盟约之币",
             "name_kr_unavailable": true,
-            "name_tw": "幸运硬币",
+            "name_tw": "盟约之币",
             "name_tw_unavailable": true,
             "position": "NONE",
             "profession": "TRAP",
@@ -12925,6 +12971,11 @@
     },
     "ranges": {
         "0-1": [[0, 0]],
+        "0-2": [
+            [0, 1],
+            [0, 0],
+            [0, -1]
+        ],
         "1-1": [
             [0, 0],
             [1, 0]
