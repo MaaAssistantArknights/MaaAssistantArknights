@@ -723,7 +723,9 @@ void Assistant::clear_cache()
     m_status->clear_number();
     m_status->clear_rect();
     m_status->clear_str();
-    m_ctrler->clear_info();
+    if (m_ctrler->get_controller_type() == ControllerType::Win32) {
+        m_ctrler->clear_info();
+    }
 }
 
 bool asst::Assistant::inited() const noexcept

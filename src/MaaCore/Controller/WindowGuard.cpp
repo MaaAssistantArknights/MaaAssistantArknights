@@ -7,20 +7,23 @@ namespace asst
 WindowGuard::WindowGuard(void* hwnd) :
     m_restore(false),
     m_hwnd(reinterpret_cast<HWND>(hwnd)),
-    m_style(GetWindowLongPtr(m_hwnd, GWL_STYLE)),
     m_clientRect { }
 {
     if (m_hwnd == nullptr || !IsWindow(m_hwnd)) {
         Log.error(__FUNCTION__, "hwnd iellegal!");
         return;
     }
+    m_style = GetWindowLongPtr(m_hwnd, GWL_STYLE);
     if ((m_style & WS_POPUP) != 0) {
         Log.error(__FUNCTION__, "Does not support full screen!");
         return;
     }
     ShowWindow(m_hwnd, SW_RESTORE);
     UpdateWindow(m_hwnd);
-    GetClientRect(m_hwnd, &m_clientRect);
+    if (!GetClientRect(m_hwnd, &m_clientRect)) {
+        Log.error(__FUNCTION__, "GetClientRect failed!");
+        return;
+    }
     Log.info(
         __FUNCTION__,
         "clientRect, left: ",
