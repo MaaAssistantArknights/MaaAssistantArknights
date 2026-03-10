@@ -10,7 +10,7 @@ WindowGuard::WindowGuard(void* hwnd) :
     m_clientRect { }
 {
     if (m_hwnd == nullptr || !IsWindow(m_hwnd)) {
-        Log.error(__FUNCTION__, "hwnd iellegal!");
+        Log.error(__FUNCTION__, "invalid hwnd");
         return;
     }
     m_style = GetWindowLongPtr(m_hwnd, GWL_STYLE);
@@ -37,7 +37,10 @@ WindowGuard::WindowGuard(void* hwnd) :
     POINT centerPoint;
     centerPoint.x = (m_clientRect.left + m_clientRect.right) / 2;
     centerPoint.y = (m_clientRect.top + m_clientRect.bottom) / 2;
-    if (std::fabs(
+    if (static_cast<double>(m_clientRect.right - m_clientRect.left) /
+                static_cast<double>(m_clientRect.bottom - m_clientRect.top) !=
+            0 &&
+        std::fabs(
             static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault) -
             static_cast<double>(m_clientRect.right - m_clientRect.left) /
                 static_cast<double>(m_clientRect.bottom - m_clientRect.top)) > 1e-7) {
