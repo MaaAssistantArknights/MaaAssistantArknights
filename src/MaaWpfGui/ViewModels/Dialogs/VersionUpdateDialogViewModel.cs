@@ -880,7 +880,7 @@ public class VersionUpdateDialogViewModel : Screen
 
     private async Task<CheckUpdateRetT> CheckUpdateByMaaApi()
     {
-        JObject json = await Instances.MaaApiService.RequestMaaApiWithCache(MaaUpdateApi);
+        var (_, json) = await Instances.MaaApiService.RequestMaaApiWithCache(MaaUpdateApi);
 
         if (json is null)
         {
@@ -908,7 +908,7 @@ public class VersionUpdateDialogViewModel : Screen
 
     private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string versionType)
     {
-        var json = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json", false);
+        var (_, json) = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json", false);
         if (json is null)
         {
             return CheckUpdateRetT.NetworkError;

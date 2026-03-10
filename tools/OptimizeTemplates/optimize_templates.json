@@ -3860,10 +3860,10 @@
     "resource/global/txwy/resource/template/UiTheme/Dreamland/Night/Task": "66174d53fcd1bc6809a9a8ce59dfadf27a45bbf85c08b4166eeaa2258fbe5f80",
     "resource/template/items/act2break_milestone_point": "49055468a05329a54d70a9312bd7c3198093e9e8e963684958656eff5a7bcb00",
     "resource/global/YoStarEN/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-1@BattleFailedClick": "f28803a0e6842cce8f9dfb4feee998529c5527031b294df94ca7c92fa292d754",
-    "resource/global/YoStarEN/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-1@SettlementStageName": "0fdeef3065aba0b424d2e932956c964757a0e50ad9f0aac0ec99747f39a3c8de",
+    "resource/global/YoStarEN/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-1@SettlementStageName": "5130ddce779a6c391822e3aaee000bcfb9437fbcdcd40a3fd294b9c65f9cfccd",
     "resource/global/YoStarEN/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@DoNotApply": "42261c72659024dfdf9a7d4cf44fbcbb20615fab8fb28a7738be16af4ee367b5",
     "resource/global/YoStarEN/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@NextStep": "e1760a5a8df6bafebc2d353d593aa07aa569ce00a83c031bec4410feab5d9eb2",
-    "resource/global/YoStarEN/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@SettlementStageName": "143e339363b9aae8e468fff8a1eac68762b114ea3bba0ea6a4695d066944f9d9",
+    "resource/global/YoStarEN/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@SettlementStageName": "92742d8dc7e41b98705d267bb3ffe60c6a7299c21218e6a551093ec633a13b78",
     "resource/global/YoStarEN/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@Skip": "325a8207e77254647c1678151041e4b3493671a9b0ac6fe0695d1d92cfc80cb0",
     "resource/global/YoStarEN/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@StartBuildingProduction": "9c6b1f5fa02fb086e31e1748badd4aebd95f8e1b6ed96939bea765577644c461",
     "resource/global/YoStarEN/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@StartExecution": "af8f6ecab2799ce8730b2f51bf1a5bc921ea0ed424d9647d7b1f8f543d7ba4ae",
@@ -3887,7 +3887,12 @@
     "resource/global/YoStarKR/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@Skip": "d6763dd98782de939d0bf323fbaeed3d8294c8c68e66a4a0f907b3a5e12169b6",
     "resource/global/YoStarKR/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@StartBuildingProduction": "9825a7da685ab2147e4ce362b738d4e6ceeed8fd691e20b0b5ed1c38ea5ec35c",
     "resource/global/YoStarKR/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@StartExecution": "07596b680a9a3b29f82f945555b3b7c84279d661c14d3cde284b1408c7ebd596",
-    "resource/global/YoStarKR/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@WaitForEnd": "4d7e21e3dfd10581e4c3954546268e165c3e2f7d61eaff7bd1c8ce78440ce663",
+    "resource/global/YoStarKR/resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@WaitForEnd": "4ae2469a416a634bcc48a08a87cbcf6bd89d642008783b123dfffecfebbd080e",
     "resource/global/YoStarKR/resource/template/UiTheme/Together/Friends": "cba5cafe7f5f07176676abf8a86c6fd7ce38627aef8273db0cc3afab9c486a67",
-    "resource/template/Battle/Plot/BattleAvatarDialog": "ac20bdea27ab2f6ed71504638b45feb3bbaedb807c88e5ff49a0b2bd992a63af"
+    "resource/template/Battle/Plot/BattleAvatarDialog": "ac20bdea27ab2f6ed71504638b45feb3bbaedb807c88e5ff49a0b2bd992a63af",
+    "resource/template/infrast/Bskill_meet_spd&cost_condChargoat2": "1aeafbdcafc4f07944cba2bfad2b89ba61ae39fc0347bf3755fd46b4f755e9a6",
+    "resource/template/infrast/Bskill_meet_spd&cost_condChargoat": "76a3927ee16be377aaa317e32062e4056790633e397970bbc049c7f9c908c610",
+    "resource/template/infrast/Bskill_tra_demetr": "428551ef4106379af0ed53ac30d73dbb87aa8a143da2c27414ecc440b47ec6e6",
+    "resource/template/infrast/Bskill_tra_ord_spd_ext2": "c0332e173916fb1745d7cfafdedd1e142d5551998ec1785833ec9a26239d4897",
+    "resource/template/infrast/Bskill_tra_ord_spd_ext3": "b97302a989b0f611554574383b7ecb48d0eea21928278583af74045d99d85747"
 }

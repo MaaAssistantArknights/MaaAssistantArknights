@@ -3167,6 +3167,16 @@
                 "name": ["“职业操守”·β"],
                 "template": "Bskill_meet_spd&cost_condChar3.png"
             },
+            "bskill_meet_spd&cost_condChargoat": {
+                "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升15%，心情每小时消耗+1"],
+                "name": ["专业经理·α"],
+                "template": "Bskill_meet_spd&cost_condChargoat.png"
+            },
+            "bskill_meet_spd&cost_condChargoat2": {
+                "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%，心情每小时消耗+1"],
+                "name": ["专业经理·β"],
+                "template": "Bskill_meet_spd&cost_condChargoat2.png"
+            },
             "bskill_meet_spd&sami": {
                 "desc": [
                     "进驻会客室时，线索搜集速度提升+10%，与其他萨米干员进驻会客室一起工作时，线索搜集速度额外提升+5%，自身心情每小时消耗+0.5"
@@ -3393,6 +3403,11 @@
                 "name": ["暖场"],
                 "template": "Bskill_tra_cost1.png"
             },
+            "bskill_tra_demetr": {
+                "desc": ["当与伺夜在同一个贸易站时，心情每小时消耗-0.1，订单上限+2"],
+                "name": ["未偿还的债务"],
+                "template": "Bskill_tra_demetr.png"
+            },
             "bskill_tra_flow_durin": {
                 "desc": ["进驻贸易站时，基建内每1名杜林族干员（最多4名）为当前贸易站提供1条赤金生产线"],
                 "efficient": {
@@ -3547,6 +3562,20 @@
                 },
                 "name": ["对陆接洽代表·β"],
                 "template": "Bskill_tra_ord_spd_ext1.png"
+            },
+            "bskill_tra_ord_spd_ext2": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+25%；当伺夜在基建内时（不包含副手及活动室使用者），订单获取效率额外+5%"
+                ],
+                "name": ["家族经营·α"],
+                "template": "Bskill_tra_ord_spd_ext2.png"
+            },
+            "bskill_tra_ord_spd_ext3": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+30%；当伺夜在基建内时（不包含副手及活动室使用者），订单获取效率额外+10%"
+                ],
+                "name": ["家族经营·β"],
+                "template": "Bskill_tra_ord_spd_ext3.png"
             },
             "bskill_tra_par&per1": {
                 "desc": ["进驻贸易站时，订单获取效率+25%；当伊内丝入驻工作场所时（不包含副手），订单获取效率额外+5%"],
