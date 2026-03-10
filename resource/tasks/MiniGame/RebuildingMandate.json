@@ -83,7 +83,7 @@
     },
     "MiniGame@RM-TR-1@SettlementStageName": {
         "action": "ClickSelf",
-        "roi": [0, 572, 458, 148],
+        "roi": [0, 550, 600, 170],
         "next": ["#self", "MiniGame@RM-TR-1@Begin"]
     },
     "MiniGame@RM-1@Begin": {
@@ -184,7 +184,7 @@
     },
     "MiniGame@RM-1@SettlementStageName": {
         "action": "ClickSelf",
-        "roi": [0, 574, 440, 146],
+        "roi": [0, 550, 600, 170],
         "next": ["#self", "MiniGame@RM-1@Begin"]
     }
 }

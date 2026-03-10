@@ -7100,6 +7100,168 @@
         "stageId": "act1vecb_sp08",
         "width": 10
     },
+    "act20mini_01#f#-activities/act20mini/level_act20mini_01": {
+        "code": "CG-1",
+        "filename": "act20mini_01#f#-activities-act20mini-level_act20mini_01.json",
+        "height": 7,
+        "levelId": "activities/act20mini/level_act20mini_01",
+        "name": "掌声之外",
+        "stageId": "act20mini_01#f#",
+        "width": 9
+    },
+    "act20mini_01-activities/act20mini/level_act20mini_01": {
+        "code": "CG-1",
+        "filename": "act20mini_01-activities-act20mini-level_act20mini_01.json",
+        "height": 7,
+        "levelId": "activities/act20mini/level_act20mini_01",
+        "name": "掌声之外",
+        "stageId": "act20mini_01",
+        "width": 9
+    },
+    "act20mini_02#f#-activities/act20mini/level_act20mini_02": {
+        "code": "CG-2",
+        "filename": "act20mini_02#f#-activities-act20mini-level_act20mini_02.json",
+        "height": 7,
+        "levelId": "activities/act20mini/level_act20mini_02",
+        "name": "高脚杯中的泡影",
+        "stageId": "act20mini_02#f#",
+        "width": 11
+    },
+    "act20mini_02-activities/act20mini/level_act20mini_02": {
+        "code": "CG-2",
+        "filename": "act20mini_02-activities-act20mini-level_act20mini_02.json",
+        "height": 7,
+        "levelId": "activities/act20mini/level_act20mini_02",
+        "name": "高脚杯中的泡影",
+        "stageId": "act20mini_02",
+        "width": 11
+    },
+    "act20mini_03#f#-activities/act20mini/level_act20mini_03": {
+        "code": "CG-3",
+        "filename": "act20mini_03#f#-activities-act20mini-level_act20mini_03.json",
+        "height": 8,
+        "levelId": "activities/act20mini/level_act20mini_03",
+        "name": "立约的艺术",
+        "stageId": "act20mini_03#f#",
+        "width": 12
+    },
+    "act20mini_03-activities/act20mini/level_act20mini_03": {
+        "code": "CG-3",
+        "filename": "act20mini_03-activities-act20mini-level_act20mini_03.json",
+        "height": 8,
+        "levelId": "activities/act20mini/level_act20mini_03",
+        "name": "立约的艺术",
+        "stageId": "act20mini_03",
+        "width": 12
+    },
+    "act20mini_04#f#-activities/act20mini/level_act20mini_04": {
+        "code": "CG-4",
+        "filename": "act20mini_04#f#-activities-act20mini-level_act20mini_04.json",
+        "height": 7,
+        "levelId": "activities/act20mini/level_act20mini_04",
+        "name": "醒酒之后",
+        "stageId": "act20mini_04#f#",
+        "width": 11
+    },
+    "act20mini_04-activities/act20mini/level_act20mini_04": {
+        "code": "CG-4",
+        "filename": "act20mini_04-activities-act20mini-level_act20mini_04.json",
+        "height": 7,
+        "levelId": "activities/act20mini/level_act20mini_04",
+        "name": "醒酒之后",
+        "stageId": "act20mini_04",
+        "width": 11
+    },
+    "act20mini_05#f#-activities/act20mini/level_act20mini_05": {
+        "code": "CG-5",
+        "filename": "act20mini_05#f#-activities-act20mini-level_act20mini_05.json",
+        "height": 8,
+        "levelId": "activities/act20mini/level_act20mini_05",
+        "name": "种豆得豆",
+        "stageId": "act20mini_05#f#",
+        "width": 12
+    },
+    "act20mini_05-activities/act20mini/level_act20mini_05": {
+        "code": "CG-5",
+        "filename": "act20mini_05-activities-act20mini-level_act20mini_05.json",
+        "height": 8,
+        "levelId": "activities/act20mini/level_act20mini_05",
+        "name": "种豆得豆",
+        "stageId": "act20mini_05",
+        "width": 12
+    },
+    "act20mini_06#f#-activities/act20mini/level_act20mini_06": {
+        "code": "CG-6",
+        "filename": "act20mini_06#f#-activities-act20mini-level_act20mini_06.json",
+        "height": 9,
+        "levelId": "activities/act20mini/level_act20mini_06",
+        "name": "定价",
+        "stageId": "act20mini_06#f#",
+        "width": 12
+    },
+    "act20mini_06-activities/act20mini/level_act20mini_06": {
+        "code": "CG-6",
+        "filename": "act20mini_06-activities-act20mini-level_act20mini_06.json",
+        "height": 9,
+        "levelId": "activities/act20mini/level_act20mini_06",
+        "name": "定价",
+        "stageId": "act20mini_06",
+        "width": 12
+    },
+    "act20mini_07#f#-activities/act20mini/level_act20mini_07": {
+        "code": "CG-7",
+        "filename": "act20mini_07#f#-activities-act20mini-level_act20mini_07.json",
+        "height": 7,
+        "levelId": "activities/act20mini/level_act20mini_07",
+        "name": "轻便的行李",
+        "stageId": "act20mini_07#f#",
+        "width": 11
+    },
+    "act20mini_07-activities/act20mini/level_act20mini_07": {
+        "code": "CG-7",
+        "filename": "act20mini_07-activities-act20mini-level_act20mini_07.json",
+        "height": 7,
+        "levelId": "activities/act20mini/level_act20mini_07",
+        "name": "轻便的行李",
+        "stageId": "act20mini_07",
+        "width": 11
+    },
+    "act20mini_08#f#-activities/act20mini/level_act20mini_08": {
+        "code": "CG-8",
+        "filename": "act20mini_08#f#-activities-act20mini-level_act20mini_08.json",
+        "height": 11,
+        "levelId": "activities/act20mini/level_act20mini_08",
+        "name": "准入许可",
+        "stageId": "act20mini_08#f#",
+        "width": 13
+    },
+    "act20mini_08-activities/act20mini/level_act20mini_08": {
+        "code": "CG-8",
+        "filename": "act20mini_08-activities-act20mini-level_act20mini_08.json",
+        "height": 11,
+        "levelId": "activities/act20mini/level_act20mini_08",
+        "name": "准入许可",
+        "stageId": "act20mini_08",
+        "width": 13
+    },
+    "act20mini_s01-activities/act20mini/level_act20mini_sub-1-1": {
+        "code": "CG-S-1",
+        "filename": "act20mini_s01-activities-act20mini-level_act20mini_sub-1-1.json",
+        "height": 9,
+        "levelId": "activities/act20mini/level_act20mini_sub-1-1",
+        "name": "新风向",
+        "stageId": "act20mini_s01",
+        "width": 10
+    },
+    "act20mini_s02-activities/act20mini/level_act20mini_sub-2-1": {
+        "code": "CG-S-2",
+        "filename": "act20mini_s02-activities-act20mini-level_act20mini_sub-2-1.json",
+        "height": 8,
+        "levelId": "activities/act20mini/level_act20mini_sub-2-1",
+        "name": "授信之人",
+        "stageId": "act20mini_s02",
+        "width": 11
+    },
     "act20side_01-activities/act20side/level_act20side_01": {
         "code": "IC-1",
         "filename": "act20side_01-activities-act20side-level_act20side_01.json",
@@ -24506,6 +24668,15 @@
         "stageId": "mem_breeze_1",
         "width": 10
     },
+    "mem_brigid_1-obt/memory/level_memory_brigid_1": {
+        "code": "mem_brigid_1",
+        "filename": "mem_brigid_1-obt-memory-level_memory_brigid_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_brigid_1",
+        "name": "花儿干枯之前",
+        "stageId": "mem_brigid_1",
+        "width": 10
+    },
     "mem_broca_1-obt/memory/level_memory_broca_1": {
         "code": "mem_broca_1",
         "filename": "mem_broca_1-obt-memory-level_memory_broca_1.json",
@@ -25162,6 +25333,15 @@
         "name": "“百炼”",
         "stageId": "mem_gvial2_1",
         "width": 11
+    },
+    "mem_gyuki_1-obt/memory/level_memory_gyuki_1": {
+        "code": "mem_gyuki_1",
+        "filename": "mem_gyuki_1-obt-memory-level_memory_gyuki_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_gyuki_1",
+        "name": "正义之鬼",
+        "stageId": "mem_gyuki_1",
+        "width": 9
     },
     "mem_haak_1-obt/memory/level_memory_haak_1": {
         "code": "mem_haak_1",

@@ -138,6 +138,7 @@
         "next": ["#next"]
     },
     "StageTheme": {
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [243, 598, 147, 122],
         "postDelay": 1000,
@@ -584,7 +585,7 @@
     "StageResource": {
         "action": "ClickSelf",
         "Doc": "进入资源关卡",
-        "templThreshold": 0.77,
+        "templThreshold": 0.65,
         "roi": [462, 600, 140, 120]
     },
     "Stage": {
@@ -1612,7 +1613,7 @@
     "GoTerminalStopflag": {
         "template": "StageResource.png",
         "Doc": "看到资源关卡图标说明在终端",
-        "templThreshold": 0.77,
+        "templThreshold": 0.65,
         "roi": [462, 600, 140, 120],
         "action": "Stop"
     },

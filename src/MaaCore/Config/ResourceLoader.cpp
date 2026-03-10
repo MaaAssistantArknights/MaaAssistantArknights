@@ -170,6 +170,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     else if (std::filesystem::is_regular_file(path / "tasks.json"_p)) {
         Log.warn("================  DEPRECATED  ================");
         Log.warn(__FUNCTION__, "resource/tasks.json has been deprecated since v5.15.4");
+        Log.warn(__FUNCTION__, "Please use resource/tasks/*.json instead");
         Log.warn("================  DEPRECATED  ================");
         if (!load_with_templ.template operator()<TaskData>("tasks.json"_p, "template"_p, "TaskData")) {
             return false;
