@@ -777,6 +777,17 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ResolutionNotSupported"), UiLogColor.Error);
                 break;
 
+            case "ResolutionInfo":
+                {
+                    int width = details["details"]?["width"]?.ToObject<int>() ?? 0;
+                    int height = details["details"]?["height"]?.ToObject<int>() ?? 0;
+                    if (SettingsViewModel.GameSettings.ClientType == ClientType.EN && (width != 1920 || height != 1080))
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ResolutionInfoYoStarEN"), UiLogColor.Warning);
+                    }
+                }
+                break;
+
             case "ResolutionError":
                 Connected = false;
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ResolutionAcquisitionFailure"), UiLogColor.Error);
