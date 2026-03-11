@@ -786,7 +786,7 @@ public class AsstProxy
                     int height = details["details"]?["height"]?.ToObject<int>() ?? 0;
                     if (SettingsViewModel.GameSettings.ClientType == ClientType.EN && (width != 1920 || height != 1080))
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ResolutionInfoYoStarEN"), UiLogColor.Warning);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ResolutionInfoYoStarEN"), UiLogColor.Error);
                     }
                 }
                 break;
@@ -2492,7 +2492,7 @@ public class AsstProxy
     private bool AsstAttachWindowConnect(ref string error)
     {
         _lastConnectionError = string.Empty;
-        
+
         if (!Bootstrapper.IsUserAdministrator())
         {
             var result = Application.Current.Dispatcher.Invoke(() =>
@@ -2562,7 +2562,7 @@ public class AsstProxy
         {
             // 等待回调完成以获取详细错误信息
             System.Threading.Thread.Sleep(100);
-            
+
             if (!string.IsNullOrEmpty(_lastConnectionError))
             {
                 error = _lastConnectionError;
@@ -2571,7 +2571,7 @@ public class AsstProxy
             {
                 error = LocalizationHelper.GetString("AttachWindowFailed");
             }
-            
+
             Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
         }
 
