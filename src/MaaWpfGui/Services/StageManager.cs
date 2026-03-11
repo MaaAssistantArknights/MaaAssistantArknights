@@ -705,7 +705,8 @@ public class StageManager
             }
 
             // Drop groups tips (for chip stages like PR-A-1/2)
-            if (stage.DropGroups != null && stage.DropGroups.Count > 0)
+            if (stage.DropGroups != null && stage.DropGroups.Count > 0
+                && stage.DropGroups.SelectMany(i => i).Select(dropId => Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.Count).Any(x => x >= 0))
             {
                 var groupTexts = new List<string>();
                 foreach (var dropGroup in stage.DropGroups)
