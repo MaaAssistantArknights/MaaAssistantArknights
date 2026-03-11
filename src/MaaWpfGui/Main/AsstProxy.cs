@@ -759,6 +759,7 @@ public class AsstProxy
 
     private string _connectedAdb = string.Empty;
     private string _connectedAddress = string.Empty;
+    private string _lastConnectionError = string.Empty;
 
     private void ProcConnectInfo(JObject details)
     {
@@ -770,11 +771,13 @@ public class AsstProxy
                 _connectedAdb = details["details"]!["adb"]!.ToString();
                 _connectedAddress = details["details"]!["address"]!.ToString();
                 SettingsViewModel.ConnectSettings.ConnectAddress = _connectedAddress;
+                _lastConnectionError = string.Empty;
                 break;
 
             case "UnsupportedResolution":
                 Connected = false;
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ResolutionNotSupported"), UiLogColor.Error);
+                _lastConnectionError = LocalizationHelper.GetString("ResolutionNotSupported");
+                Instances.TaskQueueViewModel.AddLog(_lastConnectionError, UiLogColor.Error);
                 break;
 
             case "ResolutionInfo":
@@ -790,7 +793,8 @@ public class AsstProxy
 
             case "ResolutionError":
                 Connected = false;
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ResolutionAcquisitionFailure"), UiLogColor.Error);
+                _lastConnectionError = LocalizationHelper.GetString("ResolutionAcquisitionFailure");
+                Instances.TaskQueueViewModel.AddLog(_lastConnectionError, UiLogColor.Error);
                 break;
 
             case "Reconnecting":
@@ -2487,6 +2491,8 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     private bool AsstAttachWindowConnect(ref string error)
     {
+        _lastConnectionError = string.Empty;
+        
         if (!Bootstrapper.IsUserAdministrator())
         {
             var result = Application.Current.Dispatcher.Invoke(() =>
@@ -2554,7 +2560,18 @@ public class AsstProxy
 
         if (!ret)
         {
-            error = LocalizationHelper.GetString("AttachWindowFailed");
+            // 等待回调完成以获取详细错误信息
+            System.Threading.Thread.Sleep(100);
+            
+            if (!string.IsNullOrEmpty(_lastConnectionError))
+            {
+                error = _lastConnectionError;
+            }
+            else
+            {
+                error = LocalizationHelper.GetString("AttachWindowFailed");
+            }
+            
             Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
         }
 
@@ -2568,6 +2585,8 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     private bool AsstAdbConnect(ref string error)
     {
+        _lastConnectionError = string.Empty;
+
         switch (SettingsViewModel.ConnectSettings.ConnectConfig)
         {
             case "MuMuEmulator12":
@@ -2620,6 +2639,12 @@ public class AsstProxy
 
         bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig);
 
+        // 如果连接失败，等待回调完成以获取详细错误信息
+        if (!ret)
+        {
+            System.Threading.Thread.Sleep(100);
+        }
+
         // 尝试默认的备选端口
         if (!ret && SettingsViewModel.ConnectSettings.AutoDetectConnection)
         {
@@ -2649,7 +2674,16 @@ public class AsstProxy
 
         if (!ret)
         {
-            error = LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("CheckSettings");
+            // 等待回调完成以获取详细错误信息
+            System.Threading.Thread.Sleep(1000);
+            if (!string.IsNullOrEmpty(_lastConnectionError))
+            {
+                error = _lastConnectionError;
+            }
+            else
+            {
+                error = LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("CheckSettings");
+            }
         }
         else if (SettingsViewModel.ConnectSettings.AutoDetectConnection && !SettingsViewModel.ConnectSettings.AlwaysAutoDetectConnection)
         {
