@@ -1365,6 +1365,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">ホットアップデートデータの取得に成功しました</system:String>
+    <system:String x:Key="ApiUpdateFailed">ホットアップデートデータの取得に失敗しました</system:String>
+    <system:String x:Key="ApiCacheLoaded">ローカルキャッシュデータを使用しています</system:String>
     <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。</system:String>
     <system:String x:Key="GameResourceUpdatingMirrorChyan">「{key=MirrorChyan}」からリソース {0} を更新しています...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">索引の作成中</system:String>
