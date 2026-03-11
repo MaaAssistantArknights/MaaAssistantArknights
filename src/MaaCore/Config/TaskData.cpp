@@ -245,12 +245,12 @@ bool asst::TaskData::load(const std::filesystem::path& path)
             auto ret = json::open(file, true);
             if (!ret) {
                 Log.error("TaskData::load", "Json open failed:", file);
-                continue;
+                return false;
             }
             json::value file_json = ret.value();
             if (!file_json.is_object()) {
                 Log.error("TaskData::load", "Json content is not an object:", file);
-                continue;
+                return false;
             }
             for (auto& [key, value] : file_json.as_object()) {
                 if (!merged.emplace(key, std::move(value)).second) {
