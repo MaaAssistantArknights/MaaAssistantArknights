@@ -1364,6 +1364,8 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Hot update data retrieval successful</system:String>
+    <system:String x:Key="ApiUpdateFailed">Hot update data retrieval failed</system:String>
+    <system:String x:Key="ApiCacheLoaded">Using local cached data</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
     <system:String x:Key="GameResourceUpdatingMirrorChyan">Updating resource {0} from ｢{key=MirrorChyan}｣...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>

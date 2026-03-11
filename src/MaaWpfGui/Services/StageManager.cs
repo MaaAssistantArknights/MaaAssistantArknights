@@ -91,19 +91,28 @@ public class StageManager
             }
         }
 
-        var loaded = await LoadWebStages();
-        if (!loaded)
-        {
-            return;
-        }
+        var (loaded, cached) = await LoadWebStages();
 
         _ = Execute.OnUIThreadAsync(() => {
             var growlInfo = new GrowlInfo {
                 IsCustom = true,
-                Message = LocalizationHelper.GetString("ApiUpdateSuccess"),
                 IconKey = "HangoverGeometry",
                 IconBrushKey = "PallasBrush",
             };
+
+            if (!loaded)
+            {
+                growlInfo.Message = LocalizationHelper.GetString("ApiUpdateFailed");
+            }
+            else if (cached)
+            {
+                growlInfo.Message = LocalizationHelper.GetString("ApiCacheLoaded");
+            }
+            else
+            {
+                growlInfo.Message = LocalizationHelper.GetString("ApiUpdateSuccess");
+            }
+
             Growl.Info(growlInfo);
         });
     }
@@ -149,7 +158,7 @@ public class StageManager
     }
     */
 
-    private async Task<bool> LoadWebStages()
+    private async Task<(bool Success, bool Cached)> LoadWebStages()
     {
         var clientType = GetClientType();
 
@@ -174,13 +183,16 @@ public class StageManager
 
         if (activityJson is null || tasksJson is null)
         {
-            return false;
+            return (false, false);
         }
 
         if (clientType != ClientType.Official && globalTasksJson is null)
         {
-            return false;
+            return (false, false);
         }
+
+        // 检查是否所有资源都命中缓存
+        bool allCached = activityCached && taskCached && globalTasksCached;
 
         if (!taskCached || !globalTasksCached)
         {
@@ -193,7 +205,8 @@ public class StageManager
         {
             MergePermanentAndActivityStages(activityJson);
         }
-        return true;
+
+        return (true, allCached);
     }
 
     private void MergePermanentAndActivityStages(JObject? activity)
