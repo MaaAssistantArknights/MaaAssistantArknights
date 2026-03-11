@@ -210,7 +210,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         return false;
     }
 
-    auto custom_json_opt = json::openc(path);
+    auto custom_json_opt = json::open(path, true, true);
     if (!custom_json_opt) {
         Log.error("failed to open json file:", path);
         return false;

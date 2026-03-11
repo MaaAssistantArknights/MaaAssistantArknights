@@ -226,7 +226,7 @@ bool asst::TaskData::load(const std::filesystem::path& path)
 
     if (is_regular_file(path)) {
         // Log.debug("TaskData::load", "Loading json file:", path);
-        auto ret = json::openc(path, true);
+        auto ret = json::open(path, true, true);
         if (!ret) {
             Log.error("TaskData::load", "Json open failed:", path);
             return false;
@@ -243,7 +243,7 @@ bool asst::TaskData::load(const std::filesystem::path& path)
         }
         for (const auto& file : json_files) {
             // Log.debug("TaskData::load", "Loading json file:", file);
-            auto ret = json::openc(file, true);
+            auto ret = json::open(file, true, true);
             if (!ret) {
                 Log.error("TaskData::load", "Json open failed:", file);
                 load = false;
