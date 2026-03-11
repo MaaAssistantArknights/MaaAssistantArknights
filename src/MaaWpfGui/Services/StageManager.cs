@@ -690,7 +690,7 @@ public class StageManager
             {
                 var str = $"{stage.Value}: {ItemListHelper.GetItemName(stage.Drop) ?? stage.Drop}";
                 var count = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == stage.Drop)?.DisplayCount;
-                if (!string.IsNullOrEmpty(count) && count != "-1")
+                if (!string.IsNullOrEmpty(count))
                 {
                     str += $" ({LocalizationHelper.GetString("Inventory")} {count})";
                 }
@@ -712,7 +712,7 @@ public class StageManager
                 foreach (var dropGroup in stage.DropGroups)
                 {
                     var itemCounts = dropGroup
-                        .Select(dropId => Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.DisplayCount ?? "-1")
+                        .Select(dropId => Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.DisplayCount ?? "--")
                         .ToList();
                     groupTexts.Add(string.Join(" & ", itemCounts));
                 }

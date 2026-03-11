@@ -549,7 +549,7 @@ public class ToolboxViewModel : Screen
         /// <summary>
         /// Gets 格式化后的显示数量（用于 UI 绑定）
         /// </summary>
-        public string DisplayCount => Count >= 0 ? Count.FormatNumber(false) : "-1";
+        public string? DisplayCount => Count >= 0 ? Count.FormatNumber(false) : null;
     }
 
     /// <summary>
