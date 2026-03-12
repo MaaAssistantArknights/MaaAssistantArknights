@@ -120,16 +120,11 @@ bool AndroidController::screencap(cv::Mat& image, [[maybe_unused]] bool allow_re
         return false;
     }
 
-    const cv::Mat src(info.height, info.width, CV_8UC4, info.data, info.stride);
-    cv::Mat bgr;
+    const cv::Mat bgr_raw(info.height, info.width, CV_8UC3, info.data, info.stride);
 
-    const auto cvt_start = std::chrono::high_resolution_clock::now();
-    cv::cvtColor(src, bgr, cv::COLOR_RGBA2BGR);
-    auto cvt_end = std::chrono::high_resolution_clock::now();
-    auto cvt_duration = std::chrono::duration_cast<std::chrono::microseconds>(cvt_end - cvt_start);
-    LogDebug << "cvtColor(RGBA->BGR) took: " << cvt_duration.count() << " microseconds";
+    image = bgr_raw.clone();
 
-    image = bgr;
+    LogDebug << "Screencap: BGR frame received via NEON, size: " << info.width << "x" << info.height;
 
     int unlock_ret = library.UnlockPixels(info);
     if (unlock_ret == 0) {
