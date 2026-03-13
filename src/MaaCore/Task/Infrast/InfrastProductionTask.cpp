@@ -316,6 +316,7 @@ size_t asst::InfrastProductionTask::opers_detect()
     const auto image = ctrler()->get_image();
 
     InfrastOperImageAnalyzer oper_analyzer(image);
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
     oper_analyzer.set_facility(facility_name());
 
@@ -330,6 +331,23 @@ size_t asst::InfrastProductionTask::opers_detect()
     for (const auto& cur_oper : cur_all_opers) {
         if (cur_oper.skills.empty()) {
             continue;
+        }
+        // 在黑名单中的干员不可用
+        if (m_is_custom && !current_room_config().blacklist.empty()) {
+            const auto& blacklist = current_room_config().blacklist;
+            RegionOCRer name_analyzer;
+            name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+            name_analyzer.set_image(cur_oper.name_img);
+            name_analyzer.set_bin_expansion(0);
+            if (!name_analyzer.analyze()) {
+                Log.trace("ERROR:!name_analyzer.analyze()");
+                continue;
+            }
+            const std::string& name = name_analyzer.get_result().text;
+            if (std::any_of(blacklist.begin(), blacklist.end(), [&](const std::string& s) { return s == name; })) {
+                Log.trace("Skip operator", name, "in blacklist");
+                continue;
+            }
         }
         {
             std::string skills_str = "[";

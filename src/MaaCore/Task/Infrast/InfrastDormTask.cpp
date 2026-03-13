@@ -98,6 +98,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
     size_t num_of_fulltrust = 0;
     bool to_fill = false;
     int swipe_times [[maybe_unused]] = 0;
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -123,6 +124,23 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
             if (num_of_selected >= max_num_of_opers()) {
                 Log.info("num_of_selected:", num_of_selected, ", just break");
                 break;
+            }
+            // 在黑名单不为空时，跳过黑名单中的干员
+            if (!origin_room_config.blacklist.empty()) {
+                const auto& blacklist = origin_room_config.blacklist;
+                RegionOCRer name_analyzer;
+                name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+                name_analyzer.set_image(oper.name_img);
+                name_analyzer.set_bin_expansion(0);
+                if (!name_analyzer.analyze()) {
+                    Log.trace("ERROR:!name_analyzer.analyze()");
+                    continue;
+                }
+                const std::string& name = name_analyzer.get_result().text;
+                if (std::any_of(blacklist.begin(), blacklist.end(), [&](const std::string& s) { return s == name; })) {
+                    Log.trace("Skip operator", name, "in blacklist");
+                    continue;
+                }
             }
             if (to_fill) {
                 if (oper.doing != infrast::Doing::Working && !oper.selected) {
