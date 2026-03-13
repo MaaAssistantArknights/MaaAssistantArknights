@@ -106,6 +106,7 @@ public:
     Controller& operator=(Controller&&) = delete;
 
     bool back_to_home();
+    void move_cursor_out_of_view() noexcept;
 
 private:
     cv::Mat get_resized_image_cache() const;

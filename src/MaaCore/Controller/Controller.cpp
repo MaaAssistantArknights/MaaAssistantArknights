@@ -136,6 +136,12 @@ bool asst::Controller::back_to_home()
     return true;
 }
 
+void asst::Controller::move_cursor_out_of_view() noexcept
+{
+    CHECK_EXIST(m_controller, );
+    m_controller->move_cursor_out_of_view();
+}
+
 cv::Mat asst::Controller::get_resized_image_cache() const
 {
     const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
