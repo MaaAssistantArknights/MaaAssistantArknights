@@ -117,7 +117,7 @@ icon: iconoir:developer
     3. リベース（推奨）またはマージ：
 
        ```bash
-       git rebase upstream/dev
+       git rebase upstream/dev-v2
        ```
 
        または

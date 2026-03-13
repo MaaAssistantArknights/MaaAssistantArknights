@@ -79,22 +79,22 @@ We've preset several different development environments for you to choose from:
 
 9. Now you're ready to happily ~~mess around~~ start developing!
 10. Commit regularly with meaningful messages during development  
-    If you're not familiar with git usage, you might want to create a new branch for changes instead of committing directly to `dev`:
+    If you're not familiar with git usage, you might want to create a new branch for changes instead of committing directly to `dev-v2`:
 
     ```bash
     git branch your_own_branch
     git checkout your_own_branch
     ```
 
-    This keeps your changes isolated from upstream `dev` updates.
+    This keeps your changes isolated from upstream `dev-v2` updates.
 
-11. After development, push your local branch (e.g. `dev`) to your remote repository:
+11. After development, push your local branch (e.g. `dev-v2`) to your remote repository:
 
     ```bash
     git push origin dev-v2
     ```
 
-12. Submit a Pull Request at the [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights). Ensure your changes are based on the `dev` branch, not `master`.
+12. Submit a Pull Request at the [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights). Ensure your changes are based on the `dev-v2` branch, not `master`.
 13. To sync upstream changes:
     1. Add upstream repository:
 
@@ -111,7 +111,7 @@ We've preset several different development environments for you to choose from:
     3. Rebase (recommended) or merge:
 
        ```bash
-       git rebase upstream/dev # rebase
+       git rebase upstream/dev-v2 # rebase
        ```
 
        or

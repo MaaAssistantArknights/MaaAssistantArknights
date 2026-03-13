@@ -79,16 +79,16 @@ icon: iconoir:developer
 
 9. 到這裡，你就可以愉快地 ~~瞎雞巴改~~ 發電了
 10. 開發過程中，每一定數量，記得提交一個 Commit, 別忘了寫上 Message  
-    假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev` 上
+    假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev-v2` 上
 
     ```bash
     git branch your_own_branch
     git checkout your_own_branch
     ```
 
-    這樣你的提交就能在新的分支上生長，不會受到 `dev` 更新的打擾
+    這樣你的提交就能在新的分支上生長，不會受到 `dev-v2` 更新的打擾
 
-11. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠端（Fork 的倉庫）
+11. 完成開發後，推送你修改過的本地分支（以 `dev-v2` 為例）到遠端（Fork 的倉庫）
 
     ```bash
     git push origin dev-v2
@@ -112,7 +112,7 @@ icon: iconoir:developer
     3. 變基（推薦）或者合併修改
 
        ```bash
-       git rebase upstream/dev # 變基
+       git rebase upstream/dev-v2 # 變基
        ```
 
        或者

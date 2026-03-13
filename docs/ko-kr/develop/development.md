@@ -116,7 +116,7 @@ icon: iconoir:developer
     3. 리베이스(권장) 또는 병합:
 
        ```bash
-       git rebase upstream/dev
+       git rebase upstream/dev-v2
        ```
 
        또는
