@@ -35,6 +35,7 @@ public sealed class TaskModuleAFeatureTests
         Assert.True(tasks[0].Params["start_game_enabled"]?.GetValue<bool>());
 
         Assert.Equal("Fight", tasks[1].Type);
+        Assert.Equal(FightStageSelection.CurrentOrLast, tasks[1].Params["stage"]?.GetValue<string>());
         Assert.Equal(int.MaxValue, tasks[1].Params["times"]?.GetValue<int>());
         Assert.Equal(1, tasks[1].Params["series"]?.GetValue<int>());
 
@@ -231,6 +232,34 @@ public sealed class TaskModuleAFeatureTests
 
         var drops = Assert.IsType<JsonObject>(json["drops"]);
         Assert.Equal(2, drops["30012"]?.GetValue<int>());
+    }
+
+    [Fact]
+    public async Task QueueEnabledTasks_FightCurrentOrLast_PersistsSentinelButAppendsEmptyStage()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Fight", "fight")).Success);
+        Assert.True((await fixture.TaskQueue.SaveFightParamsAsync(0, new FightTaskParamsDto
+        {
+            Stage = FightStageSelection.CurrentOrLast,
+            UseMedicine = false,
+            Medicine = 0,
+            UseStone = false,
+            Stone = 0,
+            EnableTimesLimit = true,
+            Times = 1,
+            Series = 1,
+        })).Success);
+
+        var stored = (await fixture.TaskQueue.GetTaskParamsAsync(0)).Value!;
+        Assert.Equal(FightStageSelection.CurrentOrLast, stored["stage"]?.GetValue<string>());
+
+        var queueResult = await fixture.TaskQueue.QueueEnabledTasksAsync();
+        Assert.True(queueResult.Success);
+
+        var appended = Assert.Single(fixture.Bridge.AppendedTasks);
+        var json = Assert.IsType<JsonObject>(JsonNode.Parse(appended.ParamsJson));
+        Assert.Equal(string.Empty, json["stage"]?.GetValue<string>());
     }
 
     [Fact]
@@ -598,6 +627,9 @@ public sealed class TaskModuleAFeatureTests
         Assert.Contains("DynamicResource", startUpView);
         Assert.Contains("DynamicResource", fightView);
         Assert.Contains("DynamicResource", recruitView);
+        Assert.DoesNotContain("SelectedAttachWindowScreencapOption", startUpView);
+        Assert.DoesNotContain("SelectedAttachWindowMouseOption", startUpView);
+        Assert.DoesNotContain("SelectedAttachWindowKeyboardOption", startUpView);
     }
 
     private static string ResolveRepoRoot()

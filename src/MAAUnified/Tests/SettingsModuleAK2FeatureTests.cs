@@ -15,9 +15,9 @@ namespace MAAUnified.Tests;
 public sealed class SettingsModuleAK2FeatureTests
 {
     [Fact]
-    public async Task SaveStartPerformanceSettings_WritesExpectedKeys_AndReadBackMatchesVm()
+    public async Task SaveStartPerformanceSettings_WindowsGpuSelection_WritesExpectedKeys_AndReadBackMatchesVm()
     {
-        await using var fixture = await RuntimeFixture.CreateAsync();
+        await using var fixture = await RuntimeFixture.CreateAsync(gpuCapabilityService: new ScriptedWindowsGpuCapabilityService());
         var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
         await vm.InitializeAsync();
 
@@ -30,21 +30,46 @@ public sealed class SettingsModuleAK2FeatureTests
         vm.EmulatorWaitSeconds = 135;
         vm.PerformanceUseGpu = true;
         vm.PerformanceAllowDeprecatedGpu = true;
-        vm.PerformancePreferredGpuDescription = "  GPU-DESC  ";
-        vm.PerformancePreferredGpuInstancePath = "  GPU-PATH  ";
+        vm.SelectedGpuOption = Assert.Single(
+            vm.AvailableGpuOptions,
+            option => option.Descriptor.InstancePath == "GPU-PATH");
+        vm.DeploymentWithPause = true;
+        vm.StartsWithScript = "  \"C:\\1.cmd\" -minimized  ";
+        vm.EndsWithScript = "  \"C:\\2.cmd\" -noWindow  ";
+        vm.CopilotWithScript = true;
+        vm.ManualStopWithScript = true;
+        vm.BlockSleep = true;
+        vm.BlockSleepWithScreenOn = false;
+        vm.EnablePenguin = false;
+        vm.EnableYituliu = true;
+        vm.PenguinId = "  penguin-001  ";
+        vm.TaskTimeoutMinutes = 180;
+        vm.ReminderIntervalMinutes = 45;
 
         await vm.SaveStartPerformanceSettingsAsync();
 
-        Assert.Equal("True", ReadGlobalString(fixture.Config, ConfigurationKeys.RunDirectly));
-        Assert.Equal("True", ReadGlobalString(fixture.Config, ConfigurationKeys.MinimizeDirectly));
-        Assert.Equal("True", ReadGlobalString(fixture.Config, ConfigurationKeys.StartEmulator));
-        Assert.Equal(emulatorPath, ReadGlobalString(fixture.Config, ConfigurationKeys.EmulatorPath));
-        Assert.Equal("--instance 2", ReadGlobalString(fixture.Config, ConfigurationKeys.EmulatorAddCommand));
-        Assert.Equal("135", ReadGlobalString(fixture.Config, ConfigurationKeys.EmulatorWaitSeconds));
-        Assert.Equal("True", ReadGlobalString(fixture.Config, ConfigurationKeys.PerformanceUseGpu));
-        Assert.Equal("True", ReadGlobalString(fixture.Config, ConfigurationKeys.PerformanceAllowDeprecatedGpu));
-        Assert.Equal("GPU-DESC", ReadGlobalString(fixture.Config, ConfigurationKeys.PerformancePreferredGpuDescription));
-        Assert.Equal("GPU-PATH", ReadGlobalString(fixture.Config, ConfigurationKeys.PerformancePreferredGpuInstancePath));
+        Assert.Equal("True", ReadScopedString(fixture.Config, ConfigurationKeys.RunDirectly));
+        Assert.Equal("True", ReadScopedString(fixture.Config, ConfigurationKeys.MinimizeDirectly));
+        Assert.Equal("True", ReadScopedString(fixture.Config, ConfigurationKeys.StartEmulator));
+        Assert.Equal(emulatorPath, ReadScopedString(fixture.Config, ConfigurationKeys.EmulatorPath));
+        Assert.Equal("--instance 2", ReadScopedString(fixture.Config, ConfigurationKeys.EmulatorAddCommand));
+        Assert.Equal("135", ReadScopedString(fixture.Config, ConfigurationKeys.EmulatorWaitSeconds));
+        Assert.Equal("True", ReadScopedString(fixture.Config, ConfigurationKeys.PerformanceUseGpu));
+        Assert.Equal("True", ReadScopedString(fixture.Config, ConfigurationKeys.PerformanceAllowDeprecatedGpu));
+        Assert.Equal("GPU-DESC", ReadScopedString(fixture.Config, ConfigurationKeys.PerformancePreferredGpuDescription));
+        Assert.Equal("GPU-PATH", ReadScopedString(fixture.Config, ConfigurationKeys.PerformancePreferredGpuInstancePath));
+        Assert.Equal("True", ReadScopedString(fixture.Config, ConfigurationKeys.RoguelikeDeploymentWithPause));
+        Assert.Equal("\"C:\\1.cmd\" -minimized", ReadScopedString(fixture.Config, ConfigurationKeys.StartsWithScript));
+        Assert.Equal("\"C:\\2.cmd\" -noWindow", ReadScopedString(fixture.Config, ConfigurationKeys.EndsWithScript));
+        Assert.Equal("True", ReadScopedString(fixture.Config, ConfigurationKeys.CopilotWithScript));
+        Assert.Equal("True", ReadScopedString(fixture.Config, ConfigurationKeys.ManualStopWithScript));
+        Assert.Equal("True", ReadScopedString(fixture.Config, ConfigurationKeys.BlockSleep));
+        Assert.Equal("False", ReadScopedString(fixture.Config, ConfigurationKeys.BlockSleepWithScreenOn));
+        Assert.Equal("False", ReadScopedString(fixture.Config, ConfigurationKeys.EnablePenguin));
+        Assert.Equal("True", ReadScopedString(fixture.Config, ConfigurationKeys.EnableYituliu));
+        Assert.Equal("penguin-001", ReadScopedString(fixture.Config, ConfigurationKeys.PenguinId));
+        Assert.Equal("180", ReadScopedString(fixture.Config, ConfigurationKeys.TaskTimeoutMinutes));
+        Assert.Equal("45", ReadScopedString(fixture.Config, ConfigurationKeys.ReminderIntervalMinutes));
 
         Assert.True(vm.RunDirectly);
         Assert.True(vm.MinimizeDirectly);
@@ -56,7 +81,69 @@ public sealed class SettingsModuleAK2FeatureTests
         Assert.True(vm.PerformanceAllowDeprecatedGpu);
         Assert.Equal("GPU-DESC", vm.PerformancePreferredGpuDescription);
         Assert.Equal("GPU-PATH", vm.PerformancePreferredGpuInstancePath);
+        Assert.True(vm.DeploymentWithPause);
+        Assert.Equal("\"C:\\1.cmd\" -minimized", vm.StartsWithScript);
+        Assert.Equal("\"C:\\2.cmd\" -noWindow", vm.EndsWithScript);
+        Assert.True(vm.CopilotWithScript);
+        Assert.True(vm.ManualStopWithScript);
+        Assert.True(vm.BlockSleep);
+        Assert.False(vm.BlockSleepWithScreenOn);
+        Assert.False(vm.EnablePenguin);
+        Assert.True(vm.EnableYituliu);
+        Assert.Equal("penguin-001", vm.PenguinId);
+        Assert.Equal(180, vm.TaskTimeoutMinutes);
+        Assert.Equal(45, vm.ReminderIntervalMinutes);
         Assert.False(vm.HasPendingStartPerformanceChanges);
+    }
+
+    [Fact]
+    public async Task SaveStartPerformanceSettings_UnsupportedGpuConfig_IsClearedToSafeValues()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync(gpuCapabilityService: new UnsupportedGpuCapabilityService());
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.PerformanceUseGpu] = JsonValue.Create("True");
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.PerformancePreferredGpuDescription] = JsonValue.Create("LEGACY-DESC");
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.PerformancePreferredGpuInstancePath] = JsonValue.Create("LEGACY-PATH");
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        vm.RunDirectly = true;
+        vm.PerformanceUseGpu = false;
+        await vm.SaveStartPerformanceSettingsAsync();
+
+        Assert.False(vm.IsGpuSelectionEnabled);
+        Assert.Equal("False", ReadScopedString(fixture.Config, ConfigurationKeys.PerformanceUseGpu));
+        Assert.Equal("False", ReadScopedString(fixture.Config, ConfigurationKeys.PerformanceAllowDeprecatedGpu));
+        Assert.Equal(string.Empty, ReadScopedString(fixture.Config, ConfigurationKeys.PerformancePreferredGpuDescription));
+        Assert.Equal(string.Empty, ReadScopedString(fixture.Config, ConfigurationKeys.PerformancePreferredGpuInstancePath));
+    }
+
+    [Fact]
+    public async Task Initialize_UnsupportedGpuConfig_DisablesSelectionAndCollapsesLegacyState()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync(gpuCapabilityService: new UnsupportedGpuCapabilityService());
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.PerformanceUseGpu] = JsonValue.Create("True");
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.PerformancePreferredGpuDescription] = JsonValue.Create("Apple GPU");
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.PerformancePreferredGpuInstancePath] = JsonValue.Create("Metal#0");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.PerformanceUseGpu] = JsonValue.Create("True");
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.False(vm.PerformanceUseGpu);
+        Assert.False(vm.IsGpuSelectionEnabled);
+        Assert.False(vm.IsGpuDeprecatedToggleEnabled);
+        Assert.False(vm.IsGpuCustomSelectionFieldsVisible);
+        Assert.Single(vm.AvailableGpuOptions);
+        Assert.Equal(GpuOptionKind.Disabled, vm.SelectedGpuOption?.Descriptor.Kind);
+        Assert.Contains(
+            "CPU OCR fallback",
+            vm.StartPerformanceValidationMessage,
+            StringComparison.Ordinal);
+        Assert.False(fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values.ContainsKey(ConfigurationKeys.PerformanceUseGpu));
+        Assert.False(fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values.ContainsKey(ConfigurationKeys.PerformancePreferredGpuDescription));
+        Assert.False(fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values.ContainsKey(ConfigurationKeys.PerformancePreferredGpuInstancePath));
+        Assert.False(fixture.Config.CurrentConfig.GlobalValues.ContainsKey(ConfigurationKeys.PerformanceUseGpu));
     }
 
     [Fact]
@@ -72,7 +159,7 @@ public sealed class SettingsModuleAK2FeatureTests
         vm.EmulatorWaitSeconds = 900;
         await vm.SaveStartPerformanceSettingsAsync();
 
-        Assert.Equal("60", ReadGlobalString(fixture.Config, ConfigurationKeys.EmulatorWaitSeconds));
+        Assert.Equal("60", ReadScopedString(fixture.Config, ConfigurationKeys.EmulatorWaitSeconds));
         Assert.True(vm.HasPendingStartPerformanceChanges);
         Assert.Contains("0-600", vm.StartPerformanceValidationMessage, StringComparison.Ordinal);
     }
@@ -94,8 +181,8 @@ public sealed class SettingsModuleAK2FeatureTests
         vm.EmulatorPath = missingPath;
         await vm.SaveStartPerformanceSettingsAsync();
 
-        Assert.Equal("False", ReadGlobalString(fixture.Config, ConfigurationKeys.StartEmulator));
-        Assert.Equal(string.Empty, ReadGlobalString(fixture.Config, ConfigurationKeys.EmulatorPath));
+        Assert.Equal("False", ReadScopedString(fixture.Config, ConfigurationKeys.StartEmulator));
+        Assert.Equal(string.Empty, ReadScopedString(fixture.Config, ConfigurationKeys.EmulatorPath));
         Assert.True(vm.HasPendingStartPerformanceChanges);
         Assert.Contains("does not exist", vm.StartPerformanceValidationMessage, StringComparison.OrdinalIgnoreCase);
     }
@@ -103,7 +190,7 @@ public sealed class SettingsModuleAK2FeatureTests
     [Fact]
     public async Task Initialize_LoadStartPerformanceFromConfig_NormalizesRangeAndParsesBoolCompatibility()
     {
-        await using var fixture = await RuntimeFixture.CreateAsync();
+        await using var fixture = await RuntimeFixture.CreateAsync(gpuCapabilityService: new ScriptedWindowsGpuCapabilityService());
 
         var emulatorPath = CreateExistingFile(fixture.Root, "normalize-emulator.exe");
         fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.RunDirectly] = JsonValue.Create("1");
@@ -114,8 +201,20 @@ public sealed class SettingsModuleAK2FeatureTests
         fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.EmulatorWaitSeconds] = JsonValue.Create("9999");
         fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.PerformanceUseGpu] = JsonValue.Create(1);
         fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.PerformanceAllowDeprecatedGpu] = JsonValue.Create("false");
-        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.PerformancePreferredGpuDescription] = JsonValue.Create("  DESC  ");
-        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.PerformancePreferredGpuInstancePath] = JsonValue.Create("  PATH  ");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.PerformancePreferredGpuDescription] = JsonValue.Create("  GPU-DESC  ");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.PerformancePreferredGpuInstancePath] = JsonValue.Create("  GPU-PATH  ");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.RoguelikeDeploymentWithPause] = JsonValue.Create("1");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.StartsWithScript] = JsonValue.Create("  before.cmd  ");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.EndsWithScript] = JsonValue.Create("  after.cmd  ");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.CopilotWithScript] = JsonValue.Create("true");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.ManualStopWithScript] = JsonValue.Create(0);
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.BlockSleep] = JsonValue.Create("1");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.BlockSleepWithScreenOn] = JsonValue.Create("0");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.EnablePenguin] = JsonValue.Create("false");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.EnableYituliu] = JsonValue.Create(1);
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.PenguinId] = JsonValue.Create("  pid  ");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.TaskTimeoutMinutes] = JsonValue.Create("90");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.ReminderIntervalMinutes] = JsonValue.Create("0");
 
         var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
         await vm.InitializeAsync();
@@ -128,13 +227,47 @@ public sealed class SettingsModuleAK2FeatureTests
         Assert.Equal(600, vm.EmulatorWaitSeconds);
         Assert.True(vm.PerformanceUseGpu);
         Assert.False(vm.PerformanceAllowDeprecatedGpu);
-        Assert.Equal("DESC", vm.PerformancePreferredGpuDescription);
-        Assert.Equal("PATH", vm.PerformancePreferredGpuInstancePath);
+        Assert.Equal("GPU-DESC", vm.PerformancePreferredGpuDescription);
+        Assert.Equal("GPU-PATH", vm.PerformancePreferredGpuInstancePath);
+        Assert.Equal("GPU-DESC", vm.SelectedGpuOption?.Descriptor.Description);
+        Assert.True(vm.DeploymentWithPause);
+        Assert.Equal("before.cmd", vm.StartsWithScript);
+        Assert.Equal("after.cmd", vm.EndsWithScript);
+        Assert.True(vm.CopilotWithScript);
+        Assert.False(vm.ManualStopWithScript);
+        Assert.True(vm.BlockSleep);
+        Assert.False(vm.BlockSleepWithScreenOn);
+        Assert.False(vm.EnablePenguin);
+        Assert.True(vm.EnableYituliu);
+        Assert.Equal("pid", vm.PenguinId);
+        Assert.Equal(90, vm.TaskTimeoutMinutes);
+        Assert.Equal(1, vm.ReminderIntervalMinutes);
         Assert.Contains("clamped", vm.StartPerformanceValidationMessage, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
-    public async Task RestartRoundTrip_StartPerformanceFields_PersistAndReload()
+    public async Task Initialize_WindowsGpuSelectionFallback_ShowsWarningAndClearsStaleSpecificGpu()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync(gpuCapabilityService: new ScriptedWindowsGpuCapabilityService());
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.PerformanceUseGpu] = JsonValue.Create("True");
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.PerformancePreferredGpuDescription] = JsonValue.Create("Missing GPU");
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.PerformancePreferredGpuInstancePath] = JsonValue.Create("Missing#0");
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.True(vm.PerformanceUseGpu);
+        Assert.Equal(string.Empty, vm.PerformancePreferredGpuDescription);
+        Assert.Equal(string.Empty, vm.PerformancePreferredGpuInstancePath);
+        Assert.Equal(GpuOptionKind.SystemDefault, vm.SelectedGpuOption?.Descriptor.Kind);
+        Assert.Contains(
+            vm.RootTexts["Settings.Performance.Gpu.Warning.SelectionFallback"],
+            vm.GpuWarningMessage,
+            StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task RestartRoundTrip_StartPerformanceFields_PersistAndReload_OnWindows()
     {
         var root = Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(root);
@@ -142,7 +275,7 @@ public sealed class SettingsModuleAK2FeatureTests
         {
             var emulatorPath = CreateExistingFile(root, "roundtrip-emulator.exe");
 
-            await using (var first = await RuntimeFixture.CreateAsync(root, cleanupRoot: false))
+            await using (var first = await RuntimeFixture.CreateAsync(root, cleanupRoot: false, gpuCapabilityService: new ScriptedWindowsGpuCapabilityService()))
             {
                 var vm = new SettingsPageViewModel(first.Runtime, new ConnectionGameSharedStateViewModel());
                 await vm.InitializeAsync();
@@ -154,14 +287,26 @@ public sealed class SettingsModuleAK2FeatureTests
                 vm.EmulatorAddCommand = "--boot";
                 vm.EmulatorWaitSeconds = 210;
                 vm.PerformanceUseGpu = true;
-                vm.PerformanceAllowDeprecatedGpu = false;
-                vm.PerformancePreferredGpuDescription = "RTX";
-                vm.PerformancePreferredGpuInstancePath = "PCI#0";
+                vm.SelectedGpuOption = Assert.Single(
+                    vm.AvailableGpuOptions,
+                    option => option.Descriptor.InstancePath == "PCI#0");
+                vm.DeploymentWithPause = true;
+                vm.StartsWithScript = "before";
+                vm.EndsWithScript = "after";
+                vm.CopilotWithScript = true;
+                vm.ManualStopWithScript = false;
+                vm.BlockSleep = true;
+                vm.BlockSleepWithScreenOn = true;
+                vm.EnablePenguin = true;
+                vm.EnableYituliu = false;
+                vm.PenguinId = "penguin-roundtrip";
+                vm.TaskTimeoutMinutes = 240;
+                vm.ReminderIntervalMinutes = 60;
 
                 await vm.SaveStartPerformanceSettingsAsync();
             }
 
-            await using var second = await RuntimeFixture.CreateAsync(root, cleanupRoot: false);
+            await using var second = await RuntimeFixture.CreateAsync(root, cleanupRoot: false, gpuCapabilityService: new ScriptedWindowsGpuCapabilityService());
             var reloaded = new SettingsPageViewModel(second.Runtime, new ConnectionGameSharedStateViewModel());
             await reloaded.InitializeAsync();
 
@@ -172,9 +317,20 @@ public sealed class SettingsModuleAK2FeatureTests
             Assert.Equal("--boot", reloaded.EmulatorAddCommand);
             Assert.Equal(210, reloaded.EmulatorWaitSeconds);
             Assert.True(reloaded.PerformanceUseGpu);
-            Assert.False(reloaded.PerformanceAllowDeprecatedGpu);
             Assert.Equal("RTX", reloaded.PerformancePreferredGpuDescription);
             Assert.Equal("PCI#0", reloaded.PerformancePreferredGpuInstancePath);
+            Assert.True(reloaded.DeploymentWithPause);
+            Assert.Equal("before", reloaded.StartsWithScript);
+            Assert.Equal("after", reloaded.EndsWithScript);
+            Assert.True(reloaded.CopilotWithScript);
+            Assert.False(reloaded.ManualStopWithScript);
+            Assert.True(reloaded.BlockSleep);
+            Assert.True(reloaded.BlockSleepWithScreenOn);
+            Assert.True(reloaded.EnablePenguin);
+            Assert.False(reloaded.EnableYituliu);
+            Assert.Equal("penguin-roundtrip", reloaded.PenguinId);
+            Assert.Equal(240, reloaded.TaskTimeoutMinutes);
+            Assert.Equal(60, reloaded.ReminderIntervalMinutes);
         }
         finally
         {
@@ -189,19 +345,31 @@ public sealed class SettingsModuleAK2FeatureTests
         }
     }
 
-    private static string ReadGlobalString(UnifiedConfigurationService config, string key)
+    private static string ReadScopedString(UnifiedConfigurationService config, string key)
     {
-        if (!config.CurrentConfig.GlobalValues.TryGetValue(key, out var node) || node is null)
+        if (config.CurrentConfig.Profiles.TryGetValue(config.CurrentConfig.CurrentProfile, out var profile)
+            && profile.Values.TryGetValue(key, out var profileNode)
+            && profileNode is not null)
+        {
+            if (profileNode is JsonValue profileValue && profileValue.TryGetValue(out string? text) && text is not null)
+            {
+                return text;
+            }
+
+            return profileNode.ToString();
+        }
+
+        if (!config.CurrentConfig.GlobalValues.TryGetValue(key, out var globalNode) || globalNode is null)
         {
             return string.Empty;
         }
 
-        if (node is JsonValue value && value.TryGetValue(out string? text) && text is not null)
+        if (globalNode is JsonValue globalValue && globalValue.TryGetValue(out string? globalText) && globalText is not null)
         {
-            return text;
+            return globalText;
         }
 
-        return node.ToString();
+        return globalNode.ToString();
     }
 
     private static string CreateExistingFile(string root, string name)
@@ -234,7 +402,10 @@ public sealed class SettingsModuleAK2FeatureTests
 
         public UnifiedConfigurationService Config { get; }
 
-        public static async Task<RuntimeFixture> CreateAsync(string? root = null, bool cleanupRoot = true)
+        public static async Task<RuntimeFixture> CreateAsync(
+            string? root = null,
+            bool cleanupRoot = true,
+            IGpuCapabilityService? gpuCapabilityService = null)
         {
             root ??= Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(Path.Combine(root, "config"));
@@ -260,6 +431,7 @@ public sealed class SettingsModuleAK2FeatureTests
                 FileDialogService = new NoOpFileDialogService(),
                 OverlayService = new NoOpOverlayCapabilityService(),
                 PostActionExecutorService = new NoOpPostActionExecutorService(),
+                GpuCapabilityService = gpuCapabilityService ?? new UnsupportedGpuCapabilityService(),
             };
 
             var capability = new PlatformCapabilityFeatureService(platform, diagnostics);
@@ -269,7 +441,7 @@ public sealed class SettingsModuleAK2FeatureTests
             {
                 CoreBridge = bridge,
                 ConfigurationService = config,
-                ResourceWorkflowService = new ResourceWorkflowService(root, bridge, log),
+                ResourceWorkflowService = new ResourceWorkflowService(root, bridge, log, platform.GpuCapabilityService),
                 SessionService = session,
                 Platform = platform,
                 LogService = log,
@@ -310,6 +482,88 @@ public sealed class SettingsModuleAK2FeatureTests
             {
                 // ignore cleanup failures in temporary test directories
             }
+        }
+    }
+
+    private sealed class ScriptedWindowsGpuCapabilityService : IGpuCapabilityService
+    {
+        public GpuSelectionResolution Resolve(GpuPreference preference)
+        {
+            var options = new List<GpuOptionDescriptor>
+            {
+                GpuOptionDescriptor.Disabled,
+                GpuOptionDescriptor.SystemDefault("RTX"),
+                new(
+                    Id: "PCI#0",
+                    Kind: GpuOptionKind.SpecificGpu,
+                    DisplayName: "RTX",
+                    Description: "RTX",
+                    InstancePath: "PCI#0",
+                    GpuIndex: 1),
+                new(
+                    Id: "GPU-PATH",
+                    Kind: GpuOptionKind.SpecificGpu,
+                    DisplayName: "GPU-DESC",
+                    Description: "GPU-DESC",
+                    InstancePath: "GPU-PATH",
+                    GpuIndex: 2),
+            };
+
+            if (preference.AllowDeprecatedGpu)
+            {
+                options.Add(new GpuOptionDescriptor(
+                    Id: "deprecated",
+                    Kind: GpuOptionKind.SpecificGpu,
+                    DisplayName: "Legacy GPU",
+                    Description: "Legacy GPU",
+                    InstancePath: "LEGACY#0",
+                    GpuIndex: 3,
+                    IsDeprecated: true,
+                    DriverDate: new DateTime(2018, 1, 1)));
+            }
+
+            var selected = preference.UseGpu
+                ? options.FirstOrDefault(option => option.Kind == GpuOptionKind.SystemDefault)
+                : GpuOptionDescriptor.Disabled;
+            var changed = false;
+
+            if (preference.UseGpu)
+            {
+                if (!string.IsNullOrWhiteSpace(preference.PreferredGpuInstancePath))
+                {
+                    selected = options.FirstOrDefault(
+                                   option => option.Kind == GpuOptionKind.SpecificGpu
+                                       && string.Equals(option.InstancePath, preference.PreferredGpuInstancePath, StringComparison.Ordinal))
+                               ?? selected;
+                    changed = selected?.InstancePath != preference.PreferredGpuInstancePath && !string.IsNullOrWhiteSpace(preference.PreferredGpuInstancePath);
+                }
+
+                if ((selected is null || selected.Kind == GpuOptionKind.SystemDefault)
+                    && !string.IsNullOrWhiteSpace(preference.PreferredGpuDescription))
+                {
+                    selected = options.FirstOrDefault(
+                                   option => option.Kind == GpuOptionKind.SpecificGpu
+                                       && string.Equals(option.Description, preference.PreferredGpuDescription, StringComparison.OrdinalIgnoreCase))
+                               ?? selected;
+                    changed = selected?.Description != preference.PreferredGpuDescription
+                        && !string.IsNullOrWhiteSpace(preference.PreferredGpuDescription);
+                }
+            }
+
+            selected ??= GpuOptionDescriptor.Disabled;
+
+            return new GpuSelectionResolution(
+                Snapshot: new GpuCapabilitySnapshot(
+                    SupportMode: GpuPlatformSupportMode.WindowsSupported,
+                    IsEditable: true,
+                    AppliesToCore: true,
+                    SupportsDeprecatedToggle: true,
+                    Options: options,
+                    StatusTextKey: "Settings.Performance.Gpu.Status.WindowsReady",
+                    Provider: "scripted-windows"),
+                SelectedOption: selected,
+                SelectionChanged: changed,
+                SelectionWarningTextKey: changed ? "Settings.Performance.Gpu.Warning.SelectionFallback" : null);
         }
     }
 

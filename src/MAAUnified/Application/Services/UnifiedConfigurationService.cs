@@ -1,6 +1,8 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
+using MAAUnified.Application.Models.TaskParams;
 using MAAUnified.Application.Services.TaskParams;
 
 namespace MAAUnified.Application.Services;
@@ -11,6 +13,8 @@ public sealed class UnifiedConfigurationService
     {
         WriteIndented = true,
     };
+    private const string GuiNewFileName = "gui.new.json";
+    private const string GuiFileName = "gui.json";
     private const string ParseNullWarningCode = "ConfigRepair.DeserializeNull";
     private const string ParseExceptionWarningCode = "ConfigRepair.DeserializeException";
 
@@ -69,6 +73,25 @@ public sealed class UnifiedConfigurationService
                 if (loaded is not null)
                 {
                     CurrentConfig = loaded;
+                    var normalizedFightStageCount = NormalizeFightStageSelections(CurrentConfig);
+                    if (normalizedFightStageCount > 0)
+                    {
+                        LogService.Info(
+                            $"Normalized {normalizedFightStageCount} legacy Fight stage selector(s) to `{FightStageSelection.CurrentOrLast}`.");
+                        if (CurrentConfig.SchemaVersion == UnifiedConfig.LatestSchemaVersion)
+                        {
+                            try
+                            {
+                                await _store.SaveAsync(CurrentConfig, cancellationToken);
+                                LogService.Info("Persisted normalized fight stage selectors to config/avalonia.json");
+                            }
+                            catch (Exception ex)
+                            {
+                                LogService.Warn($"Failed to persist normalized fight stage selectors: {ex.Message}");
+                            }
+                        }
+                    }
+
                     var schemaMigrationNotice = BuildSchemaMigrationNotice();
                     if (schemaMigrationNotice is not null)
                     {
@@ -130,8 +153,21 @@ public sealed class UnifiedConfigurationService
         bool manualImport,
         CancellationToken cancellationToken = default)
     {
+        var snapshot = LegacyConfigSnapshot.FromBaseDirectory(_baseDirectory);
+        var request = new LegacyImportRequest(
+            snapshot,
+            source,
+            manualImport,
+            AllowPartialImport: true);
+        return await ImportLegacyAsync(request, cancellationToken);
+    }
+
+    public async Task<ImportReport> ImportLegacyAsync(
+        LegacyImportRequest request,
+        CancellationToken cancellationToken = default)
+    {
         var report = new ImportReport {
-            Source = source,
+            Source = request.Source,
             StartedAt = DateTimeOffset.UtcNow,
             OutputConfigPath = _store.ConfigPath,
             ReportPath = Path.Combine(_baseDirectory, "debug", "config-import-report.json"),
@@ -139,37 +175,42 @@ public sealed class UnifiedConfigurationService
 
         try
         {
-            if (manualImport && _store.Exists())
-            {
-                var suffix = $".bak.{DateTimeOffset.UtcNow:yyyyMMddHHmmss}";
-                await _store.BackupAsync(suffix, cancellationToken);
-                LogService.Info($"Backed up current config to {_store.ConfigPath}{suffix}");
-            }
-
-            var snapshot = LegacyConfigSnapshot.FromBaseDirectory(_baseDirectory);
             var config = new UnifiedConfig();
+            AppendUnselectedMissingFiles(request, report);
 
-            var importPlan = BuildImportPlan(source);
-            bool importedAny = false;
+            var importPlan = BuildImportPlan(request.Source);
 
             foreach (var step in importPlan)
             {
-                if (!step.Importer.CanImport(snapshot))
-                {
-                    continue;
-                }
-
-                await step.Importer.ImportAsync(snapshot, config, report, step.FillMissingOnly, cancellationToken);
-                importedAny = true;
+                await step.Importer.ImportAsync(request.Snapshot, config, report, step.FillMissingOnly, cancellationToken);
             }
 
-            if (!importedAny)
+            var importedAny = report.ImportedFiles.Count > 0;
+            if (!importedAny && !request.ManualImport)
             {
+                report.CreatedDefaultConfig = true;
                 report.DefaultFallbackCount += 1;
                 report.Warnings.Add("No legacy config file found, generated default avalonia.json");
             }
 
+            if (report.DamagedFiles.Count > 0 && request.ManualImport && !request.AllowPartialImport)
+            {
+                report.Success = false;
+                report.AppliedConfig = false;
+                LogImportReport(report, request.ManualImport);
+                return report;
+            }
+
+            if (!importedAny && !report.CreatedDefaultConfig)
+            {
+                report.Success = false;
+                report.AppliedConfig = false;
+                LogImportReport(report, request.ManualImport);
+                return report;
+            }
+
             config.SchemaVersion = UnifiedConfig.LatestSchemaVersion;
+            NormalizeFightStageSelections(config);
             config.Migration = new UnifiedMigrationMetadata {
                 ImportedAt = DateTimeOffset.UtcNow,
                 ImportedBy = "MAAUnified",
@@ -178,15 +219,24 @@ public sealed class UnifiedConfigurationService
                 Warnings = [.. report.Warnings],
             };
 
+            if (request.ManualImport && _store.Exists())
+            {
+                var suffix = $".bak.{DateTimeOffset.UtcNow:yyyyMMddHHmmss}";
+                await _store.BackupAsync(suffix, cancellationToken);
+                LogService.Info($"Backed up current config to {_store.ConfigPath}{suffix}");
+            }
+
             await SaveCoreAsync(config, logSavedConfig: false, cancellationToken);
 
+            report.AppliedConfig = true;
             report.Success = report.Errors.Count == 0;
-            LogService.Info($"Legacy import complete: {report.Summary}");
+            LogImportReport(report, request.ManualImport);
         }
         catch (Exception ex)
         {
             report.Errors.Add(ex.Message);
             report.Success = false;
+            report.AppliedConfig = false;
             LogService.Error($"Legacy import failed: {ex.Message}");
         }
         finally
@@ -370,5 +420,90 @@ public sealed class UnifiedConfigurationService
 
         await using var stream = File.Create(report.ReportPath);
         await JsonSerializer.SerializeAsync(stream, report, _reportOptions, cancellationToken);
+    }
+
+    private void LogImportReport(ImportReport report, bool manualImport)
+    {
+        foreach (var line in ImportReportTextFormatter.BuildLogLines(report, manualImport))
+        {
+            switch (line.Level.ToUpperInvariant())
+            {
+                case "ERROR":
+                    LogService.Error(line.Message);
+                    break;
+                case "WARN":
+                case "WARNING":
+                    LogService.Warn(line.Message);
+                    break;
+                default:
+                    LogService.Info(line.Message);
+                    break;
+            }
+        }
+
+        LogService.Info($"Legacy import report: {report.Summary}");
+    }
+
+    private static void AppendUnselectedMissingFiles(LegacyImportRequest request, ImportReport report)
+    {
+        if (request.Source == ImportSource.GuiOnly && !request.Snapshot.GuiNewExists)
+        {
+            AddReportFile(report.MissingFiles, GuiNewFileName);
+        }
+
+        if (request.Source == ImportSource.GuiNewOnly && !request.Snapshot.GuiExists)
+        {
+            AddReportFile(report.MissingFiles, GuiFileName);
+        }
+    }
+
+    private static void AddReportFile(ICollection<string> collection, string fileName)
+    {
+        foreach (var existing in collection)
+        {
+            if (string.Equals(existing, fileName, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+        }
+
+        collection.Add(fileName);
+    }
+
+    private static int NormalizeFightStageSelections(UnifiedConfig config)
+    {
+        var normalizedCount = 0;
+        foreach (var profile in config.Profiles.Values)
+        {
+            foreach (var task in profile.TaskQueue)
+            {
+                if (!string.Equals(TaskParamCompiler.NormalizeTaskType(task.Type), TaskModuleTypes.Fight, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                if (!task.Params.TryGetPropertyValue("stage", out var stageNode)
+                    || stageNode is not JsonValue stageValue)
+                {
+                    continue;
+                }
+
+                if (!stageValue.TryGetValue(out string? stage))
+                {
+                    continue;
+                }
+
+                var normalizedStage = FightStageSelection.NormalizeStoredValue(stage);
+                if (string.Equals(stage, normalizedStage, StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                task.Params["stage"] = normalizedStage;
+                normalizedCount += 1;
+            }
+        }
+
+        return normalizedCount;
     }
 }

@@ -156,8 +156,8 @@ public sealed class SettingsRemoteExternalNotificationFeatureTests
 
                 await vm.SaveRemoteControlAsync();
 
-                Assert.Equal("user-A", ReadGlobalString(first.Config, ConfigurationKeys.RemoteControlUserIdentity));
-                Assert.Equal("device-B", ReadGlobalString(first.Config, ConfigurationKeys.RemoteControlDeviceIdentity));
+                Assert.Equal("user-A", ReadCurrentProfileString(first.Config, ConfigurationKeys.RemoteControlUserIdentity));
+                Assert.Equal("device-B", ReadCurrentProfileString(first.Config, ConfigurationKeys.RemoteControlDeviceIdentity));
             }
 
             await using var second = await RuntimeFixture.CreateAsync(root, cleanupRoot: false);
@@ -184,8 +184,8 @@ public sealed class SettingsRemoteExternalNotificationFeatureTests
     public async Task RemoteControlIdentity_InvalidControlCharacters_BlocksSaveAndPreservesConfig()
     {
         await using var fixture = await RuntimeFixture.CreateAsync();
-        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.RemoteControlUserIdentity] = JsonValue.Create("baseline-user");
-        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.RemoteControlDeviceIdentity] = JsonValue.Create("baseline-device");
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.RemoteControlUserIdentity] = JsonValue.Create("baseline-user");
+        fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile].Values[ConfigurationKeys.RemoteControlDeviceIdentity] = JsonValue.Create("baseline-device");
         await fixture.Config.SaveAsync();
 
         var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
@@ -197,8 +197,8 @@ public sealed class SettingsRemoteExternalNotificationFeatureTests
 
         Assert.True(vm.HasRemoteControlErrorMessage);
         Assert.Contains(UiErrorCode.RemoteControlInvalidParameters, vm.RemoteControlErrorMessage, StringComparison.Ordinal);
-        Assert.Equal("baseline-user", ReadGlobalString(fixture.Config, ConfigurationKeys.RemoteControlUserIdentity));
-        Assert.Equal("baseline-device", ReadGlobalString(fixture.Config, ConfigurationKeys.RemoteControlDeviceIdentity));
+        Assert.Equal("baseline-user", ReadCurrentProfileString(fixture.Config, ConfigurationKeys.RemoteControlUserIdentity));
+        Assert.Equal("baseline-device", ReadCurrentProfileString(fixture.Config, ConfigurationKeys.RemoteControlDeviceIdentity));
     }
 
     [Fact]
@@ -250,6 +250,7 @@ public sealed class SettingsRemoteExternalNotificationFeatureTests
         var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
         await vm.InitializeAsync();
 
+        vm.ExternalNotificationEnabled = true;
         vm.SelectedNotificationProvider = "Telegram";
         vm.NotificationProviderParametersText = "botToken=token\nchatId=12345";
         await vm.TestExternalNotificationAsync();
@@ -273,6 +274,7 @@ public sealed class SettingsRemoteExternalNotificationFeatureTests
         var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
         await vm.InitializeAsync();
 
+        vm.ExternalNotificationEnabled = true;
         vm.SelectedNotificationProvider = "Smtp";
         vm.NotificationProviderParametersText = "server=smtp.example.com\nport=465\nfrom=a@b.c\nto=d@e.f";
         await vm.TestExternalNotificationAsync();
@@ -369,6 +371,39 @@ public sealed class SettingsRemoteExternalNotificationFeatureTests
         }
     }
 
+    [Fact]
+    public async Task ExternalNotification_Disabled_SkipsValidationAndSuppressesMessages()
+    {
+        var notification = new ScriptedNotificationProviderFeatureService
+        {
+            ValidateHandler = static _ => UiOperationResult.Fail(
+                UiErrorCode.NotificationProviderInvalidParameters,
+                "bad params"),
+            SendHandler = static _ => UiOperationResult.Fail(
+                UiErrorCode.NotificationProviderNetworkFailure,
+                "network down"),
+        };
+
+        await using var fixture = await RuntimeFixture.CreateAsync(notificationProviderFeatureService: notification);
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        vm.ExternalNotificationEnabled = false;
+        vm.SelectedNotificationProvider = "Smtp";
+        vm.NotificationProviderParametersText = "server";
+
+        await vm.ValidateExternalNotificationParametersAsync();
+        await vm.TestExternalNotificationAsync();
+        await vm.SaveExternalNotificationAsync();
+
+        Assert.Empty(notification.ValidateCalls);
+        Assert.Empty(notification.SendCalls);
+        Assert.False(vm.HasExternalNotificationStatusMessage);
+        Assert.False(vm.HasExternalNotificationWarningMessage);
+        Assert.False(vm.HasExternalNotificationErrorMessage);
+        Assert.Equal("False", ReadCurrentProfileString(fixture.Config, ConfigurationKeys.ExternalNotificationEnabled));
+    }
+
     private static async Task<string> RunExternalFailureCaseAsync(
         Func<NotificationProviderTestRequest, UiOperationResult> handler,
         string method)
@@ -383,6 +418,7 @@ public sealed class SettingsRemoteExternalNotificationFeatureTests
         var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
         await vm.InitializeAsync();
 
+        vm.ExternalNotificationEnabled = true;
         vm.SelectedNotificationProvider = "CustomWebhook";
         vm.NotificationProviderParametersText = "url=https://webhook.example.com";
         if (string.Equals(method, "validate", StringComparison.OrdinalIgnoreCase))
@@ -413,10 +449,17 @@ public sealed class SettingsRemoteExternalNotificationFeatureTests
         return (NotificationProviderFeatureService)ctor!.Invoke([true, null, sendHttpAsync]);
     }
 
-    private static string ReadGlobalString(UnifiedConfigurationService config, string key)
+    private static string ReadCurrentProfileString(UnifiedConfigurationService config, string key)
     {
-        return config.CurrentConfig.GlobalValues.TryGetValue(key, out var node)
-            ? node?.ToString() ?? string.Empty
+        if (!string.IsNullOrWhiteSpace(config.CurrentConfig.CurrentProfile)
+            && config.CurrentConfig.Profiles.TryGetValue(config.CurrentConfig.CurrentProfile, out var profile)
+            && profile.Values.TryGetValue(key, out var node))
+        {
+            return node?.ToString() ?? string.Empty;
+        }
+
+        return config.CurrentConfig.GlobalValues.TryGetValue(key, out var fallbackNode)
+            ? fallbackNode?.ToString() ?? string.Empty
             : string.Empty;
     }
 
@@ -574,6 +617,8 @@ public sealed class SettingsRemoteExternalNotificationFeatureTests
 
         public Func<NotificationProviderTestRequest, UiOperationResult>? SendHandler { get; set; }
 
+        public List<NotificationProviderRequest> ValidateCalls { get; } = [];
+
         public List<NotificationProviderTestRequest> SendCalls { get; } = [];
 
         public Task<string[]> GetAvailableProvidersAsync(CancellationToken cancellationToken = default)
@@ -587,6 +632,7 @@ public sealed class SettingsRemoteExternalNotificationFeatureTests
             CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            ValidateCalls.Add(request);
             var result = ValidateHandler?.Invoke(request)
                 ?? UiOperationResult.Ok("valid");
             return Task.FromResult(result);

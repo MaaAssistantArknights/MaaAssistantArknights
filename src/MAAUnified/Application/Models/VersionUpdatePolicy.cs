@@ -26,9 +26,9 @@ public sealed record VersionUpdatePolicy(
 {
     public static VersionUpdatePolicy Default { get; } = new(
         Proxy: string.Empty,
-        ProxyType: "system",
+        ProxyType: "http",
         VersionType: "Stable",
-        ResourceUpdateSource: "Official",
+        ResourceUpdateSource: "Github",
         ForceGithubGlobalSource: false,
         MirrorChyanCdk: string.Empty,
         MirrorChyanCdkExpired: string.Empty,
@@ -38,7 +38,7 @@ public sealed record VersionUpdatePolicy(
         AllowNightlyUpdates: false,
         HasAcknowledgedNightlyWarning: false,
         UseAria2: false,
-        AutoDownloadUpdatePackage: false,
+        AutoDownloadUpdatePackage: true,
         AutoInstallUpdatePackage: false,
         VersionName: string.Empty,
         VersionBody: string.Empty,

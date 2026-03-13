@@ -1,33 +1,97 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
+             xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.TaskQueue"
              x:Class="MAAUnified.App.Features.TaskQueue.MallSettingsView">
-  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="2">
+  <Grid RowDefinitions="Auto,Auto" Margin="2">
     <TextBlock Classes="section-title" Text="{Binding Texts[Mall.Title]}" />
 
-    <WrapPanel Grid.Row="1" ItemWidth="230" Orientation="Horizontal">
-      <CheckBox Content="{Binding Texts[Mall.VisitFriends]}" IsChecked="{Binding VisitFriends}" />
-      <CheckBox Content="{Binding Texts[Mall.VisitOnce]}" IsChecked="{Binding VisitFriendsOnceADay}" />
-      <CheckBox Content="{Binding Texts[Mall.CreditFight]}" IsChecked="{Binding CreditFight}" />
-      <CheckBox Content="{Binding Texts[Mall.CreditFightOnce]}" IsChecked="{Binding CreditFightOnceADay}" />
-      <CheckBox Content="{Binding Texts[Mall.Shopping]}" IsChecked="{Binding Shopping}" />
-    </WrapPanel>
+    <StackPanel Grid.Row="1" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <StackPanel IsVisible="{Binding IsGeneralMode}" Spacing="{DynamicResource MAA.Spacing.Small}">
+        <CheckBox Content="{Binding Texts[Mall.VisitFriends]}" IsChecked="{Binding VisitFriends}" />
+        <StackPanel IsVisible="{Binding ShowVisitFriendsDetails}"
+                    Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                    Spacing="{DynamicResource MAA.Spacing.Tight}">
+          <CheckBox Content="{Binding Texts[Mall.OnlyOnceADay]}" IsChecked="{Binding VisitFriendsOnceADay}" />
+        </StackPanel>
 
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,120,Auto,*">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Mall.Formation]}" />
-      <NumericUpDown Grid.Column="1" Minimum="0" Maximum="4" Value="{Binding FormationIndex}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Mall.BuyFirst]}" />
-      <TextBox Grid.Column="3" Text="{Binding BuyFirstText}" />
-    </Grid>
+        <Grid ColumnDefinitions="Auto,Auto">
+          <CheckBox Content="{Binding Texts[Mall.CreditFight]}" IsChecked="{Binding CreditFight}" />
+          <controls:TooltipHint Grid.Column="1"
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                Tip="{Binding Texts[Mall.CreditFightTip]}" />
+        </Grid>
+        <StackPanel IsVisible="{Binding ShowCreditFightDetails}"
+                    Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                    Spacing="{DynamicResource MAA.Spacing.Tight}">
+          <CheckBox Content="{Binding Texts[Mall.OnlyOnceADay]}" IsChecked="{Binding CreditFightOnceADay}" />
+          <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
+            <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Mall.UseFormation]}" />
+            <ComboBox Grid.Column="1"
+                      Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                      ItemsSource="{Binding FormationOptions}"
+                      SelectedItem="{Binding SelectedFormationOption}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:MallModuleViewModel+IntOption">
+                  <TextBlock Text="{Binding DisplayName}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+          </Grid>
+        </StackPanel>
 
-    <Grid Grid.Row="3" ColumnDefinitions="Auto,*">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Mall.Blacklist]}" />
-      <TextBox Text="{Binding BlacklistText}" />
-    </Grid>
+        <CheckBox Content="{Binding Texts[Mall.Shopping]}" IsChecked="{Binding Shopping}" />
+        <TextBlock Classes="subtle"
+                   Text="{Binding Texts[Mall.ReceptionOptionsRequireInfrast]}"
+                   TextWrapping="Wrap" />
+        <Border Classes="wpf-card wpf-card-compact">
+          <StackPanel Spacing="{DynamicResource MAA.Spacing.Tight}">
+            <TextBlock Text="{Binding Texts[Mall.InfrastReceptionMessageBoardReceive]}" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding Texts[Mall.InfrastReceptionClueExchange]}" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding Texts[Mall.InfrastReceptionSendClue]}" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+      </StackPanel>
 
-    <WrapPanel Grid.Row="4" ItemWidth="230" Orientation="Horizontal">
-      <CheckBox Content="{Binding Texts[Mall.ForceShopping]}" IsChecked="{Binding ForceShoppingIfCreditFull}" />
-      <CheckBox Content="{Binding Texts[Mall.OnlyDiscount]}" IsChecked="{Binding OnlyBuyDiscount}" />
-      <CheckBox Content="{Binding Texts[Mall.Reserve]}" IsChecked="{Binding ReserveMaxCredit}" />
-    </WrapPanel>
+      <StackPanel IsVisible="{Binding IsAdvancedMode}" Spacing="{DynamicResource MAA.Spacing.Small}">
+        <Grid ColumnDefinitions="Auto,Auto">
+          <TextBlock Text="{Binding Texts[Mall.BuyFirst]}" />
+          <controls:TooltipHint Grid.Column="1"
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                Tip="{Binding Texts[Mall.Drink]}" />
+        </Grid>
+        <TextBox IsEnabled="{Binding IsShoppingSettingsEnabled}"
+                 Text="{Binding BuyFirstText, UpdateSourceTrigger=LostFocus}" />
+
+        <TextBlock Text="{Binding Texts[Mall.Blacklist]}" />
+        <TextBox IsEnabled="{Binding IsShoppingSettingsEnabled}"
+                 Text="{Binding BlacklistText, UpdateSourceTrigger=LostFocus}" />
+
+        <CheckBox Content="{Binding Texts[Mall.ForceShopping]}"
+                  IsChecked="{Binding ForceShoppingIfCreditFull}"
+                  IsEnabled="{Binding IsShoppingSettingsEnabled}" />
+        <Grid ColumnDefinitions="Auto,Auto">
+          <CheckBox Content="{Binding Texts[Mall.OnlyDiscount]}"
+                    IsChecked="{Binding OnlyBuyDiscount}"
+                    IsEnabled="{Binding IsShoppingSettingsEnabled}" />
+          <controls:TooltipHint Grid.Column="1"
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                Tip="{Binding Texts[Mall.OnlyDiscountTip]}" />
+        </Grid>
+        <Grid ColumnDefinitions="Auto,Auto">
+          <CheckBox Content="{Binding Texts[Mall.Reserve]}"
+                    IsChecked="{Binding ReserveMaxCredit}"
+                    IsEnabled="{Binding IsShoppingSettingsEnabled}" />
+          <controls:TooltipHint Grid.Column="1"
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                Tip="{Binding Texts[Mall.ReserveTip]}" />
+        </Grid>
+      </StackPanel>
+
+      <TextBlock Text="{Binding StatusMessage}" />
+      <TextBlock Foreground="{DynamicResource MAA.ErrorBrush}"
+                 Text="{Binding LastErrorMessage}"
+                 TextWrapping="Wrap" />
+    </StackPanel>
   </Grid>
 </UserControl>

@@ -10,6 +10,24 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
     private const int MsgInitFailed = 1;
     private const int MsgConnectionInfo = 2;
     private const int MsgAsyncCallInfo = 4;
+    private const int AsstStaticOptionCpuOcr = 1;
+    private const int AsstStaticOptionGpuOcr = 2;
+    private static readonly HashSet<string> DefaultClientTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        string.Empty,
+        "Official",
+        "Bilibili",
+    };
+    private static readonly IReadOnlyDictionary<string, string> ClientTypeAliasMap =
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["Official"] = "Official",
+            ["Bilibili"] = "Bilibili",
+            ["Txwy"] = "txwy",
+            ["YoStarEN"] = "YoStarEN",
+            ["YoStarJP"] = "YoStarJP",
+            ["YoStarKR"] = "YoStarKR",
+        };
 
     private static readonly TimeSpan _defaultConnectTimeout = TimeSpan.FromSeconds(30);
 
@@ -29,6 +47,7 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
     private string? _libraryPath;
     private string? _baseDirectory;
     private string? _loadedClientType;
+    private CoreGpuInitializeInfo? _gpuInitializeInfo;
     private bool _disposed;
     private AsstExports? _exports;
     private AsstApiCallbackDelegate? _callbackDelegate;
@@ -63,7 +82,7 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
                     }
                 }
 
-                return CoreResult<CoreInitializeInfo>.Ok(BuildInitializeInfo(_baseDirectory, _libraryPath, request.ClientType));
+                return CoreResult<CoreInitializeInfo>.Ok(BuildInitializeInfo(_baseDirectory, _libraryPath, request.ClientType, _gpuInitializeInfo));
             }
 
             var libraryNameResult = ResolveLibraryName();
@@ -101,6 +120,7 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
             }
 
             _callbackDelegate = OnNativeCallback;
+            var gpuInitializeInfo = ApplyGpuInitialization(request.Gpu, exports);
 
             if (!AsBool(exports.AsstSetUserDir(request.BaseDirectory)))
             {
@@ -137,8 +157,9 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
             _libraryPath = libraryPath;
             _baseDirectory = request.BaseDirectory;
             _loadedClientType = request.ClientType;
+            _gpuInitializeInfo = gpuInitializeInfo;
 
-            return CoreResult<CoreInitializeInfo>.Ok(BuildInitializeInfo(request.BaseDirectory, libraryPath, request.ClientType));
+            return CoreResult<CoreInitializeInfo>.Ok(BuildInitializeInfo(request.BaseDirectory, libraryPath, request.ClientType, gpuInitializeInfo));
         }
         finally
         {
@@ -333,7 +354,8 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
 
         var exports = _exports!;
         var nullSize = exports.AsstGetNullSize();
-        ulong bufferSize = 256 * 1024;
+        // Align with the WPF path: reserve a full-size BGR frame upfront to avoid NullSize on large PNG payloads.
+        ulong bufferSize = 1280UL * 720UL * 3UL;
 
         for (var retry = 0; retry < 6; retry++)
         {
@@ -421,6 +443,7 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
 
             _exports = null;
             _callbackDelegate = null;
+            _gpuInitializeInfo = null;
 
             if (_nativeLibrary != nint.Zero)
             {
@@ -543,10 +566,17 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
 
     private CoreResult<bool> LoadClientResource(string clientType, string baseDirectory, AsstExports exports)
     {
-        var clientResourcePath = Path.Combine(baseDirectory, "resource", "global", clientType, "resource");
-        if (!Directory.Exists(clientResourcePath))
+        var normalizedClientType = NormalizeClientType(clientType);
+        if (DefaultClientTypes.Contains(normalizedClientType))
         {
-            return Fail<bool>(CoreErrorCode.ResourceNotFound, $"Client resource directory was not found: {clientResourcePath}");
+            _loadedClientType = normalizedClientType;
+            return CoreResult<bool>.Ok(true);
+        }
+
+        var expectedPath = Path.Combine(baseDirectory, "resource", "global", normalizedClientType, "resource");
+        if (!TryResolveClientResourcePath(baseDirectory, normalizedClientType, out var resolvedClientType, out var clientResourcePath))
+        {
+            return Fail<bool>(CoreErrorCode.ResourceNotFound, $"Client resource directory was not found: {expectedPath}");
         }
 
         if (!AsBool(exports.AsstLoadResource(clientResourcePath)))
@@ -554,16 +584,131 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
             return Fail<bool>(CoreErrorCode.ResourceLoadFailed, $"AsstLoadResource failed for client resource: {clientResourcePath}");
         }
 
-        _loadedClientType = clientType;
+        _loadedClientType = resolvedClientType;
         return CoreResult<bool>.Ok(true);
     }
 
-    private CoreInitializeInfo BuildInitializeInfo(string baseDirectory, string libraryPath, string? clientType)
+    private static string NormalizeClientType(string? clientType)
+    {
+        var normalized = (clientType ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(normalized))
+        {
+            return string.Empty;
+        }
+
+        return ClientTypeAliasMap.TryGetValue(normalized, out var canonical)
+            ? canonical
+            : normalized;
+    }
+
+    private static bool TryResolveClientResourcePath(
+        string baseDirectory,
+        string normalizedClientType,
+        out string resolvedClientType,
+        out string clientResourcePath)
+    {
+        var globalRoot = Path.Combine(baseDirectory, "resource", "global");
+        resolvedClientType = normalizedClientType;
+        clientResourcePath = Path.Combine(globalRoot, normalizedClientType, "resource");
+        if (Directory.Exists(clientResourcePath))
+        {
+            return true;
+        }
+
+        if (!Directory.Exists(globalRoot))
+        {
+            return false;
+        }
+
+        foreach (var candidateDirectory in Directory.EnumerateDirectories(globalRoot))
+        {
+            var candidateClientType = Path.GetFileName(candidateDirectory);
+            if (!string.Equals(candidateClientType, normalizedClientType, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var candidateResourcePath = Path.Combine(candidateDirectory, "resource");
+            if (!Directory.Exists(candidateResourcePath))
+            {
+                continue;
+            }
+
+            resolvedClientType = candidateClientType;
+            clientResourcePath = candidateResourcePath;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static CoreGpuInitializeInfo? ApplyGpuInitialization(
+        CoreGpuInitializeRequest? request,
+        AsstExports exports)
+    {
+        if (request is null || request.Mode == CoreGpuRequestMode.Default)
+        {
+            return null;
+        }
+
+        var warnings = new List<string>();
+        var appliedMode = CoreGpuAppliedMode.Default;
+        uint? appliedGpuIndex = null;
+
+        if (exports.AsstSetStaticOption is null)
+        {
+            warnings.Add("AsstSetStaticOption is unavailable; continuing with MaaCore default OCR backend.");
+            return new CoreGpuInitializeInfo(request.Mode, appliedMode, request.GpuIndex, appliedGpuIndex, warnings);
+        }
+
+        if (request.Mode == CoreGpuRequestMode.Cpu)
+        {
+            if (AsBool(exports.AsstSetStaticOption(AsstStaticOptionCpuOcr, string.Empty)))
+            {
+                appliedMode = CoreGpuAppliedMode.Cpu;
+            }
+            else
+            {
+                warnings.Add("Failed to apply CpuOCR static option; continuing with MaaCore default OCR backend.");
+            }
+
+            return new CoreGpuInitializeInfo(request.Mode, appliedMode, request.GpuIndex, appliedGpuIndex, warnings);
+        }
+
+        if (request.GpuIndex is uint gpuIndex
+            && AsBool(exports.AsstSetStaticOption(AsstStaticOptionGpuOcr, gpuIndex.ToString())))
+        {
+            appliedMode = CoreGpuAppliedMode.Gpu;
+            appliedGpuIndex = gpuIndex;
+            return new CoreGpuInitializeInfo(request.Mode, appliedMode, request.GpuIndex, appliedGpuIndex, warnings);
+        }
+
+        warnings.Add(request.GpuIndex is null
+            ? "GPU OCR requested without a valid GPU index; falling back to CPU OCR."
+            : $"Failed to apply GpuOCR static option for GPU index {request.GpuIndex.Value}; falling back to CPU OCR.");
+
+        if (AsBool(exports.AsstSetStaticOption(AsstStaticOptionCpuOcr, string.Empty)))
+        {
+            appliedMode = CoreGpuAppliedMode.Cpu;
+        }
+        else
+        {
+            warnings.Add("Failed to apply CpuOCR fallback static option; continuing with MaaCore default OCR backend.");
+        }
+
+        return new CoreGpuInitializeInfo(request.Mode, appliedMode, request.GpuIndex, appliedGpuIndex, warnings);
+    }
+
+    private CoreInitializeInfo BuildInitializeInfo(
+        string baseDirectory,
+        string libraryPath,
+        string? clientType,
+        CoreGpuInitializeInfo? gpuInitializeInfo)
     {
         var version = _exports is null
             ? string.Empty
             : Marshal.PtrToStringUTF8(_exports.AsstGetVersion()) ?? string.Empty;
-        return new CoreInitializeInfo(baseDirectory, libraryPath, version, clientType);
+        return new CoreInitializeInfo(baseDirectory, libraryPath, version, clientType, gpuInitializeInfo);
     }
 
     private static CoreResult<string> ResolveLibraryName()
@@ -589,6 +734,7 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
     private static bool TryLoadExports(nint library, out AsstExports exports, out string missingSymbol)
     {
         missingSymbol = string.Empty;
+        TryLoadExport<AsstSetStaticOptionDelegate>(library, "AsstSetStaticOption", out var asstSetStaticOption);
 
         if (!TryLoadExport<AsstSetUserDirDelegate>(library, "AsstSetUserDir", out var asstSetUserDir))
         {
@@ -682,6 +828,7 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
         }
 
         exports = new AsstExports(
+            asstSetStaticOption,
             asstSetUserDir!,
             asstLoadResource!,
             asstCreateEx!,
@@ -872,6 +1019,7 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
     }
 
     private sealed record AsstExports(
+        AsstSetStaticOptionDelegate? AsstSetStaticOption,
         AsstSetUserDirDelegate AsstSetUserDir,
         AsstLoadResourceDelegate AsstLoadResource,
         AsstCreateExDelegate AsstCreateEx,
@@ -885,6 +1033,9 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
         AsstGetImageDelegate AsstGetImage,
         AsstGetNullSizeDelegate AsstGetNullSize,
         AsstGetVersionDelegate AsstGetVersion);
+
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    private delegate byte AsstSetStaticOptionDelegate(int key, [MarshalAs(UnmanagedType.LPUTF8Str)] string value);
 
     [UnmanagedFunctionPointer(CallingConvention.Winapi)]
     private delegate byte AsstSetUserDirDelegate([MarshalAs(UnmanagedType.LPUTF8Str)] string path);

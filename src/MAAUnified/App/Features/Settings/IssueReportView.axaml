@@ -1,18 +1,26 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.IssueReportView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="Issue Report" />
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="问题反馈" />
     <WrapPanel Grid.Row="1" ItemWidth="180">
-      <Button Content="帮助文档" Click="OnOpenHelpClick" />
-      <Button Content="Issue 入口" Click="OnOpenIssueEntryClick" />
-      <Button Content="生成支持包" Click="OnBuildIssueReportClick" />
-      <Button Content="打开 debug 目录" Click="OnOpenDebugDirectoryClick" />
-      <Button Content="清理图像缓存" Click="OnClearImageCacheClick" />
+      <Button Classes="wpf-button wpf-button-secondary" Content="帮助文档" Click="OnOpenHelpClick" />
+      <Button Classes="wpf-button wpf-button-secondary" Content="Issue 入口" Click="OnOpenIssueEntryClick" />
+      <Button Classes="wpf-button wpf-button-secondary" Content="生成支持包" Click="OnBuildIssueReportClick" />
+      <Button Classes="wpf-button wpf-button-secondary" Content="打开日志窗口" Click="OnOpenRuntimeLogWindowClick" />
+      <Button Classes="wpf-button wpf-button-secondary" Content="打开 debug 目录" Click="OnOpenDebugDirectoryClick" />
+      <Button Classes="wpf-button wpf-button-secondary" Content="清理图像缓存" Click="OnClearImageCacheClick" />
     </WrapPanel>
-    <TextBlock Grid.Row="2" Classes="long-wrap" Text="{Binding IssueReportPath}" />
-    <TextBlock Grid.Row="3" Classes="long-wrap" Text="{Binding IssueReportStatusMessage}" />
-    <TextBlock Grid.Row="4"
+    <CheckBox Grid.Row="2"
+              Content="开发者模式（输出详细日志）"
+              IsChecked="{Binding DeveloperModeEnabled}" />
+    <TextBlock Grid.Row="3"
+               Classes="long-wrap"
+               Text="开启后会记录更详细的 Bridge 初始化/连接诊断日志。建议复现问题前先开启。"
+               />
+    <TextBlock Grid.Row="4" Classes="long-wrap" Text="{Binding IssueReportPath}" />
+    <TextBlock Grid.Row="5" Classes="long-wrap" Text="{Binding IssueReportStatusMessage}" />
+    <TextBlock Grid.Row="6"
                Classes="state-error long-wrap"
                Text="{Binding IssueReportErrorMessage}"
                IsVisible="{Binding HasIssueReportErrorMessage}" />

@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using MAAUnified.Application.Models;
+using MAAUnified.Application.Models.TaskParams;
 
 namespace MAAUnified.Application.Configuration;
 
@@ -196,7 +197,7 @@ internal static class LegacyTaskSchemaConverter
 
     private static JsonObject ConvertFight(JsonObject task, UnifiedProfile profile, UnifiedConfig config)
     {
-        var stage = ResolveFightStage(task);
+        var stage = FightStageSelection.NormalizeStoredValue(ResolveFightStage(task));
         var useMedicine = GetBool(task, "UseMedicine", false);
         var useStone = GetBool(task, "UseStone", false);
         var useExpiringMedicine = GetBool(task, "UseExpiringMedicine", false);
@@ -385,8 +386,12 @@ internal static class LegacyTaskSchemaConverter
         return new JsonObject
         {
             ["credit_fight"] = GetBool(task, "CreditFight", false),
+            ["credit_fight_once_a_day"] = GetBool(task, "CreditFightOnceADay", true),
+            ["_ui_mall_credit_fight_last_time"] = GetString(task, "CreditFightLastTime") ?? string.Empty,
             ["formation_index"] = GetInt(task, "CreditFightFormation", 0),
             ["visit_friends"] = GetBool(task, "VisitFriends", true),
+            ["visit_friends_once_a_day"] = GetBool(task, "VisitFriendsOnceADay", false),
+            ["_ui_mall_visit_friends_last_time"] = GetString(task, "VisitFriendsLastTime") ?? string.Empty,
             ["shopping"] = GetBool(task, "Shopping", true),
             ["buy_first"] = ToJsonArray(SplitNonEmpty(GetString(task, "FirstList"), ';')),
             ["blacklist"] = ToJsonArray(SplitNonEmpty(GetString(task, "BlackList"), ';')),
@@ -525,7 +530,7 @@ internal static class LegacyTaskSchemaConverter
             ["theme"] = ResolveReclamationTheme(task["Theme"]),
             ["mode"] = GetInt(task, "Mode", 1),
             ["increment_mode"] = GetInt(task, "IncrementMode", 0),
-            ["num_craft_batches"] = GetInt(task, "MaxCraftCountPerRound", 1),
+            ["num_craft_batches"] = GetInt(task, "MaxCraftCountPerRound", 16),
             ["tools_to_craft"] = ToJsonArray(SplitNonEmpty(GetString(task, "ToolToCraft"), ';')),
             ["clear_store"] = GetBool(task, "ClearStore", true),
         };

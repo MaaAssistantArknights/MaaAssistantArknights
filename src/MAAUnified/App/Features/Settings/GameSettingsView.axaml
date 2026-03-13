@@ -1,20 +1,86 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
+             xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.Settings"
              x:Class="MAAUnified.App.Features.Settings.GameSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="Game" />
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,220,Auto,220" Margin="0,6,0,0">
-      <TextBlock VerticalAlignment="Center" Text="客户端类型" />
-      <ComboBox ItemsSource="{Binding ClientTypeOptions}" SelectedItem="{Binding ClientType}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="自动启动游戏" />
-      <CheckBox Grid.Column="3"
-                VerticalAlignment="Center"
-                IsChecked="{Binding StartGameEnabled}"
-                IsEnabled="{Binding CanStartGameEnabled}" />
-    </Grid>
-    <TextBlock Grid.Row="2"
-               Margin="0,8,0,0"
-               Opacity="0.7"
-               Text="提示：Connect Config 为 PC 时，自动启动游戏会在所有页面中保持禁用并强制为 false。" />
+  <Grid Margin="4" RowDefinitions="Auto,Auto">
+    <TextBlock Classes="section-title" Text="游戏设置" />
+
+    <StackPanel Grid.Row="1"
+                Classes="settings-form"
+                Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}">
+      <Grid ColumnDefinitions="132,220">
+        <TextBlock Classes="settings-label" Text="客户端" />
+        <ComboBox Grid.Column="1"
+                  ItemsSource="{Binding ConnectionGameSharedState.ClientTypeOptions}"
+                  SelectedItem="{Binding ConnectionGameSharedState.SelectedClientTypeOption}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:ConnectionGameOptionItem">
+              <TextBlock Text="{Binding DisplayName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+      </Grid>
+
+      <CheckBox Content="自动部署时暂停下干员"
+                HorizontalAlignment="Left"
+                IsChecked="{Binding DeploymentWithPause}" />
+
+      <Grid ColumnDefinitions="132,*">
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Spacing="0">
+          <TextBlock Classes="settings-label" Margin="0,0,8,0" Text="任务开始前执行脚本" />
+          <controls:TooltipHint Tip="示例：&quot;C:\1.cmd&quot; -minimized" />
+        </StackPanel>
+        <TextBox Grid.Column="1" Text="{Binding StartsWithScript, UpdateSourceTrigger=LostFocus}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="132,*">
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Spacing="0">
+          <TextBlock Classes="settings-label" Margin="0,0,8,0" Text="任务结束后执行脚本" />
+          <controls:TooltipHint Tip="示例：&quot;C:\1.cmd&quot; -noWindow" />
+        </StackPanel>
+        <TextBox Grid.Column="1" Text="{Binding EndsWithScript, UpdateSourceTrigger=LostFocus}" />
+      </Grid>
+
+      <WrapPanel Classes="settings-wrap" ItemWidth="240">
+        <CheckBox Content="肉鸽任务启用脚本" IsChecked="{Binding CopilotWithScript}" />
+        <CheckBox Content="手动停止时执行脚本" IsChecked="{Binding ManualStopWithScript}" />
+      </WrapPanel>
+
+      <WrapPanel Classes="settings-wrap" ItemWidth="240">
+        <CheckBox Content="阻止系统休眠" IsChecked="{Binding BlockSleep}" />
+        <CheckBox Content="阻止系统熄屏"
+                  IsChecked="{Binding BlockSleepWithScreenOn}"
+                  IsVisible="{Binding ShowBlockSleepWithScreenOnOption}" />
+        <CheckBox Content="启用企鹅物流上报" IsChecked="{Binding EnablePenguin}" />
+        <CheckBox Content="启用一图流上报" IsChecked="{Binding EnableYituliu}" />
+      </WrapPanel>
+
+      <Grid IsVisible="{Binding ShowPenguinIdField}"
+            ColumnDefinitions="132,*">
+        <TextBlock Classes="settings-label" Text="企鹅物流 ID" />
+        <TextBox Grid.Column="1"
+                 Text="{Binding PenguinId, UpdateSourceTrigger=LostFocus}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="152,120,152,120">
+        <TextBlock Classes="settings-label" Text="任务超时（分钟）" />
+        <controls:VerticalSpinNumberBox Grid.Column="1"
+                                        Minimum="0"
+                                        Maximum="1440"
+                                        Value="{Binding TaskTimeoutMinutes}" />
+        <TextBlock Grid.Column="2" Classes="settings-label" Text="提醒间隔（分钟）" />
+        <controls:VerticalSpinNumberBox Grid.Column="3"
+                                        Minimum="1"
+                                        Maximum="1440"
+                                        Value="{Binding ReminderIntervalMinutes}" />
+      </Grid>
+    </StackPanel>
   </Grid>
 </UserControl>

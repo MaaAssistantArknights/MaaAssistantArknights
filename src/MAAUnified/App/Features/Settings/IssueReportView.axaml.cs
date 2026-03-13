@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MAAUnified.App.Views;
 using MAAUnified.App.ViewModels.Settings;
 
 namespace MAAUnified.App.Features.Settings;
@@ -50,6 +51,14 @@ public partial class IssueReportView : UserControl
         if (VM is not null)
         {
             await VM.ClearIssueReportImageCacheAsync();
+        }
+    }
+
+    private void OnOpenRuntimeLogWindowClick(object? sender, RoutedEventArgs e)
+    {
+        if (TopLevel.GetTopLevel(this) is MainWindow mainWindow)
+        {
+            mainWindow.OpenRuntimeLogWindow();
         }
     }
 }

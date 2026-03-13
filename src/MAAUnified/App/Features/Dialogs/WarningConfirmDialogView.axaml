@@ -1,0 +1,57 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MAAUnified.App.Features.Dialogs.WarningConfirmDialogView"
+        Width="560"
+        SizeToContent="Height"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner">
+  <Grid Margin="16"
+        RowDefinitions="Auto,Auto,Auto"
+        ColumnDefinitions="Auto,*">
+    <Border Width="42"
+            Height="42"
+            Margin="0,0,12,0"
+            Background="{DynamicResource MAA.Brush.Surface.Warning}"
+            BorderBrush="{DynamicResource MAA.Brush.State.Warning}"
+            BorderThickness="1"
+            CornerRadius="21">
+      <TextBlock HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 FontSize="22"
+                 FontWeight="Bold"
+                 Foreground="{DynamicResource MAA.Brush.State.Warning}"
+                 Text="!" />
+    </Border>
+
+    <TextBlock x:Name="TitleText"
+               Grid.Column="1"
+               Classes="section-title"
+               VerticalAlignment="Center"
+               Text="警告" />
+
+    <Border Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Classes="wpf-panel wpf-panel-warning"
+            Margin="0,12,0,0">
+      <TextBlock x:Name="PromptText"
+                 Classes="long-wrap"
+                 Text="确认执行危险操作？" />
+    </Border>
+
+    <StackPanel Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Margin="0,14,0,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal"
+                Spacing="8">
+      <Button x:Name="CancelButton"
+              Classes="wpf-button wpf-button-secondary"
+              Content="取消"
+              Click="OnCancelClick" />
+      <Button x:Name="ConfirmButton"
+              Classes="wpf-button"
+              Content="确认"
+              Click="OnConfirmClick" />
+    </StackPanel>
+  </Grid>
+</Window>

@@ -39,7 +39,7 @@ public sealed class TaskModuleCFeatureTests
         Assert.Equal("Tales", tasks[1].Params["theme"]?.GetValue<string>());
         Assert.Equal(1, tasks[1].Params["mode"]?.GetValue<int>());
         Assert.Equal(0, tasks[1].Params["increment_mode"]?.GetValue<int>());
-        Assert.Equal(1, tasks[1].Params["num_craft_batches"]?.GetValue<int>());
+        Assert.Equal(16, tasks[1].Params["num_craft_batches"]?.GetValue<int>());
         Assert.False(tasks[1].Params["clear_store"]?.GetValue<bool>());
 
         Assert.Equal(TaskModuleTypes.Custom, tasks[2].Type);
@@ -329,6 +329,32 @@ public sealed class TaskModuleCFeatureTests
     }
 
     [Fact]
+    public async Task SaveReclamation_ZeroCraftBatches_IsPreservedForWpfParity()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Reclamation", "reclamation")).Success);
+
+        var save = await fixture.TaskQueue.SaveReclamationParamsAsync(0, new ReclamationTaskParamsDto
+        {
+            Theme = "Tales",
+            Mode = 1,
+            IncrementMode = 0,
+            NumCraftBatches = 0,
+            ToolsToCraft = ["tool-a"],
+            ClearStore = false,
+        });
+        Assert.True(save.Success, save.Message);
+
+        var parameters = (await fixture.TaskQueue.GetTaskParamsAsync(0)).Value!;
+        Assert.Equal(0, parameters["num_craft_batches"]?.GetValue<int>());
+
+        var validate = await fixture.TaskQueue.ValidateTaskAsync(0);
+        Assert.True(validate.Success, validate.Message);
+        Assert.NotNull(validate.Value);
+        Assert.DoesNotContain(validate.Value!.Issues, issue => issue.Code == "ReclamationNumCraftBatchesOutOfRange");
+    }
+
+    [Fact]
     public async Task SaveCustom_RejectsStructuredNames_AndNormalizesKnownTaskNames()
     {
         await using var fixture = await TestFixture.CreateAsync();
@@ -395,18 +421,19 @@ public sealed class TaskModuleCFeatureTests
         var reclamationView = File.ReadAllText(Path.Combine(root, "src", "MAAUnified", "App", "Features", "TaskQueue", "ReclamationSettingsView.axaml"));
         var customView = File.ReadAllText(Path.Combine(root, "src", "MAAUnified", "App", "Features", "TaskQueue", "CustomSettingsView.axaml"));
 
-        Assert.Contains("{Binding Theme}", roguelikeView);
-        Assert.Contains("{Binding Mode}", roguelikeView);
+        Assert.Contains("{Binding SelectedThemeOption}", roguelikeView);
+        Assert.Contains("{Binding SelectedModeOption}", roguelikeView);
+        Assert.Contains("{Binding DelayAbortUntilCombatComplete}", roguelikeView);
         Assert.Contains("{Binding StatusMessage}", roguelikeView);
         Assert.DoesNotContain("傀影与猩红孤钻", roguelikeView);
         Assert.DoesNotContain("SelectedIndex=\"0\"", roguelikeView);
 
-        Assert.Contains("{Binding Theme}", reclamationView);
+        Assert.Contains("{Binding SelectedThemeOption}", reclamationView);
         Assert.Contains("{Binding NumCraftBatches}", reclamationView);
         Assert.Contains("{Binding StatusMessage}", reclamationView);
         Assert.DoesNotContain("萨尔贡沙洲遗闻", reclamationView);
 
-        Assert.Contains("{Binding TaskNamesText}", customView);
+        Assert.Contains("{Binding TaskNamesText", customView);
         Assert.Contains("{Binding TaskNamesPreview}", customView);
         Assert.Contains("{Binding StatusMessage}", customView);
         Assert.DoesNotContain("自定义任务名规则", customView);
@@ -424,8 +451,11 @@ public sealed class TaskModuleCFeatureTests
             "Roguelike.Mode",
             "Roguelike.InvestmentEnabled",
             "Roguelike.Collectible.Dice",
+            "Roguelike.DelayAbortUntilCombatComplete",
+            "RoguelikeThemePhantom",
             "Reclamation.Title",
             "Reclamation.ToolsToCraft",
+            "Reclamation.Option.Mode.Archive",
             "Custom.Title",
             "Custom.TaskNamesPreview",
             "Common.LoadingTaskHint",

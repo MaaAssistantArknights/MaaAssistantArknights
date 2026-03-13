@@ -14,6 +14,7 @@ using MAAUnified.Platform;
 
 namespace MAAUnified.Tests;
 
+[Collection("MainShellSerial")]
 public sealed class SettingsGuiBackgroundFeatureTests
 {
     [Fact]
@@ -39,7 +40,7 @@ public sealed class SettingsGuiBackgroundFeatureTests
         Assert.Equal("Dark", ReadGlobalString(fixture.Config, "Theme.Mode"));
         Assert.Equal("en-us", ReadGlobalString(fixture.Config, ConfigurationKeys.Localization));
         Assert.Equal("False", ReadGlobalString(fixture.Config, ConfigurationKeys.UseTray));
-        Assert.Equal("True", ReadGlobalString(fixture.Config, ConfigurationKeys.MinimizeToTray));
+        Assert.Equal("False", ReadGlobalString(fixture.Config, ConfigurationKeys.MinimizeToTray));
         Assert.Equal("False", ReadGlobalString(fixture.Config, ConfigurationKeys.WindowTitleScrollable));
         Assert.Equal(path, ReadGlobalString(fixture.Config, ConfigurationKeys.BackgroundImagePath));
         Assert.Equal("61", ReadGlobalString(fixture.Config, ConfigurationKeys.BackgroundOpacity));
@@ -49,6 +50,27 @@ public sealed class SettingsGuiBackgroundFeatureTests
         var eventLog = await File.ReadAllTextAsync(fixture.Diagnostics.EventLogPath);
         Assert.Contains("Saved settings batch:", eventLog, StringComparison.Ordinal);
         Assert.DoesNotContain("Saved setting:", eventLog, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task UseTray_Disabled_ClearsMinimizeToTrayState()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        vm.UseTray = true;
+        vm.MinimizeToTray = true;
+        await vm.SaveGuiSettingsAsync();
+        Assert.True(vm.MinimizeToTray);
+
+        vm.UseTray = false;
+
+        await WaitUntilAsync(() =>
+            string.Equals(ReadGlobalString(fixture.Config, ConfigurationKeys.UseTray), "False", StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(ReadGlobalString(fixture.Config, ConfigurationKeys.MinimizeToTray), "False", StringComparison.OrdinalIgnoreCase));
+
+        Assert.False(vm.MinimizeToTray);
     }
 
     [Fact]
@@ -96,6 +118,27 @@ public sealed class SettingsGuiBackgroundFeatureTests
         await WaitUntilAsync(() =>
             string.Equals(ReadGlobalString(fixture.Config, ConfigurationKeys.UseTray), "False", StringComparison.OrdinalIgnoreCase) &&
             string.Equals(ReadGlobalString(fixture.Config, ConfigurationKeys.BackgroundOpacity), "73", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public async Task DeveloperModeToggle_AutoSaveAndRuntimeVerbose_ShouldStayInSync()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.False(vm.DeveloperModeEnabled);
+        Assert.False(fixture.Runtime.LogService.VerboseEnabled);
+
+        vm.DeveloperModeEnabled = true;
+        await WaitUntilAsync(() =>
+            string.Equals(ReadGlobalString(fixture.Config, "GUI.DeveloperMode"), "True", StringComparison.OrdinalIgnoreCase));
+        Assert.True(fixture.Runtime.LogService.VerboseEnabled);
+
+        vm.DeveloperModeEnabled = false;
+        await WaitUntilAsync(() =>
+            string.Equals(ReadGlobalString(fixture.Config, "GUI.DeveloperMode"), "False", StringComparison.OrdinalIgnoreCase));
+        Assert.False(fixture.Runtime.LogService.VerboseEnabled);
     }
 
     [Fact]
@@ -156,7 +199,7 @@ public sealed class SettingsGuiBackgroundFeatureTests
         Assert.Equal("zh-cn", vm.Language);
         Assert.Equal(0, vm.BackgroundOpacity);
         Assert.Equal(80, vm.BackgroundBlur);
-        Assert.Equal("UniformToFill", vm.BackgroundStretchMode);
+        Assert.Equal("Fill", vm.BackgroundStretchMode);
         Assert.Equal(string.Empty, vm.BackgroundImagePath);
         Assert.True(vm.HasGuiValidationMessage);
 
@@ -216,30 +259,39 @@ public sealed class SettingsGuiBackgroundFeatureTests
         var tray = new CapturingTrayService();
         await using var fixture = await RuntimeFixture.CreateAsync(trayService: tray);
         var vm = new MainShellViewModel(fixture.Runtime);
+        try
+        {
+            var applyMethod = typeof(MainShellViewModel).GetMethod(
+                "ApplyGuiSettingsAsync",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.NotNull(applyMethod);
 
-        var applyMethod = typeof(MainShellViewModel).GetMethod(
-            "ApplyGuiSettingsAsync",
-            BindingFlags.Instance | BindingFlags.NonPublic);
-        Assert.NotNull(applyMethod);
+            var snapshot = new GuiSettingsSnapshot(
+                Theme: "Light",
+                Language: "ja-jp",
+                UseTray: true,
+                MinimizeToTray: false,
+                WindowTitleScrollable: true,
+                LogItemDateFormatString: "HH:mm:ss",
+                OperNameLanguage: "OperNameLanguageMAA",
+                InverseClearMode: "Clear",
+                BackgroundImagePath: string.Empty,
+                BackgroundOpacity: 45,
+                BackgroundBlur: 12,
+                BackgroundStretchMode: "UniformToFill");
 
-        var snapshot = new GuiSettingsSnapshot(
-            Theme: "Light",
-            Language: "ja-jp",
-            UseTray: true,
-            MinimizeToTray: false,
-            WindowTitleScrollable: true,
-            BackgroundImagePath: string.Empty,
-            BackgroundOpacity: 45,
-            BackgroundBlur: 12,
-            BackgroundStretchMode: "UniformToFill");
+            var task = applyMethod!.Invoke(vm, [snapshot, CancellationToken.None]) as Task;
+            Assert.NotNull(task);
+            await task!;
 
-        var task = applyMethod!.Invoke(vm, [snapshot, CancellationToken.None]) as Task;
-        Assert.NotNull(task);
-        await task!;
-
-        Assert.Equal("ja-jp", vm.TaskQueuePage.Texts.Language);
-        Assert.NotNull(tray.LastMenuText);
-        Assert.Equal("開始", tray.LastMenuText!.Start);
+            Assert.Equal("ja-jp", vm.TaskQueuePage.Texts.Language);
+            Assert.NotNull(tray.LastMenuText);
+            Assert.Equal("開始", tray.LastMenuText!.Start);
+        }
+        finally
+        {
+            TestShellCleanup.StopTimerScheduler(vm);
+        }
     }
 
     private static Dictionary<string, string> CaptureGuiSnapshot(UnifiedConfigurationService config)

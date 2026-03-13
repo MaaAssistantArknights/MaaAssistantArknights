@@ -107,21 +107,37 @@ public sealed class ConfigurationProfileFeatureService : IConfigurationProfileFe
                 $"Profile `{normalizedName}` does not exist.");
         }
 
-        if (config.Profiles.Count <= 1)
+        var snapshot = CaptureSnapshot(config);
+        if (config.Profiles.Count == 1)
         {
-            return UiOperationResult<ConfigurationProfileState>.Fail(
-                UiErrorCode.ConfigurationProfileDeleteLastForbidden,
-                "Cannot delete the last remaining profile.");
+            config.Profiles.Remove(normalizedName);
+            config.Profiles["default"] = new UnifiedProfile();
+            config.CurrentProfile = "default";
+            return await PersistWithRollbackAsync(
+                snapshot,
+                "Profile `default` recreated after deleting the last remaining profile.",
+                cancellationToken);
         }
 
         if (string.Equals(config.CurrentProfile, normalizedName, StringComparison.OrdinalIgnoreCase))
         {
-            return UiOperationResult<ConfigurationProfileState>.Fail(
-                UiErrorCode.ConfigurationProfileDeleteCurrentForbidden,
-                $"Cannot delete current profile `{normalizedName}`.");
+            var orderedProfiles = config.Profiles.Keys.ToList();
+            var currentIndex = orderedProfiles.FindIndex(
+                name => string.Equals(name, normalizedName, StringComparison.OrdinalIgnoreCase));
+            var replacement = currentIndex >= 0 && currentIndex < orderedProfiles.Count - 1
+                ? orderedProfiles[currentIndex + 1]
+                : orderedProfiles
+                    .LastOrDefault(name => !string.Equals(name, normalizedName, StringComparison.OrdinalIgnoreCase));
+            if (string.IsNullOrWhiteSpace(replacement))
+            {
+                return UiOperationResult<ConfigurationProfileState>.Fail(
+                    UiErrorCode.ConfigurationProfileDeleteLastForbidden,
+                    "Cannot delete the last remaining profile.");
+            }
+
+            config.CurrentProfile = replacement;
         }
 
-        var snapshot = CaptureSnapshot(config);
         config.Profiles.Remove(normalizedName);
         return await PersistWithRollbackAsync(
             snapshot,

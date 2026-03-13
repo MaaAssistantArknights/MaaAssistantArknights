@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using System.ComponentModel;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Services;
 
@@ -17,11 +18,30 @@ public sealed class MallModuleViewModel : TaskModuleSettingsViewModelBase
     private bool _forceShoppingIfCreditFull;
     private bool _onlyBuyDiscount;
     private bool _reserveMaxCredit;
+    private string _creditFightLastTime = string.Empty;
+    private string _visitFriendsLastTime = string.Empty;
+    private IReadOnlyList<IntOption> _formationOptions = [];
 
     public MallModuleViewModel(MAAUnifiedRuntime runtime, LocalizedTextMap texts)
         : base(runtime, texts, TaskModuleTypes.Mall)
     {
+        Texts.PropertyChanged += OnTextsChanged;
+        RebuildFormationOptions();
     }
+
+    public IReadOnlyList<IntOption> FormationOptions => _formationOptions;
+
+    public IntOption? SelectedFormationOption
+    {
+        get => FormationOptions.FirstOrDefault(option => option.Value == FormationIndex);
+        set => FormationIndex = value?.Value ?? 0;
+    }
+
+    public bool ShowVisitFriendsDetails => VisitFriends;
+
+    public bool ShowCreditFightDetails => CreditFight;
+
+    public bool IsShoppingSettingsEnabled => Shopping;
 
     public bool CreditFight
     {
@@ -33,6 +53,7 @@ public sealed class MallModuleViewModel : TaskModuleSettingsViewModelBase
                 return;
             }
 
+            OnPropertyChanged(nameof(ShowCreditFightDetails));
             QueuePersist();
         }
     }
@@ -62,6 +83,7 @@ public sealed class MallModuleViewModel : TaskModuleSettingsViewModelBase
                 return;
             }
 
+            OnPropertyChanged(nameof(SelectedFormationOption));
             QueuePersist();
         }
     }
@@ -76,6 +98,7 @@ public sealed class MallModuleViewModel : TaskModuleSettingsViewModelBase
                 return;
             }
 
+            OnPropertyChanged(nameof(ShowVisitFriendsDetails));
             QueuePersist();
         }
     }
@@ -104,6 +127,7 @@ public sealed class MallModuleViewModel : TaskModuleSettingsViewModelBase
                 return;
             }
 
+            OnPropertyChanged(nameof(IsShoppingSettingsEnabled));
             QueuePersist();
         }
     }
@@ -113,7 +137,8 @@ public sealed class MallModuleViewModel : TaskModuleSettingsViewModelBase
         get => _buyFirstText;
         set
         {
-            if (!SetProperty(ref _buyFirstText, value))
+            var normalized = NormalizeListText(value);
+            if (!SetProperty(ref _buyFirstText, normalized))
             {
                 return;
             }
@@ -127,7 +152,8 @@ public sealed class MallModuleViewModel : TaskModuleSettingsViewModelBase
         get => _blacklistText;
         set
         {
-            if (!SetProperty(ref _blacklistText, value))
+            var normalized = NormalizeListText(value);
+            if (!SetProperty(ref _blacklistText, normalized))
             {
                 return;
             }
@@ -192,6 +218,8 @@ public sealed class MallModuleViewModel : TaskModuleSettingsViewModelBase
         ForceShoppingIfCreditFull = model.ForceShoppingIfCreditFull;
         OnlyBuyDiscount = model.OnlyBuyDiscount;
         ReserveMaxCredit = model.ReserveMaxCredit;
+        _creditFightLastTime = model.CreditFightLastTime;
+        _visitFriendsLastTime = model.VisitFriendsLastTime;
         return Task.CompletedTask;
     }
 
@@ -210,6 +238,8 @@ public sealed class MallModuleViewModel : TaskModuleSettingsViewModelBase
             ForceShoppingIfCreditFull = ForceShoppingIfCreditFull,
             OnlyBuyDiscount = OnlyBuyDiscount,
             ReserveMaxCredit = ReserveMaxCredit,
+            CreditFightLastTime = _creditFightLastTime,
+            VisitFriendsLastTime = _visitFriendsLastTime,
         };
 
         return model.ToJson();
@@ -224,4 +254,38 @@ public sealed class MallModuleViewModel : TaskModuleSettingsViewModelBase
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToList();
     }
+
+    private static string NormalizeListText(string? text)
+    {
+        return (text ?? string.Empty)
+            .Replace('；', ';')
+            .Trim();
+    }
+
+    private void OnTextsChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is not (nameof(LocalizedTextMap.Language) or "Item[]"))
+        {
+            return;
+        }
+
+        RebuildFormationOptions();
+    }
+
+    private void RebuildFormationOptions()
+    {
+        _formationOptions =
+        [
+            new IntOption(0, Texts.GetOrDefault("Mall.Formation.Current", "Current")),
+            new IntOption(1, "1"),
+            new IntOption(2, "2"),
+            new IntOption(3, "3"),
+            new IntOption(4, "4"),
+        ];
+
+        OnPropertyChanged(nameof(FormationOptions));
+        OnPropertyChanged(nameof(SelectedFormationOption));
+    }
+
+    public sealed record IntOption(int Value, string DisplayName);
 }

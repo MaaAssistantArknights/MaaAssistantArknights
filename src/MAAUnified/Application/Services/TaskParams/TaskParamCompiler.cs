@@ -23,6 +23,10 @@ public static class TaskParamCompiler
     private const string UiStageResetMode = "_ui_stage_reset_mode";
     private const string UiUseCustomAnnihilation = "_ui_use_custom_annihilation";
     private const string UiAnnihilationStage = "_ui_annihilation_stage";
+    private const string UiHideSeries = "_ui_hide_series";
+    private const string UiAllowUseStoneSave = "_ui_allow_use_stone_save";
+    private const string UiMallCreditFightLastTime = "_ui_mall_credit_fight_last_time";
+    private const string UiMallVisitFriendsLastTime = "_ui_mall_visit_friends_last_time";
     private static readonly Regex RoguelikeSeedRegex = new("^[0-9A-Za-z]+,rogue_\\d+,\\d+$", RegexOptions.Compiled);
     private static readonly HashSet<int> RoguelikeModes = [0, 1, 4, 5, 6, 7, 20001];
     private static readonly HashSet<string> RoguelikeThemes = new(StringComparer.OrdinalIgnoreCase) { "JieGarden", "Phantom", "Mizuki", "Sami", "Sarkaz" };
@@ -49,6 +53,16 @@ public static class TaskParamCompiler
         "Custom",
         "PostAction",
     };
+    private static readonly IReadOnlyDictionary<string, IReadOnlyList<string>> MallBlacklistByClientType =
+        new Dictionary<string, IReadOnlyList<string>>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["Official"] = ["讯使", "嘉维尔", "坚雷"],
+            ["Bilibili"] = ["讯使", "嘉维尔", "坚雷"],
+            ["EN"] = ["Courier", "Gavial", "Dur-nar"],
+            ["JP"] = ["クーリエ", "ガヴィル", "ジュナー"],
+            ["KR"] = ["쿠리어", "가비알", "듀나"],
+            ["Txwy"] = ["訊使", "嘉維爾", "堅雷"],
+        };
 
     public static string NormalizeTaskType(string? type)
     {
@@ -180,7 +194,8 @@ public static class TaskParamCompiler
         var issues = new List<TaskValidationIssue>();
         var parameters = task.Params ?? new JsonObject();
 
-        var stage = ReadString(parameters, "stage", strict, issues, "fight.stage", string.Empty);
+        var stage = FightStageSelection.NormalizeStoredValue(
+            ReadString(parameters, "stage", strict, issues, "fight.stage", FightStageSelection.CurrentOrLast));
         var medicine = ReadInt(parameters, "medicine", strict, issues, "fight.medicine", 0);
         var stone = ReadInt(parameters, "stone", strict, issues, "fight.stone", 0);
         var times = ReadInt(parameters, "times", strict, issues, "fight.times", int.MaxValue);
@@ -218,6 +233,8 @@ public static class TaskParamCompiler
             UseAlternateStage = ReadBool(parameters, UiUseAlternateStage, false),
             HideUnavailableStage = ReadBool(parameters, UiHideUnavailableStage, true),
             StageResetMode = ReadString(parameters, UiStageResetMode, false, issues, "fight.stage_reset_mode", "Current"),
+            HideSeries = ReadBool(parameters, UiHideSeries, false),
+            AllowUseStoneSave = ReadBool(parameters, UiAllowUseStoneSave, false),
         };
 
         return (dto, issues);
@@ -233,6 +250,11 @@ public static class TaskParamCompiler
         var useAlternateStage = dto.UseAlternateStage;
         var hideUnavailableStage = dto.HideUnavailableStage;
         var stageResetMode = string.IsNullOrWhiteSpace(dto.StageResetMode) ? "Current" : dto.StageResetMode;
+        if (!string.Equals(stageResetMode, "Current", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(stageResetMode, "Ignore", StringComparison.OrdinalIgnoreCase))
+        {
+            stageResetMode = "Current";
+        }
 
         if (useAlternateStage)
         {
@@ -246,11 +268,7 @@ public static class TaskParamCompiler
             stageResetMode = "Current";
         }
 
-        var stage = (dto.Stage ?? string.Empty).Trim();
-        if (string.IsNullOrWhiteSpace(stage))
-        {
-            issues.Add(new TaskValidationIssue("FightStageMissing", "fight.stage", "Fight stage cannot be empty."));
-        }
+        var stage = FightStageSelection.NormalizeStoredValue(dto.Stage);
 
         if (dto.Series is < -1 or > 6)
         {
@@ -303,6 +321,8 @@ public static class TaskParamCompiler
             [UiStageResetMode] = stageResetMode,
             [UiUseCustomAnnihilation] = dto.UseCustomAnnihilation,
             [UiAnnihilationStage] = dto.AnnihilationStage,
+            [UiHideSeries] = dto.HideSeries,
+            [UiAllowUseStoneSave] = dto.AllowUseStoneSave,
         };
 
         if (dto.EnableTargetDrop && !string.IsNullOrWhiteSpace(dto.DropId))
@@ -525,9 +545,11 @@ public static class TaskParamCompiler
             theme = "JieGarden";
         }
 
-        if (dto.Difficulty < 0)
+        var difficulty = dto.Difficulty;
+        if (difficulty < -1)
         {
-            issues.Add(new TaskValidationIssue("RoguelikeDifficultyOutOfRange", "roguelike.difficulty", "Difficulty must be greater than or equal to zero.", Blocking: false));
+            issues.Add(new TaskValidationIssue("RoguelikeDifficultyOutOfRange", "roguelike.difficulty", "Difficulty must be greater than or equal to -1.", Blocking: false));
+            difficulty = -1;
         }
 
         if (dto.StartsCount < 0)
@@ -602,7 +624,7 @@ public static class TaskParamCompiler
         {
             ["mode"] = mode,
             ["theme"] = theme,
-            ["difficulty"] = Math.Max(0, dto.Difficulty),
+            ["difficulty"] = difficulty,
             ["starts_count"] = Math.Max(0, dto.StartsCount),
             ["investment_enabled"] = dto.InvestmentEnabled,
             ["use_support"] = dto.UseSupport,
@@ -703,7 +725,7 @@ public static class TaskParamCompiler
             Theme = ReadString(parameters, "theme", strict, issues, "reclamation.theme", "Tales"),
             Mode = ReadInt(parameters, "mode", strict, issues, "reclamation.mode", 1),
             IncrementMode = ReadInt(parameters, "increment_mode", strict, issues, "reclamation.increment_mode", 0),
-            NumCraftBatches = ReadInt(parameters, "num_craft_batches", strict, issues, "reclamation.num_craft_batches", 1),
+            NumCraftBatches = ReadInt(parameters, "num_craft_batches", strict, issues, "reclamation.num_craft_batches", 16),
             ToolsToCraft = ReadStringArrayCompat(parameters, "tools_to_craft", false, issues, "reclamation.tools_to_craft"),
             ClearStore = ReadBool(parameters, "clear_store", strict, issues, "reclamation.clear_store", true),
         };
@@ -743,10 +765,10 @@ public static class TaskParamCompiler
         }
 
         var numCraftBatches = dto.NumCraftBatches;
-        if (numCraftBatches is < 1 or > 99999)
+        if (numCraftBatches is < 0 or > 99999)
         {
-            issues.Add(new TaskValidationIssue("ReclamationNumCraftBatchesOutOfRange", "reclamation.num_craft_batches", "NumCraftBatches must be between 1 and 99999.", Blocking: false));
-            numCraftBatches = Math.Clamp(numCraftBatches, 1, 99999);
+            issues.Add(new TaskValidationIssue("ReclamationNumCraftBatchesOutOfRange", "reclamation.num_craft_batches", "NumCraftBatches must be between 0 and 99999.", Blocking: false));
+            numCraftBatches = Math.Clamp(numCraftBatches, 0, 99999);
         }
 
         var toolsToCraft = ParseDelimitedList(dto.ToolsToCraft);
@@ -871,6 +893,7 @@ public static class TaskParamCompiler
         {
             "StartUp" => CompileStartUpFromTask(task, profile, config, strict),
             "Fight" => CompileFightFromTask(task, profile, config, strict),
+            "Mall" => CompileMallFromTask(task, profile, config, strict),
             "Recruit" => CompileRecruitFromTask(task, profile, config, strict),
             "Roguelike" => CompileRoguelikeFromTask(task, profile, config, strict),
             "Reclamation" => CompileReclamationFromTask(task, profile, config, strict),
@@ -882,6 +905,23 @@ public static class TaskParamCompiler
                 Issues = [],
             },
         };
+    }
+
+    public static JsonObject BuildCoreParams(string taskType, JsonObject parameters)
+    {
+        var runtimeParams = parameters.DeepClone() as JsonObject ?? new JsonObject();
+        if (!string.Equals(NormalizeTaskType(taskType), TaskModuleTypes.Fight, StringComparison.OrdinalIgnoreCase))
+        {
+            return runtimeParams;
+        }
+
+        if (runtimeParams["stage"] is JsonValue stageValue
+            && stageValue.TryGetValue(out string? stage))
+        {
+            runtimeParams["stage"] = FightStageSelection.ToCoreStage(stage);
+        }
+
+        return runtimeParams;
     }
 
     private static TaskCompileOutput CompileStartUpFromTask(
@@ -915,6 +955,81 @@ public static class TaskParamCompiler
             NormalizedType = compiled.NormalizedType,
             Params = compiled.Params,
             Issues = allIssues,
+        };
+    }
+
+    private static TaskCompileOutput CompileMallFromTask(
+        UnifiedTaskItem task,
+        UnifiedProfile profile,
+        UnifiedConfig config,
+        bool strict)
+    {
+        _ = strict;
+        var issues = new List<TaskValidationIssue>();
+        var nowUtc = DateTime.UtcNow;
+        var parameters = task.Params ?? TaskModuleParameterDefaults.CreateMallDefaults("zh-cn");
+        var model = MallParams.FromJson(parameters);
+        var clientType = ResolveStringSetting(profile, config, "ClientType") ?? "Official";
+        var defaultLastTime = MallDailyResetHelper.GetPreviousYjDateString(nowUtc, clientType);
+        var creditFightLastTime = ReadString(
+            parameters,
+            UiMallCreditFightLastTime,
+            false,
+            issues,
+            "mall.credit_fight_last_time",
+            defaultLastTime);
+        var visitFriendsLastTime = ReadString(
+            parameters,
+            UiMallVisitFriendsLastTime,
+            false,
+            issues,
+            "mall.visit_friends_last_time",
+            defaultLastTime);
+
+        var creditFight = model.CreditFight;
+        if (model.CreditFightOnceADay)
+        {
+            creditFight = creditFight && MallDailyResetHelper.IsTaskAvailableToday(creditFightLastTime, clientType, nowUtc);
+        }
+
+        var visitFriends = model.VisitFriends;
+        if (model.VisitFriendsOnceADay)
+        {
+            visitFriends = visitFriends && MallDailyResetHelper.IsTaskAvailableToday(visitFriendsLastTime, clientType, nowUtc);
+        }
+
+        var buyFirst = model.BuyFirst
+            .Where(item => !string.IsNullOrWhiteSpace(item))
+            .Select(item => item.Trim())
+            .Where(item => !string.IsNullOrWhiteSpace(item))
+            .ToList();
+        var blacklist = model.Blacklist
+            .Where(item => !string.IsNullOrWhiteSpace(item))
+            .Select(item => item.Trim())
+            .Where(item => !string.IsNullOrWhiteSpace(item))
+            .Union(ResolveMallBlacklistDefaults(clientType), StringComparer.Ordinal)
+            .ToList();
+
+        return new TaskCompileOutput
+        {
+            NormalizedType = "Mall",
+            Params = new JsonObject
+            {
+                ["credit_fight"] = creditFight,
+                ["credit_fight_once_a_day"] = model.CreditFightOnceADay,
+                ["formation_index"] = Math.Clamp(model.FormationIndex, 0, 4),
+                ["visit_friends"] = visitFriends,
+                ["visit_friends_once_a_day"] = model.VisitFriendsOnceADay,
+                ["shopping"] = model.Shopping,
+                ["buy_first"] = ToJsonArray(buyFirst),
+                ["blacklist"] = ToJsonArray(blacklist),
+                ["force_shopping_if_credit_full"] = model.ForceShoppingIfCreditFull,
+                ["only_buy_discount"] = model.OnlyBuyDiscount,
+                ["reserve_max_credit"] = model.ReserveMaxCredit,
+                [UiMallCreditFightLastTime] = string.IsNullOrWhiteSpace(creditFightLastTime) ? defaultLastTime : creditFightLastTime,
+                [UiMallVisitFriendsLastTime] = string.IsNullOrWhiteSpace(visitFriendsLastTime) ? defaultLastTime : visitFriendsLastTime,
+            },
+            Issues = issues,
         };
     }
 
@@ -1047,6 +1162,22 @@ public static class TaskParamCompiler
     {
         return value.IndexOfAny(['[', ']', '{', '}', ':', '"', '\r', '\n']) >= 0
                || value.Any(c => char.IsControl(c) && c != '\t');
+    }
+
+    private static IReadOnlyList<string> ResolveMallBlacklistDefaults(string clientType)
+    {
+        var normalized = clientType switch
+        {
+            "YoStarEN" => "EN",
+            "YoStarJP" => "JP",
+            "YoStarKR" => "KR",
+            "txwy" => "Txwy",
+            _ => clientType,
+        };
+
+        return MallBlacklistByClientType.TryGetValue(normalized, out var values)
+            ? values
+            : MallBlacklistByClientType["Official"];
     }
 
     private static JsonObject CompileCollectibleStartList(RoguelikeCollectibleStartListDto? dto)

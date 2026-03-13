@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.Text.Json.Nodes;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
@@ -8,7 +9,6 @@ using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using MAAUnified.App.Features.Dialogs;
-using MAAUnified.App.ViewModels.Advanced;
 using MAAUnified.App.ViewModels.Copilot;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.App.ViewModels.Settings;
@@ -20,12 +20,15 @@ using MAAUnified.Application.Orchestration;
 using MAAUnified.Application.Services;
 using MAAUnified.Application.Services.Features;
 using MAAUnified.Application.Services.Localization;
+using MAAUnified.CoreBridge;
 using MAAUnified.Platform;
 
 namespace MAAUnified.App.ViewModels;
 
 public sealed class MainShellViewModel : ObservableObject
 {
+    private const string AppDisplayName = "MaaAssistantArknights";
+    private const string DeveloperModeConfigKey = "GUI.DeveloperMode";
     private readonly MAAUnifiedRuntime _runtime;
     private readonly ConnectionGameSharedStateViewModel _connectionGameSharedState;
     private readonly SemaphoreSlim _guiApplySemaphore = new(1, 1);
@@ -38,14 +41,15 @@ public sealed class MainShellViewModel : ObservableObject
     private int _timerScheduleProcessing;
     private int _selectedRootTabIndex;
     private bool _isWindowTopMost;
-    private string _windowTitle = "MaaAssistantArknights";
+    private string _windowTitle = AppDisplayName;
     private string _windowVersionUpdateInfo = string.Empty;
     private string _windowResourceUpdateInfo = string.Empty;
     private string _importStatus = string.Empty;
     private string _capabilitySummary = string.Empty;
     private string _globalStatus = "Initializing...";
     private string _lastError = string.Empty;
-    private string _selectedImportSource = "自动(gui.new + gui)";
+    private ImportSource _selectedImportSource = ImportSource.Auto;
+    private ImportSourceOptionItem? _selectedImportSourceOption;
     private bool _hasBlockingConfigIssues;
     private int _blockingConfigIssueCount;
     private SessionState _currentSessionState;
@@ -66,29 +70,28 @@ public sealed class MainShellViewModel : ObservableObject
         _connectionGameSharedState = new ConnectionGameSharedStateViewModel();
         _connectionGameSharedState.PropertyChanged += OnSharedConnectionStateChanged;
 
-        RootTabs = new[] { "任务队列", "Copilot", "Toolbox", "高级", "设置" };
+        RootTexts = new RootLocalizationTextMap("Root.Localization.MainShell");
+        RootTexts.FallbackReported += ReportLocalizationFallback;
+        RootTabs = new[] { "TaskQueue", "Copilot", "Toolbox", "Settings" };
         GrowlMessages = new ObservableCollection<string>();
         RootLogs = new ObservableCollection<string>();
         ConfigIssueDetails = new ObservableCollection<ConfigIssueDetailItem>();
 
-        ImportSourceOptions = new ObservableCollection<string>
-        {
-            "自动(gui.new + gui)",
-            "仅 gui.new.json",
-            "仅 gui.json",
-        };
+        ImportSourceOptions = new ObservableCollection<ImportSourceOptionItem>();
+        RefreshRootTextState();
 
-        TaskQueuePage = new TaskQueuePageViewModel(runtime, _connectionGameSharedState, ReportLocalizationFallback, _dialogService);
+        TaskQueuePage = new TaskQueuePageViewModel(
+            runtime,
+            _connectionGameSharedState,
+            ReportLocalizationFallback,
+            _dialogService,
+            NavigateToSettingsSection);
         CopilotPage = new CopilotPageViewModel(runtime);
-        ToolboxPage = new ToolboxPageViewModel(runtime);
-        RemoteControlCenterPage = new RemoteControlCenterPageViewModel(runtime);
-        OverlayAdvancedPage = new OverlayAdvancedPageViewModel(runtime);
-        TrayIntegrationPage = new TrayIntegrationPageViewModel(runtime);
-        StageManagerPage = new StageManagerPageViewModel(runtime);
-        WebApiPage = new WebApiPageViewModel(runtime);
-        ExternalNotificationProvidersPage = new ExternalNotificationProvidersPageViewModel(runtime);
+        ToolboxPage = new ToolboxPageViewModel(runtime, _connectionGameSharedState);
         SettingsPage = new SettingsPageViewModel(runtime, _connectionGameSharedState, ReportLocalizationFallback, dialogService: _dialogService);
         SettingsPage.GuiSettingsApplied += OnGuiSettingsApplied;
+        SettingsPage.ResourceVersionUpdated += OnSettingsResourceVersionUpdated;
+        SettingsPage.ConfigurationContextChanged += OnSettingsConfigurationContextChanged;
         TaskQueuePage.Texts.FallbackReported += OnTaskQueueLocalizationFallbackReported;
         _currentSessionState = runtime.SessionService.CurrentState;
         runtime.SessionService.SessionStateChanged += OnSessionStateChanged;
@@ -102,12 +105,7 @@ public sealed class MainShellViewModel : ObservableObject
         {
             Dispatcher.UIThread.Post(() =>
             {
-                RootLogs.Add($"[{log.Timestamp:HH:mm:ss}] {log.Level} {log.Message}");
-                const int maxCount = 400;
-                while (RootLogs.Count > maxCount)
-                {
-                    RootLogs.RemoveAt(0);
-                }
+                AppendRootLogEntry($"[{log.Timestamp:HH:mm:ss}] {log.Level} {log.Message}");
             });
         };
 
@@ -123,7 +121,9 @@ public sealed class MainShellViewModel : ObservableObject
 
     public IReadOnlyList<string> RootTabs { get; }
 
-    public ObservableCollection<string> ImportSourceOptions { get; }
+    public RootLocalizationTextMap RootTexts { get; }
+
+    public ObservableCollection<ImportSourceOptionItem> ImportSourceOptions { get; }
 
     public ObservableCollection<string> GrowlMessages { get; }
 
@@ -136,18 +136,6 @@ public sealed class MainShellViewModel : ObservableObject
     public CopilotPageViewModel CopilotPage { get; }
 
     public ToolboxPageViewModel ToolboxPage { get; }
-
-    public RemoteControlCenterPageViewModel RemoteControlCenterPage { get; }
-
-    public OverlayAdvancedPageViewModel OverlayAdvancedPage { get; }
-
-    public TrayIntegrationPageViewModel TrayIntegrationPage { get; }
-
-    public StageManagerPageViewModel StageManagerPage { get; }
-
-    public WebApiPageViewModel WebApiPage { get; }
-
-    public ExternalNotificationProvidersPageViewModel ExternalNotificationProvidersPage { get; }
 
     public SettingsPageViewModel SettingsPage { get; }
 
@@ -181,6 +169,7 @@ public sealed class MainShellViewModel : ObservableObject
             if (SetProperty(ref _windowVersionUpdateInfo, value))
             {
                 OnPropertyChanged(nameof(HasWindowVersionUpdateInfo));
+                RefreshWindowTitle();
             }
         }
     }
@@ -193,6 +182,7 @@ public sealed class MainShellViewModel : ObservableObject
             if (SetProperty(ref _windowResourceUpdateInfo, value))
             {
                 OnPropertyChanged(nameof(HasWindowResourceUpdateInfo));
+                RefreshWindowTitle();
             }
         }
     }
@@ -209,10 +199,24 @@ public sealed class MainShellViewModel : ObservableObject
         set => SetProperty(ref _capabilitySummary, value);
     }
 
-    public string SelectedImportSource
+    public ImportSource SelectedImportSource
     {
         get => _selectedImportSource;
         set => SetProperty(ref _selectedImportSource, value);
+    }
+
+    public ImportSourceOptionItem? SelectedImportSourceOption
+    {
+        get => _selectedImportSourceOption;
+        set
+        {
+            if (!SetProperty(ref _selectedImportSourceOption, value))
+            {
+                return;
+            }
+
+            SelectedImportSource = value?.Source ?? ImportSource.Auto;
+        }
     }
 
     public string GlobalStatus
@@ -298,8 +302,20 @@ public sealed class MainShellViewModel : ObservableObject
     public int BlockingConfigIssueCount
     {
         get => _blockingConfigIssueCount;
-        private set => SetProperty(ref _blockingConfigIssueCount, value);
+        private set
+        {
+            if (SetProperty(ref _blockingConfigIssueCount, value))
+            {
+                OnPropertyChanged(nameof(BlockingConfigIssueSummary));
+            }
+        }
     }
+
+    public string BlockingConfigIssueSummary
+        => string.Format(
+            CultureInfo.CurrentCulture,
+            RootTexts["Main.Blocking.Title"],
+            BlockingConfigIssueCount);
 
     public SessionState CurrentSessionState
     {
@@ -329,7 +345,7 @@ public sealed class MainShellViewModel : ObservableObject
             }
             else if (loadResult.ImportReport is not null)
             {
-                GlobalStatus = $"首次导入完成: {loadResult.ImportReport.Summary}";
+                GlobalStatus = ImportReportTextFormatter.BuildStatusMessage(loadResult.ImportReport, manualImport: false);
             }
 
             if (loadResult.ValidationIssues.Count > 0)
@@ -349,50 +365,52 @@ public sealed class MainShellViewModel : ObservableObject
                     cancellationToken: cancellationToken);
             }
 
+            ApplyDeveloperModeFromConfig();
+            _runtime.LogService.Debug(
+                $"App init start: profile={_runtime.ConfigurationService.CurrentConfig.CurrentProfile}, state={_runtime.SessionService.CurrentState}");
+
             SyncConnectionFromProfile();
             RefreshConfigValidationState(loadResult.ValidationIssues);
             await ShowSchemaMigrationNoticeIfNeededAsync(loadResult, cancellationToken);
 
+            _runtime.LogService.Debug("Begin core initialization from startup pipeline.");
             var initResult = await _runtime.ResourceWorkflowService.InitializeCoreAsync(_runtime.ConfigurationService.CurrentConfig, cancellationToken);
             if (!initResult.Success)
             {
-                LastError = $"Core 初始化失败: {initResult.Error?.Code} {initResult.Error?.Message}";
-                await RecordFailedResultAsync(
-                    "App.Initialize",
+                var initCode = initResult.Error?.Code.ToString() ?? UiErrorCode.CoreUnknown;
+                var initMessage = initResult.Error?.Message ?? "Core initialize failed.";
+                LastError = BuildBilingualMessage(
+                    $"Core 初始化失败: {initCode} {initMessage}",
+                    $"Core initialize failed: {initCode} {initMessage}");
+                await ApplyResultAsync(
                     UiOperationResult.Fail(
-                        initResult.Error?.Code.ToString() ?? UiErrorCode.CoreUnknown,
+                        initCode,
                         LastError,
                         initResult.Error?.Exception),
+                    "App.Initialize",
                     cancellationToken);
+            }
+            else
+            {
+                _runtime.LogService.Debug($"Core initialization succeeded: version={initResult.Value?.CoreVersion}");
             }
 
             await TaskQueuePage.InitializeAsync(cancellationToken);
             await CopilotPage.InitializeAsync(cancellationToken);
             await ToolboxPage.InitializeAsync(cancellationToken);
-            await RemoteControlCenterPage.InitializeAsync(cancellationToken);
-            await OverlayAdvancedPage.InitializeAsync(cancellationToken);
-            await TrayIntegrationPage.InitializeAsync(cancellationToken);
-            await StageManagerPage.InitializeAsync(cancellationToken);
-            await WebApiPage.InitializeAsync(cancellationToken);
-            await ExternalNotificationProvidersPage.InitializeAsync(cancellationToken);
             await SettingsPage.InitializeAsync(cancellationToken);
             TaskQueuePage.SetLanguage(SettingsPage.Language);
             await ApplyGuiSettingsAsync(SettingsPage.CurrentGuiSnapshot, cancellationToken);
+            AppendImportReportToTaskQueue(loadResult.ImportReport, manualImport: false);
 
-            _ = Task.Run(() => _runtime.SessionService.StartCallbackPumpAsync(
-                callback =>
-                {
-                    Dispatcher.UIThread.Post(() =>
-                    {
-                        RootLogs.Add($"[{callback.Timestamp:HH:mm:ss}] CORE {callback.MsgName}({callback.MsgId}) {callback.PayloadJson}");
-                    });
-                    return Task.CompletedTask;
-                },
-                cancellationToken), cancellationToken);
+            _ = Task.Run(
+                () => _runtime.SessionService.StartCallbackPumpAsync(
+                    callback => Dispatcher.UIThread.InvokeAsync(() => ApplySessionCallback(callback)).GetTask(),
+                    cancellationToken),
+                cancellationToken);
 
             await RefreshCapabilitySummaryAsync(cancellationToken);
-            WindowVersionUpdateInfo = "版本更新可用，点击设置 > Version Update";
-            WindowResourceUpdateInfo = "资源更新可用，点击检查资源";
+            RefreshRootTextState();
             await SyncTrayMenuStateAsync(cancellationToken);
             StartTimerScheduler();
         }
@@ -443,11 +461,14 @@ public sealed class MainShellViewModel : ObservableObject
     {
         try
         {
-            var result = await _runtime.ShellFeatureService.ConnectAsync(
-                _connectionGameSharedState.ConnectAddress,
-                _connectionGameSharedState.ConnectConfig,
-                string.IsNullOrWhiteSpace(_connectionGameSharedState.AdbPath) ? null : _connectionGameSharedState.AdbPath,
-                cancellationToken);
+            var result = await ConnectWithCurrentSettingsAsync(cancellationToken);
+            if (!result.Success)
+            {
+                result = UiOperationResult.Fail(
+                    result.Error?.Code ?? UiErrorCode.UiOperationFailed,
+                    BuildConnectionFailureMessage(result),
+                    result.Error?.Details);
+            }
 
             CurrentSessionState = _runtime.SessionService.CurrentState;
             if (!await ApplyResultAsync(result, "App.Shell.Connect", cancellationToken))
@@ -476,6 +497,7 @@ public sealed class MainShellViewModel : ObservableObject
         CurrentSessionState = _runtime.SessionService.CurrentState;
         var latestIssues = _runtime.ConfigurationService.RevalidateCurrentConfig();
         RefreshConfigValidationState(latestIssues);
+        UiOperationResult? startConnectResult = null;
 
         if (CurrentSessionState is SessionState.Running or SessionState.Stopping)
         {
@@ -486,14 +508,31 @@ public sealed class MainShellViewModel : ObservableObject
             return;
         }
 
+        if (CurrentSessionState != SessionState.Connected)
+        {
+            var connectResult = await ConnectWithCurrentSettingsAsync(cancellationToken);
+            startConnectResult = connectResult;
+            CurrentSessionState = _runtime.SessionService.CurrentState;
+            if (connectResult.Success)
+            {
+                GlobalStatus = connectResult.Message;
+                PushGrowl(connectResult.Message);
+            }
+        }
+
         if (!CanStartExecution)
         {
             if (CurrentSessionState != SessionState.Connected)
             {
+                var stateMessage = startConnectResult is { Success: false } failedConnect
+                    ? BuildConnectionFailureMessage(failedConnect)
+                    : BuildLinkStartStateNotAllowedMessage(CurrentSessionState);
+
                 await ApplyResultAsync(
-                    UiOperationResult.Fail(UiErrorCode.SessionStateNotAllowed, $"Session state `{CurrentSessionState}` does not allow Start."),
+                    UiOperationResult.Fail(UiErrorCode.SessionStateNotAllowed, stateMessage),
                     "App.Shell.Start",
                     cancellationToken);
+                NavigateToSettingsSection("Connect");
                 return;
             }
 
@@ -514,13 +553,71 @@ public sealed class MainShellViewModel : ObservableObject
         await SyncTrayMenuStateAsync(cancellationToken);
     }
 
+    private async Task<UiOperationResult> ConnectWithCurrentSettingsAsync(CancellationToken cancellationToken)
+    {
+        var effectiveAdbPath = _connectionGameSharedState.ResolveEffectiveAdbPath(updateStateWhenResolved: true);
+        var adbPath = string.IsNullOrWhiteSpace(effectiveAdbPath) ? null : effectiveAdbPath;
+        var candidates = _connectionGameSharedState.BuildConnectAddressCandidates(includeConfiguredAddress: true);
+        _runtime.LogService.Debug(
+            $"Connect candidates prepared: count={candidates.Count}, config={_connectionGameSharedState.ConnectConfig}, adb={adbPath ?? "<null>"}");
+        UiOperationResult? lastFailure = null;
+
+        foreach (var candidate in candidates)
+        {
+            _runtime.LogService.Debug($"Trying connect candidate: {candidate}");
+            var result = await _runtime.ShellFeatureService.ConnectAsync(
+                candidate,
+                _connectionGameSharedState.ConnectConfig,
+                adbPath,
+                cancellationToken);
+            if (result.Success)
+            {
+                _runtime.LogService.Debug($"Connect candidate succeeded: {candidate}");
+                _connectionGameSharedState.ConnectAddress = candidate;
+                return result;
+            }
+
+            _runtime.LogService.Debug(
+                $"Connect candidate failed: {candidate}, code={result.Error?.Code}, message={result.Message}");
+            lastFailure = result;
+        }
+
+        return lastFailure ?? UiOperationResult.Fail(UiErrorCode.UiOperationFailed, "Connection failed.");
+    }
+
+    private string BuildConnectionFailureMessage(UiOperationResult connectResult)
+    {
+        var segments = new List<string>
+        {
+            BuildBilingualMessage(
+                "连接失败。请“检查连接设置” -> “尝试重启模拟器与 ADB” -> “重启电脑”。",
+                "Connection failed. Check connection settings -> try restarting the emulator and ADB -> reboot the computer."),
+        };
+
+        var settingsHint = _connectionGameSharedState.BuildConnectionSettingsHintMessage();
+        if (!string.IsNullOrWhiteSpace(settingsHint))
+        {
+            segments.Add(settingsHint);
+        }
+
+        if (!string.IsNullOrWhiteSpace(connectResult.Message)
+            && !string.Equals(connectResult.Message, "Connection failed.", StringComparison.OrdinalIgnoreCase))
+        {
+            segments.Add(BuildBilingualMessage(
+                $"连接回调：{connectResult.Message}",
+                $"Connection callback: {connectResult.Message}"));
+        }
+
+        return string.Join(Environment.NewLine, segments);
+    }
+
     public async Task StopAsync(CancellationToken cancellationToken = default)
     {
         CurrentSessionState = _runtime.SessionService.CurrentState;
         if (!CanStopExecution)
         {
             await ApplyResultAsync(
-                UiOperationResult.Fail(UiErrorCode.SessionStateNotAllowed, $"Session state `{CurrentSessionState}` does not allow Stop."),
+                UiOperationResult.Fail(UiErrorCode.SessionStateNotAllowed, BuildStopStateNotAllowedMessage(CurrentSessionState)),
                 "App.Shell.Stop",
                 cancellationToken);
             return;
@@ -536,14 +633,7 @@ public sealed class MainShellViewModel : ObservableObject
 
     public async Task ExecuteManualImportAsync(CancellationToken cancellationToken = default)
     {
-        var source = SelectedImportSource switch
-        {
-            "仅 gui.new.json" => ImportSource.GuiNewOnly,
-            "仅 gui.json" => ImportSource.GuiOnly,
-            _ => ImportSource.Auto,
-        };
-
-        var result = await _runtime.ShellFeatureService.ImportLegacyConfigAsync(source, manualImport: true, cancellationToken);
+        var result = await _runtime.ShellFeatureService.ImportLegacyConfigAsync(SelectedImportSource, manualImport: true, cancellationToken);
         var report = await ApplyResultAsync(result, "App.Shell.ImportLegacy", cancellationToken);
         if (report is null)
         {
@@ -552,13 +642,14 @@ public sealed class MainShellViewModel : ObservableObject
             return;
         }
 
-        ImportStatus = $"导入完成: {report.Summary}";
+        ImportStatus = ImportReportTextFormatter.BuildStatusMessage(report, manualImport: true);
         GlobalStatus = ImportStatus;
         await TaskQueuePage.ReloadTasksAsync(cancellationToken);
         await SettingsPage.InitializeAsync(cancellationToken);
         TaskQueuePage.SetLanguage(SettingsPage.Language);
         SyncConnectionFromProfile();
         RefreshConfigValidationState(_runtime.ConfigurationService.CurrentValidationIssues);
+        AppendImportReportToTaskQueue(report, manualImport: true);
         PushGrowl(ImportStatus);
         await RecordEventAsync("App.Shell.ImportLegacy.Refresh", ImportStatus, cancellationToken);
     }
@@ -622,9 +713,13 @@ public sealed class MainShellViewModel : ObservableObject
                         {
                             SessionState.Running or SessionState.Stopping => "任务正在执行中，Start 已禁用。",
                             SessionState.Connected => "存在阻断级配置错误，Start/LinkStart 已禁用。",
-                            _ => $"当前会话状态为 {CurrentSessionState}，Start 已禁用。",
+                            _ => BuildLinkStartStateNotAllowedMessage(CurrentSessionState),
                         };
                         PushGrowl(blockedMessage);
+                        if (CurrentSessionState != SessionState.Connected)
+                        {
+                            NavigateToSettingsSection("Connect");
+                        }
                         await RecordEventAsync(
                             scope,
                             $"source={source}; blocked",
@@ -645,7 +740,7 @@ public sealed class MainShellViewModel : ObservableObject
                     CurrentSessionState = _runtime.SessionService.CurrentState;
                     if (!CanStopExecution)
                     {
-                        var blockedStopMessage = $"当前会话状态为 {CurrentSessionState}，Stop 已禁用。";
+                        var blockedStopMessage = BuildStopStateNotAllowedMessage(CurrentSessionState);
                         PushGrowl(blockedStopMessage);
                         await RecordEventAsync(
                             scope,
@@ -748,6 +843,181 @@ public sealed class MainShellViewModel : ObservableObject
         }
     }
 
+    private static string BuildLinkStartStateNotAllowedMessage(SessionState state)
+    {
+        var zh = $"会话状态 `{state}` 不允许 Start/LinkStart。请先前往“设置 > 连接设置”完成连接。";
+        var en = $"Session state `{state}` does not allow Start/LinkStart. Go to Settings > Connection and connect first.";
+        return BuildBilingualMessage(zh, en);
+    }
+
+    private static string BuildStopStateNotAllowedMessage(SessionState state)
+    {
+        var zh = $"会话状态 `{state}` 不允许 Stop。";
+        var en = $"Session state `{state}` does not allow Stop.";
+        return BuildBilingualMessage(zh, en);
+    }
+
+    private static string BuildBilingualMessage(string zh, string en)
+    {
+        return $"{zh}{Environment.NewLine}{en}";
+    }
+
+    private void ApplyDeveloperModeFromConfig()
+    {
+        var enabled = TryReadGlobalBool(_runtime.ConfigurationService.CurrentConfig.GlobalValues, DeveloperModeConfigKey, false);
+        _runtime.LogService.SetVerboseEnabled(enabled);
+    }
+
+    private static bool TryReadGlobalBool(IReadOnlyDictionary<string, JsonNode?> globals, string key, bool fallback)
+    {
+        if (!globals.TryGetValue(key, out var node) || node is null)
+        {
+            return fallback;
+        }
+
+        if (node is JsonValue value)
+        {
+            if (value.TryGetValue<bool>(out var boolValue))
+            {
+                return boolValue;
+            }
+
+            if (value.TryGetValue<string>(out var textValue))
+            {
+                if (bool.TryParse(textValue, out var parsed))
+                {
+                    return parsed;
+                }
+
+                if (int.TryParse(textValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out var intValue))
+                {
+                    return intValue != 0;
+                }
+            }
+
+            if (value.TryGetValue<int>(out var intBool))
+            {
+                return intBool != 0;
+            }
+        }
+
+        var raw = node.ToString();
+        if (bool.TryParse(raw, out var fallbackParsed))
+        {
+            return fallbackParsed;
+        }
+
+        return fallback;
+    }
+
+    private void NavigateToSettingsSection(string sectionKey)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            var settingsTabIndex = -1;
+            for (var i = 0; i < RootTabs.Count; i++)
+            {
+                if (string.Equals(RootTabs[i], "Settings", StringComparison.OrdinalIgnoreCase))
+                {
+                    settingsTabIndex = i;
+                    break;
+                }
+            }
+
+            if (settingsTabIndex >= 0)
+            {
+                SelectedRootTabIndex = settingsTabIndex;
+            }
+
+            SettingsPage.SelectSection(sectionKey);
+        });
+    }
+
+    private void OnSettingsResourceVersionUpdated(object? sender, EventArgs e)
+    {
+        Dispatcher.UIThread.Post(() => TaskQueuePage.RefreshStagePresentation(forceReloadStageOptions: true));
+    }
+
+    private async void OnSettingsConfigurationContextChanged(object? sender, ConfigurationContextChangedEventArgs e)
+    {
+        try
+        {
+            await HandleSettingsConfigurationContextChangedAsync(e);
+        }
+        catch (Exception ex)
+        {
+            await RecordUnhandledExceptionAsync(
+                "Settings.ConfigurationContextChanged",
+                ex,
+                UiErrorCode.UiOperationFailed,
+                $"配置上下文刷新失败: {ex.Message}");
+        }
+    }
+
+    private void RefreshRootTextState()
+    {
+        WindowVersionUpdateInfo = RootTexts["Main.Update.VersionAvailable"];
+        WindowResourceUpdateInfo = RootTexts["Main.Update.ResourceAvailable"];
+        RefreshWindowTitle();
+        OnPropertyChanged(nameof(BlockingConfigIssueSummary));
+
+        var selected = SelectedImportSource;
+        ImportSourceOptions.Clear();
+        ImportSourceOptions.Add(new ImportSourceOptionItem(ImportSource.Auto, RootTexts["Main.ImportSource.Auto"]));
+        ImportSourceOptions.Add(new ImportSourceOptionItem(ImportSource.GuiNewOnly, RootTexts["Main.ImportSource.GuiNewOnly"]));
+        ImportSourceOptions.Add(new ImportSourceOptionItem(ImportSource.GuiOnly, RootTexts["Main.ImportSource.GuiOnly"]));
+        SelectedImportSource = selected;
+        SelectedImportSourceOption = ImportSourceOptions.FirstOrDefault(item => item.Source == SelectedImportSource)
+            ?? ImportSourceOptions.FirstOrDefault();
+    }
+
+    private void RefreshWindowTitle()
+    {
+        var updateTags = new List<string>();
+        if (HasWindowVersionUpdateInfo)
+        {
+            updateTags.Add(RootTexts.GetOrDefault("Main.Title.UpdateVersion", "Version Update"));
+        }
+
+        if (HasWindowResourceUpdateInfo)
+        {
+            updateTags.Add(RootTexts.GetOrDefault("Main.Title.UpdateResource", "Resource Update"));
+        }
+
+        WindowTitle = updateTags.Count == 0
+            ? AppDisplayName
+            : $"{AppDisplayName} [{string.Join(" / ", updateTags)}]";
+    }
+
+    private async Task HandleSettingsConfigurationContextChangedAsync(ConfigurationContextChangedEventArgs change)
+    {
+        SyncConnectionFromProfile();
+        RefreshConfigValidationState(_runtime.ConfigurationService.CurrentValidationIssues);
+
+        switch (change.Reason)
+        {
+            case ConfigurationContextChangeReason.ProfileSwitched:
+                await TaskQueuePage.ReloadConfigurationContextAsync();
+                break;
+
+            case ConfigurationContextChangeReason.LegacyImport:
+            case ConfigurationContextChangeReason.UnifiedImport:
+                TaskQueuePage.SetLanguage(SettingsPage.Language);
+                await ApplyGuiSettingsAsync(SettingsPage.CurrentGuiSnapshot);
+                await TaskQueuePage.ReloadConfigurationContextAsync(forceReloadStageOptions: true);
+                break;
+        }
+
+        if (change.Report is not null)
+        {
+            AppendImportReportToTaskQueue(change.Report, manualImport: true);
+        }
+        else if (!string.IsNullOrWhiteSpace(change.Message))
+        {
+            TaskQueuePage.AppendSystemLog(change.Message);
+        }
+    }
+
     private void SyncConnectionToProfile(string? changedPropertyName = null)
     {
         if (_syncingConnectionState)
@@ -773,12 +1043,42 @@ public sealed class MainShellViewModel : ObservableObject
         _syncingConnectionState = true;
         try
         {
-            ConnectionGameProfileSync.ReadFromProfile(profile, _connectionGameSharedState);
+            ConnectionGameProfileSync.ReadFromProfile(profile, _connectionGameSharedState, tolerateMissing: false);
         }
         finally
         {
             _syncingConnectionState = false;
         }
+    }
+
+    private void AppendImportReportToTaskQueue(ImportReport? report, bool manualImport)
+    {
+        if (report is null)
+        {
+            return;
+        }
+
+        foreach (var line in ImportReportTextFormatter.BuildLogLines(report, manualImport))
+        {
+            TaskQueuePage.AppendSystemLog(line.Message, line.Level);
+        }
+    }
+
+    private void ApplySessionCallback(CoreCallbackEvent callback)
+    {
+        AppendRootLogEntry($"[{callback.Timestamp:HH:mm:ss}] CORE {callback.MsgName}({callback.MsgId}) {callback.PayloadJson}");
+
+        if (!string.Equals(callback.MsgName, "ConnectionInfo", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        if (!TryParseScreencapCost(callback.PayloadJson, out var min, out var avg, out var max))
+        {
+            return;
+        }
+
+        _connectionGameSharedState.UpdateScreencapCost(min, avg, max, callback.Timestamp);
     }
 
     private void OnSharedConnectionStateChanged(object? sender, PropertyChangedEventArgs e)
@@ -1067,11 +1367,16 @@ public sealed class MainShellViewModel : ObservableObject
             lockAcquired = true;
 
             AppliedTheme = snapshot.Theme;
+            RootTexts.Language = snapshot.Language;
+            RefreshRootTextState();
             if (Avalonia.Application.Current is not null)
             {
-                Avalonia.Application.Current.RequestedThemeVariant = string.Equals(snapshot.Theme, "Dark", StringComparison.OrdinalIgnoreCase)
-                    ? ThemeVariant.Dark
-                    : ThemeVariant.Light;
+                Avalonia.Application.Current.RequestedThemeVariant =
+                    string.Equals(snapshot.Theme, "Dark", StringComparison.OrdinalIgnoreCase)
+                        ? ThemeVariant.Dark
+                        : string.Equals(snapshot.Theme, "SyncWithOs", StringComparison.OrdinalIgnoreCase)
+                            ? ThemeVariant.Default
+                            : ThemeVariant.Light;
             }
 
             TaskQueuePage.SetLanguage(snapshot.Language);
@@ -1305,12 +1610,14 @@ public sealed class MainShellViewModel : ObservableObject
 
     private async Task ApplyLanguageChangeAsync(string next, CancellationToken cancellationToken = default)
     {
+        RootTexts.Language = next;
         SettingsPage.Language = next;
         SettingsPage.AutostartStatus = PlatformCapabilityTextMap.FormatAutostartStatus(
             next,
             SettingsPage.StartSelf,
             ReportLocalizationFallback);
         TaskQueuePage.SetLanguage(next);
+        RefreshRootTextState();
         await RefreshCapabilitySummaryAsync(cancellationToken);
 
         var trayRefresh = await _runtime.PlatformCapabilityService.InitializeTrayAsync(
@@ -1403,6 +1710,99 @@ public sealed class MainShellViewModel : ObservableObject
         });
     }
 
+    private void AppendRootLogEntry(string message)
+    {
+        RootLogs.Add(message);
+        const int maxCount = 400;
+        while (RootLogs.Count > maxCount)
+        {
+            RootLogs.RemoveAt(0);
+        }
+    }
+
+    private static bool TryParseScreencapCost(string? payloadJson, out long min, out long avg, out long max)
+    {
+        min = 0;
+        avg = 0;
+        max = 0;
+
+        if (string.IsNullOrWhiteSpace(payloadJson))
+        {
+            return false;
+        }
+
+        JsonObject? root;
+        try
+        {
+            root = JsonNode.Parse(payloadJson) as JsonObject;
+        }
+        catch
+        {
+            return false;
+        }
+
+        if (root is null)
+        {
+            return false;
+        }
+
+        if (root["what"] is not JsonValue whatValue
+            || !whatValue.TryGetValue<string>(out var what)
+            || !string.Equals(what, "ScreencapCost", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        if (root["details"] is not JsonObject details)
+        {
+            return false;
+        }
+
+        var parsedMin = TryReadInt64(details, "min");
+        var parsedAvg = TryReadInt64(details, "avg");
+        var parsedMax = TryReadInt64(details, "max");
+        if (!parsedMin.HasValue || !parsedAvg.HasValue || !parsedMax.HasValue)
+        {
+            return false;
+        }
+
+        min = parsedMin.Value;
+        avg = parsedAvg.Value;
+        max = parsedMax.Value;
+        return true;
+    }
+
+    private static long? TryReadInt64(JsonObject node, string propertyName)
+    {
+        if (node[propertyName] is not JsonNode valueNode)
+        {
+            return null;
+        }
+
+        if (valueNode is JsonValue value)
+        {
+            if (value.TryGetValue<long>(out var longValue))
+            {
+                return longValue;
+            }
+
+            if (value.TryGetValue<int>(out var intValue))
+            {
+                return intValue;
+            }
+
+            if (value.TryGetValue<string>(out var textValue)
+                && long.TryParse(textValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsedText))
+            {
+                return parsedText;
+            }
+        }
+
+        return long.TryParse(valueNode.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsed)
+            ? parsed
+            : null;
+    }
+
     private static string NormalizeIssueText(string? value)
     {
         return string.IsNullOrWhiteSpace(value) ? "-" : value.Trim();
@@ -1481,6 +1881,7 @@ public sealed class MainShellViewModel : ObservableObject
 
         LastError = result.Message;
         await RecordFailedResultAsync(scope, result, cancellationToken);
+        await _runtime.DialogFeatureService.ReportErrorAsync(scope, result, cancellationToken);
         return false;
     }
 
@@ -1494,13 +1895,12 @@ public sealed class MainShellViewModel : ObservableObject
         }
 
         LastError = result.Message;
-        await RecordFailedResultAsync(
-            scope,
-            UiOperationResult.Fail(
-                result.Error?.Code ?? UiErrorCode.UiOperationFailed,
-                result.Message,
-                result.Error?.Details),
-            cancellationToken);
+        var failed = UiOperationResult.Fail(
+            result.Error?.Code ?? UiErrorCode.UiOperationFailed,
+            result.Message,
+            result.Error?.Details);
+        await RecordFailedResultAsync(scope, failed, cancellationToken);
+        await _runtime.DialogFeatureService.ReportErrorAsync(scope, failed, cancellationToken);
         return default;
     }
 
@@ -1513,10 +1913,9 @@ public sealed class MainShellViewModel : ObservableObject
     {
         LastError = contextMessage;
         await RecordErrorAsync(scope, contextMessage, ex, cancellationToken);
-        await RecordFailedResultAsync(
-            scope,
-            UiOperationResult.Fail(code, ex.Message, ex.ToString()),
-            cancellationToken);
+        var failed = UiOperationResult.Fail(code, ex.Message, ex.ToString());
+        await RecordFailedResultAsync(scope, failed, cancellationToken);
+        await _runtime.DialogFeatureService.ReportErrorAsync(scope, failed, cancellationToken);
     }
 }
 
@@ -1547,3 +1946,5 @@ public sealed class ConfigIssueDetailItem
 
     public required string SuggestedAction { get; init; }
 }
+
+public sealed record ImportSourceOptionItem(ImportSource Source, string DisplayName);

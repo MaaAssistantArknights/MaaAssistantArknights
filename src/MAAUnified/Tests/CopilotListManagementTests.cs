@@ -129,9 +129,9 @@ public sealed class CopilotListManagementTests
 
         Assert.Equal(2, vm.Items.Count);
         Assert.Equal("Legacy-SSS", vm.Items[0].Name);
-        Assert.Equal("SSS", vm.Items[0].Type);
+        Assert.Equal("保全派驻", vm.Items[0].Type);
         Assert.Equal("Typed-Main", vm.Items[1].Name);
-        Assert.Equal("主线", vm.Items[1].Type);
+        Assert.Equal("主线/故事集/SideStory", vm.Items[1].Type);
         Assert.Equal("Legacy-SSS", vm.SelectedItem?.Name);
     }
 

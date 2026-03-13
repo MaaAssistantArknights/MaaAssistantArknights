@@ -1,6 +1,8 @@
+using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
 using System.IO.Compression;
 using System.Text.Json.Nodes;
+using MAAUnified.App.Features.Settings;
 using MAAUnified.App.ViewModels.Settings;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
@@ -26,17 +28,17 @@ public sealed class SettingsModuleCM1FeatureTests
         await vm.InitializeAsync();
 
         vm.VersionUpdateVersionType = "Beta";
-        vm.VersionUpdateResourceSource = "Mirror";
+        vm.VersionUpdateResourceSource = "MirrorChyan";
         vm.VersionUpdateStartupCheck = false;
         vm.VersionUpdateScheduledCheck = true;
-        vm.VersionUpdateProxy = "https://127.0.0.1:7890";
-        vm.VersionUpdateProxyType = "https";
+        vm.VersionUpdateProxy = "127.0.0.1:7890";
+        vm.VersionUpdateProxyType = "socks5";
         vm.VersionUpdateResourceApi = "https://example.com/api";
 
         await vm.SaveVersionUpdateChannelAsync();
 
         Assert.Equal("Beta", ReadGlobalString(fixture.Config, ConfigurationKeys.VersionType));
-        Assert.Equal("Mirror", ReadGlobalString(fixture.Config, ConfigurationKeys.UpdateSource));
+        Assert.Equal("MirrorChyan", ReadGlobalString(fixture.Config, ConfigurationKeys.UpdateSource));
         Assert.Equal("False", ReadGlobalString(fixture.Config, ConfigurationKeys.StartupUpdateCheck));
         Assert.Equal("True", ReadGlobalString(fixture.Config, ConfigurationKeys.UpdateAutoCheck));
         Assert.Equal("http://127.0.0.1:5000", ReadGlobalString(fixture.Config, ConfigurationKeys.UpdateProxy));
@@ -44,8 +46,8 @@ public sealed class SettingsModuleCM1FeatureTests
 
         await vm.SaveVersionUpdateProxyAsync();
 
-        Assert.Equal("https://127.0.0.1:7890", ReadGlobalString(fixture.Config, ConfigurationKeys.UpdateProxy));
-        Assert.Equal("https", ReadGlobalString(fixture.Config, ConfigurationKeys.ProxyType));
+        Assert.Equal("127.0.0.1:7890", ReadGlobalString(fixture.Config, ConfigurationKeys.UpdateProxy));
+        Assert.Equal("socks5", ReadGlobalString(fixture.Config, ConfigurationKeys.ProxyType));
         Assert.Equal("https://example.com/api", ReadGlobalString(fixture.Config, ConfigurationKeys.ResourceApi));
         Assert.Contains("代理", vm.VersionUpdateStatusMessage, StringComparison.Ordinal);
         Assert.False(vm.HasVersionUpdateErrorMessage);
@@ -59,12 +61,41 @@ public sealed class SettingsModuleCM1FeatureTests
         await vm.InitializeAsync();
 
         vm.VersionUpdateVersionType = "Nightly";
-        vm.VersionUpdateResourceSource = "Mirror";
+        vm.VersionUpdateResourceSource = "MirrorChyan";
 
         await vm.CheckVersionUpdateAsync();
 
-        Assert.Contains("Checked updates on channel `Nightly` via `Mirror`.", vm.VersionUpdateStatusMessage, StringComparison.Ordinal);
+        Assert.Contains("Checked updates on channel `Nightly` via `MirrorChyan`.", vm.VersionUpdateStatusMessage, StringComparison.Ordinal);
         Assert.False(vm.HasVersionUpdateErrorMessage);
+    }
+
+    [Fact]
+    public async Task VersionUpdate_DefaultAutoDownload_ShouldMatchWpfDefault()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.True(VersionUpdatePolicy.Default.AutoDownloadUpdatePackage);
+        Assert.True(vm.VersionUpdateAutoDownload);
+    }
+
+    [Fact]
+    public async Task VersionUpdate_CheckForUpdates_WhenValidationFails_ShouldNotRaiseDialogPopup()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        var dialogRaised = false;
+        fixture.Runtime.DialogFeatureService.ErrorRaised += (_, _) => dialogRaised = true;
+
+        vm.VersionUpdateVersionType = "Preview";
+        await vm.CheckVersionUpdateAsync();
+
+        Assert.True(vm.HasVersionUpdateErrorMessage);
+        Assert.Contains("Version type `Preview` is unsupported.", vm.VersionUpdateErrorMessage, StringComparison.Ordinal);
+        Assert.False(dialogRaised);
     }
 
     [Fact]
@@ -96,6 +127,307 @@ public sealed class SettingsModuleCM1FeatureTests
         Assert.False(fixture.Config.CurrentConfig.Profiles.ContainsKey("Default"));
         Assert.Single(vm.ConfigurationProfiles);
         Assert.Equal("Alpha", vm.ConfigurationProfiles[0]);
+    }
+
+    [Fact]
+    public async Task ConfigurationManager_SwitchProfile_ShouldRaiseConfigurationContextChanged()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        fixture.Config.CurrentConfig.Profiles["Alt"] = new UnifiedProfile
+        {
+            Values = new Dictionary<string, JsonNode?>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["ConnectAddress"] = JsonValue.Create("10.9.0.8:5555"),
+            },
+        };
+        await fixture.Config.SaveAsync();
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+        ConfigurationContextChangedEventArgs? raised = null;
+        vm.ConfigurationContextChanged += (_, args) => raised = args;
+
+        vm.ConfigurationManagerSelectedProfile = "Alt";
+        await vm.SwitchConfigurationProfileAsync();
+
+        Assert.NotNull(raised);
+        Assert.Equal(ConfigurationContextChangeReason.ProfileSwitched, raised!.Reason);
+        Assert.Equal("10.9.0.8:5555", vm.ConnectionGameSharedState.ConnectAddress);
+    }
+
+    [Fact]
+    public async Task ConfigurationManager_SwitchProfile_ShouldNotResetProfileCollection()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        fixture.Config.CurrentConfig.Profiles["Alt"] = new UnifiedProfile();
+        await fixture.Config.SaveAsync();
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        var resetCount = 0;
+        vm.ConfigurationProfiles.CollectionChanged += (_, args) =>
+        {
+            if (args.Action == NotifyCollectionChangedAction.Reset)
+            {
+                resetCount++;
+            }
+        };
+
+        vm.ConfigurationManagerSelectedProfile = "Alt";
+        await vm.SwitchConfigurationProfileAsync();
+
+        Assert.Equal("Alt", fixture.Config.CurrentConfig.CurrentProfile);
+        Assert.Equal(0, resetCount);
+    }
+
+    [Fact]
+    public async Task ConfigurationManager_DeleteCurrentProfile_ShouldAutoSwitchToRemainingProfile()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        fixture.Config.CurrentConfig.Profiles["Alt"] = new UnifiedProfile
+        {
+            Values = new Dictionary<string, JsonNode?>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["ConnectAddress"] = JsonValue.Create("10.8.0.4:5555"),
+            },
+        };
+        await fixture.Config.SaveAsync();
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+        vm.ConfigurationManagerSelectedProfile = "Alt";
+        await vm.SwitchConfigurationProfileAsync();
+
+        ConfigurationContextChangedEventArgs? raised = null;
+        vm.ConfigurationContextChanged += (_, args) => raised = args;
+
+        await vm.DeleteConfigurationProfileAsync();
+
+        Assert.Equal("Default", fixture.Config.CurrentConfig.CurrentProfile);
+        Assert.DoesNotContain("Alt", vm.ConfigurationProfiles, StringComparer.OrdinalIgnoreCase);
+        Assert.NotNull(raised);
+        Assert.Equal(ConfigurationContextChangeReason.ProfileSwitched, raised!.Reason);
+        Assert.Contains("已删除", raised.Message, StringComparison.Ordinal);
+        Assert.Contains("已切换至配置 `Default`", raised.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task ConfigurationManager_DeleteNonCurrentProfile_ShouldReloadCurrentProfileContext()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        fixture.Config.CurrentConfig.Profiles["Default"].Values["ConnectAddress"] = JsonValue.Create("10.0.0.2:5555");
+        fixture.Config.CurrentConfig.Profiles["Alt"] = new UnifiedProfile
+        {
+            Values = new Dictionary<string, JsonNode?>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["ConnectAddress"] = JsonValue.Create("10.0.0.9:5555"),
+            },
+        };
+        await fixture.Config.SaveAsync();
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+        vm.ConnectionGameSharedState.ConnectAddress = "stale-value";
+        vm.ConfigurationManagerSelectedProfile = "Alt";
+
+        ConfigurationContextChangedEventArgs? raised = null;
+        vm.ConfigurationContextChanged += (_, args) => raised = args;
+
+        await vm.DeleteConfigurationProfileAsync();
+
+        Assert.Equal("Default", fixture.Config.CurrentConfig.CurrentProfile);
+        Assert.Equal("10.0.0.2:5555", vm.ConnectionGameSharedState.ConnectAddress);
+        Assert.NotNull(raised);
+        Assert.Equal(ConfigurationContextChangeReason.ProfileSwitched, raised!.Reason);
+        Assert.Contains("已重新加载配置 `Default`", raised.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task ConfigurationManager_DeleteLastProfile_ShouldRecreateDefaultAndLoad()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        fixture.Config.CurrentConfig.Profiles.Clear();
+        fixture.Config.CurrentConfig.CurrentProfile = "Solo";
+        fixture.Config.CurrentConfig.Profiles["Solo"] = new UnifiedProfile
+        {
+            Values = new Dictionary<string, JsonNode?>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["ConnectAddress"] = JsonValue.Create("172.16.0.7:5555"),
+            },
+        };
+        await fixture.Config.SaveAsync();
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+        vm.ConnectionGameSharedState.ConnectAddress = "stale-value";
+        vm.ConfigurationManagerSelectedProfile = "Solo";
+
+        await vm.DeleteConfigurationProfileAsync();
+
+        Assert.Equal("default", fixture.Config.CurrentConfig.CurrentProfile);
+        Assert.Single(fixture.Config.CurrentConfig.Profiles);
+        Assert.True(fixture.Config.CurrentConfig.Profiles.ContainsKey("default"));
+        Assert.Equal("default", vm.ConfigurationManagerSelectedProfile);
+        Assert.Equal("127.0.0.1:5555", vm.ConnectionGameSharedState.ConnectAddress);
+        Assert.Contains("已切换至配置 `default`", vm.ConfigurationManagerStatusMessage, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task ImportConfigurations_ShouldRaiseUnifiedImportConfigurationContextChanged()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        var importPath = Path.Combine(fixture.Root, "imported-config.json");
+        await File.WriteAllTextAsync(
+            importPath,
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Imported",
+              "Profiles": {
+                "Imported": {
+                  "Values": {
+                    "ConnectAddress": "172.20.0.4:5555"
+                  },
+                  "TaskQueue": []
+                }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """);
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+        ConfigurationContextChangedEventArgs? raised = null;
+        vm.ConfigurationContextChanged += (_, args) => raised = args;
+
+        await vm.ImportConfigurationsAsync(importPath);
+
+        Assert.NotNull(raised);
+        Assert.Equal(ConfigurationContextChangeReason.UnifiedImport, raised!.Reason);
+        Assert.Contains("已导入 1 个配置", raised.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task SettingsPage_ShouldLoadProfileScopedLegacyValues_AndRefreshThemOnProfileSwitch()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        fixture.Config.CurrentConfig.Profiles["Default"].Values[ConfigurationKeys.RemoteControlGetTaskEndpointUri] = JsonValue.Create("https://default.example/task");
+        fixture.Config.CurrentConfig.Profiles["Default"].Values[ConfigurationKeys.PenguinId] = JsonValue.Create("penguin-default");
+        fixture.Config.CurrentConfig.Profiles["Default"].Values[ConfigurationKeys.StartEmulator] = JsonValue.Create("True");
+        fixture.Config.CurrentConfig.Profiles["Default"].Values[ConfigurationKeys.ExternalNotificationEnabled] = JsonValue.Create("True");
+
+        fixture.Config.CurrentConfig.Profiles["Alt"] = new UnifiedProfile
+        {
+            Values = new Dictionary<string, JsonNode?>(StringComparer.OrdinalIgnoreCase)
+            {
+                [ConfigurationKeys.RemoteControlGetTaskEndpointUri] = JsonValue.Create("https://alt.example/task"),
+                [ConfigurationKeys.PenguinId] = JsonValue.Create("penguin-alt"),
+                [ConfigurationKeys.StartEmulator] = JsonValue.Create("False"),
+                [ConfigurationKeys.ExternalNotificationEnabled] = JsonValue.Create("False"),
+            },
+        };
+        await fixture.Config.SaveAsync();
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.Equal("https://default.example/task", vm.RemoteGetTaskEndpoint);
+        Assert.Equal("penguin-default", vm.PenguinId);
+        Assert.True(vm.OpenEmulatorAfterLaunch);
+        Assert.True(vm.ExternalNotificationEnabled);
+
+        vm.ConfigurationManagerSelectedProfile = "Alt";
+        await vm.SwitchConfigurationProfileAsync();
+
+        Assert.Equal("https://alt.example/task", vm.RemoteGetTaskEndpoint);
+        Assert.Equal("penguin-alt", vm.PenguinId);
+        Assert.False(vm.OpenEmulatorAfterLaunch);
+        Assert.False(vm.ExternalNotificationEnabled);
+    }
+
+    [Fact]
+    public async Task SettingsPage_ShouldKeepWpfGlobalSettingsStableAcrossProfileSwitch()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync();
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.Localization] = JsonValue.Create("zh-cn");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.UseTray] = JsonValue.Create("True");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.ForceScheduledStart] = JsonValue.Create("True");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.ShowWindowBeforeForceScheduledStart] = JsonValue.Create("False");
+        fixture.Config.CurrentConfig.Profiles["Default"].Values[ConfigurationKeys.Localization] = JsonValue.Create("zh-cn");
+        fixture.Config.CurrentConfig.Profiles["Default"].Values[ConfigurationKeys.UseTray] = JsonValue.Create("True");
+        fixture.Config.CurrentConfig.Profiles["Default"].Values[ConfigurationKeys.ForceScheduledStart] = JsonValue.Create("False");
+        fixture.Config.CurrentConfig.Profiles["Alt"] = new UnifiedProfile
+        {
+            Values = new Dictionary<string, JsonNode?>(StringComparer.OrdinalIgnoreCase)
+            {
+                [ConfigurationKeys.Localization] = JsonValue.Create("en-us"),
+                [ConfigurationKeys.UseTray] = JsonValue.Create("False"),
+                [ConfigurationKeys.ForceScheduledStart] = JsonValue.Create("False"),
+                [ConfigurationKeys.ShowWindowBeforeForceScheduledStart] = JsonValue.Create("True"),
+            },
+        };
+        await fixture.Config.SaveAsync();
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.Equal("zh-cn", vm.Language);
+        Assert.True(vm.UseTray);
+        Assert.True(vm.ForceScheduledStart);
+        Assert.False(vm.ShowWindowBeforeForceScheduledStart);
+
+        vm.ConfigurationManagerSelectedProfile = "Alt";
+        await vm.SwitchConfigurationProfileAsync();
+
+        Assert.Equal("zh-cn", vm.Language);
+        Assert.True(vm.UseTray);
+        Assert.True(vm.ForceScheduledStart);
+        Assert.False(vm.ShowWindowBeforeForceScheduledStart);
+    }
+
+    [Fact]
+    public void ConfigurationImportSelectionAnalyzer_SingleUnifiedJson_ShouldClassifyUnifiedConfig()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(root);
+        try
+        {
+            var filePath = Path.Combine(root, "exported.json");
+            File.WriteAllText(
+                filePath,
+                """
+                {
+                  "SchemaVersion": 2,
+                  "CurrentProfile": "Default",
+                  "Profiles": {
+                    "Default": {
+                      "Values": {},
+                      "TaskQueue": []
+                    }
+                  },
+                  "GlobalValues": {},
+                  "Migration": {}
+                }
+                """);
+
+            var analysis = ConfigurationImportSelectionAnalyzer.Analyze([filePath]);
+
+            Assert.Equal(ConfigurationImportSelectionKind.UnifiedConfig, analysis.Kind);
+            Assert.Equal(filePath, analysis.UnifiedConfigPath);
+        }
+        finally
+        {
+            try
+            {
+                Directory.Delete(root, recursive: true);
+            }
+            catch
+            {
+                // ignore cleanup failures
+            }
+        }
     }
 
     [Fact]

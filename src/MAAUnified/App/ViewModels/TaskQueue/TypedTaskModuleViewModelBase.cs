@@ -4,6 +4,7 @@ using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Models.TaskParams;
 using MAAUnified.Application.Services;
+using MAAUnified.Application.Services.Localization;
 using MAAUnified.Application.Services.TaskParams;
 
 namespace MAAUnified.App.ViewModels.TaskQueue;
@@ -11,6 +12,7 @@ namespace MAAUnified.App.ViewModels.TaskQueue;
 public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
     where TDto : class, new()
 {
+    private bool _isAdvancedMode;
     private bool _isTaskBound;
     private bool _isDirty;
     private bool _isApplyingDto;
@@ -36,6 +38,22 @@ public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
     protected bool IsApplyingDto => _isApplyingDto;
 
     public ObservableCollection<string> ValidationMessages { get; } = [];
+
+    public bool IsAdvancedMode
+    {
+        get => _isAdvancedMode;
+        set
+        {
+            if (!SetProperty(ref _isAdvancedMode, value))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(IsGeneralMode));
+        }
+    }
+
+    public bool IsGeneralMode => !IsAdvancedMode;
 
     public bool IsTaskBound
     {
@@ -136,7 +154,7 @@ public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
         {
             ApplyValidationIssues(preValidationIssues);
             var preMessage = BuildValidationSummary(preValidationIssues.Where(i => i.Blocking));
-            LastErrorMessage = preMessage;
+            LastErrorMessage = string.Empty;
             await Runtime.DiagnosticsService.RecordFailedResultAsync(
                 $"{Scope}.Validate",
                 UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, preMessage, BuildValidationDetails(preValidationIssues)),
@@ -153,7 +171,7 @@ public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
         if (allIssues.Any(i => i.Blocking))
         {
             var message = BuildValidationSummary(allIssues.Where(i => i.Blocking));
-            LastErrorMessage = message;
+            LastErrorMessage = string.Empty;
             await Runtime.DiagnosticsService.RecordFailedResultAsync(
                 $"{Scope}.Validate",
                 UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, message, BuildValidationDetails(allIssues)),
@@ -201,16 +219,29 @@ public abstract class TypedTaskModuleViewModelBase<TDto> : ObservableObject
     protected virtual void ApplyValidationIssues(IReadOnlyList<TaskValidationIssue> issues)
     {
         ValidationMessages.Clear();
-        foreach (var issue in issues)
+        foreach (var issue in issues.Where(static issue => issue.Blocking))
         {
-            var level = issue.Blocking
-                ? Texts.GetOrDefault("Common.ErrorPrefix", "Error")
-                : Texts.GetOrDefault("Common.WarningPrefix", "Warning");
-            var localizedMessage = Texts.GetOrDefault($"Issue.{issue.Code}", issue.Message);
-            ValidationMessages.Add($"{level} [{issue.Field}] {localizedMessage}");
+            var localizedMessage = ResolveValidationMessage(issue);
+            if (string.IsNullOrWhiteSpace(localizedMessage) || ValidationMessages.Contains(localizedMessage))
+            {
+                continue;
+            }
+
+            ValidationMessages.Add(localizedMessage);
         }
 
         OnPropertyChanged(nameof(HasValidationIssues));
+    }
+
+    private string ResolveValidationMessage(TaskValidationIssue issue)
+    {
+        var language = string.Equals(
+            UiLanguageCatalog.Normalize(Texts.Language),
+            UiLanguageCatalog.DefaultLanguage,
+            StringComparison.OrdinalIgnoreCase)
+            ? UiLanguageCatalog.DefaultLanguage
+            : UiLanguageCatalog.FallbackLanguage;
+        return Texts.GetOrDefaultForLanguage(language, $"Issue.{issue.Code}", issue.Message);
     }
 
     protected static string BuildValidationSummary(IEnumerable<TaskValidationIssue> issues)

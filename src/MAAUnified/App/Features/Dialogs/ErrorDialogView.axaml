@@ -7,7 +7,8 @@
         MinHeight="420"
         WindowStartupLocation="CenterOwner">
   <Grid Margin="10" RowDefinitions="Auto,Auto,*,Auto">
-    <TextBlock Classes="section-title"
+    <TextBlock x:Name="DialogTitleText"
+               Classes="section-title"
                Foreground="{DynamicResource MAA.ErrorBrush}"
                Text="Error" />
     <TextBlock x:Name="ContextLine"
@@ -26,10 +27,10 @@
                 Spacing="8"
                 HorizontalAlignment="Right"
                 Margin="0,12,0,0">
-      <Button Content="Copy" Click="OnCopyClick" />
-      <Button Content="IssueReport" Click="OnOpenIssueReportClick" />
-      <Button x:Name="CancelButton" Content="Ignore" Click="OnCancelClick" />
-      <Button x:Name="ConfirmButton" Classes="action" Content="Close" Click="OnConfirmClick" />
+      <Button x:Name="CopyButton" Classes="wpf-button wpf-button-secondary" Content="Copy" Click="OnCopyClick" />
+      <Button x:Name="IssueReportButton" Classes="wpf-button wpf-button-secondary" Content="IssueReport" Click="OnOpenIssueReportClick" />
+      <Button Classes="wpf-button wpf-button-secondary" x:Name="CancelButton" Content="Ignore" Click="OnCancelClick" />
+      <Button x:Name="ConfirmButton" Classes="wpf-button" Content="Close" Click="OnConfirmClick" />
     </StackPanel>
   </Grid>
 </Window>

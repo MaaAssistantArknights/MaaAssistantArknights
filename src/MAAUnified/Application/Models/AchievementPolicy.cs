@@ -10,7 +10,7 @@ public sealed record AchievementPolicy(
         PopupDisabled: false,
         PopupAutoClose: false);
 
-    public IReadOnlyDictionary<string, string> ToGlobalSettingUpdates()
+    public IReadOnlyDictionary<string, string> ToProfileSettingUpdates()
     {
         return new Dictionary<string, string>(StringComparer.Ordinal)
         {

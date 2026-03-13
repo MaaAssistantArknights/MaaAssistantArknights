@@ -1,63 +1,156 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.Settings"
              x:Class="MAAUnified.App.Features.Settings.VersionUpdateSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="Version Update" />
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,160,Auto,160,Auto,160">
-      <TextBlock VerticalAlignment="Center" Text="更新通道" />
-      <ComboBox ItemsSource="{Binding VersionUpdateVersionTypeOptions}"
-                SelectedItem="{Binding VersionUpdateVersionType}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="代理类型" />
-      <ComboBox Grid.Column="3"
-                ItemsSource="{Binding VersionUpdateProxyTypeOptions}"
-                SelectedItem="{Binding VersionUpdateProxyType}" />
-      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="资源源" />
-      <TextBox Grid.Column="5" Text="{Binding VersionUpdateResourceSource}" />
+  <Grid Margin="4" RowDefinitions="Auto,*">
+    <TextBlock Classes="section-title" Text="更新设置" />
+
+    <Grid Grid.Row="1"
+          Margin="0,8,0,0"
+          ColumnDefinitions="280,*">
+      <StackPanel Grid.Column="0" Spacing="8">
+        <CheckBox Content="启动时检查更新"
+                  IsChecked="{Binding VersionUpdateStartupCheck}"
+                  IsEnabled="False" />
+        <CheckBox Content="定时检查更新"
+                  IsChecked="{Binding VersionUpdateScheduledCheck}" />
+        <CheckBox Content="自动下载更新包"
+                  IsChecked="{Binding VersionUpdateAutoDownload}" />
+        <CheckBox Content="自动安装更新包"
+                  IsChecked="{Binding VersionUpdateAutoInstall}" />
+
+        <TextBlock Margin="0,4,0,0" Text="更新渠道" />
+        <ComboBox ItemsSource="{Binding VersionUpdateVersionTypeOptions}"
+                  SelectedItem="{Binding SelectedVersionUpdateVersionTypeOption}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:DisplayValueOption">
+              <TextBlock Text="{Binding Display}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBlock Margin="0,4,0,0" Text="更新源" />
+        <ComboBox ItemsSource="{Binding VersionUpdateResourceSourceOptions}"
+                  SelectedItem="{Binding SelectedVersionUpdateResourceSourceOption}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:DisplayValueOption">
+              <TextBlock Text="{Binding Display}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <CheckBox Content="强制使用 GitHub"
+                  IsChecked="{Binding VersionUpdateForceGithubSource}"
+                  IsVisible="{Binding IsVersionUpdateGithubSource}" />
+
+        <StackPanel Spacing="4" IsVisible="{Binding IsVersionUpdateMirrorChyanSource}">
+          <TextBlock Text="Mirror酱 CDK" />
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBox Text="{Binding VersionUpdateMirrorChyanCdk, UpdateSourceTrigger=LostFocus}" />
+            <Button Grid.Column="1"
+                    Classes="wpf-button wpf-button-secondary"
+                    Margin="8,0,0,0"
+                    Content="复制"
+                    Click="OnCopyMirrorChyanCdkClick" />
+          </Grid>
+          <TextBlock Classes="state-warning"
+                     Text="{Binding VersionUpdateMirrorChyanCdkExpiryText}"
+                     TextWrapping="Wrap" />
+          <Button Classes="wpf-button wpf-button-secondary"
+                  Content="打开 Mirror酱"
+                  Click="OnOpenMirrorChyanClick" />
+        </StackPanel>
+      </StackPanel>
+
+      <StackPanel Grid.Column="1" Spacing="8" Margin="16,0,0,0">
+        <Grid ColumnDefinitions="Auto,140,Auto,*"
+              RowDefinitions="Auto,Auto">
+          <TextBlock VerticalAlignment="Center" Text="代理类型" />
+          <ComboBox Grid.Column="1"
+                    ItemsSource="{Binding VersionUpdateProxyTypeOptions}"
+                    SelectedItem="{Binding SelectedVersionUpdateProxyTypeOption}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:DisplayValueOption">
+                <TextBlock Text="{Binding Display}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+
+          <TextBlock Grid.Column="2" Margin="8,0,0,0" VerticalAlignment="Center" Text="代理地址" />
+          <TextBox Grid.Column="3"
+                   Margin="8,0,0,0"
+                   Watermark="&lt;IP&gt;:&lt;Port&gt;"
+                   Text="{Binding VersionUpdateProxy, UpdateSourceTrigger=LostFocus}" />
+
+          <TextBlock Grid.Row="1" Margin="0,8,0,0" VerticalAlignment="Center" Text="资源 API" />
+          <TextBox Grid.Row="1"
+                   Grid.Column="1"
+                   Grid.ColumnSpan="3"
+                   Margin="0,8,0,0"
+                   Text="{Binding VersionUpdateResourceApi, UpdateSourceTrigger=LostFocus}" />
+        </Grid>
+
+        <WrapPanel Margin="0,4,0,0" ItemWidth="220">
+          <Border Classes="wpf-card">
+            <StackPanel Spacing="2">
+              <TextBlock Opacity="0.7" Text="UI 版本" />
+              <TextBlock Text="{Binding UpdatePanelUiVersion}" TextWrapping="Wrap" />
+            </StackPanel>
+          </Border>
+          <Border Classes="wpf-card">
+            <StackPanel Spacing="2">
+              <TextBlock Opacity="0.7" Text="核心版本" />
+              <TextBlock Text="{Binding UpdatePanelCoreVersion}" TextWrapping="Wrap" />
+            </StackPanel>
+          </Border>
+          <Border Classes="wpf-card">
+            <StackPanel Spacing="2">
+              <TextBlock Opacity="0.7" Text="构建时间" />
+              <TextBlock Text="{Binding UpdatePanelBuildTime}" TextWrapping="Wrap" />
+            </StackPanel>
+          </Border>
+          <Border Classes="wpf-card">
+            <StackPanel Spacing="2">
+              <TextBlock Opacity="0.7" Text="资源版本" />
+              <TextBlock Text="{Binding UpdatePanelResourceVersion}" TextWrapping="Wrap" />
+            </StackPanel>
+          </Border>
+          <Border Classes="wpf-card">
+            <StackPanel Spacing="2">
+              <TextBlock Opacity="0.7" Text="资源时间" />
+              <TextBlock Text="{Binding UpdatePanelResourceTime}" TextWrapping="Wrap" />
+            </StackPanel>
+          </Border>
+        </WrapPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
+          <Button Classes="wpf-button wpf-button-primary"
+                  Content="软件更新"
+                  IsEnabled="{Binding CanRunVersionUpdateActions}"
+                  Click="OnCheckUpdateClick" />
+          <Button Classes="wpf-button wpf-button-secondary"
+                  Content="更新日志"
+                  IsEnabled="{Binding CanRunVersionUpdateActions}"
+                  Click="OnOpenChangelogClick" />
+          <Button Classes="wpf-button wpf-button-secondary"
+                  Content="资源更新"
+                  IsEnabled="{Binding CanRunVersionUpdateActions}"
+                  Click="OnUpdateResourceClick" />
+        </StackPanel>
+
+        <Button Classes="wpf-button wpf-button-secondary"
+                HorizontalAlignment="Left"
+                Content="资源仓库"
+                Click="OnOpenResourceRepositoryClick" />
+
+        <StackPanel Spacing="4" Margin="0,6,0,0">
+          <TextBlock Text="{Binding VersionUpdateStatusMessage}" TextWrapping="Wrap" />
+          <TextBlock Classes="state-error"
+                     Text="{Binding VersionUpdateErrorMessage}"
+                     IsVisible="{Binding HasVersionUpdateErrorMessage}"
+                     TextWrapping="Wrap" />
+        </StackPanel>
+      </StackPanel>
     </Grid>
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto,*">
-      <TextBlock VerticalAlignment="Center" Text="代理 URL" />
-      <TextBox Text="{Binding VersionUpdateProxy}" Watermark="http://127.0.0.1:7890" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="资源 API" />
-      <TextBox Grid.Column="3" Text="{Binding VersionUpdateResourceApi}" />
-    </Grid>
-    <Grid Grid.Row="3" ColumnDefinitions="Auto,*,Auto,*">
-      <TextBlock VerticalAlignment="Center" Text="MirrorChyan CDK" />
-      <TextBox Text="{Binding VersionUpdateMirrorChyanCdk}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="CDK 过期信息" />
-      <TextBox Grid.Column="3" Text="{Binding VersionUpdateMirrorChyanCdkExpired}" />
-    </Grid>
-    <WrapPanel Grid.Row="4" ItemWidth="220">
-      <CheckBox Content="启动检查更新" IsChecked="{Binding VersionUpdateStartupCheck}" />
-      <CheckBox Content="定时检查更新" IsChecked="{Binding VersionUpdateScheduledCheck}" />
-      <CheckBox Content="强制 Github Global 源" IsChecked="{Binding VersionUpdateForceGithubSource}" />
-      <CheckBox Content="允许 Nightly" IsChecked="{Binding VersionUpdateAllowNightly}" />
-      <CheckBox Content="已确认 Nightly 提示" IsChecked="{Binding VersionUpdateAcknowledgedNightlyWarning}" />
-      <CheckBox Content="使用 Aria2" IsChecked="{Binding VersionUpdateUseAria2}" />
-      <CheckBox Content="自动下载更新包" IsChecked="{Binding VersionUpdateAutoDownload}" />
-      <CheckBox Content="自动安装更新包" IsChecked="{Binding VersionUpdateAutoInstall}" />
-      <CheckBox Content="不再显示更新提示" IsChecked="{Binding VersionUpdateDoNotShow}" />
-    </WrapPanel>
-    <Grid Grid.Row="5" ColumnDefinitions="Auto,220,Auto,*">
-      <TextBlock VerticalAlignment="Center" Text="版本名" />
-      <TextBox Text="{Binding VersionUpdateName}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="安装包" />
-      <TextBox Grid.Column="3" Text="{Binding VersionUpdatePackage}" />
-    </Grid>
-    <Grid Grid.Row="6" ColumnDefinitions="Auto,*">
-      <TextBlock VerticalAlignment="Top" Text="版本说明" />
-      <TextBox Text="{Binding VersionUpdateBody}" AcceptsReturn="True" Height="80" TextWrapping="Wrap" />
-    </Grid>
-    <StackPanel Grid.Row="7" Orientation="Horizontal" Spacing="8">
-      <Button Content="保存通道配置" Click="OnSaveVersionUpdateChannelClick" />
-      <Button Content="保存代理配置" Click="OnSaveVersionUpdateProxyClick" />
-      <Button Content="检查更新" Click="OnCheckUpdateClick" />
-      <CheckBox Content="首次启动" IsChecked="{Binding VersionUpdateIsFirstBoot}" />
-    </StackPanel>
-    <StackPanel Grid.Row="8" Spacing="4">
-      <TextBlock Text="{Binding VersionUpdateStatusMessage}" />
-      <TextBlock Classes="state-error"
-                 Text="{Binding VersionUpdateErrorMessage}"
-                 IsVisible="{Binding HasVersionUpdateErrorMessage}" />
-    </StackPanel>
   </Grid>
 </UserControl>

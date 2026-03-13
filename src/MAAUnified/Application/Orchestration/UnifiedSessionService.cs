@@ -126,6 +126,8 @@ public sealed class UnifiedSessionService
 
     public async Task<CoreResult<bool>> ConnectAsync(string address, string connectConfig, string? adbPath, CancellationToken cancellationToken = default)
     {
+        _logService.Debug(
+            $"Session.Connect requested: state={CurrentState}, address={address}, config={connectConfig}, adb={adbPath ?? "<null>"}");
         MoveToState(SessionState.Connecting, "Session.Connect", "begin");
         var result = await _bridge.ConnectAsync(new CoreConnectionInfo(address, connectConfig, adbPath), cancellationToken);
         if (result.Success)
@@ -182,9 +184,13 @@ public sealed class UnifiedSessionService
             }
 
             task.Type = compiled.NormalizedType;
-            task.Params = compiled.Params;
+            var appendParams = TaskParamCompiler.BuildCoreParams(compiled.NormalizedType, compiled.Params);
+            if (!string.Equals(compiled.NormalizedType, TaskModuleTypes.Mall, StringComparison.OrdinalIgnoreCase))
+            {
+                task.Params = compiled.Params;
+            }
             var appendResult = await _bridge.AppendTaskAsync(
-                new CoreTaskRequest(compiled.NormalizedType, task.Name, task.IsEnabled, compiled.Params.ToJsonString()),
+                new CoreTaskRequest(compiled.NormalizedType, task.Name, task.IsEnabled, appendParams.ToJsonString()),
                 cancellationToken);
 
             if (!appendResult.Success)
@@ -210,6 +216,7 @@ public sealed class UnifiedSessionService
 
     public async Task<CoreResult<bool>> StartAsync(CancellationToken cancellationToken = default)
     {
+        _logService.Debug($"Session.Start requested: state={CurrentState}");
         var result = await _bridge.StartAsync(cancellationToken);
         if (result.Success)
         {
@@ -227,6 +234,7 @@ public sealed class UnifiedSessionService
 
     public async Task<CoreResult<bool>> StopAsync(CancellationToken cancellationToken = default)
     {
+        _logService.Debug($"Session.Stop requested: state={CurrentState}");
         MoveToState(SessionState.Stopping, "Session.Stop", "begin-stop");
         var result = await _bridge.StopAsync(cancellationToken);
         if (result.Success)
@@ -339,6 +347,12 @@ public sealed class UnifiedSessionService
         if (string.Equals(what, "Disconnect", StringComparison.OrdinalIgnoreCase))
         {
             MoveToState(SessionState.Idle, "Session.Callback", "ConnectionInfo:Disconnect");
+            return;
+        }
+
+        if (string.Equals(what, "ScreencapCost", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(what, "FastestWayToScreencap", StringComparison.OrdinalIgnoreCase))
+        {
             return;
         }
 

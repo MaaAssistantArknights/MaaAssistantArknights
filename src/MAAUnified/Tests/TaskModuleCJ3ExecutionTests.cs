@@ -71,9 +71,9 @@ public sealed class TaskModuleCJ3ExecutionTests
         vm.SelectedTask = Assert.Single(vm.Tasks);
         await InvokeBindSelectedTaskAsync(vm);
 
-        Assert.True(vm.SelectedTaskValidationIssueCount > 0);
+        Assert.Equal(0, vm.SelectedTaskValidationIssueCount);
         Assert.False(vm.SelectedTaskHasBlockingValidationIssues);
-        Assert.Contains("warning", vm.SelectedTaskValidationSummary, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal(string.Empty, vm.SelectedTaskValidationSummary);
     }
 
     [Fact]
@@ -93,6 +93,9 @@ public sealed class TaskModuleCJ3ExecutionTests
 
         Assert.False(vm.IsRunning);
         Assert.Contains("TaskFieldTypeInvalid", vm.LastErrorMessage, StringComparison.OrdinalIgnoreCase);
+        Assert.True(vm.HasStartPrecheckWarningMessage);
+        Assert.Contains("TaskFieldTypeInvalid", vm.StartPrecheckWarningMessage, StringComparison.OrdinalIgnoreCase);
+        Assert.NotNull(vm.SelectedTask);
         Assert.Empty(fixture.Bridge.AppendedTasks);
     }
 

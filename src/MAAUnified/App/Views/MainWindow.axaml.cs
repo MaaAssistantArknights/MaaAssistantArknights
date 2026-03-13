@@ -24,6 +24,7 @@ public partial class MainWindow : Window
     private readonly HashSet<string> _pendingDialogErrorKeys = new(StringComparer.Ordinal);
     private readonly IAppDialogService _dialogService;
     private OverlayHostWindow? _overlayHostWindow;
+    private RuntimeLogWindow? _runtimeLogWindow;
 
     public MainWindow()
     {
@@ -31,6 +32,7 @@ public partial class MainWindow : Window
         _dialogService = Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime
             ? new AvaloniaDialogService(App.Runtime)
             : NoOpAppDialogService.Instance;
+        BindDialogErrorEvents();
         Opened += OnWindowOpened;
         Closed += OnWindowClosed;
     }
@@ -39,11 +41,7 @@ public partial class MainWindow : Window
 
     private async void OnWindowOpened(object? sender, EventArgs e)
     {
-        if (!_dialogErrorBound)
-        {
-            App.Runtime.DialogFeatureService.ErrorRaised += OnDialogErrorRaised;
-            _dialogErrorBound = true;
-        }
+        StartDialogErrorPumpIfNeeded();
 
         if (VM is null || _platformBound)
         {
@@ -93,6 +91,13 @@ public partial class MainWindow : Window
         {
             _overlayHostWindow.Close();
             _overlayHostWindow = null;
+        }
+
+        if (_runtimeLogWindow is not null)
+        {
+            _runtimeLogWindow.Closed -= OnRuntimeLogWindowClosed;
+            _runtimeLogWindow.Close();
+            _runtimeLogWindow = null;
         }
     }
 
@@ -165,12 +170,47 @@ public partial class MainWindow : Window
 
     private void OnManualUpdateClick(object? sender, PointerPressedEventArgs e)
     {
-        VM?.PushGrowl("手动更新入口：设置 > Version Update");
+        VM?.PushGrowl(VM.RootTexts["Main.Growl.ManualVersionUpdate"]);
     }
 
     private void OnManualUpdateResourceClick(object? sender, PointerPressedEventArgs e)
     {
-        VM?.PushGrowl("手动资源更新入口：设置 > Version Update");
+        VM?.PushGrowl(VM.RootTexts["Main.Growl.ManualResourceUpdate"]);
+    }
+
+    public void OpenRuntimeLogWindow()
+    {
+        if (VM is null)
+        {
+            return;
+        }
+
+        if (_runtimeLogWindow is null)
+        {
+            _runtimeLogWindow = new RuntimeLogWindow
+            {
+                DataContext = VM,
+            };
+            _runtimeLogWindow.Closed += OnRuntimeLogWindowClosed;
+            _runtimeLogWindow.Show(this);
+            return;
+        }
+
+        if (_runtimeLogWindow.WindowState == WindowState.Minimized)
+        {
+            _runtimeLogWindow.WindowState = WindowState.Normal;
+        }
+
+        _runtimeLogWindow.Activate();
+    }
+
+    private void OnRuntimeLogWindowClosed(object? sender, EventArgs e)
+    {
+        if (_runtimeLogWindow is not null)
+        {
+            _runtimeLogWindow.Closed -= OnRuntimeLogWindowClosed;
+            _runtimeLogWindow = null;
+        }
     }
 
     private async Task EnsureOverlayHostBoundAsync(CancellationToken cancellationToken = default)
@@ -296,11 +336,42 @@ public partial class MainWindow : Window
             }
 
             _pendingDialogErrors.Enqueue(dialogError);
-            if (!_processingDialogErrors)
+            if (!_processingDialogErrors && IsVisible)
             {
                 _processingDialogErrors = true;
                 shouldPump = true;
             }
+        }
+
+        if (shouldPump)
+        {
+            _ = ProcessDialogErrorQueueAsync();
+        }
+    }
+
+    private void BindDialogErrorEvents()
+    {
+        if (_dialogErrorBound)
+        {
+            return;
+        }
+
+        App.Runtime.DialogFeatureService.ErrorRaised += OnDialogErrorRaised;
+        _dialogErrorBound = true;
+    }
+
+    private void StartDialogErrorPumpIfNeeded()
+    {
+        var shouldPump = false;
+        lock (_dialogErrorGate)
+        {
+            if (_processingDialogErrors || _pendingDialogErrors.Count == 0 || !IsVisible)
+            {
+                return;
+            }
+
+            _processingDialogErrors = true;
+            shouldPump = true;
         }
 
         if (shouldPump)
@@ -350,13 +421,16 @@ public partial class MainWindow : Window
 
     private async Task ShowErrorDialogAsync(DialogErrorRaisedEvent dialogError)
     {
+        var language = VM?.SettingsPage.Language ?? UiLanguageCatalog.FallbackLanguage;
+        var localizedResult = DialogTextCatalog.LocalizeErrorResult(language, dialogError.Result);
         var request = new ErrorDialogRequest(
-            Title: "错误提示",
+            Title: DialogTextCatalog.ErrorDialogTitle(language),
             Context: dialogError.Context,
-            Result: dialogError.Result,
-            Suggestion: BuildErrorSuggestion(dialogError.Result),
-            ConfirmText: "关闭",
-            CancelText: "忽略");
+            Result: localizedResult,
+            Suggestion: DialogTextCatalog.BuildErrorSuggestion(language, dialogError.Result),
+            ConfirmText: DialogTextCatalog.ErrorDialogCloseButton(language),
+            CancelText: DialogTextCatalog.ErrorDialogIgnoreButton(language),
+            Language: language);
         Func<CancellationToken, Task<UiOperationResult>>? openIssueReportAsync = VM is null
             ? null
             : VM.SettingsPage.OpenIssueReportEntryForDialogAsync;
@@ -418,15 +492,5 @@ public partial class MainWindow : Window
     {
         var code = dialogError.Result.Error?.Code ?? UiErrorCode.UiOperationFailed;
         return $"{dialogError.Context}|{code}|{dialogError.Result.Message}";
-    }
-
-    private static string BuildErrorSuggestion(UiOperationResult result)
-    {
-        if (string.Equals(result.Error?.Code, UiErrorCode.PlatformOperationFailed, StringComparison.Ordinal))
-        {
-            return "请检查平台能力状态后重试，可复制错误并通过 IssueReport 提交。";
-        }
-
-        return "可复制错误详情并跳转 IssueReport 进行上报。";
     }
 }

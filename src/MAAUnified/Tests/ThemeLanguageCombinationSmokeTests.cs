@@ -12,9 +12,10 @@ using MAAUnified.Platform;
 
 namespace MAAUnified.Tests;
 
+[Collection("MainShellSerial")]
 public sealed class ThemeLanguageCombinationSmokeTests
 {
-    private static readonly string[] Themes = ["Light", "Dark"];
+    private static readonly string[] Themes = ["Light", "Dark", "SyncWithOs"];
 
     private static readonly string[] Languages = ["zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr", "pallas"];
 
@@ -24,9 +25,10 @@ public sealed class ThemeLanguageCombinationSmokeTests
         var root = GetMaaUnifiedRoot();
         var checks = new[]
         {
-            new ViewStructureCheck("App/Views/MainWindow.axaml", "<TabControl", "<ListBox"),
-            new ViewStructureCheck("App/Features/Root/TaskQueueView.axaml", "<ListBox", "<TabControl"),
-            new ViewStructureCheck("App/Features/Root/SettingsView.axaml", "<ListBox", "<Expander"),
+            new ViewStructureCheck("App/Views/MainWindow.axaml", "<TabControl", "Classes=\"root-nav\"", "Title=\"{Binding WindowTitle}\""),
+            new ViewStructureCheck("App/Views/RuntimeLogWindow.axaml", "ItemsSource=\"{Binding GrowlMessages}\"", "ItemsSource=\"{Binding RootLogs}\"", "Text=\"{Binding CapabilitySummary}\""),
+            new ViewStructureCheck("App/Features/Root/TaskQueueView.axaml", "<ListBox", "<ScrollViewer", "SelectedTaskSettingsViewModel"),
+            new ViewStructureCheck("App/Features/Root/SettingsView.axaml", "<ListBox", "SectionScrollViewer", "SectionContentPanel", "ScrollChanged=\"OnSectionScrollChanged\"", "settingsViews:ConfigurationManagerView"),
         };
 
         foreach (var check in checks)
@@ -48,26 +50,16 @@ public sealed class ThemeLanguageCombinationSmokeTests
         Assert.Contains("Style Selector=\"TextBlock.long-wrap\"", controlStyles, StringComparison.Ordinal);
         Assert.Contains("Style Selector=\"TextBlock.long-ellipsis\"", controlStyles, StringComparison.Ordinal);
 
-        var mainWindow = File.ReadAllText(Path.Combine(root, "App", "Views", "MainWindow.axaml"));
-        AssertTextBlockBindingHasLongTextConstraint(mainWindow, "GlobalStatus");
-        AssertTextBlockBindingHasLongTextConstraint(mainWindow, "LastError");
-        AssertTextBlockBindingHasLongTextConstraint(mainWindow, "CapabilitySummary");
-        AssertTextBlockBindingHasLongTextConstraint(mainWindow, "ImportStatus");
+        var runtimeLogWindow = File.ReadAllText(Path.Combine(root, "App", "Views", "RuntimeLogWindow.axaml"));
+        AssertTextBlockBindingHasLongTextConstraint(runtimeLogWindow, "CapabilitySummary");
 
         var taskQueue = File.ReadAllText(Path.Combine(root, "App", "Features", "Root", "TaskQueueView.axaml"));
-        AssertTextBlockBindingHasLongTextConstraint(taskQueue, "DailyStageHint");
-        AssertTextBlockBindingHasLongTextConstraint(taskQueue, "SelectedTaskValidationSummary");
-        AssertTextBlockBindingHasLongTextConstraint(taskQueue, "OverlayStatusText");
-        AssertTextBlockBindingHasLongTextConstraint(taskQueue, "StatusMessage");
-        AssertTextBlockBindingHasLongTextConstraint(taskQueue, "LastErrorMessage");
-        AssertTextBlockBindingHasLongTextConstraint(taskQueue, "Name");
-        AssertTextBlockBindingHasLongTextConstraint(taskQueue, "Type");
-        AssertTextBlockBindingHasLongTextConstraint(taskQueue, "Status");
+        AssertTextBlockBindingHasLongTextConstraint(taskQueue, "PostActionActionDescription");
         AssertTextBlockBindingHasLongTextConstraint(taskQueue, "DisplayName");
+        AssertTextBlockBindingHasLongTextConstraint(taskQueue, "Content");
 
         var settings = File.ReadAllText(Path.Combine(root, "App", "Features", "Root", "SettingsView.axaml"));
         AssertTextBlockBindingHasLongTextConstraint(settings, "DisplayName");
-        AssertTextBlockBindingHasLongTextConstraint(settings, "StatusMessage");
     }
 
     [Fact]
@@ -75,44 +67,51 @@ public sealed class ThemeLanguageCombinationSmokeTests
     {
         await using var fixture = await RuntimeFixture.CreateAsync();
         var vm = new MainShellViewModel(fixture.Runtime);
-        await vm.InitializeAsync();
-
-        var applyMethod = typeof(MainShellViewModel).GetMethod(
-            "ApplyGuiSettingsAsync",
-            BindingFlags.Instance | BindingFlags.NonPublic);
-        Assert.NotNull(applyMethod);
-
-        foreach (var theme in Themes)
+        try
         {
-            foreach (var language in Languages)
+            await vm.InitializeAsync();
+
+            var applyMethod = typeof(MainShellViewModel).GetMethod(
+                "ApplyGuiSettingsAsync",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.NotNull(applyMethod);
+
+            foreach (var theme in Themes)
             {
-                var normalizedLanguage = UiLanguageCatalog.Normalize(language);
-
-                vm.SettingsPage.Theme = theme;
-                await vm.SwitchLanguageToAsync(language);
-
-                var snapshot = vm.SettingsPage.CurrentGuiSnapshot with
+                foreach (var language in Languages)
                 {
-                    Theme = theme,
-                    Language = normalizedLanguage,
-                };
+                    var normalizedLanguage = UiLanguageCatalog.Normalize(language);
 
-                var applyTask = applyMethod!.Invoke(vm, [snapshot, CancellationToken.None]) as Task;
-                Assert.NotNull(applyTask);
-                await applyTask!;
+                    vm.SettingsPage.Theme = theme;
+                    await vm.SwitchLanguageToAsync(language);
 
-                Assert.Equal(theme, vm.SettingsPage.Theme);
-                Assert.Equal(normalizedLanguage, vm.SettingsPage.Language);
-                Assert.Equal(theme, vm.AppliedTheme);
-                Assert.Equal(normalizedLanguage, vm.TaskQueuePage.Texts.Language);
+                    var snapshot = vm.SettingsPage.CurrentGuiSnapshot with
+                    {
+                        Theme = theme,
+                        Language = normalizedLanguage,
+                    };
 
-                Assert.NotNull(fixture.TrayService.LastMenuText);
-                Assert.False(string.IsNullOrWhiteSpace(fixture.TrayService.LastMenuText!.Start));
-                Assert.False(string.IsNullOrWhiteSpace(fixture.TrayService.LastMenuText.SwitchLanguage));
+                    var applyTask = applyMethod!.Invoke(vm, [snapshot, CancellationToken.None]) as Task;
+                    Assert.NotNull(applyTask);
+                    await applyTask!;
 
-                Assert.False(string.IsNullOrWhiteSpace(vm.CapabilitySummary));
-                AssertLocalizationResolved(vm.CapabilitySummary);
+                    Assert.Equal(theme, vm.SettingsPage.Theme);
+                    Assert.Equal(normalizedLanguage, vm.SettingsPage.Language);
+                    Assert.Equal(theme, vm.AppliedTheme);
+                    Assert.Equal(normalizedLanguage, vm.TaskQueuePage.Texts.Language);
+
+                    Assert.NotNull(fixture.TrayService.LastMenuText);
+                    Assert.False(string.IsNullOrWhiteSpace(fixture.TrayService.LastMenuText!.Start));
+                    Assert.False(string.IsNullOrWhiteSpace(fixture.TrayService.LastMenuText.SwitchLanguage));
+
+                    Assert.False(string.IsNullOrWhiteSpace(vm.CapabilitySummary));
+                    AssertLocalizationResolved(vm.CapabilitySummary);
+                }
             }
+        }
+        finally
+        {
+            TestShellCleanup.StopTimerScheduler(vm);
         }
     }
 

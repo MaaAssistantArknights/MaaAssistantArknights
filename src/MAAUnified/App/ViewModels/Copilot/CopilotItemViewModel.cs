@@ -1,3 +1,4 @@
+using System;
 using MAAUnified.App.ViewModels.Infrastructure;
 
 namespace MAAUnified.App.ViewModels.Copilot;
@@ -9,6 +10,10 @@ public sealed class CopilotItemViewModel : ObservableObject
     private string _status = "Ready";
     private string _sourcePath = string.Empty;
     private string _inlinePayload = string.Empty;
+    private bool _isChecked = true;
+    private bool _isRaid;
+    private int _copilotId;
+    private int? _tabIndex;
 
     public CopilotItemViewModel(
         string name,
@@ -25,7 +30,13 @@ public sealed class CopilotItemViewModel : ObservableObject
     public string Name
     {
         get => _name;
-        set => SetProperty(ref _name, value);
+        set
+        {
+            if (SetProperty(ref _name, value))
+            {
+                OnPropertyChanged(nameof(DisplayName));
+            }
+        }
     }
 
     public string Type
@@ -51,4 +62,43 @@ public sealed class CopilotItemViewModel : ObservableObject
         get => _inlinePayload;
         set => SetProperty(ref _inlinePayload, value ?? string.Empty);
     }
+
+    public bool IsChecked
+    {
+        get => _isChecked;
+        set => SetProperty(ref _isChecked, value);
+    }
+
+    public bool IsRaid
+    {
+        get => _isRaid;
+        set
+        {
+            if (SetProperty(ref _isRaid, value))
+            {
+                OnPropertyChanged(nameof(DisplayName));
+            }
+        }
+    }
+
+    public int CopilotId
+    {
+        get => _copilotId;
+        set => SetProperty(ref _copilotId, Math.Max(0, value));
+    }
+
+    public int? TabIndex
+    {
+        get => _tabIndex;
+        set => SetProperty(ref _tabIndex, value);
+    }
+
+    public string ExecutionPathHint
+        => !string.IsNullOrWhiteSpace(SourcePath)
+            ? SourcePath
+            : !string.IsNullOrWhiteSpace(InlinePayload)
+                ? "inline-json"
+                : string.Empty;
+
+    public string DisplayName => IsRaid ? $"{Name} (突袭)" : Name;
 }

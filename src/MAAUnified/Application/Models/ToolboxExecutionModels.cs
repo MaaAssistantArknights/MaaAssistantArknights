@@ -10,14 +10,28 @@ public enum ToolboxToolKind
     MiniGame = 5,
 }
 
-public sealed record ToolboxExecuteRequest(
-    ToolboxToolKind Tool,
-    string ParameterText,
-    TimeSpan? TimeoutOverride = null,
-    string? CorrelationId = null);
+public sealed record ToolboxRecruitRequest(
+    IReadOnlyList<int> SelectLevels,
+    bool AutoSetTime,
+    int Level3Time,
+    int Level4Time,
+    int Level5Time,
+    string ServerType);
 
-public sealed record ToolboxExecuteResult(
+public sealed record ToolboxGachaRequest(bool Once);
+
+public sealed record ToolboxMiniGameRequest(string TaskName);
+
+public sealed record ToolboxDispatchRequest(
     ToolboxToolKind Tool,
-    string ResultText,
+    ToolboxRecruitRequest? Recruit = null,
+    ToolboxGachaRequest? Gacha = null,
+    ToolboxMiniGameRequest? MiniGame = null,
+    string? ParameterSummary = null);
+
+public sealed record ToolboxDispatchResult(
+    ToolboxToolKind Tool,
     string ParameterSummary,
-    DateTimeOffset CompletedAt);
+    DateTimeOffset StartedAt,
+    int? CoreTaskId = null,
+    string? TaskType = null);

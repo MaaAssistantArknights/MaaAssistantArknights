@@ -7,17 +7,17 @@
     <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,*">
       <CheckBox Content="Tray 可见" IsChecked="{Binding TrayVisible}" />
       <Button Grid.Column="1"
-              Classes="action"
+              Classes="wpf-button"
               Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
               Content="应用可见性"
               Click="OnApplyTrayVisibilityClick" />
       <Button Grid.Column="2"
-              Classes="action"
+              Classes="wpf-button"
               Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
               Content="同步菜单状态"
               Click="OnSyncMenuStateClick" />
       <Button Grid.Column="3"
-              Classes="action"
+              Classes="wpf-button"
               Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
               HorizontalAlignment="Left"
               Content="刷新能力"
@@ -30,7 +30,7 @@
       <TextBox Grid.Column="3" Text="{Binding TrayMessageBody}" />
     </Grid>
     <StackPanel Grid.Row="4" Spacing="{DynamicResource MAA.Spacing.Small}">
-      <Button Classes="action" Content="发送托盘通知" Click="OnSendTrayMessageClick" />
+      <Button Classes="wpf-button" Content="发送托盘通知" Click="OnSendTrayMessageClick" />
       <TextBlock Text="{Binding StatusMessage}" />
       <TextBlock Classes="state-error long-wrap" Text="{Binding LastErrorMessage}" />
     </StackPanel>

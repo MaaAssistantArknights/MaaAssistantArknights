@@ -1,6 +1,10 @@
+using System.Text.Json.Nodes;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
+using MAAUnified.Application.Models.TaskParams;
 using MAAUnified.Application.Services;
+using MAAUnified.Application.Services.Features;
+using MAAUnified.Platform;
 
 namespace MAAUnified.Tests;
 
@@ -53,8 +57,11 @@ public sealed class ConfigurationImportTests
 
         Assert.False(result.LoadedFromExistingConfig);
         var import = Assert.IsType<ImportReport>(result.ImportReport);
+        Assert.True(import.AppliedConfig);
         Assert.True(import.ImportedGuiNew);
         Assert.True(import.ImportedGui);
+        Assert.Contains("gui.new.json", import.ImportedFiles, StringComparer.OrdinalIgnoreCase);
+        Assert.Contains("gui.json", import.ImportedFiles, StringComparer.OrdinalIgnoreCase);
         Assert.True(import.ConflictCount > 0);
         Assert.True(service.CurrentConfig.Profiles["Default"].TaskQueue.Count == 1);
         Assert.Equal(UnifiedConfig.LatestSchemaVersion, service.CurrentConfig.SchemaVersion);
@@ -99,6 +106,43 @@ public sealed class ConfigurationImportTests
     }
 
     [Fact]
+    public async Task GuiNewImport_FightCurrentOrLastStage_ShouldStoreSentinelValue()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "gui.new.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "TaskQueue": [
+                    {
+                      "$type": "FightTask",
+                      "Name": "Fight",
+                      "IsEnable": true,
+                      "EnableTimesLimit": true,
+                      "TimesLimit": 1,
+                      "Series": 1,
+                      "StagePlan": [""]
+                    }
+                  ]
+                }
+              }
+            }
+            """);
+
+        var service = CreateService(root);
+        var report = await service.ImportLegacyAsync(ImportSource.GuiNewOnly, manualImport: false);
+
+        Assert.True(report.Success);
+        var task = Assert.Single(service.CurrentConfig.Profiles["Default"].TaskQueue);
+        Assert.Equal(FightStageSelection.CurrentOrLast, task.Params["stage"]?.GetValue<string>());
+    }
+
+    [Fact]
     public async Task ExistingAvaloniaConfig_SkipsLegacyRead()
     {
         var root = CreateTempRoot();
@@ -128,6 +172,56 @@ public sealed class ConfigurationImportTests
         Assert.Equal(1, service.CurrentConfig.SchemaVersion);
         var schemaBackupExists = Directory.EnumerateFiles(Path.Combine(root, "config"), "avalonia.json.schema-v1.bak.*").Any();
         Assert.False(schemaBackupExists);
+    }
+
+    [Fact]
+    public async Task ExistingAvaloniaConfig_LegacyEmptyFightStage_ShouldNormalizeAndPersistSentinel()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "avalonia.json"),
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {},
+                  "TaskQueue": [
+                    {
+                      "Type": "Fight",
+                      "Name": "Fight",
+                      "IsEnabled": true,
+                      "Params": {
+                        "stage": "",
+                        "medicine": 0,
+                        "stone": 0,
+                        "times": 1,
+                        "series": 1
+                      }
+                    }
+                  ]
+                }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """);
+
+        var service = CreateService(root);
+        var result = await service.LoadOrBootstrapAsync();
+
+        Assert.True(result.LoadedFromExistingConfig);
+        Assert.Equal(
+            FightStageSelection.CurrentOrLast,
+            service.CurrentConfig.Profiles["Default"].TaskQueue[0].Params["stage"]?.GetValue<string>());
+
+        var persisted = Assert.IsType<JsonObject>(
+            JsonNode.Parse(await File.ReadAllTextAsync(Path.Combine(root, "config", "avalonia.json"))));
+        var stage = persisted["Profiles"]?["Default"]?["TaskQueue"]?[0]?["Params"]?["stage"]?.GetValue<string>();
+        Assert.Equal(FightStageSelection.CurrentOrLast, stage);
     }
 
     [Fact]
@@ -345,6 +439,7 @@ public sealed class ConfigurationImportTests
         Assert.False(result.LoadedFromExistingConfig);
         var report = Assert.IsType<ImportReport>(result.ImportReport);
         Assert.False(report.Success);
+        Assert.True(report.AppliedConfig);
         Assert.NotEmpty(report.Errors);
         var reportPath = Path.Combine(root, "debug", "config-import-report.json");
         Assert.True(File.Exists(reportPath));
@@ -364,8 +459,28 @@ public sealed class ConfigurationImportTests
 
         Assert.NotNull(result.ImportReport);
         Assert.False(result.ImportReport!.Success);
+        Assert.True(result.ImportReport.AppliedConfig);
         await service.SaveAsync();
         Assert.True(File.Exists(Path.Combine(root, "config", "avalonia.json")));
+    }
+
+    [Fact]
+    public async Task LoadOrBootstrap_WhenNoLegacyFileExists_ShouldCreateDefaultConfigAndReportIt()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+
+        var service = CreateService(root);
+        var result = await service.LoadOrBootstrapAsync();
+
+        var report = Assert.IsType<ImportReport>(result.ImportReport);
+        Assert.True(report.AppliedConfig);
+        Assert.True(report.CreatedDefaultConfig);
+        Assert.Contains("gui.new.json", report.MissingFiles, StringComparer.OrdinalIgnoreCase);
+        Assert.Contains("gui.json", report.MissingFiles, StringComparer.OrdinalIgnoreCase);
+        Assert.Contains(
+            service.LogService.Snapshot,
+            log => log.Message.Contains("已自动创建默认配置 avalonia.json", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -400,6 +515,47 @@ public sealed class ConfigurationImportTests
         var profile = service.CurrentConfig.Profiles["Default"];
         Assert.Equal("10.0.0.7:5555", profile.Values["ConnectAddress"]?.GetValue<string>());
         Assert.Equal("maatouch", profile.Values["TouchMode"]?.GetValue<string>());
+    }
+
+    [Fact]
+    public async Task ImportLegacy_GuiPostActionsLegacyValue_RemainsReadable_AndMigratesOnLoad()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "gui.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "ConnectAddress": "10.0.0.7:5555"
+                }
+              },
+              "Global": {
+                "MainFunction.PostActions": "136"
+              }
+            }
+            """);
+
+        var service = CreateService(root);
+        var report = await service.ImportLegacyAsync(ImportSource.GuiOnly, manualImport: false);
+
+        Assert.True(report.Success);
+        var diagnostics = new UiDiagnosticsService(root, service.LogService);
+        var feature = new PostActionFeatureService(service, diagnostics, new NoOpPostActionExecutorService());
+
+        var load = await feature.LoadAsync();
+
+        Assert.True(load.Success);
+        Assert.NotNull(load.Value);
+        Assert.True(load.Value!.ExitSelf);
+        Assert.True(load.Value.Sleep);
+
+        var profile = service.CurrentConfig.Profiles["Default"];
+        Assert.True(profile.Values.ContainsKey("TaskQueue.PostAction"));
+        Assert.False(profile.Values.ContainsKey("MainFunction.PostActions"));
+        Assert.False(service.CurrentConfig.GlobalValues.ContainsKey("MainFunction.PostActions"));
     }
 
     [Fact]
@@ -481,10 +637,172 @@ public sealed class ConfigurationImportTests
         var report = await service.ImportLegacyAsync(ImportSource.GuiOnly, manualImport: true);
 
         Assert.True(report.Success);
+        Assert.True(report.AppliedConfig);
         var bakExists = Directory.EnumerateFiles(Path.Combine(root, "config"), "avalonia.json.bak.*").Any();
         Assert.True(bakExists);
         Assert.Equal(UnifiedConfig.LatestSchemaVersion, service.CurrentConfig.SchemaVersion);
         Assert.True(File.Exists(Path.Combine(root, "debug", "config-import-report.json")));
+    }
+
+    [Fact]
+    public async Task ManualImport_SingleGuiOnly_WithForceImport_ShouldStartFromDefaults()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "gui.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "TouchMode": "maatouch"
+                }
+              },
+              "Global": {}
+            }
+            """);
+
+        var service = CreateService(root);
+        service.CurrentConfig.GlobalValues["Legacy.Leftover"] = JsonValue.Create("should-be-removed");
+        await service.SaveAsync();
+
+        var report = await service.ImportLegacyAsync(
+            new LegacyImportRequest(
+                LegacyConfigSnapshot.FromPaths(null, Path.Combine(root, "config", "gui.json")),
+                ImportSource.GuiOnly,
+                ManualImport: true,
+                AllowPartialImport: true));
+
+        Assert.True(report.AppliedConfig);
+        Assert.True(report.Success);
+        Assert.Contains("gui.new.json", report.MissingFiles, StringComparer.OrdinalIgnoreCase);
+        Assert.False(service.CurrentConfig.GlobalValues.ContainsKey("Legacy.Leftover"));
+        Assert.Equal("maatouch", service.CurrentConfig.Profiles["Default"].Values["TouchMode"]?.GetValue<string>());
+    }
+
+    [Fact]
+    public async Task ManualImport_DamagedGuiJson_WithAllowPartialFalse_ShouldNotApplyConfig()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "gui.new.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "ConnectAddress": "10.1.2.3:5555"
+                }
+              }
+            }
+            """);
+        await File.WriteAllTextAsync(Path.Combine(root, "config", "gui.json"), "{ invalid json");
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "avalonia.json"),
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": { "Values": { "ConnectAddress": "1.1.1.1:5555" }, "TaskQueue": [] }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """);
+
+        var service = CreateService(root);
+        await service.LoadOrBootstrapAsync();
+
+        var report = await service.ImportLegacyAsync(
+            new LegacyImportRequest(
+                LegacyConfigSnapshot.FromPaths(
+                    Path.Combine(root, "config", "gui.new.json"),
+                    Path.Combine(root, "config", "gui.json")),
+                ImportSource.Auto,
+                ManualImport: true,
+                AllowPartialImport: false));
+
+        Assert.False(report.AppliedConfig);
+        Assert.False(report.Success);
+        Assert.Contains("gui.new.json", report.ImportedFiles, StringComparer.OrdinalIgnoreCase);
+        Assert.Contains("gui.json", report.DamagedFiles, StringComparer.OrdinalIgnoreCase);
+        Assert.Equal("1.1.1.1:5555", service.CurrentConfig.Profiles["Default"].Values["ConnectAddress"]?.GetValue<string>());
+    }
+
+    [Fact]
+    public async Task ManualImport_DamagedGuiJson_WithAllowPartialTrue_ShouldApplyUsableContent()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "gui.new.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "ConnectAddress": "10.5.6.7:5555"
+                }
+              }
+            }
+            """);
+        await File.WriteAllTextAsync(Path.Combine(root, "config", "gui.json"), "{ invalid json");
+
+        var service = CreateService(root);
+        var report = await service.ImportLegacyAsync(
+            new LegacyImportRequest(
+                LegacyConfigSnapshot.FromPaths(
+                    Path.Combine(root, "config", "gui.new.json"),
+                    Path.Combine(root, "config", "gui.json")),
+                ImportSource.Auto,
+                ManualImport: true,
+                AllowPartialImport: true));
+
+        Assert.True(report.AppliedConfig);
+        Assert.False(report.Success);
+        Assert.Contains("gui.json", report.DamagedFiles, StringComparer.OrdinalIgnoreCase);
+        Assert.Equal("10.5.6.7:5555", service.CurrentConfig.Profiles["Default"].Values["ConnectAddress"]?.GetValue<string>());
+    }
+
+    [Fact]
+    public async Task ManualImport_WhenNoUsableLegacyContentExists_ShouldNotOverwriteExistingConfig()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(Path.Combine(root, "config", "gui.json"), "{ invalid json");
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "avalonia.json"),
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": { "Values": { "TouchMode": "adb" }, "TaskQueue": [] }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """);
+
+        var service = CreateService(root);
+        await service.LoadOrBootstrapAsync();
+        var before = await File.ReadAllTextAsync(Path.Combine(root, "config", "avalonia.json"));
+
+        var report = await service.ImportLegacyAsync(
+            new LegacyImportRequest(
+                LegacyConfigSnapshot.FromPaths(null, Path.Combine(root, "config", "gui.json")),
+                ImportSource.GuiOnly,
+                ManualImport: true,
+                AllowPartialImport: true));
+
+        Assert.False(report.AppliedConfig);
+        Assert.False(report.Success);
+        var after = await File.ReadAllTextAsync(Path.Combine(root, "config", "avalonia.json"));
+        Assert.Equal(before, after);
+        Assert.Equal("adb", service.CurrentConfig.Profiles["Default"].Values["TouchMode"]?.GetValue<string>());
     }
 
     [Fact]

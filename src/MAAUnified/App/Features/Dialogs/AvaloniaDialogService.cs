@@ -10,7 +10,6 @@ namespace MAAUnified.App.Features.Dialogs;
 public sealed class AvaloniaDialogService : IAppDialogService
 {
     private const string IssueReportIssueEntryUrl = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new/choose";
-    private const string WorkPackageTitlePrefix = "[工作包P] ";
     private readonly MAAUnifiedRuntime _runtime;
 
     public AvaloniaDialogService(MAAUnifiedRuntime runtime)
@@ -25,7 +24,7 @@ public sealed class AvaloniaDialogService : IAppDialogService
     {
         var normalizedRequest = request with
         {
-            Title = EnsureWorkPackageTitle(request.Title),
+            Title = NormalizeDialogTitle(request.Title),
         };
         var token = await _runtime.DialogFeatureService.BeginDialogAsync(DialogType.Announcement, sourceScope, normalizedRequest.Title, cancellationToken);
         var owner = ResolveOwnerWindow();
@@ -52,7 +51,7 @@ public sealed class AvaloniaDialogService : IAppDialogService
     {
         var normalizedRequest = request with
         {
-            Title = EnsureWorkPackageTitle(request.Title),
+            Title = NormalizeDialogTitle(request.Title),
         };
         var token = await _runtime.DialogFeatureService.BeginDialogAsync(DialogType.VersionUpdate, sourceScope, normalizedRequest.Title, cancellationToken);
         var owner = ResolveOwnerWindow();
@@ -79,7 +78,7 @@ public sealed class AvaloniaDialogService : IAppDialogService
     {
         var normalizedRequest = request with
         {
-            Title = EnsureWorkPackageTitle(request.Title),
+            Title = NormalizeDialogTitle(request.Title),
         };
         var token = await _runtime.DialogFeatureService.BeginDialogAsync(DialogType.ProcessPicker, sourceScope, normalizedRequest.Title, cancellationToken);
         var owner = ResolveOwnerWindow();
@@ -106,7 +105,7 @@ public sealed class AvaloniaDialogService : IAppDialogService
     {
         var normalizedRequest = request with
         {
-            Title = EnsureWorkPackageTitle(request.Title),
+            Title = NormalizeDialogTitle(request.Title),
         };
         var token = await _runtime.DialogFeatureService.BeginDialogAsync(DialogType.EmulatorPath, sourceScope, normalizedRequest.Title, cancellationToken);
         var owner = ResolveOwnerWindow();
@@ -134,7 +133,7 @@ public sealed class AvaloniaDialogService : IAppDialogService
     {
         var normalizedRequest = request with
         {
-            Title = EnsureWorkPackageTitle(request.Title),
+            Title = NormalizeDialogTitle(request.Title),
         };
         var token = await _runtime.DialogFeatureService.BeginDialogAsync(DialogType.Error, sourceScope, normalizedRequest.Title, cancellationToken);
         var owner = ResolveOwnerWindow();
@@ -171,7 +170,7 @@ public sealed class AvaloniaDialogService : IAppDialogService
     {
         var normalizedRequest = request with
         {
-            Title = EnsureWorkPackageTitle(request.Title),
+            Title = NormalizeDialogTitle(request.Title),
         };
         var token = await _runtime.DialogFeatureService.BeginDialogAsync(DialogType.AchievementList, sourceScope, normalizedRequest.Title, cancellationToken);
         var owner = ResolveOwnerWindow();
@@ -198,7 +197,7 @@ public sealed class AvaloniaDialogService : IAppDialogService
     {
         var normalizedRequest = request with
         {
-            Title = EnsureWorkPackageTitle(request.Title),
+            Title = NormalizeDialogTitle(request.Title),
         };
         var token = await _runtime.DialogFeatureService.BeginDialogAsync(DialogType.Text, sourceScope, normalizedRequest.Title, cancellationToken);
         var owner = ResolveOwnerWindow();
@@ -248,11 +247,8 @@ public sealed class AvaloniaDialogService : IAppDialogService
         }
     }
 
-    private static string EnsureWorkPackageTitle(string title)
+    private static string NormalizeDialogTitle(string title)
     {
-        var trimmed = string.IsNullOrWhiteSpace(title) ? "Dialog" : title.Trim();
-        return trimmed.Contains("工作包P", StringComparison.Ordinal)
-            ? trimmed
-            : $"{WorkPackageTitlePrefix}{trimmed}";
+        return string.IsNullOrWhiteSpace(title) ? "Dialog" : title.Trim();
     }
 }

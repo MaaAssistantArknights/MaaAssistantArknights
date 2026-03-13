@@ -13,6 +13,7 @@ using MAAUnified.Platform;
 
 namespace MAAUnified.Tests;
 
+[Collection("MainShellSerial")]
 public sealed class SettingsModuleAK1FeatureTests
 {
     private static readonly string[] _connectionKeys =
@@ -24,6 +25,8 @@ public sealed class SettingsModuleAK1FeatureTests
         "StartGame",
         "TouchMode",
         "AutoDetect",
+        "AlwaysAutoDetect",
+        "RetryOnDisconnected",
     ];
 
     [Fact]
@@ -39,6 +42,8 @@ public sealed class SettingsModuleAK1FeatureTests
         state.StartGameEnabled = true;
         state.TouchMode = " maatouch ";
         state.AutoDetect = false;
+        state.AlwaysAutoDetect = true;
+        state.RetryOnDisconnected = true;
 
         await shell.SettingsPage.SaveConnectionGameSettingsAsync();
 
@@ -179,6 +184,27 @@ public sealed class SettingsModuleAK1FeatureTests
         Assert.False(fixture.Shell.TaskQueuePage.StartUpModule.CanEditStartGameEnabled);
         Assert.False(fixture.Shell.TaskQueuePage.StartUpModule.StartGameEnabled);
         Assert.False(fixture.GetCurrentProfile().Values["StartGame"]?.GetValue<bool>());
+    }
+
+    [Fact]
+    public async Task ConnectAsync_WithWindowsStyleAdbPathOnNonWindows_ShouldFallbackToSystemAdb()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var state = fixture.Shell.ConnectionGameSharedState;
+        state.ConnectAddress = "127.0.0.1:5555";
+        state.ConnectConfig = "MuMuEmulator12";
+        state.AdbPath = @"D:\Program Files\Netease\MuMuPlayer-12.0\shell\.\adb.exe";
+
+        await fixture.Shell.ConnectAsync();
+
+        Assert.NotNull(fixture.Bridge.LastConnectionInfo);
+        if (OperatingSystem.IsWindows())
+        {
+            Assert.Equal(state.AdbPath.Trim(), fixture.Bridge.LastConnectionInfo!.AdbPath);
+            return;
+        }
+
+        Assert.Null(fixture.Bridge.LastConnectionInfo!.AdbPath);
     }
 
     private static void AssertStartUpModuleConnectionValues(
@@ -365,6 +391,7 @@ public sealed class SettingsModuleAK1FeatureTests
 
         public async ValueTask DisposeAsync()
         {
+            TestShellCleanup.StopTimerScheduler(Shell);
             await Runtime.DisposeAsync();
             await Bridge.DisposeAsync();
             try
@@ -386,11 +413,16 @@ public sealed class SettingsModuleAK1FeatureTests
 
         public IReadOnlyList<CoreTaskRequest> AppendedTasks => _tasks;
 
+        public CoreConnectionInfo? LastConnectionInfo { get; private set; }
+
         public Task<CoreResult<CoreInitializeInfo>> InitializeAsync(CoreInitializeRequest request, CancellationToken cancellationToken = default)
             => Task.FromResult(CoreResult<CoreInitializeInfo>.Ok(new CoreInitializeInfo(request.BaseDirectory, "fake", "fake", request.ClientType)));
 
         public Task<CoreResult<bool>> ConnectAsync(CoreConnectionInfo connectionInfo, CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<bool>.Ok(true));
+        {
+            LastConnectionInfo = connectionInfo;
+            return Task.FromResult(CoreResult<bool>.Ok(true));
+        }
 
         public Task<CoreResult<int>> AppendTaskAsync(CoreTaskRequest task, CancellationToken cancellationToken = default)
         {

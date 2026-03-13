@@ -102,17 +102,20 @@ public static class MAAUnifiedRuntimeFactory
             logService,
             baseDirectory);
         var bridge = new MaaCoreBridgeNative();
-        var resourceWorkflowService = new ResourceWorkflowService(baseDirectory, bridge, logService);
-
         var stateMachine = new SessionStateMachine();
         var sessionService = new UnifiedSessionService(bridge, configService, logService, stateMachine);
         var platform = PlatformServicesFactory.CreateDefaults();
+        var resourceWorkflowService = new ResourceWorkflowService(
+            baseDirectory,
+            bridge,
+            logService,
+            platform.GpuCapabilityService);
 
         var connectFeatureService = new ConnectFeatureService(sessionService, configService);
         var shellFeatureService = new ShellFeatureService(connectFeatureService);
         var taskQueueFeatureService = new TaskQueueFeatureService(sessionService, configService);
         var copilotFeatureService = new CopilotFeatureService();
-        var toolboxFeatureService = new ToolboxFeatureService();
+        var toolboxFeatureService = new ToolboxFeatureService(bridge, connectFeatureService);
         var remoteControlFeatureService = new RemoteControlFeatureService();
         var platformCapabilityService = new PlatformCapabilityFeatureService(platform, diagnosticsService);
         var overlayFeatureService = new OverlayFeatureService(platformCapabilityService);

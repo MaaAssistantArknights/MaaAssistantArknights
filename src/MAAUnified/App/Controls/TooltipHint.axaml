@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MAAUnified.App.Controls.TooltipHint"
+             x:Name="Root">
+  <Border x:Name="GlyphHost"
+          Width="16"
+          Height="16"
+          Margin="{Binding GlyphMargin, ElementName=Root}"
+          Background="Transparent"
+          BorderBrush="{DynamicResource MAA.Brush.Border.Default}"
+          BorderThickness="1"
+          CornerRadius="8"
+          Cursor="Hand"
+          ToolTip.ShowDelay="500"
+          ToolTip.Placement="Top"
+          ToolTip.VerticalOffset="6">
+    <ToolTip.Tip>
+      <Border MaxWidth="360"
+              Padding="10,8"
+              Background="{DynamicResource MAA.Brush.Surface.SectionStrong}"
+              BorderBrush="{DynamicResource MAA.Brush.Border.Default}"
+              BorderThickness="1"
+              CornerRadius="{DynamicResource MAA.CornerRadius.SectionStrong}">
+        <TextBlock Classes="long-wrap"
+                   MaxWidth="340"
+                   Text="{Binding Tip, ElementName=Root}"
+                   TextWrapping="Wrap" />
+      </Border>
+    </ToolTip.Tip>
+
+    <TextBlock Classes="subtle"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               FontSize="10"
+               Text="{Binding GlyphText, ElementName=Root}" />
+  </Border>
+</UserControl>

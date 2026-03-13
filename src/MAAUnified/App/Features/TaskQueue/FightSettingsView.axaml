@@ -1,66 +1,171 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
+             xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.TaskQueue"
              x:Class="MAAUnified.App.Features.TaskQueue.FightSettingsView">
-  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="2">
+  <UserControl.Styles>
+    <Style Selector="CheckBox.fight-compact">
+      <Setter Property="Height" Value="28" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="TextBlock.stage-closed">
+      <Setter Property="Opacity" Value="0.55" />
+    </Style>
+    <Style Selector="TextBlock.stage-outdated">
+      <Setter Property="TextDecorations" Value="Strikethrough" />
+    </Style>
+  </UserControl.Styles>
+
+  <Grid RowDefinitions="Auto,Auto" Margin="2">
     <TextBlock Classes="section-title" Text="{Binding Texts[Fight.Title]}" />
 
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,220,Auto,120">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Fight.Stage]}" />
-      <TextBox Text="{Binding Stage}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Fight.StageResetMode]}" />
-      <ComboBox Grid.Column="3"
-                ItemsSource="{Binding StageResetModeOptions}"
-                SelectedItem="{Binding StageResetMode}" />
-    </Grid>
+    <StackPanel Grid.Row="1" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <StackPanel IsVisible="{Binding IsGeneralMode}" Spacing="{DynamicResource MAA.Spacing.Small}">
+        <TextBlock Text="{Binding Texts[Fight.StageSelect]}" />
+        <ComboBox ItemsSource="{Binding StageOptions}"
+                  SelectedItem="{Binding SelectedStageOption}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:FightTaskModuleViewModel+StageOption">
+              <TextBlock Text="{Binding DisplayName}"
+                         Classes.stage-closed="{Binding IsClosed}"
+                         Classes.stage-outdated="{Binding IsOutdated}"
+                         Classes.state-error="{Binding IsOutdated}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
 
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,120,Auto,Auto,Auto,120">
-      <CheckBox Content="{Binding Texts[Fight.UseMedicine]}" IsChecked="{Binding UseMedicine}" />
-      <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Texts[Fight.Medicine]}" />
-      <NumericUpDown Grid.Column="2" Grid.ColumnSpan="2" Minimum="0" Maximum="999" Value="{Binding Medicine}" />
-      <CheckBox Grid.Column="4" Content="{Binding Texts[Fight.UseStone]}" IsChecked="{Binding UseStone}" />
-      <TextBlock Grid.Column="5" VerticalAlignment="Center" Text="{Binding Texts[Fight.Stone]}" />
-      <NumericUpDown Grid.Column="6" Grid.ColumnSpan="2" Minimum="0" Maximum="999" Value="{Binding Stone}" />
-    </Grid>
+        <Grid ColumnDefinitions="Auto,Auto"
+              HorizontalAlignment="Left"
+              RowDefinitions="Auto,Auto,Auto">
+          <CheckBox Grid.Row="0"
+                    Classes="fight-compact"
+                    Content="{Binding Texts[Fight.UseMedicine]}"
+                    IsChecked="{Binding UseMedicine}"
+                    Margin="0,0,0,6" />
+          <controls:VerticalSpinNumberBox Grid.Row="0"
+                                          Grid.Column="1"
+                                          Width="74"
+                                          Minimum="0"
+                                          Maximum="999"
+                                          Value="{Binding Medicine}"
+                                          IsEnabled="{Binding IsMedicineInputEnabled}"
+                                          Margin="12,0,0,6" />
 
-    <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto,120,Auto,120">
-      <CheckBox Content="{Binding Texts[Fight.EnableTimesLimit]}" IsChecked="{Binding EnableTimesLimit}" />
-      <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Texts[Fight.Times]}" />
-      <NumericUpDown Grid.Column="2" Grid.ColumnSpan="2" Minimum="0" Maximum="999999" Value="{Binding Times}" />
-      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Fight.Series]}" />
-      <NumericUpDown Grid.Column="5" Minimum="-1" Maximum="6" Value="{Binding Series}" />
-    </Grid>
+          <CheckBox Grid.Row="1"
+                    Classes="fight-compact"
+                    Content="{Binding UseStoneDisplayName}"
+                    IsChecked="{Binding UseStone}"
+                    Margin="0,0,0,6" />
+          <controls:VerticalSpinNumberBox Grid.Row="1"
+                                          Grid.Column="1"
+                                          Width="74"
+                                          Minimum="0"
+                                          Maximum="999"
+                                          Value="{Binding Stone}"
+                                          IsEnabled="{Binding UseStone}"
+                                          Margin="12,0,0,6" />
 
-    <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto,220,Auto,120">
-      <CheckBox Content="{Binding Texts[Fight.EnableTargetDrop]}" IsChecked="{Binding EnableTargetDrop}" />
-      <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Texts[Fight.DropId]}" />
-      <TextBox Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding DropId}" />
-      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Fight.DropCount]}" />
-      <NumericUpDown Grid.Column="5" Minimum="1" Maximum="999" Value="{Binding DropCount}" />
-    </Grid>
+          <CheckBox Grid.Row="2"
+                    Classes="fight-compact"
+                    Content="{Binding Texts[Fight.PerformBattles]}"
+                    IsChecked="{Binding EnableTimesLimit}" />
+          <controls:VerticalSpinNumberBox Grid.Row="2"
+                                          Grid.Column="1"
+                                          Width="74"
+                                          Minimum="0"
+                                          Maximum="999999"
+                                          Value="{Binding Times}"
+                                          IsEnabled="{Binding EnableTimesLimit}"
+                                          Margin="12,0,0,0" />
+        </Grid>
 
-    <Grid Grid.Row="5" ColumnDefinitions="Auto,Auto,Auto,200">
-      <CheckBox Content="{Binding Texts[Fight.UseCustomAnnihilation]}" IsChecked="{Binding UseCustomAnnihilation}" />
-      <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Texts[Fight.AnnihilationStage]}" />
-      <TextBox Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding AnnihilationStage}" />
-    </Grid>
+        <StackPanel IsVisible="{Binding ShowSeriesSetting}" Spacing="{DynamicResource MAA.Spacing.Tight}">
+          <Grid ColumnDefinitions="Auto,Auto">
+            <TextBlock Text="{Binding Texts[Fight.Series]}" />
+            <controls:TooltipHint Grid.Column="1"
+                                  Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                  Tip="{Binding Texts[Fight.SeriesTip]}" />
+          </Grid>
+          <ComboBox ItemsSource="{Binding SeriesOptions}" SelectedItem="{Binding SelectedSeriesOption}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:FightTaskModuleViewModel+IntOption">
+                <TextBlock Text="{Binding DisplayName}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
 
-    <WrapPanel Grid.Row="6" ItemWidth="230" Orientation="Horizontal">
-      <CheckBox Content="{Binding Texts[Fight.UseAlternateStage]}" IsChecked="{Binding UseAlternateStage}" />
-      <CheckBox Content="{Binding Texts[Fight.HideUnavailableStage]}" IsChecked="{Binding HideUnavailableStage}" />
-      <CheckBox Content="{Binding Texts[Fight.UseExpiringMedicine]}" IsChecked="{Binding UseExpiringMedicine}" />
-      <CheckBox Content="{Binding Texts[Fight.DrGrandet]}" IsChecked="{Binding IsDrGrandet}" />
-    </WrapPanel>
+        <Grid ColumnDefinitions="Auto,Auto">
+          <CheckBox Content="{Binding Texts[Fight.AssignedMaterial]}" IsChecked="{Binding EnableTargetDrop}" />
+          <controls:TooltipHint Grid.Column="1"
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                Tip="{Binding Texts[Fight.SpecifiedDropsTip]}" />
+        </Grid>
+        <ComboBox IsEnabled="{Binding IsDropControlsEnabled}"
+                  ItemsSource="{Binding DropOptions}"
+                  SelectedItem="{Binding SelectedDropOption}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:FightTaskModuleViewModel+DropOption">
+              <TextBlock Text="{Binding DisplayName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+        <controls:VerticalSpinNumberBox Minimum="1"
+                                        Maximum="999999"
+                                        Value="{Binding DropCount}"
+                                        IsEnabled="{Binding IsDropControlsEnabled}" />
+      </StackPanel>
 
-    <Grid Grid.Row="7" RowDefinitions="Auto,Auto,Auto">
+      <StackPanel IsVisible="{Binding IsAdvancedMode}" Spacing="{DynamicResource MAA.Spacing.Small}">
+        <CheckBox Content="{Binding Texts[Fight.UseCustomAnnihilation]}" IsChecked="{Binding UseCustomAnnihilation}" />
+        <TextBlock Text="{Binding Texts[Fight.AnnihilationStage]}" />
+        <ComboBox IsEnabled="{Binding UseCustomAnnihilation}"
+                  ItemsSource="{Binding AnnihilationStageOptions}"
+                  SelectedItem="{Binding SelectedAnnihilationStageOption}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:FightTaskModuleViewModel+StringOption">
+              <TextBlock Text="{Binding DisplayName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Grid ColumnDefinitions="Auto,Auto">
+          <CheckBox Content="{Binding Texts[Fight.DrGrandet]}" IsChecked="{Binding IsDrGrandet}" />
+          <controls:TooltipHint Grid.Column="1"
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                Tip="{Binding Texts[Fight.DrGrandetTip]}" />
+        </Grid>
+        <CheckBox Content="{Binding Texts[Fight.UseExpiringMedicine]}" IsChecked="{Binding UseExpiringMedicine}" />
+        <CheckBox Content="{Binding Texts[Fight.HideSeries]}" IsChecked="{Binding HideSeries}" />
+        <Grid ColumnDefinitions="Auto,Auto">
+          <CheckBox Content="{Binding Texts[Fight.AllowUseStoneSave]}" IsChecked="{Binding AllowUseStoneSave}" />
+          <controls:TooltipHint Grid.Column="1"
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                Tip="{Binding Texts[Fight.AllowUseStoneSaveWarning]}" />
+        </Grid>
+
+        <TextBlock Text="{Binding Texts[Fight.StageResetMode]}" />
+        <ComboBox ItemsSource="{Binding StageResetModeOptions}" SelectedItem="{Binding SelectedStageResetModeOption}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:FightTaskModuleViewModel+StringOption">
+              <TextBlock Text="{Binding DisplayName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <CheckBox Content="{Binding Texts[Fight.UseAlternateStage]}" IsChecked="{Binding UseAlternateStage}" />
+        <CheckBox Content="{Binding Texts[Fight.HideUnavailableStage]}" IsChecked="{Binding HideUnavailableStage}" />
+      </StackPanel>
+
       <TextBlock Text="{Binding StatusMessage}" />
-      <TextBlock Grid.Row="1"
-                 Foreground="{DynamicResource MAA.ErrorBrush}"
+      <TextBlock Foreground="{DynamicResource MAA.ErrorBrush}"
                  Text="{Binding LastErrorMessage}"
                  TextWrapping="Wrap" />
-      <StackPanel Grid.Row="2">
+      <StackPanel IsVisible="{Binding HasValidationIssues}">
         <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
         <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
       </StackPanel>
-    </Grid>
+    </StackPanel>
   </Grid>
 </UserControl>

@@ -1,63 +1,419 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
+             xmlns:taskVm="clr-namespace:MAAUnified.App.ViewModels.TaskQueue"
              x:Class="MAAUnified.App.Features.Advanced.CopilotView">
-  <Grid ColumnDefinitions="{StaticResource MAA.Layout.Copilot.Columns}"
+  <UserControl.Styles>
+    <Style Selector="Button.wpf-button.copilot-icon">
+      <Setter Property="MinWidth" Value="34" />
+      <Setter Property="Height" Value="30" />
+      <Setter Property="Padding" Value="8,0" />
+    </Style>
+    <Style Selector="Button.wpf-button.copilot-list-action">
+      <Setter Property="MinWidth" Value="34" />
+      <Setter Property="Height" Value="30" />
+      <Setter Property="Padding" Value="10,0" />
+    </Style>
+  </UserControl.Styles>
+  <UserControl.DataTemplates>
+    <DataTemplate DataType="taskVm:TaskQueueLogEntryViewModel">
+      <Border Classes="wpf-card">
+        <Grid ColumnDefinitions="Auto,*">
+          <TextBlock Classes="subtle"
+                     VerticalAlignment="Top"
+                     IsVisible="{Binding HasTime}"
+                     Text="{Binding Time}" />
+          <TextBlock Grid.Column="1"
+                     Classes="long-wrap"
+                     Classes.state-error="{Binding IsError}"
+                     Classes.state-warning="{Binding IsWarning}"
+                     Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                     Text="{Binding Content}" />
+        </Grid>
+      </Border>
+    </DataTemplate>
+  </UserControl.DataTemplates>
+
+  <Grid ColumnDefinitions="*,Auto,420"
         Margin="{DynamicResource MAA.Thickness.CopilotRootMargin}">
-    <Border Grid.Column="0" Classes="section">
-      <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
-        <TabControl Grid.Row="0" SelectedIndex="{Binding SelectedTypeIndex}">
-          <TabItem Header="主线" />
-          <TabItem Header="SSS" />
-          <TabItem Header="悖论" />
-          <TabItem Header="活动" />
-        </TabControl>
+    <Border Grid.Column="0" Classes="wpf-panel">
+      <Grid RowDefinitions="Auto,*,Auto">
+        <StackPanel Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Spacing="{DynamicResource MAA.Spacing.Small}">
+          <TabControl SelectedIndex="{Binding CopilotTabIndex}"
+                      IsEnabled="{Binding CanEdit}">
+            <TabItem Header="主线/故事集/SideStory" />
+            <TabItem Header="保全派驻" />
+            <TabItem Header="悖论模拟" />
+            <TabItem Header="其他活动" />
+          </TabControl>
 
-        <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto">
-          <TextBox Text="{Binding FilePath}" Watermark="本地文件 / 拖拽路径 / 剪贴板 JSON" />
-          <Button Grid.Column="1" Classes="action" Content="导入文件" Click="OnImportFileClick" />
-          <Button Grid.Column="2" Classes="action" Content="剪贴板" Click="OnImportClipboardClick" />
+          <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+            <Grid Grid.Column="0">
+              <controls:CheckComboBox Text="{Binding DisplayFilename}"
+                                      Watermark="作业路径/神秘代码"
+                                      IsEditable="True"
+                                      IsEnabled="{Binding CanEdit}"
+                                      IsTreeMode="True"
+                                      ItemsSource="{Binding FileItems}"
+                                      IsDropDownOpen="{Binding IsFilePopupOpen}"
+                                      EditorCommitted="OnFileSelectorEditorCommitted"
+                                      SelectionCommitted="OnFileSelectorSelectionCommitted" />
+            </Grid>
+
+            <Button Grid.Column="1"
+                    Classes="wpf-button wpf-button-secondary copilot-icon"
+                    Margin="6,0,0,0"
+                    Content="文件"
+                    ToolTip.Tip="作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ"
+                    Click="OnSelectFileClick"
+                    IsEnabled="{Binding CanEdit}" />
+            <Button Grid.Column="2"
+                    Classes="wpf-button wpf-button-secondary copilot-icon"
+                    Margin="6,0,0,0"
+                    Content="粘贴"
+                    ToolTip.Tip="读取剪贴板并添加为作业"
+                    Click="OnPasteClipboardClick"
+                    IsEnabled="{Binding CanEdit}" />
+            <Button Grid.Column="3"
+                    Classes="wpf-button wpf-button-secondary copilot-icon"
+                    Margin="6,0,0,0"
+                    Content="作业集"
+                    ToolTip.Tip="读取剪贴板并添加为作业集"
+                    Click="OnPasteClipboardSetClick"
+                    IsVisible="{Binding ShowClipboardSetButton}"
+                    IsEnabled="{Binding CanEdit}" />
+          </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
+          <Grid Margin="0,10,0,0"
+                RowDefinitions="Auto,*">
+            <Grid Grid.Row="0"
+                  HorizontalAlignment="Center">
+              <Button Width="120"
+                      Height="48"
+                      Classes="wpf-button wpf-button-primary"
+                      Content="开始"
+                      Click="OnStartClick"
+                      IsVisible="{Binding CanEdit}"
+                      IsEnabled="{Binding CanStart}" />
+              <Button Width="120"
+                      Height="48"
+                      Classes="wpf-button wpf-button-secondary"
+                      Content="停止"
+                      Click="OnStopClick"
+                      IsVisible="{Binding CanStop}"
+                      IsEnabled="{Binding CanStop}" />
+            </Grid>
+
+            <StackPanel Grid.Row="1"
+                        Margin="0,12,0,0"
+                        HorizontalAlignment="Center"
+                        Spacing="{DynamicResource MAA.Spacing.Tight}"
+                        IsEnabled="{Binding CanEdit}">
+              <StackPanel Orientation="Horizontal"
+                          IsVisible="{Binding ShowFormationGroup}">
+                <CheckBox Content="自动编队"
+                          IsChecked="{Binding Form}" />
+                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                      Tip="自动编队可能无法识别带有「特别关注」标记的干员" />
+              </StackPanel>
+
+              <StackPanel Orientation="Horizontal"
+                          Margin="24,0,0,0"
+                          IsVisible="{Binding ShowUseFormation}">
+                <CheckBox Content="使用编队"
+                          IsChecked="{Binding UseFormation}" />
+                <ComboBox Width="100"
+                          Margin="8,0,0,0"
+                          IsVisible="{Binding UseFormation}"
+                          ItemsSource="{Binding FormationOptions}"
+                          SelectedItem="{Binding SelectedFormationOption}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding DisplayName}" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+              </StackPanel>
+
+              <StackPanel Orientation="Horizontal"
+                          IsVisible="{Binding ShowIgnoreRequirements}">
+                <CheckBox Content="忽略干员属性要求"
+                          IsChecked="{Binding IgnoreRequirements}" />
+                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}">
+                  <controls:TooltipHint.Tip>某些作业需要特定模组等作为前置条件
+勾选此项将跳过这些检查，但可能导致作业无法正常运行</controls:TooltipHint.Tip>
+                </controls:TooltipHint>
+              </StackPanel>
+
+              <StackPanel Spacing="{DynamicResource MAA.Spacing.Tight}"
+                          IsVisible="{Binding ShowSupportUnitUsage}">
+                <StackPanel Orientation="Horizontal">
+                  <CheckBox Content="借助战"
+                            IsChecked="{Binding UseSupportUnitUsage}" />
+                  <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                        Tip="缺一个还能用用，缺两个以上还是换份作业吧" />
+                </StackPanel>
+                <ComboBox Width="120"
+                          Margin="24,0,0,0"
+                          IsVisible="{Binding UseSupportUnitUsage}"
+                          ItemsSource="{Binding SupportUnitUsageOptions}"
+                          SelectedItem="{Binding SelectedSupportUnitUsageOption}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding DisplayName}" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+              </StackPanel>
+
+              <CheckBox Content="补充低信赖干员"
+                        IsChecked="{Binding AddTrust}"
+                        IsVisible="{Binding ShowAddTrust}" />
+
+              <StackPanel Orientation="Horizontal"
+                          IsVisible="{Binding ShowAddUserAdditional}">
+                <CheckBox Content="追加自定干员"
+                          IsChecked="{Binding AddUserAdditional}" />
+                <Button x:Name="UserAdditionalButton"
+                        Classes="wpf-button wpf-button-secondary copilot-icon"
+                        Margin="8,0,0,0"
+                        Padding="8,0"
+                        Content="编辑"
+                        Click="OnOpenUserAdditionalPopupClick" />
+                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                      Tip="以英文 「;」 为分隔符，英文 「,」 分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1" />
+                <Popup IsOpen="{Binding IsUserAdditionalPopupOpen}"
+                       Placement="Bottom"
+                       PlacementTarget="{Binding ElementName=UserAdditionalButton}"
+                       IsLightDismissEnabled="True">
+                  <Border Width="520"
+                          MaxHeight="420"
+                          Padding="12"
+                          Classes="wpf-panel">
+                    <Grid RowDefinitions="Auto,*,Auto">
+                      <TextBlock Text="追加自定干员" />
+                      <ScrollViewer Grid.Row="1"
+                                    Margin="0,8,0,8"
+                                    MaxHeight="320">
+                        <ItemsControl ItemsSource="{Binding UserAdditionalItems}">
+                          <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                              <Grid ColumnDefinitions="*,72,120,Auto"
+                                    Margin="0,0,0,6">
+                                <TextBox Text="{Binding Name}"
+                                         Watermark="干员名" />
+                                <controls:VerticalSpinNumberBox Grid.Column="1"
+                                                                Margin="8,0,0,0"
+                                                                Minimum="1"
+                                                                Maximum="3"
+                                                                Value="{Binding Skill}" />
+                                <ComboBox Grid.Column="2"
+                                          Margin="8,0,0,0"
+                                          ItemsSource="{Binding DataContext.ModuleOptions, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                          SelectedIndex="{Binding Module}">
+                                  <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                      <TextBlock Text="{Binding DisplayName}" />
+                                    </DataTemplate>
+                                  </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button Grid.Column="3"
+                                        Classes="wpf-button wpf-button-secondary copilot-list-action"
+                                        Margin="8,0,0,0"
+                                        Content="删除"
+                                        Tag="{Binding}"
+                                        Click="OnRemoveUserAdditionalItemClick" />
+                              </Grid>
+                            </DataTemplate>
+                          </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                      </ScrollViewer>
+                      <Grid Grid.Row="2"
+                            ColumnDefinitions="*,Auto,Auto">
+                        <Button Classes="wpf-button wpf-button-secondary"
+                                Content="添加"
+                                HorizontalAlignment="Left"
+                                Click="OnAddUserAdditionalItemClick" />
+                        <Button Grid.Column="1"
+                                Classes="wpf-button"
+                                Margin="8,0,0,0"
+                                Content="确定"
+                                Click="OnSaveUserAdditionalClick" />
+                        <Button Grid.Column="2"
+                                Classes="wpf-button wpf-button-secondary"
+                                Margin="8,0,0,0"
+                                Content="取消"
+                                Click="OnCancelUserAdditionalClick" />
+                      </Grid>
+                    </Grid>
+                  </Border>
+                </Popup>
+              </StackPanel>
+
+              <StackPanel Orientation="Horizontal"
+                          IsVisible="{Binding ShowUseCopilotList}">
+                <CheckBox Content="战斗列表"
+                          IsChecked="{Binding UseCopilotList}" />
+                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}">
+                  <controls:TooltipHint.Tip>仅支持以下模式:
+  1. 主线: 同一章节内导航
+  2. SideStory: 当前页面内导航（普通/EX/S 不能互跳）
+  3. 故事集: 当前页面内导航
+  4. 悖论模拟: 从干员列表启动
+请在对应界面启动，不支持跨章节导航
+
+当「战斗列表」启用后，选择单个作业时会自动添加到「战斗列表」</controls:TooltipHint.Tip>
+                </controls:TooltipHint>
+              </StackPanel>
+
+              <CheckBox Content="使用理智药"
+                        IsChecked="{Binding UseSanityPotion}"
+                        IsVisible="{Binding ShowUseSanityPotion}" />
+
+              <StackPanel Orientation="Horizontal"
+                          IsVisible="{Binding ShowLoopSetting}">
+                <CheckBox Content="循环次数"
+                          IsChecked="{Binding Loop}" />
+                <controls:VerticalSpinNumberBox Margin="8,0,0,0"
+                                                Minimum="1"
+                                                Maximum="9999"
+                                                Value="{Binding LoopTimes}" />
+              </StackPanel>
+            </StackPanel>
+          </Grid>
+
+          <Grid Grid.Column="1"
+                Margin="12,10,0,0"
+                IsVisible="{Binding ShowCopilotListPanel}"
+                RowDefinitions="*,Auto"
+                ColumnDefinitions="Auto,*,Auto,Auto">
+            <Border Grid.Row="0"
+                    Grid.ColumnSpan="4"
+                    Classes="wpf-card">
+              <ListBox x:Name="CopilotList"
+                       ItemsSource="{Binding Items}"
+                       SelectedItem="{Binding SelectedItem}">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <Border Padding="4,2">
+                      <Grid ColumnDefinitions="*,Auto,Auto">
+                        <CheckBox Content="{Binding DisplayName}"
+                                  IsChecked="{Binding IsChecked}"
+                                  ToolTip.Tip="{Binding ExecutionPathHint}" />
+                        <Button Grid.Column="1"
+                                Classes="wpf-button wpf-button-secondary copilot-list-action"
+                                Margin="8,0,0,0"
+                                Content="载入"
+                                Tag="{Binding}"
+                                Click="OnLoadListItemClick"
+                                PointerPressed="OnLoadListItemPointerPressed" />
+                        <Button Grid.Column="2"
+                                Classes="wpf-button wpf-button-secondary copilot-list-action"
+                                Margin="8,0,0,0"
+                                Content="删除"
+                                Tag="{Binding}"
+                                Click="OnDeleteListItemClick" />
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </Border>
+
+            <Button Grid.Row="1"
+                    Grid.Column="0"
+                    Classes="wpf-button wpf-button-secondary copilot-list-action"
+                    Content="批量导入"
+                    ToolTip.Tip="批量导入"
+                    Click="OnImportFilesClick"
+                    IsEnabled="{Binding CanEdit}" />
+            <TextBox Grid.Row="1"
+                     Grid.Column="1"
+                     Margin="8,0,0,0"
+                     Text="{Binding CopilotTaskName}"
+                     Watermark="关卡名"
+                     ToolTip.Tip="关卡名, 例: 1-7" />
+            <Button Grid.Row="1"
+                    Grid.Column="2"
+                    Classes="wpf-button wpf-button-secondary copilot-list-action"
+                    Margin="8,0,0,0"
+                    Content="添加"
+                    ToolTip.Tip="左键添加普通难度&#10;右键添加突袭难度"
+                    Click="OnAddCurrentToListClick"
+                    PointerPressed="OnAddCurrentToListPointerPressed"
+                    IsEnabled="{Binding CanEdit}" />
+            <Button Grid.Row="1"
+                    Grid.Column="3"
+                    Classes="wpf-button wpf-button-secondary copilot-list-action"
+                    Margin="8,0,0,0"
+                    Content="清除"
+                    ToolTip.Tip="左键清除所有任务&#10;右键清除未激活任务"
+                    Click="OnClearListClick"
+                    PointerPressed="OnClearListPointerPressed"
+                    IsEnabled="{Binding CanEdit}" />
+          </Grid>
         </Grid>
 
-        <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,Auto">
-          <CheckBox Content="自动编队" IsChecked="{Binding AutoSquad}" />
-          <CheckBox Grid.Column="1" Content="借助战" IsChecked="{Binding UseSupportUnit}" />
-          <CheckBox Grid.Column="2" Content="刷信赖" IsChecked="{Binding AddTrust}" />
-          <CheckBox Grid.Column="3" Content="Overlay" IsChecked="{Binding OverlayEnabled}" />
-        </Grid>
-
-        <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
-          <Button Classes="action" Content="开始" Click="OnStartClick" IsEnabled="{Binding CanStart}" />
-          <Button Grid.Column="1" Classes="action" Content="停止" Click="OnStopClick" IsEnabled="{Binding CanStop}" />
-          <Button Grid.Column="2" Classes="action" Content="新增" Click="OnAddItemClick" />
-          <Button Grid.Column="3" Classes="action" Content="删除" Click="OnRemoveItemClick" IsEnabled="{Binding HasSelection}" />
-          <Button Grid.Column="4" Classes="action" Content="清空" Click="OnClearClick" />
-          <Button Grid.Column="5" Classes="action" Content="上移" Click="OnMoveUpClick" IsEnabled="{Binding CanMoveSelectedUp}" />
-          <Button Grid.Column="6" Classes="action" Content="下移" Click="OnMoveDownClick" IsEnabled="{Binding CanMoveSelectedDown}" />
-          <Button Grid.Column="7" Classes="action" Content="点赞" Click="OnLikeClick" IsEnabled="{Binding HasSelection}" />
-        </Grid>
-
-        <ListBox Grid.Row="4" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <Border Classes="item-card">
-                <Grid ColumnDefinitions="*,Auto,Auto">
-                  <TextBlock Text="{Binding Name}" />
-                  <TextBlock Grid.Column="1" Text="{Binding Type}" />
-                  <TextBlock Grid.Column="2" Text="{Binding Status}" />
-                </Grid>
-              </Border>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
+        <TextBlock Grid.Row="2"
+                   Margin="0,10,0,0"
+                   HorizontalAlignment="Center"
+                   Text="{Binding CopilotUrl}" />
       </Grid>
     </Border>
 
-    <Border Grid.Column="2" Classes="section">
-      <Grid RowDefinitions="Auto,Auto,*">
-        <TextBlock Classes="section-title" Text="右侧日志 / 反馈" />
-        <TextBlock Text="{Binding StatusMessage}" />
-        <TextBlock Grid.Row="1" Classes="state-error" Text="{Binding LastErrorMessage}" />
-        <ListBox Grid.Row="2" ItemsSource="{Binding Logs}" />
+    <Border Grid.Column="2" Classes="wpf-panel">
+      <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
+        <Grid HorizontalAlignment="Right">
+          <Button Classes="wpf-button wpf-button-subtle compact"
+                  Content="Overlay"
+                  Click="OnToggleOverlayClick"
+                  PointerPressed="OnOverlayButtonPointerPressed" />
+        </Grid>
+
+        <StackPanel Grid.Row="1"
+                    Margin="0,6,0,8"
+                    Spacing="{DynamicResource MAA.Spacing.Tight}">
+          <TextBlock Text="{Binding StatusMessage}" />
+          <TextBlock Classes="state-error"
+                     Text="{Binding LastErrorMessage}"
+                     TextWrapping="Wrap" />
+          <TextBlock Text="{Binding ListSelectionHint}"
+                     Opacity="0.72"
+                     TextWrapping="Wrap" />
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2"
+                      HorizontalScrollBarVisibility="Disabled">
+          <ItemsControl ItemsSource="{Binding Logs}" />
+        </ScrollViewer>
+
+        <Grid Grid.Row="3"
+              ColumnDefinitions="*,Auto,Auto"
+              IsVisible="{Binding CouldLikeWebJson}">
+          <TextBlock Margin="0,10,0,0"
+                     VerticalAlignment="Center"
+                     Text="作业怎么样？评价下吧！"
+                     TextWrapping="Wrap" />
+          <Button Grid.Column="1"
+                  Classes="wpf-button wpf-button-secondary"
+                  Margin="8,10,0,0"
+                  Content="点赞"
+                  Click="OnLikeLoadedClick" />
+          <Button Grid.Column="2"
+                  Classes="wpf-button wpf-button-secondary"
+                  Margin="8,10,0,0"
+                  Content="点踩"
+                  Click="OnDislikeLoadedClick" />
+        </Grid>
+
+        <TextBlock Grid.Row="4"
+                   Margin="0,10,0,0"
+                   HorizontalAlignment="Center"
+                   Text="{Binding MapUrl}" />
       </Grid>
     </Border>
   </Grid>

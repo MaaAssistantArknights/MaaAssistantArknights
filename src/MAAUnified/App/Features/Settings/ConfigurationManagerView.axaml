@@ -1,25 +1,52 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.ConfigurationManagerView">
-  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="4">
-    <TextBlock Classes="section-title" Text="Configuration Manager" />
-    <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" Margin="0,8,0,0">
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Margin="4">
+    <TextBlock Classes="section-title" Text="切换配置" />
+
+    <Grid Grid.Row="1" ColumnDefinitions="*" Margin="0,8,0,0">
       <ComboBox ItemsSource="{Binding ConfigurationProfiles}"
-                SelectedItem="{Binding ConfigurationManagerSelectedProfile}" />
-      <Button Grid.Column="1" Content="切换" Click="OnSwitchProfileClick" />
-      <Button Grid.Column="2" Content="刷新" Click="OnRefreshProfilesClick" />
+                SelectedItem="{Binding ConfigurationManagerSelectedProfile}"
+                SelectionChanged="OnConfigurationProfileSelectionChanged" />
     </Grid>
-    <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,8,0,0">
-      <TextBox Text="{Binding ConfigurationManagerNewProfileName}" Watermark="新配置名" />
-      <Button Grid.Column="1" Content="新增" Click="OnAddProfileClick" />
+
+    <Grid Grid.Row="2" ColumnDefinitions="240,Auto,*" Margin="0,8,0,0">
+      <TextBox Text="{Binding ConfigurationManagerNewProfileName, UpdateSourceTrigger=LostFocus}"
+               Width="220"
+               HorizontalAlignment="Left"
+               Watermark="新配置名称" />
+      <Button Grid.Column="1"
+              Classes="wpf-button wpf-button-secondary"
+              Content="另存为新配置"
+              Click="OnCreateProfileClick" />
     </Grid>
-    <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto" Margin="0,8,0,0">
-      <Button Content="删除" Click="OnDeleteProfileClick" />
-      <Button Grid.Column="1" Content="上移" Click="OnMoveProfileUpClick" />
-      <Button Grid.Column="2" Content="下移" Click="OnMoveProfileDownClick" />
+
+    <Grid Grid.Row="3" ColumnDefinitions="Auto,*" Margin="0,8,0,0">
+      <Button Classes="wpf-button wpf-button-secondary"
+              Content="删除当前配置"
+              Click="OnDeleteCurrentProfileClick" />
+      <TextBlock Grid.Column="1"
+                 Margin="10,0,0,0"
+                 VerticalAlignment="Center"
+                 Classes="state-success"
+                 Text="已自动保存当前配置" />
     </Grid>
-    <StackPanel Grid.Row="4" Spacing="4" Margin="0,8,0,0">
-      <TextBlock Text="配置切换/新增/删除/排序将同步到 avalonia.json。" />
+
+    <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto" Margin="0,8,0,0">
+      <Button Classes="wpf-button wpf-button-secondary"
+              Content="导出所有配置"
+              Click="OnExportAllProfilesClick" />
+      <Button Grid.Column="1"
+              Classes="wpf-button wpf-button-secondary"
+              Content="导出当前配置"
+              Click="OnExportCurrentProfileClick" />
+      <Button Grid.Column="2"
+              Classes="wpf-button wpf-button-secondary"
+              Content="导入配置"
+              Click="OnImportProfilesClick" />
+    </Grid>
+
+    <StackPanel Grid.Row="5" Spacing="4" Margin="0,8,0,0">
       <TextBlock Text="{Binding ConfigurationManagerStatusMessage}" />
       <TextBlock Classes="state-error"
                  Text="{Binding ConfigurationManagerErrorMessage}"

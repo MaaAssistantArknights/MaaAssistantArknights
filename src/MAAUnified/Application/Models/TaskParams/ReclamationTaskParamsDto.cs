@@ -8,7 +8,7 @@ public sealed class ReclamationTaskParamsDto
 
     public int IncrementMode { get; set; }
 
-    public int NumCraftBatches { get; set; } = 1;
+    public int NumCraftBatches { get; set; } = 16;
 
     public List<string> ToolsToCraft { get; set; } = [];
 

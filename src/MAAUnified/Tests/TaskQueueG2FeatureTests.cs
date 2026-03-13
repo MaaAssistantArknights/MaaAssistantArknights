@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Threading.Channels;
+using Avalonia.Threading;
 using MAAUnified.App.ViewModels.Settings;
 using MAAUnified.App.ViewModels.TaskQueue;
 using MAAUnified.Application.Configuration;
@@ -11,11 +12,15 @@ using MAAUnified.Application.Services;
 using MAAUnified.Application.Services.Features;
 using MAAUnified.CoreBridge;
 using MAAUnified.Platform;
+using LegacyConfigurationKeys = MAAUnified.Compat.Constants.ConfigurationKeys;
 
 namespace MAAUnified.Tests;
 
 public sealed class TaskQueueG2FeatureTests
 {
+    private static readonly byte[] SinglePixelPng = Convert.FromBase64String(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO7+W0cAAAAASUVORK5CYII=");
+
     [Fact]
     public async Task StartAsync_ShouldFlushDirtyBoundModulesBeforeQueueAndStart()
     {
@@ -106,6 +111,117 @@ public sealed class TaskQueueG2FeatureTests
 
         Assert.Equal(TaskQueueItemStatus.Idle, vm.Tasks[0].Status);
         Assert.Equal(TaskQueueItemStatus.Running, vm.Tasks[1].Status);
+    }
+
+    [Fact]
+    public async Task Callback_TaskChainStart_ShouldAppendWpfTaskStartLog()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Fight", "fight-a")).Success);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        await InvokeCallbackAsync(vm, new CoreCallbackEvent(
+            10001,
+            "TaskChainStart",
+            """{"task_chain":"Fight","task_index":0,"run_id":"run-g2-log"}""",
+            DateTimeOffset.UtcNow));
+
+        var card = Assert.Single(vm.LogCards);
+        Assert.Equal("开始任务: fight-a", card.PrimaryContent);
+    }
+
+    [Fact]
+    public async Task Callback_StageDrops_ShouldAppendToCurrentCardAndAttachThumbnail()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Fight", "fight-a")).Success);
+        fixture.Bridge.NextImageBytes = SinglePixelPng;
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        await InvokeCallbackAsync(vm, new CoreCallbackEvent(
+            10001,
+            "TaskChainStart",
+            """{"task_chain":"Fight","task_index":0,"run_id":"run-g2-stage-drops"}""",
+            DateTimeOffset.UtcNow));
+        await InvokeCallbackAsync(vm, new CoreCallbackEvent(
+            10002,
+            "SubTaskExtraInfo",
+            """{"task_chain":"Fight","task_index":0,"what":"StageDrops","details":{"stats":[{"itemName":"源岩","quantity":2,"addQuantity":1}],"stage":{"stageCode":"1-7"},"cur_times":1}}""",
+            DateTimeOffset.UtcNow));
+
+        Assert.True(await WaitForConditionAsync(() => fixture.Bridge.GetImageCallCount > 0));
+
+        var card = Assert.Single(vm.LogCards);
+        Assert.Equal(2, card.Items.Count);
+        Assert.Equal("开始任务: fight-a", card.Items[0].Content);
+        Assert.Contains("1-7", card.Items[1].Content, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task Callback_InfrastConfirmButton_ShouldAttachThumbnailWithoutAddingPlaceholderLog()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Infrast", "base-a")).Success);
+        fixture.Bridge.NextImageBytes = SinglePixelPng;
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        await InvokeCallbackAsync(vm, new CoreCallbackEvent(
+            10001,
+            "TaskChainStart",
+            """{"task_chain":"Infrast","task_index":0,"run_id":"run-g2-infrast-thumb"}""",
+            DateTimeOffset.UtcNow));
+        await InvokeCallbackAsync(vm, new CoreCallbackEvent(
+            10002,
+            "SubTaskExtraInfo",
+            """{"task_chain":"Infrast","task_index":0,"what":"InfrastConfirmButton","details":{}}""",
+            DateTimeOffset.UtcNow));
+
+        Assert.True(await WaitForConditionAsync(() => fixture.Bridge.GetImageCallCount > 0));
+
+        var card = Assert.Single(vm.LogCards);
+        Assert.Single(card.Items);
+        Assert.Equal("开始任务: base-a", card.PrimaryContent);
+    }
+
+    [Fact]
+    public async Task Callback_UnmappedSubTaskStart_ShouldNotAppendGenericUserLog()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Fight", "fight-a")).Success);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        await InvokeCallbackAsync(vm, new CoreCallbackEvent(
+            10002,
+            "SubTaskStart",
+            """{"task_chain":"Fight","task_index":0,"sub_task":"ProcessTask","details":{"task":"NotMappedInWpf"}}""",
+            DateTimeOffset.UtcNow));
+
+        Assert.Empty(vm.LogCards);
+    }
+
+    [Fact]
+    public async Task UiLogService_NonDownloadMessages_ShouldNotLeakIntoTaskQueueLogCards()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        fixture.Runtime.LogService.Info("internal config trace");
+        Dispatcher.UIThread.RunJobs(null);
+        Assert.Empty(vm.LogCards);
+
+        fixture.Runtime.LogService.Info("download 1/3");
+        Dispatcher.UIThread.RunJobs(null);
+        Assert.Empty(vm.LogCards);
+        Assert.Contains("download", vm.DownloadLogEntry.Content, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
@@ -268,6 +384,66 @@ public sealed class TaskQueueG2FeatureTests
         Assert.Equal(1, fixture.PostAction.ExecuteCount);
     }
 
+    [Fact]
+    public async Task StopAsync_ManualStop_ShouldClearAllTaskStatuses()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("StartUp", "startup-a")).Success);
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("StartUp", "startup-b")).Success);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.True((await fixture.Runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
+        await vm.StartAsync();
+        Assert.Equal(SessionState.Running, vm.CurrentSessionState);
+
+        vm.Tasks[0].Status = TaskQueueItemStatus.Success;
+        vm.Tasks[1].Status = TaskQueueItemStatus.Error;
+
+        await vm.StopAsync();
+
+        Assert.All(vm.Tasks, task => Assert.Equal(TaskQueueItemStatus.Idle, task.Status));
+    }
+
+    [Fact]
+    public void DailyStageHint_ShouldFollowWpfStyleAndRenderDepotCounts()
+    {
+        var config = new UnifiedConfig();
+        config.GlobalValues[LegacyConfigurationKeys.DepotResult] = JsonValue.Create("""{"data":"{\"3231\":8,\"3261\":7,\"3232\":5,\"3262\":4}"}""");
+
+        var hint = FightTaskModuleViewModel.BuildDailyResourceHint(
+            "zh-cn",
+            "Official",
+            config,
+            new DateTime(2026, 03, 12, 0, 0, 0, DateTimeKind.Utc));
+
+        Assert.Contains("CE-6: 龙门币", hint);
+        Assert.Contains("AP-5: 红票", hint);
+        Assert.Contains("LS-6: 经验", hint);
+        Assert.Contains("PR-A-1/2: 奶&盾芯片", hint);
+        Assert.Contains("(库存 8 & 7 / 5 & 4)", hint);
+        Assert.DoesNotContain("今日资源关卡：", hint);
+        Assert.DoesNotContain("周一了", hint);
+    }
+
+    [Fact]
+    public void DailyStageHint_ShouldOmitDepotCountsWhenInventoryIsIncomplete()
+    {
+        var config = new UnifiedConfig();
+        config.GlobalValues[LegacyConfigurationKeys.DepotResult] = JsonValue.Create("""{"data":"{\"3231\":8}"}""");
+
+        var hint = FightTaskModuleViewModel.BuildDailyResourceHint(
+            "zh-cn",
+            "Official",
+            config,
+            new DateTime(2026, 03, 12, 0, 0, 0, DateTimeKind.Utc));
+
+        Assert.Contains("PR-A-1/2: 奶&盾芯片", hint);
+        Assert.DoesNotContain("(库存", hint);
+        Assert.DoesNotContain("-1", hint);
+    }
+
     private static async Task InvokeCallbackAsync(TaskQueuePageViewModel vm, CoreCallbackEvent callback)
     {
         var method = typeof(TaskQueuePageViewModel).GetMethod(
@@ -303,6 +479,7 @@ public sealed class TaskQueueG2FeatureTests
     {
         for (var i = 0; i < retry; i++)
         {
+            Dispatcher.UIThread.RunJobs(null);
             if (predicate())
             {
                 return true;
@@ -429,6 +606,10 @@ public sealed class TaskQueueG2FeatureTests
 
         public int StopCallCount { get; private set; }
 
+        public int GetImageCallCount { get; private set; }
+
+        public byte[]? NextImageBytes { get; set; }
+
         public Task<CoreResult<CoreInitializeInfo>> InitializeAsync(CoreInitializeRequest request, CancellationToken cancellationToken = default)
             => Task.FromResult(CoreResult<CoreInitializeInfo>.Ok(new CoreInitializeInfo(request.BaseDirectory, "fake", "fake", request.ClientType)));
 
@@ -475,7 +656,12 @@ public sealed class TaskQueueG2FeatureTests
             => Task.FromResult(CoreResult<bool>.Fail(new CoreError(CoreErrorCode.NotSupported, "not supported")));
 
         public Task<CoreResult<byte[]>> GetImageAsync(CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<byte[]>.Fail(new CoreError(CoreErrorCode.GetImageFailed, "not supported")));
+        {
+            GetImageCallCount++;
+            return Task.FromResult(NextImageBytes is { Length: > 0 } bytes
+                ? CoreResult<byte[]>.Ok(bytes.ToArray())
+                : CoreResult<byte[]>.Fail(new CoreError(CoreErrorCode.GetImageFailed, "not supported")));
+        }
 
         public async IAsyncEnumerable<CoreCallbackEvent> CallbackStreamAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {

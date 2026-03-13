@@ -12,8 +12,8 @@
         MinHeight="{DynamicResource MAA.Size.MainWindow.MinHeight}"
         Title="{Binding WindowTitle}"
         Topmost="{Binding IsWindowTopMost}">
-  <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Margin="{DynamicResource MAA.Thickness.PageMargin}">
-    <Image Grid.RowSpan="5"
+  <Grid Margin="{DynamicResource MAA.Thickness.PageMargin}">
+    <Image
            Source="{Binding ShellBackgroundImage}"
            Opacity="{Binding ShellBackgroundOpacity}"
            Stretch="{Binding ShellBackgroundStretch}"
@@ -24,195 +24,20 @@
       </Image.Effect>
     </Image>
 
-    <Border Grid.Row="0"
-            Classes="section section-strong">
-      <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-        <StackPanel Grid.Column="0"
-                    Orientation="Vertical"
-                    Spacing="{DynamicResource MAA.Spacing.Tight}"
-                    Margin="{DynamicResource MAA.Thickness.MainWindowHeaderInfoMargin}">
-          <TextBlock Text="{Binding WindowVersionUpdateInfo}"
-                     Classes="state-warning long-ellipsis"
-                     IsVisible="{Binding HasWindowVersionUpdateInfo}"
-                     PointerPressed="OnManualUpdateClick" />
-          <TextBlock Text="{Binding WindowResourceUpdateInfo}"
-                     Classes="state-warning long-ellipsis"
-                     IsVisible="{Binding HasWindowResourceUpdateInfo}"
-                     PointerPressed="OnManualUpdateResourceClick" />
-        </StackPanel>
-
-        <StackPanel Grid.Column="1"
-                    Orientation="Vertical"
-                    Spacing="{DynamicResource MAA.Spacing.Tight}">
-          <TextBlock Classes="section-title"
-                     FontSize="{DynamicResource MAA.FontSize.WindowTitle}"
-                     Text="{Binding WindowTitle}" />
-          <TextBlock Classes="long-wrap"
-                     Text="{Binding GlobalStatus}" />
-          <TextBlock Classes="state-error long-wrap"
-                     Text="{Binding LastError}"
-                     IsVisible="{Binding HasLastError}" />
-        </StackPanel>
-
-        <ToggleButton Grid.Column="2"
-                      Width="{DynamicResource MAA.Size.MainWindow.PinToggleWidth}"
-                      Height="{DynamicResource MAA.Size.MainWindow.PinToggleHeight}"
-                      Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
-                      Content="📌"
-                      IsChecked="{Binding IsWindowTopMost}" />
-
-        <Button Grid.Column="3"
-                Classes="action"
-                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
-                Content="托盘菜单">
-          <Button.ContextMenu>
-            <ContextMenu>
-              <MenuItem Header="开始" Click="OnStartClick" IsEnabled="{Binding CanStartExecution}" />
-              <MenuItem Header="停止" Click="OnStopClick" IsEnabled="{Binding CanStopExecution}" />
-              <MenuItem Header="切换语言">
-                <MenuItem Header="简体中文 (zh-cn)" Tag="zh-cn" Click="OnSwitchLanguageToClick" />
-                <MenuItem Header="English (en-us)" Tag="en-us" Click="OnSwitchLanguageToClick" />
-                <MenuItem Header="日本語 (ja-jp)" Tag="ja-jp" Click="OnSwitchLanguageToClick" />
-                <MenuItem Header="한국어 (ko-kr)" Tag="ko-kr" Click="OnSwitchLanguageToClick" />
-                <MenuItem Header="繁體中文 (zh-tw)" Tag="zh-tw" Click="OnSwitchLanguageToClick" />
-                <MenuItem Header="Pallas (pallas)" Tag="pallas" Click="OnSwitchLanguageToClick" />
-              </MenuItem>
-              <MenuItem Header="强制显示" Click="OnForceShowClick" />
-              <MenuItem Header="隐藏托盘" Click="OnHideTrayClick" />
-              <MenuItem Header="切换悬浮窗" Click="OnToggleOverlayClick" />
-              <MenuItem Header="重启" Click="OnRestartClick" />
-              <MenuItem Header="退出" Click="OnExitClick" />
-            </ContextMenu>
-          </Button.ContextMenu>
-        </Button>
-      </Grid>
-    </Border>
-
-    <Border Grid.Row="1"
-            Classes="section section-warning"
-            IsVisible="{Binding HasBlockingConfigIssues}"
-            Margin="{DynamicResource MAA.Thickness.MarginTopSection}">
-      <Grid RowDefinitions="Auto,*">
-        <TextBlock Classes="section-title">
-          <Run Text="配置校验阻断中（" />
-          <Run Text="{Binding BlockingConfigIssueCount}" />
-          <Run Text="）: Start/LinkStart 已禁用" />
-        </TextBlock>
-        <ListBox Grid.Row="1"
-                 Margin="{DynamicResource MAA.Thickness.MarginTopList}"
-                 MaxHeight="{DynamicResource MAA.Size.MainWindow.ConfigIssueMaxHeight}"
-                 ItemsSource="{Binding ConfigIssueDetails}">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <TextBlock Classes="long-wrap">
-                <Run Text="{Binding Scope}" />
-                <Run Text=" | " />
-                <Run Text="{Binding Code}" />
-                <Run Text=" | blocking=" />
-                <Run Text="{Binding Blocking}" />
-                <Run Text=" | field=" />
-                <Run Text="{Binding Field}" />
-                <Run Text=" | profile=" />
-                <Run Text="{Binding ProfileName}" />
-                <Run Text=" | taskIndex=" />
-                <Run Text="{Binding TaskIndex}" />
-                <Run Text=" | taskName=" />
-                <Run Text="{Binding TaskName}" />
-                <Run Text=" | " />
-                <Run Text="{Binding Message}" />
-                <Run Text=" | action=" />
-                <Run Text="{Binding SuggestedAction}" />
-              </TextBlock>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
-      </Grid>
-    </Border>
-
-    <Border Grid.Row="2"
-            Classes="section"
-            Margin="{DynamicResource MAA.Thickness.MarginSectionVertical}">
-      <Grid ColumnDefinitions="{StaticResource MAA.Layout.MainWindow.ConnectionColumns}">
-        <TextBlock VerticalAlignment="Center" Text="连接:" />
-        <TextBox Grid.Column="1" Text="{Binding ConnectionGameSharedState.ConnectAddress}" Watermark="127.0.0.1:5555" />
-        <ComboBox Grid.Column="2"
-                  ItemsSource="{Binding ConnectionGameSharedState.ConnectConfigOptions}"
-                  SelectedItem="{Binding ConnectionGameSharedState.ConnectConfig}" />
-        <TextBox Grid.Column="3" Text="{Binding ConnectionGameSharedState.AdbPath}" Watermark="ADB Path (optional)" />
-        <ComboBox Grid.Column="4"
-                  ItemsSource="{Binding ImportSourceOptions}"
-                  SelectedItem="{Binding SelectedImportSource}" />
-        <Button Grid.Column="5" Classes="action" Content="连接" Click="OnConnectClick" />
-        <Button Grid.Column="6" Classes="action" Content="导入旧配置" Click="OnImportClick" />
-      </Grid>
-    </Border>
-
-    <Grid Grid.Row="3" ColumnDefinitions="{StaticResource MAA.Layout.MainWindow.ContentColumns}">
-      <Border Grid.Column="0"
-              Classes="section"
-              Margin="{DynamicResource MAA.Thickness.MarginRightSection}">
-        <TabControl SelectedIndex="{Binding SelectedRootTabIndex}">
-          <TabItem Header="任务队列">
-            <rootViews:TaskQueueView DataContext="{Binding TaskQueuePage}" />
-          </TabItem>
-          <TabItem Header="Copilot">
-            <advancedViews:CopilotView DataContext="{Binding CopilotPage}" />
-          </TabItem>
-          <TabItem Header="Toolbox">
-            <advancedViews:ToolboxView DataContext="{Binding ToolboxPage}" />
-          </TabItem>
-          <TabItem Header="高级">
-            <TabControl>
-              <TabItem Header="远程控制中心">
-                <advancedViews:RemoteControlCenterView DataContext="{Binding RemoteControlCenterPage}" />
-              </TabItem>
-              <TabItem Header="Overlay">
-                <advancedViews:OverlayView DataContext="{Binding OverlayAdvancedPage}" />
-              </TabItem>
-              <TabItem Header="托盘">
-                <advancedViews:TrayIntegrationView DataContext="{Binding TrayIntegrationPage}" />
-              </TabItem>
-              <TabItem Header="StageManager">
-                <advancedViews:StageManagerView DataContext="{Binding StageManagerPage}" />
-              </TabItem>
-              <TabItem Header="WebApi">
-                <advancedViews:WebApiView DataContext="{Binding WebApiPage}" />
-              </TabItem>
-              <TabItem Header="通知 Provider">
-                <advancedViews:ExternalNotificationProvidersView DataContext="{Binding ExternalNotificationProvidersPage}" />
-              </TabItem>
-            </TabControl>
-          </TabItem>
-          <TabItem Header="设置">
-            <rootViews:SettingsView DataContext="{Binding SettingsPage}" />
-          </TabItem>
-        </TabControl>
-      </Border>
-
-      <Border Grid.Column="1"
-              Classes="section section-strong">
-        <Grid RowDefinitions="Auto,Auto,*">
-          <TextBlock Classes="section-title" Text="Growl / 能力状态" />
-          <TextBlock Classes="long-wrap" Text="{Binding CapabilitySummary}" />
-          <ListBox Grid.Row="2" ItemsSource="{Binding GrowlMessages}" />
-        </Grid>
-      </Border>
-    </Grid>
-
-    <Border Grid.Row="4"
-            Classes="section"
-            Margin="{DynamicResource MAA.Thickness.MarginTopSection}">
-      <Grid ColumnDefinitions="*,*">
-        <StackPanel Grid.Column="0">
-          <TextBlock Classes="section-title" Text="导入状态" />
-          <TextBlock Classes="long-wrap" Text="{Binding ImportStatus}" />
-        </StackPanel>
-        <StackPanel Grid.Column="1">
-          <TextBlock Classes="section-title" Text="主日志" />
-          <ListBox MaxHeight="{DynamicResource MAA.Size.MainWindow.RootLogsMaxHeight}"
-                   ItemsSource="{Binding RootLogs}" />
-        </StackPanel>
-      </Grid>
-    </Border>
+    <TabControl Classes="root-nav"
+                SelectedIndex="{Binding SelectedRootTabIndex}">
+      <TabItem Header="{Binding RootTexts[Main.Tab.TaskQueue]}">
+        <rootViews:TaskQueueView DataContext="{Binding TaskQueuePage}" />
+      </TabItem>
+      <TabItem Header="{Binding RootTexts[Main.Tab.Copilot]}">
+        <advancedViews:CopilotView DataContext="{Binding CopilotPage}" />
+      </TabItem>
+      <TabItem Header="{Binding RootTexts[Main.Tab.Toolbox]}">
+        <advancedViews:ToolboxView DataContext="{Binding ToolboxPage}" />
+      </TabItem>
+      <TabItem Header="{Binding RootTexts[Main.Tab.Settings]}">
+        <rootViews:SettingsView DataContext="{Binding SettingsPage}" />
+      </TabItem>
+    </TabControl>
   </Grid>
 </Window>

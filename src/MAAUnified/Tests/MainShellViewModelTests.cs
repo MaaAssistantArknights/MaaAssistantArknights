@@ -1,7 +1,11 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Channels;
+using Avalonia.Threading;
 using MAAUnified.App.Features.Dialogs;
 using MAAUnified.App.ViewModels;
+using MAAUnified.App.ViewModels.Settings;
+using MAAUnified.App.ViewModels.TaskQueue;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Orchestration;
@@ -13,6 +17,7 @@ using MAAUnified.Platform;
 
 namespace MAAUnified.Tests;
 
+[Collection("MainShellSerial")]
 public sealed class MainShellViewModelTests
 {
     [Theory]
@@ -41,9 +46,9 @@ public sealed class MainShellViewModelTests
     }
 
     [Fact]
-    public void ConfigIssueDetails_ShouldOnlyKeepBlockingIssues_WithCompleteFields()
+    public async Task ConfigIssueDetails_ShouldOnlyKeepBlockingIssues_WithCompleteFields()
     {
-        using var fixture = TestFixture.CreateSync();
+        await using var fixture = await TestFixture.CreateAsync();
         var issues = new[]
         {
             new ConfigValidationIssue
@@ -132,6 +137,50 @@ public sealed class MainShellViewModelTests
         Assert.True(await WaitForLogContainsAsync(
             fixture.Runtime.DiagnosticsService.EventLogPath,
             "Config.SchemaMigration.DialogUnavailable"));
+    }
+
+    [Fact]
+    public async Task InitializeAsync_CoreInitFailure_ShouldRaiseDialogError()
+    {
+        await using var fixture = await TestFixture.CreateAsync(
+            bridge: new FailingInitializeBridge(CoreErrorCode.ResourceNotFound, "Client resource directory was not found."));
+        var raised = new List<DialogErrorRaisedEvent>();
+        fixture.Runtime.DialogFeatureService.ErrorRaised += (_, e) => raised.Add(e);
+
+        await fixture.ViewModel.InitializeAsync();
+
+        var coreFailure = Assert.Single(
+            raised,
+            e => string.Equals(e.Context, "App.Initialize", StringComparison.Ordinal));
+        Assert.Equal(CoreErrorCode.ResourceNotFound.ToString(), coreFailure.Result.Error?.Code);
+        Assert.Contains("Core 初始化失败", coreFailure.Result.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_ScreencapCostCallback_ShouldRefreshConnectionSummary()
+    {
+        var bridge = new FakeBridge();
+        await using var fixture = await TestFixture.CreateAsync(bridge: bridge);
+        await fixture.ViewModel.InitializeAsync();
+
+        var timestamp = new DateTimeOffset(2026, 3, 13, 1, 2, 3, TimeSpan.Zero);
+        bridge.Publish(
+            new CoreCallbackEvent(
+                2,
+                "ConnectionInfo",
+                """{"what":"ScreencapCost","details":{"min":123,"avg":234,"max":345}}""",
+                timestamp));
+
+        var expected = ConnectionGameSharedStateViewModel.FormatScreencapCost(123, 234, 345, timestamp);
+        Assert.True(await WaitUntilAsync(
+            () =>
+            {
+                Dispatcher.UIThread.RunJobs(null);
+                return string.Equals(
+                    fixture.ViewModel.ConnectionGameSharedState.ScreencapCost,
+                    expected,
+                    StringComparison.Ordinal);
+            }));
     }
 
     [Fact]
@@ -325,7 +374,7 @@ public sealed class MainShellViewModelTests
             }
             """);
 
-        fixture.ViewModel.SelectedImportSource = "仅 gui.new.json";
+        fixture.ViewModel.SelectedImportSource = ImportSource.GuiNewOnly;
 
         await fixture.ViewModel.ExecuteManualImportAsync();
 
@@ -336,6 +385,9 @@ public sealed class MainShellViewModelTests
         Assert.Contains(
             fixture.ViewModel.TaskQueuePage.Tasks,
             task => string.Equals(task.Type, "Fight", StringComparison.Ordinal));
+        Assert.Contains(
+            fixture.ViewModel.TaskQueuePage.LogCards,
+            card => card.PrimaryContent.Contains("已强行导入旧配置：gui.new.json", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -361,7 +413,7 @@ public sealed class MainShellViewModelTests
             }
             """);
 
-        fixture.ViewModel.SelectedImportSource = "仅 gui.new.json";
+        fixture.ViewModel.SelectedImportSource = ImportSource.GuiNewOnly;
         await fixture.ViewModel.ExecuteManualImportAsync();
 
         Assert.Equal("172.16.1.8:6000", fixture.ViewModel.ConnectionGameSharedState.ConnectAddress);
@@ -389,7 +441,7 @@ public sealed class MainShellViewModelTests
             }
             """);
 
-        fixture.ViewModel.SelectedImportSource = "仅 gui.new.json";
+        fixture.ViewModel.SelectedImportSource = ImportSource.GuiNewOnly;
         await fixture.ViewModel.ExecuteManualImportAsync();
 
         Assert.True(await WaitForLogContainsAsync(
@@ -398,12 +450,11 @@ public sealed class MainShellViewModelTests
     }
 
     [Theory]
-    [InlineData("自动(gui.new + gui)", ImportSource.Auto)]
-    [InlineData("仅 gui.new.json", ImportSource.GuiNewOnly)]
-    [InlineData("仅 gui.json", ImportSource.GuiOnly)]
+    [InlineData(ImportSource.Auto)]
+    [InlineData(ImportSource.GuiNewOnly)]
+    [InlineData(ImportSource.GuiOnly)]
     public async Task ExecuteManualImportAsync_ShouldMapSelectedImportSource(
-        string selectedImportSource,
-        ImportSource expectedSource)
+        ImportSource selectedImportSource)
     {
         var shellSpy = new SpyShellFeatureService("zh-cn");
         await using var fixture = await TestFixture.CreateAsync(shellService: shellSpy);
@@ -412,8 +463,151 @@ public sealed class MainShellViewModelTests
         await fixture.ViewModel.ExecuteManualImportAsync();
 
         Assert.Equal(1, shellSpy.ImportLegacyCallCount);
-        Assert.Equal(expectedSource, shellSpy.LastImportSource);
+        Assert.Equal(selectedImportSource, shellSpy.LastImportSource);
         Assert.True(shellSpy.LastImportManualImport);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_AutoImportedLegacyConfig_ShouldAppendImportLogToTaskQueue()
+    {
+        await using var fixture = await TestFixture.CreateAsync(preloadConfig: false);
+        Directory.CreateDirectory(Path.Combine(fixture.Root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(fixture.Root, "config", "gui.new.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "TaskQueue": [
+                    { "$type": "FightTask", "Name": "Fight", "IsEnable": true }
+                  ]
+                }
+              }
+            }
+            """);
+
+        await fixture.ViewModel.InitializeAsync();
+
+        Assert.True(await WaitUntilAsync(
+            () => fixture.ViewModel.TaskQueuePage.LogCards.Any(
+                card => card.PrimaryContent.Contains("已自动加载并转换 gui.new.json", StringComparison.Ordinal))));
+    }
+
+    [Fact]
+    public async Task SettingsProfileSwitch_ShouldRefreshTaskQueueAndConnectionState()
+    {
+        await using var fixture = await TestFixture.CreateAsync(
+            existingAvaloniaJson: CreateSwitchableProfilesConfigJson());
+        await fixture.ViewModel.InitializeAsync();
+
+        Assert.Equal("Default", fixture.Runtime.ConfigurationService.CurrentConfig.CurrentProfile);
+        Assert.Contains(
+            fixture.ViewModel.TaskQueuePage.Tasks,
+            task => string.Equals(task.Type, "Recruit", StringComparison.Ordinal));
+
+        fixture.ViewModel.SettingsPage.ConfigurationManagerSelectedProfile = "Alt";
+        await fixture.ViewModel.SettingsPage.SwitchConfigurationProfileAsync();
+
+        Assert.True(await WaitUntilAsync(
+            () => string.Equals(
+                fixture.Runtime.ConfigurationService.CurrentConfig.CurrentProfile,
+                "Alt",
+                StringComparison.OrdinalIgnoreCase)));
+        Assert.True(await WaitUntilAsync(
+            () => string.Equals(
+                      fixture.ViewModel.ConnectionGameSharedState.ConnectAddress,
+                      "10.0.0.2:5555",
+                      StringComparison.Ordinal)
+                  && string.Equals(
+                      fixture.ViewModel.ConnectionGameSharedState.ConnectConfig,
+                      "BlueStacks",
+                      StringComparison.Ordinal)
+                  && string.Equals(
+                      fixture.ViewModel.ConnectionGameSharedState.AdbPath,
+                      "/tmp/adb-alt",
+                      StringComparison.Ordinal)));
+        Assert.True(await WaitUntilAsync(
+            () => fixture.ViewModel.TaskQueuePage.Tasks.Any(
+                      task => string.Equals(task.Type, "Fight", StringComparison.Ordinal))
+                  && fixture.ViewModel.TaskQueuePage.Tasks.All(
+                      task => !string.Equals(task.Type, "Recruit", StringComparison.Ordinal))));
+    }
+
+    [Fact]
+    public async Task SettingsProfileSwitch_ShouldRefreshTaskSelectionTaskParamsAndTaskQueueScopedConfig()
+    {
+        await using var fixture = await TestFixture.CreateAsync(
+            existingAvaloniaJson: CreateTaskQueueScopedSwitchConfigJson());
+        await fixture.ViewModel.InitializeAsync();
+
+        Assert.True(await WaitUntilAsync(
+            () => string.Equals(fixture.ViewModel.TaskQueuePage.SelectedTask?.Name, "Fight Default", StringComparison.Ordinal)));
+        Assert.Equal("CE-6", fixture.ViewModel.TaskQueuePage.FightModule.Stage);
+        Assert.Equal(SelectionBatchMode.Clear, fixture.ViewModel.TaskQueuePage.SelectionBatchMode);
+
+        fixture.ViewModel.SettingsPage.ConfigurationManagerSelectedProfile = "Alt";
+        await fixture.ViewModel.SettingsPage.SwitchConfigurationProfileAsync();
+
+        Assert.True(await WaitUntilAsync(
+            () => string.Equals(
+                      fixture.Runtime.ConfigurationService.CurrentConfig.CurrentProfile,
+                      "Alt",
+                      StringComparison.OrdinalIgnoreCase)
+                  && string.Equals(
+                      fixture.ViewModel.TaskQueuePage.SelectedTask?.Name,
+                      "Rogue Alt",
+                      StringComparison.Ordinal)));
+        Assert.True(await WaitUntilAsync(
+            () => fixture.ViewModel.TaskQueuePage.SelectionBatchMode == SelectionBatchMode.Inverse));
+        Assert.True(await WaitUntilAsync(
+            () => fixture.ViewModel.TaskQueuePage.RoguelikeModule.DelayAbortUntilCombatComplete == false));
+
+        fixture.ViewModel.TaskQueuePage.SelectedTask = Assert.Single(
+            fixture.ViewModel.TaskQueuePage.Tasks,
+            task => string.Equals(task.Name, "Infrast Alt", StringComparison.Ordinal));
+        await fixture.ViewModel.TaskQueuePage.WaitForPendingBindingAsync();
+        Assert.Equal("243_layout_4_times_a_day.json", fixture.ViewModel.TaskQueuePage.InfrastModule.DefaultInfrast);
+        Assert.Equal(65, fixture.ViewModel.TaskQueuePage.InfrastModule.DormThresholdPercent);
+
+        fixture.ViewModel.TaskQueuePage.SelectedTask = Assert.Single(
+            fixture.ViewModel.TaskQueuePage.Tasks,
+            task => string.Equals(task.Name, "Fight Alt", StringComparison.Ordinal));
+        await fixture.ViewModel.TaskQueuePage.WaitForPendingBindingAsync();
+        Assert.Equal("1-7", fixture.ViewModel.TaskQueuePage.FightModule.Stage);
+    }
+
+    [Fact]
+    public async Task SettingsProfileSwitch_WhenTargetProfileHasNoTaskSelection_ShouldPreserveCurrentTaskSelectionAndRefreshBoundParams()
+    {
+        await using var fixture = await TestFixture.CreateAsync(
+            existingAvaloniaJson: CreateNoTaskSelectionSwitchConfigJson());
+        await fixture.ViewModel.InitializeAsync();
+
+        Assert.True(await WaitUntilAsync(
+            () => string.Equals(fixture.ViewModel.TaskQueuePage.SelectedTask?.Name, "Start Default", StringComparison.Ordinal)));
+        Assert.Equal("default-account", fixture.ViewModel.TaskQueuePage.StartUpModule.AccountName);
+
+        fixture.ViewModel.SettingsPage.ConfigurationManagerSelectedProfile = "Alt";
+        await fixture.ViewModel.SettingsPage.SwitchConfigurationProfileAsync();
+
+        Assert.True(await WaitUntilAsync(
+            () => string.Equals(
+                      fixture.Runtime.ConfigurationService.CurrentConfig.CurrentProfile,
+                      "Alt",
+                      StringComparison.OrdinalIgnoreCase)
+                  && string.Equals(
+                      fixture.ViewModel.TaskQueuePage.SelectedTask?.Name,
+                      "Start Alt",
+                      StringComparison.Ordinal)));
+        Assert.True(await WaitUntilAsync(
+            () => fixture.ViewModel.TaskQueuePage.StartUpModule.IsTaskBound
+                  && string.Equals(
+                      fixture.ViewModel.TaskQueuePage.StartUpModule.AccountName,
+                      "alt-account",
+                      StringComparison.Ordinal)));
+        Assert.False(fixture.ViewModel.TaskQueuePage.ShowTaskConfigHint);
+        Assert.NotNull(fixture.ViewModel.TaskQueuePage.SelectedTaskSettingsViewModel);
     }
 
     [Fact]
@@ -527,6 +721,217 @@ public sealed class MainShellViewModelTests
             """;
     }
 
+    private static string CreateSwitchableProfilesConfigJson()
+    {
+        return
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {
+                    "ConnectAddress": "127.0.0.1:5555",
+                    "ConnectConfig": "General",
+                    "AdbPath": "/tmp/adb-default",
+                    "TaskQueue.PostAction": {
+                      "exit_emulator": true,
+                      "commands": {}
+                    }
+                  },
+                  "TaskQueue": [
+                    {
+                      "Type": "Recruit",
+                      "Name": "Recruit",
+                      "IsEnabled": true,
+                      "Params": {
+                        "times": 4
+                      }
+                    }
+                  ]
+                },
+                "Alt": {
+                  "Values": {
+                    "ConnectAddress": "10.0.0.2:5555",
+                    "ConnectConfig": "BlueStacks",
+                    "AdbPath": "/tmp/adb-alt",
+                    "TaskQueue.PostAction": {
+                      "exit_self": true,
+                      "commands": {}
+                    }
+                  },
+                  "TaskQueue": [
+                    {
+                      "Type": "Fight",
+                      "Name": "Fight",
+                      "IsEnabled": true,
+                      "Params": {}
+                    }
+                  ]
+                }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """;
+    }
+
+    private static string CreateTaskQueueScopedSwitchConfigJson()
+    {
+        return
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {
+                    "ConnectAddress": "127.0.0.1:5555",
+                    "ConnectConfig": "General",
+                    "AdbPath": "/tmp/adb-default",
+                    "TaskSelectedIndex": 1,
+                    "Infrast.DefaultInfrast": "153_layout_3_times_a_day.json",
+                    "GUI.InverseClearMode": "ClearInverse",
+                    "MainFunction.InverseMode": "False",
+                    "Roguelike.RoguelikeDelayAbortUntilCombatComplete": "True"
+                  },
+                  "TaskQueue": [
+                    {
+                      "Type": "Infrast",
+                      "Name": "Infrast Default",
+                      "IsEnabled": true,
+                      "Params": {
+                        "mode": 0,
+                        "drones": "Money",
+                        "threshold": 0.30,
+                        "facility": ["Mfg", "Dorm"]
+                      }
+                    },
+                    {
+                      "Type": "Fight",
+                      "Name": "Fight Default",
+                      "IsEnabled": true,
+                      "Params": {
+                        "stage": "CE-6",
+                        "times": 2
+                      }
+                    },
+                    {
+                      "Type": "Roguelike",
+                      "Name": "Rogue Default",
+                      "IsEnabled": true,
+                      "Params": {
+                        "theme": "Sami",
+                        "mode": 0
+                      }
+                    }
+                  ]
+                },
+                "Alt": {
+                  "Values": {
+                    "ConnectAddress": "10.0.0.2:5555",
+                    "ConnectConfig": "BlueStacks",
+                    "AdbPath": "/tmp/adb-alt",
+                    "TaskSelectedIndex": 2,
+                    "Infrast.DefaultInfrast": "243_layout_4_times_a_day.json",
+                    "GUI.InverseClearMode": "ClearInverse",
+                    "MainFunction.InverseMode": "True",
+                    "Roguelike.RoguelikeDelayAbortUntilCombatComplete": "False"
+                  },
+                  "TaskQueue": [
+                    {
+                      "Type": "Infrast",
+                      "Name": "Infrast Alt",
+                      "IsEnabled": true,
+                      "Params": {
+                        "mode": 0,
+                        "drones": "PureGold",
+                        "threshold": 0.65,
+                        "facility": ["Mfg", "Trade", "Dorm"]
+                      }
+                    },
+                    {
+                      "Type": "Fight",
+                      "Name": "Fight Alt",
+                      "IsEnabled": true,
+                      "Params": {
+                        "stage": "1-7",
+                        "times": 7
+                      }
+                    },
+                    {
+                      "Type": "Roguelike",
+                      "Name": "Rogue Alt",
+                      "IsEnabled": true,
+                      "Params": {
+                        "theme": "JieGarden",
+                        "mode": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "GlobalValues": {
+                "GUI.Localization": "zh-cn"
+              },
+              "Migration": {}
+            }
+            """;
+    }
+
+    private static string CreateNoTaskSelectionSwitchConfigJson()
+    {
+        return
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {
+                    "TaskSelectedIndex": 0,
+                    "ConnectAddress": "127.0.0.1:5555"
+                  },
+                  "TaskQueue": [
+                    {
+                      "Type": "StartUp",
+                      "Name": "Start Default",
+                      "IsEnabled": true,
+                      "Params": {
+                        "account_name": "default-account",
+                        "client_type": "Official",
+                        "start_game_enabled": false
+                      }
+                    }
+                  ]
+                },
+                "Alt": {
+                  "Values": {
+                    "TaskSelectedIndex": -1,
+                    "ConnectAddress": "10.0.0.2:5555"
+                  },
+                  "TaskQueue": [
+                    {
+                      "Type": "StartUp",
+                      "Name": "Start Alt",
+                      "IsEnabled": true,
+                      "Params": {
+                        "account_name": "alt-account",
+                        "client_type": "Official",
+                        "start_game_enabled": false
+                      }
+                    }
+                  ]
+                }
+              },
+              "GlobalValues": {
+                "GUI.Localization": "zh-cn"
+              },
+              "Migration": {}
+            }
+            """;
+    }
+
     private static async Task SetSessionStateAsync(UnifiedSessionService sessionService, SessionState targetState)
     {
         switch (targetState)
@@ -602,6 +1007,21 @@ public sealed class MainShellViewModelTests
         return false;
     }
 
+    private static async Task<bool> WaitUntilAsync(Func<bool> predicate, int retry = 40, int delayMs = 25)
+    {
+        for (var i = 0; i < retry; i++)
+        {
+            if (predicate())
+            {
+                return true;
+            }
+
+            await Task.Delay(delayMs);
+        }
+
+        return false;
+    }
+
     private static async Task<IReadOnlyList<string>> WaitForEventLinesAsync(
         string path,
         string expected,
@@ -629,7 +1049,7 @@ public sealed class MainShellViewModelTests
         return Array.Empty<string>();
     }
 
-    private sealed class TestFixture : IAsyncDisposable, IDisposable
+    private sealed class TestFixture : IAsyncDisposable
     {
         private TestFixture(
             string root,
@@ -651,17 +1071,14 @@ public sealed class MainShellViewModelTests
 
         public CapturingTrayService TrayService { get; }
 
-        public static TestFixture CreateSync()
-        {
-            return CreateAsync().GetAwaiter().GetResult();
-        }
-
         public static async Task<TestFixture> CreateAsync(
             IShellFeatureService? shellService = null,
             IAppLifecycleService? appLifecycleService = null,
             IGlobalHotkeyService? hotkeyService = null,
             string? existingAvaloniaJson = null,
-            IAppDialogService? dialogService = null)
+            IAppDialogService? dialogService = null,
+            IMaaCoreBridge? bridge = null,
+            bool preloadConfig = true)
         {
             var root = Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(Path.Combine(root, "config"));
@@ -680,10 +1097,13 @@ public sealed class MainShellViewModelTests
                 new GuiJsonConfigImporter(),
                 log,
                 root);
-            await config.LoadOrBootstrapAsync();
+            if (preloadConfig)
+            {
+                await config.LoadOrBootstrapAsync();
+            }
 
-            var bridge = new FakeBridge();
-            var session = new UnifiedSessionService(bridge, config, log, new SessionStateMachine());
+            var runtimeBridge = bridge ?? new FakeBridge();
+            var session = new UnifiedSessionService(runtimeBridge, config, log, new SessionStateMachine());
             var tray = new CapturingTrayService();
             var platform = new PlatformServiceBundle
             {
@@ -702,9 +1122,9 @@ public sealed class MainShellViewModelTests
 
             var runtime = new MAAUnifiedRuntime
             {
-                CoreBridge = bridge,
+                CoreBridge = runtimeBridge,
                 ConfigurationService = config,
-                ResourceWorkflowService = new ResourceWorkflowService(root, bridge, log),
+                ResourceWorkflowService = new ResourceWorkflowService(root, runtimeBridge, log),
                 SessionService = session,
                 Platform = platform,
                 LogService = log,
@@ -719,6 +1139,7 @@ public sealed class MainShellViewModelTests
                 OverlayFeatureService = new OverlayFeatureService(capability),
                 NotificationProviderFeatureService = new NotificationProviderFeatureService(),
                 SettingsFeatureService = new SettingsFeatureService(config, capability, diagnostics),
+                ConfigurationProfileFeatureService = new ConfigurationProfileFeatureService(config),
                 DialogFeatureService = new DialogFeatureService(diagnostics),
                 PostActionFeatureService = new PostActionFeatureService(
                     config,
@@ -730,13 +1151,9 @@ public sealed class MainShellViewModelTests
             return new TestFixture(root, runtime, new MainShellViewModel(runtime, dialogService), tray);
         }
 
-        public void Dispose()
-        {
-            DisposeAsync().AsTask().GetAwaiter().GetResult();
-        }
-
         public async ValueTask DisposeAsync()
         {
+            TestShellCleanup.StopTimerScheduler(ViewModel);
             await Runtime.DisposeAsync();
             try
             {
@@ -968,11 +1385,84 @@ public sealed class MainShellViewModelTests
 
     private sealed class FakeBridge : IMaaCoreBridge
     {
+        private readonly Channel<CoreCallbackEvent> _callbackChannel = Channel.CreateUnbounded<CoreCallbackEvent>();
+
         public Task<CoreResult<CoreInitializeInfo>> InitializeAsync(
             CoreInitializeRequest request,
             CancellationToken cancellationToken = default)
         {
             return Task.FromResult(CoreResult<CoreInitializeInfo>.Ok(new CoreInitializeInfo(request.BaseDirectory, "fake", "fake", request.ClientType)));
+        }
+
+        public Task<CoreResult<bool>> ConnectAsync(CoreConnectionInfo connectionInfo, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<bool>.Ok(true));
+        }
+
+        public Task<CoreResult<int>> AppendTaskAsync(CoreTaskRequest task, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<int>.Ok(1));
+        }
+
+        public Task<CoreResult<bool>> StartAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<bool>.Ok(true));
+        }
+
+        public Task<CoreResult<bool>> StopAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<bool>.Ok(true));
+        }
+
+        public Task<CoreResult<CoreRuntimeStatus>> GetRuntimeStatusAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<CoreRuntimeStatus>.Ok(new CoreRuntimeStatus(true, true, false)));
+        }
+
+        public Task<CoreResult<bool>> AttachWindowAsync(CoreAttachWindowRequest request, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<bool>.Fail(new CoreError(CoreErrorCode.NotSupported, "not supported")));
+        }
+
+        public Task<CoreResult<byte[]>> GetImageAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<byte[]>.Fail(new CoreError(CoreErrorCode.GetImageFailed, "not supported")));
+        }
+
+        public async IAsyncEnumerable<CoreCallbackEvent> CallbackStreamAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            await foreach (var callback in _callbackChannel.Reader.ReadAllAsync(cancellationToken))
+            {
+                yield return callback;
+            }
+        }
+
+        public void Publish(CoreCallbackEvent callback)
+        {
+            _callbackChannel.Writer.TryWrite(callback);
+        }
+
+        public ValueTask DisposeAsync()
+        {
+            _callbackChannel.Writer.TryComplete();
+            return ValueTask.CompletedTask;
+        }
+    }
+
+    private sealed class FailingInitializeBridge : IMaaCoreBridge
+    {
+        private readonly CoreError _error;
+
+        public FailingInitializeBridge(CoreErrorCode code, string message)
+        {
+            _error = new CoreError(code, message);
+        }
+
+        public Task<CoreResult<CoreInitializeInfo>> InitializeAsync(
+            CoreInitializeRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<CoreInitializeInfo>.Fail(_error));
         }
 
         public Task<CoreResult<bool>> ConnectAsync(CoreConnectionInfo connectionInfo, CancellationToken cancellationToken = default)

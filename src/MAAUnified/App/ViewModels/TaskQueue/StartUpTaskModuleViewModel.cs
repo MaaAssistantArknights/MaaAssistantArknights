@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using MAAUnified.App.ViewModels.Settings;
 using MAAUnified.Application.Models;
@@ -9,32 +10,160 @@ namespace MAAUnified.App.ViewModels.TaskQueue;
 
 public sealed class StartUpTaskModuleViewModel : TypedTaskModuleViewModelBase<StartUpTaskParamsDto>
 {
+    private static readonly (string Value, string TextKey, string Fallback)[] ClientTypeOptionSpecs =
+    [
+        ("Official", "StartUp.Option.ClientType.Official", "Official"),
+        ("Bilibili", "StartUp.Option.ClientType.Bilibili", "Bilibili"),
+        ("YoStarEN", "StartUp.Option.ClientType.YoStarEN", "YoStarEN"),
+        ("YoStarJP", "StartUp.Option.ClientType.YoStarJP", "YoStarJP"),
+        ("YoStarKR", "StartUp.Option.ClientType.YoStarKR", "YoStarKR"),
+        ("txwy", "StartUp.Option.ClientType.Txwy", "txwy"),
+    ];
+
+    private static readonly (string Value, string TextKey, string Fallback)[] ConnectConfigOptionSpecs =
+    [
+        ("General", "StartUp.Option.ConnectConfig.General", "General Mode"),
+        ("BlueStacks", "StartUp.Option.ConnectConfig.BlueStacks", "BlueStacks"),
+        ("MuMuEmulator12", "StartUp.Option.ConnectConfig.MuMuEmulator12", "MuMu Emulator 12"),
+        ("LDPlayer", "StartUp.Option.ConnectConfig.LDPlayer", "LD Player"),
+        ("Nox", "StartUp.Option.ConnectConfig.Nox", "Nox"),
+        ("XYAZ", "StartUp.Option.ConnectConfig.XYAZ", "MEmu"),
+        ("PC", "StartUp.Option.ConnectConfig.PC", "PC Client"),
+        ("WSA", "StartUp.Option.ConnectConfig.WSA", "Old version of WSA"),
+        ("Compatible", "StartUp.Option.ConnectConfig.Compatible", "Compatible Mode"),
+        ("SecondResolution", "StartUp.Option.ConnectConfig.SecondResolution", "2nd Resolution"),
+        ("GeneralWithoutScreencapErr", "StartUp.Option.ConnectConfig.GeneralWithoutScreencapErr", "General Mode (Blocked exception output)"),
+    ];
+
+    private static readonly (string Value, string TextKey, string Fallback)[] TouchModeOptionSpecs =
+    [
+        ("minitouch", "StartUp.Option.TouchMode.MiniTouch", "Minitouch (Default)"),
+        ("maatouch", "StartUp.Option.TouchMode.MaaTouch", "MaaTouch (Experimental)"),
+        ("adb", "StartUp.Option.TouchMode.AdbTouch", "ADB Input (Deprecated)"),
+    ];
+
+    private static readonly (string Value, string TextKey, string Fallback)[] AttachWindowScreencapOptionSpecs =
+    [
+        ("2", "StartUp.Option.AttachScreencap.FramePool", "FramePool (Default, Background)"),
+        ("16", "StartUp.Option.AttachScreencap.PrintWindow", "PrintWindow (Background, Backup 1)"),
+        ("32", "StartUp.Option.AttachScreencap.ScreenDC", "ScreenDC (Background, Backup 2)"),
+        ("8", "StartUp.Option.AttachScreencap.DesktopWindow", "DesktopWindow (Foreground, More Stable)"),
+    ];
+
+    private static readonly (string Value, string TextKey, string Fallback)[] AttachWindowInputOptionSpecs =
+    [
+        ("1", "StartUp.Option.AttachInput.Seize", "Seize (Foreground, More Stable)"),
+        ("64", "StartUp.Option.AttachInput.PostWithCursor", "PostMessageWithCursor (Semi-background)"),
+        ("32", "StartUp.Option.AttachInput.SendWithCursor", "SendMessageWithCursor (Semi-background, Backup)"),
+        ("256", "StartUp.Option.AttachInput.PostWithWindowPos", "PostMessageWithWindowPos (Background Window)"),
+        ("128", "StartUp.Option.AttachInput.SendWithWindowPos", "SendMessageWithWindowPos (Background Window, Backup)"),
+    ];
+
     private readonly ConnectionGameSharedStateViewModel _sharedState;
+    private readonly Func<CancellationToken, Task>? _accountSwitchManualRunAction;
     private string _accountName = string.Empty;
-    private string _attachWindowScreencapMethod = "2";
-    private string _attachWindowMouseMethod = "64";
-    private string _attachWindowKeyboardMethod = "64";
+    private IReadOnlyList<TaskModuleOption> _clientTypeOptions = [];
+    private IReadOnlyList<TaskModuleOption> _connectConfigOptions = [];
+    private IReadOnlyList<TaskModuleOption> _touchModeOptions = [];
+    private IReadOnlyList<TaskModuleOption> _attachWindowScreencapOptions = [];
+    private IReadOnlyList<TaskModuleOption> _attachWindowInputOptions = [];
+    private bool _isAccountSwitchRunning;
 
     public StartUpTaskModuleViewModel(
         MAAUnifiedRuntime runtime,
         LocalizedTextMap texts,
-        ConnectionGameSharedStateViewModel sharedState)
+        ConnectionGameSharedStateViewModel sharedState,
+        Func<CancellationToken, Task>? accountSwitchManualRunAction = null)
         : base(runtime, texts, "TaskQueue.StartUp")
     {
         _sharedState = sharedState;
+        _accountSwitchManualRunAction = accountSwitchManualRunAction;
         _sharedState.PropertyChanged += OnSharedStateChanged;
+        Texts.PropertyChanged += OnTextsPropertyChanged;
+        RebuildOptionLists();
     }
 
-    public IReadOnlyList<string> ClientTypeOptions => _sharedState.ClientTypeOptions;
+    public IReadOnlyList<TaskModuleOption> ClientTypeOptions => _clientTypeOptions;
 
-    public IReadOnlyList<string> ConnectConfigOptions => _sharedState.ConnectConfigOptions;
+    public IReadOnlyList<TaskModuleOption> ConnectConfigOptions => _connectConfigOptions;
 
-    public IReadOnlyList<string> TouchModeOptions => _sharedState.TouchModeOptions;
+    public IReadOnlyList<TaskModuleOption> TouchModeOptions => _touchModeOptions;
+
+    public IReadOnlyList<TaskModuleOption> AttachWindowScreencapOptions => _attachWindowScreencapOptions;
+
+    public IReadOnlyList<TaskModuleOption> AttachWindowInputOptions => _attachWindowInputOptions;
+
+    public ObservableCollection<string> ConnectAddressHistory => _sharedState.ConnectAddressHistory;
+
+    public TaskModuleOption? SelectedClientTypeOption
+    {
+        get
+        {
+            if (string.Equals(ClientType, "Txwy", StringComparison.OrdinalIgnoreCase))
+            {
+                return new TaskModuleOption(
+                    ClientType,
+                    Texts.GetOrDefault("StartUp.Option.ClientType.Txwy", "txwy"));
+            }
+
+            return ResolveSelectedOption(ClientTypeOptions, ClientType);
+        }
+        set => ClientType = value?.Type ?? string.Empty;
+    }
+
+    public TaskModuleOption? SelectedConnectConfigOption
+    {
+        get
+        {
+            if (string.Equals(ConnectConfig, "Mumu", StringComparison.OrdinalIgnoreCase))
+            {
+                return new TaskModuleOption(
+                    ConnectConfig,
+                    Texts.GetOrDefault("StartUp.Option.ConnectConfig.MuMuEmulator12", "MuMu Emulator 12"));
+            }
+
+            return ResolveSelectedOption(ConnectConfigOptions, ConnectConfig);
+        }
+        set => ConnectConfig = value?.Type ?? string.Empty;
+    }
+
+    public TaskModuleOption? SelectedTouchModeOption
+    {
+        get => ResolveSelectedOption(TouchModeOptions, TouchMode);
+        set => TouchMode = value?.Type ?? string.Empty;
+    }
+
+    public TaskModuleOption? SelectedAttachWindowScreencapOption
+    {
+        get => ResolveSelectedOption(AttachWindowScreencapOptions, AttachWindowScreencapMethod);
+        set => AttachWindowScreencapMethod = value?.Type ?? string.Empty;
+    }
+
+    public TaskModuleOption? SelectedAttachWindowMouseOption
+    {
+        get => ResolveSelectedOption(AttachWindowInputOptions, AttachWindowMouseMethod);
+        set => AttachWindowMouseMethod = value?.Type ?? string.Empty;
+    }
+
+    public TaskModuleOption? SelectedAttachWindowKeyboardOption
+    {
+        get => ResolveSelectedOption(AttachWindowInputOptions, AttachWindowKeyboardMethod);
+        set => AttachWindowKeyboardMethod = value?.Type ?? string.Empty;
+    }
 
     public string AccountName
     {
         get => _accountName;
-        set => SetTrackedProperty(ref _accountName, value);
+        set
+        {
+            var normalized = value?.Trim() ?? string.Empty;
+            if (!SetTrackedProperty(ref _accountName, normalized))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(CanRunAccountSwitchNow));
+        }
     }
 
     public string ClientType
@@ -51,10 +180,13 @@ public sealed class StartUpTaskModuleViewModel : TypedTaskModuleViewModelBase<St
             _sharedState.ClientType = normalized;
             MarkDirty();
             OnPropertyChanged();
-            if (!string.Equals(normalized, "Official", StringComparison.OrdinalIgnoreCase)
-                && !string.Equals(normalized, "Bilibili", StringComparison.OrdinalIgnoreCase))
+            OnPropertyChanged(nameof(SelectedClientTypeOption));
+            OnPropertyChanged(nameof(ShowAccountSwitch));
+            OnPropertyChanged(nameof(CanRunAccountSwitchNow));
+            if (!IsAccountSwitchSupportedClient(normalized))
             {
                 SetTrackedProperty(ref _accountName, string.Empty, nameof(AccountName));
+                OnPropertyChanged(nameof(CanRunAccountSwitchNow));
             }
         }
     }
@@ -89,6 +221,7 @@ public sealed class StartUpTaskModuleViewModel : TypedTaskModuleViewModelBase<St
             _sharedState.ConnectConfig = normalized;
             MarkDirty();
             OnPropertyChanged();
+            OnPropertyChanged(nameof(SelectedConnectConfigOption));
         }
     }
 
@@ -137,6 +270,7 @@ public sealed class StartUpTaskModuleViewModel : TypedTaskModuleViewModelBase<St
             _sharedState.TouchMode = value;
             MarkDirty();
             OnPropertyChanged();
+            OnPropertyChanged(nameof(SelectedTouchModeOption));
         }
     }
 
@@ -158,22 +292,85 @@ public sealed class StartUpTaskModuleViewModel : TypedTaskModuleViewModelBase<St
 
     public bool CanEditStartGameEnabled => _sharedState.CanStartGameEnabled;
 
+    public bool ShowAccountSwitch => IsAccountSwitchSupportedClient(ClientType);
+
+    public bool CanRunAccountSwitchNow =>
+        ShowAccountSwitch
+        && !string.IsNullOrWhiteSpace(AccountName)
+        && !_isAccountSwitchRunning;
+
     public string AttachWindowScreencapMethod
     {
-        get => _attachWindowScreencapMethod;
-        set => SetTrackedProperty(ref _attachWindowScreencapMethod, value);
+        get => _sharedState.AttachWindowScreencapMethod;
+        set
+        {
+            var normalized = value?.Trim() ?? string.Empty;
+            if (string.Equals(_sharedState.AttachWindowScreencapMethod, normalized, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            _sharedState.AttachWindowScreencapMethod = normalized;
+            MarkDirty();
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(SelectedAttachWindowScreencapOption));
+        }
     }
 
     public string AttachWindowMouseMethod
     {
-        get => _attachWindowMouseMethod;
-        set => SetTrackedProperty(ref _attachWindowMouseMethod, value);
+        get => _sharedState.AttachWindowMouseMethod;
+        set
+        {
+            var normalized = value?.Trim() ?? string.Empty;
+            if (string.Equals(_sharedState.AttachWindowMouseMethod, normalized, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            _sharedState.AttachWindowMouseMethod = normalized;
+            MarkDirty();
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(SelectedAttachWindowMouseOption));
+        }
     }
 
     public string AttachWindowKeyboardMethod
     {
-        get => _attachWindowKeyboardMethod;
-        set => SetTrackedProperty(ref _attachWindowKeyboardMethod, value);
+        get => _sharedState.AttachWindowKeyboardMethod;
+        set
+        {
+            var normalized = value?.Trim() ?? string.Empty;
+            if (string.Equals(_sharedState.AttachWindowKeyboardMethod, normalized, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            _sharedState.AttachWindowKeyboardMethod = normalized;
+            MarkDirty();
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(SelectedAttachWindowKeyboardOption));
+        }
+    }
+
+    public async Task RunAccountSwitchManualAsync(CancellationToken cancellationToken = default)
+    {
+        if (!CanRunAccountSwitchNow || _accountSwitchManualRunAction is null)
+        {
+            return;
+        }
+
+        _isAccountSwitchRunning = true;
+        OnPropertyChanged(nameof(CanRunAccountSwitchNow));
+        try
+        {
+            await _accountSwitchManualRunAction(cancellationToken);
+        }
+        finally
+        {
+            _isAccountSwitchRunning = false;
+            OnPropertyChanged(nameof(CanRunAccountSwitchNow));
+        }
     }
 
     protected override Task<UiOperationResult<StartUpTaskParamsDto>> LoadDtoAsync(int index, CancellationToken cancellationToken)
@@ -228,6 +425,7 @@ public sealed class StartUpTaskModuleViewModel : TypedTaskModuleViewModelBase<St
         {
             case nameof(ConnectionGameSharedStateViewModel.ConnectConfig):
                 OnPropertyChanged(nameof(ConnectConfig));
+                OnPropertyChanged(nameof(SelectedConnectConfigOption));
                 OnPropertyChanged(nameof(CanEditStartGameEnabled));
                 break;
             case nameof(ConnectionGameSharedStateViewModel.ConnectAddress):
@@ -238,12 +436,16 @@ public sealed class StartUpTaskModuleViewModel : TypedTaskModuleViewModelBase<St
                 break;
             case nameof(ConnectionGameSharedStateViewModel.ClientType):
                 OnPropertyChanged(nameof(ClientType));
+                OnPropertyChanged(nameof(SelectedClientTypeOption));
+                OnPropertyChanged(nameof(ShowAccountSwitch));
+                OnPropertyChanged(nameof(CanRunAccountSwitchNow));
                 break;
             case nameof(ConnectionGameSharedStateViewModel.StartGameEnabled):
                 OnPropertyChanged(nameof(StartGameEnabled));
                 break;
             case nameof(ConnectionGameSharedStateViewModel.TouchMode):
                 OnPropertyChanged(nameof(TouchMode));
+                OnPropertyChanged(nameof(SelectedTouchModeOption));
                 break;
             case nameof(ConnectionGameSharedStateViewModel.AutoDetect):
                 OnPropertyChanged(nameof(AutoDetectConnection));
@@ -251,11 +453,91 @@ public sealed class StartUpTaskModuleViewModel : TypedTaskModuleViewModelBase<St
             case nameof(ConnectionGameSharedStateViewModel.CanStartGameEnabled):
                 OnPropertyChanged(nameof(CanEditStartGameEnabled));
                 break;
+            case nameof(ConnectionGameSharedStateViewModel.AttachWindowScreencapMethod):
+                OnPropertyChanged(nameof(AttachWindowScreencapMethod));
+                OnPropertyChanged(nameof(SelectedAttachWindowScreencapOption));
+                break;
+            case nameof(ConnectionGameSharedStateViewModel.AttachWindowMouseMethod):
+                OnPropertyChanged(nameof(AttachWindowMouseMethod));
+                OnPropertyChanged(nameof(SelectedAttachWindowMouseOption));
+                break;
+            case nameof(ConnectionGameSharedStateViewModel.AttachWindowKeyboardMethod):
+                OnPropertyChanged(nameof(AttachWindowKeyboardMethod));
+                OnPropertyChanged(nameof(SelectedAttachWindowKeyboardOption));
+                break;
         }
 
         if (!IsApplyingDto && IsTaskBound)
         {
             IsDirty = true;
         }
+    }
+
+    private void OnTextsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(e.PropertyName)
+            && !string.Equals(e.PropertyName, nameof(LocalizedTextMap.Language), StringComparison.Ordinal)
+            && !string.Equals(e.PropertyName, "Item[]", StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        RebuildOptionLists();
+    }
+
+    private void RebuildOptionLists()
+    {
+        _clientTypeOptions = BuildOptions(ClientTypeOptionSpecs);
+        _connectConfigOptions = BuildOptions(ConnectConfigOptionSpecs);
+        _touchModeOptions = BuildOptions(TouchModeOptionSpecs);
+        _attachWindowScreencapOptions = BuildOptions(AttachWindowScreencapOptionSpecs);
+        _attachWindowInputOptions = BuildOptions(AttachWindowInputOptionSpecs);
+
+        OnPropertyChanged(nameof(ClientTypeOptions));
+        OnPropertyChanged(nameof(ConnectConfigOptions));
+        OnPropertyChanged(nameof(TouchModeOptions));
+        OnPropertyChanged(nameof(AttachWindowScreencapOptions));
+        OnPropertyChanged(nameof(AttachWindowInputOptions));
+        OnPropertyChanged(nameof(SelectedClientTypeOption));
+        OnPropertyChanged(nameof(SelectedConnectConfigOption));
+        OnPropertyChanged(nameof(SelectedTouchModeOption));
+        OnPropertyChanged(nameof(SelectedAttachWindowScreencapOption));
+        OnPropertyChanged(nameof(SelectedAttachWindowMouseOption));
+        OnPropertyChanged(nameof(SelectedAttachWindowKeyboardOption));
+    }
+
+    private IReadOnlyList<TaskModuleOption> BuildOptions(
+        IEnumerable<(string Value, string TextKey, string Fallback)> specs)
+    {
+        return specs
+            .Select(spec => new TaskModuleOption(spec.Value, Texts.GetOrDefault(spec.TextKey, spec.Fallback)))
+            .ToArray();
+    }
+
+    private static TaskModuleOption? ResolveSelectedOption(
+        IReadOnlyList<TaskModuleOption> options,
+        string? value)
+    {
+        var normalized = value?.Trim() ?? string.Empty;
+        if (string.IsNullOrEmpty(normalized))
+        {
+            return options.FirstOrDefault();
+        }
+
+        foreach (var option in options)
+        {
+            if (string.Equals(option.Type, normalized, StringComparison.OrdinalIgnoreCase))
+            {
+                return option;
+            }
+        }
+
+        return new TaskModuleOption(normalized, normalized);
+    }
+
+    private static bool IsAccountSwitchSupportedClient(string? clientType)
+    {
+        return string.Equals(clientType, "Official", StringComparison.OrdinalIgnoreCase)
+               || string.Equals(clientType, "Bilibili", StringComparison.OrdinalIgnoreCase);
     }
 }

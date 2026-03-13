@@ -6,9 +6,11 @@ using MAAUnified.App.ViewModels.Settings;
 using MAAUnified.App.ViewModels.TaskQueue;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
+using MAAUnified.Application.Models.TaskParams;
 using MAAUnified.Application.Orchestration;
 using MAAUnified.Application.Services;
 using MAAUnified.Application.Services.Features;
+using MAAUnified.Application.Services.TaskParams;
 using MAAUnified.Compat.Constants;
 using MAAUnified.CoreBridge;
 using MAAUnified.Platform;
@@ -70,7 +72,7 @@ public sealed class TaskModuleBFeatureTests
     }
 
     [Fact]
-    public async Task QueueEnabledTasks_BlocksExecutionAndDisablesMallCreditFight_WhenFightStageIsEmpty()
+    public async Task QueueEnabledTasks_LegacyEmptyFightStage_NormalizesToCurrentOrLast_AndDisablesMallCreditFight()
     {
         await using var fixture = await TestFixture.CreateAsync();
         var profile = fixture.Config.CurrentConfig.Profiles["Default"];
@@ -100,9 +102,16 @@ public sealed class TaskModuleBFeatureTests
         });
 
         var queueResult = await fixture.TaskQueue.QueueEnabledTasksAsync();
-        Assert.False(queueResult.Success);
-        Assert.Contains("fight.stage", queueResult.Error?.Message ?? string.Empty, StringComparison.OrdinalIgnoreCase);
+        Assert.True(queueResult.Success);
+        Assert.Equal(2, queueResult.Value);
+
+        Assert.Equal(FightStageSelection.CurrentOrLast, profile.TaskQueue[0].Params["stage"]?.GetValue<string>());
         Assert.False(profile.TaskQueue[1].Params["credit_fight"]?.GetValue<bool>());
+
+        var fightTask = Assert.IsType<JsonObject>(JsonNode.Parse(fixture.Bridge.AppendedTasks[0].ParamsJson));
+        var mallTask = Assert.IsType<JsonObject>(JsonNode.Parse(fixture.Bridge.AppendedTasks[1].ParamsJson));
+        Assert.Equal(string.Empty, fightTask["stage"]?.GetValue<string>());
+        Assert.False(mallTask["credit_fight"]?.GetValue<bool>());
 
         var eventLog = await File.ReadAllTextAsync(Path.Combine(fixture.Root, "debug", "avalonia-ui-events.log"));
         Assert.Contains("Mall credit fight disabled", eventLog, StringComparison.OrdinalIgnoreCase);
@@ -120,7 +129,7 @@ public sealed class TaskModuleBFeatureTests
             IsEnabled = true,
             Params = new JsonObject
             {
-                ["stage"] = string.Empty,
+                ["stage"] = FightStageSelection.CurrentOrLast,
                 ["medicine"] = 0,
                 ["stone"] = 0,
                 ["times"] = 1,
@@ -143,12 +152,13 @@ public sealed class TaskModuleBFeatureTests
         var warning = Assert.Single(warnings.Value ?? []);
         Assert.Equal(UiErrorCode.MallCreditFightDowngraded, warning.Code);
         Assert.Contains("Mall credit fight disabled", warning.Message, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Current/Last", warning.Message, StringComparison.OrdinalIgnoreCase);
         Assert.False(warning.Blocking);
         Assert.True(profile.TaskQueue[1].Params["credit_fight"]?.GetValue<bool>());
     }
 
     [Fact]
-    public async Task TaskQueuePage_StartAsync_BlockingFightValidation_StillShowsPrecheckWarning_AndAppliesDowngrade()
+    public async Task TaskQueuePage_StartAsync_CurrentOrLastFightStage_ShowsPrecheckWarning_AndAppliesDowngrade()
     {
         await using var fixture = await TestFixture.CreateAsync();
         var profile = fixture.Config.CurrentConfig.Profiles["Default"];
@@ -159,7 +169,7 @@ public sealed class TaskModuleBFeatureTests
             IsEnabled = true,
             Params = new JsonObject
             {
-                ["stage"] = string.Empty,
+                ["stage"] = FightStageSelection.CurrentOrLast,
                 ["medicine"] = 0,
                 ["stone"] = 0,
                 ["times"] = 1,
@@ -183,10 +193,12 @@ public sealed class TaskModuleBFeatureTests
 
         await vm.StartAsync();
 
-        Assert.False(vm.IsRunning);
+        Assert.True(vm.IsRunning);
         Assert.True(vm.HasStartPrecheckWarningMessage);
         Assert.Contains("Mall credit fight disabled", vm.StartPrecheckWarningMessage, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Current/Last", vm.StartPrecheckWarningMessage, StringComparison.OrdinalIgnoreCase);
         Assert.False(profile.TaskQueue[1].Params["credit_fight"]?.GetValue<bool>());
+        Assert.Equal(2, fixture.Bridge.AppendedTasks.Count);
 
         var eventLog = await File.ReadAllTextAsync(Path.Combine(fixture.Root, "debug", "avalonia-ui-events.log"));
         Assert.Contains("TaskQueue.Start.PrecheckWarning", eventLog, StringComparison.Ordinal);
@@ -217,6 +229,101 @@ public sealed class TaskModuleBFeatureTests
         Assert.NotNull(blacklist);
         Assert.Equal(new[] { "A", "B" }, buyFirst!.Select(x => x?.GetValue<string>()).ToArray());
         Assert.Equal(new[] { "X", "y" }, blacklist!.Select(x => x?.GetValue<string>()).ToArray());
+    }
+
+    [Fact]
+    public async Task QueueEnabledTasks_MallDailyOnce_CompilesRuntimeFlags_WithoutMutatingProfileParams()
+    {
+        await using var fixture = await TestFixture.CreateAsync("en-us");
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Mall", "mall")).Success);
+
+        var profile = fixture.Config.CurrentConfig.Profiles["Default"];
+        profile.Values["ClientType"] = "Official";
+
+        var today = MallDailyResetHelper.GetCurrentYjDateString(DateTime.UtcNow, "Official");
+        var update = await fixture.TaskQueue.UpdateTaskParamsAsync(
+            0,
+            new JsonObject
+            {
+                ["credit_fight"] = true,
+                ["credit_fight_once_a_day"] = true,
+                ["_ui_mall_credit_fight_last_time"] = today,
+                ["formation_index"] = 0,
+                ["visit_friends"] = true,
+                ["visit_friends_once_a_day"] = true,
+                ["_ui_mall_visit_friends_last_time"] = today,
+                ["shopping"] = true,
+                ["buy_first"] = new JsonArray("Recruitment Permit"),
+                ["blacklist"] = new JsonArray("Carbon"),
+                ["force_shopping_if_credit_full"] = false,
+                ["only_buy_discount"] = false,
+                ["reserve_max_credit"] = false,
+            },
+            persistImmediately: true);
+        Assert.True(update.Success);
+
+        var queueResult = await fixture.TaskQueue.QueueEnabledTasksAsync();
+        Assert.True(queueResult.Success);
+        Assert.Equal(1, queueResult.Value);
+
+        var appended = Assert.Single(fixture.Bridge.AppendedTasks);
+        var appendedParams = Assert.IsType<JsonObject>(JsonNode.Parse(appended.ParamsJson));
+        Assert.False(appendedParams["credit_fight"]?.GetValue<bool>());
+        Assert.False(appendedParams["visit_friends"]?.GetValue<bool>());
+        Assert.Equal(today, appendedParams["_ui_mall_credit_fight_last_time"]?.GetValue<string>());
+        Assert.Equal(today, appendedParams["_ui_mall_visit_friends_last_time"]?.GetValue<string>());
+
+        var persisted = await fixture.TaskQueue.GetTaskParamsAsync(0);
+        Assert.True(persisted.Success);
+        Assert.True(persisted.Value?["credit_fight"]?.GetValue<bool>());
+        Assert.True(persisted.Value?["visit_friends"]?.GetValue<bool>());
+    }
+
+    [Fact]
+    public async Task TaskQueuePage_SubTaskCompletedMall_UpdatesDailyExecutionMarkers()
+    {
+        await using var fixture = await TestFixture.CreateAsync("en-us");
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Mall", "mall")).Success);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+        await vm.ReloadTasksAsync();
+
+        await InvokeCallbackAsync(
+            vm,
+            new CoreCallbackEvent(
+                22001,
+                "SubTaskCompleted",
+                """{"task_chain":"Mall","sub_task":"EndOfActionThenStop","run_id":"run-mall","task_index":0}""",
+                DateTimeOffset.UtcNow));
+        await InvokeCallbackAsync(
+            vm,
+            new CoreCallbackEvent(
+                22002,
+                "SubTaskCompleted",
+                """{"task_chain":"Mall","sub_task":"VisitLimited","run_id":"run-mall","task_index":0}""",
+                DateTimeOffset.UtcNow));
+
+        var latest = await fixture.TaskQueue.GetTaskParamsAsync(0);
+        Assert.True(latest.Success);
+
+        var creditFightTime = latest.Value?["_ui_mall_credit_fight_last_time"]?.GetValue<string>() ?? string.Empty;
+        var visitFriendsTime = latest.Value?["_ui_mall_visit_friends_last_time"]?.GetValue<string>() ?? string.Empty;
+        Assert.False(string.IsNullOrWhiteSpace(creditFightTime));
+        Assert.False(string.IsNullOrWhiteSpace(visitFriendsTime));
+
+        Assert.True(DateTime.TryParseExact(
+            creditFightTime,
+            "yyyy/MM/dd HH:mm:ss",
+            System.Globalization.CultureInfo.InvariantCulture,
+            System.Globalization.DateTimeStyles.None,
+            out _));
+        Assert.True(DateTime.TryParseExact(
+            visitFriendsTime,
+            "yyyy/MM/dd HH:mm:ss",
+            System.Globalization.CultureInfo.InvariantCulture,
+            System.Globalization.DateTimeStyles.None,
+            out _));
     }
 
     [Fact]
@@ -283,6 +390,57 @@ public sealed class TaskModuleBFeatureTests
         Assert.Equal("pkill MAAUnified", load.Value.Commands.ExitSelf);
         Assert.True(load.Value.ExitArknights);
         Assert.True(load.Value.ExitSelf);
+
+        var profile = fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile];
+        Assert.True(profile.Values.ContainsKey("TaskQueue.PostAction"));
+        Assert.False(fixture.Config.CurrentConfig.GlobalValues.ContainsKey("TaskQueue.PostAction"));
+    }
+
+    [Fact]
+    public async Task PostAction_Load_ParsesLegacyStructuredProfileConfig_WithHistoricalPropertyNames()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var profile = fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile];
+        profile.Values["TaskQueue.PostAction"] = JsonNode.Parse(
+            """
+            {
+              "ExitSelf": true,
+              "sleep": true,
+              "Commands": {
+                "ExitSelf": "pkill MAAUnified"
+              }
+            }
+            """);
+
+        var load = await fixture.PostAction.LoadAsync();
+
+        Assert.True(load.Success);
+        Assert.NotNull(load.Value);
+        Assert.True(load.Value!.ExitSelf);
+        Assert.True(load.Value.Sleep);
+        Assert.Equal("pkill MAAUnified", load.Value.Commands.ExitSelf);
+    }
+
+    [Fact]
+    public async Task PostAction_Load_MigratesGlobalStructuredConfig_WithHistoricalPropertyNames_ToCurrentProfile()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        fixture.Config.CurrentConfig.GlobalValues["TaskQueue.PostAction"] = JsonNode.Parse(
+            """
+            {
+              "ExitEmulator": true,
+              "Commands": {
+                "ExitEmulator": "echo close-emulator"
+              }
+            }
+            """);
+
+        var load = await fixture.PostAction.LoadAsync();
+
+        Assert.True(load.Success);
+        Assert.NotNull(load.Value);
+        Assert.True(load.Value!.ExitEmulator);
+        Assert.Equal("echo close-emulator", load.Value.Commands.ExitEmulator);
 
         var profile = fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile];
         Assert.True(profile.Values.ContainsKey("TaskQueue.PostAction"));
@@ -795,6 +953,8 @@ public sealed class TaskModuleBFeatureTests
         private readonly Channel<CoreCallbackEvent> _channel = Channel.CreateUnbounded<CoreCallbackEvent>();
         private int _taskId;
 
+        public List<CoreTaskRequest> AppendedTasks { get; } = [];
+
         public Task<CoreResult<CoreInitializeInfo>> InitializeAsync(CoreInitializeRequest request, CancellationToken cancellationToken = default)
             => Task.FromResult(CoreResult<CoreInitializeInfo>.Ok(new CoreInitializeInfo(request.BaseDirectory, "fake", "fake", request.ClientType)));
 
@@ -802,7 +962,10 @@ public sealed class TaskModuleBFeatureTests
             => Task.FromResult(CoreResult<bool>.Ok(true));
 
         public Task<CoreResult<int>> AppendTaskAsync(CoreTaskRequest task, CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<int>.Ok(Interlocked.Increment(ref _taskId)));
+        {
+            AppendedTasks.Add(task);
+            return Task.FromResult(CoreResult<int>.Ok(Interlocked.Increment(ref _taskId)));
+        }
 
         public Task<CoreResult<bool>> StartAsync(CancellationToken cancellationToken = default)
             => Task.FromResult(CoreResult<bool>.Ok(true));

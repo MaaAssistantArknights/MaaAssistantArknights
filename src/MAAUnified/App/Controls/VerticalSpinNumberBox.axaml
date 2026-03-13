@@ -1,0 +1,196 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MAAUnified.App.Controls.VerticalSpinNumberBox"
+             x:Name="Root">
+  <UserControl.Styles>
+    <Style Selector="Border.spin-root">
+      <Setter Property="Background" Value="{DynamicResource MAA.RegionBrushOpacity25}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+      <Setter Property="BorderThickness" Value="{DynamicResource MAA.BorderThickness.Thin}" />
+      <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Item}" />
+      <Setter Property="ClipToBounds" Value="True" />
+      <Setter Property="MinWidth" Value="56" />
+      <Setter Property="UseLayoutRounding" Value="True" />
+    </Style>
+
+    <Style Selector="Border.spin-root:disabled">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.Border}" />
+    </Style>
+
+    <Style Selector="Border.spin-disabled-overlay">
+      <Setter Property="IsVisible" Value="False" />
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+      <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Item}" />
+    </Style>
+
+    <Style Selector="Border.spin-disabled-overlay:disabled">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <Style Selector="Border.spin-buttons-panel">
+      <Setter Property="Width" Value="22" />
+      <Setter Property="MinWidth" Value="22" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+      <Setter Property="BorderThickness" Value="1,0,0,0" />
+      <Setter Property="ClipToBounds" Value="True" />
+      <Setter Property="UseLayoutRounding" Value="True" />
+    </Style>
+
+    <Style Selector="Border.spin-buttons-panel:disabled">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="NumericUpDown.spin-editor">
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Primary}" />
+      <Setter Property="HorizontalContentAlignment" Value="Left" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="ClipToBounds" Value="True" />
+      <Setter Property="MinWidth" Value="34" />
+    </Style>
+
+    <Style Selector="NumericUpDown.spin-editor:disabled">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.ForegroundDisabled}" />
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="NumericUpDown.spin-editor /template/ TextBox#PART_TextBox">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="8,0,6,0" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="ClipToBounds" Value="True" />
+    </Style>
+
+    <Style Selector="NumericUpDown.spin-editor /template/ Border">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="NumericUpDown.spin-editor:disabled /template/ TextBox#PART_TextBox">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.ForegroundDisabled}" />
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="NumericUpDown.spin-editor:disabled /template/ Border">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="Button.spin-button">
+      <Setter Property="Width" Value="22" />
+      <Setter Property="MinWidth" Value="22" />
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="CornerRadius" Value="0" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Primary}" />
+      <Setter Property="FontSize" Value="10" />
+      <Setter Property="FontWeight" Value="Normal" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="UseLayoutRounding" Value="True" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Margin="{TemplateBinding Padding}" />
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </Style>
+
+    <Style Selector="Button.spin-button /template/ Border">
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="Button.spin-button:pointerover">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SubtleBackgroundHover}" />
+    </Style>
+
+    <Style Selector="Button.spin-button:pressed">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SubtleBackgroundPressed}" />
+    </Style>
+
+    <Style Selector="Button.spin-button:disabled">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+      <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.ForegroundDisabled}" />
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="Button.spin-button:disabled /template/ Border">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+  </UserControl.Styles>
+
+  <Border x:Name="SpinRootBorder"
+          Classes="spin-root"
+          IsEnabled="{Binding IsEnabled, ElementName=Root}"
+          Height="28">
+    <Grid x:Name="SpinLayoutGrid"
+          ColumnDefinitions="*,Auto">
+      <Border x:Name="SpinDisabledOverlay"
+              Grid.ColumnSpan="2"
+              Classes="spin-disabled-overlay"
+              IsEnabled="{Binding IsEnabled, ElementName=Root}"
+              IsHitTestVisible="False" />
+
+      <NumericUpDown x:Name="SpinEditor"
+                     Grid.Column="0"
+                     Classes="spin-editor"
+                     Margin="0"
+                     ClipValueToMinMax="True"
+                     ParsingNumberStyle="Integer"
+                     ShowButtonSpinner="False"
+                     FormatString="{Binding FormatString, ElementName=Root}"
+                     Minimum="{Binding Minimum, ElementName=Root}"
+                     Maximum="{Binding Maximum, ElementName=Root}"
+                     Increment="{Binding Increment, ElementName=Root}"
+                     Value="{Binding Value, ElementName=Root, Mode=TwoWay}"
+                     IsEnabled="{Binding IsEnabled, ElementName=Root}" />
+
+      <Border x:Name="SpinButtonsPanel"
+              Grid.Column="1"
+              Classes="spin-buttons-panel"
+              IsEnabled="{Binding IsEnabled, ElementName=Root}">
+        <Grid RowDefinitions="*,*">
+          <Button x:Name="SpinIncreaseButton"
+                  Grid.Row="0"
+                  Classes="spin-button"
+                  IsEnabled="{Binding IsEnabled, ElementName=Root}"
+                  Content="△"
+                  Click="OnIncreaseClick" />
+          <Button x:Name="SpinDecreaseButton"
+                  Grid.Row="1"
+                  Classes="spin-button"
+                  IsEnabled="{Binding IsEnabled, ElementName=Root}"
+                  Content="▽"
+                  Click="OnDecreaseClick" />
+        </Grid>
+      </Border>
+    </Grid>
+  </Border>
+</UserControl>

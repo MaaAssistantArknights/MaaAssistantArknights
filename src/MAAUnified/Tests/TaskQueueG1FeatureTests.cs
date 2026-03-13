@@ -4,9 +4,11 @@ using System.Threading.Channels;
 using MAAUnified.App.ViewModels.Settings;
 using MAAUnified.App.ViewModels.TaskQueue;
 using MAAUnified.Application.Configuration;
+using MAAUnified.Application.Models;
 using MAAUnified.Application.Orchestration;
 using MAAUnified.Application.Services;
 using MAAUnified.Application.Services.Features;
+using MAAUnified.Compat.Constants;
 using MAAUnified.CoreBridge;
 using MAAUnified.Platform;
 
@@ -14,6 +16,164 @@ namespace MAAUnified.Tests;
 
 public sealed class TaskQueueG1FeatureTests
 {
+    [Fact]
+    public async Task TaskQueuePage_InitializeOnEmptyQueue_ShouldSeedWpfDefaultTasks()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        var expected = new[]
+        {
+            TaskModuleTypes.StartUp,
+            TaskModuleTypes.Fight,
+            TaskModuleTypes.Infrast,
+            TaskModuleTypes.Recruit,
+            TaskModuleTypes.Mall,
+            TaskModuleTypes.Award,
+            TaskModuleTypes.Roguelike,
+            TaskModuleTypes.Reclamation,
+        };
+
+        Assert.Equal(expected.Length, vm.Tasks.Count);
+        Assert.Equal(expected, vm.Tasks.Select(task => task.Type).ToArray());
+    }
+
+    [Fact]
+    public async Task SelectedTask_ShouldProjectTaskConfigVisibilityFlags()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync(TaskModuleTypes.StartUp, "startup-a")).Success);
+        Assert.True((await fixture.TaskQueue.AddTaskAsync(TaskModuleTypes.Fight, "fight-b")).Success);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        vm.SelectedTask = vm.Tasks[0];
+        Assert.True(vm.IsStartUpTaskSelected);
+        Assert.False(vm.IsFightTaskSelected);
+
+        vm.SelectedTask = vm.Tasks[1];
+        Assert.False(vm.IsStartUpTaskSelected);
+        Assert.True(vm.IsFightTaskSelected);
+        Assert.False(vm.IsNoTaskSelected);
+    }
+
+    [Fact]
+    public async Task SelectedTask_SwitchingTasks_ShouldResetSettingsModeToGeneral()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync(TaskModuleTypes.Fight, "fight-a")).Success);
+        Assert.True((await fixture.TaskQueue.AddTaskAsync(TaskModuleTypes.Recruit, "recruit-b")).Success);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        vm.SelectedTask = vm.Tasks[0];
+        await vm.WaitForPendingBindingAsync();
+        Assert.True(vm.CanUseAdvancedSettings);
+        Assert.True(vm.ShowSettingsModeSwitch);
+        Assert.True(vm.IsGeneralSettingsSelected);
+
+        vm.SelectAdvancedSettingsMode();
+        Assert.True(vm.IsAdvancedSettingsSelected);
+        Assert.False(vm.IsGeneralSettingsSelected);
+        Assert.True(vm.FightModule.IsAdvancedMode);
+        Assert.False(vm.FightModule.IsGeneralMode);
+
+        vm.SelectedTask = vm.Tasks[1];
+        await vm.WaitForPendingBindingAsync();
+        Assert.True(vm.IsGeneralSettingsSelected);
+        Assert.False(vm.IsAdvancedSettingsSelected);
+        Assert.False(vm.FightModule.IsAdvancedMode);
+        Assert.True(vm.FightModule.IsGeneralMode);
+    }
+
+    [Fact]
+    public async Task SelectedTask_SelectAdvancedSettingsMode_ShouldRaiseModeSelectionPropertyChanges()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync(TaskModuleTypes.Fight, "fight-a")).Success);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        vm.SelectedTask = vm.Tasks[0];
+        await vm.WaitForPendingBindingAsync();
+
+        var changedProperties = new List<string>();
+        vm.PropertyChanged += (_, e) =>
+        {
+            if (!string.IsNullOrWhiteSpace(e.PropertyName))
+            {
+                changedProperties.Add(e.PropertyName);
+            }
+        };
+
+        vm.SelectAdvancedSettingsMode();
+
+        Assert.Contains(nameof(TaskQueuePageViewModel.IsAdvancedSettingsSelected), changedProperties);
+        Assert.Contains(nameof(TaskQueuePageViewModel.IsGeneralSettingsSelected), changedProperties);
+    }
+
+    [Fact]
+    public async Task SelectedTask_ModuleType_ShouldExposeAdvancedSettingsAvailabilityMatrix()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var moduleTypes = new[]
+        {
+            TaskModuleTypes.StartUp,
+            TaskModuleTypes.Fight,
+            TaskModuleTypes.Recruit,
+            TaskModuleTypes.Infrast,
+            TaskModuleTypes.Mall,
+            TaskModuleTypes.Award,
+            TaskModuleTypes.Roguelike,
+            TaskModuleTypes.Reclamation,
+            TaskModuleTypes.Custom,
+            TaskModuleTypes.PostAction,
+        };
+
+        for (var i = 0; i < moduleTypes.Length; i++)
+        {
+            Assert.True((await fixture.TaskQueue.AddTaskAsync(moduleTypes[i], $"task-{i}")).Success);
+        }
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        var expected = new Dictionary<string, (bool canAdvanced, bool showSwitch)>(StringComparer.OrdinalIgnoreCase)
+        {
+            [TaskModuleTypes.StartUp] = (false, false),
+            [TaskModuleTypes.Fight] = (true, true),
+            [TaskModuleTypes.Recruit] = (true, true),
+            [TaskModuleTypes.Infrast] = (true, true),
+            [TaskModuleTypes.Mall] = (true, true),
+            [TaskModuleTypes.Award] = (false, false),
+            [TaskModuleTypes.Roguelike] = (true, true),
+            [TaskModuleTypes.Reclamation] = (true, true),
+            [TaskModuleTypes.Custom] = (false, true),
+            [TaskModuleTypes.PostAction] = (false, false),
+        };
+
+        foreach (var task in vm.Tasks)
+        {
+            vm.SelectedTask = task;
+            await vm.WaitForPendingBindingAsync();
+
+            var moduleType = TaskModuleTypes.Normalize(task.Type);
+            Assert.True(expected.TryGetValue(moduleType, out var expectedState), $"Missing matrix expectation: {moduleType}");
+            Assert.Equal(expectedState.canAdvanced, vm.CanUseAdvancedSettings);
+            Assert.Equal(expectedState.showSwitch, vm.ShowSettingsModeSwitch);
+            Assert.True(vm.IsGeneralSettingsSelected);
+            Assert.False(vm.IsAdvancedSettingsSelected);
+
+            vm.SelectAdvancedSettingsMode();
+            Assert.Equal(expectedState.canAdvanced, vm.IsAdvancedSettingsSelected);
+            Assert.Equal(!expectedState.canAdvanced, vm.IsGeneralSettingsSelected);
+        }
+    }
+
     [Fact]
     public async Task TaskQueueFeatureService_SetAllAndInvertEnabled_ShouldUpdateWholeQueue()
     {
@@ -37,6 +197,88 @@ public sealed class TaskQueueG1FeatureTests
         Assert.True(allEnabled.Success);
         Assert.NotNull(allEnabled.Value);
         Assert.All(allEnabled.Value!, task => Assert.True(task.IsEnabled));
+    }
+
+    [Fact]
+    public async Task TaskQueuePage_BatchAction_InverseMode_ShouldInvertWholeQueue()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.InverseClearMode] = JsonValue.Create("ClearInverse");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.MainFunctionInverseMode] = JsonValue.Create(true);
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("StartUp", "startup-a", enabled: true)).Success);
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Fight", "fight-b", enabled: false)).Success);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.True(vm.ShowBatchModeToggle);
+        Assert.Equal(SelectionBatchMode.Inverse, vm.SelectionBatchMode);
+        Assert.Equal("反选", vm.BatchActionText);
+
+        await vm.ExecuteBatchActionAsync();
+        var queue = await fixture.TaskQueue.GetCurrentTaskQueueAsync();
+        Assert.True(queue.Success);
+        Assert.NotNull(queue.Value);
+        Assert.False(queue.Value![0].IsEnabled);
+        Assert.True(queue.Value[1].IsEnabled);
+    }
+
+    [Fact]
+    public async Task TaskQueuePage_BatchAction_ClearMode_ShouldDisableWholeQueue()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.InverseClearMode] = JsonValue.Create("ClearInverse");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.MainFunctionInverseMode] = JsonValue.Create(false);
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("StartUp", "startup-a", enabled: true)).Success);
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Fight", "fight-b", enabled: true)).Success);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.Equal(SelectionBatchMode.Clear, vm.SelectionBatchMode);
+        Assert.Equal("清空", vm.BatchActionText);
+        await vm.ExecuteBatchActionAsync();
+
+        var queue = await fixture.TaskQueue.GetCurrentTaskQueueAsync();
+        Assert.True(queue.Success);
+        Assert.NotNull(queue.Value);
+        Assert.All(queue.Value!, task => Assert.False(task.IsEnabled));
+    }
+
+    [Fact]
+    public async Task TaskQueuePage_ToggleSelectionBatchMode_ShouldPersistLegacyKeys()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.InverseClearMode] = JsonValue.Create("ClearInverse");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.MainFunctionInverseMode] = JsonValue.Create(false);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+        Assert.Equal(SelectionBatchMode.Clear, vm.SelectionBatchMode);
+
+        await vm.ToggleSelectionBatchModeAsync();
+
+        Assert.Equal(SelectionBatchMode.Inverse, vm.SelectionBatchMode);
+        Assert.True(vm.ShowBatchModeToggle);
+        Assert.Equal("反选", vm.BatchActionText);
+        var profile = fixture.Config.CurrentConfig.Profiles[fixture.Config.CurrentConfig.CurrentProfile];
+        Assert.Equal("ClearInverse", profile.Values[ConfigurationKeys.InverseClearMode]?.GetValue<string>());
+        Assert.True(profile.Values[ConfigurationKeys.MainFunctionInverseMode]?.GetValue<bool>());
+    }
+
+    [Fact]
+    public async Task TaskQueuePage_InverseClearModeDisabled_ShouldFallbackToClearAndHideToggle()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.InverseClearMode] = JsonValue.Create("Clear");
+        fixture.Config.CurrentConfig.GlobalValues[ConfigurationKeys.MainFunctionInverseMode] = JsonValue.Create(true);
+
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.False(vm.ShowBatchModeToggle);
+        Assert.Equal(SelectionBatchMode.Clear, vm.SelectionBatchMode);
+        Assert.Equal("清空", vm.BatchActionText);
     }
 
     [Fact]
@@ -128,16 +370,11 @@ public sealed class TaskQueueG1FeatureTests
     public async Task QueueMutations_SaveAsync_ShouldPersistToDisk()
     {
         await using var fixture = await TestFixture.CreateAsync();
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("StartUp", "startup-a")).Success);
+        Assert.True((await fixture.TaskQueue.AddTaskAsync("Fight", "fight-b")).Success);
+
         var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
         await vm.InitializeAsync();
-
-        vm.SelectedTaskModule = "StartUp";
-        vm.NewTaskName = "startup-a";
-        await vm.AddTaskAsync();
-
-        vm.SelectedTaskModule = "Fight";
-        vm.NewTaskName = "fight-b";
-        await vm.AddTaskAsync();
 
         vm.SelectedTask = vm.Tasks[0];
         await vm.WaitForPendingBindingAsync();

@@ -8,12 +8,12 @@ public sealed class AwardModuleViewModel : TaskModuleSettingsViewModelBase
 {
     private bool _award = true;
     private bool _mail;
-    private bool _recruit;
+    private bool _freeGacha;
     private bool _orundum;
     private bool _mining;
     private bool _specialAccess;
-    private bool _pendingRecruitConfirmation;
-    private bool _allowRecruitEnable;
+    private bool _pendingFreeGachaConfirmation;
+    private bool _allowFreeGachaEnable;
 
     public AwardModuleViewModel(MAAUnifiedRuntime runtime, LocalizedTextMap texts)
         : base(runtime, texts, TaskModuleTypes.Award)
@@ -48,28 +48,35 @@ public sealed class AwardModuleViewModel : TaskModuleSettingsViewModelBase
         }
     }
 
-    public bool Recruit
+    public bool FreeGacha
     {
-        get => _recruit;
+        get => _freeGacha;
         set
         {
-            if (value && !_recruit && !_allowRecruitEnable)
+            if (value && !_freeGacha && !_allowFreeGachaEnable)
             {
-                PendingRecruitConfirmation = true;
-                StatusMessage = Texts["Award.RecruitTip"];
+                PendingFreeGachaConfirmation = true;
+                StatusMessage = Texts["Award.GachaWarning"];
                 return;
             }
 
-            _allowRecruitEnable = false;
-            PendingRecruitConfirmation = false;
+            _allowFreeGachaEnable = false;
+            PendingFreeGachaConfirmation = false;
 
-            if (!SetProperty(ref _recruit, value))
+            if (!SetProperty(ref _freeGacha, value))
             {
                 return;
             }
 
             QueuePersist();
         }
+    }
+
+    // Backward-compatible alias used by existing tests.
+    public bool Recruit
+    {
+        get => FreeGacha;
+        set => FreeGacha = value;
     }
 
     public bool Orundum
@@ -114,37 +121,45 @@ public sealed class AwardModuleViewModel : TaskModuleSettingsViewModelBase
         }
     }
 
-    public bool PendingRecruitConfirmation
+    public bool PendingFreeGachaConfirmation
     {
-        get => _pendingRecruitConfirmation;
-        private set => SetProperty(ref _pendingRecruitConfirmation, value);
+        get => _pendingFreeGachaConfirmation;
+        private set => SetProperty(ref _pendingFreeGachaConfirmation, value);
     }
 
-    public void ConfirmRecruitEnable()
+    // Backward-compatible alias used by existing tests.
+    public bool PendingRecruitConfirmation => PendingFreeGachaConfirmation;
+
+    public void ConfirmFreeGachaEnable()
     {
-        _allowRecruitEnable = true;
-        Recruit = true;
+        _allowFreeGachaEnable = true;
+        FreeGacha = true;
     }
 
-    public void CancelRecruitEnable()
+    public void CancelFreeGachaEnable()
     {
-        PendingRecruitConfirmation = false;
-        _allowRecruitEnable = false;
+        PendingFreeGachaConfirmation = false;
+        _allowFreeGachaEnable = false;
         StatusMessage = string.Empty;
     }
+
+    // Backward-compatible aliases used by existing tests/event handlers.
+    public void ConfirmRecruitEnable() => ConfirmFreeGachaEnable();
+
+    public void CancelRecruitEnable() => CancelFreeGachaEnable();
 
     protected override Task LoadFromParametersAsync(JsonObject parameters, CancellationToken cancellationToken)
     {
         var model = AwardParams.FromJson(parameters);
-        _allowRecruitEnable = model.Recruit;
+        _allowFreeGachaEnable = model.Recruit;
         Award = model.Award;
         Mail = model.Mail;
-        Recruit = model.Recruit;
+        FreeGacha = model.Recruit;
         Orundum = model.Orundum;
         Mining = model.Mining;
         SpecialAccess = model.SpecialAccess;
-        PendingRecruitConfirmation = false;
-        _allowRecruitEnable = false;
+        PendingFreeGachaConfirmation = false;
+        _allowFreeGachaEnable = false;
         return Task.CompletedTask;
     }
 
@@ -154,7 +169,7 @@ public sealed class AwardModuleViewModel : TaskModuleSettingsViewModelBase
         {
             Award = Award,
             Mail = Mail,
-            Recruit = Recruit,
+            Recruit = FreeGacha,
             Orundum = Orundum,
             Mining = Mining,
             SpecialAccess = SpecialAccess,

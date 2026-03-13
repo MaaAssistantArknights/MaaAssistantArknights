@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Root.RootDashboardView">
-  <Border Classes="section" Margin="4">
+  <Border Classes="wpf-panel" Margin="4">
     <StackPanel Spacing="6">
       <TextBlock Classes="section-title" Text="Root Dashboard" />
       <TextBlock Text="主壳层已切换到 Windows 同构布局，导航逻辑由 MainShellViewModel 管理。" />

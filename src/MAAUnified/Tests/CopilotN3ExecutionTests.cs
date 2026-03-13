@@ -106,6 +106,66 @@ public sealed class CopilotN3ExecutionTests
     }
 
     [Fact]
+    public async Task StartAsync_ShouldAppendWpfStyleStartLogs_WithoutRawCallbackDump()
+    {
+        await using var fixture = await CopilotN3Fixture.CreateAsync();
+        Assert.True((await fixture.Runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
+
+        var filePath = fixture.CreateCopilotFile();
+        fixture.ViewModel.FilePath = filePath;
+        await fixture.ViewModel.ImportFromFileAsync();
+        await fixture.ViewModel.StartAsync();
+
+        Assert.Contains(
+            fixture.ViewModel.Logs,
+            log => string.Equals(log.Content, "正在连接模拟器……", StringComparison.Ordinal));
+        Assert.Contains(
+            fixture.ViewModel.Logs,
+            log => string.Equals(log.Content, "正在运行中……", StringComparison.Ordinal));
+
+        var taskId = fixture.Bridge.LastAppendedTaskId;
+        fixture.ViewModel.ApplyRuntimeCallback(new CoreCallbackEvent(
+            10001,
+            "TaskChainStart",
+            $$"""{"task_chain":"Copilot","task_id":{{taskId}}}""",
+            DateTimeOffset.UtcNow));
+
+        Assert.DoesNotContain(
+            fixture.ViewModel.Logs,
+            log => log.Content.Contains("TaskChainStart", StringComparison.Ordinal)
+                || log.Content.Contains("\"task_id\"", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public async Task Callback_BattleFormation_ShouldAppendUserFacingLog()
+    {
+        await using var fixture = await CopilotN3Fixture.CreateAsync();
+        Assert.True((await fixture.Runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
+
+        var filePath = fixture.CreateCopilotFile();
+        fixture.ViewModel.FilePath = filePath;
+        await fixture.ViewModel.ImportFromFileAsync();
+        await fixture.ViewModel.StartAsync();
+
+        var taskId = fixture.Bridge.LastAppendedTaskId;
+        fixture.ViewModel.ApplyRuntimeCallback(new CoreCallbackEvent(
+            20001,
+            "SubTaskExtraInfo",
+            $@"{{""task_chain"":""Copilot"",""task_id"":{taskId},""what"":""BattleFormation"",""details"":{{""formation"":[""能天使"",""银灰""]}}}}",
+            DateTimeOffset.UtcNow));
+
+        Assert.Contains(
+            fixture.ViewModel.Logs,
+            log => log.Content.Contains("开始编队", StringComparison.Ordinal)
+                && log.Content.Contains("能天使", StringComparison.Ordinal)
+                && log.Content.Contains("银灰", StringComparison.Ordinal));
+        Assert.DoesNotContain(
+            fixture.ViewModel.Logs,
+            log => log.Content.Contains("SubTaskExtraInfo", StringComparison.Ordinal)
+                || log.Content.Contains("\"formation\"", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public async Task CopilotStart_WhenTaskQueueOwnsRun_ShouldBeBlocked()
     {
         await using var fixture = await CopilotN3Fixture.CreateAsync();
@@ -204,6 +264,102 @@ public sealed class CopilotN3ExecutionTests
             $$"""{"task_chain":"Copilot","task_id":{{taskId}}}""",
             DateTimeOffset.UtcNow));
         Assert.Equal("Success", fixture.ViewModel.SelectedItem?.Status);
+        Assert.Null(fixture.Runtime.SessionService.CurrentRunOwner);
+    }
+
+    [Fact]
+    public async Task LoadCurrentFromFileAsync_WhenUseCopilotListEnabled_ShouldKeepLocalFileAsCurrentOnly()
+    {
+        await using var fixture = await CopilotN3Fixture.CreateAsync();
+        var vm = fixture.ViewModel;
+        vm.UseCopilotList = true;
+
+        var filePath = fixture.CreateCopilotFile();
+        await vm.LoadCurrentFromFileAsync(filePath);
+
+        Assert.Empty(vm.Items);
+        Assert.True(vm.HasLoadedCopilot);
+    }
+
+    [Fact]
+    public async Task LoadCurrentFromClipboardAsync_WhenUseCopilotListEnabled_ShouldAutoAddWpfStyleListItem()
+    {
+        await using var fixture = await CopilotN3Fixture.CreateAsync();
+        var vm = fixture.ViewModel;
+        vm.UseCopilotList = true;
+
+        var payload = await File.ReadAllTextAsync(fixture.CreateCopilotFile());
+        await vm.LoadCurrentFromClipboardAsync(payload);
+
+        var item = Assert.Single(vm.Items);
+        Assert.Equal("1-7", item.Name);
+        Assert.Equal(string.Empty, item.SourcePath);
+        Assert.Equal(payload, item.InlinePayload);
+        Assert.True(item.IsChecked);
+        Assert.False(item.IsRaid);
+        Assert.Equal(0, item.TabIndex);
+        Assert.True(vm.HasLoadedCopilot);
+    }
+
+    [Fact]
+    public async Task StartAsync_WhenUseCopilotListEnabled_ShouldAppendWpfParityPayload()
+    {
+        await using var fixture = await CopilotN3Fixture.CreateAsync();
+        Assert.True((await fixture.Runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
+
+        var vm = fixture.ViewModel;
+        vm.UseCopilotList = true;
+        vm.UseSupportUnitUsage = true;
+        vm.SupportUnitUsage = 3;
+        vm.AddTrust = true;
+        vm.IgnoreRequirements = true;
+        vm.UseSanityPotion = true;
+        vm.UseFormation = true;
+        vm.FormationIndex = 2;
+        vm.AddUserAdditional = true;
+        vm.UserAdditional = """[{"name":"史尔特尔","skill":3,"module":1}]""";
+
+        var filePath = fixture.CreateCopilotFile();
+        await vm.LoadCurrentFromFileAsync(filePath);
+        await vm.AddCurrentToListAsync(isRaid: false);
+        await vm.StartAsync();
+
+        var appended = Assert.Single(fixture.Bridge.AppendedTasks);
+        Assert.Equal("Copilot", appended.Type);
+        var payload = Assert.IsType<JsonObject>(JsonNode.Parse(appended.ParamsJson));
+        var list = Assert.IsType<JsonArray>(payload["copilot_list"]);
+        var first = Assert.IsType<JsonObject>(list[0]);
+        Assert.Equal(filePath, first["filename"]?.GetValue<string>());
+        Assert.Equal("1-7", first["stage_name"]?.GetValue<string>());
+        Assert.False(first["is_raid"]?.GetValue<bool>() ?? true);
+        Assert.True(payload["formation"]?.GetValue<bool>() ?? false);
+        Assert.Equal(3, payload["support_unit_usage"]?.GetValue<int>());
+        Assert.True(payload["add_trust"]?.GetValue<bool>() ?? false);
+        Assert.True(payload["ignore_requirements"]?.GetValue<bool>() ?? false);
+        Assert.True(payload["use_sanity_potion"]?.GetValue<bool>() ?? false);
+        Assert.Equal(2, payload["formation_index"]?.GetValue<int>());
+        var userAdditional = Assert.IsType<JsonArray>(payload["user_additional"]);
+        Assert.Single(userAdditional);
+    }
+
+    [Fact]
+    public async Task StartAsync_WhenUseCopilotListContainsLegacyItem_ShouldFailWithWpfParityMessage()
+    {
+        await using var fixture = await CopilotN3Fixture.CreateAsync();
+        Assert.True((await fixture.Runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
+
+        var vm = fixture.ViewModel;
+        vm.UseCopilotList = true;
+        vm.Items.Add(new CopilotItemViewModel("1-7", "主线/故事集/SideStory", fixture.CreateCopilotFile())
+        {
+            IsChecked = true,
+            TabIndex = null,
+        });
+
+        await vm.StartAsync();
+
+        Assert.Contains("旧版本条目", vm.LastErrorMessage, StringComparison.Ordinal);
+        Assert.Empty(fixture.Bridge.AppendedTasks);
         Assert.Null(fixture.Runtime.SessionService.CurrentRunOwner);
     }
 

@@ -1,61 +1,110 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
+             xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.TaskQueue"
              x:Class="MAAUnified.App.Features.TaskQueue.StartUpTaskView">
-  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="2">
+  <Grid RowDefinitions="Auto,Auto" Margin="2">
     <TextBlock Classes="section-title" Text="{Binding Texts[StartUp.Title]}" />
 
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,200,Auto,180,Auto,140">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[StartUp.AccountName]}" />
-      <TextBox Text="{Binding AccountName}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[StartUp.ClientType]}" />
-      <ComboBox Grid.Column="3" ItemsSource="{Binding ClientTypeOptions}" SelectedItem="{Binding ClientType}" />
-      <CheckBox Grid.Column="4"
-                Grid.ColumnSpan="2"
-                Margin="8,0,0,0"
-                VerticalAlignment="Center"
-                Content="{Binding Texts[StartUp.StartGameEnabled]}"
+    <StackPanel Grid.Row="1" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <Grid IsVisible="{Binding ShowAccountSwitch}"
+            ColumnDefinitions="*,Auto">
+        <Grid RowDefinitions="Auto,Auto">
+          <Grid ColumnDefinitions="Auto,Auto">
+            <TextBlock Text="{Binding Texts[StartUp.AccountSwitch]}" />
+            <controls:TooltipHint Grid.Column="1"
+                                  Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                  Tip="{Binding Texts[StartUp.AccountSwitchTip]}" />
+          </Grid>
+          <TextBox Grid.Row="1"
+                   Margin="{DynamicResource MAA.Thickness.MarginTopSmall}"
+                   Text="{Binding AccountName, UpdateSourceTrigger=LostFocus}" />
+        </Grid>
+        <Button Grid.Column="1"
+                Classes="wpf-button wpf-button-secondary"
+                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                Content="{Binding Texts[StartUp.AccountSwitchManualRun]}"
+                IsEnabled="{Binding CanRunAccountSwitchNow}"
+                Click="OnAccountSwitchManualRunClick" />
+      </Grid>
+
+      <TextBlock Text="{Binding Texts[StartUp.ClientType]}" />
+      <ComboBox ItemsSource="{Binding ClientTypeOptions}"
+                SelectedItem="{Binding SelectedClientTypeOption}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="vm:TaskModuleOption">
+            <TextBlock Text="{Binding DisplayName}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+
+      <CheckBox Content="{Binding Texts[StartUp.StartGameEnabled]}"
                 IsChecked="{Binding StartGameEnabled}"
                 IsEnabled="{Binding CanEditStartGameEnabled}" />
-    </Grid>
 
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,200,Auto,220">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[StartUp.ConnectConfig]}" />
-      <ComboBox ItemsSource="{Binding ConnectConfigOptions}" SelectedItem="{Binding ConnectConfig}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[StartUp.ConnectAddress]}" />
-      <TextBox Grid.Column="3" Text="{Binding ConnectAddress}" />
-    </Grid>
+      <TextBlock Text="{Binding Texts[StartUp.ConnectConfig]}" />
+      <ComboBox ItemsSource="{Binding ConnectConfigOptions}"
+                SelectedItem="{Binding SelectedConnectConfigOption}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="vm:TaskModuleOption">
+            <TextBlock Text="{Binding DisplayName}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
 
-    <Grid Grid.Row="3" ColumnDefinitions="Auto,260,Auto,180,Auto,120">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[StartUp.AdbPath]}" />
-      <TextBox Text="{Binding AdbPath}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[StartUp.TouchMode]}" />
-      <ComboBox Grid.Column="3" ItemsSource="{Binding TouchModeOptions}" SelectedItem="{Binding TouchMode}" />
-      <CheckBox Grid.Column="4"
-                Grid.ColumnSpan="2"
-                Margin="8,0,0,0"
-                VerticalAlignment="Center"
-                Content="{Binding Texts[StartUp.AutoDetect]}"
-                IsChecked="{Binding AutoDetectConnection}" />
-    </Grid>
+      <Grid RowDefinitions="Auto,Auto">
+        <Grid ColumnDefinitions="Auto,Auto">
+          <TextBlock Text="{Binding Texts[StartUp.ConnectAddress]}" />
+          <controls:TooltipHint Grid.Column="1"
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                Tip="{Binding Texts[StartUp.ConnectionAddressTip]}" />
+        </Grid>
+        <AutoCompleteBox Grid.Row="1"
+                         Margin="{DynamicResource MAA.Thickness.MarginTopSmall}"
+                         ItemsSource="{Binding ConnectAddressHistory}"
+                         Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}" />
+      </Grid>
 
-    <Grid Grid.Row="4" ColumnDefinitions="Auto,100,Auto,100,Auto,100">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[StartUp.AttachScreencap]}" />
-      <TextBox Text="{Binding AttachWindowScreencapMethod}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[StartUp.AttachMouse]}" />
-      <TextBox Grid.Column="3" Text="{Binding AttachWindowMouseMethod}" />
-      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[StartUp.AttachKeyboard]}" />
-      <TextBox Grid.Column="5" Text="{Binding AttachWindowKeyboardMethod}" />
-    </Grid>
+      <Grid RowDefinitions="Auto,Auto"
+            ColumnDefinitions="*,Auto">
+        <TextBlock Grid.ColumnSpan="2" Text="{Binding Texts[StartUp.AdbPath]}" />
+        <TextBox Grid.Row="1"
+                 Margin="{DynamicResource MAA.Thickness.MarginTopSmall}"
+                 Text="{Binding AdbPath, UpdateSourceTrigger=LostFocus}" />
+        <Button Grid.Row="1"
+                Grid.Column="1"
+                Classes="wpf-button wpf-button-secondary"
+                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                Content="{Binding Texts[StartUp.Select]}"
+                Click="OnSelectAdbPathClick" />
+      </Grid>
 
-    <TextBlock Grid.Row="5" Text="{Binding StatusMessage}" />
-    <TextBlock Grid.Row="6"
-               Foreground="{DynamicResource MAA.ErrorBrush}"
-               Text="{Binding LastErrorMessage}"
-               TextWrapping="Wrap" />
+      <TextBlock Text="{Binding Texts[StartUp.TouchMode]}" />
+      <ComboBox ItemsSource="{Binding TouchModeOptions}"
+                SelectedItem="{Binding SelectedTouchModeOption}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="vm:TaskModuleOption">
+            <TextBlock Text="{Binding DisplayName}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
 
-    <StackPanel Grid.Row="7">
-      <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
-      <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
+      <Grid ColumnDefinitions="Auto,Auto">
+        <CheckBox Content="{Binding Texts[StartUp.AutoDetect]}" IsChecked="{Binding AutoDetectConnection}" />
+        <controls:TooltipHint Grid.Column="1"
+                              Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                              Tip="{Binding Texts[StartUp.AutoDetectConnectionTip]}" />
+      </Grid>
+
+      <TextBlock Text="{Binding StatusMessage}" />
+      <TextBlock Foreground="{DynamicResource MAA.ErrorBrush}"
+                 Text="{Binding LastErrorMessage}"
+                 TextWrapping="Wrap" />
+
+      <StackPanel IsVisible="{Binding HasValidationIssues}">
+        <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
+        <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
+      </StackPanel>
     </StackPanel>
   </Grid>
 </UserControl>

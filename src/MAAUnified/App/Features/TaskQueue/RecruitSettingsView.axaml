@@ -1,51 +1,99 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
+             xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.TaskQueue"
              x:Class="MAAUnified.App.Features.TaskQueue.RecruitSettingsView">
-  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Margin="2">
+  <Grid RowDefinitions="Auto,Auto" Margin="2">
     <TextBlock Classes="section-title" Text="{Binding Texts[Recruit.Title]}" />
 
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,120,Auto,Auto,Auto,Auto">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Recruit.Times]}" />
-      <NumericUpDown Minimum="0" Maximum="99" Value="{Binding Times}" />
-      <CheckBox Grid.Column="2" Content="{Binding Texts[Recruit.Refresh]}" IsChecked="{Binding Refresh}" />
-      <CheckBox Grid.Column="3" Content="{Binding Texts[Recruit.ForceRefresh]}" IsChecked="{Binding ForceRefresh}" />
-      <CheckBox Grid.Column="4" Content="{Binding Texts[Recruit.UseExpedited]}" IsChecked="{Binding UseExpedited}" />
-      <CheckBox Grid.Column="5" Content="{Binding Texts[Recruit.SkipRobot]}" IsChecked="{Binding SkipRobot}" />
-    </Grid>
+    <StackPanel Grid.Row="1" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <StackPanel IsVisible="{Binding IsGeneralMode}" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <Grid ColumnDefinitions="Auto,Auto">
+        <CheckBox Content="{Binding Texts[Recruit.UseExpedited]}" IsChecked="{Binding UseExpedited}" />
+        <controls:TooltipHint Grid.Column="1"
+                              Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                              Tip="{Binding Texts[Recruit.UseExpeditedTip]}" />
+      </Grid>
 
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,Auto">
-      <CheckBox Content="{Binding Texts[Recruit.ChooseLevel3]}" IsChecked="{Binding ChooseLevel3}" />
-      <CheckBox Grid.Column="1" Content="{Binding Texts[Recruit.ChooseLevel4]}" IsChecked="{Binding ChooseLevel4}" />
-      <CheckBox Grid.Column="2" Content="{Binding Texts[Recruit.ChooseLevel5]}" IsChecked="{Binding ChooseLevel5}" />
-      <CheckBox Grid.Column="3" Content="{Binding Texts[Recruit.SetTime]}" IsChecked="{Binding SetTime}" />
-    </Grid>
+        <TextBlock Text="{Binding Texts[Recruit.Times]}" />
+        <controls:VerticalSpinNumberBox Minimum="0" Maximum="99" Value="{Binding Times}" />
+      </StackPanel>
 
-    <Grid Grid.Row="3" ColumnDefinitions="Auto,120,Auto,120,Auto,120">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Recruit.Level3Time]}" />
-      <NumericUpDown Minimum="60" Maximum="540" Increment="10" Value="{Binding Level3Time}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Recruit.Level4Time]}" />
-      <NumericUpDown Grid.Column="3" Minimum="60" Maximum="540" Increment="10" Value="{Binding Level4Time}" />
-      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Recruit.Level5Time]}" />
-      <NumericUpDown Grid.Column="5" Minimum="60" Maximum="540" Increment="10" Value="{Binding Level5Time}" />
-    </Grid>
+      <StackPanel IsVisible="{Binding IsAdvancedMode}" Spacing="{DynamicResource MAA.Spacing.Small}">
+        <TextBlock Text="{Binding Texts[Recruit.SelectStrategy]}" />
+        <ComboBox ItemsSource="{Binding ExtraTagsModeOptions}"
+                  SelectedItem="{Binding SelectedExtraTagsModeOption}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:RecruitTaskModuleViewModel+ExtraTagsModeOption">
+              <TextBlock Text="{Binding DisplayName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
 
-    <Grid Grid.Row="4" ColumnDefinitions="Auto,120,Auto,*">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Recruit.ExtraTagsMode]}" />
-      <NumericUpDown Minimum="0" Maximum="3" Value="{Binding ExtraTagsMode}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Recruit.FirstTags]}" />
-      <TextBox Grid.Column="3" Text="{Binding FirstTagsText}" />
-    </Grid>
+      <Grid ColumnDefinitions="Auto,Auto">
+        <TextBlock Text="{Binding Texts[Recruit.FirstTags]}" />
+        <controls:TooltipHint Grid.Column="1"
+                              Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                              Tip="{Binding Texts[Recruit.HighPriorityTip]}" />
+      </Grid>
+        <controls:CheckComboBox HeaderText="{Binding FirstTagsSummary}">
+          <controls:CheckComboBox.DropDownContent>
+            <ListBox Classes="wpf-list-no-highlight"
+                     ItemsSource="{Binding FirstTagOptions}"
+                     MaxHeight="160">
+              <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:RecruitTaskModuleViewModel+RecruitTagOption">
+                  <CheckBox Content="{Binding DisplayName}" IsChecked="{Binding IsSelected}" />
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </controls:CheckComboBox.DropDownContent>
+        </controls:CheckComboBox>
 
-    <Grid Grid.Row="5" RowDefinitions="Auto,Auto,Auto">
+        <CheckBox Content="{Binding Texts[Recruit.Refresh]}" IsChecked="{Binding Refresh}" />
+        <CheckBox Content="{Binding Texts[Recruit.ForceRefresh]}"
+                  IsChecked="{Binding ForceRefresh}"
+                  IsEnabled="{Binding Refresh}" />
+
+      <Grid ColumnDefinitions="Auto,Auto">
+        <CheckBox Content="{Binding Texts[Recruit.NotChooseLevel1]}" IsChecked="{Binding NotChooseLevel1}" />
+        <controls:TooltipHint Grid.Column="1"
+                              Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                              Tip="{Binding Texts[Recruit.NotChooseLevel1Tip]}" />
+      </Grid>
+
+        <CheckBox Content="{Binding Texts[Recruit.ChooseLevel3]}" IsChecked="{Binding ChooseLevel3}" />
+        <Grid IsEnabled="{Binding ChooseLevel3}" ColumnDefinitions="74,Auto,74">
+          <controls:VerticalSpinNumberBox Minimum="1" Maximum="9" Value="{Binding Level3Hour}" />
+          <TextBlock Grid.Column="1" Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}" Text=":" VerticalAlignment="Center" />
+          <controls:VerticalSpinNumberBox Grid.Column="2" Minimum="0" Maximum="50" Increment="10" Value="{Binding Level3Minute}" />
+        </Grid>
+
+        <CheckBox Content="{Binding Texts[Recruit.ChooseLevel4]}" IsChecked="{Binding ChooseLevel4}" />
+        <Grid IsEnabled="{Binding ChooseLevel4}" ColumnDefinitions="74,Auto,74">
+          <controls:VerticalSpinNumberBox Minimum="1" Maximum="9" Value="{Binding Level4Hour}" />
+          <TextBlock Grid.Column="1" Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}" Text=":" VerticalAlignment="Center" />
+          <controls:VerticalSpinNumberBox Grid.Column="2" Minimum="0" Maximum="50" Increment="10" Value="{Binding Level4Minute}" />
+        </Grid>
+
+        <CheckBox Content="{Binding Texts[Recruit.ChooseLevel5]}" IsChecked="{Binding ChooseLevel5}" />
+        <Grid IsEnabled="{Binding ChooseLevel5}" ColumnDefinitions="74,Auto,74">
+          <controls:VerticalSpinNumberBox Minimum="1" Maximum="9" Value="{Binding Level5Hour}" />
+          <TextBlock Grid.Column="1" Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}" Text=":" VerticalAlignment="Center" />
+          <controls:VerticalSpinNumberBox Grid.Column="2" Minimum="0" Maximum="50" Increment="10" Value="{Binding Level5Minute}" />
+        </Grid>
+
+        <CheckBox Content="{Binding Texts[Recruit.AutoSelectLevel6]}" IsChecked="False" IsEnabled="False" />
+      </StackPanel>
+
       <TextBlock Text="{Binding StatusMessage}" />
-      <TextBlock Grid.Row="1"
-                 Foreground="{DynamicResource MAA.ErrorBrush}"
+      <TextBlock Foreground="{DynamicResource MAA.ErrorBrush}"
                  Text="{Binding LastErrorMessage}"
                  TextWrapping="Wrap" />
-      <StackPanel Grid.Row="2">
+      <StackPanel IsVisible="{Binding HasValidationIssues}">
         <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
         <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
       </StackPanel>
-    </Grid>
+    </StackPanel>
   </Grid>
 </UserControl>

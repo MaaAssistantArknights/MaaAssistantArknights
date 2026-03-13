@@ -1,60 +1,140 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
              xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.TaskQueue"
              x:Class="MAAUnified.App.Features.TaskQueue.InfrastSettingsView">
-  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="2">
+  <Grid RowDefinitions="Auto,Auto" Margin="2">
     <TextBlock Classes="section-title" Text="{Binding Texts[Infrast.Title]}" />
 
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,180,Auto,160,Auto,100">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Infrast.Mode]}" />
-      <ComboBox x:Name="ModeCombo" SelectionChanged="OnModeSelectionChanged">
-        <ComboBoxItem Content="{Binding Texts[Infrast.Mode.Normal]}" />
-        <ComboBoxItem Content="{Binding Texts[Infrast.Mode.Custom]}" />
-        <ComboBoxItem Content="{Binding Texts[Infrast.Mode.Rotation]}" />
-      </ComboBox>
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Infrast.Drones]}" />
-      <ComboBox Grid.Column="3" ItemsSource="{Binding DroneOptions}" SelectedItem="{Binding Drones}" />
-      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Texts[Infrast.Threshold]}" />
-      <NumericUpDown Grid.Column="5" Minimum="0" Maximum="100" Value="{Binding DormThresholdPercent}" />
-    </Grid>
+    <StackPanel Grid.Row="1" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <StackPanel IsVisible="{Binding IsGeneralMode}" Spacing="{DynamicResource MAA.Spacing.Small}">
+        <Grid ColumnDefinitions="Auto,Auto">
+          <TextBlock Text="{Binding Texts[Infrast.Mode]}" />
+          <controls:TooltipHint Grid.Column="1"
+                                IsVisible="{Binding ShowRotationTip}"
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                Tip="{Binding Texts[Infrast.ModeRotationToolTip]}" />
+        </Grid>
+        <ComboBox ItemsSource="{Binding ModeOptions}"
+                  SelectedItem="{Binding SelectedModeOption}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:InfrastModuleViewModel+IntOption">
+              <TextBlock Text="{Binding DisplayName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
 
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto,120,Auto">
-      <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Infrast.File]}" />
-      <TextBox Text="{Binding CustomFilePath}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Texts[Infrast.Plan]}" />
-      <ComboBox Grid.Column="3"
-                ItemsSource="{Binding PlanOptions}"
-                SelectedItem="{Binding SelectedPlan}">
-        <ComboBox.ItemTemplate>
-          <DataTemplate x:DataType="vm:InfrastModuleViewModel+PlanOption">
-            <TextBlock Text="{Binding Display}" />
-          </DataTemplate>
-        </ComboBox.ItemTemplate>
-      </ComboBox>
-      <Button Grid.Column="4" Content="{Binding Texts[Infrast.Plan.Refresh]}" Click="OnReloadPlansClick" />
-    </Grid>
+        <StackPanel IsVisible="{Binding ShowCustomModeSettings}" Spacing="{DynamicResource MAA.Spacing.Small}">
+          <Grid ColumnDefinitions="Auto,Auto">
+            <TextBlock Text="{Binding Texts[Infrast.Plan]}" />
+            <controls:TooltipHint Grid.Column="1"
+                                  Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                  Tip="{Binding Texts[Infrast.CustomPlanToolTip]}" />
+          </Grid>
+          <Grid ColumnDefinitions="*,Auto">
+            <ComboBox ItemsSource="{Binding PlanOptions}" SelectedItem="{Binding SelectedPlan}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:InfrastModuleViewModel+PlanOption">
+                  <TextBlock Text="{Binding Display}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="1"
+                    Classes="wpf-button wpf-button-secondary"
+                    Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                    Content="{Binding Texts[Infrast.Plan.Refresh]}"
+                    Click="OnReloadPlansClick" />
+          </Grid>
 
-    <Grid Grid.Row="3" ColumnDefinitions="Auto,*">
-      <TextBlock VerticalAlignment="Top" Text="{Binding Texts[Infrast.Facility]}" />
-      <TextBox AcceptsReturn="True" Height="80" Text="{Binding FacilityText}" />
-    </Grid>
+          <TextBlock Text="{Binding Texts[Infrast.DefaultPreset]}" />
+          <Grid ColumnDefinitions="*,Auto">
+            <ComboBox ItemsSource="{Binding DefaultInfrastOptions}"
+                      SelectedItem="{Binding SelectedDefaultInfrastOption}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:InfrastModuleViewModel+StringOption">
+                  <TextBlock Text="{Binding DisplayName}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="1"
+                    Classes="wpf-button wpf-button-secondary"
+                    Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                    Content="{Binding Texts[Infrast.Select]}"
+                    Click="OnSelectCustomFileClick" />
+          </Grid>
 
-    <StackPanel Grid.Row="4" Orientation="Horizontal" Spacing="8">
-      <Button Content="{Binding Texts[Infrast.SelectAll]}" Click="OnSelectAllFacilityClick" />
-      <Button Content="{Binding Texts[Infrast.Clear]}" Click="OnClearFacilityClick" />
-      <CheckBox Content="{Binding Texts[Infrast.ContinueTraining]}" IsChecked="{Binding ContinueTraining}" />
+          <TextBlock Text="{Binding Texts[Infrast.File]}" />
+          <TextBox IsReadOnly="{Binding IsCustomFileReadOnly}"
+                   Text="{Binding CustomFilePath, UpdateSourceTrigger=LostFocus}" />
+        </StackPanel>
+
+        <TextBlock IsVisible="{Binding ShowRotationTip}"
+                   Text="{Binding Texts[Infrast.ModeRotationTip]}"
+                   TextWrapping="Wrap" />
+
+        <TextBlock Text="{Binding Texts[Infrast.Drones]}" />
+        <ComboBox ItemsSource="{Binding DroneOptions}"
+                  IsEnabled="{Binding CanEditDrones}"
+                  SelectedItem="{Binding SelectedDroneOption}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:InfrastModuleViewModel+StringOption">
+              <TextBlock Text="{Binding DisplayName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <StackPanel IsVisible="{Binding ShowThresholdSettings}" Spacing="{DynamicResource MAA.Spacing.Small}">
+          <Grid ColumnDefinitions="Auto,Auto">
+            <TextBlock Text="{Binding Texts[Infrast.Threshold]}" />
+            <controls:TooltipHint Grid.Column="1"
+                                  Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                  Tip="{Binding Texts[Infrast.ThresholdTip]}" />
+          </Grid>
+          <Slider Minimum="0" Maximum="100" Value="{Binding DormThresholdPercent}" />
+          <TextBlock Classes="subtle" Text="{Binding DormThresholdPercent, StringFormat='{}{0}%'}" />
+        </StackPanel>
+
+        <TextBlock Text="{Binding Texts[Infrast.Facility]}" />
+        <ListBox Classes="wpf-list-no-highlight"
+                 ItemsSource="{Binding FacilityOptions}"
+                 MaxHeight="196">
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:InfrastModuleViewModel+FacilityOption">
+              <CheckBox Content="{Binding DisplayName}" IsChecked="{Binding IsSelected}" />
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid ColumnDefinitions="*,*">
+          <Button Classes="wpf-button wpf-button-secondary"
+                  Content="{Binding Texts[Infrast.SelectAll]}"
+                  Click="OnSelectAllFacilityClick" />
+          <Button Grid.Column="1"
+                  Classes="wpf-button wpf-button-secondary"
+                  Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                  Content="{Binding Texts[Infrast.Clear]}"
+                  Click="OnClearFacilityClick" />
+        </Grid>
+      </StackPanel>
+
+      <StackPanel IsVisible="{Binding IsAdvancedMode}" Spacing="{DynamicResource MAA.Spacing.Small}">
+        <CheckBox Content="{Binding Texts[Infrast.Trust]}"
+                  IsChecked="{Binding DormTrustEnabled}"
+                  IsVisible="{Binding ShowDormFilterSettings}" />
+        <Grid ColumnDefinitions="Auto,Auto" IsVisible="{Binding ShowDormFilterSettings}">
+          <CheckBox Content="{Binding Texts[Infrast.NotStationed]}" IsChecked="{Binding DormNotStationedEnabled}" />
+          <controls:TooltipHint Grid.Column="1"
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                Tip="{Binding Texts[Infrast.NotStationedTip]}" />
+        </Grid>
+        <CheckBox Content="{Binding Texts[Infrast.Replenish]}" IsChecked="{Binding Replenish}" />
+        <CheckBox Content="{Binding Texts[Infrast.ReceptionBoard]}" IsChecked="{Binding ReceptionMessageBoard}" />
+        <CheckBox Content="{Binding Texts[Infrast.ReceptionExchange]}" IsChecked="{Binding ReceptionClueExchange}" />
+        <CheckBox Content="{Binding Texts[Infrast.ReceptionSend]}" IsChecked="{Binding ReceptionSendClue}" />
+        <CheckBox Content="{Binding Texts[Infrast.ContinueTraining]}" IsChecked="{Binding ContinueTraining}" />
+      </StackPanel>
+
+      <TextBlock Foreground="{DynamicResource MAA.WarningBrush}" Text="{Binding StatusMessage}" TextWrapping="Wrap" />
+      <TextBlock Foreground="{DynamicResource MAA.ErrorBrush}" Text="{Binding LastErrorMessage}" TextWrapping="Wrap" />
     </StackPanel>
-
-    <WrapPanel Grid.Row="5" ItemWidth="180" Orientation="Horizontal">
-      <CheckBox Content="{Binding Texts[Infrast.Trust]}" IsChecked="{Binding DormTrustEnabled}" />
-      <CheckBox Content="{Binding Texts[Infrast.NotStationed]}" IsChecked="{Binding DormNotStationedEnabled}" />
-      <CheckBox Content="{Binding Texts[Infrast.Replenish]}" IsChecked="{Binding Replenish}" />
-      <CheckBox Content="{Binding Texts[Infrast.ReceptionBoard]}" IsChecked="{Binding ReceptionMessageBoard}" />
-      <CheckBox Content="{Binding Texts[Infrast.ReceptionExchange]}" IsChecked="{Binding ReceptionClueExchange}" />
-      <CheckBox Content="{Binding Texts[Infrast.ReceptionSend]}" IsChecked="{Binding ReceptionSendClue}" />
-    </WrapPanel>
-
-    <TextBlock Grid.Row="6" Foreground="{DynamicResource MAA.WarningBrush}" Text="{Binding StatusMessage}" TextWrapping="Wrap" />
-    <TextBlock Grid.Row="7" Foreground="{DynamicResource MAA.ErrorBrush}" Text="{Binding LastErrorMessage}" TextWrapping="Wrap" />
   </Grid>
 </UserControl>

@@ -1,0 +1,31 @@
+<Project>
+  <PropertyGroup>
+    <MaaNuGetCheckEnabled Condition="'$(MaaNuGetCheckEnabled)' == ''">true</MaaNuGetCheckEnabled>
+    <MaaNuGetCheckTimeoutMilliseconds Condition="'$(MaaNuGetCheckTimeoutMilliseconds)' == ''">8000</MaaNuGetCheckTimeoutMilliseconds>
+    <MaaNuGetCheckRetries Condition="'$(MaaNuGetCheckRetries)' == ''">2</MaaNuGetCheckRetries>
+    <_MaaNuGetCheckRid>$(RuntimeIdentifier)</_MaaNuGetCheckRid>
+    <_MaaNuGetCheckRid Condition="'$(_MaaNuGetCheckRid)' == ''">$(RuntimeIdentifiers)</_MaaNuGetCheckRid>
+    <_MaaNuGetCheckFile>$(MSBuildProjectExtensionsPath)index.json</_MaaNuGetCheckFile>
+  </PropertyGroup>
+
+  <Target
+    Name="MaaCheckNuGetConnectivity"
+    BeforeTargets="_GetAllRestoreProjectPathItems"
+    Condition="'$(MaaNuGetCheckEnabled)' == 'true' and '$(DesignTimeBuild)' != 'true' and '$(_MaaNuGetCheckRid)' != ''">
+    <DownloadFile
+      SourceUrl="https://api.nuget.org/v3/index.json"
+      DestinationFolder="$(MSBuildProjectExtensionsPath)"
+      Timeout="$(MaaNuGetCheckTimeoutMilliseconds)"
+      Retries="$(MaaNuGetCheckRetries)"
+      SkipUnchangedFiles="false"
+      ContinueOnError="WarnAndContinue">
+      <Output TaskParameter="DownloadedFile" PropertyName="_MaaNuGetCheckDownloadedFile" />
+    </DownloadFile>
+
+    <Error
+      Condition="'$(_MaaNuGetCheckDownloadedFile)' == '' or !Exists('$(_MaaNuGetCheckDownloadedFile)')"
+      Text="NuGet network request timed out or failed. Check your network or proxy settings and try again. If restore has already succeeded, rerun publish with --no-restore." />
+
+    <Delete Files="$(_MaaNuGetCheckFile)" Condition="Exists('$(_MaaNuGetCheckFile)')" />
+  </Target>
+</Project>

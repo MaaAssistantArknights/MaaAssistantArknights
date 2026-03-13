@@ -1,17 +1,25 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
              x:Class="MAAUnified.App.Features.TaskQueue.AwardSettingsView">
   <Grid RowDefinitions="Auto,Auto,Auto,Auto" Margin="2">
     <TextBlock Classes="section-title" Text="{Binding Texts[Award.Title]}" />
 
-    <WrapPanel Grid.Row="1" ItemWidth="220" Orientation="Horizontal">
+    <StackPanel Grid.Row="1" Spacing="{DynamicResource MAA.Spacing.Small}">
       <CheckBox Content="{Binding Texts[Award.Award]}" IsChecked="{Binding Award}" />
       <CheckBox Content="{Binding Texts[Award.Mail]}" IsChecked="{Binding Mail}" />
-      <CheckBox Content="{Binding Texts[Award.Recruit]}" IsChecked="{Binding Recruit}" />
+
+      <Grid ColumnDefinitions="Auto,Auto">
+        <CheckBox Content="{Binding Texts[Award.Recruit]}" IsChecked="{Binding FreeGacha}" />
+        <controls:TooltipHint Grid.Column="1"
+                              Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                              Tip="{Binding Texts[Award.FreeGachaTip]}" />
+      </Grid>
+
       <CheckBox Content="{Binding Texts[Award.Orundum]}" IsChecked="{Binding Orundum}" />
       <CheckBox Content="{Binding Texts[Award.Mining]}" IsChecked="{Binding Mining}" />
       <CheckBox Content="{Binding Texts[Award.Special]}" IsChecked="{Binding SpecialAccess}" />
-    </WrapPanel>
+    </StackPanel>
 
     <Border Grid.Row="2"
             Padding="8"
@@ -19,11 +27,11 @@
             CornerRadius="6"
             BorderThickness="1"
             BorderBrush="{DynamicResource MAA.WarningBrush}"
-            IsVisible="{Binding PendingRecruitConfirmation}">
-      <StackPanel Orientation="Horizontal" Spacing="8">
-        <TextBlock VerticalAlignment="Center" Text="{Binding Texts[Award.RecruitTip]}" />
-        <Button Content="{Binding Texts[Award.Confirm]}" Click="OnConfirmRecruitClick" />
-        <Button Content="{Binding Texts[Award.Cancel]}" Click="OnCancelRecruitClick" />
+            IsVisible="{Binding PendingFreeGachaConfirmation}">
+      <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
+        <TextBlock Text="{Binding Texts[Award.GachaWarning]}" TextWrapping="Wrap" />
+        <Button Classes="wpf-button wpf-button-secondary" Content="{Binding Texts[Award.Confirm]}" Click="OnConfirmRecruitClick" />
+        <Button Classes="wpf-button wpf-button-secondary" Content="{Binding Texts[Award.Cancel]}" Click="OnCancelRecruitClick" />
       </StackPanel>
     </Border>
 

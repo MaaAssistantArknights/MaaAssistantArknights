@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
              x:Class="MAAUnified.App.Features.Advanced.RemoteControlCenterView">
   <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
     <TextBlock Classes="section-title" Text="Remote Control Center" />
@@ -13,17 +14,17 @@
     </Grid>
     <Grid Grid.Row="3" ColumnDefinitions="Auto,120,Auto,*">
       <TextBlock VerticalAlignment="Center" Text="Poll (ms)" />
-      <NumericUpDown Grid.Column="1"
-                     Minimum="500"
-                     Maximum="60000"
-                     Value="{Binding PollIntervalMs}" />
+      <controls:VerticalSpinNumberBox Grid.Column="1"
+                                      Minimum="500"
+                                      Maximum="60000"
+                                      Value="{Binding PollIntervalMs}" />
       <Button Grid.Column="2"
-              Classes="action"
+              Classes="wpf-button"
               Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
               Content="连通性测试"
               Click="OnTestConnectivityClick" />
       <Button Grid.Column="3"
-              Classes="action"
+              Classes="wpf-button"
               Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
               HorizontalAlignment="Left"
               Content="保存"

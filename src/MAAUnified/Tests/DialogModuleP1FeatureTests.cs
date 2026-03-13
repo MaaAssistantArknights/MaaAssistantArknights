@@ -1,4 +1,5 @@
 using MAAUnified.App.Features.Dialogs;
+using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Services;
 using MAAUnified.Application.Services.Features;
@@ -58,6 +59,28 @@ public sealed class DialogModuleP1FeatureTests
         Assert.Equal(UiErrorCode.PlatformOperationFailed, request.Result.Error?.Code);
         Assert.Equal("details", request.Result.Error?.Details);
         Assert.Equal("Try again.", request.Suggestion);
+        Assert.Equal("en-us", request.Language);
+    }
+
+    [Fact]
+    public void DialogTextCatalog_ShouldFallbackNonChineseDialogsToEnglish()
+    {
+        Assert.Equal("Warning", DialogTextCatalog.WarningDialogTitle("ja-jp"));
+        Assert.Equal("Close", DialogTextCatalog.ErrorDialogCloseButton("ko-kr"));
+    }
+
+    [Fact]
+    public void DialogTextCatalog_ShouldProvideEditableConfigHints_ForProfileNameErrors()
+    {
+        var result = UiOperationResult.Fail(
+            UiErrorCode.ConfigurationProfileInvalidName,
+            "Profile name cannot be empty.");
+
+        var localized = DialogTextCatalog.LocalizeErrorResult("zh-cn", result);
+
+        Assert.Equal("配置名称不能为空。", localized.Message);
+        Assert.Equal("请输入配置名称后再试。", DialogTextCatalog.BuildErrorSuggestion("zh-cn", result));
+        Assert.Contains("原始消息", localized.Error?.Details ?? string.Empty, StringComparison.Ordinal);
     }
 
     [Fact]

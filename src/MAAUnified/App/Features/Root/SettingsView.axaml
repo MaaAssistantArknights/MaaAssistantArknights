@@ -3,84 +3,84 @@
              xmlns:settingsViews="clr-namespace:MAAUnified.App.Features.Settings"
              x:Class="MAAUnified.App.Features.Root.SettingsView">
   <Grid ColumnDefinitions="{StaticResource MAA.Layout.Settings.Columns}">
-    <Border Grid.Column="0" Classes="section">
-      <StackPanel Spacing="{DynamicResource MAA.Spacing.Medium}">
-        <TextBlock Classes="section-title" Text="设置段落 (15)" />
-        <ListBox ItemsSource="{Binding Sections}" SelectedItem="{Binding SelectedSection}">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <TextBlock Classes="long-ellipsis" Text="{Binding DisplayName}" />
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
-      </StackPanel>
+    <Border Grid.Column="0" Classes="wpf-panel">
+      <ListBox ItemsSource="{Binding Sections}"
+               SelectedItem="{Binding SelectedSection}"
+               SelectionChanged="OnSectionSelectionChanged">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Classes="long-ellipsis" Text="{Binding DisplayName}" />
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
     </Border>
 
-    <Border Grid.Column="1" Classes="section">
-      <Grid RowDefinitions="Auto,*">
-        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*">
-          <Button Classes="action" Content="保存 GUI 设置" Click="OnSaveGuiClick" />
-          <Button Grid.Column="1" Classes="action" Content="保存远程控制" Click="OnSaveRemoteClick" />
-          <Button Grid.Column="2" Classes="action" Content="注册热键" Click="OnRegisterHotkeysClick" />
-          <Button Grid.Column="3" Classes="action" Content="测试通知" Click="OnTestNotificationClick" />
-          <Button Grid.Column="4" Classes="action" Content="应用开机启动" Click="OnApplyAutostartClick" />
-          <Button Grid.Column="5" Classes="action" Content="保存连接/游戏设置" Click="OnSaveConnectionGameClick" />
-          <Button Grid.Column="6" Classes="action" Content="保存启动/性能设置" Click="OnSaveStartPerformanceClick" />
-          <Button Grid.Column="7" Classes="action" Content="保存定时设置" Click="OnSaveTimerClick" />
-          <Button Grid.Column="8" Classes="action" Content="切换语言" Click="OnSwitchLanguageClick" />
-          <TextBlock Grid.Column="9" VerticalAlignment="Center" Classes="long-wrap" Text="{Binding StatusMessage}" />
-        </Grid>
+    <Border Grid.Column="1" Classes="wpf-panel">
+      <ScrollViewer x:Name="SectionScrollViewer"
+                    ScrollChanged="OnSectionScrollChanged">
+        <StackPanel x:Name="SectionContentPanel"
+                    Spacing="{DynamicResource MAA.Spacing.Large}">
+          <Border x:Name="SectionConfigurationManager" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:ConfigurationManagerView />
+          </Border>
 
-        <ScrollViewer Grid.Row="1">
-          <StackPanel Spacing="{DynamicResource MAA.Spacing.Large}">
-            <Expander Header="Configuration Manager" IsExpanded="True">
-              <settingsViews:ConfigurationManagerView />
-            </Expander>
-            <Expander Header="Timer" IsExpanded="True">
-              <settingsViews:TimerSettingsView />
-            </Expander>
-            <Expander Header="Performance">
-              <settingsViews:PerformanceSettingsView />
-            </Expander>
-            <Expander Header="Game">
-              <settingsViews:GameSettingsView DataContext="{Binding ConnectionGameSharedState}" />
-            </Expander>
-            <Expander Header="Connect">
-              <settingsViews:ConnectSettingsView DataContext="{Binding ConnectionGameSharedState}" />
-            </Expander>
-            <Expander Header="Start">
-              <settingsViews:StartSettingsView />
-            </Expander>
-            <Expander Header="Remote Control">
-              <settingsViews:RemoteControlSettingsView />
-            </Expander>
-            <Expander Header="GUI">
-              <settingsViews:GuiSettingsView />
-            </Expander>
-            <Expander Header="Background">
-              <settingsViews:BackgroundSettingsView />
-            </Expander>
-            <Expander Header="External Notification">
-              <settingsViews:ExternalNotificationSettingsView />
-            </Expander>
-            <Expander Header="HotKey">
-              <settingsViews:HotKeySettingsView />
-            </Expander>
-            <Expander Header="Achievement">
-              <settingsViews:AchievementSettingsView />
-            </Expander>
-            <Expander Header="Version Update">
-              <settingsViews:VersionUpdateSettingsView />
-            </Expander>
-            <Expander Header="Issue Report" IsExpanded="True">
-              <settingsViews:IssueReportView />
-            </Expander>
-            <Expander Header="About">
-              <settingsViews:AboutSettingsView />
-            </Expander>
-          </StackPanel>
-        </ScrollViewer>
-      </Grid>
+          <Border x:Name="SectionTimer" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:TimerSettingsView />
+          </Border>
+
+          <Border x:Name="SectionPerformance" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:PerformanceSettingsView />
+          </Border>
+
+          <Border x:Name="SectionGame" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:GameSettingsView />
+          </Border>
+
+          <Border x:Name="SectionConnect" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:ConnectSettingsView DataContext="{Binding ConnectionGameSharedState}" />
+          </Border>
+
+          <Border x:Name="SectionStart" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:StartSettingsView />
+          </Border>
+
+          <Border x:Name="SectionRemoteControl" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:RemoteControlSettingsView />
+          </Border>
+
+          <Border x:Name="SectionGui" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:GuiSettingsView />
+          </Border>
+
+          <Border x:Name="SectionBackground" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:BackgroundSettingsView />
+          </Border>
+
+          <Border x:Name="SectionExternalNotification" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:ExternalNotificationSettingsView />
+          </Border>
+
+          <Border x:Name="SectionHotKey" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:HotKeySettingsView />
+          </Border>
+
+          <Border x:Name="SectionAchievement" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:AchievementSettingsView />
+          </Border>
+
+          <Border x:Name="SectionVersionUpdate" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:VersionUpdateSettingsView />
+          </Border>
+
+          <Border x:Name="SectionIssueReport" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:IssueReportView />
+          </Border>
+
+          <Border x:Name="SectionAbout" Classes="wpf-panel wpf-panel-strong">
+            <settingsViews:AboutSettingsView />
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
     </Border>
   </Grid>
 </UserControl>

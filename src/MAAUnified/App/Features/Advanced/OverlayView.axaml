@@ -9,12 +9,12 @@
                 SelectedItem="{Binding SelectedTarget}"
                 DisplayMemberBinding="{Binding DisplayName}" />
       <Button Grid.Column="2"
-              Classes="action"
+              Classes="wpf-button"
               Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
               Content="刷新目标"
               Click="OnReloadTargetsClick" />
       <Button Grid.Column="3"
-              Classes="action"
+              Classes="wpf-button"
               Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
               Content="切换显示"
               Click="OnToggleOverlayClick" />

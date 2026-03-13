@@ -4,53 +4,150 @@
     <Thickness x:Key="MAA.BorderThickness.Thin">1</Thickness>
 
     <CornerRadius x:Key="MAA.CornerRadius.Item">4</CornerRadius>
-    <CornerRadius x:Key="MAA.CornerRadius.Section">8</CornerRadius>
-    <CornerRadius x:Key="MAA.CornerRadius.SectionStrong">10</CornerRadius>
-    <CornerRadius x:Key="MAA.CornerRadius.Action">6</CornerRadius>
+    <CornerRadius x:Key="MAA.CornerRadius.Section">4</CornerRadius>
+    <CornerRadius x:Key="MAA.CornerRadius.SectionStrong">4</CornerRadius>
+    <CornerRadius x:Key="MAA.CornerRadius.Action">4</CornerRadius>
+    <CornerRadius x:Key="MAA.CornerRadius.SegmentLeft">4,0,0,4</CornerRadius>
+    <CornerRadius x:Key="MAA.CornerRadius.SegmentRight">0,4,4,0</CornerRadius>
+    <CornerRadius x:Key="MAA.CornerRadius.SegmentMiddle">0</CornerRadius>
 
     <Thickness x:Key="MAA.Thickness.CopilotRootMargin">4</Thickness>
-    <Thickness x:Key="MAA.Thickness.PageMargin">12</Thickness>
+    <Thickness x:Key="MAA.Thickness.PageMargin">10</Thickness>
     <Thickness x:Key="MAA.Thickness.SectionPadding">8</Thickness>
-    <Thickness x:Key="MAA.Thickness.SectionPaddingStrong">10</Thickness>
+    <Thickness x:Key="MAA.Thickness.SectionPaddingStrong">8</Thickness>
     <Thickness x:Key="MAA.Thickness.SectionTitleMargin">0,0,0,4</Thickness>
-    <Thickness x:Key="MAA.Thickness.MainWindowHeaderInfoMargin">0,0,12,0</Thickness>
-    <Thickness x:Key="MAA.Thickness.MarginTopSection">0,10,0,0</Thickness>
-    <Thickness x:Key="MAA.Thickness.MarginSectionVertical">0,10,0,10</Thickness>
-    <Thickness x:Key="MAA.Thickness.MarginRightSection">0,0,10,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.MainWindowHeaderInfoMargin">0,0,10,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.MarginTopSection">0,8,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.MarginBottomSection">0,0,0,8</Thickness>
+    <Thickness x:Key="MAA.Thickness.MarginSectionVertical">0,8,0,8</Thickness>
+    <Thickness x:Key="MAA.Thickness.MarginRightSection">0,0,8,0</Thickness>
     <Thickness x:Key="MAA.Thickness.MarginTopList">0,6,0,0</Thickness>
     <Thickness x:Key="MAA.Thickness.MarginLeftSmall">6,0,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.TaskQueue.CheckboxMargin">4,0,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.MarginTopTiny">0,4,0,0</Thickness>
     <Thickness x:Key="MAA.Thickness.ItemPadding">6</Thickness>
-    <Thickness x:Key="MAA.Thickness.MarginItemVertical">0,2,0,2</Thickness>
-    <Thickness x:Key="MAA.Thickness.MarginActionButtonLeft">8,0,0,0</Thickness>
-    <Thickness x:Key="MAA.Thickness.TaskQueue.ValidationSummaryMargin">0,8,0,8</Thickness>
-    <Thickness x:Key="MAA.Thickness.ActionPadding">12,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.ItemCompactPadding">4,0,4,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.MarginItemVertical">0,1,0,1</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.CardMargin">4</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.PageMargin">20,0,20,20</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.PageMarginFlat">20,0,20,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.InnerHorizontalMargin">10,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.InfoMargin">10</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.FieldMargin">10,0,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.ActionTopMargin">0,10,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.ButtonWideMargin">30,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.ButtonMediumMargin">10</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.CheckboxMargin">5</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.CheckboxWrapMargin">5,5,0,5</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.WarningPadding">24,20</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.WarningLeadMargin">0,20,0,12</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.WarningEmphasisMargin">0,6,0,14</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.WarningButtonMargin">0,18,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.MiniGameButtonMargin">10,14,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.BadgePadding">4,2</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.OperBoxCardPadding">10,14</Thickness>
+    <Thickness x:Key="MAA.Thickness.Toolbox.OperBoxBadgeMargin">4,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.MarginActionButtonLeft">6,0,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.MarginActionTight">-1,0,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Settings.SectionTopMargin">0,6,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Settings.RowMargin">0,8,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Settings.FieldGap">8,0,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.Settings.FieldGapWide">16,0,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.TaskQueue.ValidationSummaryMargin">0,6,0,6</Thickness>
+    <Thickness x:Key="MAA.Thickness.TaskQueue.ConfigPanelOffset">-16,0,0,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.TaskQueue.ConfigContentMargin">0,0,10,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.TaskQueue.PostActionSummaryMargin">0,4,0,4</Thickness>
+    <Thickness x:Key="MAA.Thickness.TaskQueue.PostActionDividerMargin">12,0,12,2</Thickness>
+    <Thickness x:Key="MAA.Thickness.ActionPadding">10,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.ActionCompactPadding">8,0</Thickness>
+    <Thickness x:Key="MAA.Thickness.ActionIconPadding">0</Thickness>
+    <Thickness x:Key="MAA.Thickness.TabCompactPadding">10,6</Thickness>
 
     <x:Double x:Key="MAA.Spacing.Tight">2</x:Double>
     <x:Double x:Key="MAA.Spacing.Small">6</x:Double>
     <x:Double x:Key="MAA.Spacing.Medium">8</x:Double>
     <x:Double x:Key="MAA.Spacing.Large">10</x:Double>
+    <x:Double x:Key="MAA.Spacing.XLarge">12</x:Double>
 
     <x:Double x:Key="MAA.FontSize.SectionTitle">14</x:Double>
-    <x:Double x:Key="MAA.FontSize.WindowTitle">20</x:Double>
+    <x:Double x:Key="MAA.FontSize.WindowTitle">18</x:Double>
+    <x:Double x:Key="MAA.FontSize.ActionCompact">12</x:Double>
+    <x:Double x:Key="MAA.FontSize.TabCompact">12.5</x:Double>
 
-    <x:Double x:Key="MAA.Size.MainWindow.Width">1400</x:Double>
-    <x:Double x:Key="MAA.Size.MainWindow.Height">920</x:Double>
-    <x:Double x:Key="MAA.Size.MainWindow.MinWidth">1200</x:Double>
-    <x:Double x:Key="MAA.Size.MainWindow.MinHeight">760</x:Double>
-    <x:Double x:Key="MAA.Size.MainWindow.PinToggleWidth">48</x:Double>
-    <x:Double x:Key="MAA.Size.MainWindow.PinToggleHeight">32</x:Double>
-    <x:Double x:Key="MAA.Size.MainWindow.ConfigIssueMaxHeight">120</x:Double>
-    <x:Double x:Key="MAA.Size.MainWindow.RootLogsMaxHeight">140</x:Double>
+    <x:Double x:Key="MAA.Size.MainWindow.Width">1380</x:Double>
+    <x:Double x:Key="MAA.Size.MainWindow.Height">900</x:Double>
+    <x:Double x:Key="MAA.Size.MainWindow.MinWidth">1160</x:Double>
+    <x:Double x:Key="MAA.Size.MainWindow.MinHeight">720</x:Double>
+    <x:Double x:Key="MAA.Size.MainWindow.PinToggleWidth">44</x:Double>
+    <x:Double x:Key="MAA.Size.MainWindow.PinToggleHeight">30</x:Double>
+    <x:Double x:Key="MAA.Size.MainWindow.ConfigIssueMaxHeight">110</x:Double>
+    <x:Double x:Key="MAA.Size.MainWindow.RootLogsMaxHeight">120</x:Double>
 
-    <x:Double x:Key="MAA.Size.Action.MinWidth">88</x:Double>
-    <x:Double x:Key="MAA.Size.Action.Height">32</x:Double>
+    <x:Double x:Key="MAA.Size.Action.MinWidth">84</x:Double>
+    <x:Double x:Key="MAA.Size.Action.Height">30</x:Double>
+    <x:Double x:Key="MAA.Size.Action.CompactMinWidth">66</x:Double>
+    <x:Double x:Key="MAA.Size.Action.CompactHeight">26</x:Double>
+    <x:Double x:Key="MAA.Size.Action.IconMinWidth">30</x:Double>
+    <x:Double x:Key="MAA.Size.Settings.FormMaxWidth">920</x:Double>
+    <x:Double x:Key="MAA.Size.Settings.FormNarrowMaxWidth">760</x:Double>
+    <x:Double x:Key="MAA.Size.Settings.LabelWidth">132</x:Double>
+    <x:Double x:Key="MAA.Size.Settings.LabelWideWidth">152</x:Double>
+    <x:Double x:Key="MAA.Size.Settings.FieldCompactWidth">120</x:Double>
+    <x:Double x:Key="MAA.Size.Settings.FieldWidth">220</x:Double>
+    <x:Double x:Key="MAA.Size.Settings.FieldWideWidth">280</x:Double>
+    <x:Double x:Key="MAA.Size.Settings.FieldExtraWideWidth">340</x:Double>
+    <x:Double x:Key="MAA.Size.Settings.WrapItemWidth">220</x:Double>
+    <x:Double x:Key="MAA.Size.Action.RunPrimaryHeight">50</x:Double>
+    <x:Double x:Key="MAA.Size.Action.RunSecondaryHeight">40</x:Double>
+    <x:Double x:Key="MAA.Size.TaskQueue.RowHeight">30</x:Double>
     <x:Double x:Key="MAA.Size.TaskQueue.RenameTextWidth">220</x:Double>
-    <x:Double x:Key="MAA.Size.TaskQueue.OverlayTargetWidth">240</x:Double>
+    <x:Double x:Key="MAA.Size.TaskQueue.OverlayTargetWidth">220</x:Double>
+    <x:Double x:Key="MAA.Size.TaskQueue.ConfigPanelMaxWidth">340</x:Double>
+    <x:Double x:Key="MAA.Size.TaskQueue.ConfigPanelWidth">280</x:Double>
+    <x:Double x:Key="MAA.Size.TaskQueue.PostActionSummaryWidth">185</x:Double>
+    <x:Double x:Key="MAA.Size.TaskQueue.PostActionDescriptionWidth">160</x:Double>
+    <x:Double x:Key="MAA.Size.TaskQueue.PostActionDividerHeight">1</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.DepotCardMinWidth">150</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.DepotIcon">36</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.DepotCardImage">50</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.DepotWrapItemWidth">158</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.OperBoxCardMinWidth">140</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.OperBoxCardMinHeight">118</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.OperBoxBadgeIcon">24</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.OperBoxWrapItemWidth">148</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.RecruitTimePickerWidth">55</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.PeepFpsWidth">60</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.ActionButtonWidth">180</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.ActionButtonHeight">70</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.WarningButtonWidth">110</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.WarningButtonHeight">60</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.MiniGameButtonWidth">100</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.MiniGameButtonHeight">50</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.RecruitResultMinHeight">180</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.GachaPreviewMaxHeight">420</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.PeepPreviewMaxHeight">520</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.HistoryMaxHeight">180</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.RecruitPotentialTextMaxWidth">220</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.WarningTextMaxWidth">560</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.FormPanelWidth">640</x:Double>
+    <x:Double x:Key="MAA.Size.Toolbox.PeepFormPanelWidth">360</x:Double>
 
-    <ColumnDefinitions x:Key="MAA.Layout.MainWindow.ConnectionColumns">Auto,220,180,220,*,Auto,Auto</ColumnDefinitions>
-    <ColumnDefinitions x:Key="MAA.Layout.MainWindow.ContentColumns">*,280</ColumnDefinitions>
-    <ColumnDefinitions x:Key="MAA.Layout.TaskQueue.Columns">280,*,320</ColumnDefinitions>
-    <ColumnDefinitions x:Key="MAA.Layout.Settings.Columns">220,*</ColumnDefinitions>
+    <x:Double x:Key="MAA.FontSize.Toolbox.WarningLead">24</x:Double>
+    <x:Double x:Key="MAA.FontSize.Toolbox.WarningEmphasis">52</x:Double>
+    <x:Double x:Key="MAA.FontSize.Toolbox.PeepTip">24</x:Double>
+
+    <ColumnDefinitions x:Key="MAA.Layout.MainWindow.ConnectionColumns">Auto,220,170,220,*,Auto,Auto</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.MainWindow.ContentColumns">*,260</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.TaskQueue.Columns">276,*,380</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.Settings.Columns">224,*</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.Settings.RowLabelField">132,220</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.Settings.RowLabelFill">132,*</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.Settings.RowLabelFieldAction">132,*,Auto</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.Settings.RowLabelCompactAction">132,120,Auto</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.Settings.RowLabelFieldLabelField">132,220,132,220</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.Settings.RowLabelFieldLabelFieldAction">132,220,132,220,Auto</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.Settings.RowLabelFieldLabelFill">132,220,132,*</ColumnDefinitions>
+    <ColumnDefinitions x:Key="MAA.Layout.Settings.RowLabelCompactLabelCompact">152,120,152,120</ColumnDefinitions>
     <ColumnDefinitions x:Key="MAA.Layout.Copilot.Columns">2*,3,2*</ColumnDefinitions>
     <ColumnDefinitions x:Key="MAA.Layout.Toolbox.Columns">2*,3,3*</ColumnDefinitions>
   </Styles.Resources>
@@ -58,53 +155,81 @@
   <Style Selector="Window">
     <Setter Property="Background" Value="{DynamicResource MAA.Brush.Surface.Window}" />
     <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Primary}" />
+    <Setter Property="FontFamily" Value="Segoe UI, Microsoft YaHei UI, sans-serif" />
   </Style>
 
-  <Style Selector="Border.section">
-    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Surface.Section}" />
+  <Style Selector="TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Primary}" />
+  </Style>
+
+  <Style Selector="TextBlock.subtle">
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Secondary}" />
+  </Style>
+
+  <Style Selector="TextBlock.muted">
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Muted}" />
+  </Style>
+
+  <Style Selector="Border.wpf-panel">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.Region25}" />
     <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
     <Setter Property="BorderThickness" Value="{DynamicResource MAA.BorderThickness.Thin}" />
     <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Section}" />
     <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.SectionPadding}" />
   </Style>
 
-  <Style Selector="Border.section.section-strong">
-    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Surface.SectionStrong}" />
+  <Style Selector="Border.wpf-panel.wpf-panel-strong">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.Region75}" />
     <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.SectionStrong}" />
     <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.SectionPaddingStrong}" />
   </Style>
 
-  <Style Selector="Border.section.section-warning">
+  <Style Selector="Border.wpf-panel.wpf-panel-warning">
     <Setter Property="Background" Value="{DynamicResource MAA.Brush.Surface.Warning}" />
     <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.State.Warning}" />
   </Style>
 
-  <Style Selector="Border.item-card">
+  <Style Selector="Border.wpf-card">
     <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
     <Setter Property="BorderThickness" Value="{DynamicResource MAA.BorderThickness.Thin}" />
     <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Item}" />
     <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.ItemPadding}" />
     <Setter Property="Margin" Value="{DynamicResource MAA.Thickness.MarginItemVertical}" />
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.Region25}" />
   </Style>
 
-  <Style Selector="Border.item-card.status-running">
-    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.State.Running}" />
+  <Style Selector="Border.wpf-card.wpf-card-compact">
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.ItemCompactPadding}" />
+    <Setter Property="MinHeight" Value="{DynamicResource MAA.Size.TaskQueue.RowHeight}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
   </Style>
 
-  <Style Selector="Border.item-card.status-success">
-    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.State.Success}" />
+  <Style Selector="Border.wpf-card.task-row-card">
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="BorderBrush" Value="Transparent" />
   </Style>
 
-  <Style Selector="Border.item-card.status-error">
-    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.State.Error}" />
+  <Style Selector="Border.wpf-card.status-running">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Running}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Running}" />
   </Style>
 
-  <Style Selector="Border.item-card.status-skipped">
-    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.State.Skipped}" />
+  <Style Selector="Border.wpf-card.status-success">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Success}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Success}" />
   </Style>
 
-  <Style Selector="Border.item-card.status-idle">
-    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.State.Idle}" />
+  <Style Selector="Border.wpf-card.status-error">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Error}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Error}" />
+  </Style>
+
+  <Style Selector="Border.wpf-card.status-skipped">
+    <Setter Property="Opacity" Value="0.55" />
+  </Style>
+
+  <Style Selector="Border.wpf-card.status-idle">
+    <Setter Property="Opacity" Value="1" />
   </Style>
 
   <Style Selector="TextBlock.section-title">
@@ -135,28 +260,414 @@
     <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.State.Success}" />
   </Style>
 
+  <Style Selector="Grid.settings-form">
+    <Setter Property="HorizontalAlignment" Value="Center" />
+    <Setter Property="MaxWidth" Value="{DynamicResource MAA.Size.Settings.FormMaxWidth}" />
+  </Style>
+
+  <Style Selector="StackPanel.settings-form">
+    <Setter Property="HorizontalAlignment" Value="Center" />
+    <Setter Property="MaxWidth" Value="{DynamicResource MAA.Size.Settings.FormMaxWidth}" />
+    <Setter Property="Spacing" Value="{DynamicResource MAA.Spacing.Medium}" />
+  </Style>
+
+  <Style Selector="StackPanel.settings-form.settings-form-narrow">
+    <Setter Property="MaxWidth" Value="{DynamicResource MAA.Size.Settings.FormNarrowMaxWidth}" />
+  </Style>
+
+  <Style Selector="WrapPanel.settings-wrap">
+    <Setter Property="HorizontalAlignment" Value="Center" />
+    <Setter Property="ItemWidth" Value="{DynamicResource MAA.Size.Settings.WrapItemWidth}" />
+  </Style>
+
+  <Style Selector="TextBlock.settings-label">
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="TextAlignment" Value="Right" />
+    <Setter Property="Margin" Value="0,0,8,0" />
+  </Style>
+
+  <Style Selector="TextBlock.settings-note">
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Secondary}" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <Style Selector="Button.wpf-button">
+    <Setter Property="MinWidth" Value="{DynamicResource MAA.Size.Action.MinWidth}" />
+    <Setter Property="Height" Value="{DynamicResource MAA.Size.Action.Height}" />
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.ActionPadding}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Action}" />
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.SecondaryBorder}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource MAA.BorderThickness.Thin}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.SecondaryForeground}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+
+  <Style Selector="Button.wpf-button:pointerover">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundHover}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button:pressed">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundPressed}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button:disabled">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.ForegroundDisabled}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.Border}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.wpf-button-primary">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.PrimaryBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.PrimaryBorder}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.PrimaryForeground}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.wpf-button-primary:pointerover">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.PrimaryBackgroundHover}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.wpf-button-primary:pressed">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.PrimaryBackgroundPressed}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.wpf-button-primary:disabled">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.PrimaryBackgroundDisabled}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.ForegroundDisabled}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.wpf-button-secondary">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.SecondaryBorder}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.SecondaryForeground}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.wpf-button-subtle">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SubtleBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.SubtleBorder}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.SubtleForeground}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.wpf-button-subtle:pointerover">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SubtleBackgroundHover}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.wpf-button-subtle:pressed">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SubtleBackgroundPressed}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.compact">
+    <Setter Property="MinWidth" Value="{DynamicResource MAA.Size.Action.CompactMinWidth}" />
+    <Setter Property="Height" Value="{DynamicResource MAA.Size.Action.Height}" />
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.ActionCompactPadding}" />
+    <Setter Property="FontSize" Value="{DynamicResource MAA.FontSize.ActionCompact}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.icon-only">
+    <Setter Property="MinWidth" Value="{DynamicResource MAA.Size.Action.IconMinWidth}" />
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.ActionIconPadding}" />
+  </Style>
+
+  <Style Selector="Button.task-row-gear">
+    <Setter Property="Width" Value="26" />
+    <Setter Property="Height" Value="26" />
+    <Setter Property="MinWidth" Value="26" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Muted}" />
+    <Setter Property="FontSize" Value="16" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+
+  <Style Selector="Button.task-row-gear:pointerover">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.PrimaryBorder}" />
+  </Style>
+
+  <Style Selector="Button.task-row-gear:pressed">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.PrimaryBorder}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.segment-left">
+    <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.SegmentLeft}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.segment-middle">
+    <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.SegmentMiddle}" />
+    <Setter Property="Margin" Value="{DynamicResource MAA.Thickness.MarginActionTight}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.segment-right">
+    <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.SegmentRight}" />
+    <Setter Property="Margin" Value="{DynamicResource MAA.Thickness.MarginActionTight}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.run-primary">
+    <Setter Property="Height" Value="{DynamicResource MAA.Size.Action.RunPrimaryHeight}" />
+    <Setter Property="MinWidth" Value="100" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.run-secondary">
+    <Setter Property="Height" Value="{DynamicResource MAA.Size.Action.RunSecondaryHeight}" />
+    <Setter Property="MinWidth" Value="100" />
+  </Style>
+
+  <Style Selector="Button.queue-segment">
+    <Setter Property="MinWidth" Value="78" />
+    <Setter Property="Height" Value="30" />
+    <Setter Property="Padding" Value="12,0" />
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Surface.SectionStrong}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Primary}" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+
+  <Style Selector="Button.queue-segment:pointerover">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundHover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.SecondaryBorder}" />
+  </Style>
+
+  <Style Selector="Button.queue-segment:pressed">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundPressed}" />
+  </Style>
+
+  <Style Selector="Button.queue-segment:disabled">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.ForegroundDisabled}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+  </Style>
+
+  <Style Selector="Button.queue-mode">
+    <Setter Property="MinWidth" Value="104" />
+    <Setter Property="Height" Value="32" />
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Surface.SectionStrong}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Secondary}" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Padding" Value="16,0" />
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+
+  <Style Selector="Button.queue-mode:pointerover">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundHover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.SecondaryBorder}" />
+  </Style>
+
+  <Style Selector="Button.queue-mode:pressed">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundPressed}" />
+  </Style>
+
+  <Style Selector="Button.queue-mode.mode-selected">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundHover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.PrimaryBackground}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.PrimaryBackground}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+
+  <Style Selector="Button.queue-mode.mode-selected:pointerover">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundHover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.PrimaryBackground}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.PrimaryBackground}" />
+  </Style>
+
+  <Style Selector="Button.queue-mode.mode-selected:pressed">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundHover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.PrimaryBorder}" />
+  </Style>
+
+  <Style Selector="Button.queue-run">
+    <Setter Property="Height" Value="48" />
+    <Setter Property="MinWidth" Value="98" />
+    <Setter Property="Padding" Value="12,0" />
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Surface.SectionStrong}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Text.Primary}" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="FontSize" Value="14" />
+  </Style>
+
+  <Style Selector="Button.queue-run:pointerover">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundHover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.SecondaryBorder}" />
+  </Style>
+
+  <Style Selector="Button.queue-run:pressed">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackgroundPressed}" />
+  </Style>
+
+  <Style Selector="Button.queue-run:disabled">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.ForegroundDisabled}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+  </Style>
+
+  <Style Selector="ListBox.wpf-list-no-highlight ListBoxItem">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.Region25}" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Margin" Value="0,0,0,1" />
+  </Style>
+
+  <Style Selector="ListBox.wpf-list-no-highlight">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+
+  <Style Selector="ListBox.wpf-list-no-highlight ListBoxItem:pointerover">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.HoverRegion75}" />
+  </Style>
+
+  <Style Selector="ListBox.wpf-list-no-highlight ListBoxItem:selected">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.TaskRowSelected}" />
+  </Style>
+
+  <Style Selector="ListBox.wpf-list-no-highlight ListBoxItem:selected Border.wpf-card">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.TaskRowSelected}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.task-mode.mode-selected">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.PrimaryBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.PrimaryBorder}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.PrimaryForeground}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.task-mode.mode-selected:pointerover">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.PrimaryBackgroundHover}" />
+  </Style>
+
+  <Style Selector="Button.wpf-button.task-mode.mode-selected:pressed">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.PrimaryBackgroundPressed}" />
+  </Style>
+
+  <!-- Legacy class compatibility -->
+  <Style Selector="Border.section">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.Region25}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource MAA.BorderThickness.Thin}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Section}" />
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.SectionPadding}" />
+  </Style>
+
+  <Style Selector="Border.section.section-strong">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.Region75}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.SectionStrong}" />
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.SectionPaddingStrong}" />
+  </Style>
+
+  <Style Selector="Border.section.section-warning">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Surface.Warning}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.State.Warning}" />
+  </Style>
+
+  <Style Selector="Border.item-card">
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource MAA.BorderThickness.Thin}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Item}" />
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.ItemPadding}" />
+    <Setter Property="Margin" Value="{DynamicResource MAA.Thickness.MarginItemVertical}" />
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.Region25}" />
+  </Style>
+
+  <Style Selector="Border.item-card.item-card-compact">
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.ItemCompactPadding}" />
+    <Setter Property="MinHeight" Value="{DynamicResource MAA.Size.TaskQueue.RowHeight}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <Style Selector="Border.item-card.status-running">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Running}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Running}" />
+  </Style>
+
+  <Style Selector="Border.item-card.status-success">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Success}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Success}" />
+  </Style>
+
+  <Style Selector="Border.item-card.status-error">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Error}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Wpf.TaskStatus.Error}" />
+  </Style>
+
+  <Style Selector="Border.item-card.status-skipped">
+    <Setter Property="Opacity" Value="0.55" />
+  </Style>
+
+  <Style Selector="Border.item-card.status-idle">
+    <Setter Property="Opacity" Value="1" />
+  </Style>
+
   <Style Selector="Button.action">
     <Setter Property="MinWidth" Value="{DynamicResource MAA.Size.Action.MinWidth}" />
     <Setter Property="Height" Value="{DynamicResource MAA.Size.Action.Height}" />
     <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.ActionPadding}" />
     <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Action}" />
-    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.Background}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.Border}" />
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.SecondaryBorder}" />
     <Setter Property="BorderThickness" Value="{DynamicResource MAA.BorderThickness.Thin}" />
-    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.Foreground}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.SecondaryForeground}" />
     <Setter Property="FontWeight" Value="SemiBold" />
   </Style>
 
-  <Style Selector="Button.action:pointerover">
-    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundHover}" />
+  <Style Selector="Button.action.action-primary">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.PrimaryBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.PrimaryBorder}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.PrimaryForeground}" />
   </Style>
 
-  <Style Selector="Button.action:pressed">
-    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundPressed}" />
+  <Style Selector="Button.action.action-secondary">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SecondaryBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.SecondaryBorder}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.SecondaryForeground}" />
   </Style>
 
-  <Style Selector="Button.action:disabled">
-    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.BackgroundDisabled}" />
-    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.ForegroundDisabled}" />
+  <Style Selector="Button.action.action-subtle">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SubtleBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Action.SubtleBorder}" />
+    <Setter Property="Foreground" Value="{DynamicResource MAA.Brush.Action.SubtleForeground}" />
+  </Style>
+
+  <Style Selector="Button.action.compact">
+    <Setter Property="MinWidth" Value="{DynamicResource MAA.Size.Action.CompactMinWidth}" />
+    <Setter Property="Height" Value="{DynamicResource MAA.Size.Action.Height}" />
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.ActionCompactPadding}" />
+    <Setter Property="FontSize" Value="{DynamicResource MAA.FontSize.ActionCompact}" />
+  </Style>
+
+  <Style Selector="Button.action.icon-only">
+    <Setter Property="MinWidth" Value="{DynamicResource MAA.Size.Action.IconMinWidth}" />
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.ActionIconPadding}" />
+  </Style>
+
+  <Style Selector="ListBox.task-queue-list ListBoxItem:selected Border.item-card">
+    <Setter Property="Background" Value="{DynamicResource MAA.Brush.Wpf.TaskRowSelected}" />
+  </Style>
+
+  <Style Selector="TabControl.root-nav TabItem">
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.TabCompactPadding}" />
+    <Setter Property="MinHeight" Value="30" />
+    <Setter Property="FontSize" Value="{DynamicResource MAA.FontSize.SectionTitle}" />
+  </Style>
+
+  <Style Selector="TabControl.root-nav TabItem:selected">
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+
+  <Style Selector="TabControl.toolbox-nav TabItem">
+    <Setter Property="Padding" Value="{DynamicResource MAA.Thickness.TabCompactPadding}" />
+    <Setter Property="MinHeight" Value="30" />
+    <Setter Property="FontSize" Value="{DynamicResource MAA.FontSize.SectionTitle}" />
+  </Style>
+
+  <Style Selector="TabControl.toolbox-nav TabItem:selected">
+    <Setter Property="FontWeight" Value="SemiBold" />
   </Style>
 </Styles>

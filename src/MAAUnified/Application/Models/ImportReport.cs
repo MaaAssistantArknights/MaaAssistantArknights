@@ -12,6 +12,10 @@ public sealed class ImportReport
 
     public bool Success { get; set; }
 
+    public bool AppliedConfig { get; set; }
+
+    public bool CreatedDefaultConfig { get; set; }
+
     public bool ImportedGuiNew { get; set; }
 
     public bool ImportedGui { get; set; }
@@ -21,6 +25,12 @@ public sealed class ImportReport
     public int DefaultFallbackCount { get; set; }
 
     public int ConflictCount { get; set; }
+
+    public List<string> ImportedFiles { get; set; } = [];
+
+    public List<string> MissingFiles { get; set; } = [];
+
+    public List<string> DamagedFiles { get; set; } = [];
 
     public List<string> Warnings { get; set; } = [];
 

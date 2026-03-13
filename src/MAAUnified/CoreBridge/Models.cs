@@ -35,13 +35,43 @@ public sealed record CoreResult<T>(bool Success, T? Value, CoreError? Error)
     public static CoreResult<T> Fail(CoreError error) => new(false, default, error);
 }
 
-public sealed record CoreInitializeRequest(string BaseDirectory, string? ClientType = null);
+public enum CoreGpuRequestMode
+{
+    Default = 0,
+    Cpu = 1,
+    Gpu = 2,
+}
+
+public enum CoreGpuAppliedMode
+{
+    Default = 0,
+    Cpu = 1,
+    Gpu = 2,
+}
+
+public sealed record CoreGpuInitializeRequest(
+    CoreGpuRequestMode Mode = CoreGpuRequestMode.Default,
+    uint? GpuIndex = null,
+    string? AdapterName = null);
+
+public sealed record CoreGpuInitializeInfo(
+    CoreGpuRequestMode RequestedMode,
+    CoreGpuAppliedMode AppliedMode,
+    uint? RequestedGpuIndex = null,
+    uint? AppliedGpuIndex = null,
+    IReadOnlyList<string>? Warnings = null);
+
+public sealed record CoreInitializeRequest(
+    string BaseDirectory,
+    string? ClientType = null,
+    CoreGpuInitializeRequest? Gpu = null);
 
 public sealed record CoreInitializeInfo(
     string BaseDirectory,
     string LibraryPath,
     string CoreVersion,
-    string? ClientType);
+    string? ClientType,
+    CoreGpuInitializeInfo? Gpu = null);
 
 public sealed record CoreConnectionInfo(
     string Address,

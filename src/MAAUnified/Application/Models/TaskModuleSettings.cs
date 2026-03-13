@@ -58,7 +58,7 @@ public static class TaskModuleParameterDefaults
         return new JsonObject
         {
             ["mode"] = 0,
-            ["facility"] = new JsonArray("Mfg", "Trade", "Power", "Control", "Reception", "Office", "Dorm", "Processing", "Training"),
+            ["facility"] = new JsonArray("Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm", "Processing", "Training"),
             ["drones"] = "Money",
             ["continue_training"] = false,
             ["threshold"] = 0.3,
@@ -185,7 +185,7 @@ public sealed class InfrastParams
         {
             result.Facility.AddRange(new[]
             {
-                "Mfg", "Trade", "Power", "Control", "Reception", "Office", "Dorm", "Processing", "Training",
+                "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm", "Processing", "Training",
             });
         }
 
@@ -342,6 +342,9 @@ public sealed class InfrastParams
 
 public sealed class MallParams
 {
+    private const string UiMallCreditFightLastTime = "_ui_mall_credit_fight_last_time";
+    private const string UiMallVisitFriendsLastTime = "_ui_mall_visit_friends_last_time";
+
     public bool CreditFight { get; set; }
 
     public bool CreditFightOnceADay { get; set; } = true;
@@ -364,6 +367,10 @@ public sealed class MallParams
 
     public bool ReserveMaxCredit { get; set; }
 
+    public string CreditFightLastTime { get; set; } = string.Empty;
+
+    public string VisitFriendsLastTime { get; set; } = string.Empty;
+
     public static MallParams FromJson(JsonObject? obj)
     {
         obj ??= TaskModuleParameterDefaults.CreateMallDefaults("zh-cn");
@@ -378,6 +385,8 @@ public sealed class MallParams
             ForceShoppingIfCreditFull = ReadBool(obj, "force_shopping_if_credit_full", false),
             OnlyBuyDiscount = ReadBool(obj, "only_buy_discount", false),
             ReserveMaxCredit = ReadBool(obj, "reserve_max_credit", false),
+            CreditFightLastTime = ReadString(obj, UiMallCreditFightLastTime, string.Empty),
+            VisitFriendsLastTime = ReadString(obj, UiMallVisitFriendsLastTime, string.Empty),
         };
 
         result.BuyFirst.AddRange(ReadStringList(obj, "buy_first"));
@@ -387,7 +396,7 @@ public sealed class MallParams
 
     public JsonObject ToJson()
     {
-        return new JsonObject
+        var result = new JsonObject
         {
             ["credit_fight"] = CreditFight,
             ["credit_fight_once_a_day"] = CreditFightOnceADay,
@@ -401,6 +410,18 @@ public sealed class MallParams
             ["only_buy_discount"] = OnlyBuyDiscount,
             ["reserve_max_credit"] = ReserveMaxCredit,
         };
+
+        if (!string.IsNullOrWhiteSpace(CreditFightLastTime))
+        {
+            result[UiMallCreditFightLastTime] = CreditFightLastTime.Trim();
+        }
+
+        if (!string.IsNullOrWhiteSpace(VisitFriendsLastTime))
+        {
+            result[UiMallVisitFriendsLastTime] = VisitFriendsLastTime.Trim();
+        }
+
+        return result;
     }
 
     private static bool ReadBool(JsonObject obj, string key, bool fallback)
@@ -424,6 +445,21 @@ public sealed class MallParams
         if (value.TryGetValue(out string? parsedText) && int.TryParse(parsedText, out parsedInt))
         {
             return parsedInt;
+        }
+
+        return fallback;
+    }
+
+    private static string ReadString(JsonObject obj, string key, string fallback)
+    {
+        if (!obj.TryGetPropertyValue(key, out var node) || node is not JsonValue value)
+        {
+            return fallback;
+        }
+
+        if (value.TryGetValue(out string? parsedText) && !string.IsNullOrWhiteSpace(parsedText))
+        {
+            return parsedText.Trim();
         }
 
         return fallback;
@@ -541,16 +577,16 @@ public sealed class PostActionConfig
 
         return new PostActionConfig
         {
-            Once = ReadBool(obj, "once", false),
-            ExitArknights = ReadBool(obj, "exit_arknights", false),
-            BackToAndroidHome = ReadBool(obj, "back_to_android_home", false),
-            ExitEmulator = ReadBool(obj, "exit_emulator", false),
-            ExitSelf = ReadBool(obj, "exit_self", false),
-            IfNoOtherMaa = ReadBool(obj, "if_no_other_maa", false),
-            Hibernate = ReadBool(obj, "hibernate", false),
-            Shutdown = ReadBool(obj, "shutdown", false),
-            Sleep = ReadBool(obj, "sleep", false),
-            Commands = PostActionCommandConfig.FromJson(obj["commands"]),
+            Once = ReadBool(obj, false, "once", "Once"),
+            ExitArknights = ReadBool(obj, false, "exit_arknights", "ExitArknights"),
+            BackToAndroidHome = ReadBool(obj, false, "back_to_android_home", "BackToAndroidHome"),
+            ExitEmulator = ReadBool(obj, false, "exit_emulator", "ExitEmulator"),
+            ExitSelf = ReadBool(obj, false, "exit_self", "ExitSelf"),
+            IfNoOtherMaa = ReadBool(obj, false, "if_no_other_maa", "IfNoOtherMaa"),
+            Hibernate = ReadBool(obj, false, "hibernate", "Hibernate"),
+            Shutdown = ReadBool(obj, false, "shutdown", "Shutdown"),
+            Sleep = ReadBool(obj, false, "sleep", "Sleep"),
+            Commands = PostActionCommandConfig.FromJson(FindNode(obj, "commands", "Commands")),
         };
     }
 
@@ -593,11 +629,40 @@ public sealed class PostActionConfig
         };
     }
 
-    private static bool ReadBool(JsonObject obj, string key, bool fallback)
-        => obj.TryGetPropertyValue(key, out var node) && node is JsonValue v && (
+    private static bool ReadBool(JsonObject obj, bool fallback, params string[] keys)
+        => FindNode(obj, keys) is JsonValue v && (
             v.TryGetValue(out bool b) ? b :
             v.TryGetValue(out int i) ? i != 0 :
             v.TryGetValue(out string? s) && bool.TryParse(s, out var parsed) ? parsed : fallback);
+
+    private static JsonNode? FindNode(JsonObject obj, params string[] keys)
+    {
+        foreach (var key in keys)
+        {
+            if (obj.TryGetPropertyValue(key, out var node))
+            {
+                return node;
+            }
+        }
+
+        foreach (var (existingKey, value) in obj)
+        {
+            if (string.IsNullOrWhiteSpace(existingKey))
+            {
+                continue;
+            }
+
+            foreach (var key in keys)
+            {
+                if (string.Equals(existingKey, key, StringComparison.OrdinalIgnoreCase))
+                {
+                    return value;
+                }
+            }
+        }
+
+        return null;
+    }
 }
 
 public sealed class PostActionCommandConfig
@@ -621,10 +686,10 @@ public sealed class PostActionCommandConfig
 
         return new PostActionCommandConfig
         {
-            ExitArknights = ReadString(obj, "exit_arknights"),
-            BackToAndroidHome = ReadString(obj, "back_to_android_home"),
-            ExitEmulator = ReadString(obj, "exit_emulator"),
-            ExitSelf = ReadString(obj, "exit_self"),
+            ExitArknights = ReadString(obj, "exit_arknights", "ExitArknights"),
+            BackToAndroidHome = ReadString(obj, "back_to_android_home", "BackToAndroidHome"),
+            ExitEmulator = ReadString(obj, "exit_emulator", "ExitEmulator"),
+            ExitSelf = ReadString(obj, "exit_self", "ExitSelf"),
         };
     }
 
@@ -650,9 +715,9 @@ public sealed class PostActionCommandConfig
         };
     }
 
-    private static string ReadString(JsonObject obj, string key)
+    private static string ReadString(JsonObject obj, params string[] keys)
     {
-        if (!obj.TryGetPropertyValue(key, out var node) || node is not JsonValue value)
+        if (FindNode(obj, keys) is not JsonValue value)
         {
             return string.Empty;
         }
@@ -660,6 +725,35 @@ public sealed class PostActionCommandConfig
         return value.TryGetValue(out string? text)
             ? text ?? string.Empty
             : string.Empty;
+    }
+
+    private static JsonNode? FindNode(JsonObject obj, params string[] keys)
+    {
+        foreach (var key in keys)
+        {
+            if (obj.TryGetPropertyValue(key, out var node))
+            {
+                return node;
+            }
+        }
+
+        foreach (var (existingKey, value) in obj)
+        {
+            if (string.IsNullOrWhiteSpace(existingKey))
+            {
+                continue;
+            }
+
+            foreach (var key in keys)
+            {
+                if (string.Equals(existingKey, key, StringComparison.OrdinalIgnoreCase))
+                {
+                    return value;
+                }
+            }
+        }
+
+        return null;
     }
 }
 

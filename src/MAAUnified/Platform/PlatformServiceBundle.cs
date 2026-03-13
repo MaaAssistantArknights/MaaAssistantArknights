@@ -15,6 +15,8 @@ public sealed class PlatformServiceBundle
     public required IOverlayCapabilityService OverlayService { get; init; }
 
     public required IPostActionExecutorService PostActionExecutorService { get; init; }
+
+    public IGpuCapabilityService GpuCapabilityService { get; init; } = new UnsupportedGpuCapabilityService();
 }
 
 public static class PlatformServicesFactory
@@ -32,6 +34,7 @@ public static class PlatformServicesFactory
         IAutostartService autostartService;
         IOverlayCapabilityService overlayService;
         IPostActionExecutorService postActionExecutorService;
+        IGpuCapabilityService gpuCapabilityService;
 
         try
         {
@@ -116,6 +119,17 @@ public static class PlatformServicesFactory
             postActionExecutorService = new NoOpPostActionExecutorService();
         }
 
+        try
+        {
+            gpuCapabilityService = OperatingSystem.IsWindows()
+                ? new WindowsGpuCapabilityService()
+                : new UnsupportedGpuCapabilityService();
+        }
+        catch
+        {
+            gpuCapabilityService = new UnsupportedGpuCapabilityService();
+        }
+
         return new PlatformServiceBundle {
             TrayService = trayService,
             NotificationService = notificationService,
@@ -124,6 +138,7 @@ public static class PlatformServicesFactory
             FileDialogService = new NoOpFileDialogService(),
             OverlayService = overlayService,
             PostActionExecutorService = postActionExecutorService,
+            GpuCapabilityService = gpuCapabilityService,
         };
     }
 }

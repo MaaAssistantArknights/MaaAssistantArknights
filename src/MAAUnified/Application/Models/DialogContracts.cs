@@ -93,7 +93,8 @@ public sealed record ErrorDialogRequest(
     UiOperationResult Result,
     string? Suggestion = null,
     string ConfirmText = "Close",
-    string CancelText = "Ignore");
+    string CancelText = "Ignore",
+    string Language = "en-us");
 
 public sealed record ErrorDialogPayload(
     string FormattedErrorText,

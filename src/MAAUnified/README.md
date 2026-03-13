@@ -260,9 +260,9 @@ Single-directory implementation root for the new Avalonia frontend replacement.
 
 ### O2 六大工具页参数化（3人天）
 具体要求：
-1. 将 `ToolboxView.axaml` 六个 Tab 从示例按钮升级为可配置输入（至少保留一组关键参数）。
+1. 将 `ToolboxView.axaml` 六个 Tab 从示例按钮升级为 WPF 对齐的可配置工具页，保留每个工具的关键参数与结果区。
 2. 每个工具补齐成功和失败两条可复现路径，并有明确结果展示。
-3. 保持“免责声明未确认不可执行”的全局约束，且提示文案统一。
+3. 风险提示改为仅抽卡页生效，其他工具页不再受全局免责声明约束。
 
 ### O3 结果持久化与失败复盘（3人天）
 具体要求：

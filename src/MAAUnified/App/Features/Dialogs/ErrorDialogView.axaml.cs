@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Models;
 
 namespace MAAUnified.App.Features.Dialogs;
@@ -22,6 +23,9 @@ public partial class ErrorDialogView : Window
     {
         Title = request.Title;
         _openIssueReportAsync = openIssueReportAsync;
+        DialogTitleText.Text = DialogTextCatalog.ErrorDialogSectionTitle(request.Language);
+        CopyButton.Content = DialogTextCatalog.ErrorDialogCopyButton(request.Language);
+        IssueReportButton.Content = DialogTextCatalog.ErrorDialogIssueReportButton(request.Language);
         ConfirmButton.Content = request.ConfirmText;
         CancelButton.Content = request.CancelText;
         ContextLine.Text = $"[{request.Context}] {request.Result.Message}";
@@ -42,13 +46,14 @@ public partial class ErrorDialogView : Window
         var code = request.Result.Error?.Code ?? UiErrorCode.UiOperationFailed;
         var details = request.Result.Error?.Details ?? string.Empty;
         var suggestion = request.Suggestion ?? string.Empty;
+        var language = request.Language;
         return
-            $"TimestampUtc: {DateTimeOffset.UtcNow:O}{Environment.NewLine}" +
-            $"Context: {request.Context}{Environment.NewLine}" +
-            $"Code: {code}{Environment.NewLine}" +
-            $"Message: {request.Result.Message}{Environment.NewLine}" +
-            $"Details: {details}{Environment.NewLine}" +
-            $"Suggestion: {suggestion}";
+            $"{DialogTextCatalog.ErrorDialogTimestampLabel(language)}: {DateTimeOffset.UtcNow:O}{Environment.NewLine}" +
+            $"{DialogTextCatalog.ErrorDialogContextLabel(language)}: {request.Context}{Environment.NewLine}" +
+            $"{DialogTextCatalog.ErrorDialogCodeLabel(language)}: {code}{Environment.NewLine}" +
+            $"{DialogTextCatalog.ErrorDialogMessageLabel(language)}: {request.Result.Message}{Environment.NewLine}" +
+            $"{DialogTextCatalog.ErrorDialogDetailsLabel(language)}: {details}{Environment.NewLine}" +
+            $"{DialogTextCatalog.ErrorDialogSuggestionLabel(language)}: {suggestion}";
     }
 
     private async void OnCopyClick(object? sender, RoutedEventArgs e)

@@ -8,6 +8,7 @@ using System.Text.Json.Nodes;
 using LegacyConfigurationKeys = MAAUnified.Compat.Constants.ConfigurationKeys;
 using MAAUnified.App.Features.Dialogs;
 using MAAUnified.App.ViewModels.Infrastructure;
+using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Services;
 using MAAUnified.Application.Services.Localization;
@@ -21,7 +22,11 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private const string ThemeModeKey = "Theme.Mode";
     private const string DefaultTheme = "Light";
     private const string DefaultLanguage = UiLanguageCatalog.DefaultLanguage;
-    private const string DefaultBackgroundStretchMode = "UniformToFill";
+    private const string DefaultBackgroundStretchMode = "Fill";
+    private const string DefaultLogItemDateFormat = "HH:mm:ss";
+    private const string DefaultOperNameLanguage = "OperNameLanguageMAA";
+    private const string DefaultInverseClearMode = "Clear";
+    private const string DeveloperModeConfigKey = "GUI.DeveloperMode";
     private const string ShowGuiHotkeyName = "ShowGui";
     private const string LinkStartHotkeyName = "LinkStart";
     private const string DefaultHotkeyShowGui = "Ctrl+Shift+Alt+M";
@@ -29,6 +34,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private const int EmulatorWaitSecondsMin = 0;
     private const int EmulatorWaitSecondsMax = 600;
     private const int DefaultEmulatorWaitSeconds = 60;
+    private const int DefaultRemotePollIntervalMs = 1000;
+    private const int DefaultTaskTimeoutMinutes = 60;
+    private const int DefaultReminderIntervalMinutes = 30;
     private const int BackgroundOpacityMin = 0;
     private const int BackgroundOpacityMax = 100;
     private const int BackgroundBlurMin = 0;
@@ -46,6 +54,27 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private const string AboutCommunityUrl = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions";
     private const string AboutDownloadUrl = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases";
     private const string AchievementGuideUrl = "https://maa.plus/docs/manual/introduction/";
+    private const string VersionUpdateChangelogUrl = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases";
+    private const string VersionUpdateResourceRepositoryUrl = "https://github.com/MaaAssistantArknights/MaaResource";
+    private const string VersionUpdateMirrorChyanUrl = "https://mirrorchyan.com/?source=maaunified-settings";
+    private static readonly string[] SectionOrder =
+    [
+        "ConfigurationManager",
+        "Timer",
+        "Performance",
+        "Game",
+        "Connect",
+        "Start",
+        "RemoteControl",
+        "GUI",
+        "Background",
+        "ExternalNotification",
+        "HotKey",
+        "Achievement",
+        "VersionUpdate",
+        "IssueReport",
+        "About",
+    ];
     private static readonly string[] DefaultNotificationProviders =
     [
         "Smtp",
@@ -58,6 +87,8 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         "Gotify",
         "CustomWebhook",
     ];
+    private static readonly IReadOnlyDictionary<string, string> EmptySettingUpdates =
+        new Dictionary<string, string>(StringComparer.Ordinal);
     private static readonly IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> ProviderConfigKeyMap =
         new Dictionary<string, IReadOnlyDictionary<string, string>>(StringComparer.OrdinalIgnoreCase)
         {
@@ -116,17 +147,37 @@ public sealed class SettingsPageViewModel : PageViewModelBase
                 ["body"] = ConfigurationKeys.ExternalNotificationCustomWebhookBody,
             },
         };
+    private static readonly JsonSerializerOptions ConfigExportSerializerOptions = new()
+    {
+        WriteIndented = true,
+    };
 
     private SettingsSectionViewModel? _selectedSection;
     private readonly SemaphoreSlim _guiSaveSemaphore = new(1, 1);
+    private readonly SemaphoreSlim _configurationProfileSwitchSemaphore = new(1, 1);
     private readonly Action<LocalizationFallbackInfo>? _localizationFallbackReporter;
+    private CancellationTokenSource? _guiAutoSaveCts;
+    private CancellationTokenSource? _startPerformanceAutoSaveCts;
+    private CancellationTokenSource? _timerAutoSaveCts;
+    private CancellationTokenSource? _connectionGameAutoSaveCts;
+    private CancellationTokenSource? _remoteControlAutoSaveCts;
+    private CancellationTokenSource? _externalNotificationAutoSaveCts;
+    private CancellationTokenSource? _versionUpdateAutoSaveCts;
+    private CancellationTokenSource? _achievementAutoSaveCts;
+    private CancellationTokenSource? _autostartAutoApplyCts;
+    private bool _suppressPageAutoSave;
     private bool _suppressGuiAutoSave;
     private bool _suppressStartPerformanceDirtyTracking;
+    private bool _suppressConfigurationProfileSelectionHandling;
     private string _theme = DefaultTheme;
     private string _language = DefaultLanguage;
+    private string _logItemDateFormatString = DefaultLogItemDateFormat;
+    private string _operNameLanguage = DefaultOperNameLanguage;
+    private string _inverseClearMode = DefaultInverseClearMode;
     private bool _useTray = true;
     private bool _minimizeToTray;
-    private bool _windowTitleScrollable = true;
+    private bool _windowTitleScrollable;
+    private bool _developerModeEnabled;
     private bool _startSelf;
     private string _autostartStatus = string.Empty;
     private string _hotkeyShowGui = DefaultHotkeyShowGui;
@@ -145,7 +196,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private string _remoteReportEndpoint = string.Empty;
     private string _remoteUserIdentity = string.Empty;
     private string _remoteDeviceIdentity = string.Empty;
-    private int _remotePollInterval = 5000;
+    private int _remotePollInterval = DefaultRemotePollIntervalMs;
     private string _remoteControlStatusMessage = string.Empty;
     private string _remoteControlWarningMessage = string.Empty;
     private string _remoteControlErrorMessage = string.Empty;
@@ -166,19 +217,44 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private bool _performanceAllowDeprecatedGpu;
     private string _performancePreferredGpuDescription = string.Empty;
     private string _performancePreferredGpuInstancePath = string.Empty;
+    private IReadOnlyList<GpuOptionDisplayItem> _availableGpuOptions = [];
+    private GpuOptionDisplayItem? _selectedGpuOption;
+    private string _gpuSupportMessage = string.Empty;
+    private string _gpuWarningMessage = string.Empty;
+    private string _gpuCustomDescription = string.Empty;
+    private string _gpuCustomInstancePath = string.Empty;
+    private bool _isGpuSelectionEnabled;
+    private bool _isGpuDeprecatedToggleEnabled;
+    private bool _isGpuCustomSelectionFieldsVisible;
+    private bool _showGpuRestartRequiredHint;
+    private bool _suppressGpuUiRefresh;
+    private bool _suppressGpuSelectionChange;
+    private bool _deploymentWithPause;
+    private string _startsWithScript = string.Empty;
+    private string _endsWithScript = string.Empty;
+    private bool _copilotWithScript;
+    private bool _manualStopWithScript;
+    private bool _blockSleep;
+    private bool _blockSleepWithScreenOn = true;
+    private bool _enablePenguin = true;
+    private bool _enableYituliu = true;
+    private string _penguinId = string.Empty;
+    private int _taskTimeoutMinutes = DefaultTaskTimeoutMinutes;
+    private int _reminderIntervalMinutes = DefaultReminderIntervalMinutes;
     private bool _hasPendingStartPerformanceChanges;
     private string _startPerformanceValidationMessage = string.Empty;
     private DateTimeOffset? _lastSuccessfulStartPerformanceSaveAt;
     private bool _forceScheduledStart;
-    private bool _showWindowBeforeForceScheduledStart = true;
+    private bool _showWindowBeforeForceScheduledStart;
     private bool _customTimerConfig;
     private bool _hasPendingTimerChanges;
     private string _timerValidationMessage = string.Empty;
+    private DateTimeOffset? _lastSuccessfulTimerSaveAt;
     private bool _suppressTimerDirtyTracking;
     private bool _externalNotificationEnabled;
-    private bool _externalNotificationSendWhenComplete;
-    private bool _externalNotificationSendWhenError;
-    private bool _externalNotificationSendWhenTimeout;
+    private bool _externalNotificationSendWhenComplete = true;
+    private bool _externalNotificationSendWhenError = true;
+    private bool _externalNotificationSendWhenTimeout = true;
     private bool _externalNotificationEnableDetails;
     private string _externalNotificationStatusMessage = string.Empty;
     private string _externalNotificationWarningMessage = string.Empty;
@@ -186,9 +262,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private string _selectedNotificationProvider = "Smtp";
     private string _notificationProviderParametersText = string.Empty;
     private string _versionUpdateProxy = string.Empty;
-    private string _versionUpdateProxyType = "system";
+    private string _versionUpdateProxyType = "http";
     private string _versionUpdateVersionType = "Stable";
-    private string _versionUpdateResourceSource = "Official";
+    private string _versionUpdateResourceSource = "Github";
     private bool _versionUpdateForceGithubSource;
     private string _versionUpdateMirrorChyanCdk = string.Empty;
     private string _versionUpdateMirrorChyanCdkExpired = string.Empty;
@@ -198,7 +274,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private bool _versionUpdateAllowNightly;
     private bool _versionUpdateAcknowledgedNightlyWarning;
     private bool _versionUpdateUseAria2;
-    private bool _versionUpdateAutoDownload;
+    private bool _versionUpdateAutoDownload = true;
     private bool _versionUpdateAutoInstall;
     private string _versionUpdateName = string.Empty;
     private string _versionUpdateBody = string.Empty;
@@ -207,6 +283,20 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private bool _versionUpdateDoNotShow;
     private string _versionUpdateStatusMessage = string.Empty;
     private string _versionUpdateErrorMessage = string.Empty;
+    private IReadOnlyList<DisplayValueOption> _themeOptions = [];
+    private IReadOnlyList<DisplayValueOption> _supportedLanguages = [];
+    private IReadOnlyList<DisplayValueOption> _backgroundStretchModes = [];
+    private IReadOnlyList<DisplayValueOption> _operNameLanguageOptions = [];
+    private IReadOnlyList<DisplayValueOption> _inverseClearModeOptions = [];
+    private IReadOnlyList<DisplayValueOption> _versionUpdateVersionTypeOptions = [];
+    private IReadOnlyList<DisplayValueOption> _versionUpdateProxyTypeOptions = [];
+    private IReadOnlyList<DisplayValueOption> _versionUpdateResourceSourceOptions = [];
+    private string _updatePanelUiVersion = "unknown";
+    private string _updatePanelCoreVersion = "unknown";
+    private string _updatePanelBuildTime = "unknown";
+    private string _updatePanelResourceVersion = string.Empty;
+    private string _updatePanelResourceTime = string.Empty;
+    private bool _isVersionUpdateActionRunning;
     private string _configurationManagerSelectedProfile = string.Empty;
     private string _configurationManagerNewProfileName = string.Empty;
     private string _configurationManagerStatusMessage = string.Empty;
@@ -235,27 +325,19 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         _localizationFallbackReporter = localizationFallbackReporter;
         _openExternalTargetAsync = openExternalTargetAsync ?? OpenExternalTargetAsync;
         _dialogService = dialogService ?? NoOpAppDialogService.Instance;
+        RootTexts = new RootLocalizationTextMap("Root.Localization.Settings");
+        RootTexts.FallbackReported += info => _localizationFallbackReporter?.Invoke(info);
+        RootTexts.Language = _language;
         ConnectionGameSharedState = connectionGameSharedState;
+        ConnectionGameSharedState.SetLanguage(_language);
+        (_updatePanelUiVersion, _updatePanelBuildTime) = BuildVersionUpdateUiMetadata();
+        RebuildGuiOptionLists();
+        RebuildVersionUpdateOptionLists();
         _aboutVersionInfo = BuildAboutVersionInfo();
         UpdateAchievementPolicySummary(AchievementPolicy.Default);
-        Sections = new ObservableCollection<SettingsSectionViewModel>
-        {
-            new("ConfigurationManager", "Configuration Manager"),
-            new("Timer", "Timer"),
-            new("Performance", "Performance"),
-            new("Game", "Game"),
-            new("Connect", "Connect"),
-            new("Start", "Start"),
-            new("RemoteControl", "Remote Control"),
-            new("GUI", "GUI"),
-            new("Background", "Background"),
-            new("ExternalNotification", "External Notification"),
-            new("HotKey", "HotKey"),
-            new("Achievement", "Achievement"),
-            new("VersionUpdate", "Version Update"),
-            new("IssueReport", "Issue Report"),
-            new("About", "About"),
-        };
+        Sections = new ObservableCollection<SettingsSectionViewModel>();
+        CurrentSectionActions = new ObservableCollection<SettingsSectionActionItem>();
+        RebuildSections();
 
         Timers = new ObservableCollection<TimerSlotViewModel>(
             Enumerable.Range(1, TimerSlotCount).Select(i => new TimerSlotViewModel(i)));
@@ -264,12 +346,21 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             slot.PropertyChanged += OnTimerSlotPropertyChanged;
         }
 
+        RefreshGpuUiState();
         SelectedSection = Sections[0];
+        PropertyChanged += OnSettingsPropertyChanged;
+        ConnectionGameSharedState.PropertyChanged += OnConnectionGameSharedStateChanged;
     }
 
+    public RootLocalizationTextMap RootTexts { get; }
+
     public event EventHandler<GuiSettingsAppliedEventArgs>? GuiSettingsApplied;
+    public event EventHandler? ResourceVersionUpdated;
+    public event EventHandler<ConfigurationContextChangedEventArgs>? ConfigurationContextChanged;
 
     public ObservableCollection<SettingsSectionViewModel> Sections { get; }
+
+    public ObservableCollection<SettingsSectionActionItem> CurrentSectionActions { get; }
 
     public ObservableCollection<TimerSlotViewModel> Timers { get; }
 
@@ -277,23 +368,239 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     public ConnectionGameSharedStateViewModel ConnectionGameSharedState { get; }
 
-    public IReadOnlyList<string> ThemeOptions { get; } = [DefaultTheme, "Dark"];
+    public IReadOnlyList<DisplayValueOption> ThemeOptions
+    {
+        get => _themeOptions;
+        private set => SetProperty(ref _themeOptions, value);
+    }
 
-    public IReadOnlyList<string> SupportedLanguages { get; } = UiLanguageCatalog.Ordered;
+    public IReadOnlyList<DisplayValueOption> SupportedLanguages
+    {
+        get => _supportedLanguages;
+        private set => SetProperty(ref _supportedLanguages, value);
+    }
 
-    public IReadOnlyList<string> BackgroundStretchModes { get; } = [DefaultBackgroundStretchMode, "Uniform", "Fill", "None"];
+    public IReadOnlyList<DisplayValueOption> BackgroundStretchModes
+    {
+        get => _backgroundStretchModes;
+        private set => SetProperty(ref _backgroundStretchModes, value);
+    }
 
-    public IReadOnlyList<string> VersionUpdateVersionTypeOptions { get; } = ["Stable", "Beta", "Nightly"];
+    public IReadOnlyList<DisplayValueOption> OperNameLanguageOptions
+    {
+        get => _operNameLanguageOptions;
+        private set => SetProperty(ref _operNameLanguageOptions, value);
+    }
 
-    public IReadOnlyList<string> VersionUpdateProxyTypeOptions { get; } = ["system", "http", "https"];
+    public IReadOnlyList<DisplayValueOption> InverseClearModeOptions
+    {
+        get => _inverseClearModeOptions;
+        private set => SetProperty(ref _inverseClearModeOptions, value);
+    }
+
+    public IReadOnlyList<string> LogItemDateFormatOptions { get; } = SettingsOptionCatalog.GetLogItemDateFormatOptions();
+
+    public DisplayValueOption? SelectedThemeOption
+    {
+        get => ThemeOptions.FirstOrDefault(
+            option => string.Equals(option.Value, Theme, StringComparison.OrdinalIgnoreCase));
+        set
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            Theme = value.Value;
+        }
+    }
+
+    public DisplayValueOption? SelectedLanguageOption
+    {
+        get => SupportedLanguages.FirstOrDefault(
+            option => string.Equals(option.Value, Language, StringComparison.OrdinalIgnoreCase));
+        set
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            Language = value.Value;
+        }
+    }
+
+    public DisplayValueOption? SelectedBackgroundStretchModeOption
+    {
+        get => BackgroundStretchModes.FirstOrDefault(
+            option => string.Equals(option.Value, BackgroundStretchMode, StringComparison.OrdinalIgnoreCase));
+        set
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            BackgroundStretchMode = value.Value;
+        }
+    }
+
+    public DisplayValueOption? SelectedOperNameLanguageOption
+    {
+        get => OperNameLanguageOptions.FirstOrDefault(
+            option => string.Equals(option.Value, OperNameLanguage, StringComparison.OrdinalIgnoreCase));
+        set
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            OperNameLanguage = value.Value;
+        }
+    }
+
+    public DisplayValueOption? SelectedInverseClearModeOption
+    {
+        get => InverseClearModeOptions.FirstOrDefault(
+            option => string.Equals(option.Value, InverseClearMode, StringComparison.OrdinalIgnoreCase));
+        set
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            InverseClearMode = value.Value;
+        }
+    }
+
+    public IReadOnlyList<DisplayValueOption> VersionUpdateVersionTypeOptions
+    {
+        get => _versionUpdateVersionTypeOptions;
+        private set => SetProperty(ref _versionUpdateVersionTypeOptions, value);
+    }
+
+    public IReadOnlyList<DisplayValueOption> VersionUpdateProxyTypeOptions
+    {
+        get => _versionUpdateProxyTypeOptions;
+        private set => SetProperty(ref _versionUpdateProxyTypeOptions, value);
+    }
+
+    public IReadOnlyList<DisplayValueOption> VersionUpdateResourceSourceOptions
+    {
+        get => _versionUpdateResourceSourceOptions;
+        private set => SetProperty(ref _versionUpdateResourceSourceOptions, value);
+    }
+
+    public DisplayValueOption? SelectedVersionUpdateVersionTypeOption
+    {
+        get => VersionUpdateVersionTypeOptions.FirstOrDefault(
+            option => string.Equals(option.Value, VersionUpdateVersionType, StringComparison.OrdinalIgnoreCase));
+        set
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            VersionUpdateVersionType = value.Value;
+        }
+    }
+
+    public DisplayValueOption? SelectedVersionUpdateProxyTypeOption
+    {
+        get => VersionUpdateProxyTypeOptions.FirstOrDefault(
+            option => string.Equals(option.Value, VersionUpdateProxyType, StringComparison.OrdinalIgnoreCase));
+        set
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            VersionUpdateProxyType = value.Value;
+        }
+    }
+
+    public DisplayValueOption? SelectedVersionUpdateResourceSourceOption
+    {
+        get => VersionUpdateResourceSourceOptions.FirstOrDefault(
+            option => string.Equals(option.Value, VersionUpdateResourceSource, StringComparison.OrdinalIgnoreCase));
+        set
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            VersionUpdateResourceSource = value.Value;
+        }
+    }
 
     public ObservableCollection<string> AvailableNotificationProviders { get; } = new();
 
     public SettingsSectionViewModel? SelectedSection
     {
         get => _selectedSection;
-        set => SetProperty(ref _selectedSection, value);
+        set
+        {
+            if (!SetProperty(ref _selectedSection, value))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(SelectedSectionTitle));
+            OnPropertyChanged(nameof(IsConfigurationManagerSelected));
+            OnPropertyChanged(nameof(IsTimerSelected));
+            OnPropertyChanged(nameof(IsPerformanceSelected));
+            OnPropertyChanged(nameof(IsGameSelected));
+            OnPropertyChanged(nameof(IsConnectSelected));
+            OnPropertyChanged(nameof(IsStartSelected));
+            OnPropertyChanged(nameof(IsRemoteControlSelected));
+            OnPropertyChanged(nameof(IsGuiSelected));
+            OnPropertyChanged(nameof(IsBackgroundSelected));
+            OnPropertyChanged(nameof(IsExternalNotificationSelected));
+            OnPropertyChanged(nameof(IsHotkeySelected));
+            OnPropertyChanged(nameof(IsAchievementSelected));
+            OnPropertyChanged(nameof(IsVersionUpdateSelected));
+            OnPropertyChanged(nameof(IsIssueReportSelected));
+            OnPropertyChanged(nameof(IsAboutSelected));
+            RefreshCurrentSectionActions();
+        }
     }
+
+    public string SelectedSectionTitle => SelectedSection?.DisplayName ?? string.Empty;
+
+    public bool IsConfigurationManagerSelected => IsSelectedSection("ConfigurationManager");
+
+    public bool IsTimerSelected => IsSelectedSection("Timer");
+
+    public bool IsPerformanceSelected => IsSelectedSection("Performance");
+
+    public bool IsGameSelected => IsSelectedSection("Game");
+
+    public bool IsConnectSelected => IsSelectedSection("Connect");
+
+    public bool IsStartSelected => IsSelectedSection("Start");
+
+    public bool IsRemoteControlSelected => IsSelectedSection("RemoteControl");
+
+    public bool IsGuiSelected => IsSelectedSection("GUI");
+
+    public bool IsBackgroundSelected => IsSelectedSection("Background");
+
+    public bool IsExternalNotificationSelected => IsSelectedSection("ExternalNotification");
+
+    public bool IsHotkeySelected => IsSelectedSection("HotKey");
+
+    public bool IsAchievementSelected => IsSelectedSection("Achievement");
+
+    public bool IsVersionUpdateSelected => IsSelectedSection("VersionUpdate");
+
+    public bool IsIssueReportSelected => IsSelectedSection("IssueReport");
+
+    public bool IsAboutSelected => IsSelectedSection("About");
 
     public string Theme
     {
@@ -303,6 +610,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             var normalized = NormalizeTheme(value);
             if (SetProperty(ref _theme, normalized))
             {
+                OnPropertyChanged(nameof(SelectedThemeOption));
                 MarkGuiSettingsDirty();
             }
         }
@@ -316,6 +624,53 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             var normalized = NormalizeLanguage(value);
             if (SetProperty(ref _language, normalized))
             {
+                RootTexts.Language = normalized;
+                ConnectionGameSharedState.SetLanguage(normalized);
+                RebuildGuiOptionLists();
+                RebuildSections(SelectedSection?.Key);
+                RebuildVersionUpdateOptionLists();
+                RefreshGpuUiState();
+                MarkGuiSettingsDirty();
+            }
+        }
+    }
+
+    public string LogItemDateFormatString
+    {
+        get => _logItemDateFormatString;
+        set
+        {
+            var normalized = NormalizeLogItemDateFormat(value);
+            if (SetProperty(ref _logItemDateFormatString, normalized))
+            {
+                MarkGuiSettingsDirty();
+            }
+        }
+    }
+
+    public string OperNameLanguage
+    {
+        get => _operNameLanguage;
+        set
+        {
+            var normalized = NormalizeOperNameLanguage(value);
+            if (SetProperty(ref _operNameLanguage, normalized))
+            {
+                OnPropertyChanged(nameof(SelectedOperNameLanguageOption));
+                MarkGuiSettingsDirty();
+            }
+        }
+    }
+
+    public string InverseClearMode
+    {
+        get => _inverseClearMode;
+        set
+        {
+            var normalized = NormalizeInverseClearMode(value);
+            if (SetProperty(ref _inverseClearMode, normalized))
+            {
+                OnPropertyChanged(nameof(SelectedInverseClearModeOption));
                 MarkGuiSettingsDirty();
             }
         }
@@ -328,17 +683,27 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             if (SetProperty(ref _useTray, value))
             {
+                if (!value && _minimizeToTray)
+                {
+                    _minimizeToTray = false;
+                    OnPropertyChanged(nameof(MinimizeToTray));
+                }
+
+                OnPropertyChanged(nameof(CanMinimizeToTray));
                 MarkGuiSettingsDirty();
             }
         }
     }
+
+    public bool CanMinimizeToTray => UseTray;
 
     public bool MinimizeToTray
     {
         get => _minimizeToTray;
         set
         {
-            if (SetProperty(ref _minimizeToTray, value))
+            var normalized = UseTray && value;
+            if (SetProperty(ref _minimizeToTray, normalized))
             {
                 MarkGuiSettingsDirty();
             }
@@ -352,6 +717,19 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             if (SetProperty(ref _windowTitleScrollable, value))
             {
+                MarkGuiSettingsDirty();
+            }
+        }
+    }
+
+    public bool DeveloperModeEnabled
+    {
+        get => _developerModeEnabled;
+        set
+        {
+            if (SetProperty(ref _developerModeEnabled, value))
+            {
+                Runtime.LogService.SetVerboseEnabled(value);
                 MarkGuiSettingsDirty();
             }
         }
@@ -520,13 +898,40 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public bool ExternalNotificationEnabled
     {
         get => _externalNotificationEnabled;
-        set => SetProperty(ref _externalNotificationEnabled, value);
+        set
+        {
+            if (SetProperty(ref _externalNotificationEnabled, value))
+            {
+                if (!value)
+                {
+                    ClearExternalNotificationStatus();
+                }
+
+                OnPropertyChanged(nameof(CanEditExternalNotification));
+                OnPropertyChanged(nameof(CanEditExternalNotificationDetails));
+                OnPropertyChanged(nameof(HasExternalNotificationStatusMessage));
+                OnPropertyChanged(nameof(HasExternalNotificationWarningMessage));
+                OnPropertyChanged(nameof(HasExternalNotificationErrorMessage));
+            }
+        }
     }
 
     public bool ExternalNotificationSendWhenComplete
     {
         get => _externalNotificationSendWhenComplete;
-        set => SetProperty(ref _externalNotificationSendWhenComplete, value);
+        set
+        {
+            if (SetProperty(ref _externalNotificationSendWhenComplete, value))
+            {
+                if (!value && _externalNotificationEnableDetails)
+                {
+                    _externalNotificationEnableDetails = false;
+                    OnPropertyChanged(nameof(ExternalNotificationEnableDetails));
+                }
+
+                OnPropertyChanged(nameof(CanEditExternalNotificationDetails));
+            }
+        }
     }
 
     public bool ExternalNotificationSendWhenError
@@ -544,8 +949,13 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public bool ExternalNotificationEnableDetails
     {
         get => _externalNotificationEnableDetails;
-        set => SetProperty(ref _externalNotificationEnableDetails, value);
+        set => SetProperty(ref _externalNotificationEnableDetails, CanEditExternalNotificationDetails && value);
     }
+
+    public bool CanEditExternalNotification => ExternalNotificationEnabled;
+
+    public bool CanEditExternalNotificationDetails =>
+        ExternalNotificationEnabled && ExternalNotificationSendWhenComplete;
 
     public string SelectedNotificationProvider
     {
@@ -586,7 +996,13 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public string ExternalNotificationStatusMessage
     {
         get => _externalNotificationStatusMessage;
-        private set => SetProperty(ref _externalNotificationStatusMessage, value);
+        private set
+        {
+            if (SetProperty(ref _externalNotificationStatusMessage, value))
+            {
+                OnPropertyChanged(nameof(HasExternalNotificationStatusMessage));
+            }
+        }
     }
 
     public string ExternalNotificationWarningMessage
@@ -613,9 +1029,14 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         }
     }
 
-    public bool HasExternalNotificationWarningMessage => !string.IsNullOrWhiteSpace(ExternalNotificationWarningMessage);
+    public bool HasExternalNotificationStatusMessage =>
+        ExternalNotificationEnabled && !string.IsNullOrWhiteSpace(ExternalNotificationStatusMessage);
 
-    public bool HasExternalNotificationErrorMessage => !string.IsNullOrWhiteSpace(ExternalNotificationErrorMessage);
+    public bool HasExternalNotificationWarningMessage =>
+        ExternalNotificationEnabled && !string.IsNullOrWhiteSpace(ExternalNotificationWarningMessage);
+
+    public bool HasExternalNotificationErrorMessage =>
+        ExternalNotificationEnabled && !string.IsNullOrWhiteSpace(ExternalNotificationErrorMessage);
 
     public string ConfigurationManagerSelectedProfile
     {
@@ -658,19 +1079,42 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public string VersionUpdateProxyType
     {
         get => _versionUpdateProxyType;
-        set => SetProperty(ref _versionUpdateProxyType, value?.Trim() ?? "system");
+        set
+        {
+            if (SetProperty(ref _versionUpdateProxyType, NormalizeVersionUpdateProxyType(value)))
+            {
+                OnPropertyChanged(nameof(SelectedVersionUpdateProxyTypeOption));
+            }
+        }
     }
 
     public string VersionUpdateVersionType
     {
         get => _versionUpdateVersionType;
-        set => SetProperty(ref _versionUpdateVersionType, value?.Trim() ?? "Stable");
+        set
+        {
+            if (SetProperty(ref _versionUpdateVersionType, value?.Trim() ?? "Stable"))
+            {
+                OnPropertyChanged(nameof(SelectedVersionUpdateVersionTypeOption));
+            }
+        }
     }
 
     public string VersionUpdateResourceSource
     {
         get => _versionUpdateResourceSource;
-        set => SetProperty(ref _versionUpdateResourceSource, value?.Trim() ?? "Official");
+        set
+        {
+            var normalized = NormalizeVersionUpdateResourceSource(value);
+            if (!SetProperty(ref _versionUpdateResourceSource, normalized))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(IsVersionUpdateMirrorChyanSource));
+            OnPropertyChanged(nameof(IsVersionUpdateGithubSource));
+            OnPropertyChanged(nameof(SelectedVersionUpdateResourceSourceOption));
+        }
     }
 
     public bool VersionUpdateForceGithubSource
@@ -688,7 +1132,15 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public string VersionUpdateMirrorChyanCdkExpired
     {
         get => _versionUpdateMirrorChyanCdkExpired;
-        set => SetProperty(ref _versionUpdateMirrorChyanCdkExpired, value?.Trim() ?? string.Empty);
+        set
+        {
+            if (!SetProperty(ref _versionUpdateMirrorChyanCdkExpired, value?.Trim() ?? string.Empty))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(VersionUpdateMirrorChyanCdkExpiryText));
+        }
     }
 
     public bool VersionUpdateStartupCheck
@@ -712,7 +1164,19 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public bool VersionUpdateAllowNightly
     {
         get => _versionUpdateAllowNightly;
-        set => SetProperty(ref _versionUpdateAllowNightly, value);
+        set
+        {
+            if (!SetProperty(ref _versionUpdateAllowNightly, value))
+            {
+                return;
+            }
+
+            RebuildVersionUpdateOptionLists();
+            if (!value && string.Equals(VersionUpdateVersionType, "Nightly", StringComparison.OrdinalIgnoreCase))
+            {
+                VersionUpdateVersionType = "Beta";
+            }
+        }
     }
 
     public bool VersionUpdateAcknowledgedNightlyWarning
@@ -742,7 +1206,18 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public string VersionUpdateName
     {
         get => _versionUpdateName;
-        set => SetProperty(ref _versionUpdateName, value ?? string.Empty);
+        set
+        {
+            if (!SetProperty(ref _versionUpdateName, value ?? string.Empty))
+            {
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(_versionUpdateName))
+            {
+                UpdatePanelCoreVersion = _versionUpdateName;
+            }
+        }
     }
 
     public string VersionUpdateBody
@@ -789,10 +1264,68 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     public bool HasVersionUpdateErrorMessage => !string.IsNullOrWhiteSpace(VersionUpdateErrorMessage);
 
+    public bool IsVersionUpdateMirrorChyanSource =>
+        string.Equals(VersionUpdateResourceSource, "MirrorChyan", StringComparison.OrdinalIgnoreCase);
+
+    public bool IsVersionUpdateGithubSource => !IsVersionUpdateMirrorChyanSource;
+
+    public string VersionUpdateMirrorChyanCdkExpiryText =>
+        BuildMirrorChyanExpiryText(VersionUpdateMirrorChyanCdkExpired);
+
+    public string UpdatePanelUiVersion
+    {
+        get => _updatePanelUiVersion;
+        private set => SetProperty(ref _updatePanelUiVersion, value);
+    }
+
+    public string UpdatePanelCoreVersion
+    {
+        get => _updatePanelCoreVersion;
+        private set => SetProperty(ref _updatePanelCoreVersion, value);
+    }
+
+    public string UpdatePanelBuildTime
+    {
+        get => _updatePanelBuildTime;
+        private set => SetProperty(ref _updatePanelBuildTime, value);
+    }
+
+    public string UpdatePanelResourceVersion
+    {
+        get => _updatePanelResourceVersion;
+        private set => SetProperty(ref _updatePanelResourceVersion, value);
+    }
+
+    public string UpdatePanelResourceTime
+    {
+        get => _updatePanelResourceTime;
+        private set => SetProperty(ref _updatePanelResourceTime, value);
+    }
+
+    public bool IsVersionUpdateActionRunning
+    {
+        get => _isVersionUpdateActionRunning;
+        private set
+        {
+            if (SetProperty(ref _isVersionUpdateActionRunning, value))
+            {
+                OnPropertyChanged(nameof(CanRunVersionUpdateActions));
+            }
+        }
+    }
+
+    public bool CanRunVersionUpdateActions => !IsVersionUpdateActionRunning;
+
     public bool AchievementPopupDisabled
     {
         get => _achievementPopupDisabled;
-        set => SetProperty(ref _achievementPopupDisabled, value);
+        set
+        {
+            if (SetProperty(ref _achievementPopupDisabled, value))
+            {
+                OnPropertyChanged(nameof(CanEditAchievementPopupAutoClose));
+            }
+        }
     }
 
     public bool AchievementPopupAutoClose
@@ -800,6 +1333,8 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         get => _achievementPopupAutoClose;
         set => SetProperty(ref _achievementPopupAutoClose, value);
     }
+
+    public bool CanEditAchievementPopupAutoClose => !AchievementPopupDisabled;
 
     public string AchievementStatusMessage
     {
@@ -853,6 +1388,103 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     public bool HasAboutErrorMessage => !string.IsNullOrWhiteSpace(AboutErrorMessage);
 
+    public async Task ExecuteSectionActionAsync(SettingsSectionActionItem? action, CancellationToken cancellationToken = default)
+    {
+        if (action is null)
+        {
+            return;
+        }
+
+        await ExecuteSectionActionAsync(action.ActionId, cancellationToken);
+    }
+
+    public async Task ExecuteSectionActionAsync(string? actionId, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(actionId))
+        {
+            return;
+        }
+
+        switch (actionId)
+        {
+            case "settings.save-gui":
+                await SaveGuiSettingsAsync(cancellationToken);
+                break;
+            case "settings.save-connection-game":
+                await SaveConnectionGameSettingsAsync(cancellationToken);
+                break;
+            case "settings.save-start-performance":
+                await SaveStartPerformanceSettingsAsync(cancellationToken);
+                break;
+            case "settings.save-timer":
+                await SaveTimerSettingsAsync(cancellationToken);
+                break;
+            case "settings.save-remote":
+                await SaveRemoteControlAsync(cancellationToken);
+                break;
+            case "settings.test-remote":
+                await TestRemoteControlConnectivityAsync(cancellationToken);
+                break;
+            case "settings.register-hotkeys":
+                await RegisterHotkeysAsync(cancellationToken: cancellationToken);
+                break;
+            case "settings.validate-notification":
+                await ValidateExternalNotificationParametersAsync(cancellationToken);
+                break;
+            case "settings.test-notification":
+                await TestExternalNotificationAsync(cancellationToken);
+                break;
+            case "settings.save-notification":
+                await SaveExternalNotificationAsync(cancellationToken);
+                break;
+            case "settings.save-version-update":
+                await SaveVersionUpdateSettingsAsync(cancellationToken);
+                break;
+            case "settings.check-version-update":
+                await CheckVersionUpdateAsync(cancellationToken);
+                break;
+            case "settings.save-achievement":
+                await SaveAchievementSettingsAsync(cancellationToken);
+                break;
+            case "settings.refresh-achievement":
+                await RefreshAchievementPolicyAsync(cancellationToken);
+                break;
+            case "settings.show-achievement":
+                await ShowAchievementListDialogAsync(cancellationToken);
+                break;
+            case "settings.open-achievement-guide":
+                await OpenAchievementGuideAsync(cancellationToken);
+                break;
+            case "settings.build-issue-report":
+                await BuildIssueReportAsync(cancellationToken);
+                break;
+            case "settings.open-debug-directory":
+                await OpenIssueReportDebugDirectoryAsync(cancellationToken);
+                break;
+            case "settings.clear-image-cache":
+                await ClearIssueReportImageCacheAsync(cancellationToken);
+                break;
+            case "settings.check-announcement":
+                await CheckAboutAnnouncementWithDialogAsync(cancellationToken);
+                break;
+            case "settings.open-official":
+                await OpenAboutOfficialWebsiteAsync(cancellationToken);
+                break;
+            case "settings.open-community":
+                await OpenAboutCommunityAsync(cancellationToken);
+                break;
+            case "settings.open-download":
+                await OpenAboutDownloadAsync(cancellationToken);
+                break;
+            case "settings.refresh-profiles":
+                await RefreshConfigurationProfilesAsync(cancellationToken);
+                break;
+            default:
+                await RecordEventAsync("Settings.SectionAction.Unknown", actionId, cancellationToken);
+                break;
+        }
+    }
+
     public string BackgroundImagePath
     {
         get => _backgroundImagePath;
@@ -900,6 +1532,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             var normalized = NormalizeBackgroundStretchMode(value);
             if (SetProperty(ref _backgroundStretchMode, normalized))
             {
+                OnPropertyChanged(nameof(SelectedBackgroundStretchModeOption));
                 MarkGuiSettingsDirty();
             }
         }
@@ -908,7 +1541,14 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public bool HasPendingGuiChanges
     {
         get => _hasPendingGuiChanges;
-        private set => SetProperty(ref _hasPendingGuiChanges, value);
+        private set
+        {
+            if (SetProperty(ref _hasPendingGuiChanges, value))
+            {
+                OnPropertyChanged(nameof(IsGuiSaveInProgress));
+                OnPropertyChanged(nameof(HasGuiSaveSucceeded));
+            }
+        }
     }
 
     public string GuiValidationMessage
@@ -928,8 +1568,18 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public DateTimeOffset? LastSuccessfulGuiSaveAt
     {
         get => _lastSuccessfulGuiSaveAt;
-        private set => SetProperty(ref _lastSuccessfulGuiSaveAt, value);
+        private set
+        {
+            if (SetProperty(ref _lastSuccessfulGuiSaveAt, value))
+            {
+                OnPropertyChanged(nameof(HasGuiSaveSucceeded));
+            }
+        }
     }
+
+    public bool IsGuiSaveInProgress => HasPendingGuiChanges;
+
+    public bool HasGuiSaveSucceeded => !HasPendingGuiChanges && LastSuccessfulGuiSaveAt.HasValue;
 
     public bool RunDirectly
     {
@@ -962,10 +1612,18 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             if (SetProperty(ref _openEmulatorAfterLaunch, value))
             {
+                if (!value)
+                {
+                    StartPerformanceValidationMessage = string.Empty;
+                }
+
+                OnPropertyChanged(nameof(CanEditEmulatorLaunchSettings));
                 MarkStartPerformanceDirty();
             }
         }
     }
+
+    public bool CanEditEmulatorLaunchSettings => OpenEmulatorAfterLaunch;
 
     public string EmulatorPath
     {
@@ -1012,6 +1670,11 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             if (SetProperty(ref _performanceUseGpu, value))
             {
+                if (!_suppressGpuUiRefresh)
+                {
+                    RefreshGpuUiState();
+                }
+
                 MarkStartPerformanceDirty();
             }
         }
@@ -1024,6 +1687,11 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             if (SetProperty(ref _performanceAllowDeprecatedGpu, value))
             {
+                if (!_suppressGpuUiRefresh)
+                {
+                    RefreshGpuUiState();
+                }
+
                 MarkStartPerformanceDirty();
             }
         }
@@ -1037,6 +1705,11 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             var normalized = value?.Trim() ?? string.Empty;
             if (SetProperty(ref _performancePreferredGpuDescription, normalized))
             {
+                if (!_suppressGpuUiRefresh)
+                {
+                    RefreshGpuUiState();
+                }
+
                 MarkStartPerformanceDirty();
             }
         }
@@ -1050,6 +1723,272 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             var normalized = value?.Trim() ?? string.Empty;
             if (SetProperty(ref _performancePreferredGpuInstancePath, normalized))
             {
+                if (!_suppressGpuUiRefresh)
+                {
+                    RefreshGpuUiState();
+                }
+
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public IReadOnlyList<GpuOptionDisplayItem> AvailableGpuOptions
+    {
+        get => _availableGpuOptions;
+        private set => SetProperty(ref _availableGpuOptions, value);
+    }
+
+    public GpuOptionDisplayItem? SelectedGpuOption
+    {
+        get => _selectedGpuOption;
+        set
+        {
+            if (!SetProperty(ref _selectedGpuOption, value) || _suppressGpuSelectionChange || value is null)
+            {
+                return;
+            }
+
+            ApplyGpuSelection(value.Descriptor);
+        }
+    }
+
+    public string GpuSupportMessage
+    {
+        get => _gpuSupportMessage;
+        private set
+        {
+            if (SetProperty(ref _gpuSupportMessage, value))
+            {
+                OnPropertyChanged(nameof(HasGpuSupportMessage));
+            }
+        }
+    }
+
+    public bool HasGpuSupportMessage => !string.IsNullOrWhiteSpace(GpuSupportMessage);
+
+    public string GpuWarningMessage
+    {
+        get => _gpuWarningMessage;
+        private set
+        {
+            if (SetProperty(ref _gpuWarningMessage, value))
+            {
+                OnPropertyChanged(nameof(HasGpuWarningMessage));
+            }
+        }
+    }
+
+    public bool HasGpuWarningMessage => !string.IsNullOrWhiteSpace(GpuWarningMessage);
+
+    public string GpuCustomDescription
+    {
+        get => _gpuCustomDescription;
+        set
+        {
+            var normalized = value?.Trim() ?? string.Empty;
+            if (!SetProperty(ref _gpuCustomDescription, normalized)
+                || _suppressGpuUiRefresh
+                || SelectedGpuOption?.Descriptor.IsCustomEntry != true)
+            {
+                return;
+            }
+
+            ApplyCustomGpuFields();
+        }
+    }
+
+    public string GpuCustomInstancePath
+    {
+        get => _gpuCustomInstancePath;
+        set
+        {
+            var normalized = value?.Trim() ?? string.Empty;
+            if (!SetProperty(ref _gpuCustomInstancePath, normalized)
+                || _suppressGpuUiRefresh
+                || SelectedGpuOption?.Descriptor.IsCustomEntry != true)
+            {
+                return;
+            }
+
+            ApplyCustomGpuFields();
+        }
+    }
+
+    public bool IsGpuSelectionEnabled
+    {
+        get => _isGpuSelectionEnabled;
+        private set => SetProperty(ref _isGpuSelectionEnabled, value);
+    }
+
+    public bool IsGpuDeprecatedToggleEnabled
+    {
+        get => _isGpuDeprecatedToggleEnabled;
+        private set => SetProperty(ref _isGpuDeprecatedToggleEnabled, value);
+    }
+
+    public bool IsGpuCustomSelectionFieldsVisible
+    {
+        get => _isGpuCustomSelectionFieldsVisible;
+        private set => SetProperty(ref _isGpuCustomSelectionFieldsVisible, value);
+    }
+
+    public bool ShowGpuRestartRequiredHint
+    {
+        get => _showGpuRestartRequiredHint;
+        private set => SetProperty(ref _showGpuRestartRequiredHint, value);
+    }
+
+    public bool DeploymentWithPause
+    {
+        get => _deploymentWithPause;
+        set
+        {
+            if (SetProperty(ref _deploymentWithPause, value))
+            {
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public string StartsWithScript
+    {
+        get => _startsWithScript;
+        set
+        {
+            var normalized = value?.Trim() ?? string.Empty;
+            if (SetProperty(ref _startsWithScript, normalized))
+            {
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public string EndsWithScript
+    {
+        get => _endsWithScript;
+        set
+        {
+            var normalized = value?.Trim() ?? string.Empty;
+            if (SetProperty(ref _endsWithScript, normalized))
+            {
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public bool CopilotWithScript
+    {
+        get => _copilotWithScript;
+        set
+        {
+            if (SetProperty(ref _copilotWithScript, value))
+            {
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public bool ManualStopWithScript
+    {
+        get => _manualStopWithScript;
+        set
+        {
+            if (SetProperty(ref _manualStopWithScript, value))
+            {
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public bool BlockSleep
+    {
+        get => _blockSleep;
+        set
+        {
+            if (SetProperty(ref _blockSleep, value))
+            {
+                OnPropertyChanged(nameof(ShowBlockSleepWithScreenOnOption));
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public bool ShowBlockSleepWithScreenOnOption => BlockSleep;
+
+    public bool BlockSleepWithScreenOn
+    {
+        get => _blockSleepWithScreenOn;
+        set
+        {
+            if (SetProperty(ref _blockSleepWithScreenOn, value))
+            {
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public bool EnablePenguin
+    {
+        get => _enablePenguin;
+        set
+        {
+            if (SetProperty(ref _enablePenguin, value))
+            {
+                OnPropertyChanged(nameof(ShowPenguinIdField));
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public bool ShowPenguinIdField => EnablePenguin;
+
+    public bool EnableYituliu
+    {
+        get => _enableYituliu;
+        set
+        {
+            if (SetProperty(ref _enableYituliu, value))
+            {
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public string PenguinId
+    {
+        get => _penguinId;
+        set
+        {
+            var normalized = value?.Trim() ?? string.Empty;
+            if (SetProperty(ref _penguinId, normalized))
+            {
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public int TaskTimeoutMinutes
+    {
+        get => _taskTimeoutMinutes;
+        set
+        {
+            var normalized = Math.Max(0, value);
+            if (SetProperty(ref _taskTimeoutMinutes, normalized))
+            {
+                MarkStartPerformanceDirty();
+            }
+        }
+    }
+
+    public int ReminderIntervalMinutes
+    {
+        get => _reminderIntervalMinutes;
+        set
+        {
+            var normalized = Math.Max(1, value);
+            if (SetProperty(ref _reminderIntervalMinutes, normalized))
+            {
                 MarkStartPerformanceDirty();
             }
         }
@@ -1058,7 +1997,14 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public bool HasPendingStartPerformanceChanges
     {
         get => _hasPendingStartPerformanceChanges;
-        private set => SetProperty(ref _hasPendingStartPerformanceChanges, value);
+        private set
+        {
+            if (SetProperty(ref _hasPendingStartPerformanceChanges, value))
+            {
+                OnPropertyChanged(nameof(IsStartPerformanceSaveInProgress));
+                OnPropertyChanged(nameof(HasStartPerformanceSaveSucceeded));
+            }
+        }
     }
 
     public string StartPerformanceValidationMessage
@@ -1078,8 +2024,19 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public DateTimeOffset? LastSuccessfulStartPerformanceSaveAt
     {
         get => _lastSuccessfulStartPerformanceSaveAt;
-        private set => SetProperty(ref _lastSuccessfulStartPerformanceSaveAt, value);
+        private set
+        {
+            if (SetProperty(ref _lastSuccessfulStartPerformanceSaveAt, value))
+            {
+                OnPropertyChanged(nameof(HasStartPerformanceSaveSucceeded));
+            }
+        }
     }
+
+    public bool IsStartPerformanceSaveInProgress => HasPendingStartPerformanceChanges;
+
+    public bool HasStartPerformanceSaveSucceeded =>
+        !HasPendingStartPerformanceChanges && LastSuccessfulStartPerformanceSaveAt.HasValue;
 
     public bool ForceScheduledStart
     {
@@ -1112,6 +2069,11 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             if (SetProperty(ref _customTimerConfig, value))
             {
+                if (!value)
+                {
+                    TimerValidationMessage = string.Empty;
+                }
+
                 MarkTimerDirty();
             }
         }
@@ -1120,7 +2082,14 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     public bool HasPendingTimerChanges
     {
         get => _hasPendingTimerChanges;
-        private set => SetProperty(ref _hasPendingTimerChanges, value);
+        private set
+        {
+            if (SetProperty(ref _hasPendingTimerChanges, value))
+            {
+                OnPropertyChanged(nameof(IsTimerSaveInProgress));
+                OnPropertyChanged(nameof(HasTimerSaveSucceeded));
+            }
+        }
     }
 
     public string TimerValidationMessage
@@ -1137,14 +2106,146 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     public bool HasTimerValidationMessage => !string.IsNullOrWhiteSpace(TimerValidationMessage);
 
+    public DateTimeOffset? LastSuccessfulTimerSaveAt
+    {
+        get => _lastSuccessfulTimerSaveAt;
+        private set
+        {
+            if (SetProperty(ref _lastSuccessfulTimerSaveAt, value))
+            {
+                OnPropertyChanged(nameof(HasTimerSaveSucceeded));
+            }
+        }
+    }
+
+    public bool IsTimerSaveInProgress => HasPendingTimerChanges;
+
+    public bool HasTimerSaveSucceeded => !HasPendingTimerChanges && LastSuccessfulTimerSaveAt.HasValue;
+
     public GuiSettingsSnapshot CurrentGuiSnapshot => BuildNormalizedGuiSnapshot();
+
+    private bool IsSelectedSection(string key)
+    {
+        return string.Equals(SelectedSection?.Key, key, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public bool SelectSection(string key)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            return false;
+        }
+
+        var target = Sections.FirstOrDefault(
+            section => string.Equals(section.Key, key, StringComparison.OrdinalIgnoreCase));
+        if (target is null)
+        {
+            return false;
+        }
+
+        SelectedSection = target;
+        return true;
+    }
+
+    private void RebuildSections(string? preferredKey = null)
+    {
+        var target = preferredKey ?? SelectedSection?.Key ?? SectionOrder[0];
+        Sections.Clear();
+        foreach (var key in SectionOrder)
+        {
+            Sections.Add(new SettingsSectionViewModel(key, RootTexts[$"Settings.Section.{key}"]));
+        }
+
+        var selected = Sections.FirstOrDefault(section => string.Equals(section.Key, target, StringComparison.OrdinalIgnoreCase))
+            ?? Sections.First();
+        SelectedSection = selected;
+    }
+
+    private void RefreshCurrentSectionActions()
+    {
+        CurrentSectionActions.Clear();
+        var key = SelectedSection?.Key;
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            return;
+        }
+
+        switch (key)
+        {
+            case "GUI":
+            case "Background":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.save-gui", RootTexts["Settings.Action.SaveGui"], IsPrimary: true));
+                break;
+            case "Connect":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.save-connection-game", RootTexts["Settings.Action.SaveConnectionGame"], IsPrimary: true));
+                break;
+            case "Game":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.save-start-performance", RootTexts["Settings.Action.SaveStartPerformance"], IsPrimary: true));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.save-connection-game", RootTexts["Settings.Action.SaveConnectionGame"]));
+                break;
+            case "Start":
+            case "Performance":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.save-start-performance", RootTexts["Settings.Action.SaveStartPerformance"], IsPrimary: true));
+                break;
+            case "Timer":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.save-timer", RootTexts["Settings.Action.SaveTimer"], IsPrimary: true));
+                break;
+            case "RemoteControl":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.save-remote", RootTexts["Settings.Action.SaveRemote"], IsPrimary: true));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.test-remote", RootTexts["Settings.Action.TestRemote"]));
+                break;
+            case "HotKey":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.register-hotkeys", RootTexts["Settings.Action.RegisterHotkeys"], IsPrimary: true));
+                break;
+            case "ExternalNotification":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.save-notification", RootTexts["Settings.Action.SaveNotification"], IsPrimary: true));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.validate-notification", RootTexts["Settings.Action.ValidateNotification"]));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.test-notification", RootTexts["Settings.Action.TestNotification"]));
+                break;
+            case "VersionUpdate":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.save-version-update", RootTexts["Settings.Action.SaveVersionUpdate"], IsPrimary: true));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.check-version-update", RootTexts["Settings.Action.CheckVersionUpdate"]));
+                break;
+            case "Achievement":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.save-achievement", RootTexts["Settings.Action.SaveAchievement"], IsPrimary: true));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.refresh-achievement", RootTexts["Settings.Action.RefreshAchievement"]));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.show-achievement", RootTexts["Settings.Action.ShowAchievement"]));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.open-achievement-guide", RootTexts["Settings.Action.OpenAchievementGuide"], IsSubtle: true));
+                break;
+            case "IssueReport":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.build-issue-report", RootTexts["Settings.Action.BuildIssueReport"], IsPrimary: true));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.open-debug-directory", RootTexts["Settings.Action.OpenDebugDirectory"]));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.clear-image-cache", RootTexts["Settings.Action.ClearImageCache"]));
+                break;
+            case "About":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.check-announcement", RootTexts["Settings.Action.CheckAnnouncement"], IsPrimary: true));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.open-official", RootTexts["Settings.Action.OpenOfficial"], IsSubtle: true));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.open-community", RootTexts["Settings.Action.OpenCommunity"], IsSubtle: true));
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.open-download", RootTexts["Settings.Action.OpenDownload"], IsSubtle: true));
+                break;
+            case "ConfigurationManager":
+                CurrentSectionActions.Add(new SettingsSectionActionItem("settings.refresh-profiles", RootTexts["Settings.Action.RefreshProfiles"], IsPrimary: true));
+                break;
+            default:
+                break;
+        }
+    }
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
-        await LoadFromConfigAsync(Runtime.ConfigurationService.CurrentConfig, cancellationToken);
-        await RefreshConfigurationProfilesAsync(cancellationToken);
-        LoadConnectionSharedStateFromConfig();
-        await RefreshAutostartStatusAsync(cancellationToken);
+        _suppressPageAutoSave = true;
+        try
+        {
+            await LoadFromConfigAsync(Runtime.ConfigurationService.CurrentConfig, cancellationToken);
+            await RefreshConfigurationProfilesAsync(cancellationToken);
+            LoadConnectionSharedStateFromConfig();
+            await RefreshAutostartStatusAsync(cancellationToken);
+        }
+        finally
+        {
+            _suppressPageAutoSave = false;
+        }
+
         await RecordEventAsync("Settings", "Settings page initialized.", cancellationToken);
     }
 
@@ -1186,7 +2287,10 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             [ConfigurationKeys.RemoteControlPollIntervalMs] = RemotePollInterval.ToString(),
         };
 
-        var result = await Runtime.SettingsFeatureService.SaveGlobalSettingsAsync(updates, cancellationToken);
+        var result = await SaveScopedSettingsAsync(
+            profileUpdates: updates,
+            successScope: "Settings.RemoteControl.Save",
+            cancellationToken: cancellationToken);
         if (await ApplyResultAsync(result, "Settings.RemoteControl.Save", cancellationToken))
         {
             RemoteControlStatusMessage = "远程控制配置保存成功。";
@@ -1251,6 +2355,12 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     {
         ClearExternalNotificationStatus();
         PersistCurrentProviderParameters();
+        if (!ExternalNotificationEnabled)
+        {
+            LastErrorMessage = string.Empty;
+            return;
+        }
+
         var provider = SelectedNotificationProvider;
         var result = await Runtime.NotificationProviderFeatureService.ValidateProviderParametersAsync(
             new NotificationProviderRequest(provider, NotificationProviderParametersText),
@@ -1274,6 +2384,12 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     {
         ClearExternalNotificationStatus();
         PersistCurrentProviderParameters();
+        if (!ExternalNotificationEnabled)
+        {
+            LastErrorMessage = string.Empty;
+            return;
+        }
+
         var provider = SelectedNotificationProvider;
         var result = await Runtime.NotificationProviderFeatureService.SendTestAsync(
             new NotificationProviderTestRequest(
@@ -1311,47 +2427,25 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             [ConfigurationKeys.ExternalNotificationEnableDetails] = ExternalNotificationEnableDetails.ToString(),
         };
 
-        foreach (var provider in AvailableNotificationProviders)
+        var applyProviderResult = await PopulateExternalNotificationProviderUpdatesAsync(
+            updates,
+            validateParameters: ExternalNotificationEnabled,
+            cancellationToken);
+        if (!applyProviderResult.Success)
         {
-            var parameterText = _notificationProviderParameters.TryGetValue(provider, out var stored)
-                ? stored
-                : string.Empty;
-            var shouldValidate = !string.IsNullOrWhiteSpace(parameterText);
-            if (shouldValidate)
-            {
-                var validate = await Runtime.NotificationProviderFeatureService.ValidateProviderParametersAsync(
-                    new NotificationProviderRequest(provider, parameterText),
-                    cancellationToken);
-                if (!validate.Success)
-                {
-                    await ApplyExternalNotificationFailure(validate, "Settings.ExternalNotification.Save.Validate", cancellationToken);
-                    return;
-                }
-            }
-
-            if (!TryParseProviderParameterText(parameterText, out var parsed, out var parseError))
-            {
-                var fail = UiOperationResult.Fail(
-                    UiErrorCode.NotificationProviderInvalidParameters,
-                    parseError ?? "Provider parameter parsing failed.");
-                await ApplyExternalNotificationFailure(fail, "Settings.ExternalNotification.Save.Parse", cancellationToken);
-                return;
-            }
-
-            if (!ProviderConfigKeyMap.TryGetValue(provider, out var keyMap))
-            {
-                continue;
-            }
-
-            foreach (var (parameterKey, configKey) in keyMap)
-            {
-                updates[configKey] = parsed.TryGetValue(parameterKey, out var value)
-                    ? value
-                    : string.Empty;
-            }
+            await ApplyExternalNotificationFailure(
+                applyProviderResult,
+                ExternalNotificationEnabled
+                    ? "Settings.ExternalNotification.Save.Validate"
+                    : "Settings.ExternalNotification.Save.Disabled",
+                cancellationToken);
+            return;
         }
 
-        var saveResult = await Runtime.SettingsFeatureService.SaveGlobalSettingsAsync(updates, cancellationToken);
+        var saveResult = await SaveScopedSettingsAsync(
+            profileUpdates: updates,
+            successScope: "Settings.ExternalNotification.Save",
+            cancellationToken: cancellationToken);
         if (!saveResult.Success)
         {
             await ApplyExternalNotificationFailure(saveResult, "Settings.ExternalNotification.Save", cancellationToken);
@@ -1401,13 +2495,37 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     {
         ClearConfigurationManagerStatus();
         var target = ConfigurationManagerSelectedProfile;
+        var previousCurrent = Runtime.ConfigurationService.CurrentConfig.CurrentProfile;
         var result = await Runtime.ConfigurationProfileFeatureService.DeleteProfileAsync(target, cancellationToken);
-        await HandleConfigurationProfileResultAsync(
+        var deleted = await HandleConfigurationProfileResultAsync(
             result,
             "Settings.ConfigurationManager.Delete",
             successMessage: $"配置 `{target}` 已删除。",
             failureMessage: "配置删除失败。",
             cancellationToken);
+        if (!deleted)
+        {
+            return;
+        }
+
+        var current = Runtime.ConfigurationService.CurrentConfig.CurrentProfile;
+        if (string.IsNullOrWhiteSpace(current))
+        {
+            return;
+        }
+
+        var message = string.Equals(previousCurrent, current, StringComparison.OrdinalIgnoreCase)
+            ? $"配置 `{target}` 已删除，已重新加载配置 `{current}`。"
+            : $"配置 `{target}` 已删除，已切换至配置 `{current}`。";
+        await LoadFromConfigAsync(Runtime.ConfigurationService.CurrentConfig, cancellationToken);
+        LoadConnectionSharedStateFromConfig();
+        ConfigurationManagerStatusMessage = message;
+        ConfigurationManagerErrorMessage = string.Empty;
+        StatusMessage = message;
+        LastErrorMessage = string.Empty;
+        RaiseConfigurationContextChanged(
+            ConfigurationContextChangeReason.ProfileSwitched,
+            message);
     }
 
     public async Task MoveConfigurationProfileUpAsync(CancellationToken cancellationToken = default)
@@ -1438,26 +2556,325 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     public async Task SwitchConfigurationProfileAsync(CancellationToken cancellationToken = default)
     {
-        ClearConfigurationManagerStatus();
-        var target = ConfigurationManagerSelectedProfile;
-        var result = await Runtime.ConfigurationProfileFeatureService.SwitchProfileAsync(target, cancellationToken);
-        await HandleConfigurationProfileResultAsync(
-            result,
-            "Settings.ConfigurationManager.Switch",
-            successMessage: $"已切换至配置 `{target}`。",
-            failureMessage: "配置切换失败。",
-            cancellationToken);
-    }
-
-    public async Task SaveVersionUpdateSettingsAsync(CancellationToken cancellationToken = default)
-    {
-        await SaveVersionUpdateChannelAsync(cancellationToken);
-        if (HasVersionUpdateErrorMessage)
+        if (_suppressConfigurationProfileSelectionHandling)
         {
             return;
         }
 
-        await SaveVersionUpdateProxyAsync(cancellationToken);
+        await _configurationProfileSwitchSemaphore.WaitAsync(cancellationToken);
+        try
+        {
+            ClearConfigurationManagerStatus();
+            var target = ConfigurationManagerSelectedProfile;
+            var current = Runtime.ConfigurationService.CurrentConfig.CurrentProfile;
+            if (string.IsNullOrWhiteSpace(target)
+                || string.Equals(target, current, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            var result = await Runtime.ConfigurationProfileFeatureService.SwitchProfileAsync(target, cancellationToken);
+            var payload = await ApplyResultAsync(result, "Settings.ConfigurationManager.Switch", cancellationToken);
+            if (payload is null)
+            {
+                ConfigurationManagerErrorMessage = result.Message;
+                ConfigurationManagerStatusMessage = "配置切换失败。";
+                await LoadConfigurationProfilesAsync(
+                    "Settings.ConfigurationManager.ReloadAfterFailure",
+                    cancellationToken,
+                    updateStatus: false);
+                return;
+            }
+
+            var switchMessage = $"已切换至配置 `{target}`。";
+            await LoadFromConfigAsync(Runtime.ConfigurationService.CurrentConfig, cancellationToken);
+            ApplyConfigurationProfileState(payload);
+            LoadConnectionSharedStateFromConfig();
+            ConfigurationManagerStatusMessage = switchMessage;
+            ConfigurationManagerErrorMessage = string.Empty;
+            StatusMessage = switchMessage;
+            LastErrorMessage = string.Empty;
+            RaiseConfigurationContextChanged(
+                ConfigurationContextChangeReason.ProfileSwitched,
+                switchMessage);
+        }
+        finally
+        {
+            _configurationProfileSwitchSemaphore.Release();
+        }
+    }
+
+    public async Task SaveCurrentConfigurationAsync(CancellationToken cancellationToken = default)
+    {
+        ClearConfigurationManagerStatus();
+        try
+        {
+            await Runtime.ConfigurationService.SaveAsync(cancellationToken);
+            await LoadConfigurationProfilesAsync(
+                "Settings.ConfigurationManager.ReloadAfterSave",
+                cancellationToken,
+                updateStatus: false);
+            ConfigurationManagerStatusMessage = "当前配置已保存。";
+            ConfigurationManagerErrorMessage = string.Empty;
+            StatusMessage = ConfigurationManagerStatusMessage;
+            LastErrorMessage = string.Empty;
+            await RecordEventAsync("Settings.ConfigurationManager.SaveCurrent", ConfigurationManagerStatusMessage, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            ConfigurationManagerStatusMessage = "当前配置保存失败。";
+            ConfigurationManagerErrorMessage = ex.Message;
+            await RecordUnhandledExceptionAsync(
+                "Settings.ConfigurationManager.SaveCurrent",
+                ex,
+                UiErrorCode.ConfigurationProfileSaveFailed,
+                "Failed to save current configuration.",
+                cancellationToken);
+        }
+    }
+
+    public async Task ExportAllConfigurationsAsync(string filePath, CancellationToken cancellationToken = default)
+    {
+        ClearConfigurationManagerStatus();
+        var normalizedPath = NormalizeConfigPath(filePath);
+        if (string.IsNullOrWhiteSpace(normalizedPath))
+        {
+            ConfigurationManagerStatusMessage = "导出所有配置失败。";
+            ConfigurationManagerErrorMessage = "导出路径为空。";
+            return;
+        }
+
+        try
+        {
+            var exportConfig = CloneConfig(Runtime.ConfigurationService.CurrentConfig);
+            await WriteConfigFileAsync(exportConfig, normalizedPath, cancellationToken);
+            ConfigurationManagerStatusMessage = $"全部配置已导出到 `{normalizedPath}`。";
+            ConfigurationManagerErrorMessage = string.Empty;
+            StatusMessage = ConfigurationManagerStatusMessage;
+            LastErrorMessage = string.Empty;
+            await RecordEventAsync("Settings.ConfigurationManager.ExportAll", ConfigurationManagerStatusMessage, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            ConfigurationManagerStatusMessage = "导出所有配置失败。";
+            ConfigurationManagerErrorMessage = ex.Message;
+            await RecordUnhandledExceptionAsync(
+                "Settings.ConfigurationManager.ExportAll",
+                ex,
+                UiErrorCode.ConfigurationProfileSaveFailed,
+                "Failed to export all configuration profiles.",
+                cancellationToken);
+        }
+    }
+
+    public async Task ExportCurrentConfigurationAsync(string filePath, CancellationToken cancellationToken = default)
+    {
+        ClearConfigurationManagerStatus();
+        var normalizedPath = NormalizeConfigPath(filePath);
+        if (string.IsNullOrWhiteSpace(normalizedPath))
+        {
+            ConfigurationManagerStatusMessage = "导出当前配置失败。";
+            ConfigurationManagerErrorMessage = "导出路径为空。";
+            return;
+        }
+
+        try
+        {
+            var exportConfig = BuildCurrentProfileOnlyConfig(Runtime.ConfigurationService.CurrentConfig);
+            await WriteConfigFileAsync(exportConfig, normalizedPath, cancellationToken);
+            ConfigurationManagerStatusMessage = $"当前配置已导出到 `{normalizedPath}`。";
+            ConfigurationManagerErrorMessage = string.Empty;
+            StatusMessage = ConfigurationManagerStatusMessage;
+            LastErrorMessage = string.Empty;
+            await RecordEventAsync("Settings.ConfigurationManager.ExportCurrent", ConfigurationManagerStatusMessage, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            ConfigurationManagerStatusMessage = "导出当前配置失败。";
+            ConfigurationManagerErrorMessage = ex.Message;
+            await RecordUnhandledExceptionAsync(
+                "Settings.ConfigurationManager.ExportCurrent",
+                ex,
+                UiErrorCode.ConfigurationProfileSaveFailed,
+                "Failed to export current configuration profile.",
+                cancellationToken);
+        }
+    }
+
+    public async Task ImportConfigurationsAsync(string filePath, CancellationToken cancellationToken = default)
+    {
+        ClearConfigurationManagerStatus();
+        var normalizedPath = NormalizeConfigPath(filePath);
+        if (string.IsNullOrWhiteSpace(normalizedPath))
+        {
+            ConfigurationManagerStatusMessage = "导入配置失败。";
+            ConfigurationManagerErrorMessage = "导入路径为空。";
+            return;
+        }
+
+        if (!File.Exists(normalizedPath))
+        {
+            ConfigurationManagerStatusMessage = "导入配置失败。";
+            ConfigurationManagerErrorMessage = "导入文件不存在。";
+            return;
+        }
+
+        try
+        {
+            await using var stream = File.OpenRead(normalizedPath);
+            var imported = await JsonSerializer.DeserializeAsync<UnifiedConfig>(stream, cancellationToken: cancellationToken);
+            if (imported is null || imported.Profiles.Count == 0)
+            {
+                ConfigurationManagerStatusMessage = "导入配置失败。";
+                ConfigurationManagerErrorMessage = "导入文件中未找到有效配置。";
+                return;
+            }
+
+            var currentConfig = Runtime.ConfigurationService.CurrentConfig;
+            var existingNames = new HashSet<string>(currentConfig.Profiles.Keys, StringComparer.OrdinalIgnoreCase);
+            var importedCount = 0;
+            var renamedCount = 0;
+
+            foreach (var (name, profile) in imported.Profiles)
+            {
+                if (string.IsNullOrWhiteSpace(name) || profile is null)
+                {
+                    continue;
+                }
+
+                var normalizedName = name.Trim();
+                var targetName = AllocateUniqueProfileName(existingNames, normalizedName);
+                if (!string.Equals(targetName, normalizedName, StringComparison.OrdinalIgnoreCase))
+                {
+                    renamedCount++;
+                }
+
+                currentConfig.Profiles[targetName] = CloneProfile(profile);
+                existingNames.Add(targetName);
+                importedCount++;
+            }
+
+            if (importedCount == 0)
+            {
+                ConfigurationManagerStatusMessage = "导入配置失败。";
+                ConfigurationManagerErrorMessage = "导入文件中未找到可用配置项。";
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(currentConfig.CurrentProfile)
+                || !currentConfig.Profiles.ContainsKey(currentConfig.CurrentProfile))
+            {
+                currentConfig.CurrentProfile = currentConfig.Profiles.Keys.First();
+            }
+
+            await Runtime.ConfigurationService.SaveAsync(cancellationToken);
+            ConfigurationManagerStatusMessage = renamedCount > 0
+                ? $"已导入 {importedCount} 个配置（{renamedCount} 个重命名以避免冲突）。"
+                : $"已导入 {importedCount} 个配置。";
+            ConfigurationManagerErrorMessage = string.Empty;
+            StatusMessage = ConfigurationManagerStatusMessage;
+            LastErrorMessage = string.Empty;
+            await RefreshAfterConfigurationImportAsync(
+                ConfigurationContextChangeReason.UnifiedImport,
+                "Settings.ConfigurationManager.Import.ContextRefresh",
+                ConfigurationManagerStatusMessage,
+                report: null,
+                cancellationToken);
+            ConfigurationManagerStatusMessage = renamedCount > 0
+                ? $"已导入 {importedCount} 个配置（{renamedCount} 个重命名以避免冲突）。"
+                : $"已导入 {importedCount} 个配置。";
+            ConfigurationManagerErrorMessage = string.Empty;
+            StatusMessage = ConfigurationManagerStatusMessage;
+            LastErrorMessage = string.Empty;
+            await RecordEventAsync("Settings.ConfigurationManager.Import", ConfigurationManagerStatusMessage, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            ConfigurationManagerStatusMessage = "导入配置失败。";
+            ConfigurationManagerErrorMessage = ex.Message;
+            await RecordUnhandledExceptionAsync(
+                "Settings.ConfigurationManager.Import",
+                ex,
+                UiErrorCode.ImportFailed,
+                "Failed to import configuration profiles.",
+                cancellationToken);
+        }
+    }
+
+    public async Task<ImportReport> ImportLegacyConfigurationsAsync(
+        LegacyImportRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ClearConfigurationManagerStatus();
+        var report = await Runtime.ConfigurationService.ImportLegacyAsync(request, cancellationToken);
+        var statusMessage = ImportReportTextFormatter.BuildStatusMessage(report, manualImport: request.ManualImport);
+        var errorMessage = report.Errors.Count == 0
+            ? string.Empty
+            : string.Join("; ", report.Errors);
+
+        ConfigurationManagerStatusMessage = statusMessage;
+        ConfigurationManagerErrorMessage = errorMessage;
+        StatusMessage = statusMessage;
+        LastErrorMessage = report.AppliedConfig ? errorMessage : (errorMessage.Length == 0 ? statusMessage : errorMessage);
+
+        if (report.AppliedConfig)
+        {
+            await RefreshAfterConfigurationImportAsync(
+                ConfigurationContextChangeReason.LegacyImport,
+                "Settings.ConfigurationManager.ImportLegacy.ContextRefresh",
+                statusMessage,
+                report,
+                cancellationToken);
+            ConfigurationManagerStatusMessage = statusMessage;
+            ConfigurationManagerErrorMessage = errorMessage;
+            StatusMessage = statusMessage;
+            LastErrorMessage = errorMessage;
+            await RecordEventAsync(
+                "Settings.ConfigurationManager.ImportLegacy",
+                $"{statusMessage} {report.Summary}",
+                cancellationToken);
+            return report;
+        }
+
+        if (report.DamagedFiles.Count > 0 && report.ImportedFiles.Count > 0 && !request.AllowPartialImport)
+        {
+            await RecordEventAsync(
+                "Settings.ConfigurationManager.ImportLegacy.PendingConfirmation",
+                $"{statusMessage} {report.Summary}",
+                cancellationToken);
+            return report;
+        }
+
+        var failureMessage = errorMessage.Length == 0 ? statusMessage : errorMessage;
+        await RecordFailedResultAsync(
+            "Settings.ConfigurationManager.ImportLegacy",
+            UiOperationResult.Fail(UiErrorCode.ImportFailed, failureMessage),
+            cancellationToken);
+        return report;
+    }
+
+    public async Task SaveVersionUpdateSettingsAsync(CancellationToken cancellationToken = default)
+    {
+        if (IsVersionUpdateActionRunning)
+        {
+            return;
+        }
+
+        IsVersionUpdateActionRunning = true;
+        try
+        {
+            await SaveVersionUpdateChannelAsync(cancellationToken);
+            if (HasVersionUpdateErrorMessage)
+            {
+                return;
+            }
+
+            await SaveVersionUpdateProxyAsync(cancellationToken);
+        }
+        finally
+        {
+            IsVersionUpdateActionRunning = false;
+        }
     }
 
     public async Task SaveVersionUpdateChannelAsync(CancellationToken cancellationToken = default)
@@ -1498,53 +2915,185 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     public async Task CheckVersionUpdateAsync(CancellationToken cancellationToken = default)
     {
-        VersionUpdateStatusMessage = string.Empty;
-        VersionUpdateErrorMessage = string.Empty;
-
-        var policy = BuildVersionUpdatePolicy();
-        var checkResult = await Runtime.VersionUpdateFeatureService.CheckForUpdatesAsync(policy, cancellationToken);
-        var payload = await ApplyResultAsync(checkResult, "Settings.VersionUpdate.Check", cancellationToken);
-        if (payload is null)
+        if (IsVersionUpdateActionRunning)
         {
-            VersionUpdateErrorMessage = checkResult.Message;
-            VersionUpdateStatusMessage = "检查更新失败。";
             return;
         }
 
-        VersionUpdateStatusMessage = payload;
+        IsVersionUpdateActionRunning = true;
+        VersionUpdateStatusMessage = string.Empty;
         VersionUpdateErrorMessage = string.Empty;
+
+        try
+        {
+            var policy = BuildVersionUpdatePolicy();
+            var checkResult = await Runtime.VersionUpdateFeatureService.CheckForUpdatesAsync(policy, cancellationToken);
+            var payload = await ApplyResultNoDialogAsync(checkResult, "Settings.VersionUpdate.Check", cancellationToken);
+            if (payload is null)
+            {
+                VersionUpdateErrorMessage = checkResult.Message;
+                VersionUpdateStatusMessage = "检查更新失败。";
+                return;
+            }
+
+            VersionUpdateStatusMessage = payload;
+            VersionUpdateErrorMessage = string.Empty;
+        }
+        finally
+        {
+            IsVersionUpdateActionRunning = false;
+        }
     }
 
     public async Task CheckVersionUpdateWithDialogAsync(CancellationToken cancellationToken = default)
     {
-        VersionUpdateStatusMessage = string.Empty;
-        VersionUpdateErrorMessage = string.Empty;
-
-        var policy = BuildVersionUpdatePolicy();
-        var checkResult = await Runtime.VersionUpdateFeatureService.CheckForUpdatesAsync(policy, cancellationToken);
-        var payload = await ApplyResultAsync(checkResult, "Settings.VersionUpdate.Check", cancellationToken);
-        if (payload is null)
+        if (IsVersionUpdateActionRunning)
         {
-            VersionUpdateErrorMessage = checkResult.Message;
-            VersionUpdateStatusMessage = "检查更新失败。";
             return;
         }
 
-        var request = new VersionUpdateDialogRequest(
-            Title: "Version Update",
-            CurrentVersion: string.IsNullOrWhiteSpace(VersionUpdateName) ? "unknown" : VersionUpdateName,
-            TargetVersion: string.IsNullOrWhiteSpace(VersionUpdatePackage) ? "no-package" : VersionUpdatePackage,
-            Summary: payload,
-            Body: VersionUpdateBody ?? string.Empty,
-            ConfirmText: "Confirm",
-            CancelText: "Later");
-        var dialogResult = await _dialogService.ShowVersionUpdateAsync(request, "Settings.VersionUpdate.Dialog", cancellationToken);
-        VersionUpdateStatusMessage = dialogResult.Return switch
+        IsVersionUpdateActionRunning = true;
+        VersionUpdateStatusMessage = string.Empty;
+        VersionUpdateErrorMessage = string.Empty;
+
+        try
         {
-            DialogReturnSemantic.Confirm => "版本更新弹窗确认完成。",
-            DialogReturnSemantic.Cancel => "版本更新弹窗已取消。",
-            _ => "版本更新弹窗已关闭。",
-        };
+            var policy = BuildVersionUpdatePolicy();
+            var checkResult = await Runtime.VersionUpdateFeatureService.CheckForUpdatesAsync(policy, cancellationToken);
+            var payload = await ApplyResultNoDialogAsync(checkResult, "Settings.VersionUpdate.Check", cancellationToken);
+            if (payload is null)
+            {
+                VersionUpdateErrorMessage = checkResult.Message;
+                VersionUpdateStatusMessage = "检查更新失败。";
+                return;
+            }
+
+            var request = new VersionUpdateDialogRequest(
+                Title: "Version Update",
+                CurrentVersion: string.IsNullOrWhiteSpace(VersionUpdateName) ? "unknown" : VersionUpdateName,
+                TargetVersion: string.IsNullOrWhiteSpace(VersionUpdatePackage) ? "no-package" : VersionUpdatePackage,
+                Summary: payload,
+                Body: VersionUpdateBody ?? string.Empty,
+                ConfirmText: "Confirm",
+                CancelText: "Later");
+            var dialogResult = await _dialogService.ShowVersionUpdateAsync(request, "Settings.VersionUpdate.Dialog", cancellationToken);
+            VersionUpdateStatusMessage = dialogResult.Return switch
+            {
+                DialogReturnSemantic.Confirm => "版本更新弹窗确认完成。",
+                DialogReturnSemantic.Cancel => "版本更新弹窗已取消。",
+                _ => "版本更新弹窗已关闭。",
+            };
+            VersionUpdateErrorMessage = string.Empty;
+        }
+        finally
+        {
+            IsVersionUpdateActionRunning = false;
+        }
+    }
+
+    public async Task ManualUpdateResourceAsync(CancellationToken cancellationToken = default)
+    {
+        if (IsVersionUpdateActionRunning)
+        {
+            return;
+        }
+
+        IsVersionUpdateActionRunning = true;
+        VersionUpdateStatusMessage = string.Empty;
+        VersionUpdateErrorMessage = string.Empty;
+
+        try
+        {
+            var policy = BuildVersionUpdatePolicy();
+            var updateResult = await Runtime.VersionUpdateFeatureService.UpdateResourceAsync(
+                policy,
+                ConnectionGameSharedState.ClientType,
+                cancellationToken);
+            var payload = await ApplyResultNoDialogAsync(updateResult, "Settings.VersionUpdate.Resource.Update", cancellationToken);
+            if (payload is null)
+            {
+                VersionUpdateErrorMessage = updateResult.Message;
+                VersionUpdateStatusMessage = "更新资源失败。";
+                return;
+            }
+
+            VersionUpdateStatusMessage = payload;
+            VersionUpdateErrorMessage = string.Empty;
+            await RefreshVersionUpdateResourceInfoAsync(cancellationToken);
+            ResourceVersionUpdated?.Invoke(this, EventArgs.Empty);
+        }
+        finally
+        {
+            IsVersionUpdateActionRunning = false;
+        }
+    }
+
+    public async Task RefreshVersionUpdateResourceInfoAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var result = await Runtime.VersionUpdateFeatureService.LoadResourceVersionInfoAsync(
+                ConnectionGameSharedState.ClientType,
+                cancellationToken);
+            var info = await ApplyResultNoDialogAsync(result, "Settings.VersionUpdate.ResourceInfo.Load", cancellationToken);
+            if (info is null)
+            {
+                UpdatePanelResourceVersion = string.Empty;
+                UpdatePanelResourceTime = string.Empty;
+                return;
+            }
+
+            UpdatePanelResourceVersion = info.VersionName;
+            UpdatePanelResourceTime = info.LastUpdatedAt == DateTime.MinValue
+                ? string.Empty
+                : info.LastUpdatedAt.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+            UpdatePanelResourceVersion = string.Empty;
+            UpdatePanelResourceTime = string.Empty;
+        }
+    }
+
+    public async Task OpenVersionUpdateChangelogAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await _openExternalTargetAsync(VersionUpdateChangelogUrl, cancellationToken);
+        if (!await ApplyResultAsync(result, "Settings.VersionUpdate.OpenChangelog", cancellationToken))
+        {
+            VersionUpdateErrorMessage = result.Message;
+            VersionUpdateStatusMessage = "打开更新日志失败。";
+            return;
+        }
+
+        VersionUpdateStatusMessage = "已打开更新日志。";
+        VersionUpdateErrorMessage = string.Empty;
+    }
+
+    public async Task OpenVersionUpdateResourceRepositoryAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await _openExternalTargetAsync(VersionUpdateResourceRepositoryUrl, cancellationToken);
+        if (!await ApplyResultAsync(result, "Settings.VersionUpdate.OpenResourceRepository", cancellationToken))
+        {
+            VersionUpdateErrorMessage = result.Message;
+            VersionUpdateStatusMessage = "打开资源仓库失败。";
+            return;
+        }
+
+        VersionUpdateStatusMessage = "已打开资源仓库。";
+        VersionUpdateErrorMessage = string.Empty;
+    }
+
+    public async Task OpenVersionUpdateMirrorChyanAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await _openExternalTargetAsync(VersionUpdateMirrorChyanUrl, cancellationToken);
+        if (!await ApplyResultAsync(result, "Settings.VersionUpdate.OpenMirrorChyan", cancellationToken))
+        {
+            VersionUpdateErrorMessage = result.Message;
+            VersionUpdateStatusMessage = "打开 MirrorChyan 失败。";
+            return;
+        }
+
+        VersionUpdateStatusMessage = "已打开 MirrorChyan。";
         VersionUpdateErrorMessage = string.Empty;
     }
 
@@ -1692,6 +3241,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         TimerValidationMessage = readBackWarnings.Count > 0
             ? string.Join(" ", readBackWarnings)
             : string.Empty;
+        LastSuccessfulTimerSaveAt = DateTimeOffset.Now;
 
         if (readBackWarnings.Count > 0)
         {
@@ -1699,6 +3249,83 @@ public sealed class SettingsPageViewModel : PageViewModelBase
                 "Settings.Timer.Normalize",
                 string.Join(" | ", readBackWarnings),
                 cancellationToken);
+        }
+    }
+
+    private async Task<UiOperationResult> SaveScopedSettingsAsync(
+        IReadOnlyDictionary<string, string>? globalUpdates = null,
+        IReadOnlyDictionary<string, string>? profileUpdates = null,
+        string successScope = "Settings.SaveScoped",
+        CancellationToken cancellationToken = default)
+    {
+        globalUpdates ??= EmptySettingUpdates;
+        profileUpdates ??= EmptySettingUpdates;
+        if (globalUpdates.Count == 0 && profileUpdates.Count == 0)
+        {
+            return UiOperationResult.Fail(UiErrorCode.SettingBatchEmpty, "No settings were provided.");
+        }
+
+        UnifiedProfile? profile = null;
+        if (profileUpdates.Count > 0 && !Runtime.ConfigurationService.TryGetCurrentProfile(out profile))
+        {
+            return UiOperationResult.Fail(
+                UiErrorCode.ProfileMissing,
+                $"Current profile `{Runtime.ConfigurationService.CurrentConfig.CurrentProfile}` not found.");
+        }
+
+        var config = Runtime.ConfigurationService.CurrentConfig;
+        var globalSnapshot = CloneJsonNodeMap(config.GlobalValues);
+        Dictionary<string, JsonNode?>? profileSnapshot = profile is null
+            ? null
+            : CloneJsonNodeMap(profile.Values);
+
+        try
+        {
+            foreach (var (key, value) in globalUpdates)
+            {
+                if (string.IsNullOrWhiteSpace(key))
+                {
+                    return UiOperationResult.Fail(UiErrorCode.SettingKeyMissing, "Setting key cannot be empty.");
+                }
+
+                config.GlobalValues[key] = JsonValue.Create(value);
+            }
+
+            if (profile is not null)
+            {
+                foreach (var (key, value) in profileUpdates)
+                {
+                    if (string.IsNullOrWhiteSpace(key))
+                    {
+                        return UiOperationResult.Fail(UiErrorCode.SettingKeyMissing, "Setting key cannot be empty.");
+                    }
+
+                    profile.Values[key] = JsonValue.Create(value);
+                }
+            }
+
+            await Runtime.ConfigurationService.SaveAsync(cancellationToken);
+            await RecordEventAsync(
+                successScope,
+                $"Saved settings batch: global={globalUpdates.Count}, profile={profileUpdates.Count}",
+                cancellationToken);
+            return UiOperationResult.Ok($"Saved {globalUpdates.Count + profileUpdates.Count} settings.");
+        }
+        catch (Exception ex)
+        {
+            config.GlobalValues = globalSnapshot;
+            if (profile is not null && profileSnapshot is not null)
+            {
+                profile.Values = profileSnapshot;
+            }
+
+            Runtime.ConfigurationService.RevalidateCurrentConfig(logIssues: false);
+            await RecordUnhandledExceptionAsync(
+                $"{successScope}.Persist",
+                ex,
+                UiErrorCode.SettingsSaveFailed,
+                $"Failed to save settings: {ex.Message}");
+            return UiOperationResult.Fail(UiErrorCode.SettingsSaveFailed, $"Failed to save settings: {ex.Message}");
         }
     }
 
@@ -1720,9 +3347,11 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             return;
         }
 
-        var saveResult = await Runtime.SettingsFeatureService.SaveGlobalSettingsAsync(
-            snapshot.ToGlobalSettingUpdates(),
-            cancellationToken);
+        var saveResult = await SaveScopedSettingsAsync(
+            globalUpdates: snapshot.ToGlobalSettingUpdates(),
+            profileUpdates: snapshot.ToProfileSettingUpdates(),
+            successScope: "Settings.Save.StartPerformance",
+            cancellationToken: cancellationToken);
         if (!await ApplyResultAsync(saveResult, "Settings.Save.StartPerformance", cancellationToken))
         {
             HasPendingStartPerformanceChanges = true;
@@ -2115,7 +3744,16 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         }
 
         var enabled = result.Value;
-        StartSelf = enabled;
+        _suppressPageAutoSave = true;
+        try
+        {
+            StartSelf = enabled;
+        }
+        finally
+        {
+            _suppressPageAutoSave = false;
+        }
+
         AutostartStatus = PlatformCapabilityTextMap.FormatAutostartStatus(
             Language,
             enabled,
@@ -2143,7 +3781,11 @@ public sealed class SettingsPageViewModel : PageViewModelBase
                 return;
             }
 
-            var saveResult = await Runtime.SettingsFeatureService.SaveGlobalSettingsAsync(snapshot.ToGlobalSettingUpdates(), cancellationToken);
+            var saveResult = await SaveScopedSettingsAsync(
+                globalUpdates: snapshot.ToGlobalSettingUpdates(),
+                profileUpdates: snapshot.ToProfileSettingUpdates(),
+                successScope: "Settings.Save.GuiBatch",
+                cancellationToken: cancellationToken);
             if (!await ApplyResultAsync(saveResult, "Settings.Save.GuiBatch", cancellationToken))
             {
                 HasPendingGuiChanges = true;
@@ -2191,7 +3833,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private void MarkGuiSettingsDirty(bool saveImmediately = true)
     {
         HasPendingGuiChanges = true;
-        if (_suppressGuiAutoSave || !saveImmediately)
+        if (_suppressGuiAutoSave || _suppressPageAutoSave || !saveImmediately)
         {
             return;
         }
@@ -2201,29 +3843,233 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     private void ScheduleGuiAutoSave()
     {
-        _ = SaveGuiSettingsCoreAsync(triggeredByAutoSave: true);
+        ScheduleAutoSave(
+            ref _guiAutoSaveCts,
+            "Settings.AutoSave.Gui",
+            500,
+            ct => SaveGuiSettingsCoreAsync(triggeredByAutoSave: true, cancellationToken: ct));
     }
 
     private void MarkStartPerformanceDirty()
     {
-        if (_suppressStartPerformanceDirtyTracking)
+        if (_suppressStartPerformanceDirtyTracking || _suppressPageAutoSave)
         {
             return;
         }
 
         HasPendingStartPerformanceChanges = true;
         StartPerformanceValidationMessage = string.Empty;
+        ScheduleAutoSave(
+            ref _startPerformanceAutoSaveCts,
+            "Settings.AutoSave.StartPerformance",
+            550,
+            SaveStartPerformanceSettingsAsync);
     }
 
     private void MarkTimerDirty()
     {
-        if (_suppressTimerDirtyTracking)
+        if (_suppressTimerDirtyTracking || _suppressPageAutoSave)
         {
             return;
         }
 
         HasPendingTimerChanges = true;
         TimerValidationMessage = string.Empty;
+        ScheduleAutoSave(
+            ref _timerAutoSaveCts,
+            "Settings.AutoSave.Timer",
+            550,
+            SaveTimerSettingsAsync);
+    }
+
+    private void MarkConnectionGameDirty()
+    {
+        if (_suppressPageAutoSave)
+        {
+            return;
+        }
+
+        ScheduleAutoSave(
+            ref _connectionGameAutoSaveCts,
+            "Settings.AutoSave.ConnectionGame",
+            500,
+            SaveConnectionGameSettingsAsync);
+    }
+
+    private void MarkRemoteControlDirty()
+    {
+        if (_suppressPageAutoSave)
+        {
+            return;
+        }
+
+        ScheduleAutoSave(
+            ref _remoteControlAutoSaveCts,
+            "Settings.AutoSave.Remote",
+            650,
+            SaveRemoteControlAsync);
+    }
+
+    private void MarkExternalNotificationDirty()
+    {
+        if (_suppressPageAutoSave)
+        {
+            return;
+        }
+
+        ScheduleAutoSave(
+            ref _externalNotificationAutoSaveCts,
+            "Settings.AutoSave.Notification",
+            700,
+            SaveExternalNotificationAsync);
+    }
+
+    private void MarkVersionUpdateDirty()
+    {
+        if (_suppressPageAutoSave)
+        {
+            return;
+        }
+
+        ScheduleAutoSave(
+            ref _versionUpdateAutoSaveCts,
+            "Settings.AutoSave.VersionUpdate",
+            700,
+            SaveVersionUpdateSettingsAsync);
+    }
+
+    private void MarkAchievementDirty()
+    {
+        if (_suppressPageAutoSave)
+        {
+            return;
+        }
+
+        ScheduleAutoSave(
+            ref _achievementAutoSaveCts,
+            "Settings.AutoSave.Achievement",
+            500,
+            SaveAchievementSettingsAsync);
+    }
+
+    private void MarkAutostartDirty()
+    {
+        if (_suppressPageAutoSave)
+        {
+            return;
+        }
+
+        ScheduleAutoSave(
+            ref _autostartAutoApplyCts,
+            "Settings.AutoSave.Autostart",
+            300,
+            ApplyAutostartAsync);
+    }
+
+    private void ScheduleAutoSave(
+        ref CancellationTokenSource? debounceCts,
+        string scope,
+        int delayMs,
+        Func<CancellationToken, Task> saveAsync)
+    {
+        debounceCts?.Cancel();
+        debounceCts?.Dispose();
+        debounceCts = new CancellationTokenSource();
+        var token = debounceCts.Token;
+
+        _ = RunDebouncedSaveAsync(scope, delayMs, saveAsync, token);
+    }
+
+    private async Task RunDebouncedSaveAsync(
+        string scope,
+        int delayMs,
+        Func<CancellationToken, Task> saveAsync,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(delayMs, cancellationToken);
+            await saveAsync(cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            // Newer input superseded previous autosave request.
+        }
+        catch (Exception ex)
+        {
+            await RecordUnhandledExceptionAsync(
+                scope,
+                ex,
+                UiErrorCode.SettingsSaveFailed,
+                $"{scope} failed.");
+        }
+    }
+
+    private void OnSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (_suppressPageAutoSave || string.IsNullOrWhiteSpace(e.PropertyName))
+        {
+            return;
+        }
+
+        switch (e.PropertyName)
+        {
+            case nameof(StartSelf):
+                MarkAutostartDirty();
+                break;
+            case nameof(RemoteGetTaskEndpoint):
+            case nameof(RemoteReportEndpoint):
+            case nameof(RemoteUserIdentity):
+            case nameof(RemoteDeviceIdentity):
+            case nameof(RemotePollInterval):
+                MarkRemoteControlDirty();
+                break;
+            case nameof(ExternalNotificationEnabled):
+            case nameof(ExternalNotificationSendWhenComplete):
+            case nameof(ExternalNotificationSendWhenError):
+            case nameof(ExternalNotificationSendWhenTimeout):
+            case nameof(ExternalNotificationEnableDetails):
+            case nameof(SelectedNotificationProvider):
+            case nameof(NotificationProviderParametersText):
+                MarkExternalNotificationDirty();
+                break;
+            case nameof(AchievementPopupDisabled):
+            case nameof(AchievementPopupAutoClose):
+                MarkAchievementDirty();
+                break;
+            default:
+                if (e.PropertyName.StartsWith("VersionUpdate", StringComparison.Ordinal)
+                    && e.PropertyName != nameof(VersionUpdateStatusMessage)
+                    && e.PropertyName != nameof(VersionUpdateErrorMessage)
+                    && e.PropertyName != nameof(HasVersionUpdateErrorMessage)
+                    && e.PropertyName != nameof(VersionUpdateMirrorChyanCdkExpiryText))
+                {
+                    MarkVersionUpdateDirty();
+                }
+
+                break;
+        }
+    }
+
+    private void OnConnectionGameSharedStateChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(e.PropertyName))
+        {
+            return;
+        }
+
+        if (ConnectionGameProfileSync.ShouldSyncProperty(e.PropertyName))
+        {
+            MarkConnectionGameDirty();
+        }
+
+        if (string.Equals(
+                e.PropertyName,
+                nameof(ConnectionGameSharedStateViewModel.ClientType),
+                StringComparison.Ordinal))
+        {
+            _ = RefreshVersionUpdateResourceInfoAsync();
+        }
     }
 
     private void OnTimerSlotPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -2235,6 +4081,8 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
         if (e.PropertyName == nameof(TimerSlotViewModel.Enabled)
             || e.PropertyName == nameof(TimerSlotViewModel.Time)
+            || e.PropertyName == nameof(TimerSlotViewModel.Hour)
+            || e.PropertyName == nameof(TimerSlotViewModel.Minute)
             || e.PropertyName == nameof(TimerSlotViewModel.Profile))
         {
             MarkTimerDirty();
@@ -2326,7 +4174,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         }
     }
 
-    private async Task HandleConfigurationProfileResultAsync(
+    private async Task<bool> HandleConfigurationProfileResultAsync(
         UiOperationResult<ConfigurationProfileState> result,
         string scope,
         string successMessage,
@@ -2342,36 +4190,252 @@ public sealed class SettingsPageViewModel : PageViewModelBase
                 "Settings.ConfigurationManager.ReloadAfterFailure",
                 cancellationToken,
                 updateStatus: false);
-            return;
+            return false;
         }
 
         ApplyConfigurationProfileState(payload);
         LoadConnectionSharedStateFromConfig();
         ConfigurationManagerStatusMessage = successMessage;
         ConfigurationManagerErrorMessage = string.Empty;
+        return true;
     }
 
     private void ApplyConfigurationProfileState(ConfigurationProfileState state)
     {
-        ConfigurationProfiles.Clear();
-        foreach (var profile in state.OrderedProfiles)
+        var normalizedProfiles = state.OrderedProfiles
+            .Where(static profile => !string.IsNullOrWhiteSpace(profile))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        var previousSuppressSelectionHandling = _suppressConfigurationProfileSelectionHandling;
+        _suppressConfigurationProfileSelectionHandling = true;
+        try
         {
-            ConfigurationProfiles.Add(profile);
+            SynchronizeConfigurationProfiles(normalizedProfiles);
+
+            if (ConfigurationProfiles.Count == 0)
+            {
+                ConfigurationManagerSelectedProfile = string.Empty;
+                return;
+            }
+
+            var selected = state.CurrentProfile;
+            if (string.IsNullOrWhiteSpace(selected)
+                || !ConfigurationProfiles.Contains(selected, StringComparer.OrdinalIgnoreCase))
+            {
+                selected = ConfigurationProfiles[0];
+            }
+
+            ConfigurationManagerSelectedProfile = selected;
+        }
+        finally
+        {
+            _suppressConfigurationProfileSelectionHandling = previousSuppressSelectionHandling;
+        }
+    }
+
+    private void SynchronizeConfigurationProfiles(IReadOnlyList<string> orderedProfiles)
+    {
+        for (var index = 0; index < orderedProfiles.Count; index++)
+        {
+            var desired = orderedProfiles[index];
+
+            if (index < ConfigurationProfiles.Count
+                && string.Equals(ConfigurationProfiles[index], desired, StringComparison.OrdinalIgnoreCase))
+            {
+                if (!string.Equals(ConfigurationProfiles[index], desired, StringComparison.Ordinal))
+                {
+                    ConfigurationProfiles[index] = desired;
+                }
+
+                continue;
+            }
+
+            var existingIndex = FindConfigurationProfileIndex(desired, index);
+            if (existingIndex >= 0)
+            {
+                ConfigurationProfiles.Move(existingIndex, index);
+                if (!string.Equals(ConfigurationProfiles[index], desired, StringComparison.Ordinal))
+                {
+                    ConfigurationProfiles[index] = desired;
+                }
+            }
+            else
+            {
+                ConfigurationProfiles.Insert(index, desired);
+            }
         }
 
-        if (ConfigurationProfiles.Count == 0)
+        while (ConfigurationProfiles.Count > orderedProfiles.Count)
         {
-            ConfigurationManagerSelectedProfile = string.Empty;
-            return;
+            ConfigurationProfiles.RemoveAt(ConfigurationProfiles.Count - 1);
+        }
+    }
+
+    private int FindConfigurationProfileIndex(string profile, int startIndex)
+    {
+        for (var index = startIndex; index < ConfigurationProfiles.Count; index++)
+        {
+            if (string.Equals(ConfigurationProfiles[index], profile, StringComparison.OrdinalIgnoreCase))
+            {
+                return index;
+            }
         }
 
-        var selected = state.CurrentProfile;
-        if (string.IsNullOrWhiteSpace(selected) || !ConfigurationProfiles.Contains(selected, StringComparer.OrdinalIgnoreCase))
+        return -1;
+    }
+
+    private static string NormalizeConfigPath(string? filePath)
+    {
+        if (string.IsNullOrWhiteSpace(filePath))
         {
-            selected = ConfigurationProfiles[0];
+            return string.Empty;
         }
 
-        ConfigurationManagerSelectedProfile = selected;
+        return Path.GetFullPath(filePath.Trim());
+    }
+
+    private async Task RefreshAfterConfigurationImportAsync(
+        ConfigurationContextChangeReason reason,
+        string scope,
+        string message,
+        ImportReport? report,
+        CancellationToken cancellationToken)
+    {
+        await LoadFromConfigAsync(Runtime.ConfigurationService.CurrentConfig, cancellationToken);
+        await LoadConfigurationProfilesAsync(scope, cancellationToken, updateStatus: false);
+        LoadConnectionSharedStateFromConfig();
+        RaiseConfigurationContextChanged(reason, message, report);
+    }
+
+    private void RaiseConfigurationContextChanged(
+        ConfigurationContextChangeReason reason,
+        string message,
+        ImportReport? report = null)
+    {
+        ConfigurationContextChanged?.Invoke(this, new ConfigurationContextChangedEventArgs(reason, message, report));
+    }
+
+    private static async Task WriteConfigFileAsync(UnifiedConfig config, string filePath, CancellationToken cancellationToken)
+    {
+        var directory = Path.GetDirectoryName(filePath);
+        if (!string.IsNullOrWhiteSpace(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        await using var stream = File.Create(filePath);
+        await JsonSerializer.SerializeAsync(stream, config, ConfigExportSerializerOptions, cancellationToken);
+    }
+
+    private static UnifiedConfig BuildCurrentProfileOnlyConfig(UnifiedConfig source)
+    {
+        var normalizedCurrent = source.CurrentProfile;
+        if (string.IsNullOrWhiteSpace(normalizedCurrent) || !source.Profiles.ContainsKey(normalizedCurrent))
+        {
+            normalizedCurrent = source.Profiles.Keys.FirstOrDefault() ?? string.Empty;
+        }
+
+        if (string.IsNullOrWhiteSpace(normalizedCurrent) || !source.Profiles.TryGetValue(normalizedCurrent, out var currentProfile))
+        {
+            throw new InvalidOperationException("No available profile to export.");
+        }
+
+        var config = new UnifiedConfig
+        {
+            SchemaVersion = source.SchemaVersion,
+            CurrentProfile = normalizedCurrent,
+            Profiles = new Dictionary<string, UnifiedProfile>(StringComparer.OrdinalIgnoreCase)
+            {
+                [normalizedCurrent] = CloneProfile(currentProfile),
+            },
+            GlobalValues = CloneJsonNodeMap(source.GlobalValues),
+            Migration = CloneMigration(source.Migration),
+        };
+        return config;
+    }
+
+    private static UnifiedConfig CloneConfig(UnifiedConfig source)
+    {
+        var profiles = new Dictionary<string, UnifiedProfile>(StringComparer.OrdinalIgnoreCase);
+        foreach (var (name, profile) in source.Profiles)
+        {
+            profiles[name] = CloneProfile(profile);
+        }
+
+        return new UnifiedConfig
+        {
+            SchemaVersion = source.SchemaVersion,
+            CurrentProfile = source.CurrentProfile,
+            Profiles = profiles,
+            GlobalValues = CloneJsonNodeMap(source.GlobalValues),
+            Migration = CloneMigration(source.Migration),
+        };
+    }
+
+    private static UnifiedProfile CloneProfile(UnifiedProfile source)
+    {
+        var values = CloneJsonNodeMap(source.Values);
+        var tasks = source.TaskQueue
+            .Select(task => new UnifiedTaskItem
+            {
+                Type = task.Type,
+                Name = task.Name,
+                IsEnabled = task.IsEnabled,
+                Params = task.Params?.DeepClone() as JsonObject ?? [],
+                LegacyRawTask = task.LegacyRawTask?.DeepClone() as JsonObject,
+            })
+            .ToList();
+        return new UnifiedProfile
+        {
+            Values = values,
+            TaskQueue = tasks,
+        };
+    }
+
+    private static Dictionary<string, JsonNode?> CloneJsonNodeMap(Dictionary<string, JsonNode?> source)
+    {
+        var result = new Dictionary<string, JsonNode?>(StringComparer.OrdinalIgnoreCase);
+        foreach (var (key, value) in source)
+        {
+            result[key] = value?.DeepClone();
+        }
+
+        return result;
+    }
+
+    private static UnifiedMigrationMetadata CloneMigration(UnifiedMigrationMetadata source)
+    {
+        return new UnifiedMigrationMetadata
+        {
+            ImportedAt = source.ImportedAt,
+            ImportedBy = source.ImportedBy,
+            ImportedFromGui = source.ImportedFromGui,
+            ImportedFromGuiNew = source.ImportedFromGuiNew,
+            Warnings = [.. source.Warnings],
+        };
+    }
+
+    private static string AllocateUniqueProfileName(HashSet<string> existingNames, string preferredName)
+    {
+        var baseName = string.IsNullOrWhiteSpace(preferredName)
+            ? "Imported"
+            : preferredName.Trim();
+        if (!existingNames.Contains(baseName))
+        {
+            return baseName;
+        }
+
+        var suffix = 1;
+        string candidate;
+        do
+        {
+            candidate = $"{baseName}_{suffix}";
+            suffix++;
+        }
+        while (existingNames.Contains(candidate));
+
+        return candidate;
     }
 
     private string NormalizeNotificationProvider(string? provider)
@@ -2475,7 +4539,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         var lines = new List<string>();
         foreach (var (parameterKey, configKey) in keyMap)
         {
-            if (!config.GlobalValues.TryGetValue(configKey, out var node) || node is null)
+            if (!TryGetConfigNode(config, configKey, ConfigValuePreference.ProfileFirst, out var node) || node is null)
             {
                 continue;
             }
@@ -2534,6 +4598,66 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         }
 
         return true;
+    }
+
+    private async Task<UiOperationResult> PopulateExternalNotificationProviderUpdatesAsync(
+        Dictionary<string, string> updates,
+        bool validateParameters,
+        CancellationToken cancellationToken)
+    {
+        foreach (var provider in AvailableNotificationProviders)
+        {
+            if (!ProviderConfigKeyMap.TryGetValue(provider, out var keyMap))
+            {
+                continue;
+            }
+
+            var parameterText = _notificationProviderParameters.TryGetValue(provider, out var stored)
+                ? stored
+                : string.Empty;
+
+            if (string.IsNullOrWhiteSpace(parameterText))
+            {
+                foreach (var (_, configKey) in keyMap)
+                {
+                    updates[configKey] = string.Empty;
+                }
+
+                continue;
+            }
+
+            if (validateParameters)
+            {
+                var validate = await Runtime.NotificationProviderFeatureService.ValidateProviderParametersAsync(
+                    new NotificationProviderRequest(provider, parameterText),
+                    cancellationToken);
+                if (!validate.Success)
+                {
+                    return validate;
+                }
+            }
+
+            if (!TryParseProviderParameterText(parameterText, out var parsed, out var parseError))
+            {
+                if (!validateParameters)
+                {
+                    continue;
+                }
+
+                return UiOperationResult.Fail(
+                    UiErrorCode.NotificationProviderInvalidParameters,
+                    parseError ?? "Provider parameter parsing failed.");
+            }
+
+            foreach (var (parameterKey, configKey) in keyMap)
+            {
+                updates[configKey] = parsed.TryGetValue(parameterKey, out var value)
+                    ? value
+                    : string.Empty;
+            }
+        }
+
+        return UiOperationResult.Ok("External notification provider updates prepared.");
     }
 
     private static string FormatRemoteControlMessage(string? code, string fallbackMessage)
@@ -2777,8 +4901,12 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             Theme: NormalizeTheme(Theme),
             Language: NormalizeLanguage(Language),
             UseTray: UseTray,
-            MinimizeToTray: MinimizeToTray,
+            MinimizeToTray: UseTray && MinimizeToTray,
             WindowTitleScrollable: WindowTitleScrollable,
+            DeveloperModeEnabled: DeveloperModeEnabled,
+            LogItemDateFormatString: NormalizeLogItemDateFormat(LogItemDateFormatString),
+            OperNameLanguage: NormalizeOperNameLanguage(OperNameLanguage),
+            InverseClearMode: NormalizeInverseClearMode(InverseClearMode),
             BackgroundImagePath: NormalizeBackgroundPath(BackgroundImagePath),
             BackgroundOpacity: Math.Clamp(BackgroundOpacity, BackgroundOpacityMin, BackgroundOpacityMax),
             BackgroundBlur: Math.Clamp(BackgroundBlur, BackgroundBlurMin, BackgroundBlurMax),
@@ -2795,6 +4923,10 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             UseTray = snapshot.UseTray;
             MinimizeToTray = snapshot.MinimizeToTray;
             WindowTitleScrollable = snapshot.WindowTitleScrollable;
+            DeveloperModeEnabled = snapshot.DeveloperModeEnabled;
+            LogItemDateFormatString = snapshot.LogItemDateFormatString;
+            OperNameLanguage = snapshot.OperNameLanguage;
+            InverseClearMode = snapshot.InverseClearMode;
             BackgroundImagePath = snapshot.BackgroundImagePath;
             BackgroundOpacity = snapshot.BackgroundOpacity;
             BackgroundBlur = snapshot.BackgroundBlur;
@@ -2872,6 +5004,136 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             $"当前策略：禁用弹窗={policy.PopupDisabled}；自动关闭={policy.PopupAutoClose}";
     }
 
+    private static string NormalizeVersionUpdateProxyType(string? value)
+    {
+        var normalized = (value ?? string.Empty).Trim();
+        if (string.Equals(normalized, "socks5", StringComparison.OrdinalIgnoreCase))
+        {
+            return "socks5";
+        }
+
+        return "http";
+    }
+
+    private static string NormalizeVersionUpdateResourceSource(string? value)
+    {
+        var normalized = (value ?? string.Empty).Trim();
+        if (string.Equals(normalized, "Mirror", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(normalized, "MirrorChyan", StringComparison.OrdinalIgnoreCase))
+        {
+            return "MirrorChyan";
+        }
+
+        return "Github";
+    }
+
+    private void RebuildGuiOptionLists()
+    {
+        ThemeOptions = SettingsOptionCatalog.BuildThemeOptions(Language);
+        SupportedLanguages = SettingsOptionCatalog.BuildLanguageOptions();
+        BackgroundStretchModes = SettingsOptionCatalog.BuildBackgroundStretchOptions(Language);
+        OperNameLanguageOptions = SettingsOptionCatalog.BuildOperNameLanguageOptions(Language);
+        InverseClearModeOptions = SettingsOptionCatalog.BuildInverseClearModeOptions(Language);
+
+        OnPropertyChanged(nameof(SelectedThemeOption));
+        OnPropertyChanged(nameof(SelectedLanguageOption));
+        OnPropertyChanged(nameof(SelectedBackgroundStretchModeOption));
+        OnPropertyChanged(nameof(SelectedOperNameLanguageOption));
+        OnPropertyChanged(nameof(SelectedInverseClearModeOption));
+    }
+
+    private void RebuildVersionUpdateOptionLists()
+    {
+        VersionUpdateVersionTypeOptions = SettingsOptionCatalog.BuildVersionTypeOptions(
+            Language,
+            VersionUpdateAllowNightly);
+
+        VersionUpdateProxyTypeOptions =
+        [
+            new DisplayValueOption("HTTP Proxy", "http"),
+            new DisplayValueOption("SOCKS5 Proxy", "socks5"),
+        ];
+
+        VersionUpdateResourceSourceOptions = SettingsOptionCatalog.BuildVersionResourceSourceOptions(Language);
+
+        OnPropertyChanged(nameof(SelectedVersionUpdateVersionTypeOption));
+        OnPropertyChanged(nameof(SelectedVersionUpdateProxyTypeOption));
+        OnPropertyChanged(nameof(SelectedVersionUpdateResourceSourceOption));
+    }
+
+    private static (string UiVersion, string BuildTime) BuildVersionUpdateUiMetadata()
+    {
+        var assembly = typeof(SettingsPageViewModel).Assembly;
+        var informationalVersion = assembly
+            .GetCustomAttributes(typeof(System.Reflection.AssemblyInformationalVersionAttribute), inherit: false)
+            .OfType<System.Reflection.AssemblyInformationalVersionAttribute>()
+            .FirstOrDefault()
+            ?.InformationalVersion;
+        var uiVersion = string.IsNullOrWhiteSpace(informationalVersion)
+            ? assembly.GetName().Version?.ToString() ?? "unknown"
+            : informationalVersion.Split('+')[0];
+
+        var buildTime = "unknown";
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(assembly.Location) && File.Exists(assembly.Location))
+            {
+                buildTime = File.GetLastWriteTime(assembly.Location)
+                    .ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            }
+        }
+        catch
+        {
+            buildTime = "unknown";
+        }
+
+        return (uiVersion, buildTime);
+    }
+
+    private async Task<T?> ApplyResultNoDialogAsync<T>(
+        UiOperationResult<T> result,
+        string scope,
+        CancellationToken cancellationToken = default)
+    {
+        if (result.Success)
+        {
+            await RecordEventAsync(scope, result.Message, cancellationToken);
+            LastErrorMessage = string.Empty;
+            return result.Value;
+        }
+
+        LastErrorMessage = result.Message;
+        var failed = UiOperationResult.Fail(
+            result.Error?.Code ?? UiErrorCode.UiOperationFailed,
+            result.Message,
+            result.Error?.Details);
+        await RecordFailedResultAsync(scope, failed, cancellationToken);
+        return default;
+    }
+
+    private static string BuildMirrorChyanExpiryText(string? rawValue)
+    {
+        if (!long.TryParse(rawValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out var unixSeconds)
+            || unixSeconds <= 0)
+        {
+            return string.Empty;
+        }
+
+        if (unixSeconds == 1)
+        {
+            return "MirrorChyan CDK 已过期。";
+        }
+
+        var expiry = DateTimeOffset.FromUnixTimeSeconds(unixSeconds).LocalDateTime;
+        var remaining = expiry - DateTime.Now;
+        if (remaining.TotalSeconds <= 0)
+        {
+            return $"MirrorChyan CDK 已过期（{expiry:yyyy-MM-dd HH:mm}）。";
+        }
+
+        return $"MirrorChyan CDK 剩余 {remaining.TotalDays:F1} 天（至 {expiry:yyyy-MM-dd HH:mm}）。";
+    }
+
     private static string BuildAboutVersionInfo()
     {
         var assembly = typeof(SettingsPageViewModel).Assembly.GetName();
@@ -2916,16 +5178,16 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         }
 
         AddCandidate(EmulatorPath);
-        var globalValues = Runtime.ConfigurationService.CurrentConfig.GlobalValues;
-        AddCandidate(ReadConfigValue(globalValues, LegacyConfigurationKeys.EmulatorPath));
-        AddCandidate(ReadConfigValue(globalValues, LegacyConfigurationKeys.MuMu12EmulatorPath));
-        AddCandidate(ReadConfigValue(globalValues, LegacyConfigurationKeys.LdPlayerEmulatorPath));
+        var config = Runtime.ConfigurationService.CurrentConfig;
+        AddCandidate(ReadConfigValue(config, LegacyConfigurationKeys.EmulatorPath));
+        AddCandidate(ReadConfigValue(config, LegacyConfigurationKeys.MuMu12EmulatorPath));
+        AddCandidate(ReadConfigValue(config, LegacyConfigurationKeys.LdPlayerEmulatorPath));
         return candidates;
     }
 
-    private static string ReadConfigValue(IReadOnlyDictionary<string, JsonNode?> values, string key)
+    private static string ReadConfigValue(UnifiedConfig config, string key)
     {
-        if (!values.TryGetValue(key, out var node) || node is null)
+        if (!TryGetConfigNode(config, key, ConfigValuePreference.ProfileFirst, out var node) || node is null)
         {
             return string.Empty;
         }
@@ -3007,13 +5269,16 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         var warnings = new List<string>();
         var hotkeyWarnings = new List<string>();
 
-        var rawTheme = ReadString(config, ThemeModeKey, DefaultTheme);
-        var rawLanguage = ReadString(config, ConfigurationKeys.Localization, DefaultLanguage);
-        var rawBackgroundPath = ReadString(config, ConfigurationKeys.BackgroundImagePath, string.Empty);
-        var rawOpacity = ReadInt(config, ConfigurationKeys.BackgroundOpacity, _backgroundOpacity);
-        var rawBlur = ReadInt(config, ConfigurationKeys.BackgroundBlurEffectRadius, _backgroundBlur);
-        var rawStretchMode = ReadString(config, ConfigurationKeys.BackgroundImageStretchMode, DefaultBackgroundStretchMode);
-        var rawHotkeys = ReadString(config, ConfigurationKeys.HotKeys, string.Empty);
+        var rawTheme = ReadGlobalString(config, ThemeModeKey, DefaultTheme);
+        var rawLanguage = ReadGlobalString(config, ConfigurationKeys.Localization, DefaultLanguage);
+        var rawBackgroundPath = ReadGlobalString(config, ConfigurationKeys.BackgroundImagePath, string.Empty);
+        var rawOpacity = ReadGlobalInt(config, ConfigurationKeys.BackgroundOpacity, _backgroundOpacity);
+        var rawBlur = ReadGlobalInt(config, ConfigurationKeys.BackgroundBlurEffectRadius, _backgroundBlur);
+        var rawStretchMode = ReadGlobalString(config, ConfigurationKeys.BackgroundImageStretchMode, DefaultBackgroundStretchMode);
+        var rawLogItemDateFormat = ReadGlobalString(config, ConfigurationKeys.LogItemDateFormat, DefaultLogItemDateFormat);
+        var rawOperNameLanguage = ReadGlobalString(config, ConfigurationKeys.OperNameLanguage, DefaultOperNameLanguage);
+        var rawInverseClearMode = ReadProfileString(config, ConfigurationKeys.InverseClearMode, DefaultInverseClearMode);
+        var rawHotkeys = ReadGlobalString(config, ConfigurationKeys.HotKeys, string.Empty);
         var parsedHotkeys = ParseHotkeys(rawHotkeys, hotkeyWarnings);
         var loadedShowGui = NormalizeHotkeyGesture(
             parsedHotkeys.TryGetValue(ShowGuiHotkeyName, out var configuredShowGui)
@@ -3063,28 +5328,53 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             warnings.Add($"Background stretch mode normalized to `{stretch}` from `{rawStretchMode}`.");
         }
 
+        var logItemDateFormat = NormalizeLogItemDateFormat(rawLogItemDateFormat);
+        if (!string.Equals(rawLogItemDateFormat, logItemDateFormat, StringComparison.Ordinal))
+        {
+            warnings.Add(
+                $"Log item date format normalized to `{logItemDateFormat}` from `{rawLogItemDateFormat}`.");
+        }
+
+        var operNameLanguage = NormalizeOperNameLanguage(rawOperNameLanguage);
+        if (!string.Equals(rawOperNameLanguage, operNameLanguage, StringComparison.OrdinalIgnoreCase))
+        {
+            warnings.Add(
+                $"Oper name language normalized to `{operNameLanguage}` from `{rawOperNameLanguage}`.");
+        }
+
+        var inverseClearMode = NormalizeInverseClearMode(rawInverseClearMode);
+        if (!string.Equals(rawInverseClearMode, inverseClearMode, StringComparison.OrdinalIgnoreCase))
+        {
+            warnings.Add(
+                $"Inverse clear mode normalized to `{inverseClearMode}` from `{rawInverseClearMode}`.");
+        }
+
         _suppressGuiAutoSave = true;
         try
         {
             Theme = theme;
             Language = language;
-            UseTray = ReadBool(config, ConfigurationKeys.UseTray, UseTray);
-            MinimizeToTray = ReadBool(config, ConfigurationKeys.MinimizeToTray, MinimizeToTray);
-            WindowTitleScrollable = ReadBool(config, ConfigurationKeys.WindowTitleScrollable, WindowTitleScrollable);
+            UseTray = ReadGlobalBool(config, ConfigurationKeys.UseTray, true);
+            MinimizeToTray = ReadGlobalBool(config, ConfigurationKeys.MinimizeToTray, false);
+            WindowTitleScrollable = ReadGlobalBool(config, ConfigurationKeys.WindowTitleScrollable, false);
+            DeveloperModeEnabled = ReadGlobalBool(config, DeveloperModeConfigKey, false);
+            LogItemDateFormatString = logItemDateFormat;
+            OperNameLanguage = operNameLanguage;
+            InverseClearMode = inverseClearMode;
             BackgroundImagePath = backgroundPath;
             BackgroundOpacity = opacity;
             BackgroundBlur = blur;
             BackgroundStretchMode = stretch;
-            RemoteGetTaskEndpoint = ReadString(config, ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
-            RemoteReportEndpoint = ReadString(config, ConfigurationKeys.RemoteControlReportStatusUri, string.Empty);
-            RemoteUserIdentity = ReadString(config, ConfigurationKeys.RemoteControlUserIdentity, string.Empty).Trim();
-            RemoteDeviceIdentity = ReadString(config, ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty).Trim();
-            RemotePollInterval = ReadInt(config, ConfigurationKeys.RemoteControlPollIntervalMs, RemotePollInterval);
-            ExternalNotificationEnabled = ReadBool(config, ConfigurationKeys.ExternalNotificationEnabled, false);
-            ExternalNotificationSendWhenComplete = ReadBool(config, ConfigurationKeys.ExternalNotificationSendWhenComplete, false);
-            ExternalNotificationSendWhenError = ReadBool(config, ConfigurationKeys.ExternalNotificationSendWhenError, false);
-            ExternalNotificationSendWhenTimeout = ReadBool(config, ConfigurationKeys.ExternalNotificationSendWhenTimeout, false);
-            ExternalNotificationEnableDetails = ReadBool(config, ConfigurationKeys.ExternalNotificationEnableDetails, false);
+            RemoteGetTaskEndpoint = ReadProfileString(config, ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
+            RemoteReportEndpoint = ReadProfileString(config, ConfigurationKeys.RemoteControlReportStatusUri, string.Empty);
+            RemoteUserIdentity = ReadProfileString(config, ConfigurationKeys.RemoteControlUserIdentity, string.Empty).Trim();
+            RemoteDeviceIdentity = ReadProfileString(config, ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty).Trim();
+            RemotePollInterval = ReadProfileInt(config, ConfigurationKeys.RemoteControlPollIntervalMs, DefaultRemotePollIntervalMs);
+            ExternalNotificationEnabled = ReadProfileBool(config, ConfigurationKeys.ExternalNotificationEnabled, false);
+            ExternalNotificationSendWhenComplete = ReadProfileBool(config, ConfigurationKeys.ExternalNotificationSendWhenComplete, true);
+            ExternalNotificationSendWhenError = ReadProfileBool(config, ConfigurationKeys.ExternalNotificationSendWhenError, true);
+            ExternalNotificationSendWhenTimeout = ReadProfileBool(config, ConfigurationKeys.ExternalNotificationSendWhenTimeout, true);
+            ExternalNotificationEnableDetails = ReadProfileBool(config, ConfigurationKeys.ExternalNotificationEnableDetails, false);
             HotkeyShowGui = loadedShowGui;
             HotkeyLinkStart = loadedLinkStart;
             _persistedHotkeyShowGui = loadedShowGui;
@@ -3097,16 +5387,33 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             _suppressGuiAutoSave = false;
         }
 
+        var startPerformanceWarnings = new List<string>();
+        NormalizeUnsupportedGpuSettingsInConfig(config, startPerformanceWarnings);
+        var startPerformanceSnapshot = ReadStartPerformanceSnapshot(config, startPerformanceWarnings);
+        ApplyStartPerformanceSnapshotWithoutDirtyTracking(startPerformanceSnapshot);
+        HasPendingStartPerformanceChanges = false;
+
+        var timerWarnings = new List<string>();
+        var timerSnapshot = ReadTimerSnapshot(config, timerWarnings);
+        ApplyTimerSnapshot(timerSnapshot);
+        HasPendingTimerChanges = false;
+
         var versionPolicyResult = await Runtime.VersionUpdateFeatureService.LoadPolicyAsync(cancellationToken);
         if (versionPolicyResult.Success && versionPolicyResult.Value is not null)
         {
             ApplyVersionUpdatePolicy(versionPolicyResult.Value);
+            UpdatePanelCoreVersion = string.IsNullOrWhiteSpace(versionPolicyResult.Value.VersionName)
+                ? "unknown"
+                : versionPolicyResult.Value.VersionName;
             VersionUpdateErrorMessage = string.Empty;
         }
         else
         {
+            UpdatePanelCoreVersion = "unknown";
             VersionUpdateErrorMessage = versionPolicyResult.Message;
         }
+
+        await RefreshVersionUpdateResourceInfoAsync(cancellationToken);
 
         var achievementPolicyResult = await Runtime.AchievementFeatureService.LoadPolicyAsync(cancellationToken);
         if (achievementPolicyResult.Success && achievementPolicyResult.Value is not null)
@@ -3120,16 +5427,6 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             UpdateAchievementPolicySummary(AchievementPolicy.Default);
             AchievementErrorMessage = achievementPolicyResult.Message;
         }
-
-        var startPerformanceWarnings = new List<string>();
-        var startPerformanceSnapshot = ReadStartPerformanceSnapshot(config, startPerformanceWarnings);
-        ApplyStartPerformanceSnapshotWithoutDirtyTracking(startPerformanceSnapshot);
-        HasPendingStartPerformanceChanges = false;
-
-        var timerWarnings = new List<string>();
-        var timerSnapshot = ReadTimerSnapshot(config, timerWarnings);
-        ApplyTimerSnapshot(timerSnapshot);
-        HasPendingTimerChanges = false;
 
         if (warnings.Count > 0)
         {
@@ -3193,12 +5490,34 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             return;
         }
 
-        ConnectionGameProfileSync.ReadFromProfile(profile, ConnectionGameSharedState);
+        ConnectionGameProfileSync.ReadFromProfile(profile, ConnectionGameSharedState, tolerateMissing: false);
     }
 
-    private static string ReadString(UnifiedConfig config, string key, string fallback)
+    private static string ReadGlobalString(UnifiedConfig config, string key, string fallback)
+        => ReadString(config, key, fallback, ConfigValuePreference.GlobalFirst);
+
+    private static string ReadProfileString(UnifiedConfig config, string key, string fallback)
+        => ReadString(config, key, fallback, ConfigValuePreference.ProfileFirst);
+
+    private static bool ReadGlobalBool(UnifiedConfig config, string key, bool fallback)
+        => ReadBool(config, key, fallback, ConfigValuePreference.GlobalFirst);
+
+    private static bool ReadProfileBool(UnifiedConfig config, string key, bool fallback)
+        => ReadBool(config, key, fallback, ConfigValuePreference.ProfileFirst);
+
+    private static int ReadGlobalInt(UnifiedConfig config, string key, int fallback)
+        => ReadInt(config, key, fallback, ConfigValuePreference.GlobalFirst);
+
+    private static int ReadProfileInt(UnifiedConfig config, string key, int fallback)
+        => ReadInt(config, key, fallback, ConfigValuePreference.ProfileFirst);
+
+    private static string ReadString(
+        UnifiedConfig config,
+        string key,
+        string fallback,
+        ConfigValuePreference preference)
     {
-        if (config.GlobalValues.TryGetValue(key, out var node) && node is not null)
+        if (TryGetConfigNode(config, key, preference, out var node) && node is not null)
         {
             if (node is JsonValue value && value.TryGetValue(out string? text) && !string.IsNullOrWhiteSpace(text))
             {
@@ -3215,9 +5534,13 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         return fallback;
     }
 
-    private static bool ReadBool(UnifiedConfig config, string key, bool fallback)
+    private static bool ReadBool(
+        UnifiedConfig config,
+        string key,
+        bool fallback,
+        ConfigValuePreference preference)
     {
-        if (config.GlobalValues.TryGetValue(key, out var node) && node is not null)
+        if (TryGetConfigNode(config, key, preference, out var node) && node is not null)
         {
             return bool.TryParse(node.ToString(), out var parsed) ? parsed : fallback;
         }
@@ -3225,9 +5548,13 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         return fallback;
     }
 
-    private static int ReadInt(UnifiedConfig config, string key, int fallback)
+    private static int ReadInt(
+        UnifiedConfig config,
+        string key,
+        int fallback,
+        ConfigValuePreference preference)
     {
-        if (config.GlobalValues.TryGetValue(key, out var node) && node is not null)
+        if (TryGetConfigNode(config, key, preference, out var node) && node is not null)
         {
             return int.TryParse(node.ToString(), out var parsed) ? parsed : fallback;
         }
@@ -3238,9 +5565,16 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private string NormalizeTheme(string? value)
     {
         var normalized = value?.Trim();
-        return ThemeOptions.Any(option => string.Equals(option, normalized, StringComparison.OrdinalIgnoreCase))
-            ? ThemeOptions.First(option => string.Equals(option, normalized, StringComparison.OrdinalIgnoreCase))
-            : DefaultTheme;
+        if (string.Equals(normalized, "System", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(normalized, "Default", StringComparison.OrdinalIgnoreCase))
+        {
+            return "SyncWithOs";
+        }
+
+        return ThemeOptions.FirstOrDefault(
+                option => string.Equals(option.Value, normalized, StringComparison.OrdinalIgnoreCase))
+            ?.Value
+            ?? DefaultTheme;
     }
 
     private string NormalizeLanguage(string? value)
@@ -3251,14 +5585,238 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private string NormalizeBackgroundStretchMode(string? value)
     {
         var normalized = value?.Trim();
-        return BackgroundStretchModes.Any(option => string.Equals(option, normalized, StringComparison.OrdinalIgnoreCase))
-            ? BackgroundStretchModes.First(option => string.Equals(option, normalized, StringComparison.OrdinalIgnoreCase))
-            : DefaultBackgroundStretchMode;
+        return BackgroundStretchModes.FirstOrDefault(
+                option => string.Equals(option.Value, normalized, StringComparison.OrdinalIgnoreCase))
+            ?.Value
+            ?? DefaultBackgroundStretchMode;
+    }
+
+    private string NormalizeLogItemDateFormat(string? value)
+    {
+        var normalized = (value ?? string.Empty).Trim();
+        return LogItemDateFormatOptions.Contains(normalized, StringComparer.Ordinal)
+            ? normalized
+            : DefaultLogItemDateFormat;
+    }
+
+    private string NormalizeOperNameLanguage(string? value)
+    {
+        var normalized = (value ?? string.Empty).Trim();
+        return OperNameLanguageOptions.FirstOrDefault(
+                option => string.Equals(option.Value, normalized, StringComparison.OrdinalIgnoreCase))
+            ?.Value
+            ?? DefaultOperNameLanguage;
+    }
+
+    private string NormalizeInverseClearMode(string? value)
+    {
+        var normalized = (value ?? string.Empty).Trim();
+        return InverseClearModeOptions.FirstOrDefault(
+                option => string.Equals(option.Value, normalized, StringComparison.OrdinalIgnoreCase))
+            ?.Value
+            ?? DefaultInverseClearMode;
     }
 
     private static string NormalizeBackgroundPath(string? value)
     {
         return value?.Trim() ?? string.Empty;
+    }
+
+    private GpuPreference BuildCurrentGpuPreference()
+    {
+        return new GpuPreference(
+            UseGpu: PerformanceUseGpu,
+            AllowDeprecatedGpu: PerformanceAllowDeprecatedGpu,
+            PreferredGpuDescription: PerformancePreferredGpuDescription,
+            PreferredGpuInstancePath: PerformancePreferredGpuInstancePath);
+    }
+
+    private void RefreshGpuUiState()
+    {
+        if (_suppressGpuUiRefresh)
+        {
+            return;
+        }
+
+        var resolution = Runtime.Platform.GpuCapabilityService.Resolve(BuildCurrentGpuPreference());
+        var selectedOption = resolution.SelectedOption;
+
+        var previousSuppressUi = _suppressGpuUiRefresh;
+        var previousSuppressSelection = _suppressGpuSelectionChange;
+        var previousSuppressDirty = _suppressStartPerformanceDirtyTracking;
+        _suppressGpuUiRefresh = true;
+        _suppressGpuSelectionChange = true;
+        _suppressStartPerformanceDirtyTracking = true;
+
+        try
+        {
+            SetGpuLegacyPropertiesSilently(
+                selectedOption,
+                selectedOption.IsCustomEntry ? PerformancePreferredGpuDescription : null,
+                selectedOption.IsCustomEntry ? PerformancePreferredGpuInstancePath : null);
+
+            AvailableGpuOptions = resolution.Snapshot.Options
+                .Select(BuildGpuOptionDisplayItem)
+                .ToArray();
+
+            SelectedGpuOption = AvailableGpuOptions.FirstOrDefault(
+                option => string.Equals(option.Descriptor.Id, selectedOption.Id, StringComparison.Ordinal))
+                ?? AvailableGpuOptions.FirstOrDefault();
+
+            GpuCustomDescription = PerformancePreferredGpuDescription;
+            GpuCustomInstancePath = PerformancePreferredGpuInstancePath;
+            GpuSupportMessage = LocalizeRootText(resolution.Snapshot.StatusTextKey);
+            GpuWarningMessage = BuildGpuWarningMessage(resolution);
+            IsGpuSelectionEnabled = resolution.Snapshot.IsEditable;
+            IsGpuDeprecatedToggleEnabled = resolution.Snapshot.IsEditable && resolution.Snapshot.SupportsDeprecatedToggle;
+            IsGpuCustomSelectionFieldsVisible = resolution.Snapshot.IsEditable && selectedOption.IsCustomEntry;
+            ShowGpuRestartRequiredHint = resolution.Snapshot.AppliesToCore;
+        }
+        finally
+        {
+            _suppressStartPerformanceDirtyTracking = previousSuppressDirty;
+            _suppressGpuSelectionChange = previousSuppressSelection;
+            _suppressGpuUiRefresh = previousSuppressUi;
+        }
+    }
+
+    private void ApplyGpuSelection(GpuOptionDescriptor descriptor)
+    {
+        SetGpuLegacyPropertiesSilently(
+            descriptor,
+            descriptor.IsCustomEntry ? GpuCustomDescription : null,
+            descriptor.IsCustomEntry ? GpuCustomInstancePath : null);
+
+        if (descriptor.IsCustomEntry)
+        {
+            IsGpuCustomSelectionFieldsVisible = true;
+            GpuWarningMessage = BuildGpuWarningMessage(Runtime.Platform.GpuCapabilityService.Resolve(BuildCurrentGpuPreference()));
+            MarkStartPerformanceDirty();
+            return;
+        }
+
+        RefreshGpuUiState();
+        MarkStartPerformanceDirty();
+    }
+
+    private void ApplyCustomGpuFields()
+    {
+        if (SelectedGpuOption?.Descriptor.IsCustomEntry != true)
+        {
+            return;
+        }
+
+        SetGpuLegacyPropertiesSilently(
+            SelectedGpuOption.Descriptor,
+            GpuCustomDescription,
+            GpuCustomInstancePath);
+        RefreshGpuUiState();
+        MarkStartPerformanceDirty();
+    }
+
+    private void SetGpuLegacyPropertiesSilently(
+        GpuOptionDescriptor descriptor,
+        string? descriptionOverride = null,
+        string? instancePathOverride = null)
+    {
+        var previousSuppressUi = _suppressGpuUiRefresh;
+        var previousSuppressDirty = _suppressStartPerformanceDirtyTracking;
+        _suppressGpuUiRefresh = true;
+        _suppressStartPerformanceDirtyTracking = true;
+
+        try
+        {
+            switch (descriptor.Kind)
+            {
+                case GpuOptionKind.Disabled:
+                    PerformanceUseGpu = false;
+                    PerformancePreferredGpuDescription = string.Empty;
+                    PerformancePreferredGpuInstancePath = string.Empty;
+                    break;
+
+                case GpuOptionKind.SystemDefault:
+                    PerformanceUseGpu = true;
+                    PerformancePreferredGpuDescription = string.Empty;
+                    PerformancePreferredGpuInstancePath = string.Empty;
+                    break;
+
+                case GpuOptionKind.SpecificGpu:
+                    PerformanceUseGpu = true;
+                    PerformancePreferredGpuDescription = (descriptionOverride ?? descriptor.Description ?? string.Empty).Trim();
+                    PerformancePreferredGpuInstancePath = (instancePathOverride ?? descriptor.InstancePath ?? string.Empty).Trim();
+                    break;
+            }
+        }
+        finally
+        {
+            _suppressStartPerformanceDirtyTracking = previousSuppressDirty;
+            _suppressGpuUiRefresh = previousSuppressUi;
+        }
+    }
+
+    private GpuOptionDisplayItem BuildGpuOptionDisplayItem(GpuOptionDescriptor descriptor)
+    {
+        return new GpuOptionDisplayItem(descriptor, FormatGpuOptionDisplay(descriptor));
+    }
+
+    private string FormatGpuOptionDisplay(GpuOptionDescriptor descriptor)
+    {
+        return descriptor.Kind switch
+        {
+            GpuOptionKind.Disabled => RootTexts["Settings.Performance.Gpu.Option.Disabled"],
+            GpuOptionKind.SystemDefault => string.IsNullOrWhiteSpace(descriptor.DisplayName)
+                ? RootTexts["Settings.Performance.Gpu.Option.SystemDefault"]
+                : $"{RootTexts["Settings.Performance.Gpu.Option.SystemDefault"]} ({descriptor.DisplayName})",
+            GpuOptionKind.SpecificGpu when descriptor.IsCustomEntry
+                => !string.IsNullOrWhiteSpace(descriptor.DisplayName)
+                    ? descriptor.DisplayName
+                    : !string.IsNullOrWhiteSpace(descriptor.InstancePath)
+                        ? descriptor.InstancePath
+                        : RootTexts["Settings.Performance.Gpu.Option.Custom"],
+            _ => !string.IsNullOrWhiteSpace(descriptor.DisplayName)
+                ? descriptor.DisplayName
+                : descriptor.Description,
+        };
+    }
+
+    private string BuildGpuWarningMessage(GpuSelectionResolution resolution)
+    {
+        var warnings = new List<string>();
+
+        if (!string.IsNullOrWhiteSpace(resolution.Snapshot.WarningTextKey))
+        {
+            warnings.Add(LocalizeRootText(resolution.Snapshot.WarningTextKey));
+        }
+
+        if (!string.IsNullOrWhiteSpace(resolution.SelectionWarningTextKey))
+        {
+            warnings.Add(LocalizeRootText(resolution.SelectionWarningTextKey));
+        }
+
+        if (resolution.Snapshot.SupportMode == GpuPlatformSupportMode.WindowsSupported)
+        {
+            if (resolution.SelectedOption.IsDeprecated)
+            {
+                warnings.Add(LocalizeRootText("Settings.Performance.Gpu.Warning.Deprecated"));
+            }
+
+            if (resolution.SelectedOption.DriverDate.HasValue
+                && resolution.SelectedOption.DriverDate.Value < GpuCapabilityConstants.DirectMlDriverMinimumDate)
+            {
+                warnings.Add(LocalizeRootText("Settings.Performance.Gpu.Warning.OutdatedDriver"));
+            }
+        }
+
+        return string.Join(
+            " ",
+            warnings
+                .Where(static warning => !string.IsNullOrWhiteSpace(warning))
+                .Distinct(StringComparer.Ordinal));
+    }
+
+    private string LocalizeRootText(string? key)
+    {
+        return string.IsNullOrWhiteSpace(key) ? string.Empty : RootTexts[key];
     }
 
     private StartPerformanceSettingsSnapshot BuildNormalizedStartPerformanceSnapshot()
@@ -3273,7 +5831,19 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             PerformanceUseGpu: PerformanceUseGpu,
             PerformanceAllowDeprecatedGpu: PerformanceAllowDeprecatedGpu,
             PerformancePreferredGpuDescription: (PerformancePreferredGpuDescription ?? string.Empty).Trim(),
-            PerformancePreferredGpuInstancePath: (PerformancePreferredGpuInstancePath ?? string.Empty).Trim());
+            PerformancePreferredGpuInstancePath: (PerformancePreferredGpuInstancePath ?? string.Empty).Trim(),
+            DeploymentWithPause: DeploymentWithPause,
+            StartsWithScript: (StartsWithScript ?? string.Empty).Trim(),
+            EndsWithScript: (EndsWithScript ?? string.Empty).Trim(),
+            CopilotWithScript: CopilotWithScript,
+            ManualStopWithScript: ManualStopWithScript,
+            BlockSleep: BlockSleep,
+            BlockSleepWithScreenOn: BlockSleepWithScreenOn,
+            EnablePenguin: EnablePenguin,
+            EnableYituliu: EnableYituliu,
+            PenguinId: (PenguinId ?? string.Empty).Trim(),
+            TaskTimeoutMinutes: Math.Max(0, TaskTimeoutMinutes),
+            ReminderIntervalMinutes: Math.Max(1, ReminderIntervalMinutes));
     }
 
     private static UiOperationResult ValidateStartPerformanceSnapshot(StartPerformanceSettingsSnapshot snapshot)
@@ -3311,12 +5881,12 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         UnifiedConfig config,
         ICollection<string> warnings)
     {
-        var emulatorPath = ReadString(config, ConfigurationKeys.EmulatorPath, string.Empty).Trim();
-        var emulatorAddCommand = ReadString(config, ConfigurationKeys.EmulatorAddCommand, string.Empty).Trim();
-        var preferredGpuDescription = ReadString(config, ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty).Trim();
-        var preferredGpuInstancePath = ReadString(config, ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty).Trim();
+        var emulatorPath = ReadProfileString(config, ConfigurationKeys.EmulatorPath, string.Empty).Trim();
+        var emulatorAddCommand = ReadProfileString(config, ConfigurationKeys.EmulatorAddCommand, string.Empty).Trim();
+        var preferredGpuDescription = ReadProfileString(config, ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty).Trim();
+        var preferredGpuInstancePath = ReadProfileString(config, ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty).Trim();
 
-        var rawWaitSeconds = ReadInt(config, ConfigurationKeys.EmulatorWaitSeconds, DefaultEmulatorWaitSeconds);
+        var rawWaitSeconds = ReadProfileInt(config, ConfigurationKeys.EmulatorWaitSeconds, DefaultEmulatorWaitSeconds);
         var emulatorWaitSeconds = Math.Clamp(rawWaitSeconds, EmulatorWaitSecondsMin, EmulatorWaitSecondsMax);
         if (emulatorWaitSeconds != rawWaitSeconds)
         {
@@ -3325,21 +5895,134 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         }
 
         return new StartPerformanceSettingsSnapshot(
-            RunDirectly: ReadBoolFlexible(config, ConfigurationKeys.RunDirectly, false),
-            MinimizeDirectly: ReadBoolFlexible(config, ConfigurationKeys.MinimizeDirectly, false),
-            OpenEmulatorAfterLaunch: ReadBoolFlexible(config, ConfigurationKeys.StartEmulator, false),
+            RunDirectly: ReadProfileBoolFlexible(config, ConfigurationKeys.RunDirectly, false),
+            MinimizeDirectly: ReadGlobalBoolFlexible(config, ConfigurationKeys.MinimizeDirectly, false),
+            OpenEmulatorAfterLaunch: ReadProfileBoolFlexible(config, ConfigurationKeys.StartEmulator, false),
             EmulatorPath: emulatorPath,
             EmulatorAddCommand: emulatorAddCommand,
             EmulatorWaitSeconds: emulatorWaitSeconds,
-            PerformanceUseGpu: ReadBoolFlexible(config, ConfigurationKeys.PerformanceUseGpu, false),
-            PerformanceAllowDeprecatedGpu: ReadBoolFlexible(config, ConfigurationKeys.PerformanceAllowDeprecatedGpu, false),
+            PerformanceUseGpu: ReadProfileBoolFlexible(config, ConfigurationKeys.PerformanceUseGpu, false),
+            PerformanceAllowDeprecatedGpu: ReadProfileBoolFlexible(config, ConfigurationKeys.PerformanceAllowDeprecatedGpu, false),
             PerformancePreferredGpuDescription: preferredGpuDescription,
-            PerformancePreferredGpuInstancePath: preferredGpuInstancePath);
+            PerformancePreferredGpuInstancePath: preferredGpuInstancePath,
+            DeploymentWithPause: ReadProfileBoolFlexible(config, ConfigurationKeys.RoguelikeDeploymentWithPause, false),
+            StartsWithScript: ReadProfileString(config, ConfigurationKeys.StartsWithScript, string.Empty).Trim(),
+            EndsWithScript: ReadProfileString(config, ConfigurationKeys.EndsWithScript, string.Empty).Trim(),
+            CopilotWithScript: ReadProfileBoolFlexible(config, ConfigurationKeys.CopilotWithScript, false),
+            ManualStopWithScript: ReadProfileBoolFlexible(config, ConfigurationKeys.ManualStopWithScript, false),
+            BlockSleep: ReadProfileBoolFlexible(config, ConfigurationKeys.BlockSleep, false),
+            BlockSleepWithScreenOn: ReadProfileBoolFlexible(config, ConfigurationKeys.BlockSleepWithScreenOn, true),
+            EnablePenguin: ReadProfileBoolFlexible(config, ConfigurationKeys.EnablePenguin, true),
+            EnableYituliu: ReadProfileBoolFlexible(config, ConfigurationKeys.EnableYituliu, true),
+            PenguinId: ReadProfileString(config, ConfigurationKeys.PenguinId, string.Empty).Trim(),
+            TaskTimeoutMinutes: Math.Max(0, ReadProfileInt(config, ConfigurationKeys.TaskTimeoutMinutes, DefaultTaskTimeoutMinutes)),
+            ReminderIntervalMinutes: Math.Max(1, ReadProfileInt(config, ConfigurationKeys.ReminderIntervalMinutes, DefaultReminderIntervalMinutes)));
+    }
+
+    private void NormalizeUnsupportedGpuSettingsInConfig(UnifiedConfig config, ICollection<string> warnings)
+    {
+        var supportMode = Runtime.Platform.GpuCapabilityService.Resolve(
+            new GpuPreference(false, false, string.Empty, string.Empty)).Snapshot.SupportMode;
+        if (supportMode == GpuPlatformSupportMode.WindowsSupported)
+        {
+            return;
+        }
+
+        var normalized = NormalizeUnsupportedGpuSettings(config.GlobalValues);
+        foreach (var profile in config.Profiles.Values)
+        {
+            normalized |= NormalizeUnsupportedGpuSettings(profile.Values);
+        }
+
+        if (normalized)
+        {
+            warnings.Add("Unsupported GPU settings were removed for this platform. CPU OCR fallback will be used.");
+        }
+    }
+
+    private static bool NormalizeUnsupportedGpuSettings(IDictionary<string, JsonNode?> values)
+    {
+        if (!ContainsUnsafeGpuSettings(values))
+        {
+            return false;
+        }
+
+        values.Remove(ConfigurationKeys.PerformanceUseGpu);
+        values.Remove(ConfigurationKeys.PerformanceAllowDeprecatedGpu);
+        values.Remove(ConfigurationKeys.PerformancePreferredGpuDescription);
+        values.Remove(ConfigurationKeys.PerformancePreferredGpuInstancePath);
+        return true;
+    }
+
+    private static bool ContainsUnsafeGpuSettings(IDictionary<string, JsonNode?> values)
+    {
+        return ReadGpuBool(values, ConfigurationKeys.PerformanceUseGpu)
+               || ReadGpuBool(values, ConfigurationKeys.PerformanceAllowDeprecatedGpu)
+               || !string.IsNullOrWhiteSpace(ReadGpuString(values, ConfigurationKeys.PerformancePreferredGpuDescription))
+               || !string.IsNullOrWhiteSpace(ReadGpuString(values, ConfigurationKeys.PerformancePreferredGpuInstancePath));
+    }
+
+    private static bool ReadGpuBool(IDictionary<string, JsonNode?> values, string key)
+    {
+        if (!values.TryGetValue(key, out var node) || node is null)
+        {
+            return false;
+        }
+
+        if (node is JsonValue value)
+        {
+            if (value.TryGetValue(out bool parsedBool))
+            {
+                return parsedBool;
+            }
+
+            if (value.TryGetValue(out int parsedInt))
+            {
+                return parsedInt != 0;
+            }
+
+            if (value.TryGetValue(out string? parsedText))
+            {
+                if (bool.TryParse(parsedText, out var parsed))
+                {
+                    return parsed;
+                }
+
+                if (int.TryParse(parsedText, out parsedInt))
+                {
+                    return parsedInt != 0;
+                }
+            }
+        }
+
+        var raw = node.ToString();
+        if (bool.TryParse(raw, out var fallbackParsed))
+        {
+            return fallbackParsed;
+        }
+
+        return int.TryParse(raw, out var fallbackInt) && fallbackInt != 0;
+    }
+
+    private static string ReadGpuString(IDictionary<string, JsonNode?> values, string key)
+    {
+        if (!values.TryGetValue(key, out var node) || node is null)
+        {
+            return string.Empty;
+        }
+
+        if (node is JsonValue value && value.TryGetValue(out string? parsedText) && parsedText is not null)
+        {
+            return parsedText.Trim();
+        }
+
+        return node.ToString().Trim();
     }
 
     private void ApplyStartPerformanceSnapshotWithoutDirtyTracking(StartPerformanceSettingsSnapshot snapshot)
     {
         _suppressStartPerformanceDirtyTracking = true;
+        _suppressGpuUiRefresh = true;
         try
         {
             RunDirectly = snapshot.RunDirectly;
@@ -3352,11 +6035,26 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             PerformanceAllowDeprecatedGpu = snapshot.PerformanceAllowDeprecatedGpu;
             PerformancePreferredGpuDescription = snapshot.PerformancePreferredGpuDescription;
             PerformancePreferredGpuInstancePath = snapshot.PerformancePreferredGpuInstancePath;
+            DeploymentWithPause = snapshot.DeploymentWithPause;
+            StartsWithScript = snapshot.StartsWithScript;
+            EndsWithScript = snapshot.EndsWithScript;
+            CopilotWithScript = snapshot.CopilotWithScript;
+            ManualStopWithScript = snapshot.ManualStopWithScript;
+            BlockSleep = snapshot.BlockSleep;
+            BlockSleepWithScreenOn = snapshot.BlockSleepWithScreenOn;
+            EnablePenguin = snapshot.EnablePenguin;
+            EnableYituliu = snapshot.EnableYituliu;
+            PenguinId = snapshot.PenguinId;
+            TaskTimeoutMinutes = snapshot.TaskTimeoutMinutes;
+            ReminderIntervalMinutes = snapshot.ReminderIntervalMinutes;
         }
         finally
         {
+            _suppressGpuUiRefresh = false;
             _suppressStartPerformanceDirtyTracking = false;
         }
+
+        RefreshGpuUiState();
     }
 
     private TimerSettingsSnapshot BuildTimerSnapshot()
@@ -3442,10 +6140,10 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             var minuteKey = BuildTimerMinuteKey(index);
             var profileKey = BuildTimerProfileKey(index);
 
-            var enabled = ReadBoolFlexible(config, enabledKey, false);
+            var enabled = ReadGlobalBoolFlexible(config, enabledKey, false);
 
-            var rawHour = ReadIntFlexible(config, hourKey, DefaultTimerHour, out var parsedHour);
-            if (!parsedHour && config.GlobalValues.ContainsKey(hourKey))
+            var rawHour = ReadGlobalIntFlexible(config, hourKey, DefaultTimerHour, out var parsedHour);
+            if (!parsedHour && HasConfigKey(config, hourKey, ConfigValuePreference.GlobalFirst))
             {
                 warnings.Add($"Timer {index} hour parse failed and fell back to {DefaultTimerHour}.");
             }
@@ -3456,8 +6154,8 @@ public sealed class SettingsPageViewModel : PageViewModelBase
                 warnings.Add($"Timer {index} hour clamped to {hour} from {rawHour}.");
             }
 
-            var rawMinute = ReadIntFlexible(config, minuteKey, DefaultTimerMinute, out var parsedMinute);
-            if (!parsedMinute && config.GlobalValues.ContainsKey(minuteKey))
+            var rawMinute = ReadGlobalIntFlexible(config, minuteKey, DefaultTimerMinute, out var parsedMinute);
+            if (!parsedMinute && HasConfigKey(config, minuteKey, ConfigValuePreference.GlobalFirst))
             {
                 warnings.Add($"Timer {index} minute parse failed and fell back to {DefaultTimerMinute}.");
             }
@@ -3468,7 +6166,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
                 warnings.Add($"Timer {index} minute clamped to {minute} from {rawMinute}.");
             }
 
-            var profile = NormalizeTimerProfile(ReadString(config, profileKey, currentProfile), currentProfile);
+            var profile = NormalizeTimerProfile(ReadGlobalString(config, profileKey, currentProfile), currentProfile);
             if (!config.Profiles.ContainsKey(profile))
             {
                 warnings.Add($"Timer {index} profile `{profile}` not found and fell back to `{currentProfile}`.");
@@ -3483,9 +6181,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         }
 
         return new TimerSettingsSnapshot(
-            ForceScheduledStart: ReadBoolFlexible(config, LegacyConfigurationKeys.ForceScheduledStart, false),
-            ShowWindowBeforeForceScheduledStart: ReadBoolFlexible(config, LegacyConfigurationKeys.ShowWindowBeforeForceScheduledStart, true),
-            CustomTimerConfig: ReadBoolFlexible(config, LegacyConfigurationKeys.CustomConfig, false),
+            ForceScheduledStart: ReadGlobalBoolFlexible(config, LegacyConfigurationKeys.ForceScheduledStart, false),
+            ShowWindowBeforeForceScheduledStart: ReadGlobalBoolFlexible(config, LegacyConfigurationKeys.ShowWindowBeforeForceScheduledStart, false),
+            CustomTimerConfig: ReadGlobalBoolFlexible(config, LegacyConfigurationKeys.CustomConfig, false),
             Slots: slots);
     }
 
@@ -3584,9 +6282,19 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         return FormattableString.Invariant($"{hour:00}:{minute:00}");
     }
 
-    private static bool ReadBoolFlexible(UnifiedConfig config, string key, bool fallback)
+    private static bool ReadProfileBoolFlexible(UnifiedConfig config, string key, bool fallback)
+        => ReadBoolFlexible(config, key, fallback, ConfigValuePreference.ProfileFirst);
+
+    private static bool ReadGlobalBoolFlexible(UnifiedConfig config, string key, bool fallback)
+        => ReadBoolFlexible(config, key, fallback, ConfigValuePreference.GlobalFirst);
+
+    private static bool ReadBoolFlexible(
+        UnifiedConfig config,
+        string key,
+        bool fallback,
+        ConfigValuePreference preference)
     {
-        if (!config.GlobalValues.TryGetValue(key, out var node) || node is null)
+        if (!TryGetConfigNode(config, key, preference, out var node) || node is null)
         {
             return fallback;
         }
@@ -3625,10 +6333,21 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         return fallback;
     }
 
-    private static int ReadIntFlexible(UnifiedConfig config, string key, int fallback, out bool parsed)
+    private static int ReadProfileIntFlexible(UnifiedConfig config, string key, int fallback, out bool parsed)
+        => ReadIntFlexible(config, key, fallback, ConfigValuePreference.ProfileFirst, out parsed);
+
+    private static int ReadGlobalIntFlexible(UnifiedConfig config, string key, int fallback, out bool parsed)
+        => ReadIntFlexible(config, key, fallback, ConfigValuePreference.GlobalFirst, out parsed);
+
+    private static int ReadIntFlexible(
+        UnifiedConfig config,
+        string key,
+        int fallback,
+        ConfigValuePreference preference,
+        out bool parsed)
     {
         parsed = false;
-        if (!config.GlobalValues.TryGetValue(key, out var node) || node is null)
+        if (!TryGetConfigNode(config, key, preference, out var node) || node is null)
         {
             return fallback;
         }
@@ -3663,6 +6382,80 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
         return fallback;
     }
+
+    private static bool HasConfigKey(UnifiedConfig config, string key, ConfigValuePreference preference)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            return false;
+        }
+
+        return preference == ConfigValuePreference.ProfileFirst
+            ? HasProfileValue(config, key) || config.GlobalValues.ContainsKey(key)
+            : config.GlobalValues.ContainsKey(key) || HasProfileValue(config, key);
+    }
+
+    private static bool TryGetConfigNode(
+        UnifiedConfig config,
+        string key,
+        ConfigValuePreference preference,
+        out JsonNode? node)
+    {
+        if (preference == ConfigValuePreference.ProfileFirst)
+        {
+            if (TryGetProfileValue(config, key, out node))
+            {
+                return true;
+            }
+
+            if (config.GlobalValues.TryGetValue(key, out node) && node is not null)
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if (config.GlobalValues.TryGetValue(key, out node) && node is not null)
+            {
+                return true;
+            }
+
+            if (TryGetProfileValue(config, key, out node))
+            {
+                return true;
+            }
+        }
+
+        node = null;
+        return false;
+    }
+
+    private static bool HasProfileValue(UnifiedConfig config, string key)
+    {
+        return !string.IsNullOrWhiteSpace(config.CurrentProfile)
+               && config.Profiles.TryGetValue(config.CurrentProfile, out var profile)
+               && profile.Values.ContainsKey(key);
+    }
+
+    private static bool TryGetProfileValue(UnifiedConfig config, string key, out JsonNode? node)
+    {
+        if (!string.IsNullOrWhiteSpace(config.CurrentProfile)
+            && config.Profiles.TryGetValue(config.CurrentProfile, out var profile)
+            && profile.Values.TryGetValue(key, out node)
+            && node is not null)
+        {
+            return true;
+        }
+
+        node = null;
+        return false;
+    }
+}
+
+internal enum ConfigValuePreference
+{
+    GlobalFirst = 0,
+    ProfileFirst = 1,
 }
 
 public sealed record GuiSettingsSnapshot(
@@ -3671,10 +6464,14 @@ public sealed record GuiSettingsSnapshot(
     bool UseTray,
     bool MinimizeToTray,
     bool WindowTitleScrollable,
+    string LogItemDateFormatString,
+    string OperNameLanguage,
+    string InverseClearMode,
     string BackgroundImagePath,
     int BackgroundOpacity,
     int BackgroundBlur,
-    string BackgroundStretchMode)
+    string BackgroundStretchMode,
+    bool DeveloperModeEnabled = false)
 {
     public IReadOnlyDictionary<string, string> ToGlobalSettingUpdates()
     {
@@ -3685,10 +6482,21 @@ public sealed record GuiSettingsSnapshot(
             [ConfigurationKeys.UseTray] = UseTray.ToString(),
             [ConfigurationKeys.MinimizeToTray] = MinimizeToTray.ToString(),
             [ConfigurationKeys.WindowTitleScrollable] = WindowTitleScrollable.ToString(),
+            ["GUI.DeveloperMode"] = DeveloperModeEnabled.ToString(),
+            [ConfigurationKeys.LogItemDateFormat] = LogItemDateFormatString,
+            [ConfigurationKeys.OperNameLanguage] = OperNameLanguage,
             [ConfigurationKeys.BackgroundImagePath] = BackgroundImagePath,
             [ConfigurationKeys.BackgroundOpacity] = BackgroundOpacity.ToString(),
             [ConfigurationKeys.BackgroundBlurEffectRadius] = BackgroundBlur.ToString(),
             [ConfigurationKeys.BackgroundImageStretchMode] = BackgroundStretchMode,
+        };
+    }
+
+    public IReadOnlyDictionary<string, string> ToProfileSettingUpdates()
+    {
+        return new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            [ConfigurationKeys.InverseClearMode] = InverseClearMode,
         };
     }
 }
@@ -3703,25 +6511,68 @@ public sealed record StartPerformanceSettingsSnapshot(
     bool PerformanceUseGpu,
     bool PerformanceAllowDeprecatedGpu,
     string PerformancePreferredGpuDescription,
-    string PerformancePreferredGpuInstancePath)
+    string PerformancePreferredGpuInstancePath,
+    bool DeploymentWithPause,
+    string StartsWithScript,
+    string EndsWithScript,
+    bool CopilotWithScript,
+    bool ManualStopWithScript,
+    bool BlockSleep,
+    bool BlockSleepWithScreenOn,
+    bool EnablePenguin,
+    bool EnableYituliu,
+    string PenguinId,
+    int TaskTimeoutMinutes,
+    int ReminderIntervalMinutes)
 {
     public IReadOnlyDictionary<string, string> ToGlobalSettingUpdates()
     {
         return new Dictionary<string, string>(StringComparer.Ordinal)
         {
-            [ConfigurationKeys.RunDirectly] = RunDirectly.ToString(),
             [ConfigurationKeys.MinimizeDirectly] = MinimizeDirectly.ToString(),
+        };
+    }
+
+    public IReadOnlyDictionary<string, string> ToProfileSettingUpdates(bool includeGpuSettings = true)
+    {
+        var updates = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            [ConfigurationKeys.RunDirectly] = RunDirectly.ToString(),
             [ConfigurationKeys.StartEmulator] = OpenEmulatorAfterLaunch.ToString(),
             [ConfigurationKeys.EmulatorPath] = EmulatorPath,
             [ConfigurationKeys.EmulatorAddCommand] = EmulatorAddCommand,
             [ConfigurationKeys.EmulatorWaitSeconds] = EmulatorWaitSeconds.ToString(),
-            [ConfigurationKeys.PerformanceUseGpu] = PerformanceUseGpu.ToString(),
-            [ConfigurationKeys.PerformanceAllowDeprecatedGpu] = PerformanceAllowDeprecatedGpu.ToString(),
-            [ConfigurationKeys.PerformancePreferredGpuDescription] = PerformancePreferredGpuDescription,
-            [ConfigurationKeys.PerformancePreferredGpuInstancePath] = PerformancePreferredGpuInstancePath,
+            [ConfigurationKeys.RoguelikeDeploymentWithPause] = DeploymentWithPause.ToString(),
+            [ConfigurationKeys.StartsWithScript] = StartsWithScript,
+            [ConfigurationKeys.EndsWithScript] = EndsWithScript,
+            [ConfigurationKeys.CopilotWithScript] = CopilotWithScript.ToString(),
+            [ConfigurationKeys.ManualStopWithScript] = ManualStopWithScript.ToString(),
+            [ConfigurationKeys.BlockSleep] = BlockSleep.ToString(),
+            [ConfigurationKeys.BlockSleepWithScreenOn] = BlockSleepWithScreenOn.ToString(),
+            [ConfigurationKeys.EnablePenguin] = EnablePenguin.ToString(),
+            [ConfigurationKeys.EnableYituliu] = EnableYituliu.ToString(),
+            [ConfigurationKeys.PenguinId] = PenguinId,
+            [ConfigurationKeys.TaskTimeoutMinutes] = TaskTimeoutMinutes.ToString(),
+            [ConfigurationKeys.ReminderIntervalMinutes] = ReminderIntervalMinutes.ToString(),
         };
+
+        if (includeGpuSettings)
+        {
+            updates[ConfigurationKeys.PerformanceUseGpu] = PerformanceUseGpu.ToString();
+            updates[ConfigurationKeys.PerformanceAllowDeprecatedGpu] = PerformanceAllowDeprecatedGpu.ToString();
+            updates[ConfigurationKeys.PerformancePreferredGpuDescription] = PerformancePreferredGpuDescription;
+            updates[ConfigurationKeys.PerformancePreferredGpuInstancePath] = PerformancePreferredGpuInstancePath;
+        }
+
+        return updates;
     }
 }
+
+public sealed record GpuOptionDisplayItem(
+    GpuOptionDescriptor Descriptor,
+    string Display);
+
+public sealed record DisplayValueOption(string Display, string Value);
 
 public sealed record TimerSlotSettingsSnapshot(
     int Index,
@@ -3788,6 +6639,32 @@ public sealed class GuiSettingsAppliedEventArgs : EventArgs
     public GuiSettingsSnapshot Snapshot { get; }
 }
 
+public sealed class ConfigurationContextChangedEventArgs : EventArgs
+{
+    public ConfigurationContextChangedEventArgs(
+        ConfigurationContextChangeReason reason,
+        string message,
+        ImportReport? report)
+    {
+        Reason = reason;
+        Message = message;
+        Report = report;
+    }
+
+    public ConfigurationContextChangeReason Reason { get; }
+
+    public string Message { get; }
+
+    public ImportReport? Report { get; }
+}
+
+public enum ConfigurationContextChangeReason
+{
+    ProfileSwitched = 0,
+    LegacyImport = 1,
+    UnifiedImport = 2,
+}
+
 public enum HotkeyRegistrationSource
 {
     Manual = 0,
@@ -3796,6 +6673,13 @@ public enum HotkeyRegistrationSource
 
 public sealed class TimerSlotViewModel : ObservableObject
 {
+    private const int DefaultHour = 7;
+    private const int DefaultMinute = 0;
+    private const int HourMin = 0;
+    private const int HourMax = 23;
+    private const int MinuteMin = 0;
+    private const int MinuteMax = 59;
+
     private bool _enabled;
     private string _time = "07:00";
     private string _profile = "Default";
@@ -3816,12 +6700,79 @@ public sealed class TimerSlotViewModel : ObservableObject
     public string Time
     {
         get => _time;
-        set => SetProperty(ref _time, value?.Trim() ?? string.Empty);
+        set
+        {
+            var normalized = value?.Trim() ?? string.Empty;
+            if (!SetProperty(ref _time, normalized))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(Hour));
+            OnPropertyChanged(nameof(Minute));
+        }
+    }
+
+    public int Hour
+    {
+        get => TryParseTime(Time, out var hour, out _) ? hour : DefaultHour;
+        set => UpdateTime(value, Minute);
+    }
+
+    public int Minute
+    {
+        get => TryParseTime(Time, out _, out var minute) ? minute : DefaultMinute;
+        set => UpdateTime(Hour, value);
     }
 
     public string Profile
     {
         get => _profile;
         set => SetProperty(ref _profile, value?.Trim() ?? string.Empty);
+    }
+
+    private void UpdateTime(int hour, int minute)
+    {
+        var normalizedHour = Math.Clamp(hour, HourMin, HourMax);
+        var normalizedMinute = Math.Clamp(minute, MinuteMin, MinuteMax);
+        Time = FormattableString.Invariant($"{normalizedHour:00}:{normalizedMinute:00}");
+    }
+
+    private static bool TryParseTime(string? value, out int hour, out int minute)
+    {
+        hour = default;
+        minute = default;
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return false;
+        }
+
+        var normalized = value.Trim();
+        if (normalized.Length != 5 || normalized[2] != ':')
+        {
+            return false;
+        }
+
+        if (!int.TryParse(normalized.AsSpan(0, 2), NumberStyles.None, CultureInfo.InvariantCulture, out hour))
+        {
+            return false;
+        }
+
+        if (!int.TryParse(normalized.AsSpan(3, 2), NumberStyles.None, CultureInfo.InvariantCulture, out minute))
+        {
+            return false;
+        }
+
+        if (hour < HourMin || hour > HourMax)
+        {
+            return false;
+        }
+
+        if (minute < MinuteMin || minute > MinuteMax)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

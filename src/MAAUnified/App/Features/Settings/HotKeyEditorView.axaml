@@ -7,7 +7,7 @@
     <Grid ColumnDefinitions="Auto,160,Auto">
       <TextBlock VerticalAlignment="Center" Text="快捷键" />
       <TextBox Text="Ctrl+Shift+M" />
-      <Button Grid.Column="2" Content="监听录入" />
+      <Button Classes="wpf-button wpf-button-secondary" Grid.Column="2" Content="监听录入" />
     </Grid>
   </StackPanel>
 </UserControl>

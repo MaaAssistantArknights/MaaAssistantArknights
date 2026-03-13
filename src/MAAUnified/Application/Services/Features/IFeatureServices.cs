@@ -112,8 +112,11 @@ public interface ICopilotFeatureService
 
 public interface IToolboxFeatureService
 {
-    Task<UiOperationResult<ToolboxExecuteResult>> ExecuteToolAsync(
-        ToolboxExecuteRequest request,
+    Task<UiOperationResult<ToolboxDispatchResult>> DispatchToolAsync(
+        ToolboxDispatchRequest request,
+        CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> StopAsync(
         CancellationToken cancellationToken = default);
 }
 
@@ -196,11 +199,20 @@ public interface IVersionUpdateFeatureService
 {
     Task<UiOperationResult<VersionUpdatePolicy>> LoadPolicyAsync(CancellationToken cancellationToken = default);
 
+    Task<UiOperationResult<ResourceVersionInfo>> LoadResourceVersionInfoAsync(
+        string? clientType,
+        CancellationToken cancellationToken = default);
+
     Task<UiOperationResult> SaveChannelAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default);
 
     Task<UiOperationResult> SaveProxyAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default);
 
     Task<UiOperationResult> SavePolicyAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult<string>> UpdateResourceAsync(
+        VersionUpdatePolicy policy,
+        string? clientType,
+        CancellationToken cancellationToken = default);
 
     Task<UiOperationResult<string>> CheckForUpdatesAsync(
         VersionUpdatePolicy policy,

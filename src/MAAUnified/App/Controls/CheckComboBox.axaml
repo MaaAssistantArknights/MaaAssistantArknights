@@ -1,0 +1,138 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MAAUnified.App.Controls.CheckComboBox"
+             x:Name="Root">
+  <UserControl.Styles>
+    <Style Selector="Border.combo-shell">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Surface.SectionStrong}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+      <Setter Property="BorderThickness" Value="{DynamicResource MAA.BorderThickness.Thin}" />
+      <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Item}" />
+      <Setter Property="MinHeight" Value="32" />
+    </Style>
+    <Style Selector="Border.combo-dropdown-panel">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Surface.SectionStrong}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource MAA.Brush.Border.Default}" />
+      <Setter Property="BorderThickness" Value="{DynamicResource MAA.BorderThickness.Thin}" />
+      <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Item}" />
+    </Style>
+    <Style Selector="Button.combo-arrow">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="MinWidth" Value="36" />
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="Padding" Value="6,0" />
+      <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Item}" />
+    </Style>
+    <Style Selector="Button.combo-arrow:pointerover">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SubtleBackgroundHover}" />
+    </Style>
+    <Style Selector="Button.combo-arrow:pressed">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SubtleBackgroundPressed}" />
+    </Style>
+    <Style Selector="TreeView.combo-dropdown">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="TreeView.combo-dropdown TreeViewItem">
+      <Setter Property="MinHeight" Value="28" />
+    </Style>
+    <Style Selector="TreeView.combo-dropdown ToggleButton">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="MinWidth" Value="24" />
+      <Setter Property="MinHeight" Value="24" />
+      <Setter Property="Padding" Value="4" />
+      <Setter Property="CornerRadius" Value="{DynamicResource MAA.CornerRadius.Item}" />
+    </Style>
+    <Style Selector="TreeView.combo-dropdown ToggleButton:pointerover">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SubtleBackgroundHover}" />
+    </Style>
+    <Style Selector="TreeView.combo-dropdown ToggleButton:pressed">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Action.SubtleBackgroundPressed}" />
+    </Style>
+    <Style Selector="ListBox.combo-dropdown">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+  </UserControl.Styles>
+
+  <Grid>
+    <Border x:Name="ShellBorder"
+            Classes="combo-shell"
+            PointerPressed="OnShellPointerPressed">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock x:Name="HeaderTextBlock"
+                   Margin="10,0,0,0"
+                   VerticalAlignment="Center"
+                   Text="{Binding HeaderText, ElementName=Root}"
+                   TextTrimming="CharacterEllipsis" />
+        <TextBox x:Name="EditableTextBox"
+                 Margin="6,0,0,0"
+                 BorderThickness="0"
+                 Background="Transparent"
+                 Text="{Binding Text, ElementName=Root, Mode=TwoWay}"
+                 Watermark="{Binding Watermark, ElementName=Root}"
+                 VerticalContentAlignment="Center"
+                 LostFocus="OnEditableTextBoxLostFocus"
+                 KeyDown="OnEditableTextBoxKeyDown" />
+        <Button Grid.Column="1"
+                x:Name="ToggleButton"
+                Classes="combo-arrow"
+                Click="OnToggleButtonClick">
+          <Path Width="10"
+                Height="6"
+                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Data="M 1 1 L 5 5 L 9 1"
+                Stroke="{DynamicResource MAA.Brush.Text.Secondary}"
+                StrokeThickness="1.5"
+                StrokeLineCap="Round"
+                Stretch="Fill" />
+        </Button>
+      </Grid>
+    </Border>
+
+    <Popup x:Name="DropDownPopup"
+           IsOpen="{Binding IsDropDownOpen, ElementName=Root, Mode=TwoWay}"
+           Placement="BottomEdgeAlignedLeft"
+           VerticalOffset="4"
+           IsLightDismissEnabled="True"
+           Closed="OnPopupClosed">
+      <Border Classes="combo-dropdown-panel"
+              MinWidth="{Binding Bounds.Width, ElementName=ShellBorder}"
+              HorizontalAlignment="Left"
+              Padding="6">
+        <ScrollViewer MaxHeight="{Binding MaxDropDownHeight, ElementName=Root}"
+                      HorizontalScrollBarVisibility="Disabled">
+          <Grid>
+            <TreeView x:Name="TreeModeView"
+                      Classes="combo-dropdown"
+                      ItemsSource="{Binding ItemsSource, ElementName=Root}"
+                      SelectionChanged="OnTreeViewSelectionChanged">
+              <TreeView.ItemTemplate>
+                <TreeDataTemplate ItemsSource="{Binding Children}">
+                  <TextBlock Margin="4,2"
+                             Text="{Binding}" />
+                </TreeDataTemplate>
+              </TreeView.ItemTemplate>
+            </TreeView>
+
+            <ListBox x:Name="FlatListBox"
+                     Classes="combo-dropdown"
+                     ItemsSource="{Binding ItemsSource, ElementName=Root}"
+                     SelectedItem="{Binding SelectedItem, ElementName=Root, Mode=TwoWay}"
+                     SelectionChanged="OnFlatListBoxSelectionChanged"
+                     ItemTemplate="{Binding ItemTemplate, ElementName=Root}" />
+
+            <ContentPresenter x:Name="CustomContentPresenter"
+                              Content="{Binding DropDownContent, ElementName=Root}" />
+          </Grid>
+        </ScrollViewer>
+      </Border>
+    </Popup>
+  </Grid>
+</UserControl>

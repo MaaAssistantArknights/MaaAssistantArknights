@@ -1,27 +1,42 @@
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Avalonia.Threading;
 using MAAUnified.App.ViewModels.Infrastructure;
+using MAAUnified.App.ViewModels.TaskQueue;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Orchestration;
 using MAAUnified.Application.Services;
+using MAAUnified.Application.Services.Localization;
 using MAAUnified.CoreBridge;
 using LegacyConfigurationKeys = MAAUnified.Compat.Constants.ConfigurationKeys;
 
 namespace MAAUnified.App.ViewModels.Copilot;
 
-internal readonly record struct CopilotCallbackPayload(string? TaskChain, int? TaskId, string? ParseError = null)
+internal readonly record struct CopilotCallbackPayload(
+    string? TaskChain,
+    string? SubTask,
+    int? TaskId,
+    string? What = null,
+    string? Why = null,
+    JsonObject? Details = null,
+    JsonObject? Root = null,
+    string? ParseError = null)
 {
-    public static CopilotCallbackPayload Empty { get; } = new(null, null, null);
+    public static CopilotCallbackPayload Empty { get; } = new(null, null, null, null, null, null, null, null);
 
     public bool HasParseError => !string.IsNullOrWhiteSpace(ParseError);
 }
 
-public sealed class CopilotPageViewModel : PageViewModelBase
+public sealed partial class CopilotPageViewModel : PageViewModelBase
 {
     private const string CopilotTaskListConfigScope = "Config.Copilot.CopilotTaskList";
     private const string CopilotRunOwner = "Copilot";
+    private const string MainStageStoryCollectionSideStoryType = "主线/故事集/SideStory";
+    private const string SecurityServiceStationType = "保全派驻";
+    private const string ParadoxSimulationType = "悖论模拟";
+    private const string OtherActivityType = "其他活动";
 
     private string _filePath = string.Empty;
     private int _selectedTypeIndex;
@@ -36,25 +51,39 @@ public sealed class CopilotPageViewModel : PageViewModelBase
     private bool _hasActiveRun;
     private CopilotItemViewModel? _selectedItem;
     private bool _suppressSelectionFeedback;
+    private readonly RootLocalizationTextMap _rootTexts;
 
     public CopilotPageViewModel(MAAUnifiedRuntime runtime)
         : base(runtime)
     {
-        Types = new[] { "主线", "SSS", "悖论", "活动" };
+        Types =
+        [
+            MainStageStoryCollectionSideStoryType,
+            SecurityServiceStationType,
+            ParadoxSimulationType,
+            OtherActivityType,
+        ];
         Items = new ObservableCollection<CopilotItemViewModel>();
         Items.CollectionChanged += (_, _) => NotifySelectionDerivedPropertiesChanged();
-        Logs = new ObservableCollection<string>();
+        Logs = new ObservableCollection<TaskQueueLogEntryViewModel>();
+        _rootTexts = new RootLocalizationTextMap("Root.Localization.Copilot")
+        {
+            Language = ResolveLanguage(),
+        };
         runtime.SessionService.CallbackReceived += callback => _ = HandleCallbackAsync(callback);
         runtime.SessionService.SessionStateChanged += OnSessionStateChanged;
+        runtime.ConfigurationService.ConfigChanged += _ =>
+            Dispatcher.UIThread.Post(() => _rootTexts.Language = ResolveLanguage());
         _currentSessionState = runtime.SessionService.CurrentState;
         LoadPersistedItems();
+        InitializeWpfParityState();
     }
 
     public IReadOnlyList<string> Types { get; }
 
     public ObservableCollection<CopilotItemViewModel> Items { get; }
 
-    public ObservableCollection<string> Logs { get; }
+    public ObservableCollection<TaskQueueLogEntryViewModel> Logs { get; }
 
     public string FilePath
     {
@@ -65,19 +94,38 @@ public sealed class CopilotPageViewModel : PageViewModelBase
     public int SelectedTypeIndex
     {
         get => _selectedTypeIndex;
-        set => SetProperty(ref _selectedTypeIndex, Math.Clamp(value, 0, Types.Count - 1));
+        set
+        {
+            if (SetProperty(ref _selectedTypeIndex, Math.Clamp(value, 0, Types.Count - 1)))
+            {
+                OnSelectedTypeIndexChanged();
+            }
+        }
     }
 
     public bool AutoSquad
     {
         get => _autoSquad;
-        set => SetProperty(ref _autoSquad, value);
+        set
+        {
+            if (SetProperty(ref _autoSquad, value))
+            {
+                OnPropertyChanged(nameof(Form));
+                RefreshVisibilityState();
+            }
+        }
     }
 
     public bool UseSupportUnit
     {
         get => _useSupportUnit;
-        set => SetProperty(ref _useSupportUnit, value);
+        set
+        {
+            if (SetProperty(ref _useSupportUnit, value))
+            {
+                OnPropertyChanged(nameof(UseSupportUnitUsage));
+            }
+        }
     }
 
     public bool AddTrust
@@ -116,6 +164,7 @@ public sealed class CopilotPageViewModel : PageViewModelBase
                 OnPropertyChanged(nameof(IsRunning));
                 OnPropertyChanged(nameof(CanStart));
                 OnPropertyChanged(nameof(CanStop));
+                OnPropertyChanged(nameof(CanEdit));
             }
         }
     }
@@ -405,20 +454,9 @@ public sealed class CopilotPageViewModel : PageViewModelBase
 
     public async Task StartAsync(CancellationToken cancellationToken = default)
     {
-        if (SelectedItem is null)
-        {
-            StatusMessage = "启动失败。";
-            LastErrorMessage = "请选择要执行的作业。";
-            await RecordFailedResultAsync(
-                "Copilot.Start",
-                UiOperationResult.Fail(UiErrorCode.CopilotSelectionMissing, LastErrorMessage),
-                cancellationToken);
-            return;
-        }
-
         if (!CanStart)
         {
-            LastErrorMessage = $"Session state `{CurrentSessionState}` does not allow start.";
+            LastErrorMessage = BuildSessionStateNotAllowedMessage(CurrentSessionState, "启动", "start");
             await RecordFailedResultAsync(
                 "Copilot.Start",
                 UiOperationResult.Fail(UiErrorCode.TaskQueueEditBlocked, LastErrorMessage),
@@ -441,40 +479,36 @@ public sealed class CopilotPageViewModel : PageViewModelBase
         var keepRunOwner = false;
         try
         {
-            var selected = SelectedItem;
-            if (selected is null)
-            {
-                StatusMessage = "启动失败。";
-                LastErrorMessage = "请选择要执行的作业。";
-                await RecordFailedResultAsync(
-                    "Copilot.Start",
-                    UiOperationResult.Fail(UiErrorCode.CopilotSelectionMissing, LastErrorMessage),
-                    cancellationToken);
-                return;
-            }
-
-            var appendResult = await AppendSelectedItemAsync(selected, cancellationToken);
-            if (appendResult is null)
+            var appendPlan = await AppendConfiguredCopilotAsync(cancellationToken);
+            if (appendPlan is null)
             {
                 return;
             }
 
-            _activeItemName = selected.Name;
-            _activeItemCoreTaskId = appendResult.Value;
-            _activeTaskChain = ResolveCopilotTaskChain(selected.Type);
+            _activeItemName = appendPlan.ActiveItemName;
+            _activeItemCoreTaskId = appendPlan.TaskId;
+            _activeTaskChain = appendPlan.TaskChain;
             _hasActiveRun = true;
-            selected.Status = "Queued";
+            foreach (var item in Items.Where(item => item.IsChecked || string.Equals(item.Name, _activeItemName, StringComparison.Ordinal)))
+            {
+                item.Status = "Queued";
+            }
 
+            AddLog(GetRootText("ConnectingToEmulator", "Connecting to emulator……"));
             if (!await ApplyResultAsync(await Runtime.ConnectFeatureService.StartAsync(cancellationToken), "Copilot.Start", cancellationToken))
             {
                 _hasActiveRun = false;
                 _activeItemName = null;
                 _activeItemCoreTaskId = null;
                 _activeTaskChain = null;
-                selected.Status = "Ready";
+                foreach (var item in Items.Where(item => item.Status == "Queued"))
+                {
+                    item.Status = "Ready";
+                }
                 return;
             }
 
+            AddLog(GetRootText("Running", "Running……"));
             CurrentSessionState = Runtime.SessionService.CurrentState;
             keepRunOwner = true;
         }
@@ -491,7 +525,7 @@ public sealed class CopilotPageViewModel : PageViewModelBase
     {
         if (!CanStop)
         {
-            LastErrorMessage = $"Session state `{CurrentSessionState}` does not allow stop.";
+            LastErrorMessage = BuildSessionStateNotAllowedMessage(CurrentSessionState, "停止", "stop");
             await RecordFailedResultAsync(
                 "Copilot.Stop",
                 UiOperationResult.Fail(UiErrorCode.TaskQueueEditBlocked, LastErrorMessage),
@@ -554,42 +588,17 @@ public sealed class CopilotPageViewModel : PageViewModelBase
 
     private async Task<string?> ResolveExecutionFilePathAsync(CopilotItemViewModel item, CancellationToken cancellationToken)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        if (!string.IsNullOrWhiteSpace(item.SourcePath))
+        var resolvedPath = await ResolveExecutionFilePathAsync(
+            item.SourcePath,
+            item.InlinePayload,
+            item.Name,
+            cancellationToken);
+        if (resolvedPath is not null)
         {
-            if (!File.Exists(item.SourcePath))
-            {
-                StatusMessage = "启动失败。";
-                LastErrorMessage = $"作业文件不存在：{item.SourcePath}";
-                await RecordFailedResultAsync(
-                    "Copilot.Start.Input",
-                    UiOperationResult.Fail(UiErrorCode.CopilotFileNotFound, LastErrorMessage),
-                    cancellationToken);
-                return null;
-            }
-
-            return item.SourcePath;
+            item.SourcePath = resolvedPath;
         }
 
-        if (string.IsNullOrWhiteSpace(item.InlinePayload))
-        {
-            StatusMessage = "启动失败。";
-            LastErrorMessage = "当前作业缺少可执行来源（文件路径或 JSON 内容）。";
-            await RecordFailedResultAsync(
-                "Copilot.Start.Input",
-                UiOperationResult.Fail(UiErrorCode.CopilotFileMissing, LastErrorMessage),
-                cancellationToken);
-            return null;
-        }
-
-        var debugDirectory = Path.GetDirectoryName(Runtime.DiagnosticsService.EventLogPath)
-            ?? Path.Combine(AppContext.BaseDirectory, "debug");
-        var directory = Path.Combine(debugDirectory, "copilot-cache");
-        Directory.CreateDirectory(directory);
-        var filePath = Path.Combine(directory, $"copilot-inline-{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}.json");
-        await File.WriteAllTextAsync(filePath, item.InlinePayload, cancellationToken);
-        item.SourcePath = filePath;
-        return filePath;
+        return resolvedPath;
     }
 
     private CoreTaskRequest BuildCopilotTaskRequest(CopilotItemViewModel item, string filePath)
@@ -608,10 +617,24 @@ public sealed class CopilotPageViewModel : PageViewModelBase
             payload = new JsonObject
             {
                 ["filename"] = filePath,
-                ["formation"] = AutoSquad,
-                ["support_unit_usage"] = UseSupportUnit ? 1 : 0,
+                ["formation"] = Form,
+                ["support_unit_usage"] = UseSupportUnitUsage ? SupportUnitUsage : 0,
                 ["add_trust"] = AddTrust,
+                ["ignore_requirements"] = IgnoreRequirements,
+                ["loop_times"] = ShowLoopSetting && Loop ? LoopTimes : 1,
+                ["use_sanity_potion"] = false,
             };
+
+            if (UseFormation)
+            {
+                payload["formation_index"] = FormationIndex;
+            }
+
+            var userAdditional = BuildUserAdditionalPayload();
+            if (userAdditional.Count > 0)
+            {
+                payload["user_additional"] = userAdditional;
+            }
         }
 
         return new CoreTaskRequest(taskType, item.Name, true, payload.ToJsonString());
@@ -619,10 +642,10 @@ public sealed class CopilotPageViewModel : PageViewModelBase
 
     private static string ResolveCopilotTaskType(string type)
     {
-        return type switch
+        return NormalizeTypeDisplayName(type) switch
         {
-            "SSS" => "SSSCopilot",
-            "悖论" => "ParadoxCopilot",
+            SecurityServiceStationType => "SSSCopilot",
+            ParadoxSimulationType => "ParadoxCopilot",
             _ => "Copilot",
         };
     }
@@ -630,6 +653,16 @@ public sealed class CopilotPageViewModel : PageViewModelBase
     private static string ResolveCopilotTaskChain(string type)
     {
         return ResolveCopilotTaskType(type);
+    }
+
+    private static string BuildSessionStateNotAllowedMessage(
+        SessionState state,
+        string actionZh,
+        string actionEn)
+    {
+        var zh = $"会话状态 `{state}` 不允许{actionZh}。";
+        var en = $"Session state `{state}` does not allow {actionEn}.";
+        return $"{zh}{Environment.NewLine}{en}";
     }
 
     public async Task SendLikeAsync(bool like, CancellationToken cancellationToken = default)
@@ -646,7 +679,8 @@ public sealed class CopilotPageViewModel : PageViewModelBase
         }
 
         var itemName = SelectedItem.Name;
-        var result = await Runtime.CopilotFeatureService.SubmitFeedbackAsync(itemName, like, cancellationToken);
+        var feedbackTarget = SelectedItem.CopilotId > 0 ? SelectedItem.CopilotId.ToString() : itemName;
+        var result = await Runtime.CopilotFeatureService.SubmitFeedbackAsync(feedbackTarget, like, cancellationToken);
         if (!result.Success)
         {
             StatusMessage = "反馈失败。";
@@ -721,45 +755,22 @@ public sealed class CopilotPageViewModel : PageViewModelBase
 
         try
         {
-            using var doc = JsonDocument.Parse(payloadJson);
-            if (doc.RootElement.ValueKind != JsonValueKind.Object)
+            if (JsonNode.Parse(payloadJson) is not JsonObject root)
             {
-                return new CopilotCallbackPayload(null, null, "payload is not a JSON object");
+                return new CopilotCallbackPayload(null, null, null, null, null, null, null, "payload is not a JSON object");
             }
 
-            string? taskChain = null;
-            int? taskId = null;
-            foreach (var prop in doc.RootElement.EnumerateObject())
-            {
-                var key = prop.Name.ToLowerInvariant();
-                if ((key is "taskchain" or "task_chain")
-                    && prop.Value.ValueKind == JsonValueKind.String)
-                {
-                    taskChain = prop.Value.GetString();
-                    continue;
-                }
-
-                if (key is not ("taskid" or "task_id"))
-                {
-                    continue;
-                }
-
-                if (prop.Value.ValueKind == JsonValueKind.Number && prop.Value.TryGetInt32(out var taskIdValue))
-                {
-                    taskId = taskIdValue;
-                }
-                else if (prop.Value.ValueKind == JsonValueKind.String
-                         && int.TryParse(prop.Value.GetString(), out taskIdValue))
-                {
-                    taskId = taskIdValue;
-                }
-            }
-
-            return new CopilotCallbackPayload(taskChain, taskId);
+            var taskChain = GetStringValue(root, "task_chain") ?? GetStringValue(root, "taskchain");
+            var subTask = GetStringValue(root, "sub_task") ?? GetStringValue(root, "subtask");
+            var taskId = GetIntValue(root, "task_id") ?? GetIntValue(root, "taskid");
+            var what = GetStringValue(root, "what");
+            var why = GetStringValue(root, "why");
+            var details = GetObjectValue(root, "details");
+            return new CopilotCallbackPayload(taskChain, subTask, taskId, what, why, details, root, null);
         }
         catch (JsonException ex)
         {
-            return new CopilotCallbackPayload(null, null, $"payload parse failed: {ex.Message}");
+            return new CopilotCallbackPayload(null, null, null, null, null, null, null, $"payload parse failed: {ex.Message}");
         }
     }
 
@@ -770,11 +781,12 @@ public sealed class CopilotPageViewModel : PageViewModelBase
 
     internal void ApplyRuntimeCallback(CoreCallbackEvent callback)
     {
-        Logs.Add($"[{callback.Timestamp:HH:mm:ss}] {callback.MsgName} {callback.PayloadJson}");
-        const int maxLogs = 200;
-        while (Logs.Count > maxLogs)
+        var metadata = ParseCopilotCallbackPayload(callback.PayloadJson);
+        if (metadata.HasParseError)
         {
-            Logs.RemoveAt(0);
+            var warning = $"msgId={callback.MsgId}; msgName={callback.MsgName}; {metadata.ParseError}";
+            Runtime.LogService.Warn($"Copilot callback payload parse failed: {warning}");
+            _ = RecordEventAsync("Copilot.Callback.Parse", warning);
         }
 
         if (!_hasActiveRun || string.IsNullOrWhiteSpace(_activeItemName))
@@ -788,18 +800,12 @@ public sealed class CopilotPageViewModel : PageViewModelBase
             return;
         }
 
-        var metadata = ParseCopilotCallbackPayload(callback.PayloadJson);
-        if (metadata.HasParseError)
-        {
-            var warning = $"msgId={callback.MsgId}; msgName={callback.MsgName}; {metadata.ParseError}";
-            Runtime.LogService.Warn($"Copilot callback payload parse failed: {warning}");
-            _ = RecordEventAsync("Copilot.Callback.Parse", warning);
-        }
-
         if (!IsCopilotCallbackForActiveRun(metadata))
         {
             return;
         }
+
+        AppendWpfCallbackLog(callback, metadata);
 
         switch (callback.MsgName)
         {
@@ -822,6 +828,348 @@ public sealed class CopilotPageViewModel : PageViewModelBase
                 CompleteActiveRun();
                 break;
         }
+    }
+
+    private void AppendWpfCallbackLog(CoreCallbackEvent callback, CopilotCallbackPayload payload)
+    {
+        switch (callback.MsgName)
+        {
+            case "TaskChainError":
+                AddLog(GetRootText("CombatError", "Combat error"), "ERROR", timestamp: callback.Timestamp);
+                break;
+            case "SubTaskError":
+                AppendSubTaskErrorLog(payload, callback.Timestamp);
+                break;
+            case "SubTaskStart":
+                AppendSubTaskStartLog(payload, callback.Timestamp);
+                break;
+            case "SubTaskExtraInfo":
+                AppendSubTaskExtraInfoLog(payload, callback.Timestamp);
+                break;
+        }
+    }
+
+    private void AppendSubTaskErrorLog(CopilotCallbackPayload payload, DateTimeOffset timestamp)
+    {
+        if (string.Equals(payload.SubTask, "BattleFormationTask", StringComparison.OrdinalIgnoreCase)
+            && string.Equals(payload.Why, "OperatorMissing", StringComparison.OrdinalIgnoreCase))
+        {
+            var builder = new StringBuilder(GetRootText("MissingOperators", "Missing operators:"));
+            var groups = GetObjectValue(payload.Details, "opers");
+            if (groups is not null && groups.Count > 0)
+            {
+                foreach (var pair in groups)
+                {
+                    if (pair.Value is not JsonArray opers)
+                    {
+                        continue;
+                    }
+
+                    builder.AppendLine();
+                    if (opers.Count <= 1)
+                    {
+                        builder.Append(pair.Key);
+                        continue;
+                    }
+
+                    var names = opers
+                        .Select(oper => oper is JsonObject obj ? GetStringValue(obj, "name") : oper?.ToString())
+                        .Where(static name => !string.IsNullOrWhiteSpace(name))
+                        .ToArray();
+                    builder.Append(pair.Key);
+                    builder.Append("=> ");
+                    builder.Append(string.Join(" / ", names));
+                }
+            }
+
+            AddLog(builder.ToString().TrimEnd(), "ERROR", timestamp: timestamp);
+            return;
+        }
+
+        if (string.Equals(payload.SubTask, "CopilotTask", StringComparison.OrdinalIgnoreCase)
+            && string.Equals(payload.What, "UserAdditionalOperInvalid", StringComparison.OrdinalIgnoreCase))
+        {
+            var operName = GetStringValue(payload.Details, "name") ?? string.Empty;
+            AddLog(
+                string.Format(
+                    GetRootText("CopilotUserAdditionalNameInvalid", "Additional custom operator name invalid: {0}, please check spelling"),
+                    operName),
+                "ERROR",
+                timestamp: timestamp);
+        }
+    }
+
+    private void AppendSubTaskStartLog(CopilotCallbackPayload payload, DateTimeOffset timestamp)
+    {
+        if (string.Equals(payload.SubTask, "CombatRecordRecognitionTask", StringComparison.OrdinalIgnoreCase)
+            && !string.IsNullOrWhiteSpace(payload.What))
+        {
+            AddLog(payload.What, timestamp: timestamp);
+            return;
+        }
+
+        if (!string.Equals(payload.SubTask, "ProcessTask", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        var taskName = GetStringValue(payload.Details, "task");
+        switch (taskName)
+        {
+            case "BattleStartAll":
+                AddLog(GetRootText("MissionStart", "Mission started"), timestamp: timestamp);
+                break;
+            case "StageDrops-Stars-3":
+            case "StageDrops-Stars-Adverse":
+                AddLog(GetRootText("CompleteCombat", "Complete combat"), "SUCCESS", timestamp: timestamp);
+                break;
+        }
+    }
+
+    private void AppendSubTaskExtraInfoLog(CopilotCallbackPayload payload, DateTimeOffset timestamp)
+    {
+        switch (payload.What)
+        {
+            case "BattleFormation":
+                AppendBattleFormationLog(payload.Details, timestamp);
+                break;
+            case "BattleFormationParseFailed":
+                AddLog(GetRootText("BattleFormationParseFailed", "Formation parse failed"), timestamp: timestamp);
+                break;
+            case "BattleFormationSelected":
+                AppendBattleFormationSelectedLog(payload.Details, timestamp);
+                break;
+            case "BattleFormationOperUnavailable":
+                AppendBattleFormationUnavailableLog(payload.Details, timestamp);
+                break;
+            case "CopilotAction":
+                AppendCopilotActionLog(payload.Details, timestamp);
+                break;
+            case "CopilotListLoadTaskFileSuccess":
+                AddLog(
+                    $"Parse {GetStringValue(payload.Details, "file_name")}[{GetStringValue(payload.Details, "stage_name")}] Success",
+                    timestamp: timestamp);
+                break;
+            case "SSSStage":
+                AddLog(
+                    string.Format(
+                        GetRootText("CurrentStage", "Current Stage: {0}"),
+                        GetStringValue(payload.Details, "stage") ?? string.Empty),
+                    timestamp: timestamp);
+                break;
+            case "SSSSettlement":
+                if (!string.IsNullOrWhiteSpace(payload.Why))
+                {
+                    AddLog(payload.Why, timestamp: timestamp);
+                }
+
+                break;
+            case "SSSGamePass":
+                AddLog(GetRootText("SSSGamePass", "Game cleared! congratulations!"), timestamp: timestamp);
+                break;
+            case "UnsupportedLevel":
+                AddLog(GetRootText("UnsupportedLevel", "Unsupported stage, please update resources and try again!"), "ERROR", timestamp: timestamp);
+                break;
+        }
+    }
+
+    private void AppendBattleFormationLog(JsonObject? details, DateTimeOffset timestamp)
+    {
+        var formation = GetArrayValue(details, "formation");
+        var names = formation?
+            .Select(oper => oper?.ToString())
+            .Where(static name => !string.IsNullOrWhiteSpace(name))
+            .ToArray() ?? [];
+        AddLog(
+            $"{GetRootText("BattleFormation", "Start formation")}{Environment.NewLine}[{string.Join(", ", names)}]",
+            timestamp: timestamp);
+    }
+
+    private void AppendBattleFormationSelectedLog(JsonObject? details, DateTimeOffset timestamp)
+    {
+        var selected = GetStringValue(details, "selected") ?? string.Empty;
+        var groupName = GetStringValue(details, "group_name");
+        if (!string.IsNullOrWhiteSpace(groupName) && !string.Equals(groupName, selected, StringComparison.Ordinal))
+        {
+            selected = $"{groupName} => {selected}";
+        }
+
+        AddLog(
+            $"{GetRootText("BattleFormationSelected", "Selected: ")}{selected}",
+            timestamp: timestamp);
+    }
+
+    private void AppendBattleFormationUnavailableLog(JsonObject? details, DateTimeOffset timestamp)
+    {
+        var operName = GetStringValue(details, "oper_name") ?? string.Empty;
+        var type = GetStringValue(details, "requirement_type") ?? string.Empty;
+        var level = !IgnoreRequirements;
+        var reasonKey = type switch
+        {
+            "elite" => "BattleFormationOperUnavailable.Elite",
+            "level" => "BattleFormationOperUnavailable.Level",
+            "skill_level" => "BattleFormationOperUnavailable.SkillLevel",
+            "module" => "BattleFormationOperUnavailable.Module",
+            _ => string.Empty,
+        };
+        if (string.Equals(type, "elite", StringComparison.OrdinalIgnoreCase))
+        {
+            level = true;
+        }
+
+        var reason = string.IsNullOrWhiteSpace(reasonKey) ? type : GetRootText(reasonKey, type);
+        AddLog(
+            string.Format(
+                GetRootText("BattleFormationOperUnavailable", "Operator unavailable: {0}, reason: {1}"),
+                operName,
+                reason),
+            level ? "ERROR" : "WARN",
+            timestamp: timestamp);
+    }
+
+    private void AppendCopilotActionLog(JsonObject? details, DateTimeOffset timestamp)
+    {
+        var doc = GetStringValue(details, "doc");
+        if (!string.IsNullOrWhiteSpace(doc))
+        {
+            AddLog(doc, MapDocColorToLevel(GetStringValue(details, "doc_color")), timestamp: timestamp);
+        }
+
+        var action = GetStringValue(details, "action") ?? "UnknownAction";
+        var target = GetStringValue(details, "target") ?? string.Empty;
+        AddLog(
+            string.Format(
+                GetRootText("CurrentSteps", "Step: {0} {1}"),
+                GetRootText(action, action),
+                target),
+            timestamp: timestamp);
+
+        var elapsed = GetIntValue(details, "elapsed_time");
+        if (elapsed.HasValue && elapsed.Value >= 0)
+        {
+            AddLog(
+                string.Format(
+                    GetRootText("ElapsedTime", "Elapsed time: {0}ms"),
+                    elapsed.Value),
+                timestamp: timestamp);
+        }
+    }
+
+    private string GetRootText(string key, string fallback)
+    {
+        return _rootTexts.GetOrDefault(key, fallback);
+    }
+
+    private void AddLog(string? content, string level = "INFO", bool showTime = true, DateTimeOffset? timestamp = null)
+    {
+        if (string.IsNullOrWhiteSpace(content))
+        {
+            return;
+        }
+
+        var time = showTime ? (timestamp ?? DateTimeOffset.Now).ToLocalTime().ToString("HH:mm:ss") : string.Empty;
+        Logs.Add(new TaskQueueLogEntryViewModel(time, content.TrimEnd(), level));
+        const int maxLogs = 200;
+        while (Logs.Count > maxLogs)
+        {
+            Logs.RemoveAt(0);
+        }
+    }
+
+    private static string MapDocColorToLevel(string? color)
+    {
+        if (string.IsNullOrWhiteSpace(color))
+        {
+            return "INFO";
+        }
+
+        if (color.Contains("error", StringComparison.OrdinalIgnoreCase))
+        {
+            return "ERROR";
+        }
+
+        if (color.Contains("warn", StringComparison.OrdinalIgnoreCase))
+        {
+            return "WARN";
+        }
+
+        if (color.Contains("success", StringComparison.OrdinalIgnoreCase))
+        {
+            return "SUCCESS";
+        }
+
+        return "INFO";
+    }
+
+    private string ResolveLanguage()
+    {
+        if (Runtime.ConfigurationService.CurrentConfig.GlobalValues.TryGetValue("GUI.Localization", out var value)
+            && value is JsonValue jsonValue
+            && jsonValue.TryGetValue(out string? language)
+            && !string.IsNullOrWhiteSpace(language))
+        {
+            return UiLanguageCatalog.Normalize(language);
+        }
+
+        return UiLanguageCatalog.DefaultLanguage;
+    }
+
+    private static string? GetStringValue(JsonObject? obj, string key)
+    {
+        if (obj is null || !obj.TryGetPropertyValue(key, out var node) || node is null)
+        {
+            return null;
+        }
+
+        if (node is JsonValue value && value.TryGetValue(out string? text))
+        {
+            return text;
+        }
+
+        return node.ToString();
+    }
+
+    private static int? GetIntValue(JsonObject? obj, string key)
+    {
+        if (obj is null || !obj.TryGetPropertyValue(key, out var node) || node is null)
+        {
+            return null;
+        }
+
+        if (node is JsonValue value)
+        {
+            if (value.TryGetValue(out int number))
+            {
+                return number;
+            }
+
+            if (value.TryGetValue(out string? text) && int.TryParse(text, out number))
+            {
+                return number;
+            }
+        }
+
+        return null;
+    }
+
+    private static JsonObject? GetObjectValue(JsonObject? obj, string key)
+    {
+        if (obj is null || !obj.TryGetPropertyValue(key, out var node))
+        {
+            return null;
+        }
+
+        return node as JsonObject;
+    }
+
+    private static JsonArray? GetArrayValue(JsonObject? obj, string key)
+    {
+        if (obj is null || !obj.TryGetPropertyValue(key, out var node))
+        {
+            return null;
+        }
+
+        return node as JsonArray;
     }
 
     private void OnSessionStateChanged(SessionState state)
@@ -1029,7 +1377,13 @@ public sealed class CopilotPageViewModel : PageViewModelBase
 
         foreach (var item in loadedItems)
         {
-            Items.Add(new CopilotItemViewModel(item.Name, item.Type, item.SourcePath, item.InlinePayload));
+            Items.Add(new CopilotItemViewModel(item.Name, item.Type, item.SourcePath, item.InlinePayload)
+            {
+                CopilotId = Math.Max(0, item.CopilotId),
+                IsChecked = item.IsChecked,
+                IsRaid = item.IsRaid,
+                TabIndex = item.TabIndex,
+            });
         }
 
         if (Items.Count > 0)
@@ -1105,9 +1459,32 @@ public sealed class CopilotPageViewModel : PageViewModelBase
             var type = ResolvePersistedType(obj);
             _ = TryGetOptionalStringProperty(obj, "source_path", out var sourcePath)
                 || TryGetOptionalStringProperty(obj, "SourcePath", out sourcePath);
+            _ = TryGetOptionalStringProperty(obj, "file_path", out var legacyFilePath)
+                || TryGetOptionalStringProperty(obj, "FilePath", out legacyFilePath);
             _ = TryGetOptionalStringProperty(obj, "inline_payload", out var inlinePayload)
                 || TryGetOptionalStringProperty(obj, "InlinePayload", out inlinePayload);
-            items.Add(new PersistedCopilotItem(name, type, sourcePath, inlinePayload));
+            if (string.IsNullOrWhiteSpace(sourcePath))
+            {
+                sourcePath = legacyFilePath;
+            }
+
+            var copilotId = TryReadOptionalIntProperty(obj, "copilot_id", out var persistedCopilotId)
+                ? persistedCopilotId ?? 0
+                : TryReadOptionalIntProperty(obj, "CopilotId", out persistedCopilotId)
+                    ? persistedCopilotId ?? 0
+                    : 0;
+            var tabIndex = TryReadOptionalIntProperty(obj, "tab_index", out var persistedTabIndex)
+                ? persistedTabIndex
+                : TryReadOptionalIntProperty(obj, "TabIndex", out persistedTabIndex)
+                    ? persistedTabIndex
+                    : (int?)null;
+            var isRaid = TryReadOptionalBoolProperty(obj, "is_raid", out var persistedIsRaid)
+                ? persistedIsRaid
+                : TryReadOptionalBoolProperty(obj, "IsRaid", out persistedIsRaid) && persistedIsRaid;
+            var isChecked = TryReadOptionalBoolProperty(obj, "is_checked", out var persistedIsChecked)
+                ? persistedIsChecked
+                : !TryReadOptionalBoolProperty(obj, "IsChecked", out persistedIsChecked) || persistedIsChecked;
+            items.Add(new PersistedCopilotItem(name, type, sourcePath, inlinePayload, copilotId, tabIndex, isRaid, isChecked));
         }
 
         if (array.Count > 0 && items.Count == 0)
@@ -1123,7 +1500,7 @@ public sealed class CopilotPageViewModel : PageViewModelBase
     {
         if (TryGetRequiredStringProperty(obj, "type", out var type))
         {
-            return type;
+            return NormalizeTypeDisplayName(type);
         }
 
         if (TryGetPropertyCaseInsensitive(obj, "tab_index", out var tabNode)
@@ -1136,6 +1513,28 @@ public sealed class CopilotPageViewModel : PageViewModelBase
         }
 
         return Types[0];
+    }
+
+    private static string NormalizeTypeDisplayName(string? type)
+    {
+        var normalized = type?.Trim();
+        if (string.IsNullOrWhiteSpace(normalized))
+        {
+            return MainStageStoryCollectionSideStoryType;
+        }
+
+        return normalized switch
+        {
+            "主线" or MainStageStoryCollectionSideStoryType or "MainStageStoryCollectionSideStory" or "Copilot"
+                => MainStageStoryCollectionSideStoryType,
+            "SSS" or SecurityServiceStationType or "SSSCopilot"
+                => SecurityServiceStationType,
+            "悖论" or ParadoxSimulationType or "ParadoxCopilot"
+                => ParadoxSimulationType,
+            "活动" or OtherActivityType or "OtherActivityStage"
+                => OtherActivityType,
+            _ => normalized,
+        };
     }
 
     private static bool TryGetRequiredStringProperty(JsonObject obj, string key, out string value)
@@ -1166,6 +1565,69 @@ public sealed class CopilotPageViewModel : PageViewModelBase
         return value.Length > 0;
     }
 
+    private static bool TryReadOptionalIntProperty(JsonObject obj, string key, out int? value)
+    {
+        value = null;
+        if (!TryGetPropertyCaseInsensitive(obj, key, out var node)
+            || node is not JsonValue jsonValue)
+        {
+            return false;
+        }
+
+        if (jsonValue.TryGetValue(out int parsedInt))
+        {
+            value = parsedInt;
+            return true;
+        }
+
+        if (jsonValue.TryGetValue(out string? text) && int.TryParse(text, out parsedInt))
+        {
+            value = parsedInt;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool TryReadOptionalBoolProperty(JsonObject obj, string key, out bool value)
+    {
+        value = false;
+        if (!TryGetPropertyCaseInsensitive(obj, key, out var node)
+            || node is not JsonValue jsonValue)
+        {
+            return false;
+        }
+
+        if (jsonValue.TryGetValue(out bool parsedBool))
+        {
+            value = parsedBool;
+            return true;
+        }
+
+        if (jsonValue.TryGetValue(out int parsedInt))
+        {
+            value = parsedInt != 0;
+            return true;
+        }
+
+        if (jsonValue.TryGetValue(out string? text))
+        {
+            if (bool.TryParse(text, out parsedBool))
+            {
+                value = parsedBool;
+                return true;
+            }
+
+            if (int.TryParse(text, out parsedInt))
+            {
+                value = parsedInt != 0;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static bool TryGetPropertyCaseInsensitive(JsonObject obj, string key, out JsonNode? value)
     {
         foreach (var property in obj)
@@ -1184,12 +1646,28 @@ public sealed class CopilotPageViewModel : PageViewModelBase
     private string SerializeItemsPayload()
     {
         var items = Items
-            .Select(item => new PersistedCopilotItem(item.Name, item.Type, item.SourcePath, item.InlinePayload))
+            .Select(item => new PersistedCopilotItem(
+                item.Name,
+                item.Type,
+                item.SourcePath,
+                item.InlinePayload,
+                item.CopilotId,
+                item.TabIndex,
+                item.IsRaid,
+                item.IsChecked))
             .ToArray();
         return JsonSerializer.Serialize(items);
     }
 
     private sealed record CopilotListSnapshot(IReadOnlyList<CopilotItemViewModel> Items, CopilotItemViewModel? SelectedItem);
 
-    private sealed record PersistedCopilotItem(string Name, string Type, string SourcePath, string InlinePayload);
+    private sealed record PersistedCopilotItem(
+        string Name,
+        string Type,
+        string SourcePath,
+        string InlinePayload,
+        int CopilotId,
+        int? TabIndex,
+        bool IsRaid,
+        bool IsChecked);
 }

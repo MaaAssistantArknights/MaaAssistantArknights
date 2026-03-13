@@ -1,30 +1,26 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.TaskQueue.CustomSettingsView">
-  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="2">
+  <Grid RowDefinitions="Auto,Auto" Margin="2">
     <TextBlock Classes="section-title" Text="{Binding Texts[Custom.Title]}" />
 
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
-      <TextBlock VerticalAlignment="Top" Text="{Binding Texts[Custom.TaskNames]}" />
-      <TextBox AcceptsReturn="True" Height="120" Text="{Binding TaskNamesText}" />
-    </Grid>
+    <StackPanel Grid.Row="1" Spacing="{DynamicResource MAA.Spacing.Small}">
+      <TextBlock Text="{Binding Texts[Custom.TaskNames]}" />
+      <TextBox AcceptsReturn="True" Height="120" Text="{Binding TaskNamesText, UpdateSourceTrigger=LostFocus}" />
 
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,*">
-      <TextBlock VerticalAlignment="Top" Text="{Binding Texts[Custom.TaskNamesPreview]}" />
+      <TextBlock Text="{Binding Texts[Custom.TaskNamesPreview]}" />
       <TextBlock Text="{Binding TaskNamesPreview}" TextWrapping="Wrap" />
-    </Grid>
 
-    <Grid Grid.Row="3" RowDefinitions="Auto,Auto,Auto,Auto">
       <TextBlock Text="{Binding Texts[Common.LoadingTaskHint]}" />
-      <TextBlock Grid.Row="1" Text="{Binding StatusMessage}" />
-      <TextBlock Grid.Row="2"
-                 Foreground="{DynamicResource MAA.ErrorBrush}"
+      <TextBlock Text="{Binding StatusMessage}" />
+      <TextBlock Foreground="{DynamicResource MAA.ErrorBrush}"
                  Text="{Binding LastErrorMessage}"
                  TextWrapping="Wrap" />
-      <StackPanel Grid.Row="3">
+
+      <StackPanel IsVisible="{Binding HasValidationIssues}">
         <TextBlock Text="{Binding Texts[Common.ValidationIssues]}" />
         <ListBox MaxHeight="96" ItemsSource="{Binding ValidationMessages}" />
       </StackPanel>
-    </Grid>
+    </StackPanel>
   </Grid>
 </UserControl>

@@ -1,14 +1,8 @@
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
-using System.Threading.Channels;
+using Avalonia.Media;
 using MAAUnified.App.ViewModels.Toolbox;
-using MAAUnified.Application.Configuration;
-using MAAUnified.Application.Models;
-using MAAUnified.Application.Orchestration;
-using MAAUnified.Application.Services;
-using MAAUnified.Application.Services.Features;
+using MAAUnified.App.ViewModels.TaskQueue;
 using MAAUnified.CoreBridge;
-using MAAUnified.Platform;
 using LegacyConfigurationKeys = MAAUnified.Compat.Constants.ConfigurationKeys;
 
 namespace MAAUnified.Tests;
@@ -16,144 +10,259 @@ namespace MAAUnified.Tests;
 public sealed class ToolboxModuleO3FeatureTests
 {
     [Fact]
-    public async Task ExecuteToolAsync_MissingHandler_ShouldFailWithToolNotSupported()
+    public async Task ApplyRuntimeCallback_RecruitCallbacks_ShouldProjectResultsAndCompleteRun()
     {
-        var handlers = new Dictionary<ToolboxToolKind, Func<ToolboxExecuteRequest, CancellationToken, Task<UiOperationResult<string>>>>
-        {
-            [ToolboxToolKind.Recruit] = static (_, _) => Task.FromResult(UiOperationResult<string>.Ok("ok", "ok")),
-        };
-        var timeouts = Enum.GetValues<ToolboxToolKind>()
-            .ToDictionary(tool => tool, _ => TimeSpan.FromSeconds(5));
-        var service = new ToolboxFeatureService(handlers, timeouts);
-
-        var result = await service.ExecuteToolAsync(new ToolboxExecuteRequest(ToolboxToolKind.Depot, "format=summary;topN=50"));
-
-        Assert.False(result.Success);
-        Assert.Equal(UiErrorCode.ToolNotSupported, result.Error?.Code);
-    }
-
-    [Fact]
-    public async Task ExecuteCurrentToolAsync_DisclaimerNotAccepted_ShouldWriteFailureLogWithContext()
-    {
-        var service = new CapturingToolboxFeatureService();
-        await using var fixture = await RuntimeFixture.CreateAsync(service);
-        var vm = new ToolboxPageViewModel(fixture.Runtime)
-        {
-            DisclaimerAccepted = false,
-        };
-
+        await using var fixture = await ToolboxTestFixture.CreateAsync();
+        var vm = new ToolboxPageViewModel(fixture.Runtime, fixture.ConnectionState);
         await vm.InitializeAsync();
-        vm.ApplySuccessPresetForCurrentTool();
-        await vm.ExecuteCurrentToolAsync();
 
-        Assert.Equal(UiErrorCode.ToolboxDisclaimerNotAccepted, vm.LastExecutionErrorCode);
-        Assert.Equal(ToolboxExecutionState.Failed, vm.ExecutionState);
-        var errorLog = await File.ReadAllTextAsync(fixture.Runtime.DiagnosticsService.ErrorLogPath);
-        Assert.Contains("Toolbox.Recruit", errorLog, StringComparison.Ordinal);
-        Assert.Contains($"code={UiErrorCode.ToolboxDisclaimerNotAccepted}", errorLog, StringComparison.Ordinal);
-        Assert.Contains("stage", errorLog, StringComparison.Ordinal);
-        Assert.Contains("parameterSummary", errorLog, StringComparison.Ordinal);
+        await vm.StartRecruitAsync();
+
+        vm.ApplyRuntimeCallback(CreateCallback(
+            "SubTaskExtraInfo",
+            new JsonObject
+            {
+                ["taskchain"] = "Recruit",
+                ["what"] = "RecruitTagsDetected",
+                ["details"] = new JsonObject
+                {
+                    ["tags"] = new JsonArray("先锋干员", "费用回复"),
+                },
+            }));
+        vm.ApplyRuntimeCallback(CreateCallback(
+            "SubTaskExtraInfo",
+            new JsonObject
+            {
+                ["taskchain"] = "Recruit",
+                ["what"] = "RecruitResult",
+                ["details"] = new JsonObject
+                {
+                    ["result"] = new JsonArray
+                    {
+                        new JsonObject
+                        {
+                            ["level"] = 4,
+                            ["tags"] = new JsonArray("先锋干员", "费用回复"),
+                            ["opers"] = new JsonArray
+                            {
+                                new JsonObject
+                                {
+                                    ["level"] = 5,
+                                    ["id"] = "char_102_texas",
+                                    ["name"] = "德克萨斯",
+                                },
+                                new JsonObject
+                                {
+                                    ["level"] = 3,
+                                    ["id"] = "char_123_fang",
+                                    ["name"] = "芬",
+                                },
+                            },
+                        },
+                    },
+                },
+            }));
+        vm.ApplyRuntimeCallback(CreateCallback("TaskChainCompleted"));
+
+        Assert.Equal(ToolboxExecutionState.Succeeded, vm.ExecutionState);
+        Assert.Null(fixture.Runtime.SessionService.CurrentRunOwner);
+        Assert.Contains("先锋干员", vm.RecruitInfo, StringComparison.Ordinal);
+        Assert.True(vm.RecruitResultLines.Count >= 2);
+
+        var operatorLine = Assert.Single(
+            vm.RecruitResultLines,
+            line => line.Text.Contains("德克萨斯", StringComparison.Ordinal));
+        Assert.Equal(2, operatorLine.Segments.Count);
+        var texasSegment = Assert.Single(
+            operatorLine.Segments,
+            segment => segment.Text.Contains("德克萨斯", StringComparison.Ordinal));
+        var texasBrush = Assert.IsAssignableFrom<ISolidColorBrush>(texasSegment.Foreground);
+        Assert.Equal(Colors.Orange, texasBrush.Color);
+
+        var history = Assert.Single(vm.ExecutionHistory);
+        Assert.True(history.Success);
+        Assert.Equal("招募识别", history.ToolName);
+        await WaitForSettingAsync(fixture, "Toolbox.ExecutionHistory");
     }
 
     [Fact]
-    public async Task ExecuteCurrentToolAsync_InvalidParameters_ShouldWriteFailureLogWithContext()
+    public async Task ApplyRuntimeCallback_OperBoxDone_ShouldPersistLegacyBoxData()
     {
-        var service = new CapturingToolboxFeatureService();
-        await using var fixture = await RuntimeFixture.CreateAsync(service);
-        var vm = new ToolboxPageViewModel(fixture.Runtime)
-        {
-            DisclaimerAccepted = true,
-        };
-
+        await using var fixture = await ToolboxTestFixture.CreateAsync();
+        var vm = new ToolboxPageViewModel(fixture.Runtime, fixture.ConnectionState);
         await vm.InitializeAsync();
-        vm.ApplyFailurePresetForCurrentTool();
-        await vm.ExecuteCurrentToolAsync();
 
-        Assert.Equal(UiErrorCode.ToolboxInvalidParameters, vm.LastExecutionErrorCode);
-        Assert.Equal(ToolboxExecutionState.Failed, vm.ExecutionState);
-        var errorLog = await File.ReadAllTextAsync(fixture.Runtime.DiagnosticsService.ErrorLogPath);
-        Assert.Contains("Toolbox.Recruit", errorLog, StringComparison.Ordinal);
-        Assert.Contains($"code={UiErrorCode.ToolboxInvalidParameters}", errorLog, StringComparison.Ordinal);
-        Assert.Contains("stage", errorLog, StringComparison.Ordinal);
-        Assert.Contains("validation", errorLog, StringComparison.Ordinal);
+        await vm.StartOperBoxAsync();
+
+        vm.ApplyRuntimeCallback(CreateCallback(
+            "SubTaskExtraInfo",
+            new JsonObject
+            {
+                ["taskchain"] = "OperBox",
+                ["what"] = "OperBoxResult",
+                ["details"] = new JsonObject
+                {
+                    ["own_opers"] = new JsonArray
+                    {
+                        new JsonObject
+                        {
+                            ["id"] = "char_003_kalts",
+                            ["name"] = "凯尔希",
+                            ["rarity"] = 6,
+                            ["elite"] = 2,
+                            ["level"] = 90,
+                            ["potential"] = 6,
+                        },
+                    },
+                    ["done"] = true,
+                },
+            }));
+        vm.ApplyRuntimeCallback(CreateCallback("TaskChainCompleted"));
+
+        Assert.Equal(ToolboxExecutionState.Succeeded, vm.ExecutionState);
+        Assert.Single(vm.OperBoxHaveList);
+        Assert.Equal("char_003_kalts", vm.OperBoxHaveList[0].Id);
+
+        await WaitForSettingAsync(fixture, LegacyConfigurationKeys.OperBoxData, expectedSubstring: "char_003_kalts");
     }
 
     [Fact]
-    public async Task ExecuteCurrentToolAsync_ShouldPersistHistoryAndReloadInNewViewModel()
+    public async Task ApplyRuntimeCallback_StageDrops_ShouldUpdateDepotAndPersistLegacyResult()
     {
-        var service = new CapturingToolboxFeatureService();
-        await using var fixture = await RuntimeFixture.CreateAsync(service);
-        var first = new ToolboxPageViewModel(fixture.Runtime)
-        {
-            DisclaimerAccepted = true,
-        };
-
-        await first.InitializeAsync();
-        first.ApplySuccessPresetForCurrentTool();
-        await first.ExecuteCurrentToolAsync();
-
-        var second = new ToolboxPageViewModel(fixture.Runtime);
-        await second.InitializeAsync();
-
-        var record = Assert.Single(second.ExecutionHistory);
-        Assert.Equal("Recruit", record.ToolName);
-        Assert.True(record.Success);
-        Assert.Contains("level3Time=540", record.ParameterSummary, StringComparison.Ordinal);
-        Assert.Contains("ok:Recruit", record.ResultSummary, StringComparison.Ordinal);
-    }
-
-    [Fact]
-    public async Task ExecuteCurrentToolAsync_ShouldTrimPersistedHistoryToMaxCount()
-    {
-        var service = new CapturingToolboxFeatureService();
-        await using var fixture = await RuntimeFixture.CreateAsync(service);
-        var vm = new ToolboxPageViewModel(fixture.Runtime)
-        {
-            DisclaimerAccepted = true,
-        };
-
+        await using var fixture = await ToolboxTestFixture.CreateAsync();
+        var vm = new ToolboxPageViewModel(fixture.Runtime, fixture.ConnectionState);
         await vm.InitializeAsync();
-        for (var i = 0; i < 35; i++)
+
+        vm.ApplyRuntimeCallback(CreateCallback(
+            "SubTaskExtraInfo",
+            new JsonObject
+            {
+                ["taskchain"] = "Fight",
+                ["what"] = "StageDrops",
+                ["details"] = new JsonObject
+                {
+                    ["stats"] = new JsonArray
+                    {
+                        new JsonObject
+                        {
+                            ["itemId"] = "2001",
+                            ["itemName"] = "源岩",
+                            ["addQuantity"] = 7,
+                        },
+                    },
+                },
+            }));
+
+        var depotItem = Assert.Single(vm.DepotResult);
+        Assert.Equal("2001", depotItem.Id);
+        Assert.Equal(7, depotItem.Count);
+        await WaitForSettingAsync(fixture, LegacyConfigurationKeys.DepotResult);
+        Assert.Equal(7, ReadPersistedDepotCount(fixture, "2001"));
+    }
+
+    [Fact]
+    public async Task ApplyRuntimeCallback_StageDrops_ShouldRemainCompatibleWithFightTaskHints()
+    {
+        await using var fixture = await ToolboxTestFixture.CreateAsync();
+        var vm = new ToolboxPageViewModel(fixture.Runtime, fixture.ConnectionState);
+        await vm.InitializeAsync();
+
+        vm.ApplyRuntimeCallback(CreateCallback(
+            "SubTaskExtraInfo",
+            new JsonObject
+            {
+                ["taskchain"] = "Fight",
+                ["what"] = "StageDrops",
+                ["details"] = new JsonObject
+                {
+                    ["stats"] = new JsonArray
+                    {
+                        new JsonObject
+                        {
+                            ["itemId"] = "3231",
+                            ["itemName"] = "重装芯片",
+                            ["addQuantity"] = 7,
+                        },
+                    },
+                },
+            }));
+
+        await WaitForSettingAsync(fixture, LegacyConfigurationKeys.DepotResult);
+        var hint = FightTaskModuleViewModel.BuildDailyResourceHint(
+            "zh-cn",
+            "Official",
+            fixture.Config.CurrentConfig,
+            new DateTime(2026, 3, 15, 0, 0, 0, DateTimeKind.Utc));
+
+        Assert.Contains("PR-A-1/2", hint, StringComparison.Ordinal);
+        Assert.DoesNotContain("(库存", hint, StringComparison.Ordinal);
+        Assert.DoesNotContain("-1", hint, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ToolboxView_ShouldExposeAllToolActions_AndRemoveLegacyDemoActions()
+    {
+        var root = GetMaaUnifiedRoot();
+        var xaml = File.ReadAllText(Path.Combine(root, "App", "Features", "Advanced", "ToolboxView.axaml"));
+
+        Assert.Contains("Header=\"招募识别\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Header=\"干员识别\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Header=\"仓库识别\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Classes=\"toolbox-nav\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("ItemsSource=\"{Binding Segments}\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Header=\"抽卡\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Header=\"窥屏\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Header=\"小游戏\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Content=\"开始识别\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("复制到剪切板", xaml, StringComparison.Ordinal);
+        Assert.Contains("导出至企鹅物流刷图规划", xaml, StringComparison.Ordinal);
+        Assert.Contains("导出至明日方舟工具箱", xaml, StringComparison.Ordinal);
+        Assert.Contains("Content=\"寻访一次\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Content=\"寻访十次\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Content=\"知道了\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Content=\"{Binding PeepCommandText}\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Content=\"{Binding MiniGameCommandText}\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Source=\"{Binding EliteIconImage}\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Source=\"{Binding PotentialIconImage}\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Source=\"{Binding ItemImage}\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("x:Name=\"GachaDisclaimerEmphasisText\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("SpreadMethod=\"Repeat\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("DropShadowDirectionEffect", xaml, StringComparison.Ordinal);
+        Assert.DoesNotContain("执行成功示例", xaml, StringComparison.Ordinal);
+        Assert.DoesNotContain("执行失败示例", xaml, StringComparison.Ordinal);
+        Assert.DoesNotContain("CurrentToolParameters", xaml, StringComparison.Ordinal);
+        Assert.DoesNotContain("Text=\"状态\"", xaml, StringComparison.Ordinal);
+    }
+
+    private static CoreCallbackEvent CreateCallback(string msgName, JsonObject? payload = null)
+    {
+        return new CoreCallbackEvent(0, msgName, (payload ?? new JsonObject()).ToJsonString(), DateTimeOffset.Now);
+    }
+
+    private static async Task WaitForSettingAsync(ToolboxTestFixture fixture, string key, string? expectedSubstring = null)
+    {
+        for (var attempt = 0; attempt < 50; attempt++)
         {
-            vm.SelectedTabIndex = i % vm.Tabs.Count;
-            vm.ApplySuccessPresetForCurrentTool();
-            await vm.ExecuteCurrentToolAsync();
+            var value = ReadGlobalString(fixture, key);
+            if (!string.IsNullOrWhiteSpace(value)
+                && (string.IsNullOrWhiteSpace(expectedSubstring) || value.Contains(expectedSubstring, StringComparison.Ordinal)))
+            {
+                return;
+            }
+
+            await Task.Delay(20);
         }
 
-        Assert.Equal(30, vm.ExecutionHistory.Count);
-
-        var payload = ReadGlobalString(fixture.Config, "Toolbox.ExecutionHistory");
-        var array = Assert.IsType<JsonArray>(JsonNode.Parse(payload));
-        Assert.Equal(30, array.Count);
+        var current = ReadGlobalString(fixture, key);
+        Assert.True(
+            !string.IsNullOrWhiteSpace(current)
+            && (string.IsNullOrWhiteSpace(expectedSubstring) || current.Contains(expectedSubstring, StringComparison.Ordinal)),
+            $"Expected setting `{key}` to contain `{expectedSubstring}`, but got `{current}`.");
     }
 
-    [Fact]
-    public async Task ExecuteCurrentToolAsync_OperBoxAndDepot_ShouldPersistLegacyResultKeys()
+    private static string ReadGlobalString(ToolboxTestFixture fixture, string key)
     {
-        var service = new CapturingToolboxFeatureService();
-        await using var fixture = await RuntimeFixture.CreateAsync(service);
-        var vm = new ToolboxPageViewModel(fixture.Runtime)
-        {
-            DisclaimerAccepted = true,
-        };
-
-        await vm.InitializeAsync();
-
-        vm.SelectedTabIndex = 1;
-        vm.ApplySuccessPresetForCurrentTool();
-        await vm.ExecuteCurrentToolAsync();
-
-        vm.SelectedTabIndex = 2;
-        vm.ApplySuccessPresetForCurrentTool();
-        await vm.ExecuteCurrentToolAsync();
-
-        Assert.Equal("ok:OperBox", ReadGlobalString(fixture.Config, LegacyConfigurationKeys.OperBoxData));
-        Assert.Equal("ok:Depot", ReadGlobalString(fixture.Config, LegacyConfigurationKeys.DepotResult));
-    }
-
-    private static string ReadGlobalString(UnifiedConfigurationService config, string key)
-    {
-        if (config.CurrentConfig.GlobalValues.TryGetValue(key, out var node) && node is not null)
+        if (fixture.Config.CurrentConfig.GlobalValues.TryGetValue(key, out var node) && node is not null)
         {
             return node.ToString();
         }
@@ -161,154 +270,31 @@ public sealed class ToolboxModuleO3FeatureTests
         return string.Empty;
     }
 
-    private sealed class CapturingToolboxFeatureService : IToolboxFeatureService
+    private static int ReadPersistedDepotCount(ToolboxTestFixture fixture, string itemId)
     {
-        private readonly Func<ToolboxExecuteRequest, UiOperationResult<ToolboxExecuteResult>> _handler;
-
-        public CapturingToolboxFeatureService(Func<ToolboxExecuteRequest, UiOperationResult<ToolboxExecuteResult>>? handler = null)
-        {
-            _handler = handler ?? (request => UiOperationResult<ToolboxExecuteResult>.Ok(
-                new ToolboxExecuteResult(
-                    request.Tool,
-                    $"ok:{request.Tool}",
-                    request.ParameterText,
-                    DateTimeOffset.Now),
-                "ok"));
-        }
-
-        public Task<UiOperationResult<ToolboxExecuteResult>> ExecuteToolAsync(ToolboxExecuteRequest request, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return Task.FromResult(_handler(request));
-        }
+        var payload = ReadGlobalString(fixture, LegacyConfigurationKeys.DepotResult);
+        var root = JsonNode.Parse(payload) as JsonObject;
+        var dataPayload = root?["data"]?.ToString();
+        var data = string.IsNullOrWhiteSpace(dataPayload) ? null : JsonNode.Parse(dataPayload) as JsonObject;
+        var countText = data?[itemId]?.ToString();
+        return int.TryParse(countText, out var count) ? count : 0;
     }
 
-    private sealed class RuntimeFixture : IAsyncDisposable
+    private static string GetMaaUnifiedRoot()
     {
-        private RuntimeFixture(string root, UnifiedConfigurationService config, MAAUnifiedRuntime runtime)
+        var current = new DirectoryInfo(AppContext.BaseDirectory);
+        while (current is not null)
         {
-            Root = root;
-            Config = config;
-            Runtime = runtime;
-        }
-
-        public string Root { get; }
-
-        public UnifiedConfigurationService Config { get; }
-
-        public MAAUnifiedRuntime Runtime { get; }
-
-        public static async Task<RuntimeFixture> CreateAsync(IToolboxFeatureService toolboxFeatureService)
-        {
-            var root = Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(Path.Combine(root, "config"));
-
-            var log = new UiLogService();
-            var diagnostics = new UiDiagnosticsService(root, log);
-            var config = new UnifiedConfigurationService(
-                new AvaloniaJsonConfigStore(root),
-                new GuiNewJsonConfigImporter(),
-                new GuiJsonConfigImporter(),
-                log,
-                root);
-            await config.LoadOrBootstrapAsync();
-
-            var bridge = new NullBridge();
-            var session = new UnifiedSessionService(bridge, config, log, new SessionStateMachine());
-            var platform = new PlatformServiceBundle
+            var appDir = Path.Combine(current.FullName, "App");
+            var testsDir = Path.Combine(current.FullName, "Tests");
+            if (Directory.Exists(appDir) && Directory.Exists(testsDir))
             {
-                TrayService = new NoOpTrayService(),
-                NotificationService = new NoOpNotificationService(),
-                HotkeyService = new NoOpGlobalHotkeyService(),
-                AutostartService = new NoOpAutostartService(),
-                FileDialogService = new NoOpFileDialogService(),
-                OverlayService = new NoOpOverlayCapabilityService(),
-                PostActionExecutorService = new NoOpPostActionExecutorService(),
-            };
-
-            var capability = new PlatformCapabilityFeatureService(platform, diagnostics);
-            var connect = new ConnectFeatureService(session, config);
-
-            var runtime = new MAAUnifiedRuntime
-            {
-                CoreBridge = bridge,
-                ConfigurationService = config,
-                ResourceWorkflowService = new ResourceWorkflowService(root, bridge, log),
-                SessionService = session,
-                Platform = platform,
-                LogService = log,
-                DiagnosticsService = diagnostics,
-                ConnectFeatureService = connect,
-                ShellFeatureService = new ShellFeatureService(connect),
-                TaskQueueFeatureService = new TaskQueueFeatureService(session, config),
-                CopilotFeatureService = new CopilotFeatureService(),
-                ToolboxFeatureService = toolboxFeatureService,
-                RemoteControlFeatureService = new RemoteControlFeatureService(),
-                PlatformCapabilityService = capability,
-                OverlayFeatureService = new OverlayFeatureService(capability),
-                NotificationProviderFeatureService = new NotificationProviderFeatureService(),
-                SettingsFeatureService = new SettingsFeatureService(config, capability, diagnostics),
-                DialogFeatureService = new DialogFeatureService(diagnostics),
-                PostActionFeatureService = new PostActionFeatureService(config, diagnostics, platform.PostActionExecutorService),
-            };
-
-            return new RuntimeFixture(root, config, runtime);
-        }
-
-        public async ValueTask DisposeAsync()
-        {
-            await Runtime.DisposeAsync();
-            try
-            {
-                Directory.Delete(Root, recursive: true);
+                return current.FullName;
             }
-            catch
-            {
-                // ignore temp cleanup failures
-            }
-        }
-    }
 
-    private sealed class NullBridge : IMaaCoreBridge
-    {
-        private readonly Channel<CoreCallbackEvent> _callbacks = Channel.CreateUnbounded<CoreCallbackEvent>();
-
-        public Task<CoreResult<CoreInitializeInfo>> InitializeAsync(CoreInitializeRequest request, CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<CoreInitializeInfo>.Ok(new CoreInitializeInfo(request.BaseDirectory, "fake", "fake", request.ClientType)));
-
-        public Task<CoreResult<bool>> ConnectAsync(CoreConnectionInfo connectionInfo, CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<bool>.Ok(true));
-
-        public Task<CoreResult<int>> AppendTaskAsync(CoreTaskRequest task, CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<int>.Ok(1));
-
-        public Task<CoreResult<bool>> StartAsync(CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<bool>.Ok(true));
-
-        public Task<CoreResult<bool>> StopAsync(CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<bool>.Ok(true));
-
-        public Task<CoreResult<CoreRuntimeStatus>> GetRuntimeStatusAsync(CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<CoreRuntimeStatus>.Ok(new CoreRuntimeStatus(true, true, false)));
-
-        public Task<CoreResult<bool>> AttachWindowAsync(CoreAttachWindowRequest request, CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<bool>.Fail(new CoreError(CoreErrorCode.NotSupported, "not supported")));
-
-        public Task<CoreResult<byte[]>> GetImageAsync(CancellationToken cancellationToken = default)
-            => Task.FromResult(CoreResult<byte[]>.Fail(new CoreError(CoreErrorCode.GetImageFailed, "not supported")));
-
-        public async IAsyncEnumerable<CoreCallbackEvent> CallbackStreamAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
-        {
-            await foreach (var callback in _callbacks.Reader.ReadAllAsync(cancellationToken))
-            {
-                yield return callback;
-            }
+            current = current.Parent;
         }
 
-        public ValueTask DisposeAsync()
-        {
-            _callbacks.Writer.TryComplete();
-            return ValueTask.CompletedTask;
-        }
+        throw new DirectoryNotFoundException("Could not locate src/MAAUnified root.");
     }
 }

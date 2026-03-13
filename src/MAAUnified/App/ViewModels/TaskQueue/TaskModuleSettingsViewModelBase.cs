@@ -9,6 +9,7 @@ public abstract class TaskModuleSettingsViewModelBase : ObservableObject
     private readonly SemaphoreSlim _persistLock = new(1, 1);
     private CancellationTokenSource? _persistDebounceCts;
     private bool _isTaskBound;
+    private bool _isAdvancedMode;
     private string _statusMessage = string.Empty;
     private string _lastErrorMessage = string.Empty;
     private int _boundTaskIndex = -1;
@@ -32,6 +33,22 @@ public abstract class TaskModuleSettingsViewModelBase : ObservableObject
         get => _isTaskBound;
         private set => SetProperty(ref _isTaskBound, value);
     }
+
+    public bool IsAdvancedMode
+    {
+        get => _isAdvancedMode;
+        set
+        {
+            if (!SetProperty(ref _isAdvancedMode, value))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(IsGeneralMode));
+        }
+    }
+
+    public bool IsGeneralMode => !IsAdvancedMode;
 
     public string StatusMessage
     {

@@ -1,7 +1,6 @@
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Avalonia.Threading;
 using MAAUnified.App.ViewModels;
 using MAAUnified.App.ViewModels.Settings;
 using MAAUnified.Application.Configuration;
@@ -14,6 +13,7 @@ using MAAUnified.Platform;
 
 namespace MAAUnified.Tests;
 
+[Collection("MainShellSerial")]
 public sealed class TimerScheduleAK3FeatureTests
 {
     [Fact]
@@ -175,16 +175,6 @@ public sealed class TimerScheduleAK3FeatureTests
         var task = method!.Invoke(shell, [now, CancellationToken.None]) as Task;
         Assert.NotNull(task);
         await task!;
-    }
-
-    private static void StopTimerScheduler(MainShellViewModel shell)
-    {
-        var field = typeof(MainShellViewModel).GetField(
-            "_timerScheduleTimer",
-            BindingFlags.Instance | BindingFlags.NonPublic);
-        Assert.NotNull(field);
-        var timer = Assert.IsType<DispatcherTimer>(field!.GetValue(shell));
-        timer.Stop();
     }
 
     private static async Task<bool> WaitForLogContainsAsync(string path, string expected, int retry = 20, int delayMs = 30)
@@ -363,7 +353,7 @@ public sealed class TimerScheduleAK3FeatureTests
             await shell.InitializeAsync();
             var connectResult = await runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null);
             Assert.True(connectResult.Success, connectResult.Message);
-            StopTimerScheduler(shell);
+            TestShellCleanup.StopTimerScheduler(shell);
             await shell.TaskQueuePage.ReloadTasksAsync();
 
             return new TestFixture(root, runtime, shell, bridge);
@@ -397,6 +387,7 @@ public sealed class TimerScheduleAK3FeatureTests
 
         public async ValueTask DisposeAsync()
         {
+            TestShellCleanup.StopTimerScheduler(Shell);
             await Runtime.DisposeAsync();
             try
             {

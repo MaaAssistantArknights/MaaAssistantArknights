@@ -17,12 +17,20 @@ public sealed class TaskQueueItemViewModel : ObservableObject
     private bool _isEnabled;
     private string _name;
     private string _status = TaskQueueItemStatus.Idle;
+    private string _moduleDisplayName;
+    private string _statusDisplayName = TaskQueueItemStatus.Idle;
+    private string _displayName;
+    private string _toolTipText;
 
     public TaskQueueItemViewModel(string type, string name, bool isEnabled)
     {
         Type = TaskModuleTypes.Normalize(type);
         _name = name;
         _isEnabled = isEnabled;
+        _moduleDisplayName = Type;
+        _displayName = name;
+        _toolTipText = name;
+        RefreshToolTipText();
     }
 
     public string Type { get; }
@@ -46,6 +54,7 @@ public sealed class TaskQueueItemViewModel : ObservableObject
         {
             if (SetProperty(ref _status, value))
             {
+                StatusDisplayName = value;
                 OnPropertyChanged(nameof(IsStatusRunning));
                 OnPropertyChanged(nameof(IsStatusSuccess));
                 OnPropertyChanged(nameof(IsStatusError));
@@ -53,6 +62,42 @@ public sealed class TaskQueueItemViewModel : ObservableObject
                 OnPropertyChanged(nameof(IsStatusIdle));
             }
         }
+    }
+
+    public string ModuleDisplayName
+    {
+        get => _moduleDisplayName;
+        set => SetProperty(ref _moduleDisplayName, value);
+    }
+
+    public string StatusDisplayName
+    {
+        get => _statusDisplayName;
+        set
+        {
+            if (SetProperty(ref _statusDisplayName, value))
+            {
+                RefreshToolTipText();
+            }
+        }
+    }
+
+    public string DisplayName
+    {
+        get => _displayName;
+        set
+        {
+            if (SetProperty(ref _displayName, value))
+            {
+                RefreshToolTipText();
+            }
+        }
+    }
+
+    public string ToolTipText
+    {
+        get => _toolTipText;
+        private set => SetProperty(ref _toolTipText, value);
     }
 
     public bool IsStatusRunning => IsStatus(TaskQueueItemStatus.Running);
@@ -72,6 +117,26 @@ public sealed class TaskQueueItemViewModel : ObservableObject
     public static TaskQueueItemViewModel FromUnifiedTask(UnifiedTaskItem task)
     {
         return new TaskQueueItemViewModel(task.Type, task.Name, task.IsEnabled);
+    }
+
+    public void RefreshLocalizedText(Func<string, string> resolveModuleDisplayName, Func<string, string> resolveStatusDisplayName)
+    {
+        ModuleDisplayName = resolveModuleDisplayName(Type);
+        StatusDisplayName = resolveStatusDisplayName(Status);
+        RefreshToolTipText();
+    }
+
+    public void RefreshToolTipText()
+    {
+        var title = string.IsNullOrWhiteSpace(DisplayName) ? Name : DisplayName;
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            title = ModuleDisplayName;
+        }
+
+        ToolTipText = string.IsNullOrWhiteSpace(StatusDisplayName)
+            ? title
+            : $"{title} ({StatusDisplayName})";
     }
 
     private bool IsStatus(string expected)

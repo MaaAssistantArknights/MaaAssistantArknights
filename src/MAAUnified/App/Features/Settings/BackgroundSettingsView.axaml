@@ -1,27 +1,80 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
+             xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.Settings"
              x:Class="MAAUnified.App.Features.Settings.BackgroundSettingsView">
   <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="Background" />
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto">
-      <TextBlock VerticalAlignment="Center" Text="背景图路径" />
-      <TextBox Text="{Binding BackgroundImagePath}"
+    <Grid ColumnDefinitions="Auto,*">
+      <TextBlock Classes="section-title" Text="背景设置" />
+      <TextBlock Grid.Column="1"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Center"
+                 Classes="state-warning"
+                 Text="正在保存..."
+                 IsVisible="{Binding IsGuiSaveInProgress}" />
+      <TextBlock Grid.Column="1"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Center"
+                 Classes="state-success"
+                 Text="保存成功"
+                 IsVisible="{Binding HasGuiSaveSucceeded}" />
+    </Grid>
+    <Grid Grid.Row="1"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+          ColumnDefinitions="132,*,Auto">
+      <TextBlock Classes="settings-label" Text="背景图路径" />
+      <TextBox Grid.Column="1"
+               Text="{Binding BackgroundImagePath, UpdateSourceTrigger=LostFocus}"
                LostFocus="OnBackgroundPathLostFocus"
                KeyDown="OnBackgroundPathKeyDown" />
-      <Button Grid.Column="2" Content="选择" />
+      <Button Grid.Column="2"
+              Classes="wpf-button wpf-button-secondary"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+              Content="选择" />
     </Grid>
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,120,Auto,120,Auto,140">
-      <TextBlock VerticalAlignment="Center" Text="透明度(0-100)" />
-      <NumericUpDown Minimum="0" Maximum="100" Value="{Binding BackgroundOpacity}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="模糊" />
-      <NumericUpDown Grid.Column="3" Minimum="0" Maximum="80" Value="{Binding BackgroundBlur}" />
-      <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="拉伸模式" />
-      <ComboBox Grid.Column="5"
+    <Grid Grid.Row="2"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+          ColumnDefinitions="152,120,152,120">
+      <TextBlock Classes="settings-label" Text="透明度(0-100)" />
+      <controls:VerticalSpinNumberBox Grid.Column="1"
+                                      Minimum="0"
+                                      Maximum="100"
+                                      Value="{Binding BackgroundOpacity}" />
+      <TextBlock Grid.Column="2" Classes="settings-label" Text="模糊半径" />
+      <controls:VerticalSpinNumberBox Grid.Column="3"
+                                      Minimum="0"
+                                      Maximum="80"
+                                      Value="{Binding BackgroundBlur}" />
+    </Grid>
+    <Grid Grid.Row="3"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+          ColumnDefinitions="132,220">
+      <TextBlock Classes="settings-label" Text="拉伸模式" />
+      <ComboBox Grid.Column="1"
                 ItemsSource="{Binding BackgroundStretchModes}"
-                SelectedItem="{Binding BackgroundStretchMode}" />
+                SelectedItem="{Binding SelectedBackgroundStretchModeOption}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="vm:DisplayValueOption">
+            <TextBlock Text="{Binding Display}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
     </Grid>
-    <TextBlock Grid.Row="3" Classes="state-warning" Text="{Binding GuiValidationMessage}" IsVisible="{Binding HasGuiValidationMessage}" />
-    <TextBlock Grid.Row="4" Classes="state-warning" Text="存在未保存的 GUI 变更。" IsVisible="{Binding HasPendingGuiChanges}" />
-    <TextBlock Grid.Row="5" Text="背景图与模糊参数与 Windows 保持同名配置键。若路径不存在，将阻断本次 GUI 保存。" />
+    <TextBlock Grid.Row="4"
+               HorizontalAlignment="Center"
+               MaxWidth="{DynamicResource MAA.Size.Settings.FormNarrowMaxWidth}"
+               Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+               Classes="state-warning long-wrap"
+               Text="{Binding GuiValidationMessage}"
+               IsVisible="{Binding HasGuiValidationMessage}" />
+    <TextBlock Grid.Row="5"
+               HorizontalAlignment="Center"
+               MaxWidth="{DynamicResource MAA.Size.Settings.FormNarrowMaxWidth}"
+               Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+               Classes="settings-note"
+               Text="背景图与模糊参数与 Windows 保持同名配置键。若路径不存在，将阻断本次 GUI 保存。" />
   </Grid>
 </UserControl>

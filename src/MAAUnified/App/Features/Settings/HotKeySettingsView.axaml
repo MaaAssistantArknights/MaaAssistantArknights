@@ -2,16 +2,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.HotKeySettingsView">
   <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="HotKey" />
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,160,Auto,160,Auto">
-      <TextBlock VerticalAlignment="Center" Text="显示 GUI" />
-      <TextBox Text="{Binding HotkeyShowGui}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="LinkStart" />
-      <TextBox Grid.Column="3" Text="{Binding HotkeyLinkStart}" />
-      <Button Grid.Column="4" Content="应用热键" Click="OnApplyHotkeysClick" />
+    <TextBlock Classes="section-title" Text="热键设置" />
+    <Grid Grid.Row="1"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+          ColumnDefinitions="132,220,132,220,Auto">
+      <TextBlock Classes="settings-label" Text="显示 GUI" />
+      <TextBox Grid.Column="1" Text="{Binding HotkeyShowGui, UpdateSourceTrigger=LostFocus}" />
+      <TextBlock Grid.Column="2" Classes="settings-label" Text="LinkStart" />
+      <TextBox Grid.Column="3" Text="{Binding HotkeyLinkStart, UpdateSourceTrigger=LostFocus}" />
+      <Button Grid.Column="4"
+              Classes="wpf-button wpf-button-secondary"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+              Content="应用热键"
+              Click="OnApplyHotkeysClick" />
     </Grid>
-    <TextBlock Grid.Row="2" Text="{Binding HotkeyStatusMessage}" />
-    <TextBlock Grid.Row="3" Classes="state-warning" Text="{Binding HotkeyWarningMessage}" IsVisible="{Binding HasHotkeyWarningMessage}" />
-    <TextBlock Grid.Row="4" Classes="state-error" Text="{Binding HotkeyErrorMessage}" IsVisible="{Binding HasHotkeyErrorMessage}" />
+    <StackPanel Grid.Row="2"
+                Grid.RowSpan="3"
+                Classes="settings-form settings-form-narrow"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="4">
+      <TextBlock Text="{Binding HotkeyStatusMessage}" />
+      <TextBlock Classes="state-warning"
+                 Text="{Binding HotkeyWarningMessage}"
+                 IsVisible="{Binding HasHotkeyWarningMessage}" />
+      <TextBlock Classes="state-error"
+                 Text="{Binding HotkeyErrorMessage}"
+                 IsVisible="{Binding HasHotkeyErrorMessage}" />
+    </StackPanel>
   </Grid>
 </UserControl>

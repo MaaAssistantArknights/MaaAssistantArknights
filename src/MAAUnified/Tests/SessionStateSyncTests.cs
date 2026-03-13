@@ -173,6 +173,55 @@ public sealed class SessionStateSyncTests
     }
 
     [Fact]
+    public async Task CallbackStream_ScreencapTelemetryConnectionInfo_ShouldNotWarn_AndPumpContinues()
+    {
+        var bridge = new FakeBridge();
+        var logService = new UiLogService();
+        var session = new UnifiedSessionService(bridge, CreateConfigService(), logService, new SessionStateMachine());
+
+        using var cts = new CancellationTokenSource();
+        var pumpTask = Task.Run(async () =>
+        {
+            try
+            {
+                await session.StartCallbackPumpAsync(_ => Task.CompletedTask, cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // expected on cancellation
+            }
+        });
+
+        bridge.Publish(new CoreCallbackEvent(2, "ConnectionInfo", """{"what":"Connected"}""", DateTimeOffset.UtcNow));
+        await WaitUntilAsync(() => session.CurrentState == SessionState.Connected);
+
+        bridge.Publish(new CoreCallbackEvent(
+            2,
+            "ConnectionInfo",
+            """{"what":"FastestWayToScreencap","details":{"method":"RawByNc","cost":87}}""",
+            DateTimeOffset.UtcNow));
+        bridge.Publish(new CoreCallbackEvent(
+            2,
+            "ConnectionInfo",
+            """{"what":"ScreencapCost","details":{"min":101,"avg":202,"max":303}}""",
+            DateTimeOffset.UtcNow));
+        bridge.Publish(new CoreCallbackEvent(10001, "TaskChainStart", "{}", DateTimeOffset.UtcNow));
+
+        await WaitUntilAsync(() => session.CurrentState == SessionState.Running);
+
+        Assert.DoesNotContain(
+            logService.Snapshot,
+            log => string.Equals(log.Level, "WARN", StringComparison.OrdinalIgnoreCase)
+                && log.Message.Contains("ConnectionInfo.what", StringComparison.Ordinal)
+                && (log.Message.Contains("ScreencapCost", StringComparison.Ordinal)
+                    || log.Message.Contains("FastestWayToScreencap", StringComparison.Ordinal)));
+
+        cts.Cancel();
+        bridge.Complete();
+        await pumpTask;
+    }
+
+    [Fact]
     public async Task CallbackStream_OnEventThrows_ShouldWarnAndContinuePump()
     {
         var bridge = new FakeBridge();

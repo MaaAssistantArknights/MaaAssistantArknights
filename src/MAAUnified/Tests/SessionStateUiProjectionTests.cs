@@ -21,33 +21,33 @@ public sealed class SessionStateUiProjectionTests
 
         Assert.Equal(SessionState.Idle, vm.CurrentSessionState);
         Assert.False(vm.IsRunning);
-        Assert.False(vm.CanToggleRun);
-        Assert.Equal("LinkStart", vm.RunButtonText);
+        Assert.True(vm.CanToggleRun);
+        Assert.Equal(vm.RootTexts.GetOrDefault("TaskQueue.Root.LinkStart", "Link Start!"), vm.RunButtonText);
 
         Assert.True((await fixture.Runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
         await WaitUntilAsync(() => vm.CurrentSessionState == SessionState.Connected);
 
         Assert.False(vm.IsRunning);
         Assert.True(vm.CanToggleRun);
-        Assert.Equal("LinkStart", vm.RunButtonText);
+        Assert.Equal(vm.RootTexts.GetOrDefault("TaskQueue.Root.LinkStart", "Link Start!"), vm.RunButtonText);
 
         Assert.True((await fixture.Runtime.ConnectFeatureService.StartAsync()).Success);
         await WaitUntilAsync(() => vm.CurrentSessionState == SessionState.Running);
 
         Assert.True(vm.IsRunning);
         Assert.True(vm.CanToggleRun);
-        Assert.Equal("Stop", vm.RunButtonText);
+        Assert.Equal(vm.RootTexts.GetOrDefault("TaskQueue.Root.Stop", "Stop"), vm.RunButtonText);
 
         Assert.True((await fixture.Runtime.ConnectFeatureService.StopAsync()).Success);
         await WaitUntilAsync(() => vm.CurrentSessionState == SessionState.Connected);
 
         Assert.False(vm.IsRunning);
         Assert.True(vm.CanToggleRun);
-        Assert.Equal("LinkStart", vm.RunButtonText);
+        Assert.Equal(vm.RootTexts.GetOrDefault("TaskQueue.Root.LinkStart", "Link Start!"), vm.RunButtonText);
     }
 
     [Fact]
-    public async Task TaskQueuePage_ShouldDisableLinkStart_WhenConfigHasBlockingIssues()
+    public async Task TaskQueuePage_ShouldKeepLinkStartClickable_WhenConfigHasBlockingIssues()
     {
         await using var fixture = await TestFixture.CreateAsync(existingAvaloniaJson: CreateBlockingConfigJson());
         var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
@@ -57,8 +57,73 @@ public sealed class SessionStateUiProjectionTests
         await WaitUntilAsync(() => vm.CurrentSessionState == SessionState.Connected);
 
         Assert.True(vm.HasBlockingConfigIssues);
-        Assert.False(vm.CanToggleRun);
+        Assert.True(vm.CanToggleRun);
         Assert.True(vm.BlockingConfigIssueCount > 0);
+    }
+
+    [Fact]
+    public async Task TaskQueuePage_ToggleRun_WhenNotConnected_ShouldAutoConnectAndStart()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.Equal(SessionState.Idle, vm.CurrentSessionState);
+
+        await vm.ToggleRunAsync();
+        await WaitUntilAsync(() => vm.CurrentSessionState is SessionState.Running or SessionState.Connected);
+
+        Assert.NotEqual(SessionState.Idle, vm.CurrentSessionState);
+        Assert.DoesNotContain("Session state", vm.LastErrorMessage ?? string.Empty, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public async Task TaskQueuePage_Start_WhenConnectFails_ShouldShowConciseGuidanceWithoutIdleNoise()
+    {
+        await using var fixture = await TestFixture.CreateAsync(bridge: new FailingConnectBridge());
+        var vm = new TaskQueuePageViewModel(
+            fixture.Runtime,
+            new ConnectionGameSharedStateViewModel
+            {
+                ConnectAddress = "127.0.0.1:5555",
+                ConnectConfig = "MuMuEmulator12",
+                AdbPath = @"D:\Program Files\Netease\MuMuPlayer-12.0\shell\adb.exe",
+            });
+        await vm.InitializeAsync();
+
+        await vm.StartAsync();
+        await WaitUntilAsync(() => HasLinkStartFailureLog(vm));
+
+        Assert.Contains("连接失败", vm.LastErrorMessage, StringComparison.Ordinal);
+        Assert.Contains("当前系统是 Linux", vm.LastErrorMessage, StringComparison.Ordinal);
+        Assert.Contains("连接失败，请检查当前配置的 ADB 路径。", vm.StartPrecheckWarningMessage, StringComparison.Ordinal);
+        Assert.Contains("Connection failed. Check the ADB path of the current profile.", vm.StartPrecheckWarningMessage, StringComparison.Ordinal);
+        Assert.DoesNotContain("会话状态", vm.LastErrorMessage, StringComparison.Ordinal);
+        Assert.DoesNotContain("Session state", vm.LastErrorMessage, StringComparison.Ordinal);
+        Assert.DoesNotContain("错误详情", vm.LastErrorMessage, StringComparison.Ordinal);
+        Assert.DoesNotContain(@"D:\Program Files", vm.StartPrecheckWarningMessage, StringComparison.Ordinal);
+        Assert.DoesNotContain("ADB restart failed:", FlattenLogs(vm), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task TaskQueuePage_Start_WhenValidationBlocks_ShouldSelectFirstBlockingTaskAndAppendFailureLog()
+    {
+        await using var fixture = await TestFixture.CreateAsync(existingAvaloniaJson: CreateValidationBlockingConfigJson());
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        Assert.Equal("reclamation-ok", vm.SelectedTask?.Name);
+        Assert.True((await fixture.Runtime.ConnectFeatureService.ConnectAsync("127.0.0.1:5555", "General", null)).Success);
+        await WaitUntilAsync(() => vm.CurrentSessionState == SessionState.Connected);
+
+        await vm.StartAsync();
+
+        Assert.Equal(SessionState.Connected, vm.CurrentSessionState);
+        Assert.Equal("recruit-blocking", vm.SelectedTask?.Name);
+        Assert.True(vm.HasStartPrecheckWarningMessage);
+        Assert.Contains("recruit-blocking", vm.StartPrecheckWarningMessage, StringComparison.OrdinalIgnoreCase);
+        await WaitUntilAsync(() => HasLinkStartFailureLog(vm));
+        Assert.True(HasLinkStartFailureLog(vm));
     }
 
     [Fact]
@@ -88,6 +153,21 @@ public sealed class SessionStateUiProjectionTests
     }
 
     [Fact]
+    public async Task CopilotPage_Start_WhenSessionNotConnected_ShouldExposeBilingualErrorMessage()
+    {
+        await using var fixture = await TestFixture.CreateAsync();
+        var vm = new CopilotPageViewModel(fixture.Runtime);
+        vm.Items.Add(new CopilotItemViewModel("sample", "Copilot", inlinePayload: "{}"));
+        vm.SelectedItem = vm.Items[0];
+
+        await vm.StartAsync();
+
+        Assert.Contains("会话状态", vm.LastErrorMessage, StringComparison.Ordinal);
+        Assert.Contains("Session state", vm.LastErrorMessage, StringComparison.Ordinal);
+        Assert.Contains("start", vm.LastErrorMessage, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public async Task TaskQueuePage_WaitAndStop_ShouldDisableControlsAndRecoverWhenSessionStops()
     {
         await using var fixture = await TestFixture.CreateAsync();
@@ -102,7 +182,7 @@ public sealed class SessionStateUiProjectionTests
 
         Assert.False(vm.CanToggleRun);
         Assert.False(vm.CanWaitAndStop);
-        Assert.Equal("Waiting...", vm.WaitAndStopButtonText);
+        Assert.Equal("等待中...", vm.WaitAndStopButtonText);
 
         Assert.True((await fixture.Runtime.ConnectFeatureService.StopAsync()).Success);
         await waitTask;
@@ -111,8 +191,8 @@ public sealed class SessionStateUiProjectionTests
         Assert.False(vm.IsWaitingForStop);
         Assert.True(vm.CanToggleRun);
         Assert.False(vm.CanWaitAndStop);
-        Assert.Equal("WaitAndStop", vm.WaitAndStopButtonText);
-        Assert.Equal(1, fixture.Bridge.StopCallCount);
+        Assert.Equal("等待并停止", vm.WaitAndStopButtonText);
+        Assert.Equal(1, Assert.IsType<FakeBridge>(fixture.Bridge).StopCallCount);
     }
 
     [Fact]
@@ -135,7 +215,7 @@ public sealed class SessionStateUiProjectionTests
         Assert.False(vm.IsWaitingForStop);
         Assert.True(vm.CanToggleRun);
         Assert.True(vm.CanWaitAndStop);
-        Assert.Equal("WaitAndStop", vm.WaitAndStopButtonText);
+        Assert.Equal("等待并停止", vm.WaitAndStopButtonText);
     }
 
     [Fact]
@@ -176,6 +256,38 @@ public sealed class SessionStateUiProjectionTests
         throw new TimeoutException("Condition not reached in expected time.");
     }
 
+    private static bool HasLinkStartFailureLog(TaskQueuePageViewModel vm)
+    {
+        try
+        {
+            return vm.LogCards
+                .ToArray()
+                .SelectMany(card => card.Items.ToArray())
+                .Any(entry => entry.Level == "ERROR" && entry.Content.Contains("Link Start failed:", StringComparison.Ordinal));
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    }
+
+    private static string FlattenLogs(TaskQueuePageViewModel vm)
+    {
+        try
+        {
+            return string.Join(
+                "\n",
+                vm.LogCards
+                    .ToArray()
+                    .SelectMany(card => card.Items.ToArray())
+                    .Select(entry => entry.Content));
+        }
+        catch (InvalidOperationException)
+        {
+            return string.Empty;
+        }
+    }
+
     private static string CreateBlockingConfigJson()
     {
         return
@@ -204,9 +316,50 @@ public sealed class SessionStateUiProjectionTests
             """;
     }
 
+    private static string CreateValidationBlockingConfigJson()
+    {
+        return
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {},
+                  "TaskQueue": [
+                    {
+                      "Type": "Reclamation",
+                      "Name": "reclamation-ok",
+                      "IsEnabled": true,
+                      "Params": {
+                        "theme": "Tales",
+                        "mode": 1,
+                        "increment_mode": 0,
+                        "num_craft_batches": 16,
+                        "tools_to_craft": [],
+                        "clear_store": false
+                      }
+                    },
+                    {
+                      "Type": "Recruit",
+                      "Name": "recruit-blocking",
+                      "IsEnabled": true,
+                      "Params": {
+                        "times": -1
+                      }
+                    }
+                  ]
+                }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """;
+    }
+
     private sealed class TestFixture : IAsyncDisposable
     {
-        private TestFixture(string root, MAAUnifiedRuntime runtime, FakeBridge bridge)
+        private TestFixture(string root, MAAUnifiedRuntime runtime, IMaaCoreBridge bridge)
         {
             Root = root;
             Runtime = runtime;
@@ -217,9 +370,11 @@ public sealed class SessionStateUiProjectionTests
 
         public MAAUnifiedRuntime Runtime { get; }
 
-        public FakeBridge Bridge { get; }
+        public IMaaCoreBridge Bridge { get; }
 
-        public static async Task<TestFixture> CreateAsync(string? existingAvaloniaJson = null)
+        public static async Task<TestFixture> CreateAsync(
+            string? existingAvaloniaJson = null,
+            IMaaCoreBridge? bridge = null)
         {
             var root = Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(Path.Combine(root, "config"));
@@ -240,7 +395,7 @@ public sealed class SessionStateUiProjectionTests
                 root);
             await config.LoadOrBootstrapAsync();
 
-            var bridge = new FakeBridge();
+            bridge ??= new FakeBridge();
             var session = new UnifiedSessionService(bridge, config, log, new SessionStateMachine());
             var platform = new PlatformServiceBundle
             {
@@ -342,6 +497,41 @@ public sealed class SessionStateUiProjectionTests
 
         public Task<CoreResult<CoreRuntimeStatus>> GetRuntimeStatusAsync(CancellationToken cancellationToken = default)
             => Task.FromResult(CoreResult<CoreRuntimeStatus>.Ok(new CoreRuntimeStatus(true, _connected, _running)));
+
+        public Task<CoreResult<bool>> AttachWindowAsync(CoreAttachWindowRequest request, CancellationToken cancellationToken = default)
+            => Task.FromResult(CoreResult<bool>.Fail(new CoreError(CoreErrorCode.NotSupported, "not supported")));
+
+        public Task<CoreResult<byte[]>> GetImageAsync(CancellationToken cancellationToken = default)
+            => Task.FromResult(CoreResult<byte[]>.Fail(new CoreError(CoreErrorCode.GetImageFailed, "not supported")));
+
+        public async IAsyncEnumerable<CoreCallbackEvent> CallbackStreamAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            await Task.CompletedTask;
+            yield break;
+        }
+
+        public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+    }
+
+    private sealed class FailingConnectBridge : IMaaCoreBridge
+    {
+        public Task<CoreResult<CoreInitializeInfo>> InitializeAsync(CoreInitializeRequest request, CancellationToken cancellationToken = default)
+            => Task.FromResult(CoreResult<CoreInitializeInfo>.Ok(new CoreInitializeInfo(request.BaseDirectory, "fake", "fake", request.ClientType)));
+
+        public Task<CoreResult<bool>> ConnectAsync(CoreConnectionInfo connectionInfo, CancellationToken cancellationToken = default)
+            => Task.FromResult(CoreResult<bool>.Fail(new CoreError(CoreErrorCode.ConnectFailed, "Connection callback reported `ConnectFailed`.")));
+
+        public Task<CoreResult<int>> AppendTaskAsync(CoreTaskRequest task, CancellationToken cancellationToken = default)
+            => Task.FromResult(CoreResult<int>.Ok(1));
+
+        public Task<CoreResult<bool>> StartAsync(CancellationToken cancellationToken = default)
+            => Task.FromResult(CoreResult<bool>.Fail(new CoreError(CoreErrorCode.StartFailed, "not connected")));
+
+        public Task<CoreResult<bool>> StopAsync(CancellationToken cancellationToken = default)
+            => Task.FromResult(CoreResult<bool>.Fail(new CoreError(CoreErrorCode.StopFailed, "not running")));
+
+        public Task<CoreResult<CoreRuntimeStatus>> GetRuntimeStatusAsync(CancellationToken cancellationToken = default)
+            => Task.FromResult(CoreResult<CoreRuntimeStatus>.Ok(new CoreRuntimeStatus(true, false, false)));
 
         public Task<CoreResult<bool>> AttachWindowAsync(CoreAttachWindowRequest request, CancellationToken cancellationToken = default)
             => Task.FromResult(CoreResult<bool>.Fail(new CoreError(CoreErrorCode.NotSupported, "not supported")));

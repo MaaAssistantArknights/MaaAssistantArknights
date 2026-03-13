@@ -1,8 +1,10 @@
+using System;
+
 namespace MAAUnified.Application.Models.TaskParams;
 
 public sealed class FightTaskParamsDto
 {
-    public string Stage { get; set; } = string.Empty;
+    public string Stage { get; set; } = FightStageSelection.CurrentOrLast;
 
     public bool UseMedicine { get; set; }
 
@@ -37,4 +39,33 @@ public sealed class FightTaskParamsDto
     public bool HideUnavailableStage { get; set; } = true;
 
     public string StageResetMode { get; set; } = "Current";
+
+    public bool HideSeries { get; set; }
+
+    public bool AllowUseStoneSave { get; set; }
+}
+
+public static class FightStageSelection
+{
+    public const string CurrentOrLast = "$CurrentOrLast";
+
+    public static bool IsCurrentOrLast(string? stage)
+    {
+        return string.IsNullOrWhiteSpace(stage)
+            || string.Equals(stage.Trim(), CurrentOrLast, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public static string NormalizeStoredValue(string? stage)
+    {
+        return IsCurrentOrLast(stage)
+            ? CurrentOrLast
+            : stage!.Trim();
+    }
+
+    public static string ToCoreStage(string? stage)
+    {
+        return IsCurrentOrLast(stage)
+            ? string.Empty
+            : stage!.Trim();
+    }
 }

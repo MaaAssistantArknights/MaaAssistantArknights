@@ -1,23 +1,224 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MAAUnified.App.Controls"
+             xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.Settings"
              x:Class="MAAUnified.App.Features.Settings.ConnectSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="Connect" />
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,220,Auto,220" Margin="0,6,0,0">
-      <TextBlock VerticalAlignment="Center" Text="Connect Config" />
-      <ComboBox ItemsSource="{Binding ConnectConfigOptions}" SelectedItem="{Binding ConnectConfig}" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="Address" />
-      <TextBox Grid.Column="3" Text="{Binding ConnectAddress}" Watermark="127.0.0.1:5555" />
-    </Grid>
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,220,Auto,220" Margin="0,6,0,0">
-      <TextBlock VerticalAlignment="Center" Text="ADB Path" />
-      <TextBox Text="{Binding AdbPath}" Watermark="/path/to/adb" />
-      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="Touch Mode" />
-      <ComboBox Grid.Column="3" ItemsSource="{Binding TouchModeOptions}" SelectedItem="{Binding TouchMode}" />
-    </Grid>
-    <CheckBox Grid.Row="3"
-              Margin="0,8,0,0"
-              Content="自动检测连接"
-              IsChecked="{Binding AutoDetect}" />
+  <Grid Margin="4" RowDefinitions="Auto,*">
+    <TextBlock Classes="section-title" Text="连接设置" />
+
+    <ScrollViewer Grid.Row="1"
+                  Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+                  HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Classes="settings-form">
+        <WrapPanel Classes="settings-wrap" ItemWidth="280">
+          <Grid ColumnDefinitions="Auto,Auto">
+            <CheckBox Content="自动检测连接"
+                      IsChecked="{Binding AutoDetect}" />
+            <controls:TooltipHint Grid.Column="1"
+                                  Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                                  Tip="每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接" />
+          </Grid>
+          <CheckBox Content="始终自动检测连接"
+                    IsChecked="{Binding AlwaysAutoDetect}"
+                    IsVisible="{Binding AutoDetect}" />
+        </WrapPanel>
+
+        <Grid ColumnDefinitions="132,220">
+          <TextBlock Classes="settings-label" Text="连接配置" />
+          <controls:CheckComboBox Grid.Column="1"
+                                  HeaderText="{Binding SelectedConnectConfigOption.DisplayName}"
+                                  ItemsSource="{Binding ConnectConfigOptions}"
+                                  SelectedItem="{Binding SelectedConnectConfigOption}">
+            <controls:CheckComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:ConnectionGameOptionItem">
+                <TextBlock Text="{Binding DisplayName}" />
+              </DataTemplate>
+            </controls:CheckComboBox.ItemTemplate>
+          </controls:CheckComboBox>
+        </Grid>
+
+        <TextBlock Classes="state-warning long-wrap"
+                   HorizontalAlignment="Center"
+                   MaxWidth="{DynamicResource MAA.Size.Settings.FormNarrowMaxWidth}"
+                   Text="当前为 PC 窗口绑定模式，将使用 AttachWindow 连接。"
+                   IsVisible="{Binding IsAttachWindowMode}" />
+
+        <StackPanel Classes="settings-form"
+                    IsVisible="{Binding IsAdbConnectionMode}">
+          <Grid ColumnDefinitions="132,*">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Spacing="0">
+              <TextBlock Classes="settings-label" Margin="0,0,8,0" Text="连接地址" />
+              <controls:TooltipHint Tip="若遇到问题可尝试手动修改" />
+            </StackPanel>
+            <AutoCompleteBox Grid.Column="1"
+                             IsEnabled="{Binding CanEditAdbConnectionFields}"
+                             ItemsSource="{Binding ConnectAddressHistory}"
+                             Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}" />
+          </Grid>
+
+          <Grid ColumnDefinitions="132,*,Auto">
+            <TextBlock Classes="settings-label" Text="ADB 路径" />
+            <TextBox Grid.Column="1"
+                     IsEnabled="{Binding CanEditAdbConnectionFields}"
+                     Text="{Binding AdbPath, UpdateSourceTrigger=LostFocus}" />
+            <Button Grid.Column="2"
+                    Classes="wpf-button wpf-button-secondary"
+                    Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                    Content="选择"
+                    IsEnabled="{Binding CanEditAdbConnectionFields}"
+                    Click="OnSelectAdbPathClick" />
+          </Grid>
+        </StackPanel>
+
+        <Border Classes="wpf-card"
+                IsVisible="{Binding ShowMuMuExtrasSection}">
+          <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
+            <CheckBox Content="启用 MuMu12 增强连接"
+                      IsChecked="{Binding MuMu12ExtrasEnabled}" />
+            <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}"
+                        IsVisible="{Binding MuMu12ExtrasEnabled}">
+              <Grid ColumnDefinitions="132,*">
+                <TextBlock Classes="settings-label" Text="MuMu 安装路径" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding MuMu12EmulatorPath, UpdateSourceTrigger=LostFocus}" />
+              </Grid>
+              <CheckBox Content="MuMuBridge 连接"
+                        IsChecked="{Binding MuMuBridgeConnection}" />
+              <Grid ColumnDefinitions="132,220"
+                    IsVisible="{Binding MuMuBridgeConnection}">
+                <TextBlock Classes="settings-label" Text="实例编号" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding MuMu12Index, UpdateSourceTrigger=LostFocus}" />
+              </Grid>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <Border Classes="wpf-card"
+                IsVisible="{Binding ShowLdPlayerExtrasSection}">
+          <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
+            <CheckBox Content="启用 LDPlayer 增强连接"
+                      IsChecked="{Binding LdPlayerExtrasEnabled}" />
+            <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}"
+                        IsVisible="{Binding LdPlayerExtrasEnabled}">
+              <Grid ColumnDefinitions="132,*">
+                <TextBlock Classes="settings-label" Text="LDPlayer 安装路径" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding LdPlayerEmulatorPath, UpdateSourceTrigger=LostFocus}" />
+              </Grid>
+              <CheckBox Content="手动指定实例编号"
+                        IsChecked="{Binding LdPlayerManualSetIndex}" />
+              <Grid ColumnDefinitions="132,220"
+                    IsVisible="{Binding LdPlayerManualSetIndex}">
+                <TextBlock Classes="settings-label" Text="实例编号" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding LdPlayerIndex, UpdateSourceTrigger=LostFocus}" />
+              </Grid>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <Border Classes="wpf-card"
+                IsVisible="{Binding IsAttachWindowMode}">
+          <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}">
+            <Grid ColumnDefinitions="132,220">
+              <TextBlock Classes="settings-label" Text="AttachWindow-截图" />
+              <ComboBox Grid.Column="1"
+                        ItemsSource="{Binding AttachWindowScreencapOptions}"
+                        SelectedItem="{Binding SelectedAttachWindowScreencapOption}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate x:DataType="vm:ConnectionGameOptionItem">
+                    <TextBlock Text="{Binding DisplayName}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+            </Grid>
+
+            <Grid ColumnDefinitions="132,220">
+              <TextBlock Classes="settings-label" Text="AttachWindow-触控" />
+              <ComboBox Grid.Column="1"
+                        ItemsSource="{Binding AttachWindowInputOptions}"
+                        SelectedItem="{Binding SelectedAttachWindowMouseOption}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate x:DataType="vm:ConnectionGameOptionItem">
+                    <TextBlock Text="{Binding DisplayName}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+            </Grid>
+
+            <Grid ColumnDefinitions="132,220">
+              <TextBlock Classes="settings-label" Text="AttachWindow-键盘" />
+              <ComboBox Grid.Column="1"
+                        ItemsSource="{Binding AttachWindowInputOptions}"
+                        SelectedItem="{Binding SelectedAttachWindowKeyboardOption}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate x:DataType="vm:ConnectionGameOptionItem">
+                    <TextBlock Text="{Binding DisplayName}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+            </Grid>
+          </StackPanel>
+        </Border>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    Spacing="{DynamicResource MAA.Spacing.Small}">
+          <Button Classes="wpf-button wpf-button-secondary"
+                  Content="截图测试"
+                  Click="OnScreenshotTestClick" />
+        </StackPanel>
+
+        <TextBlock Classes="long-wrap subtle"
+                   Text="{Binding TestLinkInfo}"
+                   IsVisible="{Binding HasTestLinkInfo}" />
+        <TextBlock Classes="subtle"
+                   Text="{Binding ScreencapCost}" />
+
+        <WrapPanel Classes="settings-wrap"
+                   ItemWidth="280"
+                   IsVisible="{Binding IsAdbConnectionMode}">
+          <CheckBox Content="ADB 连接失败时尝试启动模拟器"
+                    IsChecked="{Binding RetryOnDisconnected}" />
+          <CheckBox Content="连接失败后尝试重启 ADB Server"
+                    IsChecked="{Binding AllowAdbRestart}" />
+          <CheckBox Content="连接失败后尝试关闭并重启 ADB 进程"
+                    IsChecked="{Binding AllowAdbHardRestart}" />
+        </WrapPanel>
+
+        <Grid ColumnDefinitions="132,*,Auto"
+              IsVisible="{Binding IsAdbConnectionMode}">
+          <TextBlock Classes="settings-label" Text="触控模式" />
+          <ComboBox Grid.Column="1"
+                    IsEnabled="{Binding CanEditAdbConnectionFields}"
+                    ItemsSource="{Binding TouchModeOptions}"
+                    SelectedItem="{Binding SelectedTouchModeOption}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:ConnectionGameOptionItem">
+                <TextBlock Text="{Binding DisplayName}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+          <Button Grid.Column="2"
+                  Classes="wpf-button wpf-button-secondary"
+                  Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                  Content="强制替换 ADB"
+                  Click="OnReplaceAdbClick" />
+        </Grid>
+
+        <WrapPanel Classes="settings-wrap"
+                   ItemWidth="280"
+                   IsVisible="{Binding IsAdbConnectionMode}">
+          <CheckBox Content="退出时释放 ADB"
+                    IsChecked="{Binding KillAdbOnExit}" />
+          <CheckBox Content="使用 ADB Lite (实验性功能)"
+                    IsChecked="{Binding AdbLiteEnabled}" />
+        </WrapPanel>
+      </StackPanel>
+    </ScrollViewer>
   </Grid>
 </UserControl>

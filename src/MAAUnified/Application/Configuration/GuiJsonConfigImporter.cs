@@ -5,6 +5,8 @@ namespace MAAUnified.Application.Configuration;
 
 public sealed class GuiJsonConfigImporter : IConfigImporter
 {
+    private const string FileName = "gui.json";
+
     public string Name => "gui.json";
 
     public bool CanImport(LegacyConfigSnapshot snapshot) => snapshot.GuiExists;
@@ -18,6 +20,7 @@ public sealed class GuiJsonConfigImporter : IConfigImporter
     {
         if (!snapshot.GuiExists)
         {
+            AppendUnique(report.MissingFiles, FileName);
             report.DefaultFallbackCount += 1;
             report.Warnings.Add("gui.json not found, skipped");
             return;
@@ -88,9 +91,11 @@ public sealed class GuiJsonConfigImporter : IConfigImporter
             }
 
             report.ImportedGui = true;
+            AppendUnique(report.ImportedFiles, FileName);
         }
         catch (Exception ex)
         {
+            AppendUnique(report.DamagedFiles, FileName);
             report.Errors.Add($"Failed to import gui.json: {ex.Message}");
         }
     }
@@ -113,5 +118,13 @@ public sealed class GuiJsonConfigImporter : IConfigImporter
         }
 
         return key;
+    }
+
+    private static void AppendUnique(ICollection<string> collection, string value)
+    {
+        if (!collection.Contains(value, StringComparer.OrdinalIgnoreCase))
+        {
+            collection.Add(value);
+        }
     }
 }

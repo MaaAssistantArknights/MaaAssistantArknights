@@ -2,12 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.AboutSettingsView">
   <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="About" />
+    <TextBlock Classes="section-title" Text="关于我们" />
     <WrapPanel Grid.Row="1" ItemWidth="200">
-      <Button Content="官网" Click="OnOpenOfficialWebsiteClick" />
-      <Button Content="社区" Click="OnOpenCommunityClick" />
-      <Button Content="下载页" Click="OnOpenDownloadClick" />
-      <Button Content="检查公告" Click="OnCheckAnnouncementClick" />
+      <Button Classes="wpf-button wpf-button-secondary" Content="官网" Click="OnOpenOfficialWebsiteClick" />
+      <Button Classes="wpf-button wpf-button-secondary" Content="社区" Click="OnOpenCommunityClick" />
+      <Button Classes="wpf-button wpf-button-secondary" Content="下载页" Click="OnOpenDownloadClick" />
+      <Button Classes="wpf-button wpf-button-secondary" Content="检查公告" Click="OnCheckAnnouncementClick" />
     </WrapPanel>
     <TextBlock Grid.Row="2" Classes="long-wrap" Text="{Binding AboutVersionInfo}" />
     <TextBlock Grid.Row="3" Classes="long-wrap" Text="{Binding AboutStatusMessage}" />

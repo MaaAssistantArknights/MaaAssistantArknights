@@ -16,11 +16,30 @@ public sealed class LegacyConfigSnapshot
         var guiNew = Path.Combine(configDir, "gui.new.json");
         var gui = Path.Combine(configDir, "gui.json");
 
-        return new LegacyConfigSnapshot {
-            GuiNewPath = guiNew,
-            GuiPath = gui,
-            GuiNewExists = File.Exists(guiNew),
-            GuiExists = File.Exists(gui),
+        return FromPaths(guiNew, gui);
+    }
+
+    public static LegacyConfigSnapshot FromPaths(string? guiNewPath, string? guiPath)
+    {
+        var normalizedGuiNew = NormalizePath(guiNewPath);
+        var normalizedGui = NormalizePath(guiPath);
+
+        return new LegacyConfigSnapshot
+        {
+            GuiNewPath = normalizedGuiNew,
+            GuiPath = normalizedGui,
+            GuiNewExists = !string.IsNullOrWhiteSpace(normalizedGuiNew) && File.Exists(normalizedGuiNew),
+            GuiExists = !string.IsNullOrWhiteSpace(normalizedGui) && File.Exists(normalizedGui),
         };
+    }
+
+    private static string NormalizePath(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return string.Empty;
+        }
+
+        return Path.GetFullPath(path.Trim());
     }
 }

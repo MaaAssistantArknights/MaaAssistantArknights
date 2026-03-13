@@ -76,21 +76,25 @@ public sealed class StyleTokenContractTests
         var root = GetMaaUnifiedRoot();
         var text = File.ReadAllText(Path.Combine(root, "App", "Styles", "ControlStyles.axaml"));
 
+        Assert.Contains("Style Selector=\"Border.wpf-panel\"", text, StringComparison.Ordinal);
+        Assert.Contains("Style Selector=\"Button.wpf-button\"", text, StringComparison.Ordinal);
+        Assert.Contains("Style Selector=\"Border.wpf-card.status-running\"", text, StringComparison.Ordinal);
+        Assert.Contains("Style Selector=\"Border.wpf-card.status-success\"", text, StringComparison.Ordinal);
+        Assert.Contains("Style Selector=\"Border.wpf-card.status-error\"", text, StringComparison.Ordinal);
+        Assert.Contains("Style Selector=\"Border.wpf-card.status-skipped\"", text, StringComparison.Ordinal);
+        Assert.Contains("Style Selector=\"Border.wpf-card.status-idle\"", text, StringComparison.Ordinal);
+
         Assert.Contains("Style Selector=\"Border.section\"", text, StringComparison.Ordinal);
         Assert.Contains("Style Selector=\"TextBlock.section-title\"", text, StringComparison.Ordinal);
         Assert.Contains("Style Selector=\"Button.action\"", text, StringComparison.Ordinal);
         Assert.Contains("Style Selector=\"Border.item-card.status-running\"", text, StringComparison.Ordinal);
-        Assert.Contains("Style Selector=\"Border.item-card.status-success\"", text, StringComparison.Ordinal);
-        Assert.Contains("Style Selector=\"Border.item-card.status-error\"", text, StringComparison.Ordinal);
-        Assert.Contains("Style Selector=\"Border.item-card.status-skipped\"", text, StringComparison.Ordinal);
-        Assert.Contains("Style Selector=\"Border.item-card.status-idle\"", text, StringComparison.Ordinal);
 
-        Assert.Contains("{DynamicResource MAA.Brush.Surface.Section}", text, StringComparison.Ordinal);
+        Assert.Contains("{DynamicResource MAA.Brush.Wpf.Region25}", text, StringComparison.Ordinal);
         Assert.Contains("{DynamicResource MAA.FontSize.SectionTitle}", text, StringComparison.Ordinal);
         Assert.Contains("{DynamicResource MAA.Size.Action.Height}", text, StringComparison.Ordinal);
-        Assert.Contains("{DynamicResource MAA.Brush.State.Running}", text, StringComparison.Ordinal);
-        Assert.Contains("{DynamicResource MAA.Brush.State.Skipped}", text, StringComparison.Ordinal);
-        Assert.Contains("{DynamicResource MAA.Brush.State.Idle}", text, StringComparison.Ordinal);
+        Assert.Contains("{DynamicResource MAA.Brush.Wpf.TaskStatus.Running}", text, StringComparison.Ordinal);
+        Assert.Contains("{DynamicResource MAA.Brush.Wpf.TaskStatus.Success}", text, StringComparison.Ordinal);
+        Assert.Contains("{DynamicResource MAA.Brush.Wpf.TaskStatus.Error}", text, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -109,16 +113,33 @@ public sealed class StyleTokenContractTests
     }
 
     [Fact]
-    public void TaskQueueView_ShouldBindCanEditAndCanWaitAndStop()
+    public void TaskQueueView_ShouldBindCanEditAndPrimaryRunToggle()
     {
         var root = GetMaaUnifiedRoot();
         var taskQueuePath = Path.Combine(root, "App", "Features", "Root", "TaskQueueView.axaml");
         var text = File.ReadAllText(taskQueuePath);
 
-        Assert.Contains("Grid.Column=\"0\" Classes=\"section\" IsEnabled=\"{Binding CanEdit}\"", text, StringComparison.Ordinal);
+        Assert.Contains("ListBox Grid.Row=\"1\"", text, StringComparison.Ordinal);
+        Assert.Contains("Classes=\"wpf-list-no-highlight\"", text, StringComparison.Ordinal);
         Assert.Contains("IsEnabled=\"{Binding CanEdit}\"", text, StringComparison.Ordinal);
-        Assert.Contains("IsEnabled=\"{Binding CanWaitAndStop}\"", text, StringComparison.Ordinal);
-        Assert.Contains("TabControl Grid.Row=\"2\" IsEnabled=\"{Binding CanEdit}\"", text, StringComparison.Ordinal);
+        Assert.Contains("IsEnabled=\"{Binding CanToggleRun}\"", text, StringComparison.Ordinal);
+        Assert.Contains("Content=\"{Binding BatchActionText}\"", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("StatusDisplayName", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("TabControl Grid.Row=\"2\"", text, StringComparison.Ordinal);
+        Assert.Contains("ScrollViewer Grid.Row=\"1\"", text, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void TooltipHintControl_ShouldUseFrameworkTooltipServiceWithHalfSecondDelay()
+    {
+        var root = GetMaaUnifiedRoot();
+        var xaml = File.ReadAllText(Path.Combine(root, "App", "Controls", "TooltipHint.axaml"));
+        var codeBehind = File.ReadAllText(Path.Combine(root, "App", "Controls", "TooltipHint.axaml.cs"));
+
+        Assert.Contains("ToolTip.ShowDelay=\"500\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("<ToolTip.Tip>", xaml, StringComparison.Ordinal);
+        Assert.DoesNotContain("<Popup", xaml, StringComparison.Ordinal);
+        Assert.DoesNotContain("DispatcherTimer", codeBehind, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -140,7 +161,7 @@ public sealed class StyleTokenContractTests
     }
 
     [Fact]
-    public void CoreEntryViews_AllButtons_ShouldUseActionClass()
+    public void CoreEntryViews_AllButtons_ShouldUseWpfButtonClass()
     {
         var root = GetMaaUnifiedRoot();
         var buttonPattern = new Regex("<Button\\b(?!\\.ContextMenu)([^>]*)>", RegexOptions.Compiled | RegexOptions.Singleline);
@@ -156,7 +177,7 @@ public sealed class StyleTokenContractTests
             {
                 totalButtons++;
                 var attrs = match.Groups[1].Value;
-                Assert.Matches("Classes=\"[^\"]*\\baction\\b[^\"]*\"", attrs);
+                Assert.Matches("Classes=\"[^\"]*\\bwpf-button\\b[^\"]*\"", attrs);
             }
         }
 

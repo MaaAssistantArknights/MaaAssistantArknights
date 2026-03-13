@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
@@ -121,12 +122,18 @@ public sealed class ConnectFeatureService : IConnectFeatureService
         CancellationToken cancellationToken = default)
     {
         var report = await _configService.ImportLegacyAsync(source, manualImport, cancellationToken);
-        if (!report.Success)
+        if (!report.AppliedConfig)
         {
-            return UiOperationResult<ImportReport>.Fail(UiErrorCode.ImportFailed, string.Join("; ", report.Errors));
+            var message = report.Errors.Count > 0
+                ? string.Join("; ", report.Errors)
+                : ImportReportTextFormatter.BuildStatusMessage(report, manualImport);
+            return UiOperationResult<ImportReport>.Fail(UiErrorCode.ImportFailed, message);
         }
 
-        return UiOperationResult<ImportReport>.Ok(report, report.Summary);
+        var successMessage = report.Success
+            ? report.Summary
+            : $"{ImportReportTextFormatter.BuildStatusMessage(report, manualImport)} {report.Summary}";
+        return UiOperationResult<ImportReport>.Ok(report, successMessage);
     }
 }
 
@@ -906,8 +913,8 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
             return warnings;
         }
 
-        var hasEmptyFightStage = enabledFightTasks.Any(t => !HasNonEmptyStage(t.Params));
-        if (!hasEmptyFightStage)
+        var hasCurrentOrLastFightStage = enabledFightTasks.Any(t => !HasSpecificFightStage(t.Params));
+        if (!hasCurrentOrLastFightStage)
         {
             return warnings;
         }
@@ -921,7 +928,7 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
                 continue;
             }
 
-            var warningMessage = $"Mall credit fight disabled for `{mallTask.Name}` because enabled Fight task has empty stage.";
+            var warningMessage = $"Mall credit fight disabled for `{mallTask.Name}` because enabled Fight task uses Current/Last stage selector.";
             if (mutate)
             {
                 mallParams["credit_fight"] = false;
@@ -937,7 +944,7 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
         return warnings;
     }
 
-    private static bool HasNonEmptyStage(JsonObject obj)
+    private static bool HasSpecificFightStage(JsonObject obj)
     {
         if (!obj.TryGetPropertyValue("stage", out var stageNode) || stageNode is not JsonValue value)
         {
@@ -949,7 +956,7 @@ public sealed class TaskQueueFeatureService : ITaskQueueFeatureService
             return false;
         }
 
-        return !string.IsNullOrWhiteSpace(stage);
+        return !FightStageSelection.IsCurrentOrLast(stage);
     }
 
     private static bool TryReadBool(JsonObject obj, string key, out bool value)
@@ -1311,265 +1318,240 @@ public sealed class CopilotFeatureService : ICopilotFeatureService
 
 public sealed class ToolboxFeatureService : IToolboxFeatureService
 {
-    private static readonly IReadOnlyDictionary<ToolboxToolKind, TimeSpan> DefaultTimeouts =
-        new Dictionary<ToolboxToolKind, TimeSpan>
-        {
-            [ToolboxToolKind.Recruit] = TimeSpan.FromSeconds(15),
-            [ToolboxToolKind.OperBox] = TimeSpan.FromSeconds(20),
-            [ToolboxToolKind.Depot] = TimeSpan.FromSeconds(20),
-            [ToolboxToolKind.Gacha] = TimeSpan.FromSeconds(20),
-            [ToolboxToolKind.VideoRecognition] = TimeSpan.FromSeconds(10),
-            [ToolboxToolKind.MiniGame] = TimeSpan.FromSeconds(30),
-        };
-
-    private static readonly HashSet<string> PreservedErrorCodes = new(StringComparer.Ordinal)
-    {
-        UiErrorCode.ToolNotSupported,
-        UiErrorCode.ToolboxInvalidParameters,
-        UiErrorCode.ToolboxExecutionTimedOut,
-        UiErrorCode.ToolboxExecutionCancelled,
-        UiErrorCode.ToolboxExecutionFailed,
-    };
-
-    private readonly IReadOnlyDictionary<ToolboxToolKind, Func<ToolboxExecuteRequest, CancellationToken, Task<UiOperationResult<string>>>> _handlers;
-    private readonly IReadOnlyDictionary<ToolboxToolKind, TimeSpan> _timeouts;
+    private readonly IMaaCoreBridge? _bridge;
+    private readonly IConnectFeatureService? _connectFeatureService;
 
     public ToolboxFeatureService()
         : this(null, null)
     {
     }
 
-    public ToolboxFeatureService(
-        IReadOnlyDictionary<ToolboxToolKind, Func<ToolboxExecuteRequest, CancellationToken, Task<UiOperationResult<string>>>>? handlers,
-        IReadOnlyDictionary<ToolboxToolKind, TimeSpan>? timeouts)
+    public ToolboxFeatureService(IMaaCoreBridge? bridge, IConnectFeatureService? connectFeatureService = null)
     {
-        _handlers = handlers ?? CreateDefaultHandlers();
-        _timeouts = timeouts ?? DefaultTimeouts;
+        _bridge = bridge;
+        _connectFeatureService = connectFeatureService;
     }
 
-    public async Task<UiOperationResult<ToolboxExecuteResult>> ExecuteToolAsync(
-        ToolboxExecuteRequest request,
+    public async Task<UiOperationResult<ToolboxDispatchResult>> DispatchToolAsync(
+        ToolboxDispatchRequest request,
         CancellationToken cancellationToken = default)
     {
         if (request is null)
         {
-            return UiOperationResult<ToolboxExecuteResult>.Fail(
+            return UiOperationResult<ToolboxDispatchResult>.Fail(
                 UiErrorCode.ToolboxInvalidParameters,
-                "Toolbox execute request cannot be null.");
+                "Toolbox dispatch request cannot be null.");
         }
 
         if (cancellationToken.IsCancellationRequested)
         {
-            return UiOperationResult<ToolboxExecuteResult>.Fail(
+            return UiOperationResult<ToolboxDispatchResult>.Fail(
                 UiErrorCode.ToolboxExecutionCancelled,
-                $"Tool `{request.Tool}` execution cancelled by caller.");
+                $"Tool `{request.Tool}` dispatch cancelled by caller.");
         }
 
-        if (!_handlers.TryGetValue(request.Tool, out var handler))
+        if (_bridge is null)
         {
-            return UiOperationResult<ToolboxExecuteResult>.Fail(
-                UiErrorCode.ToolNotSupported,
-                $"Tool `{request.Tool}` is not supported.");
-        }
-
-        var parameterText = request.ParameterText ?? string.Empty;
-        var parameterIssue = ValidateParameterText(parameterText);
-        if (parameterIssue is not null)
-        {
-            return UiOperationResult<ToolboxExecuteResult>.Fail(
-                UiErrorCode.ToolboxInvalidParameters,
-                parameterIssue,
-                BuildExecutionDetails(request, TimeSpan.Zero, BuildParameterSummary(parameterText)));
-        }
-
-        if (!TryResolveTimeout(request.Tool, request.TimeoutOverride, out var timeout, out var timeoutIssue))
-        {
-            return UiOperationResult<ToolboxExecuteResult>.Fail(
-                UiErrorCode.ToolboxInvalidParameters,
-                timeoutIssue!,
-                BuildExecutionDetails(request, TimeSpan.Zero, BuildParameterSummary(parameterText)));
-        }
-
-        var normalized = request with { ParameterText = parameterText.Trim() };
-        var parameterSummary = BuildParameterSummary(normalized.ParameterText);
-
-        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        linkedCts.CancelAfter(timeout);
-        try
-        {
-            var handlerResult = await handler(normalized, linkedCts.Token);
-            if (!handlerResult.Success)
-            {
-                var errorCode = NormalizeErrorCode(handlerResult.Error?.Code);
-                return UiOperationResult<ToolboxExecuteResult>.Fail(
-                    errorCode,
-                    handlerResult.Message,
-                    MergeDetails(
-                        BuildExecutionDetails(normalized, timeout, parameterSummary),
-                        handlerResult.Error?.Details));
-            }
-
-            var resultText = handlerResult.Value ?? handlerResult.Message;
-            return UiOperationResult<ToolboxExecuteResult>.Ok(
-                new ToolboxExecuteResult(normalized.Tool, resultText, parameterSummary, DateTimeOffset.Now),
-                handlerResult.Message);
-        }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            return UiOperationResult<ToolboxExecuteResult>.Fail(
-                UiErrorCode.ToolboxExecutionCancelled,
-                $"Tool `{normalized.Tool}` execution cancelled by caller.",
-                BuildExecutionDetails(normalized, timeout, parameterSummary));
-        }
-        catch (OperationCanceledException)
-        {
-            return UiOperationResult<ToolboxExecuteResult>.Fail(
-                UiErrorCode.ToolboxExecutionTimedOut,
-                $"Tool `{normalized.Tool}` execution timed out after {timeout.TotalSeconds:0.#}s.",
-                BuildExecutionDetails(normalized, timeout, parameterSummary));
-        }
-        catch (TimeoutException ex)
-        {
-            return UiOperationResult<ToolboxExecuteResult>.Fail(
-                UiErrorCode.ToolboxExecutionTimedOut,
-                $"Tool `{normalized.Tool}` execution timed out after {timeout.TotalSeconds:0.#}s.",
-                MergeDetails(
-                    BuildExecutionDetails(normalized, timeout, parameterSummary),
-                    ex.ToString()));
-        }
-        catch (Exception ex)
-        {
-            return UiOperationResult<ToolboxExecuteResult>.Fail(
+            return UiOperationResult<ToolboxDispatchResult>.Fail(
                 UiErrorCode.ToolboxExecutionFailed,
-                $"Tool `{normalized.Tool}` execution failed: {ex.Message}",
-                MergeDetails(
-                    BuildExecutionDetails(normalized, timeout, parameterSummary),
-                    ex.ToString()));
+                "Toolbox core bridge is not configured.");
         }
-    }
 
-    private static string NormalizeErrorCode(string? code)
-    {
-        return code is not null && PreservedErrorCodes.Contains(code)
-            ? code
-            : UiErrorCode.ToolboxExecutionFailed;
-    }
-
-    private static IReadOnlyDictionary<ToolboxToolKind, Func<ToolboxExecuteRequest, CancellationToken, Task<UiOperationResult<string>>>>
-        CreateDefaultHandlers()
-    {
-        var handlers = new Dictionary<ToolboxToolKind, Func<ToolboxExecuteRequest, CancellationToken, Task<UiOperationResult<string>>>>();
-        foreach (var tool in Enum.GetValues<ToolboxToolKind>())
+        if (!TryBuildCoreTask(request, out var coreTask, out var taskType, out var parameterSummary, out var validationError))
         {
-            handlers[tool] = DefaultExecuteHandlerAsync;
+            return UiOperationResult<ToolboxDispatchResult>.Fail(
+                validationError?.Code ?? UiErrorCode.ToolboxInvalidParameters,
+                validationError?.Message ?? "Invalid toolbox request.",
+                validationError?.Details);
         }
 
-        return handlers;
+        var appendResult = await _bridge.AppendTaskAsync(coreTask, cancellationToken);
+        if (!appendResult.Success)
+        {
+            return UiOperationResult<ToolboxDispatchResult>.Fail(
+                UiErrorCode.ToolboxExecutionFailed,
+                $"Tool `{request.Tool}` append failed: {appendResult.Error?.Message ?? "unknown error"}.",
+                JsonSerializer.Serialize(new
+                {
+                    tool = request.Tool.ToString(),
+                    taskType,
+                    coreTask = coreTask.Name,
+                    parameterSummary,
+                    appendError = appendResult.Error?.Code.ToString(),
+                    appendResult.Error?.Message,
+                    appendResult.Error?.NativeDetails,
+                }));
+        }
+
+        if (_connectFeatureService is not null)
+        {
+            var startResult = await _connectFeatureService.StartAsync(cancellationToken);
+            if (!startResult.Success)
+            {
+                return UiOperationResult<ToolboxDispatchResult>.Fail(
+                    startResult.Error?.Code ?? UiErrorCode.ToolboxExecutionFailed,
+                    startResult.Message,
+                    startResult.Error?.Details);
+            }
+        }
+
+        return UiOperationResult<ToolboxDispatchResult>.Ok(
+            new ToolboxDispatchResult(
+                request.Tool,
+                parameterSummary,
+                DateTimeOffset.Now,
+                appendResult.Value,
+                taskType),
+            $"Tool `{request.Tool}` dispatched.");
     }
 
-    private static Task<UiOperationResult<string>> DefaultExecuteHandlerAsync(
-        ToolboxExecuteRequest request,
-        CancellationToken cancellationToken)
+    public async Task<UiOperationResult> StopAsync(CancellationToken cancellationToken = default)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        var parameterSummary = BuildParameterSummary(request.ParameterText);
-        return Task.FromResult(UiOperationResult<string>.Ok(
-            $"`{request.Tool}` execution started with params: {parameterSummary}.",
-            $"Tool `{request.Tool}` dispatched."));
+        if (_connectFeatureService is null)
+        {
+            return UiOperationResult.Fail(
+                UiErrorCode.ToolboxExecutionFailed,
+                "Toolbox stop service is not configured.");
+        }
+
+        return await _connectFeatureService.StopAsync(cancellationToken);
     }
 
-    private bool TryResolveTimeout(
-        ToolboxToolKind tool,
-        TimeSpan? requested,
-        out TimeSpan timeout,
-        out string? error)
+    private static bool TryBuildCoreTask(
+        ToolboxDispatchRequest request,
+        out CoreTaskRequest coreTask,
+        out string taskType,
+        out string parameterSummary,
+        out (string Code, string Message, string? Details)? error)
     {
-        timeout = TimeSpan.Zero;
+        coreTask = new CoreTaskRequest(string.Empty, string.Empty, true, "{}");
+        taskType = string.Empty;
+        parameterSummary = string.Empty;
         error = null;
-        if (!_timeouts.TryGetValue(tool, out var fallbackTimeout))
-        {
-            error = $"No timeout configured for tool `{tool}`.";
-            return false;
-        }
 
-        timeout = requested ?? fallbackTimeout;
-        if (timeout <= TimeSpan.Zero)
+        switch (request.Tool)
         {
-            error = $"Tool `{tool}` timeout must be greater than zero.";
-            return false;
-        }
-
-        if (timeout > TimeSpan.FromMinutes(5))
-        {
-            error = $"Tool `{tool}` timeout cannot exceed 300 seconds.";
-            return false;
-        }
-
-        return true;
-    }
-
-    private static string? ValidateParameterText(string text)
-    {
-        if (text.Length > 4096)
-        {
-            return "Toolbox parameter text cannot exceed 4096 characters.";
-        }
-
-        for (var i = 0; i < text.Length; i++)
-        {
-            var ch = text[i];
-            if (ch == '\0')
+            case ToolboxToolKind.Recruit:
             {
-                return "Toolbox parameter text contains null character.";
-            }
+                if (request.Recruit is null)
+                {
+                    error = (
+                        UiErrorCode.ToolboxInvalidParameters,
+                        "Recruit request is missing structured parameters.",
+                        null);
+                    return false;
+                }
 
-            if (char.IsControl(ch)
-                && ch != '\r'
-                && ch != '\n'
-                && ch != '\t')
+                var levels = request.Recruit.SelectLevels
+                    .Where(level => level is >= 3 and <= 6)
+                    .Distinct()
+                    .OrderBy(level => level)
+                    .ToArray();
+                if (levels.Length == 0)
+                {
+                    error = (
+                        UiErrorCode.ToolboxInvalidParameters,
+                        "Recruit request must include at least one selected level.",
+                        null);
+                    return false;
+                }
+
+                var payload = new JsonObject
+                {
+                    ["refresh"] = false,
+                    ["force_refresh"] = false,
+                    ["select"] = new JsonArray(levels.Select(level => JsonValue.Create(level)).ToArray()),
+                    ["confirm"] = new JsonArray(JsonValue.Create(-1)),
+                    ["times"] = 0,
+                    ["set_time"] = request.Recruit.AutoSetTime,
+                    ["expedite"] = false,
+                    ["skip_robot"] = false,
+                    ["extra_tags_mode"] = 0,
+                    ["first_tags"] = new JsonArray(),
+                    ["recruitment_time"] = new JsonObject
+                    {
+                        ["3"] = request.Recruit.Level3Time,
+                        ["4"] = request.Recruit.Level4Time,
+                        ["5"] = request.Recruit.Level5Time,
+                    },
+                    ["report_to_penguin"] = false,
+                    ["report_to_yituliu"] = false,
+                    ["server"] = string.IsNullOrWhiteSpace(request.Recruit.ServerType)
+                        ? "CN"
+                        : request.Recruit.ServerType.Trim(),
+                };
+
+                taskType = TaskModuleTypes.Recruit;
+                parameterSummary = request.ParameterSummary
+                    ?? $"select={string.Join(',', levels)}; autoSetTime={request.Recruit.AutoSetTime.ToString().ToLowerInvariant()}; level3={request.Recruit.Level3Time}; level4={request.Recruit.Level4Time}; level5={request.Recruit.Level5Time}; server={payload["server"]}";
+                coreTask = new CoreTaskRequest(taskType, "Toolbox.Recruit", true, payload.ToJsonString());
+                return true;
+            }
+            case ToolboxToolKind.OperBox:
+                taskType = "OperBox";
+                parameterSummary = request.ParameterSummary ?? "mode=owned";
+                coreTask = new CoreTaskRequest(taskType, "Toolbox.OperBox", true, "{}");
+                return true;
+            case ToolboxToolKind.Depot:
+                taskType = "Depot";
+                parameterSummary = request.ParameterSummary ?? "format=summary";
+                coreTask = new CoreTaskRequest(taskType, "Toolbox.Depot", true, "{}");
+                return true;
+            case ToolboxToolKind.Gacha:
             {
-                return $"Toolbox parameter text contains unsupported control character at index {i}.";
+                if (request.Gacha is null)
+                {
+                    error = (
+                        UiErrorCode.ToolboxInvalidParameters,
+                        "Gacha request is missing structured parameters.",
+                        null);
+                    return false;
+                }
+
+                var taskName = request.Gacha.Once ? "GachaOnce" : "GachaTenTimes";
+                var payload = new JsonObject
+                {
+                    ["task_names"] = new JsonArray(JsonValue.Create(taskName)),
+                };
+                taskType = TaskModuleTypes.Custom;
+                parameterSummary = request.ParameterSummary ?? $"drawCount={(request.Gacha.Once ? 1 : 10)}";
+                coreTask = new CoreTaskRequest(taskType, $"Toolbox.{taskName}", true, payload.ToJsonString());
+                return true;
             }
+            case ToolboxToolKind.MiniGame:
+            {
+                if (request.MiniGame is null || string.IsNullOrWhiteSpace(request.MiniGame.TaskName))
+                {
+                    error = (
+                        UiErrorCode.ToolboxInvalidParameters,
+                        "MiniGame request is missing task name.",
+                        null);
+                    return false;
+                }
+
+                var taskName = request.MiniGame.TaskName.Trim();
+                var payload = new JsonObject
+                {
+                    ["task_names"] = new JsonArray(JsonValue.Create(taskName)),
+                };
+                taskType = TaskModuleTypes.Custom;
+                parameterSummary = request.ParameterSummary ?? $"taskName={taskName}";
+                coreTask = new CoreTaskRequest(taskType, "Toolbox.MiniGame", true, payload.ToJsonString());
+                return true;
+            }
+            case ToolboxToolKind.VideoRecognition:
+                error = (
+                    UiErrorCode.ToolNotSupported,
+                    "Peep does not append a toolbox task.",
+                    null);
+                return false;
+            default:
+                error = (
+                    UiErrorCode.ToolNotSupported,
+                    $"Tool `{request.Tool}` is not supported.",
+                    null);
+                return false;
         }
-
-        return null;
-    }
-
-    private static string BuildExecutionDetails(ToolboxExecuteRequest request, TimeSpan timeout, string parameterSummary)
-    {
-        return JsonSerializer.Serialize(new
-        {
-            tool = request.Tool.ToString(),
-            timeoutMs = timeout == TimeSpan.Zero ? (double?)null : timeout.TotalMilliseconds,
-            parameterSummary,
-            correlationId = string.IsNullOrWhiteSpace(request.CorrelationId) ? null : request.CorrelationId.Trim(),
-        });
-    }
-
-    private static string MergeDetails(string context, string? details)
-    {
-        if (string.IsNullOrWhiteSpace(details))
-        {
-            return context;
-        }
-
-        return $"{context} | {details}";
-    }
-
-    private static string BuildParameterSummary(string text)
-    {
-        if (string.IsNullOrWhiteSpace(text))
-        {
-            return "none";
-        }
-
-        var normalized = text.Trim()
-            .Replace("\r\n", "\n", StringComparison.Ordinal)
-            .Replace('\n', ';')
-            .Replace('\t', ' ');
-        return normalized.Length <= 180
-            ? normalized
-            : normalized[..177] + "...";
     }
 }
 
@@ -3125,11 +3107,30 @@ public sealed class SettingsFeatureService : ISettingsFeatureService
 
 public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
 {
+    private const string GithubResourceArchiveUrl = "https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip";
+    private const string MirrorChyanResourceApiUrl = "https://mirrorchyan.com/api/resources/MaaResource/latest";
     private static readonly HashSet<string> AllowedVersionTypes = new(StringComparer.OrdinalIgnoreCase)
     {
         "Stable",
         "Beta",
         "Nightly",
+    };
+    private static readonly HashSet<string> AllowedProxyTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "http",
+        "https",
+        "socks5",
+        "system",
+    };
+    private static readonly HashSet<string> DefaultClientTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        string.Empty,
+        "Official",
+        "Bilibili",
+    };
+    private static readonly HttpClient ResourceHttpClient = new()
+    {
+        Timeout = TimeSpan.FromMinutes(15),
     };
 
     private readonly UnifiedConfigurationService? _configService;
@@ -3151,11 +3152,11 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
             return Task.FromResult(failure);
         }
 
-        var policy = new VersionUpdatePolicy(
+        var policy = NormalizePolicy(new VersionUpdatePolicy(
             Proxy: ReadString(config, ConfigurationKeys.UpdateProxy, string.Empty),
-            ProxyType: ReadString(config, ConfigurationKeys.ProxyType, "system"),
+            ProxyType: ReadString(config, ConfigurationKeys.ProxyType, "http"),
             VersionType: ReadString(config, ConfigurationKeys.VersionType, "Stable"),
-            ResourceUpdateSource: ReadString(config, ConfigurationKeys.UpdateSource, "Official"),
+            ResourceUpdateSource: ReadString(config, ConfigurationKeys.UpdateSource, "Github"),
             ForceGithubGlobalSource: ReadBool(config, ConfigurationKeys.ForceGithubGlobalSource, false),
             MirrorChyanCdk: ReadString(config, ConfigurationKeys.MirrorChyanCdk, string.Empty),
             MirrorChyanCdkExpired: ReadString(config, ConfigurationKeys.MirrorChyanCdkExpiredTime, string.Empty),
@@ -3165,27 +3166,47 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
             AllowNightlyUpdates: ReadBool(config, ConfigurationKeys.AllowNightlyUpdates, false),
             HasAcknowledgedNightlyWarning: ReadBool(config, ConfigurationKeys.HasAcknowledgedNightlyWarning, false),
             UseAria2: ReadBool(config, ConfigurationKeys.UseAria2, false),
-            AutoDownloadUpdatePackage: ReadBool(config, ConfigurationKeys.AutoDownloadUpdatePackage, false),
+            AutoDownloadUpdatePackage: ReadBool(config, ConfigurationKeys.AutoDownloadUpdatePackage, true),
             AutoInstallUpdatePackage: ReadBool(config, ConfigurationKeys.AutoInstallUpdatePackage, false),
             VersionName: ReadString(config, ConfigurationKeys.VersionName, string.Empty),
             VersionBody: ReadString(config, ConfigurationKeys.VersionUpdateBody, string.Empty),
             IsFirstBoot: ReadBool(config, ConfigurationKeys.VersionUpdateIsFirstBoot, false),
             VersionPackage: ReadString(config, ConfigurationKeys.VersionUpdatePackage, string.Empty),
-            DoNotShowUpdate: ReadBool(config, ConfigurationKeys.VersionUpdateDoNotShowUpdate, false));
+            DoNotShowUpdate: ReadBool(config, ConfigurationKeys.VersionUpdateDoNotShowUpdate, false)));
         return Task.FromResult(UiOperationResult<VersionUpdatePolicy>.Ok(policy, "Loaded version update policy."));
+    }
+
+    public Task<UiOperationResult<ResourceVersionInfo>> LoadResourceVersionInfoAsync(
+        string? clientType,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        try
+        {
+            var resourceInfo = LoadResourceVersionInfo(ResolveRuntimeBaseDirectory(), clientType);
+            return Task.FromResult(UiOperationResult<ResourceVersionInfo>.Ok(resourceInfo, "Loaded resource version info."));
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(UiOperationResult<ResourceVersionInfo>.Fail(
+                UiErrorCode.UiOperationFailed,
+                $"Failed to load resource version info: {ex.Message}",
+                ex.Message));
+        }
     }
 
     public async Task<UiOperationResult> SaveChannelAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var validation = ValidateChannelPolicy(policy);
+        var normalizedPolicy = NormalizePolicy(policy);
+        var validation = ValidateChannelPolicy(normalizedPolicy);
         if (!validation.Success)
         {
             return validation;
         }
 
         return await PersistGlobalSettingsWithRollbackAsync(
-            policy.ToChannelSettingUpdates(),
+            normalizedPolicy.ToChannelSettingUpdates(),
             "Version update channel settings saved.",
             cancellationToken);
     }
@@ -3193,14 +3214,15 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
     public async Task<UiOperationResult> SaveProxyAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var validation = ValidateProxyPolicy(policy);
+        var normalizedPolicy = NormalizePolicy(policy);
+        var validation = ValidateProxyPolicy(normalizedPolicy);
         if (!validation.Success)
         {
             return validation;
         }
 
         return await PersistGlobalSettingsWithRollbackAsync(
-            policy.ToProxySettingUpdates(),
+            normalizedPolicy.ToProxySettingUpdates(),
             "Version update proxy settings saved.",
             cancellationToken);
     }
@@ -3208,16 +3230,42 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
     public async Task<UiOperationResult> SavePolicyAsync(VersionUpdatePolicy policy, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var validation = ValidatePolicy(policy);
+        var normalizedPolicy = NormalizePolicy(policy);
+        var validation = ValidatePolicy(normalizedPolicy);
         if (!validation.Success)
         {
             return validation;
         }
 
         return await PersistGlobalSettingsWithRollbackAsync(
-            policy.ToGlobalSettingUpdates(),
+            normalizedPolicy.ToGlobalSettingUpdates(),
             "Version update policy saved.",
             cancellationToken);
+    }
+
+    public async Task<UiOperationResult<string>> UpdateResourceAsync(
+        VersionUpdatePolicy policy,
+        string? clientType,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var normalizedPolicy = NormalizePolicy(policy);
+        var validation = ValidatePolicy(normalizedPolicy);
+        if (!validation.Success)
+        {
+            return UiOperationResult<string>.Fail(
+                validation.Error?.Code ?? UiErrorCode.VersionUpdateInvalidParameters,
+                validation.Message,
+                validation.Error?.Details);
+        }
+
+        var source = normalizedPolicy.ResourceUpdateSource;
+        if (string.Equals(source, "MirrorChyan", StringComparison.OrdinalIgnoreCase))
+        {
+            return await UpdateResourceFromMirrorChyanAsync(normalizedPolicy, clientType, cancellationToken);
+        }
+
+        return await UpdateResourceFromGithubAsync(cancellationToken);
     }
 
     public Task<UiOperationResult<string>> CheckForUpdatesAsync(
@@ -3225,7 +3273,8 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var validation = ValidatePolicy(policy);
+        var normalizedPolicy = NormalizePolicy(policy);
+        var validation = ValidatePolicy(normalizedPolicy);
         if (!validation.Success)
         {
             return Task.FromResult(UiOperationResult<string>.Fail(
@@ -3234,8 +3283,8 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
                 validation.Error?.Details));
         }
 
-        var channel = policy.VersionType;
-        var source = string.IsNullOrWhiteSpace(policy.ResourceUpdateSource) ? "Official" : policy.ResourceUpdateSource;
+        var channel = normalizedPolicy.VersionType;
+        var source = normalizedPolicy.ResourceUpdateSource;
         return Task.FromResult(UiOperationResult<string>.Ok(
             $"Checked updates on channel `{channel}` via `{source}`. No new package found.",
             "Version update check completed."));
@@ -3261,32 +3310,529 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
                 $"Version type `{policy.VersionType}` is unsupported.");
         }
 
+        if (!string.Equals(policy.ResourceUpdateSource, "Github", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(policy.ResourceUpdateSource, "MirrorChyan", StringComparison.OrdinalIgnoreCase))
+        {
+            return UiOperationResult.Fail(
+                UiErrorCode.VersionUpdateInvalidParameters,
+                $"Resource update source `{policy.ResourceUpdateSource}` is unsupported.");
+        }
+
         return UiOperationResult.Ok("Version update channel validation passed.");
     }
 
     private static UiOperationResult ValidateProxyPolicy(VersionUpdatePolicy policy)
     {
-        if (!string.Equals(policy.ProxyType, "system", StringComparison.OrdinalIgnoreCase)
-            && !string.Equals(policy.ProxyType, "http", StringComparison.OrdinalIgnoreCase)
-            && !string.Equals(policy.ProxyType, "https", StringComparison.OrdinalIgnoreCase))
+        if (!AllowedProxyTypes.Contains(policy.ProxyType))
         {
             return UiOperationResult.Fail(
                 UiErrorCode.VersionUpdateInvalidParameters,
                 $"Proxy type `{policy.ProxyType}` is unsupported.");
         }
 
-        if (!string.IsNullOrWhiteSpace(policy.Proxy))
+        var proxy = policy.Proxy.Trim();
+        if (proxy.Length > 0)
         {
-            if (!Uri.TryCreate(policy.Proxy.Trim(), UriKind.Absolute, out var proxyUri)
-                || (proxyUri.Scheme != Uri.UriSchemeHttp && proxyUri.Scheme != Uri.UriSchemeHttps))
+            if (Uri.TryCreate(proxy, UriKind.Absolute, out _))
             {
-                return UiOperationResult.Fail(
-                    UiErrorCode.VersionUpdateInvalidParameters,
-                    $"Proxy `{policy.Proxy}` must be an absolute http/https URL.");
+                return UiOperationResult.Ok("Version update proxy validation passed.");
             }
+
+            if (TryParseHostPortProxy(proxy))
+            {
+                return UiOperationResult.Ok("Version update proxy validation passed.");
+            }
+
+            return UiOperationResult.Fail(
+                UiErrorCode.VersionUpdateInvalidParameters,
+                $"Proxy `{policy.Proxy}` must be in `<host>:<port>` or absolute URI format.");
         }
 
         return UiOperationResult.Ok("Version update proxy validation passed.");
+    }
+
+    private async Task<UiOperationResult<string>> UpdateResourceFromGithubAsync(CancellationToken cancellationToken)
+    {
+        var runtimeBaseDirectory = ResolveRuntimeBaseDirectory();
+        var resourceDirectory = Path.Combine(runtimeBaseDirectory, "resource");
+        if (!Directory.Exists(resourceDirectory))
+        {
+            return UiOperationResult<string>.Fail(
+                UiErrorCode.UiOperationFailed,
+                $"Resource directory was not found: {resourceDirectory}");
+        }
+
+        var tempRoot = Path.Combine(
+            Path.GetTempPath(),
+            "maa-unified-resource-update",
+            Guid.NewGuid().ToString("N"));
+        var zipPath = Path.Combine(tempRoot, "MaaResourceGithub.zip");
+        var extractDirectory = Path.Combine(tempRoot, "extract");
+        Directory.CreateDirectory(tempRoot);
+
+        try
+        {
+            await DownloadToFileAsync(GithubResourceArchiveUrl, zipPath, cancellationToken);
+            ZipFile.ExtractToDirectory(zipPath, extractDirectory, overwriteFiles: true);
+            var extractedResourceDirectory = ResolveExtractedResourceDirectory(extractDirectory);
+            if (!Directory.Exists(extractedResourceDirectory))
+            {
+                return UiOperationResult<string>.Fail(
+                    UiErrorCode.UiOperationFailed,
+                    "Downloaded package does not contain `resource` directory.");
+            }
+
+            MergeDirectory(extractedResourceDirectory, resourceDirectory);
+            return UiOperationResult<string>.Ok(
+                "资源更新完成（Github）。",
+                "Resource update completed.");
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            return UiOperationResult<string>.Fail(
+                UiErrorCode.UiOperationFailed,
+                $"Failed to update resources from Github: {ex.Message}",
+                ex.Message);
+        }
+        finally
+        {
+            TryDeleteDirectory(tempRoot);
+        }
+    }
+
+    private async Task<UiOperationResult<string>> UpdateResourceFromMirrorChyanAsync(
+        VersionUpdatePolicy policy,
+        string? clientType,
+        CancellationToken cancellationToken)
+    {
+        var cdk = policy.MirrorChyanCdk.Trim();
+        if (cdk.Length == 0)
+        {
+            return UiOperationResult<string>.Fail(
+                UiErrorCode.VersionUpdateInvalidParameters,
+                "MirrorChyan source requires a CDK.");
+        }
+
+        var localVersion = LoadResourceVersionInfo(ResolveRuntimeBaseDirectory(), clientType);
+        var requestUrl =
+            $"{MirrorChyanResourceApiUrl}?current_version={Uri.EscapeDataString(BuildCurrentVersionQueryToken(localVersion))}&cdk={Uri.EscapeDataString(cdk)}&user_agent=MAAUnified&sp_id={Uri.EscapeDataString(BuildMirrorChyanSpId())}";
+
+        MirrorChyanUpdateResponse payload;
+        try
+        {
+            using var response = await ResourceHttpClient.GetAsync(requestUrl, cancellationToken);
+            var body = await response.Content.ReadAsStringAsync(cancellationToken);
+            if (!response.IsSuccessStatusCode)
+            {
+                return UiOperationResult<string>.Fail(
+                    UiErrorCode.UiOperationFailed,
+                    $"MirrorChyan request failed with status {(int)response.StatusCode}.",
+                    body);
+            }
+
+            payload = ParseMirrorChyanPayload(body);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            return UiOperationResult<string>.Fail(
+                UiErrorCode.UiOperationFailed,
+                $"Failed to query MirrorChyan update endpoint: {ex.Message}",
+                ex.Message);
+        }
+
+        if (payload.CdkExpiredEpoch.HasValue)
+        {
+            await PersistMirrorChyanExpiryAsync(payload.CdkExpiredEpoch.Value, cancellationToken);
+        }
+
+        if (payload.Code != 0)
+        {
+            return UiOperationResult<string>.Fail(
+                UiErrorCode.VersionUpdateInvalidParameters,
+                string.IsNullOrWhiteSpace(payload.Message)
+                    ? "MirrorChyan request failed."
+                    : payload.Message);
+        }
+
+        if (payload.VersionTimestamp.HasValue
+            && localVersion.LastUpdatedAt != DateTime.MinValue
+            && payload.VersionTimestamp.Value <= localVersion.LastUpdatedAt)
+        {
+            return UiOperationResult<string>.Ok("资源已是最新版本。", "Resource is already up to date.");
+        }
+
+        if (string.IsNullOrWhiteSpace(payload.DownloadUrl))
+        {
+            return UiOperationResult<string>.Fail(
+                UiErrorCode.UiOperationFailed,
+                "MirrorChyan response does not contain a downloadable package URL.");
+        }
+
+        var runtimeBaseDirectory = ResolveRuntimeBaseDirectory();
+        var tempRoot = Path.Combine(
+            Path.GetTempPath(),
+            "maa-unified-resource-update",
+            Guid.NewGuid().ToString("N"));
+        var zipPath = Path.Combine(tempRoot, "MaaResourceMirrorChyan.zip");
+        var extractDirectory = Path.Combine(tempRoot, "extract");
+        Directory.CreateDirectory(tempRoot);
+
+        try
+        {
+            await DownloadToFileAsync(payload.DownloadUrl, zipPath, cancellationToken);
+            ZipFile.ExtractToDirectory(zipPath, extractDirectory, overwriteFiles: true);
+            var mergeSource = ResolvePatchMergeDirectory(extractDirectory);
+            MergeDirectory(mergeSource, runtimeBaseDirectory);
+            var message = string.IsNullOrWhiteSpace(payload.ReleaseNote)
+                ? "资源更新完成（MirrorChyan）。"
+                : $"资源更新完成（MirrorChyan）：{payload.ReleaseNote}";
+            return UiOperationResult<string>.Ok(message, "Resource update completed.");
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            return UiOperationResult<string>.Fail(
+                UiErrorCode.UiOperationFailed,
+                $"Failed to update resources from MirrorChyan: {ex.Message}",
+                ex.Message);
+        }
+        finally
+        {
+            TryDeleteDirectory(tempRoot);
+        }
+    }
+
+    private async Task PersistMirrorChyanExpiryAsync(long unixSeconds, CancellationToken cancellationToken)
+    {
+        if (_configService is null)
+        {
+            return;
+        }
+
+        try
+        {
+            _configService.CurrentConfig.GlobalValues[ConfigurationKeys.MirrorChyanCdkExpiredTime] =
+                JsonValue.Create(unixSeconds.ToString(CultureInfo.InvariantCulture));
+            await _configService.SaveAsync(cancellationToken);
+        }
+        catch
+        {
+            // Ignore expiry persistence failures to avoid blocking update flow.
+        }
+    }
+
+    private static VersionUpdatePolicy NormalizePolicy(VersionUpdatePolicy policy)
+    {
+        return policy with
+        {
+            ProxyType = NormalizeProxyType(policy.ProxyType),
+            ResourceUpdateSource = NormalizeResourceSource(policy.ResourceUpdateSource),
+        };
+    }
+
+    private static string NormalizeProxyType(string? proxyType)
+    {
+        var normalized = (proxyType ?? string.Empty).Trim().ToLowerInvariant();
+        return normalized.Length == 0 ? "http" : normalized;
+    }
+
+    private static string NormalizeResourceSource(string? source)
+    {
+        var normalized = (source ?? string.Empty).Trim();
+        if (normalized.Length == 0
+            || string.Equals(normalized, "Official", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(normalized, "Github", StringComparison.OrdinalIgnoreCase))
+        {
+            return "Github";
+        }
+
+        if (string.Equals(normalized, "Mirror", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(normalized, "MirrorChyan", StringComparison.OrdinalIgnoreCase))
+        {
+            return "MirrorChyan";
+        }
+
+        return normalized;
+    }
+
+    private static bool TryParseHostPortProxy(string proxy)
+    {
+        if (proxy.Contains("://", StringComparison.Ordinal))
+        {
+            return false;
+        }
+
+        if (!Uri.TryCreate($"tcp://{proxy}", UriKind.Absolute, out var uri))
+        {
+            return false;
+        }
+
+        return !string.IsNullOrWhiteSpace(uri.Host) && uri.Port > 0;
+    }
+
+    private static string ResolveRuntimeBaseDirectory()
+    {
+        return AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+    }
+
+    private static string ResolveExtractedResourceDirectory(string extractDirectory)
+    {
+        var preferred = Path.Combine(extractDirectory, "MaaResource-main", "resource");
+        if (Directory.Exists(preferred))
+        {
+            return preferred;
+        }
+
+        var discovered = Directory
+            .EnumerateDirectories(extractDirectory, "resource", SearchOption.AllDirectories)
+            .FirstOrDefault(path => File.Exists(Path.Combine(path, "version.json")));
+        return discovered ?? preferred;
+    }
+
+    private static string ResolvePatchMergeDirectory(string extractDirectory)
+    {
+        var files = Directory.GetFiles(extractDirectory, "*", SearchOption.TopDirectoryOnly);
+        var directories = Directory.GetDirectories(extractDirectory, "*", SearchOption.TopDirectoryOnly);
+        if (files.Length == 0 && directories.Length == 1)
+        {
+            return directories[0];
+        }
+
+        return extractDirectory;
+    }
+
+    private static async Task DownloadToFileAsync(string url, string destinationPath, CancellationToken cancellationToken)
+    {
+        using var response = await ResourceHttpClient.GetAsync(
+            url,
+            HttpCompletionOption.ResponseHeadersRead,
+            cancellationToken);
+        response.EnsureSuccessStatusCode();
+
+        await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        await using var file = File.Create(destinationPath);
+        await stream.CopyToAsync(file, cancellationToken);
+    }
+
+    private static void MergeDirectory(string source, string destination)
+    {
+        Directory.CreateDirectory(destination);
+
+        foreach (var file in Directory.GetFiles(source))
+        {
+            var destinationFile = Path.Combine(destination, Path.GetFileName(file));
+            File.Copy(file, destinationFile, overwrite: true);
+        }
+
+        foreach (var directory in Directory.GetDirectories(source))
+        {
+            var destinationDirectory = Path.Combine(destination, Path.GetFileName(directory));
+            MergeDirectory(directory, destinationDirectory);
+        }
+    }
+
+    private static void TryDeleteDirectory(string path)
+    {
+        try
+        {
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, recursive: true);
+            }
+        }
+        catch
+        {
+            // Ignore temporary cleanup failures.
+        }
+    }
+
+    private static string BuildCurrentVersionQueryToken(ResourceVersionInfo info)
+    {
+        var effectiveTime = info.LastUpdatedAt == DateTime.MinValue
+            ? DateTime.UnixEpoch
+            : info.LastUpdatedAt;
+        return effectiveTime.ToString("yyyy-MM-dd+HH:mm:ss.fff", CultureInfo.InvariantCulture);
+    }
+
+    private static string BuildMirrorChyanSpId()
+    {
+        var material = string.Join(
+            "|",
+            Environment.MachineName,
+            Environment.UserName,
+            Environment.OSVersion.VersionString);
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(material));
+        return Convert.ToHexString(bytes[..8]).ToLowerInvariant();
+    }
+
+    private static MirrorChyanUpdateResponse ParseMirrorChyanPayload(string json)
+    {
+        var root = JsonNode.Parse(json) as JsonObject
+            ?? throw new InvalidDataException("MirrorChyan response is not a JSON object.");
+
+        var code = root["code"]?.GetValue<int?>() ?? -1;
+        var message = root["msg"]?.GetValue<string>() ?? string.Empty;
+        var data = root["data"] as JsonObject;
+        var releaseNote = data?["release_note"]?.GetValue<string>();
+        var downloadUrl = data?["url"]?.GetValue<string>();
+        var versionName = data?["version_name"]?.GetValue<string>();
+        var cdkExpired = data?["cdk_expired_time"]?.GetValue<long?>();
+        DateTime? versionTimestamp = DateTime.TryParse(versionName, out var parsedVersion)
+            ? parsedVersion
+            : null;
+
+        return new MirrorChyanUpdateResponse(
+            Code: code,
+            Message: message,
+            DownloadUrl: downloadUrl ?? string.Empty,
+            ReleaseNote: releaseNote ?? string.Empty,
+            VersionTimestamp: versionTimestamp,
+            CdkExpiredEpoch: cdkExpired);
+    }
+
+    private static ResourceVersionInfo LoadResourceVersionInfo(string baseDirectory, string? clientType)
+    {
+        var normalizedClientType = (clientType ?? string.Empty).Trim();
+        var defaultVersionFilePath = Path.Combine(baseDirectory, "resource", "version.json");
+        var selectedVersionFilePath = DefaultClientTypes.Contains(normalizedClientType)
+            ? defaultVersionFilePath
+            : Path.Combine(baseDirectory, "resource", "global", normalizedClientType, "resource", "version.json");
+
+        if (!File.Exists(defaultVersionFilePath) || !File.Exists(selectedVersionFilePath))
+        {
+            return ResourceVersionInfo.Empty;
+        }
+
+        var selectedVersionJson = LoadJsonObject(selectedVersionFilePath);
+        if (selectedVersionJson is null)
+        {
+            return ResourceVersionInfo.Empty;
+        }
+
+        var defaultVersionJson = string.Equals(selectedVersionFilePath, defaultVersionFilePath, StringComparison.OrdinalIgnoreCase)
+            ? selectedVersionJson
+            : LoadJsonObject(defaultVersionFilePath);
+
+        var nowUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        var poolTime = ReadUnixTime(selectedVersionJson, "gacha", "time");
+        var activityTime = ReadUnixTime(selectedVersionJson, "activity", "time");
+        var poolName = ReadNestedString(selectedVersionJson, "gacha", "pool");
+        var activityName = ReadNestedString(selectedVersionJson, "activity", "name");
+
+        var poolStarted = poolTime.HasValue && nowUnix >= poolTime.Value;
+        var activityStarted = activityTime.HasValue && nowUnix >= activityTime.Value;
+
+        var versionName = (poolStarted, activityStarted) switch
+        {
+            (false, false) => string.Empty,
+            (true, false) => poolName,
+            (false, true) => activityName,
+            _ => (poolTime ?? long.MinValue) > (activityTime ?? long.MinValue)
+                ? poolName
+                : activityName,
+        };
+
+        var lastUpdatedRaw = ReadNestedString(defaultVersionJson, "last_updated");
+        var parsedLastUpdated = TryParseResourceTimestamp(lastUpdatedRaw, out var lastUpdated)
+            ? lastUpdated
+            : DateTime.MinValue;
+
+        return new ResourceVersionInfo(versionName, parsedLastUpdated);
+    }
+
+    private static JsonObject? LoadJsonObject(string path)
+    {
+        try
+        {
+            return JsonNode.Parse(File.ReadAllText(path)) as JsonObject;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static long? ReadUnixTime(JsonObject root, params string[] segments)
+    {
+        JsonNode? current = root;
+        foreach (var segment in segments)
+        {
+            current = current?[segment];
+            if (current is null)
+            {
+                return null;
+            }
+        }
+
+        if (current is JsonValue value)
+        {
+            if (value.TryGetValue<long>(out var longValue))
+            {
+                return longValue;
+            }
+
+            if (value.TryGetValue<string>(out var text)
+                && long.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out longValue))
+            {
+                return longValue;
+            }
+        }
+
+        return null;
+    }
+
+    private static string ReadNestedString(JsonObject? root, params string[] segments)
+    {
+        if (root is null)
+        {
+            return string.Empty;
+        }
+
+        JsonNode? current = root;
+        foreach (var segment in segments)
+        {
+            current = current?[segment];
+            if (current is null)
+            {
+                return string.Empty;
+            }
+        }
+
+        if (current is JsonValue value)
+        {
+            if (value.TryGetValue<string>(out var text))
+            {
+                return text?.Trim() ?? string.Empty;
+            }
+        }
+
+        return current.ToString().Trim();
+    }
+
+    private static bool TryParseResourceTimestamp(string value, out DateTime parsed)
+    {
+        if (DateTime.TryParseExact(
+                value,
+                "yyyy-MM-dd HH:mm:ss.fff",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out parsed))
+        {
+            return true;
+        }
+
+        return DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsed);
     }
 
     private async Task<UiOperationResult> PersistGlobalSettingsWithRollbackAsync(
@@ -3384,6 +3930,14 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
 
         return fallback;
     }
+
+    private sealed record MirrorChyanUpdateResponse(
+        int Code,
+        string Message,
+        string DownloadUrl,
+        string ReleaseNote,
+        DateTime? VersionTimestamp,
+        long? CdkExpiredEpoch);
 }
 
 public sealed class AchievementFeatureService : IAchievementFeatureService
@@ -3411,8 +3965,8 @@ public sealed class AchievementFeatureService : IAchievementFeatureService
 
         var config = _configService.CurrentConfig;
         var policy = new AchievementPolicy(
-            PopupDisabled: ReadBool(config, ConfigurationKeys.AchievementPopupDisabled, false),
-            PopupAutoClose: ReadBool(config, ConfigurationKeys.AchievementPopupAutoClose, false));
+            PopupDisabled: ReadProfileBool(config, ConfigurationKeys.AchievementPopupDisabled, false),
+            PopupAutoClose: ReadProfileBool(config, ConfigurationKeys.AchievementPopupAutoClose, false));
         return Task.FromResult(UiOperationResult<AchievementPolicy>.Ok(policy, "Loaded achievement policy."));
     }
 
@@ -3424,33 +3978,88 @@ public sealed class AchievementFeatureService : IAchievementFeatureService
             return UiOperationResult.Fail(UiErrorCode.AchievementServiceUnavailable, "Achievement service is not initialized.");
         }
 
-        foreach (var (key, value) in policy.ToGlobalSettingUpdates())
+        if (!_configService.TryGetCurrentProfile(out var profile))
         {
-            _configService.CurrentConfig.GlobalValues[key] = JsonValue.Create(value);
+            return UiOperationResult.Fail(
+                UiErrorCode.ProfileMissing,
+                $"Current profile `{_configService.CurrentConfig.CurrentProfile}` not found.");
+        }
+
+        foreach (var (key, value) in policy.ToProfileSettingUpdates())
+        {
+            profile.Values[key] = JsonValue.Create(value);
         }
 
         await _configService.SaveAsync(cancellationToken);
         return UiOperationResult.Ok("Achievement policy saved.");
     }
 
-    private static bool ReadBool(UnifiedConfig config, string key, bool fallback)
+    private static bool ReadProfileBool(UnifiedConfig config, string key, bool fallback)
     {
-        if (!config.GlobalValues.TryGetValue(key, out var node) || node is null)
+        if (TryReadBool(config, key, preferProfile: true, out var value))
         {
-            return fallback;
+            return value;
+        }
+
+        return fallback;
+    }
+
+    private static bool TryReadBool(UnifiedConfig config, string key, bool preferProfile, out bool value)
+    {
+        if (preferProfile)
+        {
+            if (TryReadBoolNode(config, key, fromProfile: true, out value))
+            {
+                return true;
+            }
+
+            return TryReadBoolNode(config, key, fromProfile: false, out value);
+        }
+
+        if (TryReadBoolNode(config, key, fromProfile: false, out value))
+        {
+            return true;
+        }
+
+        return TryReadBoolNode(config, key, fromProfile: true, out value);
+    }
+
+    private static bool TryReadBoolNode(UnifiedConfig config, string key, bool fromProfile, out bool value)
+    {
+        JsonNode? node = null;
+        if (fromProfile)
+        {
+            if (!string.IsNullOrWhiteSpace(config.CurrentProfile)
+                && config.Profiles.TryGetValue(config.CurrentProfile, out var profile))
+            {
+                profile.Values.TryGetValue(key, out node);
+            }
+        }
+        else
+        {
+            config.GlobalValues.TryGetValue(key, out node);
+        }
+
+        if (node is null)
+        {
+            value = false;
+            return false;
         }
 
         if (bool.TryParse(node.ToString(), out var parsed))
         {
-            return parsed;
+            value = parsed;
+            return true;
         }
 
         if (int.TryParse(node.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsedInt))
         {
-            return parsedInt != 0;
+            value = parsedInt != 0;
+            return true;
         }
 
-        return fallback;
+        value = false;
+        return false;
     }
 }
 

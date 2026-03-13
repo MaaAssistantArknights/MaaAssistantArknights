@@ -9,8 +9,12 @@ public sealed class SettingsRemoteControlViewBindingTests
         var path = Path.Combine(root, "App", "Features", "Settings", "RemoteControlSettingsView.axaml");
         var xaml = File.ReadAllText(path);
 
-        Assert.Contains("Text=\"{Binding RemoteUserIdentity}\"", xaml, StringComparison.Ordinal);
-        Assert.Contains("Text=\"{Binding RemoteDeviceIdentity}\"", xaml, StringComparison.Ordinal);
+        Assert.Matches(
+            "Text=\"\\{Binding RemoteUserIdentity(?:,\\s*UpdateSourceTrigger=LostFocus)?\\}\"",
+            xaml);
+        Assert.Matches(
+            "Text=\"\\{Binding RemoteDeviceIdentity(?:,\\s*UpdateSourceTrigger=LostFocus)?\\}\"",
+            xaml);
     }
 
     [Fact]

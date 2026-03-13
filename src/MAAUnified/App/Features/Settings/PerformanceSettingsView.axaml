@@ -1,33 +1,91 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.Settings"
              x:Class="MAAUnified.App.Features.Settings.PerformanceSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="Performance" />
-
-    <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto" Margin="0,6,0,0">
-      <CheckBox Content="启用 GPU 推理" IsChecked="{Binding PerformanceUseGpu}" />
-      <TextBlock Grid.Column="1" Margin="6,0,14,0" VerticalAlignment="Center" Opacity="0.7" Text="重启后生效" />
-      <CheckBox Grid.Column="2" Content="允许弃用 GPU" IsChecked="{Binding PerformanceAllowDeprecatedGpu}" />
-      <TextBlock Grid.Column="3" Margin="6,0,0,0" VerticalAlignment="Center" Opacity="0.7" Text="重启后生效" />
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+    <Grid ColumnDefinitions="Auto,*">
+      <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.Performance]}" />
+      <TextBlock Grid.Column="1"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Center"
+                 Classes="state-warning"
+                 Text="{Binding RootTexts[Settings.State.Saving]}"
+                 IsVisible="{Binding IsStartPerformanceSaveInProgress}" />
+      <TextBlock Grid.Column="1"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Center"
+                 Classes="state-success"
+                 Text="{Binding RootTexts[Settings.State.Saved]}"
+                 IsVisible="{Binding HasStartPerformanceSaveSucceeded}" />
     </Grid>
 
-    <Grid Grid.Row="2" ColumnDefinitions="Auto,*" Margin="0,8,0,0">
-      <TextBlock VerticalAlignment="Center" Text="Preferred GPU Description" />
-      <TextBox Grid.Column="1" Text="{Binding PerformancePreferredGpuDescription}" />
+    <WrapPanel Grid.Row="1"
+               Classes="settings-wrap"
+               Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+               ItemWidth="280">
+      <CheckBox Content="{Binding RootTexts[Settings.Performance.Gpu.Enable]}"
+                IsChecked="{Binding PerformanceUseGpu}"
+                IsEnabled="{Binding IsGpuSelectionEnabled}" />
+      <CheckBox Content="{Binding RootTexts[Settings.Performance.Gpu.AllowDeprecated]}"
+                IsChecked="{Binding PerformanceAllowDeprecatedGpu}"
+                IsEnabled="{Binding IsGpuDeprecatedToggleEnabled}" />
+    </WrapPanel>
+
+    <Grid Grid.Row="2"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+          ColumnDefinitions="132,220">
+      <TextBlock Classes="settings-label" Text="{Binding RootTexts[Settings.Performance.Gpu.Select]}" />
+      <ComboBox Grid.Column="1"
+                ItemsSource="{Binding AvailableGpuOptions}"
+                SelectedItem="{Binding SelectedGpuOption}"
+                IsEnabled="{Binding IsGpuSelectionEnabled}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="vm:GpuOptionDisplayItem">
+            <TextBlock Text="{Binding Display}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
     </Grid>
 
-    <Grid Grid.Row="3" ColumnDefinitions="Auto,*" Margin="0,8,0,0">
-      <TextBlock VerticalAlignment="Center" Text="Preferred GPU InstancePath" />
-      <TextBox Grid.Column="1" Text="{Binding PerformancePreferredGpuInstancePath}" />
+    <Grid Grid.Row="3"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+          ColumnDefinitions="132,220"
+          IsVisible="{Binding IsGpuCustomSelectionFieldsVisible}">
+      <TextBlock Classes="settings-label" Text="{Binding RootTexts[Settings.Performance.Gpu.CustomDescription]}" />
+      <TextBox Grid.Column="1"
+               Text="{Binding GpuCustomDescription, UpdateSourceTrigger=LostFocus}"
+               IsEnabled="{Binding IsGpuSelectionEnabled}" />
     </Grid>
 
-    <StackPanel Grid.Row="4" Margin="0,8,0,0" Spacing="4">
+    <Grid Grid.Row="4"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+          ColumnDefinitions="132,220"
+          IsVisible="{Binding IsGpuCustomSelectionFieldsVisible}">
+      <TextBlock Classes="settings-label" Text="{Binding RootTexts[Settings.Performance.Gpu.CustomInstancePath]}" />
+      <TextBox Grid.Column="1"
+               Text="{Binding GpuCustomInstancePath, UpdateSourceTrigger=LostFocus}"
+               IsEnabled="{Binding IsGpuSelectionEnabled}" />
+    </Grid>
+
+    <StackPanel Grid.Row="5"
+                Classes="settings-form settings-form-narrow"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="4">
+      <TextBlock Classes="settings-note"
+                 Text="{Binding GpuSupportMessage}"
+                 IsVisible="{Binding HasGpuSupportMessage}" />
+      <TextBlock Classes="settings-note"
+                 Text="{Binding RootTexts[Settings.Performance.Gpu.RestartRequired]}"
+                 IsVisible="{Binding ShowGpuRestartRequiredHint}" />
+      <TextBlock Classes="state-warning"
+                 Text="{Binding GpuWarningMessage}"
+                 IsVisible="{Binding HasGpuWarningMessage}" />
       <TextBlock Classes="state-warning"
                  Text="{Binding StartPerformanceValidationMessage}"
                  IsVisible="{Binding HasStartPerformanceValidationMessage}" />
-      <TextBlock Classes="state-warning"
-                 Text="存在未保存的 Start/Performance 变更。"
-                 IsVisible="{Binding HasPendingStartPerformanceChanges}" />
     </StackPanel>
   </Grid>
 </UserControl>
