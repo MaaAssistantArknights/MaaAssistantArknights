@@ -1871,6 +1871,14 @@
         "sortId": -10000,
         "usage": "用於兌換相應的階段性活動獎勵。"
     },
+    "act2enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "聽說使用後可在整個爭鋒頻道中發出一則佔滿全螢幕的煙火特效文字，只不過整天拿這個來對罵的有錢人或許並不知道，網站設定內可以一鍵隱藏這些特效。",
+        "icon": "act2enemyduel_milestone_point.png",
+        "name": "爭鋒大禮花",
+        "sortId": -10000,
+        "usage": "爭鋒頻道禮物中比較昂貴的類型，可在網站內兌換一些實體獎勵，免費送到府。"
+    },
     "act2mainss_token": {
         "classifyType": "NONE",
         "description": "為了安慰那些因即將離艦而惶恐不安的孩子，Raidian製作了大量具有呼叫和留言功能的胸章，鼓勵他們保持微笑，也保持聯絡。不少幹員聽說後，也向Raidian要來了胸章，他們錄下祝福與鼓勵的話語，並在撤離前將胸章藏在各個角落。",
