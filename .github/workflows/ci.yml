@@ -59,7 +59,7 @@ jobs:
             tag="${{ github.ref_name }}"
           else
             # For PRs and branch pushes, use git describe or fallback
-            tag=$(git describe --tags --match "v*" HEAD 2>/dev-v2/null || echo "v0.0.1-$(git rev-parse --short HEAD)")
+            tag=$(git describe --tags --match "v*" HEAD 2>/dev/null || echo "v0.0.1-$(git rev-parse --short HEAD)")
           fi
           echo "tag=${tag}" | tee -a $GITHUB_OUTPUT
 

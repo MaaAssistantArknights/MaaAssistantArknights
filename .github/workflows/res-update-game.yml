@@ -239,7 +239,7 @@ jobs:
         id: task_sorting
         run: |
           python3 tools/TaskSorter/TaskSorter.py
-          echo "gitdiff=$(echo $(git diff --name-only --diff-filter=ACM 2>/dev-v2/null | grep '\.json$'))" >> $GITHUB_OUTPUT
+          echo "gitdiff=$(echo $(git diff --name-only --diff-filter=ACM 2>/dev/null | grep '\.json$'))" >> $GITHUB_OUTPUT
 
       - name: Run prettier
         uses: Nerixyz/actionsx-prettier@v3-adj
