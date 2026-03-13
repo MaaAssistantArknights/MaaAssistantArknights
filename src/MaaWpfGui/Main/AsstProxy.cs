@@ -2561,7 +2561,7 @@ public class AsstProxy
         if (!ret)
         {
             // 等待回调完成以获取详细错误信息
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(1000);
 
             if (!string.IsNullOrEmpty(_lastConnectionError))
             {
@@ -2642,7 +2642,7 @@ public class AsstProxy
         // 如果连接失败，等待回调完成以获取详细错误信息
         if (!ret)
         {
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(1000);
         }
 
         // 尝试默认的备选端口
