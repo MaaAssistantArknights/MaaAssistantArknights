@@ -5,7 +5,11 @@ dir:
   order: 0
 ---
 
+<!-- markdownlint-disable -->
+
 ::: center
+
+<!-- markdownlint-restore -->
 
 ![MAA Logo =256x256](/images/maa-logo_512x512.png)
 
@@ -15,6 +19,7 @@ dir:
 ![platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet)  
 ![license](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights) ![commit](https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4)  
 ![stars](https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social) ![GitHub all releases](https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social)  
+<a href="https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>  
 <a href="https://trendshift.io/repositories/979" target="_blank"><img src="https://trendshift.io/api/badge/repositories/979" alt="MaaAssistantArknights%2FMaaAssistantArknights | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
 MAA 的意思是 MAA Assistant Arknights
