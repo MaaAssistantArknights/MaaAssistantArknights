@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|ARM64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\resource\config.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks\RA\base.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks\RA\Fire.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks\RA\Reclamation2.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks\RA\Tales.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks\Roguelike\base.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks\Roguelike\Mizuki.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks\Roguelike\Phantom.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks\Roguelike\Sami.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks\Stages\base.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks\tasks.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\RA\base.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\RA\Fire.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\RA\Reclamation2.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\RA\Tales.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\Roguelike\base.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\Roguelike\Mizuki.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\Roguelike\Phantom.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\Roguelike\Sami.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\Roguelike\Sarkaz.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\Stages\base.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\tasks.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\RA\base.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\RA\Fire.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\RA\Reclamation2.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\RA\Tales.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\Roguelike\base.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\Roguelike\Mizuki.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\Roguelike\Phantom.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\Roguelike\Sami.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\Roguelike\Sarkaz.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\Stages\base.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\tasks.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\RA\base.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\RA\Reclamation2.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\RA\Tales.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\Roguelike\base.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\Roguelike\Mizuki.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\Roguelike\Phantom.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\Roguelike\Sami.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\Roguelike\Sarkaz.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\Stages\base.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\tasks.json" />
+    <None Include="..\..\resource\tasks\RA\base.json" />
+    <None Include="..\..\resource\tasks\RA\Reclamation2.json" />
+    <None Include="..\..\resource\tasks\RA\Tales.json" />
+    <None Include="..\..\resource\tasks\Roguelike\base.json" />
+    <None Include="..\..\resource\tasks\Roguelike\JieGarden.json" />
+    <None Include="..\..\resource\tasks\Roguelike\Mizuki.json" />
+    <None Include="..\..\resource\tasks\Roguelike\Phantom.json" />
+    <None Include="..\..\resource\tasks\Roguelike\Sami.json" />
+    <None Include="..\..\resource\tasks\Roguelike\Sarkaz.json" />
+    <None Include="..\..\resource\tasks\Stages\base.json" />
+    <None Include="..\..\resource\tasks\tasks.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\AsstCaller.h" />
+    <ClInclude Include="..\..\include\AsstPort.h" />
+    <ClInclude Include="Assistant.h" />
+    <ClInclude Include="Common\AsstBattleDef.h" />
+    <ClInclude Include="Common\AsstConf.h" />
+    <ClInclude Include="Common\AsstInfrastDef.h" />
+    <ClInclude Include="Common\AsstMsg.h" />
+    <ClInclude Include="Common\AsstTypes.h" />
+    <ClInclude Include="Common\AsstVersion.h" />
+    <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h" />
+    <ClInclude Include="Config\Miscellaneous\OcrConfig.h" />
+    <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
+    <ClInclude Include="Config\OnnxSessions.h" />
+    <ClInclude Include="Config\TaskData\TaskDataSymbol.h" />
+    <ClInclude Include="Config\TaskData\TaskDataSymbolStream.h" />
+    <ClInclude Include="Config\TaskData\TaskDataTypes.h" />
+    <ClInclude Include="Controller\adb-lite\client.hpp" />
+    <ClInclude Include="Controller\adb-lite\protocol.hpp" />
+    <ClInclude Include="Controller\Controller.h" />
+    <ClInclude Include="Controller\ControllerAPI.h" />
+    <ClInclude Include="Controller\ControllerFactory.h" />
+    <ClInclude Include="Controller\ControlScaleProxy.h" />
+    <ClInclude Include="Controller\LDExtras.h" />
+    <ClInclude Include="Controller\MaaThriftController.h" />
+    <ClInclude Include="Controller\MaatouchController.h" />
+    <ClInclude Include="Controller\MinitouchController.h" />
+    <ClInclude Include="Controller\MumuExtras.h" />
+    <ClInclude Include="Controller\PlayToolsController.h" />
+    <ClInclude Include="Controller\AdbController.h" />
+    <ClInclude Include="Controller\Platform\AdbLiteIO.h" />
+    <ClInclude Include="Controller\Platform\PosixIO.h" />
+    <ClInclude Include="Controller\Platform\Win32IO.h" />
+    <ClInclude Include="Controller\Platform\PlatformIO.h" />
+    <ClInclude Include="Controller\Platform\PlatformFactory.h" />
+    <ClInclude Include="InstHelper.h" />
+    <ClInclude Include="Task\Experiment\CombatRecordRecognitionTask.h" />
+    <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h" />
+    <ClInclude Include="Task\Fight\FightTimesTaskPlugin.h" />
+    <ClInclude Include="Task\Fight\MedicineCounterTaskPlugin.h" />
+    <ClInclude Include="Task\Fight\SideStoryReopenTask.h" />
+    <ClInclude Include="Task\Fight\StageQueueMissionCompletedTaskPlugin.h" />
+    <ClInclude Include="Task\Infrast\InfrastProcessingTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastTrainingTask.h" />
+    <ClInclude Include="Task\Interface\CustomTask.h" />
+    <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
+    <ClInclude Include="Task\Interface\OperBoxTask.h" />
+    <ClInclude Include="Task\Miscellaneous\MultiCopilotTaskPlugin.h" />
+    <ClInclude Include="Task\Miscellaneous\ParadoxRecognitionTask.h" />
+    <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h" />
+    <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
+    <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h" />
+    <!-- 生息演算 .h Begin -->
+    <ClInclude Include="Task\Interface\ReclamationTask.h" />
+    <ClInclude Include="Task\Reclamation\ReclamationConfig.h" />
+    <ClInclude Include="Task\Reclamation\AbstractReclamationTaskPlugin.h" />
+    <ClInclude Include="Task\Reclamation\ReclamationCraftTaskPlugin.h" />
+    <!-- 生息演算 .h End -->
+    <ClInclude Include="Task\BattleHelper.h" />
+    <ClInclude Include="Task\Interface\SingleStepTask.h" />
+    <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
+    <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeConfig.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeInvestTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeIterateDeepExplorationPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeIterateMonthlySquadPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeLevelTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Map\AbstractRoguelikeMap.h" />
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.h" />
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeMap.h" />
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h" />
+    <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
+    <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
+    <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
+    <ClInclude Include="Utils\Algorithm.hpp" />
+    <ClInclude Include="Utils\Encoding.h" />
+    <ClInclude Include="Utils\File.hpp" />
+    <ClInclude Include="Vision\Config\FeatureMatcherConfig.h" />
+    <ClInclude Include="Vision\FeatureMatcher.h" />
+    <ClInclude Include="Utils\LibraryHolder.hpp" />
+    <ClInclude Include="Vision\Battle\SupportListAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\OperNameAnalyzer.h" />
+    <ClInclude Include="Vision\Roguelike\RoguelikeParameterAnalyzer.h" />
+    <ClInclude Include="Vision\VisionHelper.h" />
+    <ClInclude Include="Vision\Battle\BattleFormationAnalyzer.h" />
+    <ClInclude Include="Vision\Battle\BattlefieldMatcher.h" />
+    <ClInclude Include="Vision\Battle\BattlefieldDetector.h" />
+    <ClInclude Include="Vision\Battle\BattlefieldClassifier.h" />
+    <ClInclude Include="Vision\BestMatcher.h" />
+    <ClInclude Include="Vision\Config\MatcherConfig.h" />
+    <ClInclude Include="Vision\Config\OCRerConfig.h" />
+    <ClInclude Include="Vision\Hasher.h" />
+    <ClInclude Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.h" />
+    <ClInclude Include="Vision\Infrast\InfrastFacilityImageAnalyzer.h" />
+    <ClInclude Include="Vision\Infrast\InfrastOperImageAnalyzer.h" />
+    <ClInclude Include="Vision\Infrast\InfrastSmileyImageAnalyzer.h" />
+    <ClInclude Include="Vision\Infrast\InfrastIntelligentWorkspaceAnalyzer.h" />
+    <ClInclude Include="Vision\Infrast\InfrastIntelligentDormitoryAnalyzer.h" />
+    <ClInclude Include="Vision\Matcher.h" />
+    <ClInclude Include="Vision\Miscellaneous\CreditShopImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\DepotImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\PipelineAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\RecruitImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\StageDropsImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\OperBoxImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\BrightPointAnalyzer.h" />
+    <ClInclude Include="Vision\MultiMatcher.h" />
+    <ClInclude Include="Vision\OCRer.h" />
+    <ClInclude Include="Vision\TemplDetOCRer.h" />
+    <ClInclude Include="Vision\RegionOCRer.h" />
+    <ClInclude Include="Vision\OnnxHelper.h" />
+    <ClInclude Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.h" />
+    <ClInclude Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.h" />
+    <ClInclude Include="Vision\Roguelike\RoguelikeRecruitSupportAnalyzer.h" />
+    <ClInclude Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.h" />
+    <ClInclude Include="Config\AbstractConfig.h" />
+    <ClInclude Include="Config\AbstractConfigWithTempl.h" />
+    <ClInclude Include="Config\AbstractResource.h" />
+    <ClInclude Include="Config\GeneralConfig.h" />
+    <ClInclude Include="Config\Miscellaneous\BattleDataConfig.h" />
+    <ClInclude Include="Config\Miscellaneous\CopilotConfig.h" />
+    <ClInclude Include="Config\Miscellaneous\InfrastConfig.h" />
+    <ClInclude Include="Config\Miscellaneous\ItemConfig.h" />
+    <ClInclude Include="Config\Miscellaneous\OcrPack.h" />
+    <ClInclude Include="Config\Miscellaneous\RecruitConfig.h" />
+    <ClInclude Include="Config\Miscellaneous\StageDropsConfig.h" />
+    <ClInclude Include="Config\Miscellaneous\TilePack.h" />
+    <ClInclude Include="Config\ResourceLoader.h" />
+    <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h" />
+    <ClInclude Include="Config\Roguelike\RoguelikeMapConfig.h" />
+    <ClInclude Include="Config\Roguelike\RoguelikeRecruitConfig.h" />
+    <ClInclude Include="Config\Roguelike\RoguelikeShoppingConfig.h" />
+    <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterConfig.h" />
+    <ClInclude Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.h" />
+    <ClInclude Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.h" />
+    <ClInclude Include="Config\TaskData.h" />
+    <ClInclude Include="Config\TemplResource.h" />
+    <ClInclude Include="Status.h" />
+    <ClInclude Include="Task\AbstractTask.h" />
+    <ClInclude Include="Task\AbstractTaskPlugin.h" />
+    <ClInclude Include="Task\Fight\DrGrandetTaskPlugin.h" />
+    <ClInclude Include="Task\Fight\StageDropsTaskPlugin.h" />
+    <ClInclude Include="Task\Fight\StageNavigationTask.h" />
+    <ClInclude Include="Task\Infrast\DronesForShamareTaskPlugin.h" />
+    <ClInclude Include="Task\Infrast\InfrastAbstractTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastControlTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastDormTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastInfoTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastMfgTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastIntelligentTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastOfficeTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastPowerTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastProductionTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastReceptionTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastTradeTask.h" />
+    <ClInclude Include="Task\Infrast\ReplenishOriginiumShardTaskPlugin.h" />
+    <ClInclude Include="Task\InterfaceTask.h" />
+    <ClInclude Include="Task\Interface\AwardTask.h" />
+    <ClInclude Include="Task\Interface\CloseDownTask.h" />
+    <ClInclude Include="Task\Interface\CopilotTask.h" />
+    <ClInclude Include="Task\Interface\DebugTask.h" />
+    <ClInclude Include="Task\Interface\DepotTask.h" />
+    <ClInclude Include="Task\Interface\FightTask.h" />
+    <ClInclude Include="Task\Interface\InfrastTask.h" />
+    <ClInclude Include="Task\Interface\MallTask.h" />
+    <ClInclude Include="Task\Interface\RecruitTask.h" />
+    <ClInclude Include="Task\Interface\RoguelikeTask.h" />
+    <ClInclude Include="Task\Interface\StartUpTask.h" />
+    <ClInclude Include="Task\Miscellaneous\AutoRecruitTask.h" />
+    <ClInclude Include="Task\Miscellaneous\BattleFormationTask.h" />
+    <ClInclude Include="Task\Miscellaneous\UseSupportUnitTaskPlugin.h" />
+    <ClInclude Include="Task\Miscellaneous\BattleProcessTask.h" />
+    <ClInclude Include="Task\Miscellaneous\CreditFightTask.h" />
+    <ClInclude Include="Task\Miscellaneous\CreditShoppingTask.h" />
+    <ClInclude Include="Task\Miscellaneous\DepotRecognitionTask.h" />
+    <ClInclude Include="Task\Miscellaneous\StartGameTaskPlugin.h" />
+    <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h" />
+    <ClInclude Include="Task\PackageTask.h" />
+    <ClInclude Include="Task\ProcessTask.h" />
+    <ClInclude Include="Task\ReportDataTask.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeControlTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeCustomStartTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeDebugTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeFormationTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeRecruitTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeResetTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeShoppingTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeStageEncounterTaskPlugin.h" />
+    <ClInclude Include="Utils\Demangle.hpp" />
+    <ClInclude Include="Utils\Http.hpp" />
+    <ClInclude Include="Utils\ImageIo.hpp" />
+    <ClInclude Include="Utils\JsonMisc.hpp" />
+    <ClInclude Include="Utils\Locale.hpp" />
+    <ClInclude Include="Utils\Logger.hpp" />
+    <ClInclude Include="Utils\Meta.hpp" />
+    <ClInclude Include="Utils\NoWarningCV.h" />
+    <ClInclude Include="Utils\NoWarningCVMat.h" />
+    <ClInclude Include="Utils\Platform.hpp" />
+    <ClInclude Include="Utils\Platform\Platform.h" />
+    <ClInclude Include="Utils\Platform\PlatformPosix.h" />
+    <ClInclude Include="Utils\Platform\PlatformWin32.h" />
+    <ClInclude Include="Utils\Platform\SafeWindows.h" />
+    <ClInclude Include="Utils\Ranges.hpp" />
+    <ClInclude Include="Utils\SingletonHolder.hpp" />
+    <ClInclude Include="Utils\StringMisc.hpp" />
+    <ClInclude Include="Utils\Time.hpp" />
+    <ClInclude Include="Utils\WorkingDir.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Assistant.cpp" />
+    <ClCompile Include="AsstCaller.cpp" />
+    <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp" />
+    <ClCompile Include="Config\Miscellaneous\OcrConfig.cpp" />
+    <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
+    <ClCompile Include="Config\OnnxSessions.cpp" />
+    <ClCompile Include="Config\TaskData\TaskDataSymbol.cpp" />
+    <ClCompile Include="Config\TaskData\TaskDataSymbolStream.cpp" />
+    <ClCompile Include="Controller\adb-lite\client.cpp" />
+    <ClCompile Include="Controller\adb-lite\protocol.cpp" />
+    <ClCompile Include="Controller\Controller.cpp" />
+    <ClCompile Include="Controller\ControlScaleProxy.cpp" />
+    <ClCompile Include="Controller\LDExtras.cpp" />
+    <ClCompile Include="Controller\MaaThriftController.cpp" />
+    <ClCompile Include="Controller\MinitouchController.cpp" />
+    <ClCompile Include="Controller\MumuExtras.cpp" />
+    <ClCompile Include="Controller\PlayToolsController.cpp" />
+    <ClCompile Include="Controller\AdbController.cpp" />
+    <ClCompile Include="Controller\Platform\AdbLiteIO.cpp" />
+    <ClCompile Include="Controller\Platform\PosixIO.cpp" />
+    <ClCompile Include="Controller\Platform\Win32IO.cpp" />
+    <ClCompile Include="InstHelper.cpp" />
+    <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp" />
+    <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp" />
+    <ClCompile Include="Task\Fight\FightTimesTaskPlugin.cpp" />
+    <ClCompile Include="Task\Fight\MedicineCounterTaskPlugin.cpp" />
+    <ClCompile Include="Task\Fight\SideStoryReopenTask.cpp" />
+    <ClCompile Include="Task\Fight\StageQueueMissionCompletedTaskPlugin.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastTrainingTask.cpp" />
+    <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
+    <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\MultiCopilotTaskPlugin.cpp" />
+    <ClCompile Include="Task\Miscellaneous\ParadoxRecognitionTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp" />
+    <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp" />
+    <!-- 生息演算 .cpp Begin -->
+    <ClCompile Include="Task\Interface\ReclamationTask.cpp" />
+    <ClCompile Include="Task\Reclamation\ReclamationConfig.cpp" />
+    <ClCompile Include="Task\Reclamation\AbstractReclamationTaskPlugin.cpp" />
+    <ClCompile Include="Task\Reclamation\ReclamationCraftTaskPlugin.cpp" />
+    <!-- 生息演算 .cpp End -->
+    <ClCompile Include="Task\BattleHelper.cpp" />
+    <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
+    <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
+    <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeIterateDeepExplorationPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeIterateMonthlySquadPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeLevelTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.cpp" />
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeMap.cpp" />
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeInvestTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp" />
+    <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp" />
+    <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
+    <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp" />
+    <ClCompile Include="Utils\Encoding.cpp" />
+    <ClCompile Include="Vision\Battle\SupportListAnalyzer.cpp" />
+    <ClCompile Include="Vision\Config\FeatureMatcherConfig.cpp" />
+    <ClCompile Include="Vision\FeatureMatcher.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\OperNameAnalyzer.cpp" />
+    <ClCompile Include="Vision\Roguelike\RoguelikeParameterAnalyzer.cpp" />
+    <ClCompile Include="Vision\VisionHelper.cpp" />
+    <ClCompile Include="Vision\Battle\BattleFormationAnalyzer.cpp" />
+    <ClCompile Include="Vision\Battle\BattlefieldMatcher.cpp" />
+    <ClCompile Include="Vision\Battle\BattlefieldDetector.cpp" />
+    <ClCompile Include="Vision\Battle\BattlefieldClassifier.cpp" />
+    <ClCompile Include="Vision\BestMatcher.cpp" />
+    <ClCompile Include="Vision\Config\MatcherConfig.cpp" />
+    <ClCompile Include="Vision\Config\OCRerConfig.cpp" />
+    <ClCompile Include="Vision\Hasher.cpp" />
+    <ClCompile Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Infrast\InfrastFacilityImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Infrast\InfrastOperImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Infrast\InfrastSmileyImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Infrast\InfrastIntelligentWorkspaceAnalyzer.cpp" />
+    <ClCompile Include="Vision\Infrast\InfrastIntelligentDormitoryAnalyzer.cpp" />
+    <ClCompile Include="Vision\Matcher.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\CreditShopImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\DepotImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\PipelineAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\RecruitImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\StageDropsImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\OperBoxImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\BrightPointAnalyzer.cpp" />
+    <ClCompile Include="Vision\MultiMatcher.cpp" />
+    <ClCompile Include="Vision\OCRer.cpp" />
+    <ClCompile Include="Vision\TemplDetOCRer.cpp" />
+    <ClCompile Include="Vision\RegionOCRer.cpp" />
+    <ClCompile Include="Vision\OnnxHelper.cpp" />
+    <ClCompile Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Roguelike\RoguelikeRecruitSupportAnalyzer.cpp" />
+    <ClCompile Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.cpp" />
+    <ClCompile Include="Config\AbstractConfig.cpp" />
+    <ClCompile Include="Config\GeneralConfig.cpp" />
+    <ClCompile Include="Config\Miscellaneous\BattleDataConfig.cpp" />
+    <ClCompile Include="Config\Miscellaneous\CopilotConfig.cpp" />
+    <ClCompile Include="Config\Miscellaneous\InfrastConfig.cpp" />
+    <ClCompile Include="Config\Miscellaneous\ItemConfig.cpp" />
+    <ClCompile Include="Config\Miscellaneous\OcrPack.cpp" />
+    <ClCompile Include="Config\Miscellaneous\RecruitConfig.cpp" />
+    <ClCompile Include="Config\Miscellaneous\StageDropsConfig.cpp" />
+    <ClCompile Include="Config\Miscellaneous\TilePack.cpp" />
+    <ClCompile Include="Config\ResourceLoader.cpp" />
+    <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\RoguelikeMapConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\RoguelikeRecruitConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\RoguelikeShoppingConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.cpp" />
+    <ClCompile Include="Config\TaskData.cpp" />
+    <ClCompile Include="Config\TemplResource.cpp" />
+    <ClCompile Include="Status.cpp" />
+    <ClCompile Include="Task\AbstractTask.cpp" />
+    <ClCompile Include="Task\AbstractTaskPlugin.cpp" />
+    <ClCompile Include="Task\Fight\DrGrandetTaskPlugin.cpp" />
+    <ClCompile Include="Task\Fight\StageDropsTaskPlugin.cpp" />
+    <ClCompile Include="Task\Fight\StageNavigationTask.cpp" />
+    <ClCompile Include="Task\Infrast\DronesForShamareTaskPlugin.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastAbstractTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastControlTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastDormTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastInfoTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastMfgTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastIntelligentTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastOfficeTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastPowerTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastProductionTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastReceptionTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastTradeTask.cpp" />
+    <ClCompile Include="Task\Infrast\ReplenishOriginiumShardTaskPlugin.cpp" />
+    <ClCompile Include="Task\Interface\AwardTask.cpp" />
+    <ClCompile Include="Task\Interface\CloseDownTask.cpp" />
+    <ClCompile Include="Task\Interface\CopilotTask.cpp" />
+    <ClCompile Include="Task\Interface\DebugTask.cpp" />
+    <ClCompile Include="Task\Interface\DepotTask.cpp" />
+    <ClCompile Include="Task\Interface\FightTask.cpp" />
+    <ClCompile Include="Task\Interface\InfrastTask.cpp" />
+    <ClCompile Include="Task\Interface\MallTask.cpp" />
+    <ClCompile Include="Task\Interface\RecruitTask.cpp" />
+    <ClCompile Include="Task\Interface\RoguelikeTask.cpp" />
+    <ClCompile Include="Task\Interface\StartUpTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\AutoRecruitTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\BattleFormationTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\UseSupportUnitTaskPlugin.cpp" />
+    <ClCompile Include="Task\Miscellaneous\BattleProcessTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\CreditFightTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\CreditShoppingTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\DepotRecognitionTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\StartGameTaskPlugin.cpp" />
+    <ClCompile Include="Task\Miscellaneous\StopGameTaskPlugin.cpp" />
+    <ClCompile Include="Task\PackageTask.cpp" />
+    <ClCompile Include="Task\ProcessTask.cpp" />
+    <ClCompile Include="Task\ReportDataTask.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeBattleTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeControlTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeCustomStartTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeDebugTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeFormationTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeRecruitTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeResetTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeShoppingTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeStageEncounterTaskPlugin.cpp" />
+    <ClCompile Include="Task\Interface\CustomTask.cpp" />
+    <ClCompile Include="Utils\Platform\PlatformPosix.cpp" />
+    <ClCompile Include="Utils\Platform\PlatformWin32.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="meojson.natvis" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{362d1e30-f5ae-4279-9985-65c27b3ba300}</ProjectGuid>
+    <RootNamespace>MaaCore</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>MaaCore</ProjectName>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <Profile>true</Profile>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <Profile>true</Profile>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <Profile>true</Profile>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;ASST_DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <OptimizeReferences>
+      </OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4d.lib;zlibd.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl-d.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <Profile>
+      </Profile>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <Profile>true</Profile>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <OptimizeReferences>
+      </OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <Profile>
+      </Profile>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties _1_1_4_1_1_4resource_4tasks_4RA_4base_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4RA_4Reclamation2_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4RA_4Tales_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4base_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4JieGarden_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4Mizuki_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4Phantom_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4Sami_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4Sarkaz_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Stages_4base_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4tasks_1json__JsonSchema="..\..\docs\maa_tasks_schema.json" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

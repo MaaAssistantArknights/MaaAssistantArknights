@@ -35,6 +35,12 @@
                         TooltipText="{DynamicResource InfrastModeRotationToolTip}"
                         Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Rotation',
                                                Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
+                    <controls:TooltipBlock
+                        VerticalAlignment="Center"
+                        d:Visibility="Collapsed" 
+                        TooltipText="{DynamicResource InfrastModeIntelligentRotationToolTip}"
+                        Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.IntelligentRotation',
+                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
                 </StackPanel>
                 <ComboBox
                     VerticalContentAlignment="Center"
@@ -115,7 +121,7 @@
                 d:Visibility="Visible"
                 Text="{DynamicResource InfrastModeRotationTip}"
                 TextWrapping="Wrap"
-                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Rotation',
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Rotation || InfrastMode == taskQueue_vms:InfrastMode.IntelligentRotation',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
             <StackPanel
                 Margin="0"
@@ -196,13 +202,13 @@
                 d:Visibility="Visible"
                 Content="{DynamicResource DormTrustEnabled}"
                 IsChecked="{Binding DormTrustEnabled}"
-                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation',
+                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation and InfrastMode != taskQueue_vms:InfrastMode.IntelligentRotation',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
             <StackPanel
                 Margin="0,10"
                 d:Visibility="Visible"
                 Orientation="Horizontal"
-                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation',
+                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation and InfrastMode != taskQueue_vms:InfrastMode.IntelligentRotation',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=DormFilterNotStationedTipsTooltipBlock}" IsChecked="{c:Binding DormFilterNotStationedEnabled}">
                     <controls:TextBlock Text="{DynamicResource DormFilterNotStationedEnabled}" TextWrapping="Wrap" />

@@ -6,6 +6,7 @@
 #include "Task/Infrast/InfrastControlTask.h"
 #include "Task/Infrast/InfrastDormTask.h"
 #include "Task/Infrast/InfrastInfoTask.h"
+#include "Task/Infrast/InfrastIntelligentTask.h"
 #include "Task/Infrast/InfrastMfgTask.h"
 #include "Task/Infrast/InfrastOfficeTask.h"
 #include "Task/Infrast/InfrastPowerTask.h"
@@ -20,6 +21,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
     m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
     m_queue_rotation_task(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_intelligent_task_ptr(std::make_shared<InfrastIntelligentTask>(callback, inst, TaskType)),
     m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, inst, TaskType)),
     m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, inst, TaskType)),
     m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, inst, TaskType)),
@@ -35,6 +37,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
 
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(false);
     m_queue_rotation_task->set_tasks({ "InfrastEnterRotation" }).set_ignore_error(true);
+    m_intelligent_task_ptr->set_ignore_error(false);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
     m_info_task_ptr->set_ignore_error(true);
     m_mfg_task_ptr->set_ignore_error(true);
@@ -61,7 +64,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     for (auto&& task : shift_tasks) {
         if (task) {
-            task->set_skip_shift(mode == Mode::Rotation);
+            task->set_skip_shift(mode == Mode::Rotation || mode == Mode::Intelligent);
         }
     }
 
@@ -81,10 +84,18 @@ bool asst::InfrastTask::set_params(const json::value& params)
         if (mode == Mode::Rotation) {
             m_subtasks.emplace_back(m_queue_rotation_task);
         }
+        if (mode == Mode::Intelligent) {
+            m_subtasks.emplace_back(m_intelligent_task_ptr);
+        }
 
         m_subtasks.emplace_back(m_info_task_ptr);
 
-        const std::unordered_set<std::string> rotation_skip_facilities = { "Dorm", "Power", "Office", "Control" };
+        std::unordered_set<std::string> rotation_skip_facilities = { "Dorm", "Power", "Office", "Control" };
+        static const std::unordered_set<std::string> mfg_drone_modes = { "CombatRecord",
+                                                                         "PureGold",
+                                                                         "OriginStone",
+                                                                         "Chip" };
+        static const std::unordered_set<std::string> trade_drone_modes = { "Money", "SyntheticJade" };
 
         for (const auto& facility_json : facility_opt.value()) {
             if (!facility_json.is_string()) {
@@ -98,6 +109,34 @@ bool asst::InfrastTask::set_params(const json::value& params)
             if (mode == Mode::Rotation && rotation_skip_facilities.find(facility) != rotation_skip_facilities.cend()) {
                 Log.info("skip facility in rotation mode", facility);
                 continue;
+            }
+
+            if (mode == Mode::Intelligent) {
+                m_intelligent_task_ptr->set_facility_allow(facility);
+                std::string drones = params.get("drones", "_NotUse");
+                bool replenish_enable = params.get("replenish", false);
+                bool continue_training_enable = params.get("continue_training", false);
+                if (facility == "Dorm" || facility == "Power" || facility == "Office" || facility == "Control" ||
+                    facility == "Processing") {
+                    Log.info("skip facility in intelligent mode (Processing):", facility);
+                    continue;
+                }
+                if (facility == "Mfg") {
+                    if (mfg_drone_modes.find(drones) == mfg_drone_modes.end() || !replenish_enable) {
+                        Log.info("skip Mfg (Drone mode mismatch or disabled):", drones);
+                        continue;
+                    }
+                }
+                if (facility == "Trade") {
+                    if (trade_drone_modes.find(drones) == trade_drone_modes.end()) {
+                        Log.info("skip Trade (Drone mode mismatch or disabled):", drones);
+                        continue;
+                    }
+                }
+                if (facility == "Training" && !continue_training_enable) {
+                    Log.info("skip facility in intelligent mode (No Training):", facility);
+                    continue;
+                }
             }
 
             if (facility == "Dorm") {
@@ -139,6 +178,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     bool continue_training = params.get("continue_training", false);
     m_training_task_ptr->set_continue_training(continue_training);
+    m_intelligent_task_ptr->set_continue_training(continue_training);
 
     if (mode != Mode::Custom) {
         std::string drones = params.get("drones", "_NotUse");
@@ -157,6 +197,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_office_task_ptr->set_mood_threshold(threshold);
     m_processing_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr->set_mood_threshold(threshold);
+    m_intelligent_task_ptr->set_mood_threshold(threshold);
 
     bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", false);
     m_dorm_task_ptr->set_notstationed_enabled(dorm_notstationed_enabled);
