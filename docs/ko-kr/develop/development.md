@@ -96,7 +96,7 @@ icon: iconoir:developer
 11. 개발 완료 후 변경사항 원격 저장소로 푸시:
 
     ```bash
-    git push origin dev
+    git push origin dev-v2
     ```
 
 12. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)

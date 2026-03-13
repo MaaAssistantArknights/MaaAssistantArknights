@@ -91,7 +91,7 @@ We've preset several different development environments for you to choose from:
 11. After development, push your local branch (e.g. `dev`) to your remote repository:
 
     ```bash
-    git push origin dev
+    git push origin dev-v2
     ```
 
 12. Submit a Pull Request at the [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights). Ensure your changes are based on the `dev` branch, not `master`.

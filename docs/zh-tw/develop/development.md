@@ -91,7 +91,7 @@ icon: iconoir:developer
 11. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠端（Fork 的倉庫）
 
     ```bash
-    git push origin dev
+    git push origin dev-v2
     ```
 
 12. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。別忘了您是在 dev 分支上修改，別提交到 master 分支去了。

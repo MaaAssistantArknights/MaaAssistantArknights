@@ -97,7 +97,7 @@ icon: iconoir:developer
 11. 開発完了後、変更をリモートリポジトリへプッシュ：
 
     ```bash
-    git push origin dev
+    git push origin dev-v2
     ```
 
 12. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights) で Pull Request を提出（master ではなく dev ブランチを指定）
