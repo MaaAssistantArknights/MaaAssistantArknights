@@ -5,7 +5,7 @@ permissions:
 on:
   push:
     branches:
-      - "dev"
+      - "dev-v2"
     paths:
       - ".github/workflows/smoke-testing.yml"
       - "3rdparty/include/**"
@@ -34,7 +34,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev' && format('-{0}', github.sha) || '' }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}
   cancel-in-progress: true
 
 jobs:
@@ -105,8 +105,8 @@ jobs:
         run: |
           sh ./tools/SmokeTesting/run_tests.sh
 
-      - name: Save cache for Smoke Test (only in dev)
-        if: steps.smoke-cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
+      - name: Save cache for Smoke Test (only in dev-v2)
+        if: steps.smoke-cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev-v2'
         uses: actions/cache/save@v5
         continue-on-error: true
         with:

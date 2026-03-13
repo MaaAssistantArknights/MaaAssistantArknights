@@ -10,7 +10,7 @@ This document is outdated due to the rapid update of the interface. Since the de
 :::
 
 ::: info 注意
-コールバックメッセージがバージョンとともに更新される高速反復では、本書は古くなる可能性があります。最新のコンテンツを入手するには、[C#統合ソースコード](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaWpfGui/Main/AsstProxy.cs) を参照してください。
+コールバックメッセージがバージョンとともに更新される高速反復では、本書は古くなる可能性があります。最新のコンテンツを入手するには、[C#統合ソースコード](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Main/AsstProxy.cs) を参照してください。
 :::
 
 ## Prototype

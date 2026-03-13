@@ -13,7 +13,7 @@ body:
           required: true
         - label: I filled in a short, clear title so that developers could quickly identify the general problem when going through the issue list. Instead of "Some suggestions", "Stuck", etc.
           required: true
-        - label: I am using the latest version of the current update version, and have reviewed the [update content](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev/) released to date, [Pull Requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) unreleased update content and there is no mention of this feature/suggestion being added.
+        - label: I am using the latest version of the current update version, and have reviewed the [update content](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev-v2/) released to date, [Pull Requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) unreleased update content and there is no mention of this feature/suggestion being added.
           required: true
         - label: I have checked all the options without carefully reading the content and believe this will not affect issue resolution.
           required: false

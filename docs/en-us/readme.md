@@ -109,15 +109,15 @@ Please refer to the [Development Guide](./develop/development.md).
 
 ### API
 
-- [C interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/include/AsstCaller.h): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Cpp/main.cpp)
-- [Python interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/asst/asst.py): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/sample.py)
-- [Golang interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Golang): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Golang/maa/maa.go)
+- [C interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/include/AsstCaller.h): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Cpp/main.cpp)
+- [Python interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/asst/asst.py): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py)
+- [Golang interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Golang): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Golang/maa/maa.go)
 - [Dart interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Dart)
-- [Java interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [Java HTTP interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Java/Readme.md)
+- [Java interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTP interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Java/Readme.md)
 - [Rust interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Rust/src/maa_sys): [HTTP interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/Rust)
 - [TypeScript interface](https://github.com/MaaAssistantArknights/MaaX/tree/main/packages/main/coreLoader)
-- [Woolang interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Woolang/maa.wo): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Woolang/demo.wo)
+- [Woolang interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Woolang/maa.wo): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Woolang/demo.wo)
 - [Integration Documentation](./protocol/integration.md)
 - [Callback Message Protocol](./protocol/callback-schema.md)
 - [Task Workflow Protocol](./protocol/task-schema.md)
@@ -171,7 +171,7 @@ Thanks to all friends who have participated in development and testing - your he
 
 ## Disclaimer
 
-- This software is open source under the [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html) license, with additional [Terms of Service](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/terms-of-service.md).
+- This software is open source under the [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html) license, with additional [Terms of Service](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/terms-of-service.md).
 - The software's logo is NOT licensed under AGPL 3.0. The artists [耗毛](https://weibo.com/u/3251357314), vie, and all the software developers reserve all rights. The logo must not be used without authorization, even with AGPL 3.0 license claims, and must not be used for any commercial purposes without authorization.
 - This software is open source and free, intended only for learning and communication purposes. If you encounter merchants using this software for paid services, they may be charging for equipment and time costs; any problems and consequences arising from this are not related to this software.
 

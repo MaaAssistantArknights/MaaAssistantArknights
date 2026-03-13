@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - "master"
-      - "dev"
+      - "dev-v2"
     paths:
       - ".github/workflows/website-workflow.yml"
       - "docs/**"

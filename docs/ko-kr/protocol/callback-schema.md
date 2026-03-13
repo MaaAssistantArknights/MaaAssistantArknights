@@ -6,7 +6,7 @@ icon: material-symbols:u-turn-left
 # 콜백 메시지 프로토콜
 
 ::: info 정보
-콜백 메시지는 버전 업데이트를 통해 빠르게 변경되고 있으며 이 문서는 오래된 것일 수 있습니다. 최신 콘텐츠는 [C# 통합 소스 코드](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaWpfGui/Main/AsstProxy.cs)를 참조하세요.
+콜백 메시지는 버전 업데이트를 통해 빠르게 변경되고 있으며 이 문서는 오래된 것일 수 있습니다. 최신 콘텐츠는 [C# 통합 소스 코드](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Main/AsstProxy.cs)를 참조하세요.
 :::
 
 ## 콜백 함수 프로토타입

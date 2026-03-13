@@ -46,8 +46,8 @@ jobs:
           git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
           git push origin "${{ steps.extract_tag.outputs.tag_name }}"
 
-      - name: Merge tag into dev and push
+      - name: Merge tag into dev-v2 and push
         run: |
-          git switch dev
+          git switch dev-v2
           git merge "${{ steps.extract_tag.outputs.tag_name }}"
-          git push origin dev
+          git push origin dev-v2

@@ -3,7 +3,7 @@ name: Resource Sync
 on:
   push:
     branches:
-      - dev
+      - dev-v2
     paths:
       - ".github/workflows/sync-resource.yml"
       - "resource/**"

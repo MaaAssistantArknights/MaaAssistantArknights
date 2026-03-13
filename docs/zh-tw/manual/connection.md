@@ -164,7 +164,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 請選擇對應模擬器的配置，若清單中沒有則選擇「通用配置」。若通用配置不可用，請嘗試並選擇其他任一可用的配置。
 
-具體區別可以參閱 [原始碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L57)。
+具體區別可以參閱 [原始碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/resource/config.json#L57)。
 
 ### MuMu 截圖增強模式
 

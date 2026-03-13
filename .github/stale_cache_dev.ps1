@@ -1,11 +1,11 @@
 $totalClearedSize = 0
 $cacheList = gh cache list --json id,key,ref,sizeInBytes,createdAt | ConvertFrom-Json
 
-# Filter for dev branch caches only
-$devCaches = $cacheList | Where-Object { $_.ref -eq "refs/heads/dev" }
+# Filter for dev-v2 branch caches only
+$devCaches = $cacheList | Where-Object { $_.ref -eq "refs/heads/dev-v2" }
 
 if (-not $devCaches) {
-    Write-Output "No caches found for dev branch."
+    Write-Output "No caches found for dev-v2 branch."
     exit
 }
 
@@ -24,13 +24,13 @@ $keyPatterns = @(
 )
 
 foreach ($pattern in $keyPatterns) {
-    Write-Output "Processing dev branch caches for pattern: $pattern"
+    Write-Output "Processing dev-v2 branch caches for pattern: $pattern"
     
-    # Filter for caches matching the current key pattern within dev branch
+    # Filter for caches matching the current key pattern within dev-v2 branch
     $matchingCaches = $devCaches | Where-Object { $_.key -like "*$pattern*" }
 
     if (-not $matchingCaches) {
-        Write-Output "  No dev branch caches found for pattern: $pattern"
+        Write-Output "  No dev-v2 branch caches found for pattern: $pattern"
         continue
     }
 
@@ -39,7 +39,7 @@ foreach ($pattern in $keyPatterns) {
 
     # Keep the first one (latest) and delete the rest
     $latestCache = $sortedCaches[0]
-    Write-Output "  Keeping latest dev branch cache: '$($latestCache.key)' (ID: $($latestCache.id))"
+    Write-Output "  Keeping latest dev-v2 branch cache: '$($latestCache.key)' (ID: $($latestCache.id))"
 
     # Delete all except the latest one
     for ($i = 1; $i -lt $sortedCaches.Count; $i++) {
@@ -47,7 +47,7 @@ foreach ($pattern in $keyPatterns) {
         $cacheId = $cache.id
         $cacheKey = $cache.key
 
-        Write-Output "  Deleting dev branch cache: '$cacheKey' (ID: $cacheId)"
+        Write-Output "  Deleting dev-v2 branch cache: '$cacheKey' (ID: $cacheId)"
         gh cache delete $cacheId
         
         $totalClearedSize += $cache.sizeInBytes

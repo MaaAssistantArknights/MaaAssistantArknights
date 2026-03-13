@@ -63,7 +63,7 @@ jobs:
 
       - name: Generate changelog
         run: |
-          git switch dev
+          git switch dev-v2
           python3 tools/ChangelogGenerator/changelog_generator.py --tag "${{ steps.extract_tag.outputs.tag_name }}" --latest "${{ steps.extract_tag.outputs.latest }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -86,7 +86,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.extract_tag.outputs.pr_title }}
           body-path: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
-          base: "dev"
+          base: "dev-v2"
           branch: "changelog"
           delete-branch: true
           reviewers: |
