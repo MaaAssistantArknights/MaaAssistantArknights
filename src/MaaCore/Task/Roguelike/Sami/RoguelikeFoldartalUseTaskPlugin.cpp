@@ -3,6 +3,7 @@
 #include "Config/Roguelike/Sami/RoguelikeFoldartalConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
@@ -20,24 +21,24 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         return false;
     }
 
-    auto mode = m_config->get_mode();
-    std::string task_name_pre = m_config->get_theme() + "@Roguelike@Stage";
     const std::string& task = details.get("details", "task", "");
-    std::string_view task_view = task;
 
-    if (task_view.starts_with(task_name_pre)) {
-        task_view.remove_prefix(task_name_pre.length());
+    // 只匹配CheckFoldartal开头的任务
+    std::string prefix = m_config->get_theme() + "@Roguelike@CheckFoldartal";
+    if (!task.starts_with(prefix)) {
+        return false;
     }
-    // 不知道是不是不对纵向节点用比较好，先写上
-    task_name_pre = "task_name_pre";
-    if (task_view.starts_with("Vertical")) {
-        task_view.remove_prefix(task_name_pre.length());
-    }
-    const std::string task_name_suf = "AI6";
-    if (task_view.ends_with(task_name_suf)) {
-        task_view.remove_suffix(task_name_suf.length());
-    }
-    if (task_view == "CombatOps" || task_view == "EmergencyOps" || task_view == "FerociousPresage") {
+
+    // 从任务名中提取stage类型
+    // 例如：Sami@Roguelike@CheckFoldartalTrader → Trader
+    std::string_view task_view = task;
+    task_view.remove_prefix(prefix.length());
+    std::string stage_type(task_view);
+
+    auto mode = m_config->get_mode();
+
+    // 映射stage类型到m_stage值
+    if (stage_type == "CombatOps" || stage_type == "EmergencyOps" || stage_type == "FerociousPresage") {
         if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
             m_stage = "SkipBattle";
         }
@@ -46,27 +47,26 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         }
         return true;
     }
-    if (task_view == "DreadfulFoe-5" && mode == RoguelikeMode::Exp) {
+    if (stage_type == "DreadfulFoe5" && mode == RoguelikeMode::Exp) {
         m_stage = "Boss";
         return true;
     }
-    if (task_view == "Trader" && mode == RoguelikeMode::Exp) {
+    if (stage_type == "Trader" && mode == RoguelikeMode::Exp) {
         m_stage = "Trader";
         return true;
     }
-    if (task_view == "Encounter" && mode == RoguelikeMode::Exp) {
+    if (stage_type == "Encounter" && mode == RoguelikeMode::Exp) {
         m_stage = "Encounter";
         return true;
     }
-    if ((task_view == "Gambling" || task_view == "EmergencyTransportation" || task_view == "WindAndRain" ||
-         task_view == "MysteriousPresage") &&
+    if ((stage_type == "Gambling" || stage_type == "EmergencyTransportation" || stage_type == "WindAndRain" ||
+         stage_type == "MysteriousPresage") &&
         mode == RoguelikeMode::Exp) {
         m_stage = "Gambling";
         return true;
     }
-    else {
-        return false;
-    }
+
+    return false;
 }
 
 bool asst::RoguelikeFoldartalUseTaskPlugin::load_params(const json::value& params)
@@ -84,28 +84,44 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::load_params(const json::value& param
 bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 {
     LogTraceFunction;
+    try_use_foldartal_for_stage();
+    return true;
+}
+
+bool asst::RoguelikeFoldartalUseTaskPlugin::try_use_foldartal_for_stage()
+{
+    LogTraceFunction;
 
     std::vector<RoguelikeFoldartalCombination> combination = RoguelikeFoldartal.get_combination(m_config->get_theme());
 
     auto foldartal_list = m_config->status().foldartal_list;
     Log.trace("All foldartal got yet:", foldartal_list);
+
+    bool any_board_used = false;
+
     auto filter =
         std::views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
     for (const auto& comb : combination | filter) {
         if (need_exit()) {
             break;
         }
-        use_enable_pair(foldartal_list, comb);
+        if (use_enable_pair(foldartal_list, comb)) {
+            any_board_used = true;
+        }
     }
+
     m_config->status().foldartal_list = std::move(foldartal_list);
-    return true;
+
+    return any_board_used;
 }
 
-void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
+bool asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
     std::vector<std::string>& list,
     const asst::RoguelikeFoldartalCombination& usage)
 {
     LogTraceFunction;
+    bool success = false;
+
     auto check_pair = [&](const auto& pair) {
         // 存储需要跳过的板子
         std::set<std::string> boards_to_skip;
@@ -171,6 +187,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                     list.erase(std::ranges::find(list, up_board));
                     list.erase(std::ranges::find(list, down_board));
                     Log.trace("Board pair used, up:", up_board, ", down:", down_board);
+                    success = true;
                     break;
                 }
             }
@@ -178,8 +195,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
     };
 
     std::ranges::for_each(usage.pairs, check_pair);
-
-    return;
+    return success;
 }
 
 asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult
