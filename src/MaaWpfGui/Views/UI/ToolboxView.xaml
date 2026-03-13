@@ -9,6 +9,8 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:local="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
@@ -750,36 +752,64 @@
                     <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
                 <ComboBox
-                    Margin="10,0"
+                    Grid.Row="0"
                     hc:TitleElement.Title="{DynamicResource MiniGameName}"
                     DisplayMemberPath="Display"
                     IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding MiniGameTaskList}"
                     SelectedValue="{Binding MiniGameTaskName}"
                     SelectedValuePath="Value" />
-                <Grid Grid.Row="1" IsEnabled="{Binding Idle}">
-                    <Grid Visibility="{c:Binding 'MiniGameTaskName == &quot;MiniGame@SecretFront&quot;'}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <ComboBox
-                            Margin="10,10,10,0"
-                            hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Ending}"
-                            ItemsSource="{Binding SecretFrontEndingList}"
-                            SelectedValue="{Binding SecretFrontEnding}" />
-                        <ComboBox
-                            Grid.Row="1"
-                            Margin="10,10,10,0"
-                            hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Event}"
-                            DisplayMemberPath="Display"
-                            ItemsSource="{Binding SecretFrontEventList}"
-                            SelectedValue="{Binding SecretFrontEvent}"
-                            SelectedValuePath="Value" />
-                    </Grid>
+                <!-- MiniGame Tip and Recast Conditions -->
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
+                    <!-- Tip text: shown for all mini games -->
+                    <controls:TextBlock
+                        Margin="0,10"
+                        HorizontalAlignment="Center"
+                        Text="{Binding MiniGameTip}"
+                        Visibility="{c:Binding 'MiniGameTip != null and MiniGameTip != &quot;&quot;', FalseToVisibility=Collapsed}">
+                        <controls:TextBlock.Style>
+                            <Style TargetType="controls:TextBlock" BasedOn="{StaticResource TextBlockDefaultBold}">
+                                <Setter Property="Grid.Row" Value="1"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Visibility, ElementName=MiniGameCustomView}" Value="Visible">
+                                        <Setter Property="Grid.Row" Value="0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:TextBlock.Style>
+                    </controls:TextBlock>
+
+                    <!-- Generic MiniGame Custom View Container -->
+                    <ContentControl
+                        x:Name="MiniGameCustomView"
+                        Grid.Row="1"
+                        Content="{Binding}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <!-- Roguelike Coppers Recast -->
+                                    <DataTrigger Binding="{Binding MiniGameTaskName}" Value="MiniGame@CoppersRecast@Begin">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <local:MiniGameRecastUserControl/>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
                 </Grid>
-                <controls:TextBlock Grid.Row="2" Text="{Binding MiniGameTip}" />
                 <Button
                     Grid.Row="3"
                     Width="100"

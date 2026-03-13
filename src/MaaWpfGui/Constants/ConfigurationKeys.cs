@@ -352,6 +352,8 @@ public static class ConfigurationKeys
     public const string MiniGameSecretFrontEnding = "MiniGame.SecretFrontEnding";
     public const string MiniGameSecretFrontEvent = "MiniGame.SecretFrontEvent";
 
+    public const string RecastConditions = "MiniGame.RecastConditions";
+
     public const string AchievementPopupDisabled = "Achievement.PopupDisabled";
     public const string AchievementPopupAutoClose = "Achievement.PopupAutoClose";
 

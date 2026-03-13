@@ -231,7 +231,7 @@
     "JieGarden@Roguelike@CoppersBox": {
         "Doc": "钱盒按钮",
         "template": "empty.png",
-        "roi": [348, 640, 465, 80],
+        "roi": [348, 640, 540, 80],
         "action": "ClickSelf"
     },
     "JieGarden@Roguelike@CoppersCloseBox": {
@@ -371,8 +371,15 @@
         "Doc": "点击投钱结果界面的对号 有时延迟时间比较长会失败 目前依赖retry_times有20次兜底",
         "action": "ClickSelf",
         "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
-        "postDelay": 500,
-        "roi": [1033, 462, 153, 155]
+        "preDelay": 500,
+        "roi": [1033, 462, 153, 155],
+        "next": ["JieGarden@Roguelike@CoppersRecastOnceFinish", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersRecastOnceFinish": {
+        "Doc": "判断是否完成一次投钱",
+        "baseTask": "JieGarden@Roguelike@CoppersCloseBox",
+        "template": "JieGarden@Roguelike@CoppersCloseBox.png",
+        "action": "DoNothing"
     },
     "JieGarden@Roguelike@CoppersTakeConfirm": {
         "Doc": "交换通宝确认按钮 (用于插件 RoguelikeCoppersTaskPlugin 的确认操作)",
@@ -1438,6 +1445,26 @@
         "withoutDet": true,
         "binThreshold": [200, 255],
         "useRaw": false
+    },
+    "JieGarden@Roguelike@HopeLeftFlag": {
+        "template": "Roguelike@HopeLeftFlag.png"
+    },
+    "JieGarden@Roguelike@HopeRightFlag": {
+        "template": "Roguelike@HopeRightFlag.png"
+    },
+    "JieGarden@Roguelike@HopeRecognition": {},
+    "JieGarden@Roguelike@IngotFlag": {
+        "template": "Roguelike@IngotFlag.png"
+    },
+    "JieGarden@Roguelike@IngotRecognition": {
+        "Doc": "右侧有第三种资源时源石锭识别",
+        "baseTask": "Roguelike@IngotRecognition-2"
+    },
+    "JieGarden@Roguelike@TicketRecognition": {
+        "baseTask": "NumberOcrReplace",
+        "Doc": "票券数量识别",
+        "text": [],
+        "roi": [1194, 22, 70, 27]
     },
     "JieGarden@Roguelike@TodoEnter": {},
     "JieGarden@Roguelike@WaitForStartButtonClicked": {

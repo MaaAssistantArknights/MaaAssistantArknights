@@ -1,0 +1,9 @@
+{
+    "MiniGame@CoppersRecast@Begin": {
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@CoppersRecast@Start"]
+    },
+    "MiniGame@CoppersRecast@Start": {
+        "algorithm": "JustReturn"
+    }
+}

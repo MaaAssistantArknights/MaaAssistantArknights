@@ -376,6 +376,20 @@
             "Sarkaz@Roguelike@GetDropRecruit"
         ]
     },
+    "Sarkaz@Roguelike@HopeLeftFlag": {
+        "template": "Roguelike@HopeLeftFlag.png"
+    },
+    "Sarkaz@Roguelike@HopeRightFlag": {
+        "template": "Roguelike@HopeRightFlag.png"
+    },
+    "Sarkaz@Roguelike@HopeRecognition": {},
+    "Sarkaz@Roguelike@IngotFlag": {
+        "template": "Roguelike@IngotFlag.png"
+    },
+    "Sarkaz@Roguelike@IngotRecognition": {
+        "Doc": "右侧仅两种资源时的源石锭识别",
+        "baseTask": "Roguelike@IngotRecognition-1"
+    },
     "Sarkaz@Roguelike@InitialDrop": {
         "template": "Sarkaz@Roguelike@Confirm.png"
     },
