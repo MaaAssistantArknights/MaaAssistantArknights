@@ -75,7 +75,7 @@ bool Win32Controller::attach(
     }
 
     // 获取 UUID
-    auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
     if (!unit->request_uuid(m_uuid)) {
         std::stringstream ss;
         ss << hwnd;
@@ -248,11 +248,11 @@ bool Win32Controller::inject_input_event(const InputEvent& event)
     case InputEvent::Type::TOUCH_MOVE:
         return unit_touch_move(event.pointerId, event.point.x, event.point.y, 0);
     case InputEvent::Type::KEY_DOWN: {
-        auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+        auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
         return unit ? unit->key_down(event.keycode) : false;
     }
     case InputEvent::Type::KEY_UP: {
-        auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+        auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
         return unit ? unit->key_up(event.keycode) : false;
     }
     case InputEvent::Type::WAIT_MS:
@@ -293,7 +293,7 @@ void Win32Controller::callback(AsstMsg msg, const json::value& details)
 
 bool Win32Controller::unit_connect()
 {
-    auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
     if (!unit) {
         return false;
     }
@@ -302,7 +302,7 @@ bool Win32Controller::unit_connect()
 
 bool Win32Controller::unit_screencap(cv::Mat& image)
 {
-    auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
     if (!unit) {
         return false;
     }
@@ -311,7 +311,7 @@ bool Win32Controller::unit_screencap(cv::Mat& image)
 
 bool Win32Controller::unit_click(int x, int y)
 {
-    auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
     if (!unit) {
         return false;
     }
@@ -320,7 +320,7 @@ bool Win32Controller::unit_click(int x, int y)
 
 bool Win32Controller::unit_swipe(int x1, int y1, int x2, int y2, int duration)
 {
-    auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
     if (!unit) {
         return false;
     }
@@ -329,7 +329,7 @@ bool Win32Controller::unit_swipe(int x1, int y1, int x2, int y2, int duration)
 
 bool Win32Controller::unit_touch_down(int contact, int x, int y, int pressure)
 {
-    auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
     if (!unit) {
         return false;
     }
@@ -338,7 +338,7 @@ bool Win32Controller::unit_touch_down(int contact, int x, int y, int pressure)
 
 bool Win32Controller::unit_touch_move(int contact, int x, int y, int pressure)
 {
-    auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
     if (!unit) {
         return false;
     }
@@ -347,7 +347,7 @@ bool Win32Controller::unit_touch_move(int contact, int x, int y, int pressure)
 
 bool Win32Controller::unit_touch_up(int contact)
 {
-    auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
     if (!unit) {
         return false;
     }
@@ -356,7 +356,7 @@ bool Win32Controller::unit_touch_up(int contact)
 
 bool Win32Controller::unit_input_text(const std::string& text)
 {
-    auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
     if (!unit) {
         return false;
     }
@@ -365,7 +365,7 @@ bool Win32Controller::unit_input_text(const std::string& text)
 
 bool Win32Controller::unit_click_key(int key)
 {
-    auto* unit = static_cast<MaaControlUnitInterface*>(m_unit_handle);
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
     if (!unit) {
         return false;
     }

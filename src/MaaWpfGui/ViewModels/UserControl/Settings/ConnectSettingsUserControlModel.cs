@@ -73,6 +73,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
             new() { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
             new() { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
+            new() { Display = LocalizationHelper.GetString("AVD"), Value = "AVD" },
             new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
             new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
             new() { Display = LocalizationHelper.GetString("PC"), Value = "PC" },
@@ -90,6 +91,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("MiniTouchMode"), Value = "minitouch" },
             new() { Display = LocalizationHelper.GetString("MaaTouchMode"), Value = "maatouch" },
             new() { Display = LocalizationHelper.GetString("AdbTouchMode"), Value = "adb" },
+            new() { Display = LocalizationHelper.GetString("MaaFwAdbTouchMode"), Value = "MaaFwAdb" },
         ];
 
     private bool _autoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, bool.TrueString));
