@@ -42,7 +42,7 @@ We've preset several different development environments for you to choose from:
 3. Clone the dev branch of your repository with submodules:
 
    ```bash
-   git clone --recurse-submodules <your repository link> -b dev
+   git clone --recurse-submodules <your repository link> -b dev-v2
    ```
 
    ::: warning

@@ -42,7 +42,7 @@ icon: iconoir:developer
 3. 克隆你自己仓库下的 dev 分支到本地，并拉取子模块
 
    ```bash
-   git clone --recurse-submodules <你的仓库的 git 链接> -b dev
+   git clone --recurse-submodules <你的仓库的 git 链接> -b dev-v2
    ```
 
    ::: warning

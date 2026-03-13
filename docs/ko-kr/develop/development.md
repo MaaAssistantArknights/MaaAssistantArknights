@@ -42,7 +42,7 @@ icon: iconoir:developer
 3. 본인 저장소의 dev 브랜치를 서브모듈 포함 클론:
 
    ```bash
-   git clone --recurse-submodules <저장소 git 링크> -b dev
+   git clone --recurse-submodules <저장소 git 링크> -b dev-v2
    ```
 
    ::: warning

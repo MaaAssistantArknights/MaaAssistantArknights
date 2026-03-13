@@ -42,7 +42,7 @@ icon: iconoir:developer
 3. 自身のリポジトリの dev ブランチをクローン（サブモジュール含む）
 
    ```bash
-   git clone --recurse-submodules <リポジトリの git リンク> -b dev
+   git clone --recurse-submodules <リポジトリの git リンク> -b dev-v2
    ```
 
    ::: warning

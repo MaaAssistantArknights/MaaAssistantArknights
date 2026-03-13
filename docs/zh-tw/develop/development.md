@@ -42,7 +42,7 @@ icon: iconoir:developer
 3. 複製（Clone）您自己倉庫下的 dev 分支到在地，並拉取子模組（Submodules）。
 
    ```bash
-   git clone --recurse-submodules <您的倉庫 git 連結> -b dev
+   git clone --recurse-submodules <您的倉庫 git 連結> -b dev-v2
    ```
 
    ::: warning
