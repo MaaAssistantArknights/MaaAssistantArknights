@@ -76,14 +76,6 @@ jobs:
       - name: Finalize changelog
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          this_tag=${{ steps.set_tag.outputs.tag }}
-          if [[ '${{ steps.set_pre.outputs.prerelease }}' != 'false' ]]; then
-            last_tag=$(git describe --tags --match "v*" --abbrev=0 --exclude='${{ steps.set_tag.outputs.tag }}')
-          else
-            last_tag=$(git describe --tags --match "v*" --abbrev=0 --exclude='${{ steps.set_tag.outputs.tag }}' --exclude='*-*')
-          fi
-          echo >> CHANGELOG.md
-          echo "**Full Changelog**: [$last_tag -> $this_tag](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/${last_tag}...${this_tag})" >> CHANGELOG.md
           echo >> CHANGELOG.md
           echo "[已有 Mirror酱 CDK？前往 Mirror酱 高速下载](https://mirrorchyan.com/zh/projects?rid=MAA&source=maagh-release)" >> CHANGELOG.md
 
