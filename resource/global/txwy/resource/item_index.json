@@ -2711,6 +2711,14 @@
         "sortId": 60116,
         "usage": "裝有銃械工坊送來的各種物資補給，包含多種隨機材料。"
     },
+    "randomMaterial_amiya": {
+        "classifyType": "CONSUME",
+        "description": "裡面不僅裝著各種物資，還有大家對小壽星最真誠的祝願。",
+        "icon": "randomMaterial_amiya.png",
+        "name": "兔兔禮品盒",
+        "sortId": 60120,
+        "usage": "裝有阿米婭生日宴會所需的各種物資補給，包含多種隨機材料。"
+    },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",
         "description": "“儘管內裡如心聲般各不相似，它們也足以成為你探尋真相的助力。跟隨尚未忘卻的迴響，你終會抓住那個答案。”",

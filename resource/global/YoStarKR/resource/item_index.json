@@ -2455,6 +2455,134 @@
         "sortId": -10000,
         "usage": "오퍼레이터 U-Official의 신뢰도 상승에 사용된다."
     },
+    "giftPackageTicket_1_1": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_1_1.png",
+        "name": "클로저의 보급 쿠폰 I",
+        "sortId": 10135,
+        "usage": "구매센터의 패키지 상점에서 ￦1,500원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_1_2": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_1_2.png",
+        "name": "클로저의 보급 쿠폰 II",
+        "sortId": 10134,
+        "usage": "구매센터의 패키지 상점에서 ￦3,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_1_3": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_1_3.png",
+        "name": "클로저의 보급 쿠폰 III",
+        "sortId": 10133,
+        "usage": "구매센터의 패키지 상점에서 ￦4,400원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_1_4": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_1_4.png",
+        "name": "클로저의 보급 쿠폰 IV",
+        "sortId": 10132,
+        "usage": "구매센터의 패키지 상점에서 ￦5,300원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_1_5": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_1_5.png",
+        "name": "클로저의 보급 쿠폰 V",
+        "sortId": 10131,
+        "usage": "구매센터의 패키지 상점에서 ￦6,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_2_1": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_2_1.png",
+        "name": "클로저의 엄선 쿠폰 I",
+        "sortId": 10126,
+        "usage": "구매센터의 패키지 상점에서 ￦9,900원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_2_2": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_2_2.png",
+        "name": "클로저의 엄선 쿠폰 II",
+        "sortId": 10125,
+        "usage": "구매센터의 패키지 상점에서 ￦11,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_2_3": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_2_3.png",
+        "name": "클로저의 엄선 쿠폰 III",
+        "sortId": 10124,
+        "usage": "구매센터의 패키지 상점에서 ￦12,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_2_4": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_2_4.png",
+        "name": "클로저의 엄선 쿠폰 IV",
+        "sortId": 10123,
+        "usage": "구매센터의 패키지 상점에서 ￦14,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_2_5": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_2_5.png",
+        "name": "클로저의 엄선 쿠폰 V",
+        "sortId": 10122,
+        "usage": "구매센터의 패키지 상점에서 ￦16,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_2_6": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_2_6.png",
+        "name": "클로저의 엄선 쿠폰 VI",
+        "sortId": 10121,
+        "usage": "구매센터의 패키지 상점에서 ￦19,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_3_1": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_3_1.png",
+        "name": "클로저의 특별 쿠폰 I",
+        "sortId": 10114,
+        "usage": "구매센터의 패키지 상점에서 ￦25,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_3_2": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_3_2.png",
+        "name": "클로저의 특별 쿠폰 II",
+        "sortId": 10113,
+        "usage": "구매센터의 패키지 상점에서 ￦32,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_3_3": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_3_3.png",
+        "name": "클로저의 특별 쿠폰 III",
+        "sortId": 10112,
+        "usage": "구매센터의 패키지 상점에서 ￦37,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_3_4": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_3_4.png",
+        "name": "클로저의 특별 쿠폰 IV",
+        "sortId": 10111,
+        "usage": "구매센터의 패키지 상점에서 ￦44,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
+    "giftPackageTicket_4_1": {
+        "classifyType": "NORMAL",
+        "description": "클로저의 구매 업무를 지원하기 위해 당신이 준비한 특별한 티켓. 일부 부족한 자원을 교환할 수 있다. 로도스 아일랜드의 재건이 구매부에 영향을 끼쳤을 수도 있겠지만, 클로저는 언제나 믿음직스럽다.",
+        "icon": "giftPackageTicket_4_1.png",
+        "name": "클로저의 소장 쿠폰 I",
+        "sortId": 10101,
+        "usage": "구매센터의 패키지 상점에서 ￦55,000원 상당의 패키지를 교환하는 데 사용된다."
+    },
     "itempack_gacha_1": {
         "classifyType": "CONSUME",
         "description": "노화마을의 이색 소원 이벤트에서 획득할 수 있는 복주머니로, 당신의 미래에 대한 아름다운 축복이 깃들어 있다.",
@@ -2846,6 +2974,14 @@
         "name": "총기 공방 선물함",
         "sortId": 60116,
         "usage": "총기 공방에서 보내온 보급품. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
+    "randomMaterial_amiya": {
+        "classifyType": "CONSUME",
+        "description": "안에는 각종 물자뿐만 아니라, 생일 주인공에게 보내는 모두의 가장 진심 어린 축복도 담겨 있다.",
+        "icon": "randomMaterial_amiya.png",
+        "name": "바니의 선물상자",
+        "sortId": 60120,
+        "usage": "아미야의 생일 연회에 필요한 각종 물자가 들어있는 보급품. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",

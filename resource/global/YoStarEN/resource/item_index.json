@@ -2455,6 +2455,134 @@
         "sortId": -10000,
         "usage": "Used to increase U-Official's Trust."
     },
+    "giftPackageTicket_1_1": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_1_1.png",
+        "name": "Closure's Supply Voucher I",
+        "sortId": 10135,
+        "usage": "Can be exchanged for a $0.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_1_2": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_1_2.png",
+        "name": "Closure's Supply Voucher II",
+        "sortId": 10134,
+        "usage": "Can be exchanged for a $1.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_1_3": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_1_3.png",
+        "name": "Closure's Supply Voucher III",
+        "sortId": 10133,
+        "usage": "Can be exchanged for a $2.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_1_4": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_1_4.png",
+        "name": "Closure's Supply Voucher IV",
+        "sortId": 10132,
+        "usage": "Can be exchanged for a $3.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_1_5": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_1_5.png",
+        "name": "Closure's Supply Voucher V",
+        "sortId": 10131,
+        "usage": "Can be exchanged for a $4.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_2_1": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_2_1.png",
+        "name": "Closure's Selection Voucher I",
+        "sortId": 10126,
+        "usage": "Can be exchanged for a $6.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_2_2": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_2_2.png",
+        "name": "Closure's Selection Voucher II",
+        "sortId": 10125,
+        "usage": "Can be exchanged for a $8.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_2_3": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_2_3.png",
+        "name": "Closure's Selection Voucher III",
+        "sortId": 10124,
+        "usage": "Can be exchanged for a $9.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_2_4": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_2_4.png",
+        "name": "Closure's Selection Voucher IV",
+        "sortId": 10123,
+        "usage": "Can be exchanged for a $11.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_2_5": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_2_5.png",
+        "name": "Closure's Selection Voucher V",
+        "sortId": 10122,
+        "usage": "Can be exchanged for a $12.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_2_6": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_2_6.png",
+        "name": "Closure's Selection Voucher VI",
+        "sortId": 10121,
+        "usage": "Can be exchanged for a $14.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_3_1": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_3_1.png",
+        "name": "Closure's Special Voucher I",
+        "sortId": 10114,
+        "usage": "Can be exchanged for a $19.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_3_2": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_3_2.png",
+        "name": "Closure's Special Voucher II",
+        "sortId": 10113,
+        "usage": "Can be exchanged for a $25.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_3_3": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_3_3.png",
+        "name": "Closure's Special Voucher III",
+        "sortId": 10112,
+        "usage": "Can be exchanged for a $29.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_3_4": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_3_4.png",
+        "name": "Closure's Special Voucher IV",
+        "sortId": 10111,
+        "usage": "Can be exchanged for a $39.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
+    "giftPackageTicket_4_1": {
+        "classifyType": "NORMAL",
+        "description": "A special voucher made for you in light of your support for Closure's procurement work. Can be exchanged for rare materials. The rebuilding of Rhodes Island might have had its effect on the Procurement Department, but you can always trust in Closure.",
+        "icon": "giftPackageTicket_4_1.png",
+        "name": "Closure's Collection Voucher I",
+        "sortId": 10101,
+        "usage": "Can be exchanged for a $49.99 pack currently being sold at the Pack Shop that matches the exchange conditions."
+    },
     "itempack_gacha_1": {
         "classifyType": "CONSUME",
         "description": "A gift bag obtained during the Roka Village's special prayer event, containing well wishes that will guide you toward a merry future.",
@@ -2846,6 +2974,14 @@
         "name": "Firearms Workshop Giftbox",
         "sortId": 60116,
         "usage": "Contains various supplies from the firearms workshop, including random materials."
+    },
+    "randomMaterial_amiya": {
+        "classifyType": "CONSUME",
+        "description": "It contains not only supplies, but also everyone's sincerest wishes for the birthday girl.",
+        "icon": "randomMaterial_amiya.png",
+        "name": "Bunny Gift Box",
+        "sortId": 60120,
+        "usage": "Contains various supplies for Amiya's birthday party, including multiple materials."
     },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",

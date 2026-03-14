@@ -39,6 +39,30 @@
         "sortId": 70001,
         "usage": "记录了作战录像的存储装置，可以极大增加干员的经验值。"
     },
+    "2026recruitment10_1": {
+        "classifyType": "CONSUME",
+        "description": "出于罗德岛在战略上的种种考量，在批量招揽人才的同时也进行了针对性的寻访，以便获得个别特殊人才的协助。",
+        "icon": "2026recruitment10_1.png",
+        "name": "α类新年寻访凭证",
+        "sortId": 50107,
+        "usage": "罗德岛人事部特别批发的许可书，向猎头公司提出了若干项特殊需求，一次可以招聘十位干员。"
+    },
+    "2026recruitment10_2": {
+        "classifyType": "CONSUME",
+        "description": "出于罗德岛在战略上的种种考量，在批量招揽人才的同时也进行了针对性的寻访，以便获得个别特殊人才的协助。",
+        "icon": "2026recruitment10_2.png",
+        "name": "β类新年寻访凭证",
+        "sortId": 50107,
+        "usage": "罗德岛人事部特别批发的许可书，向猎头公司提出了若干项特殊需求，一次可以招聘十位干员。"
+    },
+    "2026recruitment10_3": {
+        "classifyType": "CONSUME",
+        "description": "出于罗德岛在战略上的种种考量，在批量招揽人才的同时也进行了针对性的寻访，以便获得个别特殊人才的协助。",
+        "icon": "2026recruitment10_3.png",
+        "name": "γ类新年寻访凭证",
+        "sortId": 50107,
+        "usage": "罗德岛人事部特别批发的许可书，向猎头公司提出了若干项特殊需求，一次可以招聘十位干员。"
+    },
     "30011": {
         "classifyType": "MATERIAL",
         "description": "富含有机物，常见于源石挥发殆尽后的地区。相对源石来说是较为容易采集的材料。",
@@ -1151,6 +1175,22 @@
         "sortId": 10322,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_6701": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_6701.png",
+        "name": "寻访数据契约",
+        "sortId": 10323,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
+    "LMTGS_COIN_7001": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_7001.png",
+        "name": "寻访数据契约",
+        "sortId": 10324,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1228,6 +1268,22 @@
         "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
         "icon": "SINGLE_60_0_1_GACHA_10.png",
         "name": "指令重构十连寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
+    },
+    "SINGLE_66_0_1_GACHA": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "SINGLE_66_0_1_GACHA.png",
+        "name": "空白频段寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘一位干员。"
+    },
+    "SINGLE_66_0_1_GACHA_10": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "SINGLE_66_0_1_GACHA_10.png",
+        "name": "空白频段十连寻访凭证",
         "sortId": 40003,
         "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
     },
@@ -1822,6 +1878,14 @@
         "name": "资源点数",
         "sortId": -10000,
         "usage": "各类建设资源经换算后得出的点数。凭此点数可向可露希尔换取奖励。"
+    },
+    "act20mini_token_cork": {
+        "classifyType": "NONE",
+        "description": "兑换大奖所需的瓶塞数量太多，绝大多数人能换取的不过是凑不成套的品酒杯。虽然一看就知道是卡西米尔商人一贯的伎俩，但“黄金平原”仍靠这种营销方式在新沃尔西尼打开了销路。",
+        "icon": "act20mini_token_cork.png",
+        "name": "软木瓶塞",
+        "sortId": -10000,
+        "usage": "“黄金平原”酒业在新沃尔西尼发售的红酒上使用的软木瓶塞，顶部装有特制的贴标。收集一定数量的瓶塞送至红酒锦标赛筹委会接待处，便能获得锦标赛的现场观赛券等奖品。"
     },
     "act20side_token_book": {
         "classifyType": "NONE",
@@ -2519,6 +2583,134 @@
         "sortId": -10000,
         "usage": "提高干员U-Official的信赖。"
     },
+    "giftPackageTicket_1_1": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_1_1.png",
+        "name": "可露希尔补给券I",
+        "sortId": 10135,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥6 组合包。"
+    },
+    "giftPackageTicket_1_2": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_1_2.png",
+        "name": "可露希尔补给券II",
+        "sortId": 10134,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥12 组合包。"
+    },
+    "giftPackageTicket_1_3": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_1_3.png",
+        "name": "可露希尔补给券III",
+        "sortId": 10133,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥18 组合包。"
+    },
+    "giftPackageTicket_1_4": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_1_4.png",
+        "name": "可露希尔补给券IV",
+        "sortId": 10132,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥25 组合包。"
+    },
+    "giftPackageTicket_1_5": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_1_5.png",
+        "name": "可露希尔补给券V",
+        "sortId": 10131,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥30 组合包。"
+    },
+    "giftPackageTicket_2_1": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_2_1.png",
+        "name": "可露希尔精选券I",
+        "sortId": 10126,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥45 组合包。"
+    },
+    "giftPackageTicket_2_2": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_2_2.png",
+        "name": "可露希尔精选券II",
+        "sortId": 10125,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥58 组合包。"
+    },
+    "giftPackageTicket_2_3": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_2_3.png",
+        "name": "可露希尔精选券III",
+        "sortId": 10124,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥68 组合包。"
+    },
+    "giftPackageTicket_2_4": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_2_4.png",
+        "name": "可露希尔精选券IV",
+        "sortId": 10123,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥78 组合包。"
+    },
+    "giftPackageTicket_2_5": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_2_5.png",
+        "name": "可露希尔精选券V",
+        "sortId": 10122,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥88 组合包。"
+    },
+    "giftPackageTicket_2_6": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_2_6.png",
+        "name": "可露希尔精选券VI",
+        "sortId": 10121,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥98 组合包。"
+    },
+    "giftPackageTicket_3_1": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_3_1.png",
+        "name": "可露希尔特需券I",
+        "sortId": 10114,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥128 组合包。"
+    },
+    "giftPackageTicket_3_2": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_3_2.png",
+        "name": "可露希尔特需券II",
+        "sortId": 10113,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥168 组合包。"
+    },
+    "giftPackageTicket_3_3": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_3_3.png",
+        "name": "可露希尔特需券III",
+        "sortId": 10112,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥198 组合包。"
+    },
+    "giftPackageTicket_3_4": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_3_4.png",
+        "name": "可露希尔特需券IV",
+        "sortId": 10111,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥258 组合包。"
+    },
+    "giftPackageTicket_4_1": {
+        "classifyType": "NORMAL",
+        "description": "为支持可露希尔采购工作的您准备的特殊票券，可用于兑换一些紧俏资源。罗德岛的重建或许对采购部门造成了一定影响，但你永远可以相信可露希尔。",
+        "icon": "giftPackageTicket_4_1.png",
+        "name": "可露希尔珍藏券I",
+        "sortId": 10101,
+        "usage": "可兑换一个组合包商店正在售卖且符合兑换条件的￥328 组合包。"
+    },
     "itempack_gacha_1": {
         "classifyType": "CONSUME",
         "description": "在露华村的特色祈愿活动中取得的礼袋，寄寓着对你未来道路的美好祝愿。",
@@ -2542,6 +2734,22 @@
         "name": "精心准备的试饮套装",
         "sortId": -10000,
         "usage": "一份精心准备的试饮套装，可兑换龙门币。"
+    },
+    "itempack_leaf_def": {
+        "classifyType": "NONE",
+        "description": "开创独属于你的潮流。",
+        "icon": "itempack_leaf_def.png",
+        "name": "特辑/罗德岛风尚",
+        "sortId": -10000,
+        "usage": "形艺特辑的预设主题内包含的特辑封面和收藏贴，可用于快速完成版面编辑。"
+    },
+    "itempack_leaf_def2": {
+        "classifyType": "NONE",
+        "description": "为今日风采谱写全新曲目。",
+        "icon": "itempack_leaf_def2.png",
+        "name": "特辑/流媒体",
+        "sortId": -10000,
+        "usage": "形艺特辑的预设主题内包含的特辑封面和收藏贴，可用于快速完成版面编辑。"
     },
     "itempack_main_1": {
         "classifyType": "NONE",
@@ -2639,6 +2847,94 @@
         "sortId": -10000,
         "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据重装干员们的需求，可以轻松印刻出芯片组合。"
     },
+    "itempack_recruit_1": {
+        "classifyType": "NONE",
+        "description": "活动即宣传，因此这段时间人事部业务繁忙也是情有可原，记住了，你欠■■■一个人情。",
+        "icon": "itempack_recruit_1.png",
+        "name": "2025感谢庆典招聘补给",
+        "sortId": -10000,
+        "usage": "为满足招募需求而准备的人力资源包，供相关人员通过公开渠道大量招聘干员。"
+    },
+    "itempack_stickers_rog1": {
+        "classifyType": "NONE",
+        "description": "一场气势恢宏的演出。",
+        "icon": "itempack_stickers_rog1.png",
+        "name": "贴纸包/猩红孤钻",
+        "sortId": -10000,
+        "usage": "形艺特辑专用特辑收藏贴，可用于版面编辑。"
+    },
+    "itempack_stickers_rog2": {
+        "classifyType": "NONE",
+        "description": "潮风在呼唤你前去旅行。",
+        "icon": "itempack_stickers_rog2.png",
+        "name": "贴纸包/深蓝之树",
+        "sortId": -10000,
+        "usage": "形艺特辑专用特辑收藏贴，可用于版面编辑。"
+    },
+    "itempack_stickers_rog3": {
+        "classifyType": "NONE",
+        "description": "追寻寒风中的神秘之美。",
+        "icon": "itempack_stickers_rog3.png",
+        "name": "贴纸包/银凇止境",
+        "sortId": -10000,
+        "usage": "形艺特辑专用特辑收藏贴，可用于版面编辑。"
+    },
+    "itempack_stickers_rog4": {
+        "classifyType": "NONE",
+        "description": "大地见证萨卡兹的绚烂之姿。",
+        "icon": "itempack_stickers_rog4.png",
+        "name": "贴纸包/无终奇语",
+        "sortId": -10000,
+        "usage": "形艺特辑专用特辑收藏贴，可用于版面编辑。"
+    },
+    "itempack_stickers_rog5": {
+        "classifyType": "NONE",
+        "description": "山水何灵秀，游人醉不休。",
+        "icon": "itempack_stickers_rog5.png",
+        "name": "贴纸包/界园志异",
+        "sortId": -10000,
+        "usage": "形艺特辑专用特辑收藏贴，可用于版面编辑。"
+    },
+    "itempack_stickers_sand1": {
+        "classifyType": "NONE",
+        "description": "欣赏荒漠与绿洲交织出的艺术。",
+        "icon": "itempack_stickers_sand1.png",
+        "name": "贴纸包/沙洲遗闻",
+        "sortId": -10000,
+        "usage": "形艺特辑专用特辑收藏贴，可用于版面编辑。"
+    },
+    "main16_spitem_1": {
+        "classifyType": "NORMAL",
+        "description": "从前，人们说苦难自它的出现生发；如今，人们说悲剧从它的消失肇始。",
+        "icon": "main16_spitem_1.png",
+        "name": "暗淡的源石",
+        "sortId": 10601,
+        "usage": "一块失去活性的源石，即使被打磨成至纯源石的形状，也已经不具备任何实用价值。"
+    },
+    "main16_spitem_2": {
+        "classifyType": "NORMAL",
+        "description": "人们一直在猜测它的主人，它也在一双又一双手中流转。它承载的故事越来越丰富，而这些便是矿工们的人生。",
+        "icon": "main16_spitem_2.png",
+        "name": "无主的矿灯",
+        "sortId": 10602,
+        "usage": "一盏被遗弃的矿灯，可以正常使用，只是上面的姓名标签不知被谁撕掉了。"
+    },
+    "main16_spitem_3": {
+        "classifyType": "NORMAL",
+        "description": "圣骏堡的贵族视这个标记为莫大的威胁，可它的出现，本是因为他们的目中无人。",
+        "icon": "main16_spitem_3.png",
+        "name": "涂改的旗帜",
+        "sortId": 10603,
+        "usage": "被涂上整合运动标记的乌萨斯国旗。按照《乌萨斯国旗法》，玷污国旗的人将立刻被执行死刑。"
+    },
+    "main16_spitem_4": {
+        "classifyType": "NORMAL",
+        "description": "帝国的腐败也许不是从圣骏堡开始，但帝国的衰落一定是从一枚产自图利斯卡亚的哑弹开始。",
+        "icon": "main16_spitem_4.png",
+        "name": "未爆的哑弹",
+        "sortId": 10604,
+        "usage": "一枚未爆的哑弹，为排除风险，必须拆卸检查后，交由相关机构处理。"
+    },
     "mcardVoucher": {
         "classifyType": "NONE",
         "description": "考虑到流通性与便捷性，许多新的认证应运而生，该凭证便是其中的一项。",
@@ -2670,6 +2966,14 @@
         "name": "数据增补仪",
         "sortId": 90002,
         "usage": "用于升级干员的模组。"
+    },
+    "precious_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "为应对加工时部分材料紧缺的问题，采购部发行了提货券供干员们自行取用所需的材料。",
+        "icon": "precious_material_voucher_perm.png",
+        "name": "稀有材料提货券",
+        "sortId": 60004,
+        "usage": "罗德岛采购部特别发行的提货券，凭此券可领取一份稀有品质的精英材料。"
     },
     "premium_material_issue_voucher": {
         "classifyType": "CONSUME",
@@ -2935,6 +3239,22 @@
         "sortId": 60116,
         "usage": "装有铳械工坊送来的各种物资补给，包含多种随机材料。"
     },
+    "randomMaterial_act46side": {
+        "classifyType": "CONSUME",
+        "description": "维多利亚在谢拉格大量投放的物资包，上面用维多利亚语和谢拉格语写着“伟大的耶拉冈德护佑维多利亚与谢拉格友谊长存”。",
+        "icon": "randomMaterial_act46side.png",
+        "name": "应急救援包",
+        "sortId": 60118,
+        "usage": "用于雪灾救援的物资补给包，包含多种随机材料。"
+    },
+    "randomMaterial_amiya": {
+        "classifyType": "CONSUME",
+        "description": "里面不仅装着各种物资，还有大家对小寿星最真诚的祝愿。",
+        "icon": "randomMaterial_amiya.png",
+        "name": "兔兔礼品盒",
+        "sortId": 60120,
+        "usage": "装有阿米娅生日宴会所需的各种物资补给，包含多种随机材料。"
+    },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",
         "description": "“尽管内里如心声般各不相似，它们也足以成为你探寻真相的助力。跟随尚未忘却的回响，你终会抓住那个答案。”",
@@ -2942,6 +3262,22 @@
         "name": "查访补给",
         "sortId": 60115,
         "usage": "不知何人将其交予你，装有各种物资补给，包含多种随机材料。"
+    },
+    "randomMaterial_message1": {
+        "classifyType": "CONSUME",
+        "description": "在模型的一侧签有诺希斯和恩希欧迪斯的名字。很显然，放眼整片大地，这样的模型不会有第二座。值得一提的是，随模型一起送来的，还有一个带有蔓珠院标志的盒子，盒子里放着各种可以摆在模型上的小人——都是你认识的人。这让人不禁觉得，用它来兑换龙门币有些可惜。",
+        "icon": "randomMaterial_message1.png",
+        "name": "一号项目决定版",
+        "sortId": 60119,
+        "usage": "一座高速战舰的模型，可兑换龙门币。"
+    },
+    "randomMaterial_message2": {
+        "classifyType": "CONSUME",
+        "description": "看样子是再普通不过的围棋棋具——棋枰、棋子、棋盒。但细究起来，棋枰是红木的，棋盒由整块木料打造，棋子则是由罕见的石材制成，颗颗均匀，晶莹澄澈。随棋具还附赠了一本汇集古今名局的棋谱集。",
+        "icon": "randomMaterial_message2.png",
+        "name": "形制朴素的棋具",
+        "sortId": 60121,
+        "usage": "一套形制朴素的棋具，可兑换龙门币。"
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",
