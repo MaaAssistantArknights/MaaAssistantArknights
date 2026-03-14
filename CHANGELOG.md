@@ -2,8 +2,4 @@
 
 ### 修复 | Fix
 
-* 改个地图code默认值 @status102
-
-### 其他 | Other
-
-* 地图资源临时修复 @status102
+* 紧急修复地图资源错误 @status102 @MistEO
