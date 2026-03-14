@@ -67,7 +67,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
                 Log.error(__FUNCTION__, "unable to analyze UseMedicine");
                 return false;
             }
-            using_medicine = MedicineResult { .using_count = 0, .medicines = {} };
+            using_medicine = MedicineResult { .using_count = 0, .medicines = { } };
         }
         else {
             using_medicine = count;
@@ -82,16 +82,33 @@ bool asst::MedicineCounterTaskPlugin::_run()
         }
     }
     else if (m_used_count >= m_max_count && m_use_expiring) {
-        bool changed = false;
-        for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | std::views::reverse) {
-            if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
-                ctrler()->click(rect);
-                sleep(Config.get_options().task_delay);
-                changed = true;
+        bool changed = true;
+        int loop_count = 0;
+        while (changed && loop_count < 3) {
+            loop_count++;
+            changed = false;
+            for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | std::views::reverse) {
+                Log.info(
+                    __FUNCTION__,
+                    " check is_expiring, use: ",
+                    use,
+                    " inventory: ",
+                    inventory,
+                    " rect: ",
+                    rect,
+                    " is_expiring: ",
+                    expiring_status_to_string(is_expiring));
+                if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
+                    ctrler()->click(rect);
+                    sleep(Config.get_options().task_delay);
+                    changed = true;
+                }
+            }
+            if (changed && !refresh_medicine_count()) {
+                return false;
             }
         }
-
-        if (changed && !refresh_medicine_count()) {
+        if (changed && loop_count == 3) {
             return false;
         }
     }
@@ -266,7 +283,7 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const c
     const auto& ocr_task = Task.get<OcrTaskInfo>("UsingMedicine-Target");
     const auto& ocr_replace = ocr_task->replace_map;
 
-    std::decay_t<decltype(ocr_replace)> merged_replace {};
+    std::decay_t<decltype(ocr_replace)> merged_replace { };
     merged_replace.reserve(number_replace.size() + ocr_replace.size());
     std::ranges::copy(number_replace, std::back_inserter(merged_replace));
     std::ranges::copy(ocr_replace, std::back_inserter(merged_replace));
