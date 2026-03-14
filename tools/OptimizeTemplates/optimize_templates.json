@@ -3937,5 +3937,6 @@
     "resource/template/items/giftPackageTicket_2_2": "34fd7e2ed9ad8d5feb38959b2f4b5440cfae75a97d4cee6252bb74e91027669a",
     "resource/template/items/main16_spitem_4": "11b631dd8cc6f1777ae246dc636f8a5d5821b82756f7a99faae47d72407890ca",
     "resource/template/items/giftPackageTicket_2_1": "657b927cad4c91993f626ab5c718e365c06c492287e69dd17f168b4f2d9ed120",
-    "resource/template/items/act2autochess_token_chess": "c2e7e783a9ef0dbf687c7660cbc030c5d17f7b09cac33432f781845b0715d10c"
+    "resource/template/items/act2autochess_token_chess": "c2e7e783a9ef0dbf687c7660cbc030c5d17f7b09cac33432f781845b0715d10c",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@GiveUp": "0801924a9e0db35404dbf54c4de4e2baa38e9113dc8fcc04778103bb42aa38ac"
 }
