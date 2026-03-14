@@ -56,15 +56,15 @@
             "name": "衡-奇土生金",
             "desc": "投出时，立即获得源石锭+4（下次投钱前变化为-大炎通宝）",
             "rarity": "NORMAL",
-            "pickup_priority": 200,
-            "discard_priority": 800,
+            "pickup_priority": 400,
+            "discard_priority": 300,
             "cast_discard_priority": 1000
         },
         {
             "name": "衡-水生木护",
             "desc": "投出时，立即获得护盾值+2（下次投钱前变化为-大炎通宝）",
             "rarity": "NORMAL",
-            "pickup_priority": 200,
+            "pickup_priority": 300,
             "discard_priority": 800,
             "cast_discard_priority": 1000
         },
@@ -72,7 +72,7 @@
             "name": "衡-金寒水衍",
             "desc": "投出时，立即获得希望+1（下次投钱前变化为-大炎通宝）",
             "rarity": "NORMAL",
-            "pickup_priority": 200,
+            "pickup_priority": 500,
             "discard_priority": 800,
             "cast_discard_priority": 1000
         },
@@ -80,7 +80,7 @@
             "name": "花-火灼土沃",
             "desc": "投出时，立即获得目标生命上限+1（下次投钱前变化为-大炎通宝）",
             "rarity": "NORMAL",
-            "pickup_priority": 200,
+            "pickup_priority": 300,
             "discard_priority": 800,
             "cast_discard_priority": 999
         },
@@ -88,7 +88,7 @@
             "name": "衡-投木炎延",
             "desc": "投出时，所有敌人最大生命值-30%。（下次投钱前变化为-大炎通宝）",
             "rarity": "NORMAL",
-            "pickup_priority": 400,
+            "pickup_priority": 600,
             "discard_priority": 600
         },
         {
@@ -96,98 +96,98 @@
             "desc": "投出时，使战斗中位于最右边一列化境地块上的干员攻击力+60%",
             "rarity": "NORMAL",
             "pickup_priority": 150,
-            "discard_priority": 800
+            "discard_priority": 600
         },
         {
             "name": "衡-匪风",
             "desc": "投出时，使战斗中位于最右边一列化境地块上的干员攻击速度+60",
             "rarity": "NORMAL",
-            "pickup_priority": 100,
-            "discard_priority": 500
+            "pickup_priority": 150,
+            "discard_priority": 600
         },
         {
             "name": "衡-霖雨",
             "desc": "投出时，使战斗中位于最右边一列化境地块上的干员生命值+100%",
             "rarity": "NORMAL",
             "pickup_priority": 100,
-            "discard_priority": 500
+            "discard_priority": 700
         },
         {
             "name": "衡-霹雳",
             "desc": "投出时，使战斗中位于最右边一列化境地块上的干员防御力+100%",
             "rarity": "NORMAL",
             "pickup_priority": 100,
-            "discard_priority": 500
+            "discard_priority": 700
         },
         {
             "name": "衡-旱热",
             "desc": "投出时，使战斗中位于最左边一列化境地块上的干员防御力+100%",
             "rarity": "NORMAL",
             "pickup_priority": 100,
-            "discard_priority": 500
+            "discard_priority": 700
         },
         {
             "name": "衡-虹霓",
             "desc": "投出时，使战斗中位于最左边一列化境地块上的干员攻击速度+60",
             "rarity": "NORMAL",
-            "pickup_priority": 100,
-            "discard_priority": 500
+            "pickup_priority": 150,
+            "discard_priority": 600
         },
         {
             "name": "衡-雾凇",
             "desc": "投出时，使战斗中位于最左边一列化境地块上的干员生命值+100%",
             "rarity": "NORMAL",
             "pickup_priority": 100,
-            "discard_priority": 500
+            "discard_priority": 700
         },
         {
             "name": "衡-霜雪",
             "desc": "投出时，使战斗中位于最左边一列化境地块上的干员攻击力+60%",
             "rarity": "NORMAL",
-            "pickup_priority": 100,
-            "discard_priority": 500
+            "pickup_priority": 150,
+            "discard_priority": 600
         },
         {
             "name": "花-驰道长",
             "desc": "投出时，使战斗中位于最左边和最右边一列化境地块上的干员攻击力+30%，攻击速度+30",
             "rarity": "RARE",
-            "pickup_priority": 200,
-            "discard_priority": 300
+            "pickup_priority": 300,
+            "discard_priority": 400
         },
         {
             "name": "花-武人之争",
             "desc": "投出时，所有我方单位的攻击力+20%，每额外投出一次，所有我方单位的攻击力额外+20％（最多+60％）",
             "rarity": "NORMAL",
-            "pickup_priority": 1000,
-            "discard_priority": 200
+            "pickup_priority": 1500,
+            "discard_priority": 20
         },
         {
             "name": "花-百业俱兴",
             "desc": "投出时，所有我方单位的生命值+25%，每额外投出一次，所有我方单位的生命值额外+25％（最多+75％）",
             "rarity": "NORMAL",
-            "pickup_priority": 300,
-            "discard_priority": 200
+            "pickup_priority": 800,
+            "discard_priority": 100
         },
         {
             "name": "厉-寒窗志",
             "desc": "投出时，所有我方单位的防御力+200，但部署后冻结5秒。每额外投出一次，所有我方单位的防御力额外+100",
             "rarity": "NORMAL",
-            "pickup_priority": 300,
-            "discard_priority": 200
+            "pickup_priority": 50,
+            "discard_priority": 900
         },
         {
             "name": "衡-志欲遂",
             "desc": "投出时，所有我方单位的攻击速度+80，每额外投出一次，攻击速度加成效果-20（最多减少至0）",
             "rarity": "NORMAL",
-            "pickup_priority": 300,
-            "discard_priority": 200
+            "pickup_priority": 600,
+            "discard_priority": 400
         },
         {
             "name": "衡-慧避灾",
             "desc": "投出时，所有我方单位在部署时获得6层护盾，每额外投出一次，获得护盾层数-1（最多减少至0）",
             "rarity": "NORMAL",
             "pickup_priority": 300,
-            "discard_priority": 200
+            "discard_priority": 600
         },
         {
             "name": "厉-战血流",
@@ -214,28 +214,28 @@
             "name": "厉-法与律",
             "desc": "投出时，所有我方单位再部署时间-65％，但我方可同时部署人数-2",
             "rarity": "RARE",
-            "pickup_priority": 1500,
-            "discard_priority": 50
+            "pickup_priority": 600,
+            "discard_priority": 300
         },
         {
             "name": "厉-两江春",
             "desc": "投出时，所有敌人的最大生命值+50%，但受到阻挡时每秒受到5%当前生命值的法术伤害",
             "rarity": "RARE",
             "pickup_priority": 200,
-            "discard_priority": 800
+            "discard_priority": 1200
         },
         {
             "name": "厉-凡物变",
             "desc": "投出时，每5秒，所有敌人的移动速度+35％或-70％",
             "rarity": "RARE",
-            "pickup_priority": 50,
+            "pickup_priority": 0,
             "discard_priority": 1500
         },
         {
             "name": "厉-人间长存",
             "desc": "投出时，干员首次被击倒不撤退，原地再部署并随机选择部署方向",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 1000,
+            "pickup_priority": 1200,
             "discard_priority": 100
         },
         {
@@ -250,7 +250,7 @@
             "desc": "投出时，所有我方干员的技力消耗-60%，但技能会自动开启",
             "rarity": "RARE",
             "pickup_priority": 2000,
-            "discard_priority": 50
+            "discard_priority": 20
         },
         {
             "name": "厉-一字落",
@@ -263,36 +263,36 @@
             "name": "厉-待机缘",
             "desc": "投出时，击败敌人后获得10点部署费用，费用自然回复速度降低50%",
             "rarity": "RARE",
-            "pickup_priority": 300,
-            "discard_priority": 700
+            "pickup_priority": 0,
+            "discard_priority": 2000
         },
         {
             "name": "厉-画人间",
             "desc": "在界园投出时，所有我方单位的攻击速度-20；在岁兽残识投出时，所有我方单位的攻击速度+60",
             "rarity": "RARE",
-            "pickup_priority": 50,
-            "discard_priority": 1500
+            "pickup_priority": 100,
+            "discard_priority": 850
         },
         {
             "name": "厉-恣狂情",
             "desc": "投出时，每10秒，所有我方干员获得20点技力或失去10点技力",
             "rarity": "RARE",
-            "pickup_priority": 50,
-            "discard_priority": 1500
+            "pickup_priority": 100,
+            "discard_priority": 900
         },
         {
             "name": "衡-挪移",
             "desc": "投出时，化境地块上的干员撤离时返还的部署费用变为100%",
             "rarity": "NORMAL",
             "pickup_priority": 100,
-            "discard_priority": 500
+            "discard_priority": 800
         },
         {
             "name": "衡-迅步",
             "desc": "投出时，化境地块上的干员被击倒或撤离时，再部署时间-30%",
             "rarity": "NORMAL",
-            "pickup_priority": 100,
-            "discard_priority": 500
+            "pickup_priority": 200,
+            "discard_priority": 600
         },
         {
             "name": "厉-生材百相",
@@ -306,175 +306,175 @@
             "desc": "投出时，所有我方干员防御力+50%，生命+50%，但部署费用+5",
             "rarity": "NORMAL",
             "pickup_priority": 300,
-            "discard_priority": 200
+            "discard_priority": 400
         },
         {
             "name": "厉-火机",
             "desc": "投出时，所有我方干员攻击力+30%，但再部署时间+30%",
             "rarity": "NORMAL",
-            "pickup_priority": 300,
-            "discard_priority": 200
+            "pickup_priority": 600,
+            "discard_priority": 300
         },
         {
             "name": "厉-岁醒天时",
             "desc": "投出时，除部署在化境上的我方单位外，所有其他我方单位和敌方单位每秒受到100点真实伤害",
             "rarity": "NONE",
-            "pickup_priority": 50,
-            "discard_priority": 1500
+            "pickup_priority": 0,
+            "discard_priority": 1300
         },
         {
             "name": "厉-无皎之昧",
             "desc": "投出时，战斗中刮起随机方向的沙尘暴，位于沙尘暴中的我方单位攻击力降低60％。所有我方单位攻击速度+80。",
             "rarity": "NONE",
-            "pickup_priority": 200,
-            "discard_priority": 800
+            "pickup_priority": 0,
+            "discard_priority": 1500
         },
         {
             "name": "衡-庆丰收",
             "desc": "加入钱盒时，立即获得目标生命上限+2，投出时，安全的角落出现额外选项",
             "rarity": "RARE",
-            "pickup_priority": 500,
-            "discard_priority": 800
+            "pickup_priority": 600,
+            "discard_priority": 400
         },
         {
             "name": "衡-塞上月",
             "desc": "投出时，立即获得护盾值+1，每次战斗后目标生命-1，护盾值+1",
             "rarity": "RARE",
-            "pickup_priority": 800,
-            "discard_priority": 200
+            "pickup_priority": 200,
+            "discard_priority": 800
         },
         {
             "name": "花-聚力则强",
             "desc": "投出时，进入战斗后获得一个特殊的战术道具",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 150,
-            "discard_priority": 400
+            "pickup_priority": 1000,
+            "discard_priority": 200
         },
         {
             "name": "衡-军屯垦",
             "desc": "投出时，每次进入非战斗节点，获得3点源石锭及1点希望",
             "rarity": "RARE",
-            "pickup_priority": 1500,
-            "discard_priority": 200
+            "pickup_priority": 1200,
+            "discard_priority": 300
         },
         {
             "name": "厉-安硕鼷",
             "desc": "投出时，击败雕伥后，额外获得票券。但雕伥最大生命值大幅提升",
             "rarity": "RARE",
             "pickup_priority": 400,
-            "discard_priority": 300
+            "discard_priority": 600
         },
         {
             "name": "衡-诡意代币",
             "desc": "加入钱盒时，立即获得源石锭+10。投出时，诡意行商及易与节点更易出现稀有商品且商品售价有概率降低",
             "rarity": "RARE",
-            "pickup_priority": 600,
-            "discard_priority": 400
+            "pickup_priority": 500,
+            "discard_priority": 500
         },
         {
             "name": "厉-合乎礼",
             "desc": "加入钱盒时，立即获得源石锭+30，每次投出时，源石锭-10",
             "rarity": "RARE",
-            "pickup_priority": 1200,
-            "discard_priority": 2000
+            "pickup_priority": 300,
+            "discard_priority": 800
         },
         {
             "name": "花-茧成绢",
             "desc": "投出时，每有4点源石锭，获得1点源石锭",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 1750,
+            "pickup_priority": 1500,
             "discard_priority": 10
         },
         {
             "name": "厉-黑子伏",
             "desc": "位于钱盒内时，战斗后获得的指挥经验+30%；投出时，所有敌人的移动速度+30%，攻击力+30%。（下次投钱前变化为-大炎通宝）",
             "rarity": "RARE",
-            "pickup_priority": 300,
-            "discard_priority": 500,
-            "cast_discard_priority": 800
+            "pickup_priority": 0,
+            "discard_priority": 2000,
+            "cast_discard_priority": 1100
         },
         {
             "name": "花-平沙之盾",
             "desc": "投出时，每有1点护盾值，所有我方单位的最大生命值+5%",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 800,
-            "discard_priority": 100
+            "pickup_priority": 1000,
+            "discard_priority": 150
         },
         {
             "name": "花-火上之灶",
             "desc": "投出时，每有2点源石锭，所有我方单位的攻速+3",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 2000,
-            "discard_priority": 10
+            "pickup_priority": 1800,
+            "discard_priority": 50
         },
         {
             "name": "花-界园行",
             "desc": "位于钱盒内时，从先行一步返回的干员带回更多票券；在界园投出时可以刷新节点且必定出现先行一步，可使用1次",
             "rarity": "RARE",
-            "pickup_priority": 300,
-            "discard_priority": 500
+            "pickup_priority": 500,
+            "discard_priority": 400
         },
         {
             "name": "衡-债难偿",
             "desc": "加入钱盒时，获得6目标生命值上限；投出时，每经过一个非战斗节点，失去1目标生命值上限（不会低于1）",
             "rarity": "RARE",
-            "pickup_priority": 400,
-            "discard_priority": 1500
+            "pickup_priority": 200,
+            "discard_priority": 900
         },
         {
             "name": "衡-触锁代币",
             "desc": "在界园投出时可以刷新节点且必定出现诡意行商，可使用1次",
             "rarity": "RARE",
-            "pickup_priority": 250,
-            "discard_priority": 550
+            "pickup_priority": 400,
+            "discard_priority": 500
         },
         {
             "name": "花-延识镇木",
             "desc": "在界园投出时可以刷新节点且必定出现误入奇境，可使用1次",
             "rarity": "RARE",
             "pickup_priority": 300,
-            "discard_priority": 400
+            "discard_priority": 600
         },
         {
             "name": "厉-移山难",
             "desc": "投出时，所有敌方单位防御力+2000，但每次受到伤害时防御力-100（最多叠加25次），可在筹谋中升级",
             "rarity": "RARE",
-            "pickup_priority": 200,
-            "discard_priority": 800
+            "pickup_priority": 100,
+            "discard_priority": 1200
         },
         {
             "name": "衡-移山繁",
             "desc": "投出时，所有敌方单位防御力+2000，但每次受到伤害时防御力-150（最多叠加25次）",
             "rarity": "RARE",
-            "pickup_priority": 350,
-            "discard_priority": 500
+            "pickup_priority": 150,
+            "discard_priority": 800
         },
         {
             "name": "厉-朝闻道",
             "desc": "投出时，每场战斗使随机一名干员的生命值、攻击力、初始技力、部署费用+100%。可在筹谋中升级",
             "rarity": "RARE",
-            "pickup_priority": 100,
-            "discard_priority": 800
+            "pickup_priority": 400,
+            "discard_priority": 500
         },
         {
             "name": "衡-天下先",
             "desc": "投出时，每场战斗开始时使随机一名干员的生命值、攻击力、初始技力、部署费用+100%，每场战斗生效两次",
             "rarity": "RARE",
-            "pickup_priority": 200,
-            "discard_priority": 600
+            "pickup_priority": 500,
+            "discard_priority": 450
         },
         {
             "name": "衡-初有文",
             "desc": "在界园投出时，生效期间可刷新节点一次。可在筹谋中升级",
             "rarity": "RARE",
-            "pickup_priority": 350,
-            "discard_priority": 400
+            "pickup_priority": 300,
+            "discard_priority": 600
         },
         {
             "name": "花-载道远",
             "desc": "每次投出时，使下次进入岁兽残识时随机一个节点变为已探索状态。在界园投出时，生效期间可刷新节点两次",
             "rarity": "RARE",
-            "pickup_priority": 300,
+            "pickup_priority": 400,
             "discard_priority": 500
         },
         {
@@ -482,213 +482,274 @@
             "desc": "投出时，战斗结束后额外掉落1点目标生命值，可在筹谋中升级",
             "rarity": "RARE",
             "pickup_priority": 400,
-            "discard_priority": 200
+            "discard_priority": 400
         },
         {
             "name": "花-修性情",
             "desc": "投出时，目标生命值上限+2，战斗结束后额外掉落2点目标生命值",
             "rarity": "RARE",
-            "pickup_priority": 350,
+            "pickup_priority": 500,
             "discard_priority": 300
         },
         {
             "name": "花-心无患",
             "desc": "投出时，战斗结束后额外掉落1点目标生命值，进入非战斗节点时目标生命值上限+1",
             "rarity": "RARE",
-            "pickup_priority": 400,
-            "discard_priority": 200
+            "pickup_priority": 500,
+            "discard_priority": 300
         },
         {
             "name": "花-鸭爵金币",
             "desc": "投出时，使非险路恶敌战斗中必定出现一名属性大幅度提升的鸭爵、高普尼克、流泪小子或圆仔。（下次投钱前变化为-大炎通宝）",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 150,
-            "discard_priority": 400
+            "pickup_priority": 800,
+            "discard_priority": 400,
+            "cast_discard_priority": 999
         },
         {
             "name": "衡-鸿蒙开荒",
             "desc": "在界园投出时，立即获得4张票券。在岁兽残识投出时，剩余烛火+2。（下次投钱前变化为-大炎通宝）",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 200,
-            "discard_priority": 600,
-            "cast_discard_priority": 1000
+            "pickup_priority": 800,
+            "discard_priority": 500,
+            "cast_discard_priority": 999
         },
         {
             "name": "花-己任重",
             "desc": "投出时，非因指挥等级提升获得源石锭，护盾值，希望时，获得数量+1（下次投钱前变化为-大炎通宝）",
             "rarity": "RARE",
-            "pickup_priority": 250,
-            "discard_priority": 500
+            "pickup_priority": 600,
+            "discard_priority": 400,
+            "cast_discard_priority": 999
         },
         {
             "name": "花-圣诏封神",
             "desc": "投出时，使战斗结束后获得的招募券变化为6星随机直升临时招募券。（下次投钱前变化为-大炎通宝）",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 500,
-            "discard_priority": 400
+            "pickup_priority": 2000,
+            "discard_priority": 200,
+            "cast_discard_priority": 999
         },
         {
             "name": "花-神秘商贾",
             "desc": "加入钱盒时，票券+4。投出时，购买道具及在失与得交换收藏品时，希望+1。（下次投钱前变化为-大炎通宝）",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 800,
-            "discard_priority": 100
+            "pickup_priority": 1000,
+            "discard_priority": 300,
+            "cast_discard_priority": 999
         },
         {
             "name": "厉-诛邪雷法",
             "desc": "投出时，战斗中对随机一格化境降下落雷，对首个部署在该地块上的干员和周围敌人造成9次伤害。落雷结束后若该干员未被击倒，则战斗结束后成为伺烛客",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 100,
-            "discard_priority": 1200
+            "pickup_priority": 1200,
+            "discard_priority": 250
         },
         {
             "name": "厉-商路难行",
             "desc": "位于钱盒内时，当前节点获得纵向通路。投出时，源石锭-5",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 100,
+            "pickup_priority": 400,
             "discard_priority": 800
         },
         {
             "name": "花-孜孜不倦",
             "desc": "位于钱盒内时，每经过一个节点，获得2源石锭（下次投钱前变化为-大炎通宝）",
             "rarity": "SUPER_RARE",
-            "pickup_priority": 600,
-            "discard_priority": 300
+            "pickup_priority": 1000,
+            "discard_priority": 300,
+            "cast_discard_priority": 999
         },
         {
             "name": "厉-争商机",
             "desc": "投出时，源石锭-30。每投出一枚厉钱，源石锭+15。",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 100,
+            "discard_priority": 1200
         },
         {
             "name": "厉-诸灾有迹",
             "desc": "投出时，使钱盒里未被投出的通宝变化为随机厉钱，回到钱盒时变化为大炎通宝",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 100,
+            "discard_priority": 900
         },
         {
             "name": "衡-贵有衡",
             "desc": "投出时，我方干员攻击力+10％。钱盒里每有一枚衡钱，我方干员攻击力额外+10％",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 400,
+            "discard_priority": 500
         },
         {
             "name": "花-得见繁花",
             "desc": "回到钱盒时，使当前已投出的通宝变化为随机花钱",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 2000,
+            "discard_priority": 100
         },
         {
             "name": "花-分久必合",
             "desc": "投出时，使战斗中最后部署的干员攻击力+50％，攻击速度+50，生命值+50％，初始技力+10",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 1500,
+            "discard_priority": 150
         },
         {
             "name": "厉-兴水利",
             "desc": "加入钱盒时，目标生命值-10。投出时，目标生命上限+3",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 200,
+            "discard_priority": 700
         },
         {
             "name": "厉-南武盛景",
             "desc": "投出时，敌方单位攻击力+20％。携带期间每经过一个战斗节点，失去时可获得一个收藏品（最多获得5个）",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 100,
+            "discard_priority": 1100
         },
         {
             "name": "花-百灶盛景",
             "desc": "投出时，希望+1。携带期间每经过一个非战斗节点，失去时可获得一个收藏品（最多获得5个）",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 800,
+            "discard_priority": 200
         },
         {
             "name": "花-龙门盛景",
             "desc": "投出时，源石锭+8。失去时，消耗至多60源石锭，每消耗12源石锭，获得一个随机收藏品",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 1000,
+            "discard_priority": 300
         },
         {
             "name": "厉-勾吴盛景",
             "desc": "失去时，获得3个收藏品。每投出一次，使失去时获得的收藏品数量-1（最多减至0）",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 1000,
+            "discard_priority": 200
         },
         {
             "name": "花-大荒盛景",
             "desc": "每投出一次，失去时可获得一个收藏品（最多获得5个）",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 900,
+            "discard_priority": 300
         },
         {
             "name": "衡-溯外道",
             "desc": "投出时，我方攻击速度+80。每次交换通宝时，攻击速度加成效果-10（至多减少至0）",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 600,
+            "discard_priority": 400
         },
         {
             "name": "衡-溯正道",
             "desc": "投出时，我方攻击速度+10。每次交换通宝时，攻击速度加成效果+10（至多叠加至+80）",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 800,
+            "discard_priority": 200
         },
         {
             "name": "花-麟天师",
             "desc": "投出时，目标生命值+2且每场战斗获得1点临时生命值",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 600,
+            "discard_priority": 300
         },
         {
             "name": "花-右迁",
             "desc": "投出时，所有干员的部署费用-5",
-            "rarity": "NORMAL"
+            "rarity": "NORMAL",
+            "pickup_priority": 800,
+            "discard_priority": 200
         },
         {
             "name": "花-录武官",
             "desc": "投出时，敌方单位每次受到伤害时，法术抗性-2",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 500,
+            "discard_priority": 400
         },
         {
             "name": "厉-柳伥作",
             "desc": "投出时，所有我方干员攻击力-35％，攻速+60",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 100,
+            "discard_priority": 900
         },
         {
             "name": "花-备用梁",
             "desc": "投出时，在失与得交换收藏品时可获得额外收藏品",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 600,
+            "discard_priority": 400
         },
         {
             "name": "衡-捕风",
             "desc": "投出时，干员部署方向朝左时，攻速+40",
-            "rarity": "NORMAL"
+            "rarity": "NORMAL",
+            "pickup_priority": 300,
+            "discard_priority": 500
         },
         {
             "name": "衡-钱盒底板",
             "desc": "加入钱盒时，源石锭+2。不会被投出",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 0,
+            "discard_priority": 1000
         },
         {
             "name": "花-锦囊秒购",
             "desc": "投出时，目标生命值降至1。每失去2目标生命值，获得一个随机收藏品。回到钱盒时变为大炎通宝",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 0,
+            "discard_priority": 1200,
+            "cast_discard_priority": 999
         },
         {
             "name": "厉-左秉烛",
             "desc": "投出时，目标生命值-2，我方干员攻击力+200。每额外投出一次，我方干员攻击力额外+100（最多叠加至+1000）",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 300,
+            "discard_priority": 500,
+            "cast_discard_priority": 300
         },
         {
             "name": "厉-药食",
             "desc": "投出时，我方干员生命值-45％，但部署时获得6层护盾",
-            "rarity": "NORMAL"
+            "rarity": "NORMAL",
+            "pickup_priority": 200,
+            "discard_priority": 600
         },
         {
             "name": "厉-见灵光",
             "desc": "位于钱盒中时，战斗不再获得指挥经验。投出时，指挥等级+1",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 100,
+            "discard_priority": 1100
         },
         {
             "name": "花-烽火台",
             "desc": "不会被投出。离开钱盒时，获得4目标生命值、4希望及4票券",
-            "rarity": "RARE"
+            "rarity": "RARE",
+            "pickup_priority": 800,
+            "discard_priority": 1900
         },
         {
             "name": "厉-孤芳自赏",
             "desc": "投出时，敌人重量-1，所有干员技能结束时较大力度推开攻击范围内的目标",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 200,
+            "discard_priority": 800
         },
         {
             "name": "厉-天命难违",
             "desc": "投出时，敌人重量-1，所有干员技能开启时较大力度将目标拖拽至自己面前",
-            "rarity": "SUPER_RARE"
+            "rarity": "SUPER_RARE",
+            "pickup_priority": 200,
+            "discard_priority": 800
         }
     ]
 }
