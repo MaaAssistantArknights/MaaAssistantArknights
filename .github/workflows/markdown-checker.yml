@@ -57,7 +57,7 @@ jobs:
 
       - name: Comment (only for PR)
         if: failure() && github.event_name == 'pull_request'
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           message: |
             Dead links found in the documentation. Please fix them.
