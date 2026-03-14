@@ -22,7 +22,7 @@ OCRer::ResultsVecOpt OCRer::analyze() const
     else {
         ocr_ptr = &WordOcr::get_instance();
     }
-    ResultsVec raw_results = ocr_ptr->recognize(make_roi(m_image, m_roi), m_params.without_det);
+    ResultsVec raw_results = ocr_ptr->recognize(make_roi(m_image, m_roi), m_params.without_det, m_roi);
     ocr_ptr = nullptr;
 
     /* post process */
