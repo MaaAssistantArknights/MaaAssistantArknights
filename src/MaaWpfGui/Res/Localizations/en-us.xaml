@@ -1080,7 +1080,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
-    <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceBroken">The resources are damaged, please download the full package again.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">Unable to delete directory, it may have been replaced or encountered other issues. Please check the logs for more information.</system:String>
