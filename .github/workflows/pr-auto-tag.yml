@@ -3,7 +3,7 @@ name: Release Version Tagging
 on:
   pull_request:
     branches:
-      - master
+      - master-v2
     types:
       - closed
   workflow_dispatch:

@@ -3,7 +3,7 @@ name: Documentation Site
 on:
   push:
     branches:
-      - "master"
+      - "master-v2"
       - "dev-v2"
     paths:
       - ".github/workflows/website-workflow.yml"
@@ -68,7 +68,7 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
-        if: github.repository_owner == 'MaaAssistantArknights' && (inputs.deploy-to-prod == true || github.ref == 'refs/heads/master')
+        if: github.repository_owner == 'MaaAssistantArknights' && (inputs.deploy-to-prod == true || github.ref == 'refs/heads/master-v2')
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: "./docs/.vuepress/dist"
