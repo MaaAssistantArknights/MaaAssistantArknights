@@ -3,7 +3,7 @@ name: PNG Image Optimization
 on:
   push:
     branches:
-      - "dev"
+      - "dev-v2"
     paths:
       - "docs/.vuepress/public/images/**"
       - "resource/**/*.png"

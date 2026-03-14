@@ -1871,6 +1871,14 @@
         "sortId": -10000,
         "usage": "用於兌換相應的階段性活動獎勵。"
     },
+    "act2enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "聽說使用後可在整個爭鋒頻道中發出一則佔滿全螢幕的煙火特效文字，只不過整天拿這個來對罵的有錢人或許並不知道，網站設定內可以一鍵隱藏這些特效。",
+        "icon": "act2enemyduel_milestone_point.png",
+        "name": "爭鋒大禮花",
+        "sortId": -10000,
+        "usage": "爭鋒頻道禮物中比較昂貴的類型，可在網站內兌換一些實體獎勵，免費送到府。"
+    },
     "act2mainss_token": {
         "classifyType": "NONE",
         "description": "為了安慰那些因即將離艦而惶恐不安的孩子，Raidian製作了大量具有呼叫和留言功能的胸章，鼓勵他們保持微笑，也保持聯絡。不少幹員聽說後，也向Raidian要來了胸章，他們錄下祝福與鼓勵的話語，並在撤離前將胸章藏在各個角落。",
@@ -2702,6 +2710,14 @@
         "name": "銃械工坊贈品盒",
         "sortId": 60116,
         "usage": "裝有銃械工坊送來的各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_amiya": {
+        "classifyType": "CONSUME",
+        "description": "裡面不僅裝著各種物資，還有大家對小壽星最真誠的祝願。",
+        "icon": "randomMaterial_amiya.png",
+        "name": "兔兔禮品盒",
+        "sortId": 60120,
+        "usage": "裝有阿米婭生日宴會所需的各種物資補給，包含多種隨機材料。"
     },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",

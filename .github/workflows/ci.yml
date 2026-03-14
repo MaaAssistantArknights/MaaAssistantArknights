@@ -5,7 +5,7 @@ on:
     tags:
       - "v*"
     branches:
-      - "dev"
+      - "dev-v2"
     paths:
       - ".github/workflows/ci.yml"
       - "3rdparty/include/**"
@@ -30,7 +30,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev' && format('-{0}', github.sha) || '' }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}
   cancel-in-progress: true
 
 jobs:
@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: Show concurrency group
         run: |
-          echo "Concurrency Group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev' && format('-{0}', github.sha) || '' }}"
+          echo "Concurrency Group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}"
 
       - name: Checkout repository
         uses: actions/checkout@v6

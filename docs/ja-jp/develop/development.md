@@ -42,7 +42,7 @@ icon: iconoir:developer
 3. 自身のリポジトリの dev ブランチをクローン（サブモジュール含む）
 
    ```bash
-   git clone --recurse-submodules <リポジトリの git リンク> -b dev
+   git clone --recurse-submodules <リポジトリの git リンク> -b dev-v2
    ```
 
    ::: warning
@@ -97,7 +97,7 @@ icon: iconoir:developer
 11. 開発完了後、変更をリモートリポジトリへプッシュ：
 
     ```bash
-    git push origin dev
+    git push origin dev-v2
     ```
 
 12. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights) で Pull Request を提出（master ではなく dev ブランチを指定）
@@ -117,7 +117,7 @@ icon: iconoir:developer
     3. リベース（推奨）またはマージ：
 
        ```bash
-       git rebase upstream/dev
+       git rebase upstream/dev-v2
        ```
 
        または

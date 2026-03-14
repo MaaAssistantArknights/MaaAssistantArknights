@@ -6,7 +6,7 @@ icon: material-symbols:u-turn-left
 # Callback Message Protocol
 
 ::: info Note
-Callback messages are rapidly evolving with each version update, so this document may become outdated. For the latest information, please refer to the [C# Integration Source Code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaWpfGui/Main/AsstProxy.cs)
+Callback messages are rapidly evolving with each version update, so this document may become outdated. For the latest information, please refer to the [C# Integration Source Code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Main/AsstProxy.cs)
 :::
 
 ## Callback Function Prototype

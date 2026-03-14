@@ -42,7 +42,7 @@ icon: iconoir:developer
 3. 본인 저장소의 dev 브랜치를 서브모듈 포함 클론:
 
    ```bash
-   git clone --recurse-submodules <저장소 git 링크> -b dev
+   git clone --recurse-submodules <저장소 git 링크> -b dev-v2
    ```
 
    ::: warning
@@ -96,7 +96,7 @@ icon: iconoir:developer
 11. 개발 완료 후 변경사항 원격 저장소로 푸시:
 
     ```bash
-    git push origin dev
+    git push origin dev-v2
     ```
 
 12. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Pull Request 제출 (master 대신 dev 브랜치 지정 필수)
@@ -116,7 +116,7 @@ icon: iconoir:developer
     3. 리베이스(권장) 또는 병합:
 
        ```bash
-       git rebase upstream/dev
+       git rebase upstream/dev-v2
        ```
 
        또는

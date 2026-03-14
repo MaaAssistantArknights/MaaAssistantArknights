@@ -583,7 +583,7 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
     <system:String x:Key="SwitchResolutionTip">Change the emulator resolution to 1920x1080!</system:String>
-    <system:String x:Key="ResolutionInfoYoStarEN">Make sure the emulator is set to 1920x1080</system:String>
+    <system:String x:Key="ResolutionInfoYoStarEN">For YoStarEN, make sure the emulator is set to 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">Save ｢Use Originium｣</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
@@ -1364,6 +1364,8 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Hot update data retrieval successful</system:String>
+    <system:String x:Key="ApiUpdateFailed">Hot update data retrieval failed</system:String>
+    <system:String x:Key="ApiCacheLoaded">Using local cached data</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
     <system:String x:Key="GameResourceUpdatingMirrorChyan">Updating resource {0} from ｢{key=MirrorChyan}｣...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>

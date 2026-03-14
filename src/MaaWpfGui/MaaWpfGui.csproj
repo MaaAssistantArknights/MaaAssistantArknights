@@ -70,7 +70,7 @@
 
   <PropertyGroup>
     <Authors>MAA Team</Authors>
-    <PackageLicenseUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/LICENSE</PackageLicenseUrl>
     <Copyright>Copyright (c) 2021-2025 MAA Team</Copyright>
     <Description>https://docs.maa.plus/</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>

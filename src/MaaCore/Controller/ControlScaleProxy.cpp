@@ -56,6 +56,10 @@ asst::ControlScaleProxy::ControlScaleProxy(
         m_scale_size = std::make_pair(WindowWidthDefault, scale_height);
         m_control_scale = static_cast<double>(width) / static_cast<double>(WindowWidthDefault);
     }
+
+    info["what"] = "ResolutionInfo";
+    info["why"] = "Normal";
+    callback(info);
 }
 
 bool asst::ControlScaleProxy::click(const Point& p)

@@ -10124,6 +10124,42 @@
         "stageId": "act29side_tr02",
         "width": 10
     },
+    "act2autochess_m01-activities/act2autochess/level_act2autochess_m01": {
+        "code": null,
+        "filename": "act2autochess_m01-activities-act2autochess-level_act2autochess_m01.json",
+        "height": 19,
+        "levelId": "activities/act2autochess/level_act2autochess_m01",
+        "name": null,
+        "stageId": "act2autochess_m01",
+        "width": 21
+    },
+    "act2autochess_m02-activities/act2autochess/level_act2autochess_m02": {
+        "code": null,
+        "filename": "act2autochess_m02-activities-act2autochess-level_act2autochess_m02.json",
+        "height": 19,
+        "levelId": "activities/act2autochess/level_act2autochess_m02",
+        "name": null,
+        "stageId": "act2autochess_m02",
+        "width": 21
+    },
+    "act2autochess_m03-activities/act2autochess/level_act2autochess_m03": {
+        "code": null,
+        "filename": "act2autochess_m03-activities-act2autochess-level_act2autochess_m03.json",
+        "height": 19,
+        "levelId": "activities/act2autochess/level_act2autochess_m03",
+        "name": null,
+        "stageId": "act2autochess_m03",
+        "width": 21
+    },
+    "act2autochess_m04-activities/act2autochess/level_act2autochess_m04": {
+        "code": null,
+        "filename": "act2autochess_m04-activities-act2autochess-level_act2autochess_m04.json",
+        "height": 19,
+        "levelId": "activities/act2autochess/level_act2autochess_m04",
+        "name": null,
+        "stageId": "act2autochess_m04",
+        "width": 21
+    },
     "act2bossrush_01-activities/act2bossrush/level_bossrush2_01": {
         "code": "TN-1",
         "filename": "act2bossrush_01-activities-act2bossrush-level_bossrush2_01.json",

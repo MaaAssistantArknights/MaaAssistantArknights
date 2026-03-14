@@ -2463,6 +2463,134 @@
         "sortId": -10000,
         "usage": "U-Officialの信頼度を高めるために用いられる。"
     },
+    "giftPackageTicket_1_1": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_1_1.png",
+        "name": "クロージャの補給交換券I",
+        "sortId": 10135,
+        "usage": "現在販売中の値段が￥160かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_1_2": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_1_2.png",
+        "name": "クロージャの補給交換券II",
+        "sortId": 10134,
+        "usage": "現在販売中の値段が￥320かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_1_3": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_1_3.png",
+        "name": "クロージャの補給交換券III",
+        "sortId": 10133,
+        "usage": "現在販売中の値段が￥480かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_1_4": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_1_4.png",
+        "name": "クロージャの補給交換券IV",
+        "sortId": 10132,
+        "usage": "現在販売中の値段が￥580かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_1_5": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_1_5.png",
+        "name": "クロージャの補給交換券V",
+        "sortId": 10131,
+        "usage": "現在販売中の値段が￥650かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_2_1": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_2_1.png",
+        "name": "クロージャの特選交換券I",
+        "sortId": 10126,
+        "usage": "現在販売中の値段が￥1000かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_2_2": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_2_2.png",
+        "name": "クロージャの特選交換券II",
+        "sortId": 10125,
+        "usage": "現在販売中の値段が￥1100かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_2_3": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_2_3.png",
+        "name": "クロージャの特選交換券III",
+        "sortId": 10124,
+        "usage": "現在販売中の値段が￥1200かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_2_4": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_2_4.png",
+        "name": "クロージャの特選交換券IV",
+        "sortId": 10123,
+        "usage": "現在販売中の値段が￥1300かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_2_5": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_2_5.png",
+        "name": "クロージャの特選交換券V",
+        "sortId": 10122,
+        "usage": "現在販売中の値段が￥1400かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_2_6": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_2_6.png",
+        "name": "クロージャの特選交換券VI",
+        "sortId": 10121,
+        "usage": "現在販売中の値段が￥1500かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_3_1": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_3_1.png",
+        "name": "クロージャの珍品交換券I",
+        "sortId": 10114,
+        "usage": "現在販売中の値段が￥2000かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_3_2": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_3_2.png",
+        "name": "クロージャの珍品交換券II",
+        "sortId": 10113,
+        "usage": "現在販売中の値段が￥2600かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_3_3": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_3_3.png",
+        "name": "クロージャの珍品交換券III",
+        "sortId": 10112,
+        "usage": "現在販売中の値段が￥3000かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_3_4": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_3_4.png",
+        "name": "クロージャの珍品交換券IV",
+        "sortId": 10111,
+        "usage": "現在販売中の値段が￥4000かつ交換可能なパックとの交換に用いられる。"
+    },
+    "giftPackageTicket_4_1": {
+        "classifyType": "NORMAL",
+        "description": "クロージャの仕入れを応援するために、あなたが用意した特別なチケット。売れ筋の資源と交換できる。ロドスの再建は購買部の仕事にも影響を与えたが、クロージャの信用はそれでも揺るぎないものである。",
+        "icon": "giftPackageTicket_4_1.png",
+        "name": "クロージャの秘蔵交換券I",
+        "sortId": 10101,
+        "usage": "現在販売中の値段が￥4900かつ交換可能なパックとの交換に用いられる。"
+    },
     "itempack_gacha_1": {
         "classifyType": "CONSUME",
         "description": "露花村伝統の願掛けを経て手に入れた福袋。あなたの未来が素晴らしいものであるようにという祈りが込められている。",
@@ -2854,6 +2982,14 @@
         "name": "銃工房からの贈呈品",
         "sortId": 60116,
         "usage": "銃工房から贈られたもので、補給物資としてランダムに様々な素材が入っている。"
+    },
+    "randomMaterial_amiya": {
+        "classifyType": "CONSUME",
+        "description": "中に詰まっているのは物資だけではない。皆から誕生日の主役への心のこもった祝福も詰まっている。",
+        "icon": "randomMaterial_amiya.png",
+        "name": "うさうさギフトボックス",
+        "sortId": 60120,
+        "usage": "アーミヤのバースデーパーティーに必要な準備のため、ランダムに様々な素材が入っている。"
     },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",

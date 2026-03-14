@@ -89,7 +89,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 這兩個版本的發布流程相對複雜，我們透過模擬一次發布步驟來解釋各工作流的作用：
 
-1. 建立從 `dev` 到 `master` 分支的 PR，且該 PR 的標題需為 `Release v******`。
+1. 建立從 `dev-v2` 到 `master` 分支的 PR，且該 PR 的標題需為 `Release v******`。
 2. `release-preparation.yml` 會產生從最近版本到當前版本的 Changelog（以一個新 PR 的形式呈現）。
 3. 對 Changelog 進行手動調整，並加入簡要描述。
 4. 合併 PR，觸發 `pr-auto-tag.yml` 建立 Tag 並同步分支。

@@ -6,7 +6,7 @@ icon: material-symbols:u-turn-left
 # 回呼訊息協定
 
 ::: info 注意
-回呼訊息 (Callback) 隨版本更新快速迭代中，本文件可能過時。如需獲取最新內容可參考 [C# 整合原始碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaWpfGui/Main/AsstProxy.cs)
+回呼訊息 (Callback) 隨版本更新快速迭代中，本文件可能過時。如需獲取最新內容可參考 [C# 整合原始碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Main/AsstProxy.cs)
 :::
 
 ## 回呼函式原型

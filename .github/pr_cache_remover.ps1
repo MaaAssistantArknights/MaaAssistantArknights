@@ -22,7 +22,7 @@ foreach ($cache in $cacheList) {
             $shouldDelete = $true
         }
     }
-    elseif ($cache.ref -match "refs/heads/(.+)" -and $matches[1] -ne "dev") {
+    elseif ($cache.ref -match "refs/heads/(.+)" -and $matches[1] -ne "dev-v2") {
         $branchName = $matches[1]
         $exists = $branchSet.ContainsKey($branchName)
         

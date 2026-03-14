@@ -42,7 +42,7 @@ icon: iconoir:developer
 3. 複製（Clone）您自己倉庫下的 dev 分支到在地，並拉取子模組（Submodules）。
 
    ```bash
-   git clone --recurse-submodules <您的倉庫 git 連結> -b dev
+   git clone --recurse-submodules <您的倉庫 git 連結> -b dev-v2
    ```
 
    ::: warning
@@ -79,19 +79,19 @@ icon: iconoir:developer
 
 9. 到這裡，你就可以愉快地 ~~瞎雞巴改~~ 發電了
 10. 開發過程中，每一定數量，記得提交一個 Commit, 別忘了寫上 Message  
-    假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev` 上
+    假如你不熟悉 git 的使用，你可能想要新建一個分支進行更改，而不是直接提交在 `dev-v2` 上
 
     ```bash
     git branch your_own_branch
     git checkout your_own_branch
     ```
 
-    這樣你的提交就能在新的分支上生長，不會受到 `dev` 更新的打擾
+    這樣你的提交就能在新的分支上生長，不會受到 `dev-v2` 更新的打擾
 
-11. 完成開發後，推送你修改過的本地分支（以 `dev` 為例）到遠端（Fork 的倉庫）
+11. 完成開發後，推送你修改過的本地分支（以 `dev-v2` 為例）到遠端（Fork 的倉庫）
 
     ```bash
-    git push origin dev
+    git push origin dev-v2
     ```
 
 12. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。別忘了您是在 dev 分支上修改，別提交到 master 分支去了。
@@ -112,7 +112,7 @@ icon: iconoir:developer
     3. 變基（推薦）或者合併修改
 
        ```bash
-       git rebase upstream/dev # 變基
+       git rebase upstream/dev-v2 # 變基
        ```
 
        或者

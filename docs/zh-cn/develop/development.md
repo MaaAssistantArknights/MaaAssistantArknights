@@ -42,7 +42,7 @@ icon: iconoir:developer
 3. 克隆你自己仓库下的 dev 分支到本地，并拉取子模块
 
    ```bash
-   git clone --recurse-submodules <你的仓库的 git 链接> -b dev
+   git clone --recurse-submodules <你的仓库的 git 链接> -b dev-v2
    ```
 
    ::: warning
@@ -79,19 +79,19 @@ icon: iconoir:developer
 
 9. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
 10. 开发过程中，每一定数量，记得提交一个 Commit, 别忘了写上 Message  
-    假如你不熟悉 git 的使用，你可能想要新建一个分支进行更改，而不是直接提交在 `dev` 上
+    假如你不熟悉 git 的使用，你可能想要新建一个分支进行更改，而不是直接提交在 `dev-v2` 上
 
     ```bash
     git branch your_own_branch
     git checkout your_own_branch
     ```
 
-    这样你的提交就能在新的分支上生长，不会受到 `dev` 更新的打扰
+    这样你的提交就能在新的分支上生长，不会受到 `dev-v2` 更新的打扰
 
-11. 完成开发后，推送你修改过的本地分支（以 `dev` 为例）到远程（Fork 的仓库）
+11. 完成开发后，推送你修改过的本地分支（以 `dev-v2` 为例）到远程（Fork 的仓库）
 
     ```bash
-    git push origin dev
+    git push origin dev-v2
     ```
 
 12. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Pull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
@@ -111,7 +111,7 @@ icon: iconoir:developer
     3. 变基（推荐）或者合并修改
 
        ```bash
-       git rebase upstream/dev # 变基
+       git rebase upstream/dev-v2 # 变基
        ```
 
        或者

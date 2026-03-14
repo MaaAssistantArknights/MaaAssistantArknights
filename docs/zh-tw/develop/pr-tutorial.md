@@ -147,7 +147,7 @@ icon: mingcute:git-pull-request-fill
    ]" />
 
 10. 此時會進入主倉庫的 PR 頁面，請核對提交內容是否正確。  
-    如下圖所示，箭頭方向是將右側「您的帳號 / MAA」的 `dev` 分支合併到「主倉庫 / MAA」的 `dev` 分支。頁面下方會顯示兩者間的差異。
+    如下圖所示，箭頭方向是將右側「您的帳號 / MAA」的 `dev-v2` 分支合併到「主倉庫 / MAA」的 `dev-v2` 分支。頁面下方會顯示兩者間的差異。
 
     <ImageGrid :imageList="[
       {

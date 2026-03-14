@@ -7,7 +7,7 @@ on:
 jobs:
   check_commit_name_in_pr:
     name: Check Commits in PR
-    if: ${{ !github.event.pull_request.merged && github.base_ref != 'master' }}
+    if: ${{ !github.event.pull_request.merged && github.base_ref != 'master-v2' }}
     runs-on: ubuntu-latest
     steps:
       - name: Clean up previous comment

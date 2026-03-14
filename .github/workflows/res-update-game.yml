@@ -330,7 +330,7 @@ jobs:
       #     gh workflow run release-nightly-ota.yml -f release_body="Auto Release of Resource Updates"
 
       - name: Upsert failure comment (single active)
-        if: failure() && github.ref == 'refs/heads/dev'
+        if: failure() && github.ref == 'refs/heads/dev-v2'
         run: |
           run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           latest_id=$(gh api --paginate repos/${{ github.repository }}/issues/14493/comments | jq -r '.[] | select(.user.login=="github-actions[bot]") | .id' | tail -n 1)
@@ -358,7 +358,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Minimize failure comment on success/cancelled
-        if: ${{ !failure() && github.ref == 'refs/heads/dev' }}
+        if: ${{ !failure() && github.ref == 'refs/heads/dev-v2' }}
         run: |
           latest_node=$(gh api --paginate repos/${{ github.repository }}/issues/14493/comments | jq -r '.[] | select(.user.login=="github-actions[bot]") | .node_id' | tail -n 1)
           if [ -n "$latest_node" ]; then

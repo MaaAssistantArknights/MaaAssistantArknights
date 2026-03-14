@@ -5,14 +5,14 @@ on:
     - cron: "0 0 * * 2" # Every Tuesday at 00:00 UTC
   push:
     branches:
-      - dev
+      - dev-v2
     paths:
       - ".github/workflows/markdown-checker.yml"
       - "docs/**"
       - "**/*.md"
   pull_request:
     branches:
-      - dev
+      - dev-v2
     paths:
       - ".github/workflows/markdown-checker.yml"
       - "docs/**"

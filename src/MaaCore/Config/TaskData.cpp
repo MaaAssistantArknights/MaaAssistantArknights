@@ -226,7 +226,7 @@ bool asst::TaskData::load(const std::filesystem::path& path)
 
     if (is_regular_file(path)) {
         // Log.debug("TaskData::load", "Loading json file:", path);
-        auto ret = json::open(path, true);
+        auto ret = json::open(path, true, true);
         if (!ret) {
             Log.error("TaskData::load", "Json open failed:", path);
             return false;
@@ -235,6 +235,7 @@ bool asst::TaskData::load(const std::filesystem::path& path)
     }
     else if (is_directory(path)) {
         std::vector<std::filesystem::path> json_files;
+        bool load = true;
         for (const auto& entry : std::filesystem::recursive_directory_iterator(path)) {
             if (entry.is_regular_file() && entry.path().extension() == ".json") {
                 json_files.push_back(entry.path());
@@ -242,22 +243,27 @@ bool asst::TaskData::load(const std::filesystem::path& path)
         }
         for (const auto& file : json_files) {
             // Log.debug("TaskData::load", "Loading json file:", file);
-            auto ret = json::open(file, true);
+            auto ret = json::open(file, true, true);
             if (!ret) {
                 Log.error("TaskData::load", "Json open failed:", file);
+                load = false;
                 continue;
             }
             json::value file_json = ret.value();
             if (!file_json.is_object()) {
                 Log.error("TaskData::load", "Json content is not an object:", file);
+                load = false;
                 continue;
             }
             for (auto& [key, value] : file_json.as_object()) {
                 if (!merged.emplace(key, std::move(value)).second) {
                     Log.error(__FUNCTION__, "Duplicate key in json file:", file, key);
-                    return false;
+                    load = false;
                 }
             }
+        }
+        if (!load) {
+            return false;
         }
     }
     else {
