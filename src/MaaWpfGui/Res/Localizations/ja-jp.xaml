@@ -907,6 +907,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PVTip">選択したステージから自動でクリアします。最初のステージを選んだ場合は、イベントページの最左側から開始してください。その他のステージを選んだ場合は、位置を校正するために前のステージに一度入ってから戻ってください。</system:String>
     <system:String x:Key="MiniGame@SPA">ガードプロトコル：盟約</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">イベントメイン画面（「独立シミュレーション」の場所）からタスクを開始
+セーブデータがある場合は、まず手動で破棄する必要があります
 「スタンダードシミュレーション」を手動でクリアすると、より早くスコアを稼げます
 レベル報酬のみ取得可能。「刻印章」を入手するには全ての「重要目標」をクリアする必要があります</system:String>
     <system:String x:Key="MiniGame@OS">OS-カラン貿易技術開発部</system:String>
