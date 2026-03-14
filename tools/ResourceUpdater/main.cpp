@@ -825,6 +825,11 @@ bool update_levels_json(const fs::path& input_file, const fs::path& output_dir)
         stage_obj.erase("tiles");
         stage_obj.erase("view");
         stage_obj["filename"] = filename;
+        for (auto& [key, val] : stage_obj) {
+            if (val.is_null()) {
+                stage_obj[key] = "Unknown";
+            }
+        }
         overview[std::move(stem)] = std::move(stage_obj);
     }
 
