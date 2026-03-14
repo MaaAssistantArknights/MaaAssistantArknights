@@ -82,16 +82,34 @@ bool asst::MedicineCounterTaskPlugin::_run()
         }
     }
     else if (m_used_count >= m_max_count && m_use_expiring) {
-        bool changed = false;
-        for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | std::views::reverse) {
-            if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
-                ctrler()->click(rect);
-                sleep(Config.get_options().task_delay);
-                changed = true;
+        bool changed = true;
+        int loop_count = 0;
+        while (changed && loop_count < 3) {
+            loop_count++;
+            changed = false;
+            for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | std::views::reverse) {
+                Log.info(
+                    __FUNCTION__,
+                    " check is_expiring, use: ",
+                    use,
+                    " inventory: ",
+                    inventory,
+                    " rect: ",
+                    rect,
+                    " is_expiring: ",
+                    expiring_status_to_string(is_expiring));
+                if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
+                    ctrler()->click(rect);
+                    sleep(Config.get_options().task_delay);
+                    changed = true;
+                }
+            }
+
+            if (changed && !refresh_medicine_count()) {
+                return false;
             }
         }
-
-        if (changed && !refresh_medicine_count()) {
+        if (changed && loop_count == 3) {
             return false;
         }
     }
