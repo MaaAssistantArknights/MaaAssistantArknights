@@ -1077,8 +1077,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 UseSupportNonFriend = roguelike.UseSupportNonFriend,
 
                 InvestmentEnabled = roguelike.Investment,
-                InvestmentCount = roguelike.InvestCount,
-                InvestmentStopWhenFull = roguelike.StopWhenDepositFull,
+                InvestmentCount = roguelike.Mode == Mode.Investment ? roguelike.InvestCount : int.MaxValue,
+                InvestmentStopWhenFull = roguelike.StopWhenDepositFull && roguelike.Mode == Mode.Investment,
                 InvestmentWithMoreScore = roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
                 RefreshTraderWithDice = roguelike.Theme == Theme.Mizuki && roguelike.RefreshTraderWithDice,
 

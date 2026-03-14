@@ -153,7 +153,7 @@
                 Margin="0,10"
                 d:Visibility="Visible"
                 IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
-                Visibility="{c:Binding 'RoguelikeInvestmentEnabled and RoguelikeMode != task:RoguelikeMode.Collectible',
+                Visibility="{c:Binding 'RoguelikeInvestmentEnabled and RoguelikeMode == task:RoguelikeMode.Investment',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
                 <TextBlock
                     Block.TextAlignment="Left"
@@ -188,7 +188,8 @@
                 hc:InfoElement.Title="{DynamicResource GoldTimesLimit}"
                 Maximum="999"
                 Minimum="0"
-                Visibility="{c:Binding RoguelikeInvestmentEnabled}"
+                Visibility="{c:Binding 'RoguelikeInvestmentEnabled and RoguelikeMode == task:RoguelikeMode.Investment',
+                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}"
                 Value="{Binding RoguelikeInvestsCount}" />
             <CheckBox
                 Margin="0,10"
@@ -406,8 +407,8 @@
                 HorizontalAlignment="Center"
                 FontWeight="Bold"
                 Text="{DynamicResource MultiTasksShareTip}"
-                TextWrapping="Wrap"
-                TextAlignment="Left" />
+                TextAlignment="Left"
+                TextWrapping="Wrap" />
             <CheckBox Margin="0,10" IsChecked="{Binding RoguelikeDelayAbortUntilCombatComplete}">
                 <TextBlock
                     Block.TextAlignment="Left"
