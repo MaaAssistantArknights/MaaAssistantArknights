@@ -504,11 +504,23 @@ void Assistant::working_proc()
 {
     LogTraceFunction;
 
+#ifdef __ANDROID__
+    const auto& lib = AndroidExternalLib::instance();
+    auto env = lib.AttachThread();
+    LogInfo << "Use Android AttachThread working_proc env: " << env;
+#endif
+
     std::vector<TaskId> finished_tasks;
     while (true) {
         std::unique_lock<std::mutex> lock(m_mutex);
         if (m_thread_exit) {
             m_running = false;
+#ifdef __ANDROID__
+            if (env) {
+                LogInfo << "Use Android DetachThread working_proc";
+                lib.DetachThread(env);
+            }
+#endif
             return;
         }
 
@@ -639,7 +651,7 @@ void asst::Assistant::call_proc()
 #ifdef __ANDROID__
     auto& lib = AndroidExternalLib::instance();
     auto env = lib.AttachThread();
-    LogInfo << "Use Android AttachThread env: " << env;
+    LogInfo << "Use Android AttachThread call_proc env: " << env;
 #endif
 
     while (true) {
