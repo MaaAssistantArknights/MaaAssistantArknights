@@ -7,7 +7,8 @@
     "MiniGame@SPA@EnterIndependent": {
         "action": "ClickSelf",
         "roi": [519, 568, 268, 152],
-        "next": ["MiniGame@SPA@EnterStandard", "#self"]
+        "postDelay": 1000,
+        "next": ["MiniGame@SPA@EnterDanger", "MiniGame@SPA@EnterStandard", "#self"]
     },
     "MiniGame@SPA@EnterStandard": {
         "action": "ClickSelf",
@@ -17,7 +18,7 @@
     },
     "MiniGame@SPA@EnterDanger": {
         "action": "ClickSelf",
-        "roi": [735, 235, 300, 140],
+        "roi": [735, 40, 300, 300],
         "next": ["MiniGame@SPA@StartSimulation"]
     },
     "MiniGame@SPA@StartSimulation": {
@@ -52,7 +53,7 @@
     },
     "MiniGame@SPA@ReadyAgain": {
         "action": "ClickSelf",
-        "roi": [1081, 42, 199, 127],
+        "roi": [1081, 0, 199, 200],
         "postDelay": 1000,
         "next": ["MiniGame@SPA@NoMoreHint", "MiniGame@SPA@ExitButton"]
     },
@@ -93,19 +94,40 @@
         "template": "MiniGame@SPA@ConfirmHint.png",
         "baseTask": "MiniGame@SPA@ConfirmHint",
         "postDelay": 8000,
-        "next": ["MiniGame@SPA@ReturnHome", "MiniGame@SPA@LoadingText", "MiniGame@SPA@LoadingIcon"]
+        "next": [
+            "MiniGame@SPA@GiveUp",
+            "MiniGame@SPA@ReturnHome",
+            "MiniGame@SPA@LoadingText",
+            "MiniGame@SPA@LoadingIcon"
+        ]
     },
     "MiniGame@SPA@LoadingText": {
-        "next": ["MiniGame@SPA@ReturnHome", "MiniGame@SPA@LoadingText", "MiniGame@SPA@LoadingIcon"]
+        "next": [
+            "MiniGame@SPA@GiveUp",
+            "MiniGame@SPA@ReturnHome",
+            "MiniGame@SPA@LoadingText",
+            "MiniGame@SPA@LoadingIcon"
+        ]
     },
     "MiniGame@SPA@LoadingIcon": {
         "template": "LoadingIcon.png",
-        "next": ["MiniGame@SPA@ReturnHome", "MiniGame@SPA@LoadingText", "MiniGame@SPA@LoadingIcon"]
+        "next": [
+            "MiniGame@SPA@GiveUp",
+            "MiniGame@SPA@ReturnHome",
+            "MiniGame@SPA@LoadingText",
+            "MiniGame@SPA@LoadingIcon"
+        ]
     },
     "MiniGame@SPA@ReturnHome": {
         "action": "ClickSelf",
         "roi": [964, 590, 294, 130],
         "postDelay": 2000,
         "next": ["MiniGame@SPA@EnterIndependent"]
+    },
+    "MiniGame@SPA@GiveUp": {
+        "doc": "二期新加的允许中断返回",
+        "action": "ClickSelf",
+        "roi": [717, 573, 242, 141],
+        "next": ["MiniGame@SPA@ConfirmResult"]
     }
 }

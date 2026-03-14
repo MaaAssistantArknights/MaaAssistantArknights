@@ -907,6 +907,9 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="MiniGame@PVTip">從所選關卡開始並自動通關。若選擇第一關，則從活動頁面最左側開始；若選擇其他關卡，請先進入上一關再返回以校準位置。</system:String>
     <system:String x:Key="MiniGame@SPA">衛戍協議：盟約</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">在活動主介面（有「獨立模擬」處）開始任務。
+在有存檔時需要先手動放棄
+最高只測試過「險境模擬」
+如果已通關更高難度導致看不到「險境模擬」或「標準模擬」，需手動選擇一次「險境模擬」難度
 手動通關「標準模擬」可以更快刷分。
 只能刷等級獎勵，拿蝕刻章得打完所有的「關鍵目標」。</system:String>
     <system:String x:Key="MiniGame@OS">OS-喀蘭貿易技術研發部</system:String>
