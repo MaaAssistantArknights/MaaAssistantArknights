@@ -10125,7 +10125,7 @@
         "width": 10
     },
     "act2autochess_m01-activities/act2autochess/level_act2autochess_m01": {
-        "code": "",
+        "code": null,
         "filename": "act2autochess_m01-activities-act2autochess-level_act2autochess_m01.json",
         "height": 19,
         "levelId": "activities/act2autochess/level_act2autochess_m01",
@@ -10134,7 +10134,7 @@
         "width": 21
     },
     "act2autochess_m02-activities/act2autochess/level_act2autochess_m02": {
-        "code": "",
+        "code": null,
         "filename": "act2autochess_m02-activities-act2autochess-level_act2autochess_m02.json",
         "height": 19,
         "levelId": "activities/act2autochess/level_act2autochess_m02",
@@ -10143,7 +10143,7 @@
         "width": 21
     },
     "act2autochess_m03-activities/act2autochess/level_act2autochess_m03": {
-        "code": "",
+        "code": null,
         "filename": "act2autochess_m03-activities-act2autochess-level_act2autochess_m03.json",
         "height": 19,
         "levelId": "activities/act2autochess/level_act2autochess_m03",
@@ -10152,7 +10152,7 @@
         "width": 21
     },
     "act2autochess_m04-activities/act2autochess/level_act2autochess_m04": {
-        "code": "",
+        "code": null,
         "filename": "act2autochess_m04-activities-act2autochess-level_act2autochess_m04.json",
         "height": 19,
         "levelId": "activities/act2autochess/level_act2autochess_m04",
