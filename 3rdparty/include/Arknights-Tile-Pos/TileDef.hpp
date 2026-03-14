@@ -60,7 +60,7 @@ private:
 inline Level::Level(const json::value& data)
 {
     key.stageId = data.at("stageId").as_string();
-    key.code = data.at("code").as_string();
+    key.code = data.get("code", "null");
     key.levelId = data.at("levelId").as_string();
     key.name = data.get("name", "null");
     this->height = data.at("height").as_integer();
