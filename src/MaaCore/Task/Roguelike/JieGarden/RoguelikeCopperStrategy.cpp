@@ -28,7 +28,7 @@ static CopperPickupResult findplaytime_pickup_strategy(
         return { 0, "empty options" };
     }
 
-    size_t best_li_idx = SIZE_MAX;
+    size_t best_li_idx = std::numeric_limits<size_t>::max();
     int best_li_priority = std::numeric_limits<int>::min();
 
     for (size_t i = 0; i < options.size(); ++i) {
@@ -38,7 +38,7 @@ static CopperPickupResult findplaytime_pickup_strategy(
         }
     }
 
-    if (best_li_idx != SIZE_MAX) {
+    if (best_li_idx != std::numeric_limits<size_t>::max()) {
         return { best_li_idx, "best Li by pickup priority" };
     }
 
@@ -75,30 +75,35 @@ static CopperExchangeResult
     }
 
     if (new_copper.type == CopperType::Li) {
-        size_t worst_idx = SIZE_MAX;
+        size_t worst_idx = std::numeric_limits<size_t>::max();
         int worst_priority = -1;
 
         for (size_t i = 0; i < existing.size(); ++i) {
             if (existing[i].type != CopperType::Li) {
                 int priority = existing[i].get_copper_discard_priority();
-                if (worst_idx == SIZE_MAX || priority > worst_priority) {
+                if (worst_idx == std::numeric_limits<size_t>::max() || priority > worst_priority) {
                     worst_idx = i;
                     worst_priority = priority;
                 }
             }
         }
 
-        if (worst_idx != SIZE_MAX) {
+        if (worst_idx != std::numeric_limits<size_t>::max()) {
             return { true, worst_idx, "Li replace non-Li" };
         }
 
         auto worst = std::max_element(existing.begin(), existing.end(), [](const auto& a, const auto& b) {
             return a.get_copper_discard_priority() < b.get_copper_discard_priority();
         });
-        return { true, static_cast<size_t>(std::distance(existing.begin(), worst)), "Li replace worst Li" };
+        const int worst_li_priority = worst->get_copper_discard_priority();
+        const int new_li_priority = new_copper.get_copper_discard_priority();
+        if (new_li_priority < worst_li_priority) {
+            return { true, static_cast<size_t>(std::distance(existing.begin(), worst)), "Li replace worse Li" };
+        }
+        return { false, 0, "keep existing Li" };
     }
 
-    size_t worst_non_li_idx = SIZE_MAX;
+    size_t worst_non_li_idx = std::numeric_limits<size_t>::max();
     int worst_non_li_priority = new_copper.get_copper_discard_priority();
 
     for (size_t i = 0; i < existing.size(); ++i) {
@@ -113,7 +118,7 @@ static CopperExchangeResult
         }
     }
 
-    if (worst_non_li_idx != SIZE_MAX) {
+    if (worst_non_li_idx != std::numeric_limits<size_t>::max()) {
         return { true, worst_non_li_idx, "replace worst non-Li" };
     }
 
