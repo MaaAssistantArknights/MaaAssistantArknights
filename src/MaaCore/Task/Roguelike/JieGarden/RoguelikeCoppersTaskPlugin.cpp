@@ -6,6 +6,7 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
+#include "Task/Roguelike/Map/RoguelikeBoskyPassageMap.h"
 #include "Task/Roguelike/RoguelikeConfig.h"
 #include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
@@ -176,7 +177,7 @@ asst::CopperTaskResult asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
     }
 
     const auto& [copper, point] = m_pending_copper[result.selected_index];
-    LogInfo << __FUNCTION__ << "| selected" << copper.name << "reason:" << result.reason;
+    LogInfo << __FUNCTION__ << "|selected" << copper.name << "|reason:" << result.reason;
 
     ctrler()->click(point);
 
@@ -399,7 +400,7 @@ asst::CopperTaskResult asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     auto& worst_copper = m_copper_list[discard_index];
 
     auto strategy_name =
-        (get_current_strategy_type() == CopperStrategyType::FindLingMode) ? "FindLing" : "Default";
+        (get_current_strategy_type() == CopperStrategyType::FindPlaytimeLingMode) ? "FindPlaytime-Ling" : "Default";
 
     // 执行交换
     LogInfo << __FUNCTION__ << "| Exchanging copper using strategy: " << strategy_name << " - " << worst_copper.name
@@ -663,10 +664,10 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(
 // 获取当前游戏模式对应的交换策略
 asst::CopperStrategyType asst::RoguelikeCoppersTaskPlugin::get_current_strategy_type() const
 {
-    // 检查当前游戏是否为FindLing模式
-    // 检查是否是界园主题且为FindPlaytime（刷常乐节点）模式
-    if (m_config->get_theme() == RoguelikeTheme::JieGarden && m_config->get_mode() == RoguelikeMode::FindPlaytime) {
-        return CopperStrategyType::FindLingMode;
+    // 仅在界园 FindPlaytime 且目标常乐子类型为 Ling 时启用特殊策略
+    if (m_config->get_theme() == RoguelikeTheme::JieGarden && m_config->get_mode() == RoguelikeMode::FindPlaytime &&
+        m_config->get_find_playTime_target() == static_cast<int>(RoguelikeBoskySubNodeType::Ling)) {
+        return CopperStrategyType::FindPlaytimeLingMode;
     }
 
     // 默认使用标准策略
@@ -681,7 +682,7 @@ bool asst::RoguelikeCoppersTaskPlugin::decide_exchange_by_strategy(
     auto strategy = get_copper_strategy(get_current_strategy_type());
     auto result = strategy.exchange(new_copper, existing_coppers);
 
-    LogInfo << __FUNCTION__ << result.reason;
+    LogInfo << __FUNCTION__ << "|" << result.reason;
 
     if (result.should_exchange) {
         discard_index = result.discard_index;

@@ -24,7 +24,7 @@ struct CopperExchangeResult
 enum class CopperStrategyType
 {
     Default,
-    FindLingMode
+    FindPlaytimeLingMode
 };
 
 using CopperPickupStrategyFunction =
