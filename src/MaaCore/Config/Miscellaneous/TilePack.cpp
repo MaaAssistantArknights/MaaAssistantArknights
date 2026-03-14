@@ -29,7 +29,7 @@ bool asst::TilePack::parse(const json::value& json)
     for (const auto& [_, summary] : json.as_object()) {
         LevelKey level_key {
             .stageId = summary.at("stageId").as_string(),
-            .code = summary.at("code").as_string(),
+            .code = summary.get("code", ""),
             .levelId = summary.at("levelId").as_string(),
             .name = summary.get("name", "UnknownLevelName"),
         };
