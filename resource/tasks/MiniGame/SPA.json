@@ -7,7 +7,8 @@
     "MiniGame@SPA@EnterIndependent": {
         "action": "ClickSelf",
         "roi": [519, 568, 268, 152],
-        "next": ["MiniGame@SPA@EnterStandard", "#self"]
+        "postDelay": 1000,
+        "next": ["MiniGame@SPA@EnterDanger", "MiniGame@SPA@EnterStandard", "#self"]
     },
     "MiniGame@SPA@EnterStandard": {
         "action": "ClickSelf",
@@ -17,7 +18,7 @@
     },
     "MiniGame@SPA@EnterDanger": {
         "action": "ClickSelf",
-        "roi": [735, 235, 300, 140],
+        "roi": [735, 40, 300, 300],
         "next": ["MiniGame@SPA@StartSimulation"]
     },
     "MiniGame@SPA@StartSimulation": {
