@@ -46,7 +46,7 @@ icon: iconoir:developer
    ```
 
    ::: tip
-   `--single-branch` で取得されるのは `dev-v2` の履歴だけです。あとで別のブランチに切り替えたい場合は、`git fetch --all` を追加で実行するか、リポジトリを再度クローンして不足しているブランチ情報を取得してください。
+   `--single-branch` で取得されるのは `dev-v2` の履歴だけです。あとで別のブランチに切り替えたい場合は、先に `git remote set-branches origin '*'` を実行してから再度 fetch するか、`--single-branch` なしでリポジトリを再度クローンして不足しているブランチ情報を取得してください。
    :::
 
    ::: warning

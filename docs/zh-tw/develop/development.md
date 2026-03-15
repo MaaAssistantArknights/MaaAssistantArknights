@@ -46,7 +46,7 @@ icon: iconoir:developer
    ```
 
    ::: tip
-   `--single-branch` 只會拉取 `dev-v2` 的提交記錄。如果之後想切換到其他分支，需要額外執行 `git fetch --all`（或重新複製倉庫）來補齊其他分支的資訊。
+   `--single-branch` 只會拉取 `dev-v2` 的提交記錄。如果之後想切換到其他分支，需要先執行 `git remote set-branches origin '*'` 並重新抓取，來補齊其他分支的資訊；或者重新複製一個不帶 `--single-branch` 的倉庫。
    :::
 
    ::: warning

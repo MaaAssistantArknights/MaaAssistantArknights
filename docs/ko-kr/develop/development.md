@@ -46,7 +46,7 @@ icon: iconoir:developer
    ```
 
    ::: tip
-   `--single-branch`는 `dev-v2` 브랜치 기록만 가져옵니다. 나중에 다른 브랜치로 전환하려면 `git fetch --all`을 추가로 실행하거나 저장소를 다시 클론해 다른 브랜치 정보를 받아와야 합니다.
+   `--single-branch`는 `dev-v2` 브랜치 기록만 가져옵니다. 나중에 다른 브랜치로 전환하려면 먼저 `git remote set-branches origin '*'`를 실행한 뒤 다시 fetch해서 다른 브랜치 정보를 받아오거나, `--single-branch` 없이 저장소를 다시 클론해야 합니다.
    :::
 
    ::: warning

@@ -46,7 +46,7 @@ We've preset several different development environments for you to choose from:
    ```
 
    ::: tip
-   `--single-branch` only fetches the history for `dev-v2`. If you later want to switch to another branch, run `git fetch --all` first (or re-clone the repository) so Git can download the missing branch data.
+   `--single-branch` only fetches the history for `dev-v2`. If you later want to switch to another branch, run `git remote set-branches origin '*'` and fetch again so Git can download the missing branch data, or re-clone the repository without `--single-branch`.
    :::
 
    ::: warning
