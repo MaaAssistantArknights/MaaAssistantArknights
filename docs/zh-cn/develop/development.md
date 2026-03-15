@@ -45,6 +45,10 @@ icon: iconoir:developer
    git clone --recurse-submodules <你的仓库的 git 链接> -b dev-v2 --single-branch
    ```
 
+   ::: tip
+   `--single-branch` 只会拉取 `dev-v2` 的提交记录。如果之后想切换到其他分支，需要先执行 `git remote set-branches origin '*'` 并重新拉取，来补齐其他分支的信息；或者重新克隆一个不带 `--single-branch` 的仓库。
+   :::
+
    ::: warning
    如果正在使用 Visual Studio 等不附带 `--recurse-submodules` 参数的 Git GUI，则需在克隆后再执行 `git submodule update --init` 以拉取子模块。
    :::
