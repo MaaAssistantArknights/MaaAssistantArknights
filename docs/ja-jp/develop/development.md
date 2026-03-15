@@ -45,6 +45,10 @@ icon: iconoir:developer
    git clone --recurse-submodules <リポジトリの git リンク> -b dev-v2 --single-branch
    ```
 
+   ::: tip
+   `--single-branch` で取得されるのは `dev-v2` の履歴だけです。あとで別のブランチに切り替えたい場合は、`git fetch --all` を追加で実行するか、リポジトリを再度クローンして不足しているブランチ情報を取得してください。
+   :::
+
    ::: warning
    Visual Studio など `--recurse-submodules` パラメータに対応していない Git GUI を使用する場合、クローン後に以下を実行：
 

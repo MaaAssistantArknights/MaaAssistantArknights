@@ -45,6 +45,10 @@ icon: iconoir:developer
    git clone --recurse-submodules <저장소 git 링크> -b dev-v2 --single-branch
    ```
 
+   ::: tip
+   `--single-branch`는 `dev-v2` 브랜치 기록만 가져옵니다. 나중에 다른 브랜치로 전환하려면 `git fetch --all`을 추가로 실행하거나 저장소를 다시 클론해 다른 브랜치 정보를 받아와야 합니다.
+   :::
+
    ::: warning
    Visual Studio 등 --recurse-submodules 미지원 Git GUI 사용 시, 클론 후 다음 실행:
 
