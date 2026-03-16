@@ -1439,8 +1439,13 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="UnknownDllDetected" xml:space="preserve">偵測到 MAA 執行目錄下存在未知的 DLL 檔案，可能導致 DLL 劫持並產生意外後果。
 請將 MAA 解壓縮到一個獨立的新資料夾中，或移除不屬於 MAA 的 DLL 檔案。
     </system:String>
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">偵測到 Microsoft Visual C++ V14 Redistributable (x64) 未安裝或版本過低。
-點擊 ｢{key=Confirm}｣ 將執行安裝腳本並結束 MAA；點擊 ｢{key=Cancel}｣ 將直接結束 MAA。
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">MaaCore.dll 載入失敗，可能的原因包括：
+• 壓縮檔未完整解壓縮，缺少必要的 DLL 檔案
+• 未安裝 Microsoft Visual C++ V14 Redistributable (x64) 或版本過低
+• 其他系統依賴缺失
+
+請先確認是否已將壓縮檔完整解壓縮。
+點擊 ｢{key=Confirm}｣ 將嘗試安裝/更新 VC++ 執行庫並結束 MAA（若為其他原因則無效），點擊 ｢{key=Cancel}｣ 將直接結束 MAA。
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同一路徑下只能啟動一個執行個體！
 如需多開 MAA，請複製一份新的 MAA 到其他資料夾，並設定使用不同的 MAA，搭配相同的 ADB 與不同的模擬器位址進行多開操作。

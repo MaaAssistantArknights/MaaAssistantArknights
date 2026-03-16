@@ -1438,8 +1438,13 @@ With save file: farm points through crafting (advanced).
     <system:String x:Key="UnknownDllDetected" xml:space="preserve">Unknown DLL files have been detected in the MAA runtime directory, which may cause DLL hijacking and unexpected consequences.
 Please extract MAA into a separate new folder, or remove any DLL files that do not belong to MAA.
     </system:String>
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">Detected that Microsoft Visual C++ V14 Redistributable (x64) is NOT installed or the version is too low.
-Click "{key=Confirm}" to execute the installation script and exit MAA. Click "{key=Cancel}" to exit MAA directly.
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">Failed to load MaaCore.dll. Possible reasons include:
+• Archive not fully extracted, missing necessary DLL files
+• Microsoft Visual C++ V14 Redistributable (x64) not installed or version too low
+• Other system dependencies missing
+
+Please verify that the archive has been fully extracted.
+Click "{key=Confirm}" to attempt installing/updating VC++ runtime and exit MAA (ineffective for other causes). Click "{key=Cancel}" to exit directly.
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">Only one instance can be launched under the same path!
 If you want to run multiple MAA at the same time, please copy the whole MAA and start under different path with the same adb and different connect address.

@@ -1439,8 +1439,13 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="UnknownDllDetected" xml:space="preserve">MAA の実行ディレクトリに不明な DLL ファイルが検出されました。DLL ハイジャックが発生し、予期しない結果を招く可能性があります。
 MAA を新しい独立したフォルダーに解凍するか、MAA に属さない DLL ファイルを削除してください。
     </system:String>
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">Microsoft Visual C++ V14 Redistributable (x64) がインストールされていないか、バージョンが低すぎることが検出されました。
-「{key=Confirm}」をクリックするとインストールスクリプトが実行され、MAA が終了します。「{key=Cancel}」をクリックすると MAA が直接終了します。
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">MaaCore.dll の読み込みに失敗しました。考えられる原因：
+• アーカイブが完全に解凍されておらず、必要な DLL ファイルが不足している
+• Microsoft Visual C++ V14 Redistributable (x64) がインストールされていないか、バージョンが低すぎる
+• その他のシステム依存関係が不足している
+
+まず、アーカイブが完全に解凍されているかご確認ください。
+「{key=Confirm}」をクリックすると VC++ ランタイムのインストール/更新を試みて MAA を終了します（他の原因の場合は無効）。「{key=Cancel}」をクリックすると直接終了します。
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同じパスの下で起動できるのは1つのインスタンスのみ！
 MAA を複数開くには、新しい MAA を他のフォルダにコピーし、異なる MAA、同じ adb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。
