@@ -19,7 +19,19 @@ MAA WPF GUI 當前可以透過 Wine 執行。MAA 已採用自包含部署方式�
 
 #### 安裝步驟
 
-1. 下載 Windows 版 MAA，解壓縮後執行 `wine MAA.exe`。
+1. 安裝 Visual C++ Redistributable：
+
+   下載並安裝 [Visual C++ 可再發行套件](https://aka.ms/vc14/vc_redist.x64.exe)：
+   
+   ```shell
+   wine vc_redist.x64.exe
+   ```
+   
+   ::: tip
+   `DependencySetup_依赖库安装.bat` 基於 winget 和 Windows 提權機制，通常無法在 Wine 中正常工作，因此需要手動安裝執行庫。
+   :::
+
+2. 下載 Windows 版 MAA，解壓縮後執行 `wine MAA.exe`。
 
 ::: info 注意
 需要在連線設定中將 ADB 路徑設定為 [Windows 版 `adb.exe`](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)。

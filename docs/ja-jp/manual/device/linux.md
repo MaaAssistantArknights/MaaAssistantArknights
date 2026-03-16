@@ -7,20 +7,79 @@ icon: teenyicons:linux-alt-solid
 
 ## 準備作業
 
-### 1. MAA をインストールする
+以下のインストール方法から一つを選択してください：
 
-1. Linux ダイナミック ライブラリを [MAA ウェブサイト](https://maa.plus/) からダウンロードし、解凍します
+### maa-cli を使用する
 
-2. `./MAA-v{バージョン}-linux-{アアーキテクチャ}/Python/` ディレクトリに移動します、 `sample.py` ファイルを開け
+[maa-cli](https://github.com/MaaAssistantArknights/maa-cli) は Rust で書かれたシンプルな MAA コマンドラインツールです。関連するインストールと使用方法については、[CLI 使用ガイド](../cli/) をご覧ください。
 
-::: tip
-プリコンパイル済みバージョンには、比較的新しいLinuxディストリビューション(Ubuntu 22.04)でコンパイルされた動的ライブラリが含まれており、システムに古いバージョンのlibstdc++がある場合、ABIの非互換性に遭遇する可能性があります
-[Linuxコンパイル・チュートリアル](../../develop/linux-tutorial.md) を参照して再コンパイルまたはコンテナを使用して実行できます
+### Wine を使用する
+
+MAA WPF GUI は現在 Wine を通じて実行できます。MAAは.NETランタイムを内蔵しています（自己完結型デプロイ）。
+
+#### インストール手順
+
+1. Visual C++ Redistributable をインストールする：
+
+   [Visual C++ 再頒布可能パッケージ](https://aka.ms/vc14/vc_redist.x64.exe) をダウンロードしてインストールします：
+   
+   ```shell
+   wine vc_redist.x64.exe
+   ```
+   
+   ::: tip
+   `DependencySetup_依赖库安装.bat` は winget と Windows の権限昇格機構に依存しているため、Wine では通常正常に動作しません。そのため、ランタイムライブラリは手動でインストールする必要があります。
+   :::
+
+2. Windows 版 MAA をダウンロードし、解凍した後、`wine MAA.exe` を実行します。
+
+::: info 注意
+接続設定で ADB パスを [Windows 版 `adb.exe`](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) に設定する必要があります。
+
+ADB 経由で USB デバイスに接続する必要がある場合は、まず Wine の外で `adb start-server` を実行し、Wine を通じてネイティブ ADB サーバーに接続してください。
 :::
 
-- Arch Linuxシリーズのリリース版は、aur パッケージ [maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)を選択する使用し、インストール後のプロンプトに従ってファイルを編集することができる
+#### Linux ネイティブ MaaCore の使用（実験的機能）
 
-### 2. `adb` 構成
+[MAA Wine Bridge](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/MaaWineBridge) のソースコードをダウンロードしてビルドし、生成された `MaaCore.dll`（ELF ファイル）で Windows 版を置き換え、Linux ネイティブ動的ライブラリ（`libMaaCore.so` および依存関係）を同じディレクトリに配置します。
+
+この状態で Wine を通じて `MAA.exe` を実行すると、Linux ネイティブ動的ライブラリが読み込まれます。
+
+::: info 注意
+Linux ネイティブ MaaCore を使用する場合は、接続設定で ADB パスを Linux ネイティブ ADB に設定する必要があります。
+:::
+
+#### Linux デスクトップ統合（実験的機能）
+
+デスクトップ統合は、ネイティブデスクトップ通知サポートと fontconfig フォント設定を WPF にマッピングする機能を提供します。
+
+MAA Wine Bridge で生成された `MaaDesktopIntegration.so` を `MAA.exe` と同じディレクトリに配置すると有効になります。
+
+#### 既知の問題
+
+- Wine DirectWrite は強制的にヒンティングを有効にし、DPI を FreeType に渡さないため、フォント表示が良くありません。
+- ネイティブデスクトップ通知を使用しない場合、通知がポップアップするとシステム全体のマウスフォーカスを奪うため、他のウィンドウを操作できなくなります。`winecfg` で仮想デスクトップモードを有効にするか、デスクトップ通知を無効にすることで緩和できます。
+- Wine-staging ユーザーは、MAA が Wine 環境を正しく検出できるように、`winecfg` の `Wine バージョンを隠す` オプションを無効にする必要があります。
+- Wine の Light テーマは WPF で一部のテキストカラーに異常を引き起こすため、`winecfg` でテーマなし（Windows クラシックテーマ）に切り替えることをお勧めします。
+- Wine は古い XEmbed トレイアイコンを使用しており、GNOME では正常に動作しない可能性があります。
+- Linux ネイティブ MaaCore を使用している場合、自動更新はサポートされていません（~~更新プログラム：Windows 版をダウンロードすべきでしょうか~~）
+
+### Python を使用する
+
+#### MAA 動的ライブラリのインストール
+
+1. Linux ダイナミック ライブラリを [MAA ウェブサイト](https://maa.plus/) からダウンロードし、解凍します、または以下のソフトウェアリポジトリからインストールします：
+   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)、インストール後のプロンプトに従ってファイルを編集します
+   - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+
+2. `./MAA-v{バージョン}-linux-{アアーキテクチャ}/Python/` ディレクトリに移動し、`sample.py` ファイルを開きます
+
+::: tip
+プリコンパイル済みバージョンには、比較的新しいLinuxディストリビューション(Ubuntu 22.04)でコンパイルされた動的ライブラリが含まれており、システムに古いバージョンのlibstdc++がある場合、ABIの非互換性に遭遇する可能性があります。
+[Linuxコンパイル・チュートリアル](../../develop/linux-tutorial.md) を参照して再コンパイルまたはコンテナを使用して実行できます。
+:::
+
+#### ADB 構成
 
 1. [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L48) セクションを見つける
 
@@ -50,9 +109,9 @@ icon: teenyicons:linux-alt-solid
 
 4. この時点で、 `$ python3 sample.py` をテストでき、 `接続成功` が返されれば、基本的に成功です
 
-### 3. タスク構成
+#### タスク構成
 
-カストムタスク： 必要に応じて [統合ドキュメント](../../protocol/integration.md) を参照し、 `sample.py` の [`# タスクとパラメーターについては 統合ドキュメント`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 欄を変更する
+カスタムタスク：必要に応じて [統合ドキュメント](../../protocol/integration.md) を参照し、`sample.py` の [`# タスクとパラメーターについては docs/integration.md 参照`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 欄を変更します
 
 ## エミュレータのサポート
 
