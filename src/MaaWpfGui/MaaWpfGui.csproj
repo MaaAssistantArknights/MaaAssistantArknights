@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- Project -->
   <PropertyGroup>
@@ -24,6 +24,7 @@
     <PublishTrimmed>false</PublishTrimmed>
     <SelfContained Condition="'$(RuntimeIdentifier)' != ''">true</SelfContained>
     <BeautyLibsDir>./externals</BeautyLibsDir>
+    <BeautyUsePatch>True</BeautyUsePatch>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <PostBuildEvent>

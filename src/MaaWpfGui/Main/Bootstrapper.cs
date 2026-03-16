@@ -81,6 +81,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             // 因为经常有人把 MAA 和别的东西解压到一起然后发生 DLL 劫持然后报错，遂检测
             var maaDlls = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
+                "hostfxr.dll",
+                "hostpolicy.dll",
                 "libloader.dll",
                 "DirectML.dll",
                 "fastdeploy_ppocr.dll",
