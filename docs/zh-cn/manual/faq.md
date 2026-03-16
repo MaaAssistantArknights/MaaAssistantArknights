@@ -12,16 +12,17 @@ icon: ph:question-fill
 若 MAA 在某次更新后无法运行，或者单纯是从 MAA 的报错窗口来到这的，那八成是由于运行库未更新导致的问题。  
 出现次数最多的问题都是运行库问题，而总是有人看不到文档到处问，所以我们把置顶换成了这个。很气。
 
+MAA 已采用自包含部署方式，内置了 .NET 运行时，但仍需要 Visual C++ 运行库。
+
 请运行 MAA 目录下的 `DependencySetup_依赖库安装.bat`，或在终端中运行以下命令，
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
 
-或手动下载并安装以下<u>**两个**</u>运行库来解决问题。
+或手动下载并安装以下运行库来解决问题。
 
 - [Visual C++ 可再发行程序包](https://aka.ms/vc14/vc_redist.x64.exe)
-- [.NET 桌面运行时 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 
@@ -51,7 +52,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 #### Windows 7 / 8 / 8.1
 
-.NET 10 不支持 Windows 7 / 8 / 8.1 系统<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同样不再支持。
+由于 MAA 依赖的运行库和系统组件要求 Windows 10 及以上版本，MAA 不再支持 Windows 7 / 8 / 8.1 系统。
 
 ## 连接错误
 

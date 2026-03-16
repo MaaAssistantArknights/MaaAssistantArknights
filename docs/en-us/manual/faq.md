@@ -12,16 +12,17 @@ If this is your first time using MAA, please read [Getting Started](./newbie.md)
 If MAA fails to run after an update, or if you've arrived here from MAA's error window, it's most likely due to outdated runtime libraries.  
 The most common issue is related to runtime libraries, and many people keep asking about it without reading the documentation, so we changed the pinned message to this. It's frustrating.
 
+MAA now uses self-contained deployment with the .NET runtime included, but still requires Visual C++ runtime libraries.
+
 Please run `DependencySetup_依赖库安装.bat` in the MAA directory, or execute the following command in terminal:
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
 
-Or manually download and install these <u>**two**</u> runtime libraries to solve the problem:
+Or manually download and install this runtime library to solve the problem:
 
 - [Visual C++ Redistributable](https://aka.ms/vc14/vc_redist.x64.exe)
-- [.NET Desktop Runtime 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 
@@ -51,7 +52,7 @@ For Windows N/KN (European/Korean versions), you also need to install the [Media
 
 #### Windows 7/8/8.1
 
-.NET 10 doesn't support Windows 7/8/8.1 systems<sup>[source](https://github.com/dotnet/core/issues/7556)</sup>, so MAA no longer supports them either.
+Due to runtime libraries and system components requiring Windows 10 or above, MAA no longer supports Windows 7/8/8.1 systems.
 
 ## Connection errors
 

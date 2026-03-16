@@ -15,13 +15,11 @@ Choose one of the following installation methods:
 
 ### Using Wine
 
-The MAA WPF GUI can currently be run through Wine.
+The MAA WPF GUI can currently be run through Wine. MAA now uses self-contained deployment with the .NET runtime included.
 
 #### Installation Steps
 
-1. Go to the [.NET download page](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) and download/install the Windows version of .NET **Desktop** Runtime.
-
-2. Download the Windows version of MAA, extract it, and run `wine MAA.exe`.
+1. Download the Windows version of MAA, extract it, and run `wine MAA.exe`.
 
 ::: info Note
 You need to set the ADB path to the [Windows version of `adb.exe`](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) in the connection settings.

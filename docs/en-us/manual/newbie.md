@@ -25,7 +25,7 @@ Quick start guide!
 
 4. Install runtime libraries
 
-   MAA requires VCRedist x64 and .NET 10. Please run `DependencySetup_依赖库安装.bat` in the MAA directory to install them.
+   MAA now includes the .NET runtime (self-contained deployment), but still requires VCRedist x64. Please run `DependencySetup_依赖库安装.bat` in the MAA directory to install it.
 
    For more information, please refer to the pinned section in [FAQ](./faq.md).
 

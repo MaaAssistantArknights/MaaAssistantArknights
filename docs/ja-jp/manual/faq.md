@@ -12,16 +12,17 @@ icon: ph:question-fill
 MAAがアップデート後に動作しなくなった場合、またはエラーメッセージウィンドウを経由してここにたどり着いた場合、それは大体ランタイムが更新されていないことが原因です。  
 最も多い問題はランタイム関連であり、それにもかかわらず多くの人がドキュメントを読まずに質問するため、トップメッセージをこれに変更しました。とてもイライラします。
 
+MAAは.NETランタイムを内蔵しています（自己完結型デプロイ）が、Visual C++ランタイムが必要です。
+
 MAAディレクトリ内の `DependencySetup_依赖库安装.bat` を実行するか、以下のコマンドを端末で実行するか、
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
 
-以下の<u>**2つ**</u>のランタイムライブラリを手動でダウンロードしてインストールして問題を解決してください。
+以下のランタイムライブラリを手動でダウンロードしてインストールして問題を解決してください。
 
 - [Visual C++ 再頒布可能パッケージ](https://aka.ms/vc14/vc_redist.x64.exe)
-- [.NET デスクトップランタイム 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 
@@ -51,7 +52,7 @@ Windows N/KN（ヨーロッパ/韓国）の場合、[メディア機能パック
 
 #### Windows 7 / 8 / 8.1 関連
 
-.NET 10 は Windows 7 / 8 / 8.1 システムをサポートしていないため<sup>[ソース](https://github.com/dotnet/core/issues/7556)</sup>、MAA も同様にサポートしていません。
+MAA が依存するランタイムライブラリとシステムコンポーネントは Windows 10 以上が必要なため、MAA は Windows 7 / 8 / 8.1 システムをサポートしていません。
 
 #### 公式統合パック（確信）
 
