@@ -70,7 +70,7 @@ MAA GUI **暂未支持** Linux 和其他操作系统。你可以使用 **maa-cli
 
 1.请不要将 MAA 解压到如 `C:\`、`C:\Program Files\` 等需要 UAC 权限的路径。
 
-2.MAA 已内置 .NET 运行时（自包含部署），但仍需要 Visual C++ Redistributable x64（VCRedist x64）。请在解压后的 MAA 目录中以管理员身份运行 `DependencySetup_依赖库安装.bat` 来安装这些依赖。安装完成后再运行 `MAA.exe`。
+2.MAA 已内置 .NET 运行时（自包含部署），但仍需要 Visual C++ Redistributable x64（VCRedist x64）。请在解压后的 MAA 目录中以管理员身份运行 `DependencySetup_依赖库安装.bat` 来安装该依赖。安装完成后再运行 `MAA.exe`。
 
 更多信息请参考[常见问题](./faq.md)置顶。
 
