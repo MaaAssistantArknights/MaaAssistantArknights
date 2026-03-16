@@ -82,6 +82,18 @@ Matcher::ResultOpt Matcher::analyze() const
 std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image, const MatcherConfig::Params& params)
 {
     std::vector<Matcher::RawResult> results;
+
+    // Image-side color conversions: compute once, reuse across all templates
+    cv::Mat image_match;
+    cv::cvtColor(image, image_match, cv::COLOR_BGR2RGB);
+
+    cv::Mat image_gray;
+    if (!params.mask_ranges.empty() || !params.color_scales.empty()) {
+        cv::cvtColor(image, image_gray, cv::COLOR_BGR2GRAY);
+    }
+
+    cv::Mat image_hsv;
+
     for (size_t i = 0; i != params.templs.size(); ++i) {
         const auto& ptempl = params.templs[i];
         auto method = MatchMethod::Ccoeff;
@@ -134,14 +146,18 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         }
 
         cv::Mat matched;
-        cv::Mat image_match, image_count, image_gray;
         cv::Mat templ_match, templ_count, templ_gray;
-        cv::cvtColor(image, image_match, cv::COLOR_BGR2RGB);
         cv::cvtColor(templ, templ_match, cv::COLOR_BGR2RGB);
-        cv::cvtColor(image, image_gray, cv::COLOR_BGR2GRAY);
-        cv::cvtColor(templ, templ_gray, cv::COLOR_BGR2GRAY);
+        if (!image_gray.empty()) {
+            cv::cvtColor(templ, templ_gray, cv::COLOR_BGR2GRAY);
+        }
+
+        cv::Mat image_count;
         if (method == MatchMethod::HSVCount) {
-            cv::cvtColor(image, image_count, cv::COLOR_BGR2HSV);
+            if (image_hsv.empty()) {
+                cv::cvtColor(image, image_hsv, cv::COLOR_BGR2HSV);
+            }
+            image_count = image_hsv;
             cv::cvtColor(templ, templ_count, cv::COLOR_BGR2HSV);
         }
         else if (method == MatchMethod::RGBCount) {
