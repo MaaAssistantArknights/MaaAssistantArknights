@@ -1838,9 +1838,16 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="BadModules.ResetSuccess">ハードウェアレンダリングモードに戻しました。変更を適用するには MAA を再起動する必要があります。今すぐ再起動しますか？</system:String>
     <!--  !BadModules  -->
 
-    <!--  EmulatorPathSelection  -->
+    <!--  ItemSelection  -->
+    <system:String x:Key="SelectItem">項目を選択</system:String>
     <system:String x:Key="SelectEmulatorPath">エミュレータのパスを選択</system:String>
+    <system:String x:Key="SelectEmulator">エミュレータを選択</system:String>
+    <system:String x:Key="SelectConnectionAddress">接続アドレスを選択</system:String>
     <system:String x:Key="MultipleEmulatorsDetected">複数のエミュレータのインストールパスが検出されました。使用するパスを選択してください：</system:String>
+    <system:String x:Key="MultipleEmulatorsDetectedForConnection">複数のエミュレータが検出されました。接続するエミュレータを選択してください：</system:String>
+    <system:String x:Key="MultipleAddressesDetected">複数の接続アドレスが検出されました。使用するアドレスを選択してください：</system:String>
     <system:String x:Key="PleaseSelectPath">パスを選択してください</system:String>
-    <!--  !EmulatorPathSelection  -->
+    <system:String x:Key="PleaseSelectItem">項目を選択してください</system:String>
+    <system:String x:Key="EmulatorSelectionCancelled">エミュレータの選択がキャンセルされました</system:String>
+    <!--  !ItemSelection  -->
 </ResourceDictionary>

@@ -1838,9 +1838,16 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="BadModules.ResetSuccess">已重置为硬件渲染模式。需要重启 MAA 后生效。是否立即重启？</system:String>
     <!--  !BadModules  -->
 
-    <!--  EmulatorPathSelection  -->
+    <!--  ItemSelection  -->
+    <system:String x:Key="SelectItem">选择项目</system:String>
     <system:String x:Key="SelectEmulatorPath">选择模拟器路径</system:String>
+    <system:String x:Key="SelectEmulator">选择模拟器</system:String>
+    <system:String x:Key="SelectConnectionAddress">选择连接地址</system:String>
     <system:String x:Key="MultipleEmulatorsDetected">检测到多个模拟器安装路径，请选择您要使用的路径：</system:String>
+    <system:String x:Key="MultipleEmulatorsDetectedForConnection">检测到多个模拟器，请选择您要连接的模拟器：</system:String>
+    <system:String x:Key="MultipleAddressesDetected">检测到多个连接地址，请选择您要使用的地址：</system:String>
     <system:String x:Key="PleaseSelectPath">请选择一个路径</system:String>
-    <!--  !EmulatorPathSelection  -->
+    <system:String x:Key="PleaseSelectItem">请选择一项</system:String>
+    <system:String x:Key="EmulatorSelectionCancelled">已取消选择模拟器</system:String>
+    <!--  !ItemSelection  -->
 </ResourceDictionary>

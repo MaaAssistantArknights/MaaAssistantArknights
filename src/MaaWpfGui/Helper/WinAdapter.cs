@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,6 +28,17 @@ namespace MaaWpfGui.Helper;
 public class WinAdapter
 {
     private static readonly ILogger _logger = Log.ForContext<WinAdapter>();
+
+    public sealed class DetectedEmulatorInfo(string emulatorName, string? adbPath)
+    {
+        public string EmulatorName { get; } = emulatorName;
+
+        public string? AdbPath { get; } = adbPath;
+
+        public string SelectionDisplayText => string.IsNullOrEmpty(AdbPath)
+            ? EmulatorName
+            : $"{EmulatorName} ({AdbPath})";
+    }
 
     private static readonly Dictionary<string, string> _emulatorIdDict = new()
     {
@@ -59,16 +72,15 @@ public class WinAdapter
         { "XYAZ", [@".\adb.exe"] },
     };
 
-    private readonly Dictionary<string, string> _adbAbsolutePathDict = new();
-
     /// <summary>
     /// Refreshes emulator information.
     /// </summary>
-    /// <returns>The list of emulators.</returns>
-    public List<string> RefreshEmulatorsInfo()
+    /// <returns>The detected emulator infos.</returns>
+    public List<DetectedEmulatorInfo> RefreshEmulatorsInfo()
     {
         var allProcess = Process.GetProcesses();
-        var emulators = new List<string>();
+        var emulators = new List<DetectedEmulatorInfo>();
+        var detectedEmulators = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var process in allProcess)
         {
             if (!_emulatorIdDict.TryGetValue(process.ProcessName, out var emulatorId))
@@ -76,13 +88,11 @@ public class WinAdapter
                 continue;
             }
 
-            emulators.Add(emulatorId);
-            var processPath = process.MainModule?.FileName;
-            foreach (string adbPath in _adbRelativePathDict[emulatorId]
-                         .Select(path => Path.GetDirectoryName(processPath) + "\\" + path)
-                         .Where(File.Exists))
+            var adbPath = GetAdbPathByProcessPath(process.MainModule?.FileName, emulatorId);
+            var detectionKey = $"{emulatorId}\n{adbPath}";
+            if (detectedEmulators.Add(detectionKey))
             {
-                _adbAbsolutePathDict[emulatorId] = adbPath;
+                emulators.Add(new DetectedEmulatorInfo(emulatorId, adbPath));
             }
         }
 
@@ -90,13 +100,22 @@ public class WinAdapter
     }
 
     /// <summary>
-    /// Gets ADB path by emulator name.
+    /// Gets the preferred ADB path for a process.
     /// </summary>
+    /// <param name="processPath">The emulator executable path.</param>
     /// <param name="emulatorName">The name of the emulator.</param>
     /// <returns>The ADB path of the emulator.</returns>
-    public string GetAdbPathByEmulatorName(string emulatorName)
+    private static string? GetAdbPathByProcessPath(string? processPath, string emulatorName)
     {
-        return _adbAbsolutePathDict.GetValueOrDefault(emulatorName);
+        var processDirectory = Path.GetDirectoryName(processPath);
+        if (string.IsNullOrEmpty(processDirectory))
+        {
+            return null;
+        }
+
+        return _adbRelativePathDict[emulatorName]
+            .Select(path => Path.GetFullPath(Path.Combine(processDirectory, path)))
+            .FirstOrDefault(File.Exists);
     }
 
     /// <summary>

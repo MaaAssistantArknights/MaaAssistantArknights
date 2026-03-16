@@ -1,4 +1,4 @@
-// <copyright file="EmulatorPathSelectionDialogView.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="ItemSelectionDialogView.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -20,28 +20,30 @@ using MaaWpfGui.ViewModels.Dialogs;
 namespace MaaWpfGui.Views.Dialogs;
 
 /// <summary>
-/// EmulatorPathSelectionDialogView.xaml 的交互逻辑
+/// ItemSelectionDialogView.xaml 的交互逻辑
 /// </summary>
-public partial class EmulatorPathSelectionDialogView
+public partial class ItemSelectionDialogView
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="EmulatorPathSelectionDialogView"/> class.
+    /// Initializes a new instance of the <see cref="ItemSelectionDialogView"/> class.
     /// </summary>
-    /// <param name="paths">可选路径列表</param>
-    public EmulatorPathSelectionDialogView(List<string> paths)
+    /// <param name="items">可选项列表</param>
+    /// <param name="windowTitle">窗口标题（可选）</param>
+    /// <param name="promptMessage">提示信息（可选）</param>
+    public ItemSelectionDialogView(List<string> items, string? windowTitle = null, string? promptMessage = null)
     {
         InitializeComponent();
-        DataContext = new EmulatorPathSelectionDialogViewModel(paths);
+        DataContext = new ItemSelectionDialogViewModel(items, windowTitle, promptMessage);
     }
 
     /// <summary>
-    /// Gets the selected path.
+    /// Gets the selected item.
     /// </summary>
-    public string? SelectedPath => (DataContext as EmulatorPathSelectionDialogViewModel)?.SelectedPath;
+    public string? SelectedItem => (DataContext as ItemSelectionDialogViewModel)?.SelectedItem;
 
     private void OnConfirmClick(object sender, RoutedEventArgs e)
     {
-        if (!string.IsNullOrEmpty(SelectedPath))
+        if (!string.IsNullOrEmpty(SelectedItem))
         {
             DialogResult = true;
             Close();
@@ -49,7 +51,7 @@ public partial class EmulatorPathSelectionDialogView
         else
         {
             MessageBox.Show(
-                Helper.LocalizationHelper.GetString("PleaseSelectPath"),
+                Helper.LocalizationHelper.GetString("PleaseSelectItem"),
                 Helper.LocalizationHelper.GetString("Tip"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);

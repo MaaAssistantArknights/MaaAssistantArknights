@@ -1839,9 +1839,16 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="BadModules.ResetSuccess">하드웨어 렌더링 모드로 복원되었습니다. 변경 사항을 적용하려면 MAA를 다시 시작해야 합니다. 지금 다시 시작하시겠습니까?</system:String>
     <!--  !BadModules  -->
 
-    <!--  EmulatorPathSelection  -->
+    <!--  ItemSelection  -->
+    <system:String x:Key="SelectItem">항목 선택</system:String>
     <system:String x:Key="SelectEmulatorPath">에뮬레이터 경로 선택</system:String>
+    <system:String x:Key="SelectEmulator">에뮬레이터 선택</system:String>
+    <system:String x:Key="SelectConnectionAddress">연결 주소 선택</system:String>
     <system:String x:Key="MultipleEmulatorsDetected">여러 에뮬레이터 설치 경로가 감지되었습니다. 사용할 경로를 선택하세요:</system:String>
+    <system:String x:Key="MultipleEmulatorsDetectedForConnection">여러 에뮬레이터가 감지되었습니다. 연결할 에뮬레이터를 선택하세요:</system:String>
+    <system:String x:Key="MultipleAddressesDetected">여러 연결 주소가 감지되었습니다. 사용할 주소를 선택하세요:</system:String>
     <system:String x:Key="PleaseSelectPath">경로를 선택하세요</system:String>
-    <!--  !EmulatorPathSelection  -->
+    <system:String x:Key="PleaseSelectItem">항목을 선택하세요</system:String>
+    <system:String x:Key="EmulatorSelectionCancelled">에뮬레이터 선택이 취소되었습니다</system:String>
+    <!--  !ItemSelection  -->
 </ResourceDictionary>

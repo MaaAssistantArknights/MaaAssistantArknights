@@ -1837,9 +1837,16 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="BadModules.ResetSuccess">Hardware rendering mode has been restored. Restart MAA to apply changes. Restart now?</system:String>
     <!--  !BadModules  -->
 
-    <!--  EmulatorPathSelection  -->
+    <!--  ItemSelection  -->
+    <system:String x:Key="SelectItem">Select Item</system:String>
     <system:String x:Key="SelectEmulatorPath">Select Emulator Path</system:String>
+    <system:String x:Key="SelectEmulator">Select Emulator</system:String>
+    <system:String x:Key="SelectConnectionAddress">Select Connection Address</system:String>
     <system:String x:Key="MultipleEmulatorsDetected">Multiple emulator installation paths detected, please select the path you want to use:</system:String>
+    <system:String x:Key="MultipleEmulatorsDetectedForConnection">Multiple emulators detected, please select the emulator you want to connect to:</system:String>
+    <system:String x:Key="MultipleAddressesDetected">Multiple connection addresses detected, please select the address you want to use:</system:String>
     <system:String x:Key="PleaseSelectPath">Please select a path</system:String>
-    <!--  !EmulatorPathSelection  -->
+    <system:String x:Key="PleaseSelectItem">Please select an item</system:String>
+    <system:String x:Key="EmulatorSelectionCancelled">Emulator selection cancelled</system:String>
+    <!--  !ItemSelection  -->
 </ResourceDictionary>

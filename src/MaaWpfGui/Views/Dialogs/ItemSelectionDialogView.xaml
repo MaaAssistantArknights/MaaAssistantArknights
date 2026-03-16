@@ -1,9 +1,9 @@
 <hc:Window
-    x:Class="MaaWpfGui.Views.Dialogs.EmulatorPathSelectionDialogView"
+    x:Class="MaaWpfGui.Views.Dialogs.ItemSelectionDialogView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    Title="{DynamicResource SelectEmulatorPath}"
+    Title="{Binding WindowTitle}"
     Width="600"
     Height="400"
     Background="{DynamicResource RegionBrush}"
@@ -20,14 +20,14 @@
             Grid.Row="0"
             Margin="0,0,0,15"
             FontSize="14"
-            Text="{DynamicResource MultipleEmulatorsDetected}"
+            Text="{Binding PromptMessage}"
             TextWrapping="Wrap" />
 
         <ListBox
             Grid.Row="1"
             Margin="0,0,0,15"
-            ItemsSource="{Binding Paths}"
-            SelectedItem="{Binding SelectedPath}">
+            ItemsSource="{Binding Items}"
+            SelectedItem="{Binding SelectedItem}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" TextWrapping="Wrap" />

@@ -355,13 +355,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     return;
                 }
 
-                // 多个路径，弹出选择框
-                var selectionWindow = new Views.Dialogs.EmulatorPathSelectionDialogView(detectedPaths) {
-                    Owner = Application.Current.MainWindow,
-                };
-                if (selectionWindow.ShowDialog() == true && !string.IsNullOrEmpty(selectionWindow.SelectedPath))
+                var selectedPath = ShowItemSelectionDialog(
+                    detectedPaths,
+                    LocalizationHelper.GetString("SelectEmulatorPath"),
+                    LocalizationHelper.GetString("MultipleEmulatorsDetected"));
+                if (!string.IsNullOrEmpty(selectedPath))
                 {
-                    EmulatorPath = selectionWindow.SelectedPath;
+                    EmulatorPath = selectedPath;
                 }
             }
             catch (Exception e)
@@ -371,7 +371,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             }
         }
 
-        private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, @"C:\Program Files\Netease\MuMuPlayer-12.0");
+        private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, string.Empty);
         private string _emulatorPath = Directory.Exists(_configuredPath) ? _configuredPath : string.Empty;
 
         /// <summary>
@@ -553,11 +553,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     return;
                 }
 
-                // 多个路径，弹出选择框
-                var selectionWindow = new Views.Dialogs.EmulatorPathSelectionDialogView(detectedPaths);
-                if (selectionWindow.ShowDialog() == true && !string.IsNullOrEmpty(selectionWindow.SelectedPath))
+                var selectedPath = ShowItemSelectionDialog(
+                    detectedPaths,
+                    LocalizationHelper.GetString("SelectEmulatorPath"),
+                    LocalizationHelper.GetString("MultipleEmulatorsDetected"));
+                if (!string.IsNullOrEmpty(selectedPath))
                 {
-                    EmulatorPath = selectionWindow.SelectedPath;
+                    EmulatorPath = selectedPath;
                 }
             }
             catch (Exception e)
@@ -567,7 +569,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             }
         }
 
-        private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerEmulatorPath, @"C:\leidian\LDPlayer9");
+        private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerEmulatorPath, string.Empty);
         private string _emulatorPath = Directory.Exists(_configuredPath) ? _configuredPath : string.Empty;
 
         /// <summary>
@@ -841,6 +843,31 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     private const string BluestacksNxtValueName = "UserDefinedDir";
 
+    private static string? ShowItemSelectionDialog(List<string> items, string windowTitle, string promptMessage)
+    {
+        string? ShowDialogCore()
+        {
+            var selectionWindow = new Views.Dialogs.ItemSelectionDialogView(items, windowTitle, promptMessage)
+            {
+                Owner = Application.Current.MainWindow,
+            };
+
+            return selectionWindow.ShowDialog() == true && !string.IsNullOrEmpty(selectionWindow.SelectedItem)
+                ? selectionWindow.SelectedItem
+                : null;
+        }
+
+        var application = Application.Current;
+        if (application?.Dispatcher == null)
+        {
+            return null;
+        }
+
+        return application.Dispatcher.CheckAccess()
+            ? ShowDialogCore()
+            : application.Dispatcher.Invoke(ShowDialogCore);
+    }
+
     /// <summary>
     /// Refreshes ADB config.
     /// </summary>
@@ -849,7 +876,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool DetectAdbConfig(ref string error)
     {
         var adapter = new WinAdapter();
-        List<string> emulators;
+        List<WinAdapter.DetectedEmulatorInfo> emulators;
+        WinAdapter.DetectedEmulatorInfo? selectedEmulator = null;
         try
         {
             emulators = adapter.RefreshEmulatorsInfo();
@@ -868,12 +896,30 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 return false;
 
             case > 1:
-                error = LocalizationHelper.GetString("EmulatorTooMany");
+                {
+                    var selectedEmulatorDisplayText = ShowItemSelectionDialog(
+                        [.. emulators.Select(emulator => emulator.SelectionDisplayText)],
+                        LocalizationHelper.GetString("SelectEmulator"),
+                        LocalizationHelper.GetString("MultipleEmulatorsDetectedForConnection"));
+
+                    if (string.IsNullOrEmpty(selectedEmulatorDisplayText))
+                    {
+                        error = LocalizationHelper.GetString("EmulatorSelectionCancelled");
+                        return false;
+                    }
+
+                    selectedEmulator = emulators.First(emulator => emulator.SelectionDisplayText == selectedEmulatorDisplayText);
+                    ConnectConfig = selectedEmulator.EmulatorName;
+                    break;
+                }
+
+            default:
+                selectedEmulator = emulators.First();
+                ConnectConfig = selectedEmulator.EmulatorName;
                 break;
         }
 
-        ConnectConfig = emulators.First();
-        AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
+        AdbPath = selectedEmulator?.AdbPath ?? AdbPath;
         if (string.IsNullOrEmpty(AdbPath))
         {
             error = LocalizationHelper.GetString("AdbException");
@@ -894,10 +940,31 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
             case > 1:
                 {
-                    foreach (var address in addresses.Where(address => address != "emulator-5554" && address != "1234567890ABCDEF"))
+                    // 过滤掉默认地址
+                    var filteredAddresses = addresses
+                        .Where(address => address != "1234567890ABCDEF")
+                        .ToList();
+
+                    if (filteredAddresses.Count == 1)
                     {
-                        ConnectAddress = address;
-                        break;
+                        ConnectAddress = filteredAddresses.First();
+                    }
+                    else if (filteredAddresses.Count > 1)
+                    {
+                        var selectedAddress = ShowItemSelectionDialog(
+                            filteredAddresses,
+                            LocalizationHelper.GetString("SelectConnectionAddress"),
+                            LocalizationHelper.GetString("MultipleAddressesDetected"));
+
+                        if (!string.IsNullOrEmpty(selectedAddress))
+                        {
+                            ConnectAddress = selectedAddress;
+                        }
+                        else
+                        {
+                            error = LocalizationHelper.GetString("EmulatorSelectionCancelled");
+                            return false;
+                        }
                     }
 
                     break;
