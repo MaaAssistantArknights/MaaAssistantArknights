@@ -1,6 +1,5 @@
 #include "MaaFwAdbController.h"
 
-#include <fastdeploy/vision/ocr/ppocr/utils/clipper.h>
 #include <thread>
 
 #include "Common/AsstMsg.h"
@@ -132,6 +131,8 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
 
     if (!m_unit_handle->request_uuid(m_uuid)) {
         LogWarn << "Failed to get UUID from MaaFwAdbControlUnit";
+        m_destroy_func(m_unit_handle);
+        m_unit_handle = nullptr;
         callback(
             AsstMsg::ConnectionInfo,
             json::object {
@@ -155,6 +156,8 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
     // 尝试进行一次截图以获取屏幕分辨率
     cv::Mat image;
     if (!m_unit_handle->screencap(image) || image.cols == 0 || image.rows == 0) {
+        m_destroy_func(m_unit_handle);
+        m_unit_handle = nullptr;
         callback(
             AsstMsg::ConnectionInfo,
             json::object {
