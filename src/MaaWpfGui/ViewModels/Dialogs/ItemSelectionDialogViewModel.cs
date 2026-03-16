@@ -14,6 +14,7 @@
 #nullable enable
 
 using System.Collections.Generic;
+using System.Linq;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.Dialogs;
@@ -26,17 +27,18 @@ public class ItemSelectionDialogViewModel : PropertyChangedBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ItemSelectionDialogViewModel"/> class.
     /// </summary>
-    /// <param name="items">可选项列表</param>
+    /// <param name="availableItems">可选项</param>
     /// <param name="windowTitle">窗口标题</param>
     /// <param name="promptMessage">提示信息</param>
-    public ItemSelectionDialogViewModel(List<string> items, string? windowTitle = null, string? promptMessage = null)
+    public ItemSelectionDialogViewModel(IEnumerable<string> availableItems, string? windowTitle = null, string? promptMessage = null)
     {
-        Items = items;
+        var itemsList = availableItems.ToList();
+        Items = itemsList;
         WindowTitle = windowTitle ?? Helper.LocalizationHelper.GetString("SelectItem");
         PromptMessage = promptMessage ?? Helper.LocalizationHelper.GetString("PleaseSelectItem");
-        if (items.Count > 0)
+        if (itemsList.Count > 0)
         {
-            SelectedItem = items[0];
+            SelectedItem = itemsList.First();
         }
     }
 

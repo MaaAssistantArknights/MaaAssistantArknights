@@ -843,7 +843,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     private const string BluestacksNxtValueName = "UserDefinedDir";
 
-    private static string? ShowItemSelectionDialog(List<string> items, string windowTitle, string promptMessage)
+    private static string? ShowItemSelectionDialog(IEnumerable<string> items, string windowTitle, string promptMessage)
     {
         string? ShowDialogCore()
         {

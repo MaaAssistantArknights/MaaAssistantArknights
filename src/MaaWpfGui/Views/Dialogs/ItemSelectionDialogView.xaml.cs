@@ -27,13 +27,13 @@ public partial class ItemSelectionDialogView
     /// <summary>
     /// Initializes a new instance of the <see cref="ItemSelectionDialogView"/> class.
     /// </summary>
-    /// <param name="items">可选项列表</param>
+    /// <param name="availableItems">可选项</param>
     /// <param name="windowTitle">窗口标题（可选）</param>
     /// <param name="promptMessage">提示信息（可选）</param>
-    public ItemSelectionDialogView(List<string> items, string? windowTitle = null, string? promptMessage = null)
+    public ItemSelectionDialogView(IEnumerable<string> availableItems, string? windowTitle = null, string? promptMessage = null)
     {
         InitializeComponent();
-        DataContext = new ItemSelectionDialogViewModel(items, windowTitle, promptMessage);
+        DataContext = new ItemSelectionDialogViewModel(availableItems, windowTitle, promptMessage);
     }
 
     /// <summary>
