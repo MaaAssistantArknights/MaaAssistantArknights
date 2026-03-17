@@ -73,4 +73,24 @@ public sealed class RootLocalizationTextMapTests
         Assert.Equal("Right click", map["TaskQueue.Root.RightClick"]);
         Assert.Equal("Task settings", map["TaskQueue.Root.TaskSettings"]);
     }
+
+    [Fact]
+    public void SettingsActionKeys_ShouldMatchWpfBaselineForZhAndEn()
+    {
+        var map = new RootLocalizationTextMap("Root.Localization.Settings");
+
+        map.Language = "zh-cn";
+        Assert.Equal("测试连接", map["Settings.Action.TestRemote"]);
+        Assert.Equal("查看成就", map["Settings.Action.ShowAchievement"]);
+        Assert.Equal("生成日志压缩包", map["Settings.Action.BuildIssueReport"]);
+        Assert.Equal("打开日志文件夹", map["Settings.Action.OpenDebugDirectory"]);
+        Assert.Equal("查看公告", map["Settings.Action.CheckAnnouncement"]);
+
+        map.Language = "en-us";
+        Assert.Equal("Test Connection", map["Settings.Action.TestRemote"]);
+        Assert.Equal("View Achievements", map["Settings.Action.ShowAchievement"]);
+        Assert.Equal("Generate Support Payload", map["Settings.Action.BuildIssueReport"]);
+        Assert.Equal("Open Debug Folder", map["Settings.Action.OpenDebugDirectory"]);
+        Assert.Equal("View Announcement", map["Settings.Action.CheckAnnouncement"]);
+    }
 }

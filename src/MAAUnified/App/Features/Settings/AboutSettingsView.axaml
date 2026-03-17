@@ -1,19 +1,46 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.AboutSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="关于我们" />
-    <WrapPanel Grid.Row="1" ItemWidth="200">
-      <Button Classes="wpf-button wpf-button-secondary" Content="官网" Click="OnOpenOfficialWebsiteClick" />
-      <Button Classes="wpf-button wpf-button-secondary" Content="社区" Click="OnOpenCommunityClick" />
-      <Button Classes="wpf-button wpf-button-secondary" Content="下载页" Click="OnOpenDownloadClick" />
-      <Button Classes="wpf-button wpf-button-secondary" Content="检查公告" Click="OnCheckAnnouncementClick" />
-    </WrapPanel>
-    <TextBlock Grid.Row="2" Classes="long-wrap" Text="{Binding AboutVersionInfo}" />
-    <TextBlock Grid.Row="3" Classes="long-wrap" Text="{Binding AboutStatusMessage}" />
-    <TextBlock Grid.Row="4"
-               Classes="state-error long-wrap"
-               Text="{Binding AboutErrorMessage}"
-               IsVisible="{Binding HasAboutErrorMessage}" />
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.About]}" />
+
+    <Grid Grid.Row="1"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+          ColumnDefinitions="250,250">
+      <StackPanel Grid.Column="0"
+                  Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Small}">
+        <Button Classes="wpf-button wpf-button-secondary"
+                Content="{Binding RootTexts[Settings.Action.OpenOfficial]}"
+                Click="OnOpenOfficialWebsiteClick" />
+        <Button Classes="wpf-button wpf-button-secondary"
+                Content="{Binding RootTexts[Settings.Action.CheckAnnouncement]}"
+                Click="OnCheckAnnouncementClick" />
+      </StackPanel>
+
+      <StackPanel Grid.Column="1"
+                  Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Small}">
+        <Button Classes="wpf-button wpf-button-secondary" Content="社区" Click="OnOpenCommunityClick" />
+        <Button Classes="wpf-button wpf-button-secondary" Content="下载页" Click="OnOpenDownloadClick" />
+      </StackPanel>
+    </Grid>
+
+    <TextBlock Grid.Row="2"
+               MaxWidth="{DynamicResource MAA.Size.Settings.ContentMaxWidth}"
+               Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+               Classes="settings-centered-text"
+               Text="{Binding AboutVersionInfo}" />
+
+    <StackPanel Grid.Row="3"
+                Classes="settings-form settings-form-narrow"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="4">
+      <TextBlock Classes="settings-centered-text" Text="{Binding AboutStatusMessage}" />
+      <TextBlock Classes="state-error settings-centered-text"
+                 Text="{Binding AboutErrorMessage}"
+                 IsVisible="{Binding HasAboutErrorMessage}" />
+    </StackPanel>
   </Grid>
 </UserControl>

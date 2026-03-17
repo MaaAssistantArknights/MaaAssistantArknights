@@ -178,6 +178,9 @@ public sealed class SettingsGuiBackgroundFeatureTests
         Assert.True(vm.HasPendingGuiChanges);
         Assert.Equal(missingPath, vm.BackgroundImagePath);
         Assert.Contains("does not exist", vm.GuiValidationMessage, StringComparison.OrdinalIgnoreCase);
+        Assert.False(vm.HasGuiSectionValidationMessage);
+        Assert.True(vm.HasBackgroundValidationMessage);
+        Assert.Contains("does not exist", vm.BackgroundValidationMessage, StringComparison.OrdinalIgnoreCase);
         Assert.Equal(baselinePath, ReadGlobalString(fixture.Config, ConfigurationKeys.BackgroundImagePath));
     }
 
@@ -202,9 +205,63 @@ public sealed class SettingsGuiBackgroundFeatureTests
         Assert.Equal("Fill", vm.BackgroundStretchMode);
         Assert.Equal(string.Empty, vm.BackgroundImagePath);
         Assert.True(vm.HasGuiValidationMessage);
+        Assert.True(vm.HasGuiSectionValidationMessage);
+        Assert.True(vm.HasBackgroundValidationMessage);
 
         var eventLog = await File.ReadAllTextAsync(fixture.Diagnostics.EventLogPath);
         Assert.Contains("Settings.Gui.Normalize", eventLog, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_AutostartFeedback_RemainsHiddenByDefault()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync(
+            autostartService: new ScriptedAutostartService(initialEnabled: false));
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+
+        await vm.InitializeAsync();
+
+        Assert.False(vm.StartSelf);
+        Assert.False(vm.HasAutostartWarningMessage);
+        Assert.False(vm.HasAutostartErrorMessage);
+    }
+
+    [Fact]
+    public async Task StartSelf_Mismatch_ShowsDelayedWarningAfterOneSecond()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync(
+            autostartService: new ScriptedAutostartService(initialEnabled: false, keepExistingStateOnSet: true));
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        vm.StartSelf = true;
+
+        await Task.Delay(850);
+        Assert.False(vm.HasAutostartWarningMessage);
+        Assert.False(vm.HasAutostartErrorMessage);
+
+        await WaitUntilAsync(() => vm.HasAutostartWarningMessage, timeoutMs: 2500);
+        Assert.True(vm.StartSelf);
+        Assert.Contains("未启用", vm.AutostartWarningMessage, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task StartSelf_SetFailure_ShowsDelayedErrorAfterOneSecond()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync(
+            autostartService: new ScriptedAutostartService(initialEnabled: false, failOnSet: true));
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        vm.StartSelf = true;
+
+        await Task.Delay(850);
+        Assert.False(vm.HasAutostartWarningMessage);
+        Assert.False(vm.HasAutostartErrorMessage);
+
+        await WaitUntilAsync(() => vm.HasAutostartErrorMessage, timeoutMs: 2500);
+        Assert.True(vm.StartSelf);
+        Assert.Contains("set failed", vm.AutostartErrorMessage, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -376,7 +433,8 @@ public sealed class SettingsGuiBackgroundFeatureTests
         public static async Task<RuntimeFixture> CreateAsync(
             string? root = null,
             bool cleanupRoot = true,
-            ITrayService? trayService = null)
+            ITrayService? trayService = null,
+            IAutostartService? autostartService = null)
         {
             root ??= Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(Path.Combine(root, "config"));
@@ -399,7 +457,7 @@ public sealed class SettingsGuiBackgroundFeatureTests
                 TrayService = trayService,
                 NotificationService = new NoOpNotificationService(),
                 HotkeyService = new NoOpGlobalHotkeyService(),
-                AutostartService = new NoOpAutostartService(),
+                AutostartService = autostartService ?? new NoOpAutostartService(),
                 FileDialogService = new NoOpFileDialogService(),
                 OverlayService = new NoOpOverlayCapabilityService(),
                 PostActionExecutorService = new NoOpPostActionExecutorService(),
@@ -453,6 +511,63 @@ public sealed class SettingsGuiBackgroundFeatureTests
             {
                 // ignore cleanup failures in temporary test directories
             }
+        }
+    }
+
+    private sealed class ScriptedAutostartService : IAutostartService
+    {
+        private readonly bool _keepExistingStateOnSet;
+        private readonly bool _failOnSet;
+
+        public ScriptedAutostartService(
+            bool initialEnabled,
+            bool keepExistingStateOnSet = false,
+            bool failOnSet = false)
+        {
+            Enabled = initialEnabled;
+            _keepExistingStateOnSet = keepExistingStateOnSet;
+            _failOnSet = failOnSet;
+        }
+
+        public PlatformCapabilityStatus Capability { get; } = new(
+            Supported: true,
+            Message: "autostart test service",
+            Provider: "test");
+
+        public bool Enabled { get; private set; }
+
+        public Task<PlatformOperationResult<bool>> IsEnabledAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(
+                PlatformOperation.NativeSuccess(
+                    Capability.Provider,
+                    Enabled,
+                    "autostart queried",
+                    "autostart.query"));
+        }
+
+        public Task<PlatformOperationResult> SetEnabledAsync(bool enabled, CancellationToken cancellationToken = default)
+        {
+            if (_failOnSet)
+            {
+                return Task.FromResult(
+                    PlatformOperation.Failed(
+                        Capability.Provider,
+                        "set failed",
+                        PlatformErrorCodes.AutostartSetFailed,
+                        "autostart.set"));
+            }
+
+            if (!_keepExistingStateOnSet)
+            {
+                Enabled = enabled;
+            }
+
+            return Task.FromResult(
+                PlatformOperation.NativeSuccess(
+                    Capability.Provider,
+                    "autostart updated",
+                    "autostart.set"));
         }
     }
 

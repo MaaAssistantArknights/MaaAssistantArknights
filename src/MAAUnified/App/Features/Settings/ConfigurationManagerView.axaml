@@ -2,53 +2,71 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.ConfigurationManagerView">
   <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Margin="4">
-    <TextBlock Classes="section-title" Text="切换配置" />
+    <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.ConfigurationManager]}" />
 
-    <Grid Grid.Row="1" ColumnDefinitions="*" Margin="0,8,0,0">
-      <ComboBox ItemsSource="{Binding ConfigurationProfiles}"
+    <StackPanel Grid.Row="1"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}">
+      <TextBlock Classes="settings-field-caption" Text="配置名称" />
+      <ComboBox Width="{DynamicResource MAA.Size.Settings.ColumnWidth}"
+                ItemsSource="{Binding ConfigurationProfiles}"
                 SelectedItem="{Binding ConfigurationManagerSelectedProfile}"
                 SelectionChanged="OnConfigurationProfileSelectionChanged" />
-    </Grid>
+    </StackPanel>
 
-    <Grid Grid.Row="2" ColumnDefinitions="240,Auto,*" Margin="0,8,0,0">
+    <Grid Grid.Row="2"
+          Width="{DynamicResource MAA.Size.Settings.ColumnWidth}"
+          HorizontalAlignment="Center"
+          ColumnDefinitions="*,Auto"
+          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
       <TextBox Text="{Binding ConfigurationManagerNewProfileName, UpdateSourceTrigger=LostFocus}"
-               Width="220"
-               HorizontalAlignment="Left"
                Watermark="新配置名称" />
       <Button Grid.Column="1"
               Classes="wpf-button wpf-button-secondary"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
               Content="另存为新配置"
               Click="OnCreateProfileClick" />
     </Grid>
 
-    <Grid Grid.Row="3" ColumnDefinitions="Auto,*" Margin="0,8,0,0">
+    <Grid Grid.Row="3"
+          HorizontalAlignment="Center"
+          ColumnDefinitions="Auto,Auto"
+          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
       <Button Classes="wpf-button wpf-button-secondary"
               Content="删除当前配置"
               Click="OnDeleteCurrentProfileClick" />
       <TextBlock Grid.Column="1"
-                 Margin="10,0,0,0"
+                 Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
                  VerticalAlignment="Center"
                  Classes="state-success"
                  Text="已自动保存当前配置" />
     </Grid>
 
-    <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto" Margin="0,8,0,0">
+    <Grid Grid.Row="4"
+          HorizontalAlignment="Center"
+          ColumnDefinitions="Auto,Auto,Auto"
+          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
       <Button Classes="wpf-button wpf-button-secondary"
               Content="导出所有配置"
               Click="OnExportAllProfilesClick" />
       <Button Grid.Column="1"
               Classes="wpf-button wpf-button-secondary"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
               Content="导出当前配置"
               Click="OnExportCurrentProfileClick" />
       <Button Grid.Column="2"
               Classes="wpf-button wpf-button-secondary"
+              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
               Content="导入配置"
               Click="OnImportProfilesClick" />
     </Grid>
 
-    <StackPanel Grid.Row="5" Spacing="4" Margin="0,8,0,0">
-      <TextBlock Text="{Binding ConfigurationManagerStatusMessage}" />
-      <TextBlock Classes="state-error"
+    <StackPanel Grid.Row="5"
+                Classes="settings-form settings-form-narrow"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="4">
+      <TextBlock Classes="settings-centered-text" Text="{Binding ConfigurationManagerStatusMessage}" />
+      <TextBlock Classes="state-error settings-centered-text"
                  Text="{Binding ConfigurationManagerErrorMessage}"
                  IsVisible="{Binding HasConfigurationManagerErrorMessage}" />
     </StackPanel>

@@ -1,28 +1,68 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.IssueReportView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="问题反馈" />
-    <WrapPanel Grid.Row="1" ItemWidth="180">
-      <Button Classes="wpf-button wpf-button-secondary" Content="帮助文档" Click="OnOpenHelpClick" />
-      <Button Classes="wpf-button wpf-button-secondary" Content="Issue 入口" Click="OnOpenIssueEntryClick" />
-      <Button Classes="wpf-button wpf-button-secondary" Content="生成支持包" Click="OnBuildIssueReportClick" />
-      <Button Classes="wpf-button wpf-button-secondary" Content="打开日志窗口" Click="OnOpenRuntimeLogWindowClick" />
-      <Button Classes="wpf-button wpf-button-secondary" Content="打开 debug 目录" Click="OnOpenDebugDirectoryClick" />
-      <Button Classes="wpf-button wpf-button-secondary" Content="清理图像缓存" Click="OnClearImageCacheClick" />
-    </WrapPanel>
-    <CheckBox Grid.Row="2"
-              Content="开发者模式（输出详细日志）"
-              IsChecked="{Binding DeveloperModeEnabled}" />
-    <TextBlock Grid.Row="3"
-               Classes="long-wrap"
-               Text="开启后会记录更详细的 Bridge 初始化/连接诊断日志。建议复现问题前先开启。"
-               />
-    <TextBlock Grid.Row="4" Classes="long-wrap" Text="{Binding IssueReportPath}" />
-    <TextBlock Grid.Row="5" Classes="long-wrap" Text="{Binding IssueReportStatusMessage}" />
-    <TextBlock Grid.Row="6"
-               Classes="state-error long-wrap"
-               Text="{Binding IssueReportErrorMessage}"
-               IsVisible="{Binding HasIssueReportErrorMessage}" />
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.IssueReport]}" />
+
+    <TextBlock Grid.Row="1"
+               MaxWidth="{DynamicResource MAA.Size.Settings.ContentMaxWidth}"
+               Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+               Classes="settings-centered-text"
+               Text="请先升级并测试新版是否仍有此问题，确认非「常见问题」后再进行「问题反馈」。" />
+
+    <Grid Grid.Row="2"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+          ColumnDefinitions="250,250">
+      <StackPanel Grid.Column="0"
+                  Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Small}">
+        <Button Classes="wpf-button wpf-button-secondary" Content="常见问题" Click="OnOpenHelpClick" />
+        <Button Classes="wpf-button wpf-button-secondary" Content="问题反馈" Click="OnOpenIssueEntryClick" />
+      </StackPanel>
+
+      <StackPanel Grid.Column="1"
+                  Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Small}">
+        <Button Classes="wpf-button wpf-button-secondary"
+                Content="{Binding RootTexts[Settings.Action.BuildIssueReport]}"
+                Click="OnBuildIssueReportClick" />
+        <Button Classes="wpf-button wpf-button-secondary" Content="打开日志窗口" Click="OnOpenRuntimeLogWindowClick" />
+        <Button Classes="wpf-button wpf-button-secondary"
+                Content="{Binding RootTexts[Settings.Action.OpenDebugDirectory]}"
+                Click="OnOpenDebugDirectoryClick" />
+        <Button Classes="wpf-button wpf-button-secondary"
+                Content="{Binding RootTexts[Settings.Action.ClearImageCache]}"
+                Click="OnClearImageCacheClick" />
+      </StackPanel>
+    </Grid>
+
+    <StackPanel Grid.Row="3"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="0">
+      <CheckBox HorizontalAlignment="Center"
+                Content="开发者模式（输出详细日志）"
+                IsChecked="{Binding DeveloperModeEnabled}" />
+      <TextBlock MaxWidth="{DynamicResource MAA.Size.Settings.ContentMaxWidth}"
+                 Classes="settings-note settings-centered-text"
+                 Text="开启后会记录更详细的 Bridge 初始化/连接诊断日志。建议复现问题前先开启。" />
+    </StackPanel>
+
+    <TextBlock Grid.Row="4"
+               MaxWidth="{DynamicResource MAA.Size.Settings.ContentMaxWidth}"
+               Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+               Classes="settings-centered-text"
+               Text="{Binding IssueReportPath}" />
+
+    <StackPanel Grid.Row="5"
+                Classes="settings-form settings-form-narrow"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="4">
+      <TextBlock Classes="settings-centered-text" Text="{Binding IssueReportStatusMessage}" />
+      <TextBlock Classes="state-error settings-centered-text"
+                 Text="{Binding IssueReportErrorMessage}"
+                 IsVisible="{Binding HasIssueReportErrorMessage}" />
+    </StackPanel>
   </Grid>
 </UserControl>

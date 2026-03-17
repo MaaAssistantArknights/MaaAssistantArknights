@@ -1,77 +1,102 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.ExternalNotificationSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto">
-    <TextBlock Classes="section-title" Text="外部通知" />
-    <StackPanel Grid.Row="1"
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.ExternalNotification]}" />
+    <TextBlock Grid.Row="1"
+               MaxWidth="{DynamicResource MAA.Size.Settings.ContentMaxWidth}"
+               Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+               Classes="settings-centered-text"
+               Text="请注意：外部通知功能目前仅会发送「所有任务完成」的通知。" />
+
+    <StackPanel Grid.Row="2"
                 Classes="settings-form"
-                Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}">
-      <WrapPanel Classes="settings-wrap"
-                 ItemWidth="{DynamicResource MAA.Size.Settings.WrapItemWidth}">
-        <CheckBox Content="启用外部通知" IsChecked="{Binding ExternalNotificationEnabled}" />
-        <CheckBox Content="任务完成发送"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="{DynamicResource MAA.Spacing.Medium}">
+      <CheckBox HorizontalAlignment="Center"
+                Content="启用外部通知"
+                IsChecked="{Binding ExternalNotificationEnabled}" />
+
+      <Grid HorizontalAlignment="Center"
+            ColumnDefinitions="Auto,Auto"
+            IsEnabled="{Binding CanEditExternalNotification}">
+        <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldCenteredWidth}"
+                  ItemsSource="{Binding AvailableNotificationProviders}"
+                  SelectedItem="{Binding SelectedNotificationProvider}" />
+        <Button Grid.Column="1"
+                Classes="wpf-button wpf-button-secondary"
+                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                Content="测试发送"
+                Click="OnTestSendClick" />
+      </Grid>
+
+      <StackPanel Classes="settings-centered-column"
+                  Spacing="0"
+                  IsEnabled="{Binding CanEditExternalNotification}">
+        <CheckBox Content="任务完成后发送通知"
                   IsChecked="{Binding ExternalNotificationSendWhenComplete}"
                   IsEnabled="{Binding CanEditExternalNotification}" />
-        <CheckBox Content="任务错误发送"
-                  IsChecked="{Binding ExternalNotificationSendWhenError}"
-                  IsEnabled="{Binding CanEditExternalNotification}" />
-        <CheckBox Content="超时发送"
-                  IsChecked="{Binding ExternalNotificationSendWhenTimeout}"
-                  IsEnabled="{Binding CanEditExternalNotification}" />
-        <CheckBox Content="附带详细信息"
+        <CheckBox Margin="{DynamicResource MAA.Thickness.Settings.BranchIndent}"
+                  Content="输出详细信息"
                   IsChecked="{Binding ExternalNotificationEnableDetails}"
                   IsEnabled="{Binding CanEditExternalNotificationDetails}"
                   IsVisible="{Binding ExternalNotificationSendWhenComplete}" />
-      </WrapPanel>
+        <CheckBox Content="任务出错时发送通知"
+                  IsChecked="{Binding ExternalNotificationSendWhenError}"
+                  IsEnabled="{Binding CanEditExternalNotification}" />
+        <CheckBox Content="任务超时时发送通知"
+                  IsChecked="{Binding ExternalNotificationSendWhenTimeout}"
+                  IsEnabled="{Binding CanEditExternalNotification}" />
+      </StackPanel>
 
-      <StackPanel Classes="settings-form"
+      <StackPanel Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Small}"
                   IsEnabled="{Binding CanEditExternalNotification}">
-        <Grid ColumnDefinitions="132,220">
-          <TextBlock Classes="settings-label" Text="Provider" />
-          <ComboBox Grid.Column="1"
-                    ItemsSource="{Binding AvailableNotificationProviders}"
-                    SelectedItem="{Binding SelectedNotificationProvider}" />
-        </Grid>
-
-        <Grid ColumnDefinitions="132,*">
-          <TextBlock Classes="settings-label" Text="参数(key=value)" />
-          <TextBlock Grid.Column="1"
-                     Classes="settings-note"
-                     Text="每行一个参数，示例：server=smtp.example.com" />
-        </Grid>
-
-        <TextBox Height="150"
+        <TextBlock Classes="settings-field-caption" Text="通知 Provider 参数" />
+        <TextBlock Classes="settings-note settings-centered-text"
+                   Text="每行一个参数，格式为 key=value，例如：server=smtp.example.com" />
+        <TextBox Width="{DynamicResource MAA.Size.Settings.FieldPathWideWidth}"
+                 Height="150"
                  AcceptsReturn="True"
                  TextWrapping="Wrap"
                  Text="{Binding NotificationProviderParametersText, UpdateSourceTrigger=LostFocus}" />
-
-        <Grid ColumnDefinitions="132,220,132,*">
-          <TextBlock Classes="settings-label" Text="测试标题" />
-          <TextBox Grid.Column="1" Text="{Binding NotificationTitle, UpdateSourceTrigger=LostFocus}" />
-          <TextBlock Grid.Column="2" Classes="settings-label" Text="测试内容" />
-          <TextBox Grid.Column="3" Text="{Binding NotificationMessage, UpdateSourceTrigger=LostFocus}" />
-        </Grid>
-
-        <StackPanel Orientation="Horizontal" Spacing="8">
-          <Button Classes="wpf-button wpf-button-secondary"
-                  Content="参数校验"
-                  Click="OnValidateProviderClick" />
-          <Button Classes="wpf-button wpf-button-secondary"
-                  Content="测试发送"
-                  Click="OnTestSendClick" />
-        </StackPanel>
       </StackPanel>
 
-      <TextBlock Text="{Binding ExternalNotificationStatusMessage}"
+      <StackPanel Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Small}"
+                  IsEnabled="{Binding CanEditExternalNotification}">
+        <TextBlock Classes="settings-field-caption" Text="测试标题" />
+        <TextBox Width="{DynamicResource MAA.Size.Settings.FieldPathWideWidth}"
+                 Text="{Binding NotificationTitle, UpdateSourceTrigger=LostFocus}" />
+      </StackPanel>
+
+      <StackPanel Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Small}"
+                  IsEnabled="{Binding CanEditExternalNotification}">
+        <TextBlock Classes="settings-field-caption" Text="测试内容" />
+        <TextBox Width="{DynamicResource MAA.Size.Settings.FieldPathWideWidth}"
+                 Text="{Binding NotificationMessage, UpdateSourceTrigger=LostFocus}" />
+      </StackPanel>
+
+      <Button Classes="wpf-button wpf-button-secondary"
+              HorizontalAlignment="Center"
+              Content="校验通知参数"
+              Click="OnValidateProviderClick" />
+    </StackPanel>
+
+    <StackPanel Grid.Row="3"
+                Classes="settings-form settings-form-narrow"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="4">
+      <TextBlock Classes="settings-centered-text"
+                 Text="{Binding ExternalNotificationStatusMessage}"
                  IsVisible="{Binding HasExternalNotificationStatusMessage}" />
-      <StackPanel Spacing="4">
-        <TextBlock Classes="state-warning"
-                   Text="{Binding ExternalNotificationWarningMessage}"
-                   IsVisible="{Binding HasExternalNotificationWarningMessage}" />
-        <TextBlock Classes="state-error"
-                   Text="{Binding ExternalNotificationErrorMessage}"
-                   IsVisible="{Binding HasExternalNotificationErrorMessage}" />
-      </StackPanel>
+      <TextBlock Classes="state-warning settings-centered-text"
+                 Text="{Binding ExternalNotificationWarningMessage}"
+                 IsVisible="{Binding HasExternalNotificationWarningMessage}" />
+      <TextBlock Classes="state-error settings-centered-text"
+                 Text="{Binding ExternalNotificationErrorMessage}"
+                 IsVisible="{Binding HasExternalNotificationErrorMessage}" />
     </StackPanel>
   </Grid>
 </UserControl>

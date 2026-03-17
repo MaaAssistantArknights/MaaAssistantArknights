@@ -1,32 +1,50 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.HotKeySettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="热键设置" />
-    <Grid Grid.Row="1"
-          Classes="settings-form"
-          Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
-          ColumnDefinitions="132,220,132,220,Auto">
-      <TextBlock Classes="settings-label" Text="显示 GUI" />
-      <TextBox Grid.Column="1" Text="{Binding HotkeyShowGui, UpdateSourceTrigger=LostFocus}" />
-      <TextBlock Grid.Column="2" Classes="settings-label" Text="LinkStart" />
-      <TextBox Grid.Column="3" Text="{Binding HotkeyLinkStart, UpdateSourceTrigger=LostFocus}" />
-      <Button Grid.Column="4"
-              Classes="wpf-button wpf-button-secondary"
-              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
-              Content="应用热键"
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.HotKey]}" />
+
+    <StackPanel Grid.Row="1"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+                Spacing="{DynamicResource MAA.Spacing.Small}">
+      <Grid HorizontalAlignment="Center"
+            ColumnDefinitions="Auto,160,Auto">
+        <TextBlock Margin="{DynamicResource MAA.Thickness.Settings.ItemMargin}"
+                   VerticalAlignment="Center"
+                   Text="[热键] 显示/收起 MAA" />
+        <TextBox Grid.Column="1"
+                 Width="160"
+                 VerticalAlignment="Center"
+                 Text="{Binding HotkeyShowGui, UpdateSourceTrigger=LostFocus}" />
+      </Grid>
+
+      <Grid HorizontalAlignment="Center"
+            ColumnDefinitions="Auto,160,Auto">
+        <TextBlock Margin="{DynamicResource MAA.Thickness.Settings.ItemMargin}"
+                   VerticalAlignment="Center"
+                   Text="[热键] Link start/stop" />
+        <TextBox Grid.Column="1"
+                 Width="160"
+                 VerticalAlignment="Center"
+                 Text="{Binding HotkeyLinkStart, UpdateSourceTrigger=LostFocus}" />
+      </Grid>
+
+      <Button Classes="wpf-button wpf-button-secondary"
+              HorizontalAlignment="Center"
+              Content="{Binding RootTexts[Settings.Action.RegisterHotkeys]}"
               Click="OnApplyHotkeysClick" />
-    </Grid>
+    </StackPanel>
+
     <StackPanel Grid.Row="2"
-                Grid.RowSpan="3"
                 Classes="settings-form settings-form-narrow"
                 Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
                 Spacing="4">
-      <TextBlock Text="{Binding HotkeyStatusMessage}" />
-      <TextBlock Classes="state-warning"
+      <TextBlock Classes="settings-centered-text" Text="{Binding HotkeyStatusMessage}" />
+      <TextBlock Classes="state-warning settings-centered-text"
                  Text="{Binding HotkeyWarningMessage}"
                  IsVisible="{Binding HasHotkeyWarningMessage}" />
-      <TextBlock Classes="state-error"
+      <TextBlock Classes="state-error settings-centered-text"
                  Text="{Binding HotkeyErrorMessage}"
                  IsVisible="{Binding HasHotkeyErrorMessage}" />
     </StackPanel>

@@ -5,55 +5,61 @@
              x:Class="MAAUnified.App.Features.Settings.BackgroundSettingsView">
   <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
     <Grid ColumnDefinitions="Auto,*">
-      <TextBlock Classes="section-title" Text="背景设置" />
+      <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.Background]}" />
       <TextBlock Grid.Column="1"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
                  Classes="state-warning"
-                 Text="正在保存..."
+                 Text="{Binding RootTexts[Settings.State.Saving]}"
                  IsVisible="{Binding IsGuiSaveInProgress}" />
       <TextBlock Grid.Column="1"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
                  Classes="state-success"
-                 Text="保存成功"
+                 Text="{Binding RootTexts[Settings.State.Saved]}"
                  IsVisible="{Binding HasGuiSaveSucceeded}" />
     </Grid>
-    <Grid Grid.Row="1"
-          Classes="settings-form"
-          Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
-          ColumnDefinitions="132,*,Auto">
-      <TextBlock Classes="settings-label" Text="背景图路径" />
-      <TextBox Grid.Column="1"
-               Text="{Binding BackgroundImagePath, UpdateSourceTrigger=LostFocus}"
-               LostFocus="OnBackgroundPathLostFocus"
-               KeyDown="OnBackgroundPathKeyDown" />
-      <Button Grid.Column="2"
-              Classes="wpf-button wpf-button-secondary"
-              Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
-              Content="选择" />
-    </Grid>
-    <Grid Grid.Row="2"
-          Classes="settings-form"
-          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
-          ColumnDefinitions="152,120,152,120">
-      <TextBlock Classes="settings-label" Text="透明度(0-100)" />
-      <controls:VerticalSpinNumberBox Grid.Column="1"
+    <StackPanel Grid.Row="1"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}">
+      <TextBlock Classes="settings-field-caption" Text="背景图片" />
+      <Grid Width="{DynamicResource MAA.Size.Settings.FieldPathWidth}"
+            ColumnDefinitions="*,Auto">
+        <TextBox Text="{Binding BackgroundImagePath, UpdateSourceTrigger=LostFocus}"
+                 LostFocus="OnBackgroundPathLostFocus"
+                 KeyDown="OnBackgroundPathKeyDown" />
+        <Button Grid.Column="1"
+                Classes="wpf-button wpf-button-secondary"
+                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                Content="选择" />
+      </Grid>
+    </StackPanel>
+
+    <StackPanel Grid.Row="2"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
+      <TextBlock Classes="settings-field-caption" Text="背景不透明度" />
+      <controls:VerticalSpinNumberBox Width="{DynamicResource MAA.Size.Settings.FieldNarrowWidth}"
                                       Minimum="0"
                                       Maximum="100"
                                       Value="{Binding BackgroundOpacity}" />
-      <TextBlock Grid.Column="2" Classes="settings-label" Text="模糊半径" />
-      <controls:VerticalSpinNumberBox Grid.Column="3"
+    </StackPanel>
+
+    <StackPanel Grid.Row="3"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
+      <TextBlock Classes="settings-field-caption" Text="背景模糊半径" />
+      <controls:VerticalSpinNumberBox Width="{DynamicResource MAA.Size.Settings.FieldNarrowWidth}"
                                       Minimum="0"
                                       Maximum="80"
                                       Value="{Binding BackgroundBlur}" />
-    </Grid>
-    <Grid Grid.Row="3"
-          Classes="settings-form"
-          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
-          ColumnDefinitions="132,220">
-      <TextBlock Classes="settings-label" Text="拉伸模式" />
-      <ComboBox Grid.Column="1"
+    </StackPanel>
+
+    <StackPanel Grid.Row="4"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
+      <TextBlock Classes="settings-field-caption" Text="背景填充模式" />
+      <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldCenteredWidth}"
                 ItemsSource="{Binding BackgroundStretchModes}"
                 SelectedItem="{Binding SelectedBackgroundStretchModeOption}">
         <ComboBox.ItemTemplate>
@@ -62,19 +68,17 @@
           </DataTemplate>
         </ComboBox.ItemTemplate>
       </ComboBox>
-    </Grid>
-    <TextBlock Grid.Row="4"
-               HorizontalAlignment="Center"
-               MaxWidth="{DynamicResource MAA.Size.Settings.FormNarrowMaxWidth}"
-               Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
-               Classes="state-warning long-wrap"
-               Text="{Binding GuiValidationMessage}"
-               IsVisible="{Binding HasGuiValidationMessage}" />
-    <TextBlock Grid.Row="5"
-               HorizontalAlignment="Center"
-               MaxWidth="{DynamicResource MAA.Size.Settings.FormNarrowMaxWidth}"
-               Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
-               Classes="settings-note"
-               Text="背景图与模糊参数与 Windows 保持同名配置键。若路径不存在，将阻断本次 GUI 保存。" />
+    </StackPanel>
+
+    <StackPanel Grid.Row="5"
+                Classes="settings-form settings-form-narrow"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="4">
+      <TextBlock Classes="state-warning settings-centered-text"
+                 Text="{Binding BackgroundValidationMessage}"
+                 IsVisible="{Binding HasBackgroundValidationMessage}" />
+      <TextBlock Classes="settings-note settings-centered-text"
+                 Text="背景图与模糊参数与 Windows 保持同名配置键。若路径不存在，将阻断本次 GUI 保存。" />
+    </StackPanel>
   </Grid>
 </UserControl>

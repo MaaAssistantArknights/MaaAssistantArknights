@@ -3,12 +3,14 @@
              xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.Settings"
              x:Class="MAAUnified.App.Features.Settings.VersionUpdateSettingsView">
   <Grid Margin="4" RowDefinitions="Auto,*">
-    <TextBlock Classes="section-title" Text="更新设置" />
+    <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.VersionUpdate]}" />
 
     <Grid Grid.Row="1"
           Margin="0,8,0,0"
-          ColumnDefinitions="280,*">
-      <StackPanel Grid.Column="0" Spacing="8">
+          ColumnDefinitions="260,*">
+      <StackPanel Grid.Column="0"
+                  Classes="settings-centered-column"
+                  Spacing="8">
         <CheckBox Content="启动时检查更新"
                   IsChecked="{Binding VersionUpdateStartupCheck}"
                   IsEnabled="False" />
@@ -19,33 +21,42 @@
         <CheckBox Content="自动安装更新包"
                   IsChecked="{Binding VersionUpdateAutoInstall}" />
 
-        <TextBlock Margin="0,4,0,0" Text="更新渠道" />
-        <ComboBox ItemsSource="{Binding VersionUpdateVersionTypeOptions}"
-                  SelectedItem="{Binding SelectedVersionUpdateVersionTypeOption}">
-          <ComboBox.ItemTemplate>
-            <DataTemplate x:DataType="vm:DisplayValueOption">
-              <TextBlock Text="{Binding Display}" />
-            </DataTemplate>
-          </ComboBox.ItemTemplate>
-        </ComboBox>
+        <StackPanel Classes="settings-centered-column" Spacing="4">
+          <TextBlock Classes="settings-field-caption" Text="更新渠道" />
+          <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldSlimWidth}"
+                    ItemsSource="{Binding VersionUpdateVersionTypeOptions}"
+                    SelectedItem="{Binding SelectedVersionUpdateVersionTypeOption}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:DisplayValueOption">
+                <TextBlock Text="{Binding Display}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
 
-        <TextBlock Margin="0,4,0,0" Text="更新源" />
-        <ComboBox ItemsSource="{Binding VersionUpdateResourceSourceOptions}"
-                  SelectedItem="{Binding SelectedVersionUpdateResourceSourceOption}">
-          <ComboBox.ItemTemplate>
-            <DataTemplate x:DataType="vm:DisplayValueOption">
-              <TextBlock Text="{Binding Display}" />
-            </DataTemplate>
-          </ComboBox.ItemTemplate>
-        </ComboBox>
+        <StackPanel Classes="settings-centered-column" Spacing="4">
+          <TextBlock Classes="settings-field-caption" Text="更新源" />
+          <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldSlimWidth}"
+                    ItemsSource="{Binding VersionUpdateResourceSourceOptions}"
+                    SelectedItem="{Binding SelectedVersionUpdateResourceSourceOption}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:DisplayValueOption">
+                <TextBlock Text="{Binding Display}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
 
         <CheckBox Content="强制使用 GitHub"
                   IsChecked="{Binding VersionUpdateForceGithubSource}"
                   IsVisible="{Binding IsVersionUpdateGithubSource}" />
 
-        <StackPanel Spacing="4" IsVisible="{Binding IsVersionUpdateMirrorChyanSource}">
-          <TextBlock Text="Mirror酱 CDK" />
-          <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Classes="settings-centered-column"
+                    Spacing="4"
+                    IsVisible="{Binding IsVersionUpdateMirrorChyanSource}">
+          <TextBlock Classes="settings-field-caption" Text="Mirror酱 CDK" />
+          <Grid Width="{DynamicResource MAA.Size.Settings.FieldSlimWidth}"
+                ColumnDefinitions="*,Auto">
             <TextBox Text="{Binding VersionUpdateMirrorChyanCdk, UpdateSourceTrigger=LostFocus}" />
             <Button Grid.Column="1"
                     Classes="wpf-button wpf-button-secondary"
@@ -57,7 +68,8 @@
                      Text="{Binding VersionUpdateMirrorChyanCdkExpiryText}"
                      TextWrapping="Wrap" />
           <Button Classes="wpf-button wpf-button-secondary"
-                  Content="打开 Mirror酱"
+                  HorizontalAlignment="Center"
+                  Content="Mirror酱"
                   Click="OnOpenMirrorChyanClick" />
         </StackPanel>
       </StackPanel>
@@ -143,7 +155,9 @@
                 Content="资源仓库"
                 Click="OnOpenResourceRepositoryClick" />
 
-        <StackPanel Spacing="4" Margin="0,6,0,0">
+        <StackPanel MaxWidth="{DynamicResource MAA.Size.Settings.ContentMaxWidth}"
+                    Spacing="4"
+                    Margin="0,6,0,0">
           <TextBlock Text="{Binding VersionUpdateStatusMessage}" TextWrapping="Wrap" />
           <TextBlock Classes="state-error"
                      Text="{Binding VersionUpdateErrorMessage}"

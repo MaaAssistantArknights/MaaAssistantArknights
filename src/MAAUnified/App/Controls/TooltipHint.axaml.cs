@@ -12,7 +12,7 @@ public partial class TooltipHint : UserControl
         AvaloniaProperty.Register<TooltipHint, string>(nameof(GlyphText), "?");
 
     public static readonly StyledProperty<Thickness> GlyphMarginProperty =
-        AvaloniaProperty.Register<TooltipHint, Thickness>(nameof(GlyphMargin), new Thickness(4, 0, 0, 0));
+        AvaloniaProperty.Register<TooltipHint, Thickness>(nameof(GlyphMargin), new Thickness(0));
 
     public TooltipHint()
     {

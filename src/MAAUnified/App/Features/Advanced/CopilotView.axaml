@@ -117,7 +117,7 @@
                           IsVisible="{Binding ShowFormationGroup}">
                 <CheckBox Content="自动编队"
                           IsChecked="{Binding Form}" />
-                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftTooltip}"
                                       Tip="自动编队可能无法识别带有「特别关注」标记的干员" />
               </StackPanel>
 
@@ -143,7 +143,7 @@
                           IsVisible="{Binding ShowIgnoreRequirements}">
                 <CheckBox Content="忽略干员属性要求"
                           IsChecked="{Binding IgnoreRequirements}" />
-                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}">
+                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftTooltip}">
                   <controls:TooltipHint.Tip>某些作业需要特定模组等作为前置条件
 勾选此项将跳过这些检查，但可能导致作业无法正常运行</controls:TooltipHint.Tip>
                 </controls:TooltipHint>
@@ -154,7 +154,7 @@
                 <StackPanel Orientation="Horizontal">
                   <CheckBox Content="借助战"
                             IsChecked="{Binding UseSupportUnitUsage}" />
-                  <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                  <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftTooltip}"
                                         Tip="缺一个还能用用，缺两个以上还是换份作业吧" />
                 </StackPanel>
                 <ComboBox Width="120"
@@ -184,7 +184,7 @@
                         Padding="8,0"
                         Content="编辑"
                         Click="OnOpenUserAdditionalPopupClick" />
-                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
+                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftTooltip}"
                                       Tip="以英文 「;」 为分隔符，英文 「,」 分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1" />
                 <Popup IsOpen="{Binding IsUserAdditionalPopupOpen}"
                        Placement="Bottom"
@@ -258,7 +258,7 @@
                           IsVisible="{Binding ShowUseCopilotList}">
                 <CheckBox Content="战斗列表"
                           IsChecked="{Binding UseCopilotList}" />
-                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}">
+                <controls:TooltipHint Margin="{DynamicResource MAA.Thickness.MarginLeftTooltip}">
                   <controls:TooltipHint.Tip>仅支持以下模式:
   1. 主线: 同一章节内导航
   2. SideStory: 当前页面内导航（普通/EX/S 不能互跳）

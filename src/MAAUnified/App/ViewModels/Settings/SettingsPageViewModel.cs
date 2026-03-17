@@ -41,6 +41,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private const int BackgroundOpacityMax = 100;
     private const int BackgroundBlurMin = 0;
     private const int BackgroundBlurMax = 80;
+    private const int AutostartFeedbackDelayMs = 1000;
     private const int TimerSlotCount = 8;
     private const int TimerHourMin = 0;
     private const int TimerHourMax = 23;
@@ -165,6 +166,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private CancellationTokenSource? _versionUpdateAutoSaveCts;
     private CancellationTokenSource? _achievementAutoSaveCts;
     private CancellationTokenSource? _autostartAutoApplyCts;
+    private CancellationTokenSource? _autostartFeedbackCts;
     private bool _suppressPageAutoSave;
     private bool _suppressGuiAutoSave;
     private bool _suppressStartPerformanceDirtyTracking;
@@ -180,6 +182,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private bool _developerModeEnabled;
     private bool _startSelf;
     private string _autostartStatus = string.Empty;
+    private DateTimeOffset? _lastAutostartToggleAt;
+    private string _autostartWarningMessage = string.Empty;
+    private string _autostartErrorMessage = string.Empty;
     private string _hotkeyShowGui = DefaultHotkeyShowGui;
     private string _hotkeyLinkStart = DefaultHotkeyLinkStart;
     private string _persistedHotkeyShowGui = DefaultHotkeyShowGui;
@@ -187,8 +192,8 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private string _hotkeyStatusMessage = string.Empty;
     private string _hotkeyWarningMessage = string.Empty;
     private string _hotkeyErrorMessage = string.Empty;
-    private string _notificationTitle = "MAA Test";
-    private string _notificationMessage = "Cross-platform notification test";
+    private string _notificationTitle = "MAA 外部通知测试";
+    private string _notificationMessage = "这是 MAA 外部通知测试信息。如果你看到了这段内容，就说明通知发送成功了！";
     private string _issueReportPath = string.Empty;
     private string _issueReportStatusMessage = string.Empty;
     private string _issueReportErrorMessage = string.Empty;
@@ -206,6 +211,8 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private string _backgroundStretchMode = DefaultBackgroundStretchMode;
     private bool _hasPendingGuiChanges;
     private string _guiValidationMessage = string.Empty;
+    private string _guiSectionValidationMessage = string.Empty;
+    private string _backgroundValidationMessage = string.Empty;
     private DateTimeOffset? _lastSuccessfulGuiSaveAt;
     private bool _runDirectly;
     private bool _minimizeDirectly;
@@ -746,6 +753,34 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         get => _autostartStatus;
         set => SetProperty(ref _autostartStatus, value);
     }
+
+    public string AutostartWarningMessage
+    {
+        get => _autostartWarningMessage;
+        private set
+        {
+            if (SetProperty(ref _autostartWarningMessage, value))
+            {
+                OnPropertyChanged(nameof(HasAutostartWarningMessage));
+            }
+        }
+    }
+
+    public bool HasAutostartWarningMessage => !string.IsNullOrWhiteSpace(AutostartWarningMessage);
+
+    public string AutostartErrorMessage
+    {
+        get => _autostartErrorMessage;
+        private set
+        {
+            if (SetProperty(ref _autostartErrorMessage, value))
+            {
+                OnPropertyChanged(nameof(HasAutostartErrorMessage));
+            }
+        }
+    }
+
+    public bool HasAutostartErrorMessage => !string.IsNullOrWhiteSpace(AutostartErrorMessage);
 
     public string HotkeyShowGui
     {
@@ -1564,6 +1599,36 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     }
 
     public bool HasGuiValidationMessage => !string.IsNullOrWhiteSpace(GuiValidationMessage);
+
+    public string GuiSectionValidationMessage
+    {
+        get => _guiSectionValidationMessage;
+        private set
+        {
+            if (SetProperty(ref _guiSectionValidationMessage, value))
+            {
+                OnPropertyChanged(nameof(HasGuiSectionValidationMessage));
+                UpdateCombinedGuiValidationMessage();
+            }
+        }
+    }
+
+    public bool HasGuiSectionValidationMessage => !string.IsNullOrWhiteSpace(GuiSectionValidationMessage);
+
+    public string BackgroundValidationMessage
+    {
+        get => _backgroundValidationMessage;
+        private set
+        {
+            if (SetProperty(ref _backgroundValidationMessage, value))
+            {
+                OnPropertyChanged(nameof(HasBackgroundValidationMessage));
+                UpdateCombinedGuiValidationMessage();
+            }
+        }
+    }
+
+    public bool HasBackgroundValidationMessage => !string.IsNullOrWhiteSpace(BackgroundValidationMessage);
 
     public DateTimeOffset? LastSuccessfulGuiSaveAt
     {
@@ -3716,20 +3781,33 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     public async Task ApplyAutostartAsync(CancellationToken cancellationToken = default)
     {
-        var setResult = await ApplyResultAsync(
-            await Runtime.SettingsFeatureService.SetAutostartAsync(StartSelf, cancellationToken),
-            "Settings.Autostart.Set",
-            cancellationToken);
-
-        if (!setResult)
+        var desired = StartSelf;
+        var setResult = await Runtime.SettingsFeatureService.SetAutostartAsync(desired, cancellationToken);
+        if (!setResult.Success)
         {
+            LastErrorMessage = setResult.Message;
+            await RecordFailedResultAsync("Settings.Autostart.Set", setResult, cancellationToken);
+            await ShowAutostartErrorWithDelayAsync(
+                BuildAutostartSetErrorMessage(setResult.Error?.Code, setResult.Message),
+                cancellationToken);
             return;
         }
 
-        await RefreshAutostartStatusAsync(cancellationToken);
+        StatusMessage = setResult.Message;
+        LastErrorMessage = string.Empty;
+        await RecordEventAsync("Settings.Autostart.Set", setResult.Message, cancellationToken);
+        await RefreshAutostartStatusAsync(
+            cancellationToken,
+            syncDesiredState: false,
+            delayMismatchHint: true,
+            desiredState: desired);
     }
 
-    public async Task RefreshAutostartStatusAsync(CancellationToken cancellationToken = default)
+    public async Task RefreshAutostartStatusAsync(
+        CancellationToken cancellationToken = default,
+        bool syncDesiredState = true,
+        bool delayMismatchHint = false,
+        bool? desiredState = null)
     {
         var result = await Runtime.SettingsFeatureService.GetAutostartStatusAsync(cancellationToken);
         if (!result.Success)
@@ -3740,24 +3818,61 @@ public sealed class SettingsPageViewModel : PageViewModelBase
                 "Settings.Autostart.Query",
                 UiOperationResult.Fail(result.Error?.Code ?? UiErrorCode.AutostartQueryFailed, result.Message, result.Error?.Details),
                 cancellationToken);
+
+            if (delayMismatchHint)
+            {
+                await ShowAutostartErrorWithDelayAsync(
+                    BuildAutostartSetErrorMessage(result.Error?.Code, result.Message),
+                    cancellationToken);
+            }
+
             return;
         }
 
         var enabled = result.Value;
-        _suppressPageAutoSave = true;
-        try
+        if (syncDesiredState)
         {
-            StartSelf = enabled;
-        }
-        finally
-        {
-            _suppressPageAutoSave = false;
+            _suppressPageAutoSave = true;
+            try
+            {
+                StartSelf = enabled;
+            }
+            finally
+            {
+                _suppressPageAutoSave = false;
+            }
         }
 
         AutostartStatus = PlatformCapabilityTextMap.FormatAutostartStatus(
             Language,
             enabled,
             _localizationFallbackReporter);
+
+        if (syncDesiredState)
+        {
+            ClearAutostartFeedback();
+            return;
+        }
+
+        var expected = desiredState ?? StartSelf;
+        if (enabled == expected)
+        {
+            ClearAutostartFeedback();
+            LastErrorMessage = string.Empty;
+            return;
+        }
+
+        var warningMessage = BuildAutostartMismatchMessage(enabled);
+        LastErrorMessage = warningMessage;
+        await RecordFailedResultAsync(
+            "Settings.Autostart.Verify",
+            UiOperationResult.Fail(PlatformErrorCodes.AutostartVerificationFailed, warningMessage),
+            cancellationToken);
+
+        if (delayMismatchHint)
+        {
+            await ShowAutostartWarningWithDelayAsync(warningMessage, cancellationToken);
+        }
     }
 
     private async Task SaveGuiSettingsCoreAsync(bool triggeredByAutoSave, CancellationToken cancellationToken = default)
@@ -3775,7 +3890,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             if (!validation.Success)
             {
                 HasPendingGuiChanges = true;
-                GuiValidationMessage = validation.Message;
+                SetGuiValidationMessageForResult(validation);
                 LastErrorMessage = validation.Message;
                 await RecordFailedResultAsync("Settings.Save.GuiBatch.Validation", validation, cancellationToken);
                 return;
@@ -3789,12 +3904,12 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             if (!await ApplyResultAsync(saveResult, "Settings.Save.GuiBatch", cancellationToken))
             {
                 HasPendingGuiChanges = true;
-                GuiValidationMessage = saveResult.Message;
+                SetGuiValidationMessageForCurrentSection(saveResult.Message);
                 return;
             }
 
             HasPendingGuiChanges = false;
-            GuiValidationMessage = string.Empty;
+            ClearGuiValidationMessages();
             LastSuccessfulGuiSaveAt = DateTimeOffset.Now;
             RaiseGuiSettingsApplied(snapshot);
 
@@ -3813,7 +3928,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         catch (Exception ex)
         {
             HasPendingGuiChanges = true;
-            GuiValidationMessage = $"GUI settings save failed: {ex.Message}";
+            SetGuiValidationMessageForCurrentSection($"GUI settings save failed: {ex.Message}");
             await RecordUnhandledExceptionAsync(
                 "Settings.Save.GuiBatch",
                 ex,
@@ -3959,6 +4074,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             return;
         }
 
+        BeginAutostartInteraction();
         ScheduleAutoSave(
             ref _autostartAutoApplyCts,
             "Settings.AutoSave.Autostart",
@@ -5265,8 +5381,10 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         ClearHotkeyStatus();
         ClearRemoteControlStatus();
         ClearExternalNotificationStatus();
+        ClearAutostartFeedback();
         await EnsureNotificationProvidersLoadedAsync(cancellationToken);
-        var warnings = new List<string>();
+        var guiWarnings = new List<string>();
+        var backgroundWarnings = new List<string>();
         var hotkeyWarnings = new List<string>();
 
         var rawTheme = ReadGlobalString(config, ThemeModeKey, DefaultTheme);
@@ -5294,58 +5412,58 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         var theme = NormalizeTheme(rawTheme);
         if (!string.Equals(rawTheme, theme, StringComparison.Ordinal))
         {
-            warnings.Add($"Theme normalized to `{theme}` from `{rawTheme}`.");
+            guiWarnings.Add($"Theme normalized to `{theme}` from `{rawTheme}`.");
         }
 
         var language = NormalizeLanguage(rawLanguage);
         if (!string.Equals(rawLanguage, language, StringComparison.OrdinalIgnoreCase))
         {
-            warnings.Add($"Language normalized to `{language}` from `{rawLanguage}`.");
+            guiWarnings.Add($"Language normalized to `{language}` from `{rawLanguage}`.");
         }
 
         var backgroundPath = NormalizeBackgroundPath(rawBackgroundPath);
         if (!string.IsNullOrWhiteSpace(backgroundPath) && !File.Exists(backgroundPath))
         {
-            warnings.Add($"Background path not found and reset: {backgroundPath}");
+            backgroundWarnings.Add($"Background path not found and reset: {backgroundPath}");
             backgroundPath = string.Empty;
         }
 
         var opacity = Math.Clamp(rawOpacity, BackgroundOpacityMin, BackgroundOpacityMax);
         if (opacity != rawOpacity)
         {
-            warnings.Add($"Background opacity clamped to {opacity} from {rawOpacity}.");
+            backgroundWarnings.Add($"Background opacity clamped to {opacity} from {rawOpacity}.");
         }
 
         var blur = Math.Clamp(rawBlur, BackgroundBlurMin, BackgroundBlurMax);
         if (blur != rawBlur)
         {
-            warnings.Add($"Background blur clamped to {blur} from {rawBlur}.");
+            backgroundWarnings.Add($"Background blur clamped to {blur} from {rawBlur}.");
         }
 
         var stretch = NormalizeBackgroundStretchMode(rawStretchMode);
         if (!string.Equals(rawStretchMode, stretch, StringComparison.OrdinalIgnoreCase))
         {
-            warnings.Add($"Background stretch mode normalized to `{stretch}` from `{rawStretchMode}`.");
+            backgroundWarnings.Add($"Background stretch mode normalized to `{stretch}` from `{rawStretchMode}`.");
         }
 
         var logItemDateFormat = NormalizeLogItemDateFormat(rawLogItemDateFormat);
         if (!string.Equals(rawLogItemDateFormat, logItemDateFormat, StringComparison.Ordinal))
         {
-            warnings.Add(
+            guiWarnings.Add(
                 $"Log item date format normalized to `{logItemDateFormat}` from `{rawLogItemDateFormat}`.");
         }
 
         var operNameLanguage = NormalizeOperNameLanguage(rawOperNameLanguage);
         if (!string.Equals(rawOperNameLanguage, operNameLanguage, StringComparison.OrdinalIgnoreCase))
         {
-            warnings.Add(
+            guiWarnings.Add(
                 $"Oper name language normalized to `{operNameLanguage}` from `{rawOperNameLanguage}`.");
         }
 
         var inverseClearMode = NormalizeInverseClearMode(rawInverseClearMode);
         if (!string.Equals(rawInverseClearMode, inverseClearMode, StringComparison.OrdinalIgnoreCase))
         {
-            warnings.Add(
+            guiWarnings.Add(
                 $"Inverse clear mode normalized to `{inverseClearMode}` from `{rawInverseClearMode}`.");
         }
 
@@ -5428,9 +5546,11 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             AchievementErrorMessage = achievementPolicyResult.Message;
         }
 
-        if (warnings.Count > 0)
+        var warnings = guiWarnings.Concat(backgroundWarnings).ToArray();
+        if (warnings.Length > 0)
         {
-            GuiValidationMessage = string.Join(" ", warnings);
+            GuiSectionValidationMessage = string.Join(" ", guiWarnings);
+            BackgroundValidationMessage = string.Join(" ", backgroundWarnings);
             StatusMessage = GuiValidationMessage;
             await RecordEventAsync(
                 "Settings.Gui.Normalize",
@@ -5439,7 +5559,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         }
         else
         {
-            GuiValidationMessage = string.Empty;
+            ClearGuiValidationMessages();
         }
 
         if (hotkeyWarnings.Count > 0)
@@ -5481,6 +5601,163 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             TimerValidationMessage = string.Empty;
         }
 
+    }
+
+    private void BeginAutostartInteraction()
+    {
+        _lastAutostartToggleAt = DateTimeOffset.UtcNow;
+        ClearAutostartFeedback();
+    }
+
+    private void ClearAutostartFeedback()
+    {
+        var pendingFeedback = _autostartFeedbackCts;
+        _autostartFeedbackCts = null;
+        pendingFeedback?.Cancel();
+        AutostartWarningMessage = string.Empty;
+        AutostartErrorMessage = string.Empty;
+    }
+
+    private async Task ShowAutostartWarningWithDelayAsync(string message, CancellationToken cancellationToken)
+    {
+        await ShowAutostartFeedbackWithDelayAsync(
+            warningMessage: message,
+            errorMessage: string.Empty,
+            cancellationToken);
+    }
+
+    private async Task ShowAutostartErrorWithDelayAsync(string message, CancellationToken cancellationToken)
+    {
+        await ShowAutostartFeedbackWithDelayAsync(
+            warningMessage: string.Empty,
+            errorMessage: message,
+            cancellationToken);
+    }
+
+    private async Task ShowAutostartFeedbackWithDelayAsync(
+        string warningMessage,
+        string errorMessage,
+        CancellationToken cancellationToken)
+    {
+        var pendingFeedback = _autostartFeedbackCts;
+        pendingFeedback?.Cancel();
+        _autostartFeedbackCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var feedbackCts = _autostartFeedbackCts;
+
+        try
+        {
+            var remainingDelay = GetRemainingAutostartFeedbackDelay();
+            if (remainingDelay > TimeSpan.Zero)
+            {
+                await Task.Delay(remainingDelay, feedbackCts.Token);
+            }
+
+            if (feedbackCts.Token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            AutostartWarningMessage = warningMessage;
+            AutostartErrorMessage = errorMessage;
+        }
+        catch (OperationCanceledException) when (feedbackCts.IsCancellationRequested)
+        {
+            // Newer toggle state superseded the pending feedback.
+        }
+        finally
+        {
+            if (ReferenceEquals(_autostartFeedbackCts, feedbackCts))
+            {
+                feedbackCts.Dispose();
+                _autostartFeedbackCts = null;
+            }
+            else
+            {
+                feedbackCts.Dispose();
+            }
+        }
+    }
+
+    private TimeSpan GetRemainingAutostartFeedbackDelay()
+    {
+        if (!_lastAutostartToggleAt.HasValue)
+        {
+            return TimeSpan.Zero;
+        }
+
+        var remaining = TimeSpan.FromMilliseconds(AutostartFeedbackDelayMs)
+            - (DateTimeOffset.UtcNow - _lastAutostartToggleAt.Value);
+        return remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero;
+    }
+
+    private string BuildAutostartSetErrorMessage(string? errorCode, string fallbackMessage)
+    {
+        var localized = PlatformCapabilityTextMap.FormatErrorCode(
+            Language,
+            errorCode,
+            fallbackMessage,
+            _localizationFallbackReporter);
+
+        return string.Equals(localized, fallbackMessage, StringComparison.Ordinal)
+            ? fallbackMessage
+            : $"{localized}：{fallbackMessage}";
+    }
+
+    private string BuildAutostartMismatchMessage(bool actualEnabled)
+    {
+        var verificationFailed = PlatformCapabilityTextMap.FormatErrorCode(
+            Language,
+            PlatformErrorCodes.AutostartVerificationFailed,
+            "Autostart verification failed",
+            _localizationFallbackReporter);
+        var actualStatus = PlatformCapabilityTextMap.FormatAutostartStatus(
+            Language,
+            actualEnabled,
+            _localizationFallbackReporter);
+        return $"{verificationFailed}，{actualStatus}";
+    }
+
+    private void UpdateCombinedGuiValidationMessage()
+    {
+        GuiValidationMessage = CombineValidationMessages(GuiSectionValidationMessage, BackgroundValidationMessage);
+    }
+
+    private void ClearGuiValidationMessages()
+    {
+        GuiSectionValidationMessage = string.Empty;
+        BackgroundValidationMessage = string.Empty;
+    }
+
+    private void SetGuiValidationMessageForCurrentSection(string message)
+    {
+        if (IsBackgroundSelected)
+        {
+            GuiSectionValidationMessage = string.Empty;
+            BackgroundValidationMessage = message;
+            return;
+        }
+
+        GuiSectionValidationMessage = message;
+        BackgroundValidationMessage = string.Empty;
+    }
+
+    private void SetGuiValidationMessageForResult(UiOperationResult result)
+    {
+        if (string.Equals(result.Error?.Code, UiErrorCode.BackgroundImagePathNotFound, StringComparison.Ordinal))
+        {
+            GuiSectionValidationMessage = string.Empty;
+            BackgroundValidationMessage = result.Message;
+            return;
+        }
+
+        SetGuiValidationMessageForCurrentSection(result.Message);
+    }
+
+    private static string CombineValidationMessages(params string[] messages)
+    {
+        return string.Join(
+            " ",
+            messages.Where(static message => !string.IsNullOrWhiteSpace(message)));
     }
 
     private void LoadConnectionSharedStateFromConfig()

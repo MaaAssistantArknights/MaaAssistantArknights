@@ -2,60 +2,69 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:MAAUnified.App.Controls"
              x:Class="MAAUnified.App.Features.Settings.RemoteControlSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto">
-    <TextBlock Classes="section-title" Text="远程控制" />
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.RemoteControl]}" />
     <StackPanel Grid.Row="1"
                 Classes="settings-form"
-                Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}">
+                Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+                Spacing="{DynamicResource MAA.Spacing.Medium}">
+      <TextBlock MaxWidth="{DynamicResource MAA.Size.Settings.ContentMaxWidth}"
+                 Classes="settings-centered-text"
+                 Text="注意：随意填入未知来源的地址可能会导致您的账户受到损失。" />
+
       <Grid ColumnDefinitions="132,*">
-        <TextBlock Classes="settings-label" Text="拉任务接口" />
+        <TextBlock Classes="settings-label" Text="获取任务端点" />
         <TextBox Grid.Column="1"
                  Text="{Binding RemoteGetTaskEndpoint, UpdateSourceTrigger=LostFocus}"
                  Watermark="https://example.com/get-task" />
       </Grid>
 
       <Grid ColumnDefinitions="132,*">
-        <TextBlock Classes="settings-label" Text="上报接口" />
+        <TextBlock Classes="settings-label" Text="汇报任务端点" />
         <TextBox Grid.Column="1"
                  Text="{Binding RemoteReportEndpoint, UpdateSourceTrigger=LostFocus}"
                  Watermark="https://example.com/report" />
       </Grid>
 
-      <Grid ColumnDefinitions="132,120,Auto">
-        <TextBlock Classes="settings-label" Text="轮询间隔(ms)" />
+      <Grid ColumnDefinitions="132,120">
+        <TextBlock Classes="settings-label" Text="轮询间隔 (ms)" />
         <controls:VerticalSpinNumberBox Grid.Column="1"
                                         Minimum="500"
                                         Maximum="60000"
                                         Value="{Binding RemotePollInterval}" />
-        <Button Grid.Column="2"
-                Classes="wpf-button wpf-button-secondary"
-                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
-                Content="连通测试"
-                Click="OnTestRemoteConnectivityClick" />
       </Grid>
 
-      <Grid ColumnDefinitions="132,220,132,220">
-        <TextBlock Classes="settings-label" Text="用户标识" />
+      <Grid ColumnDefinitions="132,220,Auto">
+        <TextBlock Classes="settings-label" Text="用户标识符" />
         <TextBox Grid.Column="1"
                  Text="{Binding RemoteUserIdentity, UpdateSourceTrigger=LostFocus}"
                  Watermark="remote-user-id" />
-        <TextBlock Grid.Column="2" Classes="settings-label" Text="设备标识" />
-        <TextBox Grid.Column="3"
+        <Button Grid.Column="2"
+                Classes="wpf-button wpf-button-secondary"
+                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                Content="{Binding RootTexts[Settings.Action.TestRemote]}"
+                Click="OnTestRemoteConnectivityClick" />
+      </Grid>
+
+      <Grid ColumnDefinitions="132,*">
+        <TextBlock Classes="settings-label" Text="设备标识符" />
+        <TextBox Grid.Column="1"
                  Text="{Binding RemoteDeviceIdentity, UpdateSourceTrigger=LostFocus}"
                  Watermark="remote-device-id" />
       </Grid>
+    </StackPanel>
 
-      <StackPanel Classes="settings-form settings-form-narrow" Spacing="4">
-        <TextBlock Text="{Binding RemoteControlStatusMessage}" />
-        <TextBlock Classes="state-warning"
-                   Text="{Binding RemoteControlWarningMessage}"
-                   IsVisible="{Binding HasRemoteControlWarningMessage}" />
-        <TextBlock Classes="state-error"
-                   Text="{Binding RemoteControlErrorMessage}"
-                   IsVisible="{Binding HasRemoteControlErrorMessage}" />
-        <TextBlock Classes="settings-note"
-                   Text="连通测试会对 GetTask/Report 两个端点执行网络探测，失败会区分参数错误/网络失败/不支持。" />
-      </StackPanel>
+    <StackPanel Grid.Row="2"
+                Classes="settings-form settings-form-narrow"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="4">
+      <TextBlock Classes="settings-centered-text" Text="{Binding RemoteControlStatusMessage}" />
+      <TextBlock Classes="state-warning settings-centered-text"
+                 Text="{Binding RemoteControlWarningMessage}"
+                 IsVisible="{Binding HasRemoteControlWarningMessage}" />
+      <TextBlock Classes="state-error settings-centered-text"
+                 Text="{Binding RemoteControlErrorMessage}"
+                 IsVisible="{Binding HasRemoteControlErrorMessage}" />
     </StackPanel>
   </Grid>
 </UserControl>

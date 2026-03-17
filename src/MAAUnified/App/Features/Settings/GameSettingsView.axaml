@@ -3,84 +3,123 @@
              xmlns:controls="clr-namespace:MAAUnified.App.Controls"
              xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.Settings"
              x:Class="MAAUnified.App.Features.Settings.GameSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto">
-    <TextBlock Classes="section-title" Text="游戏设置" />
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.Game]}" />
 
     <StackPanel Grid.Row="1"
-                Classes="settings-form"
+                Classes="settings-centered-column"
                 Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}">
-      <Grid ColumnDefinitions="132,220">
-        <TextBlock Classes="settings-label" Text="客户端" />
-        <ComboBox Grid.Column="1"
-                  ItemsSource="{Binding ConnectionGameSharedState.ClientTypeOptions}"
-                  SelectedItem="{Binding ConnectionGameSharedState.SelectedClientTypeOption}">
-          <ComboBox.ItemTemplate>
-            <DataTemplate x:DataType="vm:ConnectionGameOptionItem">
-              <TextBlock Text="{Binding DisplayName}" />
-            </DataTemplate>
-          </ComboBox.ItemTemplate>
-        </ComboBox>
-      </Grid>
+      <TextBlock Classes="settings-field-caption" Text="客户端类型" />
+      <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldCenteredWidth}"
+                ItemsSource="{Binding ConnectionGameSharedState.ClientTypeOptions}"
+                SelectedItem="{Binding ConnectionGameSharedState.SelectedClientTypeOption}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="vm:ConnectionGameOptionItem">
+            <TextBlock Text="{Binding DisplayName}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+    </StackPanel>
 
-      <CheckBox Content="自动部署时暂停下干员"
-                HorizontalAlignment="Left"
+    <StackPanel Grid.Row="2"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
+      <CheckBox Content="划火柴模式（自动战斗相关）（不稳定，暂不推荐开启）"
+                HorizontalAlignment="Center"
                 IsChecked="{Binding DeploymentWithPause}" />
+    </StackPanel>
 
-      <Grid ColumnDefinitions="132,*">
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Spacing="0">
-          <TextBlock Classes="settings-label" Margin="0,0,8,0" Text="任务开始前执行脚本" />
-          <controls:TooltipHint Tip="示例：&quot;C:\1.cmd&quot; -minimized" />
-        </StackPanel>
-        <TextBox Grid.Column="1" Text="{Binding StartsWithScript, UpdateSourceTrigger=LostFocus}" />
+    <StackPanel Grid.Row="3"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
+      <Grid HorizontalAlignment="Center"
+            ColumnDefinitions="Auto,Auto">
+        <TextBlock Grid.Column="0"
+                   Classes="settings-field-caption"
+                   Margin="0"
+                   Text="开始前脚本" />
+        <controls:TooltipHint Grid.Column="1" Tip="示例：&quot;C:\1.cmd&quot; -minimized" />
       </Grid>
+      <TextBox Width="{DynamicResource MAA.Size.Settings.FieldInputWidth}"
+               Text="{Binding StartsWithScript, UpdateSourceTrigger=LostFocus}" />
+    </StackPanel>
 
-      <Grid ColumnDefinitions="132,*">
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Spacing="0">
-          <TextBlock Classes="settings-label" Margin="0,0,8,0" Text="任务结束后执行脚本" />
-          <controls:TooltipHint Tip="示例：&quot;C:\1.cmd&quot; -noWindow" />
-        </StackPanel>
-        <TextBox Grid.Column="1" Text="{Binding EndsWithScript, UpdateSourceTrigger=LostFocus}" />
+    <StackPanel Grid.Row="4"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
+      <Grid HorizontalAlignment="Center"
+            ColumnDefinitions="Auto,Auto">
+        <TextBlock Grid.Column="0"
+                   Classes="settings-field-caption"
+                   Margin="0"
+                   Text="结束后脚本" />
+        <controls:TooltipHint Grid.Column="1" Tip="示例：&quot;C:\1.cmd&quot; -noWindow" />
       </Grid>
+      <TextBox Width="{DynamicResource MAA.Size.Settings.FieldInputWidth}"
+               Text="{Binding EndsWithScript, UpdateSourceTrigger=LostFocus}" />
+    </StackPanel>
 
-      <WrapPanel Classes="settings-wrap" ItemWidth="240">
-        <CheckBox Content="肉鸽任务启用脚本" IsChecked="{Binding CopilotWithScript}" />
-        <CheckBox Content="手动停止时执行脚本" IsChecked="{Binding ManualStopWithScript}" />
-      </WrapPanel>
+    <StackPanel Grid.Row="5"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Center"
+                  Spacing="{DynamicResource MAA.Spacing.Large}">
+        <CheckBox Content="自动战斗时启用上述脚本" IsChecked="{Binding CopilotWithScript}" />
+        <CheckBox Content="手动暂停时启用上述脚本" IsChecked="{Binding ManualStopWithScript}" />
+      </StackPanel>
+    </StackPanel>
 
-      <WrapPanel Classes="settings-wrap" ItemWidth="240">
-        <CheckBox Content="阻止系统休眠" IsChecked="{Binding BlockSleep}" />
-        <CheckBox Content="阻止系统熄屏"
+    <StackPanel Grid.Row="6"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Center"
+                  Spacing="{DynamicResource MAA.Spacing.Large}">
+        <CheckBox Content="运行任务时阻止休眠" IsChecked="{Binding BlockSleep}" />
+        <CheckBox Content="阻止休眠时保持屏幕常亮"
                   IsChecked="{Binding BlockSleepWithScreenOn}"
                   IsVisible="{Binding ShowBlockSleepWithScreenOnOption}" />
-        <CheckBox Content="启用企鹅物流上报" IsChecked="{Binding EnablePenguin}" />
-        <CheckBox Content="启用一图流上报" IsChecked="{Binding EnableYituliu}" />
-      </WrapPanel>
+      </StackPanel>
+    </StackPanel>
 
-      <Grid IsVisible="{Binding ShowPenguinIdField}"
-            ColumnDefinitions="132,*">
-        <TextBlock Classes="settings-label" Text="企鹅物流 ID" />
-        <TextBox Grid.Column="1"
+    <StackPanel Grid.Row="7"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}">
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Center"
+                  Spacing="{DynamicResource MAA.Spacing.Large}">
+        <CheckBox Content="上报企鹅物流" IsChecked="{Binding EnablePenguin}" />
+        <CheckBox Content="上报一图流" IsChecked="{Binding EnableYituliu}" />
+      </StackPanel>
+      <StackPanel Classes="settings-centered-column"
+                  Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                  IsVisible="{Binding ShowPenguinIdField}">
+        <TextBlock Classes="settings-field-caption" Text="企鹅物流汇报 ID（仅数字部分）" />
+        <TextBox Width="{DynamicResource MAA.Size.Settings.FieldInputWidth}"
                  Text="{Binding PenguinId, UpdateSourceTrigger=LostFocus}" />
-      </Grid>
+      </StackPanel>
+    </StackPanel>
 
-      <Grid ColumnDefinitions="152,120,152,120">
-        <TextBlock Classes="settings-label" Text="任务超时（分钟）" />
-        <controls:VerticalSpinNumberBox Grid.Column="1"
+    <Grid Grid.Row="8"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+          ColumnDefinitions="250,250">
+      <StackPanel Grid.Column="0" Classes="settings-centered-column">
+        <TextBlock Classes="settings-field-caption" Text="任务超时时间（分钟）" />
+        <controls:VerticalSpinNumberBox Width="{DynamicResource MAA.Size.Settings.FieldNarrowWidth}"
                                         Minimum="0"
                                         Maximum="1440"
                                         Value="{Binding TaskTimeoutMinutes}" />
-        <TextBlock Grid.Column="2" Classes="settings-label" Text="提醒间隔（分钟）" />
-        <controls:VerticalSpinNumberBox Grid.Column="3"
+      </StackPanel>
+
+      <StackPanel Grid.Column="1" Classes="settings-centered-column">
+        <TextBlock Classes="settings-field-caption" Text="提醒间隔时间（分钟）" />
+        <controls:VerticalSpinNumberBox Width="{DynamicResource MAA.Size.Settings.FieldNarrowWidth}"
                                         Minimum="1"
                                         Maximum="1440"
                                         Value="{Binding ReminderIntervalMinutes}" />
-      </Grid>
-    </StackPanel>
+      </StackPanel>
+    </Grid>
   </Grid>
 </UserControl>

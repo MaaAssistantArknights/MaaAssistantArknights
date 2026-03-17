@@ -2,100 +2,109 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.Settings"
              x:Class="MAAUnified.App.Features.Settings.GuiSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto">
     <Grid ColumnDefinitions="Auto,*">
-      <TextBlock Classes="section-title" Text="界面设置" />
+      <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.GUI]}" />
       <TextBlock Grid.Column="1"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
                  Classes="state-warning"
-                 Text="正在保存..."
+                 Text="{Binding RootTexts[Settings.State.Saving]}"
                  IsVisible="{Binding IsGuiSaveInProgress}" />
       <TextBlock Grid.Column="1"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
                  Classes="state-success"
-                 Text="保存成功"
+                 Text="{Binding RootTexts[Settings.State.Saved]}"
                  IsVisible="{Binding HasGuiSaveSucceeded}" />
     </Grid>
     <Grid Grid.Row="1"
           Classes="settings-form"
           Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
-          ColumnDefinitions="132,220,132,220">
-      <TextBlock Classes="settings-label" Text="主题" />
-      <ComboBox Grid.Column="1"
-                ItemsSource="{Binding ThemeOptions}"
-                SelectedItem="{Binding SelectedThemeOption}">
-        <ComboBox.ItemTemplate>
-          <DataTemplate x:DataType="vm:DisplayValueOption">
-            <TextBlock Text="{Binding Display}" />
-          </DataTemplate>
-        </ComboBox.ItemTemplate>
-      </ComboBox>
-      <TextBlock Grid.Column="2" Classes="settings-label" Text="语言" />
-      <ComboBox Grid.Column="3"
-                ItemsSource="{Binding SupportedLanguages}"
-                SelectedItem="{Binding SelectedLanguageOption}">
-        <ComboBox.ItemTemplate>
-          <DataTemplate x:DataType="vm:DisplayValueOption">
-            <TextBlock Text="{Binding Display}" />
-          </DataTemplate>
-        </ComboBox.ItemTemplate>
-      </ComboBox>
+          ColumnDefinitions="250,250">
+      <StackPanel Grid.Column="0"
+                  Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Small}">
+        <CheckBox Content="显示托盘图标" IsChecked="{Binding UseTray}" />
+        <CheckBox Content="最小化时隐藏至托盘"
+                  IsChecked="{Binding MinimizeToTray}"
+                  IsVisible="{Binding CanMinimizeToTray}" />
+        <CheckBox Content="窗口标题滚动" IsChecked="{Binding WindowTitleScrollable}" />
+        <CheckBox Content="使用软件渲染" IsChecked="True" IsEnabled="False" />
+      </StackPanel>
+
+      <StackPanel Grid.Column="1"
+                  Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Small}">
+        <StackPanel Classes="settings-centered-column">
+          <TextBlock Classes="settings-field-caption" Text="语言" />
+          <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldNarrowWidth}"
+                    ItemsSource="{Binding SupportedLanguages}"
+                    SelectedItem="{Binding SelectedLanguageOption}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:DisplayValueOption">
+                <TextBlock Text="{Binding Display}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
+
+        <StackPanel Classes="settings-centered-column">
+          <TextBlock Classes="settings-field-caption" Text="干员名称显示语言" />
+          <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldCenteredWidth}"
+                    ItemsSource="{Binding OperNameLanguageOptions}"
+                    SelectedItem="{Binding SelectedOperNameLanguageOption}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:DisplayValueOption">
+                <TextBlock Text="{Binding Display}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
+
+        <StackPanel Classes="settings-centered-column">
+          <TextBlock Classes="settings-field-caption" Text="界面主题" />
+          <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldNarrowWidth}"
+                    ItemsSource="{Binding ThemeOptions}"
+                    SelectedItem="{Binding SelectedThemeOption}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:DisplayValueOption">
+                <TextBlock Text="{Binding Display}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
+
+        <StackPanel Classes="settings-centered-column">
+          <TextBlock Classes="settings-field-caption" Text="主界面按钮功能" />
+          <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldCenteredWidth}"
+                    ItemsSource="{Binding InverseClearModeOptions}"
+                    SelectedItem="{Binding SelectedInverseClearModeOption}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:DisplayValueOption">
+                <TextBlock Text="{Binding Display}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
+
+        <StackPanel Classes="settings-centered-column">
+          <TextBlock Classes="settings-field-caption" Text="日期格式字符串" />
+          <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldCenteredWidth}"
+                    ItemsSource="{Binding LogItemDateFormatOptions}"
+                    SelectedItem="{Binding LogItemDateFormatString}" />
+        </StackPanel>
+      </StackPanel>
     </Grid>
-    <Grid Grid.Row="2"
-          Classes="settings-form"
-          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
-          ColumnDefinitions="132,220,132,220">
-      <TextBlock Classes="settings-label" Text="干员名语言" />
-      <ComboBox Grid.Column="1"
-                ItemsSource="{Binding OperNameLanguageOptions}"
-                SelectedItem="{Binding SelectedOperNameLanguageOption}">
-        <ComboBox.ItemTemplate>
-          <DataTemplate x:DataType="vm:DisplayValueOption">
-            <TextBlock Text="{Binding Display}" />
-          </DataTemplate>
-        </ComboBox.ItemTemplate>
-      </ComboBox>
-      <TextBlock Grid.Column="2" Classes="settings-label" Text="日期格式字符串" />
-      <ComboBox Grid.Column="3"
-                ItemsSource="{Binding LogItemDateFormatOptions}"
-                SelectedItem="{Binding LogItemDateFormatString}" />
-    </Grid>
-    <Grid Grid.Row="3"
-          Classes="settings-form"
-          Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
-          ColumnDefinitions="132,220">
-      <TextBlock Classes="settings-label" Text="主界面按钮功能" />
-      <ComboBox Grid.Column="1"
-                ItemsSource="{Binding InverseClearModeOptions}"
-                SelectedItem="{Binding SelectedInverseClearModeOption}">
-        <ComboBox.ItemTemplate>
-          <DataTemplate x:DataType="vm:DisplayValueOption">
-            <TextBlock Text="{Binding Display}" />
-          </DataTemplate>
-        </ComboBox.ItemTemplate>
-      </ComboBox>
-    </Grid>
-    <WrapPanel Grid.Row="4"
-               Classes="settings-wrap"
-               Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
-               ItemWidth="{DynamicResource MAA.Size.Settings.WrapItemWidth}">
-      <CheckBox Content="启用托盘" IsChecked="{Binding UseTray}" />
-      <CheckBox Content="最小化到托盘"
-                IsChecked="{Binding MinimizeToTray}"
-                IsVisible="{Binding CanMinimizeToTray}" />
-      <CheckBox Content="标题滚动" IsChecked="{Binding WindowTitleScrollable}" />
-      <CheckBox Content="坏模块渲染策略：报错可见" IsChecked="True" />
-    </WrapPanel>
-    <StackPanel Grid.Row="5"
+
+    <StackPanel Grid.Row="2"
                 Classes="settings-form settings-form-narrow"
                 Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
                 Spacing="4">
-      <TextBlock Classes="state-warning"
-                 Text="{Binding GuiValidationMessage}"
-                 IsVisible="{Binding HasGuiValidationMessage}" />
-      <TextBlock Classes="settings-note"
+      <TextBlock Classes="state-warning settings-centered-text"
+                 Text="{Binding GuiSectionValidationMessage}"
+                 IsVisible="{Binding HasGuiSectionValidationMessage}" />
+      <TextBlock Classes="settings-note settings-centered-text"
                  Text="隐藏/菜单行为保持与 Windows 客户端一致。已启用 GUI 自动保存（文本提交时，勾选即时）。" />
     </StackPanel>
   </Grid>

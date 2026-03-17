@@ -4,39 +4,40 @@
              x:Class="MAAUnified.App.Features.Settings.TimerSettingsView">
   <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="4">
     <Grid ColumnDefinitions="Auto,*">
-      <TextBlock Classes="section-title" Text="定时执行" />
+      <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.Timer]}" />
       <TextBlock Grid.Column="1"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
                  Classes="state-warning"
-                 Text="正在保存..."
+                 Text="{Binding RootTexts[Settings.State.Saving]}"
                  IsVisible="{Binding IsTimerSaveInProgress}" />
       <TextBlock Grid.Column="1"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
                  Classes="state-success"
-                 Text="保存成功"
+                 Text="{Binding RootTexts[Settings.State.Saved]}"
                  IsVisible="{Binding HasTimerSaveSucceeded}" />
     </Grid>
 
-    <WrapPanel Grid.Row="1"
-               Classes="settings-wrap"
-               Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
-               ItemWidth="280">
-      <StackPanel Spacing="2">
+    <StackPanel Grid.Row="1"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+                Spacing="{DynamicResource MAA.Spacing.Small}">
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Center"
+                  Spacing="{DynamicResource MAA.Spacing.Large}">
         <CheckBox Content="强制定时启动" IsChecked="{Binding ForceScheduledStart}" />
-        <TextBlock Classes="settings-note" Text="即时生效" />
+        <CheckBox Content="自定义配置选择" IsChecked="{Binding CustomTimerConfig}" />
       </StackPanel>
-      <StackPanel Spacing="2"
+
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Center"
                   IsVisible="{Binding ForceScheduledStart}">
-        <CheckBox Content="强制启动前显示窗口" IsChecked="{Binding ShowWindowBeforeForceScheduledStart}" />
-        <TextBlock Classes="settings-note" Text="即时生效" />
+        <CheckBox Content="强制启动前显示窗口"
+                  IsChecked="{Binding ShowWindowBeforeForceScheduledStart}"
+                  IsVisible="{Binding ForceScheduledStart}" />
       </StackPanel>
-      <StackPanel Spacing="2">
-        <CheckBox Content="按槽位配置执行" IsChecked="{Binding CustomTimerConfig}" />
-        <TextBlock Classes="settings-note" Text="即时生效" />
-      </StackPanel>
-    </WrapPanel>
+    </StackPanel>
 
     <ItemsControl Grid.Row="2"
                   HorizontalAlignment="Center"
@@ -50,44 +51,41 @@
       </ItemsControl.ItemsPanel>
       <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <Border Classes="wpf-card">
-            <Grid ColumnDefinitions="Auto,Auto,Auto,*">
-              <CheckBox Content="{Binding Index, StringFormat=定时 {0}}" IsChecked="{Binding Enabled}" />
-              <Grid Grid.Column="1"
-                    Margin="8,0,0,0"
-                    ColumnDefinitions="70,Auto,70"
-                    VerticalAlignment="Center">
-                <controls:VerticalSpinNumberBox Minimum="0"
+          <StackPanel Classes="settings-centered-column"
+                      Margin="{DynamicResource MAA.Thickness.Settings.ItemMargin}"
+                      Spacing="{DynamicResource MAA.Spacing.Small}">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="{DynamicResource MAA.Spacing.Small}">
+              <CheckBox Margin="{DynamicResource MAA.Thickness.Settings.ItemMarginSmall}"
+                        Content="{Binding Index, StringFormat=定时 {0}}"
+                        IsChecked="{Binding Enabled}" />
+              <StackPanel Orientation="Horizontal"
+                          VerticalAlignment="Center"
+                          Spacing="{DynamicResource MAA.Spacing.Small}">
+                <controls:VerticalSpinNumberBox Width="{DynamicResource MAA.Size.Settings.FieldTinyWidth}"
+                                                Minimum="0"
                                                 Maximum="23"
                                                 FormatString="00"
                                                 Value="{Binding Hour}"
                                                 IsEnabled="{Binding Enabled}" />
-                <TextBlock Grid.Column="1"
-                           Margin="6,0"
-                           VerticalAlignment="Center"
-                           Text=":" />
-                <controls:VerticalSpinNumberBox Grid.Column="2"
+                <TextBlock VerticalAlignment="Center" Text=":" />
+                <controls:VerticalSpinNumberBox Width="{DynamicResource MAA.Size.Settings.FieldTinyWidth}"
                                                 Minimum="0"
                                                 Maximum="59"
                                                 FormatString="00"
                                                 Value="{Binding Minute}"
                                                 IsEnabled="{Binding Enabled}" />
-              </Grid>
-              <TextBlock Grid.Column="2"
-                         Margin="12,0,0,0"
-                         VerticalAlignment="Center"
-                         Text="配置"
-                         IsVisible="{Binding DataContext.CustomTimerConfig, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-              <ComboBox Grid.Column="3"
-                        Margin="8,0,0,0"
-                        Width="{DynamicResource MAA.Size.Settings.FieldWidth}"
-                        VerticalAlignment="Center"
-                        ItemsSource="{Binding DataContext.ConfigurationProfiles, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        SelectedItem="{Binding Profile}"
-                        IsEnabled="{Binding Enabled}"
-                        IsVisible="{Binding DataContext.CustomTimerConfig, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-            </Grid>
-          </Border>
+              </StackPanel>
+            </StackPanel>
+
+            <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldTimerConfigWidth}"
+                      HorizontalAlignment="Center"
+                      ItemsSource="{Binding DataContext.ConfigurationProfiles, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                      SelectedItem="{Binding Profile}"
+                      IsEnabled="{Binding Enabled}"
+                      IsVisible="{Binding DataContext.CustomTimerConfig, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+          </StackPanel>
         </DataTemplate>
       </ItemsControl.ItemTemplate>
     </ItemsControl>
@@ -96,7 +94,7 @@
                 Classes="settings-form settings-form-narrow"
                 Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
                 Spacing="4">
-      <TextBlock Classes="state-warning"
+      <TextBlock Classes="state-warning settings-centered-text"
                  Text="{Binding TimerValidationMessage}"
                  IsVisible="{Binding HasTimerValidationMessage}" />
     </StackPanel>

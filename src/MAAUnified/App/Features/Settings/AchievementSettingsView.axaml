@@ -1,34 +1,55 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MAAUnified.App.Features.Settings.AchievementSettingsView">
-  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
-    <TextBlock Classes="section-title" Text="成就设置" />
-    <WrapPanel Grid.Row="1"
-               Classes="settings-wrap"
-               Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
-               ItemWidth="240">
-      <Button Classes="wpf-button wpf-button-secondary" Content="刷新成就状态" Click="OnRefreshAchievementClick" />
-      <Button Classes="wpf-button wpf-button-secondary" Content="打开成就说明" Click="OnOpenAchievementGuideClick" />
-      <Button Classes="wpf-button wpf-button-secondary" Content="查看成就列表" Click="OnShowAchievementListClick" />
-      <CheckBox Content="禁用成就弹窗" IsChecked="{Binding AchievementPopupDisabled}" />
-      <CheckBox Content="成就弹窗自动关闭"
-                IsChecked="{Binding AchievementPopupAutoClose}"
-                IsVisible="{Binding CanEditAchievementPopupAutoClose}" />
-    </WrapPanel>
+  <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+    <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.Achievement]}" />
+
+    <StackPanel Grid.Row="1"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+                Spacing="{DynamicResource MAA.Spacing.Small}">
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Center"
+                  Spacing="{DynamicResource MAA.Spacing.Small}">
+        <Button Classes="wpf-button wpf-button-secondary" Content="刷新成就状态" Click="OnRefreshAchievementClick" />
+        <Button Classes="wpf-button wpf-button-secondary"
+                Content="{Binding RootTexts[Settings.Action.ShowAchievement]}"
+                Click="OnShowAchievementListClick" />
+      </StackPanel>
+      <Button Classes="wpf-button wpf-button-secondary"
+              HorizontalAlignment="Center"
+              Content="打开成就说明"
+              Click="OnOpenAchievementGuideClick" />
+    </StackPanel>
+
     <StackPanel Grid.Row="2"
                 Classes="settings-form settings-form-narrow"
                 Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
                 Spacing="4">
-      <TextBlock Classes="long-wrap" Text="{Binding AchievementPolicySummary}" />
-      <TextBlock Classes="settings-note"
-                 Text="成就配置变更会写入 avalonia.json，可通过 Issue Report 导出诊断信息。" />
+      <TextBlock Classes="settings-centered-text long-wrap" Text="{Binding AchievementPolicySummary}" />
     </StackPanel>
+
     <StackPanel Grid.Row="3"
+                Classes="settings-centered-column"
+                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
+                Spacing="0">
+      <CheckBox Margin="{DynamicResource MAA.Thickness.Settings.ItemMarginSmall}"
+                HorizontalAlignment="Center"
+                Content="禁用成就提示气泡"
+                IsChecked="{Binding AchievementPopupDisabled}" />
+      <CheckBox Margin="{DynamicResource MAA.Thickness.Settings.ItemMarginSmall}"
+                HorizontalAlignment="Center"
+                Content="成就提示气泡自动关闭"
+                IsChecked="{Binding AchievementPopupAutoClose}"
+                IsVisible="{Binding CanEditAchievementPopupAutoClose}" />
+    </StackPanel>
+
+    <StackPanel Grid.Row="4"
                 Classes="settings-form settings-form-narrow"
                 Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
                 Spacing="4">
-      <TextBlock Text="{Binding AchievementStatusMessage}" />
-      <TextBlock Classes="state-error"
+      <TextBlock Classes="settings-centered-text" Text="{Binding AchievementStatusMessage}" />
+      <TextBlock Classes="state-error settings-centered-text"
                  Text="{Binding AchievementErrorMessage}"
                  IsVisible="{Binding HasAchievementErrorMessage}" />
     </StackPanel>

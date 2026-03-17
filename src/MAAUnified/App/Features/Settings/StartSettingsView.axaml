@@ -4,98 +4,133 @@
              x:Class="MAAUnified.App.Features.Settings.StartSettingsView">
   <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto">
     <Grid ColumnDefinitions="Auto,*">
-      <TextBlock Classes="section-title" Text="启动设置" />
+      <TextBlock Classes="section-title" Text="{Binding RootTexts[Settings.Section.Start]}" />
       <TextBlock Grid.Column="1"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
                  Classes="state-warning"
-                 Text="正在保存..."
+                 Text="{Binding RootTexts[Settings.State.Saving]}"
                  IsVisible="{Binding IsStartPerformanceSaveInProgress}" />
       <TextBlock Grid.Column="1"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
                  Classes="state-success"
-                 Text="保存成功"
+                 Text="{Binding RootTexts[Settings.State.Saved]}"
                  IsVisible="{Binding HasStartPerformanceSaveSucceeded}" />
     </Grid>
 
-    <WrapPanel Grid.Row="1"
-               Classes="settings-wrap"
-               Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
-               ItemWidth="280">
-      <StackPanel Spacing="2">
+    <Grid Grid.Row="1"
+          Classes="settings-form"
+          Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
+          ColumnDefinitions="260,320">
+      <StackPanel Grid.Column="0"
+                  Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Small}">
         <Grid ColumnDefinitions="Auto,Auto">
-          <CheckBox Content="随系统启动" IsChecked="{Binding StartSelf}" />
+          <CheckBox Content="开机自动启动 MAA" IsChecked="{Binding StartSelf}" />
           <controls:TooltipHint Grid.Column="1"
-                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
-                                Tip="该选项在多配置时为全局设置。切换配置不会改变开机启动状态。" />
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftTooltip}"
+                                Tip="该功能通过修改注册表实现开机自启动。由于 MAA 是非安装型软件，不会自动清理注册表项。如介意注册表残留，请在删除程序前取消启用此选项。" />
         </Grid>
-      </StackPanel>
-      <StackPanel Spacing="2">
-        <CheckBox Content="启动后执行任务" IsChecked="{Binding RunDirectly}" />
-        <TextBlock Classes="settings-note" Text="下次启动生效" />
-      </StackPanel>
-      <StackPanel Spacing="2">
-        <CheckBox Content="启动后最小化" IsChecked="{Binding MinimizeDirectly}" />
-        <TextBlock Classes="settings-note" Text="下次启动生效" />
-      </StackPanel>
-      <StackPanel Spacing="2">
-        <CheckBox Content="自动启动模拟器" IsChecked="{Binding OpenEmulatorAfterLaunch}" />
-        <TextBlock Classes="settings-note" Text="下次执行生效" />
-      </StackPanel>
-      <StackPanel Spacing="2">
+
+        <StackPanel Spacing="0">
+          <CheckBox Content="启动 MAA 后直接最小化" IsChecked="{Binding MinimizeDirectly}" />
+          <TextBlock Classes="settings-apply-note"
+                     Margin="{DynamicResource MAA.Thickness.Settings.CheckboxNoteIndent}"
+                     Text="下次启动生效" />
+        </StackPanel>
+
+        <Border Height="1"
+                Margin="0,6,0,6"
+                Background="{DynamicResource MAA.Brush.Border.Default}" />
+
+        <StackPanel Spacing="0">
+          <CheckBox Content="启动 MAA 后直接运行" IsChecked="{Binding RunDirectly}" />
+          <TextBlock Classes="settings-apply-note"
+                     Margin="{DynamicResource MAA.Thickness.Settings.CheckboxNoteIndent}"
+                     Text="下次启动生效" />
+        </StackPanel>
+
+        <StackPanel Spacing="0">
+          <CheckBox Content="启动 MAA 后自动开启模拟器" IsChecked="{Binding OpenEmulatorAfterLaunch}" />
+          <TextBlock Classes="settings-apply-note"
+                     Margin="{DynamicResource MAA.Thickness.Settings.CheckboxNoteIndent}"
+                     Text="下次执行生效" />
+        </StackPanel>
+
         <Grid ColumnDefinitions="Auto,Auto">
-          <CheckBox Content="ADB 断开后自动重试连接"
+          <CheckBox Content="ADB 连接失败时尝试启动模拟器"
                     IsChecked="{Binding ConnectionGameSharedState.RetryOnDisconnected}" />
           <controls:TooltipHint Grid.Column="1"
-                                Margin="{DynamicResource MAA.Thickness.MarginLeftSmall}"
-                                Tip="启用后将在检测到连接断开时自动尝试重连；需要先配置有效的模拟器路径。" />
+                                Margin="{DynamicResource MAA.Thickness.MarginLeftTooltip}"
+                                Tip="重连失败后尝试重启模拟器，使用后台定时任务且设置任务完成关闭模拟器时请勾选。" />
         </Grid>
       </StackPanel>
-    </WrapPanel>
 
-    <StackPanel Grid.Row="2"
-                Classes="settings-form"
-                Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
-                IsVisible="{Binding CanEditEmulatorLaunchSettings}">
-      <Grid ColumnDefinitions="132,*,Auto">
-        <TextBlock Classes="settings-label" Text="模拟器路径" />
-        <TextBox Grid.Column="1"
-                 Text="{Binding EmulatorPath, UpdateSourceTrigger=LostFocus}"
-                 Watermark="/path/to/emulator" />
-        <Button Grid.Column="2"
-                Classes="wpf-button wpf-button-secondary"
-                Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
-                Content="选择路径"
-                Click="OnSelectEmulatorPathClick" />
-      </Grid>
+      <StackPanel Grid.Column="1"
+                  Classes="settings-centered-column"
+                  Spacing="{DynamicResource MAA.Spacing.Large}"
+                  IsVisible="{Binding CanEditEmulatorLaunchSettings}">
+        <StackPanel Classes="settings-centered-column">
+          <Grid HorizontalAlignment="Center"
+                ColumnDefinitions="Auto,Auto,Auto">
+            <TextBlock Grid.Column="0"
+                       Classes="settings-field-caption"
+                       Margin="0"
+                       Text="模拟器路径" />
+            <controls:TooltipHint Grid.Column="1" Tip="若为快捷方式，请选择快捷方式本体。" />
+            <Button Grid.Column="2"
+                    Classes="wpf-button wpf-button-secondary compact"
+                    Margin="{DynamicResource MAA.Thickness.MarginActionButtonLeft}"
+                    Content="选择"
+                    Click="OnSelectEmulatorPathClick" />
+          </Grid>
+          <TextBox Width="{DynamicResource MAA.Size.Settings.FieldInputWidth}"
+                   Text="{Binding EmulatorPath, UpdateSourceTrigger=LostFocus}" />
+        </StackPanel>
 
-      <Grid ColumnDefinitions="132,*">
-        <TextBlock Classes="settings-label" Text="附加参数" />
-        <TextBox Grid.Column="1" Text="{Binding EmulatorAddCommand, UpdateSourceTrigger=LostFocus}" />
-      </Grid>
+        <StackPanel Classes="settings-centered-column">
+          <Grid HorizontalAlignment="Center"
+                ColumnDefinitions="Auto,Auto">
+            <TextBlock Grid.Column="0"
+                       Classes="settings-field-caption"
+                       Margin="0"
+                       Text="附加命令" />
+            <controls:TooltipHint Grid.Column="1" Tip="附加在模拟器启动命令后的参数。" />
+          </Grid>
+          <TextBox Width="{DynamicResource MAA.Size.Settings.FieldInputWidth}"
+                   IsEnabled="{Binding CanEditEmulatorLaunchSettings}"
+                   Text="{Binding EmulatorAddCommand, UpdateSourceTrigger=LostFocus}" />
+        </StackPanel>
 
-      <Grid ColumnDefinitions="132,120,Auto">
-        <TextBlock Classes="settings-label" Text="等待秒数" />
-        <controls:VerticalSpinNumberBox Grid.Column="1"
-                                        Minimum="0"
-                                        Maximum="600"
-                                        Value="{Binding EmulatorWaitSeconds}" />
-        <TextBlock Grid.Column="2"
-                   Margin="{DynamicResource MAA.Thickness.Settings.FieldGap}"
-                   Classes="settings-note"
-                   Text="范围 0-600，下次执行生效" />
-      </Grid>
-    </StackPanel>
+        <StackPanel Classes="settings-centered-column" Spacing="0">
+          <StackPanel Orientation="Horizontal"
+                      HorizontalAlignment="Center"
+                      Spacing="{DynamicResource MAA.Spacing.Small}">
+            <TextBlock VerticalAlignment="Center" Text="等待模拟器启动时间（秒）" />
+            <controls:VerticalSpinNumberBox Width="{DynamicResource MAA.Size.Settings.FieldTinyWidth}"
+                                            Minimum="0"
+                                            Maximum="600"
+                                            Value="{Binding EmulatorWaitSeconds}" />
+          </StackPanel>
+          <TextBlock Classes="settings-apply-note settings-centered-text" Text="下次执行生效，范围 0-600" />
+        </StackPanel>
+      </StackPanel>
+    </Grid>
 
     <StackPanel Grid.Row="3"
                 Classes="settings-form settings-form-narrow"
                 Margin="{DynamicResource MAA.Thickness.Settings.RowMargin}"
                 Spacing="4">
-      <TextBlock Classes="state-warning"
+      <TextBlock Classes="state-warning settings-centered-text"
                  Text="{Binding StartPerformanceValidationMessage}"
                  IsVisible="{Binding HasStartPerformanceValidationMessage}" />
-      <TextBlock Text="{Binding AutostartStatus}" />
+      <TextBlock Classes="state-warning settings-centered-text"
+                 Text="{Binding AutostartWarningMessage}"
+                 IsVisible="{Binding HasAutostartWarningMessage}" />
+      <TextBlock Classes="state-error settings-centered-text"
+                 Text="{Binding AutostartErrorMessage}"
+                 IsVisible="{Binding HasAutostartErrorMessage}" />
     </StackPanel>
   </Grid>
 </UserControl>
