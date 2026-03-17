@@ -2832,6 +2832,66 @@ public class AsstProxy
     private static MaaWpfGui.ViewModels.TaskItemViewModel? FindTaskItemByTaskId(AsstTaskId taskId) =>
         Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(item => item.ContainsTaskId(taskId));
 
+    private TaskStatus GetAggregateStatusForTaskItem(MaaWpfGui.ViewModels.TaskItemViewModel taskItem)
+    {
+        // If there are no associated core task IDs, treat the item as idle.
+        if (taskItem.TaskIds == null || taskItem.TaskIds.Count == 0)
+        {
+            return TaskStatus.Idle;
+        }
+
+        var hasAnyStatus = false;
+        var hasError = false;
+        var hasInProgress = false;
+        var hasCompleted = false;
+
+        foreach (var taskId in taskItem.TaskIds)
+        {
+            if (!_tasksStatus.TryGetValue(taskId, out var value))
+            {
+                continue;
+            }
+
+            hasAnyStatus = true;
+
+            switch (value.Status)
+            {
+                case TaskStatus.Error:
+                    hasError = true;
+                    break;
+                case TaskStatus.InProgress:
+                    hasInProgress = true;
+                    break;
+                case TaskStatus.Completed:
+                    hasCompleted = true;
+                    break;
+            }
+        }
+
+        if (!hasAnyStatus)
+        {
+            return TaskStatus.Idle;
+        }
+
+        // Priority: Error > InProgress > Completed > Idle
+        if (hasError)
+        {
+            return TaskStatus.Error;
+        }
+
+        if (hasInProgress)
+        {
+            return TaskStatus.InProgress;
+        }
+
+        if (hasCompleted)
+        {
+            return TaskStatus.Completed;
+        }
+
+        return TaskStatus.Idle;
+    }
+
     private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status)
     {
         if (id <= 0)
@@ -2851,7 +2911,14 @@ public class AsstProxy
         }
 
         _tasksStatus[id] = (value.Type, status);
-        FindTaskItemByTaskId(id)?.Status = (int)status;
+        var taskItem = FindTaskItemByTaskId(id);
+        if (taskItem is not null)
+        {
+            var aggregateStatus = GetAggregateStatusForTaskItem(taskItem);
+            taskItem.Status = (int)aggregateStatus;
+            status = aggregateStatus;
+        }
+
         if (status == TaskStatus.InProgress)
         {
             TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
