@@ -1060,6 +1060,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotStartWithEmptyList">正在使用 ｢{key=UseCopilotList}｣, 但未添加任何作业</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">正在使用 ｢{key=UseCopilotList}｣ 执行单个作业, 不推荐此行为。 单个作业请直接运行</system:String>
     <system:String x:Key="CopilotTaskListMixedModeNotAllowed">正在使用 ｢{key=UseCopilotList}｣，不支持混用不同类型作业</system:String>
+    <system:String x:Key="CopilotTaskTypeParseFailedSkipCheck">部分作业类型解析失败，跳过类型检查</system:String>
     <!--  !日志  -->
     <!--  !自动战斗  -->
     <!--  ErrorDialogView  -->

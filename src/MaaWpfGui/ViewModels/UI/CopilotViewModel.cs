@@ -1848,7 +1848,7 @@ public partial class CopilotViewModel : Screen
         var types = new HashSet<CopilotType>(await Task.WhenAll(selected.Select(item => GetCopilotTypeAsync(item.FilePath))));
         if (types.Contains(CopilotType.Unknown))
         {
-            AddLog("部分作业类型解析失败, 跳过类型检查", UiLogColor.Error, showTime: false);
+            AddLog(LocalizationHelper.GetString("CopilotTaskTypeParseFailedSkipCheck"), UiLogColor.Error, showTime: false);
             return false;
         }
         else if (types.Count > 1)
@@ -2240,9 +2240,22 @@ public partial class CopilotViewModel : Screen
 
     private async Task<CopilotType> GetCopilotTypeAsync(string filePath)
     {
-        var str = await File.ReadAllTextAsync(filePath);
-        var job = JsonConvert.DeserializeObject<CopilotBase>(str, new CopilotContentConverter());
-        return GetCopilotType(job);
+        try
+        {
+            if (!File.Exists(filePath))
+            {
+                _logger.Error("file not found: {Path}, return: {Return}", filePath, CopilotType.Unknown);
+                return CopilotType.Unknown;
+            }
+            var str = await File.ReadAllTextAsync(filePath);
+            var job = JsonConvert.DeserializeObject<CopilotBase>(str, new CopilotContentConverter());
+            return GetCopilotType(job);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "could not read & parse copilot file: {Path}", filePath);
+            return CopilotType.Unknown;
+        }
     }
 
     private CopilotType GetCopilotType(CopilotBase? @base)

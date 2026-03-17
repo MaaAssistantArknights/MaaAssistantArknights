@@ -1061,6 +1061,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotStartWithEmptyList">작업 없이 ｢{key=UseCopilotList}」를 사용 중입니다.</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">｢{key=UseCopilotList}｣를 사용하여 단일 작업을 실행하는 것은 권장되지 않습니다. 단일 작업은 직접 실행해 주세요.</system:String>
     <system:String x:Key="CopilotTaskListMixedModeNotAllowed">현재 ｢{key=UseCopilotList}｣를 사용 중입니다. 서로 다른 작업 유형을 혼합하는 것은 지원되지 않습니다.</system:String>
+    <system:String x:Key="CopilotTaskTypeParseFailedSkipCheck">일부 작업 유형을 해석하지 못했습니다. 유형 검사를 건너뜁니다.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->

@@ -1060,6 +1060,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotStartWithEmptyList">タスクなしで「{key=UseCopilotList}」を使用した</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">「{key=UseCopilotList}」を使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
     <system:String x:Key="CopilotTaskListMixedModeNotAllowed">「{key=UseCopilotList}」を使用中ですが、異なるジョブタイプの混在はサポートされていません。</system:String>
+    <system:String x:Key="CopilotTaskTypeParseFailedSkipCheck">一部のジョブタイプの解析に失敗しました。タイプチェックをスキップします。</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
