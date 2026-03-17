@@ -220,7 +220,7 @@
                     Grid.Row="0"
                     HorizontalAlignment="Center"
                     d:Text="上次同步时间: 2026/1/1 上午00:00:00"
-                    Visibility="{c:Binding 'LastOperBoxSyncTime.Length > 0'}">
+                    Visibility="{c:Binding 'LastOperBoxSyncTimeText.Length > 0'}">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0}: {1}">
                             <Binding Source="{StaticResource LastSyncTime}" />
