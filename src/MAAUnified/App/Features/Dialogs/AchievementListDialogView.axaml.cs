@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MAAUnified.App.Infrastructure;
 using MAAUnified.Application.Models;
 
 namespace MAAUnified.App.Features.Dialogs;
@@ -13,6 +14,7 @@ public partial class AchievementListDialogView : Window
     public AchievementListDialogView()
     {
         InitializeComponent();
+        WindowVisuals.ApplyDefaultIcon(this);
         AchievementList.ItemsSource = _visibleItems;
     }
 

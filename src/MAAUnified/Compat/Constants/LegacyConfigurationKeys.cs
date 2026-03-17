@@ -259,6 +259,7 @@ public static class ConfigurationKeys
     public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
     public const string BluestacksConfigError = "Bluestacks.Config.Error";
 
+    public const string ActionAfterCompleted = "MainFunction.ActionAfterCompleted";
     public const string PostActions = "MainFunction.PostActions";
     public const string MainFunctionInverseMode = "MainFunction.InverseMode";
     public const string Stage1 = "MainFunction.Stage1"; // 已迁移

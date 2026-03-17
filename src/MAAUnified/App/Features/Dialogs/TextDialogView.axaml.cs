@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MAAUnified.App.Infrastructure;
 using MAAUnified.Application.Models;
 
 namespace MAAUnified.App.Features.Dialogs;
@@ -9,6 +10,7 @@ public partial class TextDialogView : Window
     public TextDialogView()
     {
         InitializeComponent();
+        WindowVisuals.ApplyDefaultIcon(this);
         Opened += (_, _) =>
         {
             InputBox.Focus();

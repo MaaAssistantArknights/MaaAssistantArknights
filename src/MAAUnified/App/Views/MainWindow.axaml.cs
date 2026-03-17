@@ -6,6 +6,7 @@ using Avalonia.Interactivity;
 using Avalonia.Platform;
 using Avalonia.Threading;
 using MAAUnified.App.Features.Dialogs;
+using MAAUnified.App.Infrastructure;
 using MAAUnified.App.ViewModels;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Models;
@@ -29,6 +30,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        WindowVisuals.ApplyDefaultIcon(this);
         _dialogService = Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime
             ? new AvaloniaDialogService(App.Runtime)
             : NoOpAppDialogService.Instance;
@@ -168,14 +170,36 @@ public partial class MainWindow : Window
         await DispatchTrayCommandAsync(TrayCommandId.Exit, "window-shell-menu");
     }
 
-    private void OnManualUpdateClick(object? sender, PointerPressedEventArgs e)
+    private async void OnManualUpdateClick(object? sender, PointerPressedEventArgs e)
     {
-        VM?.PushGrowl(VM.RootTexts["Main.Growl.ManualVersionUpdate"]);
+        if (VM is null)
+        {
+            return;
+        }
+
+        e.Handled = true;
+        await VM.SettingsPage.CheckVersionUpdateWithDialogAsync();
     }
 
     private void OnManualUpdateResourceClick(object? sender, PointerPressedEventArgs e)
     {
-        VM?.PushGrowl(VM.RootTexts["Main.Growl.ManualResourceUpdate"]);
+        if (VM is null)
+        {
+            return;
+        }
+
+        e.Handled = true;
+        _ = VM.SettingsPage.ManualUpdateResourceAsync();
+    }
+
+    private void OnToggleTopMostClick(object? sender, RoutedEventArgs e)
+    {
+        if (VM is null)
+        {
+            return;
+        }
+
+        VM.IsWindowTopMost = !VM.IsWindowTopMost;
     }
 
     public void OpenRuntimeLogWindow()

@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MAAUnified.App.Infrastructure;
 using MAAUnified.App.ViewModels.Infrastructure;
 
 namespace MAAUnified.App.Features.Dialogs;
@@ -9,6 +10,7 @@ public partial class WarningConfirmDialogView : Window
     public WarningConfirmDialogView()
     {
         InitializeComponent();
+        WindowVisuals.ApplyDefaultIcon(this);
     }
 
     public void ApplyRequest(

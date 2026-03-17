@@ -1474,6 +1474,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         await _runTransitionLock.WaitAsync(cancellationToken);
         try
         {
+            ClearVisibleRuntimeLogs();
             if (!await EnsureConnectedForLinkStartAsync("TaskQueue.Start", cancellationToken))
             {
                 return;
@@ -2906,6 +2907,18 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
                 message,
             NormalizeLogLevel(level));
         }
+    }
+
+    private void ClearVisibleRuntimeLogs()
+    {
+        foreach (var card in LogCards)
+        {
+            card.Thumbnail = null;
+        }
+
+        LogCards.Clear();
+        DownloadLogEntry = new TaskQueueLogEntryViewModel(string.Empty, string.Empty, "INFO");
+        LastRuntimeStatus = null;
     }
 
     public void AppendSystemLog(string message, string level = "INFO")

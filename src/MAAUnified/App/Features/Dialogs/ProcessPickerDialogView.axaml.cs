@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MAAUnified.App.Infrastructure;
 using MAAUnified.Application.Models;
 
 namespace MAAUnified.App.Features.Dialogs;
@@ -12,6 +13,7 @@ public partial class ProcessPickerDialogView : Window
     public ProcessPickerDialogView()
     {
         InitializeComponent();
+        WindowVisuals.ApplyDefaultIcon(this);
         ProcessList.ItemsSource = _items;
     }
 

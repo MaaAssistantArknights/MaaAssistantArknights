@@ -78,6 +78,28 @@ public sealed class SessionStateUiProjectionTests
     }
 
     [Fact]
+    public async Task TaskQueuePage_Start_ShouldClearVisibleLogsFromPreviousRun()
+    {
+        await using var fixture = await TestFixture.CreateAsync(existingAvaloniaJson: CreateRunnableConfigJson());
+        var vm = new TaskQueuePageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        vm.AppendSystemLog("stale system log");
+        typeof(TaskQueuePageViewModel)
+            .GetMethod("UpdateDownloadLog", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
+            .Invoke(vm, [DateTimeOffset.UtcNow, "INFO", "download old package"]);
+
+        Assert.Contains("stale system log", FlattenLogs(vm), StringComparison.Ordinal);
+        Assert.True(vm.HasDownloadLog);
+
+        await vm.ToggleRunAsync();
+        await WaitUntilAsync(() => vm.CurrentSessionState is SessionState.Running or SessionState.Connected);
+
+        Assert.DoesNotContain("stale system log", FlattenLogs(vm), StringComparison.Ordinal);
+        Assert.False(vm.HasDownloadLog);
+    }
+
+    [Fact]
     public async Task TaskQueuePage_Start_WhenConnectFails_ShouldShowConciseGuidanceWithoutIdleNoise()
     {
         await using var fixture = await TestFixture.CreateAsync(bridge: new FailingConnectBridge());
@@ -298,6 +320,37 @@ public sealed class SessionStateUiProjectionTests
               "Profiles": {
                 "Default": {
                   "Values": {},
+                  "TaskQueue": [
+                    {
+                      "Type": "Recruit",
+                      "Name": "Recruit",
+                      "IsEnabled": true,
+                      "Params": {
+                        "times": 4
+                      }
+                    }
+                  ]
+                }
+              },
+              "GlobalValues": {},
+              "Migration": {}
+            }
+            """;
+    }
+
+    private static string CreateRunnableConfigJson()
+    {
+        return
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {
+                    "ConnectAddress": "127.0.0.1:5555",
+                    "ConnectConfig": "General"
+                  },
                   "TaskQueue": [
                     {
                       "Type": "Recruit",

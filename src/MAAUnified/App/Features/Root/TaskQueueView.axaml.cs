@@ -196,9 +196,21 @@ public partial class TaskQueueView : UserControl
             if (VM is not null)
             {
                 VM.SelectedTask = source;
+                if (!VM.CanEdit)
+                {
+                    e.Handled = true;
+                    return;
+                }
             }
+
             OpenTaskRowContextMenu(control);
             e.Handled = true;
+            return;
+        }
+
+        if (VM is not null && !VM.CanEdit)
+        {
+            ResetTaskRowDragState();
             return;
         }
 
@@ -221,6 +233,7 @@ public partial class TaskQueueView : UserControl
     private async void OnTaskRowPointerMoved(object? sender, PointerEventArgs e)
     {
         if (VM is null
+            || !VM.CanEdit
             || _taskRowDragInProgress
             || _taskRowDragSource is null
             || _taskRowDragStart is null
@@ -266,6 +279,7 @@ public partial class TaskQueueView : UserControl
     private void OnTaskRowDragOver(object? sender, DragEventArgs e)
     {
         if (VM is null
+            || !VM.CanEdit
             || sender is not Control control
             || control.DataContext is not TaskQueueItemViewModel target
             || !TryGetDragRowIndex(e.Data, out var sourceIndex))
@@ -288,6 +302,7 @@ public partial class TaskQueueView : UserControl
     private async void OnTaskRowDrop(object? sender, DragEventArgs e)
     {
         if (VM is null
+            || !VM.CanEdit
             || sender is not Control control
             || control.DataContext is not TaskQueueItemViewModel target
             || !TryGetDragRowIndex(e.Data, out var sourceIndex)
@@ -381,7 +396,7 @@ public partial class TaskQueueView : UserControl
 
     private void OpenTaskRowContextMenu(Control rowControl)
     {
-        if (VM is null || rowControl.ContextMenu is null)
+        if (VM is null || !VM.CanEdit || rowControl.ContextMenu is null)
         {
             return;
         }

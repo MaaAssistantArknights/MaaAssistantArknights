@@ -72,6 +72,8 @@ public sealed class WindowsNotifyIconTrayService : ITrayService
     private readonly CommandNotificationService _notificationFallback = new();
     private readonly WindowMenuTrayService _fallbackService = new();
     private readonly Dictionary<TrayCommandId, PopupMenuItem> _menuItems = new();
+    private nint _iconHandle;
+    private bool _ownsIconHandle;
     private bool _visible = true;
     private bool _initialized;
     private bool _fallbackMode;
@@ -139,7 +141,8 @@ public sealed class WindowsNotifyIconTrayService : ITrayService
             _trayIcon = new TrayIconWithContextMenu("MAAUnified");
             RebuildMenu();
             _trayIcon.UpdateToolTip(string.IsNullOrWhiteSpace(appTitle) ? "MAAUnified" : appTitle.Trim());
-            _trayIcon.UpdateIcon(LoadIcon(nint.Zero, DefaultAppIconId));
+            _iconHandle = LoadTrayIconHandle(out _ownsIconHandle);
+            _trayIcon.UpdateIcon(_iconHandle);
             _trayIcon.UpdateVisibility(_visible ? IconVisibility.Visible : IconVisibility.Hidden);
             _trayIcon.Create();
             _initialized = true;
@@ -154,6 +157,7 @@ public sealed class WindowsNotifyIconTrayService : ITrayService
         {
             _trayIcon?.Dispose();
             _trayIcon = null;
+            ReleaseIconHandle();
             _initialized = false;
             _fallbackMode = true;
             var fallbackResult = await _fallbackService.InitializeAsync(appTitle, _menuText, cancellationToken);
@@ -187,6 +191,7 @@ public sealed class WindowsNotifyIconTrayService : ITrayService
             _trayIcon?.TryRemove();
             _trayIcon?.Dispose();
             _trayIcon = null;
+            ReleaseIconHandle();
             _initialized = false;
             _fallbackMode = false;
             return Task.FromResult(PlatformOperation.NativeSuccess(
@@ -387,6 +392,49 @@ public sealed class WindowsNotifyIconTrayService : ITrayService
 
     [DllImport("user32.dll")]
     private static extern nint LoadIcon(nint hInstance, nint lpIconName);
+
+    [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+    private static extern uint ExtractIconEx(string lpszFile, int nIconIndex, nint[]? phiconLarge, nint[]? phiconSmall, uint nIcons);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool DestroyIcon(nint hIcon);
+
+    private static nint LoadTrayIconHandle(out bool ownsHandle)
+    {
+        ownsHandle = false;
+        var processPath = Environment.ProcessPath;
+        if (!string.IsNullOrWhiteSpace(processPath))
+        {
+            var largeIcons = new nint[1];
+            try
+            {
+                var extracted = ExtractIconEx(processPath, 0, largeIcons, null, 1);
+                if (extracted > 0 && largeIcons[0] != nint.Zero)
+                {
+                    ownsHandle = true;
+                    return largeIcons[0];
+                }
+            }
+            catch
+            {
+                // Fall back to the default application icon when icon extraction fails.
+            }
+        }
+
+        return LoadIcon(nint.Zero, DefaultAppIconId);
+    }
+
+    private void ReleaseIconHandle()
+    {
+        if (_ownsIconHandle && _iconHandle != nint.Zero)
+        {
+            _ = DestroyIcon(_iconHandle);
+        }
+
+        _iconHandle = nint.Zero;
+        _ownsIconHandle = false;
+    }
 }
 
 public sealed class AvaloniaTrayIconTrayService : ITrayService, IDisposable

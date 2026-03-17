@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MAAUnified.App.Infrastructure;
 using MAAUnified.Application.Models;
 
 namespace MAAUnified.App.Features.Dialogs;
@@ -9,6 +10,7 @@ public partial class VersionUpdateDialogView : Window
     public VersionUpdateDialogView()
     {
         InitializeComponent();
+        WindowVisuals.ApplyDefaultIcon(this);
     }
 
     public void ApplyRequest(VersionUpdateDialogRequest request)

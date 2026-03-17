@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:chrome="clr-namespace:Avalonia.Controls.Chrome;assembly=Avalonia.Controls"
         xmlns:rootViews="clr-namespace:MAAUnified.App.Features.Root"
         xmlns:advancedViews="clr-namespace:MAAUnified.App.Features.Advanced"
         mc:Ignorable="d"
@@ -11,33 +12,83 @@
         MinWidth="{DynamicResource MAA.Size.MainWindow.MinWidth}"
         MinHeight="{DynamicResource MAA.Size.MainWindow.MinHeight}"
         Title="{Binding WindowTitle}"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="PreferSystemChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
         Topmost="{Binding IsWindowTopMost}">
-  <Grid Margin="{DynamicResource MAA.Thickness.PageMargin}">
-    <Image
-           Source="{Binding ShellBackgroundImage}"
-           Opacity="{Binding ShellBackgroundOpacity}"
-           Stretch="{Binding ShellBackgroundStretch}"
-           IsVisible="{Binding HasShellBackgroundImage}"
-           IsHitTestVisible="False">
-      <Image.Effect>
-        <BlurEffect Radius="{Binding ShellBackgroundBlur}" />
-      </Image.Effect>
-    </Image>
+  <Grid RowDefinitions="Auto,*">
+    <chrome:TitleBar Grid.Row="0"
+                     Height="40">
+      <Border Background="{DynamicResource MAA.Brush.Wpf.Region25}"
+              BorderBrush="{DynamicResource MAA.Brush.Border.Default}"
+              BorderThickness="0,0,0,1">
+        <Grid ColumnDefinitions="Auto,*,Auto"
+              Margin="10,0,12,0">
+          <StackPanel VerticalAlignment="Center"
+                      Spacing="1">
+            <TextBlock Text="{Binding WindowVersionUpdateInfo}"
+                       Cursor="Hand"
+                       FontSize="11"
+                       FontWeight="SemiBold"
+                       Foreground="{DynamicResource MAA.Brush.Action.PrimaryBorder}"
+                       IsVisible="{Binding HasWindowVersionUpdateInfo}"
+                       PointerPressed="OnManualUpdateClick" />
+            <TextBlock Text="{Binding WindowResourceUpdateInfo}"
+                       Cursor="Hand"
+                       FontSize="11"
+                       FontWeight="SemiBold"
+                       Foreground="{DynamicResource MAA.Brush.Action.PrimaryBorder}"
+                       IsVisible="{Binding HasWindowResourceUpdateInfo}"
+                       PointerPressed="OnManualUpdateResourceClick" />
+          </StackPanel>
 
-    <TabControl Classes="root-nav"
-                SelectedIndex="{Binding SelectedRootTabIndex}">
-      <TabItem Header="{Binding RootTexts[Main.Tab.TaskQueue]}">
-        <rootViews:TaskQueueView DataContext="{Binding TaskQueuePage}" />
-      </TabItem>
-      <TabItem Header="{Binding RootTexts[Main.Tab.Copilot]}">
-        <advancedViews:CopilotView DataContext="{Binding CopilotPage}" />
-      </TabItem>
-      <TabItem Header="{Binding RootTexts[Main.Tab.Toolbox]}">
-        <advancedViews:ToolboxView DataContext="{Binding ToolboxPage}" />
-      </TabItem>
-      <TabItem Header="{Binding RootTexts[Main.Tab.Settings]}">
-        <rootViews:SettingsView DataContext="{Binding SettingsPage}" />
-      </TabItem>
-    </TabControl>
+          <TextBlock Grid.Column="1"
+                     Margin="10,0,0,0"
+                     VerticalAlignment="Center"
+                     FontSize="{DynamicResource MAA.FontSize.WindowTitle}"
+                     FontWeight="SemiBold"
+                     IsHitTestVisible="False"
+                     Text="{Binding WindowTitle}"
+                     TextTrimming="CharacterEllipsis" />
+
+          <Button Grid.Column="2"
+                  Classes="wpf-button wpf-button-subtle compact icon-only"
+                  Width="{DynamicResource MAA.Size.MainWindow.PinToggleWidth}"
+                  Height="{DynamicResource MAA.Size.MainWindow.PinToggleHeight}"
+                  Content="📌"
+                  Click="OnToggleTopMostClick" />
+        </Grid>
+      </Border>
+    </chrome:TitleBar>
+
+    <Grid Grid.Row="1"
+          Margin="{DynamicResource MAA.Thickness.PageMargin}">
+      <Image
+             Source="{Binding ShellBackgroundImage}"
+             Opacity="{Binding ShellBackgroundOpacity}"
+             Stretch="{Binding ShellBackgroundStretch}"
+             IsVisible="{Binding HasShellBackgroundImage}"
+             IsHitTestVisible="False">
+        <Image.Effect>
+          <BlurEffect Radius="{Binding ShellBackgroundBlur}" />
+        </Image.Effect>
+      </Image>
+
+      <TabControl Classes="root-nav"
+                  SelectedIndex="{Binding SelectedRootTabIndex}">
+        <TabItem Header="{Binding RootTexts[Main.Tab.TaskQueue]}">
+          <rootViews:TaskQueueView DataContext="{Binding TaskQueuePage}" />
+        </TabItem>
+        <TabItem Header="{Binding RootTexts[Main.Tab.Copilot]}">
+          <advancedViews:CopilotView DataContext="{Binding CopilotPage}" />
+        </TabItem>
+        <TabItem Header="{Binding RootTexts[Main.Tab.Toolbox]}">
+          <advancedViews:ToolboxView DataContext="{Binding ToolboxPage}" />
+        </TabItem>
+        <TabItem Header="{Binding RootTexts[Main.Tab.Settings]}">
+          <rootViews:SettingsView DataContext="{Binding SettingsPage}" />
+        </TabItem>
+      </TabControl>
+    </Grid>
   </Grid>
 </Window>

@@ -46,8 +46,7 @@
                  Classes="wpf-list-no-highlight"
                  Margin="{DynamicResource MAA.Thickness.MarginTopList}"
                  ItemsSource="{Binding Tasks}"
-                 SelectedItem="{Binding SelectedTask}"
-                 IsEnabled="{Binding CanEdit}">
+                 SelectedItem="{Binding SelectedTask}">
           <ListBox.ItemTemplate>
             <DataTemplate>
               <Border Classes="wpf-card wpf-card-compact task-row-card"
@@ -66,15 +65,19 @@
                 <Border.ContextMenu>
                   <ContextMenu>
                     <MenuItem Header="{Binding RootTexts[TaskQueue.Root.MoveUp]}"
+                              IsEnabled="{Binding CanEdit}"
                               CommandParameter="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                               Click="OnTaskMenuMoveUpClick" />
                     <MenuItem Header="{Binding RootTexts[TaskQueue.Root.MoveDown]}"
+                              IsEnabled="{Binding CanEdit}"
                               CommandParameter="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                               Click="OnTaskMenuMoveDownClick" />
                     <MenuItem Header="{Binding RootTexts[TaskQueue.Root.Rename]}"
+                              IsEnabled="{Binding CanEdit}"
                               CommandParameter="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                               Click="OnTaskMenuRenameClick" />
                     <MenuItem Header="{Binding RootTexts[TaskQueue.Root.Delete]}"
+                              IsEnabled="{Binding CanEdit}"
                               CommandParameter="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                               Click="OnTaskMenuRemoveClick" />
                   </ContextMenu>
@@ -202,14 +205,14 @@
         <TextBlock Classes="section-title" Text="{Binding RootTexts[TaskQueue.Root.TaskConfigTitle]}" />
 
         <ScrollViewer Grid.Row="1"
-                      IsEnabled="{Binding CanEdit}"
                       HorizontalScrollBarVisibility="Disabled">
           <StackPanel Spacing="{DynamicResource MAA.Spacing.Small}"
                       Margin="{DynamicResource MAA.Thickness.TaskQueue.ConfigContentMargin}">
             <TextBlock Classes="muted"
                        Text="{Binding NoTaskSelectedHint}"
                        IsVisible="{Binding ShowTaskConfigHint}" />
-            <ContentControl Content="{Binding SelectedTaskSettingsViewModel}" />
+            <ContentControl Content="{Binding SelectedTaskSettingsViewModel}"
+                            IsEnabled="{Binding CanEdit}" />
           </StackPanel>
         </ScrollViewer>
 

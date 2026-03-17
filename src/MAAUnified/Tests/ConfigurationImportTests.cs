@@ -559,6 +559,118 @@ public sealed class ConfigurationImportTests
     }
 
     [Fact]
+    public async Task ImportLegacy_GuiActionAfterCompletedWithoutPostActions_RemainsReadable_AndMigratesOnLoad()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "gui.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "MainFunction.ActionAfterCompleted": "StopGame"
+                }
+              }
+            }
+            """);
+
+        var service = CreateService(root);
+        var report = await service.ImportLegacyAsync(ImportSource.GuiOnly, manualImport: false);
+
+        Assert.True(report.Success);
+        var diagnostics = new UiDiagnosticsService(root, service.LogService);
+        var feature = new PostActionFeatureService(service, diagnostics, new NoOpPostActionExecutorService());
+
+        var load = await feature.LoadAsync();
+
+        Assert.True(load.Success);
+        Assert.NotNull(load.Value);
+        Assert.True(load.Value!.ExitArknights);
+
+        var profile = service.CurrentConfig.Profiles["Default"];
+        Assert.True(profile.Values.ContainsKey("TaskQueue.PostAction"));
+        Assert.False(profile.Values.ContainsKey("MainFunction.ActionAfterCompleted"));
+    }
+
+    [Fact]
+    public async Task ImportLegacy_GuiPostActionsZero_ShouldFallBackToActionAfterCompletedOnLoad()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "gui.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "MainFunction.ActionAfterCompleted": "StopGame",
+                  "MainFunction.PostActions": "0"
+                }
+              }
+            }
+            """);
+
+        var service = CreateService(root);
+        var report = await service.ImportLegacyAsync(ImportSource.GuiOnly, manualImport: false);
+
+        Assert.True(report.Success);
+        var diagnostics = new UiDiagnosticsService(root, service.LogService);
+        var feature = new PostActionFeatureService(service, diagnostics, new NoOpPostActionExecutorService());
+
+        var load = await feature.LoadAsync();
+
+        Assert.True(load.Success);
+        Assert.NotNull(load.Value);
+        Assert.True(load.Value!.ExitArknights);
+
+        var profile = service.CurrentConfig.Profiles["Default"];
+        Assert.True(profile.Values.ContainsKey("TaskQueue.PostAction"));
+        Assert.False(profile.Values.ContainsKey("MainFunction.PostActions"));
+        Assert.False(profile.Values.ContainsKey("MainFunction.ActionAfterCompleted"));
+    }
+
+    [Fact]
+    public async Task ImportLegacy_GuiActionAfterCompletedCompositeValue_ShouldMapToStructuredPostActions()
+    {
+        var root = CreateTempRoot();
+        Directory.CreateDirectory(Path.Combine(root, "config"));
+        await File.WriteAllTextAsync(
+            Path.Combine(root, "config", "gui.json"),
+            """
+            {
+              "Current": "Default",
+              "Configurations": {
+                "Default": {
+                  "MainFunction.ActionAfterCompleted": "ExitEmulatorAndSelf"
+                }
+              }
+            }
+            """);
+
+        var service = CreateService(root);
+        var report = await service.ImportLegacyAsync(ImportSource.GuiOnly, manualImport: false);
+
+        Assert.True(report.Success);
+        var diagnostics = new UiDiagnosticsService(root, service.LogService);
+        var feature = new PostActionFeatureService(service, diagnostics, new NoOpPostActionExecutorService());
+
+        var load = await feature.LoadAsync();
+
+        Assert.True(load.Success);
+        Assert.NotNull(load.Value);
+        Assert.True(load.Value!.ExitEmulator);
+        Assert.True(load.Value.ExitSelf);
+        Assert.False(load.Value.Hibernate);
+
+        var profile = service.CurrentConfig.Profiles["Default"];
+        Assert.True(profile.Values.ContainsKey("TaskQueue.PostAction"));
+        Assert.False(profile.Values.ContainsKey("MainFunction.ActionAfterCompleted"));
+    }
+
+    [Fact]
     public async Task ImportLegacy_Auto_GuiNewValidAndGuiCorrupted_ShouldKeepImportResultSaveable_AndReportError()
     {
         var root = CreateTempRoot();

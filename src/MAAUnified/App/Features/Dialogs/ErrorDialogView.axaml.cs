@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MAAUnified.App.Infrastructure;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Models;
 
@@ -15,6 +16,7 @@ public partial class ErrorDialogView : Window
     public ErrorDialogView()
     {
         InitializeComponent();
+        WindowVisuals.ApplyDefaultIcon(this);
     }
 
     public void ApplyRequest(

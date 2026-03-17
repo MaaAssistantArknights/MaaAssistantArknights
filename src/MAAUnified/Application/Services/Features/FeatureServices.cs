@@ -1810,26 +1810,81 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
         var config = _configService.CurrentConfig;
         var hasProfileLegacy = profile.Values.TryGetValue(ConfigurationKeys.PostActions, out var profileLegacyNode) && profileLegacyNode is not null;
         var hasGlobalLegacy = config.GlobalValues.TryGetValue(ConfigurationKeys.PostActions, out var globalLegacyNode) && globalLegacyNode is not null;
-        var legacyNode = hasProfileLegacy ? profileLegacyNode : globalLegacyNode;
-        if (legacyNode is null)
+        var hasProfileLegacyAction = profile.Values.TryGetValue(ConfigurationKeys.ActionAfterCompleted, out var profileLegacyActionNode) && profileLegacyActionNode is not null;
+        var hasGlobalLegacyAction = config.GlobalValues.TryGetValue(ConfigurationKeys.ActionAfterCompleted, out var globalLegacyActionNode) && globalLegacyActionNode is not null;
+        var hasLegacyPostActions = hasProfileLegacy || hasGlobalLegacy;
+        var hasLegacyActionAfterCompleted = hasProfileLegacyAction || hasGlobalLegacyAction;
+        if (!hasLegacyPostActions && !hasLegacyActionAfterCompleted)
         {
             return UiOperationResult<PostActionConfig>.Ok(PostActionConfig.Default, "Post action config is empty.");
         }
 
-        if (!TryReadLegacyFlags(legacyNode, out var flags))
+        var parsedLegacyPostActions = false;
+        var legacyPostActionsConfig = PostActionConfig.Default;
+        if (hasLegacyPostActions)
+        {
+            var legacyNode = hasProfileLegacy ? profileLegacyNode : globalLegacyNode;
+            if (TryReadLegacyFlags(legacyNode!, out var flags))
+            {
+                parsedLegacyPostActions = true;
+                legacyPostActionsConfig = MapLegacyFlags(flags);
+            }
+        }
+
+        var parsedLegacyActionAfterCompleted = false;
+        var legacyActionAfterCompletedConfig = PostActionConfig.Default;
+        if (hasLegacyActionAfterCompleted)
+        {
+            var legacyActionNode = hasProfileLegacyAction ? profileLegacyActionNode : globalLegacyActionNode;
+            if (TryReadLegacyActionAfterCompleted(legacyActionNode!, out var parsedActionConfig))
+            {
+                parsedLegacyActionAfterCompleted = true;
+                legacyActionAfterCompletedConfig = parsedActionConfig;
+            }
+        }
+
+        PostActionConfig migratedConfig;
+        bool migratedFromFlags;
+        if (parsedLegacyPostActions && legacyPostActionsConfig.HasAnyAction())
+        {
+            migratedConfig = legacyPostActionsConfig;
+            migratedFromFlags = true;
+        }
+        else if (parsedLegacyActionAfterCompleted)
+        {
+            migratedConfig = legacyActionAfterCompletedConfig;
+            migratedFromFlags = false;
+        }
+        else if (parsedLegacyPostActions)
+        {
+            migratedConfig = legacyPostActionsConfig;
+            migratedFromFlags = true;
+        }
+        else
         {
             return UiOperationResult<PostActionConfig>.Fail(
                 UiErrorCode.PostActionLegacyParseFailed,
-                "Failed to parse legacy post action flags.");
+                hasLegacyPostActions && hasLegacyActionAfterCompleted
+                    ? "Failed to parse legacy completion action config."
+                    : hasLegacyPostActions
+                        ? "Failed to parse legacy post action flags."
+                        : "Failed to parse legacy completion action.");
         }
 
-        var migrated = MapLegacyFlags(flags).ToJson();
+        var migrated = migratedConfig.ToJson();
         profile.Values[PostActionConfigKey] = migrated;
         profile.Values.Remove(ConfigurationKeys.PostActions);
         config.GlobalValues.Remove(ConfigurationKeys.PostActions);
+        profile.Values.Remove(ConfigurationKeys.ActionAfterCompleted);
+        config.GlobalValues.Remove(ConfigurationKeys.ActionAfterCompleted);
         await _configService.SaveAsync(cancellationToken);
-        _configService.LogService.Info("Migrated legacy post actions bitmask to structured TaskQueue.PostAction.");
-        return UiOperationResult<PostActionConfig>.Ok(PostActionConfig.FromJson(migrated), "Legacy post action config migrated.");
+        _configService.LogService.Info(
+            migratedFromFlags
+                ? "Migrated legacy post actions bitmask to structured TaskQueue.PostAction."
+                : "Migrated legacy completion action to structured TaskQueue.PostAction.");
+        return UiOperationResult<PostActionConfig>.Ok(
+            PostActionConfig.FromJson(migrated),
+            migratedFromFlags ? "Legacy post action config migrated." : "Legacy completion action migrated.");
     }
 
     public async Task<UiOperationResult> SaveAsync(PostActionConfig config, CancellationToken cancellationToken = default)
@@ -1848,6 +1903,8 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
         _configService.CurrentConfig.GlobalValues.Remove(PostActionConfigKey);
         profile.Values.Remove(ConfigurationKeys.PostActions);
         _configService.CurrentConfig.GlobalValues.Remove(ConfigurationKeys.PostActions);
+        profile.Values.Remove(ConfigurationKeys.ActionAfterCompleted);
+        _configService.CurrentConfig.GlobalValues.Remove(ConfigurationKeys.ActionAfterCompleted);
         await _configService.SaveAsync(cancellationToken);
         return UiOperationResult.Ok("Post action config saved.");
     }
@@ -2239,6 +2296,166 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
         return false;
     }
 
+    private static bool TryReadLegacyActionAfterCompleted(JsonNode node, out PostActionConfig config)
+    {
+        config = PostActionConfig.Default;
+        if (node is not JsonValue jsonValue)
+        {
+            return false;
+        }
+
+        if (jsonValue.TryGetValue(out int intValue))
+        {
+            return TryMapLegacyCompletionAction(intValue, out config);
+        }
+
+        if (!jsonValue.TryGetValue(out string? text))
+        {
+            return false;
+        }
+
+        if (int.TryParse(text, out intValue))
+        {
+            return TryMapLegacyCompletionAction(intValue, out config);
+        }
+
+        var normalized = NormalizeLegacyCompletionActionName(text);
+        return TryMapLegacyCompletionAction(normalized, out config);
+    }
+
+    private static string NormalizeLegacyCompletionActionName(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return string.Empty;
+        }
+
+        var builder = new StringBuilder(text.Length);
+        foreach (var ch in text)
+        {
+            if (char.IsLetterOrDigit(ch))
+            {
+                builder.Append(char.ToLowerInvariant(ch));
+            }
+        }
+
+        return builder.ToString();
+    }
+
+    private static bool TryMapLegacyCompletionAction(int value, out PostActionConfig config)
+    {
+        LegacyCompletionAction? action = value switch
+        {
+            0 => LegacyCompletionAction.DoNothing,
+            1 => LegacyCompletionAction.StopGame,
+            2 => LegacyCompletionAction.ExitSelf,
+            3 => LegacyCompletionAction.ExitEmulator,
+            4 => LegacyCompletionAction.ExitEmulatorAndSelf,
+            5 => LegacyCompletionAction.Suspend,
+            6 => LegacyCompletionAction.Hibernate,
+            7 => LegacyCompletionAction.ExitEmulatorAndSelfAndHibernate,
+            8 => LegacyCompletionAction.Shutdown,
+            9 => LegacyCompletionAction.HibernateWithoutPersist,
+            10 => LegacyCompletionAction.ExitEmulatorAndSelfAndHibernateWithoutPersist,
+            11 => LegacyCompletionAction.ShutdownWithoutPersist,
+            12 => LegacyCompletionAction.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate,
+            13 => LegacyCompletionAction.ExitSelfIfOtherMaaElseShutdown,
+            14 => LegacyCompletionAction.BackToAndroidHome,
+            _ => null,
+        };
+
+        if (action is null)
+        {
+            config = PostActionConfig.Default;
+            return false;
+        }
+
+        config = MapLegacyCompletionAction(action.Value);
+        return true;
+    }
+
+    private static bool TryMapLegacyCompletionAction(string normalizedAction, out PostActionConfig config)
+    {
+        LegacyCompletionAction? action = normalizedAction switch
+        {
+            "" or "none" or "noaction" or "donothing" or "nothing" => LegacyCompletionAction.DoNothing,
+            "stopgame" or "exitarknights" or "closearknights" => LegacyCompletionAction.StopGame,
+            "backtoandroidhome" or "backtohome" or "returntoandroidhome" or "returntohome" => LegacyCompletionAction.BackToAndroidHome,
+            "exitemulator" or "closeemulator" => LegacyCompletionAction.ExitEmulator,
+            "exitself" or "exitmaa" or "closemaa" or "quitmaa" => LegacyCompletionAction.ExitSelf,
+            "exitemulatorandself" => LegacyCompletionAction.ExitEmulatorAndSelf,
+            "hibernate" => LegacyCompletionAction.Hibernate,
+            "hibernatewithoutpersist" => LegacyCompletionAction.HibernateWithoutPersist,
+            "shutdown" or "poweroff" => LegacyCompletionAction.Shutdown,
+            "shutdownwithoutpersist" => LegacyCompletionAction.ShutdownWithoutPersist,
+            "sleep" or "suspend" or "standby" => LegacyCompletionAction.Suspend,
+            "exitemulatorandselfandhibernate" => LegacyCompletionAction.ExitEmulatorAndSelfAndHibernate,
+            "exitemulatorandselfandhibernatewithoutpersist" => LegacyCompletionAction.ExitEmulatorAndSelfAndHibernateWithoutPersist,
+            "exitemulatorandselfifothermaaelseexitemulatorandselfandhibernate" => LegacyCompletionAction.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate,
+            "exitselfifothermaaelseshutdown" => LegacyCompletionAction.ExitSelfIfOtherMaaElseShutdown,
+            _ => null,
+        };
+
+        if (action is null)
+        {
+            config = PostActionConfig.Default;
+            return false;
+        }
+
+        config = MapLegacyCompletionAction(action.Value);
+        return true;
+    }
+
+    private static PostActionConfig MapLegacyCompletionAction(LegacyCompletionAction action)
+    {
+        return action switch
+        {
+            LegacyCompletionAction.DoNothing => PostActionConfig.Default,
+            LegacyCompletionAction.StopGame => new PostActionConfig { ExitArknights = true },
+            LegacyCompletionAction.ExitSelf => new PostActionConfig { ExitSelf = true },
+            LegacyCompletionAction.ExitEmulator => new PostActionConfig { ExitEmulator = true },
+            LegacyCompletionAction.ExitEmulatorAndSelf => new PostActionConfig
+            {
+                ExitEmulator = true,
+                ExitSelf = true,
+            },
+            LegacyCompletionAction.Suspend => new PostActionConfig { Sleep = true },
+            LegacyCompletionAction.Hibernate => new PostActionConfig { Hibernate = true },
+            LegacyCompletionAction.ExitEmulatorAndSelfAndHibernate => new PostActionConfig
+            {
+                ExitEmulator = true,
+                ExitSelf = true,
+                Hibernate = true,
+            },
+            LegacyCompletionAction.Shutdown => new PostActionConfig { Shutdown = true },
+            LegacyCompletionAction.HibernateWithoutPersist => new PostActionConfig { Hibernate = true },
+            LegacyCompletionAction.ExitEmulatorAndSelfAndHibernateWithoutPersist => new PostActionConfig
+            {
+                ExitEmulator = true,
+                ExitSelf = true,
+                Hibernate = true,
+            },
+            LegacyCompletionAction.ShutdownWithoutPersist => new PostActionConfig { Shutdown = true },
+            LegacyCompletionAction.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate => new PostActionConfig
+            {
+                ExitEmulator = true,
+                ExitSelf = true,
+                IfNoOtherMaa = true,
+                Hibernate = true,
+            },
+            // The structured model cannot express "exit self only when other MAA exists";
+            // this preserves the shutdown branch and keeps ExitSelf for the other-MAA branch.
+            LegacyCompletionAction.ExitSelfIfOtherMaaElseShutdown => new PostActionConfig
+            {
+                ExitSelf = true,
+                IfNoOtherMaa = true,
+                Shutdown = true,
+            },
+            LegacyCompletionAction.BackToAndroidHome => new PostActionConfig { BackToAndroidHome = true },
+            _ => PostActionConfig.Default,
+        };
+    }
+
     [Flags]
     private enum LegacyPostActionFlags
     {
@@ -2251,6 +2468,25 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
         Hibernate = 1 << 5,
         Shutdown = 1 << 6,
         Sleep = 1 << 7,
+    }
+
+    private enum LegacyCompletionAction
+    {
+        DoNothing,
+        StopGame,
+        ExitSelf,
+        ExitEmulator,
+        ExitEmulatorAndSelf,
+        Suspend,
+        Hibernate,
+        ExitEmulatorAndSelfAndHibernate,
+        Shutdown,
+        HibernateWithoutPersist,
+        ExitEmulatorAndSelfAndHibernateWithoutPersist,
+        ShutdownWithoutPersist,
+        ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate,
+        ExitSelfIfOtherMaaElseShutdown,
+        BackToAndroidHome,
     }
 }
 

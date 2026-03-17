@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MAAUnified.App.Infrastructure;
 using MAAUnified.Application.Models;
 
 namespace MAAUnified.App.Features.Dialogs;
@@ -12,6 +13,7 @@ public partial class EmulatorPathSelectionDialogView : Window
     public EmulatorPathSelectionDialogView()
     {
         InitializeComponent();
+        WindowVisuals.ApplyDefaultIcon(this);
         PathList.ItemsSource = _paths;
         PathList.SelectionChanged += OnPathSelectionChanged;
     }
