@@ -55,12 +55,6 @@ public class CopilotItemViewModel : PropertyChangedBase
     [JsonProperty("copilot_id")]
     public int CopilotId { get; set; }
 
-    /// <summary>
-    /// Gets or sets 作业来源的 CopilotTabIndex
-    /// </summary>
-    [JsonProperty("tab_index", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? TabIndex { get; set; }
-
     [JsonProperty("is_raid")]
     private bool _isRaid;
 

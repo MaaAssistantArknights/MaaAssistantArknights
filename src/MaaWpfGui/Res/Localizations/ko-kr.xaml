@@ -1060,9 +1060,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">부조종사 작업을 파일에 저장할 수 없습니다.: </system:String>
     <system:String x:Key="CopilotStartWithEmptyList">작업 없이 ｢{key=UseCopilotList}」를 사용 중입니다.</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">｢{key=UseCopilotList}｣를 사용하여 단일 작업을 실행하는 것은 권장되지 않습니다. 단일 작업은 직접 실행해 주세요.</system:String>
-    <system:String x:Key="CopilotTaskListMixedModeNotAllowed">작업 목록에서 ｢{key=MainStageStoryCollectionSideStory}｣와 ｢{key=ParadoxSimulation}｣를 혼용할 수 없습니다. 해당 탭에서 각각 목록을 만든 뒤 시작해 주세요.</system:String>
-    <system:String x:Key="CopilotTaskListLegacyItemNotSupported">작업 목록에 이전 버전 항목(탭 정보 없음)이 포함되어 있습니다. 올바른 탭에서 해당 작업을 다시 추가한 뒤 시작해 주세요.</system:String>
-    <system:String x:Key="CopilotTaskListTabMismatch">현재 탭은 ｢{0}｣이지만 작업 목록은 ｢{1}｣에서 왔습니다. 해당 탭으로 전환한 뒤 시작해 주세요.</system:String>
+    <system:String x:Key="CopilotTaskListMixedModeNotAllowed">현재 ｢{key=UseCopilotList}｣를 사용 중입니다. 서로 다른 작업 유형을 혼합하는 것은 지원되지 않습니다.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->

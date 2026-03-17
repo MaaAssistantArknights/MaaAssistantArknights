@@ -1059,9 +1059,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">無法儲存作業檔案至：</system:String>
     <system:String x:Key="CopilotStartWithEmptyList">正在使用 ｢{key=UseCopilotList}｣，但未新增任何作業</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">正在使用 ｢{key=UseCopilotList}｣ 執行單一作業，不推薦此行為。單一作業請直接執行即可。</system:String>
-    <system:String x:Key="CopilotTaskListMixedModeNotAllowed">正在使用 ｢{key=UseCopilotList}｣，但不允許混用「{key=MainStageStoryCollectionSideStory}」與「{key=ParadoxSimulation}」，請分別在對應標籤頁建立列表後再啟動</system:String>
-    <system:String x:Key="CopilotTaskListLegacyItemNotSupported">正在使用 ｢{key=UseCopilotList}｣，但列表包含舊版本項目（缺少標籤頁資訊），請在正確的標籤頁重新新增這些作業後再啟動</system:String>
-    <system:String x:Key="CopilotTaskListTabMismatch">正在使用 ｢{key=UseCopilotList}｣，目前標籤頁為「{0}」，但列表來自「{1}」，請切換到對應標籤頁後再啟動</system:String>
+    <system:String x:Key="CopilotTaskListMixedModeNotAllowed">正在使用 ｢{key=UseCopilotList}｣，不支援混用不同型別作業</system:String>
     <!--  !日誌  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->

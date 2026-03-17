@@ -80,6 +80,9 @@ public partial class CopilotViewModel : Screen
     [GeneratedRegex(InvalidStageNameChars)]
     private static partial Regex InvalidStageNameRegex();
 
+    [GeneratedRegex(@"^act\d+(side|mini)_")]
+    private static partial Regex SideStoryStageIdRegex();
+
     /// <summary>
     /// Gets the view models of log items.
     /// </summary>
@@ -1669,20 +1672,20 @@ public partial class CopilotViewModel : Screen
 
             name ??= stageCode;
 
-            var item = new CopilotItemViewModel(name, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, TabIndex = CopilotTabIndex, };
+            var item = new CopilotItemViewModel(name, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
             CopilotItemViewModels.Add(item);
         }
         else
         {
             if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal))
             {
-                var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, TabIndex = CopilotTabIndex, };
+                var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
             }
 
             if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid))
             {
-                var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, TabIndex = CopilotTabIndex, };
+                var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
             }
         }
@@ -1842,27 +1845,15 @@ public partial class CopilotViewModel : Screen
             return false;
         }
 
-        // 列表必须严格归属页签：不兼容旧版本缺少 TabIndex 的条目
-        if (selected.Any(i => i.TabIndex is null))
+        var types = new HashSet<CopilotType>(await Task.WhenAll(selected.Select(item => GetCopilotTypeAsync(item.FilePath))));
+        if (types.Contains(CopilotType.Unknown))
         {
-            AddLog(LocalizationHelper.GetString("CopilotTaskListLegacyItemNotSupported"), UiLogColor.Error, showTime: false);
+            AddLog("部分作业类型解析失败, 跳过类型检查", UiLogColor.Error, showTime: false);
             return false;
         }
-
-        var tabs = selected.Select(i => i.TabIndex!.Value).Distinct().ToArray();
-        if (tabs.Length > 1)
+        else if (types.Count > 1)
         {
-            AddLog(LocalizationHelper.GetString("CopilotTaskListMixedModeNotAllowed"), UiLogColor.Error, showTime: false);
-            return false;
-        }
-
-        var listTab = tabs[0];
-        if (listTab != tabIndex)
-        {
-            AddLog(LocalizationHelper.GetStringFormat(
-                "CopilotTaskListTabMismatch",
-                GetCopilotTabName(tabIndex),
-                GetCopilotTabName(listTab)), UiLogColor.Error, showTime: false);
+            AddLog(LocalizationHelper.GetString("CopilotTaskListMixedModeNotAllowed") + "\n" + string.Join(", ", types.Select(i => GetCopilotTabName(i))), UiLogColor.Error, showTime: false);
             return false;
         }
 
@@ -2086,13 +2077,7 @@ public partial class CopilotViewModel : Screen
         _runningState.SetIdle(true);
     }
 
-    private bool _isDataFromWeb;
-
-    private bool IsDataFromWeb
-    {
-        get => _isDataFromWeb;
-        set => SetAndNotify(ref _isDataFromWeb, value);
-    }
+    private bool IsDataFromWeb { get => field; set => SetAndNotify(ref field, value); }
 
     private int _copilotId;
 
@@ -2203,16 +2188,14 @@ public partial class CopilotViewModel : Screen
         return ok;
     }
 
-    private static string GetCopilotTabName(int tabIndex)
-    {
-        return tabIndex switch {
-            0 => LocalizationHelper.GetString("MainStageStoryCollectionSideStory"),
-            1 => LocalizationHelper.GetString("SSS"),
-            2 => LocalizationHelper.GetString("ParadoxSimulation"),
-            3 => LocalizationHelper.GetString("OtherActivityStage"),
-            _ => tabIndex.ToString(),
-        };
-    }
+    private static string GetCopilotTabName(CopilotType type) =>
+         type switch {
+             CopilotType.MainStageAndSideStory => LocalizationHelper.GetString("MainStageStoryCollectionSideStory"),
+             CopilotType.SSS => LocalizationHelper.GetString("SSS"),
+             CopilotType.Paradox => LocalizationHelper.GetString("ParadoxSimulation"),
+             CopilotType.Other => LocalizationHelper.GetString("OtherActivityStage"),
+             _ => type.ToString(),
+         };
 
     /// <summary>
     /// 点击后移除界面中元素焦点
@@ -2253,5 +2236,63 @@ public partial class CopilotViewModel : Screen
         DependencyObject scope = FocusManager.GetFocusScope(element);
         FocusManager.SetFocusedElement(scope, element);
         Keyboard.ClearFocus();
+    }
+
+    private async Task<CopilotType> GetCopilotTypeAsync(string filePath)
+    {
+        var str = await File.ReadAllTextAsync(filePath);
+        var job = JsonConvert.DeserializeObject<CopilotBase>(str, new CopilotContentConverter());
+        return GetCopilotType(job);
+    }
+
+    private CopilotType GetCopilotType(CopilotBase? @base)
+    {
+        if (@base is null)
+        {
+            return CopilotType.Unknown;
+        }
+        else if (@base is SSSCopilotModel)
+        {
+            return CopilotType.SSS;
+        }
+        else if (@base is CopilotModel copilot)
+        {
+            if (string.IsNullOrEmpty(copilot.StageName))
+            {
+                return CopilotType.Unknown;
+            }
+            var mapInfo = DataHelper.FindMap(copilot.StageName);
+            if (mapInfo is null)
+            {
+                return CopilotType.Unknown;
+            }
+            if (mapInfo.StageId?.StartsWith("mem_") is true)
+            {
+                return CopilotType.Paradox;
+            }
+            else if (mapInfo.StageId?.StartsWith("main_") is true || SideStoryStageIdRegex().IsMatch(mapInfo.StageId ?? string.Empty))
+            {
+                return CopilotType.MainStageAndSideStory;
+            }
+        }
+
+        return CopilotType.Unknown;
+    }
+
+    private enum CopilotType
+    {
+        Unknown = -1,
+
+        /// <summary>主线, 故事集, 支线作业</summary>
+        MainStageAndSideStory = 0,
+
+        /// <summary>保全</summary>
+        SSS,
+
+        /// <summary>悖论模拟</summary>
+        Paradox,
+
+        /// <summary>其他</summary>
+        Other,
     }
 }

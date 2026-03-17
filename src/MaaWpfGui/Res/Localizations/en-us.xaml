@@ -1058,9 +1058,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">Could not save copilot task to file: </system:String>
     <system:String x:Key="CopilotStartWithEmptyList">Using ｢{key=UseCopilotList}｣, but no tasks have been added</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">You're using ｢{key=UseCopilotList}｣ to execute a single task, which is not recommended. For single tasks, please run them directly instead.</system:String>
-    <system:String x:Key="CopilotTaskListMixedModeNotAllowed">You're using ｢{key=UseCopilotList}｣, but mixing ｢{key=MainStageStoryCollectionSideStory}｣ and ｢{key=ParadoxSimulation}｣ is not allowed. Please create separate lists under the corresponding tabs before starting.</system:String>
-    <system:String x:Key="CopilotTaskListLegacyItemNotSupported">You're using ｢{key=UseCopilotList}｣, but the list contains legacy items (missing tab info). Please re-add these tasks under the correct tab before starting.</system:String>
-    <system:String x:Key="CopilotTaskListTabMismatch">You're using ｢{key=UseCopilotList}｣. Current tab is ｢{0}｣, but the list is from ｢{1}｣. Please switch to the corresponding tab before starting.</system:String>
+    <system:String x:Key="CopilotTaskListMixedModeNotAllowed">Currently using ｢{key=UseCopilotList}｣. Mixing different job types is not supported.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
