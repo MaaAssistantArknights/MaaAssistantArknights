@@ -947,7 +947,7 @@ public class ToolboxViewModel : Screen
     public bool StartDepotRecognitionTask(bool startImmediately = true)
     {
         bool ret = Instances.AsstProxy.AsstStartDepot(startImmediately);
-        if (ret)
+        if (ret && startImmediately)
         {
             DepotInfo = LocalizationHelper.GetString("Identifying");
         }
@@ -1350,7 +1350,7 @@ public class ToolboxViewModel : Screen
     public bool StartOperBoxRecognitionTask(bool startImmediately = true)
     {
         bool ret = Instances.AsstProxy.AsstStartOperBox(startImmediately);
-        if (ret)
+        if (ret && startImmediately)
         {
             OperBoxInfo = LocalizationHelper.GetString("Identifying");
         }
