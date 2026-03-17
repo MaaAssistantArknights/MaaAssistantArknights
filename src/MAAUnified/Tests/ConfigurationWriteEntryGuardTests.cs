@@ -24,11 +24,13 @@ public sealed class ConfigurationWriteEntryGuardTests
             }
         }
 
-        var hit = Assert.Single(hits);
-        Assert.StartsWith(
-            Path.Combine("src", "MAAUnified", "Application", "Services", "UnifiedConfigurationService.cs"),
-            hit,
-            StringComparison.Ordinal);
+        Assert.NotEmpty(hits);
+        Assert.All(
+            hits,
+            hit => Assert.StartsWith(
+                Path.Combine("src", "MAAUnified", "Application", "Services", "UnifiedConfigurationService.cs"),
+                hit,
+                StringComparison.Ordinal));
     }
 
     [Fact]

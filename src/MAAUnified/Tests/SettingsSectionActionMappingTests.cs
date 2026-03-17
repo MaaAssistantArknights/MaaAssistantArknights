@@ -72,12 +72,14 @@ public sealed class SettingsSectionActionMappingTests
 
         var persisted = await WaitForConditionAsync(() =>
         {
-            var globals = fixture.Runtime.ConfigurationService.CurrentConfig.GlobalValues;
-            return ReadConfigValue(globals, ConfigurationKeys.RemoteControlGetTaskEndpointUri) == "https://example.com/get"
-                   && ReadConfigValue(globals, ConfigurationKeys.RemoteControlReportStatusUri) == "https://example.com/report"
-                   && ReadConfigValue(globals, ConfigurationKeys.RemoteControlUserIdentity) == "user-a"
-                   && ReadConfigValue(globals, ConfigurationKeys.RemoteControlDeviceIdentity) == "device-a"
-                   && ReadConfigValue(globals, ConfigurationKeys.RemoteControlPollIntervalMs) == "2300";
+            var config = fixture.Runtime.ConfigurationService.CurrentConfig;
+            var profile = config.Profiles[config.CurrentProfile];
+            var values = profile.Values;
+            return ReadConfigValue(values, ConfigurationKeys.RemoteControlGetTaskEndpointUri) == "https://example.com/get"
+                   && ReadConfigValue(values, ConfigurationKeys.RemoteControlReportStatusUri) == "https://example.com/report"
+                   && ReadConfigValue(values, ConfigurationKeys.RemoteControlUserIdentity) == "user-a"
+                   && ReadConfigValue(values, ConfigurationKeys.RemoteControlDeviceIdentity) == "device-a"
+                   && ReadConfigValue(values, ConfigurationKeys.RemoteControlPollIntervalMs) == "2300";
         });
 
         Assert.True(persisted);

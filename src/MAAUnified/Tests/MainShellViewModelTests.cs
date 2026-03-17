@@ -385,9 +385,9 @@ public sealed class MainShellViewModelTests
         Assert.Contains(
             fixture.ViewModel.TaskQueuePage.Tasks,
             task => string.Equals(task.Type, "Fight", StringComparison.Ordinal));
-        Assert.Contains(
-            fixture.ViewModel.TaskQueuePage.LogCards,
-            card => card.PrimaryContent.Contains("已强行导入旧配置：gui.new.json", StringComparison.Ordinal));
+        Assert.True(TaskQueueContainsLog(
+            fixture.ViewModel.TaskQueuePage,
+            "已强行导入旧配置：gui.new.json"));
     }
 
     [Fact]
@@ -490,8 +490,9 @@ public sealed class MainShellViewModelTests
         await fixture.ViewModel.InitializeAsync();
 
         Assert.True(await WaitUntilAsync(
-            () => fixture.ViewModel.TaskQueuePage.LogCards.Any(
-                card => card.PrimaryContent.Contains("已自动加载并转换 gui.new.json", StringComparison.Ordinal))));
+            () => TaskQueueContainsLog(
+                fixture.ViewModel.TaskQueuePage,
+                "已自动加载并转换 gui.new.json")));
     }
 
     [Fact]
@@ -1020,6 +1021,13 @@ public sealed class MainShellViewModelTests
         }
 
         return false;
+    }
+
+    private static bool TaskQueueContainsLog(TaskQueuePageViewModel page, string expected)
+    {
+        return page.LogCards
+            .SelectMany(card => card.Items)
+            .Any(item => item.Content.Contains(expected, StringComparison.Ordinal));
     }
 
     private static async Task<IReadOnlyList<string>> WaitForEventLinesAsync(

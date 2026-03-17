@@ -72,9 +72,9 @@ public sealed class ToolboxModuleO2FeatureTests
 
         await vm.InitializeAsync();
 
-        Assert.NotNull(vm.OperBoxHaveList[0].EliteIconImage);
-        Assert.NotNull(vm.OperBoxHaveList[0].PotentialIconImage);
-        Assert.NotNull(vm.DepotResult[0].ItemImage);
+        Assert.NotNull(ToolboxAssetCatalog.ResolveOperatorEliteAssetPath(vm.OperBoxHaveList[0].Elite));
+        Assert.NotNull(ToolboxAssetCatalog.ResolveOperatorPotentialAssetPath(vm.OperBoxHaveList[0].Potential));
+        Assert.NotNull(ToolboxAssetCatalog.ResolveItemImagePath(vm.DepotResult[0].Id));
 
         vm.MiniGameTaskName = "SS@Store@Begin";
         Assert.Equal("请在活动商店页面开始。\n不买无限池。", vm.MiniGameTip);

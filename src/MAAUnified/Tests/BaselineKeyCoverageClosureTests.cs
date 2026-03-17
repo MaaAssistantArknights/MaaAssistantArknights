@@ -16,8 +16,8 @@ public sealed class BaselineKeyCoverageClosureTests
 
         Assert.Contains("[ConfigurationKeys.RemoteControlUserIdentity] = normalizedUserIdentity", vmSource, StringComparison.Ordinal);
         Assert.Contains("[ConfigurationKeys.RemoteControlDeviceIdentity] = normalizedDeviceIdentity", vmSource, StringComparison.Ordinal);
-        Assert.Contains("ReadString(config, ConfigurationKeys.RemoteControlUserIdentity", vmSource, StringComparison.Ordinal);
-        Assert.Contains("ReadString(config, ConfigurationKeys.RemoteControlDeviceIdentity", vmSource, StringComparison.Ordinal);
+        Assert.Contains("ReadProfileString(config, ConfigurationKeys.RemoteControlUserIdentity", vmSource, StringComparison.Ordinal);
+        Assert.Contains("ReadProfileString(config, ConfigurationKeys.RemoteControlDeviceIdentity", vmSource, StringComparison.Ordinal);
     }
 
     [Fact]

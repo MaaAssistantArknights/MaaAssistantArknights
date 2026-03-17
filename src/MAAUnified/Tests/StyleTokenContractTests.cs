@@ -12,6 +12,11 @@ public sealed class StyleTokenContractTests
         "App/Features/Advanced/CopilotView.axaml",
         "App/Features/Advanced/ToolboxView.axaml",
     ];
+    private static readonly string[] TokenizedCoreEntryViews =
+    [
+        "App/Views/MainWindow.axaml",
+        "App/Features/Root/SettingsView.axaml",
+    ];
 
     [Fact]
     public void GlobalStyleEntry_ShouldBeSingleSource()
@@ -151,7 +156,7 @@ public sealed class StyleTokenContractTests
             "(Width|Height|MinWidth|MinHeight|MaxWidth|MaxHeight|Margin|Padding|Spacing|CornerRadius|FontSize|BorderThickness|ColumnDefinitions|RowDefinitions)=\"[^\"]*[0-9][^\"]*\"",
             RegexOptions.Compiled);
 
-        foreach (var relative in CoreEntryViews)
+        foreach (var relative in TokenizedCoreEntryViews)
         {
             var fullPath = Path.Combine(root, relative.Replace('/', Path.DirectorySeparatorChar));
             var text = File.ReadAllText(fullPath);

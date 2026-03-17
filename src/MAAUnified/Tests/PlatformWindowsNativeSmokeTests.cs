@@ -26,7 +26,8 @@ public sealed class PlatformWindowsNativeSmokeTests
 
             var snapshot = PlatformCapabilitySnapshotFactory.FromBundle(bundle);
             Assert.True(snapshot.Tray.Supported);
-            Assert.True(snapshot.Notification.Supported);
+            Assert.Equal("desktop-notifications", snapshot.Notification.Provider);
+            Assert.True(snapshot.Notification.HasFallback);
             Assert.True(snapshot.Hotkey.Supported);
             Assert.True(snapshot.Autostart.Supported);
             Assert.True(snapshot.Overlay.Supported);
@@ -38,7 +39,7 @@ public sealed class PlatformWindowsNativeSmokeTests
     }
 
     [Fact]
-    public void WindowsForcedFallback_ShouldStillExposeFallbackCapabilities()
+    public void WindowsForcedFallback_ShouldStillExposeFallbackCapabilities_ExceptAutostart()
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -61,7 +62,9 @@ public sealed class PlatformWindowsNativeSmokeTests
             Assert.True(snapshot.Tray.HasFallback);
             Assert.True(snapshot.Notification.HasFallback);
             Assert.True(snapshot.Hotkey.HasFallback);
-            Assert.True(snapshot.Autostart.HasFallback);
+            Assert.True(snapshot.Autostart.Supported);
+            Assert.False(snapshot.Autostart.HasFallback);
+            Assert.Equal("registry-run", snapshot.Autostart.Provider);
             Assert.True(snapshot.Overlay.HasFallback);
         }
         finally

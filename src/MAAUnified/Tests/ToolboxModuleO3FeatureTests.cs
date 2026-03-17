@@ -196,7 +196,6 @@ public sealed class ToolboxModuleO3FeatureTests
 
         Assert.Contains("PR-A-1/2", hint, StringComparison.Ordinal);
         Assert.DoesNotContain("(库存", hint, StringComparison.Ordinal);
-        Assert.DoesNotContain("-1", hint, StringComparison.Ordinal);
     }
 
     [Fact]

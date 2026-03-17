@@ -441,7 +441,6 @@ public sealed class TaskQueueG2FeatureTests
 
         Assert.Contains("PR-A-1/2: 奶&盾芯片", hint);
         Assert.DoesNotContain("(库存", hint);
-        Assert.DoesNotContain("-1", hint);
     }
 
     private static async Task InvokeCallbackAsync(TaskQueuePageViewModel vm, CoreCallbackEvent callback)

@@ -142,6 +142,17 @@ internal static class ToolboxAssetCatalog
         return ResolveEmbeddedBitmap($"operator:potential:{normalized}", $"avares://MAAUnified/Assets/Toolbox/Operator/Potential_{normalized}.png");
     }
 
+    internal static string? ResolveOperatorEliteAssetPath(int elite)
+    {
+        return ResolveAssetFilePath($"avares://MAAUnified/Assets/Toolbox/Operator/Elite_{Math.Clamp(elite, 0, 2)}.png");
+    }
+
+    internal static string? ResolveOperatorPotentialAssetPath(int potential)
+    {
+        var normalized = potential is >= 1 and <= 6 ? potential : 1;
+        return ResolveAssetFilePath($"avares://MAAUnified/Assets/Toolbox/Operator/Potential_{normalized}.png");
+    }
+
     internal static IDisposable PushTestBaseDirectoriesForTests(params string[] directories)
     {
         var normalized = directories
@@ -419,7 +430,7 @@ internal static class ToolboxAssetCatalog
         }
         catch
         {
-            return null;
+            return TryLoadFileBitmap(ResolveAssetFilePath(assetUri));
         }
     }
 
@@ -438,6 +449,44 @@ internal static class ToolboxAssetCatalog
         {
             return null;
         }
+    }
+
+    private static string? ResolveAssetFilePath(string assetUri)
+    {
+        if (!Uri.TryCreate(assetUri, UriKind.Absolute, out var uri))
+        {
+            return null;
+        }
+
+        var relativePath = uri.AbsolutePath.TrimStart('/')
+            .Replace('/', Path.DirectorySeparatorChar);
+        if (string.IsNullOrWhiteSpace(relativePath))
+        {
+            return null;
+        }
+
+        foreach (var root in EnumerateBaseDirectories())
+        {
+            var direct = Path.Combine(root, relativePath);
+            if (File.Exists(direct))
+            {
+                return direct;
+            }
+
+            var appRelative = Path.Combine(root, "App", relativePath);
+            if (File.Exists(appRelative))
+            {
+                return appRelative;
+            }
+
+            var sourceTree = Path.Combine(root, "src", "MAAUnified", "App", relativePath);
+            if (File.Exists(sourceTree))
+            {
+                return sourceTree;
+            }
+        }
+
+        return null;
     }
 
     private static string? ResolveBattleDataPath()

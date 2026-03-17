@@ -28,15 +28,16 @@
 
         <StackPanel Classes="settings-centered-column">
           <TextBlock Classes="settings-field-caption" Text="连接配置" />
-          <ComboBox Width="{DynamicResource MAA.Size.Settings.FieldInputWidth}"
-                    ItemsSource="{Binding ConnectConfigOptions}"
-                    SelectedItem="{Binding SelectedConnectConfigOption}">
-            <ComboBox.ItemTemplate>
+          <controls:CheckComboBox Width="{DynamicResource MAA.Size.Settings.FieldInputWidth}"
+                                  HeaderText="{Binding SelectedConnectConfigOption.DisplayName}"
+                                  ItemsSource="{Binding ConnectConfigOptions}"
+                                  SelectedItem="{Binding SelectedConnectConfigOption}">
+            <controls:CheckComboBox.ItemTemplate>
               <DataTemplate x:DataType="vm:ConnectionGameOptionItem">
                 <TextBlock Text="{Binding DisplayName}" />
               </DataTemplate>
-            </ComboBox.ItemTemplate>
-          </ComboBox>
+            </controls:CheckComboBox.ItemTemplate>
+          </controls:CheckComboBox>
         </StackPanel>
 
         <TextBlock Classes="state-warning settings-centered-text"
