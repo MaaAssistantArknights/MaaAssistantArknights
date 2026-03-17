@@ -691,6 +691,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="UserDataUpdate">更新数据</system:String>
     <system:String x:Key="MiniGame">小游戏</system:String>
     <system:String x:Key="Custom">自定任务</system:String>
     <system:String x:Key="SingleStep">单步任务</system:String>
@@ -849,7 +850,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  仓库识别  -->
     <system:String x:Key="DepotRecognition">仓库识别</system:String>
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
-    <system:String x:Key="LastDepotSyncTime">上次同步时间</system:String>
+    <system:String x:Key="LastSyncTime">上次同步时间</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
     <system:String x:Key="StartToDepotRecognition">开始识别</system:String>
     <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
@@ -1223,6 +1224,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="UseFormation">使用编队</system:String>
     <system:String x:Key="Current">当前</system:String>
+    <system:String x:Key="EveryTime">每次</system:String>
+    <system:String x:Key="Daily">每天</system:String>
+    <system:String x:Key="Weekly">每周</system:String>
+    <system:String x:Key="UserDataUpdateTriggerInterval">触发间隔</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationParseFailed">编队解析失败</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择{key=Operator}: </system:String>

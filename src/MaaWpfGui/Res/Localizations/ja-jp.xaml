@@ -691,6 +691,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
+    <system:String x:Key="UserDataUpdate">ユーザーデータ更新</system:String>
     <system:String x:Key="MiniGame">ミニゲーム</system:String>
     <system:String x:Key="Custom">カスタムタスク</system:String>
     <system:String x:Key="SingleStep">単一ステップタスク</system:String>
@@ -849,7 +850,7 @@ C:\\leidian\\LDPlayer9
     <!--  倉庫アイテム認識  -->
     <system:String x:Key="DepotRecognition">倉庫アイテム認識</system:String>
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
-    <system:String x:Key="LastDepotSyncTime">前回同期時間</system:String>
+    <system:String x:Key="LastSyncTime">前回同期時間</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
     <system:String x:Key="StartToDepotRecognition">認識開始</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
@@ -1223,6 +1224,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="StageInfoError">ステージ認識エラー</system:String>
     <system:String x:Key="UseFormation">使用編成</system:String>
     <system:String x:Key="Current">現在</system:String>
+    <system:String x:Key="EveryTime">毎回</system:String>
+    <system:String x:Key="Daily">毎日</system:String>
+    <system:String x:Key="Weekly">毎週</system:String>
+    <system:String x:Key="UserDataUpdateTriggerInterval">実行間隔</system:String>
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationParseFailed">フォーメーション解析に失敗しました</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}を選択: </system:String>

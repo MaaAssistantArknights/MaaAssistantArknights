@@ -932,6 +932,30 @@ public class ToolboxViewModel : Screen
     }
 
     /// <summary>
+    /// 重置仓库识别状态。
+    /// </summary>
+    public void ResetDepotRecognitionState()
+    {
+        DepotClear();
+    }
+
+    /// <summary>
+    /// 追加或启动仓库识别任务。
+    /// </summary>
+    /// <param name="startImmediately">是否立刻启动。</param>
+    /// <returns>是否成功。</returns>
+    public bool StartDepotRecognitionTask(bool startImmediately = true)
+    {
+        bool ret = Instances.AsstProxy.AsstStartDepot(startImmediately);
+        if (ret)
+        {
+            DepotInfo = LocalizationHelper.GetString("Identifying");
+        }
+
+        return ret;
+    }
+
+    /// <summary>
     /// Starts depot recognition.
     /// UI 绑定的方法
     /// </summary>
@@ -950,15 +974,41 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        DepotInfo = LocalizationHelper.GetString("Identifying");
-        DepotClear();
-
-        Instances.AsstProxy.AsstStartDepot();
+        ResetDepotRecognitionState();
+        StartDepotRecognitionTask();
     }
 
     #endregion Depot
 
     #region OperBox
+
+    private DateTime? _lastOperBoxSyncTime;
+
+    /// <summary>
+    /// Gets or sets 上次干员同步时间（UTC 时间）
+    /// </summary>
+    public DateTime? LastOperBoxSyncTime
+    {
+        get => _lastOperBoxSyncTime;
+        set => SetAndNotify(ref _lastOperBoxSyncTime, value);
+    }
+
+    /// <summary>
+    /// Gets 上次干员同步时间的显示文本（本地时间）
+    /// </summary>
+    [PropertyDependsOn(nameof(LastOperBoxSyncTime))]
+    public string LastOperBoxSyncTimeText
+    {
+        get {
+            if (LastOperBoxSyncTime == null)
+            {
+                return string.Empty;
+            }
+
+            var localTime = LastOperBoxSyncTime.Value.ToLocalTime();
+            return localTime.ToString();
+        }
+    }
 
     private int _operBoxSelectedIndex = 0;
 
@@ -1030,7 +1080,7 @@ public class ToolboxViewModel : Screen
 
         public int IdNumber { get; } = ExtractIdNumber(id);
 
-        public string RarityStars => IsPallas ? LocalizationHelper.GetPallasString(6, 6) : new('★', Rarity);
+        public string RarityStars => (IsPallas && Level > 0) ? LocalizationHelper.GetPallasString(6, 6) : new('★', Rarity);
 
         /// <summary>
         /// Gets the path to the Elite icon image
@@ -1047,7 +1097,7 @@ public class ToolboxViewModel : Screen
         /// <summary>
         /// Gets the resource key based on rarity
         /// </summary>
-        public string RarityColorResourceKey => IsPallas ? "AchievementBrush.Rare.LinearGradientBrush" : $"Star{Rarity}OperatorLogBrush";
+        public string RarityColorResourceKey => (IsPallas && Level > 0) ? "AchievementBrush.Rare.LinearGradientBrush" : $"Star{Rarity}OperatorLogBrush";
 
         public bool Equals(Operator? other) => other != null && Name == other.Name && Rarity == other.Rarity;
 
@@ -1105,11 +1155,19 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _operBoxNotHaveList, value);
     }
 
-    private static void SaveOperBoxDetails(List<OperBoxData.OperData> details)
+    private void SaveOperBoxDetails(List<OperBoxData.OperData> details)
     {
-        // var json = details.ToString(Formatting.None);
-        // ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, json);
-        JsonDataHelper.Set(JsonDataKey.OperBoxData, JArray.FromObject(details));
+        var data = new JObject {
+            ["done"] = true,
+            ["own_opers"] = JArray.FromObject(details),
+        };
+
+        if (LastOperBoxSyncTime.HasValue)
+        {
+            data["syncTime"] = LastOperBoxSyncTime.Value.ToString("o");
+        }
+
+        JsonDataHelper.Set(JsonDataKey.OperBoxData, data);
     }
 
     private void SortOperBoxLists()
@@ -1126,7 +1184,7 @@ public class ToolboxViewModel : Screen
         }
 
         return [.. list
-            .OrderByDescending(x => x.IsPallas)
+            .OrderByDescending(x => x.IsPallas && x.Level > 0)
             .ThenByDescending(x => x.Rarity)
             .ThenByDescending(x => x.Elite)
             .ThenByDescending(x => x.Level)
@@ -1147,39 +1205,55 @@ public class ToolboxViewModel : Screen
 
         try
         {
-            var ownOpers = JsonConvert.DeserializeObject<List<OperBoxData.OperData>>(json)?.Where(i => !string.IsNullOrEmpty(i.Id)).ToList();
-            if (ownOpers is null)
+            if (JToken.Parse(json) is JArray oldArray)
             {
+                var ownOpers = oldArray.ToObject<List<OperBoxData.OperData>>()?.Where(i => !string.IsNullOrEmpty(i.Id)).ToList();
+                if (ownOpers is null)
+                {
+                    return;
+                }
+
+                LoadOperBoxList(ownOpers);
                 return;
             }
 
-            var operDataMap = ownOpers.ToDictionary(o => o.Id);
-            foreach (var (id, oper) in DataHelper.Operators)
+            if (JObject.Parse(json) is { } details)
             {
-                if (DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType))
-                {
-                    var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
-                    if (operDataMap.TryGetValue(id, out var operData))
-                    {
-                        OperBoxHaveList.Add(new Operator(id, name, oper.Rarity, operData.Elite, operData.Level, operData.Potential));
-
-                        if (id == "char_485_pallas")
-                        {
-                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
-                        }
-                    }
-                    else
-                    {
-                        OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
-                    }
-                }
+                OperBoxParse(details, updateSyncTime: false);
             }
-
-            SortOperBoxLists();
         }
         catch
         {
             // 兼容老数据或异常时忽略
+        }
+
+        void LoadOperBoxList(List<OperBoxData.OperData> ownOpers)
+        {
+            var operDataMap = ownOpers.ToDictionary(o => o.Id);
+            foreach (var (id, oper) in DataHelper.Operators)
+            {
+                if (!DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType))
+                {
+                    continue;
+                }
+
+                var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
+                if (operDataMap.TryGetValue(id, out var operData))
+                {
+                    OperBoxHaveList.Add(new Operator(id, name, oper.Rarity, operData.Elite, operData.Level, operData.Potential));
+
+                    if (id == "char_485_pallas")
+                    {
+                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
+                    }
+                }
+                else
+                {
+                    OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
+                }
+            }
+
+            SortOperBoxLists();
         }
     }
 
@@ -1188,7 +1262,7 @@ public class ToolboxViewModel : Screen
     /// </summary>
     private HashSet<string> _tempOperHaveSet = [];
 
-    public bool OperBoxParse(JObject? details)
+    public bool OperBoxParse(JObject? details, bool updateSyncTime = true)
     {
         if (details == null)
         {
@@ -1236,10 +1310,52 @@ public class ToolboxViewModel : Screen
             OperBoxSelectedIndex = 0;
         }
 
+        if (updateSyncTime)
+        {
+            LastOperBoxSyncTime = DateTime.UtcNow;
+        }
+        else
+        {
+            var syncTimeStr = details["syncTime"]?.ToString(Formatting.None)?.Trim('"');
+            if (!string.IsNullOrEmpty(syncTimeStr) &&
+                DateTime.TryParseExact(syncTimeStr, "O", null, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out var lastOperBoxSyncTime))
+            {
+                LastOperBoxSyncTime = lastOperBoxSyncTime;
+            }
+        }
+
         OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}\n{LocalizationHelper.GetString("OperBoxRecognitionTip")}";
         SaveOperBoxDetails(ownOpers);
         _tempOperHaveSet = [];
         return true;
+    }
+
+    /// <summary>
+    /// 重置干员识别状态。
+    /// </summary>
+    public void ResetOperBoxRecognitionState()
+    {
+        OperBoxSelectedIndex = 1;
+        _operBoxPotential = null;
+        _tempOperHaveSet = [];
+        OperBoxHaveList = [];
+        OperBoxNotHaveList = [];
+    }
+
+    /// <summary>
+    /// 追加或启动干员识别任务。
+    /// </summary>
+    /// <param name="startImmediately">是否立刻启动。</param>
+    /// <returns>是否成功。</returns>
+    public bool StartOperBoxRecognitionTask(bool startImmediately = true)
+    {
+        bool ret = Instances.AsstProxy.AsstStartOperBox(startImmediately);
+        if (ret)
+        {
+            OperBoxInfo = LocalizationHelper.GetString("Identifying");
+        }
+
+        return ret;
     }
 
     /// <summary>
@@ -1250,13 +1366,8 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public async Task StartOperBox()
     {
-        OperBoxSelectedIndex = 1;
-        _operBoxPotential = null;
-        _tempOperHaveSet = [];
-        OperBoxHaveList = [];
-        OperBoxNotHaveList = [];
+        ResetOperBoxRecognitionState();
         _runningState.SetIdle(false);
-
         string errMsg = string.Empty;
         OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -1267,10 +1378,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        if (Instances.AsstProxy.AsstStartOperBox())
-        {
-            OperBoxInfo = LocalizationHelper.GetString("Identifying");
-        }
+        StartOperBoxRecognitionTask();
     }
 
     // UI 绑定的方法

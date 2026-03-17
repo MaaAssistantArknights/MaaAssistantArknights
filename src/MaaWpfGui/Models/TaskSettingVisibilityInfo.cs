@@ -12,6 +12,7 @@
 // </copyright>
 #nullable enable
 using System;
+using System.Linq;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -51,6 +52,8 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool Reclamation { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool UserDataUpdate { get => field; set => SetAndNotify(ref field, value); }
+
     public bool Custom { get => field; set => SetAndNotify(ref field, value); }
 
     public bool PostAction { get => field; set => SetAndNotify(ref field, value); }
@@ -79,8 +82,9 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     public bool IsCurrentTaskRunning =>
         ConfigFactory.CurrentConfig.TaskQueue.Count > CurrentIndex &&
         CurrentIndex >= 0 &&
-        Instances.AsstProxy.TasksStatus.TryGetValue(Instances.TaskQueueViewModel.TaskItemViewModels[CurrentIndex].TaskId, out var status) &&
-        status.Status == TaskStatus.InProgress;
+        Instances.TaskQueueViewModel.TaskItemViewModels[CurrentIndex].TaskIds.Any(taskId =>
+            Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var status) &&
+            status.Status == TaskStatus.InProgress);
 
     public static BaseTask? CurrentTask =>
         ConfigFactory.CurrentConfig.TaskQueue.Count > Instance.CurrentIndex &&
@@ -143,6 +147,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             AwardTask => Award = enable,
             RoguelikeTask => Roguelike = enable,
             ReclamationTask => Reclamation = enable,
+            UserDataUpdateTask => UserDataUpdate = enable,
             CustomTask => Custom = enable,
             _ => throw new NotImplementedException(),
         };
@@ -160,6 +165,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         Award = false;
         Roguelike = false;
         Reclamation = false;
+        UserDataUpdate = false;
         Custom = false;
     }
 

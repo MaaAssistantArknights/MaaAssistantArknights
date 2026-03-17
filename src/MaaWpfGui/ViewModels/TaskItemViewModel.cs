@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Models;
 using Stylet;
@@ -52,16 +54,24 @@ public class TaskItemViewModel : PropertyChangedBase
         }
     }
 
-    public int Index { get => field; set => SetAndNotify(ref field, value); }
+    private int _index;
+
+    public int Index
+    {
+        get => _index;
+        set => SetAndNotify(ref _index, value);
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether the setting enabled.
     /// </summary>
+    private bool _enableSetting;
+
     public bool EnableSetting
     {
-        get => field;
+        get => _enableSetting;
         set {
-            SetAndNotify(ref field, value);
+            SetAndNotify(ref _enableSetting, value);
             TaskSettingVisibilityInfo.Instance.Set(Index, value);
         }
     }
@@ -69,7 +79,36 @@ public class TaskItemViewModel : PropertyChangedBase
     /// <summary>
     /// Gets or sets 任务id，默认为0，添加后任务id应 > 0；执行后应置为0
     /// </summary>
-    public int TaskId { get; set; }
+    private int _taskId;
 
-    public int Status { get => field; set => SetAndNotify(ref field, value); }
+    public int TaskId
+    {
+        get => _taskId;
+        set => SetTaskIds(value > 0 ? [value] : []);
+    }
+
+    private IReadOnlyList<int> _taskIds = [];
+
+    public IReadOnlyList<int> TaskIds
+    {
+        get => _taskIds;
+        private set => SetAndNotify(ref _taskIds, value);
+    }
+
+    public void SetTaskIds(IEnumerable<int> taskIds)
+    {
+        var ids = taskIds.Where(id => id > 0).Distinct().ToArray();
+        TaskIds = ids;
+        SetAndNotify(ref _taskId, ids.LastOrDefault(), nameof(TaskId));
+    }
+
+    public bool ContainsTaskId(int taskId) => taskId > 0 && TaskIds.Contains(taskId);
+
+    private int _status;
+
+    public int Status
+    {
+        get => _status;
+        set => SetAndNotify(ref _status, value);
+    }
 }

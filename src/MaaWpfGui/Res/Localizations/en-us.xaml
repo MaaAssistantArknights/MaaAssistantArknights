@@ -690,6 +690,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
+    <system:String x:Key="UserDataUpdate">Update User Data</system:String>
     <system:String x:Key="MiniGame">Mini-Games</system:String>
     <system:String x:Key="Custom">Custom Task</system:String>
     <system:String x:Key="SingleStep">Single-Step Task</system:String>
@@ -848,7 +849,7 @@ Right Click: Select Target Process</system:String>
     <!--  Depot Recognition  -->
     <system:String x:Key="DepotRecognition">Depot</system:String>
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
-    <system:String x:Key="LastDepotSyncTime">Last Sync Time</system:String>
+    <system:String x:Key="LastSyncTime">Last Sync Time</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the ｢debug/depot｣ folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="StartToDepotRecognition">Start to Identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
@@ -1222,6 +1223,10 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="UseFormation">Use formation</system:String>
     <system:String x:Key="Current">Current</system:String>
+    <system:String x:Key="EveryTime">Every Time</system:String>
+    <system:String x:Key="Daily">Daily</system:String>
+    <system:String x:Key="Weekly">Weekly</system:String>
+    <system:String x:Key="UserDataUpdateTriggerInterval">Trigger Interval</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationParseFailed">Formation parse failed</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>

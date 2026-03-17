@@ -124,6 +124,11 @@ public class TaskQueueViewModel : Screen
     public static ReclamationSettingsUserControlModel ReclamationTask => ReclamationSettingsUserControlModel.Instance;
 
     /// <summary>
+    /// Gets 更新用户数据任务Model
+    /// </summary>
+    public static UserDataUpdateSettingsUserControlModel UserDataUpdateTask => UserDataUpdateSettingsUserControlModel.Instance;
+
+    /// <summary>
     /// Gets 生稀盐酸任务Model
     /// </summary>
     public static CustomSettingsUserControlModel CustomTask => CustomSettingsUserControlModel.Instance;
@@ -1277,6 +1282,7 @@ public class TaskQueueViewModel : Screen
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Award"), Value = typeof(AwardTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Roguelike"), Value = typeof(RoguelikeTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Reclamation"), Value = typeof(ReclamationTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("UserDataUpdate"), Value = typeof(UserDataUpdateTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Custom"), Value = typeof(CustomTask) },
         ]);
 
@@ -1743,12 +1749,15 @@ public class TaskQueueViewModel : Screen
 
             try
             {
+                var existingTaskIds = Instances.AsstProxy.TasksStatus.Keys.ToHashSet();
                 var (isSuccess, taskId) = SerializeTask(item);
                 switch (isSuccess)
                 {
                     case true:
                         ++count;
-                        Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.TaskId = taskId;
+                        var newTaskIds = Instances.AsstProxy.TasksStatus.Keys.Where(taskId => !existingTaskIds.Contains(taskId)).ToArray();
+                        Instances.TaskQueueViewModel.TaskItemViewModels[index].SetTaskIds(newTaskIds);
+                        // Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.TaskId = taskId;
                         break;
                     case false:
                         taskRet = false;

@@ -692,6 +692,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AutoRoguelike">통합 전략</system:String>
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">생존 연산</system:String>
+    <system:String x:Key="UserDataUpdate">사용자 데이터 업데이트</system:String>
     <system:String x:Key="MiniGame">미니게임</system:String>
     <system:String x:Key="Custom">커스텀 작업</system:String>
     <system:String x:Key="SingleStep">단일 단계 작업</system:String>
@@ -850,7 +851,7 @@ C:\\leidian\\LDPlayer9
     <!--  창고 인식  -->
     <system:String x:Key="DepotRecognition">창고 인식</system:String>
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
-    <system:String x:Key="LastDepotSyncTime">마지막 동기화 시간</system:String>
+    <system:String x:Key="LastSyncTime">마지막 동기화 시간</system:String>
     <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 내보내기 전 인식 결과가 맞는지 확인 후 사용하세요\n만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 depot 폴더 전체를 압축해서 Github의 issue로 올려주세요</system:String>
     <system:String x:Key="StartToDepotRecognition">인식 시작</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
@@ -1224,6 +1225,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="UseFormation">편성 사용</system:String>
     <system:String x:Key="Current">현재</system:String>
+    <system:String x:Key="EveryTime">매번</system:String>
+    <system:String x:Key="Daily">매일</system:String>
+    <system:String x:Key="Weekly">매주</system:String>
+    <system:String x:Key="UserDataUpdateTriggerInterval">실행 간격</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
     <system:String x:Key="BattleFormationParseFailed">편성 분석에 실패했습니다</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
