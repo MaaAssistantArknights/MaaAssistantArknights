@@ -1205,19 +1205,21 @@ public class ToolboxViewModel : Screen
 
         try
         {
-            if (JToken.Parse(json) is JArray oldArray)
+            var token = JToken.Parse(json);
+            if (token is JArray oldArray)
             {
-                var ownOpers = oldArray.ToObject<List<OperBoxData.OperData>>()?.Where(i => !string.IsNullOrEmpty(i.Id)).ToList();
+                var ownOpers = oldArray
+                    .ToObject<List<OperBoxData.OperData>>()?
+                    .Where(i => !string.IsNullOrEmpty(i.Id))
+                    .ToList();
                 if (ownOpers is null)
                 {
                     return;
                 }
-
                 LoadOperBoxList(ownOpers);
                 return;
             }
-
-            if (JObject.Parse(json) is { } details)
+            else if (token is JObject details)
             {
                 OperBoxParse(details, updateSyncTime: false);
             }
