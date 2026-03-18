@@ -194,11 +194,22 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 
 3. `인스턴스 번호`에 LD 멀티플레이어에서 해당 에뮬레이터의 일련번호(ID)를 입력합니다. 예: 메인 멀티플레이어의 경우 `0`
 
+### AVD 스크린샷 향상 모드
+
+需使用 Android Emulator v27.2.9 及更新版本。（只要是方舟开服之后下载的就没问题。）
+
+因为 AVD 截图增强模式在 MaaFramework 中实现，所以必须选择 MaaFramework 触控模式才能启用 AVD 截图增强。
+
+1. `设置` - `连接设置` - `连接配置` 选择 `Android 虚拟设备（AVD）`。
+
+2. `触控模式` 选择 `MaaFramework`。
+
 ## 터치 모드
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch): C로 작성된 Android 터치 이벤트 핸들러로, 외부 프로그램이 터치 이벤트와 제스처를 트리거할 수 있는 소켓 인터페이스를 제공합니다. Android 10부터는 SELinux가 `Enforcing` 모드일 때 Minitouch가 더 이상 사용되지 않습니다.
 2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch): MAA가 Java 기반으로 Minitouch를 재구현한 것입니다. 높은 버전의 Android에서도 사용 가능성이 테스트 중입니다.
 3. Adb Input: ADB 명령어를 직접 호출하여 터치 작업을 수행하며, 호환성이 가장 좋지만, 속도는 가장 느립니다.
+4. [MaaFramework](https://maafw.com/): 调用 MaaFramework 控制单元的截图和触控功能。可用性尚待测试。~~帮我们做做测试 x2~~
 
 ## ADB Lite
 

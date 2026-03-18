@@ -35,7 +35,9 @@ icon: basil:apple-solid
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-支援，但從 Android 10 開始，Minitouch 在 SELinux 為 `Enforcing` 模式時不再可用。請切換至其他觸控模式，或將 SELinux **臨時**切換為 `Permissive` 模式。
+支援，額外支援[截圖增強模式](../connection.html#avd-截圖增強模式)。
+
+從 Android 10 開始，Minitouch 在 SELinux 為 `Enforcing` 模式時不再可用。請切換至其他觸控模式，或將 SELinux **臨時**切換為 `Permissive` 模式。
 
 ### ✅ [BlueStacks 藍疊模擬器 Air 版](https://www.bluestacks.com/mac) （免費，針對 Apple M 系列晶片進行優化的版本）
 
@@ -65,4 +67,6 @@ icon: basil:apple-solid
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-支援，但從 Android 10 開始，Minitouch 在 SELinux 為 `Enforcing` 模式時不再可用。請切換至其他觸控模式，或將 SELinux **臨時**切換為 `Permissive` 模式。
+支援，額外支援[截圖增強模式](../connection.html#avd-截圖增強模式)。
+
+從 Android 10 開始，Minitouch 在 SELinux 為 `Enforcing` 模式時不再可用。請切換至其他觸控模式，或將 SELinux **臨時**切換為 `Permissive` 模式。

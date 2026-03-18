@@ -224,14 +224,25 @@ LDPlayerの正式版9 V9.1.32 以降を使用する必要があります。<!-- 
 
 3. `インスタンス番号` には LD マルチインスタンス内でのエミュレーターの番号を入力してください。主インスタンスの場合は `0` です。
 
+### AVD スクリーンショット強化モード
+
+Android Emulator v27.2.9 以降が必要です。（アークナイツのリリース以降にダウンロードしたエミュレーターであれば大丈夫です。）
+
+AVD スクリーンショット強化モードは MaaFramework 内で実装されているため、MaaFramework のタッチモードを有効にすることが、この機能を利用する前提となります。
+
+1. `設定` - `接続設定` - `接続構成` で `Android Virtual Device (AVD)` を選択します。
+
+2. `タッチモード` で `MaaFramework` を選択します。
+
 ## タッチモード
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：Android タッチイベントを操作するための C 言語で書かれたツールで、`evdev` デバイスを操作し、外部プログラムがタッチイベントとジェスチャーをトリガーできる Socket インターフェースを提供します。Android 10 以降、SELinux が `Enforcing` モードの場合、Minitouch は使用できなくなりました。<sup>[出典](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>
 2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：MAA による Java で Minitouch を再実装し、Android の `InputDevice` を使用し、追加の機能を付加しました。高バージョンの Android での利用可能性はまだテスト中です。~~テストを手伝ってください~~
 3. Adb Input：直接 ADB を呼び出して、Android の `input` コマンドを使用してタッチ操作を行います。最も互換性があり、最も遅い速度です。
+4. [MaaFramework](https://maafw.com/)：MaaFramework の制御ユニットのスクリーンショットとタッチ機能を呼び出します。利用可能性はまだテスト中です。~~テストを手伝ってください x2~~
 
 ## ADB Lite
 
 MAA によって独自に実装された ADB クライアントで、オリジナルの ADB よりも多重の ADB プロセスを開始せずに済み、パフォーマンスの低下を抑えることができますが、一部のスクリーンショット方法は使用できません。
 
-推奨されますが、具体的な利点と欠点はまだフィードバックを得ていません。~~テストを手伝ってください x2~~
+推奨されますが、具体的な利点と欠点はまだフィードバックを得ていません。~~テストを手伝ってください x3~~

@@ -180,17 +180,28 @@ Requires official or international LDPlayer 9 V9.1.32 or newer. <!-- Official V9
 
 3. Enter the number (ID) of the corresponding emulator in the LDPlayer multi-instance manager in `Instance Number`, such as `0` for the main instance.
 
+### AVD Screenshot Enhanced Mode
+
+Requires Android Emulator v27.2.9 or newer. (You should be fine as long as you got the emulator after Arknights launched.)
+
+AVD Screenshot Enhanced Mode is implemented in MaaFramework. Touch mode must be set accordingly for Screenshot Enhanced Mode to work.
+
+1. In `Settings` - `Connection` - `Connection Preset`, select `Android Virtual Device (AVD)`.
+
+2. For `Touch Mode`, select `MaaFramework`.
+
 ## Touch Mode
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch): An Android touch event handler written in C that operates on `evdev` devices and provides a Socket interface for external programs to trigger touch events and gestures. Starting with Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode.<sup>[source](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>
 2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch): MAA's Java reimplementation of Minitouch that uses Android's native `InputDevice` and adds extra features. Compatibility with newer Android versions is still being tested. ~~Help us test it~~
 3. Adb Input: Directly calls ADB to use Android's `input` command for touch operations. Most compatible but slowest.
+4. [MaaFramework](https://maafw.com/): Delegates screenshot and touch commands to MaaFramework's control unit. Still being tested. ~~Help us test it x2~~
 
 ## ADB Lite
 
 MAA's independent ADB Client implementation that communicates directly with the ADB Server via TCP. Compared to the original ADB, it avoids constantly launching multiple ADB processes, reducing performance overhead, but some screenshot methods aren't available.<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/3315)</sup>
 
-We recommend enabling it, but specific pros and cons need feedback. ~~Help us test it x2~~
+We recommend enabling it, but specific pros and cons need feedback. ~~Help us test it x3~~
 
 ## Running multiple MAA and emulator instances
 

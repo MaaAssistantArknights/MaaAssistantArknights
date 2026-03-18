@@ -121,6 +121,8 @@ Requirements: 16:9 screen resolution larger than 720p
 
 Recommended configuration: x86_64 architecture (R - 30 - x86_64 - Android 11.0) with MAA's Linux x64 dynamic library
 
+Also supports [Screenshot Enhanced Mode](../connection.html#avd-screenshot-enhanced-mode).
+
 Note: Starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode. Please switch to other touch modes, or **temporarily** switch SELinux to `Permissive` mode.
 
 ### ⚠️ [Genymotion](https://www.genymotion.com/)
