@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
 using System.Windows;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
@@ -109,15 +110,15 @@ public class AwardSettingsUserControlModel : TaskSettingsViewModel, AwardSetting
         }
     }
 
-    public override (bool? IsSuccess, int TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize)?.Serialize(baseTask, taskId) ?? (null, 0);
+    public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
     private interface ISerialize : ITaskQueueModelSerialize
     {
-        (bool? IsSuccess, int TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
+        (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
             if (baseTask is not AwardTask award)
             {
-                return (null, 0);
+                return (null, []);
             }
 
             var task = new AsstAwardTask() {
@@ -129,9 +130,9 @@ public class AwardSettingsUserControlModel : TaskSettingsViewModel, AwardSetting
                 SpecialAccess = award.SpecialAccess,
             };
             return taskId switch {
-                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), id),
-                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, task),
-                _ => (null, 0),
+                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
+                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, task)),
+                _ => (null, []),
             };
         }
     }

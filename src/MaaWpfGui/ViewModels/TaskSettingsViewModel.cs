@@ -85,4 +85,6 @@ public interface ITaskQueueModelSerialize
 {
     /// <inheritdoc cref="TaskSettingsViewModel.SerializeTask"/>
     public abstract (bool? IsSuccess, IEnumerable<int> TaskId) Serialize(BaseTask? baseTask, int? taskId);
+
+    protected static (bool? IsSuccess, IEnumerable<int> TaskId) FromSingle((bool? IsSuccess, int TaskId) result) => (result.IsSuccess, result.TaskId > 0 ? [result.TaskId] : []);
 }

@@ -187,15 +187,15 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
         }
     }
 
-    public override (bool? IsSuccess, int TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize)?.Serialize(baseTask, taskId) ?? (null, 0);
+    public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
     private interface ISerialize : ITaskQueueModelSerialize
     {
-        (bool? IsSuccess, int TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
+        (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
             if (baseTask is not MallTask mall)
             {
-                return (null, 0);
+                return (null, []);
             }
 
             var fightStageEmpty = false;
@@ -240,9 +240,9 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
             };
 
             return taskId switch {
-                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), id),
-                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task),
-                _ => (null, 0),
+                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
+                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task)),
+                _ => (null, []),
             };
 
             string? GetStageForDayOfWeek(FightTask fightTask, DayOfWeek day)

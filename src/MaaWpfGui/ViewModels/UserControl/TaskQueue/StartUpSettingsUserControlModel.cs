@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -73,15 +74,15 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
         }
     }
 
-    public override (bool? IsSuccess, int TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize)?.Serialize(baseTask, taskId) ?? (null, 0);
+    public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
     private interface ISerialize : ITaskQueueModelSerialize
     {
-        (bool? IsSuccess, int TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
+        (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
             if (baseTask is not StartUpTask startUp)
             {
-                return (null, 0);
+                return (null, []);
             }
 
             var clientType = SettingsViewModel.GameSettings.ClientType;
@@ -97,9 +98,9 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
             };
 
             return taskId switch {
-                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), id),
-                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, task),
-                _ => (null, 0),
+                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
+                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, task)),
+                _ => (null, []),
             };
         }
     }

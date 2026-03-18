@@ -702,7 +702,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         return null;
     }
 
-    public override (bool? IsSuccess, int TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
+    public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
     #region 关卡列表更新
 
@@ -912,23 +912,23 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     private interface ISerialize : ITaskQueueModelSerialize
     {
-        (bool? IsSuccess, int TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
+        (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
             if (baseTask is not FightTask fight || taskId is int and <= 0)
             {
-                return (null, 0);
+                return (null, []);
             }
 
             if (fight.UseWeeklySchedule && fight.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
             {
-                return (null, 0);
+                return (null, []);
             }
 
             using var scope = _lock.EnterScope();
             var stage = FightSettingsUserControlModel.GetFightStage(fight.StagePlan);
             if (stage is null)
             {
-                return (null, 0);
+                return (null, []);
             }
             var task = new AsstFightTask() {
                 Stage = stage,
@@ -962,9 +962,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             }
 
             return taskId switch {
-                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), id),
-                null => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task),
-                _ => (null, 0),
+                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
+                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task)),
+                _ => (null, []),
             };
         }
     }
