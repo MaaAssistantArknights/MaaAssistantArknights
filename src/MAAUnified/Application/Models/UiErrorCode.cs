@@ -4,6 +4,8 @@ public static class UiErrorCode
 {
     public const string AchievementServiceUnavailable = "AchievementServiceUnavailable";
     public const string AnnouncementServiceUnavailable = "AnnouncementServiceUnavailable";
+    public const string AppExitFailed = "AppExitFailed";
+    public const string AppExitUnsupported = "AppExitUnsupported";
     public const string AppRestartExecutableMissing = "AppRestartExecutableMissing";
     public const string AppRestartFailed = "AppRestartFailed";
     public const string AppRestartUnsupported = "AppRestartUnsupported";
@@ -87,6 +89,7 @@ public static class UiErrorCode
     public const string PostActionSaveFailed = "PostActionSaveFailed";
     public const string PostActionLegacyParseFailed = "PostActionLegacyParseFailed";
     public const string PostActionSelectionInvalid = "PostActionSelectionInvalid";
+    public const string PostActionCancelled = "PostActionCancelled";
     public const string PostActionExecutionFailed = "PostActionExecutionFailed";
     public const string PostActionUnsupported = "PostActionUnsupported";
 

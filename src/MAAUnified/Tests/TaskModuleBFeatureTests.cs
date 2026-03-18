@@ -448,27 +448,63 @@ public sealed class TaskModuleBFeatureTests
     }
 
     [Fact]
-    public async Task PostAction_ValidateSelection_CommandBackedActionsCapability()
+    public async Task PostAction_ValidateSelection_NativeActionsDoNotRequireLegacyCommands()
     {
         var supported = new PlatformCapabilityStatus(true, "supported", Provider: "test");
         var executor = new TestPostActionExecutorService(new PostActionCapabilityMatrix(
-            ExitArknights: supported,
-            BackToAndroidHome: supported,
+            ExitArknights: new PlatformCapabilityStatus(false, "legacy command missing", Provider: "test"),
+            BackToAndroidHome: new PlatformCapabilityStatus(false, "legacy command missing", Provider: "test"),
             ExitEmulator: supported,
-            ExitSelf: supported,
+            ExitSelf: new PlatformCapabilityStatus(false, "legacy command missing", Provider: "test"),
             Hibernate: supported,
             Shutdown: supported,
             Sleep: supported));
-        await using var fixture = await TestFixture.CreateAsync(executor: executor);
+        await using var fixture = await TestFixture.CreateAsync(
+            executor: executor,
+            bridge: new FakeBridge
+            {
+                SupportsNativeBackToHome = true,
+                SupportsNativeCloseDown = true,
+            },
+            appLifecycleService: new TestAppLifecycleService(supportsExit: true));
 
-        var missingCommandPreview = await fixture.PostAction.ValidateSelectionAsync(new PostActionConfig
+        var preview = await fixture.PostAction.ValidateSelectionAsync(new PostActionConfig
         {
+            ExitArknights = true,
+            BackToAndroidHome = true,
             ExitSelf = true,
         });
-        Assert.True(missingCommandPreview.Success);
-        Assert.Contains(nameof(PostActionType.ExitSelf), missingCommandPreview.Value!.UnsupportedActions);
+        Assert.True(preview.Success);
+        Assert.DoesNotContain(nameof(PostActionType.ExitArknights), preview.Value!.UnsupportedActions);
+        Assert.DoesNotContain(nameof(PostActionType.BackToAndroidHome), preview.Value.UnsupportedActions);
+        Assert.DoesNotContain(nameof(PostActionType.ExitSelf), preview.Value.UnsupportedActions);
+    }
 
-        var configuredPreview = await fixture.PostAction.ValidateSelectionAsync(new PostActionConfig
+    [Fact]
+    public async Task PostAction_ValidateSelection_UsesLegacyCommandFallback_WhenNativeHandlerUnavailable()
+    {
+        var unsupported = new PlatformCapabilityStatus(false, "unsupported", Provider: "test");
+        var executor = new TestPostActionExecutorService(
+            new PostActionCapabilityMatrix(
+                ExitArknights: unsupported,
+                BackToAndroidHome: unsupported,
+                ExitEmulator: unsupported,
+                ExitSelf: unsupported,
+                Hibernate: unsupported,
+                Shutdown: unsupported,
+                Sleep: unsupported),
+            matrixSelector: request => new PostActionCapabilityMatrix(
+                ExitArknights: new PlatformCapabilityStatus(!string.IsNullOrWhiteSpace(request?.CommandLine), "command fallback", Provider: "command"),
+                BackToAndroidHome: new PlatformCapabilityStatus(!string.IsNullOrWhiteSpace(request?.CommandLine), "command fallback", Provider: "command"),
+                ExitEmulator: new PlatformCapabilityStatus(!string.IsNullOrWhiteSpace(request?.CommandLine), "command fallback", Provider: "command"),
+                ExitSelf: new PlatformCapabilityStatus(!string.IsNullOrWhiteSpace(request?.CommandLine), "command fallback", Provider: "command"),
+                Hibernate: unsupported,
+                Shutdown: unsupported,
+                Sleep: unsupported));
+
+        await using var fixture = await TestFixture.CreateAsync(executor: executor);
+
+        var preview = await fixture.PostAction.ValidateSelectionAsync(new PostActionConfig
         {
             ExitSelf = true,
             Commands = new PostActionCommandConfig
@@ -476,8 +512,9 @@ public sealed class TaskModuleBFeatureTests
                 ExitSelf = "echo close-maa",
             },
         });
-        Assert.True(configuredPreview.Success);
-        Assert.DoesNotContain(nameof(PostActionType.ExitSelf), configuredPreview.Value!.UnsupportedActions);
+
+        Assert.True(preview.Success);
+        Assert.DoesNotContain(nameof(PostActionType.ExitSelf), preview.Value!.UnsupportedActions);
     }
 
     [Fact]
@@ -497,7 +534,59 @@ public sealed class TaskModuleBFeatureTests
     }
 
     [Fact]
-    public async Task PostAction_Execute_UsesExecutor_WhenCapabilitySupported()
+    public async Task PostAction_Execute_UsesNativeHandlers_AndConfirmedPowerAction()
+    {
+        var supported = new PlatformCapabilityStatus(true, "supported", Provider: "test");
+        var executor = new TestPostActionExecutorService(new PostActionCapabilityMatrix(
+            ExitArknights: new PlatformCapabilityStatus(false, "legacy command fallback", Provider: "test"),
+            BackToAndroidHome: new PlatformCapabilityStatus(false, "legacy command fallback", Provider: "test"),
+            ExitEmulator: supported,
+            ExitSelf: new PlatformCapabilityStatus(false, "legacy command fallback", Provider: "test"),
+            Hibernate: supported,
+            Shutdown: supported,
+            Sleep: supported));
+        var bridge = new FakeBridge
+        {
+            SupportsNativeBackToHome = true,
+            SupportsNativeCloseDown = true,
+        };
+        var appLifecycle = new TestAppLifecycleService(supportsExit: true);
+
+        await using var fixture = await TestFixture.CreateAsync(
+            executor: executor,
+            bridge: bridge,
+            appLifecycleService: appLifecycle,
+            promptService: new TestPostActionPromptService(UiOperationResult.Ok("confirmed")));
+
+        var execute = await fixture.PostAction.ExecuteAfterCompletionAsync(
+            new PostActionExecutionContext("AllTasksCompleted", true, RunId: "run-b1", TaskIndex: 2),
+            new PostActionConfig
+            {
+                ExitArknights = true,
+                BackToAndroidHome = true,
+                ExitSelf = true,
+                Sleep = true,
+            });
+
+        Assert.True(execute.Success, execute.Message);
+        Assert.Equal(1, bridge.BackToHomeCallCount);
+        Assert.Equal(1, bridge.StartCloseDownCallCount);
+        Assert.Equal(1, appLifecycle.ExitCallCount);
+        Assert.Contains(PostActionType.Sleep, executor.ExecutedActions);
+        Assert.DoesNotContain(executor.ExecutedActions, action => action == PostActionType.ExitSelf);
+        Assert.DoesNotContain(executor.ExecutedActions, action => action == PostActionType.ExitArknights);
+        Assert.DoesNotContain(executor.ExecutedActions, action => action == PostActionType.BackToAndroidHome);
+
+        var eventLog = await File.ReadAllTextAsync(Path.Combine(fixture.Root, "debug", "avalonia-ui-events.log"));
+        Assert.Contains("runId=run-b1", eventLog);
+        Assert.Contains("action=ExitArknights", eventLog);
+        Assert.Contains("action=BackToAndroidHome", eventLog);
+        Assert.Contains("action=ExitSelf", eventLog);
+        Assert.Contains("action=Sleep", eventLog);
+    }
+
+    [Fact]
+    public async Task PostAction_Execute_PowerActionCancelled_SkipsOnlyPowerAction()
     {
         var supported = new PlatformCapabilityStatus(true, "supported", Provider: "test");
         var executor = new TestPostActionExecutorService(new PostActionCapabilityMatrix(
@@ -508,30 +597,29 @@ public sealed class TaskModuleBFeatureTests
             Hibernate: supported,
             Shutdown: supported,
             Sleep: supported));
+        var appLifecycle = new TestAppLifecycleService(supportsExit: true);
 
-        await using var fixture = await TestFixture.CreateAsync(executor: executor);
+        await using var fixture = await TestFixture.CreateAsync(
+            executor: executor,
+            appLifecycleService: appLifecycle,
+            promptService: new TestPostActionPromptService(UiOperationResult.Cancelled("cancelled")));
 
         var execute = await fixture.PostAction.ExecuteAfterCompletionAsync(
-            new PostActionExecutionContext("AllTasksCompleted", true, RunId: "run-b1", TaskIndex: 2),
+            new PostActionExecutionContext("AllTasksCompleted", true, RunId: "run-b1-cancel"),
             new PostActionConfig
             {
-                ExitSelf = true,
                 Sleep = true,
-                Commands = new PostActionCommandConfig
-                {
-                    ExitSelf = "echo close-maa",
-                },
+                ExitSelf = true,
             });
 
         Assert.True(execute.Success, execute.Message);
-        Assert.Contains(PostActionType.ExitSelf, executor.ExecutedActions);
-        Assert.Contains(PostActionType.Sleep, executor.ExecutedActions);
-        Assert.Contains(executor.Requests, r => r.Action == PostActionType.ExitSelf && r.Request?.CommandLine == "echo close-maa");
+        Assert.DoesNotContain(executor.ExecutedActions, action => action == PostActionType.Sleep);
+        Assert.Equal(1, appLifecycle.ExitCallCount);
 
         var eventLog = await File.ReadAllTextAsync(Path.Combine(fixture.Root, "debug", "avalonia-ui-events.log"));
-        Assert.Contains("runId=run-b1", eventLog);
-        Assert.Contains("action=ExitSelf", eventLog);
         Assert.Contains("action=Sleep", eventLog);
+        Assert.Contains($"errorCode={UiErrorCode.PostActionCancelled}", eventLog);
+        Assert.Contains("action=ExitSelf", eventLog);
     }
 
     [Fact]
@@ -547,7 +635,7 @@ public sealed class TaskModuleBFeatureTests
                 Hibernate: supported,
                 Shutdown: supported,
                 Sleep: supported),
-            action => action == PostActionType.ExitEmulator
+            (action, _) => action == PostActionType.ExitEmulator
                 ? PlatformOperation.Failed("test", "forced failure", PlatformErrorCodes.PostActionExecutionFailed)
                 : PlatformOperation.NativeSuccess("test", "ok"));
 
@@ -829,7 +917,12 @@ public sealed class TaskModuleBFeatureTests
 
         public FakeBridge Bridge { get; }
 
-        public static async Task<TestFixture> CreateAsync(string language = "zh-cn", IPostActionExecutorService? executor = null)
+        public static async Task<TestFixture> CreateAsync(
+            string language = "zh-cn",
+            IPostActionExecutorService? executor = null,
+            FakeBridge? bridge = null,
+            IAppLifecycleService? appLifecycleService = null,
+            IPostActionPromptService? promptService = null)
         {
             var root = Path.Combine(Path.GetTempPath(), "maa-unified-tests", Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(Path.Combine(root, "config"));
@@ -846,7 +939,7 @@ public sealed class TaskModuleBFeatureTests
             await config.LoadOrBootstrapAsync();
             config.CurrentConfig.GlobalValues["GUI.Localization"] = language;
 
-            var bridge = new FakeBridge();
+            bridge ??= new FakeBridge();
             var session = new UnifiedSessionService(bridge, config, log, new SessionStateMachine());
             var taskQueue = new TaskQueueFeatureService(session, config);
 
@@ -862,7 +955,14 @@ public sealed class TaskModuleBFeatureTests
             };
 
             var capability = new PlatformCapabilityFeatureService(platform, diagnostics);
-            var postAction = new PostActionFeatureService(config, diagnostics, platform.PostActionExecutorService);
+            var lifecycle = appLifecycleService ?? new NoOpAppLifecycleService();
+            var postAction = new PostActionFeatureService(
+                config,
+                diagnostics,
+                platform.PostActionExecutorService,
+                bridge,
+                lifecycle,
+                promptService ?? new NoOpPostActionPromptService());
             var connectFeatureService = new ConnectFeatureService(session, config);
             var runtime = new MAAUnifiedRuntime
             {
@@ -885,6 +985,7 @@ public sealed class TaskModuleBFeatureTests
                 SettingsFeatureService = new SettingsFeatureService(config, capability, diagnostics),
                 DialogFeatureService = new DialogFeatureService(diagnostics),
                 PostActionFeatureService = postAction,
+                AppLifecycleService = lifecycle,
             };
 
             return new TestFixture(root, config, taskQueue, postAction, runtime, bridge);
@@ -912,14 +1013,17 @@ public sealed class TaskModuleBFeatureTests
 
     private sealed class TestPostActionExecutorService : IPostActionExecutorService
     {
-        private readonly Func<PostActionType, PlatformOperationResult>? _handler;
+        private readonly Func<PostActionType, PostActionExecutorRequest?, PlatformOperationResult>? _handler;
+        private readonly Func<PostActionExecutorRequest?, PostActionCapabilityMatrix>? _matrixSelector;
 
         public TestPostActionExecutorService(
             PostActionCapabilityMatrix matrix,
-            Func<PostActionType, PlatformOperationResult>? handler = null)
+            Func<PostActionType, PostActionExecutorRequest?, PlatformOperationResult>? handler = null,
+            Func<PostActionExecutorRequest?, PostActionCapabilityMatrix>? matrixSelector = null)
         {
             CapabilityMatrix = matrix;
             _handler = handler;
+            _matrixSelector = matrixSelector;
         }
 
         public PostActionCapabilityMatrix CapabilityMatrix { get; }
@@ -927,6 +1031,9 @@ public sealed class TaskModuleBFeatureTests
         public List<PostActionType> ExecutedActions { get; } = [];
 
         public List<(PostActionType Action, PostActionExecutorRequest? Request)> Requests { get; } = [];
+
+        public PostActionCapabilityMatrix GetCapabilityMatrix(PostActionExecutorRequest? request = null)
+            => _matrixSelector?.Invoke(request) ?? CapabilityMatrix;
 
         public Task<PlatformOperationResult> ExecuteAsync(
             PostActionType action,
@@ -938,11 +1045,11 @@ public sealed class TaskModuleBFeatureTests
             Requests.Add((action, request));
             if (_handler is not null)
             {
-                return Task.FromResult(_handler(action));
+                return Task.FromResult(_handler(action, request));
             }
 
             return Task.FromResult(PlatformOperation.NativeSuccess(
-                CapabilityMatrix.Get(action).Provider,
+                GetCapabilityMatrix(request).Get(action).Provider,
                 $"Executed {action}.",
                 $"post-action.{action}"));
         }
@@ -954,6 +1061,20 @@ public sealed class TaskModuleBFeatureTests
         private int _taskId;
 
         public List<CoreTaskRequest> AppendedTasks { get; } = [];
+
+        public bool SupportsNativeBackToHome { get; set; }
+
+        public bool SupportsNativeCloseDown { get; set; }
+
+        public int BackToHomeCallCount { get; private set; }
+
+        public int StartCloseDownCallCount { get; private set; }
+
+        public string? LastCloseDownClientType { get; private set; }
+
+        public bool SupportsBackToHome => SupportsNativeBackToHome;
+
+        public bool SupportsStartCloseDown => SupportsNativeCloseDown;
 
         public Task<CoreResult<CoreInitializeInfo>> InitializeAsync(CoreInitializeRequest request, CancellationToken cancellationToken = default)
             => Task.FromResult(CoreResult<CoreInitializeInfo>.Ok(new CoreInitializeInfo(request.BaseDirectory, "fake", "fake", request.ClientType)));
@@ -972,6 +1093,25 @@ public sealed class TaskModuleBFeatureTests
 
         public Task<CoreResult<bool>> StopAsync(CancellationToken cancellationToken = default)
             => Task.FromResult(CoreResult<bool>.Ok(true));
+
+        public Task<CoreResult<bool>> BackToHomeAsync(CancellationToken cancellationToken = default)
+        {
+            BackToHomeCallCount += 1;
+            return Task.FromResult(
+                SupportsNativeBackToHome
+                    ? CoreResult<bool>.Ok(true)
+                    : CoreResult<bool>.Fail(new CoreError(CoreErrorCode.NotSupported, "back-to-home unsupported")));
+        }
+
+        public Task<CoreResult<bool>> StartCloseDownAsync(string clientType, CancellationToken cancellationToken = default)
+        {
+            StartCloseDownCallCount += 1;
+            LastCloseDownClientType = clientType;
+            return Task.FromResult(
+                SupportsNativeCloseDown
+                    ? CoreResult<bool>.Ok(true)
+                    : CoreResult<bool>.Fail(new CoreError(CoreErrorCode.NotSupported, "close-down unsupported")));
+        }
 
         public Task<CoreResult<CoreRuntimeStatus>> GetRuntimeStatusAsync(CancellationToken cancellationToken = default)
             => Task.FromResult(CoreResult<CoreRuntimeStatus>.Ok(new CoreRuntimeStatus(true, true, false)));
@@ -994,6 +1134,50 @@ public sealed class TaskModuleBFeatureTests
         {
             _channel.Writer.TryComplete();
             return ValueTask.CompletedTask;
+        }
+    }
+
+    private sealed class TestAppLifecycleService : IAppLifecycleService
+    {
+        private readonly UiOperationResult _exitResult;
+
+        public TestAppLifecycleService(bool supportsExit, UiOperationResult? exitResult = null)
+        {
+            SupportsExit = supportsExit;
+            _exitResult = exitResult ?? UiOperationResult.Ok("exit");
+        }
+
+        public bool SupportsExit { get; }
+
+        public int ExitCallCount { get; private set; }
+
+        public Task<UiOperationResult> RestartAsync(CancellationToken cancellationToken = default)
+            => Task.FromResult(UiOperationResult.Ok("restart"));
+
+        public Task<UiOperationResult> ExitAsync(CancellationToken cancellationToken = default)
+        {
+            ExitCallCount += 1;
+            return Task.FromResult(_exitResult);
+        }
+    }
+
+    private sealed class TestPostActionPromptService : IPostActionPromptService
+    {
+        private readonly UiOperationResult _result;
+
+        public TestPostActionPromptService(UiOperationResult result)
+        {
+            _result = result;
+        }
+
+        public List<PostActionPromptRequest> Requests { get; } = [];
+
+        public Task<UiOperationResult> ConfirmPowerActionAsync(
+            PostActionPromptRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            Requests.Add(request);
+            return Task.FromResult(_result);
         }
     }
 }

@@ -53,6 +53,10 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
     private AsstApiCallbackDelegate? _callbackDelegate;
     private ConnectPendingState? _pendingConnect;
 
+    public bool SupportsBackToHome => true;
+
+    public bool SupportsStartCloseDown => true;
+
     public async Task<CoreResult<CoreInitializeInfo>> InitializeAsync(
         CoreInitializeRequest request,
         CancellationToken cancellationToken = default)
@@ -315,6 +319,46 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
         }
 
         return Task.FromResult(CoreResult<bool>.Ok(true));
+    }
+
+    public Task<CoreResult<bool>> BackToHomeAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var status = EnsureReady();
+        if (!status.Success)
+        {
+            return Task.FromResult(CoreResult<bool>.Fail(status.Error!));
+        }
+
+        var ok = AsBool(_exports!.AsstBackToHome(_instance));
+        if (!ok)
+        {
+            return Task.FromResult(Fail<bool>(CoreErrorCode.NotImplemented, "AsstBackToHome returned false."));
+        }
+
+        return Task.FromResult(CoreResult<bool>.Ok(true));
+    }
+
+    public async Task<CoreResult<bool>> StartCloseDownAsync(string clientType, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var status = EnsureReady();
+        if (!status.Success)
+        {
+            return CoreResult<bool>.Fail(status.Error!);
+        }
+
+        var payload = JsonSerializer.Serialize(new Dictionary<string, string>
+        {
+            ["client_type"] = clientType?.Trim() ?? string.Empty,
+        });
+        var append = await AppendTaskAsync(new CoreTaskRequest("CloseDown", "CloseDown", true, payload), cancellationToken);
+        if (!append.Success)
+        {
+            return CoreResult<bool>.Fail(append.Error!);
+        }
+
+        return await StartAsync(cancellationToken);
     }
 
     public Task<CoreResult<CoreRuntimeStatus>> GetRuntimeStatusAsync(CancellationToken cancellationToken = default)
@@ -785,6 +829,13 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
             return false;
         }
 
+        if (!TryLoadExport<AsstBackToHomeDelegate>(library, "AsstBackToHome", out var asstBackToHome))
+        {
+            missingSymbol = "AsstBackToHome";
+            exports = null!;
+            return false;
+        }
+
         if (!TryLoadExport<AsstStopDelegate>(library, "AsstStop", out var asstStop))
         {
             missingSymbol = "AsstStop";
@@ -836,6 +887,7 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
             asstAsyncConnect!,
             asstAppendTask!,
             asstStart!,
+            asstBackToHome!,
             asstStop!,
             asstRunning!,
             asstConnected!,
@@ -1027,6 +1079,7 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
         AsstAsyncConnectDelegate AsstAsyncConnect,
         AsstAppendTaskDelegate AsstAppendTask,
         AsstStartDelegate AsstStart,
+        AsstBackToHomeDelegate AsstBackToHome,
         AsstStopDelegate AsstStop,
         AsstRunningDelegate AsstRunning,
         AsstConnectedDelegate AsstConnected,
@@ -1065,6 +1118,9 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
 
     [UnmanagedFunctionPointer(CallingConvention.Winapi)]
     private delegate byte AsstStartDelegate(nint handle);
+
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    private delegate byte AsstBackToHomeDelegate(nint handle);
 
     [UnmanagedFunctionPointer(CallingConvention.Winapi)]
     private delegate byte AsstStopDelegate(nint handle);

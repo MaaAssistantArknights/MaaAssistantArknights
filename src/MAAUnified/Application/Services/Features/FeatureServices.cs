@@ -1768,18 +1768,37 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
     private const string PostActionConfigKey = "TaskQueue.PostAction";
     private const string WarnKeyIfNoOtherNeedsSystemAction = "PostAction.Warn.IfNoOtherNeedsSystemAction";
     private const string WarnKeyUnsupportedDowngrade = "PostAction.Warn.UnsupportedDowngrade";
+    private static readonly TimeSpan DeviceActionSettleDelay = TimeSpan.FromSeconds(1);
+    private static readonly TimeSpan PowerActionPromptCountdown = TimeSpan.FromSeconds(60);
     private readonly UnifiedConfigurationService _configService;
     private readonly UiDiagnosticsService _diagnostics;
     private readonly IPostActionExecutorService _executor;
+    private readonly IMaaCoreBridge? _coreBridge;
+    private readonly IAppLifecycleService? _appLifecycleService;
+    private readonly IPostActionPromptService _promptService;
 
     public PostActionFeatureService(
         UnifiedConfigurationService configService,
         UiDiagnosticsService diagnostics,
         IPostActionExecutorService executor)
+        : this(configService, diagnostics, executor, null, null, null)
+    {
+    }
+
+    public PostActionFeatureService(
+        UnifiedConfigurationService configService,
+        UiDiagnosticsService diagnostics,
+        IPostActionExecutorService executor,
+        IMaaCoreBridge? coreBridge,
+        IAppLifecycleService? appLifecycleService,
+        IPostActionPromptService? promptService)
     {
         _configService = configService;
         _diagnostics = diagnostics;
         _executor = executor;
+        _coreBridge = coreBridge;
+        _appLifecycleService = appLifecycleService;
+        _promptService = promptService ?? new NoOpPostActionPromptService();
     }
 
     public async Task<UiOperationResult<PostActionConfig>> LoadAsync(CancellationToken cancellationToken = default)
@@ -1938,13 +1957,7 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
                 return;
             }
 
-            if (RequiresCommandTemplate(action) && !HasConfiguredCommand(config, action))
-            {
-                unsupported.Add(actionName);
-                return;
-            }
-
-            var capability = _executor.CapabilityMatrix.Get(action);
+            var capability = GetCapability(config, action);
             if (!capability.Supported)
             {
                 unsupported.Add(actionName);
@@ -2103,18 +2116,8 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
 
         async Task ExecuteActionAsync(PostActionType action, CancellationToken token)
         {
-            if (RequiresCommandTemplate(action) && !HasConfiguredCommand(config, action))
-            {
-                skippedActions.Add(action.ToString());
-                await RecordEventAsync(
-                    context,
-                    action.ToString(),
-                    UiErrorCode.PostActionUnsupported,
-                    $"Command template missing for {action}, downgraded to logging.");
-                return;
-            }
-
-            var capability = _executor.CapabilityMatrix.Get(action);
+            var request = BuildExecutorRequest(config, action);
+            var capability = GetCapability(action, request);
             if (!capability.Supported)
             {
                 skippedActions.Add(action.ToString());
@@ -2122,10 +2125,34 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
                 return;
             }
 
+            if (IsPowerAction(action))
+            {
+                var promptResult = await _promptService.ConfirmPowerActionAsync(
+                    new PostActionPromptRequest(action, PowerActionPromptCountdown, ResolveCurrentLanguage()),
+                    token);
+                if (!promptResult.Success)
+                {
+                    if (promptResult.UserCancelled)
+                    {
+                        skippedActions.Add(action.ToString());
+                        await RecordEventAsync(context, action.ToString(), UiErrorCode.PostActionCancelled, promptResult.Message);
+                        return;
+                    }
+
+                    failures.Add($"{action}:{promptResult.Error?.Code ?? UiErrorCode.PostActionExecutionFailed}");
+                    await RecordErrorAsync(
+                        context,
+                        action.ToString(),
+                        promptResult.Error?.Code ?? UiErrorCode.PostActionExecutionFailed,
+                        promptResult.Message,
+                        token);
+                    return;
+                }
+            }
+
             try
             {
-                var request = BuildExecutorRequest(config, action);
-                var result = await _executor.ExecuteAsync(action, request, token);
+                var result = await ExecuteResolvedActionAsync(action, request, token);
                 if (!result.Success)
                 {
                     failures.Add($"{action}:{result.ErrorCode ?? UiErrorCode.PostActionExecutionFailed}");
@@ -2139,6 +2166,10 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
 
                 executedActions.Add(action.ToString());
                 await RecordEventAsync(context, action.ToString(), result.ErrorCode, result.Message);
+                if (RequiresSettleDelay(action))
+                {
+                    await Task.Delay(DeviceActionSettleDelay, token);
+                }
             }
             catch (Exception ex)
             {
@@ -2152,30 +2183,137 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
         }
     }
 
-    private static bool RequiresCommandTemplate(PostActionType action)
-    {
-        return action is PostActionType.ExitArknights
-            or PostActionType.BackToAndroidHome
-            or PostActionType.ExitEmulator
-            or PostActionType.ExitSelf;
-    }
+    private PlatformCapabilityStatus GetCapability(PostActionConfig config, PostActionType action)
+        => GetCapability(action, BuildExecutorRequest(config, action));
 
-    private static bool HasConfiguredCommand(PostActionConfig config, PostActionType action)
+    private PlatformCapabilityStatus GetCapability(PostActionType action, PostActionExecutorRequest request)
     {
-        return !string.IsNullOrWhiteSpace(GetCommandTemplate(config, action));
-    }
-
-    private static PostActionExecutorRequest? BuildExecutorRequest(PostActionConfig config, PostActionType action)
-    {
-        if (!RequiresCommandTemplate(action))
+        var fallback = _executor.GetCapabilityMatrix(request).Get(action);
+        return action switch
         {
-            return null;
+            PostActionType.BackToAndroidHome => ResolveNativeCapability(
+                _coreBridge?.SupportsBackToHome == true,
+                "maa-core",
+                "Back to Android home is available via MaaCore.",
+                fallback),
+            PostActionType.ExitArknights => ResolveNativeCapability(
+                _coreBridge?.SupportsStartCloseDown == true,
+                "maa-core",
+                "Exit Arknights is available via MaaCore CloseDown.",
+                fallback),
+            PostActionType.ExitSelf => ResolveNativeCapability(
+                _appLifecycleService?.SupportsExit == true,
+                "app-lifecycle",
+                "Exit MAA is available via application lifecycle.",
+                fallback),
+            _ => fallback,
+        };
+    }
+
+    private async Task<PlatformOperationResult> ExecuteResolvedActionAsync(
+        PostActionType action,
+        PostActionExecutorRequest request,
+        CancellationToken cancellationToken)
+    {
+        return action switch
+        {
+            PostActionType.BackToAndroidHome => await ExecuteBackToHomeAsync(request, cancellationToken),
+            PostActionType.ExitArknights => await ExecuteCloseDownAsync(request, cancellationToken),
+            PostActionType.ExitSelf => await ExecuteExitSelfAsync(request, cancellationToken),
+            _ => await _executor.ExecuteAsync(action, request, cancellationToken),
+        };
+    }
+
+    private async Task<PlatformOperationResult> ExecuteBackToHomeAsync(
+        PostActionExecutorRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (_coreBridge?.SupportsBackToHome == true)
+        {
+            var result = await _coreBridge.BackToHomeAsync(cancellationToken);
+            if (result.Success)
+            {
+                return PlatformOperation.NativeSuccess("maa-core", "Back to Android home executed via MaaCore.", "post-action.BackToAndroidHome");
+            }
+
+            if (!CanFallbackToLegacyCommand(request, result.Error?.Code))
+            {
+                return MapCoreFailure(result, "maa-core", PostActionType.BackToAndroidHome);
+            }
         }
 
+        return await _executor.ExecuteAsync(PostActionType.BackToAndroidHome, request, cancellationToken);
+    }
+
+    private async Task<PlatformOperationResult> ExecuteCloseDownAsync(
+        PostActionExecutorRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (_coreBridge?.SupportsStartCloseDown == true)
+        {
+            var result = await _coreBridge.StartCloseDownAsync(request.ClientType ?? string.Empty, cancellationToken);
+            if (result.Success)
+            {
+                return PlatformOperation.NativeSuccess("maa-core", "Exit Arknights executed via MaaCore CloseDown.", "post-action.ExitArknights");
+            }
+
+            if (!CanFallbackToLegacyCommand(request, result.Error?.Code))
+            {
+                return MapCoreFailure(result, "maa-core", PostActionType.ExitArknights);
+            }
+        }
+
+        return await _executor.ExecuteAsync(PostActionType.ExitArknights, request, cancellationToken);
+    }
+
+    private async Task<PlatformOperationResult> ExecuteExitSelfAsync(
+        PostActionExecutorRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (_appLifecycleService?.SupportsExit == true)
+        {
+            var result = await _appLifecycleService.ExitAsync(cancellationToken);
+            if (result.Success)
+            {
+                return PlatformOperation.NativeSuccess("app-lifecycle", result.Message, "post-action.ExitSelf");
+            }
+
+            if (!(CanFallbackToLegacyCommand(request) && string.Equals(result.Error?.Code, UiErrorCode.AppExitUnsupported, StringComparison.Ordinal)))
+            {
+                return PlatformOperation.Failed(
+                    "app-lifecycle",
+                    result.Message,
+                    result.Error?.Code ?? UiErrorCode.PostActionExecutionFailed,
+                    "post-action.ExitSelf");
+            }
+        }
+
+        return await _executor.ExecuteAsync(PostActionType.ExitSelf, request, cancellationToken);
+    }
+
+    private PostActionExecutorRequest BuildExecutorRequest(PostActionConfig config, PostActionType action)
+    {
         var commandLine = GetCommandTemplate(config, action);
-        return string.IsNullOrWhiteSpace(commandLine)
-            ? null
-            : new PostActionExecutorRequest(commandLine);
+        if (!_configService.TryGetCurrentProfile(out var profile))
+        {
+            return new PostActionExecutorRequest(CommandLine: commandLine);
+        }
+
+        var globalValues = _configService.CurrentConfig.GlobalValues;
+        return new PostActionExecutorRequest(
+            CommandLine: commandLine,
+            ConnectAddress: ReadStringSetting(profile, globalValues, "ConnectAddress", ConfigurationKeys.ConnectAddress),
+            ConnectConfig: ReadStringSetting(profile, globalValues, "ConnectConfig", ConfigurationKeys.ConnectConfig),
+            AdbPath: ReadStringSetting(profile, globalValues, "AdbPath", ConfigurationKeys.AdbPath),
+            ClientType: ReadStringSetting(profile, globalValues, "ClientType", ConfigurationKeys.ClientType),
+            MuMu12ExtrasEnabled: ReadBooleanSetting(profile, globalValues, false, "MuMu12ExtrasEnabled", ConfigurationKeys.MuMu12ExtrasEnabled),
+            MuMu12EmulatorPath: ReadStringSetting(profile, globalValues, "MuMu12EmulatorPath", ConfigurationKeys.MuMu12EmulatorPath),
+            MuMuBridgeConnection: ReadBooleanSetting(profile, globalValues, false, "MuMuBridgeConnection", ConfigurationKeys.MumuBridgeConnection),
+            MuMu12Index: ReadStringSetting(profile, globalValues, "MuMu12Index", ConfigurationKeys.MuMu12Index),
+            LdPlayerExtrasEnabled: ReadBooleanSetting(profile, globalValues, false, "LdPlayerExtrasEnabled", ConfigurationKeys.LdPlayerExtrasEnabled),
+            LdPlayerEmulatorPath: ReadStringSetting(profile, globalValues, "LdPlayerEmulatorPath", ConfigurationKeys.LdPlayerEmulatorPath),
+            LdPlayerManualSetIndex: ReadBooleanSetting(profile, globalValues, false, "LdPlayerManualSetIndex", ConfigurationKeys.LdPlayerManualSetIndex),
+            LdPlayerIndex: ReadStringSetting(profile, globalValues, "LdPlayerIndex", ConfigurationKeys.LdPlayerIndex));
     }
 
     private static string GetCommandTemplate(PostActionConfig config, PostActionType action)
@@ -2189,6 +2327,23 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
             PostActionType.ExitSelf => commands.ExitSelf,
             _ => string.Empty,
         };
+    }
+
+    private string? ResolveCurrentLanguage()
+    {
+        if (_configService.TryGetCurrentProfile(out var profile))
+        {
+            var profileLanguage = ReadStringSetting(
+                profile,
+                _configService.CurrentConfig.GlobalValues,
+                ConfigurationKeys.Localization);
+            if (!string.IsNullOrWhiteSpace(profileLanguage))
+            {
+                return profileLanguage;
+            }
+        }
+
+        return ReadStringSetting(null, _configService.CurrentConfig.GlobalValues, ConfigurationKeys.Localization);
     }
 
     private static bool HasOtherMaaProcess()
@@ -2247,6 +2402,145 @@ public sealed class PostActionFeatureService : IPostActionFeatureService
         var taskIndex = context.TaskIndex?.ToString() ?? "-";
         var code = string.IsNullOrWhiteSpace(errorCode) ? "-" : errorCode;
         return $"runId={runId} taskIndex={taskIndex} module=PostAction action={action} errorCode={code} message={message}";
+    }
+
+    private static PlatformCapabilityStatus ResolveNativeCapability(
+        bool nativeSupported,
+        string provider,
+        string message,
+        PlatformCapabilityStatus fallback)
+    {
+        return nativeSupported
+            ? new PlatformCapabilityStatus(
+                true,
+                message,
+                provider,
+                fallback.Supported || fallback.HasFallback,
+                fallback.Supported ? "legacy-command" : fallback.FallbackMode)
+            : fallback;
+    }
+
+    private static PlatformOperationResult MapCoreFailure(
+        CoreResult<bool> result,
+        string provider,
+        PostActionType action)
+    {
+        var errorCode = result.Error?.Code is CoreErrorCode.NotSupported or CoreErrorCode.NotImplemented or CoreErrorCode.NotInitialized or CoreErrorCode.Disposed
+            ? PlatformErrorCodes.PostActionUnsupported
+            : PlatformErrorCodes.PostActionExecutionFailed;
+        return PlatformOperation.Failed(
+            provider,
+            result.Error?.Message ?? $"Core post action failed: {action}.",
+            errorCode,
+            $"post-action.{action}");
+    }
+
+    private static bool CanFallbackToLegacyCommand(PostActionExecutorRequest request, CoreErrorCode? code = null)
+    {
+        if (!CanFallbackToLegacyCommand(request))
+        {
+            return false;
+        }
+
+        return code is null
+               || code is CoreErrorCode.NotSupported
+                   or CoreErrorCode.NotImplemented
+                   or CoreErrorCode.NotInitialized
+                   or CoreErrorCode.Disposed;
+    }
+
+    private static bool CanFallbackToLegacyCommand(PostActionExecutorRequest request)
+        => !string.IsNullOrWhiteSpace(request.CommandLine);
+
+    private static bool RequiresSettleDelay(PostActionType action)
+        => action is PostActionType.BackToAndroidHome or PostActionType.ExitArknights or PostActionType.ExitEmulator;
+
+    private static bool IsPowerAction(PostActionType action)
+        => action is PostActionType.Hibernate or PostActionType.Shutdown or PostActionType.Sleep;
+
+    private static string? ReadStringSetting(
+        UnifiedProfile? profile,
+        IReadOnlyDictionary<string, JsonNode?> globalValues,
+        params string[] keys)
+    {
+        if (profile is not null && TryReadString(profile.Values, out var profileValue, keys))
+        {
+            return profileValue;
+        }
+
+        return TryReadString(globalValues, out var globalValue, keys) ? globalValue : null;
+    }
+
+    private static bool ReadBooleanSetting(
+        UnifiedProfile? profile,
+        IReadOnlyDictionary<string, JsonNode?> globalValues,
+        bool fallback,
+        params string[] keys)
+    {
+        if (profile is not null && TryReadBoolean(profile.Values, out var profileValue, keys))
+        {
+            return profileValue;
+        }
+
+        return TryReadBoolean(globalValues, out var globalValue, keys) ? globalValue : fallback;
+    }
+
+    private static bool TryReadString(
+        IReadOnlyDictionary<string, JsonNode?> values,
+        out string? value,
+        params string[] keys)
+    {
+        value = null;
+        foreach (var key in keys)
+        {
+            if (!values.TryGetValue(key, out var node) || node is null)
+            {
+                continue;
+            }
+
+            if (node is JsonValue jsonValue && jsonValue.TryGetValue(out string? text))
+            {
+                value = string.IsNullOrWhiteSpace(text) ? null : text.Trim();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool TryReadBoolean(
+        IReadOnlyDictionary<string, JsonNode?> values,
+        out bool value,
+        params string[] keys)
+    {
+        value = false;
+        foreach (var key in keys)
+        {
+            if (!values.TryGetValue(key, out var node) || node is null || node is not JsonValue jsonValue)
+            {
+                continue;
+            }
+
+            if (jsonValue.TryGetValue(out bool boolValue))
+            {
+                value = boolValue;
+                return true;
+            }
+
+            if (jsonValue.TryGetValue(out int intValue))
+            {
+                value = intValue != 0;
+                return true;
+            }
+
+            if (jsonValue.TryGetValue(out string? text) && bool.TryParse(text, out var parsed))
+            {
+                value = parsed;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static PostActionConfig MapLegacyFlags(LegacyPostActionFlags flags)

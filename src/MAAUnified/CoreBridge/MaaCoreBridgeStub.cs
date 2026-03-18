@@ -13,6 +13,10 @@ public sealed class MaaCoreBridgeStub : IMaaCoreBridge
     private bool _disposed;
     private int _taskId;
 
+    public bool SupportsBackToHome => true;
+
+    public bool SupportsStartCloseDown => true;
+
     public Task<CoreResult<CoreInitializeInfo>> InitializeAsync(
         CoreInitializeRequest request,
         CancellationToken cancellationToken = default)
@@ -74,6 +78,38 @@ public sealed class MaaCoreBridgeStub : IMaaCoreBridge
             wasRunning
                 ? CoreResult<bool>.Ok(true)
                 : CoreResult<bool>.Fail(new CoreError(CoreErrorCode.StopFailed, "Stub was not running.")));
+    }
+
+    public Task<CoreResult<bool>> BackToHomeAsync(CancellationToken cancellationToken = default)
+    {
+        if (!_connected)
+        {
+            return Task.FromResult(CoreResult<bool>.Fail(new CoreError(CoreErrorCode.NotInitialized, "Stub is not connected.")));
+        }
+
+        return Task.FromResult(CoreResult<bool>.Ok(true));
+    }
+
+    public async Task<CoreResult<bool>> StartCloseDownAsync(string clientType, CancellationToken cancellationToken = default)
+    {
+        if (!_connected)
+        {
+            return CoreResult<bool>.Fail(new CoreError(CoreErrorCode.NotInitialized, "Stub is not connected."));
+        }
+
+        var append = await AppendTaskAsync(
+            new CoreTaskRequest(
+                "CloseDown",
+                "CloseDown",
+                true,
+                $"{{\"client_type\":\"{clientType?.Trim() ?? string.Empty}\"}}"),
+            cancellationToken);
+        if (!append.Success)
+        {
+            return CoreResult<bool>.Fail(append.Error!);
+        }
+
+        return await StartAsync(cancellationToken);
     }
 
     public Task<CoreResult<CoreRuntimeStatus>> GetRuntimeStatusAsync(CancellationToken cancellationToken = default)

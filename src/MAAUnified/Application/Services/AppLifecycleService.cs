@@ -5,7 +5,15 @@ namespace MAAUnified.Application.Services;
 
 public interface IAppLifecycleService
 {
+    bool SupportsExit => false;
+
     Task<UiOperationResult> RestartAsync(CancellationToken cancellationToken = default);
+
+    Task<UiOperationResult> ExitAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(UiOperationResult.Fail(UiErrorCode.AppExitUnsupported, "Exit lifecycle service is unavailable."));
+    }
 }
 
 public sealed class ProcessAppLifecycleService : IAppLifecycleService

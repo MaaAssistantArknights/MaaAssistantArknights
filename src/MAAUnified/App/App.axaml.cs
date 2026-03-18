@@ -2,10 +2,12 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using MAAUnified.App.Services;
 using MAAUnified.App.ViewModels;
 using MAAUnified.App.Views;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Services;
+using MAAUnified.Application.Services.Features;
 
 namespace MAAUnified.App;
 
@@ -31,6 +33,16 @@ public partial class App : Avalonia.Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            var appLifecycleService = new AvaloniaDesktopAppLifecycleService(desktop);
+            Runtime.AppLifecycleService = appLifecycleService;
+            Runtime.PostActionFeatureService = new PostActionFeatureService(
+                Runtime.ConfigurationService,
+                Runtime.DiagnosticsService,
+                Runtime.Platform.PostActionExecutorService,
+                Runtime.CoreBridge,
+                appLifecycleService,
+                new AvaloniaPostActionPromptService(desktop));
+
             var vm = new MainShellViewModel(Runtime);
             var mainWindow = new MainWindow
             {

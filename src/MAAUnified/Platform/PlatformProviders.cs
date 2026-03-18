@@ -2562,45 +2562,15 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
 
 public sealed class CommandPostActionExecutorService : IPostActionExecutorService
 {
-    private static readonly bool _powerActionsEnabled = string.Equals(
-        Environment.GetEnvironmentVariable("MAA_ENABLE_POWER_ACTIONS"),
-        "1",
-        StringComparison.OrdinalIgnoreCase);
-
     public CommandPostActionExecutorService()
     {
-        var powerStatus = BuildPowerCapability();
-        CapabilityMatrix = new PostActionCapabilityMatrix(
-            ExitArknights: new PlatformCapabilityStatus(
-                Supported: true,
-                Message: "Exit Arknights action requires a configured command template.",
-                Provider: "command",
-                HasFallback: true,
-                FallbackMode: "log-only"),
-            BackToAndroidHome: new PlatformCapabilityStatus(
-                Supported: true,
-                Message: "Back to Android home action requires a configured command template.",
-                Provider: "command",
-                HasFallback: true,
-                FallbackMode: "log-only"),
-            ExitEmulator: new PlatformCapabilityStatus(
-                Supported: true,
-                Message: "Exit emulator action requires a configured command template.",
-                Provider: "command",
-                HasFallback: true,
-                FallbackMode: "log-only"),
-            ExitSelf: new PlatformCapabilityStatus(
-                Supported: true,
-                Message: "Exit MAA action requires a configured command template.",
-                Provider: "command",
-                HasFallback: true,
-                FallbackMode: "log-only"),
-            Hibernate: powerStatus,
-            Shutdown: powerStatus,
-            Sleep: powerStatus);
+        CapabilityMatrix = GetCapabilityMatrix();
     }
 
     public PostActionCapabilityMatrix CapabilityMatrix { get; }
+
+    public PostActionCapabilityMatrix GetCapabilityMatrix(PostActionExecutorRequest? request = null)
+        => PostActionExecutorSupport.BuildCapabilityMatrix(request);
 
     public async Task<PlatformOperationResult> ExecuteAsync(
         PostActionType action,
@@ -2608,288 +2578,27 @@ public sealed class CommandPostActionExecutorService : IPostActionExecutorServic
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var capability = CapabilityMatrix.Get(action);
-        if (IsCommandDrivenAction(action))
-        {
-            if (string.IsNullOrWhiteSpace(request?.CommandLine))
-            {
-                return PlatformOperation.FallbackSuccess(
-                    capability.Provider,
-                    "Post action command is not configured and has been downgraded to logging.",
-                    operationId: $"post-action.{action}",
-                    errorCode: PlatformErrorCodes.PostActionUnsupported);
-            }
-
-            return await ExecuteCommandLineAsync(action, request.CommandLine, cancellationToken);
-        }
-
+        var capability = GetCapabilityMatrix(request).Get(action);
         if (!capability.Supported)
         {
-            return PlatformOperation.FallbackSuccess(
+            return PlatformOperation.Failed(
                 capability.Provider,
                 capability.Message,
+                PlatformErrorCodes.PostActionUnsupported,
                 operationId: $"post-action.{action}",
-                errorCode: PlatformErrorCodes.PostActionUnsupported);
+                usedFallback: capability.HasFallback);
         }
 
         return action switch
         {
-            PostActionType.Hibernate => await ExecutePowerActionAsync("hibernate", GetHibernateCommand(), cancellationToken),
-            PostActionType.Shutdown => await ExecutePowerActionAsync("shutdown", GetShutdownCommand(), cancellationToken),
-            PostActionType.Sleep => await ExecutePowerActionAsync("sleep", GetSleepCommand(), cancellationToken),
-            _ => PlatformOperation.Failed(capability.Provider, "Unknown post action.", PlatformErrorCodes.PostActionExecutionFailed, $"post-action.{action}"),
+            PostActionType.ExitArknights => await PostActionExecutorSupport.ExecuteLegacyCommandAsync(action, request, cancellationToken),
+            PostActionType.BackToAndroidHome => await PostActionExecutorSupport.ExecuteLegacyCommandAsync(action, request, cancellationToken),
+            PostActionType.ExitEmulator => await PostActionExecutorSupport.ExecuteExitEmulatorAsync(request, cancellationToken),
+            PostActionType.ExitSelf => await PostActionExecutorSupport.ExecuteLegacyCommandAsync(action, request, cancellationToken),
+            PostActionType.Hibernate => await PostActionExecutorSupport.ExecutePowerActionAsync(action, cancellationToken),
+            PostActionType.Shutdown => await PostActionExecutorSupport.ExecutePowerActionAsync(action, cancellationToken),
+            PostActionType.Sleep => await PostActionExecutorSupport.ExecutePowerActionAsync(action, cancellationToken),
+            _ => PlatformOperation.Failed("post-action", "Unknown post action.", PlatformErrorCodes.PostActionExecutionFailed, $"post-action.{action}"),
         };
-    }
-
-    private static bool IsCommandDrivenAction(PostActionType action)
-    {
-        return action is PostActionType.ExitArknights
-            or PostActionType.BackToAndroidHome
-            or PostActionType.ExitEmulator
-            or PostActionType.ExitSelf;
-    }
-
-    private static async Task<PlatformOperationResult> ExecuteCommandLineAsync(
-        PostActionType action,
-        string commandLine,
-        CancellationToken cancellationToken)
-    {
-        if (string.IsNullOrWhiteSpace(commandLine))
-        {
-            return PlatformOperation.FallbackSuccess(
-                "command",
-                "Post action command is not configured and has been downgraded to logging.",
-                operationId: $"post-action.{action}",
-                errorCode: PlatformErrorCodes.PostActionUnsupported);
-        }
-
-        var shellCommand = BuildShellCommand(commandLine);
-        if (shellCommand is null)
-        {
-            return PlatformOperation.Failed(
-                "command",
-                "Shell execution is unsupported on current platform.",
-                PlatformErrorCodes.PostActionUnsupported,
-                operationId: $"post-action.{action}");
-        }
-
-        try
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = shellCommand.Value.fileName,
-                Arguments = shellCommand.Value.arguments,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            };
-
-            using var process = new Process { StartInfo = startInfo };
-            process.Start();
-            var stdoutTask = process.StandardOutput.ReadToEndAsync(cancellationToken);
-            var stderrTask = process.StandardError.ReadToEndAsync(cancellationToken);
-            await process.WaitForExitAsync(cancellationToken);
-            var stdout = (await stdoutTask).Trim();
-            var stderr = (await stderrTask).Trim();
-
-            if (process.ExitCode == 0)
-            {
-                var message = string.IsNullOrWhiteSpace(stdout)
-                    ? $"Post action command accepted: {action}."
-                    : $"Post action command accepted: {action}. {stdout}";
-                return PlatformOperation.NativeSuccess("command", message.Trim(), operationId: $"post-action.{action}");
-            }
-
-            var failedMessage = string.IsNullOrWhiteSpace(stderr)
-                ? $"Post action command failed: {action}, exit code {process.ExitCode}."
-                : $"Post action command failed: {action}, exit code {process.ExitCode}: {stderr}";
-            return PlatformOperation.Failed(
-                "command",
-                failedMessage,
-                PlatformErrorCodes.PostActionExecutionFailed,
-                operationId: $"post-action.{action}");
-        }
-        catch (Exception ex)
-        {
-            return PlatformOperation.Failed(
-                "command",
-                $"Post action command failed: {action}: {ex.Message}",
-                PlatformErrorCodes.PostActionExecutionFailed,
-                operationId: $"post-action.{action}");
-        }
-    }
-
-    private static (string fileName, string arguments)? BuildShellCommand(string commandLine)
-    {
-        if (OperatingSystem.IsWindows())
-        {
-            return ("cmd.exe", $"/C {commandLine}");
-        }
-
-        if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
-        {
-            var escaped = commandLine
-                .Replace("\\", "\\\\", StringComparison.Ordinal)
-                .Replace("\"", "\\\"", StringComparison.Ordinal);
-            return ("/bin/bash", $"-lc \"{escaped}\"");
-        }
-
-        return null;
-    }
-
-    private static PlatformCapabilityStatus BuildPowerCapability()
-    {
-        if (!_powerActionsEnabled)
-        {
-            return new PlatformCapabilityStatus(
-                Supported: false,
-                Message: "Power actions are disabled by default. Set MAA_ENABLE_POWER_ACTIONS=1 to enable.",
-                Provider: "command",
-                HasFallback: true,
-                FallbackMode: "log-only");
-        }
-
-        if (OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
-        {
-            return new PlatformCapabilityStatus(
-                Supported: true,
-                Message: "Power actions are available via system command backend.",
-                Provider: "command",
-                HasFallback: true,
-                FallbackMode: "log-only");
-        }
-
-        return new PlatformCapabilityStatus(
-            Supported: false,
-            Message: "Power actions are unsupported on current operating system.",
-            Provider: "command",
-            HasFallback: true,
-            FallbackMode: "log-only");
-    }
-
-    private static (string fileName, string arguments)? GetHibernateCommand()
-    {
-        if (OperatingSystem.IsWindows())
-        {
-            return ("shutdown", "/h");
-        }
-
-        if (OperatingSystem.IsLinux())
-        {
-            return ("systemctl", "hibernate");
-        }
-
-        if (OperatingSystem.IsMacOS())
-        {
-            return ("pmset", "sleepnow");
-        }
-
-        return null;
-    }
-
-    private static (string fileName, string arguments)? GetShutdownCommand()
-    {
-        if (OperatingSystem.IsWindows())
-        {
-            return ("shutdown", "/s /t 0");
-        }
-
-        if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
-        {
-            return ("shutdown", "-h now");
-        }
-
-        return null;
-    }
-
-    private static (string fileName, string arguments)? GetSleepCommand()
-    {
-        if (OperatingSystem.IsWindows())
-        {
-            return ("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
-        }
-
-        if (OperatingSystem.IsLinux())
-        {
-            return ("systemctl", "suspend");
-        }
-
-        if (OperatingSystem.IsMacOS())
-        {
-            return ("pmset", "sleepnow");
-        }
-
-        return null;
-    }
-
-    private static async Task<PlatformOperationResult> ExecutePowerActionAsync(
-        string action,
-        (string fileName, string arguments)? command,
-        CancellationToken cancellationToken)
-    {
-        if (!_powerActionsEnabled)
-        {
-            return PlatformOperation.FallbackSuccess(
-                "command",
-                "Power action skipped because MAA_ENABLE_POWER_ACTIONS is not set.",
-                operationId: $"post-action.{action}",
-                errorCode: PlatformErrorCodes.PostActionPowerActionsDisabled);
-        }
-
-        if (command is null)
-        {
-            return PlatformOperation.Failed(
-                "command",
-                "Power action is unsupported on current platform.",
-                PlatformErrorCodes.PostActionUnsupported,
-                operationId: $"post-action.{action}");
-        }
-
-        try
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = command.Value.fileName,
-                Arguments = command.Value.arguments,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            };
-
-            using var process = new Process { StartInfo = startInfo };
-            process.Start();
-            var stdoutTask = process.StandardOutput.ReadToEndAsync(cancellationToken);
-            var stderrTask = process.StandardError.ReadToEndAsync(cancellationToken);
-            await process.WaitForExitAsync(cancellationToken);
-            var stdout = await stdoutTask;
-            var stderr = await stderrTask;
-
-            if (process.ExitCode == 0)
-            {
-                return PlatformOperation.NativeSuccess(
-                    "command",
-                    $"{action} command accepted. {stdout}".Trim(),
-                    operationId: $"post-action.{action}");
-            }
-
-            var message = string.IsNullOrWhiteSpace(stderr)
-                ? $"{action} command failed with exit code {process.ExitCode}."
-                : $"{action} command failed with exit code {process.ExitCode}: {stderr.Trim()}";
-            return PlatformOperation.Failed(
-                "command",
-                message,
-                PlatformErrorCodes.PostActionExecutionFailed,
-                operationId: $"post-action.{action}");
-        }
-        catch (Exception ex)
-        {
-            return PlatformOperation.Failed(
-                "command",
-                $"{action} command failed: {ex.Message}",
-                PlatformErrorCodes.PostActionExecutionFailed,
-                operationId: $"post-action.{action}");
-        }
     }
 }

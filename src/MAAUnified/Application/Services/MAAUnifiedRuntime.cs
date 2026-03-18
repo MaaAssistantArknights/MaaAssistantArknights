@@ -56,9 +56,9 @@ public sealed class MAAUnifiedRuntime : IAsyncDisposable
 
     public required IDialogFeatureService DialogFeatureService { get; init; }
 
-    public required IPostActionFeatureService PostActionFeatureService { get; init; }
+    public required IPostActionFeatureService PostActionFeatureService { get; set; }
 
-    public IAppLifecycleService AppLifecycleService { get; init; } = new NoOpAppLifecycleService();
+    public IAppLifecycleService AppLifecycleService { get; set; } = new NoOpAppLifecycleService();
 
     public ValueTask DisposeAsync()
     {
@@ -128,11 +128,14 @@ public static class MAAUnifiedRuntimeFactory
         var stageManagerFeatureService = new StageManagerFeatureService(configService);
         var webApiFeatureService = new WebApiFeatureService(configService);
         var dialogFeatureService = new DialogFeatureService(diagnosticsService);
+        var appLifecycleService = new ProcessAppLifecycleService();
         var postActionFeatureService = new PostActionFeatureService(
             configService,
             diagnosticsService,
-            platform.PostActionExecutorService);
-        var appLifecycleService = new ProcessAppLifecycleService();
+            platform.PostActionExecutorService,
+            bridge,
+            appLifecycleService,
+            new NoOpPostActionPromptService());
 
         return new MAAUnifiedRuntime {
             CoreBridge = bridge,

@@ -189,7 +189,19 @@ public enum PostActionType
 }
 
 public sealed record PostActionExecutorRequest(
-    string? CommandLine = null);
+    string? CommandLine = null,
+    string? ConnectAddress = null,
+    string? ConnectConfig = null,
+    string? AdbPath = null,
+    string? ClientType = null,
+    bool MuMu12ExtrasEnabled = false,
+    string? MuMu12EmulatorPath = null,
+    bool MuMuBridgeConnection = false,
+    string? MuMu12Index = null,
+    bool LdPlayerExtrasEnabled = false,
+    string? LdPlayerEmulatorPath = null,
+    bool LdPlayerManualSetIndex = false,
+    string? LdPlayerIndex = null);
 
 public sealed record PostActionCapabilityMatrix(
     PlatformCapabilityStatus ExitArknights,
@@ -219,6 +231,9 @@ public sealed record PostActionCapabilityMatrix(
 public interface IPostActionExecutorService
 {
     PostActionCapabilityMatrix CapabilityMatrix { get; }
+
+    PostActionCapabilityMatrix GetCapabilityMatrix(PostActionExecutorRequest? request = null)
+        => CapabilityMatrix;
 
     Task<PlatformOperationResult> ExecuteAsync(
         PostActionType action,

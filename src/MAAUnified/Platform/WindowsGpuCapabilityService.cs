@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text.Json;
 
 namespace MAAUnified.Platform;
@@ -91,6 +93,7 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
         }
 
         IDXGIFactory1? factory = null;
+        var candidates = new List<WindowsGpuCandidate>();
         try
         {
             var factoryGuid = typeof(IDXGIFactory1).GUID;
@@ -100,7 +103,6 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
                 return [GpuOptionDescriptor.Disabled];
             }
 
-            var options = new List<GpuOptionDescriptor> { GpuOptionDescriptor.Disabled };
             var controllers = QueryDisplayControllers();
 
             for (uint index = 0; ; index++)
@@ -119,96 +121,134 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
                         continue;
                     }
 
-                    adapter.GetDesc1(out var desc);
-                    var description = desc.Description?.TrimEnd('\0').Trim() ?? string.Empty;
-                    if (string.IsNullOrWhiteSpace(description))
+                    var candidate = TryBuildCandidate(index, adapter, controllers);
+                    if (candidate is not null)
                     {
-                        continue;
+                        candidates.Add(candidate);
                     }
-
-                    if ((desc.Flags & DxgiAdapterFlagSoftware) != 0)
-                    {
-                        continue;
-                    }
-
-                    if (!CheckD3D12Support(adapter, D3DFeatureLevel.Level11_0))
-                    {
-                        continue;
-                    }
-
-                    var controller = MatchController(controllers, description, desc.VendorId, desc.DeviceId);
-                    var instancePath = controller?.PnpDeviceId ?? BuildSyntheticInstancePath(index, description);
-                    if (IsProbablyIndirectDisplayAdapter(description, instancePath))
-                    {
-                        continue;
-                    }
-
-                    var deprecated = IsGpuDeprecated(adapter, desc, controller);
-                    if (deprecated && !allowDeprecatedGpu)
-                    {
-                        continue;
-                    }
-
-                    var option = new GpuOptionDescriptor(
-                        Id: instancePath,
-                        Kind: GpuOptionKind.SpecificGpu,
-                        DisplayName: description,
-                        Description: description,
-                        InstancePath: instancePath,
-                        GpuIndex: index,
-                        IsDeprecated: deprecated,
-                        DriverDate: controller?.DriverDate,
-                        DriverVersion: controller?.DriverVersion);
-
-                    if (index == 0)
-                    {
-                        options.Add(GpuOptionDescriptor.SystemDefault(
-                            displayName: description,
-                            isDeprecated: deprecated,
-                            driverDate: controller?.DriverDate,
-                            driverVersion: controller?.DriverVersion));
-                    }
-
-                    options.Add(option);
+                }
+                catch
+                {
+                    continue;
                 }
                 finally
                 {
-                    if (adapter is not null)
-                    {
-                        Marshal.ReleaseComObject(adapter);
-                    }
+                    ReleaseComObjectQuietly(adapter);
                 }
             }
-
-            if (options.Count <= 1)
-            {
-                return options;
-            }
-
-            var duplicateNames = options
-                .Where(option => option.Kind == GpuOptionKind.SpecificGpu)
-                .GroupBy(option => option.Description, StringComparer.OrdinalIgnoreCase)
-                .Where(group => group.Count() > 1)
-                .Select(group => group.Key)
-                .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-            return options
-                .Select(option => option.Kind != GpuOptionKind.SpecificGpu || !duplicateNames.Contains(option.Description)
-                    ? option
-                    : option with { DisplayName = $"{option.Description} (GPU {option.GpuIndex})" })
-                .ToArray();
         }
         catch
         {
-            return [GpuOptionDescriptor.Disabled];
+            // Fall through and return whatever candidates we managed to enumerate.
         }
         finally
         {
-            if (factory is not null)
-            {
-                Marshal.ReleaseComObject(factory);
-            }
+            ReleaseComObjectQuietly(factory);
         }
+
+        return BuildOptionList(allowDeprecatedGpu, candidates);
+    }
+
+    internal static IReadOnlyList<GpuOptionDescriptor> BuildOptionList(
+        bool allowDeprecatedGpu,
+        IReadOnlyList<WindowsGpuCandidate> candidates)
+    {
+        var filteredCandidates = candidates
+            .Where(candidate => allowDeprecatedGpu || !candidate.IsDeprecated)
+            .ToArray();
+
+        if (filteredCandidates.Length == 0)
+        {
+            return [GpuOptionDescriptor.Disabled];
+        }
+
+        var options = new List<GpuOptionDescriptor>
+        {
+            GpuOptionDescriptor.Disabled,
+        };
+
+        var defaultCandidate = filteredCandidates[0];
+        options.Add(GpuOptionDescriptor.SystemDefault(
+            displayName: defaultCandidate.Description,
+            isDeprecated: defaultCandidate.IsDeprecated,
+            driverDate: defaultCandidate.DriverDate,
+            driverVersion: defaultCandidate.DriverVersion));
+
+        options.AddRange(filteredCandidates.Select(candidate => new GpuOptionDescriptor(
+            Id: string.IsNullOrWhiteSpace(candidate.InstancePath)
+                ? BuildSyntheticOptionId(candidate.AdapterIndex, candidate.Description)
+                : candidate.InstancePath,
+            Kind: GpuOptionKind.SpecificGpu,
+            DisplayName: candidate.Description,
+            Description: candidate.Description,
+            InstancePath: candidate.InstancePath,
+            GpuIndex: candidate.AdapterIndex,
+            IsDeprecated: candidate.IsDeprecated,
+            DriverDate: candidate.DriverDate,
+            DriverVersion: candidate.DriverVersion)));
+
+        return DeduplicateSpecificGpuNames(options);
+    }
+
+    private static WindowsGpuCandidate? TryBuildCandidate(
+        uint index,
+        IDXGIAdapter1 adapter,
+        IList<DisplayControllerInfo> controllers)
+    {
+        adapter.GetDesc1(out var desc);
+        var description = desc.Description?.TrimEnd('\0').Trim() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            return null;
+        }
+
+        if ((desc.Flags & DxgiAdapterFlagSoftware) != 0)
+        {
+            return null;
+        }
+
+        if (!CheckD3D12Support(adapter, D3DFeatureLevel.Level11_0))
+        {
+            return null;
+        }
+
+        var controller = MatchController(controllers, description, desc.VendorId, desc.DeviceId);
+        var instancePath = controller?.PnpDeviceId?.Trim() ?? string.Empty;
+        if (IsProbablyIndirectDisplayAdapter(description, instancePath))
+        {
+            return null;
+        }
+
+        var deprecated = IsGpuDeprecated(adapter, desc, controller);
+        return new WindowsGpuCandidate(
+            AdapterIndex: index,
+            Description: description,
+            InstancePath: instancePath,
+            IsDeprecated: deprecated,
+            DriverDate: controller?.DriverDate,
+            DriverVersion: string.IsNullOrWhiteSpace(controller?.DriverVersion) ? null : controller.DriverVersion.Trim());
+    }
+
+    private static IReadOnlyList<GpuOptionDescriptor> DeduplicateSpecificGpuNames(
+        IReadOnlyList<GpuOptionDescriptor> options)
+    {
+        if (options.Count <= 1)
+        {
+            return options;
+        }
+
+        var duplicateNames = options
+            .Where(option => option.Kind == GpuOptionKind.SpecificGpu)
+            .GroupBy(option => option.Description, StringComparer.OrdinalIgnoreCase)
+            .Where(group => group.Count() > 1)
+            .Select(group => group.Key)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        return options
+            .Select(option => option.Kind != GpuOptionKind.SpecificGpu || !duplicateNames.Contains(option.Description)
+                ? option
+                : option with { DisplayName = $"{option.Description} (GPU {option.GpuIndex})" })
+            .ToArray();
     }
 
     private static GpuOptionDescriptor ResolveSelection(
@@ -298,11 +338,12 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
             return true;
         }
 
-        return instancePath.Contains("ROOT\\", StringComparison.OrdinalIgnoreCase)
-            || instancePath.Contains("INDIRECT", StringComparison.OrdinalIgnoreCase);
+        return !string.IsNullOrWhiteSpace(instancePath)
+            && (instancePath.Contains("ROOT\\", StringComparison.OrdinalIgnoreCase)
+                || instancePath.Contains("INDIRECT", StringComparison.OrdinalIgnoreCase));
     }
 
-    private static string BuildSyntheticInstancePath(uint index, string description)
+    private static string BuildSyntheticOptionId(uint index, string description)
     {
         return $"DXGI#{index}#{description}";
     }
@@ -442,7 +483,21 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
 
     private static DateTime? ParseWmiDate(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) || value.Length < 8)
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+
+        if (DateTimeOffset.TryParse(
+                value,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeLocal,
+                out var parsedOffset))
+        {
+            return parsedOffset.Date;
+        }
+
+        if (value.Length < 8)
         {
             return null;
         }
@@ -450,11 +505,29 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
         return DateTime.TryParseExact(
             value[..8],
             "yyyyMMdd",
-            null,
+            CultureInfo.InvariantCulture,
             System.Globalization.DateTimeStyles.AssumeLocal,
             out var parsed)
             ? parsed.Date
             : null;
+    }
+
+    [SupportedOSPlatform("windows")]
+    private static void ReleaseComObjectQuietly(object? comObject)
+    {
+        if (!OperatingSystem.IsWindows() || comObject is null || !Marshal.IsComObject(comObject))
+        {
+            return;
+        }
+
+        try
+        {
+            _ = Marshal.ReleaseComObject(comObject);
+        }
+        catch
+        {
+            // Best-effort cleanup only. Enumeration results should survive release failures.
+        }
     }
 
     [DllImport("dxgi.dll", ExactSpelling = true)]
@@ -561,4 +634,12 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
         string PnpDeviceId,
         string DriverVersion,
         DateTime? DriverDate);
+
+    internal sealed record WindowsGpuCandidate(
+        uint AdapterIndex,
+        string Description,
+        string InstancePath,
+        bool IsDeprecated,
+        DateTime? DriverDate,
+        string? DriverVersion);
 }
