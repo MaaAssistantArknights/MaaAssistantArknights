@@ -75,7 +75,7 @@ std::optional<cv::Mat> LDExtras::screencap() const
 
 bool LDExtras::load_ld_library()
 {
-    auto lib_path = ld_path_ / "ldopengl64.dll";
+    auto lib_path = ld_path_ / "ldopengl64";
 
     if (!load_library(lib_path)) {
         LogError << "Failed to load library" << VAR(lib_path);

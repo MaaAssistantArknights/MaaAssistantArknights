@@ -38,19 +38,7 @@ bool MaaFwAdbController::init_library()
         LogInfo << "MaaAdbControlUnit library already loaded";
         return true;
     }
-    if (!load_library(
-#ifndef _WIN32
-            "lib"
-#endif
-            "MaaAdbControlUnit"
-#ifdef _WIN32
-            ".dll"
-#elif defined(__APPLE__)
-            ".dylib"
-#else
-            ".so"
-#endif
-            )) {
+    if (!load_library("MaaAdbControlUnit")) {
         LogError << "Failed to load MaaAdbControlUnit library";
         return false;
     }

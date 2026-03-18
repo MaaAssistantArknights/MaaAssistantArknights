@@ -3,7 +3,6 @@
 #include <filesystem>
 #include <functional>
 #include <mutex>
-#include <type_traits>
 
 #ifdef _WIN32
 #include "MaaUtils/SafeWindows.hpp"
@@ -67,18 +66,35 @@ inline bool LibraryHolder<T>::load_library(const std::filesystem::path& libname)
         return true;
     }
 
-    LogInfo << "Loading library" << VAR(libname);
+    // 根据操作系统平台惯例为动态库文件名添加前后缀lib*.{dll,dylib,so}
+    // 逻辑抄自boost::dll::shared_library::decorate
+    std::filesystem::path filename = libname;
+#ifndef _WIN32
+    if (std::strncmp(libname.filename().string().c_str(), "lib", 3)) {
+        filename = std::filesystem::path(
+            (libname.has_parent_path() ? libname.parent_path() / "lib" : "lib").native() + libname.filename().native());
+    }
+#endif
+#ifdef _WIN32
+    filename += ".dll";
+#elif defined(__APPLE__)
+    filename += ".dylib";
+#else
+    filename += ".so";
+#endif
+
+    LogInfo << "Loading library" << VAR(libname) << VAR(filename);
 
 #ifdef _WIN32
-    module_ = LoadLibrary(libname.c_str());
+    module_ = LoadLibrary(filename.c_str());
     if (module_ == nullptr) {
-        LogError << "LoadLibrary failed" << VAR(libname) << VAR(GetLastError());
+        LogError << "LoadLibrary failed" << VAR(filename) << VAR(GetLastError());
         return false;
     }
 #else
-    module_ = dlopen(libname.c_str(), RTLD_LAZY);
+    module_ = dlopen(filename.c_str(), RTLD_LAZY);
     if (module_ == nullptr) {
-        LogError << "dlopen failed" << VAR(libname) << VAR(dlerror());
+        LogError << "dlopen failed" << VAR(filename) << VAR(dlerror());
         return false;
     }
 #endif
