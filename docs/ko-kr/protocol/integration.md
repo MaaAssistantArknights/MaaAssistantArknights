@@ -1137,7 +1137,7 @@ Value
 폐기됨. 원 minitouch 활성화 여부; "1" 켜기, "0" 끄기. 장치가 지원하지 않을 수 있음. 열거값: 1 (폐기됨)  
 :::  
 ::: field name="TouchMode" type="string" optional default="minitouch"  
-터치 모드 설정. 옵션: minitouch | maatouch | adb. 기본값 minitouch. 열거값: 2  
+터치 모드 설정. 옵션: minitouch | maatouch | adb | MaaFwAdb. 기본값 minitouch. 열거값: 2  
 :::  
 ::: field name="DeploymentWithPause" type="boolean" optional  
 오퍼레이터 배치 시 일시정지 여부, 자동지휘/통합 전략/보안파견에 모두 영향. 옵션: "1" 켜기, "0" 끄기. 열거값: 3  
