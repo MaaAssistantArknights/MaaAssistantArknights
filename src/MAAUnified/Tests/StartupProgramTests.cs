@@ -81,4 +81,29 @@ public sealed class StartupProgramTests
         var ex = new Exception("Configuration load failed.");
         Assert.False(Program.IsDisplayInitializationFailure(ex));
     }
+
+    [Fact]
+    public void BuildStartupEnvironmentSnapshot_IncludesFrameworkAndArguments()
+    {
+        var snapshot = Program.BuildStartupEnvironmentSnapshot(["--profile", "default profile"]);
+
+        Assert.Contains("framework=", snapshot, StringComparison.Ordinal);
+        Assert.Contains("os=", snapshot, StringComparison.Ordinal);
+        Assert.Contains("processPath=", snapshot, StringComparison.Ordinal);
+        Assert.Contains("args=--profile \"default profile\"", snapshot, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void BuildStartupTracePayload_WhenExceptionProvided_IncludesStageAndException()
+    {
+        var payload = Program.BuildStartupTracePayload(
+            "FrameworkInit.RuntimeCreate.Fail",
+            "Runtime creation failed.",
+            new InvalidOperationException("boom"));
+
+        Assert.Contains("[STARTUP]", payload, StringComparison.Ordinal);
+        Assert.Contains("App.Startup.FrameworkInit.RuntimeCreate.Fail", payload, StringComparison.Ordinal);
+        Assert.Contains("Runtime creation failed.", payload, StringComparison.Ordinal);
+        Assert.Contains("InvalidOperationException: boom", payload, StringComparison.Ordinal);
+    }
 }

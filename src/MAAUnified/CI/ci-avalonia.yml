@@ -51,16 +51,19 @@ jobs:
           - name: windows-x64
             os: windows-latest
             rid: win-x64
+            self_contained: true
             cmake_preset: windows-publish-x64
             maadeps_triplet: x64-windows
           - name: linux-x64
             os: ubuntu-latest
             rid: linux-x64
+            self_contained: false
             cmake_preset: linux-publish-x64
             maadeps_triplet: x64-linux
           - name: macos-x64
             os: macos-latest
             rid: osx-x64
+            self_contained: false
             cmake_preset: macos-publish-x64
             maadeps_triplet: x64-osx
 
@@ -138,7 +141,7 @@ jobs:
           cmake --install build --config RelWithDebInfo
 
       - name: Publish MAAUnified app
-        run: dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r ${{ matrix.rid }} --self-contained false -o publish
+        run: dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r ${{ matrix.rid }} --self-contained ${{ matrix.self_contained }} -o publish
 
       - name: Merge MaaCore runtime (Windows)
         if: runner.os == 'Windows'

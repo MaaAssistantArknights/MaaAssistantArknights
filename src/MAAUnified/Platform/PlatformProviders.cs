@@ -2202,13 +2202,37 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
                 }
 
                 GetWindowThreadProcessId(hWnd, out var pid);
+                if (pid == (uint)Environment.ProcessId)
+                {
+                    return true;
+                }
+
                 if (!seen.Add(hWnd))
                 {
                     return true;
                 }
 
-                var display = $"{title} (pid:{pid})";
-                targets.Add(new OverlayTarget($"hwnd:{hWnd:X}", display, false));
+                string? processName = null;
+                try
+                {
+                    processName = Process.GetProcessById((int)pid).ProcessName;
+                }
+                catch
+                {
+                    // Best-effort metadata for target restore.
+                }
+
+                var display = string.IsNullOrWhiteSpace(processName)
+                    ? $"{title} (pid:{pid})"
+                    : $"{title} - {processName} - {pid}";
+                targets.Add(new OverlayTarget(
+                    $"hwnd:{hWnd:X}",
+                    display,
+                    false,
+                    NativeHandle: (long)hWnd,
+                    ProcessId: (int)pid,
+                    ProcessName: processName,
+                    WindowTitle: title));
                 return targets.Count < 80;
             }, nint.Zero);
 

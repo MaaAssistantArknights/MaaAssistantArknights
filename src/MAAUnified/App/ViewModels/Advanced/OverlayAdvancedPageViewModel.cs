@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Services;
 using MAAUnified.Platform;
@@ -10,11 +11,15 @@ public sealed class OverlayAdvancedPageViewModel : PageViewModelBase
     private OverlayTarget? _selectedTarget;
     private bool _visible;
     private string _capabilitySummary = string.Empty;
+    private readonly OverlaySharedState _overlaySharedState;
 
     public OverlayAdvancedPageViewModel(MAAUnifiedRuntime runtime)
         : base(runtime)
     {
         Targets = new ObservableCollection<OverlayTarget>();
+        _overlaySharedState = OverlaySharedStateRegistry.Get(runtime);
+        _visible = _overlaySharedState.Visible;
+        _overlaySharedState.PropertyChanged += OnOverlaySharedStateChanged;
     }
 
     public ObservableCollection<OverlayTarget> Targets { get; }
@@ -22,13 +27,29 @@ public sealed class OverlayAdvancedPageViewModel : PageViewModelBase
     public OverlayTarget? SelectedTarget
     {
         get => _selectedTarget;
-        set => SetProperty(ref _selectedTarget, value);
+        set
+        {
+            if (!SetProperty(ref _selectedTarget, value))
+            {
+                return;
+            }
+
+            _overlaySharedState.SelectedTargetId = value?.Id ?? "preview";
+        }
     }
 
     public bool Visible
     {
         get => _visible;
-        set => SetProperty(ref _visible, value);
+        set
+        {
+            if (!SetProperty(ref _visible, value))
+            {
+                return;
+            }
+
+            _overlaySharedState.Visible = value;
+        }
     }
 
     public string CapabilitySummary
@@ -59,7 +80,12 @@ public sealed class OverlayAdvancedPageViewModel : PageViewModelBase
             Targets.Add(target);
         }
 
-        SelectedTarget = Targets.FirstOrDefault(t => t.IsPrimary) ?? Targets.FirstOrDefault();
+        SelectedTarget = OverlayTargetPersistence.ResolveSelection(
+            Targets,
+            Runtime.ConfigurationService.CurrentConfig.GlobalValues,
+            _overlaySharedState.SelectedTargetId)
+            ?? Targets.FirstOrDefault(t => t.IsPrimary)
+            ?? Targets.FirstOrDefault();
 
         var snapshot = await ApplyResultAsync(
             await Runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken),
@@ -74,11 +100,7 @@ public sealed class OverlayAdvancedPageViewModel : PageViewModelBase
 
     public async Task ToggleOverlayAsync(CancellationToken cancellationToken = default)
     {
-        var selectResult = await ApplyResultAsync(
-            await Runtime.OverlayFeatureService.SelectOverlayTargetAsync(SelectedTarget?.Id ?? "preview", cancellationToken),
-            "Advanced.Overlay.SelectTarget",
-            cancellationToken);
-        if (!selectResult)
+        if (!await SelectAndPersistTargetAsync(SelectedTarget?.Id ?? "preview", cancellationToken))
         {
             return;
         }
@@ -94,5 +116,76 @@ public sealed class OverlayAdvancedPageViewModel : PageViewModelBase
         }
 
         Visible = requestedVisible;
+    }
+
+    private async Task<bool> SelectAndPersistTargetAsync(string targetId, CancellationToken cancellationToken)
+    {
+        var selectResult = await ApplyResultAsync(
+            await Runtime.OverlayFeatureService.SelectOverlayTargetAsync(targetId, cancellationToken),
+            "Advanced.Overlay.SelectTarget",
+            cancellationToken);
+        if (!selectResult)
+        {
+            return false;
+        }
+
+        SelectedTarget = Targets.FirstOrDefault(target => string.Equals(target.Id, targetId, StringComparison.Ordinal))
+                         ?? SelectedTarget
+                         ?? new OverlayTarget(targetId, targetId, false);
+
+        await PersistSelectedTargetBestEffortAsync(SelectedTarget, cancellationToken);
+        return true;
+    }
+
+    private async Task PersistSelectedTargetBestEffortAsync(OverlayTarget? selectedTarget, CancellationToken cancellationToken)
+    {
+        if (selectedTarget is null)
+        {
+            return;
+        }
+
+        var saveResult = await Runtime.SettingsFeatureService.SaveGlobalSettingAsync(
+            Compat.Constants.ConfigurationKeys.OverlayTarget,
+            OverlayTargetPersistence.Serialize(selectedTarget),
+            cancellationToken);
+        if (saveResult.Success)
+        {
+            await RecordEventAsync("Advanced.Overlay.SaveTarget", saveResult.Message, cancellationToken);
+            return;
+        }
+
+        LastErrorMessage = saveResult.Message;
+        await RecordFailedResultAsync("Advanced.Overlay.SaveTarget", saveResult, cancellationToken);
+    }
+
+    private void OnOverlaySharedStateChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (string.Equals(e.PropertyName, nameof(OverlaySharedState.Visible), StringComparison.Ordinal))
+        {
+            if (_visible == _overlaySharedState.Visible)
+            {
+                return;
+            }
+
+            _visible = _overlaySharedState.Visible;
+            OnPropertyChanged(nameof(Visible));
+            return;
+        }
+
+        if (!string.Equals(e.PropertyName, nameof(OverlaySharedState.SelectedTargetId), StringComparison.Ordinal)
+            || Targets.Count == 0)
+        {
+            return;
+        }
+
+        var selected = Targets.FirstOrDefault(target =>
+            string.Equals(target.Id, _overlaySharedState.SelectedTargetId, StringComparison.Ordinal));
+        if (selected is null || Equals(_selectedTarget, selected))
+        {
+            return;
+        }
+
+        _selectedTarget = selected;
+        OnPropertyChanged(nameof(SelectedTarget));
     }
 }

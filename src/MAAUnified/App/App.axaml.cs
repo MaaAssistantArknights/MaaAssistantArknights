@@ -27,12 +27,30 @@ public partial class App : Avalonia.Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        Runtime = MAAUnifiedRuntimeFactory.Create(AppContext.BaseDirectory);
+        Program.RecordStartupStage(
+            "FrameworkInit.Enter",
+            $"lifetime={ApplicationLifetime?.GetType().FullName ?? "<null>"}");
+
+        try
+        {
+            Program.RecordStartupStage("FrameworkInit.RuntimeCreate.Begin", $"baseDir={AppContext.BaseDirectory}");
+            Runtime = MAAUnifiedRuntimeFactory.Create(AppContext.BaseDirectory);
+            Program.RecordStartupStage("FrameworkInit.RuntimeCreate.End", "MAAUnified runtime created.");
+        }
+        catch (Exception ex)
+        {
+            Program.RecordStartupStage("FrameworkInit.RuntimeCreate.Fail", "MAAUnified runtime creation failed.", ex);
+            throw;
+        }
+
         _crashCaptureService = new AppCrashCaptureService(AppContext.BaseDirectory);
+        Program.RecordStartupStage("FrameworkInit.CrashCapture.Ready", "Crash capture service created.");
         RegisterGlobalExceptionHandlers();
+        Program.RecordStartupStage("FrameworkInit.ExceptionHandlers.Ready", "Global exception handlers registered.");
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            Program.RecordStartupStage("FrameworkInit.DesktopLifetime.Begin", "Configuring classic desktop lifetime.");
             var appLifecycleService = new AvaloniaDesktopAppLifecycleService(desktop);
             Runtime.AppLifecycleService = appLifecycleService;
             Runtime.PostActionFeatureService = new PostActionFeatureService(
@@ -44,34 +62,54 @@ public partial class App : Avalonia.Application
                 new AvaloniaPostActionPromptService(desktop));
 
             var vm = new MainShellViewModel(Runtime);
+            Program.RecordStartupStage("FrameworkInit.ViewModel.Created", "MainShellViewModel created.");
             var mainWindow = new MainWindow
             {
                 DataContext = vm,
                 IsEnabled = false,
             };
+            Program.RecordStartupStage("FrameworkInit.MainWindow.Created", "MainWindow created and disabled pending initialization.");
             desktop.MainWindow = mainWindow;
+            Program.RecordStartupStage("FrameworkInit.MainWindow.Assigned", "Desktop MainWindow assigned.");
             desktop.Exit += (_, _) => Runtime.DisposeAsync().AsTask().GetAwaiter().GetResult();
 
             _ = InitializeShellAsync(vm, mainWindow);
+            Program.RecordStartupStage("FrameworkInit.InitializeShell.Scheduled", "Shell initialization scheduled.");
         }
+        else
+        {
+            Program.RecordStartupStage(
+                "FrameworkInit.NonDesktopLifetime",
+                $"Skipping desktop shell setup because lifetime is {ApplicationLifetime?.GetType().FullName ?? "<null>"}.");
+        }
+
+        Program.RecordStartupStage("FrameworkInit.Complete", "Framework initialization completed.");
 
         base.OnFrameworkInitializationCompleted();
     }
 
     private static async Task InitializeShellAsync(MainShellViewModel vm, MainWindow mainWindow)
     {
+        Program.RecordStartupStage("InitializeShell.Begin", "Starting shell initialization.");
         try
         {
+            Program.RecordStartupStage("InitializeShell.PendingCrashProbe.Begin", "Checking for previous crash reports.");
             await ReportPendingNativeCrashAsync();
+            Program.RecordStartupStage("InitializeShell.PendingCrashProbe.End", "Previous crash report probe completed.");
             await vm.InitializeAsync();
+            Program.RecordStartupStage(
+                "InitializeShell.End",
+                $"Shell initialized. sessionState={Runtime.SessionService.CurrentState}; errorLog={Runtime.DiagnosticsService.ErrorLogPath}");
         }
         catch (Exception ex)
         {
+            Program.RecordStartupStage("InitializeShell.Fail", "Shell initialization failed.", ex);
             await ReportGlobalExceptionAsync("App.Initialize", ex, handled: true);
         }
         finally
         {
             mainWindow.IsEnabled = true;
+            Program.RecordStartupStage("InitializeShell.Finally", "Main window re-enabled after shell initialization.");
         }
     }
 

@@ -1,0 +1,62 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MAAUnified.App.ViewModels.Infrastructure"
+        xmlns:taskVm="clr-namespace:MAAUnified.App.ViewModels.TaskQueue"
+        x:Class="MAAUnified.App.Views.OverlayHostWindow"
+        x:DataType="vm:OverlayPresentationViewModel">
+  <Window.Styles>
+    <Style Selector="Border#OverlayPanel">
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Background" Value="#B61A1E25" />
+      <Setter Property="BorderBrush" Value="#5CFFFFFF" />
+      <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style Selector="TextBlock.overlay-log-time">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="Foreground" Value="#CCFFFFFF" />
+      <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+    <Style Selector="TextBlock.overlay-log-content">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Foreground" Value="#FFF5F7FA" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+  </Window.Styles>
+
+  <Window.DataTemplates>
+    <DataTemplate DataType="taskVm:TaskQueueLogEntryViewModel">
+      <Grid ColumnDefinitions="Auto,*">
+        <TextBlock Classes="overlay-log-time"
+                   IsVisible="{Binding HasTime}"
+                   Text="{Binding Time}" />
+        <TextBlock Grid.Column="1"
+                   Classes="overlay-log-content"
+                   Classes.state-error="{Binding IsError}"
+                   Classes.state-warning="{Binding IsWarning}"
+                   Margin="8,0,0,0"
+                   Text="{Binding Content}" />
+      </Grid>
+    </DataTemplate>
+  </Window.DataTemplates>
+
+  <Grid IsHitTestVisible="False">
+    <Border x:Name="OverlayPanel"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="8"
+            MaxWidth="250"
+            Padding="10,8">
+      <ScrollViewer x:Name="OverlayScroller"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Hidden">
+        <ItemsControl ItemsSource="{Binding CurrentLogs}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Spacing="4" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </ScrollViewer>
+    </Border>
+  </Grid>
+</Window>

@@ -277,7 +277,7 @@ public partial class CopilotView : UserControl
     {
         if (TopLevel.GetTopLevel(this)?.DataContext is MainShellViewModel shell)
         {
-            await shell.TaskQueuePage.ToggleOverlayAsync();
+            await shell.ToggleOverlayFromCopilotAsync();
         }
     }
 
@@ -296,6 +296,6 @@ public partial class CopilotView : UserControl
         }
 
         e.Handled = true;
-        await shell.TaskQueuePage.PickOverlayTargetWithDialogAsync();
+        await shell.PickOverlayTargetFromCopilotAsync();
     }
 }

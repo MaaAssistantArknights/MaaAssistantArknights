@@ -87,6 +87,7 @@ public sealed class MainShellViewModel : ObservableObject
             _dialogService,
             NavigateToSettingsSection);
         CopilotPage = new CopilotPageViewModel(runtime);
+        OverlayPresentation = new OverlayPresentationViewModel(runtime, TaskQueuePage, CopilotPage);
         ToolboxPage = new ToolboxPageViewModel(runtime, _connectionGameSharedState);
         SettingsPage = new SettingsPageViewModel(runtime, _connectionGameSharedState, ReportLocalizationFallback, dialogService: _dialogService);
         SettingsPage.GuiSettingsApplied += OnGuiSettingsApplied;
@@ -134,6 +135,8 @@ public sealed class MainShellViewModel : ObservableObject
     public TaskQueuePageViewModel TaskQueuePage { get; }
 
     public CopilotPageViewModel CopilotPage { get; }
+
+    public OverlayPresentationViewModel OverlayPresentation { get; }
 
     public ToolboxPageViewModel ToolboxPage { get; }
 
@@ -1584,6 +1587,7 @@ public sealed class MainShellViewModel : ObservableObject
         var scope = "App.Shell.Tray.ToggleOverlay";
         try
         {
+            OverlayPresentation.RefreshResolvedSource();
             await TaskQueuePage.ToggleOverlayAsync(cancellationToken);
             await SyncTrayMenuStateAsync(cancellationToken);
 
@@ -1606,6 +1610,30 @@ public sealed class MainShellViewModel : ObservableObject
                 cancellationToken);
             PushGrowl(ex.Message);
         }
+    }
+
+    public async Task ToggleOverlayFromTaskQueueAsync(CancellationToken cancellationToken = default)
+    {
+        OverlayPresentation.PreferTaskQueue();
+        await TaskQueuePage.ToggleOverlayAsync(cancellationToken);
+    }
+
+    public async Task PickOverlayTargetFromTaskQueueAsync(CancellationToken cancellationToken = default)
+    {
+        OverlayPresentation.PreferTaskQueue();
+        await TaskQueuePage.PickOverlayTargetWithDialogAsync(cancellationToken);
+    }
+
+    public async Task ToggleOverlayFromCopilotAsync(CancellationToken cancellationToken = default)
+    {
+        OverlayPresentation.PreferCopilot();
+        await TaskQueuePage.ToggleOverlayAsync(cancellationToken);
+    }
+
+    public async Task PickOverlayTargetFromCopilotAsync(CancellationToken cancellationToken = default)
+    {
+        OverlayPresentation.PreferCopilot();
+        await TaskQueuePage.PickOverlayTargetWithDialogAsync(cancellationToken);
     }
 
     private async Task ApplyLanguageChangeAsync(string next, CancellationToken cancellationToken = default)

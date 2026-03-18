@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using MAAUnified.App.ViewModels;
 using MAAUnified.App.ViewModels.TaskQueue;
 
 namespace MAAUnified.App.Features.Root;
@@ -158,6 +159,12 @@ public partial class TaskQueueView : UserControl
 
     private async void OnToggleOverlayClick(object? sender, RoutedEventArgs e)
     {
+        if (TopLevel.GetTopLevel(this)?.DataContext is MainShellViewModel shell)
+        {
+            await shell.ToggleOverlayFromTaskQueueAsync();
+            return;
+        }
+
         if (VM is not null)
         {
             await VM.ToggleOverlayAsync();
@@ -178,6 +185,12 @@ public partial class TaskQueueView : UserControl
         }
 
         e.Handled = true;
+        if (TopLevel.GetTopLevel(this)?.DataContext is MainShellViewModel shell)
+        {
+            await shell.PickOverlayTargetFromTaskQueueAsync();
+            return;
+        }
+
         await VM.PickOverlayTargetWithDialogAsync();
     }
 

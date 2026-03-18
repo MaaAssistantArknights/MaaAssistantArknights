@@ -26,6 +26,7 @@ public sealed class SettingsModuleCM2FeatureTests
         using var archive = ZipFile.OpenRead(bundlePath);
         Assert.Contains(archive.Entries, entry => entry.FullName == "config/avalonia.json");
         Assert.Contains(archive.Entries, entry => entry.FullName == "debug/config-import-report.json");
+        Assert.Contains(archive.Entries, entry => entry.FullName == "debug/avalonia-ui-startup.log");
         Assert.Contains(archive.Entries, entry => entry.FullName == "debug/avalonia-ui-errors.log");
         Assert.Contains(archive.Entries, entry => entry.FullName == "debug/avalonia-ui-events.log");
         Assert.Contains(archive.Entries, entry => entry.FullName == "debug/avalonia-platform-events.log");

@@ -68,6 +68,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         };
 
     private const int MaxLogCards = 180;
+    private const int MaxOverlayLogs = 200;
     private const string UiMallCreditFightLastTime = "_ui_mall_credit_fight_last_time";
     private const string UiMallVisitFriendsLastTime = "_ui_mall_visit_friends_last_time";
     private static readonly Regex LeadingLogTimestampPattern = new(
@@ -80,6 +81,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
     private readonly SemaphoreSlim _runTransitionLock = new(1, 1);
     private readonly object _pendingBindingGate = new();
     private readonly object _moduleAutoSaveGate = new();
+    private readonly OverlaySharedState _overlaySharedState;
     private readonly ConnectionGameSharedStateViewModel _connectionGameSharedState;
     private readonly Action<LocalizationFallbackInfo>? _localizationFallbackReporter;
     private readonly IAppDialogService _dialogService;
@@ -143,7 +145,10 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         TaskModules = new ObservableCollection<TaskModuleOption>();
         Tasks = new ObservableCollection<TaskQueueItemViewModel>();
         LogCards = new ObservableCollection<TaskQueueLogCardViewModel>();
+        OverlayLogs = new ObservableCollection<TaskQueueLogEntryViewModel>();
         OverlayTargets = new ObservableCollection<OverlayTarget>();
+        _overlaySharedState = OverlaySharedStateRegistry.Get(runtime);
+        _overlayVisible = _overlaySharedState.Visible;
 
         Texts = new LocalizedTextMap
         {
@@ -199,6 +204,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         };
         _connectionGameSharedState.PropertyChanged += OnConnectionGameSharedStateChanged;
         _currentSessionState = runtime.SessionService.CurrentState;
+        _overlaySharedState.PropertyChanged += OnOverlaySharedStateChanged;
     }
 
     public ObservableCollection<TaskModuleOption> TaskModules { get; }
@@ -206,6 +212,8 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
     public ObservableCollection<TaskQueueItemViewModel> Tasks { get; }
 
     public ObservableCollection<TaskQueueLogCardViewModel> LogCards { get; }
+
+    public ObservableCollection<TaskQueueLogEntryViewModel> OverlayLogs { get; }
 
     public TaskQueueLogEntryViewModel DownloadLogEntry
     {
@@ -655,13 +663,29 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
     public OverlayTarget? SelectedOverlayTarget
     {
         get => _selectedOverlayTarget;
-        set => SetProperty(ref _selectedOverlayTarget, value);
+        set
+        {
+            if (!SetProperty(ref _selectedOverlayTarget, value))
+            {
+                return;
+            }
+
+            _overlaySharedState.SelectedTargetId = value?.Id ?? "preview";
+        }
     }
 
     public bool OverlayVisible
     {
         get => _overlayVisible;
-        set => SetProperty(ref _overlayVisible, value);
+        set
+        {
+            if (!SetProperty(ref _overlayVisible, value))
+            {
+                return;
+            }
+
+            _overlaySharedState.Visible = value;
+        }
     }
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
@@ -2210,7 +2234,12 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
 
         if (OverlayTargets.Count > 0)
         {
-            SelectedOverlayTarget = OverlayTargets.FirstOrDefault(t => t.IsPrimary) ?? OverlayTargets[0];
+            SelectedOverlayTarget = OverlayTargetPersistence.ResolveSelection(
+                OverlayTargets,
+                Runtime.ConfigurationService.CurrentConfig.GlobalValues,
+                _overlaySharedState.SelectedTargetId)
+                ?? OverlayTargets.FirstOrDefault(t => t.IsPrimary)
+                ?? OverlayTargets[0];
         }
 
         var snapshotResult = await Runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken);
@@ -2266,24 +2295,27 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             return;
         }
 
-        var targetResult = await Runtime.OverlayFeatureService.SelectOverlayTargetAsync(targetId, cancellationToken);
-        if (!await ApplyResultAsync(targetResult, "Overlay.Select", cancellationToken))
+        if (!await SelectAndPersistOverlayTargetAsync(targetId, cancellationToken))
         {
             return;
         }
-
-        SelectedOverlayTarget = OverlayTargets.FirstOrDefault(t => string.Equals(t.Id, targetId, StringComparison.Ordinal))
-                                ?? SelectedOverlayTarget;
     }
 
     public async Task ToggleOverlayAsync(CancellationToken cancellationToken = default)
     {
-        var targetResult = await Runtime.OverlayFeatureService.SelectOverlayTargetAsync(SelectedOverlayTarget?.Id ?? "preview", cancellationToken);
-        await ApplyResultAsync(targetResult, "Overlay.Select", cancellationToken);
+        if (!await SelectAndPersistOverlayTargetAsync(SelectedOverlayTarget?.Id ?? "preview", cancellationToken))
+        {
+            return;
+        }
 
-        OverlayVisible = !OverlayVisible;
-        var visibleResult = await Runtime.OverlayFeatureService.ToggleOverlayVisibilityAsync(OverlayVisible, cancellationToken);
-        await ApplyResultAsync(visibleResult, "Overlay.Toggle", cancellationToken);
+        var requestedVisible = !OverlayVisible;
+        var visibleResult = await Runtime.OverlayFeatureService.ToggleOverlayVisibilityAsync(requestedVisible, cancellationToken);
+        if (!await ApplyResultAsync(visibleResult, "Overlay.Toggle", cancellationToken))
+        {
+            return;
+        }
+
+        OverlayVisible = requestedVisible;
     }
 
     private string BuildCapabilityLine(PlatformCapabilityId capability, PlatformCapabilityStatus status)
@@ -2917,6 +2949,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         }
 
         LogCards.Clear();
+        OverlayLogs.Clear();
         DownloadLogEntry = new TaskQueueLogEntryViewModel(string.Empty, string.Empty, "INFO");
         LastRuntimeStatus = null;
     }
@@ -2998,6 +3031,8 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
                 NormalizeLogContent(content, logTime),
                 level);
             card.Append(entry);
+            OverlayLogs.Add(entry);
+            TrimOverlayLogs();
         }
 
         if (updateThumbnail)
@@ -3021,6 +3056,95 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         }
 
         LogCards.Add(new TaskQueueLogCardViewModel());
+    }
+
+    private void TrimOverlayLogs()
+    {
+        while (OverlayLogs.Count > MaxOverlayLogs)
+        {
+            OverlayLogs.RemoveAt(0);
+        }
+    }
+
+    private async Task<bool> SelectAndPersistOverlayTargetAsync(string targetId, CancellationToken cancellationToken)
+    {
+        var targetResult = await Runtime.OverlayFeatureService.SelectOverlayTargetAsync(targetId, cancellationToken);
+        if (!await ApplyResultAsync(targetResult, "Overlay.Select", cancellationToken))
+        {
+            return false;
+        }
+
+        SelectedOverlayTarget = OverlayTargets.FirstOrDefault(t => string.Equals(t.Id, targetId, StringComparison.Ordinal))
+                                ?? SelectedOverlayTarget
+                                ?? new OverlayTarget(targetId, targetId, false);
+
+        await PersistOverlayTargetSelectionBestEffortAsync(SelectedOverlayTarget, cancellationToken);
+        return true;
+    }
+
+    private async Task PersistOverlayTargetSelectionBestEffortAsync(
+        OverlayTarget? selectedTarget,
+        CancellationToken cancellationToken)
+    {
+        if (selectedTarget is null)
+        {
+            return;
+        }
+
+        var payload = OverlayTargetPersistence.Serialize(selectedTarget);
+        var saveResult = await Runtime.SettingsFeatureService.SaveGlobalSettingAsync(
+            ConfigurationKeys.OverlayTarget,
+            payload,
+            cancellationToken);
+        if (saveResult.Success)
+        {
+            await RecordEventAsync("Overlay.SaveTarget", saveResult.Message, cancellationToken);
+            return;
+        }
+
+        LastErrorMessage = saveResult.Message;
+        await RecordFailedResultAsync("Overlay.SaveTarget", saveResult, cancellationToken);
+    }
+
+    private void OnOverlaySharedStateChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (string.Equals(e.PropertyName, nameof(OverlaySharedState.Visible), StringComparison.Ordinal))
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (_overlayVisible == _overlaySharedState.Visible)
+                {
+                    return;
+                }
+
+                _overlayVisible = _overlaySharedState.Visible;
+                OnPropertyChanged(nameof(OverlayVisible));
+            });
+            return;
+        }
+
+        if (string.Equals(e.PropertyName, nameof(OverlaySharedState.SelectedTargetId), StringComparison.Ordinal))
+        {
+            Dispatcher.UIThread.Post(SyncSelectedOverlayTargetFromSharedState);
+        }
+    }
+
+    private void SyncSelectedOverlayTargetFromSharedState()
+    {
+        if (OverlayTargets.Count == 0 || string.IsNullOrWhiteSpace(_overlaySharedState.SelectedTargetId))
+        {
+            return;
+        }
+
+        var selected = OverlayTargets.FirstOrDefault(target =>
+            string.Equals(target.Id, _overlaySharedState.SelectedTargetId, StringComparison.Ordinal));
+        if (selected is null || Equals(_selectedOverlayTarget, selected))
+        {
+            return;
+        }
+
+        _selectedOverlayTarget = selected;
+        OnPropertyChanged(nameof(SelectedOverlayTarget));
     }
 
     private static string NormalizeLogContent(string? content, string displayTime)

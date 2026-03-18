@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
 using Avalonia;
 
@@ -8,10 +10,14 @@ internal static class Program
     private const string StartupScope = "App.Startup";
     private const string StartupNoDisplayCode = "UiStartupNoDisplay";
     private const string StartupUnhandledCode = "UiStartupUnhandled";
+    internal const string StartupTraceLogName = "avalonia-ui-startup.log";
+    internal const string StartupErrorLogName = "avalonia-ui-errors.log";
 
     [STAThread]
     public static int Main(string[] args)
     {
+        RecordStartupStage("Main.Entry", BuildStartupEnvironmentSnapshot(args));
+
         if (OperatingSystem.IsLinux() && !HasLinuxDesktopDisplay())
         {
             ReportStartupFailure(
@@ -22,7 +28,12 @@ internal static class Program
 
         try
         {
-            return BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+            RecordStartupStage("Main.BuildApp", "Configuring Avalonia application builder.");
+            var builder = BuildAvaloniaApp();
+            RecordStartupStage("Main.StartLifetime", "Starting classic desktop lifetime.");
+            var exitCode = builder.StartWithClassicDesktopLifetime(args);
+            RecordStartupStage("Main.Exit", $"Classic desktop lifetime returned exitCode={exitCode}.");
+            return exitCode;
         }
         catch (Exception ex) when (IsDisplayInitializationFailure(ex))
         {
@@ -59,6 +70,57 @@ internal static class Program
     {
         return ContainsMessage(exception, "XOpenDisplay failed")
             || ContainsMessage(exception, "unable to open display");
+    }
+
+    internal static string BuildStartupEnvironmentSnapshot(string[] args)
+    {
+        var commandLine = args.Length == 0
+            ? "<none>"
+            : string.Join(' ', args.Select(static arg => arg.Contains(' ', StringComparison.Ordinal) ? $"\"{arg}\"" : arg));
+        var processPath = Environment.ProcessPath ?? "<unknown>";
+        return string.Create(
+            CultureInfo.InvariantCulture,
+            $"framework={RuntimeInformation.FrameworkDescription}; os={RuntimeInformation.OSDescription}; osArch={RuntimeInformation.OSArchitecture}; processArch={RuntimeInformation.ProcessArchitecture}; baseDir={AppContext.BaseDirectory}; currentDir={Environment.CurrentDirectory}; processPath={processPath}; args={commandLine}");
+    }
+
+    internal static string BuildStartupTracePayload(string stage, string message, Exception? exception = null)
+    {
+        var line = new StringBuilder()
+            .Append(DateTimeOffset.UtcNow.ToString("O"))
+            .Append(" [STARTUP] [")
+            .Append(StartupScope)
+            .Append('.')
+            .Append(stage)
+            .Append("] ")
+            .Append(message);
+
+        if (exception is not null)
+        {
+            line.Append(" | ").Append(exception.GetType().Name).Append(": ").Append(exception.Message);
+        }
+
+        return line.ToString();
+    }
+
+    internal static void RecordStartupStage(string stage, string message, Exception? exception = null)
+    {
+        var payload = BuildStartupTracePayload(stage, message, exception);
+
+        try
+        {
+            Console.Error.WriteLine(payload);
+        }
+        catch
+        {
+            // Ignore stderr failures during startup tracing.
+        }
+
+        if (exception is not null)
+        {
+            payload += Environment.NewLine + exception;
+        }
+
+        TryAppendDebugLog(StartupTraceLogName, payload);
     }
 
     private static bool ContainsMessage(Exception? exception, string fragment)
@@ -109,16 +171,16 @@ internal static class Program
             payload += Environment.NewLine + exception;
         }
 
-        TryAppendStartupLog(payload);
+        TryAppendDebugLog(StartupErrorLogName, payload);
     }
 
-    private static void TryAppendStartupLog(string payload)
+    private static void TryAppendDebugLog(string fileName, string payload)
     {
         try
         {
             var debugDirectory = Path.Combine(AppContext.BaseDirectory, "debug");
             Directory.CreateDirectory(debugDirectory);
-            var path = Path.Combine(debugDirectory, "avalonia-ui-errors.log");
+            var path = Path.Combine(debugDirectory, fileName);
             File.AppendAllText(path, payload + Environment.NewLine);
         }
         catch

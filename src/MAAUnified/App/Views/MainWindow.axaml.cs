@@ -244,7 +244,10 @@ public partial class MainWindow : Window
             return;
         }
 
-        _overlayHostWindow = new OverlayHostWindow();
+        _overlayHostWindow = new OverlayHostWindow
+        {
+            DataContext = VM.OverlayPresentation,
+        };
         _overlayHostWindow.Show();
         _overlayHostWindow.Hide();
 

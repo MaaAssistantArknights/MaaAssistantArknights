@@ -260,6 +260,7 @@ public sealed class PlatformCapabilityContractTests
         Assert.True(File.Exists(bundlePath));
         using var zip = ZipFile.OpenRead(bundlePath);
         Assert.Contains(zip.Entries, entry => entry.FullName == "debug/avalonia-platform-events.log");
+        Assert.Contains(zip.Entries, entry => entry.FullName == "debug/avalonia-ui-startup.log");
         Assert.Contains(zip.Entries, entry => entry.FullName == "debug/avalonia-ui-errors.log");
     }
 

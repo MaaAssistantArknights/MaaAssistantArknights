@@ -8,12 +8,14 @@ namespace MAAUnified.Application.Services;
 
 public sealed class UiDiagnosticsService
 {
+    private const string StartupLogFileName = "avalonia-ui-startup.log";
     private readonly SemaphoreSlim _writeLock = new(1, 1);
     private readonly string _debugDirectory;
 
     public UiDiagnosticsService(string baseDirectory, UiLogService uiLogService)
     {
         _debugDirectory = Path.Combine(baseDirectory, "debug");
+        StartupLogPath = Path.Combine(_debugDirectory, StartupLogFileName);
         ErrorLogPath = Path.Combine(_debugDirectory, "avalonia-ui-errors.log");
         EventLogPath = Path.Combine(_debugDirectory, "avalonia-ui-events.log");
         PlatformEventLogPath = Path.Combine(_debugDirectory, "avalonia-platform-events.log");
@@ -30,6 +32,8 @@ public sealed class UiDiagnosticsService
     public string EventLogPath { get; }
 
     public string PlatformEventLogPath { get; }
+
+    public string StartupLogPath { get; }
 
     public async Task RecordErrorAsync(string scope, string message, Exception? exception = null, CancellationToken cancellationToken = default)
     {
@@ -143,6 +147,11 @@ public sealed class UiDiagnosticsService
             Path.Combine(baseDirectory, "debug", "config-import-report.json"),
             "debug/config-import-report.json",
             "config-import-report.json not found when bundle was generated.");
+        AddFileOrPlaceholder(
+            archive,
+            StartupLogPath,
+            "debug/avalonia-ui-startup.log",
+            "UI startup log is empty or missing.");
         AddFileOrPlaceholder(
             archive,
             ErrorLogPath,

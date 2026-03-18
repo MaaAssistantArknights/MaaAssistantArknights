@@ -110,7 +110,14 @@ public sealed record GlobalHotkeyTriggeredEvent(
     string Gesture,
     DateTimeOffset Timestamp);
 
-public sealed record OverlayTarget(string Id, string DisplayName, bool IsPrimary);
+public sealed record OverlayTarget(
+    string Id,
+    string DisplayName,
+    bool IsPrimary,
+    long? NativeHandle = null,
+    int? ProcessId = null,
+    string? ProcessName = null,
+    string? WindowTitle = null);
 
 public interface ITrayService
 {
