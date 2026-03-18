@@ -576,31 +576,25 @@
                             Visibility="{c:Binding 'DownloadLogItemViewModel.Content.Length > 0'}">
                             <ContentControl.ContentTemplate>
                                 <DataTemplate>
-                                    <Border
-                                        MaxWidth="420"
-                                        Margin="0,0,0,2.5"
-                                        Padding="5,0,1,5"
-                                        Background="{DynamicResource MouseOverRegionBrushOpacity10}"
-                                        BorderBrush="{DynamicResource BorderBrush}"
-                                        BorderThickness="1"
-                                        CornerRadius="4">
-                                        <Grid>
+                                    <StackPanel>
+                                        <Grid Visibility="{c:Binding !UseCardLog, Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-                                            <Grid Width="60">
-                                                <controls:TextBlock
-                                                    Grid.Row="0"
-                                                    Margin="0,5,0,0"
-                                                    HorizontalAlignment="Center"
-                                                    Foreground="{DynamicResource TraceLogBrush}"
-                                                    Text="{Binding Time}"
-                                                    TextWrapping="Wrap" />
-                                            </Grid>
+
+                                            <!--  时间  -->
+                                            <controls:TextBlock
+                                                Grid.Column="0"
+                                                Margin="0,5,10,5"
+                                                VerticalAlignment="Top"
+                                                Foreground="{DynamicResource TraceLogBrush}"
+                                                Text="{Binding Time}" />
+
+                                            <!--  内容  -->
                                             <Grid
                                                 Grid.Column="1"
-                                                Margin="10,0,0,0"
+                                                Margin="0,5"
                                                 HorizontalAlignment="Left"
                                                 ToolTip="{Binding ToolTip}"
                                                 ToolTipService.InitialShowDelay="200">
@@ -609,8 +603,6 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <controls:TextBlock
-                                                    Grid.Column="0"
-                                                    Margin="0,5,0,0"
                                                     FontWeight="{Binding Weight}"
                                                     ForegroundKey="{Binding Color}"
                                                     Text="{Binding DisplayContent}"
@@ -624,7 +616,58 @@
                                                     Visibility="{c:Binding ShowToolTip}" />
                                             </Grid>
                                         </Grid>
-                                    </Border>
+                                        <Border
+                                            MaxWidth="420"
+                                            Margin="0,0,0,2.5"
+                                            Padding="5,0,1,5"
+                                            Background="{DynamicResource MouseOverRegionBrushOpacity10}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="4"
+                                            Visibility="{c:Binding UseCardLog,
+                                                                   Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Width="60">
+                                                    <controls:TextBlock
+                                                        Grid.Row="0"
+                                                        Margin="0,5,0,0"
+                                                        HorizontalAlignment="Center"
+                                                        Foreground="{DynamicResource TraceLogBrush}"
+                                                        Text="{Binding Time}"
+                                                        TextWrapping="Wrap" />
+                                                </Grid>
+                                                <Grid
+                                                    Grid.Column="1"
+                                                    Margin="10,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    ToolTip="{Binding ToolTip}"
+                                                    ToolTipService.InitialShowDelay="200">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <controls:TextBlock
+                                                        Grid.Column="0"
+                                                        Margin="0,5,0,0"
+                                                        FontWeight="{Binding Weight}"
+                                                        ForegroundKey="{Binding Color}"
+                                                        Text="{Binding DisplayContent}"
+                                                        TextWrapping="Wrap" />
+                                                    <controls:TooltipBlock
+                                                        Grid.Column="1"
+                                                        Margin="10,0,0,0"
+                                                        PathDate="{StaticResource LogToolTip}"
+                                                        PathStrokeThickness="1.5"
+                                                        TextBlockText=""
+                                                        Visibility="{c:Binding ShowToolTip}" />
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
                         </ContentControl>

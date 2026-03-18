@@ -283,7 +283,10 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     {
         get => _useCardLog;
         set {
-            SetAndNotify(ref _useCardLog, value);
+            if (!SetAndNotify(ref _useCardLog, value))
+            {
+                return;
+            }
             ConfigurationHelper.SetValue(ConfigurationKeys.UseCardLog, value.ToString());
         }
     }
