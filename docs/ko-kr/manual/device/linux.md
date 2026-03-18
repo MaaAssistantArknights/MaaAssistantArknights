@@ -121,7 +121,7 @@ MAA Wine Bridge에서 생성된 `MaaDesktopIntegration.so`를 `MAA.exe`와 같�
 
 권장 구성: MAA의 리눅스 x64 동적 라이브러리와 함께 x86_64 프레임워크 (R - 30 - x86_64 - Android 11.0) 사용
 
-[스크린샷 향상 모드](../connection.html#avd-스크린샷-향상-모드)에 대한 추가 지원이 있습니다.
+[스크린샷 향상 모드](../connection.md#avd-스크린샷-향상-모드)에 대한 추가 지원이 있습니다.
 
 참고: Android 10 이상에서는 SELinux가 `Enforcing` 모드인 경우 `Minitouch`를 사용할 수 없습니다. 다른 터치 모드로 전환하거나 SELinux를 **임시**로 `Permissive` 모드로 전환하세요.
 

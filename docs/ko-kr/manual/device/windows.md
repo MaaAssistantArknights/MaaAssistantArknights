@@ -67,7 +67,7 @@ const partiallySupport = shuffleArray([
     {
         name: 'AVD',
         link: 'https://developer.android.com/studio/run/managing-avds',
-        note: '이론적으로 지원됩니다.\n\n- [스크린샷 향상 모드](../connection.html#avd-스크린샷-향상-모드)에 대한 추가 지원이 있습니다.- Android 10부터 SELinux가 `Enforcing` 모드일 때 Minitouch를 사용할 수 없으므로 다른 터치 모드로 전환하거나 SELinux를 **임시로** `Permissive` 모드로 전환하세요.\n- AVD는 디버깅을 위해 만들어졌으므로 게임용으로 설계된 다른 에뮬레이터를 사용하는 것이 더 좋습니다.',
+        note: '이론적으로 지원됩니다.\n\n- [스크린샷 향상 모드](../connection.html#avd-스크린샷-향상-모드)에 대한 추가 지원이 있습니다.\n- Android 10부터 SELinux가 `Enforcing` 모드일 때 Minitouch를 사용할 수 없으므로 다른 터치 모드로 전환하거나 SELinux를 **임시로** `Permissive` 모드로 전환하세요.\n- AVD는 디버깅을 위해 만들어졌으므로 게임용으로 설계된 다른 에뮬레이터를 사용하는 것이 더 좋습니다.',
     },
     {
         name: 'Google Play Games (개발자용)',

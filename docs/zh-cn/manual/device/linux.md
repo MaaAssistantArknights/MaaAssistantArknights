@@ -121,7 +121,7 @@ MAA WPF GUI 当前可以通过 Wine 运行。MAA 已采用自包含部署方式�
 
 推荐配置： x86_64 的框架 (R - 30 - x86_64 - Android 11.0) 配合 MAA 的 Linux x64 动态库
 
-额外支持[截图增强模式](../connection.html#avd-截图增强模式)。
+额外支持[截图增强模式](../connection.md#avd-截图增强模式)。
 
 注意：从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用，请切换至其他触控模式，或将 SELinux **临时**切换为 `Permissive` 模式。
 

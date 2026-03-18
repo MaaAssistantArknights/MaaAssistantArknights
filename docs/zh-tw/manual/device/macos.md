@@ -35,7 +35,7 @@ icon: basil:apple-solid
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-支援，額外支援[截圖增強模式](../connection.html#avd-截圖增強模式)。
+支援，額外支援[截圖增強模式](../connection.md#avd-截圖增強模式)。
 
 從 Android 10 開始，Minitouch 在 SELinux 為 `Enforcing` 模式時不再可用。請切換至其他觸控模式，或將 SELinux **臨時**切換為 `Permissive` 模式。
 
@@ -67,6 +67,6 @@ icon: basil:apple-solid
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-支援，額外支援[截圖增強模式](../connection.html#avd-截圖增強模式)。
+支援，額外支援[截圖增強模式](../connection.md#avd-截圖增強模式)。
 
 從 Android 10 開始，Minitouch 在 SELinux 為 `Enforcing` 模式時不再可用。請切換至其他觸控模式，或將 SELinux **臨時**切換為 `Permissive` 模式。
