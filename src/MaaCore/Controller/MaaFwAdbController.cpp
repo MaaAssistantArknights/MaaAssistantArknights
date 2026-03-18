@@ -104,10 +104,7 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
         address.c_str(),
         MaaAdbScreencapMethod::Default,
         MaaAdbInputMethod::AdbShell | MaaAdbInputMethod::EmulatorExtras,
-        config == "MuMuEmulator12" ? "{\"extras\":{\"mumu\":{\"enable\":true}}}"
-        : config == "LDPlayer"     ? "{\"extras\":{\"ld\":{\"enable\":true}}}"
-        : config == "AVD"          ? "{\"extras\":{\"avd\":{\"enable\":true}}}"
-                                   : "{}",
+        config == "AVD" ? "{\"extras\":{\"avd\":{\"enable\":true}}}" : "{}",
         // MaaAgentBinary目录
         utils::path_to_utf8_string(ResDir.get()).c_str());
 
