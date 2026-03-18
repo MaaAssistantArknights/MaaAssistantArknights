@@ -1749,14 +1749,12 @@ public class TaskQueueViewModel : Screen
 
             try
             {
-                var existingTaskIds = Instances.AsstProxy.TasksStatus.Keys.ToHashSet();
-                var (isSuccess, taskId) = SerializeTask(item);
+                var (isSuccess, taskIds) = SerializeTask(item);
                 switch (isSuccess)
                 {
                     case true:
                         ++count;
-                        var newTaskIds = Instances.AsstProxy.TasksStatus.Keys.Where(taskId => !existingTaskIds.Contains(taskId)).ToArray();
-                        Instances.TaskQueueViewModel.TaskItemViewModels[index].SetTaskIds(newTaskIds);
+                        Instances.TaskQueueViewModel.TaskItemViewModels[index].SetTaskIds(taskIds);
                         // Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.TaskId = taskId;
                         break;
                     case false:
@@ -2074,10 +2072,10 @@ public class TaskQueueViewModel : Screen
     /// <param name="task">存储的任务</param>
     /// <param name="taskId">任务id, null时追加任务, 非null为设置任务参数</param>
     /// <returns>null为未序列化, false失败, true成功</returns>
-    private static (bool? IsSuccess, int TaskId) SerializeTask(BaseTask task, int? taskId = null)
+    private static (bool? IsSuccess, IEnumerable<int> TaskIds) SerializeTask(BaseTask task, int? taskId = null)
     {
         bool? ret = null;
-        int id = 0;
+        IEnumerable<int> id = [];
         foreach (var instance in _taskViewModelTypes)
         {
             if (ret is null)

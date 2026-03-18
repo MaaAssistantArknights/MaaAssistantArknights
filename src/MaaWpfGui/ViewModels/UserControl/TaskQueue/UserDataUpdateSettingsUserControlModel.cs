@@ -16,7 +16,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -66,25 +68,26 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
         }
     }
 
-    public override bool? SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
+    public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
     private interface ISerialize : ITaskQueueModelSerialize
     {
-        bool? ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
+        (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
             if (baseTask is not UserDataUpdateTask updateTask)
             {
-                return null;
+                return (null, []);
             }
 
             if (taskId is int id && id > 0)
             {
-                return null;
+                Instances.TaskQueueViewModel.AddLog("Unable to modify existing UserDataUpdateTask.", UiLogColor.Error);
+                return (null, []);
             }
 
             if (!updateTask.IsTriggered)
             {
-                return null;
+                return (null, []);
             }
 
             bool operBoxTriggerDue = updateTask.UpdateOperBox && IsTriggerDue(Instances.ToolboxViewModel.LastOperBoxSyncTime, updateTask.TriggerInterval);
@@ -92,9 +95,10 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
 
             if (!operBoxTriggerDue && !depotTriggerDue)
             {
-                return null;
+                return (null, []);
             }
 
+            List<int> ids = [];
             bool ret = false;
             if (operBoxTriggerDue)
             {
@@ -102,21 +106,23 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 ret = Instances.ToolboxViewModel.StartOperBoxRecognitionTask(startImmediately: false);
                 if (!ret)
                 {
-                    return false;
+                    return (false, []);
                 }
+                ids.Add(Instances.AsstProxy.TasksStatus.Last().Key);
             }
 
             if (depotTriggerDue)
             {
                 Instances.ToolboxViewModel.ResetDepotRecognitionState();
-                ret = Instances.ToolboxViewModel.StartDepotRecognitionTask(startImmediately: false);
+                ret = Instances.ToolboxViewModel.StartDepotRecognitionTask(false);
                 if (!ret)
                 {
-                    return false;
+                    return (false, []);
                 }
+                ids.Add(Instances.AsstProxy.TasksStatus.Last().Key);
             }
 
-            return ret ? true : null;
+            return ret ? (true, ids) : (null, []);
         }
 
         private static bool IsTriggerDue(DateTime? lastSyncTime, UserDataUpdateTriggerInterval triggerInterval)
@@ -134,8 +140,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             var now = DateTime.UtcNow.ToYjDate();
             var lastDate = lastSyncTime.Value.ToYjDate();
 
-            return triggerInterval switch
-            {
+            return triggerInterval switch {
                 UserDataUpdateTriggerInterval.Daily => now > lastDate,
                 UserDataUpdateTriggerInterval.Weekly => ISOWeek.GetYear(now) != ISOWeek.GetYear(lastDate) || ISOWeek.GetWeekOfYear(now) != ISOWeek.GetWeekOfYear(lastDate),
                 _ => true,
