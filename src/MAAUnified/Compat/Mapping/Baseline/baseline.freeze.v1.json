@@ -6848,6 +6848,19 @@
       "mapping_target": "AnnouncementState",
       "read_path": "Application/Services/Features/FeatureServices.cs::AnnouncementFeatureService.LoadStateAsync",
       "write_path": "Application/Services/Features/FeatureServices.cs::AnnouncementFeatureService.SaveStateAsync"
+    },
+    {
+      "key": "MainFunction.ActionAfterCompleted",
+      "owner_item_id": "Task.Fight",
+      "parity_status": "Aligned",
+      "priority": "P0",
+      "notes": "Aligned mapping implemented in Avalonia runtime; see evidence and validation tests.",
+      "evidence": {
+        "ui_path": "App/Features/TaskQueue/FightSettingsView.axaml",
+        "log_path": "debug/avalonia-ui-events.log",
+        "scope": "Config.MainFunction.ActionAfterCompleted",
+        "case_id": "CFG-291"
+      }
     }
   ],
   "fallback_capabilities": [
@@ -7135,7 +7148,7 @@
   "metadata": {
     "feature_item_count": 44,
     "system_item_count": 13,
-    "config_key_count": 290,
+    "config_key_count": 291,
     "fallback_record_count": 15
   }
 }
