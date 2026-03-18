@@ -274,7 +274,6 @@ public class TaskQueueViewModel : Screen
 
         var lastCard = LogCardViewModels[^1];
         var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
-        LogItemViewModels.Add(log);
         lastCard.Items.Add(log);
         return true;
     }
@@ -1152,6 +1151,13 @@ public class TaskQueueViewModel : Screen
         bool needsAfterSplit = splitMode == LogCardSplitMode.After || splitMode == LogCardSplitMode.Both;
 
         Execute.OnUIThread(() => {
+            if (!GuiSettingsUserControlModel.Instance.UseCardLog)
+            {
+                var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
+                LogItemViewModels.Add(log);
+                return;
+            }
+
             if (needsBeforeSplit)
             {
                 createNewCard();
@@ -1214,7 +1220,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Clears log.
     /// </summary>
-    private void ClearLog()
+    public void ClearLog()
     {
         Execute.OnUIThread(() => {
             LogItemViewModels.Clear();

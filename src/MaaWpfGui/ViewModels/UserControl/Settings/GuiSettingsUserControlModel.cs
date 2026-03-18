@@ -284,6 +284,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         get => _useCardLog;
         set {
             SetAndNotify(ref _useCardLog, value);
+            Instances.TaskQueueViewModel.ClearLog();
             ConfigurationHelper.SetValue(ConfigurationKeys.UseCardLog, value.ToString());
         }
     }
