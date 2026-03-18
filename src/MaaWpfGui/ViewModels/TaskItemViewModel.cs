@@ -19,15 +19,9 @@ using Stylet;
 
 namespace MaaWpfGui.ViewModels;
 
-public class TaskItemViewModel : PropertyChangedBase
+public class TaskItemViewModel(string name, bool? isCheckedWithNull = true) : PropertyChangedBase
 {
-    public TaskItemViewModel(string name, bool? isCheckedWithNull = true)
-    {
-        _name = name;
-        _isEnable = isCheckedWithNull;
-    }
-
-    private string _name;
+    private string _name = name;
 
     public string Name
     {
@@ -38,7 +32,7 @@ public class TaskItemViewModel : PropertyChangedBase
         }
     }
 
-    private bool? _isEnable;
+    private bool? _isEnable = isCheckedWithNull;
 
     public bool? IsEnable
     {
@@ -54,24 +48,16 @@ public class TaskItemViewModel : PropertyChangedBase
         }
     }
 
-    private int _index;
-
-    public int Index
-    {
-        get => _index;
-        set => SetAndNotify(ref _index, value);
-    }
+    public int Index { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether the setting enabled.
     /// </summary>
-    private bool _enableSetting;
-
     public bool EnableSetting
     {
-        get => _enableSetting;
+        get => field;
         set {
-            SetAndNotify(ref _enableSetting, value);
+            SetAndNotify(ref field, value);
             TaskSettingVisibilityInfo.Instance.Set(Index, value);
         }
     }
@@ -87,28 +73,15 @@ public class TaskItemViewModel : PropertyChangedBase
         set => SetTaskIds(value > 0 ? [value] : []);
     }
 
-    private IReadOnlyList<int> _taskIds = [];
-
     public IReadOnlyList<int> TaskIds
     {
-        get => _taskIds;
-        private set => SetAndNotify(ref _taskIds, value);
-    }
+        get => field;
+        private set => SetAndNotify(ref field, value);
+    } = [];
 
-    public void SetTaskIds(IEnumerable<int> taskIds)
-    {
-        var ids = taskIds.Where(id => id > 0).Distinct().ToArray();
-        TaskIds = ids;
-        SetAndNotify(ref _taskId, ids.LastOrDefault(), nameof(TaskId));
-    }
+    public void SetTaskIds(IEnumerable<int> taskIds) => TaskIds = (IReadOnlyList<int>)taskIds;
 
     public bool ContainsTaskId(int taskId) => taskId > 0 && TaskIds.Contains(taskId);
 
-    private int _status;
-
-    public int Status
-    {
-        get => _status;
-        set => SetAndNotify(ref _status, value);
-    }
+    public int Status { get => field; set => SetAndNotify(ref field, value); }
 }
