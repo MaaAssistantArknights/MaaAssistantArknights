@@ -78,19 +78,19 @@
                                                 <Setter Property="Opacity" Value="1" />
                                                 <Style.Triggers>
                                                     <!--  运行中 - 蓝色  -->
-                                                    <DataTrigger Binding="{Binding Status}" Value="1">
+                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="1">
                                                         <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.InProgress}" />
                                                     </DataTrigger>
                                                     <!--  成功完成 - 绿色  -->
-                                                    <DataTrigger Binding="{Binding Status}" Value="2">
+                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="2">
                                                         <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.Completed}" />
                                                     </DataTrigger>
                                                     <!--  出现错误 - 红色  -->
-                                                    <DataTrigger Binding="{Binding Status}" Value="3">
+                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="3">
                                                         <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.Error}" />
                                                     </DataTrigger>
                                                     <!--  已跳过 - 灰色  -->
-                                                    <DataTrigger Binding="{Binding Status}" Value="4">
+                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="4">
                                                         <Setter Property="Opacity" Value="0.5" />
                                                     </DataTrigger>
                                                 </Style.Triggers>

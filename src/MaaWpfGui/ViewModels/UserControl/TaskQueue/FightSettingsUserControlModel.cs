@@ -695,9 +695,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             return null;
         }
 
-        if (ConfigFactory.CurrentConfig.TaskQueue.IndexOf(fight) is int index && index > -1 && Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId > 0)
+        if (ConfigFactory.CurrentConfig.TaskQueue.IndexOf(fight) is int index && index > -1 && Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskIds.Count > 0)
         {
-            return SerializeTask(fight, Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskId).IsSuccess;
+            return SerializeTask(fight, Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskIds[0]).IsSuccess;
         }
         return null;
     }

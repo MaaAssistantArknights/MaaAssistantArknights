@@ -441,6 +441,10 @@ public class AsstProxy
             if (args.Action == NotifyCollectionChangedAction.Reset)
             {
                 TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
+                foreach (var i in Instances.TaskQueueViewModel.TaskItemViewModels)
+                {
+                    i.SetTaskIds([]);
+                }
             }
         };
 
@@ -1039,10 +1043,6 @@ public class AsstProxy
             case AsstMsg.TaskChainStopped:
                 Instances.TaskQueueViewModel.SetStopped();
                 UpdateTaskStatus(taskId, TaskStatus.Completed);
-                foreach (var i in Instances.TaskQueueViewModel.TaskItemViewModels)
-                {
-                    i.TaskId = 0;
-                }
                 _tasksStatus.Clear();
                 break;
 
@@ -1071,7 +1071,7 @@ public class AsstProxy
 
             case AsstMsg.TaskChainStart:
                 {
-                    var taskIndex = FindTaskItemByTaskId(taskId)?.Index ?? -1;
+                    var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                     var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
                         ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
                         : null;
@@ -1100,7 +1100,7 @@ public class AsstProxy
                         }
                     }
 
-                    var taskIndex = FindTaskItemByTaskId(taskId)?.Index ?? -1;
+                    var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                     var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
                         ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
                         : null;
@@ -1188,10 +1188,6 @@ public class AsstProxy
                 }
 
                 bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
-                foreach (var i in Instances.TaskQueueViewModel.TaskItemViewModels)
-                {
-                    i.TaskId = 0;
-                }
                 _tasksStatus.Clear();
 
                 Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
@@ -1437,7 +1433,7 @@ public class AsstProxy
                     // 剿灭放弃上传企鹅物流的特殊处理
                     Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var value);
                     if (value is { Type: TaskType.Fight }
-                        && (FindTaskItemByTaskId(taskId)?.Index ?? -1) is int index and > -1
+                        && Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index is int index and > -1
                         && index <= ConfigFactory.CurrentConfig.TaskQueue.Count
                         && ConfigFactory.CurrentConfig.TaskQueue[index] is Configuration.Single.MaaTask.FightTask fight
                         && FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == FightSettingsUserControlModel.AnnihilationName)
@@ -1744,7 +1740,7 @@ public class AsstProxy
                             {
                                 case "EndOfActionThenStop":
                                     {
-                                        var index = FindTaskItemByTaskId(taskId)?.Index ?? -1;
+                                        var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                                         if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count && ConfigFactory.CurrentConfig.TaskQueue[index] is MallTask mall)
                                         {
                                             mall.CreditFightLastTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
@@ -1756,7 +1752,7 @@ public class AsstProxy
 
                                 case "VisitLimited" or "VisitNextBlack":
                                     {
-                                        var index = FindTaskItemByTaskId(taskId)?.Index ?? -1;
+                                        var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                                         if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count && ConfigFactory.CurrentConfig.TaskQueue[index] is MallTask mall)
                                         {
                                             mall.VisitFriendsLastTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
@@ -2829,68 +2825,9 @@ public class AsstProxy
 
     public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
 
-    private static MaaWpfGui.ViewModels.TaskItemViewModel? FindTaskItemByTaskId(AsstTaskId taskId) =>
-        Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(item => item.ContainsTaskId(taskId));
+    public delegate void TaskItemStatusDelegate(int taskId, TaskItemStatus status);
 
-    private TaskStatus GetAggregateStatusForTaskItem(MaaWpfGui.ViewModels.TaskItemViewModel taskItem)
-    {
-        // If there are no associated core task IDs, treat the item as idle.
-        if (taskItem.TaskIds == null || taskItem.TaskIds.Count == 0)
-        {
-            return TaskStatus.Idle;
-        }
-
-        var hasAnyStatus = false;
-        var hasError = false;
-        var hasInProgress = false;
-        var hasCompleted = false;
-
-        foreach (var taskId in taskItem.TaskIds)
-        {
-            if (!_tasksStatus.TryGetValue(taskId, out var value))
-            {
-                continue;
-            }
-
-            hasAnyStatus = true;
-
-            switch (value.Status)
-            {
-                case TaskStatus.Error:
-                    hasError = true;
-                    break;
-                case TaskStatus.InProgress:
-                    hasInProgress = true;
-                    break;
-                case TaskStatus.Completed:
-                    hasCompleted = true;
-                    break;
-            }
-        }
-
-        if (!hasAnyStatus)
-        {
-            return TaskStatus.Idle;
-        }
-
-        // Priority: Error > InProgress > Completed > Idle
-        if (hasError)
-        {
-            return TaskStatus.Error;
-        }
-
-        if (hasInProgress)
-        {
-            return TaskStatus.InProgress;
-        }
-
-        if (hasCompleted)
-        {
-            return TaskStatus.Completed;
-        }
-
-        return TaskStatus.Idle;
-    }
+    public event TaskItemStatusDelegate? OnTaskItemStatusChanged;
 
     private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status)
     {
@@ -2911,14 +2848,7 @@ public class AsstProxy
         }
 
         _tasksStatus[id] = (value.Type, status);
-        var taskItem = FindTaskItemByTaskId(id);
-        if (taskItem is not null)
-        {
-            var aggregateStatus = GetAggregateStatusForTaskItem(taskItem);
-            taskItem.Status = (int)aggregateStatus;
-            status = aggregateStatus;
-        }
-
+        OnTaskItemStatusChanged?.Invoke(id, (TaskItemStatus)status);
         if (status == TaskStatus.InProgress)
         {
             TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();

@@ -1812,7 +1812,7 @@ public class TaskQueueViewModel : Screen
 
             foreach (var item in Instances.TaskQueueViewModel.TaskItemViewModels)
             {
-                item.Status = status;
+                item.StatusDisplay = status;
             }
         }
     }
@@ -1821,7 +1821,7 @@ public class TaskQueueViewModel : Screen
     {
         foreach (var item in TaskItemViewModels)
         {
-            item.Status = (int)Main.TaskStatus.Idle;
+            item.StatusDisplay = (int)Main.TaskStatus.Idle;
         }
     }
 

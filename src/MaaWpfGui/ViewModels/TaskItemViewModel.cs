@@ -11,17 +11,27 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
 
-public class TaskItemViewModel(string name, bool? isCheckedWithNull = true) : PropertyChangedBase
+public class TaskItemViewModel : PropertyChangedBase, IDisposable
 {
-    private string _name = name;
+    public TaskItemViewModel(string name, bool? isCheckedWithNull = true)
+    {
+        _name = name;
+        _isEnable = isCheckedWithNull;
+        Instances.AsstProxy.OnTaskItemStatusChanged += OnTaskStatusChanged;
+    }
+
+    private string _name;
 
     public string Name
     {
@@ -32,7 +42,7 @@ public class TaskItemViewModel(string name, bool? isCheckedWithNull = true) : Pr
         }
     }
 
-    private bool? _isEnable = isCheckedWithNull;
+    private bool? _isEnable;
 
     public bool? IsEnable
     {
@@ -44,7 +54,7 @@ public class TaskItemViewModel(string name, bool? isCheckedWithNull = true) : Pr
             }
 
             ConfigFactory.CurrentConfig.TaskQueue[Index].IsEnable = value;
-            Status = 0;
+            StatusDisplay = (int)TaskItemStatus.Idle;
         }
     }
 
@@ -63,25 +73,59 @@ public class TaskItemViewModel(string name, bool? isCheckedWithNull = true) : Pr
     }
 
     /// <summary>
-    /// Gets or sets 任务id，默认为0，添加后任务id应 > 0；执行后应置为0
+    /// Gets or sets 任务id，默认为[]，添加后任务id应 > 0；执行后应置为[]
     /// </summary>
-    private int _taskId;
+    private List<int> _taskIds = [];
 
-    public int TaskId
+    public IReadOnlyList<int> TaskIds => _taskIds;
+
+    public void SetTaskIds(IEnumerable<int> taskIds)
     {
-        get => _taskId;
-        set => SetTaskIds(value > 0 ? [value] : []);
+        _taskIds = [.. taskIds];
+        StatusList = [.. Enumerable.Repeat(TaskItemStatus.Idle, TaskIds.Count)];
+        if (TaskIds.Count == 0)
+        {
+            StatusDisplay = (int)TaskItemStatus.Idle;
+        }
     }
 
-    public IReadOnlyList<int> TaskIds
+    private List<TaskItemStatus> StatusList { get; set; } = [];
+
+    public int StatusDisplay { get => field; set => SetAndNotify(ref field, value); }
+
+    private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
-        get => field;
-        private set => SetAndNotify(ref field, value);
-    } = [];
+        if (taskId < 0)
+        {
+            return;
+        }
+        int index = _taskIds.IndexOf(taskId);
+        if (index < 0)
+        {
+            return;
+        }
+        StatusList[index] = status;
+        if (StatusList.Any(s => s == TaskItemStatus.Error))
+        {
+            StatusDisplay = (int)TaskItemStatus.Error;
+        }
+        else if (StatusList.Any(s => s == TaskItemStatus.InProgress))
+        {
+            StatusDisplay = (int)TaskItemStatus.InProgress;
+        }
+        else if (StatusList.All(s => s == TaskItemStatus.Completed))
+        {
+            StatusDisplay = (int)TaskItemStatus.Completed;
+        }
+        else if (StatusList.Any(s => s == TaskItemStatus.Skipped))
+        {
+            StatusDisplay = (int)TaskItemStatus.Skipped;
+        }
+        else
+        {
+            StatusDisplay = (int)TaskItemStatus.Idle;
+        }
+    }
 
-    public void SetTaskIds(IEnumerable<int> taskIds) => TaskIds = (IReadOnlyList<int>)taskIds;
-
-    public bool ContainsTaskId(int taskId) => taskId > 0 && TaskIds.Contains(taskId);
-
-    public int Status { get => field; set => SetAndNotify(ref field, value); }
+    void IDisposable.Dispose() => Instances.AsstProxy.OnTaskItemStatusChanged -= OnTaskStatusChanged;
 }
