@@ -393,7 +393,7 @@ jobs:
         with:
           repository: MaaXYZ/MaaFramework
           latest: true
-          fileName: '*macos-${{ matrix.arch }}*.zip'
+          fileName: ${{ matrix.arch == 'x86_64' && '*macos-x86_64*.zip' || '*macos-aarch64*.zip' }}
           extract: true
           out-file-path: MaaFramework-temp
 
