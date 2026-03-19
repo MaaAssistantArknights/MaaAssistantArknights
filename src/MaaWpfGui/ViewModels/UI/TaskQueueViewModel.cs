@@ -1810,10 +1810,7 @@ public class TaskQueueViewModel : Screen
                 return;
             }
 
-            foreach (var item in Instances.TaskQueueViewModel.TaskItemViewModels)
-            {
-                item.StatusDisplay = status;
-            }
+            Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskItemStatus = status;
         }
     }
 
