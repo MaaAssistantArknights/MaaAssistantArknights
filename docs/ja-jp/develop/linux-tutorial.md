@@ -57,6 +57,8 @@ MAAの構築方法はまだ議論されていますが、このチュートリ�
    cmake --install build --prefix <target_directory>
    ```
 
+4. MaaFwAdbController（MaaFramework のタッチモード）関連機能をデバッグする場合は、[MaaFramework の Debug バージョンを自分でコンパイル](https://maafw.com/docs/4.1-BuildGuide)し、`libMaaAdbControlUnit.so` をインストールディレクトリにコピーする必要があります。
+
 ## その他のインストール方法
 
 - AUR: [maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)

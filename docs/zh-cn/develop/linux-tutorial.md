@@ -80,8 +80,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
    cmake --install build --prefix <target_directory>
    ```
 
-4. 结束，你应该能在目录下看到构建文件了
-
+4. 若需调试 MaaFwAdbController（MaaFramework 触控模式）相关功能，需要[自行编译 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，将 `libMaaAdbControlUnit.so` 放到安装目录下。
 ::::
 
 ## 集成文档
