@@ -31,6 +31,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -1743,7 +1744,7 @@ public class TaskQueueViewModel : Screen
                 item.IsEnable);
             if (!IsTaskEnable(item))
             {
-                SetTaskStatus(index, 4);
+                SetTaskStatus(index, TaskItemStatus.Skipped);
                 continue;
             }
 
@@ -1760,11 +1761,11 @@ public class TaskQueueViewModel : Screen
                     case false:
                         taskRet = false;
                         AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Error);
-                        SetTaskStatus(index, (int)Main.TaskStatus.Error);
+                        SetTaskStatus(index, TaskItemStatus.Error);
                         break;
                     case null:
                         AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.Name), UiLogColor.Info);
-                        SetTaskStatus(index, 4);
+                        SetTaskStatus(index, TaskItemStatus.Skipped);
                         break;
                 }
             }
@@ -1803,14 +1804,14 @@ public class TaskQueueViewModel : Screen
         AchievementTrackerHelper.Instance.MissionStartCountAdd();
         AchievementTrackerHelper.Instance.UseDailyAdd();
 
-        void SetTaskStatus(int index, int status)
+        static void SetTaskStatus(int index, TaskItemStatus status)
         {
             if (index < 0 || index >= Instances.TaskQueueViewModel.TaskItemViewModels.Count)
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskItemStatus = status;
+            Instances.TaskQueueViewModel.TaskItemViewModels[index].StatusDisplay = status;
         }
     }
 
@@ -1818,7 +1819,7 @@ public class TaskQueueViewModel : Screen
     {
         foreach (var item in TaskItemViewModels)
         {
-            item.StatusDisplay = (int)Main.TaskStatus.Idle;
+            item.StatusDisplay = TaskItemStatus.Idle;
         }
     }
 

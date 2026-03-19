@@ -54,7 +54,7 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
             }
 
             ConfigFactory.CurrentConfig.TaskQueue[Index].IsEnable = value;
-            StatusDisplay = (int)TaskItemStatus.Idle;
+            StatusDisplay = TaskItemStatus.Idle;
         }
     }
 
@@ -83,15 +83,11 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
     {
         _taskIds = [.. taskIds];
         StatusList = [.. Enumerable.Repeat(TaskItemStatus.Idle, TaskIds.Count)];
-        if (TaskIds.Count == 0)
-        {
-            StatusDisplay = (int)TaskItemStatus.Idle;
-        }
     }
 
     private List<TaskItemStatus> StatusList { get; set; } = [];
 
-    public int StatusDisplay { get => field; set => SetAndNotify(ref field, value); }
+    public TaskItemStatus StatusDisplay { get => field; set => SetAndNotify(ref field, value); }
 
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
@@ -107,23 +103,23 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
         StatusList[index] = status;
         if (StatusList.Any(s => s == TaskItemStatus.Error))
         {
-            StatusDisplay = (int)TaskItemStatus.Error;
+            StatusDisplay = TaskItemStatus.Error;
         }
         else if (StatusList.Any(s => s == TaskItemStatus.InProgress))
         {
-            StatusDisplay = (int)TaskItemStatus.InProgress;
+            StatusDisplay = TaskItemStatus.InProgress;
         }
         else if (StatusList.All(s => s == TaskItemStatus.Completed))
         {
-            StatusDisplay = (int)TaskItemStatus.Completed;
+            StatusDisplay = TaskItemStatus.Completed;
         }
         else if (StatusList.Any(s => s == TaskItemStatus.Skipped))
         {
-            StatusDisplay = (int)TaskItemStatus.Skipped;
+            StatusDisplay = TaskItemStatus.Skipped;
         }
         else
         {
-            StatusDisplay = (int)TaskItemStatus.Idle;
+            StatusDisplay = TaskItemStatus.Idle;
         }
     }
 

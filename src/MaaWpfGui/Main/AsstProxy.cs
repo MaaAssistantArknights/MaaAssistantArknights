@@ -1042,7 +1042,8 @@ public class AsstProxy
         {
             case AsstMsg.TaskChainStopped:
                 Instances.TaskQueueViewModel.SetStopped();
-                UpdateTaskStatus(taskId, TaskStatus.Completed);
+
+                // UpdateTaskStatus(taskId, TaskStatus.Completed);
                 _tasksStatus.Clear();
                 break;
 

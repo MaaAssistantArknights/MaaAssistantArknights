@@ -9,6 +9,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:taskQueue="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
@@ -78,19 +79,19 @@
                                                 <Setter Property="Opacity" Value="1" />
                                                 <Style.Triggers>
                                                     <!--  运行中 - 蓝色  -->
-                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="1">
-                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.InProgress}" />
+                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="{x:Static enums:TaskItemStatus.InProgress}">
+                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskItemStatus.InProgress}" />
                                                     </DataTrigger>
                                                     <!--  成功完成 - 绿色  -->
-                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="2">
-                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.Completed}" />
+                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="{x:Static enums:TaskItemStatus.Completed}">
+                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskItemStatus.Completed}" />
                                                     </DataTrigger>
                                                     <!--  出现错误 - 红色  -->
-                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="3">
-                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskStatus.Error}" />
+                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="{x:Static enums:TaskItemStatus.Error}">
+                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskItemStatus.Error}" />
                                                     </DataTrigger>
                                                     <!--  已跳过 - 灰色  -->
-                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="4">
+                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="{x:Static enums:TaskItemStatus.Skipped}">
                                                         <Setter Property="Opacity" Value="0.5" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
