@@ -87,6 +87,9 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
 
     private List<TaskItemStatus> StatusList { get; set; } = [];
 
+    /// <summary>
+    /// Gets or sets 上次状态, 可能和当前不一致
+    /// </summary>
     public TaskItemStatus StatusDisplay { get => field; set => SetAndNotify(ref field, value); }
 
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
