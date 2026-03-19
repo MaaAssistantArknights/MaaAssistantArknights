@@ -1,5 +1,6 @@
 #pragma once
 
+#include <deque>
 #include <string>
 #include <utility>
 
@@ -58,11 +59,16 @@ public:
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
 
-private:
+protected:
     bool m_inited = false;
     std::string m_uuid;
     std::pair<int, int> m_screen_size = { 0, 0 };
+    long long m_last_command_duration = 0;  // 上次命令执行用时
+    std::deque<long long> m_screencap_cost; // 截图用时
+    int m_screencap_times = 0;              // 截图次数
+    bool m_tested_screencap = false;
 
+private:
     MaaFwAdbControlUnitAPI* m_unit_handle = nullptr;
     bool init_library();
 
