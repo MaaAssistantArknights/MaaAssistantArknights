@@ -85,8 +85,6 @@ You can refer to the implementation of `__main__` in [Python demo](https://githu
 
 You can refer to the implementation in [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
 
-### C Sharp
-
-<!-- Do not use C#, MD003/heading-style: Heading style [Expected: atx; Actual: atx_closed] -->
+### C\#
 
 You can refer to the implementation in [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs)

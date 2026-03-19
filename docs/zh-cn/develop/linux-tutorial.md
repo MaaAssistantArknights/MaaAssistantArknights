@@ -96,8 +96,6 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
 
 可参考 [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp) 中的实现
 
-### C Sharp
-
-<!-- Do not use C#, MD003/heading-style: Heading style [Expected: atx; Actual: atx_closed] -->
+### C\#
 
 可参考 [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs) 中的实现

@@ -96,8 +96,6 @@ MaaAssistantArknights/MaaMacGui 프로젝트의 [README.md](https://github.com/M
 
 [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)의 구현을 참고하세요.
 
-### C Sharp
-
-<!-- Do not use C#, MD003/heading-style: Heading style [Expected: atx; Actual: atx_closed] -->
+### C\#
 
 [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs)의 구현을 참고하세요.
