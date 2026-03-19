@@ -8,7 +8,7 @@ icon: teenyicons:linux-alt-solid
 **이 가이드는 독자가 일정한 Linux 환경 설정 능력과 프로그래밍 기초를 가지고 있다고 가정합니다!** MAA를 직접 컴파일하는 대신 단순히 설치하길 원한다면 [사용자 매뉴얼 - Linux 지원](../manual/device/linux.md)를 참고하세요.
 
 ::: info 주의
-MAA의 빌드 방법은 여전히 논의 중입니다. 이 가이드의 내용은 최신 내용이 아닐 수 있으므로 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134)의 스크립트를 참고하는 것이 좋습니다.  
+MAA의 빌드 방법은 여전히 논의 중입니다. 이 가이드의 내용은 최신 내용이 아닐 수 있으므로 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L224#:~:text=ubuntu%3A)의 스크립트를 참고하는 것이 좋습니다.  
 또한 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) 또는 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)를 참고할 수도 있습니다.
 :::
 
