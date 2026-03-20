@@ -122,7 +122,7 @@ public static class MAAUnifiedRuntimeFactory
         var notificationProviderFeatureService = new NotificationProviderFeatureService();
         var settingsFeatureService = new SettingsFeatureService(configService, platformCapabilityService, diagnosticsService);
         var configurationProfileFeatureService = new ConfigurationProfileFeatureService(configService);
-        var versionUpdateFeatureService = new VersionUpdateFeatureService(configService);
+        var versionUpdateFeatureService = new VersionUpdateFeatureService(configService, diagnosticsService);
         var achievementFeatureService = new AchievementFeatureService(configService);
         var announcementFeatureService = new AnnouncementFeatureService(configService);
         var stageManagerFeatureService = new StageManagerFeatureService(configService);

@@ -80,10 +80,19 @@ public sealed class OverlayAdvancedPageViewModel : PageViewModelBase
             Targets.Add(target);
         }
 
-        SelectedTarget = OverlayTargetPersistence.ResolveSelection(
+        var resolvedSelection = OverlayTargetPersistence.ResolveSelection(
             Targets,
             Runtime.ConfigurationService.CurrentConfig.GlobalValues,
-            _overlaySharedState.SelectedTargetId)
+            _overlaySharedState.SelectedTargetId);
+        if (OverlayTargetPersistence.ShouldDefaultToPreview(
+            Runtime.ConfigurationService.CurrentConfig.GlobalValues,
+            _overlaySharedState.SelectedTargetId))
+        {
+            resolvedSelection = Targets.FirstOrDefault(t => string.Equals(t.Id, "preview", StringComparison.Ordinal))
+                ?? resolvedSelection;
+        }
+
+        SelectedTarget = resolvedSelection
             ?? Targets.FirstOrDefault(t => t.IsPrimary)
             ?? Targets.FirstOrDefault();
 

@@ -3700,14 +3700,16 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
     };
 
     private readonly UnifiedConfigurationService? _configService;
+    private readonly UiDiagnosticsService? _diagnosticsService;
 
     public VersionUpdateFeatureService()
     {
     }
 
-    public VersionUpdateFeatureService(UnifiedConfigurationService configService)
+    public VersionUpdateFeatureService(UnifiedConfigurationService configService, UiDiagnosticsService? diagnosticsService = null)
     {
         _configService = configService;
+        _diagnosticsService = diagnosticsService;
     }
 
     public Task<UiOperationResult<VersionUpdatePolicy>> LoadPolicyAsync(CancellationToken cancellationToken = default)
@@ -3919,8 +3921,13 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
 
     private async Task<UiOperationResult<string>> UpdateResourceFromGithubAsync(CancellationToken cancellationToken)
     {
+        const string scope = "VersionUpdate.Resource.Github";
         var runtimeBaseDirectory = ResolveRuntimeBaseDirectory();
         var resourceDirectory = Path.Combine(runtimeBaseDirectory, "resource");
+        await TraceVersionUpdateAsync(
+            scope,
+            $"Begin runtimeBaseDirectory={runtimeBaseDirectory}; resourceDirectory={resourceDirectory}",
+            cancellationToken).ConfigureAwait(false);
         if (!Directory.Exists(resourceDirectory))
         {
             return UiOperationResult<string>.Fail(
@@ -3935,12 +3942,35 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         var zipPath = Path.Combine(tempRoot, "MaaResourceGithub.zip");
         var extractDirectory = Path.Combine(tempRoot, "extract");
         Directory.CreateDirectory(tempRoot);
+        await TraceVersionUpdateAsync(
+            scope,
+            $"Prepared tempRoot={tempRoot}; zipPath={zipPath}; extractDirectory={extractDirectory}",
+            cancellationToken).ConfigureAwait(false);
 
         try
         {
-            await DownloadToFileAsync(GithubResourceArchiveUrl, zipPath, cancellationToken);
-            ZipFile.ExtractToDirectory(zipPath, extractDirectory, overwriteFiles: true);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Download begin url={GithubResourceArchiveUrl}",
+                cancellationToken).ConfigureAwait(false);
+            await DownloadToFileAsync(GithubResourceArchiveUrl, zipPath, cancellationToken).ConfigureAwait(false);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Download end zipSize={TryGetFileLength(zipPath)}",
+                cancellationToken).ConfigureAwait(false);
+
+            await TraceVersionUpdateAsync(scope, "Extract begin", cancellationToken).ConfigureAwait(false);
+            await Task.Run(
+                () => ZipFile.ExtractToDirectory(zipPath, extractDirectory, overwriteFiles: true),
+                cancellationToken).ConfigureAwait(false);
+            await TraceVersionUpdateAsync(scope, "Extract end", cancellationToken).ConfigureAwait(false);
+
+            await TraceVersionUpdateAsync(scope, "Resolve extracted resource directory begin", cancellationToken).ConfigureAwait(false);
             var extractedResourceDirectory = ResolveExtractedResourceDirectory(extractDirectory);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Resolve extracted resource directory end path={extractedResourceDirectory}",
+                cancellationToken).ConfigureAwait(false);
             if (!Directory.Exists(extractedResourceDirectory))
             {
                 return UiOperationResult<string>.Fail(
@@ -3948,7 +3978,14 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
                     "Downloaded package does not contain `resource` directory.");
             }
 
-            MergeDirectory(extractedResourceDirectory, resourceDirectory);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Merge begin source={extractedResourceDirectory}; destination={resourceDirectory}",
+                cancellationToken).ConfigureAwait(false);
+            await Task.Run(
+                () => MergeDirectory(extractedResourceDirectory, resourceDirectory),
+                cancellationToken).ConfigureAwait(false);
+            await TraceVersionUpdateAsync(scope, "Merge end", cancellationToken).ConfigureAwait(false);
             return UiOperationResult<string>.Ok(
                 "资源更新完成（Github）。",
                 "Resource update completed.");
@@ -3959,6 +3996,7 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         }
         catch (Exception ex)
         {
+            await TraceVersionUpdateErrorAsync(scope, "Github resource update failed.", ex, cancellationToken).ConfigureAwait(false);
             return UiOperationResult<string>.Fail(
                 UiErrorCode.UiOperationFailed,
                 $"Failed to update resources from Github: {ex.Message}",
@@ -3966,7 +4004,12 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         }
         finally
         {
+            await TraceVersionUpdateAsync(scope, $"Cleanup begin tempRoot={tempRoot}", cancellationToken).ConfigureAwait(false);
             TryDeleteDirectory(tempRoot);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Cleanup end tempRootExists={Directory.Exists(tempRoot)}",
+                cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -3975,7 +4018,12 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         string? clientType,
         CancellationToken cancellationToken)
     {
+        const string scope = "VersionUpdate.Resource.MirrorChyan";
         var cdk = policy.MirrorChyanCdk.Trim();
+        await TraceVersionUpdateAsync(
+            scope,
+            $"Begin clientType={clientType ?? "<null>"}; cdkLength={cdk.Length}",
+            cancellationToken).ConfigureAwait(false);
         if (cdk.Length == 0)
         {
             return UiOperationResult<string>.Fail(
@@ -3990,8 +4038,13 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         MirrorChyanUpdateResponse payload;
         try
         {
-            using var response = await ResourceHttpClient.GetAsync(requestUrl, cancellationToken);
-            var body = await response.Content.ReadAsStringAsync(cancellationToken);
+            await TraceVersionUpdateAsync(scope, $"Query begin url={requestUrl}", cancellationToken).ConfigureAwait(false);
+            using var response = await ResourceHttpClient.GetAsync(requestUrl, cancellationToken).ConfigureAwait(false);
+            var body = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Query end status={(int)response.StatusCode}; bodyLength={body.Length}",
+                cancellationToken).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
                 return UiOperationResult<string>.Fail(
@@ -4001,6 +4054,10 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
             }
 
             payload = ParseMirrorChyanPayload(body);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Payload parsed code={payload.Code}; hasUrl={!string.IsNullOrWhiteSpace(payload.DownloadUrl)}; versionTimestamp={payload.VersionTimestamp:O}",
+                cancellationToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
@@ -4008,6 +4065,7 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         }
         catch (Exception ex)
         {
+            await TraceVersionUpdateErrorAsync(scope, "MirrorChyan resource query failed.", ex, cancellationToken).ConfigureAwait(false);
             return UiOperationResult<string>.Fail(
                 UiErrorCode.UiOperationFailed,
                 $"Failed to query MirrorChyan update endpoint: {ex.Message}",
@@ -4016,7 +4074,7 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
 
         if (payload.CdkExpiredEpoch.HasValue)
         {
-            await PersistMirrorChyanExpiryAsync(payload.CdkExpiredEpoch.Value, cancellationToken);
+            await PersistMirrorChyanExpiryAsync(payload.CdkExpiredEpoch.Value, cancellationToken).ConfigureAwait(false);
         }
 
         if (payload.Code != 0)
@@ -4050,13 +4108,44 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         var zipPath = Path.Combine(tempRoot, "MaaResourceMirrorChyan.zip");
         var extractDirectory = Path.Combine(tempRoot, "extract");
         Directory.CreateDirectory(tempRoot);
+        await TraceVersionUpdateAsync(
+            scope,
+            $"Prepared tempRoot={tempRoot}; zipPath={zipPath}; extractDirectory={extractDirectory}",
+            cancellationToken).ConfigureAwait(false);
 
         try
         {
-            await DownloadToFileAsync(payload.DownloadUrl, zipPath, cancellationToken);
-            ZipFile.ExtractToDirectory(zipPath, extractDirectory, overwriteFiles: true);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Download begin url={payload.DownloadUrl}",
+                cancellationToken).ConfigureAwait(false);
+            await DownloadToFileAsync(payload.DownloadUrl, zipPath, cancellationToken).ConfigureAwait(false);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Download end zipSize={TryGetFileLength(zipPath)}",
+                cancellationToken).ConfigureAwait(false);
+
+            await TraceVersionUpdateAsync(scope, "Extract begin", cancellationToken).ConfigureAwait(false);
+            await Task.Run(
+                () => ZipFile.ExtractToDirectory(zipPath, extractDirectory, overwriteFiles: true),
+                cancellationToken).ConfigureAwait(false);
+            await TraceVersionUpdateAsync(scope, "Extract end", cancellationToken).ConfigureAwait(false);
+
+            await TraceVersionUpdateAsync(scope, "Resolve patch merge directory begin", cancellationToken).ConfigureAwait(false);
             var mergeSource = ResolvePatchMergeDirectory(extractDirectory);
-            MergeDirectory(mergeSource, runtimeBaseDirectory);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Resolve patch merge directory end path={mergeSource}",
+                cancellationToken).ConfigureAwait(false);
+
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Merge begin source={mergeSource}; destination={runtimeBaseDirectory}",
+                cancellationToken).ConfigureAwait(false);
+            await Task.Run(
+                () => MergeDirectory(mergeSource, runtimeBaseDirectory),
+                cancellationToken).ConfigureAwait(false);
+            await TraceVersionUpdateAsync(scope, "Merge end", cancellationToken).ConfigureAwait(false);
             var message = string.IsNullOrWhiteSpace(payload.ReleaseNote)
                 ? "资源更新完成（MirrorChyan）。"
                 : $"资源更新完成（MirrorChyan）：{payload.ReleaseNote}";
@@ -4068,6 +4157,7 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         }
         catch (Exception ex)
         {
+            await TraceVersionUpdateErrorAsync(scope, "MirrorChyan resource update failed.", ex, cancellationToken).ConfigureAwait(false);
             return UiOperationResult<string>.Fail(
                 UiErrorCode.UiOperationFailed,
                 $"Failed to update resources from MirrorChyan: {ex.Message}",
@@ -4075,7 +4165,12 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         }
         finally
         {
+            await TraceVersionUpdateAsync(scope, $"Cleanup begin tempRoot={tempRoot}", cancellationToken).ConfigureAwait(false);
             TryDeleteDirectory(tempRoot);
+            await TraceVersionUpdateAsync(
+                scope,
+                $"Cleanup end tempRootExists={Directory.Exists(tempRoot)}",
+                cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -4183,12 +4278,12 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         using var response = await ResourceHttpClient.GetAsync(
             url,
             HttpCompletionOption.ResponseHeadersRead,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
 
-        await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
         await using var file = File.Create(destinationPath);
-        await stream.CopyToAsync(file, cancellationToken);
+        await stream.CopyToAsync(file, cancellationToken).ConfigureAwait(false);
     }
 
     private static void MergeDirectory(string source, string destination)
@@ -4220,6 +4315,63 @@ public sealed class VersionUpdateFeatureService : IVersionUpdateFeatureService
         catch
         {
             // Ignore temporary cleanup failures.
+        }
+    }
+
+    private async Task TraceVersionUpdateAsync(string scope, string message, CancellationToken cancellationToken = default)
+    {
+        if (_diagnosticsService is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _diagnosticsService.RecordEventAsync(
+                scope,
+                $"{message} | thread={Environment.CurrentManagedThreadId}",
+                CancellationToken.None).ConfigureAwait(false);
+        }
+        catch
+        {
+            // Best-effort diagnostics must not block resource updates.
+        }
+    }
+
+    private async Task TraceVersionUpdateErrorAsync(
+        string scope,
+        string message,
+        Exception exception,
+        CancellationToken cancellationToken = default)
+    {
+        if (_diagnosticsService is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _diagnosticsService.RecordErrorAsync(
+                scope,
+                $"{message} | thread={Environment.CurrentManagedThreadId}",
+                exception,
+                CancellationToken.None).ConfigureAwait(false);
+        }
+        catch
+        {
+            // Best-effort diagnostics must not block resource updates.
+        }
+    }
+
+    private static long TryGetFileLength(string path)
+    {
+        try
+        {
+            return File.Exists(path) ? new FileInfo(path).Length : -1;
+        }
+        catch
+        {
+            return -1;
         }
     }
 

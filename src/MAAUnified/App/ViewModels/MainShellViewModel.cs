@@ -27,7 +27,7 @@ namespace MAAUnified.App.ViewModels;
 
 public sealed class MainShellViewModel : ObservableObject
 {
-    private const string AppDisplayName = "MaaAssistantArknights";
+    private const string AppDisplayName = "MaaAssistantArknights Unified";
     private const string DeveloperModeConfigKey = "GUI.DeveloperMode";
     private static readonly TimeSpan DeferredStartupCoreWarmupDelay = TimeSpan.FromMilliseconds(1500);
     private readonly MAAUnifiedRuntime _runtime;

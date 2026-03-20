@@ -301,8 +301,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             if (value.Length == 24)
             {
                 Task.Run(async () => {
-                    await Instances.VersionUpdateDialogViewModel.VersionUpdateAndAskToRestartAsync();
-                    await ResourceUpdater.ResourceUpdateAndReloadAsync();
+                    var downloadedUpdatePackage = await Instances.VersionUpdateDialogViewModel.VersionUpdateAndAskToRestartAsync();
+                    if (!downloadedUpdatePackage)
+                    {
+                        await ResourceUpdater.ResourceUpdateAndReloadAsync();
+                    }
                 });
             }
 

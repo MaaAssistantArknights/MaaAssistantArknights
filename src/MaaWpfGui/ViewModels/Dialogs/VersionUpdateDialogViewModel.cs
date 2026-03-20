@@ -34,7 +34,6 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
@@ -286,22 +285,18 @@ public class VersionUpdateDialogViewModel : Screen
         }
         else if (!isOTAPackage)
         {
-            List<Task> deleteTasks = [];
-            foreach (var dir in Directory.GetDirectories(extractDir))
+            Directory.CreateDirectory(oldFileDir);
+            foreach (var extractedDirectory in Directory.GetDirectories(extractDir))
             {
-                deleteTasks.Add(Task.Run(() => {
-                    try
-                    {
-                        FileSystem.DeleteDirectory(dir.Replace(extractDir, curDir), UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
-                    }
-                    catch
-                    {
-                        _logger.Error("delete directory error, dir: {Dir}", dir);
-                    }
-                }));
-            }
+                string currentDirectory = extractedDirectory.Replace(extractDir, curDir);
+                if (!Directory.Exists(currentDirectory))
+                {
+                    continue;
+                }
 
-            Task.WaitAll([.. deleteTasks]);
+                string backupDirectory = extractedDirectory.Replace(extractDir, oldFileDir);
+                MoveDirectoryWithBackup(currentDirectory, backupDirectory);
+            }
         }
 
         Directory.CreateDirectory(oldFileDir);
@@ -380,6 +375,51 @@ public class VersionUpdateDialogViewModel : Screen
                 catch (Exception e1)
                 {
                     _logger.Error("move file error, path: {FilePath}, moveTo: {BackupFilePath}, error: {E1Message}", filePath, backupFilePath, e1.Message);
+                    throw;
+                }
+            }
+        }
+
+        static void MoveDirectoryWithBackup(string sourceDirectory, string backupDirectory)
+        {
+            try
+            {
+                if (Directory.Exists(backupDirectory))
+                {
+                    Directory.Delete(backupDirectory, true);
+                }
+
+                var backupParent = Path.GetDirectoryName(backupDirectory);
+                if (!string.IsNullOrEmpty(backupParent))
+                {
+                    Directory.CreateDirectory(backupParent);
+                }
+
+                Directory.Move(sourceDirectory, backupDirectory);
+            }
+            catch (Exception moveException)
+            {
+                _logger.Error(
+                    "move directory error, source: {SourceDirectory}, backup: {BackupDirectory}, error: {ErrorMessage}",
+                    sourceDirectory,
+                    backupDirectory,
+                    moveException.Message);
+
+                try
+                {
+                    if (Directory.Exists(backupDirectory))
+                    {
+                        Directory.Delete(backupDirectory, true);
+                    }
+
+                    Directory.Delete(sourceDirectory, true);
+                }
+                catch (Exception deleteException)
+                {
+                    _logger.Error(
+                        "delete directory fallback error, source: {SourceDirectory}, error: {ErrorMessage}",
+                        sourceDirectory,
+                        deleteException.Message);
                     throw;
                 }
             }
@@ -501,8 +541,11 @@ public class VersionUpdateDialogViewModel : Screen
                             ok: LocalizationHelper.GetString("Ok")));
                 }
 
-                await VersionUpdateAndAskToRestartAsync();
-                await ResourceUpdater.ResourceUpdateAndReloadAsync();
+                var downloadedUpdatePackage = await VersionUpdateAndAskToRestartAsync();
+                if (!downloadedUpdatePackage)
+                {
+                    await ResourceUpdater.ResourceUpdateAndReloadAsync();
+                }
             }
             else
             {
@@ -516,18 +559,19 @@ public class VersionUpdateDialogViewModel : Screen
     /// <summary>
     /// 检查更新并下载更新包，如果成功则提示重启。
     /// </summary>
-    /// <returns>Task</returns>
-    public async Task VersionUpdateAndAskToRestartAsync()
+    /// <returns>若已下载待安装的更新包则返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
+    public async Task<bool> VersionUpdateAndAskToRestartAsync()
     {
         if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
         {
-            return;
+            return false;
         }
 
         var ret = await CheckAndDownloadVersionUpdate();
         if (ret == CheckUpdateRetT.OK)
         {
             _ = AskToRestart();
+            return true;
         }
 
         var toastMessage = ret switch {
@@ -548,6 +592,8 @@ public class VersionUpdateDialogViewModel : Screen
         {
             ToastNotification.ShowDirect(toastMessage);
         }
+
+        return false;
     }
 
     /// <summary>

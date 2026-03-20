@@ -44,6 +44,12 @@ public sealed class RootLocalizationTextMap : ObservableObject
         ["Main.Menu.Language.pallas"] = "Pallas (pallas)",
         ["Main.Growl.ManualVersionUpdate"] = "手动更新入口：设置 > Version Update",
         ["Main.Growl.ManualResourceUpdate"] = "手动资源更新入口：设置 > Version Update",
+        ["Main.CloseConfirm.Title"] = "MAA 正在运行任务",
+        ["Main.CloseConfirm.Message"] = "确定要退出吗？",
+        ["Main.CloseConfirm.Update.Title"] = "MAA 正在更新",
+        ["Main.CloseConfirm.Update.Message"] = "正在执行更新，此时退出 MAA 可能导致资源损坏。\n确定要退出吗？",
+        ["Main.CloseConfirm.Confirm"] = "退出",
+        ["Main.CloseConfirm.Cancel"] = "取消",
 
         ["TaskQueue.Root.DailyStageLabel"] = "今日关卡小提示:",
         ["TaskQueue.Root.DailyStageTooltip"] = "可通过 ｢小工具-仓库识别｣ 更新库存数据",
@@ -324,6 +330,12 @@ public sealed class RootLocalizationTextMap : ObservableObject
         ["Main.Menu.Language.pallas"] = "Pallas (pallas)",
         ["Main.Growl.ManualVersionUpdate"] = "Manual update entry: Settings > Version Update",
         ["Main.Growl.ManualResourceUpdate"] = "Manual resource update: Settings > Version Update",
+        ["Main.CloseConfirm.Title"] = "MAA is running tasks",
+        ["Main.CloseConfirm.Message"] = "Are you sure you want to exit?",
+        ["Main.CloseConfirm.Update.Title"] = "MAA is updating",
+        ["Main.CloseConfirm.Update.Message"] = "An update is in progress. Exiting MAA now may cause resource damage.\nAre you sure you want to exit?",
+        ["Main.CloseConfirm.Confirm"] = "Exit",
+        ["Main.CloseConfirm.Cancel"] = "Cancel",
 
         ["TaskQueue.Root.DailyStageLabel"] = "Today's open stages:",
         ["TaskQueue.Root.DailyStageTooltip"] = "Inventory data can be updated via  ｢Toolbox-Depot Recognition｣",
@@ -567,9 +579,36 @@ public sealed class RootLocalizationTextMap : ObservableObject
         ["Settings.Performance.Gpu.Warning.SelectionFallback"] = "The saved GPU selection is unavailable in the current environment and was reset to a safe fallback.",
     };
 
-    private static readonly Dictionary<string, string> JaJp = new(EnUs, StringComparer.OrdinalIgnoreCase);
-    private static readonly Dictionary<string, string> KoKr = new(EnUs, StringComparer.OrdinalIgnoreCase);
-    private static readonly Dictionary<string, string> ZhTw = new(EnUs, StringComparer.OrdinalIgnoreCase);
+    private static readonly Dictionary<string, string> JaJp = new(EnUs, StringComparer.OrdinalIgnoreCase)
+    {
+        ["Main.CloseConfirm.Title"] = "MAAがタスクを実行しています",
+        ["Main.CloseConfirm.Message"] = "終了しますか？",
+        ["Main.CloseConfirm.Update.Title"] = "MAAが更新中です",
+        ["Main.CloseConfirm.Update.Message"] = "更新を実行中です。この時点でMAAを終了するとリソースが損傷する可能性があります。\n終了しますか？",
+        ["Main.CloseConfirm.Confirm"] = "終了",
+        ["Main.CloseConfirm.Cancel"] = "キャンセル",
+    };
+
+    private static readonly Dictionary<string, string> KoKr = new(EnUs, StringComparer.OrdinalIgnoreCase)
+    {
+        ["Main.CloseConfirm.Title"] = "MAA가 작업을 진행 중입니다",
+        ["Main.CloseConfirm.Message"] = "정말로 종료하시겠습니까?",
+        ["Main.CloseConfirm.Update.Title"] = "MAA가 업데이트 중입니다",
+        ["Main.CloseConfirm.Update.Message"] = "업데이트를 실행 중입니다. 지금 MAA를 종료하면 리소스가 손상될 수 있습니다.\n정말로 종료하시겠습니까?",
+        ["Main.CloseConfirm.Confirm"] = "종료",
+        ["Main.CloseConfirm.Cancel"] = "취소",
+    };
+
+    private static readonly Dictionary<string, string> ZhTw = new(EnUs, StringComparer.OrdinalIgnoreCase)
+    {
+        ["Main.CloseConfirm.Title"] = "MAA 正在執行任務",
+        ["Main.CloseConfirm.Message"] = "確定要關閉程式嗎？",
+        ["Main.CloseConfirm.Update.Title"] = "MAA 正在更新",
+        ["Main.CloseConfirm.Update.Message"] = "正在執行更新，此時關閉 MAA 可能導致資源毀損。\n確定要結束嗎？",
+        ["Main.CloseConfirm.Confirm"] = "結束",
+        ["Main.CloseConfirm.Cancel"] = "取消",
+    };
+
     private static readonly Dictionary<string, string> Pallas = new(EnUs, StringComparer.OrdinalIgnoreCase);
 
     private readonly string _scope;

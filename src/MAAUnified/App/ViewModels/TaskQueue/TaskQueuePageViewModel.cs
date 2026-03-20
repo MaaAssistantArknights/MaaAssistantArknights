@@ -2385,10 +2385,19 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
 
         if (OverlayTargets.Count > 0)
         {
-            SelectedOverlayTarget = OverlayTargetPersistence.ResolveSelection(
+            var resolvedSelection = OverlayTargetPersistence.ResolveSelection(
                 OverlayTargets,
                 Runtime.ConfigurationService.CurrentConfig.GlobalValues,
-                _overlaySharedState.SelectedTargetId)
+                _overlaySharedState.SelectedTargetId);
+            if (OverlayTargetPersistence.ShouldDefaultToPreview(
+                Runtime.ConfigurationService.CurrentConfig.GlobalValues,
+                _overlaySharedState.SelectedTargetId))
+            {
+                resolvedSelection = OverlayTargets.FirstOrDefault(t => string.Equals(t.Id, "preview", StringComparison.Ordinal))
+                    ?? resolvedSelection;
+            }
+
+            SelectedOverlayTarget = resolvedSelection
                 ?? OverlayTargets.FirstOrDefault(t => t.IsPrimary)
                 ?? OverlayTargets[0];
         }

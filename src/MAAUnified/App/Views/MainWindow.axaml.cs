@@ -7,11 +7,13 @@ using Avalonia.Platform;
 using Avalonia.Threading;
 using MAAUnified.App.Features.Dialogs;
 using MAAUnified.App.Infrastructure;
+using MAAUnified.App.Services;
 using MAAUnified.App.ViewModels;
 using MAAUnified.App.ViewModels.Infrastructure;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Services.Localization;
 using MAAUnified.Platform;
+using System.ComponentModel;
 
 namespace MAAUnified.App.Views;
 
@@ -20,10 +22,13 @@ public partial class MainWindow : Window
     private bool _platformBound;
     private bool _dialogErrorBound;
     private bool _processingDialogErrors;
+    private bool _allowLifecycleClose;
+    private bool _closeRequestPending;
     private readonly object _dialogErrorGate = new();
     private readonly Queue<DialogErrorRaisedEvent> _pendingDialogErrors = [];
     private readonly HashSet<string> _pendingDialogErrorKeys = new(StringComparer.Ordinal);
     private readonly IAppDialogService _dialogService;
+    private readonly ShellCloseConfirmationService _closeConfirmationService;
     private OverlayHostWindow? _overlayHostWindow;
     private RuntimeLogWindow? _runtimeLogWindow;
 
@@ -34,12 +39,52 @@ public partial class MainWindow : Window
         _dialogService = Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime
             ? new AvaloniaDialogService(App.Runtime)
             : NoOpAppDialogService.Instance;
+        _closeConfirmationService = new ShellCloseConfirmationService(_dialogService);
         BindDialogErrorEvents();
         Opened += OnWindowOpened;
+        Closing += OnWindowClosing;
         Closed += OnWindowClosed;
     }
 
     private MainShellViewModel? VM => DataContext as MainShellViewModel;
+
+    private async void OnWindowClosing(object? sender, CancelEventArgs e)
+    {
+        if (_allowLifecycleClose || VM is null)
+        {
+            return;
+        }
+
+        e.Cancel = true;
+        if (_closeRequestPending)
+        {
+            return;
+        }
+
+        _closeRequestPending = true;
+        try
+        {
+            if (!await ConfirmCloseAsync("App.Shell.Window.Close.Confirm"))
+            {
+                await App.Runtime.DiagnosticsService.RecordEventAsync(
+                    "App.Shell.Window.Close",
+                    "source=window-chrome; cancelled");
+                return;
+            }
+
+            await App.Runtime.DiagnosticsService.RecordEventAsync(
+                "App.Shell.Window.Close",
+                "source=window-chrome; confirmed");
+            _ = await ExitApplicationAsync("App.Shell.Window.Close.Exit");
+        }
+        finally
+        {
+            if (!_allowLifecycleClose)
+            {
+                _closeRequestPending = false;
+            }
+        }
+    }
 
     private async void OnWindowOpened(object? sender, EventArgs e)
     {
@@ -318,7 +363,13 @@ public partial class MainWindow : Window
 
     private void ApplyOverlayHostState(OverlayStateChangedEvent e)
     {
-        if (_overlayHostWindow is null || !e.Visible || e.Mode != OverlayRuntimeMode.Preview)
+        if (_overlayHostWindow is null)
+        {
+            return;
+        }
+
+        _overlayHostWindow.SetOverlayActive(e.Visible);
+        if (!e.Visible || e.Mode != OverlayRuntimeMode.Preview)
         {
             return;
         }
@@ -359,6 +410,21 @@ public partial class MainWindow : Window
 
         try
         {
+            if (command is TrayCommandId.Exit or TrayCommandId.Restart)
+            {
+                var confirmScope = command == TrayCommandId.Restart
+                    ? "App.Shell.Tray.Restart.Confirm"
+                    : "App.Shell.Tray.Exit.Confirm";
+                if (!await ConfirmCloseAsync(confirmScope, cancellationToken))
+                {
+                    await App.Runtime.DiagnosticsService.RecordEventAsync(
+                        confirmScope,
+                        $"source={source}; cancelled",
+                        cancellationToken);
+                    return;
+                }
+            }
+
             var action = await VM.ExecuteTrayCommandAsync(command, source, cancellationToken);
             switch (action)
             {
@@ -369,7 +435,10 @@ public partial class MainWindow : Window
                     Activate();
                     break;
                 case ShellUiAction.CloseMainWindow:
-                    Close();
+                    var exitScope = command == TrayCommandId.Restart
+                        ? "App.Shell.Tray.Restart.Exit"
+                        : "App.Shell.Tray.Exit";
+                    _ = await ExitApplicationAsync(exitScope, cancellationToken);
                     break;
                 default:
                     break;
@@ -412,6 +481,44 @@ public partial class MainWindow : Window
                 "Global hotkey execution failed.",
                 ex);
         }
+    }
+
+    private Task<bool> ConfirmCloseAsync(string sourceScope, CancellationToken cancellationToken = default)
+    {
+        var vm = VM;
+        if (vm is null)
+        {
+            return Task.FromResult(true);
+        }
+
+        return _closeConfirmationService.ConfirmCloseAsync(
+            vm.RootTexts,
+            vm.SettingsPage.Language,
+            vm.TaskQueuePage.IsRunning,
+            vm.SettingsPage.IsVersionUpdateActionRunning,
+            sourceScope,
+            cancellationToken);
+    }
+
+    private async Task<bool> ExitApplicationAsync(string scope, CancellationToken cancellationToken = default)
+    {
+        var vm = VM;
+        _allowLifecycleClose = true;
+        var result = await App.Runtime.AppLifecycleService.ExitAsync(cancellationToken);
+        if (result.Success)
+        {
+            return true;
+        }
+
+        _allowLifecycleClose = false;
+        _closeRequestPending = false;
+        if (vm is not null)
+        {
+            vm.PushGrowl(result.Message);
+        }
+
+        await App.Runtime.DiagnosticsService.RecordFailedResultAsync(scope, result, cancellationToken);
+        return false;
     }
 
     private void OnDialogErrorRaised(object? sender, DialogErrorRaisedEvent e)

@@ -61,7 +61,31 @@ internal static class OverlayTargetPersistence
             }
         }
 
+        if (!previewPinned)
+        {
+            var primaryNative = targets.FirstOrDefault(static target => !IsPreviewId(target.Id) && target.IsPrimary);
+            if (primaryNative is not null)
+            {
+                return primaryNative;
+            }
+
+            var firstNative = targets.FirstOrDefault(static target => !IsPreviewId(target.Id));
+            if (firstNative is not null)
+            {
+                return firstNative;
+            }
+        }
+
         return targets.FirstOrDefault(static target => target.IsPrimary) ?? targets[0];
+    }
+
+    public static bool ShouldDefaultToPreview(
+        IReadOnlyDictionary<string, JsonNode?> globalValues,
+        string? preferredTargetId = null)
+    {
+        return IsPreviewId(preferredTargetId)
+            && Load(globalValues) is null
+            && !LoadPreviewPreference(globalValues);
     }
 
     public static PersistedOverlayTargetSelection? Load(IReadOnlyDictionary<string, JsonNode?> globalValues)

@@ -44,6 +44,10 @@ public partial class OverlayHostWindow : Window
         ShowActivated = false;
         _overlayPanel = this.FindControl<Border>("OverlayPanel");
         _overlayScroller = this.FindControl<ScrollViewer>("OverlayScroller");
+        if (_overlayPanel is not null)
+        {
+            _overlayPanel.IsVisible = false;
+        }
         DataContextChanged += OnOverlayDataContextChanged;
         Opened += (_, _) =>
         {
@@ -51,6 +55,25 @@ public partial class OverlayHostWindow : Window
             ScheduleScrollToEnd();
         };
         SizeChanged += (_, _) => UpdatePanelConstraints();
+    }
+
+    public void SetOverlayActive(bool active)
+    {
+        if (_overlayPanel is not null)
+        {
+            _overlayPanel.IsVisible = active;
+        }
+
+        if (!active)
+        {
+            Width = 1d;
+            Height = 1d;
+            UpdatePanelConstraints();
+            return;
+        }
+
+        UpdatePanelConstraints();
+        ScheduleScrollToEnd();
     }
 
     public void ApplyPreviewBounds(PixelRect workingArea)
