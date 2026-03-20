@@ -120,6 +120,7 @@ asst::OcrPack::ResultsVec
             auto [top, bottom] = std::ranges::minmax(y_collect);
             abs_rect = Rect(left, top, right - left, bottom - top);
         }
+
         if (!without_det && i < ocr_result.boxes.size()) {
             det_rect = abs_rect;
         }
@@ -134,7 +135,7 @@ asst::OcrPack::ResultsVec
         if (i > 0) {
             raw_log += ", ";
         }
-        if (base_roi) {
+        if (base_roi && i < ocr_result.boxes.size()) {
             Rect moved_rect(base_roi->x + abs_rect.x, base_roi->y + abs_rect.y, det_rect.width, det_rect.height);
             raw_log += std::format(
                 "{{ text: {}, moved_rect: {}, rect: {}, score: {:.6f} }}",
