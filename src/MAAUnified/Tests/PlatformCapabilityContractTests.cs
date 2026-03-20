@@ -432,6 +432,63 @@ public sealed class PlatformCapabilityContractTests
     }
 
     [Fact]
+    public async Task PlatformCapabilityFeatureService_OverlayStateChanged_ShouldForwardAndWritePlatformLog()
+    {
+        var root = CreateTempRoot();
+        var diagnostics = new UiDiagnosticsService(root, new UiLogService());
+        var overlay = new TriggerableOverlayService();
+        var bundle = new PlatformServiceBundle
+        {
+            TrayService = new NoOpTrayService(),
+            NotificationService = new NoOpNotificationService(),
+            HotkeyService = new NoOpGlobalHotkeyService(),
+            AutostartService = new NoOpAutostartService(),
+            FileDialogService = new NoOpFileDialogService(),
+            OverlayService = overlay,
+            PostActionExecutorService = new NoOpPostActionExecutorService(),
+        };
+
+        var service = new PlatformCapabilityFeatureService(bundle, diagnostics);
+        OverlayStateChangedEvent? forwarded = null;
+        service.OverlayStateChanged += (_, e) => forwarded = e;
+
+        overlay.Emit(new OverlayStateChangedEvent(
+            OverlayRuntimeMode.Preview,
+            Visible: true,
+            TargetId: "preview",
+            Action: "target-lost",
+            Message: "Overlay target was lost; switched to Preview + Logs mode.",
+            Timestamp: DateTimeOffset.UtcNow,
+            Provider: overlay.Capability.Provider,
+            UsedFallback: true,
+            ErrorCode: PlatformErrorCodes.OverlayTargetGone));
+
+        await WaitUntilAsync(async () =>
+        {
+            if (forwarded is null || !File.Exists(diagnostics.PlatformEventLogPath))
+            {
+                return false;
+            }
+
+            var lines = await File.ReadAllLinesAsync(diagnostics.PlatformEventLogPath);
+            return lines.Any(line => line.Contains("\"Action\":\"target-lost\"", StringComparison.Ordinal));
+        });
+
+        var forwardedEvent = Assert.IsType<OverlayStateChangedEvent>(forwarded);
+        Assert.Equal("target-lost", forwardedEvent.Action);
+        Assert.Equal(OverlayRuntimeMode.Preview, forwardedEvent.Mode);
+        Assert.True(forwardedEvent.Visible);
+        Assert.Equal("preview", forwardedEvent.TargetId);
+
+        var platformLines = await File.ReadAllLinesAsync(diagnostics.PlatformEventLogPath);
+        using var doc = JsonDocument.Parse(platformLines[^1]);
+        var payload = doc.RootElement;
+        Assert.Equal("target-lost", payload.GetProperty("Action").GetString());
+        Assert.True(payload.GetProperty("UsedFallback").GetBoolean());
+        Assert.Equal(PlatformErrorCodes.OverlayTargetGone, payload.GetProperty("ErrorCode").GetString());
+    }
+
+    [Fact]
     public void PlatformCapabilityTextMap_MissingKeyFallback_ShouldBeObservableViaFallbackReporter()
     {
         var fallbacks = new List<LocalizationFallbackInfo>();
@@ -566,6 +623,8 @@ public sealed class PlatformCapabilityContractTests
             HasFallback: true,
             FallbackMode: "preview");
 
+        public event EventHandler<OverlayStateChangedEvent>? OverlayStateChanged;
+
         public Task<PlatformOperationResult> BindHostWindowAsync(
             nint hostWindowHandle,
             bool clickThrough,
@@ -581,6 +640,45 @@ public sealed class PlatformCapabilityContractTests
 
         public Task<PlatformOperationResult> SetVisibleAsync(bool visible, CancellationToken cancellationToken = default)
             => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "visible", "overlay.set-visible"));
+    }
+
+    private sealed class TriggerableOverlayService : IOverlayCapabilityService
+    {
+        public PlatformCapabilityStatus Capability { get; } = new(
+            Supported: true,
+            Message: "trigger overlay",
+            Provider: "trigger-overlay",
+            HasFallback: true,
+            FallbackMode: "preview");
+
+        public event EventHandler<OverlayStateChangedEvent>? OverlayStateChanged;
+
+        public Task<PlatformOperationResult> BindHostWindowAsync(
+            nint hostWindowHandle,
+            bool clickThrough,
+            double opacity,
+            CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "bound", "overlay.bind-host"));
+
+        public Task<PlatformOperationResult<IReadOnlyList<OverlayTarget>>> QueryTargetsAsync(CancellationToken cancellationToken = default)
+        {
+            IReadOnlyList<OverlayTarget> targets = [new OverlayTarget("preview", "Preview + Logs", true)];
+            return Task.FromResult(PlatformOperation.FallbackSuccess(
+                Capability.Provider,
+                targets,
+                "preview only",
+                "overlay.query-targets",
+                PlatformErrorCodes.OverlayPreviewMode));
+        }
+
+        public Task<PlatformOperationResult> SelectTargetAsync(string targetId, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "selected", "overlay.select-target"));
+
+        public Task<PlatformOperationResult> SetVisibleAsync(bool visible, CancellationToken cancellationToken = default)
+            => Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, visible ? "visible" : "hidden", "overlay.set-visible"));
+
+        public void Emit(OverlayStateChangedEvent e)
+            => OverlayStateChanged?.Invoke(this, e);
     }
 
     private sealed class TriggerableTrayService : ITrayService

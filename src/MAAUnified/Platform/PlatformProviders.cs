@@ -2109,6 +2109,7 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
 {
     private static readonly nint HwndTopMost = new(-1);
     private const int GwlExStyle = -20;
+    private const int MaxConsecutiveSyncFailures = 3;
     private const nint WsExLayered = 0x00080000;
     private const nint WsExTransparent = 0x00000020;
     private const uint LwaAlpha = 0x2;
@@ -2117,16 +2118,59 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
     private const int SwHide = 0;
     private const int SwShowNoActivate = 4;
 
+    internal readonly record struct OverlayRect(int Left, int Top, int Right, int Bottom);
+
+    internal interface INativeApi
+    {
+        IEnumerable<nint> EnumerateWindows();
+
+        bool IsWindow(nint hWnd);
+
+        bool IsWindowVisible(nint hWnd);
+
+        int GetWindowTextLength(nint hWnd);
+
+        string GetWindowText(nint hWnd);
+
+        uint GetWindowThreadProcessId(nint hWnd);
+
+        bool TryGetWindowRect(nint hWnd, out OverlayRect rect);
+
+        bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+
+        bool ShowWindow(nint hWnd, int nCmdShow);
+
+        nint GetWindowLongPtr(nint hWnd, int nIndex);
+
+        int GetLastWin32Error();
+
+        nint SetWindowLongPtr(nint hWnd, int nIndex, nint dwNewLong);
+
+        bool SetLayeredWindowAttributes(nint hwnd, uint crKey, byte bAlpha, uint dwFlags);
+    }
+
     private readonly object _syncRoot = new();
+    private readonly INativeApi _api;
     private nint _selectedTarget;
     private nint _hostWindow;
     private bool _clickThrough = true;
     private double _opacity = 0.85d;
     private bool _visible;
     private Timer? _attachSyncTimer;
-    private WinRect _lastTargetRect;
+    private OverlayRect _lastTargetRect;
     private DateTimeOffset _lastSyncAt;
     private string? _lastSyncIssue;
+    private int _consecutiveSyncFailures;
+
+    public WindowsOverlayCapabilityService()
+        : this(new Win32NativeApi())
+    {
+    }
+
+    internal WindowsOverlayCapabilityService(INativeApi api)
+    {
+        _api = api;
+    }
 
     public PlatformCapabilityStatus Capability => new(
         Supported: true,
@@ -2135,6 +2179,8 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
         HasFallback: true,
         FallbackMode: "preview-and-log");
 
+    public event EventHandler<OverlayStateChangedEvent>? OverlayStateChanged;
+
     public Task<PlatformOperationResult> BindHostWindowAsync(
         nint hostWindowHandle,
         bool clickThrough,
@@ -2142,7 +2188,7 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (hostWindowHandle == nint.Zero || !IsWindow(hostWindowHandle))
+        if (hostWindowHandle == nint.Zero || !_api.IsWindow(hostWindowHandle))
         {
             return Task.FromResult(PlatformOperation.Failed(
                 Capability.Provider,
@@ -2179,37 +2225,34 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
             var targets = new List<OverlayTarget>();
             var seen = new HashSet<nint>();
 
-            EnumWindows((hWnd, lParam) =>
+            foreach (var hWnd in _api.EnumerateWindows())
             {
-                _ = lParam;
-                if (!IsWindowVisible(hWnd))
+                if (!_api.IsWindowVisible(hWnd))
                 {
-                    return true;
+                    continue;
                 }
 
-                var len = GetWindowTextLength(hWnd);
+                var len = _api.GetWindowTextLength(hWnd);
                 if (len <= 0)
                 {
-                    return true;
+                    continue;
                 }
 
-                var titleBuilder = new StringBuilder(len + 1);
-                _ = GetWindowText(hWnd, titleBuilder, titleBuilder.Capacity);
-                var title = titleBuilder.ToString().Trim();
+                var title = _api.GetWindowText(hWnd).Trim();
                 if (string.IsNullOrWhiteSpace(title))
                 {
-                    return true;
+                    continue;
                 }
 
-                GetWindowThreadProcessId(hWnd, out var pid);
+                var pid = _api.GetWindowThreadProcessId(hWnd);
                 if (pid == (uint)Environment.ProcessId)
                 {
-                    return true;
+                    continue;
                 }
 
                 if (!seen.Add(hWnd))
                 {
-                    return true;
+                    continue;
                 }
 
                 string? processName = null;
@@ -2233,8 +2276,11 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
                     ProcessId: (int)pid,
                     ProcessName: processName,
                     WindowTitle: title));
-                return targets.Count < 80;
-            }, nint.Zero);
+                if (targets.Count >= 80)
+                {
+                    break;
+                }
+            }
 
             targets.Insert(0, new OverlayTarget("preview", "Preview + Logs", true));
             IReadOnlyList<OverlayTarget> resultTargets = targets;
@@ -2272,8 +2318,21 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
         if (string.Equals(targetId, "preview", StringComparison.OrdinalIgnoreCase))
         {
             _selectedTarget = nint.Zero;
+            _consecutiveSyncFailures = 0;
             StopAttachSync();
             HideHostWindow();
+            if (_visible)
+            {
+                EmitStateChanged(
+                    OverlayRuntimeMode.Preview,
+                    visible: true,
+                    targetId: "preview",
+                    action: "fallback-enter",
+                    message: "Overlay switched to Preview + Logs mode.",
+                    usedFallback: true,
+                    errorCode: PlatformErrorCodes.OverlayPreviewMode);
+            }
+
             return Task.FromResult(PlatformOperation.FallbackSuccess(
                 Capability.Provider,
                 "Overlay target switched to preview mode.",
@@ -2290,7 +2349,7 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
                 operationId: "overlay.selectTarget"));
         }
 
-        if (!IsWindow(handle))
+        if (!_api.IsWindow(handle))
         {
             return Task.FromResult(PlatformOperation.Failed(
                 Capability.Provider,
@@ -2300,9 +2359,52 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
         }
 
         _selectedTarget = handle;
+        _consecutiveSyncFailures = 0;
         if (_visible)
         {
-            StartAttachSync();
+            if (_hostWindow == nint.Zero)
+            {
+                EnterPreviewMode(
+                    "Overlay host is unavailable; switched to Preview + Logs mode.",
+                    "fallback-enter",
+                    PlatformErrorCodes.OverlayHostNotBound);
+                return Task.FromResult(PlatformOperation.Failed(
+                    Capability.Provider,
+                    "Overlay host is unavailable; switched to Preview + Logs mode.",
+                    PlatformErrorCodes.OverlayHostNotBound,
+                    operationId: "overlay.selectTarget"));
+            }
+
+            if (!ConfigureHostWindow())
+            {
+                EnterPreviewMode(
+                    "Overlay target attach failed; switched to Preview + Logs mode.",
+                    "fallback-enter",
+                    PlatformErrorCodes.OverlayAttachFailed);
+                return Task.FromResult(PlatformOperation.Failed(
+                    Capability.Provider,
+                    "Overlay target attach failed; switched to Preview + Logs mode.",
+                    PlatformErrorCodes.OverlayAttachFailed,
+                    operationId: "overlay.selectTarget"));
+            }
+
+            if (!TryAttachSelectedTarget(out var attachMessage, out var attachErrorCode))
+            {
+                return Task.FromResult(PlatformOperation.Failed(
+                    Capability.Provider,
+                    attachMessage,
+                    attachErrorCode,
+                    operationId: "overlay.selectTarget"));
+            }
+
+            EmitStateChanged(
+                OverlayRuntimeMode.Native,
+                visible: true,
+                targetId: GetSelectedTargetId(),
+                action: "target-change",
+                message: $"Overlay target changed to 0x{handle:X}.",
+                usedFallback: false,
+                errorCode: null);
         }
 
         return Task.FromResult(PlatformOperation.NativeSuccess(
@@ -2318,8 +2420,17 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
 
         if (!visible)
         {
+            _consecutiveSyncFailures = 0;
             StopAttachSync();
             HideHostWindow();
+            EmitStateChanged(
+                OverlayRuntimeMode.Hidden,
+                visible: false,
+                targetId: GetSelectedTargetId(),
+                action: "hide",
+                message: "Overlay hidden.",
+                usedFallback: false,
+                errorCode: null);
             return Task.FromResult(PlatformOperation.NativeSuccess(
                 Capability.Provider,
                 "Overlay visibility set to false.",
@@ -2328,8 +2439,17 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
 
         if (_selectedTarget == nint.Zero)
         {
+            _consecutiveSyncFailures = 0;
             StopAttachSync();
             HideHostWindow();
+            EmitStateChanged(
+                OverlayRuntimeMode.Preview,
+                visible: true,
+                targetId: "preview",
+                action: "fallback-enter",
+                message: "Overlay switched to Preview + Logs mode because no native target is selected.",
+                usedFallback: true,
+                errorCode: PlatformErrorCodes.OverlayPreviewMode);
             return Task.FromResult(PlatformOperation.FallbackSuccess(
                 Capability.Provider,
                 "Overlay switched to preview mode because no native target is selected.",
@@ -2339,24 +2459,47 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
 
         if (_hostWindow == nint.Zero)
         {
+            EnterPreviewMode(
+                "Overlay host is unavailable; switched to Preview + Logs mode.",
+                "fallback-enter",
+                PlatformErrorCodes.OverlayHostNotBound);
             return Task.FromResult(PlatformOperation.Failed(
                 Capability.Provider,
-                "Overlay host is not bound.",
+                "Overlay host is unavailable; switched to Preview + Logs mode.",
                 PlatformErrorCodes.OverlayHostNotBound,
                 operationId: "overlay.setVisible"));
         }
 
         if (!ConfigureHostWindow())
         {
+            EnterPreviewMode(
+                "Overlay host configuration failed; switched to Preview + Logs mode.",
+                "fallback-enter",
+                PlatformErrorCodes.OverlayAttachFailed);
             return Task.FromResult(PlatformOperation.Failed(
                 Capability.Provider,
-                "Overlay host configuration failed.",
+                "Overlay host configuration failed; switched to Preview + Logs mode.",
                 PlatformErrorCodes.OverlayAttachFailed,
                 operationId: "overlay.setVisible"));
         }
 
-        StartAttachSync();
-        SyncSelectedTarget();
+        if (!TryAttachSelectedTarget(out var attachMessage, out var attachErrorCode))
+        {
+            return Task.FromResult(PlatformOperation.Failed(
+                Capability.Provider,
+                attachMessage,
+                attachErrorCode,
+                operationId: "overlay.setVisible"));
+        }
+
+        EmitStateChanged(
+            OverlayRuntimeMode.Native,
+            visible: true,
+            targetId: GetSelectedTargetId(),
+            action: "show-native",
+            message: $"Overlay attached to native target: 0x{_selectedTarget:X}.",
+            usedFallback: false,
+            errorCode: null);
 
         var extra = _lastSyncAt == default
             ? string.Empty
@@ -2373,6 +2516,11 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
     public void Dispose()
     {
         StopAttachSync();
+    }
+
+    internal void SyncNowForTesting()
+    {
+        SyncSelectedTarget();
     }
 
     private void StartAttachSync()
@@ -2400,41 +2548,139 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
             return;
         }
 
-        if (!IsWindow(handle))
+        if (SyncSelectedTargetCore(handle, out var failureMessage, out var failureCode))
         {
-            _selectedTarget = nint.Zero;
-            _lastSyncIssue = "Target window no longer exists.";
-            StopAttachSync();
-            HideHostWindow();
             return;
         }
 
-        if (!GetWindowRect(handle, out var rect))
+        if (string.Equals(failureCode, PlatformErrorCodes.OverlayTargetGone, StringComparison.Ordinal))
         {
-            _lastSyncIssue = "GetWindowRect failed.";
+            EnterPreviewMode(
+                "Overlay target was lost; switched to Preview + Logs mode.",
+                "target-lost",
+                PlatformErrorCodes.OverlayTargetGone);
             return;
+        }
+
+        _consecutiveSyncFailures++;
+        _lastSyncIssue = failureMessage;
+        if (_consecutiveSyncFailures >= MaxConsecutiveSyncFailures)
+        {
+            EnterPreviewMode(
+                "Overlay sync failed repeatedly; switched to Preview + Logs mode.",
+                "fallback-enter",
+                failureCode);
+        }
+    }
+
+    private bool TryAttachSelectedTarget(out string failureMessage, out string failureCode)
+    {
+        if (!SyncSelectedTargetCore(_selectedTarget, out failureMessage, out failureCode))
+        {
+            EnterPreviewMode(
+                string.Equals(failureCode, PlatformErrorCodes.OverlayTargetGone, StringComparison.Ordinal)
+                    ? "Overlay target was lost; switched to Preview + Logs mode."
+                    : "Overlay target attach failed; switched to Preview + Logs mode.",
+                string.Equals(failureCode, PlatformErrorCodes.OverlayTargetGone, StringComparison.Ordinal)
+                    ? "target-lost"
+                    : "fallback-enter",
+                failureCode);
+            return false;
+        }
+
+        _consecutiveSyncFailures = 0;
+        StartAttachSync();
+        return true;
+    }
+
+    private bool SyncSelectedTargetCore(nint handle, out string failureMessage, out string failureCode)
+    {
+        if (handle == nint.Zero || !_api.IsWindow(handle))
+        {
+            failureMessage = $"Overlay target is unavailable: 0x{handle:X}";
+            failureCode = PlatformErrorCodes.OverlayTargetGone;
+            return false;
+        }
+
+        if (!_api.TryGetWindowRect(handle, out var rect))
+        {
+            failureMessage = "GetWindowRect failed.";
+            failureCode = PlatformErrorCodes.OverlayAttachFailed;
+            return false;
         }
 
         if (!SetHostBounds(rect))
         {
-            _lastSyncIssue = "SetWindowPos failed.";
-            return;
+            failureMessage = "SetWindowPos failed.";
+            failureCode = PlatformErrorCodes.OverlayAttachFailed;
+            return false;
         }
 
         _lastTargetRect = rect;
         _lastSyncAt = DateTimeOffset.UtcNow;
         _lastSyncIssue = null;
+        _consecutiveSyncFailures = 0;
+        failureMessage = string.Empty;
+        failureCode = string.Empty;
+        return true;
+    }
+
+    private void EnterPreviewMode(string message, string action, string? errorCode)
+    {
+        _selectedTarget = nint.Zero;
+        _consecutiveSyncFailures = 0;
+        _lastSyncIssue = message;
+        StopAttachSync();
+        HideHostWindow();
+        EmitStateChanged(
+            OverlayRuntimeMode.Preview,
+            visible: _visible,
+            targetId: "preview",
+            action: action,
+            message: message,
+            usedFallback: true,
+            errorCode: errorCode);
+    }
+
+    private void EmitStateChanged(
+        OverlayRuntimeMode mode,
+        bool visible,
+        string targetId,
+        string action,
+        string message,
+        bool usedFallback,
+        string? errorCode)
+    {
+        OverlayStateChanged?.Invoke(
+            this,
+            new OverlayStateChangedEvent(
+                mode,
+                visible,
+                targetId,
+                action,
+                message,
+                DateTimeOffset.UtcNow,
+                Capability.Provider,
+                usedFallback,
+                errorCode));
+    }
+
+    private string GetSelectedTargetId()
+    {
+        return _selectedTarget == nint.Zero
+            ? "preview"
+            : $"hwnd:{_selectedTarget:X}";
     }
 
     private bool ConfigureHostWindow()
     {
-        if (_hostWindow == nint.Zero || !IsWindow(_hostWindow))
+        if (_hostWindow == nint.Zero || !_api.IsWindow(_hostWindow))
         {
             return false;
         }
 
-        var style = GetWindowLongPtrCompat(_hostWindow, GwlExStyle);
-        if (style == nint.Zero && Marshal.GetLastWin32Error() != 0)
+        var style = _api.GetWindowLongPtr(_hostWindow, GwlExStyle);
+        if (style == nint.Zero && _api.GetLastWin32Error() != 0)
         {
             return false;
         }
@@ -2449,12 +2695,12 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
             style &= ~WsExTransparent;
         }
 
-        _ = SetWindowLongPtrCompat(_hostWindow, GwlExStyle, style);
+        _ = _api.SetWindowLongPtr(_hostWindow, GwlExStyle, style);
         var alpha = (byte)Math.Round(_opacity * 255d, MidpointRounding.AwayFromZero);
-        return SetLayeredWindowAttributes(_hostWindow, 0, alpha, LwaAlpha);
+        return _api.SetLayeredWindowAttributes(_hostWindow, 0, alpha, LwaAlpha);
     }
 
-    private bool SetHostBounds(WinRect targetRect)
+    private bool SetHostBounds(OverlayRect targetRect)
     {
         if (_hostWindow == nint.Zero)
         {
@@ -2463,7 +2709,7 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
 
         var width = Math.Max(1, targetRect.Right - targetRect.Left);
         var height = Math.Max(1, targetRect.Bottom - targetRect.Top);
-        var ok = SetWindowPos(
+        var ok = _api.SetWindowPos(
             _hostWindow,
             HwndTopMost,
             targetRect.Left,
@@ -2473,7 +2719,7 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
             SwpNoActivate | SwpShowWindow);
         if (ok)
         {
-            _ = ShowWindow(_hostWindow, SwShowNoActivate);
+            _ = _api.ShowWindow(_hostWindow, SwShowNoActivate);
         }
 
         return ok;
@@ -2481,9 +2727,9 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
 
     private void HideHostWindow()
     {
-        if (_hostWindow != nint.Zero && IsWindow(_hostWindow))
+        if (_hostWindow != nint.Zero && _api.IsWindow(_hostWindow))
         {
-            _ = ShowWindow(_hostWindow, SwHide);
+            _ = _api.ShowWindow(_hostWindow, SwHide);
         }
     }
 
@@ -2510,6 +2756,76 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
     }
 
     private delegate bool EnumWindowsProc(nint hWnd, nint lParam);
+
+    private sealed class Win32NativeApi : INativeApi
+    {
+        public IEnumerable<nint> EnumerateWindows()
+        {
+            var windows = new List<nint>();
+            EnumWindows((hWnd, lParam) =>
+            {
+                _ = lParam;
+                windows.Add(hWnd);
+                return true;
+            }, nint.Zero);
+            return windows;
+        }
+
+        public bool IsWindow(nint hWnd) => WindowsOverlayCapabilityService.IsWindow(hWnd);
+
+        public bool IsWindowVisible(nint hWnd) => WindowsOverlayCapabilityService.IsWindowVisible(hWnd);
+
+        public int GetWindowTextLength(nint hWnd) => WindowsOverlayCapabilityService.GetWindowTextLength(hWnd);
+
+        public string GetWindowText(nint hWnd)
+        {
+            var len = GetWindowTextLength(hWnd);
+            if (len <= 0)
+            {
+                return string.Empty;
+            }
+
+            var titleBuilder = new StringBuilder(len + 1);
+            _ = WindowsOverlayCapabilityService.GetWindowText(hWnd, titleBuilder, titleBuilder.Capacity);
+            return titleBuilder.ToString();
+        }
+
+        public uint GetWindowThreadProcessId(nint hWnd)
+        {
+            WindowsOverlayCapabilityService.GetWindowThreadProcessId(hWnd, out var pid);
+            return pid;
+        }
+
+        public bool TryGetWindowRect(nint hWnd, out OverlayRect rect)
+        {
+            if (WindowsOverlayCapabilityService.GetWindowRect(hWnd, out var winRect))
+            {
+                rect = new OverlayRect(winRect.Left, winRect.Top, winRect.Right, winRect.Bottom);
+                return true;
+            }
+
+            rect = default;
+            return false;
+        }
+
+        public bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags)
+            => WindowsOverlayCapabilityService.SetWindowPos(hWnd, hWndInsertAfter, x, y, cx, cy, uFlags);
+
+        public bool ShowWindow(nint hWnd, int nCmdShow)
+            => WindowsOverlayCapabilityService.ShowWindow(hWnd, nCmdShow);
+
+        public nint GetWindowLongPtr(nint hWnd, int nIndex)
+            => GetWindowLongPtrCompat(hWnd, nIndex);
+
+        public int GetLastWin32Error()
+            => Marshal.GetLastWin32Error();
+
+        public nint SetWindowLongPtr(nint hWnd, int nIndex, nint dwNewLong)
+            => SetWindowLongPtrCompat(hWnd, nIndex, dwNewLong);
+
+        public bool SetLayeredWindowAttributes(nint hwnd, uint crKey, byte bAlpha, uint dwFlags)
+            => WindowsOverlayCapabilityService.SetLayeredWindowAttributes(hwnd, crKey, bAlpha, dwFlags);
+    }
 
     [StructLayout(LayoutKind.Sequential)]
     private struct WinRect

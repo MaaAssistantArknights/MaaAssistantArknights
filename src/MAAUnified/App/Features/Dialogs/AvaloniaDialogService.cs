@@ -217,6 +217,54 @@ public sealed class AvaloniaDialogService : IAppDialogService
         return new DialogCompletion<TextDialogPayload>(semantic, payload, "text-dialog-complete");
     }
 
+    public async Task<DialogCompletion<WarningConfirmDialogPayload>> ShowWarningConfirmAsync(
+        WarningConfirmDialogRequest request,
+        string sourceScope,
+        CancellationToken cancellationToken = default)
+    {
+        var normalizedRequest = request with
+        {
+            Title = NormalizeDialogTitle(request.Title),
+        };
+        var token = await _runtime.DialogFeatureService.BeginDialogAsync(DialogType.WarningConfirm, sourceScope, normalizedRequest.Title, cancellationToken);
+        var owner = ResolveOwnerWindow();
+        if (owner is null)
+        {
+            await _runtime.DialogFeatureService.RecordDialogActionAsync(token, "owner", "owner-unavailable", cancellationToken);
+            await _runtime.DialogFeatureService.CompleteDialogAsync(token, DialogReturnSemantic.Close, "owner-unavailable", cancellationToken);
+            return new DialogCompletion<WarningConfirmDialogPayload>(DialogReturnSemantic.Close, null, "owner-unavailable");
+        }
+
+        var dialog = new WarningConfirmDialogView();
+        dialog.ApplyRequest(
+            normalizedRequest.Title,
+            normalizedRequest.Message,
+            normalizedRequest.ConfirmText,
+            normalizedRequest.CancelText,
+            normalizedRequest.Language,
+            normalizedRequest.CountdownSeconds);
+        var confirmed = await dialog.ShowDialog<bool?>(owner);
+        var semantic = confirmed switch
+        {
+            true => DialogReturnSemantic.Confirm,
+            false => DialogReturnSemantic.Cancel,
+            null => DialogReturnSemantic.Close,
+        };
+        var payload = semantic == DialogReturnSemantic.Confirm
+            ? new WarningConfirmDialogPayload(true)
+            : null;
+        var summary = semantic switch
+        {
+            DialogReturnSemantic.Confirm => "warning-confirm-dialog-confirmed",
+            DialogReturnSemantic.Cancel => "warning-confirm-dialog-cancelled",
+            _ => "warning-confirm-dialog-closed",
+        };
+
+        await _runtime.DialogFeatureService.RecordDialogActionAsync(token, "return", semantic.ToString(), cancellationToken);
+        await _runtime.DialogFeatureService.CompleteDialogAsync(token, semantic, summary, cancellationToken);
+        return new DialogCompletion<WarningConfirmDialogPayload>(semantic, payload, summary);
+    }
+
     private static Window? ResolveOwnerWindow()
     {
         if (Avalonia.Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)

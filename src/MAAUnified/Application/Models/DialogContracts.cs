@@ -9,6 +9,7 @@ public enum DialogType
     Error = 4,
     AchievementList = 5,
     Text = 6,
+    WarningConfirm = 7,
 }
 
 public enum DialogReturnSemantic
@@ -127,3 +128,13 @@ public sealed record TextDialogRequest(
     string CancelText = "Cancel");
 
 public sealed record TextDialogPayload(string Text);
+
+public sealed record WarningConfirmDialogRequest(
+    string Title,
+    string Message,
+    string ConfirmText = "Confirm",
+    string CancelText = "Cancel",
+    string Language = "en-us",
+    int CountdownSeconds = 0);
+
+public sealed record WarningConfirmDialogPayload(bool Confirmed);

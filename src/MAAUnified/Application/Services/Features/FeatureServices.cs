@@ -3282,12 +3282,15 @@ public sealed class PlatformCapabilityFeatureService : IPlatformCapabilityServic
 
     public event EventHandler<GlobalHotkeyTriggeredEvent>? GlobalHotkeyTriggered;
 
+    public event EventHandler<OverlayStateChangedEvent>? OverlayStateChanged;
+
     public PlatformCapabilityFeatureService(PlatformServiceBundle platform, UiDiagnosticsService diagnostics)
     {
         _platform = platform;
         _diagnostics = diagnostics;
         _platform.TrayService.CommandInvoked += OnTrayCommandInvoked;
         _platform.HotkeyService.Triggered += OnGlobalHotkeyTriggered;
+        _platform.OverlayService.OverlayStateChanged += OnOverlayStateChanged;
     }
 
     public Task<UiOperationResult<PlatformCapabilitySnapshot>> GetSnapshotAsync(CancellationToken cancellationToken = default)
@@ -3487,6 +3490,39 @@ public sealed class PlatformCapabilityFeatureService : IPlatformCapabilityServic
                 "Hotkey callback failed.",
                 ex);
         }
+    }
+
+    private void OnOverlayStateChanged(object? sender, OverlayStateChangedEvent e)
+    {
+        var result = BuildOverlayStateResult(e);
+        _ = _diagnostics.RecordPlatformEventAsync(PlatformCapabilityId.Overlay, e.Action, result);
+        try
+        {
+            OverlayStateChanged?.Invoke(this, e);
+        }
+        catch (Exception ex)
+        {
+            _ = _diagnostics.RecordErrorAsync(
+                "PlatformCapability.OverlayStateChanged",
+                "Overlay state callback failed.",
+                ex);
+        }
+    }
+
+    private static PlatformOperationResult BuildOverlayStateResult(OverlayStateChangedEvent e)
+    {
+        return e.Mode switch
+        {
+            OverlayRuntimeMode.Preview => PlatformOperation.FallbackSuccess(
+                e.Provider,
+                e.Message,
+                operationId: $"overlay.{e.Action}",
+                errorCode: e.ErrorCode),
+            _ => PlatformOperation.NativeSuccess(
+                e.Provider,
+                e.Message,
+                operationId: $"overlay.{e.Action}"),
+        };
     }
 }
 

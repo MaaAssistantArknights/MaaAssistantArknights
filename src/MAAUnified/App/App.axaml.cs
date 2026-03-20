@@ -61,7 +61,17 @@ public partial class App : Avalonia.Application
                 appLifecycleService,
                 new AvaloniaPostActionPromptService(desktop));
 
-            var vm = new MainShellViewModel(Runtime);
+            MainShellViewModel vm;
+            try
+            {
+                vm = new MainShellViewModel(Runtime);
+            }
+            catch (Exception ex)
+            {
+                Program.RecordStartupStage("FrameworkInit.ViewModel.Fail", "MainShellViewModel creation failed.", ex);
+                throw;
+            }
+
             Program.RecordStartupStage("FrameworkInit.ViewModel.Created", "MainShellViewModel created.");
             var mainWindow = new MainWindow
             {
@@ -96,7 +106,15 @@ public partial class App : Avalonia.Application
             Program.RecordStartupStage("InitializeShell.PendingCrashProbe.Begin", "Checking for previous crash reports.");
             await ReportPendingNativeCrashAsync();
             Program.RecordStartupStage("InitializeShell.PendingCrashProbe.End", "Previous crash report probe completed.");
-            await vm.InitializeAsync();
+            var startupTask = vm.InitializeAsync();
+            mainWindow.IsEnabled = true;
+            Program.RecordStartupStage(
+                "InitializeShell.WindowEnabled",
+                "Main window enabled while shell continues background initialization.");
+            Program.RecordStartupStage("InitializeShell.FirstScreen.Wait", "Waiting for first screen to become interactive.");
+            await vm.WaitForFirstScreenReadyAsync();
+            Program.RecordStartupStage("InitializeShell.FirstScreen.Ready", "First screen is interactive.");
+            await startupTask;
             Program.RecordStartupStage(
                 "InitializeShell.End",
                 $"Shell initialized. sessionState={Runtime.SessionService.CurrentState}; errorLog={Runtime.DiagnosticsService.ErrorLogPath}");
@@ -109,7 +127,7 @@ public partial class App : Avalonia.Application
         finally
         {
             mainWindow.IsEnabled = true;
-            Program.RecordStartupStage("InitializeShell.Finally", "Main window re-enabled after shell initialization.");
+            Program.RecordStartupStage("InitializeShell.Finally", "Main window left enabled after shell initialization.");
         }
     }
 

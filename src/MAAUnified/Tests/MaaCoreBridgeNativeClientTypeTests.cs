@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json;
 using MAAUnified.CoreBridge;
 
 namespace MAAUnified.Tests;
@@ -104,5 +105,53 @@ public sealed class MaaCoreBridgeNativeClientTypeTests
                 // ignore cleanup failures in temporary test directories
             }
         }
+    }
+
+    [Fact]
+    public void BuildConnectionFailureMessage_ShouldExposeRawCommandOutput()
+    {
+        var method = typeof(MaaCoreBridgeNative).GetMethod(
+            "BuildConnectionFailureMessage",
+            BindingFlags.NonPublic | BindingFlags.Static);
+        Assert.NotNull(method);
+
+        using var doc = JsonDocument.Parse(
+            """
+            {
+              "what": "ConnectFailed",
+              "why": "Connection command failed to exec",
+              "details": {
+                "raw_output": "由于找不到 AdbWinApi.dll，无法继续执行代码。\r\n重新安装程序可能会解决此问题。"
+              }
+            }
+            """);
+
+        var message = method!.Invoke(null, [doc.RootElement.Clone(), "ConnectFailed"]) as string;
+
+        Assert.Equal(
+            "由于找不到 AdbWinApi.dll，无法继续执行代码。\n重新安装程序可能会解决此问题。",
+            message);
+    }
+
+    [Fact]
+    public void BuildConnectionFailureMessage_ShouldReturnWhy_WhenRawOutputMissing()
+    {
+        var method = typeof(MaaCoreBridgeNative).GetMethod(
+            "BuildConnectionFailureMessage",
+            BindingFlags.NonPublic | BindingFlags.Static);
+        Assert.NotNull(method);
+
+        using var doc = JsonDocument.Parse(
+            """
+            {
+              "what": "ConnectFailed",
+              "why": "ConfigNotFound",
+              "details": {}
+            }
+            """);
+
+        var message = method!.Invoke(null, [doc.RootElement.Clone(), "ConnectFailed"]) as string;
+
+        Assert.Equal("ConfigNotFound", message);
     }
 }

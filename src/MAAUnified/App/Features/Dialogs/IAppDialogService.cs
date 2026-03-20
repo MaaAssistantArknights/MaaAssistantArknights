@@ -39,4 +39,9 @@ public interface IAppDialogService
         TextDialogRequest request,
         string sourceScope,
         CancellationToken cancellationToken = default);
+
+    Task<DialogCompletion<WarningConfirmDialogPayload>> ShowWarningConfirmAsync(
+        WarningConfirmDialogRequest request,
+        string sourceScope,
+        CancellationToken cancellationToken = default);
 }

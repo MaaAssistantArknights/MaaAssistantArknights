@@ -4,6 +4,52 @@
 #include <ws2tcpip.h>
 
 #include "Utils/Logger.hpp"
+#include "Utils/Platform.hpp"
+
+namespace
+{
+std::string format_windows_error_message(DWORD error_code)
+{
+    auto format_message = [&](DWORD flags, LPCVOID source = nullptr) -> std::string {
+        wchar_t* buffer = nullptr;
+        const DWORD length = FormatMessageW(
+            flags | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS,
+            source,
+            error_code,
+            0,
+            reinterpret_cast<LPWSTR>(&buffer),
+            0,
+            nullptr);
+        if (length == 0 || buffer == nullptr) {
+            return {};
+        }
+
+        std::wstring message(buffer, length);
+        LocalFree(buffer);
+        while (!message.empty()) {
+            const wchar_t ch = message.back();
+            if (ch == L'\r' || ch == L'\n' || ch == L' ' || ch == L'\t') {
+                message.pop_back();
+                continue;
+            }
+
+            break;
+        }
+
+        return asst::platform::from_osstring(message);
+    };
+
+    if (auto message = format_message(FORMAT_MESSAGE_FROM_SYSTEM); !message.empty()) {
+        return message;
+    }
+
+    if (HMODULE ntdll = GetModuleHandleW(L"ntdll.dll"); ntdll != nullptr) {
+        return format_message(FORMAT_MESSAGE_FROM_HMODULE, ntdll);
+    }
+
+    return {};
+}
+} // namespace
 
 asst::Win32IO::Win32IO(Assistant* inst) :
     InstHelper(inst)
@@ -46,7 +92,8 @@ std::optional<int> asst::Win32IO::call_command(
             false)) {
         DWORD err = GetLastError();
         Log.error("CreateOverlappablePipe failed, err", err);
-        return std::nullopt;
+        pipe_data = format_windows_error_message(err);
+        return static_cast<int>(err);
     }
 
     STARTUPINFOEXW si {};
@@ -63,7 +110,10 @@ std::optional<int> asst::Win32IO::call_command(
     if (attrsize == 0) {
         DWORD err = GetLastError();
         Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
-        return std::nullopt;
+        CloseHandle(pipe_parent_read);
+        CloseHandle(pipe_child_write);
+        pipe_data = format_windows_error_message(err);
+        return static_cast<int>(err);
     }
     attrs.resize(attrsize);
     si.lpAttributeList = reinterpret_cast<LPPROC_THREAD_ATTRIBUTE_LIST>(attrs.data());
@@ -71,7 +121,10 @@ std::optional<int> asst::Win32IO::call_command(
     if (!attr_success) {
         DWORD err = GetLastError();
         Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
-        return std::nullopt;
+        CloseHandle(pipe_parent_read);
+        CloseHandle(pipe_child_write);
+        pipe_data = format_windows_error_message(err);
+        return static_cast<int>(err);
     }
     attr_success = UpdateProcThreadAttribute(
         si.lpAttributeList,
@@ -84,7 +137,11 @@ std::optional<int> asst::Win32IO::call_command(
     if (!attr_success) {
         DWORD err = GetLastError();
         Log.error("Call `", cmd, "` UpdateProcThreadAttribute failed, ret error code:", err);
-        return std::nullopt;
+        DeleteProcThreadAttributeList(si.lpAttributeList);
+        CloseHandle(pipe_parent_read);
+        CloseHandle(pipe_child_write);
+        pipe_data = format_windows_error_message(err);
+        return static_cast<int>(err);
     }
     auto cmdline_osstr = asst::utils::to_osstring(cmd);
     BOOL create_ret = CreateProcessW(
@@ -102,7 +159,10 @@ std::optional<int> asst::Win32IO::call_command(
     if (!create_ret) {
         DWORD err = GetLastError();
         Log.error("Call `", cmd, "` create process failed, ret", create_ret, "error code:", err);
-        return std::nullopt;
+        CloseHandle(pipe_parent_read);
+        CloseHandle(pipe_child_write);
+        pipe_data = format_windows_error_message(err);
+        return static_cast<int>(err);
     }
 
     CloseHandle(pipe_child_write);
@@ -318,6 +378,9 @@ std::optional<int> asst::Win32IO::call_command(
     CloseHandle(process_info.hThread);
     CloseHandle(pipe_parent_read);
     CloseHandle(pipeov.hEvent);
+    if (exit_ret != 0 && pipe_data.empty()) {
+        pipe_data = format_windows_error_message(exit_ret);
+    }
     return static_cast<int>(exit_ret);
 }
 

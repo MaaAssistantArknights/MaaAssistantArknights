@@ -44,7 +44,6 @@ public partial class MainWindow : Window
     private async void OnWindowOpened(object? sender, EventArgs e)
     {
         StartDialogErrorPumpIfNeeded();
-
         if (VM is null || _platformBound)
         {
             return;
@@ -60,8 +59,17 @@ public partial class MainWindow : Window
         await HandlePlatformResultAsync("PlatformCapability.Tray.Initialize", trayInit);
 
         await VM.RegisterHotkeysAtStartupAsync();
-
-        await EnsureOverlayHostBoundAsync();
+        try
+        {
+            await EnsureOverlayHostBoundAsync();
+        }
+        catch (Exception ex)
+        {
+            await App.Runtime.DiagnosticsService.RecordErrorAsync(
+                "PlatformCapability.Overlay.BindHost",
+                "Overlay host initialization failed during window startup.",
+                ex);
+        }
     }
 
     private async void OnWindowClosed(object? sender, EventArgs e)
@@ -78,6 +86,8 @@ public partial class MainWindow : Window
 
             _dialogErrorBound = false;
         }
+
+        VM?.CancelStartupInitialization();
 
         if (VM is not null && _platformBound)
         {

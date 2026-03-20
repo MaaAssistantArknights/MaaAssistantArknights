@@ -353,7 +353,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             slot.PropertyChanged += OnTimerSlotPropertyChanged;
         }
 
-        RefreshGpuUiState();
+        ApplyGpuUiStateBeforeProbe();
         SelectedSection = Sections[0];
         PropertyChanged += OnSettingsPropertyChanged;
         ConnectionGameSharedState.PropertyChanged += OnConnectionGameSharedStateChanged;
@@ -2189,6 +2189,37 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     public GuiSettingsSnapshot CurrentGuiSnapshot => BuildNormalizedGuiSnapshot();
 
+    public void ApplyStartupSnapshot(StartupShellSnapshot snapshot)
+    {
+        ArgumentNullException.ThrowIfNull(snapshot);
+
+        _suppressPageAutoSave = true;
+        _suppressGuiAutoSave = true;
+        try
+        {
+            Theme = snapshot.Theme;
+            Language = snapshot.Language;
+            UseTray = snapshot.UseTray;
+            MinimizeToTray = snapshot.MinimizeToTray;
+            WindowTitleScrollable = snapshot.WindowTitleScrollable;
+            DeveloperModeEnabled = snapshot.DeveloperModeEnabled;
+            BackgroundImagePath = snapshot.BackgroundImagePath;
+            BackgroundOpacity = snapshot.BackgroundOpacity;
+            BackgroundBlur = snapshot.BackgroundBlur;
+            BackgroundStretchMode = snapshot.BackgroundStretchMode;
+            HotkeyShowGui = snapshot.HotkeyShowGui;
+            HotkeyLinkStart = snapshot.HotkeyLinkStart;
+            _persistedHotkeyShowGui = snapshot.HotkeyShowGui;
+            _persistedHotkeyLinkStart = snapshot.HotkeyLinkStart;
+            HasPendingGuiChanges = false;
+        }
+        finally
+        {
+            _suppressGuiAutoSave = false;
+            _suppressPageAutoSave = false;
+        }
+    }
+
     private bool IsSelectedSection(string key)
     {
         return string.Equals(SelectedSection?.Key, key, StringComparison.OrdinalIgnoreCase);
@@ -2305,6 +2336,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             await RefreshConfigurationProfilesAsync(cancellationToken);
             LoadConnectionSharedStateFromConfig();
             await RefreshAutostartStatusAsync(cancellationToken);
+            await RefreshGpuUiStateAsync(cancellationToken);
         }
         finally
         {
@@ -3396,6 +3428,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     public async Task SaveStartPerformanceSettingsAsync(CancellationToken cancellationToken = default)
     {
+        var persistedSnapshot = ReadStartPerformanceSnapshot(Runtime.ConfigurationService.CurrentConfig, new List<string>());
         var snapshot = BuildNormalizedStartPerformanceSnapshot();
         ApplyStartPerformanceSnapshotWithoutDirtyTracking(snapshot);
 
@@ -3433,6 +3466,11 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             ? string.Join(" ", readBackWarnings)
             : string.Empty;
         LastSuccessfulStartPerformanceSaveAt = DateTimeOffset.Now;
+
+        if (ShouldPromptForGpuRestart(persistedSnapshot, readBackSnapshot))
+        {
+            await PromptForGpuRestartAsync(cancellationToken);
+        }
     }
 
     public async Task SelectEmulatorPathWithDialogAsync(CancellationToken cancellationToken = default)
@@ -5508,7 +5546,7 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         var startPerformanceWarnings = new List<string>();
         NormalizeUnsupportedGpuSettingsInConfig(config, startPerformanceWarnings);
         var startPerformanceSnapshot = ReadStartPerformanceSnapshot(config, startPerformanceWarnings);
-        ApplyStartPerformanceSnapshotWithoutDirtyTracking(startPerformanceSnapshot);
+        ApplyStartPerformanceSnapshotWithoutDirtyTracking(startPerformanceSnapshot, refreshGpuUi: false);
         HasPendingStartPerformanceChanges = false;
 
         var timerWarnings = new List<string>();
@@ -5915,7 +5953,43 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             return;
         }
 
-        var resolution = Runtime.Platform.GpuCapabilityService.Resolve(BuildCurrentGpuPreference());
+        GpuSelectionResolution resolution;
+        try
+        {
+            resolution = Runtime.Platform.GpuCapabilityService.Resolve(BuildCurrentGpuPreference());
+        }
+        catch (Exception ex)
+        {
+            ApplyGpuProbeFailureState(ex);
+            return;
+        }
+
+        ApplyGpuResolution(resolution);
+    }
+
+    private async Task RefreshGpuUiStateAsync(CancellationToken cancellationToken = default)
+    {
+        if (_suppressGpuUiRefresh)
+        {
+            return;
+        }
+
+        var preference = BuildCurrentGpuPreference();
+        try
+        {
+            var resolution = await Task.Run(
+                () => Runtime.Platform.GpuCapabilityService.Resolve(preference),
+                cancellationToken);
+            ApplyGpuResolution(resolution);
+        }
+        catch (Exception ex)
+        {
+            ApplyGpuProbeFailureState(ex);
+        }
+    }
+
+    private void ApplyGpuResolution(GpuSelectionResolution resolution)
+    {
         var selectedOption = resolution.SelectedOption;
 
         var previousSuppressUi = _suppressGpuUiRefresh;
@@ -5967,7 +6041,15 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         if (descriptor.IsCustomEntry)
         {
             IsGpuCustomSelectionFieldsVisible = true;
-            GpuWarningMessage = BuildGpuWarningMessage(Runtime.Platform.GpuCapabilityService.Resolve(BuildCurrentGpuPreference()));
+            try
+            {
+                GpuWarningMessage = BuildGpuWarningMessage(Runtime.Platform.GpuCapabilityService.Resolve(BuildCurrentGpuPreference()));
+            }
+            catch (Exception ex)
+            {
+                ApplyGpuProbeFailureState(ex);
+            }
+
             MarkStartPerformanceDirty();
             return;
         }
@@ -6042,8 +6124,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             GpuOptionKind.Disabled => RootTexts["Settings.Performance.Gpu.Option.Disabled"],
             GpuOptionKind.SystemDefault => string.IsNullOrWhiteSpace(descriptor.DisplayName)
+                && string.IsNullOrWhiteSpace(descriptor.Description)
                 ? RootTexts["Settings.Performance.Gpu.Option.SystemDefault"]
-                : $"{RootTexts["Settings.Performance.Gpu.Option.SystemDefault"]} ({descriptor.DisplayName})",
+                : $"{RootTexts["Settings.Performance.Gpu.Option.SystemDefault"]} ({(string.IsNullOrWhiteSpace(descriptor.DisplayName) ? descriptor.Description : descriptor.DisplayName)})",
             GpuOptionKind.SpecificGpu when descriptor.IsCustomEntry
                 => !string.IsNullOrWhiteSpace(descriptor.DisplayName)
                     ? descriptor.DisplayName
@@ -6094,6 +6177,154 @@ public sealed class SettingsPageViewModel : PageViewModelBase
     private string LocalizeRootText(string? key)
     {
         return string.IsNullOrWhiteSpace(key) ? string.Empty : RootTexts[key];
+    }
+
+    private void ApplyGpuProbeFailureState(Exception exception)
+    {
+        Runtime.LogService.Error($"GPU capability probe failed: {exception}");
+
+        var previousSuppressUi = _suppressGpuUiRefresh;
+        var previousSuppressSelection = _suppressGpuSelectionChange;
+        var previousSuppressDirty = _suppressStartPerformanceDirtyTracking;
+        _suppressGpuUiRefresh = true;
+        _suppressGpuSelectionChange = true;
+        _suppressStartPerformanceDirtyTracking = true;
+
+        try
+        {
+            AvailableGpuOptions =
+            [
+                BuildGpuOptionDisplayItem(GpuOptionDescriptor.Disabled),
+            ];
+            SelectedGpuOption = AvailableGpuOptions[0];
+            GpuSupportMessage = LocalizeRootText("Settings.Performance.Gpu.Status.DetectionFailed");
+            GpuWarningMessage = BuildGpuProbeFailureMessage(exception);
+            IsGpuSelectionEnabled = false;
+            IsGpuDeprecatedToggleEnabled = false;
+            IsGpuCustomSelectionFieldsVisible = false;
+            ShowGpuRestartRequiredHint = false;
+        }
+        finally
+        {
+            _suppressStartPerformanceDirtyTracking = previousSuppressDirty;
+            _suppressGpuSelectionChange = previousSuppressSelection;
+            _suppressGpuUiRefresh = previousSuppressUi;
+        }
+    }
+
+    private void ApplyGpuUiStateBeforeProbe()
+    {
+        var previousSuppressUi = _suppressGpuUiRefresh;
+        var previousSuppressSelection = _suppressGpuSelectionChange;
+        var previousSuppressDirty = _suppressStartPerformanceDirtyTracking;
+        _suppressGpuUiRefresh = true;
+        _suppressGpuSelectionChange = true;
+        _suppressStartPerformanceDirtyTracking = true;
+
+        try
+        {
+            AvailableGpuOptions =
+            [
+                BuildGpuOptionDisplayItem(GpuOptionDescriptor.Disabled),
+            ];
+            SelectedGpuOption = AvailableGpuOptions[0];
+            GpuSupportMessage = string.Empty;
+            GpuWarningMessage = string.Empty;
+            IsGpuSelectionEnabled = false;
+            IsGpuDeprecatedToggleEnabled = false;
+            IsGpuCustomSelectionFieldsVisible = false;
+            ShowGpuRestartRequiredHint = false;
+        }
+        finally
+        {
+            _suppressStartPerformanceDirtyTracking = previousSuppressDirty;
+            _suppressGpuSelectionChange = previousSuppressSelection;
+            _suppressGpuUiRefresh = previousSuppressUi;
+        }
+    }
+
+    private string BuildGpuProbeFailureMessage(Exception exception)
+    {
+        var root = exception;
+        while (root.InnerException is not null)
+        {
+            root = root.InnerException;
+        }
+
+        return $"{LocalizeRootText("Settings.Performance.Gpu.Warning.DetectionFailed")} {root.GetType().Name}: {root.Message}";
+    }
+
+    private bool ShouldPromptForGpuRestart(
+        StartPerformanceSettingsSnapshot previousSnapshot,
+        StartPerformanceSettingsSnapshot currentSnapshot)
+    {
+        return ShowGpuRestartRequiredHint
+               && HasGpuSettingChange(previousSnapshot, currentSnapshot);
+    }
+
+    private static bool HasGpuSettingChange(
+        StartPerformanceSettingsSnapshot previousSnapshot,
+        StartPerformanceSettingsSnapshot currentSnapshot)
+    {
+        return previousSnapshot.PerformanceUseGpu != currentSnapshot.PerformanceUseGpu
+               || previousSnapshot.PerformanceAllowDeprecatedGpu != currentSnapshot.PerformanceAllowDeprecatedGpu
+               || !string.Equals(
+                   previousSnapshot.PerformancePreferredGpuDescription,
+                   currentSnapshot.PerformancePreferredGpuDescription,
+                   StringComparison.Ordinal)
+               || !string.Equals(
+                   previousSnapshot.PerformancePreferredGpuInstancePath,
+                   currentSnapshot.PerformancePreferredGpuInstancePath,
+                   StringComparison.Ordinal);
+    }
+
+    private async Task PromptForGpuRestartAsync(CancellationToken cancellationToken)
+    {
+        var request = new WarningConfirmDialogRequest(
+            Title: RootTexts["Settings.Performance.Gpu.RestartDialog.Title"],
+            Message: RootTexts["Settings.Performance.Gpu.RestartDialog.Message"],
+            ConfirmText: RootTexts["Settings.Performance.Gpu.RestartDialog.Confirm"],
+            CancelText: RootTexts["Settings.Performance.Gpu.RestartDialog.Cancel"],
+            Language: Language);
+        var dialogResult = await _dialogService.ShowWarningConfirmAsync(
+            request,
+            "Settings.Save.StartPerformance.GpuRestartPrompt",
+            cancellationToken);
+
+        if (dialogResult.Return != DialogReturnSemantic.Confirm)
+        {
+            StatusMessage = RootTexts["Settings.Performance.Gpu.RestartPending"];
+            LastErrorMessage = string.Empty;
+            await RecordEventAsync(
+                "Settings.Save.StartPerformance.GpuRestartPrompt",
+                $"deferred; return={dialogResult.Return}",
+                cancellationToken);
+            return;
+        }
+
+        var restartResult = await Runtime.AppLifecycleService.RestartAsync(cancellationToken);
+        if (!await ApplyResultAsync(restartResult, "Settings.Save.StartPerformance.GpuRestart", cancellationToken))
+        {
+            return;
+        }
+
+        StatusMessage = RootTexts["Settings.Performance.Gpu.RestartLaunched"];
+        await RecordEventAsync(
+            "Settings.Save.StartPerformance.GpuRestart",
+            "restart-launched",
+            cancellationToken);
+
+        if (!Runtime.AppLifecycleService.SupportsExit)
+        {
+            StatusMessage = RootTexts["Settings.Performance.Gpu.RestartManualClose"];
+            return;
+        }
+
+        await ApplyResultAsync(
+            Runtime.AppLifecycleService.ExitAsync,
+            "Settings.Save.StartPerformance.GpuRestart.Exit",
+            UiErrorCode.AppExitFailed,
+            cancellationToken);
     }
 
     private StartPerformanceSettingsSnapshot BuildNormalizedStartPerformanceSnapshot()
@@ -6198,8 +6429,8 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     private void NormalizeUnsupportedGpuSettingsInConfig(UnifiedConfig config, ICollection<string> warnings)
     {
-        var supportMode = Runtime.Platform.GpuCapabilityService.Resolve(
-            new GpuPreference(false, false, string.Empty, string.Empty)).Snapshot.SupportMode;
+        var supportMode = DetermineGpuSupportModeForNormalization();
+
         if (supportMode == GpuPlatformSupportMode.WindowsSupported)
         {
             return;
@@ -6215,6 +6446,18 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         {
             warnings.Add("Unsupported GPU settings were removed for this platform. CPU OCR fallback will be used.");
         }
+    }
+
+    private GpuPlatformSupportMode DetermineGpuSupportModeForNormalization()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return GpuPlatformSupportMode.Unsupported;
+        }
+
+        return Runtime.Platform.GpuCapabilityService is UnsupportedGpuCapabilityService
+            ? GpuPlatformSupportMode.Unsupported
+            : GpuPlatformSupportMode.WindowsSupported;
     }
 
     private static bool NormalizeUnsupportedGpuSettings(IDictionary<string, JsonNode?> values)
@@ -6296,7 +6539,9 @@ public sealed class SettingsPageViewModel : PageViewModelBase
         return node.ToString().Trim();
     }
 
-    private void ApplyStartPerformanceSnapshotWithoutDirtyTracking(StartPerformanceSettingsSnapshot snapshot)
+    private void ApplyStartPerformanceSnapshotWithoutDirtyTracking(
+        StartPerformanceSettingsSnapshot snapshot,
+        bool refreshGpuUi = true)
     {
         _suppressStartPerformanceDirtyTracking = true;
         _suppressGpuUiRefresh = true;
@@ -6331,7 +6576,10 @@ public sealed class SettingsPageViewModel : PageViewModelBase
             _suppressStartPerformanceDirtyTracking = false;
         }
 
-        RefreshGpuUiState();
+        if (refreshGpuUi)
+        {
+            RefreshGpuUiState();
+        }
     }
 
     private TimerSettingsSnapshot BuildTimerSnapshot()

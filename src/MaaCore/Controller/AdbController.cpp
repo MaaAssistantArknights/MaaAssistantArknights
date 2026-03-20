@@ -126,6 +126,10 @@ std::optional<std::string> asst::AdbController::call_command(
     asst::platform::single_page_buffer<char> pipe_buffer;
     asst::platform::single_page_buffer<char> sock_buffer;
 
+    m_last_command_output.clear();
+    m_last_command_exit_code = 0;
+    m_last_command_has_exit_code = false;
+
     auto start_time = steady_clock::now();
     std::unique_lock<std::mutex> callcmd_lock(m_callcmd_mutex);
 
@@ -134,6 +138,7 @@ std::optional<std::string> asst::AdbController::call_command(
     exit_res = m_platform_io->call_command(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time);
 
     if (!exit_res) {
+        m_last_command_output = recv_by_socket ? sock_data : pipe_data;
         Log.warn("Call `", cmd, "` failed");
         return std::nullopt;
     }
@@ -160,6 +165,11 @@ std::optional<std::string> asst::AdbController::call_command(
     if (recv_by_socket && !sock_data.empty() && sock_data.size() < 4096) {
         Log.trace("socket output:", Logger::separator::newline, sock_data);
     }
+
+    m_last_command_output = recv_by_socket ? sock_data : pipe_data;
+    m_last_command_exit_code = exit_ret;
+    m_last_command_has_exit_code = true;
+
     // 直接 return，避免走到下面的 else if 里的 m_inited = false) 关闭 adb 连接，
     // 导致停止后再开始任务还需要重连一次
     if (need_exit()) {
@@ -338,6 +348,9 @@ void asst::AdbController::clear_info() noexcept
     m_inited = false;
     m_adb = decltype(m_adb)();
     m_uuid.clear();
+    m_last_command_output.clear();
+    m_last_command_exit_code = 0;
+    m_last_command_has_exit_code = false;
     m_width = 0;
     m_height = 0;
     m_screen_size = { 0, 0 };
@@ -867,6 +880,22 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         };
     };
 
+    auto append_command_failure_details =
+        [&](json::value& info, const std::string& command, const std::string* raw_output = nullptr) {
+            if (!command.empty()) {
+                info["details"]["cmd"] = command;
+            }
+            if (m_last_command_has_exit_code) {
+                info["details"]["exit_code"] = m_last_command_exit_code;
+            }
+
+            const std::string& output =
+                raw_output != nullptr ? *raw_output : m_last_command_output;
+            if (!output.empty()) {
+                info["details"]["raw_output"] = output;
+            }
+        };
+
     auto adb_ret = Config.get_adb_cfg(config);
     if (!adb_ret) {
         json::value info = get_info_json() | json::object {
@@ -953,6 +982,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
                 { "what", "ConnectFailed" },
                 { "why", "Connection command failed to exec" },
             };
+            append_command_failure_details(info, m_adb.connect, connect_ret ? &connect_ret.value() : nullptr);
             callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
@@ -966,10 +996,12 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     {
         auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid), 20000, false /* adb 连接时不允许重试 */);
         if (!uuid_ret) {
+            auto uuid_cmd = cmd_replace(adb_cfg.uuid);
             json::value info = get_info_json() | json::object {
                 { "what", "ConnectFailed" },
                 { "why", "Uuid command failed to exec" },
             };
+            append_command_failure_details(info, uuid_cmd);
             callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
@@ -1002,10 +1034,12 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     {
         auto version_ret = call_command(cmd_replace(adb_cfg.version));
         if (!version_ret) {
+            auto version_cmd = cmd_replace(adb_cfg.version);
             json::value info = get_info_json() | json::object {
                 { "what", "ConnectFailed" },
                 { "why", "Android version command failed to exec" },
             };
+            append_command_failure_details(info, version_cmd);
             callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
@@ -1062,10 +1096,12 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     {
         auto display_ret = call_command(cmd_replace(adb_cfg.display));
         if (!display_ret) {
+            auto display_cmd = cmd_replace(adb_cfg.display);
             json::value info = get_info_json() | json::object {
                 { "what", "ConnectFailed" },
                 { "why", "Display command failed to exec" },
             };
+            append_command_failure_details(info, display_cmd);
             callback(AsstMsg::ConnectionInfo, info);
             return false;
         }

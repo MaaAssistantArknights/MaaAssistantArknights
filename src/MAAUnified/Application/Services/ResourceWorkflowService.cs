@@ -32,16 +32,28 @@ public sealed class ResourceWorkflowService
     {
         var clientType = ResolveClientType(config);
         var gpuPreference = ReadGpuPreference(config);
-        var gpuResolution = _gpuCapabilityService.Resolve(gpuPreference);
-        var gpuRequest = BuildGpuRequest(gpuPreference, gpuResolution);
         var libraryPath = Path.Combine(_baseDirectory, ResolveLibraryName());
         var resourceDirectory = Path.Combine(_baseDirectory, "resource");
+        var gpuPlan = await Task.Run(
+            () =>
+            {
+                var gpuResolution = ResolveGpuSelectionForCoreInit(gpuPreference);
+                var gpuRequest = BuildGpuRequest(gpuPreference, gpuResolution);
+                return (Resolution: gpuResolution, Request: gpuRequest);
+            },
+            cancellationToken);
+        var gpuResolution = gpuPlan.Resolution;
+        var gpuRequest = gpuPlan.Request;
         _logService.Debug(
             $"Core init request: base={_baseDirectory}, lib={libraryPath}, libExists={File.Exists(libraryPath)}, resource={resourceDirectory}, resourceExists={Directory.Exists(resourceDirectory)}, client={clientType ?? "<default>"}");
         LogGpuSelection(gpuPreference, gpuResolution);
 
-        var result = await _bridge.InitializeAsync(
-            new CoreInitializeRequest(_baseDirectory, clientType, gpuRequest),
+        // MaaCore resource loading is synchronous and can take multiple seconds.
+        // Keep it off the UI thread so the Avalonia shell can stay responsive.
+        var result = await Task.Run(
+            () => _bridge.InitializeAsync(
+                new CoreInitializeRequest(_baseDirectory, clientType, gpuRequest),
+                cancellationToken),
             cancellationToken);
 
         if (result.Success)
@@ -55,6 +67,24 @@ public sealed class ResourceWorkflowService
         }
 
         return result;
+    }
+
+    private GpuSelectionResolution ResolveGpuSelectionForCoreInit(GpuPreference preference)
+    {
+        try
+        {
+            return _gpuCapabilityService.Resolve(preference);
+        }
+        catch (Exception ex)
+        {
+            _logService.Error($"GPU capability probe failed during core initialization: {ex}");
+            if (preference.UseGpu || preference.HasSpecificSelection)
+            {
+                _logService.Warn("GPU capability probe failed during core initialization. Falling back to CPU OCR for this session.");
+            }
+
+            return BuildGpuProbeFailureResolution();
+        }
     }
 
     private static string? ResolveClientType(UnifiedConfig config)
@@ -95,6 +125,20 @@ public sealed class ResourceWorkflowService
                 CoreGpuRequestMode.Gpu,
                 resolution.SelectedOption.GpuIndex,
                 resolution.SelectedOption.Description);
+    }
+
+    private static GpuSelectionResolution BuildGpuProbeFailureResolution()
+    {
+        return new GpuSelectionResolution(
+            Snapshot: new GpuCapabilitySnapshot(
+                SupportMode: GpuPlatformSupportMode.Unsupported,
+                IsEditable: false,
+                AppliesToCore: false,
+                SupportsDeprecatedToggle: false,
+                Options: [GpuOptionDescriptor.Disabled],
+                StatusTextKey: "Settings.Performance.Gpu.Status.Unsupported",
+                Provider: "probe-failed"),
+            SelectedOption: GpuOptionDescriptor.Disabled);
     }
 
     private void LogGpuSelection(GpuPreference preference, GpuSelectionResolution resolution)

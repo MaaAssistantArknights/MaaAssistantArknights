@@ -27,7 +27,8 @@ public sealed class ThemeLanguageCombinationSmokeTests
         {
             new ViewStructureCheck("App/Views/MainWindow.axaml", "<TabControl", "Classes=\"root-nav\"", "Title=\"{Binding WindowTitle}\""),
             new ViewStructureCheck("App/Views/RuntimeLogWindow.axaml", "ItemsSource=\"{Binding GrowlMessages}\"", "ItemsSource=\"{Binding RootLogs}\"", "Text=\"{Binding CapabilitySummary}\""),
-            new ViewStructureCheck("App/Features/Root/TaskQueueView.axaml", "<ListBox", "<ScrollViewer", "SelectedTaskSettingsViewModel"),
+            new ViewStructureCheck("App/Features/Root/TaskQueueView.axaml", "<ListBox", "<ScrollViewer", "SelectedTaskSettingsViewModel", "OnToggleOverlayClick", "OverlayButtonToolTip"),
+            new ViewStructureCheck("App/Features/Advanced/CopilotView.axaml", "OnToggleOverlayClick", "OnOverlayButtonPointerPressed", "DataContext.TaskQueuePage.OverlayButtonToolTip"),
             new ViewStructureCheck("App/Features/Root/SettingsView.axaml", "<ListBox", "SectionScrollViewer", "SectionContentPanel", "ScrollChanged=\"OnSectionScrollChanged\"", "settingsViews:ConfigurationManagerView"),
         };
 

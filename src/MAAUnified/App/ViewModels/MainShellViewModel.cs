@@ -34,18 +34,33 @@ public sealed class MainShellViewModel : ObservableObject
     private readonly SemaphoreSlim _guiApplySemaphore = new(1, 1);
     private readonly HashSet<string> _reportedLocalizationFallbacks = new(StringComparer.OrdinalIgnoreCase);
     private readonly object _localizationFallbackGate = new();
+    private readonly object _startupGate = new();
+    private readonly object _coreWarmupGate = new();
     private readonly DispatcherTimer _timerScheduleTimer;
     private readonly IAppDialogService _dialogService;
+    private readonly OverlaySharedState _overlaySharedState;
     private readonly Dictionary<int, string> _timerSlotMinuteDedup = [];
+    private readonly CancellationTokenSource _startupCts = new();
+    private readonly TaskCompletionSource<bool> _startupSnapshotReadyTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private readonly TaskCompletionSource<bool> _firstScreenReadyTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private Task? _startupTask;
+    private Task<UiOperationResult>? _coreWarmupTask;
+    private readonly CopilotPageViewModel _copilotPage;
+    private readonly OverlayPresentationViewModel _overlayPresentation;
+    private readonly ToolboxPageViewModel _toolboxPage;
+    private readonly SettingsPageViewModel _settingsPage;
     private bool _syncingConnectionState;
+    private bool _sessionCallbackPumpStarted;
     private int _timerScheduleProcessing;
     private int _selectedRootTabIndex;
     private bool _isWindowTopMost;
+    private bool _isCoreReady = true;
     private string _windowTitle = AppDisplayName;
     private string _windowVersionUpdateInfo = string.Empty;
     private string _windowResourceUpdateInfo = string.Empty;
     private string _importStatus = string.Empty;
     private string _capabilitySummary = string.Empty;
+    private string _currentShellLanguage = UiLanguageCatalog.DefaultLanguage;
     private string _globalStatus = "Initializing...";
     private string _lastError = string.Empty;
     private ImportSource _selectedImportSource = ImportSource.Auto;
@@ -59,18 +74,22 @@ public sealed class MainShellViewModel : ObservableObject
     private int _shellBackgroundBlur = 12;
     private Stretch _shellBackgroundStretch = Stretch.UniformToFill;
     private bool _schemaMigrationNoticeShown;
+    private StartupShellSnapshot _startupSnapshot = StartupShellSnapshot.Default;
 
     public MainShellViewModel(MAAUnifiedRuntime runtime, IAppDialogService? dialogService = null)
     {
+        Program.RecordStartupStage("FrameworkInit.ViewModel.MainShell.Begin", "Constructing MainShellViewModel.");
         _runtime = runtime;
         _dialogService = dialogService ??
             (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime
                 ? new AvaloniaDialogService(runtime)
                 : NoOpAppDialogService.Instance);
         _connectionGameSharedState = new ConnectionGameSharedStateViewModel();
+        _overlaySharedState = OverlaySharedStateRegistry.Get(runtime);
         _connectionGameSharedState.PropertyChanged += OnSharedConnectionStateChanged;
 
         RootTexts = new RootLocalizationTextMap("Root.Localization.MainShell");
+        RootTexts.Language = CurrentShellLanguage;
         RootTexts.FallbackReported += ReportLocalizationFallback;
         RootTabs = new[] { "TaskQueue", "Copilot", "Toolbox", "Settings" };
         GrowlMessages = new ObservableCollection<string>();
@@ -80,22 +99,29 @@ public sealed class MainShellViewModel : ObservableObject
         ImportSourceOptions = new ObservableCollection<ImportSourceOptionItem>();
         RefreshRootTextState();
 
+        Program.RecordStartupStage("FrameworkInit.ViewModel.MainShell.TaskQueue.Begin", "Creating TaskQueuePageViewModel.");
         TaskQueuePage = new TaskQueuePageViewModel(
             runtime,
             _connectionGameSharedState,
             ReportLocalizationFallback,
             _dialogService,
-            NavigateToSettingsSection);
-        CopilotPage = new CopilotPageViewModel(runtime);
-        OverlayPresentation = new OverlayPresentationViewModel(runtime, TaskQueuePage, CopilotPage);
-        ToolboxPage = new ToolboxPageViewModel(runtime, _connectionGameSharedState);
-        SettingsPage = new SettingsPageViewModel(runtime, _connectionGameSharedState, ReportLocalizationFallback, dialogService: _dialogService);
-        SettingsPage.GuiSettingsApplied += OnGuiSettingsApplied;
-        SettingsPage.ResourceVersionUpdated += OnSettingsResourceVersionUpdated;
-        SettingsPage.ConfigurationContextChanged += OnSettingsConfigurationContextChanged;
+            NavigateToSettingsSection,
+            EnsureCoreReadyForExecutionAsync);
+        Program.RecordStartupStage("FrameworkInit.ViewModel.MainShell.TaskQueue.End", "TaskQueuePageViewModel created.");
+        Program.RecordStartupStage("FrameworkInit.ViewModel.MainShell.Pages.Begin", "Creating secondary page view models.");
+        _copilotPage = new CopilotPageViewModel(runtime);
+        _toolboxPage = new ToolboxPageViewModel(runtime, _connectionGameSharedState);
+        _settingsPage = CreateSettingsPage();
+        _overlayPresentation = new OverlayPresentationViewModel(runtime, TaskQueuePage, _copilotPage);
+        Program.RecordStartupStage("FrameworkInit.ViewModel.MainShell.Pages.End", "Secondary page view models created.");
+        TaskQueueRootPage = new RootPageHostViewModel("正在初始化首屏", "TaskQueue 页面正在加载。");
+        CopilotRootPage = new RootPageHostViewModel("页面正在后台初始化", "Copilot 页面将在首屏完成后继续加载。");
+        ToolboxRootPage = new RootPageHostViewModel("页面正在后台初始化", "Toolbox 页面将在首屏完成后继续加载。");
+        SettingsRootPage = new RootPageHostViewModel("页面正在后台初始化", "Settings 页面将在首屏完成后继续加载。");
         TaskQueuePage.Texts.FallbackReported += OnTaskQueueLocalizationFallbackReported;
         _currentSessionState = runtime.SessionService.CurrentState;
         runtime.SessionService.SessionStateChanged += OnSessionStateChanged;
+        runtime.PlatformCapabilityService.OverlayStateChanged += OnOverlayStateChanged;
         _timerScheduleTimer = new DispatcherTimer
         {
             Interval = TimeSpan.FromSeconds(1),
@@ -118,6 +144,7 @@ public sealed class MainShellViewModel : ObservableObject
                 RefreshConfigValidationState(_runtime.ConfigurationService.CurrentValidationIssues);
             });
         };
+        Program.RecordStartupStage("FrameworkInit.ViewModel.MainShell.End", "MainShellViewModel constructed.");
     }
 
     public IReadOnlyList<string> RootTabs { get; }
@@ -134,17 +161,32 @@ public sealed class MainShellViewModel : ObservableObject
 
     public TaskQueuePageViewModel TaskQueuePage { get; }
 
-    public CopilotPageViewModel CopilotPage { get; }
+    public CopilotPageViewModel CopilotPage => _copilotPage;
 
-    public OverlayPresentationViewModel OverlayPresentation { get; }
+    public OverlayPresentationViewModel OverlayPresentation
+        => _overlayPresentation;
 
-    public ToolboxPageViewModel ToolboxPage { get; }
+    public ToolboxPageViewModel ToolboxPage => _toolboxPage;
 
-    public SettingsPageViewModel SettingsPage { get; }
+    public SettingsPageViewModel SettingsPage => _settingsPage;
+
+    public RootPageHostViewModel TaskQueueRootPage { get; }
+
+    public RootPageHostViewModel CopilotRootPage { get; }
+
+    public RootPageHostViewModel ToolboxRootPage { get; }
+
+    public RootPageHostViewModel SettingsRootPage { get; }
 
     public ConnectionGameSharedStateViewModel ConnectionGameSharedState => _connectionGameSharedState;
 
     public IPlatformCapabilityService PlatformCapabilityService => _runtime.PlatformCapabilityService;
+
+    public string CurrentShellLanguage
+    {
+        get => _currentShellLanguage;
+        private set => SetProperty(ref _currentShellLanguage, UiLanguageCatalog.Normalize(value));
+    }
 
     public int SelectedRootTabIndex
     {
@@ -320,6 +362,18 @@ public sealed class MainShellViewModel : ObservableObject
             RootTexts["Main.Blocking.Title"],
             BlockingConfigIssueCount);
 
+    public bool IsCoreReady
+    {
+        get => _isCoreReady;
+        private set
+        {
+            if (SetProperty(ref _isCoreReady, value))
+            {
+                OnPropertyChanged(nameof(CanStartExecution));
+            }
+        }
+    }
+
     public SessionState CurrentSessionState
     {
         get => _currentSessionState;
@@ -333,99 +387,35 @@ public sealed class MainShellViewModel : ObservableObject
         }
     }
 
-    public bool CanStartExecution => CurrentSessionState == SessionState.Connected && !HasBlockingConfigIssues;
+    public bool CanStartExecution
+        => CurrentSessionState is not (SessionState.Running or SessionState.Stopping) && !HasBlockingConfigIssues;
 
     public bool CanStopExecution => CurrentSessionState == SessionState.Running;
 
-    public async Task InitializeAsync(CancellationToken cancellationToken = default)
+    public Task InitializeAsync(CancellationToken cancellationToken = default)
     {
-        try
+        lock (_startupGate)
         {
-            var loadResult = await _runtime.ConfigurationService.LoadOrBootstrapAsync(cancellationToken);
-            if (loadResult.LoadedFromExistingConfig)
+            if (_startupTask is not null)
             {
-                GlobalStatus = "已加载 config/avalonia.json";
-            }
-            else if (loadResult.ImportReport is not null)
-            {
-                GlobalStatus = ImportReportTextFormatter.BuildStatusMessage(loadResult.ImportReport, manualImport: false);
+                return _startupTask;
             }
 
-            if (loadResult.ValidationIssues.Count > 0)
-            {
-                var blockingCount = loadResult.ValidationIssues.Count(i => i.Blocking);
-                var warningCount = loadResult.ValidationIssues.Count - blockingCount;
-                var summary = $"配置校验异常: 阻断 {blockingCount} / 预警 {warningCount}";
-                GlobalStatus = summary;
-                LastError = string.Join(
-                    "; ",
-                    loadResult.ValidationIssues
-                        .Take(3)
-                        .Select(i => $"{i.Code}:{i.Field}:{i.Message}"));
-                await RecordFailedResultAsync(
-                    "Config.LoadValidation",
-                    UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, $"{summary} | {LastError}"),
-                    cancellationToken: cancellationToken);
-            }
-
-            ApplyDeveloperModeFromConfig();
-            _runtime.LogService.Debug(
-                $"App init start: profile={_runtime.ConfigurationService.CurrentConfig.CurrentProfile}, state={_runtime.SessionService.CurrentState}");
-
-            SyncConnectionFromProfile();
-            RefreshConfigValidationState(loadResult.ValidationIssues);
-            await ShowSchemaMigrationNoticeIfNeededAsync(loadResult, cancellationToken);
-
-            _runtime.LogService.Debug("Begin core initialization from startup pipeline.");
-            var initResult = await _runtime.ResourceWorkflowService.InitializeCoreAsync(_runtime.ConfigurationService.CurrentConfig, cancellationToken);
-            if (!initResult.Success)
-            {
-                var initCode = initResult.Error?.Code.ToString() ?? UiErrorCode.CoreUnknown;
-                var initMessage = initResult.Error?.Message ?? "Core initialize failed.";
-                LastError = BuildBilingualMessage(
-                    $"Core 初始化失败: {initCode} {initMessage}",
-                    $"Core initialize failed: {initCode} {initMessage}");
-                await ApplyResultAsync(
-                    UiOperationResult.Fail(
-                        initCode,
-                        LastError,
-                        initResult.Error?.Exception),
-                    "App.Initialize",
-                    cancellationToken);
-            }
-            else
-            {
-                _runtime.LogService.Debug($"Core initialization succeeded: version={initResult.Value?.CoreVersion}");
-            }
-
-            await TaskQueuePage.InitializeAsync(cancellationToken);
-            await CopilotPage.InitializeAsync(cancellationToken);
-            await ToolboxPage.InitializeAsync(cancellationToken);
-            await SettingsPage.InitializeAsync(cancellationToken);
-            TaskQueuePage.SetLanguage(SettingsPage.Language);
-            await ApplyGuiSettingsAsync(SettingsPage.CurrentGuiSnapshot, cancellationToken);
-            AppendImportReportToTaskQueue(loadResult.ImportReport, manualImport: false);
-
-            _ = Task.Run(
-                () => _runtime.SessionService.StartCallbackPumpAsync(
-                    callback => Dispatcher.UIThread.InvokeAsync(() => ApplySessionCallback(callback)).GetTask(),
-                    cancellationToken),
-                cancellationToken);
-
-            await RefreshCapabilitySummaryAsync(cancellationToken);
-            RefreshRootTextState();
-            await SyncTrayMenuStateAsync(cancellationToken);
-            StartTimerScheduler();
+            var linkedSource = CancellationTokenSource.CreateLinkedTokenSource(_startupCts.Token, cancellationToken);
+            _startupTask = RunStartupPipelineAsync(linkedSource);
+            return _startupTask;
         }
-        catch (Exception ex)
-        {
-            await RecordUnhandledExceptionAsync(
-                "App.Initialize",
-                ex,
-                UiErrorCode.UiError,
-                $"初始化异常: {ex.Message}",
-                cancellationToken);
-        }
+    }
+
+    public Task WaitForStartupSnapshotReadyAsync(CancellationToken cancellationToken = default)
+        => _startupSnapshotReadyTcs.Task.WaitAsync(cancellationToken);
+
+    public Task WaitForFirstScreenReadyAsync(CancellationToken cancellationToken = default)
+        => _firstScreenReadyTcs.Task.WaitAsync(cancellationToken);
+
+    public void CancelStartupInitialization()
+    {
+        _startupCts.Cancel();
     }
 
     public async Task RegisterHotkeysAtStartupAsync(CancellationToken cancellationToken = default)
@@ -457,6 +447,394 @@ public sealed class MainShellViewModel : ObservableObject
         }
     }
 
+    private async Task RunStartupPipelineAsync(CancellationTokenSource linkedSource)
+    {
+        using (linkedSource)
+        {
+            var cancellationToken = linkedSource.Token;
+            try
+            {
+                IsCoreReady = false;
+                TaskQueuePage.SetCoreAvailability(false, BuildCoreWarmupPendingMessage());
+
+                RecordStartupPhase("ConfigBootstrap.Begin", "Loading or bootstrapping config/avalonia.json.");
+                UpdateStartupPhase("正在加载配置", "配置引导开始。");
+                var loadResult = await _runtime.ConfigurationService.LoadOrBootstrapAsync(cancellationToken);
+                if (loadResult.LoadedFromExistingConfig)
+                {
+                    ImportStatus = "已加载 config/avalonia.json";
+                }
+                else if (loadResult.ImportReport is not null)
+                {
+                    ImportStatus = ImportReportTextFormatter.BuildStatusMessage(loadResult.ImportReport, manualImport: false);
+                }
+
+                if (loadResult.ValidationIssues.Count > 0)
+                {
+                    var blockingCount = loadResult.ValidationIssues.Count(i => i.Blocking);
+                    var warningCount = loadResult.ValidationIssues.Count - blockingCount;
+                    var summary = $"配置校验异常: 阻断 {blockingCount} / 预警 {warningCount}";
+                    LastError = string.Join(
+                        "; ",
+                        loadResult.ValidationIssues
+                            .Take(3)
+                            .Select(i => $"{i.Code}:{i.Field}:{i.Message}"));
+                    await RecordFailedResultAsync(
+                        "Config.LoadValidation",
+                        UiOperationResult.Fail(UiErrorCode.TaskValidationFailed, $"{summary} | {LastError}"),
+                        cancellationToken);
+                }
+
+                ApplyDeveloperModeFromConfig();
+                RecordStartupPhase(
+                    "ConfigBootstrap.End",
+                    $"loadedExisting={loadResult.LoadedFromExistingConfig}; validationIssues={loadResult.ValidationIssues.Count}");
+
+                RecordStartupPhase("StartupSnapshot.Begin", "Building startup shell snapshot.");
+                UpdateStartupPhase("正在应用启动配置", "启动最小配置快照准备中。");
+                _startupSnapshot = StartupShellSnapshot.FromConfig(_runtime.ConfigurationService.CurrentConfig);
+                ApplyStartupShellSnapshot(_startupSnapshot);
+                ApplyStartupSnapshotToSettingsPageIfCreated();
+                _startupSnapshotReadyTcs.TrySetResult(true);
+                RecordStartupPhase(
+                    "StartupSnapshot.End",
+                    $"language={_startupSnapshot.Language}; theme={_startupSnapshot.Theme}; useTray={_startupSnapshot.UseTray}");
+
+                _runtime.LogService.Debug(
+                    $"App init start: profile={_runtime.ConfigurationService.CurrentConfig.CurrentProfile}, state={_runtime.SessionService.CurrentState}");
+
+                SyncConnectionFromProfile();
+                RefreshConfigValidationState(loadResult.ValidationIssues);
+                await ShowSchemaMigrationNoticeIfNeededAsync(loadResult, cancellationToken);
+
+                await InitializeFirstScreenAsync(loadResult.ImportReport, cancellationToken);
+                var settingsLoaded = await InitializeDeferredPagesAsync(cancellationToken);
+                if (settingsLoaded)
+                {
+                    TaskQueuePage.SetLanguage(SettingsPage.Language);
+                    await ApplyGuiSettingsAsync(SettingsPage.CurrentGuiSnapshot, cancellationToken);
+                }
+
+                await EnsureCoreWarmupCompletedAsync(cancellationToken);
+
+                await RefreshCapabilitySummaryAsync(cancellationToken);
+                RefreshRootTextState();
+                await SyncTrayMenuStateAsync(cancellationToken);
+                StartTimerScheduler();
+                UpdateStartupPhase(
+                    IsCoreReady ? "启动完成" : "核心初始化失败",
+                    IsCoreReady
+                        ? "后台页面初始化完成。"
+                        : "核心初始化失败，但其余页面已按顺序完成初始化。");
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                TaskQueuePage.SetCoreAvailability(false, BuildBilingualMessage("启动已取消。", "Startup was canceled."));
+                UpdateStartupPhase("启动已取消", "后台启动阶段已取消。");
+                RecordStartupPhase("Cancelled", "Startup pipeline canceled.");
+            }
+            catch (Exception ex)
+            {
+                RecordStartupPhase("Fail", "Startup pipeline failed unexpectedly.", ex);
+                await RecordUnhandledExceptionAsync(
+                    "App.Initialize",
+                    ex,
+                    UiErrorCode.UiError,
+                    $"初始化异常: {ex.Message}",
+                    cancellationToken);
+
+                if (!TaskQueueRootPage.IsLoaded)
+                {
+                    TaskQueueRootPage.MarkFailed("首屏初始化失败", "TaskQueue 首屏未能完成加载。", ex.Message);
+                }
+
+                UpdateStartupPhase("初始化异常", $"启动流程异常：{ex.Message}");
+            }
+            finally
+            {
+                _startupSnapshotReadyTcs.TrySetResult(true);
+                _firstScreenReadyTcs.TrySetResult(true);
+            }
+        }
+    }
+
+    private async Task InitializeFirstScreenAsync(ImportReport? importReport, CancellationToken cancellationToken)
+    {
+        RecordStartupPhase("TaskQueue.Begin", "Initializing TaskQueue first screen.");
+        UpdateStartupPhase("正在初始化首屏", "TaskQueue 首屏正在初始化。");
+        TaskQueueRootPage.MarkLoading("正在初始化首屏", "TaskQueue 页面正在加载。");
+        try
+        {
+            await TaskQueuePage.InitializeAsync(cancellationToken);
+            TaskQueueRootPage.MarkLoaded(TaskQueuePage);
+            AppendImportReportToTaskQueue(importReport, manualImport: false);
+            RecordStartupPhase("TaskQueue.End", "TaskQueue first screen initialized.");
+            UpdateStartupPhase("首屏已就绪", "TaskQueue 首屏已可交互。");
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            TaskQueueRootPage.MarkFailed("首屏初始化失败", "TaskQueue 首屏初始化失败。", ex.Message);
+            await RecordUnhandledExceptionAsync(
+                "App.Initialize.TaskQueue",
+                ex,
+                UiErrorCode.UiError,
+                $"TaskQueue 初始化异常: {ex.Message}",
+                cancellationToken);
+            RecordStartupPhase("TaskQueue.Fail", "TaskQueue first screen failed.", ex);
+        }
+        finally
+        {
+            _firstScreenReadyTcs.TrySetResult(true);
+            RecordStartupPhase("FirstScreenReady", "First screen gate opened.");
+        }
+    }
+
+    private async Task<bool> InitializeCoreWarmupAsync(CancellationToken cancellationToken)
+    {
+        UpdateStartupPhase("正在后台初始化核心", "MaaCore 正在后台预热。");
+        RecordStartupPhase("CoreWarmup.Begin", "Initializing MaaCore in background startup stage.");
+        _runtime.LogService.Debug("Begin core initialization from startup pipeline.");
+        var initResult = await _runtime.ResourceWorkflowService.InitializeCoreAsync(_runtime.ConfigurationService.CurrentConfig, cancellationToken);
+        if (!initResult.Success)
+        {
+            var initCode = initResult.Error?.Code.ToString() ?? UiErrorCode.CoreUnknown;
+            var initMessage = initResult.Error?.Message ?? "Core initialize failed.";
+            var failureMessage = BuildCoreWarmupFailureMessage(initCode, initMessage);
+            IsCoreReady = false;
+            TaskQueuePage.SetCoreAvailability(false, failureMessage);
+            await ApplyResultAsync(
+                UiOperationResult.Fail(
+                    initCode,
+                    failureMessage,
+                    initResult.Error?.Exception),
+                "App.Initialize",
+                cancellationToken);
+            RecordStartupPhase("CoreWarmup.Fail", $"code={initCode}; message={initMessage}");
+            return false;
+        }
+
+        _runtime.LogService.Debug($"Core initialization succeeded: version={initResult.Value?.CoreVersion}");
+        IsCoreReady = true;
+        TaskQueuePage.SetCoreAvailability(true);
+        if (!_sessionCallbackPumpStarted)
+        {
+            _sessionCallbackPumpStarted = true;
+            _ = Task.Run(
+                () => _runtime.SessionService.StartCallbackPumpAsync(
+                    callback => Dispatcher.UIThread.InvokeAsync(() => ApplySessionCallback(callback)).GetTask(),
+                    _startupCts.Token),
+                _startupCts.Token);
+        }
+        RecordStartupPhase(
+            "CoreWarmup.End",
+            $"Core initialization succeeded. version={initResult.Value?.CoreVersion ?? "<unknown>"}");
+        return true;
+    }
+
+    private async Task<bool> InitializeDeferredPagesAsync(CancellationToken cancellationToken)
+    {
+        await InitializeDeferredRootPageAsync(
+            "Copilot",
+            "Copilot",
+            "Copilot 页面正在后台初始化。",
+            CopilotRootPage,
+            ct => CopilotPage.InitializeAsync(ct),
+            CopilotPage,
+            cancellationToken);
+        await InitializeDeferredRootPageAsync(
+            "Toolbox",
+            "Toolbox",
+            "Toolbox 页面正在后台初始化。",
+            ToolboxRootPage,
+            ct => ToolboxPage.InitializeAsync(ct),
+            ToolboxPage,
+            cancellationToken);
+        return await InitializeDeferredRootPageAsync(
+            "Settings",
+            "Settings",
+            "Settings 页面正在后台初始化。",
+            SettingsRootPage,
+            ct => SettingsPage.InitializeAsync(ct),
+            SettingsPage,
+            cancellationToken);
+    }
+
+    private Task<UiOperationResult> GetOrStartCoreWarmupTask()
+    {
+        lock (_coreWarmupGate)
+        {
+            if (_coreWarmupTask is not null)
+            {
+                return _coreWarmupTask;
+            }
+
+            IsCoreReady = false;
+            TaskQueuePage.SetCoreAvailability(false, BuildCoreWarmupPendingMessage());
+            _coreWarmupTask = RunCoreWarmupTaskAsync(_startupCts.Token);
+            return _coreWarmupTask;
+        }
+    }
+
+    private async Task<UiOperationResult> RunCoreWarmupTaskAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await InitializeCoreWarmupAsync(cancellationToken)
+                ? UiOperationResult.Ok("Core warmup completed.")
+                : UiOperationResult.Fail(UiErrorCode.CoreUnknown, GetCoreUnavailableMessage());
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            return UiOperationResult.Fail(UiErrorCode.CoreUnknown, $"Core warmup failed unexpectedly: {ex.Message}", ex.ToString());
+        }
+    }
+
+    private async Task EnsureCoreWarmupCompletedAsync(CancellationToken cancellationToken)
+    {
+        _ = await GetOrStartCoreWarmupTask().WaitAsync(cancellationToken);
+    }
+
+    private async Task<bool> EnsureCoreReadyForExecutionAsync(CancellationToken cancellationToken)
+    {
+        var result = await GetOrStartCoreWarmupTask().WaitAsync(cancellationToken);
+        return result.Success;
+    }
+
+    private async Task<bool> InitializeDeferredRootPageAsync(
+        string stageKey,
+        string pageTitle,
+        string loadingMessage,
+        RootPageHostViewModel host,
+        Func<CancellationToken, Task> initializeAsync,
+        object pageContent,
+        CancellationToken cancellationToken)
+    {
+        RecordStartupPhase($"{stageKey}.Begin", $"Initializing {pageTitle} page.");
+        UpdateStartupPhase($"正在后台初始化 {pageTitle}", loadingMessage);
+        host.MarkLoading($"正在后台初始化 {pageTitle}", loadingMessage);
+        try
+        {
+            await initializeAsync(cancellationToken);
+            host.MarkLoaded(pageContent);
+            RecordStartupPhase($"{stageKey}.End", $"{pageTitle} page initialized.");
+            return true;
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            host.MarkFailed($"{pageTitle} 初始化失败", $"{pageTitle} 页面未能完成初始化。", ex.Message);
+            await RecordUnhandledExceptionAsync(
+                $"App.Initialize.{stageKey}",
+                ex,
+                UiErrorCode.UiError,
+                $"{pageTitle} 初始化异常: {ex.Message}",
+                cancellationToken);
+            RecordStartupPhase($"{stageKey}.Fail", $"{pageTitle} page failed.", ex);
+            return false;
+        }
+    }
+
+    private void ApplyStartupShellSnapshot(StartupShellSnapshot snapshot)
+    {
+        CurrentShellLanguage = snapshot.Language;
+        AppliedTheme = snapshot.Theme;
+        RootTexts.Language = snapshot.Language;
+        RefreshRootTextState();
+
+        if (Avalonia.Application.Current is not null)
+        {
+            Avalonia.Application.Current.RequestedThemeVariant =
+                string.Equals(snapshot.Theme, "Dark", StringComparison.OrdinalIgnoreCase)
+                    ? ThemeVariant.Dark
+                    : string.Equals(snapshot.Theme, "SyncWithOs", StringComparison.OrdinalIgnoreCase)
+                        ? ThemeVariant.Default
+                        : ThemeVariant.Light;
+        }
+
+        TaskQueuePage.SetLanguage(snapshot.Language);
+        ShellBackgroundOpacity = snapshot.BackgroundOpacity / 100d;
+        ShellBackgroundBlur = snapshot.BackgroundBlur;
+        ShellBackgroundStretch = ParseStretch(snapshot.BackgroundStretchMode);
+        ApplyShellBackgroundImage(snapshot.BackgroundImagePath);
+    }
+
+    private SettingsPageViewModel CreateSettingsPage()
+    {
+        var page = new SettingsPageViewModel(
+            _runtime,
+            _connectionGameSharedState,
+            ReportLocalizationFallback,
+            dialogService: _dialogService);
+        page.GuiSettingsApplied += OnGuiSettingsApplied;
+        page.ResourceVersionUpdated += OnSettingsResourceVersionUpdated;
+        page.ConfigurationContextChanged += OnSettingsConfigurationContextChanged;
+        if (_startupSnapshotReadyTcs.Task.IsCompleted)
+        {
+            page.ApplyStartupSnapshot(_startupSnapshot);
+        }
+
+        return page;
+    }
+
+    private void ApplyStartupSnapshotToSettingsPageIfCreated()
+    {
+        _settingsPage.ApplyStartupSnapshot(_startupSnapshot);
+    }
+
+    private void UpdateStartupPhase(string status, string logMessage)
+    {
+        GlobalStatus = status;
+        AppendRootLogEntrySafe($"[startup] {logMessage}");
+    }
+
+    private void AppendRootLogEntrySafe(string message)
+    {
+        if (Dispatcher.UIThread.CheckAccess())
+        {
+            AppendRootLogEntry(message);
+            return;
+        }
+
+        Dispatcher.UIThread.Post(() => AppendRootLogEntry(message));
+    }
+
+    private static void RecordStartupPhase(string stage, string message, Exception? exception = null)
+    {
+        Program.RecordStartupStage($"Stage.{stage}", message, exception);
+    }
+
+    private static string BuildCoreWarmupPendingMessage()
+    {
+        return BuildBilingualMessage(
+            "核心初始化中，可继续浏览界面；Start/LinkStart 会在预热完成后继续执行。",
+            "Core initialization is in progress. You can keep browsing the UI; Start/LinkStart will continue after warmup finishes.");
+    }
+
+    private string GetCoreUnavailableMessage()
+    {
+        return string.IsNullOrWhiteSpace(TaskQueuePage.CoreInitializationMessage)
+            ? BuildCoreWarmupPendingMessage()
+            : TaskQueuePage.CoreInitializationMessage;
+    }
+
+    private static string BuildCoreWarmupFailureMessage(string initCode, string initMessage)
+    {
+        return BuildBilingualMessage(
+            $"Core 初始化失败: {initCode} {initMessage}",
+            $"Core initialize failed: {initCode} {initMessage}");
+    }
+
     public Task ConnectAsync(CancellationToken cancellationToken = default)
         => ExecuteConnectAsync(cancellationToken);
 
@@ -464,6 +842,18 @@ public sealed class MainShellViewModel : ObservableObject
     {
         try
         {
+            if (!await EnsureCoreReadyForExecutionAsync(cancellationToken))
+            {
+                var pendingMessage = GetCoreUnavailableMessage();
+                LastError = pendingMessage;
+                PushGrowl(pendingMessage);
+                await RecordFailedResultAsync(
+                    "App.Shell.Connect.CoreWarmup",
+                    UiOperationResult.Fail(UiErrorCode.SessionStateNotAllowed, pendingMessage),
+                    cancellationToken);
+                return;
+            }
+
             var result = await ConnectWithCurrentSettingsAsync(cancellationToken);
             if (!result.Success)
             {
@@ -506,6 +896,15 @@ public sealed class MainShellViewModel : ObservableObject
         {
             await ApplyResultAsync(
                 UiOperationResult.Fail(UiErrorCode.OperationAlreadyRunning, "Execution is already running."),
+                "App.Shell.Start",
+                cancellationToken);
+            return;
+        }
+
+        if (!await EnsureCoreReadyForExecutionAsync(cancellationToken))
+        {
+            await ApplyResultAsync(
+                UiOperationResult.Fail(UiErrorCode.SessionStateNotAllowed, GetCoreUnavailableMessage()),
                 "App.Shell.Start",
                 cancellationToken);
             return;
@@ -650,6 +1049,7 @@ public sealed class MainShellViewModel : ObservableObject
         await TaskQueuePage.ReloadTasksAsync(cancellationToken);
         await SettingsPage.InitializeAsync(cancellationToken);
         TaskQueuePage.SetLanguage(SettingsPage.Language);
+        await ApplyGuiSettingsAsync(SettingsPage.CurrentGuiSnapshot, cancellationToken);
         SyncConnectionFromProfile();
         RefreshConfigValidationState(_runtime.ConfigurationService.CurrentValidationIssues);
         AppendImportReportToTaskQueue(report, manualImport: true);
@@ -715,11 +1115,11 @@ public sealed class MainShellViewModel : ObservableObject
                         var blockedMessage = CurrentSessionState switch
                         {
                             SessionState.Running or SessionState.Stopping => "任务正在执行中，Start 已禁用。",
-                            SessionState.Connected => "存在阻断级配置错误，Start/LinkStart 已禁用。",
+                            _ when HasBlockingConfigIssues => "存在阻断级配置错误，Start/LinkStart 已禁用。",
                             _ => BuildLinkStartStateNotAllowedMessage(CurrentSessionState),
                         };
                         PushGrowl(blockedMessage);
-                        if (CurrentSessionState != SessionState.Connected)
+                        if (CurrentSessionState != SessionState.Connected && !HasBlockingConfigIssues)
                         {
                             NavigateToSettingsSection("Connect");
                         }
@@ -1369,6 +1769,7 @@ public sealed class MainShellViewModel : ObservableObject
             await _guiApplySemaphore.WaitAsync(cancellationToken);
             lockAcquired = true;
 
+            CurrentShellLanguage = snapshot.Language;
             AppliedTheme = snapshot.Theme;
             RootTexts.Language = snapshot.Language;
             RefreshRootTextState();
@@ -1553,14 +1954,14 @@ public sealed class MainShellViewModel : ObservableObject
         if (!snapshotResult.Success || snapshotResult.Value is null)
         {
             CapabilitySummary = PlatformCapabilityTextMap.FormatSnapshotUnavailable(
-                SettingsPage.Language,
+                CurrentShellLanguage,
                 snapshotResult.Message,
                 ReportLocalizationFallback);
             return;
         }
 
         var snapshot = snapshotResult.Value;
-        var lang = SettingsPage.Language;
+        var lang = CurrentShellLanguage;
         CapabilitySummary = string.Join(
             Environment.NewLine,
             BuildCapabilityLine(lang, PlatformCapabilityId.Tray, snapshot.Tray),
@@ -1591,13 +1992,16 @@ public sealed class MainShellViewModel : ObservableObject
             await TaskQueuePage.ToggleOverlayAsync(cancellationToken);
             await SyncTrayMenuStateAsync(cancellationToken);
 
-            var message = TaskQueuePage.OverlayVisible
-                ? "Overlay 已开启。"
-                : "Overlay 已关闭。";
+            var message = TaskQueuePage.OverlayMode switch
+            {
+                OverlayRuntimeMode.Native => "Overlay 已开启。",
+                OverlayRuntimeMode.Preview => "Overlay 已切换为预览模式。",
+                _ => "Overlay 已关闭。",
+            };
             PushGrowl(message);
             await RecordEventAsync(
                 scope,
-                $"visible={TaskQueuePage.OverlayVisible}",
+                $"visible={TaskQueuePage.OverlayVisible}; mode={TaskQueuePage.OverlayMode}",
                 cancellationToken);
         }
         catch (Exception ex)
@@ -1638,6 +2042,7 @@ public sealed class MainShellViewModel : ObservableObject
 
     private async Task ApplyLanguageChangeAsync(string next, CancellationToken cancellationToken = default)
     {
+        CurrentShellLanguage = next;
         RootTexts.Language = next;
         SettingsPage.Language = next;
         SettingsPage.AutostartStatus = PlatformCapabilityTextMap.FormatAutostartStatus(
@@ -1665,7 +2070,7 @@ public sealed class MainShellViewModel : ObservableObject
         CancellationToken cancellationToken)
     {
         var switchResult = await _runtime.ShellFeatureService.SwitchLanguageAsync(
-            SettingsPage.Language,
+            CurrentShellLanguage,
             targetLanguage,
             cancellationToken);
         if (!switchResult.Success || string.IsNullOrWhiteSpace(switchResult.Value))
@@ -1736,6 +2141,29 @@ public sealed class MainShellViewModel : ObservableObject
             CurrentSessionState = state;
             _ = SyncTrayMenuStateAsync();
         });
+    }
+
+    private void OnOverlayStateChanged(object? sender, OverlayStateChangedEvent e)
+    {
+        if (Dispatcher.UIThread.CheckAccess() || Avalonia.Application.Current is null)
+        {
+            ApplyOverlayStateChanged(e);
+            return;
+        }
+
+        Dispatcher.UIThread.Post(() => ApplyOverlayStateChanged(e));
+    }
+
+    private void ApplyOverlayStateChanged(OverlayStateChangedEvent e)
+    {
+        _overlaySharedState.ApplyRuntimeState(e);
+        if (string.Equals(e.Action, "target-lost", StringComparison.Ordinal)
+            || string.Equals(e.Action, "fallback-enter", StringComparison.Ordinal))
+        {
+            PushGrowl(e.Message);
+        }
+
+        _ = SyncTrayMenuStateAsync();
     }
 
     private void AppendRootLogEntry(string message)

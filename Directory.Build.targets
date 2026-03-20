@@ -4,7 +4,6 @@
     <MaaNuGetCheckTimeoutMilliseconds Condition="'$(MaaNuGetCheckTimeoutMilliseconds)' == ''">8000</MaaNuGetCheckTimeoutMilliseconds>
     <MaaNuGetCheckRetries Condition="'$(MaaNuGetCheckRetries)' == ''">2</MaaNuGetCheckRetries>
     <_MaaNuGetCheckRid>$(RuntimeIdentifier)</_MaaNuGetCheckRid>
-    <_MaaNuGetCheckRid Condition="'$(_MaaNuGetCheckRid)' == ''">$(RuntimeIdentifiers)</_MaaNuGetCheckRid>
     <_MaaNuGetCheckFile>$(MSBuildProjectExtensionsPath)index.json</_MaaNuGetCheckFile>
   </PropertyGroup>
 

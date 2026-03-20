@@ -219,6 +219,8 @@ public sealed class ToolboxModuleO3FeatureTests
         Assert.Contains("Content=\"寻访一次\"", xaml, StringComparison.Ordinal);
         Assert.Contains("Content=\"寻访十次\"", xaml, StringComparison.Ordinal);
         Assert.Contains("Content=\"知道了\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Content=\"下次不再提示\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("IsChecked=\"{Binding GachaShowDisclaimerNoMore}\"", xaml, StringComparison.Ordinal);
         Assert.Contains("Content=\"{Binding PeepCommandText}\"", xaml, StringComparison.Ordinal);
         Assert.Contains("Content=\"{Binding MiniGameCommandText}\"", xaml, StringComparison.Ordinal);
         Assert.Contains("Source=\"{Binding EliteIconImage}\"", xaml, StringComparison.Ordinal);
@@ -231,6 +233,7 @@ public sealed class ToolboxModuleO3FeatureTests
         Assert.DoesNotContain("执行失败示例", xaml, StringComparison.Ordinal);
         Assert.DoesNotContain("CurrentToolParameters", xaml, StringComparison.Ordinal);
         Assert.DoesNotContain("Text=\"状态\"", xaml, StringComparison.Ordinal);
+        Assert.DoesNotContain("Content=\"下次不再提示\"\r\n                        IsChecked=\"{Binding GachaShowDisclaimerNoMore}\"\r\n                        IsEnabled=\"False\"", xaml, StringComparison.Ordinal);
     }
 
     private static CoreCallbackEvent CreateCallback(string msgName, JsonObject? payload = null)

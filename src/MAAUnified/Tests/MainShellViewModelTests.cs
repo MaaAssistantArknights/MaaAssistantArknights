@@ -24,7 +24,7 @@ public sealed class MainShellViewModelTests
     [InlineData(SessionState.Connected, false, true, false)]
     [InlineData(SessionState.Connected, true, false, false)]
     [InlineData(SessionState.Running, false, false, true)]
-    [InlineData(SessionState.Idle, false, false, false)]
+    [InlineData(SessionState.Idle, false, true, false)]
     public async Task CanStartExecution_ShouldMatchTrayStartState(
         SessionState sessionState,
         bool hasBlockingIssue,
@@ -32,6 +32,7 @@ public sealed class MainShellViewModelTests
         bool expectedStopEnabled)
     {
         await using var fixture = await TestFixture.CreateAsync();
+        await fixture.ViewModel.InitializeAsync();
         await SetSessionStateAsync(fixture.Runtime.SessionService, sessionState);
         InvokeRefreshConfigValidationState(
             fixture.ViewModel,
@@ -43,6 +44,67 @@ public sealed class MainShellViewModelTests
         Assert.NotNull(fixture.TrayService.LastMenuState);
         Assert.Equal(expectedStartEnabled, fixture.TrayService.LastMenuState!.StartEnabled);
         Assert.Equal(expectedStopEnabled, fixture.TrayService.LastMenuState.StopEnabled);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_FirstScreenReady_ShouldAllowDeferredPagesToLoadBeforeCoreWarmupCompletes()
+    {
+        await using var fixture = await TestFixture.CreateAsync(
+            bridge: new DelayedInitializeBridge(TimeSpan.FromMilliseconds(600)));
+
+        var startupTask = fixture.ViewModel.InitializeAsync();
+        await fixture.ViewModel.WaitForFirstScreenReadyAsync();
+
+        Assert.True(fixture.ViewModel.TaskQueueRootPage.IsLoaded);
+        Assert.False(fixture.ViewModel.IsCoreReady);
+        Assert.False(startupTask.IsCompleted);
+
+        Assert.True(await WaitUntilAsync(
+            () =>
+                fixture.ViewModel.CopilotRootPage.IsLoaded
+                && fixture.ViewModel.ToolboxRootPage.IsLoaded
+                && fixture.ViewModel.SettingsRootPage.IsLoaded));
+        Assert.False(fixture.ViewModel.IsCoreReady);
+        Assert.False(startupTask.IsCompleted);
+
+        await startupTask;
+
+        Assert.True(fixture.ViewModel.IsCoreReady);
+    }
+
+    [Fact]
+    public async Task WaitForStartupSnapshotReadyAsync_ShouldApplyShellSnapshotBeforeSettingsPageInitialization()
+    {
+        await using var fixture = await TestFixture.CreateAsync(
+            existingAvaloniaJson: CreateStartupSnapshotConfigJson(),
+            bridge: new DelayedInitializeBridge(TimeSpan.FromMilliseconds(200)));
+
+        var startupTask = fixture.ViewModel.InitializeAsync();
+        await fixture.ViewModel.WaitForStartupSnapshotReadyAsync();
+
+        Assert.Equal("en-us", fixture.ViewModel.CurrentShellLanguage);
+        Assert.Equal("Dark", fixture.ViewModel.AppliedTheme);
+        Assert.Equal("en-us", fixture.ViewModel.TaskQueuePage.Texts.Language);
+        Assert.Equal("Ctrl+Shift+Alt+G", fixture.ViewModel.SettingsPage.HotkeyShowGui);
+        Assert.Equal("Ctrl+Shift+Alt+R", fixture.ViewModel.SettingsPage.HotkeyLinkStart);
+        Assert.Equal(RootPageLoadState.NotStarted, fixture.ViewModel.SettingsRootPage.LoadState);
+
+        await startupTask;
+    }
+
+    [Fact]
+    public async Task InitializeAsync_CoreInitFailure_ShouldKeepDeferredPagesLoading()
+    {
+        await using var fixture = await TestFixture.CreateAsync(
+            bridge: new FailingInitializeBridge(CoreErrorCode.ResourceNotFound, "Client resource directory was not found."));
+
+        await fixture.ViewModel.InitializeAsync();
+
+        Assert.False(fixture.ViewModel.IsCoreReady);
+        Assert.True(fixture.ViewModel.TaskQueuePage.HasCoreInitializationMessage);
+        Assert.True(fixture.ViewModel.CopilotRootPage.IsLoaded);
+        Assert.True(fixture.ViewModel.ToolboxRootPage.IsLoaded);
+        Assert.True(fixture.ViewModel.SettingsRootPage.IsLoaded);
     }
 
     [Fact]
@@ -722,6 +784,37 @@ public sealed class MainShellViewModelTests
             """;
     }
 
+    private static string CreateStartupSnapshotConfigJson()
+    {
+        return
+            """
+            {
+              "SchemaVersion": 2,
+              "CurrentProfile": "Default",
+              "Profiles": {
+                "Default": {
+                  "Values": {},
+                  "TaskQueue": []
+                }
+              },
+              "GlobalValues": {
+                "Theme.Mode": "Dark",
+                "GUI.Localization": "en-us",
+                "GUI.UseTray": true,
+                "GUI.MinimizeToTray": false,
+                "GUI.WindowTitleScrollable": true,
+                "GUI.DeveloperMode": true,
+                "GUI.Background.ImagePath": "",
+                "GUI.Background.Opacity": 32,
+                "GUI.Background.BlurEffectRadius": 9,
+                "GUI.Background.StretchMode": "UniformToFill",
+                "HotKeys": "ShowGui=Ctrl+Shift+Alt+G;LinkStart=Ctrl+Shift+Alt+R"
+              },
+              "Migration": {}
+            }
+            """;
+    }
+
     private static string CreateSwitchableProfilesConfigJson()
     {
         return
@@ -1262,6 +1355,17 @@ public sealed class MainShellViewModelTests
                 new TextDialogPayload(request.DefaultText),
                 "captured"));
         }
+
+        public Task<DialogCompletion<WarningConfirmDialogPayload>> ShowWarningConfirmAsync(
+            WarningConfirmDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new DialogCompletion<WarningConfirmDialogPayload>(
+                DialogReturnSemantic.Close,
+                null,
+                "captured"));
+        }
     }
 
     private sealed class SpyAppLifecycleService : IAppLifecycleService
@@ -1448,6 +1552,74 @@ public sealed class MainShellViewModelTests
         public void Publish(CoreCallbackEvent callback)
         {
             _callbackChannel.Writer.TryWrite(callback);
+        }
+
+        public ValueTask DisposeAsync()
+        {
+            _callbackChannel.Writer.TryComplete();
+            return ValueTask.CompletedTask;
+        }
+    }
+
+    private sealed class DelayedInitializeBridge : IMaaCoreBridge
+    {
+        private readonly TimeSpan _delay;
+        private readonly Channel<CoreCallbackEvent> _callbackChannel = Channel.CreateUnbounded<CoreCallbackEvent>();
+
+        public DelayedInitializeBridge(TimeSpan delay)
+        {
+            _delay = delay;
+        }
+
+        public async Task<CoreResult<CoreInitializeInfo>> InitializeAsync(
+            CoreInitializeRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            await Task.Delay(_delay, cancellationToken);
+            return CoreResult<CoreInitializeInfo>.Ok(new CoreInitializeInfo(request.BaseDirectory, "fake", "fake", request.ClientType));
+        }
+
+        public Task<CoreResult<bool>> ConnectAsync(CoreConnectionInfo connectionInfo, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<bool>.Ok(true));
+        }
+
+        public Task<CoreResult<int>> AppendTaskAsync(CoreTaskRequest task, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<int>.Ok(1));
+        }
+
+        public Task<CoreResult<bool>> StartAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<bool>.Ok(true));
+        }
+
+        public Task<CoreResult<bool>> StopAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<bool>.Ok(true));
+        }
+
+        public Task<CoreResult<CoreRuntimeStatus>> GetRuntimeStatusAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<CoreRuntimeStatus>.Ok(new CoreRuntimeStatus(true, true, false)));
+        }
+
+        public Task<CoreResult<bool>> AttachWindowAsync(CoreAttachWindowRequest request, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<bool>.Fail(new CoreError(CoreErrorCode.NotSupported, "not supported")));
+        }
+
+        public Task<CoreResult<byte[]>> GetImageAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoreResult<byte[]>.Fail(new CoreError(CoreErrorCode.GetImageFailed, "not supported")));
+        }
+
+        public async IAsyncEnumerable<CoreCallbackEvent> CallbackStreamAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            await foreach (var callback in _callbackChannel.Reader.ReadAllAsync(cancellationToken))
+            {
+                yield return callback;
+            }
         }
 
         public ValueTask DisposeAsync()

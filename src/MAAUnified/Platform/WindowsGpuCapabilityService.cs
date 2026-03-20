@@ -2,7 +2,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
-using System.Text.Json;
+using System.Text;
+using Microsoft.Win32;
 
 namespace MAAUnified.Platform;
 
@@ -10,8 +11,29 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
 {
     private const int DxgiErrorNotFound = unchecked((int)0x887A0002);
     private const int SFalse = 1;
+    private const int CrSuccess = 0;
+    private const int CrBufferSmall = 0x1A;
     private const uint DxgiAdapterFlagSoftware = 0x2;
+    private const uint DevPropTypeFileTime = 0x00000010;
+    private const uint DevPropTypeString = 0x00000012;
+    private const uint CmLocateDevNodeNormal = 0;
+    private const uint MaxReasonableAdapterScanCount = 64;
+    private static readonly TimeSpan GpuProbeTimeout = TimeSpan.FromSeconds(2);
     private const string SelectionFallbackWarningKey = "Settings.Performance.Gpu.Warning.SelectionFallback";
+    private static readonly DevPropKey DevPKeyDeviceInstanceId = new(
+        new Guid(0x78c34fc8, 0x104a, 0x4aca, 0x9e, 0xa4, 0x52, 0x4d, 0x52, 0x99, 0x6e, 0x57),
+        256);
+    private static readonly DevPropKey DevPKeyDeviceDriverDate = new(
+        new Guid(0xa8b865dd, 0x2e3d, 0x4094, 0xad, 0x97, 0xe5, 0x93, 0xa7, 0x0c, 0x75, 0xd6),
+        2);
+    private static readonly DevPropKey DevPKeyDeviceDriverVersion = new(
+        new Guid(0xa8b865dd, 0x2e3d, 0x4094, 0xad, 0x97, 0xe5, 0x93, 0xa7, 0x0c, 0x75, 0xd6),
+        3);
+    private readonly object _candidateProbeGate = new();
+    private Task<IReadOnlyList<WindowsGpuCandidate>>? _candidateProbeTask;
+    private GpuProbeProgress? _candidateProbeProgress;
+    private IReadOnlyList<WindowsGpuCandidate>? _cachedCandidates;
+    private Exception? _cachedProbeFailure;
 
     private static ReadOnlySpan<ushort> AmdBlacklist => MemoryMarshal.Cast<char, ushort>(
         /* CHIP_TAHITI   */ "\u6780\u6784\u6788\u678A\u6790\u6791\u6792\u6798\u6799\u679A\u679B\u679E\u679F" +
@@ -36,13 +58,8 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
         /* CHIP_STONEY   */ "\u98E4");
 
     private static ReadOnlySpan<ushort> IntelBlacklist => MemoryMarshal.Cast<char, ushort>(
-        /* Xe (Tiger Lake, Elkhart Lake, Jasper Lake, Rocket Lake, Alder Lake, Raptor Lake) */ "\uA780\uA781" +
-        "\uA788\uA789\uA78A\uA782\uA78B\uA783\uA7A0\uA7A1\uA7A8\uA7AA\uA7AB\uA7AC\uA7AD\uA7A9\uA721\u4905\u4907" +
-        "\u4908\u4909\u4680\u4690\u4688\u468A\u468B\u4682\u4692\u4693\u46D3\u46D4\u46D0\u46D1\u46D2\u4626\u4628" +
-        "\u462A\u46A2\u46B3\u46C2\u46A3\u46B2\u46C3\u46A0\u46B0\u46C0\u46A6\u46AA\u46A8\u46A1\u46B1\u46C1\u4C8A" +
-        "\u4C8B\u4C90\u4C9A\u4E71\u4E61\u4E57\u4E55\u4E51\u4557\u4555\u4571\u4551\u4541\u9A59\u9A78\u9A60\u9A70" +
-        "\u9A68\u9A40\u9A49" +
-        /* Xe-LPG (Meteor Lake) */ "\u7D40\u7D45\u7D55\u7DD5" +
+        // Keep only pre-Xe Intel generations in the default deprecated list.
+        // Modern Xe / Xe-LPG devices should remain visible without requiring the deprecated toggle.
         /* Gen11 */ "\u8A70\u8A71\u8A56\u8A58\u8A5B\u8A5D\u8A54\u8A5A\u8A5C\u8A57\u8A59\u8A50\u8A51\u8A52\u8A53" +
         /* Gen9  */ "\u3EA5\u3EA8\u3EA6\u3EA7\u3EA2\u3E90\u3E93\u3E99\u3E9C\u3EA1\u9BA5\u9BA8\u3EA4\u9B21\u9BA0" +
         "\u9BA2\u9BA4\u9BAA\u9BAB\u9BAC\u87CA\u3EA3\u9B41\u9BC0\u9BC2\u9BC4\u9BCA\u9BCB\u9BCC\u3E91\u3E92\u3E98" +
@@ -85,68 +102,411 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
             SelectionWarningTextKey: selectionChanged ? SelectionFallbackWarningKey : null);
     }
 
-    private static IReadOnlyList<GpuOptionDescriptor> GetGpuOptions(bool allowDeprecatedGpu)
+    private IReadOnlyList<GpuOptionDescriptor> GetGpuOptions(bool allowDeprecatedGpu)
     {
         if (!OperatingSystem.IsWindows())
         {
             return [GpuOptionDescriptor.Disabled];
         }
 
+        var candidates = GetGpuCandidates();
+        return BuildOptionList(allowDeprecatedGpu, candidates);
+    }
+
+    private IReadOnlyList<WindowsGpuCandidate> GetGpuCandidates()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return [];
+        }
+
+        Task<IReadOnlyList<WindowsGpuCandidate>> probeTask;
+        GpuProbeProgress probeProgress;
+        lock (_candidateProbeGate)
+        {
+            if (_cachedCandidates is not null)
+            {
+                return _cachedCandidates;
+            }
+
+            if (_cachedProbeFailure is not null)
+            {
+                throw new InvalidOperationException(
+                    "Windows GPU capability probe previously failed earlier in this session.",
+                    _cachedProbeFailure);
+            }
+
+            _candidateProbeProgress ??= new GpuProbeProgress();
+            _candidateProbeTask ??= Task.Run<IReadOnlyList<WindowsGpuCandidate>>(() => EnumerateCandidates(_candidateProbeProgress));
+            probeTask = _candidateProbeTask;
+            probeProgress = _candidateProbeProgress;
+        }
+
+        if (!probeTask.Wait(GpuProbeTimeout))
+        {
+            var timeout = new TimeoutException(
+                $"Timed out after {GpuProbeTimeout.TotalSeconds:0.##} seconds while probing Windows GPU capabilities. " +
+                "The probe is waiting on DXGI adapter enumeration / D3D12 feature checks / DisplayConfig adapter mapping. " +
+                $"TaskStatus={probeTask.Status}; OS={RuntimeInformation.OSDescription}; ProcessArch={RuntimeInformation.ProcessArchitecture}; " +
+                $"BaseDir={AppContext.BaseDirectory}; Progress={probeProgress.BuildSummary()}.");
+            WriteProbeDiagnosticsLog(probeProgress, outcome: "timeout", exception: timeout);
+            lock (_candidateProbeGate)
+            {
+                _candidateProbeTask = null;
+                _candidateProbeProgress = null;
+                _cachedProbeFailure = timeout;
+            }
+
+            throw timeout;
+        }
+
+        try
+        {
+            var candidates = probeTask.GetAwaiter().GetResult();
+            WriteProbeDiagnosticsLog(probeProgress, outcome: "success", candidates: candidates);
+            lock (_candidateProbeGate)
+            {
+                _cachedCandidates = candidates;
+                _cachedProbeFailure = null;
+            }
+
+            return candidates;
+        }
+        catch (Exception ex)
+        {
+            WriteProbeDiagnosticsLog(probeProgress, outcome: "failed", exception: ex);
+            lock (_candidateProbeGate)
+            {
+                _candidateProbeTask = null;
+                _candidateProbeProgress = null;
+                _cachedProbeFailure = ex;
+            }
+
+            throw new InvalidOperationException(
+                "Windows GPU capability probe failed. " +
+                $"OS={RuntimeInformation.OSDescription}; ProcessArch={RuntimeInformation.ProcessArchitecture}; BaseDir={AppContext.BaseDirectory}. " +
+                $"The failure happened after the probe task completed. Progress={probeProgress.BuildSummary()}",
+                ex);
+        }
+    }
+
+    [SupportedOSPlatform("windows")]
+    private static IReadOnlyList<WindowsGpuCandidate> EnumerateCandidates(GpuProbeProgress progress)
+    {
+        progress.Update("CreateDXGIFactory2.Begin");
         IDXGIFactory1? factory = null;
-        var candidates = new List<WindowsGpuCandidate>();
         try
         {
             var factoryGuid = typeof(IDXGIFactory1).GUID;
             var hr = CreateDXGIFactory2(0, ref factoryGuid, out factory);
             if (hr < 0 || factory is null)
             {
-                return [GpuOptionDescriptor.Disabled];
+                throw new InvalidOperationException(
+                    $"CreateDXGIFactory2 failed. HRESULT=0x{hr:X8}; factoryIsNull={factory is null}.");
             }
 
-            var controllers = QueryDisplayControllers();
-
-            for (uint index = 0; ; index++)
+            progress.Update("CreateDXGIFactory2.End");
+            Exception? primaryFailure = null;
+            try
             {
-                IDXGIAdapter1? adapter = null;
-                try
+                progress.Update("EnumerationStrategy.Begin", detail: "EnumAdapters1");
+                var primaryCandidates = EnumerateCandidatesWithEnumAdapters1(factory, progress);
+                if (primaryCandidates.Count > 0)
                 {
-                    hr = factory.EnumAdapters1(index, out adapter);
-                    if (hr == DxgiErrorNotFound)
-                    {
-                        break;
-                    }
+                    progress.Update("EnumerationStrategy.Success", detail: $"EnumAdapters1;candidates={primaryCandidates.Count}");
+                    return primaryCandidates;
+                }
 
-                    if (hr < 0 || adapter is null)
-                    {
-                        continue;
-                    }
+                progress.Update("EnumerationStrategy.Empty", detail: "EnumAdapters1 returned zero candidates.");
+            }
+            catch (Exception ex)
+            {
+                primaryFailure = ex;
+                progress.Update(
+                    "EnumerationStrategy.Fail",
+                    detail: $"EnumAdapters1; {ex.GetType().Name}: {TruncateForDiagnostics(ex.Message, 256)}");
+            }
 
-                    var candidate = TryBuildCandidate(index, adapter, controllers);
-                    if (candidate is not null)
-                    {
-                        candidates.Add(candidate);
-                    }
-                }
-                catch
-                {
-                    continue;
-                }
-                finally
-                {
-                    ReleaseComObjectQuietly(adapter);
-                }
+            try
+            {
+                progress.Update("EnumerationStrategy.Begin", detail: "EnumAdapters");
+                var fallbackCandidates = EnumerateCandidatesWithEnumAdapters(factory, progress);
+                progress.Update("EnumerationStrategy.Success", detail: $"EnumAdapters;candidates={fallbackCandidates.Count}");
+                return fallbackCandidates;
+            }
+            catch (Exception ex)
+            {
+                progress.Update(
+                    "EnumerationStrategy.Fail",
+                    detail: $"EnumAdapters; {ex.GetType().Name}: {TruncateForDiagnostics(ex.Message, 256)}");
+                throw new InvalidOperationException(
+                    "Failed while enumerating Windows GPU candidates with both DXGI strategies. Primary=EnumAdapters1; Secondary=EnumAdapters.",
+                    primaryFailure is null ? ex : new AggregateException(primaryFailure, ex));
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // Fall through and return whatever candidates we managed to enumerate.
+            throw new InvalidOperationException(
+                "Failed while enumerating Windows GPU candidates. " +
+                "This includes DXGI adapter enumeration, D3D12 support checks, and DisplayConfig adapter mapping.",
+                ex);
         }
         finally
         {
             ReleaseComObjectQuietly(factory);
         }
+    }
 
-        return BuildOptionList(allowDeprecatedGpu, candidates);
+    [SupportedOSPlatform("windows")]
+    private static IReadOnlyList<WindowsGpuCandidate> EnumerateCandidatesWithEnumAdapters1(
+        IDXGIFactory1 factory,
+        GpuProbeProgress progress)
+    {
+        var candidates = new List<WindowsGpuCandidate>();
+        var adapterFailures = new List<Exception>();
+        var seenCandidateIdentities = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var reachedEndOfList = false;
+
+        for (uint index = 0; index < MaxReasonableAdapterScanCount; index++)
+        {
+            progress.Update("EnumAdapters1.Begin", index);
+            IDXGIAdapter1? adapter = null;
+            int hr;
+            try
+            {
+                hr = factory.EnumAdapters1(index, out adapter);
+            }
+            catch (Exception ex) when (IsRecoverableAdapterProbeException(ex))
+            {
+                progress.Update(
+                    "EnumAdapters1.QueryException",
+                    index,
+                    detail: $"{ex.GetType().Name}: {TruncateForDiagnostics(ex.Message, 256)}");
+                if (index == 0 && candidates.Count == 0)
+                {
+                    throw new InvalidOperationException(
+                        "IDXGIFactory1.EnumAdapters1 threw while querying the first adapter.",
+                        ex);
+                }
+
+                reachedEndOfList = true;
+                break;
+            }
+
+            try
+            {
+                if (hr == DxgiErrorNotFound)
+                {
+                    progress.Update("EnumAdapters1.EndOfList", index);
+                    reachedEndOfList = true;
+                    break;
+                }
+
+                if (hr < 0)
+                {
+                    progress.Update("EnumAdapters1.Error", index, detail: $"HRESULT=0x{hr:X8}; adapterNull={adapter is null}; acceptedCandidates={candidates.Count}");
+                    if (index == 0 && candidates.Count == 0)
+                    {
+                        throw new InvalidOperationException(
+                            $"IDXGIFactory1.EnumAdapters1 failed on the first adapter query. HRESULT=0x{hr:X8}; adapterNull={adapter is null}.");
+                    }
+
+                    reachedEndOfList = true;
+                    break;
+                }
+
+                if (adapter is null)
+                {
+                    progress.Update("EnumAdapters1.NullAdapter", index, detail: $"acceptedCandidates={candidates.Count}");
+                    if (index == 0 && candidates.Count == 0)
+                    {
+                        throw new InvalidOperationException(
+                            "IDXGIFactory1.EnumAdapters1 returned success but produced a null adapter on the first query.");
+                    }
+
+                    reachedEndOfList = true;
+                    break;
+                }
+
+                progress.Update("TryBuildCandidate.Begin", index);
+                try
+                {
+                    var candidate = TryBuildCandidate(index, adapter, progress);
+                    RecordCandidate(candidates, seenCandidateIdentities, candidate, index, progress);
+                }
+                catch (Exception ex) when (IsRecoverableAdapterProbeException(ex))
+                {
+                    var failure = new InvalidOperationException(
+                        $"Failed while processing DXGI adapter index {index} with EnumAdapters1.",
+                        ex);
+                    adapterFailures.Add(failure);
+                    progress.Update(
+                        "AdapterIteration.Exception",
+                        index,
+                        detail: $"{ex.GetType().Name}: {TruncateForDiagnostics(ex.Message, 256)}");
+                    continue;
+                }
+            }
+            finally
+            {
+                ReleaseComObjectQuietly(adapter);
+            }
+        }
+
+        if (!reachedEndOfList)
+        {
+            throw new InvalidOperationException(
+                $"IDXGIFactory1.EnumAdapters1 exceeded the safety limit of {MaxReasonableAdapterScanCount} indices without reporting end-of-list. " +
+                $"acceptedCandidates={candidates.Count}.");
+        }
+
+        if (candidates.Count == 0 && adapterFailures.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"DXGI EnumAdapters1 did not yield any usable GPU candidates because {adapterFailures.Count} adapter probe(s) failed during capability inspection.",
+                new AggregateException(adapterFailures));
+        }
+
+        progress.Update("Enumeration.Complete", detail: $"EnumAdapters1;candidates={candidates.Count}");
+        return candidates;
+    }
+
+    [SupportedOSPlatform("windows")]
+    private static IReadOnlyList<WindowsGpuCandidate> EnumerateCandidatesWithEnumAdapters(
+        IDXGIFactory1 factory,
+        GpuProbeProgress progress)
+    {
+        var candidates = new List<WindowsGpuCandidate>();
+        var adapterFailures = new List<Exception>();
+        var seenCandidateIdentities = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var reachedEndOfList = false;
+
+        for (uint index = 0; index < MaxReasonableAdapterScanCount; index++)
+        {
+            progress.Update("EnumAdapters.Begin", index);
+            IDXGIAdapter? adapter = null;
+            int hr;
+            try
+            {
+                hr = factory.EnumAdapters(index, out adapter);
+            }
+            catch (Exception ex) when (IsRecoverableAdapterProbeException(ex))
+            {
+                progress.Update(
+                    "EnumAdapters.QueryException",
+                    index,
+                    detail: $"{ex.GetType().Name}: {TruncateForDiagnostics(ex.Message, 256)}");
+                if (index == 0 && candidates.Count == 0)
+                {
+                    throw new InvalidOperationException(
+                        "IDXGIFactory1.EnumAdapters threw while querying the first adapter.",
+                        ex);
+                }
+
+                reachedEndOfList = true;
+                break;
+            }
+
+            try
+            {
+                if (hr == DxgiErrorNotFound)
+                {
+                    progress.Update("EnumAdapters.EndOfList", index);
+                    reachedEndOfList = true;
+                    break;
+                }
+
+                if (hr < 0)
+                {
+                    progress.Update("EnumAdapters.Error", index, detail: $"HRESULT=0x{hr:X8}; adapterNull={adapter is null}; acceptedCandidates={candidates.Count}");
+                    if (index == 0 && candidates.Count == 0)
+                    {
+                        throw new InvalidOperationException(
+                            $"IDXGIFactory1.EnumAdapters failed on the first adapter query. HRESULT=0x{hr:X8}; adapterNull={adapter is null}.");
+                    }
+
+                    reachedEndOfList = true;
+                    break;
+                }
+
+                if (adapter is null)
+                {
+                    progress.Update("EnumAdapters.NullAdapter", index, detail: $"acceptedCandidates={candidates.Count}");
+                    if (index == 0 && candidates.Count == 0)
+                    {
+                        throw new InvalidOperationException(
+                            "IDXGIFactory1.EnumAdapters returned success but produced a null adapter on the first query.");
+                    }
+
+                    reachedEndOfList = true;
+                    break;
+                }
+
+                progress.Update("TryBuildCandidate.Legacy.Begin", index);
+                try
+                {
+                    var candidate = TryBuildCandidate(index, adapter, progress);
+                    RecordCandidate(candidates, seenCandidateIdentities, candidate, index, progress);
+                }
+                catch (Exception ex) when (IsRecoverableAdapterProbeException(ex))
+                {
+                    var failure = new InvalidOperationException(
+                        $"Failed while processing DXGI adapter index {index} with EnumAdapters.",
+                        ex);
+                    adapterFailures.Add(failure);
+                    progress.Update(
+                        "AdapterIteration.Legacy.Exception",
+                        index,
+                        detail: $"{ex.GetType().Name}: {TruncateForDiagnostics(ex.Message, 256)}");
+                    continue;
+                }
+            }
+            finally
+            {
+                ReleaseComObjectQuietly(adapter);
+            }
+        }
+
+        if (!reachedEndOfList)
+        {
+            throw new InvalidOperationException(
+                $"IDXGIFactory1.EnumAdapters exceeded the safety limit of {MaxReasonableAdapterScanCount} indices without reporting end-of-list. " +
+                $"acceptedCandidates={candidates.Count}.");
+        }
+
+        if (candidates.Count == 0 && adapterFailures.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"DXGI EnumAdapters did not yield any usable GPU candidates because {adapterFailures.Count} adapter probe(s) failed during capability inspection.",
+                new AggregateException(adapterFailures));
+        }
+
+        progress.Update("Enumeration.Legacy.Complete", detail: $"EnumAdapters;candidates={candidates.Count}");
+        return candidates;
+    }
+
+    private static void RecordCandidate(
+        List<WindowsGpuCandidate> candidates,
+        HashSet<string> seenCandidateIdentities,
+        WindowsGpuCandidate? candidate,
+        uint index,
+        GpuProbeProgress progress)
+    {
+        if (candidate is null)
+        {
+            progress.Update("TryBuildCandidate.Rejected", index);
+            return;
+        }
+
+        var identity = BuildPhysicalAdapterIdentity(candidate);
+        if (!seenCandidateIdentities.Add(identity))
+        {
+            progress.Update("TryBuildCandidate.DuplicatePhysicalAdapter", index, candidate.Description, detail: identity);
+            return;
+        }
+
+        candidates.Add(candidate);
+        progress.Update("TryBuildCandidate.Accepted", index, candidate.Description, detail: identity);
     }
 
     internal static IReadOnlyList<GpuOptionDescriptor> BuildOptionList(
@@ -193,40 +553,260 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
     private static WindowsGpuCandidate? TryBuildCandidate(
         uint index,
         IDXGIAdapter1 adapter,
-        IList<DisplayControllerInfo> controllers)
+        GpuProbeProgress progress)
     {
         adapter.GetDesc1(out var desc);
-        var description = desc.Description?.TrimEnd('\0').Trim() ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(description))
+        return TryBuildCandidateCore(
+            index,
+            adapter,
+            desc.Description?.TrimEnd('\0').Trim() ?? string.Empty,
+            desc.VendorId,
+            desc.DeviceId,
+            desc.AdapterLuid,
+            isSoftwareAdapter: (desc.Flags & DxgiAdapterFlagSoftware) != 0,
+            progress);
+    }
+
+    private static WindowsGpuCandidate? TryBuildCandidate(
+        uint index,
+        IDXGIAdapter adapter,
+        GpuProbeProgress progress)
+    {
+        adapter.GetDesc(out var desc);
+        return TryBuildCandidateCore(
+            index,
+            adapter,
+            desc.Description?.TrimEnd('\0').Trim() ?? string.Empty,
+            desc.VendorId,
+            desc.DeviceId,
+            desc.AdapterLuid,
+            isSoftwareAdapter: false,
+            progress);
+    }
+
+    private static WindowsGpuCandidate? TryBuildCandidateCore(
+        uint index,
+        object adapter,
+        string description,
+        uint vendorId,
+        uint deviceId,
+        Luid adapterLuid,
+        bool isSoftwareAdapter,
+        GpuProbeProgress progress)
+    {
+        progress.Update(
+            "Adapter.Describe",
+            index,
+            description,
+            $"vendor=0x{vendorId:X4}; device=0x{deviceId:X4}; luid={adapterLuid.HighPart}:{adapterLuid.LowPart}; software={isSoftwareAdapter}");
+        if (string.IsNullOrWhiteSpace(description) || isSoftwareAdapter)
         {
             return null;
         }
 
-        if ((desc.Flags & DxgiAdapterFlagSoftware) != 0)
+        if (IsProbablyIndirectDisplayAdapter(description, string.Empty))
         {
+            progress.Update("Adapter.RejectedIndirectDisplay", index, description, "source=description");
             return null;
         }
 
+        var instancePath = GetAdapterInstancePath(adapterLuid)?.Trim() ?? string.Empty;
+        if (IsProbablyIndirectDisplayAdapter(description, instancePath)
+            || IsIndirectDisplayAdapter(instancePath))
+        {
+            progress.Update(
+                "Adapter.RejectedIndirectDisplay",
+                index,
+                description,
+                $"instancePath={(string.IsNullOrWhiteSpace(instancePath) ? "<none>" : instancePath)}");
+            return null;
+        }
+
+        var driverInfo = GetGpuDriverInformation(description, instancePath);
+        progress.Update(
+            "Adapter.Metadata",
+            index,
+            description,
+            $"instancePath={(string.IsNullOrWhiteSpace(instancePath) ? "<none>" : instancePath)}; driverVersion={(string.IsNullOrWhiteSpace(driverInfo.DriverVersion) ? "<none>" : driverInfo.DriverVersion)}; " +
+            $"driverDate={(driverInfo.DriverDate.HasValue ? driverInfo.DriverDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) : "<none>")}");
+        progress.Update("CheckD3D12Support.Level11_0.Begin", index, description);
         if (!CheckD3D12Support(adapter, D3DFeatureLevel.Level11_0))
         {
+            progress.Update("CheckD3D12Support.Level11_0.Unsupported", index, description);
             return null;
         }
 
-        var controller = MatchController(controllers, description, desc.VendorId, desc.DeviceId);
-        var instancePath = controller?.PnpDeviceId?.Trim() ?? string.Empty;
-        if (IsProbablyIndirectDisplayAdapter(description, instancePath))
-        {
-            return null;
-        }
-
-        var deprecated = IsGpuDeprecated(adapter, desc, controller);
+        progress.Update("CheckD3D12Support.Level12_0.Begin", index, description);
+        var deprecated = IsGpuDeprecated(adapter, vendorId, deviceId, driverInfo);
+        progress.Update("CheckD3D12Support.Level12_0.End", index, description, $"deprecated={deprecated}");
         return new WindowsGpuCandidate(
             AdapterIndex: index,
             Description: description,
             InstancePath: instancePath,
             IsDeprecated: deprecated,
-            DriverDate: controller?.DriverDate,
-            DriverVersion: string.IsNullOrWhiteSpace(controller?.DriverVersion) ? null : controller.DriverVersion.Trim());
+            DriverDate: driverInfo.DriverDate,
+            DriverVersion: driverInfo.DriverVersion,
+            AdapterLuidLowPart: adapterLuid.LowPart,
+            AdapterLuidHighPart: adapterLuid.HighPart);
+    }
+
+    private static string? GetAdapterInstancePath(Luid luid)
+    {
+        try
+        {
+            var request = new DisplayConfigAdapterName
+            {
+                Header = new DisplayConfigDeviceInfoHeader
+                {
+                    Type = DisplayConfigDeviceInfoType.GetAdapterName,
+                    Size = (uint)Marshal.SizeOf<DisplayConfigAdapterName>(),
+                    AdapterId = luid,
+                    Id = 0,
+                },
+                AdapterDevicePath = string.Empty,
+            };
+
+            if (DisplayConfigGetDeviceInfo(ref request) != CrSuccess)
+            {
+                return null;
+            }
+
+            var interfacePath = request.AdapterDevicePath?.TrimEnd('\0').Trim();
+            if (string.IsNullOrWhiteSpace(interfacePath))
+            {
+                return null;
+            }
+
+            var instanceIdKey = DevPKeyDeviceInstanceId;
+            uint size = 0;
+            var result = CM_Get_Device_Interface_Property(
+                interfacePath,
+                ref instanceIdKey,
+                out var propertyType,
+                null,
+                ref size,
+                0);
+            if (result != CrBufferSmall || propertyType != DevPropTypeString || size < 2)
+            {
+                return null;
+            }
+
+            var buffer = new byte[size];
+            result = CM_Get_Device_Interface_Property(
+                interfacePath,
+                ref instanceIdKey,
+                out propertyType,
+                buffer,
+                ref size,
+                0);
+            if (result != CrSuccess || propertyType != DevPropTypeString || size < 2)
+            {
+                return null;
+            }
+
+            return Encoding.Unicode.GetString(buffer, 0, checked((int)size - 2)).Trim();
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static GpuDriverInformation GetGpuDriverInformation(string description, string instancePath)
+    {
+        if (string.IsNullOrWhiteSpace(instancePath))
+        {
+            return new GpuDriverInformation(description, null, null);
+        }
+
+        try
+        {
+            if (CM_Locate_DevNode(out var devInst, instancePath, CmLocateDevNodeNormal) != CrSuccess)
+            {
+                return new GpuDriverInformation(description, null, null);
+            }
+
+            return new GpuDriverInformation(
+                description,
+                ReadDevNodeStringProperty(devInst, DevPKeyDeviceDriverVersion),
+                ReadDevNodeFileTimeProperty(devInst, DevPKeyDeviceDriverDate));
+        }
+        catch
+        {
+            return new GpuDriverInformation(description, null, null);
+        }
+    }
+
+    private static string? ReadDevNodeStringProperty(uint devInst, DevPropKey propertyKey)
+    {
+        uint size = 0;
+        var result = CM_Get_DevNode_Property(devInst, ref propertyKey, out var propertyType, null, ref size, 0);
+        if (result != CrBufferSmall || propertyType != DevPropTypeString || size < 2)
+        {
+            return null;
+        }
+
+        var buffer = new byte[size];
+        result = CM_Get_DevNode_Property(devInst, ref propertyKey, out propertyType, buffer, ref size, 0);
+        if (result != CrSuccess || propertyType != DevPropTypeString || size < 2)
+        {
+            return null;
+        }
+
+        var value = Encoding.Unicode.GetString(buffer, 0, checked((int)size - 2)).Trim();
+        return value.Length == 0 ? null : value;
+    }
+
+    private static DateTime? ReadDevNodeFileTimeProperty(uint devInst, DevPropKey propertyKey)
+    {
+        var buffer = new byte[sizeof(long)];
+        var size = (uint)buffer.Length;
+        var result = CM_Get_DevNode_Property(devInst, ref propertyKey, out var propertyType, buffer, ref size, 0);
+        if (result != CrSuccess || propertyType != DevPropTypeFileTime || size < sizeof(long))
+        {
+            return null;
+        }
+
+        var fileTime = BitConverter.ToInt64(buffer, 0);
+        if (fileTime <= 0)
+        {
+            return null;
+        }
+
+        try
+        {
+            return DateTime.FromFileTimeUtc(fileTime).Date;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static bool IsIndirectDisplayAdapter(string instancePath)
+    {
+        if (!OperatingSystem.IsWindows() || string.IsNullOrWhiteSpace(instancePath))
+        {
+            return false;
+        }
+
+        try
+        {
+            using var registryKey = Registry.LocalMachine.OpenSubKey(
+                @"SYSTEM\CurrentControlSet\Enum\" + instancePath,
+                writable: false);
+            var upperFilters = registryKey?.GetValue("UpperFilters");
+            return upperFilters switch
+            {
+                string[] values => values.Any(value => value.Equals("IndirectKmd", StringComparison.OrdinalIgnoreCase)),
+                string value => value.Contains("IndirectKmd", StringComparison.OrdinalIgnoreCase),
+                _ => false,
+            };
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     private static IReadOnlyList<GpuOptionDescriptor> DeduplicateSpecificGpuNames(
@@ -249,6 +829,25 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
                 ? option
                 : option with { DisplayName = $"{option.Description} (GPU {option.GpuIndex})" })
             .ToArray();
+    }
+
+    internal static string BuildPhysicalAdapterIdentity(WindowsGpuCandidate candidate)
+    {
+        if (!string.IsNullOrWhiteSpace(candidate.InstancePath))
+        {
+            return $"PNP:{candidate.InstancePath.Trim()}";
+        }
+
+        if (candidate.AdapterLuidLowPart != 0 || candidate.AdapterLuidHighPart != 0)
+        {
+            return string.Create(
+                CultureInfo.InvariantCulture,
+                $"LUID:{candidate.AdapterLuidHighPart}:{candidate.AdapterLuidLowPart}");
+        }
+
+        return string.Create(
+            CultureInfo.InvariantCulture,
+            $"UNRESOLVED:{candidate.Description.Trim()}#{candidate.AdapterIndex}");
     }
 
     private static GpuOptionDescriptor ResolveSelection(
@@ -298,27 +897,36 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
         return fallback;
     }
 
-    private static bool CheckD3D12Support(IDXGIAdapter1 adapter, D3DFeatureLevel minimumFeatureLevel)
+    private static bool CheckD3D12Support(object adapter, D3DFeatureLevel minimumFeatureLevel)
     {
         var deviceGuid = typeof(ID3D12Device).GUID;
         var hr = D3D12CreateDevice(adapter, minimumFeatureLevel, ref deviceGuid, IntPtr.Zero);
         return hr == SFalse;
     }
 
-    private static bool IsGpuDeprecated(IDXGIAdapter1 adapter, DXGIAdapterDesc1 desc, DisplayControllerInfo? controller)
+    private static bool IsRecoverableAdapterProbeException(Exception exception)
+    {
+        return exception is not (OutOfMemoryException or StackOverflowException or AccessViolationException);
+    }
+
+    private static bool IsGpuDeprecated(
+        object adapter,
+        uint vendorId,
+        uint deviceId,
+        GpuDriverInformation driverInfo)
     {
         if (!CheckD3D12Support(adapter, D3DFeatureLevel.Level12_0))
         {
             return true;
         }
 
-        if (controller?.DriverDate is DateTime driverDate
+        if (driverInfo.DriverDate is DateTime driverDate
             && driverDate < GpuCapabilityConstants.DirectMlDriverMinimumDate)
         {
             return true;
         }
 
-        var blacklist = desc.VendorId switch
+        var blacklist = vendorId switch
         {
             0x8086 => IntelBlacklist,
             0x1002 => AmdBlacklist,
@@ -326,14 +934,23 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
             _ => default,
         };
 
-        return blacklist.Contains((ushort)desc.DeviceId);
+        return vendorId == 0x8086
+            ? IsIntelDeviceBlacklistedByDefault((ushort)deviceId)
+            : blacklist.Contains((ushort)deviceId);
     }
 
-    private static bool IsProbablyIndirectDisplayAdapter(string description, string instancePath)
+    internal static bool IsIntelDeviceBlacklistedByDefault(ushort deviceId)
+    {
+        return IntelBlacklist.Contains(deviceId);
+    }
+
+    internal static bool IsProbablyIndirectDisplayAdapter(string description, string instancePath)
     {
         if (description.Contains("Remote", StringComparison.OrdinalIgnoreCase)
             || description.Contains("Basic Render", StringComparison.OrdinalIgnoreCase)
-            || description.Contains("Virtual", StringComparison.OrdinalIgnoreCase))
+            || description.Contains("Virtual", StringComparison.OrdinalIgnoreCase)
+            || description.Contains("Indirect", StringComparison.OrdinalIgnoreCase)
+            || description.Contains("Idd", StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
@@ -348,168 +965,131 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
         return $"DXGI#{index}#{description}";
     }
 
-    private static DisplayControllerInfo? MatchController(
-        IList<DisplayControllerInfo> controllers,
-        string description,
-        uint vendorId,
-        uint deviceId)
-    {
-        for (var i = 0; i < controllers.Count; i++)
-        {
-            var controller = controllers[i];
-            if (string.Equals(controller.Name, description, StringComparison.OrdinalIgnoreCase))
-            {
-                controllers.RemoveAt(i);
-                return controller;
-            }
-        }
-
-        var vendorNeedle = $"VEN_{vendorId:X4}";
-        var deviceNeedle = $"DEV_{deviceId:X4}";
-        for (var i = 0; i < controllers.Count; i++)
-        {
-            var controller = controllers[i];
-            if (controller.PnpDeviceId.Contains(vendorNeedle, StringComparison.OrdinalIgnoreCase)
-                && controller.PnpDeviceId.Contains(deviceNeedle, StringComparison.OrdinalIgnoreCase))
-            {
-                controllers.RemoveAt(i);
-                return controller;
-            }
-        }
-
-        return null;
-    }
-
-    private static List<DisplayControllerInfo> QueryDisplayControllers()
-    {
-        if (!OperatingSystem.IsWindows())
-        {
-            return [];
-        }
-
-        try
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = "powershell.exe",
-                Arguments = "-NoProfile -Command \"[Console]::OutputEncoding=[System.Text.Encoding]::UTF8; Get-CimInstance Win32_VideoController | Select-Object Name,PNPDeviceID,DriverVersion,DriverDate | ConvertTo-Json -Compress\"",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            };
-
-            using var process = Process.Start(startInfo);
-            if (process is null)
-            {
-                return [];
-            }
-
-            if (!process.WaitForExit(5000))
-            {
-                try
-                {
-                    process.Kill(entireProcessTree: true);
-                }
-                catch
-                {
-                    // best effort
-                }
-
-                return [];
-            }
-
-            var json = process.StandardOutput.ReadToEnd().Trim();
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return [];
-            }
-
-            using var document = JsonDocument.Parse(json);
-            var controllers = new List<DisplayControllerInfo>();
-            if (document.RootElement.ValueKind == JsonValueKind.Array)
-            {
-                foreach (var element in document.RootElement.EnumerateArray())
-                {
-                    if (TryParseController(element, out var controller))
-                    {
-                        controllers.Add(controller);
-                    }
-                }
-
-                return controllers;
-            }
-
-            if (TryParseController(document.RootElement, out var singleController))
-            {
-                controllers.Add(singleController);
-            }
-
-            return controllers;
-        }
-        catch
-        {
-            return [];
-        }
-    }
-
-    private static bool TryParseController(JsonElement element, out DisplayControllerInfo controller)
-    {
-        controller = default!;
-
-        var name = ReadJsonString(element, "Name");
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            return false;
-        }
-
-        controller = new DisplayControllerInfo(
-            Name: name.Trim(),
-            PnpDeviceId: ReadJsonString(element, "PNPDeviceID").Trim(),
-            DriverVersion: ReadJsonString(element, "DriverVersion").Trim(),
-            DriverDate: ParseWmiDate(ReadJsonString(element, "DriverDate")));
-        return true;
-    }
-
-    private static string ReadJsonString(JsonElement element, string propertyName)
-    {
-        if (!element.TryGetProperty(propertyName, out var value) || value.ValueKind != JsonValueKind.String)
-        {
-            return string.Empty;
-        }
-
-        return value.GetString() ?? string.Empty;
-    }
-
-    private static DateTime? ParseWmiDate(string value)
+    private static string TruncateForDiagnostics(string value, int maxLength = 512)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
-            return null;
+            return "<empty>";
         }
 
-        if (DateTimeOffset.TryParse(
-                value,
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.AssumeLocal,
-                out var parsedOffset))
+        var trimmed = value.Trim();
+        return trimmed.Length <= maxLength
+            ? trimmed
+            : trimmed[..maxLength] + "...";
+    }
+
+    private static void WriteProbeDiagnosticsLog(
+        GpuProbeProgress progress,
+        string outcome,
+        IReadOnlyList<WindowsGpuCandidate>? candidates = null,
+        Exception? exception = null)
+    {
+        try
         {
-            return parsedOffset.Date;
-        }
+            var debugDirectory = Path.Combine(AppContext.BaseDirectory, "debug");
+            Directory.CreateDirectory(debugDirectory);
 
-        if (value.Length < 8)
+            var builder = new StringBuilder();
+            builder.AppendLine($"TimestampUtc: {DateTimeOffset.UtcNow:O}");
+            builder.AppendLine($"Outcome: {outcome}");
+            builder.AppendLine($"OS: {RuntimeInformation.OSDescription}");
+            builder.AppendLine($"ProcessArchitecture: {RuntimeInformation.ProcessArchitecture}");
+            builder.AppendLine($"BaseDirectory: {AppContext.BaseDirectory}");
+            builder.AppendLine($"Summary: {progress.BuildSummary()}");
+
+            if (candidates is not null)
+            {
+                builder.AppendLine($"CandidateCount: {candidates.Count}");
+                foreach (var candidate in candidates)
+                {
+                    builder.AppendLine(
+                        string.Create(
+                            CultureInfo.InvariantCulture,
+                            $"Candidate: index={candidate.AdapterIndex}; description={candidate.Description}; instancePath={(string.IsNullOrWhiteSpace(candidate.InstancePath) ? "<none>" : candidate.InstancePath)}; " +
+                            $"identity={BuildPhysicalAdapterIdentity(candidate)}; deprecated={candidate.IsDeprecated}; luid={candidate.AdapterLuidHighPart}:{candidate.AdapterLuidLowPart}; " +
+                            $"driverVersion={(string.IsNullOrWhiteSpace(candidate.DriverVersion) ? "<none>" : candidate.DriverVersion)}; " +
+                            $"driverDate={(candidate.DriverDate.HasValue ? candidate.DriverDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) : "<none>")}"));
+                }
+            }
+
+            if (exception is not null)
+            {
+                builder.AppendLine("Exception:");
+                builder.AppendLine(exception.ToString());
+            }
+
+            var entries = progress.SnapshotEntries();
+            if (entries.Count > 0)
+            {
+                builder.AppendLine("ProgressEntries:");
+                foreach (var entry in entries)
+                {
+                    builder.AppendLine(entry);
+                }
+            }
+
+            File.WriteAllText(Path.Combine(debugDirectory, "windows-gpu-probe.log"), builder.ToString());
+        }
+        catch
         {
-            return null;
+            // Probe diagnostics are best-effort only.
+        }
+    }
+
+    private sealed class GpuProbeProgress
+    {
+        private readonly object _gate = new();
+        private readonly Stopwatch _stopwatch = Stopwatch.StartNew();
+        private readonly List<string> _entries = [];
+        private string _stage = "NotStarted";
+        private uint? _adapterIndex;
+        private string _adapterDescription = string.Empty;
+        private string _detail = string.Empty;
+
+        public void Update(string stage, uint? adapterIndex = null, string? adapterDescription = null, string? detail = null)
+        {
+            lock (_gate)
+            {
+                _stage = stage;
+                _adapterIndex = adapterIndex;
+                if (adapterDescription is not null)
+                {
+                    _adapterDescription = adapterDescription;
+                }
+
+                if (detail is not null)
+                {
+                    _detail = detail;
+                }
+
+                _entries.Add(
+                    string.Create(
+                        CultureInfo.InvariantCulture,
+                        $"{DateTimeOffset.UtcNow:O} | stage={_stage}; elapsedMs={_stopwatch.ElapsedMilliseconds}; adapterIndex={(_adapterIndex.HasValue ? _adapterIndex.Value.ToString(CultureInfo.InvariantCulture) : "<none>")}; adapterDescription={(_adapterDescription.Length == 0 ? "<none>" : _adapterDescription)}; detail={(_detail.Length == 0 ? "<none>" : _detail)}"));
+                if (_entries.Count > 512)
+                {
+                    _entries.RemoveAt(0);
+                }
+            }
         }
 
-        return DateTime.TryParseExact(
-            value[..8],
-            "yyyyMMdd",
-            CultureInfo.InvariantCulture,
-            System.Globalization.DateTimeStyles.AssumeLocal,
-            out var parsed)
-            ? parsed.Date
-            : null;
+        public string BuildSummary()
+        {
+            lock (_gate)
+            {
+                return string.Create(
+                    CultureInfo.InvariantCulture,
+                    $"stage={_stage}; elapsedMs={_stopwatch.ElapsedMilliseconds}; adapterIndex={(_adapterIndex.HasValue ? _adapterIndex.Value.ToString(CultureInfo.InvariantCulture) : "<none>")}; adapterDescription={(_adapterDescription.Length == 0 ? "<none>" : _adapterDescription)}; detail={(_detail.Length == 0 ? "<none>" : _detail)}");
+            }
+        }
+
+        public IReadOnlyList<string> SnapshotEntries()
+        {
+            lock (_gate)
+            {
+                return _entries.ToArray();
+            }
+        }
     }
 
     [SupportedOSPlatform("windows")]
@@ -536,12 +1116,44 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
         ref Guid riid,
         [MarshalAs(UnmanagedType.Interface)] out IDXGIFactory1 factory);
 
+    [DllImport("user32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+    private static extern int DisplayConfigGetDeviceInfo(ref DisplayConfigAdapterName requestPacket);
+
+    [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, EntryPoint = "CM_Get_Device_Interface_PropertyW")]
+    private static extern int CM_Get_Device_Interface_Property(
+        [MarshalAs(UnmanagedType.LPWStr)] string deviceInterface,
+        ref DevPropKey propertyKey,
+        out uint propertyType,
+        [MarshalAs(UnmanagedType.LPArray)] byte[]? propertyBuffer,
+        ref uint propertyBufferSize,
+        uint flags);
+
+    [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, EntryPoint = "CM_Locate_DevNodeW")]
+    private static extern int CM_Locate_DevNode(
+        out uint devInst,
+        [MarshalAs(UnmanagedType.LPWStr)] string deviceId,
+        uint flags);
+
+    [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, EntryPoint = "CM_Get_DevNode_PropertyW")]
+    private static extern int CM_Get_DevNode_Property(
+        uint devInst,
+        ref DevPropKey propertyKey,
+        out uint propertyType,
+        [MarshalAs(UnmanagedType.LPArray)] byte[]? propertyBuffer,
+        ref uint propertyBufferSize,
+        uint flags);
+
     [DllImport("d3d12.dll", ExactSpelling = true)]
     private static extern int D3D12CreateDevice(
         [MarshalAs(UnmanagedType.IUnknown)] object adapter,
         D3DFeatureLevel minimumFeatureLevel,
         ref Guid riid,
         IntPtr devicePointer);
+
+    private enum DisplayConfigDeviceInfoType : uint
+    {
+        GetAdapterName = 4,
+    }
 
     [ComImport]
     [Guid("770AAE78-F26F-4DBA-A829-253C83D1B387")]
@@ -552,10 +1164,13 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
         int SetPrivateDataInterface(ref Guid name, IntPtr unknown);
         int GetPrivateData(ref Guid name, ref uint dataSize, IntPtr data);
         int GetParent(ref Guid riid, out IntPtr parent);
-        int EnumAdapters(uint adapter, out IntPtr dxgiAdapter);
+        [PreserveSig]
+        int EnumAdapters(uint adapter, [MarshalAs(UnmanagedType.Interface)] out IDXGIAdapter dxgiAdapter);
         int MakeWindowAssociation(IntPtr windowHandle, uint flags);
         int GetWindowAssociation(out IntPtr windowHandle);
+        int CreateSwapChain(IntPtr device, IntPtr desc, out IntPtr swapChain);
         int CreateSoftwareAdapter(IntPtr moduleHandle, out IntPtr dxgiAdapter);
+        [PreserveSig]
         int EnumAdapters1(uint adapter, [MarshalAs(UnmanagedType.Interface)] out IDXGIAdapter1 dxgiAdapter);
         [PreserveSig]
         bool IsCurrent();
@@ -577,6 +1192,20 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
     }
 
     [ComImport]
+    [Guid("2411E7E1-12AC-4CCF-BD14-9798E8534DC0")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    private interface IDXGIAdapter
+    {
+        int SetPrivateData(ref Guid name, uint dataSize, IntPtr data);
+        int SetPrivateDataInterface(ref Guid name, IntPtr unknown);
+        int GetPrivateData(ref Guid name, ref uint dataSize, IntPtr data);
+        int GetParent(ref Guid riid, out IntPtr parent);
+        int EnumOutputs(uint output, out IntPtr dxgiOutput);
+        int GetDesc(out DXGIAdapterDesc desc);
+        int CheckInterfaceSupport(ref Guid interfaceName, out long umdVersion);
+    }
+
+    [ComImport]
     [Guid("189819F1-1DB6-4B57-BE54-1821339B85F7")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     private interface ID3D12Device
@@ -594,6 +1223,37 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
     {
         public uint LowPart;
         public int HighPart;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct DisplayConfigDeviceInfoHeader
+    {
+        public DisplayConfigDeviceInfoType Type;
+        public uint Size;
+        public Luid AdapterId;
+        public uint Id;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    private struct DisplayConfigAdapterName
+    {
+        public DisplayConfigDeviceInfoHeader Header;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string AdapterDevicePath;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private readonly struct DevPropKey
+    {
+        public DevPropKey(Guid fmtid, uint pid)
+        {
+            Fmtid = fmtid;
+            Pid = pid;
+        }
+
+        public readonly Guid Fmtid;
+        public readonly uint Pid;
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -629,10 +1289,9 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
         public uint Flags;
     }
 
-    private sealed record DisplayControllerInfo(
-        string Name,
-        string PnpDeviceId,
-        string DriverVersion,
+    private sealed record GpuDriverInformation(
+        string Description,
+        string? DriverVersion,
         DateTime? DriverDate);
 
     internal sealed record WindowsGpuCandidate(
@@ -641,5 +1300,7 @@ public sealed class WindowsGpuCapabilityService : IGpuCapabilityService
         string InstancePath,
         bool IsDeprecated,
         DateTime? DriverDate,
-        string? DriverVersion);
+        string? DriverVersion,
+        uint AdapterLuidLowPart = 0,
+        int AdapterLuidHighPart = 0);
 }

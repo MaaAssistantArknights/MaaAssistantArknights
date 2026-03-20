@@ -89,12 +89,16 @@ public sealed class NoOpFileDialogService : IFileDialogService
 
 public sealed class NoOpOverlayCapabilityService : IOverlayCapabilityService
 {
+    private bool _visible;
+
     public PlatformCapabilityStatus Capability => new(
         false,
         "Overlay attachment is unsupported, fallback to preview and logs only",
         Provider: "no-op",
         HasFallback: true,
         FallbackMode: "preview-and-log");
+
+    public event EventHandler<OverlayStateChangedEvent>? OverlayStateChanged;
 
     public Task<PlatformOperationResult> BindHostWindowAsync(
         nint hostWindowHandle,
@@ -122,10 +126,44 @@ public sealed class NoOpOverlayCapabilityService : IOverlayCapabilityService
     }
 
     public Task<PlatformOperationResult> SelectTargetAsync(string targetId, CancellationToken cancellationToken = default)
-        => Task.FromResult(PlatformOperation.FallbackSuccess(Capability.Provider, Capability.Message, "overlay.selectTarget", PlatformErrorCodes.OverlayUnsupported));
+    {
+        if (_visible)
+        {
+            OverlayStateChanged?.Invoke(
+                this,
+                new OverlayStateChangedEvent(
+                    OverlayRuntimeMode.Preview,
+                    Visible: true,
+                    TargetId: "preview",
+                    Action: "fallback-enter",
+                    Message: Capability.Message,
+                    Timestamp: DateTimeOffset.UtcNow,
+                    Provider: Capability.Provider,
+                    UsedFallback: true,
+                    ErrorCode: PlatformErrorCodes.OverlayUnsupported));
+        }
+
+        return Task.FromResult(PlatformOperation.FallbackSuccess(Capability.Provider, Capability.Message, "overlay.selectTarget", PlatformErrorCodes.OverlayUnsupported));
+    }
 
     public Task<PlatformOperationResult> SetVisibleAsync(bool visible, CancellationToken cancellationToken = default)
-        => Task.FromResult(PlatformOperation.FallbackSuccess(Capability.Provider, Capability.Message, "overlay.setVisible", PlatformErrorCodes.OverlayUnsupported));
+    {
+        _visible = visible;
+        OverlayStateChanged?.Invoke(
+            this,
+            new OverlayStateChangedEvent(
+                visible ? OverlayRuntimeMode.Preview : OverlayRuntimeMode.Hidden,
+                Visible: visible,
+                TargetId: "preview",
+                Action: visible ? "fallback-enter" : "hide",
+                Message: visible ? Capability.Message : "Overlay hidden.",
+                Timestamp: DateTimeOffset.UtcNow,
+                Provider: Capability.Provider,
+                UsedFallback: visible,
+                ErrorCode: visible ? PlatformErrorCodes.OverlayUnsupported : null));
+
+        return Task.FromResult(PlatformOperation.FallbackSuccess(Capability.Provider, Capability.Message, "overlay.setVisible", PlatformErrorCodes.OverlayUnsupported));
+    }
 }
 
 public sealed class NoOpPostActionExecutorService : IPostActionExecutorService

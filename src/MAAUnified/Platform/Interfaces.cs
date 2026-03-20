@@ -110,6 +110,24 @@ public sealed record GlobalHotkeyTriggeredEvent(
     string Gesture,
     DateTimeOffset Timestamp);
 
+public enum OverlayRuntimeMode
+{
+    Hidden = 0,
+    Preview = 1,
+    Native = 2,
+}
+
+public sealed record OverlayStateChangedEvent(
+    OverlayRuntimeMode Mode,
+    bool Visible,
+    string TargetId,
+    string Action,
+    string Message,
+    DateTimeOffset Timestamp,
+    string Provider = "unknown",
+    bool UsedFallback = false,
+    string? ErrorCode = null);
+
 public sealed record OverlayTarget(
     string Id,
     string DisplayName,
@@ -174,6 +192,8 @@ public interface IFileDialogService
 public interface IOverlayCapabilityService
 {
     PlatformCapabilityStatus Capability { get; }
+
+    event EventHandler<OverlayStateChangedEvent>? OverlayStateChanged;
 
     Task<PlatformOperationResult> BindHostWindowAsync(nint hostWindowHandle, bool clickThrough, double opacity, CancellationToken cancellationToken = default);
 

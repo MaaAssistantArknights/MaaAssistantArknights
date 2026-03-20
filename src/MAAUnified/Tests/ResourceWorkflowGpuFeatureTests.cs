@@ -71,6 +71,33 @@ public sealed class ResourceWorkflowGpuFeatureTests
                 && entry.Message.Contains("unsupported", StringComparison.OrdinalIgnoreCase));
     }
 
+    [Fact]
+    public async Task InitializeCoreAsync_GpuProbeFailure_FallsBackToCpuAndLogsDiagnostics()
+    {
+        var bridge = new CapturingBridge();
+        var log = new UiLogService();
+        var service = new ResourceWorkflowService("/tmp/maa", bridge, log, new ThrowingGpuCapabilityService());
+        var config = BuildConfig(new Dictionary<string, string>
+        {
+            [ConfigurationKeys.PerformanceUseGpu] = "True",
+            [ConfigurationKeys.PerformancePreferredGpuDescription] = "RTX",
+            [ConfigurationKeys.PerformancePreferredGpuInstancePath] = "PCI#0",
+        });
+
+        var result = await service.InitializeCoreAsync(config);
+
+        Assert.True(result.Success);
+        Assert.Equal(CoreGpuRequestMode.Cpu, bridge.LastRequest?.Gpu?.Mode);
+        Assert.Contains(
+            log.Snapshot,
+            entry => entry.Level == "ERROR"
+                && entry.Message.Contains("GPU capability probe failed during core initialization", StringComparison.OrdinalIgnoreCase));
+        Assert.Contains(
+            log.Snapshot,
+            entry => entry.Level == "WARN"
+                && entry.Message.Contains("Falling back to CPU OCR for this session", StringComparison.OrdinalIgnoreCase));
+    }
+
     private static UnifiedConfig BuildConfig(IReadOnlyDictionary<string, string> profileValues)
     {
         var profile = new UnifiedProfile();
@@ -176,6 +203,14 @@ public sealed class ResourceWorkflowGpuFeatureTests
                     StatusTextKey: "Settings.Performance.Gpu.Status.WindowsReady",
                     Provider: "scripted-windows"),
                 SelectedOption: selected);
+        }
+    }
+
+    private sealed class ThrowingGpuCapabilityService : IGpuCapabilityService
+    {
+        public GpuSelectionResolution Resolve(GpuPreference preference)
+        {
+            throw new InvalidOperationException("Synthetic GPU probe failure for test coverage.");
         }
     }
 }

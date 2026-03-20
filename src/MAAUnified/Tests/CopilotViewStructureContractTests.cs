@@ -21,6 +21,21 @@ public sealed class CopilotViewStructureContractTests
     }
 
     [Fact]
+    public void CopilotView_ShouldUseSharedOverlayContracts()
+    {
+        var root = GetMaaUnifiedRoot();
+        var xaml = File.ReadAllText(Path.Combine(root, "App", "Features", "Advanced", "CopilotView.axaml"));
+
+        Assert.Contains("Click=\"OnToggleOverlayClick\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("PointerPressed=\"OnOverlayButtonPointerPressed\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("ToolTip.Tip=\"{Binding DataContext.TaskQueuePage.OverlayButtonToolTip, RelativeSource={RelativeSource AncestorType=Window}}\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("Text=\"{Binding DataContext.TaskQueuePage.RootTexts[TaskQueue.Root.OverlayButton], RelativeSource={RelativeSource AncestorType=Window}}\"", xaml, StringComparison.Ordinal);
+        Assert.Contains("DataContext.TaskQueuePage.IsOverlayPreviewMode", xaml, StringComparison.Ordinal);
+        Assert.Contains("DataContext.TaskQueuePage.IsOverlayNativeMode", xaml, StringComparison.Ordinal);
+        Assert.Contains("DataContext.TaskQueuePage.IsOverlayHiddenMode", xaml, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void ConnectSettingsView_ShouldUseSharedCheckComboBox_ForConnectConfigSelection()
     {
         var root = GetMaaUnifiedRoot();

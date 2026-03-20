@@ -23,6 +23,7 @@ public sealed class WindowsGpuCapabilityServiceTests
         Assert.Equal(3, options.Count);
         Assert.Equal(GpuOptionKind.Disabled, options[0].Kind);
         Assert.Equal(GpuOptionKind.SystemDefault, options[1].Kind);
+        Assert.Equal(string.Empty, options[1].DisplayName);
         Assert.Equal("NVIDIA GeForce RTX 4060", options[1].Description);
         Assert.Equal(GpuOptionKind.SpecificGpu, options[2].Kind);
         Assert.True(options[2].GpuIndex.HasValue);
@@ -83,5 +84,88 @@ public sealed class WindowsGpuCapabilityServiceTests
         Assert.Equal(
             "PCI#1",
             Assert.Single(options.Where(option => option.Kind == GpuOptionKind.SpecificGpu)).InstancePath);
+    }
+
+    [Fact]
+    public void BuildPhysicalAdapterIdentity_PrefersInstancePath()
+    {
+        var identity = WindowsGpuCapabilityService.BuildPhysicalAdapterIdentity(
+            new WindowsGpuCapabilityService.WindowsGpuCandidate(
+                AdapterIndex: 0,
+                Description: "Intel(R) Iris(R) Xe Graphics",
+                InstancePath: "PCI#8086",
+                IsDeprecated: false,
+                DriverDate: new DateTime(2025, 1, 1),
+                DriverVersion: "32.0.101.7082",
+                AdapterLuidLowPart: 123,
+                AdapterLuidHighPart: 456));
+
+        Assert.Equal("PNP:PCI#8086", identity);
+    }
+
+    [Fact]
+    public void BuildPhysicalAdapterIdentity_FallsBackToLuidWhenInstancePathMissing()
+    {
+        var identity = WindowsGpuCapabilityService.BuildPhysicalAdapterIdentity(
+            new WindowsGpuCapabilityService.WindowsGpuCandidate(
+                AdapterIndex: 1,
+                Description: "Intel(R) Iris(R) Xe Graphics",
+                InstancePath: string.Empty,
+                IsDeprecated: false,
+                DriverDate: new DateTime(2025, 1, 1),
+                DriverVersion: "32.0.101.7082",
+                AdapterLuidLowPart: 123,
+                AdapterLuidHighPart: 456));
+
+        Assert.Equal("LUID:456:123", identity);
+    }
+
+    [Fact]
+    public void BuildPhysicalAdapterIdentity_SameInstancePathProducesSameIdentityAcrossAdapterIndices()
+    {
+        var first = WindowsGpuCapabilityService.BuildPhysicalAdapterIdentity(
+            new WindowsGpuCapabilityService.WindowsGpuCandidate(
+                AdapterIndex: 0,
+                Description: "Intel(R) Iris(R) Xe Graphics",
+                InstancePath: "PCI#8086",
+                IsDeprecated: false,
+                DriverDate: new DateTime(2025, 1, 1),
+                DriverVersion: "32.0.101.7082",
+                AdapterLuidLowPart: 123,
+                AdapterLuidHighPart: 456));
+        var second = WindowsGpuCapabilityService.BuildPhysicalAdapterIdentity(
+            new WindowsGpuCapabilityService.WindowsGpuCandidate(
+                AdapterIndex: 1,
+                Description: "Intel(R) Iris(R) Xe Graphics",
+                InstancePath: "PCI#8086",
+                IsDeprecated: false,
+                DriverDate: new DateTime(2025, 1, 1),
+                DriverVersion: "32.0.101.7082",
+                AdapterLuidLowPart: 999,
+                AdapterLuidHighPart: 888));
+
+        Assert.Equal(first, second);
+    }
+
+    [Fact]
+    public void IntelXeFamily_ShouldNotBeBlacklistedByDefault()
+    {
+        Assert.False(WindowsGpuCapabilityService.IsIntelDeviceBlacklistedByDefault(0xA7A0));
+        Assert.True(WindowsGpuCapabilityService.IsIntelDeviceBlacklistedByDefault(0x8A70));
+    }
+
+    [Fact]
+    public void IsProbablyIndirectDisplayAdapter_OrayIddDriver_IsRecognizedEarly()
+    {
+        Assert.True(WindowsGpuCapabilityService.IsProbablyIndirectDisplayAdapter("OrayIddDriver Device", string.Empty));
+    }
+
+    [Fact]
+    public void IsProbablyIndirectDisplayAdapter_IntelXeGraphics_IsNotFlagged()
+    {
+        Assert.False(
+            WindowsGpuCapabilityService.IsProbablyIndirectDisplayAdapter(
+                "Intel(R) Iris(R) Xe Graphics",
+                @"PCI\VEN_8086&DEV_A7A0&SUBSYS_50D117AA&REV_04\3&11583659&1&10"));
     }
 }

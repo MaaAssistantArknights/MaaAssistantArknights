@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
+using MAAUnified.App.Features.Dialogs;
 using MAAUnified.App.ViewModels.Settings;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
@@ -94,6 +95,59 @@ public sealed class SettingsModuleAK2FeatureTests
         Assert.Equal(180, vm.TaskTimeoutMinutes);
         Assert.Equal(45, vm.ReminderIntervalMinutes);
         Assert.False(vm.HasPendingStartPerformanceChanges);
+    }
+
+    [Fact]
+    public async Task SaveStartPerformanceSettings_GpuChangedAndRestartConfirmed_ShouldRestartAndExit()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync(gpuCapabilityService: new ScriptedWindowsGpuCapabilityService());
+        fixture.Runtime.AppLifecycleService = new SpyAppLifecycleService(
+            restartResult: UiOperationResult.Ok("Restart process launched."),
+            exitResult: UiOperationResult.Ok("Application shutdown requested."));
+        var dialogService = new ScriptedDialogService(DialogReturnSemantic.Confirm);
+        var vm = new SettingsPageViewModel(
+            fixture.Runtime,
+            new ConnectionGameSharedStateViewModel(),
+            dialogService: dialogService);
+        await vm.InitializeAsync();
+
+        vm.PerformanceUseGpu = true;
+        vm.SelectedGpuOption = Assert.Single(
+            vm.AvailableGpuOptions,
+            option => option.Descriptor.InstancePath == "GPU-PATH");
+
+        await vm.SaveStartPerformanceSettingsAsync();
+
+        Assert.Equal(1, dialogService.WarningConfirmCallCount);
+        Assert.Equal(1, Assert.IsType<SpyAppLifecycleService>(fixture.Runtime.AppLifecycleService).RestartCallCount);
+        Assert.Equal(1, Assert.IsType<SpyAppLifecycleService>(fixture.Runtime.AppLifecycleService).ExitCallCount);
+    }
+
+    [Fact]
+    public async Task SaveStartPerformanceSettings_GpuChangedAndRestartDeferred_ShouldSaveWithoutRestart()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync(gpuCapabilityService: new ScriptedWindowsGpuCapabilityService());
+        fixture.Runtime.AppLifecycleService = new SpyAppLifecycleService(
+            restartResult: UiOperationResult.Ok("Restart process launched."),
+            exitResult: UiOperationResult.Ok("Application shutdown requested."));
+        var dialogService = new ScriptedDialogService(DialogReturnSemantic.Cancel);
+        var vm = new SettingsPageViewModel(
+            fixture.Runtime,
+            new ConnectionGameSharedStateViewModel(),
+            dialogService: dialogService);
+        await vm.InitializeAsync();
+
+        vm.PerformanceUseGpu = true;
+        vm.SelectedGpuOption = Assert.Single(
+            vm.AvailableGpuOptions,
+            option => option.Descriptor.InstancePath == "GPU-PATH");
+
+        await vm.SaveStartPerformanceSettingsAsync();
+
+        Assert.Equal(1, dialogService.WarningConfirmCallCount);
+        Assert.Equal(0, Assert.IsType<SpyAppLifecycleService>(fixture.Runtime.AppLifecycleService).RestartCallCount);
+        Assert.Equal(0, Assert.IsType<SpyAppLifecycleService>(fixture.Runtime.AppLifecycleService).ExitCallCount);
+        Assert.Equal("GPU 设置已保存，请重启应用后生效。", vm.StatusMessage);
     }
 
     [Fact]
@@ -264,6 +318,23 @@ public sealed class SettingsModuleAK2FeatureTests
             vm.RootTexts["Settings.Performance.Gpu.Warning.SelectionFallback"],
             vm.GpuWarningMessage,
             StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task Initialize_WindowsGpuSelection_SystemDefaultDisplayShowsResolvedGpuName()
+    {
+        await using var fixture = await RuntimeFixture.CreateAsync(gpuCapabilityService: new ScriptedWindowsGpuCapabilityService());
+
+        var vm = new SettingsPageViewModel(fixture.Runtime, new ConnectionGameSharedStateViewModel());
+        await vm.InitializeAsync();
+
+        var systemDefault = Assert.Single(
+            vm.AvailableGpuOptions,
+            option => option.Descriptor.Kind == GpuOptionKind.SystemDefault);
+        Assert.Equal(
+            $"{vm.RootTexts["Settings.Performance.Gpu.Option.SystemDefault"]} (RTX)",
+            systemDefault.Display);
+        Assert.Equal("RTX", systemDefault.Descriptor.Description);
     }
 
     [Fact]
@@ -620,6 +691,103 @@ public sealed class SettingsModuleAK2FeatureTests
         public ValueTask DisposeAsync()
         {
             return ValueTask.CompletedTask;
+        }
+    }
+
+    private sealed class ScriptedDialogService : IAppDialogService
+    {
+        private readonly DialogReturnSemantic _warningConfirmReturn;
+
+        public ScriptedDialogService(DialogReturnSemantic warningConfirmReturn)
+        {
+            _warningConfirmReturn = warningConfirmReturn;
+        }
+
+        public int WarningConfirmCallCount { get; private set; }
+
+        public Task<DialogCompletion<AnnouncementDialogPayload>> ShowAnnouncementAsync(
+            AnnouncementDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+            => Task.FromResult(new DialogCompletion<AnnouncementDialogPayload>(DialogReturnSemantic.Close, null, "scripted"));
+
+        public Task<DialogCompletion<VersionUpdateDialogPayload>> ShowVersionUpdateAsync(
+            VersionUpdateDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+            => Task.FromResult(new DialogCompletion<VersionUpdateDialogPayload>(DialogReturnSemantic.Close, null, "scripted"));
+
+        public Task<DialogCompletion<ProcessPickerDialogPayload>> ShowProcessPickerAsync(
+            ProcessPickerDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+            => Task.FromResult(new DialogCompletion<ProcessPickerDialogPayload>(DialogReturnSemantic.Close, null, "scripted"));
+
+        public Task<DialogCompletion<EmulatorPathDialogPayload>> ShowEmulatorPathAsync(
+            EmulatorPathDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+            => Task.FromResult(new DialogCompletion<EmulatorPathDialogPayload>(DialogReturnSemantic.Close, null, "scripted"));
+
+        public Task<DialogCompletion<ErrorDialogPayload>> ShowErrorAsync(
+            ErrorDialogRequest request,
+            string sourceScope,
+            Func<CancellationToken, Task<UiOperationResult>>? openIssueReportAsync = null,
+            CancellationToken cancellationToken = default)
+            => Task.FromResult(new DialogCompletion<ErrorDialogPayload>(DialogReturnSemantic.Close, null, "scripted"));
+
+        public Task<DialogCompletion<AchievementListDialogPayload>> ShowAchievementListAsync(
+            AchievementListDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+            => Task.FromResult(new DialogCompletion<AchievementListDialogPayload>(DialogReturnSemantic.Close, null, "scripted"));
+
+        public Task<DialogCompletion<TextDialogPayload>> ShowTextAsync(
+            TextDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+            => Task.FromResult(new DialogCompletion<TextDialogPayload>(DialogReturnSemantic.Close, null, "scripted"));
+
+        public Task<DialogCompletion<WarningConfirmDialogPayload>> ShowWarningConfirmAsync(
+            WarningConfirmDialogRequest request,
+            string sourceScope,
+            CancellationToken cancellationToken = default)
+        {
+            WarningConfirmCallCount++;
+            return Task.FromResult(new DialogCompletion<WarningConfirmDialogPayload>(
+                _warningConfirmReturn,
+                _warningConfirmReturn == DialogReturnSemantic.Confirm ? new WarningConfirmDialogPayload(true) : null,
+                "scripted"));
+        }
+    }
+
+    private sealed class SpyAppLifecycleService : IAppLifecycleService
+    {
+        private readonly UiOperationResult _restartResult;
+        private readonly UiOperationResult _exitResult;
+
+        public SpyAppLifecycleService(UiOperationResult restartResult, UiOperationResult exitResult)
+        {
+            _restartResult = restartResult;
+            _exitResult = exitResult;
+        }
+
+        public bool SupportsExit => true;
+
+        public int RestartCallCount { get; private set; }
+
+        public int ExitCallCount { get; private set; }
+
+        public Task<UiOperationResult> RestartAsync(CancellationToken cancellationToken = default)
+        {
+            RestartCallCount++;
+            return Task.FromResult(_restartResult);
+        }
+
+        public Task<UiOperationResult> ExitAsync(CancellationToken cancellationToken = default)
+        {
+            ExitCallCount++;
+            return Task.FromResult(_exitResult);
         }
     }
 }

@@ -503,8 +503,7 @@
                         HorizontalAlignment="Center"
                         VerticalContentAlignment="Center"
                         Content="下次不再提示"
-                        IsChecked="{Binding GachaShowDisclaimerNoMore}"
-                        IsEnabled="False" />
+                        IsChecked="{Binding GachaShowDisclaimerNoMore}" />
             </StackPanel>
           </Border>
         </StackPanel>

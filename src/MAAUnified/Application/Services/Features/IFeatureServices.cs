@@ -263,6 +263,8 @@ public interface IPlatformCapabilityService
 
     event EventHandler<GlobalHotkeyTriggeredEvent>? GlobalHotkeyTriggered;
 
+    event EventHandler<OverlayStateChangedEvent>? OverlayStateChanged;
+
     Task<UiOperationResult<PlatformCapabilitySnapshot>> GetSnapshotAsync(CancellationToken cancellationToken = default);
 
     Task<UiOperationResult> InitializeTrayAsync(string appTitle, TrayMenuText? menuText, CancellationToken cancellationToken = default);

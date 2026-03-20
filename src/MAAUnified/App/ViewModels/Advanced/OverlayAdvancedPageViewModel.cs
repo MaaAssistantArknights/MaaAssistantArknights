@@ -144,9 +144,12 @@ public sealed class OverlayAdvancedPageViewModel : PageViewModelBase
             return;
         }
 
-        var saveResult = await Runtime.SettingsFeatureService.SaveGlobalSettingAsync(
-            Compat.Constants.ConfigurationKeys.OverlayTarget,
-            OverlayTargetPersistence.Serialize(selectedTarget),
+        var saveResult = await Runtime.SettingsFeatureService.SaveGlobalSettingsAsync(
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                [Compat.Constants.ConfigurationKeys.OverlayTarget] = OverlayTargetPersistence.Serialize(selectedTarget),
+                [Compat.Constants.ConfigurationKeys.OverlayPreviewPinned] = OverlayTargetPersistence.SerializePreviewPreference(selectedTarget),
+            },
             cancellationToken);
         if (saveResult.Success)
         {

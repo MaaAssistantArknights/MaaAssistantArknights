@@ -2,8 +2,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:MAAUnified.App.ViewModels"
         xmlns:rootViews="clr-namespace:MAAUnified.App.Features.Root"
         xmlns:advancedViews="clr-namespace:MAAUnified.App.Features.Advanced"
+        xmlns:taskVm="clr-namespace:MAAUnified.App.ViewModels.TaskQueue"
+        xmlns:copilotVm="clr-namespace:MAAUnified.App.ViewModels.Copilot"
+        xmlns:toolboxVm="clr-namespace:MAAUnified.App.ViewModels.Toolbox"
+        xmlns:settingsVm="clr-namespace:MAAUnified.App.ViewModels.Settings"
         mc:Ignorable="d"
         x:Class="MAAUnified.App.Views.MainWindow"
         Width="{DynamicResource MAA.Size.MainWindow.Width}"
@@ -12,6 +17,50 @@
         MinHeight="{DynamicResource MAA.Size.MainWindow.MinHeight}"
         Title="{Binding WindowTitle}"
         Topmost="{Binding IsWindowTopMost}">
+  <Window.DataTemplates>
+    <DataTemplate DataType="viewModels:RootPageHostViewModel">
+      <Border Classes="wpf-panel">
+        <Grid RowDefinitions="Auto,Auto,Auto,*">
+          <TextBlock Classes="section-title"
+                     HorizontalAlignment="Center"
+                     Text="{Binding StatusTitle}" />
+          <ProgressBar Grid.Row="1"
+                       Width="{DynamicResource MAA.Size.TaskQueue.PostActionSummaryWidth}"
+                       Margin="{DynamicResource MAA.Thickness.MarginTopSection}"
+                       HorizontalAlignment="Center"
+                       IsIndeterminate="True"
+                       IsVisible="{Binding IsLoading}" />
+          <TextBlock Grid.Row="2"
+                     Width="{DynamicResource MAA.Size.TaskQueue.PostActionSummaryWidth}"
+                     Margin="{DynamicResource MAA.Thickness.MarginTopSection}"
+                     HorizontalAlignment="Center"
+                     TextAlignment="Center"
+                     Classes="long-wrap subtle"
+                     Text="{Binding StatusMessage}" />
+          <TextBlock Grid.Row="3"
+                     Width="{DynamicResource MAA.Size.TaskQueue.ConfigPanelWidth}"
+                     Margin="{DynamicResource MAA.Thickness.MarginTopSection}"
+                     HorizontalAlignment="Center"
+                     TextAlignment="Center"
+                     Classes="long-wrap state-error"
+                     Text="{Binding ErrorMessage}"
+                     IsVisible="{Binding HasErrorMessage}" />
+        </Grid>
+      </Border>
+    </DataTemplate>
+    <DataTemplate DataType="taskVm:TaskQueuePageViewModel">
+      <rootViews:TaskQueueView />
+    </DataTemplate>
+    <DataTemplate DataType="copilotVm:CopilotPageViewModel">
+      <advancedViews:CopilotView />
+    </DataTemplate>
+    <DataTemplate DataType="toolboxVm:ToolboxPageViewModel">
+      <advancedViews:ToolboxView />
+    </DataTemplate>
+    <DataTemplate DataType="settingsVm:SettingsPageViewModel">
+      <rootViews:SettingsView />
+    </DataTemplate>
+  </Window.DataTemplates>
   <Grid Margin="{DynamicResource MAA.Thickness.PageMargin}">
     <Image
            Source="{Binding ShellBackgroundImage}"
@@ -27,16 +76,16 @@
     <TabControl Classes="root-nav"
                 SelectedIndex="{Binding SelectedRootTabIndex}">
       <TabItem Header="{Binding RootTexts[Main.Tab.TaskQueue]}">
-        <rootViews:TaskQueueView DataContext="{Binding TaskQueuePage}" />
+        <ContentControl Content="{Binding TaskQueueRootPage.PageContent}" />
       </TabItem>
       <TabItem Header="{Binding RootTexts[Main.Tab.Copilot]}">
-        <advancedViews:CopilotView DataContext="{Binding CopilotPage}" />
+        <ContentControl Content="{Binding CopilotRootPage.PageContent}" />
       </TabItem>
       <TabItem Header="{Binding RootTexts[Main.Tab.Toolbox]}">
-        <advancedViews:ToolboxView DataContext="{Binding ToolboxPage}" />
+        <ContentControl Content="{Binding ToolboxRootPage.PageContent}" />
       </TabItem>
       <TabItem Header="{Binding RootTexts[Main.Tab.Settings]}">
-        <rootViews:SettingsView DataContext="{Binding SettingsPage}" />
+        <ContentControl Content="{Binding SettingsRootPage.PageContent}" />
       </TabItem>
     </TabControl>
   </Grid>

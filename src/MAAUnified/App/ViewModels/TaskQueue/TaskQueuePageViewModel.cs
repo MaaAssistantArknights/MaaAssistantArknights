@@ -86,6 +86,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
     private readonly Action<LocalizationFallbackInfo>? _localizationFallbackReporter;
     private readonly IAppDialogService _dialogService;
     private readonly Action<string>? _navigateToSettingsSection;
+    private readonly Func<CancellationToken, Task<bool>>? _ensureCoreReadyForExecutionAsync;
     private Task _pendingBindingTask = Task.CompletedTask;
     private CancellationTokenSource? _pendingBindingCts;
     private CancellationTokenSource? _moduleAutoSaveCts;
@@ -95,6 +96,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
     private SessionState _currentSessionState;
     private bool _hasBlockingConfigIssues;
     private int _blockingConfigIssueCount;
+    private bool _isCoreReady = true;
     private bool _isAdvancedSettingsSelected;
     private bool _isPostActionPanelSelected;
     private bool _isWaitingForStop;
@@ -108,11 +110,13 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
     private string _overlayStatusText = string.Empty;
     private OverlayTarget? _selectedOverlayTarget = new("preview", "Preview + Logs", true);
     private bool _overlayVisible;
+    private OverlayRuntimeMode _overlayMode = OverlayRuntimeMode.Hidden;
     private string _currentRunId = "-";
     private string _lastPostActionRunId = string.Empty;
     private string _selectedTaskValidationSummary = string.Empty;
     private bool _selectedTaskHasBlockingValidationIssues;
     private int _selectedTaskValidationIssueCount;
+    private string _coreInitializationMessage = string.Empty;
     private string _startPrecheckWarningMessage = string.Empty;
     private string _noTaskSelectedHint = "Select a task from the left list to edit its settings.";
     private TaskQueueLogEntryViewModel _downloadLogEntry = new(string.Empty, string.Empty, "INFO");
@@ -135,13 +139,15 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         ConnectionGameSharedStateViewModel connectionGameSharedState,
         Action<LocalizationFallbackInfo>? localizationFallbackReporter = null,
         IAppDialogService? dialogService = null,
-        Action<string>? navigateToSettingsSection = null)
+        Action<string>? navigateToSettingsSection = null,
+        Func<CancellationToken, Task<bool>>? ensureCoreReadyForExecutionAsync = null)
         : base(runtime)
     {
         _connectionGameSharedState = connectionGameSharedState;
         _localizationFallbackReporter = localizationFallbackReporter;
         _dialogService = dialogService ?? NoOpAppDialogService.Instance;
         _navigateToSettingsSection = navigateToSettingsSection;
+        _ensureCoreReadyForExecutionAsync = ensureCoreReadyForExecutionAsync;
         TaskModules = new ObservableCollection<TaskModuleOption>();
         Tasks = new ObservableCollection<TaskQueueItemViewModel>();
         LogCards = new ObservableCollection<TaskQueueLogCardViewModel>();
@@ -149,6 +155,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         OverlayTargets = new ObservableCollection<OverlayTarget>();
         _overlaySharedState = OverlaySharedStateRegistry.Get(runtime);
         _overlayVisible = _overlaySharedState.Visible;
+        _overlayMode = _overlaySharedState.Mode;
 
         Texts = new LocalizedTextMap
         {
@@ -160,7 +167,9 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         };
         RootTexts.FallbackReported += info => _localizationFallbackReporter?.Invoke(info);
         _dailyStageHint = Texts.GetOrDefault("TaskQueue.DailyStageHintDefault", "Daily stage hints will be shown after resources are loaded.");
-        _overlayStatusText = Texts.GetOrDefault("TaskQueue.OverlayDisconnected", "Overlay disconnected");
+        _overlayStatusText = string.IsNullOrWhiteSpace(_overlaySharedState.StatusMessage)
+            ? Texts.GetOrDefault("TaskQueue.OverlayDisconnected", "Overlay disconnected")
+            : _overlaySharedState.StatusMessage;
         StartUpModule = new StartUpTaskModuleViewModel(
             runtime,
             Texts,
@@ -205,6 +214,7 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         _connectionGameSharedState.PropertyChanged += OnConnectionGameSharedStateChanged;
         _currentSessionState = runtime.SessionService.CurrentState;
         _overlaySharedState.PropertyChanged += OnOverlaySharedStateChanged;
+        SyncOverlayPresentationFromSharedState();
     }
 
     public ObservableCollection<TaskModuleOption> TaskModules { get; }
@@ -308,6 +318,20 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
     }
 
     public bool HasStartPrecheckWarningMessage => !string.IsNullOrWhiteSpace(StartPrecheckWarningMessage);
+
+    public string CoreInitializationMessage
+    {
+        get => _coreInitializationMessage;
+        private set
+        {
+            if (SetProperty(ref _coreInitializationMessage, value))
+            {
+                OnPropertyChanged(nameof(HasCoreInitializationMessage));
+            }
+        }
+    }
+
+    public bool HasCoreInitializationMessage => !string.IsNullOrWhiteSpace(CoreInitializationMessage);
 
     public string NoTaskSelectedHint
     {
@@ -465,6 +489,18 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
     {
         get => _blockingConfigIssueCount;
         private set => SetProperty(ref _blockingConfigIssueCount, value);
+    }
+
+    public bool IsCoreReady
+    {
+        get => _isCoreReady;
+        private set
+        {
+            if (SetProperty(ref _isCoreReady, value))
+            {
+                OnPropertyChanged(nameof(CanToggleRun));
+            }
+        }
     }
 
     public bool CanToggleRun =>
@@ -657,7 +693,13 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
     public string OverlayStatusText
     {
         get => _overlayStatusText;
-        set => SetProperty(ref _overlayStatusText, value);
+        set
+        {
+            if (SetProperty(ref _overlayStatusText, value))
+            {
+                OnPropertyChanged(nameof(OverlayButtonToolTip));
+            }
+        }
     }
 
     public OverlayTarget? SelectedOverlayTarget
@@ -671,6 +713,8 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             }
 
             _overlaySharedState.SelectedTargetId = value?.Id ?? "preview";
+            OnPropertyChanged(nameof(OverlayTargetSummaryText));
+            OnPropertyChanged(nameof(OverlayButtonToolTip));
         }
     }
 
@@ -687,6 +731,50 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             _overlaySharedState.Visible = value;
         }
     }
+
+    public OverlayRuntimeMode OverlayMode
+    {
+        get => _overlayMode;
+        private set
+        {
+            if (!SetProperty(ref _overlayMode, value))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(IsOverlayHiddenMode));
+            OnPropertyChanged(nameof(IsOverlayPreviewMode));
+            OnPropertyChanged(nameof(IsOverlayNativeMode));
+            OnPropertyChanged(nameof(OverlayButtonToolTip));
+        }
+    }
+
+    public bool IsOverlayHiddenMode => OverlayMode == OverlayRuntimeMode.Hidden;
+
+    public bool IsOverlayPreviewMode => OverlayMode == OverlayRuntimeMode.Preview;
+
+    public bool IsOverlayNativeMode => OverlayMode == OverlayRuntimeMode.Native;
+
+    public string OverlayTargetSummaryText
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(SelectedOverlayTarget?.DisplayName))
+            {
+                return SelectedOverlayTarget.DisplayName;
+            }
+
+            return string.Equals(_overlaySharedState.SelectedTargetId, "preview", StringComparison.OrdinalIgnoreCase)
+                ? "Preview + Logs"
+                : _overlaySharedState.SelectedTargetId;
+        }
+    }
+
+    public string OverlayButtonToolTip =>
+        $"{RootTexts.GetOrDefault("TaskQueue.Root.LeftClick", "Left click")}: {RootTexts.GetOrDefault("TaskQueue.Root.ToggleOverlay", "Toggle overlay")}{Environment.NewLine}" +
+        $"{RootTexts.GetOrDefault("TaskQueue.Root.RightClick", "Right click")}: {RootTexts.GetOrDefault("TaskQueue.Root.PickTarget", "Pick target")}{Environment.NewLine}" +
+        $"{OverlayStatusText}{Environment.NewLine}" +
+        $"{RootTexts.GetOrDefault("TaskQueue.Root.PickTarget", "Pick target")}: {OverlayTargetSummaryText}";
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
@@ -738,7 +826,19 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         OnPropertyChanged(nameof(BatchActionText));
         OnPropertyChanged(nameof(BatchToggleMenuText));
         OnPropertyChanged(nameof(TaskMenuTooltipText));
+        OnPropertyChanged(nameof(OverlayMode));
+        OnPropertyChanged(nameof(IsOverlayHiddenMode));
+        OnPropertyChanged(nameof(IsOverlayPreviewMode));
+        OnPropertyChanged(nameof(IsOverlayNativeMode));
+        OnPropertyChanged(nameof(OverlayTargetSummaryText));
+        OnPropertyChanged(nameof(OverlayButtonToolTip));
         _ = RefreshOverlayStatusTextAsync();
+    }
+
+    public void SetCoreAvailability(bool isReady, string? message = null)
+    {
+        IsCoreReady = isReady;
+        CoreInitializationMessage = isReady ? string.Empty : (message?.Trim() ?? string.Empty);
     }
 
     public void RefreshStagePresentation(bool forceReloadStageOptions = false)
@@ -1499,11 +1599,6 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         try
         {
             ClearVisibleRuntimeLogs();
-            if (!await EnsureConnectedForLinkStartAsync("TaskQueue.Start", cancellationToken))
-            {
-                return;
-            }
-
             if (!Runtime.SessionService.TryBeginRun(TaskQueueRunOwner, out var currentOwner))
             {
                 var owner = string.IsNullOrWhiteSpace(currentOwner) ? "Unknown" : currentOwner;
@@ -1520,6 +1615,16 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             var keepRunOwner = false;
             try
             {
+                if (!await EnsureCoreReadyAsync("TaskQueue.Start.CoreWarmup", cancellationToken))
+                {
+                    return;
+                }
+
+                if (!await EnsureConnectedForLinkStartAsync("TaskQueue.Start", cancellationToken))
+                {
+                    return;
+                }
+
                 await WaitForPendingBindingAsync(cancellationToken);
                 if (!await SaveBoundTaskModulesAsync(cancellationToken))
                 {
@@ -1619,6 +1724,36 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         }
     }
 
+    private async Task<bool> EnsureCoreReadyAsync(string scope, CancellationToken cancellationToken)
+    {
+        if (IsCoreReady)
+        {
+            return true;
+        }
+
+        if (_ensureCoreReadyForExecutionAsync is not null)
+        {
+            var warmed = await _ensureCoreReadyForExecutionAsync(cancellationToken);
+            if (warmed)
+            {
+                return true;
+            }
+        }
+
+        LastErrorMessage = string.IsNullOrWhiteSpace(CoreInitializationMessage)
+            ? BuildBilingualMessage(
+                "核心初始化尚未完成，请稍候重试。",
+                "Core initialization is still in progress. Please wait a moment and try again.")
+            : CoreInitializationMessage;
+        AppendStartPrecheckWarningMessage(LastErrorMessage);
+        AppendStartFailureLog(LastErrorMessage);
+        await RecordFailedResultAsync(
+            scope,
+            UiOperationResult.Fail(UiErrorCode.SessionStateNotAllowed, LastErrorMessage),
+            cancellationToken);
+        return false;
+    }
+
     private string BuildLinkStartStateNotAllowedMessage(SessionState state)
     {
         var zh = $"会话状态 `{state}` 不允许 LinkStart。请先前往“设置 > 连接设置”完成连接。";
@@ -1628,6 +1763,11 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
 
     private async Task<bool> EnsureConnectedForLinkStartAsync(string scope, CancellationToken cancellationToken)
     {
+        if (!await EnsureCoreReadyAsync(scope, cancellationToken))
+        {
+            return false;
+        }
+
         CurrentSessionState = Runtime.SessionService.CurrentState;
         Runtime.LogService.Debug($"LinkStart precheck: state={CurrentSessionState}");
         if (CurrentSessionState == SessionState.Connected)
@@ -2242,18 +2382,27 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
                 ?? OverlayTargets[0];
         }
 
-        var snapshotResult = await Runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken);
-        if (snapshotResult.Success && snapshotResult.Value is not null)
+        if (!string.IsNullOrWhiteSpace(_overlaySharedState.StatusMessage))
         {
-            OverlayStatusText = BuildCapabilityLine(PlatformCapabilityId.Overlay, snapshotResult.Value.Overlay);
+            OverlayStatusText = _overlaySharedState.StatusMessage;
         }
         else
         {
-            OverlayStatusText = PlatformCapabilityTextMap.FormatSnapshotUnavailable(
-                Texts.Language,
-                snapshotResult.Message,
-                _localizationFallbackReporter);
+            var snapshotResult = await Runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken);
+            if (snapshotResult.Success && snapshotResult.Value is not null)
+            {
+                OverlayStatusText = BuildCapabilityLine(PlatformCapabilityId.Overlay, snapshotResult.Value.Overlay);
+            }
+            else
+            {
+                OverlayStatusText = PlatformCapabilityTextMap.FormatSnapshotUnavailable(
+                    Texts.Language,
+                    snapshotResult.Message,
+                    _localizationFallbackReporter);
+            }
         }
+
+        SyncOverlayPresentationFromSharedState();
     }
 
     public async Task PickOverlayTargetWithDialogAsync(CancellationToken cancellationToken = default)
@@ -3091,10 +3240,12 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             return;
         }
 
-        var payload = OverlayTargetPersistence.Serialize(selectedTarget);
-        var saveResult = await Runtime.SettingsFeatureService.SaveGlobalSettingAsync(
-            ConfigurationKeys.OverlayTarget,
-            payload,
+        var saveResult = await Runtime.SettingsFeatureService.SaveGlobalSettingsAsync(
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                [ConfigurationKeys.OverlayTarget] = OverlayTargetPersistence.Serialize(selectedTarget),
+                [ConfigurationKeys.OverlayPreviewPinned] = OverlayTargetPersistence.SerializePreviewPreference(selectedTarget),
+            },
             cancellationToken);
         if (saveResult.Success)
         {
@@ -3108,31 +3259,55 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
 
     private void OnOverlaySharedStateChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (string.Equals(e.PropertyName, nameof(OverlaySharedState.Visible), StringComparison.Ordinal))
+        if (string.Equals(e.PropertyName, nameof(OverlaySharedState.Visible), StringComparison.Ordinal)
+            || string.Equals(e.PropertyName, nameof(OverlaySharedState.SelectedTargetId), StringComparison.Ordinal)
+            || string.Equals(e.PropertyName, nameof(OverlaySharedState.Mode), StringComparison.Ordinal)
+            || string.Equals(e.PropertyName, nameof(OverlaySharedState.StatusMessage), StringComparison.Ordinal))
         {
-            Dispatcher.UIThread.Post(() =>
+            if (Dispatcher.UIThread.CheckAccess() || Avalonia.Application.Current is null)
             {
-                if (_overlayVisible == _overlaySharedState.Visible)
-                {
-                    return;
-                }
+                SyncOverlayPresentationFromSharedState();
+                return;
+            }
 
-                _overlayVisible = _overlaySharedState.Visible;
-                OnPropertyChanged(nameof(OverlayVisible));
-            });
-            return;
+            Dispatcher.UIThread.Post(SyncOverlayPresentationFromSharedState);
         }
+    }
 
-        if (string.Equals(e.PropertyName, nameof(OverlaySharedState.SelectedTargetId), StringComparison.Ordinal))
+    private void SyncOverlayPresentationFromSharedState()
+    {
+        if (_overlayVisible != _overlaySharedState.Visible)
         {
-            Dispatcher.UIThread.Post(SyncSelectedOverlayTargetFromSharedState);
+            _overlayVisible = _overlaySharedState.Visible;
+            OnPropertyChanged(nameof(OverlayVisible));
         }
+
+        if (_overlayMode != _overlaySharedState.Mode)
+        {
+            _overlayMode = _overlaySharedState.Mode;
+            OnPropertyChanged(nameof(OverlayMode));
+            OnPropertyChanged(nameof(IsOverlayHiddenMode));
+            OnPropertyChanged(nameof(IsOverlayPreviewMode));
+            OnPropertyChanged(nameof(IsOverlayNativeMode));
+        }
+
+        if (!string.IsNullOrWhiteSpace(_overlaySharedState.StatusMessage)
+            && !string.Equals(_overlayStatusText, _overlaySharedState.StatusMessage, StringComparison.Ordinal))
+        {
+            _overlayStatusText = _overlaySharedState.StatusMessage;
+            OnPropertyChanged(nameof(OverlayStatusText));
+        }
+
+        SyncSelectedOverlayTargetFromSharedState();
+        OnPropertyChanged(nameof(OverlayTargetSummaryText));
+        OnPropertyChanged(nameof(OverlayButtonToolTip));
     }
 
     private void SyncSelectedOverlayTargetFromSharedState()
     {
         if (OverlayTargets.Count == 0 || string.IsNullOrWhiteSpace(_overlaySharedState.SelectedTargetId))
         {
+            OnPropertyChanged(nameof(OverlayTargetSummaryText));
             return;
         }
 
@@ -3140,11 +3315,14 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
             string.Equals(target.Id, _overlaySharedState.SelectedTargetId, StringComparison.Ordinal));
         if (selected is null || Equals(_selectedOverlayTarget, selected))
         {
+            OnPropertyChanged(nameof(OverlayTargetSummaryText));
             return;
         }
 
         _selectedOverlayTarget = selected;
         OnPropertyChanged(nameof(SelectedOverlayTarget));
+        OnPropertyChanged(nameof(OverlayTargetSummaryText));
+        OnPropertyChanged(nameof(OverlayButtonToolTip));
     }
 
     private static string NormalizeLogContent(string? content, string displayTime)
@@ -5206,6 +5384,12 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
 
     private async Task RefreshOverlayStatusTextAsync(CancellationToken cancellationToken = default)
     {
+        if (!string.IsNullOrWhiteSpace(_overlaySharedState.StatusMessage))
+        {
+            OverlayStatusText = _overlaySharedState.StatusMessage;
+            return;
+        }
+
         var snapshotResult = await Runtime.PlatformCapabilityService.GetSnapshotAsync(cancellationToken);
         if (snapshotResult.Success && snapshotResult.Value is not null)
         {

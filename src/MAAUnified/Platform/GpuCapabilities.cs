@@ -56,7 +56,7 @@ public sealed record GpuOptionDescriptor(
         => new(
             Id: "system-default",
             Kind: GpuOptionKind.SystemDefault,
-            DisplayName: displayName,
+            DisplayName: string.Empty,
             Description: displayName,
             InstancePath: string.Empty,
             GpuIndex: 0,

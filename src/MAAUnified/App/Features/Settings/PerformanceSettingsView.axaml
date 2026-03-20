@@ -23,13 +23,6 @@
                 Classes="settings-centered-column"
                 Margin="{DynamicResource MAA.Thickness.Settings.SectionTopMargin}"
                 Spacing="{DynamicResource MAA.Spacing.Small}">
-      <CheckBox Content="{Binding RootTexts[Settings.Performance.Gpu.Enable]}"
-                IsChecked="{Binding PerformanceUseGpu}"
-                IsEnabled="{Binding IsGpuSelectionEnabled}" />
-      <CheckBox Content="{Binding RootTexts[Settings.Performance.Gpu.AllowDeprecated]}"
-                IsChecked="{Binding PerformanceAllowDeprecatedGpu}"
-                IsEnabled="{Binding IsGpuDeprecatedToggleEnabled}" />
-
       <TextBlock Classes="settings-field-caption"
                  Text="{Binding RootTexts[Settings.Performance.Gpu.Select]}" />
       <ComboBox Width="{DynamicResource MAA.Size.Settings.ColumnWidth}"

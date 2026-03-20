@@ -36,6 +36,29 @@
       <taskViews:PostActionSettingsView />
     </DataTemplate>
   </UserControl.DataTemplates>
+  <UserControl.Styles>
+    <Style Selector="Button.wpf-button.overlay-toggle">
+      <Setter Property="MinWidth" Value="112" />
+      <Setter Property="Height" Value="32" />
+      <Setter Property="Padding" Value="12,0" />
+    </Style>
+    <Style Selector="Border.overlay-indicator">
+      <Setter Property="Width" Value="10" />
+      <Setter Property="Height" Value="10" />
+      <Setter Property="CornerRadius" Value="999" />
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Text.Secondary}" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.overlay-indicator.mode-preview">
+      <Setter Property="Background" Value="#D9A441" />
+    </Style>
+    <Style Selector="Border.overlay-indicator.mode-native">
+      <Setter Property="Background" Value="#4FA86C" />
+    </Style>
+    <Style Selector="Border.overlay-indicator.mode-hidden">
+      <Setter Property="Background" Value="{DynamicResource MAA.Brush.Text.Secondary}" />
+    </Style>
+  </UserControl.Styles>
 
   <Grid ColumnDefinitions="{StaticResource MAA.Layout.TaskQueue.Columns}">
     <Border Grid.Column="0" Classes="wpf-panel">
@@ -177,7 +200,7 @@
 
         <Grid Grid.Row="4"
               Margin="{DynamicResource MAA.Thickness.MarginTopSection}"
-              RowDefinitions="Auto,Auto"
+              RowDefinitions="Auto,Auto,Auto"
               HorizontalAlignment="Center">
           <Button Classes="wpf-button queue-run"
                   Grid.Row="0"
@@ -186,6 +209,14 @@
                   IsEnabled="{Binding CanToggleRun}"
                   Click="OnToggleRunClick" />
           <TextBlock Grid.Row="1"
+                     Classes="long-wrap state-warning"
+                     Width="{DynamicResource MAA.Size.TaskQueue.PostActionSummaryWidth}"
+                     Margin="{DynamicResource MAA.Thickness.MarginTopList}"
+                     HorizontalAlignment="Center"
+                     TextAlignment="Center"
+                     Text="{Binding CoreInitializationMessage}"
+                     IsVisible="{Binding HasCoreInitializationMessage}" />
+          <TextBlock Grid.Row="2"
                      Classes="long-wrap state-warning"
                      Width="{DynamicResource MAA.Size.TaskQueue.PostActionSummaryWidth}"
                      Margin="{DynamicResource MAA.Thickness.MarginTopList}"
@@ -251,7 +282,23 @@
 
     <Grid Grid.Column="2">
       <Grid RowDefinitions="Auto,Auto,*">
-        <TextBlock Classes="section-title" Text="{Binding RootTexts[TaskQueue.Root.LogsTitle]}" />
+        <Grid ColumnDefinitions="*,Auto">
+          <TextBlock Classes="section-title" Text="{Binding RootTexts[TaskQueue.Root.LogsTitle]}" />
+          <Button Grid.Column="1"
+                  Classes="wpf-button wpf-button-secondary overlay-toggle"
+                  ToolTip.Tip="{Binding OverlayButtonToolTip}"
+                  Click="OnToggleOverlayClick"
+                  PointerPressed="OnOverlayButtonPointerPressed">
+            <StackPanel Orientation="Horizontal"
+                        Spacing="{DynamicResource MAA.Spacing.Tight}">
+              <Border Classes="overlay-indicator"
+                      Classes.mode-hidden="{Binding IsOverlayHiddenMode}"
+                      Classes.mode-preview="{Binding IsOverlayPreviewMode}"
+                      Classes.mode-native="{Binding IsOverlayNativeMode}" />
+              <TextBlock Text="{Binding RootTexts[TaskQueue.Root.OverlayButton]}" />
+            </StackPanel>
+          </Button>
+        </Grid>
 
         <ContentControl Grid.Row="1"
                         IsVisible="{Binding HasDownloadLog}"

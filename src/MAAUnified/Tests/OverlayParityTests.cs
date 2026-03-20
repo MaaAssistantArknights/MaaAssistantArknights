@@ -84,13 +84,29 @@ public sealed class OverlayParityTests
     }
 
     [Fact]
-    public void OverlayTargetPersistence_ResolveSelection_ShouldFallbackToPrimaryTarget()
+    public void OverlayTargetPersistence_ResolveSelection_ShouldPreferNativeTarget_WhenLegacyPreviewSelectionWasImplicit()
     {
         var preview = new OverlayTarget("preview", "Preview + Logs", true);
         var target = new OverlayTarget("hwnd:400", "Game", false, NativeHandle: 0x400, ProcessId: 4, ProcessName: "emu", WindowTitle: "Title");
         var globals = new Dictionary<string, JsonNode?>
         {
             [LegacyConfigurationKeys.OverlayTarget] = JsonValue.Create("""{"TargetId":"missing","NativeHandle":9999,"ProcessId":77,"ProcessName":"other","WindowTitle":"other"}"""),
+        };
+
+        var resolved = OverlayTargetPersistence.ResolveSelection([preview, target], globals);
+
+        Assert.Equal(target, resolved);
+    }
+
+    [Fact]
+    public void OverlayTargetPersistence_ResolveSelection_ShouldRespectPreview_WhenPreviewPreferenceWasExplicitlyPinned()
+    {
+        var preview = new OverlayTarget("preview", "Preview + Logs", true);
+        var target = new OverlayTarget("hwnd:401", "Game", false, NativeHandle: 0x401, ProcessId: 5, ProcessName: "emu", WindowTitle: "Title");
+        var globals = new Dictionary<string, JsonNode?>
+        {
+            [LegacyConfigurationKeys.OverlayTarget] = JsonValue.Create(OverlayTargetPersistence.Serialize(preview)),
+            [LegacyConfigurationKeys.OverlayPreviewPinned] = JsonValue.Create(bool.TrueString),
         };
 
         var resolved = OverlayTargetPersistence.ResolveSelection([preview, target], globals);
@@ -170,6 +186,91 @@ public sealed class OverlayParityTests
         Assert.Equal(OverlayLogSource.TaskQueue, fixture.Shell.OverlayPresentation.PreferredSource);
     }
 
+    [Fact]
+    public async Task OverlayStateChangedEvent_ShouldSyncRuntimeModeStatusAndSharedVisibility()
+    {
+        await using var fixture = await OverlayFixture.CreateAsync();
+        var taskQueue = fixture.Shell.TaskQueuePage;
+        var advanced = new OverlayAdvancedPageViewModel(fixture.Runtime);
+        var applyMethod = typeof(MainShellViewModel).GetMethod(
+            "ApplyOverlayStateChanged",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+        Assert.NotNull(applyMethod);
+        var state = new OverlayStateChangedEvent(
+            OverlayRuntimeMode.Preview,
+            Visible: true,
+            TargetId: "preview",
+            Action: "fallback-enter",
+            Message: "Overlay switched to Preview + Logs mode.",
+            Timestamp: DateTimeOffset.UtcNow,
+            Provider: "test-overlay",
+            UsedFallback: true,
+            ErrorCode: PlatformErrorCodes.OverlayPreviewMode);
+        applyMethod!.Invoke(fixture.Shell, [state]);
+
+        Assert.Equal(OverlayRuntimeMode.Preview, taskQueue.OverlayMode);
+        Assert.True(taskQueue.OverlayVisible);
+        Assert.True(advanced.Visible);
+        Assert.Equal("Overlay switched to Preview + Logs mode.", taskQueue.OverlayStatusText);
+        Assert.Equal("Preview + Logs", taskQueue.OverlayTargetSummaryText);
+        Assert.Contains("Overlay switched to Preview + Logs mode.", taskQueue.OverlayButtonToolTip, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task ToggleOverlayFromTrayAsync_ShouldUsePreviewModeGrowlWhenOverlayFallsBack()
+    {
+        var overlayService = new ScriptedOverlayService();
+        overlayService.VisibleMode = OverlayRuntimeMode.Preview;
+        overlayService.VisibleMessage = "Overlay switched to Preview + Logs mode.";
+        overlayService.EmitStateOnVisibilityToggle = false;
+
+        await using var fixture = await OverlayFixture.CreateAsync(overlayService: overlayService);
+        var applyMethod = typeof(MainShellViewModel).GetMethod(
+            "ApplyOverlayStateChanged",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+        Assert.NotNull(applyMethod);
+        applyMethod!.Invoke(fixture.Shell, [new OverlayStateChangedEvent(
+            OverlayRuntimeMode.Preview,
+            Visible: false,
+            TargetId: "preview",
+            Action: "fallback-enter",
+            Message: overlayService.VisibleMessage,
+            Timestamp: DateTimeOffset.UtcNow,
+            Provider: overlayService.Capability.Provider,
+            UsedFallback: true,
+            ErrorCode: PlatformErrorCodes.OverlayPreviewMode)]);
+
+        await fixture.Shell.ToggleOverlayFromTrayAsync();
+
+        Assert.Contains(fixture.Shell.GrowlMessages, message => message.Contains("预览模式", StringComparison.Ordinal));
+        Assert.Equal(OverlayRuntimeMode.Preview, fixture.Shell.TaskQueuePage.OverlayMode);
+        Assert.True(fixture.Shell.TaskQueuePage.OverlayVisible);
+    }
+
+    [Fact]
+    public async Task ToggleOverlayAsync_ShouldAutoMigrateLegacyPreviewSelectionToNativeTarget()
+    {
+        var overlayService = new ScriptedOverlayService();
+        await using var fixture = await OverlayFixture.CreateAsync(overlayService: overlayService);
+
+        fixture.Runtime.ConfigurationService.CurrentConfig.GlobalValues[LegacyConfigurationKeys.OverlayTarget] =
+            JsonValue.Create(OverlayTargetPersistence.Serialize(new OverlayTarget("preview", "Preview + Logs", true)));
+        fixture.Runtime.ConfigurationService.CurrentConfig.GlobalValues.Remove(LegacyConfigurationKeys.OverlayPreviewPinned);
+
+        await fixture.Shell.TaskQueuePage.ReloadOverlayTargetsAsync();
+        Assert.Equal("hwnd:123", fixture.Shell.TaskQueuePage.SelectedOverlayTarget?.Id);
+
+        await fixture.Shell.TaskQueuePage.ToggleOverlayAsync();
+
+        Assert.Equal("hwnd:123", overlayService.SelectedTargetId);
+        Assert.True(fixture.Runtime.ConfigurationService.CurrentConfig.GlobalValues.TryGetValue(
+            LegacyConfigurationKeys.OverlayPreviewPinned,
+            out var previewPinnedNode));
+        Assert.Equal(bool.FalseString, previewPinnedNode?.GetValue<string>());
+    }
+
     private sealed class OverlayFixture : IAsyncDisposable
     {
         private OverlayFixture(string root, MAAUnifiedRuntime runtime, MainShellViewModel shell)
@@ -185,7 +286,9 @@ public sealed class OverlayParityTests
 
         public MainShellViewModel Shell { get; }
 
-        public static async Task<OverlayFixture> CreateAsync()
+        public static async Task<OverlayFixture> CreateAsync(
+            IOverlayCapabilityService? overlayService = null,
+            ITrayService? trayService = null)
         {
             var root = Path.Combine(Path.GetTempPath(), "maa-unified-overlay-tests", Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(root);
@@ -204,12 +307,12 @@ public sealed class OverlayParityTests
             var session = new UnifiedSessionService(bridge, config, log, new SessionStateMachine());
             var platform = new PlatformServiceBundle
             {
-                TrayService = new NoOpTrayService(),
+                TrayService = trayService ?? new NoOpTrayService(),
                 NotificationService = new NoOpNotificationService(),
                 HotkeyService = new NoOpGlobalHotkeyService(),
                 AutostartService = new NoOpAutostartService(),
                 FileDialogService = new NoOpFileDialogService(),
-                OverlayService = new NoOpOverlayCapabilityService(),
+                OverlayService = overlayService ?? new NoOpOverlayCapabilityService(),
                 PostActionExecutorService = new NoOpPostActionExecutorService(),
             };
 
@@ -259,6 +362,105 @@ public sealed class OverlayParityTests
             {
                 // Ignore cleanup failures for temp directories.
             }
+        }
+    }
+
+    private sealed class ScriptedOverlayService : IOverlayCapabilityService
+    {
+        private string _selectedTargetId = "preview";
+
+        public PlatformCapabilityStatus Capability { get; } = new(
+            Supported: true,
+            Message: "scripted overlay",
+            Provider: "scripted-overlay",
+            HasFallback: true,
+            FallbackMode: "preview");
+
+        public OverlayRuntimeMode VisibleMode { get; set; } = OverlayRuntimeMode.Native;
+
+        public string VisibleMessage { get; set; } = "Overlay attached to native target.";
+
+        public bool EmitStateOnVisibilityToggle { get; set; } = true;
+
+        public string SelectedTargetId => _selectedTargetId;
+
+        public event EventHandler<OverlayStateChangedEvent>? OverlayStateChanged;
+
+        public Task<PlatformOperationResult> BindHostWindowAsync(
+            nint hostWindowHandle,
+            bool clickThrough,
+            double opacity,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "bound", "overlay.bind-host"));
+        }
+
+        public Task<PlatformOperationResult<IReadOnlyList<OverlayTarget>>> QueryTargetsAsync(CancellationToken cancellationToken = default)
+        {
+            IReadOnlyList<OverlayTarget> targets =
+            [
+                new OverlayTarget("preview", "Preview + Logs", true),
+                new OverlayTarget("hwnd:123", "Arknights - 123", false, NativeHandle: 0x123, ProcessId: 123, ProcessName: "emu", WindowTitle: "Arknights"),
+            ];
+            return Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, targets, "targets", "overlay.query-targets"));
+        }
+
+        public Task<PlatformOperationResult> SelectTargetAsync(string targetId, CancellationToken cancellationToken = default)
+        {
+            _selectedTargetId = string.IsNullOrWhiteSpace(targetId) ? "preview" : targetId;
+            return Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "selected", "overlay.select-target"));
+        }
+
+        public Task<PlatformOperationResult> SetVisibleAsync(bool visible, CancellationToken cancellationToken = default)
+        {
+            if (!visible)
+            {
+                if (EmitStateOnVisibilityToggle)
+                {
+                    Emit(new OverlayStateChangedEvent(
+                        OverlayRuntimeMode.Hidden,
+                        Visible: false,
+                        TargetId: _selectedTargetId,
+                        Action: "hide",
+                        Message: "Overlay hidden.",
+                        Timestamp: DateTimeOffset.UtcNow,
+                        Provider: Capability.Provider,
+                        UsedFallback: false,
+                        ErrorCode: null));
+                }
+
+                return Task.FromResult(PlatformOperation.NativeSuccess(Capability.Provider, "hidden", "overlay.set-visible"));
+            }
+
+            var usedFallback = VisibleMode == OverlayRuntimeMode.Preview;
+            if (EmitStateOnVisibilityToggle)
+            {
+                Emit(new OverlayStateChangedEvent(
+                    VisibleMode,
+                    Visible: true,
+                    TargetId: VisibleMode == OverlayRuntimeMode.Preview ? "preview" : _selectedTargetId,
+                    Action: usedFallback ? "fallback-enter" : "show-native",
+                    Message: VisibleMessage,
+                    Timestamp: DateTimeOffset.UtcNow,
+                    Provider: Capability.Provider,
+                    UsedFallback: usedFallback,
+                    ErrorCode: usedFallback ? PlatformErrorCodes.OverlayPreviewMode : null));
+            }
+
+            return Task.FromResult(
+                usedFallback
+                    ? PlatformOperation.FallbackSuccess(Capability.Provider, VisibleMessage, "overlay.set-visible", PlatformErrorCodes.OverlayPreviewMode)
+                    : PlatformOperation.NativeSuccess(Capability.Provider, VisibleMessage, "overlay.set-visible"));
+        }
+
+        public void Emit(OverlayStateChangedEvent e)
+        {
+            if (!string.IsNullOrWhiteSpace(e.TargetId))
+            {
+                _selectedTargetId = e.TargetId;
+            }
+
+            OverlayStateChanged?.Invoke(this, e);
         }
     }
 

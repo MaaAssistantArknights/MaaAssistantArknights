@@ -9,7 +9,7 @@ namespace MAAUnified.Tests;
 public sealed class DialogModuleP1FeatureTests
 {
     [Fact]
-    public void DialogContracts_ShouldCoverAllSevenDialogTypes()
+    public void DialogContracts_ShouldCoverAllEightDialogTypes()
     {
         var values = Enum.GetValues<DialogType>();
         var expected = new[]
@@ -21,6 +21,7 @@ public sealed class DialogModuleP1FeatureTests
             DialogType.Error,
             DialogType.AchievementList,
             DialogType.Text,
+            DialogType.WarningConfirm,
         };
 
         Assert.Equal(expected.Length, values.Length);
@@ -161,6 +162,9 @@ public sealed class DialogModuleP1FeatureTests
         var text = await service.ShowTextAsync(
             new TextDialogRequest("Text", "Prompt", "Default"),
             "Dialog.P1.NoOp.Text");
+        var warningConfirm = await service.ShowWarningConfirmAsync(
+            new WarningConfirmDialogRequest("Warning", "Prompt"),
+            "Dialog.P1.NoOp.WarningConfirm");
 
         AssertAllCloseSemantics(
             announcement.Return,
@@ -190,6 +194,10 @@ public sealed class DialogModuleP1FeatureTests
             text.Return,
             text.Payload,
             text.Summary);
+        AssertAllCloseSemantics(
+            warningConfirm.Return,
+            warningConfirm.Payload,
+            warningConfirm.Summary);
     }
 
     private static void AssertAllCloseSemantics<TPayload>(

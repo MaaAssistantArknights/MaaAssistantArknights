@@ -87,4 +87,15 @@ public sealed class NoOpAppDialogService : IAppDialogService
             null,
             "dialog-service-unavailable"));
     }
+
+    public Task<DialogCompletion<WarningConfirmDialogPayload>> ShowWarningConfirmAsync(
+        WarningConfirmDialogRequest request,
+        string sourceScope,
+        CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(new DialogCompletion<WarningConfirmDialogPayload>(
+            DialogReturnSemantic.Close,
+            null,
+            "dialog-service-unavailable"));
+    }
 }

@@ -588,7 +588,10 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
             if (string.Equals(what, "ConnectFailed", StringComparison.OrdinalIgnoreCase)
                 || string.Equals(what, "Disconnect", StringComparison.OrdinalIgnoreCase))
             {
-                pending.TryComplete(Fail<bool>(CoreErrorCode.ConnectFailed, $"Connection callback reported `{what}`.", callback.PayloadJson));
+                pending.TryComplete(Fail<bool>(
+                    CoreErrorCode.ConnectFailed,
+                    BuildConnectionFailureMessage(root, what),
+                    callback.PayloadJson));
             }
         }
     }
@@ -1024,6 +1027,40 @@ public sealed class MaaCoreBridgeNative : IMaaCoreBridge
         }
 
         return value.ValueKind is JsonValueKind.Object ? value : null;
+    }
+
+    private static string BuildConnectionFailureMessage(JsonElement root, string? what)
+    {
+        var details = GetObject(root, "details");
+        var rawOutput = details is JsonElement detailObject
+            ? NormalizeFailureOutput(GetString(detailObject, "raw_output"))
+            : null;
+
+        if (!string.IsNullOrWhiteSpace(rawOutput))
+        {
+            return rawOutput;
+        }
+
+        var reason = GetString(root, "why");
+        if (!string.IsNullOrWhiteSpace(reason))
+        {
+            return reason.Trim();
+        }
+
+        return string.IsNullOrWhiteSpace(what) ? "ConnectionInfo" : what.Trim();
+    }
+
+    private static string? NormalizeFailureOutput(string? rawOutput)
+    {
+        if (string.IsNullOrWhiteSpace(rawOutput))
+        {
+            return null;
+        }
+
+        return rawOutput
+            .Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace('\r', '\n')
+            .Trim('\n');
     }
 
     private sealed class ConnectPendingState

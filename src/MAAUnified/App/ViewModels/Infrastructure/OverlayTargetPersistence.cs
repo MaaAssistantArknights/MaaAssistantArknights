@@ -7,6 +7,11 @@ namespace MAAUnified.App.ViewModels.Infrastructure;
 
 internal static class OverlayTargetPersistence
 {
+    public static string SerializePreviewPreference(OverlayTarget target)
+    {
+        return IsPreviewId(target.Id) ? bool.TrueString : bool.FalseString;
+    }
+
     public static string Serialize(OverlayTarget target)
     {
         var payload = new PersistedOverlayTargetSelection(
@@ -28,7 +33,9 @@ internal static class OverlayTargetPersistence
             return null;
         }
 
-        if (TryFindById(targets, preferredTargetId, out var selected))
+        var previewPinned = LoadPreviewPreference(globalValues);
+        if (TryFindById(targets, preferredTargetId, out var selected)
+            && ShouldHonorSelection(selected, targets, previewPinned))
         {
             return selected;
         }
@@ -36,7 +43,8 @@ internal static class OverlayTargetPersistence
         var persisted = Load(globalValues);
         if (persisted is not null)
         {
-            if (TryFindById(targets, persisted.TargetId, out selected))
+            if (TryFindById(targets, persisted.TargetId, out selected)
+                && ShouldHonorSelection(selected, targets, previewPinned))
             {
                 return selected;
             }
@@ -50,6 +58,21 @@ internal static class OverlayTargetPersistence
             if (TryFindByProcessMetadata(targets, persisted, out selected))
             {
                 return selected;
+            }
+        }
+
+        if (!previewPinned)
+        {
+            var primaryNative = targets.FirstOrDefault(static target => !IsPreviewId(target.Id) && target.IsPrimary);
+            if (primaryNative is not null)
+            {
+                return primaryNative;
+            }
+
+            var firstNative = targets.FirstOrDefault(static target => !IsPreviewId(target.Id));
+            if (firstNative is not null)
+            {
+                return firstNative;
             }
         }
 
@@ -101,6 +124,17 @@ internal static class OverlayTargetPersistence
         }
     }
 
+    public static bool LoadPreviewPreference(IReadOnlyDictionary<string, JsonNode?> globalValues)
+    {
+        if (!globalValues.TryGetValue(LegacyConfigurationKeys.OverlayPreviewPinned, out var node)
+            || node is null)
+        {
+            return false;
+        }
+
+        return TryReadBoolean(node, out var pinned) && pinned;
+    }
+
     private static bool TryFindById(
         IReadOnlyList<OverlayTarget> targets,
         string? targetId,
@@ -114,6 +148,24 @@ internal static class OverlayTargetPersistence
 
         selected = targets.FirstOrDefault(target => string.Equals(target.Id, targetId, StringComparison.Ordinal));
         return selected is not null;
+    }
+
+    private static bool ShouldHonorSelection(
+        OverlayTarget? selected,
+        IReadOnlyList<OverlayTarget> targets,
+        bool previewPinned)
+    {
+        if (selected is null)
+        {
+            return false;
+        }
+
+        if (!IsPreviewId(selected.Id))
+        {
+            return true;
+        }
+
+        return previewPinned || !targets.Any(static target => !IsPreviewId(target.Id));
     }
 
     private static bool TryFindByHandle(
@@ -162,6 +214,39 @@ internal static class OverlayTargetPersistence
     private static string? NormalizeText(string? value)
     {
         return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+    }
+
+    private static bool TryReadBoolean(JsonNode node, out bool value)
+    {
+        value = false;
+
+        try
+        {
+            if (node is JsonValue jsonValue)
+            {
+                if (jsonValue.TryGetValue<bool>(out value))
+                {
+                    return true;
+                }
+
+                if (jsonValue.TryGetValue<string>(out var text)
+                    && bool.TryParse(text, out value))
+                {
+                    return true;
+                }
+            }
+        }
+        catch (InvalidOperationException)
+        {
+            // Ignore malformed settings and fall back to false.
+        }
+
+        return false;
+    }
+
+    private static bool IsPreviewId(string? targetId)
+    {
+        return string.Equals(targetId, "preview", StringComparison.OrdinalIgnoreCase);
     }
 
     private static string? ReadString(JsonElement element, string propertyName)

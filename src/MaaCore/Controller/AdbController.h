@@ -165,6 +165,9 @@ protected:
     bool m_server_started = false;
     bool m_inited = false;
     bool m_kill_adb_on_exit = false;
+    std::string m_last_command_output;
+    int m_last_command_exit_code = 0;
+    bool m_last_command_has_exit_code = false;
     long long m_last_command_duration = 0;  // 上次命令执行用时
     std::deque<long long> m_screencap_cost; // 截图用时
     int m_screencap_times = 0;              // 截图次数

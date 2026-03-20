@@ -16,6 +16,19 @@ public sealed class RootViewStructureContractTests
         Assert.DoesNotContain("{Binding RootTexts[Main.Menu.Start]}", text, StringComparison.Ordinal);
         Assert.DoesNotContain("{Binding RootTexts[Main.Menu.SwitchLanguage]}", text, StringComparison.Ordinal);
         Assert.Contains("Title=\"{Binding WindowTitle}\"", text, StringComparison.Ordinal);
+        Assert.Contains("<DataTemplate DataType=\"viewModels:RootPageHostViewModel\">", text, StringComparison.Ordinal);
+        Assert.Contains("<DataTemplate DataType=\"taskVm:TaskQueuePageViewModel\">", text, StringComparison.Ordinal);
+        Assert.Contains("<DataTemplate DataType=\"copilotVm:CopilotPageViewModel\">", text, StringComparison.Ordinal);
+        Assert.Contains("<DataTemplate DataType=\"toolboxVm:ToolboxPageViewModel\">", text, StringComparison.Ordinal);
+        Assert.Contains("<DataTemplate DataType=\"settingsVm:SettingsPageViewModel\">", text, StringComparison.Ordinal);
+        Assert.Contains("Content=\"{Binding TaskQueueRootPage.PageContent}\"", text, StringComparison.Ordinal);
+        Assert.Contains("Content=\"{Binding CopilotRootPage.PageContent}\"", text, StringComparison.Ordinal);
+        Assert.Contains("Content=\"{Binding ToolboxRootPage.PageContent}\"", text, StringComparison.Ordinal);
+        Assert.Contains("Content=\"{Binding SettingsRootPage.PageContent}\"", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("<rootViews:TaskQueueView DataContext=\"{Binding TaskQueuePage}\" />", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("<advancedViews:CopilotView DataContext=\"{Binding CopilotPage}\" />", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("<advancedViews:ToolboxView DataContext=\"{Binding ToolboxPage}\" />", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("<rootViews:SettingsView DataContext=\"{Binding SettingsPage}\" />", text, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -28,6 +41,8 @@ public sealed class RootViewStructureContractTests
         Assert.Contains("{Binding RootTexts[TaskQueue.Root.TaskConfigTitle]}", text, StringComparison.Ordinal);
         Assert.Contains("Content=\"{Binding SelectedTaskSettingsViewModel}\"", text, StringComparison.Ordinal);
         Assert.Contains("IsEnabled=\"{Binding CanToggleRun}\"", text, StringComparison.Ordinal);
+        Assert.Contains("Text=\"{Binding CoreInitializationMessage}\"", text, StringComparison.Ordinal);
+        Assert.Contains("IsVisible=\"{Binding HasCoreInitializationMessage}\"", text, StringComparison.Ordinal);
         Assert.Contains("Classes=\"wpf-list-no-highlight\"", text, StringComparison.Ordinal);
         Assert.Contains("{Binding RootTexts[TaskQueue.Root.LogsTitle]}", text, StringComparison.Ordinal);
         Assert.Contains("ItemsSource=\"{Binding LogCards}\"", text, StringComparison.Ordinal);
@@ -49,8 +64,13 @@ public sealed class RootViewStructureContractTests
         Assert.DoesNotContain("Click=\"OnInverseClick\"", text, StringComparison.Ordinal);
         Assert.DoesNotContain("TaskQueue.Root.AdvancedMode", text, StringComparison.Ordinal);
         Assert.DoesNotContain("ShowAdvanced", text, StringComparison.Ordinal);
-        Assert.DoesNotContain("TaskQueue.Root.OverlayButton", text, StringComparison.Ordinal);
-        Assert.DoesNotContain("Click=\"OnToggleOverlayClick\"", text, StringComparison.Ordinal);
+        Assert.Contains("{Binding RootTexts[TaskQueue.Root.OverlayButton]}", text, StringComparison.Ordinal);
+        Assert.Contains("Click=\"OnToggleOverlayClick\"", text, StringComparison.Ordinal);
+        Assert.Contains("PointerPressed=\"OnOverlayButtonPointerPressed\"", text, StringComparison.Ordinal);
+        Assert.Contains("ToolTip.Tip=\"{Binding OverlayButtonToolTip}\"", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("Text=\"{Binding OverlayStatusText}\"", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("Text=\"{Binding OverlayTargetSummaryText}\"", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("{Binding RootTexts[TaskQueue.Root.RuntimeTitle]}", text, StringComparison.Ordinal);
     }
 
     [Fact]
