@@ -38,13 +38,13 @@ bool asst::StartUpTask::run()
     }
 
     if (!m_restart_on_login_failed || !m_start_game_task_ptr->get_enable()) {
-        save_img(utils::path("debug") / utils::path("interface"));
+        save_img(utils::path("debug") / utils::path("login"));
         return false;
     }
 
     Log.warn(__FUNCTION__, "| login failed, entering game-restart loop");
-    while (!need_exit()) {
-        Log.info(__FUNCTION__, "| restarting game client...");
+    for (int attempts = 0; attempts < MaxRestartAttempts && !need_exit(); ++attempts) {
+        Log.info(__FUNCTION__, "| restarting game client (attempt", attempts + 1, "/", MaxRestartAttempts, ")...");
         if (!m_start_game_task_ptr->restart_game()) {
             Log.warn(__FUNCTION__, "| restart_game failed, retrying...");
             sleep(3000);
@@ -58,7 +58,7 @@ bool asst::StartUpTask::run()
         Log.warn(__FUNCTION__, "| login navigation failed again, restarting game...");
     }
 
-    save_img(utils::path("debug") / utils::path("interface"));
+    save_img(utils::path("debug") / utils::path("login"));
     return false;
 }
 

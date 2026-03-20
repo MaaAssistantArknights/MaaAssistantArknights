@@ -57,6 +57,9 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     {
         get => SettingsViewModel.ConnectSettings.UseAttachWindow ? false : field;
         set {
+            if (SettingsViewModel.ConnectSettings.UseAttachWindow) {
+                return;
+            }
             SetAndNotify(ref field, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RestartOnLoginFailed, value.ToString());
         }
