@@ -23,10 +23,8 @@ asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst) :
         .set_times_limit("StartButton1", 0)
         .set_task_delay(Config.get_options().task_delay * 2)
         .set_retry_times(5);
+    m_start_game_task_ptr->set_retry_times(0);
     m_account_switch_task_ptr->set_retry_times(0);
-    m_subtasks.emplace_back(m_start_game_task_ptr)->set_ignore_error(true).set_retry_times(0);
-    m_subtasks.emplace_back(m_account_switch_task_ptr);
-    m_subtasks.emplace_back(m_start_up_task_ptr);
 }
 
 bool asst::StartUpTask::run()

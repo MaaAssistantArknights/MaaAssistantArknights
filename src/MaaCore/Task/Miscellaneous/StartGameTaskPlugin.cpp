@@ -62,6 +62,10 @@ bool StartGameTaskPlugin::restart_game()
         Log.error(__FUNCTION__, "| client_type is empty, cannot restart game");
         return false;
     }
+    if (!ctrler()) {
+        Log.error(__FUNCTION__, "| controller is not initialized, cannot restart game");
+        return false;
+    }
     Log.info(__FUNCTION__, "| stopping game client");
     ctrler()->stop_game(m_client_type);
     sleep(3000);
