@@ -6450,11 +6450,8 @@ public sealed class SettingsPageViewModel : PageViewModelBase
 
     private GpuPlatformSupportMode DetermineGpuSupportModeForNormalization()
     {
-        if (!OperatingSystem.IsWindows())
-        {
-            return GpuPlatformSupportMode.Unsupported;
-        }
-
+        // Keep normalization aligned with the injected capability service so tests and
+        // custom platform bundles can emulate Windows GPU behavior on non-Windows hosts.
         return Runtime.Platform.GpuCapabilityService is UnsupportedGpuCapabilityService
             ? GpuPlatformSupportMode.Unsupported
             : GpuPlatformSupportMode.WindowsSupported;

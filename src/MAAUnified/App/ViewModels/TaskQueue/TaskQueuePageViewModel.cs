@@ -778,6 +778,12 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
+        await InitializeFirstScreenAsync(cancellationToken);
+        await InitializeDeferredStartupAsync(cancellationToken);
+    }
+
+    public async Task InitializeFirstScreenAsync(CancellationToken cancellationToken = default)
+    {
         SetLanguage(ResolveLanguage());
         RefreshConfigValidationState(Runtime.ConfigurationService.CurrentValidationIssues);
         await ReloadTasksAsync(cancellationToken, preferProfileSelectedIndex: true);
@@ -785,6 +791,11 @@ public sealed class TaskQueuePageViewModel : PageViewModelBase
         await RoguelikeModule.ReloadPersistentConfigAsync(cancellationToken);
         RefreshSelectionBatchModeFromConfig();
         RefreshStagePresentation();
+        UpdatePostActionSummary();
+    }
+
+    public async Task InitializeDeferredStartupAsync(CancellationToken cancellationToken = default)
+    {
         await ReloadOverlayTargetsAsync(cancellationToken);
         await PostActionModule.InitializeAsync(cancellationToken);
         UpdatePostActionSummary();

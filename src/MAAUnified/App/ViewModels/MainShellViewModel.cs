@@ -455,7 +455,7 @@ public sealed class MainShellViewModel : ObservableObject
             try
             {
                 IsCoreReady = false;
-                TaskQueuePage.SetCoreAvailability(false, BuildCoreWarmupPendingMessage());
+                TaskQueuePage.SetCoreAvailability(false);
 
                 RecordStartupPhase("ConfigBootstrap.Begin", "Loading or bootstrapping config/avalonia.json.");
                 UpdateStartupPhase("正在加载配置", "配置引导开始。");
@@ -515,17 +515,11 @@ public sealed class MainShellViewModel : ObservableObject
                     await ApplyGuiSettingsAsync(SettingsPage.CurrentGuiSnapshot, cancellationToken);
                 }
 
-                await EnsureCoreWarmupCompletedAsync(cancellationToken);
-
                 await RefreshCapabilitySummaryAsync(cancellationToken);
                 RefreshRootTextState();
                 await SyncTrayMenuStateAsync(cancellationToken);
                 StartTimerScheduler();
-                UpdateStartupPhase(
-                    IsCoreReady ? "启动完成" : "核心初始化失败",
-                    IsCoreReady
-                        ? "后台页面初始化完成。"
-                        : "核心初始化失败，但其余页面已按顺序完成初始化。");
+                UpdateStartupPhase("启动完成", "后台页面初始化完成，核心将在首次连接或开始时按需初始化。");
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -565,7 +559,7 @@ public sealed class MainShellViewModel : ObservableObject
         TaskQueueRootPage.MarkLoading("正在初始化首屏", "TaskQueue 页面正在加载。");
         try
         {
-            await TaskQueuePage.InitializeAsync(cancellationToken);
+            await TaskQueuePage.InitializeFirstScreenAsync(cancellationToken);
             TaskQueueRootPage.MarkLoaded(TaskQueuePage);
             AppendImportReportToTaskQueue(importReport, manualImport: false);
             RecordStartupPhase("TaskQueue.End", "TaskQueue first screen initialized.");
@@ -593,11 +587,35 @@ public sealed class MainShellViewModel : ObservableObject
         }
     }
 
+    private async Task InitializeTaskQueueDeferredStartupAsync(CancellationToken cancellationToken)
+    {
+        RecordStartupPhase("TaskQueue.Deferred.Begin", "Initializing deferred TaskQueue startup state.");
+        try
+        {
+            await TaskQueuePage.InitializeDeferredStartupAsync(cancellationToken);
+            RecordStartupPhase("TaskQueue.Deferred.End", "Deferred TaskQueue startup state initialized.");
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            await RecordUnhandledExceptionAsync(
+                "App.Initialize.TaskQueue.Deferred",
+                ex,
+                UiErrorCode.UiError,
+                $"TaskQueue 延迟初始化异常: {ex.Message}",
+                cancellationToken);
+            RecordStartupPhase("TaskQueue.Deferred.Fail", "Deferred TaskQueue startup state failed.", ex);
+        }
+    }
+
     private async Task<bool> InitializeCoreWarmupAsync(CancellationToken cancellationToken)
     {
-        UpdateStartupPhase("正在后台初始化核心", "MaaCore 正在后台预热。");
-        RecordStartupPhase("CoreWarmup.Begin", "Initializing MaaCore in background startup stage.");
-        _runtime.LogService.Debug("Begin core initialization from startup pipeline.");
+        UpdateStartupPhase("正在初始化核心", "MaaCore 正在预热。");
+        RecordStartupPhase("CoreWarmup.Begin", "Initializing MaaCore.");
+        _runtime.LogService.Debug("Begin core initialization.");
         var initResult = await _runtime.ResourceWorkflowService.InitializeCoreAsync(_runtime.ConfigurationService.CurrentConfig, cancellationToken);
         if (!initResult.Success)
         {
@@ -611,7 +629,7 @@ public sealed class MainShellViewModel : ObservableObject
                     initCode,
                     failureMessage,
                     initResult.Error?.Exception),
-                "App.Initialize",
+                "App.CoreWarmup",
                 cancellationToken);
             RecordStartupPhase("CoreWarmup.Fail", $"code={initCode}; message={initMessage}");
             return false;
@@ -637,6 +655,7 @@ public sealed class MainShellViewModel : ObservableObject
 
     private async Task<bool> InitializeDeferredPagesAsync(CancellationToken cancellationToken)
     {
+        var taskQueueDeferredTask = InitializeTaskQueueDeferredStartupAsync(cancellationToken);
         await InitializeDeferredRootPageAsync(
             "Copilot",
             "Copilot",
@@ -653,7 +672,7 @@ public sealed class MainShellViewModel : ObservableObject
             ct => ToolboxPage.InitializeAsync(ct),
             ToolboxPage,
             cancellationToken);
-        return await InitializeDeferredRootPageAsync(
+        var settingsLoaded = await InitializeDeferredRootPageAsync(
             "Settings",
             "Settings",
             "Settings 页面正在后台初始化。",
@@ -661,6 +680,8 @@ public sealed class MainShellViewModel : ObservableObject
             ct => SettingsPage.InitializeAsync(ct),
             SettingsPage,
             cancellationToken);
+        await taskQueueDeferredTask;
+        return settingsLoaded;
     }
 
     private Task<UiOperationResult> GetOrStartCoreWarmupTask()
@@ -674,6 +695,7 @@ public sealed class MainShellViewModel : ObservableObject
 
             IsCoreReady = false;
             TaskQueuePage.SetCoreAvailability(false, BuildCoreWarmupPendingMessage());
+            RecordStartupPhase("CoreWarmup.Requested", "Core warmup requested by execution path.");
             _coreWarmupTask = RunCoreWarmupTaskAsync(_startupCts.Token);
             return _coreWarmupTask;
         }
@@ -695,11 +717,6 @@ public sealed class MainShellViewModel : ObservableObject
         {
             return UiOperationResult.Fail(UiErrorCode.CoreUnknown, $"Core warmup failed unexpectedly: {ex.Message}", ex.ToString());
         }
-    }
-
-    private async Task EnsureCoreWarmupCompletedAsync(CancellationToken cancellationToken)
-    {
-        _ = await GetOrStartCoreWarmupTask().WaitAsync(cancellationToken);
     }
 
     private async Task<bool> EnsureCoreReadyForExecutionAsync(CancellationToken cancellationToken)

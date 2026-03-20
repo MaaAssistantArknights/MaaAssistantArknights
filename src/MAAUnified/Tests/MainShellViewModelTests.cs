@@ -47,10 +47,10 @@ public sealed class MainShellViewModelTests
     }
 
     [Fact]
-    public async Task InitializeAsync_FirstScreenReady_ShouldAllowDeferredPagesToLoadBeforeCoreWarmupCompletes()
+    public async Task InitializeAsync_ShouldNotStartCoreWarmupUntilExecutionIsRequested()
     {
-        await using var fixture = await TestFixture.CreateAsync(
-            bridge: new DelayedInitializeBridge(TimeSpan.FromMilliseconds(600)));
+        var bridge = new DelayedInitializeBridge(TimeSpan.FromMilliseconds(600));
+        await using var fixture = await TestFixture.CreateAsync(bridge: bridge);
 
         var startupTask = fixture.ViewModel.InitializeAsync();
         await fixture.ViewModel.WaitForFirstScreenReadyAsync();
@@ -58,6 +58,7 @@ public sealed class MainShellViewModelTests
         Assert.True(fixture.ViewModel.TaskQueueRootPage.IsLoaded);
         Assert.False(fixture.ViewModel.IsCoreReady);
         Assert.False(startupTask.IsCompleted);
+        Assert.Equal(0, bridge.InitializeCallCount);
 
         Assert.True(await WaitUntilAsync(
             () =>
@@ -65,11 +66,38 @@ public sealed class MainShellViewModelTests
                 && fixture.ViewModel.ToolboxRootPage.IsLoaded
                 && fixture.ViewModel.SettingsRootPage.IsLoaded));
         Assert.False(fixture.ViewModel.IsCoreReady);
-        Assert.False(startupTask.IsCompleted);
+        Assert.Equal(0, bridge.InitializeCallCount);
 
         await startupTask;
 
+        Assert.False(fixture.ViewModel.IsCoreReady);
+        Assert.Equal(0, bridge.InitializeCallCount);
+
+        var connectTask = fixture.ViewModel.ExecuteConnectAsync();
+        Assert.True(await WaitUntilAsync(() => bridge.InitializeCallCount == 1));
+        Assert.False(connectTask.IsCompleted);
+
+        await connectTask;
+
         Assert.True(fixture.ViewModel.IsCoreReady);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_FirstScreenReady_ShouldNotWaitForDeferredOverlayTargetProbe()
+    {
+        var overlayFeatureService = new DelayedOverlayFeatureService(TimeSpan.FromMilliseconds(900));
+        await using var fixture = await TestFixture.CreateAsync(overlayFeatureService: overlayFeatureService);
+
+        var startupTask = fixture.ViewModel.InitializeAsync();
+        await fixture.ViewModel.WaitForFirstScreenReadyAsync();
+
+        Assert.True(fixture.ViewModel.TaskQueueRootPage.IsLoaded);
+        Assert.False(startupTask.IsCompleted);
+        Assert.False(overlayFeatureService.QueryCompleted);
+
+        await startupTask;
+
+        Assert.True(overlayFeatureService.QueryCompleted);
     }
 
     [Fact]
@@ -93,13 +121,18 @@ public sealed class MainShellViewModelTests
     }
 
     [Fact]
-    public async Task InitializeAsync_CoreInitFailure_ShouldKeepDeferredPagesLoading()
+    public async Task ExecuteConnectAsync_CoreInitFailure_ShouldKeepDeferredPagesLoaded()
     {
         await using var fixture = await TestFixture.CreateAsync(
             bridge: new FailingInitializeBridge(CoreErrorCode.ResourceNotFound, "Client resource directory was not found."));
 
         await fixture.ViewModel.InitializeAsync();
+        await fixture.ViewModel.ExecuteConnectAsync();
 
+        Assert.True(await WaitUntilAsync(
+            () => fixture.ViewModel.TaskQueuePage.HasCoreInitializationMessage,
+            retry: 80,
+            delayMs: 25));
         Assert.False(fixture.ViewModel.IsCoreReady);
         Assert.True(fixture.ViewModel.TaskQueuePage.HasCoreInitializationMessage);
         Assert.True(fixture.ViewModel.CopilotRootPage.IsLoaded);
@@ -202,7 +235,7 @@ public sealed class MainShellViewModelTests
     }
 
     [Fact]
-    public async Task InitializeAsync_CoreInitFailure_ShouldRaiseDialogError()
+    public async Task ExecuteConnectAsync_CoreInitFailure_ShouldRaiseDialogError()
     {
         await using var fixture = await TestFixture.CreateAsync(
             bridge: new FailingInitializeBridge(CoreErrorCode.ResourceNotFound, "Client resource directory was not found."));
@@ -210,10 +243,15 @@ public sealed class MainShellViewModelTests
         fixture.Runtime.DialogFeatureService.ErrorRaised += (_, e) => raised.Add(e);
 
         await fixture.ViewModel.InitializeAsync();
+        await fixture.ViewModel.ExecuteConnectAsync();
+        Assert.True(await WaitUntilAsync(
+            () => raised.Any(e => string.Equals(e.Context, "App.CoreWarmup", StringComparison.Ordinal)),
+            retry: 80,
+            delayMs: 25));
 
         var coreFailure = Assert.Single(
             raised,
-            e => string.Equals(e.Context, "App.Initialize", StringComparison.Ordinal));
+            e => string.Equals(e.Context, "App.CoreWarmup", StringComparison.Ordinal));
         Assert.Equal(CoreErrorCode.ResourceNotFound.ToString(), coreFailure.Result.Error?.Code);
         Assert.Contains("Core 初始化失败", coreFailure.Result.Message, StringComparison.Ordinal);
     }
@@ -224,6 +262,8 @@ public sealed class MainShellViewModelTests
         var bridge = new FakeBridge();
         await using var fixture = await TestFixture.CreateAsync(bridge: bridge);
         await fixture.ViewModel.InitializeAsync();
+        await fixture.ViewModel.ExecuteConnectAsync();
+        Assert.True(fixture.ViewModel.IsCoreReady);
 
         var timestamp = new DateTimeOffset(2026, 3, 13, 1, 2, 3, TimeSpan.Zero);
         bridge.Publish(
@@ -1176,6 +1216,7 @@ public sealed class MainShellViewModelTests
             IShellFeatureService? shellService = null,
             IAppLifecycleService? appLifecycleService = null,
             IGlobalHotkeyService? hotkeyService = null,
+            IOverlayFeatureService? overlayFeatureService = null,
             string? existingAvaloniaJson = null,
             IAppDialogService? dialogService = null,
             IMaaCoreBridge? bridge = null,
@@ -1237,7 +1278,7 @@ public sealed class MainShellViewModelTests
                 ToolboxFeatureService = new ToolboxFeatureService(),
                 RemoteControlFeatureService = new RemoteControlFeatureService(),
                 PlatformCapabilityService = capability,
-                OverlayFeatureService = new OverlayFeatureService(capability),
+                OverlayFeatureService = overlayFeatureService ?? new OverlayFeatureService(capability),
                 NotificationProviderFeatureService = new NotificationProviderFeatureService(),
                 SettingsFeatureService = new SettingsFeatureService(config, capability, diagnostics),
                 ConfigurationProfileFeatureService = new ConfigurationProfileFeatureService(config),
@@ -1255,6 +1296,7 @@ public sealed class MainShellViewModelTests
         public async ValueTask DisposeAsync()
         {
             TestShellCleanup.StopTimerScheduler(ViewModel);
+            ViewModel.CancelStartupInitialization();
             await Runtime.DisposeAsync();
             try
             {
@@ -1264,6 +1306,47 @@ public sealed class MainShellViewModelTests
             {
                 // ignore cleanup failures in temporary test directories
             }
+        }
+    }
+
+    private sealed class DelayedOverlayFeatureService : IOverlayFeatureService
+    {
+        private readonly TimeSpan _delay;
+
+        public DelayedOverlayFeatureService(TimeSpan delay)
+        {
+            _delay = delay;
+        }
+
+        public bool QueryCompleted { get; private set; }
+
+        public Task<string> GetOverlayModeAsync(CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult("preview");
+        }
+
+        public async Task<UiOperationResult<IReadOnlyList<OverlayTarget>>> GetOverlayTargetsAsync(
+            CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await Task.Delay(_delay, cancellationToken);
+            QueryCompleted = true;
+            return UiOperationResult<IReadOnlyList<OverlayTarget>>.Ok(
+                [new OverlayTarget("preview", "Preview + Logs", true)],
+                "Delayed overlay targets loaded.");
+        }
+
+        public Task<UiOperationResult> SelectOverlayTargetAsync(string targetId, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(UiOperationResult.Ok($"Selected `{targetId}`."));
+        }
+
+        public Task<UiOperationResult> ToggleOverlayVisibilityAsync(bool visible, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(UiOperationResult.Ok($"Overlay visible={visible}."));
         }
     }
 
@@ -1499,10 +1582,13 @@ public sealed class MainShellViewModelTests
     {
         private readonly Channel<CoreCallbackEvent> _callbackChannel = Channel.CreateUnbounded<CoreCallbackEvent>();
 
+        public int InitializeCallCount { get; private set; }
+
         public Task<CoreResult<CoreInitializeInfo>> InitializeAsync(
             CoreInitializeRequest request,
             CancellationToken cancellationToken = default)
         {
+            InitializeCallCount++;
             return Task.FromResult(CoreResult<CoreInitializeInfo>.Ok(new CoreInitializeInfo(request.BaseDirectory, "fake", "fake", request.ClientType)));
         }
 
@@ -1566,6 +1652,8 @@ public sealed class MainShellViewModelTests
         private readonly TimeSpan _delay;
         private readonly Channel<CoreCallbackEvent> _callbackChannel = Channel.CreateUnbounded<CoreCallbackEvent>();
 
+        public int InitializeCallCount { get; private set; }
+
         public DelayedInitializeBridge(TimeSpan delay)
         {
             _delay = delay;
@@ -1575,6 +1663,7 @@ public sealed class MainShellViewModelTests
             CoreInitializeRequest request,
             CancellationToken cancellationToken = default)
         {
+            InitializeCallCount++;
             await Task.Delay(_delay, cancellationToken);
             return CoreResult<CoreInitializeInfo>.Ok(new CoreInitializeInfo(request.BaseDirectory, "fake", "fake", request.ClientType));
         }
@@ -1633,6 +1722,8 @@ public sealed class MainShellViewModelTests
     {
         private readonly CoreError _error;
 
+        public int InitializeCallCount { get; private set; }
+
         public FailingInitializeBridge(CoreErrorCode code, string message)
         {
             _error = new CoreError(code, message);
@@ -1642,6 +1733,7 @@ public sealed class MainShellViewModelTests
             CoreInitializeRequest request,
             CancellationToken cancellationToken = default)
         {
+            InitializeCallCount++;
             return Task.FromResult(CoreResult<CoreInitializeInfo>.Fail(_error));
         }
 

@@ -9,7 +9,7 @@
 - Locales: `zh-cn, zh-tw, en-us, ja-jp, ko-kr, pallas`
 - Feature items: `44`
 - System items: `13`
-- Config keys: `291`
+- Config keys: `292`
 - Fallback records: `15`
 
 ## Feature Parity
@@ -82,7 +82,7 @@
 | `System.PageErrorChannel` | Aligned | `App/ViewModels/Infrastructure/PageViewModelBase.cs` |
 
 ## Config Key Mapping Summary
-- Aligned: `291`
+- Aligned: `292`
 - Gap: `0`
 - Waived: `0`
 
@@ -123,6 +123,7 @@
 - `MiniGame.SecretFrontEvent` -> `Toolbox settings bridge`
 - `MiniGame.TaskName` -> `Toolbox settings bridge`
 - `OperBox.Data` -> `UnifiedConfigurationService.CurrentConfig.GlobalValues[OperBox.Data]`
+- `Overlay.PreviewPinned` -> `OverlayTargetPersistence.LoadPreviewPreference`
 - `Overlay.Target` -> `OverlayAdvancedPageViewModel.SelectedTarget`
 - `Peep.TargetFps` -> `UnifiedConfigurationService.CurrentConfig.GlobalValues[Peep.TargetFps]`
 - `Penguin.EnablePenguin` -> `UnifiedConfigurationService.CurrentConfig.GlobalValues[Penguin.EnablePenguin]`

@@ -147,7 +147,7 @@ public sealed class SettingsModuleAK2FeatureTests
         Assert.Equal(1, dialogService.WarningConfirmCallCount);
         Assert.Equal(0, Assert.IsType<SpyAppLifecycleService>(fixture.Runtime.AppLifecycleService).RestartCallCount);
         Assert.Equal(0, Assert.IsType<SpyAppLifecycleService>(fixture.Runtime.AppLifecycleService).ExitCallCount);
-        Assert.Equal("GPU 设置已保存，请重启应用后生效。", vm.StatusMessage);
+        Assert.Equal(vm.RootTexts["Settings.Performance.Gpu.RestartPending"], vm.StatusMessage);
     }
 
     [Fact]

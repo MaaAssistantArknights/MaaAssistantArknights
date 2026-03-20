@@ -6782,6 +6782,23 @@
       "write_path": "Application/Services/Features/FeatureServices.cs::AchievementFeatureService.SavePolicyAsync"
     },
     {
+      "key": "Overlay.PreviewPinned",
+      "owner_item_id": "Advanced.Overlay",
+      "parity_status": "Aligned",
+      "priority": "P0",
+      "notes": "Implemented in Avalonia runtime and covered by baseline evidence.",
+      "evidence": {
+        "ui_path": "App/Features/Advanced/OverlayView.axaml",
+        "log_path": "debug/avalonia-ui-events.log",
+        "scope": "Config.Overlay.PreviewPinned",
+        "case_id": "CFG-292"
+      },
+      "waiver": null,
+      "mapping_target": "OverlayTargetPersistence.LoadPreviewPreference",
+      "read_path": "App/ViewModels/Infrastructure/OverlayTargetPersistence.cs",
+      "write_path": "Application/Services/Features/FeatureServices.cs::SettingsFeatureService.SaveGlobalSettingsAsync"
+    },
+    {
       "key": "Overlay.Target",
       "owner_item_id": "Advanced.Overlay",
       "parity_status": "Aligned",
@@ -7148,7 +7165,7 @@
   "metadata": {
     "feature_item_count": 44,
     "system_item_count": 13,
-    "config_key_count": 291,
+    "config_key_count": 292,
     "fallback_record_count": 15
   }
 }

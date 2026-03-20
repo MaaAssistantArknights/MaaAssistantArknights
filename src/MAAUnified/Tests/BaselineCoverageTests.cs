@@ -27,15 +27,15 @@ public sealed class BaselineCoverageTests
     }
 
     [Fact]
-    public void BaselineConfigKeys_ShouldCoverAll291LegacyKeys()
+    public void BaselineConfigKeys_ShouldCoverAll292LegacyKeys()
     {
         var baseline = BaselineTestSupport.LoadBaseline();
 
         var legacyKeys = BaselineTestSupport.GetLegacyConfigurationKeys();
         var baselineKeys = baseline.ConfigKeyMappings.Select(k => k.Key).ToList();
 
-        Assert.Equal(291, legacyKeys.Count);
-        Assert.Equal(291, baselineKeys.Count);
+        Assert.Equal(292, legacyKeys.Count);
+        Assert.Equal(292, baselineKeys.Count);
 
         var legacySet = legacyKeys.ToHashSet(StringComparer.Ordinal);
         var baselineSet = baselineKeys.ToHashSet(StringComparer.Ordinal);

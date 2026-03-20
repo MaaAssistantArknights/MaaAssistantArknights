@@ -43,22 +43,35 @@ public partial class MainWindow : Window
 
     private async void OnWindowOpened(object? sender, EventArgs e)
     {
+        Program.RecordStartupStage("MainWindow.Opened", "Main window opened.");
         StartDialogErrorPumpIfNeeded();
-        if (VM is null || _platformBound)
+        var vm = VM;
+        if (vm is null || _platformBound)
         {
             return;
         }
 
-        VM.PlatformCapabilityService.TrayCommandInvoked += OnTrayCommandInvoked;
-        VM.PlatformCapabilityService.GlobalHotkeyTriggered += OnGlobalHotkeyTriggered;
+        Program.RecordStartupStage("MainWindow.PlatformInit.WaitFirstScreen.Begin", "Waiting for first screen before platform initialization.");
+        await vm.WaitForFirstScreenReadyAsync();
+        Program.RecordStartupStage("MainWindow.PlatformInit.WaitFirstScreen.End", "First screen ready; continuing platform initialization.");
+
+        vm = VM;
+        if (vm is null || _platformBound || !IsVisible)
+        {
+            return;
+        }
+
+        Program.RecordStartupStage("MainWindow.PlatformInit.Begin", "Initializing tray, hotkeys, and overlay host.");
+        vm.PlatformCapabilityService.TrayCommandInvoked += OnTrayCommandInvoked;
+        vm.PlatformCapabilityService.GlobalHotkeyTriggered += OnGlobalHotkeyTriggered;
         _platformBound = true;
 
-        var trayInit = await VM.PlatformCapabilityService.InitializeTrayAsync(
+        var trayInit = await vm.PlatformCapabilityService.InitializeTrayAsync(
             "MaaAssistantArknights",
-            PlatformCapabilityTextMap.CreateTrayMenuText(VM.SettingsPage.Language, VM.ReportLocalizationFallback));
+            PlatformCapabilityTextMap.CreateTrayMenuText(vm.SettingsPage.Language, vm.ReportLocalizationFallback));
         await HandlePlatformResultAsync("PlatformCapability.Tray.Initialize", trayInit);
 
-        await VM.RegisterHotkeysAtStartupAsync();
+        await vm.RegisterHotkeysAtStartupAsync();
         try
         {
             await EnsureOverlayHostBoundAsync();
@@ -70,6 +83,8 @@ public partial class MainWindow : Window
                 "Overlay host initialization failed during window startup.",
                 ex);
         }
+
+        Program.RecordStartupStage("MainWindow.PlatformInit.End", "Platform initialization completed.");
     }
 
     private async void OnWindowClosed(object? sender, EventArgs e)
