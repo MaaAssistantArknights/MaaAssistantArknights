@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Threading.Channels;
 using MAAUnified.App.ViewModels;
+using MAAUnified.App.ViewModels.Settings;
 using MAAUnified.Application.Configuration;
 using MAAUnified.Application.Models;
 using MAAUnified.Application.Orchestration;
@@ -28,6 +29,28 @@ public sealed class SettingsModuleAK1FeatureTests
         "AlwaysAutoDetect",
         "RetryOnDisconnected",
     ];
+
+    [Fact]
+    public void ConnectionGameSharedState_DefaultAdbPath_ShouldBeSystemAdb()
+    {
+        var state = new ConnectionGameSharedStateViewModel();
+
+        Assert.Equal("adb", state.AdbPath);
+    }
+
+    [Fact]
+    public void ConnectionGameProfileSync_ReadFromEmptyProfile_ShouldUseSystemAdbDefault()
+    {
+        var profile = new UnifiedProfile();
+        var state = new ConnectionGameSharedStateViewModel
+        {
+            AdbPath = string.Empty,
+        };
+
+        ConnectionGameProfileSync.ReadFromProfile(profile, state, tolerateMissing: false);
+
+        Assert.Equal("adb", state.AdbPath);
+    }
 
     [Fact]
     public async Task SaveConnectionGameSettings_AndMainShellSyncConnectionToProfile_WriteSameFieldSet()

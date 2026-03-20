@@ -29,6 +29,7 @@ public sealed class MainShellViewModel : ObservableObject
 {
     private const string AppDisplayName = "MaaAssistantArknights";
     private const string DeveloperModeConfigKey = "GUI.DeveloperMode";
+    private static readonly TimeSpan DeferredStartupCoreWarmupDelay = TimeSpan.FromMilliseconds(1500);
     private readonly MAAUnifiedRuntime _runtime;
     private readonly ConnectionGameSharedStateViewModel _connectionGameSharedState;
     private readonly SemaphoreSlim _guiApplySemaphore = new(1, 1);
@@ -36,6 +37,7 @@ public sealed class MainShellViewModel : ObservableObject
     private readonly object _localizationFallbackGate = new();
     private readonly object _startupGate = new();
     private readonly object _coreWarmupGate = new();
+    private readonly object _deferredCoreWarmupGate = new();
     private readonly DispatcherTimer _timerScheduleTimer;
     private readonly IAppDialogService _dialogService;
     private readonly OverlaySharedState _overlaySharedState;
@@ -45,6 +47,7 @@ public sealed class MainShellViewModel : ObservableObject
     private readonly TaskCompletionSource<bool> _firstScreenReadyTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private Task? _startupTask;
     private Task<UiOperationResult>? _coreWarmupTask;
+    private Task? _deferredCoreWarmupTask;
     private readonly CopilotPageViewModel _copilotPage;
     private readonly OverlayPresentationViewModel _overlayPresentation;
     private readonly ToolboxPageViewModel _toolboxPage;
@@ -515,11 +518,13 @@ public sealed class MainShellViewModel : ObservableObject
                     await ApplyGuiSettingsAsync(SettingsPage.CurrentGuiSnapshot, cancellationToken);
                 }
 
+                ScheduleDeferredCoreWarmupAfterStartup();
+
                 await RefreshCapabilitySummaryAsync(cancellationToken);
                 RefreshRootTextState();
                 await SyncTrayMenuStateAsync(cancellationToken);
                 StartTimerScheduler();
-                UpdateStartupPhase("启动完成", "后台页面初始化完成，核心将在首次连接或开始时按需初始化。");
+                UpdateStartupPhase("启动完成", "后台页面初始化完成，核心组件将在界面就绪后继续后台预热。");
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -613,9 +618,9 @@ public sealed class MainShellViewModel : ObservableObject
 
     private async Task<bool> InitializeCoreWarmupAsync(CancellationToken cancellationToken)
     {
-        UpdateStartupPhase("正在初始化核心", "MaaCore 正在预热。");
-        RecordStartupPhase("CoreWarmup.Begin", "Initializing MaaCore.");
-        _runtime.LogService.Debug("Begin core initialization.");
+        UpdateStartupPhase("正在后台初始化核心", "MaaCore 正在后台预热。");
+        RecordStartupPhase("CoreWarmup.Begin", "Initializing MaaCore in background startup stage.");
+        _runtime.LogService.Debug("Begin core initialization from startup pipeline.");
         var initResult = await _runtime.ResourceWorkflowService.InitializeCoreAsync(_runtime.ConfigurationService.CurrentConfig, cancellationToken);
         if (!initResult.Success)
         {
@@ -684,6 +689,49 @@ public sealed class MainShellViewModel : ObservableObject
         return settingsLoaded;
     }
 
+    private void ScheduleDeferredCoreWarmupAfterStartup()
+    {
+        lock (_deferredCoreWarmupGate)
+        {
+            if (_deferredCoreWarmupTask is not null || HasCoreWarmupStarted())
+            {
+                return;
+            }
+
+            RecordStartupPhase(
+                "CoreWarmup.Deferred.Schedule",
+                $"Scheduling deferred core warmup after {DeferredStartupCoreWarmupDelay.TotalMilliseconds:0}ms.");
+            _deferredCoreWarmupTask = RunDeferredCoreWarmupAfterStartupAsync(_startupCts.Token);
+        }
+    }
+
+    private async Task RunDeferredCoreWarmupAfterStartupAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(DeferredStartupCoreWarmupDelay, cancellationToken);
+
+            if (HasCoreWarmupStarted())
+            {
+                RecordStartupPhase("CoreWarmup.Deferred.Skip", "Core warmup already started before deferred kickoff.");
+                return;
+            }
+
+            RecordStartupPhase("CoreWarmup.Deferred.Dispatch", "Dispatching deferred core warmup.");
+            var result = await GetOrStartCoreWarmupTask().WaitAsync(cancellationToken);
+            UpdateStartupPhase(
+                result.Success ? "启动完成" : "核心初始化失败",
+                result.Success
+                    ? "核心后台预热完成。"
+                    : "核心初始化失败，但界面仍可继续浏览。");
+            RecordStartupPhase("CoreWarmup.Deferred.Complete", $"Deferred core warmup finished. isCoreReady={IsCoreReady}");
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            RecordStartupPhase("CoreWarmup.Deferred.Cancelled", "Deferred core warmup canceled.");
+        }
+    }
+
     private Task<UiOperationResult> GetOrStartCoreWarmupTask()
     {
         lock (_coreWarmupGate)
@@ -698,6 +746,14 @@ public sealed class MainShellViewModel : ObservableObject
             RecordStartupPhase("CoreWarmup.Requested", "Core warmup requested by execution path.");
             _coreWarmupTask = RunCoreWarmupTaskAsync(_startupCts.Token);
             return _coreWarmupTask;
+        }
+    }
+
+    private bool HasCoreWarmupStarted()
+    {
+        lock (_coreWarmupGate)
+        {
+            return _coreWarmupTask is not null;
         }
     }
 

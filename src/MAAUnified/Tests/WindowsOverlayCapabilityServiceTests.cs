@@ -82,6 +82,30 @@ public sealed class WindowsOverlayCapabilityServiceTests
     }
 
     [Fact]
+    public async Task SetVisibleAsync_WithPreviewTarget_ShouldShowPreviewHostAndEmitFallback()
+    {
+        var api = new FakeNativeApi();
+        api.AddWindow(0x10, "Overlay Host", rect: new WindowsOverlayCapabilityService.OverlayRect(0, 0, 100, 100));
+        var service = new WindowsOverlayCapabilityService(api);
+        var events = new List<OverlayStateChangedEvent>();
+        service.OverlayStateChanged += (_, e) => events.Add(e);
+
+        var bind = await service.BindHostWindowAsync((nint)0x10, clickThrough: true, opacity: 0.85);
+        var select = await service.SelectTargetAsync("preview");
+        var visible = await service.SetVisibleAsync(true);
+
+        Assert.True(bind.Success);
+        Assert.True(select.Success);
+        Assert.True(visible.Success);
+        var preview = Assert.Single(events, e => string.Equals(e.Action, "fallback-enter", StringComparison.Ordinal));
+        Assert.Equal(OverlayRuntimeMode.Preview, preview.Mode);
+        Assert.True(preview.Visible);
+        Assert.Equal("preview", preview.TargetId);
+        Assert.True(api.ShowWindowCalls > 0);
+        Assert.NotEqual(0L, ((long)api.LastSetWindowLongPtrValue) & 0x08000000L);
+    }
+
+    [Fact]
     public async Task SyncNowForTesting_WhenTargetDisappears_ShouldEmitTargetLostAndSwitchToPreview()
     {
         var api = new FakeNativeApi();
@@ -116,6 +140,8 @@ public sealed class WindowsOverlayCapabilityServiceTests
         public int ShowWindowCalls { get; private set; }
 
         public bool FailSetWindowPos { get; set; }
+
+        public nint LastSetWindowLongPtrValue { get; private set; }
 
         public void AddWindow(nint handle, string title, WindowsOverlayCapabilityService.OverlayRect rect)
         {
@@ -171,7 +197,10 @@ public sealed class WindowsOverlayCapabilityServiceTests
             => 0;
 
         public nint SetWindowLongPtr(nint hWnd, int nIndex, nint dwNewLong)
-            => dwNewLong;
+        {
+            LastSetWindowLongPtrValue = dwNewLong;
+            return dwNewLong;
+        }
 
         public bool SetLayeredWindowAttributes(nint hwnd, uint crKey, byte bAlpha, uint dwFlags)
             => true;

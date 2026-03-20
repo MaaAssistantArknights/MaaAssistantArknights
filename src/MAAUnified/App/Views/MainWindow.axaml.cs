@@ -64,6 +64,7 @@ public partial class MainWindow : Window
         Program.RecordStartupStage("MainWindow.PlatformInit.Begin", "Initializing tray, hotkeys, and overlay host.");
         vm.PlatformCapabilityService.TrayCommandInvoked += OnTrayCommandInvoked;
         vm.PlatformCapabilityService.GlobalHotkeyTriggered += OnGlobalHotkeyTriggered;
+        vm.PlatformCapabilityService.OverlayStateChanged += OnPlatformOverlayStateChanged;
         _platformBound = true;
 
         var trayInit = await vm.PlatformCapabilityService.InitializeTrayAsync(
@@ -108,6 +109,7 @@ public partial class MainWindow : Window
         {
             VM.PlatformCapabilityService.TrayCommandInvoked -= OnTrayCommandInvoked;
             VM.PlatformCapabilityService.GlobalHotkeyTriggered -= OnGlobalHotkeyTriggered;
+            VM.PlatformCapabilityService.OverlayStateChanged -= OnPlatformOverlayStateChanged;
             _platformBound = false;
             _ = await VM.PlatformCapabilityService.UnregisterGlobalHotkeyAsync("ShowGui");
             _ = await VM.PlatformCapabilityService.UnregisterGlobalHotkeyAsync("LinkStart");
@@ -274,9 +276,13 @@ public partial class MainWindow : Window
             DataContext = VM.OverlayPresentation,
         };
         _overlayHostWindow.Show();
-        _overlayHostWindow.Hide();
-
         var handle = _overlayHostWindow.TryGetPlatformHandle()?.Handle ?? nint.Zero;
+        if (handle == nint.Zero)
+        {
+            await Dispatcher.UIThread.InvokeAsync(static () => { }, DispatcherPriority.Loaded);
+            handle = _overlayHostWindow.TryGetPlatformHandle()?.Handle ?? nint.Zero;
+        }
+
         if (handle == nint.Zero)
         {
             VM.PushGrowl(PlatformCapabilityTextMap.GetUiText(
@@ -297,6 +303,43 @@ public partial class MainWindow : Window
             opacity: 0.85,
             cancellationToken);
         await HandlePlatformResultAsync("PlatformCapability.Overlay.BindHost", result, cancellationToken);
+    }
+
+    private void OnPlatformOverlayStateChanged(object? sender, OverlayStateChangedEvent e)
+    {
+        if (Dispatcher.UIThread.CheckAccess())
+        {
+            ApplyOverlayHostState(e);
+            return;
+        }
+
+        Dispatcher.UIThread.Post(() => ApplyOverlayHostState(e));
+    }
+
+    private void ApplyOverlayHostState(OverlayStateChangedEvent e)
+    {
+        if (_overlayHostWindow is null || !e.Visible || e.Mode != OverlayRuntimeMode.Preview)
+        {
+            return;
+        }
+
+        try
+        {
+            var screens = _overlayHostWindow.Screens;
+            var screen = screens.ScreenFromWindow(this)
+                ?? screens.ScreenFromWindow(_overlayHostWindow)
+                ?? screens.Primary;
+            if (screen is null)
+            {
+                return;
+            }
+
+            _overlayHostWindow.ApplyPreviewBounds(screen.WorkingArea);
+        }
+        catch (ObjectDisposedException)
+        {
+            // Ignore late overlay events while the shell is shutting down.
+        }
     }
 
     private async void OnTrayCommandInvoked(object? sender, TrayCommandEvent e)

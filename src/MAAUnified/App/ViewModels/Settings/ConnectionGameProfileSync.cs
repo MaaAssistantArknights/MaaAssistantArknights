@@ -55,7 +55,7 @@ internal static class ConnectionGameProfileSync
 
     private const string DefaultConnectAddress = "127.0.0.1:5555";
     private const string DefaultConnectConfig = "General";
-    private const string DefaultAdbPath = "";
+    private const string DefaultAdbPath = "adb";
     private const string DefaultClientType = "Official";
     private const bool DefaultStartGame = true;
     private const string DefaultTouchMode = "minitouch";

@@ -12,6 +12,9 @@ public partial class OverlayHostWindow : Window
 {
     private const double OverlayPanelMargin = 8d;
     private const double OverlayPanelMaxWidth = 250d;
+    private const int PreviewWindowWidth = 320;
+    private const int PreviewWindowHeight = 240;
+    private const int PreviewWindowMargin = 24;
     private OverlayPresentationViewModel? _presentation;
     private INotifyCollectionChanged? _currentLogCollection;
     private Border? _overlayPanel;
@@ -27,6 +30,7 @@ public partial class OverlayHostWindow : Window
         Topmost = true;
         ShowInTaskbar = false;
         CanResize = false;
+        WindowStartupLocation = WindowStartupLocation.Manual;
         IsHitTestVisible = false;
         Focusable = false;
         SystemDecorations = SystemDecorations.None;
@@ -47,6 +51,26 @@ public partial class OverlayHostWindow : Window
             ScheduleScrollToEnd();
         };
         SizeChanged += (_, _) => UpdatePanelConstraints();
+    }
+
+    public void ApplyPreviewBounds(PixelRect workingArea)
+    {
+        var scale = Math.Max(0.01d, RenderScaling);
+        var usableWidth = Math.Max(1, workingArea.Width - (PreviewWindowMargin * 2));
+        var usableHeight = Math.Max(1, workingArea.Height - (PreviewWindowMargin * 2));
+        var width = Math.Min(PreviewWindowWidth, usableWidth);
+        var height = Math.Min(PreviewWindowHeight, usableHeight);
+        var maxX = workingArea.X + workingArea.Width - width - PreviewWindowMargin;
+        var minX = workingArea.X + PreviewWindowMargin;
+        var x = Math.Max(minX, maxX);
+        var minY = workingArea.Y + PreviewWindowMargin;
+        var y = minY;
+
+        Width = width / scale;
+        Height = height / scale;
+        Position = new PixelPoint(x, y);
+        UpdatePanelConstraints();
+        ScheduleScrollToEnd();
     }
 
     private void OnOverlayDataContextChanged(object? sender, EventArgs e)

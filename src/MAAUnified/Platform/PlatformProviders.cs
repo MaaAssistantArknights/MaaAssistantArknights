@@ -2112,6 +2112,7 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
     private const int MaxConsecutiveSyncFailures = 3;
     private const nint WsExLayered = 0x00080000;
     private const nint WsExTransparent = 0x00000020;
+    private const nint WsExNoActivate = 0x08000000;
     private const uint LwaAlpha = 0x2;
     private const uint SwpNoActivate = 0x0010;
     private const uint SwpShowWindow = 0x0040;
@@ -2320,9 +2321,9 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
             _selectedTarget = nint.Zero;
             _consecutiveSyncFailures = 0;
             StopAttachSync();
-            HideHostWindow();
             if (_visible)
             {
+                ShowPreviewHostBestEffort();
                 EmitStateChanged(
                     OverlayRuntimeMode.Preview,
                     visible: true,
@@ -2441,7 +2442,7 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
         {
             _consecutiveSyncFailures = 0;
             StopAttachSync();
-            HideHostWindow();
+            ShowPreviewHostBestEffort();
             EmitStateChanged(
                 OverlayRuntimeMode.Preview,
                 visible: true,
@@ -2631,7 +2632,14 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
         _consecutiveSyncFailures = 0;
         _lastSyncIssue = message;
         StopAttachSync();
-        HideHostWindow();
+        if (_visible)
+        {
+            ShowPreviewHostBestEffort();
+        }
+        else
+        {
+            HideHostWindow();
+        }
         EmitStateChanged(
             OverlayRuntimeMode.Preview,
             visible: _visible,
@@ -2686,6 +2694,7 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
         }
 
         style |= WsExLayered;
+        style |= WsExNoActivate;
         if (_clickThrough)
         {
             style |= WsExTransparent;
@@ -2723,6 +2732,21 @@ public sealed class WindowsOverlayCapabilityService : IOverlayCapabilityService,
         }
 
         return ok;
+    }
+
+    private void ShowPreviewHostBestEffort()
+    {
+        if (_hostWindow == nint.Zero || !_api.IsWindow(_hostWindow))
+        {
+            return;
+        }
+
+        if (!ConfigureHostWindow())
+        {
+            return;
+        }
+
+        _ = _api.ShowWindow(_hostWindow, SwShowNoActivate);
     }
 
     private void HideHostWindow()

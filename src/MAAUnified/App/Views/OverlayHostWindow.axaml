@@ -7,7 +7,7 @@
   <Window.Styles>
     <Style Selector="Border#OverlayPanel">
       <Setter Property="CornerRadius" Value="10" />
-      <Setter Property="Background" Value="#B61A1E25" />
+      <Setter Property="Background" Value="#7A1A1E25" />
       <Setter Property="BorderBrush" Value="#5CFFFFFF" />
       <Setter Property="BorderThickness" Value="1" />
     </Style>

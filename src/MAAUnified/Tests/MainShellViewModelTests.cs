@@ -47,7 +47,7 @@ public sealed class MainShellViewModelTests
     }
 
     [Fact]
-    public async Task InitializeAsync_ShouldNotStartCoreWarmupUntilExecutionIsRequested()
+    public async Task InitializeAsync_ShouldCompleteBeforeDeferredCoreWarmupCompletes()
     {
         var bridge = new DelayedInitializeBridge(TimeSpan.FromMilliseconds(600));
         await using var fixture = await TestFixture.CreateAsync(bridge: bridge);
@@ -71,15 +71,8 @@ public sealed class MainShellViewModelTests
         await startupTask;
 
         Assert.False(fixture.ViewModel.IsCoreReady);
-        Assert.Equal(0, bridge.InitializeCallCount);
-
-        var connectTask = fixture.ViewModel.ExecuteConnectAsync();
-        Assert.True(await WaitUntilAsync(() => bridge.InitializeCallCount == 1));
-        Assert.False(connectTask.IsCompleted);
-
-        await connectTask;
-
-        Assert.True(fixture.ViewModel.IsCoreReady);
+        Assert.True(await WaitUntilAsync(() => bridge.InitializeCallCount == 1, retry: 160, delayMs: 25));
+        Assert.True(await WaitUntilAsync(() => fixture.ViewModel.IsCoreReady, retry: 240, delayMs: 25));
     }
 
     [Fact]
@@ -121,17 +114,16 @@ public sealed class MainShellViewModelTests
     }
 
     [Fact]
-    public async Task ExecuteConnectAsync_CoreInitFailure_ShouldKeepDeferredPagesLoaded()
+    public async Task InitializeAsync_CoreInitFailure_ShouldKeepDeferredPagesLoaded()
     {
         await using var fixture = await TestFixture.CreateAsync(
             bridge: new FailingInitializeBridge(CoreErrorCode.ResourceNotFound, "Client resource directory was not found."));
 
         await fixture.ViewModel.InitializeAsync();
-        await fixture.ViewModel.ExecuteConnectAsync();
 
         Assert.True(await WaitUntilAsync(
             () => fixture.ViewModel.TaskQueuePage.HasCoreInitializationMessage,
-            retry: 80,
+            retry: 160,
             delayMs: 25));
         Assert.False(fixture.ViewModel.IsCoreReady);
         Assert.True(fixture.ViewModel.TaskQueuePage.HasCoreInitializationMessage);
@@ -235,7 +227,7 @@ public sealed class MainShellViewModelTests
     }
 
     [Fact]
-    public async Task ExecuteConnectAsync_CoreInitFailure_ShouldRaiseDialogError()
+    public async Task InitializeAsync_CoreInitFailure_ShouldRaiseDialogError()
     {
         await using var fixture = await TestFixture.CreateAsync(
             bridge: new FailingInitializeBridge(CoreErrorCode.ResourceNotFound, "Client resource directory was not found."));
@@ -243,10 +235,9 @@ public sealed class MainShellViewModelTests
         fixture.Runtime.DialogFeatureService.ErrorRaised += (_, e) => raised.Add(e);
 
         await fixture.ViewModel.InitializeAsync();
-        await fixture.ViewModel.ExecuteConnectAsync();
         Assert.True(await WaitUntilAsync(
             () => raised.Any(e => string.Equals(e.Context, "App.CoreWarmup", StringComparison.Ordinal)),
-            retry: 80,
+            retry: 160,
             delayMs: 25));
 
         var coreFailure = Assert.Single(
@@ -262,8 +253,7 @@ public sealed class MainShellViewModelTests
         var bridge = new FakeBridge();
         await using var fixture = await TestFixture.CreateAsync(bridge: bridge);
         await fixture.ViewModel.InitializeAsync();
-        await fixture.ViewModel.ExecuteConnectAsync();
-        Assert.True(fixture.ViewModel.IsCoreReady);
+        Assert.True(await WaitUntilAsync(() => fixture.ViewModel.IsCoreReady, retry: 160, delayMs: 25));
 
         var timestamp = new DateTimeOffset(2026, 3, 13, 1, 2, 3, TimeSpan.Zero);
         bridge.Publish(

@@ -28,7 +28,7 @@ public sealed class ConnectionGameSharedStateViewModel : ObservableObject
     private string _language = UiLanguageCatalog.DefaultLanguage;
     private string _connectAddress = "127.0.0.1:5555";
     private string _connectConfig = "General";
-    private string _adbPath = string.Empty;
+    private string _adbPath = "adb";
     private string _clientType = "Official";
     private bool _startGameEnabled = true;
     private string _touchMode = "minitouch";

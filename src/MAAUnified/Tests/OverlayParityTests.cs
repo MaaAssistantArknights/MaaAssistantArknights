@@ -84,7 +84,7 @@ public sealed class OverlayParityTests
     }
 
     [Fact]
-    public void OverlayTargetPersistence_ResolveSelection_ShouldPreferNativeTarget_WhenLegacyPreviewSelectionWasImplicit()
+    public void OverlayTargetPersistence_ResolveSelection_ShouldPreferPreview_WhenNoExplicitTargetWasRestored()
     {
         var preview = new OverlayTarget("preview", "Preview + Logs", true);
         var target = new OverlayTarget("hwnd:400", "Game", false, NativeHandle: 0x400, ProcessId: 4, ProcessName: "emu", WindowTitle: "Title");
@@ -95,7 +95,7 @@ public sealed class OverlayParityTests
 
         var resolved = OverlayTargetPersistence.ResolveSelection([preview, target], globals);
 
-        Assert.Equal(target, resolved);
+        Assert.Equal(preview, resolved);
     }
 
     [Fact]
