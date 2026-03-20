@@ -53,6 +53,15 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     } = ConfigurationHelper.GetValue(ConfigurationKeys.StartGame, true);
 
+    public bool RestartOnLoginFailed
+    {
+        get => SettingsViewModel.ConnectSettings.UseAttachWindow ? false : field;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RestartOnLoginFailed, value.ToString());
+        }
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.RestartOnLoginFailed, false);
+
     /// <summary>
     /// Gets the list of the client types.
     /// </summary>

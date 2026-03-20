@@ -94,6 +94,7 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
             var task = new AsstStartUpTask() {
                 ClientType = clientType,
                 StartGame = SettingsViewModel.GameSettings.StartGame,
+                RestartOnLoginFailed = SettingsViewModel.GameSettings.RestartOnLoginFailed,
                 AccountName = accountName,
             };
 

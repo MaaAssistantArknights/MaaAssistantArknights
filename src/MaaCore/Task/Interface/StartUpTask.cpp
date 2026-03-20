@@ -29,6 +29,39 @@ asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_start_up_task_ptr);
 }
 
+bool asst::StartUpTask::run()
+{
+    LogTraceFunction;
+
+    if (PackageTask::run()) {
+        return true;
+    }
+
+    if (!m_restart_on_login_failed || !m_start_game_task_ptr->get_enable()) {
+        save_img(utils::path("debug") / utils::path("interface"));
+        return false;
+    }
+
+    Log.warn(__FUNCTION__, "| login failed, entering game-restart loop");
+    while (!need_exit()) {
+        Log.info(__FUNCTION__, "| restarting game client...");
+        if (!m_start_game_task_ptr->restart_game()) {
+            Log.warn(__FUNCTION__, "| restart_game failed, retrying...");
+            sleep(3000);
+            continue;
+        }
+
+        Log.info(__FUNCTION__, "| game restarted, retrying login navigation...");
+        if (m_start_up_task_ptr->run()) {
+            return true;
+        }
+        Log.warn(__FUNCTION__, "| login navigation failed again, restarting game...");
+    }
+
+    save_img(utils::path("debug") / utils::path("interface"));
+    return false;
+}
+
 bool asst::StartUpTask::set_params(const json::value& params)
 {
     LogTraceFunction;
@@ -40,6 +73,7 @@ bool asst::StartUpTask::set_params(const json::value& params)
         return false;
     }
     m_start_game_task_ptr->set_client_type(client_type).set_enable(params.get("start_game_enabled", false));
+    m_restart_on_login_failed = params.get("restart_on_login_failed", false);
     m_account_switch_task_ptr->set_enable(!account_name.empty());
     m_account_switch_task_ptr->set_account(std::move(account_name));
     m_account_switch_task_ptr->set_client_type(std::move(client_type));

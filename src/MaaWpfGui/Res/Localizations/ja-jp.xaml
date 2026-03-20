@@ -433,6 +433,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
+    <system:String x:Key="RestartOnLoginFailed">ログイン失敗時にクライアントを再起動する</system:String>
     <system:String x:Key="AutoRestartOption">ゲームが切断されたときに自動的に再接続する</system:String>
     <system:String x:Key="UseWeeklySchedule">週次スケジュールを有効にする</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>

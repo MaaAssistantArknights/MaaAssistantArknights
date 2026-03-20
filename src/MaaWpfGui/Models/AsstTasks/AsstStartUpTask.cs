@@ -36,6 +36,12 @@ public class AsstStartUpTask : AsstBaseTask
     public bool StartGame { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to restart the game client when login fails
+    /// </summary>
+    [JsonProperty("restart_on_login_failed")]
+    public bool RestartOnLoginFailed { get; set; }
+
+    /// <summary>
     /// Gets or sets 需要切换到的登录名，留空以禁用
     /// </summary>
     [JsonProperty("account_name", DefaultValueHandling = DefaultValueHandling.Ignore)]

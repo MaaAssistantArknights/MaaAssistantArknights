@@ -65,6 +65,11 @@
                 Margin="0,10"
                 Content="{DynamicResource StartGameLaunchClient}"
                 IsChecked="{Binding StartGame, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}" />
+            <CheckBox
+                Margin="0,5"
+                Content="{DynamicResource RestartOnLoginFailed}"
+                IsChecked="{Binding RestartOnLoginFailed, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
+                Visibility="{c:Binding StartGame, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}" />
             <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ClientType}"
