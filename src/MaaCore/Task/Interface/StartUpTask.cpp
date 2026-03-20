@@ -36,13 +36,10 @@ bool asst::StartUpTask::run()
         return true;
     }
 
-    // Step 1: optionally start the game client (failure silently ignored)
     m_start_game_task_ptr->run();
 
     if (need_exit()) return false;
 
-    // Step 2: optionally switch account.
-    // A failure here is a configuration/account issue, not a crash - do not restart.
     if (m_account_switch_task_ptr->get_enable()) {
         if (!m_account_switch_task_ptr->run()) {
             return false;
@@ -50,7 +47,6 @@ bool asst::StartUpTask::run()
         if (need_exit()) return false;
     }
 
-    // Step 3: navigate to the main screen
     if (m_start_up_task_ptr->run()) {
         return true;
     }
