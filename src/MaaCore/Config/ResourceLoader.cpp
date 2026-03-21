@@ -244,6 +244,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             "RoguelikeStageEncounterConfig")) {
         return false;
     }
+    // ending2.json for Phantom SecondEnding mode
+    if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
+            roguelike_path("Phantom", "encounter"_p / "ending2.json"_p),
+            "RoguelikeStageEncounterConfig")) {
+        return false;
+    }
 
     // Map Config（仅 Sarkaz 和 JieGarden）
     for (auto theme : { "Sarkaz", "JieGarden" }) {

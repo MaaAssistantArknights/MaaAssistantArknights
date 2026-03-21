@@ -35,7 +35,8 @@
     },
     "Phantom@Roguelike@CloseEvent": {},
     "Phantom@Roguelike@CloseInterview": {
-        "template": "Phantom@Roguelike@StageEncounterSpecialClose.png"
+        "template": "Phantom@Roguelike@StageEncounterSpecialClose.png",
+        "next": ["Phantom@Roguelike@CloseEvent", "Phantom@Roguelike@StrategyChange", "Phantom@Roguelike@NextLevel"]
     },
     "Phantom@Roguelike@Continue": {},
     "Phantom@Roguelike@DeepExploration": {
@@ -355,6 +356,18 @@
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode7": {
+        "text": ["_aggressive", "_pragmatic", "_default"],
+        "ocrReplace": [
+            ["迷雾歧途", "_aggressive"],
+            ["落阳庭院", "_aggressive"],
+            ["故土残躯", "_aggressive"],
+            ["噩梦之始", "_pragmatic"],
+            ["血月长廊", "_pragmatic"],
+            ["渴欲大厅", "_default"]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode8": {
+        "Doc": "第二结局模式",
         "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [
             ["迷雾歧途", "_aggressive"],

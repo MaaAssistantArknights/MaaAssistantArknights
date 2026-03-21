@@ -165,12 +165,30 @@
         {
             "name": "解脱?",
             "option_num": 2,
-            "choose": 2
+            "choose": 2,
+            "next_event": "解脱?-第二结局"
+        },
+        {
+            "name": "解脱?-第二结局",
+            "option_num": 1,
+            "choose": 1
         },
         {
             "name": "疯狂玩偶",
             "option_num": 2,
-            "choose": 2
+            "choose": 1,
+            "next_event": "疯狂玩偶-2"
+        },
+        {
+            "name": "疯狂玩偶-2",
+            "option_num": 2,
+            "choose": 1,
+            "next_event": "疯狂玩偶-3"
+        },
+        {
+            "name": "疯狂玩偶-3",
+            "option_num": 1,
+            "choose": 1
         },
         {
             "name": "解脱",
