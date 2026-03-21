@@ -187,6 +187,12 @@
         },
         {
             "name": "疯狂玩偶-3",
+            "option_num": 2,
+            "choose": 1,
+            "next_event": "疯狂玩偶-4"
+        },
+        {
+            "name": "疯狂玩偶-4",
             "option_num": 1,
             "choose": 1
         },
