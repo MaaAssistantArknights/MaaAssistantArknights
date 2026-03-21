@@ -26,19 +26,19 @@ Starting from `v6.6.0`, Windows users no longer need to manually install `.NET` 
 
 #### Smoother Copilot and Task Switching
 
-This update continues to improve the task-related experience. When pasting a mysterious code during auto-battle, MAA will attempt to detect the task type; if successful, it will automatically switch to the corresponding tab.
+This update continues to improve the task-related experience. When pasting a Secret Code in the Copilot input, MAA will attempt to detect the task type; if successful, it will automatically switch to the corresponding tab.
 
-At the same time, Stationary Security Service now supports job set pasting and quick switching, consistent with other activities.
+At the same time, Stationary Security Service now supports job set pasting and quick swapping, consistent with other activities.
 
-#### New "Update User Data" Task in Farming
+#### New "Update Doctor Data" Task in Farming
 
-A new "Update User Data" task has been added to Farming. When executed, MAA will automatically perform operator recognition and depot recognition. You can also configure it to run every time, daily, or weekly to keep local data up to date.
+A new "Update Doctor Data" task has been added to the Farming tab. When executed, MAA will automatically perform operator and depot recognition. You can also configure it to run every time, daily, or weekly to keep local data up to date.
 
 The recognition results will be applied across other features: Recruitment recognition can display operator potential and ownership status, while stage tips on the main interface can show relevant inventory data, helping you quickly review your resources before copying strategies or farming stages.
 
 #### Continued Support for Global Servers
 
-For global server players, this update adds support for the Integrated Strategies DLC.
+For global server players, this update adds support for the **Sui's Garden** Integrated Strategies **DLC 1**!
 
 ### 新增 | New
 
