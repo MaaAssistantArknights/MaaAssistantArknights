@@ -1,5 +1,45 @@
 ## v6.6.0
 
+### 这次真的开箱即用了 | Highlight
+
+从 `v6.6.0` 开始，Windows 用户无需手动安装 `.NET` 即可直接使用 MAA。由于首次更新会一并下载运行时，更新包体积会暂时增加到约 `75 MB`，后续版本的更新大小将恢复正常。
+
+#### 自动战斗与作业切换更顺手
+
+本次更新继续优化了作业相关体验。在自动战斗中粘贴神秘代码时，MAA 会尝试识别作业类型；若识别成功，则自动切换到对应标签页。
+
+同时，保全派驻现已与其他活动一致，支持作业集粘贴与快速切换。
+
+#### 一键长草新增 ｢更新数据｣ 任务
+
+一键长草中新增了 ｢更新数据｣ 任务。执行后，MAA 会自动进行干员识别和仓库识别；你也可以将其设置为每次执行、每天一次或每周一次，以定期刷新本地数据。
+
+识别结果会同步应用到其他功能中：公招识别可显示干员的潜能与持有情况，主界面的关卡小提示也会展示仓库中的相关库存数据，方便在抄作业或刷图前快速了解当前资源。
+
+#### 外服内容继续适配
+
+针对外服玩家，本次更新补充了肉鸽 DLC 的相关支持。
+
+----
+
+Starting from `v6.6.0`, Windows users no longer need to manually install `.NET` to use MAA. Since the runtime will be bundled during the first update, the package size will temporarily increase to around `75 MB`, but subsequent updates will return to a normal size.
+
+#### Smoother Copilot and Task Switching
+
+This update continues to improve the task-related experience. When pasting a mysterious code during auto-battle, MAA will attempt to detect the task type; if successful, it will automatically switch to the corresponding tab.
+
+At the same time, Stationary Security Service now supports job set pasting and quick switching, consistent with other activities.
+
+#### New "Update User Data" Task in Farming
+
+A new "Update User Data" task has been added to Farming. When executed, MAA will automatically perform operator recognition and depot recognition. You can also configure it to run every time, daily, or weekly to keep local data up to date.
+
+The recognition results will be applied across other features: Recruitment recognition can display operator potential and ownership status, while stage tips on the main interface can show relevant inventory data, helping you quickly review your resources before copying strategies or farming stages.
+
+#### Continued Support for Global Servers
+
+For global server players, this update adds support for the Integrated Strategies DLC.
+
 ### 新增 | New
 
 * 自动战斗增加页签自动切换逻辑、保全增加快速切换列表 @ABA2396 @status102
