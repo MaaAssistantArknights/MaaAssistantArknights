@@ -40,7 +40,7 @@ jobs:
           show-progress: false
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           package_json_file: "./docs/package.json"
           run_install: false

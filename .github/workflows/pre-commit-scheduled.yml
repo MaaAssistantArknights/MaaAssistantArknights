@@ -17,7 +17,7 @@ jobs:
           show-progress: false
 
       - name: Setup and run Prek
-        uses: j178/prek-action@v1
+        uses: j178/prek-action@v2
         id: pre-commit
         continue-on-error: true
         with:
