@@ -235,6 +235,11 @@ public enum RoguelikeMode
     Exploration = 7,
 
     /// <summary>
+    /// 8 - 第二结局，优先第二结局通关，不期而遇采用保守策略（使用 ending2.json）
+    /// </summary>
+    SecondEnding = 8,
+
+    /// <summary>
     /// 20001 - 刷常乐节点，第一层进洞，找不到需要的节点就重开
     /// </summary>
     FindPlaytime = 20001,

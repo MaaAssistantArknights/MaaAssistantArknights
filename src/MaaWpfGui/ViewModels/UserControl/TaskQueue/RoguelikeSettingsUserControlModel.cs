@@ -120,6 +120,19 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 ];
                 break;
 
+            case Theme.Phantom:
+                // Phantom 主题添加第二结局模式
+                RoguelikeModeList =
+                [
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = Mode.Squad },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = Mode.Exploration },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategySecondEnding"), Value = Mode.SecondEnding },
+                ];
+                break;
+
             default:
                 RoguelikeModeList =
                 [

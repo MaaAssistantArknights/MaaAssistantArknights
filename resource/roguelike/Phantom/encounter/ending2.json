@@ -1,0 +1,11 @@
+{
+    "theme": "Phantom",
+    "mode": [ 8 ],
+    "stage": [
+        {
+            "name": "解脱?",
+            "option_num": 2,
+            "choose": 1
+        }
+    ]
+}
