@@ -1768,6 +1768,10 @@
     "Roguelike@StrategyChange_mode7": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
+    "Roguelike@StrategyChange_mode8": {
+        "Doc": "第二结局模式",
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
     "Roguelike@TempRecruitFlag": {
         "roi": [587, 76, 100, 20],
         "templThreshold": 0.5

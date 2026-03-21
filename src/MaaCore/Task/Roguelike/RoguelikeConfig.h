@@ -30,6 +30,9 @@ enum class RoguelikeMode
     Squad = 6,       // 6 - 月度小队，尽可能稳定地打更多层数，不期而遇采用激进策略
     Exploration = 7, // 7 - 深入调查，尽可能稳定地打更多层数，不期而遇采用激进策略
 
+    // ------------------ 傀影主题专用模式 ------------------
+    SecondEnding = 8, // 8 - 第二结局，优先第二结局通关，不期而遇采用保守策略（使用 ending2.json）
+
     // ------------------ 萨米主题专用模式 ------------------
     CLP_PDS = 5, // 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
 
@@ -94,6 +97,7 @@ public:
     {
         return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible ||
                mode == RoguelikeMode::Squad || mode == RoguelikeMode::Exploration ||
+               (mode == RoguelikeMode::SecondEnding && theme == RoguelikeTheme::Phantom) ||
                (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami) ||
                (mode == RoguelikeMode::FastPass && theme == RoguelikeTheme::Sarkaz) ||
                (mode == RoguelikeMode::FindPlaytime && theme == RoguelikeTheme::JieGarden);
