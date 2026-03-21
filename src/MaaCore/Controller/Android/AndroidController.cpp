@@ -220,7 +220,7 @@ bool AndroidController::click(const Point& p)
         LogError << "Failed to send TOUCH_DOWN event";
         return false;
     }
-    sleep(20);
+    sleep(75);
 
     // key_up
     MethodParam touch_up_param;
@@ -309,7 +309,7 @@ bool AndroidController::swipe(
         return false;
     }
 
-    constexpr int TimeInterval = 2; // 类似 Minitoucher::DefaultSwipeDelay
+    constexpr int TimeInterval = 5; // 类似 Minitoucher::DefaultSwipeDelay
 
     bool need_pause = with_pause;
     const auto& opt = Config.get_options();
