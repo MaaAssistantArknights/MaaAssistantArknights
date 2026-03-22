@@ -42,10 +42,10 @@ namespace MaaWpfGui.Views.UI;
 public partial class OverlayWindow : Window
 {
     private static readonly ILogger _logger = Log.ForContext<OverlayWindow>();
-    private const int OverlayMarginLeft = 12;
-    private const int OverlayMarginTop = 90;
-    private const int OverlayMarginRight = 12;
-    private const int OverlayMarginBottom = 12;
+    private const double OverlayMarginLeft = 8;
+    private const double OverlayMarginTop = 48;
+    private const double OverlayMarginRight = 8;
+    private const double OverlayMarginBottom = 8;
     private const double OverlayMaxWidth = 250;
 
     // Instance delegate to keep callback alive for this instance; avoids global mapping complexity
@@ -98,7 +98,7 @@ public partial class OverlayWindow : Window
         {
             StopWinEventHook();
             StartWinEventHookForTarget(_targetHwnd);
-            UpdatePosition();
+            UpdatePosition(forceRecalculateSize: true);
         }
 
         // 自动滚动到最新内容：订阅 ItemsControl 的 Items 集合变化
@@ -116,7 +116,7 @@ public partial class OverlayWindow : Window
                         Execute.OnUIThread(() =>
                         {
                             scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
-                            UpdatePosition();
+                            UpdatePosition(forceRecalculateSize: true);
                         });
                     }
                 };
@@ -125,7 +125,7 @@ public partial class OverlayWindow : Window
                     Execute.OnUIThread(() =>
                     {
                         scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
-                        UpdatePosition();
+                        UpdatePosition(forceRecalculateSize: true);
                     });
                 };
             }
@@ -161,6 +161,10 @@ public partial class OverlayWindow : Window
     private IntPtr _targetHwnd = IntPtr.Zero;
     private uint _targetPid = 0;
     private IntPtr _overlayHwnd = IntPtr.Zero;
+    private int _lastTargetWidth = -1;
+    private int _lastTargetHeight = -1;
+    private int _overlayWidth = 1;
+    private int _overlayHeight = 1;
 
     // WinEventHook 用于即时订阅目标窗口的位置/大小变动
     private IntPtr _winEventHook = IntPtr.Zero;
@@ -260,7 +264,7 @@ public partial class OverlayWindow : Window
         }
     }
 
-    private void UpdatePosition()
+    private void UpdatePosition(bool forceRecalculateSize = false)
     {
         if (_targetHwnd == IntPtr.Zero)
         {
@@ -272,45 +276,90 @@ public partial class OverlayWindow : Window
             return;
         }
 
+        int targetWidth = rect.right - rect.left;
+        int targetHeight = rect.bottom - rect.top;
+        bool updateSize = forceRecalculateSize ||
+                          targetWidth != _lastTargetWidth ||
+                          targetHeight != _lastTargetHeight;
+
+        if (updateSize)
+        {
+            RecalculateOverlaySize(rect);
+        }
+
+        MoveOverlay(rect, updateSize);
+
+        _lastTargetWidth = targetWidth;
+        _lastTargetHeight = targetHeight;
+    }
+
+    private void RecalculateOverlaySize(RECT rect)
+    {
         if (FindName("OuterBorder") is not Border border)
         {
             return;
         }
 
-        int overlayWidth = Math.Max(1, (int)Math.Ceiling(border.ActualWidth));
-        int overlayHeight = Math.Max(1, (int)Math.Ceiling(border.ActualHeight));
+        _overlayWidth = Math.Max(1, (int)Math.Ceiling(border.ActualWidth));
+        _overlayHeight = Math.Max(1, (int)Math.Ceiling(border.ActualHeight));
+
         var source = PresentationSource.FromVisual(this);
-        if (source?.CompositionTarget != null)
+        if (source?.CompositionTarget == null)
         {
-            var transform = source.CompositionTarget.TransformFromDevice;
-            var transformToDevice = source.CompositionTarget.TransformToDevice;
-            var topLeft = transform.Transform(new Point(rect.left, rect.top));
-            var bottomRight = transform.Transform(new Point(rect.right, rect.bottom));
-            var newWidthWpf = Math.Max(0, bottomRight.X - topLeft.X);
-            var newHeightWpf = Math.Max(0, bottomRight.Y - topLeft.Y);
-            double availableWidth = Math.Max(0, newWidthWpf - OverlayMarginLeft - OverlayMarginRight);
-            double availableHeight = Math.Max(0, newHeightWpf - OverlayMarginTop - OverlayMarginBottom);
-            border.MaxWidth = Math.Clamp(availableWidth, 0, OverlayMaxWidth);
-            border.MaxHeight = availableHeight;
-
-            border.Measure(new Size(border.MaxWidth, border.MaxHeight));
-            var desiredSizeInPixels = transformToDevice.Transform(new Point(border.DesiredSize.Width, border.DesiredSize.Height));
-            overlayWidth = Math.Max(1, (int)Math.Ceiling(desiredSizeInPixels.X));
-            overlayHeight = Math.Max(1, (int)Math.Ceiling(desiredSizeInPixels.Y));
+            return;
         }
 
-        if (_overlayHwnd != IntPtr.Zero)
-        {
-            int newLeft = rect.left + OverlayMarginLeft;
-            int newTop = rect.top + OverlayMarginTop;
+        var transform = source.CompositionTarget.TransformFromDevice;
+        var transformToDevice = source.CompositionTarget.TransformToDevice;
+        var topLeft = transform.Transform(new Point(rect.left, rect.top));
+        var bottomRight = transform.Transform(new Point(rect.right, rect.bottom));
+        var newWidthWpf = Math.Max(0, bottomRight.X - topLeft.X);
+        var newHeightWpf = Math.Max(0, bottomRight.Y - topLeft.Y);
+        double availableWidth = Math.Max(0, newWidthWpf - OverlayMarginLeft - OverlayMarginRight);
+        double availableHeight = Math.Max(0, newHeightWpf - OverlayMarginTop - OverlayMarginBottom);
+        border.MaxWidth = Math.Clamp(availableWidth, 0, OverlayMaxWidth);
+        border.MaxHeight = availableHeight;
 
-            PInvoke.SetWindowPos(
-                (HWND)_overlayHwnd, (HWND)IntPtr.Zero,
-                newLeft, newTop, overlayWidth, overlayHeight,
-                SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
-                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
-                SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS);
+        border.Measure(new Size(border.MaxWidth, border.MaxHeight));
+        var desiredSizeInPixels = transformToDevice.Transform(new Point(border.DesiredSize.Width, border.DesiredSize.Height));
+        _overlayWidth = Math.Max(1, (int)Math.Ceiling(desiredSizeInPixels.X));
+        _overlayHeight = Math.Max(1, (int)Math.Ceiling(desiredSizeInPixels.Y));
+    }
+
+    private void MoveOverlay(RECT rect, bool updateSize)
+    {
+        if (_overlayHwnd == IntPtr.Zero)
+        {
+            return;
         }
+
+        var marginInPixels = GetOverlayMarginInPixels();
+        int newLeft = rect.left + marginInPixels.left;
+        int newTop = rect.top + marginInPixels.top;
+        var flags = SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
+                    SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
+                    SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS;
+        if (!updateSize)
+        {
+            flags |= SET_WINDOW_POS_FLAGS.SWP_NOSIZE;
+        }
+
+        PInvoke.SetWindowPos(
+            (HWND)_overlayHwnd, (HWND)IntPtr.Zero,
+            newLeft, newTop, _overlayWidth, _overlayHeight,
+            flags);
+    }
+
+    private (int Left, int Top) GetOverlayMarginInPixels()
+    {
+        var source = PresentationSource.FromVisual(this);
+        if (source?.CompositionTarget == null)
+        {
+            return ((int)Math.Round(OverlayMarginLeft), (int)Math.Round(OverlayMarginTop));
+        }
+
+        var margin = source.CompositionTarget.TransformToDevice.Transform(new Point(OverlayMarginLeft, OverlayMarginTop));
+        return ((int)Math.Round(margin.X), (int)Math.Round(margin.Y));
     }
 
     /// <summary>
@@ -323,7 +372,7 @@ public partial class OverlayWindow : Window
         Opacity = 0;
         Show();
         SetWindowLongPtr((HWND)_overlayHwnd, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
-        UpdatePosition();
+        UpdatePosition(forceRecalculateSize: true);
         Opacity = 1;
     }
 }
