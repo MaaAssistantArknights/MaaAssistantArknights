@@ -19,12 +19,16 @@ DEVPKEY_Device_DriverVersion
 
 // Window enumeration
 EnumWindows
+GetForegroundWindow
 GetWindowText
 GetWindowTextLengthW
 GetWindowThreadProcessId
+IsIconic
 IsWindowVisible
 GetWindowRect
 SetWindowPos
+ShowWindow
+GetWindow
 SetWinEventHook
 UnhookWinEvent
 GetWindowLong

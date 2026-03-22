@@ -13,7 +13,6 @@
 
 using System;
 using System.Collections.Specialized;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -43,11 +42,23 @@ namespace MaaWpfGui.Views.UI;
 public partial class OverlayWindow : Window
 {
     private static readonly ILogger _logger = Log.ForContext<OverlayWindow>();
+    private static readonly HWND HwndTopmost = (HWND)new IntPtr(-1);
+    private static readonly HWND HwndNotTopmost = (HWND)new IntPtr(-2);
     private const double OverlayMarginLeft = 8;
     private const double OverlayMarginTop = 48;
     private const double OverlayMarginRight = 8;
     private const double OverlayMarginBottom = 8;
     private const double OverlayMaxWidth = 250;
+    private const uint WineventOutOfContext = 0x0000;
+    private const uint WineventSkipOwnProcess = 0x0002;
+    private const uint EventSystemForeground = 0x0003;
+    private const uint EventSystemMinimizeStart = 0x0016;
+    private const uint EventSystemMinimizeEnd = 0x0017;
+    private const uint EventObjectDestroy = 0x8001;
+    private const uint EventObjectShow = 0x8002;
+    private const uint EventObjectHide = 0x8003;
+    private const uint EventObjectLocationChange = 0x800B;
+    private const int ObjidWindow = 0;
 
     // Instance delegate to keep callback alive for this instance; avoids global mapping complexity
     private readonly WINEVENTPROC _winEventProc;
@@ -97,9 +108,9 @@ public partial class OverlayWindow : Window
         // 如果在 OnLoaded 触发时已有目标窗口（例如从配置恢复），立即设置钩子和位置
         if (_targetHwnd != IntPtr.Zero)
         {
-            StopWinEventHook();
-            StartWinEventHookForTarget(_targetHwnd);
-            UpdatePosition(forceRecalculateSize: true);
+            StopWinEventHooks();
+            StartWinEventHooksForTarget(_targetHwnd);
+            SyncOverlayToTargetState(forceRecalculateSize: true);
         }
 
         // 自动滚动到最新内容：订阅 ItemsControl 的 Items 集合变化
@@ -138,22 +149,18 @@ public partial class OverlayWindow : Window
 
     private void OnClosed(object? sender, EventArgs e)
     {
-        StopWinEventHook();
+        StopWinEventHooks();
     }
 
     #region Win32
 
-    // Keep Win32 constants for clarity; underscore naming matches Win32 defines
 #pragma warning disable SA1310 // Field names intentionally contain underscores for Win32 constants
     private const int WS_EX_TRANSPARENT = 0x20;
     private const int WS_EX_LAYERED = 0x80000;
     private const int WS_EX_NOACTIVATE = 0x08000000;
 #pragma warning restore SA1310
 
-    [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
-    private static extern IntPtr SetWindowLongPtr(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex, IntPtr dwNewLong);
-
-    // Use CsWin32 generated PInvoke wrappers instead of manual DllImport declarations.
+    // Use CsWin32 generated PInvoke wrappers where possible.
     #endregion
 
     /// <summary>
@@ -170,11 +177,15 @@ public partial class OverlayWindow : Window
     private int _lastAppliedPositionUpdateVersion;
     private int _positionUpdateScheduled;
     private int _forceRecalculateSizeRequested;
+    private bool _overlayHiddenByTargetState;
 
-    // WinEventHook 用于即时订阅目标窗口的位置/大小变动
-    private IntPtr _winEventHook = IntPtr.Zero;
+    private IntPtr _locationChangeHook = IntPtr.Zero;
+    private IntPtr _foregroundHook = IntPtr.Zero;
+    private IntPtr _minimizeHook = IntPtr.Zero;
+    private IntPtr _showHideHook = IntPtr.Zero;
+    private IntPtr _destroyHook = IntPtr.Zero;
 
-    private void StartWinEventHookForTarget(IntPtr hwnd)
+    private void StartWinEventHooksForTarget(IntPtr hwnd)
     {
         try
         {
@@ -183,17 +194,6 @@ public partial class OverlayWindow : Window
                 return;
             }
 
-            // 如果已经有钩子，先清理旧的
-            if (_winEventHook != IntPtr.Zero)
-            {
-                StopWinEventHook();
-            }
-
-            const uint WINEVENT_OUTOFCONTEXT = 0x0000;
-            const uint WINEVENT_SKIPOWNPROCESS = 0x0002;
-
-            const uint EVENT_OBJECT_LOCATIONCHANGE = 0x800B;
-
             // 获取目标窗口所属进程 id
             _ = PInvoke.GetWindowThreadProcessId((HWND)hwnd, out _targetPid);
             if (_targetPid == Environment.ProcessId)
@@ -201,51 +201,72 @@ public partial class OverlayWindow : Window
                 return;
             }
 
-            uint flags = WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS;
+            uint flags = WineventOutOfContext | WineventSkipOwnProcess;
 
-            // 订阅目标进程的 location change
-            _winEventHook = (IntPtr)PInvoke.SetWinEventHook(EVENT_OBJECT_LOCATIONCHANGE, EVENT_OBJECT_LOCATIONCHANGE, HINSTANCE.Null, _winEventProc, _targetPid, 0, flags);
-            if (_winEventHook == IntPtr.Zero)
-            {
-                _logger.Warning("SetWinEventHook for location change returned null for pid {Pid}", _targetPid);
-            }
+            StopWinEventHooks();
+            _foregroundHook = RegisterWinEventHook(EventSystemForeground, EventSystemForeground, 0, flags, "foreground");
+            _minimizeHook = RegisterWinEventHook(EventSystemMinimizeStart, EventSystemMinimizeEnd, _targetPid, flags, "minimize");
+            _showHideHook = RegisterWinEventHook(EventObjectShow, EventObjectHide, _targetPid, flags, "show/hide");
+            _destroyHook = RegisterWinEventHook(EventObjectDestroy, EventObjectDestroy, _targetPid, flags, "destroy");
+            _locationChangeHook = RegisterWinEventHook(EventObjectLocationChange, EventObjectLocationChange, _targetPid, flags, "location change");
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "StartWinEventHookForTarget failed");
+            _logger.Error(ex, "StartWinEventHooksForTarget failed");
         }
     }
 
-    private void StopWinEventHook()
+    private IntPtr RegisterWinEventHook(uint eventMin, uint eventMax, uint processId, uint flags, string name)
+    {
+        var hook = (IntPtr)PInvoke.SetWinEventHook(eventMin, eventMax, HINSTANCE.Null, _winEventProc, processId, 0, flags);
+        if (hook == IntPtr.Zero)
+        {
+            _logger.Warning("SetWinEventHook for {Name} returned null for pid {Pid}", name, processId);
+        }
+
+        return hook;
+    }
+
+    private void StopWinEventHooks()
     {
         try
         {
-            if (_winEventHook != IntPtr.Zero)
-            {
-                var toRemove = _winEventHook;
-                try
-                {
-                    PInvoke.UnhookWinEvent((HWINEVENTHOOK)toRemove);
-                }
-                catch (Exception ex)
-                {
-                    _logger.Warning(ex, "UnhookWinEvent failed for hook {Hook}", toRemove);
-                }
-
-                _winEventHook = IntPtr.Zero;
-            }
+            UnhookWinEvent(ref _foregroundHook);
+            UnhookWinEvent(ref _minimizeHook);
+            UnhookWinEvent(ref _showHideHook);
+            UnhookWinEvent(ref _destroyHook);
+            UnhookWinEvent(ref _locationChangeHook);
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "StopWinEventHook failed");
+            _logger.Error(ex, "StopWinEventHooks failed");
         }
+    }
+
+    private void UnhookWinEvent(ref IntPtr hook)
+    {
+        if (hook == IntPtr.Zero)
+        {
+            return;
+        }
+
+        var toRemove = hook;
+        try
+        {
+            PInvoke.UnhookWinEvent((HWINEVENTHOOK)toRemove);
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "UnhookWinEvent failed for hook {Hook}", toRemove);
+        }
+
+        hook = IntPtr.Zero;
     }
 
     private void WinEventProc(HWINEVENTHOOK hWinEventHook, uint eventType, HWND hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
     {
         try
         {
-            // 仅处理顶层窗口位置变化
             if (hwnd == HWND.Null)
             {
                 return;
@@ -256,12 +277,51 @@ public partial class OverlayWindow : Window
                 return;
             }
 
-            if (hwnd != (HWND)_targetHwnd)
+            if (eventType >= EventObjectDestroy && idObject != ObjidWindow)
             {
                 return;
             }
 
-            RequestUpdatePosition();
+            switch (eventType)
+            {
+                case EventSystemForeground:
+                    Execute.OnUIThread(() => UpdateOverlayZOrder(hwnd));
+                    break;
+
+                case EventSystemMinimizeStart:
+                case EventObjectHide:
+                    if (hwnd == (HWND)_targetHwnd)
+                    {
+                        Execute.OnUIThread(HideOverlayForTargetState);
+                    }
+
+                    break;
+
+                case EventSystemMinimizeEnd:
+                case EventObjectShow:
+                    if (hwnd == (HWND)_targetHwnd)
+                    {
+                        Execute.OnUIThread(() => SyncOverlayToTargetState(forceRecalculateSize: true));
+                    }
+
+                    break;
+
+                case EventObjectDestroy:
+                    if (hwnd == (HWND)_targetHwnd)
+                    {
+                        Execute.OnUIThread(HandleTargetDestroyed);
+                    }
+
+                    break;
+
+                case EventObjectLocationChange:
+                    if (hwnd == (HWND)_targetHwnd)
+                    {
+                        RequestUpdatePosition();
+                    }
+
+                    break;
+            }
         }
         catch (Exception ex)
         {
@@ -318,8 +378,92 @@ public partial class OverlayWindow : Window
         }
     }
 
+    private void SyncOverlayToTargetState(bool forceRecalculateSize = false)
+    {
+        if (!ShouldShowOverlay())
+        {
+            HideOverlayForTargetState();
+            return;
+        }
+
+        ShowOverlayForTargetState();
+        UpdatePosition(forceRecalculateSize);
+        UpdateOverlayZOrder(PInvoke.GetForegroundWindow());
+    }
+
+    private bool ShouldShowOverlay()
+    {
+        return _overlayHwnd != IntPtr.Zero &&
+               _targetHwnd != IntPtr.Zero &&
+               PInvoke.IsWindowVisible((HWND)_targetHwnd) &&
+               !PInvoke.IsIconic((HWND)_targetHwnd);
+    }
+
+    private void ShowOverlayForTargetState()
+    {
+        if (_overlayHwnd == IntPtr.Zero || !_overlayHiddenByTargetState)
+        {
+            return;
+        }
+
+        _overlayHiddenByTargetState = false;
+        PInvoke.ShowWindow((HWND)_overlayHwnd, SHOW_WINDOW_CMD.SW_SHOWNOACTIVATE);
+    }
+
+    private void HideOverlayForTargetState()
+    {
+        if (_overlayHwnd == IntPtr.Zero || _overlayHiddenByTargetState)
+        {
+            return;
+        }
+
+        _overlayHiddenByTargetState = true;
+        PInvoke.ShowWindow((HWND)_overlayHwnd, SHOW_WINDOW_CMD.SW_HIDE);
+    }
+
+    private void UpdateOverlayZOrder(HWND foregroundWindow)
+    {
+        if (_overlayHwnd == IntPtr.Zero || _targetHwnd == IntPtr.Zero || _overlayHiddenByTargetState)
+        {
+            return;
+        }
+
+        var flags = SET_WINDOW_POS_FLAGS.SWP_NOMOVE |
+                    SET_WINDOW_POS_FLAGS.SWP_NOSIZE |
+                    SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE;
+        if (foregroundWindow == (HWND)_targetHwnd)
+        {
+            PInvoke.SetWindowPos((HWND)_overlayHwnd, HwndTopmost, 0, 0, 0, 0, flags);
+            return;
+        }
+
+        if (foregroundWindow == HWND.Null || foregroundWindow == (HWND)_overlayHwnd)
+        {
+            return;
+        }
+
+        PInvoke.SetWindowPos((HWND)_overlayHwnd, HwndNotTopmost, 0, 0, 0, 0, flags);
+        PInvoke.SetWindowPos(foregroundWindow, (HWND)IntPtr.Zero, 0, 0, 0, 0, flags);
+    }
+
+    private void HandleTargetDestroyed()
+    {
+        HideOverlayForTargetState();
+        StopWinEventHooks();
+        _targetHwnd = IntPtr.Zero;
+        _targetPid = 0;
+    }
+
     private void UpdatePosition(bool forceRecalculateSize = false)
     {
+        if (!ShouldShowOverlay())
+        {
+            HideOverlayForTargetState();
+            return;
+        }
+
+        ShowOverlayForTargetState();
+
         if (_targetHwnd == IntPtr.Zero)
         {
             return;
@@ -425,8 +569,7 @@ public partial class OverlayWindow : Window
     {
         Opacity = 0;
         Show();
-        SetWindowLongPtr((HWND)_overlayHwnd, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
-        UpdatePosition(forceRecalculateSize: true);
+        SyncOverlayToTargetState(forceRecalculateSize: true);
         Opacity = 1;
     }
 }
