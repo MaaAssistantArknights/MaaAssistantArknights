@@ -245,10 +245,14 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return false;
     }
     // ending2.json for Phantom SecondEnding mode (non-fatal: optional for other modes)
-    if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
-            roguelike_path("Phantom", "encounter"_p / "ending2.json"_p),
-            "RoguelikeStageEncounterConfig")) {
-        Log.warn(__FUNCTION__, "ending2.json load failed, SecondEnding mode may not work correctly");
+    // Only log warning if file exists but fails to load; silent if file doesn't exist
+    auto ending2_path = path / roguelike_path("Phantom", "encounter"_p / "ending2.json"_p);
+    if (std::filesystem::exists(ending2_path)) {
+        if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
+                roguelike_path("Phantom", "encounter"_p / "ending2.json"_p),
+                "RoguelikeStageEncounterConfig")) {
+            Log.warn(__FUNCTION__, "ending2.json load failed, SecondEnding mode may not work correctly");
+        }
     }
 
     // Map Config（仅 Sarkaz 和 JieGarden）

@@ -205,12 +205,14 @@
         "templThreshold": 0.85
     },
     "Phantom@Roguelike@StageCombatOps": {
+        "template": "Phantom@Roguelike@StageCombatOps.png",
         "templThreshold": 0.9
     },
     "Phantom@Roguelike@StageCombatOpsEnter": {},
     "Phantom@Roguelike@StageDreadfulFoe": {},
     "Phantom@Roguelike@StageDreadfulFoeEnter": {},
     "Phantom@Roguelike@StageEmergencyOps": {
+        "template": "Phantom@Roguelike@StageEmergencyOps.png",
         "templThreshold": 0.9
     },
     "Phantom@Roguelike@StageEmergencyOpsEnter": {},
