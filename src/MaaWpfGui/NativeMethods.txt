@@ -28,7 +28,6 @@ IsWindowVisible
 GetWindowRect
 SetWindowPos
 ShowWindow
-GetWindow
 SetWinEventHook
 UnhookWinEvent
 GetWindowLong
