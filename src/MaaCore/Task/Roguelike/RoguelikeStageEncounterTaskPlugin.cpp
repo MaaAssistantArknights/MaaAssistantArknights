@@ -119,8 +119,13 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
 
     auto info = basic_info_with_what("RoguelikeEvent");
     info["details"]["name"] = event.name;
+    info["details"]["option_num"] = event.option_num;
     info["details"]["default_choose"] = event.default_choose;
     info["details"]["choose_option"] = choose_option;
+    // 添加选项文本（如果有）
+    if (!event.option_text.empty()) {
+        info["details"]["option_text"] = json::array(event.option_text);
+    }
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     // 萨卡兹内容拓展 II，#11861
