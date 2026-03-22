@@ -43,21 +43,21 @@
 
 Starting with v6.6.0, Windows users can use MAA directly without manually installing the .NET Desktop Runtime, as this dependency has been integrated into MAA.
 
-Since the runtime will be bundled during the first update, the OTA package size will temporarily increase to around 75 MB, but the update size will return to normal in subsequent versions..
+Since the runtime will be bundled during the first update, the OTA package size will temporarily be increased by around 75 MB, but the update size will return to normal in subsequent versions.
 
-#### Smoother Using for *Copilot*
+#### Smoother Usage for *Copilot*
 
-We continues to improve the task-related experience in this update.
+We continue to improve the task-related experience in this update.
 
-When pasting URL in the *Copilot*'s input, MAA will attempt to detect the task type; if successful, MAA will automatically switch to the corresponding tab, eliminating the need for manual selection.
+When pasting a URL in the *Copilot*'s input, MAA will attempt to detect the task type. When successful, MAA will automatically switch to the corresponding tab, eliminating the need for manual selection.
 
-At the same time, MAA now supports job set pasting and quick swapping for *Stationary Security Service*, consistent with other activities.
+At the same time, MAA now supports job set pasting and stage swapping for *Stationary Security Service* (SSS), consistent with other activities.
 
 #### New *Update Doctor Data* Task Type in *Farming*
 
 A new *Update Doctor Data* task type has been added to the *Farming* tab. When executed, MAA will automatically perform operator and depot recognition.
 
-You can also configure it to run every time, daily, or weekly (available in the task's advanced settings) to keep local data up to date.
+You can also configure it to run every time, daily, or weekly (available in the task's advanced settings) to keep local profile data up to date.
 
 The recognition results will be applied to other features:
 
@@ -68,7 +68,7 @@ These can help you quickly review your resources before using jobs in *Copilot* 
 
 #### Continued Support for Global Servers
 
-For global server players, we adds support for the **DLC 1** of *Sui's Garden of Grotesqueries* Integrated Strategies in this update.
+For the players of the Global servers (KR, EN and JP), we added support for the **DLC 1** of *Sui's Garden of Grotesqueries* Integrated Strategies in this update.
 
 #### Other Aspects
 
@@ -76,7 +76,7 @@ We have optimized various aspects of emulator support:
 
 * When running multiple emulator instances, the *Auto detect connection* will provide a pop-up window for you to select the corresponding emulator;
 * Support for querying various information about LDPlayer 14 in the registry;
-* Support for screenshot enhancement functionality for Android Virtual Devices (AVDs).
+* Support for screenshot enhancement functionality for AVD / Android Virtual Devices (Android Studio).
 
 ----
 
