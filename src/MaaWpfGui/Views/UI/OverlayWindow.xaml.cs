@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -116,7 +117,7 @@ public partial class OverlayWindow : Window
                         Execute.OnUIThread(() =>
                         {
                             scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
-                            UpdatePosition(forceRecalculateSize: true);
+                            RequestUpdatePosition(forceRecalculateSize: true);
                         });
                     }
                 };
@@ -125,7 +126,7 @@ public partial class OverlayWindow : Window
                     Execute.OnUIThread(() =>
                     {
                         scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
-                        UpdatePosition(forceRecalculateSize: true);
+                        RequestUpdatePosition(forceRecalculateSize: true);
                     });
                 };
             }
@@ -165,6 +166,10 @@ public partial class OverlayWindow : Window
     private int _lastTargetHeight = -1;
     private int _overlayWidth = 1;
     private int _overlayHeight = 1;
+    private int _positionUpdateVersion;
+    private int _lastAppliedPositionUpdateVersion;
+    private int _positionUpdateScheduled;
+    private int _forceRecalculateSizeRequested;
 
     // WinEventHook 用于即时订阅目标窗口的位置/大小变动
     private IntPtr _winEventHook = IntPtr.Zero;
@@ -256,11 +261,60 @@ public partial class OverlayWindow : Window
                 return;
             }
 
-            UpdatePosition();
+            RequestUpdatePosition();
         }
         catch (Exception ex)
         {
             _logger.Error(ex, "Exception in WinEventProc (native callback)");
+        }
+    }
+
+    private void RequestUpdatePosition(bool forceRecalculateSize = false)
+    {
+        if (forceRecalculateSize)
+        {
+            Interlocked.Exchange(ref _forceRecalculateSizeRequested, 1);
+        }
+
+        Interlocked.Increment(ref _positionUpdateVersion);
+        if (Interlocked.Exchange(ref _positionUpdateScheduled, 1) != 0)
+        {
+            return;
+        }
+
+        Execute.OnUIThread(ProcessPendingPositionUpdates);
+    }
+
+    private void ProcessPendingPositionUpdates()
+    {
+        try
+        {
+            while (true)
+            {
+                int latestVersion = Volatile.Read(ref _positionUpdateVersion);
+                if (latestVersion == _lastAppliedPositionUpdateVersion)
+                {
+                    break;
+                }
+
+                bool forceRecalculateSize = Interlocked.Exchange(ref _forceRecalculateSizeRequested, 0) != 0;
+                UpdatePosition(forceRecalculateSize);
+                _lastAppliedPositionUpdateVersion = latestVersion;
+
+                if (latestVersion == Volatile.Read(ref _positionUpdateVersion))
+                {
+                    break;
+                }
+            }
+        }
+        finally
+        {
+            Interlocked.Exchange(ref _positionUpdateScheduled, 0);
+            if (Volatile.Read(ref _positionUpdateVersion) != _lastAppliedPositionUpdateVersion &&
+                Interlocked.Exchange(ref _positionUpdateScheduled, 1) == 0)
+            {
+                Execute.OnUIThread(ProcessPendingPositionUpdates);
+            }
         }
     }
 
@@ -334,8 +388,8 @@ public partial class OverlayWindow : Window
         }
 
         var marginInPixels = GetOverlayMarginInPixels();
-        int newLeft = rect.left + marginInPixels.left;
-        int newTop = rect.top + marginInPixels.top;
+        int newLeft = rect.left + marginInPixels.Left;
+        int newTop = rect.top + marginInPixels.Top;
         var flags = SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
                     SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
                     SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS;
