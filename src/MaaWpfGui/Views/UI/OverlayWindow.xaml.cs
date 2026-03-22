@@ -148,6 +148,13 @@ public partial class OverlayWindow : Window
     private void OnClosed(object? sender, EventArgs e)
     {
         StopWinEventHooks();
+        Interlocked.Increment(ref _zOrderVerificationVersion);
+        _zOrderVerificationCts?.Cancel();
+        _zOrderVerificationCts?.Dispose();
+        _zOrderVerificationCts = null;
+        _overlayHwnd = IntPtr.Zero;
+        _targetHwnd = IntPtr.Zero;
+        _targetPid = 0;
     }
 
     #region Win32
@@ -177,6 +184,7 @@ public partial class OverlayWindow : Window
     private int _forceRecalculateSizeRequested;
     private int _zOrderVerificationVersion;
     private bool _overlayHiddenByTargetState;
+    private CancellationTokenSource? _zOrderVerificationCts = new();
 
     private IntPtr _locationChangeHook = IntPtr.Zero;
     private IntPtr _foregroundHook = IntPtr.Zero;
@@ -399,15 +407,39 @@ public partial class OverlayWindow : Window
 
     private void ScheduleSecondaryZOrderVerification()
     {
+        var cts = _zOrderVerificationCts;
+        if (cts == null)
+        {
+            return;
+        }
+
         int version = Interlocked.Increment(ref _zOrderVerificationVersion);
         _ = Task.Run(async () => {
-            await Task.Delay(SecondaryZOrderVerificationDelayMs).ConfigureAwait(false);
+            try
+            {
+                await Task.Delay(SecondaryZOrderVerificationDelayMs, cts.Token).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            if (cts.IsCancellationRequested)
+            {
+                return;
+            }
+
             if (version != Volatile.Read(ref _zOrderVerificationVersion))
             {
                 return;
             }
 
             Execute.OnUIThread(() => {
+                if (cts.IsCancellationRequested || _overlayHwnd == IntPtr.Zero)
+                {
+                    return;
+                }
+
                 if (version != Volatile.Read(ref _zOrderVerificationVersion))
                 {
                     return;
