@@ -42,6 +42,7 @@ namespace MaaWpfGui.Views.UI;
 public partial class OverlayWindow : Window
 {
     private static readonly ILogger _logger = Log.ForContext<OverlayWindow>();
+    private static readonly HWND HwndTop = (HWND)IntPtr.Zero;
     private static readonly HWND HwndTopmost = (HWND)new IntPtr(-1);
     private static readonly HWND HwndNotTopmost = (HWND)new IntPtr(-2);
     private const double OverlayMarginLeft = 8;
@@ -49,6 +50,7 @@ public partial class OverlayWindow : Window
     private const double OverlayMarginRight = 8;
     private const double OverlayMarginBottom = 8;
     private const double OverlayMaxWidth = 250;
+    private const int SecondaryZOrderVerificationDelayMs = 75;
     private const uint WineventOutOfContext = 0x0000;
     private const uint WineventSkipOwnProcess = 0x0002;
     private const uint EventSystemForeground = 0x0003;
@@ -121,21 +123,17 @@ public partial class OverlayWindow : Window
                 itemsCtrl.Items is INotifyCollectionChanged coll)
             {
                 Execute.OnUIThread(() => scroll.ScrollToVerticalOffset(scroll.ExtentHeight));
-                coll.CollectionChanged += (s2, ev2) =>
-                {
+                coll.CollectionChanged += (s2, ev2) => {
                     if (ev2.Action == NotifyCollectionChangedAction.Add)
                     {
-                        Execute.OnUIThread(() =>
-                        {
+                        Execute.OnUIThread(() => {
                             scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
                             RequestUpdatePosition(forceRecalculateSize: true);
                         });
                     }
                 };
-                scroll.SizeChanged += (s2, ev2) =>
-                {
-                    Execute.OnUIThread(() =>
-                    {
+                scroll.SizeChanged += (s2, ev2) => {
+                    Execute.OnUIThread(() => {
                         scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
                         RequestUpdatePosition(forceRecalculateSize: true);
                     });
@@ -177,6 +175,7 @@ public partial class OverlayWindow : Window
     private int _lastAppliedPositionUpdateVersion;
     private int _positionUpdateScheduled;
     private int _forceRecalculateSizeRequested;
+    private int _zOrderVerificationVersion;
     private bool _overlayHiddenByTargetState;
 
     private IntPtr _locationChangeHook = IntPtr.Zero;
@@ -285,7 +284,10 @@ public partial class OverlayWindow : Window
             switch (eventType)
             {
                 case EventSystemForeground:
-                    Execute.OnUIThread(() => UpdateOverlayZOrder(hwnd));
+                    Execute.OnUIThread(() => {
+                        UpdateOverlayZOrder(hwnd);
+                        ScheduleSecondaryZOrderVerification();
+                    });
                     break;
 
                 case EventSystemMinimizeStart:
@@ -301,7 +303,10 @@ public partial class OverlayWindow : Window
                 case EventObjectShow:
                     if (hwnd == (HWND)_targetHwnd)
                     {
-                        Execute.OnUIThread(() => SyncOverlayToTargetState(forceRecalculateSize: true));
+                        Execute.OnUIThread(() => {
+                            SyncOverlayToTargetState(forceRecalculateSize: true);
+                            ScheduleSecondaryZOrderVerification();
+                        });
                     }
 
                     break;
@@ -391,6 +396,27 @@ public partial class OverlayWindow : Window
         UpdateOverlayZOrder(PInvoke.GetForegroundWindow());
     }
 
+    private void ScheduleSecondaryZOrderVerification()
+    {
+        int version = Interlocked.Increment(ref _zOrderVerificationVersion);
+        _ = Task.Run(async () => {
+            await Task.Delay(SecondaryZOrderVerificationDelayMs).ConfigureAwait(false);
+            if (version != Volatile.Read(ref _zOrderVerificationVersion))
+            {
+                return;
+            }
+
+            Execute.OnUIThread(() => {
+                if (version != Volatile.Read(ref _zOrderVerificationVersion))
+                {
+                    return;
+                }
+
+                UpdateOverlayZOrder(PInvoke.GetForegroundWindow());
+            });
+        });
+    }
+
     private bool ShouldShowOverlay()
     {
         return _overlayHwnd != IntPtr.Zero &&
@@ -428,12 +454,9 @@ public partial class OverlayWindow : Window
             return;
         }
 
-        var flags = SET_WINDOW_POS_FLAGS.SWP_NOMOVE |
-                    SET_WINDOW_POS_FLAGS.SWP_NOSIZE |
-                    SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE;
         if (foregroundWindow == (HWND)_targetHwnd)
         {
-            PInvoke.SetWindowPos((HWND)_overlayHwnd, HwndTopmost, 0, 0, 0, 0, flags);
+            SetOverlayTopmostState(true);
             return;
         }
 
@@ -442,8 +465,32 @@ public partial class OverlayWindow : Window
             return;
         }
 
-        PInvoke.SetWindowPos((HWND)_overlayHwnd, HwndNotTopmost, 0, 0, 0, 0, flags);
-        PInvoke.SetWindowPos(foregroundWindow, (HWND)IntPtr.Zero, 0, 0, 0, 0, flags);
+        SetOverlayTopmostState(false);
+        PInvoke.SetWindowPos(foregroundWindow, HwndTop, 0, 0, 0, 0, GetZOrderOnlyFlags());
+    }
+
+    private void SetOverlayTopmostState(bool topmost)
+    {
+        if (_overlayHwnd == IntPtr.Zero)
+        {
+            return;
+        }
+
+        PInvoke.SetWindowPos(
+            (HWND)_overlayHwnd,
+            topmost ? HwndTopmost : HwndNotTopmost,
+            0,
+            0,
+            0,
+            0,
+            GetZOrderOnlyFlags());
+    }
+
+    private static SET_WINDOW_POS_FLAGS GetZOrderOnlyFlags()
+    {
+        return SET_WINDOW_POS_FLAGS.SWP_NOMOVE |
+               SET_WINDOW_POS_FLAGS.SWP_NOSIZE |
+               SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE;
     }
 
     private void HandleTargetDestroyed()
@@ -486,6 +533,7 @@ public partial class OverlayWindow : Window
         }
 
         MoveOverlay(rect, updateSize);
+        UpdateOverlayZOrder(PInvoke.GetForegroundWindow());
 
         _lastTargetWidth = targetWidth;
         _lastTargetHeight = targetHeight;
