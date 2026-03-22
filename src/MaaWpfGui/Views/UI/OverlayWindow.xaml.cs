@@ -200,14 +200,15 @@ public partial class OverlayWindow : Window
                 return;
             }
 
-            uint flags = WineventOutOfContext | WineventSkipOwnProcess;
+            uint globalFlags = WineventOutOfContext;
+            uint targetProcessFlags = WineventOutOfContext | WineventSkipOwnProcess;
 
             StopWinEventHooks();
-            _foregroundHook = RegisterWinEventHook(EventSystemForeground, EventSystemForeground, 0, flags, "foreground");
-            _minimizeHook = RegisterWinEventHook(EventSystemMinimizeStart, EventSystemMinimizeEnd, _targetPid, flags, "minimize");
-            _showHideHook = RegisterWinEventHook(EventObjectShow, EventObjectHide, _targetPid, flags, "show/hide");
-            _destroyHook = RegisterWinEventHook(EventObjectDestroy, EventObjectDestroy, _targetPid, flags, "destroy");
-            _locationChangeHook = RegisterWinEventHook(EventObjectLocationChange, EventObjectLocationChange, _targetPid, flags, "location change");
+            _foregroundHook = RegisterWinEventHook(EventSystemForeground, EventSystemForeground, 0, globalFlags, "foreground");
+            _minimizeHook = RegisterWinEventHook(EventSystemMinimizeStart, EventSystemMinimizeEnd, _targetPid, targetProcessFlags, "minimize");
+            _showHideHook = RegisterWinEventHook(EventObjectShow, EventObjectHide, _targetPid, targetProcessFlags, "show/hide");
+            _destroyHook = RegisterWinEventHook(EventObjectDestroy, EventObjectDestroy, _targetPid, targetProcessFlags, "destroy");
+            _locationChangeHook = RegisterWinEventHook(EventObjectLocationChange, EventObjectLocationChange, _targetPid, targetProcessFlags, "location change");
         }
         catch (Exception ex)
         {
