@@ -2271,6 +2271,48 @@ public class AsstProxy
             case "StageQueueMissionCompleted":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                 break;
+
+            case "RoguelikeEvent":
+                {
+                    var eventName = subTaskDetails?["name"]?.ToString() ?? "Unknown";
+                    var optionNum = (int)(subTaskDetails?["option_num"] ?? 0);
+                    var chooseOption = (int)(subTaskDetails?["choose_option"] ?? 0);
+                    var optionTexts = subTaskDetails?["option_text"] as JArray;
+
+                    string logContent;
+                    if (optionTexts != null && optionTexts.Count > 0) {
+                        var selectedText = chooseOption > 0 && chooseOption <= optionTexts.Count
+                            ? optionTexts[chooseOption - 1]?.ToString()
+                            : "";
+                        logContent = $"[不期而遇] {eventName} - 选择 {chooseOption}/{optionNum}";
+                        if (!string.IsNullOrEmpty(selectedText)) {
+                            logContent += $" \"{selectedText}\"";
+                        }
+                    } else {
+                        logContent = $"[不期而遇] {eventName} - 选择选项 {chooseOption}/{optionNum}";
+                    }
+
+                    Instances.TaskQueueViewModel.AddLog(logContent, UiLogColor.Info);
+                    break;
+                }
+
+            case "RoguelikeEncounterOptions":
+                {
+                    var options = subTaskDetails?["options"] as JArray;
+                    if (options != null && options.Count > 0) {
+                        var sb = new StringBuilder();
+                        sb.AppendLine("[不期而遇选项]");
+                        for (int i = 0; i < options.Count; i++) {
+                            var opt = options[i];
+                            var enabled = opt?["enabled"]?.ToObject<bool>() ?? false;
+                            var text = opt?["text"]?.ToString() ?? "";
+                            sb.AppendFormat("  {0}. [{1}] {2}", i + 1, enabled ? "√" : "×", text);
+                            sb.AppendLine();
+                        }
+                        Instances.TaskQueueViewModel.AddLog(sb.ToString().TrimEnd(), UiLogColor.Info);
+                    }
+                    break;
+                }
         }
     }
 
