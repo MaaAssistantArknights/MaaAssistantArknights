@@ -510,7 +510,7 @@ jobs:
 
       - name: Notarize image
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           max_attempts: 3
           timeout_minutes: 15
@@ -557,7 +557,7 @@ jobs:
           find . -type f | while read f; do mv -fvt . $f; done
 
       - name: Publish release to GitHub
-        uses: softprops/action-gh-release@v2.5.0
+        uses: softprops/action-gh-release@v2.6.1
         with:
           body_path: CHANGELOG.md
           files: |

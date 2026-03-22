@@ -16,7 +16,7 @@
     mc:Ignorable="d">
     <Border
         x:Name="OuterBorder"
-        Margin="12,52,12,12"
+        Margin="0"
         Padding="8"
         HorizontalAlignment="Left"
         VerticalAlignment="Top"

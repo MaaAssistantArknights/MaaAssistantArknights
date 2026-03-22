@@ -13,12 +13,11 @@
 
 using System;
 using System.Collections.Specialized;
-using System.Threading;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using System.Windows.Threading;
 using MaaWpfGui.Helper;
 using Serilog;
 using Stylet;
@@ -43,10 +42,14 @@ namespace MaaWpfGui.Views.UI;
 public partial class OverlayWindow : Window
 {
     private static readonly ILogger _logger = Log.ForContext<OverlayWindow>();
+    private const int OverlayMarginLeft = 12;
+    private const int OverlayMarginTop = 90;
+    private const int OverlayMarginRight = 12;
+    private const int OverlayMarginBottom = 12;
+    private const double OverlayMaxWidth = 250;
 
     // Instance delegate to keep callback alive for this instance; avoids global mapping complexity
     private readonly WINEVENTPROC _winEventProc;
-    private readonly DispatcherTimer _debounceTimer;
 
     public OverlayWindow()
     {
@@ -57,15 +60,6 @@ public partial class OverlayWindow : Window
 
         // Bind instance win event delegate to prevent it from being GC'd while hooks are active.
         _winEventProc = WinEventProc;
-        _debounceTimer = new DispatcherTimer(
-            TimeSpan.FromMilliseconds(500),
-            DispatcherPriority.Background,
-            (_, _) =>
-            {
-                _debounceTimer?.Stop();
-                UpdatePosition();
-            },
-            Dispatcher);
     }
 
     public void SetTargetHwnd(IntPtr hwnd)
@@ -119,12 +113,20 @@ public partial class OverlayWindow : Window
                 {
                     if (ev2.Action == NotifyCollectionChangedAction.Add)
                     {
-                        Execute.OnUIThread(() => scroll.ScrollToVerticalOffset(scroll.ExtentHeight));
+                        Execute.OnUIThread(() =>
+                        {
+                            scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
+                            UpdatePosition();
+                        });
                     }
                 };
                 scroll.SizeChanged += (s2, ev2) =>
                 {
-                    Execute.OnUIThread(() => scroll.ScrollToVerticalOffset(scroll.ExtentHeight));
+                    Execute.OnUIThread(() =>
+                    {
+                        scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
+                        UpdatePosition();
+                    });
                 };
             }
         }
@@ -146,6 +148,9 @@ public partial class OverlayWindow : Window
     private const int WS_EX_LAYERED = 0x80000;
     private const int WS_EX_NOACTIVATE = 0x08000000;
 #pragma warning restore SA1310
+
+    [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
+    private static extern IntPtr SetWindowLongPtr(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex, IntPtr dwNewLong);
 
     // Use CsWin32 generated PInvoke wrappers instead of manual DllImport declarations.
     #endregion
@@ -227,8 +232,6 @@ public partial class OverlayWindow : Window
         }
     }
 
-    private int _invokePending;
-
     private void WinEventProc(HWINEVENTHOOK hWinEventHook, uint eventType, HWND hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
     {
         try
@@ -249,17 +252,7 @@ public partial class OverlayWindow : Window
                 return;
             }
 
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
-            {
-                if (Interlocked.Exchange(ref _invokePending, 1) == 1)
-                {
-                    return;
-                }
-
-                _debounceTimer.Stop();
-                _debounceTimer.Start();
-                Interlocked.Exchange(ref _invokePending, 0);
-            });
+            UpdatePosition();
         }
         catch (Exception ex)
         {
@@ -279,36 +272,44 @@ public partial class OverlayWindow : Window
             return;
         }
 
-        if (_overlayHwnd != IntPtr.Zero)
-        {
-            int newLeft = rect.left;
-            int newTop = rect.top;
-            int newWidth = Math.Max(0, rect.right - rect.left);
-            int newHeight = Math.Max(0, rect.bottom - rect.top);
-
-            PInvoke.SetWindowPos(
-                (HWND)_overlayHwnd, (HWND)IntPtr.Zero,
-                newLeft, newTop, newWidth, newHeight,
-                SET_WINDOW_POS_FLAGS.SWP_ASYNCWINDOWPOS |
-                SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
-                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
-                SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS);
-        }
-
         if (FindName("OuterBorder") is not Border border)
         {
             return;
         }
 
+        int overlayWidth = Math.Max(1, (int)Math.Ceiling(border.ActualWidth));
+        int overlayHeight = Math.Max(1, (int)Math.Ceiling(border.ActualHeight));
         var source = PresentationSource.FromVisual(this);
         if (source?.CompositionTarget != null)
         {
             var transform = source.CompositionTarget.TransformFromDevice;
+            var transformToDevice = source.CompositionTarget.TransformToDevice;
             var topLeft = transform.Transform(new Point(rect.left, rect.top));
             var bottomRight = transform.Transform(new Point(rect.right, rect.bottom));
             var newWidthWpf = Math.Max(0, bottomRight.X - topLeft.X);
-            double horizontalMargin = border.Margin.Left + border.Margin.Right;
-            border.MaxWidth = Math.Clamp(newWidthWpf - horizontalMargin, 0, 250);
+            var newHeightWpf = Math.Max(0, bottomRight.Y - topLeft.Y);
+            double availableWidth = Math.Max(0, newWidthWpf - OverlayMarginLeft - OverlayMarginRight);
+            double availableHeight = Math.Max(0, newHeightWpf - OverlayMarginTop - OverlayMarginBottom);
+            border.MaxWidth = Math.Clamp(availableWidth, 0, OverlayMaxWidth);
+            border.MaxHeight = availableHeight;
+
+            border.Measure(new Size(border.MaxWidth, border.MaxHeight));
+            var desiredSizeInPixels = transformToDevice.Transform(new Point(border.DesiredSize.Width, border.DesiredSize.Height));
+            overlayWidth = Math.Max(1, (int)Math.Ceiling(desiredSizeInPixels.X));
+            overlayHeight = Math.Max(1, (int)Math.Ceiling(desiredSizeInPixels.Y));
+        }
+
+        if (_overlayHwnd != IntPtr.Zero)
+        {
+            int newLeft = rect.left + OverlayMarginLeft;
+            int newTop = rect.top + OverlayMarginTop;
+
+            PInvoke.SetWindowPos(
+                (HWND)_overlayHwnd, (HWND)IntPtr.Zero,
+                newLeft, newTop, overlayWidth, overlayHeight,
+                SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
+                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
+                SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS);
         }
     }
 
@@ -321,7 +322,7 @@ public partial class OverlayWindow : Window
     {
         Opacity = 0;
         Show();
-        PInvoke.SetWindowLongPtr((HWND)_overlayHwnd, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
+        SetWindowLongPtr((HWND)_overlayHwnd, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
         UpdatePosition();
         Opacity = 1;
     }

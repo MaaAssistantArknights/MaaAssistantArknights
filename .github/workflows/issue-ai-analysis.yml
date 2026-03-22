@@ -47,7 +47,8 @@ jobs:
           extra-comment-content: |
             <!-- Skip all labels -->
 
-      - name: Consume outputs
+      - name: 查看完整输入输出
+        if: always()
         env:
           ANALYSIS_PROMPT: ${{ steps.analysis.outputs.analysis-prompt }}
           ISSUE_NUMBER: ${{ steps.analysis.outputs.issue-number }}
