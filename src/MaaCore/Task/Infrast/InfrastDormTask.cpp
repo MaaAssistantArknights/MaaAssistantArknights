@@ -31,6 +31,9 @@ bool asst::InfrastDormTask::on_run_fails()
 bool asst::InfrastDormTask::_run()
 {
     for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {
+        // 每个宿舍独立下一步状态，避免跨宿舍干扰导致行为异常
+        m_next_step = NextStep::Rest;
+
         if (need_exit()) {
             return false;
         }
