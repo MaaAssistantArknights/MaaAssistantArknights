@@ -146,7 +146,7 @@ bool asst::BattleHelper::update_deployment_(
     // 设置干员名与部署位类型（近战/远程）
     auto set_oper_name = [&](DeploymentOper& oper, const std::string& name) {
         oper.name = name;
-        oper.location_type = BattleData.get_location_type(name);
+        oper.location_type = BattleData.get_location_type(oper.role, name);
         oper.is_usual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
@@ -222,7 +222,7 @@ bool asst::BattleHelper::update_deployment_(
 
             name_image = m_inst_helper.ctrler()->get_image();
 
-            std::string name = analyze_detail_page_oper_name(name_image);
+            std::string name = analyze_detail_page_oper_name(name_image, oper.role);
             // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
             if (name.empty()) {
                 Log.error("name is empty");
@@ -1035,7 +1035,7 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
     return update_deployment(true);
 }
 
-std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& image)
+std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& image, battle::Role role)
 {
     const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     const auto& task = Task.get<OcrTaskInfo>(oper_name_ocr_task_name());
@@ -1053,7 +1053,7 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
     preproc_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
     auto preproc_result_opt = preproc_analyzer.analyze();
 
-    if (preproc_result_opt && !BattleData.is_name_invalid(preproc_result_opt->text)) {
+    if (preproc_result_opt && !BattleData.is_name_invalid(role, preproc_result_opt->text)) {
         return preproc_result_opt->text;
     }
 
@@ -1068,7 +1068,7 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
     sort_by_score_(*det_result_opt);
     const auto& det_name = det_result_opt->front().text;
 
-    if (!BattleData.is_name_invalid(det_name)) {
+    if (!BattleData.is_name_invalid(role, det_name)) {
         return det_name;
     }
 

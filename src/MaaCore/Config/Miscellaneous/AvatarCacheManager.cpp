@@ -68,7 +68,7 @@ void asst::AvatarCacheManager::set_avatar(
         return;
     }
 
-    if (BattleData.is_name_invalid(name)) {
+    if (BattleData.is_name_invalid(role, name)) {
         Log.error("invalid name", name);
         return;
     }

@@ -7,7 +7,6 @@
 bool asst::BattleDataConfig::parse(const json::value& json)
 {
     LogTraceFunction;
-    m_drones_confusing.clear();
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         battle::OperProps data;
         data.id = id;
@@ -63,12 +62,15 @@ bool asst::BattleDataConfig::parse(const json::value& json)
             for (const auto& token : *tokens_opt) {
                 data.tokens.emplace_back(token.as_string());
                 if (tokens_opt->size() > 1) {
-                    m_drones_confusing.emplace_back(token.as_string());
+                    m_drones_confusing.emplace(token.as_string());
                 }
             }
         }
 
-        m_chars.emplace(std::move(name), std::move(data));
+        std::string oper_id = data.id;
+        std::shared_ptr<battle::OperProps> props_ptr = std::make_shared<battle::OperProps>(std::move(data));
+        m_chars_by_role[props_ptr->role].insert_or_assign(std::move(name), props_ptr);
+        m_chars.emplace(std::move(oper_id), std::move(props_ptr));
     }
     for (const auto& [id, points_json] : json.at("ranges").as_object()) {
         battle::AttackRange points;
