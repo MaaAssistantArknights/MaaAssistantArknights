@@ -77,6 +77,9 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
     public static AchievementTrackerHelper Instance { get; } = new();
 
+    private const AchievementReleasePhase FirstReleasePhase = AchievementReleasePhase.Phase1;
+    private const AchievementReleasePhase SecondReleasePhase = AchievementReleasePhase.Phase2;
+
     private Dictionary<string, Achievement> _achievements = [];
 
     public Dictionary<string, Achievement> Achievements
@@ -164,6 +167,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
             .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
             .ThenByDescending(kv => kv.Value.IsNewUnlock) // 新解锁的排前面
             .ThenBy(kv => kv.Value.Category) // 按类别分组
+            .ThenBy(kv => kv.Value.ReleasePhase) // 同类成就内按期数区分
             .ThenBy(kv => kv.Value.Group)
             .ThenBy(kv => kv.Value.GroupIndex) // 组内排序
             .ThenBy(kv => kv.Value.Id) // 最后按 Id
@@ -419,26 +423,26 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
     #region 工厂函数
 
-    private static Achievement BasicUsage(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
-       => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.BasicUsage, IsRare = isRare, GroupIndex = groupIndex };
+    private static Achievement BasicUsage(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue, AchievementReleasePhase releasePhase = FirstReleasePhase)
+       => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.BasicUsage, IsRare = isRare, GroupIndex = groupIndex, ReleasePhase = releasePhase };
 
-    private static Achievement FeatureExploration(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration, IsRare = isRare, GroupIndex = groupIndex };
+    private static Achievement FeatureExploration(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue, AchievementReleasePhase releasePhase = FirstReleasePhase)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration, IsRare = isRare, GroupIndex = groupIndex, ReleasePhase = releasePhase };
 
-    private static Achievement AutoBattle(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.AutoBattle, IsRare = isRare, GroupIndex = groupIndex };
+    private static Achievement AutoBattle(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue, AchievementReleasePhase releasePhase = FirstReleasePhase)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.AutoBattle, IsRare = isRare, GroupIndex = groupIndex, ReleasePhase = releasePhase };
 
-    private static Achievement Humor(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.Humor, IsRare = isRare, GroupIndex = groupIndex };
+    private static Achievement Humor(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue, AchievementReleasePhase releasePhase = FirstReleasePhase)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.Humor, IsRare = isRare, GroupIndex = groupIndex, ReleasePhase = releasePhase };
 
-    private static Achievement BugRelated(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.BugRelated, IsRare = isRare, GroupIndex = groupIndex };
+    private static Achievement BugRelated(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue, AchievementReleasePhase releasePhase = FirstReleasePhase)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.BugRelated, IsRare = isRare, GroupIndex = groupIndex, ReleasePhase = releasePhase };
 
-    private static Achievement Behavior(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.Behavior, IsRare = isRare, GroupIndex = groupIndex };
+    private static Achievement Behavior(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue, AchievementReleasePhase releasePhase = FirstReleasePhase)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.Behavior, IsRare = isRare, GroupIndex = groupIndex, ReleasePhase = releasePhase };
 
-    private static Achievement EasterEgg(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue)
-        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.EasterEgg, IsRare = isRare, GroupIndex = groupIndex };
+    private static Achievement EasterEgg(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false, int groupIndex = int.MaxValue, AchievementReleasePhase releasePhase = FirstReleasePhase)
+        => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.EasterEgg, IsRare = isRare, GroupIndex = groupIndex, ReleasePhase = releasePhase };
 
     #endregion
 
@@ -470,14 +474,14 @@ public class AchievementTrackerHelper : PropertyChangedBase
         BasicUsage(id: AchievementIds.SanityExpire, target: 8), // 单次消耗 8 瓶快过期的理智药
         BasicUsage(id: AchievementIds.OverLimitAgent, target: 100, isHidden: true), // 单次代理 100 关
 
-        BasicUsage(id: AchievementIds.RecruitGambler, target: 50), // 公招赌徒
+        BasicUsage(id: AchievementIds.RecruitGambler, target: 50, releasePhase: SecondReleasePhase), // 公招赌徒
 
-        BasicUsage(id: AchievementIds.ClueCollector, group: AchievementIds.ClueUseGroup, target: 20, groupIndex: 1), // 线索搜集
-        BasicUsage(id: AchievementIds.CluePhilosopher, group: AchievementIds.ClueUseGroup, target: 50, groupIndex: 2), // 线索哲学家
-        BasicUsage(id: AchievementIds.ClueObsession, target: 7, isRare: true, groupIndex: 3), // 线索强迫症
+        BasicUsage(id: AchievementIds.ClueCollector, group: AchievementIds.ClueUseGroup, target: 20, groupIndex: 1, releasePhase: SecondReleasePhase), // 线索搜集
+        BasicUsage(id: AchievementIds.CluePhilosopher, group: AchievementIds.ClueUseGroup, target: 50, groupIndex: 2, releasePhase: SecondReleasePhase), // 线索哲学家
+        BasicUsage(id: AchievementIds.ClueObsession, target: 7, isRare: true, groupIndex: 3, releasePhase: SecondReleasePhase), // 线索强迫症
 
-        BasicUsage(id: AchievementIds.ClueSharer, group: AchievementIds.ClueSendGroup, target: 20, groupIndex: 1), // 线索分享
-        BasicUsage(id: AchievementIds.CluePhilanthropist, group: AchievementIds.ClueSendGroup, target: 50, groupIndex: 2), // 线索慈善家
+        BasicUsage(id: AchievementIds.ClueSharer, group: AchievementIds.ClueSendGroup, target: 20, groupIndex: 1, releasePhase: SecondReleasePhase), // 线索分享
+        BasicUsage(id: AchievementIds.CluePhilanthropist, group: AchievementIds.ClueSendGroup, target: 50, groupIndex: 2, releasePhase: SecondReleasePhase), // 线索慈善家
         #endregion
 
         #region 功能探索类
@@ -496,17 +500,17 @@ public class AchievementTrackerHelper : PropertyChangedBase
         FeatureExploration(id: AchievementIds.PeekScreen, isHidden: true), // 窥屏
         FeatureExploration(id: AchievementIds.CustomizationMaster, isHidden: true), // 自定义背景
 
-        FeatureExploration(id: AchievementIds.LogSupervisor), // 超级监工
-        FeatureExploration(id: AchievementIds.TaskChainKing, target: 7), // 任务链王
-        FeatureExploration(id: AchievementIds.HotkeyMagician), // 热键魔术师
-        FeatureExploration(id: AchievementIds.WarehouseMiser, target: 10000), // 仓库守财奴
+        FeatureExploration(id: AchievementIds.LogSupervisor, releasePhase: SecondReleasePhase), // 超级监工
+        FeatureExploration(id: AchievementIds.TaskChainKing, target: 7, releasePhase: SecondReleasePhase), // 任务链王
+        FeatureExploration(id: AchievementIds.HotkeyMagician, releasePhase: SecondReleasePhase), // 热键魔术师
+        FeatureExploration(id: AchievementIds.WarehouseMiser, target: 10000, releasePhase: SecondReleasePhase), // 仓库守财奴
 
-        FeatureExploration(id: AchievementIds.HrSpecialist, group: AchievementIds.HrManager, target: 10, groupIndex: 1), // 人事部专员
-        FeatureExploration(id: AchievementIds.HrSeniorSpecialist, group: AchievementIds.HrManager, target: 20, groupIndex: 2), // 人事部高级专员
+        FeatureExploration(id: AchievementIds.HrSpecialist, group: AchievementIds.HrManager, target: 10, groupIndex: 1, releasePhase: SecondReleasePhase), // 人事部专员
+        FeatureExploration(id: AchievementIds.HrSeniorSpecialist, group: AchievementIds.HrManager, target: 20, groupIndex: 2, releasePhase: SecondReleasePhase), // 人事部高级专员
 
-        FeatureExploration(id: AchievementIds.NotFound404, isHidden: true), // 404！
-        FeatureExploration(id: AchievementIds.Linguist), // 语言学家
-        FeatureExploration(id: AchievementIds.StartupBoot), // 开机启动
+        FeatureExploration(id: AchievementIds.NotFound404, isHidden: true, releasePhase: SecondReleasePhase), // 404！
+        FeatureExploration(id: AchievementIds.Linguist, releasePhase: SecondReleasePhase), // 语言学家
+        FeatureExploration(id: AchievementIds.StartupBoot, releasePhase: SecondReleasePhase), // 开机启动
         #endregion
 
         #region 自动战斗
@@ -539,7 +543,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Humor(id: AchievementIds.RecruitNoSixStar, group: AchievementIds.RecruitGroup, target: 500, groupIndex: 1), // 公招中累计 500 次没出现六星tag
         Humor(id: AchievementIds.RecruitNoSixStarStreak, group: AchievementIds.RecruitGroup, target: 500, isHidden: true, groupIndex: 2), // 公招中连续 500 次没出现六星tag
 
-        Humor(id: AchievementIds.Time325, isHidden: true), // 325
+        Humor(id: AchievementIds.Time325, isHidden: true, releasePhase: SecondReleasePhase), // 325
         #endregion
 
         #region BUG 相关
@@ -560,8 +564,8 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Behavior(id: AchievementIds.UseDaily2, group: AchievementIds.UseDailyGroup, target: 30, groupIndex: 2),
         Behavior(id: AchievementIds.UseDaily3, group: AchievementIds.UseDailyGroup, target: 365, isRare: true, groupIndex: 3),
 
-        Behavior(id: AchievementIds.UpdateObsession, group: AchievementIds.UpdateGroup, groupIndex: 1), // 更新强迫症
-        Behavior(id: AchievementIds.UpdateEarlyBird, group: AchievementIds.UpdateGroup, isHidden: true, groupIndex: 2), // 更新尝鲜者
+        Behavior(id: AchievementIds.UpdateObsession, group: AchievementIds.UpdateGroup, groupIndex: 1, releasePhase: SecondReleasePhase), // 更新强迫症
+        Behavior(id: AchievementIds.UpdateEarlyBird, group: AchievementIds.UpdateGroup, isHidden: true, groupIndex: 2, releasePhase: SecondReleasePhase), // 更新尝鲜者
         #endregion
 
         #region 彩蛋类
@@ -574,8 +578,8 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
         EasterEgg(id: AchievementIds.Lucky, isHidden: true, isRare: true), // 启动 MAA 时有极小概率触发
 
-        EasterEgg(id: AchievementIds.SanityPlanner, isRare: true), // 理智规划师
-        EasterEgg(id: AchievementIds.WarehouseKeeper, isHidden: true), // 我是仓管！
+        EasterEgg(id: AchievementIds.SanityPlanner, isRare: true, releasePhase: SecondReleasePhase), // 理智规划师
+        EasterEgg(id: AchievementIds.WarehouseKeeper, isHidden: true, releasePhase: SecondReleasePhase), // 我是仓管！
         #endregion
     ];
 

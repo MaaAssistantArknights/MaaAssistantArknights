@@ -43,6 +43,17 @@
                                     Foreground="{DynamicResource MessageLogBrush}"
                                     Text="{Binding Title}"
                                     TextWrapping="Wrap" />
+                                <Border
+                                    Margin="6,0,0,0"
+                                    Padding="6,1"
+                                    VerticalAlignment="Center"
+                                    Background="{DynamicResource MouseOverRegionBrushOpacity75}"
+                                    CornerRadius="8">
+                                    <TextBlock
+                                        FontSize="11"
+                                        Foreground="{DynamicResource InfoLogBrush}"
+                                        Text="{Binding ReleasePhaseTag}" />
+                                </Border>
                                 <TextBlock Text=" (NEW)" Visibility="{c:Binding IsNewUnlock}" />
                             </VirtualizingStackPanel>
                             <TextBlock
