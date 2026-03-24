@@ -1171,39 +1171,12 @@
         "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
         "algorithm": "JustReturn",
         "next": [
-            "Fight@AnnihilationPreCheck",
             "Fight@UsePrts-Annihilation",
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
             "Fight@PRTS#next"
         ]
-    },
-    "AnnihilationPreCheck": {
-        "Docs": "检查剿灭是否已经完成, 先匹配左下角合成玉icon",
-        "roi": [15, 600, 85, 100],
-        "next": ["AnnihilationCheckOcrPass", "AnnihilationCheckOcr"]
-    },
-    "AnnihilationCheckOcrPass": {
-        "algorithm": "OcrDetect",
-        "text": ["__EQUAL__"],
-        "roi": [100, 638, 180, 40],
-        "isAscii": true,
-        "ocrReplace": [
-            ["[Oo]", "0"],
-            ["[Ii]|[Ll]", "1"],
-            ["(\\d+)\\/\\1$", "__EQUAL__"]
-        ]
-    },
-    "AnnihilationCheckOcr": {
-        "baseTask": "AnnihilationCheckOcrPass",
-        "text": ["__NEQ__"],
-        "ocrReplace": [
-            ["[Oo]", "0"],
-            ["[Ii]|[Ll]", "1"],
-            ["^(\\d+)\\/(?!\\1\\b)\\d+", "__NEQ__"]
-        ],
-        "next": ["UsePrts-Annihilation", "UsePrts", "UsePrts-StageSN", "(ClickCorner#next ^ (AnnihilationPreCheck + #self))"]
     },
     "LastOrCurBattleBegin": {
         "algorithm": "JustReturn",
@@ -1395,7 +1368,7 @@
         "specificRect": [1260, 100, 10, 10],
         "maxTimes": 10,
         "postDelay": 3000,
-        "next": ["EndOfAction", "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self", "#self"],
+        "next": ["EndOfActionAnnihilation", "EndOfAction", "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self", "#self"],
         "exceededNext": ["RestartGameAndContinue"]
     },
     "EndOfAction": {
@@ -1430,7 +1403,6 @@
         "specificRect": [1000, 20, 270, 50],
         "maxTimes": 10,
         "next": [
-            "AnnihilationPreCheck",
             "StartButton1",
             "StartButton2",
             "UseMedicine",
@@ -4049,6 +4021,11 @@
         "baseTask": "NumberOcrReplace",
         "text": [],
         "roi": [52, 52, 18, 18]
+    },
+    "StageDrops-AnnihilationWeeklyLimit": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [530, 472, 100, 20],
+        "useRaw": true
     },
     "act24side_melding_1": {
         "baseTask": "StageDrops-StageCF-ItemMatch",
