@@ -1817,7 +1817,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Achievement.WarehouseKeeper.Conditions">干员识别中包含干员"帕拉斯"</system:String>
 
     <system:String x:Key="Achievement.NotFound404.Title">404！</system:String>
-    <system:String x:Key="Achievement.NotFound404.Description">这个任务似乎找不到了</system:String>
+    <system:String x:Key="Achievement.NotFound404.Description">这个任务似乎找不到了。</system:String>
     <system:String x:Key="Achievement.NotFound404.Conditions">使用远程协议调用错误的任务 id</system:String>
 
     <system:String x:Key="Achievement.Linguist.Title">语言学家</system:String>
@@ -1825,7 +1825,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Achievement.Linguist.Conditions">尝试切换界面语言</system:String>
 
     <system:String x:Key="Achievement.StartupBoot.Title">开机启动</system:String>
-    <system:String x:Key="Achievement.StartupBoot.Description">理论上你的开机速度又慢了一点</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Description">理论上你的开机速度又慢了一点。</system:String>
     <system:String x:Key="Achievement.StartupBoot.Conditions">设置开机启动 MAA</system:String>
 
     <system:String x:Key="Achievement.ClueObsession.Title">线索强迫症</system:String>
@@ -1833,7 +1833,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Achievement.ClueObsession.Conditions">连续 7 天每天集齐并开启线索交流</system:String>
 
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
-    <system:String x:Key="Achievement.Time325.Description">你知道这个数字是什么意思对吧</system:String>
+    <system:String x:Key="Achievement.Time325.Description">你知道这个数字是什么意思对吧？</system:String>
     <system:String x:Key="Achievement.Time325.Conditions">在 3/13/23 点 25 分还在使用 MAA</system:String>
 
     <system:String x:Key="Achievement.PallasStarter.Title">牛牛厨</system:String>
@@ -1849,83 +1849,83 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Achievement.SortingMaster.Conditions">使用鼠标拖动改变一键长草任务或者设置项顺序</system:String>
 
     <system:String x:Key="Achievement.TimeManagementMaster.Title">时间管理大师</system:String>
-    <system:String x:Key="Achievement.TimeManagementMaster.Description">一点时间也不放过</system:String>
+    <system:String x:Key="Achievement.TimeManagementMaster.Description">一点时间也不放过。</system:String>
     <system:String x:Key="Achievement.TimeManagementMaster.Conditions">勾选所有定时器</system:String>
 
     <system:String x:Key="Achievement.DoubleSync.Title">人货两清</system:String>
-    <system:String x:Key="Achievement.DoubleSync.Description">人也盘明白了，货也点清楚了</system:String>
+    <system:String x:Key="Achievement.DoubleSync.Description">人也盘明白了，货也点清楚了。</system:String>
     <system:String x:Key="Achievement.DoubleSync.Conditions">单次 {key=UserDataUpdate} 同时同步干员与仓库</system:String>
 
     <system:String x:Key="Achievement.ResumeRecord.Title">重新建档</system:String>
-    <system:String x:Key="Achievement.ResumeRecord.Description">隔了这么久，总算把档案续上了</system:String>
+    <system:String x:Key="Achievement.ResumeRecord.Description">隔了这么久，总算把档案续上了。</system:String>
     <system:String x:Key="Achievement.ResumeRecord.Conditions">在至少 7 天未同步后，再次完成一次 {key=UserDataUpdate}</system:String>
 
     <system:String x:Key="Achievement.ChangelogReader.Title">我先看看更新了啥</system:String>
-    <system:String x:Key="Achievement.ChangelogReader.Description">新版本可以不急着下，但不能不看两眼更新了啥</system:String>
+    <system:String x:Key="Achievement.ChangelogReader.Description">新版本可以不急着下，但不能不看两眼更新了啥。</system:String>
     <system:String x:Key="Achievement.ChangelogReader.Conditions">手动打开一次更新日志</system:String>
 
     <system:String x:Key="Achievement.LatestVersionInspector.Title">空跑检查员</system:String>
-    <system:String x:Key="Achievement.LatestVersionInspector.Description">白跑一趟，但至少安心了</system:String>
+    <system:String x:Key="Achievement.LatestVersionInspector.Description">白跑一趟，但至少安心了。</system:String>
     <system:String x:Key="Achievement.LatestVersionInspector.Conditions">手动检查更新，并发现已经是最新版本</system:String>
 
     <system:String x:Key="Achievement.TimeMachine.Title">时光机</system:String>
-    <system:String x:Key="Achievement.TimeMachine.Description">把此刻的辉煌，封存在未来可抵达的地方</system:String>
+    <system:String x:Key="Achievement.TimeMachine.Description">把此刻的辉煌，封存在未来可抵达的地方。</system:String>
     <system:String x:Key="Achievement.TimeMachine.Conditions">备份一次成就存档</system:String>
 
     <system:String x:Key="Achievement.LoadLastSave.Title">读档重来</system:String>
-    <system:String x:Key="Achievement.LoadLastSave.Description">既然能重来一次，那这次可要选对了</system:String>
+    <system:String x:Key="Achievement.LoadLastSave.Description">既然能重来一次，那这次可要选对了。</system:String>
     <system:String x:Key="Achievement.LoadLastSave.Conditions">恢复一次成就存档</system:String>
 
     <system:String x:Key="Achievement.AchievementObserver.Title">成就观测者</system:String>
-    <system:String x:Key="Achievement.AchievementObserver.Description">看看自己都做了什么</system:String>
+    <system:String x:Key="Achievement.AchievementObserver.Description">看看自己都做了什么。</system:String>
     <system:String x:Key="Achievement.AchievementObserver.Conditions">打开一次成就列表</system:String>
 
     <system:String x:Key="Achievement.DisappearTrick.Title">消失术</system:String>
-    <system:String x:Key="Achievement.DisappearTrick.Description">眼不见，心不烦</system:String>
+    <system:String x:Key="Achievement.DisappearTrick.Description">眼不见，心不烦。</system:String>
     <system:String x:Key="Achievement.DisappearTrick.Conditions">开启最小化到托盘</system:String>
 
     <system:String x:Key="Achievement.TitleTweaker.Title">标题党</system:String>
-    <system:String x:Key="Achievement.TitleTweaker.Description">这标题，得按我的意思来</system:String>
+    <system:String x:Key="Achievement.TitleTweaker.Description">这标题，得按我的意思来。</system:String>
     <system:String x:Key="Achievement.TitleTweaker.Conditions">修改一次窗口标题显示项</system:String>
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">全频道广播</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Description">这下谁都别想错过</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Description">这下谁都别想错过。</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">同时启用全部外部通知渠道</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">走进后台</system:String>
-    <system:String x:Key="Achievement.BackstageExplorer.Description">让我看看都记了点啥</system:String>
+    <system:String x:Key="Achievement.BackstageExplorer.Description">让我看看都记了点啥。</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Conditions">使用一次“打开日志文件夹”</system:String>
 
     <system:String x:Key="Achievement.ConnectionTester.Title">连接测试员</system:String>
-    <system:String x:Key="Achievement.ConnectionTester.Description">不先看一眼，总觉得不踏实</system:String>
+    <system:String x:Key="Achievement.ConnectionTester.Description">不先看一眼，总觉得不踏实。</system:String>
     <system:String x:Key="Achievement.ConnectionTester.Conditions">成功执行一次截图测试并显示截图</system:String>
 
     <system:String x:Key="Achievement.OneMoreLook.Title">再看一眼</system:String>
-    <system:String x:Key="Achievement.OneMoreLook.Description">看都看了，再刷一张</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Description">看都看了，再刷一张。</system:String>
     <system:String x:Key="Achievement.OneMoreLook.Conditions">在连接测试预览图上再次点击刷新截图</system:String>
 
     <system:String x:Key="Achievement.QueueExpansion.Title">队伍扩编</system:String>
-    <system:String x:Key="Achievement.QueueExpansion.Description">先把流程搭起来</system:String>
+    <system:String x:Key="Achievement.QueueExpansion.Description">先把流程搭起来。</system:String>
     <system:String x:Key="Achievement.QueueExpansion.Conditions">手动新增一个任务</system:String>
 
     <system:String x:Key="Achievement.QueueSimplifier.Title">精简流程</system:String>
-    <system:String x:Key="Achievement.QueueSimplifier.Description">删繁就简，也是一种优化</system:String>
+    <system:String x:Key="Achievement.QueueSimplifier.Description">删繁就简，也是一种优化。</system:String>
     <system:String x:Key="Achievement.QueueSimplifier.Conditions">手动删除一个任务</system:String>
 
     <system:String x:Key="Achievement.MasterDirector.Title">总导演</system:String>
-    <system:String x:Key="Achievement.MasterDirector.Description">什么都得亲自排一遍</system:String>
+    <system:String x:Key="Achievement.MasterDirector.Description">什么都得亲自排一遍。</system:String>
     <system:String x:Key="Achievement.MasterDirector.Conditions">所有任务类型都至少手动添加过一次</system:String>
 
     <system:String x:Key="Achievement.PrivateDormManager.Title">私人宿管</system:String>
-    <system:String x:Key="Achievement.PrivateDormManager.Description">排班表当然要用自己的</system:String>
+    <system:String x:Key="Achievement.PrivateDormManager.Description">排班表当然要用自己的。</system:String>
     <system:String x:Key="Achievement.PrivateDormManager.Conditions">成功载入一次自定义基建配置</system:String>
 
     <system:String x:Key="Achievement.OperatorRoster.Title">花名册</system:String>
-    <system:String x:Key="Achievement.OperatorRoster.Description">这份名单，先存一份</system:String>
+    <system:String x:Key="Achievement.OperatorRoster.Description">这份名单，先存一份。</system:String>
     <system:String x:Key="Achievement.OperatorRoster.Conditions">导出一次干员表到剪贴板</system:String>
 
     <system:String x:Key="Achievement.SlackingOff.Title">不务正业</system:String>
-    <system:String x:Key="Achievement.SlackingOff.Description">正事做累了，玩点别的</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Description">正事做累了，玩点别的。</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">启动一次小游戏</system:String>
     <!--  !Achievement  -->
 
