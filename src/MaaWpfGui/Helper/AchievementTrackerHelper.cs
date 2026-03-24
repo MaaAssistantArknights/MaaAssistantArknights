@@ -454,9 +454,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
             return;
         }
 
-        double rawDays = (DateTime.UtcNow - lastSyncTime.Value).TotalDays;
-        double ceilingDays = Math.Ceiling(rawDays);
-        if (ceilingDays >= requiredDays)
+        if ((DateTime.UtcNow.ToYjDate() - lastSyncTime.Value.ToYjDate()).TotalDays >= requiredDays)
         {
             Unlock(id);
         }
