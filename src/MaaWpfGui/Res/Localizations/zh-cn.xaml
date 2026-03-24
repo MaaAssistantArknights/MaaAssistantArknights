@@ -1838,31 +1838,31 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
     <system:String x:Key="Achievement.PallasStarter.Title">牛牛厨</system:String>
     <system:String x:Key="Achievement.PallasStarter.Description">伟大的战士们啊，我会在你们身边，与你们一同奋勇搏杀。</system:String>
-    <system:String x:Key="Achievement.PallasStarter.Conditions">使用干员帕拉斯作为肉鸽开局干员</system:String>
+    <system:String x:Key="Achievement.PallasStarter.Conditions">使用帕拉斯作为肉鸽 ｢{key=StartingCoreChar}｣</system:String>
 
     <system:String x:Key="Achievement.PallasCheers.Title">给牛牛喝酒</system:String>
     <system:String x:Key="Achievement.PallasCheers.Description">下次不能喝，喝这么多了。。。</system:String>
-    <system:String x:Key="Achievement.PallasCheers.Conditions">点击成就设置的帕拉斯头像</system:String>
+    <system:String x:Key="Achievement.PallasCheers.Conditions">点击 ｢{key=AchievementSettings}｣ 的帕拉斯头像</system:String>
 
     <system:String x:Key="Achievement.SortingMaster.Title">排序大师</system:String>
     <system:String x:Key="Achievement.SortingMaster.Description">这也能拖？</system:String>
-    <system:String x:Key="Achievement.SortingMaster.Conditions">使用鼠标拖动改变一键长草任务或者设置项顺序</system:String>
+    <system:String x:Key="Achievement.SortingMaster.Conditions">使用鼠标拖动改变 ｢{key=Farming}｣ 任务或者设置项顺序</system:String>
 
     <system:String x:Key="Achievement.TimeManagementMaster.Title">时间管理大师</system:String>
     <system:String x:Key="Achievement.TimeManagementMaster.Description">一点时间也不放过。</system:String>
-    <system:String x:Key="Achievement.TimeManagementMaster.Conditions">勾选所有定时器</system:String>
+    <system:String x:Key="Achievement.TimeManagementMaster.Conditions">勾选 ｢{key=ScheduleSettings}｣ 所有定时器</system:String>
 
     <system:String x:Key="Achievement.DoubleSync.Title">人货两清</system:String>
     <system:String x:Key="Achievement.DoubleSync.Description">人也盘明白了，货也点清楚了。</system:String>
-    <system:String x:Key="Achievement.DoubleSync.Conditions">单次 {key=UserDataUpdate} 同时同步干员与仓库</system:String>
+    <system:String x:Key="Achievement.DoubleSync.Conditions">单次 ｢{key=UserDataUpdate}｣ 同时同步干员与仓库</system:String>
 
     <system:String x:Key="Achievement.ResumeRecord.Title">重新建档</system:String>
     <system:String x:Key="Achievement.ResumeRecord.Description">隔了这么久，总算把档案续上了。</system:String>
-    <system:String x:Key="Achievement.ResumeRecord.Conditions">在至少 7 天未同步后，再次完成一次 {key=UserDataUpdate}</system:String>
+    <system:String x:Key="Achievement.ResumeRecord.Conditions">在至少 7 天未同步后，再次完成一次 ｢{key=UserDataUpdate}｣</system:String>
 
     <system:String x:Key="Achievement.ChangelogReader.Title">我先看看更新了啥</system:String>
     <system:String x:Key="Achievement.ChangelogReader.Description">新版本可以不急着下，但不能不看两眼更新了啥。</system:String>
-    <system:String x:Key="Achievement.ChangelogReader.Conditions">手动打开一次更新日志</system:String>
+    <system:String x:Key="Achievement.ChangelogReader.Conditions">手动打开一次 ｢{key=ShowChangelog}｣</system:String>
 
     <system:String x:Key="Achievement.LatestVersionInspector.Title">空跑检查员</system:String>
     <system:String x:Key="Achievement.LatestVersionInspector.Description">白跑一趟，但至少安心了。</system:String>
@@ -1878,31 +1878,31 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
     <system:String x:Key="Achievement.AchievementObserver.Title">成就观测者</system:String>
     <system:String x:Key="Achievement.AchievementObserver.Description">看看自己都做了什么。</system:String>
-    <system:String x:Key="Achievement.AchievementObserver.Conditions">打开一次成就列表</system:String>
+    <system:String x:Key="Achievement.AchievementObserver.Conditions">打开一次 ｢{key=AchievementList}｣</system:String>
 
     <system:String x:Key="Achievement.DisappearTrick.Title">消失术</system:String>
     <system:String x:Key="Achievement.DisappearTrick.Description">眼不见，心不烦。</system:String>
-    <system:String x:Key="Achievement.DisappearTrick.Conditions">开启最小化到托盘</system:String>
+    <system:String x:Key="Achievement.DisappearTrick.Conditions">开启 ｢{key=MinimizeToTray}｣</system:String>
 
     <system:String x:Key="Achievement.TitleTweaker.Title">标题党</system:String>
     <system:String x:Key="Achievement.TitleTweaker.Description">这标题，得按我的意思来。</system:String>
-    <system:String x:Key="Achievement.TitleTweaker.Conditions">修改一次窗口标题显示项</system:String>
+    <system:String x:Key="Achievement.TitleTweaker.Conditions">修改一次 ｢{key=TitleBarDisplayContent}｣</system:String>
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">全频道广播</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Description">这下谁都别想错过。</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">同时启用全部外部通知渠道</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">同时启用全部 ｢{key=ExternalNotificationSettings}｣ 渠道</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">走进后台</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Description">让我看看都记了点啥。</system:String>
-    <system:String x:Key="Achievement.BackstageExplorer.Conditions">使用一次“打开日志文件夹”</system:String>
+    <system:String x:Key="Achievement.BackstageExplorer.Conditions">使用一次 ｢{key=OpenDebugFolder}｣</system:String>
 
     <system:String x:Key="Achievement.ConnectionTester.Title">连接测试员</system:String>
     <system:String x:Key="Achievement.ConnectionTester.Description">不先看一眼，总觉得不踏实。</system:String>
-    <system:String x:Key="Achievement.ConnectionTester.Conditions">成功执行一次截图测试并显示截图</system:String>
+    <system:String x:Key="Achievement.ConnectionTester.Conditions">成功执行一次 ｢{key=ScreenshotTest}｣ 并显示截图</system:String>
 
     <system:String x:Key="Achievement.OneMoreLook.Title">再看一眼</system:String>
     <system:String x:Key="Achievement.OneMoreLook.Description">看都看了，再刷一张。</system:String>
-    <system:String x:Key="Achievement.OneMoreLook.Conditions">在连接测试预览图上再次点击刷新截图</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Conditions">在 ｢{key=ScreenshotTest}｣ 预览图上再次点击刷新截图</system:String>
 
     <system:String x:Key="Achievement.QueueExpansion.Title">队伍扩编</system:String>
     <system:String x:Key="Achievement.QueueExpansion.Description">先把流程搭起来。</system:String>
@@ -1918,7 +1918,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
     <system:String x:Key="Achievement.PrivateDormManager.Title">私人宿管</system:String>
     <system:String x:Key="Achievement.PrivateDormManager.Description">排班表当然要用自己的。</system:String>
-    <system:String x:Key="Achievement.PrivateDormManager.Conditions">成功载入一次自定义基建配置</system:String>
+    <system:String x:Key="Achievement.PrivateDormManager.Conditions">成功载入一次 ｢{key=InfrastModeCustom}｣</system:String>
 
     <system:String x:Key="Achievement.OperatorRoster.Title">花名册</system:String>
     <system:String x:Key="Achievement.OperatorRoster.Description">这份名单，先存一份。</system:String>
