@@ -266,6 +266,11 @@ public class SettingsViewModel : Screen
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
         Execute.OnUIThread(() => {
+            if (e?.Action == NotifyCollectionChangedAction.Move)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SortingMaster);
+            }
+
             for (int i = 0; i < Settings.Count; i++)
             {
                 var item = Settings[i];

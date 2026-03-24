@@ -148,6 +148,7 @@ public class TaskQueueViewModel : Screen
         Application.Current.Dispatcher.InvokeAsync(() => {
             if (e.Action == NotifyCollectionChangedAction.Move)
             {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SortingMaster);
                 int oldIndex = e.OldStartingIndex;
                 int newIndex = e.NewStartingIndex;
 
@@ -1293,6 +1294,10 @@ public class TaskQueueViewModel : Screen
         {
             ConfigFactory.CurrentConfig.TaskQueue.Add(task);
             TaskItemViewModels.Add(new TaskItemViewModel(task.NameDisplay));
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueExpansion);
+            AchievementTrackerHelper.Instance.TrackManualTaskAddition(
+                task.TaskType.ToString(),
+                ShowDebugTask ? TaskTypeList.Count : TaskTypeList.Count - 1);
         }
         else
         {
@@ -1365,6 +1370,7 @@ public class TaskQueueViewModel : Screen
             {
                 TaskItemViewModels.RemoveAt(index);
                 AddLog(string.Format(LocalizationHelper.GetString("TaskDeleted"), taskItem.Name), UiLogColor.Info);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueSimplifier);
             }
         }
     }

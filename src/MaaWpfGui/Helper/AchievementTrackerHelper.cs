@@ -79,6 +79,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
     private const AchievementReleasePhase FirstReleasePhase = AchievementReleasePhase.Phase1;
     private const AchievementReleasePhase SecondReleasePhase = AchievementReleasePhase.Phase2;
+    private const AchievementReleasePhase ThirdReleasePhase = AchievementReleasePhase.Phase3;
 
     private Dictionary<string, Achievement> _achievements = [];
 
@@ -116,7 +117,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         {
             foreach (var (_, value) in Achievements)
             {
-                value.IsVisibleInSearch = value.Title.Contains(text) || value.Description.Contains(text) || value.Conditions.Contains(text);
+                value.IsVisibleInSearch = value.Title.Contains(text) || value.Description.Contains(text) || value.Conditions.Contains(text) || value.ReleasePhaseTag.Contains(text);
             }
         }
 
@@ -417,6 +418,50 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Save();
     }
 
+    public void CheckTimeManagementMaster()
+    {
+        var timerSettings = SettingsViewModel.TimerSettings;
+        if (timerSettings.TimerModels.Timers.Any(timer => timer.IsOn != true))
+        {
+            return;
+        }
+
+        Unlock(AchievementIds.TimeManagementMaster);
+    }
+
+    public void TrackManualTaskAddition(string taskType, int requiredCount)
+    {
+        const string Id = AchievementIds.MasterDirector;
+        const string Key = AchievementIds.MasterDirectorCustomDataKey;
+
+        var addedTaskTypes = GetAchievementCustomData(Id, Key)?.ToObject<HashSet<string>>() ?? [];
+        if (!addedTaskTypes.Add(taskType))
+        {
+            return;
+        }
+
+        SetAchievementCustomData(Id, Key, JToken.FromObject(addedTaskTypes.OrderBy(type => type).ToArray()));
+        if (addedTaskTypes.Count >= requiredCount)
+        {
+            Unlock(Id);
+        }
+    }
+
+    public void CheckResyncAfterDays(DateTime? lastSyncTime, int requiredDays, string id)
+    {
+        if (!lastSyncTime.HasValue)
+        {
+            return;
+        }
+
+        double rawDays = (DateTime.UtcNow - lastSyncTime.Value).TotalDays;
+        double ceilingDays = Math.Ceiling(rawDays);
+        if (ceilingDays >= requiredDays)
+        {
+            Unlock(id);
+        }
+    }
+
     public bool IsUnlocked(string id) => _achievements.TryGetValue(id, out var a) && a.IsUnlocked;
 
     public Achievement? Get(string id) => _achievements.GetValueOrDefault(id);
@@ -482,6 +527,12 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
         BasicUsage(id: AchievementIds.ClueSharer, group: AchievementIds.ClueSendGroup, target: 20, groupIndex: 1, releasePhase: SecondReleasePhase), // 线索分享
         BasicUsage(id: AchievementIds.CluePhilanthropist, group: AchievementIds.ClueSendGroup, target: 50, groupIndex: 2, releasePhase: SecondReleasePhase), // 线索慈善家
+
+        BasicUsage(id: AchievementIds.TimeManagementMaster, isHidden: true, isRare: true, releasePhase: ThirdReleasePhase), // 时间管理大师
+        BasicUsage(id: AchievementIds.DoubleSync, releasePhase: ThirdReleasePhase), // 人货两清
+        BasicUsage(id: AchievementIds.ResumeRecord, releasePhase: ThirdReleasePhase), // 重新建档
+        BasicUsage(id: AchievementIds.QueueExpansion, releasePhase: ThirdReleasePhase), // 队伍扩编
+        BasicUsage(id: AchievementIds.QueueSimplifier, releasePhase: ThirdReleasePhase), // 精简流程
         #endregion
 
         #region 功能探索类
@@ -511,6 +562,16 @@ public class AchievementTrackerHelper : PropertyChangedBase
         FeatureExploration(id: AchievementIds.NotFound404, isHidden: true, releasePhase: SecondReleasePhase), // 404！
         FeatureExploration(id: AchievementIds.Linguist, releasePhase: SecondReleasePhase), // 语言学家
         FeatureExploration(id: AchievementIds.StartupBoot, releasePhase: SecondReleasePhase), // 开机启动
+
+        FeatureExploration(id: AchievementIds.SortingMaster, releasePhase: ThirdReleasePhase), // 排序大师
+        FeatureExploration(id: AchievementIds.AchievementObserver, releasePhase: ThirdReleasePhase), // 成就观测者
+        FeatureExploration(id: AchievementIds.DisappearTrick, releasePhase: ThirdReleasePhase), // 消失术
+        FeatureExploration(id: AchievementIds.TitleTweaker, releasePhase: ThirdReleasePhase), // 标题党
+        FeatureExploration(id: AchievementIds.AllChannelBroadcast, isHidden: true, isRare: true, releasePhase: ThirdReleasePhase), // 全频道广播
+        FeatureExploration(id: AchievementIds.ConnectionTester, releasePhase: ThirdReleasePhase), // 连接测试员
+        FeatureExploration(id: AchievementIds.MasterDirector, isHidden: true, isRare: true, releasePhase: ThirdReleasePhase), // 总导演
+        FeatureExploration(id: AchievementIds.PrivateDormManager, releasePhase: ThirdReleasePhase), // 私人宿管
+        FeatureExploration(id: AchievementIds.OperatorRoster, releasePhase: ThirdReleasePhase), // 花名册
         #endregion
 
         #region 自动战斗
@@ -551,6 +612,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         BugRelated(id: AchievementIds.UnexpectedCrash, isHidden: true), // 不速之客
         BugRelated(id: AchievementIds.ProblemFeedback), // 问题反馈
         BugRelated(id: AchievementIds.CdnTorture, target: 3), // 下载资源失败超过3次
+        BugRelated(id: AchievementIds.BackstageExplorer, releasePhase: ThirdReleasePhase), // 走进后台
         #endregion
 
         #region 习惯 行为 时长类
@@ -566,6 +628,10 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
         Behavior(id: AchievementIds.UpdateObsession, group: AchievementIds.UpdateGroup, groupIndex: 1, releasePhase: SecondReleasePhase), // 更新强迫症
         Behavior(id: AchievementIds.UpdateEarlyBird, group: AchievementIds.UpdateGroup, isHidden: true, groupIndex: 2, releasePhase: SecondReleasePhase), // 更新尝鲜者
+        Behavior(id: AchievementIds.ChangelogReader, releasePhase: ThirdReleasePhase), // 我先看看更新了啥
+        Behavior(id: AchievementIds.LatestVersionInspector, releasePhase: ThirdReleasePhase), // 空跑检查员
+        Behavior(id: AchievementIds.TimeMachine, releasePhase: ThirdReleasePhase), // 时光机
+        Behavior(id: AchievementIds.LoadLastSave, releasePhase: ThirdReleasePhase), // 读档重来
         #endregion
 
         #region 彩蛋类
@@ -580,6 +646,10 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
         EasterEgg(id: AchievementIds.SanityPlanner, isRare: true, releasePhase: SecondReleasePhase), // 理智规划师
         EasterEgg(id: AchievementIds.WarehouseKeeper, isHidden: true, releasePhase: SecondReleasePhase), // 我是仓管！
+        EasterEgg(id: AchievementIds.PallasStarter, isHidden: true, isRare: true, releasePhase: ThirdReleasePhase), // 牛牛厨
+        EasterEgg(id: AchievementIds.PallasCheers, isHidden: true, isRare: true, releasePhase: ThirdReleasePhase), // 给牛牛喝酒
+        EasterEgg(id: AchievementIds.OneMoreLook, isHidden: true, releasePhase: ThirdReleasePhase), // 再看一眼
+        EasterEgg(id: AchievementIds.SlackingOff, isHidden: true, releasePhase: ThirdReleasePhase), // 不务正业
         #endregion
     ];
 

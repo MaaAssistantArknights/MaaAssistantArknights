@@ -112,6 +112,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
                 set {
                     SetAndNotify(ref _isOn, value);
                     ConfigurationHelper.SetTimer(TimerId, value.ToString());
+                    AchievementTrackerHelper.Instance.CheckTimeManagementMaster();
                 }
             }
 

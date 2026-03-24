@@ -121,17 +121,20 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
                 .Where(provider => ExternalNotificationProviders.Contains(provider.ToString() ?? string.Empty))
                 .Select(provider => provider.ToString())
                 .Distinct();
+            var validProviderList = validProviders.OfType<string>().ToArray();
 
-            var config = string.Join(",", validProviders);
+            var config = string.Join(",", validProviderList);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, config);
             UpdateExternalNotificationProvider();
             NotifyOfPropertyChange(nameof(EnabledExternalNotificationProviderCount));
+            if (validProviderList.Length == ExternalNotificationProviders.Count)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.AllChannelBroadcast);
+            }
         }
     }
 
-    public string[] EnabledExternalNotificationProviderList => EnabledExternalNotificationProviders
-        .Select(s => s.ToString() ?? string.Empty)
-        .ToArray();
+    public string[] EnabledExternalNotificationProviderList => [.. EnabledExternalNotificationProviders.Select(s => s.ToString() ?? string.Empty)];
 
     public int EnabledExternalNotificationProviderCount => EnabledExternalNotificationProviders.Length;
 

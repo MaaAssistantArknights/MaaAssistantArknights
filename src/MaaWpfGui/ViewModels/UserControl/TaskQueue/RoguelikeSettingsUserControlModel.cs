@@ -1063,6 +1063,10 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 return (null, []);
             }
 
+            bool isPallasStarter = string.Equals(
+                DataHelper.GetCharacterByNameOrAlias(roguelike.CoreChar)?.CodeName,
+                "pallas",
+                StringComparison.OrdinalIgnoreCase);
             bool roguelikeSquadIsProfessional = roguelike.Mode == Mode.Collectible && roguelike.Theme != Theme.Phantom && roguelike.Squad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
             bool roguelikeSquadIsFoldartal = roguelike.Mode == Mode.Collectible && roguelike.Theme == Theme.Sami && roguelike.Squad == "生活至上分队";
             var task = new AsstRoguelikeTask() {
@@ -1137,9 +1141,19 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
-                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, task)),
+                null => UnlockPallasStarterIfNeeded(FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, task))),
                 _ => (null, []),
             };
+
+            (bool? IsSuccess, IEnumerable<int> TaskId) UnlockPallasStarterIfNeeded((bool? IsSuccess, IEnumerable<int> TaskId) result)
+            {
+                if (result.IsSuccess == true && isPallasStarter)
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.PallasStarter);
+                }
+
+                return result;
+            }
         }
     }
 }
