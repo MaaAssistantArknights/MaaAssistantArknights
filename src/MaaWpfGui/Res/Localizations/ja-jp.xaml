@@ -1835,6 +1835,98 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
     <system:String x:Key="Achievement.Time325.Description">この数字の意味を知っているでしょう？</system:String>
     <system:String x:Key="Achievement.Time325.Conditions">3/13/23時25分にまだMAAを使用している</system:String>
+    
+    <system:String x:Key="Achievement.PallasStarter.Title">パラス推し</system:String>
+    <system:String x:Key="Achievement.PallasStarter.Description">偉大なる戦士たちよ、私はあなたたちのそばにいて、ともに勇んで戦おう。</system:String>
+    <system:String x:Key="Achievement.PallasStarter.Conditions">ローグライクでパラスを「{key=StartingCoreChar}」にする</system:String>
+
+    <system:String x:Key="Achievement.PallasCheers.Title">パラスに一杯</system:String>
+    <system:String x:Key="Achievement.PallasCheers.Description">次はもう飲みすぎちゃだめだよ。。。</system:String>
+    <system:String x:Key="Achievement.PallasCheers.Conditions">「{key=AchievementSettings}」でパラスのアイコンをクリックする</system:String>
+
+    <system:String x:Key="Achievement.SortingMaster.Title">並べ替えマスター</system:String>
+    <system:String x:Key="Achievement.SortingMaster.Description">これもドラッグできるの？</system:String>
+    <system:String x:Key="Achievement.SortingMaster.Conditions">マウスで「{key=Farming}」のタスクまたは設定項目の順序をドラッグして変更する</system:String>
+
+    <system:String x:Key="Achievement.TimeManagementMaster.Title">時間管理マスター</system:String>
+    <system:String x:Key="Achievement.TimeManagementMaster.Description">わずかな時間も無駄にしない。</system:String>
+    <system:String x:Key="Achievement.TimeManagementMaster.Conditions">「{key=ScheduleSettings}」のすべてのタイマーにチェックを入れる</system:String>
+
+    <system:String x:Key="Achievement.DoubleSync.Title">人も物もきっちり</system:String>
+    <system:String x:Key="Achievement.DoubleSync.Description">人員も把握して、物資も数え終えた。</system:String>
+    <system:String x:Key="Achievement.DoubleSync.Conditions">1回の「{key=UserDataUpdate}」でオペレーターと倉庫を同時に同期する</system:String>
+
+    <system:String x:Key="Achievement.ResumeRecord.Title">記録再開</system:String>
+    <system:String x:Key="Achievement.ResumeRecord.Description">こんなに間が空いたけど、ようやく記録をつなげられた。</system:String>
+    <system:String x:Key="Achievement.ResumeRecord.Conditions">少なくとも7日間同期していない状態から、再び「{key=UserDataUpdate}」を1回完了する</system:String>
+
+    <system:String x:Key="Achievement.ChangelogReader.Title">まず更新内容を確認</system:String>
+    <system:String x:Key="Achievement.ChangelogReader.Description">新バージョンは急いで入れなくてもいいが、何が変わったかは見ておきたい。</system:String>
+    <system:String x:Key="Achievement.ChangelogReader.Conditions">「{key=ShowChangelog}」を手動で1回開く</system:String>
+
+    <system:String x:Key="Achievement.LatestVersionInspector.Title">空振りチェッカー</system:String>
+    <system:String x:Key="Achievement.LatestVersionInspector.Description">空振りだったけど、少なくとも安心はできた。</system:String>
+    <system:String x:Key="Achievement.LatestVersionInspector.Conditions">手動で更新を確認し、すでに最新バージョンだと分かる</system:String>
+
+    <system:String x:Key="Achievement.TimeMachine.Title">タイムマシン</system:String>
+    <system:String x:Key="Achievement.TimeMachine.Description">この瞬間の輝きを、未来に届く場所へ封じ込める。</system:String>
+    <system:String x:Key="Achievement.TimeMachine.Conditions">実績セーブを1回バックアップする</system:String>
+
+    <system:String x:Key="Achievement.LoadLastSave.Title">セーブを読み込んでやり直し</system:String>
+    <system:String x:Key="Achievement.LoadLastSave.Description">もう一度やり直せるなら、今度こそ正しく選ぼう。</system:String>
+    <system:String x:Key="Achievement.LoadLastSave.Conditions">実績セーブを1回復元する</system:String>
+
+    <system:String x:Key="Achievement.AchievementObserver.Title">実績観測者</system:String>
+    <system:String x:Key="Achievement.AchievementObserver.Description">自分が何をしてきたか見てみよう。</system:String>
+    <system:String x:Key="Achievement.AchievementObserver.Conditions">「{key=AchievementList}」を1回開く</system:String>
+
+    <system:String x:Key="Achievement.DisappearTrick.Title">消失トリック</system:String>
+    <system:String x:Key="Achievement.DisappearTrick.Description">見えなければ、気にもならない。</system:String>
+    <system:String x:Key="Achievement.DisappearTrick.Conditions">「{key=MinimizeToTray}」を有効にする</system:String>
+
+    <system:String x:Key="Achievement.TitleTweaker.Title">タイトルいじり</system:String>
+    <system:String x:Key="Achievement.TitleTweaker.Description">このタイトルは、自分の思いどおりにしたい。</system:String>
+    <system:String x:Key="Achievement.TitleTweaker.Conditions">「{key=TitleBarDisplayContent}」を1回変更する</system:String>
+
+    <system:String x:Key="Achievement.AllChannelBroadcast.Title">全チャンネル放送</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Description">これでもう誰も見逃せない。</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">「{key=ExternalNotificationSettings}」のすべてのチャンネルを同時に有効にする</system:String>
+
+    <system:String x:Key="Achievement.BackstageExplorer.Title">バックヤード探検家</system:String>
+    <system:String x:Key="Achievement.BackstageExplorer.Description">裏で何が記録されているか見てみよう。</system:String>
+    <system:String x:Key="Achievement.BackstageExplorer.Conditions">「{key=OpenDebugFolder}」を1回使う</system:String>
+
+    <system:String x:Key="Achievement.ConnectionTester.Title">接続テスター</system:String>
+    <system:String x:Key="Achievement.ConnectionTester.Description">先に一度見ておかないと、どうも落ち着かない。</system:String>
+    <system:String x:Key="Achievement.ConnectionTester.Conditions">「{key=ScreenshotTest}」を1回成功させ、スクリーンショットを表示する</system:String>
+
+    <system:String x:Key="Achievement.OneMoreLook.Title">もう一度見る</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Description">せっかく見たんだから、もう1枚更新しよう。</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Conditions">「{key=ScreenshotTest}」のプレビュー画像でもう一度スクリーンショット更新をクリックする</system:String>
+
+    <system:String x:Key="Achievement.QueueExpansion.Title">隊列拡張</system:String>
+    <system:String x:Key="Achievement.QueueExpansion.Description">まずは流れを組み上げよう。</system:String>
+    <system:String x:Key="Achievement.QueueExpansion.Conditions">タスクを1つ手動で追加する</system:String>
+
+    <system:String x:Key="Achievement.QueueSimplifier.Title">フロー簡略化</system:String>
+    <system:String x:Key="Achievement.QueueSimplifier.Description">余計なものを削るのも、一種の最適化だ。</system:String>
+    <system:String x:Key="Achievement.QueueSimplifier.Conditions">タスクを1つ手動で削除する</system:String>
+
+    <system:String x:Key="Achievement.MasterDirector.Title">総監督</system:String>
+    <system:String x:Key="Achievement.MasterDirector.Description">何もかも自分で段取りしないと気が済まない。</system:String>
+    <system:String x:Key="Achievement.MasterDirector.Conditions">すべてのタスクタイプを少なくとも1回は手動で追加する</system:String>
+
+    <system:String x:Key="Achievement.PrivateDormManager.Title">プライベート宿舎管理人</system:String>
+    <system:String x:Key="Achievement.PrivateDormManager.Description">シフト表はもちろん自分のものを使う。</system:String>
+    <system:String x:Key="Achievement.PrivateDormManager.Conditions">「{key=InfrastModeCustom}」を1回正常に読み込む</system:String>
+
+    <system:String x:Key="Achievement.OperatorRoster.Title">名簿</system:String>
+    <system:String x:Key="Achievement.OperatorRoster.Description">この一覧、先に1部保存しておこう。</system:String>
+    <system:String x:Key="Achievement.OperatorRoster.Conditions">オペレーター一覧を1回クリップボードにエクスポートする</system:String>
+
+    <system:String x:Key="Achievement.SlackingOff.Title">寄り道</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Description">本業に疲れたら、ちょっと別の遊びを。</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">ミニゲームを1回起動する</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->
