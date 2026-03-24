@@ -97,19 +97,15 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public bool MinimizeToTray
     {
-        get {
-            if (_minimizeToTray)
-            {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.DisappearTrick);
-            }
-
-            return _minimizeToTray;
-        }
-
+        get => _minimizeToTray;
         set {
             SetAndNotify(ref _minimizeToTray, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MinimizeToTray, value.ToString());
             Instances.MainWindowManager.SetMinimizeToTray(value);
+            if (_minimizeToTray)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.DisappearTrick);
+            }
         }
     }
 
