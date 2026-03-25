@@ -1817,7 +1817,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.WarehouseKeeper.Conditions">オペレーター認識にオペレーター「パラス」が含まれる</system:String>
 
     <system:String x:Key="Achievement.NotFound404.Title">404！</system:String>
-    <system:String x:Key="Achievement.NotFound404.Description">このタスクは見つからないようです</system:String>
+    <system:String x:Key="Achievement.NotFound404.Description">このタスクは見つからないようです。</system:String>
     <system:String x:Key="Achievement.NotFound404.Conditions">リモートプロトコルで間違ったタスクidを呼び出す</system:String>
 
     <system:String x:Key="Achievement.Linguist.Title">言語学者</system:String>
@@ -1825,7 +1825,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.Linguist.Conditions">インターフェース言語を切り替えてみる</system:String>
 
     <system:String x:Key="Achievement.StartupBoot.Title">起動時起動</system:String>
-    <system:String x:Key="Achievement.StartupBoot.Description">理論的には、起動時間が少し遅くなった</system:String>
+    <system:String x:Key="Achievement.StartupBoot.Description">理論的には、起動時間が少し遅くなった。</system:String>
     <system:String x:Key="Achievement.StartupBoot.Conditions">MAAを起動時に起動するように設定する</system:String>
 
     <system:String x:Key="Achievement.ClueObsession.Title">手がかり強迫症</system:String>
@@ -1850,7 +1850,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.TimeManagementMaster.Title">時間管理マスター</system:String>
     <system:String x:Key="Achievement.TimeManagementMaster.Description">わずかな時間も無駄にしない。</system:String>
-    <system:String x:Key="Achievement.TimeManagementMaster.Conditions">「{key=ScheduleSettings}」のすべてのタイマーにチェックを入れる</system:String>
+    <system:String x:Key="Achievement.TimeManagementMaster.Conditions">「{key=ScheduleSettings}」のすべてのタイマーをチェックする</system:String>
 
     <system:String x:Key="Achievement.DoubleSync.Title">人も物もきっちり</system:String>
     <system:String x:Key="Achievement.DoubleSync.Description">人員も把握して、物資も数え終えた。</system:String>
@@ -1890,7 +1890,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">全チャンネル放送</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Description">これでもう誰も見逃せない。</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">「{key=ExternalNotificationSettings}」のすべてのチャンネルを同時に有効にする</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">「{key=ExternalNotificationSettings}」ですべてのプラットフォームを同時に有効にする</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">バックヤード探検家</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Description">裏で何が記録されているか見てみよう。</system:String>
@@ -1902,10 +1902,10 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.OneMoreLook.Title">もう一度見る</system:String>
     <system:String x:Key="Achievement.OneMoreLook.Description">せっかく見たんだから、もう1枚更新しよう。</system:String>
-    <system:String x:Key="Achievement.OneMoreLook.Conditions">「{key=ScreenshotTest}」のプレビュー画像でもう一度スクリーンショット更新をクリックする</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Conditions">「{key=ScreenshotTest}」のプレビュー画像でもう一度クリックして、スクリーンショットを更新する</system:String>
 
     <system:String x:Key="Achievement.QueueExpansion.Title">隊列拡張</system:String>
-    <system:String x:Key="Achievement.QueueExpansion.Description">まずは流れを組み上げよう。</system:String>
+    <system:String x:Key="Achievement.QueueExpansion.Description">まずはフローを組み上げよう。</system:String>
     <system:String x:Key="Achievement.QueueExpansion.Conditions">タスクを1つ手動で追加する</system:String>
 
     <system:String x:Key="Achievement.QueueSimplifier.Title">フロー簡略化</system:String>
@@ -1924,7 +1924,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.OperatorRoster.Description">この一覧、先に1部保存しておこう。</system:String>
     <system:String x:Key="Achievement.OperatorRoster.Conditions">オペレーター一覧を1回クリップボードにエクスポートする</system:String>
 
-    <system:String x:Key="Achievement.SlackingOff.Title">寄り道</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Title">本業を怠る</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">本業に疲れたら、ちょっと別の遊びを。</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">ミニゲームを1回起動する</system:String>
     <!--  !Achievement  -->
