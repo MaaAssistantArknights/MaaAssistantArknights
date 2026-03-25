@@ -30,6 +30,7 @@ private:
     bool get_friend_clue();
     bool get_self_clue();
     bool use_clue();
+    bool remove_clue();
     bool proc_clue_vacancy();
     bool unlock_clue_exchange();
     bool back_to_reception_main();
