@@ -95,6 +95,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
                 existing.Progress = pair.Value.Progress;
                 existing.IsUnlocked = pair.Value.IsUnlocked;
                 existing.UnlockedTime = pair.Value.UnlockedTime;
+                existing.CustomData = pair.Value.CustomData;
             }
 
             AchievementTrackerHelper.Instance.Save();
