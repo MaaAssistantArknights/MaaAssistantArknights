@@ -37,6 +37,8 @@ private:
     bool send_clue();
     bool shift();
 
+    bool swipe_to_the_bottom_of_clue_list_on_the_right();
+
     bool m_receive_message_board = true;
     bool m_enable_clue_exchange = true;
     bool m_send_clue = true;

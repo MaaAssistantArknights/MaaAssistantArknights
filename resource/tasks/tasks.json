@@ -4195,6 +4195,11 @@
         "specificRect": [1080, 4, 1, 1],
         "rectMove": [650, 4, 1, 1]
     },
+    "InfrastClueListSwipeToTheBottomOnTheRight": {
+        "baseTask": "SlowlySwipeToTheDown",
+        "specificRect": [1080, 300, 20, 20],
+        "rectMove": [1080, 150, 20, 20]
+    },
     "InfrastOperListSwipeToTheLeft": {
         "baseTask": "SwipeToTheLeft",
         "specificRect": [400, 350, 20, 20],

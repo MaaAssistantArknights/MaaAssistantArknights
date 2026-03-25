@@ -189,6 +189,15 @@ bool asst::InfrastReceptionTask::remove_clue()
             ctrler()->click(pin_analyzer.get_result().rect);
             sleep(500);
         }
+        else {
+            // 向下滑动一点，可能是因为线索比较多导致的
+            swipe_to_the_bottom_of_clue_list_on_the_right();
+            sleep(500);
+            if (pin_analyzer.analyze()) {
+                ctrler()->click(pin_analyzer.get_result().rect);
+                sleep(500);
+            }
+        }
 
         // 移除线索后点击会客室图标来关闭侧边栏
         Matcher confirm_analyzer(ctrler()->get_image());
@@ -212,7 +221,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
 
     // 优先检测官服新增的“快捷置入”按钮，如果存在则尝试根据数字与空位一致时批量置入
     if (ProcessTask(*this, { "InfrastClueQuickInsert" }).set_retry_times(3).run()) {
-        // 先把线索都移除掉
+        // 先把线索都移除掉，避免因快捷赠送重复线索无法识别线索版上的线索导致线索达到上限，而无法获得新线索
         remove_clue();
 
         InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
@@ -367,4 +376,11 @@ bool asst::InfrastReceptionTask::shift()
 
     click_confirm_button();
     return true;
+}
+
+bool asst::InfrastReceptionTask::swipe_to_the_bottom_of_clue_list_on_the_right()
+{
+    bool ret = ProcessTask(*this, { "InfrastClueListSwipeToTheBottomOnTheRight" }).run();
+    sleep(500);
+    return ret;
 }
