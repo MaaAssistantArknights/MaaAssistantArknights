@@ -32,7 +32,7 @@
 #include "Task/Interface/DebugTask.h"
 #endif
 #ifdef __ANDROID__
-#include "Controller/Android/AndroidExternalLib.h"
+#include "Controller/MaaFwAndroidNativeController.h"
 #endif
 
 
@@ -56,11 +56,6 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
         OnnxSessions::get_instance().use_gpu(device_id);
         return true;
     } break;
-#ifdef __ANDROID__
-        case StaticOptionKey::AndroidExternalLib: {
-        return AndroidExternalLib::load(value);
-        }
-#endif
     default:
         Log.error(__FUNCTION__, "| unknown key:", static_cast<int>(key));
         break;
@@ -142,10 +137,6 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
             return true;
         }
-        else if (constexpr std::string_view Android = "Android"; value == Android) {
-            m_ctrler->set_touch_mode(TouchMode::Android);
-            return true;
-        }
         else if (constexpr std::string_view MaaFwAdb = "MaaFwAdb"; value == MaaFwAdb) {
             m_ctrler->set_touch_mode(TouchMode::MaaFwAdb);
             return true;
@@ -187,9 +178,6 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             return true;
         }
         break;
-    case InstanceOptionKey::ClientType:
-        m_ctrler->set_client_type(value);
-        return true;
     default:
         break;
     }
@@ -508,11 +496,26 @@ void Assistant::working_proc()
 {
     LogTraceFunction;
 
+#ifdef __ANDROID__
+    void* env = nullptr;
+    if (auto* android_ctrl = dynamic_cast<MaaFwAndroidNativeController*>(m_ctrler->get_underlying())) {
+        env = android_ctrl->attach_thread();
+        LogInfo << "working_proc: AttachThread env:" << env;
+    }
+#endif
+
     std::vector<TaskId> finished_tasks;
     while (true) {
         std::unique_lock<std::mutex> lock(m_mutex);
         if (m_thread_exit) {
             m_running = false;
+#ifdef __ANDROID__
+            if (env) {
+                if (auto* android_ctrl = dynamic_cast<MaaFwAndroidNativeController*>(m_ctrler->get_underlying())) {
+                    android_ctrl->detach_thread(env);
+                }
+            }
+#endif
             return;
         }
 
@@ -641,9 +644,11 @@ void asst::Assistant::call_proc()
     LogTraceFunction;
 
 #ifdef __ANDROID__
-    auto& lib = AndroidExternalLib::instance();
-    auto env = lib.AttachThread();
-    LogInfo << "Use Android AttachThread env: " << env;
+    void* env = nullptr;
+    if (auto* android_ctrl = dynamic_cast<MaaFwAndroidNativeController*>(m_ctrler->get_underlying())) {
+        env = android_ctrl->attach_thread();
+        LogInfo << "call_proc: AttachThread env:" << env;
+    }
 #endif
 
     while (true) {
@@ -718,10 +723,11 @@ void asst::Assistant::call_proc()
         append_callback(AsstMsg::AsyncCallInfo, cb_info);
     }
 
-#ifdef ANDROID
+#ifdef __ANDROID__
     if (env) {
-        LogInfo << "Use Android AttachThread";
-        lib.DetachThread(env);
+        if (auto* android_ctrl = dynamic_cast<MaaFwAndroidNativeController*>(m_ctrler->get_underlying())) {
+            android_ctrl->detach_thread(env);
+        }
     }
 #endif
 }

@@ -39,7 +39,10 @@ public:
     virtual bool key_down(int key) = 0;
     virtual bool key_up(int key) = 0;
 
-    virtual bool scroll(int dx, int dy) = 0;
+    virtual bool inactive() = 0;
+
+    // json::object get_info() const - ABI slot occupied, not called from MAA side
+    virtual void* get_info_placeholder() const = 0;
 };
 
 class MaaFwAdbControlUnitAPI : public MaaFwControlUnitAPI

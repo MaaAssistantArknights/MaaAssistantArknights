@@ -20,7 +20,7 @@ enum class ControllerType
 #endif
     MaaFwAdb,
 #ifdef __ANDROID__
-    Android,
+    MaaFwAndroidNative,
 #endif
 };
 

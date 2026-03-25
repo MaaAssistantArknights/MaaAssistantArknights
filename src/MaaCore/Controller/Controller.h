@@ -63,6 +63,8 @@ public:
 
     ControllerType get_controller_type() const noexcept;
 
+    ControllerAPI* get_underlying() const noexcept { return m_controller.get(); }
+
     cv::Mat get_image(bool raw = false);
     cv::Mat get_image_cache() const;
     bool screencap(bool allow_reconnect = false);
