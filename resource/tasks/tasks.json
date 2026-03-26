@@ -4374,9 +4374,9 @@
         "binThreshold": [180, 255],
         "roi": [33, 272, 85, 36],
         "ocrReplace": [
-            ["LT(?=\\d)", "LT-"],
             ["Lt", "LT"],
-            ["LT\\+", "LT-"]
+            ["LT(?=\\d)", "LT-"],
+            ["LT[^\\d]{0,3}(?=\\d)", "LT-"]
         ]
     },
     "SSSCloseTip": {

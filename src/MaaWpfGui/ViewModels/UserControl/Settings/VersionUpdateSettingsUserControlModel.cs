@@ -82,13 +82,13 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     public static string UiVersionDisplay => string.Join("\u200B", UiVersion.ToCharArray());
 
-    public static DateTime BuildDateTime { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildDateTime ?? DateTime.MinValue;
+    public static DateTimeOffset BuildDateTime { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildTime ?? DateTimeOffset.MinValue;
 
     public static string BuildDateTimeCurrentCultureString => BuildDateTime.ToLocalTimeString();
 
-    private static (DateTime DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType);
+    private static (DateTimeOffset DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType);
 
-    public (DateTime DateTime, string VersionName) ResourceInfo
+    public (DateTimeOffset DateTime, string VersionName) ResourceInfo
     {
         get => _resourceInfo;
         set => SetAndNotify(ref _resourceInfo, value);
@@ -96,27 +96,23 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     private static string _resourceVersion = _resourceInfo.VersionName;
 
-    private string _newResourceFoundInfo = string.Empty;
-
     public string NewResourceFoundInfo
     {
-        get => _newResourceFoundInfo;
+        get => field;
         set {
-            SetAndNotify(ref _newResourceFoundInfo, value);
+            SetAndNotify(ref field, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
         }
-    }
-
-    private string _newVersionFoundInfo = string.Empty;
+    } = string.Empty;
 
     public string NewVersionFoundInfo
     {
-        get => _newVersionFoundInfo;
+        get => field;
         set {
-            SetAndNotify(ref _newVersionFoundInfo, value);
+            SetAndNotify(ref field, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
         }
-    }
+    } = string.Empty;
 
     /// <summary>
     /// Gets or sets the resource version.
@@ -127,9 +123,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _resourceVersion, value);
     }
 
-    private static DateTime _resourceDateTime = _resourceInfo.DateTime;
+    private static DateTimeOffset _resourceDateTime = _resourceInfo.DateTime;
 
-    public DateTime ResourceDateTime
+    public DateTimeOffset ResourceDateTime
     {
         get => _resourceDateTime;
         set => SetAndNotify(ref _resourceDateTime, value);
@@ -152,9 +148,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         Instances.SettingsViewModel.UpdateWindowTitle();
     }
 
-    public static (DateTime DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
+    public static (DateTimeOffset DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
     {
-        bool isDefaultClient = new HashSet<string> { string.Empty, "Official", "Bilibili" }.Contains(clientType);
+        bool isDefaultClient = new HashSet<string> { Constants.Enums.ClientType.Official, Constants.Enums.ClientType.Bilibili }.Contains(clientType);
 
         string defaultJsonPath = Path.Combine(PathsHelper.ResourceDir, "version.json");
         var jsonPath = isDefaultClient
@@ -164,7 +160,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         string versionName;
         if (!File.Exists(defaultJsonPath) || (!isDefaultClient && !File.Exists(jsonPath)))
         {
-            return (DateTime.MinValue, string.Empty);
+            return (DateTimeOffset.MinValue, string.Empty);
         }
 
         var versionJson = LoadJson(jsonPath);
@@ -176,8 +172,8 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             : (string?)LoadJson(defaultJsonPath)?["last_updated"];
 
         var dateTime = lastUpdated == null
-            ? DateTime.MinValue
-            : DateTime.ParseExact(lastUpdated, "yyyy-MM-dd HH:mm:ss.fff", null);
+            ? DateTimeOffset.MinValue
+            : DateTimeOffset.ParseExact(lastUpdated, "yyyy-MM-dd HH:mm:ss.fff", null, System.Globalization.DateTimeStyles.AssumeUniversal);
 
         if (currentTime < poolTime && currentTime < activityTime)
         {
@@ -208,9 +204,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
-        typeof(UpdateVersionType),
-        ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, nameof(UpdateVersionType.Stable)));
+    private UpdateVersionType _versionType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable);
 
     /// <summary>
     /// Gets or sets the type of version to update.
@@ -239,9 +233,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         get => AllVersionTypeList.Where(v => AllowNightlyUpdates || v.Value != UpdateVersionType.Nightly).ToList();
     }
 
-    public bool AllowNightlyUpdates { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, bool.FalseString));
+    public bool AllowNightlyUpdates { get; set; } = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, false);
 
-    private bool _hasAcknowledgedNightlyWarning = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, bool.FalseString));
+    private bool _hasAcknowledgedNightlyWarning = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, false);
 
     public bool HasAcknowledgedNightlyWarning
     {
@@ -271,7 +265,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _forceGithubGlobalSource = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, bool.FalseString));
+    private bool _forceGithubGlobalSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, false);
 
     public bool ForceGithubGlobalSource
     {

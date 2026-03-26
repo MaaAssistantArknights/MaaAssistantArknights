@@ -19,5 +19,5 @@ namespace MaaWpfGui.Properties;
 [AttributeUsage(AttributeTargets.Assembly)]
 public class BuildDateTimeAttribute(string date) : Attribute
 {
-    public DateTime BuildDateTime { get; } = DateTime.ParseExact(date, "O", null, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
+    public DateTimeOffset BuildTime { get; } = DateTimeOffset.ParseExact(date, "O", null, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
 }

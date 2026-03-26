@@ -324,15 +324,15 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 ## Linking Code Evidence
 
 - 如果要指向具体代码行，不要写本地路径加行号，也不要写绝对路径。
-- 统一给出对应仓库的远端 GitHub `blob` 行号链接。
+- 统一给出对应仓库的远端 GitHub `blob` 行号链接，用尖括号包裹。
 - MaaAssistantArknights 仓库链接格式：
     - `https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/<commit>/<path>#L14-L20`
 - `<commit>` 必须是本次分析实际依据的代码版本：
     - 默认使用当前检出的 `HEAD`
     - 如果为了复核旧 issue 切到了某个 tag / commit，就使用那个版本解析后的 SHA
 - 例子：
-    - `https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/f8b64ef908d8b82bb71ba753b69a30ea658f9054/src/MaaWpfGui/Main/AsstProxy.cs#L1072-L1079`
-    - `https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/f8b64ef908d8b82bb71ba753b69a30ea658f9054/src/MaaWpfGui/Res/Localizations/zh-cn.xaml#L680-L695`
+    - <https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/f8b64ef908d8b82bb71ba753b69a30ea658f9054/src/MaaWpfGui/Main/AsstProxy.cs#L1072-L1079>
+    - <https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/f8b64ef908d8b82bb71ba753b69a30ea658f9054/src/MaaWpfGui/Res/Localizations/zh-cn.xaml#L680-L695>
 - 如果引用的是其他上游仓库或文档，也用对应远端链接，不要给本地文件行号。
 
 ## Example Heuristic
@@ -403,23 +403,19 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 2. 需要补充的日志或截图
 3. 需要补充的测试
 
-## 给 AI 的建议（可复制）
+## 给修复 AI 的建议（可复制）
 
 <details><summary>点击此处展开</summary>
 
 ~~~text
-已确认事实：
-- ...
+现象：
+[一句话描述用户可见的问题]
 
-已确认根因：
-- ...
+关键证据：
+[粘贴原始日志、堆栈、监控截图中的关键文本]
 
-请按下面要求修复：
-1. 优先修改这些文件：...
-2. 目标改动：...
-3. 不要采用这些修法：...
-4. 回归验证：...
-5. 如果暂时无法彻底修复，至少补上：...
+可能相关线索（待验证）：
+[根据日志/现象推测的可能方向，不保证准确，供参考]
 ~~~
 
 </details>
@@ -449,5 +445,5 @@ Translate the complete conclusion directly into English and paste it here. Note 
 - 如果 issue 版本很旧，要明确区分“当时的根因”和“当前分支是否已修复”。
 - 如果用户日志与当前代码不一致，先按用户版本 tag 复核；若确认已修，再看修复是否已进入 tag / release：已发版建议升级，未发版建议等待 release。
 - 如果回答里出现任务名、设置项、按钮名、提示文案，优先使用 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 的中文文案；必要时才在括号里补原始 key / `taskChain` / 枚举名。
-- 如果回答里引用了具体代码行，直接给远端 GitHub `blob` 行号链接，不要给本地路径加行号。
+- 如果回答里引用了具体代码行，直接给远端 GitHub `blob` 行号链接，用尖括号包裹，不要给本地路径加行号。
 - 如果证据表明问题已在新版本修复，明确建议用户升级；如果怀疑安装包、资源文件或配置损坏，明确建议重新下载或重建；如果判断为真实代码缺陷且暂无 workaround，明确建议等待开发者修复。

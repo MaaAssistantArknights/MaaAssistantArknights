@@ -755,15 +755,15 @@ public class AchievementTrackerHelper : PropertyChangedBase
         public static void Startup()
         {
             Instance.Unlock(AchievementIds.FirstLaunch);
-            var buildTimeInterval = (DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays;
-            var resourceTimeInterval = (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays;
+            var buildTimeInterval = (DateTimeOffset.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays;
+            var resourceTimeInterval = (DateTimeOffset.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays;
             var maxTimeInterval = Math.Max(buildTimeInterval, resourceTimeInterval);
             if (maxTimeInterval > 90)
             {
                 Instance.Unlock(AchievementIds.Martian);
             }
 
-            var totalHours = (DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalHours;
+            var totalHours = (DateTimeOffset.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalHours;
             if (totalHours <= 1)
             {
                 Instance.Unlock(AchievementIds.UpdateEarlyBird);

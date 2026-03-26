@@ -6,10 +6,10 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:taskQueue="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
@@ -410,7 +410,18 @@
                         Command="{s:Action LinkStart}"
                         Content="{DynamicResource LinkStart}"
                         IsEnabled="{c:Binding 'Inited and !TaskSettingVisibilities.Guide'}"
-                        Visibility="{c:Binding '!Inited or (Idle and !Stopping)'}" />
+                        Visibility="{c:Binding '!Inited or (Idle and !Stopping)'}">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
+                                <Setter Property="hc:IconElement.Geometry" Value="{x:Null}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ShowDeepSleepIcon}" Value="True">
+                                        <Setter Property="hc:IconElement.Geometry" Value="{StaticResource DeepSleep}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                     <Button
                         Width="100"
                         Height="50"

@@ -224,7 +224,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
 
             if (mall.IsCreditFightAvailable && fightStageEmpty)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("CreditFightWhenOF-1Warning", ConfigFactory.CurrentConfig.TaskQueue[taskIndex].Name, taskIndex + 1, stageIndex + 1), UiLogColor.Warning);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("CreditFightWhenOF-1Warning", ConfigFactory.CurrentConfig.TaskQueue[taskIndex].NameDisplay, taskIndex + 1, stageIndex + 1), UiLogColor.Warning);
             }
 
             var task = new AsstMallTask() {

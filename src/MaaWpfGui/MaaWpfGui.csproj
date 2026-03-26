@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- Project -->
   <PropertyGroup>
@@ -110,8 +110,6 @@
   <!-- Nuget Packages -->
   <ItemGroup>
     <PackageReference Include="CalcBinding" Version="2.5.2" />
-    <PackageReference Include="FluentEmail.Liquid" Version="3.0.2" />
-    <PackageReference Include="FluentEmail.MailKit" Version="3.0.2" />
     <PackageReference Include="Fody" Version="6.9.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -122,6 +120,7 @@
     <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
     <PackageReference Include="HandyControls" Version="3.6.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+    <PackageReference Include="MailKit" Version="4.15.1" />
     <PackageReference Include="MdXaml" Version="1.27.0" />
     <PackageReference Include="MdXaml.Html" Version="1.27.0" />
     <PackageReference Include="MdXaml.Plugins" Version="1.27.0" />

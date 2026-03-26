@@ -106,7 +106,7 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     /// <summary>
     /// Gets or sets a value indicating whether 隐藏不可用关卡
     /// </summary>
-    public bool HideUnavailableStage { get; set; } = true;
+    public bool HideUnavailableStage { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 手动输入关卡

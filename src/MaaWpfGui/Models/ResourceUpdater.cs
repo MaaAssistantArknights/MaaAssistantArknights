@@ -242,7 +242,7 @@ public static class ResourceUpdater
             return (CheckUpdateRetT.UnknownError, null, null);
         }
 
-        if (DateTime.Compare(currentVersionDateTime, versionTime) >= 0)
+        if (currentVersionDateTime >= versionTime)
         {
             return (CheckUpdateRetT.AlreadyLatest, null, null);
         }

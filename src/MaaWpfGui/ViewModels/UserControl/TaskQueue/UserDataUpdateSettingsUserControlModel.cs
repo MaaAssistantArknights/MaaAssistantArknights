@@ -23,6 +23,7 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities.ValueType;
+using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -102,7 +103,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             bool ret = false;
             if (operBoxTriggerDue)
             {
-                Instances.ToolboxViewModel.ResetOperBoxRecognitionState();
+                Execute.OnUIThread(Instances.ToolboxViewModel.ResetOperBoxRecognitionState);
                 ret = Instances.ToolboxViewModel.StartOperBoxRecognitionTask(startImmediately: false);
                 if (!ret)
                 {
@@ -113,7 +114,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
 
             if (depotTriggerDue)
             {
-                Instances.ToolboxViewModel.ResetDepotRecognitionState();
+                Execute.OnUIThread(Instances.ToolboxViewModel.ResetDepotRecognitionState);
                 ret = Instances.ToolboxViewModel.StartDepotRecognitionTask(false);
                 if (!ret)
                 {
@@ -130,7 +131,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             return ret ? (true, ids) : (null, []);
         }
 
-        private static bool IsTriggerDue(DateTime? lastSyncTime, UserDataUpdateTriggerInterval triggerInterval)
+        private static bool IsTriggerDue(DateTimeOffset? lastSyncTime, UserDataUpdateTriggerInterval triggerInterval)
         {
             if (triggerInterval == UserDataUpdateTriggerInterval.EveryTime)
             {
@@ -142,8 +143,8 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 return true;
             }
 
-            var now = DateTime.UtcNow.ToYjDate();
-            var lastDate = lastSyncTime.Value.ToYjDate();
+            var now = DateTimeOffset.UtcNow.ToYjDateTime().Date;
+            var lastDate = lastSyncTime.Value.ToYjDateTime().Date;
 
             return triggerInterval switch {
                 UserDataUpdateTriggerInterval.Daily => now > lastDate,

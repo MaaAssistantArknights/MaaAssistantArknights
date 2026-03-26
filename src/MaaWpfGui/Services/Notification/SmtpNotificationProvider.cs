@@ -11,18 +11,17 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using FluentEmail.Core;
-using FluentEmail.Liquid;
-using FluentEmail.MailKitSmtp;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
-using Microsoft.Extensions.Options;
+using MailKit.Net.Smtp;
+using MimeKit;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
@@ -94,42 +93,63 @@ public partial class SmtpNotificationProvider : IExternalNotificationProvider
             return false;
         }
 
-        Email.DefaultSender = new MailKitSender(new SmtpClientOptions
-        {
-            Server = smtpServer,
-            Port = smtpPort,
-            User = smtpUser,
-            Password = smtpPassword,
-            RequiresAuthentication = smtpRequiresAuthentication,
-            UseSsl = smtpUseSsl,
-            UsePickupDirectory = false,
-        });
-
-        Email.DefaultRenderer = new LiquidRenderer(new OptionsWrapper<LiquidRendererOptions>(new LiquidRendererOptions()));
-
         var emailFrom = SettingsViewModel.ExternalNotificationSettings.SmtpFrom;
         var emailTo = SettingsViewModel.ExternalNotificationSettings.SmtpTo;
 
+        if (string.IsNullOrWhiteSpace(emailFrom) || string.IsNullOrWhiteSpace(emailTo))
+        {
+            _logger.Error("Failed to send Email notification, sender or recipient is empty");
+            return false;
+        }
+
+        if (smtpRequiresAuthentication && (string.IsNullOrWhiteSpace(smtpUser) || string.IsNullOrWhiteSpace(smtpPassword)))
+        {
+            _logger.Error("Failed to send Email notification, authentication is enabled but credentials are incomplete");
+            return false;
+        }
+
         title = title.Replace("\r", string.Empty).Replace("\n", string.Empty);
         content = content.Replace("\r", string.Empty).Replace("\n", "<br/>");
+        string body = BuildEmailBody(title, content);
 
-        var email = Email
-            .From(emailFrom)
-            .To(emailTo)
-            .Subject($"{title}")
-            .Body(_emailTemplate.Replace("{title}", title).Replace("{content}", content), true);
-
-        var sendResult = await email.SendAsync();
-
-        if (sendResult.Successful)
+        try
         {
+            var message = new MimeMessage();
+            message.From.Add(MailboxAddress.Parse(emailFrom));
+            message.To.AddRange(InternetAddressList.Parse(emailTo));
+            message.Subject = title;
+            message.Body = new BodyBuilder { HtmlBody = body }.ToMessageBody();
+
+            using var client = new SmtpClient();
+            await client.ConnectAsync(smtpServer, smtpPort, smtpUseSsl);
+
+            if (smtpRequiresAuthentication)
+            {
+                await client.AuthenticateAsync(smtpUser, smtpPassword);
+            }
+
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
             _logger.Information("Successfully sent Email notification to {EmailTo}", emailTo);
             return true;
         }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to send Email notification to {EmailTo}", emailTo);
+        }
 
-        _logger.Warning("Failed to send Email notification to {EmailTo}, {SendResultErrorMessages}", emailTo, sendResult.ErrorMessages);
         return false;
     }
+
+    private static string BuildEmailBody(string title, string content) =>
+        _emailTemplate
+            .Replace("{greeting}", LocalizationHelper.GetString("ExternalNotificationEmailTemplateHello"))
+            .Replace("{title}", title)
+            .Replace("{content}", content)
+            .Replace("{footerLineOne}", LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineOne"))
+            .Replace("{footerLineTwo}", LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineTwo"))
+            .Replace("{officialSite}", LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkOfficialSite"))
+            .Replace("{copilotSite}", LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkCopilotSite"));
 
     private static readonly string _emailTemplate =
     $$"""
@@ -168,7 +188,7 @@ public partial class SmtpNotificationProvider : IExternalNotificationProvider
     <h1 class="title">Maa Assistant Arknights</h1>
       
     <div class="heading">
-        <p>{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateHello")}}</p>
+        <p>{greeting}</p>
     </div>
       
     <hr />
@@ -182,9 +202,9 @@ public partial class SmtpNotificationProvider : IExternalNotificationProvider
       
     <div class="footer">
         <p>
-        {{LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineOne")}}
+        {footerLineOne}
         </p>
-        <p>{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineTwo")}}</p>
+        <p>{footerLineTwo}</p>
         <p>
         <a class="space" href="https://github.com/MaaAssistantArknights">
             GitHub
@@ -192,8 +212,8 @@ public partial class SmtpNotificationProvider : IExternalNotificationProvider
         <a class="space" href="https://space.bilibili.com/3493274731940507">
             Bilibili
         </a>
-        <a class="space" href="https://maa.plus">{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkOfficialSite")}}</a>
-        <a class="space" href="https://prts.plus">{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkCopilotSite")}}</a>
+        <a class="space" href="https://maa.plus">{officialSite}</a>
+        <a class="space" href="https://prts.plus">{copilotSite}</a>
         </p>
     </div>
     </html>

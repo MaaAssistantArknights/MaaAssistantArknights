@@ -59,35 +59,6 @@ public class ConfigConverter
         {
             ret &= ConvertTaskQueue();
         }
-        else if (configurations != null) // 保证 configurations 可用
-        {
-            if (parsedOld["Configurations"] is JObject oldConfigurations)
-            {
-                // 删除多余配置
-                var extraKeys = configurations.Properties()
-                    .Select(p => p.Name)
-                    .Except(oldConfigurations.Properties().Select(p => p.Name))
-                    .ToList();
-
-                foreach (var key in extraKeys)
-                {
-                    configurations.Remove(key);
-                }
-            }
-
-            // 6.3.0-beta 出错用户，检查 TaskQueue
-            bool needConvert2 = configurations.Properties()
-                .Where(p => p.Value is JObject config && config.ContainsKey("TaskQueue"))
-                .All(p => {
-                    var taskQueue = ((JObject)p.Value)["TaskQueue"];
-                    return taskQueue == null || (taskQueue is JArray jsonArray && jsonArray.Count == 0);
-                });
-
-            if (needConvert2)
-            {
-                ret &= ConvertTaskQueue();
-            }
-        }
 
         return ret;
     }

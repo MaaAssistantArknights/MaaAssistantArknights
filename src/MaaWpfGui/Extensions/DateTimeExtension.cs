@@ -46,6 +46,11 @@ public static class DateTimeExtension
         return dt.ToYjDateTime().Date;
     }
 
+    public static DateTimeOffset ToYjDateTime(this DateTimeOffset dt)
+    {
+        return dt.ToOffset(TimeSpan.FromHours(_clientTypeTimezone[ClientType])).AddHours(-YjDayStartHour);
+    }
+
     public static string ToFormattedString(this DateTime dt)
     {
         return dt.ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo);
@@ -53,15 +58,27 @@ public static class DateTimeExtension
 
     public static bool IsAprilFoolsDay(this DateTime dt)
     {
+        // return true;
         return dt is { Month: 4, Day: 1 };
     }
 
     public static CultureInfo CustomCultureInfo => LocalizationHelper.CustomCultureInfo;
 
+    public static string ToLocalTimeString(this DateTimeOffset dt, string? format = null)
+    {
+        var localTime = dt.ToLocalTime();
+        if (!string.IsNullOrEmpty(format))
+        {
+            return localTime.ToString(format, CustomCultureInfo);
+        }
+
+        var dateTimeFormat = LocalizationHelper.FormatDateTime(localTime);
+        return localTime.ToString($"{dateTimeFormat} HH:mm:ss", CustomCultureInfo);
+    }
+
     public static string ToLocalTimeString(this DateTime dt, string? format = null)
     {
-        var localTime = dt.Kind switch
-        {
+        var localTime = dt.Kind switch {
             DateTimeKind.Utc => dt.ToLocalTime(),
             DateTimeKind.Local => dt,
             _ => DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToLocalTime(),

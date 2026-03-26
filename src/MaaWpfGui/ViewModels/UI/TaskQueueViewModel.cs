@@ -271,6 +271,8 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public ObservableCollection<LogCardItemViewModel> LogCardViewModels { get; private set; } = [];
 
+    private static readonly Random _logRandom = new();
+
     private bool TryMergeIntoLastCard(string content, string color, string weight, ToolTip? toolTip)
     {
         // Merge into last existing card when it exists and is not sealed.
@@ -281,8 +283,23 @@ public class TaskQueueViewModel : Screen
 
         var lastCard = LogCardViewModels[^1];
         var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
+
+        var isAprilFools = DateTime.UtcNow.ToYjDate().IsAprilFoolsDay();
+        if (isAprilFools)
+        {
+            log.Content = "thinking...";
+        }
+
         LogItemViewModels.Add(log);
         lastCard.Items.Add(log);
+
+        if (isAprilFools)
+        {
+            Execute.OnUIThread(async () => {
+                await Task.Delay(_logRandom.Next(1000, 5000));
+                log.Content = content;
+            });
+        }
         return true;
     }
 
@@ -757,6 +774,7 @@ public class TaskQueueViewModel : Screen
 
         _isUpdatingDatePrompt = true;
         UpdateDatePromptAndStagesLocally();
+        Execute.OnUIThread(() => NotifyOfPropertyChange(nameof(ShowDeepSleepIcon)));
 
         var delayTime = CalculateRandomDelay();
         _ = Task.Run(async () => {
@@ -991,6 +1009,8 @@ public class TaskQueueViewModel : Screen
     }
 
     public DayOfWeek CurDayOfWeek { get; private set; }
+
+    public bool ShowDeepSleepIcon => DateTime.UtcNow.ToYjDate().IsAprilFoolsDay();
 
     /// <summary>
     /// Determine whether the specified stage is open
@@ -1678,8 +1698,8 @@ public class TaskQueueViewModel : Screen
         var resourceDateTimeLong = SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString;
         AddLog($"Build Time:\n{buildDateTimeLong}\nResource Time:\n{resourceDateTimeLong}");
 
-        var buildTimeInterval = (DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays;
-        var resourceTimeInterval = (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays;
+        var buildTimeInterval = (DateTimeOffset.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays;
+        var resourceTimeInterval = (DateTimeOffset.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays;
         var maxTimeInterval = Math.Max(buildTimeInterval, resourceTimeInterval);
         if (maxTimeInterval > 90)
         {

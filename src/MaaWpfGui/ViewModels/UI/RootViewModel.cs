@@ -215,6 +215,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     [
         "/Res/Img/EasterEgg/1.gif",
         "/Res/Img/EasterEgg/2.gif",
+        "/Res/Img/EasterEgg/3.gif",
     ];
 
     private static int _gifIndex = -1;

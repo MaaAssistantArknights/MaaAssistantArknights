@@ -197,7 +197,7 @@ jobs:
         with:
           repository: MaaXYZ/MaaFramework
           latest: true
-          fileName: '*win-x86_64*.zip'
+          fileName: "*win-x86_64*.zip"
           extract: true
           out-file-path: MaaFramework-temp
 
@@ -205,6 +205,11 @@ jobs:
         if: matrix.arch == 'x64'
         run: |
           cp MaaFramework-temp/bin/*Win32ControlUnit* install/
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
@@ -214,7 +219,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-${{ matrix.arch }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-nuget-${{ hashFiles('**/*.csproj', 'global.json') }}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
