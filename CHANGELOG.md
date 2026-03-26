@@ -6,30 +6,26 @@
 
 ### 改进 | Improved
 
-* 使用DateTimeOffset替代DateTime @status102
-* Log头时间从UTC时间改为Local时间 @status102
-* 不再默认启用`在下拉框中隐藏当日未开放关卡` @status102
-* Ocr内部log在without_det时也对rect输出进行基于base_roi的偏移 @status102
-* TaskNameDisplay @status102
+* 使用 DateTimeOffset 替代 DateTime @status102
+* Log 头时间从 UTC 时间改为 Local 时间 @status102
+* 不再默认启用 `在下拉框中隐藏当日未开放关卡` @status102
+* Ocr 内部 log 在 without_det 时也对 rect 输出进行基于 base_roi 的偏移 @status102
 
 ### 修复 | Fix
 
 * 修复 build waring，smtp 改用新版本 MailKit @ABA2396
-* 剿灭关卡名OcrReplace @status102
+* 剿灭关卡名 OcrReplace @status102
 * 在非 UI 线程调用清空库存数据导致任务添加失败 @ABA2396
-* 日志记录中使用源石TaskName @status102
+* 日志记录中使用源石 TaskName @status102
 * 任务开始/完成 无法显示任务名 @ABA2396
 * 更新 MaaFramework 文件名格式和 .NET SDK 版本 @AnnAngela
 * 移除过时的配置迁移兼容逻辑 @status102
-* 有猪删多了 @ABA2396
-* 剿灭战斗完成roi @status102
-* 修复CN剿灭后识别, 并统一全客户端类型识别 @status102
+* 剿灭战斗完成 roi @status102
+* 修复 CN 剿灭后识别, 并统一全客户端类型识别 @status102
 
 ### 其他 | Other
 
-* DateTimeOffset基础支持 @status102
-* Revise linking guidelines and AI suggestions @MistEO
-* EN @Constrat
+* DateTimeOffset 基础支持 @status102
 * 修复错误描述: `过期关卡重置` @status102
 * 图图漏了 @status102
-* revert resource @status102
+* Revise linking guidelines and AI suggestions @MistEO
