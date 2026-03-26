@@ -37,7 +37,7 @@ bool asst::ParadoxRecognitionTask::_run()
     LogInfo << __FUNCTION__ << "navigate name:" << m_navigate_name;
     m_paradox_opers.erase(m_paradox_opers.begin());
 
-    const auto& all_oper_names = BattleData.get_all_opers();
+    const auto& all_oper_names = BattleData.get_all_chars();
     const auto& it = std::find_if(all_oper_names.begin(), all_oper_names.end(), [&](const auto& pair) {
         return pair.first.ends_with(m_navigate_name); // 应该没重复吧
     });

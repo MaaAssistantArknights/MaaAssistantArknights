@@ -18,7 +18,7 @@ public:
 
     const std::string get_id(const std::string& name) const
     {
-        if (const auto props = find_oper(name); props != nullptr) {
+        if (const auto& props = find_oper(name); props != nullptr) {
             return props->id;
         }
         return EmptyId;
@@ -26,7 +26,7 @@ public:
 
     const std::string get_id(battle::Role role, const std::string& name) const
     {
-        if (const auto props = find_oper(role, name); props != nullptr) {
+        if (const auto& props = find_oper(role, name); props != nullptr) {
             return props->id;
         }
         return EmptyId;
@@ -39,8 +39,8 @@ public:
         }
 
         // compatible with old logic: if multiple roles have the same name, return the first one found in m_chars.
-        if (auto it = std::ranges::find_if(m_chars, [&name](const auto& pair) { return pair.second->name == name; });
-            it != m_chars.cend()) {
+        auto it = std::ranges::find_if(m_chars, [&name](const auto& pair) { return pair.second->name == name; });
+        if (it != m_chars.cend()) {
             return it->second;
         }
         return nullptr;
@@ -55,11 +55,26 @@ public:
         if (role_it == m_chars_by_role.cend()) {
             return nullptr;
         }
-        auto char_it = role_it->second.find(name);
-        if (char_it == role_it->second.cend()) {
+        auto oper_it = std::ranges::find_if(role_it->second, [&name](const auto& pair) {
+            return pair.second->name == name;
+        });
+        if (oper_it != role_it->second.cend()) {
+            return oper_it->second;
+        }
+        return nullptr;
+    }
+
+    const std::shared_ptr<battle::OperProps> find_oper_by_id(const std::string& id) const
+    {
+        if (id.empty()) {
             return nullptr;
         }
-        return char_it->second;
+
+        if (auto it = std::ranges::find_if(m_chars, [&id](const auto& pair) { return pair.second->id == id; });
+            it != m_chars.cend()) {
+            return it->second;
+        }
+        return nullptr;
     }
 
     battle::Role get_role(const std::string& name) const
@@ -69,33 +84,33 @@ public:
         }
 
         // compatible with old logic: if multiple roles have the same name, return the first one found in m_chars.
-        static constexpr battle::Role kRoleOrder[] = { battle::Role::Caster,  battle::Role::Medic,
-                                                       battle::Role::Pioneer, battle::Role::Warrior,
-                                                       battle::Role::Special, battle::Role::Tank,
-                                                       battle::Role::Sniper,  battle::Role::Support,
-                                                       battle::Role::Drone };
-        for (const battle::Role role : kRoleOrder) {
-            if (find_oper(role, name) != nullptr) {
-                return role;
-            }
+        const auto& oper_it = find_oper(name);
+        if (oper_it) {
+            return oper_it->role;
         }
         return battle::Role::Unknown;
     }
 
     int get_rarity(battle::Role role, const std::string& name) const
     {
-        if (const auto props = find_oper(role, name); props != nullptr) {
-            return props->rarity;
+        if (const auto& oper = find_oper(role, name); oper != nullptr) {
+            return oper->rarity;
         }
         return 0;
     }
 
     // Legacy wrapper (name-only). If name is ambiguous across roles, returns 0.
-    int get_rarity(const std::string& name) const { return get_rarity(get_role(name), name); }
+    int get_rarity(const std::string& name) const
+    {
+        if (const auto& oper = find_oper(name); oper != nullptr) {
+            return oper->rarity;
+        }
+        return 0;
+    }
 
     battle::LocationType get_location_type(battle::Role role, const std::string& name) const
     {
-        if (const auto props = find_oper(role, name); props != nullptr) {
+        if (const auto& props = find_oper(role, name); props != nullptr) {
             return props->location_type;
         }
         return battle::LocationType::Invalid;
@@ -111,7 +126,7 @@ public:
 
     const battle::AttackRange& get_range(battle::Role role, const std::string& name, size_t index) const
     {
-        const auto props = find_oper(role, name);
+        const auto& props = find_oper(role, name);
         if (props == nullptr) {
             return EmptyRange;
         }
@@ -139,7 +154,7 @@ public:
 
     const std::vector<std::string>& get_tokens(battle::Role role, const std::string& name) const
     {
-        if (const auto props = find_oper(role, name); props != nullptr) {
+        if (const auto& props = find_oper(role, name); props != nullptr) {
             return props->tokens;
         }
         static const std::vector<std::string> Empty;
@@ -162,7 +177,7 @@ public:
 
     const std::unordered_set<std::string>& get_all_oper_names() const noexcept { return m_opers; }
 
-    const std::unordered_map<std::string, std::shared_ptr<battle::OperProps>>& get_all_opers() const noexcept
+    const std::unordered_map<std::string, std::shared_ptr<battle::OperProps>>& get_all_chars() const noexcept
     {
         return m_chars;
     }
@@ -173,8 +188,8 @@ protected:
     virtual bool parse(const json::value& json) override;
 
 private:
-    // role -> (name -> pointer to m_chars[id].second)
-    std::map<battle::Role, std::unordered_map<std::string, std::shared_ptr<battle::OperProps>>> m_chars_by_role;
+    std::map<battle::Role, std::unordered_map<std::string, std::shared_ptr<battle::OperProps>>>
+        m_chars_by_role;                                                         // role -> (name -> oper)
     std::unordered_map<std::string, std::shared_ptr<battle::OperProps>> m_chars; // id -> oper
 
     std::unordered_map<std::string, battle::AttackRange> m_ranges;
