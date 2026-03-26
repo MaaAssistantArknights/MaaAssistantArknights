@@ -16,7 +16,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 const SOURCE_LANG = process.env.SOURCE_LANG || 'zh-cn';
-const TARGET_LANGS = (process.env.TARGET_LANGS || 'en-us,zh-tw,ja-jp,ko-kr').split(',');
+const TARGET_LANGS = (process.env.TARGET_LANGS || 'en-us,zh-tw,ja-jp,ko-kr')
+  .split(',')
+  .map((lang) => lang.trim())
+  .filter(Boolean);
 
 const LANG_NAMES = {
   'en-us': 'English',

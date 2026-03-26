@@ -30,6 +30,17 @@ const EXCLUDED_FILES = [
   'i18n-guide.md',  // 国际化指南只需简中版本
 ];
 
+// 验证 OPENAI_API_KEY
+if (!process.env.OPENAI_API_KEY) {
+  console.error(
+    chalk.red(
+      '[i18n] Missing OPENAI_API_KEY environment variable. ' +
+        'Please set it in your environment or .env file before running docs/tools/i18n/translate.mjs.'
+    )
+  );
+  process.exit(1);
+}
+
 // 初始化 OpenAI 客户端
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -183,7 +194,11 @@ async function main() {
   console.log(chalk.blue(`Found ${files.length} file(s) to translate\n`));
   
   // 并发控制翻译
-  const CONCURRENCY = parseInt(process.env.CONCURRENCY || '3');
+  let CONCURRENCY = parseInt(process.env.CONCURRENCY || '3', 10);
+  if (Number.isNaN(CONCURRENCY) || CONCURRENCY <= 0) {
+    console.warn(chalk.yellow(`[i18n] Invalid CONCURRENCY value "${process.env.CONCURRENCY}", using default: 3`));
+    CONCURRENCY = 3;
+  }
   const queue = [...files];
   const results = [];
   

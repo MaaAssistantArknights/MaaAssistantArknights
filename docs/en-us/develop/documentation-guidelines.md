@@ -46,7 +46,7 @@ Accepted container types and their default titles are:
 - `warning` Warning
 - `danger` Danger
 - `details` Details
-- `demo-warpper` ==Special Container==
+- `demo-wrapper` ==Special Container==
 
 ### Container Examples
 
@@ -111,7 +111,7 @@ For some reason, you might need to temporarily black out part of the document. I
 
 You can use the syntax `!!Content to be hidden!!{Configuration (Optional)}` to use it. The default effect is as follows:
 
-!!It always feels like reading Moegirlpedia (strikethrough!!
+!!It always feels like reading Moegirlpedia (strikethrough)!!
 
 The following configurations are available:
 
