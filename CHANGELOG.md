@@ -4,6 +4,14 @@
 
 从 v6.7.0 开始，MAA 正式接入 DeepSleep。
 
+#### 成就 DLC #3 同步上线
+
+除了 DeepSleep，本次更新也带来了成就 DLC #3。
+
+* 成就现已支持按 DLC 期数搜索；
+* 补充了一批新的成就触发与描述；
+* 多语言文本与部分触发细节也一并完成调整。
+
 #### 多项细节问题一并修复
 
 除了 DeepSleep，本次更新也处理了一批影响体验的细节问题。
@@ -15,6 +23,14 @@
 ----
 
 Starting with v6.7.0, MAA officially introduces DeepSleep.
+
+#### Achievement DLC #3 Included
+
+Alongside DeepSleep, this update also brings Achievement DLC #3.
+
+* Achievements are now organized by DLC release phase;
+* A new batch of achievement triggers and descriptions has been added;
+* Multilingual texts and several trigger details have also been refined.
 
 #### Various UX Fixes Included
 
@@ -31,6 +47,7 @@ Besides DeepSleep, this update also fixes several small but noticeable issues.
 ### 新增 | New
 
 * 正式接入 DeepSleep @ABA2396
+* 新增成就 DLC#3，支持按 DLC 期数搜索并补充新的成就触发与描述 @ABA2396 @Constrat @HX3N @Manicsteiner
 
 ### 改进 | Improved
 
@@ -46,6 +63,7 @@ Besides DeepSleep, this update also fixes several small but noticeable issues.
 * 修复在非 UI 线程调用清空库存数据导致任务添加失败 @ABA2396
 * 修复日志记录中使用源石 TaskName 的问题 @status102
 * 修复任务开始/完成时无法显示任务名 @ABA2396
+* 修复读取备份成就时不会加载 CustomData 的问题 @ABA2396
 * 更新 MaaFramework 文件名格式和 .NET SDK 版本 @AnnAngela
 * 移除过时的配置迁移兼容逻辑 @status102
 * 修复剿灭战斗完成 roi @status102
