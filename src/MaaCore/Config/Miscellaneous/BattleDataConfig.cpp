@@ -15,11 +15,11 @@ bool asst::BattleDataConfig::parse(const json::value& json)
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         std::shared_ptr<battle::OperProps> data_ptr = std::make_shared<battle::OperProps>();
         data_ptr->id = id;
-        std::string name = char_data_json.at("name").as_string();
-        std::string name_en = char_data_json.at("name_en").as_string();
-        std::string name_jp = char_data_json.at("name_jp").as_string();
-        std::string name_kr = char_data_json.at("name_kr").as_string();
-        std::string name_tw = char_data_json.at("name_tw").as_string();
+        std::string name = char_data_json.get("name", "");
+        std::string name_en = char_data_json.get("name_en", "");
+        std::string name_jp = char_data_json.get("name_jp", "");
+        std::string name_kr = char_data_json.get("name_kr", "");
+        std::string name_tw = char_data_json.get("name_tw", "");
 
         data_ptr->name = name;
         data_ptr->name_en = name_en;
@@ -33,7 +33,7 @@ bool asst::BattleDataConfig::parse(const json::value& json)
             { "TANK", battle::Role::Tank },       { "WARRIOR", battle::Role::Warrior },
         };
 
-        if (auto iter = RoleMap.find(char_data_json.at("profession").as_string()); iter == RoleMap.cend()) {
+        if (auto iter = RoleMap.find(char_data_json.get("profession", "")); iter == RoleMap.cend()) {
             data_ptr->role = battle::Role::Drone;
         }
         else {
@@ -52,8 +52,8 @@ bool asst::BattleDataConfig::parse(const json::value& json)
             { "RANGED", battle::LocationType::Ranged },
             { "ALL", battle::LocationType::All },
         };
-        if (auto iter = PositionMap.find(char_data_json.at("position").as_string()); iter == PositionMap.cend()) {
-            Log.warn("Unknown position", char_data_json.at("position").as_string());
+        if (auto iter = PositionMap.find(char_data_json.get("position", "")); iter == PositionMap.cend()) {
+            Log.warn("Unknown position", char_data_json.get("position", ""));
             data_ptr->location_type = battle::LocationType::Invalid;
         }
         else {
