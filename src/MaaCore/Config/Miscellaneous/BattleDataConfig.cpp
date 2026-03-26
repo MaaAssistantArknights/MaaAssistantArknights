@@ -7,6 +7,11 @@
 bool asst::BattleDataConfig::parse(const json::value& json)
 {
     LogTraceFunction;
+    m_chars_by_role.clear();
+    m_chars.clear();
+    m_ranges.clear();
+    m_opers.clear();
+    m_drones_confusing.clear();
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         std::shared_ptr<battle::OperProps> data_ptr = std::make_shared<battle::OperProps>();
         data_ptr->id = id;
