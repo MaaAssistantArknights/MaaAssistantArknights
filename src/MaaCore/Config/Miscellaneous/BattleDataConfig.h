@@ -55,9 +55,8 @@ public:
         if (role_it == m_chars_by_role.cend()) {
             return nullptr;
         }
-        auto oper_it = std::ranges::find_if(role_it->second, [&name](const auto& pair) {
-            return pair.second->name == name;
-        });
+        auto oper_it =
+            std::ranges::find_if(role_it->second, [&name](const auto& pair) { return pair.second->name == name; });
         if (oper_it != role_it->second.cend()) {
             return oper_it->second;
         }
@@ -70,8 +69,8 @@ public:
             return nullptr;
         }
 
-        if (auto it = std::ranges::find_if(m_chars, [&id](const auto& pair) { return pair.second->id == id; });
-            it != m_chars.cend()) {
+        auto it = m_chars.find(id);
+        if (it != m_chars.cend()) {
             return it->second;
         }
         return nullptr;
@@ -119,7 +118,10 @@ public:
     // Legacy wrapper (name-only). If name is ambiguous across roles, returns LocationType::Invalid.
     battle::LocationType get_location_type(const std::string& name) const
     {
-        return get_location_type(get_role(name), name);
+        if (const auto& props = find_oper(name); props != nullptr) {
+            return props->location_type;
+        }
+        return battle::LocationType::Invalid;
     }
 
     static inline const battle::AttackRange& EmptyRange { { 0, 0 } };
@@ -169,7 +171,7 @@ public:
 
     bool is_name_invalid(battle::Role role, const std::string& name) const
     {
-        return name.empty() || get_id(role, name).empty();
+        return name.empty() || find_oper(role, name) == nullptr;
     }
 
     // Legacy wrapper (name-only). If name is ambiguous across roles, returns true.
