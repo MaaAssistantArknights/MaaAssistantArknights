@@ -1836,6 +1836,98 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
     <system:String x:Key="Achievement.Time325.Description">이 숫자가 무슨 의미인지 아시죠?</system:String>
     <system:String x:Key="Achievement.Time325.Conditions">3/13/23시 25분에 여전히 MAA 사용 중</system:String>
+    
+    <system:String x:Key="Achievement.PallasStarter.Title">팔라스 애호가</system:String>
+    <system:String x:Key="Achievement.PallasStarter.Description">위대한 전사들이여, 나는 그대들 곁에서 함께 용맹히 싸우리라.</system:String>
+    <system:String x:Key="Achievement.PallasStarter.Conditions">{key=AutoRoguelike}에서 팔라스를 ｢{key=StartingCoreChar}｣로 사용</system:String>
+
+    <system:String x:Key="Achievement.PallasCheers.Title">팔라스에게 한잔</system:String>
+    <system:String x:Key="Achievement.PallasCheers.Description">다음에는 이렇게 많이 마시면 안 돼요...</system:String>
+    <system:String x:Key="Achievement.PallasCheers.Conditions">｢{key=AchievementSettings}｣에서 팔라스 초상화를 클릭</system:String>
+
+    <system:String x:Key="Achievement.SortingMaster.Title">정렬의 달인</system:String>
+    <system:String x:Key="Achievement.SortingMaster.Description">이것도 끌 수 있다고요?</system:String>
+    <system:String x:Key="Achievement.SortingMaster.Conditions">마우스로 ｢{key=Farming}｣ 작업 또는 설정 항목 순서를 드래그해 변경</system:String>
+
+    <system:String x:Key="Achievement.TimeManagementMaster.Title">시간 관리의 달인</system:String>
+    <system:String x:Key="Achievement.TimeManagementMaster.Description">한순간의 시간도 놓치지 않아요.</system:String>
+    <system:String x:Key="Achievement.TimeManagementMaster.Conditions">｢{key=ScheduleSettings}｣의 모든 타이머를 체크</system:String>
+
+    <system:String x:Key="Achievement.DoubleSync.Title">오퍼레이터도 물자도 완료</system:String>
+    <system:String x:Key="Achievement.DoubleSync.Description">오퍼레이터랑 물자 전부 확인했어요.</system:String>
+    <system:String x:Key="Achievement.DoubleSync.Conditions">단일 ｢{key=UserDataUpdate}｣에서 오퍼레이터와 창고를 동시에 동기화</system:String>
+
+    <system:String x:Key="Achievement.ResumeRecord.Title">기록 재개</system:String>
+    <system:String x:Key="Achievement.ResumeRecord.Description">이렇게 오래 지나고서야, 드디어 기록을 다시 시작하네요.</system:String>
+    <system:String x:Key="Achievement.ResumeRecord.Conditions">최소 7일 동안 동기화하지 않은 뒤 다시 ｢{key=UserDataUpdate}｣를 1회 완료</system:String>
+
+    <system:String x:Key="Achievement.ChangelogReader.Title">업데이트 내용부터 확인</system:String>
+    <system:String x:Key="Achievement.ChangelogReader.Description">새 버전은 바로 안 받아도 되지만, 뭐가 바뀌었는지는 봐야죠.</system:String>
+    <system:String x:Key="Achievement.ChangelogReader.Conditions">｢{key=ShowChangelog}｣를 수동으로 1회 열기</system:String>
+
+    <system:String x:Key="Achievement.LatestVersionInspector.Title">업데이트 강박증</system:String>
+    <system:String x:Key="Achievement.LatestVersionInspector.Description">헛걸음이었지만, 적어도 마음은 놓였네요.</system:String>
+    <system:String x:Key="Achievement.LatestVersionInspector.Conditions">수동으로 업데이트를 확인해 이미 최신 버전임을 확인</system:String>
+
+    <system:String x:Key="Achievement.TimeMachine.Title">타임머신</system:String>
+    <system:String x:Key="Achievement.TimeMachine.Description">이 순간의 영광을, 미래에 닿을 수 있는 곳에 봉인한다.</system:String>
+    <system:String x:Key="Achievement.TimeMachine.Conditions">도전과제 저장 데이터를 1회 백업</system:String>
+
+    <system:String x:Key="Achievement.LoadLastSave.Title">세이브 로드</system:String>
+    <system:String x:Key="Achievement.LoadLastSave.Description">다시 할 수 있다면, 이번엔 제대로 해야죠.</system:String>
+    <system:String x:Key="Achievement.LoadLastSave.Conditions">도전과제 저장 데이터를 1회 복원</system:String>
+
+    <system:String x:Key="Achievement.AchievementObserver.Title">도전과제 관찰자</system:String>
+    <system:String x:Key="Achievement.AchievementObserver.Description">내가 뭘 했는지 한번 돌아보자.</system:String>
+    <system:String x:Key="Achievement.AchievementObserver.Conditions">｢{key=AchievementList}｣를 1회 열기</system:String>
+
+    <system:String x:Key="Achievement.DisappearTrick.Title">내가 없어져볼게</system:String>
+    <system:String x:Key="Achievement.DisappearTrick.Description">하나 둘 셋! 얍!</system:String>
+    <system:String x:Key="Achievement.DisappearTrick.Conditions">｢{key=MinimizeToTray}｣를 활성화</system:String>
+
+    <system:String x:Key="Achievement.TitleTweaker.Title">제목 편집자</system:String>
+    <system:String x:Key="Achievement.TitleTweaker.Description">이 제목은 이제 제껍니다.</system:String>
+    <system:String x:Key="Achievement.TitleTweaker.Conditions">｢{key=TitleBarDisplayContent}｣를 1회 변경</system:String>
+
+    <system:String x:Key="Achievement.AllChannelBroadcast.Title">전 채널 방송</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Description">이제 누구도 못 놓치겠네요.</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">모든 ｢{key=ExternalNotificationSettings}｣ 채널을 동시에 활성화</system:String>
+
+    <system:String x:Key="Achievement.BackstageExplorer.Title">백스테이지 탐험가</system:String>
+    <system:String x:Key="Achievement.BackstageExplorer.Description">뒤에서 뭘 기록했는지 좀 볼까요?</system:String>
+    <system:String x:Key="Achievement.BackstageExplorer.Conditions">｢{key=OpenDebugFolder}｣를 1회 사용</system:String>
+
+    <system:String x:Key="Achievement.ConnectionTester.Title">연결이 됐나?</system:String>
+    <system:String x:Key="Achievement.ConnectionTester.Description">먼저 한번 확인하지 않으면 괜히 불안해요.</system:String>
+    <system:String x:Key="Achievement.ConnectionTester.Conditions">｢{key=ScreenshotTest}｣를 1회 성공적으로 실행하고 스크린샷을 표시</system:String>
+
+    <system:String x:Key="Achievement.OneMoreLook.Title">한 번 더 보기</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Description">한 번이나 두 번이나 똑같으니, 한 장 더 보도록 하죠.</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Conditions">｢{key=ScreenshotTest}｣ 미리보기에서 다시 스크린샷 새로고침 클릭</system:String>
+
+    <system:String x:Key="Achievement.QueueExpansion.Title">대기열 확장</system:String>
+    <system:String x:Key="Achievement.QueueExpansion.Description">우선 흐름부터 짜 두자고요.</system:String>
+    <system:String x:Key="Achievement.QueueExpansion.Conditions">작업을 1개 수동으로 추가</system:String>
+
+    <system:String x:Key="Achievement.QueueSimplifier.Title">대기열 정리</system:String>
+    <system:String x:Key="Achievement.QueueSimplifier.Description">복잡한 걸 덜어내는 것도 최적화죠.</system:String>
+    <system:String x:Key="Achievement.QueueSimplifier.Conditions">작업을 1개 수동으로 삭제</system:String>
+
+    <system:String x:Key="Achievement.MasterDirector.Title">총감독</system:String>
+    <system:String x:Key="Achievement.MasterDirector.Description">이건 전부 직접 배치해야 직성이 풀리죠.</system:String>
+    <system:String x:Key="Achievement.MasterDirector.Conditions">모든 작업 유형을 최소 1회씩 수동으로 추가</system:String>
+
+    <system:String x:Key="Achievement.PrivateDormManager.Title">개인 기숙사 관리자</system:String>
+    <system:String x:Key="Achievement.PrivateDormManager.Description">당연히 스케줄표는 자기 자신의 것을 써야죠.</system:String>
+    <system:String x:Key="Achievement.PrivateDormManager.Conditions">｢{key=InfrastModeCustom}｣를 1회 성공적으로 불러오기</system:String>
+
+    <system:String x:Key="Achievement.OperatorRoster.Title">인사부 명단</system:String>
+    <system:String x:Key="Achievement.OperatorRoster.Description">이 명단은 우선 한 부 저장해 두죠.</system:String>
+    <system:String x:Key="Achievement.OperatorRoster.Conditions">오퍼레이터 목록을 클립보드로 1회 내보내기</system:String>
+
+    <system:String x:Key="Achievement.SlackingOff.Title">월급 루팡</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Description">업무 효율을 위해서 가끔은 쉬어줘야죠.</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">미니게임 1회 실행</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

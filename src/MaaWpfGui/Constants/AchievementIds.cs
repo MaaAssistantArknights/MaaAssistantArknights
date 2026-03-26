@@ -59,6 +59,12 @@ public static class AchievementIds
     public const string ClueObsession = "ClueObsession";
     public const string ClueObsessionCustomDataKey = "LastOpeningData";
 
+    public const string TimeManagementMaster = "TimeManagementMaster";
+    public const string DoubleSync = "DoubleSync";
+    public const string ResumeRecord = "ResumeRecord";
+    public const string QueueExpansion = "QueueExpansion";
+    public const string QueueSimplifier = "QueueSimplifier";
+
     #endregion
 
     #region 功能探索类
@@ -94,6 +100,17 @@ public static class AchievementIds
     public const string NotFound404 = "NotFound404";
     public const string Linguist = "Linguist";
     public const string StartupBoot = "StartupBoot";
+
+    public const string SortingMaster = "SortingMaster";
+    public const string AchievementObserver = "AchievementObserver";
+    public const string DisappearTrick = "DisappearTrick";
+    public const string TitleTweaker = "TitleTweaker";
+    public const string AllChannelBroadcast = "AllChannelBroadcast";
+    public const string ConnectionTester = "ConnectionTester";
+    public const string MasterDirector = "MasterDirector";
+    public const string MasterDirectorCustomDataKey = "AddedTaskTypes";
+    public const string PrivateDormManager = "PrivateDormManager";
+    public const string OperatorRoster = "OperatorRoster";
 
     #endregion
 
@@ -144,6 +161,7 @@ public static class AchievementIds
     public const string UnexpectedCrash = "UnexpectedCrash";
     public const string ProblemFeedback = "ProblemFeedback";
     public const string CdnTorture = "CdnTorture";
+    public const string BackstageExplorer = "BackstageExplorer";
 
     #endregion
 
@@ -166,6 +184,11 @@ public static class AchievementIds
     public const string UpdateObsession = "UpdateObsession";
     public const string UpdateEarlyBird = "UpdateEarlyBird";
 
+    public const string ChangelogReader = "ChangelogReader";
+    public const string LatestVersionInspector = "LatestVersionInspector";
+    public const string TimeMachine = "TimeMachine";
+    public const string LoadLastSave = "LoadLastSave";
+
     #endregion
 
     #region 彩蛋类
@@ -181,6 +204,11 @@ public static class AchievementIds
 
     public const string SanityPlanner = "SanityPlanner";
     public const string WarehouseKeeper = "WarehouseKeeper";
+
+    public const string PallasStarter = "PallasStarter";
+    public const string PallasCheers = "PallasCheers";
+    public const string OneMoreLook = "OneMoreLook";
+    public const string SlackingOff = "SlackingOff";
 
     #endregion
 }

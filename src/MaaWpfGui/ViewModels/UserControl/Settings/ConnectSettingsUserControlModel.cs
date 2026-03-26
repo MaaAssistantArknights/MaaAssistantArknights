@@ -1110,6 +1110,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             };
             var img = (Image)_imagePopupWindow.Content;
             img.MouseLeftButtonUp += (_, _) => {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.OneMoreLook);
                 _ = TestLinkAndGetImage();
             };
         }
@@ -1121,6 +1122,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             }
         }
 
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.ConnectionTester);
         WindowManager.ShowWindow(_imagePopupWindow);
     }
 

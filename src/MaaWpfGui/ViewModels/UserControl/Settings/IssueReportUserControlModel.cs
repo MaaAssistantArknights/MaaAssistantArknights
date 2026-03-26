@@ -51,6 +51,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             }
 
             Process.Start("explorer.exe", PathsHelper.DebugDir);
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.BackstageExplorer);
         }
         catch (Exception ex)
         {

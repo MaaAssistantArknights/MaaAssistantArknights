@@ -758,6 +758,7 @@ public class ToolboxViewModel : Screen
         if (updateSyncTime)
         {
             // 从 Core 获取新数据，更新为当前 UTC 时间
+            AchievementTrackerHelper.Instance.CheckResyncAfterDays(LastDepotSyncTime, 7, AchievementIds.ResumeRecord);
             LastDepotSyncTime = DateTimeOffset.UtcNow;
         }
         else
@@ -1299,6 +1300,7 @@ public class ToolboxViewModel : Screen
 
         if (updateSyncTime)
         {
+            AchievementTrackerHelper.Instance.CheckResyncAfterDays(LastOperBoxSyncTime, 7, AchievementIds.ResumeRecord);
             LastOperBoxSyncTime = DateTimeOffset.UtcNow;
         }
         else
@@ -1415,6 +1417,7 @@ public class ToolboxViewModel : Screen
         System.Windows.Forms.Clipboard.Clear();
         System.Windows.Forms.Clipboard.SetDataObject(JsonConvert.SerializeObject(exportList, Formatting.Indented));
         OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
     }
 
     #endregion OperBox
@@ -1950,6 +1953,10 @@ public class ToolboxViewModel : Screen
         if (!caught)
         {
             _runningState.SetIdle(true);
+        }
+        else
+        {
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SlackingOff);
         }
     }
 

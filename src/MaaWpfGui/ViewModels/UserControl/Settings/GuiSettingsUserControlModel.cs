@@ -102,6 +102,10 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _minimizeToTray, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MinimizeToTray, value.ToString());
             Instances.MainWindowManager.SetMinimizeToTray(value);
+            if (_minimizeToTray)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.DisappearTrick);
+            }
         }
     }
 
@@ -325,6 +329,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             Instances.SettingsViewModel.UpdateWindowTitle();
             var config = string.Join(' ', _windowTitleSelectShowList.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList());
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, config);
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.TitleTweaker);
         }
     }
 

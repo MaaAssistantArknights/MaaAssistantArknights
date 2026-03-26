@@ -1488,7 +1488,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.SanitySpender2.Title">Auto-Battle Pioneer</system:String>
     <system:String x:Key="Achievement.SanitySpender2.Description">Even more skilled than me</system:String>
-    <system:String x:Key="Achievement.SanitySpender2.Conditions">Complete 50 auto-battle operations</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Conditions">Complete 100 auto-battle operations</system:String>
 
     <system:String x:Key="Achievement.SanitySpender3.Title">ZOOT</system:String>
     <system:String x:Key="Achievement.SanitySpender3.Description">Closure's proxy program is running normally.</system:String>
@@ -1834,6 +1834,98 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
     <system:String x:Key="Achievement.Time325.Description">You know what this number means, right?</system:String>
     <system:String x:Key="Achievement.Time325.Conditions">Still using MAA at 3/13/23:25</system:String>
+
+    <system:String x:Key="Achievement.PallasStarter.Title">Pallas Fan</system:String>
+    <system:String x:Key="Achievement.PallasStarter.Description">Great warriors, I will be by your side, fighting bravely with you.</system:String>
+    <system:String x:Key="Achievement.PallasStarter.Conditions">Use Pallas as the ｢{key=StartingCoreChar}｣ in Integrated Strategies</system:String>
+
+    <system:String x:Key="Achievement.PallasCheers.Title">A Drink for Pallas</system:String>
+    <system:String x:Key="Achievement.PallasCheers.Description">No more drinks, you've had way too much...</system:String>
+    <system:String x:Key="Achievement.PallasCheers.Conditions">Click Pallas's portrait in ｢{key=AchievementSettings}｣</system:String>
+
+    <system:String x:Key="Achievement.SortingMaster.Title">Sorting Master</system:String>
+    <system:String x:Key="Achievement.SortingMaster.Description">You can drag that too?</system:String>
+    <system:String x:Key="Achievement.SortingMaster.Conditions">Use the mouse to drag and reorder tasks or settings in ｢{key=Farming}｣</system:String>
+
+    <system:String x:Key="Achievement.TimeManagementMaster.Title">Time Management Master</system:String>
+    <system:String x:Key="Achievement.TimeManagementMaster.Description">Not a single moment goes to waste.</system:String>
+    <system:String x:Key="Achievement.TimeManagementMaster.Conditions">Use all timers in ｢{key=ScheduleSettings}｣</system:String>
+
+    <system:String x:Key="Achievement.DoubleSync.Title">Both Accounted For</system:String>
+    <system:String x:Key="Achievement.DoubleSync.Description">The people are sorted out, and the inventory is checked too.</system:String>
+    <system:String x:Key="Achievement.DoubleSync.Conditions">Sync both Operators and Depot data in a single ｢{key=UserDataUpdate}｣ run</system:String>
+
+    <system:String x:Key="Achievement.ResumeRecord.Title">Resume Record</system:String>
+    <system:String x:Key="Achievement.ResumeRecord.Description">After all this time, the record is finally continued.</system:String>
+    <system:String x:Key="Achievement.ResumeRecord.Conditions">Complete ｢{key=UserDataUpdate}｣ again after at least 7 days without syncing</system:String>
+
+    <system:String x:Key="Achievement.ChangelogReader.Title">Let Me Read the Changelog</system:String>
+    <system:String x:Key="Achievement.ChangelogReader.Description">No rush to update right away, but you still have to see what's new.</system:String>
+    <system:String x:Key="Achievement.ChangelogReader.Conditions">Manually open ｢{key=ShowChangelog}｣</system:String>
+
+    <system:String x:Key="Achievement.LatestVersionInspector.Title">No-Op Inspector</system:String>
+    <system:String x:Key="Achievement.LatestVersionInspector.Description">A wasted trip, but at least now you're sure.</system:String>
+    <system:String x:Key="Achievement.LatestVersionInspector.Conditions">Manually check for updates and find that you're already on the latest version</system:String>
+
+    <system:String x:Key="Achievement.TimeMachine.Title">Time Machine</system:String>
+    <system:String x:Key="Achievement.TimeMachine.Description">Seal this moment's glory in a place the future can reach.</system:String>
+    <system:String x:Key="Achievement.TimeMachine.Conditions">Backup Achievements once</system:String>
+
+    <system:String x:Key="Achievement.LoadLastSave.Title">Load Last Save</system:String>
+    <system:String x:Key="Achievement.LoadLastSave.Description">Since you can start over, this time you'd better choose right.</system:String>
+    <system:String x:Key="Achievement.LoadLastSave.Conditions">Restore an Achievement backup once</system:String>
+
+    <system:String x:Key="Achievement.AchievementObserver.Title">Achievement Observer</system:String>
+    <system:String x:Key="Achievement.AchievementObserver.Description">Take a look at what you've been up to.</system:String>
+    <system:String x:Key="Achievement.AchievementObserver.Conditions">Open ｢{key=AchievementList}｣ once</system:String>
+
+    <system:String x:Key="Achievement.DisappearTrick.Title">Disappearing Act</system:String>
+    <system:String x:Key="Achievement.DisappearTrick.Description">Out of sight, out of mind.</system:String>
+    <system:String x:Key="Achievement.DisappearTrick.Conditions">Enable ｢{key=MinimizeToTray}｣</system:String>
+
+    <system:String x:Key="Achievement.TitleTweaker.Title">Title Tweaker</system:String>
+    <system:String x:Key="Achievement.TitleTweaker.Description">This title should go my way.</system:String>
+    <system:String x:Key="Achievement.TitleTweaker.Conditions">Modify ｢{key=TitleBarDisplayContent}｣ once</system:String>
+
+    <system:String x:Key="Achievement.AllChannelBroadcast.Title">Broadcast on All Platforms</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Description">Now nobody gets to miss it.</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">Enable all platforms in ｢{key=ExternalNotificationSettings}｣ at the same time</system:String>
+
+    <system:String x:Key="Achievement.BackstageExplorer.Title">Backstage Explorer</system:String>
+    <system:String x:Key="Achievement.BackstageExplorer.Description">Let me see what's written back there.</system:String>
+    <system:String x:Key="Achievement.BackstageExplorer.Conditions">Use ｢{key=OpenDebugFolder}｣ once</system:String>
+
+    <system:String x:Key="Achievement.ConnectionTester.Title">Connection Tester</system:String>
+    <system:String x:Key="Achievement.ConnectionTester.Description">If I don't check first, it just doesn't feel right.</system:String>
+    <system:String x:Key="Achievement.ConnectionTester.Conditions">Successfully run ｢{key=ScreenshotTest}｣ once and display the screenshot</system:String>
+
+    <system:String x:Key="Achievement.OneMoreLook.Title">One More Look</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Description">Since you're already looking, refresh one more.</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Conditions">Click refresh screenshot again on the ｢{key=ScreenshotTest}｣ preview</system:String>
+
+    <system:String x:Key="Achievement.QueueExpansion.Title">Queue Expansion</system:String>
+    <system:String x:Key="Achievement.QueueExpansion.Description">Build the workflow first.</system:String>
+    <system:String x:Key="Achievement.QueueExpansion.Conditions">Manually add a task</system:String>
+
+    <system:String x:Key="Achievement.QueueSimplifier.Title">Queue Simplifier</system:String>
+    <system:String x:Key="Achievement.QueueSimplifier.Description">Cutting the clutter is optimization too.</system:String>
+    <system:String x:Key="Achievement.QueueSimplifier.Conditions">Manually delete a task</system:String>
+
+    <system:String x:Key="Achievement.MasterDirector.Title">Master Director</system:String>
+    <system:String x:Key="Achievement.MasterDirector.Description">Everything has to be arranged personally.</system:String>
+    <system:String x:Key="Achievement.MasterDirector.Conditions">Manually add every task type at least once</system:String>
+
+    <system:String x:Key="Achievement.PrivateDormManager.Title">Private Dorm Manager</system:String>
+    <system:String x:Key="Achievement.PrivateDormManager.Description">Of course the shift schedule should use your own.</system:String>
+    <system:String x:Key="Achievement.PrivateDormManager.Conditions">Successfully load ｢{key=InfrastModeCustom}｣ once</system:String>
+
+    <system:String x:Key="Achievement.OperatorRoster.Title">Operator Roster</system:String>
+    <system:String x:Key="Achievement.OperatorRoster.Description">Better save a copy of this roster first.</system:String>
+    <system:String x:Key="Achievement.OperatorRoster.Conditions">Export the operator list to clipboard once</system:String>
+
+    <system:String x:Key="Achievement.SlackingOff.Title">Slacking Off</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Description">Done with serious business, time to play something else.</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">Launch a mini-game once</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

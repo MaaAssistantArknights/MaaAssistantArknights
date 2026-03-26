@@ -54,6 +54,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
 
         if (success)
         {
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.TimeMachine);
             var growlInfo = new GrowlInfo {
                 IsCustom = true,
                 Message = $"{LocalizationHelper.GetString("AchievementBackupSuccess")} {Path.Combine(selectedPath, fileName)}.json",
@@ -94,9 +95,11 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
                 existing.Progress = pair.Value.Progress;
                 existing.IsUnlocked = pair.Value.IsUnlocked;
                 existing.UnlockedTime = pair.Value.UnlockedTime;
+                existing.CustomData = pair.Value.CustomData;
             }
 
             AchievementTrackerHelper.Instance.Save();
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.LoadLastSave);
             Growl.Success(LocalizationHelper.GetString("AchievementRestoreSuccess"));
         }
         else
@@ -109,6 +112,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
 
     public void OnShowAchievementsClick()
     {
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.AchievementObserver);
         if (_achievementsWindow is null)
         {
             _achievementsWindow = new AchievementListDialogView();
@@ -129,6 +133,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
 
     public void OnDebugClick()
     {
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.PallasCheers);
         NotifyOfPropertyChange(nameof(Tip));
         if (_isTriggered)
         {

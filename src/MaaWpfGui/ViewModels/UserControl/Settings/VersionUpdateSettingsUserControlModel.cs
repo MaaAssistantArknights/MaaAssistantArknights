@@ -533,6 +533,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             ToastNotification.ShowDirect(toastMessage);
         }
 
+        if (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest)
+        {
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.LatestVersionInspector);
+        }
+
         if (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.OK)
         {
             _ = Instances.VersionUpdateDialogViewModel.AskToRestart();
@@ -596,6 +601,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public void ShowChangelog()
     {
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.ChangelogReader);
         if (Instances.VersionUpdateDialogViewModel.View is System.Windows.Window window)
         {
             if (window.WindowState == System.Windows.WindowState.Minimized)

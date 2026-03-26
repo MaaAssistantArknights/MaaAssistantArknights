@@ -123,6 +123,11 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 ids.Add(Instances.AsstProxy.TasksStatus.Last().Key);
             }
 
+            if (ret && operBoxTriggerDue && depotTriggerDue)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.DoubleSync);
+            }
+
             return ret ? (true, ids) : (null, []);
         }
 

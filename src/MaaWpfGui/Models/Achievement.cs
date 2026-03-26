@@ -87,6 +87,12 @@ public class Achievement
     public int GroupIndex { get; set; } = int.MaxValue;
 
     [JsonIgnore]
+    public AchievementReleasePhase ReleasePhase { get; set; } = AchievementReleasePhase.Phase1;
+
+    [JsonIgnore]
+    public string ReleasePhaseTag => $"#{(int)ReleasePhase}";
+
+    [JsonIgnore]
     public string MedalBrushKey
     {
         get
