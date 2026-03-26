@@ -5,7 +5,13 @@ icon: ic:round-translate
 
 # 文档国际化 (i18n) 指南
 
-本文档介绍如何使用 AI 翻译工具将中文文档同步到其他语言版本。
+本文档介绍如何使用 AI 翻译脚本将简体中文文档同步到其他语言版本。
+
+::: tip
+目前仅支持简体中文页面编辑后，使用AI 翻译脚本进行**单向**翻译和同步。
+
+本文，即**文档国际化 (i18n) 指南**，是被翻译脚本**排除在外**的。
+:::
 
 ## 前置准备
 
@@ -27,26 +33,15 @@ cp .env.example .env
 编辑 `.env` 文件，填入你的 API 密钥：
 
 ```env
-# OpenAI 兼容 API 配置
-OPENAI_API_KEY=sk-your-api-key-here
-OPENAI_BASE_URL=https://api.openai.com/v1
-OPENAI_MODEL=gpt-4o-mini
+# OpenAI 兼容 API 配置（以DeepSeek api为例）
+OPENAI_API_KEY=your-api-key-here
+OPENAI_BASE_URL=https://api.deepseek.com/v1
+OPENAI_MODEL=deepseek-chat
 
-# 可选：使用其他兼容服务
-# OPENAI_BASE_URL=https://api.moonshot.cn/v1  # Moonshot
-# OPENAI_BASE_URL=https://api.deepseek.com/v1  # DeepSeek
 ```
-
-**支持的 API 服务**：
-
-| 服务商 | BASE_URL | 备注 |
-|--------|----------|------|
-| OpenAI | `https://api.openai.com/v1` | 官方 API |
-| Moonshot | `https://api.moonshot.cn/v1` | 国内可用 |
-| DeepSeek | `https://api.deepseek.com/v1` | 性价比高 |
-| SiliconFlow | `https://api.siliconflow.cn/v1` | 国内可用 |
-| 智谱 AI | `https://open.bigmodel.cn/api/paas/v4` | 国内可用 |
-| Azure OpenAI | `https://your-resource.openai.azure.com/openai/deployments/your-deployment` | 企业版 |
+::: warning
+翻译完毕之后，请记得把`.env`中的api取下，不然你的Token就有可能悄悄溜走啦！
+:::
 
 ## 工作流程
 
@@ -80,7 +75,7 @@ pnpm i18n:translate zh-tw
 # 翻译成日语
 pnpm i18n:translate ja-jp
 
-# 翻译成韩语
+# 翻译成朝鲜语
 pnpm i18n:translate ko-kr
 ```
 
@@ -140,7 +135,7 @@ AI 翻译后的文件会自动保留原始 frontmatter，你可以在翻译后�
 ---
 order: 1
 icon: jam:write-f
-# translator: AI (GPT-4o)
+# translator: AI (DeepSeek-chat)
 # reviewer: pending
 ---
 ```

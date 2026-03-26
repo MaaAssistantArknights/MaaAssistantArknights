@@ -1,32 +1,31 @@
 ---
 order: 7
-icon: devicon-plain:githubactions
+icon: 'devicon-plain:githubactions'
 ---
+# CI System Overview
 
-# CI System Analysis
-
-MAA leverages GitHub Actions to complete a large amount of automation work, including website building, automatic resource updates, final file building and release processes, etc. Over time, these CI workflows have gradually become nested, with some even pointing to other repositories. This document aims to provide a brief introduction for those who want to improve MAA's CI system.
+MAA utilizes GitHub Actions to automate a significant amount of work, including website builds, automatic resource updates, final artifact builds and releases, and more. Over time, these CI workflows have become increasingly nested, with some even referencing other repositories. This document aims to provide a brief introduction for those looking to improve MAA's CI system.
 
 Before reading this document, it's best to have a basic understanding of MAA's project structure and components.
 
 ::: tip
-You can quickly navigate to the section you want to see by searching for CI file names within this page
+You can quickly navigate to the desired section by searching for the CI filename within this page.
 :::
 
-Workflow files are all stored under `.github/workflows`, and each file can be categorized into the following functional parts:
+All workflow files are located in `.github/workflows`. These files can be categorized by functionality as follows:
 
 - [Code Testing](#code-testing)
 - [Code Building](#code-building)
-- [Code Security Scanning](#code-security-scanning)
-- [Version Release](#version-release)
+- [Code Security Checks](#code-security-checks)
+- [Version Releases](#version-releases)
 - [Resource Updates](#resource-updates)
 - [Website Building](#website-building)
 - [Issues Management](#issues-management)
 - [Pull Requests Management](#pull-requests-management)
 - [MirrorChyan Related](#mirrorchyan-related)
-- [Others](#others)
+- [Other](#other)
 
-Additionally, we use [pre-commit.ci](https://pre-commit.ci/) to implement automatic code formatting and image resource optimization, which runs automatically after creating PRs and generally requires no special attention.
+Additionally, we use [pre-commit.ci](https://pre-commit.ci/) to automatically format code and optimize image resources. It runs automatically after creating a PR and generally requires no special attention.
 
 ## GitHub Actions Section
 
@@ -34,112 +33,111 @@ Additionally, we use [pre-commit.ci](https://pre-commit.ci/) to implement automa
 
 `smoke-testing.yml`
 
-This workflow is mainly responsible for basic testing of MaaCore, including resource file loading, simple task execution tests, etc.
+This workflow is primarily responsible for basic testing of MaaCore, including resource file loading and running tests for some simple tasks.
 
-Since test cases haven't been updated for a long time, this workflow is now basically used to ensure resource files don't contain errors and that MaaCore code doesn't have fatal errors (the kind that affects building).
+Since the test cases haven't been updated for a while, this workflow now essentially ensures that resource files don't contain errors and that MaaCore's code doesn't have fatal errors affecting the build.
 
 ### Code Building
 
 `ci.yml`
 
-This workflow is responsible for full code building work, including all MAA components. The build artifacts are runnable MAA instances.
+This workflow is responsible for fully building the code, including all MAA components. The build artifacts are the runnable MAA.
 
-In addition to the necessary MaaCore, Windows build artifacts include MaaWpfGui, macOS build artifacts include MaaMacGui, and Linux build artifacts include MaaCLI.
+In addition to the essential MaaCore, the Windows build artifact includes MaaWpfGui, the MacOS build artifact includes MaaMacGui, and the Linux build artifact includes MaaCLI.
 
-This workflow runs automatically on any new commit and PR. When triggered by a release PR, the build artifacts from this run will be used directly for release and will create a Release.
+This workflow runs automatically on any new commit or PR. When triggered by a release PR, the build artifacts from this run are directly used for the release, and a Release is created.
 
-### Code Security Scanning
+### Code Security Checks
 
-Code security scanning uses CodeQL to analyze code and workflows for security vulnerabilities, with the following workflows:
+Code security checks analyze code and workflows for security vulnerabilities using CodeQL. The specific workflows are:
 
 `codeql-core.yml`
 
-This workflow performs security analysis on the C++ and C# code of MaaCore and MaaWpfGui, detecting potential security vulnerabilities.
+This workflow is responsible for security analysis of the C++ and C# code in MaaCore and MaaWpfGui, detecting potential security vulnerabilities.
 
-It runs automatically on PRs that modify relevant source code, and also executes daily scheduled checks at 11:45 UTC.
+This workflow runs automatically on PRs that modify the relevant source code and also performs a scheduled check daily at 11:45 UTC.
 
 `codeql-wf.yml`
 
-This workflow performs security analysis on GitHub Actions workflow files themselves, ensuring the security of the CI/CD processes.
+This workflow is responsible for security analysis of the GitHub Actions workflow files themselves, ensuring the security of the CI/CD process.
 
-It runs automatically on PRs that modify workflow files, and also executes daily scheduled checks at 12:00 UTC.
+This workflow runs automatically on PRs that modify workflow files and also performs a scheduled check daily at 12:00 UTC.
 
-### Version Release
+### Version Releases
 
-Version release is the necessary operation to publish updates to users, consisting of the following workflows:
+Version releases, referred to simply as releases, are necessary operations to publish updates to users. They consist of the following workflows:
 
-- `release-nightly-ota.yml` Release nightly builds
-- `release-ota.yml` Release stable/beta versions
-  - `release-preparation.yml` Generate changelog and prepare release for stable/beta versions
-  - `pr-auto-tag.yml` Generate tags for stable/beta versions
+- `release-nightly-ota.yml` Releases the beta version
+- `release-ota.yml` Releases the stable/public beta version
+  - `release-preparation.yml` Generates the changelog and prepares the release for stable/public beta versions
+  - `pr-auto-tag.yml` Creates tags for stable/public beta versions
 
 ::: tip
-The "ota" in the above file names stands for Over-the-Air, which is what we commonly call "incremental update packages". Therefore, MAA's release process actually includes building OTA packages for past versions.
+The "ota" in the filenames above stands for Over-the-Air, which is what we commonly call "incremental update packages." Therefore, MAA's release process actually includes steps to build OTA packages for past versions.
 :::
 
-#### Nightly Builds
+#### Beta Version
 
 `release-nightly-ota.yml`
 
-This workflow runs automatically at 22:00 UTC daily to ensure nightly build release frequency. Of course, you can also manually release when making changes that need verification.
+This workflow runs automatically daily at 22:00 UTC to maintain the release frequency of the beta version. Of course, you can also manually trigger a release when changes need verification.
 
-Note that nightly builds are only released for Windows users; macOS and Linux users cannot receive nightly updates.
+Note that beta releases are only for Windows users; MacOS and Linux users do not receive beta updates.
 
-#### Stable/Beta Versions
+#### Stable/Public Beta Version
 
-The release process for these two channels is relatively more complex. We'll explain the role of each workflow by simulating a release process:
+The release process for these two channels is a bit more complex. We'll explain the role of each workflow by simulating a release step-by-step:
 
-1. Create a PR from `dev-v2` to `master` branch, and the PR name must be `Release v******`
-2. `release-preparation.yml` generates a changelog from the most recent stable/beta version to the current version (as a new PR)
-3. Manually adjust the changelog and add brief descriptions
-4. Merge the PR, triggering `pr-auto-tag.yml` to create tags and sync branches
-5. The Release event triggers `release-ota.yml`, which builds OTA packages and uploads attachments after tagging master
+1. Create a PR from the `dev-v2` branch to the `master` branch, and the PR title must be `Release v******`
+2. `release-preparation.yml` generates a changelog from the recent stable/public beta version to the current version (in the form of a new PR)
+3. Manually adjust the changelog and add a brief description
+4. Merge the PR, triggering `pr-auto-tag.yml`, which creates a tag and synchronizes the branches
+5. The Release event triggers `release-ota.yml`, which builds OTA packages and uploads attachments after tagging the master branch
 
 ### Resource Updates
 
-This section of workflows is mainly responsible for MAA's resource updates and optimization, with the following specific workflows:
+These workflows are primarily responsible for updating and optimizing MAA's resources. The specific workflows are:
 
-- `res-update-game.yml` Executes periodically to pull game resources from specified repositories
-- `sync-resource.yml` Syncs resources to the MaaResource repository for resource updates
-- `optimize-templates.yml` Optimizes template image sizes
+- `res-update-game.yml` Runs periodically, pulling game resources from a specified repository
+- `sync-resource.yml` Synchronizes resources to the MaaResource repository for resource updates
+- `optimize-templates.yml` Optimizes image sizes, including template images
 
 ### Website Building
 
 `website-workflow.yml`
 
-This workflow is mainly responsible for building and publishing MAA's documentation site.
+This workflow is primarily responsible for building and publishing the MAA documentation site.
 
-Please note that website publishing is tightly bound to releases. Regular modifications to web components only trigger builds to ensure no errors occur, and actual deployment to GitHub Pages only happens during releases.
+Please note that website deployment is strongly tied to releases. When modifying web components, the site is only built to ensure no errors occur. It is officially deployed to GitHub Pages only during a release.
 
 ### Issues Management
 
 `issue-checker.yml`
 
-Uses regex matching to tag various Issues, categorizing and marking Issue content for easier viewing and management.
+Uses regular expression matching to tag Issues, categorizing and marking Issue content for easier viewing and management.
 
 `issue-checkbox-checker.yml`
 
-Uses regex matching to automatically close Issues that check "I have not read carefully".
-If "I have not read carefully" is not checked, all checkboxes are collapsed.
+Uses regular expression matching to automatically close Issues where "I have not read carefully" is checked. If "I have not read carefully" is not checked, it collapses all checkboxes.
 
 `stale.yml`
 
-Checks Bug Issues that have had no activity for more than 90 days, marks them and sends notifications, then closes them after 7 more days if still inactive.
+Checks for Bug Issues that have been inactive for over 90 days, marks them, and sends a notification. If there is still no activity after 7 days, the issue is closed.
 
 ### Pull Requests Management
 
 `pr-checker.yml`
 
-This workflow checks whether commit messages in PRs conform to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and whether they contain merge commits, providing reminders if these conditions are met.
+This workflow is used to check if the Commit Messages in a PR comply with [Conventional Commits](https://www.conventionalcommits.org/zh-hans/v1.0.0/) and if they contain Merge Commits. If these conditions are met, a prompt will be issued.
 
 ### MirrorChyan Related
 
-MirrorChyan is a paid update mirror service, with the following related workflows:
+MirrorChyan is a paid update mirroring service. Workflows related to it are:
 
-- `release-package-distribution.yml` Sync update packages to MirrorChyan
-- `mirrorchyan_release_note.yml` Generate MirrorChyan Release Notes
+- `release-package-distribution.yml` Synchronizes update packages to MirrorChyan
+- `mirrorchyan_release_note.yml` Generates Release Notes for MirrorChyan
 
-### Others
+### Other
 
 `markdown-checker.yml`
 
@@ -147,12 +145,12 @@ Responsible for checking all Markdown files in the repository for invalid links.
 
 `blame-ignore.yml`
 
-Automatically ignores commits with commit messages containing `blame ignore` to keep repository history clean.
+Automatically ignores commits whose messages contain `blame ignore`, ensuring a clean repository history.
 
 `cache-delete.yml`
 
-Cleans up related caches after PR merges to save cache usage.
+Cleans up related caches after a PR is merged to save cache usage.
 
 `update-submodules.yml`
 
-Periodically updates submodules such as MaaMacGui and maa-cli to their latest versions. This workflow runs automatically at 21:50 UTC daily (before the nightly release), ensuring submodules remain up to date.
+Periodically updates submodules like MaaMacGui and maa-cli to their latest versions. This workflow runs automatically daily at 21:50 UTC (before the daily beta release) to ensure submodules remain up-to-date.

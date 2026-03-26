@@ -182,15 +182,31 @@ async function main() {
   
   console.log(chalk.blue(`Found ${files.length} file(s) to translate\n`));
   
-  for (const file of files) {
-    try {
-      await translateFile(file, targetLang, glossary);
-    } catch (error) {
-      console.error(chalk.red(`✗ Failed to translate ${file}: ${error.message}`));
+  // 并发控制翻译
+  const CONCURRENCY = parseInt(process.env.CONCURRENCY || '3');
+  const queue = [...files];
+  const results = [];
+  
+  async function worker() {
+    while (queue.length > 0) {
+      const file = queue.shift();
+      try {
+        await translateFile(file, targetLang, glossary);
+        results.push({ success: true, file });
+      } catch (error) {
+        console.error(chalk.red(`✗ Failed to translate ${file}: ${error.message}`));
+        results.push({ success: false, file, error });
+      }
     }
   }
   
-  console.log(chalk.green('\n✨ Translation complete!'));
+  // 启动多个 worker
+  await Promise.all(Array(CONCURRENCY).fill().map(worker));
+  
+  const successCount = results.filter(r => r.success).length;
+  const failCount = results.length - successCount;
+  
+  console.log(chalk.green(`\n✨ Translation complete! ${successCount} success, ${failCount} failed`));
 }
 
 main().catch(console.error);
