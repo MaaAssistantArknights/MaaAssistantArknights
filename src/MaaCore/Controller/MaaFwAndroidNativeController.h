@@ -67,7 +67,7 @@ public:
 private:
     bool m_inited = false;
     std::string m_uuid;
-    std::pair<int, int> m_screen_size = { 0, 0 };
+    std::pair<int, int> m_screen_resolution = { 0, 0 };
 
     MaaFwControlUnitAPI* m_unit_handle = nullptr;
     bool init_library();

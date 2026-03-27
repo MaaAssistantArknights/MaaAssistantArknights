@@ -41,8 +41,6 @@ bool MaaFwAndroidNativeController::connect(
 
     m_inited = false;
     m_uuid.clear();
-    m_screen_size = { 0, 0 };
-
     auto get_info_json = [&]() -> json::object {
         return json::object {
             { "uuid", m_uuid },
@@ -63,8 +61,23 @@ bool MaaFwAndroidNativeController::connect(
         m_unit_handle = nullptr;
     }
 
-    // config 直接透传给 MaaAndroidNativeControlUnit
-    // config_json 需包含: library_path, screen_resolution.{width,height}, display_id(可选), force_stop(可选)
+    if (!config.empty()) {
+        if (auto config_opt = json::parse(config); config_opt.has_value()) {
+            if (auto& config_json = config_opt.value(); config_json.contains("screen_resolution")) {
+                if (const auto& res = config_json["screen_resolution"];
+                    res.contains("width") && res.contains("height")) {
+                    int width = res.get("width", 1280);
+                    int height = res.get("height", 720);
+                    m_screen_resolution = { width, height };
+                    LogInfo << "Parsed screen resolution from config:" << width << "x" << height;
+                }
+            }
+        }
+        else {
+            LogWarn << "Failed to parse config as JSON, using default resolution";
+            return false;
+        }
+    }
     m_unit_handle = m_create_func(config.c_str());
 
     if (!m_unit_handle) {
@@ -104,47 +117,12 @@ bool MaaFwAndroidNativeController::connect(
         return false;
     }
 
-    callback(
-        AsstMsg::ConnectionInfo,
-        json::object {
-            { "what", "UuidGot" },
-            { "why", "" },
-            { "details",
-              json::object {
-                  { "uuid", m_uuid },
-              } },
-        } | get_info_json());
-
-    // 尝试截图以获取屏幕分辨率
-    cv::Mat image;
-    if (!m_unit_handle->screencap(image) || image.cols == 0 || image.rows == 0) {
-        m_destroy_func(m_unit_handle);
-        m_unit_handle = nullptr;
-        callback(
-            AsstMsg::ConnectionInfo,
-            json::object {
-                { "what", "ResolutionError" },
-                { "why", "Get resolution failed" },
-            } | get_info_json());
-        return false;
-    }
-    m_screen_size = { image.cols, image.rows };
-    LogInfo << "Connected to AndroidNative. Screen size:" << m_screen_size.first << "x" << m_screen_size.second;
-    callback(
-        AsstMsg::ConnectionInfo,
-        json::object {
-            { "what", "ResolutionGot" },
-            { "why", "" },
-            { "width", m_screen_size.first },
-            { "height", m_screen_size.second },
-        } | get_info_json());
-
     m_inited = true;
     callback(
         AsstMsg::ConnectionInfo,
         json::object {
             { "what", "Connected" },
-            { "why", "" },
+            { "why", "NativeAndroid" },
         } | get_info_json());
     return true;
 }
@@ -170,10 +148,6 @@ bool MaaFwAndroidNativeController::screencap(cv::Mat& image_payload, bool allow_
     if (!m_unit_handle->screencap(image_payload)) {
         LogWarn << "MaaAndroidNativeControlUnit screencap failed";
         return false;
-    }
-
-    if (m_screen_size.first == 0) {
-        m_screen_size = { image_payload.cols, image_payload.rows };
     }
 
     return true;
@@ -250,10 +224,10 @@ bool MaaFwAndroidNativeController::swipe(
     int x2 = p2.x, y2 = p2.y;
 
     // 起点不能在屏幕外，但是终点可以
-    if (x1 < 0 || x1 >= m_screen_size.first || y1 < 0 || y1 >= m_screen_size.second) {
+    if (x1 < 0 || x1 >= m_screen_resolution.first || y1 < 0 || y1 >= m_screen_resolution.second) {
         LogWarn << "swipe point1 is out of range" << x1 << y1;
-        x1 = std::clamp(x1, 0, m_screen_size.first - 1);
-        y1 = std::clamp(y1, 0, m_screen_size.second - 1);
+        x1 = std::clamp(x1, 0, m_screen_resolution.first - 1);
+        y1 = std::clamp(y1, 0, m_screen_resolution.second - 1);
     }
 
     // 触摸按下起点
@@ -265,7 +239,7 @@ bool MaaFwAndroidNativeController::swipe(
     const auto& opt = Config.get_options();
 
     auto bounds_check = [this](int x, int y) {
-        return x >= 0 && x <= m_screen_size.first && y >= 0 && y <= m_screen_size.second;
+        return x >= 0 && x <= m_screen_resolution.first && y >= 0 && y <= m_screen_resolution.second;
     };
 
     auto move_func = [&](int x, int y) -> bool {
@@ -385,7 +359,7 @@ ControlFeat::Feat MaaFwAndroidNativeController::support_features() const noexcep
 
 std::pair<int, int> MaaFwAndroidNativeController::get_screen_res() const noexcept
 {
-    return m_screen_size;
+    return m_screen_resolution;
 }
 
 void* MaaFwAndroidNativeController::attach_thread() const
