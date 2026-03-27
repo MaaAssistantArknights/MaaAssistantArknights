@@ -35,13 +35,13 @@ icon: basil:apple-solid
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-支援，額外支援[截圖增強模式](../connection.md#avd-截圖增強模式)。
+支援，且額外支援[截圖增強模式](../connection.md#avd-截圖增強模式)。
 
 從 Android 10 開始，Minitouch 在 SELinux 為 `Enforcing` 模式時不再可用。請切換至其他觸控模式，或將 SELinux **臨時**切換為 `Permissive` 模式。
 
-### ✅ [BlueStacks 藍疊模擬器 Air 版](https://www.bluestacks.com/mac) （免費，針對 Apple M 系列晶片進行優化的版本）
+### ✅ [BlueStacks Air](https://www.bluestacks.com/mac) （免費，針對 Apple M 系列晶片進行優化的版本）
 
-支援，經測試，可用 maatouch 透過 `127.0.0.1:5555` 連線。
+支援，經測試，可用 MaaTouch 透過 `127.0.0.1:5555` 連線。
 
 需要在模擬器 `設定` - `進階` 中打開 `Android 調試 (ADB)`。
 
@@ -63,10 +63,10 @@ icon: basil:apple-solid
 
 完美支援。
 
-補充：mac 下夜神模擬器的 ADB 執行檔路徑為 `/Applications/NoxAppPlayer.app/Contents/MacOS/adb`，在父目錄 `MacOS` 下可使用 `adb devices` 指令查看 ADB 連接埠。
+補充：macOS 下夜神模擬器的 ADB 執行檔路徑為 `/Applications/NoxAppPlayer.app/Contents/MacOS/adb`，在父目錄 `MacOS` 下可使用 `adb devices` 指令查看 ADB 連接埠。
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-支援，額外支援[截圖增強模式](../connection.md#avd-截圖增強模式)。
+支援，且額外支援[截圖增強模式](../connection.md#avd-截圖增強模式)。
 
 從 Android 10 開始，Minitouch 在 SELinux 為 `Enforcing` 模式時不再可用。請切換至其他觸控模式，或將 SELinux **臨時**切換為 `Permissive` 模式。
