@@ -18,7 +18,6 @@
             "cacheVariables": {
                 "BUILD_WPF_GUI": "ON",
                 "BUILD_DEBUG_DEMO": "ON",
-                "BUILD_RESOURCE_UPDATER": "ON",
                 "INSTALL_RESOURCE": "OFF",
                 "INSTALL_PYTHON": "OFF"
             },
