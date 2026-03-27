@@ -375,6 +375,7 @@ struct OperProps
     std::string name_jp;
     std::string name_kr;
     std::string name_tw;
+    std::string name_display;
     Role role = Role::Unknown;
     std::array<std::string, 3> ranges;
     int rarity = 0;                  // 稀有度 1-6

@@ -929,11 +929,14 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
         json::value char_new_data;
 
         for (auto& [data, name] : chars_json) {
+            if (data.get(id, "name", "_unavailable_") != "_unavailable_") {
             char_new_data[name] = data.get(id, "name", char_data["name"].as_string());
-            if (data.get(id, "name", "_unavailable_") == "_unavailable_") {
+            }
+            else {
                 char_new_data[name + "_unavailable"] = true;
             }
         }
+        char_new_data["name_display"] = char_new_data["name"];
 
         char_new_data["profession"] = char_data["profession"];
         const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
@@ -974,6 +977,7 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
     Amiya_data["name_jp"] = "アーミヤ-WARRIOR";
     Amiya_data["name_kr"] = "아미야-WARRIOR";
     Amiya_data["name_tw"] = "阿米婭-WARRIOR";
+    Amiya_data["name_display"] = "阿米娅-WARRIOR";
     Amiya_data["profession"] = "WARRIOR";
     Amiya_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
     Amiya_data["rarity"] = 5;
@@ -986,6 +990,7 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
     Amiya_data3["name_jp"] = "アーミヤ-MEDIC";
     Amiya_data3["name_kr"] = "아미야-MEDIC";
     Amiya_data3["name_tw"] = "阿米婭-MEDIC";
+    Amiya_data3["name_display"] = "阿米娅-MEDIC";
     Amiya_data3["profession"] = "MEDIC";
     Amiya_data3["rangeId"] = json::array { "3-1", "3-3", "3-3" };
     Amiya_data3["rarity"] = 5;
@@ -996,6 +1001,34 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
     std::ofstream ofs(out_file, std::ios::out);
     ofs << result.format() << '\n';
     ofs.close();
+
+    std::vector<std::pair<std::string, std::string>> overseas_paths = {
+        { "name_en", "global/YoStarEN/resource/battle_data.json" },
+        { "name_jp", "global/YoStarJP/resource/battle_data.json" },
+        { "name_kr", "global/YoStarKR/resource/battle_data.json" },
+        { "name_tw", "global/txwy/resource/battle_data.json" },
+    };
+
+    for (const auto& [client_name, path] : overseas_paths) {
+        json::value overseas_result;
+        overseas_result["ranges"] = result["ranges"];
+        auto& overseas_chars = overseas_result["chars"];
+
+        for (auto& [id, char_data] : chars.as_object()) {
+            auto name_opt = char_data.find<std::string>(client_name);
+            if (!name_opt) {
+                continue;
+            }
+            auto data = char_data;
+            data.emplace("name_display", *name_opt);
+            overseas_chars.emplace(id, std::move(data));
+        }
+
+        const auto& overseas_file = output_dir / path;
+        std::ofstream overseas_ofs(overseas_file, std::ios::out);
+        overseas_ofs << overseas_result.format() << '\n';
+        overseas_ofs.close();
+    }
 
     return true;
 }
