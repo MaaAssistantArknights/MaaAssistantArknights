@@ -61,8 +61,8 @@ public:
     virtual std::pair<int, int> get_screen_res() const noexcept override;
 
     // JNI thread management (for caller thread-level attach)
-    void* attach_thread();
-    int detach_thread(void* env);
+    void* attach_thread() const;
+    int detach_thread(void* env) const;
 
 private:
     bool m_inited = false;
@@ -73,9 +73,9 @@ private:
     bool init_library();
 
     AsstCallback m_callback = nullptr;
-    void callback(AsstMsg msg, const json::value& details);
+    void callback(AsstMsg msg, const json::value& details) const;
 
-    // MaaFramework/source/include/ControlUnit/AndroidNativeControlUnitAPI.h
+    // MaaFramework/source/include/MaaControlUnit/AndroidNativeControlUnitAPI.h
     using GetVersionFunc = const char*();
     using CreateFunc = MaaFwControlUnitAPI*(const char*);
     using DestroyFunc = void(MaaFwControlUnitAPI*);

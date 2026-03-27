@@ -327,14 +327,14 @@ std::pair<int, int> MaaFwAndroidNativeController::get_screen_res() const noexcep
     return m_screen_size;
 }
 
-void MaaFwAndroidNativeController::callback(AsstMsg msg, const json::value& details)
+void MaaFwAndroidNativeController::callback(const AsstMsg msg, const json::value& details) const
 {
     if (m_callback) {
         m_callback(msg, details, m_inst);
     }
 }
 
-void* MaaFwAndroidNativeController::attach_thread()
+void* MaaFwAndroidNativeController::attach_thread() const
 {
     if (!m_unit_handle || !m_attach_thread_func) {
         LogWarn << "MaaAndroidNativeControlUnit is not initialized or attach_thread not available";
@@ -344,7 +344,7 @@ void* MaaFwAndroidNativeController::attach_thread()
     return m_attach_thread_func(m_unit_handle);
 }
 
-int MaaFwAndroidNativeController::detach_thread(void* env)
+int MaaFwAndroidNativeController::detach_thread(void* env) const
 {
     if (!m_unit_handle || !m_detach_thread_func) {
         LogWarn << "MaaAndroidNativeControlUnit is not initialized or detach_thread not available";
