@@ -5,10 +5,6 @@
 * 添加 local-install.bat 将构建产物打包到 install 目录用于本地生成类似正式版的测试安装包 @ABA2396
 * 任务设置按钮右键新增单次运行功能 @ABA2396
 
-### 改进 | Improved
-
-* colorful sleep @ABA2396
-
 ### 修复 | Fix
 
 * 粘贴作业集不会自动勾选多作业模式 @ABA2396
