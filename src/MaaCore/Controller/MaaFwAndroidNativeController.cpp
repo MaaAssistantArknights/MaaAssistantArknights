@@ -2,11 +2,13 @@
 
 #include "MaaFwAndroidNativeController.h"
 
+#include <cmath>
 #include <thread>
 
 #include "Common/AsstMsg.h"
 #include "Config/GeneralConfig.h"
 #include "Controller/MaaFwControlUnitInterface.h"
+#include "Controller/SwipeHelper.hpp"
 #include "Utils/Logger.hpp"
 
 namespace asst
@@ -28,33 +30,6 @@ MaaFwAndroidNativeController::~MaaFwAndroidNativeController()
         m_destroy_func(m_unit_handle);
         m_unit_handle = nullptr;
     }
-}
-
-bool MaaFwAndroidNativeController::init_library()
-{
-    if (m_get_version_func && m_create_func && m_destroy_func) {
-        LogInfo << "MaaAndroidNativeControlUnit library already loaded";
-        return true;
-    }
-    if (!load_library("MaaAndroidNativeControlUnit")) {
-        LogError << "Failed to load MaaAndroidNativeControlUnit library";
-        return false;
-    }
-
-    m_get_version_func = get_function<GetVersionFunc>("MaaAndroidNativeControlUnitGetVersion");
-    m_create_func = get_function<CreateFunc>("MaaAndroidNativeControlUnitCreate");
-    m_destroy_func = get_function<DestroyFunc>("MaaAndroidNativeControlUnitDestroy");
-    m_attach_thread_func = get_function<AttachThreadFunc>("MaaAndroidNativeControlUnitAttachThread");
-    m_detach_thread_func = get_function<DetachThreadFunc>("MaaAndroidNativeControlUnitDetachThread");
-
-    if (!m_get_version_func || !m_create_func || !m_destroy_func || !m_attach_thread_func || !m_detach_thread_func) {
-        LogError << "Failed to get function pointers from MaaAndroidNativeControlUnit library";
-        return false;
-    }
-
-    LogInfo << "MaaAndroidNativeControlUnit library version:" << m_get_version_func();
-
-    return true;
 }
 
 bool MaaFwAndroidNativeController::connect(
@@ -259,11 +234,11 @@ bool MaaFwAndroidNativeController::input(const std::string& text)
 bool MaaFwAndroidNativeController::swipe(
     const Point& p1,
     const Point& p2,
-    int duration,
-    bool extra_swipe [[maybe_unused]],
-    double slope_in [[maybe_unused]],
-    double slope_out [[maybe_unused]],
-    bool with_pause [[maybe_unused]])
+    const int duration,
+    const bool extra_swipe,
+    const double slope_in,
+    const double slope_out,
+    const bool with_pause)
 {
     LogTraceFunction;
     if (!m_unit_handle) {
@@ -271,7 +246,90 @@ bool MaaFwAndroidNativeController::swipe(
         return false;
     }
 
-    return m_unit_handle->swipe(p1.x, p1.y, p2.x, p2.y, duration);
+    int x1 = p1.x, y1 = p1.y;
+    int x2 = p2.x, y2 = p2.y;
+
+    // 起点不能在屏幕外，但是终点可以
+    if (x1 < 0 || x1 >= m_screen_size.first || y1 < 0 || y1 >= m_screen_size.second) {
+        LogWarn << "swipe point1 is out of range" << x1 << y1;
+        x1 = std::clamp(x1, 0, m_screen_size.first - 1);
+        y1 = std::clamp(y1, 0, m_screen_size.second - 1);
+    }
+
+    // 触摸按下起点
+    m_unit_handle->touch_down(0, x1, y1, 1);
+
+    constexpr int TimeInterval = 5; // 类似 Minitoucher::DefaultSwipeDelay
+
+    bool need_pause = with_pause;
+    const auto& opt = Config.get_options();
+
+    auto bounds_check = [this](int x, int y) {
+        return x >= 0 && x <= m_screen_size.first && y >= 0 && y <= m_screen_size.second;
+    };
+
+    auto move_func = [&](int x, int y) -> bool {
+        if (!m_unit_handle->touch_move(0, x, y, 1)) {
+            return false;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(TimeInterval));
+        return true;
+    };
+
+    auto do_swipe = [&](const int _x1, const int _y1, const int _x2, const int _y2, const int _duration) -> bool {
+        if (need_pause) {
+            auto pause_check = [&opt](const int cur_x, const int cur_y, const int start_x, const int start_y) {
+                return std::sqrt(std::pow(cur_x - start_x, 2) + std::pow(cur_y - start_y, 2)) >
+                       opt.swipe_with_pause_required_distance;
+            };
+
+            return interpolate_swipe_with_pause(
+                _x1,
+                _y1,
+                _x2,
+                _y2,
+                _duration,
+                TimeInterval,
+                slope_in,
+                slope_out,
+                move_func,
+                bounds_check,
+                pause_check,
+                [&]() {
+                    need_pause = false;
+                    press_esc();
+                });
+        }
+        return interpolate_swipe(
+            _x1,
+            _y1,
+            _x2,
+            _y2,
+            _duration,
+            TimeInterval,
+            slope_in,
+            slope_out,
+            move_func,
+            bounds_check);
+    };
+
+    if (!do_swipe(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration)) {
+        LogError << "Failed during main swipe movement";
+        m_unit_handle->touch_up(0);
+        return false;
+    }
+
+    // 额外滑动逻辑
+    if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
+
+        if (!do_swipe(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration)) {
+            LogWarn << "Failed during extra swipe movement";
+        }
+    }
+
+    m_unit_handle->touch_up(0);
+    return true;
 }
 
 bool MaaFwAndroidNativeController::inject_input_event(const InputEvent& event)
@@ -319,19 +377,15 @@ bool MaaFwAndroidNativeController::press_esc()
 
 ControlFeat::Feat MaaFwAndroidNativeController::support_features() const noexcept
 {
-    return ControlFeat::PRECISE_SWIPE;
+    // MaaFwAndroidNativeController 支持精确滑动和暂停滑动功能
+    auto feat = ControlFeat::PRECISE_SWIPE;
+    feat |= ControlFeat::SWIPE_WITH_PAUSE;
+    return feat;
 }
 
 std::pair<int, int> MaaFwAndroidNativeController::get_screen_res() const noexcept
 {
     return m_screen_size;
-}
-
-void MaaFwAndroidNativeController::callback(const AsstMsg msg, const json::value& details) const
-{
-    if (m_callback) {
-        m_callback(msg, details, m_inst);
-    }
 }
 
 void* MaaFwAndroidNativeController::attach_thread() const
@@ -352,6 +406,40 @@ int MaaFwAndroidNativeController::detach_thread(void* env) const
     }
 
     return m_detach_thread_func(m_unit_handle, env);
+}
+
+bool MaaFwAndroidNativeController::init_library()
+{
+    if (m_get_version_func && m_create_func && m_destroy_func) {
+        LogInfo << "MaaAndroidNativeControlUnit library already loaded";
+        return true;
+    }
+    if (!load_library("MaaAndroidNativeControlUnit")) {
+        LogError << "Failed to load MaaAndroidNativeControlUnit library";
+        return false;
+    }
+
+    m_get_version_func = get_function<GetVersionFunc>("MaaAndroidNativeControlUnitGetVersion");
+    m_create_func = get_function<CreateFunc>("MaaAndroidNativeControlUnitCreate");
+    m_destroy_func = get_function<DestroyFunc>("MaaAndroidNativeControlUnitDestroy");
+    m_attach_thread_func = get_function<AttachThreadFunc>("MaaAndroidNativeControlUnitAttachThread");
+    m_detach_thread_func = get_function<DetachThreadFunc>("MaaAndroidNativeControlUnitDetachThread");
+
+    if (!m_get_version_func || !m_create_func || !m_destroy_func || !m_attach_thread_func || !m_detach_thread_func) {
+        LogError << "Failed to get function pointers from MaaAndroidNativeControlUnit library";
+        return false;
+    }
+
+    LogInfo << "MaaAndroidNativeControlUnit library version:" << m_get_version_func();
+
+    return true;
+}
+
+void MaaFwAndroidNativeController::callback(const AsstMsg msg, const json::value& details) const
+{
+    if (m_callback) {
+        m_callback(msg, details, m_inst);
+    }
 }
 
 } // namespace asst
