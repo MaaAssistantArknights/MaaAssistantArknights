@@ -364,22 +364,22 @@ std::pair<int, int> MaaFwAndroidNativeController::get_screen_res() const noexcep
 
 void* MaaFwAndroidNativeController::attach_thread() const
 {
-    if (!m_unit_handle || !m_attach_thread_func) {
-        LogWarn << "MaaAndroidNativeControlUnit is not initialized or attach_thread not available";
+    if (!m_unit_handle) {
+        LogWarn << "MaaAndroidNativeControlUnit is not initialized";
         return nullptr;
     }
 
-    return m_attach_thread_func(m_unit_handle);
+    return m_unit_handle->attach_thread();
 }
 
 int MaaFwAndroidNativeController::detach_thread(void* env) const
 {
-    if (!m_unit_handle || !m_detach_thread_func) {
-        LogWarn << "MaaAndroidNativeControlUnit is not initialized or detach_thread not available";
+    if (!m_unit_handle) {
+        LogWarn << "MaaAndroidNativeControlUnit is not initialized";
         return -1;
     }
 
-    return m_detach_thread_func(m_unit_handle, env);
+    return m_unit_handle->detach_thread(env);
 }
 
 bool MaaFwAndroidNativeController::init_library()
@@ -396,10 +396,8 @@ bool MaaFwAndroidNativeController::init_library()
     m_get_version_func = get_function<GetVersionFunc>("MaaAndroidNativeControlUnitGetVersion");
     m_create_func = get_function<CreateFunc>("MaaAndroidNativeControlUnitCreate");
     m_destroy_func = get_function<DestroyFunc>("MaaAndroidNativeControlUnitDestroy");
-    m_attach_thread_func = get_function<AttachThreadFunc>("MaaAndroidNativeControlUnitAttachThread");
-    m_detach_thread_func = get_function<DetachThreadFunc>("MaaAndroidNativeControlUnitDetachThread");
 
-    if (!m_get_version_func || !m_create_func || !m_destroy_func || !m_attach_thread_func || !m_detach_thread_func) {
+    if (!m_get_version_func || !m_create_func || !m_destroy_func) {
         LogError << "Failed to get function pointers from MaaAndroidNativeControlUnit library";
         return false;
     }

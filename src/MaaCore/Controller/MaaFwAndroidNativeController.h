@@ -69,7 +69,7 @@ private:
     std::string m_uuid;
     std::pair<int, int> m_screen_resolution = { 0, 0 };
 
-    MaaFwControlUnitAPI* m_unit_handle = nullptr;
+    MaaFwAndroidNativeControlUnitAPI* m_unit_handle = nullptr;
     bool init_library();
 
     AsstCallback m_callback = nullptr;
@@ -77,16 +77,12 @@ private:
 
     // MaaFramework/source/include/MaaControlUnit/AndroidNativeControlUnitAPI.h
     using GetVersionFunc = const char*();
-    using CreateFunc = MaaFwControlUnitAPI*(const char*);
-    using DestroyFunc = void(MaaFwControlUnitAPI*);
-    using AttachThreadFunc = void*(MaaFwControlUnitAPI*);
-    using DetachThreadFunc = int(MaaFwControlUnitAPI*, void*);
+    using CreateFunc = MaaFwAndroidNativeControlUnitAPI*(const char*);
+    using DestroyFunc = void(MaaFwAndroidNativeControlUnitAPI*);
 
     std::function<GetVersionFunc> m_get_version_func;
     std::function<CreateFunc> m_create_func;
     std::function<DestroyFunc> m_destroy_func;
-    std::function<AttachThreadFunc> m_attach_thread_func;
-    std::function<DetachThreadFunc> m_detach_thread_func;
 };
 } // namespace asst
 
