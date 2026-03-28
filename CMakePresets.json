@@ -178,8 +178,8 @@
         {
             "name": "windows-publish-x64",
             "inherits": [
-                "windows-x64",
-                "publish-base"
+                "publish-base",
+                "windows-x64"
             ],
             "$comment": [
                 "github actions only support Visual Studio 17 2022",
@@ -191,8 +191,8 @@
         {
             "name": "windows-publish-arm64",
             "inherits": [
-                "windows-arm64",
-                "publish-base"
+                "publish-base",
+                "windows-arm64"
             ],
             "$comment": [
                 "github actions only support Visual Studio 17 2022",
@@ -204,32 +204,32 @@
         {
             "name": "linux-publish-x64",
             "inherits": [
-                "linux-x64",
-                "publish-base"
+                "publish-base",
+                "linux-x64"
             ],
             "displayName": "Linux x64 Publish"
         },
         {
             "name": "linux-publish-arm64",
             "inherits": [
-                "linux-arm64",
-                "publish-base"
+                "publish-base",
+                "linux-arm64"
             ],
             "displayName": "Linux arm64 Publish"
         },
         {
             "name": "macos-publish-x64",
             "inherits": [
-                "macos-x64",
-                "publish-base"
+                "publish-base",
+                "macos-x64"
             ],
             "displayName": "macOS x64 Publish"
         },
         {
             "name": "macos-publish-arm64",
             "inherits": [
-                "macos-arm64",
-                "publish-base"
+                "publish-base",
+                "macos-arm64"
             ],
             "displayName": "macOS arm64 Publish"
         },
