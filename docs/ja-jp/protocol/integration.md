@@ -1147,8 +1147,8 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 ::: field name="MinitouchEnabled" type="boolean" optional  
 廃止済み。元は Minitouch を有効にするかどうか。"1" オン、"0" オフ。デバイスがサポートされていない可能性がります。列挙値：1（廃止済み）。  
 :::  
-::: field name="TouchMode" type="string" optional default="Minitouch"  
-タッチ モード設定。可能な値：minitouch | maatouch | adb | MaaFwAdb。デフォルト Minitouch。列挙値：2。  
+::: field name="TouchMode" type="string" optional default="minitouch"  
+タッチ モード設定。可能な値：minitouch | maatouch | adb | MaaFwAdb。デフォルト minitouch。列挙値：2。  
 :::  
 ::: field name="DeploymentWithPause" type="boolean" optional  
 暫停状態でオペレーターを配置するかどうか。自動戦闘、統合戦略、保全駐在に同時に影響。可能な値："1" または "0"。列挙値：3。  
