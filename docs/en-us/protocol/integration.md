@@ -1149,7 +1149,7 @@ Invalid placeholder. Enum value: 0.
 Deprecated. Originally for enabling Minitouch; "1" - on, "0" - off. Note that the device may not support it. Enum value: 1 (deprecated).  
 :::  
 ::: field name="TouchMode" type="string" optional default="Minitouch"  
-Touch mode setting. Options: Minitouch | MaaTouch | Adb | MaaFwAdb. Default Minitouch. Enum value: 2.  
+Touch mode setting. Options: minitouch | maatouch | adb | MaaFwAdb. Default Minitouch. Enum value: 2.  
 :::  
 ::: field name="DeploymentWithPause" type="boolean" optional  
 Whether to pause when deploying operators (affects IS, Copilot and Stationary Security Service). Options: "1" | "0". Enum value: 3.  
