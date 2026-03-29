@@ -185,18 +185,15 @@ bool asst::InfrastReceptionTask::remove_clue()
 
         Matcher pin_analyzer(ctrler()->get_image());
         pin_analyzer.set_task_info("InfrastClueVacancyPin");
-        if (pin_analyzer.analyze()) {
-            ctrler()->click(pin_analyzer.get_result().rect);
-            sleep(500);
-        }
-        else {
-            // 向下滑动一点，可能是因为线索比较多导致的
-            swipe_to_the_bottom_of_clue_list_on_the_right();
-            sleep(500);
+        for (int i = 0; i < 5; ++i) {
             if (pin_analyzer.analyze()) {
                 ctrler()->click(pin_analyzer.get_result().rect);
                 sleep(500);
+                break;
             }
+            // 向下滑动一点，可能线索比较多
+            swipe_to_the_bottom_of_clue_list_on_the_right();
+            sleep(500);
         }
 
         // 移除线索后点击会客室图标来关闭侧边栏
