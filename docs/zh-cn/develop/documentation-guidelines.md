@@ -7,19 +7,22 @@ icon: jam:write-f
 
 ::: tip
 本文档的目的在于指导文档编写者更好的使用主题提供的功能，以此达到更易读的效果。
-:::
 
-我们的文档基于 [vuepress](https://github.com/vuejs/vuepress) 构建，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主题，你也可以查看[官方文档](https://theme-plume.vuejs.press/)来获取更加详细的说明，这里仅介绍一些常用的功能，或是经过我们自定义的功能
+本文档站的代码存放于[MaaAssistantArknights/docs](https://github.com/cnzhq/MaaAssistantArknights/tree/dev-v2/docs)，而不是在[maa-website](https://github.com/MaaAssistantArknights/maa-website)
+:::
+<!-- 当你怀揣着想写文档的心情，Fork对了正确的项目，在VSCode（或者其他什么地方）看到本行注释的时候，说明你至少没有走错路。而不是像某只大猪头一样clone了文档站仓库，找了一下午 :-( -->
+
+我们的文档基于 [vuepress](https://github.com/vuejs/vuepress) 构建，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主题，你也可以查看[官方文档](https://theme-plume.vuejs.press/)来获取更加详细的说明，这里仅介绍一些常用的功能，或是经过我们自定义的功能。
 
 ## 本地部署
 
-1. 安装 [pnpm](https://pnpm.io/installation)，并参考 [Pull Request 流程简述](./development.md#github-pull-request-流程简述)将仓库克隆到本地。
-2. 在 `docs` 目录下新建终端，运行 `pnpm i` 部署依赖。
+1. 安装 [pnpm](https://pnpm.io/installation)，并参考 [Pull Request 流程简述](./development.md#github-pull-request-流程简述)将仓库克隆到本地；
+2. 在 `docs` 目录下新建终端，运行 `pnpm i` 部署依赖；
 3. 运行 `pnpm run dev` 进行部署。
 
 ## 容器与卡片
 
-该主题提供了关于提示、注释、信息、注意、警告和详情自定义容器的支持，我们可以利用这一特性来强调部分内容
+该主题提供了关于提示、注释、信息、注意、警告和详情自定义容器的支持，我们可以利用这一特性来强调部分内容。
 
 容器的使用方法：
 
@@ -73,7 +76,7 @@ icon: jam:write-f
 :::
 
 ::: demo-wrapper
-这是一个很特殊的容器
+这是一个很特殊的容器!!仿macOS红绿灯窗口!!
 :::
 
 ## 马克笔标记

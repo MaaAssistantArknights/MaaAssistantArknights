@@ -1,0 +1,134 @@
+{
+  "基建": {
+    "en-us": "Base",
+    "zh-tw": "基建",
+    "ja-jp": "基地",
+    "ko-kr": "기반시설"
+  },
+  "公招": {
+    "en-us": "Recruitment",
+    "zh-tw": "公招",
+    "ja-jp": "公開求人",
+    "ko-kr": "공개모집"
+  },
+  "肉鸽": {
+    "en-us": "Roguelike",
+    "zh-tw": "肉鴿",
+    "ja-jp": "ローグライク",
+    "ko-kr": "로그라이크"
+  },
+  "干员": {
+    "en-us": "Operator",
+    "zh-tw": "幹員",
+    "ja-jp": "オペレーター",
+    "ko-kr": "오퍼레이터"
+  },
+  "关卡": {
+    "en-us": "Stage",
+    "zh-tw": "關卡",
+    "ja-jp": "ステージ",
+    "ko-kr": "스테이지"
+  },
+  "任务": {
+    "en-us": "Task",
+    "zh-tw": "任務",
+    "ja-jp": "タスク",
+    "ko-kr": "작업"
+  },
+  "模拟器": {
+    "en-us": "Emulator",
+    "zh-tw": "模擬器",
+    "ja-jp": "エミュレーター",
+    "ko-kr": "에뮬레이터"
+  },
+  "连接": {
+    "en-us": "Connection",
+    "zh-tw": "連接",
+    "ja-jp": "接続",
+    "ko-kr": "연결"
+  },
+  "设置": {
+    "en-us": "Settings",
+    "zh-tw": "設定",
+    "ja-jp": "設定",
+    "ko-kr": "설정"
+  },
+  "自动战斗": {
+    "en-us": "Auto Battle",
+    "zh-tw": "自動戰鬥",
+    "ja-jp": "自動戦闘",
+    "ko-kr": "자동 전투"
+  },
+  "刷图": {
+    "en-us": "Farming",
+    "zh-tw": "刷圖",
+    "ja-jp": "周回",
+    "ko-kr": "파밍"
+  },
+  "理智": {
+    "en-us": "Sanity",
+    "zh-tw": "理智",
+    "ja-jp": "理性",
+    "ko-kr": "이성"
+  },
+  "合成玉": {
+    "en-us": "Orundum",
+    "zh-tw": "合成玉",
+    "ja-jp": "合成玉",
+    "ko-kr": "합성옥"
+  },
+  "源石": {
+    "en-us": "Originite Prime",
+    "zh-tw": "源石",
+    "ja-jp": "純金結晶",
+    "ko-kr": "순금결정"
+  },
+  "龙门币": {
+    "en-us": "LMD",
+    "zh-tw": "龍門幣",
+    "ja-jp": "龍門幣",
+    "ko-kr": "용문폐"
+  },
+  "作战记录": {
+    "en-us": "Battle Record",
+    "zh-tw": "作戰記錄",
+    "ja-jp": "作戦記録",
+    "ko-kr": "작전기록"
+  },
+  "精英化": {
+    "en-us": "Elite",
+    "zh-tw": "精英化",
+    "ja-jp": "昇進",
+    "ko-kr": "정예화"
+  },
+  "技能": {
+    "en-us": "Skill",
+    "zh-tw": "技能",
+    "ja-jp": "スキル",
+    "ko-kr": "스킬"
+  },
+  "潜能": {
+    "en-us": "Potential",
+    "zh-tw": "潛能",
+    "ja-jp": "潜在能力",
+    "ko-kr": "잠재능력"
+  },
+  "信赖": {
+    "en-us": "Trust",
+    "zh-tw": "信賴",
+    "ja-jp": "信頼",
+    "ko-kr": "신뢰도"
+  },
+  "MAA": {
+    "en-us": "MAA",
+    "zh-tw": "MAA",
+    "ja-jp": "MAA",
+    "ko-kr": "MAA"
+  },
+  "MaaAssistantArknights": {
+    "en-us": "MaaAssistantArknights",
+    "zh-tw": "MaaAssistantArknights",
+    "ja-jp": "MaaAssistantArknights",
+    "ko-kr": "MaaAssistantArknights"
+  }
+}

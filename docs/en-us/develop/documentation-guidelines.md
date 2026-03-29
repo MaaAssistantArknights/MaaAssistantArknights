@@ -1,44 +1,52 @@
 ---
 order: 6
-icon: jam:write-f
+icon: 'jam:write-f'
 ---
-
-# Document Writing Guide
+# Documentation Writing Guide
 
 ::: tip
-The purpose of this document is to guide document writers to better utilize the functionalities provided by the theme, thus achieving a more readable effect.
+The purpose of this document is to guide documentation writers on how to better utilize the features provided by the theme to achieve a more readable effect.
+
+The code for this documentation site is located at [MaaAssistantArknights/docs](https://github.com/cnzhq/MaaAssistantArknights/tree/dev-v2/docs), not in [maa-website](https://github.com/MaaAssistantArknights/maa-website).
 :::
+<!-- When you're eager to write documentation, have forked the correct repository, and see this comment in VSCode (or somewhere else), it means you're at least on the right track. Unlike a certain big-headed pig who cloned the documentation site repository and searched for an entire afternoon :-( -->
 
-Our documentation is built on [vuepress](https://github.com/vuejs/vuepress) and utilizes the [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) theme. You can also refer to the [official documentation](https://theme-plume.vuejs.press/) for more detailed explanations. Here, we only introduce some common functionalities.
+Our documentation is built on [vuepress](https://github.com/vuejs/vuepress) and uses the [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) theme. You can also refer to the [official documentation](https://theme-plume.vuejs.press/) for more detailed instructions. Here we only introduce some commonly used features or features that we have customized.
 
-## Deploy Locally
+## Local Deployment
 
-1. Install [Pnpm](https://pnpm.io/installation), and clone the repository refer to [Introduction to GitHub Pull request Flow](./development.md#introduction-to-github-pull-request-flow).
-2. Create a terminal in the `docs` directory, then run `pnpm i` to download dependencies.
+1. Install [pnpm](https://pnpm.io/installation), and refer to [Pull Request Process Overview](./development.md#github-pull-request-流程简述) to clone the repository locally;
+2. Open a terminal in the `docs` directory and run `pnpm i` to install dependencies;
 3. Run `pnpm run dev` to deploy.
 
-## Containers
+## Containers and Cards
 
-~~Not the docker container~~
+The theme provides support for custom containers for tips, notes, information, warnings, dangers, and details. We can use this feature to emphasize certain content.
 
-This theme provides support for custom containers such as tips, notes, info, warnings, alerts, and details. We can utilize this feature to emphasize certain content.
-
-Usage of containers:
+How to use containers:
 
 ```markdown
-::: [Container Type] [Container Title (optional)]
+::: [Container Type] [Container Title (Optional)]
 Content you want to write
 :::
 ```
 
-Accepted container types and their default titles are as follows:
+Or use GitHub-flavored syntax
 
-- `tip` Tips
+```markdown
+> [!Container Type]
+> Content you want to write
+```
+
+Accepted container types and their default titles are:
+
+- `tip` Tip
 - `note` Note
-- `info` Info
+- `info` Information
 - `warning` Warning
-- `danger` Caution
+- `danger` Danger
 - `details` Details
+- `demo-wrapper` ==Special Container==
 
 ### Container Examples
 
@@ -51,7 +59,7 @@ This is a note container
 :::
 
 ::: info
-This is an info container
+This is an information container
 :::
 
 ::: warning
@@ -66,15 +74,201 @@ This is a danger container
 This is a details container
 :::
 
+::: demo-wrapper
+This is a very special container!! Mimicking macOS traffic light window!!
+:::
+
+## Highlighter Marker
+
+You can use the marker syntax to highlight content you want to emphasize.
+
+Usage: Use the syntax `==Marked Content=={Marker Color (Optional)}` for marking. Please note that spaces are required on both sides.
+
+**Input:**
+
+```markdown
+MaaAssistantArknights is developed by ==many pigs==
+```
+
+**Output:**
+
+MaaAssistantArknights is developed by ==many pigs==
+
+The theme also has the following built-in color schemes:
+
+- **default**: `==Default==` - ==Default==
+- **info**: `==Info=={.info}` - ==Info=={.info}
+- **note**: `==Note=={.note}` - ==Note=={.note}
+- **tip**: `==Tip=={.tip}` - ==Tip=={.tip}
+- **warning**: `==Warning=={.warning}` - ==Warning=={.warning}
+- **danger**: `==Danger=={.danger}` - ==Danger=={.danger}
+- **caution**: `==Caution=={.caution}` - ==Caution=={.caution}
+- **important**: `==Important=={.important}` - ==Important=={.important}
+
+## Hidden Text
+
+For some reason, you might need to temporarily black out part of the document. In this case, you can use the hidden text feature.
+
+You can use the syntax `!!Content to be hidden!!{Configuration (Optional)}` to use it. The default effect is as follows:
+
+!!It always feels like reading Moegirlpedia (strikethrough)!!
+
+The following configurations are available:
+
+::: demo-wrapper
+Input:
+
+```markdown
++ Mask effect + Hover: !!You can see me on hover!!{.mask .hover}
++ Mask effect + Click: !!You can see me on click!!{.mask .click}
++ Text blur effect + Hover: !!You can see me on hover!!{.blur .hover}
++ Text blur effect + Click: !!You can see me on click!!{.blur .click}
+```
+
+Output:
+
+- Mask effect + Hover: !!You can see me on hover!!{.mask .hover}
+- Mask effect + Click: !!You can see me on click!!{.mask .click}
+- Text blur effect + Hover: !!You can see me on hover!!{.blur .hover}
+- Text blur effect + Click: !!You can see me on click!!{.blur .click}
+
+:::
+
+## Steps
+
+When you are writing a step-by-step tutorial, ordered lists might lose hierarchy due to nesting. In such cases, the `steps` container is the best choice.
+
+Note that this container uses four colons to mark the beginning and end, different from regular containers.
+
+Input:
+
+````markdown
+:::: steps
+1. Step 1
+
+   ```ts
+   console.log('Hello World!')
+   ```
+
+2. Step 2
+
+   This is the content related to Step 2
+
+3. Step 3
+
+   ::: tip
+   Tip container
+   :::
+
+4. End
+::::
+````
+
+Output:
+
+:::: steps
+
+1. Step 1
+
+   ```ts
+   console.log('Hello World!')
+   ```
+
+2. Step 2
+
+   This is the content related to Step 2
+
+3. Step 3
+
+   ::: tip
+   Tip container
+   :::
+
+4. End
+
+::::
+
+## Smart Image Container
+
+We have wrapped an image container based on the features provided by the theme. This container can automatically display the corresponding theme under light/dark themes and supports automatic layout.
+
+You can use the `<ImageGrid>` component in the markdown body to call this method. The specific syntax and effect are as follows:
+
+::: demo-wrapper
+
+This is the syntax:
+
+```markdown
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/readme/1-light.png',
+    dark: 'images/zh-cn/readme/1-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/2-light.png',
+    dark: 'images/zh-cn/readme/2-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/3-light.png',
+    dark: 'images/zh-cn/readme/3-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/4-light.png',
+    dark: 'images/zh-cn/readme/4-dark.png'
+  }
+]" />
+```
+
+This is the rendering effect:
+
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/readme/1-light.png',
+    dark: 'images/zh-cn/readme/1-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/2-light.png',
+    dark: 'images/zh-cn/readme/2-dark.png'
+  }
+]" />
+
+:::
+
+## Field Container
+
+This syntax is relatively complex. Please refer to the [official documentation](https://theme-plume.vuejs.press/guide/markdown/field/) for usage.
+
+Effect demonstration is as follows:
+
+:::: field-group
+::: field name="theme" type="ThemeConfig" required default="{ base: '/' }"
+Theme configuration
+:::
+
+::: field name="enabled" type="boolean" optional default="true"
+Whether enabled
+:::
+
+::: field name="callback" type="(...args: any[]) => void" optional default="() => {}"
+<Badge type="tip" text="v1.0.0 Added"  />
+Callback function
+:::
+
+::: field name="other" type="string" deprecated
+<Badge type="danger" text="v0.9.0 Deprecated"  />
+Deprecated property
+:::
+::::
+
 ## Icons
 
-This theme provides icon support, where you can use icons in the following places:
+The theme provides icon support. You can use icons in the following places:
 
-- Document title: Set the icon next to the document title in frontmatter.
+- Document Title: Set the icon next to the document title in the frontmatter.
 
-- Navbar/Sidebar: Set icons displayed in the navbar and sidebar.
+- Navigation Bar/Sidebar: Set the icon displayed in the navigation bar and sidebar.
 
-- Document content: Use icons in the document content.
+- Document Content: Use icons within the document.
 
 ### Setting Document Icons
 
@@ -82,7 +276,7 @@ You can use `icon` in the document's [frontmatter](#frontmatter) to set the docu
 
 This icon will be displayed next to the document title.
 
-::: details Frontmatter settings of this document
+::: details Frontmatter settings for this document
 
 ```markdown
 ---
@@ -94,32 +288,37 @@ icon: jam:write-f
 
 ### Using Icons in Documents
 
-You can use the `<HopeIcon />` component to add icons in markdown. This component has the following attributes:
+You can use the `<Icon />` component to add icons in markdown. This component has the following properties:
 
-- `icon`: Accepts icon keywords and URLs, such as `jam:write-f`, `ic:round-home`, etc.
-- `color`: Accepts CSS-style color values, such as `#fff`, `red`, etc. (This option only works for SVG icons).
-- `size`: Accepts CSS-style sizes, such as `1rem`, `2em`, `100px`, etc.
+- `icon` accepts icon keywords and URLs, such as `jam:write-f`, `ic:round-home`, etc.
+- `color` accepts CSS-style color values, such as `#fff`, `red`, etc. (This option is only valid for SVG icons)
+- `size` accepts CSS-style sizes, such as `1rem`, `2em`, `100px`, etc.
 
-::: details Example
-<HopeIcon icon="ic:round-home" color="#1f1e33"/>
+::: demo-wrapper Example
+
+Input:
 
 ```markdown
-<HopeIcon icon="ic:round-home" color="#1f1e33"/>
+- home - <Icon name="material-symbols:home" color="currentColor" size="1em" />
+- vscode - <Icon name="skill-icons:vscode-dark" size="2em" />
+- twitter - <Icon name="skill-icons:twitter" size="2em" />
 ```
 
-<HopeIcon icon="/images/maa-logo_512x512.png" size="4rem" />
-```markdown
-<HopeIcon icon="/images/maa-logo_512x512.png" size="4rem" />
-```
+Output:
+
+- home - <Icon name="material-symbols:home" color="currentColor" size="1em" />
+- vscode - <Icon name="skill-icons:vscode-dark" size="2em" />
+- twitter - <Icon name="skill-icons:twitter" size="2em" />
+
 :::
 
 ### Obtaining Icon Keywords
 
-The icons used in this document are from [iconify](https://iconify.design/). You can search for the icons you want in its provided [icon search interface](https://icon-sets.iconify.design/) and then copy their keywords.
+The icons used in this documentation come from [iconify](https://iconify.design/). You can search for the icons you want on its [icon search interface](https://icon-sets.iconify.design/) and then copy their keywords.
 
 ## Frontmatter
 
-Frontmatter is the content at the beginning of a Markdown document enclosed in `---,` using YAML syntax internally. Through frontmatter, we can identify the document's editing time, the icon used, the classification, tags, etc.
+Frontmatter is a section at the beginning of a Markdown document wrapped in `---`, using YAML syntax internally. Through Frontmatter, we can identify the document's editing time, icons used, categories, tags, etc.
 
 ::: details Example
 
@@ -139,6 +338,6 @@ order: 1
 
 The meanings of each field are as follows:
 
-- `date`: Editing time of the document
+- `date`: Document editing time
 - `icon`: Icon next to the document title
-- `order`: Document order in the sidebar
+- `order`: Sorting of the document in the sidebar

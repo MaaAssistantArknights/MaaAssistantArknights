@@ -10,15 +10,25 @@
     "scripts": {
         "dev": "vuepress dev .",
         "build": "vuepress build .",
-        "clean": "vuepress dev . --clean-cache"
+        "clean": "vuepress dev . --clean-cache",
+        "i18n:check": "node tools/i18n/sync.mjs check",
+        "i18n:git": "node tools/i18n/sync.mjs git",
+        "i18n:init": "node tools/i18n/sync.mjs init",
+        "i18n:translate": "node tools/i18n/translate.mjs"
+    },
+    "dependencies": {
+        "chalk": "^5.3.0",
+        "dotenv": "^16.4.5",
+        "glob": "^10.4.5",
+        "openai": "^4.73.0"
     },
     "devDependencies": {
         "@iconify/vue": "^5.0.0",
         "@vuepress/bundler-vite": "2.0.0-rc.26",
-        "@vuepress/helper": "2.0.0-rc.118",
-        "@vuepress/plugin-docsearch": "2.0.0-rc.118",
-        "@vuepress/plugin-git": "2.0.0-rc.118",
-        "@vuepress/plugin-google-analytics": "2.0.0-rc.118",
+        "@vuepress/helper": "^2.0.0-rc.118",
+        "@vuepress/plugin-docsearch": "^2.0.0-rc.118",
+        "@vuepress/plugin-git": "^2.0.0-rc.118",
+        "@vuepress/plugin-google-analytics": "^2.0.0-rc.118",
         "@vueuse/core": "^13.9.0",
         "bcrypt-ts": "^7.1.0",
         "gray-matter": "^4.0.3",

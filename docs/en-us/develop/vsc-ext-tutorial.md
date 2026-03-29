@@ -1,131 +1,130 @@
 ---
 order: 8
-icon: iconoir:code-brackets
+icon: 'iconoir:code-brackets'
 ---
+# VS Code Extension Tutorial
 
-# Dedicated VS Code Extension Tutorial
+This extension provides a series of convenient development capabilities for MaaAssistantArknights/MaaFramework, including but not limited to the following features:
 
-The extension provides a series of convenient development capabilities for MaaAssistantArknights/MaaFramework, including but not limited to the following features:
+- tasks.json support, including `template preview`, `next jump`, `task references`, etc.
+- Image capture/cropping
 
-- tasks.json support, including `template preview`, `next jump`, `task reference`, etc.
-- Screenshot / Crop image
-
-For details, please visit [Extension Store](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) or [Repository](https://github.com/neko-para/maa-support-extension).
+For specific content, please visit the [Extension Marketplace](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) or the [Repository](https://github.com/neko-para/maa-support-extension).
 
 ## Installation
 
-Searching `Maa` and installing it from VS Code extensions list is recommended.
+It is recommended to search for `Maa` directly in the VS Code extension list to install.
 
 ::: tip
-When used for the first time, the extension will automatically download the preset version of resources.
-Search command `Maa: select fetch registry` to switch the download source (npm / cnpm).
+On first use, the extension will automatically download the preset version of resources.
+Search for the command `Maa: Select Download Source` to switch the download source (npm / cnpm).
 :::
 
 ## Features
 
 ### Control Panel
 
-A dedicated control panel is added to the left, with icon ![MaaSupport ControlPanel](/images/maa-support-panel.svg)
+A dedicated control panel is added on the left, with the icon ![MaaSupport ControlPanel](/images/maa-support-panel.svg).
 
-The major features of the extension are based on the `interface.json` configuration. Select the activated `interface.json` on the top of the control panel.
+Most of the extension's features are based on the `interface.json` configuration. At the top of the control panel, you can select the active `interface.json`.
 
-The extension has a `Maa` compatiable mode. If `src/MaaCore` folder exists inside the opened workspace, the mode will be enabled automatically.
+The extension has a `Maa` compatibility mode. It will be automatically enabled when a `src/MaaCore` folder is detected in the opened workspace.
 
-### Semantic resource analysis
+### Semantic Resource Analysis
 
-Select expected resource via the `Resource` select inside the control panel. The extension will index and diagnose resource via corresponding paths.
+Select the desired resource by switching the `Resource` dropdown in the control panel. The extension will index and perform diagnostics based on the corresponding path.
 
-If you find that the editing json isn't hinted by the extension, please check if the activated resource contains it.
+If you find that the JSON file you want to edit doesn't have extension hints, please check if the active resource does not include that file.
 
-> The term `definitions of task / task defs` refers to key props of task objects.
+> The so-called `task definition` refers to the key of a task object.
 >
-> The term `references of task / task refs` refers to values containing task name (e.g. in `next`) in other task objects.
+> The so-called `task reference` refers to values in other tasks where a task name can be entered (e.g., in `next`).
 
-#### Query task defs / task refs
+#### Query Task Definition/Reference
 
-The extension supports Jump to task defs, Jump to task refs and View task defs.
+The extension supports jumping to definition, jumping to references, and viewing task definitions.
 
-When enabling the `Maa` compatible mode, the extension will be able to parse `template task`, supporting querying task defs and task refs in conjunction with base tasks. Images that have the same name as the task will be shown when hovering the task defs.
+When `Maa` compatibility mode is enabled, it can parse `template tasks`, supporting linked base class queries for task definitions and references; hovering over a task definition allows viewing images with the same name.
 
-Use `Ctrl+T` to quickly query and jump to a task definition.
+Use the `Ctrl+T` shortcut key to quickly query and jump to task definitions.
 
-#### Query / open images
+#### Query/Open Images
 
-The extension supports open images.
+The extension supports opening images.
 
-When enabling the `Maa` compatible mode, the extension will be able to recursively search for the image.
+When `Maa` compatibility mode is enabled, recursive search is allowed for image paths.
 
-#### Task completion
+#### Task Completion
 
-The extension supports autocompletion according to all known tasks.
+The extension supports auto-completion based on all known tasks.
 
-When enabling the `Maa` compatible mode, typing `@` will trigger completion.
+When `Maa` compatibility mode is enabled, typing `@` will trigger completion.
 
-#### Image path completion
+#### Image Path Completion
 
-The extension supports autocompletion according to the path of all known images.
+The extension supports auto-completion based on all known image paths.
 
-When enabling the `Maa` compatible mode, the extension will be able to recursively search for the image.
+When `Maa` compatibility mode is enabled, recursive search is allowed for image paths.
 
-#### Check tasks / image paths
+#### Validate Task/Image Paths
 
-The extension supports scheduled scanning and diagnosing all tasks.
+The extension supports scheduled scanning and analysis of all tasks.
 
-- Check if contains task defs with same names.
-- Check if contains unknown task refs.
-- Check if contains unknown image refs.
-- Check if contains duplicated task refs in a single task.
+- Check for duplicate task definitions
+- Check for unknown task references
+- Check for unknown image references
+- Check for duplicate task references within a single task
 
-#### Multiple paths resource support
+#### Multi-path Resource Support
 
-The extension supports resource with multiple paths. The extension will perform logical overlapping according to specified order, thus content loaded later can reference content loaded earlier.
+The extension supports resources containing multiple paths, which are logically overlaid in the specified order, meaning later-loaded content can reference earlier-loaded content.
 
-### Evaluate Task / Tsak List Expression (Only Maa)
+### Compute Task / Task List Expression (Maa only)
 
-Evaluating the expanded task object and the sources of each properties, and the result of the task list expression via the control panel.
+Through the control panel, you can compute the actual expanded content of a task and the source of each item; you can also compute the result of expanding a task list expression.
 
-### MaaPiCli feature (Only MaaFramework projects)
+### MaaPiCli Features (MaaFramework projects only)
 
-Scanning and selecting controllers, selecting resource, adding and manipulating tasks, and launching tasks can be done via the control panel.
+Through the control panel, you can scan and select controllers, select resources, add and manage tasks, and execute tasks.
 
-### Take screenshots and crop images / Quick recognition
+### Screenshot Cropping / Quick Recognition
 
-Searching and launching `Maa: open crop tool` inside VS Code command panel can open `Screenshots / Crop` panel.
+Search for and execute the command `Maa: Open Screenshot Tool` in the VS Code command palette to open the `Screenshot / Crop` panel.
 
-> Use `Ctrl+Shift+P` (`Command+Shift+P` on macOS) to open command panel
+> Use `Ctrl+Shift+P` (or `Command+Shift+P` on macOS) to open the command palette.
 
-- After selecting and connecting to the controller, use `Screencap` button to obtain screenshots
-- Use `Upload` button to manually upload images.
-- Hold `Ctrl` key and select cropping area
-- Use wheels to zoom
-- After finishing cropping, use `Download` button to save the cropping result to the folder of the topest layer of the activated resource
-- Use `Copy` button to copy the ROI as an array to the clipboard.
-- Click `Tool` button to open the recognition tool panel, where you can directly test recognition on the current image.
+- After selecting and connecting a controller, use the `Screenshot` button to directly capture a screenshot.
+- Use the `Upload` button to manually upload an image.
+- Hold the `Ctrl` key and drag to select the area to crop.
+- Use the mouse wheel to zoom.
+- After cropping, use the `Download` button to automatically save the cropped result to the top-level image directory of the active resource.
+- Use the `Copy` button to copy the ROI as an array to the clipboard.
+- Press the `Tool` button to open the recognition tool panel, where you can directly perform recognition tests on the current image.
 
 ::: warning
 
-If OCR recognition returns an empty result, please check whether the [OCR model](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files) is configured correctly.
+If the OCR recognition result is empty, please check if the [OCR model](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6) is correctly configured.
 
-For MAA, the extension will maintain the models used automatically; you only need to select the proper resource.
+For MAA, the extension will automatically maintain the model used; you just need to select the correct resource.
 
 :::
 
-### Log View
+### Log Viewing Features
 
-#### MaaFramework Log
+#### MaaFramework Logs
 
-Search and execute `Maa: open maa log` in the VS Code command panel to view the `maa.log` generated during debugging.
+Search for and execute the command `Maa: Open maa log` in the VS Code command palette to view the `maa.log` logs generated during debugging.
 
-#### Maa Pipeline Support Extension Log
+#### Maa Pipeline Support Extension Logs
 
-Search and execute `Maa: open extension log` in the VS Code command panel to view the `mse.log` generated during debugging.
+Search for and execute the command `Maa: Open extension log` in the VS Code command palette to view the `mse.log` logs generated during debugging.
 
-### Bottom status bar
+### Bottom Status Bar
 
-#### MaaSupport \[Extension Version\]
+#### MaaSupport `<Extension Version>`
 
-Click to reveal control panel
+Click to focus the control panel.
 
-#### MaaFramework [MaaFw Version]
+#### MaaFramework `<MaaFw Version>`
 
-Click to switch `MaaFramework` version used by the extension. The selectable versions are limited to those supported by the current extension. If the version you need is not in the list, please consider changing the extension version.
+Click to switch the `MaaFramework` version used by the extension. The selectable versions are limited to those supported by the current extension version. If the version you need is not in the list, please consider changing the extension version.
