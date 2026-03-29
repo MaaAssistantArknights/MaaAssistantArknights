@@ -121,10 +121,10 @@ Search for and execute the command `Maa: Open extension log` in the VS Code comm
 
 ### Bottom Status Bar
 
-#### MaaSupport <Extension Version>
+#### MaaSupport `<Extension Version>`
 
 Click to focus the control panel.
 
-#### MaaFramework <MaaFw Version>
+#### MaaFramework `<MaaFw Version>`
 
 Click to switch the `MaaFramework` version used by the extension. The selectable versions are limited to those supported by the current extension version. If the version you need is not in the list, please consider changing the extension version.
