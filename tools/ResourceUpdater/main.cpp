@@ -939,6 +939,7 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
         char_new_data["name_display"] = char_new_data["name"];
 
         char_new_data["profession"] = char_data["profession"];
+        char_new_data["subProfessionId"] = char_data["subProfessionId"];
         const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
         char_new_data["rangeId"] = json::array {
             default_range,

@@ -29,6 +29,8 @@ bool asst::BattleDataConfig::parse(const json::value& json)
         data_ptr->name_jp = name_jp;
         data_ptr->name_kr = name_kr;
         data_ptr->name_tw = name_tw;
+        data_ptr->name_display = char_data_json.get("name_display", "");
+
         static const std::unordered_map<std::string, battle::Role> RoleMap = {
             { "CASTER", battle::Role::Caster },   { "MEDIC", battle::Role::Medic },
             { "PIONEER", battle::Role::Pioneer }, { "SNIPER", battle::Role::Sniper },
