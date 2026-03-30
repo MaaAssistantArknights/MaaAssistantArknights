@@ -54,6 +54,13 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 由于 MAA 依赖的运行库和系统组件要求 Windows 10 及以上版本，MAA 不再支持 Windows 7 / 8 / 8.1 系统。
 
+### 被 Windows Defender / 杀毒软件误报（PUA / 病毒）
+
+- 请先确认下载来源可信，仅使用官网、GitHub Releases、Winget 或官方群文件；并确认下载的是完整安装包（如 `MAA-<版本>-win-x64.zip`）。
+- 自动化工具可能会触发部分杀毒软件的启发式检测，出现误报并不一定代表软件存在恶意行为。
+- 若确认来源可信，建议向对应安全厂商提交误报样本，等待其病毒库修正。
+- 在等待修正期间，可临时将 MAA 安装目录加入杀毒软件白名单；不建议直接关闭系统实时防护。
+
 ## 连接错误
 
 ### 确认 ADB 及连接地址正确
