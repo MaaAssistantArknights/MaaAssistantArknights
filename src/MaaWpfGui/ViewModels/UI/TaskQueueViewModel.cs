@@ -1976,6 +1976,13 @@ public class TaskQueueViewModel : Screen
 
     public void SetStopped()
     {
+        // If this stop comes from an explicit stop flow, reset skipped/temporary
+        // task item states so the task list returns to normal selectable appearance.
+        if (_runningState.GetStopping())
+        {
+            ResetTaskItemStatuses();
+        }
+
         SleepManagement.AllowSleep();
         if (SettingsViewModel.GameSettings.ManualStopWithScript)
         {
