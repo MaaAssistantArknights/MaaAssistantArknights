@@ -1256,10 +1256,12 @@ public class AsstProxy
                         }
                     }
 
-                    var toastMessage = FightTask.SanityReport is not null
-                        ? allTaskCompleteTitle + Environment.NewLine + sanityReport
-                        : allTaskCompleteTitle;
-                    ToastNotification.ShowDirect(toastMessage);
+                    var toastNotification = new ToastNotification(allTaskCompleteTitle);
+                    if (FightTask.SanityReport is not null && !string.IsNullOrWhiteSpace(sanityReport))
+                    {
+                        toastNotification.AppendContentText(sanityReport);
+                    }
+                    toastNotification.Show();
 
                     if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
                     {
