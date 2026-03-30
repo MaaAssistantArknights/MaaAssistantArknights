@@ -56,7 +56,7 @@ Due to runtime libraries and system components requiring Windows 10 or above, MA
 
 ### Flagged by Windows Defender / antivirus software (PUA / malware)
 
-- First verify the download source. Only use official channels (official website, GitHub Releases, Winget, or official community file distribution), and make sure you downloaded the full package (for example, `MAA-<version>-win-x64.zip`).
+- First verify the download source. Only use official channels (official website, GitHub Releases, Winget, or official community distribution channels), and make sure you downloaded the full package (for example, `MAA-<version>-win-x64.zip`).
 - Automation tools may trigger heuristic detections in some antivirus engines. A detection result does not always mean the program is malicious.
 - If the source is trusted, submit a false-positive sample to the security vendor and wait for signature updates.
 - While waiting, you can temporarily add the MAA installation directory to antivirus allowlists. Avoid disabling real-time protection entirely.
