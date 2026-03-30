@@ -1173,7 +1173,7 @@ public class AsstProxy
                 bool isMainTaskQueueAllCompleted = false;
                 var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
                 var taskErrorSummary = BuildTaskErrorSummaryLog();
-                bool hasTaskErrors = HasTaskErrors(taskErrorSummary);
+                bool hasTaskErrors = !string.IsNullOrWhiteSpace(taskErrorSummary);
                 if (taskList?.Length > 0)
                 {
                     var latestMainTaskIds = _tasksStatus.Where(i => _mainTaskTypes.Contains(i.Value.Type)).Select(i => i.Key);
@@ -1204,9 +1204,8 @@ public class AsstProxy
                     var diffTaskTime = (dateTimeNow - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
 
                     var configurationPreset = ConfigurationHelper.GetCurrentConfiguration();
-                    var allTaskCompleteTitle = BuildTaskCompletionTitle(diffTaskTime, hasTaskErrors);
+                    var allTaskCompleteTitle = BuildTaskCompletionText(diffTaskTime, hasTaskErrors);
                     var allTaskCompleteMessage = BuildTaskCompletionExternalMessage(dateTimeNow, configurationPreset, diffTaskTime, taskErrorSummary);
-                    var allTaskCompleteLog = BuildTaskCompletionLog(diffTaskTime, hasTaskErrors);
                     var sanityReport = LocalizationHelper.GetString("SanityReport");
 
                     if (FightTask.SanityReport is not null)
@@ -1214,7 +1213,7 @@ public class AsstProxy
                         var recoveryTime = FightTask.SanityReport.ReportTime.AddMinutes(FightTask.SanityReport.SanityCurrent < FightTask.SanityReport.SanityMax ? (FightTask.SanityReport.SanityMax - FightTask.SanityReport.SanityCurrent) * 6 : 0);
                         sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
-                        allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
+                        var allTaskCompleteLog = allTaskCompleteTitle + Environment.NewLine + sanityReport;
                         AddTaskCompletionLog(allTaskCompleteLog, hasTaskErrors);
 
                         if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
@@ -1244,7 +1243,7 @@ public class AsstProxy
                     }
                     else
                     {
-                        AddTaskCompletionLog(allTaskCompleteLog, hasTaskErrors);
+                        AddTaskCompletionLog(allTaskCompleteTitle, hasTaskErrors);
 
                         if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
                         {
@@ -2883,19 +2882,7 @@ public class AsstProxy
         return errorTime.ToString("HH:mm:ss");
     }
 
-    private static bool HasTaskErrors(string taskErrorSummary)
-    {
-        return !string.IsNullOrWhiteSpace(taskErrorSummary);
-    }
-
-    private static string BuildTaskCompletionTitle(string diffTaskTime, bool hasTaskErrors)
-    {
-        return hasTaskErrors
-            ? string.Format(LocalizationHelper.GetString("TaskCompletedWithErrors"), diffTaskTime)
-            : string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
-    }
-
-    private static string BuildTaskCompletionLog(string diffTaskTime, bool hasTaskErrors)
+    private static string BuildTaskCompletionText(string diffTaskTime, bool hasTaskErrors)
     {
         return hasTaskErrors
             ? string.Format(LocalizationHelper.GetString("TaskCompletedWithErrors"), diffTaskTime)
@@ -2962,9 +2949,10 @@ public class AsstProxy
         StringBuilder builder = new();
         builder.AppendLine(LocalizationHelper.GetString("TaskErrorSummaryTitle"));
 
-        foreach (var taskId in _failedTaskSummary.Keys.OrderBy(id => id))
+        foreach (var entry in _failedTaskSummary.OrderBy(pair => pair.Key))
         {
-            var info = _failedTaskSummary[taskId];
+            var taskId = entry.Key;
+            var info = entry.Value;
             string mainTaskName = ResolveTaskDisplayName(taskId, info.TaskChain);
             builder.AppendLine(LocalizationHelper.GetStringFormat("TaskErrorSummaryItem", FormatTaskErrorTime(info.ErrorTime), mainTaskName));
         }
