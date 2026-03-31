@@ -100,6 +100,11 @@ bool asst::StageNavigationTask::try_last_battle()
 {
     LogTraceFunction;
 
+    if (m_last_battle_checked) {
+        return false;
+    }
+    m_last_battle_checked = true;
+
     if (m_stage_code.empty()) {
         return false;
     }
@@ -107,16 +112,10 @@ bool asst::StageNavigationTask::try_last_battle()
     auto image = ctrler()->get_image();
     OCRer analyzer(image);
     analyzer.set_task_info("LastBattleStageName");
+    analyzer.set_required({ m_stage_code });
 
     if (!analyzer.analyze()) {
-        return false;
-    }
-
-    const auto& results = analyzer.get_result();
-    bool matched = std::ranges::any_of(results, [&](const auto& r) { return r.text == m_stage_code; });
-
-    if (!matched) {
-        Log.info("Last battle stage does not match target", m_stage_code);
+        Log.info("Last battle OCR failed or stage not found near button", m_stage_code);
         return false;
     }
 
@@ -131,6 +130,7 @@ void asst::StageNavigationTask::clear() noexcept
     m_chapter_task.clear();
     m_difficulty_task.clear();
     m_stage_code.clear();
+    m_last_battle_checked = false;
 }
 
 bool asst::StageNavigationTask::chapter_wayfinding()
