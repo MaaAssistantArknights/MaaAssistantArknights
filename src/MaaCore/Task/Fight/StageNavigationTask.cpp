@@ -159,7 +159,48 @@ bool asst::StageNavigationTask::_run()
         }
     }
 
+    if (try_last_battle()) {
+        return true;
+    }
+
     return chapter_wayfinding() && swipe_and_find_stage() && switch_difficulty_after_stage_selection();
+}
+
+bool asst::StageNavigationTask::try_last_battle()
+{
+    LogTraceFunction;
+
+    if (m_stage_code.empty()) {
+        return false;
+    }
+
+    // 快路径只会点击"上一次作战"入口，不会执行难度切换，指定了难度的导航必须走完整流程
+    if (!m_difficulty_tasks.empty()) {
+        return false;
+    }
+
+    auto image = ctrler()->get_image();
+    OCRer analyzer(image);
+    analyzer.set_task_info("LastBattleStageName");
+
+    if (!analyzer.analyze()) {
+        return false;
+    }
+
+    const auto& results = analyzer.get_result();
+    bool matched = std::ranges::any_of(results, [&](const auto& r) { return r.text == m_stage_code; });
+
+    if (!matched) {
+        Log.info("Last battle stage does not match target", m_stage_code);
+        return false;
+    }
+
+    // GoLastBattle 的 next 链会点到 StartButton1 直接开打，导航只负责到达关卡界面，
+    // 禁用后停在理智提示界面，由后续 FightTask 衔接
+    auto go_last_battle = ProcessTask(*this, { "GoLastBattle" });
+    go_last_battle.set_times_limit("StartButton1", 0);
+    Log.info("Last battle matches target, using shortcut", m_stage_code);
+    return go_last_battle.set_retry_times(3).run();
 }
 
 void asst::StageNavigationTask::clear() noexcept

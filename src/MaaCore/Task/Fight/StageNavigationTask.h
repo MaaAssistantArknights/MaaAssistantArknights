@@ -24,6 +24,7 @@ protected:
     virtual bool _run() override;
     void clear() noexcept;
 
+    bool try_last_battle();
     bool chapter_wayfinding();
     bool swipe_and_find_stage();
     bool switch_difficulty_after_stage_selection();
