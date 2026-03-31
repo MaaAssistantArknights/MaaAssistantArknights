@@ -23,8 +23,6 @@ private:
     std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;
     std::shared_ptr<AccountSwitchTask> m_account_switch_task_ptr = nullptr;
 
-    bool m_restart_on_login_failed = false;
-
     static constexpr int MaxRestartAttempts = 5;
 };
 }

@@ -94,7 +94,6 @@ public static class ConfigurationKeys
     public const string AttachWindowKeyboardMethod = "Connect.AttachWindow.KeyboardMethod";
 
     public const string StartGame = "Start.StartGame";
-    public const string RestartOnLoginFailed = "Start.RestartOnLoginFailed";
     public const string ClientType = "Start.ClientType";
     public const string AccountName = "Start.AccountName"; // 已迁移
     public const string RunDirectly = "Start.RunDirectly";

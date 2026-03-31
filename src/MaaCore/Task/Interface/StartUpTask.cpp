@@ -36,42 +36,34 @@ bool asst::StartUpTask::run()
         return true;
     }
 
-    m_start_game_task_ptr->run();
+    if (!m_start_game_task_ptr->run()) {
+        return false;
+    }
 
-    if (need_exit()) return false;
+    if (need_exit()) {
+        return false;
+    }
 
-    if (m_account_switch_task_ptr->get_enable()) {
-        if (!m_account_switch_task_ptr->run()) {
-            return false;
-        }
-        if (need_exit()) return false;
+    if (!m_account_switch_task_ptr->run()) {
+        return false;
     }
 
     if (m_start_up_task_ptr->run()) {
         return true;
     }
 
-    if (!m_restart_on_login_failed || !m_start_game_task_ptr->get_enable()) {
-        return false;
-    }
-
     Log.warn(__FUNCTION__, "| login failed, entering game-restart loop");
     for (int attempts = 0; attempts < MaxRestartAttempts && !need_exit(); ++attempts) {
-        Log.info(__FUNCTION__, "| restarting game client (attempt", attempts + 1, "/", MaxRestartAttempts);
+        Log.info(__FUNCTION__, "| restarting game client (attempt", attempts + 1, "/", MaxRestartAttempts, ")");
         if (!m_start_game_task_ptr->restart_game()) {
             Log.warn(__FUNCTION__, "| restart_game failed, retrying");
             sleep(3000);
             continue;
         }
 
-        if (need_exit()) break;
-
-        if (m_account_switch_task_ptr->get_enable()) {
-            if (!m_account_switch_task_ptr->run()) {
-                Log.warn(__FUNCTION__, "| account switch failed after restart, retrying game restart");
-                continue;
-            }
-            if (need_exit()) break;
+        if (!m_account_switch_task_ptr->run()) {
+            Log.warn(__FUNCTION__, "| account switch failed after restart, retrying game restart");
+            continue;
         }
 
         Log.info(__FUNCTION__, "| game restarted, retrying login navigation");
@@ -95,7 +87,6 @@ bool asst::StartUpTask::set_params(const json::value& params)
         return false;
     }
     m_start_game_task_ptr->set_client_type(client_type).set_enable(params.get("start_game_enabled", false));
-    m_restart_on_login_failed = params.get("restart_on_login_failed", false);
     m_account_switch_task_ptr->set_enable(!account_name.empty());
     m_account_switch_task_ptr->set_account(std::move(account_name));
     m_account_switch_task_ptr->set_client_type(std::move(client_type));
