@@ -24,10 +24,13 @@ protected:
     virtual bool _run() override;
     void clear() noexcept;
 
-    bool try_last_battle();
     bool chapter_wayfinding();
     bool swipe_and_find_stage();
     bool switch_difficulty_after_stage_selection();
+
+private:
+    bool try_last_battle();
+    bool m_last_battle_checked = false;
 
     // 是否有定义任务名的Task
     bool m_is_directly = false;
