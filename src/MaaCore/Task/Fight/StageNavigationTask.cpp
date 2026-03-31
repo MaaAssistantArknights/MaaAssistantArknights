@@ -89,7 +89,39 @@ bool asst::StageNavigationTask::_run()
         }
     }
 
+    if (try_last_battle()) {
+        return true;
+    }
+
     return chapter_wayfinding() && swipe_and_find_stage();
+}
+
+bool asst::StageNavigationTask::try_last_battle()
+{
+    LogTraceFunction;
+
+    if (m_stage_code.empty()) {
+        return false;
+    }
+
+    auto image = ctrler()->get_image();
+    OCRer analyzer(image);
+    analyzer.set_task_info("LastBattleStageName");
+
+    if (!analyzer.analyze()) {
+        return false;
+    }
+
+    const auto& results = analyzer.get_result();
+    bool matched = std::ranges::any_of(results, [&](const auto& r) { return r.text == m_stage_code; });
+
+    if (!matched) {
+        Log.info("Last battle stage does not match target", m_stage_code);
+        return false;
+    }
+
+    Log.info("Last battle matches target, using shortcut", m_stage_code);
+    return ProcessTask(*this, { "GoLastBattle" }).set_retry_times(3).run();
 }
 
 void asst::StageNavigationTask::clear() noexcept

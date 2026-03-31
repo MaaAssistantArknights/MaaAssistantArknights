@@ -1622,6 +1622,27 @@
         "action": "ClickSelf",
         "next": ["UsePrts-Annihilation", "UsePrts", "UsePrts-StageSN", "StartButton1", "#self"]
     },
+    "LastBattleStageName": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "isAscii": true,
+        "fullMatch": true,
+        "text": [],
+        "roi": [916, 430, 249, 60],
+        "ocrReplace": [
+            ["-\\]", "-1"],
+            [" ", ""],
+            ["s", "S"],
+            ["c", "C"],
+            ["o", "O"],
+            ["g", "8"],
+            ["t", "T"],
+            [":", ""],
+            ["'", ""],
+            ["(H\\d+)O(?=-)", "$010"],
+            ["(-\\d+)O", "$010"]
+        ]
+    },
     "RecruitBegin": {
         "algorithm": "JustReturn",
         "next": [
