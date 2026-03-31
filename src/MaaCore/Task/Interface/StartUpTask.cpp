@@ -52,6 +52,12 @@ bool asst::StartUpTask::run()
         return true;
     }
 
+    if (!m_start_game) {
+        LogInfo << __FUNCTION__
+                << "| StartUpTask failed, but start_game is not enabled, so won't restart game and just fail";
+        return false;
+    }
+
     Log.warn(__FUNCTION__, "| login failed, entering game-restart loop");
     for (int attempts = 0; attempts < MaxRestartAttempts && !need_exit(); ++attempts) {
         Log.info(__FUNCTION__, "| restarting game client (attempt", attempts + 1, "/", MaxRestartAttempts, ")");
@@ -86,7 +92,9 @@ bool asst::StartUpTask::set_params(const json::value& params)
     if (!Config.get_package_name(client_type)) {
         return false;
     }
-    m_start_game_task_ptr->set_client_type(client_type).set_enable(params.get("start_game_enabled", false));
+
+    m_start_game = params.get("start_game_enabled", false);
+    m_start_game_task_ptr->set_client_type(client_type).set_enable(m_start_game);
     m_account_switch_task_ptr->set_enable(!account_name.empty());
     m_account_switch_task_ptr->set_account(std::move(account_name));
     m_account_switch_task_ptr->set_client_type(std::move(client_type));
