@@ -3942,5 +3942,8 @@
     "resource/template/Battle/BattleFlag/EndOfActionAnnihilation": "682e68a9f6fc3ecd3265fe8afd55ed51feaa0d2ffbe73ff72ac5991cf8e1d4d1",
     "resource/template/items/emoticon_foolsday_wisdel": "e662c86f0cf1f39f72e3e95a68f4664a11ebca814ccb479e6218511a9d64351b",
     "resource/template/items/emoticon_foolsday_amiya": "4ca052fe0f96e067f788e1c4a74a1305448fd6eaf3c61bad892a62638166c93f",
-    "resource/template/items/emoticon_foolsday_doctor": "3edb210e3b73442df7201c5ddeeecfa66b1363d439525db4fec19503bffe0869"
+    "resource/template/items/emoticon_foolsday_doctor": "3edb210e3b73442df7201c5ddeeecfa66b1363d439525db4fec19503bffe0869",
+    "resource/global/txwy/resource/template/UiTheme/AveMujica/GachaEnter": "ee138abad51eba96c014ae52c8834ebc044410566e917179839e6e273fd5f132",
+    "resource/global/txwy/resource/template/UiTheme/AveMujica/Mall": "6ec951cc54d64d7941823140a981f70d01551e0c96059fbacd3f38d13775d8a1",
+    "resource/global/txwy/resource/template/UiTheme/AveMujica/Recruit": "88678620eeeb7dafa94a6fbbfa472469bb0fdbb4a80cbd101fdf2d497220dcec"
 }
