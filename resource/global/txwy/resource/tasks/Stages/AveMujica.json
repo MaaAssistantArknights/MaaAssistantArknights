@@ -1,0 +1,13 @@
+{
+    "AveMujica-OpenOcr": {
+        "ocrReplace": [
+            ["無臺", "無憂"],
+            ["擁胞", "擁抱"],
+            ["爺運", "命運"]
+		],
+        "text": ["無憂", "夢囈", "擁抱", "命運"]
+    },
+    "AveMujicaChapterToAveMujica": {
+        "text": ["萬般", "皆夢"]
+    }
+}
