@@ -122,19 +122,6 @@ bool AndroidExternalLib::resolve_symbols()
         return false;
     }
 
-    // 解析 AttachThread
-    m_funcs.attach_thread = (AttachThread_t)dlsym(m_handle, "AttachThread");
-    if (!m_funcs.attach_thread) {
-        LogError << "Failed to resolve AttachThread: " << dlerror();
-        return false;
-    }
-
-    // 解析 DetachThread
-    m_funcs.detach_thread = (DetachThread_t)dlsym(m_handle, "DetachThread");
-    if (!m_funcs.detach_thread) {
-        LogError << "Failed to resolve DetachThread: " << dlerror();
-        return false;
-    }
 
     // 解析 DispatchInputMessage
     m_funcs.dispatch_input_message = (DispatchInputMessage_t)dlsym(m_handle, "DispatchInputMessage");
@@ -151,8 +138,6 @@ void AndroidExternalLib::clear_symbols()
 {
     m_funcs.get_locked_pixels = nullptr;
     m_funcs.unlock_pixels = nullptr;
-    m_funcs.attach_thread = nullptr;
-    m_funcs.detach_thread = nullptr;
     m_funcs.dispatch_input_message = nullptr;
 }
 
@@ -223,58 +208,6 @@ int AndroidExternalLib::UnlockPixels(FrameInfo info) const
         LogInfo << "UnlockPixels() completed successfully";
     } else {
         LogError << "UnlockPixels() failed with code: " << result;
-    }
-
-    return result;
-}
-
-void* AndroidExternalLib::AttachThread() const
-{
-    LogTraceFunction;
-
-    if (!is_loaded()) {
-        LogError << "Library not properly loaded";
-        return nullptr;
-    }
-
-    if (!m_funcs.attach_thread) {
-        LogError << "AttachThread function not available";
-        return nullptr;
-    }
-
-    LogInfo << "Calling AttachThread()...";
-    void* env = m_funcs.attach_thread();
-
-    if (env) {
-        LogInfo << "AttachThread() completed successfully, env: " << env;
-    } else {
-        LogError << "AttachThread() returned null env";
-    }
-
-    return env;
-}
-
-int AndroidExternalLib::DetachThread(void* env) const
-{
-    LogTraceFunction;
-
-    if (!is_loaded()) {
-        LogError << "Library not properly loaded";
-        return -1;
-    }
-
-    if (!m_funcs.detach_thread) {
-        LogError << "DetachThread function not available";
-        return -1;
-    }
-
-    LogInfo << "Calling DetachThread() with env: " << env;
-    int result = m_funcs.detach_thread(env);
-
-    if (result == 0) {
-        LogInfo << "DetachThread() completed successfully";
-    } else {
-        LogError << "DetachThread() failed with code: " << result;
     }
 
     return result;

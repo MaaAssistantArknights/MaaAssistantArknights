@@ -93,10 +93,6 @@ public:
 
     int UnlockPixels(FrameInfo info) const;
 
-    void* AttachThread() const;
-
-    int DetachThread(void* env) const;
-
     int DispatchInputMessage(MethodParam param) const;
 
     bool is_loaded() const;
@@ -121,8 +117,6 @@ private:
     struct FunctionPointers {
         GetLockedPixels_t get_locked_pixels = nullptr;
         UnlockPixels_t unlock_pixels = nullptr;
-        AttachThread_t attach_thread = nullptr;
-        DetachThread_t detach_thread = nullptr;
         DispatchInputMessage_t dispatch_input_message = nullptr;
     } m_funcs;
 
