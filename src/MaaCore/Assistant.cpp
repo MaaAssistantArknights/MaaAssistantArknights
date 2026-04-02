@@ -31,9 +31,6 @@
 #ifdef ASST_DEBUG
 #include "Task/Interface/DebugTask.h"
 #endif
-#ifdef __ANDROID__
-#include "Controller/MaaFwAndroidNativeController.h"
-#endif
 
 
 using namespace asst;
@@ -496,26 +493,11 @@ void Assistant::working_proc()
 {
     LogTraceFunction;
 
-#ifdef __ANDROID__
-    void* env = nullptr;
-    if (auto* android_ctrl = dynamic_cast<MaaFwAndroidNativeController*>(m_ctrler->get_underlying())) {
-        env = android_ctrl->attach_thread();
-        LogInfo << "working_proc: AttachThread env:" << env;
-    }
-#endif
-
     std::vector<TaskId> finished_tasks;
     while (true) {
         std::unique_lock<std::mutex> lock(m_mutex);
         if (m_thread_exit) {
             m_running = false;
-#ifdef __ANDROID__
-            if (env) {
-                if (auto* android_ctrl = dynamic_cast<MaaFwAndroidNativeController*>(m_ctrler->get_underlying())) {
-                    android_ctrl->detach_thread(env);
-                }
-            }
-#endif
             return;
         }
 
@@ -643,14 +625,6 @@ void asst::Assistant::call_proc()
 {
     LogTraceFunction;
 
-#ifdef __ANDROID__
-    void* env = nullptr;
-    if (auto* android_ctrl = dynamic_cast<MaaFwAndroidNativeController*>(m_ctrler->get_underlying())) {
-        env = android_ctrl->attach_thread();
-        LogInfo << "call_proc: AttachThread env:" << env;
-    }
-#endif
-
     while (true) {
         std::unique_lock<std::mutex> lock(m_call_mutex);
         if (m_thread_exit) {
@@ -722,14 +696,6 @@ void asst::Assistant::call_proc()
         };
         append_callback(AsstMsg::AsyncCallInfo, cb_info);
     }
-
-#ifdef __ANDROID__
-    if (env) {
-        if (auto* android_ctrl = dynamic_cast<MaaFwAndroidNativeController*>(m_ctrler->get_underlying())) {
-            android_ctrl->detach_thread(env);
-        }
-    }
-#endif
 }
 
 void Assistant::append_callback(AsstMsg msg, const json::value& detail)

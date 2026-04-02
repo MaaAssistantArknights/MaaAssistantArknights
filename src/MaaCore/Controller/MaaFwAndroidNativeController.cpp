@@ -192,7 +192,12 @@ bool MaaFwAndroidNativeController::click(const Point& p)
         LogWarn << "MaaAndroidNativeControlUnit is not initialized";
         return false;
     }
-    return m_unit_handle->click(p.x, p.y);
+
+    if (!m_unit_handle->touch_down(0, p.x, p.y, 1)) {
+        return false;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    return m_unit_handle->touch_up(0);
 }
 
 bool MaaFwAndroidNativeController::input(const std::string& text)
@@ -346,7 +351,11 @@ bool MaaFwAndroidNativeController::press_esc()
         return false;
     }
 
-    return m_unit_handle->click_key(111); // KEYCODE_ESCAPE
+    if (!m_unit_handle->key_down(111)) { // KEYCODE_ESCAPE
+        return false;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    return m_unit_handle->key_up(111);
 }
 
 ControlFeat::Feat MaaFwAndroidNativeController::support_features() const noexcept
@@ -360,26 +369,6 @@ ControlFeat::Feat MaaFwAndroidNativeController::support_features() const noexcep
 std::pair<int, int> MaaFwAndroidNativeController::get_screen_res() const noexcept
 {
     return m_screen_resolution;
-}
-
-void* MaaFwAndroidNativeController::attach_thread() const
-{
-    if (!m_unit_handle) {
-        LogWarn << "MaaAndroidNativeControlUnit is not initialized";
-        return nullptr;
-    }
-
-    return m_unit_handle->attach_thread();
-}
-
-int MaaFwAndroidNativeController::detach_thread(void* env) const
-{
-    if (!m_unit_handle) {
-        LogWarn << "MaaAndroidNativeControlUnit is not initialized";
-        return -1;
-    }
-
-    return m_unit_handle->detach_thread(env);
 }
 
 bool MaaFwAndroidNativeController::init_library()

@@ -60,10 +60,6 @@ public:
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
 
-    // JNI thread management (for caller thread-level attach)
-    void* attach_thread() const;
-    int detach_thread(void* env) const;
-
 private:
     bool m_inited = false;
     std::string m_uuid;

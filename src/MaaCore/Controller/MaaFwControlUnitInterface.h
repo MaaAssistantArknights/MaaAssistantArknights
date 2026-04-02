@@ -61,9 +61,6 @@ class MaaFwAndroidNativeControlUnitAPI : public MaaFwControlUnitAPI
 {
 public:
     ~MaaFwAndroidNativeControlUnitAPI() override = default;
-
-    virtual void* attach_thread() const = 0;
-    virtual int detach_thread(void* env) const = 0;
 };
 
 // 与 MaaFramework 的 MaaControllerFeature 兼容的常量
