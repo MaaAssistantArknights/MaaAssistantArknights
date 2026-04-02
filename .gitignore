@@ -486,3 +486,4 @@ install-*
 
 # CMake user presets
 CMakeUserPresets.json
+.ace-tool/
