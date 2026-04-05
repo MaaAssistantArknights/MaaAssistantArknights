@@ -406,9 +406,9 @@ jobs:
           extract: true
           out-file-path: MaaFramework-temp
 
-      - name: Copy MaaAndroidNativeControlUnit
-        run: |
-          cp MaaFramework-temp/bin/libMaaAndroidNativeControlUnit.so install/
+#      - name: Copy MaaAndroidNativeControlUnit
+#        run: |
+#          cp MaaFramework-temp/bin/libMaaAndroidNativeControlUnit.so install/
 
       - name: Tar files
         run: |
