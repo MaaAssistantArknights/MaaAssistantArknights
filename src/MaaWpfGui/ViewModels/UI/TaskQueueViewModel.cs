@@ -1097,22 +1097,24 @@ public class TaskQueueViewModel : Screen
     // 这个函数被列为public可见，意味着他注入对象前被调用
     public void UpdateDatePrompt()
     {
-        var inlines = new ObservableCollection<Inline>
-        {
-            new Run(LocalizationHelper.GetString("TodaysStageTip") + "\n"),
-        };
-
-        // Open stages today
-        var openStages = Instances.StageManager.GetStageTipsInlines(CurDayOfWeek);
-        if (openStages != null)
-        {
-            foreach (var inline in openStages)
+        Execute.OnUIThread(() => {
+            var inlines = new ObservableCollection<Inline>
             {
-                inlines.Add(inline);
-            }
-        }
+                new Run(LocalizationHelper.GetString("TodaysStageTip") + "\n"),
+            };
 
-        StagesOfTodayInlines = inlines;
+            // Open stages today
+            var openStages = Instances.StageManager.GetStageTipsInlines(CurDayOfWeek);
+            if (openStages != null)
+            {
+                foreach (var inline in openStages)
+                {
+                    inlines.Add(inline);
+                }
+            }
+
+            StagesOfTodayInlines = inlines;
+        });
     }
 
     private ObservableCollection<Inline>? _stagesOfTodayInlines;
