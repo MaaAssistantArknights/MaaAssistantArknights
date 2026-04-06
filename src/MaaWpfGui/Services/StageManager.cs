@@ -694,7 +694,10 @@ public class StageManager
             // Resource collection tip - only show one
             if (!resourceTipShown && activity is { IsResourceCollection: true, BeingOpen: true })
             {
-                inlines.Insert(0, new LineBreak());
+                if (inlines.Count > 0)
+                {
+                    inlines.Insert(0, new LineBreak());
+                }
                 inlines.Insert(0, new Run($"｢{activity.Tip}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}"));
                 resourceTipShown = true;
             }
