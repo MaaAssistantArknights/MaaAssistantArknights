@@ -1333,22 +1333,25 @@ public class TaskQueueViewModel : Screen
     // 这个函数被列为public可见，意味着他注入对象前被调用
     public void UpdateDatePrompt()
     {
-        // 复用既有集合以 CollectionChanged 增量更新，避免整表重建导致绑定闪烁
-        var inlines = StagesOfTodayInlines ?? new ObservableCollection<Inline>();
-        inlines.Clear();
-        inlines.Add(new Run(LocalizationHelper.GetString("TodaysStageTip") + "\n"));
-
-        // Open stages today
-        var openStages = Instances.StageManager.GetStageTipsInlines(CurDayOfWeek);
-        if (openStages != null)
+        Execute.OnUIThread(() =>
         {
-            foreach (var inline in openStages)
-            {
-                inlines.Add(inline);
-            }
-        }
+            // 复用既有集合以 CollectionChanged 增量更新，避免整表重建导致绑定闪烁
+            var inlines = StagesOfTodayInlines ?? new ObservableCollection<Inline>();
+            inlines.Clear();
+            inlines.Add(new Run(LocalizationHelper.GetString("TodaysStageTip") + "\n"));
 
-        StagesOfTodayInlines = inlines;
+            // Open stages today
+            var openStages = Instances.StageManager.GetStageTipsInlines(CurDayOfWeek);
+            if (openStages != null)
+            {
+                foreach (var inline in openStages)
+                {
+                    inlines.Add(inline);
+                }
+            }
+
+            StagesOfTodayInlines = inlines;
+        });
     }
 
     private ObservableCollection<Inline>? _stagesOfTodayInlines;
