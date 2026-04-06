@@ -48,6 +48,12 @@
     <SolidColorBrush x:Key="HyperlinkBrush" Color="#326cf3" />
     <SolidColorBrush x:Key="HyperlinkHoverBrush" Color="#ff0000" />
 
+    <!--  StageItemBrush  -->
+    <SolidColorBrush x:Key="StageItemBrush.Primary" Color="#42A5F5" />
+    <SolidColorBrush x:Key="StageItemBrush.Secondary" Color="#EC407A" />
+    <SolidColorBrush x:Key="StageItemBrush.Tertiary" Color="#66BB6A" />
+    <SolidColorBrush x:Key="StageItemBrush.Quaternary" Color="#FFA726" />
+
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#ffffff" />
     <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#f6f8fa" />
