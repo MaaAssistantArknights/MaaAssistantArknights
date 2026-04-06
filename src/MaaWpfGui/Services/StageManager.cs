@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Constants.Enums;
@@ -254,8 +255,7 @@ public class StageManager
 
     private static List<MiniGameEntry> InitializeDefaultMiniGameEntries()
     {
-        var entries = new List<MiniGameEntry>
-        {
+        var entries = new List<MiniGameEntry> {
             new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin", TipKey = "MiniGameNameSsStoreTip" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin", TipKey = "MiniGameNameGreenTicketStoreTip" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip" },
@@ -678,12 +678,14 @@ public class StageManager
     /// </summary>
     /// <param name="dayOfWeek">Day of week</param>
     /// <returns>Open stages</returns>
-    public string GetStageTips(DayOfWeek dayOfWeek)
+    public IEnumerable<Inline> GetStageTipsInlines(DayOfWeek dayOfWeek)
     {
-        var lines = new List<string>();
+        var inlines = new List<Inline>();
         var shownSideStories = new HashSet<string>();
         bool resourceTipShown = false;
         DateTime now = DateTime.UtcNow;
+
+        string[] colorKeys = ["StageItemBrush.Primary", "StageItemBrush.Secondary", "StageItemBrush.Tertiary", "StageItemBrush.Quaternary"];
 
         foreach (var stage in _stages.Values.Where(s => s.IsStageOpen(dayOfWeek)))
         {
@@ -692,56 +694,125 @@ public class StageManager
             // Resource collection tip - only show one
             if (!resourceTipShown && activity is { IsResourceCollection: true, BeingOpen: true })
             {
-                // 插入到第一行
-                lines.Insert(0, $"｢{activity.Tip}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}");
+                inlines.Insert(0, new LineBreak());
+                inlines.Insert(0, new Run($"｢{activity.Tip}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}"));
                 resourceTipShown = true;
             }
 
             // Side story tips
             if (!string.IsNullOrEmpty(activity?.StageName) && shownSideStories.Add(activity.StageName))
             {
-                lines.Add($"｢{activity.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}");
+                if (inlines.Count > 0)
+                {
+                    inlines.Add(new LineBreak());
+                }
+
+                inlines.Add(new Run($"｢{activity.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}"));
             }
 
             // Side story Drop item tips
             if (!string.IsNullOrEmpty(stage.Drop))
             {
+                if (inlines.Count > 0)
+                {
+                    inlines.Add(new LineBreak());
+                }
+
                 var str = $"{stage.Value}: {ItemListHelper.GetItemName(stage.Drop) ?? stage.Drop}";
                 var count = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == stage.Drop)?.DisplayCount;
                 if (!string.IsNullOrEmpty(count))
                 {
                     str += $" ({LocalizationHelper.GetString("Inventory")} {count})";
                 }
-
-                lines.Add(str);
+                inlines.Add(new Run(str));
             }
 
             // Normal stage tips
             if (!string.IsNullOrEmpty(stage.Tip))
             {
-                lines.Add(stage.Tip);
+                if (inlines.Count > 0)
+                {
+                    inlines.Add(new LineBreak());
+                }
+
+                if (stage.DropGroups != null && stage.DropGroups.Count > 0 && stage.DropGroups[0].Count >= 2 && stage.Tip.Contains('|'))
+                {
+                    var parts = stage.Tip.Split('|');
+                    if (parts.Length >= 5)
+                    {
+                        inlines.Add(new Run(parts[0]));
+
+                        var run1 = new Run(parts[1]);
+                        string brush1 = colorKeys[0 % colorKeys.Length];
+                        run1.SetResourceReference(TextElement.ForegroundProperty, brush1);
+                        run1.Tag = brush1;
+                        inlines.Add(run1);
+
+                        inlines.Add(new Run(parts[2]));
+
+                        var run2 = new Run(parts[3]);
+                        string brush2 = colorKeys[1 % colorKeys.Length];
+                        run2.SetResourceReference(TextElement.ForegroundProperty, brush2);
+                        run2.Tag = brush2;
+                        inlines.Add(run2);
+
+                        if (!string.IsNullOrEmpty(parts[4]))
+                        {
+                            inlines.Add(new Run(parts[4]));
+                        }
+                    }
+                    else
+                    {
+                        inlines.Add(new Run(stage.Tip.Replace("|", String.Empty)));
+                    }
+                }
+                else
+                {
+                    inlines.Add(new Run(stage.Tip.Replace("|", String.Empty)));
+                }
             }
 
             // Drop groups tips (for chip stages like PR-A-1/2)
             if (stage.DropGroups != null && stage.DropGroups.Count > 0
                 && stage.DropGroups.SelectMany(i => i).Select(dropId => Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.Count).Any(x => x >= 0))
             {
-                var groupTexts = new List<string>();
-                foreach (var dropGroup in stage.DropGroups)
+                if (inlines.Count > 0)
                 {
-                    var itemCounts = dropGroup
-                        .Select(dropId => Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.DisplayCount ?? "--")
-                        .ToList();
-                    groupTexts.Add(string.Join(" & ", itemCounts));
+                    inlines.Add(new LineBreak());
                 }
 
-                string inventoryLabel = LocalizationHelper.GetString("Inventory");
-                string inventoryText = $" ({inventoryLabel} {string.Join(" / ", groupTexts)})";
-                lines.Add(inventoryText);
+                inlines.Add(new Run($"({LocalizationHelper.GetString("Inventory")} "));
+
+                for (int g = 0; g < stage.DropGroups.Count; g++)
+                {
+                    var dropGroup = stage.DropGroups[g];
+                    if (g > 0)
+                    {
+                        inlines.Add(new Run(" / "));
+                    }
+
+                    for (int i = 0; i < dropGroup.Count; i++)
+                    {
+                        if (i > 0)
+                        {
+                            inlines.Add(new Run(" & "));
+                        }
+
+                        var dropId = dropGroup[i];
+                        string countStr = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.DisplayCount ?? "--";
+
+                        var countRun = new Run(countStr);
+                        string brushKey = colorKeys[i % colorKeys.Length];
+                        countRun.SetResourceReference(TextElement.ForegroundProperty, brushKey);
+                        countRun.Tag = brushKey;
+                        inlines.Add(countRun);
+                    }
+                }
+                inlines.Add(new Run(")"));
             }
         }
 
-        return lines.Count > 0 ? string.Join(Environment.NewLine, lines) : string.Empty;
+        return inlines;
     }
 
     /// <summary>

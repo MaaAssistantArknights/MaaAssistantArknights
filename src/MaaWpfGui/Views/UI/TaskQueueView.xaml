@@ -572,7 +572,7 @@
                         PanningMode="Both">
                         <controls:TextBlock
                             d:Text="{DynamicResource TodaysStageTip}"
-                            Text="{Binding StagesOfToday}"
+                            controls:TextBlock.BindableInlines="{Binding StagesOfTodayInlines}"
                             TextWrapping="Wrap" />
                     </hc:ScrollViewer>
                     <Border Width="200" Margin="0,10,30,10">

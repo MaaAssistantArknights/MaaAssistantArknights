@@ -795,10 +795,10 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="CATip">CA-5: Skill Summary</system:String>
     <system:String x:Key="LSTip">LS-6: Battle Record</system:String>
     <system:String x:Key="SKTip">SK-5: Carbon</system:String>
-    <system:String x:Key="PR-ATip">PR-A-1/2: Med&amp;Def Chip</system:String>
-    <system:String x:Key="PR-BTip">PR-B-1/2: Cst&amp;Sni Chip</system:String>
-    <system:String x:Key="PR-CTip">PR-C-1/2: Pio&amp;Sup Chip</system:String>
-    <system:String x:Key="PR-DTip">PR-D-1/2: Grd&amp;Spc Chip</system:String>
+    <system:String x:Key="PR-ATip">PR-A-1/2: |Med|&amp;|Def| Chip</system:String>
+    <system:String x:Key="PR-BTip">PR-B-1/2: |Cst|&amp;|Sni| Chip</system:String>
+    <system:String x:Key="PR-CTip">PR-C-1/2: |Pio|&amp;|Sup| Chip</system:String>
+    <system:String x:Key="PR-DTip">PR-D-1/2: |Grd|&amp;|Spc| Chip</system:String>
     <system:String x:Key="Pormpt1">It's Monday: time to clear the Annihilation</system:String>
     <system:String x:Key="Pormpt2">It's Sunday: don't forget about Annihilation</system:String>
     <!--  !FightSettings  -->

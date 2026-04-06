@@ -26,6 +26,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
@@ -1096,45 +1097,30 @@ public class TaskQueueViewModel : Screen
     // 这个函数被列为public可见，意味着他注入对象前被调用
     public void UpdateDatePrompt()
     {
-        var builder = new StringBuilder(LocalizationHelper.GetString("TodaysStageTip") + "\n");
-
-        // Closed activity stages
-        /*
-        foreach (var stage in FightTask.Stages)
+        var inlines = new ObservableCollection<Inline>
         {
-            if (stage == null || Instances.StageManager.GetStageInfo(stage).IsActivityClosed() != true)
-            {
-                continue;
-            }
-
-            builder.Append(stage).Append(": ").AppendLine(LocalizationHelper.GetString("ClosedStage"));
-        }*/
+            new Run(LocalizationHelper.GetString("TodaysStageTip") + "\n"),
+        };
 
         // Open stages today
-        var openStages = Instances.StageManager.GetStageTips(CurDayOfWeek);
-        if (!string.IsNullOrEmpty(openStages))
+        var openStages = Instances.StageManager.GetStageTipsInlines(CurDayOfWeek);
+        if (openStages != null)
         {
-            builder.Append(openStages);
+            foreach (var inline in openStages)
+            {
+                inlines.Add(inline);
+            }
         }
 
-        var prompt = builder.ToString();
-        if (StagesOfToday == prompt)
-        {
-            return;
-        }
-
-        StagesOfToday = prompt;
+        StagesOfTodayInlines = inlines;
     }
 
-    private string _stagesOfToday = string.Empty;
+    private ObservableCollection<Inline>? _stagesOfTodayInlines;
 
-    /// <summary>
-    /// Gets or private sets the stages of today.
-    /// </summary>
-    public string StagesOfToday
+    public ObservableCollection<Inline>? StagesOfTodayInlines
     {
-        get => _stagesOfToday;
-        private set => SetAndNotify(ref _stagesOfToday, value);
+        get => _stagesOfTodayInlines;
+        private set => SetAndNotify(ref _stagesOfTodayInlines, value);
     }
 
     public enum LogCardSplitMode

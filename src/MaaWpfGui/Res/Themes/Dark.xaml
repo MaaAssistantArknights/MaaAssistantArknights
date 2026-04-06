@@ -63,6 +63,12 @@
         <GradientStop Offset="1" Color="#F48FB1" />
     </LinearGradientBrush>
 
+    <!--  StageItemBrush  -->
+    <SolidColorBrush x:Key="StageItemBrush.Primary" Color="#90CAF9" />
+    <SolidColorBrush x:Key="StageItemBrush.Secondary" Color="#F48FB1" />
+    <SolidColorBrush x:Key="StageItemBrush.Tertiary" Color="#A5D6A7" />
+    <SolidColorBrush x:Key="StageItemBrush.Quaternary" Color="#FFCC80" />
+
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#2d2d30" />
     <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#161b22" />

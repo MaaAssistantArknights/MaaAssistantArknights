@@ -796,10 +796,10 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="CATip">CA-5: 技能書</system:String>
     <system:String x:Key="LSTip">LS-6: 經驗</system:String>
     <system:String x:Key="SKTip">SK-5: 碳</system:String>
-    <system:String x:Key="PR-ATip">PR-A-1/2: 奶&amp;盾晶片</system:String>
-    <system:String x:Key="PR-BTip">PR-B-1/2: 術&amp;狙晶片</system:String>
-    <system:String x:Key="PR-CTip">PR-C-1/2: 先&amp;輔晶片</system:String>
-    <system:String x:Key="PR-DTip">PR-D-1/2: 近&amp;特晶片</system:String>
+    <system:String x:Key="PR-ATip">PR-A-1/2: |奶|&amp;|盾|晶片</system:String>
+    <system:String x:Key="PR-BTip">PR-B-1/2: |術|&amp;|狙|晶片</system:String>
+    <system:String x:Key="PR-CTip">PR-C-1/2: |先|&amp;|輔|晶片</system:String>
+    <system:String x:Key="PR-DTip">PR-D-1/2: |近|&amp;|特|晶片</system:String>
     <system:String x:Key="Pormpt1">週一了，可以打剿滅了 ~</system:String>
     <system:String x:Key="Pormpt2">週日了，記得打剿滅喔 ~</system:String>
     <!--  !戰鬥設定  -->
