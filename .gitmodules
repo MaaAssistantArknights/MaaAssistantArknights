@@ -13,3 +13,7 @@
 [submodule "src/MaaUtils"]
 	path = src/MaaUtils
 	url = https://github.com/MaaXYZ/MaaUtils
+[submodule "src/MAAUnified"]
+	path = src/MAAUnified
+	url = git@github.com:Halo5082/MaaUnified.git
+	branch = main

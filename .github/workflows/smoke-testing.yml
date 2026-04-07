@@ -70,8 +70,8 @@ jobs:
 
       - name: Fetch submodules
         if: steps.smoke-cache.outputs.cache-hit != 'true'
-        run: |
-          git submodule update --init --depth 1 src/MaaUtils
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified src/MaaUtils
 
       - name: Cache MaaDeps
         if: steps.smoke-cache.outputs.cache-hit != 'true'
