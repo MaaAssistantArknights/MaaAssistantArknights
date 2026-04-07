@@ -103,10 +103,8 @@ icon: ph:sword-bold
             // "技能"：仅推荐场地上自动的装置等，不填写 name，并使用 location 开启技能。正常部署的干员推荐使用 name 开启技能
             // 撤退"：仅推荐有多个同名召唤物时，不填写 name, 并使用 location 进行撤退。正常部署的干员推荐 name 进行撤退
             // 坐标信息可在 https://map.ark-nights.com/areas 中查看，在设置中将“坐标展示”选为“MAA”即为 MAA 使用的坐标
-            "direction": "左", // 部署干员的干员朝向。 type 为 "部署" 时必选
+            "direction": "Left", // 部署干员的干员朝向。 type 为 "部署" 时必选
             // "Left" | "Right" | "Up" | "Down" | "None"
-            // "左"   |  "右"   | "上"  | "下"   |  "无"
-            // 中英文皆可，效果相同
             "skip_if_not_ready": false, // 仅在 type 为 "技能" 时有效, 允许在技能不可用时跳过当前行动，主要用于关闭未打完的弹药技能。可选，默认为 false
             "skill_usage": 1, // 修改技能用法。当 type 为 "技能用法" 时必选
             // 举例：刚下桃金娘需要她帮忙打几个怪，不能自动开技能，中后期平稳了需要她自动开技能
@@ -155,7 +153,7 @@ icon: ph:sword-bold
             "type": "二倍速"
         }
     ],
-    "minimum_required": "v4.0", // 最低要求 maa 版本号，必选。
+    "minimum_required": "v4.0.0", // 最低要求 maa 版本号，必选。
     "doc": {
         // 描述，可选。
         "title": "低练度高成功率作业",
