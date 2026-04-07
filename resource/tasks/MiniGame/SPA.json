@@ -2,7 +2,7 @@
     "MiniGame@SPA@Begin": {
         "doc": "卫戍协议：盟约",
         "algorithm": "JustReturn",
-        "next": ["MiniGame@SPA@EnterIndependent"]
+        "next": ["MiniGame@SPA@EnterIndependent", "MiniGame@SPA@GiveUp"]
     },
     "MiniGame@SPA@EnterIndependent": {
         "action": "ClickSelf",
