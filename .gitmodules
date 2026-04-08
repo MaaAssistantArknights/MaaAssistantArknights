@@ -15,5 +15,5 @@
 	url = https://github.com/MaaXYZ/MaaUtils
 [submodule "src/MAAUnified"]
 	path = src/MAAUnified
-	url = https://github.com/Halo5082/MaaUnified.git
+	url = https://github.com/MaaAssistantArknights/MaaUnified.git
 	branch = main
