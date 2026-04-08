@@ -8,7 +8,7 @@ icon: ph:sword-bold
 `resource/copilot/*.json` 的使用方法及各字段说明
 
 ::: tip
-请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用。注释中的 **作业站** 均指 [PRTS plus](zoot.plus)。
+请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用。注释中的 **作业站** 均指 [PRTS plus](zoot.plus) 。
 :::
 
 ## 完整字段一览
