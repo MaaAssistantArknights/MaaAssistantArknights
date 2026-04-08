@@ -1,5 +1,5 @@
 ---
-order: 2
+order: 3
 icon: ph:question-fill
 ---
 
@@ -12,17 +12,16 @@ MAA를 처음 사용하는 경우 [초보자 가이드](./newbie.md)를 읽어�
 MAA가 업데이트 후 실행되지 않거나 MAA의 오류 창을 통해 여기에 도달했다면, 이는 대부분 실행 라이브러리가 업데이트되지 않은 문제 때문입니다.  
 가장 자주 발생하는 문제는 실행 라이브러리 문제이며, 많은 사람들이 문서를 읽지 않고 질문만 하기 때문에 공지 내용을 이걸로 교체했습니다.
 
-MAA는 .NET 런타임을 내장하고 있습니다(자체 포함 배포). 하지만 Visual C++ 런타임이 필요합니다.
-
 MAA 디렉토리에서 `DependencySetup_依赖库安装.bat`를 실행하거나, 터미널에서 아래 명령을 실행하거나,
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
 
-아래 실행 라이브러리를 수동으로 다운로드하여 설치하여 문제를 해결하세요.
+아래 <u>**두 가지**</u> 실행 라이브러리를 수동으로 다운로드하여 설치하여 문제를 해결하세요.
 
 - [Visual C++ 재배포 가능 패키지](https://aka.ms/vc14/vc_redist.x64.exe)
+- [.NET 데스크톱 런타임 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 
@@ -52,7 +51,7 @@ Windows 8/8.1/10/11 N/KN(유럽/한국) 버전을 사용하는 경우, [미디�
 
 #### Windows 7 / 8 / 8.1 관련
 
-MAA가 의존하는 런타임 라이브러리와 시스템 구성 요소가 Windows 10 이상을 필요로 하기 때문에, MAA는 Windows 7 / 8 / 8.1 시스템을 더 이상 지원하지 않습니다.
+.NET 10이 Windows 7 / 8 / 8.1을 지원하지 않기 때문에<sup>[출처](https://github.com/dotnet/core/issues/7556)</sup>, MAA도 마찬가지로 지원하지 않습니다.
 
 ## 연결 오류
 
