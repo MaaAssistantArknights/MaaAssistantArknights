@@ -3,6 +3,8 @@ order: 2
 icon: material-symbols:download-2-rounded
 ---
 
+<!-- markdownlint-disable MD024 -->
+
 # 下載與安裝
 
 ::: tip
