@@ -35,17 +35,52 @@
                     "promote_priority": 600,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["基石", "召唤", "号角", "地面C"],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "is_less": true,
                             "threshold": 1,
                             "offset": 100,
                             "doc": "地面阻挡输出位≤1时，百炼嘉维尔的招募优先级+100"
                         },
                         {
-                            "groups": ["基石", "召唤", "号角", "地面C"],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 3,
                             "offset": -600,
                             "doc": "地面阻挡输出位≥3时，百炼嘉维尔的招募优先级-600"
+                        },
+                        {
+                            "groups": ["百嘉"],
+                            "threshold": 1,
+                            "offset": -1000,
+                            "doc": "为兼容现有作战逻辑，百嘉组仅招募一人"
+                        }
+                    ]
+                },
+                {
+                    "name": "怒潮凛冬",
+                    "skill": 2,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 901,
+                    "promote_priority": 600,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
+                            "is_less": true,
+                            "threshold": 1,
+                            "offset": 100,
+                            "doc": "地面阻挡输出位≤1时，怒潮凛冬的招募优先级+100"
+                        },
+                        {
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
+                            "threshold": 3,
+                            "offset": -600,
+                            "doc": "地面阻挡输出位≥3时，怒潮凛冬的招募优先级-600"
+                        },
+                        {
+                            "groups": ["百嘉"],
+                            "threshold": 1,
+                            "offset": -1000,
+                            "doc": "为兼容现有作战逻辑，百嘉组仅招募一人"
                         }
                     ]
                 }
@@ -2263,6 +2298,9 @@
                 },
                 {
                     "name": "百炼嘉维尔"
+                },
+                {
+                    "name": "怒潮凛冬"
                 },
                 {
                     "name": "Mon3tr"
