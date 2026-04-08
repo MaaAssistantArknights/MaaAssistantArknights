@@ -52,7 +52,7 @@ winget install maa
 
 ## Linux 和其他作業系統
 
-MAA GUI **暫不支援** Linux 和其他作業系統。您可以使用 **maa-cli** 來在這些系統上使用 MAA 的功能。請前往 maa-cli 的 [安裝及編譯](./cli/install.md) 文件瞭解更多資訊。
+MAA GUI **暫不支援** Linux 和其他作業系統。您可以使用 **maa-cli** 在這些系統上使用 MAA 的功能。請前往 maa-cli 的 [安裝及編譯](./cli/install.md) 文件瞭解更多資訊。
 
 ## 安裝 MAA
 
