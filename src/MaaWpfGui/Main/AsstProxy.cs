@@ -1045,13 +1045,12 @@ public class AsstProxy
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
                 _tasksStatus.Clear();
-                ClearTaskErrorSummaryCache();
+                _failedTaskSummary.Clear();
                 break;
 
             case AsstMsg.TaskChainError:
                 {
-                    UpdateTaskStatus(taskId, TaskStatus.Error);
-                    RecordTaskChainError(taskId, taskChain);
+                    UpdateTaskStatus(taskId, TaskStatus.Error, taskChain);
                     _tasksStatus.TryGetValue(taskId, out var value);
 
                     var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
@@ -1304,7 +1303,7 @@ public class AsstProxy
                 {
                     Instances.TaskQueueViewModel.AddLog(taskErrorSummary, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
                 }
-                ClearTaskErrorSummaryCache();
+                _failedTaskSummary.Clear();
 
                 break;
 
@@ -2831,7 +2830,7 @@ public class AsstProxy
 
     public event TaskItemStatusDelegate? OnTaskItemStatusChanged;
 
-    private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status)
+    private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status, string? taskChain = null)
     {
         if (id <= 0)
         {
@@ -2856,17 +2855,12 @@ public class AsstProxy
             TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
         }
 
-        return true;
-    }
-
-    private void RecordTaskChainError(AsstTaskId taskId, string taskChain)
-    {
-        if (taskId <= 0)
+        if (status == TaskStatus.Error)
         {
-            return;
+            _failedTaskSummary[id] = (DateTimeOffset.Now, taskChain ?? value.Type.ToString());
         }
 
-        _failedTaskSummary[taskId] = (DateTimeOffset.Now, taskChain);
+        return true;
     }
 
     private string ResolveTaskDisplayName(AsstTaskId taskId, string taskChain)
@@ -2877,11 +2871,6 @@ public class AsstProxy
             : null;
 
         return task?.NameDisplay ?? LocalizationHelper.GetString(taskChain);
-    }
-
-    private static string FormatTaskErrorTime(DateTimeOffset errorTime)
-    {
-        return errorTime.ToString("HH:mm:ss");
     }
 
     private static string BuildTaskCompletionText(string diffTaskTime, bool hasTaskErrors)
@@ -2956,15 +2945,10 @@ public class AsstProxy
             var taskId = entry.Key;
             var info = entry.Value;
             string mainTaskName = ResolveTaskDisplayName(taskId, info.TaskChain);
-            builder.AppendLine(LocalizationHelper.GetStringFormat("TaskErrorSummaryItem", FormatTaskErrorTime(info.ErrorTime), mainTaskName));
+            builder.AppendLine(LocalizationHelper.GetStringFormat("TaskErrorSummaryItem", info.ErrorTime.ToString("HH:mm:ss"), mainTaskName));
         }
 
         return builder.ToString().TrimEnd();
-    }
-
-    private void ClearTaskErrorSummaryCache()
-    {
-        _failedTaskSummary.Clear();
     }
 
     public bool AsstAppendCloseDown(string clientType)
@@ -3113,7 +3097,7 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStart()
     {
-        ClearTaskErrorSummaryCache();
+        _failedTaskSummary.Clear();
         return MaaService.AsstStart(_handle);
     }
 
