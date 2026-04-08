@@ -8,12 +8,13 @@ icon: ph:sword-bold
 `resource/copilot/*.json` 的使用方法及各字段说明
 
 ::: tip
-请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用。注释中的 **作业站** 均指 [PRTS plus](zoot.plus) 。
+请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用。注释中的 **作业站** 均指 [PRTS plus](https://zoot.plus/) 。
 :::
 
 ## 完整字段一览
 
 ```json
+
 {
     "stage_name": "暴君", // 关卡名，必选。关卡中文名、code、stageId、levelId等，只要能保证唯一均可。
     "opers": [
@@ -155,7 +156,7 @@ icon: ph:sword-bold
             "type": "二倍速"
         }
     ],
-    "minimum_required": "v6.7.0", // 最低要求 maa 版本号，必选，，建议填写 MAA 最新正式版构建版本，格式必须为 x.x.x (如 6.7.0 ) 。
+    "minimum_required": "v6.7.0", // 最低要求 maa 版本号，必选，建议填写 MAA 最新正式版构建版本，格式必须为 vx.x.x (如 v6.7.0 ) 。
     "doc": {
         // 描述，可选。
         "title": "低练度高成功率作业",
@@ -169,6 +170,7 @@ icon: ph:sword-bold
     // 2: 支持突袭难度
     // 3: 支持普通、突袭难度
 }
+
 ```
 
 ## 举例
