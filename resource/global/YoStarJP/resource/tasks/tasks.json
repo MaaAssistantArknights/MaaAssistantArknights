@@ -1147,6 +1147,18 @@
     "InfrastEnterOperList": {
         "text": ["体力", "休憩中", "仕事中", "配属"]
     },
+    "InfrastControl": {
+        "template": "ControlCenter.png",
+        "maskRange": [1, 255],
+        "roi": [400, 0, 880, 300],
+        "templThreshold": 0.95
+    },
+    "InfrastControlMini": {
+        "template": "ControlCenterMini.png",
+        "maskRange": [1, 255],
+        "roi": [553, 82, 396, 248],
+        "templThreshold": 0.95
+    },
     "SendClues": {
         "doc": "Remove this after 'Quickly place clues' and 'One-tap send duplicate clues' are added (#14966)",
         "roi": [1160, 350, 80, 80]
