@@ -10,6 +10,45 @@
 
 namespace asst::algorithm
 {
+enum class CharAllocationStatus
+{
+    Success,
+    NoSolution,
+    Overflow,
+    InternalError,
+};
+
+struct CharAllocationResult
+{
+    CharAllocationStatus status { CharAllocationStatus::NoSolution };
+    std::unordered_map<std::string, std::string> allocation;
+
+    [[nodiscard]] static CharAllocationResult success(std::unordered_map<std::string, std::string>&& allocation_value)
+    {
+        return { CharAllocationStatus::Success, std::move(allocation_value) };
+    }
+
+    [[nodiscard]] static CharAllocationResult no_solution()
+    {
+        return { CharAllocationStatus::NoSolution, {} };
+    }
+
+    [[nodiscard]] static CharAllocationResult overflow()
+    {
+        return { CharAllocationStatus::Overflow, {} };
+    }
+
+    [[nodiscard]] static CharAllocationResult internal_error()
+    {
+        return { CharAllocationStatus::InternalError, {} };
+    }
+
+    [[nodiscard]] bool has_value() const noexcept
+    {
+        return status == CharAllocationStatus::Success;
+    }
+};
+
 /**
  * @brief 根据传入的分组规则及干员列表, 求解一个可行的分配方案
  * @param group_list 分组规则, key 为组名, value 为组内干员列表, 如:\n
@@ -22,21 +61,23 @@ namespace asst::algorithm
  *                 "干员1",\n
  *                 "干员2"\n
  *                 }
- * @return 可行的分配方案, key 为组名, value 为该组分配的干员, 若无可行方案则返回 std::nullopt, 如:\n
+ * @return 求解结果。status 为 CharAllocationStatus::Success 时，allocation 为可行的分配方案，如:\n
  *         {\n
  *         "A": "干员1",\n
  *         "B": "干员2"\n
- *         }
+ *         }\n
+ *         status 为 CharAllocationStatus::NoSolution 时表示无可行方案；
+ *         其余状态表示求解过程中发生溢出或内部错误。
  */
-inline static std::optional<std::unordered_map<std::string, std::string>> get_char_allocation_for_each_group(
+[[nodiscard]] inline static CharAllocationResult get_char_allocation_for_each_group(
     const std::unordered_map<std::string, std::vector<std::string>>& group_list,
     const std::unordered_set<std::string>& char_set)
 {
     if (group_list.empty()) {
-        return std::unordered_map<std::string, std::string> {};
+        return CharAllocationResult::success(std::unordered_map<std::string, std::string> {});
     }
     if (char_set.empty()) {
-        return std::nullopt;
+        return CharAllocationResult::no_solution();
     }
 
     const auto checked_add = [](const size_t lhs, const size_t rhs) -> std::optional<size_t> {
@@ -165,16 +206,16 @@ inline static std::optional<std::unordered_map<std::string, std::string>> get_ch
         size_t answer_stack_size {};
         std::vector<size_t> answer_stack;
 
-        DancingLinksModel(const size_t max_node_index, const size_t max_row_id, const size_t column_count,
+        DancingLinksModel(const size_t node_capacity, const size_t row_capacity, const size_t column_capacity,
                           const size_t max_ans_size) :
-            first(max_row_id + 1, 0),
-            size(column_count + 1, 0),
-            left(max_node_index + 1, 0),
-            right(max_node_index + 1, 0),
-            up(max_node_index + 1, 0),
-            down(max_node_index + 1, 0),
-            column(max_node_index + 1, 0),
-            row(max_node_index + 1, 0),
+            first(row_capacity, 0),
+            size(column_capacity, 0),
+            left(node_capacity, 0),
+            right(node_capacity, 0),
+            up(node_capacity, 0),
+            down(node_capacity, 0),
+            column(node_capacity, 0),
+            row(node_capacity, 0),
             answer_stack(max_ans_size, 0)
         {
         }
@@ -276,7 +317,7 @@ inline static std::optional<std::unordered_map<std::string, std::string>> get_ch
     for (const auto& [_, candidates] : group_list) {
         const auto next_candidate_upper_bound = checked_add(candidate_upper_bound, candidates.size());
         if (!next_candidate_upper_bound) {
-            return std::nullopt;
+            return CharAllocationResult::overflow();
         }
         candidate_upper_bound = *next_candidate_upper_bound;
     }
@@ -314,7 +355,7 @@ inline static std::optional<std::unordered_map<std::string, std::string>> get_ch
         }
 
         if (!has_candidate) {
-            return std::nullopt;
+            return CharAllocationResult::no_solution();
         }
     }
 
@@ -324,41 +365,47 @@ inline static std::optional<std::unordered_map<std::string, std::string>> get_ch
     const size_t char_num = char_id_mapping.size();
 
     if (char_num < group_num) {
-        return std::nullopt;
+        return CharAllocationResult::no_solution();
     }
 
     const auto doubled_node_num = checked_mul(node_num, 2);
     const auto column_num = checked_add(group_num, char_num);
     const auto row_num = checked_add(node_num, char_num);
     if (!doubled_node_num || !column_num || !row_num) {
-        return std::nullopt;
+        return CharAllocationResult::overflow();
     }
     const auto data_node_num = checked_add(*doubled_node_num, char_num);
     if (!data_node_num) {
-        return std::nullopt;
+        return CharAllocationResult::overflow();
     }
     const auto max_node_index = checked_add(*column_num, *data_node_num);
     if (!max_node_index) {
-        return std::nullopt;
+        return CharAllocationResult::overflow();
+    }
+    const auto node_capacity = checked_add(*max_node_index, 1);
+    const auto row_capacity = checked_add(*row_num, 1);
+    const auto column_capacity = checked_add(*column_num, 1);
+    if (!node_capacity || !row_capacity || !column_capacity) {
+        return CharAllocationResult::overflow();
     }
 
-    DancingLinksModel dancing_links_model(*max_node_index, *row_num, *column_num, char_num);
+    DancingLinksModel dancing_links_model(*node_capacity, *row_capacity, *column_capacity, char_num);
 
     if (!dancing_links_model.build(*column_num)) {
-        return std::nullopt;
+        return CharAllocationResult::internal_error();
     }
 
     for (size_t i = 0; i < node_num; i++) {
         const auto& node = node_id_mapping[i];
         if (!dancing_links_model.insert(i + 1, node.group_id + 1)
             || !dancing_links_model.insert(i + 1, group_num + node.char_id + 1)) {
-            return std::nullopt;
+            return CharAllocationResult::internal_error();
         }
     }
 
     for (size_t i = 0; i < char_num; i++) {
         if (!dancing_links_model.insert(i + node_num + 1, i + group_num + 1)) {
-            return std::nullopt;
+            return CharAllocationResult::internal_error();
         }
     }
 
@@ -367,7 +414,7 @@ inline static std::optional<std::unordered_map<std::string, std::string>> get_ch
 
     // 判定结果
     if (!has_solution) {
-        return std::nullopt;
+        return CharAllocationResult::no_solution();
     }
 
     std::unordered_map<std::string, std::string> return_value;
@@ -381,6 +428,6 @@ inline static std::optional<std::unordered_map<std::string, std::string>> get_ch
         return_value.emplace(group_id_mapping[node.group_id], char_id_mapping[node.char_id]);
     }
 
-    return return_value;
+    return CharAllocationResult::success(std::move(return_value));
 }
 } // namespace asst::algorithm
