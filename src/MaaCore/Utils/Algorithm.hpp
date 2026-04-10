@@ -28,25 +28,13 @@ struct CharAllocationResult
         return { CharAllocationStatus::Success, std::move(allocation_value) };
     }
 
-    [[nodiscard]] static CharAllocationResult no_solution()
-    {
-        return { CharAllocationStatus::NoSolution, {} };
-    }
+    [[nodiscard]] static CharAllocationResult no_solution() { return { CharAllocationStatus::NoSolution, {} }; }
 
-    [[nodiscard]] static CharAllocationResult overflow()
-    {
-        return { CharAllocationStatus::Overflow, {} };
-    }
+    [[nodiscard]] static CharAllocationResult overflow() { return { CharAllocationStatus::Overflow, {} }; }
 
-    [[nodiscard]] static CharAllocationResult internal_error()
-    {
-        return { CharAllocationStatus::InternalError, {} };
-    }
+    [[nodiscard]] static CharAllocationResult internal_error() { return { CharAllocationStatus::InternalError, {} }; }
 
-    [[nodiscard]] bool has_value() const noexcept
-    {
-        return status == CharAllocationStatus::Success;
-    }
+    [[nodiscard]] bool has_value() const noexcept { return status == CharAllocationStatus::Success; }
 };
 
 /**
@@ -206,8 +194,11 @@ struct CharAllocationResult
         size_t answer_stack_size {};
         std::vector<size_t> answer_stack;
 
-        DancingLinksModel(const size_t node_capacity, const size_t row_capacity, const size_t column_capacity,
-                          const size_t max_ans_size) :
+        DancingLinksModel(
+            const size_t node_capacity,
+            const size_t row_capacity,
+            const size_t column_capacity,
+            const size_t max_ans_size) :
             first(row_capacity, 0),
             size(column_capacity, 0),
             left(node_capacity, 0),
@@ -242,8 +233,8 @@ struct CharAllocationResult
 
         bool insert(const size_t row_id, const size_t column_id)
         {
-            if (row_id == 0 || row_id >= first.size() || column_id == 0 || column_id >= size.size()
-                || index + 1 >= column.size()) {
+            if (row_id == 0 || row_id >= first.size() || column_id == 0 || column_id >= size.size() ||
+                index + 1 >= column.size()) {
                 return false;
             }
 
@@ -397,8 +388,8 @@ struct CharAllocationResult
 
     for (size_t i = 0; i < node_num; i++) {
         const auto& node = node_id_mapping[i];
-        if (!dancing_links_model.insert(i + 1, node.group_id + 1)
-            || !dancing_links_model.insert(i + 1, group_num + node.char_id + 1)) {
+        if (!dancing_links_model.insert(i + 1, node.group_id + 1) ||
+            !dancing_links_model.insert(i + 1, group_num + node.char_id + 1)) {
             return CharAllocationResult::internal_error();
         }
     }
