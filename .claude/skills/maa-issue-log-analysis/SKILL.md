@@ -359,6 +359,15 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 那么根因更可能是当前画面没有进入预期的难度切换界面，或按钮没有出现在资源定义的期望区域，而不是“Hard 后缀本身没有传到 core”。
 
+## GitHub 评论发布前（若代为发帖）
+
+- 若将把分析结论或建议**发布为**上游 issue 的评论（而非仅在对话里回复用户），在最终提交前**必须**过一遍正文，避免从旧评论照抄时带上真实 `@提及` 从而误通知他人。
+- **处理方式**：
+  - 删除或改写所有会触发 GitHub 通知的片段：典型为 `@` 后接用户名、组织/团队、机器人账号等（例如 `@octocat`、`@org/team-name`）。
+  - 可改为无 `@` 的纯文本（如直接写登录名不加 `@`），**不要**原样保留从历史 comment 复制的 `@xxx`。
+  - 从 issue 正文/评论中引用句子时，若其中含 `@`，引用前同样应去掉 `@` 前缀，除非用户**明确要求**向特定对象发 mention。
+- **注意**：仅在「会发到 GitHub 的评论框」时执行上述清理；对话内给用户看的草稿若需讨论某人 handle，可按用户需要保留，但与「最终发帖版本」区分。
+
 ## Output Format
 
 最终回答用这个结构：
@@ -437,6 +446,7 @@ Translate the complete conclusion directly into English and paste it here. Note 
 
 ## Reminders
 
+- 若生成将发布到 GitHub issue 的评论稿，发帖前按上文「GitHub 评论发布前」去掉误抄的 `@` 符号。
 - 不要只看 `gui.log` 下结论。
 - 不要把 issue 评论或机器人提示当成唯一证据。
 - 不要把当前分支资源直接当成 issue 当时的真实环境；先看报告包里的 `cache/resource`。
