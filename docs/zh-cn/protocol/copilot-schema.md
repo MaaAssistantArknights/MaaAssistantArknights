@@ -14,7 +14,6 @@ icon: ph:sword-bold
 ## 完整字段一览
 
 ```json
-
 {
     "stage_name": "暴君", // 关卡名，必选。关卡中文名、code、stageId、levelId等，只要能保证唯一均可。
     "opers": [
@@ -170,7 +169,6 @@ icon: ph:sword-bold
     // 2: 支持突袭难度
     // 3: 支持普通、突袭难度
 }
-
 ```
 
 ## 举例
