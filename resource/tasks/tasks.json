@@ -1490,7 +1490,7 @@
     },
     "MedicineExpiringTime": {
         "algorithm": "OcrDetect",
-        "text": [""],
+        "text": [],
         "ocrReplace": [
             ["(\\d+)天", "${1}"],
             [".+(小时|分钟)", "0"],
