@@ -33,7 +33,7 @@ public static class MaaUrls
 
     public const string Discord = "https://discord.gg/23DfZ9uA4V";
 
-    public const string PrtsPlus = "https://zoot.plus";
+    public const string PrtsPlus = "https://prts.plus";
 
     public const string PrtsPlusCopilotGet = "https://prts.maa.plus/copilot/get/";
 
