@@ -918,7 +918,7 @@
             ["Risk:Wild Passion", "厉-恣狂情"],
             ["Rusty", "锈色"],
             ["Survival", "存护"],
-            ["Broken Wand - Absorb", "断杖-汲取"],
+            ["Broken Wand[- ]*Absorb", "断杖-汲取"],
             ["Trade can be explored", "易与可探索"],
             ["Tzu-Wu Blade", "子武剑"],
             ["Great Tomb Whistle", "镇陵哨"],
@@ -1207,10 +1207,10 @@
             ["HundredClanRebellion", "百氏之乱"],
             ["TheFinishingStroke", "收笔"],
             ["MeetingaFriend", "会友"],
-            ["Times Change", "移时换物"],
-            ["Where Then Meets Now", "古今交汇"],
-            ["Heaven-Blessed Hunt", "大狩维天"],
-            ["For Tomorrow", "只为明日"]
+            ["TimesChange", "移时换物"],
+            ["WhereThenMeetsNow", "古今交汇"],
+            ["HeavenBlessedHunt", "大狩维天"],
+            ["ForTomorrow", "只为明日"]
         ],
         "roi": [0, 395, 725, 235]
     },
