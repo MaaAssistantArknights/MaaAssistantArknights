@@ -230,7 +230,7 @@ public static class CopilotHelper
                     if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion())
                     {
                         bool curParsed = SemVersion.TryParse(VersionUpdateSettingsUserControlModel.CoreVersion, SemVersionStyles.AllowLowerV, out var currentVer);
-                        bool require = SemVersion.TryParse(task?.MinimumRequired, SemVersionStyles.AllowLowerV, out var requireVer);
+                        bool require = SemVersion.TryParse(task?.MinimumRequired, SemVersionStyles.AllowLowerV | SemVersionStyles.OptionalPatch, out var requireVer);
                         if (!curParsed)
                         {
                             throw new JsonSerializationException($"Unable to parse Maa version: {VersionUpdateSettingsUserControlModel.CoreVersion}");
@@ -253,7 +253,7 @@ public static class CopilotHelper
                     if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion())
                     {
                         bool curParsed = SemVersion.TryParse(VersionUpdateSettingsUserControlModel.CoreVersion, SemVersionStyles.AllowLowerV, out var currentVer);
-                        bool require = SemVersion.TryParse(task?.MinimumRequired, SemVersionStyles.AllowLowerV, out var requireVer);
+                        bool require = SemVersion.TryParse(task?.MinimumRequired, SemVersionStyles.AllowLowerV | SemVersionStyles.OptionalPatch, out var requireVer);
                         if (!curParsed)
                         {
                             throw new JsonSerializationException($"Unable to parse Maa version: {VersionUpdateSettingsUserControlModel.CoreVersion}");
