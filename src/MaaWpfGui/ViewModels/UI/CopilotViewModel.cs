@@ -44,7 +44,6 @@ using Stylet;
 using static MaaWpfGui.Helper.CopilotHelper;
 using static MaaWpfGui.Helper.PathsHelper;
 using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
-using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 using DataFormats = System.Windows.Forms.DataFormats;
 using Task = System.Threading.Tasks.Task;
 
@@ -241,6 +240,11 @@ public partial class CopilotViewModel : Screen
             if (!Idle)
             {
                 return;
+            }
+
+            if (value == 1 || value == 3)
+            {
+                UseCopilotList = false;
             }
 
             if (!SetAndNotify(ref _copilotTabIndex, value))
@@ -703,14 +707,7 @@ public partial class CopilotViewModel : Screen
     [PropertyDependsOn(nameof(CopilotTabIndex))]
     public bool UseCopilotList
     {
-        get {
-            if (CopilotTabIndex is 1 or 3)
-            {
-                return false;
-            }
-            return _useCopilotList;
-        }
-
+        get => _useCopilotList;
         set {
             if (value)
             {
