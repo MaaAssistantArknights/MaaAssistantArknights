@@ -13,6 +13,7 @@
         HorizontalAlignment="Left"
         VerticalAlignment="Center"
         Background="{DynamicResource MouseOverRegionBrushOpacity75}"
+        Cursor="Help"
         DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
         MouseEnter="OnMouseEnter"
         MouseLeave="OnMouseLeave"
@@ -32,6 +33,7 @@
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                d:Text="?"
                 FontSize="10"
                 Foreground="{DynamicResource PrimaryTextBrush}"
                 Text="{Binding TextBlockText}"
