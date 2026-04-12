@@ -837,6 +837,9 @@ private:
         trace("Built at", __DATE__, __TIME__);
         trace("User Dir", m_directory);
         trace("-----------------------------");
+        if (std::filesystem::exists("DEBUG.txt")) {
+            trace("Debug mode enabled (DEBUG.txt found)");
+        }
     }
 
     inline static std::atomic<const char*> g_last_signal_reason { nullptr };
