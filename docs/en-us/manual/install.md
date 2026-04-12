@@ -61,6 +61,7 @@ MAA GUI is currently not supported on Linux or other operating systems. You can 
 After downloading you will have a `.zip` file. Extract it fully with your archive tool to obtain a folder containing all MAA files.
 
 ::: warning
+
 1. Do not extract MAA to locations that require UAC elevation such as `C:\` or `C:\Program Files\`.
 2. MAA includes a bundled .NET runtime (self-contained deployment), but it still requires the Visual C++ Redistributable x64 (VCRedist x64). After extraction, run `DependencySetup_依赖库安装.bat` in the MAA directory as administrator to install the required dependencies. After installation completes, run `MAA.exe`.
 
