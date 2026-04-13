@@ -1148,7 +1148,7 @@
             "bskill_formula_spd_headb1": {
                 "desc": ["进驻制造站时，作战记录类配方的生产力+30%"],
                 "efficient": {
-                    "CombatRecord": 30
+                    "CombatRecord": 30.1
                 },
                 "name": ["战阵领袖"],
                 "template": "Bskill_formula_spd_headb1.png"
@@ -1158,7 +1158,7 @@
                     "进驻制造站时，作战记录类配方的生产力+30%，当与乌萨斯学生自治团干员在同一个制造站时，作战记录类配方的生产力额外+10%"
                 ],
                 "efficient": {
-                    "CombatRecord": 30
+                    "CombatRecord": 30.1
                 },
                 "name": ["情同手足"],
                 "template": "Bskill_formula_spd_headb2.png"
