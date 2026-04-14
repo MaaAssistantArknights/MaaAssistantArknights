@@ -231,6 +231,31 @@ void asst::BattleFormationTask::formation_with_last_opers()
             return !op.is_selected && op.text == oper_name;
         }); // 编队页中的干员
         if (oper_in_page_it == opers_result.end()) [[unlikely]] {
+            // 检查该干员是否已经在编队画面上被选中（常见于连续打同一关的普通+突袭）
+            const auto& already_selected_it =
+                std::ranges::find_if(opers_result, [&](const QuickFormationOper& op) {
+                    return op.is_selected && op.text == oper_name;
+                });
+            if (already_selected_it != opers_result.end()) {
+                // 已经在画面上被选中，直接更新状态，无需点击
+                auto group_it = formation_view.find(group_name);
+                if (group_it != formation_view.end()) {
+                    auto oper_it = std::ranges::find_if(
+                        *(group_it->second),
+                        [&](battle::OperUsage& op) { return op.name == oper_name; });
+                    if (oper_it != group_it->second->end()) {
+                        oper_it->status = battle::OperStatus::Selected;
+                        m_opers_in_formation->emplace(oper_name, group_name);
+                        json::value info = basic_info_with_what("BattleFormationSelected");
+                        auto& details = info["details"];
+                        details["selected"] = oper_name;
+                        details["group_name"] = group_name;
+                        callback(AsstMsg::SubTaskExtraInfo, info);
+                    }
+                }
+                it = need_formation.erase(it);
+                continue;
+            }
             Log.warn(__FUNCTION__, "| Oper", oper_name, "was selected last time, but not found in current page");
             ++it;
             continue; // 该干员找不到, 一页只能放下10个干员, 可能被右侧挡住. 打回到正常编队逻辑
