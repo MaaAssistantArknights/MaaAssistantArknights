@@ -254,28 +254,13 @@ void asst::BattleFormationTask::formation_with_last_opers()
         const std::string& oper_name = it->first;
         const std::string& group_name = it->second;
 
+        // 在当前页查找目标干员（单次遍历，已选中和未选中统一处理）
         const auto oper_in_page_it = std::ranges::find_if(opers_result, [&](const QuickFormationOper& op) {
-            return !op.is_selected && op.text == oper_name;
-        }); // 编队页中的干员
+            return op.text == oper_name;
+        });
         if (oper_in_page_it == opers_result.end()) [[unlikely]] {
-            // 检查该干员是否已经在编队画面上被选中（常见于连续打同一关的普通+突袭）
-            auto already_selected_it = std::ranges::find_if(opers_result, [&](const QuickFormationOper& op) {
-                return op.is_selected && op.text == oper_name;
-            });
-            if (already_selected_it != opers_result.end()) {
-                // 已经在画面上被选中，直接更新状态，无需点击
-                if (try_mark_oper_selected(oper_name, group_name)) {
-                    it = last_formation.erase(it);
-                    continue;
-                }
-                // 干员在画面上已选中但在编队数据中找不到，属于异常状态
-                LogWarn << __FUNCTION__ << "| Oper" << oper_name
-                        << "is selected on page but not found in formation data";
-            }
-            else {
-                Log.warn(__FUNCTION__, "| Oper", oper_name,
-                         "was selected last time, but not found in current page");
-            }
+            Log.warn(__FUNCTION__, "| Oper", oper_name,
+                     "was selected last time, but not found in current page");
             ++it;
             continue; // 该干员找不到, 一页只能放下10个干员, 可能被右侧挡住. 打回到正常编队逻辑
         }
@@ -285,8 +270,11 @@ void asst::BattleFormationTask::formation_with_last_opers()
             continue;
         }
 
-        ctrler()->click(oper_in_page_it->flag_rect);
-        sleep(delay);
+        // 干员在画面上未选中时需要点击选中，已选中则跳过点击（常见于连续打同一关的普通+突袭）
+        if (!oper_in_page_it->is_selected) {
+            ctrler()->click(oper_in_page_it->flag_rect);
+            sleep(delay);
+        }
         it = last_formation.erase(it);
     }
 
