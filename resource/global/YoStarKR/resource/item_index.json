@@ -1151,6 +1151,14 @@
         "sortId": 10322,
         "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
     },
+    "LMTGS_COIN_6701": {
+        "classifyType": "NORMAL",
+        "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
+        "icon": "LMTGS_COIN_6701.png",
+        "name": "헤드헌팅 데이터 계약",
+        "sortId": 10323,
+        "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
@@ -1699,7 +1707,7 @@
         "classifyType": "NONE",
         "description": "로도스 아일랜드 공방에서 위수 협의에 참여한 오퍼레이터를 위해 준비한 훈장. 자성이 있으며, 일정 수량을 모으면 룩 기물로 조립할 수 있다고 한다.",
         "icon": "act1vautochess_token_chess.png",
-        "name": "위수 인증서",
+        "name": "위수 인증",
         "sortId": -10000,
         "usage": "위수 협의에서 각종 물자를 교환하는데 사용된다."
     },
@@ -2231,6 +2239,14 @@
         "sortId": -10000,
         "usage": "선명하고 아름다운 꿈의 퍼즐 조각. 꿈의 성 곳곳에 흩어져 있다. 끈기를 가지고 모으면 아름다운 꿈의 한 순간이 차례로 되살아날 것이다."
     },
+    "act46side_token_detector": {
+        "classifyType": "NONE",
+        "description": "라인 랩에서 개발한 쉐라그 전용 탐지기로, 신비로운 히라의 각종 데이터를 수집하는 데 사용되며, 저온 환경에서도 안정적으로 작동한다. “신화란 단지 이유가 밝혀지지 않은 현실일 뿐, 과학이 언젠가 그 베일을 벗길 거야.”——엘레나는 이렇게 굳게 믿고 있다.",
+        "icon": "act46side_token_detector.png",
+        "name": "설원용 다목적 탐지기",
+        "sortId": -10000,
+        "usage": "눈사태로 인해 각지로 흩어진 다목적 탐지기. 발견 시 관측소에 가져다주면 직원이 물자로 감사를 표할 것이다."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
@@ -2388,7 +2404,7 @@
         "description": "가공 중 일부 재료가 부족한 문제를 해결하기 위해, 구매부가 수령권을 발행해 오퍼레이터들이 필요한 재료들을 직접 얻을 수 있도록 하였다.",
         "icon": "advanced_material_voucher_perm.png",
         "name": "고급 재료 수령권",
-        "sortId": 60005,
+        "sortId": 60006,
         "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 시 고급 정예화 재료를 받을 수 있다."
     },
     "ap_supply_lt_010": {
@@ -2815,6 +2831,14 @@
         "sortId": 90002,
         "usage": "오퍼레이터의 모듈 업그레이드에 사용된다."
     },
+    "precious_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "가공 중 일부 재료가 부족한 문제를 해결하기 위해, 구매부가 수령권을 발행해 오퍼레이터들이 필요한 재료들을 직접 얻을 수 있도록 하였다.",
+        "icon": "precious_material_voucher_perm.png",
+        "name": "희귀 재료 수령권",
+        "sortId": 60004,
+        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 시 희귀 정예화 재료를 받을 수 있다."
+    },
     "premium_material_issue_voucher": {
         "classifyType": "CONSUME",
         "description": "가공 중 일부 재료가 부족한 문제를 해결하기 위해, 구매부가 수령권을 발행해 오퍼레이터들이 필요한 재료들을 직접 얻을 수 있도록 하였다.",
@@ -2828,7 +2852,7 @@
         "description": "가공 중 일부 재료가 부족한 문제를 해결하기 위해, 구매부가 수령권을 발행해 오퍼레이터들이 필요한 재료들을 직접 얻을 수 있도록 하였다.",
         "icon": "premium_material_voucher_perm.png",
         "name": "특급 재료 수령권",
-        "sortId": 60004,
+        "sortId": 60005,
         "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 시 특급 정예화 재료를 받을 수 있다."
     },
     "randomDiamondShd_1": {
@@ -3079,6 +3103,14 @@
         "sortId": 60116,
         "usage": "총기 공방에서 보내온 보급품. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
+    "randomMaterial_act46side": {
+        "classifyType": "CONSUME",
+        "description": "빅토리아가 쉐라그에 대량으로 공급한 물자팩. 빅토리아어와 쉐라그어로 '위대한 쉐라간드가 빅토리아와 쉐라그의 우정을 영원토록 보우하사'라고 쓰여있다.",
+        "icon": "randomMaterial_act46side.png",
+        "name": "응급 구조팩",
+        "sortId": 60118,
+        "usage": "눈사태 구호에 사용되는 물자 보급팩. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
     "randomMaterial_amiya": {
         "classifyType": "CONSUME",
         "description": "안에는 각종 물자뿐만 아니라, 생일 주인공에게 보내는 모두의 가장 진심 어린 축복도 담겨 있다.",
@@ -3094,6 +3126,14 @@
         "name": "탐문 보급",
         "sortId": 60115,
         "usage": "누구한테서 받았는지 모르는 보급품. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
+    "randomMaterial_message1": {
+        "classifyType": "CONSUME",
+        "description": "모형의 한쪽 면에 노시스와 엔시오데스의 이름이 새겨져 있다. 이런 모형은 대지 전체를 둘러봐도 유일무이하다. 게다가 모형과 함께 만주원 표식이 그려진 상자도 함께 도착했다. 상자 안에는 모형 위에 올려놓을 수 있는 작은 인형들이 있었는데, 모두 당신이 아는 사람이었다. 이걸 용문폐로 바꾸기에는 왠지 아깝다는 생각이 든다.",
+        "icon": "randomMaterial_message1.png",
+        "name": "1호 프로젝트 결정판",
+        "sortId": 60119,
+        "usage": "고속 전함 모형. 용문폐와 교환할 수 있다."
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",
