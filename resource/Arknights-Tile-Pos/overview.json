@@ -16811,6 +16811,150 @@
         "stageId": "act51side_08",
         "width": 13
     },
+    "act51side_ex01#f#-activities/act51side/level_act51side_ex01": {
+        "code": "PA-EX-1",
+        "filename": "act51side_ex01#f#-activities-act51side-level_act51side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act51side/level_act51side_ex01",
+        "name": "在底层",
+        "stageId": "act51side_ex01#f#",
+        "width": 10
+    },
+    "act51side_ex01-activities/act51side/level_act51side_ex01": {
+        "code": "PA-EX-1",
+        "filename": "act51side_ex01-activities-act51side-level_act51side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act51side/level_act51side_ex01",
+        "name": "在底层",
+        "stageId": "act51side_ex01",
+        "width": 10
+    },
+    "act51side_ex02#f#-activities/act51side/level_act51side_ex02": {
+        "code": "PA-EX-2",
+        "filename": "act51side_ex02#f#-activities-act51side-level_act51side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act51side/level_act51side_ex02",
+        "name": "活尸",
+        "stageId": "act51side_ex02#f#",
+        "width": 11
+    },
+    "act51side_ex02-activities/act51side/level_act51side_ex02": {
+        "code": "PA-EX-2",
+        "filename": "act51side_ex02-activities-act51side-level_act51side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act51side/level_act51side_ex02",
+        "name": "活尸",
+        "stageId": "act51side_ex02",
+        "width": 11
+    },
+    "act51side_ex03#f#-activities/act51side/level_act51side_ex03": {
+        "code": "PA-EX-3",
+        "filename": "act51side_ex03#f#-activities-act51side-level_act51side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act51side/level_act51side_ex03",
+        "name": "母亲",
+        "stageId": "act51side_ex03#f#",
+        "width": 11
+    },
+    "act51side_ex03-activities/act51side/level_act51side_ex03": {
+        "code": "PA-EX-3",
+        "filename": "act51side_ex03-activities-act51side-level_act51side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act51side/level_act51side_ex03",
+        "name": "母亲",
+        "stageId": "act51side_ex03",
+        "width": 11
+    },
+    "act51side_ex04#f#-activities/act51side/level_act51side_ex04": {
+        "code": "PA-EX-4",
+        "filename": "act51side_ex04#f#-activities-act51side-level_act51side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act51side/level_act51side_ex04",
+        "name": "长子",
+        "stageId": "act51side_ex04#f#",
+        "width": 11
+    },
+    "act51side_ex04-activities/act51side/level_act51side_ex04": {
+        "code": "PA-EX-4",
+        "filename": "act51side_ex04-activities-act51side-level_act51side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act51side/level_act51side_ex04",
+        "name": "长子",
+        "stageId": "act51side_ex04",
+        "width": 11
+    },
+    "act51side_ex05#f#-activities/act51side/level_act51side_ex05": {
+        "code": "PA-EX-5",
+        "filename": "act51side_ex05#f#-activities-act51side-level_act51side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act51side/level_act51side_ex05",
+        "name": "三姐妹",
+        "stageId": "act51side_ex05#f#",
+        "width": 12
+    },
+    "act51side_ex05-activities/act51side/level_act51side_ex05": {
+        "code": "PA-EX-5",
+        "filename": "act51side_ex05-activities-act51side-level_act51side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act51side/level_act51side_ex05",
+        "name": "三姐妹",
+        "stageId": "act51side_ex05",
+        "width": 12
+    },
+    "act51side_ex06#f#-activities/act51side/level_act51side_ex06": {
+        "code": "PA-EX-6",
+        "filename": "act51side_ex06#f#-activities-act51side-level_act51side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act51side/level_act51side_ex06",
+        "name": "钦差大臣",
+        "stageId": "act51side_ex06#f#",
+        "width": 11
+    },
+    "act51side_ex06-activities/act51side/level_act51side_ex06": {
+        "code": "PA-EX-6",
+        "filename": "act51side_ex06-activities-act51side-level_act51side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act51side/level_act51side_ex06",
+        "name": "钦差大臣",
+        "stageId": "act51side_ex06",
+        "width": 11
+    },
+    "act51side_ex07#f#-activities/act51side/level_act51side_ex07": {
+        "code": "PA-EX-7",
+        "filename": "act51side_ex07#f#-activities-act51side-level_act51side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act51side/level_act51side_ex07",
+        "name": "乐观的悲剧",
+        "stageId": "act51side_ex07#f#",
+        "width": 11
+    },
+    "act51side_ex07-activities/act51side/level_act51side_ex07": {
+        "code": "PA-EX-7",
+        "filename": "act51side_ex07-activities-act51side-level_act51side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act51side/level_act51side_ex07",
+        "name": "乐观的悲剧",
+        "stageId": "act51side_ex07",
+        "width": 11
+    },
+    "act51side_ex08#f#-activities/act51side/level_act51side_ex08": {
+        "code": "PA-EX-8",
+        "filename": "act51side_ex08#f#-activities-act51side-level_act51side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act51side/level_act51side_ex08",
+        "name": "樱桃园",
+        "stageId": "act51side_ex08#f#",
+        "width": 13
+    },
+    "act51side_ex08-activities/act51side/level_act51side_ex08": {
+        "code": "PA-EX-8",
+        "filename": "act51side_ex08-activities-act51side-level_act51side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act51side/level_act51side_ex08",
+        "name": "樱桃园",
+        "stageId": "act51side_ex08",
+        "width": 13
+    },
     "act51side_tr01-activities/act51side/level_act51side_tr01": {
         "code": "PA-TR-1",
         "filename": "act51side_tr01-activities-act51side-level_act51side_tr01.json",
