@@ -1151,6 +1151,14 @@
         "sortId": 10322,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_6701": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_6701.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10323,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -2231,6 +2239,14 @@
         "sortId": -10000,
         "usage": "A piece of a dream-shaped puzzle, dazzling and beautiful. You found these strewn across the floor when you came to the Castle. Now, be patient, gather them together, and see the wondrous scenes you bring to life once more."
     },
+    "act46side_token_detector": {
+        "classifyType": "NONE",
+        "description": "A survey instrument developed by Rhine Lab specifically for use in Kjerag to collect various data from the mysterious snowy realm, maintaining stable functionality even in low-temperature environments. 'Myths are merely unexplained realities, and science will one day snatch off their veils.'—Elena firmly believes in this.",
+        "icon": "act46side_token_detector.png",
+        "name": "Multi-functional Snow Detector",
+        "sortId": -10000,
+        "usage": "Multi-functional survey equipment scattered throughout the snow from the avalanches. Please return it to the observation station when found, and the staff will express their gratitude with practical supplies."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -2388,7 +2404,7 @@
         "description": "In order to address scarcities of certain materials during processing, the Procurement Department has issued exchange vouchers for operators' discretionary use, granting access to the materials needed.",
         "icon": "advanced_material_voucher_perm.png",
         "name": "Advanced Material Voucher",
-        "sortId": 60005,
+        "sortId": 60006,
         "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used to obtain advanced elite materials."
     },
     "ap_supply_lt_010": {
@@ -2815,6 +2831,14 @@
         "sortId": 90002,
         "usage": "Used to upgrade Operator modules."
     },
+    "precious_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "In order to address scarcities of certain materials during processing, the Procurement Department has issued exchange vouchers for operators' discretionary use, granting access to the materials needed.",
+        "icon": "precious_material_voucher_perm.png",
+        "name": "Precious Material Voucher",
+        "sortId": 60004,
+        "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used to obtain precious elite materials."
+    },
     "premium_material_issue_voucher": {
         "classifyType": "CONSUME",
         "description": "In order to address scarcities of certain materials during processing, the Procurement Department has issued exchange vouchers for operators' discretionary use, granting access to the materials needed.",
@@ -2828,7 +2852,7 @@
         "description": "In order to address scarcities of certain materials during processing, the Procurement Department has issued exchange vouchers for operators' discretionary use, granting access to the materials needed.",
         "icon": "premium_material_voucher_perm.png",
         "name": "Premium Material Voucher",
-        "sortId": 60004,
+        "sortId": 60005,
         "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used to obtain premium elite materials."
     },
     "randomDiamondShd_1": {
@@ -3079,6 +3103,14 @@
         "sortId": 60116,
         "usage": "Contains various supplies from the firearms workshop, including random materials."
     },
+    "randomMaterial_act46side": {
+        "classifyType": "CONSUME",
+        "description": "The many supply packages distributed in Kjerag by Victoria bear the same line in both Victorian and Kjeragi: 'May Great Kjeragandr preserve the friendship between Victoria and Kjerag forever.'",
+        "icon": "randomMaterial_act46side.png",
+        "name": "Emergency Rescue Kit",
+        "sortId": 60118,
+        "usage": "An assortment of supplies and materials for snowstorm rescues."
+    },
     "randomMaterial_amiya": {
         "classifyType": "CONSUME",
         "description": "It contains not only supplies, but also everyone's sincerest wishes for the birthday girl.",
@@ -3094,6 +3126,14 @@
         "name": "Investigation Resupply",
         "sortId": 60115,
         "usage": "Package from an unknown source containing various supplies, including random materials."
+    },
+    "randomMaterial_message1": {
+        "classifyType": "CONSUME",
+        "description": "One side bears the signatures of Gnosis and Enciodes. Obviously no other model like this exists on the land. It is worth mentioning the model comes with a box bearing the Vine-Bead Court's sigil, containing various miniatures you can place on the model—and you can recognize each and every one of them. This makes you feel a little sorry for exchanging it for LMD.",
+        "icon": "randomMaterial_message1.png",
+        "name": "Project One Definitive Edition",
+        "sortId": 60119,
+        "usage": "A high-speed battleship model. Can be exchanged for LMD."
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",
