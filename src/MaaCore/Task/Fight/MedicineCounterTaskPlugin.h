@@ -16,7 +16,7 @@ public:
 
     void set_count(int count) { m_max_count = count; }
 
-    void set_expiring_day(int value){ m_expiring_day = value; }
+    void set_expire_days(int value){ m_expire_days = value; }
 
     void set_reduce_when_exceed(bool reduce) { m_reduce_when_exceed = reduce; }
 
@@ -28,31 +28,12 @@ public:
 private:
     virtual bool _run() override;
 
-    enum class ExpiringStatus
-    {
-        Unknown = 0,
-        NotExpiring = 1,
-        Expiring = 2,
-    };
-
-    static std::string expiring_status_to_string(ExpiringStatus status)
-    {
-        switch (status) {
-        case ExpiringStatus::NotExpiring:
-            return "NotExpiring";
-        case ExpiringStatus::Expiring:
-            return "Expiring";
-        default:
-            return "Unknown";
-        }
-    }
-
     struct Medicine
     {
         int use = 0;
         int inventory = 0;
-        asst::Rect reduce_button_position;
-        ExpiringStatus is_expiring;
+        int expire_days = -1;
+        asst::Rect reduce_button_pos;
     };
 
     // 库存量, 移除按钮的位置
@@ -67,8 +48,7 @@ private:
     // 减少药品使用
     void reduce_excess(const MedicineResult& using_medicine, int reduce);
 
-    int m_expiring_day = 0; // 吃几天之内过期的药, 0表示不使用过期药品
-    asst::OcrTaskPtr m_expiring_task;
+    int m_expire_days = 0; // 吃几天之内过期的药, 0表示不使用过期药品
     bool m_dr_grandet = false;
     int m_used_count = 0;
     int m_max_count = 0;
