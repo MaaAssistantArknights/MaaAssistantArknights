@@ -208,8 +208,8 @@ void asst::BattleFormationTask::formation_with_last_opers()
     if (m_opers_in_formation->empty()) {
         return;
     }
-    std::unordered_map<std::string, std::string> need_formation;
-    m_opers_in_formation->swap(need_formation);
+    std::unordered_map<std::string, std::string> last_formation; // 上次作业的干员-组映射
+    m_opers_in_formation->swap(last_formation);
 
     // 此时的oper_in_formation是根据上次编队结果复用的, 但是task此时已清空, 重新选一下
     const auto& opers_result = analyzer_opers(ctrler()->get_image());
@@ -223,7 +223,7 @@ void asst::BattleFormationTask::formation_with_last_opers()
         formation_view.emplace(group.first, &group.second);
     }
     const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
-    for (auto it = need_formation.begin(); !need_exit() && it != need_formation.end();) {
+    for (auto it = last_formation.begin(); !need_exit() && it != last_formation.end();) {
         const std::string& oper_name = it->first;
         const std::string& group_name = it->second;
 
@@ -264,7 +264,7 @@ void asst::BattleFormationTask::formation_with_last_opers()
         details["group_name"] = group_name;
         callback(AsstMsg::SubTaskExtraInfo, info);
         m_opers_in_formation->emplace(oper_name, group_name);
-        it = need_formation.erase(it);
+        it = last_formation.erase(it);
     }
 }
 
