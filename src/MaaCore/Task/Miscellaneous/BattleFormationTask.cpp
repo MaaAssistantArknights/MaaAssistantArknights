@@ -254,10 +254,15 @@ void asst::BattleFormationTask::formation_with_last_opers()
         const std::string& oper_name = it->first;
         const std::string& group_name = it->second;
 
-        // 在当前页查找目标干员（单次遍历，已选中和未选中统一处理）
-        const auto oper_in_page_it = std::ranges::find_if(opers_result, [&](const QuickFormationOper& op) {
-            return op.text == oper_name;
-        });
+        // 按名字定位编队页中的目标干员，不再根据 is_selected 预过滤。
+        // 设计上 enter_selection_page 里的 BattleQuickFormationClear 会在进入前
+        // 清空所有选中态，正常情况下 is_selected 都为 false；但当清空动作未生效
+        // （例如连续打同一关的普通+突袭，游戏保留了上次的选中）时，画面上的干员
+        // 可能已经是选中态，下面会根据实际状态决定是否点击，避免把本来已选中的
+        // 干员反选掉。
+        const auto oper_in_page_it = std::ranges::find_if(
+            opers_result,
+            [&](const QuickFormationOper& op) { return op.text == oper_name; });
         if (oper_in_page_it == opers_result.end()) [[unlikely]] {
             Log.warn(__FUNCTION__, "| Oper", oper_name,
                      "was selected last time, but not found in current page");
@@ -270,10 +275,15 @@ void asst::BattleFormationTask::formation_with_last_opers()
             continue;
         }
 
-        // 干员在画面上未选中时需要点击选中，已选中则跳过点击（常见于连续打同一关的普通+突袭）
+        // 未选中时点击选中；已经是选中态则跳过点击（见上方 Clear 未生效的场景），
+        // 无论是否点击都算本轮命中，后续的选中态校验会再次确认。
         if (!oper_in_page_it->is_selected) {
             ctrler()->click(oper_in_page_it->flag_rect);
             sleep(delay);
+        }
+        else {
+            Log.info(__FUNCTION__, "| Oper", oper_name,
+                     "already selected on page, skip click (Clear may not have taken effect)");
         }
         it = last_formation.erase(it);
     }
