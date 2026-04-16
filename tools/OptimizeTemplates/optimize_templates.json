@@ -3972,5 +3972,10 @@
     "resource/global/YoStarKR/resource/template/MiniGame/OS/MiniGame@OS@EndTurn": "a34de90aa5eaa2bf8885b12034efa8f8853f83b02ddd189aeca6d08c9450d824",
     "resource/global/YoStarKR/resource/template/MiniGame/OS/MiniGame@OS@CheckAchieved": "d5d84d9cc14bf2bf9fc81594657f7387c6e61c5cfac3c65a36508365647a7968",
     "resource/global/YoStarKR/resource/template/MiniGame/OS/MiniGame@OS@CollectAction": "e0ded35b3197e58a56b857e276b19d62b9415a07ebd9136116359f34126614ef",
-    "resource/global/YoStarKR/resource/template/MiniGame/OS/MiniGame@OS@MoveAction": "48d96caf19feb4537fdc1fd0f16848511e9d7204b217dd85a4b8e1c69a4bb869"
+    "resource/global/YoStarKR/resource/template/MiniGame/OS/MiniGame@OS@MoveAction": "48d96caf19feb4537fdc1fd0f16848511e9d7204b217dd85a4b8e1c69a4bb869",
+    "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@CheckAchieved": "014d5af6a411c8aa81238cceeea1304fd683acd16d79edc8d6dca7fc457d58e8",
+    "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@CollectAction": "55855af8735610beafbda6c8826446f23fd9886513869909e72af5516b920dab",
+    "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@EndTurn": "f18db750d6fd4a94df39b924f8d849d301fa010b5412ea52a43b48442ca251be",
+    "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@MoveAction": "5210cb68cbf5c6b7292dc784dc193ea1d35babc1fcec34127d8e3e5677496287",
+    "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@ClickToContinue": "cd94d2eb412e1bed447c0987e4e2ad831ae2455939b157500e90d0358aad6f53"
 }
