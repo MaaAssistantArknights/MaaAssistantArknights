@@ -23,6 +23,7 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
@@ -569,6 +570,29 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
+    public int MedicineExpireDays
+    {
+
+        get => GetTaskConfig<FightTask>().MedicineExpireDays;
+        set {
+            SetTaskConfig<FightTask>(t => t.MedicineExpireDays == value, t => t.MedicineExpireDays = value);
+            SetFightParams();
+        }
+    }
+
+    public bool UseExpireMedicineForActivity
+    {
+        get => GetTaskConfig<FightTask>().UseExpireMedicineForActivity;
+        set {
+            SetTaskConfig<FightTask>(t => t.UseExpireMedicineForActivity == value, t => t.UseExpireMedicineForActivity = value);
+            SetFightParams();
+        }
+    }
+
+    public bool ActivityExpireIn2Days { get => field; set => SetAndNotify(ref field, value); }
+
+    public string ActivityInfo { get => field; private set => SetAndNotify(ref field, value); }
+
     /// <summary>
     /// Gets or sets a value indicating whether to hide unavailable stages.
     /// </summary>
@@ -726,6 +750,21 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             using var log = new LogScope(_logger);
             var stageList = Instances.StageManager.GetStageList();
             await TaskQueueViewModel.TaskQueueSerializingLock.WaitAsync();
+            var time = DateTimeOffset.Now;
+            var activityList = Instances.StageManager.ActivityList.Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
+            if (activityList.Any())
+            {
+                var activity = activityList.First();
+                var timeLeft = activity.Value.Info.ExpireTimeUtc - time;
+                var day = timeLeft.Days > 0 ? timeLeft.TotalDays.ToString("#.#") : LocalizationHelper.GetString("LessThanOneDay");
+                ActivityExpireIn2Days = timeLeft.Days < 2;
+                ActivityInfo = $"｢{activity.Value.Info.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{day}";
+            }
+            else
+            {
+                ActivityInfo = "暂无活动";
+                ActivityExpireIn2Days = false;
+            }
             using (var refresh = new UiRefreshingScope())
             {
                 RefreshStageList();
@@ -968,13 +1007,27 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             {
                 return (null, []);
             }
+
+            var time = DateTimeOffset.Now;
+            var activityExpireIn2Days = false;
+            var activityList = Instances.StageManager.ActivityList.Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
+            if (activityList.Any())
+            {
+                var activity = activityList.First();
+                activityExpireIn2Days = (activity.Value.Info.ExpireTimeUtc - time).Days < 2;
+            }
+
+            var expireDays = fight.UseExpiringMedicine ? fight.MedicineExpireDays : 0;
+            var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
+            var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
+            var activityExpireDays = activityExpireIn2Days && fight.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0;
             var task = new AsstFightTask() {
                 Stage = stage,
                 Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
                 Stone = fight.UseStone != false ? fight.StoneCount : 0,
                 Series = fight.Series,
                 MaxTimes = fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue,
-                ExpiringMedicine = fight.UseExpiringMedicine ? 9999 : 0,
+                MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
                 IsDrGrandet = fight.IsDrGrandet,
                 ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                 ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,

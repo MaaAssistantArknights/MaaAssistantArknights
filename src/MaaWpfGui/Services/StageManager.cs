@@ -25,6 +25,7 @@ using HandyControl.Data;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
+using MaaWpfGui.Models.MaaApi;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json.Linq;
@@ -46,6 +47,10 @@ public class StageManager
 
     // data
     private Dictionary<string, StageInfo> _stages = [];
+
+    private Dictionary<string, SideStoryActivity> _activityList = [];
+
+    public IReadOnlyDictionary<string, SideStoryActivity> ActivityList => _activityList.AsReadOnly();
 
     // mini game entries exposed from StageActivityV2 (richer model including Tip/TipKey)
     private List<MiniGameEntry> _miniGameEntries = InitializeDefaultMiniGameEntries();
@@ -118,18 +123,10 @@ public class StageManager
         });
     }
 
-    private static string GetClientType()
-    {
-        var clientType = SettingsViewModel.GameSettings.ClientType;
-
-        // 官服和B服使用同样的资源
-        if (clientType is ClientType.Bilibili)
-        {
-            clientType = ClientType.Official;
-        }
-
-        return clientType;
-    }
+    private static string GetClientType() => SettingsViewModel.GameSettings.ClientType switch {
+        ClientType.Bilibili => ClientType.Official,
+        _ => SettingsViewModel.GameSettings.ClientType,
+    };
 
     private static JObject? LoadLocalStages()
     {
@@ -395,7 +392,7 @@ public class StageManager
         };
     }
 
-    private static void ParseActivityStages(JToken? clientData, Dictionary<string, StageInfo> tempStage, bool curVerParsed, SemVersion? curVersionObj, bool isDebugVersion)
+    private void ParseActivityStages(JToken? clientData, Dictionary<string, StageInfo> tempStage, bool curVerParsed, SemVersion? curVersionObj, bool isDebugVersion)
     {
         try
         {
@@ -404,6 +401,9 @@ public class StageManager
             {
                 return;
             }
+
+            // 后面的带了奇怪的最低版本二次兼容 和 大小写兼容, 暂时不改
+            _activityList = sideToken.ToObject<Dictionary<string, SideStoryActivity>>() ?? [];
 
             // 新格式：sideStoryStage 为对象，按活动分组，组内包含 Activity 与 Stages 数组
             foreach (var prop in sideToken.Children<JProperty>())
@@ -752,8 +752,8 @@ public class StageManager
     /// <returns>活动剩余日期</returns>
     private static string GetDaysLeftText(DateTime expireTime, DateTime now)
     {
-        int daysLeft = (expireTime - now).Days;
-        return daysLeft > 0 ? daysLeft.ToString() : LocalizationHelper.GetString("LessThanOneDay");
+        double daysLeft = (expireTime - now).TotalDays;
+        return daysLeft >= 1 ? daysLeft.ToString("#.#") : LocalizationHelper.GetString("LessThanOneDay");
     }
 
     /// <summary>

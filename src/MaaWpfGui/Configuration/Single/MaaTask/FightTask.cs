@@ -93,6 +93,10 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool UseExpiringMedicine { get; set; }
 
+    public int MedicineExpireDays { get; set; } = 2;
+
+    public bool UseExpireMedicineForActivity { get; set; }
+
     /// <summary>
     /// Gets or sets a value indicating whether 剿灭关卡自定
     /// </summary>
