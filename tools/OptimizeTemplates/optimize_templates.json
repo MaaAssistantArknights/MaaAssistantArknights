@@ -3977,5 +3977,5 @@
     "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@CollectAction": "55855af8735610beafbda6c8826446f23fd9886513869909e72af5516b920dab",
     "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@EndTurn": "f18db750d6fd4a94df39b924f8d849d301fa010b5412ea52a43b48442ca251be",
     "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@MoveAction": "5210cb68cbf5c6b7292dc784dc193ea1d35babc1fcec34127d8e3e5677496287",
-    "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@ClickToContinue.png": "cd94d2eb412e1bed447c0987e4e2ad831ae2455939b157500e90d0358aad6f53"
+    "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@ClickToContinue": "cd94d2eb412e1bed447c0987e4e2ad831ae2455939b157500e90d0358aad6f53"
 }
