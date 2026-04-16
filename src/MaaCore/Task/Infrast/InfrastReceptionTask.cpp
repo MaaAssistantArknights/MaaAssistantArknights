@@ -171,9 +171,15 @@ bool asst::InfrastReceptionTask::remove_clue()
     InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
 
     vacancy_analyzer.set_to_be_analyzed(clue_suffix);
-    bool ret = vacancy_analyzer.analyze();
+    vacancy_analyzer.analyze();
 
     const auto& vacancy = vacancy_analyzer.get_vacancy();
+    // 没有已放置线索时视为成功，避免中断后续快捷置入流程
+    if (vacancy.empty()) {
+        return true;
+    }
+
+    bool ret = true;
     for (const auto& id : vacancy | std::views::keys) {
         if (need_exit()) {
             return false;
@@ -209,8 +215,7 @@ bool asst::InfrastReceptionTask::remove_clue()
         confirm_analyzer.set_task_info("InfrastReceptionIcon");
 
         if (auto confirm_res = confirm_analyzer.analyze()) {
-            ret &= true;
-            ctrler()->click(confirm_res->rect);
+            ret &= ctrler()->click(confirm_res->rect);
             sleep(500);
         }
     }
