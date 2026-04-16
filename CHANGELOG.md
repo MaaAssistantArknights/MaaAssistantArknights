@@ -1,5 +1,15 @@
 ## v6.8.0-beta.1
 
+## OS 1101 whatever event
+
+Quick beta release to implement the Karlan Trade R&D minigame for all Global servers (EN, KR, JP)
+Stable will come soon™ uuh.
+
+Also, implementation of reception all clue fast selection.
+
+Enjoy.
+
+
 ### 新增 | New
 
 * 非法Enum值将使用属性设置的默认值作为替代 (#16138) @status102
