@@ -7,21 +7,25 @@
 bool asst::BattleDataConfig::parse(const json::value& json)
 {
     LogTraceFunction;
+    m_chars_by_role.clear();
+    m_chars.clear();
+    m_ranges.clear();
+    m_opers.clear();
     m_drones_confusing.clear();
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
-        battle::OperProps data;
-        data.id = id;
-        std::string name = char_data_json.at("name").as_string();
-        std::string name_en = char_data_json.at("name_en").as_string();
-        std::string name_jp = char_data_json.at("name_jp").as_string();
-        std::string name_kr = char_data_json.at("name_kr").as_string();
-        std::string name_tw = char_data_json.at("name_tw").as_string();
+        std::shared_ptr<battle::OperProps> data_ptr = std::make_shared<battle::OperProps>();
+        data_ptr->id = id;
+        std::string name = char_data_json.get("name", "");
+        std::string name_en = char_data_json.get("name_en", "");
+        std::string name_jp = char_data_json.get("name_jp", "");
+        std::string name_kr = char_data_json.get("name_kr", "");
+        std::string name_tw = char_data_json.get("name_tw", "");
 
-        data.name = name;
-        data.name_en = name_en;
-        data.name_jp = name_jp;
-        data.name_kr = name_kr;
-        data.name_tw = name_tw;
+        data_ptr->name = name;
+        data_ptr->name_en = name_en;
+        data_ptr->name_jp = name_jp;
+        data_ptr->name_kr = name_kr;
+        data_ptr->name_tw = name_tw;
         static const std::unordered_map<std::string, battle::Role> RoleMap = {
             { "CASTER", battle::Role::Caster },   { "MEDIC", battle::Role::Medic },
             { "PIONEER", battle::Role::Pioneer }, { "SNIPER", battle::Role::Sniper },
@@ -29,17 +33,17 @@ bool asst::BattleDataConfig::parse(const json::value& json)
             { "TANK", battle::Role::Tank },       { "WARRIOR", battle::Role::Warrior },
         };
 
-        if (auto iter = RoleMap.find(char_data_json.at("profession").as_string()); iter == RoleMap.cend()) {
-            data.role = battle::Role::Drone;
+        if (auto iter = RoleMap.find(char_data_json.get("profession", "")); iter == RoleMap.cend()) {
+            data_ptr->role = battle::Role::Drone;
         }
         else {
-            data.role = iter->second;
+            data_ptr->role = iter->second;
             m_opers.emplace(name); // 所有干员名
         }
 
         const auto& ranges_json = char_data_json.at("rangeId").as_array();
-        for (size_t i = 0; i != data.ranges.size(); ++i) {
-            data.ranges.at(i) = ranges_json.at(i).as_string();
+        for (size_t i = 0; i != data_ptr->ranges.size(); ++i) {
+            data_ptr->ranges.at(i) = ranges_json.at(i).as_string();
         }
 
         static const std::unordered_map<std::string, battle::LocationType> PositionMap = {
@@ -48,27 +52,27 @@ bool asst::BattleDataConfig::parse(const json::value& json)
             { "RANGED", battle::LocationType::Ranged },
             { "ALL", battle::LocationType::All },
         };
-        if (auto iter = PositionMap.find(char_data_json.at("position").as_string()); iter == PositionMap.cend()) {
-            Log.warn("Unknown position", char_data_json.at("position").as_string());
-            data.location_type = battle::LocationType::Invalid;
+        if (auto iter = PositionMap.find(char_data_json.get("position", "")); iter == PositionMap.cend()) {
+            Log.warn("Unknown position", char_data_json.get("position", ""));
+            data_ptr->location_type = battle::LocationType::Invalid;
         }
         else {
-            data.location_type = iter->second;
+            data_ptr->location_type = iter->second;
         }
 
         const auto& rarity = char_data_json.at("rarity").as_integer();
-        data.rarity = rarity;
-
+        data_ptr->rarity = rarity;
         if (auto tokens_opt = char_data_json.find<json::array>("tokens")) {
             for (const auto& token : *tokens_opt) {
-                data.tokens.emplace_back(token.as_string());
+                data_ptr->tokens.emplace_back(token.as_string());
                 if (tokens_opt->size() > 1) {
-                    m_drones_confusing.emplace_back(token.as_string());
+                    m_drones_confusing.emplace(token.as_string());
                 }
             }
         }
 
-        m_chars.emplace(std::move(name), std::move(data));
+        m_chars_by_role[data_ptr->role].emplace(data_ptr->id, data_ptr);
+        m_chars.emplace(data_ptr->id, std::move(data_ptr));
     }
     for (const auto& [id, points_json] : json.at("ranges").as_object()) {
         battle::AttackRange points;

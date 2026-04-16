@@ -1687,6 +1687,126 @@
         "sortId": -10000,
         "usage": "可在突破里程碑中兌換獎勵。"
     },
+    "act1vhalfidle_asc_cst": {
+        "classifyType": "NONE",
+        "description": "代表著精英術師幹員職稱的信物。持有它便說明持有者已經在前哨支點的生產建設中得到了充分的認可。",
+        "icon": "act1vhalfidle_asc_cst.png",
+        "name": "術師進階信物",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中進行幹員精英職稱晉升。"
+    },
+    "act1vhalfidle_asc_grd": {
+        "classifyType": "NONE",
+        "description": "代表著精英近衛幹員職稱的信物。持有它便說明持有者已經在前哨支點的生產建設中得到了充分的認可。",
+        "icon": "act1vhalfidle_asc_grd.png",
+        "name": "近衛進階信物",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中進行幹員精英職稱晉升。"
+    },
+    "act1vhalfidle_asc_med": {
+        "classifyType": "NONE",
+        "description": "代表著精英醫療幹員職稱的信物。持有它便說明持有者已經在前哨支點的生產建設中得到了充分的認可。",
+        "icon": "act1vhalfidle_asc_med.png",
+        "name": "醫療進階信物",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中進行幹員精英職稱晉升。"
+    },
+    "act1vhalfidle_asc_pio": {
+        "classifyType": "NONE",
+        "description": "代表著精英先鋒幹員職稱的信物。持有它便說明持有者已經在前哨支點的生產建設中得到了充分的認可。",
+        "icon": "act1vhalfidle_asc_pio.png",
+        "name": "先鋒進階信物",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中進行幹員精英職稱晉升。"
+    },
+    "act1vhalfidle_asc_snp": {
+        "classifyType": "NONE",
+        "description": "代表著精英狙擊幹員職稱的信物。持有它便說明持有者已經在前哨支點的生產建設中得到了充分的認可。",
+        "icon": "act1vhalfidle_asc_snp.png",
+        "name": "狙擊進階信物",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中進行幹員精英職稱晉升。"
+    },
+    "act1vhalfidle_asc_spc": {
+        "classifyType": "NONE",
+        "description": "代表著精英特種幹員職稱的信物。持有它便說明持有者已經在前哨支點的生產建設中得到了充分的認可。",
+        "icon": "act1vhalfidle_asc_spc.png",
+        "name": "特種進階信物",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中進行幹員精英職稱晉升。"
+    },
+    "act1vhalfidle_asc_sup": {
+        "classifyType": "NONE",
+        "description": "代表著精英輔助幹員職稱的信物。持有它便說明持有者已經在前哨支點的生產建設中得到了充分的認可。",
+        "icon": "act1vhalfidle_asc_sup.png",
+        "name": "輔助進階信物",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中進行幹員精英職稱晉升。"
+    },
+    "act1vhalfidle_asc_tnk": {
+        "classifyType": "NONE",
+        "description": "代表著精英重裝幹員職稱的信物。持有它便說明持有者已經在前哨支點的生產建設中得到了充分的認可。",
+        "icon": "act1vhalfidle_asc_tnk.png",
+        "name": "重裝進階信物",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中進行幹員精英職稱晉升。"
+    },
+    "act1vhalfidle_gacha_newplayer": {
+        "classifyType": "NONE",
+        "description": "封裝礦核精煉純化後的產物，存量稀少，一般作為開拓新生產基地時的啟動資源使用。",
+        "icon": "act1vhalfidle_gacha_newplayer.png",
+        "name": "精煉礦核",
+        "sortId": -10000,
+        "usage": "可用來在專項任命中任命幹員。"
+    },
+    "act1vhalfidle_gacha_normal": {
+        "classifyType": "NONE",
+        "description": "從源石礦脈核心位置取出並妥善封存的礦石樣本。在缺少必要精煉純化工業條件的環境下，封裝礦核可以作為高純度源石燃料的替代品。",
+        "icon": "act1vhalfidle_gacha_normal.png",
+        "name": "封裝礦核",
+        "sortId": -10000,
+        "usage": "可用來在隨機任命中任命幹員。"
+    },
+    "act1vhalfidle_itempack_asc": {
+        "classifyType": "NONE",
+        "description": "代表著精英稱號的信物。持有它便說明持有者在前哨支點的生產建設中得到了充分的認可。",
+        "icon": "act1vhalfidle_itempack_asc.png",
+        "name": "精英進階信物",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中為幹員晉升精英職稱。"
+    },
+    "act1vhalfidle_level_exp": {
+        "classifyType": "NONE",
+        "description": "踏入前哨支點，最需要的便是不怕艱苦的勇氣和謙虛好學的態度。請牢記：安全生產，人人有責。從頭學起，分秒必爭。",
+        "icon": "act1vhalfidle_level_exp.png",
+        "name": "培訓手冊",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中提升幹員的培訓等級。"
+    },
+    "act1vhalfidle_skill_exp": {
+        "classifyType": "NONE",
+        "description": "生產建設所需的技巧並不比在戰場上廝殺來得少。請牢記：時時注意，處處留神。齊心協力，共同進步。",
+        "icon": "act1vhalfidle_skill_exp.png",
+        "name": "技巧手冊",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中提升幹員的技能等級。"
+    },
+    "act1vhalfidle_strategy_point": {
+        "classifyType": "NONE",
+        "description": "含有可露希爾加密簽名的虛擬信標，投放數量經過她的精密計算，可以確保從羅德島總部調撥的援助得到更有效率的使用。\n“比起一張呆板的生產計劃表格，這樣難道不是更有趣嗎？”",
+        "icon": "act1vhalfidle_strategy_point.png",
+        "name": "策略信標",
+        "sortId": -10000,
+        "usage": "可用來在次生方案中套用營造策略。"
+    },
+    "act1vhalfidle_token_point": {
+        "classifyType": "NONE",
+        "description": "羅德島絕非一天建成。但每一天，我們都會將它建設得比昨天更強大。\n“為了羅德島。”",
+        "icon": "act1vhalfidle_token_point.png",
+        "name": "資源點數",
+        "sortId": -10000,
+        "usage": "各類建設資源經換算後得出的點數。憑此點數可向可露希爾換取獎勵。"
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "紙頁上留有各種不同的筆跡，甚至可以從數量上判斷雜誌轉手的次數。其中大多是無意義的塗鴉，但智慧的閃光也散落其間。",

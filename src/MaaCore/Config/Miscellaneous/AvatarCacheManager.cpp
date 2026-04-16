@@ -23,15 +23,15 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
             continue;
         }
         const std::filesystem::path& filepath = entry.path();
-        std::string name = utils::path_to_utf8_string(filepath.stem());
+        std::string id = utils::path_to_utf8_string(filepath.stem());
 
-        auto role = BattleData.get_role(name);
-        if (role == battle::Role::Unknown) {
-            Log.warn("unknown oper", name);
+        const auto& oper_ptr = BattleData.find_oper_by_id(id);
+        if (!oper_ptr) {
+            Log.warn("unknown oper", id);
             continue;
         }
 
-        waiting_to_load[role].emplace(name, filepath);
+        waiting_to_load[oper_ptr->role].emplace(oper_ptr->name, filepath);
     }
 
     m_load_future = std::async(std::launch::async, &AvatarCacheManager::_load, this, std::move(waiting_to_load));
@@ -68,12 +68,13 @@ void asst::AvatarCacheManager::set_avatar(
         return;
     }
 
-    if (BattleData.is_name_invalid(name)) {
+    const auto& oper_ptr = BattleData.find_oper(role, name);
+    if (!oper_ptr) {
         Log.error("invalid name", name);
         return;
     }
 
-    auto path = m_save_path / utils::path(name + CacheExtension);
+    auto path = m_save_path / utils::path(oper_ptr->id + CacheExtension);
     Log.info(path.lexically_relative(UserDir.get()));
 
     MAA_NS::imwrite(path, avatar);

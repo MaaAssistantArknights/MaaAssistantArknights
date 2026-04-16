@@ -19,6 +19,7 @@ using System.Windows.Input;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Stylet;
 
@@ -142,11 +143,21 @@ public class PostActionSetting : PropertyChangedBase
 
     private bool _exitEmulator;
 
+    /// <summary>
+    /// Gets a value indicating whether PC 端（窗口绑定）无模拟器进程，完成后不可选择「退出模拟器」。
+    /// </summary>
+    public bool ExitEmulatorOptionEnabled => !_ifNoOtherMaa && !ConnectSettingsUserControlModel.Instance.UseAttachWindow;
+
     public bool ExitEmulator
     {
         get => _exitEmulator;
         set
         {
+            if (value && ConnectSettingsUserControlModel.Instance.UseAttachWindow)
+            {
+                return;
+            }
+
             if (!SetAndNotify(ref _exitEmulator, value))
             {
                 return;
@@ -199,9 +210,15 @@ public class PostActionSetting : PropertyChangedBase
                 return;
             }
 
+            NotifyOfPropertyChange(nameof(ExitEmulatorOptionEnabled));
+
             if (value)
             {
-                ExitEmulator = true;
+                if (!ConnectSettingsUserControlModel.Instance.UseAttachWindow)
+                {
+                    ExitEmulator = true;
+                }
+
                 ExitSelf = true;
             }
 
@@ -409,10 +426,37 @@ public class PostActionSetting : PropertyChangedBase
         Shutdown = _postActions.HasFlag(PostActions.Shutdown);
         Sleep = _postActions.HasFlag(PostActions.Sleep);
         Once = false;
+        ClearExitEmulatorForAttachWindow();
+    }
+
+    /// <summary>
+    /// PC 端不支持退出模拟器：移除已保存的该标志，且不触发「取消如果没有其他 MAA」的联动。
+    /// </summary>
+    private void ClearExitEmulatorForAttachWindow()
+    {
+        if (!ConnectSettingsUserControlModel.Instance.UseAttachWindow || !_exitEmulator)
+        {
+            return;
+        }
+
+        _exitEmulator = false;
+        _postActions &= ~PostActions.ExitEmulator;
+        NotifyOfPropertyChange(nameof(ExitEmulator));
+        RefreshDescription();
+        SaveActions();
     }
 
     private PostActionSetting()
     {
+        ConnectSettingsUserControlModel.Instance.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.UseAttachWindow))
+            {
+                NotifyOfPropertyChange(nameof(ExitEmulatorOptionEnabled));
+                ClearExitEmulatorForAttachWindow();
+            }
+        };
+
         LoadPostActions();
         RefreshDescription();
     }

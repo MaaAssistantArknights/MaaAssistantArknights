@@ -4,6 +4,7 @@
 #include <future>
 #include <ranges>
 #include <thread>
+#include <utility>
 
 #include "MaaUtils/NoWarningCV.hpp"
 
@@ -123,12 +124,25 @@ bool asst::BattleProcessTask::to_group()
         char_set.emplace(oper.name);
     }
 
-    auto result_opt = algorithm::get_char_allocation_for_each_group(groups, char_set);
-    if (result_opt) {
-        m_oper_in_group = *result_opt;
+    auto allocation_result = algorithm::get_char_allocation_for_each_group(groups, char_set);
+    if (allocation_result.has_value()) {
+        m_oper_in_group = std::move(allocation_result.allocation);
     }
     else {
-        Log.warn("get_char_allocation_for_each_group failed");
+        switch (allocation_result.status) {
+        case algorithm::CharAllocationStatus::NoSolution:
+            Log.info("get_char_allocation_for_each_group has no feasible solution");
+            break;
+        case algorithm::CharAllocationStatus::Overflow:
+            Log.error("get_char_allocation_for_each_group overflowed while building the DLX model");
+            break;
+        case algorithm::CharAllocationStatus::InternalError:
+            Log.error("get_char_allocation_for_each_group failed due to an internal error");
+            break;
+        case algorithm::CharAllocationStatus::Success:
+            break;
+        }
+
         for (const auto& [gp, names] : groups) {
             if (names.empty()) {
                 continue;

@@ -57,7 +57,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
             oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
             oper.skill_times = oper_info.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
-            int rarity = BattleDataConfig::get_instance().get_rarity(oper.name); // 修复旧作业中不合理的技能选择
+            int rarity = BattleDataConfig::get_instance().get_rarity(oper.name); // 兼容古早旧作业中非法的技能选择
             if (oper.skill == 3 && rarity < 6) {
                 LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
                          << " cannot use skill index 3, set to 0.";
@@ -100,7 +100,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
                 oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
                 oper.skill_times = oper_info.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
-                int rarity = BattleDataConfig::get_instance().get_rarity(oper.name); // 修复旧作业中不合理的技能选择
+                int rarity = BattleDataConfig::get_instance().get_rarity(oper.name); // 兼容古早旧作业中非法的技能选择
                 if (oper.skill == 3 && rarity < 6) {
                     LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
                              << " cannot use skill index 3, set to 0.";

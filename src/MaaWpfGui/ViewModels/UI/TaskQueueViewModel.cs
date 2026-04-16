@@ -65,6 +65,8 @@ public class TaskQueueViewModel : Screen
 
     private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
 
+    public static SemaphoreSlim TaskQueueSerializingLock { get; } = new(1, 1);
+
     /// <summary>
     /// Gets or private sets the view models of task items.
     /// </summary>
@@ -295,8 +297,7 @@ public class TaskQueueViewModel : Screen
 
         if (isAprilFools)
         {
-            Execute.OnUIThread(async () =>
-            {
+            Execute.OnUIThread(async () => {
                 await Task.Delay(_logRandom.Next(800, 1500));
                 log.Content = string.Empty;
                 foreach (var ch in content)
@@ -463,7 +464,7 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitEmulator)
+        if (actions.ExitEmulator && !SettingsViewModel.ConnectSettings.UseAttachWindow)
         {
             DoKillEmulator();
             await Task.Delay(1000);
@@ -779,7 +780,7 @@ public class TaskQueueViewModel : Screen
         }
 
         _isUpdatingDatePrompt = true;
-        UpdateDatePromptAndStagesLocally();
+        UpdateDatePromptAndStagesLocally(true);
         Execute.OnUIThread(() => NotifyOfPropertyChange(nameof(ShowDeepSleepIcon)));
 
         var delayTime = CalculateRandomDelay();
@@ -1042,10 +1043,15 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// 更新日期提示和关卡列表
     /// </summary>
-    public void UpdateDatePromptAndStagesLocally()
+    /// <param name="waitStageListUpdated">是否等待关卡列表更新完成</param>
+    public void UpdateDatePromptAndStagesLocally(bool waitStageListUpdated = false)
     {
         UpdateDatePrompt();
-        FightTask.UpdateStageList();
+        var task = FightTask.UpdateStageList();
+        if (waitStageListUpdated)
+        {
+            task.Wait();
+        }
         ToolboxViewModel.UpdateMiniGameTaskList();
     }
 
@@ -1717,7 +1723,10 @@ public class TaskQueueViewModel : Screen
     /// <returns>Task</returns>
     public async Task LinkStart()
     {
+        using var log = new LogScope(_logger);
+        await TaskQueueSerializingLock.WaitAsync();
         await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
+        TaskQueueSerializingLock.Release();
     }
 
     public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks)

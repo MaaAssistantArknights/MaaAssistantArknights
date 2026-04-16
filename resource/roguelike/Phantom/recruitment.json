@@ -24,7 +24,7 @@
                     "skill_usage": 0,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 821,
+                    "recruit_priority": 822,
                     "promote_priority": 1001,
                     "promote_priority_when_team_full": 1200,
                     "recruit_priority_offsets": [
@@ -389,6 +389,21 @@
                             "groups": ["凯尔希", "近卫", "召唤"],
                             "threshold": 1,
                             "offset": -210
+                        }
+                    ]
+                },
+                {
+                    "name": "怒潮凛冬",
+                    "skill": 2,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 821,
+                    "promote_priority": 801,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤"],
+                            "threshold": 1,
+                            "offset": -400
                         }
                     ]
                 },
@@ -2634,6 +2649,9 @@
             "opers": [
                 {
                     "name": "“弦惊”"
+                },
+                {
+                    "name": "怒潮凛冬"
                 },
                 {
                     "name": "百炼嘉维尔"

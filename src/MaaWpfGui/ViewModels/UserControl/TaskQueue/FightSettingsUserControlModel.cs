@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
@@ -43,7 +43,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 {
     public const string AnnihilationName = "Annihilation";
     private static readonly ILogger _logger = Log.ForContext<FightSettingsUserControlModel>();
-    private static readonly Lock _lock = new();
 
     public static FightTimes? FightReport { get; set; }
 
@@ -80,8 +79,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     private static readonly Dictionary<string, string> _stageDictionary = new()
         {
-            { "AN", "Annihilation" },
-            { "剿灭", "Annihilation" },
+            { "AN", AnnihilationName },
+            { "剿灭", AnnihilationName },
             { "CE", "CE-6" },
             { "龙门币", "CE-6" },
             { "LS", "LS-6" },
@@ -469,7 +468,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     public static Dictionary<string, string> AnnihilationModeList { get; } = new()
     {
-        { LocalizationHelper.GetString("Annihilation.Current"), "Annihilation" },
+        { LocalizationHelper.GetString("Annihilation.Current"), AnnihilationName },
         { LocalizationHelper.GetString("Chernobog"), "Chernobog@Annihilation" },
         { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@Annihilation" },
         { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
@@ -482,7 +481,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             bool ret = SetTaskConfig<FightTask>(t => t.UseCustomAnnihilation == value, t => t.UseCustomAnnihilation = value);
             if (ret)
             {
-                StageListSource.FirstOrDefault(i => i.Value == "Annihilation")?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+                StageListSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
             }
         }
     }
@@ -492,7 +491,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         get => GetTaskConfig<FightTask>().AnnihilationStage;
         set {
             SetTaskConfig<FightTask>(t => t.AnnihilationStage == value, t => t.AnnihilationStage = value);
-            StageListSource.FirstOrDefault(i => i.Value == "Annihilation")?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == value).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+            StageListSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == value).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
         }
     }
 
@@ -627,7 +626,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public ObservableCollection<WeeklyScheduleItem> WeeklyScheduleSource { get; set; } = new(Enum.GetValues<DayOfWeek>().Select(i => new WeeklyScheduleItem(i)));
+    public ObservableCollection<WeeklyScheduleItem> WeeklyScheduleSource { get; set; } = [.. Enum.GetValues<DayOfWeek>().Select(i => new WeeklyScheduleItem(i))];
 
     public bool AutoRestartOnDrop
     {
@@ -680,7 +679,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         {
             return;
         }
-        IsRefreshingUI = true;
+        using var refresh = new UiRefreshingScope();
         if (!UseAlternateStage && fight.StagePlan.Count == 0)
         {
             fight.StagePlan.Add(string.Empty);
@@ -690,7 +689,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         RefreshWeeklySchedule();
         RefreshDropName();
         Refresh();
-        IsRefreshingUI = false;
     }
 
     private bool? SetFightParams()
@@ -719,37 +717,53 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// 啥都不选时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
     /// 除手动输入外所有情况下，如果剩余理智为未开放的关卡，会被清空
     /// </summary>
+    /// <returns>更新任务列表的Task</returns>
     // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
     // 这个函数被列为public可见，意味着他注入对象前被调用
-    public void UpdateStageList()
+    public Task UpdateStageList()
     {
-        Execute.PostToUIThreadAsync(() => {
+        return Execute.OnUIThreadAsync(async () => {
             using var log = new LogScope(_logger);
-            using var scope = _lock.EnterScope();
             var stageList = Instances.StageManager.GetStageList();
-            RefreshStageList();
-            foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Where(i => !i.IsStageManually))
+            await TaskQueueViewModel.TaskQueueSerializingLock.WaitAsync();
+            using (var refresh = new UiRefreshingScope())
             {
-                var originalPlan = task.StagePlan.ToList();
-                bool reset = false;
-                for (int i = 0; i < task.StagePlan.Count; i++)
+                RefreshStageList();
+                foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Where(i => !i.IsStageManually))
                 {
-                    var stage = task.StagePlan[i];
-                    if (!stageList.Any(p => p.Value == stage))
+                    var originalPlan = task.StagePlan.ToList();
+                    bool reset = false;
+                    for (int i = 0; i < task.StagePlan.Count; i++)
                     {
-                        reset = true;
-                        if (task.StageResetMode == FightStageResetMode.Current)
+                        var stage = task.StagePlan[i];
+                        if (!stageList.Any(p => p.Value == stage))
                         {
-                            task.StagePlan[i] = string.Empty;
+                            reset = true;
+                            if (task.StageResetMode == FightStageResetMode.Current)
+                            {
+                                task.StagePlan[i] = string.Empty;
+                            }
                         }
                     }
+                    if (reset)
+                    {
+                        _logger.Information("Reset non-existing stage: {} to {}", string.Join(", ", originalPlan), string.Join(", ", task.StagePlan));
+                    }
                 }
-                if (reset)
+                RefreshCurrentStagePlan();
+            }
+            TaskQueueViewModel.TaskQueueSerializingLock.Release();
+
+            foreach (var (item, index) in Instances.TaskQueueViewModel.TaskItemViewModels.Select((i, index) => (i, index)))
+            {
+                if (ConfigFactory.Root.CurrentConfig.TaskQueue[index] is FightTask fight && item.TaskIds.Count == 1 && Instances.AsstProxy.TasksStatus.ContainsKey(item.TaskIds[0]))
                 {
-                    _logger.Information("Reset non-existing stage: {} to {}", string.Join(", ", originalPlan), string.Join(", ", task.StagePlan));
+                    if (SerializeTask(fight, Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskIds[0]).IsSuccess is not true)
+                    {
+                        _logger.Warning("Failed to serialize task {taskId} when updating stage list", item.TaskIds[0]);
+                    }
                 }
             }
-            RefreshCurrentStagePlan();
         });
     }
 
@@ -769,8 +783,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         {
             listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false, IsOutdated = true });
         }
-        listSource.FirstOrDefault(i => i.Value == "Annihilation")?.Display = current.UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == current.AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
-        StageListSource = new ObservableCollection<StageSourceItem>(listSource);
+        listSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = current.UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == current.AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+        StageListSource = [.. listSource];
         current.StagePlan = listCurrent; // StageListSource更新后, 恢复StagePlan
     }
 
@@ -786,7 +800,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         {
             item.PropertyChanged += (_, __) => SaveStagePlan();
         }
-        StagePlan = new ObservableCollection<StagePlanItem>(list);
+        StagePlan = [.. list];
         StagePlan.CollectionChanged += (_, __) => SaveStagePlan();
         SetFightParams(); // 恢复StagePlan后, 修复AsstFightTask的Stage
     }
@@ -915,6 +929,26 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         public bool IsOpen { get => field; set => SetAndNotify(ref field, value); } = Instances.TaskQueueViewModel.IsStageOpen(stage);
     }
 
+    private struct UiRefreshingScope : IDisposable
+    {
+        private static int _depth = 0;
+
+        public UiRefreshingScope()
+        {
+            ++_depth;
+            Instance.IsRefreshingUI = true;
+        }
+
+        readonly void IDisposable.Dispose()
+        {
+            --_depth;
+            if (_depth == 0)
+            {
+                Instance.IsRefreshingUI = false;
+            }
+        }
+    }
+
     private interface ISerialize : ITaskQueueModelSerialize
     {
         (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
@@ -929,8 +963,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 return (null, []);
             }
 
-            using var scope = _lock.EnterScope();
-            var stage = FightSettingsUserControlModel.GetFightStage(fight.StagePlan);
+            string? stage = GetFightStage(fight.StagePlan);
             if (stage is null)
             {
                 return (null, []);
@@ -951,7 +984,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 ClientType = SettingsViewModel.GameSettings.ClientType,
             };
 
-            if (task.Stage == "Annihilation" && fight.UseCustomAnnihilation)
+            if (task.Stage == AnnihilationName && fight.UseCustomAnnihilation)
             {
                 task.Stage = fight.AnnihilationStage;
             }

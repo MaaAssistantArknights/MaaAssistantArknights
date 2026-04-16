@@ -124,9 +124,10 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
         const std::string& name = oper.text;
 
         OperBoxInfo box;
-        box.id = BattleData.get_id(name);
+        const auto& oper_data = BattleData.find_oper(name);
+        box.id = oper_data ? oper_data->id : "";
         box.name = name;
-        box.rarity = BattleData.get_rarity(name);
+        box.rarity = oper_data ? oper_data->rarity : 0;
 
         box.rect = flag_rect;
         box.own = true;
