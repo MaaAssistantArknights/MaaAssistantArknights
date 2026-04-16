@@ -916,8 +916,8 @@ Only tested up to ｢Perilous Simulation｣
 If higher difficulties have been cleared and ｢Perilous Simulation｣ or ｢Standard Simulation｣ is not visible, manually select ｢Perilous Simulation｣ difficulty once
 Completing ｢Standard Simulation｣ manually allows faster score farming
 Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectives｣ must be completed</system:String>
-    <system:String x:Key="MiniGame@OS">OS-Karlan Trade Technology R&amp;D Department</system:String>
-    <system:String x:Key="MiniGame@OSTip">Start the task at the main event interface (where there is "Start Rebuild" in the lower right corner).</system:String>
+    <system:String x:Key="MiniGame@OS">OS-Karlan Trade R&amp;D</system:String>
+    <system:String x:Key="MiniGame@OSTip">Start the task at the main minigame interface (where the "START" button is in the left bottom corner).</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">Rebuilding Mandate RM-TR-1</system:String>
     <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">After completing the tutorial, enter the Frontier Outposts and swipe all the way to the far left of the screen.</system:String>
     <system:String x:Key="MiniGame@RM-1">Rebuilding Mandate RM-1</system:String>
