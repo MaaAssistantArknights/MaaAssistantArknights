@@ -15,11 +15,15 @@ public:
     StartUpTask(const AsstCallback& callback, Assistant* inst);
     virtual ~StartUpTask() override = default;
 
+    virtual bool run() override;
     bool set_params(const json::value& params) override;
 
 private:
     std::shared_ptr<StartGameTaskPlugin> m_start_game_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;
     std::shared_ptr<AccountSwitchTask> m_account_switch_task_ptr = nullptr;
+
+    bool m_start_game = false;
+    static constexpr int MaxRestartAttempts = 5;
 };
 }

@@ -101,7 +101,7 @@
     <system:String x:Key="OftenUsedGuide">↓ Often Used</system:String>
     <system:String x:Key="SometimesUsedGuide">Sometimes Used ↑</system:String>
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
-    <system:String x:Key="RightClickRenameDelete">↓ Right Click to Rename/Delete</system:String>
+    <system:String x:Key="RightClickRenameDelete">↓ Right Click to Run Once/Rename/Delete</system:String>
     <system:String x:Key="UserGuide">User Guide</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 Website &amp; Documentation</system:String>
     <system:String x:Key="GuideDocumentationPath">You can find MAA's official website and complete documentation at "{key=Settings} - {key=AboutUs} - {key=Website}".</system:String>
@@ -916,8 +916,8 @@ Only tested up to ｢Perilous Simulation｣
 If higher difficulties have been cleared and ｢Perilous Simulation｣ or ｢Standard Simulation｣ is not visible, manually select ｢Perilous Simulation｣ difficulty once
 Completing ｢Standard Simulation｣ manually allows faster score farming
 Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectives｣ must be completed</system:String>
-    <system:String x:Key="MiniGame@OS">OS-Karlan Trade Technology R&amp;D Department</system:String>
-    <system:String x:Key="MiniGame@OSTip">Start the task at the main event interface (where there is "Start Rebuild" in the lower right corner).</system:String>
+    <system:String x:Key="MiniGame@OS">OS-Karlan Trade R&amp;D</system:String>
+    <system:String x:Key="MiniGame@OSTip">Start the task at the main minigame interface (where the "START" button is in the left bottom corner).</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">Rebuilding Mandate RM-TR-1</system:String>
     <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">After completing the tutorial, enter the Frontier Outposts and swipe all the way to the far left of the screen.</system:String>
     <system:String x:Key="MiniGame@RM-1">Rebuilding Mandate RM-1</system:String>
@@ -999,6 +999,7 @@ Right click to add challenge difficulty</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">Left-click to clear all jobs
 Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Start">Start</system:String>
+    <system:String x:Key="RunTaskOnce">Run Once</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
     <system:String x:Key="CopilotFormationRequirement.Level">E{0} Lv.{1}</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
@@ -1100,6 +1101,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Connected using local ADB. If you want to try again, please disconnect the emulator from ADB and close it, or restart your computer and open MAA with administrator privileges without starting the emulator.</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set a resolution of at least 1280x720 with a 16:9 aspect ratio; 1280x720 or 1920x1080 is recommended</system:String>
+    <system:String x:Key="ResolutionNotSupportedCurrentResolution">Current resolution: {0}x{1}</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">Failed to obtain emulator resolution. It is recommended to restart the emulator and ADB, or restart the computer, or consider switching to another emulator</system:String>
     <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
     <system:String x:Key="ReconnectSuccess">Reconnection succeeded. Continuing the task</system:String>

@@ -8,9 +8,14 @@
     </Style>
 
     <!--  透明项样式  -->
-    <Style BasedOn="{StaticResource BaseListBoxStyle}" TargetType="{x:Type ListBox}">
+    <Style
+        x:Key="MaaListBoxDefaultStyle"
+        BasedOn="{StaticResource BaseListBoxStyle}"
+        TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource TransparentListBoxItemStyle}" />
     </Style>
+
+    <Style BasedOn="{StaticResource MaaListBoxDefaultStyle}" TargetType="{x:Type ListBox}" />
 
     <!--  无高亮样式  -->
     <Style

@@ -17,7 +17,7 @@ icon: ic:baseline-article
   - アーツ学、購買資格証、建築資材。 `CA-5` / `AP-5` / `SK-5` を入力する必要があります。
   - SoCの場合のみ、完全なステージ番号を入力する必要があります。例： `PR-A-1` 。
   - `Annihilation`（殲滅作戦）。
-  - `OF-1` / `OF-F3` / `GT-5` のみサポートされます。
+  - `OF-1` / `OF-F3` のみサポートされます。
   - 現在のSSイベントの最後の3つのステージ。 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) で更新が自動的にダウンロードされた後、メイン画面に対応するメッセージが表示されます。
     - 再刻印SSアクティビティは `SSReopen-XX` と入力するとXX-1～XX-9ステージを一度にクリアできます。 `SSReopen-IC` など。
 

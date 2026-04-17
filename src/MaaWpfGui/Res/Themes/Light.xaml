@@ -120,4 +120,7 @@
     <SolidColorBrush x:Key="BoskyPlaytimeIS" Color="#998a8f" />
     <SolidColorBrush x:Key="BoskyDoubtsIS" Color="#948f79" />
 
+    <!--  DeepSleep  -->
+    <SolidColorBrush x:Key="DeepSleepBrush" Color="#3964FE" />
+
 </ResourceDictionary>

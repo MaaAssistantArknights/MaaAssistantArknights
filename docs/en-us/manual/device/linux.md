@@ -148,10 +148,6 @@ waydroid prop set persist.waydroid.height 720
 
 To set up ADB IP address: Go to `Settings` - `About` - `IP address`, note the first `IP`, and use `${recorded IP}:5555` in `sample.py` for the ADB IP.
 
-If using amdgpu, the `screencap` command might output messages to stderr, causing image decoding failures.
-You can run `adb exec-out screencap | xxd | head` and check if there's text like `/vendor/etc/hwdata/amdgpu.ids: No such file...` in the output.
-If present, try changing the screenshot command in `resource/config.json` from `adb exec-out screencap` to `adb exec-out 'screencap 2>/dev/null'`.
-
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)
 
 Android 11 version images can run the game normally. Make sure to expose port 5555 for ADB.

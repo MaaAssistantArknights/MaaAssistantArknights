@@ -12,14 +12,16 @@
 // </copyright>
 
 using System;
-using System.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Serilog;
 
 namespace MaaWpfGui.Helper.Notification;
 
 internal class NotificationImplWinRT : INotificationPoster, IDisposable
 {
     public event EventHandler<string> ActionActivated;
+
+    private static readonly ILogger _logger = Log.ForContext<NotificationImplWinRT>();
 
     public NotificationImplWinRT()
     {
@@ -42,24 +44,22 @@ internal class NotificationImplWinRT : INotificationPoster, IDisposable
     {
         try
         {
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            var builder = new ToastContentBuilder().AddText(content.Body).AddText(content.Summary);
+
+            foreach (var action in content.Actions)
             {
-                var builder = new ToastContentBuilder().AddText(content.Body).AddText(content.Summary);
+                builder.AddButton(new ToastButton()
+                    .SetContent(action.Label)
+                    .AddArgument(action.Tag));
+            }
 
-                foreach (var action in content.Actions)
-                {
-                    builder.AddButton(new ToastButton()
-                        .SetContent(action.Label)
-                        .AddArgument(action.Tag));
-                }
-
-                builder.GetToastContent().ActivationType = ToastActivationType.Protocol;
-                builder.Show();
-            });
+            builder.GetToastContent().ActivationType = ToastActivationType.Protocol;
+            builder.Show();
         }
-        catch
+        catch (Exception e)
         {
-            // ignored
+            _logger.Error(e, "Failed to Toast Notification.");
         }
     }
 }
+

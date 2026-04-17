@@ -15,22 +15,22 @@
     "devDependencies": {
         "@iconify/vue": "^5.0.0",
         "@vuepress/bundler-vite": "2.0.0-rc.26",
-        "@vuepress/helper": "2.0.0-rc.118",
-        "@vuepress/plugin-docsearch": "2.0.0-rc.118",
-        "@vuepress/plugin-git": "2.0.0-rc.118",
-        "@vuepress/plugin-google-analytics": "2.0.0-rc.118",
+        "@vuepress/helper": "2.0.0-rc.123",
+        "@vuepress/plugin-docsearch": "2.0.0-rc.123",
+        "@vuepress/plugin-git": "2.0.0-rc.123",
+        "@vuepress/plugin-google-analytics": "2.0.0-rc.125",
         "@vueuse/core": "^13.9.0",
         "bcrypt-ts": "^7.1.0",
         "gray-matter": "^4.0.3",
-        "markdown-it": "^14.1.0",
+        "markdown-it": "^14.1.1",
         "markdown-it-anchor": "^9.2.0",
-        "prettier": "^3.6.2",
-        "sass-embedded": "^1.93.3",
+        "prettier": "^3.8.1",
+        "sass-embedded": "^1.98.0",
         "typescript": "^5.9.3",
-        "vite": "^7.2.0",
-        "vue": "^3.5.23",
+        "vite": "^8.0.3",
+        "vue": "^3.5.31",
         "vuepress": "2.0.0-rc.26",
-        "vuepress-theme-plume": "1.0.0-rc.175"
+        "vuepress-theme-plume": "1.0.0-rc.192"
     },
     "packageManager": "pnpm@10.20.0"
 }

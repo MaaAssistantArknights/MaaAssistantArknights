@@ -50,7 +50,7 @@ icon: hugeicons:brain-02
     - Lungmen Outskirts: LungmenOutskirts@Annihilation
     - Lungmen Downtown: LungmenDowntown@Annihilation
 
-  - Side story stages like `OF-1`, `OF-F3`, and `GT-5`.
+  - Side story stages `OF-1` and `OF-F3`.
   - The last three stages of the current Side Story event. These will be shown at the bottom of the interface after automatically downloading updates from the [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json).
   - Rerun Side Story events: Enter `SSReopen-<stage prefix>` to farm all stages XX-1 through XX-9 in sequence, like `SSReopen-IC`.
 

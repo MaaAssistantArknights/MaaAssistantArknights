@@ -1,8 +1,7 @@
 #include "OperBoxRecognitionTask.h"
 
-#include <ranges>
-
 #include <future>
+#include <ranges>
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
@@ -63,7 +62,7 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
 {
     LogTraceFunction;
     // 获取所有干员名
-    const auto& all_oper_names = BattleData.get_all_oper_names();
+    const auto& all_chars = BattleData.get_all_chars();
 
     json::value info = basic_info_with_what("OperBoxInfo");
     auto& details = info["details"];
@@ -71,17 +70,20 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
     auto& all_opers = details["all_opers"].as_array();
     auto& own_opers = details["own_opers"].as_array();
 
-    for (const auto& name : all_oper_names) {
-        bool own = m_own_opers.contains(name);
+    for (const auto& chars : all_chars | std::ranges::views::filter([](const auto& pair) {
+                                 return pair.second->role != battle::Role::Drone;
+                             })) {
+        const auto& props = chars.second;
+        bool own = m_own_opers.contains(props->name);
         all_opers.emplace_back(
             json::object {
-                { "id", BattleData.get_id(name) },
-                { "name", name },
-                { "name_en", BattleData.get_en(name) },
-                { "name_jp", BattleData.get_jp(name) },
-                { "name_kr", BattleData.get_kr(name) },
-                { "name_tw", BattleData.get_tw(name) },
-                { "rarity", BattleData.get_rarity(name) },
+                { "id", props ? props->id : "" },
+                { "name", props->name },
+                { "name_en", props ? props->name_en : "" },
+                { "name_jp", props ? props->name_jp : "" },
+                { "name_kr", props ? props->name_kr : "" },
+                { "name_tw", props ? props->name_tw : "" },
+                { "rarity", props ? props->rarity : 0 },
                 { "own", own }, // 在m_own_opers中重复
             });
     }

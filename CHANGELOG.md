@@ -1,78 +1,58 @@
-## v6.7.0
+## v6.8.0-beta.1
 
-### 正式接入 DeepSleep | Highlight
+## OS 1101 whatever event
 
-从 v6.7.0 开始，MAA 正式接入 DeepSleep。
+Quick beta release to implement the Karlan Trade R&D minigame for all Global servers (EN, KR, JP)
+Stable will come soon™ uuh.
 
-#### 成就 DLC #3 同步上线
+Also, implementation of reception all clue fast selection.
 
-除了 DeepSleep，本次更新也带来了成就 DLC #3。
+Enjoy.
 
-* 成就现已支持按 DLC 期数搜索；
-* 补充了一批新的成就触发与描述；
-* 多语言文本与部分触发细节也一并完成调整。
-
-#### 多项细节问题一并修复
-
-除了 DeepSleep，本次更新也处理了一批影响体验的细节问题。
-
-* 修复任务开始/完成时无法显示任务名的问题；
-* 修复在非 UI 线程清空库存数据可能导致任务添加失败的问题；
-* 修复多项剿灭相关识别与战斗完成 ROI 问题。
-
-----
-
-Starting with v6.7.0, MAA officially introduces DeepSleep.
-
-#### Achievement DLC #3 Included
-
-Alongside DeepSleep, this update also brings Achievement DLC #3.
-
-* Achievements are now organized by DLC release phase;
-* A new batch of achievement triggers and descriptions has been added;
-* Multilingual texts and several trigger details have also been refined.
-
-#### Various UX Fixes Included
-
-Besides DeepSleep, this update also fixes several small but noticeable issues.
-
-* Fix missing task names when tasks start or finish;
-* Fix task creation failures caused by clearing depot data off the UI thread;
-* Fix several issues related to Annihilation recognition and completion ROI.
-
-----
-
-以下是详细内容：
 
 ### 新增 | New
 
-* 正式接入 DeepSleep @ABA2396
-* 新增成就 DLC#3，支持按 DLC 期数搜索并补充新的成就触发与描述 @ABA2396 @Constrat @HX3N @Manicsteiner
+* 非法Enum值将使用属性设置的默认值作为替代 (#16138) @status102
 
 ### 改进 | Improved
 
-* 在收到对应识别结果时再重置库存数据 @ABA2396
-* 使用 DateTimeOffset 替代 DateTime @status102
-* Log 头时间从 UTC 时间改为 Local 时间 @status102
-* 不再默认启用 `在下拉框中隐藏当日未开放关卡` @status102
-* Ocr 内部 log 在 without_det 时也对 rect 输出进行基于 base_roi 的偏移 @status102
+* 自动编队预编队后检查选中情况 @status102
+* 优化提示元素展示效果 @ABA2396
+* 作业版本号需求允许省略patch @status102
+* 使用SemaphoreSlim替换Lock @status102
+* 分辨率不支持时打印当前分辨率 @ABA2396
+* 移除 NotificationImplWinRT 中二次进入 UI 线程 (#16196) @EzraRT
+* 提升 Algorithm.hpp 算法性能及其鲁棒性 (#16235) @lhhxxxxx
+* 干员数据重构, 支持跨职业重名干员 (#16084) @status102
 
 ### 修复 | Fix
 
-* 修复 build warning，smtp 改用新版本 MailKit @ABA2396
-* 修复剿灭关卡名 OcrReplace @status102
-* 修复在非 UI 线程调用清空库存数据导致任务添加失败 @ABA2396
-* 修复日志记录中使用源石 TaskName 的问题 @status102
-* 修复任务开始/完成时无法显示任务名 @ABA2396
-* 修复读取备份成就时不会加载 CustomData 的问题 @ABA2396
-* 更新 MaaFramework 文件名格式和 .NET SDK 版本 @AnnAngela
-* 移除过时的配置迁移兼容逻辑 @status102
-* 修复剿灭战斗完成 roi @status102
-* 修复 CN 剿灭后识别，并统一全客户端类型识别 @status102
+* KR OSChapterToOS OCR @Daydreamer114
+* yj 怎么还暗改老主题 @ABA2396
+* 自动战斗鼠标长按分页时, 可能会反复触发切换 @status102
+* EN IS6 DLC1 regexes @Constrat
+* 在定时任务触发时, 固定等待UpdateStageList @status102
+* 修复LinkStart期间UpdateStageList内进入SetFightParams导致死锁 @status102
+* prts.plus改为zoot.plus @status102
+
+### 文档 | Docs
+
+* i18n for install.md (#16214) @JasonHuang79 @HX3N @Manicsteiner @momomochi987 @Constrat
 
 ### 其他 | Other
 
-* DateTimeOffset 基础支持 @status102
-* 修复错误描述：`过期关卡重置` @status102
-* 补充遗漏图片资源 @status102
-* Revise linking guidelines and AI suggestions @MistEO
+* implement Quickly Place Clues for Global (#14966) @Constrat
+* EN @Constrat
+* EN OS minigame (#16283) @Constrat
+* YostarJP OS stages and more ocr @Manicsteiner
+* YostarKR OS ocr and minigame (#16268) @HX3N
+* YostarJP OS ocr and minigame (#16267) @Manicsteiner
+* 肉鸽添加怒潮凛冬招募逻辑 (#16217) @Reverse0xCC
+* 添加贝洛内、怒潮凛冬基建技能数值 (#16260) @drway
+* git ignore 添加 claude code @Daydreamer114
+* Revert "ci: issue bot skills 添加 at 符号检测 (#16239)" @MistEO
+* Revert "fix: prts.plus改为zoot.plus" @status102
+* AnnihilationName @status102
+* pc 端禁用完成后退出模拟器 @ABA2396
+* 繁中服「次生方案」小活動 (#16216) @momomochi987
+* 重新将natvis添加到MaaCore (#16133) @status102

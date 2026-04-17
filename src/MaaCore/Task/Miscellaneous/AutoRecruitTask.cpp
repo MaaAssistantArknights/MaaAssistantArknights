@@ -883,7 +883,7 @@ std::vector<asst::RecruitConfig::TagId> asst::AutoRecruitTask::get_select_tags(
     std::vector<RecruitConfig::TagId> select;
 
     if (combinations.front().min_level == 3) {
-        // only run if we have certain preferred tags for level-3 tags
+        // only run if we have certain preferred tags for 3★ tags
         if (!m_first_tags.empty()) {
             for (const RecruitConfig::TagId& tag_id : tag_ids) {
                 std::string tag_name = RecruitData.get_tag_name(tag_id);

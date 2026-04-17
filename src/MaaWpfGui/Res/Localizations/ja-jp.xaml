@@ -101,7 +101,7 @@
     <system:String x:Key="OftenUsedGuide">↓ よく使われる</system:String>
     <system:String x:Key="SometimesUsedGuide">あまり使われていない ↑</system:String>
     <system:String x:Key="LinkStartGuide">← タスクを開始</system:String>
-    <system:String x:Key="RightClickRenameDelete">↓ 右クリックで名前変更/削除</system:String>
+    <system:String x:Key="RightClickRenameDelete">↓ 右クリックで1回実行/名前変更/削除</system:String>
     <system:String x:Key="UserGuide">使用ガイド</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 公式サイトとドキュメント</system:String>
     <system:String x:Key="GuideDocumentationPath">MAA の公式サイトと完全なドキュメントは「{key=Settings} - {key=AboutUs} - {key=Website}」でご覧いただけます。</system:String>
@@ -917,7 +917,7 @@ C:\\leidian\\LDPlayer9
 より高い難易度をクリア済みで「危機シミュレーション」または「スタンダードシミュレーション」が表示されない場合、「危機シミュレーション」難易度を手動で一度選択してください
 「スタンダードシミュレーション」を手動でクリアすると、より早くスコアを稼げます
 レベル報酬のみ取得可能。「刻印章」を入手するには全ての「重要目標」をクリアする必要があります</system:String>
-    <system:String x:Key="MiniGame@OS">OS-カラン貿易技術開発部</system:String>
+    <system:String x:Key="MiniGame@OS">OS-カランド貿易 研究開発部</system:String>
     <system:String x:Key="MiniGame@OSTip">イベントメイン画面（右下に「再建開始」がある場所）でタスクを開始します。</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">再建画策 RM-TR-1</system:String>
     <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">チュートリアル終了後、前哨基地に入り、画面を一番左までスワイプしてください。</system:String>
@@ -1000,6 +1000,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotClearTask" xml:space="preserve">左クリックですべてのタスクをクリア
 右クリックで非アクティブなタスクをクリア</system:String>
     <system:String x:Key="Start">開始</system:String>
+    <system:String x:Key="RunTaskOnce">1回実行</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
     <system:String x:Key="CopilotFormationRequirement.Level">昇進{0} レベル{1}</system:String>
     <system:String x:Key="CopilotSkill">スキル</system:String>
@@ -1101,6 +1102,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">ローカルADBを使用して接続しました。再試行する場合は、エミュレータをADBから切断し、閉じるか、コンピュータを再起動し、エミュレータを起動せずに管理者権限でMAAを開いてください。</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16:9で、720p以上に設定してください。1280x720 または 1920x1080 の使用を推奨します</system:String>
+    <system:String x:Key="ResolutionNotSupportedCurrentResolution">現在の解像度: {0}x{1}</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。エミュレータとADBを再起動するか、コンピュータを再起動することをお勧めします、エミュレータを変更してから再試行することをお勧めします</system:String>
     <system:String x:Key="TryToReconnect">エミュレータが切断、再接続を行います</system:String>
     <system:String x:Key="ReconnectSuccess">再接続に成功、タスクを続行します</system:String>

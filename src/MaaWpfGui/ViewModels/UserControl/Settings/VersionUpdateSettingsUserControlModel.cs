@@ -331,14 +331,14 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _mirrorChyanCdkFetchFailed, value);
     }
 
-    public DateTime MirrorChyanCdkExpiredDateTime => DateTimeOffset.FromUnixTimeSeconds(MirrorChyanCdkExpiredTime).DateTime;
+    public DateTimeOffset MirrorChyanCdkExpiredDateTime => DateTimeOffset.FromUnixTimeSeconds(MirrorChyanCdkExpiredTime);
 
-    public DateTime MirrorChyanCdkExpiredLocalTime => MirrorChyanCdkExpiredDateTime.ToLocalTime();
+    public DateTime MirrorChyanCdkExpiredLocalTime => MirrorChyanCdkExpiredDateTime.LocalDateTime;
 
     /// <summary>
     /// Gets 剩余时间
     /// </summary>
-    public TimeSpan MirrorChyanCdkRemaining => MirrorChyanCdkExpiredDateTime - DateTime.Now;
+    public TimeSpan MirrorChyanCdkRemaining => MirrorChyanCdkExpiredDateTime - DateTimeOffset.Now;
 
     /// <summary>
     /// Gets a value indicating whether 是否已过期

@@ -152,7 +152,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             _ => throw new NotImplementedException(),
         };
         EnableAdvancedSettings = false;
-        AdvancedSettingsVisibility = !Award && !StartUp;
+        AdvancedSettingsVisibility = !Award && !StartUp && !UserDataUpdate;
     }
 
     private void ResetVisible()

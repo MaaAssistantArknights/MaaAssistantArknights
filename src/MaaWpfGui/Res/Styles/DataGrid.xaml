@@ -1,11 +1,16 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls" xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors">
 
-    <Style BasedOn="{StaticResource DataGridBaseStyle}" TargetType="{x:Type DataGrid}">
+    <Style
+        x:Key="MaaDataGridDefaultStyle"
+        BasedOn="{StaticResource DataGridBaseStyle}"
+        TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
         <Setter Property="CellStyle" Value="{DynamicResource TransparentDataGridCellStyle}" />
         <Setter Property="RowStyle" Value="{DynamicResource TransparentDataGridRowStyle}" />
         <Setter Property="uiBehaviors:ClipboardInterceptor.EnableSafeClipboard" Value="True" />
     </Style>
+
+    <Style BasedOn="{StaticResource MaaDataGridDefaultStyle}" TargetType="{x:Type DataGrid}" />
 
     <Style
         x:Key="TransparentDataGridCellStyle"

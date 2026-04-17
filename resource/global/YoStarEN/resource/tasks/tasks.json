@@ -1017,7 +1017,31 @@
             ["Mantra", "真言"],
             ["Vetochki", "折桠"],
             ["Heavily Polluted Facility", "严重污染设施"],
-            ["Snegurochka", "冬时"]
+            ["Snegurochka", "冬时"],
+            ["Waterproof Supply Crate", "防水物资箱"],
+            ["Supplies Floater", "物资浮板"],
+            ["Gravity Floater", "引力浮板"],
+            ["Basic Floater", "基础浮板"],
+            ["Manual Booster", "全手动推进器"],
+            ["Illusion Reflector", "迷幻反射镜"],
+            ["Avalanche Control System", "落雪防护装置"],
+            ["Avalanche Trigger System", "雪崩触发装置"],
+            ["Saintess Statue", "圣女像"],
+            ["Isbit High Ground", "伊斯贝塔高台"],
+            ["Eye of the Blizzard", "风雪之眼"],
+            ["'Emergency Load-Bearing Squad'", "“应急承重小组”"],
+            ["Protection Objective (Frozen)", "保护目标（冻结状态）"],
+            ["Eye of the Blizzard", "风雪之眼"],
+            ["Eye of the Blizzard", "风雪之眼"],
+            ["Astgenne the Lightchaser", "溯光星源"],
+            ["Snow Retention System", "积雪固定装置"],
+            ["Akkord", "协律"],
+            ["Snow Hunter", "雪猎"],
+            ["SilverAsh the Reignfrost", "凛御银灰"],
+            ["Hadiya", "哈蒂娅"],
+            ["'Quality Inspector'", "“质检专员”"],
+            ["'Overseer'", "“监工专员”"],
+            ["Pramanix the Prerita", "圣聆初雪"]
         ]
     },
     "GameStartCheckResourceOCR": {
@@ -1208,10 +1232,6 @@
     },
     "UnlockClues": {
         "templThreshold": 0.85
-    },
-    "SendClues": {
-        "doc": "Remove this after 'Quickly place clues' and 'One-tap send duplicate clues' features are added (#14966)",
-        "roi": [1160, 350, 80, 80]
     },
     "InfrastTrainingIdle": {
         "text": ["Idle", "ldle"],

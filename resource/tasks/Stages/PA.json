@@ -1,0 +1,50 @@
+{
+    "PA-6": {
+        "algorithm": "JustReturn",
+        "sub": ["PA-6@PA-OpenOpt"],
+        "next": ["PA-6@SideStoryStage", "PA-6@SwipeToStage"]
+    },
+    "PA-6@SideStoryStage": {
+        "text": ["PA-6"]
+    },
+    "PA-7": {
+        "algorithm": "JustReturn",
+        "sub": ["PA-7@PA-OpenOpt"],
+        "next": ["PA-7@SideStoryStage", "PA-7@SwipeToStage"]
+    },
+    "PA-7@SideStoryStage": {
+        "text": ["PA-7"]
+    },
+    "PA-8": {
+        "algorithm": "JustReturn",
+        "sub": ["PA-8@PA-OpenOpt"],
+        "next": ["PA-8@SideStoryStage", "PA-8@SwipeToStage"]
+    },
+    "PA-8@SideStoryStage": {
+        "text": ["PA-8"]
+    },
+    "PA-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["PA-OpenOcr", "PA-Open"]
+    },
+    "PA-Open": {
+        "baseTask": "SS-Open",
+        "postDelay": 3000,
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["PAChapterToPA"]
+    },
+    "PA-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "postDelay": 3000,
+        "text": ["人们", "我们", "踏入新生黎明"],
+        "next": ["PAChapterToPA"]
+    },
+    "PAChapterToPA": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["告别天真年代"],
+        "postDelay": 2000,
+        "roi": [920, 595, 127, 36],
+        "next": ["#self", "SideStoryStage", "ChapterSwipeToTheRight"]
+    }
+}

@@ -16,6 +16,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -140,7 +141,8 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         return false;
     }
 
-    StageDropsImageAnalyzer analyzer(ctrler()->get_image());
+    const auto& image = ctrler()->get_image();
+    StageDropsImageAnalyzer analyzer(image);
 
     bool ret = false;
     auto append_image = [&]() {
@@ -205,6 +207,33 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     }
 
     if (m_is_annihilation) {
+        RegionOCRer ocr(image);
+        ocr.set_task_info("StageDrops-AnnihilationWeeklyLimit");
+        if (!ocr.analyze()) {
+            LogError << __FUNCTION__ << "Annihilation weekly limit OCR failed";
+        }
+        else {
+            const auto& result = ocr.get_result().text;
+            if (auto idx = result.find("/"); idx == std::string::npos) {
+                LogError << __FUNCTION__ << "Annihilation weekly limit OCR result format error, result:" << result;
+            }
+            else {
+                const std::string cur = result.substr(0, idx);
+                const std::string total = result.substr(idx + 1);
+                int cur_num = 0, total_num = 0;
+                if (!utils::chars_to_number(cur, cur_num) || !utils::chars_to_number(total, total_num)) {
+                    LogError << __FUNCTION__
+                             << "Annihilation weekly limit OCR result number format error, result:" << result;
+                }
+                else {
+                    LogInfo << __FUNCTION__ << "Annihilation weekly limit:" << cur_num << "/" << total_num;
+                    if (cur_num >= total_num) {
+                        LogInfo << __FUNCTION__ << "Annihilation weekly limit reached, stop task";
+                        stop_task();
+                    }
+                }
+            }
+        }
         return true;
     }
 

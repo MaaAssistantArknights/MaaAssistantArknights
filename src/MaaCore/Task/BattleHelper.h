@@ -96,7 +96,7 @@ protected:
         double radian = 0);
     bool move_camera(const std::pair<double, double>& delta);
 
-    std::string analyze_detail_page_oper_name(const cv::Mat& image);
+    std::string analyze_detail_page_oper_name(const cv::Mat& image, battle::Role role);
     std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
     int elapsed_time();

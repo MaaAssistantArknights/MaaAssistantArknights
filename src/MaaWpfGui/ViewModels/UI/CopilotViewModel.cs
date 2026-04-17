@@ -44,7 +44,6 @@ using Stylet;
 using static MaaWpfGui.Helper.CopilotHelper;
 using static MaaWpfGui.Helper.PathsHelper;
 using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
-using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 using DataFormats = System.Windows.Forms.DataFormats;
 using Task = System.Threading.Tasks.Task;
 
@@ -241,6 +240,11 @@ public partial class CopilotViewModel : Screen
             if (!Idle)
             {
                 return;
+            }
+
+            if (value == 1 || value == 3)
+            {
+                UseCopilotList = false;
             }
 
             if (!SetAndNotify(ref _copilotTabIndex, value))
@@ -703,14 +707,7 @@ public partial class CopilotViewModel : Screen
     [PropertyDependsOn(nameof(CopilotTabIndex))]
     public bool UseCopilotList
     {
-        get {
-            if (CopilotTabIndex is 1 or 3)
-            {
-                return false;
-            }
-            return _useCopilotList;
-        }
-
+        get => _useCopilotList;
         set {
             if (value)
             {
@@ -1202,14 +1199,15 @@ public partial class CopilotViewModel : Screen
             if (GetCopilotType(stageId) is CopilotType type and not CopilotType.Unknown)
             {
                 CopilotTabIndex = (int)type;
+                if (copilotList)
+                {
+                    UseCopilotList = CopilotTabIndex is 0 or 2;
+                }
             }
         }
 
         if (!writeToCache)
         {// 现在是暂时将所有本地作业不添加到列表
-        }
-        else if (CopilotTabIndex is 1)
-        { // 保全 不使用多作业列表
         }
         else if (copilotList)
         {
@@ -1288,11 +1286,7 @@ public partial class CopilotViewModel : Screen
             }
         }
 
-        if (UseCopilotList)
-        {
-            await AddSSSCopilotTaskToList(copilot, CopilotId);
-        }
-
+        await AddSSSCopilotTaskToList(copilot, CopilotId);
         return true;
     }
 

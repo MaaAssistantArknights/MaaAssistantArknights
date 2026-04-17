@@ -375,6 +375,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         _logger.Information("===================================");
 
         ConfigurationHelper.Load();
+        LocalizationHelper.Load();
         if (VersionUpdateDialogViewModel.HasPendingUpdatePackage())
         {
             _logger.Information("Pending update package detected, applying before full startup");
@@ -388,7 +389,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
 
         ConfigConverter.ConvertConfig();
-        LocalizationHelper.Load();
         ETagCache.Load();
 
         if (ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering)

@@ -1,7 +1,12 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:hc="https://handyorg.github.io/handycontrol">
 
-    <Style BasedOn="{StaticResource NumericUpDownExtend}" TargetType="{x:Type hc:NumericUpDown}">
+    <Style
+        x:Key="MaaNumericUpDownDefaultStyle"
+        BasedOn="{StaticResource NumericUpDownExtend}"
+        TargetType="{x:Type hc:NumericUpDown}">
         <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
     </Style>
+
+    <Style BasedOn="{StaticResource MaaNumericUpDownDefaultStyle}" TargetType="{x:Type hc:NumericUpDown}" />
 
 </ResourceDictionary>

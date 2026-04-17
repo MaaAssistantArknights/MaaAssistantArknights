@@ -236,7 +236,12 @@ public static class ResourceUpdater
             return (CheckUpdateRetT.UnknownError, null, null);
         }
 
-        if (!DateTime.TryParse(data["data"]?["version_name"]?.ToString(), out var versionTime))
+        if (!DateTimeOffset.TryParseExact(
+                data["data"]?["version_name"]?.ToString(),
+                "yyyy-MM-dd HH:mm:ss.fff",
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.AssumeUniversal | System.Globalization.DateTimeStyles.AdjustToUniversal,
+                out var versionTime))
         {
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
             return (CheckUpdateRetT.UnknownError, null, null);

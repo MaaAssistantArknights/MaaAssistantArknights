@@ -101,7 +101,7 @@
     <system:String x:Key="OftenUsedGuide">↓ 자주 쓰는 설정</system:String>
     <system:String x:Key="SometimesUsedGuide">가끔 쓰는 설정 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 연결 및 동작 시작</system:String>
-    <system:String x:Key="RightClickRenameDelete">↓ 우클릭하여 이름 변경/삭제</system:String>
+    <system:String x:Key="RightClickRenameDelete">↓ 우클릭하여 1회 실행/이름 변경/삭제</system:String>
     <system:String x:Key="UserGuide">사용 가이드</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 공식 웹사이트 및 문서</system:String>
     <system:String x:Key="GuideDocumentationPath">"{key=Settings} - {key=AboutUs} - {key=Website}"에서 MAA의 공식 웹사이트와 전체 문서를 찾을 수 있습니다.</system:String>
@@ -918,8 +918,8 @@ C:\\leidian\\LDPlayer9
 더 높은 난이도를 클리어하여 ｢위험 시뮬레이션｣ 또는 ｢스탠다드 시뮬레이션｣이 보이지 않는 경우, ｢위험 시뮬레이션｣ 난이도를 수동으로 한 번 선택하세요
 ｢스탠다드 시뮬레이션｣ 을 수동으로 클리어하면 점수를 더 빠르게 획득할 수 있습니다
 레벨 보상만 획득 가능하며, 조각 메달을 얻으려면 모든 ｢핵심 목표｣를 완료해야 합니다</system:String>
-    <system:String x:Key="MiniGame@OS">OS-칼란 무역 기술 연구 개발부</system:String>
-    <system:String x:Key="MiniGame@OSTip">이벤트 메인 화면(오른쪽 아래에 '재건 시작'이 있는 곳)에서 임무를 시작합니다.</system:String>
+    <system:String x:Key="MiniGame@OS">OS-카란 무역 연구개발부</system:String>
+    <system:String x:Key="MiniGame@OSTip">이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래에 ｢시작하기｣)</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">재건 계획 RM-TR-1</system:String>
     <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">튜토리얼을 완료한 후 메인 화면에서 전초기지 버튼을 눌러 스테이지 화면에 진입한 뒤 화면이 왼쪽 끝에 오도록 하세요.</system:String>
     <system:String x:Key="MiniGame@RM-1">재건 계획 RM-1</system:String>
@@ -1001,6 +1001,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotClearTask" xml:space="preserve">좌클릭으로 모든 작업 지우기
 우클릭으로 비활성 작업 지우기</system:String>
     <system:String x:Key="Start">시작</system:String>
+    <system:String x:Key="RunTaskOnce">1회 실행</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
     <system:String x:Key="CopilotFormationRequirement.Level">{0}차 정예화 Lv.{1}</system:String>
     <system:String x:Key="CopilotSkill">스킬</system:String>
@@ -1102,6 +1103,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">로컬 ADB를 사용하여 연결되었습니다. 다시 시도하려면 에뮬레이터를 ADB에서 연결 해제하고 닫거나, 컴퓨터를 재시작하고 에뮬레이터를 시작하지 않은 상태에서 관리자 권한으로 MAA를 열어주세요.</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
     <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 해상도를 1280x720 이상으로 설정해주세요. 1280x720 또는 1920x1080을 권장합니다</system:String>
+    <system:String x:Key="ResolutionNotSupportedCurrentResolution">현재 해상도: {0}x{1}</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">에뮬레이터 해상도를 가져올 수 없습니다. 시뮬레이터와 ADB를 재시작하거나 컴퓨터를 재부팅하거나 시뮬레이터를 교체한 후 다시 시도하세요</system:String>
     <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 재연결을 시도합니다</system:String>
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다</system:String>

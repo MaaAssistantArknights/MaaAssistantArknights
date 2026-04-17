@@ -293,6 +293,7 @@
                 Margin="5"
                 HorizontalAlignment="Center"
                 Text="{Binding TestLinkInfo}"
+                TextWrapping="Wrap"
                 Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
         </StackPanel>
 

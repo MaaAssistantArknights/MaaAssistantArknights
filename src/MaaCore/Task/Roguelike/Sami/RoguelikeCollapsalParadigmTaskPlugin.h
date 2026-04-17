@@ -19,18 +19,19 @@ protected:
     virtual bool _run() override;
 
 private:
-    void check_banner();            // 检查坍缩范式变动通知
-    void check_panel();             // 检查坍缩范式状态栏
+    void check_banner();                                         // 检查坍缩范式变动通知
+    void check_panel();                                          // 检查坍缩范式状态栏
 
-    void toggle_panel() const;      // 开关坍缩范式状态栏
+    void toggle_panel() const;                                   // 开关坍缩范式状态栏
 
-    void wait_for_loading() const;  // 等待"正在反馈至神经"结束
-    void wait_for_stage() const;    // 等待回到地图
+    void wait_for_loading() const;                               // 等待"正在反馈至神经"结束
+    void wait_for_stage() const;                                 // 等待回到地图
 
-    void exit_then_restart() const; // 退出当前肉鸽局并重开
-    void exit_then_stop() const;    // 退出当前肉鸽局并停止任务
+    void exit_then_restart() const;                              // 退出当前肉鸽局并重开
+    void exit_then_stop() const;                                 // 退出当前肉鸽局并停止任务
 
-    bool new_zone() const;          // 判断是否进入了新的区域
+    bool new_zone() const;                                       // 判断是否进入了新的区域
+    bool is_expected_precursor(const std::string& clp_pd) const; // 是否为目标二级坍缩的一级前置
 
     // 向 GUI 回调坍缩范式变动情况，表示坍缩范式 prev 变动为 cur
     // deepen_or_weaken = 1 表示加深

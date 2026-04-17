@@ -50,7 +50,7 @@ icon: hugeicons:brain-02
     - 龙门外环：LungmenOutskirts@Annihilation
     - 龙门市区：LungmenDowntown@Annihilation
 
-  - 别传中的 `OF-1` / `OF-F3` / `GT-5`。
+  - 别传中的 `OF-1` / `OF-F3`。
   - 当期 SS 活动 后三关。在自动访问 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 下载更新后会在界面下方显示。
   - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
 

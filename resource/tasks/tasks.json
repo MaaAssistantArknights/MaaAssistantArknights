@@ -1368,7 +1368,12 @@
         "specificRect": [1260, 100, 10, 10],
         "maxTimes": 10,
         "postDelay": 3000,
-        "next": ["EndOfAction", "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self", "#self"],
+        "next": [
+            "EndOfActionAnnihilation",
+            "EndOfAction",
+            "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self",
+            "#self"
+        ],
         "exceededNext": ["RestartGameAndContinue"]
     },
     "EndOfAction": {
@@ -2815,7 +2820,7 @@
         "template": "DormConfirm.png",
         "action": "ClickSelf",
         "roi": [630, 620, 650, 100],
-        "postDelay": 500,
+        "postDelay": 1000,
         "next": ["InfrastDormConfirmButtonWait", "InfrastDormDoubleConfirmButton", "Stop"]
     },
     "InfrastEnterFacility": {
@@ -4021,6 +4026,11 @@
         "baseTask": "NumberOcrReplace",
         "text": [],
         "roi": [52, 52, 18, 18]
+    },
+    "StageDrops-AnnihilationWeeklyLimit": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [530, 472, 100, 20],
+        "useRaw": true
     },
     "act24side_melding_1": {
         "baseTask": "StageDrops-StageCF-ItemMatch",

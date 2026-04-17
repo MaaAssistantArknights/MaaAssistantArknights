@@ -101,7 +101,7 @@
     <system:String x:Key="OftenUsedGuide">↓ 常用的</system:String>
     <system:String x:Key="SometimesUsedGuide">不常用的 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 開始任務</system:String>
-    <system:String x:Key="RightClickRenameDelete">↓ 右鍵重新命名/刪除</system:String>
+    <system:String x:Key="RightClickRenameDelete">↓ 右鍵單次執行/重新命名/刪除</system:String>
     <system:String x:Key="UserGuide">使用指引</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 官網與文件</system:String>
     <system:String x:Key="GuideDocumentationPath">您可以在「{key=Settings} - {key=AboutUs} - {key=Website}」找到 MAA 的官方網站和完整文件。</system:String>
@@ -919,10 +919,10 @@ C:\\leidian\\LDPlayer9\n
 只能刷等級獎勵，拿蝕刻章得打完所有的「關鍵目標」。</system:String>
     <system:String x:Key="MiniGame@OS">OS-喀蘭貿易技術研發部</system:String>
     <system:String x:Key="MiniGame@OSTip">在活動主介面（右下角有 ｢開始重建｣ 處）開始任務。</system:String>
-    <system:String x:Key="MiniGame@RM-TR-1">次生預案 RM-TR-1</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1">次生方案 RM-TR-1</system:String>
     <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">完成新手教學後進入前哨支點，滑動到介面最左側。</system:String>
-    <system:String x:Key="MiniGame@RM-1">次生預案 RM-1</system:String>
-    <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">刷 RM-TR-1 大約 3 小時，營建策略中，將「石材開採」線點到底；&#10;特約任命指定維什戴爾，然後盡量精二專三，攜帶 1 技能；&#10;帶滿 12 個幹員，其餘 11 個的費用需要低於維什戴爾；&#10;生產模組各帶 1 個，手動進入關卡並退出；&#10;讓 RM-TR-1 位於螢幕中央，執行 MAA。</system:String>
+    <system:String x:Key="MiniGame@RM-1">次生方案 RM-1</system:String>
+    <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">刷 RM-TR-1 大約 3 小時，營造策略中，將「石材開採」線點到底；&#10;特約任命指定維什戴爾，然後盡量精二專三，攜帶 1 技能；&#10;帶滿 12 個幹員，其餘 11 個的費用需要低於維什戴爾；&#10;生產模組各帶 1 個，手動進入關卡並退出；&#10;讓 RM-1 位於螢幕中央，執行 MAA。</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT-相談室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">在活動主介面（右下角有「開始營業」處）開始任務。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">爭鋒頻道：青草城</system:String>
@@ -1000,6 +1000,7 @@ C:\\leidian\\LDPlayer9\n
 右鍵清除未啟用任務</system:String>
     <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="Start">開始</system:String>
+    <system:String x:Key="RunTaskOnce">單次執行</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
     <system:String x:Key="CopilotFormationRequirement.Level">精{0} {1}</system:String>
     <system:String x:Key="CopilotSkill">技能</system:String>
@@ -1101,6 +1102,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已使用本地 ADB 進行連線。如果要再次嘗試，請 ｢關閉模擬器與 ADB｣，或 ｢重新啟動電腦後，在未開啟模擬器的情況下使用系統管理員身分開啟 MAA｣ 進行操作。</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="ResolutionNotSupported">模擬器解析度不支援，請設定為 720p 或更高，且比例為 16:9（建議使用 1280x720 或 1920x1080）</system:String>
+    <system:String x:Key="ResolutionNotSupportedCurrentResolution">目前解析度：{0}x{1}</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度取得失敗，建議重啟模擬器與 ADB 或重啟電腦，或更換模擬器後再次嘗試</system:String>
     <system:String x:Key="TryToReconnect">模擬器斷開連線，正在嘗試重連</system:String>
     <system:String x:Key="ReconnectSuccess">重連成功，繼續任務</system:String>

@@ -52,9 +52,8 @@ jobs:
           git fetch --depth=250 --tags
 
       - name: Fetch submodules
-        run: |
-          git submodule update --init --depth 1 src/MaaUtils
-          git submodule update --init --depth 1 3rdparty/EmulatorExtras
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils 3rdparty/EmulatorExtras
 
       - name: Checkout ref (if provided)
         if: inputs.ref != ''
@@ -196,7 +195,7 @@ jobs:
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
-          latest: true
+          tag: v5.9.2
           fileName: "*win-x86_64*.zip"
           extract: true
           out-file-path: MaaFramework-temp
@@ -209,7 +208,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: global.json
+          dotnet-version: '10.0.202'
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget

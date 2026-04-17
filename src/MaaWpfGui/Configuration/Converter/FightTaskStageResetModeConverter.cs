@@ -55,7 +55,7 @@ internal class FightTaskStageResetModeConverter : JsonConverter<Root>
                         var task = rootObj.Configurations[configName].TaskQueue[taskIndex];
                         if (task is FightTask fightTask)
                         {
-                            if (!taskElement.TryGetProperty("StageResetMode", out _))
+                            if (!taskElement.TryGetProperty("StageResetMode", out var mode) || !Enum.TryParse<FightStageResetMode>(mode.GetString(), out var _))
                             {
                                 if (fightTask.HideUnavailableStage)
                                 {

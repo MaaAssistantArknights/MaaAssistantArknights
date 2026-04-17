@@ -13,6 +13,8 @@ class ParadoxRecognitionTask : public AbstractTask
 private:
     struct OperName
     {
+        battle::Role role = battle::Role::Unknown;
+        int rarity = 0;
         std::string name;
         std::string name_en;
         std::string name_jp;

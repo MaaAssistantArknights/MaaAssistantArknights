@@ -58,7 +58,7 @@ public static class DateTimeExtension
 
     public static bool IsAprilFoolsDay(this DateTime dt)
     {
-        return true;
+        // return true;
         return dt is { Month: 4, Day: 1 };
     }
 

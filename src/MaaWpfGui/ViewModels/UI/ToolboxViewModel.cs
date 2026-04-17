@@ -560,24 +560,15 @@ public class ToolboxViewModel : Screen
     private void SaveDepotDetails()
     {
         // 构建简化格式：{"itemId": count}
-        var depotData = new JObject();
-        foreach (var item in DepotResult)
-        {
-            if (item.Count >= 0)
-            {
-                depotData[item.Id] = item.Count;
-            }
-        }
-
         var details = new JObject {
             ["done"] = true,
-            ["data"] = depotData.ToString(Formatting.None),
+            ["data"] = JObject.FromObject(DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count)),
         };
 
         // 保存同步时间为 UTC（如果有）
         if (LastDepotSyncTime.HasValue)
         {
-            details["syncTime"] = LastDepotSyncTime.Value.ToString("o"); // ISO 8601 格式
+            details["syncTime"] = LastDepotSyncTime.Value.ToLocalTime().ToString("o"); // ISO 8601 格式
         }
 
         JsonDataHelper.Set(JsonDataKey.DepotData, details);
@@ -696,13 +687,23 @@ public class ToolboxViewModel : Screen
         Dictionary<string, int> depotItems = [];
 
         // 尝试解析新格式
-        var dataStr = details["data"]?.ToString();
-        if (!string.IsNullOrEmpty(dataStr))
+        var dataToken = details["data"];
+        if (dataToken is JObject dataObj)
         {
+            foreach (var prop in dataObj.Properties())
+            {
+                if (int.TryParse(prop.Value.ToString(), out var count))
+                {
+                    depotItems[prop.Name] = count;
+                }
+            }
+        }
+        else if (dataToken?.ToString() is string dataStr && !string.IsNullOrEmpty(dataStr))
+        { // 旧版格式迁移
             try
             {
-                var dataObj = JObject.Parse(dataStr);
-                foreach (var prop in dataObj.Properties())
+                var dataO = JObject.Parse(dataStr);
+                foreach (var prop in dataO.Properties())
                 {
                     if (int.TryParse(prop.Value.ToString(), out var count))
                     {
@@ -780,9 +781,7 @@ public class ToolboxViewModel : Screen
         {
             // 从本地加载，读取保存的时间
             var syncTimeStr = details["syncTime"]?.ToString(Formatting.None)?.Trim('"');
-            if (!string.IsNullOrEmpty(syncTimeStr) &&
-                DateTimeOffset.TryParseExact(syncTimeStr, "O", null, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
-                out var lastDepotSyncTime))
+            if (!string.IsNullOrEmpty(syncTimeStr) && DateTimeOffset.TryParse(syncTimeStr, null, DateTimeStyles.AssumeUniversal, out var lastDepotSyncTime))
             {
                 LastDepotSyncTime = lastDepotSyncTime;
             }
@@ -1168,7 +1167,7 @@ public class ToolboxViewModel : Screen
 
         if (LastOperBoxSyncTime.HasValue)
         {
-            data["syncTime"] = LastOperBoxSyncTime.Value.ToString("o");
+            data["syncTime"] = LastOperBoxSyncTime.Value.ToLocalTime().ToString("o");
         }
 
         JsonDataHelper.Set(JsonDataKey.OperBoxData, data);
@@ -1355,8 +1354,7 @@ public class ToolboxViewModel : Screen
         else
         {
             var syncTimeStr = details["syncTime"]?.ToString(Formatting.None)?.Trim('"');
-            if (!string.IsNullOrEmpty(syncTimeStr) &&
-                DateTimeOffset.TryParseExact(syncTimeStr, "O", null, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out var lastOperBoxSyncTime))
+            if (!string.IsNullOrEmpty(syncTimeStr) && DateTimeOffset.TryParse(syncTimeStr, null, DateTimeStyles.AssumeUniversal, out var lastOperBoxSyncTime))
             {
                 LastOperBoxSyncTime = lastOperBoxSyncTime;
             }

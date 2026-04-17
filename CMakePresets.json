@@ -171,7 +171,8 @@
                 "INSTALL_RESOURCE": "ON",
                 "INSTALL_PYTHON": "ON",
                 "BUILD_WPF_GUI": "OFF",
-                "BUILD_DEBUG_DEMO": "OFF"
+                "BUILD_DEBUG_DEMO": "OFF",
+                "BUILD_RESOURCE_UPDATER": "OFF"
             }
         },
         {

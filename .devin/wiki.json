@@ -1,0 +1,117 @@
+{
+  "repo_notes": [
+    {
+      "content": "【语言要求】所有 wiki 页面的标题、正文、说明文字必须使用简体中文撰写。涉及到的外部链接如有中文版本，优先使用中文链接（如 https://docs.maa.plus/zh-cn/ 而非英文版）。仅在中文名不通用时保留英文术语（如 OCR、ADB、CLI、JSON 等缩写），其余一律使用中文。",
+      "author": "maintainer"
+    },
+    {
+      "content": "MAA（MAA Assistant Arknights）是一款基于图像识别的《明日方舟》自动化助手，支持 Windows / Linux / macOS 三平台。核心部分 MaaCore 使用 C++20 编写，位于 src/MaaCore/；Windows 图形界面 MaaWpfGui 位于 src/MaaWpfGui/（C# + WPF）；命令行工具 maa-cli 位于 src/maa-cli/（Rust，子模块）；macOS 界面 MaaMacGui 位于 src/MaaMacGui/（子模块）。项目使用 CMake 构建，第三方依赖在 3rdparty/，对外 C 头文件在 include/。项目许可证为 AGPL-3.0-only。",
+      "author": "maintainer"
+    },
+    {
+      "content": "resource/ 目录包含游戏相关的识别资源与任务数据，体量很大，含大量 JSON 任务定义文件和模板图片。这是 MAA 功能实现的关键数据层——所有任务流程（作战、公招、基建等）的识别模板、任务流程 JSON 均在此目录下。需要重点说明 resource 的目录结构和任务 JSON 的编写规则。",
+      "author": "maintainer"
+    },
+    {
+      "content": "MAA 提供多语言集成接口：C（include/AsstCaller.h）、Python（src/Python/）、Java（src/Java/）、Rust（src/Rust/）、Golang（src/Golang/）、Dart（src/Dart/）、Woolang（src/Woolang/）等。协议文档详见 https://docs.maa.plus/zh-cn/protocol/integration.html 。tools/ 目录包含丰富的内部工具脚本，用于资源更新（ResourceUpdater）、OTA 打包（OTAPacker）、模板优化（OptimizeTemplates）、海外客户端适配（OverseasClients）、肉鸽相关工具等。",
+      "author": "maintainer"
+    },
+    {
+      "content": "docs/ 目录是基于 VuePress 的多语言文档站点（https://docs.maa.plus），包含用户手册、开发指南、协议文档等。.github/ 目录包含 CI/CD 工作流（ci.yml、release-*.yml 等）、Issue 模板、自动化机器人配置。test/ 为 Git 子模块 MaaTestSet，用于回归测试。",
+      "author": "maintainer"
+    }
+  ],
+  "pages": [
+    {
+      "title": "项目总览",
+      "purpose": "介绍 MAA 项目的整体定位、核心功能（自动作战、基建换班、公招识别、肉鸽自动化等）、支持平台、许可证，以及仓库的高层目录结构概览。引用链接使用中文文档 https://docs.maa.plus/zh-cn/"
+    },
+    {
+      "title": "系统架构",
+      "purpose": "描述 MAA 的整体系统架构：MaaCore（C++ 核心库）作为后端引擎，通过 C 接口对外暴露功能；上层由 WPF GUI / macOS GUI / CLI 等前端调用。说明 Controller（连接控制）、Vision（图像识别）、Task（任务流水线）三大子系统的关系，以及 resource 数据层如何驱动任务执行",
+      "parent": "项目总览"
+    },
+    {
+      "title": "MaaCore 核心库",
+      "purpose": "详细文档化 src/MaaCore/ 的内部结构，包括：Assistant 主类与任务调度、Controller 子系统（ADB 连接、Minitouch/MaaTouch 触控）、Vision 子系统（模板匹配、OCR 识别、特征检测）、Task 子系统（任务流水线、AbstractTask 基类和各具体任务实现）。重点说明任务是如何由 JSON 定义驱动的",
+      "parent": "系统架构"
+    },
+    {
+      "title": "任务流水线与任务 JSON",
+      "purpose": "文档化 MAA 的任务流程协议：resource/ 中的 tasks.json 文件如何定义识别-动作流程，包括模板匹配（TemplateMatch）、OCR 识别（OcrDetect）、各种 action 类型、next/timeout/onError 跳转逻辑等。参考协议文档 https://docs.maa.plus/zh-cn/protocol/task-schema.html",
+      "parent": "MaaCore 核心库"
+    },
+    {
+      "title": "图像识别与 OCR",
+      "purpose": "文档化 src/MaaCore/ 中 Vision 子系统的实现：OpenCV 模板匹配、PaddleOCR 文字识别、ONNX Runtime 推理加速、DirectML GPU 加速、特征点检测等。说明识别流程如何与任务流水线配合",
+      "parent": "MaaCore 核心库"
+    },
+    {
+      "title": "设备连接与控制器",
+      "purpose": "文档化 Controller 子系统：ADB 连接管理、截图方式（screencap）、触控方式（Minitouch、MaaTouch、ADB input）、模拟器适配。涵盖 src/MaaCore/ 中 Controller 相关代码和 3rdparty/EmulatorExtras 子模块",
+      "parent": "MaaCore 核心库"
+    },
+    {
+      "title": "资源目录结构",
+      "purpose": "文档化 resource/ 目录的完整结构：各客户端（国服、国际服、日服、韩服、繁中服）的资源组织方式、模板图片目录、tasks.json 的分层结构、基建数据、公招数据、关卡导航数据、肉鸽相关资源等",
+      "parent": "系统架构"
+    },
+    {
+      "title": "WPF 图形界面",
+      "purpose": "文档化 src/MaaWpfGui/ 的结构：MVVM 架构（基于 Stylet 框架）、主要 ViewModel（TaskQueueViewModel、SettingsViewModel 等）、界面功能模块（任务队列、设置页面、公招识别、远程控制等）、本地化与多语言支持",
+      "parent": "系统架构"
+    },
+    {
+      "title": "命令行工具 maa-cli",
+      "purpose": "文档化 src/maa-cli/ 子模块：Rust 实现的命令行工具，支持 Linux/macOS/Windows，用于无 GUI 环境下运行 MAA 任务。说明其配置文件格式、任务调度方式、与 MaaCore 的集成方式。参考 https://docs.maa.plus/zh-cn/manual/cli/",
+      "parent": "系统架构"
+    },
+    {
+      "title": "多语言集成接口",
+      "purpose": "文档化 MAA 对外提供的多语言 API 接口：C 接口（include/AsstCaller.h）、Python（src/Python/）、Java（src/Java/）、Rust（src/Rust/）、Golang（src/Golang/）、Dart（src/Dart/）等。说明回调消息协议和集成方法。参考 https://docs.maa.plus/zh-cn/protocol/integration.html",
+      "parent": "系统架构"
+    },
+    {
+      "title": "核心功能详解",
+      "purpose": "按功能模块分别介绍 MAA 的核心自动化能力，包括：自动作战（关卡导航与掉落识别）、智能基建（干员效率计算与排班）、自动公招（标签识别与策略选择）、肉鸽自动化（Roguelike 策略与干员选择）、自动抄作业（Copilot JSON）等"
+    },
+    {
+      "title": "自动作战与关卡导航",
+      "purpose": "文档化自动作战功能的实现：关卡选择与导航、理智管理、代理指挥、掉落物识别与数据上传（企鹅物流、一图流）。涵盖 MaaCore 中 FightTask 及相关代码",
+      "parent": "核心功能详解"
+    },
+    {
+      "title": "基建自动换班",
+      "purpose": "文档化基建功能的实现：干员效率计算、单设施最优解换班、自定义排班 JSON 支持。参考 https://docs.maa.plus/zh-cn/protocol/base-scheduling-schema.html",
+      "parent": "核心功能详解"
+    },
+    {
+      "title": "肉鸽自动化",
+      "purpose": "文档化肉鸽（Roguelike）自动化功能：自动刷源石锭和等级、烧水和凹直升策略、干员识别与练度评估、分队选择与招募逻辑。涵盖 MaaCore 中 Roguelike 相关代码和 resource 中的肉鸽资源数据",
+      "parent": "核心功能详解"
+    },
+    {
+      "title": "自动抄作业",
+      "purpose": "文档化 Copilot（自动抄作业）功能：作业 JSON 格式、干员部署与技能释放逻辑、与 prts.plus 作业站的配合。参考 https://docs.maa.plus/zh-cn/protocol/copilot-schema.html",
+      "parent": "核心功能详解"
+    },
+    {
+      "title": "构建系统与 CI/CD",
+      "purpose": "文档化项目的构建配置：CMake 构建系统、maadeps 依赖管理、各平台编译流程（Windows/Linux/macOS）、.github/workflows/ 中的 CI 工作流（ci.yml、smoke-testing.yml、release-*.yml 等）、自动化发布流程"
+    },
+    {
+      "title": "内部工具集",
+      "purpose": "文档化 tools/ 目录下的开发与维护工具：ResourceUpdater（资源更新）、OTAPacker（OTA 打包）、OptimizeTemplates（模板优化）、OverseasClients（海外客户端适配）、RoguelikeRecruitmentTool（肉鸽招募工具）、ImageCropper（图片裁剪）等",
+      "parent": "构建系统与 CI/CD"
+    },
+    {
+      "title": "外服适配",
+      "purpose": "文档化如何为国际服、日服、韩服、繁中服适配 MAA 功能：资源替换流程、截图与 JSON 修改方法、多客户端资源目录结构。参考 https://docs.maa.plus/zh-cn/develop/overseas-client-adaptation.html",
+      "parent": "核心功能详解"
+    },
+    {
+      "title": "开发指南",
+      "purpose": "面向贡献者的开发入门文档：环境搭建、编译步骤、代码规范、Git 工作流（dev-v2 分支）、Issue Bot 使用、PR 流程。参考 https://docs.maa.plus/zh-cn/develop/development.html"
+    }
+  ]
+}

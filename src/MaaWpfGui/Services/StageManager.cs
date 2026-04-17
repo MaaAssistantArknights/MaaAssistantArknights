@@ -609,6 +609,10 @@ public class StageManager
             { "PR-C-2", new("PR-C-2", string.Empty, [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
             { "PR-D-1", new("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3221", "3281"], ["3222", "3282"]]) },
             { "PR-D-2", new("PR-D-2", string.Empty, [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+
+            // 常驻活动关，隐藏但仍可通过手动输入访问
+            { "OF-1", new() { Display = "OF-1", Value = "OF-1", IsHidden = true } },
+            { "OF-F3", new() { Display = "OF-F3", Value = "OF-F3", IsHidden = true } },
         };
 
         foreach (var kvp in permanentStages)

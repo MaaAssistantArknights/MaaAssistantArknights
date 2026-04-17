@@ -105,6 +105,13 @@
                 "name": ["期冀之汇"],
                 "template": "Bskill_ctrl_c_spd1.png"
             },
+            "bskill_ctrl_c_ussg": {
+                "desc": [
+                    "进驻控制中枢时，自身心情每小时消耗+0.5，每个进驻在会客室的乌萨斯学生自治团干员，线索搜集速度+10%"
+                ],
+                "name": ["“是，团长！”"],
+                "template": "Bskill_ctrl_c_ussg.png"
+            },
             "bskill_ctrl_c_victoria": {
                 "desc": ["进驻控制中枢时，会客室更容易获得格拉斯哥帮线索（工作时长影响概率）"],
                 "efficient": {
@@ -1138,6 +1145,24 @@
         "maxNumOfOpers": 3,
         "products": ["CombatRecord", "PureGold", "OriginStone", "Chip"],
         "skills": {
+            "bskill_formula_spd_headb1": {
+                "desc": ["进驻制造站时，作战记录类配方的生产力+30%"],
+                "efficient": {
+                    "CombatRecord": 30.1
+                },
+                "name": ["战阵领袖"],
+                "template": "Bskill_formula_spd_headb1.png"
+            },
+            "bskill_formula_spd_headb2": {
+                "desc": [
+                    "进驻制造站时，作战记录类配方的生产力+30%，当与乌萨斯学生自治团干员在同一个制造站时，作战记录类配方的生产力额外+10%"
+                ],
+                "efficient": {
+                    "CombatRecord": 30.1
+                },
+                "name": ["情同手足"],
+                "template": "Bskill_formula_spd_headb2.png"
+            },
             "bskill_formula_spd_sunbr": {
                 "desc": ["进驻制造站时，若古米在贸易站，则作战记录类配方的生产力+35%"],
                 "efficient": {
@@ -2508,6 +2533,20 @@
                 "name": ["交游广阔"],
                 "template": "Bskill_hire_spd&clue2.png"
             },
+            "bskill_hire_spd&clue3": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+30%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度"
+                ],
+                "name": ["“号外！”"],
+                "template": "Bskill_hire_spd&clue3.png"
+            },
+            "bskill_hire_spd&clue4": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度"
+                ],
+                "name": ["街头法则"],
+                "template": "Bskill_hire_spd&clue4.png"
+            },
             "bskill_hire_spd&cost1": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+10%，心情每小时消耗-0.25"],
                 "efficient": {
@@ -3567,6 +3606,9 @@
                 "desc": [
                     "进驻贸易站时，订单获取效率+25%；当伺夜在基建内时（不包含副手及活动室使用者），订单获取效率额外+5%"
                 ],
+                "efficient": {
+                    "all": 25
+                },
                 "name": ["家族经营·α"],
                 "template": "Bskill_tra_ord_spd_ext2.png"
             },
@@ -3574,6 +3616,9 @@
                 "desc": [
                     "进驻贸易站时，订单获取效率+30%；当伺夜在基建内时（不包含副手及活动室使用者），订单获取效率额外+10%"
                 ],
+                "efficient": {
+                    "all": 30
+                },
                 "name": ["家族经营·β"],
                 "template": "Bskill_tra_ord_spd_ext3.png"
             },

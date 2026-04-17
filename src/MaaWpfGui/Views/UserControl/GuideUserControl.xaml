@@ -362,6 +362,8 @@
 
                                                             <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
                                                             <TextBlock>
+                                                                <Run Text="{DynamicResource RunTaskOnce}" />
+                                                                <Run Text=" / " />
                                                                 <Run Text="{DynamicResource Rename}" />
                                                                 <Run Text=" / " />
                                                                 <Run Text="{DynamicResource Delete}" />
@@ -371,6 +373,7 @@
                                                 </RadioButton.ToolTip>
                                                 <RadioButton.ContextMenu>
                                                     <ContextMenu Width="150">
+                                                        <MenuItem Header="{DynamicResource RunTaskOnce}" />
                                                         <MenuItem Header="{DynamicResource Rename}" />
                                                         <MenuItem Header="{DynamicResource Delete}" />
                                                     </ContextMenu>

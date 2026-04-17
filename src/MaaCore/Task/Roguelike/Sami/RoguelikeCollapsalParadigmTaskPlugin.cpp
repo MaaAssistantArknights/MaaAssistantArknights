@@ -53,6 +53,19 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::reset_in_run_variables()
     m_zone.clear();
 }
 
+bool asst::RoguelikeCollapsalParadigmTaskPlugin::is_expected_precursor(const std::string& clp_pd) const
+{
+    const std::string& theme = m_config->get_theme();
+    const auto& clp_pd_dict = RoguelikeCollapsalParadigms.get_clp_pd_dict(theme);
+    auto it = clp_pd_dict.find(clp_pd);
+    if (it == clp_pd_dict.end()) {
+        return false;
+    }
+
+    const auto& clp_pd_class = RoguelikeCollapsalParadigms.get_clp_pd_classes(theme).at(it->second);
+    return clp_pd == clp_pd_class.level_1 && m_expected_clp_pds.contains(clp_pd_class.level_2);
+}
+
 bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
 {
     if ((msg != AsstMsg::SubTaskStart && msg != AsstMsg::SubTaskCompleted) ||
@@ -190,7 +203,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
                     return;
                 }
                 // 刷坍缩范式模式下，获得了不想要的坍缩范式
-                else if (m_config->get_mode() == RoguelikeMode::CLP_PDS) {
+                else if (m_config->get_mode() == RoguelikeMode::CLP_PDS && !is_expected_precursor(cur_clp_pd)) {
                     exit_then_restart();
                     return;
                 }
@@ -317,7 +330,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
             return;
         }
         // 刷坍缩范式模式下，获得了不想要的坍缩范式
-        else if (m_config->get_mode() == RoguelikeMode::CLP_PDS) {
+        else if (m_config->get_mode() == RoguelikeMode::CLP_PDS && !is_expected_precursor(cur_clp_pd)) {
             exit_then_restart();
             return;
         }

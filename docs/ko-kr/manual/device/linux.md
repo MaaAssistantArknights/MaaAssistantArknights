@@ -148,8 +148,6 @@ waydroid prop set persist.waydroid.height 720
 
 adb의 IP 주소 설정: `설정` - `정보` - `IP 주소`를 열고 첫 번째 `IP`를 기록하여 `${기록된IP}:5555`를 `sample.py`의 adb IP에 입력하세요.
 
-amdgpu를 사용하는 경우 `screencap` 명령이 stderr에 정보를 출력하여 이미지 디코딩이 실패할 수 있습니다. `adb exec-out screencap | xxd | head`를 실행하여 출력에 `/vendor/etc/hwdata/amdgpu.ids: No such file...`와 같은 텍스트가 있는지 확인하세요. `resource/config.json` 파일에서 스크린샷 명령을 `adb exec-out 'screencap 2>/dev/null'`로 변경해보세요.
-
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)
 
 안드로이드 11 버전 이미지는 게임을 정상적으로 실행합니다. 5555 adb 포트를 공개해야 합니다.

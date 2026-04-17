@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style TargetType="{x:Type ToolTip}">
+    <Style x:Key="MaaToolTipDefaultStyle" TargetType="{x:Type ToolTip}">
         <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
@@ -24,5 +24,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style BasedOn="{StaticResource MaaToolTipDefaultStyle}" TargetType="{x:Type ToolTip}" />
 
 </ResourceDictionary>

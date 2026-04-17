@@ -37,18 +37,16 @@ bool asst::ParadoxRecognitionTask::_run()
     LogInfo << __FUNCTION__ << "navigate name:" << m_navigate_name;
     m_paradox_opers.erase(m_paradox_opers.begin());
 
-    const auto& all_oper_names = BattleData.get_all_oper_names();
-    const auto& it = std::find_if(all_oper_names.begin(), all_oper_names.end(), [&](const std::string& name) {
-        return BattleData.get_id(name).ends_with(m_navigate_name); // 应该没重复吧
+    const auto& all_oper_names = BattleData.get_all_chars();
+    const auto& it = std::find_if(all_oper_names.begin(), all_oper_names.end(), [&](const auto& pair) {
+        return pair.first.ends_with(m_navigate_name); // 应该没重复吧
     });
 
     if (it != all_oper_names.end()) {
-        const auto& name = *it;
-        m_oper_name = { name,
-                        BattleData.get_en(name),
-                        BattleData.get_jp(name),
-                        BattleData.get_kr(name),
-                        BattleData.get_tw(name) };
+        m_oper_name = {
+            it->second->role,    it->second->rarity,  it->second->name,    it->second->name_en,
+            it->second->name_jp, it->second->name_kr, it->second->name_tw,
+        };
     }
 
     // 设置技能
@@ -66,15 +64,12 @@ bool asst::ParadoxRecognitionTask::_run()
     }
 
     return_initial_oper(); // 回干员列表（默认在最左侧）
-    const auto& name = m_oper_name.name;
-    const auto role = BattleData.get_role(name);
-    if (!click_role_table(role)) {
+    if (!click_role_table(m_oper_name.role)) {
         return_initial_oper();
     }
 
-    const auto rarity = BattleData.get_rarity(name);
     if (swipe_and_analyze()) {
-        enter_paradox(m_skill_num, rarity);
+        enter_paradox(m_skill_num, m_oper_name.rarity);
     }
 
     return true;

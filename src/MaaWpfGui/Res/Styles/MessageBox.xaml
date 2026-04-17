@@ -18,7 +18,10 @@
         <Setter Property="Margin" Value="5,0" />
     </Style>
 
-    <Style BasedOn="{StaticResource WindowWin10}" TargetType="{x:Type hc:MessageBox}">
+    <Style
+        x:Key="MaaMessageBoxDefaultStyle"
+        BasedOn="{StaticResource WindowWin10}"
+        TargetType="{x:Type hc:MessageBox}">
         <Setter Property="MinHeight" Value="172" />
         <Setter Property="ShowInTaskbar" Value="False" />
         <Setter Property="MinWidth" Value="335" />
@@ -180,4 +183,6 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style BasedOn="{StaticResource MaaMessageBoxDefaultStyle}" TargetType="{x:Type hc:MessageBox}" />
 </ResourceDictionary>
