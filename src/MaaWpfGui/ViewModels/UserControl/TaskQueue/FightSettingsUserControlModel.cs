@@ -756,7 +756,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             {
                 var activity = activityList.First();
                 var timeLeft = activity.Value.Info.ExpireTimeUtc - time;
-                var day = timeLeft.Days > 0 ? timeLeft.TotalDays.ToString("#.#") : LocalizationHelper.GetString("LessThanOneDay");
+                var day = timeLeft.Days > 0 ? $"{timeLeft.Days}+" : LocalizationHelper.GetString("LessThanOneDay");
                 ActivityExpireIn2Days = timeLeft.Days < 2;
                 ActivityInfo = $"｢{activity.Value.Info.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{day}";
             }

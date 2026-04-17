@@ -752,8 +752,8 @@ public class StageManager
     /// <returns>活动剩余日期</returns>
     private static string GetDaysLeftText(DateTime expireTime, DateTime now)
     {
-        double daysLeft = (expireTime - now).TotalDays;
-        return daysLeft >= 1 ? daysLeft.ToString("#.#") : LocalizationHelper.GetString("LessThanOneDay");
+        int daysLeft = (expireTime - now).Days;
+        return daysLeft > 0 ? daysLeft.ToString() : LocalizationHelper.GetString("LessThanOneDay");
     }
 
     /// <summary>
