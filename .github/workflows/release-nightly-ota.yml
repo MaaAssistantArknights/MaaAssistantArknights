@@ -53,7 +53,7 @@ jobs:
 
       - name: Fetch submodules
         shell: bash
-        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified src/MaaUtils 3rdparty/EmulatorExtras
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils 3rdparty/EmulatorExtras
 
       - name: Checkout ref (if provided)
         if: inputs.ref != ''
