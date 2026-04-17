@@ -35,7 +35,9 @@ Supported, but less thoroughly tested. Requires using a touch mode other than `M
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-Supported, but starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode. Please switch to other touch modes, or **temporarily** switch SELinux to `Permissive` mode.
+Supported; also supports [Screenshot Enhanced Mode](../connection.md#avd-screenshot-enhanced-mode).
+
+From Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode. Please switch to other touch modes, or **temporarily** switch SELinux to `Permissive` mode.
 
 ### ✅ [BlueStacks Air](https://www.bluestacks.com/mac) (Free, optimized for Apple M-series chips)
 
@@ -61,4 +63,6 @@ Note: On macOS, the Nox ADB binary is located at `/Applications/NoxAppPlayer.app
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-Supported, but starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode. Please switch to other touch modes, or **temporarily** switch SELinux to `Permissive` mode.
+Supported; also supports [Screenshot Enhanced Mode](../connection.md#avd-screenshot-enhanced-mode).
+
+Starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode. Please switch to other touch modes, or **temporarily** switch SELinux to `Permissive` mode.

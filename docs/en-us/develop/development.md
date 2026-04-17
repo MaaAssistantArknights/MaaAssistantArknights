@@ -78,7 +78,9 @@ We've preset several different development environments for you to choose from:
    - Press F5 to run
 
    ::: tip
-   To debug Win32Controller (Windows window control) features, you need to manually download the corresponding platform package from [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases), and place `MaaWin32ControlUnit.dll` from the `bin` directory into MAA's DLL directory (e.g. `build/bin/Debug`). PRs for an auto-download script are welcome!
+   To run Win32Controller (Windows window control) / MaaFwAdbController (MaaFramework touch mode) features, you need to manually download the package for your platform from [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases), and place `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` from the `bin` directory into MAA's DLL directory (e.g. `build/bin/Debug`). PRs for an auto-download script are welcome!
+
+   To debug these features, [compile the Debug version of MaaFramework yourself](https://maafw.com/docs/4.1-BuildGuide) and use the corresponding DLLs, or it will randomly crash at breakpoints.
    :::
 
 9. Now you're ready to happily ~~mess around~~ start developing!

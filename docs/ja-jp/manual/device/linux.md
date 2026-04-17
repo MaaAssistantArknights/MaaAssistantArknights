@@ -121,6 +121,8 @@ MAA Wine Bridge で生成された `MaaDesktopIntegration.so` を `MAA.exe` と�
 
 推奨構成： x86_64 のフレームワーク (R - 30 - x86_64 - Android 11.0) と MAA のLinux x64 ダイナミック ライブラリ
 
+[スクリーンショット強化モード](../connection.md#avd-スクリーンショット強化モード)の追加サポートもあります。
+
 - Android 10 以降、SELinux が `Enforcing` モードの場合、Minitouch は使用できません、別のタッチモードに切り替えてください。または SELinux を **一時的に** `Permissive` モードに切り替え。
 
 ### ⚠️ [Genymotion](https://www.genymotion.com/)

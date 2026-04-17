@@ -84,7 +84,9 @@ icon: iconoir:developer
    - F5 キーを押して実行
 
    ::: tip
-   Win32Controller（Windows ウィンドウ制御）関連機能をデバッグする場合は、[MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) から対応プラットフォームのアーカイブをダウンロードし、`bin` ディレクトリ内の `MaaWin32ControlUnit.dll` を MAA の DLL と同じディレクトリ（例：`build/bin/Debug`）に配置してください。自動ダウンロードスクリプトの PR 歓迎！
+   Win32Controller（Windows ウィンドウ制御）/ MaaFwAdbController（MaaFramework のタッチモード）関連機能を実行する場合は、[MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) から対応プラットフォームのアーカイブをダウンロードし、`bin` ディレクトリ内の `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` を MAA の DLL と同じディレクトリ（例：`build/bin/Debug`）に配置してください。自動ダウンロードスクリプトの PR 歓迎！
+
+   関連機能をデバッグする場合は、[MaaFramework の Debug バージョンを自分でコンパイル](https://maafw.com/docs/4.1-BuildGuide)し、対応する DLL ファイルを使用する必要があります。そうしないと、ブレークポイントデバッグ中に謎のクラッシュが発生します。
    :::
 
 9. これで自由に ~~改造~~ 開発を始められます

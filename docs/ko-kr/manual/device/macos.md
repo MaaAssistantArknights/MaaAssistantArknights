@@ -35,7 +35,9 @@ icon: basil:apple-solid
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-지원됩니다. 그러나 Android 10부터는 SELinux가 `Enforcing` 모드일 때 `Minitouch`를 사용할 수 없습니다. 다른 터치 모드로 전환하거나 SELinux를 **임시**로 `Permissive` 모드로 변경하세요.
+지원됩니다, [스크린샷 향상 모드](../connection.md#avd-스크린샷-향상-모드)에 대한 추가 지원이 있습니다.
+
+Android 10부터는 SELinux가 `Enforcing` 모드일 때 `Minitouch`를 사용할 수 없습니다. 다른 터치 모드로 전환하거나 SELinux를 **임시**로 `Permissive` 모드로 변경하세요.
 
 ### ✅ [블루스택 에어](https://www.bluestacks.com/mac) (무료, Apple M 시리즈 칩에 최적화된 버전)
 
@@ -65,4 +67,6 @@ Mac 버전 개발에 인력이 부족하여 업데이트 속도가 비교적 느
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-지원됩니다. 그러나 Android 10부터는 SELinux가 `Enforcing` 모드일 때 `Minitouch`를 사용할 수 없습니다. 다른 터치 모드로 전환하거나 SELinux를 **임시**로 `Permissive` 모드로 변경하세요.
+지원됩니다, [스크린샷 향상 모드](../connection.md#avd-스크린샷-향상-모드)에 대한 추가 지원이 있습니다.
+
+Android 10부터는 SELinux가 `Enforcing` 모드일 때 `Minitouch`를 사용할 수 없습니다. 다른 터치 모드로 전환하거나 SELinux를 **임시**로 `Permissive` 모드로 변경하세요.

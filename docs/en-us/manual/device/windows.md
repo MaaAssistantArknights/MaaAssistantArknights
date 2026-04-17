@@ -67,7 +67,7 @@ const partiallySupport = shuffleArray([
     {
         name: 'AVD',
         link: 'https://developer.android.com/studio/run/managing-avds',
-        note: 'Theoretically supported.\n\n- Starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode. Please switch to other touch modes, or **temporarily** switch SELinux to `Permissive` mode.\n- AVD is designed for development debugging, not gaming. Other emulators specifically designed for gaming are recommended instead.',
+        note: 'Theoretically supported, with additional support for [Screenshot Enhanced Mode](../connection.html#avd-screenshot-enhanced-mode).\n- Starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode. Please switch to other touch modes, or **temporarily** switch SELinux to `Permissive` mode.\n- AVD is designed for development debugging, not gaming. Other emulators specifically designed for gaming are recommended instead.',
     },
     {
         name: 'Google Play Games (Developer)',
