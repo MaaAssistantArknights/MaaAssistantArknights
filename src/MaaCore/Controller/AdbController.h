@@ -12,9 +12,56 @@
 #include "InstHelper.h"
 #include "LDExtras.h"
 #include "MumuExtras.h"
+#include "Utils/StringMisc.hpp"
 
 namespace asst
 {
+
+// 连接过程中的临时状态，基类 connect() 填充后子类直接复用
+struct AdbConnectionContext
+{
+    // 连接基本信息（reset 时设置）
+    std::string adb_path;
+    std::string address;
+    std::string package_name;
+
+    // 缓存的 ADB 配置（基类 connect 获取后存入）
+    AdbCfg adb_cfg;
+
+    // 连接过程中获取/更新的动态状态
+    std::string display_id;
+    std::string event_id;
+    std::string nc_address = "10.0.2.2";
+    uint16_t nc_port = 0;
+
+    void reset(const std::string& adb, const std::string& addr, const std::string& client_type)
+    {
+        adb_path = adb;
+        address = addr;
+        package_name = client_type.empty() ? "" : Config.get_package_name(client_type).value_or("");
+        adb_cfg = {};
+        display_id.clear();
+        event_id.clear();
+        nc_address = "10.0.2.2";
+        nc_port = 0;
+    }
+
+    std::string replace_cmd(const std::string& cfg_cmd) const
+    {
+        return utils::string_replace_all(
+            cfg_cmd,
+            {
+                { "[Adb]", adb_path },
+                { "[AdbSerial]", address },
+                { "[DisplayId]", display_id },
+                { "[EventId]", event_id },
+                { "[NcPort]", std::to_string(nc_port) },
+                { "[NcAddress]", nc_address },
+                { "[PackageName]", package_name },
+            });
+    }
+};
+
 class AdbController : public ControllerAPI, protected InstHelper
 {
 public:
@@ -100,6 +147,8 @@ protected:
     // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
     // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
     static bool convert_lf(std::string& data);
+
+    AdbConnectionContext m_conn_ctx;
 
     AsstCallback m_callback;
 

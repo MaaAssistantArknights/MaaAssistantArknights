@@ -2640,6 +2640,8 @@ public class AsstProxy
             }
         }
 
+        AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType);
+
         bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig);
 
         // 如果连接失败，等待回调完成以获取详细错误信息
@@ -3207,4 +3209,9 @@ public enum InstanceOptionKey
     /// Indicates whether the ADB server process should be killed when the instance is exited.
     /// </summary>
     KillAdbOnExit = 5,
+
+    /// <summary>
+    /// Indicates the client type (game channel) used for resolving PackageName on connect.
+    /// </summary>
+    ClientType = 6,
 }
