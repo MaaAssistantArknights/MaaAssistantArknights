@@ -16,6 +16,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 - 雷電模擬器 9：`emulator-5554/5556/5558/5560`、`127.0.0.1:5555/5557/5559/5561`
 - 夜神模擬器：`127.0.0.1:62001/59865`
 - 逍遙模擬器：`127.0.0.1:21503`
+- 騰訊應用寶 (5.10.56.xx 之後)：`127.0.0.1:5555`
 
 若偵測失敗，請嘗試以系統管理員權限啟動 MAA 並再次偵測。若仍失敗，請參考下文進行手動設定，並參考上述清單向我們回報。
 
@@ -57,6 +58,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 - [雷電模擬器 9](https://help.ldmnq.com/docs/LD9adbserver#edc3863750608062bcb3feea256413dc)
 - [夜神模擬器](https://support.yeshen.com/zh-CN/qt/ml)
 - [逍遙模擬器](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537)
+- [騰訊應用寶](https://sj.qq.com/faq/3878)：ADB 連接埠固定為 `127.0.0.1:5555`，ADB 路徑範例：`C:\Program Files\Tencent\Androws\Application\版本號\adb.exe`。
 
 其他模擬器可參閱 [趙青青的博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)。
 

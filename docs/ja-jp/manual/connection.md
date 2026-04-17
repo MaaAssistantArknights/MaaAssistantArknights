@@ -43,6 +43,7 @@ icon: mdi:plug
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
 - [逍遥](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
 - [夜神](https://support.yeshen.com/zh-CN/qt/ml) `62001`
+- [テンセントアプリストア](https://sj.qq.com/faq/3878) (5.10.56.xx 以降)：ADB ポートは `127.0.0.1:5555` 固定。ADB パス例：`C:\Program Files\Tencent\Androws\Application\バージョン番号\adb.exe`。
 
 他のエミュレータについては[Zhaoqingqing's Blog](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)を参照してください。
 

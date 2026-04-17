@@ -46,6 +46,11 @@ const fullySupport = [
     },
     ...shuffleArray([
         {
+            name: '騰訊應用寶',
+            link: 'https://sj.qq.com/',
+            note: '支援 5.10.56.xx 之後的版本。在 `設定` - `連線設定` 中選擇 `騰訊應用寶` 連線配置。已知相容 Hyper-V。\n\n- ADB 連接埠為 `127.0.0.1:5555`。\n- ADB 路徑範例：`C:\\Program Files\\Tencent\\Androws\\Application\\版本號\\adb.exe`。\n\n- 需要先在應用寶中 [開啟 ADB 除錯](https://sj.qq.com/faq/3878)。',
+        },
+        {
             name: '夜神模擬器 (NoxPlayer)',
             link: 'https://www.yeshen.com/',
             note: '完美支援，但測試較少。已知相容 Hyper-V。',
@@ -86,11 +91,6 @@ const notSupport = shuffleArray([
         name: 'Google Play 遊戲',
         link: 'https://play.google.com/googleplaygames',
         note: '不支援，[一般玩家版客戶端](https://developer.android.com/games/playgames/pg-emulator?hl=zh-tw#installing-game-consumer)無法連線 ADB。',
-    },
-    {
-        name: '騰訊應用寶',
-        link: 'https://sj.qq.com/',
-        note: '不支援，騰訊應用寶沒有提供 ADB 連線選項，無法連線 ADB。',
     },
 ]);
 

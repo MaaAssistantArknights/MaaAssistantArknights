@@ -16,6 +16,7 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 - 雷电模拟器 9：`emulator-5554/5556/5558/5560`、`127.0.0.1:5555/5557/5559/5561`
 - 夜神模拟器：`127.0.0.1:62001/59865`
 - 逍遥模拟器：`127.0.0.1:21503`
+- 腾讯应用宝 (5.10.56.xx之后)：`127.0.0.1:5555`
 
 若检测失败，请尝试使用 UAC 管理员权限启动 MAA 并再次检测。若仍失败，则请阅读下文手动设置，并参考上述列表进行反馈。
 
@@ -57,6 +58,7 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 - [雷电模拟器 9](https://help.ldmnq.com/docs/LD9adbserver#edc3863750608062bcb3feea256413dc)
 - [夜神模拟器](https://support.yeshen.com/zh-CN/qt/ml)
 - [逍遥模拟器](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537)
+- [腾讯应用宝](https://sj.qq.com/faq/3878)：ADB 端口固定为 `127.0.0.1:5555`，ADB 路径示例：`C:\Program Files\Tencent\Androws\Application\版本号\adb.exe`。
 
 其他模拟器可参考 [赵青青的博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)。
 
