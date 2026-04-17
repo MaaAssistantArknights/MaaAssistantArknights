@@ -110,9 +110,8 @@ jobs:
           show-progress: false
 
       - name: Fetch submodules
-        run: |
-          git submodule update --init --depth 1 src/MaaUtils
-          git submodule update --init --depth 1 3rdparty/EmulatorExtras
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils 3rdparty/EmulatorExtras
 
       - name: Cache MaaDeps
         id: cache-maadeps
@@ -241,10 +240,8 @@ jobs:
           show-progress: false
 
       - name: Fetch submodules
-        run: |
-          git submodule update --init --depth 1 src/MaaUtils
-          git submodule update --init --depth 1 3rdparty/EmulatorExtras
-          git submodule update --init --depth 1 src/maa-cli
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils 3rdparty/EmulatorExtras src/maa-cli
 
       - name: Cache MaaDeps
         id: cache-maadeps
@@ -348,8 +345,8 @@ jobs:
           show-progress: false
 
       - name: Fetch submodules
-        run: |
-          git submodule update --init --depth 1 src/MaaUtils
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils
 
       # ninja 1.13.1 is already installed and up-to-date.
       # - name: Install dependencies

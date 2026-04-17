@@ -17,15 +17,14 @@ jobs:
           submodules: true
 
       - name: Update submodules
-        run: |
-          git submodule update --remote src/MaaMacGui
-          git submodule update --remote src/maa-cli
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --remote src/MAAUnified src/MaaMacGui src/maa-cli
 
       - name: Commit and push changes
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          message: "feat: Update Submodules MaaMacGui, maa-cli
+          message: "feat: Update Submodules MAAUnified, MaaMacGui, maa-cli
 
             https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 

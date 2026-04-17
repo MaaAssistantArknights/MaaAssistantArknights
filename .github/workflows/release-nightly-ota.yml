@@ -52,9 +52,8 @@ jobs:
           git fetch --depth=250 --tags
 
       - name: Fetch submodules
-        run: |
-          git submodule update --init --depth 1 src/MaaUtils
-          git submodule update --init --depth 1 3rdparty/EmulatorExtras
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils 3rdparty/EmulatorExtras
 
       - name: Checkout ref (if provided)
         if: inputs.ref != ''
