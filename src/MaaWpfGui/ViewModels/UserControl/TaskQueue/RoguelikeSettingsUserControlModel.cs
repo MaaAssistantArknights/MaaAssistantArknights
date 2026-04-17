@@ -109,7 +109,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     {
         var roguelikeMode = RoguelikeMode;
 
-        var baseList = new List<ModeItem>
+        var baseList = new List<GenericCombinedData<Mode>>
         {
             new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
             new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
@@ -129,7 +129,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 break;
         }
 
-        RoguelikeModeList = baseList;
+        RoguelikeModeList = new ObservableCollection<GenericCombinedData<Mode>>(baseList);
         RoguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : RoguelikeModeList.First().Value;
     }
 
