@@ -1,0 +1,122 @@
+name: Unit Tests
+
+on:
+  # push:
+  #   branches:
+  #     - "dev-v2"
+  #   paths:
+  #     - ".github/workflows/unit-tests.yml"
+  #     - "unit_test/**"
+  #     - "src/**"
+  # pull_request:
+  #   paths:
+  #     - ".github/workflows/unit-tests.yml"
+  #     - "unit_test/**"
+  #     - "src/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  select-tests:
+    name: Select Unit Test Suites
+    runs-on: ubuntu-latest
+    outputs:
+      has_tests: ${{ steps.select.outputs.has_tests }}
+      matrix: ${{ steps.select.outputs.matrix }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          show-progress: false
+
+      - name: Select affected test suites
+        id: select
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+
+          def matches(path: str, rule: str) -> bool:
+              if rule.endswith('/**'):
+                  return path.startswith(rule[:-3])
+              return path == rule
+
+          with open('unit_test/test-suites.json', encoding='utf-8') as f:
+              mapping = json.load(f)
+
+          event_name = os.environ['EVENT_NAME']
+          changed_files = []
+          run_all = event_name == 'workflow_dispatch'
+
+          if not run_all:
+              if event_name == 'pull_request':
+                  base_sha = os.environ['PR_BASE_SHA']
+                  head_sha = os.environ['PR_HEAD_SHA']
+              else:
+                  base_sha = os.environ['BEFORE_SHA']
+                  head_sha = os.environ['HEAD_SHA']
+
+              if not base_sha or set(base_sha) == {'0'}:
+                  run_all = True
+              else:
+                  diff = subprocess.check_output(
+                      ['git', 'diff', '--name-only', base_sha, head_sha],
+                      text=True,
+                  )
+                  changed_files = [line for line in diff.splitlines() if line]
+
+          print('Changed files:')
+          for file_path in changed_files:
+              print(f'  - {file_path}')
+
+          if run_all or any(any(matches(path, rule) for rule in mapping['runAllOnChanges']) for path in changed_files):
+              selected = mapping['suites']
+          else:
+              selected = []
+              for suite in mapping['suites']:
+                  if any(any(matches(path, rule) for rule in suite['paths']) for path in changed_files):
+                      selected.append(suite)
+
+          matrix = {'suite': selected}
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as f:
+              f.write(f"has_tests={'true' if selected else 'false'}\n")
+              f.write(f"matrix={json.dumps(matrix, separators=(',', ':'))}\n")
+          PY
+
+  unit-tests:
+    name: ${{ matrix.suite.name }} Unit Tests
+    needs: select-tests
+    if: ${{ needs.select-tests.outputs.has_tests == 'true' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.select-tests.outputs.matrix) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          show-progress: false
+
+      - name: Configure unit tests
+        run: |
+          cmake -S unit_test -B build/unit_test -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build selected unit test target
+        run: |
+          cmake --build build/unit_test --parallel --target ${{ matrix.suite.buildTarget }}
+
+      - name: Run selected unit tests
+        run: |
+          ctest --test-dir build/unit_test --output-on-failure -R '${{ matrix.suite.ctestRegex }}'
