@@ -221,9 +221,9 @@ bool MaaFwAdbController::screencap(cv::Mat& image_payload, bool allow_reconnect 
         callback(AsstMsg::ConnectionInfo, info);
     }
     else {
-        auto start_time = high_resolution_clock::now();
+        auto start_time = steady_clock::now();
         bool screencap_ret = (m_unit_handle->screencap(image_payload));
-        auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+        auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
         m_screencap_cost.emplace_back(screencap_ret ? duration.count() : -1); // 记录截图耗时
         ++m_screencap_times;
 
