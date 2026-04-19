@@ -294,21 +294,15 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         switch (importResult.Status)
         {
             case PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered:
+            case PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered:
                 Instances.VersionUpdateDialogViewModel.UpdateTag = importResult.TargetVersion ?? string.Empty;
                 Instances.VersionUpdateDialogViewModel.UpdateInfo = string.Empty;
                 Instances.VersionUpdateDialogViewModel.UpdatePackageName = packagePath;
-                _logger.Information("Showing restart prompt for imported OTA package: {PackagePath}", packagePath);
+                _logger.Information(
+                    "Showing restart prompt for imported update package: {PackagePath}, status={Status}",
+                    packagePath,
+                    importResult.Status);
                 _ = Instances.VersionUpdateDialogViewModel.AskToRestartForImportedPackage();
-                return;
-
-            case PendingUpdateApplier.LocalPackageImportStatus.FullPackage:
-                _logger.Information("Showing full package migration tip for dropped package: {PackagePath}", packagePath);
-                MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("FullPackageUpgradeTips"),
-                    LocalizationHelper.GetString("Warning"),
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information,
-                    ok: LocalizationHelper.GetString("Ok"));
                 return;
 
             default:

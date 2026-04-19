@@ -405,9 +405,9 @@
     <system:String x:Key="NewVersionDownloadFailedDesc">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">新版本下载完成</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">是否立即更新 MAA？（重启进程）</system:String>
-    <system:String x:Key="LocalUpdatePackageImportedTitle">本地增量更新包已就绪</system:String>
-    <system:String x:Key="LocalUpdatePackageImportedDesc">检测到可用的本地 OTA 更新包，是否立即更新 MAA？（重启进程）</system:String>
-    <system:String x:Key="LocalUpdatePackageUnsupported">无法识别压缩包：{0}\n仅支持拖入当前版本可用的 OTA 更新包。\n当前版本：{1}\n当前架构：{2}\n支持的包名示例：MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedTitle">本地更新包已就绪</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedDesc">检测到可用的本地更新包，是否立即更新 MAA？（重启进程）</system:String>
+    <system:String x:Key="LocalUpdatePackageUnsupported">无法识别压缩包：{0}\n仅支持拖入当前架构的完整包，或当前版本到更高版本的 OTA 更新包。\n当前版本：{1}\n当前架构：{2}\n支持的包名示例：MAA-v新版本-win-{2}.zip\n或 MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">检测到新版本，但未找到增量包</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">请手动下载完整包更新！</system:String>
     <system:String x:Key="ForceScheduledStart">强制定时启动</system:String>

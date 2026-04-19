@@ -37,7 +37,7 @@ internal static class PendingUpdateApplier
     public enum LocalPackageImportStatus
     {
         Unsupported,
-        FullPackage,
+        FullPackageRegistered,
         OtaPackageRegistered,
     }
 
@@ -107,8 +107,32 @@ internal static class PendingUpdateApplier
 
         if (s_fullPackageNameRegex.IsMatch(fileName))
         {
-            _logger.Information("Dropped package matched full package pattern: {PackageName}", fileName);
-            return new(LocalPackageImportStatus.FullPackage);
+            Match fullPackageMatch = s_fullPackageNameRegex.Match(fileName);
+            string targetVersion = fullPackageMatch.Groups["version"].Value;
+            string packageArchitecture = fullPackageMatch.Groups["arch"].Value;
+            bool architectureMatched = string.Equals(normalizedArchitecture, packageArchitecture, StringComparison.OrdinalIgnoreCase);
+            bool isUpgradeTarget = IsUpgradeTarget(currentVersion, targetVersion);
+
+            _logger.Information(
+                "Dropped package matched full package pattern: targetVersion={TargetVersion}, packageArchitecture={PackageArchitecture}",
+                targetVersion,
+                packageArchitecture);
+
+            if (!architectureMatched || !isUpgradeTarget)
+            {
+                _logger.Warning(
+                    "Dropped full package rejected: architectureMatched={ArchitectureMatched}, isUpgradeTarget={IsUpgradeTarget}",
+                    architectureMatched,
+                    isUpgradeTarget);
+                return new(LocalPackageImportStatus.Unsupported, null, targetVersion);
+            }
+
+            RegisterPendingUpdatePackage(targetVersion, fullPackagePath);
+            _logger.Information(
+                "Dropped full package registered successfully: packagePath={PackagePath}, targetVersion={TargetVersion}",
+                fullPackagePath,
+                targetVersion);
+            return new(LocalPackageImportStatus.FullPackageRegistered, null, targetVersion);
         }
 
         _logger.Warning("Dropped package did not match any supported update package pattern: {PackageName}", fileName);
@@ -144,7 +168,6 @@ internal static class PendingUpdateApplier
             catch (InvalidDataException ex)
             {
                 _logger.Warning(ex, "Pending update package is invalid: {PackagePath}", context.PackagePath);
-                SafeDeleteFile(context.PackagePath);
                 ClearPendingUpdatePackageState();
                 return new(PendingUpdateApplyResult.StatusKind.InvalidPackage, FailureReason: ex.Message);
             }
@@ -168,7 +191,6 @@ internal static class PendingUpdateApplier
             _logger.Error(ex, "Pending update package was rejected: {PackagePath}", context.PackagePath);
             if (!installationChanged)
             {
-                SafeDeleteFile(context.PackagePath);
                 ClearPendingUpdatePackageState();
                 return new(PendingUpdateApplyResult.StatusKind.InvalidPackage, FailureReason: ex.Message);
             }
@@ -185,6 +207,7 @@ internal static class PendingUpdateApplier
                 return new(PendingUpdateApplyResult.StatusKind.Failed, true, ex.Message);
             }
 
+            clearPendingPackageState = true;
             return new(PendingUpdateApplyResult.StatusKind.Failed, FailureReason: ex.Message);
         }
         finally
