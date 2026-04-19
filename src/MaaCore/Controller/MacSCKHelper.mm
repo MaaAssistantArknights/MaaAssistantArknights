@@ -82,7 +82,18 @@ struct asst::MacSCKHelper::Impl {
 asst::MacSCKHelper::Impl::~Impl()
 {
     if (m_stream) {
-        [m_stream stopCaptureWithCompletionHandler:nil];
+        auto sem = dispatch_semaphore_create(0);
+        [m_stream stopCaptureWithCompletionHandler:^(NSError* _Nullable error) {
+            if (error) {
+                Log.error("Error stopping capture:", error.localizedDescription.UTF8String);
+            }
+            dispatch_semaphore_signal(sem);
+        }];
+
+        dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC);
+        dispatch_semaphore_wait(sem, timeout);
+        dispatch_release(sem);
+
         [m_stream release];
         m_stream = nil;
     }

@@ -204,7 +204,7 @@ bool asst::OcrPack::check_and_load()
     rec_option.UseCpu();
     det_option.SetCpuThreadNum(cpu_threads);
     rec_option.SetCpuThreadNum(cpu_threads);
-    Log.info("FastDeploy macOS mode with rec", cpu_threads, "CPU threads");
+    Log.info("FastDeploy macOS mode with", cpu_threads, "CPU threads");
 #else
     det_option.UseCpu();
     rec_option.UseCpu();
