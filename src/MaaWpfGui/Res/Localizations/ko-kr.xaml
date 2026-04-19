@@ -1093,6 +1093,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
+    <system:String x:Key="UpdateApplyFailed">업데이트 적용에 실패하여 현재 설치가 불완전할 수 있습니다. 전체 패키지를 다시 다운로드하고, 아래 안내에 따라 config 및 data를 수동으로 옮겨 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 전체 패키지를 다시 다운로드하세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>

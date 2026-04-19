@@ -1092,6 +1092,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
+    <system:String x:Key="UpdateApplyFailed">更新失敗，目前的安裝可能已不完整。請重新下載完整安裝檔案，並依照下方說明手動搬移 config 與 data。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">檔案損毀，請重新下載完整安裝檔案。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路徑不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下載失敗</system:String>

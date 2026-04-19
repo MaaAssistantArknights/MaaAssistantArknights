@@ -1091,6 +1091,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
+    <system:String x:Key="UpdateApplyFailed">The update could not be applied and the current installation may be incomplete. Please download the full package again and migrate your config and data manually as described below.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">The resources are damaged, please download the full package again.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>

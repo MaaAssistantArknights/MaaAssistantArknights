@@ -1092,6 +1092,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
+    <system:String x:Key="UpdateApplyFailed">更新の適用に失敗し、現在のインストールが不完全になっている可能性があります。完全パッケージを再ダウンロードし、以下の説明に従って config と data を手動で移行してください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADBファイルが存在しません</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADBのダウンロードに失敗しました</system:String>
