@@ -57,11 +57,19 @@ internal static class PendingUpdateApplier
     {
         if (!File.Exists(packagePath))
         {
+            _logger.Warning("Dropped update package does not exist: {PackagePath}", packagePath);
             return new(LocalPackageImportStatus.Unsupported);
         }
 
         string fullPackagePath = Path.GetFullPath(packagePath);
         string fileName = Path.GetFileName(fullPackagePath);
+        string normalizedArchitecture = NormalizeArchitecture(architecture);
+        _logger.Information(
+            "Checking dropped update package: {PackageName}, currentVersion={CurrentVersion}, architecture={Architecture}",
+            fileName,
+            currentVersion,
+            normalizedArchitecture);
+
         Match otaMatch = s_otaPackageNameRegex.Match(fileName);
         if (otaMatch.Success)
         {
@@ -69,22 +77,41 @@ internal static class PendingUpdateApplier
             string targetVersion = otaMatch.Groups["to"].Value;
             string packageArchitecture = otaMatch.Groups["arch"].Value;
 
-            if (!string.Equals(NormalizeArchitecture(architecture), packageArchitecture, StringComparison.OrdinalIgnoreCase) ||
-                !VersionsMatch(sourceVersion, currentVersion) ||
-                !IsUpgradeTarget(sourceVersion, targetVersion))
+            _logger.Information(
+                "Dropped package matched OTA pattern: sourceVersion={SourceVersion}, targetVersion={TargetVersion}, packageArchitecture={PackageArchitecture}",
+                sourceVersion,
+                targetVersion,
+                packageArchitecture);
+
+            bool architectureMatched = string.Equals(normalizedArchitecture, packageArchitecture, StringComparison.OrdinalIgnoreCase);
+            bool sourceVersionMatched = VersionsMatch(sourceVersion, currentVersion);
+            bool isUpgradeTarget = IsUpgradeTarget(sourceVersion, targetVersion);
+
+            if (!architectureMatched || !sourceVersionMatched || !isUpgradeTarget)
             {
+                _logger.Warning(
+                    "Dropped OTA package rejected: architectureMatched={ArchitectureMatched}, sourceVersionMatched={SourceVersionMatched}, isUpgradeTarget={IsUpgradeTarget}",
+                    architectureMatched,
+                    sourceVersionMatched,
+                    isUpgradeTarget);
                 return new(LocalPackageImportStatus.Unsupported, sourceVersion, targetVersion);
             }
 
             RegisterPendingUpdatePackage(targetVersion, fullPackagePath);
+            _logger.Information(
+                "Dropped OTA package registered successfully: packagePath={PackagePath}, targetVersion={TargetVersion}",
+                fullPackagePath,
+                targetVersion);
             return new(LocalPackageImportStatus.OtaPackageRegistered, sourceVersion, targetVersion);
         }
 
         if (s_fullPackageNameRegex.IsMatch(fileName))
         {
+            _logger.Information("Dropped package matched full package pattern: {PackageName}", fileName);
             return new(LocalPackageImportStatus.FullPackage);
         }
 
+        _logger.Warning("Dropped package did not match any supported update package pattern: {PackageName}", fileName);
         return new(LocalPackageImportStatus.Unsupported);
     }
 

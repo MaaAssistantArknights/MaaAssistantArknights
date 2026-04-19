@@ -28,6 +28,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Services;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI;
@@ -37,6 +38,8 @@ namespace MaaWpfGui.ViewModels.UI;
 /// </summary>
 public class RootViewModel : Conductor<Screen>.Collection.OneActive
 {
+    private static readonly ILogger _logger = Log.ForContext<RootViewModel>();
+
     /// <inheritdoc/>
     protected override void OnViewLoaded()
     {
@@ -228,6 +231,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             return;
         }
 
+        _logger.Information("Dropped zip file detected in main window: {PackagePath}", packagePath);
         e.Handled = true;
         HandleImportedPackage(packagePath);
     }
@@ -281,16 +285,24 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             : "x64";
 
         var importResult = PendingUpdateApplier.TryRegisterLocalPackage(packagePath, currentVersion, architecture);
+        _logger.Information(
+            "Dropped zip import result: status={Status}, sourceVersion={SourceVersion}, targetVersion={TargetVersion}",
+            importResult.Status,
+            importResult.SourceVersion,
+            importResult.TargetVersion);
+
         switch (importResult.Status)
         {
             case PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered:
                 Instances.VersionUpdateDialogViewModel.UpdateTag = importResult.TargetVersion ?? string.Empty;
                 Instances.VersionUpdateDialogViewModel.UpdateInfo = string.Empty;
                 Instances.VersionUpdateDialogViewModel.UpdatePackageName = packagePath;
+                _logger.Information("Showing restart prompt for imported OTA package: {PackagePath}", packagePath);
                 _ = Instances.VersionUpdateDialogViewModel.AskToRestartForImportedPackage();
                 return;
 
             case PendingUpdateApplier.LocalPackageImportStatus.FullPackage:
+                _logger.Information("Showing full package migration tip for dropped package: {PackagePath}", packagePath);
                 MessageBoxHelper.Show(
                     LocalizationHelper.GetString("FullPackageUpgradeTips"),
                     LocalizationHelper.GetString("Warning"),
@@ -300,6 +312,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
                 return;
 
             default:
+                _logger.Warning("Showing unsupported package warning for dropped package: {PackagePath}", packagePath);
                 MessageBoxHelper.Show(
                     LocalizationHelper.GetStringFormat("LocalUpdatePackageUnsupported", Path.GetFileName(packagePath), currentVersion, normalizedArchitecture),
                     LocalizationHelper.GetString("Warning"),
