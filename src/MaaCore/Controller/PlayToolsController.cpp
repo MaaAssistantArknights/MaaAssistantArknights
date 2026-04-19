@@ -96,7 +96,9 @@ bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_rec
 
 bool asst::PlayToolsController::screencap_rgba(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
-    if (!open()) return false;
+    if (!open()) {
+        return false;
+    }
     uint32_t image_size = 0;
 
     try {
@@ -131,7 +133,9 @@ bool asst::PlayToolsController::screencap_rgba(cv::Mat& image_payload, bool allo
 
 bool asst::PlayToolsController::screencap_bgr(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
-    if (!open()) return false;
+    if (!open()) {
+        return false;
+    }
     std::array<uint32_t, 3> header;
 
     try {
@@ -423,7 +427,9 @@ bool asst::PlayToolsController::fetch_screen_res()
 
 bool asst::PlayToolsController::toucher_commit(const TouchPhase phase, const Point& p, const int delay)
 {
-    if (!open()) return false;
+    if (!open()) {
+        return false;
+    }
     uint16_t x = socket_ops::host_to_network_short(static_cast<uint16_t>(p.x));
     uint16_t y = socket_ops::host_to_network_short(static_cast<uint16_t>(p.y));
     uint8_t payload[5] = { static_cast<uint8_t>(phase), 0, 0, 0, 0 };

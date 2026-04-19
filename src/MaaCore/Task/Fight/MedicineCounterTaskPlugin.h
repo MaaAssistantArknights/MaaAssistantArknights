@@ -16,7 +16,7 @@ public:
 
     void set_count(int count) { m_max_count = count; }
 
-    void set_expire_days(int value){ m_expire_days = value; }
+    void set_expire_days(int value) { m_expire_days = value; }
 
     void set_reduce_when_exceed(bool reduce) { m_reduce_when_exceed = reduce; }
 
