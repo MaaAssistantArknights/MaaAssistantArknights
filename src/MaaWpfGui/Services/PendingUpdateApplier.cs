@@ -7,9 +7,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text.RegularExpressions;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json.Linq;
+using Semver;
 using Serilog;
 
 namespace MaaWpfGui.Services;
@@ -18,17 +20,72 @@ internal static class PendingUpdateApplier
 {
     private static readonly ILogger _logger = Log.ForContext(typeof(PendingUpdateApplier));
 
+    private static readonly Regex s_otaPackageNameRegex = new(
+        @"^MAAComponent-OTA-(?<from>v.+?|DEBUG_VERSION)_(?<to>v.+?)-win-(?<arch>x64|arm64)\.zip$",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+
+    private static readonly Regex s_fullPackageNameRegex = new(
+        @"^MAA-(?<version>v.+?)-win-(?<arch>x64|arm64)\.zip$",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+
     private static readonly HashSet<string> s_controlFiles = new(StringComparer.OrdinalIgnoreCase)
     {
         "removelist.txt",
         "changes.json",
     };
 
+    public enum LocalPackageImportStatus
+    {
+        Unsupported,
+        FullPackage,
+        OtaPackageRegistered,
+    }
+
+    public sealed record LocalPackageImportResult(
+        LocalPackageImportStatus Status,
+        string? SourceVersion = null,
+        string? TargetVersion = null);
+
     public static bool HasPendingUpdatePackage()
     {
         string updateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
         string updatePackageName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
         return updateTag != string.Empty && updatePackageName != string.Empty && File.Exists(updatePackageName);
+    }
+
+    public static LocalPackageImportResult TryRegisterLocalPackage(string packagePath, string currentVersion, string architecture)
+    {
+        if (!File.Exists(packagePath))
+        {
+            return new(LocalPackageImportStatus.Unsupported);
+        }
+
+        string fullPackagePath = Path.GetFullPath(packagePath);
+        string fileName = Path.GetFileName(fullPackagePath);
+        Match otaMatch = s_otaPackageNameRegex.Match(fileName);
+        if (otaMatch.Success)
+        {
+            string sourceVersion = otaMatch.Groups["from"].Value;
+            string targetVersion = otaMatch.Groups["to"].Value;
+            string packageArchitecture = otaMatch.Groups["arch"].Value;
+
+            if (!string.Equals(NormalizeArchitecture(architecture), packageArchitecture, StringComparison.OrdinalIgnoreCase) ||
+                !VersionsMatch(sourceVersion, currentVersion) ||
+                !IsUpgradeTarget(sourceVersion, targetVersion))
+            {
+                return new(LocalPackageImportStatus.Unsupported, sourceVersion, targetVersion);
+            }
+
+            RegisterPendingUpdatePackage(targetVersion, fullPackagePath);
+            return new(LocalPackageImportStatus.OtaPackageRegistered, sourceVersion, targetVersion);
+        }
+
+        if (s_fullPackageNameRegex.IsMatch(fileName))
+        {
+            return new(LocalPackageImportStatus.FullPackage);
+        }
+
+        return new(LocalPackageImportStatus.Unsupported);
     }
 
     public static PendingUpdateApplyResult TryApplyPendingUpdatePackage()
@@ -327,9 +384,49 @@ internal static class PendingUpdateApplier
         ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.TrueString);
     }
 
+    private static void RegisterPendingUpdatePackage(string updateTag, string packagePath)
+    {
+        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, updateTag);
+        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, packagePath);
+    }
+
     private static void ClearPendingUpdatePackageState()
     {
         ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
+    }
+
+    private static string NormalizeArchitecture(string architecture)
+    {
+        return architecture.StartsWith("arm", StringComparison.OrdinalIgnoreCase)
+            ? "arm64"
+            : "x64";
+    }
+
+    private static bool VersionsMatch(string leftVersion, string rightVersion)
+    {
+        if (SemVersion.TryParse(leftVersion, SemVersionStyles.AllowLowerV, out var leftSemVersion) &&
+            SemVersion.TryParse(rightVersion, SemVersionStyles.AllowLowerV, out var rightSemVersion) &&
+            leftSemVersion != null &&
+            rightSemVersion != null)
+        {
+            return leftSemVersion.CompareSortOrderTo(rightSemVersion) == 0;
+        }
+
+        return string.Equals(leftVersion, rightVersion, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsUpgradeTarget(string currentVersion, string targetVersion)
+    {
+        if (SemVersion.TryParse(currentVersion, SemVersionStyles.AllowLowerV, out var currentSemVersion) &&
+            SemVersion.TryParse(targetVersion, SemVersionStyles.AllowLowerV, out var targetSemVersion) &&
+            currentSemVersion != null &&
+            targetSemVersion != null)
+        {
+            return currentSemVersion.CompareSortOrderTo(targetSemVersion) < 0;
+        }
+
+        return !string.Equals(currentVersion, targetVersion, StringComparison.OrdinalIgnoreCase);
     }
 
     private sealed record PendingUpdateContext(

@@ -631,6 +631,20 @@ public class VersionUpdateDialogViewModel : Screen
 
     public async Task AskToRestart()
     {
+        await AskToRestartCore(
+            LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
+            LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
+    }
+
+    public async Task AskToRestartForImportedPackage()
+    {
+        await AskToRestartCore(
+            LocalizationHelper.GetString("LocalUpdatePackageImportedDesc"),
+            LocalizationHelper.GetString("LocalUpdatePackageImportedTitle"));
+    }
+
+    private async Task AskToRestartCore(string description, string title)
+    {
         if (SettingsViewModel.VersionUpdateSettings.AutoInstallUpdatePackage)
         {
             await Bootstrapper.RestartAfterIdleAsync();
@@ -640,8 +654,8 @@ public class VersionUpdateDialogViewModel : Screen
         await _runningState.UntilIdleAsync(10000);
 
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
-            LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
+            description,
+            title,
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question,
             ok: LocalizationHelper.GetString("Ok"),

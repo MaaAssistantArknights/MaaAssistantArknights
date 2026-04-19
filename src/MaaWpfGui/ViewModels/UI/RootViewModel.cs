@@ -14,6 +14,8 @@
 #nullable enable
 
 using System;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +25,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Services;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Stylet;
@@ -205,6 +208,30 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         IsWindowTopMost = !IsWindowTopMost;
     }
 
+    [UsedImplicitly]
+    public void ManualPackagePreviewDragOver(object sender, DragEventArgs e)
+    {
+        if (!TryGetDroppedZipFile(e, out _))
+        {
+            return;
+        }
+
+        e.Effects = DragDropEffects.Copy;
+        e.Handled = true;
+    }
+
+    [UsedImplicitly]
+    public void ManualPackageDrop(object sender, DragEventArgs e)
+    {
+        if (!TryGetDroppedZipFile(e, out string packagePath))
+        {
+            return;
+        }
+
+        e.Handled = true;
+        HandleImportedPackage(packagePath);
+    }
+
     /// <inheritdoc/>
     protected override void OnClose()
     {
@@ -221,6 +248,67 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     private static int _gifIndex = -1;
 
     private static string _gifPath = string.Empty;
+
+    private static bool TryGetDroppedZipFile(DragEventArgs e, out string packagePath)
+    {
+        packagePath = string.Empty;
+        if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            return false;
+        }
+
+        if (e.Data.GetData(DataFormats.FileDrop) is not string[] files || files.Length == 0)
+        {
+            return false;
+        }
+
+        string candidatePath = files[0];
+        if (!File.Exists(candidatePath) || !candidatePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        packagePath = candidatePath;
+        return true;
+    }
+
+    private static void HandleImportedPackage(string packagePath)
+    {
+        string currentVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
+        string architecture = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
+        string normalizedArchitecture = architecture.StartsWith("arm", StringComparison.OrdinalIgnoreCase)
+            ? "arm64"
+            : "x64";
+
+        var importResult = PendingUpdateApplier.TryRegisterLocalPackage(packagePath, currentVersion, architecture);
+        switch (importResult.Status)
+        {
+            case PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered:
+                Instances.VersionUpdateDialogViewModel.UpdateTag = importResult.TargetVersion ?? string.Empty;
+                Instances.VersionUpdateDialogViewModel.UpdateInfo = string.Empty;
+                Instances.VersionUpdateDialogViewModel.UpdatePackageName = packagePath;
+                _ = Instances.VersionUpdateDialogViewModel.AskToRestartForImportedPackage();
+                return;
+
+            case PendingUpdateApplier.LocalPackageImportStatus.FullPackage:
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("FullPackageUpgradeTips"),
+                    LocalizationHelper.GetString("Warning"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information,
+                    ok: LocalizationHelper.GetString("Ok"));
+                return;
+
+            default:
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetStringFormat("LocalUpdatePackageUnsupported", Path.GetFileName(packagePath), currentVersion, normalizedArchitecture),
+                    LocalizationHelper.GetString("Warning"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning,
+                    ok: LocalizationHelper.GetString("Ok"));
+                return;
+        }
+    }
 
     public string GifPath
     {

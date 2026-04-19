@@ -405,6 +405,9 @@ You can cancel this popup by clicking the ï½¢{key=Settings} - {key=IssueReport}ï
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">Update Package Download Completed</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">Do you want to upgrade MAA immediately? (restart the process)</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedTitle">Local OTA package ready</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedDesc">A compatible local OTA update package was detected. Update MAA now? (Restart required)</system:String>
+    <system:String x:Key="LocalUpdatePackageUnsupported">Cannot recognize archive: {0}\nOnly OTA packages matching the current version can be imported.\nCurrent version: {1}\nCurrent architecture: {2}\nSupported filename example: MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">New version found, but no update package</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">Please manually download the full package to update!</system:String>
     <system:String x:Key="ForceScheduledStart">Force scheduled start</system:String>

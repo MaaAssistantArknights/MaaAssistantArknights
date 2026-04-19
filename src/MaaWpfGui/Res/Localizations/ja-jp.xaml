@@ -405,6 +405,9 @@
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">アップデートパッケージのダウンロードが完了しました</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">MAAをすぐにアップグレードしますか？（処理を再開）</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedTitle">ローカル OTA パッケージの準備ができました</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedDesc">利用可能なローカル OTA 更新パッケージを検出しました。今すぐ MAA を更新しますか？（プロセスを再起動します）</system:String>
+    <system:String x:Key="LocalUpdatePackageUnsupported">圧縮ファイルを認識できません: {0}\n現在のバージョンに対応する OTA パッケージのみインポートできます。\n現在のバージョン: {1}\n現在のアーキテクチャ: {2}\n対応するファイル名の例: MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">新バージョンが見つかりましたが、アップデートパッケージがありません</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">アップデートするには、手動でフルパッケージをダウンロードしてください！</system:String>
     <system:String x:Key="ForceScheduledStart">強制的なタイミングで起動</system:String>
