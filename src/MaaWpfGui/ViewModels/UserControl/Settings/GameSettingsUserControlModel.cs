@@ -79,8 +79,8 @@ public class GameSettingsUserControlModel : PropertyChangedBase
                 return _clientType;
             }
 
-            ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, "Official");
-            return "Official";
+            ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, Constants.Enums.ClientType.Official);
+            return Constants.Enums.ClientType.Official;
         }
 
         set {
@@ -100,11 +100,9 @@ public class GameSettingsUserControlModel : PropertyChangedBase
                 return;
             }
 
-            Task.Run(() => {
-                Instances.AsstProxy.LoadResource();
-            });
+            Task.Run(() => { Instances.AsstProxy.LoadResource(); });
 
-            SettingsViewModel.AskRestartToApplySettings(value is "YoStarEN");
+            SettingsViewModel.AskRestartToApplySettings(value is Constants.Enums.ClientType.EN);
         }
     }
 

@@ -36,10 +36,10 @@ public class AsstFightTask : AsstBaseTask
     public int Medicine { get; set; }
 
     /// <summary>
-    /// Gets or sets 临期药品数量
+    /// Gets or sets 吃药临期天数
     /// </summary>
-    [JsonProperty("expiring_medicine")]
-    public int ExpiringMedicine { get; set; }
+    [JsonProperty("medicine_expire_days")]
+    public int MedicineExpireDays { get; set; }
 
     /// <summary>
     /// Gets or sets 最大碎石数量
