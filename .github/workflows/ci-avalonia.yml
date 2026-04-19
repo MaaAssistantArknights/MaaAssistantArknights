@@ -126,7 +126,7 @@ jobs:
 
       - name: Upload test result artifacts on failure
         if: failure() && matrix.name != 'macos-x64'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: MAAUnified-TestResults-${{ matrix.name }}
           path: TestResults/${{ matrix.name }}/*.trx
@@ -183,7 +183,7 @@ jobs:
           tar -czf "release/${name}.tar.gz" -C publish .
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: MAAUnified-${{ matrix.name }}
           path: release/*
