@@ -16,17 +16,18 @@ using Serilog;
 
 namespace MaaWpfGui.Services;
 
-internal static class PendingUpdateApplier
+/// <summary>
+/// Handles the application of pending update packages for the application. This includes validating, extracting, and applying both OTA and full update packages that have been registered for installation on the next application launch.
+/// </summary>
+internal static partial class PendingUpdateApplier
 {
     private static readonly ILogger _logger = Log.ForContext(typeof(PendingUpdateApplier));
 
-    private static readonly Regex s_otaPackageNameRegex = new(
-        @"^MAAComponent-OTA-(?<from>v.+?|DEBUG_VERSION)_(?<to>v.+?)-win-(?<arch>x64|arm64)\.zip$",
-        RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+    [GeneratedRegex(@"^MAAComponent-OTA-(?<from>v.+?|DEBUG_VERSION)_(?<to>v.+?)-win-(?<arch>x64|arm64)\.zip$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
+    private static partial Regex OtaPackageNameRegex();
 
-    private static readonly Regex s_fullPackageNameRegex = new(
-        @"^MAA-(?<version>v.+?)-win-(?<arch>x64|arm64)\.zip$",
-        RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+    [GeneratedRegex(@"^MAA-(?<version>v.+?)-win-(?<arch>x64|arm64)\.zip$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
+    private static partial Regex FullPackageNameRegex();
 
     private static readonly HashSet<string> s_controlFiles = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -36,8 +37,19 @@ internal static class PendingUpdateApplier
 
     public enum LocalPackageImportStatus
     {
+        /// <summary>
+        /// Represents an unsupported operation or value.
+        /// </summary>
         Unsupported,
+
+        /// <summary>
+        /// Indicates that a full update package has been successfully registered for installation.
+        /// </summary>
         FullPackageRegistered,
+
+        /// <summary>
+        /// Indicates that an OTA update package has been successfully registered for installation.
+        /// </summary>
         OtaPackageRegistered,
     }
 
@@ -70,7 +82,7 @@ internal static class PendingUpdateApplier
             currentVersion,
             normalizedArchitecture);
 
-        Match otaMatch = s_otaPackageNameRegex.Match(fileName);
+        Match otaMatch = OtaPackageNameRegex().Match(fileName);
         if (otaMatch.Success)
         {
             string sourceVersion = otaMatch.Groups["from"].Value;
@@ -105,9 +117,9 @@ internal static class PendingUpdateApplier
             return new(LocalPackageImportStatus.OtaPackageRegistered, sourceVersion, targetVersion);
         }
 
-        if (s_fullPackageNameRegex.IsMatch(fileName))
+        Match fullPackageMatch = FullPackageNameRegex().Match(fileName);
+        if (fullPackageMatch.Success)
         {
-            Match fullPackageMatch = s_fullPackageNameRegex.Match(fileName);
             string targetVersion = fullPackageMatch.Groups["version"].Value;
             string packageArchitecture = fullPackageMatch.Groups["arch"].Value;
             bool architectureMatched = string.Equals(normalizedArchitecture, packageArchitecture, StringComparison.OrdinalIgnoreCase);
@@ -517,25 +529,22 @@ internal static class PendingUpdateApplier
                 }
             }
 
-            string[] payloadFiles = Directory.GetFiles(extractDir, "*", SearchOption.AllDirectories)
+            string[] payloadFiles = [.. Directory.GetFiles(extractDir, "*", SearchOption.AllDirectories)
                 .Select(file => Path.GetRelativePath(extractDir, file))
                 .Select(file => file.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar))
                 .Where(file => !string.IsNullOrWhiteSpace(file) && !IsControlFile(file))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToArray();
+                .Distinct(StringComparer.OrdinalIgnoreCase)];
 
-            string[] topLevelEntries = Directory.GetFileSystemEntries(extractDir)
+            string[] topLevelEntries = [.. Directory.GetFileSystemEntries(extractDir)
                 .Select(entry => Path.GetRelativePath(extractDir, entry))
                 .Select(entry => entry.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar))
                 .Where(entry => !string.IsNullOrWhiteSpace(entry) && !IsControlFile(entry))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToArray();
+                .Distinct(StringComparer.OrdinalIgnoreCase)];
 
-            string[] normalizedRemoveList = removeList
+            string[] normalizedRemoveList = [.. removeList
                 .Select(entry => entry.Trim().Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar))
                 .Where(entry => !string.IsNullOrWhiteSpace(entry))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToArray();
+                .Distinct(StringComparer.OrdinalIgnoreCase)];
 
             return new PendingUpdateManifest(isOtaPackage, normalizedRemoveList, payloadFiles, topLevelEntries);
         }
