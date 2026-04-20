@@ -405,6 +405,9 @@
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">アップデートパッケージのダウンロードが完了しました</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">MAAをすぐにアップグレードしますか？（処理を再開）</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedTitle">ローカル更新パッケージの準備ができました</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedDesc">利用可能なローカル更新パッケージを検出しました。今すぐ MAA を更新しますか？（プロセスを再起動します）</system:String>
+    <system:String x:Key="LocalUpdatePackageUnsupported">圧縮ファイルを認識できません: {0}\n現在のアーキテクチャ向けのフルパッケージ、または現在のバージョンからより新しいバージョンへの OTA パッケージのみインポートできます。\n現在のバージョン: {1}\n現在のアーキテクチャ: {2}\n対応するファイル名の例: MAA-vTARGET_VERSION-win-{2}.zip\nまたは MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">新バージョンが見つかりましたが、アップデートパッケージがありません</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">アップデートするには、手動でフルパッケージをダウンロードしてください！</system:String>
     <system:String x:Key="ForceScheduledStart">強制的なタイミングで起動</system:String>
@@ -1092,6 +1095,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
+    <system:String x:Key="UpdateApplyFailed">更新の適用に失敗し、現在のインストールが不完全になっている可能性があります。完全パッケージを再ダウンロードし、以下の説明に従って config と data を手動で移行してください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADBファイルが存在しません</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADBのダウンロードに失敗しました</system:String>

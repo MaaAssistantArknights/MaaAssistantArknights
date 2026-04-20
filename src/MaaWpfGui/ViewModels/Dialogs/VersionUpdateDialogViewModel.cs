@@ -182,9 +182,7 @@ public class VersionUpdateDialogViewModel : Screen
 
     public static bool HasPendingUpdatePackage()
     {
-        string updateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
-        string updatePackageName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
-        return updateTag != string.Empty && updatePackageName != string.Empty && File.Exists(updatePackageName);
+        return PendingUpdateApplier.HasPendingUpdatePackage();
     }
 
     /// <summary>
@@ -193,197 +191,12 @@ public class VersionUpdateDialogViewModel : Screen
     /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
     public bool CheckAndUpdateNow()
     {
-        return TryApplyPendingUpdatePackage();
+        return PendingUpdateApplier.TryApplyPendingUpdatePackage().Succeeded;
     }
 
     public static bool TryApplyPendingUpdatePackage()
     {
-        string updateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
-        string updatePackageName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
-        if (updateTag == string.Empty || updatePackageName == string.Empty || !File.Exists(updatePackageName))
-        {
-            return false;
-        }
-
-        string curDir = PathsHelper.BaseDir;
-        string extractDir = Path.Combine(curDir, "NewVersionExtract"); // 新版本解压的路径
-        string oldFileDir = Path.Combine(curDir, ".old");
-
-        // 解压
-        try
-        {
-            if (Directory.Exists(extractDir))
-            {
-                Directory.Delete(extractDir, true);
-            }
-
-            ZipFile.ExtractToDirectory(updatePackageName, extractDir);
-        }
-        catch (InvalidDataException)
-        {
-            File.Delete(updatePackageName);
-
-            return false;
-        }
-
-        string removeListFile = Path.Combine(extractDir, "removelist.txt");
-        string mirrorChyanChangeFile = Path.Combine(extractDir, "changes.json");
-        bool isOTAPackage = File.Exists(removeListFile) || File.Exists(mirrorChyanChangeFile);
-        string[] removeList = [];
-        if (File.Exists(removeListFile))
-        {
-            removeList = File.ReadAllLines(removeListFile);
-        }
-
-        if (File.Exists(mirrorChyanChangeFile))
-        {
-            try
-            {
-                string json = File.ReadAllText(mirrorChyanChangeFile);
-                var jObject = JObject.Parse(json);
-                removeList = jObject["deleted"]?.ToObject<string[]>() ?? [];
-            }
-            catch (Exception e)
-            {
-                _logger.Error("parse mirrorChyan changes.json error: {EMessage}", e.Message);
-            }
-        }
-
-        if (removeList.Length > 0)
-        {
-            foreach (string file in removeList)
-            {
-                string path = Path.Combine(curDir, file);
-                if (!File.Exists(path))
-                {
-                    continue;
-                }
-
-                string moveTo = Path.Combine(oldFileDir, file);
-                if (File.Exists(moveTo))
-                {
-                    DeleteFileWithBackup(moveTo);
-                }
-                else
-                {
-                    var dir = Path.GetDirectoryName(moveTo);
-                    if (dir != null)
-                    {
-                        Directory.CreateDirectory(dir);
-                    }
-                }
-
-                try
-                {
-                    File.Move(path, moveTo);
-                }
-                catch (Exception e)
-                {
-                    _logger.Error("move file error, path: {Path}, moveTo: {MoveTo}, error: {EMessage}", path, moveTo, e.Message);
-                    throw;
-                }
-            }
-        }
-        else if (!isOTAPackage)
-        {
-            List<Task> deleteTasks = [];
-            foreach (var dir in Directory.GetDirectories(extractDir))
-            {
-                deleteTasks.Add(Task.Run(() => {
-                    try
-                    {
-                        FileSystem.DeleteDirectory(dir.Replace(extractDir, curDir), UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
-                    }
-                    catch
-                    {
-                        _logger.Error("delete directory error, dir: {Dir}", dir);
-                    }
-                }));
-            }
-
-            Task.WaitAll([.. deleteTasks]);
-        }
-
-        Directory.CreateDirectory(oldFileDir);
-        foreach (var dir in Directory.GetDirectories(extractDir, "*", SearchOption.AllDirectories))
-        {
-            Directory.CreateDirectory(dir.Replace(extractDir, curDir));
-            Directory.CreateDirectory(dir.Replace(extractDir, oldFileDir));
-        }
-
-        // 复制新版本的所有文件到当前路径下
-        foreach (var file in Directory.GetFiles(extractDir, "*", SearchOption.AllDirectories))
-        {
-            var fileName = Path.GetFileName(file);
-
-            // ReSharper disable once StringLiteralTypo
-            if (fileName == "removelist.txt")
-            {
-                continue;
-            }
-
-            string curFileName = file.Replace(extractDir, curDir);
-            try
-            {
-                if (File.Exists(curFileName))
-                {
-                    string moveTo = file.Replace(extractDir, oldFileDir);
-                    if (File.Exists(moveTo))
-                    {
-                        DeleteFileWithBackup(moveTo);
-                    }
-
-                    File.Move(curFileName, moveTo);
-                }
-
-                File.Move(file, curFileName);
-            }
-            catch (Exception e)
-            {
-                _logger.Error("move file error, file name: {File}, error: {EMessage}", file, e.Message);
-                throw;
-            }
-        }
-
-        // 操作完了，把解压的文件删了
-        Directory.Delete(extractDir, true);
-        File.Delete(updatePackageName);
-
-        // 保存更新信息，下次启动后会弹出已更新完成的提示
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.TrueString);
-        return true;
-
-        static void DeleteFileWithBackup(string filePath)
-        {
-            try
-            {
-                File.Delete(filePath);
-            }
-            catch (Exception e)
-            {
-                _logger.Error("delete file error, filePath: {FilePath}, error: {EMessage}, try to backup.", filePath, e.Message);
-                int index = 0;
-                string currentDate = DateTime.Now.ToString("yyyyMMddHHmm");
-                string backupFilePath = $"{filePath}.{currentDate}.{index}";
-
-                while (File.Exists(backupFilePath))
-                {
-                    index++;
-                    backupFilePath = $"{filePath}.{currentDate}.{index}";
-                }
-
-                try
-                {
-                    File.Move(filePath, backupFilePath);
-                }
-                catch (Exception e1)
-                {
-                    _logger.Error("move file error, path: {FilePath}, moveTo: {BackupFilePath}, error: {E1Message}", filePath, backupFilePath, e1.Message);
-                    throw;
-                }
-            }
-        }
+        return PendingUpdateApplier.TryApplyPendingUpdatePackage().Succeeded;
     }
 
     public enum CheckUpdateRetT
@@ -818,6 +631,20 @@ public class VersionUpdateDialogViewModel : Screen
 
     public async Task AskToRestart()
     {
+        await AskToRestartCore(
+            LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
+            LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
+    }
+
+    public async Task AskToRestartForImportedPackage()
+    {
+        await AskToRestartCore(
+            LocalizationHelper.GetString("LocalUpdatePackageImportedDesc"),
+            LocalizationHelper.GetString("LocalUpdatePackageImportedTitle"));
+    }
+
+    private async Task AskToRestartCore(string description, string title)
+    {
         if (SettingsViewModel.VersionUpdateSettings.AutoInstallUpdatePackage)
         {
             await Bootstrapper.RestartAfterIdleAsync();
@@ -827,8 +654,8 @@ public class VersionUpdateDialogViewModel : Screen
         await _runningState.UntilIdleAsync(10000);
 
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
-            LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
+            description,
+            title,
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question,
             ok: LocalizationHelper.GetString("Ok"),

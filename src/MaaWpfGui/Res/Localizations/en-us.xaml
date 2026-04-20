@@ -405,6 +405,9 @@ You can cancel this popup by clicking the ï½¢{key=Settings} - {key=IssueReport}ï
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">Update Package Download Completed</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">Do you want to upgrade MAA immediately? (restart the process)</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedTitle">Local update package ready</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedDesc">A compatible local update package was detected. Update MAA now? (Restart required)</system:String>
+    <system:String x:Key="LocalUpdatePackageUnsupported">Cannot recognize archive: {0}\nOnly full packages for the current architecture, or OTA packages from the current version to a newer version, can be imported.\nCurrent version: {1}\nCurrent architecture: {2}\nSupported filename examples: MAA-vTARGET_VERSION-win-{2}.zip\nor MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">New version found, but no update package</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">Please manually download the full package to update!</system:String>
     <system:String x:Key="ForceScheduledStart">Force scheduled start</system:String>
@@ -1091,6 +1094,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
+    <system:String x:Key="UpdateApplyFailed">The update could not be applied and the current installation may be incomplete. Please download the full package again and migrate your config and data manually as described below.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">The resources are damaged, please download the full package again.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
