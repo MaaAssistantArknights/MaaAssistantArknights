@@ -160,6 +160,69 @@ bool asst::InfrastReceptionTask::use_clue()
     return true;
 }
 
+bool asst::InfrastReceptionTask::remove_clue()
+{
+    LogTraceFunction;
+    const static std::vector<std::string> clue_suffix = { "1", "2", "3", "4", "5", "6", "7" };
+
+    cv::Mat image = ctrler()->get_image();
+
+    // 分析一下哪些线索已经放上了
+    InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
+
+    vacancy_analyzer.set_to_be_analyzed(clue_suffix);
+    vacancy_analyzer.analyze();
+
+    const auto& vacancy = vacancy_analyzer.get_vacancy();
+    // 没有已放置线索时视为成功，避免中断后续快捷置入流程
+    if (vacancy.empty()) {
+        return true;
+    }
+
+    bool ret = true;
+    for (const auto& id : vacancy | std::views::keys) {
+        if (need_exit()) {
+            return false;
+        }
+        Log.trace("InfrastReceptionTask | Vacancy", id);
+
+        // 点击已放上的线索
+        Rect click_rect = vacancy.at(id);
+        ret &= ctrler()->click(click_rect);
+        sleep(500);
+
+        bool pin_found = false;
+        for (int i = 0; i < 5; ++i) {
+            if (need_exit()) {
+                return false;
+            }
+            Matcher pin_analyzer(ctrler()->get_image());
+            pin_analyzer.set_task_info("InfrastClueVacancyPin");
+
+            if (auto pin_res = pin_analyzer.analyze()) {
+                pin_found = true;
+                ctrler()->click(pin_res->rect);
+                sleep(500);
+                break;
+            }
+            // 向下滑动一点，可能线索比较多
+            swipe_to_the_bottom_of_clue_list_on_the_right();
+        }
+        ret &= pin_found;
+
+        // 移除线索后点击会客室图标来关闭侧边栏
+        Matcher confirm_analyzer(ctrler()->get_image());
+        confirm_analyzer.set_task_info("InfrastReceptionIcon");
+
+        if (auto confirm_res = confirm_analyzer.analyze()) {
+            ret &= ctrler()->click(confirm_res->rect);
+            sleep(500);
+        }
+    }
+
+    return ret;
+}
+
 bool asst::InfrastReceptionTask::proc_clue_vacancy()
 {
     LogTraceFunction;
@@ -170,6 +233,15 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
 
     // 优先检测官服新增的“快捷置入”按钮，如果存在则尝试根据数字与空位一致时批量置入
     if (ProcessTask(*this, { "InfrastClueQuickInsert" }).set_retry_times(3).run()) {
+        // 先把线索都移除掉，避免因快捷赠送重复线索无法识别线索版上的线索导致线索达到上限，而无法获得新线索
+        if (!remove_clue()) {
+            Log.warn(__FUNCTION__, "| remove_clue failed");
+            return false;
+        }
+
+        // 移除线索会改变界面，重新抓取截图供后续分析使用
+        image = ctrler()->get_image();
+
         InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
         vacancy_analyzer.set_to_be_analyzed(clue_suffix);
         vacancy_analyzer.analyze();
@@ -322,4 +394,11 @@ bool asst::InfrastReceptionTask::shift()
 
     click_confirm_button();
     return true;
+}
+
+bool asst::InfrastReceptionTask::swipe_to_the_bottom_of_clue_list_on_the_right()
+{
+    bool ret = ProcessTask(*this, { "InfrastClueListSwipeToTheBottomOnTheRight" }).run();
+    sleep(500);
+    return ret;
 }

@@ -2937,6 +2937,57 @@
         "roi": [1163, 0, 117, 133],
         "next": ["Stop"]
     },
+    "InfrastClueVacancy1": {
+        "template": "ClueVacancy1.png",
+        "templThreshold": 0.75,
+        "roi": [0, 120, 500, 195],
+        "postDelay": 500
+    },
+    "InfrastClueVacancy2": {
+        "template": "ClueVacancy2.png",
+        "templThreshold": 0.75,
+        "roi": [200, 195, 500, 195],
+        "postDelay": 500
+    },
+    "InfrastClueVacancy3": {
+        "template": "ClueVacancy3.png",
+        "templThreshold": 0.75,
+        "roi": [400, 100, 500, 195],
+        "postDelay": 500
+    },
+    "InfrastClueVacancy4": {
+        "template": "ClueVacancy4.png",
+        "templThreshold": 0.75,
+        "roi": [650, 150, 500, 195],
+        "postDelay": 500
+    },
+    "InfrastClueVacancy5": {
+        "template": "ClueVacancy5.png",
+        "templThreshold": 0.75,
+        "roi": [300, 420, 500, 195],
+        "postDelay": 500
+    },
+    "InfrastClueVacancy6": {
+        "template": "ClueVacancy6.png",
+        "templThreshold": 0.75,
+        "roi": [500, 350, 500, 195],
+        "postDelay": 500
+    },
+    "InfrastClueVacancy7": {
+        "template": "ClueVacancy7.png",
+        "templThreshold": 0.75,
+        "roi": [50, 380, 500, 195],
+        "postDelay": 500
+    },
+    "InfrastClueVacancyPin":{
+        "template": "ClueVacancyPin.png",
+        "roi":[854, 121, 152, 594],
+        "maskRange": [1, 255]
+    },
+    "InfrastReceptionIcon": {
+        "template": "InfrastReceptionIcon.png",
+        "roi": [340, 0, 210, 75]
+    },
     "InfrastClueVacancyNo1": {
         "template": "ClueVacancyNo1.png",
         "templThreshold": 0.75,
@@ -4141,6 +4192,11 @@
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [1080, 4, 1, 1],
         "rectMove": [650, 4, 1, 1]
+    },
+    "InfrastClueListSwipeToTheBottomOnTheRight": {
+        "baseTask": "SlowlySwipeToTheDown",
+        "specificRect": [1080, 300, 20, 20],
+        "rectMove": [1080, 150, 20, 20]
     },
     "InfrastOperListSwipeToTheLeft": {
         "baseTask": "SwipeToTheLeft",
