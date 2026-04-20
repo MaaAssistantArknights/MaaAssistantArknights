@@ -209,11 +209,45 @@ TEST_CASE("chars_to_number accepts int8_t boundary value")
     REQUIRE(result == 127);
 }
 
+TEST_CASE("chars_to_number accepts int8_t minimum boundary")
+{
+    int8_t result = 0;
+    REQUIRE(chars_to_number<int8_t>("-128", result));
+    REQUIRE(result == -128);
+}
+
+TEST_CASE("chars_to_number reports out-of-range for int8_t underflow")
+{
+    int8_t result = 0;
+    REQUIRE_FALSE(chars_to_number<int8_t>("-129", result));
+}
+
 TEST_CASE("chars_to_number parses large uint64_t value")
 {
     uint64_t result = 0;
     REQUIRE(chars_to_number<uint64_t>("9999999999", result));
     REQUIRE(result == 9999999999ULL);
+}
+
+TEST_CASE("chars_to_number reports out-of-range for uint64_t overflow")
+{
+    // uint64_t max is 18446744073709551615; the literal below is one past max.
+    uint64_t result = 0;
+    REQUIRE_FALSE(chars_to_number<uint64_t>("18446744073709551616", result));
+}
+
+TEST_CASE("chars_to_number rejects negative input for uint64_t")
+{
+    // std::from_chars treats a leading '-' as invalid for unsigned targets,
+    // rather than wrapping around to the maximum value.
+    uint64_t result = 0;
+    REQUIRE_FALSE(chars_to_number<uint64_t>("-1", result));
+}
+
+TEST_CASE("chars_to_number rejects negative input for uint32_t")
+{
+    uint32_t result = 0;
+    REQUIRE_FALSE(chars_to_number<uint32_t>("-1", result));
 }
 
 TEST_CASE("chars_to_number parses a double")
