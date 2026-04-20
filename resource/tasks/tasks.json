@@ -2979,9 +2979,9 @@
         "roi": [50, 380, 500, 195],
         "postDelay": 500
     },
-    "InfrastClueVacancyPin":{
+    "InfrastClueVacancyPin": {
         "template": "ClueVacancyPin.png",
-        "roi":[854, 121, 152, 594],
+        "roi": [854, 121, 152, 594],
         "maskRange": [1, 255]
     },
     "InfrastReceptionIcon": {
