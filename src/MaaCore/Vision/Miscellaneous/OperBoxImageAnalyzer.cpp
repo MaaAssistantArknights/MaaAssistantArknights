@@ -125,7 +125,7 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
         { "OperBoxFlagRole9", battle::Role::Warrior },
     } };
 
-    for (int i = 1; i < 10; ++i) {
+    for (int i = 0; i < 9; ++i) {
         if (auto top_result_opt = analyze_task(role_tasks[i].first, roi_top, role_tasks[i].second)) {
             std::ranges::move(*top_result_opt, std::back_inserter(results));
         }
