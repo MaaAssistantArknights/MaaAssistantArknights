@@ -140,5 +140,5 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
         }
     }
 
-    public record RoomInfo(InfrastRoomType Room, [property: JsonPredict("IsEnabled", false)] bool IsEnabled);
+    public record RoomInfo(InfrastRoomType Room, [property: JsonPredict("IsEnabled")] bool IsEnabled);
 }
