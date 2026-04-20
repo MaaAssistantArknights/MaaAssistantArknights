@@ -360,7 +360,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     ● Downloads are prioritized via the high-speed {key=MirrorChyan} CDN for greater stability and speed
 
 📦 Manual Update:
-    ● {key=UpdateCheckNow}: Download and extract the full package to a new folder. Copy the `config` and `data` folders from the old folder to retain your data. Do not overwrite the old folder directly—this may cause resource corruption
+    ● {key=UpdateCheckNow}: Download a full package or OTA update package and drag it into the app. The app will automatically extract it and clean up old files
     ● {key=ResourceUpdate}: Download the resource package and overwrite the `resource` folder. The package is incremental; do not delete the original folder, or errors may occur
 
 📄 Update Notes:

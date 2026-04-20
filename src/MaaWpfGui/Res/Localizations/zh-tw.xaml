@@ -360,7 +360,7 @@
     ● 優先透過 {key=MirrorChyan} 高速 CDN 下載，更穩定快速
 
 📦 手動更新：
-    ● {key=UpdateCheckNow}：下載完整檔案並解壓縮至全新資料夾，複製原資料夾中的 config 與 data 可保留資料。請勿直接覆蓋舊版本，可能導致資源損壞
+    ● {key=UpdateCheckNow}：下載完整檔案或 OTA 更新檔後拖入應用程式，程式會自動解壓縮並清理舊檔案
     ● {key=ResourceUpdate}：下載資源檔案後覆蓋 resource 資料夾。資源為增量內容，請勿刪除原資料夾，否則會資源損壞
 
 📄 更新說明：
