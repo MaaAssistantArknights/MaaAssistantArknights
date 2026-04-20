@@ -3977,5 +3977,14 @@
     "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@CollectAction": "55855af8735610beafbda6c8826446f23fd9886513869909e72af5516b920dab",
     "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@EndTurn": "f18db750d6fd4a94df39b924f8d849d301fa010b5412ea52a43b48442ca251be",
     "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@MoveAction": "5210cb68cbf5c6b7292dc784dc193ea1d35babc1fcec34127d8e3e5677496287",
-    "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@ClickToContinue": "cd94d2eb412e1bed447c0987e4e2ad831ae2455939b157500e90d0358aad6f53"
+    "resource/global/YoStarEN/resource/template/MiniGame/OS/MiniGame@OS@ClickToContinue": "cd94d2eb412e1bed447c0987e4e2ad831ae2455939b157500e90d0358aad6f53",
+    "resource/template/InfrastPic/Clue/ClueVacancyPin": "b1f0b3f85931163bfaf3ed7eb1a09d5f7e30c7ed65808dda640dcc6689116177",
+    "resource/template/InfrastPic/Clue/InfrastReceptionIcon": "ac3fcd2caf526ea30b612a1759d5c1cf1ffcc2a140dc453bddcbe0546188acd7",
+    "resource/template/InfrastPic/Clue/ClueVacancy4": "cc351185363a822f9a4008402776fb3142726d7eb7ab339d1495a4791f06147b",
+    "resource/template/InfrastPic/Clue/ClueVacancy2": "8dd3d796d8efc957a42abc9d5dd42cf8ad2a494e3f79162d9666542480dcf6d9",
+    "resource/template/InfrastPic/Clue/ClueVacancy7": "69c4c3547a6fa9d646ded322e8bbdde9b392889bc19dcb348e0fa50acd66fe8b",
+    "resource/template/InfrastPic/Clue/ClueVacancy3": "239c151dc870c526efbd5540dc84936e1ac6b0703b9b162f645b33183d40ebce",
+    "resource/template/InfrastPic/Clue/ClueVacancy1": "02d1e995d9fb822326af27b0f375fe07dd1e6b273626b8e6022bfdd4cd3f84bd",
+    "resource/template/InfrastPic/Clue/ClueVacancy5": "6fcfba101c4884cc4ece1420f81e7700b1e4d6079387bcc643664813d9f75238",
+    "resource/template/InfrastPic/Clue/ClueVacancy6": "1fcd143ccf49ee77dbd57044c923356061a52d89ae7fc0d287357624844bffce"
 }
