@@ -1763,7 +1763,7 @@ public class TaskQueueViewModel : Screen
         var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
         if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion)
         {
-            AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Error);
+            AddLog(LocalizationHelper.GetStringFormat("VersionMismatch", uiVersion, coreVersion), UiLogColor.Error);
             return;
         }
 

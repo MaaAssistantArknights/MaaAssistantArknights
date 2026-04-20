@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using HandyControl.Data;
 using HandyControl.Tools;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
@@ -45,6 +46,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
         InitViewModels();
         _ = InitProxy();
+        ShowVersionMismatchWarningOnStartup();
         if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly &&
             !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
         {
@@ -70,6 +72,20 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         });
 
         _ = Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();
+    }
+
+    private static void ShowVersionMismatchWarningOnStartup()
+    {
+        var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
+        var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
+        if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion)
+        {
+            MessageBoxHelper.Show(
+                LocalizationHelper.GetStringFormat("VersionMismatch", uiVersion, coreVersion),
+                LocalizationHelper.GetString("Error"),
+                iconKey: ResourceToken.FatalGeometry,
+                iconBrushKey: ResourceToken.DangerBrush);
+        }
     }
 
     private static async Task InitProxy()
