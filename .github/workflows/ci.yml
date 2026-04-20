@@ -140,7 +140,7 @@ jobs:
         with:
           repository: MaaXYZ/MaaFramework
           tag: v5.9.2
-          fileName: ${{ matrix.arch == "arm64" && "*win-aarch64*.zip" || "*win-x86_64*.zip" }}
+          fileName: ${{ matrix.arch == 'arm64' && '*win-aarch64*.zip' || '*win-x86_64*.zip' }}
           extract: true
           out-file-path: MaaFramework-temp
 
