@@ -186,17 +186,28 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 
 3. `实例编号` 填写雷电多开器内对应模拟器的编号（ID），如主多开为 `0`。
 
+### AVD 截图增强模式
+
+需使用 Android Emulator v27.2.9 及更新版本。（只要是方舟开服之后下载的就没问题。）
+
+AVD 截图增强模式在 MaaFramework 中实现，必须选择 MaaFramework 触控模式才能启用 AVD 截图增强。
+
+1. `设置` - `连接设置` - `连接配置` 选择 `Android 虚拟设备（AVD）`。
+
+2. `触控模式` 选择 `MaaFramework`。
+
 ## 触控模式
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，操作 `evdev` 设备，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。<sup>[源](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>
 2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现，使用安卓原生的 `InputDevice`，并添加了额外特性。高版本 Android 可用性尚待测试。~~帮我们做做测试~~
 3. Adb Input：直接调用 ADB 使用安卓的 `input` 命令进行触控操作，兼容性最强，速度最慢。
+4. [MaaFramework](https://maafw.com/)：调用 MaaFramework 控制单元的截图和触控功能。可用性尚待测试。~~帮我们做做测试 x2~~
 
 ## ADB Lite
 
 由 MAA 独立实现的 ADB Client，使用 TCP 直接与 ADB Server 通信。相较原版 ADB 可以避免不停开启多个 ADB 进程，减少性能开销，但部分截图方式不可用。<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/3315)</sup>
 
-推荐启用，但具体优缺点尚待反馈。~~帮我们做做测试 x2~~
+推荐启用，但具体优缺点尚待反馈。~~帮我们做做测试 x3~~
 
 ## MAA 和模拟器多开
 

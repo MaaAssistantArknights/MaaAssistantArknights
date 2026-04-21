@@ -360,7 +360,7 @@
     ● 优先通过 {key=MirrorChyan} 高速 CDN 下载，更稳定快速
 
 📦 手动更新：
-    ● {key=UpdateCheckNow}：下载完整包并解压至全新文件夹，复制原文件夹中的 config 与 data 可保留数据。请勿直接覆盖旧版本，可能导致资源损坏
+    ● {key=UpdateCheckNow}：下载完整包或 OTA 更新包后拖入应用内，程序会自动解压并清理旧文件
     ● {key=ResourceUpdate}：下载资源包后覆盖 resource 文件夹。资源为增量内容，请勿删除原文件夹，会资源损坏
 
 📄 更新说明：
@@ -399,12 +399,15 @@
     <system:String x:Key="CheckNetworking">请检查网络连接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先别急.jpg</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但无可用的 OTA 增量更新包。将下载完整包并移动 resource 文件夹到回收站及 .old，如有需要请手动备份</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但无可用的 OTA 增量更新包。将下载完整包，保留 config、data 与 debug 文件夹，其余文件将移至回收站及 .old。如有需要请手动备份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在准备下载更新包……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下载失败</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">新版本下载完成</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">是否立即更新 MAA？（重启进程）</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedTitle">本地更新包已就绪</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedDesc">检测到可用的本地更新包，是否立即更新 MAA？（重启进程）</system:String>
+    <system:String x:Key="LocalUpdatePackageUnsupported">无法识别压缩包：{0}\n仅支持拖入当前架构的完整包，或当前版本到更高版本的 OTA 更新包。\n当前版本：{1}\n当前架构：{2}\n支持的包名示例：MAA-v新版本-win-{2}.zip\n或 MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">检测到新版本，但未找到增量包</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">请手动下载完整包更新！</system:String>
     <system:String x:Key="ForceScheduledStart">强制定时启动</system:String>
@@ -591,7 +594,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSave">允许使用源石保存状态</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
-    <system:String x:Key="UseExpiringMedicine">无限吃 48 小时内过期的理智药</system:String>
+    <system:String x:Key="UseExpiringMedicine">无限吃 N 小时内过期的理智药</system:String>
+    <system:String x:Key="UseExpireMedicineForActivity">活动结束前 48H 吃当周过期理智药</system:String>
+    <system:String x:Key="NoActivity">暂无活动</system:String>
     <system:String x:Key="HideUnavailableStage">下拉框中隐藏当日不开放关卡</system:String>
     <system:String x:Key="FightStageResetMode">过期关卡重置为</system:String>
     <system:String x:Key="HideSeries">隐藏代理倍率</system:String>
@@ -805,7 +810,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !战斗设置  -->
     <!--  日志  -->
     <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能导致不可预测的行为，请勿手动替换文件或者在更新时占用文件。\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="FullPackageUpgradeTips">请下载完整包并解压到新的文件夹，切勿直接覆盖原文件夹。\n可将原有的 config 与 data 文件夹复制到新文件夹中，以保留原有配置。</system:String>
+    <system:String x:Key="FullPackageUpgradeTips">请下载完整包并解压到新的文件夹，切勿直接覆盖原文件夹。\n可将原有的 config、data 与 debug 文件夹复制到新文件夹中，以保留原有配置和日志。</system:String>
     <system:String x:Key="ConnectingToEmulator">正在连接模拟器……</system:String>
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
@@ -1090,6 +1095,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
     <!--  !ErrorDialogView  -->
     <!--  AsstProxy  -->
+    <system:String x:Key="UpdateApplyFailed">更新失败，当前安装可能已不完整。请重新下载完整包，并按下方说明手动迁移 config、data 与 debug。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路径不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>
@@ -1142,7 +1148,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">药: {0},{1}(临期)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">已使用 48 小时内过期的理智药</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">已使用 {0} 天内过期的理智药</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
     <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
     <system:String x:Key="FightMissionFailedAndStop">代理失败次数已达上限，任务已停止</system:String>

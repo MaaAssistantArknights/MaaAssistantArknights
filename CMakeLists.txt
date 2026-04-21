@@ -34,9 +34,12 @@ target_include_directories(HeaderOnlyLibraries INTERFACE 3rdparty/include)
 add_subdirectory(src/MaaCore)
 
 if(BUILD_WPF_GUI)
+    add_subdirectory(src/MaaUpdater)
+
     include_external_msproject(MaaWpfGui ${PROJECT_SOURCE_DIR}/src/MaaWpfGui/MaaWpfGui.csproj)
 
     add_dependencies(MaaWpfGui MaaCore)
+    add_dependencies(MaaWpfGui MAA.Updater)
     if(DEFINED ENV{VSCODE_PID})
         add_custom_target(run-MaaWpfGui
             COMMAND "${CMAKE_BINARY_DIR}/bin/$<CONFIG>/MAA.exe"

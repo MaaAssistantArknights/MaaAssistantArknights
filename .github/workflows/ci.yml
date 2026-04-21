@@ -110,9 +110,8 @@ jobs:
           show-progress: false
 
       - name: Fetch submodules
-        run: |
-          git submodule update --init --depth 1 src/MaaUtils
-          git submodule update --init --depth 1 3rdparty/EmulatorExtras
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils 3rdparty/EmulatorExtras
 
       - name: Cache MaaDeps
         id: cache-maadeps
@@ -134,22 +133,22 @@ jobs:
         run: |
           cmake -B build --preset ${{ matrix.arch == 'arm64' && 'windows-publish-arm64' || 'windows-publish-x64' }} -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
           cmake --build --preset ${{ matrix.arch == 'arm64' && 'windows-publish-arm64' || 'windows-publish-x64' }} --parallel $env:NUMBER_OF_PROCESSORS
+          cmake --build build --target MAA.Updater --config RelWithDebInfo --parallel $env:NUMBER_OF_PROCESSORS
           cmake --install build --config RelWithDebInfo
 
       - name: Download MaaFramework
-        if: matrix.arch == 'x64'
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
           tag: v5.9.2
-          fileName: "*win-x86_64*.zip"
+          fileName: ${{ matrix.arch == 'arm64' && '*win-aarch64*.zip' || '*win-x86_64*.zip' }}
           extract: true
           out-file-path: MaaFramework-temp
 
-      - name: Copy MaaWin32ControlUnit
-        if: matrix.arch == 'x64'
+      - name: Copy ControlUnits
         run: |
           cp MaaFramework-temp/bin/*Win32ControlUnit* install/
+          cp MaaFramework-temp/bin/*AdbControlUnit* install/
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
@@ -241,10 +240,8 @@ jobs:
           show-progress: false
 
       - name: Fetch submodules
-        run: |
-          git submodule update --init --depth 1 src/MaaUtils
-          git submodule update --init --depth 1 3rdparty/EmulatorExtras
-          git submodule update --init --depth 1 src/maa-cli
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils 3rdparty/EmulatorExtras src/maa-cli
 
       - name: Cache MaaDeps
         id: cache-maadeps
@@ -268,6 +265,19 @@ jobs:
           cmake --install build --config RelWithDebInfo
         env:
           CLICOLOR_FORCE: 1
+
+      - name: Download MaaFramework
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: MaaXYZ/MaaFramework
+          latest: true
+          fileName: '*linux-${{ matrix.arch }}*.zip'
+          extract: true
+          out-file-path: MaaFramework-temp
+
+      - name: Copy ControlUnits
+        run: |
+          cp MaaFramework-temp/bin/*AdbControlUnit* install/
 
       - name: Setup cross compile toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
@@ -348,8 +358,8 @@ jobs:
           show-progress: false
 
       - name: Fetch submodules
-        run: |
-          git submodule update --init --depth 1 src/MaaUtils
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils
 
       # ninja 1.13.1 is already installed and up-to-date.
       # - name: Install dependencies
@@ -375,6 +385,19 @@ jobs:
           cmake -B build --preset ${{ matrix.arch == 'x86_64' && 'macos-publish-x64' || 'macos-publish-arm64' }} -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
           cmake --build --preset ${{ matrix.arch == 'x86_64' && 'macos-publish-x64' || 'macos-publish-arm64' }} --parallel $(sysctl -n hw.logicalcpu)
           cmake --install build --config RelWithDebInfo
+
+      - name: Download MaaFramework
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: MaaXYZ/MaaFramework
+          latest: true
+          fileName: ${{ matrix.arch == 'x86_64' && '*macos-x86_64*.zip' || '*macos-aarch64*.zip' }}
+          extract: true
+          out-file-path: MaaFramework-temp
+
+      - name: Copy ControlUnits
+        run: |
+          cp MaaFramework-temp/bin/*AdbControlUnit* install/
 
       - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v7

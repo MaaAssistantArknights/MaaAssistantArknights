@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Utilities;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -93,6 +94,10 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool UseExpiringMedicine { get; set; }
 
+    public int MedicineExpireDays { get; set; } = 2;
+
+    public bool UseExpireMedicineForActivity { get; set; }
+
     /// <summary>
     /// Gets or sets a value indicating whether 剿灭关卡自定
     /// </summary>
@@ -135,6 +140,10 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool UseWeeklySchedule { get; set; }
 
+    /// <summary>
+    /// Gets or sets 周计划。当 <see cref="UseWeeklySchedule"/> 为 false 时不参与序列化。
+    /// </summary>
+    [JsonPredict(nameof(UseWeeklySchedule))]
     public Dictionary<DayOfWeek, bool> WeeklySchedule { get; set; } = Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
 
     public void OnDeserialized()

@@ -25,12 +25,12 @@ const fullySupport = [
         {
             name: 'MuMu Player',
             link: 'https://www.mumuplayer.com/',
-            note: 'サポートされています、[スクリーンショット強化モード](../connection.html#MuMu スクリーンショット強化モード)の追加サポートもある。 Hyper-Vとの互換性が確認されています。\n\n- “完了後にエミュレータを終了する”機能に異常が発生する場合がありますので、その場合はMuMu公式までご連絡ください。\n- 複数のインスタンスを開くには、MuMu Multiple OpenerのADBボタンから対応するインスタンスのポート情報を確認し、MAA設定-接続設定の接続アドレスのポート番号を対応するポートに変更する必要があります。\n- `ビデオメモリ使用ポリシー`を`リソース使用量が少ない`に設定しないでください。',
+            note: 'サポートされています、[スクリーンショット強化モード](../connection.html#MuMu スクリーンショット強化モード)の追加サポートもあります。 Hyper-Vとの互換性が確認されています。\n\n- “完了後にエミュレータを終了する”機能に異常が発生する場合がありますので、その場合はMuMu公式までご連絡ください。\n- 複数のインスタンスを開くには、MuMu Multiple OpenerのADBボタンから対応するインスタンスのポート情報を確認し、MAA設定-接続設定の接続アドレスのポート番号を対応するポートに変更する必要があります。\n- `ビデオメモリ使用ポリシー`を`リソース使用量が少ない`に設定しないでください。',
         },
         {
             name: 'LDPlayer',
             link: 'https://www.ldplayer.net/',
-            note: 'サポートされています、[スクリーンショット強化モード](../connection.html#LDPlayer スクリーンショット強化モード)の追加サポートもある。 Hyper-Vとの互換性が確認されています。\n\n- LDPlayer 9のインストーラーは、インストールプロセス中に自動的にHyper-Vをサイレントで無効にしますので、必要な場合は注意してください。',
+            note: 'サポートされています、[スクリーンショット強化モード](../connection.html#LDPlayer スクリーンショット強化モード)の追加サポートもあります。 Hyper-Vとの互換性が確認されています。\n\n- LDPlayer 9のインストーラーは、インストールプロセス中に自動的にHyper-Vをサイレントで無効にしますので、必要な場合は注意してください。',
         },
     ]),
     // keep internal sorting for bluestacks.
@@ -67,7 +67,7 @@ const partiallySupport = shuffleArray([
     {
         name: 'AVD',
         link: 'https://developer.android.com/studio/run/managing-avds',
-        note: '理論的なサポートされています。\n\n- Android 10 以降、SELinux が`Enforcing`モードの場合、Minitouch は使用できません、別のタッチモードに切り替えてください。または SELinux を **一時的に** `Permissive`モードに切り替え。\n- AVD はデバッグ用に構築されており、ゲーム用に設計された他のエミュレーターを使用することをおすすめします。',
+        note: '理論的なサポートされています。\n\n- [スクリーンショット強化モード](../connection.html#avd-スクリーンショット強化モード)の追加サポートもあります。\n- Android 10 以降、SELinux が`Enforcing`モードの場合、Minitouch は使用できません、別のタッチモードに切り替えてください。または SELinux を **一時的に** `Permissive`モードに切り替え。\n- AVD はデバッグ用に構築されており、ゲーム用に設計された他のエミュレーターを使用することをおすすめします。',
     },
     {
         name: 'Google Play ゲーム（開発者）',

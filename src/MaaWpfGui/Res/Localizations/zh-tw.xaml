@@ -360,7 +360,7 @@
     ● 優先透過 {key=MirrorChyan} 高速 CDN 下載，更穩定快速
 
 📦 手動更新：
-    ● {key=UpdateCheckNow}：下載完整檔案並解壓縮至全新資料夾，複製原資料夾中的 config 與 data 可保留資料。請勿直接覆蓋舊版本，可能導致資源損壞
+    ● {key=UpdateCheckNow}：下載完整檔案或 OTA 更新檔後拖入應用程式，程式會自動解壓縮並清理舊檔案
     ● {key=ResourceUpdate}：下載資源檔案後覆蓋 resource 資料夾。資源為增量內容，請勿刪除原資料夾，否則會資源損壞
 
 📄 更新說明：
@@ -399,12 +399,15 @@
     <system:String x:Key="CheckNetworking">請檢查網路連線或 Proxy 代理設定。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">取得更新資訊失敗。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先別急.jpg</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整檔案並將 resource 資料夾移至資源回收桶及 .old，如有需要請手動備份</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整安裝檔案，保留 config、data 與 debug 資料夾，其餘檔案將移至資源回收桶及 .old，如有需要請手動備份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在準備下載更新檔……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下載失敗</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">新版本下載完成</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">是否立即更新 MAA？（將重啟程式）</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedTitle">本機更新包已就緒</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedDesc">偵測到可用的本機更新包，是否立即更新 MAA？（將重啟程式）</system:String>
+    <system:String x:Key="LocalUpdatePackageUnsupported">無法識別壓縮檔：{0}\n僅支援拖入目前架構的完整包，或目前版本到更高版本的 OTA 更新包。\n目前版本：{1}\n目前架構：{2}\n支援的包名範例：MAA-v新版本-win-{2}.zip\n或 MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">偵測到新版本，但未找到更新檔</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">請手動下載完整檔案更新！</system:String>
     <system:String x:Key="ForceScheduledStart">強制定時啟動</system:String>
@@ -591,7 +594,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSave">允許吃源石保存狀態</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下 ｢{key=Confirm}｣ 鍵即視為您了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
-    <system:String x:Key="UseExpiringMedicine">無限吃 48 小時內過期的理智藥</system:String>
+    <system:String x:Key="UseExpiringMedicine">無限吃 N 小時內過期的理智藥</system:String>
+    <system:String x:Key="UseExpireMedicineForActivity">活動結束前 48H 吃當週過期理智藥</system:String>
+    <system:String x:Key="NoActivity">暫無活動</system:String>
     <system:String x:Key="HideUnavailableStage">下拉選單中隱藏當日不開放關卡</system:String>
     <system:String x:Key="FightStageResetMode">過期關卡重設為</system:String>
     <system:String x:Key="HideSeries">隱藏代理倍率</system:String>
@@ -805,7 +810,7 @@ C:\\leidian\\LDPlayer9\n
     <!--  !戰鬥設定  -->
     <!--  日誌  -->
     <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為。請勿手動替換檔案，或在更新時讓檔案處於被佔用狀態。\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="FullPackageUpgradeTips">請下載完整安裝檔案並解壓縮至新的資料夾中，切勿直接覆蓋原資料夾。\n可將原有的 config 與 data 資料夾複製到新資料夾中，以保留原有設定。</system:String>
+    <system:String x:Key="FullPackageUpgradeTips">請下載完整安裝檔案並解壓縮至新的資料夾中，切勿直接覆蓋原資料夾。\n可將原有的 config、data 與 debug 資料夾複製到新資料夾中，以保留原有設定與日誌。</system:String>
     <system:String x:Key="ConnectingToEmulator">正在連線模擬器……</system:String>
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在執行中……</system:String>
@@ -1090,6 +1095,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
+    <system:String x:Key="UpdateApplyFailed">更新失敗，目前的安裝可能已不完整。請重新下載完整安裝檔案，並依照下方說明手動搬移 config、data 與 debug。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">檔案損毀，請重新下載完整安裝檔案。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路徑不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下載失敗</system:String>
@@ -1837,7 +1843,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
     <system:String x:Key="Achievement.Time325.Description">你知道這個數字是什麼意思對吧</system:String>
     <system:String x:Key="Achievement.Time325.Conditions">在 3/13/23 點 25 分還在使用 MAA</system:String>
-    
+
     <system:String x:Key="Achievement.PallasStarter.Title">牛牛廚</system:String>
     <system:String x:Key="Achievement.PallasStarter.Description">偉大的戰士們啊，我會在你們身邊，與你們一同奮勇搏殺。</system:String>
     <system:String x:Key="Achievement.PallasStarter.Conditions">使用帕拉斯作為肉鴿 ｢{key=StartingCoreChar}｣</system:String>

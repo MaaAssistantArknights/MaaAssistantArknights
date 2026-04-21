@@ -8,7 +8,8 @@ icon: teenyicons:linux-alt-solid
 **このチュートリアルでは、読者にLinux環境の構成能力とプログラミングの基礎が必要です！**
 
 ::: info 注意
-MAAの構築方法はまだ議論されていますが、このチュートリアルの内容は古くなる可能性があります。 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134) のスクリプトに準拠してください
+MAAの構築方法はまだ議論されていますが、このチュートリアルの内容は古くなる可能性があります。[GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L224#:~:text=ubuntu%3A) のスクリプトに準拠してください。  
+また、[AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) や [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix) も参照可能です。
 :::
 
 ## コンパイルプロセス
@@ -55,6 +56,8 @@ MAAの構築方法はまだ議論されていますが、このチュートリ�
    ```bash
    cmake --install build --prefix <target_directory>
    ```
+
+4. MaaFwAdbController（MaaFramework のタッチモード）関連機能をデバッグする場合は、[MaaFramework の Debug バージョンを自分でコンパイル](https://maafw.com/docs/4.1-BuildGuide)し、`libMaaAdbControlUnit.so` をインストールディレクトリにコピーする必要があります。
 
 ## その他のインストール方法
 

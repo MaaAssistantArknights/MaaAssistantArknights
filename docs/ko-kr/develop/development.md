@@ -83,7 +83,9 @@ icon: iconoir:developer
    - F5 키를 눌러 실행
 
    ::: tip
-   Win32Controller(Windows 창 제어) 관련 기능을 디버깅하려면 [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases)에서 해당 플랫폼 압축 파일을 다운로드하고, `bin` 디렉토리의 `MaaWin32ControlUnit.dll`을 MAA DLL과 같은 디렉토리(예: `build/bin/Debug`)에 배치해야 합니다. 자동 다운로드 스크립트 PR 환영!
+   Win32Controller(Windows 창 제어) / MaaFwAdbController(MaaFramework 터치 수행 방식) 관련 기능을 실행하려면 [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases)에서 해당 플랫폼 압축 파일을 다운로드하고, `bin` 디렉토리의 `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll`을 MAA DLL과 같은 디렉토리(예: `build/bin/Debug`)에 배치해야 합니다. 자동 다운로드 스크립트 PR 환영!
+
+   若需调试相关功能，则需要自行编译 MaaFramework 的 Debug 版本，使用对应的 DLL 文件，否则在断点调试时会神秘闪退。
    :::
 
 9. 이제 자유롭게 ~~개조~~ 개발 시작!

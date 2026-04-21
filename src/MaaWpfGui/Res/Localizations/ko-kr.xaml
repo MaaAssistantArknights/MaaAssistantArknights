@@ -360,7 +360,7 @@
     ● {key=MirrorChyan}의 고속 CDN을 통해 우선 다운로드되어 더욱 안정적이고 빠릅니다
 
 📦 수동 업데이트:
-    ● {key=UpdateCheckNow}: 전체 패키지를 다운로드하여 새 폴더에 압축 해제하세요. 기존 폴더의 config 및 data 폴더를 복사하여 데이터를 유지할 수 있습니다. 이전 버전에 덮어쓰지 마세요. 리소스가 손상될 수 있습니다
+    ● {key=UpdateCheckNow}: 전체 패키지 또는 OTA 업데이트 패키지를 다운로드한 뒤 앱으로 드래그하면, 앱이 자동으로 압축을 풀고 오래된 파일을 정리합니다
     ● {key=ResourceUpdate}: 리소스 패키지를 다운로드한 후 resource 폴더에 덮어쓰기하세요. 증분 방식으로 제공되므로 기존 폴더를 삭제하지 마세요. 리소스가 손상될 수 있습니다
 
 📄 업데이트 설명:
@@ -399,12 +399,15 @@
     <system:String x:Key="CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">새로운 버전이 빌드되는 중입니다. 다음에 다시 시도해 주세요</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었습니다. OTA 증분 업데이트 패키지를 사용할 수 없습니다. 전체 패키지가 다운로드되고 리소스 폴더는 휴지통과 .old 폴더로 이동합니다. 필요한 경우 수동으로 백업해 주세요.</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었지만 사용할 수 있는 OTA 증분 업데이트 패키지가 없습니다. 전체 패키지를 다운로드하며, config, data, debug 폴더는 유지되고 그 외의 파일은 휴지통과 .old 폴더로 이동합니다. 필요하다면 수동으로 백업해 주세요.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">업데이트 패키지 다운로드 실패</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIP 파일을 수동으로 다운로드해 폴더 안에 놓아 주세요</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">업데이트 패키지 다운로드 완료</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">지금 바로 MAA를 업데이트하시겠습니까? (프로세스 재시작)</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedTitle">로컬 업데이트 패키지가 준비되었습니다</system:String>
+    <system:String x:Key="LocalUpdatePackageImportedDesc">사용 가능한 로컬 업데이트 패키지를 감지했습니다. 지금 MAA를 업데이트하시겠습니까? (프로세스 재시작)</system:String>
+    <system:String x:Key="LocalUpdatePackageUnsupported">압축 파일을 인식할 수 없습니다: {0}\n현재 아키텍처용 전체 패키지 또는 현재 버전에서 더 높은 버전으로 가는 OTA 패키지만 가져올 수 있습니다.\n현재 버전: {1}\n현재 아키텍처: {2}\n지원되는 파일명 예시: MAA-vTARGET_VERSION-win-{2}.zip\n또는 MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">새로운 버전이 확인되지만 업데이트 패키지가 없음</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">전체 패키지를 수동으로 다운로드해 업데이트해 주세요!</system:String>
     <system:String x:Key="ForceScheduledStart">강제 예약 시작</system:String>
@@ -591,7 +594,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSave">순오리지늄 사용 상태 저장 허용</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. ｢{key=Confirm}｣ 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
-    <system:String x:Key="UseExpiringMedicine">48시간 미만 이성 회복제 사용</system:String>
+    <system:String x:Key="UseExpiringMedicine">N 시간 미만 이성 회복제 사용</system:String>
+    <system:String x:Key="UseExpireMedicineForActivity">이벤트 종료 48시간 전, 이번 주 만료되는 이성 회복제 사용</system:String>
+    <system:String x:Key="NoActivity">활동 없음</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
     <system:String x:Key="FightStageResetMode">만료된 단계가 다음으로 재설정됩니다</system:String>
     <system:String x:Key="HideSeries">{key=Series} 숨기기</system:String>
@@ -806,7 +811,7 @@ C:\\leidian\\LDPlayer9
     <!--  !작전 설정  -->
     <!--  로그  -->
     <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마세요.\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="FullPackageUpgradeTips">전체 패키지를 다운로드하여 기존 폴더를 덮어쓰지 말고 새 폴더에 압축을 푸세요.\n기존 설정을 유지하려면 기존 config 및 data 폴더를 새 폴더로 복사하세요.</system:String>
+    <system:String x:Key="FullPackageUpgradeTips">전체 패키지를 다운로드하여 기존 폴더를 덮어쓰지 말고 새 폴더에 압축을 푸세요.\n기존 설정과 로그를 유지하려면 기존 config, data 및 debug 폴더를 새 폴더로 복사하세요.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
@@ -1091,6 +1096,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
+    <system:String x:Key="UpdateApplyFailed">업데이트 적용에 실패하여 현재 설치가 불완전할 수 있습니다. 전체 패키지를 다시 다운로드하고, 아래 안내에 따라 config, data 및 debug를 수동으로 옮겨 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 전체 패키지를 다시 다운로드하세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>
@@ -1838,7 +1844,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
     <system:String x:Key="Achievement.Time325.Description">이 숫자가 무슨 의미인지 아시죠?</system:String>
     <system:String x:Key="Achievement.Time325.Conditions">3/13/23시 25분에 여전히 MAA 사용 중</system:String>
-    
+
     <system:String x:Key="Achievement.PallasStarter.Title">팔라스 애호가</system:String>
     <system:String x:Key="Achievement.PallasStarter.Description">위대한 전사들이여, 나는 그대들 곁에서 함께 용맹히 싸우리라.</system:String>
     <system:String x:Key="Achievement.PallasStarter.Conditions">{key=AutoRoguelike}에서 팔라스를 ｢{key=StartingCoreChar}｣로 사용</system:String>

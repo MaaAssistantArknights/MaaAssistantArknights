@@ -14,17 +14,22 @@
 #nullable enable
 
 using System;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using HandyControl.Data;
 using HandyControl.Tools;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Services;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI;
@@ -34,11 +39,14 @@ namespace MaaWpfGui.ViewModels.UI;
 /// </summary>
 public class RootViewModel : Conductor<Screen>.Collection.OneActive
 {
+    private static readonly ILogger _logger = Log.ForContext<RootViewModel>();
+
     /// <inheritdoc/>
     protected override void OnViewLoaded()
     {
         InitViewModels();
         _ = InitProxy();
+        ShowVersionMismatchWarningOnStartup();
         if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly &&
             !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
         {
@@ -64,6 +72,20 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         });
 
         _ = Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();
+    }
+
+    private static void ShowVersionMismatchWarningOnStartup()
+    {
+        var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
+        var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
+        if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion)
+        {
+            MessageBoxHelper.Show(
+                LocalizationHelper.GetStringFormat("VersionMismatch", uiVersion, coreVersion),
+                LocalizationHelper.GetString("Error"),
+                iconKey: ResourceToken.FatalGeometry,
+                iconBrushKey: ResourceToken.DangerBrush);
+        }
     }
 
     private static async Task InitProxy()
@@ -205,6 +227,31 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         IsWindowTopMost = !IsWindowTopMost;
     }
 
+    [UsedImplicitly]
+    public void ManualPackagePreviewDragOver(object sender, DragEventArgs e)
+    {
+        if (!TryGetDroppedZipFile(e, out _))
+        {
+            return;
+        }
+
+        e.Effects = DragDropEffects.Copy;
+        e.Handled = true;
+    }
+
+    [UsedImplicitly]
+    public void ManualPackageDrop(object sender, DragEventArgs e)
+    {
+        if (!TryGetDroppedZipFile(e, out string packagePath))
+        {
+            return;
+        }
+
+        _logger.Information("Dropped zip file detected in main window: {PackagePath}", packagePath);
+        e.Handled = true;
+        HandleImportedPackage(packagePath);
+    }
+
     /// <inheritdoc/>
     protected override void OnClose()
     {
@@ -221,6 +268,70 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     private static int _gifIndex = -1;
 
     private static string _gifPath = string.Empty;
+
+    private static bool TryGetDroppedZipFile(DragEventArgs e, out string packagePath)
+    {
+        packagePath = string.Empty;
+        if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            return false;
+        }
+
+        if (e.Data.GetData(DataFormats.FileDrop) is not string[] files || files.Length == 0)
+        {
+            return false;
+        }
+
+        string candidatePath = files[0];
+        if (!File.Exists(candidatePath) || !candidatePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        packagePath = candidatePath;
+        return true;
+    }
+
+    private static void HandleImportedPackage(string packagePath)
+    {
+        string currentVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
+        string architecture = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
+        string normalizedArchitecture = architecture.StartsWith("arm", StringComparison.OrdinalIgnoreCase)
+            ? "arm64"
+            : "x64";
+
+        var importResult = PendingUpdateApplier.TryRegisterLocalPackage(packagePath, currentVersion, architecture);
+        _logger.Information(
+            "Dropped zip import result: status={Status}, sourceVersion={SourceVersion}, targetVersion={TargetVersion}",
+            importResult.Status,
+            importResult.SourceVersion,
+            importResult.TargetVersion);
+
+        switch (importResult.Status)
+        {
+            case PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered:
+            case PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered:
+                Instances.VersionUpdateDialogViewModel.UpdateTag = importResult.TargetVersion ?? string.Empty;
+                Instances.VersionUpdateDialogViewModel.UpdateInfo = string.Empty;
+                Instances.VersionUpdateDialogViewModel.UpdatePackageName = packagePath;
+                _logger.Information(
+                    "Showing restart prompt for imported update package: {PackagePath}, status={Status}",
+                    packagePath,
+                    importResult.Status);
+                _ = Instances.VersionUpdateDialogViewModel.AskToRestartForImportedPackage();
+                return;
+
+            default:
+                _logger.Warning("Showing unsupported package warning for dropped package: {PackagePath}", packagePath);
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetStringFormat("LocalUpdatePackageUnsupported", Path.GetFileName(packagePath), currentVersion, normalizedArchitecture),
+                    LocalizationHelper.GetString("Warning"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning,
+                    ok: LocalizationHelper.GetString("Ok"));
+                return;
+        }
+    }
 
     public string GifPath
     {

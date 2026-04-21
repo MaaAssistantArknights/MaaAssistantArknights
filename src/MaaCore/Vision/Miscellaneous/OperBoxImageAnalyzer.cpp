@@ -60,18 +60,29 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
 
 bool asst::OperBoxImageAnalyzer::opers_analyze()
 {
+    struct OperResult
+    {
+        Rect rect;
+        double score;
+        std::string text;
+        Rect flag_rect;
+        double flag_score;
+        battle::Role role;
+    };
+
     const auto& name_task = Task.get("OperBoxNameOCR");
     const auto& params = Task.get("OperBoxNameOCR")->special_params;
     const auto& all_opers = BattleData.get_all_oper_names();
     const auto& analyze_task = [&](const std::string& task,
-                                   const asst::Rect& roi) -> std::optional<TemplDetOCRer::ResultsVec> {
+                                   const asst::Rect& roi,
+                                   const battle::Role role) -> std::optional<std::vector<OperResult>> {
         MultiMatcher matcher(m_image);
         matcher.set_task_info(task);
         matcher.set_roi(roi);
         if (!matcher.analyze()) {
             return std::nullopt;
         }
-        asst::TemplDetOCRer::ResultsVec list;
+        std::vector<OperResult> list;
         for (const auto& flag : matcher.get_result()) {
             OperNameAnalyzer name_analyzer(m_image);
             name_analyzer.set_task_info(name_task);
@@ -84,8 +95,7 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
             name_analyzer.set_width_threshold(params[5]);
             [[maybe_unused]] cv::Mat debug_img = make_roi(m_image, flag.rect.move(name_task->rect_move));
             if (auto ocr_opt = name_analyzer.analyze()) {
-                TemplDetOCRer::Result
-                    ocr(ocr_opt->rect, ocr_opt->score, std::move(ocr_opt->text), flag.rect, flag.score);
+                OperResult ocr { ocr_opt->rect, ocr_opt->score, std::move(ocr_opt->text), flag.rect, flag.score, role };
                 list.emplace_back(std::move(ocr));
             }
             else {
@@ -98,17 +108,29 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
         return list;
     };
 
-    TemplDetOCRer::ResultsVec results;
+    std::vector<OperResult> results;
 
     Rect roi_top = Task.get("OperBoxFlagRoleTopROI")->roi;
     Rect roi_bottom = Task.get("OperBoxFlagRoleBottomROI")->roi;
 
-    for (int i = 1; i < 10; ++i) {
-        if (auto top_result_opt = analyze_task("OperBoxFlagRole" + std::to_string(i), roi_top)) {
+    const static std::array<std::pair<std::string, battle::Role>, 9> role_tasks { {
+        { "OperBoxFlagRole1", battle::Role::Caster },
+        { "OperBoxFlagRole2", battle::Role::Medic },
+        { "OperBoxFlagRole3", battle::Role::Pioneer },
+        { "OperBoxFlagRole4", battle::Role::Sniper },
+        { "OperBoxFlagRole5", battle::Role::Special },
+        { "OperBoxFlagRole6", battle::Role::Support },
+        { "OperBoxFlagRole7", battle::Role::Tank },
+        { "OperBoxFlagRole8", battle::Role::Warrior },
+        { "OperBoxFlagRole9", battle::Role::Warrior },
+    } };
+
+    for (int i = 0; i < 9; ++i) {
+        if (auto top_result_opt = analyze_task(role_tasks[i].first, roi_top, role_tasks[i].second)) {
             std::ranges::move(*top_result_opt, std::back_inserter(results));
         }
 
-        if (auto bottom_result_opt = analyze_task("OperBoxFlagRole" + std::to_string(i), roi_bottom)) {
+        if (auto bottom_result_opt = analyze_task(role_tasks[i].first, roi_bottom, role_tasks[i].second)) {
             std::ranges::move(*bottom_result_opt, std::back_inserter(results));
         }
     }
@@ -124,7 +146,7 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
         const std::string& name = oper.text;
 
         OperBoxInfo box;
-        const auto& oper_data = BattleData.find_oper(name);
+        const auto& oper_data = BattleData.find_oper(oper.role, name);
         box.id = oper_data ? oper_data->id : "";
         box.name = name;
         box.rarity = oper_data ? oper_data->rarity : 0;

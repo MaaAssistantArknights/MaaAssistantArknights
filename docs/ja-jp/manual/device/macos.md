@@ -39,7 +39,9 @@ icon: basil:apple-solid
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-サポートされています。Android 10 以降、SELinux が\`Enforcing\`モードの場合、Minitouch は使用できません、別のタッチモードに切り替えてください。または SELinux を **一時的に** \`Permissive\`モードに切り替え。
+サポートされています。[スクリーンショット強化モード](../connection.md#avd-スクリーンショット強化モード)の追加サポートもあります。
+
+Android 10 以降、SELinux が `Enforcing` モードの場合、Minitouch は使用できません、別のタッチモードに切り替えてください。または SELinux を **一時的に** `Permissive` モードに切り替え。
 
 ### ✅ [BlueStacks Air](https://www.bluestacks.com/mac) （無料、Apple Mシリーズチップ向けに最適化されたバージョン）
 
@@ -69,4 +71,4 @@ Mac 版の開発は人手不足のため、更新速度が比較的遅いです�
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-サポートされています。
+サポートされています。[スクリーンショット強化モード](../connection.md#avd-スクリーンショット強化モード)の追加サポートもあります。

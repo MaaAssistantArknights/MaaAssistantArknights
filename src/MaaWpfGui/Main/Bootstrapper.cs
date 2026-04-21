@@ -376,12 +376,41 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ConfigurationHelper.Load();
         LocalizationHelper.Load();
-        if (VersionUpdateDialogViewModel.HasPendingUpdatePackage())
+        if (PendingUpdateApplier.TryConsumeDelegatedUpdateSuccess())
+        {
+            _logger.Information("Delegated pending update completed successfully");
+        }
+
+        if (PendingUpdateApplier.TryConsumeDelegatedUpdateFailure(out string delegatedUpdateFailureReason))
+        {
+            _logger.Error("Delegated pending update failed. Reason: {Reason}", delegatedUpdateFailureReason);
+            ShowPendingUpdateRecoveryDialog();
+            Shutdown();
+            return;
+        }
+
+        if (PendingUpdateApplier.HasPendingUpdatePackage())
         {
             _logger.Information("Pending update package detected, applying before full startup");
-            if (VersionUpdateDialogViewModel.TryApplyPendingUpdatePackage())
+            var pendingUpdateResult = PendingUpdateApplier.TryApplyPendingUpdatePackage();
+            if (pendingUpdateResult.Delegated)
+            {
+                _logger.Information("Pending update package handed off to external updater, exiting current process");
+                Shutdown();
+                return;
+            }
+
+            if (pendingUpdateResult.Succeeded)
             {
                 RestartAfterPendingUpdateEarly();
+                return;
+            }
+
+            if (pendingUpdateResult.RequiresManualRecovery)
+            {
+                _logger.Error("Pending update package left the installation in an incomplete state. Reason: {Reason}", pendingUpdateResult.FailureReason);
+                ShowPendingUpdateRecoveryDialog();
+                Shutdown();
                 return;
             }
 
@@ -746,6 +775,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
 
         Environment.Exit(0);
+    }
+
+    private static void ShowPendingUpdateRecoveryDialog()
+    {
+        MessageBoxHelper.Show(
+            LocalizationHelper.GetString("UpdateApplyFailed"),
+            LocalizationHelper.GetString("Error"),
+            icon: MessageBoxImage.Error);
     }
 
     /// <summary>

@@ -8,7 +8,8 @@ icon: teenyicons:linux-alt-solid
 **This tutorial requires readers to have some Linux environment configuration ability and programming foundation!** If you only want to directly install MAA instead of compiling it yourself, please read [User Manual - Linux Emulators and Containers](../manual/device/linux.md).
 
 ::: info Note
-MAA's build method is still under discussion. The content of this tutorial may be outdated. Please refer to the scripts in [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134). You can also refer to [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights), [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix).
+MAA's build method is still under discussion. The content of this tutorial may be outdated. Please refer to the scripts in [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L224#:~:text=ubuntu%3A).  
+You can also refer to [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) or [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix).
 :::
 
 ::: info
@@ -73,6 +74,8 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
    cmake --install build --prefix <target_directory>
    ```
 
+4. To debug MaaFwAdbController (MaaFramework touch mode) features, you need to [compile the Debug version of MaaFramework yourself](https://maafw.com/docs/4.1-BuildGuide) and put `libMaaAdbControlUnit.so` in the installation directory.
+
 ## Integration Documentation
 
 [~~Perhaps not really documentation~~](../protocol/integration.md)
@@ -85,8 +88,6 @@ You can refer to the implementation of `__main__` in [Python demo](https://githu
 
 You can refer to the implementation in [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
 
-### C Sharp
-
-<!-- Do not use C#, MD003/heading-style: Heading style [Expected: atx; Actual: atx_closed] -->
+### C\#
 
 You can refer to the implementation in [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs)

@@ -406,6 +406,32 @@
                     Text="{DynamicResource UseExpiringMedicine}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <StackPanel
+                Margin="0,0,10,0"
+                Orientation="Horizontal"
+                Visibility="{c:Binding UseExpiringMedicine}">
+                <controls:TextBlock Margin="4,0,7.5,0" Text="└" />
+                <hc:ComboBox
+                    Height="30"
+                    d:IsHitTestVisible="True"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding MedicineExpireDayList}"
+                    SelectedValue="{Binding MedicineExpireDays}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
+            <CheckBox Margin="0,10" IsChecked="{Binding UseExpireMedicineForActivity}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource UseExpireMedicineForActivity}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <StackPanel
+                Margin="0,5,10,0"
+                Opacity="{c:Binding 'ActivityExpireIn2Days ? 1 : 0.5'}"
+                Orientation="Horizontal">
+                <controls:TextBlock Margin="4,0,8,0" Text="└" />
+                <controls:TextBlock Text="{Binding ActivityInfo}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource HideSeries}"
