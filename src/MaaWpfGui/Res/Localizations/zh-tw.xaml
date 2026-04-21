@@ -816,6 +816,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="Running">正在執行中……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} 任務跳過</system:String>
     <system:String x:Key="TaskAppend.Error">{0}: {1} 新增任務失敗</system:String>
+    <system:String x:Key="FightStageAllClosed">｢{key=Fight}｣: 所選關卡 [{0}] 今日均未開放。建議勾選 ｢{key=UseAlternateStage}｣ 並新增 ｢{key=DefaultStage}｣ 作為備援，避免被跳過。</system:String>
     <system:String x:Key="AdbReplacementTips">如果任務完全沒有反應，請使用 ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣，或觸控模式選擇 ADB Input（不推薦）。</system:String>
     <system:String x:Key="Waiting">正在等待目前任務結束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>

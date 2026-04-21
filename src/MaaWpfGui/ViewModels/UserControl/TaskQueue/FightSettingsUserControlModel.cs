@@ -1014,6 +1014,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             string? stage = GetFightStage(fight.StagePlan);
             if (stage is null)
             {
+                var closedStages = string.Join(", ", fight.StagePlan.Where(s => !string.IsNullOrEmpty(s)));
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat("FightStageAllClosed", closedStages),
+                    UiLogColor.Warning);
                 return (null, []);
             }
 
