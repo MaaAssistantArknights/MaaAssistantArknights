@@ -13,11 +13,13 @@
 #include <windows.h>
 #include <shellapi.h>
 
+#include <cstdarg>
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -26,6 +28,34 @@
 // ---------------------------------------------------------------------------
 
 static std::wstring g_logFile;
+
+static bool TryConvertWideToUtf8(const std::wstring& wide, std::string& utf8)
+{
+    int utf8Len = WideCharToMultiByte(
+        CP_UTF8,
+        0,
+        wide.c_str(),
+        static_cast<int>(wide.size()),
+        nullptr,
+        0,
+        nullptr,
+        nullptr);
+    if (utf8Len <= 0) {
+        utf8.clear();
+        return false;
+    }
+
+    utf8.assign(static_cast<size_t>(utf8Len), '\0');
+    return WideCharToMultiByte(
+        CP_UTF8,
+        0,
+        wide.c_str(),
+        static_cast<int>(wide.size()),
+        utf8.data(),
+        utf8Len,
+        nullptr,
+        nullptr) == utf8Len;
+}
 
 static void WriteLog(const wchar_t* message)
 {
@@ -58,12 +88,10 @@ static void WriteLog(const wchar_t* message)
     if (hFile == INVALID_HANDLE_VALUE) return;
 
     // Write UTF-8
-    int utf8Len = WideCharToMultiByte(CP_UTF8, 0, line.c_str(), -1, nullptr, 0, nullptr, nullptr);
-    if (utf8Len > 1) {
-        std::string utf8(utf8Len - 1, '\0');
-        WideCharToMultiByte(CP_UTF8, 0, line.c_str(), -1, utf8.data(), utf8Len, nullptr, nullptr);
+    std::string utf8;
+    if (TryConvertWideToUtf8(line, utf8)) {
         DWORD written = 0;
-        WriteFile(hFile, utf8.c_str(), static_cast<DWORD>(utf8.size()), &written, nullptr);
+        WriteFile(hFile, utf8.data(), static_cast<DWORD>(utf8.size()), &written, nullptr);
     }
     CloseHandle(hFile);
 }
@@ -365,7 +393,14 @@ static bool RemoveDirectoryRecursive(const std::wstring& dir)
 // Write a small UTF-8 text file
 // ---------------------------------------------------------------------------
 
+static bool WriteUtf8File(const std::wstring& path, const std::string& content);
+
 static bool WriteUtf8File(const std::wstring& path, const char* content)
+{
+    return WriteUtf8File(path, std::string(content));
+}
+
+static bool WriteUtf8File(const std::wstring& path, const std::string& content)
 {
     EnsureParentDirectory(path);
     HANDLE hFile = CreateFileW(
@@ -375,8 +410,8 @@ static bool WriteUtf8File(const std::wstring& path, const char* content)
     if (hFile == INVALID_HANDLE_VALUE) return false;
 
     DWORD written = 0;
-    DWORD len = static_cast<DWORD>(strlen(content));
-    bool ok = WriteFile(hFile, content, len, &written, nullptr) != FALSE;
+    DWORD len = static_cast<DWORD>(content.size());
+    bool ok = WriteFile(hFile, content.data(), len, &written, nullptr) != FALSE;
     CloseHandle(hFile);
     return ok && written == len;
 }
@@ -394,10 +429,21 @@ static std::string ReadUtf8File(const std::wstring& path)
         nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (hFile == INVALID_HANDLE_VALUE) return {};
 
-    DWORD size = GetFileSize(hFile, nullptr);
-    std::string buf(size, '\0');
+    LARGE_INTEGER size {};
+    if (!GetFileSizeEx(hFile, &size) ||
+        size.QuadPart < 0 ||
+        size.QuadPart > static_cast<LONGLONG>(std::numeric_limits<size_t>::max()))
+    {
+        CloseHandle(hFile);
+        return {};
+    }
+
+    std::string buf(static_cast<size_t>(size.QuadPart), '\0');
     DWORD read = 0;
-    ReadFile(hFile, buf.data(), size, &read, nullptr);
+    if (!ReadFile(hFile, buf.data(), static_cast<DWORD>(buf.size()), &read, nullptr)) {
+        CloseHandle(hFile);
+        return {};
+    }
     CloseHandle(hFile);
     buf.resize(read);
     return buf;
@@ -694,11 +740,9 @@ int wmain(int argc, wchar_t* argv[])
     // ------------------------------------------------------------------
     if (!success && !failureReason.empty()) {
         // Convert wstring reason to UTF-8 for file
-        int utf8Len = WideCharToMultiByte(CP_UTF8, 0, failureReason.c_str(), -1, nullptr, 0, nullptr, nullptr);
-        if (utf8Len > 1) {
-            std::string utf8Reason(utf8Len - 1, '\0');
-            WideCharToMultiByte(CP_UTF8, 0, failureReason.c_str(), -1, utf8Reason.data(), utf8Len, nullptr, nullptr);
-            WriteUtf8File(failureStatusFile, utf8Reason.c_str());
+        std::string utf8Reason;
+        if (TryConvertWideToUtf8(failureReason, utf8Reason)) {
+            WriteUtf8File(failureStatusFile, utf8Reason);
         }
         if (PathExistsW(successStatusFile))
             DeleteFileW(successStatusFile.c_str());

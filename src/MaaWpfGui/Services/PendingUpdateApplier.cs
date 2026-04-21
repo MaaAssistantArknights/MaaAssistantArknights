@@ -405,6 +405,11 @@ internal static partial class PendingUpdateApplier
             context.ExtractDir,
             context.PackagePath);
 
+        if (!File.Exists(updaterExecutablePath))
+        {
+            throw new FileNotFoundException("MAA.Updater.exe is missing.", updaterExecutablePath);
+        }
+
         Process.Start(startInfo);
         return new(PendingUpdateApplyResult.StatusKind.Delegated);
     }
