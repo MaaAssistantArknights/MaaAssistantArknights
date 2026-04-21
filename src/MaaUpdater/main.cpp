@@ -8,7 +8,7 @@
 //                   <RelaunchExecutablePath> <PlanFile>
 //
 // Plan file format (UTF-8 JSON):
-//   { "removeList": ["rel/path", ...], "moveList": ["rel/path", ...] }
+//   { "packageType": "full|ota", "removeList": ["rel/path", ...], "moveList": ["rel/path", ...] }
 
 #include <windows.h>
 #include <shellapi.h>
@@ -507,6 +507,126 @@ static std::string ParseJsonString(const std::string& json, size_t& pos)
     return result;
 }
 
+static size_t SkipJsonWhitespace(const std::string& json, size_t pos)
+{
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t' ||
+                                 json[pos] == '\r' || json[pos] == '\n'))
+    {
+        ++pos;
+    }
+    return pos;
+}
+
+// Skips one JSON value starting at `pos` and returns the position right after it.
+static size_t SkipJsonValue(const std::string& json, size_t pos)
+{
+    pos = SkipJsonWhitespace(json, pos);
+    if (pos >= json.size()) return pos;
+
+    char c = json[pos];
+    if (c == '"') {
+        ++pos;
+        ParseJsonString(json, pos);
+        return pos;
+    }
+
+    if (c == '{' || c == '[') {
+        char open = c;
+        char close = (c == '{') ? '}' : ']';
+        int depth = 0;
+        bool inString = false;
+        bool escaped = false;
+
+        for (; pos < json.size(); ++pos) {
+            char ch = json[pos];
+            if (inString) {
+                if (escaped) {
+                    escaped = false;
+                } else if (ch == '\\') {
+                    escaped = true;
+                } else if (ch == '"') {
+                    inString = false;
+                }
+                continue;
+            }
+
+            if (ch == '"') {
+                inString = true;
+                continue;
+            }
+
+            if (ch == open) {
+                ++depth;
+            } else if (ch == close) {
+                --depth;
+                if (depth == 0) {
+                    ++pos;
+                    break;
+                }
+            }
+        }
+
+        return pos;
+    }
+
+    // number / true / false / null
+    while (pos < json.size()) {
+        char ch = json[pos];
+        if (ch == ',' || ch == '}' || ch == ']' || ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n') {
+            break;
+        }
+        ++pos;
+    }
+    return pos;
+}
+
+// Finds `"key": <value>` in the top-level JSON object and returns the start of `<value>`.
+static size_t FindTopLevelJsonValueStartByKey(const std::string& json, const char* key)
+{
+    size_t pos = SkipJsonWhitespace(json, 0);
+    if (pos >= json.size() || json[pos] != '{') return std::string::npos;
+    ++pos;
+
+    while (pos < json.size()) {
+        pos = SkipJsonWhitespace(json, pos);
+        if (pos >= json.size()) return std::string::npos;
+
+        if (json[pos] == ',') {
+            ++pos;
+            continue;
+        }
+
+        if (json[pos] == '}') {
+            return std::string::npos;
+        }
+
+        if (json[pos] != '"') {
+            ++pos;
+            continue;
+        }
+
+        ++pos;
+        std::string currentKey = ParseJsonString(json, pos);
+
+        pos = SkipJsonWhitespace(json, pos);
+        if (pos >= json.size() || json[pos] != ':') {
+            return std::string::npos;
+        }
+
+        ++pos;
+        pos = SkipJsonWhitespace(json, pos);
+        if (pos >= json.size()) return std::string::npos;
+
+        if (currentKey == key) {
+            return pos;
+        }
+
+        pos = SkipJsonValue(json, pos);
+    }
+
+    return std::string::npos;
+}
+
 // Find a JSON array by key name and return its string elements.
 static std::vector<std::wstring> ParseJsonStringArray(
     const std::string& json,
@@ -514,18 +634,8 @@ static std::vector<std::wstring> ParseJsonStringArray(
 {
     std::vector<std::wstring> result;
 
-    // Find "key"
-    std::string needle = std::string("\"") + key + "\"";
-    size_t keyPos = json.find(needle);
-    if (keyPos == std::string::npos) return result;
-
-    size_t pos = keyPos + needle.size();
-
-    // Skip whitespace and colon
-    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t' ||
-                                  json[pos] == '\r' || json[pos] == '\n' ||
-                                  json[pos] == ':'))
-        pos++;
+    size_t pos = FindTopLevelJsonValueStartByKey(json, key);
+    if (pos == std::string::npos) return result;
 
     if (pos >= json.size() || json[pos] != '[') return result;
     pos++; // consume '['
@@ -554,17 +664,8 @@ static std::vector<std::wstring> ParseJsonStringArray(
 
 static std::wstring ParseJsonStringProperty(const std::string& json, const char* key)
 {
-    std::string needle = std::string("\"") + key + "\"";
-    size_t keyPos = json.find(needle);
-    if (keyPos == std::string::npos) return {};
-
-    size_t pos = keyPos + needle.size();
-    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t' ||
-                                  json[pos] == '\r' || json[pos] == '\n' ||
-                                  json[pos] == ':'))
-    {
-        pos++;
-    }
+    size_t pos = FindTopLevelJsonValueStartByKey(json, key);
+    if (pos == std::string::npos) return {};
 
     if (pos >= json.size() || json[pos] != '"') return {};
 
