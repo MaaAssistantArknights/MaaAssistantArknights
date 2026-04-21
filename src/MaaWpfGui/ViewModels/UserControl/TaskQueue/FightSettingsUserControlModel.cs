@@ -582,7 +582,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     public int MedicineExpireDays
     {
-
         get => GetTaskConfig<FightTask>().MedicineExpireDays;
         set {
             SetTaskConfig<FightTask>(t => t.MedicineExpireDays == value, t => t.MedicineExpireDays = value);
@@ -601,7 +600,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     public bool ActivityExpireIn2Days { get => field; set => SetAndNotify(ref field, value); }
 
-    public string ActivityInfo { get => field; private set => SetAndNotify(ref field, value); }
+    public string ActivityInfo { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
 
     /// <summary>
     /// Gets or sets a value indicating whether to hide unavailable stages.

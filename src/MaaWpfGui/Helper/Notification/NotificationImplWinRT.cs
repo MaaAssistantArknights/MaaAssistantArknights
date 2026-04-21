@@ -62,4 +62,3 @@ internal class NotificationImplWinRT : INotificationPoster, IDisposable
         }
     }
 }
-
