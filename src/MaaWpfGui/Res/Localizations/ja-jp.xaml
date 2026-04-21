@@ -817,6 +817,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TaskAppend.Skip">{0}: {1} タスクをスキップしました</system:String>
     <system:String x:Key="TaskAppend.Error">{0}: {1} タスクの追加に失敗しました</system:String>
     <system:String x:Key="FightStageAllClosed">｢{key=Fight}｣: 選択したステージ [{0}] は本日開放されていません。｢{key=UseAlternateStage}｣ を有効にし、｢{key=DefaultStage}｣ をフォールバックとして追加することでスキップを防げます。</system:String>
+    <system:String x:Key="FightNoStageConfigured">｢{key=Fight}｣: ステージが設定されていません。ステージを選択するか、｢{key=UseAlternateStage}｣ を有効にして ｢{key=DefaultStage}｣ をフォールバックとして追加してください。</system:String>
     <system:String x:Key="AdbReplacementTips">タスクが応答なしになる場合は、「{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}」、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
     <system:String x:Key="Waiting">ミッション終了を待っています……</system:String>
     <system:String x:Key="Stopping">動作停止中……</system:String>
