@@ -1,4 +1,5 @@
 cd..
+cmake --build build --target MAA.Updater --config RelWithDebInfo
 cmake --install build --config RelWithDebInfo --prefix ./install
 dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install -p:Platform=x64
 del /f .\install\*.h
