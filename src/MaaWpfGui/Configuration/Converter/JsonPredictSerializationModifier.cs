@@ -70,7 +70,7 @@ public static class JsonPredictSerializationModifier
     /// 根据 serializeWhenEqual：为 true 时仅当条件值等于 comparedValue 才序列化；为 false 时仅当不等于才序列化。
     /// conditionPropertyName 支持点号路径，如 "StagePlan.Count"。
     /// 条件值为 null 时：若 comparedValue 也为 null 且 serializeWhenEqual 为 true 则序列化，否则按 comparedValue 与 serializeWhenEqual 决定是否序列化。
-    /// comparedValue 为 null 时，按 value 类型推断默认比较值：bool 视为与 false 比较，int 视为与 0 比较（此时语义为“不等于 0 才序列化”）；
+    /// comparedValue 为 null 时，按 value 类型推断默认比较值：bool 视为与 true 比较，int 视为与 0 比较（此时语义为“不等于 0 才序列化”）；
     /// 若 value 为容器（IEnumerable/ICollection），则先将 value 替换为元素个数再按整数与 0 比较；其他类型不设默认比较值，会序列化。
     /// </summary>
     private static bool ShouldSerializeByCondition(object? parent, string conditionPropertyName, object? comparedValue, bool serializeWhenEqual = true)
