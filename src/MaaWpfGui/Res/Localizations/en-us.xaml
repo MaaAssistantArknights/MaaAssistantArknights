@@ -399,7 +399,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected. But no OTA incremental update package is available. The complete package will be downloaded and the resource folder will be moved to the recycle bin and .old. Please back up manually if necessary.</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected, but no OTA incremental update package is available. The full package will be downloaded. The config, data, and debug folders will be kept, and all other files will be moved to the Recycle Bin and .old. Please back them up manually if necessary.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">Download of Update Package Failed</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory</system:String>
@@ -809,7 +809,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <!--  !FightSettings  -->
     <!--  Logs  -->
     <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="FullPackageUpgradeTips">Please download the full package and extract it into a new folder. Do not overwrite the existing installation folder.\nYou may copy the original config and data folders into the new folder to retain your existing settings.</system:String>
+    <system:String x:Key="FullPackageUpgradeTips">Please download the full package and extract it into a new folder. Do not overwrite the existing installation folder.\nYou may copy the original config, data, and debug folders into the new folder to retain your existing settings and logs.</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
@@ -1094,7 +1094,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
-    <system:String x:Key="UpdateApplyFailed">The update could not be applied and the current installation may be incomplete. Please download the full package again and migrate your config and data manually as described below.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="UpdateApplyFailed">The update could not be applied and the current installation may be incomplete. Please download the full package again and migrate your config, data, and debug folders manually as described below.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">The resources are damaged, please download the full package again.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>

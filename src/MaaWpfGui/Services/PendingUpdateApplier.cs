@@ -48,6 +48,14 @@ internal static partial class PendingUpdateApplier
         "changes.json",
     };
 
+    private static readonly HashSet<string> s_fullPackagePreservedEntries = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "config",
+        "data",
+        "debug",
+        "MAA.Updater.exe",
+    };
+
     private static string DelegatedUpdateSuccessStatusFilePath => Path.Combine(PathsHelper.ConfigDir, "pending-update-success.txt");
 
     private static string DelegatedUpdateFailureStatusFilePath => Path.Combine(PathsHelper.ConfigDir, "pending-update-failure.txt");
@@ -205,12 +213,13 @@ internal static partial class PendingUpdateApplier
             if (!PendingUpdateManifest.HasOtaMetadata(context.ExtractDir))
             {
                 keepExtractDirectory = true;
+                string[] fullPackageMoveEntries = GetFullPackageMoveEntries(context.ExtractDir);
                 return DelegatePendingUpdateApply(
                     context,
                     "full",
                     "full package always replaces runtime files",
-                    Array.Empty<string>(),
-                    GetTopLevelExtractEntries(context.ExtractDir));
+                    GetFullPackageRemoveEntries(context),
+                    fullPackageMoveEntries);
             }
 
             var manifest = PendingUpdateManifest.Load(context.ExtractDir);
@@ -362,27 +371,23 @@ internal static partial class PendingUpdateApplier
         IReadOnlyList<string> removeEntries,
         IReadOnlyList<string> moveEntries)
     {
-        string scriptPath = Path.Combine(Path.GetTempPath(), $"maa-pending-update-{Guid.NewGuid():N}.ps1");
         string planPath = Path.Combine(Path.GetTempPath(), $"maa-pending-update-{Guid.NewGuid():N}.json");
+        string updaterExecutablePath = PrepareDelegatedUpdaterExecutable(context, packageType);
         string relaunchExecutablePath = Path.Combine(context.RootDir, "MAA.exe");
 
-        File.WriteAllText(scriptPath, CreatePendingUpdateScript());
-        File.WriteAllText(planPath, CreatePendingUpdatePlan(removeEntries, moveEntries));
+        File.WriteAllText(planPath, CreatePendingUpdatePlan(packageType, removeEntries, moveEntries));
 
         var startInfo = new ProcessStartInfo
         {
-            FileName = "powershell.exe",
-            UseShellExecute = true,
+            FileName = updaterExecutablePath,
+            UseShellExecute = false,
             CreateNoWindow = true,
-            WindowStyle = ProcessWindowStyle.Hidden,
             WorkingDirectory = context.RootDir,
         };
 
-        startInfo.ArgumentList.Add("-NoProfile");
-        startInfo.ArgumentList.Add("-ExecutionPolicy");
-        startInfo.ArgumentList.Add("Bypass");
-        startInfo.ArgumentList.Add("-File");
-        startInfo.ArgumentList.Add(scriptPath);
+        // Args: <ParentPid> <RootDir> <ExtractDir> <BackupDir>
+        //       <PackagePath> <SuccessStatusFile> <FailureStatusFile>
+        //       <RelaunchExecutablePath> <PlanFile>
         startInfo.ArgumentList.Add(Environment.ProcessId.ToString());
         startInfo.ArgumentList.Add(context.RootDir);
         startInfo.ArgumentList.Add(context.ExtractDir);
@@ -392,7 +397,6 @@ internal static partial class PendingUpdateApplier
         startInfo.ArgumentList.Add(DelegatedUpdateFailureStatusFilePath);
         startInfo.ArgumentList.Add(relaunchExecutablePath);
         startInfo.ArgumentList.Add(planPath);
-        startInfo.ArgumentList.Add(scriptPath);
 
         _logger.Information(
             "Delegating pending update apply to external updater: packageType={PackageType}, rootDir={RootDir}, extractDir={ExtractDir}, packagePath={PackagePath}",
@@ -410,13 +414,31 @@ internal static partial class PendingUpdateApplier
         ZipFile.ExtractToDirectory(packagePath, extractDir, Encoding.Default, overwriteFiles: true);
     }
 
-    private static string CreatePendingUpdatePlan(IReadOnlyList<string> removeEntries, IReadOnlyList<string> moveEntries)
+    private static string CreatePendingUpdatePlan(string packageType, IReadOnlyList<string> removeEntries, IReadOnlyList<string> moveEntries)
     {
         return new JObject
         {
+            ["packageType"] = packageType,
             ["removeList"] = JArray.FromObject(removeEntries),
             ["moveList"] = JArray.FromObject(moveEntries),
         }.ToString();
+    }
+
+    private static string[] GetFullPackageRemoveEntries(PendingUpdateContext context)
+    {
+        HashSet<string> preservedEntries = CreateFullPackagePreservedEntries(context);
+        return [.. Directory.GetFileSystemEntries(context.RootDir)
+            .Select(Path.GetFileName)
+            .OfType<string>()
+            .Where(entry => !string.IsNullOrWhiteSpace(entry) && !preservedEntries.Contains(entry))
+            .Distinct(StringComparer.OrdinalIgnoreCase)];
+    }
+
+    private static string[] GetFullPackageMoveEntries(string extractDir)
+    {
+        return [.. GetTopLevelExtractEntries(extractDir)
+            .Where(entry => !IsFullPackagePreservedEntry(entry))
+            .Distinct(StringComparer.OrdinalIgnoreCase)];
     }
 
     private static string[] GetTopLevelExtractEntries(string extractDir)
@@ -426,6 +448,50 @@ internal static partial class PendingUpdateApplier
             .Select(entry => entry.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar))
             .Where(entry => !string.IsNullOrWhiteSpace(entry) && !IsControlFile(entry))
             .Distinct(StringComparer.OrdinalIgnoreCase)];
+    }
+
+    private static string PrepareDelegatedUpdaterExecutable(PendingUpdateContext context, string packageType)
+    {
+        string updaterExecutablePath = Path.Combine(context.RootDir, "MAA.Updater.exe");
+        if (!string.Equals(packageType, "full", StringComparison.OrdinalIgnoreCase))
+        {
+            return updaterExecutablePath;
+        }
+
+        string extractedUpdaterPath = GetPathUnderRoot(context.ExtractDir, "MAA.Updater.exe");
+        if (!File.Exists(extractedUpdaterPath))
+        {
+            return updaterExecutablePath;
+        }
+
+        EnsureParentDirectory(updaterExecutablePath);
+        File.Copy(extractedUpdaterPath, updaterExecutablePath, overwrite: true);
+        _logger.Information(
+            "Pending update package contains MAA.Updater.exe. Replaced updater before delegation: {UpdaterExecutablePath}",
+            updaterExecutablePath);
+        return updaterExecutablePath;
+    }
+
+    private static HashSet<string> CreateFullPackagePreservedEntries(PendingUpdateContext context)
+    {
+        var preservedEntries = new HashSet<string>(s_fullPackagePreservedEntries, StringComparer.OrdinalIgnoreCase)
+        {
+            Path.GetFileName(context.ExtractDir),
+            Path.GetFileName(context.BackupDir),
+            Path.GetFileName(context.PackagePath),
+        };
+
+        return preservedEntries;
+    }
+
+    private static bool IsFullPackagePreservedEntry(string relativePath)
+    {
+        return s_fullPackagePreservedEntries.Contains(NormalizeRelativePath(relativePath));
+    }
+
+    private static string NormalizeRelativePath(string relativePath)
+    {
+        return relativePath.Trim().Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
     }
 
     private static bool ShouldDelegatePendingOtaApply(PendingUpdateManifest manifest, out string reason)
@@ -457,219 +523,6 @@ internal static partial class PendingUpdateApplier
             : normalizedRelativePath;
 
         return string.Equals(topLevelEntry, "resource", StringComparison.OrdinalIgnoreCase);
-    }
-
-    private static string CreatePendingUpdateScript()
-    {
-        return $$"""
-param(
-    [int]$ParentProcessId,
-    [string]$RootDir,
-    [string]$ExtractDir,
-    [string]$BackupDir,
-    [string]$PackagePath,
-    [string]$SuccessStatusFile,
-    [string]$FailureStatusFile,
-    [string]$RelaunchExecutablePath,
-    [string]$PlanFile,
-    [string]$ScriptPath
-)
-
-$ErrorActionPreference = 'Stop'
-$logFile = Join-Path $RootDir 'debug\pending-update-applier.log'
-$shouldRelaunch = $false
-
-function Write-Log {
-    param([string]$Message)
-
-    $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss.fff'
-    $directory = Split-Path -Parent $logFile
-    if (-not [string]::IsNullOrEmpty($directory)) {
-        [System.IO.Directory]::CreateDirectory($directory) | Out-Null
-    }
-
-    Add-Content -LiteralPath $logFile -Value "[$timestamp] $Message"
-}
-
-function Ensure-TrailingSeparator {
-    param([string]$Path)
-
-    $separator = [string][System.IO.Path]::DirectorySeparatorChar
-    if ($Path.EndsWith($separator)) {
-        return $Path
-    }
-
-    return $Path + $separator
-}
-
-function Resolve-PathUnderRoot {
-    param(
-        [string]$RootPath,
-        [string]$RelativePath
-    )
-
-    if ([string]::IsNullOrWhiteSpace($RelativePath)) {
-        throw "Illegal path in update package: $RelativePath"
-    }
-
-    $normalizedRelativePath = $RelativePath.Trim().Replace([System.IO.Path]::AltDirectorySeparatorChar, [System.IO.Path]::DirectorySeparatorChar)
-    if ([System.IO.Path]::IsPathRooted($normalizedRelativePath)) {
-        throw "Illegal path in update package: $RelativePath"
-    }
-
-    $normalizedRoot = Ensure-TrailingSeparator ([System.IO.Path]::GetFullPath($RootPath))
-    $candidateFullPath = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($RootPath, $normalizedRelativePath))
-    if (-not $candidateFullPath.StartsWith($normalizedRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
-        throw "Illegal path in update package: $RelativePath"
-    }
-
-    return $candidateFullPath
-}
-
-function Ensure-ParentDirectory {
-    param([string]$Path)
-
-    $parentDirectory = Split-Path -Parent $Path
-    if (-not [string]::IsNullOrEmpty($parentDirectory)) {
-        [System.IO.Directory]::CreateDirectory($parentDirectory) | Out-Null
-    }
-}
-
-function Move-PathEntry {
-    param(
-        [string]$SourcePath,
-        [string]$DestinationPath
-    )
-
-    Ensure-ParentDirectory $DestinationPath
-
-    if (Test-Path -LiteralPath $SourcePath -PathType Leaf) {
-        [System.IO.File]::Move($SourcePath, $DestinationPath)
-        return
-    }
-
-    if (Test-Path -LiteralPath $SourcePath -PathType Container) {
-        [System.IO.Directory]::Move($SourcePath, $DestinationPath)
-        return
-    }
-
-    throw "Path not found: $SourcePath"
-}
-
-function Create-ArchivedPath {
-    param([string]$Path)
-
-    $index = 0
-    $currentDate = Get-Date -Format 'yyyyMMddHHmmss'
-    $archivedPath = "$Path.$currentDate.$index"
-
-    while (Test-Path -LiteralPath $archivedPath) {
-        $index++
-        $archivedPath = "$Path.$currentDate.$index"
-    }
-
-    return $archivedPath
-}
-
-function Prepare-BackupDestination {
-    param([string]$BackupPath)
-
-    Ensure-ParentDirectory $BackupPath
-    if (-not (Test-Path -LiteralPath $BackupPath)) {
-        return
-    }
-
-    $archivedPath = Create-ArchivedPath $BackupPath
-    Move-PathEntry $BackupPath $archivedPath
-}
-
-function Move-ExistingPathToBackup {
-    param(
-        [string]$SourcePath,
-        [string]$BackupPath
-    )
-
-    Prepare-BackupDestination $BackupPath
-    Move-PathEntry $SourcePath $BackupPath
-}
-
-try {
-    Wait-Process -Id $ParentProcessId -ErrorAction SilentlyContinue
-
-    if (-not (Test-Path -LiteralPath $PlanFile)) {
-        throw "Pending update plan not found: $PlanFile"
-    }
-
-    $plan = [System.IO.File]::ReadAllText($PlanFile, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
-    $removeList = if ($null -eq $plan.removeList) { @() } else { @($plan.removeList) }
-    $moveList = if ($null -eq $plan.moveList) { @() } else { @($plan.moveList) }
-
-    Write-Log "External pending updater started. PlanFile=$PlanFile ExtractDir=$ExtractDir"
-    [System.IO.Directory]::CreateDirectory($BackupDir) | Out-Null
-
-    foreach ($relativePath in $removeList) {
-        $targetPath = Resolve-PathUnderRoot $RootDir $relativePath
-        if (-not (Test-Path -LiteralPath $targetPath)) {
-            continue
-        }
-
-        $backupPath = Resolve-PathUnderRoot $BackupDir $relativePath
-        Move-ExistingPathToBackup $targetPath $backupPath
-    }
-
-    foreach ($relativePath in $moveList) {
-        $sourcePath = Resolve-PathUnderRoot $ExtractDir $relativePath
-        $targetPath = Resolve-PathUnderRoot $RootDir $relativePath
-        $backupPath = Resolve-PathUnderRoot $BackupDir $relativePath
-
-        if (Test-Path -LiteralPath $targetPath) {
-            Move-ExistingPathToBackup $targetPath $backupPath
-        }
-
-        Move-PathEntry $sourcePath $targetPath
-    }
-
-    if (Test-Path -LiteralPath $PackagePath) {
-        Remove-Item -LiteralPath $PackagePath -Force
-    }
-
-    if (Test-Path -LiteralPath $FailureStatusFile) {
-        Remove-Item -LiteralPath $FailureStatusFile -Force
-    }
-
-    Ensure-ParentDirectory $SuccessStatusFile
-    [System.IO.File]::WriteAllText($SuccessStatusFile, 'succeeded', [System.Text.Encoding]::UTF8)
-
-    $shouldRelaunch = $true
-
-    Write-Log 'External pending updater completed successfully.'
-}
-catch {
-    Write-Log ("External pending updater failed: " + $_.Exception)
-    Ensure-ParentDirectory $FailureStatusFile
-    [System.IO.File]::WriteAllText($FailureStatusFile, $_.Exception.ToString(), [System.Text.Encoding]::UTF8)
-    if (Test-Path -LiteralPath $SuccessStatusFile) {
-        Remove-Item -LiteralPath $SuccessStatusFile -Force -ErrorAction SilentlyContinue
-    }
-}
-finally {
-    if (Test-Path -LiteralPath $ExtractDir) {
-        Remove-Item -LiteralPath $ExtractDir -Recurse -Force -ErrorAction SilentlyContinue
-    }
-
-    if (Test-Path -LiteralPath $PlanFile) {
-        Remove-Item -LiteralPath $PlanFile -Force -ErrorAction SilentlyContinue
-    }
-
-    if ($shouldRelaunch -and (Test-Path -LiteralPath $RelaunchExecutablePath)) {
-        Start-Process -FilePath $RelaunchExecutablePath -WorkingDirectory $RootDir
-    }
-
-    if (Test-Path -LiteralPath $ScriptPath) {
-        Remove-Item -LiteralPath $ScriptPath -Force -ErrorAction SilentlyContinue
-    }
-}
-""";
     }
 
     private static void MoveExistingPathToBackup(string sourcePath, string backupPath)

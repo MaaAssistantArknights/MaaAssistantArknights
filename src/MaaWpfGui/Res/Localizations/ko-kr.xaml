@@ -399,7 +399,7 @@
     <system:String x:Key="CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">새로운 버전이 빌드되는 중입니다. 다음에 다시 시도해 주세요</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었습니다. OTA 증분 업데이트 패키지를 사용할 수 없습니다. 전체 패키지가 다운로드되고 리소스 폴더는 휴지통과 .old 폴더로 이동합니다. 필요한 경우 수동으로 백업해 주세요.</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었지만 사용할 수 있는 OTA 증분 업데이트 패키지가 없습니다. 전체 패키지를 다운로드하며, config, data, debug 폴더는 유지되고 그 외의 파일은 휴지통과 .old 폴더로 이동합니다. 필요하다면 수동으로 백업해 주세요.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">업데이트 패키지 다운로드 실패</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIP 파일을 수동으로 다운로드해 폴더 안에 놓아 주세요</system:String>
@@ -811,7 +811,7 @@ C:\\leidian\\LDPlayer9
     <!--  !작전 설정  -->
     <!--  로그  -->
     <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마세요.\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="FullPackageUpgradeTips">전체 패키지를 다운로드하여 기존 폴더를 덮어쓰지 말고 새 폴더에 압축을 푸세요.\n기존 설정을 유지하려면 기존 config 및 data 폴더를 새 폴더로 복사하세요.</system:String>
+    <system:String x:Key="FullPackageUpgradeTips">전체 패키지를 다운로드하여 기존 폴더를 덮어쓰지 말고 새 폴더에 압축을 푸세요.\n기존 설정과 로그를 유지하려면 기존 config, data 및 debug 폴더를 새 폴더로 복사하세요.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
@@ -1096,7 +1096,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
-    <system:String x:Key="UpdateApplyFailed">업데이트 적용에 실패하여 현재 설치가 불완전할 수 있습니다. 전체 패키지를 다시 다운로드하고, 아래 안내에 따라 config 및 data를 수동으로 옮겨 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="UpdateApplyFailed">업데이트 적용에 실패하여 현재 설치가 불완전할 수 있습니다. 전체 패키지를 다시 다운로드하고, 아래 안내에 따라 config, data 및 debug를 수동으로 옮겨 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 전체 패키지를 다시 다운로드하세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>
