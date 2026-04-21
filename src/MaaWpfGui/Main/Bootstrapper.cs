@@ -376,6 +376,11 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ConfigurationHelper.Load();
         LocalizationHelper.Load();
+        if (PendingUpdateApplier.TryConsumeDelegatedUpdateSuccess())
+        {
+            _logger.Information("Delegated pending update completed successfully");
+        }
+
         if (PendingUpdateApplier.TryConsumeDelegatedUpdateFailure(out string delegatedUpdateFailureReason))
         {
             _logger.Error("Delegated pending update failed. Reason: {Reason}", delegatedUpdateFailureReason);

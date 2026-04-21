@@ -37,6 +37,8 @@ internal static partial class PendingUpdateApplier
         "changes.json",
     };
 
+    private static string DelegatedUpdateSuccessStatusFilePath => Path.Combine(PathsHelper.ConfigDir, "pending-update-success.txt");
+
     private static string DelegatedUpdateFailureStatusFilePath => Path.Combine(PathsHelper.ConfigDir, "pending-update-failure.txt");
 
     public enum LocalPackageImportStatus
@@ -277,8 +279,21 @@ internal static partial class PendingUpdateApplier
         }
         finally
         {
+            ClearPendingUpdatePackageState();
             SafeDeleteFile(DelegatedUpdateFailureStatusFilePath);
         }
+    }
+
+    public static bool TryConsumeDelegatedUpdateSuccess()
+    {
+        if (!File.Exists(DelegatedUpdateSuccessStatusFilePath))
+        {
+            return false;
+        }
+
+        MarkPendingUpdateApplied();
+        SafeDeleteFile(DelegatedUpdateSuccessStatusFilePath);
+        return true;
     }
 
     private static void ApplyOtaPackage(PendingUpdateContext context, PendingUpdateManifest manifest, ref bool installationChanged)
@@ -362,7 +377,7 @@ internal static partial class PendingUpdateApplier
         startInfo.ArgumentList.Add(context.ExtractDir);
         startInfo.ArgumentList.Add(context.BackupDir);
         startInfo.ArgumentList.Add(context.PackagePath);
-        startInfo.ArgumentList.Add(ConfigurationHelper.ConfigFile);
+        startInfo.ArgumentList.Add(DelegatedUpdateSuccessStatusFilePath);
         startInfo.ArgumentList.Add(DelegatedUpdateFailureStatusFilePath);
         startInfo.ArgumentList.Add(relaunchExecutablePath);
         startInfo.ArgumentList.Add(planPath);
@@ -442,7 +457,7 @@ param(
     [string]$ExtractDir,
     [string]$BackupDir,
     [string]$PackagePath,
-    [string]$ConfigFile,
+    [string]$SuccessStatusFile,
     [string]$FailureStatusFile,
     [string]$RelaunchExecutablePath,
     [string]$PlanFile,
@@ -567,46 +582,6 @@ function Move-ExistingPathToBackup {
     Move-PathEntry $SourcePath $BackupPath
 }
 
-function Set-JsonProperty {
-    param(
-        [object]$TargetObject,
-        [string]$PropertyName,
-        [string]$PropertyValue
-    )
-
-    $property = $TargetObject.PSObject.Properties[$PropertyName]
-    if ($null -eq $property) {
-        $TargetObject | Add-Member -NotePropertyName $PropertyName -NotePropertyValue $PropertyValue -Force
-        return
-    }
-
-    $property.Value = $PropertyValue
-}
-
-function Update-ConfigState {
-    param(
-        [string]$PackageValue,
-        [string]$IsFirstBootValue
-    )
-
-    if (-not (Test-Path -LiteralPath $ConfigFile)) {
-        return
-    }
-
-    $config = Get-Content -LiteralPath $ConfigFile -Raw | ConvertFrom-Json
-    $globalConfig = $config.PSObject.Properties['Global']
-    if ($null -eq $globalConfig) {
-        $config | Add-Member -NotePropertyName 'Global' -NotePropertyValue ([pscustomobject]@{}) -Force
-    }
-
-    Set-JsonProperty $config.Global 'VersionUpdate.package' $PackageValue
-    if (-not [string]::IsNullOrEmpty($IsFirstBootValue)) {
-        Set-JsonProperty $config.Global 'VersionUpdate.isfirstboot' $IsFirstBootValue
-    }
-
-    $config | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $ConfigFile -Encoding UTF8
-}
-
 try {
     Wait-Process -Id $ParentProcessId -ErrorAction SilentlyContinue
 
@@ -614,7 +589,7 @@ try {
         throw "Pending update plan not found: $PlanFile"
     }
 
-    $plan = Get-Content -LiteralPath $PlanFile -Raw | ConvertFrom-Json
+    $plan = [System.IO.File]::ReadAllText($PlanFile, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
     $removeList = if ($null -eq $plan.removeList) { @() } else { @($plan.removeList) }
     $moveList = if ($null -eq $plan.moveList) { @() } else { @($plan.moveList) }
 
@@ -651,7 +626,9 @@ try {
         Remove-Item -LiteralPath $FailureStatusFile -Force
     }
 
-    Update-ConfigState '' 'True'
+    Ensure-ParentDirectory $SuccessStatusFile
+    [System.IO.File]::WriteAllText($SuccessStatusFile, 'succeeded', [System.Text.Encoding]::UTF8)
+
     $shouldRelaunch = $true
 
     Write-Log 'External pending updater completed successfully.'
@@ -659,8 +636,10 @@ try {
 catch {
     Write-Log ("External pending updater failed: " + $_.Exception)
     Ensure-ParentDirectory $FailureStatusFile
-    Set-Content -LiteralPath $FailureStatusFile -Value $_.Exception.ToString() -Encoding UTF8
-    Update-ConfigState '' ''
+    [System.IO.File]::WriteAllText($FailureStatusFile, $_.Exception.ToString(), [System.Text.Encoding]::UTF8)
+    if (Test-Path -LiteralPath $SuccessStatusFile) {
+        Remove-Item -LiteralPath $SuccessStatusFile -Force -ErrorAction SilentlyContinue
+    }
 }
 finally {
     if (Test-Path -LiteralPath $ExtractDir) {
