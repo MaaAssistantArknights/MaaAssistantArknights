@@ -685,8 +685,10 @@ int wmain(int argc, wchar_t* argv[])
         MessageBoxW(
             nullptr,
             L"MAA.Updater.exe 是 MAA 内部使用的更新程序，不应被手动启动。\n\n"
-            L"请直接运行 MAA.exe。",
-            L"MAA 更新程序",
+            L"请直接运行 MAA.exe。\n\n"
+            L"MAA.Updater.exe is an updater used internally by MAA and should not be manually started.\n\n"
+            L"Please run MAA.exe directly.",
+            L"MAA 更新程序 / MAA Updater",
             MB_OK | MB_ICONINFORMATION);
         return 1;
     }
