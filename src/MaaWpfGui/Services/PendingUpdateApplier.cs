@@ -4,9 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -34,6 +36,8 @@ internal static partial class PendingUpdateApplier
         "removelist.txt",
         "changes.json",
     };
+
+    private static string DelegatedUpdateFailureStatusFilePath => Path.Combine(PathsHelper.ConfigDir, "pending-update-failure.txt");
 
     public enum LocalPackageImportStatus
     {
@@ -168,6 +172,7 @@ internal static partial class PendingUpdateApplier
 
         bool installationChanged = false;
         bool clearPendingPackageState = false;
+        bool keepExtractDirectory = false;
 
         try
         {
@@ -175,7 +180,7 @@ internal static partial class PendingUpdateApplier
 
             try
             {
-                ZipFile.ExtractToDirectory(context.PackagePath, context.ExtractDir);
+                ExtractPendingUpdatePackage(context.PackagePath, context.ExtractDir);
             }
             catch (InvalidDataException ex)
             {
@@ -185,14 +190,18 @@ internal static partial class PendingUpdateApplier
             }
 
             var manifest = PendingUpdateManifest.Load(context.ExtractDir);
-            if (manifest.IsOtaPackage)
+            if (ShouldDelegatePendingUpdateApply(manifest, out string delegationReason))
             {
-                ApplyOtaPackage(context, manifest, ref installationChanged);
+                keepExtractDirectory = true;
+                _logger.Information(
+                    "Delegating pending update apply to external updater: packageType={PackageType}, reason={Reason}",
+                    manifest.IsOtaPackage ? "ota" : "full",
+                    delegationReason);
+                return HandOffPendingUpdateApplyToExternalProcess(context, manifest.IsOtaPackage);
             }
-            else
-            {
-                ApplyFullPackage(context, manifest, ref installationChanged);
-            }
+
+            _logger.Information("Applying pending OTA package in current process because it only touches resource files.");
+            ApplyOtaPackage(context, manifest, ref installationChanged);
 
             SafeDeleteFile(context.PackagePath);
             MarkPendingUpdateApplied();
@@ -229,7 +238,34 @@ internal static partial class PendingUpdateApplier
                 ClearPendingUpdatePackageState();
             }
 
-            SafeDeleteDirectory(context.ExtractDir);
+            if (!keepExtractDirectory)
+            {
+                SafeDeleteDirectory(context.ExtractDir);
+            }
+        }
+    }
+
+    public static bool TryConsumeDelegatedUpdateFailure(out string? failureReason)
+    {
+        failureReason = null;
+        if (!File.Exists(DelegatedUpdateFailureStatusFilePath))
+        {
+            return false;
+        }
+
+        try
+        {
+            failureReason = File.ReadAllText(DelegatedUpdateFailureStatusFilePath).Trim();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to read delegated update failure state: {FailureStateFilePath}", DelegatedUpdateFailureStatusFilePath);
+            return true;
+        }
+        finally
+        {
+            SafeDeleteFile(DelegatedUpdateFailureStatusFilePath);
         }
     }
 
@@ -287,6 +323,405 @@ internal static partial class PendingUpdateApplier
             MovePath(sourcePath, targetPath);
             installationChanged = true;
         }
+    }
+
+    private static PendingUpdateApplyResult HandOffPendingUpdateApplyToExternalProcess(PendingUpdateContext context, bool isOtaPackage)
+    {
+        string scriptPath = Path.Combine(Path.GetTempPath(), $"maa-pending-update-{Guid.NewGuid():N}.ps1");
+        string relaunchExecutablePath = Path.Combine(context.RootDir, "MAA.exe");
+
+        File.WriteAllText(scriptPath, CreatePendingUpdateScript());
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "powershell.exe",
+            UseShellExecute = true,
+            CreateNoWindow = true,
+            WindowStyle = ProcessWindowStyle.Hidden,
+            WorkingDirectory = context.RootDir,
+        };
+
+        startInfo.ArgumentList.Add("-NoProfile");
+        startInfo.ArgumentList.Add("-ExecutionPolicy");
+        startInfo.ArgumentList.Add("Bypass");
+        startInfo.ArgumentList.Add("-File");
+        startInfo.ArgumentList.Add(scriptPath);
+        startInfo.ArgumentList.Add(Environment.ProcessId.ToString());
+        startInfo.ArgumentList.Add(isOtaPackage ? "ota" : "full");
+        startInfo.ArgumentList.Add(context.RootDir);
+        startInfo.ArgumentList.Add(context.ExtractDir);
+        startInfo.ArgumentList.Add(context.BackupDir);
+        startInfo.ArgumentList.Add(context.PackagePath);
+        startInfo.ArgumentList.Add(ConfigurationHelper.ConfigFile);
+        startInfo.ArgumentList.Add(DelegatedUpdateFailureStatusFilePath);
+        startInfo.ArgumentList.Add(relaunchExecutablePath);
+        startInfo.ArgumentList.Add(scriptPath);
+
+        _logger.Information(
+            "Delegating pending update apply to external updater: packageType={PackageType}, rootDir={RootDir}, extractDir={ExtractDir}, packagePath={PackagePath}",
+            isOtaPackage ? "ota" : "full",
+            context.RootDir,
+            context.ExtractDir,
+            context.PackagePath);
+
+        Process.Start(startInfo);
+        return new(PendingUpdateApplyResult.StatusKind.Delegated);
+    }
+
+    private static void ExtractPendingUpdatePackage(string packagePath, string extractDir)
+    {
+        ZipFile.ExtractToDirectory(packagePath, extractDir, Encoding.Default, overwriteFiles: true);
+    }
+
+    private static bool ShouldDelegatePendingUpdateApply(PendingUpdateManifest manifest, out string reason)
+    {
+        if (!manifest.IsOtaPackage)
+        {
+            reason = "full package always replaces runtime files";
+            return true;
+        }
+
+        string? sensitivePath = manifest.RemoveList
+            .Concat(manifest.PayloadFiles)
+            .FirstOrDefault(path => !IsSafeInProcessOtaPath(path));
+
+        if (sensitivePath is not null)
+        {
+            reason = $"OTA touches runtime-sensitive path '{sensitivePath}'";
+            return true;
+        }
+
+        reason = "OTA changes are limited to resource files";
+        return false;
+    }
+
+    private static bool IsSafeInProcessOtaPath(string relativePath)
+    {
+        if (string.IsNullOrWhiteSpace(relativePath))
+        {
+            return false;
+        }
+
+        string normalizedRelativePath = relativePath.Trim().Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+        int separatorIndex = normalizedRelativePath.IndexOf(Path.DirectorySeparatorChar);
+        string topLevelEntry = separatorIndex >= 0
+            ? normalizedRelativePath[..separatorIndex]
+            : normalizedRelativePath;
+
+        return string.Equals(topLevelEntry, "resource", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string CreatePendingUpdateScript()
+    {
+        return $$"""
+param(
+    [int]$ParentProcessId,
+    [string]$UpdateMode,
+    [string]$RootDir,
+    [string]$ExtractDir,
+    [string]$BackupDir,
+    [string]$PackagePath,
+    [string]$ConfigFile,
+    [string]$FailureStatusFile,
+    [string]$RelaunchExecutablePath,
+    [string]$ScriptPath
+)
+
+$ErrorActionPreference = 'Stop'
+$controlFiles = @('removelist.txt', 'changes.json')
+$logFile = Join-Path $RootDir 'debug\pending-update-applier.log'
+$shouldRelaunch = $false
+
+function Write-Log {
+    param([string]$Message)
+
+    $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss.fff'
+    $directory = Split-Path -Parent $logFile
+    if (-not [string]::IsNullOrEmpty($directory)) {
+        [System.IO.Directory]::CreateDirectory($directory) | Out-Null
+    }
+
+    Add-Content -LiteralPath $logFile -Value "[$timestamp] $Message"
+}
+
+function Ensure-TrailingSeparator {
+    param([string]$Path)
+
+    $separator = [string][System.IO.Path]::DirectorySeparatorChar
+    if ($Path.EndsWith($separator)) {
+        return $Path
+    }
+
+    return $Path + $separator
+}
+
+function Resolve-PathUnderRoot {
+    param(
+        [string]$RootPath,
+        [string]$RelativePath
+    )
+
+    if ([string]::IsNullOrWhiteSpace($RelativePath)) {
+        throw "Illegal path in update package: $RelativePath"
+    }
+
+    $normalizedRelativePath = $RelativePath.Trim().Replace([System.IO.Path]::AltDirectorySeparatorChar, [System.IO.Path]::DirectorySeparatorChar)
+    if ([System.IO.Path]::IsPathRooted($normalizedRelativePath)) {
+        throw "Illegal path in update package: $RelativePath"
+    }
+
+    $normalizedRoot = Ensure-TrailingSeparator ([System.IO.Path]::GetFullPath($RootPath))
+    $candidateFullPath = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($RootPath, $normalizedRelativePath))
+    if (-not $candidateFullPath.StartsWith($normalizedRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Illegal path in update package: $RelativePath"
+    }
+
+    return $candidateFullPath
+}
+
+function Get-RelativePathUnderRoot {
+    param(
+        [string]$RootPath,
+        [string]$FullPath
+    )
+
+    $normalizedRoot = Ensure-TrailingSeparator ([System.IO.Path]::GetFullPath($RootPath))
+    $normalizedFullPath = [System.IO.Path]::GetFullPath($FullPath)
+    if (-not $normalizedFullPath.StartsWith($normalizedRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Illegal path in update package: $FullPath"
+    }
+
+    return $normalizedFullPath.Substring($normalizedRoot.Length)
+}
+
+function Is-ControlFile {
+    param([string]$RelativePath)
+
+    $normalizedRelativePath = $RelativePath.Replace([System.IO.Path]::AltDirectorySeparatorChar, [System.IO.Path]::DirectorySeparatorChar)
+    return $normalizedRelativePath.IndexOf([System.IO.Path]::DirectorySeparatorChar) -lt 0 -and $controlFiles -contains $normalizedRelativePath
+}
+
+function Ensure-ParentDirectory {
+    param([string]$Path)
+
+    $parentDirectory = Split-Path -Parent $Path
+    if (-not [string]::IsNullOrEmpty($parentDirectory)) {
+        [System.IO.Directory]::CreateDirectory($parentDirectory) | Out-Null
+    }
+}
+
+function Move-PathEntry {
+    param(
+        [string]$SourcePath,
+        [string]$DestinationPath
+    )
+
+    Ensure-ParentDirectory $DestinationPath
+
+    if (Test-Path -LiteralPath $SourcePath -PathType Leaf) {
+        [System.IO.File]::Move($SourcePath, $DestinationPath)
+        return
+    }
+
+    if (Test-Path -LiteralPath $SourcePath -PathType Container) {
+        [System.IO.Directory]::Move($SourcePath, $DestinationPath)
+        return
+    }
+
+    throw "Path not found: $SourcePath"
+}
+
+function Create-ArchivedPath {
+    param([string]$Path)
+
+    $index = 0
+    $currentDate = Get-Date -Format 'yyyyMMddHHmmss'
+    $archivedPath = "$Path.$currentDate.$index"
+
+    while (Test-Path -LiteralPath $archivedPath) {
+        $index++
+        $archivedPath = "$Path.$currentDate.$index"
+    }
+
+    return $archivedPath
+}
+
+function Prepare-BackupDestination {
+    param([string]$BackupPath)
+
+    Ensure-ParentDirectory $BackupPath
+    if (-not (Test-Path -LiteralPath $BackupPath)) {
+        return
+    }
+
+    $archivedPath = Create-ArchivedPath $BackupPath
+    Move-PathEntry $BackupPath $archivedPath
+}
+
+function Move-ExistingPathToBackup {
+    param(
+        [string]$SourcePath,
+        [string]$BackupPath
+    )
+
+    Prepare-BackupDestination $BackupPath
+    Move-PathEntry $SourcePath $BackupPath
+}
+
+function Set-JsonProperty {
+    param(
+        [object]$TargetObject,
+        [string]$PropertyName,
+        [string]$PropertyValue
+    )
+
+    $property = $TargetObject.PSObject.Properties[$PropertyName]
+    if ($null -eq $property) {
+        $TargetObject | Add-Member -NotePropertyName $PropertyName -NotePropertyValue $PropertyValue -Force
+        return
+    }
+
+    $property.Value = $PropertyValue
+}
+
+function Update-ConfigState {
+    param(
+        [string]$PackageValue,
+        [string]$IsFirstBootValue
+    )
+
+    if (-not (Test-Path -LiteralPath $ConfigFile)) {
+        return
+    }
+
+    $config = Get-Content -LiteralPath $ConfigFile -Raw | ConvertFrom-Json
+    $globalConfig = $config.PSObject.Properties['Global']
+    if ($null -eq $globalConfig) {
+        $config | Add-Member -NotePropertyName 'Global' -NotePropertyValue ([pscustomobject]@{}) -Force
+    }
+
+    Set-JsonProperty $config.Global 'VersionUpdate.package' $PackageValue
+    if (-not [string]::IsNullOrEmpty($IsFirstBootValue)) {
+        Set-JsonProperty $config.Global 'VersionUpdate.isfirstboot' $IsFirstBootValue
+    }
+
+    $config | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $ConfigFile -Encoding UTF8
+}
+
+function Apply-OtaPackage {
+    $removeList = New-Object 'System.Collections.Generic.List[string]'
+    $removeListFile = Join-Path $ExtractDir 'removelist.txt'
+    $changesFile = Join-Path $ExtractDir 'changes.json'
+
+    if (Test-Path -LiteralPath $removeListFile) {
+        foreach ($line in [System.IO.File]::ReadAllLines($removeListFile)) {
+            $removeList.Add($line)
+        }
+    }
+
+    if (Test-Path -LiteralPath $changesFile) {
+        $changes = Get-Content -LiteralPath $changesFile -Raw | ConvertFrom-Json
+        if ($null -ne $changes.deleted) {
+            foreach ($entry in $changes.deleted) {
+                $removeList.Add([string]$entry)
+            }
+        }
+    }
+
+    foreach ($relativePath in $removeList | ForEach-Object { $_.Trim().Replace([System.IO.Path]::AltDirectorySeparatorChar, [System.IO.Path]::DirectorySeparatorChar) } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Select-Object -Unique) {
+        $targetPath = Resolve-PathUnderRoot $RootDir $relativePath
+        if (-not (Test-Path -LiteralPath $targetPath)) {
+            continue
+        }
+
+        $backupPath = Resolve-PathUnderRoot $BackupDir $relativePath
+        Move-ExistingPathToBackup $targetPath $backupPath
+    }
+
+    $payloadFiles = Get-ChildItem -LiteralPath $ExtractDir -File -Recurse | ForEach-Object {
+        Get-RelativePathUnderRoot $ExtractDir $_.FullName
+    } | ForEach-Object {
+        $_.Replace([System.IO.Path]::AltDirectorySeparatorChar, [System.IO.Path]::DirectorySeparatorChar)
+    } | Where-Object {
+        -not [string]::IsNullOrWhiteSpace($_) -and -not (Is-ControlFile $_)
+    } | Select-Object -Unique
+
+    foreach ($relativePath in $payloadFiles) {
+        $sourcePath = Resolve-PathUnderRoot $ExtractDir $relativePath
+        $targetPath = Resolve-PathUnderRoot $RootDir $relativePath
+        $backupPath = Resolve-PathUnderRoot $BackupDir $relativePath
+
+        if (Test-Path -LiteralPath $targetPath) {
+            Move-ExistingPathToBackup $targetPath $backupPath
+        }
+
+        Move-PathEntry $sourcePath $targetPath
+    }
+}
+
+function Apply-FullPackage {
+    $entries = Get-ChildItem -LiteralPath $ExtractDir -Force | Where-Object {
+        $controlFiles -notcontains $_.Name
+    }
+
+    foreach ($entry in $entries) {
+        $targetPath = Resolve-PathUnderRoot $RootDir $entry.Name
+        $backupPath = Resolve-PathUnderRoot $BackupDir $entry.Name
+
+        if (Test-Path -LiteralPath $targetPath) {
+            Move-ExistingPathToBackup $targetPath $backupPath
+        }
+
+        Move-PathEntry $entry.FullName $targetPath
+    }
+}
+
+try {
+    Wait-Process -Id $ParentProcessId -ErrorAction SilentlyContinue
+
+    Write-Log "External pending updater started. Mode=$UpdateMode ExtractDir=$ExtractDir"
+    [System.IO.Directory]::CreateDirectory($BackupDir) | Out-Null
+
+    if ($UpdateMode -eq 'ota') {
+        Apply-OtaPackage
+    }
+    else {
+        Apply-FullPackage
+    }
+
+    if (Test-Path -LiteralPath $PackagePath) {
+        Remove-Item -LiteralPath $PackagePath -Force
+    }
+
+    if (Test-Path -LiteralPath $FailureStatusFile) {
+        Remove-Item -LiteralPath $FailureStatusFile -Force
+    }
+
+    Update-ConfigState '' 'True'
+    $shouldRelaunch = $true
+
+    Write-Log 'External pending updater completed successfully.'
+}
+catch {
+    Write-Log ("External pending updater failed: " + $_.Exception)
+    Ensure-ParentDirectory $FailureStatusFile
+    Set-Content -LiteralPath $FailureStatusFile -Value $_.Exception.ToString() -Encoding UTF8
+    Update-ConfigState '' ''
+}
+finally {
+    if (Test-Path -LiteralPath $ExtractDir) {
+        Remove-Item -LiteralPath $ExtractDir -Recurse -Force -ErrorAction SilentlyContinue
+    }
+
+    if ($shouldRelaunch -and (Test-Path -LiteralPath $RelaunchExecutablePath)) {
+        Start-Process -FilePath $RelaunchExecutablePath -WorkingDirectory $RootDir
+    }
+
+    if (Test-Path -LiteralPath $ScriptPath) {
+        Remove-Item -LiteralPath $ScriptPath -Force -ErrorAction SilentlyContinue
+    }
+}
+""";
     }
 
     private static void MoveExistingPathToBackup(string sourcePath, string backupPath)

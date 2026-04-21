@@ -376,10 +376,25 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ConfigurationHelper.Load();
         LocalizationHelper.Load();
+        if (PendingUpdateApplier.TryConsumeDelegatedUpdateFailure(out string delegatedUpdateFailureReason))
+        {
+            _logger.Error("Delegated pending update failed. Reason: {Reason}", delegatedUpdateFailureReason);
+            ShowPendingUpdateRecoveryDialog();
+            Shutdown();
+            return;
+        }
+
         if (PendingUpdateApplier.HasPendingUpdatePackage())
         {
             _logger.Information("Pending update package detected, applying before full startup");
             var pendingUpdateResult = PendingUpdateApplier.TryApplyPendingUpdatePackage();
+            if (pendingUpdateResult.Delegated)
+            {
+                _logger.Information("Pending update package handed off to external updater, exiting current process");
+                Environment.Exit(0);
+                return;
+            }
+
             if (pendingUpdateResult.Succeeded)
             {
                 RestartAfterPendingUpdateEarly();

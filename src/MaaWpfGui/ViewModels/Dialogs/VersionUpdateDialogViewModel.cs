@@ -185,20 +185,6 @@ public class VersionUpdateDialogViewModel : Screen
         return PendingUpdateApplier.HasPendingUpdatePackage();
     }
 
-    /// <summary>
-    /// 检查是否有已下载的更新包
-    /// </summary>
-    /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-    public bool CheckAndUpdateNow()
-    {
-        return PendingUpdateApplier.TryApplyPendingUpdatePackage().Succeeded;
-    }
-
-    public static bool TryApplyPendingUpdatePackage()
-    {
-        return PendingUpdateApplier.TryApplyPendingUpdatePackage().Succeeded;
-    }
-
     public enum CheckUpdateRetT
     {
         /// <summary>

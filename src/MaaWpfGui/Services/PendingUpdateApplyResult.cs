@@ -17,9 +17,15 @@ internal sealed record PendingUpdateApplyResult(
         NoPendingPackage,
 
         /// <summary>
-        /// Indicates that the pending update package is not supported on the current system configuration.
+        /// Indicates that the pending update package was successfully applied and the application is ready to restart.
         /// </summary>
         Succeeded,
+
+        /// <summary>
+        /// Indicates that the pending update package has been handed off to an external updater.
+        /// The current process must exit so the updater can finish the replacement.
+        /// </summary>
+        Delegated,
 
         /// <summary>
         /// Indicates that the pending update package is invalid or corrupted.
@@ -33,4 +39,6 @@ internal sealed record PendingUpdateApplyResult(
     }
 
     public bool Succeeded => Status == StatusKind.Succeeded;
+
+    public bool Delegated => Status == StatusKind.Delegated;
 }
