@@ -17,7 +17,7 @@ using System;
 namespace MaaWpfGui.Utilities;
 
 /// <summary>
-/// 标记在 JSON 序列化时是否忽略该属性。按条件属性/路径与 <see cref="CompareValue"/> 的比较结果决定是否序列化（由 <see cref="SerializeWhenEqual"/> 控制等于或不等于）。
+/// 标记在 JSON 序列化时是否写入该属性。按条件属性/路径与 <see cref="CompareValue"/> 的比较结果决定是否序列化（由 <see cref="SerializeWhenEqual"/> 控制等于或不等于）。
 /// </summary>
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
 public class JsonPredictAttribute : Attribute
