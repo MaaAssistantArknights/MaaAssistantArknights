@@ -396,7 +396,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             if (pendingUpdateResult.Delegated)
             {
                 _logger.Information("Pending update package handed off to external updater, exiting current process");
-                Environment.Exit(0);
+                Shutdown();
                 return;
             }
 

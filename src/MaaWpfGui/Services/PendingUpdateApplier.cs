@@ -56,9 +56,9 @@ internal static partial class PendingUpdateApplier
         "MAA.Updater.exe",
     };
 
-    private static string DelegatedUpdateSuccessStatusFilePath => Path.Combine(PathsHelper.ConfigDir, "pending-update-success.txt");
+    private static string DelegatedUpdateSuccessStatusFilePath => Path.Combine(PathsHelper.BaseDir, "pending-update-success.txt");
 
-    private static string DelegatedUpdateFailureStatusFilePath => Path.Combine(PathsHelper.ConfigDir, "pending-update-failure.txt");
+    private static string DelegatedUpdateFailureStatusFilePath => Path.Combine(PathsHelper.BaseDir, "pending-update-failure.txt");
 
     public enum LocalPackageImportStatus
     {
@@ -371,7 +371,7 @@ internal static partial class PendingUpdateApplier
         IReadOnlyList<string> removeEntries,
         IReadOnlyList<string> moveEntries)
     {
-        string planPath = Path.Combine(Path.GetTempPath(), $"maa-pending-update-{Guid.NewGuid():N}.json");
+        string planPath = Path.Combine(context.RootDir, $"maa-pending-update-{Guid.NewGuid():N}.json");
         string updaterExecutablePath = PrepareDelegatedUpdaterExecutable(context, packageType);
         string relaunchExecutablePath = Path.Combine(context.RootDir, "MAA.exe");
 

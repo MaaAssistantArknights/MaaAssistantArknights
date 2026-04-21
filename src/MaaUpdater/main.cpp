@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <iostream>
 #include <limits>
 #include <string>
 #include <vector>
@@ -104,6 +105,18 @@ static void WriteLogF(const wchar_t* fmt, ...)
     _vsnwprintf_s(buf, _countof(buf), _TRUNCATE, fmt, args);
     va_end(args);
     WriteLog(buf);
+}
+
+static void WriteConsoleText(FILE* stream, const std::wstring& text, bool appendNewline)
+{
+    std::string utf8;
+    if (TryConvertWideToUtf8(text, utf8)) {
+        fwrite(utf8.data(), 1, utf8.size(), stream);
+    }
+    if (appendNewline) {
+        fwrite("\n", 1, 1, stream);
+    }
+    fflush(stream);
 }
 
 // ---------------------------------------------------------------------------
@@ -421,32 +434,47 @@ static bool WriteUtf8File(const std::wstring& path, const std::string& content)
 // { "packageType": "full|ota", "removeList": [ "...", ... ], "moveList": [ "...", ... ] }
 // ---------------------------------------------------------------------------
 
-static std::string ReadUtf8File(const std::wstring& path)
+static std::wstring BuildFileIoFailureReason(const wchar_t* action, const std::wstring& path, DWORD errorCode)
 {
+    wchar_t buf[512];
+    _snwprintf_s(buf, _countof(buf), _TRUNCATE, L"%s: %s (error=%lu)", action, path.c_str(), errorCode);
+    return buf;
+}
+
+static bool TryReadUtf8File(const std::wstring& path, std::string& content, std::wstring& failureReason)
+{
+    content.clear();
+    failureReason.clear();
+
     HANDLE hFile = CreateFileW(
         path.c_str(),
-        GENERIC_READ, FILE_SHARE_READ,
+        GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
         nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (hFile == INVALID_HANDLE_VALUE) return {};
-
-    LARGE_INTEGER size {};
-    if (!GetFileSizeEx(hFile, &size) ||
-        size.QuadPart < 0 ||
-        size.QuadPart > static_cast<LONGLONG>(std::numeric_limits<size_t>::max()))
-    {
-        CloseHandle(hFile);
-        return {};
+    if (hFile == INVALID_HANDLE_VALUE) {
+        failureReason = BuildFileIoFailureReason(L"Failed to open file", path, GetLastError());
+        return false;
     }
 
-    std::string buf(static_cast<size_t>(size.QuadPart), '\0');
-    DWORD read = 0;
-    if (!ReadFile(hFile, buf.data(), static_cast<DWORD>(buf.size()), &read, nullptr)) {
-        CloseHandle(hFile);
-        return {};
+    std::string buf;
+    char chunk[4096];
+    while (true) {
+        DWORD chunkRead = 0;
+        if (!ReadFile(hFile, chunk, static_cast<DWORD>(sizeof(chunk)), &chunkRead, nullptr)) {
+            failureReason = BuildFileIoFailureReason(L"Failed to read file", path, GetLastError());
+            CloseHandle(hFile);
+            return false;
+        }
+
+        if (chunkRead == 0) {
+            break;
+        }
+
+        buf.append(chunk, chunkRead);
     }
+
     CloseHandle(hFile);
-    buf.resize(read);
-    return buf;
+    content.swap(buf);
+    return true;
 }
 
 // Convert a UTF-8 JSON string value to std::wstring.
@@ -673,6 +701,84 @@ static std::wstring ParseJsonStringProperty(const std::string& json, const char*
     return Utf8ToWide(ParseJsonString(json, pos));
 }
 
+struct PendingUpdatePlan
+{
+    std::wstring packageType;
+    std::vector<std::wstring> removeList;
+    std::vector<std::wstring> moveList;
+};
+
+static bool LoadPendingUpdatePlan(
+    const std::wstring& planFile,
+    PendingUpdatePlan& outPlan,
+    std::wstring& failureReason,
+    std::string* rawJson = nullptr)
+{
+    outPlan = {};
+    failureReason.clear();
+
+    if (!PathExistsW(planFile)) {
+        failureReason = L"Plan file not found: " + planFile;
+        return false;
+    }
+
+    std::string planJson;
+    if (!TryReadUtf8File(planFile, planJson, failureReason)) {
+        return false;
+    }
+
+    if (rawJson != nullptr) {
+        *rawJson = planJson;
+    }
+
+    if (planJson.empty()) {
+        failureReason = L"Plan file is empty: " + planFile;
+        return false;
+    }
+
+    outPlan.packageType = ParseJsonStringProperty(planJson, "packageType");
+    outPlan.removeList = ParseJsonStringArray(planJson, "removeList");
+    outPlan.moveList = ParseJsonStringArray(planJson, "moveList");
+    return true;
+}
+
+static void PrintPlanEntries(const wchar_t* title, const std::vector<std::wstring>& entries)
+{
+    WriteConsoleText(stdout, std::wstring(title) + L" (" + std::to_wstring(entries.size()) + L")", true);
+    for (const std::wstring& entry : entries) {
+        WriteConsoleText(stdout, L"  - " + entry, true);
+    }
+}
+
+static int RunPlanParserTest(const std::wstring& initialPlanFile)
+{
+    std::wstring planFile = initialPlanFile;
+    if (planFile.empty()) {
+        WriteConsoleText(stdout, L"请输入要解析的 plan 文件路径: ", false);
+        std::getline(std::wcin, planFile);
+    }
+
+    if (planFile.empty()) {
+        WriteConsoleText(stderr, L"未提供 plan 文件路径。", true);
+        return 1;
+    }
+
+    PendingUpdatePlan plan;
+    std::wstring failureReason;
+    std::string rawJson;
+    if (!LoadPendingUpdatePlan(planFile, plan, failureReason, &rawJson)) {
+        WriteConsoleText(stderr, failureReason, true);
+        return 2;
+    }
+
+    WriteConsoleText(stdout, L"文件读取成功: " + planFile, true);
+    WriteConsoleText(stdout, L"原始字节数: " + std::to_wstring(rawJson.size()), true);
+    WriteConsoleText(stdout, L"packageType: " + (plan.packageType.empty() ? std::wstring(L"<empty>") : plan.packageType), true);
+    PrintPlanEntries(L"removeList", plan.removeList);
+    PrintPlanEntries(L"moveList", plan.moveList);
+    return 0;
+}
+
 // ---------------------------------------------------------------------------
 // Entry point
 // ---------------------------------------------------------------------------
@@ -680,6 +786,10 @@ static std::wstring ParseJsonStringProperty(const std::string& json, const char*
 int wmain(int argc, wchar_t* argv[])
 {
     constexpr int REQUIRED_ARGS = 9; // excluding argv[0]
+
+    if (argc >= 2 && wcscmp(argv[1], L"--test-plan") == 0) {
+        return RunPlanParserTest(argc >= 3 ? argv[2] : L"");
+    }
 
     if (argc - 1 < REQUIRED_ARGS) {
         MessageBoxW(
@@ -730,26 +840,18 @@ int wmain(int argc, wchar_t* argv[])
     // Read plan
     // ------------------------------------------------------------------
     do {
-        if (!PathExistsW(planFile)) {
-            failureReason = L"Plan file not found: " + planFile;
+        PendingUpdatePlan plan;
+        if (!LoadPendingUpdatePlan(planFile, plan, failureReason)) {
             WriteLog(failureReason.c_str());
             break;
         }
 
-        std::string planJson = ReadUtf8File(planFile);
-        if (planJson.empty()) {
-            failureReason = L"Plan file is empty or unreadable: " + planFile;
-            WriteLog(failureReason.c_str());
-            break;
-        }
-
-        std::wstring packageType = ParseJsonStringProperty(planJson, "packageType");
-        bool isFullPackage = EqualsIgnoreCase(packageType, L"full");
-        std::vector<std::wstring> removeList = ParseJsonStringArray(planJson, "removeList");
-        std::vector<std::wstring> moveList   = ParseJsonStringArray(planJson, "moveList");
+        bool isFullPackage = EqualsIgnoreCase(plan.packageType, L"full");
+        const std::vector<std::wstring>& removeList = plan.removeList;
+        const std::vector<std::wstring>& moveList = plan.moveList;
 
         WriteLogF(L"Plan loaded: packageType=%s removeList=%zu moveList=%zu",
-                  packageType.c_str(), removeList.size(), moveList.size());
+                  plan.packageType.c_str(), removeList.size(), moveList.size());
 
         CreateDirectoryW(backupDir.c_str(), nullptr);
 
