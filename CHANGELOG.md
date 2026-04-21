@@ -6,8 +6,8 @@
 * 启动时判断版本是否一致 @ABA2396
 * 新增吃指定天数过期的理智药 (#13849) @soundofautumn @status102
 * 添加单元测试框架和验证角色分配算法的测试用例 (#16245) @lhhxxxxx
-* AVD截图增强的售后（文档、CI变更等） (#16031) @satgo1546
-* V0.2 新构建跨平台前端界面MAAUnified，合并代码请求 (#16048) @Halo5082
+* AVD 截图增强的售后（文档、CI 变更等） (#16031) @satgo1546
+* V0.2 新构建跨平台前端界面 MAAUnified (#16048) @Halo5082
 * 配置存储支持条件优化 (#15850) @status102
 * 界园肉鸽月度小队和深入调查 (#16271) @SherkeyXD
 
@@ -22,10 +22,9 @@
 ### 修复 | Fix
 
 * updater utf8 解析 @ABA2396
-* warnings @ABA2396
 * 描述误导 @status102
 * 基建开启设施无法保存 @ABA2396
-* index越界 @status102
+* index 越界 @status102
 * macOS PlayTools/SCK 几处小修正 (#16276) @FireflySentinel
 * 干员库存识别返回错误id @status102
 * baseList 无法编译的问题 (#16293) @Yi-Zh17
@@ -38,5 +37,5 @@
 
 * 注释推错了 @status102
 * 调整手动更新方法描述 @ABA2396
-* KR UseExpireMedicineForActivity @HX3N
 * 繁中服宿舍截圖 & 部分 OCR 內容 (#16298) @momomochi987
+* KR UseExpireMedicineForActivity @HX3N
