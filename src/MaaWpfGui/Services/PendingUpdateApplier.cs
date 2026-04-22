@@ -50,6 +50,7 @@ internal static partial class PendingUpdateApplier
 
     private static readonly HashSet<string> s_fullPackagePreservedEntries = new(StringComparer.OrdinalIgnoreCase)
     {
+        "cache",
         "config",
         "data",
         "debug",
