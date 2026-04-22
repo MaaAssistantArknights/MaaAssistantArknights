@@ -24,6 +24,57 @@
 #include <string>
 #include <vector>
 
+struct PendingUpdatePlan;
+
+static bool TryConvertWideToUtf8(const std::wstring& wide, std::string& utf8);
+static void WriteLog(const wchar_t* message);
+static void WriteLogF(const wchar_t* fmt, ...);
+static void WriteConsoleText(FILE* stream, const std::wstring& text, bool appendNewline);
+static void RotateLogIfNeeded();
+
+static std::wstring EnsureTrailingSeparator(const std::wstring& path);
+static std::wstring NormalizeRelativePath(const std::wstring& relativePath);
+static bool EqualsIgnoreCase(const std::wstring& left, const wchar_t* right);
+static bool IsRecycleAndReplaceDirectory(const std::wstring& relativePath);
+static bool TryResolvePathUnderRoot(
+    const std::wstring& rootPath,
+    const std::wstring& relativePath,
+    std::wstring& out);
+
+static bool PathExistsW(const std::wstring& path);
+static bool IsDirectory(const std::wstring& path);
+static bool CopyDirectoryRecursive(const std::wstring& sourceDir, const std::wstring& destinationDir);
+static bool MovePathToRecycleBin(const std::wstring& path);
+static bool CopyPathEntry(const std::wstring& sourcePath, const std::wstring& destinationPath);
+static void EnsureParentDirectory(const std::wstring& path);
+static std::wstring CreateArchivedPath(const std::wstring& base);
+static bool MovePathEntry(const std::wstring& src, const std::wstring& dst);
+static void PrepareBackupDestination(const std::wstring& backupPath);
+static bool MoveExistingPathToBackup(const std::wstring& src, const std::wstring& backup);
+static bool RecycleAndBackupDirectory(const std::wstring& sourcePath, const std::wstring& backupPath);
+static bool RecycleAndBackupPath(const std::wstring& sourcePath, const std::wstring& backupPath);
+static bool RemoveDirectoryRecursive(const std::wstring& dir);
+
+static bool WriteUtf8File(const std::wstring& path, const char* content);
+static bool WriteUtf8File(const std::wstring& path, const std::string& content);
+
+static std::wstring BuildFileIoFailureReason(const wchar_t* action, const std::wstring& path, DWORD errorCode);
+static bool TryReadUtf8File(const std::wstring& path, std::string& content, std::wstring& failureReason);
+static std::wstring Utf8ToWide(const std::string& s);
+static std::string ParseJsonString(const std::string& json, size_t& pos);
+static size_t SkipJsonWhitespace(const std::string& json, size_t pos);
+static size_t SkipJsonValue(const std::string& json, size_t pos);
+static size_t FindTopLevelJsonValueStartByKey(const std::string& json, const char* key);
+static std::vector<std::wstring> ParseJsonStringArray(const std::string& json, const char* key);
+static std::wstring ParseJsonStringProperty(const std::string& json, const char* key);
+static bool LoadPendingUpdatePlan(
+    const std::wstring& planFile,
+    PendingUpdatePlan& outPlan,
+    std::wstring& failureReason,
+    std::string* rawJson = nullptr);
+static void PrintPlanEntries(const wchar_t* title, const std::vector<std::wstring>& entries);
+static int RunPlanParserTest(const std::wstring& initialPlanFile);
+
 // ---------------------------------------------------------------------------
 // Logging
 // ---------------------------------------------------------------------------
@@ -119,6 +170,39 @@ static void WriteConsoleText(FILE* stream, const std::wstring& text, bool append
     fflush(stream);
 }
 
+static constexpr LONGLONG MAX_UPDATER_LOG_SIZE = 4LL * 1024 * 1024;
+
+static void RotateLogIfNeeded()
+{
+    if (g_logFile.empty() || !PathExistsW(g_logFile)) {
+        return;
+    }
+
+    HANDLE hFile = CreateFileW(
+        g_logFile.c_str(),
+        GENERIC_READ,
+        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+        nullptr,
+        OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL,
+        nullptr);
+    if (hFile == INVALID_HANDLE_VALUE) {
+        return;
+    }
+
+    LARGE_INTEGER size {};
+    bool shouldRotate = GetFileSizeEx(hFile, &size) && size.QuadPart > MAX_UPDATER_LOG_SIZE;
+    CloseHandle(hFile);
+
+    if (!shouldRotate) {
+        return;
+    }
+
+    std::wstring bakFile = g_logFile + L".bak";
+    DeleteFileW(bakFile.c_str());
+    MoveFileExW(g_logFile.c_str(), bakFile.c_str(), MOVEFILE_REPLACE_EXISTING);
+}
+
 // ---------------------------------------------------------------------------
 // Path utilities
 // ---------------------------------------------------------------------------
@@ -206,8 +290,6 @@ static bool TryResolvePathUnderRoot(
 // ---------------------------------------------------------------------------
 // File / directory helpers
 // ---------------------------------------------------------------------------
-
-static void EnsureParentDirectory(const std::wstring& path);
 
 static bool PathExistsW(const std::wstring& path)
 {
@@ -405,8 +487,6 @@ static bool RemoveDirectoryRecursive(const std::wstring& dir)
 // ---------------------------------------------------------------------------
 // Write a small UTF-8 text file
 // ---------------------------------------------------------------------------
-
-static bool WriteUtf8File(const std::wstring& path, const std::string& content);
 
 static bool WriteUtf8File(const std::wstring& path, const char* content)
 {
@@ -712,7 +792,7 @@ static bool LoadPendingUpdatePlan(
     const std::wstring& planFile,
     PendingUpdatePlan& outPlan,
     std::wstring& failureReason,
-    std::string* rawJson = nullptr)
+    std::string* rawJson)
 {
     outPlan = {};
     failureReason.clear();
@@ -814,6 +894,7 @@ int wmain(int argc, wchar_t* argv[])
     std::wstring planFile            = argv[9];
 
     g_logFile = rootDir + L"\\debug\\pending-update-applier.log";
+    RotateLogIfNeeded();
 
     WriteLog(L"MAA.Updater started (C++ external updater).");
     WriteLogF(L"ParentPID=%lu RootDir=%s", parentPid, rootDir.c_str());
