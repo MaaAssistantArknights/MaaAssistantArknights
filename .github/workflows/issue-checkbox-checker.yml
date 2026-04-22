@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Check for duplicate issues in last hour
         id: duplicate-check
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
@@ -66,7 +66,7 @@ jobs:
 
       - name: Check for issue checkboxes
         id: unread-checkbox-check
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             // 找不到###就算了
@@ -89,7 +89,7 @@ jobs:
 
       - name: Close low-quality issue
         if: steps.unread-checkbox-check.outputs.result == 'true'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.issues.update({
@@ -116,7 +116,7 @@ jobs:
 
       - name: Fold checkboxes
         if: steps.unread-checkbox-check.outputs.result == 'false'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const originalBody = context.payload.issue.body;
