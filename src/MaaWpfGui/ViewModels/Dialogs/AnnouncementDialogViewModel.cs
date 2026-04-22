@@ -268,6 +268,7 @@ public class AnnouncementDialogViewModel : Screen
         var body = await HttpResponseHelper.GetStringAsync(response);
         if (!string.IsNullOrEmpty(body) && AnnouncementInfo != body)
         {
+            /*
             const string Template =
                 "----------- OLD -----------\n" +
                 "{AnnouncementInfo}\n" +
@@ -278,6 +279,8 @@ public class AnnouncementDialogViewModel : Screen
             _logger.Information(Template,
                 AnnouncementInfo,
                 body);
+            */
+            _logger.Information("{Body}", body);
             AnnouncementInfo = body;
             DoNotRemindThisAnnouncementAgain = false;
         }
