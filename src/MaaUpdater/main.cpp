@@ -29,6 +29,7 @@ struct PendingUpdatePlan;
 static bool TryConvertWideToUtf8(const std::wstring& wide, std::string& utf8);
 static void WriteLog(const wchar_t* message);
 static void WriteLogF(const wchar_t* fmt, ...);
+static void WriteLogEntries(const wchar_t* title, const std::vector<std::wstring>& entries);
 static void WriteConsoleText(FILE* stream, const std::wstring& text, bool appendNewline);
 static void RotateLogIfNeeded();
 
@@ -156,6 +157,15 @@ static void WriteLogF(const wchar_t* fmt, ...)
     _vsnwprintf_s(buf, _countof(buf), _TRUNCATE, fmt, args);
     va_end(args);
     WriteLog(buf);
+}
+
+static void WriteLogEntries(const wchar_t* title, const std::vector<std::wstring>& entries)
+{
+    WriteLogF(L"%s (%zu)", title, entries.size());
+    for (const std::wstring& entry : entries) {
+        std::wstring line = L"  - " + entry;
+        WriteLog(line.c_str());
+    }
 }
 
 static void WriteConsoleText(FILE* stream, const std::wstring& text, bool appendNewline)
@@ -933,6 +943,8 @@ int wmain(int argc, wchar_t* argv[])
 
         WriteLogF(L"Plan loaded: packageType=%s removeList=%zu moveList=%zu",
                   plan.packageType.c_str(), removeList.size(), moveList.size());
+        WriteLogEntries(L"removeList", removeList);
+        WriteLogEntries(L"moveList", moveList);
 
         CreateDirectoryW(backupDir.c_str(), nullptr);
 
