@@ -784,10 +784,16 @@ internal static partial class PendingUpdateApplier
 
             string[] normalizedRemoveList = [.. removeList
                 .Select(entry => entry.Trim().Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar))
-                .Where(entry => !string.IsNullOrWhiteSpace(entry))
+                .Where(entry => !string.IsNullOrWhiteSpace(entry) && !IsDirectoryRemovalEntry(entry))
                 .Distinct(StringComparer.OrdinalIgnoreCase)];
 
             return new PendingUpdateManifest(normalizedRemoveList, payloadFiles);
         }
+    }
+
+    private static bool IsDirectoryRemovalEntry(string relativePath)
+    {
+        return relativePath.EndsWith(Path.DirectorySeparatorChar) ||
+               relativePath.EndsWith(Path.AltDirectorySeparatorChar);
     }
 }

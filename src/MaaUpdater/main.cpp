@@ -958,6 +958,14 @@ int wmain(int argc, wchar_t* argv[])
             }
             if (!PathExistsW(targetPath)) continue;
 
+            if (!isFullPackage && IsDirectory(targetPath)) {
+                WriteLogF(
+                    L"Skipping directory removal from non-full package: rel=%s target=%s",
+                    rel.c_str(),
+                    targetPath.c_str());
+                continue;
+            }
+
             std::wstring backupPath;
             if (!TryResolvePathUnderRoot(backupDir, rel, backupPath)) {
                 failureReason = L"Illegal backup path for removeList: " + rel;
@@ -990,6 +998,12 @@ int wmain(int argc, wchar_t* argv[])
             }
 
             if (PathExistsW(targetPath)) {
+                if (!isFullPackage && IsDirectory(targetPath)) {
+                    failureReason = L"Non-full package cannot replace directory: " + targetPath;
+                    WriteLog(failureReason.c_str());
+                    goto apply_failed;
+                }
+
                 WriteLogF(L"Backing up existing: %s", targetPath.c_str());
                 bool backupOk = IsRecycleAndReplaceDirectory(rel)
                     ? RecycleAndBackupDirectory(targetPath, backupPath)
