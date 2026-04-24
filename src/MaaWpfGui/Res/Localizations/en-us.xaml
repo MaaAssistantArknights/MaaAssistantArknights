@@ -1373,7 +1373,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">OK!</system:String>
-    <system:String x:Key="VersionUpdated">Version Updated</system:String>
+    <system:String x:Key="VersionUpdated">Version Information</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">Updated Version:&#160;</system:String>
     <!--  !VersionUpdatePopup  -->
     <!--  RootViewModel  -->

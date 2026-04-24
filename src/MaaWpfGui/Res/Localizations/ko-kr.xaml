@@ -1375,7 +1375,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">좋아요!</system:String>
-    <system:String x:Key="VersionUpdated">업데이트 완료</system:String>
+    <system:String x:Key="VersionUpdated">버전 정보</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">새 버전: </system:String>
     <!--  !VersionUpdatePopup  -->
     <!--  RootViewModel  -->

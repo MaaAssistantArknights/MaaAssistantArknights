@@ -311,8 +311,14 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         {
             case PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered:
             case PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered:
-                Instances.VersionUpdateDialogViewModel.UpdateTag = importResult.TargetVersion ?? string.Empty;
-                Instances.VersionUpdateDialogViewModel.UpdateInfo = string.Empty;
+                string targetVersion = importResult.TargetVersion ?? string.Empty;
+                bool preserveExistingUpdateInfo = PendingUpdateApplier.ShouldPreserveExistingUpdateBody(targetVersion);
+                Instances.VersionUpdateDialogViewModel.UpdateTag = targetVersion;
+                if (!preserveExistingUpdateInfo)
+                {
+                    Instances.VersionUpdateDialogViewModel.UpdateInfo = string.Empty;
+                }
+
                 Instances.VersionUpdateDialogViewModel.UpdatePackageName = packagePath;
                 _logger.Information(
                     "Showing restart prompt for imported update package: {PackagePath}, status={Status}",

@@ -1374,7 +1374,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">OK!</system:String>
-    <system:String x:Key="VersionUpdated">バージョンが更新されました</system:String>
+    <system:String x:Key="VersionUpdated">バージョン情報</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">バージョン: </system:String>
     <!--  !VersionUpdatePopup  -->
     <!--  RootViewModel  -->
