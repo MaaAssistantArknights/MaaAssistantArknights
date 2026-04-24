@@ -136,6 +136,7 @@ void asst::Controller::sync_params()
 
 bool asst::Controller::back_to_home()
 {
+    CHECK_EXIST(m_controller, false);
     m_controller->back_to_home();
     return true;
 }
