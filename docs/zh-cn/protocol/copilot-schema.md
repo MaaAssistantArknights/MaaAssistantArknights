@@ -155,7 +155,7 @@ icon: ph:sword-bold
             "type": "二倍速"
         }
     ],
-    "minimum_required": "v6.7.0", // 最低要求 maa 版本号，必选，建议填写 MAA 最新正式版构建版本，格式必须为 vx.x.x (如 v6.7.0 ) 。
+    "minimum_required": "v6.7.0", // 最低要求 maa 版本号，必选；例如 v6.7.0, v6.8.0-beta.1
     "doc": {
         // 描述，可选。
         "title": "低练度高成功率作业",
