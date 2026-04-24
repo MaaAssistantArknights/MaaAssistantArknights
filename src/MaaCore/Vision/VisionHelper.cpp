@@ -92,7 +92,7 @@ Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
     }
     if (rect.x >= image.cols || rect.y >= image.rows) {
         Log.error(__FUNCTION__, "roi is out of range", image.cols, image.rows, rect.to_string());
-        return rect;
+        return { 1, 1, 0, 0 }; // 临时修复, 后续需调整默认rect的行为
     }
 
     Rect res = rect;

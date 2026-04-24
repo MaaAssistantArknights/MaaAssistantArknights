@@ -211,6 +211,7 @@ jobs:
           rm -rf install/*.pdb
           rm -rf install/msvc-debug
           rm -rf install/*.h
+          rm -rf install/*.bak
 
           cp tools/DependencySetup_依赖库安装.bat install
 
@@ -585,7 +586,7 @@ jobs:
           find . -type f | while read f; do mv -fvt . $f; done
 
       - name: Publish release to GitHub
-        uses: softprops/action-gh-release@v2.6.1
+        uses: softprops/action-gh-release@v3.0.0
         with:
           body_path: CHANGELOG.md
           files: |

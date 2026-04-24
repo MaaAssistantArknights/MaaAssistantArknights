@@ -50,6 +50,7 @@ internal static partial class PendingUpdateApplier
 
     private static readonly HashSet<string> s_fullPackagePreservedEntries = new(StringComparer.OrdinalIgnoreCase)
     {
+        "cache",
         "config",
         "data",
         "debug",
@@ -687,10 +688,27 @@ internal static partial class PendingUpdateApplier
         ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.TrueString);
     }
 
+    internal static bool ShouldPreserveExistingUpdateBody(string updateTag)
+    {
+        if (string.IsNullOrWhiteSpace(updateTag))
+        {
+            return false;
+        }
+
+        string existingUpdateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
+        string existingUpdateBody = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+        return !string.IsNullOrWhiteSpace(existingUpdateBody) && VersionsMatch(existingUpdateTag, updateTag);
+    }
+
     private static void RegisterPendingUpdatePackage(string updateTag, string packagePath)
     {
+        bool preserveExistingUpdateBody = ShouldPreserveExistingUpdateBody(updateTag);
         ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, updateTag);
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+        if (!preserveExistingUpdateBody)
+        {
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+        }
+
         ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, packagePath);
     }
 
@@ -783,10 +801,16 @@ internal static partial class PendingUpdateApplier
 
             string[] normalizedRemoveList = [.. removeList
                 .Select(entry => entry.Trim().Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar))
-                .Where(entry => !string.IsNullOrWhiteSpace(entry))
+                .Where(entry => !string.IsNullOrWhiteSpace(entry) && !IsDirectoryRemovalEntry(entry))
                 .Distinct(StringComparer.OrdinalIgnoreCase)];
 
             return new PendingUpdateManifest(normalizedRemoveList, payloadFiles);
         }
+    }
+
+    private static bool IsDirectoryRemovalEntry(string relativePath)
+    {
+        return relativePath.EndsWith(Path.DirectorySeparatorChar) ||
+               relativePath.EndsWith(Path.AltDirectorySeparatorChar);
     }
 }

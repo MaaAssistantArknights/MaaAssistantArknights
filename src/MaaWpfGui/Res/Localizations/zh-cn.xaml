@@ -1374,7 +1374,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">好的！</system:String>
-    <system:String x:Key="VersionUpdated">版本已更新</system:String>
+    <system:String x:Key="VersionUpdated">版本信息</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">已更新: </system:String>
     <!--  !VersionUpdatePopup  -->
     <!--  RootViewModel  -->

@@ -4688,7 +4688,9 @@
         "action": "ClickSelf",
         "cache": true,
         "roi": [395, 150, 248, 427],
-        "next": ["ChangeOrderConfirm"]
+        "next": ["ChangeOrderConfirm"],
+        "preDelay": 500,
+        "Doc": "加前延时等动画结束再执行点击"
     },
     "ChangeOrderConfirm": {
         "algorithm": "JustReturn",
@@ -4708,7 +4710,9 @@
         "action": "ClickSelf",
         "cache": true,
         "roi": [635, 150, 250, 427],
-        "next": ["ChangeOrderConfirm"]
+        "next": ["ChangeOrderConfirm"],
+        "preDelay": 500,
+        "Doc": "加前延时等动画结束再执行点击"
     },
     "ChooseProductList": {
         "action": "ClickRect",
@@ -4721,7 +4725,7 @@
         "template": "ReplenishToMaxConfirm.png",
         "cache": true,
         "roi": [890, 540, 120, 120],
-        "next": ["ProductFinalConfirm"]
+        "next": ["ProductFinalConfirm", "Stop"]
     },
     "ClickProductMax": {
         "action": "ClickSelf",
@@ -4733,7 +4737,9 @@
         "action": "ClickSelf",
         "cache": true,
         "roi": [240, 255, 190, 195],
-        "next": ["ClickProductMax"]
+        "next": ["ClickProductMax"],
+        "preDelay": 500,
+        "Doc": "加前延时等动画结束再执行点击"
     },
     "ProductFinalConfirm": {
         "action": "ClickSelf",
@@ -4752,7 +4758,9 @@
         "action": "ClickSelf",
         "cache": true,
         "roi": [240, 76, 190, 195],
-        "next": ["ClickProductMax"]
+        "next": ["ClickProductMax"],
+        "preDelay": 500,
+        "Doc": "加前延时等动画结束再执行点击"
     },
     "ChooseOriginiumShardTab": {
         "action": "ClickSelf",
@@ -4764,7 +4772,9 @@
         "action": "ClickSelf",
         "cache": true,
         "roi": [240, 76, 190, 195],
-        "next": ["ClickProductMax"]
+        "next": ["ClickProductMax"],
+        "preDelay": 500,
+        "Doc": "加前延时等动画结束再执行点击"
     },
     "ChangeProductToMiddleBattleRecord": {
         "action": "ClickRect",
