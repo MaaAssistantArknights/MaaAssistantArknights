@@ -1,88 +1,83 @@
 ## v6.8.0
 
+### Highlights
+
+#### 独立更新器与本地拖入更新
+
+更新流程已重构为独立更新器方案，并支持直接拖入符合命名规则的压缩包更新。可拖入完整包，例如 MAA-v6.8.0-win-x64.zip，也可拖入 OTA 增量包，例如 MAAComponent-OTA-v旧版本_v新版本-win-x64.zip。压缩包名称、架构与版本链必须严格匹配；若文件名被系统追加 (1)、-副本，或版本号、架构与当前安装不一致，都会被直接拦截。该功能适用于无法直接连接 GitHub、但可通过群文件等渠道获取完整包或增量包的用户，且需在 v6.8.0-beta.2 及以上版本中使用。
+
+#### 建议内测版用户执行一次完整包清理替换
+
+在独立更新器的编写过程中，我们修复了一个自内测版发布之初就存在的问题：内测版在与正式版或公测版对比时，removelist 可能会错误地将所有目录加入删除列表。建议所有内测版用户下载一次完整包，并拖入软件内执行清理替换。通过完整包更新时，MAA 会保留 debug、cache、data、config 文件夹，其余文件会移入回收站；若目录内有自行添加或修改过的文件，建议提前备份。
+
+#### 玩法与海外服支持扩展
+
+本版本新增按指定过期天数使用理智药、界园肉鸽月度小队与深入调查等功能，并补充海外服线索快速放置、OS 关卡与小游戏资源、OCR 与本地化内容，进一步提升多地区服支持的完整度。
+
+----
+
+#### Standalone Updater and Update Flow Overhaul
+
+The update flow has been rebuilt around a standalone updater, and MAA now supports updating by directly dragging in a correctly named archive. You can import either a full package, such as MAA-v6.8.0-win-x64.zip, or an OTA package, such as MAAComponent-OTA-vOLD_VERSION_vNEW_VERSION-win-x64.zip. The filename, architecture, and version chain must match exactly; files renamed with suffixes like (1) or copy, or files whose version or architecture does not match the current installation, will be rejected immediately. This is intended for users who cannot access GitHub directly but can obtain full packages or OTA packages from other channels such as community file shares. This feature requires v6.8.0-beta.2 or later.
+
+#### Recommended Full-Package Cleanup for Beta Users
+
+While developing the standalone updater, we found and fixed a long-standing issue that had existed since the earliest beta releases: when comparing a beta build against a stable or public build, removelist could incorrectly add every directory to the deletion list. We therefore recommend that all beta users download a full package once and drag it into MAA to perform a cleanup replacement. When updating from a full package, MAA preserves the debug, cache, data, and config folders, while other files are moved to the Recycle Bin. If you have added or modified files manually, back them up in advance.
+
+#### Gameplay and Overseas Support Expansion
+
+This release adds support for consuming sanity potions by specified expiration days, JieGarden monthly squads and deep investigations, and broader overseas support with faster clue placement, OS stage and mini-game resources, OCR improvements, and localization updates.
+
+----
+
+以下是详细内容：
+
+## v6.8.0
+
 ### 新增 | New
 
-* updater 增加移除和移动文件列表打印 @ABA2396
-* updater 日志增加大小上限 @ABA2396
-* 非法Enum值将使用属性设置的默认值作为替代 (#16138) @status102
-* 线索交流时先移除所有放置的线索 (#16054) @travellerse
-* 启动时判断版本是否一致 @ABA2396
-* 新增吃指定天数过期的理智药 (#13849) @soundofautumn @status102
-* 添加单元测试框架和验证角色分配算法的测试用例 (#16245) @lhhxxxxx
-* AVD截图增强的售后（文档、CI变更等） (#16031) @satgo1546 @Rbqwow @MistEO
-* V0.2 新构建跨平台前端界面MAAUnified，合并代码请求 (#16048) @Halo5082 @MistEO
-* 配置存储支持条件优化 (#15850) @status102
-* 界园肉鸽月度小队和深入调查 (#16271) @SherkeyXD
+* 新增跨平台前端界面 MAAUnified V0.2，为后续多平台统一体验提供基础 (#16048) @Halo5082 @MistEO
+* 新增可按指定过期天数使用理智药 (#13849) @soundofautumn @status102
+* 新增界园肉鸽月度小队与深入调查支持 (#16271) @SherkeyXD
+* 新增海外服线索快速放置，并在线索交流前自动清空已放置线索 (#14966) (#16054) @Constrat @travellerse
 
 ### 改进 | Improved
 
-* 自动编队预编队后检查选中情况 @status102
-* 优化提示元素展示效果 @ABA2396
-* 作业版本号需求允许省略patch @status102
-* 使用SemaphoreSlim替换Lock @status102
-* 分辨率不支持时打印当前分辨率 @ABA2396
-* 移除 NotificationImplWinRT 中二次进入 UI 线程 (#16196) @EzraRT
-* 提升 Algorithm.hpp 算法性能及其鲁棒性 (#16235) @lhhxxxxx
-* 干员数据重构, 支持跨职业重名干员 (#16084) @status102
-* 外部更新使用分离的 updater (#16326) @ABA2396
-* 外部更新不再读配置 @ABA2396
-* 简化更新代码 @ABA2396
-* 涉及 dll 的更新使用外部更新 @ABA2396
-* 重构更新逻辑，允许拖入指定名称的压缩包进行更新 (#16308) @ABA2396
+* 重构更新流程：支持拖入指定名称的压缩包执行更新，涉及 DLL 的更新改由独立更新器处理，并在启动时校验版本一致性 (#16308) (#16326) @ABA2396
+* 更新器日志新增大小上限及文件移除、移动明细，提升更新问题排查体验 @ABA2396
+* 干员数据重构，支持跨职业重名干员 (#16084) @status102
+* 配置存储支持按条件写入，减少无效配置项并提升配置兼容性 (#15850) @status102
+* 自动编队在预编队后会额外校验选中状态，降低误编队概率 @status102
+* 作业版本号要求允许省略 patch 版本号 @status102
+* 优化提示元素展示效果，并减少通知实现中的冗余 UI 线程切换 (#16196) @ABA2396 @EzraRT
+* 优化算法性能与鲁棒性 (#16235) @lhhxxxxx
+* 分辨率不支持时会输出当前分辨率，便于排查兼容问题 @ABA2396
+* PC 端窗口绑定模式下禁用“完成后退出模拟器”，避免无效设置 @ABA2396
 
 ### 修复 | Fix
 
-* 修复截图延迟极低时，可能会随机出现，更换产物/订单失败的问题 (#16330) @Roland125
-* local-install 找不到 Artifact @ABA2396
-* 内测版与其他类型版本对比时 removelist 会错误添加所有目录 @ABA2396
-* 临时修复rect完全超限时的超限返回值 @status102
-* KR OSChapterToOS OCR @Daydreamer114
-* yj 怎么还暗改老主题 @ABA2396
-* 自动战斗鼠标长按分页时, 可能会反复触发切换 @status102
-* EN IS6 DLC1 regexes @Constrat
-* 在定时任务触发时, 固定等待UpdateStageList @status102
-* 修复LinkStart期间UpdateStageList内进入SetFightParams导致死锁 @status102
-* prts.plus改为zoot.plus @status102
-* updater utf8 解析 @ABA2396
-* warnings @ABA2396
-* 描述误导 @status102
-* 基建开启设施无法保存 @ABA2396
-* index越界 @status102
-* macOS PlayTools/SCK 几处小修正 (#16276) @FireflySentinel
-* 干员库存识别返回错误id @status102
-* baseList 无法编译的问题 (#16293) @Yi-Zh17
+* 修复更新器的 UTF-8 解析与 removelist 误判问题，并在更新时额外保留 cache 文件夹，减少误删风险 @ABA2396
+* 修复截图延迟极低时，更换产物或订单可能随机失败的问题 (#16330) @Roland125
+* 修复定时任务触发时 UpdateStageList 的等待逻辑，以及 LinkStart 期间进入 SetFightParams 的死锁问题 @status102
+* 非法 Enum 值现在会回退到属性默认值，避免异常配置继续传播 (#16138) @status102
+* 修复旧主题变更导致的招募识别问题 @ABA2396
+* 修复自动战斗鼠标长按分页时可能反复触发切换的问题 @status102
+* 修复部分越界场景下的返回值与索引异常 @status102
+* 修复基建开启设施无法保存的问题 @ABA2396
+* 修复干员库存识别返回错误 ID 的问题 @status102
+* 修复 macOS PlayTools/SCK 的若干兼容性问题 (#16276) @FireflySentinel
+* 修复韩服 OSChapterToOS OCR 与 EN 服 IS 6 DLC 1 文本匹配问题 @Daydreamer114 @Constrat
 
 ### 文档 | Docs
 
-* Auto Update Changelogs of v6.8.0-beta.1 (#16285) @github-actions[bot] @github-actions[bot] @Constrat
-* i18n for install.md (#16214) @JasonHuang79 @HX3N @Manicsteiner @momomochi987 @Constrat
-* Auto Update Changelogs of v6.8.0-beta.2 (#16324) @github-actions[bot] @github-actions[bot] @ABA2396
-* add FAQ guidance for Windows Defender false positives (#16145) @Leo91314
+* 完善安装文档的多语言翻译 (#16214) @JasonHuang79 @HX3N @Manicsteiner @momomochi987 @Constrat
+* 补充 Windows Defender 误报 FAQ 指引 (#16145) @Leo91314
+* 补充 AVD 截图增强与手动更新相关文档说明 (#16031) @satgo1546 @Rbqwow @MistEO @ABA2396
 
 ### 其他 | Other
 
-* 简化公告日志记录 @ABA2396
-* tool 更新 @ABA2396
-* updater 额外保留 cache 文件夹 @ABA2396
-* 更新保全作业 @Saratoga-Official
-* Release v6.8.0-beta.2 (#16318) @ABA2396
-* Release v6.8.0-beta.1 (#16284) @Constrat
-* implement Quickly Place Clues for Global (#14966) @Constrat
-* EN @Constrat
-* EN OS minigame (#16283) @Constrat
-* YostarJP OS stages and more ocr @Manicsteiner
-* YostarKR OS ocr and minigame (#16268) @HX3N
-* YostarJP OS ocr and minigame (#16267) @Manicsteiner
-* 肉鸽添加怒潮凛冬招募逻辑 (#16217) @Reverse0xCC
-* 添加贝洛内、怒潮凛冬基建技能数值 (#16260) @drway
-* git ignore 添加 claude code @Daydreamer114
-* Revert "ci: issue bot skills 添加 at 符号检测 (#16239)" @MistEO
-* Revert "fix: prts.plus改为zoot.plus" @status102
-* AnnihilationName @status102
-* pc 端禁用完成后退出模拟器 @ABA2396
-* 繁中服「次生方案」小活動 (#16216) @momomochi987
-* 重新将natvis添加到MaaCore (#16133) @status102
-* 注释推错了 @status102
-* 调整手动更新方法描述 @ABA2396
-* KR UseExpireMedicineForActivity @HX3N
-* 繁中服宿舍截圖 & 部分 OCR 內容 (#16298) @momomochi987
+* 添加单元测试框架，并为角色分配算法补充测试用例 (#16245) @lhhxxxxx
+* 更新保全派驻作业 @Saratoga-Official
+* 补充怒潮凛冬相关肉鸽招募逻辑与基建技能数值 (#16217) (#16260) @Reverse0xCC @drway
+* 补充 EN/JP/KR 服 OS 关卡、小游戏与 OCR 资源，并更新韩服过期理智药相关本地化 (#16267) (#16268) (#16283) @Manicsteiner @HX3N @Constrat
+* 更新繁中服「次生方案」活动、宿舍截图及部分 OCR 资源 (#16216) (#16298) @momomochi987
