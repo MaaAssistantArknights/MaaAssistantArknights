@@ -4690,7 +4690,7 @@
         "roi": [395, 150, 248, 427],
         "next": ["ChangeOrderConfirm"],
         "preDelay": 500,
-        "Doc":"加前延时等动画结束再执行点击"
+        "Doc": "加前延时等动画结束再执行点击"
     },
     "ChangeOrderConfirm": {
         "algorithm": "JustReturn",
@@ -4712,7 +4712,7 @@
         "roi": [635, 150, 250, 427],
         "next": ["ChangeOrderConfirm"],
         "preDelay": 500,
-        "Doc":"加前延时等动画结束再执行点击"
+        "Doc": "加前延时等动画结束再执行点击"
     },
     "ChooseProductList": {
         "action": "ClickRect",
@@ -4739,7 +4739,7 @@
         "roi": [240, 255, 190, 195],
         "next": ["ClickProductMax"],
         "preDelay": 500,
-        "Doc":"加前延时等动画结束再执行点击"
+        "Doc": "加前延时等动画结束再执行点击"
     },
     "ProductFinalConfirm": {
         "action": "ClickSelf",
@@ -4760,7 +4760,7 @@
         "roi": [240, 76, 190, 195],
         "next": ["ClickProductMax"],
         "preDelay": 500,
-        "Doc":"加前延时等动画结束再执行点击"
+        "Doc": "加前延时等动画结束再执行点击"
     },
     "ChooseOriginiumShardTab": {
         "action": "ClickSelf",
@@ -4774,7 +4774,7 @@
         "roi": [240, 76, 190, 195],
         "next": ["ClickProductMax"],
         "preDelay": 500,
-        "Doc":"加前延时等动画结束再执行点击"
+        "Doc": "加前延时等动画结束再执行点击"
     },
     "ChangeProductToMiddleBattleRecord": {
         "action": "ClickRect",
