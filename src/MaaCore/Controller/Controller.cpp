@@ -143,7 +143,7 @@ bool asst::Controller::back_to_home()
 
 cv::Mat asst::Controller::get_resized_image_cache() const
 {
-    const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
+    const cv::Size d_size(m_scale_size.first, m_scale_size.second);
 
     std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
     if (m_cache_image.empty()) {
@@ -435,7 +435,7 @@ cv::Mat asst::Controller::get_image(bool raw)
         };
         callback(AsstMsg::ConnectionInfo, info);
 
-        const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
+        const cv::Size d_size(m_scale_size.first, m_scale_size.second);
         m_cache_image = cv::Mat(d_size, CV_8UC3);
 
         break;
