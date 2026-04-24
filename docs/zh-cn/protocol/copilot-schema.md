@@ -8,7 +8,7 @@ icon: ph:sword-bold
 `resource/copilot/*.json` 的使用方法及各字段说明
 
 ::: tip
-请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用
+请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用。注释中的 **作业站** 均指 [PRTS plus](https://prts.plus/) 。
 :::
 
 ## 完整字段一览
@@ -64,7 +64,7 @@ icon: ph:sword-bold
             "type": "部署", // 操作类型，可选，默认为 "Deploy"
             // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch"
             // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器"
-            // 中英文皆可，效果相同
+            // 中英文皆可，效果相同，但目前作业站发布只支持英文
             // 若为 "部署", 当费用不够时，会一直等待到费用够（除非 timeout）
             // 若为 "技能", 当技能 cd 没转好时，一直等待到技能 cd 好（除非 timeout）
             // "二倍速" 是可切换的，即使用一次变成二倍速，再次使用又变回一倍速
@@ -106,7 +106,7 @@ icon: ph:sword-bold
             "direction": "左", // 部署干员的干员朝向。 type 为 "部署" 时必选
             // "Left" | "Right" | "Up" | "Down" | "None"
             // "左"   |  "右"   | "上"  | "下"   |  "无"
-            // 中英文皆可，效果相同
+            // 中英文皆可，效果相同，但目前作业站发布只支持英文
             "skip_if_not_ready": false, // 仅在 type 为 "技能" 时有效, 允许在技能不可用时跳过当前行动，主要用于关闭未打完的弹药技能。可选，默认为 false
             "skill_usage": 1, // 修改技能用法。当 type 为 "技能用法" 时必选
             // 举例：刚下桃金娘需要她帮忙打几个怪，不能自动开技能，中后期平稳了需要她自动开技能
@@ -155,7 +155,7 @@ icon: ph:sword-bold
             "type": "二倍速"
         }
     ],
-    "minimum_required": "v4.0", // 最低要求 maa 版本号，必选。
+    "minimum_required": "v6.7.0", // 最低要求 maa 版本号，必选；例如 v6.7.0, v6.8.0-beta.1
     "doc": {
         // 描述，可选。
         "title": "低练度高成功率作业",
