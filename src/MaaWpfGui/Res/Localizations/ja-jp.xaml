@@ -327,6 +327,7 @@
     <system:String x:Key="UpdateAutoCheckTip">ゲーム内 00:00 / 18:00（サーバー現地時間 04:00 / 22:00）</system:String>
     <system:String x:Key="UpdateAutoDownload">自動アップデート</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自動インストール更新</system:String>
+    <system:String x:Key="ShowUpdaterConsole">更新中に MAA.Updater のコンソール出力を表示</system:String>
     <system:String x:Key="UpdateCheckStable">安定版</system:String>
     <system:String x:Key="UpdateCheckBeta">ベータ版</system:String>
     <system:String x:Key="UpdateCheckNightly">内部テスト版</system:String>

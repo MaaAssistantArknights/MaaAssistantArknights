@@ -71,6 +71,14 @@
                     VerticalAlignment="Center"
                     Content="{DynamicResource AutoInstallUpdatePackage}"
                     IsChecked="{Binding AutoInstallUpdatePackage}" />
+                <CheckBox
+                    MaxWidth="150"
+                    Margin="8"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding ShowUpdaterConsole}">
+                    <TextBlock Text="{DynamicResource ShowUpdaterConsole}" TextWrapping="Wrap" />
+                </CheckBox>
                 <StackPanel
                     Margin="8"
                     Orientation="Horizontal"

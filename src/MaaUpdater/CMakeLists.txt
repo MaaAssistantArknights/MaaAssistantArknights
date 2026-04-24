@@ -10,7 +10,8 @@ target_compile_definitions(MAA.Updater PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_M
 
 # kernel32: process/file/directory APIs
 # user32:   MessageBoxW for "do not run manually" prompt
+# comctl32: progress bar common control
 # shell32:  recycle-bin delete via SHFileOperationW
-target_link_libraries(MAA.Updater PRIVATE kernel32 user32 shell32)
+target_link_libraries(MAA.Updater PRIVATE kernel32 user32 comctl32 shell32)
 
 install(TARGETS MAA.Updater RUNTIME DESTINATION .)

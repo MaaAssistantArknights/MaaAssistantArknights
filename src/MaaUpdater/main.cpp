@@ -5,12 +5,13 @@
 // Usage:
 //   MAA.Updater.exe <ParentProcessId> <RootDir> <ExtractDir> <BackupDir>
 //                   <PackagePath> <SuccessStatusFile> <FailureStatusFile>
-//                   <RelaunchExecutablePath> <PlanFile>
+//                   <RelaunchExecutablePath> <PlanFile> [--show-console]
 //
 // Plan file format (UTF-8 JSON):
 //   { "packageType": "full|ota", "removeList": ["rel/path", ...], "moveList": ["rel/path", ...] }
 
 #include <windows.h>
+#include <commctrl.h>
 #include <shellapi.h>
 
 #include <cstdarg>
@@ -25,13 +26,27 @@
 #include <vector>
 
 struct PendingUpdatePlan;
+struct UpdateProgressUi;
 
 static bool TryConvertWideToUtf8(const std::wstring& wide, std::string& utf8);
+static HANDLE GetConsoleStreamHandle(FILE* stream);
+static bool ShouldShowProgressUi();
+static bool InitializeProgressUi();
+static void DestroyProgressUi();
+static void PumpProgressUiMessages();
+static std::wstring BuildProgressCountText(int processedFileCount, int totalFileCount);
+static void RefreshProgressUiCountText();
+static void SetProgressUiTotalFileCount(int totalFileCount);
+static void SetProgressUiStatus(const std::wstring& status, const std::wstring& detail);
+static void AdvanceProgressUi(const std::wstring& status, const std::wstring& detail);
+static void CompleteProgressUi(const std::wstring& status, const std::wstring& detail);
+static void ShowProgressUiFailure(const std::wstring& failureReason);
 static void WriteLog(const wchar_t* message);
 static void WriteLogF(const wchar_t* fmt, ...);
-static void WriteLogEntries(const wchar_t* title, const std::vector<std::wstring>& entries);
+static void WriteLogEntries(const std::wstring& title, const std::vector<std::wstring>& entries);
 static void WriteConsoleText(FILE* stream, const std::wstring& text, bool appendNewline);
 static void RotateLogIfNeeded();
+static bool HasArgument(int argc, wchar_t* argv[], const wchar_t* argument);
 
 static std::wstring EnsureTrailingSeparator(const std::wstring& path);
 static std::wstring NormalizeRelativePath(const std::wstring& relativePath);
@@ -73,14 +88,36 @@ static bool LoadPendingUpdatePlan(
     PendingUpdatePlan& outPlan,
     std::wstring& failureReason,
     std::string* rawJson = nullptr);
-static void PrintPlanEntries(const wchar_t* title, const std::vector<std::wstring>& entries);
+static void PrintPlanEntries(const std::wstring& title, const std::vector<std::wstring>& entries);
 static int RunPlanParserTest(const std::wstring& initialPlanFile);
+
+struct UpdateProgressUi
+{
+    bool enabled = false;
+    HWND window = nullptr;
+    HWND statusLabel = nullptr;
+    HWND detailLabel = nullptr;
+    HWND countLabel = nullptr;
+    HWND progressBar = nullptr;
+    int processedFileCount = 0;
+    int totalFileCount = 0;
+};
 
 // ---------------------------------------------------------------------------
 // Logging
 // ---------------------------------------------------------------------------
 
 static std::wstring g_logFile;
+static bool g_writeConsoleLog = false;
+static UpdateProgressUi g_progressUi;
+
+static constexpr wchar_t PROGRESS_WINDOW_CLASS_NAME[] = L"MaaUpdaterProgressWindow";
+static constexpr int PROGRESS_WINDOW_WIDTH = 540;
+static constexpr int PROGRESS_WINDOW_HEIGHT = 190;
+static constexpr int PROGRESS_STATUS_CONTROL_ID = 1001;
+static constexpr int PROGRESS_DETAIL_CONTROL_ID = 1002;
+static constexpr int PROGRESS_COUNT_CONTROL_ID = 1003;
+static constexpr int PROGRESS_BAR_CONTROL_ID = 1004;
 
 static bool TryConvertWideToUtf8(const std::wstring& wide, std::string& utf8)
 {
@@ -110,10 +147,306 @@ static bool TryConvertWideToUtf8(const std::wstring& wide, std::string& utf8)
         nullptr) == utf8Len;
 }
 
+static HANDLE GetConsoleStreamHandle(FILE* stream)
+{
+    DWORD stdHandle = stream == stderr
+        ? STD_ERROR_HANDLE
+        : stream == stdout
+            ? STD_OUTPUT_HANDLE
+            : static_cast<DWORD>(-1);
+    if (stdHandle == static_cast<DWORD>(-1)) {
+        return nullptr;
+    }
+
+    HANDLE handle = GetStdHandle(stdHandle);
+    return handle == INVALID_HANDLE_VALUE ? nullptr : handle;
+}
+
+static LRESULT CALLBACK UpdateProgressWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message) {
+    case WM_CLOSE:
+        return 0;
+    case WM_DESTROY:
+        return 0;
+    default:
+        return DefWindowProcW(hwnd, message, wParam, lParam);
+    }
+}
+
+static void ApplyDefaultWindowFont(HWND hwnd)
+{
+    HFONT font = static_cast<HFONT>(GetStockObject(DEFAULT_GUI_FONT));
+    if (font != nullptr) {
+        SendMessageW(hwnd, WM_SETFONT, reinterpret_cast<WPARAM>(font), TRUE);
+    }
+}
+
+static bool EnsureProgressWindowClassRegistered()
+{
+    static bool isRegistered = false;
+    if (isRegistered) {
+        return true;
+    }
+
+    WNDCLASSEXW windowClass {};
+    windowClass.cbSize = sizeof(windowClass);
+    windowClass.lpfnWndProc = UpdateProgressWindowProc;
+    windowClass.hInstance = GetModuleHandleW(nullptr);
+    windowClass.hCursor = LoadCursorW(nullptr, IDC_ARROW);
+    windowClass.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
+    windowClass.lpszClassName = PROGRESS_WINDOW_CLASS_NAME;
+
+    if (RegisterClassExW(&windowClass) == 0) {
+        return GetLastError() == ERROR_CLASS_ALREADY_EXISTS;
+    }
+
+    isRegistered = true;
+    return true;
+}
+
+static bool ShouldShowProgressUi()
+{
+    return !g_writeConsoleLog && GetConsoleWindow() == nullptr;
+}
+
+static void PumpProgressUiMessages()
+{
+    if (!g_progressUi.enabled || g_progressUi.window == nullptr) {
+        return;
+    }
+
+    MSG message {};
+    while (PeekMessageW(&message, nullptr, 0, 0, PM_REMOVE)) {
+        TranslateMessage(&message);
+        DispatchMessageW(&message);
+    }
+}
+
+static bool InitializeProgressUi()
+{
+    if (!ShouldShowProgressUi()) {
+        return false;
+    }
+
+    if (!EnsureProgressWindowClassRegistered()) {
+        return false;
+    }
+
+    INITCOMMONCONTROLSEX controls {};
+    controls.dwSize = sizeof(controls);
+    controls.dwICC = ICC_PROGRESS_CLASS;
+    InitCommonControlsEx(&controls);
+
+    int originX = (GetSystemMetrics(SM_CXSCREEN) - PROGRESS_WINDOW_WIDTH) / 2;
+    int originY = (GetSystemMetrics(SM_CYSCREEN) - PROGRESS_WINDOW_HEIGHT) / 2;
+
+    HWND window = CreateWindowExW(
+        WS_EX_TOPMOST | WS_EX_APPWINDOW | WS_EX_DLGMODALFRAME,
+        PROGRESS_WINDOW_CLASS_NAME,
+        L"MAA 正在更新 | MAA Updating",
+        WS_CAPTION,
+        originX,
+        originY,
+        PROGRESS_WINDOW_WIDTH,
+        PROGRESS_WINDOW_HEIGHT,
+        nullptr,
+        nullptr,
+        GetModuleHandleW(nullptr),
+        nullptr);
+    if (window == nullptr) {
+        return false;
+    }
+
+    HWND statusLabel = CreateWindowExW(
+        0,
+        L"STATIC",
+        L"正在准备更新... | Preparing update...",
+        WS_CHILD | WS_VISIBLE,
+        20,
+        18,
+        PROGRESS_WINDOW_WIDTH - 40,
+        24,
+        window,
+        reinterpret_cast<HMENU>(static_cast<INT_PTR>(PROGRESS_STATUS_CONTROL_ID)),
+        GetModuleHandleW(nullptr),
+        nullptr);
+    HWND detailLabel = CreateWindowExW(
+        0,
+        L"STATIC",
+        L"请稍候... | Please wait...",
+        WS_CHILD | WS_VISIBLE,
+        20,
+        48,
+        PROGRESS_WINDOW_WIDTH - 40,
+        42,
+        window,
+        reinterpret_cast<HMENU>(static_cast<INT_PTR>(PROGRESS_DETAIL_CONTROL_ID)),
+        GetModuleHandleW(nullptr),
+        nullptr);
+    HWND countLabel = CreateWindowExW(
+        0,
+        L"STATIC",
+        L"已处理文件 0/0 | Files processed 0/0",
+        WS_CHILD | WS_VISIBLE,
+        20,
+        96,
+        PROGRESS_WINDOW_WIDTH - 40,
+        20,
+        window,
+        reinterpret_cast<HMENU>(static_cast<INT_PTR>(PROGRESS_COUNT_CONTROL_ID)),
+        GetModuleHandleW(nullptr),
+        nullptr);
+    HWND progressBar = CreateWindowExW(
+        0,
+        PROGRESS_CLASSW,
+        nullptr,
+        WS_CHILD | WS_VISIBLE | PBS_SMOOTH,
+        20,
+        124,
+        PROGRESS_WINDOW_WIDTH - 40,
+        20,
+        window,
+        reinterpret_cast<HMENU>(static_cast<INT_PTR>(PROGRESS_BAR_CONTROL_ID)),
+        GetModuleHandleW(nullptr),
+        nullptr);
+
+    if (statusLabel == nullptr || detailLabel == nullptr || countLabel == nullptr || progressBar == nullptr) {
+        DestroyWindow(window);
+        return false;
+    }
+
+    ApplyDefaultWindowFont(statusLabel);
+    ApplyDefaultWindowFont(detailLabel);
+    ApplyDefaultWindowFont(countLabel);
+    SendMessageW(progressBar, PBM_SETRANGE32, 0, 1);
+    SendMessageW(progressBar, PBM_SETPOS, 0, 0);
+
+    g_progressUi.enabled = true;
+    g_progressUi.window = window;
+    g_progressUi.statusLabel = statusLabel;
+    g_progressUi.detailLabel = detailLabel;
+    g_progressUi.countLabel = countLabel;
+    g_progressUi.progressBar = progressBar;
+    g_progressUi.processedFileCount = 0;
+    g_progressUi.totalFileCount = 0;
+
+    RefreshProgressUiCountText();
+
+    ShowWindow(window, SW_SHOWNORMAL);
+    UpdateWindow(window);
+    PumpProgressUiMessages();
+    return true;
+}
+
+static void DestroyProgressUi()
+{
+    if (g_progressUi.window != nullptr) {
+        DestroyWindow(g_progressUi.window);
+    }
+
+    g_progressUi = {};
+}
+
+static std::wstring BuildProgressCountText(int processedFileCount, int totalFileCount)
+{
+        return L"已处理文件 " + std::to_wstring(processedFileCount) + L"/" + std::to_wstring(totalFileCount) +
+            L" | Files processed " + std::to_wstring(processedFileCount) + L"/" + std::to_wstring(totalFileCount);
+}
+
+static void RefreshProgressUiCountText()
+{
+    if (!g_progressUi.enabled || g_progressUi.countLabel == nullptr) {
+        return;
+    }
+
+    std::wstring countText = BuildProgressCountText(g_progressUi.processedFileCount, g_progressUi.totalFileCount);
+    SetWindowTextW(g_progressUi.countLabel, countText.c_str());
+}
+
+static void SetProgressUiTotalFileCount(int totalFileCount)
+{
+    if (!g_progressUi.enabled || g_progressUi.progressBar == nullptr) {
+        return;
+    }
+
+    g_progressUi.totalFileCount = totalFileCount > 0 ? totalFileCount : 0;
+    if (g_progressUi.processedFileCount > g_progressUi.totalFileCount) {
+        g_progressUi.processedFileCount = g_progressUi.totalFileCount;
+    }
+
+    int progressBarMaximum = g_progressUi.totalFileCount > 0 ? g_progressUi.totalFileCount : 1;
+    SendMessageW(g_progressUi.progressBar, PBM_SETRANGE32, 0, progressBarMaximum);
+    SendMessageW(g_progressUi.progressBar, PBM_SETPOS, g_progressUi.processedFileCount, 0);
+    RefreshProgressUiCountText();
+    PumpProgressUiMessages();
+}
+
+static void SetProgressUiStatus(const std::wstring& status, const std::wstring& detail)
+{
+    if (!g_progressUi.enabled) {
+        return;
+    }
+
+    if (g_progressUi.statusLabel != nullptr) {
+        SetWindowTextW(g_progressUi.statusLabel, status.c_str());
+    }
+    if (g_progressUi.detailLabel != nullptr) {
+        SetWindowTextW(g_progressUi.detailLabel, detail.c_str());
+    }
+
+    RefreshProgressUiCountText();
+    PumpProgressUiMessages();
+}
+
+static void AdvanceProgressUi(const std::wstring& status, const std::wstring& detail)
+{
+    if (!g_progressUi.enabled) {
+        return;
+    }
+
+    if (g_progressUi.processedFileCount < g_progressUi.totalFileCount) {
+        ++g_progressUi.processedFileCount;
+    }
+
+    SetProgressUiStatus(status, detail);
+    if (g_progressUi.progressBar != nullptr) {
+        SendMessageW(g_progressUi.progressBar, PBM_SETPOS, g_progressUi.processedFileCount, 0);
+    }
+    PumpProgressUiMessages();
+}
+
+static void CompleteProgressUi(const std::wstring& status, const std::wstring& detail)
+{
+    if (!g_progressUi.enabled) {
+        return;
+    }
+
+    g_progressUi.processedFileCount = g_progressUi.totalFileCount;
+    SetProgressUiStatus(status, detail);
+    if (g_progressUi.progressBar != nullptr) {
+        int progressBarPosition = g_progressUi.totalFileCount > 0 ? g_progressUi.processedFileCount : 1;
+        SendMessageW(g_progressUi.progressBar, PBM_SETPOS, progressBarPosition, 0);
+    }
+    PumpProgressUiMessages();
+}
+
+static void ShowProgressUiFailure(const std::wstring& failureReason)
+{
+    if (!g_progressUi.enabled) {
+        return;
+    }
+
+    SetProgressUiStatus(L"更新失败 | Update failed", failureReason);
+    MessageBoxW(
+        g_progressUi.window,
+        failureReason.c_str(),
+        L"MAA 更新失败 | MAA Update Failed",
+        MB_OK | MB_ICONERROR);
+}
+
 static void WriteLog(const wchar_t* message)
 {
-    if (g_logFile.empty()) return;
-
     SYSTEMTIME st {};
     GetLocalTime(&st);
 
@@ -123,8 +456,16 @@ static void WriteLog(const wchar_t* message)
                  st.wYear, st.wMonth, st.wDay,
                  st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
 
-    std::wstring line = buf;
-    line += message;
+    std::wstring timestampedLine = buf;
+    timestampedLine += message;
+
+    if (g_writeConsoleLog) {
+        WriteConsoleText(stdout, timestampedLine, true);
+    }
+
+    if (g_logFile.empty()) return;
+
+    std::wstring line = timestampedLine;
     line += L"\r\n";
 
     // Ensure parent directory exists
@@ -159,9 +500,9 @@ static void WriteLogF(const wchar_t* fmt, ...)
     WriteLog(buf);
 }
 
-static void WriteLogEntries(const wchar_t* title, const std::vector<std::wstring>& entries)
+static void WriteLogEntries(const std::wstring& title, const std::vector<std::wstring>& entries)
 {
-    WriteLogF(L"%s (%zu)", title, entries.size());
+    WriteLogF(L"%s (%zu)", title.c_str(), entries.size());
     for (const std::wstring& entry : entries) {
         std::wstring line = L"  - " + entry;
         WriteLog(line.c_str());
@@ -170,12 +511,27 @@ static void WriteLogEntries(const wchar_t* title, const std::vector<std::wstring
 
 static void WriteConsoleText(FILE* stream, const std::wstring& text, bool appendNewline)
 {
-    std::string utf8;
-    if (TryConvertWideToUtf8(text, utf8)) {
-        fwrite(utf8.data(), 1, utf8.size(), stream);
-    }
+    std::wstring outputText = text;
     if (appendNewline) {
-        fwrite("\n", 1, 1, stream);
+        outputText += L"\n";
+    }
+
+    HANDLE consoleHandle = GetConsoleStreamHandle(stream);
+    DWORD consoleMode = 0;
+    if (consoleHandle != nullptr && GetConsoleMode(consoleHandle, &consoleMode)) {
+        DWORD written = 0;
+        WriteConsoleW(
+            consoleHandle,
+            outputText.c_str(),
+            static_cast<DWORD>(outputText.size()),
+            &written,
+            nullptr);
+        return;
+    }
+
+    std::string utf8;
+    if (TryConvertWideToUtf8(outputText, utf8)) {
+        fwrite(utf8.data(), 1, utf8.size(), stream);
     }
     fflush(stream);
 }
@@ -211,6 +567,17 @@ static void RotateLogIfNeeded()
     std::wstring bakFile = g_logFile + L".bak";
     DeleteFileW(bakFile.c_str());
     MoveFileExW(g_logFile.c_str(), bakFile.c_str(), MOVEFILE_REPLACE_EXISTING);
+}
+
+static bool HasArgument(int argc, wchar_t* argv[], const wchar_t* argument)
+{
+    for (int index = 1; index < argc; ++index) {
+        if (_wcsicmp(argv[index], argument) == 0) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 // ---------------------------------------------------------------------------
@@ -526,9 +893,7 @@ static bool WriteUtf8File(const std::wstring& path, const std::string& content)
 
 static std::wstring BuildFileIoFailureReason(const wchar_t* action, const std::wstring& path, DWORD errorCode)
 {
-    wchar_t buf[512];
-    _snwprintf_s(buf, _countof(buf), _TRUNCATE, L"%s: %s (error=%lu)", action, path.c_str(), errorCode);
-    return buf;
+    return std::wstring(action) + L": " + path + L" (error=" + std::to_wstring(errorCode) + L")";
 }
 
 static bool TryReadUtf8File(const std::wstring& path, std::string& content, std::wstring& failureReason)
@@ -832,9 +1197,9 @@ static bool LoadPendingUpdatePlan(
     return true;
 }
 
-static void PrintPlanEntries(const wchar_t* title, const std::vector<std::wstring>& entries)
+static void PrintPlanEntries(const std::wstring& title, const std::vector<std::wstring>& entries)
 {
-    WriteConsoleText(stdout, std::wstring(title) + L" (" + std::to_wstring(entries.size()) + L")", true);
+    WriteConsoleText(stdout, title + L" (" + std::to_wstring(entries.size()) + L")", true);
     for (const std::wstring& entry : entries) {
         WriteConsoleText(stdout, L"  - " + entry, true);
     }
@@ -844,12 +1209,12 @@ static int RunPlanParserTest(const std::wstring& initialPlanFile)
 {
     std::wstring planFile = initialPlanFile;
     if (planFile.empty()) {
-        WriteConsoleText(stdout, L"请输入要解析的 plan 文件路径: ", false);
+        WriteConsoleText(stdout, L"请输入要解析的 plan 文件路径 | Enter the plan file path to parse: ", false);
         std::getline(std::wcin, planFile);
     }
 
     if (planFile.empty()) {
-        WriteConsoleText(stderr, L"未提供 plan 文件路径。", true);
+        WriteConsoleText(stderr, L"未提供 plan 文件路径。 | No plan file path was provided.", true);
         return 1;
     }
 
@@ -861,11 +1226,12 @@ static int RunPlanParserTest(const std::wstring& initialPlanFile)
         return 2;
     }
 
-    WriteConsoleText(stdout, L"文件读取成功: " + planFile, true);
-    WriteConsoleText(stdout, L"原始字节数: " + std::to_wstring(rawJson.size()), true);
-    WriteConsoleText(stdout, L"packageType: " + (plan.packageType.empty() ? std::wstring(L"<empty>") : plan.packageType), true);
-    PrintPlanEntries(L"removeList", plan.removeList);
-    PrintPlanEntries(L"moveList", plan.moveList);
+    WriteConsoleText(stdout, L"文件读取成功: " + planFile + L" | Plan file loaded successfully: " + planFile, true);
+    WriteConsoleText(stdout, L"原始字节数: " + std::to_wstring(rawJson.size()) + L" | Raw byte count: " + std::to_wstring(rawJson.size()), true);
+    WriteConsoleText(stdout, L"包类型: " + (plan.packageType.empty() ? std::wstring(L"<空>") : plan.packageType) +
+        L" | Package type: " + (plan.packageType.empty() ? std::wstring(L"<empty>") : plan.packageType), true);
+    PrintPlanEntries(L"待删除文件列表 | Files to remove", plan.removeList);
+    PrintPlanEntries(L"待安装文件列表 | Files to install", plan.moveList);
     return 0;
 }
 
@@ -888,7 +1254,7 @@ int wmain(int argc, wchar_t* argv[])
             L"请直接运行 MAA.exe。\n\n"
             L"MAA.Updater.exe is an updater used internally by MAA and should not be manually started.\n\n"
             L"Please run MAA.exe directly.",
-            L"MAA 更新程序 / MAA Updater",
+            L"MAA 更新程序 | MAA Updater",
             MB_OK | MB_ICONINFORMATION);
         return 1;
     }
@@ -902,13 +1268,19 @@ int wmain(int argc, wchar_t* argv[])
     std::wstring failureStatusFile   = argv[7];
     std::wstring relaunchExecutable  = argv[8];
     std::wstring planFile            = argv[9];
+    g_writeConsoleLog = HasArgument(argc, argv, L"--show-console");
 
     g_logFile = rootDir + L"\\debug\\pending-update-applier.log";
     RotateLogIfNeeded();
+    InitializeProgressUi();
+    SetProgressUiStatus(
+        L"正在准备更新... | Preparing update...",
+        L"等待 MAA 主程序退出 | Waiting for the main MAA process to exit");
 
     WriteLog(L"MAA.Updater started (C++ external updater).");
-    WriteLogF(L"ParentPID=%lu RootDir=%s", parentPid, rootDir.c_str());
-    WriteLogF(L"PlanFile=%s ExtractDir=%s", planFile.c_str(), extractDir.c_str());
+    WriteLog((std::wstring(L"Console output: ") + (g_writeConsoleLog ? L"enabled" : L"disabled")).c_str());
+    WriteLog((L"Parent PID: " + std::to_wstring(parentPid) + L", root dir: " + rootDir).c_str());
+    WriteLog((L"Plan file: " + planFile + L", extract dir: " + extractDir).c_str());
 
     bool shouldRelaunch = false;
     bool success = false;
@@ -919,12 +1291,20 @@ int wmain(int argc, wchar_t* argv[])
     // ------------------------------------------------------------------
     HANDLE hParent = OpenProcess(SYNCHRONIZE, FALSE, parentPid);
     if (hParent != nullptr) {
-        WriteLogF(L"Waiting for parent process %lu to exit...", parentPid);
-        WaitForSingleObject(hParent, INFINITE);
+        WriteLog((L"Waiting for parent process to exit, PID=" + std::to_wstring(parentPid)).c_str());
+        while (WaitForSingleObject(hParent, 100) == WAIT_TIMEOUT) {
+            PumpProgressUiMessages();
+        }
         CloseHandle(hParent);
         WriteLog(L"Parent process exited.");
+        SetProgressUiStatus(
+            L"正在准备更新... | Preparing update...",
+            L"已确认主程序退出，开始读取更新计划 | Parent process exited, reading update plan");
     } else {
-        WriteLogF(L"Could not open parent process %lu (already exited?), continuing.", parentPid);
+        WriteLog((L"Could not open the parent process, it may have already exited, PID=" + std::to_wstring(parentPid) + L". Continuing.").c_str());
+        SetProgressUiStatus(
+            L"正在准备更新... | Preparing update...",
+            L"主程序已退出，开始读取更新计划 | Main process already exited, reading update plan");
     }
 
     // ------------------------------------------------------------------
@@ -940,11 +1320,14 @@ int wmain(int argc, wchar_t* argv[])
         bool isFullPackage = EqualsIgnoreCase(plan.packageType, L"full");
         const std::vector<std::wstring>& removeList = plan.removeList;
         const std::vector<std::wstring>& moveList = plan.moveList;
+        SetProgressUiTotalFileCount(static_cast<int>(removeList.size() + moveList.size()));
+        SetProgressUiStatus(
+            L"正在分析更新内容... | Analyzing update contents...",
+            L"更新计划读取完成 | Update plan loaded");
 
-        WriteLogF(L"Plan loaded: packageType=%s removeList=%zu moveList=%zu",
-                  plan.packageType.c_str(), removeList.size(), moveList.size());
-        WriteLogEntries(L"removeList", removeList);
-        WriteLogEntries(L"moveList", moveList);
+        WriteLog((L"Plan loaded, package type: " + plan.packageType + L", remove entries: " + std::to_wstring(removeList.size()) + L", install entries: " + std::to_wstring(moveList.size())).c_str());
+        WriteLogEntries(L"Files to remove", removeList);
+        WriteLogEntries(L"Files to install", moveList);
 
         CreateDirectoryW(backupDir.c_str(), nullptr);
 
@@ -956,13 +1339,18 @@ int wmain(int argc, wchar_t* argv[])
                 WriteLog(failureReason.c_str());
                 goto apply_failed;
             }
-            if (!PathExistsW(targetPath)) continue;
+            if (!PathExistsW(targetPath)) {
+                AdvanceProgressUi(
+                    L"正在清理旧文件... | Cleaning old files...",
+                    rel);
+                continue;
+            }
 
             if (!isFullPackage && IsDirectory(targetPath)) {
-                WriteLogF(
-                    L"Skipping directory removal from non-full package: rel=%s target=%s",
-                    rel.c_str(),
-                    targetPath.c_str());
+                WriteLog((L"Skipping directory removal for a non-full package, entry: " + rel + L", target: " + targetPath).c_str());
+                AdvanceProgressUi(
+                    L"正在清理旧文件... | Cleaning old files...",
+                    rel);
                 continue;
             }
 
@@ -973,7 +1361,7 @@ int wmain(int argc, wchar_t* argv[])
                 goto apply_failed;
             }
 
-            WriteLogF(L"Removing: %s -> backup %s", targetPath.c_str(), backupPath.c_str());
+            WriteLog((L"Removing and backing up: " + targetPath + L" -> " + backupPath).c_str());
             bool backupOk = isFullPackage
                 ? RecycleAndBackupPath(targetPath, backupPath)
                 : MoveExistingPathToBackup(targetPath, backupPath);
@@ -982,6 +1370,10 @@ int wmain(int argc, wchar_t* argv[])
                 WriteLog(failureReason.c_str());
                 goto apply_failed;
             }
+
+            AdvanceProgressUi(
+                L"正在清理旧文件... | Cleaning old files...",
+                rel);
         }
 
         // ---- Move/install entries ----
@@ -1004,36 +1396,43 @@ int wmain(int argc, wchar_t* argv[])
                     goto apply_failed;
                 }
 
-                WriteLogF(L"Backing up existing: %s", targetPath.c_str());
+                WriteLog((L"Backing up existing entry: " + targetPath).c_str());
                 bool backupOk = IsRecycleAndReplaceDirectory(rel)
                     ? RecycleAndBackupDirectory(targetPath, backupPath)
                     : MoveExistingPathToBackup(targetPath, backupPath);
                 if (!backupOk) {
-                    failureReason = L"Failed to backup existing file: " + targetPath;
+                    failureReason = L"Failed to back up existing entry: " + targetPath;
                     WriteLog(failureReason.c_str());
                     goto apply_failed;
                 }
             }
 
-            WriteLogF(L"Installing: %s -> %s", sourcePath.c_str(), targetPath.c_str());
+            WriteLog((L"Installing new file: " + sourcePath + L" -> " + targetPath).c_str());
             if (!MovePathEntry(sourcePath, targetPath)) {
                 failureReason = L"Failed to move file into place: " + sourcePath;
                 WriteLog(failureReason.c_str());
                 goto apply_failed;
             }
+
+            AdvanceProgressUi(
+                L"正在安装新文件... | Installing new files...",
+                rel);
         }
 
         // ---- Cleanup package ----
         if (PathExistsW(packagePath)) {
             DeleteFileW(packagePath.c_str());
-            WriteLogF(L"Deleted package: %s", packagePath.c_str());
+            WriteLog((L"Deleted update package: " + packagePath).c_str());
         }
 
         if (PathExistsW(failureStatusFile))
             DeleteFileW(failureStatusFile.c_str());
 
+        SetProgressUiStatus(
+            L"正在完成更新... | Finalizing update...",
+            L"正在写入更新结果 | Writing update result");
         if (WriteUtf8File(successStatusFile, "succeeded")) {
-            WriteLogF(L"Wrote success status: %s", successStatusFile.c_str());
+            WriteLog((L"Wrote success status file: " + successStatusFile).c_str());
             success = true;
             shouldRelaunch = true;
         } else {
@@ -1058,14 +1457,15 @@ int wmain(int argc, wchar_t* argv[])
         }
         if (PathExistsW(successStatusFile))
             DeleteFileW(successStatusFile.c_str());
-        WriteLogF(L"Update failed: %s", failureReason.c_str());
+        WriteLog((L"Update failed: " + failureReason).c_str());
+        ShowProgressUiFailure(failureReason);
     }
 
     // ------------------------------------------------------------------
     // Cleanup extract dir and plan file
     // ------------------------------------------------------------------
     if (PathExistsW(extractDir)) {
-        WriteLogF(L"Cleaning extract dir: %s", extractDir.c_str());
+        WriteLog((L"Cleaning extract directory: " + extractDir).c_str());
         RemoveDirectoryRecursive(extractDir);
     }
 
@@ -1076,7 +1476,10 @@ int wmain(int argc, wchar_t* argv[])
     // Relaunch MAA
     // ------------------------------------------------------------------
     if (shouldRelaunch && PathExistsW(relaunchExecutable)) {
-        WriteLogF(L"Relaunching: %s", relaunchExecutable.c_str());
+        CompleteProgressUi(
+            L"更新完成 | Update completed",
+            L"正在重新启动 MAA... | Relaunching MAA...");
+        WriteLog((L"Relaunching MAA: " + relaunchExecutable).c_str());
 
         // Find working directory (parent of the executable)
         std::wstring workDir = relaunchExecutable;
@@ -1096,12 +1499,20 @@ int wmain(int argc, wchar_t* argv[])
         {
             CloseHandle(pi.hProcess);
             CloseHandle(pi.hThread);
-            WriteLog(L"Relaunch successful.");
+            WriteLog(L"Relaunch succeeded.");
         } else {
-            WriteLogF(L"Relaunch failed, error=%lu", GetLastError());
+            WriteLog((L"Relaunch failed, error=" + std::to_wstring(GetLastError())).c_str());
+            ShowProgressUiFailure(
+                L"更新已完成，但重新启动 MAA 失败，请手动启动 MAA。\n"
+                L"Update finished, but failed to relaunch MAA. Please start MAA manually.");
         }
+    } else if (success) {
+        CompleteProgressUi(
+            L"更新完成 | Update completed",
+            L"更新已完成，请手动启动 MAA。 | Update completed. Please start MAA manually.");
     }
 
     WriteLog(L"MAA.Updater exiting.");
+    DestroyProgressUi();
     return success ? 0 : 2;
 }

@@ -327,6 +327,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="UpdateAutoCheckTip">In-game 00:00 / 18:00 (Server local time 04:00 / 22:00)</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto Download Update</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">Auto Install Update</system:String>
+    <system:String x:Key="ShowUpdaterConsole">Show MAA.Updater console output during update</system:String>
     <system:String x:Key="UpdateCheckStable">Stable Release</system:String>
     <system:String x:Key="UpdateCheckBeta">Beta Release</system:String>
     <system:String x:Key="UpdateCheckNightly">Nightly Release</system:String>

@@ -42,6 +42,8 @@ public class VersionUpdate : INotifyPropertyChanged
 
     public bool AutoInstallUpdatePackage { get; set; } = false;
 
+    public bool ShowUpdaterConsole { get; set; } = false;
+
     public void OnPropertyChanged(string propertyName, object before, object after)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));

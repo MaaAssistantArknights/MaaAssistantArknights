@@ -327,6 +327,7 @@
     <system:String x:Key="UpdateAutoCheckTip">遊戲內 00:00 / 18:00（對應伺服器當地時間 04:00 / 22:00）</system:String>
     <system:String x:Key="UpdateAutoDownload">自動下載更新檔</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自動安裝更新檔</system:String>
+    <system:String x:Key="ShowUpdaterConsole">顯示 MAA.Updater 主控台輸出</system:String>
     <system:String x:Key="UpdateCheckStable">穩定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公測版</system:String>
     <system:String x:Key="UpdateCheckNightly">內測版</system:String>

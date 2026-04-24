@@ -327,6 +327,7 @@
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 자동 다운로드</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">업데이트 패키지 자동 설치</system:String>
+    <system:String x:Key="ShowUpdaterConsole">업데이트 중 MAA.Updater 콘솔 출력 표시</system:String>
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
     <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
     <system:String x:Key="UpdateCheckNightly">개발 버전</system:String>
