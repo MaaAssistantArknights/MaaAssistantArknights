@@ -8,17 +8,17 @@
 
 我们优化了 MAA 的更新流程，将更新部分拆分成独立的 exe 文件，以增强更新过程的可靠性。
 
-***\[仅 Windows\]*** 另外，我们为无法直接下载 OTA 更新包，但可以从群文件等其他渠道获取完整包或增量包的用户，提供了直接拖入更新的功能。你只需要将对应的压缩包直接拖入正在运行的 MAA 窗口，牛牛就会自动识别并执行更新。
+***\[仅 Windows\]*** 另外，我们为无法直接下载 OTA 更新包，但可以从群文件等其他渠道获取完整包或增量包的用户，提供了直接拖入更新的功能。你只需要将对应的压缩包直接拖入 MAA 主窗口，牛牛就会自动识别并执行更新。
 
-请确保压缩包的命名规则（`MAAComponent-OTA-v{旧版本}_v{新版本}-win-{架构}.zip`）、架构（`x64` 或 `arm64`）和版本链（`{旧版本}`）与当前安装的 MAA 完全匹配，否则更新将被拒绝。
+请确保压缩包名称符合完整包命名规则（`MAA-v{新版本}-win-{架构}.zip`）或 OTA 包命名规则（`MAAComponent-OTA-v{旧版本}_v{新版本}-win-{架构}.zip`），且架构（`x64` 或 `arm64`）与版本链（`{旧版本}`）和当前安装的 MAA 完全匹配，否则更新将被拒绝。
 
 ##### 建议内测版用户执行一次完整包清理替换
 
 在独立更新器的编写过程中，我们修复了一个自内测版发布之初就存在的问题：
 
-内测版在与正式版或公测版对比时，`removelist` 可能会错误地将所有目录加入删除列表，这可能会导致配置文件等丢失。
+内测版在与正式版或公测版切换更新时，旧版本残留文件可能无法被正确清理，从而影响更新结果。
 
-建议所有内测版用户下载一次完整包，并拖入正在运行的 MAA 窗口内执行清理替换。
+建议所有内测版用户下载一次完整包，并拖入 MAA 主窗口执行清理替换。
 
 通过完整包更新时，MAA 会保留 debug、cache、data、config 文件夹，其余文件会移入回收站；若你有自行添加或修改过文件，建议提前备份。
 
@@ -42,17 +42,17 @@ This update continues our focus on improving user experience. We will always adh
 
 We have optimized the MAA update process, splitting the update portion into independent exe files to enhance the reliability of the update process.
 
-***[Windows Only]*** Additionally, for users who cannot directly download OTA packages but can obtain full or incremental packages from other sources, we have provided a drag-and-drop update function. You only need to drag the corresponding compressed file directly into the running MAA window, and MAA will automatically recognize and execute the update.
+***[Windows Only]*** Additionally, for users who cannot directly download OTA packages but can obtain full or incremental packages from other sources, we have provided a drag-and-drop update function. You only need to drag the corresponding archive directly into the MAA main window, and MAA will automatically recognize and execute the update.
 
-Please ensure that the compressed package's naming convention (`MAAComponent-OTA-v{old version}_v{new version}-win-{architecture}.zip`), architecture (`x64` or `arm64`), and version chain (`{old version}`) completely match the currently installed MAA; otherwise, the update will be rejected.
+Please ensure that the archive name matches either the full-package convention (`MAA-v{new version}-win-{architecture}.zip`) or the OTA-package convention (`MAAComponent-OTA-v{old version}_v{new version}-win-{architecture}.zip`), and that the architecture (`x64` or `arm64`) and version chain (`{old version}`) fully match the currently installed MAA; otherwise, the update will be rejected.
 
 ##### We recommend that beta users perform a full package cleanup and replacement.
 
 During the development of the standalone updater, we fixed an issue that existed since the initial beta release:
 
-When comparing the beta version with the official or public beta version, `removelist` might incorrectly add all directories to the deletion list, potentially leading to the loss of configuration files, etc.
+When switching between beta builds and stable or public-preview builds, leftover files from the previous version may not be cleaned up correctly, which can affect the update result.
 
-We recommend that all beta users download the full package once and drag it into the running MAA window to perform a cleanup and replacement.
+We recommend that all beta users download the full package once and drag it into the MAA main window to perform a cleanup and replacement.
 
 When updating with the full package, MAA will retain the debug, cache, data, and config folders; other files will be moved to the recycle bin. If you have added or modified any files, we recommend backing them up beforehand.
 
