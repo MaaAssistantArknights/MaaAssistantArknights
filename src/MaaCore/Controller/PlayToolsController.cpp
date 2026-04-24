@@ -227,7 +227,7 @@ bool asst::PlayToolsController::swipe(
 
     Log.trace("PlayTools swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
 
-    toucher_down(p1);
+    toucher_down({ x1, y1 });
 
     auto bounds_check = [width, height](int x, int y) {
         return x >= 0 && x <= width && y >= 0 && y <= height;
