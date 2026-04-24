@@ -12,6 +12,7 @@
 
 #include <windows.h>
 #include <commctrl.h>
+#include <dwmapi.h>
 #include <shellapi.h>
 
 #include <cstdarg>
@@ -30,10 +31,12 @@ struct UpdateProgressUi;
 
 static bool TryConvertWideToUtf8(const std::wstring& wide, std::string& utf8);
 static HANDLE GetConsoleStreamHandle(FILE* stream);
+static bool IsSystemDarkModeEnabled();
 static bool ShouldShowProgressUi();
 static bool InitializeProgressUi();
 static void DestroyProgressUi();
 static void PumpProgressUiMessages();
+static void RefreshProgressUiTheme();
 static std::wstring BuildProgressCountText(int processedFileCount, int totalFileCount);
 static void RefreshProgressUiCountText();
 static void SetProgressUiTotalFileCount(int totalFileCount);
@@ -103,6 +106,17 @@ struct UpdateProgressUi
     int totalFileCount = 0;
 };
 
+struct ProgressUiTheme
+{
+    bool isDarkMode = false;
+    COLORREF backgroundColor = RGB(255, 255, 255);
+    COLORREF primaryTextColor = RGB(32, 32, 32);
+    COLORREF secondaryTextColor = RGB(96, 96, 96);
+    COLORREF progressTrackColor = RGB(232, 234, 237);
+    COLORREF progressBarColor = RGB(0, 120, 212);
+    HBRUSH backgroundBrush = nullptr;
+};
+
 // ---------------------------------------------------------------------------
 // Logging
 // ---------------------------------------------------------------------------
@@ -110,6 +124,7 @@ struct UpdateProgressUi
 static std::wstring g_logFile;
 static bool g_writeConsoleLog = false;
 static UpdateProgressUi g_progressUi;
+static ProgressUiTheme g_progressUiTheme;
 
 static constexpr wchar_t PROGRESS_WINDOW_CLASS_NAME[] = L"MaaUpdaterProgressWindow";
 static constexpr int PROGRESS_WINDOW_WIDTH = 540;
@@ -118,6 +133,11 @@ static constexpr int PROGRESS_STATUS_CONTROL_ID = 1001;
 static constexpr int PROGRESS_DETAIL_CONTROL_ID = 1002;
 static constexpr int PROGRESS_COUNT_CONTROL_ID = 1003;
 static constexpr int PROGRESS_BAR_CONTROL_ID = 1004;
+static constexpr DWORD LEGACY_DWMWA_USE_IMMERSIVE_DARK_MODE = 19;
+
+#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
+#define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+#endif
 
 static bool TryConvertWideToUtf8(const std::wstring& wide, std::string& utf8)
 {
@@ -162,9 +182,106 @@ static HANDLE GetConsoleStreamHandle(FILE* stream)
     return handle == INVALID_HANDLE_VALUE ? nullptr : handle;
 }
 
+static bool IsSystemDarkModeEnabled()
+{
+    DWORD value = 1;
+    DWORD valueSize = sizeof(value);
+    LSTATUS status = RegGetValueW(
+        HKEY_CURRENT_USER,
+        L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+        L"AppsUseLightTheme",
+        RRF_RT_REG_DWORD,
+        nullptr,
+        &value,
+        &valueSize);
+    return status == ERROR_SUCCESS && value == 0;
+}
+
+static void RefreshProgressUiTheme()
+{
+    g_progressUiTheme.isDarkMode = IsSystemDarkModeEnabled();
+
+    if (g_progressUiTheme.isDarkMode) {
+        g_progressUiTheme.backgroundColor = RGB(32, 32, 32);
+        g_progressUiTheme.primaryTextColor = RGB(241, 241, 241);
+        g_progressUiTheme.secondaryTextColor = RGB(200, 200, 200);
+        g_progressUiTheme.progressTrackColor = RGB(58, 58, 58);
+        g_progressUiTheme.progressBarColor = RGB(76, 194, 255);
+    } else {
+        g_progressUiTheme.backgroundColor = RGB(255, 255, 255);
+        g_progressUiTheme.primaryTextColor = RGB(32, 32, 32);
+        g_progressUiTheme.secondaryTextColor = RGB(96, 96, 96);
+        g_progressUiTheme.progressTrackColor = RGB(232, 234, 237);
+        g_progressUiTheme.progressBarColor = RGB(0, 120, 212);
+    }
+
+    if (g_progressUiTheme.backgroundBrush != nullptr) {
+        DeleteObject(g_progressUiTheme.backgroundBrush);
+        g_progressUiTheme.backgroundBrush = nullptr;
+    }
+    g_progressUiTheme.backgroundBrush = CreateSolidBrush(g_progressUiTheme.backgroundColor);
+
+    if (!g_progressUi.enabled || g_progressUi.window == nullptr) {
+        return;
+    }
+
+    BOOL useDarkMode = g_progressUiTheme.isDarkMode ? TRUE : FALSE;
+    DwmSetWindowAttribute(
+        g_progressUi.window,
+        DWMWA_USE_IMMERSIVE_DARK_MODE,
+        &useDarkMode,
+        sizeof(useDarkMode));
+    DwmSetWindowAttribute(
+        g_progressUi.window,
+        LEGACY_DWMWA_USE_IMMERSIVE_DARK_MODE,
+        &useDarkMode,
+        sizeof(useDarkMode));
+
+    if (g_progressUi.progressBar != nullptr) {
+        SendMessageW(g_progressUi.progressBar, PBM_SETBKCOLOR, 0, g_progressUiTheme.progressTrackColor);
+        SendMessageW(g_progressUi.progressBar, PBM_SETBARCOLOR, 0, g_progressUiTheme.progressBarColor);
+    }
+
+    RedrawWindow(
+        g_progressUi.window,
+        nullptr,
+        nullptr,
+        RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
+}
+
 static LRESULT CALLBACK UpdateProgressWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message) {
+    case WM_SETTINGCHANGE:
+    case WM_THEMECHANGED:
+        RefreshProgressUiTheme();
+        return 0;
+    case WM_ERASEBKGND: {
+        HDC dc = reinterpret_cast<HDC>(wParam);
+        RECT clientRect {};
+        GetClientRect(hwnd, &clientRect);
+        FillRect(
+            dc,
+            &clientRect,
+            g_progressUiTheme.backgroundBrush != nullptr
+                ? g_progressUiTheme.backgroundBrush
+                : reinterpret_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)));
+        return 1;
+    }
+    case WM_CTLCOLORSTATIC: {
+        HDC dc = reinterpret_cast<HDC>(wParam);
+        HWND control = reinterpret_cast<HWND>(lParam);
+        COLORREF textColor = control == g_progressUi.detailLabel
+            ? g_progressUiTheme.secondaryTextColor
+            : g_progressUiTheme.primaryTextColor;
+        SetTextColor(dc, textColor);
+        SetBkColor(dc, g_progressUiTheme.backgroundColor);
+        SetBkMode(dc, TRANSPARENT);
+        return reinterpret_cast<INT_PTR>(
+            g_progressUiTheme.backgroundBrush != nullptr
+                ? g_progressUiTheme.backgroundBrush
+                : reinterpret_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)));
+    }
     case WM_CLOSE:
         return 0;
     case WM_DESTROY:
@@ -194,7 +311,7 @@ static bool EnsureProgressWindowClassRegistered()
     windowClass.lpfnWndProc = UpdateProgressWindowProc;
     windowClass.hInstance = GetModuleHandleW(nullptr);
     windowClass.hCursor = LoadCursorW(nullptr, IDC_ARROW);
-    windowClass.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
+    windowClass.hbrBackground = nullptr;
     windowClass.lpszClassName = PROGRESS_WINDOW_CLASS_NAME;
 
     if (RegisterClassExW(&windowClass) == 0) {
@@ -232,6 +349,8 @@ static bool InitializeProgressUi()
     if (!EnsureProgressWindowClassRegistered()) {
         return false;
     }
+
+    RefreshProgressUiTheme();
 
     INITCOMMONCONTROLSEX controls {};
     controls.dwSize = sizeof(controls);
@@ -331,6 +450,7 @@ static bool InitializeProgressUi()
     g_progressUi.processedFileCount = 0;
     g_progressUi.totalFileCount = 0;
 
+    RefreshProgressUiTheme();
     RefreshProgressUiCountText();
 
     ShowWindow(window, SW_SHOWNORMAL);
@@ -346,6 +466,11 @@ static void DestroyProgressUi()
     }
 
     g_progressUi = {};
+
+    if (g_progressUiTheme.backgroundBrush != nullptr) {
+        DeleteObject(g_progressUiTheme.backgroundBrush);
+        g_progressUiTheme.backgroundBrush = nullptr;
+    }
 }
 
 static std::wstring BuildProgressCountText(int processedFileCount, int totalFileCount)
