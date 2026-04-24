@@ -1,32 +1,70 @@
 ## v6.8.0
 
-### Highlights
+### 牛牛初体验 DeepSleep，被吓到眩晕瘫坐，那一刻就像看到原子弹爆炸 | Highlights
+
+本次版本更新我们依旧专注于提升用户体验。我们将始终秉持长期主义的原则理念，在尝试与思考中踏实前行。
 
 #### 独立更新器与本地拖入更新
 
-更新流程已重构为独立更新器方案，并支持直接拖入符合命名规则的压缩包更新。可拖入完整包，例如 MAA-v6.8.0-win-x64.zip，也可拖入 OTA 增量包，例如 MAAComponent-OTA-v旧版本_v新版本-win-x64.zip。压缩包名称、架构与版本链必须严格匹配；若文件名被系统追加 (1)、-副本，或版本号、架构与当前安装不一致，都会被直接拦截。该功能适用于无法直接连接 GitHub、但可通过群文件等渠道获取完整包或增量包的用户，且需在 v6.8.0-beta.2 及以上版本中使用。
+我们优化了 MAA 的更新流程，将更新部分拆分成独立的 exe 文件，以增强更新过程的可靠性。
 
-#### 建议内测版用户执行一次完整包清理替换
+***\[仅 Windows\]*** 另外，我们为无法直接下载 OTA 更新包，但可以从群文件等其他渠道获取完整包或增量包的用户，提供了直接拖入更新的功能。你只需要将对应的压缩包直接拖入正在运行的 MAA 窗口，牛牛就会自动识别并执行更新。
 
-在独立更新器的编写过程中，我们修复了一个自内测版发布之初就存在的问题：内测版在与正式版或公测版对比时，removelist 可能会错误地将所有目录加入删除列表。建议所有内测版用户下载一次完整包，并拖入软件内执行清理替换。通过完整包更新时，MAA 会保留 debug、cache、data、config 文件夹，其余文件会移入回收站；若目录内有自行添加或修改过的文件，建议提前备份。
+请确保压缩包的命名规则（`MAAComponent-OTA-v{旧版本}_v{新版本}-win-{架构}.zip`）、架构（`x64` 或 `arm64`）和版本链（`{旧版本}`）与当前安装的 MAA 完全匹配，否则更新将被拒绝。
 
-#### 玩法与海外服支持扩展
+##### 建议内测版用户执行一次完整包清理替换
 
-本版本新增按指定过期天数使用理智药、界园肉鸽月度小队与深入调查等功能，并补充海外服线索快速放置、OS 关卡与小游戏资源、OCR 与本地化内容，进一步提升多地区服支持的完整度。
+在独立更新器的编写过程中，我们修复了一个自内测版发布之初就存在的问题：
+
+内测版在与正式版或公测版对比时，`removelist` 可能会错误地将所有目录加入删除列表，这可能会导致配置文件等丢失。
+
+建议所有内测版用户下载一次完整包，并拖入正在运行的 MAA 窗口内执行清理替换。
+
+通过完整包更新时，MAA 会保留 debug、cache、data、config 文件夹，其余文件会移入回收站；若你有自行添加或修改过文件，建议提前备份。
+
+#### 一键长草优化
+
+我们优化了一键长草功能的理智作战部分，现在可以指定在活动结束前 48 小时吃当期过期的理智药，确保能将更多的理智药投入到当期活动中。
+
+我们为自动肉鸽部分新增了界园肉鸽月度小队与深入调查的支持，你现在可以在自动肉鸽的策略选项选择对应的策略了。
+
+#### 海外服专属优化
+
+我们在这个版本新增了海外服的基建线索快速放置功能，以及 SideStory「雪山降临1101」小游戏“喀兰贸易技术研发部”资源、OCR 与本地化内容。
 
 ----
 
-#### Standalone Updater and Update Flow Overhaul
+### Highlights
 
-The update flow has been rebuilt around a standalone updater, and MAA now supports updating by directly dragging in a correctly named archive. You can import either a full package, such as MAA-v6.8.0-win-x64.zip, or an OTA package, such as MAAComponent-OTA-vOLD_VERSION_vNEW_VERSION-win-x64.zip. The filename, architecture, and version chain must match exactly; files renamed with suffixes like (1) or copy, or files whose version or architecture does not match the current installation, will be rejected immediately. This is intended for users who cannot access GitHub directly but can obtain full packages or OTA packages from other channels such as community file shares. This feature requires v6.8.0-beta.2 or later.
+This update continues our focus on improving user experience. We will always adhere to the principle of long-termism, steadily moving forward through experimentation and reflection.
 
-#### Recommended Full-Package Cleanup for Beta Users
+#### Standalone Updater and Local Drag-and-Drop Update
 
-While developing the standalone updater, we found and fixed a long-standing issue that had existed since the earliest beta releases: when comparing a beta build against a stable or public build, removelist could incorrectly add every directory to the deletion list. We therefore recommend that all beta users download a full package once and drag it into MAA to perform a cleanup replacement. When updating from a full package, MAA preserves the debug, cache, data, and config folders, while other files are moved to the Recycle Bin. If you have added or modified files manually, back them up in advance.
+We have optimized the MAA update process, splitting the update portion into independent exe files to enhance the reliability of the update process.
 
-#### Gameplay and Overseas Support Expansion
+***[Windows Only]*** Additionally, for users who cannot directly download OTA packages but can obtain full or incremental packages from other sources, we have provided a drag-and-drop update function. You only need to drag the corresponding compressed file directly into the running MAA window, and MAA will automatically recognize and execute the update.
 
-This release adds support for consuming sanity potions by specified expiration days, JieGarden monthly squads and deep investigations, and broader overseas support with faster clue placement, OS stage and mini-game resources, OCR improvements, and localization updates.
+Please ensure that the compressed package's naming convention (`MAAComponent-OTA-v{old version}_v{new version}-win-{architecture}.zip`), architecture (`x64` or `arm64`), and version chain (`{old version}`) completely match the currently installed MAA; otherwise, the update will be rejected.
+
+##### We recommend that beta users perform a full package cleanup and replacement.
+
+During the development of the standalone updater, we fixed an issue that existed since the initial beta release:
+
+When comparing the beta version with the official or public beta version, `removelist` might incorrectly add all directories to the deletion list, potentially leading to the loss of configuration files, etc.
+
+We recommend that all beta users download the full package once and drag it into the running MAA window to perform a cleanup and replacement.
+
+When updating with the full package, MAA will retain the debug, cache, data, and config folders; other files will be moved to the recycle bin. If you have added or modified any files, we recommend backing them up beforehand.
+
+#### *Farming* Optimization
+
+We've optimized the *Combat* of the *Farming*. You can now specify that using sanity potions that expire this week within 48 hours before the activity ends, ensuring more sanity potions are used in the current event.
+
+We've added support for the *Monthly Squad* and *Deep Investigation* for *Sui's Garden of Grotesqueries* in the *Auto I.S.*. You can now select the corresponding strategy in the *Auto I.S.* options.
+
+#### Overseas Server Exclusive Optimizations
+
+In this version, we've added a quick Clue placement function for *Base* for overseas servers, as well as resources, OCR, and localized content for the minigame *Karlan Trade R&D* of the SideStory *Retracing Our Steps*.
 
 ----
 
