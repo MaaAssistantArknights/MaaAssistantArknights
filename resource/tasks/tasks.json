@@ -1909,9 +1909,9 @@
         "next": ["SpecialAccessActivities", "Stop"]
     },
     "SpecialAccessActivities": {
-        "doc": "五/六周年月卡",
+        "doc": "周年特殊赠送月卡",
         "algorithm": "OcrDetect",
-        "text": ["五周年", "专享", "专享活动", "活动推荐", "月卡"],
+        "text": ["专享", "专享活动", "活动推荐", "月卡"],
         "action": "ClickSelf",
         "roi": [5, 21, 203, 258],
         "next": ["SpecialAccessActivitiesConfirm", "SpecialAccessActivitiesReturn"],
