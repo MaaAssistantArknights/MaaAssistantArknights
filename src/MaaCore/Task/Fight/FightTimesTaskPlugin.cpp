@@ -317,8 +317,8 @@ std::optional<asst::SanityResult> asst::FightTimesTaskPlugin::analyze_sanity_rem
     }
 
     Log.info(__FUNCTION__, "Current Sanity:", sanity_cur, ", Max Sanity:", sanity_max);
-    if (sanity_cur < 0 || sanity_max > 180 || sanity_max < 82) [[unlikely]] {
-        // 理智上限[82,135] 2024.11.01 上限增加45点 [127, 180]
+    if (sanity_cur < 0 || sanity_max > 210 || sanity_max < 82) [[unlikely]] {
+        // 理智上限[82,135] 2024.11.01 上限增加45点 [127, 180] 2026.05.01 上限增加30点 -> 210
         Log.warn(__FUNCTION__, "Sanity out of limit");
         analyzer.save_img(utils::path("debug") / utils::path("sanity"));
         return std::nullopt;
