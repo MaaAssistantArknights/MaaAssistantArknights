@@ -89,7 +89,13 @@ bool asst::BattleFormationTask::_run()
         save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
-    formation_with_last_opers();
+    if (verify_and_ensure_page_cleared()) {
+        formation_with_last_opers();
+    }
+    else {
+        // Clear 不可靠，放弃预编队复用，回退到完整编队流程
+        m_opers_in_formation->clear();
+    }
     for (auto& [role, oper_groups] : m_formation) {
         bool need_check =
             std::ranges::any_of(oper_groups, [&](const OperGroup& group) { return has_oper_unchecked(group.second); });
@@ -254,12 +260,8 @@ void asst::BattleFormationTask::formation_with_last_opers()
         const std::string& oper_name = it->first;
         const std::string& group_name = it->second;
 
-        // 按名字定位编队页中的目标干员，不再根据 is_selected 预过滤。
-        // 设计上 enter_selection_page 里的 BattleQuickFormationClear 会在进入前
-        // 清空所有选中态，正常情况下 is_selected 都为 false；但当清空动作未生效
-        // （例如连续打同一关的普通+突袭，游戏保留了上次的选中）时，画面上的干员
-        // 可能已经是选中态，下面会根据实际状态决定是否点击，避免把本来已选中的
-        // 干员反选掉。
+        // 按名字定位编队页中的目标干员。进入前已通过 verify_and_ensure_page_cleared
+        // 确认页面选中态已清空，is_selected 应为 false。
         const auto oper_in_page_it = std::ranges::find_if(
             opers_result,
             [&](const QuickFormationOper& op) { return op.text == oper_name; });
@@ -275,16 +277,8 @@ void asst::BattleFormationTask::formation_with_last_opers()
             continue;
         }
 
-        // 未选中时点击选中；已经是选中态则跳过点击（见上方 Clear 未生效的场景），
-        // 无论是否点击都算本轮命中，后续的选中态校验会再次确认。
-        if (!oper_in_page_it->is_selected) {
-            ctrler()->click(oper_in_page_it->flag_rect);
-            sleep(delay);
-        }
-        else {
-            Log.info(__FUNCTION__, "| Oper", oper_name,
-                     "already selected on page, skip click (Clear may not have taken effect)");
-        }
+        ctrler()->click(oper_in_page_it->flag_rect);
+        sleep(delay);
         it = last_formation.erase(it);
     }
 
@@ -602,6 +596,45 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
 bool asst::BattleFormationTask::enter_selection_page(const cv::Mat& img)
 {
     return ProcessTask(*this, { "BattleQuickFormation" }).set_reusable_image(img).set_retry_times(3).run();
+}
+
+bool asst::BattleFormationTask::verify_and_ensure_page_cleared()
+{
+    LogTraceFunction;
+
+    static constexpr int max_retry_times = 3;
+
+    for (int retry = 0; retry < max_retry_times; ++retry) {
+        const auto& opers_result = analyzer_opers(ctrler()->get_image());
+        if (opers_result.empty()) {
+            return true;
+        }
+
+        bool has_selected = std::ranges::any_of(
+            opers_result,
+            [](const QuickFormationOper& op) { return op.is_selected; });
+
+        if (!has_selected) {
+            return true;
+        }
+
+        Log.info(__FUNCTION__, "| Found pre-selected operators, retrying Clear (attempt",
+                 retry + 1, "/", max_retry_times, ")");
+        ProcessTask(*this, { "BattleQuickFormationClear" }).run();
+    }
+
+    const auto& opers_result = analyzer_opers(ctrler()->get_image());
+    bool has_selected = std::ranges::any_of(
+        opers_result,
+        [](const QuickFormationOper& op) { return op.is_selected; });
+
+    if (has_selected) {
+        Log.warn(__FUNCTION__, "| Page still has pre-selected operators after retries, "
+                 "skipping last formation reuse");
+        return false;
+    }
+
+    return true;
 }
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperGroup*>& groups)

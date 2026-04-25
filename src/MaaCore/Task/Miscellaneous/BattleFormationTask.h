@@ -98,7 +98,9 @@ protected:
     bool is_formation_valid(const cv::Mat& img) const;
     bool select_formation(int select_index, const cv::Mat& img);
     bool enter_selection_page(const cv::Mat& img = cv::Mat());
-    // 进入快捷编队清空选择后执行，快速选择非干员组的干员
+    // 验证快捷编队页面是否已被清空，未清空则重试 Clear；仍失败返回 false
+    bool verify_and_ensure_page_cleared();
+    // 进入快捷编队且页面已确认清空后执行，快速选择上次编队的干员
     void formation_with_last_opers();
     bool add_formation(battle::Role role, const std::vector<OperGroup*>& oper_group);
     // 追加附加干员（按部署费用等小分类）
