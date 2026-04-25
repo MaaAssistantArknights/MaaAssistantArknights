@@ -147,6 +147,11 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
 
         OperBoxInfo box;
         const auto& oper_data = BattleData.find_oper(oper.role, name);
+        if (!oper_data) {
+            LogError << __FUNCTION__ << "not find oper, role:" << (int)oper.role << "name:" << name;
+            continue;
+        }
+
         box.id = oper_data ? oper_data->id : "";
         box.name = name;
         box.rarity = oper_data ? oper_data->rarity : 0;
