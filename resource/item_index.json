@@ -2207,6 +2207,14 @@
         "sortId": -10000,
         "usage": "用于兑换相应的阶段性活动奖励。"
     },
+    "act3enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "听说使用它之后可以在整个争锋频道发送一条带有全屏烟花特效的文字。但终日使用它们对骂的有钱人或许并不知道，网站设置内能够一键屏蔽这些特效。",
+        "icon": "act3enemyduel_milestone_point.png",
+        "name": "争锋大礼花",
+        "sortId": -10000,
+        "usage": "争锋频道礼物中比较昂贵的类型，可以在网站内兑换一些实物奖励，包邮，送货上门。"
+    },
     "act3mainss_token": {
         "classifyType": "NONE",
         "description": "打火石撞击的声响隐没在茫茫雪原中，黑暗无垠，唯有这一簇炽热燃烧的火苗。它静静跳动，远望着那无边的凛冽，于寒夜中融化冰雪，只待太阳再次升起。",
