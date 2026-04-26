@@ -151,7 +151,7 @@ public class PostActionSetting : PropertyChangedBase
     /// <summary>
     /// Gets a value indicating whether PC 端（窗口绑定）无模拟器进程，完成后不可选择「退出模拟器」。
     /// </summary>
-    public bool ExitEmulatorOptionEnabled => !_ifNoOtherMaa && !ConnectSettingsUserControlModel.Instance.UseAttachWindow;
+    public bool ExitEmulatorOptionEnabled => !ConnectSettingsUserControlModel.Instance.UseAttachWindow;
 
     public bool ExitEmulator
     {
@@ -174,10 +174,6 @@ public class PostActionSetting : PropertyChangedBase
             {
                 ExitArknights = false;
                 BackToAndroidHome = false;
-            }
-            else
-            {
-                IfNoOtherMaa = false;
             }
 
             UpdatePostAction(PostActions.ExitEmulator, value);
@@ -221,15 +217,6 @@ public class PostActionSetting : PropertyChangedBase
 
             if (value)
             {
-                if (!ConnectSettingsUserControlModel.Instance.UseAttachWindow)
-                {
-                    ExitEmulator = true;
-                }
-                else
-                {
-                    ExitArknights = true;
-                }
-
                 ExitSelf = true;
             }
 
@@ -494,6 +481,12 @@ public class PostActionSetting : PropertyChangedBase
         {
             if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.UseAttachWindow))
             {
+                if (ConnectSettingsUserControlModel.Instance.UseAttachWindow && ExitEmulator)
+                {
+                    ExitEmulator = false;
+                    ExitArknights = true;
+                }
+
                 NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
                 NotifyOfPropertyChange(nameof(ExitEmulatorOptionEnabled));
                 ClearUnsupportedPostActionsForAttachWindow();

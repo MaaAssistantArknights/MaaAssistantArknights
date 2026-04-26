@@ -39,7 +39,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding ExitArknights}"
-                IsEnabled="{c:Binding '!ExitEmulator and !IfNoOtherMaa'}"
+                IsEnabled="{c:Binding !ExitEmulator}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource ExitArknights}" TextWrapping="Wrap" />
             </CheckBox>
