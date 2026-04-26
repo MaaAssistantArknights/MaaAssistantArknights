@@ -225,6 +225,10 @@ public class PostActionSetting : PropertyChangedBase
                 {
                     ExitEmulator = true;
                 }
+                else
+                {
+                    ExitArknights = true;
+                }
 
                 ExitSelf = true;
             }
@@ -456,6 +460,7 @@ public class PostActionSetting : PropertyChangedBase
             changed = true;
         }
 
+        /*
         if (_exitArknights)
         {
             _exitArknights = false;
@@ -463,6 +468,7 @@ public class PostActionSetting : PropertyChangedBase
             NotifyOfPropertyChange(nameof(ExitArknights));
             changed = true;
         }
+        */
 
         if (_exitEmulator)
         {
