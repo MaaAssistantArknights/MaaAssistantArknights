@@ -95,7 +95,6 @@ void AsstDestroy(AsstHandle handle)
     }
 
     delete handle;
-    handle = nullptr;
 }
 
 AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value)
