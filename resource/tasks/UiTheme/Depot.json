@@ -20,7 +20,8 @@
             "DepotJieGarden",
             "DepotAveMujica",
             "DepotTogether",
-            "DepotLoneTrail"
+            "DepotLoneTrail",
+            "DepotReconstruct"
         ],
         "onErrorNext": ["Depot-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -83,5 +84,9 @@
     "DepotLoneTrail": {
         "baseTask": "DepotDefault",
         "template": ["LoneTrail/Day/DepotEnter.png", "LoneTrail/Night/DepotEnter.png"]
+    },
+    "DepotReconstruct": {
+        "baseTask": "DepotDefault",
+        "template": "Reconstruct/DepotEnter.png"
     }
 }

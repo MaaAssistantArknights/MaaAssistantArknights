@@ -20,7 +20,8 @@
             "RecruitJieGarden",
             "RecruitAveMujica",
             "RecruitTogether",
-            "RecruitLoneTrail"
+            "RecruitLoneTrail",
+            "RecruitReconstruct"
         ],
         "onErrorNext": ["Recruit-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -83,5 +84,9 @@
     "RecruitLoneTrail": {
         "baseTask": "RecruitDefault",
         "template": ["LoneTrail/Day/Recruit.png", "LoneTrail/Night/Recruit.png"]
+    },
+    "RecruitReconstruct": {
+        "baseTask": "RecruitDefault",
+        "template": "Reconstruct/Recruit.png"
     }
 }

@@ -20,7 +20,8 @@
             "InfrastJieGarden",
             "InfrastAveMujica",
             "InfrastTogether",
-            "InfrastLoneTrail"
+            "InfrastLoneTrail",
+            "InfrastReconstruct"
         ],
         "onErrorNext": ["Infrast-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -83,5 +84,9 @@
     "InfrastLoneTrail": {
         "baseTask": "InfrastDefault",
         "template": ["LoneTrail/Day/EnterInfrast.png", "LoneTrail/Night/EnterInfrast.png"]
+    },
+    "InfrastReconstruct": {
+        "baseTask": "InfrastDefault",
+        "template": "Reconstruct/EnterInfrast.png"
     }
 }

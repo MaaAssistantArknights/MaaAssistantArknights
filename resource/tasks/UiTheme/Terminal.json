@@ -21,7 +21,8 @@
             "TerminalJieGarden",
             "TerminalAveMujica",
             "TerminalTogether",
-            "TerminalLoneTrail"
+            "TerminalLoneTrail",
+            "TerminalReconstruct"
         ],
         "onErrorNext": ["Terminal-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -84,5 +85,9 @@
     "TerminalLoneTrail": {
         "baseTask": "TerminalDefault",
         "template": ["LoneTrail/Day/Terminal.png", "LoneTrail/Night/Terminal.png"]
+    },
+    "TerminalReconstruct": {
+        "baseTask": "TerminalDefault",
+        "template": "Reconstruct/Terminal.png"
     }
 }
