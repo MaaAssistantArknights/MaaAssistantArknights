@@ -135,8 +135,36 @@ bool Win32Controller::start_game(const std::string& client_type [[maybe_unused]]
 
 bool Win32Controller::stop_game(const std::string& client_type [[maybe_unused]])
 {
-    Log.warn("stop_game is not supported on Win32Controller");
-    return false;
+    LogTraceFunction;
+
+    if (!m_hwnd) {
+        Log.error("No window handle available");
+        return false;
+    }
+
+    DWORD pid = 0;
+    GetWindowThreadProcessId(static_cast<HWND>(m_hwnd), &pid);
+    if (pid == 0) {
+        Log.error("Failed to get process id from hwnd");
+        return false;
+    }
+
+    HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
+    if (!hProcess) {
+        Log.error("Failed to open process, pid:", pid);
+        return false;
+    }
+
+    BOOL ok = TerminateProcess(hProcess, 0);
+    CloseHandle(hProcess);
+
+    if (!ok) {
+        Log.error("Failed to terminate process, pid:", pid);
+        return false;
+    }
+
+    Log.info("Game process terminated, pid:", pid);
+    return true;
 }
 
 bool Win32Controller::click(const Point& p)
