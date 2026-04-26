@@ -179,6 +179,7 @@
     <system:String x:Key="MuMuEmulator12">MuMu 模拟器</system:String>
     <system:String x:Key="AVD">Android 虚拟设备（AVD）</system:String>
     <system:String x:Key="LDPlayer">雷电模拟器</system:String>
+    <system:String x:Key="Androws">应用宝模拟器</system:String>
     <system:String x:Key="Nox">夜神模拟器</system:String>
     <system:String x:Key="XYAZ">逍遥模拟器</system:String>
     <system:String x:Key="WSA">WSA 旧版本</system:String>

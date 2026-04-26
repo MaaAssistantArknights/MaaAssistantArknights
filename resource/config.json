@@ -100,6 +100,19 @@
             "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap | busybox nc -w 3 [NcAddress] [NcPort]\""
         },
         {
+            "configName": "Androws",
+            "baseConfig": "CapWithShell",
+            "displayId": "[Adb] -s [AdbSerial] shell \"dumpsys activity activities | awk '/^Display #/{match($0,/[0-9]+/); id=substr($0,RSTART,RLENGTH)} /packageName=[PackageName]/{print \\\"mDisplayId:\\\" id; }'\"",
+            "display": "[Adb] -s [AdbSerial] shell \"wm size -d [DisplayId] | grep -o -E [0-9]+\"",
+            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap -d [DisplayId] | nc -w 3 [NcAddress] [NcPort]\"",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap -d [DisplayId] | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -d [DisplayId] -p",
+            "click": "[Adb] -s [AdbSerial] shell input -d [DisplayId] tap [x] [y]",
+            "swipe": "[Adb] -s [AdbSerial] shell input -d [DisplayId] swipe [x1] [y1] [x2] [y2] [duration]",
+            "eventId": "[Adb] -s [AdbSerial] shell \"EH_ID=$(dumpsys input | grep -E 'EventHub Devices:|Viewport.*displayId=[DisplayId],' | grep -B1 'displayId=[DisplayId],' | grep EventHub | head -1 | sed 's/.*\\[ *//;s/ *\\].*//'); dumpsys input | grep \\\"    ${EH_ID}: \\\" -A2 | grep Path | head -1 | sed 's/.*event//'\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i -d /dev/input/event[EventId]"
+        },
+        {
             "configName": "Nox",
             "baseConfig": "General"
         },

@@ -37,12 +37,7 @@ public:
     Controller(Controller&&) = delete;
     ~Controller();
 
-    std::shared_ptr<ControllerAPI> create_controller(
-        ControllerType type,
-        const std::string& adb_path,
-        const std::string& address,
-        const std::string& config,
-        PlatformType platform_type) const;
+    std::shared_ptr<ControllerAPI> create_controller(ControllerType type, PlatformType platform_type) const;
 
     bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
 #ifdef _WIN32
@@ -57,6 +52,8 @@ public:
     void set_swipe_with_pause(bool enable) noexcept;
     void set_adb_lite_enabled(bool enable) noexcept;
     void set_kill_adb_on_exit(bool enable) noexcept;
+    void set_client_type(const std::string& client_type) noexcept;
+    const std::string& get_client_type() const noexcept;
 
     const std::string& get_uuid() const;
 
@@ -130,6 +127,7 @@ private:
 
     bool m_swipe_with_pause = false;
     bool m_kill_adb_on_exit = false;
+    std::string m_client_type;
 
     mutable std::shared_mutex m_image_mutex;
     cv::Mat m_cache_image;

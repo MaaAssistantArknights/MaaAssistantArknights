@@ -1,6 +1,7 @@
 #include "AdbController.h"
 
 #include "Assistant.h"
+#include "Controller.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include <cstdint>
 #include <numeric>
@@ -867,6 +868,9 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         };
     };
 
+    std::string client_type = ctrler() ? ctrler()->get_client_type() : "";
+    m_conn_ctx.reset(adb_path, address, client_type);
+
     auto adb_ret = Config.get_adb_cfg(config);
     if (!adb_ret) {
         json::value info = get_info_json() | json::object {
@@ -882,23 +886,8 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 #endif
     }
 
-    const auto& adb_cfg = adb_ret.value();
-    std::string display_id;
-    std::string nc_address = "10.0.2.2";
-    uint16_t nc_port = 0;
-
-    // 里面的值每次执行命令后可能更新，所以要用 lambda 拿最新的
-    auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
-        return utils::string_replace_all(
-            cfg_cmd,
-            {
-                { "[Adb]", adb_path },
-                { "[AdbSerial]", address },
-                { "[DisplayId]", display_id },
-                { "[NcPort]", std::to_string(nc_port) },
-                { "[NcAddress]", nc_address },
-            });
-    };
+    m_conn_ctx.adb_cfg = adb_ret.value();
+    const auto& adb_cfg = m_conn_ctx.adb_cfg;
 
     if (need_exit()) {
         return false;
@@ -907,8 +896,8 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     /* connect */
     {
         // 先用 devices 读取输出
-        m_adb.devices = cmd_replace(adb_cfg.devices);
-        m_adb.address_regex = cmd_replace(adb_cfg.address_regex);
+        m_adb.devices = m_conn_ctx.replace_cmd(adb_cfg.devices);
+        m_adb.address_regex = m_conn_ctx.replace_cmd(adb_cfg.address_regex);
         auto devices_ret = call_command(m_adb.devices, 60LL * 1000, false);
         bool need_connect = true;
         if (devices_ret) {
@@ -934,8 +923,8 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         }
 
         // TODO: adb lite server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
-        m_adb.connect = cmd_replace(adb_cfg.connect);
-        m_adb.release = cmd_replace(adb_cfg.release);
+        m_adb.connect = m_conn_ctx.replace_cmd(adb_cfg.connect);
+        m_adb.release = m_conn_ctx.replace_cmd(adb_cfg.release);
         auto connect_ret = call_command(m_adb.connect, 60LL * 1000, false /* adb 连接时不允许重试 */);
         bool is_connect_success = false;
         if (connect_ret) {
@@ -964,7 +953,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 
     /* get uuid (imei) */
     {
-        auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid), 20000, false /* adb 连接时不允许重试 */);
+        auto uuid_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.uuid), 20000, false /* adb 连接时不允许重试 */);
         if (!uuid_ret) {
             json::value info = get_info_json() | json::object {
                 { "what", "ConnectFailed" },
@@ -1000,7 +989,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     }
     /* get android version */
     {
-        auto version_ret = call_command(cmd_replace(adb_cfg.version));
+        auto version_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.version));
         if (!version_ret) {
             json::value info = get_info_json() | json::object {
                 { "what", "ConnectFailed" },
@@ -1037,7 +1026,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 
     // 按需获取display ID 信息
     if (!adb_cfg.display_id.empty()) {
-        auto display_id_ret = call_command(cmd_replace(adb_cfg.display_id));
+        auto display_id_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.display_id));
         if (!display_id_ret) {
             return false;
         }
@@ -1049,9 +1038,35 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             return false;
         }
 
-        display_id = display_id_pipe_str.substr(last + 1);
+        m_conn_ctx.display_id = display_id_pipe_str.substr(last + 1);
         // 去掉换行
-        display_id.pop_back();
+        m_conn_ctx.display_id.pop_back();
+    }
+
+    if (need_exit()) {
+        return false;
+    }
+
+    // 按需获取 event ID 信息（用于 minitouch 的 /dev/input/eventN）
+    if (!adb_cfg.event_id.empty()) {
+        auto event_id_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.event_id));
+        if (!event_id_ret) {
+            Log.warn("Failed to get event_id, skip");
+        }
+        else {
+            auto& event_id_pipe_str = event_id_ret.value();
+            convert_lf(event_id_pipe_str);
+            // 去掉空白字符
+            std::erase_if(event_id_pipe_str, [](char c) { return !std::isdigit(c); });
+
+            if (event_id_pipe_str.empty()) {
+                Log.warn("event_id is empty, skip");
+            }
+            else {
+                m_conn_ctx.event_id = event_id_pipe_str;
+                Log.info("event_id:", m_conn_ctx.event_id);
+            }
+        }
     }
 
     if (need_exit()) {
@@ -1060,7 +1075,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 
     /* display */
     {
-        auto display_ret = call_command(cmd_replace(adb_cfg.display));
+        auto display_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.display));
         if (!display_ret) {
             json::value info = get_info_json() | json::object {
                 { "what", "ConnectFailed" },
@@ -1110,15 +1125,15 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         callback(AsstMsg::ConnectionInfo, info);
     }
 
-    m_adb.click = cmd_replace(adb_cfg.click);
-    m_adb.input = cmd_replace(adb_cfg.input);
-    m_adb.swipe = cmd_replace(adb_cfg.swipe);
-    m_adb.press_esc = cmd_replace(adb_cfg.press_esc);
-    m_adb.screencap_raw_with_gzip = cmd_replace(adb_cfg.screencap_raw_with_gzip);
-    m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
-    m_adb.start = cmd_replace(adb_cfg.start);
-    m_adb.stop = cmd_replace(adb_cfg.stop);
-    m_adb.back_to_home = cmd_replace(adb_cfg.back_to_home);
+    m_adb.click = m_conn_ctx.replace_cmd(adb_cfg.click);
+    m_adb.input = m_conn_ctx.replace_cmd(adb_cfg.input);
+    m_adb.swipe = m_conn_ctx.replace_cmd(adb_cfg.swipe);
+    m_adb.press_esc = m_conn_ctx.replace_cmd(adb_cfg.press_esc);
+    m_adb.screencap_raw_with_gzip = m_conn_ctx.replace_cmd(adb_cfg.screencap_raw_with_gzip);
+    m_adb.screencap_encode = m_conn_ctx.replace_cmd(adb_cfg.screencap_encode);
+    m_adb.start = m_conn_ctx.replace_cmd(adb_cfg.start);
+    m_adb.stop = m_conn_ctx.replace_cmd(adb_cfg.stop);
+    m_adb.back_to_home = m_conn_ctx.replace_cmd(adb_cfg.back_to_home);
 
     if (m_support_socket && !m_server_started) {
         std::string bind_address;
@@ -1131,18 +1146,18 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 
         // reference from
         // https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
-        auto nc_address_ret = call_command(cmd_replace(adb_cfg.nc_address));
+        auto nc_address_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.nc_address));
         if (nc_address_ret && !m_server_started) {
             auto& nc_result_str = nc_address_ret.value();
             if (auto pos = nc_result_str.find(' '); pos != std::string::npos) {
-                nc_address = nc_result_str.substr(0, pos);
+                m_conn_ctx.nc_address = nc_result_str.substr(0, pos);
             }
         }
 
         auto socket_opt = init_socket(bind_address);
         if (socket_opt) {
-            nc_port = socket_opt.value();
-            m_adb.screencap_raw_by_nc = cmd_replace(adb_cfg.screencap_raw_by_nc);
+            m_conn_ctx.nc_port = socket_opt.value();
+            m_adb.screencap_raw_by_nc = m_conn_ctx.replace_cmd(adb_cfg.screencap_raw_by_nc);
             m_server_started = true;
         }
         else {
@@ -1160,7 +1175,6 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     else if (config == "LDPlayer") {
         init_ld_extras(adb_cfg, address);
     }
-
     if (need_exit()) {
         return false;
     }

@@ -317,11 +317,11 @@ void asst::MinitouchController::clear_info() noexcept
     m_minitouch_props = decltype(m_minitouch_props)();
 }
 
-bool asst::MinitouchController::probe_minitouch(
-    const AdbCfg& adb_cfg,
-    std::function<std::string(const std::string&)> cmd_replace)
+bool asst::MinitouchController::probe_minitouch()
 {
     LogTraceFunction;
+
+    const auto& adb_cfg = m_conn_ctx.adb_cfg;
 
     std::string_view touch_program;
     if (m_use_maa_touch) {
@@ -329,14 +329,14 @@ bool asst::MinitouchController::probe_minitouch(
         m_minitouch_props.orientation = 0;
     }
     else {
-        std::string abilist = call_command(cmd_replace(adb_cfg.abilist)).value_or(std::string());
+        std::string abilist = call_command(m_conn_ctx.replace_cmd(adb_cfg.abilist)).value_or(std::string());
         for (const auto& abi : Config.get_options().minitouch_programs_order) {
             if (abilist.find(abi) != std::string::npos) {
                 touch_program = abi;
                 break;
             }
         }
-        std::string orientation_str = call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
+        std::string orientation_str = call_command(m_conn_ctx.replace_cmd(adb_cfg.orientation)).value_or("0");
         if (!orientation_str.empty()) {
             char first = orientation_str.front();
             if (first == '0' || first == '1' || first == '2' || first == '3') {
@@ -353,7 +353,7 @@ bool asst::MinitouchController::probe_minitouch(
     auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
         using namespace asst::utils::path_literals;
         return utils::string_replace_all(
-            cmd_replace(cfg_cmd),
+            m_conn_ctx.replace_cmd(cfg_cmd),
             {
                 { "[minitouchLocalPath]",
                   utils::path_to_utf8_string(ResDir.get() / "minitouch"_p / touch_program / "minitouch"_p) },
@@ -400,59 +400,24 @@ bool asst::MinitouchController::connect(
         return false;
     }
 
-    auto get_info_json = [&]() -> json::value {
-        return json::object {
-            { "uuid", m_uuid },
-            { "details",
-              json::object {
-                  { "adb", adb_path },
-                  { "address", address },
-                  { "config", config },
-              } },
-        };
-    };
-
-    std::string display_id;
-    std::string nc_address = "10.0.2.2";
-    uint16_t nc_port = 0;
-
-    auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
-        return utils::string_replace_all(
-            cfg_cmd,
-            {
-                { "[Adb]", adb_path },
-                { "[AdbSerial]", address },
-                { "[DisplayId]", display_id },
-                { "[NcPort]", std::to_string(nc_port) },
-                { "[NcAddress]", nc_address },
-            });
-    };
-
-    auto adb_ret = Config.get_adb_cfg(config);
-
-    if (!adb_ret) {
-        json::value info = get_info_json() | json::object {
-            { "what", "ConnectFailed" },
-            { "why", "ConfigNotFound" },
-        };
-        callback(AsstMsg::ConnectionInfo, info);
-#ifdef ASST_DEBUG
-        return false;
-#else
-        Log.error("config ", config, "not found");
-        adb_ret = Config.get_adb_cfg("General");
-#endif
-    }
-
-    const auto& adb_cfg = adb_ret.value();
-
-    m_minitouch_available = probe_minitouch(adb_cfg, cmd_replace);
+    // AdbController::connect() 已填充 m_conn_ctx（含 adb_cfg、display_id 等），直接使用
+    m_minitouch_available = probe_minitouch();
 
     if (!m_minitouch_available) {
-        json::value info = get_info_json() | json::object {
-            { "what", "TouchModeNotAvailable" },
-            { "why", "" },
-        };
+        json::value info =
+            json::object {
+                { "uuid", m_uuid },
+                { "details",
+                  json::object {
+                      { "adb", adb_path },
+                      { "address", address },
+                      { "config", config },
+                  } },
+            } |
+            json::object {
+                { "what", "TouchModeNotAvailable" },
+                { "why", "" },
+            };
         callback(AsstMsg::ConnectionInfo, info);
         return false;
     }

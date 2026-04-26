@@ -73,6 +73,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
             new() { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
             new() { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
+            new() { Display = LocalizationHelper.GetString("Androws"), Value = "Androws" },
             new() { Display = LocalizationHelper.GetString("AVD"), Value = "AVD" },
             new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
             new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
@@ -837,6 +838,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             { "LDPlayer", ["emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5557", "127.0.0.1:5559", "127.0.0.1:5561"] },
             { "Nox", ["127.0.0.1:62001", "127.0.0.1:59865"] },
             { "XYAZ", ["127.0.0.1:21503"] },
+            { "Androws", ["127.0.0.1:5555"] },
             { "WSA", ["127.0.0.1:58526"] },
         };
 
