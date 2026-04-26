@@ -122,6 +122,11 @@ public class PostActionSetting : PropertyChangedBase
 
     private bool _backToAndroidHome;
 
+    /// <summary>
+    /// Gets a value indicating whether AttachWindow 模式支持 Android 侧后处理动作。
+    /// </summary>
+    public bool AndroidControlPostActionsEnabled => !_exitEmulator && !ConnectSettingsUserControlModel.Instance.UseAttachWindow;
+
     public bool BackToAndroidHome
     {
         get => _backToAndroidHome;
@@ -162,6 +167,8 @@ public class PostActionSetting : PropertyChangedBase
             {
                 return;
             }
+
+            NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
 
             if (value)
             {
@@ -426,22 +433,51 @@ public class PostActionSetting : PropertyChangedBase
         Shutdown = _postActions.HasFlag(PostActions.Shutdown);
         Sleep = _postActions.HasFlag(PostActions.Sleep);
         Once = false;
-        ClearExitEmulatorForAttachWindow();
+        ClearUnsupportedPostActionsForAttachWindow();
     }
 
     /// <summary>
-    /// PC 端不支持退出模拟器：移除已保存的该标志，且不触发「取消如果没有其他 MAA」的联动。
+    /// PC 端（窗口绑定）不支持 ADB 侧后处理动作：移除已保存的相关标志，且不触发额外联动。
     /// </summary>
-    private void ClearExitEmulatorForAttachWindow()
+    private void ClearUnsupportedPostActionsForAttachWindow()
     {
-        if (!ConnectSettingsUserControlModel.Instance.UseAttachWindow || !_exitEmulator)
+        if (!ConnectSettingsUserControlModel.Instance.UseAttachWindow)
         {
             return;
         }
 
-        _exitEmulator = false;
-        _postActions &= ~PostActions.ExitEmulator;
-        NotifyOfPropertyChange(nameof(ExitEmulator));
+        var changed = false;
+
+        if (_backToAndroidHome)
+        {
+            _backToAndroidHome = false;
+            _postActions &= ~PostActions.BackToAndroidHome;
+            NotifyOfPropertyChange(nameof(BackToAndroidHome));
+            changed = true;
+        }
+
+        if (_exitArknights)
+        {
+            _exitArknights = false;
+            _postActions &= ~PostActions.ExitArknights;
+            NotifyOfPropertyChange(nameof(ExitArknights));
+            changed = true;
+        }
+
+        if (_exitEmulator)
+        {
+            _exitEmulator = false;
+            _postActions &= ~PostActions.ExitEmulator;
+            NotifyOfPropertyChange(nameof(ExitEmulator));
+            changed = true;
+        }
+
+        if (!changed)
+        {
+            return;
+        }
+
+        NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
         RefreshDescription();
         SaveActions();
     }
@@ -452,8 +488,9 @@ public class PostActionSetting : PropertyChangedBase
         {
             if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.UseAttachWindow))
             {
+                NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
                 NotifyOfPropertyChange(nameof(ExitEmulatorOptionEnabled));
-                ClearExitEmulatorForAttachWindow();
+                ClearUnsupportedPostActionsForAttachWindow();
             }
         };
 

@@ -32,14 +32,14 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding BackToAndroidHome}"
-                IsEnabled="{c:Binding !ExitEmulator}"
+                IsEnabled="{c:Binding AndroidControlPostActionsEnabled}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource BackToAndroidHome}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding ExitArknights}"
-                IsEnabled="{c:Binding !ExitEmulator}"
+                IsEnabled="{c:Binding AndroidControlPostActionsEnabled}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource ExitArknights}" TextWrapping="Wrap" />
             </CheckBox>
