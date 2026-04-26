@@ -70,7 +70,7 @@ def update_ui_theme_tasks():
 def move_generated_images():
     for image_path in dst_path.rglob("*.png"):
         rel_path = image_path.relative_to(dst_path)
-        target_path = template_path / rel_path
+        target_path = template_path / "UiTheme" / rel_path
 
         if not target_path.parent.exists():
             target_path.parent.mkdir(parents=True, exist_ok=True)
