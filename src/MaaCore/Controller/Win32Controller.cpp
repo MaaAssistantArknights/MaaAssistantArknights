@@ -138,28 +138,64 @@ bool Win32Controller::stop_game(const std::string& client_type [[maybe_unused]])
     LogTraceFunction;
 
     if (!m_hwnd) {
-        Log.error("No window handle available");
-        return false;
+        Log.info("No window handle available, game may already be closed");
+        return true;
+    }
+
+    HWND hwnd = static_cast<HWND>(m_hwnd);
+    if (!IsWindow(hwnd)) {
+        Log.info("Invalid or stale window handle, game may already be closed, hwnd:", m_hwnd);
+        return true;
     }
 
     DWORD pid = 0;
-    GetWindowThreadProcessId(static_cast<HWND>(m_hwnd), &pid);
-    if (pid == 0) {
-        Log.error("Failed to get process id from hwnd");
+    DWORD tid = GetWindowThreadProcessId(hwnd, &pid);
+    if (tid == 0) {
+        DWORD error = GetLastError();
+        Log.error("Failed to get thread/process id from hwnd, hwnd:", m_hwnd, "last_error:", error);
         return false;
     }
 
-    HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
-    if (!hProcess) {
-        Log.error("Failed to open process, pid:", pid);
+    if (pid == 0) {
+        Log.error("Failed to get process id from hwnd, hwnd:", m_hwnd);
         return false;
+    }
+
+    HANDLE hProcess = OpenProcess(PROCESS_TERMINATE | SYNCHRONIZE, FALSE, pid);
+    if (!hProcess) {
+        DWORD error = GetLastError();
+        Log.error("Failed to open process, pid:", pid, "last_error:", error);
+        return false;
+    }
+
+    if (PostMessage(hwnd, WM_CLOSE, 0, 0)) {
+        DWORD wait_result = WaitForSingleObject(hProcess, 5000);
+        if (wait_result == WAIT_OBJECT_0) {
+            CloseHandle(hProcess);
+            Log.info("Game process closed gracefully, pid:", pid);
+            return true;
+        }
     }
 
     BOOL ok = TerminateProcess(hProcess, 0);
+    if (!ok) {
+        DWORD error = GetLastError();
+        CloseHandle(hProcess);
+        Log.error("Failed to terminate process, pid:", pid, "last_error:", error);
+        return false;
+    }
+
+    DWORD wait_result = WaitForSingleObject(hProcess, 5000);
     CloseHandle(hProcess);
 
-    if (!ok) {
-        Log.error("Failed to terminate process, pid:", pid);
+    if (wait_result == WAIT_TIMEOUT) {
+        Log.error("Terminate process timed out, pid:", pid);
+        return false;
+    }
+
+    if (wait_result == WAIT_FAILED) {
+        DWORD error = GetLastError();
+        Log.error("Wait for process termination failed, pid:", pid, "last_error:", error);
         return false;
     }
 
