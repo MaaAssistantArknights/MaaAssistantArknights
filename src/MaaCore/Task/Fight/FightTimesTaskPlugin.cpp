@@ -165,7 +165,7 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current,
         m_task_ptr->set_enable(false);
     }
     else if (!ret) {
-        ret = select_series(1);
+        ret = select_series(false);
     }
     return ret;
 }
