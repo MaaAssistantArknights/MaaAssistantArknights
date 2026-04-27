@@ -64,12 +64,14 @@ Rect asst::VisionHelper::correct_rect(const Rect& rect, const Rect& main_roi)
         res.height = rect.height + rect.y;
     }
     if (res.x < main_roi.x) {
+        const int dx = main_roi.x - res.x;
         res.x = main_roi.x;
-        res.width = res.width - (main_roi.x - res.x);
+        res.width -= dx;
     }
     if (res.y < main_roi.y) {
+        const int dy = main_roi.y - res.y;
         res.y = main_roi.y;
-        res.height = res.height - (main_roi.y - res.y);
+        res.height -= dy;
     }
     if (res.x + res.width > main_roi.x + main_roi.width) {
         res.width = main_roi.x + main_roi.width - res.x;
