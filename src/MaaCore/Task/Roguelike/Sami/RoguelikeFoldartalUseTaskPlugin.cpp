@@ -29,8 +29,8 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         task_view.remove_prefix(task_name_pre.length());
     }
     // 不知道是不是不对纵向节点用比较好，先写上
-    task_name_pre = "task_name_pre";
-    if (task_view.starts_with("Vertical")) {
+    task_name_pre = "Vertical";
+    if (task_view.starts_with(task_name_pre)) {
         task_view.remove_prefix(task_name_pre.length());
     }
     const std::string task_name_suf = "AI6";
