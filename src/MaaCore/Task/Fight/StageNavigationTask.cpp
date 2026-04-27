@@ -80,7 +80,7 @@ bool asst::StageNavigationTask::_run()
         ProcessTask task(*this, { m_directly_task });
         task.set_retry_times(RetryTimesDefault);
         bool ret = task.run();
-        if (!ret && task.get_last_task_name().empty() && m_directly_task.ends_with(AnnihilationSuffix)) {
+        if (!ret && task.get_last_matched_task_name().empty() && m_directly_task.ends_with(AnnihilationSuffix)) {
             m_fight_task_ptr->set_enable(false);
             return true;
         }
