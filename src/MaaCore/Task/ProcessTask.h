@@ -38,6 +38,7 @@ public:
     ProcessTask& set_reusable_image(const cv::Mat& reusable);
 
     const std::string& get_last_task_name() const noexcept { return m_last_task_name; }
+
     const std::string& get_last_matched_task_name() const noexcept { return m_last_matched_task_name; }
 
     const auto& get_last_hit() const noexcept { return m_last_hit_detail; }
