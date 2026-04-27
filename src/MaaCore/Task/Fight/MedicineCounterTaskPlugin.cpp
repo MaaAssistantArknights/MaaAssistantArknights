@@ -310,7 +310,7 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const c
     int num = 0;
     if (!utils::chars_to_number(ocr.get_result().text, num)) {
         Log.error(__FUNCTION__, "unable to change [", ocr.get_result().text, "] into int");
-        return false;
+        return std::nullopt;
     }
     return num;
 }
@@ -333,7 +333,7 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_maximun_of_sanity(const 
     int num = 0;
     if (!utils::chars_to_number(ocr.get_result().text, num)) {
         Log.error(__FUNCTION__, "unable to change [", ocr.get_result().text, "] into int");
-        return false;
+        return std::nullopt;
     }
     return num;
 }
