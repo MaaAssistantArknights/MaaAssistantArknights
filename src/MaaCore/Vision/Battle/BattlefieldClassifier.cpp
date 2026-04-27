@@ -230,7 +230,7 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
 
     auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU);
     constexpr int64_t batch_size = 1;
-    std::array<int64_t, 4> input_shape { batch_size, image.channels(), image.cols, image.rows };
+    std::array<int64_t, 4> input_shape { batch_size, image.channels(), image.rows, image.cols };
 
     Ort::Value input_tensor = Ort::Value::CreateTensor<float>(
         memory_info,
