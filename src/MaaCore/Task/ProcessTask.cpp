@@ -42,6 +42,7 @@ ProcessTask& ProcessTask::set_tasks(std::vector<std::string> tasks_name) noexcep
     m_begin_task_list = std::move(tasks_name);
     m_pre_task_name.clear();
     m_last_task_name.clear();
+    m_last_matched_task_name.clear();
     return *this;
 }
 
@@ -66,6 +67,8 @@ ProcessTask& ProcessTask::set_reusable_image(const cv::Mat& reusable)
 bool ProcessTask::run()
 {
     LogTraceFunction;
+
+    m_last_matched_task_name.clear();
 
     if (!m_enable) {
         Log.info("task disabled, pass", basic_info().to_string());
@@ -361,6 +364,7 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
             return { NodeStatus::Interrupted, nullptr };
         }
         if (hits = find_first(list); hits.task_ptr != nullptr) {
+            m_last_matched_task_name = hits.task_ptr->name;
             m_last_task_name = hits.task_ptr->name;
             break;
         }

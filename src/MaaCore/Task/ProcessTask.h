@@ -38,6 +38,7 @@ public:
     ProcessTask& set_reusable_image(const cv::Mat& reusable);
 
     const std::string& get_last_task_name() const noexcept { return m_last_task_name; }
+    const std::string& get_last_matched_task_name() const noexcept { return m_last_matched_task_name; }
 
     const auto& get_last_hit() const noexcept { return m_last_hit_detail; }
 
@@ -84,6 +85,7 @@ protected:
     TaskList m_begin_task_list;
     std::string m_pre_task_name;
     std::string m_last_task_name;
+    std::string m_last_matched_task_name;
     std::unordered_map<std::string, int> m_post_delay;
     std::unordered_map<std::string, TimesLimitData> m_times_limit;
     std::unordered_map<std::string, int> m_exec_times;
