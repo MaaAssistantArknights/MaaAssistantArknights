@@ -3987,5 +3987,15 @@
     "resource/template/InfrastPic/Clue/ClueVacancy1": "02d1e995d9fb822326af27b0f375fe07dd1e6b273626b8e6022bfdd4cd3f84bd",
     "resource/template/InfrastPic/Clue/ClueVacancy5": "6fcfba101c4884cc4ece1420f81e7700b1e4d6079387bcc643664813d9f75238",
     "resource/template/InfrastPic/Clue/ClueVacancy6": "1fcd143ccf49ee77dbd57044c923356061a52d89ae7fc0d287357624844bffce",
-    "resource/template/items/act3enemyduel_milestone_point": "e6748ace86daf9877653148ae9073c4f33eda9c41ad962f82708eab3dd75250d"
+    "resource/template/items/act3enemyduel_milestone_point": "e6748ace86daf9877653148ae9073c4f33eda9c41ad962f82708eab3dd75250d",
+    "resource/template/Battle/PrtsRecord/AnnihilationPrtsRecordConfirm": "7b3ff8b68992c29703c3bf5bba7159130db8adeb46ff38695ddab7b1837e4f5f",
+    "resource/template/UiTheme/Reconstruct/Recruit": "6a98a2c672dae9f70a89b0a8d0543f8740bf6fefef70e8c6d81f913039c07d6e",
+    "resource/template/UiTheme/Reconstruct/DepotEnter": "2996329e35ce1820f66558071297be991fe3c3906c0ad8dd88cffead0be39ef2",
+    "resource/template/UiTheme/Reconstruct/GachaEnter": "ea859794c04acddc2b02ab9b8fd0da179cab2adf1b5f3a913745b12798802bc8",
+    "resource/template/UiTheme/Reconstruct/EnterInfrast": "15b8621886bd0162a6cfd44d08f9a3b6c268d2685489b3000e06ebac79265c64",
+    "resource/template/UiTheme/Reconstruct/OperBoxEnter": "2fd3fe34c2442adf7f109ab42f365eda650aacb947a19eb801c8e2f8fbdcfa70",
+    "resource/template/UiTheme/Reconstruct/Mall": "734d01013bedaf097573f993ac61e15c5486c6e725c396135e33e074e3846296",
+    "resource/template/UiTheme/Reconstruct/Friends": "23e97813bd9a95353479571fa5a8502c4982796aa7403ccd745b403d2812a2b1",
+    "resource/template/UiTheme/Reconstruct/Terminal": "702c35492f32ef2a8fb6329b268cade5a6a37f781758268bec62c3d1e8b1b8bb",
+    "resource/template/UiTheme/Reconstruct/Task": "3e48417df37ecf9d6b632dfe7a9e358df7bfc9b3b5651dfa1948121ef4502cd9"
 }
