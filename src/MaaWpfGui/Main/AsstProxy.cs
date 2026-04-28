@@ -1853,11 +1853,17 @@ public class AsstProxy
 
                     var dropsForTooltip = drops.Where(x => !string.IsNullOrEmpty(x.ItemId)).ToList();
 
-                    Instances.TaskQueueViewModel.AddLog(
-                        $"{stageCode} {LocalizationHelper.GetString("TotalDrop")}\n" +
-                        $"{allDrops}{(curTimes >= 0
-                            ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
-                            : string.Empty)}",
+                    var dropOutput = $"{stageCode} {LocalizationHelper.GetString("TotalDrop")}\n" + $"{allDrops}";
+                    if (curTimes > 0)
+                    {
+                        dropOutput += $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}";
+                    }
+                    if (subTaskDetails["annihilation_weekly_process"] is JArray limit && limit.Count == 2)
+                    {
+                        dropOutput += $"\n{LocalizationHelper.GetString("AnnihilationMode")} : {limit[0]} / {limit[1]}";
+                    }
+
+                    Instances.TaskQueueViewModel.AddLog(dropOutput,
                         toolTip: dropsForTooltip.CreateMaterialDropTooltip(),
                         updateCardImage: true);
 
