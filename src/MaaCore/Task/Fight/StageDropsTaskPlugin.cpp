@@ -207,6 +207,15 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     }
 
     if (m_is_annihilation) {
+        bool has_orundum = std::ranges::any_of(m_cur_drops, [](const auto& drop) {
+            return drop.item_id == "4003";          // see StageDropType::Reward
+        });
+        if (!has_orundum) {
+            LogInfo << __FUNCTION__ << "No orundum dropped in annihilation, stopping task";
+            stop_task();
+            return true;
+        }
+
         RegionOCRer ocr(image);
         ocr.set_task_info("StageDrops-AnnihilationWeeklyLimit");
         m_annihilation_weekly_process = {};

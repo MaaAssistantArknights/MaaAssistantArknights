@@ -1296,6 +1296,12 @@
         "specificRect_Doc": "避免第二次点击时点到StartButton2",
         "specificRect": [1260, 650, 1, 1]
     },
+    "AnnihilationPrtsRecordConfirm": {
+        "action": "ClickSelf",
+        "preDelay": 500,
+        "roi": [600, 630, 100, 100],
+        "next": ["EndOfActionAnnihilation", "EndOfAction"]
+    },
     "AnnihilationConfirm": {
         "action": "ClickSelf",
         "roi": [992, 584, 288, 136],
@@ -1369,6 +1375,7 @@
         "maxTimes": 10,
         "postDelay": 3000,
         "next": [
+            "AnnihilationPrtsRecordConfirm",
             "EndOfActionAnnihilation",
             "EndOfAction",
             "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self",
