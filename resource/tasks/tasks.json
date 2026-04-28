@@ -1306,7 +1306,7 @@
         "action": "ClickSelf",
         "roi": [992, 584, 288, 136],
         "onErrorNext": ["Stop"],
-        "next": ["AnnihilationPrtsRecordConfirm", "EndOfActionAnnihilation", "EndOfAction"]
+        "next": ["EndOfActionAnnihilation", "EndOfAction"]
     },
     "StageSNFlag": {
         "template": "StageSNReturnFlag.png",
