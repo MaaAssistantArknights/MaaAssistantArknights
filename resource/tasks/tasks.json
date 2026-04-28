@@ -1195,7 +1195,7 @@
     "UsePrts": {
         "action": "ClickSelf",
         "roi": [1000, 550, 280, 90],
-        "exceededNext": "StageQueue@UsePrtsSuccess", // 如果到了上限都还没点上代理说明这关没有代理，匹配不上就报错
+        "exceededNext": ["StageQueue@UsePrtsSuccess"], // 如果到了上限都还没点上代理说明这关没有代理，匹配不上就报错
         "maxTimes": 10,
         "next": ["#self", "UsePrts-Annihilation", "StartButton1"]
     },
@@ -1207,6 +1207,8 @@
         "Doc": "剿灭的“全权委托”按钮",
         "action": "ClickSelf",
         "roi": [877, 532, 183, 123],
+        "exceededNext": ["UsePrts-AnnihilationSuccess"], // 如果到了上限都还没点上代理说明这关没有代理，匹配不上就报错
+        "maxTimes": 10,
         "next": ["#self", "UsePrts-AnnihilationSuccess"]
     },
     "UsePrts-AnnihilationSuccess": {
@@ -1217,12 +1219,12 @@
     "UsePrts-AnnihilationWithoutStart": {
         "baseTask": "UsePrts-Annihilation",
         "template": "UsePrts-Annihilation.png",
+        "exceededNext": ["UsePrts-AnnihilationSuccessWithoutStart"],
         "next": ["#self", "UsePrts-AnnihilationSuccessWithoutStart"]
     },
     "UsePrts-AnnihilationSuccessWithoutStart": {
         "baseTask": "UsePrts-AnnihilationSuccess",
         "template": "UsePrts-AnnihilationSuccess.png",
-        "roi": [ 938, 527, 156, 133 ],
         "next": ["Stop"]
     },
     "UsePrts-StageSN": {
