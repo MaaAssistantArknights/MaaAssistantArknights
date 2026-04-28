@@ -208,7 +208,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 
     if (m_is_annihilation) {
         bool has_orundum = std::ranges::any_of(m_cur_drops, [](const auto& drop) {
-            return drop.item_id == "4003";          // see StageDropType::Reward
+            return drop.item_id == "4003"; // see StageDropType::Reward
         });
         if (!has_orundum) {
             LogInfo << __FUNCTION__ << "No orundum dropped in annihilation, stopping task";
@@ -295,7 +295,8 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
         details["cur_times"] = m_times;
     }
     if (m_is_annihilation && m_annihilation_weekly_process.first >= 0 && m_annihilation_weekly_process.second > 0) {
-        details["annihilation_weekly_process"] = json::array { m_annihilation_weekly_process.first, m_annihilation_weekly_process.second };
+        details["annihilation_weekly_process"] =
+            json::array { m_annihilation_weekly_process.first, m_annihilation_weekly_process.second };
     }
     details["stats"] = json::array(std::move(stats_vec));
     details["drops"] = json::array(std::move(drops_vec));
