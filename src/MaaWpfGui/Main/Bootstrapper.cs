@@ -30,6 +30,7 @@ using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -577,7 +578,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
-    private static string GetSingleInstanceKey() => PathsHelper.BaseDir.Replace("\\", "_").Replace(":", string.Empty);
+    private static string GetSingleInstanceKey()
+    {
+        var normalizedBaseDir = Path.GetFullPath(PathsHelper.BaseDir)
+            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+            .ToUpperInvariant();
+        return normalizedBaseDir.StableHash();
+    }
 
     private static void EnsureInstanceActivationEvent(string activationEventName)
     {
