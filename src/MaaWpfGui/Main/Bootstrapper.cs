@@ -30,6 +30,7 @@ using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -62,6 +63,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     private static Mutex _mutex;
     private static bool _hasMutex;
+    private static EventWaitHandle _instanceActivationEvent;
+    private static CancellationTokenSource _instanceActivationListenerCancellation;
 
     public static readonly string UiLogFile = Path.Combine(PathsHelper.DebugDir, "gui.log");
     public static readonly string UiLogBakFile = Path.Combine(PathsHelper.DebugDir, "gui.bak.log");
@@ -540,15 +543,22 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     private static bool HandleMultipleInstances()
     {
-        // 设置互斥量的名称
-        string mutexName = "MAA_" + PathsHelper.BaseDir.Replace("\\", "_").Replace(":", string.Empty);
+        string instanceKey = GetSingleInstanceKey();
+        string mutexName = "MAA_" + instanceKey;
+        string activationEventName = "MAA_SHOW_" + instanceKey;
         _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
 
         try
         {
             if (isOnlyInstance || _mutex.WaitOne(500))
             {
+                EnsureInstanceActivationEvent(activationEventName);
                 return true;
+            }
+
+            if (SignalExistingInstance(activationEventName))
+            {
+                return false;
             }
 
             MessageBoxHelper.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath"), "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -558,6 +568,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         {
             // 上一个程序没有正常释放互斥量
             // 即使捕获到这个异常，此时也已经获得了锁
+            EnsureInstanceActivationEvent(activationEventName);
             return true;
         }
         catch (Exception e)
@@ -565,6 +576,94 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             MessageBoxHelper.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath") + e.Message, "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
+    }
+
+    private static string GetSingleInstanceKey()
+    {
+        var normalizedBaseDir = Path.GetFullPath(PathsHelper.BaseDir)
+            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+            .ToUpperInvariant();
+        return normalizedBaseDir.StableHash();
+    }
+
+    private static void EnsureInstanceActivationEvent(string activationEventName)
+    {
+        _instanceActivationEvent ??= new EventWaitHandle(false, EventResetMode.AutoReset, activationEventName);
+    }
+
+    private static bool SignalExistingInstance(string activationEventName)
+    {
+        try
+        {
+            using var activationEvent = EventWaitHandle.OpenExisting(activationEventName);
+            activationEvent.Set();
+            _logger.Information("Secondary launch detected, activation signal sent to existing instance");
+            return true;
+        }
+        catch (WaitHandleCannotBeOpenedException)
+        {
+            _logger.Warning("Secondary launch detected, but no activation listener was available");
+            return false;
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to signal the existing instance");
+            return false;
+        }
+    }
+
+    private static void StartInstanceActivationListener()
+    {
+        if (_instanceActivationEvent == null || _instanceActivationListenerCancellation != null)
+        {
+            return;
+        }
+
+        _instanceActivationListenerCancellation = new CancellationTokenSource();
+        _ = Task.Run(() => ListenForInstanceActivation(_instanceActivationListenerCancellation.Token));
+    }
+
+    private static void ListenForInstanceActivation(CancellationToken cancellationToken)
+    {
+        if (_instanceActivationEvent == null)
+        {
+            return;
+        }
+
+        WaitHandle[] waitHandles = [_instanceActivationEvent, cancellationToken.WaitHandle];
+
+        try
+        {
+            while (true)
+            {
+                int signaledIndex = WaitHandle.WaitAny(waitHandles);
+                if (signaledIndex != 0)
+                {
+                    return;
+                }
+
+                Application.Current?.Dispatcher.BeginInvoke(new Action(ActivateMainWindow), DispatcherPriority.Normal);
+            }
+        }
+        catch (ObjectDisposedException)
+        {
+            // ignored during shutdown
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Existing instance activation listener stopped unexpectedly");
+        }
+    }
+
+    private static void ActivateMainWindow()
+    {
+        if (Application.Current == null || Application.Current.IsShuttingDown())
+        {
+            return;
+        }
+
+        Instances.MainWindowManager.Show();
+        _logger.Information("Existing instance window activated by a secondary launch");
     }
 
     public static bool IsUserAdministrator() => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
@@ -639,6 +738,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         Instances.WindowManager.ShowWindow(rootViewModel);
         Instances.InstantiateOnRootViewDisplayed(Container);
+        StartInstanceActivationListener();
 
         // 如果 IsFirstBootAfterUpdate 从 false 变为 true，说明这次启动只是解压更新包，不用执行后续逻辑
         if (!wasFirstBoot && Instances.VersionUpdateDialogViewModel.IsFirstBootAfterUpdate)
@@ -735,6 +835,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     public static void Release()
     {
+        _instanceActivationListenerCancellation?.Cancel();
+        _instanceActivationListenerCancellation?.Dispose();
+        _instanceActivationListenerCancellation = null;
+
+        _instanceActivationEvent?.Dispose();
+        _instanceActivationEvent = null;
+
         ETagCache.Save();
         Instances.SettingsViewModel.Sober();
         Instances.MaaHotKeyManager.Release();
