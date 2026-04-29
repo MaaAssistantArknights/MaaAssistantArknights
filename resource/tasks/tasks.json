@@ -1390,7 +1390,7 @@
     "CheckLevelUp": {
         "doc": "跳过可能出现的等级提升界面。另外还有个金圈升级动画的界面，可能还需要一次点击。很难验证，先把这个页面点了",
         "action": "ClickSelf",
-        "roi": [250, 1000, 270, 200],
+        "roi": [1000, 250, 270, 200],
         "next": ["AnnihilationPrtsRecordConfirm", "EndOfActionAnnihilation", "EndOfAction"]
     },
     "ClickCornerAfterPRTS": {
