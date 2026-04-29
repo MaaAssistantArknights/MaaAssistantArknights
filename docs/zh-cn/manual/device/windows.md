@@ -46,6 +46,11 @@ const fullySupport = [
     },
     ...shuffleArray([
         {
+            name: '腾讯应用宝',
+            link: 'https://sj.qq.com/',
+            note: '支持 5.10.56.xx之后的版本。在 `设置` - `连接设置` 中选择 `腾讯应用宝` 连接配置。已知兼容 Hyper-V。\n\n- ADB 端口为 `127.0.0.1:5555`，\n- ADB路径示例：`C:\\Program Files\\Tencent\\Androws\\Application\\版本号\\adb.exe`。\n\n- 需要先在应用宝中 [开启 ADB 调试](https://sj.qq.com/faq/3878)。',
+        },
+        {
             name: '夜神模拟器',
             link: 'https://www.yeshen.com/',
             note: '完美支持，但测试较少。已知兼容 Hyper-V。',
@@ -86,11 +91,6 @@ const notSupport = shuffleArray([
         name: 'Google Play 游戏',
         link: 'https://play.google.com/googleplaygames',
         note: '不支持，[玩家客户端](https://developer.android.com/games/playgames/pg-emulator?hl=zh-cn#installing-game-consumer)无法连接 ADB。',
-    },
-    {
-        name: '腾讯应用宝',
-        link: 'https://sj.qq.com/',
-        note: '不支持，腾讯应用宝没有给出adb连接选项，无法连接 ADB。',
     },
 ]);
 

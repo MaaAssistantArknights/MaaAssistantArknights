@@ -16,6 +16,7 @@ As of MAA v5.22.3, the following emulators and connection addresses are supporte
 - LDPlayer 9: `emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5557/5559/5561`
 - NoxPlayer: `127.0.0.1:62001/59865`
 - MEmu Play: `127.0.0.1:21503`
+- Tencent App Store (after 5.10.56.xx): `127.0.0.1:5555`
 
 If detection fails, try launching MAA with UAC administrator privileges and detect again. If it still fails, refer to the manual setup instructions below and verify that your emulator and connection address are included in the list above.
 
@@ -57,6 +58,7 @@ Emulators running on your local machine should use addresses like `127.0.0.1:<po
 - [LDPlayer 9](https://help.ldmnq.com/docs/LD9adbserver) `emulator-5554`
 - [NoxPlayer](https://support.yeshen.com/zh-CN/qt/ml) `127.0.0.1:62001`
 - [MEmu Play](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `127.0.0.1:21503`
+- [Tencent App Store](https://sj.qq.com/faq/3878): ADB port is fixed at `127.0.0.1:5555`. ADB path example: `C:\Program Files\Tencent\Androws\Application\<version>\adb.exe`.
 
 For other emulators, refer to [Zhao Qingqing's blog](https://www.cnblogs.com/zhaoqingqing/p/15238464.html).
 

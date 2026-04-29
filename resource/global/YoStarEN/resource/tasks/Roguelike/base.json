@@ -955,7 +955,7 @@
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
-            ["\\s+o+\\s*$", ""],
+            ["\\s+o+[-\\s]*$", ""],
             [" |<|>|-|'", ""],
             ["^\\d+", ""],
             ["Disappear\\.\\.\\.", "消失......"],

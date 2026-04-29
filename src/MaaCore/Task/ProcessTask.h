@@ -84,6 +84,7 @@ protected:
     TaskList m_begin_task_list;
     std::string m_pre_task_name;
     std::string m_last_task_name;
+    std::string m_last_matched_task_name;
     std::unordered_map<std::string, int> m_post_delay;
     std::unordered_map<std::string, TimesLimitData> m_times_limit;
     std::unordered_map<std::string, int> m_exec_times;

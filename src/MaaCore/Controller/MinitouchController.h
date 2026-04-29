@@ -49,7 +49,7 @@ protected:
 
     bool call_and_hup_minitouch();
 
-    bool probe_minitouch(const AdbCfg& adb_cfg, std::function<std::string(const std::string&)> cmd_replace);
+    bool probe_minitouch();
 
     bool input_to_minitouch(const std::string& cmd);
     void release_minitouch(bool force = false);

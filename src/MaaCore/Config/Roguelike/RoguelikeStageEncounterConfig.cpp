@@ -74,7 +74,7 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
                     return false;
                 }
                 int choice = pair_arr[1].as_integer();
-                if (option_num < 0) {
+                if (choice < 0) {
                     Log.error(
                         std::format(
                             "RoguelikeEncounterConfig | callback choice for event {} with {} option(s) is less than "

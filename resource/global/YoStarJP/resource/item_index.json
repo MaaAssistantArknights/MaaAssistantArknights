@@ -1615,6 +1615,14 @@
         "sortId": -10000,
         "usage": "ステージ初回クリア報酬、博物館交換所でアイテムと交換できる。初回クリア後に再度ステージをクリアしても獲得できない。"
     },
+    "act1autochess_token_chess": {
+        "classifyType": "NONE",
+        "description": "ロドスの工房が堅守協定に参加するオペレーターのために用意した勲章。磁力を帯びており、一定数集めるとルークの駒になるらしい。",
+        "icon": "act1autochess_token_chess.png",
+        "name": "堅守認証",
+        "sortId": -10000,
+        "usage": "堅守協定で様々な物資と交換できる。"
+    },
     "act1bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "試練の成否はそれほど重要ではない、これは貴殿が実戦において正確な選択を行うためのサポートである。",

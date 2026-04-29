@@ -179,6 +179,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="MuMuEmulator12">MuMu Emulator 12</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="AVD">Android Virtual Device (AVD)</system:String>
+    <system:String x:Key="Androws">Androws</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">Old version of WSA</system:String>
@@ -327,6 +328,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="UpdateAutoCheckTip">In-game 00:00 / 18:00 (Server local time 04:00 / 22:00)</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto Download Update</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">Auto Install Update</system:String>
+    <system:String x:Key="ShowUpdaterConsole">Show MAA.Updater console output during update</system:String>
     <system:String x:Key="UpdateCheckStable">Stable Release</system:String>
     <system:String x:Key="UpdateCheckBeta">Beta Release</system:String>
     <system:String x:Key="UpdateCheckNightly">Nightly Release</system:String>
@@ -933,6 +935,8 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a ｢Join Event｣ button in the bottom right corner).&#10;&#10;Follow the Duck Lord's choice.</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruit">Duel Channel: Honeydew</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
+    <system:String x:Key="MiniGame@ALL@IvyVine">Duel Channel: Ivyvine</system:String>
+    <system:String x:Key="MiniGame@ALL@IvyVineTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">Ending</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event">Priority for Series of Events</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event1">Support Platform</system:String>

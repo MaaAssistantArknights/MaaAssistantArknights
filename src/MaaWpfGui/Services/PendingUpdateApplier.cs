@@ -372,6 +372,7 @@ internal static partial class PendingUpdateApplier
         IReadOnlyList<string> removeEntries,
         IReadOnlyList<string> moveEntries)
     {
+        bool showUpdaterConsole = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, false);
         string planPath = Path.Combine(context.RootDir, $"maa-pending-update-{Guid.NewGuid():N}.json");
         string updaterExecutablePath = PrepareDelegatedUpdaterExecutable(context, packageType);
         string relaunchExecutablePath = Path.Combine(context.RootDir, "MAA.exe");
@@ -382,13 +383,13 @@ internal static partial class PendingUpdateApplier
         {
             FileName = updaterExecutablePath,
             UseShellExecute = false,
-            CreateNoWindow = true,
+            CreateNoWindow = !showUpdaterConsole,
             WorkingDirectory = context.RootDir,
         };
 
         // Args: <ParentPid> <RootDir> <ExtractDir> <BackupDir>
         //       <PackagePath> <SuccessStatusFile> <FailureStatusFile>
-        //       <RelaunchExecutablePath> <PlanFile>
+        //       <RelaunchExecutablePath> <PlanFile> [--show-console]
         startInfo.ArgumentList.Add(Environment.ProcessId.ToString());
         startInfo.ArgumentList.Add(context.RootDir);
         startInfo.ArgumentList.Add(context.ExtractDir);
@@ -398,13 +399,18 @@ internal static partial class PendingUpdateApplier
         startInfo.ArgumentList.Add(DelegatedUpdateFailureStatusFilePath);
         startInfo.ArgumentList.Add(relaunchExecutablePath);
         startInfo.ArgumentList.Add(planPath);
+        if (showUpdaterConsole)
+        {
+            startInfo.ArgumentList.Add("--show-console");
+        }
 
         _logger.Information(
-            "Delegating pending update apply to external updater: packageType={PackageType}, rootDir={RootDir}, extractDir={ExtractDir}, packagePath={PackagePath}",
+            "Delegating pending update apply to external updater: packageType={PackageType}, rootDir={RootDir}, extractDir={ExtractDir}, packagePath={PackagePath}, showUpdaterConsole={ShowUpdaterConsole}",
             packageType,
             context.RootDir,
             context.ExtractDir,
-            context.PackagePath);
+            context.PackagePath,
+            showUpdaterConsole);
 
         if (!File.Exists(updaterExecutablePath))
         {

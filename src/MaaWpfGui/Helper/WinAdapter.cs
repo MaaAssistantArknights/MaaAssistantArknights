@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Microsoft.Win32;
 using Serilog;
 
 namespace MaaWpfGui.Helper;
@@ -96,7 +97,51 @@ public class WinAdapter
             }
         }
 
+        var androwsAdbPath = GetAndrowsAdbPathFromRegistry();
+        if (androwsAdbPath != null && detectedEmulators.Add($"Androws\n{androwsAdbPath}"))
+        {
+            emulators.Add(new DetectedEmulatorInfo("Androws", androwsAdbPath));
+        }
+
         return emulators;
+    }
+
+    /// <summary>
+    /// Gets the ADB path for Androws emulator from Windows Registry.
+    /// Androws runs as an elevated process, so its path cannot be obtained via process.MainModule.
+    /// </summary>
+    /// <returns>The ADB executable path, or null if Androws is not installed.</returns>
+    private static string? GetAndrowsAdbPathFromRegistry()
+    {
+        try
+        {
+            using var installKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Tencent\Androws");
+            if (installKey == null)
+            {
+                return null;
+            }
+
+            var installPath = installKey.GetValue("InstallPath") as string;
+            if (string.IsNullOrEmpty(installPath))
+            {
+                return null;
+            }
+
+            using var appKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Tencent\Androws\Androws");
+            var version = appKey?.GetValue("Version") as string;
+            if (string.IsNullOrEmpty(version))
+            {
+                return null;
+            }
+
+            var adbPath = Path.Combine(installPath, "Application", version, "adb.exe");
+            return File.Exists(adbPath) ? adbPath : null;
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to get Androws adb path from registry");
+            return null;
+        }
     }
 
     /// <summary>

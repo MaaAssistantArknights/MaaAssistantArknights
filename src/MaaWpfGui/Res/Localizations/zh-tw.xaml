@@ -179,6 +179,7 @@
     <system:String x:Key="MuMuEmulator12">MuMu 模擬器 12</system:String>
     <system:String x:Key="LDPlayer">雷電模擬器</system:String>
     <system:String x:Key="AVD">Android 虛擬裝置（AVD）</system:String>
+    <system:String x:Key="Androws">應用寶模擬器</system:String>
     <system:String x:Key="Nox">夜神模擬器</system:String>
     <system:String x:Key="XYAZ">逍遙模擬器</system:String>
     <system:String x:Key="WSA">WSA 舊版本</system:String>
@@ -327,6 +328,7 @@
     <system:String x:Key="UpdateAutoCheckTip">遊戲內 00:00 / 18:00（對應伺服器當地時間 04:00 / 22:00）</system:String>
     <system:String x:Key="UpdateAutoDownload">自動下載更新檔</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自動安裝更新檔</system:String>
+    <system:String x:Key="ShowUpdaterConsole">顯示 MAA.Updater 主控台輸出</system:String>
     <system:String x:Key="UpdateCheckStable">穩定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公測版</system:String>
     <system:String x:Key="UpdateCheckNightly">內測版</system:String>
@@ -934,6 +936,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">手動跳過教學對話，然後可以直接退出。&#10;在活動主介面（右下角有「加入賽事」處）開始任務。&#10;&#10;跟著鴨總喝口湯。</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruit">爭鋒頻道：蜜果城</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
+    <system:String x:Key="MiniGame@ALL@IvyVine">爭鋒頻道：綠藤城</system:String>
+    <system:String x:Key="MiniGame@ALL@IvyVineTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">結局</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event">優先系列事件</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event1">支援作戰平台</system:String>
@@ -1343,7 +1347,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Level3UseShortTime2">3★ 設定 1:00 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影響其他星級 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次執行時最大招募次數</system:String>
-    <system:String x:Key="ManuallySelectLevel1">手動確認 1★</system:String>
+    <system:String x:Key="ManuallySelectLevel1">保留 1 ★ Tag 並跳過該欄位</system:String>
     <system:String x:Key="AutoSelectLevel3">自動確認 3★</system:String>
     <system:String x:Key="AutoSelectLevel4">自動確認 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">自動確認 5★</system:String>

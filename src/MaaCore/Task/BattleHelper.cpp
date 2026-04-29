@@ -1107,7 +1107,7 @@ void asst::BattleHelper::register_deployed_oper(const std::string& name, const P
 {
     m_used_tiles.emplace(loc, name);
     m_battlefield_opers.emplace(name, loc);
-    m_last_use_skill_time.emplace(loc, std::chrono::steady_clock::time_point());
+    m_last_use_skill_time.emplace(name, std::chrono::steady_clock::time_point());
 }
 
 void asst::BattleHelper::remove_cooling_from_battlefield(const battle::DeploymentOper& oper)

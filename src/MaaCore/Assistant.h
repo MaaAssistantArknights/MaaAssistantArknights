@@ -211,7 +211,7 @@ private:
 
     std::atomic_bool m_thread_exit = false;
     std::list<std::pair<TaskId, std::shared_ptr<InterfaceTask>>> m_tasks_list;
-    inline static TaskId m_task_id = 0; // 进程级唯一
+    inline static std::atomic<TaskId> m_task_id = 0; // 进程级唯一
     ApiCallback m_callback = nullptr;
     void* m_callback_arg = nullptr;
 

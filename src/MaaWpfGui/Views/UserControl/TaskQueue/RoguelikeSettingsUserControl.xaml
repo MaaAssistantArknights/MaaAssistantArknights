@@ -79,9 +79,7 @@
                 ItemsSource="{Binding RoguelikeSquadList}"
                 MaxDropDownHeight="800"
                 SelectedValue="{Binding RoguelikeSquad}"
-                SelectedValuePath="Value"
-                Visibility="{c:Binding 'RoguelikeMode != task:RoguelikeMode.Squad and RoguelikeMode != task:RoguelikeMode.Exploration',
-                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
+                SelectedValuePath="Value" />
             <hc:ComboBox
                 Margin="0,3"
                 hc:InfoElement.Title="{DynamicResource StartingRoles}"

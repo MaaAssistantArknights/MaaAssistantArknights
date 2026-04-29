@@ -20,7 +20,8 @@
             "OperBoxJieGarden",
             "OperBoxAveMujica",
             "OperBoxTogether",
-            "OperBoxLoneTrail"
+            "OperBoxLoneTrail",
+            "OperBoxReconstruct"
         ],
         "onErrorNext": ["OperBox-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -83,5 +84,9 @@
     "OperBoxLoneTrail": {
         "baseTask": "OperBoxDefault",
         "template": ["LoneTrail/Day/OperBoxEnter.png", "LoneTrail/Night/OperBoxEnter.png"]
+    },
+    "OperBoxReconstruct": {
+        "baseTask": "OperBoxDefault",
+        "template": "Reconstruct/OperBoxEnter.png"
     }
 }

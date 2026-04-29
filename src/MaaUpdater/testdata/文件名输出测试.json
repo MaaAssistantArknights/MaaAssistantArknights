@@ -1,0 +1,14 @@
+{
+    "packageType": "ota",
+    "removeList": [
+        "resource/模板/公开招募-高级资深干员.png",
+        "resource/地图/水月与深蓝之树/路线图-中文.json",
+        "docs/更新日志/2026 春季测试说明.txt"
+    ],
+    "moveList": [
+        "resource/测试目录/中文文件名输出验证.txt",
+        "resource/测试目录/带 空格 的文件名.json",
+        "resource/测试目录/子目录/繁中-測試說明.md",
+        "resource/测试目录/子目录/한글-日本語-mixed.txt"
+    ]
+}

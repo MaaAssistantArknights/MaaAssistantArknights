@@ -58,7 +58,7 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         m_rec_model_path = rec_model_file;
         m_rec = nullptr;
     }
-    if (std::filesystem::exists(rec_label_file) && m_rec_model_path != rec_label_file) {
+    if (std::filesystem::exists(rec_label_file) && m_rec_label_path != rec_label_file) {
         m_rec_label_path = rec_label_file;
         m_rec = nullptr;
     }

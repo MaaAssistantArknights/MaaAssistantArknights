@@ -344,8 +344,6 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
         return { NodeStatus::Interrupted, nullptr };
     }
 
-    m_pre_task_name = std::move(m_last_task_name);
-    m_last_hit_detail = nullptr;
 
     HitDetail hits;
     for (int cur_retry = 0; cur_retry <= m_retry_times; ++cur_retry) {
@@ -355,13 +353,13 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
             { "cur_retry", cur_retry },
             { "retry_times", m_retry_times },
         };
+        info["cur_task"] = m_last_task_name;
         Log.info(info.to_string());
 
         if (cur_retry != 0 && !sleep(m_task_delay)) {
             return { NodeStatus::Interrupted, nullptr };
         }
         if (hits = find_first(list); hits.task_ptr != nullptr) {
-            m_last_task_name = hits.task_ptr->name;
             break;
         }
     }
@@ -369,12 +367,16 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
     if (hits.task_ptr == nullptr) {
         return { NodeStatus::RetryFailed, nullptr };
     }
+    else {
+        m_pre_task_name = std::move(m_last_task_name);
+        m_last_task_name = hits.task_ptr->name;
+        m_last_hit_detail = std::make_shared<HitDetail>(std::move(hits));
+    }
 
     if (need_exit()) {
         return { NodeStatus::Interrupted, nullptr };
     }
 
-    m_last_hit_detail = std::make_shared<HitDetail>(std::move(hits));
     return { run_task(*m_last_hit_detail), m_last_hit_detail->task_ptr };
 }
 

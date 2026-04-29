@@ -85,6 +85,7 @@ struct AdbCfg
     std::string chmod_minitouch;
     std::string call_minitouch;
     std::string call_maatouch;
+    std::string event_id;
     std::string back_to_home;
     json::object extras;
 };

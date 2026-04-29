@@ -59,6 +59,7 @@ private:
     int m_times = -2; // -2 means recognition failed, -1 means not found
     std::vector<StageDropInfo> m_cur_drops;
     std::unordered_map<std::string, int> m_drop_stats;
+    std::pair<int, int> m_annihilation_weekly_process; // current, total
     json::value m_cur_info_json;
 
     mutable bool m_is_annihilation = false;

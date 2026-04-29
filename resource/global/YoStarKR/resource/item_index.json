@@ -1615,6 +1615,14 @@
         "sortId": -10000,
         "usage": "스테이지 첫 클리어 보상. 박물관 교환처에서 보상을 교환하는 데 사용된다. 중복 획득할 수 없다."
     },
+    "act1autochess_token_chess": {
+        "classifyType": "NONE",
+        "description": "로도스 아일랜드 공방에서 위수 협의에 참여한 오퍼레이터를 위해 준비한 훈장. 자성이 있으며, 일정 수량을 모으면 룩 기물로 조립할 수 있다고 한다.",
+        "icon": "act1autochess_token_chess.png",
+        "name": "위수 인증",
+        "sortId": -10000,
+        "usage": "위수 협의에서 각종 물자를 교환하는데 사용된다."
+    },
     "act1bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",

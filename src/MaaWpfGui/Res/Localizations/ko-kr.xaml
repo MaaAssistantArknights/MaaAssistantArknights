@@ -179,6 +179,7 @@
     <system:String x:Key="MuMuEmulator12">MuMu Player</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="AVD">Android Virtual Device (AVD)</system:String>
+    <system:String x:Key="Androws">Androws</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">WSA 레거시 버전</system:String>
@@ -327,6 +328,7 @@
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 자동 다운로드</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">업데이트 패키지 자동 설치</system:String>
+    <system:String x:Key="ShowUpdaterConsole">업데이트 중 MAA.Updater 콘솔 출력 표시</system:String>
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
     <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
     <system:String x:Key="UpdateCheckNightly">개발 버전</system:String>
@@ -935,6 +937,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">튜토리얼 대화를 수동으로 건너뛴 후, 바로 종료할 수 있어요&#10;이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢경기 진행｣)&#10;&#10;덕로드만 믿고 따라가면 손해는 없을거에요</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruit">듀얼 채널: 허니듀</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
+    <system:String x:Key="MiniGame@ALL@IvyVine">듀얼 채널: 아이비바인</system:String>
+    <system:String x:Key="MiniGame@ALL@IvyVineTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">엔딩</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event">우선 시리즈 사건</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event1">작전 플랫폼 지원</system:String>

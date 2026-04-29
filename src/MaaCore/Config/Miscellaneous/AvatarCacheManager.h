@@ -1,6 +1,5 @@
 #pragma once
 
-#pragma once
 #include "Config/AbstractResource.h"
 
 #include <future>

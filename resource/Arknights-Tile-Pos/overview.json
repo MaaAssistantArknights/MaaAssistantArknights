@@ -13895,6 +13895,15 @@
         "stageId": "act3bossrush_tm04",
         "width": 31
     },
+    "act3enemyduel_01a-activities/act3enemyduel/level_act3enemyduel_01a": {
+        "code": "VS-1",
+        "filename": "act3enemyduel_01a-activities-act3enemyduel-level_act3enemyduel_01a.json",
+        "height": 11,
+        "levelId": "activities/act3enemyduel/level_act3enemyduel_01a",
+        "name": "争锋对决！",
+        "stageId": "act3enemyduel_01a",
+        "width": 15
+    },
     "act40side_01-activities/act40side/level_act40side_01": {
         "code": "OR-1",
         "filename": "act40side_01-activities-act40side-level_act40side_01.json",
@@ -17925,6 +17934,15 @@
         "levelId": "obt/campaign/level_camp_r_31",
         "name": "炽灼车间",
         "stageId": "camp_r_31",
+        "width": 13
+    },
+    "camp_r_32-obt/campaign/level_camp_r_32": {
+        "code": "炎国",
+        "filename": "camp_r_32-obt-campaign-level_camp_r_32.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_32",
+        "name": "朱墙食府",
+        "stageId": "camp_r_32",
         "width": 13
     },
     "easy_09-01-obt/main/level_easy_09-01": {

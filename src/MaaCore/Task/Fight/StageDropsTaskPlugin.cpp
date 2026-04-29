@@ -207,8 +207,18 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     }
 
     if (m_is_annihilation) {
+        bool has_orundum = std::ranges::any_of(m_cur_drops, [](const auto& drop) {
+            return drop.item_id == "4003"; // see StageDropType::Reward
+        });
+        if (!has_orundum) {
+            LogInfo << __FUNCTION__ << "No orundum dropped in annihilation, stopping task";
+            stop_task();
+            return true;
+        }
+
         RegionOCRer ocr(image);
         ocr.set_task_info("StageDrops-AnnihilationWeeklyLimit");
+        m_annihilation_weekly_process = {};
         if (!ocr.analyze()) {
             LogError << __FUNCTION__ << "Annihilation weekly limit OCR failed";
         }
@@ -227,6 +237,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
                 }
                 else {
                     LogInfo << __FUNCTION__ << "Annihilation weekly limit:" << cur_num << "/" << total_num;
+                    m_annihilation_weekly_process = { cur_num, total_num };
                     if (cur_num >= total_num) {
                         LogInfo << __FUNCTION__ << "Annihilation weekly limit reached, stop task";
                         stop_task();
@@ -282,6 +293,10 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     details["stars"] = m_stars;
     if (m_times >= 0) {
         details["cur_times"] = m_times;
+    }
+    if (m_is_annihilation && m_annihilation_weekly_process.first >= 0 && m_annihilation_weekly_process.second > 0) {
+        details["annihilation_weekly_process"] =
+            json::array { m_annihilation_weekly_process.first, m_annihilation_weekly_process.second };
     }
     details["stats"] = json::array(std::move(stats_vec));
     details["drops"] = json::array(std::move(drops_vec));

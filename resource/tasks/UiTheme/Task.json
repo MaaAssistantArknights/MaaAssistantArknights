@@ -20,7 +20,8 @@
             "TaskJieGarden",
             "TaskAveMujica",
             "TaskTogether",
-            "TaskLoneTrail"
+            "TaskLoneTrail",
+            "TaskReconstruct"
         ],
         "onErrorNext": ["Task-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -85,5 +86,9 @@
     "TaskLoneTrail": {
         "baseTask": "TaskDefault",
         "template": ["LoneTrail/Day/Task.png", "LoneTrail/Night/Task.png"]
+    },
+    "TaskReconstruct": {
+        "baseTask": "TaskDefault",
+        "template": "Reconstruct/Task.png"
     }
 }

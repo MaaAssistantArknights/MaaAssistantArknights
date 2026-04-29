@@ -1853,11 +1853,17 @@ public class AsstProxy
 
                     var dropsForTooltip = drops.Where(x => !string.IsNullOrEmpty(x.ItemId)).ToList();
 
-                    Instances.TaskQueueViewModel.AddLog(
-                        $"{stageCode} {LocalizationHelper.GetString("TotalDrop")}\n" +
-                        $"{allDrops}{(curTimes >= 0
-                            ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
-                            : string.Empty)}",
+                    var dropOutput = $"{stageCode} {LocalizationHelper.GetString("TotalDrop")}\n" + $"{allDrops}";
+                    if (curTimes > 0)
+                    {
+                        dropOutput += $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}";
+                    }
+                    if (subTaskDetails["annihilation_weekly_process"] is JArray limit && limit.Count == 2)
+                    {
+                        dropOutput += $"\n{LocalizationHelper.GetString("AnnihilationMode")} : {limit[0]} / {limit[1]}";
+                    }
+
+                    Instances.TaskQueueViewModel.AddLog(dropOutput,
                         toolTip: dropsForTooltip.CreateMaterialDropTooltip(),
                         updateCardImage: true);
 
@@ -2640,6 +2646,8 @@ public class AsstProxy
             }
         }
 
+        AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType);
+
         bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig);
 
         // 如果连接失败，等待回调完成以获取详细错误信息
@@ -3207,4 +3215,9 @@ public enum InstanceOptionKey
     /// Indicates whether the ADB server process should be killed when the instance is exited.
     /// </summary>
     KillAdbOnExit = 5,
+
+    /// <summary>
+    /// Indicates the client type (game channel) used for resolving PackageName on connect.
+    /// </summary>
+    ClientType = 6,
 }

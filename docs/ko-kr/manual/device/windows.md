@@ -41,6 +41,11 @@ const fullySupport = [
     },
     ...shuffleArray([
         {
+            name: '텐센트 앱스토어',
+            link: 'https://sj.qq.com/',
+            note: '5.10.56.xx 이후 버전을 지원합니다. `설정` - `연결 설정`에서 `텐센트 앱스토어` 연결 구성을 선택하세요. Hyper-V와 호환되는 것으로 알려져 있습니다.\n\n- ADB 포트는 `127.0.0.1:5555`입니다.\n- ADB 경로 예시: `C:\\Program Files\\Tencent\\Androws\\Application\\버전번호\\adb.exe`.\n\n- 먼저 앱스토어에서 [ADB 디버깅을 활성화](https://sj.qq.com/faq/3878)해야 합니다.',
+        },
+        {
             name: 'Nox',
             link: 'https://kr.bignox.com/',
             note: '완전히 호환되지만 테스트가 덜 되었습니다. Hyper-V와 호환되는 것으로 알려져 있습니다.',

@@ -1161,7 +1161,8 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "roi": [900, 70, 380, 400],
-        "maskRange": [1, 255]
+        "maskRange": [1, 255],
+        "next": ["#self", "UsePrts-AnnihilationSuccessWithoutStart", "UsePrts-AnnihilationWithoutStart"]
     },
     "StageBegin": {
         "algorithm": "JustReturn",
@@ -1194,7 +1195,9 @@
     "UsePrts": {
         "action": "ClickSelf",
         "roi": [1000, 550, 280, 90],
-        "next": ["UsePrts-Annihilation", "StartButton1"]
+        "exceededNext": ["StageQueue@UsePrtsSuccess"], // 如果到了上限都还没点上代理说明这关没有代理，匹配不上就报错
+        "maxTimes": 10,
+        "next": ["#self", "UsePrts-Annihilation", "StartButton1"]
     },
     "NotUsePrts": {
         "action": "ClickSelf",
@@ -1204,7 +1207,25 @@
         "Doc": "剿灭的“全权委托”按钮",
         "action": "ClickSelf",
         "roi": [877, 532, 183, 123],
+        "exceededNext": ["UsePrts-AnnihilationSuccess"], // 如果到了上限都还没点上代理说明这关没有代理，匹配不上就报错
+        "maxTimes": 10,
+        "next": ["#self", "UsePrts-AnnihilationSuccess"]
+    },
+    "UsePrts-AnnihilationSuccess": {
+        "Doc": "检查全权代理是否激活",
+        "roi": [938, 527, 156, 133],
         "next": ["StartButton1"]
+    },
+    "UsePrts-AnnihilationWithoutStart": {
+        "baseTask": "UsePrts-Annihilation",
+        "template": "UsePrts-Annihilation.png",
+        "exceededNext": ["UsePrts-AnnihilationSuccessWithoutStart"],
+        "next": ["#self", "UsePrts-AnnihilationSuccessWithoutStart"]
+    },
+    "UsePrts-AnnihilationSuccessWithoutStart": {
+        "baseTask": "UsePrts-AnnihilationSuccess",
+        "template": "UsePrts-AnnihilationSuccess.png",
+        "next": ["Stop"]
     },
     "UsePrts-StageSN": {
         "Doc": "三周年活动关卡“愚人号”代理指挥按钮",
@@ -1296,11 +1317,17 @@
         "specificRect_Doc": "避免第二次点击时点到StartButton2",
         "specificRect": [1260, 650, 1, 1]
     },
+    "AnnihilationPrtsRecordConfirm": {
+        "action": "ClickSelf",
+        "preDelay": 500,
+        "roi": [600, 630, 100, 100],
+        "next": ["EndOfActionAnnihilation", "EndOfAction"]
+    },
     "AnnihilationConfirm": {
         "action": "ClickSelf",
         "roi": [992, 584, 288, 136],
         "onErrorNext": ["Stop"],
-        "next": ["EndOfActionAnnihilation", "EndOfAction"]
+        "next": ["CheckLevelUp", "EndOfActionAnnihilation", "EndOfAction"]
     },
     "StageSNFlag": {
         "template": "StageSNReturnFlag.png",
@@ -1360,6 +1387,12 @@
         "reduceOtherTimes": ["ClickCornerAfterPRTS*10"],
         "next": ["PRTS#next", "WaitAfterPRTS@LoadingText", "WaitAfterPRTS@LoadingIcon", "ClickCornerAfterPRTS"]
     },
+    "CheckLevelUp": {
+        "doc": "跳过可能出现的等级提升界面。另外还有个金圈升级动画的界面，可能还需要一次点击。很难验证，先把这个页面点了",
+        "action": "ClickSelf",
+        "roi": [250, 1000, 270, 200],
+        "next": ["AnnihilationPrtsRecordConfirm", "EndOfActionAnnihilation", "EndOfAction"]
+    },
     "ClickCornerAfterPRTS": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -1369,6 +1402,8 @@
         "maxTimes": 10,
         "postDelay": 3000,
         "next": [
+            "CheckLevelUp",
+            "AnnihilationPrtsRecordConfirm",
             "EndOfActionAnnihilation",
             "EndOfAction",
             "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self",
@@ -1909,9 +1944,9 @@
         "next": ["SpecialAccessActivities", "Stop"]
     },
     "SpecialAccessActivities": {
-        "doc": "五/六周年月卡",
+        "doc": "周年特殊赠送月卡",
         "algorithm": "OcrDetect",
-        "text": ["五周年", "专享", "专享活动", "活动推荐", "月卡"],
+        "text": ["专享", "专享活动", "活动推荐", "月卡"],
         "action": "ClickSelf",
         "roi": [5, 21, 203, 258],
         "next": ["SpecialAccessActivitiesConfirm", "SpecialAccessActivitiesReturn"],

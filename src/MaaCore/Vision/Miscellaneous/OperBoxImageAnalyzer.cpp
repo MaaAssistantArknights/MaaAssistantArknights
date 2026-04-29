@@ -146,7 +146,18 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
         const std::string& name = oper.text;
 
         OperBoxInfo box;
-        const auto& oper_data = BattleData.find_oper(oper.role, name);
+        auto oper_data = BattleData.find_oper(oper.role, name);
+        if (!oper_data) {
+            if (name == "阿米娅") { // 临时兼容, 后续重构后移除
+                oper_data = BattleData.find_oper(battle::Role::Caster, name);
+            }
+
+            if (!oper_data) {
+                LogError << __FUNCTION__ << "not find oper, role:" << (int)oper.role << "name:" << name;
+                continue;
+            }
+        }
+
         box.id = oper_data ? oper_data->id : "";
         box.name = name;
         box.rarity = oper_data ? oper_data->rarity : 0;

@@ -494,6 +494,20 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _showUpdaterConsole = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to show the updater console window.
+    /// </summary>
+    public bool ShowUpdaterConsole
+    {
+        get => _showUpdaterConsole;
+        set {
+            SetAndNotify(ref _showUpdaterConsole, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, value.ToString());
+        }
+    }
+
     /// <summary>
     /// Updates manually.
     /// </summary>

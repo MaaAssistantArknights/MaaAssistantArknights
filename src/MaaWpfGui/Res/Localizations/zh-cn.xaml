@@ -179,6 +179,7 @@
     <system:String x:Key="MuMuEmulator12">MuMu 模拟器</system:String>
     <system:String x:Key="AVD">Android 虚拟设备（AVD）</system:String>
     <system:String x:Key="LDPlayer">雷电模拟器</system:String>
+    <system:String x:Key="Androws">应用宝模拟器</system:String>
     <system:String x:Key="Nox">夜神模拟器</system:String>
     <system:String x:Key="XYAZ">逍遥模拟器</system:String>
     <system:String x:Key="WSA">WSA 旧版本</system:String>
@@ -327,6 +328,7 @@
     <system:String x:Key="UpdateAutoCheckTip">游戏内 00:00 / 18:00（对应服务器当地时间 04:00 / 22:00）</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自动安装更新包</system:String>
+    <system:String x:Key="ShowUpdaterConsole">显示 MAA.Updater 控制台输出</system:String>
     <system:String x:Key="UpdateCheckStable">正式版</system:String>
     <system:String x:Key="UpdateCheckBeta">公测版</system:String>
     <system:String x:Key="UpdateCheckNightly">内测版</system:String>
@@ -933,7 +935,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGame@ALL@GreenGrass">争锋频道：青草城</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">手动跳过教程对话，然后可以直接退出。&#10;在活动主界面（右下角有 ｢加入赛事｣ 处）开始任务。&#10;&#10;跟着鸭总喝口汤。</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruit">争锋频道：蜜果城</system:String>
-    <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">手动跳过教程对话，然后可以直接退出。&#10;在活动主界面（右下角有 ｢加入赛事｣ 处）开始任务。&#10;&#10;跟着鸭总喝口汤。</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
+    <system:String x:Key="MiniGame@ALL@IvyVine">争锋频道：绿藤城</system:String>
+    <system:String x:Key="MiniGame@ALL@IvyVineTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">结局</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event">优先系列事件</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event1">支援作战平台</system:String>
@@ -1343,7 +1347,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Level3UseShortTime2">3 星设置 1:00 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影响其他星级 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次执行时最大招募次数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">手动确认 1 星</system:String>
+    <system:String x:Key="ManuallySelectLevel1">保留 1 星词条并跳过该栏位</system:String>
     <system:String x:Key="AutoSelectLevel3">自动确认 3 星</system:String>
     <system:String x:Key="AutoSelectLevel4">自动确认 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>
