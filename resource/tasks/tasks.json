@@ -4971,7 +4971,16 @@
         "action": "ClickSelf",
         "text": ["资质凭证区"],
         "roi": [108, 163, 124, 56],
-        "next": ["Store@EnterTicketStore@LoadingIcon", "GreenTicket@Store@ClickFirstFloor"]
+        "next": ["Store@EnterTicketStore@LoadingIcon", "GreenTicket@Store@SwitchToSecondFloor"]
+    },
+    "GreenTicket@Store@SwitchToSecondFloor": {
+        "doc": "先点击二层使一层按钮变为灰底，提高一层OCR识别成功率",
+        "algorithm": "OcrDetect",
+        "text": ["2"],
+        "action": "ClickSelf",
+        "isAscii": false,
+        "roi": [262, 364, 38, 58],
+        "next": ["GreenTicket@Store@ClickFirstFloor"]
     },
     "GreenTicket@Store@ClickFirstFloor": {
         "algorithm": "OcrDetect",
@@ -4980,7 +4989,7 @@
         "action": "ClickSelf",
         "roi": [263, 196, 35, 73],
         "sub": ["SlowlySwipeToTheLeft"],
-        "postDelay": 1000,
+        "postDelay": 500,
         "next": ["GreenTicket@Store@ClickItemList#next", "GreenTicket@Store@ClickSecondFloor"]
     },
     "GreenTicket@Store@ClickItem": {
