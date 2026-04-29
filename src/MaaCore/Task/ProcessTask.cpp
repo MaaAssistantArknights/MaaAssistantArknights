@@ -42,7 +42,6 @@ ProcessTask& ProcessTask::set_tasks(std::vector<std::string> tasks_name) noexcep
     m_begin_task_list = std::move(tasks_name);
     m_pre_task_name.clear();
     m_last_task_name.clear();
-    m_last_matched_task_name.clear();
     return *this;
 }
 
@@ -67,8 +66,6 @@ ProcessTask& ProcessTask::set_reusable_image(const cv::Mat& reusable)
 bool ProcessTask::run()
 {
     LogTraceFunction;
-
-    m_last_matched_task_name.clear();
 
     if (!m_enable) {
         Log.info("task disabled, pass", basic_info().to_string());
@@ -347,7 +344,6 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
         return { NodeStatus::Interrupted, nullptr };
     }
 
-    m_pre_task_name = std::move(m_last_task_name);
 
     HitDetail hits;
     for (int cur_retry = 0; cur_retry <= m_retry_times; ++cur_retry) {
@@ -357,6 +353,7 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
             { "cur_retry", cur_retry },
             { "retry_times", m_retry_times },
         };
+        info["cur_task"] = m_last_task_name;
         Log.info(info.to_string());
 
         if (cur_retry != 0 && !sleep(m_task_delay)) {
@@ -371,7 +368,7 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
         return { NodeStatus::RetryFailed, nullptr };
     }
     else {
-        m_last_matched_task_name = hits.task_ptr->name;
+        m_pre_task_name = std::move(m_last_task_name);
         m_last_task_name = hits.task_ptr->name;
         m_last_hit_detail = std::make_shared<HitDetail>(std::move(hits));
     }
