@@ -1,6 +1,9 @@
 #pragma once
 
+#include <cstddef>
 #include <deque>
+#include <filesystem>
+#include <string>
 
 #include "Common/AsstBattleDef.h"
 #include "Vision/OnnxHelper.h"
@@ -72,7 +75,7 @@ protected:
     SkillReadyResult skill_ready_analyze() const;
     DeployDirectionResult deploy_direction_analyze() const;
 
-    static const std::size_t SkillReadyAutoCleanLimit = 50;
+    static constexpr std::size_t SkillReadyAutoCleanLimit = 50;
 
     struct SkillReadyFileQueue
     {
