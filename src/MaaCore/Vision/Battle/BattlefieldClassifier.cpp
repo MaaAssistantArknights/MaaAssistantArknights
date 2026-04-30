@@ -45,7 +45,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
 
     // 1. 图像大小调整(推理慢可不做)
     cv::Mat resized_image;
-    cv::resize(image, resized_image, cv::Size(72, 72));
+    cv::resize(image, resized_image, cv::Size(72, 72), 0.0, 0.0, cv::INTER_CUBIC);
 
     // 2. 中心裁剪(推理慢可不做)
     int crop_size = 64;
@@ -58,11 +58,15 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     std::vector<float> input = image_to_tensor(cropped_image);
 
     // 4. 归一化
-    float mean[] = { 0.485f, 0.456f, 0.406f };
-    float std[] = { 0.229f, 0.224f, 0.225f };
-    for (size_t i = 0; i < input.size(); i++) {
-        int channel = i % 3;
-        input[i] = (input[i] - mean[channel]) / std[channel];
+    static constexpr std::array<float, 3> kMean { 0.485f, 0.456f, 0.406f };
+    static constexpr std::array<float, 3> kStd { 0.229f, 0.224f, 0.225f };
+    const size_t plane_size = static_cast<size_t>(cropped_image.rows) * static_cast<size_t>(cropped_image.cols);
+
+    for (size_t channel = 0; channel < 3; ++channel) {
+        const size_t offset = channel * plane_size;
+        for (size_t index = 0; index < plane_size; ++index) {
+            input[offset + index] = (input[offset + index] - kMean[channel]) / kStd[channel];
+        }
     }
 
     auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU);
@@ -70,7 +74,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
 
     auto& session = OnnxSessions::get_instance().get("skill_ready_cls");
 
-    std::array<int64_t, 4> input_shape { batch_size, cropped_image.channels(), cropped_image.cols, cropped_image.rows };
+    std::array<int64_t, 4> input_shape { batch_size, cropped_image.channels(), cropped_image.rows, cropped_image.cols };
 
     Ort::Value input_tensor = Ort::Value::CreateTensor<float>(
         memory_info,
