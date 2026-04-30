@@ -126,9 +126,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         .base_point = m_base_point,
     };
 
-    if (!std::filesystem::exists("DEBUG_skill_ready.txt")) {
-        return result;
-    }
+    const bool save_infinitely = std::filesystem::exists("DEBUG_skill_ready.txt");
 
     // 为重新训练模型截图
     struct point_state
@@ -187,21 +185,18 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         }
 
         std::string filename = std::format(
-            "debug/skill_ready/{}/{}_{}_{}(c{:3f})(n{:3f})(y{:3f}).png",
-            subfolder,
+            "{}_{}_{}(c{:3f})(n{:3f})(y{:3f}).png",
             MAA_NS::format_now_for_filename(),
             m_base_point.x,
             m_base_point.y,
             prob[0],
             prob[1],
             prob[2]);
-        std::filesystem::path relative_path = utils::path(filename);
 
         last_class = class_id;
         last_save_time = now;
 
-        Log.trace("Save image", relative_path);
-        MAA_NS::imwrite(relative_path, image);
+        save_skill_ready_debug_image(image, subfolder, filename, !save_infinitely);
     }
 
     return result;
@@ -287,4 +282,91 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
         .prob = prob,
         .base_point = m_base_point,
     };
+}
+
+void BattlefieldClassifier::init_skill_ready_file_queue(
+    const std::filesystem::path& dir,
+    SkillReadyFileQueue& file_queue)
+{
+    if (file_queue.initialized) {
+        return;
+    }
+    file_queue.initialized = true;
+
+    if (!std::filesystem::exists(dir)) {
+        return;
+    }
+
+    std::vector<std::pair<std::filesystem::file_time_type, std::filesystem::path>> files;
+    for (const auto& entry : std::filesystem::directory_iterator(dir)) {
+        if (entry.is_regular_file()) {
+            files.emplace_back(std::filesystem::last_write_time(entry.path()), entry.path());
+        }
+    }
+
+    std::sort(files.begin(), files.end(), [](const auto& lhs, const auto& rhs) {
+        if (lhs.first != rhs.first) {
+            return lhs.first < rhs.first;
+        }
+        return lhs.second < rhs.second;
+    });
+
+    const std::size_t excess = files.size() > SkillReadyAutoCleanLimit ? files.size() - SkillReadyAutoCleanLimit : 0;
+    for (std::size_t i = 0; i < excess; ++i) {
+        std::error_code ec;
+        std::filesystem::remove(files[i].second, ec);
+        if (ec) {
+            Log.warn(__FUNCTION__, "failed to remove old image", files[i].second, ec.message());
+        }
+    }
+
+    for (std::size_t i = excess; i < files.size(); ++i) {
+        file_queue.files.emplace_back(std::move(files[i].second));
+    }
+}
+
+bool BattlefieldClassifier::save_skill_ready_debug_image(
+    const cv::Mat& image,
+    const std::string& subfolder,
+    const std::string& filename,
+    bool auto_clean)
+{
+    if (image.empty()) {
+        return false;
+    }
+
+    const auto relative_dir = utils::path("debug") / "skill_ready" / utils::path(std::string(subfolder));
+    const auto absolute_dir = (UserDir.get() / relative_dir).lexically_normal();
+    const auto absolute_path = absolute_dir / utils::path(filename);
+
+    if (auto_clean) {
+        static std::map<std::filesystem::path, SkillReadyFileQueue> s_file_queues;
+        static std::mutex s_mutex;
+
+        std::lock_guard<std::mutex> lock(s_mutex);
+        auto& file_queue = s_file_queues[absolute_dir];
+        init_skill_ready_file_queue(absolute_dir, file_queue);
+
+        if (file_queue.files.size() >= SkillReadyAutoCleanLimit) {
+            const auto old_path = file_queue.files.front();
+            file_queue.files.pop_front();
+
+            std::error_code ec;
+            std::filesystem::remove(old_path, ec);
+            if (ec) {
+                Log.warn(__FUNCTION__, "failed to remove old image", old_path, ec.message());
+            }
+        }
+
+        Log.trace("Save image", absolute_path);
+        if (!MAA_NS::imwrite(absolute_path, image)) {
+            return false;
+        }
+
+        file_queue.files.emplace_back(absolute_path);
+        return true;
+    }
+
+    Log.trace("Save image", absolute_path);
+    return MAA_NS::imwrite(absolute_path, image);
 }
