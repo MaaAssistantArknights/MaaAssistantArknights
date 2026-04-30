@@ -434,30 +434,34 @@ public class EmulatorHelper
         {
             _logger.Error("Failed to get the main module of the emulator process.");
             _logger.Error("{EMessage}", e.Message);
-            return false;
+            processModule = null;
         }
 
-        if (processModule == null)
+        if (processModule != null)
         {
-            return false;
-        }
+            string? emuLocation = processModule.FileName;
+            emuLocation = Path.GetDirectoryName(emuLocation);
+            if (emuLocation != null)
+            {
+                string consolePath = Path.Combine(emuLocation, "bsconsole.exe");
 
-        string? emuLocation = processModule.FileName;
-        emuLocation = Path.GetDirectoryName(emuLocation);
-        if (emuLocation == null)
+                if (File.Exists(consolePath))
+                {
+                    _logger.Information("`{ConsolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.", consolePath);
+                    return KillEmulatorByWindow();
+                }
+
+                _logger.Information("`{ConsolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.", consolePath);
+            }
+            else
+            {
+                _logger.Information("Failed to get emulator location from MainModule, try to kill the emulator by the port.");
+            }
+        }
+        else
         {
-            return false;
+            _logger.Information("Failed to get MainModule, try to kill the emulator by the port.");
         }
-
-        string consolePath = Path.Combine(emuLocation, "bsconsole.exe");
-
-        if (File.Exists(consolePath))
-        {
-            _logger.Information("`{ConsolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.", consolePath);
-            return KillEmulatorByWindow();
-        }
-
-        _logger.Information("`{ConsolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.", consolePath);
         if (KillEmulator())
         {
             return true;
