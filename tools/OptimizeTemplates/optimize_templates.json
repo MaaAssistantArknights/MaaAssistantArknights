@@ -4028,5 +4028,13 @@
     "resource/template/infrast/Bskill_man_exp&spd&cost1": "867220524365c9a37b4b5b8cffa709433b8c3383e7b69d7ce462da0a7ccef6c4",
     "resource/template/infrast/Bskill_hire_kalts2": "e9db9b63d927c5b19b11919b39b74319f322ad4cccfcf20b4e608d25acecb5a9",
     "resource/template/infrast/Bskill_power_rec_spd_ext&tag": "5769c24d3e8b6b641c892a0b36e117ed7a337eabba48e2956943eed6f10bbb92",
-    "resource/template/infrast/Bskill_man_spd_veen": "b1c69c585e3d5992e6517fb85007c0422c2d445151d7cdc02fcf4c90a1ac1364"
+    "resource/template/infrast/Bskill_man_spd_veen": "b1c69c585e3d5992e6517fb85007c0422c2d445151d7cdc02fcf4c90a1ac1364",
+    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@EnterDanger": "fcf3b13092c746c0e56a8c851ebcb9e1f0c78588cb3ae2d94dc63d4163d48815",
+    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependent": "472566ba106ea9c098c25a5cd79ba2b61abed3ea6d6246706e685feddbb77064",
+    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@EnterStandard": "7bf66011301824abf41a868f9be923dd707e21cdb996d49a773fb40ac3737430",
+    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@NoMoreHint": "7ec8f691a12188792d5e4ea06c8307065aa92f446b3a68529ef60c03b90283c5",
+    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@ReadyAgain": "6be7ad02c38c53e9af3cec46ec23c89e0cd5ede78bc49113bcfbdf64cc43d536",
+    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@ReadyScreen": "dd79b10755d84ff4a9bcbbfb718e6201b0330ba6838f0d62d758529d7abe7c1a",
+    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@ReturnHome": "5a97856dbec4cad01ed908112b1b67f41efc8d3ea87977fd1c2ab678b4323444",
+    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation": "9060f6a02c0cd49f570bda55b179312b8925fea2ce829e3f8ceebdc91c990a33"
 }
