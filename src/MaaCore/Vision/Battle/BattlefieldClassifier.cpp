@@ -4,7 +4,14 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cmath>
+#include <format>
+#include <map>
+#include <mutex>
+#include <system_error>
+#include <unordered_map>
+#include <vector>
 
 #include "Config/OnnxSessions.h"
 #include "Config/TaskData.h"
@@ -45,7 +52,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
 
     // 1. 图像大小调整(推理慢可不做)
     cv::Mat resized_image;
-    cv::resize(image, resized_image, cv::Size(72, 72));
+    cv::resize(image, resized_image, cv::Size(72, 72), 0.0, 0.0, cv::INTER_CUBIC);
 
     // 2. 中心裁剪(推理慢可不做)
     int crop_size = 64;
@@ -58,11 +65,15 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     std::vector<float> input = image_to_tensor(cropped_image);
 
     // 4. 归一化
-    float mean[] = { 0.485f, 0.456f, 0.406f };
-    float std[] = { 0.229f, 0.224f, 0.225f };
-    for (size_t i = 0; i < input.size(); i++) {
-        int channel = i % 3;
-        input[i] = (input[i] - mean[channel]) / std[channel];
+    static constexpr std::array<float, 3> kMean { 0.485f, 0.456f, 0.406f };
+    static constexpr std::array<float, 3> kStd { 0.229f, 0.224f, 0.225f };
+    const size_t plane_size = static_cast<size_t>(cropped_image.rows) * static_cast<size_t>(cropped_image.cols);
+
+    for (size_t channel = 0; channel < 3; ++channel) {
+        const size_t offset = channel * plane_size;
+        for (size_t index = 0; index < plane_size; ++index) {
+            input[offset + index] = (input[offset + index] - kMean[channel]) / kStd[channel];
+        }
     }
 
     auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU);
@@ -70,7 +81,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
 
     auto& session = OnnxSessions::get_instance().get("skill_ready_cls");
 
-    std::array<int64_t, 4> input_shape { batch_size, cropped_image.channels(), cropped_image.cols, cropped_image.rows };
+    std::array<int64_t, 4> input_shape { batch_size, cropped_image.channels(), cropped_image.rows, cropped_image.cols };
 
     Ort::Value input_tensor = Ort::Value::CreateTensor<float>(
         memory_info,
@@ -126,9 +137,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         .base_point = m_base_point,
     };
 
-    if (!std::filesystem::exists("DEBUG_skill_ready.txt")) {
-        return result;
-    }
+    const bool save_infinitely = std::filesystem::exists("DEBUG_skill_ready.txt");
 
     // 为重新训练模型截图
     struct point_state
@@ -138,35 +147,44 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     };
 
     static std::unordered_map<Point, point_state> point_states;
+    static std::mutex point_states_mutex;
 
-    // 获取当前坐标点的状态
-    auto& [last_class, last_save_time] = point_states[m_base_point];
     const auto now = std::chrono::steady_clock::now();
-    const auto duration_since_last_save =
-        std::chrono::duration_cast<std::chrono::seconds>(now - last_save_time).count();
 
     bool need_save = false;
 
-    // 判断当前类别是否与上次保存的类别不同
-    if (last_class != class_id) {
-        Log.trace("Class changed", last_class, class_id);
-        need_save = true;
-    }
-    // y 1 秒存一次（最小开技能间隔为 1.5s），c 5 秒存一次
-    else if ((class_id == 2 && duration_since_last_save > 1) || (class_id == 0 && duration_since_last_save > 5)) {
-        Log.trace("Class is", class_id);
-        need_save = true;
-    }
-    // 长时间没变化，可能是被遮挡了
-    else if (duration_since_last_save > 10) {
-        Log.trace("Long time no change", duration_since_last_save);
-        need_save = true;
-    }
+    {
+        std::lock_guard<std::mutex> lock(point_states_mutex);
+        auto& [last_class, last_save_time] = point_states[m_base_point];
+        const auto duration_since_last_save =
+            std::chrono::duration_cast<std::chrono::seconds>(now - last_save_time).count();
 
-    // 新增：如果最高得分低于阈值，则保存
-    if (score < 0.75f) {
-        Log.trace("Low score", score);
-        need_save = true;
+        // 判断当前类别是否与上次保存的类别不同
+        if (last_class != class_id) {
+            Log.trace("Class changed", last_class, class_id);
+            need_save = true;
+        }
+        // y 1 秒存一次（最小开技能间隔为 1.5s），c 5 秒存一次
+        else if ((class_id == 2 && duration_since_last_save > 1) || (class_id == 0 && duration_since_last_save > 5)) {
+            Log.trace("Class is", class_id);
+            need_save = true;
+        }
+        // 长时间没变化，可能是被遮挡了
+        else if (duration_since_last_save > 10) {
+            Log.trace("Long time no change", duration_since_last_save);
+            need_save = true;
+        }
+
+        // 新增：如果最高得分低于阈值，则保存
+        if (score < 0.75f) {
+            Log.trace("Low score", score);
+            need_save = true;
+        }
+
+        if (need_save) {
+            last_class = class_id;
+            last_save_time = now;
+        }
     }
 
     if (need_save) {
@@ -187,21 +205,15 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         }
 
         std::string filename = std::format(
-            "debug/skill_ready/{}/{}_{}_{}(c{:3f})(n{:3f})(y{:3f}).png",
-            subfolder,
+            "{}_{}_{}(c{:3f})(n{:3f})(y{:3f}).png",
             MAA_NS::format_now_for_filename(),
             m_base_point.x,
             m_base_point.y,
             prob[0],
             prob[1],
             prob[2]);
-        std::filesystem::path relative_path = utils::path(filename);
 
-        last_class = class_id;
-        last_save_time = now;
-
-        Log.trace("Save image", relative_path);
-        MAA_NS::imwrite(relative_path, image);
+        save_skill_ready_debug_image(image, subfolder, filename, !save_infinitely);
     }
 
     return result;
@@ -287,4 +299,144 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
         .prob = prob,
         .base_point = m_base_point,
     };
+}
+
+void BattlefieldClassifier::init_skill_ready_file_queue_locked(
+    const std::filesystem::path& dir,
+    SkillReadyFileQueue& file_queue)
+{
+    if (file_queue.initialized) {
+        return;
+    }
+    file_queue.initialized = true;
+
+    std::error_code dir_ec;
+    if (!std::filesystem::is_directory(dir, dir_ec)) {
+        if (dir_ec) {
+            Log.warn(__FUNCTION__, "failed to inspect image directory", dir, dir_ec.message());
+        }
+        return;
+    }
+
+    std::vector<std::pair<std::filesystem::file_time_type, std::filesystem::path>> files;
+    std::error_code iter_ec;
+    const auto options = std::filesystem::directory_options::skip_permission_denied;
+    for (std::filesystem::directory_iterator iter(dir, options, iter_ec), end; iter != end; iter.increment(iter_ec)) {
+        if (iter_ec) {
+            Log.warn(__FUNCTION__, "failed to iterate image directory", dir, iter_ec.message());
+            break;
+        }
+
+        const auto& entry = *iter;
+        std::error_code entry_ec;
+        if (!entry.is_regular_file(entry_ec)) {
+            if (entry_ec) {
+                Log.warn(__FUNCTION__, "failed to inspect image entry", entry.path(), entry_ec.message());
+            }
+            continue;
+        }
+
+        const auto path = entry.path();
+        const auto write_time = std::filesystem::last_write_time(path, entry_ec);
+        if (entry_ec) {
+            Log.warn(__FUNCTION__, "failed to query image timestamp", path, entry_ec.message());
+            continue;
+        }
+
+        files.emplace_back(write_time, path);
+    }
+
+    std::sort(files.begin(), files.end(), [](const auto& lhs, const auto& rhs) {
+        if (lhs.first != rhs.first) {
+            return lhs.first < rhs.first;
+        }
+        return lhs.second < rhs.second;
+    });
+
+    const std::size_t excess = files.size() > SkillReadyAutoCleanLimit ? files.size() - SkillReadyAutoCleanLimit : 0;
+    for (std::size_t i = 0; i < excess; ++i) {
+        std::error_code ec;
+        std::filesystem::remove(files[i].second, ec);
+        if (ec) {
+            Log.warn(__FUNCTION__, "failed to remove old image", files[i].second, ec.message());
+        }
+    }
+
+    for (std::size_t i = excess; i < files.size(); ++i) {
+        file_queue.files.emplace_back(std::move(files[i].second));
+    }
+}
+
+bool BattlefieldClassifier::save_skill_ready_debug_image(
+    const cv::Mat& image,
+    const std::string& subfolder,
+    const std::string& filename,
+    bool auto_clean)
+{
+    if (image.empty()) {
+        return false;
+    }
+
+    const auto relative_dir = utils::path("debug") / "skill_ready" / utils::path(std::string(subfolder));
+    const auto absolute_dir = (UserDir.get() / relative_dir).lexically_normal();
+    const auto absolute_path = absolute_dir / utils::path(filename);
+
+    std::error_code create_ec;
+    std::filesystem::create_directories(absolute_dir, create_ec);
+    if (create_ec) {
+        Log.warn(__FUNCTION__, "failed to create image directory", absolute_dir, create_ec.message());
+        return false;
+    }
+
+    if (auto_clean) {
+        static std::map<std::filesystem::path, SkillReadyFileQueue> s_file_queues;
+        static std::mutex s_mutex;
+
+        std::filesystem::path old_path;
+        bool remove_old_path = false;
+
+        {
+            std::lock_guard<std::mutex> lock(s_mutex);
+            auto& file_queue = s_file_queues[absolute_dir];
+            init_skill_ready_file_queue_locked(absolute_dir, file_queue);
+
+            if (file_queue.files.size() >= SkillReadyAutoCleanLimit) {
+                old_path = std::move(file_queue.files.front());
+                file_queue.files.pop_front();
+                remove_old_path = true;
+            }
+
+            file_queue.files.emplace_back(absolute_path);
+        }
+
+        if (remove_old_path) {
+            std::error_code ec;
+            std::filesystem::remove(old_path, ec);
+            if (ec) {
+                Log.warn(__FUNCTION__, "failed to remove old image", old_path, ec.message());
+            }
+        }
+
+        Log.trace("Save image", absolute_path);
+        if (!MAA_NS::imwrite(absolute_path, image)) {
+            std::lock_guard<std::mutex> lock(s_mutex);
+            auto queue_iter = s_file_queues.find(absolute_dir);
+            if (queue_iter != s_file_queues.end()) {
+                auto& files = queue_iter->second.files;
+                for (auto iter = files.end(); iter != files.begin();) {
+                    --iter;
+                    if (*iter == absolute_path) {
+                        files.erase(iter);
+                        break;
+                    }
+                }
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    Log.trace("Save image", absolute_path);
+    return MAA_NS::imwrite(absolute_path, image);
 }
