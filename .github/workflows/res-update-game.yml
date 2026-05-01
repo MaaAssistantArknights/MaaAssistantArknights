@@ -235,6 +235,10 @@ jobs:
         run: |
           ./tools/ResourceUpdater/res_updater
 
+      - name: Install TaskSorter dependencies
+        run: |
+          python3 -m pip install -r tools/TaskSorter/requirements.txt
+
       - name: Sort tasks
         id: task_sorting
         run: |
