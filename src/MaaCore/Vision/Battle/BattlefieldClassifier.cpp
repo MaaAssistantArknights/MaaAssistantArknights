@@ -137,7 +137,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         .base_point = m_base_point,
     };
 
-    const bool save_infinitely = std::filesystem::exists("DEBUG_skill_ready.txt");
+    static const bool save_infinitely = std::filesystem::exists("DEBUG_skill_ready.txt");
 
     // 为重新训练模型截图
     struct point_state

@@ -745,10 +745,13 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         // 识别到了，但点进去发现没有。一般来说是识别错了
         if (!use_skill(loc, false)) {
             Log.warn("Skill", name, "is not ready");
-            constexpr int MaxRetry = 3;
-            if (++retry >= MaxRetry) {
-                Log.warn("Do not use skill anymore", name);
-                usage = SkillUsage::NotUse;
+            static const bool save_infinitely = std::filesystem::exists("DEBUG_skill_ready.txt");
+            if (!save_infinitely) {
+                constexpr int MaxRetry = 3;
+                if (++retry >= MaxRetry) {
+                    Log.warn("Do not use skill anymore", name);
+                    usage = SkillUsage::NotUse;
+                }
             }
             continue;
         }
