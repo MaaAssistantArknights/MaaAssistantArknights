@@ -4036,5 +4036,13 @@
     "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@ReadyAgain": "6be7ad02c38c53e9af3cec46ec23c89e0cd5ede78bc49113bcfbdf64cc43d536",
     "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@ReadyScreen": "dd79b10755d84ff4a9bcbbfb718e6201b0330ba6838f0d62d758529d7abe7c1a",
     "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@ReturnHome": "5a97856dbec4cad01ed908112b1b67f41efc8d3ea87977fd1c2ab678b4323444",
-    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation": "9060f6a02c0cd49f570bda55b179312b8925fea2ce829e3f8ceebdc91c990a33"
+    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation": "9060f6a02c0cd49f570bda55b179312b8925fea2ce829e3f8ceebdc91c990a33",
+    "resource/global/YoStarKR/resource/template/MiniGame/SPA/MiniGame@SPA@EnterDanger": "0fe344f89ee99be618f1092fa69a6e0f941c462a58bc109d7bce45e76619da66",
+    "resource/global/YoStarKR/resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependent": "2cd268cda63984c801e436c1bf32ef82f3a88f4d965933811d92d976a08d300f",
+    "resource/global/YoStarKR/resource/template/MiniGame/SPA/MiniGame@SPA@EnterStandard": "810e2f8a3deaf87fc123d6d9497af66b85360faa1c698be5001c4929f5df9a66",
+    "resource/global/YoStarKR/resource/template/MiniGame/SPA/MiniGame@SPA@NoMoreHint": "b718d1a9a141cf7a456658318eb9f4b036e74bc86441708a126b0ef7779d41f0",
+    "resource/global/YoStarKR/resource/template/MiniGame/SPA/MiniGame@SPA@ReadyAgain": "28a00e8c8c9d0bac08b84ee0d527b588b5b09ff7be6786554b7f6b3f604ccbc8",
+    "resource/global/YoStarKR/resource/template/MiniGame/SPA/MiniGame@SPA@ReadyScreen": "d8074360f1d96b5dfb61539b329449820f09e6994e0ff452eba0b2dc05639a6d",
+    "resource/global/YoStarKR/resource/template/MiniGame/SPA/MiniGame@SPA@ReturnHome": "aea9a1dc8b377550070b89b7b379d37cd2c9c463ae195dd72859644fe9d1a132",
+    "resource/global/YoStarKR/resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation": "91c885eaf167a75c80430468388e41c49a96b584b8d6a3db57af2d05f32efeb6"
 }
