@@ -536,7 +536,7 @@
     "Tales@RA@PNS-ResourceGained": {
         "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
         "baseTask": "Tales@RA@ResourceGained",
-        "next": ["#self", "Tales@RA@PNS-LeaveBaseCamp"]
+        "next": ["Tales@RA@PNS-OpeningDialogue#next"]
     },
     "Tales@RA@PNS-ProsperityBelowLimit": {
         "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
