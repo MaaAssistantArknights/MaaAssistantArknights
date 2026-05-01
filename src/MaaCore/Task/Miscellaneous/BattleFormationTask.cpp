@@ -580,7 +580,24 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
 
 bool asst::BattleFormationTask::enter_selection_page(const cv::Mat& img)
 {
-    return ProcessTask(*this, { "BattleQuickFormation" }).set_reusable_image(img).set_retry_times(3).run();
+    bool ret = ProcessTask(*this, { "BattleQuickFormation" }).set_reusable_image(img).set_retry_times(3).run();
+    if (!ret) {
+        LogError << __FUNCTION__ << "| Cannot enter quick formation page";
+        return false;
+    }
+
+    auto opers_result = analyzer_opers(ctrler()->get_image());
+    int retry = 3;
+    while (std::ranges::any_of(opers_result, [](const QuickFormationOper& op) { return op.is_selected; })) {
+        if (ProcessTask(*this, { "BattleQuickFormationClear" }).set_retry_times(3).run()) {
+            opers_result = analyzer_opers(ctrler()->get_image());
+        }
+        if (--retry <= 0) {
+            LogError << __FUNCTION__ << "| Failed to clear quick formation page";
+            return false;
+        }
+    }
+    return true;
 }
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperGroup*>& groups)
