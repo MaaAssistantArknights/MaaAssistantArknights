@@ -344,7 +344,6 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
         return { NodeStatus::Interrupted, nullptr };
     }
 
-
     HitDetail hits;
     for (int cur_retry = 0; cur_retry <= m_retry_times; ++cur_retry) {
         json::value info = basic_info();

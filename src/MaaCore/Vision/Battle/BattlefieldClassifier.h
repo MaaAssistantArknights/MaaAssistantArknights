@@ -1,5 +1,10 @@
 #pragma once
 
+#include <cstddef>
+#include <deque>
+#include <filesystem>
+#include <string>
+
 #include "Common/AsstBattleDef.h"
 #include "Vision/OnnxHelper.h"
 #include "Vision/VisionHelper.h"
@@ -69,6 +74,22 @@ public:
 protected:
     SkillReadyResult skill_ready_analyze() const;
     DeployDirectionResult deploy_direction_analyze() const;
+
+    static constexpr std::size_t SkillReadyAutoCleanLimit = 50;
+
+    struct SkillReadyFileQueue
+    {
+        std::deque<std::filesystem::path> files;
+        bool initialized = false;
+    };
+
+    static void init_skill_ready_file_queue_locked(const std::filesystem::path& dir, SkillReadyFileQueue& file_queue);
+
+    static bool save_skill_ready_debug_image(
+        const cv::Mat& image,
+        const std::string& subfolder,
+        const std::string& filename,
+        bool auto_clean);
 
     ObjectOfInterest m_object_of_interest; // 待识别的目标
     Point m_base_point;
