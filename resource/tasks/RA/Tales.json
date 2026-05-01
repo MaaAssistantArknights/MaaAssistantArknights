@@ -533,11 +533,6 @@
         "action": "ClickRect",
         "specificRect": [901, 422, 360, 51]
     },
-    "Tales@RA@PNS-ResourceGained": {
-        "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
-        "baseTask": "Tales@RA@ResourceGained",
-        "next": ["Tales@RA@PNS-OpeningDialogue#next"]
-    },
     "Tales@RA@PNS-ProsperityBelowLimit": {
         "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
         "baseTask": "Tales@RA@FinishCalc",
@@ -640,6 +635,11 @@
         "baseTask": "Tales@RA@ClickHeadquartersButton",
         "template": "Tales@RA@HeadquartersButton.png",
         "action": "DoNothing"
+    },
+    "Tales@RA@PNS-ResourceGained": {
+        "doc": "获得物资, 点击 <点击空白处继续> 文字位置",
+        "baseTask": "Tales@RA@ResourceGained",
+        "next": ["Tales@RA@PNS-OpeningDialogue#next"]
     },
     "Tales@RA@PNS-Resume": {
         "doc": "在主题入口界面识别到 <继续演算>, 可利用 callback 提示用户切换模式",
