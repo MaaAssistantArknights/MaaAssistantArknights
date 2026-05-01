@@ -1,30 +1,4 @@
-## v6.9.0-beta.3
-
-### 新增 | New
-
-* 适配七周年许愿墙 @Copilot
-
-### 改进 | Improved
-
-* 大幅提升技能就绪识别准确率，优化技能截图保存策略 (#16393) @ABA2396
-
-### 修复 | Fix
-
-* 修复小游戏列表中下拉框偶现无法展开的问题 @ABA2396
-* 修复蓝叠模拟器关闭失败的问题 (#16388) @lengyanyu258
-* lower YoStarJP office mini threshold (#16390) @Rememorio
-
-### 其他 | Other
-
-* YostarKR MiniGame SPA (#16364) @HX3N
-
-## v6.9.0-beta.2
-
-### 修复 | Fix
-
-* 升级结算时闪退 @ABA2396
-
-## v6.9.0-beta.1
+## v6.9.0
 
 ### 新增 | New
 
@@ -38,9 +12,13 @@
 * 新增 updater 进度条与控制台输出支持 @ABA2396
 * 支持 PC 端 `完成后退出明日方舟` (#16351) @glimmertouch
 * 新增争锋频道「绿藤城」支持 (#16345) @Daydreamer114
+* 适配七周年许愿墙 @Copilot
+* YostarJP/EN/KR MiniGame SPA  @Manicsteiner @Constrat @HX3N
 
 ### 改进 | Improved
 
+* 统一 CheckComboBox 样式 @ABA2396
+* 大幅提升技能就绪识别准确率，优化技能截图保存策略 (#16393) @ABA2396
 * 合并并简化任务状态逻辑 @status102
 * 统一 ProcessTask 匹配命中状态更新逻辑 @status102
 * 优化 1 星词条选项操作描述 @status102
@@ -48,15 +26,23 @@
 * 调整完整后 `无其他 MAA` 选项绑定逻辑，不再强制勾选退出模拟器 @ABA2396
 * 调整选项 `IsEnabled` 逻辑 @ABA2396
 * 使用 PC 端连接方式时，自动禁用不支持的完成后操作 @ABA2396
+* optimize templates yostarkr SPA @Constrat
 
 ### 修复 | Fix
 
+* 修复 3 星 tag 标题显示异常 @ABA2396
+* 修复 CheckComboBox 不显示标题的问题 @ABA2396
+* 修复生息演算 5.1 更新后无法使用无存档刷分的问题 (#16402) @ABA2396
 * 修复剿灭后出现升级界面导致任务无法继续的问题 (#16255) (#16370) @Roland125
 * 修复干员仓储识别中升变阿米娅的识别问题 @status102
 * 修复若干正确性问题（含 null check / race / clamp / retry 等 9 处） (#16332) @FireflySentinel
 * 修复干员仓储识别未跳过数据查找失败干员的问题 @status102
 * 修复 EN IS6 trail 正则匹配问题 @Constrat
 * 修复月度小队隐藏分队选择的问题 @SherkeyXD
+* 修复小游戏列表中下拉框偶现无法展开的问题 @ABA2396
+* 修复蓝叠模拟器关闭失败的问题 (#16388) @lengyanyu258
+* 升级结算时闪退 @ABA2396
+* lower YoStarJP office mini threshold (#16390) @Rememorio
 
 ### 文档 | Docs
 
@@ -64,6 +50,7 @@
 
 ### 其他 | Other
 
+* 任务排序支持 JSONC @ABA2396
+* 调整资源更新环境 @ABA2396
 * 修改 issue template @ABA2396
 * 更新周年月卡相关文本 @SherkeyXD
-* YostarJP MiniGame SPA (#16372) @Manicsteiner
