@@ -225,21 +225,16 @@
                 </CheckBox>
             </StackPanel>
 
-            <StackPanel
+            <hc:CheckComboBox
                 Margin="0,10"
                 d:Visibility="Visible"
+                hc:ListBoxAttach.SelectedItems="{Binding RoguelikeStartWithSelectList}"
+                hc:TitleElement.Title="{DynamicResource RoguelikeStartWithSelectList}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding RoguelikeStartAwards}"
+                SelectedValuePath="Value"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and !RoguelikeOnlyStartWithEliteTwo',
-                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
-                <TextBlock
-                    Margin="8,0,0,5"
-                    HorizontalAlignment="Left"
-                    Text="{DynamicResource RoguelikeStartWithSelectList}" />
-                <hc:CheckComboBox
-                    hc:ListBoxAttach.SelectedItems="{Binding RoguelikeStartWithSelectList}"
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding RoguelikeStartAwards}"
-                    SelectedValuePath="Value" />
-            </StackPanel>
+                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"

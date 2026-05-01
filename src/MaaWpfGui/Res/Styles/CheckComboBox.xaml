@@ -2,7 +2,7 @@
 
     <Style
         x:Key="MaaCheckComboBoxDefaultStyle"
-        BasedOn="{StaticResource {x:Type hc:CheckComboBox}}"
+        BasedOn="{StaticResource CheckComboBoxExtend}"
         TargetType="{x:Type hc:CheckComboBox}">
         <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
     </Style>
