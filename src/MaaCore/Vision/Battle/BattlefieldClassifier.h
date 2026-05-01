@@ -83,7 +83,7 @@ protected:
         bool initialized = false;
     };
 
-    static void init_skill_ready_file_queue(const std::filesystem::path& dir, SkillReadyFileQueue& file_queue);
+    static void init_skill_ready_file_queue_locked(const std::filesystem::path& dir, SkillReadyFileQueue& file_queue);
 
     static bool save_skill_ready_debug_image(
         const cv::Mat& image,

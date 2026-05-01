@@ -301,7 +301,7 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
     };
 }
 
-void BattlefieldClassifier::init_skill_ready_file_queue(
+void BattlefieldClassifier::init_skill_ready_file_queue_locked(
     const std::filesystem::path& dir,
     SkillReadyFileQueue& file_queue)
 {
@@ -392,14 +392,24 @@ bool BattlefieldClassifier::save_skill_ready_debug_image(
         static std::map<std::filesystem::path, SkillReadyFileQueue> s_file_queues;
         static std::mutex s_mutex;
 
-        std::lock_guard<std::mutex> lock(s_mutex);
-        auto& file_queue = s_file_queues[absolute_dir];
-        init_skill_ready_file_queue(absolute_dir, file_queue);
+        std::filesystem::path old_path;
+        bool remove_old_path = false;
 
-        if (file_queue.files.size() >= SkillReadyAutoCleanLimit) {
-            const auto old_path = file_queue.files.front();
-            file_queue.files.pop_front();
+        {
+            std::lock_guard<std::mutex> lock(s_mutex);
+            auto& file_queue = s_file_queues[absolute_dir];
+            init_skill_ready_file_queue_locked(absolute_dir, file_queue);
 
+            if (file_queue.files.size() >= SkillReadyAutoCleanLimit) {
+                old_path = std::move(file_queue.files.front());
+                file_queue.files.pop_front();
+                remove_old_path = true;
+            }
+
+            file_queue.files.emplace_back(absolute_path);
+        }
+
+        if (remove_old_path) {
             std::error_code ec;
             std::filesystem::remove(old_path, ec);
             if (ec) {
@@ -409,10 +419,21 @@ bool BattlefieldClassifier::save_skill_ready_debug_image(
 
         Log.trace("Save image", absolute_path);
         if (!MAA_NS::imwrite(absolute_path, image)) {
+            std::lock_guard<std::mutex> lock(s_mutex);
+            auto queue_iter = s_file_queues.find(absolute_dir);
+            if (queue_iter != s_file_queues.end()) {
+                auto& files = queue_iter->second.files;
+                for (auto iter = files.end(); iter != files.begin();) {
+                    --iter;
+                    if (*iter == absolute_path) {
+                        files.erase(iter);
+                        break;
+                    }
+                }
+            }
             return false;
         }
 
-        file_queue.files.emplace_back(absolute_path);
         return true;
     }
 
