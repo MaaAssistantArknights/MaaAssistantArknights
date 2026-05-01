@@ -171,6 +171,7 @@
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
+                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05"
                 ],
                 "efficient": {
@@ -190,7 +191,8 @@
                     "金盏花诗会",
                     "捍卫之道",
                     "博识生手",
-                    "点滴关照"
+                    "点滴关照",
+                    "总工程师"
                 ],
                 "template": "Bskill_ctrl_cost.png"
             },
@@ -846,11 +848,11 @@
                 "template": "Bskill_dorm_one.png"
             },
             "bskill_dorm_one1": {
-                "desc": ["进驻宿舍时，自身心情每小时恢复+0.55"],
+                "desc": ["进驻宿舍时，自身心情每小时恢复+0.55", "进驻宿舍时，自身心情每小时恢复+0.55"],
                 "efficient": {
                     "all": 0
                 },
-                "name": ["超脱"],
+                "name": ["超脱", "难得休憩"],
                 "template": "Bskill_dorm_one1.png"
             },
             "bskill_dorm_one2": {
@@ -1242,6 +1244,11 @@
                 },
                 "name": ["合理利用"],
                 "template": "Bskill_man_exp&limit3.png"
+            },
+            "bskill_man_exp&spd&cost1": {
+                "desc": ["进驻制造站时，作战记录类配方的生产力+35%，心情每小时消耗+0.25"],
+                "name": ["“连轴转”"],
+                "template": "Bskill_man_exp&spd&cost1.png"
             },
             "bskill_man_exp&spd&limit&cost1": {
                 "desc": ["进驻制造站时，作战记录类配方的生产力+20%，心情每小时消耗-0.25"],
@@ -1840,6 +1847,11 @@
                 },
                 "name": ["大就是好！"],
                 "template": "Bskill_man_spd_variable31.png"
+            },
+            "bskill_man_spd_veen": {
+                "desc": ["进驻制造站时，训练室每级为当前制造站+10%生产力，最多30%"],
+                "name": ["手艺人"],
+                "template": "Bskill_man_spd_veen.png"
             },
             "bskill_man_token_spd1": {
                 "desc": ["进驻制造站时，每有1台作业平台进驻发电站，贵金属类配方的生产力+5%"],
@@ -2463,6 +2475,13 @@
                 "name": ["语言学"],
                 "template": "Bskill_hire_blitz.png"
             },
+            "bskill_hire_kalts2": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+30%，基建内（不包含副手及活动室）每有一间进驻精英干员的设施，联络速度额外+4%（最多5间）"
+                ],
+                "name": ["“泰拉的方舟”"],
+                "template": "Bskill_hire_kalts2.png"
+            },
             "bskill_hire_skgoat": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+45%，心情每小时消耗+2"],
                 "efficient": {
@@ -2773,6 +2792,7 @@
                     "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%",
+                    "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%"
                 ],
                 "efficient": {
@@ -2787,7 +2807,8 @@
                     "灵河充能·α",
                     "充能中",
                     "雷法专精",
-                    "澎湃紊流"
+                    "澎湃紊流",
+                    "鸡电工程"
                 ],
                 "template": "Bskill_pow_spd1.png"
             },
@@ -2897,6 +2918,11 @@
                 },
                 "name": ["维护中"],
                 "template": "Bskill_power_rec_spd_ext&faction.png"
+            },
+            "bskill_power_rec_spd_ext&tag": {
+                "desc": ["进驻发电站时，如果其他作业平台进驻在发电站，则无人机充能速度+5%"],
+                "name": ["鸡励机制"],
+                "template": "Bskill_power_rec_spd_ext&tag.png"
             }
         },
         "skillsGroup": []
@@ -3433,6 +3459,11 @@
                 },
                 "name": ["“愿者上钩”"],
                 "template": "Bskill_tra_bd_n2.png"
+            },
+            "bskill_tra_closure": {
+                "desc": ["进驻贸易站时，订单获取效率+10%，固定获取可露希尔特别订单（不视作违约订单）"],
+                "name": ["特别订单"],
+                "template": "Bskill_tra_closure.png"
             },
             "bskill_tra_cost1": {
                 "desc": ["进驻贸易站时，贸易站内干员心情每小时消耗-0.1"],

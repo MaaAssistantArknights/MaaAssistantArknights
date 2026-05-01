@@ -13904,6 +13904,15 @@
         "stageId": "act3enemyduel_01a",
         "width": 15
     },
+    "act3enemyduel_01b-activities/act3enemyduel/level_act3enemyduel_01b": {
+        "code": "VS-1",
+        "filename": "act3enemyduel_01b-activities-act3enemyduel-level_act3enemyduel_01b.json",
+        "height": 11,
+        "levelId": "activities/act3enemyduel/level_act3enemyduel_01b",
+        "name": "争锋对决！",
+        "stageId": "act3enemyduel_01b",
+        "width": 15
+    },
     "act40side_01-activities/act40side/level_act40side_01": {
         "code": "OR-1",
         "filename": "act40side_01-activities-act40side-level_act40side_01.json",
@@ -24587,6 +24596,285 @@
         "stageId": "main_16-17",
         "width": 15
     },
+    "main_17-01#s-obt/main/level_main_17-01": {
+        "code": "17-2",
+        "filename": "main_17-01#s-obt-main-level_main_17-01.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-01",
+        "name": "救赎迟来",
+        "stageId": "main_17-01#s",
+        "width": 9
+    },
+    "main_17-01-obt/main/level_main_17-01": {
+        "code": "17-2",
+        "filename": "main_17-01-obt-main-level_main_17-01.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-01",
+        "name": "救赎迟来",
+        "stageId": "main_17-01",
+        "width": 9
+    },
+    "main_17-02#s-obt/main/level_main_17-02": {
+        "code": "17-3",
+        "filename": "main_17-02#s-obt-main-level_main_17-02.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-02",
+        "name": "良心之刺",
+        "stageId": "main_17-02#s",
+        "width": 10
+    },
+    "main_17-02-obt/main/level_main_17-02": {
+        "code": "17-3",
+        "filename": "main_17-02-obt-main-level_main_17-02.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-02",
+        "name": "良心之刺",
+        "stageId": "main_17-02",
+        "width": 10
+    },
+    "main_17-03#s-obt/main/level_main_17-03": {
+        "code": "17-4",
+        "filename": "main_17-03#s-obt-main-level_main_17-03.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-03",
+        "name": "沉默众生",
+        "stageId": "main_17-03#s",
+        "width": 10
+    },
+    "main_17-03-obt/main/level_main_17-03": {
+        "code": "17-4",
+        "filename": "main_17-03-obt-main-level_main_17-03.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-03",
+        "name": "沉默众生",
+        "stageId": "main_17-03",
+        "width": 10
+    },
+    "main_17-04#s-obt/main/level_main_17-04": {
+        "code": "17-5",
+        "filename": "main_17-04#s-obt-main-level_main_17-04.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-04",
+        "name": "不过空壳",
+        "stageId": "main_17-04#s",
+        "width": 11
+    },
+    "main_17-04-obt/main/level_main_17-04": {
+        "code": "17-5",
+        "filename": "main_17-04-obt-main-level_main_17-04.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-04",
+        "name": "不过空壳",
+        "stageId": "main_17-04",
+        "width": 11
+    },
+    "main_17-05#s-obt/main/level_main_17-05": {
+        "code": "17-6",
+        "filename": "main_17-05#s-obt-main-level_main_17-05.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-05",
+        "name": "风波暗涌",
+        "stageId": "main_17-05#s",
+        "width": 11
+    },
+    "main_17-05-obt/main/level_main_17-05": {
+        "code": "17-6",
+        "filename": "main_17-05-obt-main-level_main_17-05.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-05",
+        "name": "风波暗涌",
+        "stageId": "main_17-05",
+        "width": 11
+    },
+    "main_17-06#s-obt/main/level_main_17-06": {
+        "code": "17-7",
+        "filename": "main_17-06#s-obt-main-level_main_17-06.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-06",
+        "name": "理性失衡",
+        "stageId": "main_17-06#s",
+        "width": 10
+    },
+    "main_17-06-obt/main/level_main_17-06": {
+        "code": "17-7",
+        "filename": "main_17-06-obt-main-level_main_17-06.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-06",
+        "name": "理性失衡",
+        "stageId": "main_17-06",
+        "width": 10
+    },
+    "main_17-07#s-obt/main/level_main_17-07": {
+        "code": "17-8",
+        "filename": "main_17-07#s-obt-main-level_main_17-07.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-07",
+        "name": "历史洪流",
+        "stageId": "main_17-07#s",
+        "width": 12
+    },
+    "main_17-07-obt/main/level_main_17-07": {
+        "code": "17-8",
+        "filename": "main_17-07-obt-main-level_main_17-07.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-07",
+        "name": "历史洪流",
+        "stageId": "main_17-07",
+        "width": 12
+    },
+    "main_17-08#s-obt/main/level_main_17-08": {
+        "code": "17-9",
+        "filename": "main_17-08#s-obt-main-level_main_17-08.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-08",
+        "name": "永不祈祷",
+        "stageId": "main_17-08#s",
+        "width": 11
+    },
+    "main_17-08-obt/main/level_main_17-08": {
+        "code": "17-9",
+        "filename": "main_17-08-obt-main-level_main_17-08.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_17-08",
+        "name": "永不祈祷",
+        "stageId": "main_17-08",
+        "width": 11
+    },
+    "main_17-09#s-obt/main/level_main_17-09": {
+        "code": "17-10",
+        "filename": "main_17-09#s-obt-main-level_main_17-09.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-09",
+        "name": "爱的尺度",
+        "stageId": "main_17-09#s",
+        "width": 11
+    },
+    "main_17-09-obt/main/level_main_17-09": {
+        "code": "17-10",
+        "filename": "main_17-09-obt-main-level_main_17-09.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-09",
+        "name": "爱的尺度",
+        "stageId": "main_17-09",
+        "width": 11
+    },
+    "main_17-10#s-obt/main/level_main_17-10": {
+        "code": "17-11",
+        "filename": "main_17-10#s-obt-main-level_main_17-10.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-10",
+        "name": "孤寂生地",
+        "stageId": "main_17-10#s",
+        "width": 12
+    },
+    "main_17-10-obt/main/level_main_17-10": {
+        "code": "17-11",
+        "filename": "main_17-10-obt-main-level_main_17-10.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-10",
+        "name": "孤寂生地",
+        "stageId": "main_17-10",
+        "width": 12
+    },
+    "main_17-11#s-obt/main/level_main_17-11": {
+        "code": "17-12",
+        "filename": "main_17-11#s-obt-main-level_main_17-11.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-11",
+        "name": "初次握手",
+        "stageId": "main_17-11#s",
+        "width": 12
+    },
+    "main_17-11-obt/main/level_main_17-11": {
+        "code": "17-12",
+        "filename": "main_17-11-obt-main-level_main_17-11.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-11",
+        "name": "初次握手",
+        "stageId": "main_17-11",
+        "width": 12
+    },
+    "main_17-12#s-obt/main/level_main_17-12": {
+        "code": "17-13",
+        "filename": "main_17-12#s-obt-main-level_main_17-12.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-12",
+        "name": "并非独行",
+        "stageId": "main_17-12#s",
+        "width": 12
+    },
+    "main_17-12-obt/main/level_main_17-12": {
+        "code": "17-13",
+        "filename": "main_17-12-obt-main-level_main_17-12.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-12",
+        "name": "并非独行",
+        "stageId": "main_17-12",
+        "width": 12
+    },
+    "main_17-13-obt/main/level_main_17-13": {
+        "code": "17-14",
+        "filename": "main_17-13-obt-main-level_main_17-13.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-13",
+        "name": "难如雪覆",
+        "stageId": "main_17-13",
+        "width": 12
+    },
+    "main_17-14#s-obt/main/level_main_17-14": {
+        "code": "17-15",
+        "filename": "main_17-14#s-obt-main-level_main_17-14.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-14",
+        "name": "人的价值",
+        "stageId": "main_17-14#s",
+        "width": 12
+    },
+    "main_17-14-obt/main/level_main_17-14": {
+        "code": "17-15",
+        "filename": "main_17-14-obt-main-level_main_17-14.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-14",
+        "name": "人的价值",
+        "stageId": "main_17-14",
+        "width": 12
+    },
+    "main_17-15-obt/main/level_main_17-15": {
+        "code": "17-16",
+        "filename": "main_17-15-obt-main-level_main_17-15.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_17-15",
+        "name": "唯有向前",
+        "stageId": "main_17-15",
+        "width": 12
+    },
+    "main_17-16#s-obt/main/level_main_17-16": {
+        "code": "17-17",
+        "filename": "main_17-16#s-obt-main-level_main_17-16.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-16",
+        "name": "不曾怀疑",
+        "stageId": "main_17-16#s",
+        "width": 12
+    },
+    "main_17-16-obt/main/level_main_17-16": {
+        "code": "17-17",
+        "filename": "main_17-16-obt-main-level_main_17-16.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_17-16",
+        "name": "不曾怀疑",
+        "stageId": "main_17-16",
+        "width": 12
+    },
+    "main_17-17-obt/main/level_main_17-17": {
+        "code": "17-18",
+        "filename": "main_17-17-obt-main-level_main_17-17.json",
+        "height": 17,
+        "levelId": "obt/main/level_main_17-17",
+        "name": "灵魂悄然",
+        "stageId": "main_17-17",
+        "width": 11
+    },
     "mem_12fce_1-obt/memory/level_memory_12fce_1": {
         "code": "mem_12fce_1",
         "filename": "mem_12fce_1-obt-memory-level_memory_12fce_1.json",
@@ -24649,6 +24937,15 @@
         "name": "抱剑独行",
         "stageId": "mem_akafyu_1",
         "width": 11
+    },
+    "mem_alanna_1-obt/memory/level_memory_alanna_1": {
+        "code": "mem_alanna_1",
+        "filename": "mem_alanna_1-obt-memory-level_memory_alanna_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_alanna_1",
+        "name": "狂野之路",
+        "stageId": "mem_alanna_1",
+        "width": 9
     },
     "mem_almond_1-obt/memory/level_memory_almond_1": {
         "code": "mem_almond_1",
@@ -25460,6 +25757,15 @@
         "stageId": "mem_folivo_1",
         "width": 13
     },
+    "mem_folnic_1-obt/memory/level_memory_folnic_1": {
+        "code": "mem_folnic_1",
+        "filename": "mem_folnic_1-obt-memory-level_memory_folnic_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_folnic_1",
+        "name": "愤怒的医师",
+        "stageId": "mem_folnic_1",
+        "width": 10
+    },
     "mem_forcer_1-obt/memory/level_memory_forcer_1": {
         "code": "mem_forcer_1",
         "filename": "mem_forcer_1-obt-memory-level_memory_forcer_1.json",
@@ -25648,6 +25954,15 @@
         "name": "\t别问了，快吃",
         "stageId": "mem_haak_1",
         "width": 12
+    },
+    "mem_hadiya_1-obt/memory/level_memory_hadiya_1": {
+        "code": "mem_hadiya_1",
+        "filename": "mem_hadiya_1-obt-memory-level_memory_hadiya_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_hadiya_1",
+        "name": "风沙中的愿景",
+        "stageId": "mem_hadiya_1",
+        "width": 9
     },
     "mem_haini_1-obt/memory/level_memory_haini_1": {
         "code": "mem_haini_1",
@@ -34828,6 +35143,15 @@
         "name": "迷踪",
         "stageId": "tr_27",
         "width": 11
+    },
+    "tr_28-obt/training/level_training_28": {
+        "code": "TR-28",
+        "filename": "tr_28-obt-training-level_training_28.json",
+        "height": 7,
+        "levelId": "obt/training/level_training_28",
+        "name": "无权责问",
+        "stageId": "tr_28",
+        "width": 10
     },
     "tr_s_1-obt/training/level_training_sub_1": {
         "code": "TR-S-1",
