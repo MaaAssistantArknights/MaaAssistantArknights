@@ -1846,12 +1846,17 @@ public class ToolboxViewModel : Screen
 
     public static void UpdateMiniGameTaskList()
     {
-        MiniGameTaskList.Clear();
-        var tasks = Instances.StageManager.MiniGameEntries;
-        foreach (var t in tasks)
-        {
-            MiniGameTaskList.Add(new MiniGameEntry { Display = t.Display, DisplayKey = t.DisplayKey, Value = t.Value, Tip = t.Tip, TipKey = t.TipKey });
-        }
+        var tasks = Instances.StageManager.MiniGameEntries
+            .Select(t => new MiniGameEntry { Display = t.Display, DisplayKey = t.DisplayKey, Value = t.Value, Tip = t.Tip, TipKey = t.TipKey })
+            .ToList();
+
+        Execute.OnUIThread(() => {
+            MiniGameTaskList.Clear();
+            foreach (var task in tasks)
+            {
+                MiniGameTaskList.Add(task);
+            }
+        });
     }
 
     private string _miniGameTaskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameTaskName, "SS@Store@Begin");
