@@ -1780,7 +1780,7 @@
     "OrundumActivities": {
         "doc": "幸运墙领合成玉",
         "algorithm": "OcrDetect",
-        "text": ["幸运墙", "幸运", "好运墙", "好运", "游乐", "育婴圣堂", "许愿墙"],
+        "text": ["幸运墙", "幸运", "好运墙", "好运", "游乐", "育婴圣堂", "许愿墙", "告示板", "泽尔格勒"],
         "action": "ClickSelf",
         "roi": [64, 72, 97, 156],
         "next": ["OrundumActivitiesChoose", "OrundumActivitiesReturn"],
