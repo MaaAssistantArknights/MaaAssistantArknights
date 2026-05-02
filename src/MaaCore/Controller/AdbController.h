@@ -57,7 +57,6 @@ struct AdbConnectionContext
                 { "[EventId]", event_id },
                 { "[NcPort]", std::to_string(nc_port) },
                 { "[NcAddress]", nc_address },
-                { "[PackageName]", package_name },
             });
     }
 };
