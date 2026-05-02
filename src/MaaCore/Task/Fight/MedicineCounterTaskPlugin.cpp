@@ -149,6 +149,13 @@ bool asst::MedicineCounterTaskPlugin::_run()
         if (m_expire_days > 0) {
             bool has_non_expiring = false;
             for (const auto& [use, _, expire_days, __] : using_medicine->medicines) {
+                if (use > 0 && expire_days == -1) {
+                    LogError << __FUNCTION__
+                             << "There are non-expiring medicines, and total count exceed max, need to reduce expire "
+                                "medicines first";
+                    has_non_expiring = true;
+                    break;
+                }
                 if (use > 0 && expire_days != -1 && expire_days > m_expire_days) {
                     has_non_expiring = true;
                     break;
