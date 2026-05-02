@@ -4,13 +4,15 @@
 
 这一版的重点仍然是把日常使用体验打磨得更顺手、更稳定。我们一边补齐周年活动与海外服适配，一边继续清理那些会打断长时间挂机流程的细碎问题。
 
-#### 桌面体验与更新可视化
+#### 启动流程与更新可视化
 
-MAA 现在会在重复启动时直接唤起已经打开的主窗口，不再额外弹出警告打断操作。与此同时，更新器补上了暗色模式、进度条与控制台输出，配合 PC 端连接方式下更清晰的完成后操作限制，整个更新和收尾流程都更直观了。
+MAA 现在会在重复启动时直接唤起已经打开的主窗口，不再额外弹出警告打断操作。与此同时，更新器补上了暗色模式、进度条与控制台输出，避免后台更新时因看不到进度而被重复打开，进一步降低更新流程出问题的概率。
 
 #### 自动作战更稳，也更懂得何时停下
 
-这一版为关卡未解锁、剿灭未启用全权代理等场景补上了提前停止检查，也支持保存代理指挥记录，并在合成玉 0 掉落时自动结束任务。再加上技能就绪识别、任务状态逻辑和多处界面判定的修正，升级结算、生息演算等此前容易卡住或闪退的流程也稳定了不少。
+这一版为关卡未解锁、剿灭未启用全权代理等场景补上了提前停止检查，也支持保存代理指挥记录，并在合成玉 0 掉落时自动结束任务。针对 5.1 七周年版本更新后理智上限调整带来的影响，本次还修复了理智汇报与代理倍率选择异常；此前生息演算容易卡住的问题，同样也是由 5.1 更新后的变更引起，现在也已一并处理。
+
+技能识别准确率也在这一版中大幅提升。默认情况下，MAA 会在 debug/skill_ready 下仅保留最近 50 次技能识别结果；如果你在自动战斗中遇到技能识别错误，欢迎及时携带日志和截图反馈。若根目录下存在 DEBUG_skill_ready.txt，则会无限保存相关截图；如果你愿意帮助我们训练技能识别模型，可以创建该文件，将错误分类的文件放入 对应标签_err 文件夹后发送至 uye[at]maa-org.net。
 
 #### 七周年与海外服内容继续补齐
 
@@ -22,13 +24,15 @@ MAA 现在会在重复启动时直接唤起已经打开的主窗口，不再额�
 
 This release continues to focus on making everyday use smoother and more reliable. Alongside support for anniversary content and overseas servers, we kept cleaning up the small but disruptive issues that can break long unattended runs.
 
-#### Better Desktop Flow and Update Visibility
+#### Better Launch Flow and Update Visibility
 
-MAA now re-activates the existing main window on repeated launches instead of interrupting users with an extra warning dialog. The updater also gains dark mode, a progress bar, and console output, while the PC client connection flow now makes post-run action limits clearer, making the whole update and wrap-up process easier to follow.
+MAA now re-activates the existing main window on repeated launches instead of interrupting users with an extra warning dialog. The updater also gains dark mode, a progress bar, and console output, helping users avoid reopening it while an update is still running in the background without visible feedback.
 
 #### More Reliable Automation, with Smarter Stop Conditions
 
-This version adds early-stop checks for locked stages and annihilation runs without proxy enabled, and it can now save auto-command records while ending runs automatically when 0 Orundum is detected. Together with more accurate skill-ready recognition, cleaner task-state logic, and multiple UI-flow fixes, previously fragile scenarios such as level-up settlement and Reclamation Algorithm runs are now much more stable.
+This version adds early-stop checks for locked stages and annihilation runs without proxy enabled, and it can now save auto-command records while ending runs automatically when 0 Orundum is detected. It also fixes incorrect sanity reporting and proxy multiplier selection caused by the sanity cap changes introduced in the 5.1 anniversary update. The Reclamation Algorithm freeze issue was caused by the same 5.1 update and has been fixed as well.
+
+Skill recognition accuracy has also been significantly improved. By default, MAA keeps only the most recent 50 skill-recognition results under debug/skill_ready. If you encounter incorrect skill recognition during auto-battle, please report it together with the relevant logs and screenshots. If DEBUG_skill_ready.txt exists in the root directory, related screenshots will be saved without limit. If you would like to help train the skill-recognition model, you can create that file, move misclassified files into the corresponding label_err folder, and send them to uye[at]maa-org.net.
 
 #### Continued Anniversary and Overseas Server Coverage
 
