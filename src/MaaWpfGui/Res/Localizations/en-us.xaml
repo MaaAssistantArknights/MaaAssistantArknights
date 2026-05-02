@@ -1151,7 +1151,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0},{1}(Expiring)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">Stone: {0}  </system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine (in {0} hours) used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>
     <system:String x:Key="FightMissionFailedAndStop">Proxy failed too many times, task stopped</system:String>
