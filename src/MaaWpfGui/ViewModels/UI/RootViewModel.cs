@@ -301,7 +301,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             : "x64";
 
         if (PendingUpdateApplier.InspectSupportedLocalFullPackage(packagePath, currentVersion, architecture, out _)
-            && !Instances.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
+            && !Dialogs.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
         {
             _logger.Information("Dropped full package import canceled by user before registration: {PackagePath}", packagePath);
             return;

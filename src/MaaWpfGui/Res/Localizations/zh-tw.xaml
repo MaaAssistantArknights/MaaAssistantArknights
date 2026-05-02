@@ -1491,6 +1491,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">目前軟體所在的位置無法儲存資料，可能會導致設定遺失或執行異常。建議將軟體移動到可寫入的目錄中執行，請勿放置在系統保護目錄（如 Program Files、System32 或 Windows 目錄）中。</system:String>
     <system:String x:Key="RunningInTempDirectoryError">MAA 無法在壓縮檔或系統暫存目錄中執行。請將 MAA 從壓縮檔中完整解壓縮，或將 MAA 移動到一般資料夾中再執行。</system:String>
+    <system:String x:Key="RunningInDriveRootDirectoryError">MAA 不能直接放在磁碟根目錄執行，例如 D:\ 或 E:\。這會讓程式與其他檔案混在同一層級，容易引發檔案覆蓋、設定寫入異常或資料混亂。請先將 MAA 移動到獨立資料夾中，例如 D:\MAA\，再重新啟動。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失敗，請重新進行相關設定，否則加密內容將以純文字形式儲存在設定檔中。</system:String>

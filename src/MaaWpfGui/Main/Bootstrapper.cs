@@ -190,6 +190,26 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
+    public static bool IsRunningInDriveRootDirectory()
+    {
+        try
+        {
+            string currentPath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            string rootPath = Path.GetPathRoot(currentPath)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            if (string.IsNullOrEmpty(rootPath) || rootPath.Length != 2 || rootPath[1] != ':')
+            {
+                return false;
+            }
+
+            return string.Equals(currentPath, rootPath, StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public static void ParseCrashLog()
     {
         var crashFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crash.log");
@@ -388,6 +408,17 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         {
             _logger.Error("Delegated pending update failed. Reason: {Reason}", delegatedUpdateFailureReason);
             ShowPendingUpdateRecoveryDialog();
+            Shutdown();
+            return;
+        }
+
+        if (IsRunningInDriveRootDirectory())
+        {
+            MessageBoxHelper.Show(
+                LocalizationHelper.GetString("RunningInDriveRootDirectoryError"),
+                LocalizationHelper.GetString("Error"),
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
             Shutdown();
             return;
         }

@@ -646,7 +646,7 @@ public class VersionUpdateDialogViewModel : Screen
             LocalizationHelper.GetString("LocalUpdatePackageImportedTitle"));
     }
 
-    public bool ConfirmFullPackageUpdate(string packagePath)
+    public static bool ConfirmFullPackageUpdate(string packagePath)
     {
         string baseDir = Path.GetFullPath(PathsHelper.BaseDir);
         string normalizedPackagePath = Path.IsPathRooted(packagePath)
