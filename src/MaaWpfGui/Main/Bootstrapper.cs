@@ -206,7 +206,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
 
         string commonDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
-        string? publicUserPath = Directory.GetParent(NormalizeDirectoryPath(commonDocumentsPath))?.FullName;
+        string publicUserPath = Directory.GetParent(NormalizeDirectoryPath(commonDocumentsPath))?.FullName ?? string.Empty;
         AddCandidateDirectoryPath(paths, publicUserPath);
 
         string windowsPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
@@ -215,7 +215,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         return paths;
     }
 
-    private static void AddCandidateDirectoryPath(HashSet<string> paths, string? path)
+    private static void AddCandidateDirectoryPath(HashSet<string> paths, string path)
     {
         if (string.IsNullOrWhiteSpace(path))
         {
