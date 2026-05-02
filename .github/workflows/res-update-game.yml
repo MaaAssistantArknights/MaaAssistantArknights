@@ -204,7 +204,7 @@ jobs:
             ./tools/ResourceUpdater/res_updater
 
       - name: Wait for resource cloning
-        uses: yogeshlonkar/wait-for-jobs@v0
+        uses: yogeshlonkar/wait-for-jobs@v1
         with:
           ignore-skipped: 'false'
           jobs: |
