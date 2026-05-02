@@ -1026,7 +1026,13 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 
     // 按需获取display ID 信息
     if (!adb_cfg.display_id.empty()) {
-        auto display_id_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.display_id));
+        // [PackageName] 不参与 replace_cmd 的统一替换（保留为运行时参数），
+        // 此处 displayId 查询是 connect 阶段唯一需要它的场景，就地显式替换。
+        auto display_id_cmd = utils::string_replace_all(
+            m_conn_ctx.replace_cmd(adb_cfg.display_id),
+            "[PackageName]",
+            m_conn_ctx.package_name);
+        auto display_id_ret = call_command(display_id_cmd);
         if (!display_id_ret) {
             return false;
         }
