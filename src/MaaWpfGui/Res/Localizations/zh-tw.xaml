@@ -1490,8 +1490,12 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 如需多開 MAA，請複製一份新的 MAA 到其他資料夾，並設定使用不同的 MAA，搭配相同的 ADB 與不同的模擬器位址進行多開操作。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">目前軟體所在的位置無法儲存資料，可能會導致設定遺失或執行異常。建議將軟體移動到可寫入的目錄中執行，請勿放置在系統保護目錄（如 Program Files、System32 或 Windows 目錄）中。</system:String>
-    <system:String x:Key="RunningInTempDirectoryError">MAA 無法在壓縮檔或系統暫存目錄中執行。請將 MAA 從壓縮檔中完整解壓縮，或將 MAA 移動到一般資料夾中再執行。</system:String>
-    <system:String x:Key="RunningInDriveRootDirectoryError">MAA 不能直接放在磁碟根目錄執行，例如 D:\ 或 E:\。這會讓程式與其他檔案混在同一層級，容易引發檔案覆蓋、設定寫入異常或資料混亂。請先將 MAA 移動到獨立資料夾中，例如 D:\MAA\，再重新啟動。</system:String>
+    <system:String x:Key="UnsupportedInstallLocationError" xml:space="preserve">MAA 不能直接在目前安裝位置中執行，例如暫存目錄、磁碟根目錄，或系統/使用者共用目錄。
+
+目前安裝目錄：{0}
+命中的不支援位置：{1}
+
+這些位置層級過高，容易引發檔案覆蓋、設定寫入異常或資料混亂。請先將 MAA 移動到獨立資料夾中，例如 D:\MAA\，再重新啟動。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失敗，請重新進行相關設定，否則加密內容將以純文字形式儲存在設定檔中。</system:String>

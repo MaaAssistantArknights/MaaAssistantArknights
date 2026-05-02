@@ -147,37 +147,44 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
-    public static bool IsRunningInTempDirectory()
+    private static readonly Environment.SpecialFolder[] s_unsupportedInstallLocationSpecialFolders =
     {
+        Environment.SpecialFolder.CommonApplicationData,
+        Environment.SpecialFolder.ApplicationData,
+        Environment.SpecialFolder.LocalApplicationData,
+        Environment.SpecialFolder.CommonProgramFiles,
+        Environment.SpecialFolder.CommonProgramFilesX86,
+        Environment.SpecialFolder.ProgramFiles,
+        Environment.SpecialFolder.ProgramFilesX86,
+        Environment.SpecialFolder.UserProfile,
+        Environment.SpecialFolder.Windows,
+    };
+
+    private static bool TryGetUnsupportedInstallLocation(out string matchedLocation)
+    {
+        matchedLocation = string.Empty;
+
         try
         {
-            var currentPath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
-            var tempPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            string currentPath = NormalizeDirectoryPath(AppDomain.CurrentDomain.BaseDirectory);
+            if (IsDriveRootDirectory(currentPath))
             {
-                Path.GetFullPath(Path.GetTempPath()),
-            };
-
-            var envVars = new[] { "TEMP", "TMP", "TMPDIR" };
-            foreach (var envVar in envVars)
-            {
-                var envValue = Environment.GetEnvironmentVariable(envVar);
-                if (!string.IsNullOrEmpty(envValue))
-                {
-                    try
-                    {
-                        tempPaths.Add(Path.GetFullPath(envValue));
-                    }
-                    catch
-                    {
-                    }
-                }
+                matchedLocation = currentPath;
+                return true;
             }
 
-            foreach (var tempPath in tempPaths)
+            string tempPath = NormalizeDirectoryPath(Path.GetTempPath());
+            if (IsPathUnderDirectory(currentPath, tempPath))
             {
-                if (currentPath.StartsWith(tempPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar,
-                    StringComparison.OrdinalIgnoreCase))
+                matchedLocation = tempPath;
+                return true;
+            }
+
+            foreach (string unsupportedLocation in GetUnsupportedInstallLocationPaths())
+            {
+                if (string.Equals(currentPath, unsupportedLocation, StringComparison.OrdinalIgnoreCase))
                 {
+                    matchedLocation = unsupportedLocation;
                     return true;
                 }
             }
@@ -190,24 +197,65 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
-    public static bool IsRunningInDriveRootDirectory()
+    private static IEnumerable<string> GetUnsupportedInstallLocationPaths()
     {
+        var paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (Environment.SpecialFolder specialFolder in s_unsupportedInstallLocationSpecialFolders)
+        {
+            AddCandidateDirectoryPath(paths, Environment.GetFolderPath(specialFolder));
+        }
+
+        string commonDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+        string? publicUserPath = Directory.GetParent(NormalizeDirectoryPath(commonDocumentsPath))?.FullName;
+        AddCandidateDirectoryPath(paths, publicUserPath);
+
+        string windowsPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+        AddCandidateDirectoryPath(paths, Path.Combine(windowsPath, "System32", "Drivers", "DriverData"));
+
+        return paths;
+    }
+
+    private static void AddCandidateDirectoryPath(HashSet<string> paths, string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return;
+        }
+
         try
         {
-            string currentPath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory)
-                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            string rootPath = Path.GetPathRoot(currentPath)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            if (string.IsNullOrEmpty(rootPath) || rootPath.Length != 2 || rootPath[1] != ':')
-            {
-                return false;
-            }
-
-            return string.Equals(currentPath, rootPath, StringComparison.OrdinalIgnoreCase);
+            paths.Add(NormalizeDirectoryPath(path));
         }
         catch
         {
-            return false;
         }
+    }
+
+    private static string NormalizeDirectoryPath(string path)
+    {
+        return Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+    }
+
+    private static bool IsDriveRootDirectory(string currentPath)
+    {
+        string rootPath = Path.GetPathRoot(currentPath)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        return !string.IsNullOrEmpty(rootPath)
+            && rootPath.Length == 2
+            && rootPath[1] == ':'
+            && string.Equals(currentPath, rootPath, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsPathUnderDirectory(string currentPath, string parentPath)
+    {
+        return EnsureTrailingSeparator(currentPath)
+            .StartsWith(EnsureTrailingSeparator(parentPath), StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string EnsureTrailingSeparator(string path)
+    {
+        return path.Length > 0 && (path[^1] == Path.DirectorySeparatorChar || path[^1] == Path.AltDirectorySeparatorChar)
+            ? path
+            : path + Path.DirectorySeparatorChar;
     }
 
     public static void ParseCrashLog()
@@ -412,10 +460,15 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             return;
         }
 
-        if (IsRunningInDriveRootDirectory())
+        if (TryGetUnsupportedInstallLocation(out string unsupportedLocation))
         {
+            string currentBaseDirectory = NormalizeDirectoryPath(AppDomain.CurrentDomain.BaseDirectory);
+            _logger.Error(
+                "Blocked startup from unsupported install location: currentPath={CurrentPath}, matchedLocation={MatchedLocation}",
+                currentBaseDirectory,
+                unsupportedLocation);
             MessageBoxHelper.Show(
-                LocalizationHelper.GetString("RunningInDriveRootDirectoryError"),
+                string.Format(LocalizationHelper.GetString("UnsupportedInstallLocationError"), currentBaseDirectory, unsupportedLocation),
                 LocalizationHelper.GetString("Error"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
@@ -509,17 +562,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 Process.Start(startInfo);
             }
 
-            Shutdown();
-            return;
-        }
-
-        if (IsRunningInTempDirectory())
-        {
-            MessageBoxHelper.Show(
-                LocalizationHelper.GetString("RunningInTempDirectoryError"),
-                LocalizationHelper.GetString("Error"),
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
             Shutdown();
             return;
         }
