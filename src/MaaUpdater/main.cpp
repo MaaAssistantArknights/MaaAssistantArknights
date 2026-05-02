@@ -755,6 +755,10 @@ static bool IsDriveRootDirectory(const std::wstring& path)
         normalized.pop_back();
     }
 
+    if (normalized.size() < 2) {
+        return false;
+    }
+
     wchar_t drive = normalized[0];
     bool hasDriveLetter = (drive >= L'A' && drive <= L'Z') || (drive >= L'a' && drive <= L'z');
     return hasDriveLetter && normalized.size() == 2 && normalized[1] == L':';

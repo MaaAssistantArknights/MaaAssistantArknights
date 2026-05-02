@@ -86,6 +86,24 @@ internal static partial class PendingUpdateApplier
         string? SourceVersion = null,
         string? TargetVersion = null);
 
+    public enum FullPackageInspectionStatus
+    {
+        MissingFile,
+        NotMatched,
+        Rejected,
+        Supported,
+    }
+
+    public sealed record FullPackageInspectionResult(
+        FullPackageInspectionStatus Status,
+        string? TargetVersion = null)
+    {
+        public bool IsSupported => Status == FullPackageInspectionStatus.Supported;
+
+        public bool MatchedPattern =>
+            Status == FullPackageInspectionStatus.Rejected || Status == FullPackageInspectionStatus.Supported;
+    }
+
     public static bool HasPendingUpdatePackage()
     {
         string updateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
@@ -95,18 +113,40 @@ internal static partial class PendingUpdateApplier
 
     public static LocalPackageImportResult TryRegisterLocalPackage(string packagePath, string currentVersion, string architecture)
     {
-        return InspectSupportedLocalFullPackage(packagePath, currentVersion, architecture, out string? targetVersion)
-            ? RegisterSupportedLocalFullPackage(packagePath, targetVersion)
-            : TryRegisterNonFullLocalPackage(packagePath, currentVersion, architecture);
+        return TryRegisterLocalPackage(packagePath, currentVersion, architecture, null);
     }
 
-    public static bool InspectSupportedLocalFullPackage(string packagePath, string currentVersion, string architecture, out string? targetVersion)
+    public static LocalPackageImportResult TryRegisterLocalPackage(
+        string packagePath,
+        string currentVersion,
+        string architecture,
+        FullPackageInspectionResult? fullPackageInspection)
     {
-        targetVersion = null;
-        if (!File.Exists(packagePath))
+        FullPackageInspectionResult inspection = fullPackageInspection ?? InspectSupportedLocalFullPackage(packagePath, currentVersion, architecture);
+        if (inspection.Status == FullPackageInspectionStatus.MissingFile)
         {
             _logger.Warning("Dropped update package does not exist: {PackagePath}", packagePath);
-            return false;
+            return new(LocalPackageImportStatus.Unsupported);
+        }
+
+        if (inspection.IsSupported)
+        {
+            return RegisterSupportedLocalFullPackage(packagePath, inspection.TargetVersion);
+        }
+
+        if (inspection.MatchedPattern)
+        {
+            return new(LocalPackageImportStatus.Unsupported, null, inspection.TargetVersion);
+        }
+
+        return TryRegisterNonFullLocalPackage(packagePath, currentVersion, architecture);
+    }
+
+    public static FullPackageInspectionResult InspectSupportedLocalFullPackage(string packagePath, string currentVersion, string architecture)
+    {
+        if (!File.Exists(packagePath))
+        {
+            return new(FullPackageInspectionStatus.MissingFile);
         }
 
         string fullPackagePath = Path.GetFullPath(packagePath);
@@ -121,10 +161,10 @@ internal static partial class PendingUpdateApplier
         Match fullPackageMatch = FullPackageNameRegex().Match(fileName);
         if (!fullPackageMatch.Success)
         {
-            return false;
+            return new(FullPackageInspectionStatus.NotMatched);
         }
 
-        targetVersion = fullPackageMatch.Groups["version"].Value;
+        string targetVersion = fullPackageMatch.Groups["version"].Value;
         string packageArchitecture = fullPackageMatch.Groups["arch"].Value;
         bool architectureMatched = string.Equals(normalizedArchitecture, packageArchitecture, StringComparison.OrdinalIgnoreCase);
         bool isUpgradeTarget = IsUpgradeTarget(currentVersion, targetVersion);
@@ -140,10 +180,10 @@ internal static partial class PendingUpdateApplier
                 "Dropped full package rejected: architectureMatched={ArchitectureMatched}, isUpgradeTarget={IsUpgradeTarget}",
                 architectureMatched,
                 isUpgradeTarget);
-            return false;
+            return new(FullPackageInspectionStatus.Rejected, targetVersion);
         }
 
-        return true;
+        return new(FullPackageInspectionStatus.Supported, targetVersion);
     }
 
     private static LocalPackageImportResult RegisterSupportedLocalFullPackage(string packagePath, string? targetVersion)
@@ -159,12 +199,6 @@ internal static partial class PendingUpdateApplier
 
     private static LocalPackageImportResult TryRegisterNonFullLocalPackage(string packagePath, string currentVersion, string architecture)
     {
-        if (!File.Exists(packagePath))
-        {
-            _logger.Warning("Dropped update package does not exist: {PackagePath}", packagePath);
-            return new(LocalPackageImportStatus.Unsupported);
-        }
-
         string fullPackagePath = Path.GetFullPath(packagePath);
         string fileName = Path.GetFileName(fullPackagePath);
         string normalizedArchitecture = NormalizeArchitecture(architecture);
