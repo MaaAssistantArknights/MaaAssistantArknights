@@ -401,7 +401,7 @@
     <system:String x:Key="CheckNetworking">请检查网络连接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先别急.jpg</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但无可用的 OTA 增量更新包。将下载完整包，保留 config、data 与 debug 文件夹，其余文件将移至回收站及 .old。如有需要请手动备份</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但无可用的 OTA 增量更新包。将下载完整包，保留 cache、config、data、debug、achievement（通关截图）、background（背景图）和 MAA.Updater.exe，其余文件将移至回收站及 .old。如有需要请手动备份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在准备下载更新包……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下载失败</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>
@@ -410,7 +410,7 @@
     <system:String x:Key="PendingFullUpdateManualConfirmTitle">完整包更新需要手动确认</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmDesc" xml:space="preserve">检测到需要使用完整包进行更新。
 
-更新逻辑：如果你继续下载或导入完整包，后续安装时会先清理当前安装根目录下除 cache、config、data、debug、MAA.Updater.exe 外的顶层文件和文件夹，再把完整包内容写入该目录。
+更新逻辑：如果你继续下载或导入完整包，后续安装时会先清理当前安装根目录下除 cache、config、data、debug、achievement（通关截图）、background（背景图）和 MAA.Updater.exe 外的顶层文件和文件夹，再把完整包内容写入该目录。
 
 风险说明：如果你把 MAA 直接放在磁盘根目录、桌面、下载目录，或与其他程序、个人文件放在同一个目录层级，这些同级内容也可能被一起删除或移走。
 

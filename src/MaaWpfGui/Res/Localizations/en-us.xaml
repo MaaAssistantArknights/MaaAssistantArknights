@@ -401,7 +401,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected, but no OTA incremental update package is available. The full package will be downloaded. The config, data, and debug folders will be kept, and all other files will be moved to the Recycle Bin and .old. Please back them up manually if necessary.</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected, but no OTA incremental update package is available. The full package will be downloaded. It will keep cache, config, data, debug, achievement (screenshots), background (custom background images), and MAA.Updater.exe. All other files will be moved to the Recycle Bin and .old. Please back them up manually if necessary.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">Download of Update Package Failed</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory</system:String>
@@ -410,7 +410,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="PendingFullUpdateManualConfirmTitle">Manual confirmation required for full-package update</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmDesc" xml:space="preserve">A full-package update is required.
 
-Update flow: if you continue with downloading or importing the full package, the later install step will first clean the top-level files and folders under the current install root, except cache, config, data, debug, and MAA.Updater.exe, and then write the full package into that directory.
+Update flow: if you continue with downloading or importing the full package, the later install step will first clean the top-level files and folders under the current install root, except cache, config, data, debug, achievement (screenshots), background (custom background images), and MAA.Updater.exe, and then write the full package into that directory.
 
 Risk: if MAA was extracted directly into a drive root, Desktop, Downloads, or any shared folder with other programs or personal files, those sibling entries may also be removed or moved away.
 

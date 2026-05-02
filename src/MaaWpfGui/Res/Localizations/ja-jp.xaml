@@ -401,7 +401,7 @@
     <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されましたが、利用可能な OTA 増分アップデートパッケージはありません。完全パッケージをダウンロードし、config、data、debug フォルダーは保持され、それ以外のファイルはごみ箱と .old に移動されます。必要に応じて手動でバックアップしてください。</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されましたが、利用可能な OTA 増分アップデートパッケージはありません。完全パッケージをダウンロードし、cache、config、data、debug、achievement（クリアスクリーンショット）、background（背景画像）、MAA.Updater.exe は保持され、それ以外のファイルはごみ箱と .old に移動されます。必要に応じて手動でバックアップしてください。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
@@ -410,7 +410,7 @@
     <system:String x:Key="PendingFullUpdateManualConfirmTitle">フルパッケージ更新には手動確認が必要です</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmDesc" xml:space="preserve">フルパッケージでの更新が必要です。
 
-更新の流れ: ここからフルパッケージをダウンロードまたは取り込んだ場合、後続のインストール処理では現在のインストール先ルート直下にある top-level のファイルとフォルダーを、cache、config、data、debug、MAA.Updater.exe を除いて先に整理し、その後でフルパッケージの内容を書き込みます。
+更新の流れ: ここからフルパッケージをダウンロードまたは取り込んだ場合、後続のインストール処理では現在のインストール先ルート直下にある top-level のファイルとフォルダーを、cache、config、data、debug、achievement（クリアスクリーンショット）、background（背景画像）、MAA.Updater.exe を除いて先に整理し、その後でフルパッケージの内容を書き込みます。
 
 リスク: MAA をドライブ直下、デスクトップ、ダウンロードフォルダー、または他のプログラムや個人ファイルと同じ階層に展開している場合、それらの同階層エントリも削除または移動される可能性があります。
 

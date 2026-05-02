@@ -401,7 +401,7 @@
     <system:String x:Key="CheckNetworking">請檢查網路連線或 Proxy 代理設定。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">取得更新資訊失敗。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先別急.jpg</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整安裝檔案，保留 config、data 與 debug 資料夾，其餘檔案將移至資源回收桶及 .old，如有需要請手動備份</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整安裝檔案，保留 cache、config、data、debug、achievement（通關截圖）、background（背景圖片）和 MAA.Updater.exe，其餘檔案將移至資源回收桶及 .old，如有需要請手動備份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在準備下載更新檔……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下載失敗</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
@@ -410,7 +410,7 @@
     <system:String x:Key="PendingFullUpdateManualConfirmTitle">完整包更新需要手動確認</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmDesc" xml:space="preserve">偵測到需要使用完整包進行更新。
 
-更新邏輯：如果你繼續下載或匯入完整包，後續安裝時會先清理目前安裝根目錄下除 cache、config、data、debug、MAA.Updater.exe 外的頂層檔案與資料夾，再把完整包內容寫入該目錄。
+更新邏輯：如果你繼續下載或匯入完整包，後續安裝時會先清理目前安裝根目錄下除 cache、config、data、debug、achievement（通關截圖）、background（背景圖片）和 MAA.Updater.exe 外的頂層檔案與資料夾，再把完整包內容寫入該目錄。
 
 風險說明：如果你把 MAA 直接放在磁碟根目錄、桌面、下載資料夾，或與其他程式、個人檔案放在同一個目錄層級，這些同層內容也可能一起被刪除或移走。
 
