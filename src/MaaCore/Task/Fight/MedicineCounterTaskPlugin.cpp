@@ -109,10 +109,10 @@ bool asst::MedicineCounterTaskPlugin::_run()
     };
 
     if (!analyze_sanity()) [[unlikely]] {
-        Log.error(__FUNCTION__, "unable to analyze sanity");
+        LogError << __FUNCTION__ << "unable to analyze sanity";
     }
     else if (*sanity_target >= *sanity_max) [[unlikely]] {
-        Log.info(__FUNCTION__, "sanity target >= sanity max, reduce count");
+        LogInfo << __FUNCTION__ << "sanity target >= sanity max, reduce count";
         if (m_dr_grandet) { // 博朗台: 如果溢出则等待
             auto waitTime = DrGrandetTaskPlugin::analyze_time_left(image);
             if (waitTime > 0) {
@@ -124,7 +124,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
             while (!need_exit() && *sanity_target >= *sanity_max) {
                 reduce_excess(*using_medicine, 1);
                 if (++procedure > 20) {
-                    Log.error(__FUNCTION__, "reduce procedure exceed 20 times, break");
+                    LogError << __FUNCTION__ << "reduce procedure exceed 20 times, break";
                     return false;
                 }
                 else if (!refresh_medicine_count() || !analyze_sanity() || using_medicine->using_count <= 0) {
@@ -174,7 +174,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
     }
 
     if (!ProcessTask(*this, { "MedicineConfirm" }).set_retry_times(5).run()) {
-        Log.error(__FUNCTION__, "unable to run medicine confirm");
+        LogError << __FUNCTION__ << "unable to run medicine confirm";
         return false;
     }
 
@@ -198,7 +198,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
     MultiMatcher multi_matcher(image);
     multi_matcher.set_task_info("MedicineReduceIcon");
     if (!multi_matcher.analyze()) {
-        Log.error(__FUNCTION__, "medicine reduce icon analyze failed");
+        LogError << __FUNCTION__ << "medicine reduce icon analyze failed";
         return std::nullopt;
     }
 
@@ -218,7 +218,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
         using_count_ocr.set_task_info(using_count_task);
         using_count_ocr.set_roi(using_rect);
         if (!using_count_ocr.analyze()) {
-            Log.error(__FUNCTION__, "medicine using count analyze failed");
+            LogError << __FUNCTION__ << "medicine using count analyze failed";
             return std::nullopt;
         }
 
@@ -226,7 +226,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
         inventory_ocr.set_task_info(inventory_task);
         inventory_ocr.set_roi(inventory_rect);
         if (!inventory_ocr.analyze()) {
-            Log.error(__FUNCTION__, "medicine inventory count analyze failed");
+            LogError << __FUNCTION__ << "medicine inventory count analyze failed";
             return std::nullopt;
         }
 
@@ -267,7 +267,8 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
 
 void asst::MedicineCounterTaskPlugin::reduce_excess(const MedicineResult& using_medicine, int reduce)
 {
-    Log.info(__FUNCTION__, "reduce excess medicine count, current:", using_medicine.using_count, ", reduce:", reduce);
+    LogInfo << __FUNCTION__ << "reduce excess medicine count, current:" << using_medicine.using_count
+            << ", reduce:" << reduce;
     for (const auto& [use, inventory, _, rect] : using_medicine.medicines | std::views::reverse) {
         ctrler()->click(rect);
         sleep(Config.get_options().task_delay);
@@ -283,7 +284,7 @@ void asst::MedicineCounterTaskPlugin::reduce_excess(const MedicineResult& using_
             break;
         }
         else if (reduce < 0) {
-            Log.error(__FUNCTION__, "reduce count is less than 0");
+            LogError << __FUNCTION__ << "reduce count is less than 0";
             break;
         }
     }
@@ -304,13 +305,13 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const c
     ocr.set_task_info(ocr_task);
     ocr.set_replace(merged_replace);
     if (!ocr.analyze()) [[unlikely]] {
-        Log.error(__FUNCTION__, "unable to ocr");
+        LogError << __FUNCTION__ << "unable to ocr";
         return std::nullopt;
     }
     int num = 0;
     if (!utils::chars_to_number(ocr.get_result().text, num)) {
-        Log.error(__FUNCTION__, "unable to change [", ocr.get_result().text, "] into int");
-        return false;
+        LogError << __FUNCTION__ << "unable to change [" << ocr.get_result().text << "] into int";
+        return std::nullopt;
     }
     return num;
 }
@@ -327,13 +328,13 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_maximun_of_sanity(const 
     ocr.set_task_info(ocr_task);
     ocr.set_replace(merge_map);
     if (!ocr.analyze()) [[unlikely]] {
-        Log.error(__FUNCTION__, "unable to ocr");
+        LogError << __FUNCTION__ << "unable to ocr";
         return std::nullopt;
     }
     int num = 0;
     if (!utils::chars_to_number(ocr.get_result().text, num)) {
-        Log.error(__FUNCTION__, "unable to change [", ocr.get_result().text, "] into int");
-        return false;
+        LogError << __FUNCTION__ << "unable to change [" << ocr.get_result().text << "] into int";
+        return std::nullopt;
     }
     return num;
 }
