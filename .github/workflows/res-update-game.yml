@@ -235,10 +235,23 @@ jobs:
         run: |
           ./tools/ResourceUpdater/res_updater
 
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            tools/TaskSorter/requirements.txt
+            tools/OptimizeTemplates/requirements.txt
+
+      - name: Install TaskSorter dependencies
+        run: |
+          python -m pip install -r tools/TaskSorter/requirements.txt
+
       - name: Sort tasks
         id: task_sorting
         run: |
-          python3 tools/TaskSorter/TaskSorter.py
+          python tools/TaskSorter/TaskSorter.py
           echo "gitdiff=$(echo $(git diff --name-only --diff-filter=ACM 2>/dev/null | grep '\.json$'))" >> $GITHUB_OUTPUT
 
       - name: Run prettier
@@ -251,25 +264,10 @@ jobs:
         run: |
           sh ./tools/ResourceUpdater/version.sh
 
-      - name: Setup python
-        if: steps.update_version.outputs.contains_png == 'True'
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-
-      - name: Cache python packages
-        if: always() && steps.update_version.outputs.contains_png == 'True'
-        id: cache_python
-        uses: actions/cache@v5
-        continue-on-error: true
-        with:
-          path: ${{ env.pythonLocation }}/Lib/site-packages
-          key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
-
       - name: Install dependencies
-        if: steps.cache_python.outputs.cache-hit != 'true' && steps.update_version.outputs.contains_png == 'True'
+        if: steps.update_version.outputs.contains_png == 'True'
         run: |
-          pip install -r tools/OptimizeTemplates/requirements.txt
+          python -m pip install -r tools/OptimizeTemplates/requirements.txt
 
       - name: Setup oxipng
         if: steps.update_version.outputs.contains_png == 'True'
@@ -280,7 +278,7 @@ jobs:
       - name: Optimize png images
         if: steps.update_version.outputs.contains_png == 'True'
         run: |
-          python3 tools/OptimizeTemplates/optimize_templates.py --no-cleanup -p resource/template/items/ resource/template/infrast/
+          python tools/OptimizeTemplates/optimize_templates.py --no-cleanup -p resource/template/items/ resource/template/infrast/
 
       - name: Commit changes
         if: steps.update_version.outputs.changes == 'True'

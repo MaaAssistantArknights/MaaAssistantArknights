@@ -1615,6 +1615,14 @@
         "sortId": -10000,
         "usage": "A reward for first clearing stages which can be used to buy prizes at the Exchange Counter; subsequent reclears will not reward more."
     },
+    "act1autochess_token_chess": {
+        "classifyType": "NONE",
+        "description": "Medals prepared by Rhodes Island's workshop for operators participating in Stronghold Protocol. Magnetic. Apparently, if you gather enough of them, you can make a fortress out of chess pieces.",
+        "icon": "act1autochess_token_chess.png",
+        "name": "Stronghold Credits",
+        "sortId": -10000,
+        "usage": "Can be exchanged for all sorts of supplies in Stronghold Protocol."
+    },
     "act1bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",

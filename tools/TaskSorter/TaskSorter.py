@@ -4,6 +4,8 @@ import os
 import re
 from pathlib import Path
 
+import json5
+
 
 def sort_tasks(res: dict[str, any]):
     classified_lists = {
@@ -65,6 +67,10 @@ def raise_on_duplicate_keys(pairs):
     return seen
 
 
+def load_jsonc(file_obj):
+    return json5.load(file_obj, object_pairs_hook=raise_on_duplicate_keys)
+
+
 def main(cn_base_path, global_resources):
     cn_tasks = {}
     cn_order = {}
@@ -78,9 +84,7 @@ def main(cn_base_path, global_resources):
             with open(
                 file_path, "r", encoding="utf-8-sig"
             ) as f:  # Changed to utf-8-sig
-                cn_tasks[file_path.relative_to(cn_base_path)] = json.load(
-                    f, object_pairs_hook=raise_on_duplicate_keys
-                )
+                cn_tasks[file_path.relative_to(cn_base_path)] = load_jsonc(f)
 
     for task_path, task in cn_tasks.items():
         cn_tasks[task_path] = sort_tasks(task)
@@ -121,7 +125,7 @@ def main(cn_base_path, global_resources):
                 with open(
                     file_path, "r", encoding="utf-8-sig"
                 ) as f:  # Changed to utf-8-sig
-                    tasks = json.load(f, object_pairs_hook=raise_on_duplicate_keys)
+                    tasks = load_jsonc(f)
 
                 base_order = cn_order.get(relative_path, [])
                 base_tasks = cn_tasks.get(relative_path, {})

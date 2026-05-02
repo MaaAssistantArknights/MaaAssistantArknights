@@ -1195,7 +1195,7 @@
     "UsePrts": {
         "action": "ClickSelf",
         "roi": [1000, 550, 280, 90],
-        "exceededNext": ["StageQueue@UsePrtsSuccess"], // 如果到了上限都还没点上代理说明这关没有代理，匹配不上就报错
+        "exceededNext": ["StageQueue@UsePrtsSuccess"],
         "maxTimes": 10,
         "next": ["#self", "UsePrts-Annihilation", "StartButton1"]
     },
@@ -1207,7 +1207,7 @@
         "Doc": "剿灭的“全权委托”按钮",
         "action": "ClickSelf",
         "roi": [877, 532, 183, 123],
-        "exceededNext": ["UsePrts-AnnihilationSuccess"], // 如果到了上限都还没点上代理说明这关没有代理，匹配不上就报错
+        "exceededNext": ["UsePrts-AnnihilationSuccess"],
         "maxTimes": 10,
         "next": ["#self", "UsePrts-AnnihilationSuccess"]
     },

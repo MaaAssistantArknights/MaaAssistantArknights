@@ -266,36 +266,6 @@ void asst::BattleFormationTask::formation_with_last_opers()
         m_opers_in_formation->emplace(oper_name, group_name);
         it = last_formation.erase(it);
     }
-
-    const auto& ret = analyzer_opers(ctrler()->get_image());
-    for (auto oper_it = m_opers_in_formation->begin(); oper_it != m_opers_in_formation->end();) {
-        const std::string& oper_name = oper_it->first;
-        const auto& in_page_it =
-            std::ranges::find_if(ret, [&](const QuickFormationOper& op) { return op.text == oper_name; });
-        if (in_page_it != ret.end() && in_page_it->is_selected) [[likely]] {
-            ++oper_it; // oper is selected, expected
-            continue;
-        }
-        if (in_page_it == ret.end()) {
-            LogWarn << __FUNCTION__ << "| After fast selection, oper" << oper_name << "is not found in current page";
-        }
-        else {
-            LogWarn << __FUNCTION__ << "| After fast selection, oper" << oper_name << "is not selected in current page";
-        }
-
-        if (auto group_it = formation_view.find(oper_it->second); group_it != formation_view.end()) {
-            // 在找到的组中查找具体的干员
-            auto oper_in_group_it =
-                std::ranges::find_if(*(group_it->second), [&](battle::OperUsage& op) { return op.name == oper_name; });
-            if (oper_in_group_it != group_it->second->end()) [[likely]] {
-                LogInfo << __FUNCTION__ << "| Oper" << oper_name << "is expected to be selected, but not. Reset status";
-
-                oper_in_group_it->status = battle::OperStatus::Unchecked;
-            }
-        }
-
-        oper_it = m_opers_in_formation->erase(oper_it);
-    }
 }
 
 bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vector<OperGroup*>& oper_group)
@@ -580,7 +550,24 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
 
 bool asst::BattleFormationTask::enter_selection_page(const cv::Mat& img)
 {
-    return ProcessTask(*this, { "BattleQuickFormation" }).set_reusable_image(img).set_retry_times(3).run();
+    bool ret = ProcessTask(*this, { "BattleQuickFormation" }).set_reusable_image(img).set_retry_times(3).run();
+    if (!ret) {
+        LogError << __FUNCTION__ << "| Cannot enter quick formation page";
+        return false;
+    }
+
+    auto opers_result = analyzer_opers(ctrler()->get_image());
+    int retry = 3;
+    while (std::ranges::any_of(opers_result, [](const QuickFormationOper& op) { return op.is_selected; })) {
+        if (ProcessTask(*this, { "BattleQuickFormationClear" }).set_retry_times(3).run()) {
+            opers_result = analyzer_opers(ctrler()->get_image());
+        }
+        if (--retry <= 0) {
+            LogError << __FUNCTION__ << "| Failed to clear quick formation page";
+            return false;
+        }
+    }
+    return true;
 }
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperGroup*>& groups)
