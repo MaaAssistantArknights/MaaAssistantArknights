@@ -1124,11 +1124,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FastestWayToScreencapErrorTip">スクリーンキャップに時間がかかりすぎるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) が適切に動作しない可能性があります、シミュレータの再起動や交換をお勧めします！Mumu12やLDPlayerを使用している場合は、スクリーンショット拡張を試してください。</system:String>
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">タスクエラー: </system:String>
+    <system:String x:Key="TaskErrorSummaryTitle">今回の実行で以下のエラーが発生しました：</system:String>
+    <system:String x:Key="TaskErrorSummaryItem">{0}: {1}</system:String>
     <system:String x:Key="CombatError">戦闘エラー</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">タスク開始: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">タスク完了: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">戦闘開始: </system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">タスクでエラーが発生しました！\n({0} 後)</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！\n({0} 後)</system:String>
     <system:String x:Key="SanityReport">({TimeDiff} 後)、{DateTime} に理性が完全回復します。</system:String>
     <system:String x:Key="AllTaskCompleteContent">({TimeDiff} 後) MAA は、{DateTime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>

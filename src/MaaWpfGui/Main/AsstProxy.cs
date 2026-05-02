@@ -1052,11 +1052,12 @@ public class AsstProxy
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
                 _tasksStatus.Clear();
+                _failedTaskSummary.Clear();
                 break;
 
             case AsstMsg.TaskChainError:
                 {
-                    UpdateTaskStatus(taskId, TaskStatus.Error);
+                    UpdateTaskStatus(taskId, TaskStatus.Error, taskChain);
                     _tasksStatus.TryGetValue(taskId, out var value);
 
                     var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
@@ -1177,6 +1178,8 @@ public class AsstProxy
             case AsstMsg.AllTasksCompleted:
                 bool isMainTaskQueueAllCompleted = false;
                 var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
+                var taskErrorSummary = BuildTaskErrorSummaryLog();
+                bool hasTaskErrors = !string.IsNullOrWhiteSpace(taskErrorSummary);
                 if (taskList?.Length > 0)
                 {
                     var latestMainTaskIds = _tasksStatus.Where(i => _mainTaskTypes.Contains(i.Value.Type)).Select(i => i.Key);
@@ -1206,26 +1209,18 @@ public class AsstProxy
                     var dateTimeNow = DateTimeOffset.Now;
                     var diffTaskTime = (dateTimeNow - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
 
-                    var allTaskCompleteTitle = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
-                    var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
-                    var sanityReport = LocalizationHelper.GetString("SanityReport");
-
                     var configurationPreset = ConfigurationHelper.GetCurrentConfiguration();
-
-                    allTaskCompleteMessage = allTaskCompleteMessage
-                        .Replace("{DateTime}", dateTimeNow.ToString("yyyy-MM-dd HH:mm:ss"))
-                        .Replace("{Preset}", configurationPreset)
-                        .Replace("{TimeDiff}", diffTaskTime);
-
-                    var allTaskCompleteLog = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
+                    var allTaskCompleteTitle = BuildTaskCompletionText(diffTaskTime, hasTaskErrors);
+                    var allTaskCompleteMessage = BuildTaskCompletionExternalMessage(dateTimeNow, configurationPreset, diffTaskTime, taskErrorSummary);
+                    var sanityReport = LocalizationHelper.GetString("SanityReport");
 
                     if (FightTask.SanityReport is not null)
                     {
                         var recoveryTime = FightTask.SanityReport.ReportTime.AddMinutes(FightTask.SanityReport.SanityCurrent < FightTask.SanityReport.SanityMax ? (FightTask.SanityReport.SanityMax - FightTask.SanityReport.SanityCurrent) * 6 : 0);
                         sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
-                        allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
-                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+                        var allTaskCompleteLog = allTaskCompleteTitle + Environment.NewLine + sanityReport;
+                        AddTaskCompletionLog(allTaskCompleteLog, hasTaskErrors);
 
                         if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
                         {
@@ -1254,7 +1249,7 @@ public class AsstProxy
                     }
                     else
                     {
-                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+                        AddTaskCompletionLog(allTaskCompleteTitle, hasTaskErrors);
 
                         if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
                         {
@@ -1267,15 +1262,12 @@ public class AsstProxy
                         }
                     }
 
-                    using (var toast = new ToastNotification(allTaskCompleteTitle))
+                    var toastNotification = new ToastNotification(allTaskCompleteTitle);
+                    if (FightTask.SanityReport is not null && !string.IsNullOrWhiteSpace(sanityReport))
                     {
-                        if (FightTask.SanityReport is not null)
-                        {
-                            toast.AppendContentText(sanityReport);
-                        }
-
-                        toast.Show();
+                        toastNotification.AppendContentText(sanityReport);
                     }
+                    toastNotification.Show();
 
                     if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
                     {
@@ -1313,6 +1305,12 @@ public class AsstProxy
                         Bootstrapper.ShutdownAndRestartWithoutArgs();
                     }
                 }
+
+                if (!string.IsNullOrWhiteSpace(taskErrorSummary))
+                {
+                    Instances.TaskQueueViewModel.AddLog(taskErrorSummary, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+                }
+                _failedTaskSummary.Clear();
 
                 break;
 
@@ -2839,6 +2837,7 @@ public class AsstProxy
     ];
 
     private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
+    private readonly Dictionary<AsstTaskId, (DateTimeOffset ErrorTime, string TaskChain)> _failedTaskSummary = [];
 
     public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
 
@@ -2846,7 +2845,7 @@ public class AsstProxy
 
     public event TaskItemStatusDelegate? OnTaskItemStatusChanged;
 
-    private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status)
+    private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status, string? taskChain = null)
     {
         if (id <= 0)
         {
@@ -2871,7 +2870,100 @@ public class AsstProxy
             TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
         }
 
+        if (status == TaskStatus.Error)
+        {
+            _failedTaskSummary[id] = (DateTimeOffset.Now, taskChain ?? value.Type.ToString());
+        }
+
         return true;
+    }
+
+    private string ResolveTaskDisplayName(AsstTaskId taskId, string taskChain)
+    {
+        int taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
+        var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
+            ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
+            : null;
+
+        return task?.NameDisplay ?? LocalizationHelper.GetString(taskChain);
+    }
+
+    private static string BuildTaskCompletionText(string diffTaskTime, bool hasTaskErrors)
+    {
+        return hasTaskErrors
+            ? string.Format(LocalizationHelper.GetString("TaskCompletedWithErrors"), diffTaskTime)
+            : string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
+    }
+
+    private static string BuildTaskCompletionExternalMessage(DateTimeOffset dateTimeNow, string configurationPreset, string diffTaskTime, string taskErrorSummary)
+    {
+        if (!string.IsNullOrWhiteSpace(taskErrorSummary))
+        {
+            return taskErrorSummary;
+        }
+
+        return LocalizationHelper.GetString("AllTaskCompleteContent")
+            .Replace("{DateTime}", dateTimeNow.ToString("yyyy-MM-dd HH:mm:ss"))
+            .Replace("{Preset}", configurationPreset)
+            .Replace("{TimeDiff}", diffTaskTime);
+    }
+
+    private void AddTaskCompletionLog(string completionLog, bool hasTaskErrors)
+    {
+        if (!hasTaskErrors)
+        {
+            Instances.TaskQueueViewModel.AddLog(completionLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+            return;
+        }
+
+        var (errorHeadline, extraContent) = SplitTaskCompletionLog(completionLog);
+        if (string.IsNullOrWhiteSpace(extraContent))
+        {
+            Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+            return;
+        }
+
+        Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+        Instances.TaskQueueViewModel.AddLog(extraContent, splitMode: TaskQueueViewModel.LogCardSplitMode.After);
+    }
+
+    private static (string ErrorHeadline, string ExtraContent) SplitTaskCompletionLog(string completionLog)
+    {
+        if (string.IsNullOrWhiteSpace(completionLog))
+        {
+            return (string.Empty, string.Empty);
+        }
+
+        int firstLineEnd = completionLog.IndexOf('\n');
+        if (firstLineEnd < 0)
+        {
+            return (completionLog, string.Empty);
+        }
+
+        string errorHeadline = completionLog[..firstLineEnd].TrimEnd('\r');
+        string extraContent = completionLog[(firstLineEnd + 1)..].TrimStart('\r', '\n');
+        return (errorHeadline, extraContent);
+    }
+
+    private string BuildTaskErrorSummaryLog()
+    {
+        if (_failedTaskSummary.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        StringBuilder builder = new();
+        builder.AppendLine(LocalizationHelper.GetString("TaskErrorSummaryTitle"));
+
+        foreach (var entry in _failedTaskSummary.OrderBy(pair => pair.Key))
+        {
+            var taskId = entry.Key;
+            var info = entry.Value;
+            string mainTaskName = ResolveTaskDisplayName(taskId, info.TaskChain);
+            builder.AppendLine(LocalizationHelper.GetStringFormat("TaskErrorSummaryItem", info.ErrorTime.ToString("HH:mm:ss"), mainTaskName));
+        }
+
+        return builder.ToString().TrimEnd();
     }
 
     public bool AsstAppendCloseDown(string clientType)
@@ -3020,6 +3112,7 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStart()
     {
+        _failedTaskSummary.Clear();
         return MaaService.AsstStart(_handle);
     }
 

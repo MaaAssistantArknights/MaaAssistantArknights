@@ -1125,11 +1125,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡처 속도가 너무 느려서 (평균: {0}ms) Copliot 기능이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 재시작하거나 변경하는 것을 권장합니다! MuMu12 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
+    <system:String x:Key="TaskErrorSummaryTitle">이번 실행에서 다음 오류가 발생했습니다:</system:String>
+    <system:String x:Key="TaskErrorSummaryItem">{0}: {1}</system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">작업 시작: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">작업 완료: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">작전 시작: </system:String>
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">작업 중 오류가 발생했습니다!\n(소요 시간: {0})</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업을 완료했습니다!\n(소요 시간: {0})</system:String>
     <system:String x:Key="SanityReport">{DateTime}에 이성이 모두 회복됩니다.\n(남은 시간: {TimeDiff})</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA가 {Preset} 구성으로 모든 작업을 {DateTime}에 완료했습니다. (소요 시간: {TimeDiff})</system:String>

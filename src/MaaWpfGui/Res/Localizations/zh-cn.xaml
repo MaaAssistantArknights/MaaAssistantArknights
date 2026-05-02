@@ -1124,11 +1124,14 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器！如使用 Mumu12、雷电模拟器请尝试开启截图增强</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
+    <system:String x:Key="TaskErrorSummaryTitle">本轮任务存在以下错误：</system:String>
+    <system:String x:Key="TaskErrorSummaryItem">{0}: {1}</system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">开始任务: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任务: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">开始战斗: </system:String>
     <system:String x:Key="CompleteCombat">完成战斗</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">任务出现错误！\n(用时：{0})</system:String>
     <system:String x:Key="AllTasksComplete">任务已全部完成！\n(用时 {0})</system:String>
     <system:String x:Key="SanityReport">理智将在 {DateTime} 回满。({TimeDiff} 后)</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有预设的任务。(用时 {TimeDiff})</system:String>
