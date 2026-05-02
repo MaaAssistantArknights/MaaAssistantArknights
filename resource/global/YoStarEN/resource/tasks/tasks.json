@@ -1138,7 +1138,7 @@
     },
     "MedicineExpiringTime": {
         "ocrReplace": [
-            ["(\\d+)days", "${1}"],
+            ["[^\\d]*(\\d+)days", "${1}"],
             [".+hrs?", "0"],
             [".+mins?", "0"],
             [" ", ""]
