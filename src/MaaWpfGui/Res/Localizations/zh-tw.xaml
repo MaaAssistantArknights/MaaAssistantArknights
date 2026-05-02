@@ -1495,7 +1495,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 目前安裝目錄：{0}
 命中的不支援位置：{1}
 
-這些位置層級過高，容易引發檔案覆蓋、設定寫入異常或資料混亂。請先將 MAA 移動到獨立資料夾中，例如 D:\MAA\，再重新啟動。</system:String>
+這些位置層級過高，容易引發檔案覆蓋、設定寫入異常或資料混亂。請先將 MAA 移動到獨立資料夾中，例如 D:\\MAA\\，再重新啟動。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失敗，請重新進行相關設定，否則加密內容將以純文字形式儲存在設定檔中。</system:String>

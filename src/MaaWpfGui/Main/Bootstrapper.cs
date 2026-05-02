@@ -173,10 +173,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 return true;
             }
 
-            string tempPath = NormalizeDirectoryPath(Path.GetTempPath());
-            if (IsPathUnderDirectory(currentPath, tempPath))
+            if (TryGetTempInstallLocation(currentPath, out matchedLocation))
             {
-                matchedLocation = tempPath;
                 return true;
             }
 
@@ -197,7 +195,59 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
-    private static IEnumerable<string> GetUnsupportedInstallLocationPaths()
+    private static bool TryGetTempInstallLocation(string currentPath, out string matchedLocation)
+    {
+        matchedLocation = string.Empty;
+
+        foreach (string tempPath in GetTempDirectoryPaths())
+        {
+            if (IsPathUnderDirectory(currentPath, tempPath))
+            {
+                matchedLocation = tempPath;
+                return true;
+            }
+        }
+
+        string currentDirectoryName = Path.GetFileName(currentPath);
+        if (IsTempLikeDirectoryName(currentDirectoryName))
+        {
+            matchedLocation = currentPath;
+            return true;
+        }
+
+        DirectoryInfo parent = Directory.GetParent(currentPath);
+        if (parent != null && IsTempLikeDirectoryName(parent.Name))
+        {
+            matchedLocation = NormalizeDirectoryPath(parent.FullName);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsTempLikeDirectoryName(string directoryName)
+    {
+        return !string.IsNullOrWhiteSpace(directoryName)
+            && (directoryName.StartsWith("temp", StringComparison.OrdinalIgnoreCase)
+                || directoryName.StartsWith("tmp", StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static HashSet<string> GetTempDirectoryPaths()
+    {
+        var paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        AddCandidateDirectoryPath(paths, Path.GetTempPath());
+
+        string[] envVars = ["TEMP", "TMP", "TMPDIR"];
+        foreach (string envVar in envVars)
+        {
+            AddCandidateDirectoryPath(paths, Environment.GetEnvironmentVariable(envVar) ?? string.Empty);
+        }
+
+        return paths;
+    }
+
+    private static HashSet<string> GetUnsupportedInstallLocationPaths()
     {
         var paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (Environment.SpecialFolder specialFolder in s_unsupportedInstallLocationSpecialFolders)
@@ -468,7 +518,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 currentBaseDirectory,
                 unsupportedLocation);
             MessageBoxHelper.Show(
-                string.Format(LocalizationHelper.GetString("UnsupportedInstallLocationError"), currentBaseDirectory, unsupportedLocation),
+                LocalizationHelper.GetStringFormat("UnsupportedInstallLocationError", currentBaseDirectory, unsupportedLocation),
                 LocalizationHelper.GetString("Error"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);

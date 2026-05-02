@@ -1495,7 +1495,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 当前安装目录：{0}
 命中的不支持位置：{1}
 
-这些位置层级过高，容易引发文件覆盖、配置写入异常或数据混乱。请先将 MAA 移动到独立文件夹中，例如 D:\MAA\，再重新启动。</system:String>
+这些位置层级过高，容易引发文件覆盖、配置写入异常或数据混乱。请先将 MAA 移动到独立文件夹中，例如 D:\\MAA\\，再重新启动。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失败，请重新配置相关设置，否则加密内容将以明文形式存储在配置文件中。</system:String>
