@@ -300,6 +300,13 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             ? "arm64"
             : "x64";
 
+        if (PendingUpdateApplier.InspectSupportedLocalFullPackage(packagePath, currentVersion, architecture, out _)
+            && !Instances.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
+        {
+            _logger.Information("Dropped full package import canceled by user before registration: {PackagePath}", packagePath);
+            return;
+        }
+
         var importResult = PendingUpdateApplier.TryRegisterLocalPackage(packagePath, currentVersion, architecture);
         _logger.Information(
             "Dropped zip import result: status={Status}, sourceVersion={SourceVersion}, targetVersion={TargetVersion}",

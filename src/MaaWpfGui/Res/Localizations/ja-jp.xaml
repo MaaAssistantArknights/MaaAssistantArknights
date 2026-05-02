@@ -407,6 +407,26 @@
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">アップデートパッケージのダウンロードが完了しました</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">MAAをすぐにアップグレードしますか？（処理を再開）</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmTitle">フルパッケージ更新には手動確認が必要です</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmDesc" xml:space="preserve">フルパッケージでの更新が必要です。
+
+更新の流れ: ここからフルパッケージをダウンロードまたは取り込んだ場合、後続のインストール処理では現在のインストール先ルート直下にある top-level のファイルとフォルダーを、cache、config、data、debug、MAA.Updater.exe を除いて先に整理し、その後でフルパッケージの内容を書き込みます。
+
+リスク: MAA をドライブ直下、デスクトップ、ダウンロードフォルダー、または他のプログラムや個人ファイルと同じ階層に展開している場合、それらの同階層エントリも削除または移動される可能性があります。
+
+推奨構成: たとえば次のように、MAA 専用のフォルダーに配置してください。
+D:\
+`-- MAA\
+    |-- MAA.exe
+    |-- config\
+    `-- data\
+
+続行する前に、インストールディレクトリ全体を手動でバックアップしてください。特に MAA 以外で同じ階層に置いてあるファイルに注意してください。
+現在のインストール先: {0}
+
+ディレクトリ構成を確認し、手動バックアップが完了した場合にのみ続行してください。</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmYes">バックアップ済みです。更新を続行します</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmNo">今は更新せず、このバージョンを起動します</system:String>
     <system:String x:Key="LocalUpdatePackageImportedTitle">ローカル更新パッケージの準備ができました</system:String>
     <system:String x:Key="LocalUpdatePackageImportedDesc">利用可能なローカル更新パッケージを検出しました。今すぐ MAA を更新しますか？（プロセスを再起動します）</system:String>
     <system:String x:Key="LocalUpdatePackageUnsupported">圧縮ファイルを認識できません: {0}\n現在のアーキテクチャ向けのフルパッケージ、または現在のバージョンからより新しいバージョンへの OTA パッケージのみインポートできます。\n現在のバージョン: {1}\n現在のアーキテクチャ: {2}\n対応するファイル名の例: MAA-vTARGET_VERSION-win-{2}.zip\nまたは MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>
