@@ -1532,7 +1532,7 @@
             [".+(小时|分钟)", "0"],
             ["^\\d+(小|分)$", "0"]
         ],
-        "rectMove": [-55, 135, 65, 20]
+        "rectMove": [-55, 132, 65, 25]
     },
     "UsingMedicine-Target": {
         "baseTask": "NumberOcrReplace",
