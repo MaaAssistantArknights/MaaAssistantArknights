@@ -4607,20 +4607,39 @@
         "next": ["BattleStartPlot"],
         "maxTimes": 1
     },
-    "Copilot@ClickCornerUntilEndOfAction": {
+    "Copilot@WaitUntilEndOfAction": {
         "algorithm": "JustReturn",
         "maxTimes": 30,
         "exceededNext": ["Copilot@EndOfAction"],
-        "next": ["Copilot@SkipThePreBattlePlot", "Copilot@EndOfAction", "Copilot@ClickCornerBeforeThreeStars"]
+        "next": [
+            "Copilot@SkipThePreBattlePlot",
+            "Copilot@EndOfAction",
+            "Copilot@EndOfAction-Sandbox",
+            "Copilot@FightMissionFailed",
+            "Copilot@WaitUntilEndOfAction"
+        ]
     },
     "Copilot@SkipThePreBattlePlotConfirm": {
         "template": "SkipThePreBattlePlotConfirm.png",
-        "next": ["Copilot@ClickCornerUntilEndOfAction"]
+        "next": ["Copilot@WaitUntilEndOfAction"]
     },
     "Copilot@EndOfAction": {
         "template": "EndOfAction.png",
         "reduceOtherTimes": [],
         "next": ["Copilot@StageDrops-Stars-3", "Copilot@StageDrops-Stars-Adverse"]
+    },
+    "Copilot@EndOfAction-Sandbox": {
+        "algorithm": "OcrDetect",
+        "text": ["MISSION", "RESULTS"],
+        "roi": [540, 645, 200, 25],
+        "isAscii": true,
+        "ocrReplace": [["l", "I"]],
+        "next": ["Copilot@ClickCornerUntilStartButton"]
+    },
+    "Copilot@FightMissionFailed": {
+        "exceededNext": [],
+        "onErrorNext": [],
+        "next": ["Copilot@EndOfAction", "Copilot@EndOfAction-Sandbox"]
     },
     "Copilot@StageDrops-Stars-3": {
         "Doc": "如果没有三星就终止",
@@ -4631,11 +4650,6 @@
         "Doc": "如果没有三星就终止",
         "template": "StageDrops-Stars-Adverse.png",
         "next": ["Copilot@ClickCornerUntilStartButton"]
-    },
-    "Copilot@ClickCornerBeforeThreeStars": {
-        "Doc": "三星之前",
-        "baseTask": "Copilot@ClickCornerUntilStartButton",
-        "next": ["Copilot@ClickCornerUntilEndOfAction"]
     },
     "Copilot@ClickCornerUntilStartButton": {
         "Doc": "三星之后",

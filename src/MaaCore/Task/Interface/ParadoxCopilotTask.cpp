@@ -15,7 +15,7 @@ asst::ParadoxCopilotTask::ParadoxCopilotTask(const AsstCallback& callback, Assis
 {
     m_paradox_task_ptr->set_battle_task_ptr(m_battle_task_ptr);
     m_battle_task_ptr->set_retry_times(0);
-    m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
+    m_stop_task_ptr->set_tasks({ "Copilot@WaitUntilEndOfAction" });
     m_start_task_ptr->set_tasks({ "BattleStartAll" }).set_retry_times(3).set_ignore_error(false);
 
     /*
