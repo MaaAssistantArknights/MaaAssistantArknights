@@ -131,9 +131,9 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
             boost::smatch match_results;
             if (boost::regex_search(result.text, match_results, boost::regex("[0-9]{2}:[0-9]{2}:[0-9]{2}"))) {
                 const auto& match_str = match_results[0].str();
-                const auto& hour = std::atoi(match_str.substr(2).c_str());
+                const auto& hour = std::atoi(match_str.substr(0, 2).c_str());
                 const auto& min = std::atoi(match_str.substr(3, 2).c_str());
-                const auto& sec = std::atoi(match_str.substr(7, 2).c_str());
+                const auto& sec = std::atoi(match_str.substr(6, 2).c_str());
                 m_refresh_result = { result.rect, true, 3600 * hour + 60 * min + sec };
                 return true;
             }
