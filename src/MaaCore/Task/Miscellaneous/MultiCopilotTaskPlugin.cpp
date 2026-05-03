@@ -46,7 +46,7 @@ bool asst::MultiCopilotTaskPlugin::_run()
     ProcessTask(*this, { "NotUsePrts" }).set_ignore_error(true).set_retry_times(0).run();
     if (config.is_raid) {
         // 选择突袭模式
-        ret = ret && ProcessTask(*this, { "RaidConfirm", "ChangeToRaidDifficulty" }).set_retry_times(20)..run();
+        ret = ret && ProcessTask(*this, { "RaidConfirm", "ChangeToRaidDifficulty" }).set_retry_times(20).run();
     }
 
     return ret;
