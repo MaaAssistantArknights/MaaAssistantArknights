@@ -2344,6 +2344,12 @@ public class AsstProxy
             return;
         }
 
+        if (SettingsViewModel.ConnectSettings.UseAttachWindow && (subTask == "ReportToPenguinStats" || subTask == "ReportToYituliu"))
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReportSkippedForPcClient"), UiLogColor.Warning);
+            return;
+        }
+
         var headersToken = details["headers"];
         Dictionary<string, string> headers = [];
         if (headersToken is JObject headersObj)

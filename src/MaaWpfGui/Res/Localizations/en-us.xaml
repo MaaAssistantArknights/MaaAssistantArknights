@@ -1138,6 +1138,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="HasReturned">Has returned</system:String>
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
+    <system:String x:Key="ReportSkippedForPcClient">The PC client cursor can obscure drop items and counts. This report was skipped to avoid polluting the data pool with inaccurate data</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="MissingOperators">{key=Operator}s of the following {key=Operator} groups are missing:&#160;</system:String>
     <system:String x:Key="RecruitSupportOperator">Add support unit: {0}</system:String>
