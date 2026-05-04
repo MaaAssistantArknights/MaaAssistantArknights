@@ -2625,6 +2625,15 @@ public class AsstProxy
                 break;
         }
 
+        if (SettingsViewModel.ConnectSettings.ConnectConfig == "Androws")
+        {
+            AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType);
+        }
+        else
+        {
+            AsstSetInstanceOption(InstanceOptionKey.ClientType, string.Empty);
+        }
+
         if (SettingsViewModel.ConnectSettings.AutoDetectConnection)
         {
             if (!AutoDetectConnection(ref error))
@@ -2663,8 +2672,6 @@ public class AsstProxy
                 return true;
             }
         }
-
-        AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType);
 
         bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig);
 
