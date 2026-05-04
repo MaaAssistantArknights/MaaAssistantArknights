@@ -2229,7 +2229,7 @@
         "algorithm": "OcrDetect",
         "isAscii": true,
         "text": [],
-        "roi": [1147, 26, 57, 27]
+        "roi": [1136, 26, 57, 27]
     },
     "CreditShop-DiscountOcr": {
         "algorithm": "OcrDetect",
