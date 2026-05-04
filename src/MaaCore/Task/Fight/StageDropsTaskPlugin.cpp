@@ -18,20 +18,13 @@
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 #include "Vision/RegionOCRer.h"
 
-// only use in debugging, not in release
-//#define CUSTOM_TASK_ENABLE_DROPS
-
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskCompleted || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
     const std::string task = details.get("details", "task", "");
-    if (task == "Fight@EndOfAction"
-#ifdef CUSTOM_TASK_ENABLE_DROPS
-        || task == "EndOfAction"
-#endif
-    ) {
+    if (task == "Fight@EndOfAction") {
         int64_t last_start_time = status()->get_number(LastStartTimeKey).value_or(0);
         int64_t last_recognize_flag = status()->get_number(RecognitionRestrictionsKey).value_or(0);
         if (last_start_time + RecognitionTimeOffset == last_recognize_flag) {
@@ -41,11 +34,7 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
         m_is_annihilation = false;
         return true;
     }
-    else if (task == "Fight@EndOfActionAnnihilation"
-#ifdef CUSTOM_TASK_ENABLE_DROPS
-        || task == "EndOfActionAnnihilation"
-#endif
-    ) {
+    else if (task == "Fight@EndOfActionAnnihilation") {
         m_is_annihilation = true;
         return true;
     }

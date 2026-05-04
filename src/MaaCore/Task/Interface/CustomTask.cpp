@@ -6,25 +6,12 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
-// only use in debugging, not in release
-//#define CUSTOM_TASK_ENABLE_DROPS
-
-#ifdef CUSTOM_TASK_ENABLE_DROPS
-#include "Task/Fight/StageDropsTaskPlugin.h"
-#endif
-
 asst::CustomTask::CustomTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
     m_custom_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
     m_custom_task_ptr->register_plugin<ScreenshotTaskPlugin>();
-
-#ifdef CUSTOM_TASK_ENABLE_DROPS
-    auto drops_plugin = m_custom_task_ptr->register_plugin<StageDropsTaskPlugin>();
-    drops_plugin->set_retry_times(0);
-    Log.info("CustomTask: StageDropsTaskPlugin enabled for debugging");
-#endif
 }
 
 bool asst::CustomTask::set_params(const json::value& params)
