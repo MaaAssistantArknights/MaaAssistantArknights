@@ -2271,7 +2271,7 @@ public class AsstProxy
                 {
                     ExpiringMedicineUsedTimes += medicineCount;
                     var item = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId));
-                    var expireDay = "--";
+                    var expireOut = "--";
                     if (item is not null && item.Index >= 0 && item.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
                     {
                         if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is FightTask fightTask)
@@ -2279,10 +2279,10 @@ public class AsstProxy
                             var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
                             var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
                             var expireDays = Math.Max(fightTask.UseExpiringMedicine ? fightTask.MedicineExpireDays : 0, FightSetting.Instance.ActivityExpireIn2Days && fightTask.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0);
-                            expireDay = $"{expireDays * 24}";
+                            expireOut = $"{expireDays * 24}";
                         }
                     }
-                    medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireDay) + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
+                    medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
                     AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, medicineCount);
                     AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
                 }
