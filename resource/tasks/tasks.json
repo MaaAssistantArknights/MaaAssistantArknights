@@ -518,17 +518,12 @@
     "StageQueue@CheckPrts": {
         "algorithm": "JustReturn",
         "maxTimes": 3,
-        "next": ["StageQueue@UsePrtsSuccess", "StageQueue@UsePrts"]
+        "next": ["UsePrtsSuccessCheck", "StageQueue@UsePrts"]
     },
     "StageQueue@UsePrts": {
         "Doc": "执行Prts激活",
         "template": "UsePrts.png",
         "next": ["StageQueue@CheckPrts"]
-    },
-    "StageQueue@UsePrtsSuccess": {
-        "Doc": "检查代理激活没有，roi引用UnableToAgent2",
-        "template": "UsePrtsSuccess.png",
-        "roi": [985, 523, 159, 165]
     },
     "StageQueue": {
         "baseTask": "Fight",
@@ -1164,7 +1159,7 @@
         "action": "ClickSelf",
         "roi": [900, 70, 380, 400],
         "maskRange": [1, 255],
-        "next": ["#self", "UsePrts-AnnihilationSuccessWithoutStart", "UsePrts-AnnihilationWithoutStart"]
+        "next": ["#self", "UsePrts-AnnihilationSuccessCheck", "UsePrts-AnnihilationCheck", "UsePrtsSuccessCheck", "Annihilation@UnableToAgent2"]
     },
     "StageBegin": {
         "algorithm": "JustReturn",
@@ -1197,7 +1192,7 @@
     "UsePrts": {
         "action": "ClickSelf",
         "roi": [1000, 550, 280, 90],
-        "exceededNext": ["StageQueue@UsePrtsSuccess"],
+        "exceededNext": ["UsePrtsSuccessCheck"],
         "maxTimes": 10,
         "next": ["#self", "UsePrts-Annihilation", "StartButton1"]
     },
@@ -1218,16 +1213,27 @@
         "roi": [938, 527, 156, 133],
         "next": ["StartButton1"]
     },
-    "UsePrts-AnnihilationWithoutStart": {
+    "UsePrts-AnnihilationCheck": {
         "baseTask": "UsePrts-Annihilation",
         "template": "UsePrts-Annihilation.png",
-        "exceededNext": ["UsePrts-AnnihilationSuccessWithoutStart"],
-        "next": ["#self", "UsePrts-AnnihilationSuccessWithoutStart"]
+        "action": "DoNothing",
+        "exceededNext": [],
+        "next": []
     },
-    "UsePrts-AnnihilationSuccessWithoutStart": {
+    "UsePrts-AnnihilationSuccessCheck": {
         "baseTask": "UsePrts-AnnihilationSuccess",
         "template": "UsePrts-AnnihilationSuccess.png",
-        "next": ["Stop"]
+        "next": []
+    },
+    "UsePrtsSuccessCheck": {
+        "Doc": "检查代理激活没有",
+        "baseTask": "UnableToAgent2",
+        "template": "UsePrtsSuccess.png",
+        "next": []
+    },
+    "Annihilation@UnableToAgent2":{
+        "template": "UnableToAgent2.png",
+        "next": []
     },
     "UsePrts-StageSN": {
         "Doc": "三周年活动关卡“愚人号”代理指挥按钮",

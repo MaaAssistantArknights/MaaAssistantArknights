@@ -84,6 +84,9 @@ bool asst::StageNavigationTask::_run()
             m_fight_task_ptr->set_enable(false);
             return true;
         }
+        else if (ret && task.get_last_task_name().ends_with("Annihilation@UnableToAgent2")) {
+            return false;
+        }
         else {
             return ret;
         }
