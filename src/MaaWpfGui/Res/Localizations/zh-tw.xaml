@@ -401,12 +401,32 @@
     <system:String x:Key="CheckNetworking">請檢查網路連線或 Proxy 代理設定。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">取得更新資訊失敗。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先別急.jpg</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整安裝檔案，保留 config、data 與 debug 資料夾，其餘檔案將移至資源回收桶及 .old，如有需要請手動備份</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整安裝檔案，保留 cache、config、data、debug、achievement（通關截圖）、background（背景圖片）和 MAA.Updater.exe，其餘檔案將移至資源回收桶及 .old，如有需要請手動備份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在準備下載更新檔……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下載失敗</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">新版本下載完成</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">是否立即更新 MAA？（將重啟程式）</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmTitle">完整包更新需要手動確認</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmDesc" xml:space="preserve">偵測到需要使用完整包進行更新。
+
+更新邏輯：如果你繼續下載或匯入完整包，後續安裝時會先清理目前安裝根目錄下除 cache、config、data、debug、achievement（通關截圖）、background（背景圖片）和 MAA.Updater.exe 外的頂層檔案與資料夾，再把完整包內容寫入該目錄。
+
+風險說明：如果你把 MAA 直接放在磁碟根目錄、桌面、下載資料夾，或與其他程式、個人檔案放在同一個目錄層級，這些同層內容也可能一起被刪除或移走。
+
+正確目錄結構示例：請把 MAA 放在獨立資料夾內，例如：
+D:\
+`-- MAA\
+    |-- MAA.exe
+    |-- config\
+    `-- data\
+
+請先手動備份整個安裝目錄，尤其是與 MAA 無關但和它放在同一層級的檔案。
+目前安裝目錄：{0}
+
+只有在你已確認目錄結構正確並完成手動備份後，才繼續下載或匯入完整包。</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmYes">我已手動確認並備份，繼續更新</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmNo">暫不更新，繼續啟動目前版本</system:String>
     <system:String x:Key="LocalUpdatePackageImportedTitle">本機更新包已就緒</system:String>
     <system:String x:Key="LocalUpdatePackageImportedDesc">偵測到可用的本機更新包，是否立即更新 MAA？（將重啟程式）</system:String>
     <system:String x:Key="LocalUpdatePackageUnsupported">無法識別壓縮檔：{0}\n僅支援拖入目前架構的完整包，或目前版本到更高版本的 OTA 更新包。\n目前版本：{1}\n目前架構：{2}\n支援的包名範例：MAA-v新版本-win-{2}.zip\n或 MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
@@ -1471,7 +1491,12 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 如需多開 MAA，請複製一份新的 MAA 到其他資料夾，並設定使用不同的 MAA，搭配相同的 ADB 與不同的模擬器位址進行多開操作。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">目前軟體所在的位置無法儲存資料，可能會導致設定遺失或執行異常。建議將軟體移動到可寫入的目錄中執行，請勿放置在系統保護目錄（如 Program Files、System32 或 Windows 目錄）中。</system:String>
-    <system:String x:Key="RunningInTempDirectoryError">MAA 無法在壓縮檔或系統暫存目錄中執行。請將 MAA 從壓縮檔中完整解壓縮，或將 MAA 移動到一般資料夾中再執行。</system:String>
+    <system:String x:Key="UnsupportedInstallLocationError" xml:space="preserve">MAA 不能直接在目前安裝位置中執行，例如暫存目錄、磁碟根目錄，或系統/使用者共用目錄。
+
+目前安裝目錄：{0}
+命中的不支援位置：{1}
+
+這些位置層級過高，容易引發檔案覆蓋、設定寫入異常或資料混亂。請先將 MAA 移動到獨立資料夾中，例如 D:\\MAA\\，再重新啟動。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失敗，請重新進行相關設定，否則加密內容將以純文字形式儲存在設定檔中。</system:String>

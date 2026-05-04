@@ -54,6 +54,7 @@ static bool HasArgument(int argc, wchar_t* argv[], const wchar_t* argument);
 static std::wstring EnsureTrailingSeparator(const std::wstring& path);
 static std::wstring NormalizeRelativePath(const std::wstring& relativePath);
 static bool EqualsIgnoreCase(const std::wstring& left, const wchar_t* right);
+static bool IsDriveRootDirectory(const std::wstring& path);
 static bool IsRecycleAndReplaceDirectory(const std::wstring& relativePath);
 static bool TryResolvePathUnderRoot(
     const std::wstring& rootPath,
@@ -735,6 +736,32 @@ static std::wstring NormalizeRelativePath(const std::wstring& relativePath)
 static bool EqualsIgnoreCase(const std::wstring& left, const wchar_t* right)
 {
     return _wcsicmp(left.c_str(), right) == 0;
+}
+
+static bool IsDriveRootDirectory(const std::wstring& path)
+{
+    if (path.empty()) {
+        return false;
+    }
+
+    wchar_t full[MAX_PATH * 4];
+    DWORD len = GetFullPathNameW(path.c_str(), _countof(full), full, nullptr);
+    if (len == 0 || len >= _countof(full)) {
+        return false;
+    }
+
+    std::wstring normalized = full;
+    while (!normalized.empty() && (normalized.back() == L'\\' || normalized.back() == L'/')) {
+        normalized.pop_back();
+    }
+
+    if (normalized.size() < 2) {
+        return false;
+    }
+
+    wchar_t drive = normalized[0];
+    bool hasDriveLetter = (drive >= L'A' && drive <= L'Z') || (drive >= L'a' && drive <= L'z');
+    return hasDriveLetter && normalized.size() == 2 && normalized[1] == L':';
 }
 
 static bool IsRecycleAndReplaceDirectory(const std::wstring& relativePath)
@@ -1432,10 +1459,24 @@ int wmain(int argc, wchar_t* argv[])
             L"主程序已退出，开始读取更新计划 | Main process already exited, reading update plan");
     }
 
+    if (IsDriveRootDirectory(rootDir)) {
+        failureReason =
+            L"检测到 MAA 安装在盘符根目录，已阻止更新继续执行。请先将 MAA 移动到独立文件夹后再重试。\n\n"
+            L"Detected MAA installed directly in a drive root. Update execution was blocked. Please move MAA into a dedicated folder and try again.";
+        WriteLog(failureReason.c_str());
+        SetProgressUiStatus(
+            L"无法继续更新 | Update blocked",
+            L"检测到盘符根目录安装 | Drive-root install detected");
+    }
+
     // ------------------------------------------------------------------
     // Read plan
     // ------------------------------------------------------------------
     do {
+        if (!failureReason.empty()) {
+            break;
+        }
+
         PendingUpdatePlan plan;
         if (!LoadPendingUpdatePlan(planFile, plan, failureReason)) {
             WriteLog(failureReason.c_str());
@@ -1445,6 +1486,7 @@ int wmain(int argc, wchar_t* argv[])
         bool isFullPackage = EqualsIgnoreCase(plan.packageType, L"full");
         const std::vector<std::wstring>& removeList = plan.removeList;
         const std::vector<std::wstring>& moveList = plan.moveList;
+
         SetProgressUiTotalFileCount(static_cast<int>(removeList.size() + moveList.size()));
         SetProgressUiStatus(
             L"正在分析更新内容... | Analyzing update contents...",
