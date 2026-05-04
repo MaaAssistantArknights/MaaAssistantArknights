@@ -1159,7 +1159,13 @@
         "action": "ClickSelf",
         "roi": [900, 70, 380, 400],
         "maskRange": [1, 255],
-        "next": ["#self", "UsePrts-AnnihilationSuccessCheck", "UsePrts-AnnihilationCheck", "UsePrtsSuccessCheck", "Annihilation@UnableToAgent2"]
+        "next": [
+            "#self",
+            "UsePrts-AnnihilationSuccessCheck",
+            "UsePrts-AnnihilationCheck",
+            "UsePrtsSuccessCheck",
+            "Annihilation@UnableToAgent2"
+        ]
     },
     "StageBegin": {
         "algorithm": "JustReturn",
@@ -1231,7 +1237,7 @@
         "template": "UsePrtsSuccess.png",
         "next": []
     },
-    "Annihilation@UnableToAgent2":{
+    "Annihilation@UnableToAgent2": {
         "template": "UnableToAgent2.png",
         "next": []
     },
