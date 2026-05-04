@@ -1522,7 +1522,7 @@
     },
     "MedicineInventory": {
         "baseTask": "NumberOcrReplace",
-        "rectMove": [-29, 87, 40, 33],
+        "rectMove": [-55, 87, 66, 33],
         "binThreshold": [220, 255]
     },
     "MedicineExpiringTime": {
