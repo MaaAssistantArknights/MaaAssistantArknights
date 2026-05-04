@@ -4981,7 +4981,11 @@
         "action": "ClickSelf",
         "text": ["资质凭证区"],
         "roi": [108, 163, 124, 56],
-        "next": ["Store@EnterTicketStore@LoadingIcon", "GreenTicket@Store@ClickFirstFloor", "GreenTicket@Store@SwitchToSecondFloor"]
+        "next": [
+            "Store@EnterTicketStore@LoadingIcon",
+            "GreenTicket@Store@ClickFirstFloor",
+            "GreenTicket@Store@SwitchToSecondFloor"
+        ]
     },
     "GreenTicket@Store@SwitchToSecondFloor": {
         "doc": "备选方案：点击二层使一层按钮变为灰底，提高一层OCR识别成功率",
