@@ -25,21 +25,22 @@ std::pair<int, int> asst::BattleQuickFormation::analyze_oper_level(const cv::Mat
     const auto& level_task = Task.get<OcrTaskInfo>("BattleQuickFormation-Level");
     const auto& elite_task = Task.get<MatchTaskInfo>("BattleQuickFormation-Elite");
 
-    int _elite = -1;
+    int _elite = 0;
     int _level = -1;
 
-    // 识别精二
+    // 未匹配到精英图标时按精英化 0 处理，避免无精英阶段的干员被整体判失败。
     Matcher elite_analyzer(image);
     elite_analyzer.set_task_info(elite_task);
     Rect roi = flag.move(elite_task->rect_move);
     elite_analyzer.set_roi(roi);
     if (!elite_analyzer.analyze()) {
-        LogError << __FUNCTION__ << "| failed to analyze elite of oper";
+        LogTrace << __FUNCTION__ << "| elite marker not found, treat as elite 0";
     }
     else {
         auto elite_str = elite_analyzer.get_result().templ_name;
         elite_str = elite_str.substr(elite_str.size() - 5, 1);
         if (!utils::chars_to_number(elite_str, _elite)) {
+            _elite = -1;
             LogError << __FUNCTION__ << "| failed to parse elite from template:" << elite_str;
         }
     }
