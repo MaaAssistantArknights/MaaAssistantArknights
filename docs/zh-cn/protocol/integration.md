@@ -1159,4 +1159,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 ::: field name="KillAdbOnExit" type="boolean" optional  
 退出时是否杀掉 Adb 进程。可用值："0" 或 "1"。枚举值：5。  
 :::  
+::: field name="ClientType" type="string" optional  
+客户端类型（游戏渠道）。大多数连接配置不需要设置。仅当传给 `AsstConnect` / `AsstAsyncConnect` 的 `config` 在连接阶段命令里使用 `[PackageName]` 时，才需要在连接前调用 `AsstSetInstanceOption(..., ClientType, ...)`。当前内置配置仅 `Androws` 和 `WSA` 的 `displayId` 查询依赖该值。该选项不替代 StartUp / CloseDown 等任务参数里的 `client_type`。枚举值：6。  
+:::  
 ::::

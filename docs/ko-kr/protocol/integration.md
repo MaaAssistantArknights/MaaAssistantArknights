@@ -1148,4 +1148,7 @@ AdbLite 사용 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 4
 ::: field name="KillAdbOnExit" type="boolean" optional  
 종료 시 ADB 프로세스 종료 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 5  
 :::  
+::: field name="ClientType" type="string" optional  
+클라이언트 종류(게임 채널). 대부분의 연결 설정에서는 필요하지 않습니다. `AsstConnect` / `AsstAsyncConnect` 에 전달하는 `config` 가 연결 단계에서 실행되는 명령에 `[PackageName]` 을 사용할 때만, 연결 전에 `AsstSetInstanceOption(..., ClientType, ...)` 를 호출해 설정해야 합니다. 현재 내장 설정 중에서는 `Androws` 와 `WSA` 의 `displayId` 조회만 이 값에 의존합니다. 이 옵션은 StartUp / CloseDown 등의 작업 파라미터 `client_type` 를 대체하지 않습니다. 열거값: 6  
+:::  
 ::::

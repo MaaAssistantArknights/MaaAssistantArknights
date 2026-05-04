@@ -1159,4 +1159,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 ::: field name="KillAdbOnExit" type="boolean" optional  
 退出時是否結束 ADB。可用值："0" 或 "1"。列舉值：5。  
 :::  
+::: field name="ClientType" type="string" optional  
+客戶端類型（遊戲渠道）。大多數連線設定不需要設定。僅當傳給 `AsstConnect` / `AsstAsyncConnect` 的 `config` 在連線階段命令中使用 `[PackageName]` 時，才需要在連線前呼叫 `AsstSetInstanceOption(..., ClientType, ...)`。目前內建設定中僅 `Androws` 與 `WSA` 的 `displayId` 查詢依賴該值。此選項不取代 StartUp / CloseDown 等任務參數中的 `client_type`。列舉值：6。  
+:::  
 ::::

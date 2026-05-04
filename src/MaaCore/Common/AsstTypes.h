@@ -46,7 +46,8 @@ enum class InstanceOptionKey
     DeploymentWithPause = 3, // 自动战斗、肉鸽、保全 是否使用 暂停下干员， "0" | "1"
     AdbLiteEnabled = 4,      // 是否使用 AdbLite， "0" | "1"
     KillAdbOnExit = 5,       // 退出时是否杀掉 Adb 进程， "0" | "1"
-    ClientType = 6,          // 客户端类型（游戏渠道），用于连接时解析 PackageName
+    ClientType = 6,          // 客户端类型（游戏渠道）。仅当连接配置在 connect 阶段需要 [PackageName] 时使用，
+                             // 当前内置配置为 Androws / WSA；不替代 StartUpTask 的 client_type 参数。
 };
 
 enum class TouchMode
