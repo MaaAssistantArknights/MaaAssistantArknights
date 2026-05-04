@@ -4048,7 +4048,8 @@
         "templThreshold_Doc": "这里用来作为基线间距阈值",
         "specialParams": [100],
         "specialParams_Doc": "基线长度阈值（不小于100）",
-        "colorScales": [[45, 255]],
+        "colorScales": [[30, 255]],
+        "colorScales_Doc": "阈值从45降至30，原值对仅在剿灭Reward出现的暗橙色基线(RGB66,28,11~RGB70,32,15)边缘响应不足",
         "rectMove": [181, 40, 25, 0],
         "rectMove_Doc": "作为hsv阈值使用"
     },
