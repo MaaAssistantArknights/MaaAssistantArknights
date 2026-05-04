@@ -59,7 +59,7 @@ using AsstInstanceOptionKey = System.Int32;
 
 using AsstTaskId = System.Int32;
 
-using FightTask = MaaWpfGui.ViewModels.UserControl.TaskQueue.FightSettingsUserControlModel;
+using FightSetting = MaaWpfGui.ViewModels.UserControl.TaskQueue.FightSettingsUserControlModel;
 using ToastNotification = MaaWpfGui.Helper.ToastNotification;
 
 namespace MaaWpfGui.Main;
@@ -999,10 +999,10 @@ public class AsstProxy
 
     private void OnToastNotificationTimerTick(object? sender, EventArgs e)
     {
-        if (FightTask.SanityReport is not null)
+        if (FightSetting.SanityReport is not null)
         {
             var sanityReport = LocalizationHelper.GetString("SanityReport");
-            var recoveryTime = FightTask.SanityReport.ReportTime.AddMinutes(FightTask.SanityReport.SanityCurrent < FightTask.SanityReport.SanityMax ? (FightTask.SanityReport.SanityMax - FightTask.SanityReport.SanityCurrent) * 6 : 0);
+            var recoveryTime = FightSetting.SanityReport.ReportTime.AddMinutes(FightSetting.SanityReport.SanityCurrent < FightSetting.SanityReport.SanityMax ? (FightSetting.SanityReport.SanityMax - FightSetting.SanityReport.SanityCurrent) * 6 : 0);
             sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
             ToastNotification.ShowDirect(sanityReport);
         }
@@ -1125,12 +1125,12 @@ public class AsstProxy
                     }
 
                     var taskName = task?.NameDisplay ?? $"({LocalizationHelper.GetString(taskChain)})";
-                    if (taskChain == "Fight" && FightTask.SanityReport is not null)
+                    if (taskChain == "Fight" && FightSetting.SanityReport is not null)
                     {
-                        var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), FightTask.SanityReport.SanityCurrent, FightTask.SanityReport.SanityMax);
+                        var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), FightSetting.SanityReport.SanityCurrent, FightSetting.SanityReport.SanityMax);
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskName + sanityLog);
 
-                        if (FightTask.SanityReport.SanityCurrent == 0)
+                        if (FightSetting.SanityReport.SanityCurrent == 0)
                         {
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.SanityPlanner);
                         }
@@ -1219,9 +1219,9 @@ public class AsstProxy
 
                     var allTaskCompleteLog = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
 
-                    if (FightTask.SanityReport is not null)
+                    if (FightSetting.SanityReport is not null)
                     {
-                        var recoveryTime = FightTask.SanityReport.ReportTime.AddMinutes(FightTask.SanityReport.SanityCurrent < FightTask.SanityReport.SanityMax ? (FightTask.SanityReport.SanityMax - FightTask.SanityReport.SanityCurrent) * 6 : 0);
+                        var recoveryTime = FightSetting.SanityReport.ReportTime.AddMinutes(FightSetting.SanityReport.SanityCurrent < FightSetting.SanityReport.SanityMax ? (FightSetting.SanityReport.SanityMax - FightSetting.SanityReport.SanityCurrent) * 6 : 0);
                         sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
                         allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
@@ -1269,7 +1269,7 @@ public class AsstProxy
 
                     using (var toast = new ToastNotification(allTaskCompleteTitle))
                     {
-                        if (FightTask.SanityReport is not null)
+                        if (FightSetting.SanityReport is not null)
                         {
                             toast.AppendContentText(sanityReport);
                         }
@@ -1524,19 +1524,19 @@ public class AsstProxy
                         case "StartButton2":
                         case "AnnihilationConfirm":
                             StringBuilder missionStartLogBuilder = new();
-                            if (FightTask.FightReport is null)
+                            if (FightSetting.FightReport is null)
                             {
                                 missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), "???", "???"));
                             }
                             else
                             {
-                                var times = FightTask.FightReport.Series == 1 ? $"{FightTask.FightReport.TimesFinished + 1}" : $"{FightTask.FightReport.TimesFinished + 1}~{FightTask.FightReport.TimesFinished + FightTask.FightReport.Series}";
-                                missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), times, FightTask.FightReport.SanityCost));
+                                var times = FightSetting.FightReport.Series == 1 ? $"{FightSetting.FightReport.TimesFinished + 1}" : $"{FightSetting.FightReport.TimesFinished + 1}~{FightSetting.FightReport.TimesFinished + FightSetting.FightReport.Series}";
+                                missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), times, FightSetting.FightReport.SanityCost));
                             }
 
-                            if (FightTask.SanityReport is not null)
+                            if (FightSetting.SanityReport is not null)
                             {
-                                missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), FightTask.SanityReport.SanityCurrent, FightTask.SanityReport.SanityMax);
+                                missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), FightSetting.SanityReport.SanityCurrent, FightSetting.SanityReport.SanityMax);
                             }
 
                             if (ExpiringMedicineUsedTimes > 0)
@@ -2215,10 +2215,10 @@ public class AsstProxy
 
             case "SanityBeforeStage":
                 {
-                    FightTask.SanityReport = null;
+                    FightSetting.SanityReport = null;
                     if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is { SanityMax: > 0 } report)
                     {
-                        FightTask.SanityReport = report;
+                        FightSetting.SanityReport = report;
                     }
 
                     break;
@@ -2226,18 +2226,18 @@ public class AsstProxy
 
             case "FightTimes":
                 {
-                    FightTask.FightReport = null;
+                    FightSetting.FightReport = null;
                     if ((subTaskDetails?.Children())?.Any() is true)
                     {
-                        FightTask.FightReport = subTaskDetails.ToObject<FightTask.FightTimes>()!;
-                        if (FightTask.FightReport.TimesFinished > 0)
+                        FightSetting.FightReport = subTaskDetails.ToObject<FightSetting.FightTimes>()!;
+                        if (FightSetting.FightReport.TimesFinished > 0)
                         {
-                            AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTask.FightReport.TimesFinished);
+                            AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightSetting.FightReport.TimesFinished);
                         }
 
-                        if (FightTask.Instance.HasTimesLimited != false && FightTask.FightReport.IsFinished && FightTask.FightReport.TimesFinished < FightTask.Instance.MaxTimes)
+                        if (FightSetting.Instance.HasTimesLimited != false && FightSetting.FightReport.IsFinished && FightSetting.FightReport.TimesFinished < FightSetting.Instance.MaxTimes)
                         {
-                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTask.FightReport.TimesFinished, FightTask.FightReport.Series, FightTask.FightReport.TimesFinished + FightTask.FightReport.Series, FightTask.Instance.MaxTimes), UiLogColor.Warning);
+                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightSetting.FightReport.TimesFinished, FightSetting.FightReport.Series, FightSetting.FightReport.TimesFinished + FightSetting.FightReport.Series, FightSetting.Instance.MaxTimes), UiLogColor.Warning);
                         }
                     }
 
@@ -2270,7 +2270,19 @@ public class AsstProxy
                 else
                 {
                     ExpiringMedicineUsedTimes += medicineCount;
-                    medicineLog = LocalizationHelper.GetString("ExpiringMedicineUsed") + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
+                    var item = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId));
+                    var expireOut = "--";
+                    if (item is not null && item.Index >= 0 && item.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+                    {
+                        if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is FightTask fightTask)
+                        {
+                            var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
+                            var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
+                            var expireDays = Math.Max(fightTask.UseExpiringMedicine ? fightTask.MedicineExpireDays : 0, FightSetting.Instance.ActivityExpireIn2Days && fightTask.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0);
+                            expireOut = $"{expireDays * 24}";
+                        }
+                    }
+                    medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
                     AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, medicineCount);
                     AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
                 }
@@ -2329,6 +2341,12 @@ public class AsstProxy
         if (SettingsViewModel.GameSettings.ClientType == ClientType.Txwy && (subTask == "ReportToPenguinStats"))
         {
             _logger.Information("PenguinStats report skipped for txwy client type.");
+            return;
+        }
+
+        if (SettingsViewModel.ConnectSettings.UseAttachWindow && (subTask == "ReportToPenguinStats" || subTask == "ReportToYituliu"))
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReportSkippedForPcClient"), UiLogColor.Warning);
             return;
         }
 
@@ -2607,6 +2625,17 @@ public class AsstProxy
                 break;
         }
 
+        switch (SettingsViewModel.ConnectSettings.ConnectConfig)
+        {
+            case "WSA":
+            case "Androws":
+                AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType);
+                break;
+            default:
+                AsstSetInstanceOption(InstanceOptionKey.ClientType, string.Empty);
+                break;
+        }
+
         if (SettingsViewModel.ConnectSettings.AutoDetectConnection)
         {
             if (!AutoDetectConnection(ref error))
@@ -2645,8 +2674,6 @@ public class AsstProxy
                 return true;
             }
         }
-
-        AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType);
 
         bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig);
 

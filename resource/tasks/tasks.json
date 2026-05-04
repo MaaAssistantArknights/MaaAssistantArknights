@@ -711,7 +711,9 @@
             ["八.*海铃", "八幡海铃"],
             [".*英调香师", "撷英调香师"],
             ["矿石.*杀手.*", "矿石“杀手”"],
-            [".*涤火杰西卡", "涤火杰西卡"]
+            [".*涤火杰西卡", "涤火杰西卡"],
+            ["GALLU.*", "GALLUS²"],
+            ["凯尔希.*思衡托", "凯尔希·思衡托"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -1520,18 +1522,18 @@
     },
     "MedicineInventory": {
         "baseTask": "NumberOcrReplace",
-        "rectMove": [-29, 87, 40, 33],
+        "rectMove": [-55, 87, 66, 33],
         "binThreshold": [220, 255]
     },
     "MedicineExpiringTime": {
         "algorithm": "OcrDetect",
         "text": [],
         "ocrReplace": [
-            ["(\\d+)天", "${1}"],
+            ["[^\\d]*(\\d+)天", "${1}"],
             [".+(小时|分钟)", "0"],
             ["^\\d+(小|分)$", "0"]
         ],
-        "rectMove": [-55, 135, 65, 20]
+        "rectMove": [-55, 132, 65, 25]
     },
     "UsingMedicine-Target": {
         "baseTask": "NumberOcrReplace",
@@ -2227,7 +2229,7 @@
         "algorithm": "OcrDetect",
         "isAscii": true,
         "text": [],
-        "roi": [1147, 26, 57, 27]
+        "roi": [1140, 25, 64, 30]
     },
     "CreditShop-DiscountOcr": {
         "algorithm": "OcrDetect",
@@ -4046,7 +4048,8 @@
         "templThreshold_Doc": "这里用来作为基线间距阈值",
         "specialParams": [100],
         "specialParams_Doc": "基线长度阈值（不小于100）",
-        "colorScales": [[45, 255]],
+        "colorScales": [[30, 255]],
+        "colorScales_Doc": "阈值从45降至30，原值对仅在剿灭Reward出现的暗橙色基线(RGB66,28,11~RGB70,32,15)边缘响应不足",
         "rectMove": [181, 40, 25, 0],
         "rectMove_Doc": "作为hsv阈值使用"
     },
@@ -4606,20 +4609,39 @@
         "next": ["BattleStartPlot"],
         "maxTimes": 1
     },
-    "Copilot@ClickCornerUntilEndOfAction": {
+    "Copilot@WaitUntilEndOfAction": {
         "algorithm": "JustReturn",
         "maxTimes": 30,
         "exceededNext": ["Copilot@EndOfAction"],
-        "next": ["Copilot@SkipThePreBattlePlot", "Copilot@EndOfAction", "Copilot@ClickCornerBeforeThreeStars"]
+        "next": [
+            "Copilot@SkipThePreBattlePlot",
+            "Copilot@EndOfAction",
+            "Copilot@EndOfAction-Sandbox",
+            "Copilot@FightMissionFailed",
+            "Copilot@WaitUntilEndOfAction"
+        ]
     },
     "Copilot@SkipThePreBattlePlotConfirm": {
         "template": "SkipThePreBattlePlotConfirm.png",
-        "next": ["Copilot@ClickCornerUntilEndOfAction"]
+        "next": ["Copilot@WaitUntilEndOfAction"]
     },
     "Copilot@EndOfAction": {
         "template": "EndOfAction.png",
         "reduceOtherTimes": [],
         "next": ["Copilot@StageDrops-Stars-3", "Copilot@StageDrops-Stars-Adverse"]
+    },
+    "Copilot@EndOfAction-Sandbox": {
+        "algorithm": "OcrDetect",
+        "text": ["MISSION", "RESULTS"],
+        "roi": [540, 645, 200, 25],
+        "isAscii": true,
+        "ocrReplace": [["l", "I"]],
+        "next": ["Copilot@ClickCornerUntilStartButton"]
+    },
+    "Copilot@FightMissionFailed": {
+        "exceededNext": [],
+        "onErrorNext": [],
+        "next": ["Copilot@EndOfAction", "Copilot@EndOfAction-Sandbox"]
     },
     "Copilot@StageDrops-Stars-3": {
         "Doc": "如果没有三星就终止",
@@ -4630,11 +4652,6 @@
         "Doc": "如果没有三星就终止",
         "template": "StageDrops-Stars-Adverse.png",
         "next": ["Copilot@ClickCornerUntilStartButton"]
-    },
-    "Copilot@ClickCornerBeforeThreeStars": {
-        "Doc": "三星之前",
-        "baseTask": "Copilot@ClickCornerUntilStartButton",
-        "next": ["Copilot@ClickCornerUntilEndOfAction"]
     },
     "Copilot@ClickCornerUntilStartButton": {
         "Doc": "三星之后",
@@ -4978,7 +4995,20 @@
         "action": "ClickSelf",
         "text": ["资质凭证区"],
         "roi": [108, 163, 124, 56],
-        "next": ["Store@EnterTicketStore@LoadingIcon", "GreenTicket@Store@ClickFirstFloor"]
+        "next": [
+            "Store@EnterTicketStore@LoadingIcon",
+            "GreenTicket@Store@ClickFirstFloor",
+            "GreenTicket@Store@SwitchToSecondFloor"
+        ]
+    },
+    "GreenTicket@Store@SwitchToSecondFloor": {
+        "doc": "备选方案：点击二层使一层按钮变为灰底，提高一层OCR识别成功率",
+        "algorithm": "OcrDetect",
+        "text": ["2"],
+        "action": "ClickSelf",
+        "isAscii": false,
+        "roi": [262, 364, 38, 58],
+        "next": ["GreenTicket@Store@ClickFirstFloor"]
     },
     "GreenTicket@Store@ClickFirstFloor": {
         "algorithm": "OcrDetect",
@@ -4987,7 +5017,7 @@
         "action": "ClickSelf",
         "roi": [263, 196, 35, 73],
         "sub": ["SlowlySwipeToTheLeft"],
-        "postDelay": 1000,
+        "postDelay": 500,
         "next": ["GreenTicket@Store@ClickItemList#next", "GreenTicket@Store@ClickSecondFloor"]
     },
     "GreenTicket@Store@ClickItem": {
@@ -5081,7 +5111,46 @@
         "maxTimes": 1,
         "sub": ["SlowlySwipeToTheLeft*3"],
         "postDelay": 1000,
-        "next": ["GreenTicket@Store@ClickItemList#next", "Stop"]
+        "next": ["GreenTicket@Store@ClickSecondFloorItemList#next", "Stop"]
+    },
+    "GreenTicket@Store@ClickSecondFloorItemList": {
+        "algorithm": "JustReturn",
+        "next": [
+            "GreenTicket@Store@ClickSecondFloorItem_Headhunting_Permit",
+            "GreenTicket@Store@ClickSecondFloorItem_Recruitment_Permit"
+        ]
+    },
+    "GreenTicket@Store@ClickSecondFloorItem": {
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "empty.png",
+        "next": ["GreenTicket@Store@SecondFloorChooseMaxAmount"]
+    },
+    "GreenTicket@Store@ClickSecondFloorItem_Headhunting_Permit": {
+        "doc": "二层-单抽",
+        "baseTask": "GreenTicket@Store@ClickSecondFloorItem",
+        "template": "items/7003.png"
+    },
+    "GreenTicket@Store@ClickSecondFloorItem_Recruitment_Permit": {
+        "doc": "二层-招募许可",
+        "baseTask": "GreenTicket@Store@ClickSecondFloorItem",
+        "template": "items/7001.png"
+    },
+    "GreenTicket@Store@SecondFloorChooseMaxAmount": {
+        "baseTask": "GreenTicket@Store@ChooseMaxAmount",
+        "next": ["GreenTicket@Store@UnderfundedOCR", "GreenTicket@Store@SecondFloorPurchase"]
+    },
+    "GreenTicket@Store@SecondFloorPurchase": {
+        "baseTask": "GreenTicket@Store@Purchase",
+        "next": ["GreenTicket@Store@SecondFloorPurchasedConfirm"]
+    },
+    "GreenTicket@Store@SecondFloorPurchasedConfirm": {
+        "baseTask": "GreenTicket@Store@PurchasedConfirm",
+        "template": "CreditShop-Bought.png",
+        "next": [
+            "GreenTicket@Store@SecondFloorPurchasedConfirm",
+            "GreenTicket@Store@ClickSecondFloorItemList#next",
+            "Stop"
+        ]
     },
     "YellowTicket@Store@ChooseTicketType": {
         "algorithm": "OcrDetect",

@@ -229,9 +229,7 @@ bool asst::AutoRecruitTask::_run()
 
     bool try_use_expedited = m_use_expedited;
 
-    // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans
-    // used
-    while (m_cur_times != m_max_times) {
+    while (m_cur_times < m_max_times) {
         auto start_rect = try_get_start_button(ctrler()->get_image());
         if (start_rect) {
             if (need_exit()) {
@@ -240,10 +238,14 @@ bool asst::AutoRecruitTask::_run()
             if (m_slot_fail >= slot_retry_limit) {
                 return false;
             }
-            if (recruit_one(start_rect.value())) {
+            auto result = recruit_one(start_rect.value());
+            // confirmed: real recruitment done, advance m_cur_times
+            // skipped:   slot marked in m_force_skipped, try next slot without changing counters
+            // failed:    recognition error / no permit / etc., bump m_slot_fail for retry limiting
+            if (result == recruit_result::confirmed) {
                 ++m_cur_times;
             }
-            else {
+            else if (result == recruit_result::failed) {
                 ++m_slot_fail;
             }
             if (!m_has_permit && (!m_force_refresh || !m_has_refresh)) {
@@ -319,12 +321,14 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     return iter->rect;
 }
 
-/// open a pending recruit slot, set timer and tags then confirm, or leave the slot doing nothing
-/// return false if:
-/// - recognition failed
-/// - timer or tags corrupted
-/// - failed to confirm
-bool asst::AutoRecruitTask::recruit_one(const Rect& button)
+/// Open a pending recruit slot, analyze tags, set timer and tags, then confirm or skip.
+/// Returns:
+/// - confirmed: RecruitConfirm was executed successfully
+/// - skipped:   slot intentionally skipped (special/robot tag, level-based force skip, or
+///              no recruit permit); slot is added to m_force_skipped so the loop tries the
+///              next slot without changing any counters
+/// - failed:    recognition error, timer mismatch, confirm failure, or exit requested
+asst::AutoRecruitTask::recruit_result asst::AutoRecruitTask::recruit_one(const Rect& button)
 {
     LogTraceFunction;
 
@@ -337,7 +341,6 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
     sleep(delay);
 
     if (!calc_result.success) {
-        // recognition failed, perhaps opening the slot again would not help
         {
             json::value info = basic_info();
             info["what"] = "RecruitError";
@@ -347,26 +350,23 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
         if (!ProcessTask(*this, { "RecruitContinue", "Return" }).run()) {
             m_force_skipped.emplace(slot_index_from_rect(button));
         }
-        return false;
+        return recruit_result::failed;
     }
 
     if (calc_result.for_special_tags_skip || calc_result.for_robot_tags_skip) {
-        // Mark the slot as completed and return
-        // without incrementing the count
         m_force_skipped.emplace(slot_index_from_rect(button));
         click_return_button();
-        return true;
+        return recruit_result::skipped;
     }
 
     if (calc_result.force_skip) {
-        // mark the slot as completed and return
         m_force_skipped.emplace(slot_index_from_rect(button));
         click_return_button();
-        return true;
+        return recruit_result::skipped;
     }
 
     if (need_exit()) {
-        return false;
+        return recruit_result::failed;
     }
 
     if (m_set_time && !check_timer(calc_result.recruitment_time)) {
@@ -376,22 +376,22 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
         // return and try later
         Log.info("Timer of this slot has not been reduced as expected.");
         click_return_button();
-        return false;
+        return recruit_result::failed;
     }
 
     // TODO: count blue pixels and compare with number of selected tags desired
 
     if (need_exit()) {
-        return false;
+        return recruit_result::failed;
     }
 
     if (!confirm()) {
         Log.info("Failed to confirm current recruit config.");
         click_return_button();
-        return false;
+        return recruit_result::failed;
     }
 
-    return true;
+    return recruit_result::confirmed;
 }
 
 // set recruit timer and tags only

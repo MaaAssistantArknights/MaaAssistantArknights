@@ -1026,7 +1026,15 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 
     // 按需获取display ID 信息
     if (!adb_cfg.display_id.empty()) {
-        auto display_id_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.display_id));
+        // [PackageName] 不参与 replace_cmd 的统一替换（保留为运行时参数）。
+        // 只有 connect 阶段命令确实依赖包名的配置，才需要在连接前调用
+        // AsstSetInstanceOption(ClientType, ...)。当前内置配置仅 Androws / WSA 的
+        // displayId 查询走这里，因此其他连接配置不应被迫传入 client type。
+        auto display_id_cmd = utils::string_replace_all(
+            m_conn_ctx.replace_cmd(adb_cfg.display_id),
+            "[PackageName]",
+            m_conn_ctx.package_name);
+        auto display_id_ret = call_command(display_id_cmd);
         if (!display_id_ret) {
             return false;
         }

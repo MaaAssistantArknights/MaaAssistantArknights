@@ -61,6 +61,9 @@ extern "C"
     AsstHandle ASSTAPI AsstCreateEx(AsstApiCallback callback, void* custom_arg);
     void ASSTAPI AsstDestroy(AsstHandle handle);
 
+    // 设置实例级参数。
+    // InstanceOptionKey::ClientType 仅在所选连接配置的 connect 阶段命令依赖 [PackageName] 时需要预先设置；
+    // 当前内置配置中仅 Androws / WSA 的 displayId 查询依赖该值。
     AsstBool ASSTAPI
         AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
 

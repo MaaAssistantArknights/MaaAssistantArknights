@@ -28,13 +28,14 @@ std::pair<int, int> asst::BattleQuickFormation::analyze_oper_level(const cv::Mat
     int _elite = -1;
     int _level = -1;
 
-    // 识别精二
+    // 识别精1/2
     Matcher elite_analyzer(image);
     elite_analyzer.set_task_info(elite_task);
     Rect roi = flag.move(elite_task->rect_move);
     elite_analyzer.set_roi(roi);
     if (!elite_analyzer.analyze()) {
-        LogError << __FUNCTION__ << "| failed to analyze elite of oper";
+        LogInfo << __FUNCTION__ << "| failed to analyze elite of oper, treat as elite 0";
+        _elite = 0;
     }
     else {
         auto elite_str = elite_analyzer.get_result().templ_name;

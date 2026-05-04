@@ -41,12 +41,12 @@ bool asst::MultiCopilotTaskPlugin::_run()
     utils::string_replace_all_in_place(replace_navigate_name, { { "-", "" } });
     Task.get<OcrTaskInfo>(config.nav_name + "@Copilot@ClickedCorrectStage")->text = { config.nav_name,
                                                                                       replace_navigate_name };
-    ret = ret && ProcessTask(*this, { config.nav_name + "@Copilot@StageNavigationBegin" }).run();
+    ret = ret && ProcessTask(*this, { config.nav_name + "@Copilot@StageNavigationBegin" }).set_retry_times(20).run();
 
     ProcessTask(*this, { "NotUsePrts" }).set_ignore_error(true).set_retry_times(0).run();
     if (config.is_raid) {
         // 选择突袭模式
-        ret = ret && ProcessTask(*this, { "RaidConfirm", "ChangeToRaidDifficulty" }).run();
+        ret = ret && ProcessTask(*this, { "RaidConfirm", "ChangeToRaidDifficulty" }).set_retry_times(20).run();
     }
 
     return ret;

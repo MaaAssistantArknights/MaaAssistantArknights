@@ -28,7 +28,7 @@ public:
 
     void set_gray_lb(const int gray_lb) { m_gray_lb = gray_lb; }
 
-    void set_gray_ub(const int gray_ub) { m_ub = gray_ub; }
+    void set_gray_ub(const int gray_ub) { m_gray_ub = gray_ub; }
 
     void set_lb(const std::array<int, 3>& lb) { m_lb = cv::Scalar(lb[0], lb[1], lb[2]); }
 

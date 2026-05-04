@@ -1159,4 +1159,7 @@ AdbLite を使用するかどうか。可能な値："0" または "1"。列挙�
 ::: field name="KillAdbOnExit" type="boolean" optional  
 終了時に Adb プロセスをキルするかどうか。可能な値："0" または "1"。列挙値：5。  
 :::  
+::: field name="ClientType" type="string" optional  
+クライアント種別（ゲームチャネル）。ほとんどの接続設定では不要です。`AsstConnect` / `AsstAsyncConnect` に渡す `config` が、接続時に実行するコマンド内で `[PackageName]` を使用する場合にのみ、接続前に `AsstSetInstanceOption(..., ClientType, ...)` を設定してください。現在の組み込み設定では、`Androws` と `WSA` の `displayId` 取得のみがこの値に依存します。このオプションは StartUp / CloseDown などのタスクパラメータ `client_type` を置き換えるものではありません。列挙値：6。  
+:::  
 ::::

@@ -144,7 +144,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             << (deposit ? *deposit : -1);
     m_invest_count = total;
 
-    if (count_limit - count <= 0) {
+    if (count >= 0 && count_limit <= count) {
         Log.info(__FUNCTION__, "投资达到设置上限,", m_maximum);
         auto cb = basic_info_with_what("RoguelikeInvestmentReachLimit");
         cb["details"]["limit"] = m_maximum;

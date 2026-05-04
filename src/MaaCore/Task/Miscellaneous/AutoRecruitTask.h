@@ -45,8 +45,10 @@ protected:
         return (std::find(m_confirm_level.begin(), m_confirm_level.end(), (-1)) != m_confirm_level.end());
     }
 
+    enum class recruit_result { confirmed, skipped, failed };
+
     std::optional<Rect> try_get_start_button(const cv::Mat&);
-    bool recruit_one(const Rect&);
+    recruit_result recruit_one(const Rect&);
     bool check_recruit_home_page();
     bool recruit_begin();
     bool check_timer(int);

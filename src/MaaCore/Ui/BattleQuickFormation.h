@@ -26,7 +26,7 @@ private:
     std::string_view m_task_chain;
 
 public:
-    // 检查干员等级, 返回 <elite, level>, 未识别到时返回 <-1, -1>
+    // 检查干员等级, 返回 <elite, level>, elite未匹配返回 <0, level>, 其余未识别到时返回 <-1, -1>
     std::pair<int, int> analyze_oper_level(const cv::Mat& image, asst::Rect flag);
     // 查找并选择指定技能
     std::optional<SkillResult> find_oper_skill(int skill, bool skip_level = false);

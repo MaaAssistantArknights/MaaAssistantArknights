@@ -173,9 +173,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
              m_stop_task_ptr->set_tasks({ "ClickCornerUntilReturnButton" });
          }
          else {
-             m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
+             m_stop_task_ptr->set_tasks({ "Copilot@WaitUntilEndOfAction" });
          }*/
-        m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
+        m_stop_task_ptr->set_tasks({ "Copilot@WaitUntilEndOfAction" }); // 带三星检查
         m_stop_task_ptr->set_enable(true);
     }
     else if (loop_times > 1) {

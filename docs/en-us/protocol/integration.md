@@ -1160,4 +1160,7 @@ Whether to enable AdbLite or not. Options: "0" | "1". Enum value: 4.
 ::: field name="KillAdbOnExit" type="boolean" optional  
 Release Adb on exit. Options: "0" | "1". Enum value: 5.  
 :::  
+::: field name="ClientType" type="string" optional  
+Client channel. Most connection configs do not need this option. Set it before `AsstConnect` / `AsstAsyncConnect` only when the selected `config` uses `[PackageName]` in commands executed during connect. In the built-in configs, only `Androws` and `WSA` currently require it for `displayId` lookup. This does not replace the `client_type` task parameter used by StartUp / CloseDown tasks. Enum value: 6.  
+:::  
 ::::

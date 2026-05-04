@@ -401,12 +401,32 @@
     <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されましたが、利用可能な OTA 増分アップデートパッケージはありません。完全パッケージをダウンロードし、config、data、debug フォルダーは保持され、それ以外のファイルはごみ箱と .old に移動されます。必要に応じて手動でバックアップしてください。</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されましたが、利用可能な OTA 増分アップデートパッケージはありません。完全パッケージをダウンロードし、cache、config、data、debug、achievement（クリアスクリーンショット）、background（背景画像）、MAA.Updater.exe は保持され、それ以外のファイルはごみ箱と .old に移動されます。必要に応じて手動でバックアップしてください。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">アップデートパッケージのダウンロードが完了しました</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">MAAをすぐにアップグレードしますか？（処理を再開）</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmTitle">フルパッケージ更新には手動確認が必要です</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmDesc" xml:space="preserve">フルパッケージでの更新が必要です。
+
+更新の流れ: ここからフルパッケージをダウンロードまたは取り込んだ場合、後続のインストール処理では現在のインストール先ルート直下にある top-level のファイルとフォルダーを、cache、config、data、debug、achievement（クリアスクリーンショット）、background（背景画像）、MAA.Updater.exe を除いて先に整理し、その後でフルパッケージの内容を書き込みます。
+
+リスク: MAA をドライブ直下、デスクトップ、ダウンロードフォルダー、または他のプログラムや個人ファイルと同じ階層に展開している場合、それらの同階層エントリも削除または移動される可能性があります。
+
+推奨構成: たとえば次のように、MAA 専用のフォルダーに配置してください。
+D:\
+`-- MAA\
+    |-- MAA.exe
+    |-- config\
+    `-- data\
+
+続行する前に、インストールディレクトリ全体を手動でバックアップしてください。特に MAA 以外で同じ階層に置いてあるファイルに注意してください。
+現在のインストール先: {0}
+
+ディレクトリ構成を確認し、手動バックアップが完了した場合にのみ続行してください。</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmYes">バックアップ済みです。更新を続行します</system:String>
+    <system:String x:Key="PendingFullUpdateManualConfirmNo">今は更新せず、このバージョンを起動します</system:String>
     <system:String x:Key="LocalUpdatePackageImportedTitle">ローカル更新パッケージの準備ができました</system:String>
     <system:String x:Key="LocalUpdatePackageImportedDesc">利用可能なローカル更新パッケージを検出しました。今すぐ MAA を更新しますか？（プロセスを再起動します）</system:String>
     <system:String x:Key="LocalUpdatePackageUnsupported">圧縮ファイルを認識できません: {0}\n現在のアーキテクチャ向けのフルパッケージ、または現在のバージョンからより新しいバージョンへの OTA パッケージのみインポートできます。\n現在のバージョン: {1}\n現在のアーキテクチャ: {2}\n対応するファイル名の例: MAA-vTARGET_VERSION-win-{2}.zip\nまたは MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>
@@ -1139,6 +1159,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="HasReturned">戻ります</system:String>
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
+    <system:String x:Key="ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、今回のレポートは自動的にスキップしました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
     <system:String x:Key="MissingOperators">次の{key=Operator}が{key=Operator}グループにありません：</system:String>
     <system:String x:Key="RecruitSupportOperator">サポートユニットを追加：{0}</system:String>
@@ -1152,7 +1173,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">薬: {0},{1}(期限切れ)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">48時間以内に期限が切れる回復剤を使った</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">{0}時間以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>
     <system:String x:Key="ActingCommandError">自動指揮のミスが生じました</system:String>
     <system:String x:Key="FightMissionFailedAndStop">自動指揮の失敗回数が上限に達したため、任務が停止されました</system:String>
@@ -1470,7 +1491,12 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
 MAA を複数開くには、新しい MAA を他のフォルダにコピーし、異なる MAA、同じ adb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">現在のソフトウェアの場所ではデータを保存できません。設定が失われるか、実行時に問題が発生する可能性があります。書き込み可能なディレクトリに移動してください。システム保護ディレクトリ（Program Files、System32、Windows ディレクトリなど）には配置しないでください。</system:String>
-    <system:String x:Key="RunningInTempDirectoryError">MAA はアーカイブまたはシステムの一時ディレクトリから実行できません。MAA をアーカイブから完全に解凍するか、通常のフォルダに移動してから実行してください。</system:String>
+    <system:String x:Key="UnsupportedInstallLocationError" xml:space="preserve">MAA は、一時ディレクトリ、ドライブ直下、またはシステム/ユーザー共有ディレクトリのような現在のインストール先からは実行できません。
+
+現在のインストール先: {0}
+該当した非対応の場所: {1}
+
+これらの場所は階層が高すぎるため、ファイルの上書き、設定書き込み失敗、データ混乱の原因になります。D:\\MAA\\ のような専用フォルダーへ移動してから再度起動してください。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">暗号化と復号化に失敗しました。関連設定を再設定してください。そうでないと、暗号化された内容は設定ファイルに平文で保存されます。</system:String>
