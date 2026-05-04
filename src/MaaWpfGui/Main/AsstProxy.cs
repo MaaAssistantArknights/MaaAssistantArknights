@@ -2625,13 +2625,15 @@ public class AsstProxy
                 break;
         }
 
-        if (SettingsViewModel.ConnectSettings.ConnectConfig == "Androws")
+        switch (SettingsViewModel.ConnectSettings.ConnectConfig)
         {
-            AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType);
-        }
-        else
-        {
-            AsstSetInstanceOption(InstanceOptionKey.ClientType, string.Empty);
+            case "WSA":
+            case "Androws":
+                AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType);
+                break;
+            default:
+                AsstSetInstanceOption(InstanceOptionKey.ClientType, string.Empty);
+                break;
         }
 
         if (SettingsViewModel.ConnectSettings.AutoDetectConnection)
