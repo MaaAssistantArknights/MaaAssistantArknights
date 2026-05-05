@@ -1746,7 +1746,7 @@ public class AsstProxy
                         {
                             switch (taskName)
                             {
-                                case "EndOfActionThenStop":
+                                case "StageDrops-Stars-3": // Copilot@StageDrops-Stars-3
                                     {
                                         var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                                         if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count && ConfigFactory.CurrentConfig.TaskQueue[index] is MallTask mall)
