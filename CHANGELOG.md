@@ -1,4 +1,4 @@
-## v6.9.1
+## v6.9.2
 
 ### 许愿墙前挂满愿签，牛牛顺手把更新器、作战流程和海外服体验都打磨了一遍 | Highlights
 
@@ -41,6 +41,20 @@ This update adapts to the 7th anniversary wishing wall, the “Reclamation” in
 ----
 
 以下是详细内容：
+
+## v6.9.2
+
+### 改进 | Improved
+
+* 剿灭入口检测支持代理卡耗尽情况 @status102
+
+### 修复 | Fix
+
+* 开始唤醒流程 @status102
+
+### 文档 | Docs
+
+* 添加 DLL 注入问题解决方案并优化 FAQ 描述 (#16404) @ocsin1
 
 ## v6.9.1
 
