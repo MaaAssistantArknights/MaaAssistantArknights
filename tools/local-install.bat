@@ -3,6 +3,13 @@ setlocal
 
 pushd "%~dp0.." || exit /b 1
 
+if exist ".\global.json" (
+	echo global.json already exists, backing it up temporarily
+	move /y ".\global.json" ".\global.json.local-install.bak" >nul || goto :error
+)
+
+> ".\global.json" echo {"sdk":{"version":"10.0.203","rollForward":"disable"}} || goto :error
+
 set "netbeauty_bin=%NUGET_PACKAGES%\nulastudio.netbeauty\2.1.5\tools\win-x86\nbeauty2.exe"
 if "%NUGET_PACKAGES%"=="" set "netbeauty_bin=%USERPROFILE%\.nuget\packages\nulastudio.netbeauty\2.1.5\tools\win-x86\nbeauty2.exe"
 
@@ -14,13 +21,6 @@ if not exist "%netbeauty_bin%" (
 cmake --build build --config RelWithDebInfo --parallel %NUMBER_OF_PROCESSORS% || goto :error
 cmake --build build --target MAA.Updater --config RelWithDebInfo || goto :error
 cmake --install build --config RelWithDebInfo --prefix install || goto :error
-
-if exist ".\global.json" (
-	echo global.json already exists, backing it up temporarily
-	move /y ".\global.json" ".\global.json.local-install.bak" >nul || goto :error
-)
-
-> ".\global.json" echo {"sdk":{"version":"10.0.203","rollForward":"disable"}} || goto :error
 
 dotnet restore src/MaaWpfGui/MaaWpfGui.csproj || goto :error
 
