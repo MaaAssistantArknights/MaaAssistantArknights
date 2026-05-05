@@ -150,10 +150,15 @@ jobs:
           cp MaaFramework-temp/bin/*Win32ControlUnit* install/
           cp MaaFramework-temp/bin/*AdbControlUnit* install/
 
+      - name: Generate global.json
+        shell: bash
+        run: |
+          echo '{"sdk":{"version":"10.0.203","rollForward":"disable"}}' > global.json
+
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '10.0.202'
+          global-json-file: global.json
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget

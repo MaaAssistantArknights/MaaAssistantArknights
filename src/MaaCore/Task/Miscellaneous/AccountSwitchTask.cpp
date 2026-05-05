@@ -24,7 +24,7 @@ bool asst::AccountSwitchTask::_run()
     }
 
     if (std::ranges::find(SupportedClientType, m_client_type) == SupportedClientType.end()) {
-        Log.error(__FUNCTION__, "unsupported client");
+        LogError << __FUNCTION__ << "unsupported client" << m_client_type;
         return false;
     }
 

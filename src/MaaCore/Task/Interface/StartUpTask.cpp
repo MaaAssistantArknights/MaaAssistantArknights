@@ -44,8 +44,8 @@ bool asst::StartUpTask::run()
         return false;
     }
 
-    if (m_start_up_task_ptr->run()) {
-        if (!m_account_switch_task_ptr->run()) {
+    if (m_account_switch_task_ptr->run()) {
+        if (!m_start_up_task_ptr->run()) {
             return false;
         }
         return true;
