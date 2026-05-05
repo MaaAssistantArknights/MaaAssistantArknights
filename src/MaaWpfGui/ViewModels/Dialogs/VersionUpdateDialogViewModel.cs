@@ -393,6 +393,8 @@ public class VersionUpdateDialogViewModel : Screen
 
     private async Task<CheckUpdateRetT> HandleFakeUpdate()
     {
+        const double MinimumDetectedNewVersionDisplaySeconds = 0.5d;
+
         UpdateTag = FakeUpdateHelper.TargetVersion;
         if (!string.IsNullOrWhiteSpace(FakeUpdateHelper.UpdateInfo))
         {
@@ -410,6 +412,7 @@ public class VersionUpdateDialogViewModel : Screen
             return CheckUpdateRetT.AlreadyLatest;
         }
 
+        await Task.Delay(TimeSpan.FromSeconds(MinimumDetectedNewVersionDisplaySeconds));
         await SimulateMirrorChyanDownloadAsync();
 
         return CheckUpdateRetT.OK;
@@ -417,36 +420,58 @@ public class VersionUpdateDialogViewModel : Screen
 
     private static async Task SimulateMirrorChyanDownloadAsync()
     {
-        const long MinPackageSizeMiB = 4;
+        const long MinPackageSizeMiB = 20;
         const long MaxPackageSizeMiB = 80;
+        const long BytesPerMiB = 1024 * 1024;
         const double GigabitBytesPerSecond = 1_000_000_000d / 8d;
-        const int MinimumVisualStepDelayMs = 50;
+        const double LogUpdateIntervalSeconds = 1d;
+        const double MinimumDownloadDisplaySeconds = 0.5d;
+        const double MinSpeedFactor = 0.25d;
+        const double MaxSpeedFactor = 1.20d;
+        const double MaxSpeedFactorStepDelta = 0.22d;
 
-        long totalBytes = Random.Shared.NextInt64(MinPackageSizeMiB, MaxPackageSizeMiB + 1) * 1024 * 1024;
-        double simulatedSeconds = totalBytes / GigabitBytesPerSecond;
-        int steps = Math.Max(3, (int)Math.Ceiling(simulatedSeconds / 0.1d));
+        long totalBytes = Random.Shared.NextInt64(MinPackageSizeMiB * BytesPerMiB, (MaxPackageSizeMiB * BytesPerMiB) + 1);
 
         OutputDownloadProgress(LocalizationHelper.GetString("NewVersionDownloadPreparing"), downloading: false, globalSource: false);
 
-        long previousValue = 0;
-        for (int step = 1; step <= steps; step++)
+        long downloadedBytes = 0;
+        double speedFactor = 1d + ((Random.Shared.NextDouble() - 0.5d) * 0.24d);
+        bool hasReportedProgress = false;
+        while (downloadedBytes < totalBytes)
         {
-            long currentValue = step == steps
-                ? totalBytes
-                : (long)Math.Round(totalBytes * (step / (double)steps));
-            int currentChunk = (int)Math.Max(0, currentValue - previousValue);
-            double currentStepSeconds = Math.Max(simulatedSeconds / steps, 0.001d);
+            speedFactor = Math.Clamp(
+                speedFactor + ((Random.Shared.NextDouble() - 0.5d) * MaxSpeedFactorStepDelta * 2d),
+                MinSpeedFactor,
+                MaxSpeedFactor);
 
-            OutputDownloadProgress(currentValue, totalBytes, currentChunk, currentStepSeconds);
+            double bytesPerSecond = GigabitBytesPerSecond * speedFactor;
+            long remainingBytes = totalBytes - downloadedBytes;
+            double remainingSeconds = remainingBytes / bytesPerSecond;
+            double currentIntervalSeconds;
 
-            previousValue = currentValue;
-            if (step < steps)
+            if (!hasReportedProgress)
             {
-                int visualDelay = Math.Max(MinimumVisualStepDelayMs, (int)Math.Round(currentStepSeconds * 1000d));
-                await Task.Delay(visualDelay);
+                currentIntervalSeconds = Math.Max(MinimumDownloadDisplaySeconds, Math.Min(LogUpdateIntervalSeconds, remainingSeconds));
             }
+            else
+            {
+                currentIntervalSeconds = Math.Min(LogUpdateIntervalSeconds, remainingSeconds);
+            }
+
+            long currentChunk = Math.Min(
+                remainingBytes,
+                Math.Max(1L, (long)Math.Round(bytesPerSecond * currentIntervalSeconds)));
+            long currentValue = downloadedBytes + currentChunk;
+
+            await Task.Delay(TimeSpan.FromSeconds(currentIntervalSeconds));
+
+            OutputDownloadProgress(currentValue, totalBytes, (int)currentChunk, currentIntervalSeconds);
+
+            downloadedBytes = currentValue;
+            hasReportedProgress = true;
         }
 
+        await Task.Delay(TimeSpan.FromSeconds(MinimumDownloadDisplaySeconds));
         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
     }
 
