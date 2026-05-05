@@ -69,7 +69,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the core version.
     /// </summary>
-    public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+    private static readonly string _coreVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+
+    public static string CoreVersion => FakeUpdateHelper.IsEnabled ? FakeUpdateHelper.CurrentVersion : _coreVersion;
 
     public static string CoreVersionDisplay => string.Join("\u200B", CoreVersion.ToCharArray());
 
@@ -78,7 +80,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the UI version.
     /// </summary>
-    public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG_VERSION" : _uiVersion;
+    public static string UiVersion => FakeUpdateHelper.IsEnabled
+        ? FakeUpdateHelper.CurrentVersion
+        : _uiVersion == "0.0.1"
+            ? "DEBUG_VERSION"
+            : _uiVersion;
 
     public static string UiVersionDisplay => string.Join("\u200B", UiVersion.ToCharArray());
 

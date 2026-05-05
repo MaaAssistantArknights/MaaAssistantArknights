@@ -72,10 +72,15 @@ public class VersionUpdateDialogViewModel : Screen
         return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
     }
 
-    private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+    private readonly string _curVersion = FakeUpdateHelper.IsEnabled
+        ? FakeUpdateHelper.CurrentVersion
+        : Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+
     private string _latestVersion = string.Empty;
 
-    private string _updateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
+    private string _updateTag = FakeUpdateHelper.IsEnabled
+        ? FakeUpdateHelper.TargetVersion
+        : ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
 
     /// <summary>
     /// Gets or sets the update tag.
@@ -89,7 +94,9 @@ public class VersionUpdateDialogViewModel : Screen
         }
     }
 
-    private string _updateInfo = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+    private string _updateInfo = FakeUpdateHelper.IsEnabled && !string.IsNullOrWhiteSpace(FakeUpdateHelper.UpdateInfo)
+        ? FakeUpdateHelper.UpdateInfo
+        : ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
 
     // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 
@@ -360,6 +367,11 @@ public class VersionUpdateDialogViewModel : Screen
         {
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
 
+            if (FakeUpdateHelper.IsEnabled)
+            {
+                return await HandleFakeUpdate();
+            }
+
             var (checkRet, source) = await CheckUpdate();
 
             if (checkRet != CheckUpdateRetT.OK)
@@ -377,6 +389,65 @@ public class VersionUpdateDialogViewModel : Screen
         {
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
         }
+    }
+
+    private async Task<CheckUpdateRetT> HandleFakeUpdate()
+    {
+        UpdateTag = FakeUpdateHelper.TargetVersion;
+        if (!string.IsNullOrWhiteSpace(FakeUpdateHelper.UpdateInfo))
+        {
+            UpdateInfo = FakeUpdateHelper.UpdateInfo;
+        }
+
+        UpdatePackageName = "MirrorChyanApp" + UpdateTag + ".zip";
+
+        SettingsViewModel.VersionUpdateSettings.NewVersionFoundInfo = FakeUpdateHelper.HasPendingFakeUpdate
+            ? $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {UpdateTag}"
+            : string.Empty;
+
+        if (!FakeUpdateHelper.HasPendingFakeUpdate)
+        {
+            return CheckUpdateRetT.AlreadyLatest;
+        }
+
+        await SimulateMirrorChyanDownloadAsync();
+
+        return CheckUpdateRetT.OK;
+    }
+
+    private static async Task SimulateMirrorChyanDownloadAsync()
+    {
+        const long MinPackageSizeMiB = 4;
+        const long MaxPackageSizeMiB = 80;
+        const double GigabitBytesPerSecond = 1_000_000_000d / 8d;
+        const int MinimumVisualStepDelayMs = 50;
+
+        long totalBytes = Random.Shared.NextInt64(MinPackageSizeMiB, MaxPackageSizeMiB + 1) * 1024 * 1024;
+        double simulatedSeconds = totalBytes / GigabitBytesPerSecond;
+        int steps = Math.Max(3, (int)Math.Ceiling(simulatedSeconds / 0.1d));
+
+        OutputDownloadProgress(LocalizationHelper.GetString("NewVersionDownloadPreparing"), downloading: false, globalSource: false);
+
+        long previousValue = 0;
+        for (int step = 1; step <= steps; step++)
+        {
+            long currentValue = step == steps
+                ? totalBytes
+                : (long)Math.Round(totalBytes * (step / (double)steps));
+            int currentChunk = (int)Math.Max(0, currentValue - previousValue);
+            double currentStepSeconds = Math.Max(simulatedSeconds / steps, 0.001d);
+
+            OutputDownloadProgress(currentValue, totalBytes, currentChunk, currentStepSeconds);
+
+            previousValue = currentValue;
+            if (step < steps)
+            {
+                int visualDelay = Math.Max(MinimumVisualStepDelayMs, (int)Math.Round(currentStepSeconds * 1000d));
+                await Task.Delay(visualDelay);
+            }
+        }
+
+        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
     }
 
     private async Task<CheckUpdateRetT> HandleUpdateFromMaaApi()
@@ -668,6 +739,13 @@ public class VersionUpdateDialogViewModel : Screen
     {
         if (SettingsViewModel.VersionUpdateSettings.AutoInstallUpdatePackage)
         {
+            if (FakeUpdateHelper.HasPendingFakeUpdate)
+            {
+                await _runningState.UntilIdleAsync(1000);
+                _ = FakeUpdateHelper.Updating();
+                return;
+            }
+
             await Bootstrapper.RestartAfterIdleAsync();
             return;
         }
@@ -683,6 +761,12 @@ public class VersionUpdateDialogViewModel : Screen
             cancel: LocalizationHelper.GetString("ManualRestart"));
         if (result == MessageBoxResult.OK)
         {
+            if (FakeUpdateHelper.HasPendingFakeUpdate)
+            {
+                _ = FakeUpdateHelper.Updating();
+                return;
+            }
+
             Bootstrapper.ShutdownAndRestartWithoutArgs();
         }
     }
