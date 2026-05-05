@@ -329,7 +329,10 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             Instances.SettingsViewModel.UpdateWindowTitle();
             var config = string.Join(' ', _windowTitleSelectShowList.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList());
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, config);
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.TitleTweaker);
+            if (config != "2 3 4")
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.TitleTweaker);
+            }
         }
     }
 
