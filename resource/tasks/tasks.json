@@ -4670,6 +4670,7 @@
         "next": [
             "Copilot@BattleStartPreFlag",
             "Copilot@BattleStartPreFlag-Return",
+            "Copilot@ClickCornerUntilStartButton@LoadingIcon",
             "Copilot@ClickCornerUntilStartButton"
         ]
     },
