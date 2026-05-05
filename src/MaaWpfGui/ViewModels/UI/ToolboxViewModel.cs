@@ -73,10 +73,10 @@ public class ToolboxViewModel : Screen
         _peepImageTimer.Elapsed += PeepImageTimerElapsed;
         _peepImageTimer.Interval = 1000d / PeepTargetFps;
         _gachaTimer.Tick += RefreshGachaTip;
-        InitializeDepotRowPresentation();
-        InitializeOperBoxRowPresentation();
         LoadDepotDetails();
         LoadOperBoxDetails();
+        InitializeDepotRowPresentation();
+        InitializeOperBoxRowPresentation();
         OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
 
         UpdateMiniGameTaskList();
