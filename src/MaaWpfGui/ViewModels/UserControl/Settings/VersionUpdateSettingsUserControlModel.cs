@@ -526,7 +526,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        var ret = await Instances.VersionUpdateDialogViewModel.CheckAndDownloadVersionUpdate();
+        var ret = await Instances.VersionUpdateDialogViewModel.CheckAndDownloadVersionUpdate(forceDownload: true);
 
         var toastMessage = ret switch {
             VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,

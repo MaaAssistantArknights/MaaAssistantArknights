@@ -354,7 +354,7 @@ public class VersionUpdateDialogViewModel : Screen
     /// 检查更新，并下载更新包。
     /// </summary>
     /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-    public async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
+    public async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate(bool forceDownload = false)
     {
         try
         {
@@ -368,8 +368,8 @@ public class VersionUpdateDialogViewModel : Screen
             }
 
             return source switch {
-                AppUpdateSource.MaaApi => await HandleUpdateFromMaaApi(),
-                AppUpdateSource.MirrorChyan => await HandleUpdateFromMirrorChyan(),
+                AppUpdateSource.MaaApi => await HandleUpdateFromMaaApi(forceDownload),
+                AppUpdateSource.MirrorChyan => await HandleUpdateFromMirrorChyan(forceDownload),
                 _ => CheckUpdateRetT.UnknownError,
             };
         }
@@ -379,7 +379,12 @@ public class VersionUpdateDialogViewModel : Screen
         }
     }
 
-    private async Task<CheckUpdateRetT> HandleUpdateFromMaaApi()
+    private static bool ShouldDownloadUpdatePackage(bool hasPackage, bool forceDownload)
+    {
+        return hasPackage && (forceDownload || SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage);
+    }
+
+    private async Task<CheckUpdateRetT> HandleUpdateFromMaaApi(bool forceDownload)
     {
         // 保存新版本的信息
         var name = _latestJson?["name"]?.ToString();
@@ -401,13 +406,13 @@ public class VersionUpdateDialogViewModel : Screen
         UpdateUrl = _latestJson?["html_url"]?.ToString() ?? string.Empty;
 
         bool otaFound = _assetsObject != null;
-        bool goDownload = otaFound && SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage;
+        bool shouldDownload = ShouldDownloadUpdatePackage(otaFound, forceDownload);
 
-        ShowUpdateInfo(otaFound, LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"), true);
+        ShowUpdateInfo(otaFound, LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"), true, shouldDownload);
 
         UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
 
-        if (!goDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
+        if (!shouldDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
         {
             OutputDownloadProgress(string.Empty, downloading: false);
             return CheckUpdateRetT.NoNeedToUpdate;
@@ -538,12 +543,10 @@ public class VersionUpdateDialogViewModel : Screen
         }
     }
 
-    private void ShowUpdateInfo(bool otaFound, string? text, bool globalSource)
+    private void ShowUpdateInfo(bool otaFound, string? text, bool globalSource, bool shouldDownload)
     {
-        bool goDownload = otaFound && SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage;
-
         using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
-        if (goDownload)
+        if (shouldDownload)
         {
             OutputDownloadProgress(LocalizationHelper.GetString("NewVersionDownloadPreparing"), false, globalSource);
             toast.AppendContentText(globalSource
@@ -579,7 +582,7 @@ public class VersionUpdateDialogViewModel : Screen
         toast.ShowUpdateVersion();
     }
 
-    private async Task<CheckUpdateRetT> HandleUpdateFromMirrorChyan()
+    private async Task<CheckUpdateRetT> HandleUpdateFromMirrorChyan(bool forceDownload)
     {
         if (string.IsNullOrEmpty(_mirrorcDownloadUrl))
         {
@@ -590,11 +593,11 @@ public class VersionUpdateDialogViewModel : Screen
         UpdateInfo = _mirrorcReleaseNote ?? string.Empty;
         SettingsViewModel.VersionUpdateSettings.NewVersionFoundInfo = $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {UpdateTag}";
 
-        bool goDownload = SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage;
+        bool shouldDownload = ShouldDownloadUpdatePackage(hasPackage: true, forceDownload);
 
-        ShowUpdateInfo(true, LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"), false);
+        ShowUpdateInfo(true, LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"), false, shouldDownload);
 
-        if (!goDownload)
+        if (!shouldDownload)
         {
             OutputDownloadProgress(string.Empty, downloading: false);
             return CheckUpdateRetT.NoNeedToUpdate;
