@@ -1176,7 +1176,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Fight@UsePrts-Annihilation",
-            "Fight@SwitchToRaidMode",
+            "Fight@SwitchToHardMode",
             "Fight@SwitchToNormalMode",
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
@@ -1184,7 +1184,7 @@
             "Fight@PRTS#next"
         ]
     },
-    "SwitchToRaidMode": {
+    "SwitchToHardMode": {
         "Doc": "切换到险地模式（点击险地作战按钮）",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",

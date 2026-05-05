@@ -180,18 +180,18 @@ bool asst::FightTask::set_params(const json::value& params)
 
         if (difficulty == "hard") {
             Log.info("Detected chapter 15-17 hard mode stage:", stage);
-            m_fight_task_ptr->set_times_limit("SwitchToRaidMode", 1);
+            m_fight_task_ptr->set_times_limit("SwitchToHardMode", 1);
             m_fight_task_ptr->set_times_limit("SwitchToNormalMode", 0);
         }
         else if (difficulty == "normal") {
             Log.info("Detected chapter 15-17 normal mode stage:", stage);
-            m_fight_task_ptr->set_times_limit("SwitchToRaidMode", 0);
+            m_fight_task_ptr->set_times_limit("SwitchToHardMode", 0);
             m_fight_task_ptr->set_times_limit("SwitchToNormalMode", 1);
         }
     }
     else {
         // 非15-17章关卡，禁用模式切换任务
-        m_fight_task_ptr->set_times_limit("SwitchToRaidMode", 0);
+        m_fight_task_ptr->set_times_limit("SwitchToHardMode", 0);
         m_fight_task_ptr->set_times_limit("SwitchToNormalMode", 0);
     }
 
