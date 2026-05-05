@@ -1176,11 +1176,33 @@
         "algorithm": "JustReturn",
         "next": [
             "Fight@UsePrts-Annihilation",
+            "Fight@SwitchToRaidMode",
+            "Fight@SwitchToNormalMode",
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
             "Fight@PRTS#next"
         ]
+    },
+    "SwitchToRaidMode": {
+        "Doc": "切换到险地模式（点击险地作战按钮）",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["险地作战", "险地"],
+        "maxTimes": 0,
+        "postDelay": 1000,
+        "next": ["UsePrts", "UsePrts-StageSN", "StartButton1"],
+        "exceededNext": ["SwitchToNormalMode", "UsePrts", "UsePrts-StageSN", "StartButton1"]
+    },
+    "SwitchToNormalMode": {
+        "Doc": "切换到常规模式（点击常规作战按钮）",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["常规作战", "常规"],
+        "maxTimes": 0,
+        "postDelay": 1000,
+        "next": ["UsePrts", "UsePrts-StageSN", "StartButton1"],
+        "exceededNext": ["UsePrts", "UsePrts-StageSN", "StartButton1"]
     },
     "LastOrCurBattleBegin": {
         "algorithm": "JustReturn",

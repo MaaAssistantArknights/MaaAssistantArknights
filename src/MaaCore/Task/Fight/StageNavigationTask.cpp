@@ -48,17 +48,24 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
     }
 
     if (!difficulty.empty()) {
-        std::string upper_difficulty = difficulty;
-        upper_difficulty[0] = static_cast<char>(::toupper(upper_difficulty[0]));
-        for (size_t i = 1; i < upper_difficulty.size(); ++i) {
-            upper_difficulty[i] = static_cast<char>(::tolower(upper_difficulty[i]));
+        // 15-17章的hard/normal后缀由FightTask处理，不在这里处理
+        int chapter_num = std::stoi(chapter);
+        if (chapter_num >= 15 && chapter_num <= 17) {
+            Log.info("Chapter 15-17 detected, skip ChapterDifficulty task");
         }
-        static const std::string difficulty_task_prefix = "ChapterDifficulty";
-        m_difficulty_task = difficulty_task_prefix + upper_difficulty;
-        Log.info("difficulty task", m_difficulty_task);
-        if (!Task.get(m_difficulty_task)) {
-            Log.error("difficulty task not exists", m_difficulty_task);
-            return false;
+        else {
+            std::string upper_difficulty = difficulty;
+            upper_difficulty[0] = static_cast<char>(::toupper(upper_difficulty[0]));
+            for (size_t i = 1; i < upper_difficulty.size(); ++i) {
+                upper_difficulty[i] = static_cast<char>(::tolower(upper_difficulty[i]));
+            }
+            static const std::string difficulty_task_prefix = "ChapterDifficulty";
+            m_difficulty_task = difficulty_task_prefix + upper_difficulty;
+            Log.info("difficulty task", m_difficulty_task);
+            if (!Task.get(m_difficulty_task)) {
+                Log.error("difficulty task not exists", m_difficulty_task);
+                return false;
+            }
         }
     }
 
