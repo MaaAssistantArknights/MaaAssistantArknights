@@ -65,6 +65,11 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     public int DropCount { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 指定材料按库存目标计算
+    /// </summary>
+    public bool UseInventoryTarget { get; set; }
+
+    /// <summary>
     /// Gets or sets 是否启用次数限制
     /// </summary>
     public bool? EnableTimesLimit { get; set; } = false;

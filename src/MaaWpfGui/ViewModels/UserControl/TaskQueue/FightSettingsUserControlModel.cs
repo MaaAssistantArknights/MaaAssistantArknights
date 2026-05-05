@@ -27,6 +27,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
@@ -44,6 +45,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 {
     public const string AnnihilationName = "Annihilation";
     private static readonly ILogger _logger = Log.ForContext<FightSettingsUserControlModel>();
+    private readonly RunningState _runningState;
+    private readonly object _specifiedInventoryStateLock = new();
+    private Dictionary<string, int>? _runStartInventorySnapshot;
+    private Dictionary<string, int> _runReservedQuantityByDropId = [];
+    private Dictionary<int, SpecifiedInventoryTaskState> _specifiedInventoryTaskStates = [];
+    private bool _lastIdleState;
 
     public static FightTimes? FightReport { get; set; }
 
@@ -56,6 +63,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     public FightSettingsUserControlModel()
     {
+        _runningState = RunningState.Instance;
+        _lastIdleState = _runningState.Idle;
+        _runningState.StateChanged += OnRunningStateChanged;
+
         foreach (var i in WeeklyScheduleSource)
         {
             i.PropertyChanged += (_, __) => SaveWeeklySchedule();
@@ -64,6 +75,29 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
         InitDrops();
+    }
+
+    private void OnRunningStateChanged(object? sender, RunningState.RunningStateChangedEventArgs e)
+    {
+        if (e.Idle == _lastIdleState)
+        {
+            return;
+        }
+
+        _lastIdleState = e.Idle;
+        ResetSpecifiedInventoryRuntimeState();
+    }
+
+    private void ResetSpecifiedInventoryRuntimeState()
+    {
+        lock (_specifiedInventoryStateLock)
+        {
+            _runStartInventorySnapshot = null;
+            _runReservedQuantityByDropId = [];
+            _specifiedInventoryTaskStates = [];
+        }
+
+        Execute.OnUIThread(NotifySpecifiedDropsStateChanged);
     }
 
     public static FightSettingsUserControlModel Instance { get; }
@@ -320,6 +354,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     {
         get => GetTaskConfig<FightTask>().EnableTargetDrop;
         set {
+            if (IsSpecifiedInventoryLocked)
+            {
+                return;
+            }
+
             if (!SetTaskConfig<FightTask>(t => t.EnableTargetDrop == value, t => t.EnableTargetDrop = value))
             {
                 return;
@@ -327,6 +366,240 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
             SetFightParams();
         }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 指定材料按库存目标计算.
+    /// </summary>
+    public bool UseInventoryTarget
+    {
+        get => GetTaskConfig<FightTask>().UseInventoryTarget;
+        set {
+            if (!_runningState.Idle)
+            {
+                return;
+            }
+
+            if (!SetTaskConfig<FightTask>(t => t.UseInventoryTarget == value, t => t.UseInventoryTarget = value))
+            {
+                return;
+            }
+
+            NotifySpecifiedDropsStateChanged();
+            SetFightParams();
+        }
+    }
+
+    public bool IsSpecifiedInventoryLocked => UseInventoryTarget && !_runningState.Idle;
+
+    public bool UseDropQuantityMode
+    {
+        get => !UseInventoryTarget;
+        set {
+            if (value)
+            {
+                UseInventoryTarget = false;
+            }
+        }
+    }
+
+    public bool UseTargetInventoryMode
+    {
+        get => UseInventoryTarget;
+        set {
+            if (value)
+            {
+                UseInventoryTarget = true;
+            }
+        }
+    }
+
+    public string SpecifiedDropsQuantityLabel => LocalizationHelper.GetString(UseInventoryTarget ? "TargetInventory" : "Quantity");
+
+    public string CurrentDropsInventoryText => FormatSpecifiedDropsCount(GetSpecifiedDropsInventoryCount(GetTaskConfig<FightTask>(), GetCurrentFightTaskId()));
+
+    public string EffectiveDropsQuantityText => GetSpecifiedDropsCoreQuantity(GetTaskConfig<FightTask>(), GetCurrentFightTaskId()).FormatNumber(false);
+
+    private static string FormatSpecifiedDropsCount(int? count) => count is int value ? value.FormatNumber(false) : "--";
+
+    private static Dictionary<string, int> CreateCurrentInventorySnapshot()
+    {
+        var depotResult = Instances.ToolboxViewModel?.DepotResult;
+        if (depotResult == null || depotResult.Count == 0)
+        {
+            return [];
+        }
+
+        return depotResult
+            .Where(item => item.Count >= 0)
+            .ToDictionary(item => item.Id, item => item.Count);
+    }
+
+    private IReadOnlyDictionary<string, int> GetEffectiveInventorySnapshot()
+    {
+        lock (_specifiedInventoryStateLock)
+        {
+            if (_runStartInventorySnapshot != null)
+            {
+                return _runStartInventorySnapshot;
+            }
+        }
+
+        return CreateCurrentInventorySnapshot();
+    }
+
+    private int? GetCurrentFightTaskId()
+    {
+        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
+        {
+            return null;
+        }
+
+        int index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(fight);
+        if (index < 0 || index >= Instances.TaskQueueViewModel.TaskItemViewModels.Count)
+        {
+            return null;
+        }
+
+        var taskIds = Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskIds;
+        return taskIds.Count > 0 ? taskIds[0] : null;
+    }
+
+    private SpecifiedInventoryTaskState? GetSpecifiedInventoryTaskState(int? taskId)
+    {
+        if (taskId is not int id || id <= 0)
+        {
+            return null;
+        }
+
+        lock (_specifiedInventoryStateLock)
+        {
+            return _specifiedInventoryTaskStates.GetValueOrDefault(id);
+        }
+    }
+
+    private int? GetSpecifiedDropsInventoryCount(FightTask fight, int? taskId = null)
+    {
+        if (string.IsNullOrEmpty(fight.DropId))
+        {
+            return null;
+        }
+
+        if (GetSpecifiedInventoryTaskState(taskId) is { } taskState && taskState.DropId == fight.DropId)
+        {
+            return taskState.StartInventory;
+        }
+
+        var snapshot = GetEffectiveInventorySnapshot();
+        return snapshot.TryGetValue(fight.DropId, out var count) ? count : 0;
+    }
+
+    private int GetSpecifiedDropsReservedQuantityBeforeCurrentTask(FightTask currentFight, int inventoryCount)
+    {
+        int currentIndex = TaskSettingVisibilityInfo.Instance.CurrentIndex;
+        if (currentIndex <= 0 || string.IsNullOrEmpty(currentFight.DropId))
+        {
+            return 0;
+        }
+
+        int reserved = 0;
+        for (int index = 0; index < currentIndex; ++index)
+        {
+            if (ConfigFactory.CurrentConfig.TaskQueue[index] is not FightTask previousFight ||
+                previousFight.IsEnable == false ||
+                previousFight.EnableTargetDrop == false ||
+                !previousFight.UseInventoryTarget ||
+                previousFight.DropId != currentFight.DropId)
+            {
+                continue;
+            }
+
+            reserved += Math.Max(previousFight.DropCount - inventoryCount - reserved, 0);
+        }
+
+        return reserved;
+    }
+
+    private int GetSpecifiedDropsCoreQuantity(FightTask fight, int? taskId = null)
+    {
+        if (!fight.UseInventoryTarget)
+        {
+            return fight.DropCount;
+        }
+
+        if (GetSpecifiedInventoryTaskState(taskId) is { } taskState)
+        {
+            return taskState.EffectiveQuantity;
+        }
+
+        int inventoryCount = GetSpecifiedDropsInventoryCount(fight) ?? 0;
+        int reservedQuantity = GetSpecifiedDropsReservedQuantityBeforeCurrentTask(fight, inventoryCount);
+        return Math.Max(fight.DropCount - inventoryCount - reservedQuantity, 0);
+    }
+
+    private SpecifiedInventoryTaskState CreateSpecifiedInventoryTaskState(FightTask fight)
+    {
+        lock (_specifiedInventoryStateLock)
+        {
+            _runStartInventorySnapshot ??= CreateCurrentInventorySnapshot();
+
+            int startInventory = _runStartInventorySnapshot.GetValueOrDefault(fight.DropId);
+            int reservedQuantity = _runReservedQuantityByDropId.GetValueOrDefault(fight.DropId);
+            int effectiveQuantity = Math.Max(fight.DropCount - startInventory - reservedQuantity, 0);
+            return new(fight.DropId, startInventory, effectiveQuantity);
+        }
+    }
+
+    private void RememberSpecifiedInventoryTaskState(int taskId, SpecifiedInventoryTaskState taskState)
+    {
+        if (taskId <= 0)
+        {
+            return;
+        }
+
+        lock (_specifiedInventoryStateLock)
+        {
+            _specifiedInventoryTaskStates[taskId] = taskState;
+            _runReservedQuantityByDropId[taskState.DropId] = _runReservedQuantityByDropId.GetValueOrDefault(taskState.DropId) + taskState.EffectiveQuantity;
+        }
+    }
+
+    private void NotifySpecifiedDropsStateChanged()
+    {
+        NotifyOfPropertyChange(nameof(IsSpecifiedInventoryLocked));
+        NotifyOfPropertyChange(nameof(UseDropQuantityMode));
+        NotifyOfPropertyChange(nameof(UseTargetInventoryMode));
+        NotifyOfPropertyChange(nameof(SpecifiedDropsQuantityLabel));
+        NotifyOfPropertyChange(nameof(CurrentDropsInventoryText));
+        NotifyOfPropertyChange(nameof(EffectiveDropsQuantityText));
+    }
+
+    public void RefreshSpecifiedDropsDependenciesForCurrentTask(int changedTaskIndex)
+    {
+        if (!_runningState.Idle ||
+            TaskSettingVisibilityInfo.CurrentTask is not FightTask currentFight ||
+            !currentFight.UseInventoryTarget ||
+            string.IsNullOrEmpty(currentFight.DropId))
+        {
+            return;
+        }
+
+        int currentIndex = TaskSettingVisibilityInfo.Instance.CurrentIndex;
+        if (changedTaskIndex < 0 || changedTaskIndex >= currentIndex)
+        {
+            return;
+        }
+
+        if (ConfigFactory.CurrentConfig.TaskQueue[changedTaskIndex] is not FightTask changedFight ||
+            changedFight.EnableTargetDrop == false ||
+            !changedFight.UseInventoryTarget ||
+            changedFight.DropId != currentFight.DropId)
+        {
+            return;
+        }
+
+        NotifySpecifiedDropsStateChanged();
+        SetFightParams();
     }
 
     /// <summary>
@@ -400,7 +673,17 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     {
         get => GetTaskConfig<FightTask>().DropId;
         set {
-            SetTaskConfig<FightTask>(t => t.DropId == value, t => t.DropId = value);
+            if (IsSpecifiedInventoryLocked)
+            {
+                return;
+            }
+
+            if (!SetTaskConfig<FightTask>(t => t.DropId == value, t => t.DropId = value))
+            {
+                return;
+            }
+
+            NotifySpecifiedDropsStateChanged();
             SetFightParams();
         }
     }
@@ -414,6 +697,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     [UsedImplicitly]
     public void DropsListDropDownClosed()
     {
+        if (IsSpecifiedInventoryLocked)
+        {
+            RefreshDropName();
+            NotifySpecifiedDropsStateChanged();
+            return;
+        }
+
         if (DropsList.FirstOrDefault(i => i.Display == DropsItemName) is { } item)
         {
             DropsItemId = item.Value;
@@ -433,7 +723,17 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     {
         get => GetTaskConfig<FightTask>().DropCount;
         set {
-            SetTaskConfig<FightTask>(t => t.DropCount == value, t => t.DropCount = value);
+            if (IsSpecifiedInventoryLocked)
+            {
+                return;
+            }
+
+            if (!SetTaskConfig<FightTask>(t => t.DropCount == value, t => t.DropCount = value))
+            {
+                return;
+            }
+
+            NotifySpecifiedDropsStateChanged();
             SetFightParams();
         }
     }
@@ -711,6 +1011,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         RefreshCurrentStagePlan();
         RefreshWeeklySchedule();
         RefreshDropName();
+        NotifySpecifiedDropsStateChanged();
         Refresh();
     }
 
@@ -1028,12 +1329,27 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
             var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
             var activityExpireDays = activityExpireIn2Days && fight.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0;
+            SpecifiedInventoryTaskState? specifiedInventoryTaskState = null;
+            int specifiedDropsQuantity = fight.DropCount;
+
+            if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId) && fight.UseInventoryTarget)
+            {
+                specifiedInventoryTaskState = Instance.GetSpecifiedInventoryTaskState(taskId) ?? Instance.CreateSpecifiedInventoryTaskState(fight);
+                specifiedDropsQuantity = specifiedInventoryTaskState.EffectiveQuantity;
+                if (specifiedDropsQuantity <= 0)
+                {
+                    return (null, []);
+                }
+            }
+
+            var effectiveMaxTimes = fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue;
+
             var task = new AsstFightTask() {
                 Stage = stage,
                 Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
                 Stone = fight.UseStone != false ? fight.StoneCount : 0,
                 Series = fight.Series,
-                MaxTimes = fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue,
+                MaxTimes = effectiveMaxTimes,
                 MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
                 IsDrGrandet = fight.IsDrGrandet,
                 ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
@@ -1049,21 +1365,41 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 task.Stage = fight.AnnihilationStage;
             }
 
-            if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId))
+            if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId) && specifiedDropsQuantity > 0)
             {
-                task.Drops.Add(fight.DropId, fight.DropCount);
+                task.Drops.Add(fight.DropId, specifiedDropsQuantity);
             }
 
-            if (fight.EnableTimesLimit is not false && fight.Series > 0 && fight.TimesLimit % fight.Series != 0)
+            if (effectiveMaxTimes > 0 && effectiveMaxTimes < int.MaxValue && fight.Series > 0 && effectiveMaxTimes % fight.Series != 0)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", fight.TimesLimit, fight.Series), UiLogColor.Warning);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", effectiveMaxTimes, fight.Series), UiLogColor.Warning);
             }
 
-            return taskId switch {
-                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
-                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task)),
-                _ => (null, []),
-            };
+            if (taskId is int id and > 0)
+            {
+                bool updated = Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
+                if (updated && specifiedInventoryTaskState != null && Instance.GetSpecifiedInventoryTaskState(id) == null)
+                {
+                    Instance.RememberSpecifiedInventoryTaskState(id, specifiedInventoryTaskState);
+                }
+
+                return (updated, [id]);
+            }
+
+            if (taskId is null)
+            {
+                var appendResult = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task);
+                if (appendResult.IsSuccess && specifiedInventoryTaskState != null)
+                {
+                    Instance.RememberSpecifiedInventoryTaskState(appendResult.TaskId, specifiedInventoryTaskState);
+                }
+
+                return (appendResult.IsSuccess, appendResult.TaskId > 0 ? [appendResult.TaskId] : []);
+            }
+
+            return (null, []);
         }
     }
+
+    private sealed record SpecifiedInventoryTaskState(string DropId, int StartInventory, int EffectiveQuantity);
 }

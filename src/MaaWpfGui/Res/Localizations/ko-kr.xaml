@@ -322,7 +322,10 @@
     <system:String x:Key="CheckBoxesNotSaved">이 옵션은 한 번만 유효합니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">이 옵션은 우클릭 시 한 번만 적용됩니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">이 옵션은 우클릭 시 한 번만 건너뜁니다</system:String>
-    <system:String x:Key="SpecifiedDropsTip">이 기능은 최적의 스테이지를 자동으로 계산하지 않습니다</system:String>
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">이 기능은 최적의 스테이지를 자동으로 계산하지 않습니다.
+• 드롭 수: 입력한 값을 그대로 Core의 목표 드롭 수로 전달합니다.
+• 목표 재고: ｢{key=Toolbox}-{key=DepotRecognition}｣ 의 재고 데이터에 의존합니다. 실행 시작 시 재고를 한 번만 읽고, 같은 재료를 지정한 여러 작업은 작업 순서대로 수량을 배분합니다.
+• 목표 재고 모드에서는 실행 중 재료와 수량을 동적으로 변경할 수 없으며, 재고 데이터가 없으면 0으로 처리합니다.</system:String>
     <system:String x:Key="StartupUpdateCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
@@ -778,6 +781,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PerformBattles">횟수 제한</system:String>
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>
+    <system:String x:Key="KeepInventory">재고 유지</system:String>
+    <system:String x:Key="TargetInventory">목표 재고</system:String>
     <system:String x:Key="Series">연속 전투</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 스테이지의 가능한 최대 대리 지휘 횟수의 배수를 감지하고, 자동으로 최대 대리 지휘 횟수를 유지하며, 이성 회복제 사용 후 이성이 남지 않도록 합니다.

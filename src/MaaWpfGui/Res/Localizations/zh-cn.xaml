@@ -322,7 +322,10 @@
     <system:String x:Key="CheckBoxesNotSaved">该选项仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">该选项右键选中时仅跳过一次</system:String>
-    <system:String x:Key="SpecifiedDropsTip">该选项不会自动计算最优关卡</system:String>
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">该选项不会自动计算最优关卡。
+• 刷取数量：将输入值直接传给 Core 作为目标掉落数。
+• 目标库存：依赖 ｢{key=Toolbox}-{key=DepotRecognition}｣ 的库存数据；开始运行时读取一次起始库存，同种材料的多个任务会按任务顺序依次分配配额。
+• 目标库存模式在运行中不支持动态修改指定材料和数量；未更新库存时按 0 处理。</system:String>
     <system:String x:Key="StartupUpdateCheck">启动时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheckTip">游戏内 00:00 / 18:00（对应服务器当地时间 04:00 / 22:00）</system:String>
@@ -777,6 +780,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="PerformBattles">指定次数</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取数量</system:String>
+    <system:String x:Key="KeepInventory">保持库存</system:String>
+    <system:String x:Key="TargetInventory">目标库存</system:String>
     <system:String x:Key="Series">代理倍率</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 自动识别关卡最大代理倍率, 保持最大代理倍率且使用理智药后理智不溢出
