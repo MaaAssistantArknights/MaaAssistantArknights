@@ -14,6 +14,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
+#include "Vision/Miscellaneous/PipelineAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -51,7 +52,7 @@ bool asst::BattleFormationTask::_run()
 {
     LogTraceFunction;
 
-    const auto& img = ctrler()->get_image();
+    auto img = ctrler()->get_image();
     if (!is_formation_valid(img)) {
         return true; // 编队不可用，直接返回，常见于TR关卡
     }
@@ -889,12 +890,33 @@ bool asst::BattleFormationTask::select_formation(int select_index, const cv::Mat
     return ProcessTask { *this, { select_formation_task[select_index - 1] } }.set_reusable_image(img).run();
 }
 
-bool asst::BattleFormationTask::is_formation_valid(const cv::Mat& img) const
+bool asst::BattleFormationTask::is_formation_valid(cv::Mat& img) const
 {
+    const static auto start_task = Task.get("BattleStartAll");
     static const std::string valid_task = "BattleStartPre@BattleQuickFormation";
-    ProcessTask task(*this, { "BattleFormationInvalid", valid_task });
-    task.set_reusable_image(img);
-    return task.run() && task.get_last_task_name() == valid_task;
+    static const std::string invalid_task = "BattleFormationInvalid";
+    TaskList tasks { invalid_task, valid_task };
+    std::ranges::copy(start_task->next, std::back_inserter(tasks));
+    PipelineAnalyzer::ResultOpt result;
+    {
+        PipelineAnalyzer analyzer(img);
+        analyzer.set_tasks(tasks);
+        result = analyzer.analyze();
+    }
+    int retry = 20;
+    while (retry >= 0 && !need_exit()) {
+        if (result) {
+            return result->task_ptr->name == valid_task;
+        }
+        --retry;
+        sleep(500);
+
+        img = ctrler()->get_image();
+        PipelineAnalyzer analyzer(img);
+        analyzer.set_tasks(tasks);
+        result = analyzer.analyze();
+    }
+    return false;
 }
 
 std::optional<std::string> asst::BattleFormationTask::add_support_unit(

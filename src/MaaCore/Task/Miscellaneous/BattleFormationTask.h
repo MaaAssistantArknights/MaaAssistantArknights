@@ -95,7 +95,7 @@ protected:
     bool parse_formation();
     // 判断当前编队是否与上次相同, 同时为相同部分添加进已选中, return 是否完全相同
     bool compare_formation();
-    bool is_formation_valid(const cv::Mat& img) const;
+    bool is_formation_valid(cv::Mat& img) const;
     bool select_formation(int select_index, const cv::Mat& img);
     bool enter_selection_page(const cv::Mat& img = cv::Mat());
     // 进入快捷编队清空选择后执行，快速选择非干员组的干员
