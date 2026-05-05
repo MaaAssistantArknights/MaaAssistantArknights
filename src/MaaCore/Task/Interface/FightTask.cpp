@@ -1,6 +1,7 @@
 #include "FightTask.h"
 
 #include <utility>
+#include <regex>
 
 #include "Config/TaskData.h"
 #include "Task/Fight/DrGrandetTaskPlugin.h"
@@ -168,6 +169,31 @@ bool asst::FightTask::set_params(const json::value& params)
     m_sidestory_reopen_task_ptr->set_penguin_id(std::move(penguin_id));
     m_sidestory_reopen_task_ptr->set_enable_yituliu(enable_yituliu);
     m_sidestory_reopen_task_ptr->set_server(server);
+
+    // 检测15-17章带后缀的关卡，启用对应的模式切换任务
+    // 必须放在最后，避免被其他set_times_limit覆盖
+    static const std::regex chapter15to17_regex(R"(^(1[5-7])-\d+-(hard|normal)$)", std::regex::icase);
+    std::smatch match;
+    if (std::regex_match(stage, match, chapter15to17_regex)) {
+        std::string difficulty = match[2].str();
+        std::transform(difficulty.begin(), difficulty.end(), difficulty.begin(), ::tolower);
+
+        if (difficulty == "hard") {
+            Log.info("Detected chapter 15-17 hard mode stage:", stage);
+            m_fight_task_ptr->set_times_limit("SwitchToRaidMode", 1);
+            m_fight_task_ptr->set_times_limit("SwitchToNormalMode", 0);
+        }
+        else if (difficulty == "normal") {
+            Log.info("Detected chapter 15-17 normal mode stage:", stage);
+            m_fight_task_ptr->set_times_limit("SwitchToRaidMode", 0);
+            m_fight_task_ptr->set_times_limit("SwitchToNormalMode", 1);
+        }
+    }
+    else {
+        // 非15-17章关卡，禁用模式切换任务
+        m_fight_task_ptr->set_times_limit("SwitchToRaidMode", 0);
+        m_fight_task_ptr->set_times_limit("SwitchToNormalMode", 0);
+    }
 
     return true;
 }
