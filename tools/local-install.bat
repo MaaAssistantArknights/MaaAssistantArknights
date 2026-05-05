@@ -15,6 +15,15 @@ cmake --build build --config RelWithDebInfo --parallel %NUMBER_OF_PROCESSORS% ||
 cmake --build build --target MAA.Updater --config RelWithDebInfo || goto :error
 cmake --install build --config RelWithDebInfo --prefix install || goto :error
 
+if exist ".\global.json" (
+	echo global.json already exists, backing it up temporarily
+	move /y ".\global.json" ".\global.json.local-install.bak" >nul || goto :error
+)
+
+> ".\global.json" echo {"sdk":{"version":"10.0.203","rollForward":"disable"}} || goto :error
+
+dotnet restore src/MaaWpfGui/MaaWpfGui.csproj || goto :error
+
 dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -r win-x64 -o install /p:DisableBeauty=True || goto :error
 "%netbeauty_bin%" --usepatch "%CD%\install\." ./externals || goto :error
 
@@ -23,12 +32,21 @@ rmdir /s /q .\install\msvc-debug 2>nul
 robocopy .\resource .\install\resource /MIR /MT:8
 if errorlevel 8 goto :error
 
+call :cleanup_global_json
 popd
 pause
 exit /b 0
 
 :error
 set "exit_code=%errorlevel%"
+call :cleanup_global_json
 popd
 pause
 exit /b %exit_code%
+
+:cleanup_global_json
+del /f /q ".\global.json" >nul 2>nul
+if exist ".\global.json.local-install.bak" (
+	move /y ".\global.json.local-install.bak" ".\global.json" >nul
+)
+exit /b 0
