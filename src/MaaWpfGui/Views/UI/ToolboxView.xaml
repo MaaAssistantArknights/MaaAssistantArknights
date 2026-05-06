@@ -8,6 +8,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
@@ -756,52 +757,157 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource MiniGame}">
-            <Grid Margin="20,0,20,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="100" />
-                </Grid.RowDefinitions>
-                <ComboBox
-                    Margin="10,0"
-                    hc:TitleElement.Title="{DynamicResource MiniGameName}"
-                    DisplayMemberPath="Display"
-                    IsEnabled="{Binding Idle}"
-                    ItemsSource="{Binding MiniGameTaskList}"
-                    SelectedValue="{Binding MiniGameTaskName}"
-                    SelectedValuePath="Value" />
-                <Grid Grid.Row="1" IsEnabled="{Binding Idle}">
-                    <Grid Visibility="{c:Binding 'MiniGameTaskName == &quot;MiniGame@SecretFront&quot;'}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <ComboBox
-                            Margin="10,10,10,0"
-                            hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Ending}"
-                            ItemsSource="{Binding SecretFrontEndingList}"
-                            SelectedValue="{Binding SecretFrontEnding}" />
-                        <ComboBox
-                            Grid.Row="1"
-                            Margin="10,10,10,0"
-                            hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Event}"
-                            DisplayMemberPath="Display"
-                            ItemsSource="{Binding SecretFrontEventList}"
-                            SelectedValue="{Binding SecretFrontEvent}"
-                            SelectedValuePath="Value" />
-                    </Grid>
-
+            <Grid Margin="20,0,20,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <CollectionViewSource x:Key="CategorizedMiniGames" Source="{Binding MiniGameCategoryItems}">
+                            <CollectionViewSource.GroupDescriptions>
+                                <PropertyGroupDescription PropertyName="Category" />
+                            </CollectionViewSource.GroupDescriptions>
+                        </CollectionViewSource>
+                    </Grid.Resources>
+                    <Border
+                        Grid.Row="0"
+                        Background="{DynamicResource RegionBrushOpacity25}"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4">
+                        <ListBox
+                            Margin="0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            IsEnabled="{Binding Idle}"
+                            IsSynchronizedWithCurrentItem="True"
+                            ItemsSource="{Binding Source={StaticResource CategorizedMiniGames}}"
+                            SelectedItem="{Binding SelectedMiniGameItem}"
+                            Style="{StaticResource MaaListBoxDefaultStyle}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Margin="5,0"
+                                        Text="{Binding Display}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Border
+                                                Padding="8,4"
+                                                Background="{DynamicResource RegionBrushOpacity50}"
+                                                BorderBrush="{DynamicResource BorderBrush}"
+                                                BorderThickness="0,0,0,1">
+                                                <controls:TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ListBox.GroupStyle>
+                        </ListBox>
+                    </Border>
+                    <Button
+                        Grid.Row="1"
+                        Width="160"
+                        Height="60"
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Center"
+                        Command="{s:Action StartMiniGame}"
+                        Content="{c:Binding 'Idle ? &quot;Link Start!&quot; : &quot;Stop!&quot;'}"
+                        IsEnabled="{c:Binding 'Inited and !Stopping'}" />
                 </Grid>
-                <controls:TextBlock Grid.Row="2" Text="{Binding MiniGameTip}" />
-                <Button
-                    Grid.Row="3"
-                    Width="100"
-                    Height="50"
-                    Margin="10"
-                    Command="{s:Action StartMiniGame}"
-                    Content="{c:Binding 'Idle ? &quot;Link Start!&quot; : &quot;Stop!&quot;'}"
-                    IsEnabled="{c:Binding 'Inited and !Stopping'}" />
+                <Grid Grid.Column="1" Margin="50,50,30,10" IsEnabled="{Binding Idle}" VerticalAlignment="Top">
+                    <Grid Visibility="{c:Binding 'SelectedMiniGameItem != null'}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Visibility="{c:Binding 'SelectedMiniGameItem.IsSecretFront'}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <ComboBox
+                                Margin="10,0,10,0"
+                                hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Ending}"
+                                ItemsSource="{Binding SecretFrontEndingList}"
+                                SelectedValue="{Binding SecretFrontEnding}" />
+                            <ComboBox
+                                Grid.Row="1"
+                                Margin="10,10,10,10"
+                                hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Event}"
+                                DisplayMemberPath="Display"
+                                ItemsSource="{Binding SecretFrontEventList}"
+                                SelectedValue="{Binding SecretFrontEvent}"
+                                SelectedValuePath="Value" />
+                        </Grid>
+                        <controls:TextBlock
+                            Grid.Row="1"
+                            Margin="10,0,10,10"
+                            Text="{Binding MiniGameTip}"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                </Grid>
+                <Grid
+                    Grid.Column="2"
+                    Margin="10,10,0,10"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <hc:ScrollViewer
+                        Grid.Row="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        properties:AutoScroll.AutoScroll="True"
+                        HorizontalScrollBarVisibility="Disabled"
+                        IsInertiaEnabled="True"
+                        PanningMode="Both">
+                        <Grid>
+                            <ItemsControl
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                ItemsSource="{Binding MiniGameLogs}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <controls:TextBlock
+                                                Grid.Column="0"
+                                                Margin="0,5,10,5"
+                                                VerticalAlignment="Top"
+                                                Foreground="{DynamicResource TraceLogBrush}"
+                                                Text="{Binding Time}" />
+                                            <Grid
+                                                Grid.Column="1"
+                                                Margin="0,5"
+                                                HorizontalAlignment="Left">
+                                                <controls:TextBlock
+                                                    ForegroundKey="{Binding Color}"
+                                                    Text="{Binding Content}"
+                                                    TextWrapping="Wrap" />
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </hc:ScrollViewer>
+                </Grid>
             </Grid>
         </TabItem>
     </TabControl>

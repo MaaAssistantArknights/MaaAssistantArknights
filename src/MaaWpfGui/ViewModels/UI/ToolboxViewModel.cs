@@ -1842,20 +1842,75 @@ public class ToolboxViewModel : Screen
 
     #region MiniGame
 
-    public static ObservableCollection<MiniGameEntry> MiniGameTaskList { get; } = [];
+    public class MiniGameCategoryItem : PropertyChangedBase
+    {
+        public string Display { get; set; } = string.Empty;
+
+        public string Value { get; set; } = string.Empty;
+
+        public string Category { get; set; } = string.Empty;
+
+        public bool IsSecretFront => Value == "MiniGame@SecretFront";
+    }
+
+    public ObservableCollection<MiniGameCategoryItem> MiniGameCategoryItems { get; } = [];
+
+    private MiniGameCategoryItem? _selectedMiniGameItem;
+
+    public MiniGameCategoryItem? SelectedMiniGameItem
+    {
+        get => _selectedMiniGameItem;
+        set
+        {
+            if (!SetAndNotify(ref _selectedMiniGameItem, value) || value == null)
+            {
+                return;
+            }
+
+            MiniGameTaskName = value.Value;
+            ClearMiniGameLogs();
+        }
+    }
 
     public static void UpdateMiniGameTaskList()
     {
-        var tasks = Instances.StageManager.MiniGameEntries
-            .Select(t => new MiniGameEntry { Display = t.Display, DisplayKey = t.DisplayKey, Value = t.Value, Tip = t.Tip, TipKey = t.TipKey })
+        var categorizedItems = Instances.StageManager.MiniGameEntries
+            .Select(t =>
+            {
+                var isCurrentEvent = t.UtcStartTime != DateTime.MinValue || t.UtcExpireTime != DateTime.MinValue;
+                var category = LocalizationHelper.GetString(isCurrentEvent
+                    ? "MiniGameCategoryCurrentEvent"
+                    : "MiniGameCategoryPermanent");
+                return new MiniGameCategoryItem
+                {
+                    Display = string.IsNullOrEmpty(t.DisplayKey)
+                        ? t.Display
+                        : (LocalizationHelper.TryGetString(t.DisplayKey, out var loc) ? loc : t.Display),
+                    Value = t.Value,
+                    Category = category,
+                };
+            })
             .ToList();
 
-        Execute.OnUIThread(() => {
-            MiniGameTaskList.Clear();
-            foreach (var task in tasks)
+        Execute.OnUIThread(() =>
+        {
+            var toolbox = Instances.ToolboxViewModel;
+            if (toolbox == null)
             {
-                MiniGameTaskList.Add(task);
+                return;
             }
+
+            var prevSelected = toolbox.SelectedMiniGameItem?.Value;
+
+            toolbox.MiniGameCategoryItems.Clear();
+            foreach (var item in categorizedItems)
+            {
+                toolbox.MiniGameCategoryItems.Add(item);
+            }
+
+            toolbox.SelectedMiniGameItem = toolbox.MiniGameCategoryItems
+                .FirstOrDefault(i => i.Value == prevSelected)
+                ?? toolbox.MiniGameCategoryItems.FirstOrDefault();
         });
     }
 
@@ -1864,7 +1919,8 @@ public class ToolboxViewModel : Screen
     public string MiniGameTaskName
     {
         get => _miniGameTaskName;
-        set {
+        set
+        {
             SetAndNotify(ref _miniGameTaskName, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MiniGameTaskName, value);
             MiniGameTip = GetMiniGameTip(value);
@@ -1873,7 +1929,8 @@ public class ToolboxViewModel : Screen
 
     public string GetMiniGameTask()
     {
-        return MiniGameTaskName switch {
+        return MiniGameTaskName switch
+        {
             "MiniGame@SecretFront" => $"{MiniGameTaskName}@Begin@Ending{SecretFrontEnding}{(string.IsNullOrEmpty(SecretFrontEvent) ? string.Empty : $"@{SecretFrontEvent}")}",
             _ => MiniGameTaskName,
         };
@@ -1883,7 +1940,8 @@ public class ToolboxViewModel : Screen
 
     public string MiniGameTip
     {
-        get {
+        get
+        {
             _miniGameTip ??= GetMiniGameTip(MiniGameTaskName);
             return _miniGameTip;
         }
@@ -1903,19 +1961,16 @@ public class ToolboxViewModel : Screen
             return LocalizationHelper.GetString("MiniGameNameEmptyTip");
         }
 
-        // 优先使用 TipKey 的本地化
         if (!string.IsNullOrEmpty(entry.TipKey) && LocalizationHelper.TryGetString(entry.TipKey, out var tipFromKey))
         {
             return tipFromKey;
         }
 
-        // 然后使用 explicit Tip
         if (!string.IsNullOrEmpty(entry.Tip))
         {
             return entry.Tip;
         }
 
-        // 若不存在 Tip，再尝试使用 DisplayKey + "Tip" 的约定键
         if (!string.IsNullOrEmpty(entry.DisplayKey))
         {
             var displayTipKey = entry.DisplayKey + "Tip";
@@ -1924,7 +1979,6 @@ public class ToolboxViewModel : Screen
                 return displayTip;
             }
 
-            // 最后回退为 Display 的本地化或原始 Display
             if (LocalizationHelper.TryGetString(entry.DisplayKey, out var displayLoc))
             {
                 return displayLoc;
@@ -1946,13 +2000,15 @@ public class ToolboxViewModel : Screen
     public string SecretFrontEnding
     {
         get => _secretFrontEnding;
-        set {
+        set
+        {
             SetAndNotify(ref _secretFrontEnding, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.MiniGameSecretFrontEnding, value);
         }
     }
 
-    public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } = [
+    public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } =
+    [
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event1"), Value = "支援作战平台" },
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event2"), Value = "游侠" },
@@ -1964,10 +2020,40 @@ public class ToolboxViewModel : Screen
     public string SecretFrontEvent
     {
         get => _secretFrontEvent;
-        set {
+        set
+        {
             SetAndNotify(ref _secretFrontEvent, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.MiniGameSecretFrontEvent, value);
         }
+    }
+
+    public class MiniGameLogItem : PropertyChangedBase
+    {
+        public string Time { get; set; } = string.Empty;
+
+        public string Content { get; set; } = string.Empty;
+
+        public string Color { get; set; } = UiLogColor.Info;
+    }
+
+    public ObservableCollection<MiniGameLogItem> MiniGameLogs { get; } = [];
+
+    public void AddMiniGameLog(string content, string color = UiLogColor.Info)
+    {
+        Execute.OnUIThread(() =>
+        {
+            MiniGameLogs.Add(new MiniGameLogItem
+            {
+                Time = DateTime.Now.ToString("HH:mm:ss"),
+                Content = content,
+                Color = color,
+            });
+        });
+    }
+
+    public void ClearMiniGameLogs()
+    {
+        Execute.OnUIThread(() => MiniGameLogs.Clear());
     }
 
     public void StartMiniGame()
@@ -1984,12 +2070,19 @@ public class ToolboxViewModel : Screen
         }
 
         _runningState.SetIdle(false);
+
+        ClearMiniGameLogs();
+        AddMiniGameLog("正在连接...", UiLogColor.Message);
         string errMsg = string.Empty;
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
+            AddMiniGameLog($"连接失败: {errMsg}", UiLogColor.Error);
             _runningState.SetIdle(true);
+            return;
         }
+
+        AddMiniGameLog("连接成功", UiLogColor.Success);
 
         if (_runningState.GetStopping())
         {
@@ -1997,9 +2090,12 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        var taskName = SelectedMiniGameItem?.Display ?? GetMiniGameTask();
+        AddMiniGameLog($"开始运行: {taskName}", UiLogColor.Info);
         caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
         if (!caught)
         {
+            AddMiniGameLog("运行失败", UiLogColor.Error);
             _runningState.SetIdle(true);
         }
         else
