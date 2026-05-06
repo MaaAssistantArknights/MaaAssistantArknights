@@ -445,7 +445,7 @@ internal static partial class PendingUpdateApplier
     {
         bool showUpdaterConsole = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, false);
         string planPath = Path.Combine(context.RootDir, $"maa-pending-update-{Guid.NewGuid():N}.json");
-        string updaterExecutablePath = PrepareDelegatedUpdaterExecutable(context, packageType);
+        string updaterExecutablePath = PrepareDelegatedUpdaterExecutable(context);
         string relaunchExecutablePath = Path.Combine(context.RootDir, "MAA.exe");
 
         File.WriteAllText(planPath, CreatePendingUpdatePlan(packageType, removeEntries, moveEntries));
@@ -538,14 +538,9 @@ internal static partial class PendingUpdateApplier
             .Distinct(StringComparer.OrdinalIgnoreCase)];
     }
 
-    private static string PrepareDelegatedUpdaterExecutable(PendingUpdateContext context, string packageType)
+    private static string PrepareDelegatedUpdaterExecutable(PendingUpdateContext context)
     {
         string updaterExecutablePath = Path.Combine(context.RootDir, "MAA.Updater.exe");
-        if (!string.Equals(packageType, "full", StringComparison.OrdinalIgnoreCase))
-        {
-            return updaterExecutablePath;
-        }
-
         string extractedUpdaterPath = GetPathUnderRoot(context.ExtractDir, "MAA.Updater.exe");
         if (!File.Exists(extractedUpdaterPath))
         {
