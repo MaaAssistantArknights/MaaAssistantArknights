@@ -85,7 +85,10 @@ std::optional<int> asst::PosixIO::call_command(
 
         exit_ret = execlp("sh", "sh", "-c", cmd.c_str(), nullptr);
         Log.error("exec failed:", std::strerror(errno));
-        return std::nullopt;
+        // 必须终止子进程：返回会让 child 在 parent 地址空间的副本里继续 unwind，
+        // 释放 m_callcmd_mutex、双重析构 fd、kill(0, ...) 误杀整个进程组。
+        // 退出码沿用 POSIX shell 约定的 127（command not found）。
+        _exit(127);
     }
     ::close(pipe_in[PIPE_READ]);
     ::close(pipe_out[PIPE_WRITE]);
