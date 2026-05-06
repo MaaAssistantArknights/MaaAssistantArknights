@@ -14,6 +14,7 @@
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
+#include "Version.h"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 #include "Vision/RegionOCRer.h"
@@ -409,14 +410,14 @@ bool asst::StageDropsTaskPlugin::upload_to_server(const std::string& subtask, Re
         all_drops.emplace(std::move(format_drop));
     }
     body["source"] = UploadDataSource;
-    body["version"] = MAA_VERSION;
+    body["version"] = asst::maa_version();
 
     std::unordered_map<std::string, std::string> extra_headers;
     if (!m_penguin_id.empty()) {
         extra_headers.insert({ "authorization", "PenguinID " + m_penguin_id });
     }
 
-    std::string version = MAA_VERSION;
+    std::string version = asst::maa_version();
     if (version.find("DEBUG_VERSION") != std::string::npos) {
         version = "dev";
     }

@@ -25,6 +25,7 @@
 #include "Meta.hpp"
 #include "NullStreambuf.hpp"
 #include "Platform.hpp"
+#include "Version.h"
 #include "WorkingDir.hpp"
 
 #if defined(__APPLE__) || defined(__linux__)
@@ -833,7 +834,7 @@ private:
     {
         trace("-----------------------------");
         trace("MaaCore Process Start");
-        trace("Version", MAA_VERSION);
+        trace("Version", maa_version());
         trace("Built at", __DATE__, __TIME__);
         trace("User Dir", m_directory);
         trace("-----------------------------");
@@ -881,7 +882,7 @@ private:
         try {
             auto& logger = Logger::get_instance();
             logger.error("=== UNHANDLED EXCEPTION ===");
-            logger.error("Version", MAA_VERSION);
+            logger.error("Version", maa_version());
             logger.error("Built at", __DATE__, __TIME__);
             logger.error("User Dir", UserDir.get());
             logger.error("============================");
@@ -934,7 +935,7 @@ private:
             }
 
             logger.error("=== FATAL ERROR ===");
-            logger.error("Version", MAA_VERSION);
+            logger.error("Version", maa_version());
             logger.error("Built at", __DATE__, __TIME__);
             logger.error("User Dir", UserDir.get());
             logger.error("Unhandled exception caught:", exception_info);

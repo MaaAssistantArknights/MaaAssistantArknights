@@ -7,6 +7,7 @@
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
+#include "Version.h"
 #include "Vision/Miscellaneous/RecruitImageAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/OCRer.h"
@@ -985,14 +986,14 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
             });
     }
     body["source"] = UploadDataSource;
-    body["version"] = MAA_VERSION;
+    body["version"] = asst::maa_version();
 
     std::unordered_map<std::string, std::string> extra_headers;
     if (!m_penguin_id.empty()) {
         extra_headers = { { "authorization", "PenguinID " + m_penguin_id } };
     }
 
-    std::string version = MAA_VERSION;
+    std::string version = asst::maa_version();
     if (version.find("DEBUG_VERSION") != std::string::npos) {
         version = "dev";
     }
@@ -1022,7 +1023,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     json::value body = details;
     body["server"] = m_server;
     body["source"] = UploadDataSource;
-    body["version"] = MAA_VERSION;
+    body["version"] = asst::maa_version();
     body["uuid"] = m_yituliu_id;
 
     if (!m_report_yituliu_task_ptr) {
