@@ -40,7 +40,7 @@ jobs:
       - name: Get latest release tag
         id: get_latest
         if: ${{ env.RELEASE_TAG_RAW == 'latest' }}
-        uses: pozetroninc/github-action-get-latest-release@master
+        uses: pozetroninc/github-action-get-latest-release@53d33d213ee71c72360e3c829caf7cee94ec21e2 # master as of 2026-05-06
         with:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
@@ -116,7 +116,7 @@ jobs:
 
     steps:
       - name: Upload MAA to WinGet
-        uses: vedantmgoyal9/winget-releaser@main
+        uses: vedantmgoyal9/winget-releaser@7bd472be23763def6e16bd06cc8b1cdfab0e2fd5 # main as of 2026-05-06
         with:
           identifier: MaaAssistantArknights.MaaAssistantArknights
           version: ""

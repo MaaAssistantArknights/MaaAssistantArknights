@@ -33,7 +33,7 @@ jobs:
       # - https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.claude/skills/maa-issue-log-analysis/SKILL.md
       - name: Analyze issue with AI
         id: analysis
-        uses: Misteo/ai-issue-analysis@main
+        uses: Misteo/ai-issue-analysis@c0b258aa9660a1efd7316c9ed6d9ef81f1ac734a # main as of 2026-05-06
         with:
           github-token: ${{ secrets.MAA_BOT_TOKEN }}
           copilot-github-token: ${{ secrets.COPILOT_GITHUB_TOKEN }}
