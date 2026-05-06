@@ -323,9 +323,10 @@
     <system:String x:Key="CheckBoxesNotSavedAsNull">이 옵션은 우클릭 시 한 번만 적용됩니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">이 옵션은 우클릭 시 한 번만 건너뜁니다</system:String>
     <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">이 기능은 최적의 스테이지를 자동으로 계산하지 않습니다.
-• 드롭 수: 입력한 값을 그대로 Core의 목표 드롭 수로 전달합니다.
-• 목표 재고: ｢{key=Toolbox}-{key=DepotRecognition}｣ 의 재고 데이터에 의존합니다. 실행 시작 시 재고를 한 번만 읽고, 같은 재료를 지정한 여러 작업은 작업 순서대로 수량을 배분합니다.
-• 목표 재고 모드에서는 실행 중 재료와 수량을 동적으로 변경할 수 없으며, 재고 데이터가 없으면 0으로 처리합니다.</system:String>
+• {key=Quantity}: 현재 전투 작업에서 해당 재료의 드롭 수를 목표로 삼아, 설정한 수량에 도달하면 멈춥니다.
+• {key=TargetInventory}: ｢{key=Toolbox}-{key=DepotRecognition}｣ 에 저장된 재고 데이터를 참고하여 설정한 재고 수량까지만 보충합니다.
+• 재고 데이터는 캐시이므로 수동 파밍, 제작, 재료 사용 후 실제 수량과 달라질 수 있습니다. ｢{key=UserDataUpdate}｣ 또는 ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 동기화해 주세요.
+• {key=TargetInventory} 사용 중에는 실행 도중 재료와 수량을 바꿀 수 없습니다.</system:String>
     <system:String x:Key="StartupUpdateCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
@@ -812,6 +813,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">남은 오픈일 수: </system:String>
     <system:String x:Key="Inventory">재고</system:String>
     <system:String x:Key="InventoryUpdateTip">재고 데이터는  ｢{key=Toolbox}-{key=DepotRecognition}｣ 을 통해 업데이트 가능</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">작업 "{0}" 에서 {key=TargetInventory} 가 켜져 있지만 현재 사용할 수 있는 재고 데이터가 없어 건너뜁니다. ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 재고를 업데이트해 주세요.</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>

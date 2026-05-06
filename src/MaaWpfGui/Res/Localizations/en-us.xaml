@@ -323,9 +323,10 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">This option only skips once when right-clicked</system:String>
     <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">This feature does not automatically calculate the optimal stage.
-• Quantity: pass the input value directly to Core as the target drop count.
-• Target Inventory: depends on inventory data from ｢{key=Toolbox}-{key=DepotRecognition}｣. Inventory is snapshotted once when the run starts, and multiple tasks targeting the same material allocate quantities in task order.
-• While Target Inventory is enabled, the material and amount cannot be changed during a run; if no inventory data is available, it is treated as 0.</system:String>
+• {key=Quantity}: uses the selected material's drop count in this combat task as the target, and stops when the set amount is reached.
+• {key=TargetInventory}: uses the saved inventory data from ｢{key=Toolbox}-{key=DepotRecognition}｣ and only farms until the target stock is reached.
+• Inventory data is cached and may differ from your real stock after manual farming, crafting, or material use. Sync it with ｢{key=UserDataUpdate}｣ or ｢{key=Toolbox}-{key=DepotRecognition}｣.
+• When {key=TargetInventory} is enabled, the material and amount cannot be changed during a run.</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdateAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoCheckTip">In-game 00:00 / 18:00 (Server local time 04:00 / 22:00)</system:String>
@@ -810,6 +811,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">Days left open:&#160;</system:String>
     <system:String x:Key="Inventory">Inventory</system:String>
     <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via  ｢{key=Toolbox}-{key=DepotRecognition}｣</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>

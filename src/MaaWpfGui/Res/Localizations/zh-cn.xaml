@@ -323,9 +323,10 @@
     <system:String x:Key="CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">该选项右键选中时仅跳过一次</system:String>
     <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">该选项不会自动计算最优关卡。
-• 刷取数量：将输入值直接传给 Core 作为目标掉落数。
-• 目标库存：依赖 ｢{key=Toolbox}-{key=DepotRecognition}｣ 的库存数据；开始运行时读取一次起始库存，同种材料的多个任务会按任务顺序依次分配配额。
-• 目标库存模式在运行中不支持动态修改指定材料和数量；未更新库存时按 0 处理。</system:String>
+• {key=Quantity}：以当前理智作战任务中该材料的掉落数量为目标，达到设定数量后停止。
+• {key=TargetInventory}：会参考 ｢{key=Toolbox}-{key=DepotRecognition}｣ 中保存的库存数据，只补到设定库存为止。
+• 库存数据是缓存值，手动刷关、合成或消耗材料后可能与实际不一致；可通过 ｢{key=UserDataUpdate}｣ 或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 同步。
+• 使用 {key=TargetInventory} 时，开始后不能临时修改材料和数量。</system:String>
     <system:String x:Key="StartupUpdateCheck">启动时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheckTip">游戏内 00:00 / 18:00（对应服务器当地时间 04:00 / 22:00）</system:String>
@@ -811,6 +812,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩余天数: </system:String>
     <system:String x:Key="Inventory">库存</system:String>
     <system:String x:Key="InventoryUpdateTip">可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存数据</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">任务「{0}」启用了 {key=TargetInventory}，但当前没有可用的库存数据，已跳过。可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存。</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
