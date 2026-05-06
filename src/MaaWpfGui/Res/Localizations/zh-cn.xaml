@@ -1120,6 +1120,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !ErrorDialogView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">更新失败，当前安装可能已不完整。请重新下载完整包，并按下方说明手动迁移 config、data 与 debug。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="UpdateApplyMissingUpdater">更新失败，缺少 MAA.Updater.exe，无法启动外部更新程序。本次更新已取消。该文件可能被手动删除，也可能被某些安全软件拦截或删除。若为安全软件导致，请前往对应软件的隔离区寻找并恢复该文件，并建议将 MAA 所在文件夹加入对应软件白名单后再试。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路径不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>

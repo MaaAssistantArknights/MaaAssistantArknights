@@ -1119,6 +1119,7 @@ Right-click to clear inactive jobs</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">The update could not be applied and the current installation may be incomplete. Please download the full package again and migrate your config, data, and debug folders manually as described below.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="UpdateApplyMissingUpdater">The update could not continue because MAA.Updater.exe is missing, so the external updater could not be started. This update has been canceled. The file may have been deleted manually, or it may have been blocked or removed by security software. If security software caused this, please check its quarantine area, restore the file, and add the MAA installation folder to that software's allowlist before trying again.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">The resources are damaged, please download the full package again.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>

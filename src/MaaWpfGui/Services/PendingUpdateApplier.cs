@@ -319,6 +319,12 @@ internal static partial class PendingUpdateApplier
             clearPendingPackageState = true;
             return new(PendingUpdateApplyResult.StatusKind.Failed, true, ex.Message);
         }
+        catch (FileNotFoundException ex) when (!installationChanged && IsMissingDelegatedUpdaterExecutable(ex))
+        {
+            _logger.Error(ex, "External updater executable is missing while applying pending update package: {PackagePath}", context.PackagePath);
+            clearPendingPackageState = true;
+            return new(PendingUpdateApplyResult.StatusKind.MissingUpdaterExecutable, FailureReason: ex.Message);
+        }
         catch (Exception ex)
         {
             _logger.Error(ex, "Failed to apply pending update package: {PackagePath}", context.PackagePath);
@@ -489,6 +495,11 @@ internal static partial class PendingUpdateApplier
     private static void ExtractPendingUpdatePackage(string packagePath, string extractDir)
     {
         ZipFile.ExtractToDirectory(packagePath, extractDir, Encoding.Default, overwriteFiles: true);
+    }
+
+    private static bool IsMissingDelegatedUpdaterExecutable(FileNotFoundException ex)
+    {
+        return string.Equals(Path.GetFileName(ex.FileName), "MAA.Updater.exe", StringComparison.OrdinalIgnoreCase);
     }
 
     private static string CreatePendingUpdatePlan(string packageType, IReadOnlyList<string> removeEntries, IReadOnlyList<string> moveEntries)
