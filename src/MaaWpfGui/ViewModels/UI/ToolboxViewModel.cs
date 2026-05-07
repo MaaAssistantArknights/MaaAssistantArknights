@@ -2071,17 +2071,15 @@ public class ToolboxViewModel : Screen
         _runningState.SetIdle(false);
 
         ClearMiniGameLogs();
-        AddMiniGameLog("正在连接...", UiLogColor.Message);
+        AddMiniGameLog(LocalizationHelper.GetString("ConnectingToEmulator"), UiLogColor.Message);
         string errMsg = string.Empty;
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
-            AddMiniGameLog($"连接失败: {errMsg}", UiLogColor.Error);
+            AddMiniGameLog(errMsg, UiLogColor.Error);
             _runningState.SetIdle(true);
             return;
         }
-
-        AddMiniGameLog("连接成功", UiLogColor.Success);
 
         if (_runningState.GetStopping())
         {
@@ -2089,12 +2087,9 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        var taskName = SelectedMiniGameItem?.Display ?? GetMiniGameTask();
-        AddMiniGameLog($"开始运行: {taskName}", UiLogColor.Info);
         caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
         if (!caught)
         {
-            AddMiniGameLog("运行失败", UiLogColor.Error);
             _runningState.SetIdle(true);
         }
         else
