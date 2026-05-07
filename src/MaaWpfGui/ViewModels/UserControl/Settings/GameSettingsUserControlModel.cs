@@ -370,7 +370,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 10);
+    private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25);
 
     public int StallTimeoutMinutes
     {
