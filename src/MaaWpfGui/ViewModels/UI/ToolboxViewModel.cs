@@ -1860,8 +1860,7 @@ public class ToolboxViewModel : Screen
     public MiniGameCategoryItem? SelectedMiniGameItem
     {
         get => _selectedMiniGameItem;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _selectedMiniGameItem, value) || value == null)
             {
                 return;
@@ -1919,8 +1918,7 @@ public class ToolboxViewModel : Screen
     public string MiniGameTaskName
     {
         get => _miniGameTaskName;
-        set
-        {
+        set {
             SetAndNotify(ref _miniGameTaskName, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MiniGameTaskName, value);
             MiniGameTip = GetMiniGameTip(value);
@@ -1940,8 +1938,7 @@ public class ToolboxViewModel : Screen
 
     public string MiniGameTip
     {
-        get
-        {
+        get {
             _miniGameTip ??= GetMiniGameTip(MiniGameTaskName);
             return _miniGameTip;
         }
@@ -1961,16 +1958,19 @@ public class ToolboxViewModel : Screen
             return LocalizationHelper.GetString("MiniGameNameEmptyTip");
         }
 
+        // 优先使用 TipKey 的本地化
         if (!string.IsNullOrEmpty(entry.TipKey) && LocalizationHelper.TryGetString(entry.TipKey, out var tipFromKey))
         {
             return tipFromKey;
         }
 
+        // 然后使用 explicit Tip
         if (!string.IsNullOrEmpty(entry.Tip))
         {
             return entry.Tip;
         }
 
+        // 若不存在 Tip，再尝试使用 DisplayKey + "Tip" 的约定键
         if (!string.IsNullOrEmpty(entry.DisplayKey))
         {
             var displayTipKey = entry.DisplayKey + "Tip";
@@ -1979,6 +1979,7 @@ public class ToolboxViewModel : Screen
                 return displayTip;
             }
 
+            // 最后回退为 Display 的本地化或原始 Display
             if (LocalizationHelper.TryGetString(entry.DisplayKey, out var displayLoc))
             {
                 return displayLoc;
@@ -2000,8 +2001,7 @@ public class ToolboxViewModel : Screen
     public string SecretFrontEnding
     {
         get => _secretFrontEnding;
-        set
-        {
+        set {
             SetAndNotify(ref _secretFrontEnding, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.MiniGameSecretFrontEnding, value);
         }
@@ -2020,8 +2020,7 @@ public class ToolboxViewModel : Screen
     public string SecretFrontEvent
     {
         get => _secretFrontEvent;
-        set
-        {
+        set {
             SetAndNotify(ref _secretFrontEvent, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.MiniGameSecretFrontEvent, value);
         }
