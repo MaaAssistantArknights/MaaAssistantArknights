@@ -610,7 +610,6 @@ public class TaskQueueViewModel : Screen
                 Instances.Data.ClearCache();
             }
         };
-        _runningState.TimeoutOccurred += RunningState_TimeOut;
         _runningState.StallOccurred += RunningState_Stalled;
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
@@ -620,22 +619,6 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private void RunningState_TimeOut(object? sender, string message)
-    {
-        if (!SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenTimeout)
-        {
-            return;
-        }
-
-        Execute.OnUIThread(() => {
-            AddLog(message, UiLogColor.Warning, notifyActivity: false);
-            ToastNotification.ShowDirect(message);
-            var lastLogs = LogItemViewModels
-                .TakeLast(5)
-                .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
-            ExternalNotificationService.Send(message, lastLogs);
-        });
-    }
 
     private void RunningState_Stalled(object? sender, string message)
     {

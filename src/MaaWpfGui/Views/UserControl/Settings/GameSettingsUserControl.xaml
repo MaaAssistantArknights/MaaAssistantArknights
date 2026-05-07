@@ -188,20 +188,11 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <hc:NumericUpDown
                 Margin="5"
-                hc:InfoElement.Title="{DynamicResource TaskTimeoutMinutes}"
-                hc:TitleElement.TitlePlacement="Left"
-                InputMethod.IsInputMethodEnabled="False"
-                Minimum="1"
-                Value="{Binding TaskTimeoutMinutes}" />
-            <hc:NumericUpDown
-                Margin="5"
                 hc:InfoElement.Title="{DynamicResource StallTimeoutMinutes}"
                 hc:TitleElement.TitlePlacement="Left"
                 InputMethod.IsInputMethodEnabled="False"
                 Minimum="1"
                 Value="{Binding StallTimeoutMinutes}" />
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <hc:NumericUpDown
                 Margin="5"
                 hc:InfoElement.Title="{DynamicResource ReminderIntervalMinutes}"

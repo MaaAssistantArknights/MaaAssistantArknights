@@ -118,7 +118,6 @@ public class RunningState
         }
     }
     // 超时事件
-    public event EventHandler<string>? TimeoutOccurred;
 
     public void StartTimeoutTimer()
     {
@@ -168,15 +167,7 @@ public class RunningState
             return;
         }
 
-        // 每隔 ReminderIntervalMinutes 提示一次
-        var message = string.Format(
-            LocalizationHelper.GetString("TaskTimeoutWarning"),
-            TaskTimeoutMinutes,
-            Math.Round(elapsedMinutes));
-
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LongTaskTimeout);
-
-        TimeoutOccurred?.Invoke(this, message);
     }
 
     private void StallTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)

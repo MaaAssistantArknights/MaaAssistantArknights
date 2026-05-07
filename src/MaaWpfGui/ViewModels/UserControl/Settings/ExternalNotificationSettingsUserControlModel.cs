@@ -78,16 +78,6 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _externalNotificationSendWhenTimeout = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenTimeout, bool.TrueString));
-
-    public bool ExternalNotificationSendWhenTimeout
-    {
-        get => _externalNotificationSendWhenTimeout;
-        set {
-            SetAndNotify(ref _externalNotificationSendWhenTimeout, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenTimeout, value.ToString());
-        }
-    }
 
     private bool _externalNotificationSendWhenStalled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, bool.FalseString));
 
