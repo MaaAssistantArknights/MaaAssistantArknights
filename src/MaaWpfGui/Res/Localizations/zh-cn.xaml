@@ -43,6 +43,7 @@
     <system:String x:Key="ExternalNotificationSendWhenComplete">任务完成后发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">任务出错时发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenTimeout">任务超时时发送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalled">任务日志输出停滞时发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">发送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">发送失败</system:String>
     <system:String x:Key="ExternalNotificationSendTest">发送测试</system:String>
@@ -1504,8 +1505,10 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <!--  !SimpleEncryptionHelper  -->
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">任务超时时间（分钟）</system:String>
-    <system:String x:Key="ReminderIntervalMinutes">提醒间隔时间（分钟）</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">通知间隔时间（分钟）</system:String>
+    <system:String x:Key="StallTimeoutMinutes">日志输出停滞超时时间（分钟）</system:String>
     <system:String x:Key="TaskTimeoutWarning">任务已运行超过 {0} 分钟（当前已运行 {1} 分钟）。如果长时间无进一步日志更新，可能需要手动干预。</system:String>
+    <system:String x:Key="TaskStallWarning">任务日志输出已超过 {0} 分钟无更新（当前已停滞 {1} 分钟）。如果长时间无进一步日志输出，可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 达成成就</system:String>

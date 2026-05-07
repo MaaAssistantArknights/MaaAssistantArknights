@@ -43,6 +43,7 @@
     <system:String x:Key="ExternalNotificationSendWhenComplete">タスク完了時に通知を送信</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">タスクが失敗したときに通知を送信</system:String>
     <system:String x:Key="ExternalNotificationSendWhenTimeout">タスクがタイムアウトしたときに通知を送信する</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalled">タスクログ出力停滞時に通知を送信</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
     <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
@@ -1505,7 +1506,9 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">タスクのタイムアウト時間（分）</system:String>
     <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
+    <system:String x:Key="StallTimeoutMinutes">ログ出力停滞タイムアウト（分）</system:String>
     <system:String x:Key="TaskTimeoutWarning">タスクが {0} 分以上実行されています（現在 {1} 分実行中）。長時間ログの更新がない場合、手動で介入する必要があるかもしれません。</system:String>
+    <system:String x:Key="TaskStallWarning">新しいタスク出力が {0} 分間ありません（現在 {1} 分停滞）。MAAが停止している可能性があります。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 実績を獲得した</system:String>

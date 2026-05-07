@@ -370,5 +370,17 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 10);
+
+    public int StallTimeoutMinutes
+    {
+        get => _stallTimeoutMinutes;
+        set {
+            SetAndNotify(ref _stallTimeoutMinutes, value);
+            _runningState.StallTimeoutMinutes = value;
+            ConfigurationHelper.SetValue(ConfigurationKeys.StallTimeoutMinutes, value.ToString());
+        }
+    }
+
     #endregion 任务超时
 }

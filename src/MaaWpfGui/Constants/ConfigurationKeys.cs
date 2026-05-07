@@ -258,6 +258,7 @@ public static class ConfigurationKeys
 
     public const string TaskTimeoutMinutes = "TimeOut.Timer.TaskTimeoutMinutes";
     public const string ReminderIntervalMinutes = "TimeOut.Timer.ReminderIntervalMinutes";
+    public const string StallTimeoutMinutes = "TimeOut.Timer.StallTimeoutMinutes";
 
     public const string BluestacksConfigPath = "Bluestacks.Config.Path";
     public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
@@ -294,6 +295,7 @@ public static class ConfigurationKeys
     public const string ExternalNotificationEnableDetails = "ExternalNotification.EnableDetails";
     public const string ExternalNotificationSendWhenError = "ExternalNotification.SendWhenError";
     public const string ExternalNotificationSendWhenTimeout = "ExternalNotification.SendWhenTimeout";
+    public const string ExternalNotificationSendWhenStalled = "ExternalNotification.SendWhenStalled";
     public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
     public const string ExternalNotificationSmtpPort = "ExternalNotification.Smtp.Port";
     public const string ExternalNotificationSmtpUser = "ExternalNotification.Smtp.User";
