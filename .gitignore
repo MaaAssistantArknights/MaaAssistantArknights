@@ -424,6 +424,9 @@ FodyWeavers.xsd
 .claude/
 !.claude/skills/
 
+# Codex/Oh-my-codex
+.omx/
+
 # Windows Installer files from build outputs
 *.cab
 *.msi

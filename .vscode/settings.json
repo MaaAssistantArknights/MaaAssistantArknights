@@ -8,6 +8,10 @@
             "url": "./docs/maa_tasks_schema.json"
         }
     ],
+    "clangd.arguments": [
+        "--compile-commands-dir=build-clang",
+        "--background-index"
+    ],
     "files.exclude": {
         "MaaDeps/vcpkg/buildtrees": true,
         "MaaDeps/vcpkg/packages": true
@@ -16,5 +20,6 @@
         "**/resource/tasks/**/*.json": "jsonc"
     },
     "C_Cpp.exclusionPolicy": "checkFilesAndFolders",
-    "cmake.outputLogEncoding": "UTF-8"
+    "cmake.outputLogEncoding": "UTF-8",
+    "C_Cpp.intelliSenseEngine": "disabled"
 }

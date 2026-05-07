@@ -340,6 +340,7 @@ public static class ConfigurationKeys
     public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
 
     public const string PeepTargetFps = "Peep.TargetFps";
+    public const string PeepCaptureSaveFrequency = "Peep.CaptureSaveFrequency";
 
     public const string GuideStepIndex = "Guide.StepIndex";
 

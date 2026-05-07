@@ -931,6 +931,16 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Peep">牛牛监控</system:String>
     <system:String x:Key="PeepTip">看看牛牛眼中的世界？</system:String>
     <system:String x:Key="PeepTargetFps">目标帧率</system:String>
+    <system:String x:Key="PeepCaptureSaveEnabled">保存捕捉图像</system:String>
+    <system:String x:Key="PeepCaptureSaveFrequency">保存频率</system:String>
+    <system:String x:Key="PeepCaptureSaveTip">开启后将自动保存捕捉画面至应用目录下的 peep/&lt;时间戳&gt;/。</system:String>
+    <system:String x:Key="PeepCaptureSaveWarning">启用此功能可能导致磁盘空间快速消耗，请合理设置保存频率并及时清理！</system:String>
+    <system:String x:Key="PeepCaptureSaveWarningPath">截图将保存至应用目录下的 peep/&lt;时间戳&gt;/。</system:String>
+    <system:String x:Key="PeepCaptureCleanHistory">清理历史图片</system:String>
+    <system:String x:Key="PeepCaptureCleanSkippedActive">当次图片不会被清理，如有需要请在停止后再次清理。</system:String>
+    <system:String x:Key="PeepCaptureCleanSucceeded">已清理 {0} 个牛牛监控历史图片文件夹。</system:String>
+    <system:String x:Key="PeepCaptureCleanFailed">清理牛牛监控历史图片失败。</system:String>
+    <system:String x:Key="PeepCaptureSaveFailed">保存牛牛监控捕捉图像失败。</system:String>
     <!--  !牛牛监控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>

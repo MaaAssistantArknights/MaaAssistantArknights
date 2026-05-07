@@ -932,6 +932,16 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Peep">모니터링</system:String>
     <system:String x:Key="PeepTip">팔라스의 눈에 비친 세상을 보시겠어요?</system:String>
     <system:String x:Key="PeepTargetFps">목표 프레임 속도</system:String>
+    <system:String x:Key="PeepCaptureSaveEnabled">캡처 이미지 저장</system:String>
+    <system:String x:Key="PeepCaptureSaveFrequency">저장 빈도</system:String>
+    <system:String x:Key="PeepCaptureSaveTip">활성화하면 캡처 화면이 애플리케이션 폴더의 peep/&lt;timestamp&gt;/에 저장됩니다.</system:String>
+    <system:String x:Key="PeepCaptureSaveWarning">이 기능을 활성화하면 디스크 공간이 빠르게 소모될 수 있습니다. 저장 빈도를 적절히 설정하고 제때 정리해 주세요!</system:String>
+    <system:String x:Key="PeepCaptureSaveWarningPath">스크린샷은 애플리케이션 폴더의 peep/&lt;timestamp&gt;/에 저장됩니다.</system:String>
+    <system:String x:Key="PeepCaptureCleanHistory">기록 이미지 정리</system:String>
+    <system:String x:Key="PeepCaptureCleanSkippedActive">현재 이미지가 정리되지 않습니다. 필요한 경우 Peep을 중지한 뒤 다시 정리하세요.</system:String>
+    <system:String x:Key="PeepCaptureCleanSucceeded">Peep 캡처 폴더 {0}개를 정리했습니다.</system:String>
+    <system:String x:Key="PeepCaptureCleanFailed">Peep 캡처 기록 정리에 실패했습니다.</system:String>
+    <system:String x:Key="PeepCaptureSaveFailed">Peep 캡처 이미지 저장에 실패했습니다.</system:String>
     <!--  !Peep  -->
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니게임 이름</system:String>

@@ -17,11 +17,13 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
@@ -48,6 +50,9 @@ namespace MaaWpfGui.ViewModels.UI;
 /// </summary>
 public class ToolboxViewModel : Screen
 {
+    private const string PeepCaptureRootDirectoryName = "peep";
+    private const string PeepCaptureTimestampFormat = "yyyyMMdd_HHmmss_fff";
+
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<ToolboxViewModel>();
 
@@ -71,6 +76,7 @@ public class ToolboxViewModel : Screen
         };
         _peepImageTimer.Elapsed += PeepImageTimerElapsed;
         _peepImageTimer.Interval = 1000d / PeepTargetFps;
+        PeepCaptureSaveFrequency = _peepCaptureSaveFrequency;
         _gachaTimer.Tick += RefreshGachaTip;
         LoadDepotDetails();
         LoadOperBoxDetails();
@@ -1525,7 +1531,7 @@ public class ToolboxViewModel : Screen
 
         RefreshGachaTip(null, null);
         IsGachaInProgress = true;
-        _ = Peep();
+        _ = Peep(allowCaptureSaving: false);
     }
 
     private void RefreshGachaTip(object? sender, EventArgs? e)
@@ -1656,9 +1662,76 @@ public class ToolboxViewModel : Screen
                 _ => value,
             };
 
-            SetAndNotify(ref _peepTargetFps, value);
+            if (!SetAndNotify(ref _peepTargetFps, value))
+            {
+                return;
+            }
+
             _peepImageTimer.Interval = 1000d / _peepTargetFps;
             ConfigurationHelper.SetValue(ConfigurationKeys.PeepTargetFps, value.ToString());
+            NotifyOfPropertyChange(nameof(PeepCaptureSaveFrequencyMaximum));
+            PeepCaptureSaveFrequency = Math.Min(PeepCaptureSaveFrequency, PeepCaptureSaveFrequencyMaximum);
+        }
+    }
+
+    private bool _peepCaptureSaveEnabled;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to save screenshots captured during Peep.
+    /// </summary>
+    public bool PeepCaptureSaveEnabled
+    {
+        get => _peepCaptureSaveEnabled;
+        set {
+            if (value == _peepCaptureSaveEnabled)
+            {
+                return;
+            }
+
+            if (value && !ConfirmPeepCaptureSaveEnabled())
+            {
+                NotifyOfPropertyChange(nameof(PeepCaptureSaveEnabled));
+                return;
+            }
+
+            SetAndNotify(ref _peepCaptureSaveEnabled, value);
+        }
+    }
+
+    private bool ConfirmPeepCaptureSaveEnabled()
+    {
+        var message = LocalizationHelper.GetString("PeepCaptureSaveWarning")
+            + Environment.NewLine
+            + Environment.NewLine
+            + LocalizationHelper.GetString("PeepCaptureSaveWarningPath");
+
+        var result = MessageBoxHelper.Show(
+            message,
+            LocalizationHelper.GetString("Warning"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning,
+            no: LocalizationHelper.GetString("Confirm"),
+            yes: LocalizationHelper.GetString("Cancel"),
+            iconBrushKey: "DangerBrush");
+
+        return result == MessageBoxResult.No;
+    }
+
+    public int PeepCaptureSaveFrequencyMaximum => Math.Max(1, PeepTargetFps);
+
+    private int _peepCaptureSaveFrequency = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PeepCaptureSaveFrequency, "1"));
+
+    public int PeepCaptureSaveFrequency
+    {
+        get => _peepCaptureSaveFrequency;
+        set {
+            value = Math.Clamp(value, 1, PeepCaptureSaveFrequencyMaximum);
+            if (!SetAndNotify(ref _peepCaptureSaveFrequency, value))
+            {
+                return;
+            }
+
+            ConfigurationHelper.SetValue(ConfigurationKeys.PeepCaptureSaveFrequency, value.ToString());
         }
     }
 
@@ -1675,6 +1748,12 @@ public class ToolboxViewModel : Screen
     private const int PeepImageSemaphoreMaxCount = 5;
     private static int _peepImageSemaphoreFailCount = 0;
     private static readonly SemaphoreSlim _peepImageSemaphore = new(_peepImageSemaphoreCurrentCount, PeepImageSemaphoreMaxCount);
+
+    private readonly SemaphoreSlim _peepCaptureSaveSemaphore = new(1, 1);
+    private string? _peepCaptureSessionDir;
+    private DateTime _lastPeepCaptureSaveTime = DateTime.MinValue;
+    private long _peepCaptureSavedCount;
+    private bool _peepCaptureSaveFailureNotified;
 
     private async void PeepImageTimerElapsed(object? sender, EventArgs? e)
     {
@@ -1741,6 +1820,8 @@ public class ToolboxViewModel : Screen
                 _peepImageCache[index] = AsstProxy.WriteBgrToBitmap(frameData, _peepImageCache[index]);
             });
 
+            TryQueuePeepCaptureSave(frameData);
+
             PeepImage = _peepImageCache[index];
             ArrayPool<byte>.Shared.Return(frameData);
             Interlocked.Exchange(ref _peepImageNewestCount, count);
@@ -1764,6 +1845,219 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    /// <summary>
+    /// 为牛牛监控页的 Peep 功能启动一个新的截图保存会话
+    /// </summary>
+    /// <param name="allowCaptureSaving">是否允许保存截图（会检查 PeepCaptureSaveEnabled）</param>
+    private void StartPeepCaptureSession(bool allowCaptureSaving)
+    {
+        StopPeepCaptureSession();
+        _peepCaptureSaveFailureNotified = false;
+
+        if (!allowCaptureSaving || !PeepCaptureSaveEnabled)
+        {
+            return;
+        }
+
+        try
+        {
+            var rootDir = GetPeepCaptureRootDir();
+            var sessionDir = Path.Combine(rootDir, DateTime.Now.ToString(PeepCaptureTimestampFormat, CultureInfo.InvariantCulture));
+            Directory.CreateDirectory(sessionDir);
+            _peepCaptureSessionDir = sessionDir;
+            _lastPeepCaptureSaveTime = DateTime.MinValue;
+            Interlocked.Exchange(ref _peepCaptureSavedCount, 0);
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to start Peep capture save session.");
+            Growl.Warning(LocalizationHelper.GetString("PeepCaptureSaveFailed"));
+        }
+    }
+
+    /// <summary>
+    /// 停止 Peep 截图保存会话并重置相关状态
+    /// </summary>
+    private void StopPeepCaptureSession()
+    {
+        _peepCaptureSessionDir = null;
+        _lastPeepCaptureSaveTime = DateTime.MinValue;
+        Interlocked.Exchange(ref _peepCaptureSavedCount, 0);
+    }
+
+    /// <summary>
+    /// 尝试将当前帧数据加入截图保存队列
+    /// </summary>
+    /// <param name="frameData">当前帧数据</param>
+    private void TryQueuePeepCaptureSave(byte[] frameData)
+    {
+        var sessionDir = _peepCaptureSessionDir;
+        if (!PeepCaptureSaveEnabled || string.IsNullOrEmpty(sessionDir))
+        {
+            return;
+        }
+
+        var now = DateTime.UtcNow;
+        var interval = TimeSpan.FromSeconds(1d / Math.Max(1, PeepCaptureSaveFrequency));
+        if (now - _lastPeepCaptureSaveTime < interval)
+        {
+            return;
+        }
+
+        if (!_peepCaptureSaveSemaphore.Wait(0))
+        {
+            return;
+        }
+
+        const int FrameSize = AsstProxy.ScreencapWidth * AsstProxy.ScreencapHeight * AsstProxy.ScreencapChannels;
+        if (frameData.Length < FrameSize)
+        {
+            _peepCaptureSaveSemaphore.Release();
+            _logger.Warning("Peep capture frame data is too small to save: {Size}", frameData.Length);
+            return;
+        }
+
+        _lastPeepCaptureSaveTime = now;
+        var snapshot = ArrayPool<byte>.Shared.Rent(FrameSize);
+        Buffer.BlockCopy(frameData, 0, snapshot, 0, FrameSize);
+        var sequence = Interlocked.Increment(ref _peepCaptureSavedCount);
+        _ = Task.Run(() => SavePeepCaptureImage(sessionDir, snapshot, sequence, now));
+    }
+
+    /// <summary>
+    /// 将截图数据保存为 PNG 文件
+    /// </summary> <param name="sessionDir">当前截图保存会话的目录</param>
+    /// <param name="bgrData">截图的 BGR 数据</param>
+    /// <param name="sequence">当前截图的序列号</param> <param name="timestampUtc">当前截图的 UTC 时间戳</param>
+    private void SavePeepCaptureImage(string sessionDir, byte[] bgrData, long sequence, DateTime timestampUtc)
+    {
+        try
+        {
+            Directory.CreateDirectory(sessionDir);
+            var timestamp = timestampUtc.ToLocalTime().ToString(PeepCaptureTimestampFormat, CultureInfo.InvariantCulture);
+            var fileName = $"{sequence:D6}_{timestamp}.png";
+            var filePath = Path.Combine(sessionDir, fileName);
+            var bitmap = BitmapSource.Create(
+                AsstProxy.ScreencapWidth,
+                AsstProxy.ScreencapHeight,
+                96,
+                96,
+                PixelFormats.Bgr24,
+                null,
+                bgrData,
+                AsstProxy.ScreencapWidth * AsstProxy.ScreencapChannels);
+            bitmap.Freeze();
+
+            using var stream = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.Read);
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+            encoder.Save(stream);
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to save Peep capture image.");
+            if (!_peepCaptureSaveFailureNotified)
+            {
+                _peepCaptureSaveFailureNotified = true;
+                _ = Execute.OnUIThreadAsync(() => Growl.Warning(LocalizationHelper.GetString("PeepCaptureSaveFailed")));
+            }
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(bgrData);
+            _peepCaptureSaveSemaphore.Release();
+        }
+    }
+
+    /// <summary>
+    /// 清理 Peep 截图保存历史，保留当前会话（如果有）以避免误删正在保存的截图
+    /// </summary> <returns>Task</returns>
+    public async Task CleanPeepCaptureHistory()
+    {
+        var rootDir = GetPeepCaptureRootDir();
+        var activeSessionDir = Peeping && !string.IsNullOrEmpty(_peepCaptureSessionDir)
+            ? Path.GetFullPath(_peepCaptureSessionDir)
+            : null;
+
+        try
+        {
+            var deletedCount = await Task.Run(() => CleanPeepCaptureHistoryCore(rootDir, activeSessionDir));
+            if (activeSessionDir is not null)
+            {
+                Growl.Info(LocalizationHelper.GetString("PeepCaptureCleanSkippedActive"));
+            }
+
+            Growl.Success(LocalizationHelper.GetStringFormat("PeepCaptureCleanSucceeded", deletedCount));
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to clean Peep capture history.");
+            Growl.Warning(LocalizationHelper.GetString("PeepCaptureCleanFailed"));
+        }
+    }
+
+    /// <summary>
+    /// 清理 Peep 截图保存历史的核心逻辑，删除 rootDir 下除 activeSessionDir 以外的所有符合命名格式的子目录
+    /// </summary>
+    /// <param name="rootDir">Peep 截图保存根目录</param>
+    /// <param name="activeSessionDir">当前活跃的截图保存会话目录（如果有且 Peep 正在进行中，否则为 null）</param>
+    /// <returns>被删除的目录数量</returns>
+    private static int CleanPeepCaptureHistoryCore(string rootDir, string? activeSessionDir)
+    {
+        if (!Directory.Exists(rootDir))
+        {
+            return 0;
+        }
+
+        var rootFullPath = NormalizeDirectoryPath(rootDir);
+        var activeFullPath = activeSessionDir is null ? null : NormalizeDirectoryPath(activeSessionDir);
+        var deletedCount = 0;
+        foreach (var dir in Directory.EnumerateDirectories(rootFullPath))
+        {
+            var fullPath = NormalizeDirectoryPath(dir);
+            if (!IsPathUnderDirectory(fullPath, rootFullPath) || string.Equals(fullPath, activeFullPath, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var dirName = Path.GetFileName(fullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            if (!DateTime.TryParseExact(dirName, PeepCaptureTimestampFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+            {
+                continue;
+            }
+
+            Directory.Delete(fullPath, recursive: true);
+            deletedCount++;
+        }
+
+        return deletedCount;
+    }
+
+    /// <summary>
+    /// 获取 Peep 截图保存根目录
+    /// </summary>
+    /// <returns>Peep 截图保存根目录的完整路径</returns>
+    private static string GetPeepCaptureRootDir()
+    {
+        return Path.Combine(PathsHelper.BaseDir, PeepCaptureRootDirectoryName);
+    }
+
+    /// <summary>
+    /// 规范目录路径，确保路径以目录分隔符结尾，并转换为绝对路径
+    /// </summary> <param name="path">要规范化的目录路径</param>
+    private static string NormalizeDirectoryPath(string path)
+    {
+        return Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+    }
+
+    // 判断路径是否在指定目录下，比较时会规范化路径并忽略大小写
+    private static bool IsPathUnderDirectory(string path, string directory)
+    {
+        var normalizedPath = NormalizeDirectoryPath(path);
+        var normalizedDirectory = NormalizeDirectoryPath(directory);
+        return normalizedPath.StartsWith(normalizedDirectory, StringComparison.OrdinalIgnoreCase);
+    }
+
     private bool _isPeepTransitioning;
 
     public bool IsPeepTransitioning
@@ -1777,6 +2071,19 @@ public class ToolboxViewModel : Screen
     /// </summary>
     /// <returns>Task</returns>
     public async Task Peep()
+    {
+        await Peep(allowCaptureSaving: true);
+    }
+
+    [UsedImplicitly]
+
+    // 专为抽卡界面使用的 Peep 方法，不保存截图
+    public async Task GachaPeep()
+    {
+        await Peep(allowCaptureSaving: false);
+    }
+
+    private async Task Peep(bool allowCaptureSaving)
     {
         if (IsPeepTransitioning)
         {
@@ -1792,6 +2099,7 @@ public class ToolboxViewModel : Screen
             {
                 Peeping = false;
                 _peepImageTimer.Stop();
+                StopPeepCaptureSession();
                 Array.Fill(_peepImageCache, null);
 
                 // 由 Peep() 方法启动的 Peep 也需要停止，Block 不会自动停止
@@ -1827,6 +2135,7 @@ public class ToolboxViewModel : Screen
                 IsPeepInProgress = true;
             }
 
+            StartPeepCaptureSession(allowCaptureSaving);
             PeepScreenFpf = 0;
             _peepImageCount = 0;
             _peepImageNewestCount = 0;
