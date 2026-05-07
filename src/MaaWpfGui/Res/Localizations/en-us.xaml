@@ -930,6 +930,16 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Peep">Peep</system:String>
     <system:String x:Key="PeepTip">See the world through Pallas?</system:String>
     <system:String x:Key="PeepTargetFps">Target Frame Rate</system:String>
+    <system:String x:Key="PeepCaptureSaveEnabled">Save captured images</system:String>
+    <system:String x:Key="PeepCaptureSaveFrequency">Save Rate</system:String>
+    <system:String x:Key="PeepCaptureSaveTip">When enabled, captured frames will be saved to peep/&lt;timestamp&gt;/ under the application directory. This option is off by default every time the app starts to reduce disk usage.</system:String>
+    <system:String x:Key="PeepCaptureSaveWarning">Enabling this feature may quickly consume disk space. Please set a reasonable save rate and clean up in time!</system:String>
+    <system:String x:Key="PeepCaptureSaveWarningPath">Screenshots will be saved to peep/&lt;timestamp&gt;/ under the application directory.</system:String>
+    <system:String x:Key="PeepCaptureCleanHistory">Clean History</system:String>
+    <system:String x:Key="PeepCaptureCleanSkippedActive">Current Peep images will not be cleaned. Stop Peep and clean again if needed.</system:String>
+    <system:String x:Key="PeepCaptureCleanSucceeded">Cleaned {0} Peep capture folder(s).</system:String>
+    <system:String x:Key="PeepCaptureCleanFailed">Failed to clean Peep capture history.</system:String>
+    <system:String x:Key="PeepCaptureSaveFailed">Failed to save Peep captured image.</system:String>
     <!--  !Peep  -->
     <!--  Minigame  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>

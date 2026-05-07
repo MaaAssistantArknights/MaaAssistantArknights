@@ -931,6 +931,16 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Peep">Peep</system:String>
     <system:String x:Key="PeepTip">パラスの目に映る世界を見てみませんか？</system:String>
     <system:String x:Key="PeepTargetFps">目標フレームレート</system:String>
+    <system:String x:Key="PeepCaptureSaveEnabled">キャプチャ画像を保存</system:String>
+    <system:String x:Key="PeepCaptureSaveFrequency">保存頻度</system:String>
+    <system:String x:Key="PeepCaptureSaveTip">有効にすると、キャプチャ画面をアプリケーションフォルダーの peep/&lt;timestamp&gt;/ に保存します。ディスク使用量を抑えるため、アプリ起動時は毎回オフになります。</system:String>
+    <system:String x:Key="PeepCaptureSaveWarning">この機能を有効にすると、ディスク容量を急速に消費する可能性があります。保存頻度を適切に設定し、こまめに整理してください！</system:String>
+    <system:String x:Key="PeepCaptureSaveWarningPath">スクリーンショットはアプリケーションフォルダーの peep/&lt;timestamp&gt;/ に保存されます。</system:String>
+    <system:String x:Key="PeepCaptureCleanHistory">履歴画像を削除</system:String>
+    <system:String x:Key="PeepCaptureCleanSkippedActive">現在の画像は削除されません。必要な場合は Peep を停止してから再度削除してください。</system:String>
+    <system:String x:Key="PeepCaptureCleanSucceeded">{0} 個の Peep キャプチャフォルダーを削除しました。</system:String>
+    <system:String x:Key="PeepCaptureCleanFailed">Peep キャプチャ履歴の削除に失敗しました。</system:String>
+    <system:String x:Key="PeepCaptureSaveFailed">Peep キャプチャ画像の保存に失敗しました。</system:String>
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
