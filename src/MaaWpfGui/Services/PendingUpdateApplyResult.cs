@@ -44,6 +44,11 @@ internal sealed record PendingUpdateApplyResult(
         InvalidPackage,
 
         /// <summary>
+        /// Indicates that the external updater executable required for delegated update is missing.
+        /// </summary>
+        MissingUpdaterExecutable,
+
+        /// <summary>
         /// Indicates that the pending update package failed to apply due to an unexpected error.
         /// Requires manual recovery to restore the application to a stable state.
         Failed,

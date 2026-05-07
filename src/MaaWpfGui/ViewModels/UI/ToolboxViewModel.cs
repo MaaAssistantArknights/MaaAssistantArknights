@@ -1989,6 +1989,7 @@ public class ToolboxViewModel : Screen
         if (!caught)
         {
             _runningState.SetIdle(true);
+            return;
         }
 
         if (_runningState.GetStopping())

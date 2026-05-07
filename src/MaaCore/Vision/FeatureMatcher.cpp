@@ -15,6 +15,9 @@
 
 asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
 {
+    if (m_roi.empty()) {
+        return std::nullopt;
+    }
     auto start_time = std::chrono::steady_clock::now();
     const auto& templ_ptr = m_params.templs;
     cv::Mat templ;

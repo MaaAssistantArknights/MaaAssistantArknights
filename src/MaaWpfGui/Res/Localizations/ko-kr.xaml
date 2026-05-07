@@ -1121,6 +1121,7 @@ C:\\leidian\\LDPlayer9
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">업데이트 적용에 실패하여 현재 설치가 불완전할 수 있습니다. 전체 패키지를 다시 다운로드하고, 아래 안내에 따라 config, data 및 debug를 수동으로 옮겨 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="UpdateApplyMissingUpdater">MAA.Updater.exe가 없어 외부 업데이트 프로그램을 시작할 수 없어 업데이트를 계속할 수 없습니다. 이번 업데이트는 취소되었습니다. 이 파일은 수동으로 삭제되었거나 보안 소프트웨어에 의해 차단 또는 삭제되었을 수 있습니다. 보안 소프트웨어가 원인이라면 해당 소프트웨어의 격리소를 확인해 파일을 복원하고, MAA가 있는 폴더를 해당 소프트웨어의 허용 목록에 추가한 뒤 다시 시도해 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 전체 패키지를 다시 다운로드하세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>

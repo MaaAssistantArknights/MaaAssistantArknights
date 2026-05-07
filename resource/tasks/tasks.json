@@ -1430,17 +1430,6 @@
         "roi": [0, 290, 70, 60],
         "next": ["ClickCorner"]
     },
-    "EndOfActionThenStop": {
-        "baseTask": "EndOfAction",
-        "template": "EndOfAction.png",
-        "reduceOtherTimes": [],
-        "preDelay": 5000,
-        "next": ["ClickCornerThenStop"]
-    },
-    "FightMissionFailedThenStop": {
-        "baseTask": "FightMissionFailedAndStop",
-        "next": ["EndOfActionThenStop"]
-    },
     "EndOfActionAnnihilation": {
         "Doc": "本任务注册了插件 StageDropsTaskPlugin",
         "roi": [50, 50, 170, 180],
@@ -4623,11 +4612,23 @@
     },
     "Copilot@WaitUntilEndOfAction": {
         "algorithm": "JustReturn",
-        "maxTimes": 30,
+        "maxTimes": 50,
         "exceededNext": ["Copilot@EndOfAction"],
         "next": [
             "Copilot@SkipThePreBattlePlot",
             "Copilot@EndOfAction",
+            "Copilot@EndOfAction-Sandbox",
+            "Copilot@FightMissionFailed",
+            "Copilot@WaitUntilEndOfAction"
+        ]
+    },
+    "Copilot@WaitUntilEndOfAction-Bypass": {
+        "algorithm": "JustReturn",
+        "maxTimes": 50,
+        "exceededNext": ["Copilot@EndOfAction"],
+        "next": [
+            "Copilot@SkipThePreBattlePlot",
+            "Copilot@EndOfAction-Bypass",
             "Copilot@EndOfAction-Sandbox",
             "Copilot@FightMissionFailed",
             "Copilot@WaitUntilEndOfAction"
@@ -4642,13 +4643,15 @@
         "reduceOtherTimes": [],
         "next": ["Copilot@StageDrops-Stars-3", "Copilot@StageDrops-Stars-Adverse"]
     },
-    "Copilot@EndOfAction-Sandbox": {
-        "algorithm": "OcrDetect",
-        "text": ["MISSION", "RESULTS"],
-        "roi": [540, 645, 200, 25],
-        "isAscii": true,
-        "ocrReplace": [["l", "I"]],
-        "next": ["Copilot@ClickCornerUntilStartButton"]
+    "Copilot@EndOfAction-Bypass": {
+        "baseTask": "Copilot@EndOfAction",
+        "template": "EndOfAction.png",
+        "reduceOtherTimes": [],
+        "next": [
+            "Copilot@StageDrops-Stars-3",
+            "Copilot@StageDrops-Stars-Adverse",
+            "Copilot@ClickCornerUntilStartButton"
+        ]
     },
     "Copilot@FightMissionFailed": {
         "exceededNext": [],
@@ -4665,16 +4668,26 @@
         "template": "StageDrops-Stars-Adverse.png",
         "next": ["Copilot@ClickCornerUntilStartButton"]
     },
+    "Copilot@EndOfAction-Sandbox": {
+        "algorithm": "OcrDetect",
+        "text": ["MISSION", "RESULTS"],
+        "roi": [540, 645, 200, 25],
+        "isAscii": true,
+        "ocrReplace": [["l", "I"]],
+        "next": ["Copilot@ClickCornerUntilStartButton"]
+    },
     "Copilot@ClickCornerUntilStartButton": {
         "Doc": "三星之后",
         "next": [
             "Copilot@BattleStartPreFlag",
             "Copilot@BattleStartPreFlag-Return",
+            "Copilot@ClickCornerUntilStartButton@LoadingIcon",
             "Copilot@ClickCornerUntilStartButton"
         ]
     },
     "Copilot@BattleStartPreFlag": {
-        "baseTask": "BattleStartPreFlag"
+        "baseTask": "BattleStartPreFlag",
+        "reduceOtherTimes": ["Copilot@WaitUntilEndOfAction"]
     },
     "Copilot@BattleStartPreFlag-Return": {
         "doc": "使用左上角的黑色返回按钮作为flag",
@@ -4682,7 +4695,8 @@
         "template": "Return.png",
         "action": "DoNothing",
         "preDelay": 500,
-        "postDelay": 1000
+        "postDelay": 1000,
+        "reduceOtherTimes": ["Copilot@WaitUntilEndOfAction"]
     },
     "ClickCornerUntilStartButton": {
         "algorithm": "JustReturn",

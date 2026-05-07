@@ -319,6 +319,12 @@ internal static partial class PendingUpdateApplier
             clearPendingPackageState = true;
             return new(PendingUpdateApplyResult.StatusKind.Failed, true, ex.Message);
         }
+        catch (FileNotFoundException ex) when (!installationChanged && IsMissingDelegatedUpdaterExecutable(ex))
+        {
+            _logger.Error(ex, "External updater executable is missing while applying pending update package: {PackagePath}", context.PackagePath);
+            clearPendingPackageState = true;
+            return new(PendingUpdateApplyResult.StatusKind.MissingUpdaterExecutable, FailureReason: ex.Message);
+        }
         catch (Exception ex)
         {
             _logger.Error(ex, "Failed to apply pending update package: {PackagePath}", context.PackagePath);
@@ -439,7 +445,7 @@ internal static partial class PendingUpdateApplier
     {
         bool showUpdaterConsole = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, false);
         string planPath = Path.Combine(context.RootDir, $"maa-pending-update-{Guid.NewGuid():N}.json");
-        string updaterExecutablePath = PrepareDelegatedUpdaterExecutable(context, packageType);
+        string updaterExecutablePath = PrepareDelegatedUpdaterExecutable(context);
         string relaunchExecutablePath = Path.Combine(context.RootDir, "MAA.exe");
 
         File.WriteAllText(planPath, CreatePendingUpdatePlan(packageType, removeEntries, moveEntries));
@@ -491,6 +497,11 @@ internal static partial class PendingUpdateApplier
         ZipFile.ExtractToDirectory(packagePath, extractDir, Encoding.Default, overwriteFiles: true);
     }
 
+    private static bool IsMissingDelegatedUpdaterExecutable(FileNotFoundException ex)
+    {
+        return string.Equals(Path.GetFileName(ex.FileName), "MAA.Updater.exe", StringComparison.OrdinalIgnoreCase);
+    }
+
     private static string CreatePendingUpdatePlan(string packageType, IReadOnlyList<string> removeEntries, IReadOnlyList<string> moveEntries)
     {
         return new JObject
@@ -527,14 +538,9 @@ internal static partial class PendingUpdateApplier
             .Distinct(StringComparer.OrdinalIgnoreCase)];
     }
 
-    private static string PrepareDelegatedUpdaterExecutable(PendingUpdateContext context, string packageType)
+    private static string PrepareDelegatedUpdaterExecutable(PendingUpdateContext context)
     {
         string updaterExecutablePath = Path.Combine(context.RootDir, "MAA.Updater.exe");
-        if (!string.Equals(packageType, "full", StringComparison.OrdinalIgnoreCase))
-        {
-            return updaterExecutablePath;
-        }
-
         string extractedUpdaterPath = GetPathUnderRoot(context.ExtractDir, "MAA.Updater.exe");
         if (!File.Exists(extractedUpdaterPath))
         {

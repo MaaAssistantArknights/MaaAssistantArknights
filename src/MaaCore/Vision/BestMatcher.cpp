@@ -17,6 +17,9 @@ void BestMatcher::append_templ(std::string name, const cv::Mat& templ)
 
 BestMatcher::ResultOpt BestMatcher::analyze() const
 {
+    if (m_roi.empty()) {
+        return std::nullopt;
+    }
     Matcher match_analyzer(m_image, m_roi);
     match_analyzer.set_params(m_params);
 #ifdef ASST_DEBUG

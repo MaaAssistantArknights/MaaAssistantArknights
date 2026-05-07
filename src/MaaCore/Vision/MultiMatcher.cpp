@@ -14,6 +14,9 @@ using namespace asst;
 
 MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
 {
+    if (m_roi.empty()) {
+        return std::nullopt;
+    }
     auto match_results = Matcher::preproc_and_match(make_roi(m_image, m_roi), m_params);
 
     std::vector<Result> results;

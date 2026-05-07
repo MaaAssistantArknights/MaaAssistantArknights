@@ -543,6 +543,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 return;
             }
 
+            if (pendingUpdateResult.Status == PendingUpdateApplyResult.StatusKind.MissingUpdaterExecutable)
+            {
+                _logger.Error("Pending update package could not be delegated because MAA.Updater.exe is missing. Reason: {Reason}", pendingUpdateResult.FailureReason);
+                ShowPendingUpdateMissingUpdaterDialog();
+                Shutdown();
+                return;
+            }
+
             if (pendingUpdateResult.RequiresManualRecovery)
             {
                 _logger.Error("Pending update package left the installation in an incomplete state. Reason: {Reason}", pendingUpdateResult.FailureReason);
@@ -996,8 +1004,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         _logger.Information("Pending update package applied, restarting application");
         if (Environment.ProcessPath is not null)
         {
-            Process.Start(new ProcessStartInfo
-            {
+            Process.Start(new ProcessStartInfo {
                 FileName = Environment.ProcessPath,
                 WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
                 UseShellExecute = true,
@@ -1013,6 +1020,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             LocalizationHelper.GetString("UpdateApplyFailed"),
             LocalizationHelper.GetString("Error"),
             icon: MessageBoxImage.Error);
+    }
+
+    private static void ShowPendingUpdateMissingUpdaterDialog()
+    {
+        MessageBoxHelper.Show(
+        LocalizationHelper.GetString("UpdateApplyMissingUpdater"),
+        LocalizationHelper.GetString("Error"),
+        icon: MessageBoxImage.Error);
     }
 
     /// <summary>
@@ -1062,8 +1077,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             return;
         }
 
-        ShutdownAndRestartWith(new ProcessStartInfo
-        {
+        ShutdownAndRestartWith(new ProcessStartInfo {
             FileName = Environment.ProcessPath,
             UseShellExecute = true,
             Verb = "runas",
