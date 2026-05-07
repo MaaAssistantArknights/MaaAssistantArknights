@@ -13,6 +13,9 @@ using namespace asst;
 
 Matcher::ResultOpt Matcher::analyze() const
 {
+    if (m_roi.empty()) {
+        return std::nullopt;
+    }
     const auto match_results = preproc_and_match(make_roi(m_image, m_roi), m_params);
 
     for (size_t i = 0; i < match_results.size(); ++i) {
