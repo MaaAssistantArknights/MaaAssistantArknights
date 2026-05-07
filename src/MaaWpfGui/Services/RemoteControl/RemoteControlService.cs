@@ -732,6 +732,7 @@ public class RemoteControlService
             if (taskRet)
             {
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Running"));
+                Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
             }
             else
             {
