@@ -698,7 +698,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
     <system:String x:Key="UserDataUpdate">Update Doctor Data</system:String>
-    <system:String x:Key="MiniGame">Mini-Games</system:String>
+    <system:String x:Key="MiniGame">Convenience</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">Permanent</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">Current Events</system:String>
     <system:String x:Key="Custom">Custom Task</system:String>

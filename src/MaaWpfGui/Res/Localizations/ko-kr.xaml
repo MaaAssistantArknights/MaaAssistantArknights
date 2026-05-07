@@ -700,7 +700,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">생존 연산</system:String>
     <system:String x:Key="UserDataUpdate">사용자 데이터 업데이트</system:String>
-    <system:String x:Key="MiniGame">미니게임</system:String>
+    <system:String x:Key="MiniGame">편의 기능</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">상시</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">현재 이벤트</system:String>
     <system:String x:Key="Custom">커스텀 작업</system:String>
