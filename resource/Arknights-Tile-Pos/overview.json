@@ -19340,6 +19340,42 @@
         "stageId": "hard_16-04",
         "width": 30
     },
+    "hard_17-01-obt/hard/level_hard_17-01": {
+        "code": "H17-1",
+        "filename": "hard_17-01-obt-hard-level_hard_17-01.json",
+        "height": 8,
+        "levelId": "obt/hard/level_hard_17-01",
+        "name": "急变预案-1",
+        "stageId": "hard_17-01",
+        "width": 12
+    },
+    "hard_17-02-obt/hard/level_hard_17-02": {
+        "code": "H17-2",
+        "filename": "hard_17-02-obt-hard-level_hard_17-02.json",
+        "height": 9,
+        "levelId": "obt/hard/level_hard_17-02",
+        "name": "急变预案-2",
+        "stageId": "hard_17-02",
+        "width": 13
+    },
+    "hard_17-03-obt/hard/level_hard_17-03": {
+        "code": "H17-3",
+        "filename": "hard_17-03-obt-hard-level_hard_17-03.json",
+        "height": 9,
+        "levelId": "obt/hard/level_hard_17-03",
+        "name": "急变预案-3",
+        "stageId": "hard_17-03",
+        "width": 13
+    },
+    "hard_17-04-obt/hard/level_hard_17-04": {
+        "code": "H17-4",
+        "filename": "hard_17-04-obt-hard-level_hard_17-04.json",
+        "height": 9,
+        "levelId": "obt/hard/level_hard_17-04",
+        "name": "急变预案-4",
+        "stageId": "hard_17-04",
+        "width": 13
+    },
     "level_act38rune_01-01-activities/act38rune/level_act38rune_01-01": {
         "code": "哥伦比亚",
         "filename": "level_act38rune_01-01-activities-act38rune-level_act38rune_01-01.json",
