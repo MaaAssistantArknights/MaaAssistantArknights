@@ -502,6 +502,7 @@ void Assistant::working_proc()
             m_thread_idle = true;
             m_running = false;
             Log.flush();
+            m_ctrler->inactive();
             m_condvar.wait(lock);
             continue;
         }

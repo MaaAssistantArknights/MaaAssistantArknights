@@ -63,6 +63,7 @@ public: // ControllerAPI 接口
     virtual bool inject_input_event(const InputEvent& event) override;
 
     virtual bool press_esc() override;
+    virtual bool inactive() override;
     virtual ControlFeat::Feat support_features() const noexcept override;
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
