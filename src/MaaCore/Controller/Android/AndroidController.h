@@ -62,7 +62,7 @@ private:
 
     int m_display_id = 0;
     bool m_force_stop = false;
-    bool m_swipe_with_pause_enabled = false;
+    bool m_swipe_with_pause_enabled = true;
 
     AsstCallback m_callback = nullptr;
 };
