@@ -69,6 +69,7 @@ public:
     ControllerAPI& operator=(ControllerAPI&&) = delete;
 
     virtual void back_to_home() noexcept {}
+    virtual bool inactive() { return true; }
 };
 
 struct InputEvent

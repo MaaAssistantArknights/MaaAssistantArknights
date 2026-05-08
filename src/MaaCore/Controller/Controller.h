@@ -97,6 +97,8 @@ public:
     bool press_esc();
     ControlFeat::Feat support_features();
 
+    bool inactive();
+
     std::pair<int, int> get_scale_size() const noexcept;
 
     Controller& operator=(const Controller&) = delete;

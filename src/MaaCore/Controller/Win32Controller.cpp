@@ -343,6 +343,13 @@ ControlFeat::Feat Win32Controller::support_features() const noexcept
     return ControlFeat::PRECISE_SWIPE;
 }
 
+bool Win32Controller::inactive()
+{
+    LogTraceFunction;
+    auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle);
+    return unit ? unit->inactive() : false;
+}
+
 std::pair<int, int> Win32Controller::get_screen_res() const noexcept
 {
     return m_screen_size;
