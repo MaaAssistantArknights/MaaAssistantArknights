@@ -44,6 +44,7 @@ public:
     
     virtual bool inject_input_event(const InputEvent& event) override;
     virtual bool press_esc() override;
+    virtual void set_swipe_with_pause(bool enable) noexcept override;
     virtual ControlFeat::Feat support_features() const noexcept override;
     virtual std::pair<int, int> get_screen_res() const noexcept override;
     virtual void back_to_home() noexcept override;
@@ -61,6 +62,7 @@ private:
 
     int m_display_id = 0;
     bool m_force_stop = false;
+    bool m_swipe_with_pause_enabled = false;
 
     AsstCallback m_callback = nullptr;
 };

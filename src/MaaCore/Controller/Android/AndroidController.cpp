@@ -507,11 +507,18 @@ bool AndroidController::press_esc()
     return true;
 }
 
+void AndroidController::set_swipe_with_pause(bool enable) noexcept
+{
+    m_swipe_with_pause_enabled = enable;
+}
+
 ControlFeat::Feat AndroidController::support_features() const noexcept
 {
-    // AndroidController 支持精确滑动和暂停滑动功能
+    // AndroidController 始终支持精确滑动；暂停滑动是否启用由上层 InstanceOption 决定
     auto feat = ControlFeat::PRECISE_SWIPE;
-    feat |= ControlFeat::SWIPE_WITH_PAUSE;
+    if (m_swipe_with_pause_enabled) {
+        feat |= ControlFeat::SWIPE_WITH_PAUSE;
+    }
     return feat;
 }
 
