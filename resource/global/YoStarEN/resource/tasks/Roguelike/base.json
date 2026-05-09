@@ -955,7 +955,7 @@
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
-            ["\\s+o+[-\\s]*$", ""],
+            ["o+[-\\s]*$", ""],
             [" |<|>|-|'", ""],
             ["^\\d+", ""],
             ["Disappear\\.\\.\\.", "消失......"],
@@ -1098,7 +1098,7 @@
             ["ForwardForest", "前行的林地"],
             ["TrimountsTravelAgencyDispatch", "特里蒙旅行社特派团"],
             ["OnsiteatPublicNomadicStationN6", "在地公共移动站N6号"],
-            ["GrabandGo", "随到随取"],
+            ["GrabandG", "随到随取"],
             ["BlackFootprints", "黑色足迹"],
             ["UnfreezingRiver", "不冻河"],
             ["FenceofWoodandSnow", "雪与木的笆篱"],
