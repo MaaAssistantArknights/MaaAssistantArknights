@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include <string_view>
+#include <system_error>
 #include <vector>
 
 #include "Config/GeneralConfig.h"
@@ -56,8 +57,12 @@ inline size_t filenum_ctrl(const std::filesystem::path& absolute_or_relative_dir
 
     size_t deleted = 0;
     for (size_t i = 0; i < excess; ++i) {
-        if (std::filesystem::remove(files[i].second)) {
+        std::error_code ec;
+        if (std::filesystem::remove(files[i].second, ec)) {
             ++deleted;
+        }
+        else if (ec) {
+            LogWarn << "Skip deleting debug image in this round" << files[i].second << ec.value() << ec.message();
         }
     }
 
