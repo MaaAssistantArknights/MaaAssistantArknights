@@ -159,9 +159,22 @@ public class WindowManager : Stylet.WindowManager
     /// <returns>是否成功激活</returns>
     public static bool ShowWindow(Window window)
     {
-        window.Show();
-        window.WindowState = WindowState.Normal;
-        return window.Activate();
+        if (window.Dispatcher.HasShutdownStarted || window.Dispatcher.HasShutdownFinished)
+        {
+            return false;
+        }
+
+        try
+        {
+            window.Show();
+            window.WindowState = WindowState.Normal;
+            return window.Activate();
+        }
+        catch (InvalidOperationException e)
+        {
+            _logger.Warning(e, "Skipped showing window because it is closing or already closed");
+            return false;
+        }
     }
 
     /// <summary>
