@@ -13,6 +13,7 @@
     Background="{DynamicResource MdXamlBackground}">
     <Grid>
         <ListBox
+            x:Name="AchievementListBox"
             Margin="0,0,10,0"
             Background="{DynamicResource MdXamlBackground}"
             BorderThickness="0"

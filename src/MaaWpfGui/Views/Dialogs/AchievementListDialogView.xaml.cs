@@ -12,6 +12,7 @@
 // </copyright>
 
 using System.ComponentModel;
+using System.Windows;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Views.Dialogs;
@@ -32,5 +33,32 @@ public partial class AchievementListDialogView
     {
         // 关闭窗口时执行一次空搜索，重置可见性
         AchievementTrackerHelper.Instance.Search();
+    }
+
+    public void ScrollToAchievement(string id)
+    {
+        if (!IsLoaded)
+        {
+            Loaded += OnLoadedForScroll;
+            _pendingScrollAchievementId = id;
+            return;
+        }
+
+        if (AchievementTrackerHelper.Instance.VisibleAchievements.TryGetValue(id, out var achievement))
+        {
+            AchievementListBox.ScrollIntoView(achievement);
+        }
+    }
+
+    private string _pendingScrollAchievementId;
+
+    private void OnLoadedForScroll(object sender, RoutedEventArgs e)
+    {
+        Loaded -= OnLoadedForScroll;
+        if (_pendingScrollAchievementId != null)
+        {
+            ScrollToAchievement(_pendingScrollAchievementId);
+            _pendingScrollAchievementId = null;
+        }
     }
 }

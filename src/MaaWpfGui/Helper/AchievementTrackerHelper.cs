@@ -16,6 +16,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Threading;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -223,6 +227,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
             IconKey = "HangoverGeometry",
             IconBrushKey = achievement.MedalBrushKey,
         };
+        _growlAchievementMap[growlInfo] = id;
         ShowInfo(growlInfo, forceStayOpen: forceStayOpen);
     }
 
@@ -276,6 +281,8 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Save();
     }
 
+    private static readonly Dictionary<GrowlInfo, string> _growlAchievementMap = [];
+
     private static readonly List<GrowlInfo> _pending = [];
 
     public static void ShowInfo(GrowlInfo info, bool forceStayOpen = false)
@@ -295,7 +302,64 @@ public class AchievementTrackerHelper : PropertyChangedBase
             }
 
             Growl.Info(info);
+            AttachGrowlClickHandler(info);
         });
+    }
+
+    private static void AttachGrowlClickHandler(GrowlInfo info)
+    {
+        if (_growlAchievementMap.TryGetValue(info, out var id) &&
+            Growl.GrowlPanel is { } panel && panel.Children.Count > 0)
+        {
+            var growlItem = panel.Children[panel.Children.Count - 1] as UIElement;
+            if (growlItem != null)
+            {
+                growlItem.AddHandler(
+                    UIElement.PreviewMouseLeftButtonDownEvent,
+                    new MouseButtonEventHandler((_, e) =>
+                    {
+                        var source = e.OriginalSource as DependencyObject;
+                        while (source != null && source != growlItem)
+                        {
+                            if (source is Button)
+                            {
+                                return;
+                            }
+
+                            source = VisualTreeHelper.GetParent(source);
+                        }
+
+                        _growlAchievementMap.Remove(info);
+                        NavigateToAchievement(id);
+                    }),
+                    handledEventsToo: true);
+            }
+        }
+    }
+
+    public static void NavigateToAchievement(string id)
+    {
+        if (Instances.SettingsViewModel.Parent is IHaveActiveItem<Screen> conductor)
+        {
+            conductor.ActiveItem = Instances.SettingsViewModel;
+        }
+
+        Application.Current.Dispatcher.BeginInvoke(
+            DispatcherPriority.Loaded,
+            new Action(() =>
+            {
+                var settings = Instances.SettingsViewModel.Settings;
+                for (int i = 0; i < settings.Count; i++)
+                {
+                    if (settings[i].Key == "AchievementSettings")
+                    {
+                        Instances.SettingsViewModel.SelectedIndex = i;
+                        break;
+                    }
+                }
+
+                AchievementSettingsUserControlModel.Instance.OnShowAchievementsClick(id);
+            }));
     }
 
     public static void TryShowPendingGrowls()
@@ -304,6 +368,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
             foreach (var info in _pending)
             {
                 Growl.Info(info);
+                AttachGrowlClickHandler(info);
             }
 
             _pending.Clear();
