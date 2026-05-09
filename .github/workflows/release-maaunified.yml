@@ -1,0 +1,254 @@
+name: Release MAAUnified Packages
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing GitHub release tag to attach MAAUnified packages to
+        required: true
+        type: string
+      prerelease:
+        description: Mark the release as prerelease if the upload action needs to create it
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  meta:
+    name: Resolve release metadata
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.out.outputs.tag }}
+      prerelease: ${{ steps.out.outputs.prerelease }}
+      version_prefix: ${{ steps.out.outputs.version_prefix }}
+      version_suffix: ${{ steps.out.outputs.version_suffix }}
+      assembly_version: ${{ steps.out.outputs.assembly_version }}
+      file_version: ${{ steps.out.outputs.file_version }}
+      informational_version: ${{ steps.out.outputs.informational_version }}
+    steps:
+      - id: out
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            tag="${{ github.event.release.tag_name }}"
+            prerelease="${{ github.event.release.prerelease }}"
+          else
+            tag="${{ inputs.release_tag }}"
+            prerelease="${{ inputs.prerelease }}"
+          fi
+
+          if [[ -z "${tag}" ]]; then
+            echo "release tag is required" >&2
+            exit 1
+          fi
+
+          tag="${tag#refs/tags/}"
+          semver_tag="${tag#v}"
+
+          if [[ "${semver_tag}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)(-([0-9A-Za-z][0-9A-Za-z.-]*))?$ ]]; then
+            version_prefix="${BASH_REMATCH[1]}"
+            version_suffix="${BASH_REMATCH[3]}"
+          else
+            version_prefix="1.0.0"
+            safe_suffix="$(echo "${tag}" | tr '/_' '--' | tr -cd '0-9A-Za-z.-')"
+            if [[ -z "${safe_suffix}" ]]; then
+              safe_suffix="r${GITHUB_RUN_NUMBER}"
+            fi
+            version_suffix="release.${safe_suffix}"
+          fi
+
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "prerelease=${prerelease}" >> "$GITHUB_OUTPUT"
+          echo "version_prefix=${version_prefix}" >> "$GITHUB_OUTPUT"
+          echo "version_suffix=${version_suffix}" >> "$GITHUB_OUTPUT"
+          echo "assembly_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
+          echo "file_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
+          echo "informational_version=${tag}" >> "$GITHUB_OUTPUT"
+
+  build-and-upload:
+    name: Release ${{ matrix.name }}
+    needs: meta
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: windows-x64
+            os: windows-latest
+            rid: win-x64
+            self_contained: true
+            cmake_preset: windows-publish-x64
+            maadeps_triplet: x64-windows
+          - name: linux-x64
+            os: ubuntu-latest
+            rid: linux-x64
+            self_contained: true
+            cmake_preset: linux-publish-x64
+            maadeps_triplet: x64-linux
+          - name: macos-x64
+            os: macos-latest
+            rid: osx-x64
+            self_contained: true
+            cmake_preset: macos-publish-x64
+            maadeps_triplet: x64-osx
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Fetch required submodules
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified src/MaaUtils
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Restore app
+        run: dotnet restore src/MAAUnified/App/MAAUnified.App.csproj
+
+      - name: Bootstrap MaaDeps
+        run: python tools/maadeps-download.py ${{ matrix.maadeps_triplet }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build MaaCore runtime
+        run: |
+          cmake --preset ${{ matrix.cmake_preset }} -DINSTALL_PYTHON=OFF -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake --build --preset ${{ matrix.cmake_preset }}
+          cmake --install build --config RelWithDebInfo
+
+      - name: Publish MAAUnified app
+        shell: bash
+        run: >
+          dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r ${{ matrix.rid }}
+          --self-contained ${{ matrix.self_contained }} -o staging/bin
+          -p:VersionPrefix=${{ needs.meta.outputs.version_prefix }}
+          -p:VersionSuffix=${{ needs.meta.outputs.version_suffix }}
+          -p:AssemblyVersion=${{ needs.meta.outputs.assembly_version }}
+          -p:FileVersion=${{ needs.meta.outputs.file_version }}
+          -p:InformationalVersion="${{ needs.meta.outputs.informational_version }}"
+          -p:MaaUnifiedReleaseChannel=formal
+          -p:MaaUnifiedDiagnosticsProfile=minimal
+
+      - name: Merge MaaCore runtime (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path staging -Force | Out-Null
+          Copy-Item install\* staging\ -Recurse -Force
+          if (!(Test-Path "staging\MaaCore.dll")) { throw "MaaCore.dll not found in staging output." }
+          if (!(Test-Path "staging\resource")) { throw "resource directory not found in staging output." }
+
+      - name: Merge MaaCore runtime (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          mkdir -p staging
+          cp -a install/. staging/
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            test -f staging/libMaaCore.so
+          else
+            test -f staging/libMaaCore.dylib
+          fi
+          test -d staging/resource
+
+      - name: Create root launcher scripts (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: pwsh -File src/MAAUnified/CI/create-windows-launcher.ps1 -TargetDir staging
+
+      - name: Create root launcher scripts (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            bash src/MAAUnified/CI/create-unix-launchers.sh staging macos
+          else
+            bash src/MAAUnified/CI/create-unix-launchers.sh staging linux
+          fi
+
+      - name: Remove non-runtime artifacts from release package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Get-ChildItem staging\bin -Filter *.pdb -File -Recurse | Remove-Item -Force
+          Remove-Item staging\AsstCaller.h -Force -ErrorAction SilentlyContinue
+          Remove-Item staging\AsstPort.h -Force -ErrorAction SilentlyContinue
+
+      - name: Remove non-runtime artifacts from release package (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          find staging/bin -type f -name '*.pdb' -delete
+          rm -f staging/AsstCaller.h staging/AsstPort.h
+
+      - name: Validate staging layout (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          if (!(Test-Path "staging\bin\MAAUnified.exe")) { throw "Managed app executable not found under staging/bin." }
+          if (!(Test-Path "staging\resource")) { throw "resource directory not found under staging root." }
+          if (!(Test-Path "staging\MAAUnified.cmd")) { throw "Root launcher script not found." }
+          $rootManaged = @(Get-ChildItem staging -File | Where-Object { $_.Name -like 'System.*.dll' -or $_.Name -like 'Avalonia.*.dll' })
+          if ($rootManaged.Count -gt 0) { throw "Managed DLLs should not be placed at staging root." }
+          if ((Get-ChildItem staging\bin -Filter *.pdb -File -Recurse | Measure-Object).Count -gt 0) { throw "PDB files should not be included in formal release packages." }
+
+      - name: Validate staging layout (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          test -x staging/bin/MAAUnified
+          test -d staging/resource
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            test -x staging/MAAUnified
+            test -x staging/MAAUnified.command
+          else
+            test -x staging/MAAUnified
+            test -x staging/MAAUnified.sh
+          fi
+          ! find staging -maxdepth 1 -type f \( -name 'System.*.dll' -o -name 'Avalonia.*.dll' \) | grep -q .
+          ! find staging/bin -type f -name '*.pdb' | grep -q .
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path release -Force | Out-Null
+          $name = "MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
+          Compress-Archive -Path staging\* -DestinationPath "release\$name.zip"
+
+      - name: Package (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          mkdir -p release
+          name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
+          tar -czf "release/${name}.tar.gz" -C staging .
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAAUnified-release-${{ matrix.name }}
+          path: release/*
+
+      - name: Upload release asset
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file_glob: true
+          file: release/*
+          tag: ${{ needs.meta.outputs.tag }}
+          prerelease: ${{ needs.meta.outputs.prerelease }}
+          overwrite: true
