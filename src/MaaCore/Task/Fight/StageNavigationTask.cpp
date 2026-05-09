@@ -92,7 +92,38 @@ bool asst::StageNavigationTask::_run()
         }
     }
 
+    if (try_last_battle()) {
+        return true;
+    }
+
     return chapter_wayfinding() && swipe_and_find_stage();
+}
+
+bool asst::StageNavigationTask::try_last_battle()
+{
+    LogTraceFunction;
+
+    if (m_last_battle_checked) {
+        return false;
+    }
+    m_last_battle_checked = true;
+
+    if (m_stage_code.empty()) {
+        return false;
+    }
+
+    auto image = ctrler()->get_image();
+    OCRer analyzer(image);
+    analyzer.set_task_info("LastBattleStageName");
+    analyzer.set_required({ m_stage_code });
+
+    if (!analyzer.analyze()) {
+        Log.info("Last battle OCR failed or stage not found near button", m_stage_code);
+        return false;
+    }
+
+    Log.info("Last battle matches target, using shortcut", m_stage_code);
+    return ProcessTask(*this, { "GoLastBattle" }).set_retry_times(3).run();
 }
 
 void asst::StageNavigationTask::clear() noexcept
@@ -102,6 +133,7 @@ void asst::StageNavigationTask::clear() noexcept
     m_chapter_task.clear();
     m_difficulty_task.clear();
     m_stage_code.clear();
+    m_last_battle_checked = false;
 }
 
 bool asst::StageNavigationTask::chapter_wayfinding()
