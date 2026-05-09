@@ -107,9 +107,28 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
     public ICommand SearchCmd { get; }
 
+    private string _searchText = string.Empty;
+
+    public string SearchText
+    {
+        get => _searchText;
+        set => SetAndNotify(ref _searchText, value ?? string.Empty);
+    }
+
+    public void SearchAndSyncText(string text = "")
+    {
+        SearchText = text.Trim();
+        Search(SearchText);
+    }
+
     public void Search(string text = "")
     {
         text = text.Trim();
+        if (!string.Equals(SearchText, text, StringComparison.Ordinal))
+        {
+            SearchText = text;
+        }
+
         if (string.IsNullOrWhiteSpace(text))
         {
             foreach (var achievement in Achievements)
@@ -119,9 +138,14 @@ public class AchievementTrackerHelper : PropertyChangedBase
         }
         else
         {
-            foreach (var (_, value) in Achievements)
+            foreach (var (key, value) in Achievements)
             {
-                value.IsVisibleInSearch = value.Title.Contains(text) || value.Description.Contains(text) || value.Conditions.Contains(text) || value.ReleasePhaseTag.Contains(text);
+                value.IsVisibleInSearch =
+                    key == text ||
+                    value.Title.Contains(text) ||
+                    value.Description.Contains(text) ||
+                    value.Conditions.Contains(text) ||
+                    value.ReleasePhaseTag.Contains(text);
             }
         }
 
@@ -301,39 +325,96 @@ public class AchievementTrackerHelper : PropertyChangedBase
                 return;
             }
 
+            var previousItems = Growl.GrowlPanel?.Children.OfType<UIElement>().ToHashSet() ?? [];
             Growl.Info(info);
-            AttachGrowlClickHandler(info);
+            AttachGrowlClickHandler(info, previousItems);
         });
     }
 
-    private static void AttachGrowlClickHandler(GrowlInfo info)
+    private static void AttachGrowlClickHandler(GrowlInfo info, HashSet<UIElement> previousItems)
     {
-        if (_growlAchievementMap.TryGetValue(info, out var id) &&
-            Growl.GrowlPanel is { } panel && panel.Children.Count > 0)
+        if (!_growlAchievementMap.TryGetValue(info, out var id))
         {
-            var growlItem = panel.Children[panel.Children.Count - 1] as UIElement;
-            if (growlItem != null)
+            return;
+        }
+
+        bool TryAttachToNewItems()
+        {
+            if (Growl.GrowlPanel is not { } panel)
             {
+                return false;
+            }
+
+            bool attached = false;
+            foreach (var growlItem in panel.Children.OfType<UIElement>().Where(item => !previousItems.Contains(item)))
+            {
+                growlItem.RemoveHandler(UIElement.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(OnGrowlItemMouseDown));
                 growlItem.AddHandler(
                     UIElement.PreviewMouseLeftButtonDownEvent,
-                    new MouseButtonEventHandler((_, e) =>
-                    {
-                        var source = e.OriginalSource as DependencyObject;
-                        while (source != null && source != growlItem)
-                        {
-                            if (source is Button)
-                            {
-                                return;
-                            }
-
-                            source = VisualTreeHelper.GetParent(source);
-                        }
-
-                        _growlAchievementMap.Remove(info);
-                        NavigateToAchievement(id);
-                    }),
+                    new MouseButtonEventHandler(OnGrowlItemMouseDown),
                     handledEventsToo: true);
+
+                if (growlItem is FrameworkElement element)
+                {
+                    element.Tag = id;
+                    element.Unloaded -= OnGrowlItemUnloaded;
+                    element.Unloaded += OnGrowlItemUnloaded;
+                }
+
+                attached = true;
             }
+
+            if (attached)
+            {
+                _growlAchievementMap.Remove(info);
+            }
+
+            return attached;
+        }
+
+        if (!TryAttachToNewItems())
+        {
+            Application.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Loaded,
+                new Action(() => TryAttachToNewItems()));
+        }
+    }
+
+    private static void OnGrowlItemUnloaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is UIElement growlItem)
+        {
+            growlItem.RemoveHandler(UIElement.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(OnGrowlItemMouseDown));
+        }
+
+        if (sender is FrameworkElement element)
+        {
+            element.Tag = null;
+            element.Unloaded -= OnGrowlItemUnloaded;
+        }
+    }
+
+    private static void OnGrowlItemMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not UIElement growlItem)
+        {
+            return;
+        }
+
+        var source = e.OriginalSource as DependencyObject;
+        while (source != null && source != growlItem)
+        {
+            if (source is Button)
+            {
+                return;
+            }
+
+            source = VisualTreeHelper.GetParent(source);
+        }
+
+        if (sender is FrameworkElement { Tag: string id } && !string.IsNullOrWhiteSpace(id))
+        {
+            NavigateToAchievement(id);
         }
     }
 
@@ -367,8 +448,9 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Execute.OnUIThread(() => {
             foreach (var info in _pending)
             {
+                var previousItems = Growl.GrowlPanel?.Children.OfType<UIElement>().ToHashSet() ?? [];
                 Growl.Info(info);
-                AttachGrowlClickHandler(info);
+                AttachGrowlClickHandler(info, previousItems);
             }
 
             _pending.Clear();

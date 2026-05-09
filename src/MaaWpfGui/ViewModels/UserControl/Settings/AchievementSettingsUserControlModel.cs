@@ -110,7 +110,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
 
     private static AchievementListDialogView? _achievementsWindow;
 
-    public void OnShowAchievementsClick(string achievementId = null)
+    public void OnShowAchievementsClick(string? achievementId = null)
     {
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.AchievementObserver);
         if (_achievementsWindow is null)
@@ -128,7 +128,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
 
         if (achievementId != null)
         {
-            _achievementsWindow.ScrollToAchievement(achievementId);
+            AchievementTrackerHelper.Instance.SearchAndSyncText(achievementId);
         }
     }
 
