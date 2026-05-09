@@ -845,7 +845,7 @@ public class ToolboxViewModel : Screen
     {
         Clipboard.Clear();
         Clipboard.SetDataObject(ArkPlannerResult);
-        DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
+        Growl.Info(LocalizationHelper.GetString("CopiedToClipboard"));
     }
 
     /// <summary>
@@ -857,7 +857,81 @@ public class ToolboxViewModel : Screen
     {
         Clipboard.Clear();
         Clipboard.SetDataObject(LoliconResult);
-        DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
+        Growl.Info(LocalizationHelper.GetString("CopiedToClipboard"));
+    }
+
+    /// <summary>
+    /// Export depot info to Markdown file.
+    /// UI 绑定的方法
+    /// </summary>
+    [UsedImplicitly]
+    public void ExportToMarkdown()
+    {
+        var items = DepotResult.Where(item => item.Count >= 0).ToList();
+        if (items.Count == 0)
+        {
+            return;
+        }
+
+        var lines = new List<string> { "# Arknights Depot Export", string.Empty, "| ID | Name | Count |", "| --- | --- | --- |" };
+        foreach (var item in items)
+        {
+            lines.Add($"| {item.Id} | {item.Name ?? string.Empty} | {item.Count} |");
+        }
+
+        var content = string.Join(Environment.NewLine, lines);
+
+        var dialog = new Microsoft.Win32.SaveFileDialog {
+            Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*",
+            DefaultExt = ".md",
+            FileName = "Arknights_Depot_Export.md",
+        };
+
+        if (dialog.ShowDialog() == true)
+        {
+            System.IO.File.WriteAllText(dialog.FileName, content);
+            Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
+        }
+    }
+
+    /// <summary>
+    /// Export depot info to CSV file.
+    /// UI 绑定的方法
+    /// </summary>
+    [UsedImplicitly]
+    public void ExportToCsv()
+    {
+        var items = DepotResult.Where(item => item.Count >= 0).ToList();
+        if (items.Count == 0)
+        {
+            return;
+        }
+
+        var lines = new List<string> { "ID,Name,Count" };
+        foreach (var item in items)
+        {
+            var name = item.Name ?? string.Empty;
+            if (name.Contains(',') || name.Contains('"') || name.Contains('\n'))
+            {
+                name = "\"" + name.Replace("\"", "\"\"") + "\"";
+            }
+
+            lines.Add($"{item.Id},{name},{item.Count}");
+        }
+
+        var content = string.Join(Environment.NewLine, lines);
+
+        var dialog = new Microsoft.Win32.SaveFileDialog {
+            Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*",
+            DefaultExt = ".csv",
+            FileName = "Arknights_Depot_Export.csv",
+        };
+
+        if (dialog.ShowDialog() == true)
+        {
+            System.IO.File.WriteAllText(dialog.FileName, content, new System.Text.UTF8Encoding(true));
+            Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
+        }
     }
 
     /*

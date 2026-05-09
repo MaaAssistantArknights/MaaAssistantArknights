@@ -880,9 +880,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LastSyncTime">前回同期時間</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
     <system:String x:Key="StartToDepotRecognition">認識開始</system:String>
-    <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
-    <system:String x:Key="ExportToLolicon">Arkntoolsへ出力</system:String>
+    <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>
+    <system:String x:Key="ExportToLolicon">Arkntools</system:String>
+    <system:String x:Key="ExportToMarkdown">Markdown</system:String>
+    <system:String x:Key="ExportToCsv">CSV</system:String>
     <system:String x:Key="CopiedToClipboard">クリップボードへコピー</system:String>
+    <system:String x:Key="ExportedToFile">ファイルにエクスポートしました</system:String>
+    <system:String x:Key="ExportTo">出力先：</system:String>
     <!--  !倉庫アイテム認識  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}</system:String>
