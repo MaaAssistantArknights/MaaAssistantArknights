@@ -40,7 +40,7 @@ icon: hugeicons:brain-02
   Ensure you're on the stage details screen with the stage name and remaining sanity in the upper right and auto-deploy/start buttons in the lower right.
 - If you're not on this screen, `Current/Last` will automatically enter the "last operation" stage shown on the bottom right of the terminal home screen.
 - You can also enable `Manual entry of stage names` in `Task Settings` - `Sanity Farming` - `Advanced Settings` to manually input stage codes. Currently supported stages include:
-  - All main story stages. You can add `-NORMAL` or `-HARD` at the end to switch between normal and challenge modes.
+  - All main story stages. You can add `-NORMAL` or `-HARD` at the end to switch difficulty: Chapters 10-14 map to Standard/Adverse, while Chapters 15+ map to Normal/Raid.
   - Resource stages like CE-6/LS-6 (LMD/EXP). Enter the exact code like `CE-6` or `LS-6`. MAA will automatically switch to level 5 if level 6 isn't available.
   - Skill summary, voucher, and carbon stages (level 5 only). Enter exact codes like `CA-5`, `AP-5`, or `SK-5`.
   - All chip stages. Enter complete stage codes like `PR-A-1`.

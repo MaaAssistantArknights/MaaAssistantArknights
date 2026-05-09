@@ -118,7 +118,7 @@ Whether to enable this task.
 Stage name, by default empty, recognizes current/last stage. Editing in run-time is not supported.  
 Currently supported stages for navigation include:
 
-- All mainline stages. You can add `-NORMAL` or `-HARD` at the end of the stage to switch between standard or challenge mode.
+- All mainline stages. You can add `-NORMAL` or `-HARD` at the end of the stage to switch difficulty: Chapters 10-14 map to Standard/Adverse, while Chapters 15+ map to Normal/Raid.
 - For LMD and Battle Record stages 5/6, must input `CE-6` / `LS-6`. MAA will automatically switch to stage 5 if stage 6 cannot be delegated.
 - Skill Summary, Voucher, and Carbon stage 5, must input `CA-5` / `AP-5` / `SK-5`.
 - All chip stages. Must input complete stage code, e.g. `PR-A-1`.
