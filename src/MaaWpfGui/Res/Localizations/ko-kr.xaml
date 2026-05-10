@@ -888,6 +888,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopiedToClipboard">클립보드에 복사됨</system:String>
     <system:String x:Key="ExportedToFile">파일로 내보내기 완료</system:String>
     <system:String x:Key="ExportTo">내보내기:</system:String>
+    <system:String x:Key="Export">내보내기</system:String>
     <!--  !창고 인식  -->
     <!--  오퍼레이터 인식  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator} 인식</system:String>

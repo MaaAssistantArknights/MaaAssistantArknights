@@ -836,6 +836,35 @@ public class ToolboxViewModel : Screen
         return true;
     }
 
+    public record struct ExportEntry(string Display, int Value);
+
+    public List<ExportEntry> ExportOptionList { get; } = [
+        new(LocalizationHelper.GetString("ExportToArkplanner"), 0),
+        new(LocalizationHelper.GetString("ExportToLolicon"), 1),
+        new(LocalizationHelper.GetString("ExportToMarkdown"), 2),
+        new(LocalizationHelper.GetString("ExportToCsv"), 3),
+    ];
+
+    private int _selectedExportValue;
+
+    public int SelectedExportValue
+    {
+        get => _selectedExportValue;
+        set => SetAndNotify(ref _selectedExportValue, value);
+    }
+
+    [UsedImplicitly]
+    public void ExecuteSelectedExport()
+    {
+        switch (_selectedExportValue)
+        {
+            case 0: ExportToArkplanner(); break;
+            case 1: ExportToLolicon(); break;
+            case 2: ExportToMarkdown(); break;
+            case 3: ExportToCsv(); break;
+        }
+    }
+
     /// <summary>
     /// Export depot info to ArkPlanner.
     /// UI 绑定的方法

@@ -887,6 +887,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="CopiedToClipboard">已複製到剪貼簿</system:String>
     <system:String x:Key="ExportedToFile">已匯出到檔案</system:String>
     <system:String x:Key="ExportTo">匯出到：</system:String>
+    <system:String x:Key="Export">匯出</system:String>
     <!--  !倉庫辨識  -->
     <!--  日誌  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}辨識</system:String>

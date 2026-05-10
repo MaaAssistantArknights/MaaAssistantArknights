@@ -886,6 +886,7 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="CopiedToClipboard">Copied to Clipboard</system:String>
     <system:String x:Key="ExportedToFile">Exported to file</system:String>
     <system:String x:Key="ExportTo">Export to:</system:String>
+    <system:String x:Key="Export">Export</system:String>
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}</system:String>
