@@ -352,7 +352,7 @@
         "baseTask": "JieGarden@Roguelike@CoppersBox"
     },
     "JieGarden@Roguelike@CoppersRecast": {
-        "Doc": "重新投钱",
+        "Doc": "重新投钱 状态机的图参见 #16553",
         "method": "HSVCount",
         "roi": [1196, 70, 80, 56],
         "colorScales": [
@@ -390,7 +390,7 @@
         "next": ["JieGarden@Roguelike@CloseCollectionClose", "JieGarden@Roguelike@CloseCollectionContinue", "#self"]
     },
     "JieGarden@Roguelike@CoppersTakeConfirm": {
-        "Doc": "交换通宝确认按钮 (用于插件 RoguelikeCoppersTaskPlugin 的确认操作) 插件出口",
+        "Doc": ["交换通宝确认按钮 (用于插件 RoguelikeCoppersTaskPlugin 的确认操作) 插件出口 状态机的图参见 #16553"],
         "action": "ClickSelf",
         "template": "JieGarden@Roguelike@CoppersTakeFlag.png",
         "roi": [1031, 606, 249, 114],
