@@ -45,6 +45,7 @@
                     Width="250"
                     HorizontalContentAlignment="Center"
                     hc:BorderElement.CornerRadius="4,0,0,4"
+                    hc:TitleElement.TitleWidth="0"
                     hc:ListBoxAttach.SelectedItems="{Binding EnabledExternalNotificationProviders}"
                     ItemsSource="{Binding ExternalNotificationProvidersShow}" />
                 <Grid>
