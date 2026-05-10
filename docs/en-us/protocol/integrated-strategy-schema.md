@@ -829,14 +829,6 @@ For farming hidden Collapsal Paradigms, N10 difficulty is recommended, with the 
 
 MAA automatically handles copper pickup and exchange in JieGarden I.S.:
 
-::: tip Enable Conditions
-Copper exchange functionality is only enabled in the following modes:
-
-- Investment Mode: Requires "Investment mode enable shopping, recruitment, advance 2 floors" option enabled
-- Other Modes: Enabled by default
-
-:::
-
 1. **Pickup Dropped Coppers**: After battle ends, if copper drop selection interface appears, MAA will select the copper with highest `pickup_priority`
 
 2. **Exchange Wallet Coppers**: When a newly picked copper needs to be exchanged with coppers in the wallet:
