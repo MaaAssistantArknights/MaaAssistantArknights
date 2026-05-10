@@ -387,7 +387,14 @@
         "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
         "postDelay": 500,
         "roi": [1033, 462, 153, 155],
-        "next": ["JieGarden@Roguelike@CloseCollectionClose", "JieGarden@Roguelike@CloseCollectionContinue", "#self"]
+        "next": [
+            "JieGarden@Roguelike@CloseCollectionClose",
+            "JieGarden@Roguelike@CloseCollectionContinue",
+            "JieGarden@Roguelike@CoppersTakeFlag",
+            "JieGarden@Roguelike@DropsFlag",
+            "JieGarden@Roguelike@CloseEvent",
+            "#self"
+        ]
     },
     "JieGarden@Roguelike@CoppersTakeConfirm": {
         "Doc": ["交换通宝确认按钮 (用于插件 RoguelikeCoppersTaskPlugin 的确认操作) 插件出口 状态机的图参见 #16553"],
