@@ -441,6 +441,9 @@ struct BasicInfo
     std::string title_color;
     std::string details;
     std::string details_color;
+    bool is_sandbox = false;
+    int sandbox_option1 = 1;
+    int sandbox_option2 = 1;
 };
 
 struct CombatData // 作业 JSON 数据

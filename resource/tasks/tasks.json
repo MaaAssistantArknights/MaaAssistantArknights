@@ -383,6 +383,75 @@
         "template": ["RaidDifficulty.png", "RaidDifficulty-Chapter15.png"],
         "next": []
     },
+    "ChangeToNormalDifficulty": {
+        "doc": ["常规", "15章常规"],
+        "template": ["NormalDifficulty.png", "NormalDifficulty-Chapter15.png"],
+        "action": "ClickSelf",
+        "maskRange": [0, 220],
+        "roi": [600, 610, 130, 110],
+        "maxTimes": 3,
+        "next": ["NormalConfirm", "#self"]
+    },
+    "NormalConfirm": {
+        "baseTask": "ChangeToNormalDifficulty",
+        "action": "DoNothing",
+        "maskRange": [0, 220],
+        "template": ["RaidDifficulty.png", "RaidDifficulty-Chapter15.png"],
+        "next": []
+    },
+    "SandboxOptionToggle": {
+        "doc": "沙盘推演选项弹窗按钮",
+        "template": "SandboxOptionToggle.png",
+        "action": "ClickSelf",
+        "roi": [1131, 123, 149, 148],
+        "preDelay": 500,
+        "next": []
+    },
+    "SandboxButton": {
+        "doc": "沙盘推演按钮",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["沙盘推演"],
+        "roi": [910, 128, 244, 138],
+        "maxTimes": 3,
+        "next": []
+    },
+    "SandboxOption1_1": {
+        "doc": "沙盘选项1-1",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [63, 263, 574, 128],
+        "preDelay": 1000
+    },
+    "SandboxOption1_2": {
+        "doc": "沙盘选项1-2",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [643, 264, 580, 132],
+        "preDelay": 1000
+    },
+    "SandboxOption2_1": {
+        "doc": "沙盘选项2-1",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [58, 463, 582, 130],
+        "preDelay": 500
+    },
+    "SandboxOption2_2": {
+        "doc": "沙盘选项2-2",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [641, 466, 580, 126],
+        "preDelay": 500
+    },
+    "SandboxConfirm": {
+        "doc": "沙盘推演确定按钮",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确定"],
+        "roi": [939, 570, 333, 150],
+        "preDelay": 500
+    },
     "EpisodeNew": {
         "Doc": "base_task",
         "algorithm": "JustReturn",
