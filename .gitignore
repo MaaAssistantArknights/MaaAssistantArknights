@@ -421,7 +421,7 @@ FodyWeavers.xsd
 .history/
 
 # Claude Code
-.claude/
+.claude/*
 !.claude/skills/
 
 # Windows Installer files from build outputs
