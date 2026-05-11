@@ -79,7 +79,7 @@ public class BarkNotificationProvider(IHttpService httpService) : IExternalNotif
         public string Group { get; } = "MaaAssistantArknights";
 
         [JsonPropertyName("icon")]
-        public static string Icon { get => "https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_256x256.png"; }
+        public static string Icon { get => "https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/v1/icons/maa-logo_256x256.png"; }
 
         // ReSharper restore UnusedAutoPropertyAccessor.Local
         // ReSharper restore UnusedMember.Local
