@@ -653,19 +653,25 @@ public:
     template <typename... args_t>
     auto error_(args_t&&... args)
     {
-        return stream(level::error, m_scopes.next(), std::forward<args_t>(args)...);
+        return stream(level::error, std::forward<args_t>(args)...);
     }
 
     template <typename... args_t>
     auto warn_(args_t&&... args)
     {
-        return stream(level::warn, m_scopes.next(), std::forward<args_t>(args)...);
+        return stream(level::warn, std::forward<args_t>(args)...);
     }
 
     template <typename... args_t>
     auto info_(args_t&&... args)
     {
-        return stream(level::info, m_scopes.next(), std::forward<args_t>(args)...);
+        return stream(level::info, std::forward<args_t>(args)...);
+    }
+
+    template <typename... args_t>
+    auto trace_(args_t&&... args)
+    {
+        return stream(level::trace, std::forward<args_t>(args)...);
     }
 
     template <typename... args_t>
@@ -681,13 +687,7 @@ public:
                 std::forward<args_t>(args)...);
         }
 #endif
-        return stream(level::debug, m_scopes.next(), std::forward<args_t>(args)...);
-    }
-
-    template <typename... args_t>
-    auto trace_(args_t&&... args)
-    {
-        return stream(level::trace, m_scopes.next(), std::forward<args_t>(args)...);
+        return stream(level::debug, std::forward<args_t>(args)...);
     }
 
     template <typename... Args>
@@ -1005,9 +1005,15 @@ private:
                 std::unique_lock { m_trace_mutex },
                 ostreams { console_ostream(std::cout), m_of },
                 lv,
+                m_scopes.next(),
                 std::forward<args_t>(args)...);
 #else
-            return LogStream(std::unique_lock { m_trace_mutex }, m_of, lv, std::forward<args_t>(args)...);
+            return LogStream(
+                std::unique_lock { m_trace_mutex },
+                m_of,
+                lv,
+                m_scopes.next(),
+                std::forward<args_t>(args)...);
 #endif
         }
         else {
@@ -1016,9 +1022,15 @@ private:
                 std::unique_lock { m_trace_mutex },
                 ostreams { console_ostream(std::cout), null_stream },
                 lv,
+                m_scopes.next(),
                 std::forward<args_t>(args)...);
 #else
-            return LogStream(std::unique_lock { m_trace_mutex }, null_stream, lv, std::forward<args_t>(args)...);
+            return LogStream(
+                std::unique_lock { m_trace_mutex },
+                null_stream,
+                lv,
+                m_scopes.next(),
+                std::forward<args_t>(args)...);
 #endif
         }
     }
