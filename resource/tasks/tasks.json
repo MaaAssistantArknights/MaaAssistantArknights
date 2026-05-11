@@ -414,7 +414,7 @@
         "text": ["沙盘推演"],
         "roi": [910, 128, 244, 138],
         "maxTimes": 3,
-        "next": []
+        "next": ["SandboxOptionToggle", "#self"]
     },
     "SandboxOption1_1": {
         "doc": "沙盘选项1-1",

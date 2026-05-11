@@ -1,5 +1,7 @@
 #include "CopilotTask.h"
 
+#include <algorithm>
+
 #include "Arknights-Tile-Pos/TileCalc2.hpp"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -91,8 +93,12 @@ bool asst::CopilotTask::set_params(const json::value& params)
             return false;
         }
         if (Copilot.get_data().info.is_sandbox) {
-            int opt1 = Copilot.get_data().info.sandbox_option1;
-            int opt2 = Copilot.get_data().info.sandbox_option2;
+            int opt1 = std::clamp(Copilot.get_data().info.sandbox_option1, 1, 2);
+            int opt2 = std::clamp(Copilot.get_data().info.sandbox_option2, 1, 2);
+            m_sandbox_tasks.clear();
+            auto raid_tp = std::make_shared<ProcessTask>(m_callback, inst(), TaskType);
+            raid_tp->set_tasks({ "RaidConfirm", "ChangeToRaidDifficulty" }).set_retry_times(20);
+            m_sandbox_tasks.emplace_back(raid_tp);
             auto sandbox_entry_tp = std::make_shared<ProcessTask>(m_callback, inst(), TaskType);
             sandbox_entry_tp->set_tasks({ "SandboxOptionToggle", "SandboxButton" }).set_retry_times(20);
             m_sandbox_tasks.emplace_back(sandbox_entry_tp);
