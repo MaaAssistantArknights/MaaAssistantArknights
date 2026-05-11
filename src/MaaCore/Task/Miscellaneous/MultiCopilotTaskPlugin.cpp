@@ -1,5 +1,7 @@
 #include "MultiCopilotTaskPlugin.h"
 
+#include <algorithm>
+
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
@@ -46,10 +48,10 @@ bool asst::MultiCopilotTaskPlugin::_run()
     ProcessTask(*this, { "NotUsePrts" }).set_ignore_error(true).set_retry_times(0).run();
 
     bool is_sandbox = config.is_sandbox || Copilot.get_data().info.is_sandbox;
-    int sandbox_option1 = config.is_sandbox ? config.sandbox_option1 : Copilot.get_data().info.sandbox_option1;
-    int sandbox_option2 = config.is_sandbox ? config.sandbox_option2 : Copilot.get_data().info.sandbox_option2;
+    int sandbox_option1 = std::clamp(config.is_sandbox ? config.sandbox_option1 : Copilot.get_data().info.sandbox_option1, 1, 2);
+    int sandbox_option2 = std::clamp(config.is_sandbox ? config.sandbox_option2 : Copilot.get_data().info.sandbox_option2, 1, 2);
 
-    if (config.is_raid) {
+    if (config.is_raid || is_sandbox) {
         ret = ret && ProcessTask(*this, { "RaidConfirm", "ChangeToRaidDifficulty" }).set_retry_times(20).run();
     }
     if (ret && is_sandbox) {
