@@ -4,6 +4,7 @@
     },
     "PVChapterToPV": {
         "ocrReplace": [["カド.*ル", "カドリール"]],
-        "text": ["カドリール"]
+        "text": ["カドリール", "QUADRIGLIA"],
+        "roi": [69, 594, 123, 65]
     }
 }

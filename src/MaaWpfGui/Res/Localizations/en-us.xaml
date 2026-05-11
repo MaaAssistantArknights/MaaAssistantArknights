@@ -625,7 +625,7 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
-At the end of the stage, enter ｢Normal/Hard｣ to switch between Standard and Adverse environment
+At the end of the stage, enter ｢Normal/Hard｣ to switch difficulty: Chapters 10-14 use Standard/Adverse, Chapters 15+ use Normal/Raid
 Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS rerun events</system:String>
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">Automatic connection detection is not supported for this configuration, please try manually entering the port number</system:String>

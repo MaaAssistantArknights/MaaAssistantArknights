@@ -5,6 +5,11 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 # MAA Issue Log Analysis
 
+## Required Reading
+
+- 开始分析前，先读取同目录的 `KNOWLEDGE.md`，先用其中的通用误判规则校正自己的分析路径，再读 issue 和日志。
+- 如果 issue 涉及会客室、线索、快捷按钮、批量按钮、自动领取/赠送/放置这类“会先改变界面状态再继续执行”的流程，必须先套用 `KNOWLEDGE.md` 中的 `Stateful UI Automation Checks` 与 `Reception Clue Analysis`。
+
 ## Scope
 
 - 仅用于上游公开仓库 `https://github.com/MaaAssistantArknights/MaaAssistantArknights`。
@@ -25,6 +30,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
  - 读取正文和评论。
  - 提取这些信息：UI/Core/Resource 版本、资源时间、模拟器类型、分辨率、截图增强、GPU 推理、任务名、关卡名、是否有 `-hard`、用户现象、复现步骤、维护者或机器人评论。
  - 不要把评论结论当成唯一证据；仍要用日志和代码自行验证。
+ - 如果 issue 文本或评论里已经有人下了“这是游戏设计 / 不是 bug / 本来就这样”的结论，先暂存，不要直接复述成最终判断；先核对日志、资源任务和当前代码是否真的支持这个结论。
 
 3. 提取报告附件。
 
@@ -60,6 +66,10 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 - 先在 `gui.log` 确认 `AttachWindow: Found window`
 - 再在 `asst.log` 里看 `Win32Controller::screencap`、`Win32Controller::click`
 - 不要再按 ADB 端口或 `ConnectionInfo.ConnectFailed` 的思路分析
+- 如果问题属于状态型 UI 自动化（例如会客室线索、批量按钮、快捷按钮、先拆后放一类流程），时间线里必须单独标出：
+- 自动化在什么时刻先修改了用户原状态
+- 后续进入下一步或恢复终态由哪个条件控制
+- 条件不满足时流程是停止、跳过，还是按设计停在别的状态
 
 6. 区分 issue 当时环境和当前分支。
 
@@ -245,6 +255,12 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
  - 摘几十行足够支撑结论的片段即可。
  - 不要把整份日志倾倒进回复。
 
+8. 对状态型 UI 问题，结论前先做一次“设计一致性检查”。
+
+ - 先判断日志中的状态变化是否符合游戏规则、资源任务定义和当前实现。
+ - 如果流程与设计一致，不要把用户不喜欢的中间状态直接归为 bug。
+ - 只有当日志、资源任务和代码彼此冲突，或流程没有达到设计要求的终态时，再归类为实现缺陷。
+
 ## Common Patterns
 
 - `gui.log` 只显示“连接失败”，但 `asst.log` 里已经给出 `adb devices`、`adb connect`、端口轮询和 `ConnectionInfo`。连接类问题必须以 `asst.log` 为准。
@@ -254,6 +270,8 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 - `part02` 可以是空包，也可以只包含图片；不要因为没有文本日志就把它判成“无用分卷”。
 - issue 机器人评论“日志没有上传成功”时，不要自动当真；先验证正文附件是否仍可下载。
 - 如果 `gui.log` 说“任务出错”，但对应 `taskid` 的 `asst.log` 实际 `AllTasksCompleted`，要明确写“本次日志未复现用户描述的问题”。
+- 对会客室 / 线索 issue，如果 `asst.log` 里出现 `InfrastClueQuickInsert`、`remove_clue`、`SendClues` 或 `InfrastClueQuickSendDuplicates`，先对照资源任务判断这是不是当前设计流程，不要只看线索板中途是否为空。
+- 如果线索流程里出现“取下线索 -> 赠送重复线索 -> 条件满足后统一放置”，默认先按 by design 处理；只有当日志显示本应统一放置却没有发生时，再继续追实现问题。
 - 用户日志里的任务流程与当前主线代码明显不一致，且当前代码看起来已经修掉了该问题：
 
     - 先确认用户版本，必要时切到对应 tag（例如 `git checkout vXXX`）核对旧逻辑。

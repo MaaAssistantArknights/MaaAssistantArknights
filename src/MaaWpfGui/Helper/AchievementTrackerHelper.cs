@@ -597,7 +597,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Humor(id: AchievementIds.QuickCloser, isHidden: true), // 快速关闭弹窗
         Humor(id: AchievementIds.TacticalRetreat), // 停止任务
         Humor(id: AchievementIds.Martian, isHidden: true), // 90 天没更新
-        Humor(id: AchievementIds.AnnouncementStubbornClick, isHidden: true), // 不看公告
+        Humor(id: AchievementIds.AnnouncementStubbornClick, isHidden: true, releasePhase: ThirdReleasePhase), // 不看公告
 
         Humor(id: AchievementIds.RecruitNoSixStar, group: AchievementIds.RecruitGroup, target: 500, groupIndex: 1), // 公招中累计 500 次没出现六星tag
         Humor(id: AchievementIds.RecruitNoSixStarStreak, group: AchievementIds.RecruitGroup, target: 500, isHidden: true, groupIndex: 2), // 公招中连续 500 次没出现六星tag
@@ -788,8 +788,8 @@ public class AchievementTrackerHelper : PropertyChangedBase
                 Instance.Unlock(AchievementIds.Pioneer2);
             }
 
-            // 0.066% 概率触发
-            if (new Random().NextDouble() < 0.00066)
+            // 0.0799% 概率触发
+            if (new Random().NextDouble() < 0.000799)
             {
                 Instance.Unlock(AchievementIds.Lucky);
             }

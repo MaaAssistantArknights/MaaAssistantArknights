@@ -730,17 +730,17 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
             continue;
         }
 
+        if (auto interval = now - last_use_time; min_frame_interval > interval) {
+            LogInfo << name << "analyze skill too fast, interval time:"
+                    << std::chrono::duration_cast<std::chrono::milliseconds>(interval).count() << " ms";
+            continue;
+        }
+
         if (!is_skill_ready(loc, image)) {
             continue;
         }
 
         Log.info("Skill", name, "is ready");
-
-        if (auto interval = now - last_use_time; min_frame_interval > interval) {
-            LogInfo << name << "use skill too fast, interval time:"
-                    << std::chrono::duration_cast<std::chrono::milliseconds>(interval).count() << " ms";
-            continue;
-        }
 
         // 识别到了，但点进去发现没有。一般来说是识别错了
         if (!use_skill(loc, false)) {
