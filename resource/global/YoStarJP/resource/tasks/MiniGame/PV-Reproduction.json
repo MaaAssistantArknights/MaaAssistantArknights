@@ -1,0 +1,471 @@
+{
+    "MiniGame@PV@Begin": {
+        "doc": "揭幕者们 - 烟花筹委会",
+        "algorithm": "JustReturn",
+        "next": [
+            "MiniGame@PV@01",
+            "MiniGame@PV@02",
+            "MiniGame@PV@03",
+            "MiniGame@PV@04",
+            "MiniGame@PV@05",
+            "MiniGame@PV@06",
+            "MiniGame@PV@07",
+            "MiniGame@PV@08",
+            "MiniGame@PV@09",
+            "MiniGame@PV@10",
+            "MiniGame@PV@11",
+            "MiniGame@PV@12",
+            "MiniGame@PV@13",
+            "MiniGame@PV@14",
+            "MiniGame@PV@15",
+            "MiniGame@PV@16",
+            "MiniGame@PV@17",
+            "MiniGame@PV@18",
+            "MiniGame@PV@19",
+            "MiniGame@PV@20"
+        ]
+    },
+    "MiniGame@PV@01": {
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "maskRange": [0, 70],
+        "roi": [500, 350, 100, 50],
+        "next": ["MiniGame@PV@02"]
+    },
+    "MiniGame@PV@02": {
+        "baseTask": "MiniGame@PV@01",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [500, 620, 100, 50],
+        "next": ["MiniGame@PV@03"]
+    },
+    "MiniGame@PV@03": {
+        "baseTask": "MiniGame@PV@01",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [950, 330, 100, 50],
+        "next": ["MiniGame@PV@04"]
+    },
+    "MiniGame@PV@04": {
+        "baseTask": "MiniGame@PV@01",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter3-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [600, 580, 100, 50],
+        "next": ["MiniGame@PV@05"]
+    },
+    "MiniGame@PV@05": {
+        "baseTask": "MiniGame@PV@01",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [780, 460, 100, 50],
+        "next": ["MiniGame@PV@06"]
+    },
+    "MiniGame@PV@06": {
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "maskRange": [90, 140],
+        "rectMove": [0, -50, 10, 10],
+        "roi": [1070, 450, 100, 50],
+        "next": ["MiniGame@PV@07"]
+    },
+    "MiniGame@PV@07": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [640, 230, 100, 50],
+        "next": ["MiniGame@PV@08"]
+    },
+    "MiniGame@PV@08": {
+        "baseTask": "MiniGame@PV@07",
+        "template": "MiniGame@PV@07.png",
+        "rectMove": [0, 100, 10, 10],
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [640, 230, 100, 50],
+        "next": ["MiniGame@PV@09"]
+    },
+    "MiniGame@PV@09": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [640, 520, 100, 50],
+        "next": ["MiniGame@PV@10"]
+    },
+    "MiniGame@PV@10": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [640, 670, 100, 50],
+        "next": ["MiniGame@PV@11"]
+    },
+    "MiniGame@PV@11": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [770, 590, 100, 50],
+        "next": ["MiniGame@PV@12"]
+    },
+    "MiniGame@PV@12": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [880, 670, 100, 50],
+        "next": ["MiniGame@PV@13"]
+    },
+    "MiniGame@PV@13": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [880, 520, 100, 50],
+        "next": ["MiniGame@PV@14"]
+    },
+    "MiniGame@PV@14": {
+        "baseTask": "MiniGame@PV@13",
+        "template": "MiniGame@PV@13.png",
+        "rectMove": [0, -180, 10, 10],
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@15"]
+    },
+    "MiniGame@PV@15": {
+        "baseTask": "MiniGame@PV@11",
+        "template": "MiniGame@PV@11.png",
+        "rectMove": [0, -350, 10, 10],
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [770, 590, 100, 50],
+        "next": ["MiniGame@PV@16"]
+    },
+    "MiniGame@PV@16": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [890, 230, 100, 50],
+        "next": ["MiniGame@PV@17"]
+    },
+    "MiniGame@PV@17": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm",
+            "SwipeToTheRight"
+        ],
+        "roi": [1020, 450, 100, 50],
+        "postDelay": 500,
+        "next": ["MiniGame@PV@18"]
+    },
+    "MiniGame@PV@18": {
+        "baseTask": "MiniGame@PV@20",
+        "template": "MiniGame@PV@20.png",
+        "rectMove": [-250, -350, 10, 10],
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@19"]
+    },
+    "MiniGame@PV@19": {
+        "action": "ClickSelf",
+        "template": "MiniGame@PV@20.png",
+        "rectMove": [-250, -100, 10, 10],
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@20"]
+    },
+    "MiniGame@PV@20": {
+        "baseTask": "MiniGame@PV@01",
+        "sub": [
+            "MiniGame@PV@CheeckConfirm",
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter3-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "roi": [630, 630, 100, 50],
+        "next": []
+    },
+    "MiniGame@PV@Filter1-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1025, 93, 16, 16],
+        "preDelay": 500,
+        "postDelay": 500
+    },
+    "MiniGame@PV@Filter1-2": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1177, 98, 16, 16]
+    },
+    "MiniGame@PV@Filter2-1": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1020, 225, 16, 16]
+    },
+    "MiniGame@PV@Filter2-2": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1179, 230, 16, 16]
+    },
+    "MiniGame@PV@Filter3-1": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1011, 359, 16, 16]
+    },
+    "MiniGame@PV@Filter3-2": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1160, 363, 16, 16]
+    },
+    "MiniGame@PV@Filter4-1": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1010, 476, 16, 16]
+    },
+    "MiniGame@PV@Filter4-2": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1143, 478, 16, 16]
+    },
+    "MiniGame@PV@Options-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [866, 143, 16, 16]
+    },
+    "MiniGame@PV@Options-2": {
+        "baseTask": "MiniGame@PV@Options-1",
+        "specificRect": [860, 269, 16, 16]
+    },
+    "MiniGame@PV@Options-3": {
+        "baseTask": "MiniGame@PV@Options-1",
+        "specificRect": [854, 392, 16, 16]
+    },
+    "MiniGame@PV@Options-4": {
+        "baseTask": "MiniGame@PV@Options-1",
+        "specificRect": [846, 517, 16, 16]
+    },
+    "MiniGame@PV@CheeckConfirm": {
+        "template": "MiniGame@PV@Confirm.png",
+        "roi": [1056, 593, 203, 127]
+    },
+    "MiniGame@PV@Confirm": {
+        "action": "ClickSelf",
+        "roi": [1056, 593, 203, 127],
+        "preDelay": 500,
+        "postDelay": 1000,
+        "reduceOtherTimes": ["MiniGame@PV@ClickToMainInterface*20"],
+        "next": ["MiniGame@PV@ClickToMainInterface"]
+    },
+    "MiniGame@PV@ClickToMainInterface": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [640, 10, 1, 1],
+        "maxTimes": 20,
+        "next": ["MiniGame@PV@MainInterface", "MiniGame@PV@ClickToMainInterface"]
+    },
+    "MiniGame@PV@MainInterface": {
+        "roi": [0, 281, 324, 143],
+        "next": ["Stop"]
+    }
+}
