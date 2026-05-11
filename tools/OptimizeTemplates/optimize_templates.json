@@ -3633,7 +3633,7 @@
     "resource/template/Roguelike/Phantom/Phantom@Roguelike@StageCombatOps": "8f94098b89c1bb09f1188d2049243bff12062211ffdc88bec2ddf061fe08faaa",
     "resource/template/Roguelike/Phantom/Phantom@Roguelike@EnterAfterRecruit": "59944ed90de22f85336cb84691310c780a9434065313c49c09ab5a46143eaf71",
     "resource/template/Roguelike/Phantom/Phantom@Roguelike@GetDrop1": "57de0acaacd1da545a2c3b325810e1fcc2bae5054de776c16b2bef89d7dd513c",
-    "docs/maa-logo_512x512": "3bf3c481e0d1fb865a34e169140ef97541d26336c008f0da609fa4b294da14e6",
+    "docs/maa-logo_512x512": "dfb0d609727228626d138689c97aecc0af62de2110acf8eb9dde88af8d4b2494",
     "docs/ja-jp/introduction-i.s.-pin-up": "92bc027ce3a8a1b3e537e49b8e7ec79454b16be0d5ee66baa2e1a4cb18cd9540",
     "docs/ja-jp/combat-start-interface-example": "749d5c70f483b9878fc96a22ea0a0951073e75d8b726c569a169ca49d0431a62",
     "docs/ja-jp/readme/2-light": "27039f4ffeae47903c016480f22727cf5bf762df19a7cd1279c4f7b2fbea4ca2",
@@ -4061,5 +4061,10 @@
     "docs/ja-jp/readme/3-dark": "1dd808e07ad49974e626d155767823316422e57ac2c1c4b92fe77298265ba27f",
     "docs/ja-jp/readme/3-light": "c5457fb770a8d7a6be9134781b5512c891cb74878358c2f90bc8a2e4fdbf76b3",
     "docs/ja-jp/readme/4-dark": "1d0fd1cf117c168fe1ed8f9d811620e33018306df3ca2a18293b1743fc9551d0",
-    "docs/ja-jp/readme/4-light": "9897191ee0cef4231c533f2f832d6e57571f0c62f0bbf7e191b3dcebc63ce457"
+    "docs/ja-jp/readme/4-light": "9897191ee0cef4231c533f2f832d6e57571f0c62f0bbf7e191b3dcebc63ce457",
+    "resource/global/YoStarJP/resource/template/MiniGame/PV/MiniGame@PV@Confirm": "fa6a870835cba8136088eb987e406cd8593302485610dfb70d5c01317690f327",
+    "resource/global/YoStarJP/resource/template/MiniGame/PV/MiniGame@PV@MainInterface": "f0dcddfddc7907b4381cd4e793a1299fcf0c335456a32c3d43fd6676c6e9cb6c",
+    "resource/global/YoStarKR/resource/template/MiniGame/PV/MiniGame@PV@Confirm": "06aede032aeb0fd773729e460fc8305892ea04c15ef7be8a43bf19de25ba784a",
+    "resource/global/YoStarKR/resource/template/MiniGame/PV/MiniGame@PV@MainInterface": "3e9220dffb09f0579158448d4331fb6fa3cbb39b0d171a60b9b1d943ea59fc4c",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersRecastConfirm-NoRetain": "072d0ccbd69368cf3df90578df61ab2dccee654b5cc8f81fee086f07f1334d54"
 }
