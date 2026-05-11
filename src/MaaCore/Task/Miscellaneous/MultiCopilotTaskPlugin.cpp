@@ -44,9 +44,21 @@ bool asst::MultiCopilotTaskPlugin::_run()
     ret = ret && ProcessTask(*this, { config.nav_name + "@Copilot@StageNavigationBegin" }).set_retry_times(20).run();
 
     ProcessTask(*this, { "NotUsePrts" }).set_ignore_error(true).set_retry_times(0).run();
+
+    bool is_sandbox = config.is_sandbox || Copilot.get_data().info.is_sandbox;
+    int sandbox_option1 = config.is_sandbox ? config.sandbox_option1 : Copilot.get_data().info.sandbox_option1;
+    int sandbox_option2 = config.is_sandbox ? config.sandbox_option2 : Copilot.get_data().info.sandbox_option2;
+
     if (config.is_raid) {
-        // 选择突袭模式
         ret = ret && ProcessTask(*this, { "RaidConfirm", "ChangeToRaidDifficulty" }).set_retry_times(20).run();
+    }
+    if (ret && is_sandbox) {
+        ret = ret && ProcessTask(*this, { "SandboxOptionToggle", "SandboxButton" }).set_retry_times(20).run();
+        std::string option1_task = "SandboxOption1_" + std::to_string(sandbox_option1);
+        ret = ret && ProcessTask(*this, { option1_task }).set_retry_times(3).run();
+        std::string option2_task = "SandboxOption2_" + std::to_string(sandbox_option2);
+        ret = ret && ProcessTask(*this, { option2_task }).set_retry_times(3).run();
+        ret = ret && ProcessTask(*this, { "SandboxConfirm" }).set_retry_times(20).run();
     }
 
     return ret;
