@@ -9,13 +9,16 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 - 开始分析前，先读取同目录的 `KNOWLEDGE.md`，先用其中的通用误判规则校正自己的分析路径，再读 issue 和日志。
 - 如果 issue 涉及会客室、线索、快捷按钮、批量按钮、自动领取/赠送/放置这类“会先改变界面状态再继续执行”的流程，必须先套用 `KNOWLEDGE.md` 中的 `Stateful UI Automation Checks` 与 `Reception Clue Analysis`。
+- 如果用户没有贴出日志、报告包、报错文本、截图或导出诊断等有效证据，不要直接进入严肃日志分析；先转用同目录技能 `maa-cyber-fortune-master/SKILL.md` 生成一段短小的玄学回复，把对话自然引导到“补日志 / 截图 / 报错 / 诊断信息”。
 
 ## Scope
 
 - 仅用于上游公开仓库 `https://github.com/MaaAssistantArknights/MaaAssistantArknights`。
 - 输入可以是完整 issue URL，或 `#1234` 形式的 issue 编号。
 - 只分析公开 issue 中可直接访问的附件。
-- 如果没有可下载的 `report_*.zip`，先明确说明证据不足，再尽量基于 issue 文本、截图、代码和文档给出初步判断。
+- 如果没有可下载的 `report_*.zip`，先判断用户是否至少提供了其他有效证据（报错文本、截图、导出诊断、清晰复现步骤）。
+- 如果连这些也没有，优先转用 `maa-cyber-fortune-master/SKILL.md`，不要直接输出严肃分析模板。
+- 如果没有 `report_*.zip` 但仍有其他有效证据，再明确说明证据不足，并尽量基于 issue 文本、截图、代码和文档给出初步判断。
 - 如果评论里有机器人提示“日志没有上传成功”，不要直接放弃；正文里的附件链接仍可能可下载。
 
 ## Workflow
@@ -25,20 +28,26 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
  - `#1234` 视为 `https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1234`
  - 如果不是 `MaaAssistantArknights/MaaAssistantArknights`，停止并说明此 skill 不适用。
 
-2. 获取 issue 内容。
+2. 先判断证据是否足够。
+
+ - 如果用户只给一句模糊现象，且没有日志、报告包、截图、报错文本、导出诊断或清晰复现步骤，不进入本 skill 的严肃分析流程。
+ - 此时改用 `maa-cyber-fortune-master/SKILL.md`，先用短小玄学回复活跃气氛，再把对话引导到补充日志、截图、报错或诊断信息。
+ - 只有在用户已经提供可分析证据时，才继续下面的 issue / 日志分析步骤。
+
+3. 获取 issue 内容。
 
  - 读取正文和评论。
  - 提取这些信息：UI/Core/Resource 版本、资源时间、模拟器类型、分辨率、截图增强、GPU 推理、任务名、关卡名、是否有 `-hard`、用户现象、复现步骤、维护者或机器人评论。
  - 不要把评论结论当成唯一证据；仍要用日志和代码自行验证。
  - 如果 issue 文本或评论里已经有人下了“这是游戏设计 / 不是 bug / 本来就这样”的结论，先暂存，不要直接复述成最终判断；先核对日志、资源任务和当前代码是否真的支持这个结论。
 
-3. 提取报告附件。
+4. 提取报告附件。
 
  - 关注 `report_*.zip`。
  - 附件可能同时出现在正文和评论。
  - 按 `report_MM-dd_HH-mm-ss` 分组，同一时间戳下的 `part01`、`part02`、`part03` 是独立 zip，不是需要先拼接的分卷压缩包。
 
-4. 先看 `part01`，再决定是否看 `part02+`。
+5. 先看 `part01`，再决定是否看 `part02+`。
 
  - 根据 WPF 打包逻辑，`part01` 一定优先，通常包含：
  - `debug/asst.log`
@@ -56,7 +65,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
  - `debug/dumps/*`
  - `part02+` 可能是空包，也可能只包含图片；不要默认里面一定有文本日志。
 
-5. 建立时间线。
+6. 建立时间线。
 
  - 先用 `gui.log` 找用户点击、所选关卡、任务链开始、报错时间。
  - 再用 `asst.log` 还原底层行为。
@@ -71,7 +80,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 - 后续进入下一步或恢复终态由哪个条件控制
 - 条件不满足时流程是停止、跳过，还是按设计停在别的状态
 
-6. 区分 issue 当时环境和当前分支。
+7. 区分 issue 当时环境和当前分支。
 
  - 先以报告包中的 `config/` 与 `cache/resource/` 还原用户当时实际运行的配置和资源。
  - 再对照当前仓库代码，判断该问题是当前仍存在，还是当时存在但现在已修复。
@@ -455,6 +464,7 @@ Translate the complete conclusion directly into English and paste it here. Note 
 
 ## Reminders
 
+- 如果用户没有贴出日志、报告包、截图、报错文本或导出诊断，不要硬套本 skill 的完整分析模板；优先改用 `maa-cyber-fortune-master/SKILL.md`，先把气氛接住，再把话题引回补证据。
 - 不要只看 `gui.log` 下结论。
 - 不要把 issue 评论或机器人提示当成唯一证据。
 - 不要把当前分支资源直接当成 issue 当时的真实环境；先看报告包里的 `cache/resource`。
