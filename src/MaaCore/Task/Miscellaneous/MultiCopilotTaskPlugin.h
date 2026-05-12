@@ -30,6 +30,7 @@ public:
 
 private:
     virtual bool _run() override;
+    bool navigate_to_stage(const std::string& stage_name);
 
     std::vector<MultiCopilotConfig> m_copilot_configs;
     int m_index_current = 0; // 当前执行的索引

@@ -38,12 +38,7 @@ bool asst::MultiCopilotTaskPlugin::_run()
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     bool ret = true;
-    Task.get<OcrTaskInfo>(config.nav_name + "@Copilot@ClickStageName")->text = { config.nav_name };
-    std::string replace_navigate_name = config.nav_name;
-    utils::string_replace_all_in_place(replace_navigate_name, { { "-", "" } });
-    Task.get<OcrTaskInfo>(config.nav_name + "@Copilot@ClickedCorrectStage")->text = { config.nav_name,
-                                                                                      replace_navigate_name };
-    ret = ret && ProcessTask(*this, { config.nav_name + "@Copilot@StageNavigationBegin" }).set_retry_times(20).run();
+    ret = ret && navigate_to_stage(config.nav_name);
 
     ProcessTask(*this, { "NotUsePrts" }).set_ignore_error(true).set_retry_times(0).run();
 
@@ -64,4 +59,13 @@ bool asst::MultiCopilotTaskPlugin::_run()
     }
 
     return ret;
+}
+
+bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_name)
+{
+    Task.get<OcrTaskInfo>(stage_name + "@Copilot@ClickStageName")->text = { stage_name };
+    std::string replace_navigate_name = stage_name;
+    utils::string_replace_all_in_place(replace_navigate_name, { { "-", "" } });
+    Task.get<OcrTaskInfo>(stage_name + "@Copilot@ClickedCorrectStage")->text = { stage_name, replace_navigate_name };
+    return ProcessTask(*this, { stage_name + "@Copilot@StageNavigationBegin" }).set_retry_times(20).run();
 }

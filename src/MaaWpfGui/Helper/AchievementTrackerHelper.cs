@@ -788,8 +788,8 @@ public class AchievementTrackerHelper : PropertyChangedBase
                 Instance.Unlock(AchievementIds.Pioneer2);
             }
 
-            // 0.066% 概率触发
-            if (new Random().NextDouble() < 0.00066)
+            // 0.0799% 概率触发
+            if (new Random().NextDouble() < 0.000799)
             {
                 Instance.Unlock(AchievementIds.Lucky);
             }
