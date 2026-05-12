@@ -325,8 +325,8 @@
     <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">この機能では最適なステージを自動的に計算しません。
 • {key=Quantity}: この理性作戦タスク中で、その素材のドロップ数が設定値に達するまで周回します。
 • {key=TargetInventory}: ｢{key=Toolbox}-{key=DepotRecognition}｣ に保存された在庫データを参照し、設定した在庫数になるまで補充します。
-• 在庫データはキャッシュのため、手動周回や素材の使用後は実際とずれる場合があります。｢{key=UserDataUpdate}｣ または ｢{key=Toolbox}-{key=DepotRecognition}｣ で同期してください。
-• {key=TargetInventory} を有効にすると、実行中は素材や数量を変更できません。</system:String>
+  • 在庫データはキャッシュのため、手動周回や素材の使用後は実際とずれる場合があります。｢{key=UserDataUpdate}｣ または ｢{key=Toolbox}-{key=DepotRecognition}｣ で同期してください。
+  • {key=TargetInventory} を有効にすると、実行中は素材や数量を変更できません。</system:String>
     <system:String x:Key="StartupUpdateCheck">起動時の更新チェック</system:String>
     <system:String x:Key="UpdateAutoCheck">定期的な更新チェック</system:String>
     <system:String x:Key="UpdateAutoCheckTip">ゲーム内 00:00 / 18:00（サーバー現地時間 04:00 / 22:00）</system:String>

@@ -325,8 +325,8 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">This feature does not automatically calculate the optimal stage.
 • {key=Quantity}: uses the selected material's drop count in this combat task as the target, and stops when the set amount is reached.
 • {key=TargetInventory}: uses the saved inventory data from ｢{key=Toolbox}-{key=DepotRecognition}｣ and only farms until the target stock is reached.
-• Inventory data is cached and may differ from your real stock after manual farming, crafting, or material use. Sync it with ｢{key=UserDataUpdate}｣ or ｢{key=Toolbox}-{key=DepotRecognition}｣.
-• When {key=TargetInventory} is enabled, the material and amount cannot be changed during a run.</system:String>
+  • Inventory data is cached and may differ from your real stock after manual farming, crafting, or material use. Sync it with ｢{key=UserDataUpdate}｣ or ｢{key=Toolbox}-{key=DepotRecognition}｣.
+  • When {key=TargetInventory} is enabled, the material and amount cannot be changed during a run.</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdateAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoCheckTip">In-game 00:00 / 18:00 (Server local time 04:00 / 22:00)</system:String>
@@ -779,9 +779,9 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="UseOriginitePrime">Use Originium</system:String>
     <system:String x:Key="PerformBattles">Perform Battles</system:String>
     <system:String x:Key="AssignedMaterial">Material</system:String>
-    <system:String x:Key="Quantity">Yield</system:String>
+    <system:String x:Key="Quantity">Farm</system:String>
     <system:String x:Key="KeepInventory">Keep Inventory</system:String>
-    <system:String x:Key="TargetInventory">Quota</system:String>
+    <system:String x:Key="TargetInventory">Goal</system:String>
     <system:String x:Key="Series">Series</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 Automatically identify the maximum proxy multiplier of the level, maintain the maximum proxy multiplier and do not overflow sanity after using sanity potion
