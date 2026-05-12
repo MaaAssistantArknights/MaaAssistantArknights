@@ -9,6 +9,7 @@
 #include "Config/Miscellaneous/OcrPack.h"
 #include "Config/TaskData.h"
 #include "MaaUtils/Encoding.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
 
 using namespace asst;
@@ -42,6 +43,17 @@ OCRer::ResultsVecOpt OCRer::analyze() const
         if (!filter_and_replace_by_required_(res)) {
             continue;
         }
+#ifdef ASST_DEBUG
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(res.rect), cv::Scalar(0, 255, 0), 2);
+        cv::putText(
+            m_image_draw,
+            std::to_string(res.score),
+            cv::Point(res.rect.x, res.rect.y - 5),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.7,
+            cv::Scalar(0, 255, 0),
+            2);
+#endif // !ASST_DEBUG
 
         results_vec.emplace_back(std::move(res));
     }
