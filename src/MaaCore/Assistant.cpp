@@ -32,6 +32,7 @@
 #include "Task/Interface/DebugTask.h"
 #endif
 
+
 using namespace asst;
 
 bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)
@@ -137,6 +138,12 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MaaFwAdb);
             return true;
         }
+#ifdef __ANDROID__
+        else if (constexpr std::string_view Android = "Android"; value == Android) {
+            m_ctrler->set_touch_mode(TouchMode::Android);
+            return true;
+        }
+#endif
         break;
     case InstanceOptionKey::DeploymentWithPause:
         if (constexpr std::string_view Enable = "1"; value == Enable) {
@@ -624,7 +631,7 @@ void asst::Assistant::call_proc()
     while (true) {
         std::unique_lock<std::mutex> lock(m_call_mutex);
         if (m_thread_exit) {
-            return;
+            break;
         }
 
         if (m_call_queue.empty()) {
