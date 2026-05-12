@@ -858,7 +858,7 @@ private:
 
     inline static std::atomic<int> g_last_signal { 0 };
 
-    static std::string format_signal_reason(int sig)
+    static const char* format_signal_reason(int sig) noexcept
     {
         switch (sig) {
         case SIGSEGV:
@@ -870,7 +870,7 @@ private:
         case SIGILL:
             return "SIGILL (Illegal Instruction)";
         default:
-            return std::format("Signal {}", sig);
+            return "Unknown Signal";
         }
     }
 
@@ -1036,10 +1036,7 @@ private:
         in_handler = true;
 
         const int last_signal = g_last_signal.exchange(0);
-        std::string signal_info;
-        if (last_signal != 0) {
-            signal_info = format_signal_reason(last_signal);
-        }
+        const char* signal_info = last_signal != 0 ? format_signal_reason(last_signal) : nullptr;
 
         try {
             std::string exception_info = "Unknown exception";
@@ -1063,11 +1060,11 @@ private:
 
             auto& logger = Logger::get_instance();
 
-            if (!signal_info.empty()) {
+            if (signal_info != nullptr) {
                 logger.error("=== FATAL ERROR ===");
                 logger.error("Signal caught:", signal_info);
                 logger.flush();
-                write_crash_file("Fatal Signal", signal_info.c_str());
+                write_crash_file("Fatal Signal", signal_info);
             }
 
             logger.error("=== FATAL ERROR ===");
@@ -1095,7 +1092,7 @@ private:
     {
         const auto signal_reason = format_signal_reason(sig);
 #ifdef __ANDROID__
-        log_android_crash_signal(signal_reason.c_str());
+        log_android_crash_signal(signal_reason);
 #endif
         g_last_signal.store(sig);
         custom_terminate_handler();
