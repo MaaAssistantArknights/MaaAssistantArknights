@@ -4,8 +4,8 @@
 #include <fcntl.h>
 #include <io.h>
 #endif
-#include <atomic>
 #include <array>
+#include <atomic>
 #include <csignal>
 #include <cstdint>
 #include <cstdlib>
@@ -265,7 +265,7 @@ public:
     }
 
 private:
-    std::vector<id> m_state { };
+    std::vector<id> m_state {};
 };
 } // namespace detail
 
@@ -334,7 +334,7 @@ public:
     requires has_stream_insertion_operator<std::ostream, T>
     ostreams& operator<<(T&& x)
     {
-        streams_put(m_ofss, x, std::index_sequence_for<Args...> { });
+        streams_put(m_ofss, x, std::index_sequence_for<Args...> {});
         return *this;
     }
 
@@ -346,7 +346,7 @@ public:
 
     ostreams& operator<<(std::ostream& (*pf)(std::ostream&))
     {
-        streams_put(m_ofss, pf, std::index_sequence_for<Args...> { });
+        streams_put(m_ofss, pf, std::index_sequence_for<Args...> {});
         return *this;
     }
 
@@ -490,7 +490,7 @@ public:
 #else
                 int pid = ::getpid();
 #endif
-                auto tid = static_cast<uint16_t>(std::hash<std::thread::id> { }(std::this_thread::get_id()));
+                auto tid = static_cast<uint16_t>(std::hash<std::thread::id> {}(std::this_thread::get_id()));
 
                 s << std::format("[{}][{}][Px{}][Tx{}]", MAA_NS::format_now(), v.str, pid, tid);
             }
@@ -505,7 +505,7 @@ public:
             }
             else if constexpr (std::ranges::input_range<T>) {
                 s << "[";
-                std::string_view comma_space { };
+                std::string_view comma_space {};
                 for (const auto& elem : std::forward<T>(v)) {
                     s << comma_space;
                     stream_put(s, elem);
@@ -986,7 +986,7 @@ private:
 
     static void dump_android_stacktrace(Logger& logger) noexcept
     {
-        std::array<void*, 32> frames { };
+        std::array<void*, 32> frames {};
         const auto frame_count = capture_android_backtrace(frames.data(), frames.size());
 
         std::size_t frame_start = 0;
@@ -1002,7 +1002,7 @@ private:
         logger.error("Native backtrace", dump_count, "frames");
 
         for (std::size_t i = frame_start; i < frame_count; ++i) {
-            Dl_info info { };
+            Dl_info info {};
             std::string frame_message;
             if (dladdr(frames[i], &info) != 0 && info.dli_sname != nullptr) {
                 const auto symbol_name = utils::demangle(info.dli_sname);
@@ -1180,7 +1180,7 @@ private:
     std::ostream m_of;
     std::size_t m_file_size = 0;
 
-    static inline utils::NullStreambuf null_buf { };
+    static inline utils::NullStreambuf null_buf {};
     static inline std::ostream null_stream { &null_buf };
     const std::size_t MaxLogSize = 64LL * 1024 * 1024;
 };

@@ -32,7 +32,6 @@
 #include "Task/Interface/DebugTask.h"
 #endif
 
-
 using namespace asst;
 
 bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)

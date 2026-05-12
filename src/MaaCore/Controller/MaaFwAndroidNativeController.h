@@ -15,8 +15,10 @@ namespace asst
 {
 class Assistant;
 
-class MaaFwAndroidNativeController : public ControllerAPI, private InstHelper,
-                                     public LibraryHolder<MaaFwAndroidNativeController>
+class MaaFwAndroidNativeController :
+    public ControllerAPI,
+    private InstHelper,
+    public LibraryHolder<MaaFwAndroidNativeController>
 {
 public:
     MaaFwAndroidNativeController(const AsstCallback& callback, Assistant* inst);

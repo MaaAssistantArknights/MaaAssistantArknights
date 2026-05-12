@@ -5,8 +5,9 @@
 
 using namespace asst;
 
-bool StartGameTaskPlugin::start_game_with_retries([[maybe_unused]] size_t pipe_data_size_limit,
-                                                  [[maybe_unused]] bool newer_android) const
+bool StartGameTaskPlugin::start_game_with_retries(
+    [[maybe_unused]] size_t pipe_data_size_limit,
+    [[maybe_unused]] bool newer_android) const
 {
 #ifdef __ANDROID__
     // On Android, start_game returns true only after the game is actually started
