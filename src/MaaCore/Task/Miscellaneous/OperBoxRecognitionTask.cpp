@@ -8,7 +8,7 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
+#include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/TemplDetOCRer.h"
 
 bool asst::OperBoxRecognitionTask::_run()
