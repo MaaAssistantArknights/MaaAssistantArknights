@@ -408,7 +408,7 @@
                                                                     <DropShadowEffect
                                                                         BlurRadius="8"
                                                                         Opacity="0.5"
-                                                                        ShadowDepth="2"
+                                                                        ShadowDepth="1"
                                                                         Color="Black" />
                                                                 </Image.Effect>
                                                             </Image>
@@ -426,7 +426,7 @@
                                                                     <DropShadowEffect
                                                                         BlurRadius="8"
                                                                         Opacity="0.5"
-                                                                        ShadowDepth="2"
+                                                                        ShadowDepth="1"
                                                                         Color="Black" />
                                                                 </Image.Effect>
                                                             </Image>
