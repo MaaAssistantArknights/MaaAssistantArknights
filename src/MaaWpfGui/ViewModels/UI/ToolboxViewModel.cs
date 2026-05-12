@@ -18,7 +18,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -896,31 +898,7 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public void ExportToMarkdown()
     {
-        var items = DepotResult.Where(item => item.Count >= 0).ToList();
-        if (items.Count == 0)
-        {
-            return;
-        }
-
-        var lines = new List<string> { "# Arknights Depot Export", string.Empty, "| ID | Name | Count |", "| --- | --- | --- |" };
-        foreach (var item in items)
-        {
-            lines.Add($"| {item.Id} | {item.Name ?? string.Empty} | {item.Count} |");
-        }
-
-        var content = string.Join(Environment.NewLine, lines);
-
-        var dialog = new Microsoft.Win32.SaveFileDialog {
-            Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*",
-            DefaultExt = ".md",
-            FileName = "Arknights_Depot_Export.md",
-        };
-
-        if (dialog.ShowDialog() == true)
-        {
-            System.IO.File.WriteAllText(dialog.FileName, content);
-            Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
-        }
+        ExportDepot(BuildMarkdownExportLines, "Markdown files (*.md)|*.md|All files (*.*)|*.*", ".md", "Arknights_Depot_Export.md");
     }
 
     /// <summary>
@@ -930,12 +908,47 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public void ExportToCsv()
     {
+        ExportDepot(BuildCsvExportLines, "CSV files (*.csv)|*.csv|All files (*.*)|*.*", ".csv", "Arknights_Depot_Export.csv");
+    }
+
+    private void ExportDepot(Func<IReadOnlyList<DepotResultDate>, IEnumerable<string>> lineBuilder, string filter, string defaultExt, string defaultFileName)
+    {
         var items = DepotResult.Where(item => item.Count >= 0).ToList();
         if (items.Count == 0)
         {
             return;
         }
 
+        var content = string.Join(Environment.NewLine, lineBuilder(items));
+
+        var dialog = new Microsoft.Win32.SaveFileDialog {
+            Filter = filter,
+            DefaultExt = defaultExt,
+            FileName = defaultFileName,
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        File.WriteAllText(dialog.FileName, content);
+        Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
+    }
+
+    private static IEnumerable<string> BuildMarkdownExportLines(IReadOnlyList<DepotResultDate> items)
+    {
+        var lines = new List<string> { "# Arknights Depot Export", string.Empty, "| ID | Name | Count |", "| --- | --- | --- |" };
+        foreach (var item in items)
+        {
+            lines.Add($"| {item.Id} | {item.Name ?? string.Empty} | {item.Count} |");
+        }
+
+        return lines;
+    }
+
+    private static IEnumerable<string> BuildCsvExportLines(IReadOnlyList<DepotResultDate> items)
+    {
         var lines = new List<string> { "ID,Name,Count" };
         foreach (var item in items)
         {
@@ -948,19 +961,7 @@ public class ToolboxViewModel : Screen
             lines.Add($"{item.Id},{name},{item.Count}");
         }
 
-        var content = string.Join(Environment.NewLine, lines);
-
-        var dialog = new Microsoft.Win32.SaveFileDialog {
-            Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*",
-            DefaultExt = ".csv",
-            FileName = "Arknights_Depot_Export.csv",
-        };
-
-        if (dialog.ShowDialog() == true)
-        {
-            System.IO.File.WriteAllText(dialog.FileName, content, new System.Text.UTF8Encoding(true));
-            Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
-        }
+        return lines;
     }
 
     /*
