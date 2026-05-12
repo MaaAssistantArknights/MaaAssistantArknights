@@ -3685,11 +3685,13 @@
         "next": ["EndOfPlot"]
     },
     "BattleAvatarDialog": {
-        "doc": "战斗中带头像对话框, 类似于 SkipThePreBattlePlot(可见于画中人关卡) 的, 但是缺少 跳过 按钮",
+        "doc": "战斗中带头像对话框, 类似于 SkipThePreBattlePlot(可见于画中人关卡, 17章主线TR28) 的, 但是缺少 跳过 按钮",
         "action": "ClickSelf",
         "roi": [70, 30, 120, 30],
+        "maxTimes": 5,
         "next": ["BattleAvatarDialog", "Stop"],
-        "rectMove": [125, 20, 200, 60]
+        "rectMove": [125, 20, 200, 60],
+        "specialParams": [98]
     },
     "EndOfPlot": {
         "roi": [520, 0, 243, 206],
