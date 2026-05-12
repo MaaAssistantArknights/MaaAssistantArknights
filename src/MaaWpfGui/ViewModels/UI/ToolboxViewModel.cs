@@ -18,7 +18,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -836,6 +838,35 @@ public class ToolboxViewModel : Screen
         return true;
     }
 
+    public record struct ExportEntry(string Display, int Value);
+
+    public List<ExportEntry> ExportOptionList { get; } = [
+        new(LocalizationHelper.GetString("ExportToArkplanner"), 0),
+        new(LocalizationHelper.GetString("ExportToLolicon"), 1),
+        new(LocalizationHelper.GetString("ExportToMarkdown"), 2),
+        new(LocalizationHelper.GetString("ExportToCsv"), 3),
+    ];
+
+    private int _selectedExportValue;
+
+    public int SelectedExportValue
+    {
+        get => _selectedExportValue;
+        set => SetAndNotify(ref _selectedExportValue, value);
+    }
+
+    [UsedImplicitly]
+    public void ExecuteSelectedExport()
+    {
+        switch (_selectedExportValue)
+        {
+            case 0: ExportToArkplanner(); break;
+            case 1: ExportToLolicon(); break;
+            case 2: ExportToMarkdown(); break;
+            case 3: ExportToCsv(); break;
+        }
+    }
+
     /// <summary>
     /// Export depot info to ArkPlanner.
     /// UI 绑定的方法
@@ -845,7 +876,7 @@ public class ToolboxViewModel : Screen
     {
         Clipboard.Clear();
         Clipboard.SetDataObject(ArkPlannerResult);
-        DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
+        Growl.Info(LocalizationHelper.GetString("CopiedToClipboard"));
     }
 
     /// <summary>
@@ -857,7 +888,80 @@ public class ToolboxViewModel : Screen
     {
         Clipboard.Clear();
         Clipboard.SetDataObject(LoliconResult);
-        DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
+        Growl.Info(LocalizationHelper.GetString("CopiedToClipboard"));
+    }
+
+    /// <summary>
+    /// Export depot info to Markdown file.
+    /// UI 绑定的方法
+    /// </summary>
+    [UsedImplicitly]
+    public void ExportToMarkdown()
+    {
+        ExportDepot(BuildMarkdownExportLines, "Markdown files (*.md)|*.md|All files (*.*)|*.*", ".md", "Arknights_Depot_Export.md");
+    }
+
+    /// <summary>
+    /// Export depot info to CSV file.
+    /// UI 绑定的方法
+    /// </summary>
+    [UsedImplicitly]
+    public void ExportToCsv()
+    {
+        ExportDepot(BuildCsvExportLines, "CSV files (*.csv)|*.csv|All files (*.*)|*.*", ".csv", "Arknights_Depot_Export.csv");
+    }
+
+    private void ExportDepot(Func<IReadOnlyList<DepotResultDate>, IEnumerable<string>> lineBuilder, string filter, string defaultExt, string defaultFileName)
+    {
+        var items = DepotResult.Where(item => item.Count >= 0).ToList();
+        if (items.Count == 0)
+        {
+            return;
+        }
+
+        var content = string.Join(Environment.NewLine, lineBuilder(items));
+
+        var dialog = new Microsoft.Win32.SaveFileDialog {
+            Filter = filter,
+            DefaultExt = defaultExt,
+            FileName = defaultFileName,
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        File.WriteAllText(dialog.FileName, content);
+        Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
+    }
+
+    private static IEnumerable<string> BuildMarkdownExportLines(IReadOnlyList<DepotResultDate> items)
+    {
+        var lines = new List<string> { "# Arknights Depot Export", string.Empty, "| ID | Name | Count |", "| --- | --- | --- |" };
+        foreach (var item in items)
+        {
+            lines.Add($"| {item.Id} | {item.Name ?? string.Empty} | {item.Count} |");
+        }
+
+        return lines;
+    }
+
+    private static IEnumerable<string> BuildCsvExportLines(IReadOnlyList<DepotResultDate> items)
+    {
+        var lines = new List<string> { "ID,Name,Count" };
+        foreach (var item in items)
+        {
+            var name = item.Name ?? string.Empty;
+            if (name.Contains(',') || name.Contains('"') || name.Contains('\n'))
+            {
+                name = "\"" + name.Replace("\"", "\"\"") + "\"";
+            }
+
+            lines.Add($"{item.Id},{name},{item.Count}");
+        }
+
+        return lines;
     }
 
     /*

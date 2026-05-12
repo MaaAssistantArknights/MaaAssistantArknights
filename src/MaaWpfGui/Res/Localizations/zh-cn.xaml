@@ -880,9 +880,14 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LastSyncTime">上次同步时间</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
     <system:String x:Key="StartToDepotRecognition">开始识别</system:String>
-    <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
-    <system:String x:Key="ExportToLolicon">导出至明日方舟工具箱</system:String>
+    <system:String x:Key="ExportToArkplanner">企鹅物流刷图规划</system:String>
+    <system:String x:Key="ExportToLolicon">明日方舟工具箱</system:String>
+    <system:String x:Key="ExportToMarkdown">Markdown</system:String>
+    <system:String x:Key="ExportToCsv">CSV</system:String>
     <system:String x:Key="CopiedToClipboard">已复制到剪切板</system:String>
+    <system:String x:Key="ExportedToFile">已导出到文件</system:String>
+    <system:String x:Key="ExportTo">导出到：</system:String>
+    <system:String x:Key="Export">导出</system:String>
     <!--  !仓库识别  -->
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}识别</system:String>
