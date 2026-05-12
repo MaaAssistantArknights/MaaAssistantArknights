@@ -220,6 +220,19 @@
             "displayName": "Windows x64 Publish"
         },
         {
+            "name": "windows-unified-publish-x64",
+            "inherits": [
+                "publish-base",
+                "windows-x64"
+            ],
+            "$comment": [
+                "MAAUnified publish should not pull MaaWpfGui into the generated VS solution",
+                "see .github/workflows/ci-avalonia.yml and .github/workflows/release-maaunified.yml"
+            ],
+            "generator": "Visual Studio 17 2022",
+            "displayName": "Windows x64 Unified Publish"
+        },
+        {
             "name": "windows-publish-arm64",
             "inherits": [
                 "publish-base",
@@ -407,6 +420,12 @@
             "name": "windows-publish-x64",
             "displayName": "Build Windows x64 Publish",
             "configurePreset": "windows-publish-x64",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "windows-unified-publish-x64",
+            "displayName": "Build Windows x64 Unified Publish",
+            "configurePreset": "windows-unified-publish-x64",
             "configuration": "RelWithDebInfo"
         },
         {
