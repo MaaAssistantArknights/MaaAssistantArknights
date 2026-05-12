@@ -600,16 +600,17 @@ public class TaskQueueViewModel : Screen
     {
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (_, e) => {
-            Idle = e.Idle;
-            Inited = e.Inited;
-            Stopping = e.Stopping;
+            Idle = e.NewState.Idle;
+            Inited = e.NewState.Inited;
+            Stopping = e.NewState.Stopping;
 
-            Instances.SettingsViewModel.Idle = e.Idle;
-            if (!e.Idle)
+            Instances.SettingsViewModel.Idle = e.NewState.Idle;
+            if (!e.NewState.Idle)
             {
                 Instances.Data.ClearCache();
             }
         };
+        _runningState.SetIdle(true);
         _runningState.TimeoutOccurred += RunningState_TimeOut;
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
