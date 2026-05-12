@@ -322,7 +322,7 @@
     <system:String x:Key="CheckBoxesNotSaved">該選項僅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">該選項點擊右鍵選取時僅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">該選項點擊右鍵選取時僅跳過一次</system:String>
-    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">此選項不會自動計算最優關卡。
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">實際進入的關卡仍由下方 ｢{key=StageSelect}｣ / ｢{key=StageSelect2}｣ 決定。
 • {key=Quantity}：以目前理智作戰任務中該材料的掉落數量為目標，達到設定數量後停止。
 • {key=TargetInventory}：會參考 ｢{key=Toolbox}-{key=DepotRecognition}｣ 中保存的庫存資料，只補到設定庫存為止。
   • 庫存資料是快取值，手動刷關、合成或消耗材料後可能與實際不一致；可透過 ｢{key=UserDataUpdate}｣ 或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 同步。

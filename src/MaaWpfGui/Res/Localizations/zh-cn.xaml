@@ -322,7 +322,7 @@
     <system:String x:Key="CheckBoxesNotSaved">该选项仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">该选项右键选中时仅跳过一次</system:String>
-    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">该选项不会自动计算最优关卡。
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">进入的关卡仍由下方 ｢{key=StageSelect}｣ / ｢{key=StageSelect2}｣ 决定。
 • {key=Quantity}：以当前理智作战任务中该材料的掉落数量为目标，达到设定数量后停止。
 • {key=TargetInventory}：会参考 ｢{key=Toolbox}-{key=DepotRecognition}｣ 中保存的库存数据，只补到设定库存为止。
   • 库存数据是缓存值，手动刷关、合成或消耗材料后可能与实际不一致；可通过 ｢{key=UserDataUpdate}｣ 或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 同步。

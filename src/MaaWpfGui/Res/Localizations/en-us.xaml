@@ -322,7 +322,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="CheckBoxesNotSaved">This option is effective once</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">This option only skips once when right-clicked</system:String>
-    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">This feature does not automatically calculate the optimal stage.
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">The stage entered is still determined by the options below: ｢{key=StageSelect}｣ / ｢{key=StageSelect2}｣.
 • {key=Quantity}: uses the selected material's drop count in this combat task as the target, and stops when the set amount is reached.
 • {key=TargetInventory}: uses the saved inventory data from ｢{key=Toolbox}-{key=DepotRecognition}｣ and only farms until the target stock is reached.
   • Inventory data is cached and may differ from your real stock after manual farming, crafting, or material use. Sync it with ｢{key=UserDataUpdate}｣ or ｢{key=Toolbox}-{key=DepotRecognition}｣.

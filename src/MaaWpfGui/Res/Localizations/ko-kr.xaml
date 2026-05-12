@@ -322,7 +322,7 @@
     <system:String x:Key="CheckBoxesNotSaved">이 옵션은 한 번만 유효합니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">이 옵션은 우클릭 시 한 번만 적용됩니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">이 옵션은 우클릭 시 한 번만 건너뜁니다</system:String>
-    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">이 기능은 최적의 스테이지를 자동으로 계산하지 않습니다.
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">실제로 진입하는 스테이지는 아래의 ｢{key=StageSelect}｣ / ｢{key=StageSelect2}｣ 설정으로 계속 결정됩니다.
 • {key=Quantity}: 현재 전투 작업에서 해당 재료의 드롭 수를 목표로 삼아, 설정한 수량에 도달하면 멈춥니다.
 • {key=TargetInventory}: ｢{key=Toolbox}-{key=DepotRecognition}｣ 에 저장된 재고 데이터를 참고하여 설정한 재고 수량까지만 보충합니다.
   • 재고 데이터는 캐시이므로 수동 파밍, 제작, 재료 사용 후 실제 수량과 달라질 수 있습니다. ｢{key=UserDataUpdate}｣ 또는 ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 동기화해 주세요.
