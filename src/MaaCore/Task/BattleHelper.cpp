@@ -601,7 +601,7 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 
     BattlefieldMatcher battle_flag_analyzer_2(image);
     auto battle_result_opt = battle_flag_analyzer_2.analyze();
-    ret &= battle_result_opt && battle_result_opt->pause_button;
+    ret &= battle_result_opt && battle_result_opt->pause_button != BattlefieldMatcher::PauseStatus::Unknown;
     return ret;
 }
 
@@ -646,7 +646,7 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
         BattlefieldMatcher analyzer(image);
         auto result = analyzer.analyze();
         m_in_battle = result.has_value();
-        if (m_in_battle && !result->pause_button) {
+        if (m_in_battle && result->pause_button == BattlefieldMatcher::PauseStatus::Unknown) {
             if (check_skip_plot_button(image)) {
                 if (m_in_speedup && !check_in_speedup()) {
                     speed_up(); // 跳过剧情会退出2倍速

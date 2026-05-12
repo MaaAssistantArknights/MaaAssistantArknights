@@ -248,7 +248,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
 
         oper_analyzer.set_image(frame);
         auto oper_result_opt = oper_analyzer.analyze();
-        bool analyzed = oper_result_opt && oper_result_opt->pause_button;
+        bool analyzed = oper_result_opt && oper_result_opt->pause_button != BattlefieldMatcher::PauseStatus::Unknown;
         if (analyzed) {
             m_battle_start_frame = i;
             deployment = std::move(oper_result_opt->deployment);
@@ -390,7 +390,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             pre_distance = distance;
         }
 
-        bool oper_is_clicked = !result_opt->speed_button || !result_opt->pause_button;
+        bool oper_is_clicked = !result_opt->speed_button || result_opt->pause_button == BattlefieldMatcher::PauseStatus::Unknown;
         bool oper_auto_retreat =
             in_segment && continuity && !m_clips.empty() && cur_opers.size() != m_clips.back().deployment.size();
 

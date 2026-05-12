@@ -37,7 +37,7 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
 
     if (m_object_of_interest.flag) {
         result.pause_button = pause_button_analyze();
-        if (!result.pause_button && !hp_flag_analyze() && !kills_flag_analyze() && !cost_symbol_analyze()) {
+        if (result.pause_button == PauseStatus::Unknown && !hp_flag_analyze() && !kills_flag_analyze() && !cost_symbol_analyze()) {
             // flag 表明当前画面是在战斗场景的，不在的就没必要识别了
             return std::nullopt;
         }
@@ -440,7 +440,7 @@ bool asst::BattlefieldMatcher::hit_costs_cache() const
     return mark > threshold;
 }
 
-bool BattlefieldMatcher::pause_button_analyze() const
+asst::BattlefieldMatcher::PauseStatus BattlefieldMatcher::pause_button_analyze() const
 {
     auto task_ptr = Task.get("BattleHasStarted");
     cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
@@ -450,14 +450,22 @@ bool BattlefieldMatcher::pause_button_analyze() const
     const int value_threshold = task_ptr->special_params[0];
     cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
     int count = cv::countNonZero(bin);
-    const int count_threshold = task_ptr->special_params[1];
-    Log.trace(__FUNCTION__, "count", count, "threshold", count_threshold);
+    const int threshold_base = task_ptr->special_params[1];
+    const int threshold_high = task_ptr->special_params[2];
+    Log.trace(__FUNCTION__, "count", count, "threshold", threshold_base, ",", threshold_high);
 
+    PauseStatus status = PauseStatus::Unknown;
+    if (count >= threshold_high) {
+        status = PauseStatus::Running;
+    }
+    else if (count >= threshold_base) {
+        status = PauseStatus::Pausing;
+    }
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(task_ptr->roi), cv::Scalar(0, 0, 255), 2);
     cv::putText(
         m_image_draw,
-        std::to_string(count) + "/" + std::to_string(count_threshold),
+        std::to_string(count) + "/" + std::to_string(threshold_base) + "," + std::to_string(threshold_high),
         cv::Point(task_ptr->roi.x, task_ptr->roi.y + task_ptr->roi.height + 10),
         cv::FONT_HERSHEY_PLAIN,
         1.2,
@@ -465,7 +473,7 @@ bool BattlefieldMatcher::pause_button_analyze() const
         2);
 #endif
 
-    return count > count_threshold;
+    return status;
 }
 
 bool BattlefieldMatcher::in_detail_analyze() const

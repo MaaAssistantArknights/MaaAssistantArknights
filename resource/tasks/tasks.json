@@ -4761,8 +4761,8 @@
         "Doc": "20260109 YJWL更新后暂停按钮向右移动约8像素, 且暂停后亮度上限245 (不知道以前是不是也有这个问题)",
         "template": "empty.png",
         "roi": [1178, 33, 53, 39],
-        "specialParams_Doc": "亮度阈值；点的数量",
-        "specialParams": [235, 200]
+        "specialParams_Doc": "亮度阈值; 暂停时阈值; 运行时阈值",
+        "specialParams": [235, 200, 450]
     },
     "BattleSpeedButton": {
         "template": "empty.png",
