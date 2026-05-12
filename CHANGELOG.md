@@ -1,4 +1,4 @@
-## v6.9.4
+## v6.9.5
 
 ### 许愿墙前挂满愿签，牛牛顺手把更新器、作战流程和海外服体验都打磨了一遍 | Highlights
 
@@ -42,7 +42,7 @@ This update adapts to the 7th anniversary wishing wall, the “Reclamation” in
 
 以下是详细内容：
 
-## v.6.9.4
+## v6.9.5 & v.6.9.4
 
 ### 新增 | New
 
@@ -90,6 +90,8 @@ This update adapts to the 7th anniversary wishing wall, the “Reclamation” in
 * YostarJP PV templates and ocr (#16505) @Manicsteiner
 * EN PV minigame @Constrat
 * Add context7.json with URL and public key @AnnAngela
+* Wpf 新配置修改日志记录等级提升至 Info @status102
+* 自动战斗拆出导航 @status102
 
 ## v6.9.3
 
