@@ -1689,13 +1689,13 @@ public partial class CopilotViewModel : Screen
         }
         else
         {
-            if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal))
+            if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal) && !copilot.IsSandbox)
             {
                 var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
             }
 
-            if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid))
+            if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid) || copilot.IsSandbox)
             {
                 var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
