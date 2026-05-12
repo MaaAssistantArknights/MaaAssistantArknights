@@ -158,7 +158,6 @@ public class AsstRecruitTask : AsstBaseTask
             ["times"] = RecruitTimes,
             ["set_time"] = SetRecruitTime,
             ["expedite"] = UseExpedited,
-            ["skip_robot"] = NotChooseLevel1,
             ["skip_tags"] = JArray.FromObject(skipTags),
             ["extra_tags_mode"] = SelectExtraTags,
             ["first_tags"] = JArray.FromObject(Level3FirstList),
