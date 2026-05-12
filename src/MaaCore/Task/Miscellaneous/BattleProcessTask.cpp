@@ -462,6 +462,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
         while (!need_exit()) {
+            if (!check_in_battle(image)) {
+                return false;
+            }
             if (!update_deployment(false, image)) {
                 return false;
             }
