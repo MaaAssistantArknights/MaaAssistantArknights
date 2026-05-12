@@ -383,22 +383,6 @@
         "template": ["RaidDifficulty.png", "RaidDifficulty-Chapter15.png"],
         "next": []
     },
-    "ChangeToNormalDifficulty": {
-        "doc": ["常规", "15章常规"],
-        "template": ["NormalDifficulty.png", "NormalDifficulty-Chapter15.png"],
-        "action": "ClickSelf",
-        "maskRange": [0, 220],
-        "roi": [600, 610, 130, 110],
-        "maxTimes": 3,
-        "next": ["NormalConfirm", "#self"]
-    },
-    "NormalConfirm": {
-        "baseTask": "ChangeToNormalDifficulty",
-        "action": "DoNothing",
-        "maskRange": [0, 220],
-        "template": ["RaidDifficulty.png", "RaidDifficulty-Chapter15.png"],
-        "next": []
-    },
     "SandboxOptionToggle": {
         "doc": "沙盘推演选项弹窗按钮",
         "template": "SandboxOptionToggle.png",
