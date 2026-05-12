@@ -1090,9 +1090,8 @@ private:
 
     static void signal_handler(int sig)
     {
-        const auto signal_reason = format_signal_reason(sig);
 #ifdef __ANDROID__
-        log_android_crash_signal(signal_reason);
+        log_android_crash_signal(format_signal_reason(sig));
 #endif
         g_last_signal.store(sig);
         custom_terminate_handler();
