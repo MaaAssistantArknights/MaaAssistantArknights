@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
+using MaaWpfGui.Helper;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -26,12 +27,6 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 public class RecruitTask : BaseTask, IJsonOnDeserialized
 {
     public RecruitTask() => TaskType = TaskType.Recruit;
-
-    private static List<string> NormalizeTagList(IEnumerable<string> tags) =>
-        [.. tags
-            .Where(tag => !string.IsNullOrWhiteSpace(tag))
-            .Select(tag => tag.Trim())
-            .Distinct(StringComparer.Ordinal)];
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否使用公招加速卷
@@ -120,13 +115,13 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
 
     public void OnDeserialized()
     {
-        var normalizedPreferTags = NormalizeTagList(Level3PreferTags);
+        var normalizedPreferTags = RecruitTagHelper.NormalizeTagList(Level3PreferTags);
         if (!Level3PreferTags.SequenceEqual(normalizedPreferTags, StringComparer.Ordinal))
         {
             Level3PreferTags = normalizedPreferTags;
         }
 
-        var normalizedPreserveTags = NormalizeTagList(PreserveTagList);
+        var normalizedPreserveTags = RecruitTagHelper.NormalizeTagList(PreserveTagList);
         if (!PreserveTagList.SequenceEqual(normalizedPreserveTags, StringComparer.Ordinal))
         {
             PreserveTagList = normalizedPreserveTags;

@@ -66,7 +66,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
         }
 
         set {
-            var config = NormalizeTagList(value.Cast<CombinedData>().Select(item => item.Value));
+            var config = RecruitTagHelper.NormalizeTagList(value.Cast<CombinedData>().Select(item => item.Value));
             SetTaskConfig<RecruitTask>(t => t.Level3PreferTags.SequenceEqual(config, StringComparer.Ordinal), t => t.Level3PreferTags = config);
         }
     }
@@ -85,7 +85,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
         }
 
         set {
-            var config = NormalizeTagList(value.Cast<CombinedData>().Select(item => item.Value));
+            var config = RecruitTagHelper.NormalizeTagList(value.Cast<CombinedData>().Select(item => item.Value));
             SetTaskConfig<RecruitTask>(t => t.PreserveTagList.SequenceEqual(config, StringComparer.Ordinal), t => t.PreserveTagList = config);
         }
     }
@@ -159,12 +159,6 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
         get => GetTaskConfig<RecruitTask>().ExtraTagMode;
         set => SetTaskConfig<RecruitTask>(t => t.ExtraTagMode == value, t => t.ExtraTagMode = value);
     }
-
-    private static List<string> NormalizeTagList(IEnumerable<string> tags) =>
-        [.. tags
-            .Where(tag => !string.IsNullOrWhiteSpace(tag))
-            .Select(tag => tag.Trim())
-            .Distinct(StringComparer.Ordinal)];
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 3.
@@ -277,7 +271,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
 
     public override void RefreshUI(BaseTask baseTask)
     {
-        if (baseTask is RecruitTask recruit)
+        if (baseTask is RecruitTask)
         {
             Refresh();
         }
@@ -294,8 +288,8 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 return (null, []);
             }
 
-            var preserveTags = recruit.PreserveTagEnabled ? NormalizeTagList(recruit.PreserveTagList) : [];
-            var firstTags = recruit.PreferTagEnabled ? NormalizeTagList(recruit.Level3PreferTags) : [];
+            var preserveTags = recruit.PreserveTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.PreserveTagList) : [];
+            var firstTags = recruit.PreferTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.Level3PreferTags) : [];
 
             var task = new AsstRecruitTask() {
                 Refresh = recruit.RefreshLevel3,

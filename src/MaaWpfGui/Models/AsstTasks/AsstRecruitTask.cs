@@ -12,9 +12,8 @@
 // </copyright>
 
 #nullable enable
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
 
@@ -143,11 +142,8 @@ public class AsstRecruitTask : AsstBaseTask
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
-        var skipTags = SkipTags
-            .Where(tag => !string.IsNullOrWhiteSpace(tag))
-            .Select(tag => tag.Trim())
-            .Distinct(StringComparer.Ordinal)
-            .ToList();
+        var skipTags = RecruitTagHelper.NormalizeTagList(SkipTags);
+        var firstTags = RecruitTagHelper.NormalizeTagList(Level3FirstList);
 
         var param = new JObject
         {
@@ -160,7 +156,7 @@ public class AsstRecruitTask : AsstBaseTask
             ["expedite"] = UseExpedited,
             ["skip_tags"] = JArray.FromObject(skipTags),
             ["extra_tags_mode"] = SelectExtraTags,
-            ["first_tags"] = JArray.FromObject(Level3FirstList),
+            ["first_tags"] = JArray.FromObject(firstTags),
             ["recruitment_time"] = new JObject
             {
                 ["3"] = ChooseLevel3Time,
