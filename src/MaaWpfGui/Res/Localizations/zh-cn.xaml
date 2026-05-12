@@ -1303,11 +1303,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RestartAsAdminFailed">请手动以管理员身份运行 MAA</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 绑定窗口失败，请检查截图/输入方式配置</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 窗口绑定明日方舟 PC 端，而非 ADB 连接模拟器或手机</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">连接 PC 端（实验性功能，稳定性无法保证）
-由于 MAA Team 开发人手有限，PC 端功能长期缺乏专人维护，可能存在功能异常或运行不稳定等问题：
-● 遇到问题时，我们可能无法及时响应或修复
-● 若无法正常使用，建议切换至 ADB 模式连接 Android 模拟器或移动设备
-● 诚挚欢迎有开发能力的用户提交 Pull Request，共同完善 PC 端支持
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">连接 PC 端（实验性）
+由于 MAA Team 开发人手有限，此功能由社区维护，非 MAA Team 持续支持，功能和稳定性可能不尽如人意，遇到问题时也可能无法第一时间修复。
+如遇到影响使用的问题，建议改用 ADB 连接 Android 模拟器或移动设备，获得更稳定的体验。
+我们也始终欢迎有能力的开发者参与贡献提交 Pull Request，共同完善 PC 端支持。
 
 使用前请确认：
 1. 需要以管理员身份启动 MAA

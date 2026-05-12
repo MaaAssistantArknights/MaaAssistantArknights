@@ -1303,10 +1303,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
     <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC connection (experimental feature, stability not guaranteed)
-Due to limited development resources within the MAA Team, PC support lacks dedicated maintenance and may experience instability or functional issues:
-● We may not be able to promptly respond to or fix PC-related issues
-● If unavailable, consider switching to ADB mode to connect via Android emulator or mobile device
-● We sincerely welcome Pull Requests from developers to help improve PC support
+Due to limited development resources within the MAA Team, this feature is community-maintained and is not continuously supported by the MAA Team. Functionality and stability may fall short of expectations, and issues may not be fixed promptly.
+If you encounter problems that affect usability, we recommend switching to ADB mode with an Android emulator or mobile device for a more stable experience.
+We also always welcome Pull Requests from capable developers to help improve PC support.
 
 Before use, please ensure:
 1. MAA is launched with administrator privileges
