@@ -323,7 +323,7 @@ public static class ConfigFactory
         _debounceTimer.Change(PendingDelayMs, Timeout.Infinite);
 
         ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
-        _logger.Debug("Configuration {Key} has been set: `{OldValue}` -> `{NewValue}`, save scheduled", key, oldValue, newValue);
+        _logger.Information("Configuration {Key} has been set: `{OldValue}` -> `{NewValue}`, save scheduled", key, oldValue, newValue);
     }
 
     private static void CreateSaveTask(object? state)
