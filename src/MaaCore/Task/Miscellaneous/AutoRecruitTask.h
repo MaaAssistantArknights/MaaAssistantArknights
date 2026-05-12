@@ -27,7 +27,7 @@ public:
     AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
     AutoRecruitTask& set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept;
     AutoRecruitTask& set_first_tags(std::vector<std::string> first_tags) noexcept;
-    AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
+    AutoRecruitTask& set_skip_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept;
     AutoRecruitTask& set_set_time(bool set_time) noexcept;
     AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
     AutoRecruitTask& set_recruitment_time(std::unordered_map<int, int>) noexcept;
@@ -87,7 +87,7 @@ protected:
         special_tag_skip = 3,
         nothing_to_select = 4,
         success = 5,
-        robot_tag_skip = 6
+        preserved_tag_skip = 6
     };
 
     struct calc_task_result_type
@@ -95,7 +95,7 @@ protected:
         bool success = false;
         bool force_skip = false;
         bool for_special_tags_skip = false; // Get the definition by searching for "SpecialTags".
-        bool for_robot_tags_skip = false;
+        bool for_preserved_tags_skip = false;
         int recruitment_time = 60;
         [[maybe_unused]] int tags_selected = 0;
 
@@ -106,7 +106,7 @@ protected:
                 success = false;
                 force_skip = false;
                 for_special_tags_skip = false;
-                for_robot_tags_skip = false;
+                for_preserved_tags_skip = false;
                 recruitment_time = _recruitment_time;
                 tags_selected = _tag_selected;
                 break;
@@ -114,7 +114,7 @@ protected:
                 success = true;
                 force_skip = true;
                 for_special_tags_skip = true;
-                for_robot_tags_skip = false;
+                for_preserved_tags_skip = false;
                 recruitment_time = _recruitment_time;
                 tags_selected = _tag_selected;
                 break;
@@ -123,7 +123,7 @@ protected:
                 success = true;
                 force_skip = true;
                 for_special_tags_skip = false;
-                for_robot_tags_skip = false;
+                for_preserved_tags_skip = false;
                 recruitment_time = _recruitment_time;
                 tags_selected = _tag_selected;
                 break;
@@ -132,15 +132,15 @@ protected:
                 success = true;
                 force_skip = false;
                 for_special_tags_skip = false;
-                for_robot_tags_skip = false;
+                for_preserved_tags_skip = false;
                 recruitment_time = _recruitment_time;
                 tags_selected = _tag_selected;
                 break;
-            case calc_task_result::robot_tag_skip:
+            case calc_task_result::preserved_tag_skip:
                 success = true;
                 force_skip = true;
                 for_special_tags_skip = false;
-                for_robot_tags_skip = true;
+                for_preserved_tags_skip = true;
                 recruitment_time = _recruitment_time;
                 tags_selected = _tag_selected;
                 break;
@@ -171,10 +171,10 @@ protected:
     bool m_use_expedited = false; // 是否使用加急许可
     ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::NoExtra;
     std::vector<std::string> m_first_tags;
+    std::vector<RecruitConfig::TagId> m_skip_tags = { "支援机械" };
     int m_max_times = 0;
     bool m_has_permit = true;
     bool m_has_refresh = true;
-    bool m_skip_robot = true;
     bool m_set_time = true;
     bool m_force_refresh = true;
     std::unordered_map<int /*level*/, int /*minutes*/> m_desired_time_map;

@@ -12,8 +12,10 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Linq;
+using System.Text.Json.Serialization;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -21,9 +23,15 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 /// <summary>
 /// 公招
 /// </summary>
-public class RecruitTask : BaseTask
+public class RecruitTask : BaseTask, IJsonOnDeserialized
 {
     public RecruitTask() => TaskType = TaskType.Recruit;
+
+    private static List<string> NormalizeTagList(IEnumerable<string> tags) =>
+        [.. tags
+            .Where(tag => !string.IsNullOrWhiteSpace(tag))
+            .Select(tag => tag.Trim())
+            .Distinct(StringComparer.Ordinal)];
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否使用公招加速卷
@@ -48,6 +56,23 @@ public class RecruitTask : BaseTask
     public List<string> Level3PreferTags { get; set; } = [];
 
     /// <summary>
+    /// Gets or sets a value indicating whether 是否启用3星Tag倾向。
+    /// </summary>
+    public bool PreferTagEnabled { get; set; } = true;
+
+    private const string LegacyRobotTag = "支援机械";
+
+    /// <summary>
+    /// Gets or sets 需要保留并跳过的Tag。
+    /// </summary>
+    public List<string> PreserveTagList { get; set; } = [LegacyRobotTag];
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 是否启用保留指定Tag。
+    /// </summary>
+    public bool PreserveTagEnabled { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 无倾向Tag时是否刷新3星
     /// TODO 重命名?
     /// </summary>
@@ -59,9 +84,9 @@ public class RecruitTask : BaseTask
     public bool ForceRefresh { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 不自动确认1星
+    /// Gets or sets a value indicating whether 保留旧版小车词条配置
     /// </summary>
-    public bool Level1NotChoose { get; set; } = true;
+    public bool Level1NotChoose { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 自动确认3星
@@ -92,4 +117,28 @@ public class RecruitTask : BaseTask
     /// Gets or sets 5星时间
     /// </summary>
     public int Level5Time { get; set; } = 540;
+
+    public void OnDeserialized()
+    {
+        var normalizedPreferTags = NormalizeTagList(Level3PreferTags);
+        if (!Level3PreferTags.SequenceEqual(normalizedPreferTags, StringComparer.Ordinal))
+        {
+            Level3PreferTags = normalizedPreferTags;
+        }
+
+        var normalizedPreserveTags = NormalizeTagList(PreserveTagList);
+        if (!PreserveTagList.SequenceEqual(normalizedPreserveTags, StringComparer.Ordinal))
+        {
+            PreserveTagList = normalizedPreserveTags;
+        }
+
+        // TODO: 6.11.0 后删除以下兼容代码段，并移除旧字段 Level1NotChoose。
+        {
+            if (Level1NotChoose)
+            {
+                PreserveTagEnabled = true;
+                Level1NotChoose = false;
+            }
+        }
+    }
 }

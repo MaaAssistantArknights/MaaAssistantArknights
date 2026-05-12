@@ -51,8 +51,19 @@ bool asst::RecruitTask::set_params(const json::value& params)
     int times = params.get("times", 0);
     bool expedite = params.get("expedite", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
+    bool has_skip_tags = params.contains("skip_tags");
+    bool has_skip_robot = params.contains("skip_robot");
     bool skip_robot = params.get("skip_robot", true);
+    std::vector<RecruitConfig::TagId> skip_tags = params.get("skip_tags", std::vector<RecruitConfig::TagId> {});
     std::vector<std::string> first_tags = params.get("first_tags", std::vector<std::string>(0));
+
+    if (has_skip_robot) {
+        Log.warn(__FUNCTION__, "`skip_robot` is deprecated, use `skip_tags` instead");
+    }
+
+    if (!has_skip_tags && skip_robot) {
+        skip_tags = { "支援机械" };
+    }
 
     std::unordered_map<int /*level*/, int /*minute*/> recruitment_time_map;
     recruitment_time_map[3] = std::clamp(params.get("recruitment_time", "3", 9 * 60), 1 * 60, 9 * 60);
@@ -73,9 +84,9 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_use_expedited(expedite)
         .set_select_extra_tags(extra_tags_mode)
         .set_first_tags(first_tags)
+        .set_skip_tags(std::move(skip_tags))
         .set_select_level(std::move(select))
         .set_confirm_level(std::move(confirm))
-        .set_skip_robot(skip_robot)
         .set_recruitment_time(recruitment_time_map)
         .set_penguin_enabled(penguin_enabled, penguin_id)
         .set_yituliu_enabled(yituliu_enabled, yituliu_id)

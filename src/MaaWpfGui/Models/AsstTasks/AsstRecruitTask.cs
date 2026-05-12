@@ -12,7 +12,9 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
 
@@ -95,6 +97,11 @@ public class AsstRecruitTask : AsstBaseTask
     public bool NotChooseLevel1 { get; set; }
 
     /// <summary>
+    /// Gets or sets 识别到后需要保留并跳过的 Tag。
+    /// </summary>
+    public List<string> SkipTags { get; set; } = [];
+
+    /// <summary>
     /// Gets or sets 3 星招募时间
     /// </summary>
     public int ChooseLevel3Time { get; set; }
@@ -136,6 +143,12 @@ public class AsstRecruitTask : AsstBaseTask
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
+        var skipTags = SkipTags
+            .Where(tag => !string.IsNullOrWhiteSpace(tag))
+            .Select(tag => tag.Trim())
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+
         var param = new JObject
         {
             ["refresh"] = Refresh,
@@ -146,6 +159,7 @@ public class AsstRecruitTask : AsstBaseTask
             ["set_time"] = SetRecruitTime,
             ["expedite"] = UseExpedited,
             ["skip_robot"] = NotChooseLevel1,
+            ["skip_tags"] = JArray.FromObject(skipTags),
             ["extra_tags_mode"] = SelectExtraTags,
             ["first_tags"] = JArray.FromObject(Level3FirstList),
             ["recruitment_time"] = new JObject

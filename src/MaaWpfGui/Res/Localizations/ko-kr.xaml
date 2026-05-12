@@ -1403,12 +1403,12 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Level3UseShortTime2">★3 태그 9:00 대신 1:00 설정</system:String>
     <system:String x:Key="Level3UseShortTimeTip">다른 등급에는 적용되지 않습니다</system:String>
     <system:String x:Key="RecruitMaxTimes">시행 시의 최대 모집횟수</system:String>
-    <system:String x:Key="ManuallySelectLevel1">★1 수동 모집</system:String>
+    <system:String x:Key="ManuallySelectLevel1">지정 태그 보류</system:String>
     <system:String x:Key="AutoSelectLevel3">★3 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel4">★4 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel6">★6 자동 모집</system:String>
-    <system:String x:Key="Level1Tip">체크 시, ★1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크하지 않으면 ★1 태그를 무시합니다.</system:String>
+    <system:String x:Key="Level1Tip">선택한 태그 중 하나라도 인식되면 해당 모집을 건너뛰고 슬롯을 유지합니다. 비워 두면 어떤 태그도 보류하지 않습니다.</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">박사님, 클로저 씨의 가게에 ｢술｣이 입고되었다는 소식을 들으셨나요? 함께 확인해 볼까요?</system:String>

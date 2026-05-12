@@ -1917,14 +1917,27 @@ public class AsstProxy
             case "RecruitSpecialTag":
                 {
                     string special = subTaskDetails!["tag"]!.ToString();
-                    if (special == "支援机械" && TaskQueueViewModel.RecruitTask.NotChooseLevel1 == false)
-                    {
-                        break;
-                    }
-
                     using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
                     toast.AppendContentText(special).ShowRecruit();
 
+                    break;
+                }
+
+            case "RecruitPreservedTag":
+                {
+                    string preserved = subTaskDetails!["tag"]!.ToString();
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
+                    toast.AppendContentText(preserved);
+                    if (preserved == "支援机械")
+                    {
+                        toast.ShowRecruitRobot();
+                    }
+                    else
+                    {
+                        toast.ShowRecruit();
+                    }
+
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitingTips") + "\n" + preserved);
                     break;
                 }
 

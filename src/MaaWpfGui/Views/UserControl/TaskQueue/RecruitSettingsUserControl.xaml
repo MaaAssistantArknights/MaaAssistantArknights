@@ -38,19 +38,26 @@
                 ItemsSource="{Binding AutoRecruitSelectExtraTagsList}"
                 SelectedValue="{Binding SelectExtraTags}"
                 SelectedValuePath="Value" />
-            <Grid Margin="0,10">
+            <StackPanel  Margin="0,10">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox
+                        Content="{DynamicResource AutoRecruitHighPriority}"
+                        IsChecked="{Binding UseLevel3PreferTags}" />
+                    <controls:TooltipBlock
+                        Margin="0,0,5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        TooltipText="{DynamicResource AutoRecruitHighPriorityTooltip}" />
+                </StackPanel>
                 <hc:CheckComboBox
-                    hc:InfoElement.Title="{DynamicResource AutoRecruitHighPriority}"
+                    Margin="0,10,0,0"
+                    Visibility="{c:Binding UseLevel3PreferTags}"
                     hc:ListBoxAttach.SelectedItems="{Binding AutoRecruitFirstList}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding AutoRecruitTagShowList}"
                     SelectionMode="Multiple" />
-                <controls:TooltipBlock
-                    Margin="0,0,5,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    TooltipText="{DynamicResource AutoRecruitHighPriorityTooltip}" />
-            </Grid>
+            </StackPanel>
+
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoRefresh}"
@@ -61,9 +68,24 @@
                 IsEnabled="{c:Binding RefreshLevel3}">
                 <controls:TextBlock Text="{DynamicResource ForceRefresh}" TextWrapping="Wrap" />
             </CheckBox>
-            <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource ManuallySelectLevel1}" IsChecked="{Binding NotChooseLevel1}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Level1Tip}" />
+            <StackPanel Margin="0,10" >
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox
+                        Content="{DynamicResource ManuallySelectLevel1}"
+                        IsChecked="{Binding UsePreserveTags}" />
+                    <controls:TooltipBlock
+                        Margin="0,0,5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        TooltipText="{DynamicResource Level1Tip}" />
+                </StackPanel>
+                <hc:CheckComboBox
+                    Margin="0,10,0,0"
+                    Visibility="{c:Binding UsePreserveTags}"
+                    hc:ListBoxAttach.SelectedItems="{Binding AutoRecruitPreserveTagList}"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding AutoRecruitSkipTagShowList}"
+                    SelectionMode="Multiple" />
             </StackPanel>
             <CheckBox
                 Margin="0,10"

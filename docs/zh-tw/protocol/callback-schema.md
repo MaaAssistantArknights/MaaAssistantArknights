@@ -364,6 +364,15 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   :::
   ::::
 
+- `RecruitPreservedTag`  
+   公招辨識到了已設定為保留的 Tag。`details` 欄位內容如下：
+
+   :::: field-group
+   ::: field name="tag" type="string" required
+   觸發保留的 Tag 名稱，例如 `支援機械`。
+   :::
+   ::::
+
 - `RecruitResult`  
   公招辨識結果。`details` 欄位結構如下：
   - `tags` (array, required)：所有辨識到的 tags，目前固定為 5 個。
