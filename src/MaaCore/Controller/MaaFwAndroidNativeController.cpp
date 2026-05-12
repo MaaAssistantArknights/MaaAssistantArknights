@@ -260,7 +260,7 @@ bool MaaFwAndroidNativeController::swipe(
     const auto& opt = Config.get_options();
 
     auto bounds_check = [this](int x, int y) {
-        return x >= 0 && x <= m_screen_resolution.first && y >= 0 && y <= m_screen_resolution.second;
+        return x >= 0 && x < m_screen_resolution.first && y >= 0 && y < m_screen_resolution.second;
     };
 
     auto move_func = [&](int x, int y) -> bool {
@@ -367,11 +367,12 @@ bool MaaFwAndroidNativeController::press_esc()
         return false;
     }
 
-    if (!m_unit_handle->key_down(111)) { // KEYCODE_ESCAPE
+    constexpr int KEYCODE_ESCAPE = 111;
+    if (!m_unit_handle->key_down(KEYCODE_ESCAPE)) {
         return false;
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    return m_unit_handle->key_up(111);
+    return m_unit_handle->key_up(KEYCODE_ESCAPE);
 }
 
 ControlFeat::Feat MaaFwAndroidNativeController::support_features() const noexcept
