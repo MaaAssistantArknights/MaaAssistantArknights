@@ -177,8 +177,8 @@ public partial class ErrorDialogView : INotifyPropertyChanged
 
         try
         {
-            System.Windows.Forms.Clipboard.Clear();
-            System.Windows.Forms.Clipboard.SetDataObject(data, true);
+            Clipboard.Clear();
+            Clipboard.SetDataObject(data, true);
         }
         catch
         {

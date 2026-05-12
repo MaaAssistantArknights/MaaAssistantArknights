@@ -20,6 +20,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -398,8 +399,8 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public void MirrorChyanCdkCopy()
     {
-        System.Windows.Forms.Clipboard.Clear();
-        System.Windows.Forms.Clipboard.SetDataObject(MirrorChyanCdk);
+        Clipboard.Clear();
+        Clipboard.SetDataObject(MirrorChyanCdk);
     }
 
     /// <summary>

@@ -94,8 +94,8 @@ public static class ClipboardInterceptor
 
         try
         {
-            System.Windows.Forms.Clipboard.Clear();
-            System.Windows.Forms.Clipboard.SetDataObject(tb.SelectedText, true);
+            Clipboard.Clear();
+            Clipboard.SetDataObject(tb.SelectedText, true);
         }
         catch
         {
@@ -114,8 +114,8 @@ public static class ClipboardInterceptor
 
         try
         {
-            System.Windows.Forms.Clipboard.Clear();
-            System.Windows.Forms.Clipboard.SetDataObject(tb.SelectedText, true);
+            Clipboard.Clear();
+            Clipboard.SetDataObject(tb.SelectedText, true);
         }
         catch
         {
@@ -133,9 +133,9 @@ public static class ClipboardInterceptor
             return;
         }
 
-        if (System.Windows.Forms.Clipboard.ContainsText())
+        if (Clipboard.ContainsText())
         {
-            var pasteText = System.Windows.Forms.Clipboard.GetText();
+            var pasteText = Clipboard.GetText();
 
             var start = tb.SelectionStart;
 
@@ -162,8 +162,8 @@ public static class ClipboardInterceptor
 
         try
         {
-            System.Windows.Forms.Clipboard.Clear();
-            System.Windows.Forms.Clipboard.SetDataObject(textRange.Text, true);
+            Clipboard.Clear();
+            Clipboard.SetDataObject(textRange.Text, true);
         }
         catch
         {
@@ -188,8 +188,8 @@ public static class ClipboardInterceptor
 
         try
         {
-            System.Windows.Forms.Clipboard.Clear();
-            System.Windows.Forms.Clipboard.SetDataObject(selection.Text, true);
+            Clipboard.Clear();
+            Clipboard.SetDataObject(selection.Text, true);
         }
         catch
         {
@@ -207,12 +207,12 @@ public static class ClipboardInterceptor
             return;
         }
 
-        if (!System.Windows.Forms.Clipboard.ContainsText())
+        if (!Clipboard.ContainsText())
         {
             return;
         }
 
-        var pasteText = System.Windows.Forms.Clipboard.GetText();
+        var pasteText = Clipboard.GetText();
 
         var selection = rtb.Selection;
         selection.Text = pasteText;
@@ -259,8 +259,8 @@ public static class ClipboardInterceptor
 
         try
         {
-            System.Windows.Forms.Clipboard.Clear();
-            System.Windows.Forms.Clipboard.SetDataObject(sbStr, true);
+            Clipboard.Clear();
+            Clipboard.SetDataObject(sbStr, true);
         }
         catch
         {
