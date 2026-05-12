@@ -16,6 +16,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -74,6 +75,8 @@ public class ToolboxViewModel : Screen
         _gachaTimer.Tick += RefreshGachaTip;
         LoadDepotDetails();
         LoadOperBoxDetails();
+        InitializeDepotRowPresentation();
+        InitializeOperBoxRowPresentation();
         OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
 
         UpdateMiniGameTaskList();
@@ -497,6 +500,8 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    private const int DepotRowSize = 5;
+
     private ObservableCollection<DepotResultDate> _depotResult = [];
 
     /// <summary>
@@ -506,10 +511,30 @@ public class ToolboxViewModel : Screen
     {
         get => _depotResult;
         set {
+            if (ReferenceEquals(_depotResult, value))
+            {
+                RefreshDepotRows();
+                InvalidateDepotCache();
+                return;
+            }
+
+            _depotResult.CollectionChanged -= DepotResultCollectionChanged;
             SetAndNotify(ref _depotResult, value);
+            _depotResult.CollectionChanged += DepotResultCollectionChanged;
+            RefreshDepotRows();
             InvalidateDepotCache();
         }
     }
+
+    private ObservableCollection<ObservableCollection<DepotResultDate>> _depotRows = [];
+
+    public ObservableCollection<ObservableCollection<DepotResultDate>> DepotRows
+    {
+        get => _depotRows;
+        private set => SetAndNotify(ref _depotRows, value);
+    }
+
+    public int DepotColumnCount => GetColumnCount(DepotResult.Count, DepotRowSize);
 
     // 缓存相关字段
     private bool _depotCacheInvalid = true;
@@ -552,6 +577,23 @@ public class ToolboxViewModel : Screen
         /// Gets 格式化后的显示数量（用于 UI 绑定）
         /// </summary>
         public string? DisplayCount => Count >= 0 ? Count.FormatNumber(false) : null;
+    }
+
+    private void InitializeDepotRowPresentation()
+    {
+        _depotResult.CollectionChanged += DepotResultCollectionChanged;
+        RefreshDepotRows();
+    }
+
+    private void DepotResultCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        RefreshDepotRows();
+    }
+
+    private void RefreshDepotRows()
+    {
+        DepotRows = BuildRows(DepotResult, DepotRowSize);
+        NotifyOfPropertyChange(nameof(DepotColumnCount));
     }
 
     /// <summary>
@@ -1142,20 +1184,111 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    private const int OperBoxRowSize = 5;
+
     private ObservableCollection<Operator> _operBoxHaveList = [];
 
     public ObservableCollection<Operator> OperBoxHaveList
     {
         get => _operBoxHaveList;
-        set => SetAndNotify(ref _operBoxHaveList, value);
+        set {
+            if (ReferenceEquals(_operBoxHaveList, value))
+            {
+                RefreshOperBoxHaveRows();
+                return;
+            }
+
+            _operBoxHaveList.CollectionChanged -= OperBoxHaveListCollectionChanged;
+            SetAndNotify(ref _operBoxHaveList, value);
+            _operBoxHaveList.CollectionChanged += OperBoxHaveListCollectionChanged;
+            RefreshOperBoxHaveRows();
+        }
     }
+
+    private ObservableCollection<ObservableCollection<Operator>> _operBoxHaveRows = [];
+
+    public ObservableCollection<ObservableCollection<Operator>> OperBoxHaveRows
+    {
+        get => _operBoxHaveRows;
+        private set => SetAndNotify(ref _operBoxHaveRows, value);
+    }
+
+    public int OperBoxHaveColumnCount => GetColumnCount(OperBoxHaveList.Count, OperBoxRowSize);
 
     private ObservableCollection<Operator> _operBoxNotHaveList = [];
 
     public ObservableCollection<Operator> OperBoxNotHaveList
     {
         get => _operBoxNotHaveList;
-        set => SetAndNotify(ref _operBoxNotHaveList, value);
+        set {
+            if (ReferenceEquals(_operBoxNotHaveList, value))
+            {
+                RefreshOperBoxNotHaveRows();
+                return;
+            }
+
+            _operBoxNotHaveList.CollectionChanged -= OperBoxNotHaveListCollectionChanged;
+            SetAndNotify(ref _operBoxNotHaveList, value);
+            _operBoxNotHaveList.CollectionChanged += OperBoxNotHaveListCollectionChanged;
+            RefreshOperBoxNotHaveRows();
+        }
+    }
+
+    private ObservableCollection<ObservableCollection<Operator>> _operBoxNotHaveRows = [];
+
+    public ObservableCollection<ObservableCollection<Operator>> OperBoxNotHaveRows
+    {
+        get => _operBoxNotHaveRows;
+        private set => SetAndNotify(ref _operBoxNotHaveRows, value);
+    }
+
+    public int OperBoxNotHaveColumnCount => GetColumnCount(OperBoxNotHaveList.Count, OperBoxRowSize);
+
+    private void InitializeOperBoxRowPresentation()
+    {
+        _operBoxHaveList.CollectionChanged += OperBoxHaveListCollectionChanged;
+        _operBoxNotHaveList.CollectionChanged += OperBoxNotHaveListCollectionChanged;
+        RefreshOperBoxHaveRows();
+        RefreshOperBoxNotHaveRows();
+    }
+
+    private void OperBoxHaveListCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        RefreshOperBoxHaveRows();
+    }
+
+    private void OperBoxNotHaveListCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        RefreshOperBoxNotHaveRows();
+    }
+
+    private void RefreshOperBoxHaveRows()
+    {
+        OperBoxHaveRows = BuildRows(OperBoxHaveList, OperBoxRowSize);
+        NotifyOfPropertyChange(nameof(OperBoxHaveColumnCount));
+    }
+
+    private void RefreshOperBoxNotHaveRows()
+    {
+        OperBoxNotHaveRows = BuildRows(OperBoxNotHaveList, OperBoxRowSize);
+        NotifyOfPropertyChange(nameof(OperBoxNotHaveColumnCount));
+    }
+
+    private static ObservableCollection<ObservableCollection<T>> BuildRows<T>(IEnumerable<T> items, int rowSize)
+    {
+        ObservableCollection<ObservableCollection<T>> rows = [];
+
+        foreach (var row in items.Chunk(rowSize))
+        {
+            rows.Add(new ObservableCollection<T>(row));
+        }
+
+        return rows;
+    }
+
+    private static int GetColumnCount(int count, int rowSize)
+    {
+        return count <= 0 ? 1 : Math.Min(count, rowSize);
     }
 
     private void SaveOperBoxDetails(List<OperBoxData.OperData> details)

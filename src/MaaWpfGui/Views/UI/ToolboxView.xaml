@@ -16,6 +16,54 @@
     d:DesignHeight="600"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="OperBoxVirtualizedRowListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <ContentPresenter
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="OperBoxVirtualizedRowListBoxStyle" TargetType="{x:Type ListBox}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource OperBoxVirtualizedRowListBoxItemStyle}" />
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
+            <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel" />
+            <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <hc:ScrollViewer
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
+                            Focusable="False"
+                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </hc:ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <TabControl
         Margin="0,10"
         Background="{DynamicResource MouseOverRegionBrushOpacity75}"
@@ -248,129 +296,149 @@
                         Header="{c:Binding OperBoxNotHaveList.Count}"
                         HeaderStringFormat="{StaticResource OperBoxNotHaveList}"
                         Visibility="{c:Binding 'OperBoxNotHaveList.Count != 0'}">
-                        <hc:ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                            <ItemsControl
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                d:ItemsSource="{d:SampleData ItemCount=1}"
-                                ItemsSource="{Binding OperBoxNotHaveList}"
-                                ScrollViewer.CanContentScroll="True"
-                                VirtualizingPanel.IsVirtualizing="True"
-                                VirtualizingPanel.VirtualizationMode="Recycling">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Columns="{c:Binding 'OperBoxNotHaveList.Count >= 5 ? 5 : OperBoxNotHaveList.Count'}" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border
-                                            Margin="5"
-                                            Padding="10,15"
-                                            Background="{DynamicResource RegionBrushOpacity50}"
-                                            BorderBrush="{DynamicResource BorderBrush}"
-                                            BorderThickness="1"
-                                            CornerRadius="4">
-                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <controls:TextBlock
-                                                    HorizontalAlignment="Center"
-                                                    FontSize="13"
-                                                    Text="{Binding Name}"
-                                                    TextAlignment="Center"
-                                                    TextWrapping="Wrap" />
-                                                <controls:TextBlock
-                                                    HorizontalAlignment="Center"
-                                                    uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
-                                                    FontSize="11"
-                                                    Text="{Binding RarityStars}"
-                                                    TextAlignment="Center" />
-                                            </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </hc:ScrollViewer>
+                        <ListBox
+                            d:ItemsSource="{d:SampleData ItemCount=3}"
+                            uiBehaviors:SharedCardWidthBehavior.ColumnCount="{Binding OperBoxNotHaveColumnCount}"
+                            uiBehaviors:SharedCardWidthBehavior.EnableScope="True"
+                            ItemsSource="{Binding OperBoxNotHaveRows}"
+                            Style="{StaticResource OperBoxVirtualizedRowListBoxStyle}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Columns="{Binding DataContext.OperBoxNotHaveColumnCount, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
+                                                    MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                    MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                    Margin="5"
+                                                    Padding="10,15"
+                                                    uiBehaviors:SharedCardWidthBehavior.TrackWidth="True"
+                                                    Background="{DynamicResource RegionBrushOpacity50}"
+                                                    BorderBrush="{DynamicResource BorderBrush}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="4">
+                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <controls:TextBlock
+                                                            HorizontalAlignment="Center"
+                                                            FontSize="13"
+                                                            Text="{Binding Name}"
+                                                            TextAlignment="Center"
+                                                            TextWrapping="Wrap" />
+                                                        <controls:TextBlock
+                                                            HorizontalAlignment="Center"
+                                                            uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
+                                                            FontSize="11"
+                                                            Text="{Binding RarityStars}"
+                                                            TextAlignment="Center" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </TabItem>
                     <TabItem Header="{c:Binding OperBoxHaveList.Count}" HeaderStringFormat="{StaticResource OperBoxHaveList}">
-                        <hc:ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                            <ItemsControl
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                d:ItemsSource="{d:SampleData ItemCount=1}"
-                                ItemsSource="{Binding OperBoxHaveList}"
-                                ScrollViewer.CanContentScroll="True"
-                                VirtualizingPanel.IsVirtualizing="True"
-                                VirtualizingPanel.VirtualizationMode="Recycling">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Columns="{c:Binding 'OperBoxHaveList.Count >= 5 ? 5 : OperBoxHaveList.Count'}" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border
-                                            Margin="5"
-                                            Padding="10,15"
-                                            Background="{DynamicResource RegionBrushOpacity25}"
-                                            BorderBrush="{DynamicResource BorderBrush}"
-                                            BorderThickness="1"
-                                            CornerRadius="4">
-                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <controls:TextBlock
-                                                    HorizontalAlignment="Center"
-                                                    FontSize="13"
-                                                    Text="{Binding Name}"
-                                                    TextAlignment="Center"
-                                                    TextWrapping="Wrap" />
-                                                <controls:TextBlock
-                                                    HorizontalAlignment="Center"
-                                                    uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
-                                                    FontSize="11"
-                                                    Text="{Binding RarityStars}"
-                                                    TextAlignment="Center" />
-                                                <StackPanel
-                                                    Margin="0,0,0,0"
-                                                    HorizontalAlignment="Center"
-                                                    Orientation="Horizontal">
-                                                    <Image
-                                                        Width="18"
-                                                        Height="18"
-                                                        Source="{Binding EliteIconPath}"
-                                                        Stretch="Uniform"
-                                                        ToolTip="{Binding Elite}">
-                                                        <Image.Effect>
-                                                            <DropShadowEffect
-                                                                BlurRadius="8"
-                                                                Opacity="0.5"
-                                                                ShadowDepth="2"
-                                                                Color="Black" />
-                                                        </Image.Effect>
-                                                    </Image>
-                                                    <controls:TextBlock
-                                                        Margin="2.5,0"
-                                                        VerticalAlignment="Center"
-                                                        FontSize="11"
-                                                        Text="{Binding Level, StringFormat={}Lv.{0}}" />
-                                                    <Image
-                                                        Width="18"
-                                                        Height="18"
-                                                        Source="{Binding PotentialIconPath}"
-                                                        ToolTip="{Binding Potential}">
-                                                        <Image.Effect>
-                                                            <DropShadowEffect
-                                                                BlurRadius="8"
-                                                                Opacity="0.5"
-                                                                ShadowDepth="2"
-                                                                Color="Black" />
-                                                        </Image.Effect>
-                                                    </Image>
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </hc:ScrollViewer>
+                        <ListBox
+                            d:ItemsSource="{d:SampleData ItemCount=3}"
+                            uiBehaviors:SharedCardWidthBehavior.ColumnCount="{Binding OperBoxHaveColumnCount}"
+                            uiBehaviors:SharedCardWidthBehavior.EnableScope="True"
+                            ItemsSource="{Binding OperBoxHaveRows}"
+                            Style="{StaticResource OperBoxVirtualizedRowListBoxStyle}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Columns="{Binding DataContext.OperBoxHaveColumnCount, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
+                                                    MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                    MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                    Margin="5"
+                                                    Padding="10,15"
+                                                    uiBehaviors:SharedCardWidthBehavior.TrackWidth="True"
+                                                    Background="{DynamicResource RegionBrushOpacity25}"
+                                                    BorderBrush="{DynamicResource BorderBrush}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="4">
+                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <controls:TextBlock
+                                                            HorizontalAlignment="Center"
+                                                            FontSize="13"
+                                                            Text="{Binding Name}"
+                                                            TextAlignment="Center"
+                                                            TextWrapping="Wrap" />
+                                                        <controls:TextBlock
+                                                            HorizontalAlignment="Center"
+                                                            uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
+                                                            FontSize="11"
+                                                            Text="{Binding RarityStars}"
+                                                            TextAlignment="Center" />
+                                                        <StackPanel
+                                                            Margin="0,0,0,0"
+                                                            HorizontalAlignment="Center"
+                                                            Orientation="Horizontal">
+                                                            <Image
+                                                                Width="18"
+                                                                Height="18"
+                                                                Source="{Binding EliteIconPath}"
+                                                                Stretch="Uniform"
+                                                                ToolTip="{Binding Elite}">
+                                                                <Image.Effect>
+                                                                    <DropShadowEffect
+                                                                        BlurRadius="8"
+                                                                        Opacity="0.5"
+                                                                        ShadowDepth="2"
+                                                                        Color="Black" />
+                                                                </Image.Effect>
+                                                            </Image>
+                                                            <controls:TextBlock
+                                                                Margin="2.5,0"
+                                                                VerticalAlignment="Center"
+                                                                FontSize="11"
+                                                                Text="{Binding Level, StringFormat={}Lv.{0}}" />
+                                                            <Image
+                                                                Width="18"
+                                                                Height="18"
+                                                                Source="{Binding PotentialIconPath}"
+                                                                ToolTip="{Binding Potential}">
+                                                                <Image.Effect>
+                                                                    <DropShadowEffect
+                                                                        BlurRadius="8"
+                                                                        Opacity="0.5"
+                                                                        ShadowDepth="2"
+                                                                        Color="Black" />
+                                                                </Image.Effect>
+                                                            </Image>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </TabItem>
                 </TabControl>
                 <StackPanel
@@ -427,56 +495,64 @@
                         TextWrapping="Wrap"
                         Visibility="{c:Binding 'DepotInfo.Length > 0'}" />
                 </StackPanel>
-                <hc:ScrollViewer
+                <ListBox
                     Grid.Row="1"
-                    HorizontalScrollBarVisibility="Disabled"
-                    VerticalScrollBarVisibility="Auto">
-                    <ItemsControl
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        d:ItemsSource="{d:SampleData ItemCount=1}"
-                        ItemsSource="{Binding DepotResult}"
-                        ScrollViewer.CanContentScroll="True"
-                        VirtualizingPanel.IsVirtualizing="True"
-                        VirtualizingPanel.VirtualizationMode="Recycling">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="{c:Binding 'DepotResult.Count >= 5 ? 5 : DepotResult.Count'}" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border
-                                    MinWidth="125"
-                                    Margin="5"
-                                    Padding="2"
-                                    Background="{DynamicResource RegionBrushOpacity25}"
-                                    BorderBrush="{DynamicResource BorderBrush}"
-                                    BorderThickness="1"
-                                    CornerRadius="4">
-                                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                                        <Image
-                                            Width="50"
-                                            Height="50"
-                                            Source="{Binding Image}" />
-                                        <controls:TextBlock
-                                            HorizontalAlignment="Center"
-                                            FontSize="12"
-                                            Text="{Binding Name}"
-                                            TextAlignment="Center"
-                                            TextWrapping="Wrap" />
-                                        <controls:TextBlock
-                                            HorizontalAlignment="Center"
-                                            FontSize="12"
-                                            FontWeight="Bold"
-                                            Text="{Binding DisplayCount}"
-                                            TextAlignment="Center" />
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </hc:ScrollViewer>
+                    d:ItemsSource="{d:SampleData ItemCount=3}"
+                    uiBehaviors:SharedCardWidthBehavior.ColumnCount="{Binding DepotColumnCount}"
+                    uiBehaviors:SharedCardWidthBehavior.EnableScope="True"
+                    uiBehaviors:SharedCardWidthBehavior.InitialWidth="125"
+                    ItemsSource="{Binding DepotRows}"
+                    Style="{StaticResource OperBoxVirtualizedRowListBoxStyle}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="{Binding DataContext.DepotColumnCount, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            Margin="5"
+                                            Padding="2"
+                                            uiBehaviors:SharedCardWidthBehavior.TrackWidth="True"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="4">
+                                            <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                                                <Image
+                                                    Width="50"
+                                                    Height="50"
+                                                    Source="{Binding Image}" />
+                                                <controls:TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    FontSize="12"
+                                                    Text="{Binding Name}"
+                                                    TextAlignment="Center"
+                                                    TextWrapping="Wrap" />
+                                                <controls:TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    FontSize="12"
+                                                    FontWeight="Bold"
+                                                    Text="{Binding DisplayCount}"
+                                                    TextAlignment="Center" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <StackPanel
                     Grid.Row="2"
                     Margin="0,10,0,0"
