@@ -175,6 +175,9 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             return true;
         }
         break;
+    case InstanceOptionKey::ClientType:
+        m_ctrler->set_client_type(value);
+        return true;
     default:
         break;
     }

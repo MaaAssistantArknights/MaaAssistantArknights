@@ -63,7 +63,8 @@ bool MaaFwAndroidNativeController::connect(
 
     if (!config.empty()) {
         if (auto config_opt = json::parse(config); config_opt.has_value()) {
-            if (auto& config_json = config_opt.value(); config_json.contains("screen_resolution")) {
+            auto& config_json = config_opt.value();
+            if (config_json.contains("screen_resolution")) {
                 if (const auto& res = config_json["screen_resolution"];
                     res.contains("width") && res.contains("height")) {
                     int width = res.get("width", 1280);
@@ -74,10 +75,22 @@ bool MaaFwAndroidNativeController::connect(
             }
         }
         else {
-            LogWarn << "Failed to parse config as JSON, using default resolution";
+            LogError << "Failed to parse config as JSON";
             return false;
         }
     }
+
+    if (m_screen_resolution.first <= 0 || m_screen_resolution.second <= 0) {
+        LogError << "screen_resolution not provided or invalid in config, cannot connect";
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ConnectFailed" },
+                { "why", "screen_resolution missing in config" },
+            } | get_info_json());
+        return false;
+    }
+
     m_unit_handle = m_create_func(config.c_str());
 
     if (!m_unit_handle) {
@@ -236,7 +249,10 @@ bool MaaFwAndroidNativeController::swipe(
     }
 
     // 触摸按下起点
-    m_unit_handle->touch_down(0, x1, y1, 1);
+    if (!m_unit_handle->touch_down(0, x1, y1, 1)) {
+        LogError << "touch_down failed at swipe start point";
+        return false;
+    }
 
     constexpr int TimeInterval = 5; // 类似 Minitoucher::DefaultSwipeDelay
 
