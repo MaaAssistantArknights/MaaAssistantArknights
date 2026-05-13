@@ -3,7 +3,6 @@
 #include "MaaUtils/NoWarningCV.hpp"
 
 #include <array>
-#include <cmath>
 #include <vector>
 
 namespace asst
@@ -42,13 +41,17 @@ MaskedCcoeffMatcher& MaskedCcoeffMatcher::get_instance()
 
 void MaskedCcoeffMatcher::sync_cache_revision(const uint64_t revision)
 {
-    std::lock_guard<std::mutex> lk(m_cache_mtx);
-    if (m_cache_revision == revision) {
+    if (m_cache_revision.load(std::memory_order_acquire) == revision) {
         return;
     }
+    std::lock_guard lk(m_cache_mtx);
+    if (m_cache_revision.load(std::memory_order_relaxed) == revision) {
+        return;
+    }
+    // 清一下缓存
     m_template_plan_cache.clear();
     m_dft_plan_cache.clear();
-    m_cache_revision = revision;
+    m_cache_revision.store(revision, std::memory_order_release);
 }
 
 void MaskedCcoeffMatcher::fnv1a_update(uint64_t& h, const void* data, size_t size)
@@ -70,6 +73,7 @@ std::string MaskedCcoeffMatcher::make_mat_cache_key(const cv::Mat& mat)
     for (int y = 0; y < mat.rows; ++y) {
         fnv1a_update(h, mat.ptr(y), row_bytes);
     }
+    // 捏个hash key
     return "mat:" + std::to_string(mat.rows) + "x" + std::to_string(mat.cols)
            + ":" + std::to_string(mat.type()) + ":" + std::to_string(h);
 }
@@ -81,9 +85,8 @@ std::shared_ptr<const MaskedCcoeffMatcher::TemplatePlan> MaskedCcoeffMatcher::ge
     int mask_pixels)
 {
     {
-        std::lock_guard<std::mutex> lk(m_cache_mtx);
-        auto it = m_template_plan_cache.find(cache_key);
-        if (it != m_template_plan_cache.end()) {
+        std::lock_guard lk(m_cache_mtx);
+        if (const auto it = m_template_plan_cache.find(cache_key); it != m_template_plan_cache.end()) {
             return it->second;
         }
     }
@@ -119,7 +122,7 @@ std::shared_ptr<const MaskedCcoeffMatcher::TemplatePlan> MaskedCcoeffMatcher::ge
     }
     plan->K = static_cast<int>(plan->sparse_entries.size());
 
-    std::lock_guard<std::mutex> lk(m_cache_mtx);
+    std::lock_guard lk(m_cache_mtx);
     auto [it, inserted] = m_template_plan_cache.emplace(cache_key, plan);
     static_cast<void>(inserted);
     return it->second;
@@ -133,9 +136,8 @@ std::shared_ptr<const MaskedCcoeffMatcher::DftPlan> MaskedCcoeffMatcher::get_or_
 {
     const std::string dft_key = cache_key + ":dft:" + std::to_string(dft_rows) + "x" + std::to_string(dft_cols);
     {
-        std::lock_guard<std::mutex> lk(m_cache_mtx);
-        auto it = m_dft_plan_cache.find(dft_key);
-        if (it != m_dft_plan_cache.end()) {
+        std::lock_guard lk(m_cache_mtx);
+        if (const auto it = m_dft_plan_cache.find(dft_key); it != m_dft_plan_cache.end()) {
             return it->second;
         }
     }
@@ -153,7 +155,7 @@ std::shared_ptr<const MaskedCcoeffMatcher::DftPlan> MaskedCcoeffMatcher::get_or_
         compute_into(template_plan.T_prime[c], dft_plan->T_prime_dft[c]);
     }
 
-    std::lock_guard<std::mutex> lk(m_cache_mtx);
+    std::lock_guard lk(m_cache_mtx);
     auto [it, inserted] = m_dft_plan_cache.emplace(dft_key, dft_plan);
     static_cast<void>(inserted);
     return it->second;
@@ -161,9 +163,24 @@ std::shared_ptr<const MaskedCcoeffMatcher::DftPlan> MaskedCcoeffMatcher::get_or_
 
 bool MaskedCcoeffMatcher::should_fallback_to_opencv(int mask_pixels, int result_positions)
 {
-    // DFT 的固定成本在输出位置很少、mask 很密时会超过 OpenCV 原路径。
-    static constexpr int OPENCV_DENSE_RESULT_LIMIT = 10'000;
-    return mask_pixels >= 2'000 && result_positions < OPENCV_DENSE_RESULT_LIMIT;
+    // 神秘调参值
+    // - 极小 result + 低 K：稀疏路径整体工作量极小（K 次扫小 result）
+    //   OpenCV 的固定 setup 开销在这一档反而占主导，留给稀疏
+    // - 极小 result + 高 K（图像略大于模板的 case，如 138×130/105×105）
+    //   K 超过稀疏阈值无法走稀疏，FFT 在小 DFT size 上不如opencv快了
+    // - 中等 result 配中等 K：OpenCV 紧凑 SIMD 内核比稀疏路径的多通道宽累加快
+    // - 总工作量 K*result 不大：OpenCV 紧凑 SIMD 常数因子优于稀疏 / FFT
+    //   实测 K*result < 25M 段 100% 退化、> 50M 段几乎全是加速
+    if (result_positions < 1000 && mask_pixels < 2000) {
+        return false;
+    }
+    if (result_positions < 12000 && mask_pixels >= 500) {
+        return true;
+    }
+    if (static_cast<long long>(mask_pixels) * result_positions < 25'000'000LL) {
+        return true;
+    }
+    return false;
 }
 
 // 用 cv::dft 直接实现，消除冗余 FFT
@@ -176,7 +193,7 @@ bool MaskedCcoeffMatcher::should_fallback_to_opencv(int mask_pixels, int result_
 //   FFT(I_c) 和 FFT(I_c²) 每通道各算一次并复用
 //   FFT(T'_c) 和 FFT(M) 通过缓存跨调用复用
 //
-// 数学等价于 cv::matchTemplate(image, templ, result, TM_CCOEFF_NORMED, mask)
+// 等价于 cv::matchTemplate(image, templ, result, TM_CCOEFF_NORMED, mask)
 cv::Mat MaskedCcoeffMatcher::match(
     const cv::Mat& image_rgb,      // CV_8UC3
     const cv::Mat& templ_rgb,      // CV_8UC3
@@ -207,9 +224,9 @@ cv::Mat MaskedCcoeffMatcher::match(
     std::vector<cv::Mat> I_ch(3);
     cv::split(I, I_ch);
 
-    // ---- 稀疏直接相关（小模板快路径）----------------------
-    // 双重条件：K < SPARSE_K_LIMIT 且总工作量 K×result_positions < SPARSE_WORK_LIMIT。
-    // 仅满足 K 小但结果矩阵极大时（如 49×28 模板/690×434 图）仍走 FFT 路径。
+    // 稀疏直接相关（小模板快路径，比如基建任务中那种就很合适）
+    // 双重条件：K < SPARSE_K_LIMIT 且总工作量 K×result_positions < SPARSE_WORK_LIMIT
+    // 仅满足 K 小但结果矩阵极大时（如 49×28 模板/690×434 图）仍走 FFT 路径
     static constexpr int SPARSE_K_LIMIT = 2000;
     static constexpr long long SPARSE_WORK_LIMIT = 30'000'000LL;
     if (template_plan->K > 0 && template_plan->K < SPARSE_K_LIMIT &&
@@ -220,21 +237,21 @@ cv::Mat MaskedCcoeffMatcher::match(
         cv::Mat sum_MI_b = cv::Mat::zeros(rh, rw, CV_32F);
         cv::Mat sum_MI2 = cv::Mat::zeros(rh, rw, CV_32F); // Σ_c I_c²
 
-        for (const auto& e : template_plan->sparse_entries) {
+        for (const auto& [dx, dy, T_prime] : template_plan->sparse_entries) {
             for (int y = 0; y < rh; ++y) {
-                const float* Ir = I_ch[0].ptr<float>(y + e.dy) + e.dx;
-                const float* Ig = I_ch[1].ptr<float>(y + e.dy) + e.dx;
-                const float* Ib = I_ch[2].ptr<float>(y + e.dy) + e.dx;
-                float* num_p = numerator.ptr<float>(y);
-                float* smir_p = sum_MI_r.ptr<float>(y);
-                float* smig_p = sum_MI_g.ptr<float>(y);
-                float* smib_p = sum_MI_b.ptr<float>(y);
-                float* smi2_p = sum_MI2.ptr<float>(y);
+                const float* Ir = I_ch[0].ptr<float>(y + dy) + dx;
+                const float* Ig = I_ch[1].ptr<float>(y + dy) + dx;
+                const float* Ib = I_ch[2].ptr<float>(y + dy) + dx;
+                auto* num_p = numerator.ptr<float>(y);
+                auto* smir_p = sum_MI_r.ptr<float>(y);
+                auto* smig_p = sum_MI_g.ptr<float>(y);
+                auto* smib_p = sum_MI_b.ptr<float>(y);
+                auto* smi2_p = sum_MI2.ptr<float>(y);
 
-                // 内层循环：连续内存，编译器向量化
+                // 编译器会自动向量化的
                 for (int x = 0; x < rw; ++x) {
                     const float r = Ir[x], g = Ig[x], b = Ib[x];
-                    num_p[x] += e.T_prime[0] * r + e.T_prime[1] * g + e.T_prime[2] * b;
+                    num_p[x] += T_prime[0] * r + T_prime[1] * g + T_prime[2] * b;
                     smir_p[x] += r;
                     smig_p[x] += g;
                     smib_p[x] += b;
@@ -259,19 +276,18 @@ cv::Mat MaskedCcoeffMatcher::match(
         cv::Mat result;
         cv::divide(numerator, denom, result);
         cv::patchNaNs(result, 0.0);
-        const float sigma_T_norm = static_cast<float>(std::sqrt(sigma_T_sq));
+        const auto sigma_T_norm = static_cast<float>(std::sqrt(sigma_T_sq));
         result.setTo(0.0f, denom < sigma_T_norm * 1e-5f);
         cv::min(result, 1.0f, result);
         cv::max(result, -1.0f, result);
         return result;
     }
 
-    // DFT 的填充尺寸：仅在确认走 FFT 路径后才需要。
+    // DFT 的填充尺寸：仅在确认走 FFT 路径后才需要
     const int dft_rows = cv::getOptimalDFTSize(I.rows + T.rows - 1);
     const int dft_cols = cv::getOptimalDFTSize(I.cols + T.cols - 1);
     const auto dft_plan = get_or_build_dft_plan(cache_key, *template_plan, dft_rows, dft_cols);
 
-    // ---- FFT buffer 仅在确认走 FFT 路径后才分配 ---
     cv::Mat padded(dft_rows, dft_cols, CV_32F, cv::Scalar(0));
     cv::Mat I_dft(dft_rows, dft_cols, CV_32FC2);
     cv::Mat I_sq_dft(dft_rows, dft_cols, CV_32FC2);
@@ -329,7 +345,7 @@ cv::Mat MaskedCcoeffMatcher::match(
     cv::Mat result;
     cv::divide(numerator, denom, result);
     cv::patchNaNs(result, 0.0);
-    const float sigma_T_norm = static_cast<float>(std::sqrt(sigma_T_sq));
+    const auto sigma_T_norm = static_cast<float>(std::sqrt(sigma_T_sq));
     result.setTo(0.0f, denom < sigma_T_norm * 1e-5f);
     cv::min(result, 1.0f, result);
     cv::max(result, -1.0f, result);

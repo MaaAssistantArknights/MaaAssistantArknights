@@ -2,8 +2,7 @@
 
 #include "MaaUtils/NoWarningCVMat.hpp"
 
-#include <cstddef>
-#include <cstdint>
+#include <atomic>
 #include <memory>
 #include <mutex>
 #include <string>
@@ -49,6 +48,6 @@ private:
     std::mutex m_cache_mtx;
     std::unordered_map<std::string, std::shared_ptr<const TemplatePlan>> m_template_plan_cache;
     std::unordered_map<std::string, std::shared_ptr<const DftPlan>> m_dft_plan_cache;
-    uint64_t m_cache_revision = 0;
+    std::atomic<uint64_t> m_cache_revision { 0 };
 };
 }

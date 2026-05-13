@@ -86,9 +86,6 @@ Matcher::ResultOpt Matcher::analyze() const
 std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image, const MatcherConfig::Params& params)
 {
     std::vector<Matcher::RawResult> results;
-    const uint64_t templ_revision = TemplResource::get_instance().revision();
-    auto& masked_ccoeff_matcher = MaskedCcoeffMatcher::get_instance();
-    masked_ccoeff_matcher.sync_cache_revision(templ_revision);
 
     // Image-side color conversions: compute once, reuse across all templates
     cv::Mat image_match;
@@ -230,11 +227,16 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
                 }
                 else if (MaskedCcoeffMatcher::should_fallback_to_opencv(
                              mask_pixels,
-                             (image_match.rows - templ_match.rows + 1) * (image_match.cols - templ_match.cols + 1))) {
-                    // matched 保持 empty，统一落到下面的 OpenCV masked matchTemplate。
+                        (image_match.rows - templ_match.rows + 1) * (image_match.cols - templ_match.cols + 1))) {
+                    // matched 保持 empty，统一落到下面的 OpenCV masked matchTemplate
                 }
                 else {
-                    // cache key：模板身份 + mask_ranges。资源模板绑定 revision；cv::Mat 模板使用 row-wise 内容 hash。
+                    auto& masked_ccoeff_matcher = MaskedCcoeffMatcher::get_instance();
+                    const uint64_t templ_revision = TemplResource::get_instance().revision();
+                    masked_ccoeff_matcher.sync_cache_revision(templ_revision);
+
+                    // cache key：templ_name + mask_ranges
+                    // 资源模板绑定 revision；cv::Mat 模板使用 row-wise 内容 hash
                     std::string fft_key = templ_name.empty()
                         ? MaskedCcoeffMatcher::make_mat_cache_key(templ)
                         : "res:" + std::to_string(templ_revision) + ":" + templ_name;
@@ -285,7 +287,7 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
             cv::Mat integ;
             cv::integral(image_active_f, integ, CV_32F);
             const int kh = templ_active.rows, kw = templ_active.cols;
-            // 四角公式：sum_active[y,x] = integ[y+kh,x+kw] - integ[y,x+kw] - integ[y+kh,x] + integ[y,x]
+            // sum_active[y,x] = integ[y+kh,x+kw] - integ[y,x+kw] - integ[y+kh,x] + integ[y,x]
             cv::Mat sum_active =
                 integ(cv::Rect(kw, kh, tp.cols, tp.rows))
                 - integ(cv::Rect(0,  kh, tp.cols, tp.rows))
