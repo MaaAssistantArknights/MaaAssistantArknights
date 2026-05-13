@@ -2396,7 +2396,7 @@
         "description": "為應對加工時部分材料緊缺的問題，採購部發行了提貨券供幹員們自行取用所需的材料。",
         "icon": "advanced_material_voucher_perm.png",
         "name": "高級材料提貨券",
-        "sortId": 60005,
+        "sortId": 60006,
         "usage": "羅德島採購部特別發行的提貨券，憑此券可領取一份高級品質的精英材料。"
     },
     "ap_supply_lt_010": {
@@ -2828,7 +2828,7 @@
         "description": "為應對加工時部分材料緊缺的問題，採購部發行了提貨券供幹員們自行取用所需的材料。",
         "icon": "premium_material_voucher_perm.png",
         "name": "特級材料提貨券",
-        "sortId": 60004,
+        "sortId": 60005,
         "usage": "羅德島採購部特別發行的提貨券，憑此券可以領取一份特級品質的精英材料。"
     },
     "randomDiamondShd_1": {
