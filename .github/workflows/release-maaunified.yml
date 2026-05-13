@@ -293,6 +293,7 @@ jobs:
           ! find release -type f -name '*linux*.tar.gz' | grep -q .
 
       - name: Package (macOS)
+        id: macos_package
         if: runner.os == 'macOS'
         shell: bash
         env:
@@ -307,13 +308,22 @@ jobs:
             "$name" \
             "${{ needs.meta.outputs.version_prefix }}" \
             "${{ needs.meta.outputs.informational_version }}"
+          signing_status_file="release/.${name}.signing-status"
+          signing_status="unknown"
+          if [[ -f "$signing_status_file" ]]; then
+            signing_status="$(cat "$signing_status_file")"
+          fi
+          echo "signing_status=$signing_status" >> "$GITHUB_OUTPUT"
+          if [[ "$signing_status" != "developer-id" ]]; then
+            echo "::warning title=macOS package is not notarized::macOS package signing status is '$signing_status'; notarization will be skipped."
+          fi
           test -f "release/${name}.dmg"
           ! find release -type f -name '*macos*.tar.gz' | grep -q .
           ! find release -name 'MAAUnified.command' | grep -q .
           rm -rf release/MAAUnified.app
 
       - name: Notarize macOS dmg
-        if: runner.os == 'macOS' && steps.macos_signing.outputs.available == 'true'
+        if: runner.os == 'macOS' && steps.macos_package.outputs.signing_status == 'developer-id'
         shell: bash
         env:
           APPSTORE_KEYID: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
