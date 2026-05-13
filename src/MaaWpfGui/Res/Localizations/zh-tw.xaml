@@ -719,7 +719,9 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">更新使用者資料</system:String>
-    <system:String x:Key="MiniGame">小遊戲</system:String>
+    <system:String x:Key="MiniGame">快捷功能</system:String>
+    <system:String x:Key="MiniGameCategoryPermanent">常駐</system:String>
+    <system:String x:Key="MiniGameCategoryCurrentEvent">目前活動</system:String>
     <system:String x:Key="Custom">自定義任務</system:String>
     <system:String x:Key="SingleStep">單步任務</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主題</system:String>

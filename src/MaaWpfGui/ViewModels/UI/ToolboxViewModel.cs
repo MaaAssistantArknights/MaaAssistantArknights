@@ -2079,20 +2079,74 @@ public class ToolboxViewModel : Screen
 
     #region MiniGame
 
-    public static ObservableCollection<MiniGameEntry> MiniGameTaskList { get; } = [];
+    public class MiniGameCategoryItem : PropertyChangedBase
+    {
+        public string Display { get; set; } = string.Empty;
+
+        public string Value { get; set; } = string.Empty;
+
+        public string Category { get; set; } = string.Empty;
+
+        public bool IsSecretFront => Value == "MiniGame@SecretFront";
+    }
+
+    public ObservableCollection<MiniGameCategoryItem> MiniGameCategoryItems { get; } = [];
+
+    private MiniGameCategoryItem? _selectedMiniGameItem;
+
+    public MiniGameCategoryItem? SelectedMiniGameItem
+    {
+        get => _selectedMiniGameItem;
+        set {
+            if (!SetAndNotify(ref _selectedMiniGameItem, value) || value == null)
+            {
+                return;
+            }
+
+            MiniGameTaskName = value.Value;
+            ClearMiniGameLogs();
+        }
+    }
 
     public static void UpdateMiniGameTaskList()
     {
-        var tasks = Instances.StageManager.MiniGameEntries
-            .Select(t => new MiniGameEntry { Display = t.Display, DisplayKey = t.DisplayKey, Value = t.Value, Tip = t.Tip, TipKey = t.TipKey })
+        var categorizedItems = Instances.StageManager.MiniGameEntries
+            .Select(t =>
+            {
+                var isCurrentEvent = t.UtcStartTime != DateTime.MinValue || t.UtcExpireTime != DateTime.MinValue;
+                var category = LocalizationHelper.GetString(isCurrentEvent
+                    ? "MiniGameCategoryCurrentEvent"
+                    : "MiniGameCategoryPermanent");
+                return new MiniGameCategoryItem
+                {
+                    Display = string.IsNullOrEmpty(t.DisplayKey)
+                        ? t.Display
+                        : (LocalizationHelper.TryGetString(t.DisplayKey, out var loc) ? loc : t.Display),
+                    Value = t.Value,
+                    Category = category,
+                };
+            })
             .ToList();
 
-        Execute.OnUIThread(() => {
-            MiniGameTaskList.Clear();
-            foreach (var task in tasks)
+        Execute.OnUIThread(() =>
+        {
+            var toolbox = Instances.ToolboxViewModel;
+            if (toolbox == null)
             {
-                MiniGameTaskList.Add(task);
+                return;
             }
+
+            var prevSelected = toolbox.SelectedMiniGameItem?.Value;
+
+            toolbox.MiniGameCategoryItems.Clear();
+            foreach (var item in categorizedItems)
+            {
+                toolbox.MiniGameCategoryItems.Add(item);
+            }
+
+            toolbox.SelectedMiniGameItem = toolbox.MiniGameCategoryItems
+                .FirstOrDefault(i => i.Value == prevSelected)
+                ?? toolbox.MiniGameCategoryItems.FirstOrDefault();
         });
     }
 
@@ -2110,7 +2164,8 @@ public class ToolboxViewModel : Screen
 
     public string GetMiniGameTask()
     {
-        return MiniGameTaskName switch {
+        return MiniGameTaskName switch
+        {
             "MiniGame@SecretFront" => $"{MiniGameTaskName}@Begin@Ending{SecretFrontEnding}{(string.IsNullOrEmpty(SecretFrontEvent) ? string.Empty : $"@{SecretFrontEvent}")}",
             _ => MiniGameTaskName,
         };
@@ -2189,7 +2244,8 @@ public class ToolboxViewModel : Screen
         }
     }
 
-    public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } = [
+    public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } =
+    [
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event1"), Value = "支援作战平台" },
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event2"), Value = "游侠" },
@@ -2207,6 +2263,35 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    public class MiniGameLogItem : PropertyChangedBase
+    {
+        public string Time { get; set; } = string.Empty;
+
+        public string Content { get; set; } = string.Empty;
+
+        public string Color { get; set; } = UiLogColor.Info;
+    }
+
+    public ObservableCollection<MiniGameLogItem> MiniGameLogs { get; } = [];
+
+    public void AddMiniGameLog(string content, string color = UiLogColor.Info)
+    {
+        Execute.OnUIThread(() =>
+        {
+            MiniGameLogs.Add(new MiniGameLogItem
+            {
+                Time = DateTime.Now.ToString("HH:mm:ss"),
+                Content = content,
+                Color = color,
+            });
+        });
+    }
+
+    public void ClearMiniGameLogs()
+    {
+        Execute.OnUIThread(() => MiniGameLogs.Clear());
+    }
+
     public void StartMiniGame()
     {
         _ = StartMiniGameAsync();
@@ -2221,10 +2306,14 @@ public class ToolboxViewModel : Screen
         }
 
         _runningState.SetIdle(false);
+
+        ClearMiniGameLogs();
+        AddMiniGameLog(LocalizationHelper.GetString("ConnectingToEmulator"), UiLogColor.Message);
         string errMsg = string.Empty;
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
+            AddMiniGameLog(errMsg, UiLogColor.Error);
             _runningState.SetIdle(true);
             return;
         }
