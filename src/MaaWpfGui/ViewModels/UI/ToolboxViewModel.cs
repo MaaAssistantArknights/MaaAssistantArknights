@@ -63,11 +63,11 @@ public class ToolboxViewModel : Screen
         DisplayName = LocalizationHelper.GetString("Toolbox");
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (__, e) => {
-            Idle = e.Idle;
-            Inited = e.Inited;
-            Stopping = e.Stopping;
+            Idle = e.NewState.Idle;
+            Inited = e.NewState.Inited;
+            Stopping = e.NewState.Stopping;
 
-            if (e.Stopping && Peeping && !IsPeepTransitioning)
+            if (e.NewState.Stopping && Peeping && !IsPeepTransitioning)
             {
                 _ = Peep();
             }
