@@ -15,7 +15,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using JetBrains.Annotations;
@@ -46,10 +48,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     public const string AnnihilationName = "Annihilation";
     private static readonly ILogger _logger = Log.ForContext<FightSettingsUserControlModel>();
     private readonly RunningState _runningState;
-    private readonly object _specifiedInventoryStateLock = new();
-    private Dictionary<string, int>? _runStartInventorySnapshot;
-    private Dictionary<string, int> _runReservedQuantityByDropId = [];
-    private Dictionary<int, SpecifiedInventoryTaskState> _specifiedInventoryTaskStates = [];
+    private readonly Lock _inventoryTargetRuntimeStateLock = new();
+    private Dictionary<int, InventoryTargetRuntimeState> _inventoryTargetRuntimeStateByTaskId = [];
 
     public static FightTimes? FightReport { get; set; }
 
@@ -64,6 +64,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     {
         _runningState = RunningState.Instance;
         _runningState.StateChanged += OnRunningStateChanged;
+        Instances.AsstProxy.OnTaskItemStatusChanged += OnTaskItemStatusChanged;
+
+        if (Instances.ToolboxViewModel is { } toolboxViewModel)
+        {
+            toolboxViewModel.DepotResult.CollectionChanged += OnDepotResultCollectionChanged;
+        }
 
         foreach (var i in WeeklyScheduleSource)
         {
@@ -75,32 +81,87 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         InitDrops();
     }
 
+    /// <summary>
+    /// 当队列进入或离开空闲状态时，清理按任务保存的目标库存运行时状态。
+    /// </summary>
     private void OnRunningStateChanged(object? sender, RunningState.RunningStateChangedEventArgs e)
     {
-        ResetSpecifiedInventoryRuntimeState();
-    }
-
-    private void ResetSpecifiedInventoryRuntimeState()
-    {
-        lock (_specifiedInventoryStateLock)
+        if (e.NewState.Idle == e.OldState.Idle)
         {
-            _runStartInventorySnapshot = null;
-            _runReservedQuantityByDropId = [];
-            _specifiedInventoryTaskStates = [];
+            return;
         }
 
+        ResetInventoryTargetRuntimeState();
+    }
+
+    /// <summary>
+    /// 重置各作战任务启动时捕获的目标库存运行时缓存。
+    /// </summary>
+    private void ResetInventoryTargetRuntimeState()
+    {
+        lock (_inventoryTargetRuntimeStateLock)
+        {
+            _inventoryTargetRuntimeStateByTaskId = [];
+        }
+
+        Execute.OnUIThread(NotifySpecifiedDropsStateChanged);
+    }
+
+    /// <summary>
+    /// 当作战任务进入进行中状态时，仅捕获一次目标库存值，并在需要时刷新当前选中的面板。
+    /// </summary>
+    private void OnTaskItemStatusChanged(int taskId, TaskItemStatus status)
+    {
+        if (status != TaskItemStatus.InProgress || taskId <= 0)
+        {
+            return;
+        }
+
+        if (GetFightTaskByTaskId(taskId) is { } startedFight &&
+            IsInventoryTargetDropEnabled(startedFight) &&
+            GetInventoryTargetRuntimeState(taskId) == null)
+        {
+            SerializeTask(startedFight, taskId);
+        }
+
+        Execute.OnUIThread(() => {
+            if (TaskSettingVisibilityInfo.CurrentTask is not FightTask currentFight || !IsInventoryTargetDropEnabled(currentFight))
+            {
+                return;
+            }
+
+            int currentIndex = TaskSettingVisibilityInfo.Instance.CurrentIndex;
+            if (currentIndex < 0 || currentIndex >= Instances.TaskQueueViewModel.TaskItemViewModels.Count)
+            {
+                return;
+            }
+
+            if (!Instances.TaskQueueViewModel.TaskItemViewModels[currentIndex].TaskIds.Contains(taskId))
+            {
+                return;
+            }
+
+            NotifySpecifiedDropsStateChanged();
+        });
+    }
+
+    /// <summary>
+    /// 当仓库识别数据变化时，刷新界面显示的目标库存信息。
+    /// </summary>
+    private void OnDepotResultCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
         Execute.OnUIThread(NotifySpecifiedDropsStateChanged);
     }
 
     public static FightSettingsUserControlModel Instance { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether a stage plan item is being dragged.
+    /// Gets or sets a value indicating whether 关卡规划项正在被拖拽。
     /// </summary>
     public bool IsDragging { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
-    /// Gets or private sets the list of stages.
+    /// Gets or private sets a value indicating whether 关卡列表。
     /// </summary>
     public ObservableCollection<StageSourceItem> StageListSource { get => field; private set => SetAndNotify(ref field, value); } = [];
 
@@ -149,7 +210,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to use custom stage code.
+    /// Gets or sets a value indicating whether 使用自定义关卡代码。
     /// </summary>
     public bool CustomStageCode
     {
@@ -174,9 +235,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Reset unsaved battle parameters.
+    /// 重置未保存的作战参数。
     /// </summary>
-    /// <param name="fight">The fight task.</param>
+    /// <param name="fight">作战任务配置。</param>
     public static void ResetFightVariables(FightTask? fight)
     {
         fight?.UseStone ??= false;
@@ -186,7 +247,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to use medicine with null.
+    /// Gets or sets a value indicating whether 使用理智药。
     /// </summary>
     public bool? UseMedicine
     {
@@ -207,7 +268,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets the amount of medicine used.
+    /// Gets or sets 使用理智药数量。
     /// </summary>
     public int MedicineNumber
     {
@@ -225,7 +286,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     public static string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
 
     /// <summary>
-    /// Gets or sets a value indicating whether to use originiums with null.
+    /// Gets or sets a value indicating whether 使用源石。
     /// </summary>
     public bool? UseStone
     {
@@ -251,7 +312,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to use originiums.
+    /// Gets or sets a value indicating whether 使用源石 with null
     /// </summary>
     // ReSharper disable once MemberCanBePrivate.Global
     [PropertyDependsOn(nameof(UseStone))]
@@ -262,7 +323,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets the amount of originiums used.
+    /// Gets or sets 使用源石数量。
     /// </summary>
     public int StoneNumber
     {
@@ -278,7 +339,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the number of times is limited with null.
+    /// Gets or sets a value indicating whether 限制次数 with null
     /// </summary>
     public bool? HasTimesLimited
     {
@@ -294,7 +355,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets the max number of times.
+    /// Gets or sets 最大次数。
     /// </summary>
     public int MaxTimes
     {
@@ -322,7 +383,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     };
 
     /// <summary>
-    /// Gets or sets the max number of times.
+    /// Gets or sets 连战次数。
     /// </summary>
     public int Series
     {
@@ -340,7 +401,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     #region Drops
 
     /// <summary>
-    /// Gets or sets a value indicating whether the drops are specified.
+    /// Gets or sets a value indicating whether 启用指定材料。
     /// </summary>
     public bool? IsSpecifiedDrops
     {
@@ -361,7 +422,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 指定材料按库存目标计算.
+    /// Gets or sets a value indicating whether 指定材料按目标库存模式计算。
     /// </summary>
     public bool UseInventoryTarget
     {
@@ -419,7 +480,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                fight.UseInventoryTarget;
     }
 
-    private static Dictionary<string, int>? CreateCurrentInventorySnapshot()
+    /// <summary>
+    /// 读取当前识别到的仓库数量，并转换为查询表。
+    /// </summary>
+    private static Dictionary<string, int>? GetCurrentInventoryCounts()
     {
         var depotResult = Instances.ToolboxViewModel?.DepotResult;
         if (depotResult == null || depotResult.Count == 0)
@@ -434,20 +498,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         return snapshot.Count > 0 ? snapshot : null;
     }
 
-    private Dictionary<string, int>? GetEffectiveInventorySnapshot()
-    {
-        lock (_specifiedInventoryStateLock)
-        {
-            if (_runStartInventorySnapshot != null)
-            {
-                return _runStartInventorySnapshot;
-            }
-        }
-
-        return CreateCurrentInventorySnapshot();
-    }
-
-    private int? GetCurrentFightTaskId()
+    /// <summary>
+    /// 获取当前选中作战任务绑定的第一个 core task id。
+    /// </summary>
+    private static int? GetCurrentFightTaskId()
     {
         if (TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
         {
@@ -464,19 +518,60 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         return taskIds.Count > 0 ? taskIds[0] : null;
     }
 
-    private SpecifiedInventoryTaskState? GetSpecifiedInventoryTaskState(int? taskId)
+    /// <summary>
+    /// 根据 core task id 反查对应的作战任务配置。
+    /// </summary>
+    private static FightTask? GetFightTaskByTaskId(int taskId)
+    {
+        if (taskId <= 0)
+        {
+            return null;
+        }
+
+        for (int index = 0; index < Instances.TaskQueueViewModel.TaskItemViewModels.Count; ++index)
+        {
+            if (!Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskIds.Contains(taskId))
+            {
+                continue;
+            }
+
+            return index < ConfigFactory.CurrentConfig.TaskQueue.Count
+                ? ConfigFactory.CurrentConfig.TaskQueue[index] as FightTask
+                : null;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// 检查指定 core 作战任务是否已在运行。
+    /// </summary>
+    private static bool IsTaskInProgress(int taskId)
+    {
+        return taskId > 0 &&
+               Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var taskState) &&
+               taskState.Status == MaaWpfGui.Main.TaskStatus.InProgress;
+    }
+
+    /// <summary>
+    /// 获取指定 core 任务缓存的目标库存运行时状态。
+    /// </summary>
+    private InventoryTargetRuntimeState? GetInventoryTargetRuntimeState(int? taskId)
     {
         if (taskId is not int id || id <= 0)
         {
             return null;
         }
 
-        lock (_specifiedInventoryStateLock)
+        lock (_inventoryTargetRuntimeStateLock)
         {
-            return _specifiedInventoryTaskStates.GetValueOrDefault(id);
+            return _inventoryTargetRuntimeStateByTaskId.GetValueOrDefault(id);
         }
     }
 
+    /// <summary>
+    /// 获取指定掉落目标显示的库存数量。任务开始后，该显示值会被冻结。
+    /// </summary>
     private int? GetSpecifiedDropsInventoryCount(FightTask fight, int? taskId = null)
     {
         if (string.IsNullOrEmpty(fight.DropId))
@@ -484,45 +579,23 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             return null;
         }
 
-        if (GetSpecifiedInventoryTaskState(taskId) is { } taskState && taskState.DropId == fight.DropId)
+        if (GetInventoryTargetRuntimeState(taskId) is { } runtimeState && runtimeState.DropId == fight.DropId)
         {
-            return taskState.StartInventory;
+            return runtimeState.StartInventory;
         }
 
-        var snapshot = GetEffectiveInventorySnapshot();
-        if (snapshot == null)
+        var currentInventoryCounts = GetCurrentInventoryCounts();
+        if (currentInventoryCounts == null)
         {
             return null;
         }
 
-        return snapshot.TryGetValue(fight.DropId, out var count) ? count : 0;
+        return currentInventoryCounts.TryGetValue(fight.DropId, out var count) ? count : 0;
     }
 
-    private int GetSpecifiedDropsReservedQuantityBeforeCurrentTask(FightTask currentFight, int inventoryCount)
-    {
-        int currentIndex = TaskSettingVisibilityInfo.Instance.CurrentIndex;
-        if (currentIndex <= 0 || !IsInventoryTargetDropEnabled(currentFight))
-        {
-            return 0;
-        }
-
-        int reserved = 0;
-        for (int index = 0; index < currentIndex; ++index)
-        {
-            if (ConfigFactory.CurrentConfig.TaskQueue[index] is not FightTask previousFight ||
-                previousFight.IsEnable == false ||
-                !IsInventoryTargetDropEnabled(previousFight) ||
-                previousFight.DropId != currentFight.DropId)
-            {
-                continue;
-            }
-
-            reserved += Math.Max(previousFight.DropCount - inventoryCount - reserved, 0);
-        }
-
-        return reserved;
-    }
-
+    /// <summary>
+    /// 获取指定目标库存任务显示并下发给 core 的实际刷取数量。
+    /// </summary>
     private int? GetSpecifiedDropsCoreQuantity(FightTask fight, int? taskId = null)
     {
         if (!IsInventoryTargetDropEnabled(fight))
@@ -530,9 +603,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             return fight.DropCount;
         }
 
-        if (GetSpecifiedInventoryTaskState(taskId) is { } taskState)
+        if (GetInventoryTargetRuntimeState(taskId) is { } runtimeState)
         {
-            return taskState.EffectiveQuantity;
+            return runtimeState.EffectiveQuantity;
         }
 
         int? inventoryCount = GetSpecifiedDropsInventoryCount(fight);
@@ -541,41 +614,44 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             return null;
         }
 
-        int reservedQuantity = GetSpecifiedDropsReservedQuantityBeforeCurrentTask(fight, currentInventory);
-        return Math.Max(fight.DropCount - currentInventory - reservedQuantity, 0);
+        return Math.Max(fight.DropCount - currentInventory, 0);
     }
 
-    private SpecifiedInventoryTaskState? CreateSpecifiedInventoryTaskState(FightTask fight)
+    /// <summary>
+    /// 捕获运行中作战任务需要保持固定的目标库存值。
+    /// </summary>
+    private static InventoryTargetRuntimeState? CreateInventoryTargetRuntimeState(FightTask fight)
     {
-        lock (_specifiedInventoryStateLock)
+        var currentInventoryCounts = GetCurrentInventoryCounts();
+        if (currentInventoryCounts == null)
         {
-            _runStartInventorySnapshot ??= CreateCurrentInventorySnapshot();
-            if (_runStartInventorySnapshot == null)
-            {
-                return null;
-            }
-
-            int startInventory = _runStartInventorySnapshot.GetValueOrDefault(fight.DropId);
-            int reservedQuantity = _runReservedQuantityByDropId.GetValueOrDefault(fight.DropId);
-            int effectiveQuantity = Math.Max(fight.DropCount - startInventory - reservedQuantity, 0);
-            return new(fight.DropId, startInventory, effectiveQuantity);
+            return null;
         }
+
+        int startInventory = currentInventoryCounts.GetValueOrDefault(fight.DropId);
+        int effectiveQuantity = Math.Max(fight.DropCount - startInventory, 0);
+        return new(fight.DropId, startInventory, effectiveQuantity);
     }
 
-    private void RememberSpecifiedInventoryTaskState(int taskId, SpecifiedInventoryTaskState taskState)
+    /// <summary>
+    /// 在捕获启动时的目标库存值后，保存该 core 作战任务的运行时状态。
+    /// </summary>
+    private void RememberInventoryTargetRuntimeState(int taskId, InventoryTargetRuntimeState runtimeState)
     {
         if (taskId <= 0)
         {
             return;
         }
 
-        lock (_specifiedInventoryStateLock)
+        lock (_inventoryTargetRuntimeStateLock)
         {
-            _specifiedInventoryTaskStates[taskId] = taskState;
-            _runReservedQuantityByDropId[taskState.DropId] = _runReservedQuantityByDropId.GetValueOrDefault(taskState.DropId) + taskState.EffectiveQuantity;
+            _inventoryTargetRuntimeStateByTaskId[taskId] = runtimeState;
         }
     }
 
+    /// <summary>
+    /// 刷新目标库存模式及其显示数量相关的 UI 绑定。
+    /// </summary>
     private void NotifySpecifiedDropsStateChanged()
     {
         NotifyOfPropertyChange(nameof(IsSpecifiedInventoryLocked));
@@ -585,34 +661,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         NotifyOfPropertyChange(nameof(EffectiveDropsQuantityText));
     }
 
-    public void RefreshSpecifiedDropsDependenciesForCurrentTask(int changedTaskIndex)
-    {
-        if (!_runningState.Idle ||
-            TaskSettingVisibilityInfo.CurrentTask is not FightTask currentFight ||
-            !IsInventoryTargetDropEnabled(currentFight))
-        {
-            return;
-        }
-
-        int currentIndex = TaskSettingVisibilityInfo.Instance.CurrentIndex;
-        if (changedTaskIndex < 0 || changedTaskIndex >= currentIndex)
-        {
-            return;
-        }
-
-        if (ConfigFactory.CurrentConfig.TaskQueue[changedTaskIndex] is not FightTask changedFight ||
-            !IsInventoryTargetDropEnabled(changedFight) ||
-            changedFight.DropId != currentFight.DropId)
-        {
-            return;
-        }
-
-        NotifySpecifiedDropsStateChanged();
-        SetFightParams();
-    }
-
     /// <summary>
-    /// Gets the list of all drops.
+    /// Gets 全部掉落材料列表。
     /// </summary>
     private List<CombinedData> AllDrops { get; } = [];
 
@@ -671,12 +721,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or private sets the list of drops.
+    /// Gets 获取或私有设置掉落材料列表。
     /// </summary>
     public ObservableCollection<CombinedData> DropsList { get; private set; } = [];
 
     /// <summary>
-    /// Gets or sets the item ID of drops.
+    /// Gets or sets 指定掉落材料 ID。
     /// </summary>
     public string DropsItemId
     {
@@ -698,7 +748,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets the item Name of drops.
+    /// Gets or sets 指定掉落材料名称。
     /// </summary>
     public string DropsItemName { get => field; set => SetAndNotify(ref field, value); } = string.Empty;
 
@@ -726,7 +776,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets the quantity of drops.
+    /// Gets or sets 指定掉落数量。
     /// </summary>
     public int DropsQuantity
     {
@@ -796,7 +846,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to use DrGrandet mode.
+    /// Gets or sets a value indicating whether 启用 DrGrandet 模式。
     /// </summary>
     public bool IsDrGrandet
     {
@@ -805,7 +855,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to use alternate stage.
+    /// Gets or sets a value indicating whether 使用备选关卡。
     /// </summary>
     public bool UseAlternateStage
     {
@@ -902,7 +952,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     public string ActivityInfo { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
 
     /// <summary>
-    /// Gets or sets a value indicating whether to hide unavailable stages.
+    /// Gets or sets a value indicating whether 隐藏未开放关卡。
     /// </summary>
     public bool HideUnavailableStage
     {
@@ -936,7 +986,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to hide series.
+    /// Gets or sets a value indicating whether 隐藏连战设置。
     /// </summary>
     public bool HideSeries
     {
@@ -945,7 +995,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to use weekly schedule.
+    /// Gets or sets a value indicating whether 使用周计划。
     /// </summary>
     public bool UseWeeklySchedule
     {
@@ -1043,7 +1093,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     #region 关卡列表更新
 
     /// <summary>
-    /// Updates stage list.
+    /// 更新关卡列表。
     /// 使用手动输入时，只更新关卡列表，不更新关卡选择
     /// 使用隐藏当日不开放时，更新关卡列表，关卡选择为未开放的关卡时清空
     /// 使用备选关卡时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
@@ -1051,8 +1101,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// 除手动输入外所有情况下，如果剩余理智为未开放的关卡，会被清空
     /// </summary>
     /// <returns>更新任务列表的Task</returns>
-    // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
-    // 这个函数被列为public可见，意味着他注入对象前被调用
+    // FIXME：被注入对象只能在 private 函数内使用，只有 Model 显示之后才会被注入。如果 Model 还没有触发 OnInitialActivate 时调用此函数，会导致空引用异常。
+    // 这个函数被声明为 public，意味着它可能会在注入对象前被调用。
     public Task UpdateStageList()
     {
         return Execute.OnUIThreadAsync(async () => {
@@ -1248,7 +1298,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         public bool IsVisible { get => field; set => SetAndNotify(ref field, value); } = true;
 
         /// <summary>
-        /// Gets or sets a value indicating whether 过期活动关卡, 加删除线
+        /// Gets or sets a value indicating whether 关卡已过期并显示删除线。
         /// </summary>
         public bool IsOutdated { get; set; } = false;
     }
@@ -1338,26 +1388,45 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
             var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
             var activityExpireDays = activityExpireIn2Days && fight.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0;
-            SpecifiedInventoryTaskState? specifiedInventoryTaskState = null;
+            InventoryTargetRuntimeState? inventoryTargetRuntimeState = null;
+            bool shouldRememberInventoryTargetRuntimeState = false;
             int specifiedDropsQuantity = fight.DropCount;
 
             if (IsInventoryTargetDropEnabled(fight))
             {
-                specifiedInventoryTaskState = Instance.GetSpecifiedInventoryTaskState(taskId) ?? Instance.CreateSpecifiedInventoryTaskState(fight);
-                if (specifiedInventoryTaskState == null)
+                if (taskId is int existingTaskId and > 0 && Instance.GetInventoryTargetRuntimeState(existingTaskId) is { } existingRuntimeState)
+                {
+                    inventoryTargetRuntimeState = existingRuntimeState;
+                }
+                else
+                {
+                    inventoryTargetRuntimeState = CreateInventoryTargetRuntimeState(fight);
+                    if (taskId is int startedTaskId and > 0 && inventoryTargetRuntimeState != null && IsTaskInProgress(startedTaskId))
+                    {
+                        shouldRememberInventoryTargetRuntimeState = true;
+                    }
+                }
+
+                if (inventoryTargetRuntimeState == null)
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("SpecifiedDropsInventoryUnavailable", fight.NameDisplay), UiLogColor.Warning);
                     return (null, []);
                 }
 
-                specifiedDropsQuantity = specifiedInventoryTaskState.EffectiveQuantity;
-                if (specifiedDropsQuantity <= 0)
+                specifiedDropsQuantity = inventoryTargetRuntimeState.EffectiveQuantity;
+                if (specifiedDropsQuantity <= 0 && taskId is null)
                 {
                     return (null, []);
                 }
             }
 
             var effectiveMaxTimes = fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue;
+
+            // 任务运行时如果启用了目标掉落且指定的掉落数量小于等于 0，则将最大挑战次数设为 0，防止任务继续运行但无法获得目标掉落
+            if (taskId is int and > 0 && IsInventoryTargetDropEnabled(fight) && specifiedDropsQuantity <= 0)
+            {
+                effectiveMaxTimes = 0;
+            }
 
             var task = new AsstFightTask() {
                 Stage = stage,
@@ -1393,9 +1462,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             if (taskId is int id and > 0)
             {
                 bool updated = Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
-                if (updated && specifiedInventoryTaskState != null && Instance.GetSpecifiedInventoryTaskState(id) == null)
+                if (updated && shouldRememberInventoryTargetRuntimeState && inventoryTargetRuntimeState != null)
                 {
-                    Instance.RememberSpecifiedInventoryTaskState(id, specifiedInventoryTaskState);
+                    Instance.RememberInventoryTargetRuntimeState(id, inventoryTargetRuntimeState);
                 }
 
                 return (updated, [id]);
@@ -1404,11 +1473,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             if (taskId is null)
             {
                 var appendResult = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task);
-                if (appendResult.IsSuccess && specifiedInventoryTaskState != null)
-                {
-                    Instance.RememberSpecifiedInventoryTaskState(appendResult.TaskId, specifiedInventoryTaskState);
-                }
-
                 return (appendResult.IsSuccess, appendResult.TaskId > 0 ? [appendResult.TaskId] : []);
             }
 
@@ -1416,5 +1480,5 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    private sealed record SpecifiedInventoryTaskState(string DropId, int StartInventory, int EffectiveQuantity);
+    private sealed record InventoryTargetRuntimeState(string DropId, int StartInventory, int EffectiveQuantity);
 }
