@@ -856,23 +856,32 @@
                         BorderThickness="1"
                         CornerRadius="4">
                         <ListBox
-                            Margin="0"
                             Background="Transparent"
                             BorderThickness="0"
                             IsEnabled="{Binding Idle}"
-                            IsSynchronizedWithCurrentItem="True"
                             ItemsSource="{Binding Source={StaticResource CategorizedMiniGames}}"
-                            SelectedItem="{Binding SelectedMiniGameItem}"
-                            Style="{StaticResource MaaListBoxDefaultStyle}">
+                            SelectedItem="{Binding SelectedMiniGameItem}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock
-                                        Text="{Binding Display}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Display}" TextTrimming="CharacterEllipsis" />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.GroupStyle>
                                 <GroupStyle>
+                                    <GroupStyle.ContainerStyle>
+                                        <Style TargetType="{x:Type GroupItem}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                        <StackPanel>
+                                                            <ContentPresenter x:Name="PART_Header" />
+                                                            <ItemsPresenter x:Name="ItemsPresenter" Margin="0" />
+                                                        </StackPanel>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GroupStyle.ContainerStyle>
                                     <GroupStyle.HeaderTemplate>
                                         <DataTemplate>
                                             <Border
@@ -898,7 +907,11 @@
                         Content="{c:Binding 'Idle ? &quot;Link Start!&quot; : &quot;Stop!&quot;'}"
                         IsEnabled="{c:Binding 'Inited and !Stopping'}" />
                 </Grid>
-                <Grid Grid.Column="1" Margin="10" IsEnabled="{Binding Idle}" VerticalAlignment="Top">
+                <Grid
+                    Grid.Column="1"
+                    Margin="10"
+                    VerticalAlignment="Top"
+                    IsEnabled="{Binding Idle}">
                     <Grid Visibility="{c:Binding 'SelectedMiniGameItem != null'}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -924,9 +937,9 @@
                                 SelectedValuePath="Value" />
                         </Grid>
                         <controls:TextBlock
-                            VerticalAlignment="Top"
                             Grid.Row="1"
                             Margin="10"
+                            VerticalAlignment="Top"
                             Text="{Binding MiniGameTip}"
                             TextWrapping="Wrap" />
                     </Grid>
