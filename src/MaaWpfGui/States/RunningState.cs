@@ -29,7 +29,7 @@ public class RunningState
     {
         public StateSnapshot OldState { get; } = oldState;
 
-        public StateSnapshot NewState => new(idle, inited, stopping);
+        public StateSnapshot NewState { get; } = new(idle, inited, stopping);
     }
 
     public record StateSnapshot(bool Idle, bool Inited, bool Stopping);
