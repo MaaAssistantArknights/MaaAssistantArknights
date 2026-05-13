@@ -71,8 +71,7 @@ bool asst::FightTask::set_params(const json::value& params)
         if (auto opt = params.find<int>("expiring_medicine"); opt) {
             medicine_expire_days = opt.value() == 0 ? 0 : 2;
             LogWarn << "================  DEPRECATED  ================";
-            LogWarn << __FUNCTION__
-                    << " 'expiring_medicine' is deprecated, please use 'medicine_expire_days' instead.";
+            LogWarn << __FUNCTION__ << " 'expiring_medicine' is deprecated, please use 'medicine_expire_days' instead.";
             LogWarn << "================  DEPRECATED  ================";
         }
     }
