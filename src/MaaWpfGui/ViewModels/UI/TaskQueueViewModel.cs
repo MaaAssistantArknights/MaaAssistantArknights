@@ -1254,7 +1254,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Clears log.
     /// </summary>
-    private void ClearLog()
+    public void ClearLog()
     {
         Execute.OnUIThread(() => {
             LogItemViewModels.Clear();

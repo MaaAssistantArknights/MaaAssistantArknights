@@ -831,8 +831,8 @@
         <TabItem Header="{DynamicResource MiniGame}">
             <Grid Margin="20,0,20,20">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200" />
-                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Margin="10">
@@ -849,6 +849,8 @@
                     </Grid.Resources>
                     <Border
                         Grid.Row="0"
+                        Width="210"
+                        MaxWidth="210"
                         Background="{DynamicResource RegionBrushOpacity25}"
                         BorderBrush="{DynamicResource BorderBrush}"
                         BorderThickness="1"
@@ -865,7 +867,6 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock
-                                        Margin="5,0"
                                         Text="{Binding Display}"
                                         TextTrimming="CharacterEllipsis" />
                                 </DataTemplate>
@@ -875,7 +876,7 @@
                                     <GroupStyle.HeaderTemplate>
                                         <DataTemplate>
                                             <Border
-                                                Padding="8,4"
+                                                Padding="0,4"
                                                 Background="{DynamicResource RegionBrushOpacity50}"
                                                 BorderBrush="{DynamicResource BorderBrush}"
                                                 BorderThickness="0,0,0,1">
@@ -889,18 +890,17 @@
                     </Border>
                     <Button
                         Grid.Row="1"
-                        Width="160"
-                        Height="60"
-                        Margin="0,20,0,0"
+                        Width="100"
+                        Height="50"
+                        Margin="0,10,0,0"
                         HorizontalAlignment="Center"
                         Command="{s:Action StartMiniGame}"
                         Content="{c:Binding 'Idle ? &quot;Link Start!&quot; : &quot;Stop!&quot;'}"
                         IsEnabled="{c:Binding 'Inited and !Stopping'}" />
                 </Grid>
-                <Grid Grid.Column="1" Margin="50,50,30,10" IsEnabled="{Binding Idle}" VerticalAlignment="Top">
+                <Grid Grid.Column="1" Margin="10" IsEnabled="{Binding Idle}" VerticalAlignment="Top">
                     <Grid Visibility="{c:Binding 'SelectedMiniGameItem != null'}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
@@ -924,8 +924,9 @@
                                 SelectedValuePath="Value" />
                         </Grid>
                         <controls:TextBlock
+                            VerticalAlignment="Top"
                             Grid.Row="1"
-                            Margin="10,0,10,10"
+                            Margin="10"
                             Text="{Binding MiniGameTip}"
                             TextWrapping="Wrap" />
                     </Grid>
@@ -950,7 +951,7 @@
                             <ItemsControl
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                ItemsSource="{Binding MiniGameLogs}">
+                                ItemsSource="{Binding LogItemViewModels, Source={x:Static helper:Instances.TaskQueueViewModel}}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>

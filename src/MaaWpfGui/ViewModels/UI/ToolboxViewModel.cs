@@ -20,7 +20,6 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -2104,7 +2103,6 @@ public class ToolboxViewModel : Screen
             }
 
             MiniGameTaskName = value.Value;
-            ClearMiniGameLogs();
         }
     }
 
@@ -2263,35 +2261,6 @@ public class ToolboxViewModel : Screen
         }
     }
 
-    public class MiniGameLogItem : PropertyChangedBase
-    {
-        public string Time { get; set; } = string.Empty;
-
-        public string Content { get; set; } = string.Empty;
-
-        public string Color { get; set; } = UiLogColor.Info;
-    }
-
-    public ObservableCollection<MiniGameLogItem> MiniGameLogs { get; } = [];
-
-    public void AddMiniGameLog(string content, string color = UiLogColor.Info)
-    {
-        Execute.OnUIThread(() =>
-        {
-            MiniGameLogs.Add(new MiniGameLogItem
-            {
-                Time = DateTime.Now.ToString("HH:mm:ss"),
-                Content = content,
-                Color = color,
-            });
-        });
-    }
-
-    public void ClearMiniGameLogs()
-    {
-        Execute.OnUIThread(() => MiniGameLogs.Clear());
-    }
-
     public void StartMiniGame()
     {
         _ = StartMiniGameAsync();
@@ -2305,15 +2274,14 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        Instances.TaskQueueViewModel.ClearLog();
+
         _runningState.SetIdle(false);
 
-        ClearMiniGameLogs();
-        AddMiniGameLog(LocalizationHelper.GetString("ConnectingToEmulator"), UiLogColor.Message);
         string errMsg = string.Empty;
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
-            AddMiniGameLog(errMsg, UiLogColor.Error);
             _runningState.SetIdle(true);
             return;
         }
