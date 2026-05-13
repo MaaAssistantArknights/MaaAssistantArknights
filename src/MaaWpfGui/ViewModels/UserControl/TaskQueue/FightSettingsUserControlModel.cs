@@ -50,7 +50,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     private Dictionary<string, int>? _runStartInventorySnapshot;
     private Dictionary<string, int> _runReservedQuantityByDropId = [];
     private Dictionary<int, SpecifiedInventoryTaskState> _specifiedInventoryTaskStates = [];
-    private bool _lastIdleState;
 
     public static FightTimes? FightReport { get; set; }
 
@@ -64,7 +63,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     public FightSettingsUserControlModel()
     {
         _runningState = RunningState.Instance;
-        _lastIdleState = _runningState.Idle;
         _runningState.StateChanged += OnRunningStateChanged;
 
         foreach (var i in WeeklyScheduleSource)
@@ -79,12 +77,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     private void OnRunningStateChanged(object? sender, RunningState.RunningStateChangedEventArgs e)
     {
-        if (e.Idle == _lastIdleState)
-        {
-            return;
-        }
-
-        _lastIdleState = e.Idle;
         ResetSpecifiedInventoryRuntimeState();
     }
 
