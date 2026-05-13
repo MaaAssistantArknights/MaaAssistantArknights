@@ -148,7 +148,7 @@ jobs:
             echo "macOS signing and notarization secrets are available."
           else
             echo "available=false" >> "$GITHUB_OUTPUT"
-            echo "macOS signing and notarization secrets are incomplete; unsigned dmg will be produced."
+            echo "::warning title=macOS signing unavailable::macOS signing and notarization secrets are incomplete; producing an ad-hoc signed dmg that users may need to open manually."
           fi
 
       - name: Install Developer ID certificate
@@ -297,6 +297,7 @@ jobs:
         shell: bash
         env:
           MACOS_CODESIGN_ENABLED: ${{ steps.macos_signing.outputs.available }}
+          MACOS_ADHOC_CODESIGN_ENABLED: ${{ steps.macos_signing.outputs.available != 'true' }}
         run: |
           mkdir -p release
           name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
