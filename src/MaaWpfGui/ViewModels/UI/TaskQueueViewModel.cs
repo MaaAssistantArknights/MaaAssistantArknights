@@ -610,7 +610,6 @@ public class TaskQueueViewModel : Screen
                 Instances.Data.ClearCache();
             }
         };
-        _runningState.SetIdle(true);
         _runningState.TimeoutOccurred += RunningState_TimeOut;
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
