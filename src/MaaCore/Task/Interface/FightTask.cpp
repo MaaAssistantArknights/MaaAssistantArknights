@@ -72,7 +72,7 @@ bool asst::FightTask::set_params(const json::value& params)
             medicine_expire_days = opt.value() == 0 ? 0 : 2;
             LogWarn << "================  DEPRECATED  ================";
             LogWarn << __FUNCTION__
-                    << " 'expiring_medicine' is deprecated, please use 'medicine_expiring_day' instead.";
+                    << " 'expiring_medicine' is deprecated, please use 'medicine_expire_days' instead.";
             LogWarn << "================  DEPRECATED  ================";
         }
     }
@@ -80,7 +80,7 @@ bool asst::FightTask::set_params(const json::value& params)
         medicine_expire_days = expiring_day_opt.value();
     }
     if (medicine_expire_days < 0) {
-        LogError << __FUNCTION__ << "Invalid medicine_expiring_day";
+        LogError << __FUNCTION__ << "Invalid medicine_expire_days";
         return false;
     }
 
