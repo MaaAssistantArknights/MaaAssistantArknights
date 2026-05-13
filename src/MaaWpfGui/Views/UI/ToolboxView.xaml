@@ -861,6 +861,7 @@
                             IsEnabled="{Binding Idle}"
                             ItemsSource="{Binding Source={StaticResource CategorizedMiniGames}}"
                             SelectedItem="{Binding SelectedMiniGameItem}">
+                            <VirtualizingPanel.IsVirtualizingWhenGrouping>True</VirtualizingPanel.IsVirtualizingWhenGrouping>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Display}" TextTrimming="CharacterEllipsis" />
