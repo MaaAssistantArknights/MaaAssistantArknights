@@ -258,7 +258,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
         medicines.emplace_back(
             Medicine { .use = using_count,
                        .inventory = inventory_count,
-                       .expire_days = day != -1 ? (day + 1)  : -1, // 向上取整补足完整天数
+                       .expire_days = day != -1 ? (day + 1) : -1, // 向上取整补足完整天数
                        .reduce_button_pos = result.rect });
         LogTrace << __FUNCTION__ << "medicine using count:" << using_count << ", inventory count:" << inventory_count
                  << ", expire days:" << day;
