@@ -2968,11 +2968,10 @@ public class AsstProxy
     /// </summary>
     /// <param name="taskName">任务名（tasks.json 中的 key）</param>
     /// <returns>是否成功。</returns>
-    public bool AsstMiniGame(string taskName)
+    public bool AsstMiniGame(string taskName) => AsstMiniGame(new AsstCustomTask { CustomTasks = [taskName] });
+
+    public bool AsstMiniGame(AsstCustomTask task)
     {
-        var task = new AsstCustomTask() {
-            CustomTasks = [taskName],
-        };
         var (type, param) = task.Serialize();
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
     }

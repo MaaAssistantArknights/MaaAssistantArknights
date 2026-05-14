@@ -990,6 +990,16 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="MiniGame@SecretFront@Event3">詭影迷蹤</system:String>
     <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內「繼承上一支隊伍發回的資料」。</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast">通寶重投</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastTip">在界園肉鴿中自動重投通寶直至滿足停止條件。可在下方設置停止條件。</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@StopCondition">停止條件</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@AddCondition">添加條件</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@RemoveCondition">刪除</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricRecastCount">重投次數</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricHP">生命值</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricHope">希望</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricIngot">源石錠</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricTicket">票券</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買「尋訪憑證」和「招聘許可」。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>

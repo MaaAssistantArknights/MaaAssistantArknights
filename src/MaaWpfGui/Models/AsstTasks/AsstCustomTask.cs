@@ -26,5 +26,20 @@ public class AsstCustomTask : AsstBaseTask
     [JsonProperty("task_names")]
     public List<string> CustomTasks { get; set; } = [];
 
+    [JsonProperty("conditions", NullValueHandling = NullValueHandling.Ignore)]
+    public List<CoppersRecastConditionDto>? Conditions { get; set; }
+
     public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
+
+    public class CoppersRecastConditionDto
+    {
+        [JsonProperty("metric")]
+        public string Metric { get; set; } = string.Empty;
+
+        [JsonProperty("comparator")]
+        public string Comparator { get; set; } = string.Empty;
+
+        [JsonProperty("threshold")]
+        public int Threshold { get; set; }
+    }
 }
