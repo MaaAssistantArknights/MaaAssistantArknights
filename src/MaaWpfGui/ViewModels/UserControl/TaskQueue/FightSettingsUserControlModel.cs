@@ -64,7 +64,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     {
         _runningState = RunningState.Instance;
         _runningState.StateChanged += OnRunningStateChanged;
-        Instances.AsstProxy.OnTaskItemStatusChanged += OnTaskItemStatusChanged;
+        Instances.AsstProxy.OnTaskItemStatusChanged += OnTaskStatusChanged;
 
         if (Instances.ToolboxViewModel is { } toolboxViewModel)
         {
@@ -110,7 +110,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// <summary>
     /// 当作战任务进入进行中状态时，仅捕获一次目标库存值，并在需要时刷新当前选中的面板。
     /// </summary>
-    private void OnTaskItemStatusChanged(int taskId, TaskItemStatus status)
+    private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
         if (status != TaskItemStatus.InProgress || taskId <= 0)
         {
@@ -158,7 +158,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// <summary>
     /// Gets or sets a value indicating whether 关卡规划项正在被拖拽。
     /// </summary>
-    public bool IsDragging { get => field; set => SetAndNotify(ref field, value); }
+    public bool IsStageItemDragging { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or private sets a value indicating whether 关卡列表。
@@ -426,14 +426,14 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// </summary>
     public bool UseInventoryTarget
     {
-        get => GetTaskConfig<FightTask>().UseInventoryTarget;
+        get => GetTaskConfig<FightTask>().IsInventoryTarget;
         set {
             if (!_runningState.Idle)
             {
                 return;
             }
 
-            if (!SetTaskConfig<FightTask>(t => t.UseInventoryTarget == value, t => t.UseInventoryTarget = value))
+            if (!SetTaskConfig<FightTask>(t => t.IsInventoryTarget == value, t => t.IsInventoryTarget = value))
             {
                 return;
             }
@@ -475,9 +475,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     private static bool IsInventoryTargetDropEnabled(FightTask fight)
     {
-        return fight.EnableTargetDrop != false &&
-               !string.IsNullOrEmpty(fight.DropId) &&
-               fight.UseInventoryTarget;
+        return fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId) && fight.IsInventoryTarget;
     }
 
     /// <summary>

@@ -67,7 +67,7 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     /// <summary>
     /// Gets or sets a value indicating whether 指定材料按库存目标计算
     /// </summary>
-    public bool UseInventoryTarget { get; set; }
+    public bool IsInventoryTarget { get; set; }
 
     /// <summary>
     /// Gets or sets 是否启用次数限制

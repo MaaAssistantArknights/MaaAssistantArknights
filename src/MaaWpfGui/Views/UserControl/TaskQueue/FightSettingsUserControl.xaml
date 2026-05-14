@@ -346,7 +346,7 @@
                                     <TextBox
                                         Height="30"
                                         hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                        IsEnabled="{c:Binding !IsDragging,
+                                        IsEnabled="{c:Binding !IsStageItemDragging,
                                                               Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                         Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
