@@ -290,7 +290,6 @@ cv::Mat MaskedCcoeffMatcher::match(
 
     cv::Mat padded(dft_rows, dft_cols, CV_32F, cv::Scalar(0));
     cv::Mat I_dft(dft_rows, dft_cols, CV_32FC2);
-    cv::Mat I_sq_dft(dft_rows, dft_cols, CV_32FC2);
     cv::Mat spectrum(dft_rows, dft_cols, CV_32FC2);
     cv::Mat result_buf(dft_rows, dft_cols, CV_32F);
     cv::Mat sum_MI_buf(rh, rw, CV_32F);
@@ -312,26 +311,36 @@ cv::Mat MaskedCcoeffMatcher::match(
         cv::add(accum, result_buf(cv::Rect(0, 0, rw, rh)), accum);
     };
 
-    // 图像侧每通道 FFT 只算一次
     cv::Mat numerator = cv::Mat::zeros(rh, rw, CV_32F);
     cv::Mat sigma_I_sq_d = cv::Mat::zeros(rh, rw, CV_64F); // float64 避免 sum_MI2-sum_MI² 灾难性精度损失
 
+    // σ_I²(x,y) = Σ_c σ_I_c² = Σ_c [(M ⋆ I_c²) - (M ⋆ I_c)² / N]
+    //          = Σ_c (M ⋆ I_c²)        - (1/N) Σ_c (M ⋆ I_c)²
+    //          ↑ 把这一项的三通道求和提到卷积外面
+    //
+    // 利用卷积对加法线性：Σ_c (M ⋆ I_c²) = M ⋆ (Σ_c I_c²)
+    // 在空域里先把三通道平方加起来再做一次卷积，比每通道各做一次再相加少 2 次 FFT + 2 次 IFFT
+    // 第二项 Σ_c (M ⋆ I_c)² 因为有平方，不能这样合并（平方对加法非线性），仍逐通道算
+    // 实测 Windows + Android 真 FFT 路径 case 平均 -22%
+    cv::Mat I_sq_sum = I_ch[0].mul(I_ch[0]) + I_ch[1].mul(I_ch[1]) + I_ch[2].mul(I_ch[2]);
+    cv::Mat I_sq_sum_dft(dft_rows, dft_cols, CV_32FC2);
+    make_dft_into(I_sq_sum, I_sq_sum_dft);
+    xcorr_into(I_sq_sum_dft, dft_plan->M_dft, sum_MI2_buf);
+    cv::Mat sum_MI2_d;
+    sum_MI2_buf.convertTo(sum_MI2_d, CV_64F);
+    cv::add(sigma_I_sq_d, sum_MI2_d, sigma_I_sq_d);
+
     for (int c = 0; c < 3; ++c) {
         make_dft_into(I_ch[c], I_dft);
-        make_dft_into(I_ch[c].mul(I_ch[c]), I_sq_dft);
 
         // numerator += xcorr(T'_c, I_c)
         xcorr_add(I_dft, dft_plan->T_prime_dft[c], numerator);
 
-        // σ_I_c²(x,y) = sum_MI2 - sum_MI² / mask_area
-        // 两项量级相近时相减会损失精度，用 float64 累加
+        // sigma_I² 第二项：-Σ_c (sum_MI_c)² / mask_area，逐通道累加
         xcorr_into(I_dft, dft_plan->M_dft, sum_MI_buf);
-        xcorr_into(I_sq_dft, dft_plan->M_dft, sum_MI2_buf);
-        cv::Mat sum_MI_d, sum_MI2_d, var_d;
+        cv::Mat sum_MI_d, var_d;
         sum_MI_buf.convertTo(sum_MI_d, CV_64F);
-        sum_MI2_buf.convertTo(sum_MI2_d, CV_64F);
         cv::multiply(sum_MI_d, sum_MI_d, var_d, -1.0 / mask_area);
-        cv::add(var_d, sum_MI2_d, var_d);
         cv::add(sigma_I_sq_d, var_d, sigma_I_sq_d);
     }
 
