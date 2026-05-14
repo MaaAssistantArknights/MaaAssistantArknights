@@ -164,22 +164,30 @@ std::shared_ptr<const MaskedCcoeffMatcher::DftPlan> MaskedCcoeffMatcher::get_or_
 bool MaskedCcoeffMatcher::should_fallback_to_opencv(int mask_pixels, int result_positions)
 {
     // 神秘调参值
-    // - 极小 result + 低 K：稀疏路径整体工作量极小（K 次扫小 result）
-    //   OpenCV 的固定 setup 开销在这一档反而占主导，留给稀疏
-    // - 极小 result + 高 K（图像略大于模板的 case，如 138×130/105×105）
-    //   K 超过稀疏阈值无法走稀疏，FFT 在小 DFT size 上不如opencv快了
-    // - 中等 result 配中等 K：OpenCV 紧凑 SIMD 内核比稀疏路径的多通道宽累加快
-    // - 总工作量 K*result 不大：OpenCV 紧凑 SIMD 常数因子优于稀疏 / FFT
-    //   实测 K*result < 25M 段 100% 退化、> 50M 段几乎全是加速
+    // - 极小 result + 低 K：稀疏路径整体工作量极小，留给 FFT/sparse
+    // - 极小 result + 高 K（如 138×130/105×105）：K 超稀疏阈值，FFT 在小 DFT size 反而不如 OpenCV
+    // - 中等 result 配中等 K：Windows 上 OpenCV 紧凑 SIMD 快；Android 上 OpenCV 慢约 300x，阈值大幅收紧
+
     if (result_positions < 1000 && mask_pixels < 2000) {
         return false;
     }
+
+#ifdef __ANDROID__
+    if (result_positions < 3000 && mask_pixels >= 500) {
+        return true;
+    }
+    if (static_cast<long long>(mask_pixels) * result_positions < 8'000'000LL) {
+        return true;
+    }
+#else
     if (result_positions < 12000 && mask_pixels >= 500) {
         return true;
     }
     if (static_cast<long long>(mask_pixels) * result_positions < 25'000'000LL) {
         return true;
     }
+#endif
+
     return false;
 }
 
