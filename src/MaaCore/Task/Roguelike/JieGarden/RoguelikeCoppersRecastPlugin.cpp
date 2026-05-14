@@ -150,11 +150,33 @@ bool asst::RoguelikeCoppersRecastPlugin::_run()
 
         if (should_stop) {
             Log.info(__FUNCTION__, "| RoguelikeCoppersRecastPlugin: condition met, stopping recast");
+            auto stop_info = basic_info_with_what("CoppersRecastStopped");
+            stop_info["details"]["recast_times"] = m_snapshot.recast_times;
+            stop_info["details"]["hp"] = m_snapshot.hp.value_or(-1);
+            stop_info["details"]["hope"] = m_snapshot.hope.value_or(-1);
+            stop_info["details"]["ingot"] = m_snapshot.ingot.value_or(-1);
+            stop_info["details"]["ticket_count"] = m_snapshot.ticket_count.value_or(-1);
+            callback(AsstMsg::SubTaskExtraInfo, stop_info);
             return true;
         }
 
+        auto progress_info = basic_info_with_what("CoppersRecastProgress");
+        progress_info["details"]["recast_times"] = m_snapshot.recast_times;
+        progress_info["details"]["hp"] = m_snapshot.hp.value_or(-1);
+        progress_info["details"]["hope"] = m_snapshot.hope.value_or(-1);
+        progress_info["details"]["ingot"] = m_snapshot.ingot.value_or(-1);
+        progress_info["details"]["ticket_count"] = m_snapshot.ticket_count.value_or(-1);
+        callback(AsstMsg::SubTaskExtraInfo, progress_info);
+
         if (!ProcessTask(*this, { "JieGarden@Roguelike@CoppersRecast" }).run()) {
             Log.error(__FUNCTION__, "| RoguelikeCoppersRecastPlugin: recast task failed, stopping recast");
+            auto stop_info = basic_info_with_what("CoppersRecastStopped");
+            stop_info["details"]["recast_times"] = m_snapshot.recast_times;
+            stop_info["details"]["hp"] = m_snapshot.hp.value_or(-1);
+            stop_info["details"]["hope"] = m_snapshot.hope.value_or(-1);
+            stop_info["details"]["ingot"] = m_snapshot.ingot.value_or(-1);
+            stop_info["details"]["ticket_count"] = m_snapshot.ticket_count.value_or(-1);
+            callback(AsstMsg::SubTaskExtraInfo, stop_info);
             return true;
         }
 

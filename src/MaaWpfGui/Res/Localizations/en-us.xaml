@@ -999,6 +999,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@CoppersRecast@MetricHope">Hope</system:String>
     <system:String x:Key="MiniGame@CoppersRecast@MetricIngot">Ingot</system:String>
     <system:String x:Key="MiniGame@CoppersRecast@MetricTicket">Ticket</system:String>
+    <system:String x:Key="CoppersRecastProgress">Coppers Recast: {0} times, {1}</system:String>
+    <system:String x:Key="CoppersRecastStopped">Coppers Recast complete: {0} times, {1}</system:String>
+    <system:String x:Key="CoppersRecastStats">HP {0}, Hope {1}, Ingot {2}, Ticket {3}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">Yellow Ticket Store</system:String>

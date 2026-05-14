@@ -1000,6 +1000,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@CoppersRecast@MetricHope">希望</system:String>
     <system:String x:Key="MiniGame@CoppersRecast@MetricIngot">源石錠</system:String>
     <system:String x:Key="MiniGame@CoppersRecast@MetricTicket">チケット</system:String>
+    <system:String x:Key="CoppersRecastProgress">通貨再鋳造: {0}回, {1}</system:String>
+    <system:String x:Key="CoppersRecastStopped">通貨再鋳造完了: {0}回, {1}</system:String>
+    <system:String x:Key="CoppersRecastStats">HP {0}, 希望 {1}, 源石錠 {2}, チケット {3}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">緑チケット商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1階は全部購入。&#10;2階はスカウト券と求人票を購入のみ。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黄チケット商店</system:String>

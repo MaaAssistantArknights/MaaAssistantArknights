@@ -1000,6 +1000,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGame@CoppersRecast@MetricHope">希望</system:String>
     <system:String x:Key="MiniGame@CoppersRecast@MetricIngot">源石锭</system:String>
     <system:String x:Key="MiniGame@CoppersRecast@MetricTicket">票券</system:String>
+    <system:String x:Key="CoppersRecastProgress">通宝重投: 已投 {0} 次, {1}</system:String>
+    <system:String x:Key="CoppersRecastStopped">通宝重投完成: 共 {0} 次, {1}</system:String>
+    <system:String x:Key="CoppersRecastStats">生命 {0}, 希望 {1}, 源石锭 {2}, 票券 {3}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">绿票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1层全买。&#10;2层买寻访凭证和招聘许可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黄票商店</system:String>

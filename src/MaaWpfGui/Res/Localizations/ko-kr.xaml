@@ -1001,6 +1001,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@CoppersRecast@MetricHope">희망</system:String>
     <system:String x:Key="MiniGame@CoppersRecast@MetricIngot">원석 주괴</system:String>
     <system:String x:Key="MiniGame@CoppersRecast@MetricTicket">티켓</system:String>
+    <system:String x:Key="CoppersRecastProgress">주화 재주조: {0}회, {1}</system:String>
+    <system:String x:Key="CoppersRecastStopped">주화 재주조 완료: {0}회, {1}</system:String>
+    <system:String x:Key="CoppersRecastStats">HP {0}, 희망 {1}, 원석 주괴 {2}, 티켓 {3}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">고급증명서 상점</system:String>

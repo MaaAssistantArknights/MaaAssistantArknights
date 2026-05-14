@@ -2297,6 +2297,34 @@ public class AsstProxy
             case "StageQueueMissionCompleted":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                 break;
+
+            case "CoppersRecastProgress":
+                Instances.TaskQueueViewModel.AddLog(
+                    string.Format(
+                        LocalizationHelper.GetString("CoppersRecastProgress"),
+                        subTaskDetails!["recast_times"],
+                        string.Format(
+                            LocalizationHelper.GetString("CoppersRecastStats"),
+                            subTaskDetails["hp"],
+                            subTaskDetails["hope"],
+                            subTaskDetails["ingot"],
+                            subTaskDetails["ticket_count"])),
+                    UiLogColor.Info);
+                break;
+
+            case "CoppersRecastStopped":
+                Instances.TaskQueueViewModel.AddLog(
+                    string.Format(
+                        LocalizationHelper.GetString("CoppersRecastStopped"),
+                        subTaskDetails!["recast_times"],
+                        string.Format(
+                            LocalizationHelper.GetString("CoppersRecastStats"),
+                            subTaskDetails["hp"],
+                            subTaskDetails["hope"],
+                            subTaskDetails["ingot"],
+                            subTaskDetails["ticket_count"])),
+                    UiLogColor.Success);
+                break;
         }
     }
 
