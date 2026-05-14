@@ -3,8 +3,6 @@
 
 #include "Vision/Config/MatcherConfig.h"
 
-#include "AsstPort.h"
-
 namespace asst
 {
 class Matcher : public VisionHelper, public MatcherConfig
@@ -30,9 +28,7 @@ public:
         std::string templ_name;
     };
 
-    static ASSTAPI_PORT std::vector<RawResult> preproc_and_match(
-        const cv::Mat& image,
-        const MatcherConfig::Params& params);
+    static std::vector<RawResult> preproc_and_match(const cv::Mat& image, const MatcherConfig::Params& params);
 
 protected:
     virtual void _set_roi(const Rect& roi) override { set_roi(roi); }
