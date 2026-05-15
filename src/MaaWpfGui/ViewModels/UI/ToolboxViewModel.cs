@@ -773,7 +773,7 @@ public class ToolboxViewModel : Screen
 
         if (depotItems.Count == 0)
         {
-            var arkplannerItems = details["arkplanner"]?["object"]?["items"]?.Cast<JObject>() ?? [];
+            var arkplannerItems = details["arkplanner"]?["object"]?["items"] is JArray itemsArray ? itemsArray.OfType<JObject>() : [];
             foreach (var item in arkplannerItems)
             {
                 var id = (string?)item["id"];
@@ -836,10 +836,12 @@ public class ToolboxViewModel : Screen
             });
         }
 
+        var selectedIndex = SelectedDepotRecord != null ? DepotRecords.IndexOf(SelectedDepotRecord) : 0;
+
         var root = new JObject
         {
             ["records"] = recordsArray,
-            ["selectedIndex"] = DepotRecords.IndexOf(SelectedDepotRecord!),
+            ["selectedIndex"] = Math.Max(0, selectedIndex),
         };
 
         JsonDataHelper.Set(JsonDataKey.DepotData, root);
@@ -1028,7 +1030,7 @@ public class ToolboxViewModel : Screen
         {
             if (depotItems.Count == 0)
             {
-                var arkplannerItems = details["arkplanner"]?["object"]?["items"]?.Cast<JObject>() ?? [];
+                var arkplannerItems = details["arkplanner"]?["object"]?["items"] is JArray itemsArray ? itemsArray.OfType<JObject>() : [];
 
                 foreach (var item in arkplannerItems)
                 {
@@ -1779,10 +1781,12 @@ public class ToolboxViewModel : Screen
             });
         }
 
+        var selectedIndex = SelectedOperBoxRecord != null ? OperBoxRecords.IndexOf(SelectedOperBoxRecord) : 0;
+
         var root = new JObject
         {
             ["records"] = recordsArray,
-            ["selectedIndex"] = OperBoxRecords.IndexOf(SelectedOperBoxRecord!),
+            ["selectedIndex"] = Math.Max(0, selectedIndex),
         };
 
         JsonDataHelper.Set(JsonDataKey.OperBoxData, root);
