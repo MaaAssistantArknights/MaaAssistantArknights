@@ -46,7 +46,7 @@
         "text": ["开始建设"],
         "roi": [984, 607, 138, 47],
         "postDelay": 10000,
-        "next": ["RelaunchAnchor@RA@PNS-WaitSkip"]
+        "next": ["#self", "RelaunchAnchor@RA@PNS-WaitSkip"]
     },
     "RelaunchAnchor@RA@PNS-WaitSkip": {
         "doc": "步骤 6 前等待剧情跳过",
@@ -114,7 +114,7 @@
     "RelaunchAnchor@RA@PNS-DeployGatheringBaseWait": {
         "doc": "步骤 13：部署采集基站后的占位等待 x 秒",
         "algorithm": "JustReturn",
-        "postDelay": 8000,
+        "postDelay": 5000,
         "next": ["RelaunchAnchor@RA@PNS-AlignMap2"]
     },
     "RelaunchAnchor@RA@PNS-AlignMap2": {
@@ -143,7 +143,7 @@
     "RelaunchAnchor@RA@PNS-DeployOperatorWait": {
         "doc": "步骤 17：部署干员后的占位等待 x 秒",
         "algorithm": "JustReturn",
-        "postDelay": 10000,
+        "postDelay": 11000,
         "next": ["RelaunchAnchor@RA@PNS-MissionIcon1"]
     },
     "RelaunchAnchor@RA@PNS-MissionIcon1": {
@@ -340,7 +340,12 @@
         "action": "ClickSelf",
         "text": ["立即结算"],
         "roi": [918, 459, 137, 50],
-        "postDelay": 10000,
+        "postDelay": 5000,
+        "next": ["#self", "RelaunchAnchor@RA@PNS-WaitContinueAfterSettlement"]
+    },
+    "RelaunchAnchor@RA@PNS-WaitContinueAfterSettlement": {
+        "doc": "步骤 42 前等待结算完成",
+        "algorithm": "JustReturn",
         "next": ["RelaunchAnchor@RA@PNS-ContinueAfterSettlement", "#self"]
     },
     "RelaunchAnchor@RA@PNS-ContinueAfterSettlement": {
@@ -349,7 +354,12 @@
         "action": "ClickSelf",
         "text": ["点击继续"],
         "roi": [605, 664, 113, 44],
-        "postDelay": 5000,
+        "postDelay": 2000,
+        "next": ["#self", "RelaunchAnchor@RA@PNS-WaitFinishConstruction"]
+    },
+    "RelaunchAnchor@RA@PNS-WaitFinishConstruction": {
+        "doc": "步骤 43 前等待 <完成建设> 出现",
+        "algorithm": "JustReturn",
         "next": ["RelaunchAnchor@RA@PNS-FinishConstruction", "#self"]
     },
     "RelaunchAnchor@RA@PNS-FinishConstruction": {
