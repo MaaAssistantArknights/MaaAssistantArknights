@@ -354,21 +354,21 @@
     <system:String x:Key="UpdateSource">更新來源</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 使用 {key=GlobalSource}：
-    ● {key=UpdateCheckNow}：由 MAA Team 提供更新偵測，從 GitHub 下載更新壓縮檔案，中國國內同步提供直連鏡像站（頻寬有限，高峰時段可能受限）
-    ● {key=ResourceUpdate}：由 {key=MirrorChyan} 提供免費的更新偵測，可手動在設定中點擊「{key=ResourceUpdate}」從 GitHub 下載
+    • {key=UpdateCheckNow}：由 MAA Team 提供更新偵測，從 GitHub 下載更新壓縮檔案，中國國內同步提供直連鏡像站（頻寬有限，高峰時段可能受限）
+    • {key=ResourceUpdate}：由 {key=MirrorChyan} 提供免費的更新偵測，可手動在設定中點擊「{key=ResourceUpdate}」從 GitHub 下載
 
 🔑 使用 {key=MirrorChyan}：
-    ● 填寫 CDK 後，支援軟體與資源的自動更新
-    ● 優先透過 {key=MirrorChyan} 高速 CDN 下載，更穩定快速
+    • 填寫 CDK 後，支援軟體與資源的自動更新
+    • 優先透過 {key=MirrorChyan} 高速 CDN 下載，更穩定快速
 
 📦 手動更新：
-    ● {key=UpdateCheckNow}：下載完整檔案或 OTA 更新檔後拖入應用程式，程式會自動解壓縮並清理舊檔案
-    ● {key=ResourceUpdate}：下載資源檔案後覆蓋 resource 資料夾。資源為增量內容，請勿刪除原資料夾，否則會資源損壞
+    • {key=UpdateCheckNow}：下載完整檔案或 OTA 更新檔後拖入應用程式，程式會自動解壓縮並清理舊檔案
+    • {key=ResourceUpdate}：下載資源檔案後覆蓋 resource 資料夾。資源為增量內容，請勿刪除原資料夾，否則會資源損壞
 
 📄 更新說明：
-    ● {key=UpdateCheckNow}：包含介面與功能更新。介面改動、新功能需透過 {key=UpdateCheckNow} 取得
-    ● {key=ResourceUpdate}：包含自動作戰新關卡、掉落辨識圖示、公招幹員標籤等素材資料
-    ● 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示「{key=ApiUpdateSuccess}」
+    • {key=UpdateCheckNow}：包含介面與功能更新。介面改動、新功能需透過 {key=UpdateCheckNow} 取得
+    • {key=ResourceUpdate}：包含自動作戰新關卡、掉落辨識圖示、公招幹員標籤等素材資料
+    • 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示「{key=ApiUpdateSuccess}」
 </system:String>
     <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
@@ -1073,14 +1073,14 @@ C:\\leidian\\LDPlayer9\n
         5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇{key=Operator}後，在編隊介面右下角顯示 ｢開始行動｣ 按鈕的畫面啟動。\n\n
         6. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除特別關注，或在報錯後關閉 ｢{key=AutoSquad}｣，並依據提示手動補充缺少的{key=Operator}。\n\n
         7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：\n
-        ● 點選第 2 個按鈕 = 新增作業。\n
-        ● 點選第 3 個按鈕 = 新增作業集。\n\n
+        • 點選第 2 個按鈕 = 新增作業。\n
+        • 點選第 3 個按鈕 = 新增作業集。\n\n
         8. {key=UseCopilotList}：\n
-        ● 選擇作業後，檢查下方關卡名稱是否正確 (例: CV-EX-1)。\n
-        ● 加入：左鍵 = 普通難度，右鍵 = 突襲難度。\n
-        ● 清除：左鍵 = 全部清空，右鍵 = 僅移除未啟用任務。\n
-        ● 請在能看到目標關卡名稱的介面啟動，不支援跨章節導航。\n
-        ● 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
+        • 選擇作業後，檢查下方關卡名稱是否正確 (例: CV-EX-1)。\n
+        • 加入：左鍵 = 普通難度，右鍵 = 突襲難度。\n
+        • 清除：左鍵 = 全部清空，右鍵 = 僅移除未啟用任務。\n
+        • 請在能看到目標關卡名稱的介面啟動，不支援跨章節導航。\n
+        • 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
     </system:String>
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>

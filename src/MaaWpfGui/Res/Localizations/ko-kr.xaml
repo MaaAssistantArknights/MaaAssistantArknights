@@ -354,21 +354,21 @@
     <system:String x:Key="UpdateSource">업데이트 소스</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 {key=GlobalSource} 사용:
-    ● {key=UpdateCheckNow}: MAA Team에서 업데이트를 확인하고, GitHub에서 설치 파일을 다운로드합니다. 중국에서는 직접 연결 가능한 미러도 제공됩니다. (대역폭이 제한되어 있으며, 트래픽에 따라 접속이 제한될 수 있습니다)
-    ● {key=ResourceUpdate}: {key=MirrorChyan}에서 무료로 업데이트 확인을 제공합니다. 설정에서 "{key=ResourceUpdate}"를 수동으로 클릭하여 GitHub에서 다운로드할 수 있습니다
+    • {key=UpdateCheckNow}: MAA Team에서 업데이트를 확인하고, GitHub에서 설치 파일을 다운로드합니다. 중국에서는 직접 연결 가능한 미러도 제공됩니다. (대역폭이 제한되어 있으며, 트래픽에 따라 접속이 제한될 수 있습니다)
+    • {key=ResourceUpdate}: {key=MirrorChyan}에서 무료로 업데이트 확인을 제공합니다. 설정에서 "{key=ResourceUpdate}"를 수동으로 클릭하여 GitHub에서 다운로드할 수 있습니다
 
 🔑 {key=MirrorChyan} 사용:
-    ● CDK 입력 시, 소프트웨어와 리소스 모두 자동 업데이트를 지원합니다
-    ● {key=MirrorChyan}의 고속 CDN을 통해 우선 다운로드되어 더욱 안정적이고 빠릅니다
+    • CDK 입력 시, 소프트웨어와 리소스 모두 자동 업데이트를 지원합니다
+    • {key=MirrorChyan}의 고속 CDN을 통해 우선 다운로드되어 더욱 안정적이고 빠릅니다
 
 📦 수동 업데이트:
-    ● {key=UpdateCheckNow}: 전체 패키지 또는 OTA 업데이트 패키지를 다운로드한 뒤 앱으로 드래그하면, 앱이 자동으로 압축을 풀고 오래된 파일을 정리합니다
-    ● {key=ResourceUpdate}: 리소스 패키지를 다운로드한 후 resource 폴더에 덮어쓰기하세요. 증분 방식으로 제공되므로 기존 폴더를 삭제하지 마세요. 리소스가 손상될 수 있습니다
+    • {key=UpdateCheckNow}: 전체 패키지 또는 OTA 업데이트 패키지를 다운로드한 뒤 앱으로 드래그하면, 앱이 자동으로 압축을 풀고 오래된 파일을 정리합니다
+    • {key=ResourceUpdate}: 리소스 패키지를 다운로드한 후 resource 폴더에 덮어쓰기하세요. 증분 방식으로 제공되므로 기존 폴더를 삭제하지 마세요. 리소스가 손상될 수 있습니다
 
 📄 업데이트 설명:
-    ● {key=UpdateCheckNow}: UI 및 기능 업데이트가 포함됩니다. UI 변경 및 새로운 기능은 모두 {key=UpdateCheckNow}를 통해 제공됩니다
-    ● {key=ResourceUpdate}: 자동 전투용 신규 스테이지, 드롭 아이콘, 공개모집 태그 등의 리소스 데이터가 포함됩니다
-    ● 내비 핫픽스: 자동으로 실행되어 메인 화면 하단의 안내 및 이벤트 스테이지 입구를 업데이트합니다. 성공 시 우측 상단에 “{key=ApiUpdateSuccess}” 메시지가 표시됩니다
+    • {key=UpdateCheckNow}: UI 및 기능 업데이트가 포함됩니다. UI 변경 및 새로운 기능은 모두 {key=UpdateCheckNow}를 통해 제공됩니다
+    • {key=ResourceUpdate}: 자동 전투용 신규 스테이지, 드롭 아이콘, 공개모집 태그 등의 리소스 데이터가 포함됩니다
+    • 내비 핫픽스: 자동으로 실행되어 메인 화면 하단의 안내 및 이벤트 스테이지 입구를 업데이트합니다. 성공 시 우측 상단에 “{key=ApiUpdateSuccess}” 메시지가 표시됩니다
 </system:String>
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
@@ -1074,14 +1074,14 @@ C:\\leidian\\LDPlayer9
         5. 지원유닛을 사용할 때는 ｢{key=AutoSquad}｣ 및 ｢{key=UseCopilotList}｣를 끄고, 수동으로 오퍼레이터를 선택한 다음, 우측 하단에 ｢작전 개시｣ 버튼이 나타나는 분대 화면에서 시작하세요.\n\n
         6. ｢선호｣로 표시된 오퍼레이터는 ｢{key=AutoSquad}｣ 인식 및 선택에 영향을 줄 수 있습니다. ｢{key=AutoSquad}｣ 사용 시, 선호 표시를 해제하거나 오류 발생 시 ｢{key=AutoSquad}｣를 끄고 안내에 따라 누락된 오퍼레이터를 수동으로 편성하는 것을 고려하세요.\n\n
         7. 자동지휘 작업 공간에서, 입력 상자 오른쪽의 붙여넣기 버튼을 클릭하여 코드를 붙여넣을 수 있습니다:\n
-        ● 두 번째 버튼을 왼쪽 클릭 = 작업 추가.\n
-        ● 세 번째 버튼을 클릭 = 작업 목록 추가.\n\n
+        • 두 번째 버튼을 왼쪽 클릭 = 작업 추가.\n
+        • 세 번째 버튼을 클릭 = 작업 목록 추가.\n\n
         8. {key=UseCopilotList}:\n
-        ● 작업 선택 후, 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
-        ● 추가: 좌클릭은 일반, 우클릭은 하드 모드입니다.\n
-        ● 지우기: 좌클릭은 전체 삭제, 우클릭은 비활성 작업만 삭제합니다.\n
-        ● 목표 스테이지 이름이 보이는 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.\n
-        ● 이성 부족, 작전 실패, 또는 3성 클리어 실패 시 작전이 자동으로 중지됩니다.
+        • 작업 선택 후, 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
+        • 추가: 좌클릭은 일반, 우클릭은 하드 모드입니다.\n
+        • 지우기: 좌클릭은 전체 삭제, 우클릭은 비활성 작업만 삭제합니다.\n
+        • 목표 스테이지 이름이 보이는 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.\n
+        • 이성 부족, 작전 실패, 또는 3성 클리어 실패 시 작전이 자동으로 중지됩니다.
     </system:String>
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
     <system:String x:Key="CopilotNoFound">해당 파일을 찾을 수 없습니다!</system:String>

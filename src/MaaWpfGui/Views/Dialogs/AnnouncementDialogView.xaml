@@ -57,7 +57,7 @@
                                 Margin="-8,-5,-5,0"
                                 Padding="5"
                                 Foreground="Red"
-                                Text="●"
+                                Text="•"
                                 Visibility="{c:Binding IsNew}" />
                         </Grid>
 

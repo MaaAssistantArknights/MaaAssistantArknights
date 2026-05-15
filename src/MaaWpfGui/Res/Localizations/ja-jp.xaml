@@ -354,21 +354,21 @@
     <system:String x:Key="UpdateSource">更新ソース</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 {key=GlobalSource}を使用：
-    ● {key=UpdateCheckNow}：MAA Team による更新確認で、GitHub から更新パッケージを取得します。中国国内向けに直通ミラーも提供されています（ピーク時は帯域制限の可能性あり）
-    ● {key=ResourceUpdate}：{key=MirrorChyan} による無料の更新確認が可能。設定画面で「{key=ResourceUpdate}」をクリックして GitHub から手動ダウンロード可能
+    • {key=UpdateCheckNow}：MAA Team による更新確認で、GitHub から更新パッケージを取得します。中国国内向けに直通ミラーも提供されています（ピーク時は帯域制限の可能性あり）
+    • {key=ResourceUpdate}：{key=MirrorChyan} による無料の更新確認が可能。設定画面で「{key=ResourceUpdate}」をクリックして GitHub から手動ダウンロード可能
 
 🔑 {key=MirrorChyan}を使用：
-    ● CDK を入力すると、ソフトウェアとリソースの自動更新が有効になります
-    ● 高速 CDN を通じて {key=MirrorChyan} から優先的にダウンロード、より安定かつ高速
+    • CDK を入力すると、ソフトウェアとリソースの自動更新が有効になります
+    • 高速 CDN を通じて {key=MirrorChyan} から優先的にダウンロード、より安定かつ高速
 
 📦 手動更新：
-    ● {key=UpdateCheckNow}：完全パッケージまたは OTA 更新パッケージをダウンロードしてアプリにドラッグすると、自動で解凍し古いファイルを整理します
-    ● {key=ResourceUpdate}：リソースパックをダウンロードし、resource フォルダに上書きしてください。増分データのため、元のフォルダを削除しないでください
+    • {key=UpdateCheckNow}：完全パッケージまたは OTA 更新パッケージをダウンロードしてアプリにドラッグすると、自動で解凍し古いファイルを整理します
+    • {key=ResourceUpdate}：リソースパックをダウンロードし、resource フォルダに上書きしてください。増分データのため、元のフォルダを削除しないでください
 
 📄 更新内容：
-    ● {key=UpdateCheckNow}：UI や機能のアップデートを含みます。すべての画面変更や新機能は{key=UpdateCheckNow}経由で提供されます
-    ● {key=ResourceUpdate}：自動戦闘用の新ステージ、ドロップ認識用アイコン、公募タグなどの素材データを含みます
-    ● ナビホットパッチ：自動でトリガーされ、ホーム画面のヒントやイベントステージ入口を更新します。成功すると右上に「{key=ApiUpdateSuccess}」と表示されます
+    • {key=UpdateCheckNow}：UI や機能のアップデートを含みます。すべての画面変更や新機能は{key=UpdateCheckNow}経由で提供されます
+    • {key=ResourceUpdate}：自動戦闘用の新ステージ、ドロップ認識用アイコン、公募タグなどの素材データを含みます
+    • ナビホットパッチ：自動でトリガーされ、ホーム画面のヒントやイベントステージ入口を更新します。成功すると右上に「{key=ApiUpdateSuccess}」と表示されます
 </system:String>
     <system:String x:Key="GlobalSource">グローバルソース</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub を強制使用</system:String>
@@ -1073,14 +1073,14 @@ C:\\leidian\\LDPlayer9
         5. サポートを使うときは、「{key=AutoSquad}」と「{key=UseCopilotList}」をオフにし、手動で {key=Operator} を選択した後、編成画面の右下に「行動開始」ボタン画面で開始してください。\n\n
         6. 「戦術要員」機能を有効にすると、「{key=AutoSquad}」の{key=Operator}選択に影響を与える可能性があります。「{key=AutoSquad}」を 使用する際は「戦術要員」をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
         7. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます：\n
-        ● 2番目のボタンをクリック = 割り当てを追加。\n
-        ● 3番目のボタンをクリック = 割り当てセットを追加。\n\n
+        • 2番目のボタンをクリック = 割り当てを追加。\n
+        • 3番目のボタンをクリック = 割り当てセットを追加。\n\n
         8. {key=UseCopilotList}:\n
-        ● 攻略ファイルを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
-        ● 追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
-        ● クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
-        ● ターゲットのステージ名が見える画面で起動してください。章間のナビゲーションはサポートされていません。\n
-        ● 理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。
+        • 攻略ファイルを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
+        • 追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
+        • クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
+        • ターゲットのステージ名が見える画面で起動してください。章間のナビゲーションはサポートされていません。\n
+        • 理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
