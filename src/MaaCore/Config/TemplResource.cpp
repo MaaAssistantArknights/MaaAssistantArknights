@@ -99,6 +99,8 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
         return false;
     }
 #endif
+    m_templs.clear();
+    ++m_revision;
     return true;
 }
 
