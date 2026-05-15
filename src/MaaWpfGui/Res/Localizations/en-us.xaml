@@ -1471,6 +1471,8 @@ Relaunch Anchor - Assisted Construction Mode:
   1. Manually enter RA-1, complete the tutorial, and return to the map
   2. After that, the task can be started when &quot;Start Construction&quot; appears at the bottom-right after clicking RA-1
 
+ Note: If the &quot;Start with Extra Device&quot; technology is unlocked, this task will not work properly
+
  Task flow:
   Automatically executes farming, construction, resource delivery, and settlement loop
     </system:String>

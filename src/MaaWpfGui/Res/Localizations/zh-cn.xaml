@@ -1472,6 +1472,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
   1. 手动进入 RA-1，完成新手教程，直到回到大地图
   2. 之后每次任务均可在 RA-1 右下角出现“开启建设”时启动
 
+ 注意：如果已解锁开局额外携带装置的科技，将无法正常使用
+
  任务流程：
   自动执行精耕细作、建设、交付资源、结算循环
     </system:String>
@@ -2013,4 +2015,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="EmulatorSelectionCancelled">已取消选择模拟器</system:String>
     <!--  !ItemSelection  -->
 </ResourceDictionary>
+
+
 
