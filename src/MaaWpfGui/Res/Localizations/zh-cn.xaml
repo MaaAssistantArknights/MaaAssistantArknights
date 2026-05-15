@@ -887,6 +887,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="EmptyDepotList">空仓库列表</system:String>
     <system:String x:Key="EmptyOperBoxList">空干员列表</system:String>
     <system:String x:Key="RecordName">记录名称</system:String>
+    <system:String x:Key="DepotRecordName">仓库列表名称</system:String>
+    <system:String x:Key="OperBoxRecordName">干员列表名称</system:String>
     <system:String x:Key="AddRecord">添加</system:String>
     <system:String x:Key="RenameRecord">重命名</system:String>
     <system:String x:Key="ExportToArkplanner">企鹅物流刷图规划</system:String>

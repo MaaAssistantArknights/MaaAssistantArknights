@@ -278,6 +278,7 @@
                         <ListBox.ItemContainerStyle>
                             <Style BasedOn="{StaticResource TransparentListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Padding" Value="0" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
@@ -289,7 +290,7 @@
                                     </Grid.ColumnDefinitions>
                                     <controls:TextBlock
                                         Grid.Column="0"
-                                        Margin="10,5"
+                                        Margin="10,5,10,5"
                                         VerticalAlignment="Center"
                                         Text="{Binding Name}"
                                         TextTrimming="CharacterEllipsis" />
@@ -319,7 +320,7 @@
                         <hc:TextBox
                             Grid.Row="0"
                             Height="30"
-                            hc:InfoElement.Placeholder="{DynamicResource RecordName}"
+                            hc:InfoElement.Placeholder="{DynamicResource OperBoxRecordName}"
                             Text="{Binding OperBoxRecordName, UpdateSourceTrigger=PropertyChanged}" />
                         <StackPanel
                             Grid.Row="1"
@@ -575,6 +576,7 @@
                         <ListBox.ItemContainerStyle>
                             <Style BasedOn="{StaticResource TransparentListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Padding" Value="0" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
@@ -586,7 +588,7 @@
                                     </Grid.ColumnDefinitions>
                                     <controls:TextBlock
                                         Grid.Column="0"
-                                        Margin="10,5"
+                                        Margin="10,5,10,5"
                                         VerticalAlignment="Center"
                                         Text="{Binding Name}"
                                         TextTrimming="CharacterEllipsis" />
@@ -616,7 +618,7 @@
                         <hc:TextBox
                             Grid.Row="0"
                             Height="30"
-                            hc:InfoElement.Placeholder="{DynamicResource RecordName}"
+                            hc:InfoElement.Placeholder="{DynamicResource DepotRecordName}"
                             Text="{Binding DepotRecordName, UpdateSourceTrigger=PropertyChanged}" />
                         <StackPanel
                             Grid.Row="1"

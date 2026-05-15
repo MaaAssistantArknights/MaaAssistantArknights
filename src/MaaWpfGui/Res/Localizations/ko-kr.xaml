@@ -888,6 +888,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmptyDepotList">빈 창고</system:String>
     <system:String x:Key="EmptyOperBoxList">빈 오퍼레이터 목록</system:String>
     <system:String x:Key="RecordName">레코드 이름</system:String>
+    <system:String x:Key="DepotRecordName">창고 목록 이름</system:String>
+    <system:String x:Key="OperBoxRecordName">오퍼레이터 목록 이름</system:String>
     <system:String x:Key="AddRecord">추가</system:String>
     <system:String x:Key="RenameRecord">이름 변경</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>

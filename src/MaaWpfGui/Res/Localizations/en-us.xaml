@@ -886,6 +886,8 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="EmptyDepotList">Empty Depot</system:String>
     <system:String x:Key="EmptyOperBoxList">Empty Operator List</system:String>
     <system:String x:Key="RecordName">Record Name</system:String>
+    <system:String x:Key="DepotRecordName">Depot List Name</system:String>
+    <system:String x:Key="OperBoxRecordName">Operator List Name</system:String>
     <system:String x:Key="AddRecord">Add</system:String>
     <system:String x:Key="RenameRecord">Rename</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>

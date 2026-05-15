@@ -887,6 +887,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmptyDepotList">空の倉庫</system:String>
     <system:String x:Key="EmptyOperBoxList">空のオペレーターリスト</system:String>
     <system:String x:Key="RecordName">レコード名</system:String>
+    <system:String x:Key="DepotRecordName">倉庫リスト名</system:String>
+    <system:String x:Key="OperBoxRecordName">オペレーターリスト名</system:String>
     <system:String x:Key="AddRecord">追加</system:String>
     <system:String x:Key="RenameRecord">名前変更</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>
