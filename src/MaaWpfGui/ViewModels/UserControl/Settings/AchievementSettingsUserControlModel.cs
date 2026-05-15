@@ -108,9 +108,9 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private static Window? _achievementsWindow;
+    private static AchievementListDialogView? _achievementsWindow;
 
-    public void OnShowAchievementsClick()
+    public void OnShowAchievementsClick(string? achievementId = null)
     {
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.AchievementObserver);
         if (_achievementsWindow is null)
@@ -125,6 +125,11 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         }
 
         WindowManager.ShowWindow(_achievementsWindow);
+
+        if (achievementId != null)
+        {
+            AchievementTrackerHelper.Instance.SearchAndSyncText(achievementId);
+        }
     }
 
     private int _clickCount = 0;
