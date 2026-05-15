@@ -727,6 +727,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationTheme">主題</system:String>
     <system:String x:Key="ReclamationThemeFire">砂中の火</system:String>
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
+    <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">セーブしながら、支援アイテムを組み立てて生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationIncrementMode">増加方式</system:String>
@@ -1462,6 +1463,18 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="AnnouncementNotFinishedConfirm3">まだ押す</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
+再起の錨 - 支援建設モード：
+
+ 報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約3分
+
+ 事前準備（手動で1回のみ）：
+  1. 手動でRA-1に入り、チュートリアルを完了してマップに戻る
+  2. 以降、RA-1をクリックした後に右下に「建設開始」が表示されたらタスクを開始可能
+
+ タスクの流れ：
+  精耕細作、建設、資源納入、決済を自動実行
+    </system:String>
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
 
@@ -2000,3 +2013,4 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="EmulatorSelectionCancelled">エミュレータの選択がキャンセルされました</system:String>
     <!--  !ItemSelection  -->
 </ResourceDictionary>
+

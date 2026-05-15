@@ -726,6 +726,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
     <system:String x:Key="ReclamationThemeFire">Fire Within the Sand</system:String>
     <system:String x:Key="ReclamationThemeTales">Tales Within the Sand</system:String>
+    <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">I do not have a save, let's farm prosperity points by repeatedly entering and exiting stages.</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">I do have a save, let's farm prosperity points by crafting tools.</system:String>
     <system:String x:Key="ReclamationIncrementMode">Increment Mode</system:String>
@@ -1461,6 +1462,18 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="AnnouncementNotFinishedConfirm3">Still clicking</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
+Relaunch Anchor - Assisted Construction Mode:
+
+ Reward estimate: ~159 tokens + coordination points per run, ~3 min per round
+
+ Prerequisite (complete once manually):
+  1. Manually enter RA-1, complete the tutorial, and return to the map
+  2. After that, the task can be started when &quot;Start Construction&quot; appears at the bottom-right after clicking RA-1
+
+ Task flow:
+  Automatically executes farming, construction, resource delivery, and settlement loop
+    </system:String>
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 The support for reclamation algorithm is still under development at present. Please mind the following:
 
@@ -1999,3 +2012,4 @@ These locations are too high-level and can lead to file overwrites, config write
     <system:String x:Key="EmulatorSelectionCancelled">Emulator selection cancelled</system:String>
     <!--  !ItemSelection  -->
 </ResourceDictionary>
+

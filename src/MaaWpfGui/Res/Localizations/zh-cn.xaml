@@ -727,6 +727,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遗闻</system:String>
+    <system:String x:Key="ReclamationThemeRelaunchAnchor">重启锚点</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过组装支援道具刷生息点数</system:String>
     <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
@@ -1462,6 +1463,18 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="AnnouncementNotFinishedConfirm3">还点</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
+重启锚点 - 辅助建设模式：
+
+ 收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 3 分钟
+
+ 前置步骤（手动完成一次）：
+  1. 手动进入 RA-1，完成新手教程，直到回到大地图
+  2. 之后每次任务均可在 RA-1 右下角出现“开启建设”时启动
+
+ 任务流程：
+  自动执行精耕细作、建设、交付资源、结算循环
+    </system:String>
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 目前生息演算的支持仍处于中期阶段，使用时请注意以下几点：
 
@@ -2000,3 +2013,4 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="EmulatorSelectionCancelled">已取消选择模拟器</system:String>
     <!--  !ItemSelection  -->
 </ResourceDictionary>
+

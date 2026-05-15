@@ -728,6 +728,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationTheme">생존 연산 테마</system:String>
     <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>
     <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
+    <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">세이브 X, 스테이지 반복으로 번영의 선물 획득</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">세이브 O, 도구 제작으로 번영의 선물 획득</system:String>
     <system:String x:Key="ReclamationIncrementMode">증가 방식</system:String>
@@ -1463,6 +1464,17 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="AnnouncementNotFinishedConfirm3">계속 누르네</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
+재시작 앵커 - 지원 건설 모드：
+
+ 수익 참고: 회당 약 159토큰 + 통괄 포인트, 소요 시간 약 3분
+
+ 사전 준비 (수동으로 1회만)：
+  1. 수동으로 RA-1에 진입하여 튜토리얼을 완료하고 맵으로 돌아옵니다
+  2. 이후 RA-1 클릭 후 오른쪽 아래에 "건설 시작"이 나타나면 작업을 시작할 수 있습니다
+
+ 작업 흐름：
+  정경세작, 건설, 자원 납품, 결제를 자동 실행</system:String>
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 현재 생존 연산 기능은 초기 단계이며, 다음 사항에 주의하세요:
 
@@ -2001,3 +2013,4 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="EmulatorSelectionCancelled">에뮬레이터 선택이 취소되었습니다</system:String>
     <!--  !ItemSelection  -->
 </ResourceDictionary>
+

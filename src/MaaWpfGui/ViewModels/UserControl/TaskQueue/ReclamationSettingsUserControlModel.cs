@@ -17,6 +17,7 @@ using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using static MaaWpfGui.Main.AsstProxy;
@@ -41,6 +42,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
         [
             new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = Theme.Fire },
             new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = Theme.Tales },
+            new() { Display = LocalizationHelper.GetString("ReclamationThemeRelaunchAnchor"), Value = Theme.RelaunchAnchor },
         ];
 
     /// <summary>
@@ -49,7 +51,16 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     public Theme ReclamationTheme
     {
         get => GetTaskConfig<ReclamationTask>().Theme;
-        set => SetTaskConfig<ReclamationTask>(t => t.Theme == value, t => t.Theme = value);
+        set => SetTaskConfig<ReclamationTask>(
+            t => t.Theme == value,
+            t =>
+            {
+                t.Theme = value;
+                if (value == Theme.RelaunchAnchor) {
+                    t.Mode = Mode.NoArchive;
+                    t.ClearStore = false;
+                }
+            });
     }
 
     /// <summary>
@@ -127,6 +138,23 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     {
         get => GetTaskConfig<ReclamationTask>().ClearStore;
         set => SetTaskConfig<ReclamationTask>(t => t.ClearStore == value, t => t.ClearStore = value);
+    }
+
+    /// <summary>
+    /// Gets the theme-specific tip text.
+    /// </summary>
+    [PropertyDependsOn(nameof(ReclamationTheme))]
+    public string ReclamationTip
+    {
+        get
+        {
+            var theme = ReclamationTheme;
+            if (theme == Theme.RelaunchAnchor)
+            {
+                return LocalizationHelper.GetString("ReclamationEarlyTipRelaunchAnchor");
+            }
+            return LocalizationHelper.GetString("ReclamationEarlyTip");
+        }
     }
 
     public override void RefreshUI(BaseTask baseTask)

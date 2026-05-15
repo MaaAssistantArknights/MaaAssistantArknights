@@ -56,6 +56,11 @@ public enum ReclamationTheme
     /// 沙洲遗闻
     /// </summary>
     Tales,
+
+    /// <summary>
+    /// 重启锚点（RELAUNCH ANCHOR）
+    /// </summary>
+    RelaunchAnchor,
 }
 
 public enum ReclamationMode
