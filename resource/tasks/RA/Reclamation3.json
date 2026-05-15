@@ -373,7 +373,6 @@
         "action": "ClickSelf",
         "text": ["完成建设"],
         "roi": [595, 662, 124, 43],
-        "postDelay": 5000,
         "next": ["RelaunchAnchor@RA@PNS-RA1", "#self"]
     }
 }
