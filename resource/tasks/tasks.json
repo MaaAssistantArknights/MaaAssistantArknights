@@ -241,6 +241,7 @@
     "14@EnterEpisodeNew": {},
     "15@EnterEpisodeNew": {},
     "16@EnterEpisodeNew": {},
+    "17@EnterEpisodeNew": {},
     "EnterEpisodeNew-Click": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -463,6 +464,10 @@
     },
     "Episode16": {
         "baseTask": "16@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
+    },
+    "Episode17": {
+        "baseTask": "17@EpisodeNew",
         "sub": ["ToChapterNew@StageTheme"]
     },
     "1-7": {
