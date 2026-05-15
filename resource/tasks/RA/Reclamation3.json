@@ -74,7 +74,6 @@
     "RelaunchAnchor@RA@PNS-WaitGatheringBasePrompt": {
         "doc": "步骤 9 前等待 <请部署罗德岛采集基站> 出现",
         "algorithm": "JustReturn",
-        "postDelay": 1000,
         "next": ["RelaunchAnchor@RA@PNS-DeployGatheringBasePrompt", "#self"]
     },
     "RelaunchAnchor@RA@PNS-DeployGatheringBasePrompt": {
@@ -114,7 +113,7 @@
     "RelaunchAnchor@RA@PNS-DeployGatheringBaseWait": {
         "doc": "步骤 13：部署采集基站后的占位等待 x 秒",
         "algorithm": "JustReturn",
-        "postDelay": 5000,
+        "postDelay": 4000,
         "next": ["RelaunchAnchor@RA@PNS-AlignMap2"]
     },
     "RelaunchAnchor@RA@PNS-AlignMap2": {
@@ -143,7 +142,7 @@
     "RelaunchAnchor@RA@PNS-DeployOperatorWait": {
         "doc": "步骤 17：部署干员后的占位等待 x 秒",
         "algorithm": "JustReturn",
-        "postDelay": 11000,
+        "postDelay": 10000,
         "next": ["RelaunchAnchor@RA@PNS-MissionIcon1"]
     },
     "RelaunchAnchor@RA@PNS-MissionIcon1": {
