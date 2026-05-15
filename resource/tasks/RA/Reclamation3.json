@@ -8,7 +8,7 @@
         "doc": "步骤 1（任务起点）：OCR 识别 RA-1 并点击；右下角出现 <开启建设> 时进入步骤 2",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["RA-1"],
+        "text": ["RA", "-1"],
         "withoutDet": true,
         "useRaw": false,
         "binThreshold": [200, 255],
