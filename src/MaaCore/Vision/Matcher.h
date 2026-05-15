@@ -21,11 +21,18 @@ public:
     const auto& get_result() const noexcept { return m_result; }
 
 public:
+    enum class MatchPath
+    {
+        OpenCV,    // cv::matchTemplate
+        Optimized, // 优化实现
+    };
+
     struct RawResult
     {
         cv::Mat matched;
         cv::Mat templ;
         std::string templ_name;
+        MatchPath path;
     };
 
     static std::vector<RawResult> preproc_and_match(const cv::Mat& image, const MatcherConfig::Params& params);

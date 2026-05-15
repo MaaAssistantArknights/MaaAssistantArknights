@@ -354,21 +354,21 @@
     <system:String x:Key="UpdateSource">업데이트 소스</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 {key=GlobalSource} 사용:
-    ● {key=UpdateCheckNow}: MAA Team에서 업데이트를 확인하고, GitHub에서 설치 파일을 다운로드합니다. 중국에서는 직접 연결 가능한 미러도 제공됩니다. (대역폭이 제한되어 있으며, 트래픽에 따라 접속이 제한될 수 있습니다)
-    ● {key=ResourceUpdate}: {key=MirrorChyan}에서 무료로 업데이트 확인을 제공합니다. 설정에서 "{key=ResourceUpdate}"를 수동으로 클릭하여 GitHub에서 다운로드할 수 있습니다
+    • {key=UpdateCheckNow}: MAA Team에서 업데이트를 확인하고, GitHub에서 설치 파일을 다운로드합니다. 중국에서는 직접 연결 가능한 미러도 제공됩니다. (대역폭이 제한되어 있으며, 트래픽에 따라 접속이 제한될 수 있습니다)
+    • {key=ResourceUpdate}: {key=MirrorChyan}에서 무료로 업데이트 확인을 제공합니다. 설정에서 "{key=ResourceUpdate}"를 수동으로 클릭하여 GitHub에서 다운로드할 수 있습니다
 
 🔑 {key=MirrorChyan} 사용:
-    ● CDK 입력 시, 소프트웨어와 리소스 모두 자동 업데이트를 지원합니다
-    ● {key=MirrorChyan}의 고속 CDN을 통해 우선 다운로드되어 더욱 안정적이고 빠릅니다
+    • CDK 입력 시, 소프트웨어와 리소스 모두 자동 업데이트를 지원합니다
+    • {key=MirrorChyan}의 고속 CDN을 통해 우선 다운로드되어 더욱 안정적이고 빠릅니다
 
 📦 수동 업데이트:
-    ● {key=UpdateCheckNow}: 전체 패키지 또는 OTA 업데이트 패키지를 다운로드한 뒤 앱으로 드래그하면, 앱이 자동으로 압축을 풀고 오래된 파일을 정리합니다
-    ● {key=ResourceUpdate}: 리소스 패키지를 다운로드한 후 resource 폴더에 덮어쓰기하세요. 증분 방식으로 제공되므로 기존 폴더를 삭제하지 마세요. 리소스가 손상될 수 있습니다
+    • {key=UpdateCheckNow}: 전체 패키지 또는 OTA 업데이트 패키지를 다운로드한 뒤 앱으로 드래그하면, 앱이 자동으로 압축을 풀고 오래된 파일을 정리합니다
+    • {key=ResourceUpdate}: 리소스 패키지를 다운로드한 후 resource 폴더에 덮어쓰기하세요. 증분 방식으로 제공되므로 기존 폴더를 삭제하지 마세요. 리소스가 손상될 수 있습니다
 
 📄 업데이트 설명:
-    ● {key=UpdateCheckNow}: UI 및 기능 업데이트가 포함됩니다. UI 변경 및 새로운 기능은 모두 {key=UpdateCheckNow}를 통해 제공됩니다
-    ● {key=ResourceUpdate}: 자동 전투용 신규 스테이지, 드롭 아이콘, 공개모집 태그 등의 리소스 데이터가 포함됩니다
-    ● 내비 핫픽스: 자동으로 실행되어 메인 화면 하단의 안내 및 이벤트 스테이지 입구를 업데이트합니다. 성공 시 우측 상단에 “{key=ApiUpdateSuccess}” 메시지가 표시됩니다
+    • {key=UpdateCheckNow}: UI 및 기능 업데이트가 포함됩니다. UI 변경 및 새로운 기능은 모두 {key=UpdateCheckNow}를 통해 제공됩니다
+    • {key=ResourceUpdate}: 자동 전투용 신규 스테이지, 드롭 아이콘, 공개모집 태그 등의 리소스 데이터가 포함됩니다
+    • 내비 핫픽스: 자동으로 실행되어 메인 화면 하단의 안내 및 이벤트 스테이지 입구를 업데이트합니다. 성공 시 우측 상단에 “{key=ApiUpdateSuccess}” 메시지가 표시됩니다
 </system:String>
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
@@ -720,12 +720,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">생존 연산</system:String>
     <system:String x:Key="UserDataUpdate">사용자 데이터 업데이트</system:String>
-    <system:String x:Key="MiniGame">미니게임</system:String>
+    <system:String x:Key="MiniGame">편의 기능</system:String>
+    <system:String x:Key="MiniGameCategoryPermanent">상시</system:String>
+    <system:String x:Key="MiniGameCategoryCurrentEvent">현재 이벤트</system:String>
     <system:String x:Key="Custom">커스텀 작업</system:String>
     <system:String x:Key="SingleStep">단일 단계 작업</system:String>
     <system:String x:Key="ReclamationTheme">생존 연산 테마</system:String>
     <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>
     <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
+    <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">세이브 X, 스테이지 반복으로 번영의 선물 획득</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">세이브 O, 도구 제작으로 번영의 선물 획득</system:String>
     <system:String x:Key="ReclamationIncrementMode">증가 방식</system:String>
@@ -881,9 +884,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LastSyncTime">마지막 동기화 시간</system:String>
     <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 내보내기 전 인식 결과가 맞는지 확인 후 사용하세요\n만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 depot 폴더 전체를 압축해서 Github의 issue로 올려주세요</system:String>
     <system:String x:Key="StartToDepotRecognition">인식 시작</system:String>
-    <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
-    <system:String x:Key="ExportToLolicon">Arkntools으로 내보내기</system:String>
+    <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>
+    <system:String x:Key="ExportToLolicon">Arkntools</system:String>
+    <system:String x:Key="ExportToMarkdown">Markdown</system:String>
+    <system:String x:Key="ExportToCsv">CSV</system:String>
     <system:String x:Key="CopiedToClipboard">클립보드에 복사됨</system:String>
+    <system:String x:Key="ExportedToFile">파일로 내보내기 완료</system:String>
+    <system:String x:Key="ExportTo">내보내기:</system:String>
+    <system:String x:Key="Export">내보내기</system:String>
     <!--  !창고 인식  -->
     <!--  오퍼레이터 인식  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator} 인식</system:String>
@@ -1067,14 +1075,14 @@ C:\\leidian\\LDPlayer9
         5. 지원유닛을 사용할 때는 ｢{key=AutoSquad}｣ 및 ｢{key=UseCopilotList}｣를 끄고, 수동으로 오퍼레이터를 선택한 다음, 우측 하단에 ｢작전 개시｣ 버튼이 나타나는 분대 화면에서 시작하세요.\n\n
         6. ｢선호｣로 표시된 오퍼레이터는 ｢{key=AutoSquad}｣ 인식 및 선택에 영향을 줄 수 있습니다. ｢{key=AutoSquad}｣ 사용 시, 선호 표시를 해제하거나 오류 발생 시 ｢{key=AutoSquad}｣를 끄고 안내에 따라 누락된 오퍼레이터를 수동으로 편성하는 것을 고려하세요.\n\n
         7. 자동지휘 작업 공간에서, 입력 상자 오른쪽의 붙여넣기 버튼을 클릭하여 코드를 붙여넣을 수 있습니다:\n
-        ● 두 번째 버튼을 왼쪽 클릭 = 작업 추가.\n
-        ● 세 번째 버튼을 클릭 = 작업 목록 추가.\n\n
+        • 두 번째 버튼을 왼쪽 클릭 = 작업 추가.\n
+        • 세 번째 버튼을 클릭 = 작업 목록 추가.\n\n
         8. {key=UseCopilotList}:\n
-        ● 작업 선택 후, 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
-        ● 추가: 좌클릭은 일반, 우클릭은 하드 모드입니다.\n
-        ● 지우기: 좌클릭은 전체 삭제, 우클릭은 비활성 작업만 삭제합니다.\n
-        ● 목표 스테이지 이름이 보이는 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.\n
-        ● 이성 부족, 작전 실패, 또는 3성 클리어 실패 시 작전이 자동으로 중지됩니다.
+        • 작업 선택 후, 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
+        • 추가: 좌클릭은 일반, 우클릭은 하드 모드입니다.\n
+        • 지우기: 좌클릭은 전체 삭제, 우클릭은 비활성 작업만 삭제합니다.\n
+        • 목표 스테이지 이름이 보이는 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.\n
+        • 이성 부족, 작전 실패, 또는 3성 클리어 실패 시 작전이 자동으로 중지됩니다.
     </system:String>
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
     <system:String x:Key="CopilotNoFound">해당 파일을 찾을 수 없습니다!</system:String>
@@ -1305,10 +1313,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowFailed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
     <system:String x:Key="UseAttachWindowTip">에뮬레이터나 휴대폰용 ADB 연결 대신 명일방주 PC 클라이언트에 Win32 창 바인딩을 사용합니다</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 연결 (실험적 기능이며 안정성은 보장되지 않습니다)
-MAA Team의 개발 인력이 제한되어 있어 PC 지원은 전담 관리가 부족하며, 기능 오류나 불안정한 동작이 발생할 수 있습니다:
-● 문제 발생 시 신속한 대응이나 수정이 어려울 수 있습니다
-● 정상 작동하지 않을 경우, ADB 모드로 Android 에뮬레이터 또는 모바일 기기 연결을 권장합니다
-● PC 지원 개선을 위한 개발자의 Pull Request를 진심으로 환영합니다
+MAA Team의 개발 여력이 제한되어 있어 이 기능은 커뮤니티에서 유지보수하고 있으며, MAA Team이 지속적으로 지원하는 기능은 아닙니다. 기능이나 안정성이 기대에 못 미칠 수 있고, 문제가 발생해도 빠르게 수정되지 않을 수 있습니다.
+사용에 지장을 주는 문제가 있다면, 더 안정적인 사용을 위해 ADB 모드로 Android 에뮬레이터 또는 모바일 기기에 연결하는 것을 권장합니다.
+또한 PC 지원 개선에 기여할 수 있는 개발자의 Pull Request는 언제나 환영합니다.
 
 사용 전 확인 사항:
 1. MAA를 관리자 권한으로 실행해야 합니다
@@ -1457,6 +1464,17 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="AnnouncementNotFinishedConfirm3">계속 누르네</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
+재시작 앵커 - 지원 건설 모드：
+
+ 수익 참고: 회당 약 159토큰 + 통괄 포인트, 소요 시간 약 3분
+
+ 사전 준비 (수동으로 1회만)：
+  1. 수동으로 RA-1에 진입하여 튜토리얼을 완료하고 맵으로 돌아옵니다
+  2. 이후 RA-1 클릭 후 오른쪽 아래에 "건설 시작"이 나타나면 작업을 시작할 수 있습니다
+
+ 작업 흐름：
+  정경세작, 건설, 자원 납품, 결제를 자동 실행</system:String>
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 현재 생존 연산 기능은 초기 단계이며, 다음 사항에 주의하세요:
 
@@ -1995,3 +2013,4 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="EmulatorSelectionCancelled">에뮬레이터 선택이 취소되었습니다</system:String>
     <!--  !ItemSelection  -->
 </ResourceDictionary>
+

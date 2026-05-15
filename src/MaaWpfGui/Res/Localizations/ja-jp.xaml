@@ -354,21 +354,21 @@
     <system:String x:Key="UpdateSource">更新ソース</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 {key=GlobalSource}を使用：
-    ● {key=UpdateCheckNow}：MAA Team による更新確認で、GitHub から更新パッケージを取得します。中国国内向けに直通ミラーも提供されています（ピーク時は帯域制限の可能性あり）
-    ● {key=ResourceUpdate}：{key=MirrorChyan} による無料の更新確認が可能。設定画面で「{key=ResourceUpdate}」をクリックして GitHub から手動ダウンロード可能
+    • {key=UpdateCheckNow}：MAA Team による更新確認で、GitHub から更新パッケージを取得します。中国国内向けに直通ミラーも提供されています（ピーク時は帯域制限の可能性あり）
+    • {key=ResourceUpdate}：{key=MirrorChyan} による無料の更新確認が可能。設定画面で「{key=ResourceUpdate}」をクリックして GitHub から手動ダウンロード可能
 
 🔑 {key=MirrorChyan}を使用：
-    ● CDK を入力すると、ソフトウェアとリソースの自動更新が有効になります
-    ● 高速 CDN を通じて {key=MirrorChyan} から優先的にダウンロード、より安定かつ高速
+    • CDK を入力すると、ソフトウェアとリソースの自動更新が有効になります
+    • 高速 CDN を通じて {key=MirrorChyan} から優先的にダウンロード、より安定かつ高速
 
 📦 手動更新：
-    ● {key=UpdateCheckNow}：完全パッケージまたは OTA 更新パッケージをダウンロードしてアプリにドラッグすると、自動で解凍し古いファイルを整理します
-    ● {key=ResourceUpdate}：リソースパックをダウンロードし、resource フォルダに上書きしてください。増分データのため、元のフォルダを削除しないでください
+    • {key=UpdateCheckNow}：完全パッケージまたは OTA 更新パッケージをダウンロードしてアプリにドラッグすると、自動で解凍し古いファイルを整理します
+    • {key=ResourceUpdate}：リソースパックをダウンロードし、resource フォルダに上書きしてください。増分データのため、元のフォルダを削除しないでください
 
 📄 更新内容：
-    ● {key=UpdateCheckNow}：UI や機能のアップデートを含みます。すべての画面変更や新機能は{key=UpdateCheckNow}経由で提供されます
-    ● {key=ResourceUpdate}：自動戦闘用の新ステージ、ドロップ認識用アイコン、公募タグなどの素材データを含みます
-    ● ナビホットパッチ：自動でトリガーされ、ホーム画面のヒントやイベントステージ入口を更新します。成功すると右上に「{key=ApiUpdateSuccess}」と表示されます
+    • {key=UpdateCheckNow}：UI や機能のアップデートを含みます。すべての画面変更や新機能は{key=UpdateCheckNow}経由で提供されます
+    • {key=ResourceUpdate}：自動戦闘用の新ステージ、ドロップ認識用アイコン、公募タグなどの素材データを含みます
+    • ナビホットパッチ：自動でトリガーされ、ホーム画面のヒントやイベントステージ入口を更新します。成功すると右上に「{key=ApiUpdateSuccess}」と表示されます
 </system:String>
     <system:String x:Key="GlobalSource">グローバルソース</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub を強制使用</system:String>
@@ -719,12 +719,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">ユーザーデータ更新</system:String>
-    <system:String x:Key="MiniGame">ミニゲーム</system:String>
+    <system:String x:Key="MiniGame">便利機能</system:String>
+    <system:String x:Key="MiniGameCategoryPermanent">常設</system:String>
+    <system:String x:Key="MiniGameCategoryCurrentEvent">現在のイベント</system:String>
     <system:String x:Key="Custom">カスタムタスク</system:String>
     <system:String x:Key="SingleStep">単一ステップタスク</system:String>
     <system:String x:Key="ReclamationTheme">主題</system:String>
     <system:String x:Key="ReclamationThemeFire">砂中の火</system:String>
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
+    <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">セーブしながら、支援アイテムを組み立てて生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationIncrementMode">増加方式</system:String>
@@ -880,9 +883,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LastSyncTime">前回同期時間</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
     <system:String x:Key="StartToDepotRecognition">認識開始</system:String>
-    <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
-    <system:String x:Key="ExportToLolicon">Arkntoolsへ出力</system:String>
+    <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>
+    <system:String x:Key="ExportToLolicon">Arkntools</system:String>
+    <system:String x:Key="ExportToMarkdown">Markdown</system:String>
+    <system:String x:Key="ExportToCsv">CSV</system:String>
     <system:String x:Key="CopiedToClipboard">クリップボードへコピー</system:String>
+    <system:String x:Key="ExportedToFile">ファイルにエクスポートしました</system:String>
+    <system:String x:Key="ExportTo">出力先：</system:String>
+    <system:String x:Key="Export">エクスポート</system:String>
     <!--  !倉庫アイテム認識  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}</system:String>
@@ -1066,14 +1074,14 @@ C:\\leidian\\LDPlayer9
         5. サポートを使うときは、「{key=AutoSquad}」と「{key=UseCopilotList}」をオフにし、手動で {key=Operator} を選択した後、編成画面の右下に「行動開始」ボタン画面で開始してください。\n\n
         6. 「戦術要員」機能を有効にすると、「{key=AutoSquad}」の{key=Operator}選択に影響を与える可能性があります。「{key=AutoSquad}」を 使用する際は「戦術要員」をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
         7. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます：\n
-        ● 2番目のボタンをクリック = 割り当てを追加。\n
-        ● 3番目のボタンをクリック = 割り当てセットを追加。\n\n
+        • 2番目のボタンをクリック = 割り当てを追加。\n
+        • 3番目のボタンをクリック = 割り当てセットを追加。\n\n
         8. {key=UseCopilotList}:\n
-        ● 攻略ファイルを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
-        ● 追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
-        ● クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
-        ● ターゲットのステージ名が見える画面で起動してください。章間のナビゲーションはサポートされていません。\n
-        ● 理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。
+        • 攻略ファイルを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
+        • 追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
+        • クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
+        • ターゲットのステージ名が見える画面で起動してください。章間のナビゲーションはサポートされていません。\n
+        • 理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
@@ -1304,10 +1312,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowFailed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
     <system:String x:Key="UseAttachWindowTip">エミュレータや携帯電話への ADB 接続ではなく、アークナイツ PC クライアントに Win32 ウィンドウバインディングを使用します</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 接続（実験的機能・動作の安定性は保証されません）
-MAA Team の開発リソースが限られているため、PC 対応は専任のメンテナンスがなく、機能の不具合や動作の不安定が生じる可能性があります：
-● 問題が発生した場合、迅速な対応や修正が難しい場合があります
-● 正常に動作しない場合は、ADB モードで Android エミュレータまたはモバイルデバイスへの接続をご検討ください
-● PC 対応の改善にご協力いただける開発者の Pull Request を心より歓迎いたします
+MAA Team の開発リソースが限られているため、この機能はコミュニティによって保守されており、MAA Team が継続的にサポートしているものではありません。機能面や安定性が十分でない場合があり、問題が発生してもすぐには修正できない可能性があります。
+使用に支障が出る問題がある場合は、より安定した利用のために、ADB モードで Android エミュレータまたはモバイルデバイスへ接続することをおすすめします。
+また、PC 対応の改善にご協力いただける開発者の Pull Request はいつでも歓迎しています。
 
 使用前にご確認ください：
 1. MAA を管理者権限で起動してください
@@ -1456,6 +1463,18 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="AnnouncementNotFinishedConfirm3">まだ押す</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
+再起の錨 - 支援建設モード：
+
+ 報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約3分
+
+ 事前準備（手動で1回のみ）：
+  1. 手動でRA-1に入り、チュートリアルを完了してマップに戻る
+  2. 以降、RA-1をクリックした後に右下に「建設開始」が表示されたらタスクを開始可能
+
+ タスクの流れ：
+  精耕細作、建設、資源納入、決済を自動実行
+    </system:String>
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
 
@@ -1994,3 +2013,4 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="EmulatorSelectionCancelled">エミュレータの選択がキャンセルされました</system:String>
     <!--  !ItemSelection  -->
 </ResourceDictionary>
+

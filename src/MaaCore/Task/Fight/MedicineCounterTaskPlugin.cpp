@@ -85,6 +85,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
     else if (m_used_count >= m_max_count && m_expire_days > 0) {
         bool changed = false;
         for (const auto& [use, inventory, expire_days, rect] : using_medicine->medicines | std::views::reverse) {
+            // 去掉超过了设置天数的药品
             if (use > 0 && expire_days != -1 && expire_days > m_expire_days) {
                 ctrler()->click(rect);
                 sleep(Config.get_options().task_delay);
@@ -257,7 +258,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
         medicines.emplace_back(
             Medicine { .use = using_count,
                        .inventory = inventory_count,
-                       .expire_days = day + 1, // 向上取整补足完整天数
+                       .expire_days = day != -1 ? (day + 1) : -1, // 向上取整补足完整天数
                        .reduce_button_pos = result.rect });
         LogTrace << __FUNCTION__ << "medicine using count:" << using_count << ", inventory count:" << inventory_count
                  << ", expire days:" << day;

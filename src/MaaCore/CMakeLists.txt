@@ -48,6 +48,10 @@ if(MSVC)
     set_target_properties(MaaCore PROPERTIES VS_DEBUGGER_VISUALIZER "${CMAKE_CURRENT_SOURCE_DIR}/meojson.natvis")
 endif()
 
+if(ANDROID)
+    target_link_libraries(MaaCore log dl)
+endif()
+
 file(GLOB_RECURSE MaaCore_PUBLIC_HEADERS ${PROJECT_SOURCE_DIR}/include/*.h)
 target_sources(MaaCore PUBLIC ${MaaCore_PUBLIC_HEADERS})
 set_target_properties(MaaCore PROPERTIES PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS}")
@@ -119,4 +123,16 @@ if(WIN32)
         "${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/$<$<CONFIG:Debug>:msvc-debug/>"
         $<TARGET_FILE_DIR:MaaCore>
         COMMAND_EXPAND_LISTS)
+endif()
+
+if(ANDROID)
+    if(CMAKE_STRIP)
+        add_custom_command(
+            TARGET MaaCore
+            POST_BUILD
+            COMMAND ${CMAKE_STRIP} --strip-all $<TARGET_FILE:MaaCore>
+            COMMENT "Stripping MaaCore for Android")
+    else()
+        message(WARNING "CMAKE_STRIP not found, Android library will not be stripped")
+    endif()
 endif()

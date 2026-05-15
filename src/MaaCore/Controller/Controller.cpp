@@ -28,6 +28,10 @@
 #include "Win32Controller.h"
 #endif
 
+#ifdef __ANDROID__
+#include "MaaFwAndroidNativeController.h"
+#endif
+
 #include "Common/AsstTypes.h"
 #include "Utils/Logger.hpp"
 
@@ -58,6 +62,11 @@ std::shared_ptr<asst::ControllerAPI>
             return std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
         case ControllerType::MaaFwAdb:
             return std::make_shared<MaaFwAdbController>(m_callback, m_inst, platform_type);
+#ifdef __ANDROID__
+        case ControllerType::MaaFwAndroidNative:
+            Log.debug("Use Android");
+            return std::make_shared<MaaFwAndroidNativeController>(m_callback, m_inst);
+#endif
         default:
             return nullptr;
         }
@@ -247,11 +256,14 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 #endif
 
+    // Android uses lazy loading; no need to check in advance
+#ifndef __ANDROID__
     // try to find the fastest way
     if (!screencap()) {
         Log.error("Cannot find a proper way to screencap!");
         return false;
     }
+#endif
 
     auto proxy_callback = [&](const json::object& details) {
         json::value connection_info = json::object {
@@ -368,6 +380,11 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
     case TouchMode::MaaFwAdb:
         m_controller_type = ControllerType::MaaFwAdb;
         break;
+#ifdef __ANDROID__
+    case TouchMode::Android:
+        m_controller_type = ControllerType::MaaFwAndroidNative;
+        break;
+#endif
     default:
         m_controller_type = ControllerType::Minitouch;
     }

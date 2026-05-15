@@ -354,21 +354,21 @@
     <system:String x:Key="UpdateSource">更新來源</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 使用 {key=GlobalSource}：
-    ● {key=UpdateCheckNow}：由 MAA Team 提供更新偵測，從 GitHub 下載更新壓縮檔案，中國國內同步提供直連鏡像站（頻寬有限，高峰時段可能受限）
-    ● {key=ResourceUpdate}：由 {key=MirrorChyan} 提供免費的更新偵測，可手動在設定中點擊「{key=ResourceUpdate}」從 GitHub 下載
+    • {key=UpdateCheckNow}：由 MAA Team 提供更新偵測，從 GitHub 下載更新壓縮檔案，中國國內同步提供直連鏡像站（頻寬有限，高峰時段可能受限）
+    • {key=ResourceUpdate}：由 {key=MirrorChyan} 提供免費的更新偵測，可手動在設定中點擊「{key=ResourceUpdate}」從 GitHub 下載
 
 🔑 使用 {key=MirrorChyan}：
-    ● 填寫 CDK 後，支援軟體與資源的自動更新
-    ● 優先透過 {key=MirrorChyan} 高速 CDN 下載，更穩定快速
+    • 填寫 CDK 後，支援軟體與資源的自動更新
+    • 優先透過 {key=MirrorChyan} 高速 CDN 下載，更穩定快速
 
 📦 手動更新：
-    ● {key=UpdateCheckNow}：下載完整檔案或 OTA 更新檔後拖入應用程式，程式會自動解壓縮並清理舊檔案
-    ● {key=ResourceUpdate}：下載資源檔案後覆蓋 resource 資料夾。資源為增量內容，請勿刪除原資料夾，否則會資源損壞
+    • {key=UpdateCheckNow}：下載完整檔案或 OTA 更新檔後拖入應用程式，程式會自動解壓縮並清理舊檔案
+    • {key=ResourceUpdate}：下載資源檔案後覆蓋 resource 資料夾。資源為增量內容，請勿刪除原資料夾，否則會資源損壞
 
 📄 更新說明：
-    ● {key=UpdateCheckNow}：包含介面與功能更新。介面改動、新功能需透過 {key=UpdateCheckNow} 取得
-    ● {key=ResourceUpdate}：包含自動作戰新關卡、掉落辨識圖示、公招幹員標籤等素材資料
-    ● 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示「{key=ApiUpdateSuccess}」
+    • {key=UpdateCheckNow}：包含介面與功能更新。介面改動、新功能需透過 {key=UpdateCheckNow} 取得
+    • {key=ResourceUpdate}：包含自動作戰新關卡、掉落辨識圖示、公招幹員標籤等素材資料
+    • 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示「{key=ApiUpdateSuccess}」
 </system:String>
     <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
@@ -719,12 +719,15 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">更新使用者資料</system:String>
-    <system:String x:Key="MiniGame">小遊戲</system:String>
+    <system:String x:Key="MiniGame">快捷功能</system:String>
+    <system:String x:Key="MiniGameCategoryPermanent">常駐</system:String>
+    <system:String x:Key="MiniGameCategoryCurrentEvent">目前活動</system:String>
     <system:String x:Key="Custom">自定義任務</system:String>
     <system:String x:Key="SingleStep">單步任務</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主題</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遺聞</system:String>
+    <system:String x:Key="ReclamationThemeRelaunchAnchor">重啟錨點</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">無存檔，透過進出關卡刷生息點數</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存檔，透過組裝支援道具刷生息點數</system:String>
     <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
@@ -880,9 +883,14 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="LastSyncTime">上次同步時間</system:String>
     <system:String x:Key="DepotRecognitionTip">該功能尚處於測試階段，請檢查結果是否準確再行使用。若有誤，歡迎打包 debug/depot 資料夾後向我們提交 issue ~</system:String>
     <system:String x:Key="StartToDepotRecognition">開始辨識</system:String>
-    <system:String x:Key="ExportToArkplanner">匯出到企鵝物流刷圖規劃</system:String>
-    <system:String x:Key="ExportToLolicon">匯出到明日方舟工具箱</system:String>
+    <system:String x:Key="ExportToArkplanner">企鵝物流刷圖規劃</system:String>
+    <system:String x:Key="ExportToLolicon">明日方舟工具箱</system:String>
+    <system:String x:Key="ExportToMarkdown">Markdown</system:String>
+    <system:String x:Key="ExportToCsv">CSV</system:String>
     <system:String x:Key="CopiedToClipboard">已複製到剪貼簿</system:String>
+    <system:String x:Key="ExportedToFile">已匯出到檔案</system:String>
+    <system:String x:Key="ExportTo">匯出到：</system:String>
+    <system:String x:Key="Export">匯出</system:String>
     <!--  !倉庫辨識  -->
     <!--  日誌  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}辨識</system:String>
@@ -1066,14 +1074,14 @@ C:\\leidian\\LDPlayer9\n
         5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇{key=Operator}後，在編隊介面右下角顯示 ｢開始行動｣ 按鈕的畫面啟動。\n\n
         6. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除特別關注，或在報錯後關閉 ｢{key=AutoSquad}｣，並依據提示手動補充缺少的{key=Operator}。\n\n
         7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：\n
-        ● 點選第 2 個按鈕 = 新增作業。\n
-        ● 點選第 3 個按鈕 = 新增作業集。\n\n
+        • 點選第 2 個按鈕 = 新增作業。\n
+        • 點選第 3 個按鈕 = 新增作業集。\n\n
         8. {key=UseCopilotList}：\n
-        ● 選擇作業後，檢查下方關卡名稱是否正確 (例: CV-EX-1)。\n
-        ● 加入：左鍵 = 普通難度，右鍵 = 突襲難度。\n
-        ● 清除：左鍵 = 全部清空，右鍵 = 僅移除未啟用任務。\n
-        ● 請在能看到目標關卡名稱的介面啟動，不支援跨章節導航。\n
-        ● 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
+        • 選擇作業後，檢查下方關卡名稱是否正確 (例: CV-EX-1)。\n
+        • 加入：左鍵 = 普通難度，右鍵 = 突襲難度。\n
+        • 清除：左鍵 = 全部清空，右鍵 = 僅移除未啟用任務。\n
+        • 請在能看到目標關卡名稱的介面啟動，不支援跨章節導航。\n
+        • 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
     </system:String>
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>
@@ -1304,10 +1312,9 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="AttachWindowFailed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式配置</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 視窗綁定明日方舟 PC 端，而非 ADB 連接模擬器或手機</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">連接 PC 端（實驗性功能，穩定性無法保證）
-由於 MAA Team 開發人手有限，PC 端功能長期缺乏專人維護，可能存在功能異常或運行不穩定等問題：
-● 遇到問題時，我們可能無法及時回應或修復
-● 若無法正常使用，建議切換至 ADB 模式連接 Android 模擬器或行動裝置
-● 誠摯歡迎有開發能力的用戶提交 Pull Request，共同完善 PC 端支援
+由於 MAA Team 開發人手有限，此功能由社群維護，並非由 MAA Team 持續支援，功能與穩定性可能不盡理想，遇到問題時也可能無法第一時間修復。
+如遇到影響使用的問題，建議改用 ADB 連接 Android 模擬器或行動裝置，以獲得更穩定的體驗。
+我們也始終歡迎有能力的開發者參與貢獻並提交 Pull Request，共同完善 PC 端支援。
 
 使用前請確認：
 1. 需以系統管理員身分啟動 MAA
@@ -1456,6 +1463,18 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="AnnouncementNotFinishedConfirm3">還點</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
+重啟錨點 - 輔助建設模式：
+
+ 收益參考：每把約 159 代幣 + 統籌點數，單輪耗時約 3 分
+
+ 前置步驟（手動完成一次）：
+  1. 手動進入 RA-1，完成新手教學，直到回到大地圖
+  2. 之後每次任務均可在 RA-1 右下角出現「開啟建設」時啟動
+
+ 任務流程：
+  自動執行精耕細作、建設、交付資源、結算循環
+    </system:String>
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 目前生息演算的支援仍處於中期階段，使用時請注意以下幾點：
 
@@ -1994,3 +2013,4 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="EmulatorSelectionCancelled">已取消選擇模擬器</system:String>
     <!--  !ItemSelection  -->
 </ResourceDictionary>
+

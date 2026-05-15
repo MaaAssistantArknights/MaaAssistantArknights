@@ -100,14 +100,14 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
                 return false;
             }
             static const std::string difficulty_task_prefix = "ChapterDifficulty";
-            m_difficulty_task = difficulty_task_prefix + upper_difficulty;
+            m_difficulty_tasks = { difficulty_task_prefix + upper_difficulty };
         }
         else if (mode == ChapterDifficultyMode::PostStageNormalHard) {
             if (upper_difficulty == "Hard") {
-                m_difficulty_task = "ChangeToRaidDifficulty";
+                m_difficulty_tasks = { "ChangeToRaidDifficulty", "RaidConfirm" };
             }
             else if (upper_difficulty == "Normal") {
-                m_difficulty_task = "ChangeToNormalDifficulty";
+                m_difficulty_tasks = { "ChangeToNormalDifficulty", "NormalConfirm" };
             }
             else {
                 Log.error("only Normal/Hard is supported for chapter 15+", upper_difficulty);
@@ -119,10 +119,12 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
             return false;
         }
 
-        Log.info("difficulty task", m_difficulty_task);
-        if (!Task.get(m_difficulty_task)) {
-            Log.error("difficulty task not exists", m_difficulty_task);
-            return false;
+        for (const auto& difficulty_task : m_difficulty_tasks) {
+            Log.info("difficulty task", difficulty_task);
+            if (!Task.get(difficulty_task)) {
+                Log.error("difficulty task not exists", difficulty_task);
+                return false;
+            }
         }
     }
 
@@ -164,7 +166,7 @@ void asst::StageNavigationTask::clear() noexcept
     m_is_directly = false;
     m_directly_task.clear();
     m_chapter_task.clear();
-    m_difficulty_task.clear();
+    m_difficulty_tasks.clear();
     m_stage_code.clear();
     m_switch_difficulty_after_stage_selection = false;
 }
@@ -177,8 +179,8 @@ bool asst::StageNavigationTask::chapter_wayfinding()
         return false;
     }
 
-    if (!m_difficulty_task.empty() && !m_switch_difficulty_after_stage_selection) {
-        return ProcessTask(*this, { m_difficulty_task }).set_retry_times(RetryTimesDefault).run();
+    if (!m_difficulty_tasks.empty() && !m_switch_difficulty_after_stage_selection) {
+        return ProcessTask(*this, m_difficulty_tasks).set_retry_times(RetryTimesDefault).run();
     }
 
     return true;
@@ -202,9 +204,9 @@ bool asst::StageNavigationTask::switch_difficulty_after_stage_selection()
 {
     LogTraceFunction;
 
-    if (m_difficulty_task.empty() || !m_switch_difficulty_after_stage_selection) {
+    if (m_difficulty_tasks.empty() || !m_switch_difficulty_after_stage_selection) {
         return true;
     }
 
-    return ProcessTask(*this, { m_difficulty_task }).set_retry_times(RetryTimesDefault).run();
+    return ProcessTask(*this, m_difficulty_tasks).set_retry_times(RetryTimesDefault).run();
 }

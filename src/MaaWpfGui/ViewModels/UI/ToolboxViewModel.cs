@@ -16,7 +16,9 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,11 +62,11 @@ public class ToolboxViewModel : Screen
         DisplayName = LocalizationHelper.GetString("Toolbox");
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (__, e) => {
-            Idle = e.Idle;
-            Inited = e.Inited;
-            Stopping = e.Stopping;
+            Idle = e.NewState.Idle;
+            Inited = e.NewState.Inited;
+            Stopping = e.NewState.Stopping;
 
-            if (e.Stopping && Peeping && !IsPeepTransitioning)
+            if (e.NewState.Stopping && Peeping && !IsPeepTransitioning)
             {
                 _ = Peep();
             }
@@ -74,6 +76,8 @@ public class ToolboxViewModel : Screen
         _gachaTimer.Tick += RefreshGachaTip;
         LoadDepotDetails();
         LoadOperBoxDetails();
+        InitializeDepotRowPresentation();
+        InitializeOperBoxRowPresentation();
         OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
 
         UpdateMiniGameTaskList();
@@ -497,6 +501,8 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    private const int DepotRowSize = 5;
+
     private ObservableCollection<DepotResultDate> _depotResult = [];
 
     /// <summary>
@@ -506,10 +512,30 @@ public class ToolboxViewModel : Screen
     {
         get => _depotResult;
         set {
+            if (ReferenceEquals(_depotResult, value))
+            {
+                RefreshDepotRows();
+                InvalidateDepotCache();
+                return;
+            }
+
+            _depotResult.CollectionChanged -= DepotResultCollectionChanged;
             SetAndNotify(ref _depotResult, value);
+            _depotResult.CollectionChanged += DepotResultCollectionChanged;
+            RefreshDepotRows();
             InvalidateDepotCache();
         }
     }
+
+    private ObservableCollection<ObservableCollection<DepotResultDate>> _depotRows = [];
+
+    public ObservableCollection<ObservableCollection<DepotResultDate>> DepotRows
+    {
+        get => _depotRows;
+        private set => SetAndNotify(ref _depotRows, value);
+    }
+
+    public int DepotColumnCount => GetColumnCount(DepotResult.Count, DepotRowSize);
 
     // 缓存相关字段
     private bool _depotCacheInvalid = true;
@@ -552,6 +578,23 @@ public class ToolboxViewModel : Screen
         /// Gets 格式化后的显示数量（用于 UI 绑定）
         /// </summary>
         public string? DisplayCount => Count >= 0 ? Count.FormatNumber(false) : null;
+    }
+
+    private void InitializeDepotRowPresentation()
+    {
+        _depotResult.CollectionChanged += DepotResultCollectionChanged;
+        RefreshDepotRows();
+    }
+
+    private void DepotResultCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        RefreshDepotRows();
+    }
+
+    private void RefreshDepotRows()
+    {
+        DepotRows = BuildRows(DepotResult, DepotRowSize);
+        NotifyOfPropertyChange(nameof(DepotColumnCount));
     }
 
     /// <summary>
@@ -794,6 +837,35 @@ public class ToolboxViewModel : Screen
         return true;
     }
 
+    public record struct ExportEntry(string Display, int Value);
+
+    public List<ExportEntry> ExportOptionList { get; } = [
+        new(LocalizationHelper.GetString("ExportToArkplanner"), 0),
+        new(LocalizationHelper.GetString("ExportToLolicon"), 1),
+        new(LocalizationHelper.GetString("ExportToMarkdown"), 2),
+        new(LocalizationHelper.GetString("ExportToCsv"), 3),
+    ];
+
+    private int _selectedExportValue;
+
+    public int SelectedExportValue
+    {
+        get => _selectedExportValue;
+        set => SetAndNotify(ref _selectedExportValue, value);
+    }
+
+    [UsedImplicitly]
+    public void ExecuteSelectedExport()
+    {
+        switch (_selectedExportValue)
+        {
+            case 0: ExportToArkplanner(); break;
+            case 1: ExportToLolicon(); break;
+            case 2: ExportToMarkdown(); break;
+            case 3: ExportToCsv(); break;
+        }
+    }
+
     /// <summary>
     /// Export depot info to ArkPlanner.
     /// UI 绑定的方法
@@ -801,9 +873,9 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public void ExportToArkplanner()
     {
-        System.Windows.Forms.Clipboard.Clear();
-        System.Windows.Forms.Clipboard.SetDataObject(ArkPlannerResult);
-        DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
+        Clipboard.Clear();
+        Clipboard.SetDataObject(ArkPlannerResult);
+        Growl.Info(LocalizationHelper.GetString("CopiedToClipboard"));
     }
 
     /// <summary>
@@ -813,9 +885,82 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public void ExportToLolicon()
     {
-        System.Windows.Forms.Clipboard.Clear();
-        System.Windows.Forms.Clipboard.SetDataObject(LoliconResult);
-        DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
+        Clipboard.Clear();
+        Clipboard.SetDataObject(LoliconResult);
+        Growl.Info(LocalizationHelper.GetString("CopiedToClipboard"));
+    }
+
+    /// <summary>
+    /// Export depot info to Markdown file.
+    /// UI 绑定的方法
+    /// </summary>
+    [UsedImplicitly]
+    public void ExportToMarkdown()
+    {
+        ExportDepot(BuildMarkdownExportLines, "Markdown files (*.md)|*.md|All files (*.*)|*.*", ".md", "Arknights_Depot_Export.md");
+    }
+
+    /// <summary>
+    /// Export depot info to CSV file.
+    /// UI 绑定的方法
+    /// </summary>
+    [UsedImplicitly]
+    public void ExportToCsv()
+    {
+        ExportDepot(BuildCsvExportLines, "CSV files (*.csv)|*.csv|All files (*.*)|*.*", ".csv", "Arknights_Depot_Export.csv");
+    }
+
+    private void ExportDepot(Func<IReadOnlyList<DepotResultDate>, IEnumerable<string>> lineBuilder, string filter, string defaultExt, string defaultFileName)
+    {
+        var items = DepotResult.Where(item => item.Count >= 0).ToList();
+        if (items.Count == 0)
+        {
+            return;
+        }
+
+        var content = string.Join(Environment.NewLine, lineBuilder(items));
+
+        var dialog = new Microsoft.Win32.SaveFileDialog {
+            Filter = filter,
+            DefaultExt = defaultExt,
+            FileName = defaultFileName,
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        File.WriteAllText(dialog.FileName, content);
+        Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
+    }
+
+    private static IEnumerable<string> BuildMarkdownExportLines(IReadOnlyList<DepotResultDate> items)
+    {
+        var lines = new List<string> { "# Arknights Depot Export", string.Empty, "| ID | Name | Count |", "| --- | --- | --- |" };
+        foreach (var item in items)
+        {
+            lines.Add($"| {item.Id} | {item.Name ?? string.Empty} | {item.Count} |");
+        }
+
+        return lines;
+    }
+
+    private static IEnumerable<string> BuildCsvExportLines(IReadOnlyList<DepotResultDate> items)
+    {
+        var lines = new List<string> { "ID,Name,Count" };
+        foreach (var item in items)
+        {
+            var name = item.Name ?? string.Empty;
+            if (name.Contains(',') || name.Contains('"') || name.Contains('\n'))
+            {
+                name = "\"" + name.Replace("\"", "\"\"") + "\"";
+            }
+
+            lines.Add($"{item.Id},{name},{item.Count}");
+        }
+
+        return lines;
     }
 
     /*
@@ -1142,20 +1287,111 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    private const int OperBoxRowSize = 5;
+
     private ObservableCollection<Operator> _operBoxHaveList = [];
 
     public ObservableCollection<Operator> OperBoxHaveList
     {
         get => _operBoxHaveList;
-        set => SetAndNotify(ref _operBoxHaveList, value);
+        set {
+            if (ReferenceEquals(_operBoxHaveList, value))
+            {
+                RefreshOperBoxHaveRows();
+                return;
+            }
+
+            _operBoxHaveList.CollectionChanged -= OperBoxHaveListCollectionChanged;
+            SetAndNotify(ref _operBoxHaveList, value);
+            _operBoxHaveList.CollectionChanged += OperBoxHaveListCollectionChanged;
+            RefreshOperBoxHaveRows();
+        }
     }
+
+    private ObservableCollection<ObservableCollection<Operator>> _operBoxHaveRows = [];
+
+    public ObservableCollection<ObservableCollection<Operator>> OperBoxHaveRows
+    {
+        get => _operBoxHaveRows;
+        private set => SetAndNotify(ref _operBoxHaveRows, value);
+    }
+
+    public int OperBoxHaveColumnCount => GetColumnCount(OperBoxHaveList.Count, OperBoxRowSize);
 
     private ObservableCollection<Operator> _operBoxNotHaveList = [];
 
     public ObservableCollection<Operator> OperBoxNotHaveList
     {
         get => _operBoxNotHaveList;
-        set => SetAndNotify(ref _operBoxNotHaveList, value);
+        set {
+            if (ReferenceEquals(_operBoxNotHaveList, value))
+            {
+                RefreshOperBoxNotHaveRows();
+                return;
+            }
+
+            _operBoxNotHaveList.CollectionChanged -= OperBoxNotHaveListCollectionChanged;
+            SetAndNotify(ref _operBoxNotHaveList, value);
+            _operBoxNotHaveList.CollectionChanged += OperBoxNotHaveListCollectionChanged;
+            RefreshOperBoxNotHaveRows();
+        }
+    }
+
+    private ObservableCollection<ObservableCollection<Operator>> _operBoxNotHaveRows = [];
+
+    public ObservableCollection<ObservableCollection<Operator>> OperBoxNotHaveRows
+    {
+        get => _operBoxNotHaveRows;
+        private set => SetAndNotify(ref _operBoxNotHaveRows, value);
+    }
+
+    public int OperBoxNotHaveColumnCount => GetColumnCount(OperBoxNotHaveList.Count, OperBoxRowSize);
+
+    private void InitializeOperBoxRowPresentation()
+    {
+        _operBoxHaveList.CollectionChanged += OperBoxHaveListCollectionChanged;
+        _operBoxNotHaveList.CollectionChanged += OperBoxNotHaveListCollectionChanged;
+        RefreshOperBoxHaveRows();
+        RefreshOperBoxNotHaveRows();
+    }
+
+    private void OperBoxHaveListCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        RefreshOperBoxHaveRows();
+    }
+
+    private void OperBoxNotHaveListCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        RefreshOperBoxNotHaveRows();
+    }
+
+    private void RefreshOperBoxHaveRows()
+    {
+        OperBoxHaveRows = BuildRows(OperBoxHaveList, OperBoxRowSize);
+        NotifyOfPropertyChange(nameof(OperBoxHaveColumnCount));
+    }
+
+    private void RefreshOperBoxNotHaveRows()
+    {
+        OperBoxNotHaveRows = BuildRows(OperBoxNotHaveList, OperBoxRowSize);
+        NotifyOfPropertyChange(nameof(OperBoxNotHaveColumnCount));
+    }
+
+    private static ObservableCollection<ObservableCollection<T>> BuildRows<T>(IEnumerable<T> items, int rowSize)
+    {
+        ObservableCollection<ObservableCollection<T>> rows = [];
+
+        foreach (var row in items.Chunk(rowSize))
+        {
+            rows.Add(new ObservableCollection<T>(row));
+        }
+
+        return rows;
+    }
+
+    private static int GetColumnCount(int count, int rowSize)
+    {
+        return count <= 0 ? 1 : Math.Min(count, rowSize);
     }
 
     private void SaveOperBoxDetails(List<OperBoxData.OperData> details)
@@ -1360,7 +1596,7 @@ public class ToolboxViewModel : Screen
             }
         }
 
-        OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}\n{LocalizationHelper.GetString("OperBoxRecognitionTip")}";
+        OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}  {LocalizationHelper.GetString("OperBoxRecognitionTip")}";
         SaveOperBoxDetails(ownOpers);
         _tempOperHaveSet = [];
         return true;
@@ -1457,8 +1693,8 @@ public class ToolboxViewModel : Screen
             }
         }
 
-        System.Windows.Forms.Clipboard.Clear();
-        System.Windows.Forms.Clipboard.SetDataObject(JsonConvert.SerializeObject(exportList, Formatting.Indented));
+        Clipboard.Clear();
+        Clipboard.SetDataObject(JsonConvert.SerializeObject(exportList, Formatting.Indented));
         OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
     }
@@ -1842,20 +2078,73 @@ public class ToolboxViewModel : Screen
 
     #region MiniGame
 
-    public static ObservableCollection<MiniGameEntry> MiniGameTaskList { get; } = [];
+    public class MiniGameCategoryItem : PropertyChangedBase
+    {
+        public string Display { get; set; } = string.Empty;
+
+        public string Value { get; set; } = string.Empty;
+
+        public string Category { get; set; } = string.Empty;
+
+        public bool IsSecretFront => Value == "MiniGame@SecretFront";
+    }
+
+    public ObservableCollection<MiniGameCategoryItem> MiniGameCategoryItems { get; } = [];
+
+    private MiniGameCategoryItem? _selectedMiniGameItem;
+
+    public MiniGameCategoryItem? SelectedMiniGameItem
+    {
+        get => _selectedMiniGameItem;
+        set {
+            if (!SetAndNotify(ref _selectedMiniGameItem, value) || value == null)
+            {
+                return;
+            }
+
+            MiniGameTaskName = value.Value;
+        }
+    }
 
     public static void UpdateMiniGameTaskList()
     {
-        var tasks = Instances.StageManager.MiniGameEntries
-            .Select(t => new MiniGameEntry { Display = t.Display, DisplayKey = t.DisplayKey, Value = t.Value, Tip = t.Tip, TipKey = t.TipKey })
+        var categorizedItems = Instances.StageManager.MiniGameEntries
+            .Select(t =>
+            {
+                var isCurrentEvent = t.UtcStartTime != DateTime.MinValue || t.UtcExpireTime != DateTime.MinValue;
+                var category = LocalizationHelper.GetString(isCurrentEvent
+                    ? "MiniGameCategoryCurrentEvent"
+                    : "MiniGameCategoryPermanent");
+                return new MiniGameCategoryItem
+                {
+                    Display = string.IsNullOrEmpty(t.DisplayKey)
+                        ? t.Display
+                        : (LocalizationHelper.TryGetString(t.DisplayKey, out var loc) ? loc : t.Display),
+                    Value = t.Value,
+                    Category = category,
+                };
+            })
             .ToList();
 
-        Execute.OnUIThread(() => {
-            MiniGameTaskList.Clear();
-            foreach (var task in tasks)
+        Execute.OnUIThread(() =>
+        {
+            var toolbox = Instances.ToolboxViewModel;
+            if (toolbox == null)
             {
-                MiniGameTaskList.Add(task);
+                return;
             }
+
+            var prevSelected = toolbox.SelectedMiniGameItem?.Value;
+
+            toolbox.MiniGameCategoryItems.Clear();
+            foreach (var item in categorizedItems)
+            {
+                toolbox.MiniGameCategoryItems.Add(item);
+            }
+
+            toolbox.SelectedMiniGameItem = toolbox.MiniGameCategoryItems
+                .FirstOrDefault(i => i.Value == prevSelected)
+                ?? toolbox.MiniGameCategoryItems.FirstOrDefault();
         });
     }
 
@@ -1873,7 +2162,8 @@ public class ToolboxViewModel : Screen
 
     public string GetMiniGameTask()
     {
-        return MiniGameTaskName switch {
+        return MiniGameTaskName switch
+        {
             "MiniGame@SecretFront" => $"{MiniGameTaskName}@Begin@Ending{SecretFrontEnding}{(string.IsNullOrEmpty(SecretFrontEvent) ? string.Empty : $"@{SecretFrontEvent}")}",
             _ => MiniGameTaskName,
         };
@@ -1952,7 +2242,8 @@ public class ToolboxViewModel : Screen
         }
     }
 
-    public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } = [
+    public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } =
+    [
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event1"), Value = "支援作战平台" },
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event2"), Value = "游侠" },
@@ -1983,7 +2274,10 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        Instances.TaskQueueViewModel.ClearLog();
+
         _runningState.SetIdle(false);
+
         string errMsg = string.Empty;
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)

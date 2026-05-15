@@ -136,7 +136,7 @@ public class SettingsViewModel : Screen
 
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (_, e) => {
-            Idle = e.Idle;
+            Idle = e.NewState.Idle;
 
             // Inited = e.Inited;
             // Stopping = e.Stopping;

@@ -8,6 +8,7 @@ class ReclamationTheme
 public:
     static constexpr std::string_view Fire = "Fire";   // Fire Within the Sand
     static constexpr std::string_view Tales = "Tales"; // Tales Within the Sand
+    static constexpr std::string_view RelaunchAnchor = "RelaunchAnchor"; // 重启锚点（RELAUNCH ANCHOR）
 };
 
 enum class ReclamationMode // 对应 Roguelike Mode
@@ -31,7 +32,10 @@ public:
 
     bool verify_and_load_params(const json::value& params);
 
-    static constexpr bool is_valid_theme(const std::string_view theme) { return theme == ReclamationTheme::Tales; }
+    static constexpr bool is_valid_theme(const std::string_view theme)
+    {
+        return theme == ReclamationTheme::Tales || theme == ReclamationTheme::RelaunchAnchor;
+    }
 
     static constexpr bool is_valid_mode(const ReclamationMode& mode, [[maybe_unused]] const std::string_view theme)
     {

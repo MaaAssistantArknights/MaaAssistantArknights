@@ -25,14 +25,14 @@ namespace MaaWpfGui.States;
 
 public class RunningState
 {
-    public class RunningStateChangedEventArgs(bool idle, bool inited, bool stopping) : EventArgs
+    public class RunningStateChangedEventArgs(StateSnapshot oldState, bool idle, bool inited, bool stopping) : EventArgs
     {
-        public bool Idle { get; } = idle;
+        public StateSnapshot OldState { get; } = oldState;
 
-        public bool Inited { get; } = inited;
-
-        public bool Stopping { get; } = stopping;
+        public StateSnapshot NewState { get; } = new(idle, inited, stopping);
     }
+
+    public record StateSnapshot(bool Idle, bool Inited, bool Stopping);
 
     private static RunningState? _instance;
     private static readonly ILogger _logger = Log.Logger.ForContext<RunningState>();
@@ -142,8 +142,8 @@ public class RunningState
                 return;
             }
 
+            var oldState = new StateSnapshot(_idle, _inited, _stopping);
             _idle = value;
-
             if (value)
             {
                 StopTimeoutTimer();
@@ -155,7 +155,7 @@ public class RunningState
                 SleepManagement.BlockSleep();
             }
 
-            RaiseStateChanged();
+            RaiseStateChanged(oldState);
         }
     }
 
@@ -175,8 +175,9 @@ public class RunningState
         set {
             if (_inited != value)
             {
+                var oldState = new StateSnapshot(_idle, _inited, _stopping);
                 _inited = value;
-                RaiseStateChanged();
+                RaiseStateChanged(oldState);
             }
         }
     }
@@ -197,8 +198,9 @@ public class RunningState
         set {
             if (_stopping != value)
             {
+                var oldState = new StateSnapshot(_idle, _inited, _stopping);
                 _stopping = value;
-                RaiseStateChanged();
+                RaiseStateChanged(oldState);
             }
         }
     }
@@ -213,9 +215,9 @@ public class RunningState
 
     public event EventHandler<RunningStateChangedEventArgs>? StateChanged;
 
-    private void RaiseStateChanged()
+    private void RaiseStateChanged(StateSnapshot oldState)
     {
-        StateChanged?.Invoke(this, new(_idle, _inited, _stopping));
+        StateChanged?.Invoke(this, new(oldState, _idle, _inited, _stopping));
     }
 
     /// <summary>

@@ -57,6 +57,7 @@ enum class TouchMode
     Maatouch = 2,
     MacPlayTools = 3,
     MaaFwAdb = 4,
+    Android = 5,
 };
 
 #ifdef _WIN32
@@ -155,7 +156,7 @@ struct Point
     {                                                                     \
         return { lhs.x Op rhs.x, lhs.y Op rhs.y };                        \
     }                                                                     \
-    friend Point& operator Op##=(Point& val, const Point& opd) noexcept   \
+    friend Point& operator Op## =(Point& val, const Point& opd) noexcept   \
     {                                                                     \
         val.x Op## = opd.x;                                               \
         val.y Op## = opd.y;                                               \

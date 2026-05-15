@@ -895,6 +895,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     #endregion 关卡列表更新
 
+    #region Data Class
+
     public class SanityInfo
     {
         [JsonProperty("current_sanity")]
@@ -921,6 +923,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         [JsonProperty("finished")]
         public bool IsFinished { get; set; }
     }
+
+    #endregion Data Class
+
+    #region UI Item
 
     public class WeeklyScheduleItem(DayOfWeek dayOfWeek) : PropertyChangedBase
     {
@@ -976,6 +982,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         // 仅供 ComboBox本身 和 手写Stage的TextBlock 绑定使用
         public bool IsOpen { get => field; set => SetAndNotify(ref field, value); } = Instances.TaskQueueViewModel.IsStageOpen(stage);
     }
+
+    #endregion UI Item
 
     private struct UiRefreshingScope : IDisposable
     {

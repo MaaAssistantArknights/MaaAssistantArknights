@@ -1,5 +1,7 @@
 #include "ReclamationTask.h"
 
+#include <climits>
+
 #include "Task/ProcessTask.h"
 
 // 通用配置及插件
@@ -40,16 +42,24 @@ bool asst::ReclamationTask::set_params(const json::value& params)
         return true;
     }
 
-    switch (mode) {
-    case ReclamationMode::ProsperityNoSave:
+    m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", INT_MAX);
+
+    if (theme == ReclamationTheme::RelaunchAnchor) {
         m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityNoSave" });
-        if (!params.get("clear_store", false)) {
-            m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);
+        m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);
+    }
+    else {
+        switch (mode) {
+        case ReclamationMode::ProsperityNoSave:
+            m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityNoSave" });
+            if (!params.get("clear_store", false)) {
+                m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);
+            }
+            break;
+        case ReclamationMode::ProsperityInSave:
+            m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityInSave" });
+            break;
         }
-        break;
-    case ReclamationMode::ProsperityInSave:
-        m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityInSave" });
-        break;
     }
 
     // 各生息演算插件根据 params 设置插件专用参数, 停用不应被启用的插件

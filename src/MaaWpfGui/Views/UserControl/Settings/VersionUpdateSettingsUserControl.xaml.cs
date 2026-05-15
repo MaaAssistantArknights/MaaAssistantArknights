@@ -13,6 +13,7 @@
 
 using System;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using HandyControl.Data;
@@ -37,38 +38,45 @@ public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.
     public VersionUpdateSettingsUserControl()
     {
         InitializeComponent();
-        _timer.Tick += (s, e1) =>
-        {
+        _timer.Tick += (s, e1) => {
             _easterEggsCount = 0;
             _timer.IsEnabled = false;
         };
     }
 
-    private readonly DispatcherTimer _timer = new()
-    {
+    private readonly DispatcherTimer _timer = new() {
         Interval = new(0, 0, 6),
     };
 
+    private static void VersionInfoClick()
+    {
+        CopyToClipboardAsync($"UI Version: {VersionUpdateSettingsUserControlModel.UiVersion}\n" +
+            $"Core Version: {VersionUpdateSettingsUserControlModel.CoreVersion}\n" +
+            $"Resource Version: {SettingsViewModel.VersionUpdateSettings.ResourceVersion}\n" +
+            $"Build Time: {VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString}\n" +
+            $"Resource Time: {SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString}");
+    }
+
     private void MaaVersionClick(object sender, MouseButtonEventArgs e)
     {
-        CopyToClipboardAsync($"UI Version: {VersionUpdateSettingsUserControlModel.UiVersion}\nCore Version: {VersionUpdateSettingsUserControlModel.CoreVersion}\nBuild Time: {VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString}");
+        VersionInfoClick();
         EasterEggs();
     }
 
     private void CoreVersionClick(object sender, MouseButtonEventArgs e)
     {
-        CopyToClipboardAsync("Core Version: " + VersionUpdateSettingsUserControlModel.CoreVersion);
+        VersionInfoClick();
         EasterEggs();
     }
 
     private void UiVersionClick(object sender, MouseButtonEventArgs e)
     {
-        CopyToClipboardAsync("UI Version: " + VersionUpdateSettingsUserControlModel.UiVersion);
+        VersionInfoClick();
     }
 
     private void ResourceVersionClick(object sender, MouseButtonEventArgs e)
     {
-        CopyToClipboardAsync($"Resource Version: {SettingsViewModel.VersionUpdateSettings.ResourceVersion}\nResource Time: {SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString}");
+        VersionInfoClick();
     }
 
     private static void CopyToClipboardAsync(string text)
@@ -82,14 +90,24 @@ public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.
         {
             var clipboardThread = new Thread(() =>
             {
-                try
+                // 剪贴板操作可能会因为其他应用占用而失败
+                for (int i = 0; i < 3; i++)
                 {
-                    System.Windows.Forms.Clipboard.Clear();
-                    System.Windows.Forms.Clipboard.SetDataObject(text, true);
-                }
-                catch (Exception e)
-                {
-                    _logger.Error("Clipboard operation failed: " + e.Message);
+                    try
+                    {
+                        Clipboard.Clear();
+                        Clipboard.SetDataObject(text, true);
+                        return;
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error($"Clipboard operation failed (attempt {i + 1}): {e.Message}");
+
+                        if (i == 0)
+                        {
+                            Thread.Sleep(100);
+                        }
+                    }
                 }
             });
 
@@ -119,8 +137,7 @@ public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.
             return;
         }
 
-        MessageBoxInfo info = new()
-        {
+        MessageBoxInfo info = new() {
             Message = LocalizationHelper.GetString("EasterEggsRules"),
             Caption = LocalizationHelper.GetString("EmployeeGuidelines"),
             IconKey = "EasterEggsRulesIcon",
