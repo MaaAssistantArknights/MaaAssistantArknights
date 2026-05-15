@@ -20,7 +20,7 @@ Matcher::ResultOpt Matcher::analyze() const
     const auto match_results = preproc_and_match(make_roi(m_image, m_roi), m_params);
 
     for (size_t i = 0; i < match_results.size(); ++i) {
-        const auto& [matched, templ, templ_name] = match_results[i];
+        const auto& [matched, templ, templ_name, path] = match_results[i];
         if (matched.empty()) {
             continue;
         }
@@ -34,8 +34,15 @@ Matcher::ResultOpt Matcher::analyze() const
         Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
 
         double threshold = m_params.templ_thres[i];
+        const char* path_tag = path == MatchPath::Optimized ? "optimized" : "opencv";
+        const auto& method_i = m_params.methods.size() > i ? m_params.methods[i] : MatchMethod::Ccoeff;
+        std::string tag = "[";
+        tag += path_tag;
+        if (method_i == MatchMethod::HSVCount) tag += "|hsv";
+        else if (method_i == MatchMethod::RGBCount) tag += "|rgb";
+        tag += "]";
         if (m_log_tracing && max_val > 0.5 && max_val > threshold - 0.2) { // 得分太低的肯定不对，没必要打印
-            Log.trace("match_templ |", templ_name, "score:", max_val, "rect:", rect, "roi:", m_roi);
+            Log.trace("match_templ |", templ_name, tag, "score:", max_val, "rect:", rect, "roi:", m_roi);
 #ifdef ASST_DEBUG
             if (!m_params.methods.empty() && m_params.methods[0] == MatchMethod::HSVCount) {
                 const cv::Rect expanded_roi(
@@ -67,7 +74,7 @@ Matcher::ResultOpt Matcher::analyze() const
 #endif
         }
         else {
-            Log.debug("match_templ |", templ_name, "score:", max_val, "rect:", rect, "roi:", m_roi);
+            Log.debug("match_templ |", templ_name, tag, "score:", max_val, "rect:", rect, "roi:", m_roi);
         }
         if (max_val < threshold) {
             continue;
@@ -153,6 +160,7 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         }
 
         cv::Mat matched;
+        auto match_path = MatchPath::OpenCV;
         cv::Mat templ_match, templ_count, templ_gray;
         cv::cvtColor(templ, templ_match, cv::COLOR_BGR2RGB);
         if (!image_gray.empty()) {
@@ -257,10 +265,14 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
 
                     matched = masked_ccoeff_matcher.match(
                         image_match, templ_match, mask_opt.value(), fft_key, mask_pixels);
+                    if (!matched.empty()) {
+                        match_path = MatchPath::Optimized;
+                    }
                 }
             }
             if (matched.empty()) {
                 cv::matchTemplate(image_match, templ_match, matched, match_algorithm, mask_opt.value());
+                match_path = MatchPath::OpenCV;
             }
         }
 
@@ -304,7 +316,7 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
 
             cv::multiply(matched, count_result, matched); // 最终结果是数色和模板匹配的点积
         }
-        results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name });
+        results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name, .path = match_path });
     }
     return results;
 }
