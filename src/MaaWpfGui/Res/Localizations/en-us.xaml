@@ -42,7 +42,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">Output Detailed Information</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">Send notification when complete</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">Send notification when task fails</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenTimeout">Send notification when task times out</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalled">Send notification when task log output stalls</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
@@ -1525,7 +1525,8 @@ These locations are too high-level and can lead to file overwrites, config write
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">Task timeout duration (minutes)</system:String>
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
-    <system:String x:Key="TaskTimeoutWarning">The task has been running for more than {0} minutes (currently running for {1} minutes). If there are no further log updates for a long time, manual intervention may be required.</system:String>
+    <system:String x:Key="StallTimeoutMinutes">Log output stall timeout (min)</system:String>
+    <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). If there is no further log output for a long time, manual intervention may be required.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 Achievement Unlocked</system:String>

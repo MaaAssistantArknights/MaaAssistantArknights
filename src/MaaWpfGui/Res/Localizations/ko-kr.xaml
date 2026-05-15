@@ -42,7 +42,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">상세 정보 출력</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">작업 완료 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">작업 실패 시 알림 전송</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenTimeout">작업 시간 초과 시 알림 전송</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalled">작업 로그 출력 정지 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>
@@ -1526,7 +1526,8 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">작업 타임아웃 시간 (분)</system:String>
     <system:String x:Key="ReminderIntervalMinutes">알림 간격 (분)</system:String>
-    <system:String x:Key="TaskTimeoutWarning">작업이 {0}분을 초과하여 {1}분째 실행 중입니다\n장시간 로그의 갱신이 없다면 수동 조작이 필요할 수 있습니다</system:String>
+    <system:String x:Key="StallTimeoutMinutes">로그 출력 정지 타임아웃 (분)</system:String>
+    <system:String x:Key="TaskStallWarning">작업 로그 출력이 {0}분 동안 업데이트되지 않았습니다(현재 {1}분 정지). 오랫동안 로그 출력이 없으면 수동 개입이 필요할 수 있습니다.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 도전과제 달성</system:String>

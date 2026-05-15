@@ -46,6 +46,7 @@ public class RunningState
 
         _timeoutReminderTimer.Interval = ReminderIntervalMinutes * 60 * 1000;
         _timeoutReminderTimer.Elapsed += TimeoutReminderTimer_Elapsed;
+        _stallTimer.Elapsed += StallTimer_Elapsed;
     }
 
     public static RunningState Instance
@@ -58,6 +59,9 @@ public class RunningState
 
     // 超时相关字段
     private readonly System.Timers.Timer _timeoutReminderTimer = new();
+    private readonly System.Timers.Timer _stallTimer = new();
+    private int _stallAccumulatedCount = 0;
+    private bool _stallIsFirstFire = true;
     private DateTime? _taskStartTime;
 
     public int TaskTimeoutMinutes { get; set; } = SettingsViewModel.GameSettings.TaskTimeoutMinutes;
@@ -79,18 +83,61 @@ public class RunningState
         }
     }
 
+
+    private int _stallTimeoutMinutes = SettingsViewModel.GameSettings.StallTimeoutMinutes;
+
+    public int StallTimeoutMinutes
+    {
+        get => _stallTimeoutMinutes;
+        set {
+            _stallTimeoutMinutes = value;
+            _stallIsFirstFire = true;
+            if (_stallTimer.Enabled)
+            {
+                _stallTimer.Stop();
+                if (value > 0)
+                {
+                    _stallTimer.Interval = value * 60 * 1000;
+                    _stallTimer.Start();
+                }
+            }
+        }
+    }
+
+    public event EventHandler<string>? StallOccurred;
+
+    public void NotifyOutputActivity()
+    {
+        _stallAccumulatedCount = 0;
+        _stallIsFirstFire = true;
+        if (_stallTimer.Enabled && StallTimeoutMinutes > 0)
+        {
+            _stallTimer.Interval = StallTimeoutMinutes * 60 * 1000;
+            _stallTimer.Stop();
+            _stallTimer.Start();
+        }
+    }
     // 超时事件
-    public event EventHandler<string>? TimeoutOccurred;
 
     public void StartTimeoutTimer()
     {
         _taskStartTime = DateTime.Now;
         _timeoutReminderTimer.Start();
+        _stallAccumulatedCount = 0;
+        _stallIsFirstFire = true;
+        if (StallTimeoutMinutes > 0)
+        {
+            _stallTimer.Interval = StallTimeoutMinutes * 60 * 1000;
+            _stallTimer.Start();
+        }
     }
 
     public void StopTimeoutTimer()
     {
         _timeoutReminderTimer.Stop();
+        _stallTimer.Stop();
+        _stallAccumulatedCount = 0;
+        _stallIsFirstFire = true;
         _taskStartTime = null;
     }
 
@@ -120,15 +167,29 @@ public class RunningState
             return;
         }
 
-        // 每隔 ReminderIntervalMinutes 提示一次
-        var message = string.Format(
-            LocalizationHelper.GetString("TaskTimeoutWarning"),
-            TaskTimeoutMinutes,
-            Math.Round(elapsedMinutes));
-
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LongTaskTimeout);
+    }
 
-        TimeoutOccurred?.Invoke(this, message);
+    private void StallTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        _stallTimer.Stop();
+        _stallAccumulatedCount++;
+        var accumulatedMinutes = StallTimeoutMinutes + ((_stallAccumulatedCount - 1) * ReminderIntervalMinutes);
+        var message = string.Format(
+            LocalizationHelper.GetString("TaskStallWarning"),
+            StallTimeoutMinutes,
+            accumulatedMinutes);
+        StallOccurred?.Invoke(this, message);
+        if (StallTimeoutMinutes > 0)
+        {
+            if (_stallIsFirstFire)
+            {
+                _stallTimer.Interval = ReminderIntervalMinutes * 60 * 1000;
+                _stallIsFirstFire = false;
+            }
+
+            _stallTimer.Start();
+        }
     }
 
     private bool _idle = true;
