@@ -52,10 +52,7 @@
         "doc": "步骤 6 前等待剧情跳过",
         "algorithm": "JustReturn",
         "postDelay": 1000,
-        "next": [
-            "RelaunchAnchor@RA@PNS-SkipPlot",
-            "#self"
-        ]
+        "next": ["RelaunchAnchor@RA@PNS-SkipPlot", "#self"]
     },
     "RelaunchAnchor@RA@PNS-SkipPlot": {
         "doc": "步骤 6：OCR 识别 <跳过> 并点击",
@@ -63,11 +60,7 @@
         "action": "ClickSelf",
         "text": ["跳过"],
         "roi": [1140, 30, 67, 43],
-        "next": [
-            "RelaunchAnchor@RA@PNS-SkipPlotConfirm",
-            "#self",
-            "RelaunchAnchor@RA@PNS-WaitGatheringBasePrompt"
-        ]
+        "next": ["RelaunchAnchor@RA@PNS-SkipPlotConfirm", "#self", "RelaunchAnchor@RA@PNS-WaitGatheringBasePrompt"]
     },
     "RelaunchAnchor@RA@PNS-SkipPlotConfirm": {
         "doc": "步骤 7：OCR 识别 <是否跳过剧情>，点击偏移位置占位",
@@ -182,11 +175,7 @@
         "doc": "步骤 14 前等待说话标识或制造标识出现",
         "algorithm": "JustReturn",
         "postDelay": 1000,
-        "next": [
-            "RelaunchAnchor@RA@PNS-WoodDialogue",
-            "RelaunchAnchor@RA@PNS-ManufactureIcon",
-            "#self"
-        ]
+        "next": ["RelaunchAnchor@RA@PNS-WoodDialogue", "RelaunchAnchor@RA@PNS-ManufactureIcon", "#self"]
     },
     "RelaunchAnchor@RA@PNS-WoodDialogue": {
         "doc": "步骤 14：模板匹配说话标识，持续点击到没有这个标识，间隔 1 秒",
@@ -236,7 +225,7 @@
         "text": ["建造"],
         "roi": [125, 70, 70, 45],
         "next": ["#self", "RelaunchAnchor@RA@PNS-WaitMissionIcon2"]
-    }, 
+    },
     "RelaunchAnchor@RA@PNS-WaitMissionIcon2": {
         "doc": "步骤 20 前等待任务图标出现",
         "algorithm": "JustReturn",
