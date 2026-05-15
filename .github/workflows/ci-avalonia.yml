@@ -37,6 +37,16 @@ jobs:
         with:
           show-progress: false
 
+      - name: Initialize staging directory
+        shell: pwsh
+        run: |
+          $stagingDir = Join-Path $env:RUNNER_TEMP "maaunified-staging"
+          if (Test-Path $stagingDir) {
+            Remove-Item $stagingDir -Recurse -Force
+          }
+          New-Item -ItemType Directory -Path $stagingDir -Force | Out-Null
+          "MAAUNIFIED_STAGING_DIR=$stagingDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
       - name: Fetch required submodules
         shell: bash
         run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified
