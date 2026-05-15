@@ -42,7 +42,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">詳細情報を出力</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">タスク完了時に通知を送信</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">タスクが失敗したときに通知を送信</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenTimeout">タスクがタイムアウトしたときに通知を送信する</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalled">タスクログ出力停滞時に通知を送信</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
     <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
@@ -1464,7 +1464,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-再起の錨 - 支援建設モード：
+再起の錨：
 
  報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約3分
 
@@ -1472,7 +1472,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
   1. 手動でRA-1に入り、チュートリアルを完了してマップに戻る
   2. 以降、RA-1をクリックした後に右下に「建設開始」が表示されたらタスクを開始可能
 
- 注意：「初期追加携帯装置」のテクノロジーをアンロックしていると正常に動作しません
+ 注意：「初期追加携帯アイテム」に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、大型獣舎など）を解体してください
 
  タスクの流れ：
   精耕細作、建設、資源納入、決済を自動実行
@@ -1526,7 +1526,8 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">タスクのタイムアウト時間（分）</system:String>
     <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
-    <system:String x:Key="TaskTimeoutWarning">タスクが {0} 分以上実行されています（現在 {1} 分実行中）。長時間ログの更新がない場合、手動で介入する必要があるかもしれません。</system:String>
+    <system:String x:Key="StallTimeoutMinutes">ログ出力停滞タイムアウト（分）</system:String>
+    <system:String x:Key="TaskStallWarning">タスクログ出力が {0} 分間更新されていません（現在 {1} 分間停滞）。長時間ログ出力がない場合は、手動での操作が必要になる可能性があります。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 実績を獲得した</system:String>

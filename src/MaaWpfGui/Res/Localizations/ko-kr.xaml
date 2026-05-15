@@ -42,7 +42,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">상세 정보 출력</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">작업 완료 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">작업 실패 시 알림 전송</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenTimeout">작업 시간 초과 시 알림 전송</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalled">작업 로그 출력 정지 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>
@@ -1465,7 +1465,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-재시작 앵커 - 지원 건설 모드：
+재시작 앵커：
 
  수익 참고: 회당 약 159토큰 + 통괄 포인트, 소요 시간 약 3분
 
@@ -1473,7 +1473,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
   1. 수동으로 RA-1에 진입하여 튜토리얼을 완료하고 맵으로 돌아옵니다
   2. 이후 RA-1 클릭 후 오른쪽 아래에 "건설 시작"이 나타나면 작업을 시작할 수 있습니다
 
- 참고: "초기 추가 장비 휴대" 기술을 해제한 경우 정상 작동하지 않습니다
+ 참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 대형 축사 등)을 철거하세요
 
  작업 흐름：
   정경세작, 건설, 자원 납품, 결제를 자동 실행</system:String>
@@ -1526,7 +1526,8 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">작업 타임아웃 시간 (분)</system:String>
     <system:String x:Key="ReminderIntervalMinutes">알림 간격 (분)</system:String>
-    <system:String x:Key="TaskTimeoutWarning">작업이 {0}분을 초과하여 {1}분째 실행 중입니다\n장시간 로그의 갱신이 없다면 수동 조작이 필요할 수 있습니다</system:String>
+    <system:String x:Key="StallTimeoutMinutes">로그 출력 정지 타임아웃 (분)</system:String>
+    <system:String x:Key="TaskStallWarning">작업 로그 출력이 {0}분 동안 업데이트되지 않았습니다(현재 {1}분 정지). 오랫동안 로그 출력이 없으면 수동 개입이 필요할 수 있습니다.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 도전과제 달성</system:String>

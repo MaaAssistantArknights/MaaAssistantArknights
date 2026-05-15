@@ -16,6 +16,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Threading;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -103,9 +107,28 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
     public ICommand SearchCmd { get; }
 
+    private string _searchText = string.Empty;
+
+    public string SearchText
+    {
+        get => _searchText;
+        set => SetAndNotify(ref _searchText, value ?? string.Empty);
+    }
+
+    public void SearchAndSyncText(string text = "")
+    {
+        SearchText = text.Trim();
+        Search(SearchText);
+    }
+
     public void Search(string text = "")
     {
         text = text.Trim();
+        if (!string.Equals(SearchText, text, StringComparison.Ordinal))
+        {
+            SearchText = text;
+        }
+
         if (string.IsNullOrWhiteSpace(text))
         {
             foreach (var achievement in Achievements)
@@ -115,9 +138,14 @@ public class AchievementTrackerHelper : PropertyChangedBase
         }
         else
         {
-            foreach (var (_, value) in Achievements)
+            foreach (var (key, value) in Achievements)
             {
-                value.IsVisibleInSearch = value.Title.Contains(text) || value.Description.Contains(text) || value.Conditions.Contains(text) || value.ReleasePhaseTag.Contains(text);
+                value.IsVisibleInSearch =
+                    key == text ||
+                    value.Title.Contains(text) ||
+                    value.Description.Contains(text) ||
+                    value.Conditions.Contains(text) ||
+                    value.ReleasePhaseTag.Contains(text);
             }
         }
 
@@ -223,6 +251,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
             IconKey = "HangoverGeometry",
             IconBrushKey = achievement.MedalBrushKey,
         };
+        _growlAchievementMap[growlInfo] = id;
         ShowInfo(growlInfo, forceStayOpen: forceStayOpen);
     }
 
@@ -276,6 +305,8 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Save();
     }
 
+    private static readonly Dictionary<GrowlInfo, string> _growlAchievementMap = [];
+
     private static readonly List<GrowlInfo> _pending = [];
 
     public static void ShowInfo(GrowlInfo info, bool forceStayOpen = false)
@@ -294,8 +325,122 @@ public class AchievementTrackerHelper : PropertyChangedBase
                 return;
             }
 
+            var previousItems = Growl.GrowlPanel?.Children.OfType<UIElement>().ToHashSet() ?? [];
             Growl.Info(info);
+            AttachGrowlClickHandler(info, previousItems);
         });
+    }
+
+    private static void AttachGrowlClickHandler(GrowlInfo info, HashSet<UIElement> previousItems)
+    {
+        if (!_growlAchievementMap.TryGetValue(info, out var id))
+        {
+            return;
+        }
+
+        bool TryAttachToNewItems()
+        {
+            if (Growl.GrowlPanel is not { } panel)
+            {
+                return false;
+            }
+
+            bool attached = false;
+            foreach (var growlItem in panel.Children.OfType<UIElement>().Where(item => !previousItems.Contains(item)))
+            {
+                growlItem.RemoveHandler(UIElement.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(OnGrowlItemMouseDown));
+                growlItem.AddHandler(
+                    UIElement.PreviewMouseLeftButtonDownEvent,
+                    new MouseButtonEventHandler(OnGrowlItemMouseDown),
+                    handledEventsToo: true);
+
+                if (growlItem is FrameworkElement element)
+                {
+                    element.Tag = id;
+                    element.Unloaded -= OnGrowlItemUnloaded;
+                    element.Unloaded += OnGrowlItemUnloaded;
+                }
+
+                attached = true;
+            }
+
+            if (attached)
+            {
+                _growlAchievementMap.Remove(info);
+            }
+
+            return attached;
+        }
+
+        if (!TryAttachToNewItems())
+        {
+            Application.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Loaded,
+                new Action(() => TryAttachToNewItems()));
+        }
+    }
+
+    private static void OnGrowlItemUnloaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is UIElement growlItem)
+        {
+            growlItem.RemoveHandler(UIElement.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(OnGrowlItemMouseDown));
+        }
+
+        if (sender is FrameworkElement element)
+        {
+            element.Tag = null;
+            element.Unloaded -= OnGrowlItemUnloaded;
+        }
+    }
+
+    private static void OnGrowlItemMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not UIElement growlItem)
+        {
+            return;
+        }
+
+        var source = e.OriginalSource as DependencyObject;
+        while (source != null && source != growlItem)
+        {
+            if (source is Button)
+            {
+                return;
+            }
+
+            source = VisualTreeHelper.GetParent(source);
+        }
+
+        if (sender is FrameworkElement { Tag: string id } && !string.IsNullOrWhiteSpace(id))
+        {
+            NavigateToAchievement(id);
+        }
+    }
+
+    public static void NavigateToAchievement(string id)
+    {
+        if (Instances.SettingsViewModel.Parent is IHaveActiveItem<Screen> conductor)
+        {
+            conductor.ActiveItem = Instances.SettingsViewModel;
+        }
+
+        Application.Current.Dispatcher.BeginInvoke(
+            DispatcherPriority.Loaded,
+            new Action(() =>
+            {
+                var settings = Instances.SettingsViewModel.Settings;
+                for (int i = 0; i < settings.Count; i++)
+                {
+                    if (settings[i].Key == "AchievementSettings")
+                    {
+                        Instances.SettingsViewModel.SelectedIndex = i;
+                        break;
+                    }
+                }
+
+                AchievementSettingsUserControlModel.Instance.OnShowAchievementsClick(id);
+            }));
     }
 
     public static void TryShowPendingGrowls()
@@ -303,7 +448,9 @@ public class AchievementTrackerHelper : PropertyChangedBase
         Execute.OnUIThread(() => {
             foreach (var info in _pending)
             {
+                var previousItems = Growl.GrowlPanel?.Children.OfType<UIElement>().ToHashSet() ?? [];
                 Growl.Info(info);
+                AttachGrowlClickHandler(info, previousItems);
             }
 
             _pending.Clear();

@@ -610,7 +610,7 @@ public class TaskQueueViewModel : Screen
                 Instances.Data.ClearCache();
             }
         };
-        _runningState.TimeoutOccurred += RunningState_TimeOut;
+        _runningState.StallOccurred += RunningState_Stalled;
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
         {
@@ -619,16 +619,17 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private void RunningState_TimeOut(object? sender, string message)
-    {
-        Execute.OnUIThread(() => {
-            AddLog(message, UiLogColor.Warning);
-            ToastNotification.ShowDirect(message);
-            if (!SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenTimeout)
-            {
-                return;
-            }
 
+    private void RunningState_Stalled(object? sender, string message)
+    {
+        if (!SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenStalled)
+        {
+            return;
+        }
+
+        Execute.OnUIThread(() => {
+            AddLog(message, UiLogColor.Warning, notifyActivity: false);
+            ToastNotification.ShowDirect(message);
             var lastLogs = LogItemViewModels
                 .TakeLast(5)
                 .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
@@ -1185,8 +1186,14 @@ public class TaskQueueViewModel : Screen
         bool updateCardImage = false,
         bool fetchLatestImage = false,
         bool useCardImageAsToolTip = false,
-        LogCardSplitMode splitMode = LogCardSplitMode.None)
+        LogCardSplitMode splitMode = LogCardSplitMode.None,
+        bool notifyActivity = true)
     {
+        if (notifyActivity)
+        {
+            RunningState.Instance.NotifyOutputActivity();
+        }
+
         bool isEmpty = string.IsNullOrEmpty(content);
         bool needsBeforeSplit = splitMode == LogCardSplitMode.Before || splitMode == LogCardSplitMode.Both;
         bool needsAfterSplit = splitMode == LogCardSplitMode.After || splitMode == LogCardSplitMode.Both;

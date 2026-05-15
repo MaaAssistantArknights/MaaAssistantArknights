@@ -42,7 +42,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">Output Detailed Information</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">Send notification when complete</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">Send notification when task fails</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenTimeout">Send notification when task times out</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalled">Send notification when task log output stalls</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
@@ -1463,7 +1463,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-Relaunch Anchor - Assisted Construction Mode:
+Relaunch Anchor:
 
  Reward estimate: ~159 tokens + coordination points per run, ~3 min per round
 
@@ -1471,7 +1471,7 @@ Relaunch Anchor - Assisted Construction Mode:
   1. Manually enter RA-1, complete the tutorial, and return to the map
   2. After that, the task can be started when &quot;Start Construction&quot; appears at the bottom-right after clicking RA-1
 
- Note: If the &quot;Start with Extra Device&quot; technology is unlocked, this task will not work properly
+ Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Large Animal Pens, etc.
 
  Task flow:
   Automatically executes farming, construction, resource delivery, and settlement loop
@@ -1525,7 +1525,8 @@ These locations are too high-level and can lead to file overwrites, config write
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">Task timeout duration (minutes)</system:String>
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
-    <system:String x:Key="TaskTimeoutWarning">The task has been running for more than {0} minutes (currently running for {1} minutes). If there are no further log updates for a long time, manual intervention may be required.</system:String>
+    <system:String x:Key="StallTimeoutMinutes">Log output stall timeout (min)</system:String>
+    <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). If there is no further log output for a long time, manual intervention may be required.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 Achievement Unlocked</system:String>

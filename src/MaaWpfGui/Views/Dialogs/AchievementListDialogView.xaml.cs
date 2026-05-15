@@ -33,4 +33,5 @@ public partial class AchievementListDialogView
         // 关闭窗口时执行一次空搜索，重置可见性
         AchievementTrackerHelper.Instance.Search();
     }
+
 }
