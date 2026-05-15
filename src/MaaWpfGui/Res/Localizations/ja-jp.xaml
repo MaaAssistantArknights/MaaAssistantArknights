@@ -883,6 +883,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LastSyncTime">前回同期時間</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
     <system:String x:Key="StartToDepotRecognition">認識開始</system:String>
+    <system:String x:Key="DefaultRecordName">デフォルト</system:String>
+    <system:String x:Key="EmptyDepotList">空の倉庫</system:String>
+    <system:String x:Key="EmptyOperBoxList">空のオペレーターリスト</system:String>
+    <system:String x:Key="RecordName">レコード名</system:String>
+    <system:String x:Key="AddRecord">追加</system:String>
+    <system:String x:Key="RenameRecord">名前変更</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Arkntools</system:String>
     <system:String x:Key="ExportToMarkdown">Markdown</system:String>

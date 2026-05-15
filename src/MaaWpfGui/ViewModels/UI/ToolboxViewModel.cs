@@ -479,6 +479,32 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _depotInfo, value);
     }
 
+    public ObservableCollection<DepotRecordItem> DepotRecords { get; } = [];
+
+    private DepotRecordItem? _selectedDepotRecord;
+
+    public DepotRecordItem? SelectedDepotRecord
+    {
+        get => _selectedDepotRecord;
+        set
+        {
+            if (!SetAndNotify(ref _selectedDepotRecord, value) || value == null)
+            {
+                return;
+            }
+
+            ApplyDepotRecord(value);
+        }
+    }
+
+    private string _depotRecordName = string.Empty;
+
+    public string DepotRecordName
+    {
+        get => _depotRecordName;
+        set => SetAndNotify(ref _depotRecordName, value);
+    }
+
     /// <summary>
     /// Gets or sets 上次仓库同步时间（UTC 时间）
     /// </summary>
@@ -580,6 +606,24 @@ public class ToolboxViewModel : Screen
         public string? DisplayCount => Count >= 0 ? Count.FormatNumber(false) : null;
     }
 
+    public class DepotRecordItem : PropertyChangedBase
+    {
+        private string _name = string.Empty;
+
+        [JsonProperty("name")]
+        public string Name
+        {
+            get => _name;
+            set => SetAndNotify(ref _name, value);
+        }
+
+        [JsonProperty("items")]
+        public Dictionary<string, int> Items { get; set; } = [];
+
+        [JsonProperty("syncTime")]
+        public DateTimeOffset? SyncTime { get; set; }
+    }
+
     private void InitializeDepotRowPresentation()
     {
         _depotResult.CollectionChanged += DepotResultCollectionChanged;
@@ -602,19 +646,13 @@ public class ToolboxViewModel : Screen
     /// </summary>
     private void SaveDepotDetails()
     {
-        // 构建简化格式：{"itemId": count}
-        var details = new JObject {
-            ["done"] = true,
-            ["data"] = JObject.FromObject(DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count)),
-        };
-
-        // 保存同步时间为 UTC（如果有）
-        if (LastDepotSyncTime.HasValue)
+        if (SelectedDepotRecord != null)
         {
-            details["syncTime"] = LastDepotSyncTime.Value.ToLocalTime().ToString("o"); // ISO 8601 格式
+            SelectedDepotRecord.Items = DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count);
+            SelectedDepotRecord.SyncTime = LastDepotSyncTime;
         }
 
-        JsonDataHelper.Set(JsonDataKey.DepotData, details);
+        SaveDepotRecords();
     }
 
     private void LoadDepotDetails()
@@ -622,19 +660,244 @@ public class ToolboxViewModel : Screen
         var json = JsonDataHelper.Get(JsonDataKey.DepotData, string.Empty);
         if (string.IsNullOrWhiteSpace(json))
         {
+            EnsureDefaultDepotRecord();
             return;
         }
 
         try
         {
-            var details = JObject.Parse(json);
-            DepotParse(details);
+            var root = JObject.Parse(json);
+            if (root["records"] != null)
+            {
+                LoadDepotRecords(root);
+            }
+            else
+            {
+                MigrateDepotFromLegacy(root);
+            }
         }
         catch (Exception ex)
         {
             _logger.Error("parse depot json failed,\n{str}", json, ex);
+            EnsureDefaultDepotRecord();
         }
     }
+
+    private void LoadDepotRecords(JObject root)
+    {
+        DepotRecords.Clear();
+        var records = root["records"] as JArray;
+        if (records != null)
+        {
+            foreach (var record in records)
+            {
+                var item = new DepotRecordItem
+                {
+                    Name = record["name"]?.ToString() ?? LocalizationHelper.GetString("DefaultRecordName"),
+                    Items = (record["items"] as JObject)?.ToObject<Dictionary<string, int>>() ?? [],
+                    SyncTime = record["syncTime"]?.ToObject<DateTimeOffset?>(),
+                };
+                DepotRecords.Add(item);
+            }
+        }
+
+        if (DepotRecords.Count == 0)
+        {
+            EnsureDefaultDepotRecord();
+        }
+
+        var selectedIndex = root["selectedIndex"]?.ToObject<int>() ?? 0;
+        if (selectedIndex >= 0 && selectedIndex < DepotRecords.Count)
+        {
+            SelectedDepotRecord = DepotRecords[selectedIndex];
+        }
+        else
+        {
+            SelectedDepotRecord = DepotRecords[0];
+        }
+    }
+
+    private void MigrateDepotFromLegacy(JObject details)
+    {
+        DepotRecords.Clear();
+        var depotItems = ParseDepotItems(details);
+        var record = new DepotRecordItem
+        {
+            Name = LocalizationHelper.GetString("DefaultRecordName"),
+            Items = depotItems,
+        };
+
+        var syncTimeStr = details["syncTime"]?.ToString(Formatting.None)?.Trim('"');
+        if (!string.IsNullOrEmpty(syncTimeStr) && DateTimeOffset.TryParse(syncTimeStr, null, DateTimeStyles.AssumeUniversal, out var syncTime))
+        {
+            record.SyncTime = syncTime;
+        }
+
+        DepotRecords.Add(record);
+        _selectedDepotRecord = record;
+        DepotParse(details);
+    }
+
+    private static Dictionary<string, int> ParseDepotItems(JObject details)
+    {
+        Dictionary<string, int> depotItems = [];
+        var dataToken = details["data"];
+        if (dataToken is JObject dataObj)
+        {
+            foreach (var prop in dataObj.Properties())
+            {
+                if (int.TryParse(prop.Value.ToString(), out var count))
+                {
+                    depotItems[prop.Name] = count;
+                }
+            }
+        }
+        else if (dataToken?.ToString() is string dataStr && !string.IsNullOrEmpty(dataStr))
+        {
+            try
+            {
+                var dataO = JObject.Parse(dataStr);
+                foreach (var prop in dataO.Properties())
+                {
+                    if (int.TryParse(prop.Value.ToString(), out var count))
+                    {
+                        depotItems[prop.Name] = count;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Warning(ex, "Failed to parse depot data format");
+            }
+        }
+
+        if (depotItems.Count == 0)
+        {
+            var arkplannerItems = details["arkplanner"]?["object"]?["items"]?.Cast<JObject>() ?? [];
+            foreach (var item in arkplannerItems)
+            {
+                var id = (string?)item["id"];
+                if (string.IsNullOrEmpty(id))
+                {
+                    continue;
+                }
+
+                if (item["have"] != null && int.TryParse(item["have"]?.ToString(), out var count))
+                {
+                    depotItems[id] = count;
+                }
+            }
+        }
+
+        return depotItems;
+    }
+
+    private void EnsureDefaultDepotRecord()
+    {
+        if (DepotRecords.Count == 0)
+        {
+            DepotRecords.Add(new DepotRecordItem { Name = LocalizationHelper.GetString("DefaultRecordName") });
+        }
+
+        SelectedDepotRecord = DepotRecords[0];
+    }
+
+    private void ApplyDepotRecord(DepotRecordItem record)
+    {
+        DepotResult.Clear();
+        foreach (var kvp in record.Items.OrderBy(x => x.Key))
+        {
+            var result = new DepotResultDate
+            {
+                Id = kvp.Key,
+                Name = ItemListHelper.GetItemName(kvp.Key),
+                Image = ItemListHelper.GetItemImage(kvp.Key),
+                Count = kvp.Value,
+            };
+            DepotResult.Add(result);
+        }
+
+        LastDepotSyncTime = record.SyncTime;
+        InvalidateDepotCache();
+        DepotInfo = DepotResult.Count > 0 ? LocalizationHelper.GetString("IdentificationCompleted") : string.Empty;
+        Instances.TaskQueueViewModel.UpdateDatePrompt();
+    }
+
+    private void SaveDepotRecords()
+    {
+        var recordsArray = new JArray();
+        foreach (var record in DepotRecords)
+        {
+            recordsArray.Add(new JObject
+            {
+                ["name"] = record.Name,
+                ["items"] = JObject.FromObject(record.Items),
+                ["syncTime"] = record.SyncTime?.ToLocalTime().ToString("o"),
+            });
+        }
+
+        var root = new JObject
+        {
+            ["records"] = recordsArray,
+            ["selectedIndex"] = DepotRecords.IndexOf(SelectedDepotRecord!),
+        };
+
+        JsonDataHelper.Set(JsonDataKey.DepotData, root);
+    }
+
+    public void AddDepotRecord()
+    {
+        var name = string.IsNullOrWhiteSpace(DepotRecordName) ? LocalizationHelper.GetString("EmptyDepotList") : DepotRecordName.Trim();
+        var record = new DepotRecordItem { Name = name };
+        DepotRecords.Add(record);
+        SelectedDepotRecord = record;
+        SaveDepotRecords();
+        DepotRecordName = string.Empty;
+    }
+
+    public void DeleteDepotRecord(DepotRecordItem? record)
+    {
+        if (record == null || DepotRecords.Count <= 1)
+        {
+            return;
+        }
+
+        var index = DepotRecords.IndexOf(record);
+        DepotRecords.Remove(record);
+
+        if (SelectedDepotRecord == record)
+        {
+            SelectedDepotRecord = DepotRecords[Math.Min(index, DepotRecords.Count - 1)];
+        }
+
+        SaveDepotRecords();
+    }
+
+    public void SelectDepotRecord(DepotRecordItem? record)
+    {
+        if (record == null || record == SelectedDepotRecord)
+        {
+            return;
+        }
+
+        SelectedDepotRecord = record;
+        SaveDepotRecords();
+    }
+
+    public void RenameDepotRecord()
+    {
+        if (SelectedDepotRecord == null || string.IsNullOrWhiteSpace(DepotRecordName))
+        {
+            return;
+        }
+
+        SelectedDepotRecord.Name = DepotRecordName.Trim();
+        SaveDepotRecords();
+        DepotRecordName = string.Empty;
+    }
+
+    [PropertyDependsOn(nameof(SelectedDepotRecord))]
+    public string SelectedDepotRecordName => SelectedDepotRecord?.Name ?? string.Empty;
 
     /// <summary>
     /// Gets 获取 ArkPlanner 导出格式（带缓存）
@@ -1174,6 +1437,86 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _operBoxInfo, value);
     }
 
+    public ObservableCollection<OperBoxRecordItem> OperBoxRecords { get; } = [];
+
+    private OperBoxRecordItem? _selectedOperBoxRecord;
+
+    public OperBoxRecordItem? SelectedOperBoxRecord
+    {
+        get => _selectedOperBoxRecord;
+        set
+        {
+            if (!SetAndNotify(ref _selectedOperBoxRecord, value) || value == null)
+            {
+                return;
+            }
+
+            ApplyOperBoxRecord(value);
+        }
+    }
+
+    private string _operBoxRecordName = string.Empty;
+
+    public string OperBoxRecordName
+    {
+        get => _operBoxRecordName;
+        set => SetAndNotify(ref _operBoxRecordName, value);
+    }
+
+    public void AddOperBoxRecord()
+    {
+        var name = string.IsNullOrWhiteSpace(OperBoxRecordName) ? LocalizationHelper.GetString("EmptyOperBoxList") : OperBoxRecordName.Trim();
+        var record = new OperBoxRecordItem { Name = name };
+        OperBoxRecords.Add(record);
+        SelectedOperBoxRecord = record;
+        SaveOperBoxRecords();
+        OperBoxRecordName = string.Empty;
+    }
+
+    public void DeleteOperBoxRecord(OperBoxRecordItem? record)
+    {
+        if (record == null || OperBoxRecords.Count <= 1)
+        {
+            return;
+        }
+
+        var index = OperBoxRecords.IndexOf(record);
+        OperBoxRecords.Remove(record);
+
+        if (SelectedOperBoxRecord == record)
+        {
+            SelectedOperBoxRecord = OperBoxRecords[Math.Min(index, OperBoxRecords.Count - 1)];
+        }
+
+        SaveOperBoxRecords();
+    }
+
+    public void SelectOperBoxRecord(OperBoxRecordItem? record)
+    {
+        if (record == null || record == SelectedOperBoxRecord)
+        {
+            return;
+        }
+
+        SelectedOperBoxRecord = record;
+        SaveOperBoxRecords();
+    }
+
+    public void RenameOperBoxRecord()
+    {
+        if (SelectedOperBoxRecord == null || string.IsNullOrWhiteSpace(OperBoxRecordName))
+        {
+            return;
+        }
+
+        SelectedOperBoxRecord.Name = OperBoxRecordName.Trim();
+        SaveOperBoxRecords();
+        OperBoxRecordName = string.Empty;
+    }
+
+    [PropertyDependsOn(nameof(SelectedOperBoxRecord))]
+    public string SelectedOperBoxRecordName => SelectedOperBoxRecord?.Name ?? string.Empty;
+
     /// <summary>
     /// Gets OperBoxDataArray from OperBoxHaveList for backward compatibility
     /// </summary>
@@ -1287,6 +1630,24 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    public class OperBoxRecordItem : PropertyChangedBase
+    {
+        private string _name = string.Empty;
+
+        [JsonProperty("name")]
+        public string Name
+        {
+            get => _name;
+            set => SetAndNotify(ref _name, value);
+        }
+
+        [JsonProperty("ownOpers")]
+        public List<OperBoxData.OperData> OwnOpers { get; set; } = [];
+
+        [JsonProperty("syncTime")]
+        public DateTimeOffset? SyncTime { get; set; }
+    }
+
     private const int OperBoxRowSize = 5;
 
     private ObservableCollection<Operator> _operBoxHaveList = [];
@@ -1396,17 +1757,85 @@ public class ToolboxViewModel : Screen
 
     private void SaveOperBoxDetails(List<OperBoxData.OperData> details)
     {
-        var data = new JObject {
-            ["done"] = true,
-            ["own_opers"] = JArray.FromObject(details),
-        };
-
-        if (LastOperBoxSyncTime.HasValue)
+        if (SelectedOperBoxRecord != null)
         {
-            data["syncTime"] = LastOperBoxSyncTime.Value.ToLocalTime().ToString("o");
+            SelectedOperBoxRecord.OwnOpers = details;
+            SelectedOperBoxRecord.SyncTime = LastOperBoxSyncTime;
         }
 
-        JsonDataHelper.Set(JsonDataKey.OperBoxData, data);
+        SaveOperBoxRecords();
+    }
+
+    private void SaveOperBoxRecords()
+    {
+        var recordsArray = new JArray();
+        foreach (var record in OperBoxRecords)
+        {
+            recordsArray.Add(new JObject
+            {
+                ["name"] = record.Name,
+                ["ownOpers"] = JArray.FromObject(record.OwnOpers),
+                ["syncTime"] = record.SyncTime?.ToLocalTime().ToString("o"),
+            });
+        }
+
+        var root = new JObject
+        {
+            ["records"] = recordsArray,
+            ["selectedIndex"] = OperBoxRecords.IndexOf(SelectedOperBoxRecord!),
+        };
+
+        JsonDataHelper.Set(JsonDataKey.OperBoxData, root);
+    }
+
+    private void EnsureDefaultOperBoxRecord()
+    {
+        if (OperBoxRecords.Count == 0)
+        {
+            OperBoxRecords.Add(new OperBoxRecordItem { Name = LocalizationHelper.GetString("DefaultRecordName") });
+        }
+
+        SelectedOperBoxRecord = OperBoxRecords[0];
+    }
+
+    private void ApplyOperBoxRecord(OperBoxRecordItem record)
+    {
+        ClearOperBoxRecognitionData();
+        _tempOperHaveSet = [];
+        _operBoxPotential = null;
+
+        var operDataMap = record.OwnOpers.ToDictionary(o => o.Id);
+        foreach (var (id, oper) in DataHelper.Operators)
+        {
+            if (!DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType))
+            {
+                continue;
+            }
+
+            var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
+            if (operDataMap.TryGetValue(id, out var operData))
+            {
+                OperBoxHaveList.Add(new Operator(id, name, oper.Rarity, operData.Elite, operData.Level, operData.Potential));
+
+                if (id == "char_485_pallas")
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
+                }
+            }
+            else
+            {
+                OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
+            }
+        }
+
+        SortOperBoxLists();
+
+        if (OperBoxNotHaveList.Count > 0)
+        {
+            OperBoxSelectedIndex = 0;
+        }
+
+        LastOperBoxSyncTime = record.SyncTime;
     }
 
     private void SortOperBoxLists()
@@ -1439,6 +1868,7 @@ public class ToolboxViewModel : Screen
         var json = JsonDataHelper.Get(JsonDataKey.OperBoxData, string.Empty);
         if (string.IsNullOrWhiteSpace(json))
         {
+            EnsureDefaultOperBoxRecord();
             return;
         }
 
@@ -1453,48 +1883,67 @@ public class ToolboxViewModel : Screen
                     .ToList();
                 if (ownOpers is null)
                 {
+                    EnsureDefaultOperBoxRecord();
                     return;
                 }
-                LoadOperBoxList(ownOpers);
+
+                OperBoxRecords.Clear();
+                OperBoxRecords.Add(new OperBoxRecordItem { Name = LocalizationHelper.GetString("DefaultRecordName"), OwnOpers = ownOpers });
+                SelectedOperBoxRecord = OperBoxRecords[0];
+                SaveOperBoxRecords();
                 return;
             }
             else if (token is JObject details)
             {
-                OperBoxParse(details, updateSyncTime: false);
+                if (details["records"] != null)
+                {
+                    LoadOperBoxRecords(details);
+                }
+                else
+                {
+                    EnsureDefaultOperBoxRecord();
+                    OperBoxParse(details, updateSyncTime: false);
+                }
             }
         }
         catch
         {
-            // 兼容老数据或异常时忽略
+            EnsureDefaultOperBoxRecord();
+        }
+    }
+
+    private void LoadOperBoxRecords(JObject root)
+    {
+        OperBoxRecords.Clear();
+        var records = root["records"] as JArray;
+        if (records != null)
+        {
+            foreach (var record in records)
+            {
+                var ownOpers = (record["ownOpers"] as JArray)?.ToObject<List<OperBoxData.OperData>>() ?? [];
+                var item = new OperBoxRecordItem
+                {
+                    Name = record["name"]?.ToString() ?? LocalizationHelper.GetString("DefaultRecordName"),
+                    OwnOpers = ownOpers,
+                    SyncTime = record["syncTime"]?.ToObject<DateTimeOffset?>(),
+                };
+                OperBoxRecords.Add(item);
+            }
         }
 
-        void LoadOperBoxList(List<OperBoxData.OperData> ownOpers)
+        if (OperBoxRecords.Count == 0)
         {
-            var operDataMap = ownOpers.ToDictionary(o => o.Id);
-            foreach (var (id, oper) in DataHelper.Operators)
-            {
-                if (!DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType))
-                {
-                    continue;
-                }
+            EnsureDefaultOperBoxRecord();
+        }
 
-                var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
-                if (operDataMap.TryGetValue(id, out var operData))
-                {
-                    OperBoxHaveList.Add(new Operator(id, name, oper.Rarity, operData.Elite, operData.Level, operData.Potential));
-
-                    if (id == "char_485_pallas")
-                    {
-                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
-                    }
-                }
-                else
-                {
-                    OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
-                }
-            }
-
-            SortOperBoxLists();
+        var selectedIndex = root["selectedIndex"]?.ToObject<int>() ?? 0;
+        if (selectedIndex >= 0 && selectedIndex < OperBoxRecords.Count)
+        {
+            SelectedOperBoxRecord = OperBoxRecords[selectedIndex];
+        }
+        else
+        {
+            SelectedOperBoxRecord = OperBoxRecords[0];
         }
     }
 

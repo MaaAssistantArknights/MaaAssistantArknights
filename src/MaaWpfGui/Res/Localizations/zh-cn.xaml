@@ -883,6 +883,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LastSyncTime">上次同步时间</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
     <system:String x:Key="StartToDepotRecognition">开始识别</system:String>
+    <system:String x:Key="DefaultRecordName">默认</system:String>
+    <system:String x:Key="EmptyDepotList">空仓库列表</system:String>
+    <system:String x:Key="EmptyOperBoxList">空干员列表</system:String>
+    <system:String x:Key="RecordName">记录名称</system:String>
+    <system:String x:Key="AddRecord">添加</system:String>
+    <system:String x:Key="RenameRecord">重命名</system:String>
     <system:String x:Key="ExportToArkplanner">企鹅物流刷图规划</system:String>
     <system:String x:Key="ExportToLolicon">明日方舟工具箱</system:String>
     <system:String x:Key="ExportToMarkdown">Markdown</system:String>

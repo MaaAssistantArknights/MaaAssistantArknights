@@ -258,6 +258,92 @@
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
             <Grid Margin="20,0,20,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="0,0,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ListBox
+                        Grid.Row="0"
+                        Background="{DynamicResource RegionBrushOpacity25}"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        ItemsSource="{Binding OperBoxRecords}"
+                        SelectedItem="{Binding SelectedOperBoxRecord}">
+                        <ListBox.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource TransparentListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <controls:TextBlock
+                                        Grid.Column="0"
+                                        Margin="10,5"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Name}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="20"
+                                        Height="20"
+                                        MinWidth="20"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                        hc:VisualElement.HighlightBackground="Transparent"
+                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Foreground="{DynamicResource SecondaryTextBrush}"
+                                        Command="{s:Action DeleteOperBoxRecord}"
+                                        CommandParameter="{Binding}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Grid Grid.Row="1" Margin="0,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <hc:TextBox
+                            Grid.Row="0"
+                            Height="30"
+                            hc:InfoElement.Placeholder="{DynamicResource RecordName}"
+                            Text="{Binding OperBoxRecordName, UpdateSourceTrigger=PropertyChanged}" />
+                        <StackPanel
+                            Grid.Row="1"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Button
+                                Height="25"
+                                MinWidth="50"
+                                Padding="8,0"
+                                Command="{s:Action AddOperBoxRecord}"
+                                Content="{DynamicResource AddRecord}" />
+                            <Button
+                                Height="25"
+                                MinWidth="50"
+                                Margin="5,0,0,0"
+                                Padding="8,0"
+                                Command="{s:Action RenameOperBoxRecord}"
+                                Content="{DynamicResource RenameRecord}" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -464,10 +550,97 @@
                         Content="{DynamicResource StartToOperBoxRecognition}"
                         IsEnabled="{c:Binding 'Idle and Inited'}" />
                 </StackPanel>
+                </Grid>
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource DepotRecognition}">
             <Grid Margin="20,0,20,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="0,0,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ListBox
+                        Grid.Row="0"
+                        Background="{DynamicResource RegionBrushOpacity25}"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        ItemsSource="{Binding DepotRecords}"
+                        SelectedItem="{Binding SelectedDepotRecord}">
+                        <ListBox.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource TransparentListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <controls:TextBlock
+                                        Grid.Column="0"
+                                        Margin="10,5"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Name}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="20"
+                                        Height="20"
+                                        MinWidth="20"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                        hc:VisualElement.HighlightBackground="Transparent"
+                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Foreground="{DynamicResource SecondaryTextBrush}"
+                                        Command="{s:Action DeleteDepotRecord}"
+                                        CommandParameter="{Binding}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Grid Grid.Row="1" Margin="0,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <hc:TextBox
+                            Grid.Row="0"
+                            Height="30"
+                            hc:InfoElement.Placeholder="{DynamicResource RecordName}"
+                            Text="{Binding DepotRecordName, UpdateSourceTrigger=PropertyChanged}" />
+                        <StackPanel
+                            Grid.Row="1"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Button
+                                Height="25"
+                                MinWidth="50"
+                                Padding="8,0"
+                                Command="{s:Action AddDepotRecord}"
+                                Content="{DynamicResource AddRecord}" />
+                            <Button
+                                Height="25"
+                                MinWidth="50"
+                                Margin="5,0,0,0"
+                                Padding="8,0"
+                                Command="{s:Action RenameDepotRecord}"
+                                Content="{DynamicResource RenameRecord}" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -585,6 +758,7 @@
                         Content="{DynamicResource StartToDepotRecognition}"
                         IsEnabled="{c:Binding 'Idle and Inited'}" />
                 </StackPanel>
+                </Grid>
             </Grid>
         </TabItem>
         <!--
