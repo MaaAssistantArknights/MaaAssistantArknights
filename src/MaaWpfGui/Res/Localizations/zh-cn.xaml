@@ -1464,7 +1464,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-重启锚点 - 辅助建设模式：
+重启锚点：
 
  收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 3 分钟
 

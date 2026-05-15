@@ -1465,7 +1465,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-재시작 앵커 - 지원 건설 모드：
+재시작 앵커：
 
  수익 참고: 회당 약 159토큰 + 통괄 포인트, 소요 시간 약 3분
 

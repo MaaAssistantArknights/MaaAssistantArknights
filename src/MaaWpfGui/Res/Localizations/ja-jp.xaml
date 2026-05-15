@@ -1464,7 +1464,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-再起の錨 - 支援建設モード：
+再起の錨：
 
  報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約3分
 

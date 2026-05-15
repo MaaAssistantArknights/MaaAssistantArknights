@@ -1463,7 +1463,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-Relaunch Anchor - Assisted Construction Mode:
+Relaunch Anchor:
 
  Reward estimate: ~159 tokens + coordination points per run, ~3 min per round
 

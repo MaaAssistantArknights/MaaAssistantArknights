@@ -1464,7 +1464,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-重啟錨點 - 輔助建設模式：
+重啟錨點：
 
  收益參考：每把約 159 代幣 + 統籌點數，單輪耗時約 3 分
 
