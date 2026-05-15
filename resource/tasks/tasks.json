@@ -4221,14 +4221,57 @@
     },
     "DepotBegin": {
         "algorithm": "JustReturn",
-        "next": ["Depot", "DepotMaterialTab", "DepotAllTab", "DepotMaterialTabClicked", "Depot@ReturnButtons#next"]
+        "next": [
+            "Depot",
+            "DepotMaterialTab",
+            "DepotAllTab",
+            "DepotMaterialTabClicked",
+            "Depot@ReturnButtons#next"
+        ]
+    },
+    "DepotUnexpectedReturn": {
+        "template": ["Return.png", "Return-White.png"],
+        "templThreshold": [0.7, 0.7],
+        "action": "ClickSelf",
+        "roi": [0, 0, 180, 80],
+        "next": ["DepotHomeWait"]
     },
     "Depot": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
+        "next": ["DepotHomeWait"]
+    },
+    "DepotHomeWait": {
+        "algorithm": "JustReturn",
+        "postDelay": 500,
+        "next": ["DepotHomeMaybe#next"],
+        "onErrorNext": ["Depot@ReturnButtons#next"]
+    },
+    "DepotHomeMaybe": {
+        "algorithm": "JustReturn",
+        "next": ["DepotUnexpectedReturn", "DepotHomeConfirmed", "Depot@CloseAnnos#next"]
+    },
+    "DepotHomeConfirmed": {
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["Depot-Entry"],
-        "next": ["DepotMaterialTab"]
+        "maxTimes": 2,
+        "exceededNext": ["Depot@ReturnButtons#next"],
+        "next": ["DepotAfterEntry#next"],
+        "onErrorNext": ["Depot@ReturnButtons#next"]
+    },
+    "DepotAfterEntry": {
+        "algorithm": "JustReturn",
+        "next": [
+            "DepotMaterialTab",
+            "DepotAllTab",
+            "DepotMaterialTabClicked",
+            "DepotUnexpectedReturn",
+            "DepotHomeConfirmed",
+            "Depot@CloseAnnos#next"
+        ]
     },
     "DepotAllTab": {
         "action": "ClickSelf",
