@@ -131,6 +131,11 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Install dmgbuild (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: python3 -m pip install dmgbuild
+
       - name: Install AppImage packaging dependencies
         if: runner.os == 'Linux'
         shell: bash
