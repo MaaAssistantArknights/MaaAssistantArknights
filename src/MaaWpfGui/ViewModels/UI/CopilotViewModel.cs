@@ -1721,13 +1721,19 @@ public partial class CopilotViewModel : Screen
         }
         else
         {
-            if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal) && !copilot.IsSandbox)
+            if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal))
             {
                 var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
             }
 
-            if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid) || copilot.IsSandbox)
+            if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid))
+            {
+                var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
+                CopilotItemViewModels.Add(item);
+            }
+
+            if (flags.HasFlag(CopilotModel.DifficultyFlags.Sandbox))
             {
                 var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);

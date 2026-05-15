@@ -17,11 +17,9 @@ public:
     {
         std::filesystem::path copilot_file; // 文件名
         std::string nav_name;               // 关卡名
-        bool is_raid = false;               // 是否是突袭
         int id;
-        bool is_sandbox = false;            // 是否是沙盘推演
-        int sandbox_option1 = 1;            // 沙盘选项1 (1 or 2)
-        int sandbox_option2 = 1;            // 沙盘选项2 (1 or 2)
+        int difficulty = 0;                 // 难度; 0 Ignore, 1 Normal 普通/险地/磨难, 2 Raid 突袭, 4 Sandbox 沙盘
+        std::array<int, 2> sandbox = {};    // 沙盘选项
     };
 
 public:

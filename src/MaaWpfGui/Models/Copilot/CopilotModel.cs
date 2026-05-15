@@ -47,12 +47,6 @@ public class CopilotModel : CopilotBase
     [JsonProperty("difficulty")]
     public DifficultyFlags Difficulty { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether 沙盘推演模式
-    /// </summary>
-    [JsonProperty("is_sandbox")]
-    public bool IsSandbox { get; set; }
-
     public List<(string Output, string? Color)> Output()
     {
         var output = new List<(string, string?)>();
@@ -349,7 +343,7 @@ public class CopilotModel : CopilotBase
         None = 0,
 
         /// <summary>
-        /// 普通
+        /// 普通; 险地 / 磨难, 运行前手动切换到对应难度
         /// </summary>
         Normal = 1,
 
@@ -357,5 +351,10 @@ public class CopilotModel : CopilotBase
         /// 突袭
         /// </summary>
         Raid = 2,
+
+        /// <summary>
+        /// 沙盒推演
+        /// </summary>
+        Sandbox = 4,
     }
 }

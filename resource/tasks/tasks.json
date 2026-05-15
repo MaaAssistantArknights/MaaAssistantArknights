@@ -391,17 +391,13 @@
     },
     "SandboxOptionToggle": {
         "doc": "沙盘推演选项弹窗按钮",
-        "template": "SandboxOptionToggle.png",
         "action": "ClickSelf",
-        "roi": [1131, 123, 149, 148],
-        "preDelay": 500,
-        "next": []
+        "roi": [1131, 123, 149, 148]
     },
     "SandboxButton": {
-        "doc": "沙盘推演按钮",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["沙盘推演"],
+        "text": ["沙盘","推演"],
         "roi": [910, 128, 244, 138],
         "maxTimes": 3,
         "next": ["SandboxOptionToggle", "#self"]
