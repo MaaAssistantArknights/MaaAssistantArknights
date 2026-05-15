@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+
 #include "Task/AbstractTask.h"
 
 namespace asst
@@ -31,7 +33,7 @@ protected:
     std::string m_directly_task;
     // Not directly
     std::string m_chapter_task;
-    std::string m_difficulty_task;
+    std::vector<std::string> m_difficulty_tasks;
     std::string m_stage_code;
     bool m_switch_difficulty_after_stage_selection = false;
     std::shared_ptr<ProcessTask> m_fight_task_ptr = nullptr;
