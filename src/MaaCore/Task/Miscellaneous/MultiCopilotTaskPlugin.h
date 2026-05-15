@@ -19,6 +19,9 @@ public:
         std::string nav_name;               // 关卡名
         bool is_raid = false;               // 是否是突袭
         int id;
+        bool is_sandbox = false;            // 是否是沙盘推演
+        int sandbox_option1 = 1;            // 沙盘选项1 (1 or 2)
+        int sandbox_option2 = 1;            // 沙盘选项2 (1 or 2)
     };
 
 public:

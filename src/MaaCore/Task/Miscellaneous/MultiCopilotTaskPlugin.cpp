@@ -1,6 +1,7 @@
 #include "MultiCopilotTaskPlugin.h"
 
 #include <ranges>
+#include <algorithm>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
@@ -47,9 +48,23 @@ bool asst::MultiCopilotTaskPlugin::_run()
     ret = ret && navigate_to_stage(config.nav_name);
 
     ProcessTask(*this, { "NotUsePrts" }).set_ignore_error(true).set_retry_times(0).run();
-    if (config.is_raid) {
-        // 选择突袭模式
+
+    bool is_sandbox = config.is_sandbox || Copilot.get_data().info.is_sandbox;
+    int sandbox_option1 =
+        std::clamp(config.is_sandbox ? config.sandbox_option1 : Copilot.get_data().info.sandbox_option1, 1, 2);
+    int sandbox_option2 =
+        std::clamp(config.is_sandbox ? config.sandbox_option2 : Copilot.get_data().info.sandbox_option2, 1, 2);
+
+    if (config.is_raid || is_sandbox) {
         ret = ret && ProcessTask(*this, { "RaidConfirm", "ChangeToRaidDifficulty" }).set_retry_times(20).run();
+    }
+    if (ret && is_sandbox) {
+        ret = ret && ProcessTask(*this, { "SandboxOptionToggle", "SandboxButton" }).set_retry_times(20).run();
+        std::string option1_task = "SandboxOption1_" + std::to_string(sandbox_option1);
+        ret = ret && ProcessTask(*this, { option1_task }).set_retry_times(3).run();
+        std::string option2_task = "SandboxOption2_" + std::to_string(sandbox_option2);
+        ret = ret && ProcessTask(*this, { option2_task }).set_retry_times(3).run();
+        ret = ret && ProcessTask(*this, { "SandboxConfirm" }).set_retry_times(20).run();
     }
 
     return ret;

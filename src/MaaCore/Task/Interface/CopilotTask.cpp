@@ -1,5 +1,7 @@
 #include "CopilotTask.h"
 
+#include <algorithm>
+
 #include "Arknights-Tile-Pos/TileCalc2.hpp"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -90,13 +92,37 @@ bool asst::CopilotTask::set_params(const json::value& params)
             Log.error("Not support stage");
             return false;
         }
+        if (Copilot.get_data().info.is_sandbox) {
+            int opt1 = std::clamp(Copilot.get_data().info.sandbox_option1, 1, 2);
+            int opt2 = std::clamp(Copilot.get_data().info.sandbox_option2, 1, 2);
+            m_sandbox_tasks.clear();
+            auto raid_tp = std::make_shared<ProcessTask>(m_callback, inst(), TaskType);
+            raid_tp->set_tasks({ "RaidConfirm", "ChangeToRaidDifficulty" }).set_retry_times(20);
+            m_sandbox_tasks.emplace_back(raid_tp);
+            auto sandbox_entry_tp = std::make_shared<ProcessTask>(m_callback, inst(), TaskType);
+            sandbox_entry_tp->set_tasks({ "SandboxOptionToggle", "SandboxButton" }).set_retry_times(20);
+            m_sandbox_tasks.emplace_back(sandbox_entry_tp);
+            std::vector<std::string> sandbox_steps = { "SandboxOption1_" + std::to_string(opt1),
+                                                       "SandboxOption2_" + std::to_string(opt2),
+                                                       "SandboxConfirm" };
+            for (const auto& task_name : sandbox_steps) {
+                auto tp = std::make_shared<ProcessTask>(m_callback, inst(), TaskType);
+                tp->set_tasks({ task_name }).set_retry_times(20);
+                m_sandbox_tasks.emplace_back(tp);
+            }
+            size_t insert_pos = 1;
+            for (const auto& tp : m_sandbox_tasks) {
+                m_subtasks.insert(m_subtasks.begin() + insert_pos, tp);
+                ++insert_pos;
+            }
+        }
     }
     else if (multi_tasks_opt) {
         m_multi_copilot_plugin_ptr->set_enable(true); // 启用多任务插件, 自动覆盖Copilot中的配置
         m_battle_task_ptr->set_wait_until_end(true);
         auto configs = static_cast<std::vector<MultiCopilotConfig>>(*multi_tasks_opt);
         std::vector<MultiCopilotTaskPlugin::MultiCopilotConfig> configs_cvt;
-        for (const auto& [id, filename, stage_name, is_raid] : configs) {
+        for (const auto& [id, filename, stage_name, is_raid, is_sandbox, sandbox_option1, sandbox_option2] : configs) {
             MultiCopilotTaskPlugin::MultiCopilotConfig config_cvt;
             auto copilot_opt = parse_copilot_filename(filename);
             if (!copilot_opt) {
@@ -110,6 +136,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
             config_cvt.nav_name = stage_name;
             config_cvt.is_raid = is_raid;
             config_cvt.id = id; // ID 从0开始
+            config_cvt.is_sandbox = is_sandbox;
+            config_cvt.sandbox_option1 = sandbox_option1;
+            config_cvt.sandbox_option2 = sandbox_option2;
             configs_cvt.emplace_back(std::move(config_cvt));
         }
 

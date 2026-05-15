@@ -40,6 +40,10 @@ asst::battle::copilot::BasicInfo asst::CopilotConfig::parse_basic_info(const jso
     info.details = json.get("doc", "details", std::string());
     info.details_color = json.get("doc", "details_color", std::string());
 
+    info.is_sandbox = json.get("is_sandbox", false);
+    info.sandbox_option1 = json.get("sandbox_option1", 1);
+    info.sandbox_option2 = json.get("sandbox_option2", 1);
+
     return info;
 }
 

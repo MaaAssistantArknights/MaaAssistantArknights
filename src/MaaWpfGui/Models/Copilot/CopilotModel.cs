@@ -47,6 +47,12 @@ public class CopilotModel : CopilotBase
     [JsonProperty("difficulty")]
     public DifficultyFlags Difficulty { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 沙盘推演模式
+    /// </summary>
+    [JsonProperty("is_sandbox")]
+    public bool IsSandbox { get; set; }
+
     public List<(string Output, string? Color)> Output()
     {
         var output = new List<(string, string?)>();

@@ -19,11 +19,21 @@ public:
     struct MultiCopilotConfig
     {
         int id = -1;
-        std::string filename;   // 文件名
-        std::string stage_name; // 关卡名
-        bool is_raid = false;   // 是否是突袭
+        std::string filename;    // 文件名
+        std::string stage_name;  // 关卡名
+        bool is_raid = false;    // 是否是突袭
+        bool is_sandbox = false; // 是否是沙盘推演
+        int sandbox_option1 = 1; // 沙盘选项1 (1 or 2)
+        int sandbox_option2 = 1; // 沙盘选项2 (1 or 2)
 
-        MEO_JSONIZATION(MEO_OPT id, filename, stage_name, MEO_OPT is_raid);
+        MEO_JSONIZATION(
+            MEO_OPT id,
+            filename,
+            stage_name,
+            MEO_OPT is_raid,
+            MEO_OPT is_sandbox,
+            MEO_OPT sandbox_option1,
+            MEO_OPT sandbox_option2);
     };
 
 public:
@@ -40,6 +50,7 @@ private:
     std::optional<std::filesystem::path> parse_copilot_filename(const std::string& name);
 
     std::shared_ptr<MultiCopilotTaskPlugin> m_multi_copilot_plugin_ptr = nullptr;
+    std::vector<std::shared_ptr<ProcessTask>> m_sandbox_tasks;
     std::shared_ptr<ProcessTask> m_medicine_task_ptr = nullptr;
     std::shared_ptr<BattleFormationTask> m_formation_task_ptr = nullptr;
     std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
