@@ -3071,6 +3071,14 @@
         "sortId": -10000,
         "usage": "形艺特辑专用特辑收藏贴，可用于版面编辑。"
     },
+    "itempack_stickers_sand2": {
+        "classifyType": "NONE",
+        "description": "做好驶向新航路的准备。",
+        "icon": "itempack_stickers_sand2.png",
+        "name": "贴纸包/重启锚点",
+        "sortId": -10000,
+        "usage": "形艺特辑专用特辑收藏贴，可用于版面编辑。"
+    },
     "main16_spitem_1": {
         "classifyType": "NORMAL",
         "description": "从前，人们说苦难自它的出现生发；如今，人们说悲剧从它的消失肇始。",

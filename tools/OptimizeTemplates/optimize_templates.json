@@ -4068,5 +4068,6 @@
     "resource/global/YoStarKR/resource/template/MiniGame/PV/MiniGame@PV@MainInterface": "3e9220dffb09f0579158448d4331fb6fa3cbb39b0d171a60b9b1d943ea59fc4c",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersRecastConfirm-NoRetain": "072d0ccbd69368cf3df90578df61ab2dccee654b5cc8f81fee086f07f1334d54",
     "resource/global/YoStarJP/resource/template/StageNavigation/Annihilation/StageAnnihilation": "28456c150d997aeb4d9d49cbb39783e34a88469a833ef0cb45d3a301f6a12bac",
-    "resource/template/StageNavigation/Episode/17@EnterEpisodeNew": "d8a46d45558cf54dd8f1453f195a18bae56a249c994a94b5debb280191e289db"
+    "resource/template/StageNavigation/Episode/17@EnterEpisodeNew": "d8a46d45558cf54dd8f1453f195a18bae56a249c994a94b5debb280191e289db",
+    "resource/template/items/itempack_stickers_sand2": "bf2c80ebf55f88f72da20471f06cc9d31884f01822c1ea721899963bb480b3da"
 }
