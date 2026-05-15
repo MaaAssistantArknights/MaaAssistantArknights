@@ -192,12 +192,11 @@
         "next": ["RelaunchAnchor@RA@PNS-WoodDialogue", "RelaunchAnchor@RA@PNS-ManufactureIcon", "#self"]
     },
     "RelaunchAnchor@RA@PNS-WoodDialogue": {
-        "doc": "步骤 22：模板匹配说话标识，持续点击到没有这个标识，间隔 1 秒",
+        "doc": "步骤 22：模板匹配说话标识，持续点击到没有这个标识",
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "RelaunchAnchor@RA@DialogueMarker.png",
         "roi": [363, 456, 144, 139],
-        "postDelay": 1000,
         "next": ["#self", "RelaunchAnchor@RA@PNS-WaitWoodDialogue"]
     },
     "RelaunchAnchor@RA@PNS-ManufactureIcon": {
@@ -285,12 +284,11 @@
         "next": ["RelaunchAnchor@RA@PNS-FirstCommDialogue", "#self"]
     },
     "RelaunchAnchor@RA@PNS-FirstCommDialogue": {
-        "doc": "步骤 33：模板匹配说话标识，持续点击到没有这个标识，间隔 1 秒",
+        "doc": "步骤 33：模板匹配说话标识，持续点击到没有这个标识",
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "RelaunchAnchor@RA@DialogueMarker.png",
         "roi": [0, 0, 0, 0],
-        "postDelay": 1000,
         "next": ["#self", "RelaunchAnchor@RA@PNS-WaitSecondCommDialogue"]
     },
     "RelaunchAnchor@RA@PNS-WaitSecondCommDialogue": {
@@ -300,12 +298,11 @@
         "next": ["RelaunchAnchor@RA@PNS-SecondCommDialogue", "#self"]
     },
     "RelaunchAnchor@RA@PNS-SecondCommDialogue": {
-        "doc": "步骤 35：模板匹配说话标识，持续点击到没有这个标识，间隔 1 秒",
+        "doc": "步骤 35：模板匹配说话标识，持续点击到没有这个标识",
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "RelaunchAnchor@RA@DialogueMarker.png",
         "roi": [0, 0, 0, 0],
-        "postDelay": 1000,
         "next": ["#self", "RelaunchAnchor@RA@PNS-WaitBeforeSettlement"]
     },
     "RelaunchAnchor@RA@PNS-WaitBeforeSettlement": {
