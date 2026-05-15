@@ -12,15 +12,15 @@ namespace
 // 稀疏路径使用的每个有效 mask 像素的条目
 struct SparseEntry
 {
-    int16_t dx, dy;     // 相对模板左上角的偏移
-    float T_prime[3];   // M*(T_c - μT_c)，per-channel
+    int16_t dx, dy;   // 相对模板左上角的偏移
+    float T_prime[3]; // M*(T_c - μT_c)，per-channel
 };
 }
 
 struct MaskedCcoeffMatcher::TemplatePlan
 {
-    cv::Mat M;                                // CV_32F mask, 0 or 1
-    std::array<cv::Mat, 3> T_prime;           // M*(T_c - μT_c)，per-channel
+    cv::Mat M;                      // CV_32F mask, 0 or 1
+    std::array<cv::Mat, 3> T_prime; // M*(T_c - μT_c)，per-channel
     double sigma_T_sq = 0.0;
     double mask_area = 0.0;
     std::vector<SparseEntry> sparse_entries; // 非零 mask 位置列表
@@ -59,13 +59,13 @@ void MaskedCcoeffMatcher::fnv1a_update(uint64_t& h, const void* data, size_t siz
     const auto* ptr = static_cast<const uint8_t*>(data);
     for (size_t i = 0; i < size; ++i) {
         h ^= ptr[i];
-        h *= 1099511628211ULL;
+        h *= 1'099'511'628'211ULL;
     }
 }
 
 std::string MaskedCcoeffMatcher::make_mat_cache_key(const cv::Mat& mat)
 {
-    uint64_t h = 14695981039346656037ULL;
+    uint64_t h = 14'695'981'039'346'656'037ULL;
     const int meta[] = { mat.rows, mat.cols, mat.type() };
     fnv1a_update(h, meta, sizeof(meta));
 
@@ -74,8 +74,8 @@ std::string MaskedCcoeffMatcher::make_mat_cache_key(const cv::Mat& mat)
         fnv1a_update(h, mat.ptr(y), row_bytes);
     }
     // 捏个hash key
-    return "mat:" + std::to_string(mat.rows) + "x" + std::to_string(mat.cols)
-           + ":" + std::to_string(mat.type()) + ":" + std::to_string(h);
+    return "mat:" + std::to_string(mat.rows) + "x" + std::to_string(mat.cols) + ":" + std::to_string(mat.type()) + ":" +
+           std::to_string(h);
 }
 
 std::shared_ptr<const MaskedCcoeffMatcher::TemplatePlan> MaskedCcoeffMatcher::get_or_build_template_plan(
@@ -203,15 +203,17 @@ bool MaskedCcoeffMatcher::should_fallback_to_opencv(int mask_pixels, int result_
 //
 // 等价于 cv::matchTemplate(image, templ, result, TM_CCOEFF_NORMED, mask)
 cv::Mat MaskedCcoeffMatcher::match(
-    const cv::Mat& image_rgb,      // CV_8UC3
-    const cv::Mat& templ_rgb,      // CV_8UC3
-    const cv::Mat& mask_u8,        // CV_8UC1, 0 or 255
-    const std::string& cache_key,  // 模板侧 FFT 缓存键
+    const cv::Mat& image_rgb,     // CV_8UC3
+    const cv::Mat& templ_rgb,     // CV_8UC3
+    const cv::Mat& mask_u8,       // CV_8UC1, 0 or 255
+    const std::string& cache_key, // 模板侧 FFT 缓存键
     int mask_pixels)
 {
     const int rh = image_rgb.rows - templ_rgb.rows + 1;
     const int rw = image_rgb.cols - templ_rgb.cols + 1;
-    if (rh <= 0 || rw <= 0) return {};
+    if (rh <= 0 || rw <= 0) {
+        return {};
+    }
 
     if (mask_pixels <= 0 || should_fallback_to_opencv(mask_pixels, rh * rw)) {
         return {};
@@ -223,7 +225,9 @@ cv::Mat MaskedCcoeffMatcher::match(
     mask_u8.convertTo(M, CV_32F, 1.0 / 255.0);
 
     const auto template_plan = get_or_build_template_plan(cache_key, T, M, mask_pixels);
-    if (!template_plan) return {};
+    if (!template_plan) {
+        return {};
+    }
 
     const double mask_area = template_plan->mask_area;
     const double sigma_T_sq = template_plan->sigma_T_sq;

@@ -20,6 +20,7 @@ public:
     virtual bool load(const std::filesystem::path& path) override;
 
     const cv::Mat& get_templ(const std::string& name);
+
     uint64_t revision() const noexcept { return m_revision.load(std::memory_order_acquire); }
 
 private:
