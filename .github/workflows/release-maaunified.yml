@@ -75,6 +75,8 @@ jobs:
     name: Release ${{ matrix.name }}
     needs: meta
     runs-on: ${{ matrix.os }}
+    env:
+      MAAUNIFIED_STAGING_DIR: ${{ runner.temp }}/maaunified-staging
     strategy:
       fail-fast: false
       matrix:
@@ -174,7 +176,7 @@ jobs:
         shell: pwsh
         run: >
           dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r ${{ matrix.rid }}
-          --self-contained ${{ matrix.self_contained }} -o staging
+          --self-contained ${{ matrix.self_contained }} -o "$env:MAAUNIFIED_STAGING_DIR"
           -p:PublishSingleFile=true
           -p:IncludeNativeLibrariesForSelfExtract=true
           -p:VersionPrefix=${{ needs.meta.outputs.version_prefix }}
@@ -190,7 +192,7 @@ jobs:
         shell: bash
         run: >
           dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r ${{ matrix.rid }}
-          --self-contained ${{ matrix.self_contained }} -o staging/bin
+          --self-contained ${{ matrix.self_contained }} -o "$MAAUNIFIED_STAGING_DIR/bin"
           -p:VersionPrefix=${{ needs.meta.outputs.version_prefix }}
           -p:VersionSuffix=${{ needs.meta.outputs.version_suffix }}
           -p:AssemblyVersion=${{ needs.meta.outputs.assembly_version }}
@@ -203,76 +205,83 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Path staging -Force | Out-Null
-          Copy-Item install\* staging\ -Recurse -Force
-          if (!(Test-Path "staging\MaaCore.dll")) { throw "MaaCore.dll not found in staging output." }
-          if (!(Test-Path "staging\resource")) { throw "resource directory not found in staging output." }
+          $stagingDir = $env:MAAUNIFIED_STAGING_DIR
+          New-Item -ItemType Directory -Path $stagingDir -Force | Out-Null
+          Copy-Item install\* $stagingDir -Recurse -Force
+          if (!(Test-Path (Join-Path $stagingDir "MaaCore.dll"))) { throw "MaaCore.dll not found in staging output." }
+          if (!(Test-Path (Join-Path $stagingDir "resource"))) { throw "resource directory not found in staging output." }
 
       - name: Merge MaaCore runtime (Unix)
         if: runner.os != 'Windows'
         shell: bash
         run: |
-          mkdir -p staging
-          cp -a install/. staging/
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          mkdir -p "$staging_dir"
+          cp -a install/. "$staging_dir/"
           if [[ "$RUNNER_OS" == "Linux" ]]; then
-            test -f staging/libMaaCore.so
+            test -f "$staging_dir/libMaaCore.so"
           else
-            test -f staging/libMaaCore.dylib
+            test -f "$staging_dir/libMaaCore.dylib"
           fi
-          test -d staging/resource
+          test -d "$staging_dir/resource"
 
       - name: Create root launcher scripts (Linux)
         if: runner.os == 'Linux'
         shell: bash
-        run: bash src/MAAUnified/CI/create-unix-launchers.sh staging linux
+        run: bash src/MAAUnified/CI/create-unix-launchers.sh "$MAAUNIFIED_STAGING_DIR" linux
 
       - name: Remove non-runtime artifacts from release package (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          Get-ChildItem staging -Filter *.pdb -File -Recurse | Remove-Item -Force
-          Remove-Item staging\AsstCaller.h -Force -ErrorAction SilentlyContinue
-          Remove-Item staging\AsstPort.h -Force -ErrorAction SilentlyContinue
+          $stagingDir = $env:MAAUNIFIED_STAGING_DIR
+          Get-ChildItem $stagingDir -Filter *.pdb -File -Recurse | Remove-Item -Force
+          Remove-Item (Join-Path $stagingDir "AsstCaller.h") -Force -ErrorAction SilentlyContinue
+          Remove-Item (Join-Path $stagingDir "AsstPort.h") -Force -ErrorAction SilentlyContinue
 
       - name: Remove non-runtime artifacts from release package (Unix)
         if: runner.os != 'Windows'
         shell: bash
         run: |
-          find staging/bin -type f -name '*.pdb' -delete
-          rm -f staging/AsstCaller.h staging/AsstPort.h
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          find "$staging_dir/bin" -type f -name '*.pdb' -delete
+          rm -f "$staging_dir/AsstCaller.h" "$staging_dir/AsstPort.h"
 
       - name: Validate staging layout (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          if (!(Test-Path "staging\MAAUnified.exe")) { throw "Windows GUI executable not found at staging root." }
-          if (!(Test-Path "staging\resource")) { throw "resource directory not found under staging root." }
-          if (Test-Path "staging\MAAUnified.cmd") { throw "Legacy cmd launcher should not be included in Windows package." }
-          $rootManaged = @(Get-ChildItem staging -File | Where-Object { $_.Name -like 'System.*.dll' -or $_.Name -like 'Avalonia.*.dll' })
+          $stagingDir = $env:MAAUNIFIED_STAGING_DIR
+          if (!(Test-Path (Join-Path $stagingDir "MAAUnified.exe"))) { throw "Windows GUI executable not found at staging root." }
+          if (!(Test-Path (Join-Path $stagingDir "resource"))) { throw "resource directory not found under staging root." }
+          if (Test-Path (Join-Path $stagingDir "MAAUnified.cmd")) { throw "Legacy cmd launcher should not be included in Windows package." }
+          $rootManaged = @(Get-ChildItem $stagingDir -File | Where-Object { $_.Name -like 'System.*.dll' -or $_.Name -like 'Avalonia.*.dll' })
           if ($rootManaged.Count -gt 0) { throw "Managed DLLs should not be placed at staging root." }
-          if ((Get-ChildItem staging -Filter *.pdb -File -Recurse | Measure-Object).Count -gt 0) { throw "PDB files should not be included in formal release packages." }
+          if ((Get-ChildItem $stagingDir -Filter *.pdb -File -Recurse | Measure-Object).Count -gt 0) { throw "PDB files should not be included in formal release packages." }
 
       - name: Validate staging layout (Linux)
         if: runner.os == 'Linux'
         shell: bash
         run: |
-          test -x staging/bin/MAAUnified
-          test -d staging/resource
-          test -x staging/MAAUnified
-          test -x staging/MAAUnified.sh
-          ! find staging -maxdepth 1 -type f \( -name 'System.*.dll' -o -name 'Avalonia.*.dll' \) | grep -q .
-          ! find staging/bin -type f -name '*.pdb' | grep -q .
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          test -x "$staging_dir/bin/MAAUnified"
+          test -d "$staging_dir/resource"
+          test -x "$staging_dir/MAAUnified"
+          test -x "$staging_dir/MAAUnified.sh"
+          ! find "$staging_dir" -maxdepth 1 -type f \( -name 'System.*.dll' -o -name 'Avalonia.*.dll' \) | grep -q .
+          ! find "$staging_dir/bin" -type f -name '*.pdb' | grep -q .
 
       - name: Validate staging layout (macOS)
         if: runner.os == 'macOS'
         shell: bash
         run: |
-          test -x staging/bin/MAAUnified
-          test -f staging/libMaaCore.dylib
-          test -d staging/resource
-          ! test -e staging/MAAUnified.command
-          ! find staging -maxdepth 1 -type f \( -name 'System.*.dll' -o -name 'Avalonia.*.dll' \) | grep -q .
-          ! find staging/bin -type f -name '*.pdb' | grep -q .
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          test -x "$staging_dir/bin/MAAUnified"
+          test -f "$staging_dir/libMaaCore.dylib"
+          test -d "$staging_dir/resource"
+          ! test -e "$staging_dir/MAAUnified.command"
+          ! find "$staging_dir" -maxdepth 1 -type f \( -name 'System.*.dll' -o -name 'Avalonia.*.dll' \) | grep -q .
+          ! find "$staging_dir/bin" -type f -name '*.pdb' | grep -q .
 
       - name: Package (Windows)
         if: runner.os == 'Windows'
@@ -280,7 +289,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path release -Force | Out-Null
           $name = "MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
-          Compress-Archive -Path staging\* -DestinationPath "release\$name.zip"
+          Compress-Archive -Path "$env:MAAUNIFIED_STAGING_DIR\*" -DestinationPath "release\$name.zip"
 
       - name: Package (Linux)
         if: runner.os == 'Linux'
@@ -288,7 +297,7 @@ jobs:
         run: |
           mkdir -p release
           name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
-          bash src/MAAUnified/CI/create-linux-appimage.sh staging release "$name" x86_64
+          bash src/MAAUnified/CI/create-linux-appimage.sh "$MAAUNIFIED_STAGING_DIR" release "$name" x86_64
           test -f "release/${name}.AppImage"
           ! find release -type f -name '*linux*.tar.gz' | grep -q .
 
@@ -303,7 +312,7 @@ jobs:
           mkdir -p release
           name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
           bash src/MAAUnified/CI/create-macos-app-dmg.sh \
-            staging \
+            "$MAAUNIFIED_STAGING_DIR" \
             release \
             "$name" \
             "${{ needs.meta.outputs.version_prefix }}" \
