@@ -276,28 +276,6 @@
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
-
-                <!--  DroidCast 截图（实验性）  -->
-                <StackPanel Visibility="{c:Binding 'ConnectConfig==&quot;DroidCast&quot;'}">
-                    <TextBlock
-                        Margin="10"
-                        TextWrapping="Wrap"
-                        Text="{DynamicResource DroidCastSecurityWarning}" />
-                    <TextBlock
-                        Margin="10,0,10,10"
-                        TextWrapping="Wrap"
-                        Text="{DynamicResource DroidCastLossyWarning}" />
-                    <hc:ComboBox
-                        Width="280"
-                        Height="30"
-                        Margin="10"
-                        hc:TitleElement.Title="{DynamicResource DroidCastFormat}"
-                        hc:TitleElement.TitlePlacement="Left"
-                        DisplayMemberPath="Display"
-                        ItemsSource="{Binding DroidCastFormatList}"
-                        SelectedValue="{Binding DroidCastExtras.Format}"
-                        SelectedValuePath="Value" />
-                </StackPanel>
             </StackPanel>
         </StackPanel>
 

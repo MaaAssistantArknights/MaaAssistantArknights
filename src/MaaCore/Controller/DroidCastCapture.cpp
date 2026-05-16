@@ -6,6 +6,7 @@
 #include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/read.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/asio/write.hpp>
 #pragma warning(pop)
 
@@ -41,7 +42,7 @@ bool DroidCastCapture::init(
     }
     Log.info("DroidCastCapture: using port", port_);
 
-    if (!push_apk_if_needed() || !forward_port() || !start_server()) {
+    if (!push_apk() || !forward_port() || !start_server()) {
         uninit();
         return false;
     }
@@ -73,16 +74,29 @@ void DroidCastCapture::uninit()
 
 std::optional<cv::Mat> DroidCastCapture::screencap()
 {
-    auto data_opt = http_get();
-    if (!data_opt) {
+    std::lock_guard lock(screencap_mutex_);
+
+    auto result_opt = http_get();
+    if (!result_opt) {
         return std::nullopt;
     }
-    const auto& data = *data_opt;
-    cv::Mat img = cv::imdecode({ data.data(), int(data.size()) }, cv::IMREAD_COLOR);
-    if (img.empty()) {
-        Log.error("DroidCastCapture: cv::imdecode returned empty mat");
+
+    // Response is raw ARGB_8888 (4 bytes/pixel).
+    // X-Screenshot-Width = cols, X-Screenshot-Height = rows (standard image convention).
+    // cv::Mat takes (rows, cols) = (H, W).
+    const int W        = result_opt->width;
+    const int H        = result_opt->height;
+    const int bpp      = result_opt->bytes_per_pixel;
+    const int expected = W * H * bpp;
+    Log.info("DroidCastCapture: body size", result_opt->body.size(),
+             "expected", expected, "(", W, "x", H, "x", bpp, ")");
+    if (expected <= 0 || int(result_opt->body.size()) != expected) {
+        Log.error("DroidCastCapture: body size mismatch, cannot decode");
         return std::nullopt;
     }
+    cv::Mat mat(H, W, CV_8UC4, result_opt->body.data());
+    cv::Mat img;
+    cv::cvtColor(mat, img, cv::COLOR_RGBA2BGR);
     return img;
 }
 
@@ -125,17 +139,8 @@ bool DroidCastCapture::run_cmd_out(const std::string& cmd, std::string& out, int
     return result.value() == 0;
 }
 
-bool DroidCastCapture::push_apk_if_needed()
+bool DroidCastCapture::push_apk()
 {
-    // Check whether the APK already exists on the device.
-    std::string ls_cmd = adb_path_ + " -s " + serial_
-                         + " shell ls " + kDeviceApkPath;
-    std::string ls_out;
-    if (run_cmd_out(ls_cmd, ls_out, 5'000) && ls_out.find(kDeviceApkPath) != std::string::npos) {
-        Log.info("DroidCastCapture: APK already on device, skipping push");
-        return true;
-    }
-
     std::string local = utils::path_to_utf8_string(apk_local_path_);
     std::string push_cmd = adb_path_ + " -s " + serial_
                            + " push \"" + local + "\" " + kDeviceApkPath;
@@ -154,10 +159,13 @@ bool DroidCastCapture::forward_port()
 
 bool DroidCastCapture::start_server()
 {
+    // app_process runs in background; the shell blocks on stdin (cat).
+    // When the stdin pipe closes (uninit or process exit), cat returns and kill cleans up.
     std::string cmd = adb_path_ + " -s " + serial_
-                      + " shell CLASSPATH=" + kDeviceApkPath
-                      + " exec app_process /system/bin " + kMainClass
-                      + " --port=" + std::to_string(port_);
+                      + " shell \"CLASSPATH=" + kDeviceApkPath
+                      + " app_process / " + kMainClass
+                      + " --port=" + std::to_string(port_)
+                      + " & APID=$!; cat>/dev/null; kill $APID 2>/dev/null\"";
     Log.info("DroidCastCapture: starting server:", cmd);
     server_handle_ = platform_io_->interactive_shell(cmd);
     if (!server_handle_) {
@@ -179,7 +187,7 @@ bool DroidCastCapture::wait_for_server(int timeout_ms)
     return false;
 }
 
-std::optional<std::vector<uint8_t>> DroidCastCapture::http_get()
+std::optional<DroidCastCapture::ScreencapResult> DroidCastCapture::http_get()
 {
     try {
         asio::io_context ioc;
@@ -187,10 +195,49 @@ std::optional<std::vector<uint8_t>> DroidCastCapture::http_get()
         tcp::socket socket(ioc);
 
         auto endpoints = resolver.resolve("127.0.0.1", std::to_string(port_));
-        asio::connect(socket, endpoints);
+
+        // 5-second connect timeout: when DroidCast's event loop is stuck its TCP
+        // backlog fills up, SYN packets get dropped, and synchronous connect()
+        // would block for the OS retransmit timeout (~75 s).  Use async connect
+        // + a steady_timer so we bail out after 5 s instead.
+        {
+            boost::system::error_code connect_ec = asio::error::would_block;
+            asio::steady_timer timer(ioc);
+            timer.expires_after(std::chrono::seconds(5));
+            timer.async_wait([&](const boost::system::error_code& ec) {
+                if (!ec) socket.cancel();
+            });
+            asio::async_connect(socket, endpoints,
+                                [&](const boost::system::error_code& ec, const tcp::endpoint&) {
+                                    connect_ec = ec;
+                                    timer.cancel();
+                                });
+            ioc.run();
+            if (connect_ec) {
+                Log.warn("DroidCastCapture::http_get: connect:", connect_ec.message());
+                return std::nullopt;
+            }
+        }
+
+        // Cap read wait to 5 s so a stuck DroidCast event loop (e.g. PixelCopy
+        // waiting for a frame during a screen transition) doesn't block forever.
+#ifdef _WIN32
+        DWORD rcvtimo = 5'000;
+        setsockopt(socket.native_handle(), SOL_SOCKET, SO_RCVTIMEO,
+                   reinterpret_cast<const char*>(&rcvtimo), sizeof(rcvtimo));
+#else
+        struct timeval rcvtimo { 5, 0 };
+        setsockopt(socket.native_handle(), SOL_SOCKET, SO_RCVTIMEO, &rcvtimo, sizeof(rcvtimo));
+#endif
 
         // Send HTTP GET request.
-        std::string request = "GET /screenshot?format=" + cfg_.format
+        std::string query = "/screenshot";
+        if (cfg_.width > 0 && cfg_.height > 0) {
+            query += "?width=" + std::to_string(cfg_.width)
+                     + "&height=" + std::to_string(cfg_.height)
+                     + "&format=rgb8888";
+        }
+        std::string request = "GET " + query
                               + " HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n";
         asio::write(socket, asio::buffer(request));
 
@@ -218,10 +265,23 @@ std::optional<std::vector<uint8_t>> DroidCastCapture::http_get()
 
         // Verify HTTP 200.
         const std::string headers(buf.begin(), it);
+        Log.info("DroidCastCapture: response headers:", headers.substr(0, 256));
         if (headers.find("200") == std::string::npos) {
             Log.warn("DroidCastCapture: non-200 response:", headers.substr(0, 128));
             return std::nullopt;
         }
+
+        // Parse metadata headers set by DroidCast_raw.
+        auto parse_header_int = [&](const std::string& key) -> int {
+            auto pos = headers.find(key + ": ");
+            if (pos == std::string::npos) return 0;
+            try { return std::stoi(headers.substr(pos + key.size() + 2)); }
+            catch (...) { return 0; }
+        };
+        ScreencapResult result;
+        result.width           = parse_header_int("X-Screenshot-Width");
+        result.height          = parse_header_int("X-Screenshot-Height");
+        result.bytes_per_pixel = parse_header_int("X-Screenshot-Bytes-Per-Pixel");
 
         auto body_start = it + 4; // skip \r\n\r\n
         if (body_start >= buf.end()) {
@@ -229,7 +289,46 @@ std::optional<std::vector<uint8_t>> DroidCastCapture::http_get()
             return std::nullopt;
         }
 
-        return std::vector<uint8_t>(body_start, buf.end());
+        std::vector<uint8_t> body(body_start, buf.end());
+
+        // AndroidAsync may use chunked transfer encoding for binary responses.
+        // Decode chunks: each chunk is "{hex_size}\r\n{data}\r\n", ending with "0\r\n\r\n".
+        const bool chunked =
+            headers.find("Transfer-Encoding: chunked") != std::string::npos ||
+            headers.find("transfer-encoding: chunked") != std::string::npos;
+        if (chunked) {
+            std::vector<uint8_t> decoded;
+            size_t pos = 0;
+            while (pos < body.size()) {
+                size_t eol = pos;
+                while (eol + 1 < body.size() &&
+                       !(body[eol] == '\r' && body[eol + 1] == '\n'))
+                    ++eol;
+                if (eol + 1 >= body.size()) break;
+                std::string hex_str(body.begin() + pos, body.begin() + eol);
+                auto semi = hex_str.find(';');
+                if (semi != std::string::npos) hex_str = hex_str.substr(0, semi);
+                size_t chunk_size = 0;
+                try {
+                    chunk_size = std::stoul(hex_str, nullptr, 16);
+                }
+                catch (...) {
+                    break;
+                }
+                if (chunk_size == 0) break;
+                pos = eol + 2;
+                if (pos + chunk_size > body.size()) break;
+                decoded.insert(decoded.end(), body.begin() + pos,
+                               body.begin() + pos + chunk_size);
+                pos += chunk_size + 2;
+            }
+            Log.info("DroidCastCapture: chunked decode:", body.size(), "->", decoded.size(), "bytes");
+            result.body = std::move(decoded);
+            return result;
+        }
+
+        result.body = std::move(body);
+        return result;
     }
     catch (const std::exception& e) {
         Log.warn("DroidCastCapture::http_get:", e.what());

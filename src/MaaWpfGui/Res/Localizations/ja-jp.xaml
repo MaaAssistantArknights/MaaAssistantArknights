@@ -188,10 +188,7 @@
     <system:String x:Key="Compatible">互換モード</system:String>
     <system:String x:Key="SecondResolution">2番目の決議</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">一般モード（ブロックされた例外出力）</system:String>
-    <system:String x:Key="DroidCast">DroidCast スクリーンキャプチャ（実験的）</system:String>
-    <system:String x:Key="DroidCastFormat">画像フォーマット</system:String>
-    <system:String x:Key="DroidCastSecurityWarning">⚠ セキュリティ警告：DroidCast サービスはデバイス上のすべてのネットワークインターフェースを監視しています。同じネットワーク上の他のプログラムが無断でスクリーンショットを取得できる可能性があります。安全でないネットワークではこのモードを使用しないでください。</system:String>
-    <system:String x:Key="DroidCastLossyWarning">⚠ このモードはデフォルトで非可逆圧縮（JPEG）を使用するため、ゲーム画像の細部が失われ、認識エラーが発生する可能性があります。このモードによる認識問題を MAA にバグ報告しないでください。PNG 形式または他のスクリーンキャプチャ方法に切り替えてください。</system:String>
+    <system:String x:Key="DroidCast">DroidCast_raw（実験的）</system:String>
     <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
     <system:String x:Key="InfrastThresholdTip">カスタム シフトが有効な場合、このフィールドは自動入力と{key=Operator} グループのあるルームに対してのみ有効です</system:String>
     <system:String x:Key="RoguelikeStrategyExp">経験値を取得し、できるだけクリア</system:String>

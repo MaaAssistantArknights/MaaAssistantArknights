@@ -188,10 +188,7 @@
     <system:String x:Key="Compatible">兼容模式</system:String>
     <system:String x:Key="SecondResolution">第二分辨率</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
-    <system:String x:Key="DroidCast">DroidCast 截图（实验性）</system:String>
-    <system:String x:Key="DroidCastFormat">图片格式</system:String>
-    <system:String x:Key="DroidCastSecurityWarning">⚠ 安全提示：DroidCast 服务在设备上监听所有网络接口，同一网络的其他程序可未经授权获取屏幕内容。请勿在不安全的网络上使用此模式。</system:String>
-    <system:String x:Key="DroidCastLossyWarning">⚠ 该模式默认使用有损压缩（JPEG），可能导致游戏画面细节丢失，进而引发识别错误。若因此产生识别问题，请勿向 MAA 提交 Bug 报告，请改用 PNG 格式或切换其他截图模式。</system:String>
+    <system:String x:Key="DroidCast">DroidCast_raw（实验性）</system:String>
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
     <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 和使用{key=Operator}编组的房间有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</system:String>

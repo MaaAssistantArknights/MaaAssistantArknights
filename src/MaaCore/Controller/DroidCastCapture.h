@@ -3,6 +3,7 @@
 #include <chrono>
 #include <filesystem>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 
@@ -17,7 +18,8 @@ class DroidCastCapture
 public:
     struct Config
     {
-        std::string format = "jpeg"; // "jpeg" | "png" | "webp"
+        int width = 0;
+        int height = 0;
     };
 
     DroidCastCapture() = default;
@@ -47,13 +49,21 @@ private:
     bool run_cmd(const std::string& cmd, int64_t timeout_ms = 30'000);
     bool run_cmd_out(const std::string& cmd, std::string& out, int64_t timeout_ms = 30'000);
 
-    bool push_apk_if_needed();
+    bool push_apk();
     bool forward_port();
     bool start_server();
     bool wait_for_server(int timeout_ms = 5'000);
 
-    // Raw HTTP GET /screenshot?format=... → binary body bytes.
-    std::optional<std::vector<uint8_t>> http_get();
+    struct ScreencapResult
+    {
+        std::vector<uint8_t> body;
+        int width          = 0;
+        int height         = 0;
+        int bytes_per_pixel = 0;
+    };
+
+    // Raw HTTP GET /screenshot?format=rgb8888 → decoded metadata + body bytes.
+    std::optional<ScreencapResult> http_get();
 
     std::string adb_path_;
     std::string serial_;
@@ -64,9 +74,10 @@ private:
     uint16_t port_ = 0;
     std::shared_ptr<IOHandler> server_handle_;
     bool inited_ = false;
+    std::mutex screencap_mutex_;
 
-    static constexpr const char* kDeviceApkPath = "/data/local/tmp/maa_DroidCast-1.2.1.apk";
-    static constexpr const char* kMainClass = "com.rayworks.droidcast.Main";
+    static constexpr const char* kDeviceApkPath = "/data/local/tmp/DroidCast_raw.apk";
+    static constexpr const char* kMainClass = "ink.mol.droidcast_raw.Main";
 };
 
 } // namespace asst

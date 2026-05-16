@@ -331,9 +331,12 @@ void asst::AdbController::init_droidcast(const AdbCfg& adb_cfg)
         return;
     }
     DroidCastCapture::Config cfg;
-    cfg.format = adb_cfg.extras.get("format", std::string("jpeg"));
-    auto apk = ResDir.get() / "droidcast" / "DroidCast-1.2.1.apk";
-    m_droidcast.init(m_conn_ctx.adb_path, m_conn_ctx.address, apk, cfg, m_platform_io.get());
+    cfg.width  = m_width;
+    cfg.height = m_height;
+    auto apk = ResDir.get() / "droidcast" / "DroidCast_raw.apk";
+    if (!m_droidcast.init(m_conn_ctx.adb_path, m_conn_ctx.address, apk, cfg, m_platform_io.get())) {
+        Log.error("DroidCastCapture: init failed, will fall back to standard screencap methods");
+    }
 }
 
 void asst::AdbController::close_socket() noexcept

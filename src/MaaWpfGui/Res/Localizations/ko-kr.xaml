@@ -188,10 +188,7 @@
     <system:String x:Key="Compatible">호환 모드</system:String>
     <system:String x:Key="SecondResolution">분할 화면</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">일반 모드 (예외 출력 차단)</system:String>
-    <system:String x:Key="DroidCast">DroidCast 스크린캡처 (실험적)</system:String>
-    <system:String x:Key="DroidCastFormat">이미지 형식</system:String>
-    <system:String x:Key="DroidCastSecurityWarning">⚠ 보안 경고：DroidCast 서비스는 기기의 모든 네트워크 인터페이스를 수신합니다. 같은 네트워크의 다른 프로그램이 무단으로 화면 내용을 취득할 수 있습니다. 안전하지 않은 네트워크에서는 이 모드를 사용하지 마세요.</system:String>
-    <system:String x:Key="DroidCastLossyWarning">⚠ 이 모드는 기본적으로 손실 압축(JPEG)을 사용하므로 게임 화면의 세부 정보가 손실되어 인식 오류가 발생할 수 있습니다. 이 모드로 인한 인식 문제를 MAA에 버그 리포트로 제출하지 마세요. PNG 형식이나 다른 스크린캡처 방법으로 전환하세요.</system:String>
+    <system:String x:Key="DroidCast">DroidCast_raw (실험적)</system:String>
     <system:String x:Key="DormThreshold">{key=Operator} 컨디션 한계점</system:String>
     <system:String x:Key="InfrastThresholdTip">커스텀 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 {key=Operator} 교체를 사용하는 회의실에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
