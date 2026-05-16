@@ -21,7 +21,7 @@
         "action": "ClickSelf",
         "text": ["开启建设"],
         "roi": [1055, 597, 141, 46],
-        "next": ["RelaunchAnchor@RA@FineFarming", "RelaunchAnchor@RA@RA1"]
+        "next": ["RelaunchAnchor@RA@FineFarming", "#self", "RelaunchAnchor@RA@RA1"]
     },
     "RelaunchAnchor@RA@FineFarming": {
         "doc": "步骤 3：OCR 识别 <精耕细作> 并点击",
