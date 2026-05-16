@@ -1466,7 +1466,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
 重启锚点：
 
- 收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 3 分钟
+ 收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 2 分 10 秒
 
  前置步骤（手动完成一次）：
   1. 手动进入 RA-1，完成新手教程，直到回到大地图

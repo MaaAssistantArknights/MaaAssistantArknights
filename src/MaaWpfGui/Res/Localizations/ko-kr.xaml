@@ -1467,7 +1467,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
 재시작 앵커：
 
- 수익 참고: 회당 약 159토큰 + 통괄 포인트, 소요 시간 약 3분
+ 수익 참고: 회당 약 159토큰 + 통괄 포인트, 소요 시간 약 2분 10초
 
  사전 준비 (수동으로 1회만)：
   1. 수동으로 RA-1에 진입하여 튜토리얼을 완료하고 맵으로 돌아옵니다

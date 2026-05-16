@@ -230,12 +230,18 @@
         "algorithm": "JustReturn",
         "next": ["RelaunchAnchor@RA@WoodDialogue", "RelaunchAnchor@RA@ManufactureIcon", "#self"]
     },
+    "RelaunchAnchor@RA@DialogueClick": {
+        "doc": "点对话框区域",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [510, 500, 40, 40]
+    },
     "RelaunchAnchor@RA@WoodDialogue": {
         "doc": "步骤 22：模板匹配说话标识，持续点击到没有这个标识",
         "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
         "template": "RelaunchAnchor@RA@DialogueMarker.png",
         "roi": [363, 456, 144, 139],
+        "sub": ["RelaunchAnchor@RA@DialogueClick*10"],
         "next": ["#self", "RelaunchAnchor@RA@WaitWoodDialogue"]
     },
     "RelaunchAnchor@RA@ManufactureIcon": {
@@ -317,10 +323,8 @@
     },
     "RelaunchAnchor@RA@FirstCommDialogue": {
         "doc": "步骤 33：模板匹配说话标识，持续点击到没有这个标识",
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
+        "baseTask": "RelaunchAnchor@RA@WoodDialogue",
         "template": "RelaunchAnchor@RA@DialogueMarker.png",
-        "roi": [0, 0, 0, 0],
         "next": ["#self", "RelaunchAnchor@RA@WaitSecondCommDialogue"]
     },
     "RelaunchAnchor@RA@WaitSecondCommDialogue": {
@@ -330,10 +334,8 @@
     },
     "RelaunchAnchor@RA@SecondCommDialogue": {
         "doc": "步骤 35：模板匹配说话标识，持续点击到没有这个标识",
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
+        "baseTask": "RelaunchAnchor@RA@WoodDialogue",
         "template": "RelaunchAnchor@RA@DialogueMarker.png",
-        "roi": [0, 0, 0, 0],
         "next": ["#self", "RelaunchAnchor@RA@WaitBeforeSettlement"]
     },
     "RelaunchAnchor@RA@WaitBeforeSettlement": {

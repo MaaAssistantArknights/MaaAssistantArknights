@@ -1466,7 +1466,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
 重啟錨點：
 
- 收益參考：每把約 159 代幣 + 統籌點數，單輪耗時約 3 分
+ 收益參考：每把約 159 代幣 + 統籌點數，單輪耗時約 2 分 10 秒
 
  前置步驟（手動完成一次）：
   1. 手動進入 RA-1，完成新手教學，直到回到大地圖

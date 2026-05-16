@@ -1465,7 +1465,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
 Relaunch Anchor:
 
- Reward estimate: ~159 tokens + coordination points per run, ~3 min per round
+ Reward estimate: ~159 tokens + coordination points per run, ~2 min 10 sec per round
 
  Prerequisite (complete once manually):
   1. Manually enter RA-1, complete the tutorial, and return to the map
