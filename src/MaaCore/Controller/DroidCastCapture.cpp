@@ -59,6 +59,7 @@ bool DroidCastCapture::init(
 
 void DroidCastCapture::uninit()
 {
+    std::lock_guard lock(screencap_mutex_);
     if (server_handle_) {
         server_handle_.reset();
     }
@@ -68,13 +69,17 @@ void DroidCastCapture::uninit()
                           + " forward --remove tcp:" + std::to_string(port_);
         run_cmd(cmd, 5'000);
     }
-    inited_   = false;
-    port_     = 0;
+    inited_ = false;
+    port_   = 0;
 }
 
 std::optional<cv::Mat> DroidCastCapture::screencap()
 {
     std::lock_guard lock(screencap_mutex_);
+
+    if (!inited_) {
+        return std::nullopt;
+    }
 
     auto result_opt = http_get();
     if (!result_opt) {
@@ -179,7 +184,7 @@ bool DroidCastCapture::wait_for_server(int timeout_ms)
 {
     const auto deadline = steady_clock::now() + milliseconds(timeout_ms);
     while (steady_clock::now() < deadline) {
-        if (http_get().has_value()) {
+        if (http_get(/*silent=*/true).has_value()) {
             return true;
         }
         std::this_thread::sleep_for(milliseconds(500));
@@ -187,7 +192,7 @@ bool DroidCastCapture::wait_for_server(int timeout_ms)
     return false;
 }
 
-std::optional<DroidCastCapture::ScreencapResult> DroidCastCapture::http_get()
+std::optional<DroidCastCapture::ScreencapResult> DroidCastCapture::http_get(bool silent)
 {
     try {
         asio::io_context ioc;
@@ -214,7 +219,7 @@ std::optional<DroidCastCapture::ScreencapResult> DroidCastCapture::http_get()
                                 });
             ioc.run();
             if (connect_ec) {
-                Log.warn("DroidCastCapture::http_get: connect:", connect_ec.message());
+                if (!silent) Log.warn("DroidCastCapture::http_get: connect:", connect_ec.message());
                 return std::nullopt;
             }
         }
@@ -259,15 +264,15 @@ std::optional<DroidCastCapture::ScreencapResult> DroidCastCapture::http_get()
         const std::vector<uint8_t> sep = { '\r', '\n', '\r', '\n' };
         auto it = std::search(buf.begin(), buf.end(), sep.begin(), sep.end());
         if (it == buf.end()) {
-            Log.warn("DroidCastCapture: no HTTP header separator found");
+            if (!silent) Log.warn("DroidCastCapture: no HTTP header separator found");
             return std::nullopt;
         }
 
         // Verify HTTP 200.
         const std::string headers(buf.begin(), it);
-        Log.info("DroidCastCapture: response headers:", headers.substr(0, 256));
+        if (!silent) Log.info("DroidCastCapture: response headers:", headers.substr(0, 256));
         if (headers.find("200") == std::string::npos) {
-            Log.warn("DroidCastCapture: non-200 response:", headers.substr(0, 128));
+            if (!silent) Log.warn("DroidCastCapture: non-200 response:", headers.substr(0, 128));
             return std::nullopt;
         }
 
@@ -285,7 +290,7 @@ std::optional<DroidCastCapture::ScreencapResult> DroidCastCapture::http_get()
 
         auto body_start = it + 4; // skip \r\n\r\n
         if (body_start >= buf.end()) {
-            Log.warn("DroidCastCapture: empty HTTP body");
+            if (!silent) Log.warn("DroidCastCapture: empty HTTP body");
             return std::nullopt;
         }
 
@@ -331,7 +336,7 @@ std::optional<DroidCastCapture::ScreencapResult> DroidCastCapture::http_get()
         return result;
     }
     catch (const std::exception& e) {
-        Log.warn("DroidCastCapture::http_get:", e.what());
+        if (!silent) Log.warn("DroidCastCapture::http_get:", e.what());
         return std::nullopt;
     }
 }

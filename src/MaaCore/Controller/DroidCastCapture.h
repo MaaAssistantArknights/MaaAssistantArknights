@@ -63,7 +63,8 @@ private:
     };
 
     // Raw HTTP GET /screenshot?format=rgb8888 → decoded metadata + body bytes.
-    std::optional<ScreencapResult> http_get();
+    // Pass silent=true to suppress warn/info logging (used during startup probing).
+    std::optional<ScreencapResult> http_get(bool silent = false);
 
     std::string adb_path_;
     std::string serial_;
