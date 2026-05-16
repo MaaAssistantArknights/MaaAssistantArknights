@@ -82,6 +82,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
             new() { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
             new() { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
+            new() { Display = LocalizationHelper.GetString("DroidCast"), Value = "DroidCast" },
         ];
 
     /// <summary>
@@ -750,6 +751,36 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     }
 
     public LdPlayerConnectionExtras LdPlayerExtras { get; set; } = new();
+
+    public class DroidCastConnectionExtras : PropertyChangedBase
+    {
+        private string _format = ConfigurationHelper.GetValue(ConfigurationKeys.DroidCastFormat, "jpeg");
+
+        public string Format
+        {
+            get => _format;
+            set
+            {
+                SetAndNotify(ref _format, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.DroidCastFormat, value);
+            }
+        }
+
+        public string Config => JsonConvert.SerializeObject(new JObject
+        {
+            ["type"]   = "DroidCast",
+            ["format"] = Format,
+        });
+    }
+
+    public DroidCastConnectionExtras DroidCastExtras { get; set; } = new();
+
+    public List<CombinedData> DroidCastFormatList { get; } =
+    [
+        new() { Display = "JPEG", Value = "jpeg" },
+        new() { Display = "PNG",  Value = "png"  },
+        new() { Display = "WebP", Value = "webp" },
+    ];
 
     private bool _retryOnDisconnected = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, bool.FalseString));
 

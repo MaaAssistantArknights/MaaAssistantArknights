@@ -2623,6 +2623,10 @@ public class AsstProxy
             case "LDPlayer":
                 AsstSetConnectionExtrasLdPlayer(SettingsViewModel.ConnectSettings.LdPlayerExtras.Config);
                 break;
+
+            case "DroidCast":
+                AsstSetConnectionExtras("DroidCast", SettingsViewModel.ConnectSettings.DroidCastExtras.Config);
+                break;
         }
 
         switch (SettingsViewModel.ConnectSettings.ConnectConfig)

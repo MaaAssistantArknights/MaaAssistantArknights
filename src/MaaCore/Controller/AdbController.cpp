@@ -20,6 +20,7 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 #include "Utils/StringMisc.hpp"
+#include "Utils/WorkingDir.hpp"
 
 #include <boost/regex.hpp>
 
@@ -324,6 +325,17 @@ void asst::AdbController::init_ld_extras(const AdbCfg& adb_cfg, const std::strin
 #endif
 }
 
+void asst::AdbController::init_droidcast(const AdbCfg& adb_cfg)
+{
+    if (adb_cfg.extras.get("type", std::string()) != "DroidCast") {
+        return;
+    }
+    DroidCastCapture::Config cfg;
+    cfg.format = adb_cfg.extras.get("format", std::string("jpeg"));
+    auto apk = ResDir.get() / "droidcast" / "DroidCast-1.2.1.apk";
+    m_droidcast.init(m_conn_ctx.adb_path, m_conn_ctx.address, apk, cfg, m_platform_io.get());
+}
+
 void asst::AdbController::close_socket() noexcept
 {
     m_platform_io->close_socket();
@@ -465,6 +477,7 @@ std::pair<int, int> asst::AdbController::get_screen_res() const noexcept
 
 void asst::AdbController::release()
 {
+    m_droidcast.uninit();
     close_socket();
 
     if (m_kill_adb_on_exit && !m_adb.release.empty()) {
@@ -663,6 +676,25 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         }
 #endif
 
+        if (m_droidcast.inited()) {
+            start_time = steady_clock::now();
+            auto img_opt = m_droidcast.screencap();
+            if (img_opt.has_value()) {
+                auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
+                if (duration < min_cost) {
+                    m_adb.screencap_method = AdbProperty::ScreencapMethod::DroidCast;
+                    m_inited = true;
+                    min_cost = duration;
+                }
+                Log.info("DroidCast cost", duration.count(), "ms");
+                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::DroidCast, std::to_string(duration.count()));
+            }
+            else {
+                Log.info("DroidCast is not supported");
+                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::DroidCast, "???");
+            }
+        }
+
         static const std::unordered_map<AdbProperty::ScreencapMethod, std::string> MethodName = {
             { AdbProperty::ScreencapMethod::UnknownYet, "UnknownYet" },
             { AdbProperty::ScreencapMethod::RawByNc, "RawByNc" },
@@ -672,6 +704,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             { AdbProperty::ScreencapMethod::MumuExtras, "MumuExtras" },
             { AdbProperty::ScreencapMethod::LDExtras, "LDExtras" },
 #endif
+            { AdbProperty::ScreencapMethod::DroidCast, "DroidCast" },
         };
         Log.info("The fastest way is", MethodName.at(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
         if (m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet) {
@@ -739,6 +772,21 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             }
         } break;
 #endif
+        case AdbProperty::ScreencapMethod::DroidCast: {
+            auto img_opt = m_droidcast.screencap();
+            screencap_ret = img_opt.has_value();
+
+            if (!screencap_ret && allow_reconnect) {
+                m_droidcast.uninit();
+                init_droidcast(m_conn_ctx.adb_cfg);
+                img_opt = m_droidcast.screencap();
+                screencap_ret = img_opt.has_value();
+            }
+
+            if (screencap_ret) {
+                image_payload = img_opt.value();
+            }
+        } break;
         default:
             break;
         }
@@ -1182,6 +1230,9 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     }
     else if (config == "LDPlayer") {
         init_ld_extras(adb_cfg, address);
+    }
+    else if (config == "DroidCast") {
+        init_droidcast(adb_cfg);
     }
     if (need_exit()) {
         return false;
