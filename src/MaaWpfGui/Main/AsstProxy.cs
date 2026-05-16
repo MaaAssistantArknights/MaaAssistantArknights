@@ -1582,6 +1582,7 @@ public class AsstProxy
                             }
 
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitConfirm"), UiLogColor.Info);
+                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RecruitTimesCount"), RecruitConfirmTime), UiLogColor.Info);
                             break;
 
                         case "InfrastDormDoubleConfirmButton":
