@@ -621,19 +621,15 @@ public class TaskQueueViewModel : Screen
 
     private void RunningState_Stalled(object? sender, string message)
     {
-        if (!SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenStalled)
+        AddLog(message, UiLogColor.Warning, notifyActivity: false);
+        ToastNotification.ShowDirect(message);
+        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenStalled)
         {
-            return;
-        }
-
-        Execute.OnUIThread(() => {
-            AddLog(message, UiLogColor.Warning, notifyActivity: false);
-            ToastNotification.ShowDirect(message);
             var lastLogs = LogItemViewModels
                 .TakeLast(5)
                 .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
             ExternalNotificationService.Send(message, lastLogs);
-        });
+        }
     }
 
     protected override void OnInitialActivate()
