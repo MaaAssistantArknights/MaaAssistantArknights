@@ -337,6 +337,7 @@ public static class ConfigurationKeys
     public const string VersionUpdateDoNotShowUpdate = "VersionUpdate.doNotShowUpdate";
 
     public const string OperBoxData = "OperBox.Data";
+    public const string OperBoxSelectedExportValue = "OperBox.SelectedExportValue";
 
     public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
 
