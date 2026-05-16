@@ -144,9 +144,9 @@ std::shared_ptr<const MaskedCcoeffMatcher::DftPlan> MaskedCcoeffMatcher::get_or_
 
     auto dft_plan = std::make_shared<DftPlan>();
     cv::Mat padded = cv::Mat::zeros(dft_rows, dft_cols, CV_64F);
+    cv::Mat src_d;
     auto compute_into = [&](const cv::Mat& src, cv::Mat& out) {
         padded.setTo(0.0);
-        cv::Mat src_d;
         src.convertTo(src_d, CV_64F);
         src_d.copyTo(padded(cv::Rect(0, 0, src_d.cols, src_d.rows)));
         cv::dft(padded, out, cv::DFT_COMPLEX_OUTPUT);
@@ -308,10 +308,10 @@ cv::Mat MaskedCcoeffMatcher::match(
     cv::Mat result_buf(dft_rows, dft_cols, CV_64F);
     cv::Mat sum_MI_buf(rh, rw, CV_64F);
     cv::Mat sum_MI2_buf(rh, rw, CV_64F);
+    cv::Mat src_d;
 
     auto make_dft_into = [&](const cv::Mat& src, cv::Mat& out) {
         padded.setTo(0.0);
-        cv::Mat src_d;
         src.convertTo(src_d, CV_64F);
         src_d.copyTo(padded(cv::Rect(0, 0, src_d.cols, src_d.rows)));
         cv::dft(padded, out, cv::DFT_COMPLEX_OUTPUT);
@@ -358,8 +358,9 @@ cv::Mat MaskedCcoeffMatcher::match(
 
     cv::max(sigma_I_sq, 0.0, sigma_I_sq);
     // 图像块方差远低于模板方差时相关系数无定义（均匀区域，分母≈0），直接归零。
-    // 8-bit 图像最小非零单通道方差约为 (K-1)/K ≈ 0.996，阈值 sigma_T_sq*1e-8 远低于此，不影响真实匹配。
-    sigma_I_sq.setTo(0.0, sigma_I_sq < sigma_T_sq * 1e-8);
+    // 8-bit 图像最小非零单通道方差约为 (K-1)/K ≈ 0.996，variance_eps 远低于此，不影响真实匹配。
+    const double variance_eps = sigma_T_sq * 1e-8;
+    sigma_I_sq.setTo(0.0, sigma_I_sq < variance_eps);
 
     cv::Mat denom;
     cv::sqrt(sigma_I_sq * sigma_T_sq, denom);
