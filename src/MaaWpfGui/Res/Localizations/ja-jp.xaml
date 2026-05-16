@@ -1199,6 +1199,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FightMissionFailedAndStop">自動指揮の失敗回数が上限に達したため、任務が停止されました</system:String>
     <system:String x:Key="LabelsRefreshed">タグが更新されました</system:String>
     <system:String x:Key="RecruitConfirm">募集を行いました</system:String>
+    <system:String x:Key="RecruitTimesCount">公開求人 {0} 回</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}が競合しました</system:String>
     <system:String x:Key="BegunToExplore">探索を開始しました</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">前方の戦闘数：{0}、ルートを再計画します</system:String>
