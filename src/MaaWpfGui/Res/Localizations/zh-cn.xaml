@@ -42,7 +42,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">输出详细信息</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">任务完成后发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">任务出错时发送通知</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">任务日志输出停滞时发送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenTimeout">任务超时时发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">发送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">发送失败</system:String>
     <system:String x:Key="ExternalNotificationSendTest">发送测试</system:String>
@@ -354,21 +354,21 @@
     <system:String x:Key="UpdateSource">更新源</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 使用{key=GlobalSource}：
-    • {key=UpdateCheckNow}：由 MAA Team 提供更新检测，从 GitHub 拉取更新包，国内同步提供直连镜像（带宽有限，高峰期可能受限）
-    • {key=ResourceUpdate}：由 {key=MirrorChyan} 提供免费的更新检测，可手动在设置中点击 ｢{key=ResourceUpdate}｣ 从 GitHub 下载
+    ● {key=UpdateCheckNow}：由 MAA Team 提供更新检测，从 GitHub 拉取更新包，国内同步提供直连镜像（带宽有限，高峰期可能受限）
+    ● {key=ResourceUpdate}：由 {key=MirrorChyan} 提供免费的更新检测，可手动在设置中点击 ｢{key=ResourceUpdate}｣ 从 GitHub 下载
 
 🔑 使用 {key=MirrorChyan}：
-    • 填写 CDK 后，支持软件与资源的自动更新
-    • 优先通过 {key=MirrorChyan} 高速 CDN 下载，更稳定快速
+    ● 填写 CDK 后，支持软件与资源的自动更新
+    ● 优先通过 {key=MirrorChyan} 高速 CDN 下载，更稳定快速
 
 📦 手动更新：
-    • {key=UpdateCheckNow}：下载完整包或 OTA 更新包后拖入应用内，程序会自动解压并清理旧文件
-    • {key=ResourceUpdate}：下载资源包后覆盖 resource 文件夹。资源为增量内容，请勿删除原文件夹，会资源损坏
+    ● {key=UpdateCheckNow}：下载完整包或 OTA 更新包后拖入应用内，程序会自动解压并清理旧文件
+    ● {key=ResourceUpdate}：下载资源包后覆盖 resource 文件夹。资源为增量内容，请勿删除原文件夹，会资源损坏
 
 📄 更新说明：
-    • {key=UpdateCheckNow}：包含界面与功能更新。界面改动、新功能需通过{key=UpdateCheckNow}获得
-    • {key=ResourceUpdate}：包含自动战斗新关卡、掉落识别图标、公招干员标签等素材数据
-    • 导航热更：自动触发，用于更新主界面提示与活动关卡入口。成功后右上角会显示「{key=ApiUpdateSuccess}」
+    ● {key=UpdateCheckNow}：包含界面与功能更新。界面改动、新功能需通过{key=UpdateCheckNow}获得
+    ● {key=ResourceUpdate}：包含自动战斗新关卡、掉落识别图标、公招干员标签等素材数据
+    ● 导航热更：自动触发，用于更新主界面提示与活动关卡入口。成功后右上角会显示「{key=ApiUpdateSuccess}」
 </system:String>
     <system:String x:Key="GlobalSource">海外源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">强制使用 GitHub</system:String>
@@ -624,8 +624,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="HideSeries">隐藏代理倍率</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
     <system:String x:Key="CustomStageCode">手动输入关卡名</system:String>
-    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主线关卡名与原列表的关卡名（如 4-10、AP-5、H10-1-Hard）
-可在关卡结尾输入 ｢Normal/Hard｣ 切换难度：10-14 章对应标准/磨难，15 章及以后对应常规/险地
+    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主线关卡名与原列表的关卡名（如4-10、AP-5、H10-1-Hard）
+可在关卡结尾输入 ｢Normal/Hard｣ 表示需要切换标准与磨难难度
 可输入 ｢SSReopen-XX｣ 一次性代理 SS 复刻的普通关</system:String>
     <system:String x:Key="AutoDetectConnection">自动检测连接</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">该连接配置不支持自动检测连接，请尝试手动填写端口号</system:String>
@@ -719,15 +719,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">更新数据</system:String>
-    <system:String x:Key="MiniGame">便捷功能</system:String>
-    <system:String x:Key="MiniGameCategoryPermanent">常驻活动</system:String>
-    <system:String x:Key="MiniGameCategoryCurrentEvent">当期活动</system:String>
+    <system:String x:Key="MiniGame">小游戏</system:String>
     <system:String x:Key="Custom">自定任务</system:String>
     <system:String x:Key="SingleStep">单步任务</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遗闻</system:String>
-    <system:String x:Key="ReclamationThemeRelaunchAnchor">重启锚点</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过组装支援道具刷生息点数</system:String>
     <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
@@ -883,14 +880,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LastSyncTime">上次同步时间</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
     <system:String x:Key="StartToDepotRecognition">开始识别</system:String>
-    <system:String x:Key="ExportToArkplanner">企鹅物流刷图规划</system:String>
-    <system:String x:Key="ExportToLolicon">明日方舟工具箱</system:String>
-    <system:String x:Key="ExportToMarkdown">Markdown</system:String>
-    <system:String x:Key="ExportToCsv">CSV</system:String>
+    <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
+    <system:String x:Key="ExportToLolicon">导出至明日方舟工具箱</system:String>
     <system:String x:Key="CopiedToClipboard">已复制到剪切板</system:String>
-    <system:String x:Key="ExportedToFile">已导出到文件</system:String>
-    <system:String x:Key="ExportTo">导出到：</system:String>
-    <system:String x:Key="Export">导出</system:String>
     <!--  !仓库识别  -->
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}识别</system:String>
@@ -1074,14 +1066,14 @@ C:\\leidian\\LDPlayer9。\n
         5. 使用好友助战时，请关闭 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手动选择{key=Operator}后，在编队界面右下角存在 ｢开始行动｣ 按钮界面启动。\n\n
         6. {key=Operator}若被标记为 ｢特别关注｣，可能影响 ｢{key=AutoSquad}｣ 的识别与选择。建议使用 ｢{key=AutoSquad}｣ 时移除关注，或在报错后关闭 ｢{key=AutoSquad}｣，根据提示手动补充缺失的{key=Operator}。\n\n
         7. Copilot 作业站的神秘代码可通过输入框右侧的粘贴按钮粘贴：\n
-        • 单击第 2 个按钮 = 添加作业。\n
-        • 单击第 3 个按钮 = 添加作业集。\n\n
+        ● 单击第 2 个按钮 = 添加作业。\n
+        ● 单击第 3 个按钮 = 添加作业集。\n\n
         8. {key=UseCopilotList}:\n
-        • 选择作业后，检查下方关卡名是否正确 (例: CV-EX-1)。\n
-        • 添加: 左键 = 普通难度，右键 = 突袭难度。\n
-        • 清除: 左键 = 全部清空，右键 = 仅移除未激活任务。\n
-        • 请在能看到目标关卡名的界面启动，不支持跨章节导航。\n
-        • 遇到理智不足、战斗失败、未能三星结算时将自动中止。
+        ● 选择作业后，检查下方关卡名是否正确 (例: CV-EX-1)。\n
+        ● 添加: 左键 = 普通难度，右键 = 突袭难度。\n
+        ● 清除: 左键 = 全部清空，右键 = 仅移除未激活任务。\n
+        ● 请在能看到目标关卡名的界面启动，不支持跨章节导航。\n
+        ● 遇到理智不足、战斗失败、未能三星结算时将自动中止。
     </system:String>
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
     <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
@@ -1188,6 +1180,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FightMissionFailedAndStop">代理失败次数已达上限，任务已停止</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新标签</system:String>
     <system:String x:Key="RecruitConfirm">已确认招募</system:String>
+    <system:String x:Key="RecruitTimesCount">已公招 {0} 次</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}冲突</system:String>
     <system:String x:Key="BegunToExplore">已开始探索</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">前方战斗数：{0}，重开路线</system:String>
@@ -1311,10 +1304,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RestartAsAdminFailed">请手动以管理员身份运行 MAA</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 绑定窗口失败，请检查截图/输入方式配置</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 窗口绑定明日方舟 PC 端，而非 ADB 连接模拟器或手机</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">连接 PC 端（实验性）
-由于 MAA Team 开发人手有限，此功能由社区维护，非 MAA Team 持续支持，功能和稳定性可能不尽如人意，遇到问题时也可能无法第一时间修复。
-如遇到影响使用的问题，建议改用 ADB 连接 Android 模拟器或移动设备，获得更稳定的体验。
-我们也始终欢迎有能力的开发者参与贡献提交 Pull Request，共同完善 PC 端支持。
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">连接 PC 端（实验性功能，稳定性无法保证）
+由于 MAA Team 开发人手有限，PC 端功能长期缺乏专人维护，可能存在功能异常或运行不稳定等问题：
+● 遇到问题时，我们可能无法及时响应或修复
+● 若无法正常使用，建议切换至 ADB 模式连接 Android 模拟器或移动设备
+● 诚挚欢迎有开发能力的用户提交 Pull Request，共同完善 PC 端支持
 
 使用前请确认：
 1. 需要以管理员身份启动 MAA
@@ -1463,20 +1457,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="AnnouncementNotFinishedConfirm3">还点</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-重启锚点：
-
- 收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 3 分钟
-
- 前置步骤（手动完成一次）：
-  1. 手动进入 RA-1，完成新手教程，直到回到大地图
-  2. 之后每次任务均可在 RA-1 右下角出现“开启建设”时启动
-
- 注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、大型兽栏等
-
- 任务流程：
-  自动执行精耕细作、建设、交付资源、结算循环
-    </system:String>
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 目前生息演算的支持仍处于中期阶段，使用时请注意以下几点：
 
@@ -1525,9 +1505,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <!--  !SimpleEncryptionHelper  -->
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">任务超时时间（分钟）</system:String>
-    <system:String x:Key="ReminderIntervalMinutes">通知间隔时间（分钟）</system:String>
-    <system:String x:Key="StallTimeoutMinutes">日志输出停滞超时时间（分钟）</system:String>
-    <system:String x:Key="TaskStallWarning">任务日志输出已超过 {0} 分钟无更新（当前已停滞 {1} 分钟）。如果长时间无进一步日志输出，可能需要手动干预。</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">提醒间隔时间（分钟）</system:String>
+    <system:String x:Key="TaskTimeoutWarning">任务已运行超过 {0} 分钟（当前已运行 {1} 分钟）。如果长时间无进一步日志更新，可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 达成成就</system:String>

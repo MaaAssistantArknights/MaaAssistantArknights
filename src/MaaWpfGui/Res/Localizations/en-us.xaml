@@ -42,7 +42,7 @@
     <system:String x:Key="ExternalNotificationEnableDetails">Output Detailed Information</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">Send notification when complete</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">Send notification when task fails</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">Send notification when task log output stalls</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenTimeout">Send notification when task times out</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
@@ -354,21 +354,21 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="UpdateSource">Update Source</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 Using {key=GlobalSource}:
-    • {key=UpdateCheckNow}: Update checks are provided by the MAA Team, with update packages pulled from GitHub. A direct domestic mirror is also available (limited bandwidth during peak hours)
-    • {key=ResourceUpdate}: Free update checks provided by {key=MirrorChyan}. You can manually click "{key=ResourceUpdate}" in Settings to download from GitHub
+    ● {key=UpdateCheckNow}: Update checks are provided by the MAA Team, with update packages pulled from GitHub. A direct domestic mirror is also available (limited bandwidth during peak hours)
+    ● {key=ResourceUpdate}: Free update checks provided by {key=MirrorChyan}. You can manually click "{key=ResourceUpdate}" in Settings to download from GitHub
 
 🔑 Using {key=MirrorChyan}:
-    • After entering a CDK, automatic updates for both software and resources are enabled
-    • Downloads are prioritized via the high-speed {key=MirrorChyan} CDN for greater stability and speed
+    ● After entering a CDK, automatic updates for both software and resources are enabled
+    ● Downloads are prioritized via the high-speed {key=MirrorChyan} CDN for greater stability and speed
 
 📦 Manual Update:
-    • {key=UpdateCheckNow}: Download a full package or OTA update package and drag it into the app. The app will automatically extract it and clean up old files
-    • {key=ResourceUpdate}: Download the resource package and overwrite the `resource` folder. The package is incremental; do not delete the original folder, or errors may occur
+    ● {key=UpdateCheckNow}: Download a full package or OTA update package and drag it into the app. The app will automatically extract it and clean up old files
+    ● {key=ResourceUpdate}: Download the resource package and overwrite the `resource` folder. The package is incremental; do not delete the original folder, or errors may occur
 
 📄 Update Notes:
-    • {key=UpdateCheckNow}: Includes UI and feature updates. All interface changes and new features are delivered via {key=UpdateCheckNow}
-    • {key=ResourceUpdate}: Includes new stage maps for Auto Battle, drop item icons for recognition, recruitment tags for operator recognition, and other resource data
-    • Navigation Hotfix: Triggered automatically to update main screen prompts and event stage entries. A success message “{key=ApiUpdateSuccess}” will appear in the top right corner
+    ● {key=UpdateCheckNow}: Includes UI and feature updates. All interface changes and new features are delivered via {key=UpdateCheckNow}
+    ● {key=ResourceUpdate}: Includes new stage maps for Auto Battle, drop item icons for recognition, recruitment tags for operator recognition, and other resource data
+    ● Navigation Hotfix: Triggered automatically to update main screen prompts and event stage entries. A success message “{key=ApiUpdateSuccess}” will appear in the top right corner
 </system:String>
     <system:String x:Key="GlobalSource">Global Source</system:String>
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
@@ -625,7 +625,7 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
-At the end of the stage, enter ｢Normal/Hard｣ to switch difficulty: Chapters 10-14 use Standard/Adverse, Chapters 15+ use Normal/Raid
+At the end of the stage, enter ｢Normal/Hard｣ to switch between Standard and Adverse environment
 Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS rerun events</system:String>
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">Automatic connection detection is not supported for this configuration, please try manually entering the port number</system:String>
@@ -718,15 +718,12 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
     <system:String x:Key="UserDataUpdate">Update Doctor Data</system:String>
-    <system:String x:Key="MiniGame">Useful Tasks</system:String>
-    <system:String x:Key="MiniGameCategoryPermanent">Permanent</system:String>
-    <system:String x:Key="MiniGameCategoryCurrentEvent">Current Events</system:String>
+    <system:String x:Key="MiniGame">Mini-Games</system:String>
     <system:String x:Key="Custom">Custom Task</system:String>
     <system:String x:Key="SingleStep">Single-Step Task</system:String>
     <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
     <system:String x:Key="ReclamationThemeFire">Fire Within the Sand</system:String>
     <system:String x:Key="ReclamationThemeTales">Tales Within the Sand</system:String>
-    <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">I do not have a save, let's farm prosperity points by repeatedly entering and exiting stages.</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">I do have a save, let's farm prosperity points by crafting tools.</system:String>
     <system:String x:Key="ReclamationIncrementMode">Increment Mode</system:String>
@@ -882,14 +879,9 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="LastSyncTime">Last Sync Time</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the ｢debug/depot｣ folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="StartToDepotRecognition">Start to Identify</system:String>
-    <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>
-    <system:String x:Key="ExportToLolicon">Arkntools</system:String>
-    <system:String x:Key="ExportToMarkdown">Markdown</system:String>
-    <system:String x:Key="ExportToCsv">CSV</system:String>
+    <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
+    <system:String x:Key="ExportToLolicon">Export to Arkntools</system:String>
     <system:String x:Key="CopiedToClipboard">Copied to Clipboard</system:String>
-    <system:String x:Key="ExportedToFile">Exported to file</system:String>
-    <system:String x:Key="ExportTo">Export to:</system:String>
-    <system:String x:Key="Export">Export</system:String>
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}</system:String>
@@ -1073,14 +1065,14 @@ Right-click to clear inactive jobs</system:String>
         5. When using a support unit, turn off ｢{key=AutoSquad}｣ and ｢{key=UseCopilotList}｣, manually select the {key=Operator}, then start from the squad screen where the "Mission Start" button appears in the bottom right.\n\n
         6. {key=Operator}s marked as "Favorite" may affect ｢{key=AutoSquad}｣ recognition and selection. When using ｢{key=AutoSquad}｣, consider removing favorites, or if errors occur, turn off ｢{key=AutoSquad}｣ and manually supplement the missing {key=Operator}s as prompted.\n\n
         7. In the Copilot workstation, you can paste codes by clicking the paste button on the right side of the input box:\n
-        • Second button = Add a single job.\n
-        • Third button = Add a job set.\n\n
+        ● Second button = Add a single job.\n
+        ● Third button = Add a job set.\n\n
         8. {key=UseCopilotList}:\n
-        • After selecting a job, verify the stage name below is correct (e.g., CV-EX-1).\n
-        • Add: Left-click for Normal difficulty, right-click for Challenge difficulty.\n
-        • Clear: Left-click to clear all jobs, right-click to remove only inactive jobs.\n
-        • Start from a screen where the target stage name is visible. Cross-chapter navigation is not supported.\n
-        • Execution will stop automatically when sanity is insufficient, battle fails, or fails to achieve a 3★ clear.
+        ● After selecting a job, verify the stage name below is correct (e.g., CV-EX-1).\n
+        ● Add: Left-click for Normal difficulty, right-click for Challenge difficulty.\n
+        ● Clear: Left-click to clear all jobs, right-click to remove only inactive jobs.\n
+        ● Start from a screen where the target stage name is visible. Cross-chapter navigation is not supported.\n
+        ● Execution will stop automatically when sanity is insufficient, battle fails, or fails to achieve a 3★ clear.
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
@@ -1187,6 +1179,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="FightMissionFailedAndStop">Proxy failed too many times, task stopped</system:String>
     <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
+    <system:String x:Key="RecruitTimesCount">Recruited {0} time(s)</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator} conflict</system:String>
     <system:String x:Key="BegunToExplore">Exploration started</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">Too many battles ahead: {0}, restarting route</system:String>
@@ -1311,9 +1304,10 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
     <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC connection (experimental feature, stability not guaranteed)
-Due to limited development resources within the MAA Team, this feature is community-maintained and is not continuously supported by the MAA Team. Functionality and stability may fall short of expectations, and issues may not be fixed promptly.
-If you encounter problems that affect usability, we recommend switching to ADB mode with an Android emulator or mobile device for a more stable experience.
-We also always welcome Pull Requests from capable developers to help improve PC support.
+Due to limited development resources within the MAA Team, PC support lacks dedicated maintenance and may experience instability or functional issues:
+● We may not be able to promptly respond to or fix PC-related issues
+● If unavailable, consider switching to ADB mode to connect via Android emulator or mobile device
+● We sincerely welcome Pull Requests from developers to help improve PC support
 
 Before use, please ensure:
 1. MAA is launched with administrator privileges
@@ -1462,20 +1456,6 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="AnnouncementNotFinishedConfirm3">Still clicking</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-Relaunch Anchor:
-
- Reward estimate: ~159 tokens + coordination points per run, ~3 min per round
-
- Prerequisite (complete once manually):
-  1. Manually enter RA-1, complete the tutorial, and return to the map
-  2. After that, the task can be started when &quot;Start Construction&quot; appears at the bottom-right after clicking RA-1
-
- Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Large Animal Pens, etc.
-
- Task flow:
-  Automatically executes farming, construction, resource delivery, and settlement loop
-    </system:String>
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
 The support for reclamation algorithm is still under development at present. Please mind the following:
 
@@ -1525,8 +1505,7 @@ These locations are too high-level and can lead to file overwrites, config write
     <!--  TimeOutTimer  -->
     <system:String x:Key="TaskTimeoutMinutes">Task timeout duration (minutes)</system:String>
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
-    <system:String x:Key="StallTimeoutMinutes">Log output stall timeout (min)</system:String>
-    <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). If there is no further log output for a long time, manual intervention may be required.</system:String>
+    <system:String x:Key="TaskTimeoutWarning">The task has been running for more than {0} minutes (currently running for {1} minutes). If there are no further log updates for a long time, manual intervention may be required.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 Achievement Unlocked</system:String>
