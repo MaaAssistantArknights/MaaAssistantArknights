@@ -45,13 +45,11 @@
         "action": "ClickSelf",
         "text": ["开始建设"],
         "roi": [984, 607, 138, 47],
-        "postDelay": 10000,
         "next": ["#self", "RelaunchAnchor@RA@PNS-WaitSkip"]
     },
     "RelaunchAnchor@RA@PNS-WaitSkip": {
         "doc": "步骤 6 前等待剧情跳过",
         "algorithm": "JustReturn",
-        "postDelay": 1000,
         "next": ["RelaunchAnchor@RA@PNS-SkipPlot", "#self"]
     },
     "RelaunchAnchor@RA@PNS-SkipPlot": {
@@ -83,6 +81,7 @@
         "text": ["请部署", "罗德岛", "采集基站"],
         "roi": [520, 54, 247, 38],
         "sub": ["RelaunchAnchor@RA@PNS-AlignMap*2"],
+        "next": ["RelaunchAnchor@RA@PNS-DeployGatheringBaseSwipe"]
     },
     "RelaunchAnchor@RA@PNS-AlignMap": {
         "doc": "步骤 10：JustReturn 的 Swipe，对齐地图",
@@ -99,26 +98,39 @@
         "specificRect": [530, 630, 10, 10],
         "rectMove": [960, 290, 1, 1],
         "specialParams": [500, 0, 3, 0],
-        "postDelay": 8000,
-        "next": ["RelaunchAnchor@RA@PNS-DoubleSpeed"]
+        "next": ["RelaunchAnchor@RA@PNS-WaitDoubleSpeed"]
+    },
+    "RelaunchAnchor@RA@PNS-WaitDoubleSpeed": {
+        "doc": "步骤 12 前等待二倍速提示出现",
+        "algorithm": "JustReturn",
+        "next": ["RelaunchAnchor@RA@PNS-DoubleSpeed", "#self"]
     },
     "RelaunchAnchor@RA@PNS-DoubleSpeed": {
         "doc": "步骤 12：开启二倍速",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [1090, 40, 20, 20],
-        "next": ["RelaunchAnchor@RA@PNS-DeployGatheringBaseWait"]
+        "template": "RelaunchAnchor@RA@DoubleSpeed.png",
+        "action": "ClickSelf",
+        "roi": [1060, 20, 80, 70],
+        "maskRange": [220, 255],
+        "next": ["#self", "RelaunchAnchor@RA@PNS-DeployGatheringBaseWait"]
     },
     "RelaunchAnchor@RA@PNS-DeployGatheringBaseWait": {
         "doc": "步骤 13：部署采集基站后的占位等待 x 秒",
         "algorithm": "JustReturn",
-        "postDelay": 4000,
+        "postDelay": 2000,
         "sub": ["RelaunchAnchor@RA@PNS-AlignMap*2"],
         "next": ["RelaunchAnchor@RA@PNS-WaitCost"]
     },
-    "RelaunchAnchor@RA@PNS-AlignMap2": {
-        "doc": "步骤 14：JustReturn 的 Swipe，对齐地图",
-        "baseTask": "RelaunchAnchor@RA@PNS-AlignMap",
+    "RelaunchAnchor@RA@PNS-WaitCost": {
+        "doc": "步骤 14 前等待部署费用",
+        "algorithm": "JustReturn",
+        "next": ["RelaunchAnchor@RA@PNS-Cost", "#self"]
+    },
+    "RelaunchAnchor@RA@PNS-Cost": {
+        "doc": "步骤 14：OCR 识别部署费用",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"],
+        "roi": [1200, 490, 80, 50],
         "next": ["RelaunchAnchor@RA@PNS-DeployOperatorSwipe"]
     },
     "RelaunchAnchor@RA@PNS-DeployOperatorSwipe": {
@@ -142,7 +154,6 @@
     "RelaunchAnchor@RA@PNS-DeployOperatorWait": {
         "doc": "步骤 17：部署干员后的占位等待 x 秒",
         "algorithm": "JustReturn",
-        "postDelay": 10000,
         "next": ["RelaunchAnchor@RA@PNS-MissionIcon1"]
     },
     "RelaunchAnchor@RA@PNS-MissionIcon1": {
@@ -167,15 +178,21 @@
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [1076, 577, 72, 44],
-        "postDelay": 35000,
+        "postDelay": 20000,
+        "next": ["#self", "RelaunchAnchor@RA@PNS-WaitDeliverWood"]
+    },
+    "RelaunchAnchor@RA@PNS-WaitDeliverWood": {
+        "doc": "步骤 21 前等待木材生产完成，出现 <交付木材8>",
+        "algorithm": "JustReturn",
         "next": ["RelaunchAnchor@RA@PNS-DeliverWood", "#self"]
     },
     "RelaunchAnchor@RA@PNS-DeliverWood": {
         "doc": "步骤 21：OCR 识别 <交付木材> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["交付木材"],
-        "roi": [80, 235, 85, 35],
+        "text": ["交付木材8"],
+        "ocrReplace": [["交付木材.*(8|9|10|11|12|13|14|15|16|17|18|19|20)", "交付木材8"]],
+        "roi": [80, 235, 110, 35],
         "next": ["RelaunchAnchor@RA@PNS-WaitWoodDialogue"]
     },
     "RelaunchAnchor@RA@PNS-WaitWoodDialogue": {
@@ -298,7 +315,6 @@
     "RelaunchAnchor@RA@PNS-WaitMissionIcon3": {
         "doc": "步骤 37 前等待任务图标出现",
         "algorithm": "JustReturn",
-        "postDelay": 1000,
         "next": ["RelaunchAnchor@RA@PNS-MissionIcon3", "#self"]
     },
     "RelaunchAnchor@RA@PNS-MissionIcon3": {
@@ -339,7 +355,6 @@
         "action": "ClickSelf",
         "text": ["立即结算"],
         "roi": [918, 459, 137, 50],
-        "postDelay": 5000,
         "next": ["#self", "RelaunchAnchor@RA@PNS-WaitContinueAfterSettlement"]
     },
     "RelaunchAnchor@RA@PNS-WaitContinueAfterSettlement": {
@@ -353,7 +368,6 @@
         "action": "ClickSelf",
         "text": ["点击继续"],
         "roi": [605, 664, 113, 44],
-        "postDelay": 2000,
         "next": ["#self", "RelaunchAnchor@RA@PNS-WaitFinishConstruction"]
     },
     "RelaunchAnchor@RA@PNS-WaitFinishConstruction": {
