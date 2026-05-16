@@ -473,7 +473,6 @@
         "maskRange": [1, 255]
     },
     "JieGarden@Roguelike@DeepExploration": {
-        "template": "JieGarden@Roguelike@DeepExploration.png"
     },
     "JieGarden@Roguelike@DeepExplorationEnd": {
         "template": "JieGarden@Roguelike@Confirm.png"
