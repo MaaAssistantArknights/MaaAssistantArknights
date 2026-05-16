@@ -1072,14 +1072,64 @@ public class VersionUpdateDialogViewModel : Screen
 
         if (data["data"]?["update_type"]?.ToObject<string>() == "full")
         {
-            _requiresFullPackageConfirmation = true;
-
-            if (SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage)
+            // MirrorChyan 在收到第一个对应版本的请求后会开始打包 OTA，打包过程中返回完整包
+            // 等待 10s 后重试，通常此时 OTA 包已就绪
+            _logger.Information("MirrorChyan returned full package, OTA may be building. Will retry after 10s.");
+            using (var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionIsBeingBuilt")))
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
-                toast.Show(30);
-                _logger.Warning("No OTA package found, but full package found.");
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionNoOtaPackage"), UiLogColor.Warning);
+                toast.Show(10);
+            }
+
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionIsBeingBuilt"), UiLogColor.Info);
+
+            await Task.Delay(10000);
+
+            // 重试请求，检查 OTA 包是否已就绪
+            HttpResponseMessage? retryResponse = null;
+            try
+            {
+                retryResponse = await Instances.HttpService.GetAsync(new(url), uriPartial: UriPartial.Path);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Retry request to MirrorChyan failed.");
+            }
+
+            bool otaReady = false;
+            if (retryResponse != null)
+            {
+                var retryJsonStr = await retryResponse.Content.ReadAsStringAsync();
+                _logger.Information("MirrorChyan retry response: {JsonStr}", retryJsonStr);
+                JObject? retryData = null;
+                try
+                {
+                    retryData = (JObject?)JsonConvert.DeserializeObject(retryJsonStr);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to deserialize retry json from MirrorChyan");
+                }
+
+                if (retryData != null && retryData["data"]?["update_type"]?.ToObject<string>() != "full")
+                {
+                    // 重试成功，OTA 包已就绪，使用新的响应数据
+                    _logger.Information("MirrorChyan OTA package ready after retry.");
+                    data = retryData;
+                    otaReady = true;
+                }
+            }
+
+            if (!otaReady)
+            {
+                // 重试后仍是完整包或重试失败，走完整包更新途径
+                _logger.Warning("MirrorChyan still returning full package after retry (or retry failed).");
+                _requiresFullPackageConfirmation = true;
+                if (SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage)
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
+                    toast.Show(30);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionNoOtaPackage"), UiLogColor.Warning);
+                }
             }
         }
 
