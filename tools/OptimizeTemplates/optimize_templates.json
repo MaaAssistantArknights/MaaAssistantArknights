@@ -4073,5 +4073,6 @@
     "resource/template/RA/Reclamation3/RelaunchAnchor@RA@DialogueMarker": "a6b722718b2a535956015ceb19a4e11b1d486c727eb10b4d5c3ea0a5085effd1",
     "resource/template/RA/Reclamation3/RelaunchAnchor@RA@MissionIcon": "e53bf74beeeb1cea9a58d1567a6213d423909cb052953c8fe039d90152f212b8",
     "resource/template/RA/Reclamation3/RelaunchAnchor@RA@ManufactureIcon": "1c9e9646a508ffcfa19109d14d822b47933bf9976a556456bbbe3da5f7cd7c2d",
-    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@DeepExploration": "b1796cddc73da3e3834c7624e88f103a33ec5d487130923eabd584c21b93a262"
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@DeepExploration": "b1796cddc73da3e3834c7624e88f103a33ec5d487130923eabd584c21b93a262",
+    "resource/template/RA/Reclamation3/RelaunchAnchor@RA@DoubleSpeed": "8444082e1364929a33bc9933b5f5a43ece1a2a1b775f01de4ed4f7f3f4834865"
 }
