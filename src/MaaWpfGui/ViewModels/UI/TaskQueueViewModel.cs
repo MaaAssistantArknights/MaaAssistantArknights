@@ -1427,7 +1427,7 @@ public class TaskQueueViewModel : Screen
 
         var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
         var result = MessageBoxHelper.Show(
-            string.Format(LocalizationHelper.GetString("ConfirmDeleteTaskMessage"), $"{taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}", taskItem.Name),
+            LocalizationHelper.GetStringFormat("ConfirmDeleteTaskMessage", $"{taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}", taskItem.Name),
             LocalizationHelper.GetString("ConfirmDeleteTask"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
@@ -1438,7 +1438,7 @@ public class TaskQueueViewModel : Screen
             if (index < ConfigFactory.CurrentConfig.TaskQueue.Count)
             {
                 TaskItemViewModels.RemoveAt(index);
-                AddLog(string.Format(LocalizationHelper.GetString("TaskDeleted"), taskItem.Name), UiLogColor.Info);
+                AddLog(LocalizationHelper.GetStringFormat("TaskDeleted", taskItem.Name), UiLogColor.Info);
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueSimplifier);
             }
         }
@@ -1756,8 +1756,8 @@ public class TaskQueueViewModel : Screen
         if (maxTimeInterval > 90)
         {
             AddLog(
-                string.Format(
-                    LocalizationHelper.GetString("Achievement.Martian.ConditionsTip"),
+                LocalizationHelper.GetStringFormat(
+                    "Achievement.Martian.ConditionsTip",
                     Math.Round(maxTimeInterval / 30, 1)),
                 UiLogColor.Error);
         }

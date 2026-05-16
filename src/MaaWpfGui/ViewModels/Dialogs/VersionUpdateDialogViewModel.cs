@@ -750,7 +750,7 @@ public class VersionUpdateDialogViewModel : Screen
             : GetPlannedUpdatePackagePath(packagePath);
 
         MessageBoxResult result = MessageBoxHelper.Show(
-            string.Format(LocalizationHelper.GetString("PendingFullUpdateManualConfirmDesc"), baseDir, normalizedPackagePath),
+            LocalizationHelper.GetStringFormat("PendingFullUpdateManualConfirmDesc", baseDir, normalizedPackagePath),
             LocalizationHelper.GetString("PendingFullUpdateManualConfirmTitle"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning,

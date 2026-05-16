@@ -359,7 +359,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         MirrorChyanCdkExpiredTime != 0
         ? IsMirrorChyanCdkExpired
             ? LocalizationHelper.GetString("MirrorChyanCdkExpired")
-            : string.Format(LocalizationHelper.GetString("MirrorChyanCdkRemainingDays"),
+            : LocalizationHelper.GetStringFormat("MirrorChyanCdkRemainingDays",
                             MirrorChyanCdkRemaining.TotalDays.ToString("F1"))
         : string.Empty;
 

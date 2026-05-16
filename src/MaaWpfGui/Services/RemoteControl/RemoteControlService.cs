@@ -331,7 +331,7 @@ public class RemoteControlService
                     {
                         // 一键长草特殊任务
                         await _runningState.UntilIdleAsync();
-                        var startLogStr = string.Format(LocalizationHelper.GetString("RemoteControlReceivedTask"), type, id);
+                        var startLogStr = LocalizationHelper.GetStringFormat("RemoteControlReceivedTask", type, id);
 
                         Instances.TaskQueueViewModel.AddLog(startLogStr);
                         await Execute.OnUIThreadAsync(() => {
@@ -339,7 +339,7 @@ public class RemoteControlService
                         });
                         await _runningState.UntilIdleAsync();
 
-                        var stopLogStr = string.Format(LocalizationHelper.GetString("RemoteControlCompletedTask"), type, id);
+                        var stopLogStr = LocalizationHelper.GetStringFormat("RemoteControlCompletedTask", type, id);
                         Instances.TaskQueueViewModel.AddLog(stopLogStr);
                         break;
                     }
@@ -771,7 +771,7 @@ public class RemoteControlService
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    var errorMsg = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), response.StatusCode);
+                    var errorMsg = LocalizationHelper.GetStringFormat("RemoteControlConnectionTestFail", response.StatusCode);
                     ToastNotification.ShowDirect(errorMsg);
                     return;
                 }
@@ -779,7 +779,7 @@ public class RemoteControlService
             else
             {
                 // 一般来说不会走到这里，因为null response一定会报错
-                var errorMsg = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), "Unknown");
+                var errorMsg = LocalizationHelper.GetStringFormat("RemoteControlConnectionTestFail", "Unknown");
                 ToastNotification.ShowDirect(errorMsg);
                 return;
             }
@@ -795,7 +795,7 @@ public class RemoteControlService
                 error = e.InnerException.Message;
             }
 
-            var errorMsg = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), error);
+            var errorMsg = LocalizationHelper.GetStringFormat("RemoteControlConnectionTestFail", error);
             ToastNotification.ShowDirect(errorMsg);
         }
     }

@@ -1631,7 +1631,7 @@ public partial class CopilotViewModel : Screen
         var stageId = mapInfo?.StageId;
         if (mapInfo is null)
         {
-            AddLog(string.Format(LocalizationHelper.GetString("CopilotStageNameNotFound"), stageCode), UiLogColor.Error, showTime: false);
+            AddLog(LocalizationHelper.GetStringFormat("CopilotStageNameNotFound", stageCode), UiLogColor.Error, showTime: false);
             return false;
         }
 
@@ -2252,7 +2252,7 @@ public partial class CopilotViewModel : Screen
         {
             if (!DataHelper.Operators.Any(op => op.Value.Name == DataHelper.GetLocalizedCharacterName(task.Name, "zh-cn")))
             {
-                AddLog(string.Format(LocalizationHelper.GetString("CopilotIllegalOperName"), task.Name), UiLogColor.Error, showTime: false);
+                AddLog(LocalizationHelper.GetStringFormat("CopilotIllegalOperName", task.Name), UiLogColor.Error, showTime: false);
                 _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
                 ok = false;

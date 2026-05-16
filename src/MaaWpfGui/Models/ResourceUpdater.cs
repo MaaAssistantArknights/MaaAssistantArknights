@@ -258,7 +258,7 @@ public static class ResourceUpdater
 
         releaseNote = LocalizationHelper.FormatVersion(releaseNote, versionTime);
 
-        SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Format(LocalizationHelper.GetString("MirrorChyanResourceUpdateShortTip"), releaseNote);
+        SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = LocalizationHelper.GetStringFormat("MirrorChyanResourceUpdateShortTip", releaseNote);
 
         if (string.IsNullOrEmpty(cdk))
         {
@@ -282,8 +282,8 @@ public static class ResourceUpdater
             return false;
         }
 
-        ToastNotification.ShowDirect(string.Format(
-            LocalizationHelper.GetString("GameResourceUpdatingMirrorChyan"), releaseNote));
+        ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat(
+            "GameResourceUpdatingMirrorChyan", releaseNote));
 
         const string MirrorchyanZipFile = "MaaResourceMirrorchyan.zip";
         const string ExtractFolder = "MaaResourceMirrorchyan";
@@ -372,7 +372,7 @@ public static class ResourceUpdater
             var (ret, uri, releaseNote) = await CheckFromMirrorChyanAsync();
             if (ret == CheckUpdateRetT.NoMirrorChyanCdk)
             {
-                ToastNotification.ShowDirect(string.Format(LocalizationHelper.GetString("MirrorChyanResourceUpdateTip"), releaseNote));
+                ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("MirrorChyanResourceUpdateTip", releaseNote));
             }
 
             if (ret != CheckUpdateRetT.OK)
