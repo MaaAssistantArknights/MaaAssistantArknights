@@ -1651,11 +1651,16 @@ public class ToolboxViewModel : Screen
         StartOperBoxRecognitionTask();
     }
 
+    private const int OperBoxExportClipboard = 0;
+    private const int OperBoxExportJson = 1;
+    private const int OperBoxExportMarkdown = 2;
+    private const int OperBoxExportCsv = 3;
+
     public List<ExportEntry> OperBoxExportOptionList { get; } = [
-        new(LocalizationHelper.GetString("OperBoxExportToClipboard"), 0),
-        new(LocalizationHelper.GetString("OperBoxExportToJson"), 1),
-        new(LocalizationHelper.GetString("ExportToMarkdown"), 2),
-        new(LocalizationHelper.GetString("ExportToCsv"), 3),
+        new(LocalizationHelper.GetString("OperBoxExportToClipboard"), OperBoxExportClipboard),
+        new(LocalizationHelper.GetString("OperBoxExportToJson"), OperBoxExportJson),
+        new(LocalizationHelper.GetString("ExportToMarkdown"), OperBoxExportMarkdown),
+        new(LocalizationHelper.GetString("ExportToCsv"), OperBoxExportCsv),
     ];
 
     private int _selectedOperBoxExportValue = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxSelectedExportValue, "0"));
@@ -1675,10 +1680,10 @@ public class ToolboxViewModel : Screen
     {
         switch (_selectedOperBoxExportValue)
         {
-            case 0: ExportOperBoxToClipboard(); break;
-            case 1: ExportOperBoxToJson(); break;
-            case 2: ExportOperBoxToMarkdown(); break;
-            case 3: ExportOperBoxToCsv(); break;
+            case OperBoxExportClipboard: ExportOperBoxToClipboard(); break;
+            case OperBoxExportJson: ExportOperBoxToJson(); break;
+            case OperBoxExportMarkdown: ExportOperBoxToMarkdown(); break;
+            case OperBoxExportCsv: ExportOperBoxToCsv(); break;
         }
     }
 
@@ -1740,7 +1745,7 @@ public class ToolboxViewModel : Screen
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
     }
 
-    private void ExportOperBoxToJson()
+    private void ExportOperBoxToFile(Func<IReadOnlyList<OperBoxData.OperData>, string> contentBuilder, string filter, string defaultExt, string defaultFileName)
     {
         var exportList = BuildOperBoxExportList();
         if (exportList.Count == 0)
@@ -1748,12 +1753,12 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        var content = JsonConvert.SerializeObject(exportList, Formatting.Indented);
+        var content = contentBuilder(exportList);
 
         var dialog = new Microsoft.Win32.SaveFileDialog {
-            Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
-            DefaultExt = ".json",
-            FileName = "Arknights_OperBox_Export.json",
+            Filter = filter,
+            DefaultExt = defaultExt,
+            FileName = defaultFileName,
         };
 
         if (dialog.ShowDialog() != true)
@@ -1764,58 +1769,33 @@ public class ToolboxViewModel : Screen
         File.WriteAllText(dialog.FileName, content, new UTF8Encoding(true));
         Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
+    }
+
+    private void ExportOperBoxToJson()
+    {
+        ExportOperBoxToFile(
+            list => JsonConvert.SerializeObject(list, Formatting.Indented),
+            "JSON files (*.json)|*.json|All files (*.*)|*.*",
+            ".json",
+            "Arknights_OperBox_Export.json");
     }
 
     private void ExportOperBoxToMarkdown()
     {
-        var exportList = BuildOperBoxExportList();
-        if (exportList.Count == 0)
-        {
-            return;
-        }
-
-        var content = string.Join(Environment.NewLine, BuildOperBoxMarkdownExportLines(exportList));
-
-        var dialog = new Microsoft.Win32.SaveFileDialog {
-            Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*",
-            DefaultExt = ".md",
-            FileName = "Arknights_OperBox_Export.md",
-        };
-
-        if (dialog.ShowDialog() != true)
-        {
-            return;
-        }
-
-        File.WriteAllText(dialog.FileName, content, new UTF8Encoding(true));
-        Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
-        AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
+        ExportOperBoxToFile(
+            list => string.Join(Environment.NewLine, BuildOperBoxMarkdownExportLines(list)),
+            "Markdown files (*.md)|*.md|All files (*.*)|*.*",
+            ".md",
+            "Arknights_OperBox_Export.md");
     }
 
     private void ExportOperBoxToCsv()
     {
-        var exportList = BuildOperBoxExportList();
-        if (exportList.Count == 0)
-        {
-            return;
-        }
-
-        var content = string.Join(Environment.NewLine, BuildOperBoxCsvExportLines(exportList));
-
-        var dialog = new Microsoft.Win32.SaveFileDialog {
-            Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*",
-            DefaultExt = ".csv",
-            FileName = "Arknights_OperBox_Export.csv",
-        };
-
-        if (dialog.ShowDialog() != true)
-        {
-            return;
-        }
-
-        File.WriteAllText(dialog.FileName, content, new UTF8Encoding(true));
-        Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
-        AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
+        ExportOperBoxToFile(
+            list => string.Join(Environment.NewLine, BuildOperBoxCsvExportLines(list)),
+            "CSV files (*.csv)|*.csv|All files (*.*)|*.*",
+            ".csv",
+            "Arknights_OperBox_Export.csv");
     }
 
     private static IEnumerable<string> BuildOperBoxMarkdownExportLines(IReadOnlyList<OperBoxData.OperData> items)
