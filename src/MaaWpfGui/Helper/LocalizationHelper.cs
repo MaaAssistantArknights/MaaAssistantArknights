@@ -262,7 +262,7 @@ public static class LocalizationHelper
     /// <param name="key">The key of the string.</param>
     /// <param name="args">The args of string.Format</param>
     /// <returns>The string.Format result.</returns>
-    public static string GetStringFormat(string key, params object[] args)
+    public static string GetStringFormat(string key, params object?[] args)
     {
         if (_culture == "pallas")
         {

@@ -174,8 +174,8 @@ public class RunningState
         _stallTimer.Stop();
         _stallAccumulatedCount++;
         var accumulatedMinutes = StallTimeoutMinutes + ((_stallAccumulatedCount - 1) * ReminderIntervalMinutes);
-        var message = string.Format(
-            LocalizationHelper.GetString("TaskStallWarning"),
+        var message = LocalizationHelper.GetStringFormat(
+            "TaskStallWarning",
             StallTimeoutMinutes,
             accumulatedMinutes);
         StallOccurred?.Invoke(this, message);
