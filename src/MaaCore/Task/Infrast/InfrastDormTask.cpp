@@ -65,6 +65,23 @@ bool asst::InfrastDormTask::_run()
         auto origin_room_config = current_room_config();
         if (is_use_custom_opers()) {
             swipe_and_select_custom_opers(true);
+            /*
+             * 此处修复前，自定义宿舍干员 + 自动补位同时开启时，
+             * swipe_and_select_custom_opers(true); 会找指定干员并切心情排序。
+             * 但前一个宿舍处理完低心情干员后，
+             * m_next_step 可能已进入 Trust / RestDone，
+             * 进入下一个宿舍时，这个状态没有回到普通心情阶段。
+             * 所以 opers_choose() 会把当前列表当成信赖列表解析，结果读到的 opertrust 是空的
+             * 要么把带数字的干员选上（小车、12F）偶然成功，要么就一直右滑卡死
+             * 修复：信赖补位前切回信赖排序
+             */
+            if (current_room_config().autofill && m_dorm_trust_enabled &&
+                (m_next_step == NextStep::RestDone || m_next_step == NextStep::Trust)) {
+                Log.trace("click_sort_by_trust_button");
+                if (!click_sort_by_trust_button()) {
+                    return false;
+                }
+            }
         }
         else {
             click_clear_button(); // 宿舍若未指定干员，则清空后按照原约定逻辑选择干员
