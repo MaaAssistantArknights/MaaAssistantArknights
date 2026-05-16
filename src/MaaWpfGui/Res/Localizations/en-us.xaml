@@ -401,6 +401,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later</system:String>
+    <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan is building the OTA incremental update for this version, will automatically retry in 10 seconds</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected, but no OTA incremental update package is available. The full package will be downloaded. It will keep cache, config, data, debug, achievement (screenshots), background (custom background images), and MAA.Updater.exe. All other files will be moved to the Recycle Bin and .old. Please back them up manually if necessary.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">Download of Update Package Failed</system:String>
