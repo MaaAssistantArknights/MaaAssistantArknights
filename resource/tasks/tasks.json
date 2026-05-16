@@ -1989,7 +1989,16 @@
         "action": "ClickRect",
         "specificRect": [606, 609, 68, 63],
         "postDelay": 500,
-        "next": ["SpecialAccessActivitiesReturn"]
+        "next": ["SpecialAccessActivitiesReturn", "SpecialAccessActivitiesCloseRewards"]
+    },
+    "SpecialAccessActivitiesCloseRewards": {
+        "doc": "周年专享活动领取后可能仍停留在获得物资弹窗，循环点击直到返回按钮可识别",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [606, 609, 68, 63],
+        "postDelay": 500,
+        "next": ["SpecialAccessActivitiesReturn", "SpecialAccessActivitiesCloseRewards"],
+        "maxTimes": 10
     },
     "SpecialAccessActivitiesReturn": {
         "baseTask": "CloseAnnoSpecialAccess",
