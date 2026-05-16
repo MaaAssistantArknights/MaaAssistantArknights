@@ -1018,26 +1018,24 @@ public class VersionUpdateDialogViewModel : Screen
     /// <returns>解析成功返回 JObject，失败返回 null。</returns>
     private static async Task<JObject?> FetchMirrorChyanJsonAsync(string url)
     {
-        HttpResponseMessage? response = null;
         try
         {
-            response = await Instances.HttpService.GetAsync(new(url), uriPartial: UriPartial.Path);
+            using var response = await Instances.HttpService.GetAsync(new(url), uriPartial: UriPartial.Path);
+            var jsonStr = await response.Content.ReadAsStringAsync();
+            _logger.Information("{JsonStr}", jsonStr);
+            try
+            {
+                return (JObject?)JsonConvert.DeserializeObject(jsonStr);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to deserialize json from MirrorChyan");
+                return null;
+            }
         }
         catch (Exception ex)
         {
             _logger.Error(ex, "Failed to send GET request to {Uri}", new Uri(url).GetLeftPart(UriPartial.Path));
-            return null;
-        }
-
-        var jsonStr = await response.Content.ReadAsStringAsync();
-        _logger.Information("{JsonStr}", jsonStr);
-        try
-        {
-            return (JObject?)JsonConvert.DeserializeObject(jsonStr);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "Failed to deserialize json from MirrorChyan");
             return null;
         }
     }
