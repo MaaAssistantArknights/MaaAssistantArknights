@@ -82,7 +82,7 @@
         "action": "DoNothing",
         "text": ["请部署", "罗德岛", "采集基站"],
         "roi": [520, 54, 247, 38],
-        "next": ["RelaunchAnchor@RA@PNS-AlignMap"]
+        "sub": ["RelaunchAnchor@RA@PNS-AlignMap*2"],
     },
     "RelaunchAnchor@RA@PNS-AlignMap": {
         "doc": "步骤 10：JustReturn 的 Swipe，对齐地图",
@@ -90,8 +90,7 @@
         "action": "Swipe",
         "specificRect": [120, 580, 1, 1],
         "rectMove": [1920, 0, 1, 1],
-        "specialParams": [500, 0, 3, 0],
-        "next": ["RelaunchAnchor@RA@PNS-DeployGatheringBaseSwipe"]
+        "specialParams": [500, 0, 3, 0]
     },
     "RelaunchAnchor@RA@PNS-DeployGatheringBaseSwipe": {
         "doc": "步骤 11：JustReturn 的 Swipe，占位部署采集基站",
@@ -114,7 +113,8 @@
         "doc": "步骤 13：部署采集基站后的占位等待 x 秒",
         "algorithm": "JustReturn",
         "postDelay": 4000,
-        "next": ["RelaunchAnchor@RA@PNS-AlignMap2"]
+        "sub": ["RelaunchAnchor@RA@PNS-AlignMap*2"],
+        "next": ["RelaunchAnchor@RA@PNS-WaitCost"]
     },
     "RelaunchAnchor@RA@PNS-AlignMap2": {
         "doc": "步骤 14：JustReturn 的 Swipe，对齐地图",
