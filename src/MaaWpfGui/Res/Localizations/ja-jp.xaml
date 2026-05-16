@@ -401,6 +401,7 @@
     <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください</system:String>
+    <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan がこのバージョンの OTA 増分アップデートをビルド中です。約 10 秒後に自動的に再試行します</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されましたが、利用可能な OTA 増分アップデートパッケージはありません。完全パッケージをダウンロードし、cache、config、data、debug、achievement（クリアスクリーンショット）、background（背景画像）、MAA.Updater.exe は保持され、それ以外のファイルはごみ箱と .old に移動されます。必要に応じて手動でバックアップしてください。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>

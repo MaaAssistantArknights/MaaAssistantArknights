@@ -401,6 +401,7 @@
     <system:String x:Key="CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">새로운 버전이 빌드되는 중입니다. 다음에 다시 시도해 주세요</system:String>
+    <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan이 이 버전에 대한 OTA 증분 업데이트를 빌드 중입니다. 약 10초 후에 자동으로 다시 시도합니다</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었지만 사용할 수 있는 OTA 증분 업데이트 패키지가 없습니다. 전체 패키지를 다운로드하며, cache, config, data, debug, achievement(클리어 스크린샷), background(배경 이미지), MAA.Updater.exe 는 유지되고 그 외의 파일은 휴지통과 .old 폴더로 이동합니다. 필요하다면 수동으로 백업해 주세요.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">업데이트 패키지 다운로드 실패</system:String>
