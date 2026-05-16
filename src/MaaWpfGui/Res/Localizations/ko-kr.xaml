@@ -901,6 +901,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="OperBoxNotHaveList">미보유: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">인식 시작</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
+    <system:String x:Key="OperBoxExportToClipboard">클립보드</system:String>
+    <system:String x:Key="OperBoxExportToJson">JSON</system:String>
     <!--  !오퍼레이터 인식  -->
     <!--  영상 인식  -->
     <system:String x:Key="VideoRecognition">영상 인식</system:String>

@@ -899,6 +899,8 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="OperBoxNotHaveList">Not owned: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">Copy to Clipboard</system:String>
+    <system:String x:Key="OperBoxExportToClipboard">Clipboard</system:String>
+    <system:String x:Key="OperBoxExportToJson">JSON</system:String>
     <!--  !Operator Recognition  -->
     <!--  Video Recognition  -->
     <system:String x:Key="VideoRecognition">Video</system:String>

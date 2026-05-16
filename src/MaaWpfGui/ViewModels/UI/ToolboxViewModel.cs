@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Buffers;
+using System.Text;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -1650,13 +1651,42 @@ public class ToolboxViewModel : Screen
         StartOperBoxRecognitionTask();
     }
 
+    public List<ExportEntry> OperBoxExportOptionList { get; } = [
+        new(LocalizationHelper.GetString("OperBoxExportToClipboard"), 0),
+        new(LocalizationHelper.GetString("OperBoxExportToJson"), 1),
+        new(LocalizationHelper.GetString("ExportToMarkdown"), 2),
+        new(LocalizationHelper.GetString("ExportToCsv"), 3),
+    ];
+
+    private int _selectedOperBoxExportValue = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxSelectedExportValue, "0"));
+
+    public int SelectedOperBoxExportValue
+    {
+        get => _selectedOperBoxExportValue;
+        set {
+            SetAndNotify(ref _selectedOperBoxExportValue, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxSelectedExportValue, value.ToString());
+        }
+    }
+
     // UI 绑定的方法
     [UsedImplicitly]
     public void ExportOperBox()
     {
+        switch (_selectedOperBoxExportValue)
+        {
+            case 0: ExportOperBoxToClipboard(); break;
+            case 1: ExportOperBoxToJson(); break;
+            case 2: ExportOperBoxToMarkdown(); break;
+            case 3: ExportOperBoxToCsv(); break;
+        }
+    }
+
+    private List<OperBoxData.OperData> BuildOperBoxExportList()
+    {
         if (OperBoxHaveList.Count == 0)
         {
-            return;
+            return [];
         }
 
         var exportList = new List<OperBoxData.OperData>();
@@ -1693,10 +1723,124 @@ public class ToolboxViewModel : Screen
             }
         }
 
+        return exportList;
+    }
+
+    private void ExportOperBoxToClipboard()
+    {
+        var exportList = BuildOperBoxExportList();
+        if (exportList.Count == 0)
+        {
+            return;
+        }
+
         Clipboard.Clear();
         Clipboard.SetDataObject(JsonConvert.SerializeObject(exportList, Formatting.Indented));
-        OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
+        Growl.Info(LocalizationHelper.GetString("CopiedToClipboard"));
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
+    }
+
+    private void ExportOperBoxToJson()
+    {
+        var exportList = BuildOperBoxExportList();
+        if (exportList.Count == 0)
+        {
+            return;
+        }
+
+        var content = JsonConvert.SerializeObject(exportList, Formatting.Indented);
+
+        var dialog = new Microsoft.Win32.SaveFileDialog {
+            Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
+            DefaultExt = ".json",
+            FileName = "Arknights_OperBox_Export.json",
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        File.WriteAllText(dialog.FileName, content, new UTF8Encoding(true));
+        Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
+    }
+
+    private void ExportOperBoxToMarkdown()
+    {
+        var exportList = BuildOperBoxExportList();
+        if (exportList.Count == 0)
+        {
+            return;
+        }
+
+        var content = string.Join(Environment.NewLine, BuildOperBoxMarkdownExportLines(exportList));
+
+        var dialog = new Microsoft.Win32.SaveFileDialog {
+            Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*",
+            DefaultExt = ".md",
+            FileName = "Arknights_OperBox_Export.md",
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        File.WriteAllText(dialog.FileName, content, new UTF8Encoding(true));
+        Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
+    }
+
+    private void ExportOperBoxToCsv()
+    {
+        var exportList = BuildOperBoxExportList();
+        if (exportList.Count == 0)
+        {
+            return;
+        }
+
+        var content = string.Join(Environment.NewLine, BuildOperBoxCsvExportLines(exportList));
+
+        var dialog = new Microsoft.Win32.SaveFileDialog {
+            Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*",
+            DefaultExt = ".csv",
+            FileName = "Arknights_OperBox_Export.csv",
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        File.WriteAllText(dialog.FileName, content, new UTF8Encoding(true));
+        Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
+    }
+
+    private static IEnumerable<string> BuildOperBoxMarkdownExportLines(IReadOnlyList<OperBoxData.OperData> items)
+    {
+        yield return "| 干员 | 干员id | 星级 | 精英化等级 | 等级 | 是否拥有 | 潜能 |";
+        yield return "| :-- | :-- | :-- | :-- | :-- | :-- | :-- |";
+        foreach (var item in items)
+        {
+            yield return $"| {item.Name} | {item.Id} | {item.Rarity} | {item.Elite} | {item.Level} | {(item.Own ? "是" : "否")} | {item.Potential} |";
+        }
+    }
+
+    private static IEnumerable<string> BuildOperBoxCsvExportLines(IReadOnlyList<OperBoxData.OperData> items)
+    {
+        yield return "干员,干员id,星级,精英化等级,等级,是否拥有,潜能";
+        foreach (var item in items)
+        {
+            var name = item.Name ?? string.Empty;
+            if (name.Contains(',') || name.Contains('"') || name.Contains('\n'))
+            {
+                name = "\"" + name.Replace("\"", "\"\"") + "\"";
+            }
+
+            yield return $"{name},{item.Id},{item.Rarity},{item.Elite},{item.Level},{(item.Own ? "是" : "否")},{item.Potential}";
+        }
     }
 
     #endregion OperBox

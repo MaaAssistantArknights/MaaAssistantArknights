@@ -900,6 +900,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="OperBoxNotHaveList">未擁有：{0} 名</system:String>
     <system:String x:Key="StartToOperBoxRecognition">開始辨識</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">複製到剪貼簿</system:String>
+    <system:String x:Key="OperBoxExportToClipboard">剪貼簿</system:String>
+    <system:String x:Key="OperBoxExportToJson">JSON</system:String>
     <!--  !日誌  -->
     <!--  自動戰鬥  -->
     <system:String x:Key="VideoRecognition">影片辨識</system:String>

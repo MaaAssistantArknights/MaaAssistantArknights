@@ -449,17 +449,27 @@
                     VerticalAlignment="Center"
                     IsEnabled="{Binding Idle}"
                     Orientation="Horizontal">
+                    <StackPanel VerticalAlignment="Center">
+                        <ComboBox
+                            Width="160"
+                            hc:TitleElement.Title="{DynamicResource ExportTo}"
+                            DisplayMemberPath="Display"
+                            ItemsSource="{Binding OperBoxExportOptionList}"
+                            SelectedValue="{Binding SelectedOperBoxExportValue}"
+                            SelectedValuePath="Value" />
+                        <Button
+                            Width="160"
+                            Height="30"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Center"
+                            Command="{s:Action ExportOperBox}"
+                            Content="{DynamicResource Export}" />
+                    </StackPanel>
                     <Button
                         Width="180"
-                        Height="70"
-                        Margin="30,0"
-                        Command="{s:Action ExportOperBox}"
-                        Content="{DynamicResource OperBoxCopyToClipboard}"
-                        IsEnabled="{Binding Idle}" />
-                    <Button
-                        Width="180"
-                        Height="70"
-                        Margin="30,0"
+                        Height="80"
+                        Margin="20,0,0,0"
+                        VerticalAlignment="Center"
                         Command="{s:Action StartOperBox}"
                         Content="{DynamicResource StartToOperBoxRecognition}"
                         IsEnabled="{c:Binding 'Idle and Inited'}" />
