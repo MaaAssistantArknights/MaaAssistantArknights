@@ -955,7 +955,7 @@
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
-            ["o+[-\\s]*$", ""],
+            ["\\s+o+[-\\s]*$", ""],
             [" |<|>|-|'", ""],
             ["^\\d+", ""],
             ["Disappear\\.\\.\\.", "消失......"],
@@ -1098,7 +1098,7 @@
             ["ForwardForest", "前行的林地"],
             ["TrimountsTravelAgencyDispatch", "特里蒙旅行社特派团"],
             ["OnsiteatPublicNomadicStationN6", "在地公共移动站N6号"],
-            ["GrabandG", "随到随取"],
+            ["GrabandGo", "随到随取"],
             ["BlackFootprints", "黑色足迹"],
             ["UnfreezingRiver", "不冻河"],
             ["FenceofWoodandSnow", "雪与木的笆篱"],
@@ -1106,6 +1106,7 @@
             ["CrossingSamisArm", "走过萨米的臂膀"],
             ["ShatteredOmen", "木裂前兆"],
             ["PessimistsCage", "悲观者囚笼"],
+            ["TimesChange", "移时换物"],
             ["Change", "变化"],
             ["Reconstruction", "重构"],
             ["OneSmallStepforExpeditioners", "探索者的一小步"],
@@ -1207,7 +1208,6 @@
             ["HundredClanRebellion", "百氏之乱"],
             ["TheFinishingStroke", "收笔"],
             ["MeetingaFriend", "会友"],
-            ["TimesChange", "移时换物"],
             ["WhereThenMeetsNow", "古今交汇"],
             ["HeavenBlessedHunt", "大狩维天"],
             ["ForTomorrow", "只为明日"]
