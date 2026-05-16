@@ -416,7 +416,7 @@ jobs:
           tar czvf $GITHUB_WORKSPACE/MAAComponent-${{ needs.meta.outputs.tag }}-android-${{ matrix.arch }}.tar.gz .
 
       - name: Upload MAA to GitHub
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: MAAComponent-android-${{ matrix.arch }}
           path: MAAComponent-*.tar.gz
