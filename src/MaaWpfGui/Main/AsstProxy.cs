@@ -1582,6 +1582,7 @@ public class AsstProxy
                             }
 
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitConfirm"), UiLogColor.Info);
+                            Instances.TaskQueueViewModel.AddLog("已公招" + RecruitConfirmTime + "次", UiLogColor.Info);
                             break;
 
                         case "InfrastDormDoubleConfirmButton":
