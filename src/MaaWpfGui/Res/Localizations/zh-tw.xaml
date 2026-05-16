@@ -902,6 +902,15 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="OperBoxCopyToClipboard">複製到剪貼簿</system:String>
     <system:String x:Key="OperBoxExportToClipboard">剪貼簿</system:String>
     <system:String x:Key="OperBoxExportToJson">JSON</system:String>
+    <system:String x:Key="OperBoxExportHeaderName">幹員</system:String>
+    <system:String x:Key="OperBoxExportHeaderId">ID</system:String>
+    <system:String x:Key="OperBoxExportHeaderRarity">星級</system:String>
+    <system:String x:Key="OperBoxExportHeaderElite">精英化等級</system:String>
+    <system:String x:Key="OperBoxExportHeaderLevel">等級</system:String>
+    <system:String x:Key="OperBoxExportHeaderOwn">是否擁有</system:String>
+    <system:String x:Key="OperBoxExportHeaderPotential">潛能</system:String>
+    <system:String x:Key="OperBoxExportYes">是</system:String>
+    <system:String x:Key="OperBoxExportNo">否</system:String>
     <!--  !日誌  -->
     <!--  自動戰鬥  -->
     <system:String x:Key="VideoRecognition">影片辨識</system:String>

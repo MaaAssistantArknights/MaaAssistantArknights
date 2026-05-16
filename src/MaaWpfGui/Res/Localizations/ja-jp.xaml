@@ -902,6 +902,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="OperBoxCopyToClipboard">クリップボードにコピー</system:String>
     <system:String x:Key="OperBoxExportToClipboard">クリップボード</system:String>
     <system:String x:Key="OperBoxExportToJson">JSON</system:String>
+    <system:String x:Key="OperBoxExportHeaderName">オペレーター</system:String>
+    <system:String x:Key="OperBoxExportHeaderId">ID</system:String>
+    <system:String x:Key="OperBoxExportHeaderRarity">レア度</system:String>
+    <system:String x:Key="OperBoxExportHeaderElite">Elite</system:String>
+    <system:String x:Key="OperBoxExportHeaderLevel">Lv</system:String>
+    <system:String x:Key="OperBoxExportHeaderOwn">所有</system:String>
+    <system:String x:Key="OperBoxExportHeaderPotential">潜在</system:String>
+    <system:String x:Key="OperBoxExportYes">はい</system:String>
+    <system:String x:Key="OperBoxExportNo">いいえ</system:String>
     <!--  !Operator Recognition  -->
     <!--  VideoRecognition  -->
     <system:String x:Key="VideoRecognition">映像</system:String>

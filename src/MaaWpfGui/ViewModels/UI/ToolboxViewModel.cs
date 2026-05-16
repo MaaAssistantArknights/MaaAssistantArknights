@@ -838,13 +838,65 @@ public class ToolboxViewModel : Screen
         return true;
     }
 
+    /// <summary>
+    /// 仓库导出格式
+    /// </summary>
+    public enum DepotExportFormat
+    {
+        /// <summary>
+        /// https://github.com/penguin-statistics/ArkPlanner
+        /// </summary>
+        Arkplanner = 0,
+
+        /// <summary>
+        /// https://arkntools.app/#/material
+        /// </summary>
+        Lolicon = 1,
+
+        /// <summary>
+        /// Specifies that the content is formatted using Markdown syntax.
+        /// </summary>
+        Markdown = 2,
+
+        /// <summary>
+        /// Specifies that the content is formatted as comma-separated values (CSV).
+        /// </summary>
+        Csv = 3,
+    }
+
+    /// <summary>
+    /// 干员BOX导出格式
+    /// </summary>
+    public enum OperBoxExportFormat
+    {
+        /// <summary>
+        /// Represents the clipboard as a data source or destination.
+        /// </summary>
+        Clipboard = 0,
+
+        /// <summary>
+        /// Specifies that the content type is JSON format.
+        /// </summary>
+        Json = 1,
+
+        /// <summary>
+        /// Specifies that the content is formatted using Markdown syntax.
+        /// </summary>
+        Markdown = 2,
+
+        /// <summary>
+        /// Specifies that the data format is comma-separated values (CSV).
+        /// </summary>
+        Csv = 3,
+    }
+
     public record struct ExportEntry(string Display, int Value);
 
     public List<ExportEntry> ExportOptionList { get; } = [
-        new(LocalizationHelper.GetString("ExportToArkplanner"), 0),
-        new(LocalizationHelper.GetString("ExportToLolicon"), 1),
-        new(LocalizationHelper.GetString("ExportToMarkdown"), 2),
-        new(LocalizationHelper.GetString("ExportToCsv"), 3),
+        new(LocalizationHelper.GetString("ExportToArkplanner"), (int)DepotExportFormat.Arkplanner),
+        new(LocalizationHelper.GetString("ExportToLolicon"), (int)DepotExportFormat.Lolicon),
+        new(LocalizationHelper.GetString("ExportToMarkdown"), (int)DepotExportFormat.Markdown),
+        new(LocalizationHelper.GetString("ExportToCsv"), (int)DepotExportFormat.Csv),
     ];
 
     private int _selectedExportValue;
@@ -858,12 +910,12 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public void ExecuteSelectedExport()
     {
-        switch (_selectedExportValue)
+        switch ((DepotExportFormat)_selectedExportValue)
         {
-            case 0: ExportToArkplanner(); break;
-            case 1: ExportToLolicon(); break;
-            case 2: ExportToMarkdown(); break;
-            case 3: ExportToCsv(); break;
+            case DepotExportFormat.Arkplanner: ExportToArkplanner(); break;
+            case DepotExportFormat.Lolicon: ExportToLolicon(); break;
+            case DepotExportFormat.Markdown: ExportToMarkdown(); break;
+            case DepotExportFormat.Csv: ExportToCsv(); break;
         }
     }
 
@@ -1651,26 +1703,37 @@ public class ToolboxViewModel : Screen
         StartOperBoxRecognitionTask();
     }
 
-    private const int OperBoxExportClipboard = 0;
-    private const int OperBoxExportJson = 1;
-    private const int OperBoxExportMarkdown = 2;
-    private const int OperBoxExportCsv = 3;
-
     public List<ExportEntry> OperBoxExportOptionList { get; } = [
-        new(LocalizationHelper.GetString("OperBoxExportToClipboard"), OperBoxExportClipboard),
-        new(LocalizationHelper.GetString("OperBoxExportToJson"), OperBoxExportJson),
-        new(LocalizationHelper.GetString("ExportToMarkdown"), OperBoxExportMarkdown),
-        new(LocalizationHelper.GetString("ExportToCsv"), OperBoxExportCsv),
+        new(LocalizationHelper.GetString("OperBoxExportToClipboard"), (int)OperBoxExportFormat.Clipboard),
+        new(LocalizationHelper.GetString("OperBoxExportToJson"), (int)OperBoxExportFormat.Json),
+        new(LocalizationHelper.GetString("ExportToMarkdown"), (int)OperBoxExportFormat.Markdown),
+        new(LocalizationHelper.GetString("ExportToCsv"), (int)OperBoxExportFormat.Csv),
     ];
 
-    private int _selectedOperBoxExportValue = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxSelectedExportValue, "0"));
+    private int _selectedOperBoxExportValue = LoadOperBoxExportFormat();
+
+    private static int LoadOperBoxExportFormat()
+    {
+        var saved = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxSelectedExportValue, "0");
+        if (int.TryParse(saved, out var val) && Enum.IsDefined(typeof(OperBoxExportFormat), val))
+        {
+            return val;
+        }
+
+        if (Enum.TryParse<OperBoxExportFormat>(saved, out var fmt))
+        {
+            return (int)fmt;
+        }
+
+        return (int)OperBoxExportFormat.Clipboard;
+    }
 
     public int SelectedOperBoxExportValue
     {
         get => _selectedOperBoxExportValue;
         set {
             SetAndNotify(ref _selectedOperBoxExportValue, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxSelectedExportValue, value.ToString());
+            ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxSelectedExportValue, ((OperBoxExportFormat)value).ToString());
         }
     }
 
@@ -1678,12 +1741,12 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public void ExportOperBox()
     {
-        switch (_selectedOperBoxExportValue)
+        switch ((OperBoxExportFormat)_selectedOperBoxExportValue)
         {
-            case OperBoxExportClipboard: ExportOperBoxToClipboard(); break;
-            case OperBoxExportJson: ExportOperBoxToJson(); break;
-            case OperBoxExportMarkdown: ExportOperBoxToMarkdown(); break;
-            case OperBoxExportCsv: ExportOperBoxToCsv(); break;
+            case OperBoxExportFormat.Clipboard: ExportOperBoxToClipboard(); break;
+            case OperBoxExportFormat.Json: ExportOperBoxToJson(); break;
+            case OperBoxExportFormat.Markdown: ExportOperBoxToMarkdown(); break;
+            case OperBoxExportFormat.Csv: ExportOperBoxToCsv(); break;
         }
     }
 
@@ -1800,17 +1863,37 @@ public class ToolboxViewModel : Screen
 
     private static IEnumerable<string> BuildOperBoxMarkdownExportLines(IReadOnlyList<OperBoxData.OperData> items)
     {
-        yield return "| 干员 | 干员id | 星级 | 精英化等级 | 等级 | 是否拥有 | 潜能 |";
+        var nameHeader = LocalizationHelper.GetString("OperBoxExportHeaderName");
+        var idHeader = LocalizationHelper.GetString("OperBoxExportHeaderId");
+        var rarityHeader = LocalizationHelper.GetString("OperBoxExportHeaderRarity");
+        var eliteHeader = LocalizationHelper.GetString("OperBoxExportHeaderElite");
+        var levelHeader = LocalizationHelper.GetString("OperBoxExportHeaderLevel");
+        var ownHeader = LocalizationHelper.GetString("OperBoxExportHeaderOwn");
+        var potentialHeader = LocalizationHelper.GetString("OperBoxExportHeaderPotential");
+        var yes = LocalizationHelper.GetString("OperBoxExportYes");
+        var no = LocalizationHelper.GetString("OperBoxExportNo");
+
+        yield return $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} |";
         yield return "| :-- | :-- | :-- | :-- | :-- | :-- | :-- |";
         foreach (var item in items)
         {
-            yield return $"| {item.Name} | {item.Id} | {item.Rarity} | {item.Elite} | {item.Level} | {(item.Own ? "是" : "否")} | {item.Potential} |";
+            yield return $"| {item.Name} | {item.Id} | {item.Rarity} | {item.Elite} | {item.Level} | {(item.Own ? yes : no)} | {item.Potential} |";
         }
     }
 
     private static IEnumerable<string> BuildOperBoxCsvExportLines(IReadOnlyList<OperBoxData.OperData> items)
     {
-        yield return "干员,干员id,星级,精英化等级,等级,是否拥有,潜能";
+        var nameHeader = LocalizationHelper.GetString("OperBoxExportHeaderName");
+        var idHeader = LocalizationHelper.GetString("OperBoxExportHeaderId");
+        var rarityHeader = LocalizationHelper.GetString("OperBoxExportHeaderRarity");
+        var eliteHeader = LocalizationHelper.GetString("OperBoxExportHeaderElite");
+        var levelHeader = LocalizationHelper.GetString("OperBoxExportHeaderLevel");
+        var ownHeader = LocalizationHelper.GetString("OperBoxExportHeaderOwn");
+        var potentialHeader = LocalizationHelper.GetString("OperBoxExportHeaderPotential");
+        var yes = LocalizationHelper.GetString("OperBoxExportYes");
+        var no = LocalizationHelper.GetString("OperBoxExportNo");
+
+        yield return $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader}";
         foreach (var item in items)
         {
             var name = item.Name ?? string.Empty;
@@ -1819,7 +1902,7 @@ public class ToolboxViewModel : Screen
                 name = "\"" + name.Replace("\"", "\"\"") + "\"";
             }
 
-            yield return $"{name},{item.Id},{item.Rarity},{item.Elite},{item.Level},{(item.Own ? "是" : "否")},{item.Potential}";
+            yield return $"{name},{item.Id},{item.Rarity},{item.Elite},{item.Level},{(item.Own ? yes : no)},{item.Potential}";
         }
     }
 

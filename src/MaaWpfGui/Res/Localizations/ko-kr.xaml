@@ -903,6 +903,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
     <system:String x:Key="OperBoxExportToClipboard">클립보드</system:String>
     <system:String x:Key="OperBoxExportToJson">JSON</system:String>
+    <system:String x:Key="OperBoxExportHeaderName">오퍼레이터</system:String>
+    <system:String x:Key="OperBoxExportHeaderId">ID</system:String>
+    <system:String x:Key="OperBoxExportHeaderRarity">희귀도</system:String>
+    <system:String x:Key="OperBoxExportHeaderElite">정예화</system:String>
+    <system:String x:Key="OperBoxExportHeaderLevel">레벨</system:String>
+    <system:String x:Key="OperBoxExportHeaderOwn">보유</system:String>
+    <system:String x:Key="OperBoxExportHeaderPotential">잠재</system:String>
+    <system:String x:Key="OperBoxExportYes">예</system:String>
+    <system:String x:Key="OperBoxExportNo">아니오</system:String>
     <!--  !오퍼레이터 인식  -->
     <!--  영상 인식  -->
     <system:String x:Key="VideoRecognition">영상 인식</system:String>

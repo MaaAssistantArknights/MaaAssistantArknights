@@ -901,6 +901,15 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">Copy to Clipboard</system:String>
     <system:String x:Key="OperBoxExportToClipboard">Clipboard</system:String>
     <system:String x:Key="OperBoxExportToJson">JSON</system:String>
+    <system:String x:Key="OperBoxExportHeaderName">Operator</system:String>
+    <system:String x:Key="OperBoxExportHeaderId">ID</system:String>
+    <system:String x:Key="OperBoxExportHeaderRarity">Rarity</system:String>
+    <system:String x:Key="OperBoxExportHeaderElite">Elite</system:String>
+    <system:String x:Key="OperBoxExportHeaderLevel">Level</system:String>
+    <system:String x:Key="OperBoxExportHeaderOwn">Owned</system:String>
+    <system:String x:Key="OperBoxExportHeaderPotential">Potential</system:String>
+    <system:String x:Key="OperBoxExportYes">Yes</system:String>
+    <system:String x:Key="OperBoxExportNo">No</system:String>
     <!--  !Operator Recognition  -->
     <!--  Video Recognition  -->
     <system:String x:Key="VideoRecognition">Video</system:String>
