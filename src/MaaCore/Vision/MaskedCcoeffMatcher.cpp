@@ -12,15 +12,15 @@ namespace
 // 稀疏路径使用的每个有效 mask 像素的条目
 struct SparseEntry
 {
-    int16_t dx, dy;     // 相对模板左上角的偏移
-    float T_prime[3];   // M*(T_c - μT_c)，per-channel
+    int16_t dx, dy;   // 相对模板左上角的偏移
+    float T_prime[3]; // M*(T_c - μT_c)，per-channel
 };
 }
 
 struct MaskedCcoeffMatcher::TemplatePlan
 {
-    cv::Mat M;                                // CV_32F mask, 0 or 1
-    std::array<cv::Mat, 3> T_prime;           // M*(T_c - μT_c)，per-channel
+    cv::Mat M;                      // CV_32F mask, 0 or 1
+    std::array<cv::Mat, 3> T_prime; // M*(T_c - μT_c)，per-channel
     double sigma_T_sq = 0.0;
     double mask_area = 0.0;
     std::vector<SparseEntry> sparse_entries; // 非零 mask 位置列表
@@ -59,13 +59,13 @@ void MaskedCcoeffMatcher::fnv1a_update(uint64_t& h, const void* data, size_t siz
     const auto* ptr = static_cast<const uint8_t*>(data);
     for (size_t i = 0; i < size; ++i) {
         h ^= ptr[i];
-        h *= 1099511628211ULL;
+        h *= 1'099'511'628'211ULL;
     }
 }
 
 std::string MaskedCcoeffMatcher::make_mat_cache_key(const cv::Mat& mat)
 {
-    uint64_t h = 14695981039346656037ULL;
+    uint64_t h = 14'695'981'039'346'656'037ULL;
     const int meta[] = { mat.rows, mat.cols, mat.type() };
     fnv1a_update(h, meta, sizeof(meta));
 
@@ -74,8 +74,8 @@ std::string MaskedCcoeffMatcher::make_mat_cache_key(const cv::Mat& mat)
         fnv1a_update(h, mat.ptr(y), row_bytes);
     }
     // 捏个hash key
-    return "mat:" + std::to_string(mat.rows) + "x" + std::to_string(mat.cols)
-           + ":" + std::to_string(mat.type()) + ":" + std::to_string(h);
+    return "mat:" + std::to_string(mat.rows) + "x" + std::to_string(mat.cols) + ":" + std::to_string(mat.type()) + ":" +
+           std::to_string(h);
 }
 
 std::shared_ptr<const MaskedCcoeffMatcher::TemplatePlan> MaskedCcoeffMatcher::get_or_build_template_plan(
@@ -143,10 +143,12 @@ std::shared_ptr<const MaskedCcoeffMatcher::DftPlan> MaskedCcoeffMatcher::get_or_
     }
 
     auto dft_plan = std::make_shared<DftPlan>();
-    cv::Mat padded = cv::Mat::zeros(dft_rows, dft_cols, CV_32F);
+    cv::Mat padded = cv::Mat::zeros(dft_rows, dft_cols, CV_64F);
+    cv::Mat src_d;
     auto compute_into = [&](const cv::Mat& src, cv::Mat& out) {
-        padded.setTo(0.0f);
-        src.copyTo(padded(cv::Rect(0, 0, src.cols, src.rows)));
+        padded.setTo(0.0);
+        src.convertTo(src_d, CV_64F);
+        src_d.copyTo(padded(cv::Rect(0, 0, src_d.cols, src_d.rows)));
         cv::dft(padded, out, cv::DFT_COMPLEX_OUTPUT);
     };
 
@@ -203,15 +205,17 @@ bool MaskedCcoeffMatcher::should_fallback_to_opencv(int mask_pixels, int result_
 //
 // 等价于 cv::matchTemplate(image, templ, result, TM_CCOEFF_NORMED, mask)
 cv::Mat MaskedCcoeffMatcher::match(
-    const cv::Mat& image_rgb,      // CV_8UC3
-    const cv::Mat& templ_rgb,      // CV_8UC3
-    const cv::Mat& mask_u8,        // CV_8UC1, 0 or 255
-    const std::string& cache_key,  // 模板侧 FFT 缓存键
+    const cv::Mat& image_rgb,     // CV_8UC3
+    const cv::Mat& templ_rgb,     // CV_8UC3
+    const cv::Mat& mask_u8,       // CV_8UC1, 0 or 255
+    const std::string& cache_key, // 模板侧 FFT 缓存键
     int mask_pixels)
 {
     const int rh = image_rgb.rows - templ_rgb.rows + 1;
     const int rw = image_rgb.cols - templ_rgb.cols + 1;
-    if (rh <= 0 || rw <= 0) return {};
+    if (rh <= 0 || rw <= 0) {
+        return {};
+    }
 
     if (mask_pixels <= 0 || should_fallback_to_opencv(mask_pixels, rh * rw)) {
         return {};
@@ -223,7 +227,9 @@ cv::Mat MaskedCcoeffMatcher::match(
     mask_u8.convertTo(M, CV_32F, 1.0 / 255.0);
 
     const auto template_plan = get_or_build_template_plan(cache_key, T, M, mask_pixels);
-    if (!template_plan) return {};
+    if (!template_plan) {
+        return {};
+    }
 
     const double mask_area = template_plan->mask_area;
     const double sigma_T_sq = template_plan->sigma_T_sq;
@@ -296,16 +302,18 @@ cv::Mat MaskedCcoeffMatcher::match(
     const int dft_cols = cv::getOptimalDFTSize(I.cols + T.cols - 1);
     const auto dft_plan = get_or_build_dft_plan(cache_key, *template_plan, dft_rows, dft_cols);
 
-    cv::Mat padded(dft_rows, dft_cols, CV_32F, cv::Scalar(0));
-    cv::Mat I_dft(dft_rows, dft_cols, CV_32FC2);
-    cv::Mat spectrum(dft_rows, dft_cols, CV_32FC2);
-    cv::Mat result_buf(dft_rows, dft_cols, CV_32F);
-    cv::Mat sum_MI_buf(rh, rw, CV_32F);
-    cv::Mat sum_MI2_buf(rh, rw, CV_32F);
+    cv::Mat padded(dft_rows, dft_cols, CV_64F, cv::Scalar(0));
+    cv::Mat I_dft(dft_rows, dft_cols, CV_64FC2);
+    cv::Mat spectrum(dft_rows, dft_cols, CV_64FC2);
+    cv::Mat result_buf(dft_rows, dft_cols, CV_64F);
+    cv::Mat sum_MI_buf(rh, rw, CV_64F);
+    cv::Mat sum_MI2_buf(rh, rw, CV_64F);
+    cv::Mat src_d;
 
     auto make_dft_into = [&](const cv::Mat& src, cv::Mat& out) {
-        padded.setTo(0.0f);
-        src.copyTo(padded(cv::Rect(0, 0, src.cols, src.rows)));
+        padded.setTo(0.0);
+        src.convertTo(src_d, CV_64F);
+        src_d.copyTo(padded(cv::Rect(0, 0, src_d.cols, src_d.rows)));
         cv::dft(padded, out, cv::DFT_COMPLEX_OUTPUT);
     };
     auto xcorr_into = [&](const cv::Mat& dft_A, const cv::Mat& dft_B, cv::Mat& out) {
@@ -319,8 +327,8 @@ cv::Mat MaskedCcoeffMatcher::match(
         cv::add(accum, result_buf(cv::Rect(0, 0, rw, rh)), accum);
     };
 
-    cv::Mat numerator = cv::Mat::zeros(rh, rw, CV_32F);
-    cv::Mat sigma_I_sq_d = cv::Mat::zeros(rh, rw, CV_64F); // float64 避免 sum_MI2-sum_MI² 灾难性精度损失
+    cv::Mat numerator = cv::Mat::zeros(rh, rw, CV_64F);
+    cv::Mat sigma_I_sq = cv::Mat::zeros(rh, rw, CV_64F);
 
     // σ_I²(x,y) = Σ_c σ_I_c² = Σ_c [(M ⋆ I_c²) - (M ⋆ I_c)² / N]
     //          = Σ_c (M ⋆ I_c²)        - (1/N) Σ_c (M ⋆ I_c)²
@@ -329,14 +337,11 @@ cv::Mat MaskedCcoeffMatcher::match(
     // 利用卷积对加法线性：Σ_c (M ⋆ I_c²) = M ⋆ (Σ_c I_c²)
     // 在空域里先把三通道平方加起来再做一次卷积，比每通道各做一次再相加少 2 次 FFT + 2 次 IFFT
     // 第二项 Σ_c (M ⋆ I_c)² 因为有平方，不能这样合并（平方对加法非线性），仍逐通道算
-    // 实测 Windows + Android 真 FFT 路径 case 平均 -22%
     cv::Mat I_sq_sum = I_ch[0].mul(I_ch[0]) + I_ch[1].mul(I_ch[1]) + I_ch[2].mul(I_ch[2]);
-    cv::Mat I_sq_sum_dft(dft_rows, dft_cols, CV_32FC2);
+    cv::Mat I_sq_sum_dft(dft_rows, dft_cols, CV_64FC2);
     make_dft_into(I_sq_sum, I_sq_sum_dft);
     xcorr_into(I_sq_sum_dft, dft_plan->M_dft, sum_MI2_buf);
-    cv::Mat sum_MI2_d;
-    sum_MI2_buf.convertTo(sum_MI2_d, CV_64F);
-    cv::add(sigma_I_sq_d, sum_MI2_d, sigma_I_sq_d);
+    cv::add(sigma_I_sq, sum_MI2_buf, sigma_I_sq);
 
     for (int c = 0; c < 3; ++c) {
         make_dft_into(I_ch[c], I_dft);
@@ -346,26 +351,33 @@ cv::Mat MaskedCcoeffMatcher::match(
 
         // sigma_I² 第二项：-Σ_c (sum_MI_c)² / mask_area，逐通道累加
         xcorr_into(I_dft, dft_plan->M_dft, sum_MI_buf);
-        cv::Mat sum_MI_d, var_d;
-        sum_MI_buf.convertTo(sum_MI_d, CV_64F);
-        cv::multiply(sum_MI_d, sum_MI_d, var_d, -1.0 / mask_area);
-        cv::add(sigma_I_sq_d, var_d, sigma_I_sq_d);
+        cv::Mat var_d;
+        cv::multiply(sum_MI_buf, sum_MI_buf, var_d, -1.0 / mask_area);
+        cv::add(sigma_I_sq, var_d, sigma_I_sq);
     }
 
-    cv::Mat sigma_I_sq;
-    sigma_I_sq_d.convertTo(sigma_I_sq, CV_32F);
     cv::max(sigma_I_sq, 0.0, sigma_I_sq);
+    // 图像块方差远低于模板方差时相关系数无定义（均匀区域，分母≈0），直接归零。
+    // 8-bit 图像最小非零单通道方差约为 (K-1)/K ≈ 0.996，variance_eps 远低于此，不影响真实匹配。
+    const double variance_eps = sigma_T_sq * 1e-8;
+    sigma_I_sq.setTo(0.0, sigma_I_sq < variance_eps);
 
     cv::Mat denom;
     cv::sqrt(sigma_I_sq * sigma_T_sq, denom);
 
     cv::Mat result;
     cv::divide(numerator, denom, result);
-    cv::patchNaNs(result, 0.0);
-    const auto sigma_T_norm = static_cast<float>(std::sqrt(sigma_T_sq));
-    result.setTo(0.0f, denom < sigma_T_norm * 1e-5f);
-    cv::min(result, 1.0f, result);
-    cv::max(result, -1.0f, result);
-    return result;
+    // patchNaNs 不支持 CV_64F，用 CMP_NE 自检替代（NaN != NaN）
+    cv::Mat nan_mask;
+    cv::compare(result, result, nan_mask, cv::CMP_NE);
+    result.setTo(0.0, nan_mask);
+    const double sigma_T_norm = std::sqrt(sigma_T_sq);
+    result.setTo(0.0, denom < sigma_T_norm * 1e-5);
+    cv::min(result, 1.0, result);
+    cv::max(result, -1.0, result);
+
+    cv::Mat result_f32;
+    result.convertTo(result_f32, CV_32F);
+    return result_f32;
 }
 }

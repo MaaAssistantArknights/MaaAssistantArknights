@@ -83,7 +83,6 @@ public class RunningState
         }
     }
 
-
     private int _stallTimeoutMinutes = SettingsViewModel.GameSettings.StallTimeoutMinutes;
 
     public int StallTimeoutMinutes
@@ -117,8 +116,8 @@ public class RunningState
             _stallTimer.Start();
         }
     }
-    // 超时事件
 
+    // 超时事件
     public void StartTimeoutTimer()
     {
         _taskStartTime = DateTime.Now;

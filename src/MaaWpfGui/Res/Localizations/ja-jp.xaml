@@ -900,6 +900,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="OperBoxNotHaveList">所有していない: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">認識開始</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">クリップボードにコピー</system:String>
+    <system:String x:Key="OperBoxExportToClipboard">クリップボード</system:String>
+    <system:String x:Key="OperBoxExportToJson">JSON</system:String>
+    <system:String x:Key="OperBoxExportHeaderName">オペレーター</system:String>
+    <system:String x:Key="OperBoxExportHeaderId">ID</system:String>
+    <system:String x:Key="OperBoxExportHeaderRarity">レア度</system:String>
+    <system:String x:Key="OperBoxExportHeaderElite">Elite</system:String>
+    <system:String x:Key="OperBoxExportHeaderLevel">Lv</system:String>
+    <system:String x:Key="OperBoxExportHeaderOwn">所有</system:String>
+    <system:String x:Key="OperBoxExportHeaderPotential">潜在</system:String>
+    <system:String x:Key="OperBoxExportYes">はい</system:String>
+    <system:String x:Key="OperBoxExportNo">いいえ</system:String>
     <!--  !Operator Recognition  -->
     <!--  VideoRecognition  -->
     <system:String x:Key="VideoRecognition">映像</system:String>
@@ -1188,6 +1199,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FightMissionFailedAndStop">自動指揮の失敗回数が上限に達したため、任務が停止されました</system:String>
     <system:String x:Key="LabelsRefreshed">タグが更新されました</system:String>
     <system:String x:Key="RecruitConfirm">募集を行いました</system:String>
+    <system:String x:Key="RecruitTimesCount">公開求人 {0} 回</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}が競合しました</system:String>
     <system:String x:Key="BegunToExplore">探索を開始しました</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">前方の戦闘数：{0}、ルートを再計画します</system:String>
@@ -1466,7 +1478,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
 再起の錨：
 
- 報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約3分
+ 報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約2分10秒
 
  事前準備（手動で1回のみ）：
   1. 手動でRA-1に入り、チュートリアルを完了してマップに戻る

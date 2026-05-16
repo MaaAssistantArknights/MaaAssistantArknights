@@ -900,6 +900,17 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="OperBoxNotHaveList">未拥有: {0} 名</system:String>
     <system:String x:Key="StartToOperBoxRecognition">开始识别</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">复制到剪切板</system:String>
+    <system:String x:Key="OperBoxExportToClipboard">剪切板</system:String>
+    <system:String x:Key="OperBoxExportToJson">JSON</system:String>
+    <system:String x:Key="OperBoxExportHeaderName">干员</system:String>
+    <system:String x:Key="OperBoxExportHeaderId">ID</system:String>
+    <system:String x:Key="OperBoxExportHeaderRarity">星级</system:String>
+    <system:String x:Key="OperBoxExportHeaderElite">精英化等级</system:String>
+    <system:String x:Key="OperBoxExportHeaderLevel">等级</system:String>
+    <system:String x:Key="OperBoxExportHeaderOwn">是否拥有</system:String>
+    <system:String x:Key="OperBoxExportHeaderPotential">潜能</system:String>
+    <system:String x:Key="OperBoxExportYes">是</system:String>
+    <system:String x:Key="OperBoxExportNo">否</system:String>
     <!--  !干员识别  -->
     <!--  视频识别  -->
     <system:String x:Key="VideoRecognition">视频识别</system:String>
@@ -1188,6 +1199,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FightMissionFailedAndStop">代理失败次数已达上限，任务已停止</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新标签</system:String>
     <system:String x:Key="RecruitConfirm">已确认招募</system:String>
+    <system:String x:Key="RecruitTimesCount">已公招 {0} 次</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}冲突</system:String>
     <system:String x:Key="BegunToExplore">已开始探索</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">前方战斗数：{0}，重开路线</system:String>
@@ -1466,7 +1478,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
 重启锚点：
 
- 收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 3 分钟
+ 收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 2 分 10 秒
 
  前置步骤（手动完成一次）：
   1. 手动进入 RA-1，完成新手教程，直到回到大地图

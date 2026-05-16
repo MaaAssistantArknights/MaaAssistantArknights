@@ -901,6 +901,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="OperBoxNotHaveList">미보유: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">인식 시작</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
+    <system:String x:Key="OperBoxExportToClipboard">클립보드</system:String>
+    <system:String x:Key="OperBoxExportToJson">JSON</system:String>
+    <system:String x:Key="OperBoxExportHeaderName">오퍼레이터</system:String>
+    <system:String x:Key="OperBoxExportHeaderId">ID</system:String>
+    <system:String x:Key="OperBoxExportHeaderRarity">희귀도</system:String>
+    <system:String x:Key="OperBoxExportHeaderElite">정예화</system:String>
+    <system:String x:Key="OperBoxExportHeaderLevel">레벨</system:String>
+    <system:String x:Key="OperBoxExportHeaderOwn">보유</system:String>
+    <system:String x:Key="OperBoxExportHeaderPotential">잠재</system:String>
+    <system:String x:Key="OperBoxExportYes">예</system:String>
+    <system:String x:Key="OperBoxExportNo">아니오</system:String>
     <!--  !오퍼레이터 인식  -->
     <!--  영상 인식  -->
     <system:String x:Key="VideoRecognition">영상 인식</system:String>
@@ -1189,6 +1200,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FightMissionFailedAndStop">대리 지휘 실패 횟수 초과로 작업을 중단합니다</system:String>
     <system:String x:Key="LabelsRefreshed">태그 갱신 완료</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
+    <system:String x:Key="RecruitTimesCount">공개모집 {0}회</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">요구 {key=Operator} 중복(충돌)</system:String>
     <system:String x:Key="BegunToExplore">탐험 시작</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">작전 노드 개수: {0}, 작전 노드가 너무 많아 재시작합니다</system:String>
@@ -1467,7 +1479,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
 재시작 앵커：
 
- 수익 참고: 회당 약 159토큰 + 통괄 포인트, 소요 시간 약 3분
+ 수익 참고: 회당 약 159토큰 + 통괄 포인트, 소요 시간 약 2분 10초
 
  사전 준비 (수동으로 1회만)：
   1. 수동으로 RA-1에 진입하여 튜토리얼을 완료하고 맵으로 돌아옵니다

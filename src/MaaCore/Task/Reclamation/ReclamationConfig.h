@@ -6,8 +6,8 @@ namespace asst
 class ReclamationTheme
 {
 public:
-    static constexpr std::string_view Fire = "Fire";   // Fire Within the Sand
-    static constexpr std::string_view Tales = "Tales"; // Tales Within the Sand
+    static constexpr std::string_view Fire = "Fire";                     // Fire Within the Sand
+    static constexpr std::string_view Tales = "Tales";                   // Tales Within the Sand
     static constexpr std::string_view RelaunchAnchor = "RelaunchAnchor"; // 重启锚点（RELAUNCH ANCHOR）
 };
 

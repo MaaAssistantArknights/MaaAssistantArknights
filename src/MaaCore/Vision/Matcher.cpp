@@ -38,8 +38,12 @@ Matcher::ResultOpt Matcher::analyze() const
         const auto& method_i = m_params.methods.size() > i ? m_params.methods[i] : MatchMethod::Ccoeff;
         std::string tag = "[";
         tag += path_tag;
-        if (method_i == MatchMethod::HSVCount) tag += "|hsv";
-        else if (method_i == MatchMethod::RGBCount) tag += "|rgb";
+        if (method_i == MatchMethod::HSVCount) {
+            tag += "|hsv";
+        }
+        else if (method_i == MatchMethod::RGBCount) {
+            tag += "|rgb";
+        }
         tag += "]";
         if (m_log_tracing && max_val > 0.5 && max_val > threshold - 0.2) { // 得分太低的肯定不对，没必要打印
             Log.trace("match_templ |", templ_name, tag, "score:", max_val, "rect:", rect, "roi:", m_roi);
@@ -235,7 +239,7 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
                 }
                 else if (MaskedCcoeffMatcher::should_fallback_to_opencv(
                              mask_pixels,
-                        (image_match.rows - templ_match.rows + 1) * (image_match.cols - templ_match.cols + 1))) {
+                             (image_match.rows - templ_match.rows + 1) * (image_match.cols - templ_match.cols + 1))) {
                     // matched 保持 empty，统一落到下面的 OpenCV masked matchTemplate
                 }
                 else {
@@ -246,8 +250,8 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
                     // cache key：templ_name + mask_ranges
                     // 资源模板绑定 revision；cv::Mat 模板使用 row-wise 内容 hash
                     std::string fft_key = templ_name.empty()
-                        ? MaskedCcoeffMatcher::make_mat_cache_key(templ)
-                        : "res:" + std::to_string(templ_revision) + ":" + templ_name;
+                                              ? MaskedCcoeffMatcher::make_mat_cache_key(templ)
+                                              : "res:" + std::to_string(templ_revision) + ":" + templ_name;
                     for (const auto& r : params.mask_ranges) {
                         if (std::holds_alternative<MatchTaskInfo::GrayRange>(r)) {
                             const auto& g = std::get<MatchTaskInfo::GrayRange>(r);
@@ -256,15 +260,19 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
                         else if (std::holds_alternative<MatchTaskInfo::ColorRange>(r)) {
                             const auto& col = std::get<MatchTaskInfo::ColorRange>(r);
                             fft_key += ":C";
-                            for (auto v : col.first)  fft_key += std::to_string(v) + ',';
+                            for (auto v : col.first) {
+                                fft_key += std::to_string(v) + ',';
+                            }
                             fft_key += '_';
-                            for (auto v : col.second) fft_key += std::to_string(v) + ',';
+                            for (auto v : col.second) {
+                                fft_key += std::to_string(v) + ',';
+                            }
                         }
                     }
                     fft_key += params.mask_close ? ":1" : ":0";
 
-                    matched = masked_ccoeff_matcher.match(
-                        image_match, templ_match, mask_opt.value(), fft_key, mask_pixels);
+                    matched =
+                        masked_ccoeff_matcher.match(image_match, templ_match, mask_opt.value(), fft_key, mask_pixels);
                     if (!matched.empty()) {
                         match_path = MatchPath::Optimized;
                     }
@@ -300,11 +308,8 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
             cv::integral(image_active_f, integ, CV_32F);
             const int kh = templ_active.rows, kw = templ_active.cols;
             // sum_active[y,x] = integ[y+kh,x+kw] - integ[y,x+kw] - integ[y+kh,x] + integ[y,x]
-            cv::Mat sum_active =
-                integ(cv::Rect(kw, kh, tp.cols, tp.rows))
-                - integ(cv::Rect(0,  kh, tp.cols, tp.rows))
-                - integ(cv::Rect(kw, 0,  tp.cols, tp.rows))
-                + integ(cv::Rect(0,  0,  tp.cols, tp.rows));
+            cv::Mat sum_active = integ(cv::Rect(kw, kh, tp.cols, tp.rows)) - integ(cv::Rect(0, kh, tp.cols, tp.rows)) -
+                                 integ(cv::Rect(kw, 0, tp.cols, tp.rows)) + integ(cv::Rect(0, 0, tp.cols, tp.rows));
             cv::Mat sum_active_i;
             sum_active.convertTo(sum_active_i, CV_32S);
             cv::Mat count_result;
@@ -316,7 +321,8 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
 
             cv::multiply(matched, count_result, matched); // 最终结果是数色和模板匹配的点积
         }
-        results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name, .path = match_path });
+        results.emplace_back(
+            RawResult { .matched = matched, .templ = templ, .templ_name = templ_name, .path = match_path });
     }
     return results;
 }

@@ -899,6 +899,17 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="OperBoxNotHaveList">Not owned: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">Copy to Clipboard</system:String>
+    <system:String x:Key="OperBoxExportToClipboard">Clipboard</system:String>
+    <system:String x:Key="OperBoxExportToJson">JSON</system:String>
+    <system:String x:Key="OperBoxExportHeaderName">Operator</system:String>
+    <system:String x:Key="OperBoxExportHeaderId">ID</system:String>
+    <system:String x:Key="OperBoxExportHeaderRarity">Rarity</system:String>
+    <system:String x:Key="OperBoxExportHeaderElite">Elite</system:String>
+    <system:String x:Key="OperBoxExportHeaderLevel">Level</system:String>
+    <system:String x:Key="OperBoxExportHeaderOwn">Owned</system:String>
+    <system:String x:Key="OperBoxExportHeaderPotential">Potential</system:String>
+    <system:String x:Key="OperBoxExportYes">Yes</system:String>
+    <system:String x:Key="OperBoxExportNo">No</system:String>
     <!--  !Operator Recognition  -->
     <!--  Video Recognition  -->
     <system:String x:Key="VideoRecognition">Video</system:String>
@@ -1187,6 +1198,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="FightMissionFailedAndStop">Proxy failed too many times, task stopped</system:String>
     <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
+    <system:String x:Key="RecruitTimesCount">Recruited {0} times</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator} conflict</system:String>
     <system:String x:Key="BegunToExplore">Exploration started</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">Too many battles ahead: {0}, restarting route</system:String>
@@ -1465,7 +1477,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
 Relaunch Anchor:
 
- Reward estimate: ~159 tokens + coordination points per run, ~3 min per round
+ Reward estimate: ~159 tokens + coordination points per run, ~2 min 10 sec per round
 
  Prerequisite (complete once manually):
   1. Manually enter RA-1, complete the tutorial, and return to the map

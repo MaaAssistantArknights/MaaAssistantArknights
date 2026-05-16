@@ -619,22 +619,17 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-
     private void RunningState_Stalled(object? sender, string message)
     {
-        if (!SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenStalled)
+        AddLog(message, UiLogColor.Warning, notifyActivity: false);
+        ToastNotification.ShowDirect(message);
+        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenStalled)
         {
-            return;
-        }
-
-        Execute.OnUIThread(() => {
-            AddLog(message, UiLogColor.Warning, notifyActivity: false);
-            ToastNotification.ShowDirect(message);
             var lastLogs = LogItemViewModels
                 .TakeLast(5)
                 .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
             ExternalNotificationService.Send(message, lastLogs);
-        });
+        }
     }
 
     protected override void OnInitialActivate()
@@ -1179,6 +1174,7 @@ public class TaskQueueViewModel : Screen
     /// <param name="fetchLatestImage">Whether to force fetching a fresh screenshot instead of using cache.</param>
     /// <param name="useCardImageAsToolTip">Whether to use the current card's image as toolTip.</param>
     /// <param name="splitMode">Whether to split cards before/after this log.</param>
+    /// <param name="notifyActivity">Whether this log should notify activity (and reset idle timer).</param>
     public void AddLog(string? content,
         string color = UiLogColor.Trace,
         string weight = "Regular",
