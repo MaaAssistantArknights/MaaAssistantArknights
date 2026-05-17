@@ -92,6 +92,7 @@ protected:
     infrast::CustomFacilityConfig m_custom_config;
 
 private:
+    static std::once_flag m_role_map_init_flag; 
     static std::unordered_map<std::string, std::string> m_oper_role_map;
     static void load_oper_role_map();
     static std::string role_to_suffix(battle::Role role);

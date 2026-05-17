@@ -17,6 +17,7 @@
 #include "Vision/RegionOCRer.h"
 #include <ranges>
 
+std::once_flag asst::InfrastAbstractTask::m_role_map_init_flag;
 std::unordered_map<std::string, std::string> asst::InfrastAbstractTask::m_oper_role_map;
 
 asst::InfrastAbstractTask::InfrastAbstractTask(
@@ -25,11 +26,7 @@ asst::InfrastAbstractTask::InfrastAbstractTask(
     std::string_view task_chain) :
     AbstractTask(callback, inst, task_chain)
 {
-    static bool loaded = false;
-    if (!loaded) {
-        load_oper_role_map();
-        loaded = true;
-    }
+    std::call_once(m_role_map_init_flag, &InfrastAbstractTask::load_oper_role_map);
     m_retry_times = TaskRetryTimes;
 }
 
@@ -518,7 +515,11 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers_by_role(bool is_do
         // 临时设置要选的名单（仅限该职业）
         room_config.names = std::move(names);
         // 选择干员
-        select_in_current_role(swipe_times);
+        if (!select_in_current_role(swipe_times)) {
+            current_room_config() = std::move(origin_room_config);
+            Log.warn("select oper in current role failed");
+            return false;
+        }
 
         // 收集该职业未被选中的干员（可能因为满员或未找到）
         unselected_names.insert(unselected_names.end(), room_config.names.begin(), room_config.names.end());
@@ -543,7 +544,12 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers_by_role(bool is_do
         room_config.names = std::move(unselected_names);
         room_config.candidates = origin_room_config.candidates; // 恢复candidates
 
-        select_in_current_role(swipe_times); // 最后一次全体查找
+        // 最后一次全体查找
+        if (!select_in_current_role(swipe_times)) {
+            current_room_config() = std::move(origin_room_config);
+            Log.warn("select unselected oper failed");
+            return false;
+        }
     }
 
     // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
