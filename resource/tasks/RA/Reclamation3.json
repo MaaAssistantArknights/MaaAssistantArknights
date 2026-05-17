@@ -106,7 +106,11 @@
         "action": "ClickSelf",
         "text": ["跳过"],
         "roi": [1140, 30, 67, 43],
-        "next": ["RelaunchAnchor@RA@PNS-RA1-SkipPlotConfirm", "#self", "RelaunchAnchor@RA@PNS-RA1-WaitGatheringBasePrompt"]
+        "next": [
+            "RelaunchAnchor@RA@PNS-RA1-SkipPlotConfirm",
+            "#self",
+            "RelaunchAnchor@RA@PNS-RA1-WaitGatheringBasePrompt"
+        ]
     },
     "RelaunchAnchor@RA@PNS-RA1-SkipPlotConfirm": {
         "doc": "步骤 7：OCR 识别 <是否跳过剧情>，点击偏移位置占位",
@@ -416,17 +420,17 @@
         "withoutDet": true,
         "useRaw": false,
         "binThreshold": [200, 255],
-        "postDelay":1000,
+        "postDelay": 1000,
         "next": ["RelaunchAnchor@RA@PNS-RA15-ChooseStrategy"]
     },
     "RelaunchAnchor@RA@PNS-RA15-ChooseStrategy": {
         "doc": "步骤 2：OCR 识别 筹划经营",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["经","营"],
+        "text": ["经", "营"],
         "roi": [377, 385, 97, 25],
-        "postDelay":200,
-        "next": ["#self","RelaunchAnchor@RA@PNS-RA15-ConfirmSelection"]
+        "postDelay": 200,
+        "next": ["#self", "RelaunchAnchor@RA@PNS-RA15-ConfirmSelection"]
     },
     "RelaunchAnchor@RA@PNS-RA15-ConfirmSelection": {
         "doc": "步骤 3：OCR 识别 <确认选择> 并点击",
@@ -442,13 +446,13 @@
         "action": "ClickSelf",
         "text": ["干员招募"],
         "roi": [941, 131, 131, 34],
-        "next": ["RelaunchAnchor@RA@PNS-RA15-ExamineCXExistence","RelaunchAnchor@RA@PNS-RA15-ClearChosen"]
+        "next": ["RelaunchAnchor@RA@PNS-RA15-ExamineCXExistence", "RelaunchAnchor@RA@PNS-RA15-ClearChosen"]
     },
     "RelaunchAnchor@RA@PNS-RA15-ExamineCXExistence": {
         "doc": "步骤 4.1：OCR 识别 <圣聆初雪> ",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "text": ["圣","聆","初雪"],
+        "text": ["圣", "聆", "初雪"],
         "roi": [843, 449, 96, 29],
         "next": ["RelaunchAnchor@RA@PNS-RA15-ConfirmTeam"]
     },
@@ -538,7 +542,16 @@
         "action": "ClickRect",
         "specificRect": [40, 420, 20, 20],
         "postDelay": 200,
-        "next": ["RelaunchAnchor@RA@PNS-RA15-CX1","RelaunchAnchor@RA@PNS-RA15-CX2","RelaunchAnchor@RA@PNS-RA15-CX3","RelaunchAnchor@RA@PNS-RA15-CX4","RelaunchAnchor@RA@PNS-RA15-CX5","RelaunchAnchor@RA@PNS-RA15-CX6","RelaunchAnchor@RA@PNS-RA15-CX7","RelaunchAnchor@RA@PNS-RA15-CX8"]
+        "next": [
+            "RelaunchAnchor@RA@PNS-RA15-CX1",
+            "RelaunchAnchor@RA@PNS-RA15-CX2",
+            "RelaunchAnchor@RA@PNS-RA15-CX3",
+            "RelaunchAnchor@RA@PNS-RA15-CX4",
+            "RelaunchAnchor@RA@PNS-RA15-CX5",
+            "RelaunchAnchor@RA@PNS-RA15-CX6",
+            "RelaunchAnchor@RA@PNS-RA15-CX7",
+            "RelaunchAnchor@RA@PNS-RA15-CX8"
+        ]
     },
     "RelaunchAnchor@RA@PNS-RA15-CX1": {
         "doc": "步骤 10：OCR 识别 <圣聆初雪> 并点击",
@@ -608,7 +621,7 @@
         "doc": "步骤 11：OCR 识别 二技能 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["45","46","47","48","49","50","51","52"],
+        "text": ["45", "46", "47", "48", "49", "50", "51", "52"],
         "roi": [934, 331, 26, 22],
         "next": ["RelaunchAnchor@RA@PNS-RA15-CX-Mod"]
     },
@@ -662,7 +675,7 @@
         "action": "ClickSelf",
         "text": ["外勤"],
         "roi": [404, 564, 50, 26],
-        "next": ["#self","RelaunchAnchor@RA@PNS-RA15-Plot2"]
+        "next": ["#self", "RelaunchAnchor@RA@PNS-RA15-Plot2"]
     },
     "RelaunchAnchor@RA@PNS-RA15-Plot2": {
         "doc": "步骤 16.1：OCR 识别 <看情> 并点击",
@@ -670,7 +683,7 @@
         "action": "ClickSelf",
         "text": ["看情"],
         "roi": [404, 564, 50, 26],
-        "next": ["#self","RelaunchAnchor@RA@PNS-RA15-Plot3"]
+        "next": ["#self", "RelaunchAnchor@RA@PNS-RA15-Plot3"]
     },
     "RelaunchAnchor@RA@PNS-RA15-Plot3": {
         "doc": "步骤 16.2：OCR 识别 <请> ",
@@ -733,7 +746,7 @@
         "doc": "步骤 21：OCR 识别 Cost",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "text": ["24","25","26","27","28","29"],
+        "text": ["24", "25", "26", "27", "28", "29"],
         "roi": [1198, 495, 75, 43],
         "next": ["RelaunchAnchor@RA@PNS-RA15-DeployCX"]
     },
@@ -761,14 +774,14 @@
         "doc": "步骤 23：模板匹配任务图标并点击",
         "baseTask": "RelaunchAnchor@RA@PNS-Common-MissionIcon",
         "template": "RelaunchAnchor@RA@MissionIcon.png",
-        "postDelay":2000,
+        "postDelay": 2000,
         "next": ["RelaunchAnchor@RA@PNS-RA15-Kill60", "#self"]
     },
     "RelaunchAnchor@RA@PNS-RA15-Kill60": {
         "doc": "步骤 24：OCR 识别 <击败> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["击败","岳败"],
+        "text": ["击败", "岳败"],
         "roi": [571, 281, 51, 33],
         "next": ["RelaunchAnchor@RA@PNS-RA15-ConfirmMission", "#self"]
     },
@@ -785,7 +798,7 @@
         "text": ["击败"],
         "roi": [81, 243, 83, 29],
         "postDelay": 1000,
-        "next": ["#self","RelaunchAnchor@RA@PNS-RA15-End1"]
+        "next": ["#self", "RelaunchAnchor@RA@PNS-RA15-End1"]
     },
     "RelaunchAnchor@RA@PNS-RA15-End1": {
         "doc": "步骤 27：退出",
@@ -815,8 +828,8 @@
         "action": "ClickSelf",
         "text": ["点"],
         "roi": [600, 670, 60, 40],
-        "postDelay":500,
-        "next": ["RelaunchAnchor@RA@PNS-RA15-End4","#self"]
+        "postDelay": 500,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-End4", "#self"]
     },
     "RelaunchAnchor@RA@PNS-RA15-End4": {
         "doc": "步骤 27.5：OCR 识别 <完成> 并点击",
@@ -824,15 +837,15 @@
         "action": "ClickSelf",
         "text": ["完"],
         "roi": [600, 670, 60, 40],
-        "postDelay":500,
-        "next": ["#self","RelaunchAnchor@RA@PNS-RA15-Retry"]
+        "postDelay": 500,
+        "next": ["#self", "RelaunchAnchor@RA@PNS-RA15-Retry"]
     },
     "RelaunchAnchor@RA@PNS-RA15-Retry": {
         "doc": "再次开始",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [640, 370, 1, 1],
-        "postDelay":500,
-        "next": ["RelaunchAnchor@RA@PNS-RA15-Prepare","#self"]
+        "postDelay": 500,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-Prepare", "#self"]
     }
 }
