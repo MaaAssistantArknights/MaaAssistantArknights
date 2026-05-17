@@ -191,8 +191,8 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["交付木材8+"],
-        "ocrReplace": [["交付木材.*(8|9|\\d{2,3})", "交付木材8+"]],
-        "roi": [80, 235, 120, 35],
+        "ocrReplace": [["(8|9|\\d{2,3}).*5", "交付木材8+"]],
+        "roi": [170, 235, 50, 35],
         "next": ["RelaunchAnchor@RA@WaitWoodDialogue"]
     },
     "RelaunchAnchor@RA@WaitWoodDialogue": {
