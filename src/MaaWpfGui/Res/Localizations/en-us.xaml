@@ -1475,27 +1475,30 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="AnnouncementNotFinishedConfirm3">Still clicking</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
+        <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA1" xml:space="preserve">
 Relaunch Anchor:
 
- Reward estimate: ~159 tokens + coordination points per run, ~2 min 10 sec per round
+Reward estimate: ~159 tokens + coordination points per run, ~2 min 10 sec per round
 
- Prerequisite (complete once manually):
-  1. Manually enter RA-1, complete the tutorial, and return to the map
-  2. After that, the task can be started when &quot;Start Construction&quot; appears at the bottom-right after clicking RA-1
+Operator requirement: None
 
- Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Large Animal Pens, etc.
+Prerequisite: Clear RA-1 in the main story
 
- Task flow:
-  Automatically executes farming, construction, resource delivery, and settlement loop
+Open RA-1 on the map and start the task when &quot;Start Construction&quot; appears at the bottom-right to loop automatically
+
+Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Large Animal Pens, etc.
+
+Task flow: Automatically executes farming, construction, resource delivery, and settlement loop
     </system:String>
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA15" xml:space="preserve">
 Relaunch Anchor:
 
- Reward estimate: ~500 tokens + coordination points per run, ~3 min per round
+Reward estimate: ~500 tokens + coordination points per run, ~3 min per round
 
- Prerequisite (complete once manually):
-  1. Manually unlock RA-15
+Operator requirement: Saintly First Snow (support unit allowed)
+
+Prerequisite:
+    1. Clear RA-15 in the main story
   2. After that, the task can be started when "Start Construction" appears at the bottom-right of RA-15
   3. If you have Holy Listener Priscilla, you can form your own squad with 5 Vanguards + Priscilla (pick her last), save the lineup once; the program will skip support recruitment when slot 6 is Priscilla, saving ~20 seconds
 

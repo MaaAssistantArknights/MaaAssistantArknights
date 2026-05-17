@@ -176,7 +176,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
                     return stageTip;
                 }
 
-                return LocalizationHelper.GetString("ReclamationEarlyTipRelaunchAnchor");
+                return LocalizationHelper.GetString("ReclamationEarlyTipRelaunchAnchorRA1");
             }
             return LocalizationHelper.GetString("ReclamationEarlyTip");
         }
