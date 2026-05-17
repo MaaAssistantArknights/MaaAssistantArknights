@@ -162,7 +162,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     /// <summary>
     /// Gets the theme-specific tip text.
     /// </summary>
-    [PropertyDependsOn(nameof(ReclamationTheme))]
+    [PropertyDependsOn(nameof(ReclamationTheme), nameof(ReclamationStage))]
     public string ReclamationTip
     {
         get
@@ -170,7 +170,9 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
             var theme = ReclamationTheme;
             if (theme == Theme.RelaunchAnchor)
             {
-                return LocalizationHelper.GetString("ReclamationEarlyTipRelaunchAnchor");
+                return ReclamationStage == Stage.RA15
+                    ? LocalizationHelper.GetString("ReclamationEarlyTipRelaunchAnchorRA15")
+                    : LocalizationHelper.GetString("ReclamationEarlyTipRelaunchAnchor");
             }
             return LocalizationHelper.GetString("ReclamationEarlyTip");
         }
