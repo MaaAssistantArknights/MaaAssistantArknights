@@ -63,6 +63,8 @@ bool asst::ReclamationTask::set_params(const json::value& params)
         case TalesMode::ProsperityInSave:
             m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityInSave" });
             break;
+        default:
+            break;
         }
     }
 
