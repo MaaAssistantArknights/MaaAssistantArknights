@@ -83,7 +83,7 @@ maa init
 
 - 自动抄作业
   ```shell
-  maa copilot <maa_uri>
+  maa copilot <maa_uri>...
   ```
   `<maa_uri>` 是作业的 URI，多个 URI 会依次执行，`maa_uri` 可以是 `maa://1234` 或者 本地文件路径 `./1234.json`。
 

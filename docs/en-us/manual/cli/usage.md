@@ -79,7 +79,7 @@ For common tasks, maa-cli provides several predefined options:
 
 - Auto-run copilot tasks
   ```shell
-  maa copilot <maa_uri>
+  maa copilot <maa_uri>...
   ```
   `<maa_uri>` is the task URI, multiple URIs will execute in sequence. `maa_uri` can be `maa://1234` or a local file path like `./1234.json`.
 

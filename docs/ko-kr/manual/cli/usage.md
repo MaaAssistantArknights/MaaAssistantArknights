@@ -79,7 +79,7 @@ MaaCore의 설치 및 구성을 완료하면 작업을 실행할 준비가 된 �
 
 - 자동지휘 작업 실행
   ```shell
-  maa copilot <maa_uri>
+  maa copilot <maa_uri>...
   ```
   `<maa_uri>`는 작업의 URI이며, 여러 URI는 순차적으로 실행됩니다. `maa_uri`는 `maa://1234` 또는 로컬 파일 경로 `./1234.json`일 수 있습니다.
 
