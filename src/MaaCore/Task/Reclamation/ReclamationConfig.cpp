@@ -16,32 +16,23 @@ bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
     m_theme = theme;
 
     // Reclamation Algorithm Mode
-    const int modeInt = params.get("mode", static_cast<int>(ReclamationMode::ProsperityInSave));
-    const auto mode = static_cast<ReclamationMode>(modeInt);
+    const int modeInt = params.get("mode", 0);
     if (theme == ReclamationTheme::RelaunchAnchor) {
-        m_mode = ReclamationMode::ProsperityNoSave;
-        if (!params.contains("stage")) {
-            Log.error(__FUNCTION__, "| Missing RelaunchAnchor stage");
+        // 重启锚点：mode 0 = RA-1, mode 1 = RA-15
+        if (modeInt < 0 || modeInt >= static_cast<int>(RelaunchAnchorMode::_Count)) {
+            Log.error(__FUNCTION__, "| Invalid RelaunchAnchor mode", modeInt);
             return false;
         }
-
-        const int stageInt = params.get("stage", -1);
-        if (stageInt == static_cast<int>(RelaunchAnchorStage::RA15)) {
-            m_stage = RelaunchAnchorStage::RA15;
-        } else if (stageInt == static_cast<int>(RelaunchAnchorStage::RA1)) {
-            m_stage = RelaunchAnchorStage::RA1;
-        } else {
-            Log.error(__FUNCTION__, "| Invalid RelaunchAnchor stage", stageInt);
+        m_mode = static_cast<RelaunchAnchorMode>(modeInt);
+    }
+    else {
+        // 沙洲遗闻：mode 0 = 无存档刷繁荣点数, mode 1 = 有存档刷繁荣点数
+        if (modeInt < 0 || modeInt >= static_cast<int>(TalesMode::_Count)) {
+            Log.error(__FUNCTION__, "| Invalid Tales mode", modeInt);
             return false;
         }
-        return true;
+        m_mode = static_cast<TalesMode>(modeInt);
     }
-
-    if (!is_valid_mode(mode, theme)) {
-        Log.error(__FUNCTION__, "| Reclamation Algorithm mode", modeInt, "is incompatible with theme", theme);
-        return false;
-    }
-    m_mode = mode;
 
     return true;
 }

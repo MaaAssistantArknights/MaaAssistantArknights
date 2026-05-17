@@ -729,7 +729,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationThemeFire">砂中の火</system:String>
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
     <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
-    <system:String x:Key="ReclamationStage">ステージ選択</system:String>
+    <system:String x:Key="ReclamationMode">モード</system:String>
+    <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
+    <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">セーブしながら、支援アイテムを組み立てて生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationIncrementMode">増加方式</system:String>
@@ -1503,6 +1505,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 
 タスクの流れ： サポートオペレーターを使用して 60 キルミッションを自動実行
     </system:String>
+    <system:String x:Key="ReclamationTipFire">このイベントは終了しており、利用できません</system:String>
     <system:String x:Key="ReclamationTipTales" xml:space="preserve">
 生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
 

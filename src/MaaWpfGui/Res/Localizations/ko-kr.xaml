@@ -730,7 +730,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>
     <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
     <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
-    <system:String x:Key="ReclamationStage">스테이지 선택</system:String>
+    <system:String x:Key="ReclamationMode">모드</system:String>
+    <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
+    <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">세이브 X, 스테이지 반복으로 번영의 선물 획득</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">세이브 O, 도구 제작으로 번영의 선물 획득</system:String>
     <system:String x:Key="ReclamationIncrementMode">증가 방식</system:String>
@@ -1503,6 +1505,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
 
 작업 흐름： 서포트 오퍼레이터를 사용하여 60킬 미션을 자동 실행
     </system:String>
+    <system:String x:Key="ReclamationTipFire">이 이벤트는 종료되어 사용할 수 없습니다</system:String>
     <system:String x:Key="ReclamationTipTales" xml:space="preserve">
 현재 생존 연산 기능은 초기 단계이며, 다음 사항에 주의하세요:
 

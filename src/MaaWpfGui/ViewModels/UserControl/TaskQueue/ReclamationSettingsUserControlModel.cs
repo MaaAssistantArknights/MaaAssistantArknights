@@ -21,8 +21,6 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using static MaaWpfGui.Main.AsstProxy;
-using Mode = MaaWpfGui.Configuration.Single.MaaTask.ReclamationMode;
-using Stage = MaaWpfGui.Configuration.Single.MaaTask.RelaunchAnchorStage;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -54,58 +52,39 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
         get => GetTaskConfig<ReclamationTask>().Theme;
         set => SetTaskConfig<ReclamationTask>(
             t => t.Theme == value,
-            t =>
-            {
+            t => {
                 t.Theme = value;
-                if (value == Theme.RelaunchAnchor) {
-                    t.Mode = Mode.NoArchive;
+                t.Mode = 0; // 切换主题时重置模式
+                if (value == Theme.RelaunchAnchor)
+                {
                     t.ClearStore = false;
                 }
             });
     }
 
     /// <summary>
-    /// Gets the list of reclamation stages for RelaunchAnchor theme.
+    /// Gets 生息演算模式列表（沙洲遗闻专用）
     /// </summary>
-    public List<GenericCombinedData<Stage>> ReclamationStageList { get; } =
+    public List<GenericCombinedData<int>> ReclamationTalesModeList { get; } =
         [
-            new() { Display = "RA-1", Value = Stage.RA1 },
-            new() { Display = "RA-15", Value = Stage.RA15 },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = (int)TalesMode.ProsperityNoSave },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = (int)TalesMode.ProsperityInSave },
         ];
 
     /// <summary>
-    /// Gets or sets 生息演算关卡选择
+    /// Gets 生息演算模式列表（重启锚点专用）
     /// </summary>
-    public Stage ReclamationStage
-    {
-        get => GetTaskConfig<ReclamationTask>().Stage;
-        set => SetTaskConfig<ReclamationTask>(t => t.Stage == value, t => t.Stage = value);
-    }
-
-    /// <summary>
-    /// Gets the list of reclamation modes.
-    /// </summary>
-    public List<GenericCombinedData<Mode>> ReclamationModeList { get; } =
+    public List<GenericCombinedData<int>> ReclamationRelaunchAnchorModeList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = Mode.NoArchive },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = Mode.Archive },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeRA1"), Value = (int)RelaunchAnchorMode.RA1 },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeRA15"), Value = (int)RelaunchAnchorMode.RA15 },
         ];
 
     /// <summary>
-    /// Gets or sets 策略，无存档刷生息点数 / 有存档刷生息点数
-    /// 可用值包括：
-    /// <list type="bullet">
-    ///     <item>
-    ///         <term><c>0</c></term>
-    ///         <description>无存档时通过进出关卡刷生息点数</description>
-    ///     </item>
-    ///     <item>
-    ///         <term><c>1</c></term>
-    ///         <description>有存档时通过合成支援道具刷生息点数</description>
-    ///     </item>
-    /// </list>
+    /// Gets or sets 生息演算模式（含义由主题决定）
     /// </summary>
-    public Mode ReclamationMode
+    [PropertyDependsOn(nameof(ReclamationTheme))]
+    public int ReclamationMode
     {
         get => GetTaskConfig<ReclamationTask>().Mode;
         set => SetTaskConfig<ReclamationTask>(t => t.Mode == value, t => t.Mode = value);
@@ -162,30 +141,34 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     /// <summary>
     /// Gets the theme-specific tip text.
     /// </summary>
-    [PropertyDependsOn(nameof(ReclamationTheme), nameof(ReclamationStage))]
+    [PropertyDependsOn(nameof(ReclamationTheme), nameof(ReclamationMode))]
     public string ReclamationTip
     {
-        get
-        {
+        get {
             var theme = ReclamationTheme;
+            var mode = ReclamationMode;
 
-            if (theme == Theme.RelaunchAnchor)
+            switch (theme)
             {
-                var stageTipKey = $"ReclamationTipRelaunchAnchorRA{(int)ReclamationStage}";
-                if (LocalizationHelper.TryGetString(stageTipKey, out var stageTip))
-                {
-                    return stageTip;
-                }
+                case Theme.Fire:
+                    return LocalizationHelper.GetString("ReclamationTipFire");
+                case Theme.RelaunchAnchor:
+                    {
+                        // mode 0 = RA-1, mode 1 = RA-15
+                        var stageNum = mode == (int)RelaunchAnchorMode.RA15 ? 15 : 1;
+                        var stageTipKey = $"ReclamationTipRelaunchAnchorRA{stageNum}";
+                        if (LocalizationHelper.TryGetString(stageTipKey, out var stageTip))
+                        {
+                            return stageTip;
+                        }
 
-                return LocalizationHelper.GetString("ReclamationTipRelaunchAnchorRA1");
-            }
-            else if (theme == Theme.Tales || theme == Theme.Fire)
-            {
-                return LocalizationHelper.GetString("ReclamationTipTales");
-            }
-            else
-            {
-                return string.Empty;
+                        return LocalizationHelper.GetString("ReclamationTipRelaunchAnchorRA1");
+                    }
+
+                case Theme.Tales:
+                    return LocalizationHelper.GetString("ReclamationTipTales");
+                default:
+                    return string.Empty;
             }
         }
     }
@@ -212,7 +195,6 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
             var toolToCraft = !string.IsNullOrEmpty(reclamation.ToolToCraft) ? reclamation.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
             var task = new AsstReclamationTask() {
                 Theme = reclamation.Theme,
-                Stage = reclamation.Stage,
                 Mode = reclamation.Mode,
                 IncrementMode = reclamation.IncrementMode,
                 MaxCraftCountPerRound = reclamation.MaxCraftCountPerRound,
