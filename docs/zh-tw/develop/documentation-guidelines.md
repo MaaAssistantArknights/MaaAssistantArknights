@@ -44,7 +44,7 @@ icon: jam:write-f
 - `warning` 注意
 - `danger` 警告
 - `details` 詳情
-- `window` ==示例容器==
+- `window` ==範例容器==
 
 ### 容器範例
 
