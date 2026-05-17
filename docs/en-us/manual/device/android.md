@@ -209,8 +209,8 @@ Wired connections don't need IP addresses or ports - just the device serial numb
 
 ::: steps
 
-1. Download, install [WADB](https://github.com/RikkaApps/WADB/releases) and grant it root privileges. 2.
-2. Open WADB and start wireless adb. 3.
+1. Download, install [WADB](https://github.com/RikkaApps/WADB/releases) and grant it root privileges.
+2. Open WADB and start wireless adb.
 3. Put the IP address and port provided by WADB into MAA `Settings` - `Connection` - `Connection Address`, such as `192.168.1.2:5555`.
 4. Link Start!
 
