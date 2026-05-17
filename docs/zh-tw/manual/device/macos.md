@@ -13,7 +13,7 @@ icon: basil:apple-solid
 
 請注意：由於 `macOS` 本身機制的限制，將遊戲視窗最小化、幕前排程 (Stage Manager) 狀態下切換到其他視窗、或將視窗移動到其他桌面 / 螢幕後，截圖會出現問題，導致無法正確執行。相關 Issue [#4371](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
 
-::: steps
+:::: steps
 
 0. 要求：MAA 版本 v4.13.0-rc.1 以上
 
@@ -31,7 +31,7 @@ icon: basil:apple-solid
 
 7. 3-5 步驟只需要做一次，之後只需要啟動《明日方舟》即可。在《明日方舟》每次更新客戶端之後，需要重新執行第 2 步。
 
-:::
+::::
 
 ### ✅ [MuMu 模擬器 Pro](https://mumu.163.com/mac/)
 

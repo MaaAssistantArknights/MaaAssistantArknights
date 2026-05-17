@@ -17,7 +17,7 @@ icon: basil:apple-solid
 
 注： `macOS` の仕組みにより、ゲームウィンドウを最小化したり、ステージマネージャーで別のウィンドウに切り替えたり、ウィンドウを別のデスクトップ/画面に移動したりすると、スクリーンショットに問題が発生し、正しく実行されなくなります。 👉🏻️ [issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512) を参照
 
-::: steps
+:::: steps
 
 0. 要件: MAA バージョン v4.13.0-rc.1 以降
 
@@ -35,7 +35,7 @@ icon: basil:apple-solid
 
 7. ステップ 3-5 は一度だけ行う必要があり、その後はアークナイツをアクティブにするだけで済みます。アークナイツのクライアントを更新するたびに、手順2を再度実行する必要があります。
 
-:::
+::::
 
 ### ✅ [MuMu エミューレータ Pro](https://mumu.163.com/mac/)
 

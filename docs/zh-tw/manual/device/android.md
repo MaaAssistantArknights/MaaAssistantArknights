@@ -26,7 +26,7 @@ icon: mingcute:android-fill
 
 ## 下載、執行 ADB 除錯工具並連線設備
 
-::: steps
+:::: steps
 
 1. 下載 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) 並解壓縮。
 2. 開啟解壓縮後的資料夾，清空位址列並輸入 `cmd` 後按下 Enter。
@@ -38,7 +38,7 @@ icon: mingcute:android-fill
    adb devices
    ```
 
-:::
+::::
 
 - 成功執行後會顯示已連線 `USB 除錯` 設備的資訊。
   - 連線成功的例子：
@@ -118,7 +118,7 @@ icon: mingcute:android-fill
 
 ## 自動化更改解析度
 
-::: steps
+:::: steps
 
 1. 在 MAA 目錄下新建兩個文字檔案，分別在其中填入以下內容：
 
@@ -145,7 +145,7 @@ icon: mingcute:android-fill
 
 3. 在 MAA 的 `設定 - 連線設定 - 開始前腳本` 和 `結束後腳本` 中分別填入 `startup.bat` 和 `finish.bat`。
 
-:::
+::::
 
 ## 連線 MAA
 
@@ -165,7 +165,7 @@ icon: mingcute:android-fill
 
 #### 使用 `adb tcpip` 開啟無線連接埠
 
-::: steps
+:::: steps
 
 1. 在剛才的命令提示字元視窗中輸入以下指令以開啟無線除錯：
 
@@ -182,7 +182,7 @@ icon: mingcute:android-fill
 
 4. Link Start!
 
-:::
+::::
 
 #### 使用 `adb pair` 開啟無線連接埠
 
@@ -190,7 +190,7 @@ icon: mingcute:android-fill
 `adb pair` 無線配對，即使用 Android 11 及更新版本中開發者選項內的 `無線偵錯` 進行配對後連線，與 `adb tcpip` 相比可以避免有線連線。
 :::
 
-::: steps
+:::: steps
 
 1. 進入手機開發者選項，點選 `無線偵錯` 並開啟，點選確定，點選 `使用配對碼配對設備`，在配對完成前不要關閉出現的彈窗。
 
@@ -203,17 +203,17 @@ icon: mingcute:android-fill
 
 4. Link Start!
 
-:::
+::::
 
 #### 使用 root 權限開啟無線連接埠
 
 ~~都接觸到 Root 了還需要看這段文件嗎~~
 
-::: steps
+:::: steps
 
 1. 下載、安裝 [WADB](https://github.com/RikkaApps/WADB/releases) 並授予其 Root 權限。
 2. 開啟 WADB，啟動無線 ADB。
 3. 將 WADB 提供的 IP 位址及連接埠填入 MAA `設定 - 連線設定 - 連線位址` 中，例如 `192.168.1.2:5555`。
 4. Link Start!
 
-:::
+::::
