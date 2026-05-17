@@ -1,0 +1,258 @@
+{
+    "RelaunchAnchor@RA@ProsperityNoSave": {
+        "doc": "生息演算「重启锚点」辅助建设模式刷分入口，有初雪，且手动配过队；前置条件：手动解锁 RA-15",
+        "algorithm": "JustReturn",
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-start"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-start": {
+        "doc": "步骤 1（任务起点）：OCR 识别 开启建设",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开启建设"],
+        "withoutDet": true,
+        "useRaw": false,
+        "binThreshold": [200, 255],
+        "roi": [1055, 597, 141, 46],
+        "postDelay":1000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-Strategy"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-Strategy": {
+        "doc": "步骤 2：OCR 识别 筹划经营",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["经","营"],
+        "roi": [377, 385, 97, 25],
+        "postDelay":200,
+        "next": ["#self","RelaunchAnchor@RA@PNS-RA15-HaveCX-ConfirmSelection"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-ConfirmSelection": {
+        "doc": "步骤 3：OCR 识别 <确认选择> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认选择"],
+        "roi": [1055, 619, 117, 43],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-Choose"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-Choose": {
+        "doc": "步骤 4：OCR 识别 <干员招募> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["干员招募"],
+        "roi": [941, 131, 131, 34],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-ConfirmTeam"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-ConfirmTeam": {
+        "doc": "步骤 14：OCR 识别 <确认招募> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认招募"],
+        "roi": [1088, 657, 110, 33],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-ConfirmTeam2"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-ConfirmTeam2": {
+        "doc": "步骤 14.1：OCR 识别 <确认> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [923, 466, 67, 35],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-StartConstruction"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-StartConstruction": {
+        "doc": "步骤 15：OCR 识别 <开始建设> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开始建设"],
+        "roi": [984, 607, 138, 47],
+        "postDelay": 1000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-WaitSkip"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-WaitSkip": {
+        "doc": "步骤 15.2 等待剧情跳过",
+        "algorithm": "JustReturn",
+        "postDelay": 1000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-Plot", "#self"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-Plot": {
+        "doc": "步骤 16：OCR 识别 <外勤> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["外勤"],
+        "roi": [404, 564, 50, 26],
+        "next": ["#self","RelaunchAnchor@RA@PNS-RA15-HaveCX-Plot2"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-Plot2": {
+        "doc": "步骤 16.1：OCR 识别 <看情> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["看情"],
+        "roi": [404, 564, 50, 26],
+        "next": ["#self","RelaunchAnchor@RA@PNS-RA15-HaveCX-Plot3"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-Plot3": {
+        "doc": "步骤 16.2：OCR 识别 <请> ",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["请"],
+        "roi": [532, 61, 24, 26],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-AlignMap"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-AlignMap": {
+        "doc": "步骤 17：JustReturn 的 Swipe，对齐地图",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [700, 200, 1, 1],
+        "rectMove": [700, 700, 1, 1],
+        "specialParams": [1500, 0, 3, 0],
+        "preDelay": 1000,
+        "postDelay": 1000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-AlignMap2"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-AlignMap2": {
+        "doc": "步骤 17.2：JustReturn 的 Swipe，对齐地图",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [970, 110, 1, 1],
+        "rectMove": [430, 550, 1, 1],
+        "specialParams": [1500, 0, 3, 0],
+        "postDelay": 1000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-DeployGatheringBaseSwipe"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-DeployGatheringBaseSwipe": {
+        "doc": "步骤 18：JustReturn 的 Swipe，占位部署采集基站",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [400, 650, 1, 1],
+        "rectMove": [495, 414, 1, 1],
+        "specialParams": [1000, 0, 3, 0],
+        "postDelay": 4000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-DeployGatheringBaseWait"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-DeployGatheringBaseWait": {
+        "doc": "步骤 18.2：部署采集基站后的占位等待 x 秒",
+        "algorithm": "JustReturn",
+        "postDelay": 2000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-DoubleSpeed"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-DoubleSpeed": {
+        "doc": "步骤 19：开启二倍速",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1090, 40, 20, 20],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-WaitCost"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-WaitCost": {
+        "doc": "步骤 20 等待费用跳过",
+        "algorithm": "JustReturn",
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-Cost24", "#self"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-Cost24": {
+        "doc": "步骤 21：OCR 识别 Cost",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["24","25","26","27","28","29"],
+        "roi": [1198, 495, 75, 43],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-DeployCX"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-DeployCX": {
+        "doc": "步骤 22：JustReturn 的 Swipe，部署初雪",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1139, 638, 1, 1],
+        "rectMove": [390, 512, 1, 1],
+        "specialParams": [1000, 0, 3, 0],
+        "postDelay": 1000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-DeployCX2"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-DeployCX2": {
+        "doc": "步骤 22.2：JustReturn 的 Swipe，部署初雪",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [725, 319, 1, 1],
+        "rectMove": [730, 500, 1, 1],
+        "specialParams": [1000, 0, 3, 0],
+        "postDelay": 2000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-MissionIcon1"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-MissionIcon1": {
+        "doc": "步骤 23：模板匹配任务图标并点击",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@MissionIcon.png",
+        "roi": [0, 179, 150, 141],
+        "postDelay":2000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-Kill60", "#self"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-Kill60": {
+        "doc": "步骤 24：OCR 识别 <击败> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["击败","岳败"],
+        "roi": [571, 281, 51, 33],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-ConfirmMission", "#self"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-ConfirmMission": {
+        "doc": "步骤 25：OCR 识别 <确认> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [1076, 577, 72, 44],
+        "postDelay": 35000,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-Deliver", "#self"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-Deliver": {
+        "doc": "步骤 26：OCR 识别 <击败> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["击败"],
+        "roi": [81, 243, 83, 29],
+        "postDelay": 1000,
+        "next": ["#self","RelaunchAnchor@RA@PNS-RA15-HaveCX-End1"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-End1": {
+        "doc": "步骤 27：退出",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [62, 69, 1, 1],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-End2"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-End2": {
+        "doc": "步骤 27.2：OCR 识别 <确认> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [928, 469, 61, 33],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-WaitEnd"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-WaitEnd": {
+        "doc": "步骤 27.3 等待结束跳过",
+        "algorithm": "JustReturn",
+        "postDelay": 500,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-End3", "#self"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-End3": {
+        "doc": "步骤 27.4：OCR 识别 <点击> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["点"],
+        "roi": [600, 670, 60, 40],
+        "postDelay":500,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-End4","#self"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-End4": {
+        "doc": "步骤 27.5：OCR 识别 <完成> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["完"],
+        "roi": [600, 670, 60, 40],
+        "postDelay":500,
+        "next": ["#self","RelaunchAnchor@RA@PNS-RA15-HaveCX-Retry"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-HaveCX-Retry": {
+        "doc": "再次开始",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [640, 370, 1, 1],
+        "postDelay":500,
+        "next": ["RelaunchAnchor@RA@PNS-RA15-HaveCX-start","#self"]
+    }
+}
