@@ -168,17 +168,25 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
         get
         {
             var theme = ReclamationTheme;
+
             if (theme == Theme.RelaunchAnchor)
             {
-                var stageTipKey = $"ReclamationEarlyTipRelaunchAnchorRA{(int)ReclamationStage}";
+                var stageTipKey = $"ReclamationTipRelaunchAnchorRA{(int)ReclamationStage}";
                 if (LocalizationHelper.TryGetString(stageTipKey, out var stageTip))
                 {
                     return stageTip;
                 }
 
-                return LocalizationHelper.GetString("ReclamationEarlyTipRelaunchAnchorRA1");
+                return LocalizationHelper.GetString("ReclamationTipRelaunchAnchorRA1");
             }
-            return LocalizationHelper.GetString("ReclamationEarlyTip");
+            else if (theme == Theme.Tales || theme == Theme.Fire)
+            {
+                return LocalizationHelper.GetString("ReclamationTipTales");
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
     }
 

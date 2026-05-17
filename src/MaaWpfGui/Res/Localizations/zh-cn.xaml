@@ -1476,7 +1476,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="AnnouncementNotFinishedConfirm3">还点</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA1" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
 收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 2 分 10 秒
 
 干员要求：无
@@ -1489,7 +1489,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
 任务流程：自动执行精耕细作、建设、交付资源、结算循环
     </system:String>
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA15" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 收益参考：每把约 500 代币 + 统筹点数，单轮耗时约 3 分钟
 
 干员要求：圣聆初雪（可以借助战）
@@ -1505,7 +1505,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
 任务流程：用圣聆初雪完成 60 杀任务
     </system:String>
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
+    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
 目前生息演算的支持仍处于中期阶段，使用时请注意以下几点：
 
  通过开局刷点数：(小心已有存档被删除)

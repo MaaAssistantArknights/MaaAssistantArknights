@@ -1476,7 +1476,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="AnnouncementNotFinishedConfirm3">還點</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA1" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
 收益參考：每把約 159 代幣 + 統籌點數，單輪耗時約 2 分 10 秒
 
 幹員要求：無
@@ -1489,7 +1489,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
 任務流程：自動執行精耕細作、建設、交付資源、結算循環
     </system:String>
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA15" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 收益參考：每把約 500 代幣 + 統籌點數，單輪耗時約 3 分鐘
 
 幹員要求：聖聆初雪（可借助戰）
@@ -1505,7 +1505,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
  任務流程：
   自動借助戰執行 60 殺任務
     </system:String>
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
+    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
 目前生息演算的支援仍處於中期階段，使用時請注意以下幾點：
 
  透過開局刷點數：（請注意：已有存檔可能會被刪除）

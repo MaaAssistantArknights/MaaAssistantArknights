@@ -1476,7 +1476,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="AnnouncementNotFinishedConfirm3">まだ押す</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA1" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
 報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約2分10秒
 
 オペレーター要件：なし
@@ -1489,7 +1489,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 
 タスクの流れ：精耕細作、建設、資源納入、決済を自動実行
     </system:String>
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA15" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 報酬目安：1回あたり約 500 トークン＋統括ポイント、所要時間約 3 分
 
 オペレーター要件：聖聆初雪（サポート借用可）
@@ -1505,7 +1505,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
  タスクの流れ：
   サポートオペレーターを使用して 60 キルミッションを自動実行
     </system:String>
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
+    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
 生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
 
  初期設定でポイントを稼ぐ：（既存のセーブデータが削除されることに注意してください）

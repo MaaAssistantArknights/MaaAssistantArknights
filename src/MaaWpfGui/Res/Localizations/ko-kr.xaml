@@ -1477,7 +1477,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="AnnouncementNotFinishedConfirm3">계속 누르네</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA1" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
 수익 참고: 회당 약 159토큰 + 통괄 포인트, 소요 시간 약 2분 10초
 
 오퍼레이터 요구 사항: 없음
@@ -1489,7 +1489,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
 참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 대형 축사 등)을 철거하세요
 
 작업 흐름：정경세작, 건설, 자원 납품, 결제를 자동 실행</system:String>
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA15" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 수익 참고: 회당 약 500 토큰 + 통괄 포인트, 소요 시간 약 3분
 
 오퍼레이터 요구 사항: 성령초설(서포트 유닛 사용 가능)
@@ -1505,7 +1505,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
  작업 흐름：
   서포트 오퍼레이터를 사용하여 60킬 미션을 자동 실행
     </system:String>
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
+    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
 현재 생존 연산 기능은 초기 단계이며, 다음 사항에 주의하세요:
 
  세이브 X: 스테이지 반복 (주의: 기존 세이브 데이터가 삭제될 수 있습니다)

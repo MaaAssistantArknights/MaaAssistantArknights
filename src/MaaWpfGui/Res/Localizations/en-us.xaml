@@ -1475,7 +1475,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="AnnouncementNotFinishedConfirm3">Still clicking</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA1" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
 Reward estimate: ~159 tokens + coordination points per run, ~2 min 10 sec per round
 
 Operator requirement: None
@@ -1488,7 +1488,7 @@ Note: If you have unlocked technologies related to starting with extra items, pl
 
 Task flow: Automatically executes farming, construction, resource delivery, and settlement loop
     </system:String>
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA15" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 Reward estimate: ~500 tokens + coordination points per run, ~3 min per round
 
 Operator requirement: Saintly First Snow (support unit allowed)
@@ -1504,7 +1504,7 @@ Prerequisite:
  Task flow:
   Automatically use support operator to execute 60-kill mission
     </system:String>
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
+    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
 The support for reclamation algorithm is still under development at present. Please mind the following:
 
 Farm points through initial setup: (Be careful that existing save files might be deleted)
