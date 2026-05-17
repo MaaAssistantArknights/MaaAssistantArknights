@@ -1703,6 +1703,22 @@ public class ToolboxViewModel : Screen
         StartOperBoxRecognitionTask();
     }
 
+    /// <summary>
+    /// 停止识别干员
+    /// UI 绑定的方法
+    /// </summary>
+    /// <remarks>
+    /// AsstStop() 停止的是当前 AsstHandle 上正在运行的任务。
+    /// 工具箱任务（干员识别/仓库识别/抽卡）启动前都会设置 Idle=false，
+    /// 同一时间只有一个工具箱任务运行，不存在并发停止风险。
+    /// 此方式与主任务队列的停止按钮使用相同机制。
+    /// </remarks>
+    [UsedImplicitly]
+    public void StopOperBox()
+    {
+        Instances.AsstProxy.AsstStop();
+    }
+
     public List<ExportEntry> OperBoxExportOptionList { get; } = [
         new(LocalizationHelper.GetString("OperBoxExportToClipboard"), (int)OperBoxExportFormat.Clipboard),
         new(LocalizationHelper.GetString("OperBoxExportToJson"), (int)OperBoxExportFormat.Json),
