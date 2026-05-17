@@ -11,17 +11,17 @@ maa-cli 提供多种方式安装，包括预编译二进制文件、包管理器
 
 安装 maa-cli 最简单的方式是使用安装脚本一键安装：
 
-::: tabs#pre-compile
+::: code-tabs
 
 @tab:active Linux 和 macOS
 
-```bash
+```bash :no-line-numbers
 curl -fsSL https://raw.githubusercontent.com/MaaAssistantArknights/maa-cli/main/install.sh | bash
 ```
 
 @tab Windows (PowerShell)
 
-```powershell
+```powershell :no-line-numbers
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MaaAssistantArknights/maa-cli/main/install.ps1" -OutFile install.ps1; .\install.ps1
 ```
 

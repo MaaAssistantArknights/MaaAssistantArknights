@@ -74,6 +74,7 @@ export default defineUserConfig({
 
     markdown: {
       annotation: true,
+      collapse: true,
       image: {
         lazyload: true,
         mark: true,
