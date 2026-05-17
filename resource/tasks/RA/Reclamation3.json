@@ -106,11 +106,7 @@
         "action": "ClickSelf",
         "text": ["跳过"],
         "roi": [1140, 30, 67, 43],
-        "next": [
-            "RelaunchAnchor@RA@RA1-SkipPlotConfirm",
-            "#self",
-            "RelaunchAnchor@RA@RA1-WaitGatheringBasePrompt"
-        ]
+        "next": ["RelaunchAnchor@RA@RA1-SkipPlotConfirm", "#self", "RelaunchAnchor@RA@RA1-WaitGatheringBasePrompt"]
     },
     "RelaunchAnchor@RA@RA1-SkipPlotConfirm": {
         "doc": "步骤 7：OCR 识别 <是否跳过剧情>，点击偏移位置占位",
