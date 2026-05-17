@@ -25,6 +25,8 @@ public class ReclamationTask : BaseTask
 
     public ReclamationTheme Theme { get; set; } = ReclamationTheme.Tales;
 
+    public RelaunchAnchorStage Stage { get; set; } = RelaunchAnchorStage.RA1;
+
     public ReclamationMode Mode { get; set; } = ReclamationMode.Archive;
 
     /// <summary>
@@ -61,6 +63,19 @@ public enum ReclamationTheme
     /// 重启锚点（RELAUNCH ANCHOR）
     /// </summary>
     RelaunchAnchor,
+}
+
+public enum RelaunchAnchorStage
+{
+    /// <summary>
+    /// RA-1
+    /// </summary>
+    RA1 = 1,
+
+    /// <summary>
+    /// RA-15
+    /// </summary>
+    RA15 = 15,
 }
 
 public enum ReclamationMode

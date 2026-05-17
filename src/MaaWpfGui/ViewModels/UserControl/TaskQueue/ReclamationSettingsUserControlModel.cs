@@ -22,6 +22,7 @@ using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using static MaaWpfGui.Main.AsstProxy;
 using Mode = MaaWpfGui.Configuration.Single.MaaTask.ReclamationMode;
+using Stage = MaaWpfGui.Configuration.Single.MaaTask.RelaunchAnchorStage;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -61,6 +62,24 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
                     t.ClearStore = false;
                 }
             });
+    }
+
+    /// <summary>
+    /// Gets the list of reclamation stages for RelaunchAnchor theme.
+    /// </summary>
+    public List<GenericCombinedData<Stage>> ReclamationStageList { get; } =
+        [
+            new() { Display = "RA-1", Value = Stage.RA1 },
+            new() { Display = "RA-15", Value = Stage.RA15 },
+        ];
+
+    /// <summary>
+    /// Gets or sets 生息演算关卡选择
+    /// </summary>
+    public Stage ReclamationStage
+    {
+        get => GetTaskConfig<ReclamationTask>().Stage;
+        set => SetTaskConfig<ReclamationTask>(t => t.Stage == value, t => t.Stage = value);
     }
 
     /// <summary>
@@ -179,6 +198,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
             var toolToCraft = !string.IsNullOrEmpty(reclamation.ToolToCraft) ? reclamation.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
             var task = new AsstReclamationTask() {
                 Theme = reclamation.Theme,
+                Stage = reclamation.Stage,
                 Mode = reclamation.Mode,
                 IncrementMode = reclamation.IncrementMode,
                 MaxCraftCountPerRound = reclamation.MaxCraftCountPerRound,

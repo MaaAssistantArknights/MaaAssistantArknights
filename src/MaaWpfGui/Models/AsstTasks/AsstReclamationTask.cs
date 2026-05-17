@@ -32,6 +32,11 @@ public class AsstReclamationTask : AsstBaseTask
     public ReclamationTheme Theme { get; set; } = ReclamationTheme.Tales;
 
     /// <summary>
+    /// Gets or sets 生息演算关卡（仅重启锚点）
+    /// </summary>
+    public RelaunchAnchorStage Stage { get; set; } = RelaunchAnchorStage.RA1;
+
+    /// <summary>
     /// Gets or sets 生息演算模式
     /// <list type="bullet">
     ///     <item>
@@ -71,6 +76,7 @@ public class AsstReclamationTask : AsstBaseTask
         var data = new JObject
         {
             ["theme"] = Theme.ToString(),
+            ["stage"] = (int)Stage,
             ["mode"] = (int)Mode,
             ["increment_mode"] = IncrementMode,
             ["num_craft_batches"] = MaxCraftCountPerRound,

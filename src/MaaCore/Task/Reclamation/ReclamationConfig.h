@@ -17,6 +17,12 @@ enum class ReclamationMode // 对应 Roguelike Mode
     ProsperityInSave = 1,  // 1 - 有存档刷繁荣点数
 };
 
+enum class RelaunchAnchorStage
+{
+    RA1 = 1,   // 1 - RA-1
+    RA15 = 15, // 15 - RA-15
+};
+
 enum class ReclamationDifficulty // 对应 Roguelike Difficulty
 {
     Casual = 0,                  // 0 - 休养模式
@@ -54,11 +60,14 @@ public:
 
     [[nodiscard]] const ReclamationMode& get_mode() const { return m_mode; }
 
+    [[nodiscard]] RelaunchAnchorStage get_stage() const { return m_stage; }
+
     [[nodiscard]] ReclamationDifficulty get_difficulty() const { return m_difficulty; }
 
 private:
     std::string m_theme = std::string(ReclamationTheme::Tales);            // 主题
     ReclamationMode m_mode = ReclamationMode::ProsperityInSave;            // 策略
+    RelaunchAnchorStage m_stage = RelaunchAnchorStage::RA1;                // 关卡
     ReclamationDifficulty m_difficulty = ReclamationDifficulty::Challenge; // 难度模式
 
     // 以下注释列出了插件专用参数, 以便于快速检阅。这些参数的具体声明与使用请参考各插件。
