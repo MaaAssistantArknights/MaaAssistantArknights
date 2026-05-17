@@ -11,17 +11,17 @@ There are multiple ways to install maa-cli, including pre-compiled binaries, pac
 
 The easiest way to install maa-cli is by using the installation script:
 
-::: tabs#pre-compile
+::: code-tabs
 
 @tab:active Linux and macOS
 
-```bash
+```bash :no-line-numbers
 curl -fsSL https://raw.githubusercontent.com/MaaAssistantArknights/maa-cli/main/install.sh | bash
 ```
 
 @tab Windows (PowerShell)
 
-```powershell
+```powershell :no-line-numbers
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MaaAssistantArknights/maa-cli/main/install.ps1" -OutFile install.ps1; .\install.ps1
 ```
 

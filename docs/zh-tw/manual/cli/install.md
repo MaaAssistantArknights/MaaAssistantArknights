@@ -11,17 +11,17 @@ maa-cli 提供多種方式安裝，包括預編譯執行檔、套件管理員以
 
 安裝 maa-cli 最簡單的方式是使用安裝指令碼一鍵安裝：
 
-::: tabs#pre-compile
+::: code-tabs
 
 @tab:active Linux 和 macOS
 
-```bash
+```bash :no-line-numbers
 curl -fsSL https://raw.githubusercontent.com/MaaAssistantArknights/maa-cli/main/install.sh | bash
 ```
 
 @tab Windows (PowerShell)
 
-```powershell
+```powershell :no-line-numbers
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MaaAssistantArknights/maa-cli/main/install.ps1" -OutFile install.ps1; .\install.ps1
 ```
 

@@ -30,7 +30,9 @@ maa-cli는 자체 업데이트가 가능합니다. 다음 명령어를 실행하
 maa self update
 ```
 
-**주의**: 패키지 관리자를 통해 maa-cli를 설치한 사용자는 이 명령어가 작동하지 않으므로, 패키지 관리자를 통해 업데이트하세요.
+::: warning
+패키지 관리자를 통해 maa-cli를 설치한 사용자는 이 명령어가 작동하지 않으므로, 패키지 관리자를 통해 업데이트하세요.
+:::
 
 ## 초기화 구성
 
@@ -50,13 +52,59 @@ MaaCore의 설치 및 구성을 완료하면 작업을 실행할 준비가 된 �
 
 일반적인 작업에 대해 maa-cli는 몇 가지 사전 정의 작업을 제공합니다:
 
-- `maa startup [client]`: 게임을 시작하고 메인 화면으로 이동합니다. `[client]`는 클라이언트 유형이며, 생략하면 게임 클라이언트를 시작하지 않습니다.
-- `maa closedown [client]`: 게임 클라이언트를 종료합니다. `[client]`는 클라이언트 유형이며, 기본값은 `Official`입니다.
-- `maa fight [stage]`: 전투 작업을 실행합니다. `[stage]`는 스테이지 이름이며, 예를 들어 `1-7`입니다. 생략하면 이전 또는 현재 스테이지를 선택합니다.
-- `maa copilot <maa_uri>...`: 자동지휘 작업을 실행합니다. `<maa_uri>`는 작업의 URI이며, 여러 URI는 순차적으로 실행됩니다. `maa_uri`는 `maa://1234` 또는 로컬 파일 경로 `./1234.json`일 수 있습니다.
-- `maa sscopilot <maa_uri>`: 자동 보안 파견을 실행합니다. `<maa_uri>`는 보안 파견 작업의 URI입니다.
-- `maa roguelike <theme>`: 자동 통합 전략을 실행합니다. `<theme>`는 통합 전략의 주제이며, 선택 가능한 값은 `Phantom`, `Mizuki`, `Sami`, `Sarkaz`, `JieGarden`입니다.
-- `maa reclamation <theme>`: 자동 생활 게임을 실행합니다. `<theme>`는 생활 게임의 주제이며, 현재 사용 가능한 값은 `Tales`입니다.
+::: collapse
+
+- :+ 게임을 시작하고 메인 화면으로 이동
+
+  ```shell
+  maa startup [client]
+  ```
+  
+  `[client]`는 클라이언트 유형이며, 생략하면 게임 클라이언트를 시작하지 않습니다.
+
+- 게임 클라이언트 종료
+  
+  ```shell
+  maa closedown [client]
+  ```
+  `[client]`는 클라이언트 유형이며, 기본값은 `Official`입니다.
+
+- 전투 작업 실행
+
+  ```shell
+  maa fight [stage]
+  ```
+
+  `[stage]`는 스테이지 이름이며, 예를 들어 `1-7`입니다. 생략하면 이전 또는 현재 스테이지를 선택합니다.
+
+- 자동지휘 작업 실행
+  ```shell
+  maa copilot <maa_uri>
+  ```
+  `<maa_uri>`는 작업의 URI이며, 여러 URI는 순차적으로 실행됩니다. `maa_uri`는 `maa://1234` 또는 로컬 파일 경로 `./1234.json`일 수 있습니다.
+
+- 자동 보안 파견
+  ```shell
+  maa sscopilot <maa_uri>
+  ```
+
+  `<maa_uri>`는 보안 파견 작업의 URI입니다.
+
+- 자동 통합 전략
+  ```shell
+  maa roguelike <theme>
+  ```
+
+  `<theme>`는 통합 전략의 주제이며, 선택 가능한 값은 `Phantom`, `Mizuki`, `Sami`, `Sarkaz`, `JieGarden`입니다.
+
+- 자동 생활 게임
+  ```shell
+  maa reclamation <theme>
+  ```
+
+  `<theme>`는 생활 게임의 주제이며, 현재 사용 가능한 값은 `Tales`입니다.
+
+:::
 
 위 작업들은 몇 가지 매개변수를 받습니다. `maa <task> --help` 명령어를 통해 자세한 매개변수를 확인할 수 있습니다.
 
@@ -93,14 +141,59 @@ maa-cli는 기본적으로 표준 오류(stderr)에 로그를 출력합니다. `
 
 위 명령어 외에도 maa-cli는 다음과 같은 하위 명령어를 제공합니다:
 
-- `maa list`: 모든 사용 가능한 작업을 나열합니다.
-- `maa dir <dir>`:특정 디렉토리의 경로를 확인합니다. 예: `maa dir config`는 설정 디렉토리의 경로를 확인합니다.
-- `maa version`: `maa-cli` 및 `MaaCore`의 버전 정보를 확인합니다.
-- `maa convert <input> [output]`: `JSON`, `YAML`, `TOML` 형식 파일을 다른 형식으로 변환합니다.
-- `maa complete <shell>`: 자동 완성 스크립트를 생성합니다.
-- `maa activity [client]`: 게임의 현재 이벤트 정보를 확인합니다. `client`는 클라이언트 유형이며, 기본값은 `Official`입니다.
-- `maa cleanup`: `maa-cli` 및 `MaaCore`의 캐시를 정리합니다.
-- `maa import <file> [-t <type>]:` 설정 파일을 가져옵니다. `file`은 설정 파일의 경로입니다. `-t` 옵션을 통해 설정 파일의 유형(`cli`, `profile`, `infrast` 등)을 지정할 수 있습니다.
+::: collapse
+
+- 모든 사용 가능한 작업 나열
+
+  ```shell
+  maa list
+  ```
+
+- 특정 디렉토리 경로 확인
+  ```shell
+  maa dir <dir>
+  ```
+  예: `maa dir config`는 설정 디렉토리의 경로를 확인합니다.
+
+- 버전 정보 확인
+
+  ```shell
+  maa version
+  ```
+
+- 파일 형식 변환
+
+  ```shell
+  maa convert <input> [output]
+  ```
+
+- 자동 완성 스크립트 생성
+
+  ```shell
+  maa complete <shell>
+  ```
+
+- 현재 이벤트 정보 확인
+
+  ```shell
+  maa activity [client]
+  ```
+  `client`는 클라이언트 유형이며, 기본값은 `Official`입니다.
+
+- 캐시 정리
+  
+  ```shell
+  maa cleanup
+  ```
+
+- 설정 파일 가져오기
+
+  ```shell
+  maa import <file> [-t <type>]
+  ```
+  `file`은 설정 파일의 경로입니다. `-t` 옵션을 통해 설정 파일의 유형(`cli`, `profile`, `infrast` 등)을 지정할 수 있습니다.
+
+:::
 
 더 많은 명령어 사용 방법은 `maa help`를 통해 확인할 수 있으며, 특정 명령어의 사용 방법은 `maa help <command>`를 통해 확인할 수 있습니다.
 

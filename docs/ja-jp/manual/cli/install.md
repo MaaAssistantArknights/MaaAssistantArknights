@@ -11,17 +11,17 @@ maa-cli は、プリコンパイル済みバイナリ、パッケージマネー
 
 maa-cli をインストールする最も簡単な方法は、インストールスクリプトを使用する方法です：
 
-::: tabs#pre-compile
+::: code-tabs
 
 @tab:active Linux と macOS
 
-```bash
+```bash :no-line-numbers
 curl -fsSL https://raw.githubusercontent.com/MaaAssistantArknights/maa-cli/main/install.sh | bash
 ```
 
 @tab Windows (PowerShell)
 
-```powershell
+```powershell :no-line-numbers
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MaaAssistantArknights/maa-cli/main/install.ps1" -OutFile install.ps1; .\install.ps1
 ```
 

@@ -11,17 +11,17 @@ maa-cli는 사전 컴파일된 바이너리, 패키지 관리자, 그리고 `car
 
 maa-cli를 가장 쉽게 설치하는 방법은 원클릭 설치 스크립트를 사용하는 것입니다:
 
-::: tabs#pre-compile
+::: code-tabs
 
 @tab:active Linux 및 macOS
 
-```bash
+```bash :no-line-numbers
 curl -fsSL https://raw.githubusercontent.com/MaaAssistantArknights/maa-cli/main/install.sh | bash
 ```
 
 @tab Windows (PowerShell)
 
-```powershell
+```powershell :no-line-numbers
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MaaAssistantArknights/maa-cli/main/install.ps1" -OutFile install.ps1; .\install.ps1
 ```
 

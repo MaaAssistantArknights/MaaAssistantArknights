@@ -85,7 +85,7 @@ params = { stage = "CE-6" }
 params = { stage = "1-7" }
 ```
 
-All the above conditions related to time have a `timezone` field, which can be an offset from UTC (e.g., `8` for UTC+8) or a client type (e.g., `"Official"`). Note that the official server timezone is UTC+4, not UTC+8, because the game day starts at 04:00:00 rather than 00:00:00. If timezone is omitted, your local system timezone is used.
+All the above conditions related to time have a `timezone` field of type `number | "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"`. It can be an offset from UTC (e.g., `8` for UTC+8) or a client type (e.g., `"Official"`). Note that the official server timezone is UTC+4, not UTC+8, because the game day starts at 04:00:00 rather than 00:00:00. If timezone is omitted, your local system timezone is used.
 
 In addition to the above conditions, there's a `OnSideStory` condition that uses hot-update resources to check if there are any active events. For example, the condition to farm `SL-8` during a summer event can be simplified to `{ type = "OnSideStory", client = "Official" }`, where `client` is your game client type. Using this condition means you only need to update the stage to farm when an event changes, without manually editing event dates.
 
@@ -93,6 +93,7 @@ Besides the basic conditions, you can use `{ type = "And", conditions = [...] }`
 
 By combining these conditions, you can define infrastructure plans spanning multiple days. Here's an example of 6 plans for 2 days:
 
+::: details Click to view configuration
 ```toml
 [[tasks]]
 name = "Infrast (6 plan for 2 days)"
@@ -189,6 +190,8 @@ condition = {
 }
 params = { plan_index = 5 }
 ```
+
+:::
 
 With the default strategy, if multiple variants are matched, only the first one will be used. If no condition is given, the variant will always be matched. So you can put a variant without condition at the end as a default case.
 
@@ -391,8 +394,9 @@ Note: When using `PlayTools` connection, `touch_mode` is forced to `MacPlayTools
 
 ## CLI Related Configurations
 
-CLI-related configurations should be in `$MAA_CONFIG_DIR/cli.toml`. Current configurations include:
+CLI-related configurations should be in `$MAA_CONFIG_DIR/cli.toml`.
 
+::: details Click to view configuration
 ```toml
 # MaaCore install and update configurations
 [core]
@@ -445,6 +449,8 @@ passphrase = "password" # Passphrase for SSH key
 # 3. Use a command output (useful with password managers)
 # passphrase = { cmd = ["pass", "show", "ssh/id_ed25519"] }
 ```
+
+:::
 
 **NOTE**:
 

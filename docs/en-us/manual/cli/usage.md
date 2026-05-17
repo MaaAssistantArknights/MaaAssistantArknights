@@ -30,7 +30,9 @@ maa-cli can update itself by running the following command:
 maa self update
 ```
 
-**Note**: Users who installed maa-cli via a package manager should use the package manager to update maa-cli. This command will not work for those users.
+::: warning
+Users who installed maa-cli via a package manager should use the package manager to update maa-cli. This command will not work for those users.
+:::
 
 ## Initialize Configuration
 
@@ -50,13 +52,59 @@ After installing and configuring MaaCore, you can run tasks. maa-cli supports tw
 
 For common tasks, maa-cli provides several predefined options:
 
-- `maa startup [client]`: Start the game and enter the main interface. `[client]` is the client type; leave empty to not start any game client.
-- `maa closedown [client]`: Close the game client. `[client]` is the client type, defaulting to `Official`.
-- `maa fight [stage]`: Run a combat task. `[stage]` is the stage name like `1-7`; leave empty to select the last or current stage.
-- `maa copilot <maa_uri>...`: Auto-run copilot tasks. `<maa_uri>` is the task URI, multiple URIs will execute in sequence. `maa_uri` can be `maa://1234` or a local file path like `./1234.json`.
-- `maa sscopilot <maa_uri>`: Auto-run Stationary Security Service tasks. `<maa_uri>` is the task URI.
-- `maa roguelike <theme>`: Auto-run Integrated Strategy. `<theme>` is the theme, with options including `Phantom`, `Mizuki`, `Sami`, `Sarkaz`, and `JieGarden`.
-- `maa reclamation <theme>`: Auto-run Reclamation Algorithm. `<theme>` is the theme, currently only `Tales` is available.
+::: collapse
+
+- :+ Start the game and enter the main interface
+
+  ```shell
+  maa startup [client]
+  ```
+  
+  `[client]` is the client type; leave empty to not start any game client.
+
+- Close the game client
+  
+  ```shell
+  maa closedown [client]
+  ```
+  `[client]` is the client type, defaulting to `Official`.
+
+- Run a combat task
+
+  ```shell
+  maa fight [stage]
+  ```
+
+  `[stage]` is the stage name like `1-7`; leave empty to select the last or current stage.
+
+- Auto-run copilot tasks
+  ```shell
+  maa copilot <maa_uri>
+  ```
+  `<maa_uri>` is the task URI, multiple URIs will execute in sequence. `maa_uri` can be `maa://1234` or a local file path like `./1234.json`.
+
+- Auto-run Stationary Security Service
+  ```shell
+  maa sscopilot <maa_uri>
+  ```
+
+  `<maa_uri>` is the task URI.
+
+- Auto-run Integrated Strategy
+  ```shell
+  maa roguelike <theme>
+  ```
+
+  `<theme>` is the theme, with options including `Phantom`, `Mizuki`, `Sami`, `Sarkaz`, and `JieGarden`.
+
+- Auto-run Reclamation Algorithm
+  ```shell
+  maa reclamation <theme>
+  ```
+
+  `<theme>` is the theme, currently only `Tales` is available.
+
+:::
 
 These tasks accept various parameters. You can view the specific parameters with `maa <task> --help`.
 
@@ -93,14 +141,59 @@ All logs normally include a timestamp and level prefix. The `MAA_LOG_PREFIX` env
 
 Besides the above commands, maa-cli provides additional subcommands:
 
-- `maa list`: List all available tasks
-- `maa dir <dir>`: Get a specific directory path, such as `maa dir config` for the configuration directory
-- `maa version`: Get version information for `maa-cli` and `MaaCore`
-- `maa convert <input> [output]`: Convert between `JSON`, `YAML`, or `TOML` format files
-- `maa complete <shell>`: Generate auto-completion scripts
-- `maa activity [client]`: Get current in-game activity information, with `[client]` defaulting to `Official`
-- `maa cleanup`: Clean `maa-cli` and `MaaCore` caches
-- `maa import <file> [-t <type>]`: Import a configuration file, with `-t` specifying the type (e.g., `cli`, `profile`, `infrast`)
+::: collapse
+
+- List all available tasks
+
+  ```shell
+  maa list
+  ```
+
+- Get a specific directory path
+  ```shell
+  maa dir <dir>
+  ```
+  For example, `maa dir config` gets the path to the configuration directory.
+
+- Get version information
+
+  ```shell
+  maa version
+  ```
+
+- Convert between file formats
+
+  ```shell
+  maa convert <input> [output]
+  ```
+
+- Generate auto-completion scripts
+
+  ```shell
+  maa complete <shell>
+  ```
+
+- Get current in-game activity information
+
+  ```shell
+  maa activity [client]
+  ```
+  `[client]` is the client type, defaulting to `Official`.
+
+- Clean caches
+  
+  ```shell
+  maa cleanup
+  ```
+
+- Import a configuration file
+
+  ```shell
+  maa import <file> [-t <type>]
+  ```
+  `file` is the path to the configuration file. `-t` specifies the type (e.g., `cli`, `profile`, `infrast`).
+
+:::
 
 For more command information, use `maa help`. For specific command details, use `maa help <command>`.
 

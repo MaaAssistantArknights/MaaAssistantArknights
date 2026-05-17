@@ -30,7 +30,9 @@ maa-cli 可以更新自身，只需執行以下指令：
 maa self update
 ```
 
-**注意**：使用套件管理員安裝 maa-cli 的使用者請使用套件管理員更新 maa-cli，此指令對這些使用者無效。
+::: warning
+使用套件管理員安裝 maa-cli 的使用者請使用套件管理員更新 maa-cli，此指令對這些使用者無效。
+:::
 
 ## 初始化配置
 
@@ -50,13 +52,59 @@ maa init
 
 對於常見任務，maa-cli 提供了一些預定義的任務：
 
-- `maa startup [client]`：啟動遊戲並進入主介面，`[client]` 是客戶端類型，如果留空則不會啟動遊戲客戶端。
-- `maa closedown [client]`：關閉遊戲客戶端，`[client]` 是客戶端類型，預設為 `Official`。
-- `maa fight [stage]`：執行戰鬥任務，`[stage]` 是關卡名稱，例如 `1-7`；留空則選擇上次或當前關卡。
-- `maa copilot <maa_uri>...`：自動抄作業，其中 `<maa_uri>` 是作業的 URI，多個 URI 會依序執行，`maa_uri` 可以是 `maa://1234` 或本地檔案路徑 `./1234.json`。
-- `maa sscopilot <maa_uri>`：自動保全派駐，其中 `<maa_uri>` 是保全派駐作業的 URI。
-- `maa roguelike <theme>`：自動集成戰略，`<theme>` 是集成戰略的主題，可選值為 `Phantom`，`Mizuki`，`Sami`，`Sarkaz` 以及 `JieGarden`。
-- `maa reclamation <theme>`：自動生息演算，`<theme>` 是生息演算的主題，目前僅 `Tales` 主題可用。
+::: collapse
+
+- :+ 啟動遊戲並進入主介面
+
+  ```shell
+  maa startup [client]
+  ```
+  
+  `[client]` 是客戶端類型，如果留空則不會啟動遊戲客戶端。
+
+- 關閉遊戲客戶端
+  
+  ```shell
+  maa closedown [client]
+  ```
+  `[client]` 是客戶端類型，預設為 `Official`。
+
+- 執行戰鬥任務
+
+  ```shell
+  maa fight [stage]
+  ```
+
+  `[stage]` 是關卡名稱，例如 `1-7`；留空則選擇上次或當前關卡。
+
+- 自動抄作業
+  ```shell
+  maa copilot <maa_uri>
+  ```
+  `<maa_uri>` 是作業的 URI，多個 URI 會依序執行，`maa_uri` 可以是 `maa://1234` 或本地檔案路徑 `./1234.json`。
+
+- 自動保全派駐
+  ```shell
+  maa sscopilot <maa_uri>
+  ```
+
+  `<maa_uri>` 是保全派駐作業的 URI。
+
+- 自動集成戰略
+  ```shell
+  maa roguelike <theme>
+  ```
+
+  `<theme>` 是集成戰略的主題，可選值為 `Phantom`，`Mizuki`，`Sami`，`Sarkaz` 以及 `JieGarden`。
+
+- 自動生息演算
+  ```shell
+  maa reclamation <theme>
+  ```
+
+  `<theme>` 是生息演算的主題，目前僅 `Tales` 主題可用。
+
+:::
 
 上述任務接受一些參數，您可以透過 `maa <task> --help` 查看具體的參數。
 
@@ -94,14 +142,59 @@ maa-cli 預設會向標準錯誤輸出 (stderr) 輸出日誌。`--log-file` 選�
 
 除了上述的指令外，maa-cli 還提供了其他一些子指令：
 
-- `maa list`：列出所有可用的任務。
-- `maa dir <dir>`：獲取特定目錄的路徑，例如 `maa dir config` 可以用來獲取配置目錄的路徑。
-- `maa version`：獲取 `maa-cli` 以及 `MaaCore` 的版本資訊。
-- `maa convert <input> [output]`：將 `JSON`，`YAML` 或 `TOML` 格式的檔案轉換為其他格式。
-- `maa complete <shell>`：產生自動補全指令碼。
-- `maa activity [client]`：獲取遊戲的目前活動資訊，`client` 是客戶端類型，預設為 `Official`。
-- `maa cleanup`：清除 `maa-cli` 和 `MaaCore` 的暫存 (cache)。
-- `maa import <file> [-t <type>]`：匯入配置檔案，`file` 是配置檔案的路徑。`-t` 選項可以指定配置檔案的類型，如 `cli`, `profile`, `infrast` 等。
+::: collapse
+
+- 列出所有可用的任務
+
+  ```shell
+  maa list
+  ```
+
+- 獲取特定目錄的路徑
+  ```shell
+  maa dir <dir>
+  ```
+  例如 `maa dir config` 可以用來獲取配置目錄的路徑。
+
+- 獲取版本資訊
+
+  ```shell
+  maa version
+  ```
+
+- 轉換檔案格式
+
+  ```shell
+  maa convert <input> [output]
+  ```
+
+- 產生自動補全指令碼
+
+  ```shell
+  maa complete <shell>
+  ```
+
+- 獲取目前活動資訊
+
+  ```shell
+  maa activity [client]
+  ```
+  `client` 是客戶端類型，預設為 `Official`。
+
+- 清除快取
+  
+  ```shell
+  maa cleanup
+  ```
+
+- 匯入配置檔案
+
+  ```shell
+  maa import <file> [-t <type>]
+  ```
+  `file` 是配置檔案的路徑。`-t` 選項可以指定配置檔案的類型，如 `cli`, `profile`, `infrast` 等。
+
+:::
 
 更多指令的使用方法可以透過 `maa help` 查看，具體指令的使用方法可以透過 `maa help <command>` 查看。
 
