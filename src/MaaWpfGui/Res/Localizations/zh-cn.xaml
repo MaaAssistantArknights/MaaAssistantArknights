@@ -729,6 +729,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遗闻</system:String>
     <system:String x:Key="ReclamationThemeRelaunchAnchor">重启锚点</system:String>
+    <system:String x:Key="ReclamationStage">关卡选择</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过组装支援道具刷生息点数</system:String>
     <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
@@ -1475,21 +1476,36 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="AnnouncementNotFinishedConfirm3">还点</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-重启锚点：
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
+收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 2 分 10 秒
 
- 收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 2 分 10 秒
+干员要求：无
 
- 前置步骤（手动完成一次）：
-  1. 手动进入 RA-1，完成新手教程，直到回到大地图
-  2. 之后每次任务均可在 RA-1 右下角出现“开启建设”时启动
+前置步骤：推进主线至 RA-1 已通关状态
 
- 注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、大型兽栏等
+在大地图打开 RA-1，右下角出现“开启建设”时启动任务，即可自动循环
 
- 任务流程：
-  自动执行精耕细作、建设、交付资源、结算循环
+注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、大型兽栏等
+
+任务流程：自动执行精耕细作、建设、交付资源、结算循环
     </system:String>
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
+收益参考：每把约 500 代币 + 统筹点数，单轮耗时约 3 分钟
+
+干员要求：圣聆初雪（可以借助战）
+
+前置步骤：
+1. 推进主线至 RA-15 已通关状态
+2. 如果自己有圣聆初雪，请手动打开关卡并配队一次，保证为五先锋（无练度要求）+ 初雪，且初雪位于六号位即最后一个选的人，然后保存配队并退出关卡
+3. 如果使用助战圣聆初雪，请保证圣聆初雪在术士助战首页（考虑挚友）
+
+在大地图打开 RA-15，右下角出现“开启建设”时启动任务，即可自动循环
+
+注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、大型兽栏等
+
+任务流程：用圣聆初雪完成 60 杀任务
+    </system:String>
+    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
 目前生息演算的支持仍处于中期阶段，使用时请注意以下几点：
 
  通过开局刷点数：(小心已有存档被删除)

@@ -30,6 +30,16 @@
                 SelectedValuePath="Value" />
             <ComboBox
                 Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationStage}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                ItemsSource="{Binding ReclamationStageList}"
+                SelectedValue="{Binding ReclamationStage}"
+                SelectedValuePath="Value"
+                Visibility="{c:Binding 'ReclamationTheme == task:ReclamationTheme.RelaunchAnchor',
+                                      Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}" />
+            <ComboBox
+                Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
