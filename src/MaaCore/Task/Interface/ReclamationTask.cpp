@@ -45,9 +45,8 @@ bool asst::ReclamationTask::set_params(const json::value& params)
     m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", INT_MAX);
 
     if (theme == ReclamationTheme::RelaunchAnchor) {
-        const std::string task_name = m_config_ptr->get_stage() == RelaunchAnchorStage::RA15
-                                          ? "RelaunchAnchor@RA@ProsperityNoSave-RA15"
-                                          : theme + "@RA@ProsperityNoSave";
+        const int stage = static_cast<int>(m_config_ptr->get_stage());
+        const std::string task_name = theme + "@RA@PNS-RA" + std::to_string(stage) + "-Prepare";
         m_reclamation_task_ptr->set_tasks({ task_name });
         m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);
     }
