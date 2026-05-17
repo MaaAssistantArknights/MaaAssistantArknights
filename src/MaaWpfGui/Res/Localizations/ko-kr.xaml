@@ -1492,6 +1492,8 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
 
 작업 흐름：정경세작, 건설, 자원 납품, 결제를 자동 실행</system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
+⚠️ 이 전략은 아직 완전히 개선되지 않았으며, 실행 중 문제가 발생할 수 있습니다
+
 수익 참고: 회당 약 500 토큰 + 통괄 포인트, 소요 시간 약 3분
 
 오퍼레이터 요구 사항: 성령초설(서포트 유닛 사용 가능)

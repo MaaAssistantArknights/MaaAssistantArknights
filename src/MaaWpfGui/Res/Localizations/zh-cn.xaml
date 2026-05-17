@@ -1492,6 +1492,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 任务流程：自动执行精耕细作、建设、交付资源、结算循环
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
+⚠️ 该策略尚未经完善，运行过程中可能遇到问题
+
 收益参考：每把约 500 代币 + 统筹点数，单轮耗时约 3 分钟
 
 干员要求：圣聆初雪（可以借助战）
