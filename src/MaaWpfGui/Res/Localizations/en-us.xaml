@@ -1475,9 +1475,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="AnnouncementNotFinishedConfirm3">Still clicking</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-        <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA1" xml:space="preserve">
-Relaunch Anchor:
-
+    <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA1" xml:space="preserve">
 Reward estimate: ~159 tokens + coordination points per run, ~2 min 10 sec per round
 
 Operator requirement: None
@@ -1491,20 +1489,17 @@ Note: If you have unlocked technologies related to starting with extra items, pl
 Task flow: Automatically executes farming, construction, resource delivery, and settlement loop
     </system:String>
     <system:String x:Key="ReclamationEarlyTipRelaunchAnchorRA15" xml:space="preserve">
-Relaunch Anchor:
-
 Reward estimate: ~500 tokens + coordination points per run, ~3 min per round
 
 Operator requirement: Saintly First Snow (support unit allowed)
 
 Prerequisite:
     1. Clear RA-15 in the main story
-  2. After that, the task can be started when "Start Construction" appears at the bottom-right of RA-15
-  3. If you have Holy Listener Priscilla, you can form your own squad with 5 Vanguards + Priscilla (pick her last), save the lineup once; the program will skip support recruitment when slot 6 is Priscilla, saving ~20 seconds
+    2. If you have Saintly First Snow, manually open RA-15 and form a squad once. Use 5 Vanguards (no level requirement) + Saintly First Snow, pick her last, then save the squad and exit the stage
+    3. If you use support Saintly First Snow, make sure Saintly First Snow is on the first page of the Caster support list (consider adding as friend)
 
  Note:
   If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Large Animal Pens, etc.
-  When using support, ensure Holy Listener Priscilla is on the first page of Caster support list (consider adding as friend)
 
  Task flow:
   Automatically use support operator to execute 60-kill mission
