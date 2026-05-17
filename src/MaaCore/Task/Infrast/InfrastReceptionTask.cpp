@@ -363,7 +363,7 @@ bool asst::InfrastReceptionTask::shift()
         }
 
         if (is_use_custom_opers()) {
-            if (swipe_and_select_custom_opers()) {
+            if (swipe_and_select_custom_opers_by_role()) {
                 break;
             }
             swipe_to_the_left_of_operlist();

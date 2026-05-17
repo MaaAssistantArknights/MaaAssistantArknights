@@ -35,7 +35,7 @@ bool asst::InfrastControlTask::_run()
             return false;
         }
         if (is_use_custom_opers()) {
-            bool name_select_ret = swipe_and_select_custom_opers();
+            bool name_select_ret = swipe_and_select_custom_opers_by_role();
             if (name_select_ret) {
                 break;
             }

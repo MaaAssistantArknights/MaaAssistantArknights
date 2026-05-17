@@ -64,7 +64,7 @@ bool asst::InfrastDormTask::_run()
 
         auto origin_room_config = current_room_config();
         if (is_use_custom_opers()) {
-            swipe_and_select_custom_opers(true);
+            swipe_and_select_custom_opers_by_role(true);
         }
         else {
             click_clear_button(); // 宿舍若未指定干员，则清空后按照原约定逻辑选择干员

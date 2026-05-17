@@ -4,6 +4,8 @@
 #include "Common/AsstInfrastDef.h"
 #include "Common/AsstTypes.h"
 #include "Task/AbstractTask.h"
+#include "Config/Miscellaneous/BattleDataConfig.h"
+
 
 namespace asst
 {
@@ -55,6 +57,8 @@ protected:
     void set_available_oper_for_group(std::set<std::string> opers);
 
     bool swipe_and_select_custom_opers(bool is_dorm_order = false);
+    bool select_in_current_role(int& swipe_times);
+    bool swipe_and_select_custom_opers_by_role(bool is_dorm_order = false);
     bool select_custom_opers(std::vector<std::string>& partial_result);
     // 扫描当前页满足心情条件的所有干员名
     bool get_opers(std::vector<std::string>& result, double mood = 1);
@@ -86,5 +90,10 @@ protected:
     int m_cur_facility_index = 0;
     bool m_is_custom = false;
     infrast::CustomFacilityConfig m_custom_config;
+
+private:
+    static std::unordered_map<std::string, std::string> m_oper_role_map;
+    static void load_oper_role_map();
+    static std::string role_to_suffix(battle::Role role);
 };
 } // namespace asst

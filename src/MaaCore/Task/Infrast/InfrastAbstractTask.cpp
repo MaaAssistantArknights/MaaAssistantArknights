@@ -17,12 +17,19 @@
 #include "Vision/RegionOCRer.h"
 #include <ranges>
 
+std::unordered_map<std::string, std::string> asst::InfrastAbstractTask::m_oper_role_map;
+
 asst::InfrastAbstractTask::InfrastAbstractTask(
     const AsstCallback& callback,
     Assistant* inst,
     std::string_view task_chain) :
     AbstractTask(callback, inst, task_chain)
 {
+    static bool loaded = false;
+    if (!loaded) {
+        load_oper_role_map();
+        loaded = true;
+    }
     m_retry_times = TaskRetryTimes;
 }
 
@@ -314,7 +321,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
 
     // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
     // 因为后面autofill要按工作状态排序，所以直接按工作状态排序好了
-    // 然后滑动到最左边，清空一下，在走后面的识别+按序点击逻辑
+    // 然后滑动到最左边，清空一下，再走后面的识别+按序点击逻辑
     if (is_dorm_order) {
         ProcessTask(*this, { "InfrastOperListTabMoodDoubleClick" }).run();
         sleep(200);
@@ -336,6 +343,237 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     if (!room_config.names.empty() || (!is_dorm_order && !select_opers_review(origin_room_config))) {
         // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
         current_room_config() = std::move(origin_room_config);
+        return false;
+    }
+
+    return true;
+}
+
+// 将 battle::Role 枚举转为 tasks.json 中的职业后缀（首字母大写）
+std::string asst::InfrastAbstractTask::role_to_suffix(battle::Role role)
+{
+    switch (role) {
+    case battle::Role::Caster:
+        return "Caster";
+    case battle::Role::Medic:
+        return "Medic";
+    case battle::Role::Pioneer:
+        return "Pioneer";
+    case battle::Role::Sniper:
+        return "Sniper";
+    case battle::Role::Special:
+        return "Special";
+    case battle::Role::Support:
+        return "Support";
+    case battle::Role::Tank:
+        return "Tank";
+    case battle::Role::Warrior:
+        return "Warrior";
+    default:
+        return {};
+    }
+}
+
+void asst::InfrastAbstractTask::load_oper_role_map()
+{
+    const auto& all_chars = BattleData.get_all_chars(); // 引用全局实例
+    for (const auto& [id, oper_ptr] : all_chars) {
+        if (oper_ptr->role != battle::Role::Drone) {
+            std::string suffix = role_to_suffix(oper_ptr->role);
+            if (!suffix.empty()) {
+                m_oper_role_map.emplace(oper_ptr->name, std::move(suffix));
+            }
+        }
+    }
+    Log.info("Oper role map built from BattleDataConfig, entries:", m_oper_role_map.size());
+}
+
+bool asst::InfrastAbstractTask::select_in_current_role(int& swipe_times)
+{
+    auto& room_config = current_room_config();
+
+    std::vector<std::string> pre_partial_result;
+    bool retried = false;
+    bool pre_result_no_changes = false;
+    //int swipe_times = 0;
+
+    while (true) {
+        if (need_exit()) {
+            return false;
+        }
+        std::vector<std::string> partial_result;
+        // 选择自定义干员，同时输出每一页的干员列表
+        if (!select_custom_opers(partial_result)) {
+            return false;
+        }
+        // 选完人 / 名单已空
+        if (static_cast<size_t>(room_config.selected) >= max_num_of_opers() ||
+            (room_config.names.empty() && room_config.candidates.empty())) {
+            break;
+        }
+        if (partial_result == pre_partial_result) {
+            if (pre_result_no_changes) {
+                Log.warn("partial result is not changed, reset the page");
+                if (retried) {
+                    Log.error("already retrying");
+                    break;
+                }
+                swipe_to_the_left_of_operlist(swipe_times + 1);
+                swipe_times = 0;
+                retried = true;
+            }
+            else {
+                pre_result_no_changes = true;
+            }
+        }
+        else {
+            pre_result_no_changes = false;
+        }
+        pre_partial_result = partial_result;
+        swipe_of_operlist();
+        ++swipe_times;
+    }
+    return true;
+}
+
+/// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
+/// @brief 修改：选择定制干员时，改为先切换到对应职业，再在同职业干员中选择
+/// @param is_dorm_order 当前房间是不是宿舍
+bool asst::InfrastAbstractTask::swipe_and_select_custom_opers_by_role(bool is_dorm_order)
+{
+    LogTraceFunction;
+
+    Log.info("m_oper_role_map size:", m_oper_role_map.size());
+
+    auto& room_config = current_room_config();
+    auto origin_room_config = room_config;
+    {
+        json::value cb_info = basic_info_with_what("CustomInfrastRoomOperators");
+        auto& details = cb_info["details"];
+        details["names"] = json::array(room_config.names);
+        details["candidates"] = json::array(room_config.candidates);
+        callback(AsstMsg::SubTaskExtraInfo, cb_info);
+    }
+
+    if (!is_dorm_order) {
+        ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
+    }
+    else {
+        ProcessTask(*this, { "InfrastOperListTabMoodDoubleClickWhenUnclicked" }).run();
+    }
+
+    if (max_num_of_opers() > 1) {
+        click_clear_button(); // 先排序后清空，加速干员变化不大时的选择速度
+    }
+    
+    // 用于排序
+    std::vector<std::string> opers_order = room_config.names;
+    opers_order.insert(opers_order.end(), room_config.candidates.cbegin(), room_config.candidates.cend());
+
+    int swipe_times = 0;
+
+    // 按职业分组
+    std::unordered_map<std::string, std::vector<std::string>> role_to_names;
+    std::vector<std::string> unknown_names;
+
+    for (const auto& name : opers_order) {
+        Log.info("Looking for:", name, "| len:", name.size());
+        if (name == "阿米娅") {
+            unknown_names.push_back(name);
+            continue;
+        }
+        auto it = m_oper_role_map.find(name);
+        if (it != m_oper_role_map.end()) {
+            role_to_names[it->second].push_back(name);
+        }
+        else {
+            Log.info("encounter unknown_name:", name);
+            unknown_names.push_back(name);
+        }
+    }
+
+    std::vector<std::string> unselected_names; // 收集未选中的必选干员
+    room_config.candidates.clear();            // 临时清空，防止误选候选
+
+    // 展开职业列表
+    ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
+    // 依次处理每个职业
+    for (auto& [role, names] : role_to_names) {
+        if (need_exit()) {
+            return false;
+        }
+
+        Log.info("Using role filter, current role:", role);
+
+        // 点击职业图标
+        if (!ProcessTask(*this, { "BattleQuickFormationRole-" + role }).run()) {
+            Log.warn("Failed to switch to role:", role, ", adding to unselected_names");
+            unknown_names.insert(unknown_names.end(), names.begin(), names.end());
+            continue;
+        }
+        else {
+            Log.info("Switch to role page:", role);
+        }
+
+        // 临时设置要选的名单（仅限该职业）
+        room_config.names = std::move(names);
+        // 选择干员
+        select_in_current_role(swipe_times);
+
+        // 收集该职业未被选中的干员（可能因为满员或未找到）
+        unselected_names.insert(unselected_names.end(), room_config.names.begin(), room_config.names.end());
+        room_config.names.clear();
+
+        // 如果已选满，提前结束
+        if (static_cast<size_t>(room_config.selected) >= max_num_of_opers()) {
+            break;
+        }
+    }
+    // 基建默认收起职业列表
+    close_quick_formation_expand_role();
+
+    // 全体兜底：未知职业 + 未选中干员
+    unselected_names.insert(unselected_names.end(), unknown_names.begin(), unknown_names.end());
+
+    if (!unselected_names.empty() || !origin_room_config.candidates.empty()) {
+        Log.info("add fallback opers");
+        // 切换回“全部”标签
+        ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+
+        room_config.names = std::move(unselected_names);
+        room_config.candidates = origin_room_config.candidates; // 恢复candidates
+
+        select_in_current_role(swipe_times); // 最后一次全体查找
+    }
+
+    // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
+    // 因为后面autofill要按工作状态排序，所以直接按工作状态排序好了
+    // 然后滑动到最左边，清空一下，再走后面的识别+按序点击逻辑
+    if (is_dorm_order) {
+        ProcessTask(*this, { "InfrastOperListTabMoodDoubleClick" }).run();
+        sleep(200);
+    }
+    else {
+        ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
+    }
+
+    // 滑动回最左（如果之前有滑动）
+    if (swipe_times) {
+        swipe_to_the_left_of_operlist(swipe_times + 1);
+        swipe_times = 0;
+    }
+
+    // 如果只选了一个人没必要排序
+    if (room_config.sort && room_config.selected > 1) {
+        click_clear_button();
+        order_opers_selection(opers_order);
+    }
+
+    // 复核
+    if (!room_config.names.empty() || (!is_dorm_order && !select_opers_review(origin_room_config))) {
+        // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
+        current_room_config() = std::move(origin_room_config);
+        Log.warn("check failed");
         return false;
     }
 
@@ -609,6 +847,8 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
 void asst::InfrastAbstractTask::close_quick_formation_expand_role() const
 {
     LogTraceFunction;
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR", "Stop" }).run();
+    // 这里在收起前先按ALL，保证收起后右上角为“职业”而非具体的职业名
     ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
 }
 
@@ -715,7 +955,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
               "BattleQuickFormationRole-Special",
               "BattleQuickFormationRole-Support" })
             .run();
-        ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+        //ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
         // 基建默认收起
         close_quick_formation_expand_role();
     }
