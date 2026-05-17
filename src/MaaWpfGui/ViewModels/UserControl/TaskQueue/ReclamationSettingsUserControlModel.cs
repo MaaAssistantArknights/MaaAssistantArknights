@@ -91,6 +91,20 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     }
 
     /// <summary>
+    /// Gets a value indicating whether 当前模式为有存档模式（仅对 Tales 主题有意义）
+    /// </summary>
+    [PropertyDependsOn(nameof(ReclamationTheme), nameof(ReclamationMode))]
+    public bool IsProsperityInSaveMode =>
+        ReclamationTheme == Theme.Tales && ReclamationMode == (int)TalesMode.ProsperityInSave;
+
+    /// <summary>
+    /// Gets a value indicating whether 当前模式为无存档模式（仅对 Tales 主题有意义）
+    /// </summary>
+    [PropertyDependsOn(nameof(ReclamationTheme), nameof(ReclamationMode))]
+    public bool IsProsperityNoSaveMode =>
+        ReclamationTheme == Theme.Tales && ReclamationMode == (int)TalesMode.ProsperityNoSave;
+
+    /// <summary>
     /// Gets or sets 要组装的支援道具
     /// </summary>
     public string ReclamationToolToCraft

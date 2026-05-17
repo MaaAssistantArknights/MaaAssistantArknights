@@ -12,8 +12,8 @@ bool asst::ReclamationCraftTaskPlugin::load_params(const json::value& params)
     LogTraceFunction;
 
     // 仅在沙洲遗闻有存档模式下启用
-    if (!std::holds_alternative<TalesMode>(m_config->get_mode()) ||
-        std::get<TalesMode>(m_config->get_mode()) != TalesMode::ProsperityInSave) {
+    const auto* tales_mode = std::get_if<TalesMode>(&m_config->get_mode());
+    if (!tales_mode || *tales_mode != TalesMode::ProsperityInSave) {
         return false;
     }
 
