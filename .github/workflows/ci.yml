@@ -91,7 +91,7 @@ jobs:
         uses: actions/upload-artifact@v7
         if: startsWith(github.ref, 'refs/tags/v')
         with:
-          name: changelog
+          archive: false
           path: CHANGELOG.md
 
   windows:
@@ -206,7 +206,7 @@ jobs:
       - name: Upload PDB files
         uses: actions/upload-artifact@v7
         with:
-          name: MAAComponent-DebugSymbol-win-${{ matrix.arch }}
+          archive: false
           path: install/MAAComponent-DebugSymbol-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip
 
       - name: Organize install files
@@ -228,7 +228,7 @@ jobs:
       - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v7
         with:
-          name: MAA-win-${{ matrix.arch }}
+          archive: false
           path: install/MAA-*.zip
 
   ubuntu:
@@ -418,7 +418,7 @@ jobs:
       - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v7
         with:
-          name: MAAComponent-android-${{ matrix.arch }}
+          archive: false
           path: MAAComponent-*.tar.gz
 
   macOS-Core:
@@ -558,7 +558,7 @@ jobs:
       - name: Upload MAA runtime to GitHub
         uses: actions/upload-artifact@v7
         with:
-          name: MAA-macos-runtime-universal
+          archive: false
           path: runtime/MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal.zip
 
       - name: Build XCFramework
