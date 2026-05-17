@@ -179,7 +179,6 @@
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [1076, 577, 72, 44],
-        "postDelay": 20000,
         "next": ["#self", "RelaunchAnchor@RA@WaitDeliverWood"]
     },
     "RelaunchAnchor@RA@WaitDeliverWood": {
@@ -191,8 +190,8 @@
         "doc": "步骤 21：OCR 识别 <交付木材> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["交付木材8"],
-        "ocrReplace": [["交付木材.*(8|9|10|11|12|13|14|15|16|17|18|19|20)", "交付木材8"]],
+        "text": ["交付木材8+"],
+        "ocrReplace": [["交付木材.*(8|9|\\d{2,3})", "交付木材8+"]],
         "roi": [80, 235, 120, 35],
         "next": ["RelaunchAnchor@RA@WaitWoodDialogue"]
     },
