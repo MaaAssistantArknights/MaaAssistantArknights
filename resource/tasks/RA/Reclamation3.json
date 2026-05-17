@@ -1,9 +1,4 @@
 {
-    "RelaunchAnchor@RA@ProsperityNoSave": {
-        "doc": "生息演算「重启锚点」辅助建设模式刷分入口；前置条件：手动过完一次 RA-1 新手教程，切换为辅助建设模式（统筹系统右侧第二个图标）",
-        "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@PNS-RA1-Prepare", "RelaunchAnchor@RA@PNS-RA1-OpenConstruction", "RelaunchAnchor@RA@PNS-RA15-Prepare"]
-    },
     "RelaunchAnchor@RA@PNS-RA1-Entry": {
         "doc": "RA-1 入口：兼容关卡列表与已进入关卡后的不同起始界面",
         "algorithm": "JustReturn",
