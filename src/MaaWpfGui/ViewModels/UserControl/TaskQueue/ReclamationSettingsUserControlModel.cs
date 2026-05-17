@@ -170,9 +170,13 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
             var theme = ReclamationTheme;
             if (theme == Theme.RelaunchAnchor)
             {
-                return ReclamationStage == Stage.RA15
-                    ? LocalizationHelper.GetString("ReclamationEarlyTipRelaunchAnchorRA15")
-                    : LocalizationHelper.GetString("ReclamationEarlyTipRelaunchAnchor");
+                var stageTipKey = $"ReclamationEarlyTipRelaunchAnchorRA{(int)ReclamationStage}";
+                if (LocalizationHelper.TryGetString(stageTipKey, out var stageTip))
+                {
+                    return stageTip;
+                }
+
+                return LocalizationHelper.GetString("ReclamationEarlyTipRelaunchAnchor");
             }
             return LocalizationHelper.GetString("ReclamationEarlyTip");
         }
