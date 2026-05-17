@@ -193,7 +193,7 @@
         "action": "ClickSelf",
         "text": ["交付木材8"],
         "ocrReplace": [["交付木材.*(8|9|10|11|12|13|14|15|16|17|18|19|20)", "交付木材8"]],
-        "roi": [80, 235, 110, 35],
+        "roi": [80, 235, 120, 35],
         "next": ["RelaunchAnchor@RA@WaitWoodDialogue"]
     },
     "RelaunchAnchor@RA@WaitWoodDialogue": {
