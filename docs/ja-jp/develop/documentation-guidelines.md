@@ -23,12 +23,21 @@ icon: jam:write-f
 
 このテーマでは、ヒント、ノート、情報、注意、警告、詳細などのカスタムコンテナをサポートしており、これらの機能を利用して特定のコンテンツを強調することができます。
 
+コンテナ内にコンテナをネストする場合、親コンテナは子コンテナよりもコロン `:` を1つ多く記述する必要があります。
+
 コンテナの使用方法：
 
 ```markdown
 ::: [コンテナの種類] [コンテナのタイトル（オプション）]
 書きたい内容
 :::
+```
+
+または GitHub スタイルの構文を使用する方法：
+
+```markdown
+> [!コンテナの種類]
+> 書きたい内容
 ```
 
 受け入れられるコンテナの内容とデフォルトのタイトルは次のとおりです：
@@ -39,6 +48,7 @@ icon: jam:write-f
 - `warning` 注意
 - `danger` 警告
 - `details` 詳細
+- `demo-wrapper` ==特殊なコンテナ==
 
 ### コンテナの例
 
@@ -65,6 +75,190 @@ icon: jam:write-f
 ::: details
 これは詳細のコンテナです
 :::
+
+::: demo-wrapper
+これは特殊なコンテナです
+:::
+
+## マーカー
+
+マーカー構文を使用して、強調したい内容にマークを付けることができます。
+
+使用方法：`==マーカーの内容=={マーカーの色（オプション）}` の構文でマークを付けます。両端にスペースが必要な点に注意してください。
+
+**入力：**
+
+```markdown
+MaaAssistantArknights は ==たくさんの豚== によって開発されました
+```
+
+**出力：**
+
+MaaAssistantArknights は ==たくさんの豚== によって開発されました
+
+テーマには以下のカラースキームが組み込まれています：
+
+- **default**: `==Default==` - ==Default==
+- **info**: `==Info=={.info}` - ==Info=={.info}
+- **note**: `==Note=={.note}` - ==Note=={.note}
+- **tip**: `==Tip=={.tip}` - ==Tip=={.tip}
+- **warning**: `==Warning=={.warning}` - ==Warning=={.warning}
+- **danger**: `==Danger=={.danger}` - ==Danger=={.danger}
+- **caution**: `==Caution=={.caution}` - ==Caution=={.caution}
+- **important**: `==Important=={.important}` - ==Important=={.important}
+
+## 隠しテキスト
+
+何らかの理由でドキュメントの一部を一時的に隠す必要がある場合、隠しテキスト機能を使用できます。
+
+`!!隠したい内容!!{設定（オプション）}` の構文で使用でき、デフォルトの効果は以下の通りです：
+
+!!なんかニコニコ大百科（仮）を読んでる気がする（取り消し線!!
+
+以下の設定が使用できます：
+
+::: demo-wrapper
+入力：
+
+```markdown
++ マスクエフェクト + マウスホバー：!!マウスホバーで見えます!!{.mask .hover}
++ マスクエフェクト + クリック：!!クリックで見えます!!{.mask .click}
++ テキストぼかしエフェクト + マウスホバー：!!マウスホバーで見えます!!{.blur .hover}
++ テキストぼかしエフェクト + クリック：!!クリックで見えます!!{.blur .click}
+```
+
+出力：
+
+- マスクエフェクト + マウスホバー：!!マウスホバーで見えます!!{.mask .hover}
+- マスクエフェクト + クリック：!!クリックで見えます!!{.mask .click}
+- テキストぼかしエフェクト + マウスホバー：!!マウスホバーで見えます!!{.blur .hover}
+- テキストぼかしエフェクト + クリック：!!クリックで見えます!!{.blur .click}
+
+:::
+
+## ステップ
+
+ステップバイステップのチュートリアルを書くとき、番号付きリストはネストによって階層感を失うことがあります。そのような場合、`steps` コンテナが最善の選択です。
+
+入力：
+
+````markdown
+:::: steps
+1. ステップ 1
+
+   ```ts
+   console.log('Hello World!')
+   ```
+
+2. ステップ 2
+
+   ステップ 2 の関連内容はこちら
+
+3. ステップ 3
+
+   ::: tip
+   ヒントコンテナ
+   :::
+
+4. 終わり
+::::
+````
+
+出力：
+
+:::: steps
+
+1. ステップ 1
+
+   ```ts
+   console.log('Hello World!')
+   ```
+
+2. ステップ 2
+
+   ステップ 2 の関連内容はこちら
+
+3. ステップ 3
+
+   ::: tip
+   ヒントコンテナ
+   :::
+
+4. 終わり
+
+::::
+
+## スマート画像コンテナ
+
+テーマが提供する機能をベースに画像コンテナをラッパーしました。このコンテナはライト/ダークテーマに応じて対応する画像を自動的に表示し、自動レイアウトをサポートします。
+
+Markdown 本文で `<ImageGrid>` コンポーネントを使用してこのメソッドを呼び出すことができます。具体的な構文と効果は以下の通りです：
+
+::: demo-wrapper
+
+構文：
+
+```markdown
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/readme/1-light.png',
+    dark: 'images/zh-cn/readme/1-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/2-light.png',
+    dark: 'images/zh-cn/readme/2-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/3-light.png',
+    dark: 'images/zh-cn/readme/3-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/4-light.png',
+    dark: 'images/zh-cn/readme/4-dark.png'
+  }
+]" />
+```
+
+レンダリング結果：
+
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/readme/1-light.png',
+    dark: 'images/zh-cn/readme/1-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/2-light.png',
+    dark: 'images/zh-cn/readme/2-dark.png'
+  }
+]" />
+
+:::
+
+## フィールドコンテナ
+
+この構文はやや複雑なため、[公式ドキュメント](https://theme-plume.vuejs.press/guide/markdown/field/)を参照して使用してください。
+
+効果は以下の通りです：
+
+:::: field-group
+::: field name="theme" type="ThemeConfig" required default="{ base: '/' }"
+テーマ設定
+:::
+
+::: field name="enabled" type="boolean" optional default="true"
+有効かどうか
+:::
+
+::: field name="callback" type="(...args: any[]) => void" optional default="() => {}"
+<Badge type="tip" text="v1.0.0 追加"  />
+コールバック関数
+:::
+
+::: field name="other" type="string" deprecated
+<Badge type="danger" text="v0.9.0 廃止"  />
+廃止されたプロパティ
+:::
+::::
 
 ## アイコン
 

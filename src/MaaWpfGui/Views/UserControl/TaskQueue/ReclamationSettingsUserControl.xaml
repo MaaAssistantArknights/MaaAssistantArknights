@@ -30,14 +30,24 @@
                 SelectedValuePath="Value" />
             <ComboBox
                 Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource Strategy}"
+                hc:InfoElement.Title="{DynamicResource ReclamationMode}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
-                ItemsSource="{Binding ReclamationModeList}"
+                ItemsSource="{Binding ReclamationTalesModeList}"
                 SelectedValue="{Binding ReclamationMode}"
-                Visibility="{c:Binding 'ReclamationTheme != task:ReclamationTheme.RelaunchAnchor',
-                                      Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}"
-                SelectedValuePath="Value" />
+                SelectedValuePath="Value"
+                Visibility="{c:Binding 'ReclamationTheme == task:ReclamationTheme.Tales',
+                                       Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationMode}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                ItemsSource="{Binding ReclamationRelaunchAnchorModeList}"
+                SelectedValue="{Binding ReclamationMode}"
+                SelectedValuePath="Value"
+                Visibility="{c:Binding 'ReclamationTheme == task:ReclamationTheme.RelaunchAnchor',
+                                       Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}" />
             <controls:TextBlock
                 Margin="5,10,5,10"
                 Style="{StaticResource TextBlockDefault}"
@@ -46,15 +56,14 @@
         </StackPanel>
 
         <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <StackPanel Visibility="{c:Binding 'ReclamationTheme != task:ReclamationTheme.RelaunchAnchor',
-                                              Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}">
+            <StackPanel Visibility="{c:Binding 'ReclamationTheme == task:ReclamationTheme.Tales', Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}">
                 <TextBox
                     Margin="0,10"
                     VerticalContentAlignment="Center"
                     d:IsEnabled="True"
                     hc:InfoElement.Placeholder="{DynamicResource ReclamationToolToCraftPlaceholder}"
                     hc:InfoElement.Title="{DynamicResource ReclamationToolToCraftTip}"
-                    IsEnabled="{c:Binding 'ReclamationMode == task:ReclamationMode.Archive',
+                    IsEnabled="{c:Binding IsProsperityInSaveMode,
                                           Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}"
                     Text="{Binding ReclamationToolToCraft}" />
                 <ComboBox
@@ -62,7 +71,7 @@
                     d:IsEnabled="True"
                     hc:InfoElement.Title="{DynamicResource ReclamationIncrementMode}"
                     DisplayMemberPath="Display"
-                    IsEnabled="{c:Binding 'ReclamationMode == task:ReclamationMode.Archive',
+                    IsEnabled="{c:Binding IsProsperityInSaveMode,
                                           Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}"
                     IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                     ItemsSource="{Binding ReclamationIncrementModeList}"
@@ -72,7 +81,7 @@
                     Margin="0,5"
                     d:IsEnabled="True"
                     hc:InfoElement.Title="{DynamicResource ReclamationMaxCraftCountPerRound}"
-                    IsEnabled="{c:Binding 'ReclamationMode == task:ReclamationMode.Archive',
+                    IsEnabled="{c:Binding IsProsperityInSaveMode,
                                           Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}"
                     Minimum="0"
                     Value="{Binding ReclamationMaxCraftCountPerRound}" />
@@ -80,7 +89,7 @@
                     Margin="0,10"
                     d:Visibility="Visible"
                     IsChecked="{Binding ReclamationClearStore}"
-                    Visibility="{c:Binding 'ReclamationMode == task:ReclamationMode.NoArchive',
+                    Visibility="{c:Binding IsProsperityNoSaveMode,
                                            Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}">
                     <TextBlock
                         Block.TextAlignment="Left"

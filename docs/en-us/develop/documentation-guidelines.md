@@ -23,12 +23,21 @@ Our documentation is built on [vuepress](https://github.com/vuejs/vuepress) and 
 
 This theme provides support for custom containers such as tips, notes, info, warnings, alerts, and details. We can utilize this feature to emphasize certain content.
 
+Note that if containers are nested within containers, the parent container should use one more colon `:` than the child container to differentiate them.
+
 Usage of containers:
 
 ```markdown
 ::: [Container Type] [Container Title (optional)]
 Content you want to write
 :::
+```
+
+Or use GitHub-style syntax:
+
+```markdown
+> [!Container Type]
+> Content you want to write
 ```
 
 Accepted container types and their default titles are as follows:
@@ -39,6 +48,7 @@ Accepted container types and their default titles are as follows:
 - `warning` Warning
 - `danger` Caution
 - `details` Details
+- `demo-wrapper` ==Special Container==
 
 ### Container Examples
 
@@ -65,6 +75,190 @@ This is a danger container
 ::: details
 This is a details container
 :::
+
+::: demo-wrapper
+This is a very special container
+:::
+
+## Markers
+
+You can use the marker syntax to highlight content and emphasize key points.
+
+Usage: Use `==content=={color (optional)}` syntax to mark text. Note that spaces are required on both sides of the marks.
+
+**Input:**
+
+```markdown
+MaaAssistantArknights is developed by ==many pigs==
+```
+
+**Output:**
+
+MaaAssistantArknights is developed by ==many pigs==
+
+The theme also has the following built-in color schemes:
+
+- **default**: `==Default==` - ==Default==
+- **info**: `==Info=={.info}` - ==Info=={.info}
+- **note**: `==Note=={.note}` - ==Note=={.note}
+- **tip**: `==Tip=={.tip}` - ==Tip=={.tip}
+- **warning**: `==Warning=={.warning}` - ==Warning=={.warning}
+- **danger**: `==Danger=={.danger}` - ==Danger=={.danger}
+- **caution**: `==Caution=={.caution}` - ==Caution=={.caution}
+- **important**: `==Important=={.important}` - ==Important=={.important}
+
+## Hidden Text
+
+For some reason, you may need to temporarily black out a section of the document. In this case, you can use the hidden text feature.
+
+You can use the `!!content!!{config (optional)}` syntax, and the default effect is as follows:
+
+!!I always feel like I'm reading MoeGirl (strikethrough!!
+
+The following configurations are available:
+
+::: demo-wrapper
+Input:
+
+```markdown
++ Mask effect + Mouse hover: !!Mouse hover to see me!!{.mask .hover}
++ Mask effect + Click: !!Click to see me!!{.mask .click}
++ Text blur effect + Mouse hover: !!Mouse hover to see me!!{.blur .hover}
++ Text blur effect + Click: !!Click to see me!!{.blur .click}
+```
+
+Output:
+
+- Mask effect + Mouse hover: !!Mouse hover to see me!!{.mask .hover}
+- Mask effect + Click: !!Click to see me!!{.mask .click}
+- Text blur effect + Mouse hover: !!Mouse hover to see me!!{.blur .hover}
+- Text blur effect + Click: !!Click to see me!!{.blur .click}
+
+:::
+
+## Steps
+
+When writing a step-by-step tutorial, ordered lists may lose their hierarchy due to nesting. In this case, the `steps` container is the best choice.
+
+Input:
+
+````markdown
+:::: steps
+1. Step 1
+
+   ```ts
+   console.log('Hello World!')
+   ```
+
+2. Step 2
+
+   Here is the content related to Step 2
+
+3. Step 3
+
+   ::: tip
+   Tip container
+   :::
+
+4. End
+::::
+````
+
+Output:
+
+:::: steps
+
+1. Step 1
+
+   ```ts
+   console.log('Hello World!')
+   ```
+
+2. Step 2
+
+   Here is the content related to Step 2
+
+3. Step 3
+
+   ::: tip
+   Tip container
+   :::
+
+4. End
+
+::::
+
+## Smart Image Container
+
+We have wrapped an image container based on the functionality provided by the theme. This container can automatically display the corresponding image in light and dark themes, while supporting automatic layout.
+
+You can use the `<ImageGrid>` component in the markdown body to invoke this method. The specific syntax and effects are as follows:
+
+::: demo-wrapper
+
+This is the syntax:
+
+```markdown
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/readme/1-light.png',
+    dark: 'images/zh-cn/readme/1-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/2-light.png',
+    dark: 'images/zh-cn/readme/2-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/3-light.png',
+    dark: 'images/zh-cn/readme/3-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/4-light.png',
+    dark: 'images/zh-cn/readme/4-dark.png'
+  }
+]" />
+```
+
+This is the rendered result:
+
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/readme/1-light.png',
+    dark: 'images/zh-cn/readme/1-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/2-light.png',
+    dark: 'images/zh-cn/readme/2-dark.png'
+  }
+]" />
+
+:::
+
+## Field Container
+
+This syntax is more complex. Please refer to the [official documentation](https://theme-plume.vuejs.press/guide/markdown/field/) for usage.
+
+The effects are as follows:
+
+:::: field-group
+::: field name="theme" type="ThemeConfig" required default="{ base: '/' }"
+Theme configuration
+:::
+
+::: field name="enabled" type="boolean" optional default="true"
+Whether to enable
+:::
+
+::: field name="callback" type="(...args: any[]) => void" optional default="() => {}"
+<Badge type="tip" text="Added in v1.0.0"  />
+Callback function
+:::
+
+::: field name="other" type="string" deprecated
+<Badge type="danger" text="Deprecated in v0.9.0"  />
+Deprecated property
+:::
+::::
 
 ## Icons
 

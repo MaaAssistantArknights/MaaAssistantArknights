@@ -564,7 +564,7 @@ public class SettingsViewModel : Screen
 
             var growlInfo = new GrowlInfo {
                 IsCustom = true,
-                Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName),
+                Message = LocalizationHelper.GetStringFormat("AddConfigSuccess", NewConfigurationName),
                 IconKey = "HangoverGeometry",
                 IconBrushKey = "PallasBrush",
             };
@@ -576,7 +576,7 @@ public class SettingsViewModel : Screen
             ConfigFactory.DeleteConfiguration(NewConfigurationName);
             var growlInfo = new GrowlInfo {
                 IsCustom = true,
-                Message = string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName),
+                Message = LocalizationHelper.GetStringFormat("ConfigExists", NewConfigurationName),
                 IconKey = "HangoverGeometry",
                 IconBrushKey = "PallasBrush",
             };

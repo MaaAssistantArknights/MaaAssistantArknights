@@ -1,4 +1,6 @@
 #pragma once
+#include <variant>
+
 #include <meojson/json.hpp>
 
 namespace asst
@@ -11,11 +13,21 @@ public:
     static constexpr std::string_view RelaunchAnchor = "RelaunchAnchor"; // 重启锚点（RELAUNCH ANCHOR）
 };
 
-enum class ReclamationMode // 对应 Roguelike Mode
+enum class TalesMode
 {
     ProsperityNoSave = 0,  // 0 - 无存档刷繁荣点数
     ProsperityInSave = 1,  // 1 - 有存档刷繁荣点数
+    _Count,
 };
+
+enum class RelaunchAnchorMode
+{
+    RA1 = 0,   // 0 - RA-1
+    RA15 = 1,  // 1 - RA-15
+    _Count,
+};
+
+using ReclamationMode = std::variant<TalesMode, RelaunchAnchorMode>;
 
 enum class ReclamationDifficulty // 对应 Roguelike Difficulty
 {
@@ -37,11 +49,6 @@ public:
         return theme == ReclamationTheme::Tales || theme == ReclamationTheme::RelaunchAnchor;
     }
 
-    static constexpr bool is_valid_mode(const ReclamationMode& mode, [[maybe_unused]] const std::string_view theme)
-    {
-        return mode == ReclamationMode::ProsperityNoSave || mode == ReclamationMode::ProsperityInSave;
-    }
-
     static constexpr bool is_valid_difficulty(const ReclamationDifficulty& difficulty)
     {
         return difficulty == ReclamationDifficulty::Casual || difficulty == ReclamationDifficulty::Standard ||
@@ -58,7 +65,7 @@ public:
 
 private:
     std::string m_theme = std::string(ReclamationTheme::Tales);            // 主题
-    ReclamationMode m_mode = ReclamationMode::ProsperityInSave;            // 策略
+    ReclamationMode m_mode = TalesMode::ProsperityInSave;                  // 策略
     ReclamationDifficulty m_difficulty = ReclamationDifficulty::Challenge; // 难度模式
 
     // 以下注释列出了插件专用参数, 以便于快速检阅。这些参数的具体声明与使用请参考各插件。

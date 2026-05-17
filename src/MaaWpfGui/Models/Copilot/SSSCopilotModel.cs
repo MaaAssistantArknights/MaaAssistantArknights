@@ -138,7 +138,7 @@ public class SSSCopilotModel : CopilotBase
             output.Add(($"{localizedName}, {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}", null));
         }
 
-        output.Add((string.Format(LocalizationHelper.GetString("TotalOperatorsCount"), count), null));
+        output.Add((LocalizationHelper.GetStringFormat("TotalOperatorsCount", count), null));
 
         if (ToolMen is not null)
         {

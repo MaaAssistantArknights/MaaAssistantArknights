@@ -12,6 +12,10 @@
  - 流程中哪些状态会被临时改写
  - 结束条件满足后应停在哪个状态
 
+## Abort DWM
+
+- DWM 在 Windows8 之后为常开，如遇相关问题为显卡驱动问题
+
 ## About Arknights PC Client
 
 - 连接 PC 端为实验性功能

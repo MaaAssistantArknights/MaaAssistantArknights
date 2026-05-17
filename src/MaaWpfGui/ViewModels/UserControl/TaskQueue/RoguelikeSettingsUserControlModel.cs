@@ -854,11 +854,11 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 break;
 
             case "RoguelikeInvestmentReachLimit":
-                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestmentReachLimit"), subTaskDetails!["limit"]), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeInvestmentReachLimit", subTaskDetails!["limit"]), UiLogColor.Info);
                 break;
 
             case "RoguelikeInvestment":
-                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestment"), subTaskDetails!["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeInvestment", subTaskDetails!["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
                 AchievementTrackerHelper.Instance.SetProgress(AchievementIds.RoguelikeGoldMax, (int)subTaskDetails["deposit"]!);
                 break;
 
@@ -881,8 +881,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         }
                     }
 
-                    var roguelikeInfo = string.Format(
-                        LocalizationHelper.GetString("RoguelikeSettlement"),
+                    var roguelikeInfo = LocalizationHelper.GetStringFormat(
+                        "RoguelikeSettlement",
                         pass ? "✓" : "✗",
                         report["floor"],
                         report["step"],
@@ -936,14 +936,14 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 var options = (subTaskDetails!["options"]! as JArray) ?? [];
                 var logLines = new List<string>
                 {
-                    string.Format(LocalizationHelper.GetString("RoguelikeEncounterOptions"), options.Count, UiLogColor.EventIS),
+                    LocalizationHelper.GetStringFormat("RoguelikeEncounterOptions", options.Count, UiLogColor.EventIS),
                 };
 
                 foreach (var option in options)
                 {
                     string messageKey = option["enabled"]!.Value<bool>() ? "RoguelikeEncounterEnabledOption" : "RoguelikeEncounterDisabledOption";
                     var text = option["text"]!.ToString();
-                    logLines.Add(string.Format(LocalizationHelper.GetString(messageKey), text));
+                    logLines.Add(LocalizationHelper.GetStringFormat(messageKey, text));
                 }
 
                 Instances.TaskQueueViewModel.AddLog(string.Join("\n", logLines), UiLogColor.EventIS, updateCardImage: true);
@@ -971,7 +971,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             case "RoguelikeCoppersRecognitionError":
                 {
                     var recognizedName = subTaskDetails!["recognized_name"]?.ToString() ?? "Unknown";
-                    var message = string.Format(LocalizationHelper.GetString("RoguelikeCoppersRecognitionError"), recognizedName);
+                    var message = LocalizationHelper.GetStringFormat("RoguelikeCoppersRecognitionError", recognizedName);
                     Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Error);
                     break;
                 }
@@ -980,7 +980,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 {
                     var toDiscard = subTaskDetails!["to_discard"]?.ToString() ?? "Unknown";
                     var toPickup = subTaskDetails["to_pickup"]?.ToString() ?? "Unknown";
-                    var message = string.Format(LocalizationHelper.GetString("RoguelikeCoppersExchange"), toDiscard, toPickup);
+                    var message = LocalizationHelper.GetStringFormat("RoguelikeCoppersExchange", toDiscard, toPickup);
                     Instances.TaskQueueViewModel.AddLog(message, UiLogColor.EventIS);
                     break;
                 }
@@ -998,7 +998,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         "Nian" => LocalizationHelper.GetString("RoguelikePlaytimeNian"),
                         _ => targetSubtype ?? "Unknown",
                     };
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeJieGardenTargetFound"), localizedTarget), UiLogColor.Success);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeJieGardenTargetFound", localizedTarget), UiLogColor.Success);
                     break;
                 }
 
@@ -1025,19 +1025,19 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 string prev = subTaskDetails["prev"]?.ToString() ?? "UnKnown";
                 if (deepen_or_weaken == 1 && prev == string.Empty)
                 {
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeGainParadigm"), cur), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeGainParadigm", cur), UiLogColor.Info);
                 }
                 else if (deepen_or_weaken == 1 && prev != string.Empty)
                 {
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeDeepenParadigm"), cur, prev), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeDeepenParadigm", cur, prev), UiLogColor.Info);
                 }
                 else if (deepen_or_weaken == -1 && cur == string.Empty)
                 {
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeLoseParadigm"), string.Empty, prev), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeLoseParadigm", string.Empty, prev), UiLogColor.Info);
                 }
                 else if (deepen_or_weaken == -1 && cur != string.Empty)
                 {
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeWeakenParadigm"), cur, prev), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeWeakenParadigm", cur, prev), UiLogColor.Info);
                 }
 
                 break;

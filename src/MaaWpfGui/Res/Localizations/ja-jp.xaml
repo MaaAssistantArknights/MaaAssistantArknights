@@ -401,6 +401,7 @@
     <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください</system:String>
+    <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan がこのバージョンの OTA 増分アップデートをビルド中です。約 10 秒後に自動的に再試行します</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されましたが、利用可能な OTA 増分アップデートパッケージはありません。完全パッケージをダウンロードし、cache、config、data、debug、achievement（クリアスクリーンショット）、background（背景画像）、MAA.Updater.exe は保持され、それ以外のファイルはごみ箱と .old に移動されます。必要に応じて手動でバックアップしてください。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>
@@ -728,6 +729,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationThemeFire">砂中の火</system:String>
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
     <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
+    <system:String x:Key="ReclamationMode">モード</system:String>
+    <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
+    <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">セーブしながら、支援アイテムを組み立てて生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationIncrementMode">増加方式</system:String>
@@ -1199,7 +1203,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FightMissionFailedAndStop">自動指揮の失敗回数が上限に達したため、任務が停止されました</system:String>
     <system:String x:Key="LabelsRefreshed">タグが更新されました</system:String>
     <system:String x:Key="RecruitConfirm">募集を行いました</system:String>
-    <system:String x:Key="RecruitTimesCount">公開求人 {0} 回</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}が競合しました</system:String>
     <system:String x:Key="BegunToExplore">探索を開始しました</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">前方の戦闘数：{0}、ルートを再計画します</system:String>
@@ -1475,21 +1478,37 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="AnnouncementNotFinishedConfirm3">まだ押す</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTipRelaunchAnchor" xml:space="preserve">
-再起の錨：
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
+報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約2分10秒
 
- 報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約2分10秒
+オペレーター要件：なし
 
- 事前準備（手動で1回のみ）：
-  1. 手動でRA-1に入り、チュートリアルを完了してマップに戻る
-  2. 以降、RA-1をクリックした後に右下に「建設開始」が表示されたらタスクを開始可能
+前提条件：メインストーリーでRA-1をクリア済み
 
- 注意：「初期追加携帯アイテム」に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、大型獣舎など）を解体してください
+マップでRA-1を開き、右下に「建設開始」が表示されたらタスクを開始すると自動でループします
 
- タスクの流れ：
-  精耕細作、建設、資源納入、決済を自動実行
+注意：「初期追加携帯アイテム」に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、大型獣舎など）を解体してください
+
+タスクの流れ：精耕細作、建設、資源納入、決済を自動実行
     </system:String>
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
+⚠️ この戦略はまだ完全に練り上げられていません。実行中に問題が発生する可能性があります
+
+報酬目安：1回あたり約 500 トークン＋統括ポイント、所要時間約 3 分
+
+オペレーター要件：聖聆初雪（サポート借用可）
+
+前提条件：
+1. メインストーリーでRA-15をクリア済み
+2. 聖聆初雪を所持している場合、手動で RA-15 を開いて一度編成する。先鋒5体（育成不要）＋聖聆初雪を最後に選択し、編成を保存してステージを退出する
+3. サポートの聖聆初雪を使う場合、聖聆初雪が術師サポート一覧の先頭ページにいることを確認する（友達登録を推奨）
+
+注意： 「初期追加携帯アイテム」に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、大型獣舎など）を解体してください
+
+タスクの流れ： サポートオペレーターを使用して 60 キルミッションを自動実行
+    </system:String>
+    <system:String x:Key="ReclamationTipFire">このイベントは終了しており、利用できません</system:String>
+    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
 生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
 
  初期設定でポイントを稼ぐ：（既存のセーブデータが削除されることに注意してください）
@@ -2028,4 +2047,3 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="EmulatorSelectionCancelled">エミュレータの選択がキャンセルされました</system:String>
     <!--  !ItemSelection  -->
 </ResourceDictionary>
-

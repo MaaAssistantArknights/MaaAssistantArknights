@@ -32,19 +32,9 @@ public class AsstReclamationTask : AsstBaseTask
     public ReclamationTheme Theme { get; set; } = ReclamationTheme.Tales;
 
     /// <summary>
-    /// Gets or sets 生息演算模式
-    /// <list type="bullet">
-    ///     <item>
-    ///         <term><c>0</c></term>
-    ///         <description>无存档时通过进出关卡刷生息点数</description>
-    ///     </item>
-    ///     <item>
-    ///         <term><c>1</c></term>
-    ///         <description>有存档时通过合成支援道具刷生息点数</description>
-    ///     </item>
-    /// </list>
+    /// Gets or sets 生息演算模式（含义由 Theme 决定）
     /// </summary>
-    public ReclamationMode Mode { get; set; } = ReclamationMode.Archive;
+    public int Mode { get; set; } = 0;
 
     /// <summary>
     /// Gets or sets 点击类型：0 连点；1 长按
@@ -71,7 +61,7 @@ public class AsstReclamationTask : AsstBaseTask
         var data = new JObject
         {
             ["theme"] = Theme.ToString(),
-            ["mode"] = (int)Mode,
+            ["mode"] = Mode,
             ["increment_mode"] = IncrementMode,
             ["num_craft_batches"] = MaxCraftCountPerRound,
             ["tools_to_craft"] = new JArray(ToolToCraft),

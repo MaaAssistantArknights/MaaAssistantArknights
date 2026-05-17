@@ -592,7 +592,7 @@ public class AsstProxy
 
             if (x.IsDeprecated)
             {
-                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("GpuDeprecatedMessage"), description), UiLogColor.Warning);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("GpuDeprecatedMessage", description), UiLogColor.Warning);
                 _logger.Warning("Using deprecated GPU {0} (Driver {1} {2})", description, version, date);
             }
             else
@@ -607,7 +607,7 @@ public class AsstProxy
                 if (driverDate < twoYearsAgo)
                 {
                     var dateStr = driverDate.ToString("yyyy-MM-dd");
-                    var message = string.Format(LocalizationHelper.GetString("GpuDriverOutdatedMessage"), description, version ?? "Unknown", dateStr);
+                    var message = LocalizationHelper.GetStringFormat("GpuDriverOutdatedMessage", description, version ?? "Unknown", dateStr);
                     Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
                     _logger.Warning("Using GPU {0} with outdated driver {1} (release date: {2}, over 2 years old)", description, version, dateStr);
                 }
@@ -785,7 +785,7 @@ public class AsstProxy
                     int height = details["details"]?["height"]?.ToObject<int>() ?? 0;
                     var baseMsg = LocalizationHelper.GetString("ResolutionNotSupported");
                     _lastConnectionError = width > 0 && height > 0
-                        ? $"{baseMsg} ({string.Format(LocalizationHelper.GetString("ResolutionNotSupportedCurrentResolution"), width, height)})"
+                        ? $"{baseMsg} ({LocalizationHelper.GetStringFormat("ResolutionNotSupportedCurrentResolution", width, height)})"
                         : baseMsg;
                     Instances.TaskQueueViewModel.AddLog(_lastConnectionError, UiLogColor.Error);
                 }
@@ -920,7 +920,7 @@ public class AsstProxy
                             break;
                     }
 
-                    fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
+                    fastestScreencapStringBuilder.Insert(0, LocalizationHelper.GetStringFormat("FastestWayToScreencap", costString, method));
                     var fastestScreencapString = fastestScreencapStringBuilder.ToString();
                     SettingsViewModel.ConnectSettings.ScreencapTestCost = fastestScreencapString;
                     Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color, toolTip: screencapAlternatives.CreateScreencapTooltip());
@@ -944,7 +944,7 @@ public class AsstProxy
                 var screencapCostAvg = details["details"]?["avg"]?.ToString() ?? "???";
                 var screencapCostMax = details["details"]?["max"]?.ToString() ?? "???";
                 var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
-                SettingsViewModel.ConnectSettings.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
+                SettingsViewModel.ConnectSettings.ScreencapCost = LocalizationHelper.GetStringFormat("ScreencapCost", screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
                 if (!HasPrintedScreencapWarning && int.TryParse(screencapCostAvg, out var screencapCostAvgInt))
                 {
                     static void AddLog(string message, string color)
@@ -958,12 +958,12 @@ public class AsstProxy
                     {
                         // 日志提示
                         case >= 800:
-                            AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Warning);
+                            AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapErrorTip", screencapCostAvgInt), UiLogColor.Warning);
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge1);
                             break;
 
                         case >= 400:
-                            AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
+                            AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapWarningTip", screencapCostAvgInt), UiLogColor.Warning);
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
                             break;
 
@@ -1127,7 +1127,7 @@ public class AsstProxy
                     var taskName = task?.NameDisplay ?? $"({LocalizationHelper.GetString(taskChain)})";
                     if (taskChain == "Fight" && FightSetting.SanityReport is not null)
                     {
-                        var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), FightSetting.SanityReport.SanityCurrent, FightSetting.SanityReport.SanityMax);
+                        var sanityLog = "\n" + LocalizationHelper.GetStringFormat("CurrentSanity", FightSetting.SanityReport.SanityCurrent, FightSetting.SanityReport.SanityMax);
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskName + sanityLog);
 
                         if (FightSetting.SanityReport.SanityCurrent == 0)
@@ -1163,7 +1163,7 @@ public class AsstProxy
                             {
                                 case "TooManyBattlesAhead":
                                     var cost = details["node_cost"]?.ToString() ?? "?";
-                                    msgText = string.Format(LocalizationHelper.GetString("RoutingRestartTooManyBattles"), cost);
+                                    msgText = LocalizationHelper.GetStringFormat("RoutingRestartTooManyBattles", cost);
                                     break;
                             }
 
@@ -1206,7 +1206,7 @@ public class AsstProxy
                     var dateTimeNow = DateTimeOffset.Now;
                     var diffTaskTime = (dateTimeNow - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
 
-                    var allTaskCompleteTitle = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
+                    var allTaskCompleteTitle = LocalizationHelper.GetStringFormat("AllTasksComplete", diffTaskTime);
                     var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
                     var sanityReport = LocalizationHelper.GetString("SanityReport");
 
@@ -1217,7 +1217,7 @@ public class AsstProxy
                         .Replace("{Preset}", configurationPreset)
                         .Replace("{TimeDiff}", diffTaskTime);
 
-                    var allTaskCompleteLog = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
+                    var allTaskCompleteLog = LocalizationHelper.GetStringFormat("AllTasksComplete", diffTaskTime);
 
                     if (FightSetting.SanityReport is not null)
                     {
@@ -1526,12 +1526,12 @@ public class AsstProxy
                             StringBuilder missionStartLogBuilder = new();
                             if (FightSetting.FightReport is null)
                             {
-                                missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), "???", "???"));
+                                missionStartLogBuilder.AppendLine(LocalizationHelper.GetStringFormat("MissionStart.FightTask", "???", "???"));
                             }
                             else
                             {
                                 var times = FightSetting.FightReport.Series == 1 ? $"{FightSetting.FightReport.TimesFinished + 1}" : $"{FightSetting.FightReport.TimesFinished + 1}~{FightSetting.FightReport.TimesFinished + FightSetting.FightReport.Series}";
-                                missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), times, FightSetting.FightReport.SanityCost));
+                                missionStartLogBuilder.AppendLine(LocalizationHelper.GetStringFormat("MissionStart.FightTask", times, FightSetting.FightReport.SanityCost));
                             }
 
                             if (FightSetting.SanityReport is not null)
@@ -1581,8 +1581,7 @@ public class AsstProxy
                                 AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.HrManager);
                             }
 
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitConfirm"), UiLogColor.Info);
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RecruitTimesCount", RecruitConfirmTime), UiLogColor.Info);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitConfirm") + $" {RecruitConfirmTime}", UiLogColor.Info);
                             break;
 
                         case "InfrastDormDoubleConfirmButton":
@@ -1940,7 +1939,7 @@ public class AsstProxy
                     var tooltip = Instances.ToolboxViewModel.RecruitResultInlines.CreateTooltip(PlacementMode.Center);
                     if (level >= 5)
                     {
-                        using (var toast = new ToastNotification(string.Format(LocalizationHelper.GetString("RecruitmentOfStar"), level)))
+                        using (var toast = new ToastNotification(LocalizationHelper.GetStringFormat("RecruitmentOfStar", level)))
                         {
                             toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                         }
@@ -1981,7 +1980,7 @@ public class AsstProxy
             case "RecruitSupportOperator":
                 {
                     var name = subTaskDetails!["name"]!.ToString();
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RecruitSupportOperator"), name), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RecruitSupportOperator", name), UiLogColor.Info);
                     break;
                 }
 
@@ -2108,15 +2107,15 @@ public class AsstProxy
                     var actionToken = subTaskDetails?["action"];
                     var actionString = actionToken?.ToString() ?? "UnknownAction";
                     Instances.CopilotViewModel.AddLog(
-                        string.Format(
-                            LocalizationHelper.GetString("CurrentSteps"),
+                        LocalizationHelper.GetStringFormat(
+                            "CurrentSteps",
                             LocalizationHelper.GetString(actionString),
                             DataHelper.GetLocalizedCharacterName(target) ?? target));
 
                     var elapsed_time_str = subTaskDetails!["elapsed_time"]?.ToString();
                     if (int.TryParse(elapsed_time_str, out int elapsed_time_int) && elapsed_time_int >= 0)
                     {
-                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("ElapsedTime"), elapsed_time_int), UiLogColor.Message);
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("ElapsedTime", elapsed_time_int), UiLogColor.Message);
                     }
 
                     break;
@@ -2128,7 +2127,7 @@ public class AsstProxy
                 break;
 
             case "SSSStage":
-                Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("CurrentStage"), subTaskDetails!["stage"]), UiLogColor.Info);
+                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("CurrentStage", subTaskDetails!["stage"]), UiLogColor.Info);
                 break;
 
             case "SSSSettlement":
@@ -2238,7 +2237,7 @@ public class AsstProxy
 
                         if (FightSetting.Instance.HasTimesLimited != false && FightSetting.FightReport.IsFinished && FightSetting.FightReport.TimesFinished < FightSetting.Instance.MaxTimes)
                         {
-                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightSetting.FightReport.TimesFinished, FightSetting.FightReport.Series, FightSetting.FightReport.TimesFinished + FightSetting.FightReport.Series, FightSetting.Instance.MaxTimes), UiLogColor.Warning);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesUnused", FightSetting.FightReport.TimesFinished, FightSetting.FightReport.Series, FightSetting.FightReport.TimesFinished + FightSetting.FightReport.Series, FightSetting.Instance.MaxTimes), UiLogColor.Warning);
                         }
                     }
 
@@ -2547,7 +2546,7 @@ public class AsstProxy
 
         if (foundWindows.Count == 0)
         {
-            error = string.Format(LocalizationHelper.GetString("AttachWindowNotFound"), TargetWindowName);
+            error = LocalizationHelper.GetStringFormat("AttachWindowNotFound", TargetWindowName);
             Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
             _logger.Warning("AttachWindow: No window found with name {WindowName}", TargetWindowName);
             return false;
@@ -2558,13 +2557,13 @@ public class AsstProxy
         if (foundWindows.Count > 1)
         {
             // 找到多个窗口，使用第一个并记录日志
-            var multipleMsg = string.Format(LocalizationHelper.GetString("AttachWindowMultipleFound"), foundWindows.Count, TargetWindowName);
+            var multipleMsg = LocalizationHelper.GetStringFormat("AttachWindowMultipleFound", foundWindows.Count, TargetWindowName);
             Instances.TaskQueueViewModel.AddLog(multipleMsg, UiLogColor.Info);
             _logger.Warning("AttachWindow: Multiple windows found with name {WindowName}, count: {Count}, using first one: {Hwnd}", TargetWindowName, foundWindows.Count, hwnd);
         }
         else
         {
-            var foundMsg = string.Format(LocalizationHelper.GetString("AttachWindowFound"), TargetWindowName);
+            var foundMsg = LocalizationHelper.GetStringFormat("AttachWindowFound", TargetWindowName);
             Instances.TaskQueueViewModel.AddLog(foundMsg, UiLogColor.Info);
             _logger.Information("AttachWindow: Found window \"{WindowName}\" with HWND: {Hwnd}", TargetWindowName, hwnd);
         }
