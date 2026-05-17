@@ -699,7 +699,7 @@
         "action": "Swipe",
         "specificRect": [700, 200, 1, 1],
         "rectMove": [700, 700, 1, 1],
-        "specialParams": [1500, 0, 3, 0],
+        "specialParams": [500, 0, 3, 0],
         "preDelay": 1000,
         "postDelay": 1000,
         "next": ["RelaunchAnchor@RA@RA15-AlignMap2"]
@@ -710,7 +710,7 @@
         "action": "Swipe",
         "specificRect": [970, 110, 1, 1],
         "rectMove": [430, 550, 1, 1],
-        "specialParams": [1500, 0, 3, 0],
+        "specialParams": [500, 0, 3, 0],
         "postDelay": 1000,
         "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"]
     },
@@ -720,7 +720,7 @@
         "action": "Swipe",
         "specificRect": [400, 650, 1, 1],
         "rectMove": [495, 414, 1, 1],
-        "specialParams": [1000, 0, 3, 0],
+        "specialParams": [500, 0, 3, 0],
         "postDelay": 4000,
         "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseWait"]
     },
@@ -756,7 +756,7 @@
         "action": "Swipe",
         "specificRect": [1139, 638, 1, 1],
         "rectMove": [390, 512, 1, 1],
-        "specialParams": [1000, 0, 3, 0],
+        "specialParams": [500, 0, 3, 0],
         "postDelay": 1000,
         "next": ["RelaunchAnchor@RA@RA15-DeployCX2"]
     },
@@ -766,7 +766,7 @@
         "action": "Swipe",
         "specificRect": [725, 319, 1, 1],
         "rectMove": [730, 500, 1, 1],
-        "specialParams": [1000, 0, 3, 0],
+        "specialParams": [500, 0, 3, 0],
         "postDelay": 2000,
         "next": ["RelaunchAnchor@RA@RA15-MissionIcon1"]
     },
