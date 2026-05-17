@@ -14,13 +14,13 @@
 #nullable enable
 using System;
 using System.Buffers;
-using System.Text;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -2316,14 +2316,12 @@ public class ToolboxViewModel : Screen
     public static void UpdateMiniGameTaskList()
     {
         var categorizedItems = Instances.StageManager.MiniGameEntries
-            .Select(t =>
-            {
+            .Select(t => {
                 var isCurrentEvent = t.UtcStartTime != DateTime.MinValue || t.UtcExpireTime != DateTime.MinValue;
                 var category = LocalizationHelper.GetString(isCurrentEvent
                     ? "MiniGameCategoryCurrentEvent"
                     : "MiniGameCategoryPermanent");
-                return new MiniGameCategoryItem
-                {
+                return new MiniGameCategoryItem {
                     Display = string.IsNullOrEmpty(t.DisplayKey)
                         ? t.Display
                         : (LocalizationHelper.TryGetString(t.DisplayKey, out var loc) ? loc : t.Display),
@@ -2333,8 +2331,7 @@ public class ToolboxViewModel : Screen
             })
             .ToList();
 
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             var toolbox = Instances.ToolboxViewModel;
             if (toolbox == null)
             {
@@ -2369,8 +2366,7 @@ public class ToolboxViewModel : Screen
 
     public string GetMiniGameTask()
     {
-        return MiniGameTaskName switch
-        {
+        return MiniGameTaskName switch {
             "MiniGame@SecretFront" => $"{MiniGameTaskName}@Begin@Ending{SecretFrontEnding}{(string.IsNullOrEmpty(SecretFrontEvent) ? string.Empty : $"@{SecretFrontEvent}")}",
             _ => MiniGameTaskName,
         };

@@ -729,7 +729,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遗闻</system:String>
     <system:String x:Key="ReclamationThemeRelaunchAnchor">重启锚点</system:String>
-    <system:String x:Key="ReclamationStage">关卡选择</system:String>
+    <system:String x:Key="ReclamationMode">模式</system:String>
+    <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
+    <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过组装支援道具刷生息点数</system:String>
     <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
@@ -1505,6 +1507,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
 任务流程：用圣聆初雪完成 60 杀任务
     </system:String>
+    <system:String x:Key="ReclamationTipFire">该活动已关闭，无法使用</system:String>
     <system:String x:Key="ReclamationTipTales" xml:space="preserve">
 目前生息演算的支持仍处于中期阶段，使用时请注意以下几点：
 

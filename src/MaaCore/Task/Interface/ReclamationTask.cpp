@@ -7,7 +7,7 @@
 // 通用配置及插件
 #include "Task/Reclamation/ReclamationConfig.h"
 
-// ReclamationMode::ProsperityInSave 专用配置及插件
+// TalesMode::ProsperityInSave 专用配置及插件
 #include "Task/Reclamation/ReclamationCraftTaskPlugin.h"
 
 #include "Utils/Logger.hpp"
@@ -19,7 +19,7 @@ asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* 
 {
     LogTraceFunction;
 
-    // ReclamationMode::ProsperityInSave 专用参数
+    // TalesMode::ProsperityInSave 专用参数
     m_reclamation_task_ptr->register_plugin<ReclamationCraftTaskPlugin>(m_config_ptr);
 
     m_subtasks.emplace_back(m_reclamation_task_ptr);
@@ -34,7 +34,7 @@ bool asst::ReclamationTask::set_params(const json::value& params)
     }
 
     const std::string& theme = m_config_ptr->get_theme();
-    const ReclamationMode& mode = m_config_ptr->get_mode();
+    const auto& mode = m_config_ptr->get_mode();
 
     if (theme == ReclamationTheme::Fire) {
         Log.info(__FUNCTION__, "Reclamation Algorithm theme", theme, "is no longer available");
@@ -44,21 +44,23 @@ bool asst::ReclamationTask::set_params(const json::value& params)
 
     m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", INT_MAX);
 
-    if (theme == ReclamationTheme::RelaunchAnchor) {
-        const int stage = static_cast<int>(m_config_ptr->get_stage());
-        const std::string task_name = theme + "@RA@PNS-RA" + std::to_string(stage) + "-Entry";
+    if (const auto* ra_mode = std::get_if<RelaunchAnchorMode>(&mode)) {
+        // 重启锚点：根据 mode 选择关卡入口
+        const int stage = static_cast<int>(*ra_mode);
+        const std::string stage_str = (stage == static_cast<int>(RelaunchAnchorMode::RA15)) ? "15" : "1";
+        const std::string task_name = theme + "@RA@PNS-RA" + stage_str + "-Entry";
         m_reclamation_task_ptr->set_tasks({ task_name });
         m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);
     }
-    else {
-        switch (mode) {
-        case ReclamationMode::ProsperityNoSave:
+    else if (const auto* tales_mode = std::get_if<TalesMode>(&mode)) {
+        switch (*tales_mode) {
+        case TalesMode::ProsperityNoSave:
             m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityNoSave" });
             if (!params.get("clear_store", false)) {
                 m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);
             }
             break;
-        case ReclamationMode::ProsperityInSave:
+        case TalesMode::ProsperityInSave:
             m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityInSave" });
             break;
         }

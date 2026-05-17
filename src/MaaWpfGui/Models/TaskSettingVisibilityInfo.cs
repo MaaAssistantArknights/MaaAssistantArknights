@@ -152,7 +152,30 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             _ => throw new NotImplementedException(),
         };
         EnableAdvancedSettings = false;
-        AdvancedSettingsVisibility = !Award && !StartUp && !UserDataUpdate;
+        UpdateAdvancedSettingsVisibility(task);
+    }
+
+    /// <summary>
+    /// 根据当前任务配置刷新高级设置可见性
+    /// </summary>
+    public void RefreshAdvancedSettingsVisibility()
+    {
+        if (CurrentIndex < 0 || CurrentIndex >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+        {
+            return;
+        }
+
+        UpdateAdvancedSettingsVisibility(ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex]);
+    }
+
+    private void UpdateAdvancedSettingsVisibility(BaseTask task)
+    {
+        AdvancedSettingsVisibility = task switch
+        {
+            AwardTask or StartUpTask or UserDataUpdateTask => false,
+            ReclamationTask rt => rt.Theme == ReclamationTheme.Tales,
+            _ => true,
+        };
     }
 
     private void ResetVisible()
