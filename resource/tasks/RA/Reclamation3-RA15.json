@@ -39,7 +39,15 @@
         "action": "ClickSelf",
         "text": ["干员招募"],
         "roi": [941, 131, 131, 34],
-        "next": ["RelaunchAnchor@RA@PNS-RA15-ClearChoosed"]
+        "next": ["RelaunchAnchor@RA@PNS-RA15-ExamineCXExistance","RelaunchAnchor@RA@PNS-RA15-ClearChoosed"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-ExamineCXExistance": {
+        "doc": "步骤 4.1：OCR 识别 <圣聆初雪> ",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["圣","聆","初雪"],
+        "roi": [843, 449, 96, 29],
+        "next": ["RelaunchAnchor@RA@PNS-RA15-ConfirmTeam"]
     },
     "RelaunchAnchor@RA@PNS-RA15-ClearChoosed": {
         "doc": "步骤 5：OCR 识别 <快捷编队> 并点击",
