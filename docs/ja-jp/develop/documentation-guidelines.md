@@ -39,6 +39,7 @@ icon: jam:write-f
 - `warning` 注意
 - `danger` 警告
 - `details` 詳細
+- `window` ==サンプルコンテナ==
 
 ### コンテナの例
 
@@ -64,6 +65,10 @@ icon: jam:write-f
 
 ::: details
 これは詳細のコンテナです
+:::
+
+::: window
+これはサンプルのコンテナです
 :::
 
 ## アイコン

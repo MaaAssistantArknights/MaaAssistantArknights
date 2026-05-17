@@ -44,7 +44,7 @@ icon: jam:write-f
 - `warning` 注意
 - `danger` 警告
 - `details` 詳情
-- `demo-warpper` ==特殊容器==
+- `window` ==示例容器==
 
 ### 容器範例
 
@@ -72,7 +72,7 @@ icon: jam:write-f
 這是詳情容器
 :::
 
-::: demo-wrapper
+::: window
 這是一個很特殊的容器
 :::
 
@@ -113,7 +113,7 @@ MaaAssistantArknights 是由 ==很多豬== 開發的
 
 有以下配置可以使用：
 
-::: demo-wrapper
+::: window
 輸入：
 
 ```markdown
@@ -192,7 +192,7 @@ MaaAssistantArknights 是由 ==很多豬== 開發的
 
 您可以在 Markdown 正文中使用 `<ImageGrid>` 元件來呼叫該方法，具體的語法和效果如下：
 
-::: demo-wrapper
+::: window
 
 這是語法：
 
@@ -292,7 +292,7 @@ icon: jam:write-f
 - `color` 接受 CSS 風格的顏色值，如 `#fff`，`red` 等（該選項僅對 SVG 圖示有效）。
 - `size` 接受 CSS 風格的大小，如 `1rem`，`2em`，`100px` 等。
 
-::: demo-wrapper 範例
+::: window 範例
 
 輸入：
 

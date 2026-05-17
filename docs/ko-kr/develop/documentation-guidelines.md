@@ -44,7 +44,7 @@ icon: jam:write-f
 - `warning` 주의
 - `danger` 경고
 - `details` 세부 사항
-- `demo-wrapper` ==특수 컨테이너==
+- `window` ==예시 컨테이너==
 
 ### 컨테이너 예시
 
@@ -72,7 +72,7 @@ icon: jam:write-f
 이것은 세부 사항 컨테이너입니다
 :::
 
-::: demo-wrapper
+::: window
 이것은 매우 특별한 컨테이너입니다
 :::
 
@@ -113,7 +113,7 @@ MaaAssistantArknights는 ==많은 돼지들== 에 의해 개발되었습니다
 
 다음과 같은 설정을 사용할 수 있습니다:
 
-::: demo-wrapper
+::: window
 입력:
 
 ```markdown
@@ -192,7 +192,7 @@ MaaAssistantArknights는 ==많은 돼지들== 에 의해 개발되었습니다
 
 마크다운 본문에서 `<ImageGrid>` 컴포넌트를 사용하여 이 메서드를 호출할 수 있으며, 구체적인 구문과 효과는 다음과 같습니다.
 
-::: demo-wrapper
+::: window
 
 구문:
 
@@ -292,7 +292,7 @@ icon: jam:write-f
 - `color` css 스타일 색상 값을 받습니다. 예: `#fff`, `red` 등 (이 옵션은 svg 아이콘에만 유효함)
 - `size` css 스타일 크기 값을 받습니다. 예: `1rem`, `2em`, `100px` 등
 
-::: demo-wrapper 예시
+::: window 예시
 
 입력:
 

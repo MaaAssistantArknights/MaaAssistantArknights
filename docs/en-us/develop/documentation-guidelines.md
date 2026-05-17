@@ -39,6 +39,7 @@ Accepted container types and their default titles are as follows:
 - `warning` Warning
 - `danger` Caution
 - `details` Details
+- `window` ==Demo Container==
 
 ### Container Examples
 
@@ -64,6 +65,10 @@ This is a danger container
 
 ::: details
 This is a details container
+:::
+
+::: window
+This is a demo container
 :::
 
 ## Icons
