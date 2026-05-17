@@ -208,6 +208,7 @@ jobs:
         with:
           name: MAAComponent-DebugSymbol-win-${{ matrix.arch }}
           path: install/MAAComponent-DebugSymbol-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip
+          compression-level: 0
 
       - name: Organize install files
         shell: bash
@@ -230,6 +231,7 @@ jobs:
         with:
           name: MAA-win-${{ matrix.arch }}
           path: install/MAA-*.zip
+          compression-level: 0
 
   ubuntu:
     name: Build for Ubuntu
@@ -348,6 +350,7 @@ jobs:
           path: |
             release/*.AppImage
             release/*.tar.gz
+          compression-level: 0
 
   android:
     name: Build for Android
@@ -420,6 +423,7 @@ jobs:
         with:
           name: MAAComponent-android-${{ matrix.arch }}
           path: MAAComponent-*.tar.gz
+          compression-level: 0
 
   macOS-Core:
     name: Build Core for macOS
@@ -560,6 +564,8 @@ jobs:
         with:
           name: MAA-macos-runtime-universal
           path: runtime/MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal.zip
+          compression-level: 0
+
 
       - name: Build XCFramework
         run: |
