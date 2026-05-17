@@ -1581,8 +1581,7 @@ public class AsstProxy
                                 AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.HrManager);
                             }
 
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitConfirm"), UiLogColor.Info);
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RecruitTimesCount", RecruitConfirmTime), UiLogColor.Info);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitConfirm") + $" {RecruitConfirmTime}", UiLogColor.Info);
                             break;
 
                         case "InfrastDormDoubleConfirmButton":
