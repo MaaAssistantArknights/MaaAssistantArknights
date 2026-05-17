@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -50,16 +51,23 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     public Theme ReclamationTheme
     {
         get => GetTaskConfig<ReclamationTask>().Theme;
-        set => SetTaskConfig<ReclamationTask>(
-            t => t.Theme == value,
-            t => {
-                t.Theme = value;
-                t.Mode = 0; // 切换主题时重置模式
-                if (value == Theme.RelaunchAnchor)
-                {
-                    t.ClearStore = false;
-                }
-            });
+        set
+        {
+            if (SetTaskConfig<ReclamationTask>(
+                t => t.Theme == value,
+                t => {
+                    t.Theme = value;
+                    t.Mode = 0; // 切换主题时重置模式
+                    if (value == Theme.RelaunchAnchor)
+                    {
+                        t.ClearStore = false;
+                    }
+                }))
+            {
+                // 主题变更后刷新高级设置可见性
+                TaskSettingVisibilityInfo.Instance.RefreshAdvancedSettingsVisibility();
+            }
+        }
     }
 
     /// <summary>
