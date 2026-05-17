@@ -4,6 +4,16 @@
         "algorithm": "JustReturn",
         "next": ["RelaunchAnchor@RA@PNS-RA1-Prepare", "RelaunchAnchor@RA@PNS-RA1-OpenConstruction", "RelaunchAnchor@RA@PNS-RA15-Prepare"]
     },
+    "RelaunchAnchor@RA@PNS-RA1-Entry": {
+        "doc": "RA-1 入口：兼容关卡列表与已进入关卡后的不同起始界面",
+        "algorithm": "JustReturn",
+        "next": ["RelaunchAnchor@RA@PNS-RA1-Prepare", "RelaunchAnchor@RA@PNS-RA1-OpenConstruction"]
+    },
+    "RelaunchAnchor@RA@PNS-RA15-Entry": {
+        "doc": "RA-15 入口：直接从开启建设界面开始",
+        "algorithm": "JustReturn",
+        "next": ["RelaunchAnchor@RA@PNS-RA15-Prepare"]
+    },
     "RelaunchAnchor@RA@PNS-Common-Confirm": {
         "doc": "通用确认按钮",
         "algorithm": "OcrDetect",
