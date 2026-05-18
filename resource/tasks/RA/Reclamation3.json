@@ -440,10 +440,11 @@
     "RelaunchAnchor@RA@RA15-Choose": {
         "doc": "步骤 4：OCR 识别 <干员招募> 并点击",
         "algorithm": "OcrDetect",
-        "action": "ClickSelf",
         "text": ["干","员","招募"],
         "roi": [941, 131, 131, 34],
-        "postDelay": 200,
+        "action": "ClickRect",
+        "specificRect": [1207, 198, 1, 1],
+        "preDelay": 500,
         "next": ["#self","RelaunchAnchor@RA@RA15-ExamineCXExistence", "RelaunchAnchor@RA@RA15-ClearChosen"]
     },
     "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
