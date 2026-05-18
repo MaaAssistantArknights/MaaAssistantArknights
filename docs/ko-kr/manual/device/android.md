@@ -26,6 +26,8 @@ icon: mingcute:android-fill
 
 ## adb 디버깅 도구 다운로드 및 장치 연결
 
+::: steps
+
 1. [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)를 다운로드하고 압축을 해제합니다.
 2. 압축 해제한 폴더를 열고 주소 표시줄을 지우고 `cmd`를 입력한 후 Enter 키를 누릅니다.
 3. 나타나는 명령 프롬프트 창에 `adb`를 입력하고 많은 영어 도움말 텍스트가 표시되면 실행이 성공한 것입니다.
@@ -35,6 +37,8 @@ icon: mingcute:android-fill
    ```bash
    adb devices
    ```
+
+:::
 
 - 성공적으로 실행되면 연결된 `USB 디버깅` 장치 정보가 표시됩니다.
   - 예시:
@@ -115,16 +119,18 @@ icon: mingcute:android-fill
 
 ## 해상도 자동 변경
 
+::: steps
+
 1. MAA 폴더 아래에 두 개의 텍스트 파일을 생성하고 다음 내용을 입력합니다.
 
-   ```bash
+   ```bat
    :: 해상도를 1080p로 조정
    adb -s <대상 장치 시리얼 번호> shell wm size 1080x1920
    :: 화면 밝기 낮추기 (선택 사항)
    adb -s <대상 장치 시리얼 번호> shell settings put system screen_brightness 1
    ```
 
-   ```bash
+   ```bat
    :: 해상도 복원
    adb -s <대상 장치 시리얼 번호> shell wm size reset
    :: 화면 밝기 높이기 (선택 사항)
@@ -139,6 +145,8 @@ icon: mingcute:android-fill
    - 이름을 바꾼 후 파일 아이콘이 변경되지 않고 확장명을 변경하는 이중 확인 대화 상자가 표시되지 않는 경우 "Windows에서 파일 확장명 표시하는 방법"을 검색하세요.
 
 3. MAA의 `설정` - `연결 설정` - `시작 전 스크립트` 및 `종료 후 스크립트`에 각각 `startup.bat`과 `finish.bat`을 입력합니다.
+
+:::
 
 ## MAA에 연결하기
 
@@ -158,6 +166,8 @@ icon: mingcute:android-fill
 
 #### `adb tcpip`를 사용하여 무선 포트를 엽니다
 
+::: steps
+
 1. 방금 열린 명령 프롬프트 창에 다음 명령을 입력하여 무선 디버깅을 활성화합니다.
 
    ```bash
@@ -172,11 +182,15 @@ icon: mingcute:android-fill
 3. MAA `설정` - `연결 설정` - `연결 주소에` `<IP>:5555`와 같이 현재 장치의 IP 주소를 입력합니다. (예: `192.168.1.2:5555`)
 4. Link Start!
 
+:::
+
 #### `adb pair`를 사용하여 무선 포트를 엽니다
 
 ::: tip
 `adb pair`는 안드로이드 11 이상에서 개발자 옵션의 `무선 디버깅`을 사용하여 페어링한 후 연결하는 것으로, 유선 연결을 안할 수 있습니다.
 :::
+
+::: steps
 
 1. 휴대폰의 개발자 옵션으로 이동하여 `무선 디버깅`을 클릭하여 활성화하고 확인을 클릭한 후 `페어링 코드로 디바이스 페어링`을 클릭하고 페어링이 완료될 때까지 나타나는 팝업을 닫지 마세요.
 
@@ -188,11 +202,17 @@ icon: mingcute:android-fill
 3. 현재 장치 화면에 나타나는 `<IP 주소 및 포트>`를 MAA `설정` - `연결 설정` - `연결 주소`에 입력합니다. (예: `192.168.1.2:11451`), **이전에 입력한 것과 반드시 다르게 입력하세요.**
 4. Link Start!
 
+:::
+
 #### 루트 권한을 사용하여 무선 포트를 엽니다
 
 ~~root를 했으면 이 문서를 더이상 보지 않아도 됩니다~~
+
+::: steps
 
 1. [WADB](https://github.com/RikkaApps/WADB/releases)를 다운로드하고 루트 권한을 부여하여 설치합니다.
 2. WADB를 열고 무선 adb를 시작합니다.
 3. WADB에서 제공하는 IP 주소 및 포트를 MAA `설정` - `연결 설정` - `연결 주소`에 입력합니다. (예: `192.168.1.2:5555`)
 4. Link Start!
+
+:::

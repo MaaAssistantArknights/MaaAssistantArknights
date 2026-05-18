@@ -13,6 +13,8 @@ Experimental support. Please submit issues if you encounter problems, and includ
 
 Note: Due to macOS system limitations, screenshot issues may occur when minimizing the game window, switching to other windows while in Stage Manager, or moving the window to other desktops/screens. Related issue: [#4371](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
 
+::: steps
+
 0. Requirements: MAA version v4.13.0-rc.1 or newer
 
 1. Download and install the [forked version of PlayCover](https://github.com/hguandl/PlayCover/releases).
@@ -28,6 +30,8 @@ Note: Due to macOS system limitations, screenshot issues may occur when minimizi
 6. Setup complete! MAA should now connect successfully. If you encounter image recognition errors, try setting the resolution to 1080P in PlayCover.
 
 7. Steps 3-5 only need to be done once. After that, just launch Arknights. After each Arknights client update, you'll need to repeat step 2.
+
+:::
 
 ### ✅ [MuMu Emulator Pro](https://mumu.163.com/mac/)
 

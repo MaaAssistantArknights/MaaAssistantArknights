@@ -26,6 +26,8 @@ Typical `16:9` resolutions include `3840x2160` (4K), `2560x1440` (2K), `1920x108
 
 ## Download and Run ADB Debug Tool to Connect Device
 
+::: steps
+
 1. Download [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and extract it.
 2. Open the extracted folder, clear the address bar, type `cmd`, and press Enter.
 3. In the command prompt window that appears, type `adb`. If you see extensive help text, the command ran successfully.
@@ -35,6 +37,8 @@ Typical `16:9` resolutions include `3840x2160` (4K), `2560x1440` (2K), `1920x108
    ```bash
    adb devices
    ```
+
+:::
 
 - When executed successfully, it will show connected USB debugging devices.
   - Example of a successful connection:
@@ -114,23 +118,25 @@ It is strongly recommended to revert these changes **before the next device rebo
 
 ## Automate Resolution Changes
 
+::: steps
+
 1. Create two text files in the MAA directory with the following content:
 
-   ```bash
-   # Adjust resolution to 1080p
+   ```bat
+   :: Adjust resolution to 1080p
    adb -s <target device serial number> shell wm size 1080x1920
-   # Lower screen brightness (optional)
+   :: Lower screen brightness (optional)
    adb -s <target device serial number> shell settings put system screen_brightness 1
    ```
 
-   ```bash
-   # Restore resolution
+   ```bat
+   :: Restore resolution
    adb -s <target device serial number> shell wm size reset
-   # Increase screen brightness (optional)
+   :: Increase screen brightness (optional)
    adb -s <target device serial number> shell settings put system screen_brightness 20
-   # Return to home screen (optional)
+   :: Return to home screen (optional)
    adb -s <target device serial number> shell input keyevent 3
-   # Lock screen (optional)
+   :: Lock screen (optional)
    adb -s <target device serial number> shell input keyevent 26
    ```
 
@@ -138,6 +144,8 @@ It is strongly recommended to revert these changes **before the next device rebo
    - If no confirmation dialog appears when changing the extension and the file icon doesn't change, search for "How to show file extensions in Windows."
 
 3. In MAA's `Settings` - `Connection Settings`, set `Start Script` to `startup.bat` and `End Script` to `finish.bat`.
+
+:::
 
 ## Connect to MAA
 
@@ -157,6 +165,8 @@ Wired connections don't need IP addresses or ports - just the device serial numb
 
 #### Using `adb tcpip` for Wireless Debugging
 
+::: steps
+
 1. In the command prompt, enable wireless debugging:
 
    ```bash
@@ -171,11 +181,15 @@ Wired connections don't need IP addresses or ports - just the device serial numb
 3. Enter `<IP>:5555` in MAA's `Settings` - `Connection Settings` - `Connection Address`, e.g., `192.168.1.2:5555`.
 4. Link Start!
 
+:::
+
 #### Using `adb pair` for Wireless Debugging
 
 ::: tip
 `adb pair` wireless pairing (available in Android 11 and later via Developer Options) allows connection without a physical USB connection, unlike `adb tcpip`.
 :::
+
+::: steps
 
 1. On your phone, go to Developer Options, tap `Wireless Debugging` and enable it. Tap `Pair device with pairing code` and keep the popup open until pairing completes.
 
@@ -187,11 +201,17 @@ Wired connections don't need IP addresses or ports - just the device serial numb
 3. Enter the IP address and port shown on your device screen into MAA's `Settings` - `Connection Settings` - `Connection Address`, e.g., `192.168.1.2:11451`. **This is different from the address used for pairing**.
 4. Link Start!
 
+:::
+
 #### Using Root to Enable Wireless ADB
 
 ~~If you have access to root, why do you need to read this document~~
 
-1. Download, install [WADB](https://github.com/RikkaApps/WADB/releases) and grant it root privileges. 2.
-2. Open WADB and start wireless adb. 3.
+::: steps
+
+1. Download, install [WADB](https://github.com/RikkaApps/WADB/releases) and grant it root privileges.
+2. Open WADB and start wireless adb.
 3. Put the IP address and port provided by WADB into MAA `Settings` - `Connection` - `Connection Address`, such as `192.168.1.2:5555`.
 4. Link Start!
+
+:::
