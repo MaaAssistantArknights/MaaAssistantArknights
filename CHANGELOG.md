@@ -45,6 +45,12 @@ The minigame interface has been renamed to Useful Tasks, now featuring category 
 
 以下是详细内容：
 
+## v6.10.1
+
+### 修复 | Fix
+
+* 修复在遇到多个非法配置参数时会直接重置配置 @ABA2396
+
 ## v6.10.0
 
 ### 新增 | New
