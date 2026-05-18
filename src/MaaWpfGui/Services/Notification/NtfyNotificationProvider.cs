@@ -40,6 +40,7 @@ public class NtfyNotificationProvider(IHttpService httpService) : IExternalNotif
         if (!Uri.TryCreate(server, UriKind.Absolute, out var baseUri) ||
             (baseUri.Scheme != Uri.UriSchemeHttp && baseUri.Scheme != Uri.UriSchemeHttps))
         {
+            _logger.Warning("Failed to send Ntfy notification, invalid server URL: '{Server}'", server);
             return false;
         }
 
