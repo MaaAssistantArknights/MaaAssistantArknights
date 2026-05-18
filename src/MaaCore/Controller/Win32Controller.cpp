@@ -446,7 +446,7 @@ void Win32Controller::save_window_pos()
 {
     LogTraceFunction;
 
-    if (!(m_mouse_method & Win32Input::SendMessageWithWindowPos)) {
+    if (!(m_mouse_method & Win32Input::SendMessageWithWindowPos) || m_window_pos_saved) {
         return;
     }
 
