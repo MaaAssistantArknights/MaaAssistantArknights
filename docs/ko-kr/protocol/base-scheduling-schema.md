@@ -137,6 +137,6 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
 
 ## 예시
 
-[243 극한 효율, 하루 3회 교대](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/custom_infrast/243_layout_3_times_a_day.json)
+[243 극한 효율, 하루 3회 교대](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/243_layout_3_times_a_day.json)
 
-[153 극한 효율, 하루 3회 교대](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/custom_infrast/153_layout_3_times_a_day.json)
+[153 극한 효율, 하루 3회 교대](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/153_layout_3_times_a_day.json)
