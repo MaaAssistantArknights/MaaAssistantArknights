@@ -17,14 +17,12 @@ enum class TalesMode
 {
     ProsperityNoSave = 0, // 0 - 无存档刷繁荣点数
     ProsperityInSave = 1, // 1 - 有存档刷繁荣点数
-    _Count,
 };
 
 enum class RelaunchAnchorMode
 {
-    RA1 = 1 << 4,  // 0 - RA-1
-    RA15 = 2 << 4, // 1 - RA-15
-    _Count,
+    RA1 = 1 << 4,  // 1 << 4 - RA-1
+    RA15 = 2 << 4, // 2 << 4 - RA-15
 };
 
 using ReclamationMode = std::variant<TalesMode, RelaunchAnchorMode>;

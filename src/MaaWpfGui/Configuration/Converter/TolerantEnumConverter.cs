@@ -57,7 +57,7 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
         switch (reader.TokenType)
         {
             case JsonTokenType.String:
-                return ParseOrDefault(reader.GetString());
+                return ParseOrThrow(reader.GetString());
 
             case JsonTokenType.Number:
                 if (reader.TryGetInt64(out long longVal))
@@ -90,7 +90,7 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
     /// <inheritdoc/>
     public override TEnum ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return ParseOrDefault(reader.GetString());
+        return ParseOrThrow(reader.GetString());
     }
 
     /// <inheritdoc/>
@@ -99,7 +99,7 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
         writer.WritePropertyName(value.ToString());
     }
 
-    private static TEnum ParseOrDefault(string? value)
+    private static TEnum ParseOrThrow(string? value)
     {
         if (Enum.TryParse(value, ignoreCase: true, out TEnum result) && IsValidValue(result))
         {
@@ -149,17 +149,10 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
 
     private static ulong ToUInt64(TEnum value)
     {
-        object boxed = value;
         return _underlyingTypeCode switch
         {
-            TypeCode.SByte => unchecked((ulong)(sbyte)boxed),
-            TypeCode.Byte => (byte)boxed,
-            TypeCode.Int16 => unchecked((ulong)(short)boxed),
-            TypeCode.UInt16 => (ushort)boxed,
-            TypeCode.Int32 => unchecked((ulong)(int)boxed),
-            TypeCode.UInt32 => (uint)boxed,
-            TypeCode.Int64 => unchecked((ulong)(long)boxed),
-            TypeCode.UInt64 => (ulong)boxed,
+            TypeCode.SByte or TypeCode.Int16 or TypeCode.Int32 or TypeCode.Int64 => unchecked((ulong)Convert.ToInt64(value)),
+            TypeCode.Byte or TypeCode.UInt16 or TypeCode.UInt32 or TypeCode.UInt64 => Convert.ToUInt64(value),
             _ => throw new InvalidOperationException($"Unsupported enum underlying type: {_underlyingTypeCode}"),
         };
     }
