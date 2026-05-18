@@ -22,11 +22,11 @@ namespace MaaWpfGui.Configuration.Converter;
 
 /// <summary>
 /// 根级别容错转换器：反序列化 <see cref="Root"/> 时，
-/// 若遇到类型不匹配的 JSON 错误（如 <c>bool</c> 属性收到数值）则删除对应属性后重试。
+/// 若遇到可恢复的 JSON 类型转换错误，则删除对应属性后重试。
 /// </summary>
 /// <remarks>
-/// 枚举级别的容错已由 <see cref="TolerantEnumConverter{TEnum}"/> 在叶子节点处理，
-/// 此转换器主要防御非枚举类型的反序列化异常（如类型不匹配、格式错误等）。
+/// 叶子节点上的 <see cref="TolerantEnumConverter{TEnum}"/> 会把未知枚举值转换为带路径信息的
+/// <see cref="JsonException"/>；此转换器据此移除对应属性，使对象回退到声明时的默认值。
 /// </remarks>
 internal sealed class FaultTolerantRootConverter : JsonConverter<Root>
 {
