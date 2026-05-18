@@ -54,16 +54,7 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
         switch (reader.TokenType)
         {
             case JsonTokenType.String:
-                var str = reader.GetString();
-                if (Enum.TryParse(str, ignoreCase: true, out TEnum result) && Enum.IsDefined(result))
-                {
-                    return result;
-                }
-
-                _logger.Warning(
-                    "Unrecognized enum value \"{Value}\" for {EnumType}, using default value {Default}",
-                    str, typeof(TEnum).Name, default(TEnum));
-                return default;
+                return ParseOrDefault(reader.GetString());
 
             case JsonTokenType.Number:
                 if (reader.TryGetInt64(out long longVal))
@@ -103,5 +94,30 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
     public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(value.ToString());
+    }
+
+    /// <inheritdoc/>
+    public override TEnum ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        return ParseOrDefault(reader.GetString());
+    }
+
+    /// <inheritdoc/>
+    public override void WriteAsPropertyName(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
+    {
+        writer.WritePropertyName(value.ToString());
+    }
+
+    private TEnum ParseOrDefault(string? value)
+    {
+        if (Enum.TryParse(value, ignoreCase: true, out TEnum result) && Enum.IsDefined(result))
+        {
+            return result;
+        }
+
+        _logger.Warning(
+            "Unrecognized enum value \"{Value}\" for {EnumType}, using default value {Default}",
+            value, typeof(TEnum).Name, default(TEnum));
+        return default;
     }
 }
