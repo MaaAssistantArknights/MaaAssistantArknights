@@ -1,4 +1,4 @@
-## v6.10.0
+## v6.10.2
 
 ### Highlights
 
@@ -44,6 +44,12 @@ The minigame interface has been renamed to Useful Tasks, now featuring category 
 ----
 
 以下是详细内容：
+
+## v6.10.2
+
+### 修复 | Fix
+
+* 修复自定义枚举转换器无法处理枚举作为字典键 @ABA2396
 
 ## v6.10.1
 
