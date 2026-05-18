@@ -17,13 +17,12 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Serilog;
 
 namespace MaaWpfGui.Configuration.Converter;
 
 /// <summary>
 /// 容错枚举转换器工厂，为所有枚举类型自动创建 <see cref="TolerantEnumConverter{TEnum}"/>。
-/// 替代 <see cref="JsonStringEnumConverter"/>，遇到未知枚举值时返回默认值而非抛出异常。
+/// 替代 <see cref="JsonStringEnumConverter"/>，提供字符串枚举、字典键以及 <c>[Flags]</c> 组合值支持。
 /// </summary>
 internal sealed class TolerantEnumConverterFactory : JsonConverterFactory
 {
@@ -40,8 +39,8 @@ internal sealed class TolerantEnumConverterFactory : JsonConverterFactory
 
 /// <summary>
 /// 容错的枚举 JSON 转换器。
-/// 遇到无法识别的字符串或数值时，返回 <c>default(TEnum)</c> 并记录警告日志，
-/// 而非抛出 <see cref="JsonException"/>。
+/// 遇到无法识别的字符串或数值时，抛出带路径信息的 <see cref="JsonException"/>，
+/// 由上层根级容错逻辑决定如何恢复到属性默认值。
 /// </summary>
 /// <typeparam name="TEnum">枚举类型。</typeparam>
 internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
@@ -51,8 +50,6 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
     private static readonly TypeCode _underlyingTypeCode = Type.GetTypeCode(Enum.GetUnderlyingType(typeof(TEnum)));
     private static readonly HashSet<ulong> _definedValues = GetDefinedValues();
     private static readonly ulong _validFlagsMask = GetValidFlagsMask();
-
-    private readonly ILogger _logger = Log.ForContext<TolerantEnumConverter<TEnum>>();
 
     /// <inheritdoc/>
     public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -68,31 +65,19 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
                     var converted = (TEnum)Enum.ToObject(typeof(TEnum), longVal);
                     if (!IsValidValue(converted))
                     {
-                        _logger.Warning(
-                            "Numeric value {Value} is not a supported member of {EnumType}, using default value {Default}",
-                            longVal, typeof(TEnum).Name, default(TEnum));
-                        return default;
+                        throw CreateValueConversionException(longVal.ToString());
                     }
 
                     return converted;
                 }
 
-                _logger.Warning(
-                    "Failed to convert numeric value to enum type {EnumType}, using default value {Default}",
-                    typeof(TEnum).Name, default(TEnum));
-                return default;
+                throw CreateValueConversionException();
 
             case JsonTokenType.Null:
-                _logger.Warning(
-                    "Null value encountered for enum type {EnumType}, using default value {Default}",
-                    typeof(TEnum).Name, default(TEnum));
-                return default;
+                throw CreateValueConversionException();
 
             default:
-                _logger.Warning(
-                    "Unexpected token type {TokenType} for enum type {EnumType}, using default value {Default}",
-                    reader.TokenType, typeof(TEnum).Name, default(TEnum));
-                return default;
+                throw CreateValueConversionException();
         }
     }
 
@@ -114,17 +99,14 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
         writer.WritePropertyName(value.ToString());
     }
 
-    private TEnum ParseOrDefault(string? value)
+    private static TEnum ParseOrDefault(string? value)
     {
         if (Enum.TryParse(value, ignoreCase: true, out TEnum result) && IsValidValue(result))
         {
             return result;
         }
 
-        _logger.Warning(
-            "Unrecognized enum value \"{Value}\" for {EnumType}, using default value {Default}",
-            value, typeof(TEnum).Name, default(TEnum));
-        return default;
+        throw CreateValueConversionException(value);
     }
 
     private static bool IsValidValue(TEnum value)
@@ -180,5 +162,12 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
             TypeCode.UInt64 => (ulong)boxed,
             _ => throw new InvalidOperationException($"Unsupported enum underlying type: {_underlyingTypeCode}"),
         };
+    }
+
+    private static JsonException CreateValueConversionException(string? value = null)
+    {
+        return string.IsNullOrEmpty(value)
+            ? new JsonException($"The JSON value could not be converted to {typeof(TEnum)}.")
+            : new JsonException($"The JSON value '{value}' could not be converted to {typeof(TEnum)}.");
     }
 }
