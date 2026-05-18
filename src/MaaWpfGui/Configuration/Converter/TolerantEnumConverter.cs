@@ -46,6 +46,10 @@ internal sealed class TolerantEnumConverterFactory : JsonConverterFactory
 internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
     where TEnum : struct, Enum
 {
+    private static readonly bool _isFlagsEnum = typeof(TEnum).IsDefined(typeof(FlagsAttribute), inherit: false);
+    private static readonly TypeCode _underlyingTypeCode = Type.GetTypeCode(Enum.GetUnderlyingType(typeof(TEnum)));
+    private static readonly ulong _validFlagsMask = GetValidFlagsMask();
+
     private readonly ILogger _logger = Log.ForContext<TolerantEnumConverter<TEnum>>();
 
     /// <inheritdoc/>
@@ -60,7 +64,7 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
                 if (reader.TryGetInt64(out long longVal))
                 {
                     var converted = (TEnum)Enum.ToObject(typeof(TEnum), longVal);
-                    if (!Enum.IsDefined(converted))
+                    if (!IsValidValue(converted))
                     {
                         _logger.Warning(
                             "Numeric value {Value} is not a defined member of {EnumType}, using default value {Default}",
@@ -110,7 +114,7 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
 
     private TEnum ParseOrDefault(string? value)
     {
-        if (Enum.TryParse(value, ignoreCase: true, out TEnum result) && Enum.IsDefined(result))
+        if (Enum.TryParse(value, ignoreCase: true, out TEnum result) && IsValidValue(result))
         {
             return result;
         }
@@ -119,5 +123,49 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
             "Unrecognized enum value \"{Value}\" for {EnumType}, using default value {Default}",
             value, typeof(TEnum).Name, default(TEnum));
         return default;
+    }
+
+    private static bool IsValidValue(TEnum value)
+    {
+        if (Enum.IsDefined(value))
+        {
+            return true;
+        }
+
+        if (!_isFlagsEnum)
+        {
+            return false;
+        }
+
+        var rawValue = ToUInt64(value);
+        return rawValue != 0 && (rawValue & ~_validFlagsMask) == 0;
+    }
+
+    private static ulong GetValidFlagsMask()
+    {
+        ulong mask = 0;
+        foreach (var value in Enum.GetValues<TEnum>())
+        {
+            mask |= ToUInt64(value);
+        }
+
+        return mask;
+    }
+
+    private static ulong ToUInt64(TEnum value)
+    {
+        object boxed = value;
+        return _underlyingTypeCode switch
+        {
+            TypeCode.SByte => unchecked((ulong)(sbyte)boxed),
+            TypeCode.Byte => (byte)boxed,
+            TypeCode.Int16 => unchecked((ulong)(short)boxed),
+            TypeCode.UInt16 => (ushort)boxed,
+            TypeCode.Int32 => unchecked((ulong)(int)boxed),
+            TypeCode.UInt32 => (uint)boxed,
+            TypeCode.Int64 => unchecked((ulong)(long)boxed),
+            TypeCode.UInt64 => (ulong)boxed,
+            _ => throw new InvalidOperationException($"Unsupported enum underlying type: {_underlyingTypeCode}"),
+        };
     }
 }
