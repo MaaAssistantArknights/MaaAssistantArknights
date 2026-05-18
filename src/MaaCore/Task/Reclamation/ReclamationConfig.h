@@ -22,8 +22,8 @@ enum class TalesMode
 
 enum class RelaunchAnchorMode
 {
-    RA1 = 0,  // 0 - RA-1
-    RA15 = 1, // 1 - RA-15
+    RA1 = 1 << 4,  // 0 - RA-1
+    RA15 = 2 << 4, // 1 - RA-15
     _Count,
 };
 

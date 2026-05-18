@@ -18,7 +18,7 @@ bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
     // Reclamation Algorithm Mode
     const int modeInt = params.get("mode", 0);
     if (theme == ReclamationTheme::RelaunchAnchor) {
-        // 重启锚点：mode 0 = RA-1, mode 1 = RA-15
+        // 重启锚点: RA-1 = 1 << 4, RA-15 = 2 << 4
         if (modeInt < 0 || modeInt >= static_cast<int>(RelaunchAnchorMode::_Count)) {
             Log.error(__FUNCTION__, "| Invalid RelaunchAnchor mode", modeInt);
             return false;
