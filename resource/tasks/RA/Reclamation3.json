@@ -417,7 +417,7 @@
         "useRaw": false,
         "binThreshold": [200, 255],
         "postDelay": 1000,
-        "next": ["RelaunchAnchor@RA@RA15-ChooseStrategy"]
+        "next": ["RelaunchAnchor@RA@RA15-ChooseStrategy","#self"]
     },
     "RelaunchAnchor@RA@RA15-ChooseStrategy": {
         "doc": "步骤 2：OCR 识别 筹划经营",
@@ -432,17 +432,19 @@
         "doc": "步骤 3：OCR 识别 <确认选择> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["确认选择"],
+        "text": ["确认","选择"],
         "roi": [1055, 619, 117, 43],
-        "next": ["RelaunchAnchor@RA@RA15-Choose"]
+        "postDelay": 200,
+        "next": ["RelaunchAnchor@RA@RA15-Choose","#self"]
     },
     "RelaunchAnchor@RA@RA15-Choose": {
         "doc": "步骤 4：OCR 识别 <干员招募> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["干员招募"],
+        "text": ["干","员","招募"],
         "roi": [941, 131, 131, 34],
-        "next": ["RelaunchAnchor@RA@RA15-ExamineCXExistence", "RelaunchAnchor@RA@RA15-ClearChosen"]
+        "postDelay": 200,
+        "next": ["#self","RelaunchAnchor@RA@RA15-ExamineCXExistence", "RelaunchAnchor@RA@RA15-ClearChosen"]
     },
     "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
         "doc": "步骤 4.1：OCR 识别 <圣聆初雪> ",
@@ -458,6 +460,7 @@
         "action": "ClickSelf",
         "text": ["快捷编队"],
         "roi": [1096, 22, 78, 28],
+        "postDelay": 200,
         "next": ["RelaunchAnchor@RA@RA15-ClearChosen-2"]
     },
     "RelaunchAnchor@RA@RA15-ClearChosen-2": {
@@ -466,6 +469,7 @@
         "action": "ClickSelf",
         "text": ["清空"],
         "roi": [460, 660, 60, 30],
+        "postDelay": 200,
         "next": ["RelaunchAnchor@RA@RA15-Fill"]
     },
     "RelaunchAnchor@RA@RA15-Fill": {
@@ -669,16 +673,14 @@
         "doc": "步骤 16：OCR 识别 <外勤> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["外勤"],
+        "text": ["外","勤"],
         "roi": [404, 564, 50, 26],
         "next": ["#self", "RelaunchAnchor@RA@RA15-Plot2"]
     },
     "RelaunchAnchor@RA@RA15-Plot2": {
-        "doc": "步骤 16.1：OCR 识别 <看情> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["看情"],
-        "roi": [404, 564, 50, 26],
+        "doc": "步骤 16.1：模板匹配说话标识，持续点击直到标识消失",
+        "baseTask": "RelaunchAnchor@RA@Common-DialogueSequence",
+        "template": "RelaunchAnchor@RA@DialogueMarker.png",
         "next": ["#self", "RelaunchAnchor@RA@RA15-Plot3"]
     },
     "RelaunchAnchor@RA@RA15-Plot3": {
