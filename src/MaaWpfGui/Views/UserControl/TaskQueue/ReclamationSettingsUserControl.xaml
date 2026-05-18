@@ -53,7 +53,7 @@
                     d:IsEnabled="True"
                     hc:InfoElement.Placeholder="{DynamicResource ReclamationToolToCraftPlaceholder}"
                     hc:InfoElement.Title="{DynamicResource ReclamationToolToCraftTip}"
-                    IsEnabled="{c:Binding 'ReclamationMode == task:ReclamationMode.Archive',
+                    IsEnabled="{c:Binding 'ReclamationMode == task:ReclamationMode.ProsperityInSave',
                                           Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}"
                     Text="{Binding ReclamationToolToCraft}" />
                 <ComboBox
@@ -61,7 +61,7 @@
                     d:IsEnabled="True"
                     hc:InfoElement.Title="{DynamicResource ReclamationIncrementMode}"
                     DisplayMemberPath="Display"
-                    IsEnabled="{c:Binding 'ReclamationMode == task:ReclamationMode.Archive',
+                    IsEnabled="{c:Binding 'ReclamationMode == task:ReclamationMode.ProsperityInSave',
                                           Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}"
                     IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                     ItemsSource="{Binding ReclamationIncrementModeList}"

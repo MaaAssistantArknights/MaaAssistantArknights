@@ -84,7 +84,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
                 new() { Display = LocalizationHelper.GetString("ReclamationModeRA15"), Value = Mode.RA15 },
             ];
         }
-        ReclamationMode = ModeList.Any(x => x.Value == mode) ? mode : ModeList.First().Value;
+        ReclamationMode = ModeList.Any(x => x.Value == mode) ? mode : ModeList.FirstOrDefault()?.Value ?? default;
     }
 
     /// <summary>
