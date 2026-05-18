@@ -90,13 +90,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     /// <summary>
     /// Gets 生息演算模式列表
     /// </summary>
-    public List<GenericCombinedData<Mode>> ModeList { get => field; private set => SetAndNotify(ref field, value); } =
-        [
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = Mode.ProsperityNoSave },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = Mode.ProsperityInSave },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeRA1"), Value = Mode.RA1 },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeRA15"), Value = Mode.RA15 },
-        ];
+    public List<GenericCombinedData<Mode>> ModeList { get => field; private set => SetAndNotify(ref field, value); } = [];
 
     /// <summary>
     /// Gets or sets 生息演算模式（含义由主题决定）
