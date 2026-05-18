@@ -48,7 +48,7 @@ Accepted container types and their default titles are as follows:
 - `warning` Warning
 - `danger` Caution
 - `details` Details
-- `demo-wrapper` ==Special Container==
+- `window` ==Special Container==
 
 ### Container Examples
 
@@ -76,7 +76,7 @@ This is a danger container
 This is a details container
 :::
 
-::: demo-wrapper
+::: window
 This is a very special container
 :::
 
@@ -117,7 +117,7 @@ You can use the `!!content!!{config (optional)}` syntax, and the default effect 
 
 The following configurations are available:
 
-::: demo-wrapper
+::: window
 Input:
 
 ```markdown
@@ -194,7 +194,7 @@ We have wrapped an image container based on the functionality provided by the th
 
 You can use the `<ImageGrid>` component in the markdown body to invoke this method. The specific syntax and effects are as follows:
 
-::: demo-wrapper
+::: window
 
 This is the syntax:
 
