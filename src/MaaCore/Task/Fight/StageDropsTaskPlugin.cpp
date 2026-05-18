@@ -211,8 +211,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
             return drop.item_id == "4003"; // see StageDropType::Reward
         });
         if (!has_orundum) {
-            LogInfo << __FUNCTION__
-                    << "No orundum (4003) in recognized drops";
+            LogInfo << __FUNCTION__ << "No orundum (4003) in recognized drops";
         }
 
         RegionOCRer ocr(image);
