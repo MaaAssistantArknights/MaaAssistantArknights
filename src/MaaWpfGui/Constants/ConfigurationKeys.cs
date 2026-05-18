@@ -320,6 +320,9 @@ public static class ConfigurationKeys
     public const string ExternalNotificationQmsgBot = "ExternalNotification.Qmsg.Bot";
     public const string ExternalNotificationGotifyServer = "ExternalNotification.Gotify.Server";
     public const string ExternalNotificationGotifyToken = "ExternalNotification.Gotify.Token";
+    public const string ExternalNotificationNtfyServer = "ExternalNotification.Ntfy.Server";
+    public const string ExternalNotificationNtfyTopic = "ExternalNotification.Ntfy.Topic";
+    public const string ExternalNotificationNtfyToken = "ExternalNotification.Ntfy.Token";
     public const string ExternalNotificationCustomWebhookUrl = "ExternalNotification.CustomWebhook.Url";
     public const string ExternalNotificationCustomWebhookBody = "ExternalNotification.CustomWebhook.Body";
 

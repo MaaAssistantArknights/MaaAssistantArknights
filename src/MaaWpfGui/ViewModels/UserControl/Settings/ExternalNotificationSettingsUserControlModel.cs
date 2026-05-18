@@ -101,6 +101,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             "Bark",
             "Qmsg",
             "Gotify",
+            "Ntfy",
             "Custom Webhook"
         ];
 
@@ -213,6 +214,14 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _gotifyEnabled, value);
     }
 
+    private bool _ntfyEnabled = false;
+
+    public bool NtfyEnabled
+    {
+        get => _ntfyEnabled;
+        set => SetAndNotify(ref _ntfyEnabled, value);
+    }
+
     private bool _customWebhookEnabled = false;
 
     public bool CustomWebhookEnabled
@@ -232,6 +241,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         BarkEnabled = _enabledExternalNotificationProviders.Contains("Bark");
         QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
         GotifyEnabled = _enabledExternalNotificationProviders.Contains("Gotify");
+        NtfyEnabled = _enabledExternalNotificationProviders.Contains("Ntfy");
         CustomWebhookEnabled = _enabledExternalNotificationProviders.Contains("Custom Webhook");
     }
 
@@ -536,6 +546,45 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _gotifyToken, value);
             var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyToken, encryptedValue);
+        }
+    }
+
+    private string _ntfyServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationNtfyServer, "https://ntfy.sh"), "https://ntfy.sh");
+
+    public string NtfyServer
+    {
+        get => _ntfyServer;
+        set
+        {
+            SetAndNotify(ref _ntfyServer, value);
+            var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationNtfyServer, encryptedValue);
+        }
+    }
+
+    private string _ntfyTopic = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationNtfyTopic, string.Empty));
+
+    public string NtfyTopic
+    {
+        get => _ntfyTopic;
+        set
+        {
+            SetAndNotify(ref _ntfyTopic, value);
+            var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationNtfyTopic, encryptedValue);
+        }
+    }
+
+    private string _ntfyToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationNtfyToken, string.Empty));
+
+    public string NtfyToken
+    {
+        get => _ntfyToken;
+        set
+        {
+            SetAndNotify(ref _ntfyToken, value);
+            var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationNtfyToken, encryptedValue);
         }
     }
 

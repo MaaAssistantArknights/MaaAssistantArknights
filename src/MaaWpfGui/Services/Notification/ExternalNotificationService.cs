@@ -44,6 +44,7 @@ public static class ExternalNotificationService
                 "SMTP" => new SmtpNotificationProvider(),
                 "Bark" => new BarkNotificationProvider(Instances.HttpService),
                 "Qmsg" => new QmsgNotificationProvider(Instances.HttpService),
+                "Ntfy" => new NtfyNotificationProvider(Instances.HttpService),
                 _ => new DummyNotificationProvider(),
             };
 

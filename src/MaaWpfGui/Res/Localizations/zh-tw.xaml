@@ -73,6 +73,9 @@
     <system:String x:Key="ExternalNotificationQmsgBot">機器人 QQ</system:String>
     <system:String x:Key="ExternalNotificationGotifyServer">伺服器 URL</system:String>
     <system:String x:Key="ExternalNotificationGotifyToken">應用程式權杖 (Token)</system:String>
+    <system:String x:Key="ExternalNotificationNtfyServer">伺服器 URL</system:String>
+    <system:String x:Key="ExternalNotificationNtfyTopic">Topic</system:String>
+    <system:String x:Key="ExternalNotificationNtfyToken">Access Token（選用）</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">自定義 Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookBody">訊息本文範本</system:String>

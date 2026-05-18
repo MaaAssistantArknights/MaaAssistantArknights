@@ -73,6 +73,9 @@
     <system:String x:Key="ExternalNotificationQmsgBot">봇 QQ</system:String>
     <system:String x:Key="ExternalNotificationGotifyServer">서버 URL</system:String>
     <system:String x:Key="ExternalNotificationGotifyToken">애플리케이션 토큰</system:String>
+    <system:String x:Key="ExternalNotificationNtfyServer">서버 URL</system:String>
+    <system:String x:Key="ExternalNotificationNtfyTopic">Topic</system:String>
+    <system:String x:Key="ExternalNotificationNtfyToken">액세스 토큰 (선택 사항)</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookBody">메시지 본문 템플릿</system:String>
