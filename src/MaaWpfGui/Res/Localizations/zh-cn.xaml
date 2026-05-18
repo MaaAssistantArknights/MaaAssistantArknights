@@ -617,6 +617,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSave">允许使用源石保存状态</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
+    <system:String x:Key="UseSequenceStage">使用作战序列</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃 N 小时内过期的理智药</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">活动结束前 48H 吃当周过期理智药</system:String>
     <system:String x:Key="NoActivity">暂无活动</system:String>
@@ -787,6 +788,7 @@ C:\\leidian\\LDPlayer9。\n
 不调整游戏内代理倍率设定</system:String>
     <system:String x:Key="StageSelect">关卡指定</system:String>
     <system:String x:Key="StageSelect2">候选关卡</system:String>
+    <system:String x:Key="StageSelectSequence">作战序列</system:String>
     <system:String x:Key="AddStage">添加候选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
     <system:String x:Key="NoUse">不使用</system:String>

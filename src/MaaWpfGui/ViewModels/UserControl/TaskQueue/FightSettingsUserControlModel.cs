@@ -515,10 +515,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             SetTaskConfig<FightTask>(t => t.UseOptionalStage == value, t => t.UseOptionalStage = value);
             if (value)
             {
+                UseSequenceStage = false;
                 HideUnavailableStage = false;
                 StageResetMode = FightStageResetMode.Ignore;
             }
-            else
+            else if (!ShowStagePlan)
             {
                 var list = StagePlan;
                 if (list.Count == 0)
@@ -534,8 +535,43 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                     StagePlan.Add(stage);
                 }
             }
+            NotifyOfPropertyChange(nameof(ShowStagePlan));
         }
     }
+
+    public bool UseSequenceStage
+    {
+        get => GetTaskConfig<FightTask>().UseSequenceStage;
+        set {
+            SetTaskConfig<FightTask>(t => t.UseSequenceStage == value, t => t.UseSequenceStage = value);
+            if (value)
+            {
+                UseAlternateStage = false;
+                HideUnavailableStage = false;
+                StageResetMode = FightStageResetMode.Ignore;
+            }
+            else if (!ShowStagePlan)
+            {
+                var list = StagePlan;
+                if (list.Count == 0)
+                {
+                    var item = new StagePlanItem();
+                    item.PropertyChanged += (_, __) => SaveStagePlan();
+                    StagePlan.Add(item);
+                }
+                else
+                {
+                    var stage = list[0];
+                    StagePlan.Clear();
+                    StagePlan.Add(stage);
+                }
+            }
+            NotifyOfPropertyChange(nameof(ShowStagePlan));
+        }
+    }
+
+    [PropertyDependsOn(nameof(UseAlternateStage), nameof(UseSequenceStage))]
+    public bool ShowStagePlan => UseAlternateStage || UseSequenceStage;
 
     public bool AllowUseStoneSave
     {
@@ -713,7 +749,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             return;
         }
         using var refresh = new UiRefreshingScope();
-        if (!UseAlternateStage && fight.StagePlan.Count == 0)
+        if (!ShowStagePlan && fight.StagePlan.Count == 0)
         {
             fight.StagePlan.Add(string.Empty);
         }
@@ -1019,12 +1055,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 return (null, []);
             }
 
-            string? stage = GetFightStage(fight.StagePlan);
-            if (stage is null)
-            {
-                return (null, []);
-            }
-
             var time = DateTimeOffset.Now;
             var activityExpireIn2Days = false;
             var activityList = Instances.StageManager.ActivityList.Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
@@ -1038,42 +1068,86 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
             var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
             var activityExpireDays = activityExpireIn2Days && fight.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0;
-            var task = new AsstFightTask() {
-                Stage = stage,
-                Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
-                Stone = fight.UseStone != false ? fight.StoneCount : 0,
-                Series = fight.Series,
-                MaxTimes = fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue,
-                MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
-                IsDrGrandet = fight.IsDrGrandet,
-                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-                PenguinId = SettingsViewModel.GameSettings.PenguinId,
-                YituliuId = SettingsViewModel.GameSettings.PenguinId,
-                ServerType = Instances.SettingsViewModel.ServerType,
-                ClientType = SettingsViewModel.GameSettings.ClientType,
-            };
 
-            if (task.Stage == AnnihilationName && fight.UseCustomAnnihilation)
+            AsstFightTask CreateTaskForStage(string stg, int? timesOverride = null)
             {
-                task.Stage = fight.AnnihilationStage;
+                var task = new AsstFightTask() {
+                    Stage = stg,
+                    Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
+                    Stone = fight.UseStone != false ? fight.StoneCount : 0,
+                    Series = fight.Series,
+                    MaxTimes = timesOverride ?? (fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue),
+                    MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
+                    IsDrGrandet = fight.IsDrGrandet,
+                    ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                    ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                    PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                    YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                    ServerType = Instances.SettingsViewModel.ServerType,
+                    ClientType = SettingsViewModel.GameSettings.ClientType,
+                };
+
+                if (task.Stage == AnnihilationName && fight.UseCustomAnnihilation)
+                {
+                    task.Stage = fight.AnnihilationStage;
+                }
+
+                if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId))
+                {
+                    task.Drops.Add(fight.DropId, fight.DropCount);
+                }
+
+                return task;
             }
 
-            if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId))
+            if (fight.UseSequenceStage)
             {
-                task.Drops.Add(fight.DropId, fight.DropCount);
+                List<int> ids = new();
+                bool anySuccess = false;
+                // Append in reverse so the execution order becomes FIFO if core processes tasks LIFO
+                foreach (var stageName in fight.StagePlan.AsEnumerable().Reverse())
+                {
+                    if (string.IsNullOrWhiteSpace(stageName)) continue;
+                    if (Instances.StageManager.IsStageOpen(stageName, Instances.TaskQueueViewModel.CurDayOfWeek))
+                    {
+                        // For sequence mode, run each appended stage once then move to next
+                        var t = CreateTaskForStage(stageName, 1);
+                        if (fight.EnableTimesLimit is not false && fight.Series > 0 && fight.TimesLimit % fight.Series != 0)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", fight.TimesLimit, fight.Series), UiLogColor.Warning);
+                        }
+                        var appendResult = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, t);
+                        if (appendResult.TaskId > 0)
+                        {
+                            ids.Add(appendResult.TaskId);
+                            anySuccess = true;
+                        }
+                    }
+                }
+                if (!anySuccess) return (null, []);
+                // ids currently in order of appended tasks; return them
+                return (true, ids);
             }
-
-            if (fight.EnableTimesLimit is not false && fight.Series > 0 && fight.TimesLimit % fight.Series != 0)
+            else
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", fight.TimesLimit, fight.Series), UiLogColor.Warning);
-            }
+                string? stage = GetFightStage(fight.StagePlan);
+                if (stage is null)
+                {
+                    return (null, []);
+                }
+                
+                var task = CreateTaskForStage(stage);
+                if (fight.EnableTimesLimit is not false && fight.Series > 0 && fight.TimesLimit % fight.Series != 0)
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesMayNotExhausted", fight.TimesLimit, fight.Series), UiLogColor.Warning);
+                }
 
-            return taskId switch {
-                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
-                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task)),
-                _ => (null, []),
-            };
+                return taskId switch {
+                    int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
+                    null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task)),
+                    _ => (null, []),
+                };
+            }
         }
     }
 }

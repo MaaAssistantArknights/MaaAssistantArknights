@@ -206,7 +206,7 @@
                         Text="{DynamicResource StageSelect}"
                         TextAlignment="Center"
                         TextWrapping="Wrap"
-                        Visibility="{c:Binding !UseAlternateStage}" />
+                        Visibility="{c:Binding !ShowStagePlan}" />
                     <controls:TextBlock
                         Margin="6,11"
                         HorizontalAlignment="Center"
@@ -215,6 +215,14 @@
                         TextAlignment="Center"
                         TextWrapping="Wrap"
                         Visibility="{c:Binding UseAlternateStage}" />
+                    <controls:TextBlock
+                        Margin="6,11"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Text="{DynamicResource StageSelectSequence}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap"
+                        Visibility="{c:Binding UseSequenceStage}" />
                     <controls:TooltipBlock
                         Margin="0,5,6,0"
                         HorizontalAlignment="Right"
@@ -231,20 +239,20 @@
                         Content="{DynamicResource AddStage}"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                        Visibility="{c:Binding UseAlternateStage}" />
+                        Visibility="{c:Binding ShowStagePlan}" />
                 </Grid>
                 <ListBox
                     Grid.Column="1"
-                    MinHeight="{c:Binding 'UseAlternateStage ? 75 : 0'}"
+                    MinHeight="{c:Binding 'ShowStagePlan ? 75 : 0'}"
                     Margin="6,6"
                     Padding="-1"
                     VerticalAlignment="Top"
                     HorizontalContentAlignment="Stretch"
                     d:ItemsSource="{d:SampleData ItemCount=2}"
                     dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
-                    dd:DragDrop.IsDragSource="{Binding UseAlternateStage}"
-                    dd:DragDrop.IsDropTarget="{Binding UseAlternateStage}"
-                    BorderThickness="{c:Binding 'UseAlternateStage ? 1 : 0'}"
+                    dd:DragDrop.IsDragSource="{Binding ShowStagePlan}"
+                    dd:DragDrop.IsDropTarget="{Binding ShowStagePlan}"
+                    BorderThickness="{c:Binding 'ShowStagePlan ? 1 : 0'}"
                     ClipToBounds="False"
                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
@@ -327,7 +335,7 @@
                                                 <MultiDataTrigger>
                                                     <MultiDataTrigger.Conditions>
                                                         <Condition Binding="{Binding IsMouseOver, ElementName=StageItemGrid}" Value="True" />
-                                                        <Condition Binding="{c:Binding DataContext.UseAlternateStage, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Value="True" />
+                                                        <Condition Binding="{c:Binding DataContext.ShowStagePlan, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Value="True" />
                                                     </MultiDataTrigger.Conditions>
                                                     <Setter Property="Visibility" Value="Visible" />
                                                 </MultiDataTrigger>
@@ -454,6 +462,10 @@
                 Margin="0,10"
                 Content="{DynamicResource UseAlternateStage}"
                 IsChecked="{Binding UseAlternateStage}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource UseSequenceStage}"
+                IsChecked="{Binding UseSequenceStage}" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource HideUnavailableStage}"
