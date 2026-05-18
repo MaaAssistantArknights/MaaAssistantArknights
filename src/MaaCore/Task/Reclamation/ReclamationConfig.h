@@ -15,15 +15,15 @@ public:
 
 enum class TalesMode
 {
-    ProsperityNoSave = 0,  // 0 - 无存档刷繁荣点数
-    ProsperityInSave = 1,  // 1 - 有存档刷繁荣点数
+    ProsperityNoSave = 0, // 0 - 无存档刷繁荣点数
+    ProsperityInSave = 1, // 1 - 有存档刷繁荣点数
     _Count,
 };
 
 enum class RelaunchAnchorMode
 {
-    RA1 = 0,   // 0 - RA-1
-    RA15 = 1,  // 1 - RA-15
+    RA1 = 0,  // 0 - RA-1
+    RA15 = 1, // 1 - RA-15
     _Count,
 };
 

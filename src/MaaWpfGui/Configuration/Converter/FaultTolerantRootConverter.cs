@@ -1,4 +1,4 @@
-// <copyright file="InvalidEnumValueRemoveConverter.cs" company="MaaAssistantArknights">
+// <copyright file="FaultTolerantRootConverter.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -20,9 +20,17 @@ using Serilog;
 
 namespace MaaWpfGui.Configuration.Converter;
 
-internal sealed class InvalidEnumValueRemoveConverter : JsonConverter<Root>
+/// <summary>
+/// 根级别容错转换器：反序列化 <see cref="Root"/> 时，
+/// 若遇到类型不匹配的 JSON 错误（如 <c>bool</c> 属性收到数值）则删除对应属性后重试。
+/// </summary>
+/// <remarks>
+/// 枚举级别的容错已由 <see cref="TolerantEnumConverter{TEnum}"/> 在叶子节点处理，
+/// 此转换器主要防御非枚举类型的反序列化异常（如类型不匹配、格式错误等）。
+/// </remarks>
+internal sealed class FaultTolerantRootConverter : JsonConverter<Root>
 {
-    private readonly ILogger _logger = Log.ForContext<InvalidEnumValueRemoveConverter>();
+    private readonly ILogger _logger = Log.ForContext<FaultTolerantRootConverter>();
 
     public override Root? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -33,29 +41,59 @@ internal sealed class InvalidEnumValueRemoveConverter : JsonConverter<Root>
 
         using var jsonDoc = JsonDocument.ParseValue(ref reader);
         string json = jsonDoc.RootElement.GetRawText();
-        try
+
+        JsonNode? node = JsonNode.Parse(json);
+
+        if (node is not JsonObject rootObj)
         {
-            return JsonSerializer.Deserialize<Root>(json, GetOptionsWithoutThisConverter(options));
+            throw new JsonException("Root configuration JSON must be a JSON object.");
         }
-        catch (JsonException ex) when (IsRecoverableInvalidEnumFailure(ex))
+
+        const int maxRetryCount = 20;
+
+        for (int retry = 0; retry <= maxRetryCount; retry++)
         {
-            var node = JsonNode.Parse(json);
-            if (node is not JsonObject rootObj)
+            try
             {
-                throw new JsonException("Root configuration JSON must be a JSON object.", ex);
-            }
+                var obj = JsonSerializer.Deserialize<Root>(
+                    rootObj.ToJsonString(),
+                    GetOptionsWithoutThisConverter(options));
 
-            if (!TryRemovePropertyByMetadataPath(rootObj, ex.Path))
+                if (retry > 0)
+                {
+                    _logger.Information(
+                        "Deserialization succeeded after {RetryCount} recovery attempt(s)",
+                        retry);
+                }
+
+                return obj;
+            }
+            catch (JsonException ex) when (IsRecoverableTypeConversionFailure(ex))
             {
-                throw;
+                if (retry == maxRetryCount)
+                {
+                    _logger.Error(
+                        ex,
+                        "Exceeded maximum retry count while removing properties with invalid values");
+
+                    throw;
+                }
+
+                if (!TryRemovePropertyByMetadataPath(rootObj, ex.Path))
+                {
+                    throw;
+                }
+
+                _logger.Warning(
+                    ex,
+                    "Invalid value in configuration JSON at path {Path}; removed property and retrying ({Retry}/{MaxRetry})",
+                    ex.Path,
+                    retry + 1,
+                    maxRetryCount);
             }
-
-            _logger.Warning(ex, "Invalid enum in configuration JSON at path {Path}; removed property and retrying deserialization once", ex.Path);
-
-            var obj = JsonSerializer.Deserialize<Root>(rootObj.ToJsonString(), GetOptionsWithoutThisConverter(options));
-            _logger.Information("Deserialization succeeded after removing invalid enum property at path {Path}", ex.Path);
-            return obj;
         }
+
+        throw new JsonException("Unexpected deserialization failure.");
     }
 
     public override void Write(Utf8JsonWriter writer, Root value, JsonSerializerOptions options)
@@ -63,15 +101,15 @@ internal sealed class InvalidEnumValueRemoveConverter : JsonConverter<Root>
         JsonSerializer.Serialize(writer, value, GetOptionsWithoutThisConverter(options)); // 使用默认序列化
     }
 
-    private static bool IsRecoverableInvalidEnumFailure(JsonException ex)
+    private static bool IsRecoverableTypeConversionFailure(JsonException ex)
     {
         if (string.IsNullOrWhiteSpace(ex.Path))
         {
             return false;
         }
 
-        var text = ex.ToString();
-        return text.Contains("could not be converted", StringComparison.OrdinalIgnoreCase) && text.Contains("Enum", StringComparison.OrdinalIgnoreCase);
+        var message = ex.Message;
+        return message.Contains("could not be converted", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool TryRemovePropertyByMetadataPath(JsonObject root, string? path)
@@ -111,7 +149,7 @@ internal sealed class InvalidEnumValueRemoveConverter : JsonConverter<Root>
     }
 
     /// <summary>
-    /// 解析 <see cref="JsonException.Path"/> 风格路径（如 <c>$.Configurations.default.TaskQueue[0].StageResetMode</c>）。
+    /// 解析 <see cref="JsonException.Path"/> 风格路径（如 <c>$.Configurations.default.TaskQueue[0].Stage</c>）。
     /// </summary>
     private static bool TryParseJsonExceptionPath(string path, List<string> segments)
     {
@@ -212,7 +250,7 @@ internal sealed class InvalidEnumValueRemoveConverter : JsonConverter<Root>
         var newOptions = new JsonSerializerOptions(options);
         for (int i = newOptions.Converters.Count - 1; i >= 0; i--)
         {
-            if (newOptions.Converters[i] is InvalidEnumValueRemoveConverter)
+            if (newOptions.Converters[i] is FaultTolerantRootConverter)
             {
                 newOptions.Converters.RemoveAt(i);
             }
