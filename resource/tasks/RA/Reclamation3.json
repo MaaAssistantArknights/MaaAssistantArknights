@@ -144,7 +144,7 @@
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [530, 630, 10, 10],
-        "rectMove": [960, 290, 1, 1],
+        "rectMove": [955, 300, 1, 1],
         "specialParams": [500, 0, 3, 0],
         "next": ["RelaunchAnchor@RA@RA1-WaitDoubleSpeed"]
     },
