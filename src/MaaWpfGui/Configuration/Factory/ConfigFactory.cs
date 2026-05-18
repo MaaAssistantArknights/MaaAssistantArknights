@@ -182,6 +182,15 @@ public static class ConfigFactory
                     parsed.Configurations.Remove(name);
                     _logger.Information("Configuration {ConfigName} does not exist in old configuration, remove it", name);
                 }
+
+                foreach (var name in configNames)
+                {
+                    if (!parsed.Configurations.ContainsKey(name))
+                    {
+                        parsed.Configurations.Add(name, new SpecificConfig());
+                        _logger.Information("Configuration {ConfigName} exists in old configuration but not in new configuration, add it", name);
+                    }
+                }
             }
 
             if (parsed.Configurations.All(i => i.Key != parsed.Current))
