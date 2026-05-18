@@ -14,6 +14,7 @@
 #nullable enable
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Serilog;
@@ -48,6 +49,7 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
 {
     private static readonly bool _isFlagsEnum = typeof(TEnum).IsDefined(typeof(FlagsAttribute), inherit: false);
     private static readonly TypeCode _underlyingTypeCode = Type.GetTypeCode(Enum.GetUnderlyingType(typeof(TEnum)));
+    private static readonly HashSet<ulong> _definedValues = GetDefinedValues();
     private static readonly ulong _validFlagsMask = GetValidFlagsMask();
 
     private readonly ILogger _logger = Log.ForContext<TolerantEnumConverter<TEnum>>();
@@ -67,7 +69,7 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
                     if (!IsValidValue(converted))
                     {
                         _logger.Warning(
-                            "Numeric value {Value} is not a defined member of {EnumType}, using default value {Default}",
+                            "Numeric value {Value} is not a supported member of {EnumType}, using default value {Default}",
                             longVal, typeof(TEnum).Name, default(TEnum));
                         return default;
                     }
@@ -127,7 +129,8 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
 
     private static bool IsValidValue(TEnum value)
     {
-        if (Enum.IsDefined(value))
+        var rawValue = ToUInt64(value);
+        if (_definedValues.Contains(rawValue))
         {
             return true;
         }
@@ -137,8 +140,18 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
             return false;
         }
 
-        var rawValue = ToUInt64(value);
         return rawValue != 0 && (rawValue & ~_validFlagsMask) == 0;
+    }
+
+    private static HashSet<ulong> GetDefinedValues()
+    {
+        HashSet<ulong> values = [];
+        foreach (var value in Enum.GetValues<TEnum>())
+        {
+            values.Add(ToUInt64(value));
+        }
+
+        return values;
     }
 
     private static ulong GetValidFlagsMask()
