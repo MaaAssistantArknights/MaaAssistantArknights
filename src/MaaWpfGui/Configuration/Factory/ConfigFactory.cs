@@ -415,8 +415,15 @@ public static class ConfigFactory
     {
         if (Root.Configurations.ContainsKey(configName) is false)
         {
-            _logger.Warning("Configuration {ConfigName} does not exist", configName);
-            return false;
+            _logger.Warning("Configuration {ConfigName} does not exist in ConfigFactory, attempting to recover from current configuration", configName);
+            if (!AddConfiguration(configName, Root.Current))
+            {
+                _logger.Error("Failed to recover missing configuration {ConfigName}", configName);
+                return false;
+            }
+
+            ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("ConfigurationRecoveredNotification", configName));
+            _logger.Warning("Configuration {ConfigName} recovered from current configuration {Current}", configName, Root.Current);
         }
 
         Root.Current = configName;
@@ -427,6 +434,12 @@ public static class ConfigFactory
     {
         if (string.IsNullOrEmpty(configName))
         {
+            return false;
+        }
+
+        if (ConfigurationHelper.GetConfigurationList().Contains(configName) is false)
+        {
+            _logger.Error("Configuration {ConfigName} does not exist in ConfigurationHelper, cannot add to ConfigFactory", configName);
             return false;
         }
 

@@ -22,6 +22,7 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using static MaaWpfGui.Main.AsstProxy;
+using Mode = MaaWpfGui.Configuration.Single.MaaTask.ReclamationMode;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -51,66 +52,55 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     public Theme ReclamationTheme
     {
         get => GetTaskConfig<ReclamationTask>().Theme;
-        set
-        {
-            if (SetTaskConfig<ReclamationTask>(
-                t => t.Theme == value,
-                t => {
-                    t.Theme = value;
-                    t.Mode = 0; // 切换主题时重置模式
-                    if (value == Theme.RelaunchAnchor)
-                    {
-                        t.ClearStore = false;
-                    }
-                }))
+        set {
+            if (SetTaskConfig<ReclamationTask>(t => t.Theme == value, t => t.Theme = value))
             {
+                RefreshModeList();
+                if (value == Theme.RelaunchAnchor)
+                {
+                    ReclamationClearStore = false;
+                }
+
                 // 主题变更后刷新高级设置可见性
                 TaskSettingVisibilityInfo.Instance.RefreshAdvancedSettingsVisibility();
             }
         }
     }
 
-    /// <summary>
-    /// Gets 生息演算模式列表（沙洲遗闻专用）
-    /// </summary>
-    public List<GenericCombinedData<int>> ReclamationTalesModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = (int)TalesMode.ProsperityNoSave },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = (int)TalesMode.ProsperityInSave },
-        ];
+    public void RefreshModeList()
+    {
+        var mode = ReclamationMode;
+        if (ReclamationTheme == Theme.Tales)
+        {
+            ModeList = [
+                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = Mode.ProsperityNoSave },
+                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = Mode.ProsperityInSave },
+            ];
+        }
+        else if (ReclamationTheme == Theme.RelaunchAnchor)
+        {
+            ModeList = [
+                new() { Display = LocalizationHelper.GetString("ReclamationModeRA1"), Value = Mode.RA1 },
+                new() { Display = LocalizationHelper.GetString("ReclamationModeRA15"), Value = Mode.RA15 },
+            ];
+        }
+        ReclamationMode = ModeList.Any(x => x.Value == mode) ? mode : ModeList.FirstOrDefault()?.Value ?? default;
+    }
 
     /// <summary>
-    /// Gets 生息演算模式列表（重启锚点专用）
+    /// Gets 生息演算模式列表
     /// </summary>
-    public List<GenericCombinedData<int>> ReclamationRelaunchAnchorModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("ReclamationModeRA1"), Value = (int)RelaunchAnchorMode.RA1 },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeRA15"), Value = (int)RelaunchAnchorMode.RA15 },
-        ];
+    public List<GenericCombinedData<Mode>> ModeList { get => field; private set => SetAndNotify(ref field, value); } = [];
 
     /// <summary>
     /// Gets or sets 生息演算模式（含义由主题决定）
     /// </summary>
     [PropertyDependsOn(nameof(ReclamationTheme))]
-    public int ReclamationMode
+    public Mode ReclamationMode
     {
         get => GetTaskConfig<ReclamationTask>().Mode;
         set => SetTaskConfig<ReclamationTask>(t => t.Mode == value, t => t.Mode = value);
     }
-
-    /// <summary>
-    /// Gets a value indicating whether 当前模式为有存档模式（仅对 Tales 主题有意义）
-    /// </summary>
-    [PropertyDependsOn(nameof(ReclamationTheme), nameof(ReclamationMode))]
-    public bool IsProsperityInSaveMode =>
-        ReclamationTheme == Theme.Tales && ReclamationMode == (int)TalesMode.ProsperityInSave;
-
-    /// <summary>
-    /// Gets a value indicating whether 当前模式为无存档模式（仅对 Tales 主题有意义）
-    /// </summary>
-    [PropertyDependsOn(nameof(ReclamationTheme), nameof(ReclamationMode))]
-    public bool IsProsperityNoSaveMode =>
-        ReclamationTheme == Theme.Tales && ReclamationMode == (int)TalesMode.ProsperityNoSave;
 
     /// <summary>
     /// Gets or sets 要组装的支援道具
@@ -177,7 +167,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
                 case Theme.RelaunchAnchor:
                     {
                         // mode 0 = RA-1, mode 1 = RA-15
-                        var stageNum = mode == (int)RelaunchAnchorMode.RA15 ? 15 : 1;
+                        var stageNum = mode == Mode.RA15 ? 15 : 1;
                         var stageTipKey = $"ReclamationTipRelaunchAnchorRA{stageNum}";
                         if (LocalizationHelper.TryGetString(stageTipKey, out var stageTip))
                         {
@@ -199,6 +189,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     {
         if (baseTask is ReclamationTask)
         {
+            RefreshModeList();
             Refresh();
         }
     }
@@ -217,7 +208,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
             var toolToCraft = !string.IsNullOrEmpty(reclamation.ToolToCraft) ? reclamation.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
             var task = new AsstReclamationTask() {
                 Theme = reclamation.Theme,
-                Mode = reclamation.Mode,
+                Mode = (int)reclamation.Mode,
                 IncrementMode = reclamation.IncrementMode,
                 MaxCraftCountPerRound = reclamation.MaxCraftCountPerRound,
                 ToolToCraft = [.. toolToCraft.Split(';').Select(s => s.Trim())],

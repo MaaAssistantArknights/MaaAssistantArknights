@@ -1,4 +1,4 @@
-## v6.10.2
+## v6.10.3
 
 ### Highlights
 
@@ -44,6 +44,18 @@ The minigame interface has been renamed to Useful Tasks, now featuring category 
 ----
 
 以下是详细内容：
+
+## v6.10.3
+
+### 改进 | Improved
+
+* 优化 [Flags] 判断 @ABA2396
+* RA mode (#16697)  @status102
+
+### 修复 | Fix
+
+* TolerantEnumConverter 支持 Flags @ABA2396
+* 遇到无法转换的枚举值转换为带路径信息的 JsonException @ABA2396
 
 ## v6.10.2
 

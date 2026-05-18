@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -26,19 +27,9 @@ public class ReclamationTask : BaseTask
     public ReclamationTheme Theme { get; set; } = ReclamationTheme.Tales;
 
     /// <summary>
-    /// Gets or sets 生息演算模式（含义由 Theme 决定）
-    /// <list type="bullet">
-    ///     <item>
-    ///         <term><c>0</c></term>
-    ///         <description>Tales: 无存档刷繁荣点数 / RelaunchAnchor: RA-1</description>
-    ///     </item>
-    ///     <item>
-    ///         <term><c>1</c></term>
-    ///         <description>Tales: 有存档刷繁荣点数 / RelaunchAnchor: RA-15</description>
-    ///     </item>
-    /// </list>
+    /// Gets or sets 生息演算模式
     /// </summary>
-    public int Mode { get; set; } = 0;
+    public ReclamationMode Mode { get; set; } = ReclamationMode.ProsperityInSave;
 
     /// <summary>
     /// Gets or sets 要组装的支援道具
@@ -76,28 +67,26 @@ public enum ReclamationTheme
     RelaunchAnchor,
 }
 
-public enum TalesMode
+[Flags]
+public enum ReclamationMode
 {
     /// <summary>
-    /// 无存档，通过进出关卡刷生息点数
+    /// #沙洲遗闻, 无存档，通过进出关卡刷生息点数
     /// </summary>
     ProsperityNoSave = 0,
 
     /// <summary>
-    /// 有存档，通过组装支援道具刷生息点数
+    /// #沙洲遗闻, 有存档，通过组装支援道具刷生息点数
     /// </summary>
     ProsperityInSave = 1,
-}
-
-public enum RelaunchAnchorMode
-{
-    /// <summary>
-    /// RA-1
-    /// </summary>
-    RA1 = 0,
 
     /// <summary>
-    /// RA-15
+    /// #重启锚点, RA-1
     /// </summary>
-    RA15 = 1,
+    RA1 = 1 << 4,
+
+    /// <summary>
+    /// #重启锚点, RA-15
+    /// </summary>
+    RA15 = 2 << 4,
 }
