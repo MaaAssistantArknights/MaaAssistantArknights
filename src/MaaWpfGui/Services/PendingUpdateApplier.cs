@@ -23,6 +23,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Serilog;
@@ -460,7 +461,8 @@ internal static partial class PendingUpdateApplier
 
         // Args: <ParentPid> <RootDir> <ExtractDir> <BackupDir>
         //       <PackagePath> <SuccessStatusFile> <FailureStatusFile>
-        //       <RelaunchExecutablePath> <PlanFile> [--show-console]
+        //       <RelaunchExecutablePath> <PlanFile>
+        //       [--instance-key <key>] [--show-console]
         startInfo.ArgumentList.Add(Environment.ProcessId.ToString());
         startInfo.ArgumentList.Add(context.RootDir);
         startInfo.ArgumentList.Add(context.ExtractDir);
@@ -470,6 +472,8 @@ internal static partial class PendingUpdateApplier
         startInfo.ArgumentList.Add(DelegatedUpdateFailureStatusFilePath);
         startInfo.ArgumentList.Add(relaunchExecutablePath);
         startInfo.ArgumentList.Add(planPath);
+        startInfo.ArgumentList.Add("--instance-key");
+        startInfo.ArgumentList.Add(Bootstrapper.InstanceKey);
         if (showUpdaterConsole)
         {
             startInfo.ArgumentList.Add("--show-console");

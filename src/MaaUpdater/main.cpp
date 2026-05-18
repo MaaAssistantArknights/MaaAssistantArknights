@@ -5,7 +5,8 @@
 // Usage:
 //   MAA.Updater.exe <ParentProcessId> <RootDir> <ExtractDir> <BackupDir>
 //                   <PackagePath> <SuccessStatusFile> <FailureStatusFile>
-//                   <RelaunchExecutablePath> <PlanFile> [--show-console]
+//                   <RelaunchExecutablePath> <PlanFile>
+//                   [--instance-key <sha256>] [--show-console]
 //
 // Plan file format (UTF-8 JSON):
 //   { "packageType": "full|ota", "removeList": ["rel/path", ...], "moveList": ["rel/path", ...] }
@@ -94,6 +95,8 @@ static bool LoadPendingUpdatePlan(
     std::string* rawJson = nullptr);
 static void PrintPlanEntries(const std::wstring& title, const std::vector<std::wstring>& entries);
 static int RunPlanParserTest(const std::wstring& initialPlanFile);
+static HANDLE AcquireUpdateMutex(const std::wstring& mutexName);
+static void ReleaseUpdateMutex(HANDLE hMutex);
 
 struct UpdateProgressUi
 {
@@ -135,6 +138,8 @@ static constexpr int PROGRESS_DETAIL_CONTROL_ID = 1002;
 static constexpr int PROGRESS_COUNT_CONTROL_ID = 1003;
 static constexpr int PROGRESS_BAR_CONTROL_ID = 1004;
 static constexpr DWORD LEGACY_DWMWA_USE_IMMERSIVE_DARK_MODE = 19;
+static constexpr wchar_t INSTANCE_KEY_ARG[] = L"--instance-key";
+static constexpr DWORD UPDATE_MUTEX_TIMEOUT_MS = 3000;
 
 #ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
 #define DWMWA_USE_IMMERSIVE_DARK_MODE 20
@@ -1388,6 +1393,54 @@ static int RunPlanParserTest(const std::wstring& initialPlanFile)
 }
 
 // ---------------------------------------------------------------------------
+// Update mutex helpers
+// ---------------------------------------------------------------------------
+
+// Acquires a named system mutex to prevent new MAA instances from starting
+// while the update is in progress. Returns nullptr if the mutex cannot be
+// acquired (e.g. another MAA instance holds the lock).
+static HANDLE AcquireUpdateMutex(const std::wstring& mutexName)
+{
+    HANDLE hMutex = CreateMutexW(nullptr, TRUE, mutexName.c_str());
+    if (hMutex == nullptr) {
+        WriteLog((L"CreateMutexW failed, error=" + std::to_wstring(GetLastError())).c_str());
+        return nullptr;
+    }
+
+    DWORD waitResult = WaitForSingleObject(hMutex, UPDATE_MUTEX_TIMEOUT_MS);
+
+    if (waitResult == WAIT_OBJECT_0) {
+        WriteLog((L"Mutex acquired: " + mutexName).c_str());
+        return hMutex;
+    }
+
+    if (waitResult == WAIT_ABANDONED) {
+        // Previous MAA instance terminated abnormally; we now own the mutex.
+        WriteLog((L"Mutex acquired after WAIT_ABANDONED (previous instance crashed): " + mutexName).c_str());
+        return hMutex;
+    }
+
+    if (waitResult == WAIT_TIMEOUT) {
+        WriteLog((L"Mutex acquisition timed out after " + std::to_wstring(UPDATE_MUTEX_TIMEOUT_MS) + L"ms: " + mutexName).c_str());
+    } else {
+        WriteLog((L"WaitForSingleObject failed, error=" + std::to_wstring(GetLastError())).c_str());
+    }
+
+    CloseHandle(hMutex);
+    return nullptr;
+}
+
+static void ReleaseUpdateMutex(HANDLE hMutex)
+{
+    if (hMutex == nullptr || hMutex == INVALID_HANDLE_VALUE) {
+        return;
+    }
+
+    ReleaseMutex(hMutex);
+    CloseHandle(hMutex);
+}
+
+// ---------------------------------------------------------------------------
 // Entry point
 // ---------------------------------------------------------------------------
 
@@ -1422,6 +1475,14 @@ int wmain(int argc, wchar_t* argv[])
     std::wstring planFile            = argv[9];
     g_writeConsoleLog = HasArgument(argc, argv, L"--show-console");
 
+    std::wstring instanceKey;
+    for (int i = 1; i < argc - 1; ++i) {
+        if (_wcsicmp(argv[i], INSTANCE_KEY_ARG) == 0) {
+            instanceKey = argv[i + 1];
+            break;
+        }
+    }
+
     g_logFile = rootDir + L"\\debug\\pending-update-applier.log";
     RotateLogIfNeeded();
     InitializeProgressUi();
@@ -1437,6 +1498,7 @@ int wmain(int argc, wchar_t* argv[])
     bool shouldRelaunch = false;
     bool success = false;
     std::wstring failureReason;
+    HANDLE hUpdateMutex = nullptr;
 
     // ------------------------------------------------------------------
     // Wait for parent process to exit
@@ -1457,6 +1519,27 @@ int wmain(int argc, wchar_t* argv[])
         SetProgressUiStatus(
             L"正在准备更新... | Preparing update...",
             L"主程序已退出，开始读取更新计划 | Main process already exited, reading update plan");
+    }
+
+    // ------------------------------------------------------------------
+    // Acquire update mutex to prevent new MAA instances from starting
+    // ------------------------------------------------------------------
+    if (!instanceKey.empty()) {
+        std::wstring mutexName = L"MAA_" + instanceKey;
+        hUpdateMutex = AcquireUpdateMutex(mutexName);
+        if (hUpdateMutex == nullptr) {
+            failureReason =
+                L"检测到另一个 MAA 实例正在运行，无法执行更新。请关闭所有 MAA 窗口后重试。\n\n"
+                L"Another MAA instance is running. Please close all MAA windows and try again.";
+            WriteLog(failureReason.c_str());
+            SetProgressUiStatus(
+                L"无法继续更新 | Update blocked",
+                L"检测到另一个 MAA 实例正在运行 | Another MAA instance is running");
+        } else {
+            WriteLog(L"Update mutex acquired, preventing new MAA instances from starting.");
+        }
+    } else {
+        WriteLog(L"No instance key provided, update mutex will not be used.");
     }
 
     if (IsDriveRootDirectory(rootDir)) {
@@ -1638,6 +1721,15 @@ int wmain(int argc, wchar_t* argv[])
 
     if (PathExistsW(planFile))
         DeleteFileW(planFile.c_str());
+
+    // ------------------------------------------------------------------
+    // Release update mutex
+    // ------------------------------------------------------------------
+    if (hUpdateMutex != nullptr) {
+        ReleaseUpdateMutex(hUpdateMutex);
+        hUpdateMutex = nullptr;
+        WriteLog(L"Update mutex released.");
+    }
 
     // ------------------------------------------------------------------
     // Relaunch MAA
