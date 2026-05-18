@@ -94,7 +94,7 @@ internal sealed class TolerantEnumConverter<TEnum> : JsonConverter<TEnum>
             default:
                 _logger.Warning(
                     "Unexpected token type {TokenType} for enum type {EnumType}, using default value {Default}",
-                    typeof(TEnum).Name, reader.TokenType, default(TEnum));
+                    reader.TokenType, typeof(TEnum).Name, default(TEnum));
                 return default;
         }
     }
