@@ -442,6 +442,49 @@ bool Win32Controller::unit_click_key(int key)
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     return unit->key_up(key);
 }
+void Win32Controller::save_window_pos()
+{
+    LogTraceFunction;
+
+    if (!(m_mouse_method & Win32Input::SendMessageWithWindowPos)) {
+        return;
+    }
+
+    HWND hwnd = static_cast<HWND>(m_hwnd);
+    if (!hwnd || !IsWindow(hwnd)) {
+        return;
+    }
+
+    if (GetWindowRect(hwnd, &m_saved_window_rect)) {
+        m_window_pos_saved = true;
+        Log.info("Saved window position:", m_saved_window_rect.left, m_saved_window_rect.top);
+    }
+}
+
+void Win32Controller::restore_window_pos()
+{
+    LogTraceFunction;
+
+    if (!m_window_pos_saved) {
+        return;
+    }
+
+    m_window_pos_saved = false;
+
+    HWND hwnd = static_cast<HWND>(m_hwnd);
+    if (!hwnd || !IsWindow(hwnd)) {
+        return;
+    }
+
+    int x = m_saved_window_rect.left;
+    int y = m_saved_window_rect.top;
+    int width = m_saved_window_rect.right - m_saved_window_rect.left;
+    int height = m_saved_window_rect.bottom - m_saved_window_rect.top;
+
+    SetWindowPos(hwnd, nullptr, x, y, width, height, SWP_NOZORDER | SWP_NOACTIVATE);
+    Log.info("Restored window position:", x, y);
+}
+
 } // namespace asst
 
 #endif // _WIN32

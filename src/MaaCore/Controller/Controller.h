@@ -99,6 +99,9 @@ public:
     bool press_esc();
     ControlFeat::Feat support_features();
 
+    void save_window_pos();
+    void restore_window_pos();
+
     std::pair<int, int> get_scale_size() const noexcept;
 
     Controller& operator=(const Controller&) = delete;

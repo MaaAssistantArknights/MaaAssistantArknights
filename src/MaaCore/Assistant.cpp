@@ -512,6 +512,10 @@ void Assistant::working_proc()
             continue;
         }
 
+        if (finished_tasks.empty()) {
+            m_ctrler->save_window_pos();
+        }
+
         m_running = true;
         const auto [id, task_ptr] = m_tasks_list.front();
         lock.unlock();
@@ -537,11 +541,13 @@ void Assistant::working_proc()
         append_callback(msg, callback_json);
 
         if (m_thread_idle) {
+            m_ctrler->restore_window_pos();
             finished_tasks.clear();
             continue;
         }
 
         if (m_tasks_list.empty()) {
+            m_ctrler->restore_window_pos();
             callback_json["finished_tasks"] = json::array(finished_tasks);
             append_callback(AsstMsg::AllTasksCompleted, callback_json);
             finished_tasks.clear();
@@ -553,6 +559,7 @@ void Assistant::working_proc()
         m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
 
         if (m_thread_idle) {
+            m_ctrler->restore_window_pos();
             append_callback(AsstMsg::TaskChainStopped, callback_json);
         }
     }

@@ -474,6 +474,26 @@ cv::Mat asst::Controller::get_image_cache() const
     return get_resized_image_cache();
 }
 
+void asst::Controller::save_window_pos()
+{
+#ifdef _WIN32
+    auto* win32_ctrl = dynamic_cast<Win32Controller*>(m_controller.get());
+    if (win32_ctrl) {
+        win32_ctrl->save_window_pos();
+    }
+#endif
+}
+
+void asst::Controller::restore_window_pos()
+{
+#ifdef _WIN32
+    auto* win32_ctrl = dynamic_cast<Win32Controller*>(m_controller.get());
+    if (win32_ctrl) {
+        win32_ctrl->restore_window_pos();
+    }
+#endif
+}
+
 bool asst::Controller::screencap(bool allow_reconnect)
 {
     CHECK_EXIST(m_controller, false);

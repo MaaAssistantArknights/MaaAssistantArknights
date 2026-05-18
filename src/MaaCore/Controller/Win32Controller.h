@@ -96,6 +96,13 @@ private:
     Win32ScreencapMethod m_screencap_method = Win32Screencap::None;
     Win32InputMethod m_mouse_method = Win32Input::None;
     Win32InputMethod m_keyboard_method = Win32Input::None;
+
+    RECT m_saved_window_rect {};
+    bool m_window_pos_saved = false;
+
+public:
+    void save_window_pos();
+    void restore_window_pos();
 };
 } // namespace asst
 
