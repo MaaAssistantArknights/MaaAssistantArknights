@@ -1052,6 +1052,7 @@ public class AsstProxy
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
                 _tasksStatus.Clear();
+                _taskStageMap.Clear();
                 break;
 
             case AsstMsg.TaskChainError:
@@ -1100,6 +1101,8 @@ public class AsstProxy
                 {
                     // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
                     UpdateTaskStatus(taskId, TaskStatus.Completed);
+                    // Remove any registered stage mapping for this completed task
+                    try { _taskStageMap.Remove(taskId); } catch { }
                     if (_tasksStatus.TryGetValue(taskId, out var taskInfo))
                     {
                         if (_mainTaskTypes.Contains(taskInfo.Type))
@@ -1511,6 +1514,24 @@ public class AsstProxy
 
     private static void ProcSubTaskStart(JObject details)
     {
+        // Try to print executing stage when available
+        try
+        {
+            AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
+            if (taskId > 0)
+            {
+                var stage = Instances.AsstProxy.GetRegisteredStage(taskId);
+                if (!string.IsNullOrEmpty(stage))
+                {
+                    Instances.TaskQueueViewModel.AddLog("正在执行：" + stage, UiLogColor.Info);
+                }
+            }
+        }
+        catch
+        {
+            // ignore
+        }
+
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
         switch (subTask)
         {
@@ -1996,7 +2017,7 @@ public class AsstProxy
                     break;
                 }
 
-            case "RecruitTagsRefreshed":
+            case "RecruitTagsRefresshed":
                 {
                     int refreshCount = (int)subTaskDetails!["count"]!;
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Refreshed") + refreshCount + LocalizationHelper.GetString("UnitTime"));
@@ -2867,7 +2888,35 @@ public class AsstProxy
 
     private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
 
+    // Map task id -> human readable stage name for sequence logging
+    private readonly Dictionary<AsstTaskId, string> _taskStageMap = new();
+
     public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
+
+    /// <summary>
+    /// Registers a mapping from a core task id to a stage name (used for sequence mode logging).
+    /// </summary>
+    public void RegisterTaskStage(AsstTaskId id, string stage)
+    {
+        try
+        {
+            if (id > 0 && !string.IsNullOrWhiteSpace(stage))
+            {
+                _taskStageMap[id] = stage;
+            }
+        }
+        catch
+        {
+            // ignore
+        }
+    }
+    /// <summary>
+    /// Returns a registered stage name for a given task id or null if not registered.
+    /// </summary>
+    public string? GetRegisteredStage(AsstTaskId id)
+    {
+        return id > 0 && _taskStageMap.TryGetValue(id, out var s) ? s : null;
+    }
 
     public delegate void TaskItemStatusDelegate(int taskId, TaskItemStatus status);
 
@@ -2896,6 +2945,19 @@ public class AsstProxy
         if (status == TaskStatus.InProgress)
         {
             TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
+        }
+
+        // When task finished or errored, remove any registered stage mapping to avoid leaks
+        if (status == TaskStatus.Completed || status == TaskStatus.Error)
+        {
+            try
+            {
+                _taskStageMap.Remove(id);
+            }
+            catch
+            {
+                // ignore
+            }
         }
 
         return true;

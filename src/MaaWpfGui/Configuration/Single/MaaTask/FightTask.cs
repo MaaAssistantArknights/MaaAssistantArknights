@@ -124,6 +124,11 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     public bool UseOptionalStage { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 使用作战序列
+    /// </summary>
+    public bool UseSequenceStage { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 允许保存碎石状态
     /// </summary>
     public bool UseStoneAllowSave { get; set; }
