@@ -319,7 +319,7 @@
 
                         <hc:TransitioningContentControl
                             Width="500"
-                            Height="270"
+                            Height="340"
                             d:Visibility="Visible"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 3'}">
@@ -333,77 +333,176 @@
                                     Margin="0,10,0,10"
                                     hc:RelativePanel.RightOf="{Binding ElementName=ToolTipGuide}"
                                     TooltipText="{DynamicResource CheckBoxesNotSaved}" />
-                                <Border
-                                    Name="Task"
-                                    Padding="5,0,0,0"
+                                <TextBlock
+                                    Name="ToolTipArrow"
+                                    Margin="10,0"
+                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=ToolTipGuide}"
                                     hc:RelativePanel.Below="{Binding ElementName=ToolTipGuide}"
+                                    FontSize="14"
+                                    Text="↓" />
+                                <Border
+                                    x:Name="TaskItemBorder"
+                                    Width="220"
+                                    Padding="5,0,0,0"
+                                    hc:RelativePanel.Below="{Binding ElementName=ToolTipArrow}"
                                     BorderBrush="{DynamicResource BorderBrush}"
                                     BorderThickness="1"
                                     CornerRadius="4">
-                                    <StackPanel Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <RadioButton
+                                            Grid.Column="0"
+                                            Margin="0"
+                                            Padding="0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Left"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Style="{DynamicResource RadioGroupItemSingle}">
+                                            <RadioButton.ToolTip>
+                                                <ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
+                                                        <TextBlock Text="{DynamicResource TaskSettings}" />
+                                                    </StackPanel>
+                                                </ToolTip>
+                                            </RadioButton.ToolTip>
+                                        </RadioButton>
                                         <CheckBox
-                                            Width="180"
+                                            Grid.Column="0"
+                                            Width="120"
+                                            HorizontalAlignment="Left"
                                             Content="{DynamicResource Combat}"
                                             MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                                           Target={x:Type helper:CheckBoxHelper}}"
                                             ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
-                                        <hc:ButtonGroup>
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel.Style>
+                                                    <Style TargetType="StackPanel">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=TaskItemBorder}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </StackPanel.Style>
+                                                <Button
+                                                    Width="22"
+                                                    Height="22"
+                                                    Margin="0"
+                                                    hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
+                                                    hc:IconElement.Width="14"
+                                                    hc:IconElement.Height="14"
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    BorderThickness="0"
+                                                    Padding="0"
+                                                    ToolTip="{DynamicResource Copy}">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                                <Button
+                                                    Width="22"
+                                                    Height="22"
+                                                    Margin="0"
+                                                    hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
+                                                    hc:IconElement.Width="14"
+                                                    hc:IconElement.Height="14"
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    BorderThickness="0"
+                                                    Padding="0"
+                                                    ToolTip="{DynamicResource Rename}">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                                <Button
+                                                    Width="22"
+                                                    Height="22"
+                                                    Margin="0"
+                                                    hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                                    hc:IconElement.Width="14"
+                                                    hc:IconElement.Height="14"
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    BorderThickness="0"
+                                                    Padding="0"
+                                                    ToolTip="{DynamicResource Delete}">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </StackPanel>
                                             <RadioButton
+                                                Width="22"
+                                                Margin="0,0,4,0"
+                                                Padding="0"
                                                 hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                                 hc:VisualElement.HighlightBackground="Transparent"
                                                 hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                                                 Background="Transparent"
                                                 BorderThickness="0"
-                                                Foreground="{DynamicResource SecondaryTextBrush}"
                                                 Style="{DynamicResource RadioGroupItemSingle}">
                                                 <RadioButton.ToolTip>
                                                     <ToolTip>
                                                         <StackPanel>
                                                             <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
                                                             <TextBlock Text="{DynamicResource TaskSettings}" />
-
-                                                            <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
-                                                            <TextBlock>
-                                                                <Run Text="{DynamicResource RunTaskOnce}" />
-                                                                <Run Text=" / " />
-                                                                <Run Text="{DynamicResource Rename}" />
-                                                                <Run Text=" / " />
-                                                                <Run Text="{DynamicResource Delete}" />
-                                                            </TextBlock>
                                                         </StackPanel>
                                                     </ToolTip>
                                                 </RadioButton.ToolTip>
-                                                <RadioButton.ContextMenu>
-                                                    <ContextMenu Width="150">
-                                                        <MenuItem Header="{DynamicResource RunTaskOnce}" />
-                                                        <MenuItem Header="{DynamicResource Rename}" />
-                                                        <MenuItem Header="{DynamicResource Delete}" />
-                                                    </ContextMenu>
-                                                </RadioButton.ContextMenu>
                                             </RadioButton>
-                                        </hc:ButtonGroup>
-                                    </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
                                 </Border>
                                 <TextBlock
-                                    Name="RightClickRenameDelete"
-                                    Margin="-22,10"
+                                    Name="HoverActionButtons"
+                                    Margin="-60,10"
                                     HorizontalAlignment="Left"
-                                    hc:RelativePanel.Above="{Binding ElementName=Task}"
-                                    hc:RelativePanel.RightOf="{Binding ElementName=Task}"
+                                    hc:RelativePanel.Above="{Binding ElementName=TaskItemBorder}"
+                                    hc:RelativePanel.RightOf="{Binding ElementName=TaskItemBorder}"
                                     FontSize="14"
-                                    Text="{DynamicResource RightClickRenameDelete}" />
+                                    Text="{DynamicResource HoverActionButtons}" />
                                 <TextBlock
                                     Name="TaskGuide"
                                     Margin="10"
-                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=Task}"
-                                    hc:RelativePanel.Below="{Binding ElementName=Task}"
+                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=TaskItemBorder}"
+                                    hc:RelativePanel.Below="{Binding ElementName=TaskItemBorder}"
                                     FontSize="14"
                                     Text="{DynamicResource TaskGuide}" />
                                 <TextBlock
                                     Name="TaskSettingsGuide1"
                                     Margin="0,5,30,0"
-                                    hc:RelativePanel.AlignRightWith="{Binding ElementName=Task}"
-                                    hc:RelativePanel.Below="{Binding ElementName=Task}"
+                                    hc:RelativePanel.AlignRightWith="{Binding ElementName=TaskItemBorder}"
+                                    hc:RelativePanel.Below="{Binding ElementName=TaskItemBorder}"
                                     FontSize="14"
                                     Text="↗" />
                                 <TextBlock
@@ -421,21 +520,23 @@
                                     hc:RelativePanel.Below="{Binding ElementName=TaskSettingsGuide2}"
                                     FontSize="14"
                                     Text="↙" />
-                                <TextBlock
-                                    Name="GeneralSettingsGuide"
-                                    Margin="5,10"
-                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=TaskGuide}"
-                                    hc:RelativePanel.Below="{Binding ElementName=TaskGuide}"
-                                    FontSize="14"
-                                    Text="{DynamicResource OftenUsedGuide}" />
                                 <hc:ButtonGroup
                                     Name="TaskSettings"
                                     Width="220"
-                                    hc:RelativePanel.Below="{Binding ElementName=GeneralSettingsGuide}"
+                                    Margin="0,10,0,0"
+                                    hc:RelativePanel.Below="{Binding ElementName=TaskSettingsGuide3}"
+                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=TaskItemBorder}"
                                     Orientation="Horizontal">
                                     <RadioButton Content="{DynamicResource GeneralSettings}" IsChecked="True" />
                                     <RadioButton Content="{DynamicResource AdvancedSettings}" />
                                 </hc:ButtonGroup>
+                                <TextBlock
+                                    Name="GeneralSettingsGuide"
+                                    Margin="5,10"
+                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=TaskSettings}"
+                                    hc:RelativePanel.Below="{Binding ElementName=TaskSettings}"
+                                    FontSize="14"
+                                    Text="{DynamicResource OftenUsedGuide}" />
                                 <TextBlock
                                     Name="AdvancedSettingsGuide"
                                     Margin="5,10"
@@ -447,7 +548,7 @@
                                     Name="LinkStart"
                                     Width="100"
                                     Height="50"
-                                    Margin="5"
+                                    Margin="5,15,5,5"
                                     hc:RelativePanel.Below="{Binding ElementName=AdvancedSettingsGuide}"
                                     Content="{DynamicResource LinkStart}" />
                                 <TextBlock
