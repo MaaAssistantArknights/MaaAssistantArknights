@@ -146,7 +146,8 @@
         "specificRect": [530, 630, 10, 10],
         "rectMove": [955, 300, 1, 1],
         "specialParams": [500, 0, 3, 0],
-        "next": ["RelaunchAnchor@RA@RA1-WaitDoubleSpeed"]
+        "postDelay": 1000,
+        "next": ["RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt", "RelaunchAnchor@RA@RA1-WaitDoubleSpeed"]
     },
     "RelaunchAnchor@RA@RA1-WaitDoubleSpeed": {
         "doc": "步骤 11 前等待二倍速提示出现",
