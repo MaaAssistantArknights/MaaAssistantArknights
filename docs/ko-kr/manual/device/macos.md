@@ -17,7 +17,7 @@ icon: basil:apple-solid
 
 0. 요구 사항: MAA 버전 v4.13.0-rc.1 이상
 
-1. [fork버전의 PlayCover](https://github.com/hguandl/PlayCover/releases)를 다운로드하고 설치하세요.
+1. [fork 버전의 PlayCover](https://github.com/hguandl/PlayCover/releases)를 다운로드하고 설치하세요.
 
 2. [복호화된 명일방주 설치 파일](https://decrypt.day/app/id1454663939)을 다운로드하고 PlayCover에 설치하세요.
 
