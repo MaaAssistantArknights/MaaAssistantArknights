@@ -73,8 +73,7 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 
 bool asst::InfrastProductionTask::change_product()
 {
-    auto run_change_task =
-        [&](const std::string& task_name, const std::string& product_name, const std::string& verify_task_name) {
+    auto run_change_task = [&](const std::string& task_name, const std::string& verify_task_name) {
         // 只有切换流程和产物复核都通过，才上报 ProductChanged。
         if (!ProcessTask(*this, { task_name }).run()) {
             Log.error("change product failed", task_name);
@@ -86,9 +85,6 @@ bool asst::InfrastProductionTask::change_product()
             return false;
         }
 
-        json::value callback_info = basic_info_with_what("ProductChanged");
-        callback_info["details"]["product"] = product_name;
-        callback(AsstMsg::SubTaskExtraInfo, callback_info);
         return true;
     };
 
@@ -96,36 +92,53 @@ bool asst::InfrastProductionTask::change_product()
     switch (customProduct) {
     /*制造站的产品类型*/
     case infrast::CustomRoomConfig::Product::BattleRecord: {
-        return run_change_task(
-            "ChangeProductToMiddleBattleRecord",
-            "MiddleBattleRecord",
-            "VerifyProductChangedToBattleRecord");
+        if (!run_change_task("ChangeProductToMiddleBattleRecord", "VerifyProductChangedToBattleRecord")) {
+            return false;
+        }
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "MiddleBattleRecord";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
     }
     case infrast::CustomRoomConfig::Product::PureGold: {
-        return run_change_task("ChangeProductToPureGold", "PureGold", "VerifyProductChangedToPureGold");
+        if (!run_change_task("ChangeProductToPureGold", "VerifyProductChangedToPureGold")) {
+            return false;
+        }
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "PureGold";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
     }
     case infrast::CustomRoomConfig::Product::OriginiumShard: {
-        return run_change_task(
-            "ChangeProductToOriginiumShard",
-            "OriginiumShard",
-            "VerifyProductChangedToOriginiumShard");
+        if (!run_change_task("ChangeProductToOriginiumShard", "VerifyProductChangedToOriginiumShard")) {
+            return false;
+        }
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "OriginiumShard";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
     }
     case infrast::CustomRoomConfig::Product::Dualchip: {
-        return true;
+        break;
     }
     /*贸易站的订单类型*/
     case infrast::CustomRoomConfig::Product::LMD: {
-        return run_change_task("ChangeToMoneyOrder", "Money", "VerifyProductChangedToMoney");
+        ProcessTask(*this, { "ChangeToMoneyOrder" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "Money";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
     }
     case infrast::CustomRoomConfig::Product::Orundum: {
-        return run_change_task(
-            "ChangeToSyntheticJadeFlagOrder",
-            "SyntheticJade",
-            "VerifyProductChangedToSyntheticJade");
+        ProcessTask(*this, { "ChangeToSyntheticJadeFlagOrder" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "SyntheticJade";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
     }
 
     default: {
-        return true;
+        break;
     }
     }
     return true;

@@ -2942,14 +2942,6 @@
         "template": "InfrastMfgOriginStoneFlag.png",
         "roi": [1000, 0, 280, 720]
     },
-    "VerifyProductChangedToMoney": {
-        "template": "InfrastTradeMoneyFlag.png",
-        "roi": [900, 500, 380, 220]
-    },
-    "VerifyProductChangedToSyntheticJade": {
-        "template": "InfrastTradeSyntheticJadeFlag.png",
-        "roi": [900, 500, 380, 220]
-    },
     "InfrastAddOperatorMfgGentle": {
         "template": "AddOperatorMfgGentle.png",
         "templThreshold": 0.8,
