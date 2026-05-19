@@ -563,7 +563,7 @@ public class RemoteControlService
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次(任务及基建列表)
             // Instances.TaskQueueViewModel.TaskItemSelectionChanged();
             // TaskQueueViewModel.InfrastTask.InfrastOrderSelectionChanged();
-            InvokeInstanceMethod(Instances.TaskQueueViewModel, "ClearLog");
+            Instances.TaskQueueViewModel.ClearLog();
 
             /*await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));*/
 

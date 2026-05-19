@@ -17,6 +17,8 @@ icon: basil:apple-solid
 
 注： `macOS` の仕組みにより、ゲームウィンドウを最小化したり、ステージマネージャーで別のウィンドウに切り替えたり、ウィンドウを別のデスクトップ/画面に移動したりすると、スクリーンショットに問題が発生し、正しく実行されなくなります。 👉🏻️ [issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512) を参照
 
+::: steps
+
 0. 要件: MAA バージョン v4.13.0-rc.1 以降
 
 1. [PlayCover のフォークバージョン](https://github.com/hguandl/PlayCover/releases) をダウンロードしてインストールします。
@@ -32,6 +34,8 @@ icon: basil:apple-solid
 6. セットアップが完了すると、MAA は接続する準備が整います。 画像認識でエラーが発生した場合は、PlayCover で解像度を 1080p に設定してみてください。
 
 7. ステップ 3-5 は一度だけ行う必要があり、その後はアークナイツをアクティブにするだけで済みます。アークナイツのクライアントを更新するたびに、手順2を再度実行する必要があります。
+
+:::
 
 ### ✅ [MuMu エミューレータ Pro](https://mumu.163.com/mac/)
 

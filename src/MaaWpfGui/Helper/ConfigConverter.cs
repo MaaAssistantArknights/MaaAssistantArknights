@@ -79,7 +79,7 @@ public class ConfigConverter
             ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled, ConfigurationKeys.CustomInfrastPlanShowInFightSettings,
         ];
 
-        foreach (var name in ConfigFactory.ConfigList.ToList())
+        foreach (var name in ConfigFactory.ConfigKeys.ToList())
         {
             ConfigFactory.DeleteConfiguration(name);
         }

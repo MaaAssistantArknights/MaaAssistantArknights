@@ -13,9 +13,11 @@ icon: basil:apple-solid
 
 참고: macOS 자체적인 문제로 인해 게임 창을 최소화하거나 배경으로 이동한 후 다른 창으로 전환하거나 창을 다른 데스크톱/화면으로 이동하는 경우 스크린샷이 문제가 발생하여 제대로 작동하지 않을 수 있습니다. 관련된 이슈 [#4371](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
 
+::: steps
+
 0. 요구 사항: MAA 버전 v4.13.0-rc.1 이상
 
-1. [fork버전의 PlayCover](https://github.com/hguandl/PlayCover/releases)를 다운로드하고 설치하세요.
+1. [fork 버전의 PlayCover](https://github.com/hguandl/PlayCover/releases)를 다운로드하고 설치하세요.
 
 2. [복호화된 명일방주 설치 파일](https://decrypt.day/app/id1454663939)을 다운로드하고 PlayCover에 설치하세요.
 
@@ -28,6 +30,8 @@ icon: basil:apple-solid
 6. 설정이 완료되면 MAA에 연결할 수 있습니다. 이미지 인식 오류가 발생하는 경우 PlayCover 내에서 해상도를 1080P로 설정해 보세요.
 
 7. 3-5 단계는 한 번만 수행하면 됩니다. 이후 명일방주를 다시 업데이트한 후에는 2단계를 다시 수행해야 합니다.
+
+:::
 
 ### ✅ [MuMu 에뮬레이터 Pro](https://mumu.163.com/mac/)
 

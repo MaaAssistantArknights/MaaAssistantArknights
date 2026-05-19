@@ -1086,12 +1086,11 @@ C:\\leidian\\LDPlayer9
         2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}: 右下の「行動開始」ボタン画面で開始してください。\n\n
         3. {key=SSS}: resource/copilot フォルダー内に複数の課題があります。まず手動で編成を行い、右下の「配置開始」ボタン画面で開始してください。「{key=LoopTimes}」と連携することもできます。\n\n
         4. {key=ParadoxSimulation}: スキルを選択した後、スキル選択画面に「演算開始」ボタンが表示され、1/2 星{key=Operator}（スキルなし）が右下に「演算開始」ボタンを表示されて開始します。「{key=UseCopilotList}」を使用する場合、{key=Operator}リストの｢レベル/レアリティ｣タブから開始してください。\n\n
-        5. サポートを使うときは、「{key=AutoSquad}」と「{key=UseCopilotList}」をオフにし、手動で {key=Operator} を選択した後、編成画面の右下に「行動開始」ボタン画面で開始してください。\n\n
-        6. 「戦術要員」機能を有効にすると、「{key=AutoSquad}」の{key=Operator}選択に影響を与える可能性があります。「{key=AutoSquad}」を 使用する際は「戦術要員」をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
-        7. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます：\n
+        5. 「戦術要員」機能を有効にすると、「{key=AutoSquad}」の{key=Operator}選択に影響を与える可能性があります。「{key=AutoSquad}」を 使用する際は「戦術要員」をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
+        6. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます：\n
         • 2番目のボタンをクリック = 割り当てを追加。\n
         • 3番目のボタンをクリック = 割り当てセットを追加。\n\n
-        8. {key=UseCopilotList}:\n
+        7. {key=UseCopilotList}:\n
         • 攻略ファイルを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
         • 追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
         • クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
@@ -1623,6 +1622,9 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.Martian.Description">古いバージョンは使いやすかったですか？</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">リソースまたはバージョンの時間が3ヶ月以上経過している</system:String>
     <system:String x:Key="Achievement.Martian.ConditionsTip">リソースまたはバージョンの時間が{0}ヶ月以上経過している</system:String>
+
+    <system:String x:Key="ConfigurationRecoveredNotification">対象の設定「{0}」が見つからないため、現在の設定から複製しました。すべての設定をご確認ください</system:String>
+    <system:String x:Key="ConfigurationBrokenCaption">設定破損</system:String>
 
     <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">頑固者</system:String>
     <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">何度も通知されているのに、それでもお知らせを読まずに閉じ続ける。</system:String>

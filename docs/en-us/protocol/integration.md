@@ -911,32 +911,42 @@ Whether to enable this task.
 ::: field name="enable" type="boolean" optional default="true"  
 Whether to enable this task.  
 :::  
-::: field name="theme" type="string" optional default="Fire"  
+::: field name="theme" type="string" optional default="Tales"  
 Theme.
 <br>
-`Fire` - _Fire Within the Sand_
+`Fire` - _Fire Within the Sand_ (Closed)
 <br>
 `Tales` - _Tales Within the Sand_
+<br>
+`RelaunchAnchor` - _Relaunch Anchor_
 :::  
 ::: field name="mode" type="number" optional default="0"  
-Mode.
+Mode. Supported modes vary by theme:
 <br>
-`0` - Farm badges & construction pts (exiting the stage immediately).
+**Tales:**
 <br>
-`1` - Fire Within the Sand: Farm Crude Gold (forging Gold at headquarter after purchasing water); Tales Within the Sand: Automatically craft items and load to earn currency.
+`0` - No save, farm prosperity points by entering and exiting stages.
+<br>
+`1` - With save, farm currency by crafting support items.
+<br>
+**RelaunchAnchor:**
+<br>
+`16` (`RA1`) - RA-1, automatically execute intensive farming, construction, resource delivery, and settlement loop.
+<br>
+`32` (`RA15`) - RA-15, complete the 60-kill mission with Civilight Eterna.
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
-Automatically crafted items. Suggested to fill in the substring.  
+Automatically crafted items. Suggested to fill in the substring. Only effective for Tales theme.  
 :::  
 ::: field name="increment_mode" type="number" optional default="0"  
-Click type.
+Click type. Only effective for Tales theme.
 <br>
 `0` - Rapid Click
 <br>
 `1` - Long Press
 :::  
 ::: field name="num_craft_batches" type="number" optional default="16"  
-Maximum number of craft batches per session.  
+Maximum number of craft batches per session. Only effective for Tales theme.  
 :::  
 ::::
 

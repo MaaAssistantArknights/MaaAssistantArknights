@@ -19,7 +19,9 @@ MAA WPF GUI は現在 Wine を通じて実行できます。MAAは.NETランタ�
 
 #### インストール手順
 
-1. Visual C++ Redistributable をインストールする：
+:::: steps
+
+1. Visual C++ Redistributable をインストールする
 
    [Visual C++ 再頒布可能パッケージ](https://aka.ms/vc14/vc_redist.x64.exe) をダウンロードしてインストールします：
 
@@ -31,7 +33,11 @@ MAA WPF GUI は現在 Wine を通じて実行できます。MAAは.NETランタ�
    `DependencySetup_依赖库安装.bat` は winget と Windows の権限昇格機構に依存しているため、Wine では通常正常に動作しません。そのため、ランタイムライブラリは手動でインストールする必要があります。
    :::
 
-2. Windows 版 MAA をダウンロードし、解凍した後、`wine MAA.exe` を実行します。
+2. MAA をダウンロード
+
+   Windows 版 MAA をダウンロードし、解凍した後、`wine MAA.exe` を実行します。
+
+::::
 
 ::: info 注意
 接続設定で ADB パスを [Windows 版 `adb.exe`](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) に設定する必要があります。
@@ -66,52 +72,52 @@ MAA Wine Bridge で生成された `MaaDesktopIntegration.so` を `MAA.exe` と�
 
 ### Python を使用する
 
-#### MAA 動的ライブラリのインストール
+:::: steps
 
-1. Linux ダイナミック ライブラリを [MAA ウェブサイト](https://maa.plus/) からダウンロードし、解凍します、または以下のソフトウェアリポジトリからインストールします：
-   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)、インストール後のプロンプトに従ってファイルを編集します
-   - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+1. MAA 動的ライブラリのインストール
+   1. Linux ダイナミック ライブラリを [MAA ウェブサイト](https://maa.plus/) からダウンロードし、解凍します、または以下のソフトウェアリポジトリからインストールします：
+      - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)、インストール後のプロンプトに従ってファイルを編集します
+      - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+   2. `./MAA-v{バージョン}-linux-{アーキテクチャ}/Python/` ディレクトリに移動し、`sample.py` ファイルを開きます
 
-2. `./MAA-v{バージョン}-linux-{アアーキテクチャ}/Python/` ディレクトリに移動し、`sample.py` ファイルを開きます
+   ::: tip
+   プリコンパイル済みバージョンには、比較的新しいLinuxディストリビューション(Ubuntu 22.04)でコンパイルされた動的ライブラリが含まれており、システムに古いバージョンのlibstdc++がある場合、ABIの非互換性に遭遇する可能性があります。
+   [Linuxコンパイル・チュートリアル](../../develop/linux-tutorial.md) を参照して再コンパイルまたはコンテナを使用して実行できます。
+   :::
 
-::: tip
-プリコンパイル済みバージョンには、比較的新しいLinuxディストリビューション(Ubuntu 22.04)でコンパイルされた動的ライブラリが含まれており、システムに古いバージョンのlibstdc++がある場合、ABIの非互換性に遭遇する可能性があります。
-[Linuxコンパイル・チュートリアル](../../develop/linux-tutorial.md) を参照して再コンパイルまたはコンテナを使用して実行できます。
-:::
+2. ADB 構成
+   1. [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L48) セクションを見つける
+   2. `adb` ツール呼び出し
+      - エミュレータが `Android Studio` に `avd` を使用している場合は、 `adb` が付属します。 `adb.exe` の欄に直接 `adb` パスを記入することができ、一般的には `$HOME/Android/Sdk/platform-tools/` で見つけることができます。例：
 
-#### ADB 構成
+      ```python
+      if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "エミュレータの adb アドレス"):
+      ```
 
-1. [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L48) セクションを見つける
+      - 他のエミュレータを使用する場合は、最初に `adb` をダウンロードして： `$ sudo apt install adb` 次に、パスを入力するか、 `PATH` 環境変数を使用して `adb` を直接入力します
 
-2. `adb` ツール呼び出し
-   - エミュレータが `Android Studio` に `avd` を使用している場合は、 `adb` が付属します。 `adb.exe` の欄に直接 `adb` パスを記入することができ、一般的には `$HOME/Android/Sdk/platform-tools/` で見つけることができます。例：
+   3. エミュレータの `adb` パス取得
+      - adb ツールを直接使用できます： `$ adbパス devices` ，例：
 
-   ```python
-   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "エミュレータの adb アドレス"):
-   ```
+      ```shell
+      $ /home/foo/Android/Sdk/platform-tools/adb devices
+      List of devices attached
+      emulator-5554 device
+      ```
 
-   - 他のエミュレータを使用する場合は、最初に `adb` をダウンロードして： `$ sudo apt install adb` 次に、パスを入力するか、 `PATH` 環境変数を使用して `adb` を直接入力します
+      - 返される `emulator-5554` はエミュレータのadbアドレスで、 `127.0.0.1:5555` を上書きします、例：
 
-3. エミュレータの `adb` パス取得
-   - adb ツールを直接使用できます： `$ adbパス devices` ，例：
+      ```python
+      if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
+      ```
 
-   ```shell
-   $ /home/foo/Android/Sdk/platform-tools/adb devices
-   List of devices attached
-   emulator-5554 device
-   ```
+   4. この時点で、 `$ python3 sample.py` をテストでき、 `接続成功` が返されれば、基本的に成功です
 
-   - 返される `emulator-5554` はエミュレータのadbアドレスで、 `127.0.0.1:5555` を上書きします、例：
+3. タスク構成
 
-   ```python
-   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
-   ```
+   カスタムタスク：必要に応じて [統合ドキュメント](../../protocol/integration.md) を参照し、`sample.py` の [`# タスクとパラメーターについては docs/integration.md 参照`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 欄を変更します
 
-4. この時点で、 `$ python3 sample.py` をテストでき、 `接続成功` が返されれば、基本的に成功です
-
-#### タスク構成
-
-カスタムタスク：必要に応じて [統合ドキュメント](../../protocol/integration.md) を参照し、`sample.py` の [`# タスクとパラメーターについては docs/integration.md 参照`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 欄を変更します
+::::
 
 ## エミュレータのサポート
 

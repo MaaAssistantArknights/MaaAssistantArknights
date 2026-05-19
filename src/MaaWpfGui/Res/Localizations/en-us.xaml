@@ -1085,12 +1085,11 @@ Right-click to clear inactive jobs</system:String>
         2. {key=MainStage}, {key=StoryCollection}, {key=SideStory}: Please start from the screen where the blue "Start" button appears in the bottom right corner.\n\n
         3. {key=SSS}: Multiple built-in files are in the resource/copilot folder. First create your squad manually, then start from the screen where the "Start Deployment" button appears in the bottom right. Can be used with ｢{key=LoopTimes}｣.\n\n
         4. {key=ParadoxSimulation}: After selecting Skills, start from the Skill selection screen where the "Start Simulation" button appears. For 1/2★ {key=Operator}s (without Skills), start from the screen with the "Start Simulation" button in the bottom right. If using ｢{key=UseCopilotList}｣, please start from the ｢Level/Rarity｣ tab in the {key=Operator} list.\n\n
-        5. When using a support unit, turn off ｢{key=AutoSquad}｣ and ｢{key=UseCopilotList}｣, manually select the {key=Operator}, then start from the squad screen where the "Mission Start" button appears in the bottom right.\n\n
-        6. {key=Operator}s marked as "Favorite" may affect ｢{key=AutoSquad}｣ recognition and selection. When using ｢{key=AutoSquad}｣, consider removing favorites, or if errors occur, turn off ｢{key=AutoSquad}｣ and manually supplement the missing {key=Operator}s as prompted.\n\n
-        7. In the Copilot workstation, you can paste codes by clicking the paste button on the right side of the input box:\n
+        5. {key=Operator}s marked as "Favorite" may affect ｢{key=AutoSquad}｣ recognition and selection. When using ｢{key=AutoSquad}｣, consider removing favorites, or if errors occur, turn off ｢{key=AutoSquad}｣ and manually supplement the missing {key=Operator}s as prompted.\n\n
+        6. In the Copilot workstation, you can paste codes by clicking the paste button on the right side of the input box:\n
         • Second button = Add a single job.\n
         • Third button = Add a job set.\n\n
-        8. {key=UseCopilotList}:\n
+        7. {key=UseCopilotList}:\n
         • After selecting a job, verify the stage name below is correct (e.g., CV-EX-1).\n
         • Add: Left-click for Normal difficulty, right-click for Challenge difficulty.\n
         • Clear: Left-click to clear all jobs, right-click to remove only inactive jobs.\n
@@ -1622,6 +1621,9 @@ These locations are too high-level and can lead to file overwrites, config write
     <system:String x:Key="Achievement.Martian.Description">How's that ancient version working for you?</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">Resource or version date is more than 3 months old</system:String>
     <system:String x:Key="Achievement.Martian.ConditionsTip">Resource or version date is more than {0} months old</system:String>
+
+    <system:String x:Key="ConfigurationRecoveredNotification">Target configuration "{0}" is missing, copied from the current configuration. Please check all configurations</system:String>
+    <system:String x:Key="ConfigurationBrokenCaption">Configuration Broken</system:String>
 
     <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">Stubborn</system:String>
     <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">Even after being prompted so many times, you still choose not to read the announcement.</system:String>

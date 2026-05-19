@@ -1,4 +1,4 @@
-## v6.10.3
+## v6.10.4
 
 ### Highlights
 
@@ -44,6 +44,32 @@ The minigame interface has been renamed to Useful Tasks, now featuring category 
 ----
 
 以下是详细内容：
+
+## v6.10.4
+
+### 改进 | Improved
+
+* 优化配置损坏时的提示与记录逻辑，提升异常处理体验 @ABA2396 @status102
+* 生息演算 RA-15 OCR 文本匹配改为词组、增加延迟与重试、优化策略流程 (#16725) @walkerljy
+* 生息演算 RA-1 部署基地失败时自动重试 @ABA2396
+* 生息演算增加基础设施识别，避免误操作进入错误位置 @ABA2396
+* Config 检查到缺失时统一使用当前配置进行赋值 @status102
+* Yostar EN/JP UR 关卡导航 (#16723) @Manicsteiner
+
+### 修复 | Fix
+
+* 修复潜在的空配置导致异常 @status102
+* 修复重复添加同名配置会删除上一个配置 @ABA2396
+* 修复远控 LinkStart-* 子任务失败 (#16740) @ABA2396
+* 修复剿灭掉落识别不到合成玉时错误停止任务 (#16726) @Roland125
+* 补上繁中服漏掉的「拟态学者分队」(#16731) @momomochi987
+
+### 文档 | Docs
+
+* 自动战斗提示移除需要手动借助战的额外操作说明 @status102
+* 补充生息演算与小工具相关文档 @ABA2396
+* 设备文档添加 steps/details 容器，修复 bat 代码块格式 (#16712) @wryx166
+* 更新基建排班文档中过时的链接 (#16700) @H2O-MERO
 
 ## v6.10.3
 

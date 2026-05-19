@@ -26,6 +26,8 @@ icon: mingcute:android-fill
 
 ## 下载、运行 ADB 调试工具并连接设备
 
+::: steps
+
 1. 下载 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) 并解压。
 2. 打开解压后的文件夹，清空地址栏并输入 `cmd` 后回车。
 3. 在弹出的命令提示符窗口中输入 `adb` ，若给出大量英文帮助文本则运行成功。
@@ -35,6 +37,8 @@ icon: mingcute:android-fill
    ```bash
    adb devices
    ```
+
+:::
 
 - 成功执行后会给出已连接 `USB 调试` 设备的信息。
   - 连接成功的例子：
@@ -114,23 +118,25 @@ icon: mingcute:android-fill
 
 ## 自动化更改分辨率
 
+::: steps
+
 1. 在 MAA 目录下新建两个文本文件，分别在其中填入以下内容。
 
-   ```bash
-   # 调整分辨率为 1080p
+   ```bat
+   :: 调整分辨率为 1080p
    adb -s <目标设备序列号> shell wm size 1080x1920
-   # 降低屏幕亮度（可选）
+   :: 降低屏幕亮度（可选）
    adb -s <目标设备序列号> shell settings put system screen_brightness 1
    ```
 
-   ```bash
-   # 还原分辨率
+   ```bat
+   :: 还原分辨率
    adb -s <目标设备序列号> shell wm size reset
-   # 提高屏幕亮度（可选）
+   :: 提高屏幕亮度（可选）
    adb -s <目标设备序列号> shell settings put system screen_brightness 20
-   # 返回桌面（可选）
+   :: 返回桌面（可选）
    adb -s <目标设备序列号> shell input keyevent 3
-   # 锁屏（可选）
+   :: 锁屏（可选）
    adb -s <目标设备序列号> shell input keyevent 26
    ```
 
@@ -138,6 +144,8 @@ icon: mingcute:android-fill
    - 如果重命名后没有弹出修改扩展名的二次确认对话框，且文件图标没有变化，请自行搜索“Windows 如何显示文件扩展名”。
 
 3. 在 MAA 的 `设置` - `连接设置` - `开始前脚本` 和 `结束后脚本` 中分别填入 `startup.bat` 和 `finish.bat`。
+
+:::
 
 ## 连接 MAA
 
@@ -157,6 +165,8 @@ icon: mingcute:android-fill
 
 #### 使用 `adb tcpip` 开启无线端口
 
+::: steps
+
 1. 在刚刚的命令提示符窗口中输入以下命令以开启无线调试。
 
    ```bash
@@ -171,11 +181,15 @@ icon: mingcute:android-fill
 3. 将 `<IP>:5555` 填入 MAA `设置` - `连接设置` - `连接地址` 中，如 `192.168.1.2:5555`。
 4. Link Start!
 
+:::
+
 #### 使用 `adb pair` 开启无线端口
 
 ::: tip
 `adb pair` 无线配对，即使用安卓 11 及更新版本中开发者选项内的 `无线调试` 进行配对后连接，与 `adb tcpip` 相比可以避免有线连接。
 :::
+
+::: steps
 
 1. 进入手机开发者选项，点击 `无线调试` 并开启，点击确定，点击 `使用配对码配对设备`，在配对完成前不要关闭出现的弹窗。
 
@@ -187,11 +201,17 @@ icon: mingcute:android-fill
 3. 将当前设备屏幕上给出的 `<IP 地址和端口>` 填入 MAA `设置` - `连接设置` - `连接地址` 中，如 `192.168.1.2:11451`，**一定和刚刚填写的不一样**。
 4. Link Start!
 
+:::
+
 #### 使用 root 权限开启无线端口
 
 ~~都接触到 root 了还用得着看这段文档吗~~
+
+::: steps
 
 1. 下载、安装 [WADB](https://github.com/RikkaApps/WADB/releases) 并授予其 root 权限。
 2. 打开 WADB，启动无线 adb。
 3. 将 WADB 提供的 IP 地址及端口填入 MAA `设置` - `连接设置` - `连接地址` 中，如 `192.168.1.2:5555`。
 4. Link Start!
+
+:::

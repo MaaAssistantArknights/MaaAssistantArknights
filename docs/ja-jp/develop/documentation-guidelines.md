@@ -48,7 +48,7 @@ icon: jam:write-f
 - `warning` 注意
 - `danger` 警告
 - `details` 詳細
-- `demo-wrapper` ==特殊なコンテナ==
+- `window` ==特殊なコンテナ==
 
 ### コンテナの例
 
@@ -76,7 +76,7 @@ icon: jam:write-f
 これは詳細のコンテナです
 :::
 
-::: demo-wrapper
+::: window
 これは特殊なコンテナです
 :::
 
@@ -117,7 +117,7 @@ MaaAssistantArknights は ==たくさんの豚== によって開発されまし�
 
 以下の設定が使用できます：
 
-::: demo-wrapper
+::: window
 入力：
 
 ```markdown
@@ -194,7 +194,7 @@ MaaAssistantArknights は ==たくさんの豚== によって開発されまし�
 
 Markdown 本文で `<ImageGrid>` コンポーネントを使用してこのメソッドを呼び出すことができます。具体的な構文と効果は以下の通りです：
 
-::: demo-wrapper
+::: window
 
 構文：
 
