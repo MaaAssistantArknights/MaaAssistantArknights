@@ -910,32 +910,42 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field name="enable" type="boolean" optional default="true"  
 是否啟用本任務。  
 :::  
-::: field name="theme" type="string" optional default="Fire"  
+::: field name="theme" type="string" optional default="Tales"  
 主題。
 <br>
-`Fire` - _沙中之火_
+`Fire` - _沙中之火_（已關閉）
 <br>
-`Tales` - _沙洲遺聞_  
+`Tales` - _沙洲遺聞_
+<br>
+`RelaunchAnchor` - _重啟錨點_  
 :::  
 ::: field name="mode" type="number" optional default="0"  
-模式。
+模式。不同主題支援的模式不同：
 <br>
-`0`：刷分與建造點，進入戰鬥直接退出。
+**Tales（沙洲遺聞）：**
 <br>
-`1`：沙中之火 - 與聯絡員買水後，返回基地鍛造；沙洲遺聞 - 自動製造物品並透過讀檔刷取貨幣。  
+`0` - 無存檔，透過進出關卡刷生息點數。
+<br>
+`1` - 有存檔，透過組裝支援道具刷生息點數。
+<br>
+**RelaunchAnchor（重啟錨點）：**
+<br>
+`16` (`RA1`) - RA-1，自動執行精耕細作、建設、交付資源、結算循環。
+<br>
+`32` (`RA15`) - RA-15，用聖聆初雪完成 60 殺任務。  
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
-自動製造的物品清單。建議填寫名稱關鍵字即可。  
+自動製造的物品清單。建議填寫名稱關鍵字即可。僅 Tales 主題有效。  
 :::  
 ::: field name="increment_mode" type="number" optional default="0"  
-點擊類型。
+點擊類型。僅 Tales 主題有效。
 <br>
 `0`：連點
 <br>
 `1`：長按  
 :::  
 ::: field name="num_craft_batches" type="number" optional default="16"  
-單次製造輪數上限。  
+單次製造輪數上限。僅 Tales 主題有效。  
 :::  
 ::::
 

@@ -910,32 +910,42 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 ::: field name="enable" type="boolean" optional default="true"  
 このタスクを有効にするかどうか。  
 :::  
-::: field name="theme" type="string" optional default="Fire"  
+::: field name="theme" type="string" optional default="Tales"  
 テーマ。
 <br>
-`Fire` - _砂中の火_
+`Fire` - _砂中の火_（終了）
 <br>
-`Tales` - _熱砂秘聞_  
+`Tales` - _熱砂秘聞_
+<br>
+`RelaunchAnchor` - _リローンチアンカー_  
 :::  
 ::: field name="mode" type="number" optional default="0"  
-モード。
+モード。テーマごとにサポートするモードが異なります：
 <br>
-`0` - ポイント稼ぎと建造ポイント、戦闘に入って直接退出。
+**Tales（熱砂秘聞）：**
 <br>
-`1` - 沙中之火：赤金稼ぎ、連絡員から水購入後基地で鍛造；沙洲遗闻：支援アイテムを組み立てて生息ポイントを稼ぐ。  
+`0` - セーブなし、ステージ出入りで生息ポイントを稼ぐ。
+<br>
+`1` - セーブあり、支援アイテムを組み立てて生息ポイントを稼ぐ。
+<br>
+**RelaunchAnchor（リローンチアンカー）：**
+<br>
+`16` (`RA1`) - RA-1、精耕細作→建設→資源納品→決算を自動ループ。
+<br>
+`32` (`RA15`) - RA-15、シヴィライト・エテルナで60撃破ミッションを達成。  
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
-自動製造品。サブストリング入力推奨。  
+自動製造品。サブストリング入力推奨。Tales テーマのみ有効。  
 :::  
 ::: field name="increment_mode" type="number" optional default="0"  
-クリック型。
+クリック型。Tales テーマのみ有効。
 <br>
 `0` - 連続クリック
 <br>
 `1` - 長押し  
 :::  
 ::: field name="num_craft_batches" type="number" optional default="16"  
-単次最大製造バッチ数。  
+単次最大製造バッチ数。Tales テーマのみ有効。  
 :::  
 ::::
 

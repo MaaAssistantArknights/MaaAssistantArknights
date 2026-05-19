@@ -910,32 +910,42 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="enable" type="boolean" optional default="true"  
 是否启用本任务。  
 :::  
-::: field name="theme" type="string" optional default="Fire"  
+::: field name="theme" type="string" optional default="Tales"  
 主题。
 <br>
-`Fire` - _沙中之火_
+`Fire` - _沙中之火_（已关闭）
 <br>
-`Tales` - _沙洲遗闻_  
+`Tales` - _沙洲遗闻_
+<br>
+`RelaunchAnchor` - _重启锚点_  
 :::  
 ::: field name="mode" type="number" optional default="0"  
-模式。
+模式。不同主题支持的模式不同：
 <br>
-`0` - 刷分与建造点，进入战斗直接退出。
+**Tales（沙洲遗闻）：**
 <br>
-`1` - 沙中之火：刷赤金，联络员买水后基地锻造；沙洲遗闻：自动制造物品并读档刷货币。  
+`0` - 无存档，通过进出关卡刷生息点数。
+<br>
+`1` - 有存档，通过组装支援道具刷生息点数。
+<br>
+**RelaunchAnchor（重启锚点）：**
+<br>
+`16` (`RA1`) - RA-1，自动执行精耕细作、建设、交付资源、结算循环。
+<br>
+`32` (`RA15`) - RA-15，用圣聆初雪完成 60 杀任务。  
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
-自动制造的物品，建议填写子串。  
+自动制造的物品，建议填写子串。仅 Tales 主题有效。  
 :::  
 ::: field name="increment_mode" type="number" optional default="0"  
-点击类型。
+点击类型。仅 Tales 主题有效。
 <br>
 `0` - 连点
 <br>
 `1` - 长按  
 :::  
 ::: field name="num_craft_batches" type="number" optional default="16"  
-单次最大制造轮数。  
+单次最大制造轮数。仅 Tales 主题有效。  
 :::  
 ::::
 
