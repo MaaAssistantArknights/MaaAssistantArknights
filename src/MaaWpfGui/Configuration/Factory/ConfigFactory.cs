@@ -26,6 +26,7 @@ using System.Text.Json.Serialization.Metadata;
 using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using MaaWpfGui.Configuration.Converter;
 using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -169,6 +170,7 @@ public static class ConfigFactory
                 _logger.Warning("{File} save failed", _configBakFile);
             }
 
+            List<string> configs = [];
             if (ParseJsonFile(ConfigurationHelper.ConfigFile) is JsonObject oldConfigJson && oldConfigJson["Configurations"] is JsonObject configurationsObj)
             {
                 if (oldConfigJson["Current"]?.GetValue<string>() is string oldCurrent && parsed.Current != oldCurrent)
@@ -179,6 +181,7 @@ public static class ConfigFactory
                 var configNames = configurationsObj.Select(i => i.Key);
                 foreach (var name in parsed.Configurations.Select(i => i.Key).Except(configNames))
                 {
+                    configs.Add(name);
                     ConfigurationHelper.AddConfiguration(name, parsed.Current);
                     _logger.Information("Config {ConfigName} does not exist in old configuration, add into old configuration copy from {Current}", name, parsed.Current);
                 }
@@ -187,6 +190,7 @@ public static class ConfigFactory
                 {
                     if (!parsed.Configurations.ContainsKey(name))
                     {
+                        configs.Add(name);
                         parsed.Configurations.Add(name, parsed.CurrentConfig);
                         _logger.Information("Config {ConfigName} exists in old configuration but not in new config, copy from {Current}", name, parsed.Current);
                     }
@@ -195,7 +199,13 @@ public static class ConfigFactory
 
             if (parsed.Configurations.All(i => i.Key != parsed.Current))
             {
+                configs.Add(parsed.Current);
                 parsed.Configurations.Add(parsed.Current, new SpecificConfig());
+            }
+
+            if (configs.Count > 0)
+            {
+                MessageBoxHelper.Show(LocalizationHelper.GetStringFormat("ConfigurationRecoveredNotification", string.Join(", ", configs)), "Configuration Broken", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
             return parsed;
