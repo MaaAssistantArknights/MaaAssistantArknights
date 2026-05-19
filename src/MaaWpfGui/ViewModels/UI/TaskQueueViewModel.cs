@@ -177,6 +177,11 @@ public class TaskQueueViewModel : Screen
                 TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
                 TaskItemViewModels.FirstOrDefault(i => i.EnableSetting)?.EnableSetting = false;
                 TaskItemViewModels[e.NewStartingIndex].EnableSetting = true;
+
+                for (int i = e.NewStartingIndex + 1; i < TaskItemViewModels.Count; i++)
+                {
+                    TaskItemViewModels[i].Index = i;
+                }
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
@@ -1450,11 +1455,6 @@ public class TaskQueueViewModel : Screen
         ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, clonedTask);
         TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(clonedTask.NameDisplay));
 
-        // 更新插入位置之后所有项的 Index
-        for (int i = index + 1; i < TaskItemViewModels.Count; i++)
-        {
-            TaskItemViewModels[i].Index = i;
-        }
 
         AddLog(LocalizationHelper.GetStringFormat("TaskCopied", taskItem.Name), UiLogColor.Info);
     }
