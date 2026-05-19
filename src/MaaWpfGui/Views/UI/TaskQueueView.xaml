@@ -190,6 +190,32 @@
                                                         Width="22"
                                                         Height="22"
                                                         Margin="0"
+                                                        hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
+                                                        hc:IconElement.Width="14"
+                                                        hc:IconElement.Height="14"
+                                                        Background="Transparent"
+                                                        BorderBrush="Transparent"
+                                                        BorderThickness="0"
+                                                        Padding="0"
+                                                        Command="{s:Action CopyTask,
+                                                                           Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                        CommandParameter="{Binding}"
+                                                        ToolTip="{DynamicResource Copy}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                                <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
+                                                    <Button
+                                                        Width="22"
+                                                        Height="22"
+                                                        Margin="0"
                                                         hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
                                                         hc:IconElement.Width="14"
                                                         hc:IconElement.Height="14"

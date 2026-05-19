@@ -44,6 +44,7 @@ using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.Views.Dialogs;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
@@ -1415,6 +1416,33 @@ public class TaskQueueViewModel : Screen
         {
             task.IsEnable = originalIsEnable;
         }
+    }
+
+    /// <summary>
+    /// 复制任务
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    [UsedImplicitly]
+    public void CopyTask(TaskItemViewModel taskItem)
+    {
+        if (taskItem == null || !Idle)
+        {
+            return;
+        }
+
+        var index = taskItem.Index;
+        if (index < 0 || index >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+        {
+            return;
+        }
+
+        var sourceTask = ConfigFactory.CurrentConfig.TaskQueue[index];
+        var json = JsonConvert.SerializeObject(sourceTask);
+        var clonedTask = (BaseTask)JsonConvert.DeserializeObject(json, sourceTask.GetType())!;
+        clonedTask.Name = taskItem.Name + " - " + LocalizationHelper.GetString("Copy");
+        ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, clonedTask);
+        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(clonedTask.NameDisplay));
+        AddLog(LocalizationHelper.GetStringFormat("TaskCopied", taskItem.Name), UiLogColor.Info);
     }
 
     /// <summary>
