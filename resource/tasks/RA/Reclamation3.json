@@ -255,6 +255,14 @@
         "action": "ClickSelf",
         "template": "RelaunchAnchor@RA@ManufactureIcon.png",
         "roi": [0, 470, 120, 130],
+        "next": ["RelaunchAnchor@RA@RA1-Infrastructure", "#self"]
+    },
+    "RelaunchAnchor@RA@RA1-Infrastructure": {
+        "doc": "步骤 22-2：OCR 识别 <基础设施>",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["基础设施"],
+        "roi": [110, 170, 100, 30],
         "next": ["RelaunchAnchor@RA@RA1-CommunicationStation", "#self"]
     },
     "RelaunchAnchor@RA@RA1-CommunicationStation": {
