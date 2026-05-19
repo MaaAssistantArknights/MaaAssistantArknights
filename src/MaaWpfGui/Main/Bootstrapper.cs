@@ -1184,22 +1184,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         // 配置名可能就包在引号中，需要转义符，如 \"a\"
         string currentConfig = ConfigurationHelper.GetCurrentConfiguration();
-        if (currentConfig == desiredConfig)
-        {
-            return false;
-        }
-
-        if (!ConfigurationHelper.SwitchConfiguration(desiredConfig))
-        {
-            return false;
-        }
-
-        // ConfigurationHelper 侧切换成功，检查 ConfigFactory 侧是否需要自动恢复
-        if (!ConfigFactory.SwitchConfig(desiredConfig))
-        {
-            return false;
-        }
-
-        return true;
+        return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig) && ConfigFactory.SwitchConfig(desiredConfig);
     }
 }
