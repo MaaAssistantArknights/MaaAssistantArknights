@@ -72,7 +72,7 @@
                             ToolTip="{DynamicResource LabelSequenceTip}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border CornerRadius="4">
+                                    <Border x:Name="TaskItemBorder" CornerRadius="4">
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="Background" Value="Transparent" />
@@ -99,9 +99,30 @@
                                         </Border.Style>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
+
+                                            <!-- Column 0: stretch-fill settings button (gear hidden, catches clicks on blank space) -->
+                                            <RadioButton
+                                                Grid.Column="0"
+                                                Margin="0"
+                                                Padding="0"
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Left"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                IsChecked="{Binding EnableSetting}"
+                                                Style="{DynamicResource RadioGroupItemSingle}">
+                                                <RadioButton.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
+                                                            <TextBlock Text="{DynamicResource TaskSettings}" />
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </RadioButton.ToolTip>
+                                            </RadioButton>
 
                                             <CheckBox
                                                 Grid.Column="0"
@@ -130,12 +151,13 @@
                                             </CheckBox>
                                             <controls:TextBlock
                                                 Grid.Column="0"
-                                                Grid.ColumnSpan="2"
-                                                Margin="26,0,0,0"
-                                                HorizontalAlignment="Left"
+                                                Margin="26,0,4,0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Center"
                                                 Background="Transparent"
                                                 IsHitTestVisible="False"
-                                                Text="{Binding Name}">
+                                                Text="{Binding Name}"
+                                                TextTrimming="CharacterEllipsis">
                                                 <TextBlock.Style>
                                                     <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="{x:Type TextBlock}">
                                                         <Style.Triggers>
@@ -151,19 +173,60 @@
                                                 </TextBlock.Style>
                                             </controls:TextBlock>
 
-                                            <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <!-- Column 1: gear icon + action buttons (all independent from Column 0) -->
+                                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}" Value="True">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                    <RadioButton
+                                                        Width="22"
+                                                        Margin="0"
+                                                        hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                                        hc:VisualElement.HighlightBackground="Transparent"
+                                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Padding="0"
+                                                        Command="{s:Action RenameTask,
+                                                                           Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                        CommandParameter="{Binding}"
+                                                        Foreground="{DynamicResource SecondaryTextBrush}"
+                                                        Style="{StaticResource RadioGroupItemSingle}"
+                                                        ToolTip="{DynamicResource Rename}" />
+                                                    <RadioButton
+                                                        Width="22"
+                                                        Margin="0"
+                                                        hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                                        hc:VisualElement.HighlightBackground="Transparent"
+                                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Padding="0"
+                                                        Command="{s:Action RemoveTask,
+                                                                           Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                        CommandParameter="{Binding}"
+                                                        Foreground="{DynamicResource SecondaryTextBrush}"
+                                                        Style="{StaticResource RadioGroupItemSingle}"
+                                                        ToolTip="{DynamicResource Delete}" />
+                                                </StackPanel>
                                                 <RadioButton
                                                     x:Name="TaskSettingRadioButton"
-                                                    Margin="0"
-                                                    HorizontalAlignment="Stretch"
-                                                    HorizontalContentAlignment="Right"
+                                                    Width="22"
+                                                    Margin="0,0,4,0"
+                                                    Padding="0"
+                                                    hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                                     hc:VisualElement.HighlightBackground="Transparent"
                                                     hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                                                     Background="Transparent"
                                                     BorderThickness="0"
-                                                    ContextMenuService.IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    Foreground="{DynamicResource SecondaryTextBrush}"
-                                                    GroupName="TaskSettings"
                                                     IsChecked="{Binding EnableSetting}"
                                                     Style="{DynamicResource RadioGroupItemSingle}">
                                                     <Grid Width="16" Height="16">
@@ -203,39 +266,11 @@
                                                             <StackPanel>
                                                                 <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
                                                                 <TextBlock Text="{DynamicResource TaskSettings}" />
-
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
-                                                                <TextBlock>
-                                                                    <Run Text="{DynamicResource RunTaskOnce}" />
-                                                                    <Run Text=" / " />
-                                                                    <Run Text="{DynamicResource Rename}" />
-                                                                    <Run Text=" / " />
-                                                                    <Run Text="{DynamicResource Delete}" />
-                                                                </TextBlock>
                                                             </StackPanel>
                                                         </ToolTip>
                                                     </RadioButton.ToolTip>
-                                                    <RadioButton.ContextMenu>
-                                                        <ContextMenu Width="150">
-                                                            <MenuItem
-                                                                Command="{s:Action RunTaskOnce,
-                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource RunTaskOnce}" />
-                                                            <MenuItem
-                                                                Command="{s:Action RenameTask,
-                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource Rename}" />
-                                                            <MenuItem
-                                                                Command="{s:Action RemoveTask,
-                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource Delete}" />
-                                                        </ContextMenu>
-                                                    </RadioButton.ContextMenu>
                                                 </RadioButton>
-                                            </hc:ButtonGroup>
+                                            </StackPanel>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
