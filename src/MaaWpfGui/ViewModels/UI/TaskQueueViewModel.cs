@@ -1437,11 +1437,25 @@ public class TaskQueueViewModel : Screen
         }
 
         var sourceTask = ConfigFactory.CurrentConfig.TaskQueue[index];
-        var json = JsonConvert.SerializeObject(sourceTask);
-        var clonedTask = (BaseTask)JsonConvert.DeserializeObject(json, sourceTask.GetType())!;
+        var settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            ObjectCreationHandling = ObjectCreationHandling.Replace,
+        };
+        //哎哟，改了好久配置复制，应该是没问题了（大概）
+        //如果还有问题就相信后人的智慧
+        var json = JsonConvert.SerializeObject(sourceTask, sourceTask.GetType(), settings);
+        var clonedTask = (BaseTask)JsonConvert.DeserializeObject(json, sourceTask.GetType(), settings)!;
         clonedTask.Name = taskItem.Name + " - " + LocalizationHelper.GetString("Copy");
         ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, clonedTask);
         TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(clonedTask.NameDisplay));
+
+        // 更新插入位置之后所有项的 Index
+        for (int i = index + 1; i < TaskItemViewModels.Count; i++)
+        {
+            TaskItemViewModels[i].Index = i;
+        }
+
         AddLog(LocalizationHelper.GetStringFormat("TaskCopied", taskItem.Name), UiLogColor.Info);
     }
 
