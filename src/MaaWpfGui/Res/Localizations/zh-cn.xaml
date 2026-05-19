@@ -1626,6 +1626,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Achievement.Martian.ConditionsTip">资源时间或版本时间距今超过 {0} 个月</system:String>
 
     <system:String x:Key="ConfigurationRecoveredNotification">目标配置 "{0}" 缺失，已从当前配置复制，建议检查所有配置</system:String>
+    <system:String x:Key="ConfigurationBrokenCaption">配置异常</system:String>
 
     <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">死不悔改</system:String>
     <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">即使提示了这么多次，你依然选择不看公告。</system:String>

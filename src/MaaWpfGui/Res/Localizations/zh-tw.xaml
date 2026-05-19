@@ -1624,6 +1624,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Achievement.Martian.ConditionsTip">資源時間或版本時間距今超過 {0} 個月</system:String>
 
     <system:String x:Key="ConfigurationRecoveredNotification">目標設定 "{0}" 缺少，已從目前設定複製，建議檢查所有設定</system:String>
+    <system:String x:Key="ConfigurationBrokenCaption">設定異常</system:String>
 
     <system:String x:Key="Achievement.AnnouncementStubbornClick.Title">死不悔改</system:String>
     <system:String x:Key="Achievement.AnnouncementStubbornClick.Description">即使提示了這麼多次，你依然選擇不看公告。</system:String>

@@ -23,6 +23,7 @@ using System.Windows.Input;
 using HandyControl.Data;
 using HandyControl.Tools;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -72,6 +73,13 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         });
 
         _ = Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();
+
+        // 主窗口已显示，此时弹窗不会导致 WPF 因无窗口而退出
+        var recoveryMessage = ConfigFactory.ConsumePendingRecoveryMessage();
+        if (recoveryMessage is not null)
+        {
+            MessageBoxHelper.Show(recoveryMessage, LocalizationHelper.GetString("ConfigurationBrokenCaption"), MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
 
     private static void ShowVersionMismatchWarningOnStartup()

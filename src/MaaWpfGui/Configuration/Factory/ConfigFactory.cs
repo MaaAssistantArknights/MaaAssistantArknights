@@ -65,9 +65,7 @@ public static class ConfigFactory
 
     private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new FightTaskStageResetModeConverter(), new FaultTolerantRootConverter(), new TolerantEnumConverterFactory(), new FightTaskStageResetModeInvalidToIgnoreConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.All), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, TypeInfoResolver = new DefaultJsonTypeInfoResolver { Modifiers = { JsonPredictSerializationModifier.Modify } } };
 
-    public static IReadOnlyList<string> BrokenConfig => _brokenConfigs.AsReadOnly();
-
-    private static List<string> _brokenConfigs = [];
+    private static readonly List<string> _brokenConfigs = [];
 
     // TODO: 参考 ConfigurationHelper ，拆几个函数出来
     private static readonly Lazy<Root> _rootConfig = new(() => {
@@ -206,11 +204,6 @@ public static class ConfigFactory
                 }
             }
 
-            if (_configBakFile.Count() > 0)
-            {
-                MessageBoxHelper.ShowNative(WindowHandle.None, LocalizationHelper.GetStringFormat("ConfigurationRecoveredNotification", string.Join(", ", configs)), "Configuration Broken", icon: MessageBoxImage.Warning);
-            }
-
             return parsed;
 
             void SpecificConfigBind(string name, SpecificConfig config)
@@ -277,6 +270,18 @@ public static class ConfigFactory
             }
         }
     });
+
+    public static string? ConsumePendingRecoveryMessage()
+    {
+        if (_brokenConfigs.Count == 0)
+        {
+            return null;
+        }
+
+        var messages = LocalizationHelper.GetStringFormat("ConfigurationRecoveredNotification", string.Join(", ", _brokenConfigs));
+        _brokenConfigs.Clear();
+        return messages;
+    }
 
     private static PropertyChangedEventHandler OnPropertyChangedFactory(string key, object? oldValue, object? newValue)
     {
