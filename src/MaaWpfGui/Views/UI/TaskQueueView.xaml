@@ -189,7 +189,7 @@
                                                     <RadioButton
                                                         Width="22"
                                                         Margin="0"
-                                                        hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                                        hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
                                                         hc:VisualElement.HighlightBackground="Transparent"
                                                         hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                                                         Background="Transparent"
@@ -204,7 +204,7 @@
                                                     <RadioButton
                                                         Width="22"
                                                         Margin="0"
-                                                        hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                                         hc:VisualElement.HighlightBackground="Transparent"
                                                         hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                                                         Background="Transparent"
