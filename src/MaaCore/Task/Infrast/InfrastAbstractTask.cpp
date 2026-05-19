@@ -81,6 +81,8 @@ void asst::InfrastAbstractTask::clear_custom_config() noexcept
 
 void asst::InfrastAbstractTask::reset_custom_config() noexcept
 {
+    // current_room_config() 返回的是引用；为了避免重复选人，select_custom_opers() 找到一个名字后会 erase。
+    // 所以出错重试前需要恢复原配置，否则下一轮会丢失已经处理过的自定义干员名单。
     if (m_is_custom) {
         m_custom_config = m_initial_custom_config;
     }

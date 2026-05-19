@@ -75,6 +75,7 @@ bool asst::InfrastProductionTask::change_product()
 {
     auto run_change_task =
         [&](const std::string& task_name, const std::string& product_name, const std::string& verify_task_name) {
+        // 只有切换流程和产物复核都通过，才上报 ProductChanged。
         if (!ProcessTask(*this, { task_name }).run()) {
             Log.error("change product failed", task_name);
             return false;
