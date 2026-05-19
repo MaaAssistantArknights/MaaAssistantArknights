@@ -426,7 +426,7 @@
         "useRaw": false,
         "binThreshold": [200, 255],
         "postDelay": 1000,
-        "next": ["RelaunchAnchor@RA@RA15-ChooseStrategy","#self"]
+        "next": ["RelaunchAnchor@RA@RA15-ChooseStrategy", "#self"]
     },
     "RelaunchAnchor@RA@RA15-ChooseStrategy": {
         "doc": "步骤 2：OCR 识别 筹划经营",
@@ -441,20 +441,20 @@
         "doc": "步骤 3：OCR 识别 <确认选择> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["确认","选择"],
+        "text": ["确认", "选择"],
         "roi": [1055, 619, 117, 43],
         "postDelay": 200,
-        "next": ["RelaunchAnchor@RA@RA15-Choose","#self"]
+        "next": ["RelaunchAnchor@RA@RA15-Choose", "#self"]
     },
     "RelaunchAnchor@RA@RA15-Choose": {
         "doc": "步骤 4：OCR 识别 <干员招募> 并点击",
         "algorithm": "OcrDetect",
-        "text": ["干员","招募"],
+        "text": ["干员", "招募"],
         "roi": [941, 131, 131, 34],
         "action": "ClickRect",
         "specificRect": [1207, 198, 1, 1],
         "postDelay": 500,
-        "next": ["RelaunchAnchor@RA@RA15-ExamineCXExistence", "RelaunchAnchor@RA@RA15-ClearChosen","#self"]
+        "next": ["RelaunchAnchor@RA@RA15-ExamineCXExistence", "RelaunchAnchor@RA@RA15-ClearChosen", "#self"]
     },
     "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
         "doc": "步骤 4.1：OCR 识别 <圣聆初雪> ",
@@ -468,7 +468,7 @@
         "doc": "步骤 5：OCR 识别 <快捷编队> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["快捷","编队"],
+        "text": ["快捷", "编队"],
         "roi": [1096, 22, 78, 28],
         "postDelay": 200,
         "next": ["RelaunchAnchor@RA@RA15-ClearChosen-2"]
@@ -542,7 +542,7 @@
         "doc": "步骤 8：OCR 识别 <选择助战> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["选择","助战"],
+        "text": ["选择", "助战"],
         "roi": [886, 21, 79, 28],
         "next": ["RelaunchAnchor@RA@RA15-ChooseType"]
     },
@@ -684,7 +684,7 @@
         "doc": "步骤 16：OCR 识别 <外勤> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["外","勤"],
+        "text": ["外", "勤"],
         "roi": [404, 564, 50, 26],
         "next": ["#self", "RelaunchAnchor@RA@RA15-Plot2"]
     },
@@ -731,7 +731,7 @@
         "rectMove": [495, 414, 1, 1],
         "specialParams": [500, 0, 3, 0],
         "postDelay": 4000,
-        "next": ["RelaunchAnchor@RA@RA15-Plot3","RelaunchAnchor@RA@RA15-DeployGatheringBaseWait"]
+        "next": ["RelaunchAnchor@RA@RA15-Plot3", "RelaunchAnchor@RA@RA15-DeployGatheringBaseWait"]
     },
     "RelaunchAnchor@RA@RA15-DeployGatheringBaseWait": {
         "doc": "步骤 18.2：部署采集基站后的占位等待 x 秒",
