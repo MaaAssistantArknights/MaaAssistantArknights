@@ -205,7 +205,7 @@ public static class ConfigFactory
 
             if (configs.Count > 0)
             {
-                MessageBoxHelper.Show(LocalizationHelper.GetStringFormat("ConfigurationRecoveredNotification", string.Join(", ", configs)), "Configuration Broken", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBoxHelper.ShowNative(WindowHandle.None, LocalizationHelper.GetStringFormat("ConfigurationRecoveredNotification", string.Join(", ", configs)), "Configuration Broken", icon: MessageBoxImage.Warning);
             }
 
             return parsed;
@@ -498,7 +498,7 @@ public static class ConfigFactory
         return true;
     }
 
-    public static List<string> ConfigList
+    public static List<string> ConfigKeys
     {
         get {
             var lists = new List<string>(Root.Configurations.Count);
