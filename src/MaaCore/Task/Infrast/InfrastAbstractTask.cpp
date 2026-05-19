@@ -26,6 +26,12 @@ asst::InfrastAbstractTask::InfrastAbstractTask(
     m_retry_times = TaskRetryTimes;
 }
 
+bool asst::InfrastAbstractTask::run()
+{
+    reset_custom_config();
+    return AbstractTask::run();
+}
+
 asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_mood_threshold(double mood_thres) noexcept
 {
     m_mood_threshold = mood_thres;
@@ -61,6 +67,7 @@ std::string asst::InfrastAbstractTask::facility_name() const
 
 void asst::InfrastAbstractTask::set_custom_config(infrast::CustomFacilityConfig config) noexcept
 {
+    m_initial_custom_config = config;
     m_custom_config = std::move(config);
     m_is_custom = true;
 }
@@ -69,6 +76,16 @@ void asst::InfrastAbstractTask::clear_custom_config() noexcept
 {
     m_is_custom = false;
     m_custom_config.clear();
+    m_initial_custom_config.clear();
+}
+
+void asst::InfrastAbstractTask::reset_custom_config() noexcept
+{
+    // current_room_config() 返回的是引用；为了避免重复选人，select_custom_opers() 找到一个名字后会 erase。
+    // 所以出错重试前需要恢复原配置，否则下一轮会丢失已经处理过的自定义干员名单。
+    if (m_is_custom) {
+        m_custom_config = m_initial_custom_config;
+    }
 }
 
 asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config()
@@ -192,6 +209,7 @@ bool asst::InfrastAbstractTask::on_run_fails()
 {
     LogTraceFunction;
 
+    reset_custom_config();
     ProcessTask return_task(*this, { "InfrastBegin" });
     return return_task.run();
 }

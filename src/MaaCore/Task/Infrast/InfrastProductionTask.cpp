@@ -71,27 +71,48 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
     }
 }
 
-void asst::InfrastProductionTask::change_product()
+bool asst::InfrastProductionTask::change_product()
 {
+    auto run_change_task = [&](const std::string& task_name, const std::string& verify_task_name) {
+        // 只有切换流程和产物复核都通过，才上报 ProductChanged。
+        if (!ProcessTask(*this, { task_name }).run()) {
+            Log.error("change product failed", task_name);
+            return false;
+        }
+
+        if (!ProcessTask(*this, { verify_task_name }).run()) {
+            Log.error("product verification failed", verify_task_name);
+            return false;
+        }
+
+        return true;
+    };
+
     auto customProduct = current_room_config().product;
     switch (customProduct) {
     /*制造站的产品类型*/
     case infrast::CustomRoomConfig::Product::BattleRecord: {
-        ProcessTask(*this, { "ChangeProductToMiddleBattleRecord" }).run();
+        if (!run_change_task("ChangeProductToMiddleBattleRecord", "VerifyProductChangedToBattleRecord")) {
+            return false;
+        }
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "MiddleBattleRecord";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
         break;
     }
     case infrast::CustomRoomConfig::Product::PureGold: {
-        ProcessTask(*this, { "ChangeProductToPureGold" }).run();
+        if (!run_change_task("ChangeProductToPureGold", "VerifyProductChangedToPureGold")) {
+            return false;
+        }
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "PureGold";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
         break;
     }
     case infrast::CustomRoomConfig::Product::OriginiumShard: {
-        ProcessTask(*this, { "ChangeProductToOriginiumShard" }).run();
+        if (!run_change_task("ChangeProductToOriginiumShard", "VerifyProductChangedToOriginiumShard")) {
+            return false;
+        }
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "OriginiumShard";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
@@ -120,6 +141,7 @@ void asst::InfrastProductionTask::change_product()
         break;
     }
     }
+    return true;
 }
 
 bool asst::InfrastProductionTask::shift_facility_list()
@@ -266,7 +288,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /*启用自定义基建时，如果产物不一致则直接更换产物*/
         if (m_is_custom && m_is_product_incorrect) {
-            change_product();
+            if (!change_product()) {
+                return false;
+            }
         }
         // 使用无人机
         if (m_is_use_custom_drones) {

@@ -2930,6 +2930,18 @@
         "template": "InfrastTradeSyntheticJadeFlag.png",
         "roi": [900, 500, 380, 220]
     },
+    "VerifyProductChangedToBattleRecord": {
+        "template": "InfrastMfgDogFoodFlag.png",
+        "roi": [1000, 0, 280, 720]
+    },
+    "VerifyProductChangedToPureGold": {
+        "template": "InfrastMfgPureGoldFlag.png",
+        "roi": [1000, 0, 280, 720]
+    },
+    "VerifyProductChangedToOriginiumShard": {
+        "template": "InfrastMfgOriginStoneFlag.png",
+        "roi": [1000, 0, 280, 720]
+    },
     "InfrastAddOperatorMfgGentle": {
         "template": "AddOperatorMfgGentle.png",
         "templThreshold": 0.8,
@@ -4880,24 +4892,30 @@
         "template": "ChooseProductList.png",
         "cache": true,
         "roi": [1000, 117, 115, 60],
-        "specificRect": [1030, 180, 80, 80],
-        "next": ["ChooseBattleRecord"]
+        "specificRect": [1075, 345, 102, 98],
+        "maxTimes": 3,
+        "next": ["ChooseBattleRecord", "#self"],
+        "exceededNext": ["ChooseBattleRecord"]
     },
     "ChangeProductToPureGold": {
         "action": "ClickRect",
         "template": "ChooseProductList.png",
         "cache": true,
         "roi": [1000, 117, 115, 60],
-        "specificRect": [1030, 180, 80, 80],
-        "next": ["ChoosePureGoldTab"]
+        "specificRect": [1075, 345, 102, 98],
+        "maxTimes": 3,
+        "next": ["ChoosePureGoldTab", "#self"],
+        "exceededNext": ["ChoosePureGoldTab"]
     },
     "ChangeProductToOriginiumShard": {
         "action": "ClickRect",
         "template": "ChooseProductList.png",
         "cache": true,
         "roi": [1000, 117, 115, 60],
-        "specificRect": [1030, 180, 80, 80],
-        "next": ["ChooseOriginiumShardTab"]
+        "specificRect": [1075, 345, 102, 98],
+        "maxTimes": 3,
+        "next": ["ChooseOriginiumShardTab", "#self"],
+        "exceededNext": ["ChooseOriginiumShardTab"]
     },
     "GachaOnce": {
         "algorithm": "JustReturn",
