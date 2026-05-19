@@ -186,36 +186,58 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </StackPanel.Style>
-                                                    <RadioButton
+                                                    <Button
                                                         Width="22"
+                                                        Height="22"
                                                         Margin="0"
                                                         hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
-                                                        hc:VisualElement.HighlightBackground="Transparent"
-                                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                        hc:IconElement.Width="14"
+                                                        hc:IconElement.Height="14"
                                                         Background="Transparent"
+                                                        BorderBrush="Transparent"
                                                         BorderThickness="0"
                                                         Padding="0"
                                                         Command="{s:Action RenameTask,
                                                                            Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                         CommandParameter="{Binding}"
-                                                        Foreground="{DynamicResource SecondaryTextBrush}"
-                                                        Style="{StaticResource RadioGroupItemSingle}"
-                                                        ToolTip="{DynamicResource Rename}" />
-                                                    <RadioButton
+                                                        ToolTip="{DynamicResource Rename}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                                <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
+                                                    <Button
                                                         Width="22"
+                                                        Height="22"
                                                         Margin="0"
                                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
-                                                        hc:VisualElement.HighlightBackground="Transparent"
-                                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                        hc:IconElement.Width="14"
+                                                        hc:IconElement.Height="14"
                                                         Background="Transparent"
+                                                        BorderBrush="Transparent"
                                                         BorderThickness="0"
                                                         Padding="0"
                                                         Command="{s:Action RemoveTask,
                                                                            Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                         CommandParameter="{Binding}"
-                                                        Foreground="{DynamicResource SecondaryTextBrush}"
-                                                        Style="{StaticResource RadioGroupItemSingle}"
-                                                        ToolTip="{DynamicResource Delete}" />
+                                                        ToolTip="{DynamicResource Delete}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                                <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
                                                 </StackPanel>
                                                 <RadioButton
                                                     x:Name="TaskSettingRadioButton"
