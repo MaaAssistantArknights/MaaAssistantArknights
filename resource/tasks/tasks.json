@@ -4900,7 +4900,7 @@
         "template": "ChooseProductList.png",
         "cache": true,
         "roi": [1000, 117, 115, 60],
-        "specificRect": [1030, 180, 80, 80],
+        "specificRect": [1075, 345, 102, 98],
         "maxTimes": 3,
         "next": ["ChooseBattleRecord", "#self"],
         "exceededNext": ["ChooseBattleRecord"]
@@ -4910,7 +4910,7 @@
         "template": "ChooseProductList.png",
         "cache": true,
         "roi": [1000, 117, 115, 60],
-        "specificRect": [1030, 180, 80, 80],
+        "specificRect": [1075, 345, 102, 98],
         "maxTimes": 3,
         "next": ["ChoosePureGoldTab", "#self"],
         "exceededNext": ["ChoosePureGoldTab"]
