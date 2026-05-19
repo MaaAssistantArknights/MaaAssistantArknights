@@ -139,15 +139,6 @@ jobs:
           prerelease: ${{ fromJSON(needs.create-tag.outputs.prerelease) }}
           overwrite: true
 
-      - name: Create issue on failure
-        if: failure()
-        uses: actions-cool/issues-helper@v3
-        with:
-          actions: "create-issue"
-          title: "Failed to make OTA release for Windows"
-          body: |
-            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
   make-ota-mac:
     name: Build and Upload OTA for macOS
     needs: create-tag
@@ -191,15 +182,6 @@ jobs:
           tag: ${{ needs.create-tag.outputs.release_tag }}
           prerelease: ${{ fromJSON(needs.create-tag.outputs.prerelease) }}
           overwrite: true
-
-      - name: Create issue on failure
-        if: failure()
-        uses: actions-cool/issues-helper@v3
-        with:
-          actions: "create-issue"
-          title: "Failed to make OTA release for macOS"
-          body: |
-            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   release:
     name: Publish to Release Mirrors
