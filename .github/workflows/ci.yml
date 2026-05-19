@@ -692,11 +692,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
 
-      - name: Create issue on failure
-        if: failure()
-        uses: actions-cool/issues-helper@v3
-        with:
-          actions: "create-issue"
           title: "Errors occured during release ${{ needs.meta.outputs.tag }}"
           body: |
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
