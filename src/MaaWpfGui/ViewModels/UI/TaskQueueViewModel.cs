@@ -22,12 +22,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -44,7 +46,6 @@ using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.Views.Dialogs;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
@@ -1441,22 +1442,17 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        var sourceTask = ConfigFactory.CurrentConfig.TaskQueue[index];
-        var settings = new JsonSerializerSettings
+        var oldTask = ConfigFactory.CurrentConfig.TaskQueue[index];
+        var oldTaskJson = JsonSerializer.Serialize(oldTask);
+        if (JsonSerializer.Deserialize(oldTaskJson, oldTask.GetType()) is not BaseTask newTask)
         {
-            TypeNameHandling = TypeNameHandling.Auto,
-            ObjectCreationHandling = ObjectCreationHandling.Replace,
-        };
-        //哎哟，改了好久配置复制，应该是没问题了（大概）
-        //如果还有问题就相信后人的智慧
-        var json = JsonConvert.SerializeObject(sourceTask, sourceTask.GetType(), settings);
-        var clonedTask = (BaseTask)JsonConvert.DeserializeObject(json, sourceTask.GetType(), settings)!;
-        clonedTask.Name = taskItem.Name + " - " + LocalizationHelper.GetString("Copy");
-        ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, clonedTask);
-        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(clonedTask.NameDisplay));
-
-
-        AddLog(LocalizationHelper.GetStringFormat("TaskCopied", taskItem.Name), UiLogColor.Info);
+            AddLog("Task copy failed", UiLogColor.Error);
+            return;
+        }
+        newTask.Name = newTask.NameDisplay + " (2)";
+        ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, newTask);
+        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(newTask.NameDisplay));
+        AddLog(LocalizationHelper.GetStringFormat("TaskCopied", newTask.NameDisplay), UiLogColor.Info);
     }
 
     /// <summary>
