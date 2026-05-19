@@ -19,7 +19,9 @@ MAA WPF GUI는 현재 Wine을 통해 실행할 수 있습니다. MAA는 .NET 런
 
 #### 설치 단계
 
-1. Visual C++ Redistributable 설치:
+:::: steps
+
+1. Visual C++ Redistributable 설치
 
    [Visual C++ 재배포 가능 패키지](https://aka.ms/vc14/vc_redist.x64.exe)를 다운로드하고 설치합니다:
 
@@ -31,7 +33,11 @@ MAA WPF GUI는 현재 Wine을 통해 실행할 수 있습니다. MAA는 .NET 런
    `DependencySetup_依赖库安装.bat`는 winget 및 Windows 권한 상승 메커니즘에 의존하므로 Wine에서 정상적으로 작동하지 않습니다. 따라서 런타임 라이브러리를 수동으로 설치해야 합니다.
    :::
 
-2. Windows용 MAA를 다운로드하고 압축을 푼 후 `wine MAA.exe`를 실행합니다.
+2. MAA 다운로드
+
+   Windows용 MAA를 다운로드하고 압축을 푼 후 `wine MAA.exe`를 실행합니다.
+
+::::
 
 ::: info 주의
 연결 설정에서 ADB 경로를 [Windows용 `adb.exe`](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)로 설정해야 합니다.
