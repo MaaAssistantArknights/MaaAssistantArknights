@@ -499,6 +499,7 @@ enum class ProcessTaskAction
     DoNothing = 0x200, // 什么都不做
     Stop = 0x400,      // 停止当前Task
     Swipe = 0x1000,    // 滑动
+    SwipeSelf = 0x1001, // 从识别到的自身位置开始滑动
     Input = 0x2000,    // 输入文本
 };
 
@@ -509,6 +510,7 @@ inline ProcessTaskAction get_action_type(std::string action_str)
         { "", ProcessTaskAction::DoNothing },          { "donothing", ProcessTaskAction::DoNothing },
         { "clickself", ProcessTaskAction::ClickSelf }, { "clickrect", ProcessTaskAction::ClickRect },
         { "stop", ProcessTaskAction::Stop },           { "swipe", ProcessTaskAction::Swipe },
+        { "swipeself", ProcessTaskAction::SwipeSelf },
         { "input", ProcessTaskAction::Input },
     };
     if (auto it = action_map.find(action_str); it != action_map.end()) {
@@ -521,9 +523,13 @@ inline std::string enum_to_string(ProcessTaskAction action)
 {
     static const std::unordered_map<ProcessTaskAction, std::string> action_map = {
         { ProcessTaskAction::Invalid, "Invalid" },       { ProcessTaskAction::DoNothing, "DoNothing" },
-        { ProcessTaskAction::BasicClick, "BasicClick" }, { ProcessTaskAction::ClickSelf, "ClickSelf" },
-        { ProcessTaskAction::ClickRect, "ClickRect" },   { ProcessTaskAction::Stop, "Stop" },
-        { ProcessTaskAction::Swipe, "Swipe" },           { ProcessTaskAction::Input, "Input" },
+        { ProcessTaskAction::BasicClick, "BasicClick" },
+        { ProcessTaskAction::ClickSelf, "ClickSelf" },
+        { ProcessTaskAction::ClickRect, "ClickRect" },
+        { ProcessTaskAction::Stop, "Stop" },
+        { ProcessTaskAction::Swipe, "Swipe" },
+        { ProcessTaskAction::SwipeSelf, "SwipeSelf" },
+        { ProcessTaskAction::Input, "Input" },
     };
     if (auto it = action_map.find(action); it != action_map.end()) {
         return it->second;

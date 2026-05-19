@@ -1112,6 +1112,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
     static const std::unordered_map<ProcessTaskAction, std::unordered_set<std::string>> allowed_key_under_action = {
         { ProcessTaskAction::ClickRect, { "specificRect" } },
         { ProcessTaskAction::Swipe, { "specificRect", "rectMove" } },
+        { ProcessTaskAction::SwipeSelf, { "rectMove" } },
         { ProcessTaskAction::Input, { "inputText" } },
     };
 

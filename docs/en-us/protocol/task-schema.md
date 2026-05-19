@@ -37,6 +37,7 @@ Please note that JSON files do not support comments. The comments in this docume
                                             //      - DoNothing:        Do nothing
                                             //      - Stop:             Stop current task
                                             //      - Swipe:            Swipe, corresponds to specificRect and rectMove fields
+                                            //      - SwipeSelf:        Swipe from the recognized position, corresponds to rectMove field
                                             //      - Input:            Input text, requires algorithm to be JustReturn, corresponds to inputText field
 
         "sub": ["SubTaskName1", "SubTaskName2"],
@@ -81,7 +82,7 @@ Please note that JSON files do not support comments. The comments in this docume
         "rectMove": [0, 0, 0, 0],           // Optional, target movement after recognition, not recommended. Auto-scales to 1280 * 720
                                             // For example, if A is recognized but actual click target is 10 pixels below in 5 * 2 area,
                                             // can use [0, 10, 5, 2], but if possible try to directly recognize target position instead
-                                            // Additionally, when action is Swipe, indicates endpoint (required)
+                                            // Additionally, when action is Swipe or SwipeSelf, indicates endpoint (required)
 
         "reduceOtherTimes": ["OtherTaskName1", "OtherTaskName2"],
                                             // Optional, reduces execution count of other tasks after execution
@@ -94,7 +95,7 @@ Please note that JSON files do not support comments. The comments in this docume
                                             // When algorithm is "OcrDetect", specificRect[0] and specificRect[1] represent grayscale threshold limits
 
         "specialParams": [int, ...],        // Parameters for special recognizers
-                                            // Optional when action is Swipe, [0] for duration, [1] for extra swipe toggle
+                                            // Optional when action is Swipe or SwipeSelf, [0] for duration, [1] for extra swipe toggle
 
         "highResolutionSwipeFix": false,    // Optional, whether to enable high-resolution swipe fix
                                             // Currently only needed for stage navigation which doesn't use unity swipe method

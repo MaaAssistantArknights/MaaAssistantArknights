@@ -37,6 +37,7 @@ icon: material-symbols:task
                                             //      - DoNothing:        什麼都不做
                                             //      - Stop:             停止目前任務
                                             //      - Swipe:            滑動，對應 specificRect 與 rectMove 欄位
+                                            //      - SwipeSelf:        從辨識到的位置滑動，對應 rectMove 欄位
                                             //      - Input:            輸入文字，要求 algorithm 為 JustReturn，對應 inputText 欄位
 
         "sub": ["SubTaskName1", "SubTaskName2"],
@@ -80,7 +81,7 @@ icon: material-symbols:task
         "rectMove": [0, 0, 0, 0],           // 選填，辨識後的目標移動，不建議使用該選項。以 1280 * 720 為基準自動縮放
                                             // 例如辨識到了 A ，但實際要點擊的是 A 下方 10 像素 5 * 2 區域的某個位置，
                                             // 則可填寫 [ 0, 10, 5, 2 ]，可以的話儘量直接辨識要點擊的位置，不建議使用該選項
-                                            // 額外的，當 action 為 Swipe 時有效且必填，表示滑動終點。
+                                            // 額外的，當 action 為 Swipe 或 SwipeSelf 時有效且必填，表示滑動終點。
 
         "reduceOtherTimes": ["OtherTaskName1", "OtherTaskName2"],
                                             // 選填，執行後減少其他任務的執行計數。
@@ -93,7 +94,7 @@ icon: material-symbols:task
                                             // 當 algorithm 為 OcrDetect 時，specificRect[0] 和 specificRect[1] 表示灰度上下限門檻值。
 
         "specialParams": [int, ...],        // 某些特殊辨識器需要的參數
-                                            // 額外的，當 action 為 Swipe 時選填，[0] 表示 duration，[1] 表示是否啟用額外滑動
+                                            // 額外的，當 action 為 Swipe 或 SwipeSelf 時選填，[0] 表示 duration，[1] 表示是否啟用額外滑動
 
         "highResolutionSwipeFix": false,    // 選填，是否啟用高解析度滑動修復
                                             // 現階段應該只有關卡導航未使用 unity 滑動方式所以需要開啟
