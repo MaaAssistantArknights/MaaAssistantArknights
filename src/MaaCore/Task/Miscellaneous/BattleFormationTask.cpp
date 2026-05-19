@@ -129,8 +129,37 @@ bool asst::BattleFormationTask::_run()
                 required_opers.emplace_back(m_specific_support_unit);
                 break;
             }
-            required_opers.emplace_back(
-                RequiredOper { .role = BattleData.get_role(oper.name), .name = oper.name, .skill = oper.skill });
+            RequiredOper support_operator_to_add;
+            if (m_ignore_requirements) {
+                support_operator_to_add = RequiredOper {
+                    .role = BattleData.get_role(oper.name),
+                    .name = oper.name,
+                    .skill = oper.skill,
+                };
+            }
+            else {
+                auto mod_opt = battle::get_module_from_int(oper.requirements.module);
+                if (!mod_opt) {
+                    Log.error(
+                        __FUNCTION__,
+                        "| Invalid module value, treated as Unspecified:",
+                        oper.requirements.module);
+                    mod_opt = battle::OperModule::Unspecified;
+                }
+                support_operator_to_add = RequiredOper {
+                    .role = BattleData.get_role(oper.name),
+                    .name = oper.name,
+                    .elite = oper.requirements.elite,
+                    .level = oper.requirements.level,
+                    .skill = oper.skill,
+                    .skill_level = oper.requirements.skill_level,
+                    .module = mod_opt.value(),
+                    // .module_level = 0, // 目前 OperatorRequirements 无对应字段
+                    // .potential = oper.requirements.potentiality, // 目前 OperatorRequirements
+                    // 无对应字段,且不支持相关操作
+                };
+            }
+            required_opers.emplace_back(support_operator_to_add);
         }
 
         // 先退出去招募助战再回来，好蠢

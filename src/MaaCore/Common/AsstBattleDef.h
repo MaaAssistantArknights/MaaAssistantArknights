@@ -209,6 +209,22 @@ enum class OperModule
     Beta,
 };
 
+inline std::optional<OperModule> get_module_from_int(int module_id)
+{
+    switch (static_cast<OperModule>(module_id)) {
+    case OperModule::Unspecified:
+    case OperModule::Original:
+    case OperModule::Chi:
+    case OperModule::Upsilon:
+    case OperModule::Delta:
+    case OperModule::Alpha:
+    case OperModule::Beta:
+        return static_cast<OperModule>(module_id);
+    default:
+        return std::nullopt;
+    }
+}
+
 /// <summary>
 /// 编队/招募需要的干员。
 /// </summary>
