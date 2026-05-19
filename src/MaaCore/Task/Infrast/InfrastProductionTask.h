@@ -45,7 +45,7 @@ protected:
     bool m_skip_shift = false;
 
 protected:
-    void change_product();
+    bool change_product();
     bool m_is_product_incorrect = false;
 };
 }

@@ -71,55 +71,63 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
     }
 }
 
-void asst::InfrastProductionTask::change_product()
+bool asst::InfrastProductionTask::change_product()
 {
+    auto run_change_task =
+        [&](const std::string& task_name, const std::string& product_name, const std::string& verify_task_name) {
+        if (!ProcessTask(*this, { task_name }).run()) {
+            Log.error("change product failed", task_name);
+            return false;
+        }
+
+        if (!ProcessTask(*this, { verify_task_name }).run()) {
+            Log.error("product verification failed", verify_task_name);
+            return false;
+        }
+
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = product_name;
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        return true;
+    };
+
     auto customProduct = current_room_config().product;
     switch (customProduct) {
     /*制造站的产品类型*/
     case infrast::CustomRoomConfig::Product::BattleRecord: {
-        ProcessTask(*this, { "ChangeProductToMiddleBattleRecord" }).run();
-        json::value callback_info = basic_info_with_what("ProductChanged");
-        callback_info["details"]["product"] = "MiddleBattleRecord";
-        callback(AsstMsg::SubTaskExtraInfo, callback_info);
-        break;
+        return run_change_task(
+            "ChangeProductToMiddleBattleRecord",
+            "MiddleBattleRecord",
+            "VerifyProductChangedToBattleRecord");
     }
     case infrast::CustomRoomConfig::Product::PureGold: {
-        ProcessTask(*this, { "ChangeProductToPureGold" }).run();
-        json::value callback_info = basic_info_with_what("ProductChanged");
-        callback_info["details"]["product"] = "PureGold";
-        callback(AsstMsg::SubTaskExtraInfo, callback_info);
-        break;
+        return run_change_task("ChangeProductToPureGold", "PureGold", "VerifyProductChangedToPureGold");
     }
     case infrast::CustomRoomConfig::Product::OriginiumShard: {
-        ProcessTask(*this, { "ChangeProductToOriginiumShard" }).run();
-        json::value callback_info = basic_info_with_what("ProductChanged");
-        callback_info["details"]["product"] = "OriginiumShard";
-        callback(AsstMsg::SubTaskExtraInfo, callback_info);
-        break;
+        return run_change_task(
+            "ChangeProductToOriginiumShard",
+            "OriginiumShard",
+            "VerifyProductChangedToOriginiumShard");
     }
     case infrast::CustomRoomConfig::Product::Dualchip: {
-        break;
+        return true;
     }
     /*贸易站的订单类型*/
     case infrast::CustomRoomConfig::Product::LMD: {
-        ProcessTask(*this, { "ChangeToMoneyOrder" }).run();
-        json::value callback_info = basic_info_with_what("ProductChanged");
-        callback_info["details"]["product"] = "Money";
-        callback(AsstMsg::SubTaskExtraInfo, callback_info);
-        break;
+        return run_change_task("ChangeToMoneyOrder", "Money", "VerifyProductChangedToMoney");
     }
     case infrast::CustomRoomConfig::Product::Orundum: {
-        ProcessTask(*this, { "ChangeToSyntheticJadeFlagOrder" }).run();
-        json::value callback_info = basic_info_with_what("ProductChanged");
-        callback_info["details"]["product"] = "SyntheticJade";
-        callback(AsstMsg::SubTaskExtraInfo, callback_info);
-        break;
+        return run_change_task(
+            "ChangeToSyntheticJadeFlagOrder",
+            "SyntheticJade",
+            "VerifyProductChangedToSyntheticJade");
     }
 
     default: {
-        break;
+        return true;
     }
     }
+    return true;
 }
 
 bool asst::InfrastProductionTask::shift_facility_list()
@@ -266,7 +274,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /*启用自定义基建时，如果产物不一致则直接更换产物*/
         if (m_is_custom && m_is_product_incorrect) {
-            change_product();
+            if (!change_product()) {
+                return false;
+            }
         }
         // 使用无人机
         if (m_is_use_custom_drones) {
