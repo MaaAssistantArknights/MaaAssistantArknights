@@ -65,6 +65,10 @@ public static class ConfigFactory
 
     private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new FightTaskStageResetModeConverter(), new FaultTolerantRootConverter(), new TolerantEnumConverterFactory(), new FightTaskStageResetModeInvalidToIgnoreConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.All), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, TypeInfoResolver = new DefaultJsonTypeInfoResolver { Modifiers = { JsonPredictSerializationModifier.Modify } } };
 
+    public static IReadOnlyList<string> BrokenConfig => _brokenConfigs.AsReadOnly();
+
+    private static List<string> _brokenConfigs = [];
+
     // TODO: 参考 ConfigurationHelper ，拆几个函数出来
     private static readonly Lazy<Root> _rootConfig = new(() => {
         lock (_lock)
@@ -170,10 +174,9 @@ public static class ConfigFactory
                 _logger.Warning("{File} save failed", _configBakFile);
             }
 
-            List<string> configs = [];
             if (parsed.Configurations.All(i => i.Key != parsed.Current))
             {
-                configs.Add(parsed.Current);
+                _brokenConfigs.Add(parsed.Current);
                 parsed.Configurations.Add(parsed.Current, new SpecificConfig());
             }
 
@@ -182,7 +185,7 @@ public static class ConfigFactory
                 var configNames = configurationsObj.Select(i => i.Key);
                 foreach (var name in parsed.Configurations.Select(i => i.Key).Except(configNames))
                 {
-                    configs.Add(name);
+                    _brokenConfigs.Add(name);
                     ConfigurationHelper.AddConfiguration(name, parsed.Current); // old config补全
                     _logger.Information("Config {ConfigName} does not exist in old configuration, add into old configuration copy from {Current}", name, parsed.Current);
                 }
@@ -191,7 +194,7 @@ public static class ConfigFactory
                 {
                     if (!parsed.Configurations.ContainsKey(name))
                     {
-                        configs.Add(name);
+                        _brokenConfigs.Add(name);
                         parsed.Configurations.Add(name, parsed.CurrentConfig); // new config补全
                         _logger.Information("Config {ConfigName} exists in old configuration but not in new config, copy from {Current}", name, parsed.Current);
                     }
@@ -199,11 +202,11 @@ public static class ConfigFactory
                 if (oldConfigJson["Current"]?.GetValue<string>() is string oldCurrent && parsed.Current != oldCurrent)
                 {
                     _logger.Warning("Current configuration in old configuration is {OldCurrent}, but in new config is {NewCurrent}, switching to old current", oldCurrent, parsed.Current);
-                    parsed.Current = oldCurrent; // 检查 Current 一致性
+                    ConfigurationHelper.SwitchConfiguration(parsed.Current); // 检查 Current 一致性
                 }
             }
 
-            if (configs.Count > 0)
+            if (_configBakFile.Count() > 0)
             {
                 MessageBoxHelper.ShowNative(WindowHandle.None, LocalizationHelper.GetStringFormat("ConfigurationRecoveredNotification", string.Join(", ", configs)), "Configuration Broken", icon: MessageBoxImage.Warning);
             }
