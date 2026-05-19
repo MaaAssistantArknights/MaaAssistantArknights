@@ -45,12 +45,16 @@ bool asst::ReclamationTask::set_params(const json::value& params)
     m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", INT_MAX);
 
     if (const auto* ra_mode = std::get_if<RelaunchAnchorMode>(&mode)) {
-        // 重启锚点：根据 mode 选择关卡入口
-        const int stage = static_cast<int>(*ra_mode);
-        const std::string stage_str = (stage == static_cast<int>(RelaunchAnchorMode::RA15)) ? "15" : "1";
-        const std::string task_name = theme + "@RA@RA" + stage_str + "-Entry";
-        m_reclamation_task_ptr->set_tasks({ task_name });
         m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);
+
+        if (*ra_mode == RelaunchAnchorMode::CollectEnergy) {
+            m_reclamation_task_ptr->set_tasks({ theme + "@RA@CollectEnergy-Entry" });
+        }
+        else {
+            const int stage = static_cast<int>(*ra_mode);
+            const std::string stage_str = (stage == static_cast<int>(RelaunchAnchorMode::RA15)) ? "15" : "1";
+            m_reclamation_task_ptr->set_tasks({ theme + "@RA@RA" + stage_str + "-Entry" });
+        }
     }
     else if (const auto* tales_mode = std::get_if<TalesMode>(&mode)) {
         switch (*tales_mode) {

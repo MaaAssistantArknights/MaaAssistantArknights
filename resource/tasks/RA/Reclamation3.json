@@ -1,41 +1,227 @@
 {
     "RelaunchAnchor@RA@RA1-Entry": {
-        "doc": "RA-1 入口：兼容关卡列表与已进入关卡后的不同起始界面",
+        "doc": "RA-1 入口：兼容关卡列表与已进入关卡后的不同起始界面，均未匹配时兜底导航",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-Prepare", "RelaunchAnchor@RA@RA1-OpenConstruction"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-Prepare",
+            "RelaunchAnchor@RA@RA1-OpenConstruction",
+            "RelaunchAnchor@RA@RA1-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-Navigation": {
+        "doc": "逐步导航：检测当前界面并前进一步，循环直到到达主题界面",
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@RA1-Nav-DetectTheme",
+            "RelaunchAnchor@RA@RA1-Nav-ClickReclamation",
+            "RelaunchAnchor@RA@RA1-Nav-ClickLongTerm",
+            "RelaunchAnchor@RA@RA1-Nav-EnterTerminal"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-Nav-ClickReclamation": {
+        "doc": "在长期探索界面点击「生息演算」",
+        "baseTask": "RelaunchAnchor@RA@Nav-ClickReclamation",
+        "next": [
+            "RelaunchAnchor@RA@RA1-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-Nav-ClickLongTerm": {
+        "doc": "在终端界面点击「长期探索」图标",
+        "baseTask": "RelaunchAnchor@RA@Nav-ClickLongTerm",
+        "template": "Roguelike@IntegratedStrategies.png",
+        "next": [
+            "RelaunchAnchor@RA@RA1-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-Nav-EnterTerminal": {
+        "doc": "从主界面进入终端",
+        "baseTask": "RelaunchAnchor@RA@Nav-EnterTerminal",
+        "next": [
+            "RelaunchAnchor@RA@RA1-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-Nav-DetectTheme": {
+        "doc": "已在主题界面，点击「进入主题」或「开始建设」",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入主题",
+            "开始建设"
+        ],
+        "roi": [
+            1064,
+            620,
+            171,
+            50
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-Nav-DetectTheme@NextAfterLoadingText",
+            "RelaunchAnchor@RA@RA1-WaitForGame"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-WaitForGame": {
+        "doc": "等待进入地图或 Screen 2；Screen 2 的「开始建设」由 DetectTheme 处理，避免与策略确认的「开始建设」混淆",
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@RA1-Prepare",
+            "RelaunchAnchor@RA@RA1-OpenConstruction",
+            "RelaunchAnchor@RA@RA1-Nav-DetectTheme",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Entry": {
-        "doc": "RA-15 入口：直接从开启建设界面开始",
+        "doc": "RA-15 入口：检测地图/开启建设/导航",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA15-Prepare"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-PrepareMap",
+            "RelaunchAnchor@RA@RA15-Prepare",
+            "RelaunchAnchor@RA@RA15-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-Navigation": {
+        "doc": "逐步导航：检测当前界面并前进一步，循环直到到达主题界面",
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@RA15-Nav-DetectTheme",
+            "RelaunchAnchor@RA@RA15-Nav-ClickReclamation",
+            "RelaunchAnchor@RA@RA15-Nav-ClickLongTerm",
+            "RelaunchAnchor@RA@RA15-Nav-EnterTerminal"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-Nav-ClickReclamation": {
+        "doc": "在长期探索界面点击「生息演算」",
+        "baseTask": "RelaunchAnchor@RA@Nav-ClickReclamation",
+        "next": [
+            "RelaunchAnchor@RA@RA15-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-Nav-ClickLongTerm": {
+        "doc": "在终端界面点击「长期探索」图标",
+        "baseTask": "RelaunchAnchor@RA@Nav-ClickLongTerm",
+        "template": "Roguelike@IntegratedStrategies.png",
+        "next": [
+            "RelaunchAnchor@RA@RA15-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-Nav-EnterTerminal": {
+        "doc": "从主界面进入终端",
+        "baseTask": "RelaunchAnchor@RA@Nav-EnterTerminal",
+        "next": [
+            "RelaunchAnchor@RA@RA15-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-Nav-DetectTheme": {
+        "doc": "已在主题界面，点击「进入主题」或「开始建设」",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入主题",
+            "开始建设"
+        ],
+        "roi": [
+            1064,
+            620,
+            171,
+            50
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-Nav-DetectTheme@NextAfterLoadingText",
+            "RelaunchAnchor@RA@RA15-WaitForGame"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-WaitForGame": {
+        "doc": "等待进入地图或 Screen 2；Screen 2 的「开始建设」由 DetectTheme 处理",
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@RA15-PrepareMap",
+            "RelaunchAnchor@RA@RA15-Prepare",
+            "RelaunchAnchor@RA@RA15-Nav-DetectTheme",
+            "#self"
+        ]
+    },
+    "RelaunchAnchor@RA@Nav-ClickReclamation": {
+        "doc": "在长期探索界面点击「生息演算」",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "生息演算"
+        ],
+        "roi": [
+            673,
+            441,
+            348,
+            99
+        ],
+        "postDelay": 3000
+    },
+    "RelaunchAnchor@RA@Nav-ClickLongTerm": {
+        "doc": "在终端界面点击「长期探索」图标",
+        "baseTask": "Roguelike@IntegratedStrategies",
+        "template": "Roguelike@IntegratedStrategies.png",
+        "action": "ClickSelf",
+        "postDelay": 2000
+    },
+    "RelaunchAnchor@RA@Nav-EnterTerminal": {
+        "doc": "从主界面进入终端",
+        "algorithm": "JustReturn",
+        "sub": [
+            "Terminal-Entry"
+        ],
+        "postDelay": 2000
     },
     "RelaunchAnchor@RA@Common-Confirm": {
         "doc": "通用确认按钮",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["确认"],
-        "roi": [1076, 577, 72, 44]
+        "text": [
+            "确认"
+        ],
+        "roi": [
+            1076,
+            577,
+            72,
+            44
+        ]
     },
     "RelaunchAnchor@RA@Common-OpenConstruction": {
         "doc": "通用开启建设按钮",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["开启建设"],
-        "roi": [1055, 597, 141, 46]
+        "text": [
+            "开启建设"
+        ],
+        "roi": [
+            1030,
+            585,
+            180,
+            65
+        ]
     },
     "RelaunchAnchor@RA@Common-StartConstruction": {
         "doc": "通用开始建设按钮",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["开始建设"],
-        "roi": [984, 607, 138, 47]
+        "text": [
+            "开始建设"
+        ],
+        "roi": [
+            984,
+            600,
+            260,
+            55
+        ]
     },
     "RelaunchAnchor@RA@Common-MissionIcon": {
         "doc": "通用任务图标",
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "RelaunchAnchor@RA@MissionIcon.png",
-        "roi": [0, 179, 150, 141]
+        "roi": [
+            0,
+            179,
+            150,
+            141
+        ]
     },
     "RelaunchAnchor@RA@Common-WaitSkip": {
         "doc": "通用等待剧情跳过按钮出现（JustReturn 占位，next 由各关卡覆盖）",
@@ -49,494 +235,1114 @@
         "doc": "通用点击对话框区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [510, 500, 40, 40]
+        "specificRect": [
+            510,
+            500,
+            40,
+            40
+        ]
     },
     "RelaunchAnchor@RA@Common-DialogueSequence": {
         "doc": "通用对话序列：模板匹配说话标识，持续点击直到标识消失（next 由各关卡覆盖）",
         "algorithm": "MatchTemplate",
         "template": "RelaunchAnchor@RA@DialogueMarker.png",
-        "roi": [363, 456, 144, 139],
-        "sub": ["RelaunchAnchor@RA@Common-DialogueClick*10"]
+        "roi": [
+            363,
+            456,
+            144,
+            139
+        ],
+        "sub": [
+            "RelaunchAnchor@RA@Common-DialogueClick*10"
+        ]
+    },
+    "RelaunchAnchor@RA@Common-ClickBack": {
+        "doc": "点击左上角返回按钮，退出地图回到上一级界面",
+        "algorithm": "OcrDetect",
+        "text": [
+            "返回"
+        ],
+        "roi": [
+            20,
+            10,
+            150,
+            60
+        ],
+        "action": "ClickSelf",
+        "postDelay": 2000
+    },
+    "RelaunchAnchor@RA@Common-DetectMap": {
+        "doc": "检测地图界面（统筹系统）",
+        "algorithm": "OcrDetect",
+        "text": [
+            "统筹系统"
+        ],
+        "roi": [
+            355,
+            655,
+            150,
+            45
+        ],
+        "action": "DoNothing"
+    },
+    "RelaunchAnchor@RA@Common-SwipeMapLeft": {
+        "doc": "向左拖动地图（手指从左往右拖，视角向左移）",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            200,
+            350,
+            1,
+            1
+        ],
+        "rectMove": [
+            900,
+            350,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
+        "postDelay": 800
+    },
+    "RelaunchAnchor@RA@Common-SwipeMapRight": {
+        "doc": "向右拖动地图（手指从右往左拖，视角向右移）",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            900,
+            350,
+            1,
+            1
+        ],
+        "rectMove": [
+            200,
+            350,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
+        "postDelay": 800
+    },
+    "RelaunchAnchor@RA@Common-SwipeMapUp": {
+        "doc": "向上拖动地图（手指从上往下拖，视角向上移）",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            640,
+            150,
+            1,
+            1
+        ],
+        "rectMove": [
+            640,
+            500,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
+        "postDelay": 800
+    },
+    "RelaunchAnchor@RA@Common-SwipeMapDown": {
+        "doc": "向下拖动地图（手指从下往上拖，视角向下移）",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            640,
+            500,
+            1,
+            1
+        ],
+        "rectMove": [
+            640,
+            150,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
+        "postDelay": 800
     },
     "RelaunchAnchor@RA@RA1-Prepare": {
-        "doc": "步骤 1（任务起点）：OCR 识别 RA-1 并点击；右下角出现 <开启建设> 时进入步骤 2",
-        "algorithm": "OcrDetect",
+        "doc": "确认在地图界面，尝试模板匹配 RA-1；找不到则拖动地图搜索",
+        "baseTask": "RelaunchAnchor@RA@Common-DetectMap",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL1"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-ClickStage": {
+        "doc": "模板匹配地图上的 RA-1 标签并点击",
+        "algorithm": "MatchTemplate",
+        "template": "RelaunchAnchor@RA@RA1-Label.png",
+        "templThreshold": 0.7,
+        "roi": [
+            50,
+            50,
+            1180,
+            600
+        ],
         "action": "ClickSelf",
-        "text": ["RA", "-1"],
-        "withoutDet": true,
-        "useRaw": false,
-        "binThreshold": [200, 255],
-        "roi": [605, 405, 65, 30],
-        "next": ["RelaunchAnchor@RA@RA1-OpenConstruction", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-OpenConstruction",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-OpenConstruction": {
         "doc": "步骤 2：OCR 识别 <开启建设> 并点击；未出现则回到步骤 1 重新点击 RA-1",
         "baseTask": "RelaunchAnchor@RA@Common-OpenConstruction",
-        "next": ["RelaunchAnchor@RA@RA1-ChooseStrategy", "#self", "RelaunchAnchor@RA@RA1-Prepare"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-ChooseStrategy",
+            "#self",
+            "RelaunchAnchor@RA@RA1-Prepare"
+        ]
     },
     "RelaunchAnchor@RA@RA1-ChooseStrategy": {
         "doc": "步骤 3：OCR 识别 <精耕细作> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["精耕细作"],
-        "roi": [118, 385, 96, 25],
-        "next": ["RelaunchAnchor@RA@RA1-ConfirmSelection"]
+        "text": [
+            "精耕细作"
+        ],
+        "roi": [
+            118,
+            385,
+            96,
+            25
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-ConfirmSelection"
+        ]
     },
     "RelaunchAnchor@RA@RA1-ConfirmSelection": {
         "doc": "步骤 4：OCR 识别 <确认选择> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["确认选择"],
-        "roi": [1055, 619, 117, 43],
-        "next": ["RelaunchAnchor@RA@RA1-StartConstruction", "RelaunchAnchor@RA@RA1-ChooseStrategy"]
+        "text": [
+            "确认选择"
+        ],
+        "roi": [
+            1055,
+            619,
+            117,
+            43
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-StartConstruction",
+            "RelaunchAnchor@RA@RA1-ChooseStrategy"
+        ]
     },
     "RelaunchAnchor@RA@RA1-StartConstruction": {
         "doc": "步骤 5：OCR 识别 <开始建设> 并点击；未出现则回到步骤 3",
         "baseTask": "RelaunchAnchor@RA@Common-StartConstruction",
-        "next": ["#self", "RelaunchAnchor@RA@RA1-WaitSkip"]
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA1-WaitSkip"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitSkip": {
         "doc": "步骤 6 前等待剧情跳过按钮出现",
         "baseTask": "RelaunchAnchor@RA@Common-WaitSkip",
-        "next": ["RelaunchAnchor@RA@RA1-SkipPlot", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-SkipPlot",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-SkipPlot": {
         "doc": "步骤 6：OCR 识别 <跳过> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["跳过"],
-        "roi": [1140, 30, 67, 43],
-        "next": ["RelaunchAnchor@RA@RA1-SkipPlotConfirm", "#self", "RelaunchAnchor@RA@RA1-WaitGatheringBasePrompt"]
+        "text": [
+            "跳过"
+        ],
+        "roi": [
+            1140,
+            30,
+            67,
+            43
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-SkipPlotConfirm",
+            "#self",
+            "RelaunchAnchor@RA@RA1-WaitGatheringBasePrompt"
+        ]
     },
     "RelaunchAnchor@RA@RA1-SkipPlotConfirm": {
         "doc": "步骤 7：OCR 识别 <是否跳过剧情>，点击偏移位置占位",
         "algorithm": "OcrDetect",
         "action": "ClickRect",
-        "text": ["是否跳过剧情"],
-        "roi": [532, 335, 237, 52],
-        "specificRect": [795, 355, 1, 1],
-        "next": ["#self", "RelaunchAnchor@RA@RA1-WaitGatheringBasePrompt"]
+        "text": [
+            "是否跳过剧情"
+        ],
+        "roi": [
+            532,
+            335,
+            237,
+            52
+        ],
+        "specificRect": [
+            795,
+            355,
+            1,
+            1
+        ],
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA1-WaitGatheringBasePrompt"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitGatheringBasePrompt": {
         "doc": "步骤 8 前等待 <请部署罗德岛采集基站> 出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt": {
         "doc": "步骤 8：OCR 等待 <请部署罗德岛采集基站>",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "text": ["请部署", "罗德岛", "采集基站"],
-        "roi": [520, 54, 247, 38],
-        "sub": ["RelaunchAnchor@RA@RA1-AlignMap*2"],
-        "next": ["RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe"]
+        "text": [
+            "请部署",
+            "罗德岛",
+            "采集基站"
+        ],
+        "roi": [
+            520,
+            54,
+            247,
+            38
+        ],
+        "sub": [
+            "RelaunchAnchor@RA@RA1-AlignMap*2"
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe"
+        ]
     },
     "RelaunchAnchor@RA@RA1-AlignMap": {
         "doc": "步骤 9：JustReturn Swipe，对齐地图",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [120, 580, 1, 1],
-        "rectMove": [1920, 0, 1, 1],
-        "specialParams": [500, 0, 3, 0]
+        "specificRect": [
+            120,
+            580,
+            1,
+            1
+        ],
+        "rectMove": [
+            1920,
+            0,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe": {
         "doc": "步骤 10：JustReturn Swipe，占位部署采集基站",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [530, 630, 10, 10],
-        "rectMove": [955, 300, 1, 1],
-        "specialParams": [500, 0, 3, 0],
-        "next": ["RelaunchAnchor@RA@RA1-WaitDoubleSpeed"]
+        "specificRect": [
+            530,
+            630,
+            10,
+            10
+        ],
+        "rectMove": [
+            955,
+            300,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-WaitDoubleSpeed"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitDoubleSpeed": {
         "doc": "步骤 11 前等待二倍速提示出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-DoubleSpeed", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-DoubleSpeed",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DoubleSpeed": {
         "doc": "步骤 11：开启二倍速",
         "template": "RelaunchAnchor@RA@DoubleSpeed.png",
         "action": "ClickSelf",
-        "roi": [1060, 20, 80, 70],
-        "maskRange": [220, 255],
-        "next": ["#self", "RelaunchAnchor@RA@RA1-DeployGatheringBaseWait"]
+        "roi": [
+            1060,
+            20,
+            80,
+            70
+        ],
+        "maskRange": [
+            220,
+            255
+        ],
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA1-DeployGatheringBaseWait"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeployGatheringBaseWait": {
         "doc": "步骤 12：部署采集基站后的占位等待 x 秒",
         "algorithm": "JustReturn",
         "postDelay": 2000,
-        "sub": ["RelaunchAnchor@RA@RA1-AlignMap*2"],
-        "next": ["RelaunchAnchor@RA@RA1-WaitCost"]
+        "sub": [
+            "RelaunchAnchor@RA@RA1-AlignMap*2"
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-WaitCost"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitCost": {
         "doc": "步骤 13 前等待部署费用",
         "baseTask": "RelaunchAnchor@RA@Common-WaitCost",
-        "next": ["RelaunchAnchor@RA@RA1-Cost", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-Cost",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-Cost": {
         "doc": "步骤 13：OCR 识别部署费用 ≥22",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "text": ["22+"],
-        "ocrReplace": [["(2[2-9]|[3-9]\\d+)", "22+"]],
-        "roi": [1200, 490, 80, 50],
-        "next": ["RelaunchAnchor@RA@RA1-DeployOperatorSwipe"]
+        "text": [
+            "22+"
+        ],
+        "ocrReplace": [
+            [
+                "(2[2-9]|[3-9]\\d+)",
+                "22+"
+            ]
+        ],
+        "roi": [
+            1200,
+            490,
+            80,
+            50
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeployOperatorSwipe"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeployOperatorSwipe": {
         "doc": "步骤 14：JustReturn Swipe，占位部署干员",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [1120, 630, 10, 10],
-        "rectMove": [745, 300, 1, 1],
-        "specialParams": [500, 0, 3, 0],
-        "next": ["RelaunchAnchor@RA@RA1-DeployOperatorDirection"]
+        "specificRect": [
+            1120,
+            630,
+            10,
+            10
+        ],
+        "rectMove": [
+            745,
+            300,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeployOperatorDirection"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
         "doc": "步骤 15：JustReturn Swipe，确认干员朝向",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [745, 300, 1, 1],
-        "rectMove": [1745, 300, 10, 10],
-        "specialParams": [300, 0, 3, 0],
-        "next": ["RelaunchAnchor@RA@RA1-DeployOperatorWait"]
+        "specificRect": [
+            745,
+            300,
+            1,
+            1
+        ],
+        "rectMove": [
+            1745,
+            300,
+            10,
+            10
+        ],
+        "specialParams": [
+            300,
+            0,
+            3,
+            0
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeployOperatorWait"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeployOperatorWait": {
         "doc": "步骤 16：部署干员后的占位等待 x 秒",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-MissionIcon1"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-MissionIcon1"
+        ]
     },
     "RelaunchAnchor@RA@RA1-MissionIcon1": {
         "doc": "步骤 17：模板匹配任务图标并点击",
         "baseTask": "RelaunchAnchor@RA@Common-MissionIcon",
         "template": "RelaunchAnchor@RA@MissionIcon.png",
-        "next": ["RelaunchAnchor@RA@RA1-DeliverWood5", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeliverWood5",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood5": {
         "doc": "步骤 18：OCR 识别 <交付5份木材> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["木材"],
-        "roi": [575, 281, 126, 30],
-        "next": ["RelaunchAnchor@RA@RA1-ConfirmWoodMission", "#self"]
+        "text": [
+            "木材"
+        ],
+        "roi": [
+            575,
+            281,
+            126,
+            30
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-ConfirmWoodMission",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-ConfirmWoodMission": {
         "doc": "步骤 19：OCR 识别 <确认> 并点击",
         "baseTask": "RelaunchAnchor@RA@Common-Confirm",
-        "next": ["#self", "RelaunchAnchor@RA@RA1-WaitDeliverWood"]
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA1-WaitDeliverWood"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitDeliverWood": {
         "doc": "步骤 20 前等待木材生产完成，出现 <交付木材8>",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-DeliverWood", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeliverWood",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood": {
         "doc": "步骤 20：OCR 识别 <交付木材8+> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["交付木材8+"],
-        "ocrReplace": [["(8|9|\\d{2,3}).*5", "交付木材8+"]],
-        "roi": [170, 235, 50, 35],
-        "next": ["RelaunchAnchor@RA@RA1-WaitWoodDialogue"]
+        "text": [
+            "交付木材8+"
+        ],
+        "ocrReplace": [
+            [
+                "(8|9|\\d{2,3}).*5",
+                "交付木材8+"
+            ]
+        ],
+        "roi": [
+            170,
+            235,
+            50,
+            35
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-WaitWoodDialogue"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitWoodDialogue": {
         "doc": "步骤 21 前等待说话标识或制造标识出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-WoodDialogue", "RelaunchAnchor@RA@RA1-ManufactureIcon", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-WoodDialogue",
+            "RelaunchAnchor@RA@RA1-ManufactureIcon",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WoodDialogue": {
         "doc": "步骤 21：模板匹配说话标识，持续点击直到标识消失",
         "baseTask": "RelaunchAnchor@RA@Common-DialogueSequence",
         "template": "RelaunchAnchor@RA@DialogueMarker.png",
-        "next": ["#self", "RelaunchAnchor@RA@RA1-WaitWoodDialogue"]
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA1-WaitWoodDialogue"
+        ]
     },
     "RelaunchAnchor@RA@RA1-ManufactureIcon": {
         "doc": "步骤 22：模板匹配制造标识并点击",
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "RelaunchAnchor@RA@ManufactureIcon.png",
-        "roi": [0, 470, 120, 130],
-        "next": ["RelaunchAnchor@RA@RA1-CommunicationStation", "#self"]
+        "roi": [
+            0,
+            470,
+            120,
+            130
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-CommunicationStation",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-CommunicationStation": {
         "doc": "步骤 23：OCR 识别 <通讯基站> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["通讯基站"],
-        "roi": [374, 159, 106, 34],
-        "next": ["RelaunchAnchor@RA@RA1-StartBuildingStation", "#self"]
-    },
-    "RelaunchAnchor@RA@RA1-StartBuildingStation": {
-        "doc": "步骤 24：OCR 识别 <开始建造> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开始建造"],
-        "roi": [1048, 518, 121, 34],
-        "next": ["RelaunchAnchor@RA@RA1-BlankContinue", "#self"]
+        "text": [
+            "通讯基站"
+        ],
+        "roi": [
+            374,
+            159,
+            106,
+            34
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-StartBuildingStation",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-BlankContinue": {
         "doc": "步骤 25：OCR 识别 <点击空白处继续> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["点击空白处继续"],
-        "roi": [559, 449, 163, 35],
-        "next": ["#self", "RelaunchAnchor@RA@RA1-ExitConstruction"]
+        "text": [
+            "点击空白处继续"
+        ],
+        "roi": [
+            559,
+            449,
+            163,
+            35
+        ],
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA1-ExitConstruction"
+        ]
     },
     "RelaunchAnchor@RA@RA1-ExitConstruction": {
         "doc": "步骤 26：OCR 识别退出 <建造> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["建造"],
-        "roi": [125, 70, 70, 45],
-        "next": ["#self", "RelaunchAnchor@RA@RA1-MissionIcon2"]
+        "text": [
+            "建造"
+        ],
+        "roi": [
+            125,
+            70,
+            70,
+            45
+        ],
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA1-MissionIcon2"
+        ]
     },
     "RelaunchAnchor@RA@RA1-MissionIcon2": {
         "doc": "步骤 27：模板匹配任务图标并点击",
         "baseTask": "RelaunchAnchor@RA@Common-MissionIcon",
         "template": "RelaunchAnchor@RA@MissionIcon.png",
-        "next": ["RelaunchAnchor@RA@RA1-CraftOwnCommStation1", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-CraftOwnCommStation1",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-CraftOwnCommStation1": {
         "doc": "步骤 28：OCR 识别 <制作并拥有1个通讯基站> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["制作并拥有", "通讯基站"],
-        "roi": [660, 280, 90, 35],
-        "next": ["RelaunchAnchor@RA@RA1-ConfirmCommMission", "#self"]
+        "text": [
+            "制作并拥有",
+            "通讯基站"
+        ],
+        "roi": [
+            660,
+            280,
+            90,
+            35
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-ConfirmCommMission",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-ConfirmCommMission": {
         "doc": "步骤 29：OCR 识别 <确认> 并点击",
         "baseTask": "RelaunchAnchor@RA@Common-Confirm",
-        "next": ["RelaunchAnchor@RA@RA1-CraftOwnCommStation", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-CraftOwnCommStation",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-CraftOwnCommStation": {
         "doc": "步骤 30：OCR 识别 <制作并拥有通讯基站> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["制作并拥有", "通讯基站"],
-        "roi": [79, 229, 177, 25],
-        "next": ["RelaunchAnchor@RA@RA1-WaitFirstCommDialogue"]
+        "text": [
+            "制作并拥有",
+            "通讯基站"
+        ],
+        "roi": [
+            79,
+            229,
+            177,
+            25
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-WaitFirstCommDialogue"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitFirstCommDialogue": {
         "doc": "步骤 31 前等待第一段说话标识出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-FirstCommDialogue", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-FirstCommDialogue",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-FirstCommDialogue": {
         "doc": "步骤 31：模板匹配说话标识，持续点击直到标识消失",
         "baseTask": "RelaunchAnchor@RA@Common-DialogueSequence",
         "template": "RelaunchAnchor@RA@DialogueMarker.png",
-        "next": ["#self", "RelaunchAnchor@RA@RA1-WaitSecondCommDialogue"]
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA1-WaitSecondCommDialogue"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitSecondCommDialogue": {
         "doc": "步骤 32 前等待第二段说话标识出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-SecondCommDialogue", "#self"]
-    },
-    "RelaunchAnchor@RA@RA1-SecondCommDialogue": {
-        "doc": "步骤 32：模板匹配说话标识，持续点击直到标识消失",
-        "baseTask": "RelaunchAnchor@RA@Common-DialogueSequence",
-        "template": "RelaunchAnchor@RA@DialogueMarker.png",
-        "next": ["#self", "RelaunchAnchor@RA@RA1-WaitBeforeSettlement"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-SecondCommDialogue",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitBeforeSettlement": {
         "doc": "步骤 33：占位等待 x 秒",
         "algorithm": "JustReturn",
         "postDelay": 10000,
-        "next": ["RelaunchAnchor@RA@RA1-WaitMissionIcon3"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-WaitMissionIcon3"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitMissionIcon3": {
         "doc": "步骤 34 前等待任务图标出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-MissionIcon3", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-MissionIcon3",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-MissionIcon3": {
         "doc": "步骤 34：模板匹配任务图标并点击",
         "baseTask": "RelaunchAnchor@RA@Common-MissionIcon",
         "template": "RelaunchAnchor@RA@MissionIcon.png",
-        "next": ["RelaunchAnchor@RA@RA1-DeliverStone10", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeliverStone10",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeliverStone10": {
         "doc": "步骤 35：OCR 识别 <交付10份石材> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["石材"],
-        "roi": [444, 281, 135, 34],
-        "next": ["RelaunchAnchor@RA@RA1-ConfirmSettlement", "#self"]
+        "text": [
+            "石材"
+        ],
+        "roi": [
+            444,
+            281,
+            135,
+            34
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-ConfirmSettlement",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-ConfirmSettlement": {
         "doc": "步骤 36：OCR 识别 <确认> 并点击",
         "baseTask": "RelaunchAnchor@RA@Common-Confirm",
-        "next": ["RelaunchAnchor@RA@RA1-DeliverStone", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeliverStone",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeliverStone": {
         "doc": "步骤 37：OCR 识别 <交付石材> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["交付石材"],
-        "roi": [80, 235, 85, 35],
-        "next": ["RelaunchAnchor@RA@RA1-SettleNow", "#self"]
-    },
-    "RelaunchAnchor@RA@RA1-SettleNow": {
-        "doc": "步骤 38：OCR 识别 <立即结算> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["立即结算"],
-        "roi": [918, 459, 137, 50],
-        "next": ["#self", "RelaunchAnchor@RA@RA1-WaitContinueAfterSettlement"]
+        "text": [
+            "交付石材"
+        ],
+        "roi": [
+            80,
+            235,
+            85,
+            35
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-SettleNow",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitContinueAfterSettlement": {
         "doc": "步骤 39 前等待结算完成",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-ContinueAfterSettlement", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-ContinueAfterSettlement",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-ContinueAfterSettlement": {
         "doc": "步骤 39：OCR 识别 <点击继续> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["点击继续"],
-        "roi": [605, 664, 113, 44],
-        "next": ["#self", "RelaunchAnchor@RA@RA1-WaitFinishConstruction"]
+        "text": [
+            "点击继续"
+        ],
+        "roi": [
+            605,
+            664,
+            113,
+            44
+        ],
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA1-WaitFinishConstruction"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WaitFinishConstruction": {
         "doc": "步骤 40 前等待 <完成建设> 出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-FinishConstruction", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-FinishConstruction",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-FinishConstruction": {
         "doc": "步骤 40：OCR 识别 <完成建设> 并点击，然后回到步骤 1",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["完成建设"],
-        "roi": [595, 662, 124, 43],
-        "next": ["RelaunchAnchor@RA@RA1-Prepare", "#self"]
+        "text": [
+            "完成建设"
+        ],
+        "roi": [
+            595,
+            662,
+            124,
+            43
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA1-Prepare",
+            "#self"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-PrepareMap": {
+        "doc": "步骤 0a：确认在地图界面，准备向左拖动找 RA-15",
+        "baseTask": "RelaunchAnchor@RA@Common-DetectMap",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL1"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-ClickStage": {
+        "algorithm": "MatchTemplate",
+        "template": "RelaunchAnchor@RA@RA15-Label.png",
+        "templThreshold": 0.7,
+        "roi": [
+            50,
+            50,
+            1180,
+            600
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "RelaunchAnchor@RA@RA15-Prepare",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Prepare": {
-        "doc": "步骤 1（任务起点）：OCR 识别 开启建设",
+        "doc": "步骤 1：OCR 识别 开启建设",
         "baseTask": "RelaunchAnchor@RA@Common-OpenConstruction",
-        "withoutDet": true,
-        "useRaw": false,
-        "binThreshold": [200, 255],
-        "postDelay": 1000,
-        "next": ["RelaunchAnchor@RA@RA15-ChooseStrategy"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-ChooseStrategy"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ChooseStrategy": {
         "doc": "步骤 2：OCR 识别 筹划经营",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["经", "营"],
-        "roi": [377, 385, 97, 25],
+        "text": [
+            "经",
+            "营"
+        ],
+        "roi": [
+            377,
+            385,
+            97,
+            25
+        ],
         "postDelay": 200,
-        "next": ["#self", "RelaunchAnchor@RA@RA15-ConfirmSelection"]
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA15-ConfirmSelection"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ConfirmSelection": {
         "doc": "步骤 3：OCR 识别 <确认选择> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["确认选择"],
-        "roi": [1055, 619, 117, 43],
-        "next": ["RelaunchAnchor@RA@RA15-Choose"]
+        "text": [
+            "确认选择"
+        ],
+        "roi": [
+            1055,
+            619,
+            117,
+            43
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-Choose"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Choose": {
         "doc": "步骤 4：OCR 识别 <干员招募> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["干员招募"],
-        "roi": [941, 131, 131, 34],
-        "next": ["RelaunchAnchor@RA@RA15-ExamineCXExistence", "RelaunchAnchor@RA@RA15-ClearChosen"]
+        "text": [
+            "干员招募"
+        ],
+        "roi": [
+            941,
+            131,
+            131,
+            34
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-ExamineCXExistence",
+            "RelaunchAnchor@RA@RA15-ClearChosen"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
         "doc": "步骤 4.1：OCR 识别 <圣聆初雪> ",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "text": ["圣", "聆", "初雪"],
-        "roi": [843, 449, 96, 29],
-        "next": ["RelaunchAnchor@RA@RA15-ConfirmTeam"]
+        "text": [
+            "圣",
+            "聆",
+            "初雪"
+        ],
+        "roi": [
+            843,
+            449,
+            96,
+            29
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-ConfirmTeam"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ClearChosen": {
         "doc": "步骤 5：OCR 识别 <快捷编队> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["快捷编队"],
-        "roi": [1096, 22, 78, 28],
-        "next": ["RelaunchAnchor@RA@RA15-ClearChosen-2"]
+        "text": [
+            "快捷编队"
+        ],
+        "roi": [
+            1096,
+            22,
+            78,
+            28
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClearChosen-2"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ClearChosen-2": {
         "doc": "步骤 5.1：OCR 识别 <清空>",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["清空"],
-        "roi": [460, 660, 60, 30],
-        "next": ["RelaunchAnchor@RA@RA15-Fill"]
+        "text": [
+            "清空"
+        ],
+        "roi": [
+            460,
+            660,
+            60,
+            30
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-Fill"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Fill": {
         "doc": "步骤 6：点先锋",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1224, 135, 20, 20],
+        "specificRect": [
+            1224,
+            135,
+            20,
+            20
+        ],
         "postDelay": 200,
-        "next": ["RelaunchAnchor@RA@RA15-Fill1"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-Fill1"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Fill1": {
         "doc": "步骤 6：点先锋",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [470, 125, 20, 20],
+        "specificRect": [
+            470,
+            125,
+            20,
+            20
+        ],
         "postDelay": 200,
-        "next": ["RelaunchAnchor@RA@RA15-Fill2"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-Fill2"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Fill2": {
         "doc": "步骤 6：点先锋",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [470, 260, 20, 20],
+        "specificRect": [
+            470,
+            260,
+            20,
+            20
+        ],
         "postDelay": 200,
-        "next": ["RelaunchAnchor@RA@RA15-Fill3"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-Fill3"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Fill3": {
         "doc": "步骤 6：点先锋",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [470, 410, 20, 20],
+        "specificRect": [
+            470,
+            410,
+            20,
+            20
+        ],
         "postDelay": 200,
-        "next": ["RelaunchAnchor@RA@RA15-Fill4"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-Fill4"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Fill4": {
         "doc": "步骤 6：点先锋",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [470, 540, 20, 20],
+        "specificRect": [
+            470,
+            540,
+            20,
+            20
+        ],
         "postDelay": 200,
-        "next": ["RelaunchAnchor@RA@RA15-Fill5"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-Fill5"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Fill5": {
         "doc": "步骤 6：点先锋",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [840, 125, 20, 20],
+        "specificRect": [
+            840,
+            125,
+            20,
+            20
+        ],
         "postDelay": 200,
-        "next": ["RelaunchAnchor@RA@RA15-ConfirmChoose"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-ConfirmChoose"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ConfirmChoose": {
         "doc": "步骤 7：OCR 识别 <确认> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["确认"],
-        "roi": [1048, 662, 56, 31],
-        "next": ["RelaunchAnchor@RA@RA15-AddHelp"]
+        "text": [
+            "确认"
+        ],
+        "roi": [
+            1048,
+            662,
+            56,
+            31
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-AddHelp"
+        ]
     },
     "RelaunchAnchor@RA@RA15-AddHelp": {
         "doc": "步骤 8：OCR 识别 <选择助战> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["选择助战"],
-        "roi": [886, 21, 79, 28],
-        "next": ["RelaunchAnchor@RA@RA15-ChooseType"]
+        "text": [
+            "选择助战"
+        ],
+        "roi": [
+            886,
+            21,
+            79,
+            28
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-ChooseType"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ChooseType": {
         "doc": "步骤 9：点法师",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [40, 420, 20, 20],
+        "specificRect": [
+            40,
+            420,
+            20,
+            20
+        ],
         "postDelay": 200,
         "next": [
             "RelaunchAnchor@RA@RA15-CX1",
@@ -553,295 +1359,1639 @@
         "doc": "步骤 10：OCR 识别 <圣聆初雪> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["圣聆初雪"],
-        "roi": [138, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA15-CX-Skill"]
+        "text": [
+            "圣聆初雪"
+        ],
+        "roi": [
+            138,
+            577,
+            100,
+            30
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-CX-Skill"
+        ]
     },
     "RelaunchAnchor@RA@RA15-CX2": {
         "doc": "步骤 10：OCR 识别 <圣聆初雪> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["圣聆初雪"],
-        "roi": [280, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA15-CX-Skill"]
+        "text": [
+            "圣聆初雪"
+        ],
+        "roi": [
+            280,
+            577,
+            100,
+            30
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-CX-Skill"
+        ]
     },
     "RelaunchAnchor@RA@RA15-CX3": {
         "doc": "步骤 10：OCR 识别 <圣聆初雪> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["圣聆初雪"],
-        "roi": [420, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA15-CX-Skill"]
+        "text": [
+            "圣聆初雪"
+        ],
+        "roi": [
+            420,
+            577,
+            100,
+            30
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-CX-Skill"
+        ]
     },
     "RelaunchAnchor@RA@RA15-CX4": {
         "doc": "步骤 10：OCR 识别 <圣聆初雪> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["圣聆初雪"],
-        "roi": [560, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA15-CX-Skill"]
+        "text": [
+            "圣聆初雪"
+        ],
+        "roi": [
+            560,
+            577,
+            100,
+            30
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-CX-Skill"
+        ]
     },
     "RelaunchAnchor@RA@RA15-CX5": {
         "doc": "步骤 10：OCR 识别 <圣聆初雪> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["圣聆初雪"],
-        "roi": [700, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA15-CX-Skill"]
+        "text": [
+            "圣聆初雪"
+        ],
+        "roi": [
+            700,
+            577,
+            100,
+            30
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-CX-Skill"
+        ]
     },
     "RelaunchAnchor@RA@RA15-CX6": {
         "doc": "步骤 10：OCR 识别 <圣聆初雪> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["圣聆初雪"],
-        "roi": [835, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA15-CX-Skill"]
+        "text": [
+            "圣聆初雪"
+        ],
+        "roi": [
+            835,
+            577,
+            100,
+            30
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-CX-Skill"
+        ]
     },
     "RelaunchAnchor@RA@RA15-CX7": {
         "doc": "步骤 10：OCR 识别 <圣聆初雪> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["圣聆初雪"],
-        "roi": [975, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA15-CX-Skill"]
+        "text": [
+            "圣聆初雪"
+        ],
+        "roi": [
+            975,
+            577,
+            100,
+            30
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-CX-Skill"
+        ]
     },
     "RelaunchAnchor@RA@RA15-CX8": {
         "doc": "步骤 10：OCR 识别 <圣聆初雪> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["圣聆初雪"],
-        "roi": [1115, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA15-CX-Skill"]
+        "text": [
+            "圣聆初雪"
+        ],
+        "roi": [
+            1115,
+            577,
+            100,
+            30
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-CX-Skill"
+        ]
     },
     "RelaunchAnchor@RA@RA15-CX-Skill": {
         "doc": "步骤 11：OCR 识别 二技能 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["45", "46", "47", "48", "49", "50", "51", "52"],
-        "roi": [934, 331, 26, 22],
-        "next": ["RelaunchAnchor@RA@RA15-CX-Mod"]
+        "text": [
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52"
+        ],
+        "roi": [
+            934,
+            331,
+            26,
+            22
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-CX-Mod"
+        ]
     },
     "RelaunchAnchor@RA@RA15-CX-Mod": {
         "doc": "步骤 12：点模组",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [890, 460, 20, 20],
+        "specificRect": [
+            890,
+            460,
+            20,
+            20
+        ],
         "postDelay": 200,
-        "next": ["RelaunchAnchor@RA@RA15-CX-ConfirmHelp"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-CX-ConfirmHelp"
+        ]
     },
     "RelaunchAnchor@RA@RA15-CX-ConfirmHelp": {
         "doc": "步骤 13：OCR 识别 <招募助战> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["招募助战"],
-        "roi": [740, 580, 140, 40],
-        "next": ["RelaunchAnchor@RA@RA15-ConfirmTeam"]
+        "text": [
+            "招募助战"
+        ],
+        "roi": [
+            740,
+            580,
+            140,
+            40
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-ConfirmTeam"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ConfirmTeam": {
         "doc": "步骤 14：OCR 识别 <确认招募> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["确认招募"],
-        "roi": [1088, 657, 110, 33],
-        "next": ["RelaunchAnchor@RA@RA15-ConfirmTeam2"]
+        "text": [
+            "确认招募"
+        ],
+        "roi": [
+            1088,
+            657,
+            110,
+            33
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-ConfirmTeam2"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ConfirmTeam2": {
         "doc": "步骤 14.1：OCR 识别 <确认> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["确认"],
-        "roi": [923, 466, 67, 35],
-        "next": ["RelaunchAnchor@RA@RA15-StartConstruction"]
+        "text": [
+            "确认"
+        ],
+        "roi": [
+            923,
+            466,
+            67,
+            35
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-StartConstruction"
+        ]
     },
     "RelaunchAnchor@RA@RA15-StartConstruction": {
         "doc": "步骤 15：OCR 识别 <开始建设> 并点击",
         "baseTask": "RelaunchAnchor@RA@Common-StartConstruction",
         "postDelay": 1000,
-        "next": ["RelaunchAnchor@RA@RA15-WaitSkip"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-WaitSkip"
+        ]
     },
     "RelaunchAnchor@RA@RA15-WaitSkip": {
         "doc": "步骤 15.2 等待剧情跳过",
         "baseTask": "RelaunchAnchor@RA@Common-WaitSkip",
         "postDelay": 1000,
-        "next": ["RelaunchAnchor@RA@RA15-Plot", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-Plot",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Plot": {
         "doc": "步骤 16：OCR 识别 <外勤> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["外勤"],
-        "roi": [404, 564, 50, 26],
-        "next": ["#self", "RelaunchAnchor@RA@RA15-Plot2"]
+        "text": [
+            "外勤"
+        ],
+        "roi": [
+            404,
+            564,
+            50,
+            26
+        ],
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA15-Plot2"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Plot2": {
         "doc": "步骤 16.1：OCR 识别 <看情> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["看情"],
-        "roi": [404, 564, 50, 26],
-        "next": ["#self", "RelaunchAnchor@RA@RA15-Plot3"]
+        "text": [
+            "看情"
+        ],
+        "roi": [
+            404,
+            564,
+            50,
+            26
+        ],
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA15-Plot3"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Plot3": {
         "doc": "步骤 16.2：OCR 识别 <请> ",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "text": ["请"],
-        "roi": [532, 61, 24, 26],
-        "next": ["RelaunchAnchor@RA@RA15-AlignMap"]
+        "text": [
+            "请"
+        ],
+        "roi": [
+            532,
+            61,
+            24,
+            26
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-AlignMap"
+        ]
     },
     "RelaunchAnchor@RA@RA15-AlignMap": {
         "doc": "步骤 17：JustReturn 的 Swipe，对齐地图",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [700, 200, 1, 1],
-        "rectMove": [700, 700, 1, 1],
-        "specialParams": [500, 0, 3, 0],
+        "specificRect": [
+            700,
+            200,
+            1,
+            1
+        ],
+        "rectMove": [
+            700,
+            700,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
         "preDelay": 1000,
         "postDelay": 1000,
-        "next": ["RelaunchAnchor@RA@RA15-AlignMap2"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-AlignMap2"
+        ]
     },
     "RelaunchAnchor@RA@RA15-AlignMap2": {
         "doc": "步骤 17.2：JustReturn 的 Swipe，对齐地图",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [970, 110, 1, 1],
-        "rectMove": [430, 550, 1, 1],
-        "specialParams": [500, 0, 3, 0],
+        "specificRect": [
+            970,
+            110,
+            1,
+            1
+        ],
+        "rectMove": [
+            430,
+            550,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
         "postDelay": 1000,
-        "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"
+        ]
     },
     "RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe": {
         "doc": "步骤 18：JustReturn 的 Swipe，占位部署采集基站",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [400, 650, 1, 1],
-        "rectMove": [495, 414, 1, 1],
-        "specialParams": [500, 0, 3, 0],
+        "specificRect": [
+            400,
+            650,
+            1,
+            1
+        ],
+        "rectMove": [
+            495,
+            414,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
         "postDelay": 4000,
-        "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseWait"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-DeployGatheringBaseWait"
+        ]
     },
     "RelaunchAnchor@RA@RA15-DeployGatheringBaseWait": {
         "doc": "步骤 18.2：部署采集基站后的占位等待 x 秒",
         "algorithm": "JustReturn",
         "postDelay": 2000,
-        "next": ["RelaunchAnchor@RA@RA15-DoubleSpeed"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-DoubleSpeed"
+        ]
     },
     "RelaunchAnchor@RA@RA15-DoubleSpeed": {
         "doc": "步骤 19：开启二倍速",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1090, 40, 20, 20],
-        "next": ["RelaunchAnchor@RA@RA15-WaitCost"]
+        "specificRect": [
+            1090,
+            40,
+            20,
+            20
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-WaitCost"
+        ]
     },
     "RelaunchAnchor@RA@RA15-WaitCost": {
         "doc": "步骤 20 等待费用跳过",
         "baseTask": "RelaunchAnchor@RA@Common-WaitCost",
-        "next": ["RelaunchAnchor@RA@RA15-Cost24", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-Cost24",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Cost24": {
         "doc": "步骤 21：OCR 识别 Cost",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "text": ["24", "25", "26", "27", "28", "29"],
-        "roi": [1198, 495, 75, 43],
-        "next": ["RelaunchAnchor@RA@RA15-DeployCX"]
+        "text": [
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29"
+        ],
+        "roi": [
+            1198,
+            495,
+            75,
+            43
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-DeployCX"
+        ]
     },
     "RelaunchAnchor@RA@RA15-DeployCX": {
         "doc": "步骤 22：JustReturn 的 Swipe，部署初雪",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [1139, 638, 1, 1],
-        "rectMove": [390, 512, 1, 1],
-        "specialParams": [500, 0, 3, 0],
+        "specificRect": [
+            1139,
+            638,
+            1,
+            1
+        ],
+        "rectMove": [
+            390,
+            512,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
         "postDelay": 1000,
-        "next": ["RelaunchAnchor@RA@RA15-DeployCX2"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-DeployCX2"
+        ]
     },
     "RelaunchAnchor@RA@RA15-DeployCX2": {
         "doc": "步骤 22.2：JustReturn 的 Swipe，部署初雪",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [725, 319, 1, 1],
-        "rectMove": [730, 500, 1, 1],
-        "specialParams": [500, 0, 3, 0],
+        "specificRect": [
+            725,
+            319,
+            1,
+            1
+        ],
+        "rectMove": [
+            730,
+            500,
+            1,
+            1
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
         "postDelay": 2000,
-        "next": ["RelaunchAnchor@RA@RA15-MissionIcon1"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-MissionIcon1"
+        ]
     },
     "RelaunchAnchor@RA@RA15-MissionIcon1": {
         "doc": "步骤 23：模板匹配任务图标并点击",
         "baseTask": "RelaunchAnchor@RA@Common-MissionIcon",
         "template": "RelaunchAnchor@RA@MissionIcon.png",
         "postDelay": 2000,
-        "next": ["RelaunchAnchor@RA@RA15-Kill60", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-Kill60",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Kill60": {
         "doc": "步骤 24：OCR 识别 <击败> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["击败", "岳败"],
-        "roi": [571, 281, 51, 33],
-        "next": ["RelaunchAnchor@RA@RA15-ConfirmMission", "#self"]
+        "text": [
+            "击败",
+            "岳败"
+        ],
+        "roi": [
+            571,
+            281,
+            51,
+            33
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-ConfirmMission",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ConfirmMission": {
         "doc": "步骤 25：OCR 识别 <确认> 并点击",
         "baseTask": "RelaunchAnchor@RA@Common-Confirm",
         "postDelay": 35000,
-        "next": ["RelaunchAnchor@RA@RA15-Deliver", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-Deliver",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Deliver": {
         "doc": "步骤 26：OCR 识别 <击败> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["击败"],
-        "roi": [81, 243, 83, 29],
+        "text": [
+            "击败"
+        ],
+        "roi": [
+            81,
+            243,
+            83,
+            29
+        ],
         "postDelay": 1000,
-        "next": ["#self", "RelaunchAnchor@RA@RA15-End1"]
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA15-End1"
+        ]
     },
     "RelaunchAnchor@RA@RA15-End1": {
         "doc": "步骤 27：退出",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [62, 69, 1, 1],
-        "next": ["RelaunchAnchor@RA@RA15-End2"]
+        "specificRect": [
+            62,
+            69,
+            1,
+            1
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-End2"
+        ]
     },
     "RelaunchAnchor@RA@RA15-End2": {
         "doc": "步骤 27.2：OCR 识别 <确认> 并点击",
         "baseTask": "RelaunchAnchor@RA@Common-Confirm",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["确认"],
-        "roi": [928, 469, 61, 33],
-        "next": ["RelaunchAnchor@RA@RA15-WaitEnd"]
+        "text": [
+            "确认"
+        ],
+        "roi": [
+            928,
+            469,
+            61,
+            33
+        ],
+        "next": [
+            "RelaunchAnchor@RA@RA15-WaitEnd"
+        ]
     },
     "RelaunchAnchor@RA@RA15-WaitEnd": {
         "doc": "步骤 27.3 等待结束跳过",
         "algorithm": "JustReturn",
         "postDelay": 500,
-        "next": ["RelaunchAnchor@RA@RA15-End3", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-End3",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA15-End3": {
         "doc": "步骤 27.4：OCR 识别 <点击> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["点"],
-        "roi": [600, 670, 60, 40],
+        "text": [
+            "点"
+        ],
+        "roi": [
+            600,
+            670,
+            60,
+            40
+        ],
         "postDelay": 500,
-        "next": ["RelaunchAnchor@RA@RA15-End4", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-End4",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA15-End4": {
         "doc": "步骤 27.5：OCR 识别 <完成> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["完"],
-        "roi": [600, 670, 60, 40],
+        "text": [
+            "完"
+        ],
+        "roi": [
+            600,
+            670,
+            60,
+            40
+        ],
         "postDelay": 500,
-        "next": ["#self", "RelaunchAnchor@RA@RA15-Retry"]
+        "next": [
+            "#self",
+            "RelaunchAnchor@RA@RA15-Retry"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Retry": {
         "doc": "再次开始",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [640, 370, 1, 1],
+        "specificRect": [
+            640,
+            370,
+            1,
+            1
+        ],
         "postDelay": 500,
-        "next": ["RelaunchAnchor@RA@RA15-Prepare", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-Prepare",
+            "#self"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL1": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL2"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL2": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL3"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL3": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR1"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR1": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR2"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR2": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR3"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR3": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR4"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR4": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR5"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR5": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR6"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR6": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL4"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL4": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL5"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL5": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL6"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL6": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SU1"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SU1": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapUp",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL7"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL7": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL8"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL8": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL9"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL9": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR7"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR7": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR8"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR8": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR9"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR9": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR10"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR10": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR11"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR11": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR12"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR12": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL10"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL10": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL11"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL11": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL12"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL12": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SU2"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SU2": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapUp",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL13"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL13": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL14"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL14": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL15"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL15": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR13"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR13": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR14"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR14": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR15"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR15": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR16"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR16": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR17"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR17": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR18"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR18": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL16"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL16": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL17"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL17": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL18"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL18": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SD1"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SD1": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapDown",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SD2"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SD2": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapDown",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SD3"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SD3": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapDown",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL19"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL19": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL20"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL20": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL21"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL21": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR19"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR19": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR20"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR20": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR21"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR21": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR22"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR22": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR23"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR23": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR24"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR24": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL22"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL22": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL23"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL23": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL24"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL24": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SD4"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SD4": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapDown",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL25"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL25": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL26"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL26": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SL27"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SL27": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR25"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR25": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR26"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR26": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR27"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR27": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR28"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR28": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR29"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR29": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-SR30"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SR30": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClickStage",
+            "RelaunchAnchor@RA@RA1-Prepare"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL1": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL2"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL2": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL3"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL3": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR1"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR1": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR2"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR2": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR3"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR3": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR4"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR4": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR5"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR5": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR6"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR6": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL4"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL4": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL5"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL5": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL6"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL6": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SU1"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SU1": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapUp",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL7"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL7": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL8"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL8": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL9"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL9": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR7"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR7": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR8"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR8": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR9"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR9": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR10"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR10": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR11"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR11": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR12"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR12": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL10"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL10": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL11"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL11": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL12"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL12": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SU2"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SU2": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapUp",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL13"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL13": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL14"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL14": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL15"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL15": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR13"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR13": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR14"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR14": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR15"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR15": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR16"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR16": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR17"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR17": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR18"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR18": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL16"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL16": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL17"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL17": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL18"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL18": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SD1"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SD1": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapDown",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SD2"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SD2": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapDown",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SD3"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SD3": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapDown",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL19"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL19": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL20"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL20": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL21"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL21": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR19"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR19": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR20"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR20": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR21"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR21": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR22"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR22": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR23"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR23": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR24"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR24": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL22"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL22": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL23"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL23": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL24"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL24": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SD4"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SD4": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapDown",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL25"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL25": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL26"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL26": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SL27"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SL27": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapLeft",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR25"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR25": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR26"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR26": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR27"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR27": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR28"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR28": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR29"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR29": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-SR30"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-SR30": {
+        "baseTask": "RelaunchAnchor@RA@Common-SwipeMapRight",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClickStage",
+            "RelaunchAnchor@RA@RA15-PrepareMap"
+        ]
+    },
+    "RelaunchAnchor@RA@CollectEnergy-Entry": {
+        "doc": "收取基地能源入口",
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@CollectEnergy-DetectMap",
+            "RelaunchAnchor@RA@CollectEnergy-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@CollectEnergy-Navigation": {
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@CollectEnergy-Nav-DetectTheme",
+            "RelaunchAnchor@RA@CollectEnergy-Nav-ClickReclamation",
+            "RelaunchAnchor@RA@CollectEnergy-Nav-ClickLongTerm",
+            "RelaunchAnchor@RA@CollectEnergy-Nav-EnterTerminal"
+        ]
+    },
+    "RelaunchAnchor@RA@CollectEnergy-Nav-ClickReclamation": {
+        "baseTask": "RelaunchAnchor@RA@Nav-ClickReclamation",
+        "next": [
+            "RelaunchAnchor@RA@CollectEnergy-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@CollectEnergy-Nav-ClickLongTerm": {
+        "baseTask": "RelaunchAnchor@RA@Nav-ClickLongTerm",
+        "template": "Roguelike@IntegratedStrategies.png",
+        "next": [
+            "RelaunchAnchor@RA@CollectEnergy-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@CollectEnergy-Nav-EnterTerminal": {
+        "baseTask": "RelaunchAnchor@RA@Nav-EnterTerminal",
+        "next": [
+            "RelaunchAnchor@RA@CollectEnergy-Navigation"
+        ]
+    },
+    "RelaunchAnchor@RA@CollectEnergy-Nav-DetectTheme": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入主题",
+            "开始建设"
+        ],
+        "roi": [
+            1064,
+            620,
+            171,
+            50
+        ],
+        "next": [
+            "RelaunchAnchor@RA@CollectEnergy-Nav-DetectTheme@NextAfterLoadingText",
+            "RelaunchAnchor@RA@CollectEnergy-WaitForGame"
+        ]
+    },
+    "RelaunchAnchor@RA@CollectEnergy-WaitForGame": {
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@CollectEnergy-DetectMap",
+            "RelaunchAnchor@RA@CollectEnergy-Nav-DetectTheme",
+            "#self"
+        ]
+    },
+    "RelaunchAnchor@RA@CollectEnergy-DetectMap": {
+        "baseTask": "RelaunchAnchor@RA@Common-DetectMap",
+        "next": [
+            "RelaunchAnchor@RA@CollectEnergy-ClickButton"
+        ]
+    },
+    "RelaunchAnchor@RA@CollectEnergy-ClickButton": {
+        "doc": "点击地图顶部「基地能源生产中」按钮",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "基地能源"
+        ],
+        "roi": [
+            450,
+            15,
+            350,
+            50
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SecondCommDialogue": {
+        "doc": "TODO: 未实现",
+        "algorithm": "OcrDetect",
+        "text": [
+            "TODO_SecondCommDialogue"
+        ],
+        "roi": [
+            0,
+            0,
+            1,
+            1
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-StartBuildingStation": {
+        "doc": "TODO: 未实现",
+        "algorithm": "OcrDetect",
+        "text": [
+            "TODO_StartBuildingStation"
+        ],
+        "roi": [
+            0,
+            0,
+            1,
+            1
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-SettleNow": {
+        "doc": "TODO: 未实现",
+        "algorithm": "OcrDetect",
+        "text": [
+            "TODO_SettleNow"
+        ],
+        "roi": [
+            0,
+            0,
+            1,
+            1
+        ]
     }
 }

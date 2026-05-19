@@ -28,6 +28,10 @@ bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
             m_mode = RelaunchAnchorMode::RA15;
             break;
 
+        case static_cast<int>(RelaunchAnchorMode::CollectEnergy):
+            m_mode = RelaunchAnchorMode::CollectEnergy;
+            break;
+
         default:
             Log.error(__FUNCTION__, "| Invalid RelaunchAnchor mode", modeInt);
             return false;
