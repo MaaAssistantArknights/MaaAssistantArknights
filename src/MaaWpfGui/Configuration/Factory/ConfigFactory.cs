@@ -442,6 +442,13 @@ public static class ConfigFactory
         return true;
     }
 
+    /// <summary>
+    /// 检查指定名称的配置是否存在。
+    /// </summary>
+    /// <param name="configName">配置名称</param>
+    /// <returns>存在则返回 <c>true</c>，否则返回 <c>false</c></returns>
+    public static bool ConfigurationExists(string configName) => Root.Configurations.ContainsKey(configName);
+
     public static bool AddConfiguration(string configName, string? copyFrom = null)
     {
         if (string.IsNullOrEmpty(configName))
