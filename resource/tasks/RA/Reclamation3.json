@@ -457,7 +457,7 @@
     "RelaunchAnchor@RA@RA4-ChooseStrategy": {
         "doc": "步骤 3：OCR 识别 <筹划经营> 并点击",
         "baseTask": "RelaunchAnchor@RA@RA1-ChooseStrategy",
-        "text": ["筹划经营"],
+        "text": ["筹划", "划经", "经营"],
         "roi": [376, 383, 96, 29],
         "next": ["#self", "RelaunchAnchor@RA@RA4-ConfirmSelection"]
     },
@@ -471,10 +471,140 @@
         "doc": "步骤 5：OCR 识别 <干员招募> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["干员招募"],
+        "text": ["干员招募", "员招", "招募"],
         "roi": [941, 131, 131, 34],
         "postDelay": 500,
-        "next": ["RelaunchAnchor@RA@RA4-ConfirmTeam", "#self"]
+        "next": ["RelaunchAnchor@RA@RA4-ExamineEWExistence", "RelaunchAnchor@RA@RA4-ExamineEWExistence2", "#self"]
+    },
+    "RelaunchAnchor@RA@RA4-ExamineEWExistence2": {
+        "doc": "步骤 5.1：OCR 识别 <编入干员> ",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["编入", "入干", "干员"],
+        "roi": [834, 488, 94, 39],
+        "next": ["RelaunchAnchor@RA@RA4-AddHelp"]
+    },
+    "RelaunchAnchor@RA@RA4-AddHelp": {
+        "doc": "步骤 5.2：OCR 识别 <选择助战> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["选择", "助战", "择助"],
+        "roi": [886, 21, 79, 28],
+        "next": ["RelaunchAnchor@RA@RA4-ChooseType"]
+    },
+    "RelaunchAnchor@RA@RA4-ChooseType": {
+        "doc": "步骤 5.3：点狙击",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [46, 343, 24, 26],
+        "postDelay": 200,
+        "next": [
+            "RelaunchAnchor@RA@RA4-EW1",
+            "RelaunchAnchor@RA@RA4-EW2",
+            "RelaunchAnchor@RA@RA4-EW3",
+            "RelaunchAnchor@RA@RA4-EW4",
+            "RelaunchAnchor@RA@RA4-EW5",
+            "RelaunchAnchor@RA@RA4-EW6",
+            "RelaunchAnchor@RA@RA4-EW7",
+            "RelaunchAnchor@RA@RA4-EW8"
+        ]
+    },
+    "RelaunchAnchor@RA@RA4-EW1": {
+        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["维什", "什戴", "戴尔"],
+        "roi": [138, 577, 100, 30],
+        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+    },
+    "RelaunchAnchor@RA@RA4-EW2": {
+        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["维什", "什戴", "戴尔"],
+        "roi": [280, 577, 100, 30],
+        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+    },
+    "RelaunchAnchor@RA@RA4-EW3": {
+        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["维什", "什戴", "戴尔"],
+        "roi": [420, 577, 100, 30],
+        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+    },
+    "RelaunchAnchor@RA@RA4-EW4": {
+        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["维什", "什戴", "戴尔"],
+        "roi": [560, 577, 100, 30],
+        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+    },
+    "RelaunchAnchor@RA@RA4-EW5": {
+        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["维什", "什戴", "戴尔"],
+        "roi": [700, 577, 100, 30],
+        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+    },
+    "RelaunchAnchor@RA@RA4-EW6": {
+        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["维什", "什戴", "戴尔"],
+        "roi": [835, 577, 100, 30],
+        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+    },
+    "RelaunchAnchor@RA@RA4-EW7": {
+        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["维什", "什戴", "戴尔"],
+        "roi": [975, 577, 100, 30],
+        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+    },
+    "RelaunchAnchor@RA@RA4-EW8": {
+        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["维什", "什戴", "戴尔"],
+        "roi": [1115, 577, 100, 30],
+        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+    },
+    "RelaunchAnchor@RA@RA4-EW-Skill": {
+        "doc": "步骤 5.5：OCR 识别 三技能 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["40+"],
+        "ocrReplace": [["([2-4]O|[2-4]\\d+)", "40+"]],
+        "roi": [1008, 330, 25, 24],
+        "next": ["RelaunchAnchor@RA@RA4-EW-Mod"]
+    },
+    "RelaunchAnchor@RA@RA4-EW-Mod": {
+        "doc": "步骤 5.6：点模组",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [890, 460, 20, 20],
+        "postDelay": 200,
+        "next": ["RelaunchAnchor@RA@RA4-EW-ConfirmHelp"]
+    },
+    "RelaunchAnchor@RA@RA4-EW-ConfirmHelp": {
+        "doc": "步骤 5.7：OCR 识别 <招募助战> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["招募", "募助", "助战"],
+        "roi": [740, 580, 140, 40],
+        "next": ["RelaunchAnchor@RA@RA4-ConfirmTeam"]
+    },
+    "RelaunchAnchor@RA@RA4-ExamineEWExistence": {
+        "doc": "步骤 6 前OCR 识别 <维什戴尔> ",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["维什", "什戴", "戴尔"],
+        "roi": [843, 449, 96, 29],
+        "next": ["RelaunchAnchor@RA@RA4-ConfirmTeam"]
     },
     "RelaunchAnchor@RA@RA4-ConfirmTeam": {
         "doc": "步骤 6：OCR 识别 <确认招募> 并点击",
@@ -541,7 +671,7 @@
         "roi": [1060, 20, 80, 70],
         "maskRange": [220, 255],
         "action": "ClickSelf",
-        "preDelay": "1000",
+        "preDelay": 500,
         "next": ["RelaunchAnchor@RA@RA4-ClickStone"]
     },
     "RelaunchAnchor@RA@RA4-ClickStone": {
@@ -739,7 +869,7 @@
         "doc": "步骤 32：滑动地图",
         "baseTask": "RelaunchAnchor@RA@RA1-AlignMap",
         "specificRect": [800, 550, 10, 10],
-        "rectMove": [750, 100, 1, 1]
+        "rectMove": [750, 50, 1, 1]
     },
     "RelaunchAnchor@RA@RA4-DeployOperatorSwipe": {
         "doc": "步骤 33：JustReturn Swipe，占位部署干员",
@@ -867,6 +997,11 @@
         "roi": [903, 598, 87, 30],
         "action": "ClickRect",
         "specificRect": [899, 491, 46, 42],
+        "next": ["RelaunchAnchor@RA@RA4-WaitMission3"]
+    },
+    "RelaunchAnchor@RA@RA4-WaitMission3": {
+        "doc": "步骤 51 前等待任务完成",
+        "baseTask": "RelaunchAnchor@RA@Common-WaitSkip",
         "next": ["RelaunchAnchor@RA@RA4-ClickMission3", "#self"]
     },
     "RelaunchAnchor@RA@RA4-ClickMission3": {
