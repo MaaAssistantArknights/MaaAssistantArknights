@@ -1557,6 +1557,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskTimeoutMinutes">任務逾時時間（分鐘）</system:String>
     <system:String x:Key="ReminderIntervalMinutes">通知間隔時間（分鐘）</system:String>
     <system:String x:Key="StallTimeoutMinutes">日誌輸出停滯超時時間（分鐘）</system:String>
+    <system:String x:Key="StallTimeoutEnabled">啟用停滯偵測</system:String>
     <system:String x:Key="TaskStallWarning">任務日誌輸出已超過 {0} 分鐘無更新（當前已停滯 {1} 分鐘）。如果長時間無進一步日誌輸出，可能需要手動干預。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->

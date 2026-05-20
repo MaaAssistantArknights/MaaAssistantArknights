@@ -185,12 +185,21 @@
             InputMethod.IsInputMethodEnabled="False"
             Text="{Binding PenguinId}"
             Visibility="{c:Binding EnablePenguin}" />
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+        <CheckBox
+            Margin="10"
+            HorizontalAlignment="Center"
+            Content="{DynamicResource StallTimeoutEnabled}"
+            IsChecked="{Binding StallTimeoutEnabled}" />
+        <StackPanel
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Visibility="{c:Binding StallTimeoutEnabled}">
             <hc:NumericUpDown
                 Margin="5"
                 hc:InfoElement.Title="{DynamicResource StallTimeoutMinutes}"
                 hc:TitleElement.TitlePlacement="Left"
                 InputMethod.IsInputMethodEnabled="False"
+                Maximum="11451"
                 Minimum="1"
                 Value="{Binding StallTimeoutMinutes}" />
             <hc:NumericUpDown

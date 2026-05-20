@@ -16,9 +16,9 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
-using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.States;
@@ -64,31 +64,31 @@ public class RunningState
     private bool _stallIsFirstFire = true;
     private DateTime? _taskStartTime;
 
-    public int TaskTimeoutMinutes { get; set; } = SettingsViewModel.GameSettings.TaskTimeoutMinutes;
+    public int TaskTimeoutMinutes { get; set; } = ConfigurationHelper.GetValue(ConfigurationKeys.TaskTimeoutMinutes, 60);
 
-    private int _reminderIntervalMinutes = SettingsViewModel.GameSettings.ReminderIntervalMinutes;
+    private int _reminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, MaxMinutes);
 
     public int ReminderIntervalMinutes
     {
         get => _reminderIntervalMinutes;
         set {
-            if (value < 1)
-            {
-                return;
-            }
-
+            value = value.Clamp(1, MaxMinutes);
             _reminderIntervalMinutes = value;
             TimeoutReminderTimer_Elapsed(null, null);
             _timeoutReminderTimer.Interval = value * 60 * 1000;
         }
     }
 
-    private int _stallTimeoutMinutes = SettingsViewModel.GameSettings.StallTimeoutMinutes;
+    // 防止乘以 60000 毫秒时 int 溢出，int.MaxValue / 60000 ≈ 35791
+    private const int MaxMinutes = 11451;
+
+    private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, MaxMinutes);
 
     public int StallTimeoutMinutes
     {
         get => _stallTimeoutMinutes;
         set {
+            value = value.Clamp(0, MaxMinutes);
             _stallTimeoutMinutes = value;
             _stallIsFirstFire = true;
             if (_stallTimer.Enabled)
@@ -103,13 +103,30 @@ public class RunningState
         }
     }
 
+    private bool _stallTimeoutEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用停滞检测
+    /// </summary>
+    public bool StallTimeoutEnabled
+    {
+        get => _stallTimeoutEnabled;
+        set {
+            _stallTimeoutEnabled = value;
+            if (!value && _stallTimer.Enabled)
+            {
+                _stallTimer.Stop();
+            }
+        }
+    }
+
     public event EventHandler<string>? StallOccurred;
 
     public void NotifyOutputActivity()
     {
         _stallAccumulatedCount = 0;
         _stallIsFirstFire = true;
-        if (_stallTimer.Enabled && StallTimeoutMinutes > 0)
+        if (_stallTimer.Enabled && StallTimeoutEnabled && StallTimeoutMinutes > 0)
         {
             _stallTimer.Interval = StallTimeoutMinutes * 60 * 1000;
             _stallTimer.Stop();
@@ -124,7 +141,7 @@ public class RunningState
         _timeoutReminderTimer.Start();
         _stallAccumulatedCount = 0;
         _stallIsFirstFire = true;
-        if (StallTimeoutMinutes > 0)
+        if (StallTimeoutEnabled && StallTimeoutMinutes > 0)
         {
             _stallTimer.Interval = StallTimeoutMinutes * 60 * 1000;
             _stallTimer.Start();
@@ -179,7 +196,7 @@ public class RunningState
             StallTimeoutMinutes,
             accumulatedMinutes);
         StallOccurred?.Invoke(this, message);
-        if (StallTimeoutMinutes > 0)
+        if (StallTimeoutEnabled && StallTimeoutMinutes > 0)
         {
             if (_stallIsFirstFire)
             {

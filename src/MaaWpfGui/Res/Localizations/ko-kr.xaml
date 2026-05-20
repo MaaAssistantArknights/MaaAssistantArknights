@@ -1557,6 +1557,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="TaskTimeoutMinutes">작업 타임아웃 시간 (분)</system:String>
     <system:String x:Key="ReminderIntervalMinutes">알림 간격 (분)</system:String>
     <system:String x:Key="StallTimeoutMinutes">로그 출력 정지 타임아웃 (분)</system:String>
+    <system:String x:Key="StallTimeoutEnabled">정지 감지 활성화</system:String>
     <system:String x:Key="TaskStallWarning">작업 로그 출력이 {0}분 동안 업데이트되지 않았습니다(현재 {1}분 정지). 오랫동안 로그 출력이 없으면 수동 개입이 필요할 수 있습니다.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->

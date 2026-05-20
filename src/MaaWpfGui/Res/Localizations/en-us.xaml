@@ -1556,6 +1556,7 @@ These locations are too high-level and can lead to file overwrites, config write
     <system:String x:Key="TaskTimeoutMinutes">Task timeout duration (minutes)</system:String>
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
     <system:String x:Key="StallTimeoutMinutes">Log output stall timeout (min)</system:String>
+    <system:String x:Key="StallTimeoutEnabled">Enable stall detection</system:String>
     <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). If there is no further log output for a long time, manual intervention may be required.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
