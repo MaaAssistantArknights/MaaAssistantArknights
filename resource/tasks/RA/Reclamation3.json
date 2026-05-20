@@ -756,7 +756,7 @@
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "text": ["24+"],
-        "ocrReplace": [["(2[2-9]|[3-9]\\d+)", "24+"]],
+        "ocrReplace": [["(2[4-9]|[5-9]\\d+)", "24+"]],
         "roi": [1198, 495, 75, 43],
         "next": ["RelaunchAnchor@RA@RA15-DeployCX"]
     },
