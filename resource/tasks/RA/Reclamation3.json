@@ -491,7 +491,7 @@
         "text": ["确认"],
         "roi": [923, 466, 67, 35],
         "postDelay": 500,
-        "next": ["RelaunchAnchor@RA@RA4-StartConstruction", "#self", "RelaunchAnchor@RA@RA4-WaitName"]
+        "next": ["RelaunchAnchor@RA@RA4-StartConstruction", "#self", "RelaunchAnchor@RA@RA4-WaitName", "RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt"]
     },
     "RelaunchAnchor@RA@RA4-StartConstruction": {
         "doc": "步骤 8：OCR 识别 <开始建设> 并点击；未出现则回到步骤 3",
@@ -501,19 +501,14 @@
     "RelaunchAnchor@RA@RA4-WaitSkip": {
         "doc": "步骤 9 前等待进入关卡",
         "baseTask": "RelaunchAnchor@RA@Common-WaitSkip",
-        "next": ["RelaunchAnchor@RA@RA4-WaitGatheringBasePrompt","RelaunchAnchor@RA@RA4-WaitName", "#self"]
+        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt","RelaunchAnchor@RA@RA4-WaitName", "#self"]
     },
     "RelaunchAnchor@RA@RA4-WaitName": {
         "doc": "步骤 9 前识别关卡名等待时间",
         "algorithm": "OcrDetect",
         "text": ["RA", "-4", "相助"],
         "roi": [480, 323, 317, 210],
-        "next": ["RelaunchAnchor@RA@RA4-WaitGatheringBasePrompt", "RelaunchAnchor@RA@RA4-WaitSkip"]
-    },
-    "RelaunchAnchor@RA@RA4-WaitGatheringBasePrompt": {
-        "doc": "步骤 9 前等待 <请部署罗德岛采集基站> 出现",
-        "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt", "#self"]
+        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt", "RelaunchAnchor@RA@RA4-WaitSkip"]
     },
     "RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt": {
         "baseTask": "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt",
@@ -615,8 +610,7 @@
     },
     "RelaunchAnchor@RA@RA4-WaitSwipeMap2": {
         "doc": "步骤 20：前过剧情准备滑动地图",
-        "baseTask": "RelaunchAnchor@RA@RA4-WaitSwipeMap",
-        "template": "RelaunchAnchor@RA@Exit.png",
+        "algorithm": "JustReturn",
         "sub": ["RelaunchAnchor@RA@RA4-SwipeMap2*2"],
         "next": ["RelaunchAnchor@RA@RA4-WaitCost"]
     },
@@ -681,8 +675,7 @@
     },
     "RelaunchAnchor@RA@RA4-WaitSwipeMap3": {
         "doc": "步骤 27：前过剧情准备滑动地图",
-        "baseTask": "RelaunchAnchor@RA@RA4-WaitSwipeMap",
-        "template": "RelaunchAnchor@RA@Exit.png",
+        "algorithm": "JustReturn",
         "sub": ["RelaunchAnchor@RA@RA4-SwipeMap3*2"],
         "next": ["RelaunchAnchor@RA@RA4-ClickStone3"]
     },
@@ -731,8 +724,7 @@
     },
     "RelaunchAnchor@RA@RA4-WaitSwipeMap4": {
         "doc": "步骤 33：前过剧情准备滑动地图",
-        "baseTask": "RelaunchAnchor@RA@RA4-WaitSwipeMap",
-        "template": "RelaunchAnchor@RA@Exit.png",
+        "algorithm": "JustReturn",
         "sub": ["RelaunchAnchor@RA@RA4-SwipeMap4*3"],
         "next": ["RelaunchAnchor@RA@RA4-DeployOperatorSwipe"]
     },
@@ -867,11 +859,6 @@
         "roi": [903, 598, 87, 30],
         "action": "ClickRect",
         "specificRect": [899, 491, 46, 42],
-        "next": ["RelaunchAnchor@RA@RA4-WaitMission3", "#self"]
-    },
-    "RelaunchAnchor@RA@RA4-WaitMission3": {
-        "doc": "步骤 52 前等待任务完成，出现 <敌人1>",
-        "algorithm": "JustReturn",
         "next": ["RelaunchAnchor@RA@RA4-ClickMission3", "#self"]
     },
     "RelaunchAnchor@RA@RA4-ClickMission3": {
