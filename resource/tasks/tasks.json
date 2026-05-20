@@ -2816,7 +2816,14 @@
         "template": ["InfrastFilterMenu.png", "InfrastFilterMenu3.png"],
         "roi": [1050, 0, 230, 100],
         "postDelay": 1000,
-        "next": ["InfrastFilterMenuCancelNotStationedButtonAlreadyClicked", "InfrastFilterMenuCancelNotStationedButton"]
+        "next": ["InfrastFilterMenuAllButton"]
+    },
+    "InfrastFilterMenuAllButton": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["全部"],
+        "roi": [1050, 65, 150, 70],
+        "postDelay": 1000
     },
     "InfrastFilterMenuCancelNotStationedButton": {
         "template": "InfrastFilterMenuNotStationedButton.png",

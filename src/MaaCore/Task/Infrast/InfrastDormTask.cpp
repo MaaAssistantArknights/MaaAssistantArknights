@@ -64,7 +64,22 @@ bool asst::InfrastDormTask::_run()
 
         auto origin_room_config = current_room_config();
         if (is_use_custom_opers()) {
+            // 自定义干员可能正在其他宿舍休息，选择前临时关闭“未进驻”筛选。
+            const bool filter_notstationed_before_custom = m_if_filter_notstationed_haspressed;
+            if (filter_notstationed_before_custom) {
+                Log.trace("click_filter_menu_cancel_not_stationed_button");
+                click_filter_menu_cancel_not_stationed_button();
+                m_if_filter_notstationed_haspressed = false;
+            }
+
             swipe_and_select_custom_opers(true);
+
+            if (filter_notstationed_before_custom) {
+                Log.trace("click_filter_menu_not_stationed_button");
+                click_filter_menu_not_stationed_button();
+                m_if_filter_notstationed_haspressed = true;
+            }
+
             /*
              * 此处修复前，自定义宿舍干员 + 自动补位同时开启时，
              * swipe_and_select_custom_opers(true); 会找指定干员并切心情排序。
@@ -75,7 +90,7 @@ bool asst::InfrastDormTask::_run()
              * 要么把带数字的干员选上（小车、12F）偶然成功，要么就一直右滑卡死
              * 修复：信赖补位前切回信赖排序
              */
-            if (current_room_config().autofill && m_dorm_trust_enabled &&
+            if (origin_room_config.autofill && m_dorm_trust_enabled &&
                 (m_next_step == NextStep::RestDone || m_next_step == NextStep::Trust)) {
                 Log.trace("click_sort_by_trust_button");
                 if (!click_sort_by_trust_button()) {
