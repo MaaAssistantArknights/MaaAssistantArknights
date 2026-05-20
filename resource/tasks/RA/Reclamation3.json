@@ -425,16 +425,14 @@
         "withoutDet": true,
         "useRaw": false,
         "binThreshold": [200, 255],
-        "postDelay": 1000,
         "next": ["RelaunchAnchor@RA@RA15-ChooseStrategy", "#self"]
     },
     "RelaunchAnchor@RA@RA15-ChooseStrategy": {
         "doc": "步骤 2：OCR 识别 筹划经营",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["经营"],
+        "text": ["筹划", "经营"],
         "roi": [377, 385, 97, 25],
-        "postDelay": 200,
         "next": ["#self", "RelaunchAnchor@RA@RA15-ConfirmSelection"]
     },
     "RelaunchAnchor@RA@RA15-ConfirmSelection": {
@@ -443,7 +441,6 @@
         "action": "ClickSelf",
         "text": ["确认", "选择"],
         "roi": [1055, 619, 117, 43],
-        "postDelay": 200,
         "next": ["RelaunchAnchor@RA@RA15-Choose", "#self"]
     },
     "RelaunchAnchor@RA@RA15-Choose": {
@@ -453,8 +450,15 @@
         "roi": [941, 131, 131, 34],
         "action": "ClickRect",
         "specificRect": [1207, 198, 1, 1],
-        "postDelay": 500,
-        "next": ["RelaunchAnchor@RA@RA15-ExamineCXExistence", "RelaunchAnchor@RA@RA15-ClearChosen", "#self"]
+        "next": ["RelaunchAnchor@RA@RA15-ChooseExamine", "#self"]
+    },
+    "RelaunchAnchor@RA@RA15-ChooseExamine": {
+        "doc": "步骤 4.0.1：OCR 识别 <快捷编队> 验证界面",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["快捷", "编队"],
+        "roi": [1096, 22, 78, 28],
+        "next": ["RelaunchAnchor@RA@RA15-ExamineCXExistence", "RelaunchAnchor@RA@RA15-ClearChosen", "RelaunchAnchor@RA@RA15-Choose", "#self"]
     },
     "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
         "doc": "步骤 4.1：OCR 识别 <圣聆初雪> ",
@@ -470,7 +474,6 @@
         "action": "ClickSelf",
         "text": ["快捷", "编队"],
         "roi": [1096, 22, 78, 28],
-        "postDelay": 200,
         "next": ["RelaunchAnchor@RA@RA15-ClearChosen-2"]
     },
     "RelaunchAnchor@RA@RA15-ClearChosen-2": {
@@ -479,8 +482,15 @@
         "action": "ClickSelf",
         "text": ["清空"],
         "roi": [460, 660, 60, 30],
-        "postDelay": 200,
+        "sub":["RelaunchAnchor@RA@RA15-ClearChosen-3*2"],
         "next": ["RelaunchAnchor@RA@RA15-Fill"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-3": {
+        "doc": "步骤 5.2：OCR 识别 <清空> 再次点击确保成功",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["清空"],
+        "roi": [460, 660, 60, 30]
     },
     "RelaunchAnchor@RA@RA15-Fill": {
         "doc": "步骤 6：点先锋",
@@ -536,7 +546,7 @@
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [1048, 662, 56, 31],
-        "next": ["RelaunchAnchor@RA@RA15-AddHelp"]
+        "next": ["#self", "RelaunchAnchor@RA@RA15-AddHelp"]
     },
     "RelaunchAnchor@RA@RA15-AddHelp": {
         "doc": "步骤 8：OCR 识别 <选择助战> 并点击",
@@ -544,7 +554,7 @@
         "action": "ClickSelf",
         "text": ["选择", "助战"],
         "roi": [886, 21, 79, 28],
-        "next": ["RelaunchAnchor@RA@RA15-ChooseType"]
+        "next": ["#self", "RelaunchAnchor@RA@RA15-ChooseType"]
     },
     "RelaunchAnchor@RA@RA15-ChooseType": {
         "doc": "步骤 9：点法师",
@@ -650,7 +660,7 @@
         "action": "ClickSelf",
         "text": ["招募助战"],
         "roi": [740, 580, 140, 40],
-        "next": ["RelaunchAnchor@RA@RA15-ConfirmTeam"]
+        "next": ["#self", "RelaunchAnchor@RA@RA15-ConfirmTeam"]
     },
     "RelaunchAnchor@RA@RA15-ConfirmTeam": {
         "doc": "步骤 14：OCR 识别 <确认招募> 并点击",
@@ -658,7 +668,7 @@
         "action": "ClickSelf",
         "text": ["确认招募"],
         "roi": [1088, 657, 110, 33],
-        "next": ["RelaunchAnchor@RA@RA15-ConfirmTeam2"]
+        "next": ["#self", "RelaunchAnchor@RA@RA15-ConfirmTeam2"]
     },
     "RelaunchAnchor@RA@RA15-ConfirmTeam2": {
         "doc": "步骤 14.1：OCR 识别 <确认> 并点击",
@@ -666,52 +676,32 @@
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [923, 466, 67, 35],
-        "next": ["RelaunchAnchor@RA@RA15-StartConstruction"]
+        "next": ["#self", "RelaunchAnchor@RA@RA15-StartConstruction"]
     },
     "RelaunchAnchor@RA@RA15-StartConstruction": {
         "doc": "步骤 15：OCR 识别 <开始建设> 并点击",
         "baseTask": "RelaunchAnchor@RA@Common-StartConstruction",
-        "postDelay": 1000,
-        "next": ["RelaunchAnchor@RA@RA15-WaitSkip"]
+        "next": ["#self", "RelaunchAnchor@RA@RA15-WaitSkip"]
     },
     "RelaunchAnchor@RA@RA15-WaitSkip": {
-        "doc": "步骤 15.2 等待剧情跳过",
+        "doc": "步骤 15.1 等待剧情跳过",
         "baseTask": "RelaunchAnchor@RA@Common-WaitSkip",
-        "postDelay": 1000,
         "next": ["RelaunchAnchor@RA@RA15-Plot", "#self"]
     },
     "RelaunchAnchor@RA@RA15-Plot": {
-        "doc": "步骤 16：OCR 识别 <外勤> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["外", "勤"],
-        "roi": [404, 564, 50, 26],
-        "next": ["#self", "RelaunchAnchor@RA@RA15-Plot2"]
-    },
-    "RelaunchAnchor@RA@RA15-Plot2": {
         "doc": "步骤 16.1：模板匹配说话标识，持续点击直到标识消失",
         "baseTask": "RelaunchAnchor@RA@Common-DialogueSequence",
         "template": "RelaunchAnchor@RA@DialogueMarker.png",
-        "next": ["#self", "RelaunchAnchor@RA@RA15-Plot3"]
-    },
-    "RelaunchAnchor@RA@RA15-Plot3": {
-        "doc": "步骤 16.2：OCR 识别 <请> ",
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": ["请"],
-        "roi": [532, 61, 24, 26],
-        "next": ["RelaunchAnchor@RA@RA15-AlignMap"]
+        "next": ["#self", "RelaunchAnchor@RA@RA15-AlignMap"]
     },
     "RelaunchAnchor@RA@RA15-AlignMap": {
         "doc": "步骤 17：JustReturn 的 Swipe，对齐地图",
         "algorithm": "JustReturn",
-        "action": "Swipe",
-        "specificRect": [700, 200, 1, 1],
-        "rectMove": [700, 700, 1, 1],
-        "specialParams": [500, 0, 3, 0],
+        "action": "DoNothing",
         "preDelay": 1000,
         "postDelay": 1000,
-        "next": ["RelaunchAnchor@RA@RA15-AlignMap2"]
+        "sub":["RelaunchAnchor@RA@RA15-AlignMap2*2"],
+        "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"]
     },
     "RelaunchAnchor@RA@RA15-AlignMap2": {
         "doc": "步骤 17.2：JustReturn 的 Swipe，对齐地图",
@@ -720,8 +710,7 @@
         "specificRect": [970, 110, 1, 1],
         "rectMove": [430, 550, 1, 1],
         "specialParams": [500, 0, 3, 0],
-        "postDelay": 2000,
-        "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"]
+        "postDelay": 500
     },
     "RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe": {
         "doc": "步骤 18：JustReturn 的 Swipe，占位部署采集基站",
@@ -731,20 +720,20 @@
         "rectMove": [495, 414, 1, 1],
         "specialParams": [500, 0, 3, 0],
         "postDelay": 4000,
-        "next": ["RelaunchAnchor@RA@RA15-Plot3", "RelaunchAnchor@RA@RA15-DeployGatheringBaseWait"]
+        "next": ["RelaunchAnchor@RA@RA15-WaitDoubleSpeed"]
     },
-    "RelaunchAnchor@RA@RA15-DeployGatheringBaseWait": {
-        "doc": "步骤 18.2：部署采集基站后的占位等待 x 秒",
+    "RelaunchAnchor@RA@RA15-WaitDoubleSpeed": {
+        "doc": "步骤 19 前等待二倍速提示出现",
         "algorithm": "JustReturn",
-        "postDelay": 2000,
-        "next": ["RelaunchAnchor@RA@RA15-DoubleSpeed"]
+        "next": ["RelaunchAnchor@RA@RA15-DoubleSpeed", "#self"]
     },
     "RelaunchAnchor@RA@RA15-DoubleSpeed": {
         "doc": "步骤 19：开启二倍速",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [1090, 40, 20, 20],
-        "next": ["RelaunchAnchor@RA@RA15-WaitCost"]
+        "template": "RelaunchAnchor@RA@DoubleSpeed.png",
+        "action": "ClickSelf",
+        "roi": [1060, 20, 80, 70],
+        "maskRange": [220, 255],
+        "next": ["#self", "RelaunchAnchor@RA@RA15-WaitCost"]
     },
     "RelaunchAnchor@RA@RA15-WaitCost": {
         "doc": "步骤 20 等待费用跳过",
@@ -756,7 +745,7 @@
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "text": ["24+"],
-        "ocrReplace": [["(2[2-9]|[3-9]\\d+)", "24+"]],
+        "ocrReplace": [["(2[4-9]|[3-9]\\d+)", "24+"]],
         "roi": [1198, 495, 75, 43],
         "next": ["RelaunchAnchor@RA@RA15-DeployCX"]
     },
@@ -767,7 +756,7 @@
         "specificRect": [1139, 638, 1, 1],
         "rectMove": [390, 512, 1, 1],
         "specialParams": [500, 0, 3, 0],
-        "postDelay": 1000,
+        "postDelay": 2000,
         "next": ["RelaunchAnchor@RA@RA15-DeployCX2"]
     },
     "RelaunchAnchor@RA@RA15-DeployCX2": {
@@ -777,14 +766,12 @@
         "specificRect": [725, 319, 1, 1],
         "rectMove": [730, 500, 1, 1],
         "specialParams": [500, 0, 3, 0],
-        "postDelay": 2000,
         "next": ["RelaunchAnchor@RA@RA15-MissionIcon1"]
     },
     "RelaunchAnchor@RA@RA15-MissionIcon1": {
         "doc": "步骤 23：模板匹配任务图标并点击",
         "baseTask": "RelaunchAnchor@RA@Common-MissionIcon",
         "template": "RelaunchAnchor@RA@MissionIcon.png",
-        "postDelay": 2000,
         "next": ["RelaunchAnchor@RA@RA15-Kill60", "#self"]
     },
     "RelaunchAnchor@RA@RA15-Kill60": {
@@ -824,30 +811,26 @@
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [928, 469, 61, 33],
-        "next": ["RelaunchAnchor@RA@RA15-WaitEnd"]
+        "next": ["RelaunchAnchor@RA@RA15-WaitEnd","RelaunchAnchor@RA@RA15-End1"]
     },
     "RelaunchAnchor@RA@RA15-WaitEnd": {
         "doc": "步骤 27.3 等待结束跳过",
         "algorithm": "JustReturn",
-        "postDelay": 500,
-        "next": ["RelaunchAnchor@RA@RA15-End3", "#self"]
+        "next": ["RelaunchAnchor@RA@RA15-ContinueAfterSettlement", "#self"]
     },
-    "RelaunchAnchor@RA@RA15-End3": {
-        "doc": "步骤 27.4：OCR 识别 <点击> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["点击"],
-        "roi": [600, 670, 60, 40],
-        "postDelay": 500,
-        "next": ["RelaunchAnchor@RA@RA15-End4", "#self"]
+    "RelaunchAnchor@RA@RA15-ContinueAfterSettlement": {
+        "doc": "步骤 27.4：OCR 识别 <点击继续> 并点击",
+        "baseTask": "RelaunchAnchor@RA@RA1-ContinueAfterSettlement",
+        "next": ["#self", "RelaunchAnchor@RA@RA15-WaitFinishConstruction"]
     },
-    "RelaunchAnchor@RA@RA15-End4": {
-        "doc": "步骤 27.5：OCR 识别 <完成> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["完成"],
-        "roi": [600, 670, 60, 40],
-        "postDelay": 500,
+    "RelaunchAnchor@RA@RA15-WaitFinishConstruction": {
+        "doc": "步骤 27.4.1 前等待 <完成建设> 出现",
+        "algorithm": "JustReturn",
+        "next": ["RelaunchAnchor@RA@RA15-FinishConstruction", "#self"]
+    },
+    "RelaunchAnchor@RA@RA15-FinishConstruction": {
+        "doc": "步骤 27.5：OCR 识别 <完成建设> 并点击",
+        "baseTask": "RelaunchAnchor@RA@RA1-FinishConstruction",
         "next": ["#self", "RelaunchAnchor@RA@RA15-Retry"]
     },
     "RelaunchAnchor@RA@RA15-Retry": {
@@ -855,6 +838,7 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [640, 370, 1, 1],
+        "preDelay": 1000,
         "postDelay": 500,
         "next": ["RelaunchAnchor@RA@RA15-Prepare", "#self"]
     }
