@@ -413,12 +413,7 @@ public class RemoteControlService
                     break;
                 case "Settings-Stage1":
                     await Execute.OnUIThreadAsync(() => {
-                        if (TaskQueueViewModel.FightTask.StagePlan.Count != 1)
-                        {
-                            TaskQueueViewModel.FightTask.StagePlan.Clear();
-                            TaskQueueViewModel.FightTask.StagePlan.Add(new());
-                        }
-                        TaskQueueViewModel.FightTask.StagePlan[0].Stage = data;
+                        Instances.TaskQueueViewModel.TryApplyRemoteFightStage(data ?? string.Empty);
                     });
                     break;
                 default:
@@ -546,7 +541,7 @@ public class RemoteControlService
     /// <para>注意以下特点:</para>
     /// <para>- 可以在非UI线程执行。</para>
     /// <para>- 不调用StartScript。</para>
-    /// <para>- 不使用Model里的列表。</para>
+    /// <para>- 子任务序列化走 TaskQueue 队列项与 LinkStartWithTasks 相同路径，不再要求队列中仅存在单个 FightTask。</para>
     /// <para>- 在结尾添加对RunningStatus的等待。</para>
     /// <para>若"一键长草"功能在未来有更新，此方法也应进行相应的同步更新，但需确保上述特点保持不变。</para>
     /// </remarks>
@@ -590,133 +585,77 @@ public class RemoteControlService
 
             bool taskRet = true;
 
-            // 直接遍历TaskItemViewModels里面的内容，是排序后的
-            // 20260112 status102: 先做兼容处理
+            // 与 TaskQueueViewModel.LinkStartWithTasks 一致：按队列项序列化；远控子任务无视「整类未勾选」时回退为全部同类型项
             int count = 0;
+            var viewModel = Instances.TaskQueueViewModel;
             foreach (var item in originalNames)
             {
-                ++count;
-                switch (item)
+                var queueTasks = TaskQueueViewModel.GetTasksForRemoteSubTask(item).ToList();
+                if (queueTasks.Count == 0)
                 {
-                    case "Base":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<InfrastTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= InfrastSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "WakeUp":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<StartUpTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= StartUpSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Combat":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= FightSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Recruiting":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<RecruitTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= RecruitSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Mall":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= MallSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Mission":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<AwardTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= AwardSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "AutoRoguelike":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<RoguelikeTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= RoguelikeSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Reclamation":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<ReclamationTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= ReclamationSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    default:
-                        --count;
-
-                        // Instances.TaskQueueViewModel._logger.Error("Unknown task: " + item);
-                        break;
-                }
-
-                if (taskRet)
-                {
+                    viewModel.AddLog(item + "Error", UiLogColor.Error);
                     continue;
                 }
 
-                Instances.TaskQueueViewModel.AddLog(item + "Error", UiLogColor.Error);
-                taskRet = true;
-                --count;
+                var enabled = queueTasks.Where(TaskQueueViewModel.IsTaskEnable).ToList();
+                var toSerialize = enabled.Count > 0 ? enabled : queueTasks;
+
+                int appended = 0;
+                foreach (var task in toSerialize)
+                {
+                    try
+                    {
+                        var (isSuccess, taskIds) = viewModel.SerializeQueueTask(task);
+                        var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(task);
+                        switch (isSuccess)
+                        {
+                            case true:
+                                ++appended;
+                                viewModel.TaskItemViewModels.ElementAtOrDefault(index)?.SetTaskIds(taskIds);
+                                break;
+                            case false:
+                                taskRet = false;
+                                viewModel.AddLog(
+                                    LocalizationHelper.GetStringFormat(
+                                        "TaskAppend.Error",
+                                        LocalizationHelper.GetString(task.TaskType.ToString()),
+                                        task.NameDisplay),
+                                    UiLogColor.Error);
+                                break;
+                            case null:
+                                viewModel.AddLog(
+                                    LocalizationHelper.GetStringFormat(
+                                        "TaskAppend.Skip",
+                                        LocalizationHelper.GetString(task.TaskType.ToString()),
+                                        task.NameDisplay),
+                                    UiLogColor.Info);
+                                break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        taskRet = false;
+                        viewModel.AddLog(
+                            LocalizationHelper.GetStringFormat(
+                                "TaskAppend.Error",
+                                LocalizationHelper.GetString(task.TaskType.ToString()),
+                                task.NameDisplay) + "\n" + ex.Message,
+                            UiLogColor.Error);
+                    }
+
+                    if (!taskRet)
+                    {
+                        break;
+                    }
+                }
+
+                if (appended > 0)
+                {
+                    ++count;
+                    continue;
+                }
+
+                viewModel.AddLog(item + "Error", UiLogColor.Error);
             }
 
             if (count == 0)
