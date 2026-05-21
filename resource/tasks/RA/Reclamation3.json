@@ -582,7 +582,7 @@
         "action": "ClickSelf",
         "text": ["选择", "助战"],
         "roi": [886, 21, 79, 28],
-        "next": ["RelaunchAnchor@RA@RA15-ChooseType", "#self"]
+        "next": ["#self", "RelaunchAnchor@RA@RA15-ChooseType"]
     },
     "RelaunchAnchor@RA@RA15-ChooseType": {
         "doc": "步骤 9：点法师",
@@ -827,7 +827,7 @@
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [928, 469, 61, 33],
-        "next": ["RelaunchAnchor@RA@RA15-WaitEnd", "RelaunchAnchor@RA@RA15-End1"]
+        "next": ["RelaunchAnchor@RA@RA15-WaitEnd"]
     },
     "RelaunchAnchor@RA@RA15-WaitEnd": {
         "doc": "步骤 27.3 等待结束跳过",
