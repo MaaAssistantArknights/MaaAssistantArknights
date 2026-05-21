@@ -75,22 +75,33 @@ bool asst::InfrastProductionTask::change_product()
 {
     auto run_change_task = [&](const std::string& task_name, const std::string& verify_task_name,
                                const std::string& product_key) {
-        //example:
-        // json::value fail_info = basic_info_with_what("ProductChangeFail");
-        // fail_info["details"]["product"] = product_key;
-        // callback(AsstMsg::SubTaskExtraInfo, fail_info);
-        // 只有切换流程和产物复核都通过，才上报 ProductChanged。
-        if (!ProcessTask(*this, { task_name }).run()) {
-            Log.error("change product failed", task_name);
-            return false;
+        constexpr int ProductChangeMaxTimes = 3;
+        for (int retry = 0; retry < ProductChangeMaxTimes; ++retry) {
+            // 只有切换流程和产物复核都通过，才上报 ProductChanged。
+            if (!ProcessTask(*this, { task_name }).run()) {
+                Log.error("change product failed", task_name, retry);
+                continue;
+            }
+
+            if (!ProcessTask(*this, { verify_task_name }).run()) {
+                Log.error("product verification failed", verify_task_name, retry);
+                continue;
+            }
+
+            Matcher confirm_analyzer(ctrler()->get_image());
+            confirm_analyzer.set_task_info("ConfirmProductChange");
+            if (confirm_analyzer.analyze()) {
+                Log.error("product change is not confirmed", product_key, retry);
+                continue;
+            }
+
+            return true;
         }
 
-        if (!ProcessTask(*this, { verify_task_name }).run()) {
-            Log.error("product verification failed", verify_task_name);
-            return false;
-        }
-
-        return true;
+        json::value fail_info = basic_info_with_what("ProductChangeFail");
+        fail_info["details"]["product"] = product_key;
+        callback(AsstMsg::SubTaskExtraInfo, fail_info);
+        return false;
     };
 
     auto customProduct = current_room_config().product;
@@ -102,6 +113,8 @@ bool asst::InfrastProductionTask::change_product()
                              "MiddleBattleRecord")) {
             return false;
         }
+        m_product = "CombatRecord";
+        m_is_product_incorrect = false;
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "MiddleBattleRecord";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
@@ -113,6 +126,8 @@ bool asst::InfrastProductionTask::change_product()
                              "PureGold")) {
             return false;
         }
+        m_product = "PureGold";
+        m_is_product_incorrect = false;
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "PureGold";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
@@ -125,6 +140,8 @@ bool asst::InfrastProductionTask::change_product()
                 "OriginiumShard")) {
             return false;
         }
+        m_product = "OriginStone";
+        m_is_product_incorrect = false;
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "OriginiumShard";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
@@ -243,6 +260,14 @@ bool asst::InfrastProductionTask::shift_facility_list()
             continue;
         }
 
+        /*启用自定义基建时，如果产物不一致则直接更换产物*/
+        if (m_is_custom && m_is_product_incorrect) {
+            if (!change_product()) {
+                continue;
+            }
+            cur_product = m_product;
+        }
+
         /* 进入干员选择页面 */
         if (!m_skip_shift) {
             ctrler()->click(add_button);
@@ -298,12 +323,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
             Log.info("skip shift in rotation mode");
         }
 
-        /*启用自定义基建时，如果产物不一致则直接更换产物*/
-        if (m_is_custom && m_is_product_incorrect) {
-            if (!change_product()) {
-                return false;
-            }
-        }
         // 使用无人机
         if (m_is_use_custom_drones) {
             if (m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Post &&
