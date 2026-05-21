@@ -190,16 +190,25 @@
         "specificRect": [1120, 630, 10, 10],
         "rectMove": [745, 300, 1, 1],
         "specialParams": [500, 0, 3, 0],
-        "next": ["RelaunchAnchor@RA@RA1-DeployOperatorDirection"]
+        "next": ["RelaunchAnchor@RA@RA1-DeployOperatorDirection", "#self"]
     },
     "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
-        "doc": "步骤 15：JustReturn Swipe，确认干员朝向",
+        "doc": "步骤 15：OCR 识别 <迷迭香>，确认干员已部署",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "roi": [50, 115, 75, 25],
+        "withoutDet": true,
+        "text": ["迷迭香"],
+        "next": ["RelaunchAnchor@RA@RA1-DeployOperatorSwipeDirection"]
+    },
+    "RelaunchAnchor@RA@RA1-DeployOperatorSwipeDirection": {
+        "doc": "步骤 15.2：JustReturn Swipe，确认干员朝向",
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [745, 300, 1, 1],
         "rectMove": [1745, 300, 10, 10],
         "specialParams": [300, 0, 3, 0],
-        "next": ["RelaunchAnchor@RA@RA1-DeployOperatorWait"]
+        "next": ["RelaunchAnchor@RA@RA1-DeployOperatorDirection", "RelaunchAnchor@RA@RA1-DeployOperatorWait"]
     },
     "RelaunchAnchor@RA@RA1-DeployOperatorWait": {
         "doc": "步骤 16：部署干员后的占位等待 x 秒",
@@ -383,6 +392,11 @@
         "action": "ClickSelf",
         "text": ["交付石材"],
         "roi": [80, 235, 85, 35],
+        "next": ["#self", "RelaunchAnchor@RA@RA1-WaitSettleNow"]
+    },
+    "RelaunchAnchor@RA@RA1-WaitSettleNow": {
+        "doc": "步骤 38 前等待 <立即结算> 出现",
+        "algorithm": "JustReturn",
         "next": ["RelaunchAnchor@RA@RA1-SettleNow", "#self"]
     },
     "RelaunchAnchor@RA@RA1-SettleNow": {
