@@ -480,7 +480,12 @@
         "action": "DoNothing",
         "text": ["快捷", "编队"],
         "roi": [1096, 22, 78, 28],
-        "next": ["RelaunchAnchor@RA@RA15-ExamineCXExistence", "RelaunchAnchor@RA@RA15-ClearChosen", "RelaunchAnchor@RA@RA15-Choose", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-ExamineCXExistence",
+            "RelaunchAnchor@RA@RA15-ClearChosen",
+            "RelaunchAnchor@RA@RA15-Choose",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
         "doc": "步骤 4.1：OCR 识别 <圣聆初雪> ",
@@ -504,7 +509,7 @@
         "action": "ClickSelf",
         "text": ["清空"],
         "roi": [460, 660, 60, 30],
-        "sub":["RelaunchAnchor@RA@RA15-ClearChosen-3*2"],
+        "sub": ["RelaunchAnchor@RA@RA15-ClearChosen-3*2"],
         "next": ["RelaunchAnchor@RA@RA15-Fill"]
     },
     "RelaunchAnchor@RA@RA15-ClearChosen-3": {
@@ -706,7 +711,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "postDelay": 1000,
-        "sub":["RelaunchAnchor@RA@RA15-AlignMap2*2"],
+        "sub": ["RelaunchAnchor@RA@RA15-AlignMap2*2"],
         "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"]
     },
     "RelaunchAnchor@RA@RA15-AlignMap2": {
@@ -786,7 +791,10 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["击败"],
-        "ocrReplace": [["岳", "击"], ["雷", "击"]],
+        "ocrReplace": [
+            ["岳", "击"],
+            ["雷", "击"]
+        ],
         "roi": [571, 281, 51, 33],
         "next": ["RelaunchAnchor@RA@RA15-ConfirmMission", "#self"]
     },
@@ -819,7 +827,7 @@
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [928, 469, 61, 33],
-        "next": ["RelaunchAnchor@RA@RA15-WaitEnd","RelaunchAnchor@RA@RA15-End1"]
+        "next": ["RelaunchAnchor@RA@RA15-WaitEnd", "RelaunchAnchor@RA@RA15-End1"]
     },
     "RelaunchAnchor@RA@RA15-WaitEnd": {
         "doc": "步骤 27.3 等待结束跳过",
