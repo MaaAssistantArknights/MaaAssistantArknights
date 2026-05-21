@@ -731,6 +731,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationThemeRelaunchAnchor">重启锚点</system:String>
     <system:String x:Key="ReclamationMode">模式</system:String>
     <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
+    <system:String x:Key="ReclamationModeRA4">RA-4</system:String>
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过组装支援道具刷生息点数</system:String>
@@ -1489,6 +1490,19 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、大型兽栏等
 
 任务流程：自动执行精耕细作、建设、交付资源、结算循环
+    </system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
+收益参考：每把约 417 代币 + 统筹点数，单轮耗时约 1 分 40 秒
+
+干员要求：维什戴尔（可以借助战）
+
+前置步骤：推进主线至 RA-4 已通关状态
+
+在大地图打开 RA-4，右下角出现“开启建设”时启动任务，即可自动循环
+
+注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、大型兽栏等
+
+任务流程：自动执行筹划经营、建设、交付资源、结算循环
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 ⚠️ 该策略尚未经完善，运行过程中可能遇到问题

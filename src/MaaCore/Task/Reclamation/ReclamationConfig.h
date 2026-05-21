@@ -23,6 +23,7 @@ enum class RelaunchAnchorMode
 {
     RA1 = 1 << 4,  // 1 << 4 - RA-1
     RA15 = 2 << 4, // 2 << 4 - RA-15
+    RA4 = 3 << 4,  // 3 << 4 - RA-4
 };
 
 using ReclamationMode = std::variant<TalesMode, RelaunchAnchorMode>;

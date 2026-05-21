@@ -933,6 +933,8 @@ Mode. Supported modes vary by theme:
 <br>
 `16` (`RA1`) - RA-1, automatically execute intensive farming, construction, resource delivery, and settlement loop.
 <br>
+`48` (`RA4`) - RA-4, automatically execute planning management, construction, resource delivery, and settlement loop.
+<br>
 `32` (`RA15`) - RA-15, complete the 60-kill mission with Civilight Eterna.
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  

@@ -932,6 +932,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `16` (`RA1`) - RA-1，自动执行精耕细作、建设、交付资源、结算循环。
 <br>
+`48` (`RA4`) - RA-4，自动执行筹划经营、建设、交付资源、结算循环。
+<br>
 `32` (`RA15`) - RA-15，用圣聆初雪完成 60 杀任务。  
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  

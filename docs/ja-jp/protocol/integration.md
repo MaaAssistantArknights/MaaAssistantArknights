@@ -932,6 +932,8 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 <br>
 `16` (`RA1`) - RA-1、精耕細作→建設→資源納品→決算を自動ループ。
 <br>
+`48` (`RA4`) - RA-4、経営計画→建設→資源納品→決算を自動ループ。
+<br>
 `32` (`RA15`) - RA-15、シヴィライト・エテルナで60撃破ミッションを達成。  
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
