@@ -253,7 +253,7 @@
     <system:String x:Key="IS5NewSquad6">꽃다발 분대</system:String>
     <system:String x:Key="IS5NewSquad7">초강수 분대</system:String>
     <system:String x:Key="IS5NewSquad8">쉐이 울림 분대</system:String>
-    <system:String x:Key="IS5NewSquad9">대리인 분대 (代理人分队)</system:String>
+    <system:String x:Key="IS5NewSquad9">대리인 분대 (不支持)</system:String>
     <system:String x:Key="IS5NewSquad10">지학 분대 (知学分队)</system:String>
     <system:String x:Key="IS5NewSquad11">상고 분대 (商贾分队)</system:String>
     <system:String x:Key="SpecialForceSquad">특근 분대</system:String>
