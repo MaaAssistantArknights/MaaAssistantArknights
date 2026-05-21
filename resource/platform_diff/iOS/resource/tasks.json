@@ -43,8 +43,5 @@
     },
     "Sarkaz@Roguelike@StageRefresh": {
         "templThreshold": 0.7
-    },
-    "RelaunchAnchor@RA@RA1-DoubleSpeed": {
-        "templThreshold": 0.75
     }
 }
