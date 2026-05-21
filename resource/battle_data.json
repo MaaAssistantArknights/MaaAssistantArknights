@@ -3986,8 +3986,7 @@
         },
         "char_4212_nasti": {
             "name": "娜斯提",
-            "name_en": "娜斯提",
-            "name_en_unavailable": true,
+            "name_en": "Nasti",
             "name_jp": "ナスティ",
             "name_kr": "내스티",
             "name_tw": "娜斯提",
@@ -4000,8 +3999,7 @@
         },
         "char_4213_skybx": {
             "name": "天空盒",
-            "name_en": "天空盒",
-            "name_en_unavailable": true,
+            "name_en": "Skybox",
             "name_jp": "スカイボックス",
             "name_kr": "스카이박스",
             "name_tw": "天空盒",
@@ -4013,8 +4011,7 @@
         },
         "char_4214_cairn": {
             "name": "响石",
-            "name_en": "响石",
-            "name_en_unavailable": true,
+            "name_en": "Cairn",
             "name_jp": "ケルン",
             "name_kr": "케언",
             "name_tw": "响石",
@@ -14995,8 +14992,7 @@
         },
         "trap_787_supctl": {
             "name": "冷爆机",
-            "name_en": "冷爆机",
-            "name_en_unavailable": true,
+            "name_en": "Ice Blast Machine",
             "name_jp": "寒冷弾発射装置",
             "name_kr": "냉폭기",
             "name_tw": "冷爆机",
@@ -15008,8 +15004,7 @@
         },
         "trap_788_supctla": {
             "name": "低温传导模块",
-            "name_en": "低温传导模块",
-            "name_en_unavailable": true,
+            "name_en": "Thermal Conduction Module",
             "name_jp": "冷気拡散モジュール",
             "name_kr": "저온 전도 모듈",
             "name_tw": "低温传导模块",
@@ -15021,8 +15016,7 @@
         },
         "trap_789_supctlb": {
             "name": "冰浪脉冲模块",
-            "name_en": "冰浪脉冲模块",
-            "name_en_unavailable": true,
+            "name_en": "Ice Wave Module",
             "name_jp": "氷結波動モジュール",
             "name_kr": "얼음 충격파 모듈",
             "name_tw": "冰浪脉冲模块",

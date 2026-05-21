@@ -39,6 +39,30 @@
         "sortId": 70001,
         "usage": "A device that stores battle videos. Gives Operators a huge amount of EXP."
     },
+    "2026recruitment10_1": {
+        "classifyType": "CONSUME",
+        "description": "Due to various strategic considerations, Rhodes Island conducted targeted headhunting in addition to batch recruitment in order to seek assistance from individuals with special talents.",
+        "icon": "2026recruitment10_1.png",
+        "name": "Type-α Headhunting Permit",
+        "sortId": 50107,
+        "usage": "A special permit issued by the Rhodes Island HR Department with specific instructions for the headhunting agency. Can be used to headhunt for 10 Operators."
+    },
+    "2026recruitment10_2": {
+        "classifyType": "CONSUME",
+        "description": "Due to various strategic considerations, Rhodes Island conducted targeted headhunting in addition to batch recruitment in order to seek assistance from individuals with special talents.",
+        "icon": "2026recruitment10_2.png",
+        "name": "Type-β Headhunting Permit",
+        "sortId": 50107,
+        "usage": "A special permit issued by the Rhodes Island HR Department with specific instructions for the headhunting agency. Can be used to headhunt for 10 Operators."
+    },
+    "2026recruitment10_3": {
+        "classifyType": "CONSUME",
+        "description": "Due to various strategic considerations, Rhodes Island conducted targeted headhunting in addition to batch recruitment in order to seek assistance from individuals with special talents.",
+        "icon": "2026recruitment10_3.png",
+        "name": "Type-γ Headhunting Permit",
+        "sortId": 50107,
+        "usage": "A special permit issued by the Rhodes Island HR Department with specific instructions for the headhunting agency. Can be used to headhunt for 10 Operators."
+    },
     "30011": {
         "classifyType": "MATERIAL",
         "description": "Rich in organics, it is commonly seen in regions where Originium has completely volatilized. Compared to Originium, it is easier to exploit.",
@@ -2255,6 +2279,14 @@
         "sortId": -10000,
         "usage": "Multi-functional survey equipment scattered throughout the snow from the avalanches. Please return it to the observation station when found, and the staff will express their gratitude with practical supplies."
     },
+    "act47side_token_bottle": {
+        "classifyType": "NONE",
+        "description": "It's just cheap sugar water based on Forte Energy Drinks' flavoring? Who cares! Nowadays, you only hear such boring truths from bitter and bankrupt companies that didn't think of bottling their beverages in rocket-shaped containers.",
+        "icon": "act47side_token_bottle.png",
+        "name": "Dr Oxygen",
+        "sortId": -10000,
+        "usage": "An innovative beverage inspired by high-altitude air-supply devices, now the lifeblood of Columbians. No one would refuse to fork over a high price to taste a new era beyond the Starpod."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -2326,6 +2358,22 @@
         "name": "Operation Agreement",
         "sortId": -10000,
         "usage": "A symbol of cooperation. Can be used to unlock additional content in Contingency Contract."
+    },
+    "act6bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act6bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act6bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act6bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
     },
     "act6collection_point_token": {
         "classifyType": "NONE",
