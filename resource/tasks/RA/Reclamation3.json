@@ -712,12 +712,12 @@
         "rectMove": [495, 414, 1, 1],
         "specialParams": [1000, 0, 3, 0],
         "postDelay": 4000,
-        "next": ["RelaunchAnchor@RA@RA15-WaitDoubleSpeed"]
+        "next": ["RelaunchAnchor@RA@RA15-AlignMapCheck", "RelaunchAnchor@RA@RA15-WaitDoubleSpeed"]
     },
     "RelaunchAnchor@RA@RA15-WaitDoubleSpeed": {
         "doc": "步骤 19 前等待二倍速提示出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA15-AlignMapCheck", "RelaunchAnchor@RA@RA15-DoubleSpeed", "#self"]
+        "next": ["RelaunchAnchor@RA@RA15-DoubleSpeed", "#self"]
     },
     "RelaunchAnchor@RA@RA15-DoubleSpeed": {
         "doc": "步骤 19：开启二倍速",
@@ -771,7 +771,8 @@
         "doc": "步骤 24：OCR 识别 <击败> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["击败", "岳败", "雷败"],
+        "text": ["击败"],
+        "ocrReplace": [["岳", "击"], ["雷", "击"]],
         "roi": [571, 281, 51, 33],
         "next": ["RelaunchAnchor@RA@RA15-ConfirmMission", "#self"]
     },
