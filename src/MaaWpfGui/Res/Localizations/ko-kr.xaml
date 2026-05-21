@@ -1265,6 +1265,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
     <system:String x:Key="ProductUnknown">인식할 수 없는 생산품</system:String>
     <system:String x:Key="ProductChanged">생산품이 변경됨</system:String>
+    <system:String x:Key="ProductChangeFail">생산품 전환에 실패했습니다</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">공개모집 인식 결과: </system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
     <system:String x:Key="RecruitmentOfStar">★{0} {key=Operator}를 모집했습니다!</system:String>

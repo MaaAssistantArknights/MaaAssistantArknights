@@ -1264,6 +1264,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ProductIncorrect">製産物が構成と一致しません。</system:String>
     <system:String x:Key="ProductUnknown">認識不能な製産物</system:String>
     <system:String x:Key="ProductChanged">製産物が切り替わった</system:String>
+    <system:String x:Key="ProductChangeFail">製産物の切り替えに失敗しました</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">公開求人の認識結果: </system:String>
     <system:String x:Key="RecruitingTips">公開求人ヒント</system:String>
     <system:String x:Key="RecruitmentOfStar">公開求人で星{0}が出ました！</system:String>

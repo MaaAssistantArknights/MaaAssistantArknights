@@ -73,7 +73,12 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 
 bool asst::InfrastProductionTask::change_product()
 {
-    auto run_change_task = [&](const std::string& task_name, const std::string& verify_task_name) {
+    auto run_change_task = [&](const std::string& task_name, const std::string& verify_task_name,
+                               const std::string& product_key) {
+        //example:
+        // json::value fail_info = basic_info_with_what("ProductChangeFail");
+        // fail_info["details"]["product"] = product_key;
+        // callback(AsstMsg::SubTaskExtraInfo, fail_info);
         // 只有切换流程和产物复核都通过，才上报 ProductChanged。
         if (!ProcessTask(*this, { task_name }).run()) {
             Log.error("change product failed", task_name);
@@ -92,7 +97,9 @@ bool asst::InfrastProductionTask::change_product()
     switch (customProduct) {
     /*制造站的产品类型*/
     case infrast::CustomRoomConfig::Product::BattleRecord: {
-        if (!run_change_task("ChangeProductToMiddleBattleRecord", "VerifyProductChangedToBattleRecord")) {
+        if (!run_change_task("ChangeProductToMiddleBattleRecord", 
+                             "VerifyProductChangedToBattleRecord",
+                             "MiddleBattleRecord")) {
             return false;
         }
         json::value callback_info = basic_info_with_what("ProductChanged");
@@ -101,7 +108,9 @@ bool asst::InfrastProductionTask::change_product()
         break;
     }
     case infrast::CustomRoomConfig::Product::PureGold: {
-        if (!run_change_task("ChangeProductToPureGold", "VerifyProductChangedToPureGold")) {
+        if (!run_change_task("ChangeProductToPureGold", 
+                             "VerifyProductChangedToPureGold", 
+                             "PureGold")) {
             return false;
         }
         json::value callback_info = basic_info_with_what("ProductChanged");
@@ -110,7 +119,10 @@ bool asst::InfrastProductionTask::change_product()
         break;
     }
     case infrast::CustomRoomConfig::Product::OriginiumShard: {
-        if (!run_change_task("ChangeProductToOriginiumShard", "VerifyProductChangedToOriginiumShard")) {
+        if (!run_change_task(
+                "ChangeProductToOriginiumShard",
+                "VerifyProductChangedToOriginiumShard",
+                "OriginiumShard")) {
             return false;
         }
         json::value callback_info = basic_info_with_what("ProductChanged");
