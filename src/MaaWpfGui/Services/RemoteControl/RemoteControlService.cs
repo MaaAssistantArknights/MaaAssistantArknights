@@ -413,7 +413,7 @@ public class RemoteControlService
                     break;
                 case "Settings-Stage1":
                     await Execute.OnUIThreadAsync(() => {
-                        Instances.TaskQueueViewModel.TryApplyRemoteFightStage(data ?? string.Empty);
+                        TryApplyRemoteFightStage(data ?? string.Empty);
                     });
                     break;
                 default:
@@ -590,7 +590,7 @@ public class RemoteControlService
             var viewModel = Instances.TaskQueueViewModel;
             foreach (var item in originalNames)
             {
-                var queueTasks = TaskQueueViewModel.GetTasksForRemoteSubTask(item).ToList();
+                var queueTasks = GetTasksForRemoteSubTask(item).ToList();
                 if (queueTasks.Count == 0)
                 {
                     viewModel.AddLog(item + "Error", UiLogColor.Error);
@@ -682,6 +682,45 @@ public class RemoteControlService
         });
 
         await _runningState.UntilIdleAsync();
+    }
+
+    /// <summary>远控 LinkStart-XXX：按任务类型返回 TaskQueue 中的对应项（保留顺序）。</summary>
+    private static IEnumerable<BaseTask> GetTasksForRemoteSubTask(string remoteSubTaskName) =>
+        remoteSubTaskName switch {
+            "Base" => ConfigFactory.CurrentConfig.TaskQueue.OfType<InfrastTask>().Cast<BaseTask>(),
+            "WakeUp" => ConfigFactory.CurrentConfig.TaskQueue.OfType<StartUpTask>().Cast<BaseTask>(),
+            "Combat" => ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Cast<BaseTask>(),
+            "Recruiting" => ConfigFactory.CurrentConfig.TaskQueue.OfType<RecruitTask>().Cast<BaseTask>(),
+            "Mall" => ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>().Cast<BaseTask>(),
+            "Mission" => ConfigFactory.CurrentConfig.TaskQueue.OfType<AwardTask>().Cast<BaseTask>(),
+            "AutoRoguelike" => ConfigFactory.CurrentConfig.TaskQueue.OfType<RoguelikeTask>().Cast<BaseTask>(),
+            "Reclamation" => ConfigFactory.CurrentConfig.TaskQueue.OfType<ReclamationTask>().Cast<BaseTask>(),
+            _ => [],
+        };
+
+    /// <summary>远控 Settings-Stage1：写入首个已启用理智作战任务的关卡。</summary>
+    private static bool TryApplyRemoteFightStage(string stage)
+    {
+        var fight = ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().FirstOrDefault(TaskQueueViewModel.IsTaskEnable)
+            ?? ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().FirstOrDefault();
+        if (fight is null)
+        {
+            return false;
+        }
+
+        if (fight.StagePlan.Count == 0)
+        {
+            fight.StagePlan.Add(string.Empty);
+        }
+        else if (fight.StagePlan.Count > 1)
+        {
+            fight.StagePlan.Clear();
+            fight.StagePlan.Add(string.Empty);
+        }
+
+        fight.StagePlan[0] = stage ?? string.Empty;
+        Instances.TaskQueueViewModel.RefreshTaskModel(fight);
+        return true;
     }
 
     public static async Task ConnectionTest()

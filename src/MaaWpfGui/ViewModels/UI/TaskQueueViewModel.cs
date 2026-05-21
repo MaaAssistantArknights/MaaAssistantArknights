@@ -1037,45 +1037,6 @@ public class TaskQueueViewModel : Screen
     /// <returns>whether the task is enabled</returns>
     public static bool IsTaskEnable(BaseTask baseTask) => baseTask.IsEnable is true || (baseTask.IsEnable is null && !GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction);
 
-    /// <summary>远控 LinkStart-XXX：按任务类型返回 TaskQueue 中的对应项（保留顺序）。</summary>
-    public static IEnumerable<BaseTask> GetTasksForRemoteSubTask(string remoteSubTaskName) =>
-        remoteSubTaskName switch {
-            "Base" => ConfigFactory.CurrentConfig.TaskQueue.OfType<InfrastTask>().Cast<BaseTask>(),
-            "WakeUp" => ConfigFactory.CurrentConfig.TaskQueue.OfType<StartUpTask>().Cast<BaseTask>(),
-            "Combat" => ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Cast<BaseTask>(),
-            "Recruiting" => ConfigFactory.CurrentConfig.TaskQueue.OfType<RecruitTask>().Cast<BaseTask>(),
-            "Mall" => ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>().Cast<BaseTask>(),
-            "Mission" => ConfigFactory.CurrentConfig.TaskQueue.OfType<AwardTask>().Cast<BaseTask>(),
-            "AutoRoguelike" => ConfigFactory.CurrentConfig.TaskQueue.OfType<RoguelikeTask>().Cast<BaseTask>(),
-            "Reclamation" => ConfigFactory.CurrentConfig.TaskQueue.OfType<ReclamationTask>().Cast<BaseTask>(),
-            _ => [],
-        };
-
-    /// <summary>远控 Settings-Stage1：写入首个已启用理智作战任务的关卡。</summary>
-    public bool TryApplyRemoteFightStage(string stage)
-    {
-        var fight = ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().FirstOrDefault(IsTaskEnable)
-            ?? ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().FirstOrDefault();
-        if (fight is null)
-        {
-            return false;
-        }
-
-        if (fight.StagePlan.Count == 0)
-        {
-            fight.StagePlan.Add(string.Empty);
-        }
-        else if (fight.StagePlan.Count > 1)
-        {
-            fight.StagePlan.Clear();
-            fight.StagePlan.Add(string.Empty);
-        }
-
-        fight.StagePlan[0] = stage ?? string.Empty;
-        RefreshTaskModel(fight);
-        return true;
-    }
-
     /// <summary>序列化 TaskQueue 中的单条任务（供远控等调用）。</summary>
     public (bool? IsSuccess, IEnumerable<int> TaskIds) SerializeQueueTask(BaseTask task) => SerializeTask(task);
 
