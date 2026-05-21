@@ -509,69 +509,44 @@
             "RelaunchAnchor@RA@RA4-EW8"
         ]
     },
-    "RelaunchAnchor@RA@RA4-EW1": {
+    "RelaunchAnchor@RA@RA4-EW-Common": {
         "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["维什", "什戴", "戴尔"],
-        "roi": [138, 577, 100, 30],
         "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+    },
+    "RelaunchAnchor@RA@RA4-EW1": {
+        "baseTask": "RelaunchAnchor@RA@RA4-EW-Common",
+        "roi": [138, 577, 100, 30]
     },
     "RelaunchAnchor@RA@RA4-EW2": {
-        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["维什", "什戴", "戴尔"],
-        "roi": [280, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+        "baseTask": "RelaunchAnchor@RA@RA4-EW-Common",
+        "roi": [280, 577, 100, 30]
     },
     "RelaunchAnchor@RA@RA4-EW3": {
-        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["维什", "什戴", "戴尔"],
-        "roi": [420, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+        "baseTask": "RelaunchAnchor@RA@RA4-EW-Common",
+        "roi": [420, 577, 100, 30]
     },
     "RelaunchAnchor@RA@RA4-EW4": {
-        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["维什", "什戴", "戴尔"],
-        "roi": [560, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+        "baseTask": "RelaunchAnchor@RA@RA4-EW-Common",
+        "roi": [560, 577, 100, 30]
     },
     "RelaunchAnchor@RA@RA4-EW5": {
-        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["维什", "什戴", "戴尔"],
-        "roi": [700, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+        "baseTask": "RelaunchAnchor@RA@RA4-EW-Common",
+        "roi": [700, 577, 100, 30]
     },
     "RelaunchAnchor@RA@RA4-EW6": {
-        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["维什", "什戴", "戴尔"],
-        "roi": [835, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+        "baseTask": "RelaunchAnchor@RA@RA4-EW-Common",
+        "roi": [835, 577, 100, 30]
     },
     "RelaunchAnchor@RA@RA4-EW7": {
-        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["维什", "什戴", "戴尔"],
-        "roi": [975, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+        "baseTask": "RelaunchAnchor@RA@RA4-EW-Common",
+        "roi": [975, 577, 100, 30]
     },
     "RelaunchAnchor@RA@RA4-EW8": {
-        "doc": "步骤 5.4：OCR 识别 <维什戴尔> 并点击",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["维什", "什戴", "戴尔"],
-        "roi": [1115, 577, 100, 30],
-        "next": ["RelaunchAnchor@RA@RA4-EW-Skill"]
+        "baseTask": "RelaunchAnchor@RA@RA4-EW-Common",
+        "roi": [1115, 577, 100, 30]
     },
     "RelaunchAnchor@RA@RA4-EW-Skill": {
         "doc": "步骤 5.5：OCR 识别 三技能 并点击",
@@ -674,10 +649,14 @@
         "preDelay": 500,
         "next": ["RelaunchAnchor@RA@RA4-ClickStone"]
     },
-    "RelaunchAnchor@RA@RA4-ClickStone": {
-        "doc": "步骤 13：点击石头使用技能",
+    "RelaunchAnchor@RA@RA4-ClickStone-Common": {
+        "doc": "点击石头使用技能",
         "algorithm": "JustReturn",
-        "action": "ClickRect",
+        "action": "ClickRect"
+    },
+    "RelaunchAnchor@RA@RA4-ClickStone": {
+        "baseTask": "RelaunchAnchor@RA@RA4-ClickStone-Common",
+        "doc": "步骤 13：点击石头使用技能",
         "specificRect": [1110, 350, 10, 10],
         "next": ["RelaunchAnchor@RA@RA4-WaitSkill"]
     },
@@ -686,12 +665,16 @@
         "baseTask": "RelaunchAnchor@RA@Common-WaitSkip",
         "next": ["RelaunchAnchor@RA@RA4-UseSkill", "#self"]
     },
-    "RelaunchAnchor@RA@RA4-UseSkill": {
-        "doc": "步骤 14：OCR 识别 <READY> 后点击石头技能开启区域",
+    "RelaunchAnchor@RA@RA4-UseSkill-Common": {
+        "doc": "OCR 识别 <READY> 后点击石头技能开启区域",
         "algorithm": "OcrDetect",
         "text": ["RE","EA","AD","DY"],
+        "action": "ClickRect"
+    },
+    "RelaunchAnchor@RA@RA4-UseSkill": {
+        "baseTask": "RelaunchAnchor@RA@RA4-UseSkill-Common",
+        "doc": "步骤 14：OCR 识别 <READY> 后点击石头技能开启区域",
         "roi": [949, 485, 79, 26],
-        "action": "ClickRect",
         "specificRect": [943, 395, 40, 30],
         "next": ["RelaunchAnchor@RA@RA4-WaitSkillPlot"]
     },
@@ -760,9 +743,8 @@
         "next": ["RelaunchAnchor@RA@RA4-ClickStone2"]
     },
     "RelaunchAnchor@RA@RA4-ClickStone2": {
+        "baseTask": "RelaunchAnchor@RA@RA4-ClickStone-Common",
         "doc": "步骤 21：点击石头使用技能",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
         "specificRect": [250, 450, 10, 10],
         "next": ["RelaunchAnchor@RA@RA4-WaitSkill2"]
     },
@@ -772,11 +754,9 @@
         "next": ["RelaunchAnchor@RA@RA4-UseSkill2", "#self"]
     },
     "RelaunchAnchor@RA@RA4-UseSkill2": {
+        "baseTask": "RelaunchAnchor@RA@RA4-UseSkill-Common",
         "doc": "步骤 22：OCR 识别 <READY> 后点击石头技能开启区域",
-        "algorithm": "OcrDetect",
-        "text": ["RE","EA","AD","DY"],
         "roi": [798, 591, 80, 27],
-        "action": "ClickRect",
         "specificRect": [796, 501, 44, 17],
         "next": ["RelaunchAnchor@RA@RA4-WaitSkillPlot2"]
     },
@@ -817,9 +797,8 @@
         "rectMove": [210, 495, 1, 1]
     },
     "RelaunchAnchor@RA@RA4-ClickStone3": {
+        "baseTask": "RelaunchAnchor@RA@RA4-ClickStone-Common",
         "doc": "步骤 27：点击石头使用技能",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
         "specificRect": [710, 250, 10, 10],
         "next": ["RelaunchAnchor@RA@RA4-WaitSkill3"]
     },
@@ -829,11 +808,9 @@
         "next": ["RelaunchAnchor@RA@RA4-UseSkill3", "#self"]
     },
     "RelaunchAnchor@RA@RA4-UseSkill3": {
+        "baseTask": "RelaunchAnchor@RA@RA4-UseSkill-Common",
         "doc": "步骤 28：OCR 识别 <READY> 后点击石头技能开启区域",
-        "algorithm": "OcrDetect",
-        "text": ["RE","EA","AD","DY"],
         "roi": [929, 424, 79, 24],
-        "action": "ClickRect",
         "specificRect": [923, 348, 39, 12],
         "next": ["RelaunchAnchor@RA@RA4-WaitSkillPlot3"]
     },
