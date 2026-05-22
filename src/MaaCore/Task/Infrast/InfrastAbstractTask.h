@@ -13,7 +13,6 @@ public:
     InfrastAbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
 
     virtual ~InfrastAbstractTask() override = default;
-    virtual bool run() override;
     InfrastAbstractTask& set_mood_threshold(double mood_thres) noexcept;
 
     virtual json::value basic_info() const override;
@@ -31,7 +30,6 @@ public:
 
 protected:
     virtual bool on_run_fails() override;
-    void reset_custom_config() noexcept;
 
     bool enter_facility(int index = 0);
     // 从刚点进设施的界面，到干员列表页
@@ -88,6 +86,5 @@ protected:
     int m_cur_facility_index = 0;
     bool m_is_custom = false;
     infrast::CustomFacilityConfig m_custom_config;
-    infrast::CustomFacilityConfig m_initial_custom_config;
 };
 } // namespace asst

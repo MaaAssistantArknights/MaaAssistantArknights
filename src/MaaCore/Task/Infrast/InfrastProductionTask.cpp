@@ -299,6 +299,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         /*启用自定义基建时，如果产物不一致则直接更换产物*/
         if (m_is_custom && m_is_product_incorrect) {
             if (!change_product()) {
+                // 产物失败只报错，不阻断换人，尽量保证干员心情和恢复轴按排班推进。
                 Log.warn("change_product failed after retries, proceed with staffing", facility_name(),
                          m_cur_facility_index);
             }
@@ -371,6 +372,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
         else if (
+            // 普通 params 无人机只在非自定义模式下使用
             // 自定义模式下不使用该分支
             !m_is_custom && cur_product_detection_valid &&
             cur_product_for_non_custom_drone == m_drones_usage_from_params &&
