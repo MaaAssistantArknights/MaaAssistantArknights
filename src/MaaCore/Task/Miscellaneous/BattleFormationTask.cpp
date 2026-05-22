@@ -545,6 +545,19 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
     }
     sort_by_vertical_(opers_result);
 
+    while (opers_result.size() > 2) {
+        size_t i = opers_result.size() - 1;
+        int last_right = opers_result[i].rect.x + opers_result[i].rect.width;
+        int prev_right = opers_result[i - 2].rect.x + opers_result[i - 2].rect.width;
+        const int least_distance = 130; // 正常情况下一般是 140 左右，最后一列不完全的时候一般是 100 左右
+        if (last_right - prev_right < least_distance) {
+            opers_result.pop_back();
+        }
+        else {
+            break;
+        }
+    }
+
     Log.info(opers_result);
     return opers_result;
 }
