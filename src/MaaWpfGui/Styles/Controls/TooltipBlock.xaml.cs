@@ -38,7 +38,9 @@ public partial class TooltipBlock : UserControl
 
     public static readonly DependencyProperty TextBlockTextProperty = DependencyProperty.Register(nameof(TextBlockText), typeof(string), typeof(TooltipBlock), new("?"));
 
-    public static readonly DependencyProperty TooltipTextProperty = DependencyProperty.Register(nameof(TooltipText), typeof(string), typeof(TooltipBlock), new(string.Empty));
+    public static readonly DependencyProperty TooltipTextProperty = DependencyProperty.Register(nameof(TooltipText), typeof(string), typeof(TooltipBlock), new PropertyMetadata(string.Empty, OnTooltipTextChanged));
+
+    public static readonly DependencyProperty TooltipTextEmptyProperty = DependencyProperty.Register(nameof(TooltipTextEmpty), typeof(bool), typeof(TooltipBlock), new PropertyMetadata(true));
 
     public static readonly DependencyProperty TooltipMaxWidthProperty = DependencyProperty.Register(nameof(TooltipMaxWidth), typeof(double), typeof(TooltipBlock), new(double.MaxValue));
 
@@ -74,7 +76,19 @@ public partial class TooltipBlock : UserControl
         set => SetValue(TooltipTextProperty, value);
     }
 
-    public bool TooltipTextEmpty => string.IsNullOrEmpty(TooltipText);
+    public bool TooltipTextEmpty
+    {
+        get => (bool)GetValue(TooltipTextEmptyProperty);
+        private set => SetValue(TooltipTextEmptyProperty, value);
+    }
+
+    private static void OnTooltipTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is TooltipBlock block)
+        {
+            block.TooltipTextEmpty = string.IsNullOrEmpty((string?)e.NewValue);
+        }
+    }
 
     public double TooltipMaxWidth
     {
