@@ -932,6 +932,8 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `16` (`RA1`) - RA-1，自動執行精耕細作、建設、交付資源、結算循環。
 <br>
+`48` (`RA4`) - RA-4，自動執行籌劃經營、建設、交付資源、結算循環。
+<br>
 `32` (`RA15`) - RA-15，用聖聆初雪完成 60 殺任務。  
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  

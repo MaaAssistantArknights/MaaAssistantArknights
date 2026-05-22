@@ -1086,7 +1086,13 @@
             ["Victorian Hammer", "维式重锤"],
             ["Lucky Coin", "盟约之币"],
             ["Burning Victorian Hammer", "灼燃维式重锤"],
-            ["Sargonian Teaspresso", "萨尔贡浓茶"]
+            ["Sargonian Teaspresso", "萨尔贡浓茶"],
+            ["Ice Wave Module", "冰浪脉冲模块"],
+            ["Thermal Conduction Module", "低温传导模块"],
+            ["Ice Blast Machine", "冷爆机"],
+            ["Skybox", "天空盒"],
+            ["Nasti", "娜斯提"],
+            ["Cairn", "响石"]
         ]
     },
     "GameStartCheckResourceOCR": {

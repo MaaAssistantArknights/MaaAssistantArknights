@@ -921,6 +921,8 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 `16` (`RA1`) - RA-1, 정경세작→건설→자원 납품→결산 자동 루프。
 <br>
+`48` (`RA4`) - RA-4, 경영 계획→건설→자원 납품→결산 자동 루프。
+<br>
 `32` (`RA15`) - RA-15, 시빌라이트 에테르나로 60킬 미션 달성。  
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  

@@ -253,7 +253,7 @@
     <system:String x:Key="IS5NewSquad6">花团锦簇分队</system:String>
     <system:String x:Key="IS5NewSquad7">棋行险着分队</system:String>
     <system:String x:Key="IS5NewSquad8">岁影回音分队</system:String>
-    <system:String x:Key="IS5NewSquad9">代理人分队</system:String>
+    <system:String x:Key="IS5NewSquad9">代理人分队（不支持）</system:String>
     <system:String x:Key="IS5NewSquad10">知学分队</system:String>
     <system:String x:Key="IS5NewSquad11">商贾分队</system:String>
     <system:String x:Key="SpecialForceSquad">特勤分队</system:String>
@@ -558,7 +558,7 @@ D:\
     <system:String x:Key="RoguelikeStartWithIdea">构想</system:String>
     <system:String x:Key="RoguelikeStartWithTicket">票券</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</system:String>
-    <system:String x:Key="PenguinId">企鹅物流汇报ID（仅数字部分）</system:String>
+    <system:String x:Key="PenguinId">企鹅物流汇报 ID（仅数字部分）</system:String>
     <system:String x:Key="EnablePenguin">上报企鹅物流</system:String>
     <system:String x:Key="EnableYituliu">上报一图流</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
@@ -624,6 +624,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="FightStageResetMode">过期关卡重置为</system:String>
     <system:String x:Key="HideSeries">隐藏代理倍率</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
+    <system:String x:Key="StagePlanTip">将执行第一个开放的关卡, 如所有关卡均未开放则跳过当前任务\n当前执行: {0}</system:String>
     <system:String x:Key="CustomStageCode">手动输入关卡名</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主线关卡名与原列表的关卡名（如 4-10、AP-5、H10-1-Hard）
 可在关卡结尾输入 ｢Normal/Hard｣ 切换难度：10-14 章对应标准/磨难，15 章及以后对应常规/险地
@@ -731,6 +732,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationThemeRelaunchAnchor">重启锚点</system:String>
     <system:String x:Key="ReclamationMode">模式</system:String>
     <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
+    <system:String x:Key="ReclamationModeRA4">RA-4</system:String>
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过组装支援道具刷生息点数</system:String>
@@ -1486,9 +1488,22 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
 在大地图打开 RA-1，右下角出现“开启建设”时启动任务，即可自动循环
 
-注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、大型兽栏等
+注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、兽栏等
 
 任务流程：自动执行精耕细作、建设、交付资源、结算循环
+    </system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
+收益参考：每把约 417 代币 + 统筹点数，单轮耗时约 1 分 40 秒
+
+干员要求：维什戴尔（可以借助战）
+
+前置步骤：推进主线至 RA-4 已通关状态
+
+在大地图打开 RA-4，右下角出现“开启建设”时启动任务，即可自动循环
+
+注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、兽栏等
+
+任务流程：自动执行筹划经营、建设、交付资源、结算循环
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 ⚠️ 该策略尚未经完善，运行过程中可能遇到问题
@@ -1504,7 +1519,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
 在大地图打开 RA-15，右下角出现“开启建设”时启动任务，即可自动循环
 
-注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、大型兽栏等
+注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、兽栏等
 
 任务流程：用圣聆初雪完成 60 杀任务
     </system:String>
@@ -1556,9 +1571,10 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="EncryptionError">加解密失败，请重新配置相关设置，否则加密内容将以明文形式存储在配置文件中。</system:String>
     <!--  !SimpleEncryptionHelper  -->
     <!--  TimeOutTimer  -->
-    <system:String x:Key="TaskTimeoutMinutes">任务超时时间（分钟）</system:String>
+    <!-- <system:String x:Key="TaskTimeoutMinutes">任务超时时间（分钟）</system:String> -->
     <system:String x:Key="ReminderIntervalMinutes">通知间隔时间（分钟）</system:String>
     <system:String x:Key="StallTimeoutMinutes">日志输出停滞超时时间（分钟）</system:String>
+    <system:String x:Key="StallTimeoutEnabled">启用停滞检测</system:String>
     <system:String x:Key="TaskStallWarning">任务日志输出已超过 {0} 分钟无更新（当前已停滞 {1} 分钟）。如果长时间无进一步日志输出，可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->

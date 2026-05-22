@@ -253,7 +253,7 @@
     <system:String x:Key="IS5NewSquad6">꽃다발 분대</system:String>
     <system:String x:Key="IS5NewSquad7">초강수 분대</system:String>
     <system:String x:Key="IS5NewSquad8">쉐이 울림 분대</system:String>
-    <system:String x:Key="IS5NewSquad9">대리인 분대 (代理人分队)</system:String>
+    <system:String x:Key="IS5NewSquad9">대리인 분대 (不支持)</system:String>
     <system:String x:Key="IS5NewSquad10">지학 분대 (知学分队)</system:String>
     <system:String x:Key="IS5NewSquad11">상고 분대 (商贾分队)</system:String>
     <system:String x:Key="SpecialForceSquad">특근 분대</system:String>
@@ -621,9 +621,10 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="UseExpireMedicineForActivity">이벤트 종료 48시간 전, 이번 주 만료되는 이성 회복제 사용</system:String>
     <system:String x:Key="NoActivity">활동 없음</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
-    <system:String x:Key="FightStageResetMode">만료된 단계가 다음으로 재설정됩니다</system:String>
+    <system:String x:Key="FightStageResetMode">만료된 스테이지 재설정</system:String>
     <system:String x:Key="HideSeries">{key=Series} 숨기기</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
+    <system:String x:Key="StagePlanTip">열려 있는 첫 번째 스테이지로 진입합니다. 모든 스테이지가 열려 있지 않으면 현재 작업은 건너뜁니다.\n현재 실행 중: {0}</system:String>
     <system:String x:Key="CustomStageCode">스테이지 코드 수동 입력</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">대부분의 기본 스테이지 이름과 원래 스테이지 이름 목록 지원 (예: 4-10, AP-5, H10-1-Hard)
 스테이지 이름 끝에 ｢Normal/Hard｣ 를 입력해 난이도를 전환할 수 있습니다 (10-14장은 표준/재앙, 15장 이후는 일반/험지)
@@ -732,6 +733,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
     <system:String x:Key="ReclamationMode">모드</system:String>
     <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
+    <system:String x:Key="ReclamationModeRA4">RA-4</system:String>
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">세이브 X, 스테이지 반복으로 번영의 선물 획득</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">세이브 O, 도구 제작으로 번영의 선물 획득</system:String>
@@ -1487,9 +1489,22 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
 
 맵에서 RA-1을 열고 오른쪽 아래에 "건설 시작"이 나타나면 작업을 시작하여 자동 순환할 수 있습니다
 
-참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 대형 축사 등)을 철거하세요
+참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 축사 등)을 철거하세요
 
 작업 흐름：정경세작, 건설, 자원 납품, 결제를 자동 실행</system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
+수익 참고: 회당 약 417 토큰 + 통괄 포인트, 소요 시간 약 1분 40초
+
+오퍼레이터 요구 사항: 비샤델 (서포트 사용 가능)
+
+사전 조건: 메인 스토리에서 RA-4를 클리어해야 합니다
+
+맵에서 RA-4를 열고 오른쪽 아래에 "건설 시작"이 나타나면 작업을 시작하여 자동 순환할 수 있습니다
+
+참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 축사 등)을 철거하세요
+
+작업 흐름: 경영 계획, 건설, 자원 납품, 결제를 자동 실행
+    </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 ⚠️ 이 전략은 아직 완전히 개선되지 않았으며, 실행 중 문제가 발생할 수 있습니다
 
@@ -1502,7 +1517,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
 2. 성령초설을 보유한 경우, 직접 RA-15를 열고 한 번 편성한다. 선봉 5명(육성 요구 없음) + 성령초설을 마지막에 선택하고 편성을 저장한 뒤 스테이지를 나간다
 3. 서포트의 성령초설을 사용하는 경우, 성령초설이 술사 서포트 첫 페이지에 있는지 확인한다 (친구 설정 권장)
 
-참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 대형 축사 등)을 철거하세요
+참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 축사 등)을 철거하세요
 
 작업 흐름： 서포트 오퍼레이터를 사용하여 60킬 미션을 자동 실행
     </system:String>
@@ -1554,9 +1569,10 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="EncryptionError">암호화 또는 복호화에 실패했습니다. 관련 설정을 다시 구성해 주세요. 그렇지 않으면 암호화된 내용이 설정 파일에 그대로 저장됩니다.</system:String>
     <!--  !SimpleEncryptionHelper  -->
     <!--  TimeOutTimer  -->
-    <system:String x:Key="TaskTimeoutMinutes">작업 타임아웃 시간 (분)</system:String>
+    <!-- <system:String x:Key="TaskTimeoutMinutes">작업 타임아웃 시간 (분)</system:String> -->
     <system:String x:Key="ReminderIntervalMinutes">알림 간격 (분)</system:String>
     <system:String x:Key="StallTimeoutMinutes">로그 출력 정지 타임아웃 (분)</system:String>
+    <system:String x:Key="StallTimeoutEnabled">정지 감지 활성화</system:String>
     <system:String x:Key="TaskStallWarning">작업 로그 출력이 {0}분 동안 업데이트되지 않았습니다(현재 {1}분 정지). 오랫동안 로그 출력이 없으면 수동 개입이 필요할 수 있습니다.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->

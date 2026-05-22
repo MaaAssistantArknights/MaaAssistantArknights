@@ -33,6 +33,15 @@ Currently, support for Reclamation Algorithm is still in early stages and unatte
 - Note: If you have unlocked technologies that grant extra starting items, please remove facilities that cause this (e.g. Food Supply Station, Drink Supply Station, Large Beast Pen, etc.)
 - Task flow: Automatically executes intensive farming, construction, resource delivery, and settlement loop
 
+### RA-4
+
+- Reward estimate: ~417 tokens + coordination points per run, ~1 min 40 sec per round
+- Operator requirement: Wis'adel (support unit allowed)
+- Prerequisite: Clear RA-4 in the main story
+- Open RA-4 on the world map, start the task when "Start Construction" appears in the bottom-right corner
+- Note: If you have unlocked technologies that grant extra starting items, please remove facilities that cause this (e.g. Food Supply Station, Drink Supply Station, Large Beast Pen, etc.)
+- Task flow: Automatically executes planning management, construction, resource delivery, and settlement loop
+
 ### RA-15
 
 - Income reference: ~500 tokens + coordination points per run, ~3 min per cycle

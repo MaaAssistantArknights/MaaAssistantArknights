@@ -253,7 +253,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="IS5NewSquad6">Blooming Flowers Squad</system:String>
     <system:String x:Key="IS5NewSquad7">Perilous Game Squad</system:String>
     <system:String x:Key="IS5NewSquad8">Sui's Shadow Squad</system:String>
-    <system:String x:Key="IS5NewSquad9">Agent Squad (代理人分队)</system:String>
+    <system:String x:Key="IS5NewSquad9">Agent Squad (Not Supported)</system:String>
     <system:String x:Key="IS5NewSquad10">Knowledge Squad (知学分队)</system:String>
     <system:String x:Key="IS5NewSquad11">Merchant Squad (商贾分队)</system:String>
     <system:String x:Key="SpecialForceSquad">Special Squad</system:String>
@@ -624,6 +624,7 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="FightStageResetMode">Closed stage is reset to</system:String>
     <system:String x:Key="HideSeries">Hide series</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
+    <system:String x:Key="StagePlanTip">Executes the first open stage. If all stages are closed, skips the current task.\nCurrent execution: {0}</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
 At the end of the stage, enter ｢Normal/Hard｣ to switch difficulty: Chapters 10-14 use Standard/Adverse, Chapters 15+ use Normal/Raid
@@ -730,6 +731,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
     <system:String x:Key="ReclamationMode">Mode</system:String>
     <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
+    <system:String x:Key="ReclamationModeRA4">RA-4</system:String>
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">I do not have a save, let's farm prosperity points by repeatedly entering and exiting stages.</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">I do have a save, let's farm prosperity points by crafting tools.</system:String>
@@ -1485,9 +1487,22 @@ Prerequisite: Clear RA-1 in the main story
 
 Open RA-1 on the map and start the task when &quot;Start Construction&quot; appears at the bottom-right to loop automatically
 
-Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Large Animal Pens, etc.
+Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
 
 Task flow: Automatically executes farming, construction, resource delivery, and settlement loop
+    </system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
+Reward estimate: ~417 tokens + coordination points per run, ~1 min 40 sec per round
+
+Operator requirement: Wis'adel (support unit allowed)
+
+Prerequisite: Clear RA-4 in the main story
+
+Open RA-4 on the map and start the task when &quot;Start Construction&quot; appears at the bottom-right to loop automatically
+
+Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
+
+Task flow: Automatically executes planning management, construction, resource delivery, and settlement loop
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 ⚠️ This strategy has not been fully refined yet, issues may occur during execution
@@ -1501,7 +1516,7 @@ Prerequisite:
 2. If you have Saintly First Snow, manually open RA-15 and form a squad once. Use 5 Vanguards (no level requirement) + Saintly First Snow, pick her last, then save the squad and exit the stage
 3. If you use support Saintly First Snow, make sure Saintly First Snow is on the first page of the Caster support list (consider adding as friend)
 
-Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Large Animal Pens, etc.
+Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
 
 Task flow: Automatically use support operator to execute 60-kill mission
     </system:String>
@@ -1553,9 +1568,10 @@ These locations are too high-level and can lead to file overwrites, config write
     <system:String x:Key="EncryptionError">Encryption and decryption failed, please reconfigure the relevant settings, otherwise the encrypted content will be stored in plain text in the configuration file.</system:String>
     <!--  !SimpleEncryptionHelper  -->
     <!--  TimeOutTimer  -->
-    <system:String x:Key="TaskTimeoutMinutes">Task timeout duration (minutes)</system:String>
+    <!-- <system:String x:Key="TaskTimeoutMinutes">Task timeout duration (minutes)</system:String> -->
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
     <system:String x:Key="StallTimeoutMinutes">Log output stall timeout (min)</system:String>
+    <system:String x:Key="StallTimeoutEnabled">Enable stall detection</system:String>
     <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). If there is no further log output for a long time, manual intervention may be required.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->

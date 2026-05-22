@@ -66,6 +66,11 @@ bool asst::InfrastReceptionTask::_run()
         return false;
     }
 
+    // 线索交流关闭时 use_clue() 不会执行，m_product 为空导致 optimal_calc 效率全为 0
+    if (m_product.empty()) {
+        set_product("General");
+    }
+
     if (!m_skip_shift) {
         return shift();
     }

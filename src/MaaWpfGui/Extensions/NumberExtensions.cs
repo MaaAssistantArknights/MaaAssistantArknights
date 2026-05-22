@@ -12,6 +12,8 @@
 // </copyright>
 
 #nullable enable
+using System;
+
 namespace MaaWpfGui.Extensions;
 
 public static class NumberExtensions
@@ -33,4 +35,13 @@ public static class NumberExtensions
         >= 1_000 when abbreviateK => $"{n / 1_000.0:#.#}k",
         _ => $"{n}",
     };
+
+    /// <summary>
+    /// 将数值限制在指定范围内
+    /// </summary>
+    /// <param name="n">原始值</param>
+    /// <param name="min">最小值</param>
+    /// <param name="max">最大值</param>
+    /// <returns>限制后的值</returns>
+    public static int Clamp(this int n, int min, int max) => Math.Clamp(n, min, max);
 }

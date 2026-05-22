@@ -39,6 +39,30 @@
         "sortId": 70001,
         "usage": "작전 영상을 기록한 정보 기억장치. 오퍼레이터의 경험치를 아주 많이 증가시킨다."
     },
+    "2026recruitment10_1": {
+        "classifyType": "CONSUME",
+        "description": "다양한 전략적 평가 기준으로 인해, 로도스 아일랜드에서는 다수의 인재 채용과 동시에, 특수 인재 채용을 위한 집중적 헤드헌팅을 함께 진행하였다.",
+        "icon": "2026recruitment10_1.png",
+        "name": "스페셜 헤드헌팅 허가증 α",
+        "sortId": 50107,
+        "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 헤드헌팅 회사에 약간의 특별한 요구를 할 수 있다. 1회 모집으로 10명을 채용할 수 있다."
+    },
+    "2026recruitment10_2": {
+        "classifyType": "CONSUME",
+        "description": "다양한 전략적 평가 기준으로 인해, 로도스 아일랜드에서는 다수의 인재 채용과 동시에, 특수 인재 채용을 위한 집중적 헤드헌팅을 함께 진행하였다.",
+        "icon": "2026recruitment10_2.png",
+        "name": "스페셜 헤드헌팅 허가증 β",
+        "sortId": 50107,
+        "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 헤드헌팅 회사에 약간의 특별한 요구를 할 수 있다. 1회 모집으로 10명을 채용할 수 있다."
+    },
+    "2026recruitment10_3": {
+        "classifyType": "CONSUME",
+        "description": "다양한 전략적 평가 기준으로 인해, 로도스 아일랜드에서는 다수의 인재 채용과 동시에, 특수 인재 채용을 위한 집중적 헤드헌팅을 함께 진행하였다.",
+        "icon": "2026recruitment10_3.png",
+        "name": "스페셜 헤드헌팅 허가증 γ",
+        "sortId": 50107,
+        "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 헤드헌팅 회사에 약간의 특별한 요구를 할 수 있다. 1회 모집으로 10명을 채용할 수 있다."
+    },
     "30011": {
         "classifyType": "MATERIAL",
         "description": "오리지늄이 파열되고 휘발된 곳에서 자주 발견된다. 유기물을 많이 함유한 것이 특징. 오리지늄 중에서는 상대적으로 채취하기 쉬운 편이다.",
@@ -2255,6 +2279,14 @@
         "sortId": -10000,
         "usage": "눈사태로 인해 각지로 흩어진 다목적 탐지기. 발견 시 관측소에 가져다주면 직원이 물자로 감사를 표할 것이다."
     },
+    "act47side_token_bottle": {
+        "classifyType": "NONE",
+        "description": "“포르테 에너지 음료에 에센스 비율만 살짝 바꾼 설탕물?” 그래서, 뭐? 지금은 제품을 로켓 병에 담는 발상을 하지 못해 파산한 제조업자들만이 이런 시시한 비판을 내뱉을 뿐이다.",
+        "icon": "act47side_token_bottle.png",
+        "name": "하늘 산소통",
+        "sortId": -10000,
+        "usage": "고공 산소 공급 장치에서 영감을 받아 디자인된 신개념 음료. 이미 컬럼비아인의 새로운 '혈액'이 되었다. 새 시대의, 별깍지 밖의 맛을 보기 위해서라면, 누구든 기꺼이 비싼 값을 치를 것이다."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
@@ -2326,6 +2358,22 @@
         "name": "작전 협의",
         "sortId": -10000,
         "usage": "협의의 상징. 더 많은 위기 협약 내용을 개방하는데 사용된다."
+    },
+    "act6bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
+        "icon": "act6bossrush_milestone_point.png",
+        "name": "시련 경험치",
+        "sortId": -10000,
+        "usage": "시련을 끝마치고 얻은 경험치로 시련의 등급을 올리는 용도로 사용된다."
+    },
+    "act6bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "해독되지 않은 데이터 큐브. 정보의 전달 과정에 종종 불가피한 손실을 겪는다는 것을 명심하라. 정보기록 장치를 현명하게 활용하되, 의존하지는 말 것.",
+        "icon": "act6bossrush_token_relic.png",
+        "name": "블랙큐브",
+        "sortId": -10000,
+        "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
     },
     "act6collection_point_token": {
         "classifyType": "NONE",

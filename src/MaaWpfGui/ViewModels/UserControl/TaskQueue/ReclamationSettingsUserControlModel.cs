@@ -81,6 +81,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
         {
             ModeList = [
                 new() { Display = LocalizationHelper.GetString("ReclamationModeRA1"), Value = Mode.RA1 },
+                new() { Display = LocalizationHelper.GetString("ReclamationModeRA4"), Value = Mode.RA4 },
                 new() { Display = LocalizationHelper.GetString("ReclamationModeRA15"), Value = Mode.RA15 },
             ];
         }
@@ -166,8 +167,13 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
                     return LocalizationHelper.GetString("ReclamationTipFire");
                 case Theme.RelaunchAnchor:
                     {
-                        // mode 0 = RA-1, mode 1 = RA-15
-                        var stageNum = mode == Mode.RA15 ? 15 : 1;
+                        // mode 0 = RA-1, mode 1 = RA-4, mode 2 = RA-15
+                        var stageNum = mode switch
+                        {
+                            Mode.RA15 => 15,
+                            Mode.RA4 => 4,
+                            _ => 1,
+                        };
                         var stageTipKey = $"ReclamationTipRelaunchAnchorRA{stageNum}";
                         if (LocalizationHelper.TryGetString(stageTipKey, out var stageTip))
                         {

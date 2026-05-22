@@ -47,7 +47,21 @@ bool asst::ReclamationTask::set_params(const json::value& params)
     if (const auto* ra_mode = std::get_if<RelaunchAnchorMode>(&mode)) {
         // 重启锚点：根据 mode 选择关卡入口
         const int stage = static_cast<int>(*ra_mode);
-        const std::string stage_str = (stage == static_cast<int>(RelaunchAnchorMode::RA15)) ? "15" : "1";
+        std::string stage_str;
+        switch (stage) {
+        case static_cast<int>(RelaunchAnchorMode::RA1):
+            stage_str = "1";
+            break;
+        case static_cast<int>(RelaunchAnchorMode::RA4):
+            stage_str = "4";
+            break;
+        case static_cast<int>(RelaunchAnchorMode::RA15):
+            stage_str = "15";
+            break;
+        default:
+            stage_str = "1";
+            break;
+        }
         const std::string task_name = theme + "@RA@RA" + stage_str + "-Entry";
         m_reclamation_task_ptr->set_tasks({ task_name });
         m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);

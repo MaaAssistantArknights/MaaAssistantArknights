@@ -1,4 +1,4 @@
-## v6.10.4
+## v6.10.5
 
 ### Highlights
 
@@ -44,6 +44,38 @@ The minigame interface has been renamed to Useful Tasks, now featuring category 
 ----
 
 以下是详细内容：
+
+## v6.10.5
+
+### 新增 | New
+
+* 生息演算新增 RA-4 相关功能 (#16749) @Saratoga-Official @ABA2396
+
+### 改进 | Improved
+
+* 刷理智关卡选择提示当前任务将执行的关卡 (#16797) @status102 @Constrat @HX3N @Manicsteiner
+* RA-1 增加迷迭香部署方向失败重试，增加过场动画过长时等待 @ABA2396
+* 支持禁用日志停滞检测，优化数据绑定 @ABA2396
+* 移除 dft 路径下的缓存并补充缓存驱逐机制 (#16800) @Aliothmoon
+
+### 修复 | Fix
+
+* 修复干员名称截断时前缀完全匹配导致的误选择 @status102
+* 修复未开启线索交流时不计算会客室效率 @ABA2396
+* 修复 TooltipBlock 无法使用 Binding 进行绑定 (#16796) @status102
+* 临时修复 SS 复刻任务导航超时问题 @status102
+* 修复 RA-15 导致无法启动的问题 @ABA2396
+* 修复生息演算 RA-15 若干问题 (#16770) @walkerljy
+* macOS：为 PlayCover 生息演算 RA-1 二倍速识别添加 iOS 模板并降低识别阈值 (#16779) @ColdSpellhere
+* 修复 OF-1 战斗失败后错误结束任务 @status102
+
+### 其他 | Other
+
+* 优化任务超时判断 @ABA2396
+* 肉鸽分队新增「代理人分队」不支持说明 @ABA2396
+* 移除 FightTask 不再使用的关卡设置 @status102
+* 删除（大型）兽栏的描述 @ABA2396
+* 优化界面布局 @ABA2396
 
 ## v6.10.4
 

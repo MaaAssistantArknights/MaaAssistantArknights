@@ -126,7 +126,10 @@
                             SelectedValue="{Binding UpdateSource}"
                             SelectedValuePath="Value" />
                     </StackPanel>
-                    <StackPanel Margin="8" Visibility="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}">
+                    <StackPanel
+                        Margin="8"
+                        HorizontalAlignment="Left"
+                        Visibility="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}">
                         <controls:TextBlock Margin="8,0,0,5" HorizontalAlignment="Left">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}{0} CDK">

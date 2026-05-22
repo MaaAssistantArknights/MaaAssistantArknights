@@ -39,6 +39,30 @@
         "sortId": 70001,
         "usage": "記錄了作戰錄影的存儲裝置，可以極大增加幹員的經驗值。"
     },
+    "2026recruitment10_1": {
+        "classifyType": "CONSUME",
+        "description": "出於羅德島在戰略上的種種考量，在批量招攬人才的同時也進行了針對性的尋訪，以便獲得個別特殊人才的協助。",
+        "icon": "2026recruitment10_1.png",
+        "name": "α類歡慶尋訪憑證",
+        "sortId": 50107,
+        "usage": "羅德島人事部特別批發的許可書，向獵頭公司提出了若干項特殊需求，一次可以招聘十位幹員。"
+    },
+    "2026recruitment10_2": {
+        "classifyType": "CONSUME",
+        "description": "出於羅德島在戰略上的種種考量，在批量招攬人才的同時也進行了針對性的尋訪，以便獲得個別特殊人才的協助。",
+        "icon": "2026recruitment10_2.png",
+        "name": "β類歡慶尋訪憑證",
+        "sortId": 50107,
+        "usage": "羅德島人事部特別批發的許可書，向獵頭公司提出了若干項特殊需求，一次可以招聘十位幹員。"
+    },
+    "2026recruitment10_3": {
+        "classifyType": "CONSUME",
+        "description": "出於羅德島在戰略上的種種考量，在批量招攬人才的同時也進行了針對性的尋訪，以便獲得個別特殊人才的協助。",
+        "icon": "2026recruitment10_3.png",
+        "name": "γ類歡慶尋訪憑證",
+        "sortId": 50107,
+        "usage": "羅德島人事部特別批發的許可書，向獵頭公司提出了若干項特殊需求，一次可以招聘十位幹員。"
+    },
     "30011": {
         "classifyType": "MATERIAL",
         "description": "富含有機物，常見於源石揮發殆盡後的地區。相對源石來說是較為容易採集的材料。",
@@ -2310,6 +2334,22 @@
         "name": "行動協議",
         "sortId": -10000,
         "usage": "作為協議的象徵，可用於解鎖更多危機合約內容。"
+    },
+    "act6bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
+        "icon": "act6bossrush_milestone_point.png",
+        "name": "試煉經驗",
+        "sortId": -10000,
+        "usage": "試煉結束後獲得的經驗，可以提升試煉等級。"
+    },
+    "act6bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解碼的數據方塊。永遠記住，資訊轉換往往伴隨著不可避免的損耗。善用資訊儲存工具，但別依賴它們。",
+        "icon": "act6bossrush_token_relic.png",
+        "name": "數據黑盒",
+        "sortId": -10000,
+        "usage": "用於對遏制單元進行數據迭代。"
     },
     "act6collection_point_token": {
         "classifyType": "NONE",

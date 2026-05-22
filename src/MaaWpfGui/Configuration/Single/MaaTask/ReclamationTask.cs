@@ -89,4 +89,9 @@ public enum ReclamationMode
     /// #重启锚点, RA-15
     /// </summary>
     RA15 = 2 << 4,
+
+    /// <summary>
+    /// #重启锚点, RA-4
+    /// </summary>
+    RA4 = 3 << 4,
 }

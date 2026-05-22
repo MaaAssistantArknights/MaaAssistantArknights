@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -346,39 +347,47 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
     #region 任务超时
 
-    private int _taskTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.TaskTimeoutMinutes, 60);
+    // 防止乘以 60000 毫秒时 int 溢出，int.MaxValue / 60000 ≈ 35791
+    private const int MaxMinutes = 11451;
 
-    public int TaskTimeoutMinutes
-    {
-        get => _taskTimeoutMinutes;
-        set {
-            SetAndNotify(ref _taskTimeoutMinutes, value);
-            _runningState.TaskTimeoutMinutes = value;
-            ConfigurationHelper.SetValue(ConfigurationKeys.TaskTimeoutMinutes, value.ToString());
-        }
-    }
-
-    private int _reminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30);
+    private int _reminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, MaxMinutes);
 
     public int ReminderIntervalMinutes
     {
         get => _reminderIntervalMinutes;
         set {
+            value = value.Clamp(1, MaxMinutes);
             SetAndNotify(ref _reminderIntervalMinutes, value);
             _runningState.ReminderIntervalMinutes = value;
             ConfigurationHelper.SetValue(ConfigurationKeys.ReminderIntervalMinutes, value.ToString());
         }
     }
 
-    private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25);
+    private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, MaxMinutes);
 
     public int StallTimeoutMinutes
     {
         get => _stallTimeoutMinutes;
         set {
+            value = value.Clamp(0, MaxMinutes);
             SetAndNotify(ref _stallTimeoutMinutes, value);
             _runningState.StallTimeoutMinutes = value;
             ConfigurationHelper.SetValue(ConfigurationKeys.StallTimeoutMinutes, value.ToString());
+        }
+    }
+
+    private bool _stallTimeoutEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether是否启用停滞检测
+    /// </summary>
+    public bool StallTimeoutEnabled
+    {
+        get => _stallTimeoutEnabled;
+        set {
+            SetAndNotify(ref _stallTimeoutEnabled, value);
+            _runningState.StallTimeoutEnabled = value;
+            ConfigurationHelper.SetValue(ConfigurationKeys.StallTimeoutEnabled, value.ToString());
         }
     }
 

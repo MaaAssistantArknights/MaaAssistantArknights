@@ -71,6 +71,9 @@ bool asst::SideStoryReopenTask::_run()
         return false;
     }
 
+    ProcessTask(*this, { "ChapterSwipeToTheLeft" }).run();
+
+    /*
     const auto& m_sidestory_reopen_task = m_sidestory_name + "ChapterTo" + m_sidestory_name;
     if (!Task.get(m_sidestory_reopen_task)) {
         Log.error(__FUNCTION__, m_sidestory_reopen_task, "task not exists");
@@ -83,7 +86,7 @@ bool asst::SideStoryReopenTask::_run()
     if (!at_normal_page() && !navigate_to_normal_page()) {
         Log.error(__FUNCTION__, "cound not navigate to normal page");
         return false;
-    }
+    }*/
 
     // 选择关卡并依次配置Task信息
     for (int stage_index = 1; stage_index < 10; stage_index++) {

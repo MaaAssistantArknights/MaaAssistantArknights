@@ -123,33 +123,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// Gets or sets the stage1.
-    /// </summary>
-    public string? Stage
-    {
-        get => field;
-        set {
-            if (field == value)
-            {
-                return;
-            }
-
-            if (CustomStageCode)
-            {
-                // 从后往前删
-                if (field?.Length != 3 && value != null)
-                {
-                    value = ToUpperAndCheckStage(value);
-                }
-            }
-
-            SetAndNotify(ref field, value);
-            SetFightParams();
-            Instances.TaskQueueViewModel.UpdateDatePrompt();
-        }
-    }
-
-    /// <summary>
     /// Gets or sets a value indicating whether to use custom stage code.
     /// </summary>
     public bool CustomStageCode
@@ -466,6 +439,23 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     #endregion Drops
+
+    public string StagePlanTip { get => field; set => SetAndNotify(ref field, value); } = string.Empty;
+
+    public void StagePlanTipRefresh()
+    {
+        var stage = GetFightStage(StagePlan.Select(i => i.Stage)) ?? "--";
+        if (stage == string.Empty)
+        {
+            stage = LocalizationHelper.GetString("DefaultStage");
+        }
+
+        StagePlanTip = LocalizationHelper.GetStringFormat("StagePlanTip", stage);
+        if (CustomStageCode)
+        {
+            StagePlanTip += $"\n\n{LocalizationHelper.GetString("CustomStageCodeTip")}";
+        }
+    }
 
     public static Dictionary<string, string> AnnihilationModeList { get; } = new()
     {
