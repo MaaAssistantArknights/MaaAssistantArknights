@@ -1499,7 +1499,7 @@ Prerequisite: Clear RA-4 in the main story
 
 Open RA-4 on the map and start the task when &quot;Start Construction&quot; appears at the bottom-right to loop automatically
 
-Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Large Animal Pens, etc.
+Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
 
 Task flow: Automatically executes planning management, construction, resource delivery, and settlement loop
     </system:String>
