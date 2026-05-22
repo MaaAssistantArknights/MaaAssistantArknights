@@ -219,9 +219,9 @@
                         Margin="0,5,6,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
+                        MouseEnter="{s:Action StagePlanTipRefresh}"
                         NormalOpacity="0.25"
-                        TooltipText="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{c:Binding CustomStageCode}" />
+                        TooltipText="{Binding StagePlanTip}" />
                     <Button
                         Grid.Row="1"
                         Margin="6"
