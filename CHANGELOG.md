@@ -60,6 +60,7 @@ The minigame interface has been renamed to Useful Tasks, now featuring category 
 
 ### 修复 | Fix
 
+* 修复干员名称截断时前缀完全匹配导致的误选择 @status102
 * 修复未开启线索交流时不计算会客室效率 @ABA2396
 * 修复 TooltipBlock 无法使用 Binding 进行绑定 (#16796) @status102
 * 临时修复 SS 复刻任务导航超时问题 @status102
@@ -70,6 +71,7 @@ The minigame interface has been renamed to Useful Tasks, now featuring category 
 
 ### 其他 | Other
 
+* 优化任务超时判断 @ABA2396
 * 肉鸽分队新增「代理人分队」不支持说明 @ABA2396
 * 移除 FightTask 不再使用的关卡设置 @status102
 * 删除（大型）兽栏的描述 @ABA2396
