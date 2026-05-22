@@ -136,7 +136,7 @@ std::shared_ptr<const MaskedCcoeffMatcher::TemplatePlan> MaskedCcoeffMatcher::ge
 
     std::lock_guard lk(m_cache_mtx);
 
-    // 二次检查：另一线程可能已插入同一 key，虽然当前设计是单线程的Runner（
+    // 二次检查：另一线程可能已插入同一 key，虽然当前设计使用的是单线程 Runner
     if (auto it = m_template_plan_cache.find(cache_key); it != m_template_plan_cache.end()) {
         m_lru_list.splice(m_lru_list.begin(), m_lru_list, it->second.lru_it);
         return it->second.plan;
