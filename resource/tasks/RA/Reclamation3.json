@@ -596,7 +596,12 @@
         "text": ["确认"],
         "roi": [923, 466, 67, 35],
         "postDelay": 500,
-        "next": ["RelaunchAnchor@RA@RA4-StartConstruction", "#self", "RelaunchAnchor@RA@RA4-WaitName", "RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt"]
+        "next": [
+            "RelaunchAnchor@RA@RA4-StartConstruction",
+            "#self",
+            "RelaunchAnchor@RA@RA4-WaitName",
+            "RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt"
+        ]
     },
     "RelaunchAnchor@RA@RA4-StartConstruction": {
         "doc": "步骤 8：OCR 识别 <开始建设> 并点击；未出现则回到步骤 3",
@@ -606,7 +611,7 @@
     "RelaunchAnchor@RA@RA4-WaitSkip": {
         "doc": "步骤 9 前等待进入关卡",
         "baseTask": "RelaunchAnchor@RA@Common-WaitSkip",
-        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt","RelaunchAnchor@RA@RA4-WaitName", "#self"]
+        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt", "RelaunchAnchor@RA@RA4-WaitName", "#self"]
     },
     "RelaunchAnchor@RA@RA4-WaitName": {
         "doc": "步骤 9 前识别关卡名等待时间",
@@ -668,7 +673,7 @@
     "RelaunchAnchor@RA@RA4-UseSkill-Common": {
         "doc": "OCR 识别 <READY> 后点击石头技能开启区域",
         "algorithm": "OcrDetect",
-        "text": ["RE","EA","AD","DY"],
+        "text": ["RE", "EA", "AD", "DY"],
         "action": "ClickRect"
     },
     "RelaunchAnchor@RA@RA4-UseSkill": {
@@ -878,7 +883,7 @@
         "doc": "步骤 37：OCR 识别 <全新区域> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["全新","新区","区域"],
+        "text": ["全新", "新区", "区域"],
         "roi": [654, 283, 83, 28],
         "next": ["RelaunchAnchor@RA@RA4-ConfirmMission", "#self"]
     },
@@ -891,7 +896,7 @@
         "doc": "步骤 39：OCR 识别 <全新区域> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["全新","新区","区域"],
+        "text": ["全新", "新区", "区域"],
         "roi": [159, 232, 76, 23],
         "next": ["RelaunchAnchor@RA@RA4-MissionIcon2"]
     },
@@ -906,7 +911,7 @@
         "doc": "步骤 41：OCR 识别 <清澈水域> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["清澈","水域","澈水"],
+        "text": ["清澈", "水域", "澈水"],
         "roi": [669, 284, 83, 26],
         "next": ["RelaunchAnchor@RA@RA4-ConfirmMission2", "#self"]
     },
@@ -919,7 +924,7 @@
         "doc": "步骤 43：OCR 识别 <发现清澈水> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["发现","清澈","现清","澈水"],
+        "text": ["发现", "清澈", "现清", "澈水"],
         "roi": [177, 230, 93, 25],
         "next": ["RelaunchAnchor@RA@RA4-WaitMissionPlot"]
     },
@@ -945,7 +950,7 @@
         "doc": "步骤 47：OCR 识别 <领袖敌人> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["领袖","袖敌","敌人"],
+        "text": ["领袖", "袖敌", "敌人"],
         "roi": [545, 284, 79, 25],
         "next": ["RelaunchAnchor@RA@RA4-ConfirmMission3", "#self"]
     },
@@ -970,7 +975,7 @@
     "RelaunchAnchor@RA@RA4-UseEWSkill": {
         "doc": "步骤 50：OCR 识别 <READY> 后开启EW技能",
         "algorithm": "OcrDetect",
-        "text": ["RE","EA","AD","DY"],
+        "text": ["RE", "EA", "AD", "DY"],
         "roi": [903, 598, 87, 30],
         "action": "ClickRect",
         "specificRect": [899, 491, 46, 42],
