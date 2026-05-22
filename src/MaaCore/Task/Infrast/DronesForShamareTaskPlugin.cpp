@@ -10,7 +10,7 @@ bool asst::DronesForShamareTaskPlugin::verify(AsstMsg msg, const json::value& de
     }
 
     if (details.at("what").as_string() == "ProductOfFacility" &&
-        details.at("details").at("product").as_string() == "Money" && m_cast_ptr->get_uses_of_drone() == "Money") {
+        details.at("details").at("product").as_string() == "Money" && m_cast_ptr->get_drones_usage_from_params() == "Money") {
         return true;
     }
     else {
@@ -38,7 +38,7 @@ bool asst::DronesForShamareTaskPlugin::_run()
     drone_task.set_retry_times(5);
     bool drone_ret = drone_task.run();
     if (drone_ret) {
-        m_cast_ptr->set_uses_of_drone("_Used");
+        m_cast_ptr->set_drones_usage_from_params("_Used");
     }
     return drone_ret;
 }

@@ -13,8 +13,9 @@ public:
     using InfrastAbstractTask::InfrastAbstractTask;
     virtual ~InfrastProductionTask() override = default;
 
-    InfrastProductionTask& set_uses_of_drone(std::string uses_of_drones) noexcept;
-    std::string get_uses_of_drone() const noexcept;
+    // 来自params的无人机使用参数，自定义基建配置启用时不触发
+    InfrastProductionTask& set_drones_usage_from_params(std::string usage) noexcept;
+    std::string get_drones_usage_from_params() const noexcept;
     void set_custom_drones_config(infrast::CustomDronesConfig drones_config);
     void clear_custom_drones_config();
 
@@ -34,13 +35,14 @@ protected:
     infrast::SkillsComb efficient_regex_calc(std::unordered_set<infrast::Skill> skills) const;
 
     std::string m_product;
-    std::string m_uses_of_drones;
+    std::string m_drones_usage_from_params;
     int m_cur_num_of_locked_opers = 0;
     std::vector<infrast::Oper> m_all_available_opers;
     std::vector<infrast::SkillsComb> m_optimal_combs;
     std::vector<Rect> m_facility_list_tabs;
     size_t max_num_of_opers_per_page = 0;
-    bool m_is_use_custom_drones = false;
+    // 来自自定义基建配置的无人机使用参数
+    bool m_is_use_drones_from_custom = false;
     infrast::CustomDronesConfig m_custom_drones_config;
     bool m_skip_shift = false;
 

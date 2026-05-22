@@ -142,8 +142,8 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     if (mode != Mode::Custom) {
         std::string drones = params.get("drones", "_NotUse");
-        m_mfg_task_ptr->set_uses_of_drone(drones);
-        m_trade_task_ptr->set_uses_of_drone(drones);
+        m_mfg_task_ptr->set_drones_usage_from_params(drones);
+        m_trade_task_ptr->set_drones_usage_from_params(drones);
         m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
     }
 
