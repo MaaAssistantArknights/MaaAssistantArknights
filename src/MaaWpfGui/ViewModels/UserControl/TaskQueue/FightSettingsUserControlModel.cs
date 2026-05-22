@@ -711,7 +711,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         RefreshCurrentStagePlan();
         RefreshWeeklySchedule();
         RefreshDropName();
-        StagePlanTipRefresh();
         Refresh();
     }
 
