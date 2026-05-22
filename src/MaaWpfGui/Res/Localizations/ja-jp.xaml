@@ -731,6 +731,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
     <system:String x:Key="ReclamationMode">モード</system:String>
     <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
+    <system:String x:Key="ReclamationModeRA4">RA-4</system:String>
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">セーブしながら、支援アイテムを組み立てて生息ポイントを稼ぐ</system:String>
@@ -1489,6 +1490,19 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 注意：「初期追加携帯アイテム」に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、獣舎など）を解体してください
 
 タスクの流れ：精耕細作、建設、資源納入、決済を自動実行
+    </system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
+報酬目安：1回あたり約417トークン＋統括ポイント、所要時間約1分40秒
+
+オペレーター要件：ヴィシャデル（サポート借用可）
+
+前提条件：メインストーリーでRA-4をクリア済み
+
+マップでRA-4を開き、右下に「建設開始」が表示されたらタスクを開始すると自動でループします
+
+注意：「初期追加携帯アイテム」に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、獣舎など）を解体してください
+
+タスクの流れ：経営計画、建設、資源納入、決済を自動実行
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 ⚠️ この戦略はまだ完全に練り上げられていません。実行中に問題が発生する可能性があります

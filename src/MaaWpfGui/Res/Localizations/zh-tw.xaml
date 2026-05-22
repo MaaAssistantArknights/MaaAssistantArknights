@@ -731,6 +731,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ReclamationThemeRelaunchAnchor">重啟錨點</system:String>
     <system:String x:Key="ReclamationMode">模式</system:String>
     <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
+    <system:String x:Key="ReclamationModeRA4">RA-4</system:String>
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">無存檔，透過進出關卡刷生息點數</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存檔，透過組裝支援道具刷生息點數</system:String>
@@ -1489,6 +1490,19 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 注意：如果已解鎖開局額外攜帶物品的相關科技，請將基地內會導致開局額外攜帶物品的設施拆除，如食品供給站、飲品供給站、獸欄等
 
 任務流程：自動執行精耕細作、建設、交付資源、結算循環
+    </system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
+收益參考：每把約 417 代幣 + 統籌點數，單輪耗時約 1 分 40 秒
+
+幹員要求：維什戴爾（可借助戰）
+
+前置條件：主線已通關 RA-4
+
+在大地圖打開 RA-4，右下角出現「開啟建設」時啟動任務即可自動循環
+
+注意：如果已解鎖開局額外攜帶物品的相關科技，請將基地內會導致開局額外攜帶物品的設施拆除，如食品供給站、飲品供給站、獸欄等
+
+任務流程：自動執行籌劃經營、建設、交付資源、結算循環
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 ⚠️ 該策略尚未經完善，運行過程中可能遇到問題
