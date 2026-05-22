@@ -166,7 +166,7 @@
                 IsChecked="{Binding BlockSleep}">
                 <TextBlock
                     MaxWidth="200"
-                    Text="{DynamicResource ManualStopWithScript}"
+                    Text="{DynamicResource BlockSleep}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
