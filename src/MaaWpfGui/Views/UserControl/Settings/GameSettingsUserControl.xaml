@@ -197,14 +197,14 @@
         <StackPanel
             Margin="10,5"
             HorizontalAlignment="Center"
-            Orientation="Horizontal">
+            Orientation="Horizontal"
+            Visibility="{c:Binding EnablePenguin}">
             <controls:TextBlock Text="{DynamicResource PenguinId}" />
             <TextBox
                 MinWidth="80"
                 Margin="5,0,0,0"
                 InputMethod.IsInputMethodEnabled="False"
-                Text="{Binding PenguinId}"
-                Visibility="{c:Binding EnablePenguin}" />
+                Text="{Binding PenguinId}" />
         </StackPanel>
         <CheckBox
             Margin="10"
