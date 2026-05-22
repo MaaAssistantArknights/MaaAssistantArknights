@@ -29,7 +29,6 @@ public:
 
 private:
     struct TemplatePlan;
-    struct DftPlan;
 
     static void fnv1a_update(uint64_t& h, const void* data, size_t size);
 
@@ -39,15 +38,8 @@ private:
         const cv::Mat& mask_f32,
         int mask_pixels);
 
-    std::shared_ptr<const DftPlan> get_or_build_dft_plan(
-        const std::string& cache_key,
-        const TemplatePlan& template_plan,
-        int dft_rows,
-        int dft_cols);
-
     std::mutex m_cache_mtx;
     std::unordered_map<std::string, std::shared_ptr<const TemplatePlan>> m_template_plan_cache;
-    std::unordered_map<std::string, std::shared_ptr<const DftPlan>> m_dft_plan_cache;
     std::atomic<uint64_t> m_cache_revision { 0 };
 };
 }

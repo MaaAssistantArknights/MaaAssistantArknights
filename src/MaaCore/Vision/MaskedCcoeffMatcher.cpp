@@ -27,11 +27,6 @@ struct MaskedCcoeffMatcher::TemplatePlan
     int K = 0;                               // sparse_entries.size()
 };
 
-struct MaskedCcoeffMatcher::DftPlan
-{
-    std::array<cv::Mat, 3> T_prime_dft; // FFT(M*(T_c - μT_c))，每通道一个
-    cv::Mat M_dft;                      // FFT(M)
-};
 
 MaskedCcoeffMatcher& MaskedCcoeffMatcher::get_instance()
 {
@@ -50,7 +45,6 @@ void MaskedCcoeffMatcher::sync_cache_revision(const uint64_t revision)
     }
     // 清一下缓存
     m_template_plan_cache.clear();
-    m_dft_plan_cache.clear();
     m_cache_revision.store(revision, std::memory_order_release);
 }
 
@@ -128,40 +122,6 @@ std::shared_ptr<const MaskedCcoeffMatcher::TemplatePlan> MaskedCcoeffMatcher::ge
     return it->second;
 }
 
-std::shared_ptr<const MaskedCcoeffMatcher::DftPlan> MaskedCcoeffMatcher::get_or_build_dft_plan(
-    const std::string& cache_key,
-    const TemplatePlan& template_plan,
-    int dft_rows,
-    int dft_cols)
-{
-    const std::string dft_key = cache_key + ":dft:" + std::to_string(dft_rows) + "x" + std::to_string(dft_cols);
-    {
-        std::lock_guard lk(m_cache_mtx);
-        if (const auto it = m_dft_plan_cache.find(dft_key); it != m_dft_plan_cache.end()) {
-            return it->second;
-        }
-    }
-
-    auto dft_plan = std::make_shared<DftPlan>();
-    cv::Mat padded = cv::Mat::zeros(dft_rows, dft_cols, CV_64F);
-    cv::Mat src_d;
-    auto compute_into = [&](const cv::Mat& src, cv::Mat& out) {
-        padded.setTo(0.0);
-        src.convertTo(src_d, CV_64F);
-        src_d.copyTo(padded(cv::Rect(0, 0, src_d.cols, src_d.rows)));
-        cv::dft(padded, out, cv::DFT_COMPLEX_OUTPUT);
-    };
-
-    compute_into(template_plan.M, dft_plan->M_dft);
-    for (int c = 0; c < 3; ++c) {
-        compute_into(template_plan.T_prime[c], dft_plan->T_prime_dft[c]);
-    }
-
-    std::lock_guard lk(m_cache_mtx);
-    auto [it, inserted] = m_dft_plan_cache.emplace(dft_key, dft_plan);
-    static_cast<void>(inserted);
-    return it->second;
-}
 
 bool MaskedCcoeffMatcher::should_fallback_to_opencv(int mask_pixels, int result_positions)
 {
@@ -201,7 +161,7 @@ bool MaskedCcoeffMatcher::should_fallback_to_opencv(int mask_pixels, int result_
 //
 // 优化后：
 //   FFT(I_c) 和 FFT(I_c²) 每通道各算一次并复用
-//   FFT(T'_c) 和 FFT(M) 通过缓存跨调用复用
+//   TemplatePlan（T'_c、稀疏列表）通过缓存跨调用复用
 //
 // 等价于 cv::matchTemplate(image, templ, result, TM_CCOEFF_NORMED, mask)
 cv::Mat MaskedCcoeffMatcher::match(
@@ -300,7 +260,6 @@ cv::Mat MaskedCcoeffMatcher::match(
     // DFT 的填充尺寸：仅在确认走 FFT 路径后才需要
     const int dft_rows = cv::getOptimalDFTSize(I.rows + T.rows - 1);
     const int dft_cols = cv::getOptimalDFTSize(I.cols + T.cols - 1);
-    const auto dft_plan = get_or_build_dft_plan(cache_key, *template_plan, dft_rows, dft_cols);
 
     cv::Mat padded(dft_rows, dft_cols, CV_64F, cv::Scalar(0));
     cv::Mat I_dft(dft_rows, dft_cols, CV_64FC2);
@@ -316,6 +275,13 @@ cv::Mat MaskedCcoeffMatcher::match(
         src_d.copyTo(padded(cv::Rect(0, 0, src_d.cols, src_d.rows)));
         cv::dft(padded, out, cv::DFT_COMPLEX_OUTPUT);
     };
+
+    std::array<cv::Mat, 3> T_prime_dft;
+    cv::Mat M_dft;
+    make_dft_into(template_plan->M, M_dft);
+    for (int c = 0; c < 3; ++c) {
+        make_dft_into(template_plan->T_prime[c], T_prime_dft[c]);
+    }
     auto xcorr_into = [&](const cv::Mat& dft_A, const cv::Mat& dft_B, cv::Mat& out) {
         cv::mulSpectrums(dft_A, dft_B, spectrum, 0, true);
         cv::dft(spectrum, result_buf, cv::DFT_INVERSE | cv::DFT_REAL_OUTPUT | cv::DFT_SCALE);
@@ -340,17 +306,17 @@ cv::Mat MaskedCcoeffMatcher::match(
     cv::Mat I_sq_sum = I_ch[0].mul(I_ch[0]) + I_ch[1].mul(I_ch[1]) + I_ch[2].mul(I_ch[2]);
     cv::Mat I_sq_sum_dft(dft_rows, dft_cols, CV_64FC2);
     make_dft_into(I_sq_sum, I_sq_sum_dft);
-    xcorr_into(I_sq_sum_dft, dft_plan->M_dft, sum_MI2_buf);
+    xcorr_into(I_sq_sum_dft, M_dft, sum_MI2_buf);
     cv::add(sigma_I_sq, sum_MI2_buf, sigma_I_sq);
 
     for (int c = 0; c < 3; ++c) {
         make_dft_into(I_ch[c], I_dft);
 
         // numerator += xcorr(T'_c, I_c)
-        xcorr_add(I_dft, dft_plan->T_prime_dft[c], numerator);
+        xcorr_add(I_dft, T_prime_dft[c], numerator);
 
         // sigma_I² 第二项：-Σ_c (sum_MI_c)² / mask_area，逐通道累加
-        xcorr_into(I_dft, dft_plan->M_dft, sum_MI_buf);
+        xcorr_into(I_dft, M_dft, sum_MI_buf);
         cv::Mat var_d;
         cv::multiply(sum_MI_buf, sum_MI_buf, var_d, -1.0 / mask_area);
         cv::add(sigma_I_sq, var_d, sigma_I_sq);
