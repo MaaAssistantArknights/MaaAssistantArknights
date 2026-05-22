@@ -30,11 +30,12 @@ public:
 
 private:
     struct TemplatePlan;
+
     struct CacheEntry
     {
         std::shared_ptr<const TemplatePlan> plan;
-        std::list<std::string>::iterator    lru_it;
-        size_t                              bytes;
+        std::list<std::string>::iterator lru_it;
+        size_t bytes;
     };
 
     static void fnv1a_update(uint64_t& h, const void* data, size_t size);
@@ -49,9 +50,9 @@ private:
     static constexpr size_t k_max_cache_bytes = 64ULL * 1024 * 1024; // 64 MB
 
     std::mutex m_cache_mtx;
-    std::list<std::string>                      m_lru_list;
+    std::list<std::string> m_lru_list;
     std::unordered_map<std::string, CacheEntry> m_template_plan_cache;
-    size_t                                      m_cache_total_bytes { 0 };
-    std::atomic<uint64_t>                       m_cache_revision { 0 };
+    size_t m_cache_total_bytes { 0 };
+    std::atomic<uint64_t> m_cache_revision { 0 };
 };
 }
