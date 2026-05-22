@@ -440,6 +440,23 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     #endregion Drops
 
+    public string StagePlanTip { get => field; set => SetAndNotify(ref field, value); } = string.Empty;
+
+    public void StagePlanTipRefresh()
+    {
+        var stage = GetFightStage(StagePlan.Select(i => i.Stage)) ?? "--";
+        if (stage == string.Empty)
+        {
+            stage = LocalizationHelper.GetString("DefaultStage");
+        }
+
+        StagePlanTip = LocalizationHelper.GetStringFormat("StagePlanTip", stage);
+        if (CustomStageCode)
+        {
+            StagePlanTip += $"\n\n{LocalizationHelper.GetString("CustomStageCodeTip")}";
+        }
+    }
+
     public static Dictionary<string, string> AnnihilationModeList { get; } = new()
     {
         { LocalizationHelper.GetString("Annihilation.Current"), AnnihilationName },
@@ -694,6 +711,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         RefreshCurrentStagePlan();
         RefreshWeeklySchedule();
         RefreshDropName();
+        StagePlanTipRefresh();
         Refresh();
     }
 

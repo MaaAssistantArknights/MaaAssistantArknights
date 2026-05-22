@@ -624,6 +624,7 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="FightStageResetMode">Closed stage is reset to</system:String>
     <system:String x:Key="HideSeries">Hide series</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
+    <system:String x:Key="StagePlanTip">The first opened stage would be entered. If all levels are unopened, the current task will be skipped.\nCurrently executing: {0}</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
 At the end of the stage, enter ｢Normal/Hard｣ to switch difficulty: Chapters 10-14 use Standard/Adverse, Chapters 15+ use Normal/Raid
