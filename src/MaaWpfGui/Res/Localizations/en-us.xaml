@@ -1485,7 +1485,7 @@ Prerequisite: Clear RA-1 in the main story
 
 Open RA-1 on the map and start the task when &quot;Start Construction&quot; appears at the bottom-right to loop automatically
 
-Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Large Animal Pens, etc.
+Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
 
 Task flow: Automatically executes farming, construction, resource delivery, and settlement loop
     </system:String>
@@ -1501,7 +1501,7 @@ Prerequisite:
 2. If you have Saintly First Snow, manually open RA-15 and form a squad once. Use 5 Vanguards (no level requirement) + Saintly First Snow, pick her last, then save the squad and exit the stage
 3. If you use support Saintly First Snow, make sure Saintly First Snow is on the first page of the Caster support list (consider adding as friend)
 
-Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Large Animal Pens, etc.
+Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
 
 Task flow: Automatically use support operator to execute 60-kill mission
     </system:String>
