@@ -40,7 +40,7 @@ public partial class TooltipBlock : UserControl
 
     public static readonly DependencyProperty TooltipTextProperty = DependencyProperty.Register(nameof(TooltipText), typeof(string), typeof(TooltipBlock), new PropertyMetadata(string.Empty, OnTooltipTextChanged));
 
-    public static readonly DependencyProperty TooltipTextEmptyProperty = DependencyProperty.Register(nameof(TooltipTextEmpty), typeof(bool), typeof(TooltipBlock), new PropertyMetadata(false));
+    public static readonly DependencyProperty TooltipTextEmptyProperty = DependencyProperty.Register(nameof(TooltipTextEmpty), typeof(bool), typeof(TooltipBlock), new PropertyMetadata(true));
 
     public static readonly DependencyProperty TooltipMaxWidthProperty = DependencyProperty.Register(nameof(TooltipMaxWidth), typeof(double), typeof(TooltipBlock), new(double.MaxValue));
 
