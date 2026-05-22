@@ -123,6 +123,31 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to use custom stage code.
+    /// </summary>
+    public bool CustomStageCode
+    {
+        get => GetTaskConfig<FightTask>().IsStageManually;
+        set {
+            bool ret = SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
+            if (ret && !value)
+            {
+                var stagePlan = GetTaskConfig<FightTask>().StagePlan;
+                for (int i = 0; i < stagePlan.Count; i++)
+                {
+                    var stage = stagePlan[i];
+                    if (!Instances.StageManager.GetStageList().Any(p => p.Value == stage))
+                    {
+                        stagePlan[i] = string.Empty;
+                    }
+                }
+                SetTaskConfig<FightTask>(t => t.StagePlan.SequenceEqual(stagePlan), t => t.StagePlan = stagePlan);
+                RefreshCurrentStagePlan();
+            }
+        }
+    }
+
+    /// <summary>
     /// Reset unsaved battle parameters.
     /// </summary>
     /// <param name="fight">The fight task.</param>
