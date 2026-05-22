@@ -347,18 +347,6 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
     #region 任务超时
 
-    private int _taskTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.TaskTimeoutMinutes, 60);
-
-    public int TaskTimeoutMinutes
-    {
-        get => _taskTimeoutMinutes;
-        set {
-            SetAndNotify(ref _taskTimeoutMinutes, value);
-            _runningState.TaskTimeoutMinutes = value;
-            ConfigurationHelper.SetValue(ConfigurationKeys.TaskTimeoutMinutes, value.ToString());
-        }
-    }
-
     // 防止乘以 60000 毫秒时 int 溢出，int.MaxValue / 60000 ≈ 35791
     private const int MaxMinutes = 11451;
 

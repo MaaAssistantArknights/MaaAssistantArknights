@@ -44,7 +44,7 @@ public class RunningState
             ReminderIntervalMinutes = 1;
         }
 
-        _timeoutReminderTimer.Interval = ReminderIntervalMinutes * 60 * 1000;
+        _timeoutReminderTimer.Interval = LongTaskTimeoutMinutes * 60 * 1000;
         _timeoutReminderTimer.Elapsed += TimeoutReminderTimer_Elapsed;
         _stallTimer.Elapsed += StallTimer_Elapsed;
     }
@@ -64,7 +64,9 @@ public class RunningState
     private bool _stallIsFirstFire = true;
     private DateTime? _taskStartTime;
 
-    public int TaskTimeoutMinutes { get; set; } = ConfigurationHelper.GetValue(ConfigurationKeys.TaskTimeoutMinutes, 60);
+    // 防止乘以 60000 毫秒时 int 溢出，int.MaxValue / 60000 ≈ 35791
+    private const int MaxMinutes = 11451;
+    private const int LongTaskTimeoutMinutes = 60;
 
     private int _reminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, MaxMinutes);
 
@@ -78,9 +80,6 @@ public class RunningState
             _timeoutReminderTimer.Interval = value * 60 * 1000;
         }
     }
-
-    // 防止乘以 60000 毫秒时 int 溢出，int.MaxValue / 60000 ≈ 35791
-    private const int MaxMinutes = 11451;
 
     private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, MaxMinutes);
 
@@ -171,19 +170,10 @@ public class RunningState
         }
 
         var elapsedMinutes = (DateTime.Now - _taskStartTime.Value).TotalMinutes;
-
         if (elapsedMinutes > 3 * 60)
         {
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.ProxyOnline3Hours);
         }
-
-        // 如果任务运行时间未超过超时时间，则直接返回
-        if (elapsedMinutes <= TaskTimeoutMinutes)
-        {
-            return;
-        }
-
-        AchievementTrackerHelper.Instance.Unlock(AchievementIds.LongTaskTimeout);
     }
 
     private void StallTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -196,6 +186,7 @@ public class RunningState
             StallTimeoutMinutes,
             accumulatedMinutes);
         StallOccurred?.Invoke(this, message);
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.LongTaskTimeout);
         if (StallTimeoutEnabled && StallTimeoutMinutes > 0)
         {
             if (_stallIsFirstFire)

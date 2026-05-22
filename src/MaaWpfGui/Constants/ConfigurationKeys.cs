@@ -256,7 +256,7 @@ public static class ConfigurationKeys
 
     public const string EnableYituliu = "Yituliu.EnableYituliu";
 
-    public const string TaskTimeoutMinutes = "TimeOut.Timer.TaskTimeoutMinutes";
+    // public const string TaskTimeoutMinutes = "TimeOut.Timer.TaskTimeoutMinutes";
     public const string ReminderIntervalMinutes = "TimeOut.Timer.ReminderIntervalMinutes";
     public const string StallTimeoutMinutes = "TimeOut.Timer.StallTimeoutMinutes";
     public const string StallTimeoutEnabled = "TimeOut.Timer.StallTimeoutEnabled";
