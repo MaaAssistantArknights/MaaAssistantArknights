@@ -45,6 +45,8 @@ void MaskedCcoeffMatcher::sync_cache_revision(const uint64_t revision)
     }
     // 清一下缓存
     m_template_plan_cache.clear();
+    m_lru_list.clear();
+    m_cache_total_bytes = 0;
     m_cache_revision.store(revision, std::memory_order_release);
 }
 
@@ -72,16 +74,30 @@ std::string MaskedCcoeffMatcher::make_mat_cache_key(const cv::Mat& mat)
            std::to_string(h);
 }
 
+size_t MaskedCcoeffMatcher::calc_plan_bytes(const std::string& key, const TemplatePlan& plan)
+{
+    size_t b = key.size();
+    b += plan.M.total() * plan.M.elemSize();
+    for (const auto& t : plan.T_prime) {
+        b += t.total() * t.elemSize();
+    }
+    b += plan.sparse_entries.size() * sizeof(SparseEntry);
+    return b;
+}
+
 std::shared_ptr<const MaskedCcoeffMatcher::TemplatePlan> MaskedCcoeffMatcher::get_or_build_template_plan(
     const std::string& cache_key,
     const cv::Mat& templ_f32,
     const cv::Mat& mask_f32,
     int mask_pixels)
 {
+    // 记录 miss 时的 revision，插入前校验是否已被清缓存
+    const uint64_t revision_at_miss = m_cache_revision.load(std::memory_order_acquire);
     {
         std::lock_guard lk(m_cache_mtx);
-        if (const auto it = m_template_plan_cache.find(cache_key); it != m_template_plan_cache.end()) {
-            return it->second;
+        if (auto it = m_template_plan_cache.find(cache_key); it != m_template_plan_cache.end()) {
+            m_lru_list.splice(m_lru_list.begin(), m_lru_list, it->second.lru_it);
+            return it->second.plan;
         }
     }
 
@@ -116,10 +132,33 @@ std::shared_ptr<const MaskedCcoeffMatcher::TemplatePlan> MaskedCcoeffMatcher::ge
     }
     plan->K = static_cast<int>(plan->sparse_entries.size());
 
+    const size_t new_bytes = calc_plan_bytes(cache_key, *plan);
+
     std::lock_guard lk(m_cache_mtx);
-    auto [it, inserted] = m_template_plan_cache.emplace(cache_key, plan);
-    static_cast<void>(inserted);
-    return it->second;
+
+    // 二次检查：另一线程可能已插入同一 key，虽然当前设计是单线程的Runner（
+    if (auto it = m_template_plan_cache.find(cache_key); it != m_template_plan_cache.end()) {
+        m_lru_list.splice(m_lru_list.begin(), m_lru_list, it->second.lru_it);
+        return it->second.plan;
+    }
+
+    // revision 已变说明缓存在 build 期间被清过，旧数据不缓存
+    if (m_cache_revision.load(std::memory_order_relaxed) != revision_at_miss) {
+        return plan;
+    }
+
+    // 从尾部淘汰直到满足内存上限
+    while (m_cache_total_bytes + new_bytes > k_max_cache_bytes && !m_lru_list.empty()) {
+        const std::string& victim = m_lru_list.back();
+        m_cache_total_bytes -= m_template_plan_cache.at(victim).bytes;
+        m_template_plan_cache.erase(victim);
+        m_lru_list.pop_back();
+    }
+
+    auto list_it = m_lru_list.insert(m_lru_list.begin(), cache_key);
+    m_template_plan_cache.emplace(cache_key, CacheEntry { plan, list_it, new_bytes });
+    m_cache_total_bytes += new_bytes;
+    return plan;
 }
 
 
