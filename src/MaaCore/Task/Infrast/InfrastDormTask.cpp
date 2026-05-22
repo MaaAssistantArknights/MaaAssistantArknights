@@ -55,17 +55,21 @@ bool asst::InfrastDormTask::_run()
         // EDIT: 25.7.17 把未进驻的筛选移到了清空之前，看看会不会有问题
         // 按原来的逻辑先清空再筛选的话，会把第一个宿舍的人隐藏，假设当前只有 20 个人需要回复心情
         // 会导致第宿舍全塞入信赖干员，使得 5 人最后不能休息
+        auto origin_room_config = current_room_config();
+        const bool use_custom_opers = is_use_custom_opers();
+
         Log.trace("m_dorm_notstationed_enabled:", m_dorm_notstationed_enabled);
-        if (m_dorm_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
+        if (m_dorm_notstationed_enabled && !m_if_filter_notstationed_haspressed && !use_custom_opers) {
             Log.trace("click_filter_menu_not_stationed_button");
             click_filter_menu_not_stationed_button();
             m_if_filter_notstationed_haspressed = true;
         }
 
-        auto origin_room_config = current_room_config();
-        if (is_use_custom_opers()) {
+        if (use_custom_opers) {
             // 自定义干员可能正在其他宿舍休息，选择前临时关闭“未进驻”筛选。
             const bool filter_notstationed_before_custom = m_if_filter_notstationed_haspressed;
+            const bool need_notstationed_after_custom =
+                filter_notstationed_before_custom || m_dorm_notstationed_enabled;
             if (filter_notstationed_before_custom) {
                 Log.trace("click_filter_menu_cancel_not_stationed_button");
                 click_filter_menu_cancel_not_stationed_button();
@@ -74,7 +78,7 @@ bool asst::InfrastDormTask::_run()
 
             swipe_and_select_custom_opers(true);
 
-            if (filter_notstationed_before_custom) {
+            if (need_notstationed_after_custom && !m_if_filter_notstationed_haspressed) {
                 Log.trace("click_filter_menu_not_stationed_button");
                 click_filter_menu_not_stationed_button();
                 m_if_filter_notstationed_haspressed = true;
