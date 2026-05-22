@@ -123,6 +123,33 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
+    /// Gets or sets the stage1.
+    /// </summary>
+    public string? Stage
+    {
+        get => field;
+        set {
+            if (field == value)
+            {
+                return;
+            }
+
+            if (CustomStageCode)
+            {
+                // 从后往前删
+                if (field?.Length != 3 && value != null)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+            }
+
+            SetAndNotify(ref field, value);
+            SetFightParams();
+            Instances.TaskQueueViewModel.UpdateDatePrompt();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether to use custom stage code.
     /// </summary>
     public bool CustomStageCode

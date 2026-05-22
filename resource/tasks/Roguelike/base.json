@@ -537,6 +537,24 @@
         "action": "ClickSelf",
         "roi": [569, 400, 140, 139]
     },
+    "Roguelike@CloseTutorialOverlay": {
+        "template": "CloseTutorialOverlay.png",
+        "action": "ClickSelf",
+        "roi": [60, 60, 220, 100],
+        "templThreshold": 0.85,
+        "postDelay": 500
+    },
+    "Roguelike@CloseTutorialOverlayThenCloseEventNext": {
+        "baseTask": "Roguelike@CloseTutorialOverlay",
+        "template": "CloseTutorialOverlay.png",
+        "next": [
+            "Roguelike@StageEncounterEnter",
+            "Roguelike@Stages#next",
+            "Roguelike@StageEncounterOptions#next",
+            "Roguelike@DropsFlag",
+            "Roguelike@CloseEvent"
+        ]
+    },
     "Roguelike@CloseEvent": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -544,6 +562,7 @@
         "roi": [567, 584, 145, 136],
         "postDelay": 1000,
         "next": [
+            "Roguelike@CloseTutorialOverlayThenCloseEventNext",
             "Roguelike@StageEncounterEnter",
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next",
