@@ -3586,7 +3586,7 @@
     },
     "BattleQuickFormation-OperNameFlagBase": {
         "template": "empty.png",
-        "roi": [342, 66, 866, 332]
+        "roi": [342, 66, 768, 332]
     },
     "BattleQuickFormation-OperNameFlag0": {
         "baseTask": "BattleQuickFormation-OperNameFlagBase"
