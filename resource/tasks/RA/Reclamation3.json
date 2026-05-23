@@ -975,12 +975,15 @@
         "action": "ClickRect",
         "specificRect": [670, 400, 1, 1],
         "preDelay": 500,
+        "reduceOtherTimes": ["RelaunchAnchor@RA@RA4-WaitEWSkill*20"],
         "next": ["RelaunchAnchor@RA@RA4-WaitEWSkill"]
     },
     "RelaunchAnchor@RA@RA4-WaitEWSkill": {
         "doc": "步骤 50 前等待技能就绪",
         "baseTask": "RelaunchAnchor@RA@Common-WaitSkip",
-        "next": ["RelaunchAnchor@RA@RA4-UseEWSkill", "#self"]
+        "next": ["RelaunchAnchor@RA@RA4-UseEWSkill", "#self"],
+        "maxTimes": 20,
+        "exceededNext": ["RelaunchAnchor@RA@RA4-Exit"]
     },
     "RelaunchAnchor@RA@RA4-UseEWSkill": {
         "doc": "步骤 50：OCR 识别 <READY> 后开启EW技能",
@@ -1029,6 +1032,20 @@
         "doc": "步骤 54：OCR 识别 <完成建设> 并点击，然后回到步骤 1",
         "baseTask": "RelaunchAnchor@RA@RA1-FinishConstruction",
         "next": ["RelaunchAnchor@RA@RA4-Prepare", "#self"]
+    },
+    "RelaunchAnchor@RA@RA4-Exit": {
+        "doc": "步骤 50.1：兜底策略，防止EW放不上去,直接撤退",
+        "algorithm": "MatchTemplate",
+        "template": "RelaunchAnchor@RA@Exit.png",
+        "roi": [10, 20, 100, 90],
+        "action": "ClickSelf",
+        "next": ["#self", "RelaunchAnchor@RA@RA4-ExitSettleNow"]
+    },
+    "RelaunchAnchor@RA@RA4-ExitSettleNow": {
+        "doc": "步骤 50.2：OCR 识别 <确认终止> 并点击",
+        "baseTask": "RelaunchAnchor@RA@RA1-SettleNow",
+        "text": ["确认", "认终", "终止"],
+        "next": ["#self", "RelaunchAnchor@RA@RA4-WaitContinueAfterSettlement"]
     },
     "RelaunchAnchor@RA@RA15-Prepare": {
         "doc": "步骤 1准备：OCR 识别 RA-15 并点击；等待右下角出现 <开启建设> ",
