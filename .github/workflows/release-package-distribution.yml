@@ -113,18 +113,23 @@ jobs:
 
     env:
       RELEASE_TAG: ${{ needs.meta.outputs.RELEASE_TAG }}
+      WINGET_CREATE_GITHUB_TOKEN: ${{ secrets.MAABOT_WINGET_TOKEN }}
 
     steps:
       - name: Upload MAA to WinGet
-        uses: vedantmgoyal9/winget-releaser@main
-        with:
-          identifier: MaaAssistantArknights.MaaAssistantArknights
-          version: ""
-          installers-regex: "-win-"
-          max-versions-to-keep: 0
-          release-tag: ${{ env.RELEASE_TAG }}
-          fork-user: MaaAssistantArknights
-          token: ${{ secrets.MAABOT_WINGET_TOKEN }}
+        run: |
+          # Build the URLs based on the release
+          # It would be safer to get the actual download URL from GitHub API, but for simplicity we just construct it here
+          $RELEASE_TAG = "${{ env.RELEASE_TAG }}"
+          $URL_x64 = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/$RELEASE_TAG/MAA-$RELEASE_TAG-win-x64.zip"
+          $URL_arm64 = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/$RELEASE_TAG/MAA-$RELEASE_TAG-win-arm64.zip"
+
+          # Update package using wingetcreate
+          curl.exe -JLO https://aka.ms/wingetcreate/latest
+          .\wingetcreate.exe update MaaAssistantArknights.MaaAssistantArknights `
+            --version $RELEASE_TAG `
+            --urls "$URL_x64|x64" "$URL_arm64|arm64" `
+            --submit          
 
   maa_cos:
     name: Upload to MAA COS
