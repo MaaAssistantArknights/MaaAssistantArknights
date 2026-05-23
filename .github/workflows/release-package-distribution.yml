@@ -119,6 +119,7 @@ jobs:
 
     steps:
       - name: Upload MAA to WinGet
+        shell: pwsh
         run: |
           # Build the URLs based on the release
           # It would be safer to get the actual download URL from GitHub API, but for simplicity we just construct it here
