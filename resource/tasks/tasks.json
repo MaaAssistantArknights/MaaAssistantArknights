@@ -1362,7 +1362,7 @@
         "action": "ClickSelf",
         "roi": [992, 584, 288, 136],
         "onErrorNext": ["Stop"],
-        "next": ["CheckLevelUp", "EndOfActionAnnihilation", "EndOfAction"]
+        "next": ["CheckLevelUp", "EndOfActionAnnihilation", "EndOfAction", "AnnihilationConfirm@LoadingText"]
     },
     "StageSNFlag": {
         "template": "StageSNReturnFlag.png",
