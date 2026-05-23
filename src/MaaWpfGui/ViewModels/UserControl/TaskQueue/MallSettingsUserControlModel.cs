@@ -183,6 +183,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
     {
         if (baseTask is MallTask)
         {
+            using var refresh = new UiRefreshingScope(this);
             Refresh();
         }
     }

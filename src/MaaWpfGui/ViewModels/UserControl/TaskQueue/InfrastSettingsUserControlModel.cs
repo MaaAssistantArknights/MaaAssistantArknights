@@ -543,6 +543,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     {
         if (baseTask is InfrastTask)
         {
+            using var refresh = new UiRefreshingScope(this);
             RefreshInfrastRoomList();
             RefreshCustomInfrastPlanList();
             Refresh();

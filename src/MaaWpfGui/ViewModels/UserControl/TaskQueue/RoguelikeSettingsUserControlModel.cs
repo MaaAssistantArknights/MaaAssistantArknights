@@ -833,6 +833,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     {
         if (baseTask is RoguelikeTask)
         {
+            using var refresh = new UiRefreshingScope(this);
             UpdateRoguelikeParams();
             Refresh();
         }

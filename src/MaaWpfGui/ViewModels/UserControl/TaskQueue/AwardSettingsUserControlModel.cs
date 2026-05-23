@@ -106,6 +106,7 @@ public class AwardSettingsUserControlModel : TaskSettingsViewModel, AwardSetting
     {
         if (baseTask is AwardTask)
         {
+            using var refresh = new UiRefreshingScope(this);
             Refresh();
         }
     }

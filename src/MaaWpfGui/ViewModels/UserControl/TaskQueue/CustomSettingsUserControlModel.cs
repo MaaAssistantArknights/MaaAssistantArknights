@@ -66,6 +66,7 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel, CustomSetti
     {
         if (baseTask is CustomTask custom)
         {
+            using var refresh = new UiRefreshingScope(this);
             _taskName = custom.CustomTaskName;
             Refresh();
         }

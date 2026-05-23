@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Main;
@@ -32,7 +33,36 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
-    protected bool IsRefreshingUI { get; set; } = false; // 需手动赋值
+    protected bool IsRefreshingUI { get; set; } = false;
+
+    protected class UiRefreshingScope : IDisposable
+    {
+        private static int _depth = 0;
+        private static readonly Lock _lock = new();
+        private readonly TaskSettingsViewModel _model;
+
+        public UiRefreshingScope(TaskSettingsViewModel viewModel)
+        {
+            lock (_lock)
+            {
+                ++_depth;
+                viewModel.IsRefreshingUI = true;
+            }
+            _model = viewModel;
+        }
+
+        void IDisposable.Dispose()
+        {
+            lock (_lock)
+            {
+                --_depth;
+                if (_depth == 0)
+                {
+                    _model.IsRefreshingUI = false;
+                }
+            }
+        }
+    }
 
     protected T GetTaskConfig<T>()
         where T : BaseTask, new()
