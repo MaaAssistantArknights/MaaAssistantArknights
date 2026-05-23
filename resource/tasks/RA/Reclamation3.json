@@ -490,6 +490,7 @@
         "action": "ClickSelf",
         "text": ["选择", "助战", "择助"],
         "roi": [886, 21, 79, 28],
+        "postDelay": 200,
         "next": ["RelaunchAnchor@RA@RA4-ChooseType"]
     },
     "RelaunchAnchor@RA@RA4-ChooseType": {
@@ -635,7 +636,7 @@
     "RelaunchAnchor@RA@RA4-DeployGatheringBaseSwipe": {
         "baseTask": "RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe",
         "doc": "步骤 11：JustReturn Swipe，占位部署采集基站",
-        "specificRect": [430, 630, 10, 10],
+        "specificRect": [430, 630, 1, 1],
         "rectMove": [750, 340, 1, 1],
         "next": ["RelaunchAnchor@RA@RA4-WaitDoubleSpeed"]
     },
@@ -662,7 +663,7 @@
     "RelaunchAnchor@RA@RA4-ClickStone": {
         "baseTask": "RelaunchAnchor@RA@RA4-ClickStone-Common",
         "doc": "步骤 13：点击石头使用技能",
-        "specificRect": [1110, 350, 10, 10],
+        "specificRect": [1110, 350, 1, 1],
         "next": ["RelaunchAnchor@RA@RA4-WaitSkill"]
     },
     "RelaunchAnchor@RA@RA4-WaitSkill": {
@@ -721,9 +722,16 @@
         "template": "RelaunchAnchor@RA@PlotLog.png",
         "next": ["#self", "RelaunchAnchor@RA@RA4-WaitSwipeMap"]
     },
+    "RelaunchAnchor@RA@RA4-WaitSwipeMap-Common": {
+        "doc": "过剧情准备滑动地图",
+        "algorithm": "MatchTemplate",
+        "template": "RelaunchAnchor@RA@ManufactureIcon.png",
+        "roi": [10, 486, 96, 96]
+    },
     "RelaunchAnchor@RA@RA4-WaitSwipeMap": {
         "doc": "步骤 19 前过剧情准备滑动地图",
-        "algorithm": "JustReturn",
+        "baseTask": "RelaunchAnchor@RA@RA4-WaitSwipeMap-Common",
+        "template": "RelaunchAnchor@RA@ManufactureIcon.png",
         "sub": ["RelaunchAnchor@RA@RA4-SwipeMap*2"],
         "next": ["RelaunchAnchor@RA@RA4-WaitCost"]
     },
@@ -750,7 +758,7 @@
     "RelaunchAnchor@RA@RA4-ClickStone2": {
         "baseTask": "RelaunchAnchor@RA@RA4-ClickStone-Common",
         "doc": "步骤 21：点击石头使用技能",
-        "specificRect": [250, 450, 10, 10],
+        "specificRect": [250, 450, 1, 1],
         "next": ["RelaunchAnchor@RA@RA4-WaitSkill2"]
     },
     "RelaunchAnchor@RA@RA4-WaitSkill2": {
@@ -787,24 +795,25 @@
         "doc": "步骤 25：点击开区域后剧情",
         "baseTask": "RelaunchAnchor@RA@RA4-SkillPlot",
         "template": "RelaunchAnchor@RA@PlotLog.png",
-        "next": ["#self", "RelaunchAnchor@RA@RA4-WaitSwipeMap3"]
+        "next": ["#self", "RelaunchAnchor@RA@RA4-WaitSwipeMap2"]
     },
-    "RelaunchAnchor@RA@RA4-WaitSwipeMap3": {
+    "RelaunchAnchor@RA@RA4-WaitSwipeMap2": {
         "doc": "步骤 26 前过剧情准备滑动地图",
-        "algorithm": "JustReturn",
+        "baseTask": "RelaunchAnchor@RA@RA4-WaitSwipeMap-Common",
+        "template": "RelaunchAnchor@RA@ManufactureIcon.png",
         "sub": ["RelaunchAnchor@RA@RA4-SwipeMap2*2"],
         "next": ["RelaunchAnchor@RA@RA4-ClickStone3"]
     },
     "RelaunchAnchor@RA@RA4-SwipeMap2": {
         "doc": "步骤 26：滑动地图",
         "baseTask": "RelaunchAnchor@RA@RA1-AlignMap",
-        "specificRect": [888, 131, 10, 10],
+        "specificRect": [888, 131, 1, 1],
         "rectMove": [210, 495, 1, 1]
     },
     "RelaunchAnchor@RA@RA4-ClickStone3": {
         "baseTask": "RelaunchAnchor@RA@RA4-ClickStone-Common",
         "doc": "步骤 27：点击石头使用技能",
-        "specificRect": [710, 250, 10, 10],
+        "specificRect": [710, 250, 1, 1],
         "next": ["RelaunchAnchor@RA@RA4-WaitSkill3"]
     },
     "RelaunchAnchor@RA@RA4-WaitSkill3": {
@@ -839,24 +848,25 @@
         "doc": "步骤 31：点击开区域后剧情",
         "baseTask": "RelaunchAnchor@RA@RA4-SkillPlot",
         "template": "RelaunchAnchor@RA@PlotLog.png",
-        "next": ["#self", "RelaunchAnchor@RA@RA4-WaitSwipeMap4"]
+        "next": ["#self", "RelaunchAnchor@RA@RA4-WaitSwipeMap3"]
     },
-    "RelaunchAnchor@RA@RA4-WaitSwipeMap4": {
+    "RelaunchAnchor@RA@RA4-WaitSwipeMap3": {
         "doc": "步骤 32：前过剧情准备滑动地图",
-        "algorithm": "JustReturn",
+        "baseTask": "RelaunchAnchor@RA@RA4-WaitSwipeMap-Common",
+        "template": "RelaunchAnchor@RA@ManufactureIcon.png",
         "sub": ["RelaunchAnchor@RA@RA4-SwipeMap3*3"],
         "next": ["RelaunchAnchor@RA@RA4-DeployOperatorSwipe"]
     },
     "RelaunchAnchor@RA@RA4-SwipeMap3": {
         "doc": "步骤 32：滑动地图",
         "baseTask": "RelaunchAnchor@RA@RA1-AlignMap",
-        "specificRect": [800, 550, 10, 10],
-        "rectMove": [750, 50, 1, 1]
+        "specificRect": [800, 550, 1, 1],
+        "rectMove": [790, 50, 1, 1]
     },
     "RelaunchAnchor@RA@RA4-DeployOperatorSwipe": {
         "doc": "步骤 33：JustReturn Swipe，占位部署干员",
         "baseTask": "RelaunchAnchor@RA@RA1-DeployOperatorSwipe",
-        "specificRect": [1120, 630, 10, 10],
+        "specificRect": [1120, 630, 1, 1],
         "rectMove": [745, 400, 1, 1],
         "next": ["RelaunchAnchor@RA@RA4-DeployOperatorDirection"]
     },
@@ -864,7 +874,7 @@
         "doc": "步骤 34：JustReturn Swipe，确认干员朝向",
         "baseTask": "RelaunchAnchor@RA@RA1-DeployOperatorSwipe",
         "specificRect": [745, 400, 1, 1],
-        "rectMove": [745, 100, 10, 10],
+        "rectMove": [745, 100, 1, 1],
         "next": ["RelaunchAnchor@RA@RA4-DeployOperatorWait"]
     },
     "RelaunchAnchor@RA@RA4-DeployOperatorWait": {
@@ -963,7 +973,7 @@
         "doc": "步骤 49：点击EW",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [670, 400, 10, 10],
+        "specificRect": [670, 400, 1, 1],
         "preDelay": 500,
         "next": ["RelaunchAnchor@RA@RA4-WaitEWSkill"]
     },
