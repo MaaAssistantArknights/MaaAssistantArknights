@@ -77,8 +77,14 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 
 bool asst::InfrastProductionTask::change_product()
 {
+    auto has_confirm_product_change_button = [&]() {
+        Matcher confirm_analyzer(ctrler()->get_image());
+        confirm_analyzer.set_task_info("ConfirmProductChange");
+        return static_cast<bool>(confirm_analyzer.analyze());
+    };
+
     auto run_change_task = [&](const std::string& task_name, const std::string& verify_task_name,
-                               const std::string& product_key) {
+                               const std::string& target_product_key) {
         constexpr int ProductChangeMaxTimes = 3;
         for (int retry = 0; retry < ProductChangeMaxTimes; ++retry) {
             if (retry != 0) {
@@ -96,28 +102,26 @@ bool asst::InfrastProductionTask::change_product()
 
             // 只有切换流程和产物复核都通过，才上报 ProductChanged。
             if (!ProcessTask(*this, { task_name }).run()) {
-                Log.error("change product failed", task_name, retry);
+                Log.warn("change product failed", task_name, retry);
                 continue;
             }
-
+            
             if (!ProcessTask(*this, { verify_task_name }).run()) {
-                Log.error("product verification failed", verify_task_name, retry);
+                Log.warn("product verification failed", verify_task_name, retry);
                 continue;
             }
 
             // 匹配到了则说明未能正确点击确认按钮完成产物更换，需要重试
-            Matcher confirm_analyzer(ctrler()->get_image());
-            confirm_analyzer.set_task_info("ConfirmProductChange");
-            if (confirm_analyzer.analyze()) {
-                Log.error("product change is not confirmed", product_key, retry);
+            if (has_confirm_product_change_button()) {
+                Log.warn("failed to confirm product change to target product", target_product_key, retry);
                 continue;
             }
 
             return true;
         }
 
+        Log.warn("failed to change product to target product", target_product_key);
         json::value fail_info = basic_info_with_what("ProductChangeFail");
-        fail_info["details"]["product"] = product_key;
         callback(AsstMsg::SubTaskExtraInfo, fail_info);
         return false;
     };
@@ -140,7 +144,7 @@ bool asst::InfrastProductionTask::change_product()
     }
     case infrast::CustomRoomConfig::Product::PureGold: {
         if (!run_change_task("ChangeProductToPureGold", 
-                             "VerifyProductChangedToPureGold", 
+                             "VerifyProductChangedToPureGold",
                              "PureGold")) {
             return false;
         }
@@ -285,12 +289,17 @@ bool asst::InfrastProductionTask::shift_facility_list()
         std::string cur_product_for_non_custom_drone;
         if (!best_product.empty() && best_score > 0) {
             auto templ_ptr = Task.get<MatchTaskInfo>("InfrastFlag" + best_product);
-            const double thresh =
-                templ_ptr->templ_thresholds.empty() ? TemplThresholdDefault : templ_ptr->templ_thresholds.front();
-            if (best_score >= thresh) {
-                set_product(best_product);
-                cur_product_detection_valid = true;
-                cur_product_for_non_custom_drone = best_product;
+            if (templ_ptr == nullptr) {
+                Log.warn(__FUNCTION__, "| missing product task config:", "InfrastFlag" + best_product);
+            }
+            else {
+                const double thresh =
+                    templ_ptr->templ_thresholds.empty() ? TemplThresholdDefault : templ_ptr->templ_thresholds.front();
+                if (best_score >= thresh) {
+                    set_product(best_product);
+                    cur_product_detection_valid = true;
+                    cur_product_for_non_custom_drone = best_product;
+                }
             }
         }
 
