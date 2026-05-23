@@ -1387,6 +1387,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>
     <system:String x:Key="ForceRefresh">Continue trying to refresh Tags without recruitment permit</system:String>
     <system:String x:Key="AutoUseExpedited">Auto use Expedited Plan*</system:String>
+    <system:String x:Key="AutoStopToSkip">Auto stop to skip*</system:String>
     <system:String x:Key="Level3UseShortTime">Set 7:40 instead of 9:00 for 3★ Tags</system:String>
     <system:String x:Key="Level3UseShortTime2">Set 1:00 instead of 9:00 for 3★ Tags</system:String>
     <system:String x:Key="Level3UseShortTimeTip">Doesn't interfere with other ★ stars</system:String>

@@ -144,6 +144,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_use_expedited(bool use_or_not)
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_stop_to_skip(bool use_or_not) noexcept
+{
+    m_stop_to_skip = use_or_not;
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept
 {
     m_select_extra_tags_mode = select_extra_tags_mode;
@@ -228,6 +234,7 @@ bool asst::AutoRecruitTask::_run()
     static constexpr int slot_retry_limit = 3;
 
     bool try_use_expedited = m_use_expedited;
+    bool try_stop_to_skip = m_stop_to_skip;
 
     while (m_cur_times < m_max_times) {
         auto start_rect = try_get_start_button(ctrler()->get_image());
@@ -257,7 +264,7 @@ bool asst::AutoRecruitTask::_run()
                 return false;
             }
             Log.info("There is no available start button.");
-            if (!try_use_expedited) {
+            if (!try_use_expedited && !try_stop_to_skip) {
                 return true;
             }
         }
@@ -279,6 +286,30 @@ bool asst::AutoRecruitTask::_run()
                     // however, there is another possibility (#7266: all the slots are empty now)
                     // if we can get another start btn, we still have a chance to continue
                     try_use_expedited = try_get_start_button(ctrler()->get_image()).has_value();
+                }
+                else {
+                    Log.info("Not in home page after failing to use expedited plan.");
+                    return false;
+                }
+            }
+        }
+        else if (try_stop_to_skip) {
+            if (need_exit()) {
+                return false;
+            }
+            Log.info("ready to use expedited plan");
+            if (recruit_stop_to_skip()) {
+                hire_all();
+            }
+            else {
+                Log.info("Failed stop to skip");
+                // There is a small chance that confirm button were clicked twice and got stuck into
+                // the bottom-right slot. ref: #1491
+                if (check_recruit_home_page()) {
+                    // same as ran out of expedited plan to stop trying
+                    // however, there is another possibility (#7266: all the slots are empty now)
+                    // if we can get another start btn, we still have a chance to continue
+                    try_stop_to_skip = try_get_start_button(ctrler()->get_image()).has_value();
                 }
                 else {
                     Log.info("Not in home page after failing to use expedited plan.");
@@ -812,6 +843,12 @@ bool asst::AutoRecruitTask::check_recruit_home_page()
 bool asst::AutoRecruitTask::recruit_now()
 {
     ProcessTask task(*this, { "RecruitNow" });
+    return task.run();
+}
+
+bool asst::AutoRecruitTask::recruit_stop_to_skip()
+{
+    ProcessTask task(*this, { "RecruitStopToSkip" });
     return task.run();
 }
 

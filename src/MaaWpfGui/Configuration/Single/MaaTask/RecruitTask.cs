@@ -32,6 +32,12 @@ public class RecruitTask : BaseTask
     public bool? UseExpedited { get; set; } = false;
 
     /// <summary>
+    /// Gets or sets a value indicating whether 是否使用停止招募提前结束招募
+    /// </summary>
+    [JsonIgnore]
+    public bool? StopToSkip { get; set; } = false;
+
+    /// <summary>
     /// Gets or sets 单轮最大公招次数
     /// </summary>
     public int MaxTimes { get; set; } = 4;

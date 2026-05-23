@@ -1748,6 +1748,22 @@
         "postDelay": 1000,
         "next": ["RecruitFlag", "RecruitNowConfirm"]
     },
+    "RecruitStopToSkip": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "text": ["停止招"],
+        "roi": [0, 300, 1280, 420],
+        "next": ["RecruitStopToSkipConfirm"]
+    },
+    "RecruitStopToSkipConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "text": ["确认停止"],
+        "roi": [640, 450, 640, 150],
+        "next": ["RecruitFlag", "RecruitStopToSkip"]
+    },
     "ReturnToActivities": {
         "template": "Return.png",
         "templThreshold": 0.7,

@@ -61,6 +61,11 @@ public class AsstRecruitTask : AsstBaseTask
     public bool UseExpedited { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 是否使用停止招募，可选，默认 false
+    /// </summary>
+    public bool StopToSkip { get; set; }
+
+    /// <summary>
     /// Gets or sets 使用加急许可
     /// </summary>
     public int ExpeditedTimes { get; set; }
@@ -145,6 +150,7 @@ public class AsstRecruitTask : AsstBaseTask
             ["times"] = RecruitTimes,
             ["set_time"] = SetRecruitTime,
             ["expedite"] = UseExpedited,
+            ["stop_to_skip"] = StopToSkip,
             ["skip_robot"] = NotChooseLevel1,
             ["extra_tags_mode"] = SelectExtraTags,
             ["first_tags"] = JArray.FromObject(Level3FirstList),

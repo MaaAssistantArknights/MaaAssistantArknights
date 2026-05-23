@@ -1388,6 +1388,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="AutoRefresh">自动刷新 3 星 Tags</system:String>
     <system:String x:Key="ForceRefresh">无招聘许可时继续尝试刷新 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自动使用加急许可*</system:String>
+    <system:String x:Key="AutoStopToSkip">自动使用停止招募*</system:String>
     <system:String x:Key="Level3UseShortTime">3 星设置 7:40 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTime2">3 星设置 1:00 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影响其他星级 Tags</system:String>

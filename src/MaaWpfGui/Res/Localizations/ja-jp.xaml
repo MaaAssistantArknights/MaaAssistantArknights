@@ -1388,6 +1388,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
     <system:String x:Key="ForceRefresh">採用不可でもタグの更新を行う</system:String>
     <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用*</system:String>
+    <system:String x:Key="AutoStopToSkip">採用停止自動的に使用*</system:String>
     <system:String x:Key="Level3UseShortTime">星3タグを7:40に設定する</system:String>
     <system:String x:Key="Level3UseShortTime2">星3タグを1:00に設定する</system:String>
     <system:String x:Key="Level3UseShortTimeTip">他のレアリティには影響しない</system:String>

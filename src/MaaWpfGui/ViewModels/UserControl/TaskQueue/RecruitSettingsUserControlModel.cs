@@ -104,9 +104,23 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
         }
     }
 
+    public bool? StopToSkipWithNull
+    {
+        get => GetTaskConfig<RecruitTask>().StopToSkip;
+        set {
+            if (value == true)
+            {
+                value = null;
+            }
+
+            SetTaskConfig<RecruitTask>(t => t.StopToSkip == value, t => t.StopToSkip = value);
+        }
+    }
+
     public static void ResetRecruitVariables(RecruitTask? recruit)
     {
         recruit?.UseExpedited ??= false;
+        recruit?.StopToSkip ??= false;
     }
 
     /// <summary>
@@ -272,6 +286,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 SetRecruitTime = true,
                 RecruitTimes = recruit.MaxTimes,
                 UseExpedited = recruit.UseExpedited is not false,
+                StopToSkip = recruit.StopToSkip is not false,
                 ExpeditedTimes = recruit.MaxTimes,
                 SelectExtraTags = recruit.ExtraTagMode,
                 Level3FirstList = recruit.Level3PreferTags,

@@ -25,6 +25,7 @@ public:
     AutoRecruitTask& set_need_refresh(bool need_refresh) noexcept;
     AutoRecruitTask& set_max_times(int max_times) noexcept;
     AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
+    AutoRecruitTask& set_stop_to_skip(bool use_or_not) noexcept;
     AutoRecruitTask& set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept;
     AutoRecruitTask& set_first_tags(std::vector<std::string> first_tags) noexcept;
     AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
@@ -58,6 +59,7 @@ protected:
     bool recruit_begin();
     bool check_timer(int);
     bool recruit_now();
+    bool recruit_stop_to_skip();
     bool confirm();
     bool refresh();
     // 检查是否有已完成且未领取的招募，有则领取，无则返回true
@@ -169,6 +171,7 @@ protected:
     std::vector<int> m_confirm_level;
     bool m_need_refresh = false;
     bool m_use_expedited = false; // 是否使用加急许可
+    bool m_stop_to_skip = false;  // 是否使用停止招募
     ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::NoExtra;
     std::vector<std::string> m_first_tags;
     int m_max_times = 0;

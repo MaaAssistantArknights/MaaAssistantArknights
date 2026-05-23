@@ -50,6 +50,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     bool force_refresh = params.get("force_refresh", true);
     int times = params.get("times", 0);
     bool expedite = params.get("expedite", false);
+    bool stop_to_skip = params.get("stop_to_skip", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
     bool skip_robot = params.get("skip_robot", true);
     std::vector<std::string> first_tags = params.get("first_tags", std::vector<std::string>(0));
@@ -71,6 +72,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     m_auto_recruit_task_ptr->set_max_times(times)
         .set_need_refresh(refresh)
         .set_use_expedited(expedite)
+        .set_stop_to_skip(stop_to_skip)
         .set_select_extra_tags(extra_tags_mode)
         .set_first_tags(first_tags)
         .set_select_level(std::move(select))
