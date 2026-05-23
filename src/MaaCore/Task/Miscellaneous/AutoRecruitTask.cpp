@@ -297,12 +297,12 @@ bool asst::AutoRecruitTask::_run()
             if (need_exit()) {
                 return false;
             }
-            Log.info("ready to use expedited plan");
+            Log.info("ready for stop to skip");
             if (recruit_stop_to_skip()) {
                 hire_all();
             }
             else {
-                Log.info("Failed stop to skip");
+                Log.info("Failed for stop to skip");
                 // There is a small chance that confirm button were clicked twice and got stuck into
                 // the bottom-right slot. ref: #1491
                 if (check_recruit_home_page()) {
@@ -312,7 +312,7 @@ bool asst::AutoRecruitTask::_run()
                     try_stop_to_skip = try_get_start_button(ctrler()->get_image()).has_value();
                 }
                 else {
-                    Log.info("Not in home page after failing to use expedited plan.");
+                    Log.info("Not in home page after failing for stop to skip.");
                     return false;
                 }
             }
