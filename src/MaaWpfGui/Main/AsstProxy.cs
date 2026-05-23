@@ -1894,6 +1894,10 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductChanged"), UiLogColor.Info);
                 break;
 
+            case "ProductChangeFail":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductChangeFail"), UiLogColor.Error);
+                break;
+
             case "InfrastConfirmButton":
                 Instances.TaskQueueViewModel.AddLog(string.Empty, updateCardImage: true, fetchLatestImage: true);
                 break;

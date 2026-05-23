@@ -1265,6 +1265,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ProductIncorrect">产物与配置不相符。</system:String>
     <system:String x:Key="ProductUnknown">无法识别的产物</system:String>
     <system:String x:Key="ProductChanged">产物已切换</system:String>
+    <system:String x:Key="ProductChangeFail">产物切换失败</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">公招识别结果: </system:String>
     <system:String x:Key="RecruitingTips">公招提示</system:String>
     <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了哦！</system:String>
