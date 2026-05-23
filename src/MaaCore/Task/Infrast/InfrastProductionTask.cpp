@@ -81,6 +81,19 @@ bool asst::InfrastProductionTask::change_product()
                                const std::string& product_key) {
         constexpr int ProductChangeMaxTimes = 3;
         for (int retry = 0; retry < ProductChangeMaxTimes; ++retry) {
+            if (retry != 0) {
+                cv::Mat image = ctrler()->get_image();
+                Matcher verify_analyzer(image);
+                verify_analyzer.set_task_info(verify_task_name);
+                if (verify_analyzer.analyze()) {
+                    Matcher confirm_analyzer(image);
+                    confirm_analyzer.set_task_info("ConfirmProductChange");
+                    if (!confirm_analyzer.analyze()) {
+                        return true;
+                    }
+                }
+            }
+
             // 只有切换流程和产物复核都通过，才上报 ProductChanged。
             if (!ProcessTask(*this, { task_name }).run()) {
                 Log.error("change product failed", task_name, retry);
