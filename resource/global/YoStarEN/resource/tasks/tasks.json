@@ -1260,6 +1260,9 @@
         "fullMatch": true,
         "text": ["Morale", "Resting", "In Use", "Working", "Assign"]
     },
+    "InfrastFilterMenuAllButton": {
+        "text": ["All"]
+    },
     "InfrastConfirmButtonWait": {
         "text": ["Submitting feedback", "to the neural network"],
         "roi": [675, 605, 427, 115]
