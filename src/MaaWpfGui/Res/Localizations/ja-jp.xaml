@@ -475,11 +475,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="EmulatorPathEmptyWarning">エミュレータのパスが空です。「{key=RetryOnDisconnected}」と「{key=OpenEmulatorAfterLaunch}」のチェック状態がリセットされました</system:String>
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB強制置き換え</system:String>
+    <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">現在のエミュレーターに同梱されているADBバージョンは通常新しいため、手動での置き換えは基本的に不要です。&#10;クリックするとGoogleから最新のADBをダウンロードし、ローカルパスのADBファイルを置き換えます。明確なADB互換性問題が発生した場合のみご使用ください。</system:String>
     <system:String x:Key="TouchMode">タッチモード</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (標準)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (実験機能)</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input は、OS バージョンが古く Minitouch や MaaTouch を使用できない物理デバイス用です。他の2モードが使える場合は、ADB Input を選択しないでください。&#10;ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他の2モードと異なります。正確な座標制御が必要な場面では使用できません。</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">エミュレーター起動パラメータの追加コマンド（例：「--instance 1」は 1 番インスタンス）。&#10;コマンド形式はエミュレーターにより異なり、通常はインスタンス番号やウィンドウモードなどを含みます。</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>

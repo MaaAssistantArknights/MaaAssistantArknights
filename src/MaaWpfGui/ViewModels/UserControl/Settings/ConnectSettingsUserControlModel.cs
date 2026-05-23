@@ -84,6 +84,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
         ];
 
+    public static string TouchModeVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "TouchMode.mp4");
+
     /// <summary>
     /// Gets the list of touch modes
     /// </summary>

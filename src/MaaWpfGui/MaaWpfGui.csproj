@@ -95,6 +95,7 @@
     <Resource Include="Res\Img\*" />
     <Resource Include="Res\Img\EasterEgg\*" />
     <Resource Include="Res\Img\Operator\*" />
+    <Content Include="Res\Video\*" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\README.md" Pack="True" PackagePath="/" />
   </ItemGroup>
 
@@ -147,5 +148,6 @@
     <PackageReference Include="System.Management" Version="10.0.0" />
     <PackageReference Include="WindowsAPICodePack" Version="8.0.12" />
   </ItemGroup>
+
 
 </Project>
