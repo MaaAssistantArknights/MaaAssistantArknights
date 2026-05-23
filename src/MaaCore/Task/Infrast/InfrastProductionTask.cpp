@@ -110,7 +110,7 @@ bool asst::InfrastProductionTask::change_product()
                 Log.warn("product verification failed", verify_task_name, retry);
                 continue;
             }
-
+            sleep(500);        // verify 有500ms delay, 勉强覆盖网络响应动画，此处加余量
             // 匹配到了则说明未能正确点击确认按钮完成产物更换，需要重试
             if (has_confirm_product_change_button()) {
                 Log.warn("failed to confirm product change to target product", target_product_key, retry);
