@@ -156,7 +156,7 @@ jobs:
 
           # Update the package using wingetcreate
           .\wingetcreate.exe update MaaAssistantArknights.MaaAssistantArknights `
-            --version $RELEASE_TAG `
+            --version $RELEASE_TAG.TrimStart('v') `
             --urls "$URL_x64|x64" "$URL_arm64|arm64" `
             --submit
 
