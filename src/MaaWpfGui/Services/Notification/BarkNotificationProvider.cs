@@ -42,8 +42,10 @@ public class BarkNotificationProvider(IHttpService httpService) : IExternalNotif
             return false;
         }
 
+        var normalizedBase = apiBase.TrimEnd('/') + "/";
+        var pushUri = new Uri(new Uri(normalizedBase), "push");
         var response = await httpService.PostAsJsonAsync(
-            new Uri(new Uri(apiBase), "/push"),
+            pushUri,
             new BarkPostContent { Title = title, Content = content, SendKey = sendKey });
         if (response == null)
         {
