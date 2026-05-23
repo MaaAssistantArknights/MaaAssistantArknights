@@ -1506,8 +1506,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 任務流程：自動執行籌劃經營、建設、交付資源、結算循環
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
-⚠️ 該策略尚未經完善，運行過程中可能遇到問題
-
 收益參考：每把約 500 代幣 + 統籌點數，單輪耗時約 3 分鐘
 
 幹員要求：聖聆初雪（可借助戰）

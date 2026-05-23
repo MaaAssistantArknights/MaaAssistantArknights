@@ -1505,8 +1505,6 @@ Note: If you have unlocked technologies related to starting with extra items, pl
 Task flow: Automatically executes planning management, construction, resource delivery, and settlement loop
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
-⚠️ This strategy has not been fully refined yet, issues may occur during execution
-
 Reward estimate: ~500 tokens + coordination points per run, ~3 min per round
 
 Operator requirement: Saintly First Snow (support unit allowed)
