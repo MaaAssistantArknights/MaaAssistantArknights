@@ -933,9 +933,9 @@ Mode. Supported modes vary by theme:
 <br>
 `16` (`RA1`) - RA-1, automatically execute intensive farming, construction, resource delivery, and settlement loop.
 <br>
-`48` (`RA4`) - RA-4, Use the Gold from Strategy Planning Management to unlock areas, and use Wis'adel to complete the boss elimination mission.
-<br>
 `32` (`RA15`) - RA-15, complete the 60-kill mission with Civilight Eterna.
+<br>
+`48` (`RA4`) - RA-4, Use the Gold from Strategy Planning Management to unlock areas, and use Wis'adel to complete the boss elimination mission.
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
 Automatically crafted items. Suggested to fill in the substring. Only effective for Tales theme.  
