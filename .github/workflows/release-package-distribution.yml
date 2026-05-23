@@ -113,6 +113,7 @@ jobs:
 
     env:
       RELEASE_TAG: ${{ needs.meta.outputs.RELEASE_TAG }}
+      GITHUB_TOKEN: ${{ secrets.MAABOT_WINGET_TOKEN }}
       WINGET_CREATE_GITHUB_TOKEN: ${{ secrets.MAABOT_WINGET_TOKEN }}
       WINGET_CREATE_VERSION: 'v1.12.8.0'
       WINGET_CREATE_SHA256: '8BD738851B524885410112678E3771B341C5C716DE60FBBECB88AB0A363ED85D'
@@ -121,13 +122,31 @@ jobs:
       - name: Upload MAA to WinGet
         shell: pwsh
         run: |
-          # Build the URLs based on the release
-          # It would be safer to get the actual download URL from GitHub API, but for simplicity we just construct it here
           $RELEASE_TAG = "${{ env.RELEASE_TAG }}"
-          $URL_x64 = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/$RELEASE_TAG/MAA-$RELEASE_TAG-win-x64.zip"
-          $URL_arm64 = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/$RELEASE_TAG/MAA-$RELEASE_TAG-win-arm64.zip"
 
-          # Download winget-reate
+          # Fetch the release assets from GitHub Releases API and resolve actual download URLs
+          $headers = @{
+            Accept                 = "application/vnd.github+json"
+            "X-GitHub-Api-Version" = "2022-11-28"
+          }
+
+          if ($env:GITHUB_TOKEN) {
+            $headers.Authorization = "Bearer $env:GITHUB_TOKEN"
+          }
+
+          $release = Invoke-RestMethod `
+            -Uri "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/$RELEASE_TAG" `
+            -Headers $headers
+
+          $URL_x64 = $release.assets | Where-Object { $_.name -match "-win-x64.zip" } | Select-Object -First 1 -ExpandProperty browser_download_url
+          $URL_arm64 = $release.assets | Where-Object { $_.name -match "-win-arm64.zip" } | Select-Object -First 1 -ExpandProperty browser_download_url
+
+          if (-not $URL_x64 -or -not $URL_arm64) {
+            Write-Error "Failed to resolve release assets from GitHub API for tag '$RELEASE_TAG'."
+            exit 1
+          }
+
+          # Download winget-create
           curl.exe -JLO "https://github.com/microsoft/winget-create/releases/download/$env:WINGET_CREATE_VERSION/wingetcreate.exe"
 
           # Verify the hash of wingetcreate.exe
