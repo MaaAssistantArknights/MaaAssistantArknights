@@ -121,6 +121,7 @@ jobs:
       - name: Upload MAA to WinGet
         shell: pwsh
         run: |
+          $ErrorActionPreference = 'Stop'
           $RELEASE_TAG = "${{ env.RELEASE_TAG }}"
 
           # Fetch the release assets from GitHub Releases API and resolve actual download URLs
