@@ -37,10 +37,14 @@ Currently, support for Reclamation Algorithm is still in early stages and unatte
 
 - Reward estimate: ~417 tokens + coordination points per run, ~1 min 40 sec per round
 - Operator requirement: Wis'adel (support unit allowed)
-- Prerequisite: Clear RA-4 in the main story
+- Prerequisite:
+  1. Advance the main story until RA-4 is cleared.
+  2. Unlock Strategy Planning Management.
+  3. If you have your own Wis'adel, manually enter the stage and form a team once, ensuring any 5 operators with lower DP cost than Wis'adel + Wis'adel, and Wis'adel is in the 6th slot (i.e., the last one selected). Then confirm recruitment, abandon the current construction, and start from "Start Construction".
+  4. If using a support Wis'adel, ensure that Wis'adel is on the front page of sniper support units (consider using a friend). Manually enter the stage and add any 5 operators with lower DP cost than Wis'adel, select support Wis'adel for the 6th slot, then confirm recruitment, abandon the current construction, and start from "Start Construction" (ensure the first five slots have operators and the 6th slot is empty).
 - Open RA-4 on the world map, start the task when "Start Construction" appears in the bottom-right corner
 - Note: If you have unlocked technologies that grant extra starting items, please remove facilities that cause this (e.g. Food Supply Station, Drink Supply Station, Large Beast Pen, etc.)
-- Task flow: Automatically executes planning management, construction, resource delivery, and settlement loop
+- Task flow: Use the Gold from Strategy Planning Management to unlock areas, and use Wis'adel to complete the boss elimination mission.
 
 ### RA-15
 

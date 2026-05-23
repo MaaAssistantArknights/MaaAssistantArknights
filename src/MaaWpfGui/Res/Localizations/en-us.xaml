@@ -1496,17 +1496,19 @@ Reward estimate: ~417 tokens + coordination points per run, ~1 min 40 sec per ro
 
 Operator requirement: Wis'adel (support unit allowed)
 
-Prerequisite: Clear RA-4 in the main story
+Prerequisite:
+1. Advance the main story until RA-4 is cleared.
+2. Unlock Strategy Planning Management.
+3. If you have your own Wis'adel, manually enter the stage and form a team once, ensuring any 5 operators with lower DP cost than Wis'adel + Wis'adel, and Wis'adel is in the 6th slot (i.e., the last one selected). Then confirm recruitment, abandon the current construction, and start from "Start Construction".
+4. If using a support Wis'adel, ensure that Wis'adel is on the front page of sniper support units (consider using a friend). Manually enter the stage and add any 5 operators with lower DP cost than Wis'adel, select support Wis'adel for the 6th slot, then confirm recruitment, abandon the current construction, and start from "Start Construction" (ensure the first five slots have operators and the 6th slot is empty).
 
 Open RA-4 on the map and start the task when &quot;Start Construction&quot; appears at the bottom-right to loop automatically
 
 Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
 
-Task flow: Automatically executes planning management, construction, resource delivery, and settlement loop
+Task flow: Use the Gold from Strategy Planning Management to unlock areas, and use Wis'adel to complete the boss elimination mission.
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
-⚠️ This strategy has not been fully refined yet, issues may occur during execution
-
 Reward estimate: ~500 tokens + coordination points per run, ~3 min per round
 
 Operator requirement: Saintly First Snow (support unit allowed)
@@ -1515,6 +1517,8 @@ Prerequisite:
 1. Clear RA-15 in the main story
 2. If you have Saintly First Snow, manually open RA-15 and form a squad once. Use 5 Vanguards (no level requirement) + Saintly First Snow, pick her last, then save the squad and exit the stage
 3. If you use support Saintly First Snow, make sure Saintly First Snow is on the first page of the Caster support list (consider adding as friend)
+
+Open RA-15 on the map and start the task when &quot;Start Construction&quot; appears at the bottom-right to loop automatically
 
 Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
 
