@@ -137,8 +137,8 @@ jobs:
             -Uri "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/$RELEASE_TAG" `
             -Headers $headers
 
-          $URL_x64 = $release.assets | Where-Object { $_.name -match "-win-x64.zip" } | Select-Object -First 1 -ExpandProperty browser_download_url
-          $URL_arm64 = $release.assets | Where-Object { $_.name -match "-win-arm64.zip" } | Select-Object -First 1 -ExpandProperty browser_download_url
+          $URL_x64 = $release.assets | Where-Object { $_.name -match "-win-x64.zip$" } | Select-Object -First 1 -ExpandProperty browser_download_url
+          $URL_arm64 = $release.assets | Where-Object { $_.name -match "-win-arm64.zip$" } | Select-Object -First 1 -ExpandProperty browser_download_url
 
           if (-not $URL_x64 -or -not $URL_arm64) {
             Write-Error "Failed to resolve release assets from GitHub API for tag '$RELEASE_TAG'."
