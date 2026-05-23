@@ -4646,13 +4646,13 @@
     "Copilot@WaitUntilEndOfAction-Bypass": {
         "algorithm": "JustReturn",
         "maxTimes": 50,
-        "exceededNext": ["Copilot@EndOfAction"],
+        "exceededNext": ["Copilot@EndOfAction-Bypass"],
         "next": [
             "Copilot@SkipThePreBattlePlot",
             "Copilot@EndOfAction-Bypass",
             "Copilot@EndOfAction-Sandbox",
             "Copilot@FightMissionFailed",
-            "Copilot@WaitUntilEndOfAction"
+            "Copilot@WaitUntilEndOfAction-Bypass"
         ]
     },
     "Copilot@SkipThePreBattlePlotConfirm": {
