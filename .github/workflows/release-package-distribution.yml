@@ -113,7 +113,6 @@ jobs:
 
     env:
       RELEASE_TAG: ${{ needs.meta.outputs.RELEASE_TAG }}
-      GITHUB_TOKEN: ${{ secrets.MAABOT_WINGET_TOKEN }}
       WINGET_CREATE_GITHUB_TOKEN: ${{ secrets.MAABOT_WINGET_TOKEN }}
       WINGET_CREATE_VERSION: 'v1.12.8.0'
       WINGET_CREATE_SHA256: '8BD738851B524885410112678E3771B341C5C716DE60FBBECB88AB0A363ED85D'
@@ -130,8 +129,8 @@ jobs:
             "X-GitHub-Api-Version" = "2022-11-28"
           }
 
-          if ($env:GITHUB_TOKEN) {
-            $headers.Authorization = "Bearer $env:GITHUB_TOKEN"
+          if ($env:WINGET_CREATE_GITHUB_TOKEN) {
+            $headers.Authorization = "Bearer $env:WINGET_CREATE_GITHUB_TOKEN"
           }
 
           $release = Invoke-RestMethod `
