@@ -114,6 +114,8 @@ jobs:
     env:
       RELEASE_TAG: ${{ needs.meta.outputs.RELEASE_TAG }}
       WINGET_CREATE_GITHUB_TOKEN: ${{ secrets.MAABOT_WINGET_TOKEN }}
+      WINGET_CREATE_VERSION: 'v1.12.8.0'
+      WINGET_CREATE_SHA256: '8BD738851B524885410112678E3771B341C5C716DE60FBBECB88AB0A363ED85D'
 
     steps:
       - name: Upload MAA to WinGet
@@ -124,12 +126,20 @@ jobs:
           $URL_x64 = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/$RELEASE_TAG/MAA-$RELEASE_TAG-win-x64.zip"
           $URL_arm64 = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/$RELEASE_TAG/MAA-$RELEASE_TAG-win-arm64.zip"
 
-          # Update package using wingetcreate
-          curl.exe -JLO https://aka.ms/wingetcreate/latest
+          # Download winget-reate
+          curl.exe -JLO "https://github.com/microsoft/winget-create/releases/download/$env:WINGET_CREATE_VERSION/wingetcreate.exe"
+
+          # Verify the hash of wingetcreate.exe
+          if ((Get-FileHash wingetcreate.exe).Hash -ne $env:WINGET_CREATE_SHA256) {
+            Write-Error "wingetcreate.exe hash does not match expected value. Aborting."
+            exit 1
+          }
+
+          # Update the package using wingetcreate
           .\wingetcreate.exe update MaaAssistantArknights.MaaAssistantArknights `
             --version $RELEASE_TAG `
             --urls "$URL_x64|x64" "$URL_arm64|arm64" `
-            --submit          
+            --submit
 
   maa_cos:
     name: Upload to MAA COS
