@@ -24,6 +24,7 @@ using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
+/// <inheritdoc />
 public partial class GotifyNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
 {
     private readonly ILogger _logger = Log.ForContext<GotifyNotificationProvider>();
