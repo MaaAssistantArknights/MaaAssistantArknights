@@ -1429,9 +1429,9 @@
     },
     "RelaunchAnchor@RA@RA15-End1": {
         "doc": "步骤 27：退出",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [62, 69, 1, 1],
+        "template": "RelaunchAnchor@RA@Exit.png",
+        "action": "ClickSelf",
+        "roi": [10, 20, 100, 90],
         "next": ["RelaunchAnchor@RA@RA15-End2"]
     },
     "RelaunchAnchor@RA@RA15-End2": {
