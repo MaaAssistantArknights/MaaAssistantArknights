@@ -135,6 +135,13 @@
             "JieGarden@Roguelike@CoppersRecastResult"
         ]
     },
+    "JieGarden@Roguelike@CloseCollectionContinue2": {
+        "doc": "获得招募卷奖励后点next, 后续其他执行也重构为此类",
+        "baseTask": "JieGarden@Roguelike@CloseCollectionContinue",
+        "template": "JieGarden@Roguelike@CloseCollectionContinue.png",
+        "templThreshold": 0.95,
+        "next": ["#next", "#back"]
+    },
     "JieGarden@Roguelike@CloseEvent": {
         "action": "ClickRect",
         "specificRect": [153, 79, 63, 29]
@@ -675,8 +682,8 @@
         "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "始末陵", "是非境"],
         "roi": [550, 545, 184, 64],
         "next": [
-            "JieGarden@Roguelike@RecruitmentVoucherNext",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
+            "JieGarden@Roguelike@NextLevel@JieGarden@Roguelike@CloseCollectionContinue2",
             "JieGarden@Roguelike@CloseInterview",
             "JieGarden@Roguelike@StrategyChange",
             "JieGarden@Roguelike@NextLevel"
@@ -713,26 +720,10 @@
         "template": "JieGarden@Roguelike@RandomPick.png",
         "next": [
             "JieGarden@Roguelike@RandomPickAfterNextLevel@NextAfterLoadingText",
-            "JieGarden@Roguelike@RecruitmentVoucherNext",
+            "JieGarden@Roguelike@RandomPickAfterNextLevel@JieGarden@Roguelike@CloseCollectionContinue2",
             "JieGarden@Roguelike@CloseInterview",
             "JieGarden@Roguelike@StrategyChange",
             "#self"
-        ]
-    },
-    "JieGarden@Roguelike@RecruitmentVoucherNext": {
-        "template": "JieGarden@Roguelike@CloseCollectionContinue.png",
-        "templThreshold": 0.95,
-        "roi": [563, 486, 174, 125],
-        "action": "ClickSelf",
-        "postDelay": 1000,
-        "next": [
-            "#self",
-            "JieGarden@Roguelike@Stages#next",
-            "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@NextLevel#next",
-            "JieGarden@Roguelike@CloseInterview",
-            "JieGarden@Roguelike@StrategyChange",
-            "JieGarden@Roguelike@RandomPickAfterNextLevel"
         ]
     },
     "JieGarden@Roguelike@RecruitMain": {
@@ -1210,7 +1201,7 @@
         "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
-            "JieGarden@Roguelike@RecruitmentVoucherNext",
+            "JieGarden@Roguelike@Stages@JieGarden@Roguelike@CloseCollectionContinue2",
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
@@ -1235,7 +1226,7 @@
     "JieGarden@Roguelike@Stages_boskyPassageDefault": {
         "algorithm": "JustReturn",
         "next": [
-            "JieGarden@Roguelike@RecruitmentVoucherNext",
+            "JieGarden@Roguelike@Stages@JieGarden@Roguelike@CloseCollectionContinue2",
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
@@ -1248,7 +1239,7 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
-            "JieGarden@Roguelike@RecruitmentVoucherNext",
+            "JieGarden@Roguelike@Stages@JieGarden@Roguelike@CloseCollectionContinue2",
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
@@ -1274,7 +1265,7 @@
         "doc": "指挥分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
         "algorithm": "JustReturn",
         "next": [
-            "JieGarden@Roguelike@RecruitmentVoucherNext",
+            "JieGarden@Roguelike@Stages@JieGarden@Roguelike@CloseCollectionContinue2",
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
@@ -1292,7 +1283,7 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
-            "JieGarden@Roguelike@RecruitmentVoucherNext",
+            "JieGarden@Roguelike@Stages@JieGarden@Roguelike@CloseCollectionContinue2",
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
