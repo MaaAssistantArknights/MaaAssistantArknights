@@ -61,7 +61,6 @@ std::optional<int> asst::AdbLiteIO::call_command(
     }
 
     // adb connect
-    // TODO: adb server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
     if (boost::regex_match(cmd, match, connect_regex)) {
         try {
             pipe_data = get_adb_client(match[1].str())->connect();
