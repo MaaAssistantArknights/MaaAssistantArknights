@@ -140,8 +140,9 @@ std::shared_ptr<adb::client> asst::AdbLiteIO::get_adb_client(std::string_view se
     std::lock_guard lock(m_adb_client_mutex);
     const std::string serial_str(serial);
     if (!m_adb_client || m_adb_serial != serial_str) {
+        auto adb_client = adb::client::create(serial_str);
         m_adb_serial = serial_str;
-        m_adb_client = adb::client::create(m_adb_serial);
+        m_adb_client = std::move(adb_client);
     }
 
     return m_adb_client;
