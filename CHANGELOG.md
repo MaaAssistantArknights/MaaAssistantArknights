@@ -51,7 +51,6 @@ The minigame interface has been renamed to Useful Tasks, now featuring category 
 
 * 优化 ADB 连接处理逻辑，避免不必要的连接尝试，改进错误报告 (#15300) @wangl-cc
 * 剿灭关卡使用代理卷后优化网络等待逻辑 @status102
-* IsRefreshingUI 自动化支持 @status102
 
 ### 修复 | Fix
 
