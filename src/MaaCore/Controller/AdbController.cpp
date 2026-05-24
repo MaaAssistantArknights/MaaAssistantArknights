@@ -915,6 +915,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         // 设置配置 connect、release 命令，即使这里不连接，后续也会需要用到
         m_adb.connect = m_conn_ctx.replace_cmd(adb_cfg.connect);
         m_adb.release = m_conn_ctx.replace_cmd(adb_cfg.release);
+        m_platform_io->set_adb_serial(address);
         if (need_connect) {
             // 如果不包含 `:` 且需要连接，connect 命令也不会成功
             if (address.find(':') == std::string::npos) {
