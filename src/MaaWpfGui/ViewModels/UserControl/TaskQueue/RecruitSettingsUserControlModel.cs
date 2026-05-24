@@ -250,7 +250,6 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     {
         if (baseTask is RecruitTask)
         {
-            using var refresh = new UiRefreshingScope(this);
             Refresh();
         }
     }

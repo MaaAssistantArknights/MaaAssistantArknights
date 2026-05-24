@@ -65,7 +65,6 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
     {
         if (baseTask is UserDataUpdateTask)
         {
-            using var refresh = new UiRefreshingScope(this);
             Refresh();
         }
     }

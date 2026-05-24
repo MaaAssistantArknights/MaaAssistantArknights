@@ -70,7 +70,6 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
     {
         if (baseTask is StartUpTask)
         {
-            using var refresh = new UiRefreshingScope(this);
             Refresh();
         }
     }

@@ -702,7 +702,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         {
             return;
         }
-        using var refresh = new UiRefreshingScope(this);
+        using var refresh = new UiRefreshingScope();
         if (!UseAlternateStage && fight.StagePlan.Count == 0)
         {
             fight.StagePlan.Add(string.Empty);
@@ -764,7 +764,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 ActivityInfo = LocalizationHelper.GetString("NoActivity");
                 ActivityExpireIn2Days = false;
             }
-            using (var refresh = new UiRefreshingScope(this))
+            using (var refresh = new UiRefreshingScope())
             {
                 RefreshStageList();
                 foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Where(i => !i.IsStageManually))
@@ -974,6 +974,26 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     #endregion UI Item
+
+    private struct UiRefreshingScope : IDisposable
+    {
+        private static int _depth = 0;
+
+        public UiRefreshingScope()
+        {
+            ++_depth;
+            Instance.IsRefreshingUI = true;
+        }
+
+        readonly void IDisposable.Dispose()
+        {
+            --_depth;
+            if (_depth == 0)
+            {
+                Instance.IsRefreshingUI = false;
+            }
+        }
+    }
 
     private interface ISerialize : ITaskQueueModelSerialize
     {
