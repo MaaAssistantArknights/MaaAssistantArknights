@@ -1,4 +1,4 @@
-﻿// <copyright file="GotifyNotificationProvider.cs" company="MaaAssistantArknights">
+// <copyright file="GotifyNotificationProvider.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -24,6 +24,7 @@ using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
+/// <inheritdoc />
 public partial class GotifyNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
 {
     private readonly ILogger _logger = Log.ForContext<GotifyNotificationProvider>();
@@ -62,7 +63,7 @@ public partial class GotifyNotificationProvider(IHttpService httpService) : IExt
             return false;
         }
 
-        server = server.Trim();
+        server = server.Trim().TrimEnd('/') + "/";
         if (!Uri.TryCreate(server, UriKind.Absolute, out var baseUri) ||
             (baseUri.Scheme != Uri.UriSchemeHttp && baseUri.Scheme != Uri.UriSchemeHttps))
         {
@@ -80,7 +81,7 @@ public partial class GotifyNotificationProvider(IHttpService httpService) : IExt
 
         try
         {
-            var messageUri = new Uri(baseUri, "/message");
+            var messageUri = new Uri(baseUri, "message");
 
             var headers = new Dictionary<string, string>
             {

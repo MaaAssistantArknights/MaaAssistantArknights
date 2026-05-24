@@ -50,10 +50,12 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
         ocr_analyzer = OCRer(m_image, new_roi);
     }
     else {
+        cv::Mat bin_full = cv::Mat::zeros(m_image.size(), bin.type());
+        bin.copyTo(bin_full(make_rect<cv::Rect>(m_roi)));
         cv::Mat bin3;
-        cv::merge(std::array { bin, bin, bin }, bin3);
-        cv::bitwise_and(img_roi, bin3, bin3);
-        ocr_analyzer = OCRer(bin3, bounding_rect);
+        cv::merge(std::array { bin_full, bin_full, bin_full }, bin3);
+        cv::bitwise_and(m_image, bin3, bin3);
+        ocr_analyzer = OCRer(bin3, new_roi);
     }
 
     config.without_det = true;
@@ -64,10 +66,6 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
         return std::nullopt;
     }
     m_result = result->front();
-    if (!use_raw) {
-        m_result.rect.x += m_roi.x;
-        m_result.rect.y += m_roi.y;
-    }
     return m_result;
 }
 

@@ -5,6 +5,7 @@
 
 #include <calculator/calculator.hpp>
 
+#include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/InfrastConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -17,26 +18,26 @@
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 
-asst::InfrastProductionTask& asst::InfrastProductionTask::set_uses_of_drone(std::string uses_of_drones) noexcept
+asst::InfrastProductionTask& asst::InfrastProductionTask::set_drones_usage_from_params(std::string usage) noexcept
 {
-    m_uses_of_drones = std::move(uses_of_drones);
+    m_drones_usage_from_params = std::move(usage);
     return *this;
 }
 
-std::string asst::InfrastProductionTask::get_uses_of_drone() const noexcept
+std::string asst::InfrastProductionTask::get_drones_usage_from_params() const noexcept
 {
-    return m_uses_of_drones;
+    return m_drones_usage_from_params;
 }
 
 void asst::InfrastProductionTask::set_custom_drones_config(infrast::CustomDronesConfig drones_config)
 {
-    m_is_use_custom_drones = true;
+    m_is_use_drones_from_custom = true;
     m_custom_drones_config = std::move(drones_config);
 }
 
 void asst::InfrastProductionTask::clear_custom_drones_config()
 {
-    m_is_use_custom_drones = false;
+    m_is_use_drones_from_custom = false;
 }
 
 void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
@@ -68,30 +69,101 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
             }
             m_is_product_incorrect = !is_same_product;
         }
+        else {
+            m_is_product_incorrect = false;
+        }
     }
 }
 
-void asst::InfrastProductionTask::change_product()
+bool asst::InfrastProductionTask::change_product()
 {
+    auto has_confirm_product_change_button = [&]() {
+        Matcher confirm_analyzer(ctrler()->get_image());
+        confirm_analyzer.set_task_info("ConfirmProductChange");
+        return static_cast<bool>(confirm_analyzer.analyze());
+    };
+
+    auto run_change_task = [&](const std::string& task_name, const std::string& verify_task_name,
+                               const std::string& target_product_key) {
+        constexpr int ProductChangeMaxTimes = 3;
+        for (int retry = 0; retry < ProductChangeMaxTimes; ++retry) {
+            if (retry != 0) {
+                cv::Mat image = ctrler()->get_image();
+                Matcher verify_analyzer(image);
+                verify_analyzer.set_task_info(verify_task_name);
+                if (verify_analyzer.analyze()) {
+                    Matcher confirm_analyzer(image);
+                    confirm_analyzer.set_task_info("ConfirmProductChange");
+                    if (!confirm_analyzer.analyze()) {
+                        return true;
+                    }
+                }
+            }
+
+            // 只有切换流程和产物复核都通过，才上报 ProductChanged。
+            if (!ProcessTask(*this, { task_name }).run()) {
+                Log.warn("change product failed", task_name, retry);
+                continue;
+            }
+            
+            if (!ProcessTask(*this, { verify_task_name }).run()) {
+                Log.warn("product verification failed", verify_task_name, retry);
+                continue;
+            }
+            sleep(500);        // verify 有500ms delay, 勉强覆盖网络响应动画，此处加余量
+            // 匹配到了则说明未能正确点击确认按钮完成产物更换，需要重试
+            if (has_confirm_product_change_button()) {
+                Log.warn("failed to confirm product change to target product", target_product_key, retry);
+                continue;
+            }
+
+            return true;
+        }
+
+        Log.warn("failed to change product to target product", target_product_key);
+        json::value fail_info = basic_info_with_what("ProductChangeFail");
+        callback(AsstMsg::SubTaskExtraInfo, fail_info);
+        return false;
+    };
+
     auto customProduct = current_room_config().product;
     switch (customProduct) {
     /*制造站的产品类型*/
     case infrast::CustomRoomConfig::Product::BattleRecord: {
-        ProcessTask(*this, { "ChangeProductToMiddleBattleRecord" }).run();
+        if (!run_change_task("ChangeProductToMiddleBattleRecord", 
+                             "VerifyProductChangedToBattleRecord",
+                             "MiddleBattleRecord")) {
+            return false;
+        }
+        m_product = "CombatRecord";
+        m_is_product_incorrect = false;
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "MiddleBattleRecord";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
         break;
     }
     case infrast::CustomRoomConfig::Product::PureGold: {
-        ProcessTask(*this, { "ChangeProductToPureGold" }).run();
+        if (!run_change_task("ChangeProductToPureGold", 
+                             "VerifyProductChangedToPureGold",
+                             "PureGold")) {
+            return false;
+        }
+        m_product = "PureGold";
+        m_is_product_incorrect = false;
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "PureGold";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
         break;
     }
     case infrast::CustomRoomConfig::Product::OriginiumShard: {
-        ProcessTask(*this, { "ChangeProductToOriginiumShard" }).run();
+        if (!run_change_task(
+                "ChangeProductToOriginiumShard",
+                "VerifyProductChangedToOriginiumShard",
+                "OriginiumShard")) {
+            return false;
+        }
+        m_product = "OriginStone";
+        m_is_product_incorrect = false;
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "OriginiumShard";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
@@ -120,6 +192,7 @@ void asst::InfrastProductionTask::change_product()
         break;
     }
     }
+    return true;
 }
 
 bool asst::InfrastProductionTask::shift_facility_list()
@@ -172,23 +245,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
             add_button = add_button.move(rect_move);
         }
 
-        /* 识别当前正在造什么 */
-        Matcher product_analyzer(image);
-        auto& all_products = InfrastData.get_facility_info(facility_name()).products;
-        std::string cur_product = all_products.at(0);
-        double max_score = 0;
-        for (const std::string& product : all_products) {
-            product_analyzer.set_task_info("InfrastFlag" + product);
-            if (product_analyzer.analyze()) {
-                double score = product_analyzer.get_result().score;
-                if (score > max_score) {
-                    max_score = score;
-                    cur_product = product;
-                }
-            }
-        }
-        set_product(cur_product);
-
         MultiMatcher locked_analyzer(image);
         locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
         if (locked_analyzer.analyze()) {
@@ -198,8 +254,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
             m_cur_num_of_locked_opers = 0;
         }
 
-        // 使用无人机
-        if (m_is_use_custom_drones && m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Pre &&
+        // 自定义基建 Pre 无人机
+        if (m_is_use_drones_from_custom && m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Pre &&
             m_custom_drones_config.index == m_cur_facility_index) {
             use_drone();
         }
@@ -207,6 +263,72 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_is_custom && current_room_config().skip) {
             Log.info("skip this room");
             continue;
+        }
+
+        /* 产物识别紧靠换产物/换人：`ProductOfFacility` 与 Replenish / Shamare（仅贸易）监听该时点，早于 Pre。
+           可信度：须达到对应 InfrastFlag* 模板的 templThreshold，避免出现「最高分仍不可靠」却仍选 all_products.at(0)」。 */
+        // 识别产物时添加守卫，对后续逻辑没有本质影响
+        const auto image_facility_products = ctrler()->get_image();
+        Matcher product_analyzer(image_facility_products);
+        auto& all_products = InfrastData.get_facility_info(facility_name()).products;
+        std::string best_product;
+        double best_score = 0.0;
+        for (const auto& product : all_products) {
+            product_analyzer.set_task_info("InfrastFlag" + product);
+            if (!product_analyzer.analyze()) {
+                continue;
+            }
+            const double score = product_analyzer.get_result().score;
+            if (score > best_score) {
+                best_score = score;
+                best_product = product;
+            }
+        }
+
+        bool cur_product_detection_valid = false;
+        std::string cur_product_for_non_custom_drone;
+        if (!best_product.empty() && best_score > 0) {
+            auto templ_ptr = Task.get<MatchTaskInfo>("InfrastFlag" + best_product);
+            if (templ_ptr == nullptr) {
+                Log.warn(__FUNCTION__, "| missing product task config:", "InfrastFlag" + best_product);
+            }
+            else {
+                const double thresh =
+                    templ_ptr->templ_thresholds.empty() ? TemplThresholdDefault : templ_ptr->templ_thresholds.front();
+                if (best_score >= thresh) {
+                    set_product(best_product);
+                    cur_product_detection_valid = true;
+                    cur_product_for_non_custom_drone = best_product;
+                }
+            }
+        }
+
+        if (!cur_product_detection_valid) {
+            Log.warn(__FUNCTION__,
+                     "| product unrecognized or weak match, skip unreliable product:",
+                     facility_name(),
+                     "| index",
+                     m_cur_facility_index,
+                     "| best",
+                     best_product,
+                     "| score",
+                     best_score);
+            m_product.clear();
+            m_is_product_incorrect = false;
+            cur_product_for_non_custom_drone.clear();
+        }
+
+        /*启用自定义基建时，如果产物不一致则直接更换产物*/
+        if (m_is_custom && m_is_product_incorrect) {
+            if (!change_product()) {
+                // 产物失败只报错，不阻断换人，尽量保证干员心情和恢复轴按排班推进。
+                Log.warn("change_product failed after retries, proceed with staffing", facility_name(),
+                         m_cur_facility_index);
+            }
+            else {
+                cur_product_for_non_custom_drone = m_product;
+                cur_product_detection_valid = true;
+            }
         }
 
         /* 进入干员选择页面 */
@@ -264,20 +386,21 @@ bool asst::InfrastProductionTask::shift_facility_list()
             Log.info("skip shift in rotation mode");
         }
 
-        /*启用自定义基建时，如果产物不一致则直接更换产物*/
-        if (m_is_custom && m_is_product_incorrect) {
-            change_product();
-        }
-        // 使用无人机
-        if (m_is_use_custom_drones) {
+        // 自定义基建 Post 无人机
+        if (m_is_use_drones_from_custom) {
             if (m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Post &&
                 m_custom_drones_config.index == m_cur_facility_index) {
                 use_drone();
             }
         }
-        else if (cur_product == m_uses_of_drones) {
+        else if (
+            // 普通 params 无人机只在非自定义模式下使用
+            // 自定义模式下不使用该分支
+            !m_is_custom && cur_product_detection_valid &&
+            cur_product_for_non_custom_drone == m_drones_usage_from_params &&
+            m_drones_usage_from_params != "_NotUse" && m_drones_usage_from_params != "_Used") {
             if (use_drone()) {
-                m_uses_of_drones = "_Used";
+                m_drones_usage_from_params = "_Used";
             }
         }
     }

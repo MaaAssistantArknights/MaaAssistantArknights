@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -180,6 +179,11 @@ public class TaskQueueViewModel : Screen
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
+                foreach (var item in e.OldItems?.OfType<TaskItemViewModel>() ?? [])
+                {
+                    (item as IDisposable)?.Dispose(); // 释放事件订阅; 暂未支持TaskItemViewModels.clear()
+                }
+
                 if (e.OldStartingIndex >= 0 && e.OldStartingIndex < ConfigFactory.CurrentConfig.TaskQueue.Count)
                 {
                     TaskSettingVisibilities.SetTaskSettingVisible(ConfigFactory.CurrentConfig.TaskQueue[e.OldStartingIndex], false);
