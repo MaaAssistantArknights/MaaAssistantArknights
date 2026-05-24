@@ -1,4 +1,4 @@
-## v6.10.5
+## v6.10.6
 
 ### Highlights
 
@@ -44,6 +44,25 @@ The minigame interface has been renamed to Useful Tasks, now featuring category 
 ----
 
 以下是详细内容：
+
+## v6.10.6
+
+### 改进 | Improved
+
+* 优化 ADB 连接处理逻辑，避免不必要的连接尝试，改进错误报告 (#15300) @wangl-cc
+* 剿灭关卡使用代理卷后优化网络等待逻辑 @status102
+* IsRefreshingUI 自动化支持 @status102
+
+### 修复 | Fix
+
+* 修复傀影肉鸽烧水后无法前往指定难度 (#16843) @ABA2396
+* 修复 RegionOCR use_raw = false 时 bounding_rect 扩展失效 @status102
+* 修复事件订阅泄露 @status102
+* 修复生息演算 RA-1 交付石材识别不到 @Saratoga-Official
+* 修复生息演算 RA-4 已知问题 (#16821) @Saratoga-Official
+* 基建制造站切换产物流程稳定性提升，产物切换失败时继续执行后续步骤 (#16747) @ZiyinLin @Roland125
+* 修复 Bark 与 Gotify 无法使用反代路径 @ABA2396
+* 修复自动战斗结束检测 bypass @status102
 
 ## v6.10.5
 
