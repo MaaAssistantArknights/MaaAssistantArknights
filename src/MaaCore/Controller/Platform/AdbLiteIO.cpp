@@ -138,6 +138,7 @@ ret_exit:
 
 std::shared_ptr<adb::client> asst::AdbLiteIO::get_adb_client(std::string_view serial)
 {
+    std::lock_guard lock(m_adb_client_mutex);
     const std::string serial_str(serial);
     if (!m_adb_client || m_adb_serial != serial_str) {
         m_adb_serial = serial_str;
@@ -173,13 +174,18 @@ std::shared_ptr<asst::IOHandler> asst::AdbLiteIO::interactive_shell(const std::s
 
 void asst::AdbLiteIO::release_adb(const std::string& adb_release, int64_t timeout)
 {
-    if (m_adb_client) {
-        std::string pipe_data;
-        std::string sock_data;
-        auto start_time = std::chrono::steady_clock::now();
-
-        call_command(adb_release, false, pipe_data, sock_data, timeout, start_time);
+    // 只在读取 m_adb_client 时持锁，避免 call_command 内部调用 get_adb_client 时死锁
+    {
+        std::lock_guard lock(m_adb_client_mutex);
+        if (!m_adb_client) {
+            return;
+        }
     }
+
+    std::string pipe_data;
+    std::string sock_data;
+    auto start_time = std::chrono::steady_clock::now();
+    call_command(adb_release, false, pipe_data, sock_data, timeout, start_time);
 }
 
 bool asst::AdbLiteIO::remove_quotes(std::string& data)

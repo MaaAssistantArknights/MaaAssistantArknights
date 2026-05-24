@@ -12,6 +12,7 @@
 
 #include "Utils/Logger.hpp"
 
+#include <mutex>
 #include <string>
 #include <string_view>
 
@@ -48,6 +49,8 @@ private:
 
     static bool remove_quotes(std::string& data);
 
+    // 保护 m_adb_client / m_adb_serial，防止 call_command 与 interactive_shell 并发访问
+    mutable std::mutex m_adb_client_mutex;
     std::shared_ptr<adb::client> m_adb_client = nullptr;
     std::string m_adb_serial;
 };
