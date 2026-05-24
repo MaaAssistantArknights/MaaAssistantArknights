@@ -402,7 +402,7 @@
     "RelaunchAnchor@RA@RA1-WaitSettleNow": {
         "doc": "步骤 38 前等待 <立即结算> 出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-SettleNow", "#self"]
+        "next": ["RelaunchAnchor@RA@RA1-SettleNow", "RelaunchAnchor@RA@RA1-DeliverStone", "#self"]
     },
     "RelaunchAnchor@RA@RA1-SettleNow": {
         "doc": "步骤 38：OCR 识别 <立即结算> 并点击",
