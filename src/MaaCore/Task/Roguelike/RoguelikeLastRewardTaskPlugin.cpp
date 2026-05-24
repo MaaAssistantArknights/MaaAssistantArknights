@@ -44,7 +44,7 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
         Task.set_task_base(stages_task_name, strategy_task_name);
     }
 
-    if (/*m_config->get_theme() != RoguelikeTheme::Phantom && */mode == RoguelikeMode::Collectible) {
+    if (/*m_config->get_theme() != RoguelikeTheme::Phantom && */ mode == RoguelikeMode::Collectible) {
         // 关闭烧开水 Flag，将难度调整回用户设置的数值
         m_config->set_run_for_collectible(false);
     }

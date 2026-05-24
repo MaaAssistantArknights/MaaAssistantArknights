@@ -83,56 +83,57 @@ bool asst::InfrastProductionTask::change_product()
         return static_cast<bool>(confirm_analyzer.analyze());
     };
 
-    auto run_change_task = [&](const std::string& task_name, const std::string& verify_task_name,
-                               const std::string& target_product_key) {
-        constexpr int ProductChangeMaxTimes = 3;
-        for (int retry = 0; retry < ProductChangeMaxTimes; ++retry) {
-            if (retry != 0) {
-                cv::Mat image = ctrler()->get_image();
-                Matcher verify_analyzer(image);
-                verify_analyzer.set_task_info(verify_task_name);
-                if (verify_analyzer.analyze()) {
-                    Matcher confirm_analyzer(image);
-                    confirm_analyzer.set_task_info("ConfirmProductChange");
-                    if (!confirm_analyzer.analyze()) {
-                        return true;
+    auto run_change_task =
+        [&](const std::string& task_name, const std::string& verify_task_name, const std::string& target_product_key) {
+            constexpr int ProductChangeMaxTimes = 3;
+            for (int retry = 0; retry < ProductChangeMaxTimes; ++retry) {
+                if (retry != 0) {
+                    cv::Mat image = ctrler()->get_image();
+                    Matcher verify_analyzer(image);
+                    verify_analyzer.set_task_info(verify_task_name);
+                    if (verify_analyzer.analyze()) {
+                        Matcher confirm_analyzer(image);
+                        confirm_analyzer.set_task_info("ConfirmProductChange");
+                        if (!confirm_analyzer.analyze()) {
+                            return true;
+                        }
                     }
                 }
+
+                // 只有切换流程和产物复核都通过，才上报 ProductChanged。
+                if (!ProcessTask(*this, { task_name }).run()) {
+                    Log.warn("change product failed", task_name, retry);
+                    continue;
+                }
+
+                if (!ProcessTask(*this, { verify_task_name }).run()) {
+                    Log.warn("product verification failed", verify_task_name, retry);
+                    continue;
+                }
+                sleep(500); // verify 有500ms delay, 勉强覆盖网络响应动画，此处加余量
+                // 匹配到了则说明未能正确点击确认按钮完成产物更换，需要重试
+                if (has_confirm_product_change_button()) {
+                    Log.warn("failed to confirm product change to target product", target_product_key, retry);
+                    continue;
+                }
+
+                return true;
             }
 
-            // 只有切换流程和产物复核都通过，才上报 ProductChanged。
-            if (!ProcessTask(*this, { task_name }).run()) {
-                Log.warn("change product failed", task_name, retry);
-                continue;
-            }
-            
-            if (!ProcessTask(*this, { verify_task_name }).run()) {
-                Log.warn("product verification failed", verify_task_name, retry);
-                continue;
-            }
-            sleep(500);        // verify 有500ms delay, 勉强覆盖网络响应动画，此处加余量
-            // 匹配到了则说明未能正确点击确认按钮完成产物更换，需要重试
-            if (has_confirm_product_change_button()) {
-                Log.warn("failed to confirm product change to target product", target_product_key, retry);
-                continue;
-            }
-
-            return true;
-        }
-
-        Log.warn("failed to change product to target product", target_product_key);
-        json::value fail_info = basic_info_with_what("ProductChangeFail");
-        callback(AsstMsg::SubTaskExtraInfo, fail_info);
-        return false;
-    };
+            Log.warn("failed to change product to target product", target_product_key);
+            json::value fail_info = basic_info_with_what("ProductChangeFail");
+            callback(AsstMsg::SubTaskExtraInfo, fail_info);
+            return false;
+        };
 
     auto customProduct = current_room_config().product;
     switch (customProduct) {
     /*制造站的产品类型*/
     case infrast::CustomRoomConfig::Product::BattleRecord: {
-        if (!run_change_task("ChangeProductToMiddleBattleRecord", 
-                             "VerifyProductChangedToBattleRecord",
-                             "MiddleBattleRecord")) {
+        if (!run_change_task(
+                "ChangeProductToMiddleBattleRecord",
+                "VerifyProductChangedToBattleRecord",
+                "MiddleBattleRecord")) {
             return false;
         }
         m_product = "CombatRecord";
@@ -143,9 +144,7 @@ bool asst::InfrastProductionTask::change_product()
         break;
     }
     case infrast::CustomRoomConfig::Product::PureGold: {
-        if (!run_change_task("ChangeProductToPureGold", 
-                             "VerifyProductChangedToPureGold",
-                             "PureGold")) {
+        if (!run_change_task("ChangeProductToPureGold", "VerifyProductChangedToPureGold", "PureGold")) {
             return false;
         }
         m_product = "PureGold";
@@ -266,7 +265,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         /* 产物识别紧靠换产物/换人：`ProductOfFacility` 与 Replenish / Shamare（仅贸易）监听该时点，早于 Pre。
-           可信度：须达到对应 InfrastFlag* 模板的 templThreshold，避免出现「最高分仍不可靠」却仍选 all_products.at(0)」。 */
+           可信度：须达到对应 InfrastFlag* 模板的 templThreshold，避免出现「最高分仍不可靠」却仍选
+           all_products.at(0)」。 */
         // 识别产物时添加守卫，对后续逻辑没有本质影响
         const auto image_facility_products = ctrler()->get_image();
         Matcher product_analyzer(image_facility_products);
@@ -304,15 +304,16 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         if (!cur_product_detection_valid) {
-            Log.warn(__FUNCTION__,
-                     "| product unrecognized or weak match, skip unreliable product:",
-                     facility_name(),
-                     "| index",
-                     m_cur_facility_index,
-                     "| best",
-                     best_product,
-                     "| score",
-                     best_score);
+            Log.warn(
+                __FUNCTION__,
+                "| product unrecognized or weak match, skip unreliable product:",
+                facility_name(),
+                "| index",
+                m_cur_facility_index,
+                "| best",
+                best_product,
+                "| score",
+                best_score);
             m_product.clear();
             m_is_product_incorrect = false;
             cur_product_for_non_custom_drone.clear();
@@ -322,8 +323,10 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_is_custom && m_is_product_incorrect) {
             if (!change_product()) {
                 // 产物失败只报错，不阻断换人，尽量保证干员心情和恢复轴按排班推进。
-                Log.warn("change_product failed after retries, proceed with staffing", facility_name(),
-                         m_cur_facility_index);
+                Log.warn(
+                    "change_product failed after retries, proceed with staffing",
+                    facility_name(),
+                    m_cur_facility_index);
             }
             else {
                 cur_product_for_non_custom_drone = m_product;
@@ -397,8 +400,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
             // 普通 params 无人机只在非自定义模式下使用
             // 自定义模式下不使用该分支
             !m_is_custom && cur_product_detection_valid &&
-            cur_product_for_non_custom_drone == m_drones_usage_from_params &&
-            m_drones_usage_from_params != "_NotUse" && m_drones_usage_from_params != "_Used") {
+            cur_product_for_non_custom_drone == m_drones_usage_from_params && m_drones_usage_from_params != "_NotUse" &&
+            m_drones_usage_from_params != "_Used") {
             if (use_drone()) {
                 m_drones_usage_from_params = "_Used";
             }
