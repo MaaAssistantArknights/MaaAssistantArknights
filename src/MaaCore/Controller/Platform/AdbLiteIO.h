@@ -12,6 +12,9 @@
 
 #include "Utils/Logger.hpp"
 
+#include <string>
+#include <string_view>
+
 namespace asst
 {
 #ifdef _WIN32
@@ -41,9 +44,12 @@ public:
     virtual void release_adb(const std::string& adb_release, int64_t timeout = 20000) override;
 
 private:
+    std::shared_ptr<adb::client> get_adb_client(std::string_view serial);
+
     static bool remove_quotes(std::string& data);
 
     std::shared_ptr<adb::client> m_adb_client = nullptr;
+    std::string m_adb_serial;
 };
 
 class IOHandlerAdbLite : public IOHandler
