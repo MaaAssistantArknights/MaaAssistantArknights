@@ -181,7 +181,7 @@ public class TaskQueueViewModel : Screen
             {
                 foreach (var item in e.OldItems?.OfType<TaskItemViewModel>() ?? [])
                 {
-                    (e.OldItems?.OfType<TaskItemViewModel>().FirstOrDefault() as IDisposable)?.Dispose(); // 释放事件订阅; 暂未支持TaskItemViewModels.clear()
+                    (item as IDisposable)?.Dispose(); // 释放事件订阅; 暂未支持TaskItemViewModels.clear()
                 }
 
                 if (e.OldStartingIndex >= 0 && e.OldStartingIndex < ConfigFactory.CurrentConfig.TaskQueue.Count)
