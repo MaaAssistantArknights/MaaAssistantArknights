@@ -20,356 +20,412 @@
             <ColumnDefinition Width="175" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListBox
-            x:Name="MasterListBox"
+
+        <!-- 内容区域（侧边栏和滚动视图） -->
+        <Grid
+            x:Name="ContentAreaWrapper"
             Grid.Column="0"
-            Margin="10"
-            dd:DragDrop.IsDragSource="True"
-            dd:DragDrop.IsDropTarget="True"
-            DisplayMemberPath="Display"
-            IsSynchronizedWithCurrentItem="true"
-            ItemsSource="{Binding Settings}"
-            SelectedIndex="{Binding SelectedIndex}" />
+            Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="175" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <hc:ScrollViewer
-            x:Name="SettingsScrollViewer"
-            Grid.Column="1"
-            Margin="20,10"
-            HorizontalAlignment="Stretch"
-            properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
-            properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
-            properties:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
-            properties:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
-            IsInertiaEnabled="True"
-            PanningMode="Both">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+            <ListBox
+                x:Name="MasterListBox"
+                Grid.Column="0"
+                Margin="10"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.IsDropTarget="True"
+                DisplayMemberPath="Display"
+                IsSynchronizedWithCurrentItem="true"
+                ItemsSource="{Binding Settings}"
+                SelectedIndex="{Binding SelectedIndex}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource TransparentListBoxItemStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsVisibleInSearch}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
 
-                <Grid
-                    Grid.Row="{c:Binding SwitchConfigurationSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="0">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding SwitchConfigurationSetting.Display}"
-                        IsExpanded="{Binding IsSwitchConfigurationExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
-                        </Border>
-                    </Expander>
+            <hc:ScrollViewer
+                x:Name="SettingsScrollViewer"
+                Grid.Column="1"
+                Margin="20,10"
+                HorizontalAlignment="Stretch"
+                properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
+                properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
+                properties:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
+                properties:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
+                IsInertiaEnabled="True"
+                PanningMode="Both">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid
+                        Grid.Row="{c:Binding SwitchConfigurationSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding SwitchConfigurationSetting.IsVisibleInSearch}"
+                        d:Grid.Row="0">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding SwitchConfigurationSetting.Display}"
+                            IsExpanded="{Binding IsSwitchConfigurationExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{c:Binding ScheduleSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding ScheduleSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="1">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding ScheduleSettingsSetting.Display}"
+                            IsExpanded="{Binding IsScheduleSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:TimerSettingsUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding TimerSettings}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding PerformanceSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding PerformanceSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="2">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding PerformanceSettingsSetting.Display}"
+                            IsExpanded="{Binding IsPerformanceSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:PerformanceUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding PerformanceSettings}"
+                                    IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding GameSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding GameSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="3">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding GameSettingsSetting.Display}"
+                            IsExpanded="{Binding IsGameSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:GameSettingsUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding GameSettings}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding ConnectionSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding ConnectionSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="4">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding ConnectionSettingsSetting.Display}"
+                            IsExpanded="{Binding IsConnectionSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:ConnectSettingsUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding ConnectSettings}"
+                                    IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding StartupSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding StartupSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="5">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding StartupSettingsSetting.Display}"
+                            IsExpanded="{Binding IsStartupSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:StartSettingsUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding StartSettings}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding RemoteControlSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding RemoteControlSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="6">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding RemoteControlSettingsSetting.Display}"
+                            IsExpanded="{Binding IsRemoteControlSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:RemoteControlUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding RemoteControlSettings}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding UiSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding UiSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="7">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding UiSettingsSetting.Display}"
+                            IsExpanded="{Binding IsUiSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:GuiSettingsUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding GuiSettings}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding BackgroundSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding BackgroundSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="8">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding BackgroundSettingsSetting.Display}"
+                            IsExpanded="{Binding IsBackgroundSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:BackgroundSettingsUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding BackgroundSettings}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding ExternalNotificationSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding ExternalNotificationSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="9">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding ExternalNotificationSettingsSetting.Display}"
+                            IsExpanded="{Binding IsExternalNotificationSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:ExternalNotificationSettingsUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding ExternalNotificationSettings}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding HotKeySettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding HotKeySettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="10">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding HotKeySettingsSetting.Display}"
+                            IsExpanded="{Binding IsHotKeySettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding AchievementSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding AchievementSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="11">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding AchievementSettingsSetting.Display}"
+                            IsExpanded="{Binding IsAchievementSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:AchievementSettingsUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding AchievementSettings}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding UpdateSettingsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding UpdateSettingsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="12">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding UpdateSettingsSetting.Display}"
+                            IsExpanded="{Binding IsUpdateSettingsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:VersionUpdateSettingsUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding VersionUpdateSettings}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding IssueReportSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding IssueReportSetting.IsVisibleInSearch}"
+                        d:Grid.Row="13">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding IssueReportSetting.Display}"
+                            IsExpanded="{Binding IsIssueReportExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:IssueReportUserControl
+                                    Margin="0,20"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding IssueReportSettings}" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="{Binding AboutUsSetting.Value}"
+                        Margin="0,0,0,5"
+                        Visibility="{c:Binding AboutUsSetting.IsVisibleInSearch}"
+                        d:Grid.Row="14">
+                        <Expander
+                            d:IsExpanded="True"
+                            Background="Transparent"
+                            Header="{Binding AboutUsSetting.Display}"
+                            IsExpanded="{Binding IsAboutUsExpanded}">
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <settings:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
+                            </Border>
+                        </Expander>
+                    </Grid>
+                    <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
                 </Grid>
+            </hc:ScrollViewer>
+        </Grid>
 
-                <Grid
-                    Grid.Row="{c:Binding ScheduleSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="1">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding ScheduleSettingsSetting.Display}"
-                        IsExpanded="{Binding IsScheduleSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:TimerSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding TimerSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding PerformanceSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="2">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding PerformanceSettingsSetting.Display}"
-                        IsExpanded="{Binding IsPerformanceSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:PerformanceUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding PerformanceSettings}"
-                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding GameSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="3">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding GameSettingsSetting.Display}"
-                        IsExpanded="{Binding IsGameSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:GameSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding GameSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding ConnectionSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="4">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding ConnectionSettingsSetting.Display}"
-                        IsExpanded="{Binding IsConnectionSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:ConnectSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding ConnectSettings}"
-                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding StartupSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="5">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding StartupSettingsSetting.Display}"
-                        IsExpanded="{Binding IsStartupSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:StartSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding StartSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding RemoteControlSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="6">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding RemoteControlSettingsSetting.Display}"
-                        IsExpanded="{Binding IsRemoteControlSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:RemoteControlUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding RemoteControlSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding UiSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="7">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding UiSettingsSetting.Display}"
-                        IsExpanded="{Binding IsUiSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:GuiSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding GuiSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding BackgroundSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="8">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding BackgroundSettingsSetting.Display}"
-                        IsExpanded="{Binding IsBackgroundSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:BackgroundSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding BackgroundSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding ExternalNotificationSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="9">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding ExternalNotificationSettingsSetting.Display}"
-                        IsExpanded="{Binding IsExternalNotificationSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:ExternalNotificationSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding ExternalNotificationSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding HotKeySettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="10">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding HotKeySettingsSetting.Display}"
-                        IsExpanded="{Binding IsHotKeySettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding AchievementSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="11">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding AchievementSettingsSetting.Display}"
-                        IsExpanded="{Binding IsAchievementSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:AchievementSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding AchievementSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding UpdateSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="12">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding UpdateSettingsSetting.Display}"
-                        IsExpanded="{Binding IsUpdateSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:VersionUpdateSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding VersionUpdateSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding IssueReportSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="13">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding IssueReportSetting.Display}"
-                        IsExpanded="{Binding IsIssueReportExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:IssueReportUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding IssueReportSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding AboutUsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="14">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding AboutUsSetting.Display}"
-                        IsExpanded="{Binding IsAboutUsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
-                        </Border>
-                    </Expander>
-                </Grid>
-                <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
-            </Grid>
-        </hc:ScrollViewer>
+        <!-- 搜索栏 -->
+        <Grid
+            x:Name="SearchBarOverlay"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="0,10,0,0"
+            VerticalAlignment="Top"
+            Panel.ZIndex="1">
+            <hc:SearchBar
+                x:Name="SettingsSearchBar"
+                MinWidth="400"
+                MaxWidth="800"
+                Margin="0,0,0,8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                IsRealTime="True"
+                Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
     </Grid>
 </UserControl>
