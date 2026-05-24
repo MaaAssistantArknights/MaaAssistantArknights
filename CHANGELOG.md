@@ -1,4 +1,4 @@
-## v6.10.6
+## v6.10.7
 
 ### Highlights
 
@@ -44,6 +44,12 @@ The minigame interface has been renamed to Useful Tasks, now featuring category 
 ----
 
 以下是详细内容：
+
+## v6.10.7
+
+### 修复 | Fix
+
+* 修复使用 adb-lite 时无法连接到 adb 客户端 (#16850) @wangl-cc @ABA2396
 
 ## v6.10.6
 

@@ -28,9 +28,9 @@ std::optional<int> asst::AdbLiteIO::call_command(
     static const boost::regex devices_regex(R"(^.+ devices$)");
     static const boost::regex release_regex(R"(^.+ kill-server$)");
     static const boost::regex connect_regex(R"(^.+ connect (\S+)$)");
-    static const boost::regex shell_regex(R"(^.+ -s \S+ shell (.+)$)");
-    static const boost::regex exec_regex(R"(^.+ -s \S+ exec-out (.+)$)");
-    static const boost::regex push_regex(R"#(^.+ -s \S+ push "(.+)" "(.+)"$)#");
+    static const boost::regex shell_regex(R"(^.+ -s (\S+) shell (.+)$)");
+    static const boost::regex exec_regex(R"(^.+ -s (\S+) exec-out (.+)$)");
+    static const boost::regex push_regex(R"#(^.+ -s (\S+) push "(.+)" "(.+)"$)#");
 
     // adb devices
     if (boost::regex_match(cmd, devices_regex)) {
@@ -61,12 +61,9 @@ std::optional<int> asst::AdbLiteIO::call_command(
     }
 
     // adb connect
-    // TODO: adb server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
     if (boost::regex_match(cmd, match, connect_regex)) {
-        m_adb_client = adb::client::create(match[1].str()); // TODO: compare address with existing (if any)
-
         try {
-            pipe_data = m_adb_client->connect();
+            pipe_data = get_adb_client(match[1].str())->connect();
             ret = 0;
             goto ret_exit;
         }
@@ -80,17 +77,11 @@ std::optional<int> asst::AdbLiteIO::call_command(
 
     // adb shell
     if (boost::regex_match(cmd, match, shell_regex)) {
-        if (!m_adb_client) {
-            Log.error("adb client not initialized");
-            ret = std::nullopt;
-            goto ret_exit;
-        }
-
-        std::string command = match[1].str();
+        std::string command = match[2].str();
         remove_quotes(command);
 
         try {
-            pipe_data = m_adb_client->shell(command);
+            pipe_data = get_adb_client(match[1].str())->shell(command);
             ret = 0;
             goto ret_exit;
         }
@@ -103,17 +94,11 @@ std::optional<int> asst::AdbLiteIO::call_command(
 
     // adb exec-out
     if (boost::regex_match(cmd, match, exec_regex)) {
-        if (!m_adb_client) {
-            Log.error("adb client not initialized");
-            ret = std::nullopt;
-            goto ret_exit;
-        }
-
-        std::string command = match[1].str();
+        std::string command = match[2].str();
         remove_quotes(command);
 
         try {
-            pipe_data = m_adb_client->exec(command);
+            pipe_data = get_adb_client(match[1].str())->exec(command);
             ret = 0;
             goto ret_exit;
         }
@@ -126,14 +111,8 @@ std::optional<int> asst::AdbLiteIO::call_command(
 
     // adb push
     if (boost::regex_match(cmd, match, push_regex)) {
-        if (!m_adb_client) {
-            Log.error("adb client not initialized");
-            ret = std::nullopt;
-            goto ret_exit;
-        }
-
         try {
-            m_adb_client->push(match[1].str(), match[2].str(), 0644);
+            get_adb_client(match[1].str())->push(match[2].str(), match[3].str(), 0644);
             ret = 0;
             goto ret_exit;
         }
@@ -156,22 +135,31 @@ ret_exit:
     return ret;
 }
 
+std::shared_ptr<adb::client> asst::AdbLiteIO::get_adb_client(std::string_view serial)
+{
+    std::lock_guard lock(m_adb_client_mutex);
+    const std::string serial_str(serial);
+    if (!m_adb_client || m_adb_serial != serial_str) {
+        auto adb_client = adb::client::create(serial_str);
+        m_adb_serial = serial_str;
+        m_adb_client = std::move(adb_client);
+    }
+
+    return m_adb_client;
+}
+
 std::shared_ptr<asst::IOHandler> asst::AdbLiteIO::interactive_shell(const std::string& cmd)
 {
-    static const boost::regex shell_regex(R"(^.+ -s \S+ shell (.+)$)");
+    static const boost::regex shell_regex(R"(^.+ -s (\S+) shell (.+)$)");
     boost::smatch match;
 
     if (boost::regex_match(cmd, match, shell_regex)) {
-        if (!m_adb_client) {
-            Log.error("adb client not initialized");
-            return nullptr;
-        }
-
-        std::string command = match[1].str();
+        std::string command = match[2].str();
         remove_quotes(command);
 
         try {
-            return std::make_shared<IOHandlerAdbLite>(m_adb_client->interactive_shell(command));
+            return std::make_shared<IOHandlerAdbLite>(
+                get_adb_client(match[1].str())->interactive_shell(command));
         }
         catch (const std::exception& e) {
             Log.error("adb shell failed:", e.what());
@@ -186,13 +174,18 @@ std::shared_ptr<asst::IOHandler> asst::AdbLiteIO::interactive_shell(const std::s
 
 void asst::AdbLiteIO::release_adb(const std::string& adb_release, int64_t timeout)
 {
-    if (m_adb_client) {
-        std::string pipe_data;
-        std::string sock_data;
-        auto start_time = std::chrono::steady_clock::now();
-
-        call_command(adb_release, false, pipe_data, sock_data, timeout, start_time);
+    // 只在读取 m_adb_client 时持锁，避免 call_command 内部调用 get_adb_client 时死锁
+    {
+        std::lock_guard lock(m_adb_client_mutex);
+        if (!m_adb_client) {
+            return;
+        }
     }
+
+    std::string pipe_data;
+    std::string sock_data;
+    auto start_time = std::chrono::steady_clock::now();
+    call_command(adb_release, false, pipe_data, sock_data, timeout, start_time);
 }
 
 bool asst::AdbLiteIO::remove_quotes(std::string& data)
