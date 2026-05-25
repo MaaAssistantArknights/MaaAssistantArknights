@@ -75,7 +75,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _runDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RunDirectly, bool.FalseString));
+    private bool _runDirectly = ConfigurationHelper.GetValue(ConfigurationKeys.RunDirectly, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to run directly.
@@ -89,7 +89,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+    private bool _minimizeDirectly = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeDirectly, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to minimize directly.
@@ -103,7 +103,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _openEmulatorAfterLaunch = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.StartEmulator, bool.FalseString));
+    private bool _openEmulatorAfterLaunch = ConfigurationHelper.GetValue(ConfigurationKeys.StartEmulator, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to start emulator.
@@ -214,7 +214,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _blockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
+    private bool _blockSleep = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, false);
 
     public bool BlockSleep
     {
@@ -226,7 +226,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
+    private bool _blockSleepWithScreenOn = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, true);
 
     public bool BlockSleepWithScreenOn
     {

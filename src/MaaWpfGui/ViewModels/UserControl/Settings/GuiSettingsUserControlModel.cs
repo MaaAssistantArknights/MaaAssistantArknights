@@ -70,7 +70,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
          ];
 
-    private bool _useTray = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, bool.TrueString));
+    private bool _useTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, true);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use tray icon.
@@ -90,7 +90,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+    private bool _minimizeToTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to minimize to tray.
@@ -109,7 +109,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _windowTitleScrollable = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleScrollable, bool.FalseString));
+    private bool _windowTitleScrollable = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleScrollable, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to make window title scrollable.
@@ -125,7 +125,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+    private bool _hideCloseButton = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HideCloseButton, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to hide close button.

@@ -133,7 +133,7 @@ public class VersionUpdateDialogViewModel : Screen
         set => SetAndNotify(ref _updateUrl, value);
     }
 
-    private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.FalseString));
+    private bool _isFirstBootAfterUpdate = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether it is the first boot after updating.
@@ -260,7 +260,7 @@ public class VersionUpdateDialogViewModel : Screen
         MirrorChyan,
     }
 
-    private bool _doNotShowUpdate = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, bool.FalseString));
+    private bool _doNotShowUpdate = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to show the update.
