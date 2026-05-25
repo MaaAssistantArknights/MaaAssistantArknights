@@ -37,7 +37,11 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
     {
         get => _name;
         set {
-            SetAndNotify(ref _name, value);
+            if (!SetAndNotify(ref _name, value))
+            {
+                return;
+            }
+
             ConfigFactory.CurrentConfig.TaskQueue[Index].Name = value;
         }
     }
