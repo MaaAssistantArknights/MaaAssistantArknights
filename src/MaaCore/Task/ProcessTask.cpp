@@ -121,9 +121,7 @@ bool ProcessTask::run()
             return true;
         }
 
-        if (status != NodeStatus::RetryFailed) {
-            cur_task_ptr = next_task_ptr;
-        }
+        cur_task_ptr = next_task_ptr;
     }
 
     return true;
