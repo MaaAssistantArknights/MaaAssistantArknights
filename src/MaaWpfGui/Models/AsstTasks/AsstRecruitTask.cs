@@ -91,11 +91,6 @@ public class AsstRecruitTask : AsstBaseTask
     public List<string> Level3FirstList { get; set; } = [];
 
     /// <summary>
-    /// Gets or sets a value indicating whether 遇到小车词条时是否招募
-    /// </summary>
-    public bool NotChooseLevel1 { get; set; }
-
-    /// <summary>
     /// Gets or sets 识别到后需要保留并跳过的 Tag。
     /// </summary>
     public List<string> SkipTags { get; set; } = [];

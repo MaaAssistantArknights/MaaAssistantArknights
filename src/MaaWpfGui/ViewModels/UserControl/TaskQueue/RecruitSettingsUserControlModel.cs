@@ -187,6 +187,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
         set => SetTaskConfig<RecruitTask>(t => t.Level5Choose == value, t => t.Level5Choose = value);
     }
 
+    #region 公招时间
     [PropertyDependsOn(nameof(ChooseLevel3Time))]
     public int ChooseLevel3Hour
     {
@@ -268,6 +269,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
             SetTaskConfig<RecruitTask>(t => t.Level5Time == value, t => t.Level5Time = value);
         }
     }
+    #endregion 公招时间
 
     public override void RefreshUI(BaseTask baseTask)
     {
@@ -300,7 +302,6 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 ExpeditedTimes = recruit.MaxTimes,
                 SelectExtraTags = recruit.ExtraTagMode,
                 Level3FirstList = firstTags,
-                NotChooseLevel1 = false,
                 SkipTags = preserveTags,
                 ChooseLevel3Time = recruit.Level3Time,
                 ChooseLevel4Time = recruit.Level4Time,

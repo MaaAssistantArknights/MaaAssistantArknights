@@ -51,18 +51,19 @@ bool asst::RecruitTask::set_params(const json::value& params)
     int times = params.get("times", 0);
     bool expedite = params.get("expedite", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
-    bool has_skip_tags = params.contains("skip_tags");
-    bool has_skip_robot = params.contains("skip_robot");
-    bool skip_robot = params.get("skip_robot", true);
-    std::vector<RecruitConfig::TagId> skip_tags = params.get("skip_tags", std::vector<RecruitConfig::TagId> {});
+    std::vector<RecruitConfig::TagId> skip_tags;
     std::vector<std::string> first_tags = params.get("first_tags", std::vector<std::string>(0));
 
-    if (has_skip_robot) {
-        Log.warn(__FUNCTION__, "`skip_robot` is deprecated, use `skip_tags` instead");
+    if (auto skip_tags_opt = params.find<std::vector<RecruitConfig::TagId>>("skip_tags")) {
+        skip_tags.swap(*skip_tags_opt);
     }
-
-    if (!has_skip_tags && skip_robot) {
-        skip_tags = { "支援机械" };
+    else if (auto skip_robot_opt = params.find<bool>("skip_robot")) {
+        LogWarn << "================  DEPRECATED  ================";
+        LogWarn << __FUNCTION__ << " 'skip_robot' has been deprecated in 6.11.0, please use 'skip_tags' instead.";
+        LogWarn << "================  DEPRECATED  ================";
+        if (*skip_robot_opt) {
+            skip_tags = { "支援机械" };
+        }
     }
 
     std::unordered_map<int /*level*/, int /*minute*/> recruitment_time_map;
