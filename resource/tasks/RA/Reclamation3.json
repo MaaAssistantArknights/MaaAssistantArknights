@@ -1682,8 +1682,8 @@
         "doc": "最小视角模板匹配 RA1 方格，中间态下进入关卡详情页",
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "RelaunchAnchor@RA@RA1Stage.png",
-        "roi": [570, 270, 220, 160],
+        "template": "RelaunchAnchor@RA@RA1StageAgain.png",
+        "roi": [600, 340, 140, 120],
         "postDelay": 900,
         "next": ["RelaunchAnchor@RA@RA1-OpenConstruction"]
     },
@@ -1700,8 +1700,9 @@
         "doc": "最小视角模板匹配 RA15 入口图标，中间态下进入关卡详情页",
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "RelaunchAnchor@RA@RA15Stage.png",
+        "template": "RelaunchAnchor@RA@RA15StageAgain.png",
         "roi": [520, 310, 220, 160],
+        "rectMove": [20, 35, 30, 30],
         "postDelay": 900,
         "next": ["RelaunchAnchor@RA@RA15-OpenConstruction"]
     },
@@ -1718,37 +1719,40 @@
         "doc": "最小视角模板匹配 RA4 入口图标，中间态下进入关卡详情页",
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "RelaunchAnchor@RA@RA4Stage.png",
+        "template": "RelaunchAnchor@RA@RA4StageAgain.png",
         "roi": [520, 290, 220, 160],
         "postDelay": 900,
         "next": ["RelaunchAnchor@RA@RA4-OpenConstruction"]
     },
     "RelaunchAnchor@RA@Common-OpenBaseOverview": {
-        "doc": "通用地图归位步骤 1：点击左下角大圆形基地按钮，不依赖基地等级文本",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [72, 615, 75, 72],
+        "doc": "通用地图归位步骤 1：模板匹配左下角大圆形基地按钮，不依赖基地等级文本",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@BaseIcon.png",
+        "templThreshold": 0.75,
+        "roi": [0, 560, 170, 150],
         "postDelay": 1200
     },
     "RelaunchAnchor@RA@Common-ReturnFromBaseOverview": {
-        "doc": "通用地图归位步骤 2：点击基地概览页左上角返回按钮内部区域，使地图自动居中到基地",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [92, 39, 1, 1],
-        "postDelay": 2000
+        "doc": "通用地图归位步骤 2：模板匹配基地概览页左上角返回按钮，使地图自动居中到基地",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@ReturnButton.png",
+        "roi": [0, 0, 180, 90]
     },
     "RelaunchAnchor@RA@Common-ZoomOutMap": {
         "doc": "通用地图归位步骤 3：模板识别左侧缩放滑块圆点，从圆点自身向下拖到底，切到最小视角",
         "algorithm": "MatchTemplate",
         "action": "SwipeSelf",
         "template": "RelaunchAnchor@RA@ZoomSliderKnob.png",
+        "maskRange": [1, 255],
         "roi": [20, 360, 70, 280],
         "rectMove": [0, 160, 28, 28],
-        "specialParams": [1000, 0, 3, 0],
-        "postDelay": 800
+        "specialParams": [1000, 0, 3, 0]
     },
     "RelaunchAnchor@RA@RA1-ReturnFromBaseOverview": {
         "baseTask": "RelaunchAnchor@RA@Common-ReturnFromBaseOverview",
+        "template": "RelaunchAnchor@RA@ReturnButton.png",
         "next": ["RelaunchAnchor@RA@RA1-ZoomOutMap"]
     },
     "RelaunchAnchor@RA@RA1-ZoomOutMap": {
@@ -1758,6 +1762,7 @@
     },
     "RelaunchAnchor@RA@RA15-ReturnFromBaseOverview": {
         "baseTask": "RelaunchAnchor@RA@Common-ReturnFromBaseOverview",
+        "template": "RelaunchAnchor@RA@ReturnButton.png",
         "next": ["RelaunchAnchor@RA@RA15-ZoomOutMap"]
     },
     "RelaunchAnchor@RA@RA15-ZoomOutMap": {
@@ -1767,6 +1772,7 @@
     },
     "RelaunchAnchor@RA@RA4-ReturnFromBaseOverview": {
         "baseTask": "RelaunchAnchor@RA@Common-ReturnFromBaseOverview",
+        "template": "RelaunchAnchor@RA@ReturnButton.png",
         "next": ["RelaunchAnchor@RA@RA4-ZoomOutMap"]
     },
     "RelaunchAnchor@RA@RA4-ZoomOutMap": {
@@ -1821,14 +1827,20 @@
     },
     "RelaunchAnchor@RA@RA1-OpenBaseOverview": {
         "baseTask": "RelaunchAnchor@RA@Common-OpenBaseOverview",
+        "template": "RelaunchAnchor@RA@BaseIcon.png",
+        "templThreshold": 0.75,
         "next": ["RelaunchAnchor@RA@RA1-ReturnFromBaseOverview"]
     },
     "RelaunchAnchor@RA@RA4-OpenBaseOverview": {
         "baseTask": "RelaunchAnchor@RA@Common-OpenBaseOverview",
+        "template": "RelaunchAnchor@RA@BaseIcon.png",
+        "templThreshold": 0.75,
         "next": ["RelaunchAnchor@RA@RA4-ReturnFromBaseOverview"]
     },
     "RelaunchAnchor@RA@RA15-OpenBaseOverview": {
         "baseTask": "RelaunchAnchor@RA@Common-OpenBaseOverview",
+        "template": "RelaunchAnchor@RA@BaseIcon.png",
+        "templThreshold": 0.75,
         "next": ["RelaunchAnchor@RA@RA15-ReturnFromBaseOverview"]
     }
 }
