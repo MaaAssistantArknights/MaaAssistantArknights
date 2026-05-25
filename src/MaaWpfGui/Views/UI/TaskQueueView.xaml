@@ -106,7 +106,7 @@
                                             <CheckBox
                                                 Grid.Column="0"
                                                 MaxWidth="140"
-                                                Margin="6,0,0,0"
+                                                Margin="4.5,0,0,0"
                                                 HorizontalAlignment="Left"
                                                 IsChecked="{Binding IsEnable}"
                                                 IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
@@ -128,7 +128,6 @@
                                                     </ToolTip>
                                                 </CheckBox.ToolTip>
                                             </CheckBox>
-
                                             <controls:TextBlock
                                                 Grid.Column="0"
                                                 Grid.ColumnSpan="2"
