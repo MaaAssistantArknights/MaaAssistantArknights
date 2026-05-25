@@ -71,23 +71,7 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
     {
         get => field;
         set {
-            if (!SetAndNotify(ref field, value))
-            {
-                return;
-            }
-
-            if (value)
-            {
-                var items = Instances.TaskQueueViewModel.TaskItemViewModels;
-                foreach (var item in items)
-                {
-                    if (item != this && item.EnableSetting)
-                    {
-                        item.EnableSetting = false;
-                    }
-                }
-            }
-
+            SetAndNotify(ref field, value);
             TaskSettingVisibilityInfo.Instance.Set(Index, value);
         }
     }
