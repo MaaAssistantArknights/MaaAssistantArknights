@@ -97,7 +97,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("MaaFwAdbTouchMode"), Value = "MaaFwAdb" },
         ];
 
-    private bool _autoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, bool.TrueString));
+    private bool _autoDetectConnection = ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, true);
 
     public bool AutoDetectConnection
     {
@@ -117,7 +117,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _alwaysAutoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AlwaysAutoDetect, bool.FalseString));
+    private bool _alwaysAutoDetectConnection = ConfigurationHelper.GetValue(ConfigurationKeys.AlwaysAutoDetect, false);
 
     public bool AlwaysAutoDetectConnection
     {
@@ -274,7 +274,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     public class MuMuEmulator12ConnectionExtras : PropertyChangedBase
     {
-        private bool _enable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, bool.FalseString));
+        private bool _enable = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, false);
 
         public bool Enable
         {
@@ -413,7 +413,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             }
         }
 
-        private bool _mumuBridgeConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, bool.FalseString));
+        private bool _mumuBridgeConnection = ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, false);
 
         public bool MuMuBridgeConnection
         {
@@ -486,7 +486,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     public class LdPlayerConnectionExtras : PropertyChangedBase
     {
-        private bool _enable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerExtrasEnabled, bool.FalseString));
+        private bool _enable = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerExtrasEnabled, false);
 
         public bool Enable
         {
@@ -611,7 +611,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             }
         }
 
-        private bool _manualSetIndex = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerManualSetIndex, bool.FalseString));
+        private bool _manualSetIndex = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerManualSetIndex, false);
 
         public bool ManualSetIndex
         {
@@ -753,7 +753,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     public LdPlayerConnectionExtras LdPlayerExtras { get; set; } = new();
 
-    private bool _retryOnDisconnected = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, bool.FalseString));
+    private bool _retryOnDisconnected = ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to retry task after ADB disconnected.
@@ -777,7 +777,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _allowAdbRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbRestart, bool.TrueString));
+    private bool _allowAdbRestart = ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbRestart, true);
 
     /// <summary>
     /// Gets or sets a value indicating whether to retry task after ADB disconnected.
@@ -791,7 +791,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _allowAdbHardRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbHardRestart, bool.TrueString));
+    private bool _allowAdbHardRestart = ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbHardRestart, true);
 
     /// <summary>
     /// Gets or sets a value indicating whether to allow for killing ADB process.
@@ -805,7 +805,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _adbLiteEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbLiteEnabled, bool.FalseString));
+    private bool _adbLiteEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.AdbLiteEnabled, false);
 
     public bool AdbLiteEnabled
     {
@@ -817,7 +817,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _killAdbOnExit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.KillAdbOnExit, bool.FalseString));
+    private bool _killAdbOnExit = ConfigurationHelper.GetValue(ConfigurationKeys.KillAdbOnExit, false);
 
     public bool KillAdbOnExit
     {
@@ -1289,7 +1289,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, bool.FalseString));
+    public bool AdbReplaced { get; set; } = ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, false);
 
     #region AttachWindow (Win32窗口绑定) 配置
 

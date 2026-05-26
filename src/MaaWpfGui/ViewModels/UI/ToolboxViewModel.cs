@@ -256,7 +256,7 @@ public class ToolboxViewModel : Screen
         }
     } = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5, true);
 
-    private bool _chooseLevel6 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel6, bool.TrueString));
+    private bool _chooseLevel6 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel6, true);
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 6.
@@ -354,7 +354,7 @@ public class ToolboxViewModel : Screen
         }
     } = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel5Time, 540);
 
-    private bool _autoSetTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, bool.TrueString));
+    private bool _autoSetTime = ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, true);
 
     /// <summary>
     /// Gets or sets a value indicating whether to set time automatically.
@@ -425,7 +425,7 @@ public class ToolboxViewModel : Screen
         ret &= Instances.AsstProxy.AsstStart();
     }
 
-    private bool _recruitmentShowPotential = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, bool.TrueString));
+    private bool _recruitmentShowPotential = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, true);
 
     public bool RecruitmentShowPotential
     {
@@ -1982,7 +1982,7 @@ public class ToolboxViewModel : Screen
     // 請勿更改
     // このコードを変更しないでください
     // 변경하지 마십시오
-    private bool _gachaShowDisclaimer = true; // !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ShowDisclaimerNoMore, bool.FalseString));
+    private bool _gachaShowDisclaimer = true; // !ConfigurationHelper.GetValue(ConfigurationKeys.ShowDisclaimerNoMore, false);
 
     public bool GachaShowDisclaimer
     {
@@ -1992,7 +1992,7 @@ public class ToolboxViewModel : Screen
         }
     }
 
-    private bool _gachaShowDisclaimerNoMore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, bool.FalseString));
+    private bool _gachaShowDisclaimerNoMore = ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, false);
 
     public bool GachaShowDisclaimerNoMore
     {
@@ -2084,7 +2084,7 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _peepScreenFpf, value);
     }
 
-    private int _peepTargetFps = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PeepTargetFps, "20"));
+    private int _peepTargetFps = ConfigurationHelper.GetValue(ConfigurationKeys.PeepTargetFps, 20);
 
     public int PeepTargetFps
     {

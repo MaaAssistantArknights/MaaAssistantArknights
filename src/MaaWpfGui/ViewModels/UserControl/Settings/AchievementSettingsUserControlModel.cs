@@ -208,7 +208,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         AchievementTrackerHelper.Instance.LockAll();
     }
 
-    private bool _achievementPopupDisabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AchievementPopupDisabled, bool.FalseString));
+    private bool _achievementPopupDisabled = ConfigurationHelper.GetValue(ConfigurationKeys.AchievementPopupDisabled, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to disable achievement notifications.

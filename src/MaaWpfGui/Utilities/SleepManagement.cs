@@ -28,8 +28,8 @@ public static class SleepManagement
 
     private static readonly ILogger _logger = Log.ForContext("SourceContext", "SleepManagement");
 
-    private static bool _allowBlockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
-    private static bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
+    private static bool _allowBlockSleep = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, false);
+    private static bool _blockSleepWithScreenOn = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, true);
     private static bool _isBlockingSleep = false;
 
     public static void SetBlockSleep(bool allowBlockSleep)
