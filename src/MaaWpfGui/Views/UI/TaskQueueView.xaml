@@ -126,26 +126,6 @@
                                             </Grid.ColumnDefinitions>
 
                                             <!--  Column 0: stretch-fill settings button (gear hidden, catches clicks on blank space)  -->
-                                            <hc:ButtonGroup>
-                                                <RadioButton
-                                                    Grid.Column="0"
-                                                    Margin="0"
-                                                    Padding="0"
-                                                    HorizontalAlignment="Stretch"
-                                                    HorizontalContentAlignment="Left"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    IsChecked="{Binding EnableSetting}"
-                                                    Style="{DynamicResource RadioGroupItemSingle}">
-                                                    <RadioButton.ToolTip>
-                                                        <ToolTip>
-                                                            <StackPanel>
-                                                                <TextBlock Text="{DynamicResource TaskSettings}" />
-                                                            </StackPanel>
-                                                        </ToolTip>
-                                                    </RadioButton.ToolTip>
-                                                </RadioButton>
-                                            </hc:ButtonGroup>
                                             <CheckBox
                                                 Grid.Column="0"
                                                 MaxWidth="140"
@@ -178,10 +158,9 @@
                                                 VerticalAlignment="Center"
                                                 Background="Transparent"
                                                 IsHitTestVisible="False"
-                                                Text="{Binding Name}"
-                                                TextTrimming="CharacterEllipsis">
-                                                <TextBlock.Style>
-                                                    <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="{x:Type TextBlock}">
+                                                Text="{Binding Name}">
+                                                <controls:TextBlock.Style>
+                                                    <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}">
                                                         <Style.Triggers>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
@@ -192,7 +171,7 @@
                                                             </MultiDataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
-                                                </TextBlock.Style>
+                                                </controls:TextBlock.Style>
                                             </controls:TextBlock>
 
                                             <!--  Column 1: gear icon + action buttons (all independent from Column 0)  -->
@@ -504,7 +483,7 @@
                         </Button.Style>
                         <controls:TextBlock Text="{DynamicResource LinkStart}">
                             <controls:TextBlock.Style>
-                                <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="controls:TextBlock">
+                                <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}">
                                     <Setter Property="Visibility" Value="Visible" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ShowDeepSleepIcon}" Value="True">
