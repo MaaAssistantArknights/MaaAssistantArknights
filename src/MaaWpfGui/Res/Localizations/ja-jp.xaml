@@ -1402,12 +1402,12 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Level3UseShortTime2">星3タグを1:00に設定する</system:String>
     <system:String x:Key="Level3UseShortTimeTip">他のレアリティには影響しない</system:String>
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">星1を手動的に確認する</system:String>
+    <system:String x:Key="PreserveTags">指定タグを保留する</system:String>
     <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>
-    <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
+    <system:String x:Key="PreserveTagsTip">選択したタグのいずれかを認識した場合、その募集をスキップして枠を残します。未選択の場合は何も保留しません。</system:String>
     <!--  !自動募集設定  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">尊敬なるドクター、クロージャ様のお店で「酒」の新しいリストがあると聞いたことがありませんか？一緒に確認しませんか？</system:String>

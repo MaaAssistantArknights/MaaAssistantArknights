@@ -355,6 +355,16 @@ Todo
   }
   ```
 
+- `RecruitPreservedTag`  
+  Recruitment preserved tag detected
+
+  ```json
+  // Corresponding details field example
+  {
+    "tag": "支援机械" // "Robot"
+  }
+  ```
+
 - `RecruitResult`  
   Recruitment recognition result
 

@@ -1402,12 +1402,12 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Level3UseShortTime2">3 星设置 1:00 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影响其他星级 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次执行时最大招募次数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">保留 1 星词条并跳过该栏位</system:String>
+    <system:String x:Key="PreserveTags">保留指定词条</system:String>
     <system:String x:Key="AutoSelectLevel3">自动确认 3 星</system:String>
     <system:String x:Key="AutoSelectLevel4">自动确认 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>
     <system:String x:Key="AutoSelectLevel6">自动确认 6 星</system:String>
-    <system:String x:Key="Level1Tip">勾选时识别到 1 星词条时跳过该次招募，未勾选时将忽略 1 星词条。</system:String>
+    <system:String x:Key="PreserveTagsTip">识别到任一已选词条时跳过该次招募并保留该栏位；留空时不保留任何词条。</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">博士，欢迎加入这盛大的鱼人庆典！听说可露希尔小姐的商店里新上架了美酒，要去来一杯吗？</system:String>

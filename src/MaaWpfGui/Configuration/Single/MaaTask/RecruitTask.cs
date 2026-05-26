@@ -12,8 +12,12 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Linq;
+using System.Text.Json.Serialization;
+using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -21,7 +25,7 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 /// <summary>
 /// 公招
 /// </summary>
-public class RecruitTask : BaseTask
+public class RecruitTask : BaseTask, IJsonOnDeserialized
 {
     public RecruitTask() => TaskType = TaskType.Recruit;
 
@@ -48,6 +52,21 @@ public class RecruitTask : BaseTask
     public List<string> Level3PreferTags { get; set; } = [];
 
     /// <summary>
+    /// Gets or sets a value indicating whether 是否启用3星Tag倾向。
+    /// </summary>
+    public bool PreferTagEnabled { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets 需要保留并跳过的Tag。
+    /// </summary>
+    public List<string> PreserveTagList { get; set; } = [RecruitSettingsUserControlModel.LegacyRobotTag];
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 是否启用保留指定Tag。
+    /// </summary>
+    public bool PreserveTagEnabled { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 无倾向Tag时是否刷新3星
     /// TODO 重命名?
     /// </summary>
@@ -57,11 +76,6 @@ public class RecruitTask : BaseTask
     /// Gets or sets a value indicating whether 无招聘许可仍然刷新
     /// </summary>
     public bool ForceRefresh { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 不自动确认1星
-    /// </summary>
-    public bool Level1NotChoose { get; set; } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether 自动确认3星
@@ -92,4 +106,19 @@ public class RecruitTask : BaseTask
     /// Gets or sets 5星时间
     /// </summary>
     public int Level5Time { get; set; } = 540;
+
+    public void OnDeserialized()
+    {
+        var normalizedPreferTags = RecruitTagHelper.NormalizeTagList(Level3PreferTags);
+        if (!Level3PreferTags.SequenceEqual(normalizedPreferTags, StringComparer.Ordinal))
+        {
+            Level3PreferTags = normalizedPreferTags;
+        }
+
+        var normalizedPreserveTags = RecruitTagHelper.NormalizeTagList(PreserveTagList);
+        if (!PreserveTagList.SequenceEqual(normalizedPreserveTags, StringComparer.Ordinal))
+        {
+            PreserveTagList = normalizedPreserveTags;
+        }
+    }
 }

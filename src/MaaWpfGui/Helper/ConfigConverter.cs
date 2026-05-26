@@ -274,10 +274,16 @@ public class ConfigConverter
                 infrastTask.RoomList = roomList;
 
                 recruitTask.ExtraTagMode = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, 0);
-                recruitTask.Level3PreferTags = [.. ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty).Split(";")];
+                recruitTask.Level3PreferTags =
+                [
+                    .. ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty)
+                        .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                ];
+                recruitTask.PreferTagEnabled = recruitTask.Level3PreferTags.Count != 0;
                 recruitTask.RefreshLevel3 = ConfigurationHelper.GetValue(ConfigurationKeys.RefreshLevel3, true);
                 recruitTask.ForceRefresh = ConfigurationHelper.GetValue(ConfigurationKeys.ForceRefresh, true);
-                recruitTask.Level1NotChoose = ConfigurationHelper.GetValue(ConfigurationKeys.NotChooseLevel1, true);
+                recruitTask.PreserveTagEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.NotChooseLevel1, true);
+                recruitTask.PreserveTagList = recruitTask.PreserveTagEnabled ? [RecruitSettingsUserControlModel.LegacyRobotTag] : [];
                 recruitTask.MaxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitMaxTimes, 4);
                 recruitTask.Level3Choose = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel3, true);
                 recruitTask.Level3Time = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, 540);

@@ -259,7 +259,14 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 緊急招集の回数。`expedite` が true の場合のみ有効です。デフォルトは制限なし（`times` の上限まで）です。  
 :::  
 ::: field name="skip_robot" type="boolean" optional default="true"  
-ロボット タグが認識されたときにスキップするかどうか。  
+非推奨です。旧パラメータ互換のためにのみ残されています。  
+<br>
+`skip_tags` が指定されておらず、この値が `true` の場合は `支援机械` を認識したときのみスキップします。`元素` は旧来の 1★ タグとしては扱われません。  
+:::
+::: field name="skip_tags" type="array<string>" optional  
+現在の公開求人枠を保持したまま今回の募集をスキップしたい Tag 名の一覧です。デフォルトは空です。  
+<br>
+指定した Tag のいずれかを認識した場合、MAA はその枠を保持して今回の募集をスキップします。  
 :::  
 ::: field name="recruitment_time" type="object" optional  
 タグレベル（3 以上）と対応する希望採用時間（分単位）。デフォルト値は 540（つまり 09:00:00）です。
@@ -300,7 +307,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "set_time": true,
    "expedite": false,
    "expedite_times": 0,
-   "skip_robot": true,
+   "skip_tags": ["支援机械"],
    "recruitment_time": {
       "3": 540,
       "4": 540

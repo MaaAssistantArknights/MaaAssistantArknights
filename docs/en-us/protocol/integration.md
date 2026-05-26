@@ -259,7 +259,14 @@ Whether to use Expedited Plans.
 Number of expedites, only effective when `expedite` is true. By default unlimited (until `times` limit is reached).  
 :::  
 ::: field name="skip_robot" type="boolean" optional default="true"  
-Whether to skip when robot tag is recognized.  
+Deprecated and kept only for backward compatibility.  
+<br>
+When `skip_tags` is absent and this value is `true`, MAA skips on `支援机械` only; `元素` is no longer treated as the legacy 1★ tag.  
+:::
+::: field name="skip_tags" type="array<string>" optional  
+List of tag names that should preserve the current recruitment slot and skip this recruitment. Default is empty.  
+<br>
+If any specified tag is recognized, MAA will keep that slot untouched and skip the current recruitment.  
 :::  
 ::: field name="recruitment_time" type="object" optional  
 Tag ★ rarity (greater than or equal to 3) and corresponding desired recruitment time limit, in minutes, all default to 540 (i.e. 09:00:00).
@@ -300,7 +307,7 @@ Options: `CN` | `US` | `JP` | `KR`
    "set_time": true,
    "expedite": false,
    "expedite_times": 0,
-   "skip_robot": true,
+   "skip_tags": ["支援机械"],
    "recruitment_time": {
       "3": 540,
       "4": 540

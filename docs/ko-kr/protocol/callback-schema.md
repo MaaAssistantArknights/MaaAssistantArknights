@@ -364,6 +364,15 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   :::
   ::::
 
+- `RecruitPreservedTag`  
+  공개모집에서 보류 대상으로 설정된 태그를 식별했습니다. `details` 필드 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field name="tag" type="string" required
+  보류를 트리거한 태그 명칭, 예: `지원 기계`
+  :::
+  ::::
+
 - `RecruitResult`  
   공개모집 식별 결과. `details` 필드 구조는 다음과 같습니다:
   - `tags` (array, required): 식별된 모든 태그, 현재 5개로 고정

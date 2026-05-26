@@ -361,6 +361,16 @@ Todo
   }
   ```
 
+- `RecruitPreservedTag`  
+   保留対象の公開求人タグの検出
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+     "tag": "ロボット"
+  }
+  ```
+
 - `RecruitResult`  
    公開求人結果
 
