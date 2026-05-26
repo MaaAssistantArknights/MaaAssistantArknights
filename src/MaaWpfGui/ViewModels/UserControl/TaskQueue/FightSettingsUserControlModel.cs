@@ -1412,7 +1412,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
                 if (inventoryTargetRuntimeState == null)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("SpecifiedDropsInventoryUnavailable", fight.NameDisplay), UiLogColor.Warning);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("SpecifiedDropsInventoryUnavailable", fight.NameOrTaskType), UiLogColor.Warning);
                     return (null, []);
                 }
 
