@@ -31,6 +31,7 @@ jobs:
       assembly_version: ${{ steps.out.outputs.assembly_version }}
       file_version: ${{ steps.out.outputs.file_version }}
       informational_version: ${{ steps.out.outputs.informational_version }}
+      is_beta: ${{ steps.out.outputs.is_beta }}
     steps:
       - id: out
         shell: bash
@@ -50,6 +51,15 @@ jobs:
 
           tag="${tag#refs/tags/}"
           semver_tag="${tag#v}"
+          semver_tag_lower="${semver_tag,,}"
+          is_beta=false
+          if [[ "${semver_tag_lower}" =~ ^[0-9]+\.[0-9]+\.[0-9]+-beta([.-][0-9a-z]+)*$ ]]; then
+            is_beta=true
+          fi
+          if [[ "${is_beta}" == "true" && "${prerelease}" != "true" ]]; then
+            echo "MAAUnified beta packages must be attached to a GitHub prerelease." >&2
+            exit 1
+          fi
 
           if [[ "${semver_tag}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)(-([0-9A-Za-z][0-9A-Za-z.-]*))?$ ]]; then
             version_prefix="${BASH_REMATCH[1]}"
@@ -70,39 +80,23 @@ jobs:
           echo "assembly_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
           echo "file_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
           echo "informational_version=${tag}" >> "$GITHUB_OUTPUT"
+          echo "is_beta=${is_beta}" >> "$GITHUB_OUTPUT"
 
   build-and-upload:
     name: Release ${{ matrix.name }}
     needs: meta
+    if: needs.meta.outputs.is_beta == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: windows-x64
-            os: windows-latest
-            rid: win-x64
-            self_contained: true
-            cmake_preset: windows-unified-publish-x64
-            maadeps_triplet: x64-windows
           - name: linux-x64
             os: ubuntu-latest
             rid: linux-x64
             self_contained: true
             cmake_preset: linux-publish-x64
             maadeps_triplet: x64-linux
-          - name: macos-x64
-            os: macos-latest
-            rid: osx-x64
-            self_contained: true
-            cmake_preset: macos-publish-x64
-            maadeps_triplet: x64-osx
-          - name: macos-arm64
-            os: macos-latest
-            rid: osx-arm64
-            self_contained: true
-            cmake_preset: macos-publish-arm64
-            maadeps_triplet: arm64-osx
 
     steps:
       - uses: actions/checkout@v6
@@ -323,6 +317,7 @@ jobs:
         run: |
           mkdir -p release
           name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
+          echo "Linux AppImage is a portable-directory launcher; upload only the complete zip package."
           bash src/MAAUnified/CI/create-linux-appimage.sh "$MAAUNIFIED_STAGING_DIR" release MAAUnified x86_64
           cp "release/MAAUnified.AppImage" "$MAAUNIFIED_STAGING_DIR/MAAUnified.AppImage"
           (
