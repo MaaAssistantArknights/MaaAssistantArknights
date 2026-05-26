@@ -21,6 +21,28 @@
     d:DesignHeight="495"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style
+            x:Key="TaskActionButtonStyle"
+            BasedOn="{StaticResource {x:Type Button}}"
+            TargetType="Button">
+            <Setter Property="Width" Value="22" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="hc:IconElement.Height" Value="14" />
+            <Setter Property="hc:IconElement.Width" Value="14" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <userControl:GuideUserControl
             x:Name="Guide"
@@ -72,7 +94,7 @@
                             ToolTip="{DynamicResource LabelSequenceTip}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border CornerRadius="4">
+                                    <Border x:Name="TaskItemBorder" CornerRadius="4">
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="Background" Value="Transparent" />
@@ -99,10 +121,11 @@
                                         </Border.Style>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
+                                            <!--  Column 0: stretch-fill settings button (gear hidden, catches clicks on blank space)  -->
                                             <CheckBox
                                                 Grid.Column="0"
                                                 MaxWidth="140"
@@ -130,14 +153,14 @@
                                             </CheckBox>
                                             <controls:TextBlock
                                                 Grid.Column="0"
-                                                Grid.ColumnSpan="2"
-                                                Margin="26,0,0,0"
-                                                HorizontalAlignment="Left"
+                                                Margin="26,0,4,0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Center"
                                                 Background="Transparent"
                                                 IsHitTestVisible="False"
                                                 Text="{Binding Name}">
-                                                <TextBlock.Style>
-                                                    <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="{x:Type TextBlock}">
+                                                <controls:TextBlock.Style>
+                                                    <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}">
                                                         <Style.Triggers>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
@@ -148,94 +171,93 @@
                                                             </MultiDataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
-                                                </TextBlock.Style>
+                                                </controls:TextBlock.Style>
                                             </controls:TextBlock>
 
-                                            <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Stretch">
-                                                <RadioButton
-                                                    x:Name="TaskSettingRadioButton"
-                                                    Margin="0"
-                                                    HorizontalAlignment="Stretch"
-                                                    HorizontalContentAlignment="Right"
-                                                    hc:VisualElement.HighlightBackground="Transparent"
-                                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    ContextMenuService.IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    Foreground="{DynamicResource SecondaryTextBrush}"
-                                                    GroupName="TaskSettings"
-                                                    IsChecked="{Binding EnableSetting}"
-                                                    Style="{DynamicResource RadioGroupItemSingle}">
-                                                    <Grid Width="16" Height="16">
-                                                        <Path Data="{StaticResource ConfigGeometry}" Stretch="Uniform">
-                                                            <Path.Style>
-                                                                <Style TargetType="Path">
-                                                                    <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}" />
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=RadioButton}}" Value="True">
-                                                                            <Setter Property="Fill" Value="{DynamicResource PrimaryBrush}" />
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding EnableSetting}" Value="True">
-                                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </Path.Style>
-                                                        </Path>
-                                                        <Path
-                                                            Data="{StaticResource ConfigGeometry2}"
-                                                            Fill="{DynamicResource PrimaryBrush}"
-                                                            Stretch="Uniform">
-                                                            <Path.Style>
-                                                                <Style TargetType="Path">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding EnableSetting}" Value="True">
-                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </Path.Style>
-                                                        </Path>
-                                                    </Grid>
-                                                    <RadioButton.ToolTip>
-                                                        <ToolTip>
-                                                            <StackPanel>
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
-                                                                <TextBlock Text="{DynamicResource TaskSettings}" />
-
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
-                                                                <TextBlock>
-                                                                    <Run Text="{DynamicResource RunTaskOnce}" />
-                                                                    <Run Text=" / " />
-                                                                    <Run Text="{DynamicResource Rename}" />
-                                                                    <Run Text=" / " />
-                                                                    <Run Text="{DynamicResource Delete}" />
-                                                                </TextBlock>
-                                                            </StackPanel>
-                                                        </ToolTip>
-                                                    </RadioButton.ToolTip>
-                                                    <RadioButton.ContextMenu>
-                                                        <ContextMenu Width="150">
-                                                            <MenuItem
-                                                                Command="{s:Action RunTaskOnce,
-                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource RunTaskOnce}" />
-                                                            <MenuItem
-                                                                Command="{s:Action RenameTask,
-                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource Rename}" />
-                                                            <MenuItem
-                                                                Command="{s:Action RemoveTask,
-                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource Delete}" />
-                                                        </ContextMenu>
-                                                    </RadioButton.ContextMenu>
-                                                </RadioButton>
-                                            </hc:ButtonGroup>
+                                            <!--  Column 1: gear icon + action buttons (all independent from Column 0)  -->
+                                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}" Value="True" />
+                                                                        <Condition Binding="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" Value="True" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </MultiDataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                    <Button
+                                                        hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
+                                                        Command="{s:Action CopyTask,
+                                                                           Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                        CommandParameter="{Binding}"
+                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                        ToolTip="{DynamicResource Copy}" />
+                                                    <Button
+                                                        hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
+                                                        Command="{s:Action RenameTask,
+                                                                           Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                        CommandParameter="{Binding}"
+                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                        ToolTip="{DynamicResource Rename}" />
+                                                    <Button
+                                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                                        Command="{s:Action RemoveTask,
+                                                                           Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                        CommandParameter="{Binding}"
+                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                        ToolTip="{DynamicResource Delete}" />
+                                                </StackPanel>
+                                                <hc:ButtonGroup>
+                                                    <RadioButton
+                                                        x:Name="TaskSettingRadioButton"
+                                                        Width="22"
+                                                        Margin="0,0,4,0"
+                                                        Padding="0"
+                                                        hc:VisualElement.HighlightBackground="Transparent"
+                                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        GroupName="TaskSettings"
+                                                        IsChecked="{Binding EnableSetting}"
+                                                        Style="{DynamicResource RadioGroupItemSingle}">
+                                                        <Grid Width="16" Height="16">
+                                                            <Path
+                                                                Data="{StaticResource ConfigGeometry}"
+                                                                Stretch="Uniform"
+                                                                Visibility="{c:Binding !EnableSetting}">
+                                                                <Path.Style>
+                                                                    <Style TargetType="Path">
+                                                                        <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=RadioButton}}" Value="True">
+                                                                                <Setter Property="Fill" Value="{DynamicResource PrimaryBrush}" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Path.Style>
+                                                            </Path>
+                                                            <Path
+                                                                Data="{StaticResource ConfigGeometry2}"
+                                                                Fill="{DynamicResource PrimaryBrush}"
+                                                                Stretch="Uniform"
+                                                                Visibility="{c:Binding EnableSetting}" />
+                                                        </Grid>
+                                                        <RadioButton.ToolTip>
+                                                            <ToolTip>
+                                                                <StackPanel>
+                                                                    <TextBlock Text="{DynamicResource TaskSettings}" />
+                                                                </StackPanel>
+                                                            </ToolTip>
+                                                        </RadioButton.ToolTip>
+                                                    </RadioButton>
+                                                </hc:ButtonGroup>
+                                            </StackPanel>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
@@ -461,7 +483,7 @@
                         </Button.Style>
                         <controls:TextBlock Text="{DynamicResource LinkStart}">
                             <controls:TextBlock.Style>
-                                <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="controls:TextBlock">
+                                <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}">
                                     <Setter Property="Visibility" Value="Visible" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ShowDeepSleepIcon}" Value="True">

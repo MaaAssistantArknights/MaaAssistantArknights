@@ -22,12 +22,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -176,6 +178,11 @@ public class TaskQueueViewModel : Screen
                 TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
                 TaskItemViewModels.FirstOrDefault(i => i.EnableSetting)?.EnableSetting = false;
                 TaskItemViewModels[e.NewStartingIndex].EnableSetting = true;
+
+                for (int i = e.NewStartingIndex + 1; i < TaskItemViewModels.Count; i++)
+                {
+                    TaskItemViewModels[i].Index = i;
+                }
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
@@ -1415,6 +1422,37 @@ public class TaskQueueViewModel : Screen
         {
             task.IsEnable = originalIsEnable;
         }
+    }
+
+    /// <summary>
+    /// 复制任务
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    [UsedImplicitly]
+    public void CopyTask(TaskItemViewModel taskItem)
+    {
+        if (taskItem == null || !Idle)
+        {
+            return;
+        }
+
+        var index = taskItem.Index;
+        if (index < 0 || index >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+        {
+            return;
+        }
+
+        var oldTask = ConfigFactory.CurrentConfig.TaskQueue[index];
+        var oldTaskJson = JsonSerializer.Serialize(oldTask);
+        if (JsonSerializer.Deserialize(oldTaskJson, oldTask.GetType()) is not BaseTask newTask)
+        {
+            AddLog("Task copy failed", UiLogColor.Error);
+            return;
+        }
+        newTask.Name = newTask.NameOrTaskType + " (2)";
+        ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, newTask);
+        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(newTask.NameOrTaskType));
+        AddLog(LocalizationHelper.GetStringFormat("TaskCopied", newTask.NameOrTaskType), UiLogColor.Info);
     }
 
     /// <summary>
