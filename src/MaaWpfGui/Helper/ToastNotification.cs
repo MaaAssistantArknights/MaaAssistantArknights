@@ -299,11 +299,6 @@ public class ToastNotification : IDisposable
             return;
         }
 
-        if (tag != null && !NotificationManager.TryRecordDispatch(NotificationType.SystemNotification))
-        {
-            return;
-        }
-
         ShowInternal(null, lifeTime, row, sound, hints);
     }
 

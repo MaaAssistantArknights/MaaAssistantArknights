@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -40,16 +41,6 @@ public static class NotificationManager
     private static readonly Dictionary<LogItemViewModel, DateTime> _itemTimestamps = [];
 
     private static readonly object _lock = new();
-
-    /// <summary>
-    /// Recorded send timestamps for External / SystemNotification channels (keyed by type),
-    /// used to enforce MaxEntries and TimeMinutes limits.
-    /// </summary>
-    private static readonly Dictionary<NotificationType, List<DateTime>> _dispatchRecords = new()
-    {
-        [NotificationType.External] = [],
-        [NotificationType.SystemNotification] = [],
-    };
 
     private static readonly Dictionary<NotificationType, DefaultProfile> _defaultProfiles = new()
     {
@@ -228,6 +219,7 @@ public static class NotificationManager
     /// <summary>
     /// Dispatch a notification through the given channel if it passes filtering
     /// and hasn't exceeded MaxEntries / TimeMinutes limits.
+    /// For External channel, bundles the most recent matching raw log lines.
     /// </summary>
     private static void DispatchIfNeeded(NotificationType type, string content, string? tag)
     {
@@ -238,7 +230,8 @@ public static class NotificationManager
             return;
         }
 
-        if (!TryRecordDispatch(type))
+        var bundledContent = BundleRecentLogs(type, tag);
+        if (string.IsNullOrEmpty(bundledContent))
         {
             return;
         }
@@ -246,10 +239,11 @@ public static class NotificationManager
         switch (type)
         {
             case NotificationType.SystemNotification:
-                Helper.ToastNotification.ShowDirect(content, tag);
+                Helper.ToastNotification.ShowDirect(bundledContent, tag);
                 break;
             case NotificationType.External:
-                ExternalNotificationService.Send(content, content, tag: tag);
+                var title = tag ?? content;
+                ExternalNotificationService.Send(title, bundledContent, tag: tag);
                 break;
         }
     }
@@ -322,39 +316,6 @@ public static class NotificationManager
         _ => Settings.Overlay,
     };
 
-    /// <summary>
-    /// Record that a dispatch happened for the given type. Returns false if the channel
-    /// has exceeded MaxEntries or the item is older than TimeMinutes, so the caller should skip sending.
-    /// </summary>
-    public static bool TryRecordDispatch(NotificationType type)
-    {
-        lock (_lock)
-        {
-            if (!_dispatchRecords.TryGetValue(type, out var records))
-            {
-                return true;
-            }
-
-            var maxEntries = GetMaxEntries(type);
-            var timeMinutes = GetTimeMinutes(type);
-
-            if (maxEntries <= 0) { maxEntries = 100; }
-            if (timeMinutes <= 0) { timeMinutes = 60; }
-
-            var cutoff = DateTime.Now.AddMinutes(-timeMinutes);
-
-            records.RemoveAll(t => t < cutoff);
-
-            if (records.Count >= maxEntries)
-            {
-                return false;
-            }
-
-            records.Add(DateTime.Now);
-            return true;
-        }
-    }
-
     public static void Clear()
     {
         OverlayLogItems.Clear();
@@ -362,8 +323,40 @@ public static class NotificationManager
         lock (_lock)
         {
             _itemTimestamps.Clear();
-            _dispatchRecords[NotificationType.External].Clear();
-            _dispatchRecords[NotificationType.SystemNotification].Clear();
         }
+    }
+
+    /// <summary>
+    /// Collect the most recent MaxEntries raw log lines that pass the channel filter,
+    /// formatted with timestamps.
+    /// </summary>
+    private static string BundleRecentLogs(NotificationType type, string? tag)
+    {
+        var maxEntries = GetMaxEntries(type);
+        var timeMinutes = GetTimeMinutes(type);
+        if (maxEntries <= 0) { maxEntries = 100; }
+        if (timeMinutes <= 0) { timeMinutes = 60; }
+
+        var cutoff = DateTime.Now.AddMinutes(-timeMinutes);
+
+        List<LogItemViewModel> rawItems;
+        lock (_lock)
+        {
+            rawItems = Instances.TaskQueueViewModel.RawLogItems
+                .Where(item => _itemTimestamps.GetValueOrDefault(item, DateTime.MinValue) >= cutoff)
+                .ToList();
+        }
+
+        var filtered = rawItems
+            .Where(item =>
+            {
+                var filterContent = tag != null ? $"[{tag}] {item.Content}" : item.Content;
+                return ShouldShow(type, filterContent, tag);
+            })
+            .TakeLast(maxEntries)
+            .Select(item => $"[{item.Time}][{item.Color}] {item.Content}")
+            .ToList();
+
+        return string.Join(Environment.NewLine, filtered);
     }
 }

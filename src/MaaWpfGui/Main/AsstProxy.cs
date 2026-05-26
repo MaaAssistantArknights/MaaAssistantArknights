@@ -1224,7 +1224,7 @@ public class AsstProxy
                         Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notificationTag: "TaskComplete");
 
                         // 通知管理系统已全权接管外部通知与系统通知的分发
-
+                        // 这里需要更多的测试，因为这一部分的测试流程比较长并且繁琐
                         if (_toastNotificationTimer is not null)
                         {
                             DisposeTimer();
