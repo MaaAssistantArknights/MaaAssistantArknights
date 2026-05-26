@@ -299,6 +299,11 @@ public class ToastNotification : IDisposable
             return;
         }
 
+        if (tag != null && !NotificationManager.TryRecordDispatch(NotificationType.SystemNotification))
+        {
+            return;
+        }
+
         ShowInternal(null, lifeTime, row, sound, hints);
     }
 
@@ -409,13 +414,6 @@ public class ToastNotification : IDisposable
     /// <param name="tag">可选标签用于通知过滤 (如 TaskError, TaskComplete)</param>
     public static void ShowDirect(string message, string? tag = null)
     {
-        string filterContent = tag != null ? $"[{tag}] {message}" : message;
-
-        if (!NotificationManager.ShouldShow(NotificationType.SystemNotification, filterContent, tag))
-        {
-            return;
-        }
-
         using var toast = new ToastNotification(message);
         toast.Show();
     }

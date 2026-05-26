@@ -77,13 +77,6 @@ public static class ExternalNotificationService
     /// <param name="tag">Optional tag for notification filtering.</param>
     public static void Send(string title, string content, bool isTest = false, string? tag = null)
     {
-        string filterContent = tag != null ? $"[{tag}] {content}" : content;
-
-        if (!isTest && !NotificationManager.ShouldShow(NotificationType.External, filterContent, tag))
-        {
-            return;
-        }
-
         var task = SendAsync("[MAA] " + title, content, isTest);
         _taskContainers.RemoveAll(x => x.Status != TaskStatus.Running);
         _taskContainers.Add(task);

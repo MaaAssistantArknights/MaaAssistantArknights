@@ -14,8 +14,10 @@
 #nullable enable
 using System;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Notification;
+using MaaWpfGui.States;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
@@ -273,4 +275,49 @@ public class NotificationSettingsUserControlModel : PropertyChangedBase
         timeMinutesKey: null,
         useIndependentKey: ConfigurationKeys.NotificationTaskQueueLogUseIndependent,
         type: NotificationType.TaskQueueLog);
+
+    // ---- 停滞检测（通知管理系统统一管理） ----
+
+    private const int MaxMinutes = 11451;
+
+    private bool _stallTimeoutEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
+
+    public bool StallTimeoutEnabled
+    {
+        get => _stallTimeoutEnabled;
+        set
+        {
+            SetAndNotify(ref _stallTimeoutEnabled, value);
+            RunningState.Instance.StallTimeoutEnabled = value;
+            ConfigurationHelper.SetValue(ConfigurationKeys.StallTimeoutEnabled, value.ToString());
+        }
+    }
+
+    private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, MaxMinutes);
+
+    public int StallTimeoutMinutes
+    {
+        get => _stallTimeoutMinutes;
+        set
+        {
+            value = value.Clamp(0, MaxMinutes);
+            SetAndNotify(ref _stallTimeoutMinutes, value);
+            RunningState.Instance.StallTimeoutMinutes = value;
+            ConfigurationHelper.SetValue(ConfigurationKeys.StallTimeoutMinutes, value.ToString());
+        }
+    }
+
+    private int _reminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, MaxMinutes);
+
+    public int ReminderIntervalMinutes
+    {
+        get => _reminderIntervalMinutes;
+        set
+        {
+            value = value.Clamp(1, MaxMinutes);
+            SetAndNotify(ref _reminderIntervalMinutes, value);
+            RunningState.Instance.ReminderIntervalMinutes = value;
+            ConfigurationHelper.SetValue(ConfigurationKeys.ReminderIntervalMinutes, value.ToString());
+        }
+    }
 }

@@ -1063,7 +1063,6 @@ public class AsstProxy
                     Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true, notificationTag: "TaskError");
 
                     ToastNotification.ShowDirect(log, "TaskError");
-                    ExternalNotificationService.Send(log, log, tag: "TaskError");
 
                     if (value is { Type: TaskType.Copilot })
                     {
@@ -1224,12 +1223,7 @@ public class AsstProxy
                         allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
                         Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notificationTag: "TaskComplete");
 
-                        {
-                            var logs = Instances.TaskQueueViewModel.RawLogItems.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
-                            logs += allTaskCompleteMessage;
-
-                            ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport, tag: "TaskComplete");
-                        }
+                        // 通知管理系统已全权接管外部通知与系统通知的分发
 
                         if (_toastNotificationTimer is not null)
                         {
@@ -1249,13 +1243,6 @@ public class AsstProxy
                     else
                     {
                         Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notificationTag: "TaskComplete");
-
-                        {
-                            var logs = Instances.TaskQueueViewModel.RawLogItems.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
-                            logs += allTaskCompleteMessage;
-
-                            ExternalNotificationService.Send(allTaskCompleteTitle, logs, tag: "TaskComplete");
-                        }
                     }
 
                     using (var toast = new ToastNotification(allTaskCompleteTitle))
@@ -1265,7 +1252,7 @@ public class AsstProxy
                             toast.AppendContentText(sanityReport);
                         }
 
-                        toast.ShowWithTag("TaskComplete");
+                        toast.Show();
                     }
 
                     if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())

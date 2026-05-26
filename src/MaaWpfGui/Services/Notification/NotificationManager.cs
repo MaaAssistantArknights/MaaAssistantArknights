@@ -41,6 +41,16 @@ public static class NotificationManager
 
     private static readonly object _lock = new();
 
+    /// <summary>
+    /// Recorded send timestamps for External / SystemNotification channels (keyed by type),
+    /// used to enforce MaxEntries and TimeMinutes limits.
+    /// </summary>
+    private static readonly Dictionary<NotificationType, List<DateTime>> _dispatchRecords = new()
+    {
+        [NotificationType.External] = [],
+        [NotificationType.SystemNotification] = [],
+    };
+
     private static readonly Dictionary<NotificationType, DefaultProfile> _defaultProfiles = new()
     {
         [NotificationType.TaskQueueLog] = new DefaultProfile
@@ -186,28 +196,61 @@ public static class NotificationManager
     }
 
     /// <summary>
-    /// Called from AddLog to federate a log item to all channels.
+    /// Called from AddLog to federate a log item to all four channels.
     /// </summary>
     public static void ProcessLog(LogItemViewModel logItem, string? notificationTag)
     {
-        var content = notificationTag != null ? $"[{notificationTag}] {logItem.Content}" : logItem.Content;
+        var filterContent = notificationTag != null ? $"[{notificationTag}] {logItem.Content}" : logItem.Content;
         var now = DateTime.Now;
 
         lock (_lock)
         {
             _itemTimestamps[logItem] = now;
 
-            if (ShouldShow(NotificationType.Overlay, content, notificationTag))
+            if (ShouldShow(NotificationType.Overlay, filterContent, notificationTag))
             {
                 OverlayLogItems.Add(logItem);
                 TrimCollection(OverlayLogItems, NotificationType.Overlay);
             }
 
-            if (ShouldShow(NotificationType.TaskQueueLog, content, notificationTag))
+            if (ShouldShow(NotificationType.TaskQueueLog, filterContent, notificationTag))
             {
                 FilteredTaskQueueLogItems.Add(logItem);
                 TrimCollection(FilteredTaskQueueLogItems, NotificationType.TaskQueueLog);
             }
+        }
+
+        // 分发到外部通知和系统通知 — 统一由通知管理系统全权控制
+        DispatchIfNeeded(NotificationType.SystemNotification, logItem.Content, notificationTag);
+        DispatchIfNeeded(NotificationType.External, logItem.Content, notificationTag);
+    }
+
+    /// <summary>
+    /// Dispatch a notification through the given channel if it passes filtering
+    /// and hasn't exceeded MaxEntries / TimeMinutes limits.
+    /// </summary>
+    private static void DispatchIfNeeded(NotificationType type, string content, string? tag)
+    {
+        var filterContent = tag != null ? $"[{tag}] {content}" : content;
+
+        if (!ShouldShow(type, filterContent, tag))
+        {
+            return;
+        }
+
+        if (!TryRecordDispatch(type))
+        {
+            return;
+        }
+
+        switch (type)
+        {
+            case NotificationType.SystemNotification:
+                Helper.ToastNotification.ShowDirect(content, tag);
+                break;
+            case NotificationType.External:
+                ExternalNotificationService.Send(content, content, tag: tag);
+                break;
         }
     }
 
@@ -279,6 +322,39 @@ public static class NotificationManager
         _ => Settings.Overlay,
     };
 
+    /// <summary>
+    /// Record that a dispatch happened for the given type. Returns false if the channel
+    /// has exceeded MaxEntries or the item is older than TimeMinutes, so the caller should skip sending.
+    /// </summary>
+    public static bool TryRecordDispatch(NotificationType type)
+    {
+        lock (_lock)
+        {
+            if (!_dispatchRecords.TryGetValue(type, out var records))
+            {
+                return true;
+            }
+
+            var maxEntries = GetMaxEntries(type);
+            var timeMinutes = GetTimeMinutes(type);
+
+            if (maxEntries <= 0) { maxEntries = 100; }
+            if (timeMinutes <= 0) { timeMinutes = 60; }
+
+            var cutoff = DateTime.Now.AddMinutes(-timeMinutes);
+
+            records.RemoveAll(t => t < cutoff);
+
+            if (records.Count >= maxEntries)
+            {
+                return false;
+            }
+
+            records.Add(DateTime.Now);
+            return true;
+        }
+    }
+
     public static void Clear()
     {
         OverlayLogItems.Clear();
@@ -286,6 +362,8 @@ public static class NotificationManager
         lock (_lock)
         {
             _itemTimestamps.Clear();
+            _dispatchRecords[NotificationType.External].Clear();
+            _dispatchRecords[NotificationType.SystemNotification].Clear();
         }
     }
 }

@@ -643,11 +643,6 @@ public class TaskQueueViewModel : Screen
     private void RunningState_Stalled(object? sender, string message)
     {
         AddLog(message, UiLogColor.Warning, notifyActivity: false, notificationTag: "Stalled");
-        ToastNotification.ShowDirect(message, "Stalled");
-        var lastLogs = LogItemViewModels
-            .TakeLast(5)
-            .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
-        ExternalNotificationService.Send(message, lastLogs, tag: "Stalled");
     }
 
     protected override void OnInitialActivate()
