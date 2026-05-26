@@ -85,6 +85,13 @@
     <system:String x:Key="GpuDriverOutdatedMessage">현재 선택된 추론 가속 GPU({0})의 드라이버 버전({1}, 릴리스 날짜: {2})이 2년 이상 경과되어 호환성 문제가 발생할 수 있습니다.\n\n그래픽 드라이버를 업데이트하거나 ｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <system:String x:Key="Copy">복사</system:String>
+    <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationUnavailable">Toast 通知不可用, {0}</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">用户在设置中关闭了该应用的通知</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">用户关闭了所有应用通知</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">组策略禁用</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">清单禁用</system:String>
+    <!--  !Toast 不可用  -->
     <!--  설정 가이드  -->
     <system:String x:Key="LeftClick">왼쪽 클릭</system:String>
     <system:String x:Key="RightClick">오른쪽 클릭</system:String>

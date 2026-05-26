@@ -82,4 +82,6 @@ internal class NotificationImplLibNotify : INotificationPoster
             gch.Free();
         };
     }
+
+    public (bool IsAvailable, string Detail) IsNotificationAvailable => throw new NotImplementedException();
 }
