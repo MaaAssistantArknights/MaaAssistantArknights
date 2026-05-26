@@ -320,7 +320,7 @@
     "StageNavigationSlowlySwipeLeft": {
         "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": ["FullStageNavigation"],
-        "exceededNext": ["Home@ReturnButtons#next"],
+        "exceededNext": ["Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next"],
         "maxTimes": 20
     },
     "ClickedCorrectStageOrSwipe": {
@@ -1190,7 +1190,7 @@
     },
     "StageBegin": {
         "algorithm": "JustReturn",
-        "next": ["Fight@ReturnButtons#next", "Fight", "Fight@CloseAnnos#next"]
+        "next": ["(Fight@GoLastBattle)@QuickSwitch@ToTerminal#next", "Fight@ReturnButtons#next", "Fight", "Fight@CloseAnnos#next"]
     },
     "FightBegin": {
         "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
@@ -1210,6 +1210,7 @@
             "Fight@StartButton1",
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
+            "(Fight@GoLastBattle)@QuickSwitch@ToTerminal#next",
             "Fight@ReturnButtons#next",
             "Fight",
             "Fight@CloseAnnos#next",
@@ -1689,6 +1690,7 @@
         "next": [
             "RecruitFlag",
             "Recruit",
+            "RecruitBegin@QuickSwitch@ToRecruit#next",
             "Recruit@ReturnButtons#next",
             "Recruit@CloseAnnos#next",
             "Recruit@OfflineConfirm"
@@ -1758,7 +1760,7 @@
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
         "sub": ["AwardExpandCheckFlow"],
-        "next": ["MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivitiesReturnHome", "MiningActivities"]
+        "next": ["MiningActivitiesReturnHome", "MiningActivitiesReturnHome@QuickSwitch@ToHome#next", "MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivities"]
     },
     "MiningActivitiesReturnHome": {
         "baseTask": "Home",
@@ -1793,7 +1795,7 @@
     "OrundumActivitiesBegin": {
         "algorithm": "JustReturn",
         "sub": ["AwardExpandCheckFlow"],
-        "next": ["OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivitiesReturnHome", "OrundumActivities"]
+        "next": ["OrundumActivitiesReturnHome", "OrundumActivitiesReturnHome@QuickSwitch@ToHome#next", "OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivities"]
     },
     "OrundumActivitiesReturnHome": {
         "baseTask": "Home",
@@ -1862,8 +1864,9 @@
     "RecruitingActivitiesBegin": {
         "algorithm": "JustReturn",
         "next": [
-            "RecruitingActivitiesReturnHome@ReturnButtons#next",
             "RecruitingActivitiesReturnHome",
+            "RecruitingActivitiesReturnHome@QuickSwitch@ToHome#next",
+            "RecruitingActivitiesReturnHome@ReturnButtons#next",
             "RecruitingActivities"
         ]
     },
@@ -1928,7 +1931,7 @@
         "algorithm": "OcrDetect",
         "text": ["寻访一次", "寻访"],
         "roi": [770, 577, 267, 143],
-        "next": ["Home@ReturnButtons#next", "Stop"]
+        "next": ["Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next", "Stop"]
     },
     "AwardExpandCheckFlow": {
         "doc": "左上角奖励展开状态检查，确保进行中的幸运牆、限时开採许可、赠送月卡不会因同时超过三个活动卡在折叠状态",
@@ -1956,8 +1959,9 @@
         "algorithm": "JustReturn",
         "sub": ["AwardExpandCheckFlow"],
         "next": [
-            "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
             "SpecialAccessActivitiesReturnHome",
+            "SpecialAccessActivitiesReturnHome@QuickSwitch@ToHome#next",
+            "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
             "SpecialAccessActivities"
         ]
     },
@@ -2000,11 +2004,12 @@
     "AwardBegin": {
         "algorithm": "JustReturn",
         "next": [
-            "Award@ReturnButtons#next",
-            "Award",
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
+            "Award",
+            "AwardBegin@QuickSwitch@ToHome#next",
+            "Award@ReturnButtons#next",
             "Award@CloseAnnos#next"
         ]
     },
@@ -2055,7 +2060,7 @@
     },
     "MailBegin": {
         "algorithm": "JustReturn",
-        "next": ["MailReturnToHome@ReturnButtons#next", "MailReturnToHome", "ReceiveMail"]
+        "next": ["MailReturnToHome", "MailReturnToHome@QuickSwitch@ToHome#next", "MailReturnToHome@ReturnButtons#next", "ReceiveMail"]
     },
     "MailReturnToHome": {
         "baseTask": "Home",
@@ -2083,7 +2088,7 @@
         "roi": [909, 33, 166, 165],
         "method": "HSVCount",
         "colorScales": [[250, 255]],
-        "next": ["ReceivedAllMail@LoadingText", "Home@ReturnButtons#next"]
+        "next": ["ReceivedAllMail@LoadingText", "Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next"]
     },
     "CloseTaskMail": {
         "baseTask": "CloseTaskAward",
@@ -2091,7 +2096,7 @@
     },
     "CloseTaskMailDouble": {
         "baseTask": "CloseTaskAwardDouble",
-        "next": ["ReceiveMail", "Home@ReturnButtons#next", "CloseTaskMailDouble"]
+        "next": ["ReceiveMail", "Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next", "CloseTaskMailDouble"]
     },
     "VisitBegin": {
         "algorithm": "JustReturn",
@@ -2101,6 +2106,7 @@
             "StartToVisit",
             "VisitNext",
             "VisitNextBlack",
+            "VisitBegin@QuickSwitch@ToHome#next",
             "Visit@ReturnButtons#next",
             "Visit@CloseAnnos#next"
         ]
@@ -2122,7 +2128,7 @@
         "algorithm": "OcrDetect",
         "text": ["暂无好友"],
         "roi": [600, 100, 350, 150],
-        "next": ["Home@ReturnButtons#next"]
+        "next": ["Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next"]
     },
     "StartToVisit": {
         "method": "RGBCount",
@@ -2155,7 +2161,7 @@
             ]
         ],
         "roi": [1080, 570, 200, 130],
-        "next": ["Home@ReturnButtons#next"]
+        "next": ["Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next"]
     },
     "VisitNextOcr": {
         "algorithm": "OcrDetect",
@@ -2166,7 +2172,7 @@
     },
     "MallBegin": {
         "algorithm": "JustReturn",
-        "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"]
+        "next": ["Mall", "MallBegin@QuickSwitch@ToMall#next", "Mall@ReturnButtons#next", "Mall@CloseAnnos#next"]
     },
     "Mall": {
         "action": "DoNothing",
@@ -2208,7 +2214,7 @@
         "algorithm": "OcrDetect",
         "text": ["今日参与", "已达上限"],
         "roi": [900, 50, 375, 140],
-        "next": ["Home@ReturnButtons#next"]
+        "next": ["Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next"]
     },
     "Home": {
         "action": "Stop",
@@ -2355,6 +2361,7 @@
             "Infrast",
             "InfrastNotification",
             "InfrastEnteredFlag",
+            "InfrastBegin@QuickSwitch@ToInfrast#next",
             "Infrast@ReturnButtons#next",
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
@@ -4236,7 +4243,7 @@
     },
     "DepotBegin": {
         "algorithm": "JustReturn",
-        "next": ["Depot", "DepotMaterialTab", "DepotAllTab", "DepotMaterialTabClicked", "Depot@ReturnButtons#next"]
+        "next": ["Depot", "DepotMaterialTab", "DepotAllTab", "DepotMaterialTabClicked", "DepotBegin@QuickSwitch@ToHome#next", "Depot@ReturnButtons#next"]
     },
     "Depot": {
         "action": "DoNothing",
@@ -4317,6 +4324,7 @@
             "OperBoxRoleTabSelect",
             "OperBoxSortTabSelect",
             "OperBoxRoleTab",
+            "OperBoxBegin@QuickSwitch@ToOperBox#next",
             "OperBox@ReturnButtons#next"
         ]
     },
@@ -4943,6 +4951,7 @@
         "next": [
             "DoGacha",
             "Gacha",
+            "GachaBegin@QuickSwitch@ToGacha#next",
             "Gacha@ReturnButtons#next",
             "GachaLastOnceResult",
             "GachaLastTenTimesResult1",
