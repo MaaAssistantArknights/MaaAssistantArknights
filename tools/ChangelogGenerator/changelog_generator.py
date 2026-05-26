@@ -311,46 +311,57 @@ def build_maamacgui_changelog(latest: str) -> str:
 
     workdir = f"/tmp/MaaMacGui-{os.getpid()}"
     call_command(f"rm -rf {workdir}")
-    call_command(f"git clone --no-checkout https://github.com/{maamacgui_repo}.git {workdir}")
-    call_command(f"git -C {workdir} fetch origin {old_sha} {new_sha} --depth=200")
 
-    raw_gitlogs = call_command(
-        f'git -C {workdir} log {old_sha}..{new_sha} --pretty=format:"%H%n%aN%n%cN%n%s%n%P%n"'
-    )
+    try:
+        call_command(f"git clone --no-checkout https://github.com/{maamacgui_repo}.git {workdir}")
+        call_command(f"git -C {workdir} fetch origin {old_sha} {new_sha}")
 
-    if not raw_gitlogs.strip():
-        return ""
-
-    maamacgui_commits_info = {}
-    for raw_commit_info in raw_gitlogs.split("\n\n"):
-        try:
-            commit_hash, author, committer, message, parent = raw_commit_info.split(
-                "\n"
-            )
-        except ValueError:
-            continue
-
-        message, author = format_commit_info_with_pr(maamacgui_repo, commit_hash, message, author)
-
-        maamacgui_commits_info[commit_hash] = {
-            "hash": commit_hash[:8],
-            "author": author,
-            "committer": committer,
-            "message": message,
-            "parent": parent.split(),
-        }
-
-    sorted_commits = {cat: {} for cat in ["perf", "feat", "fix", "docs", "other"]}
-    for commit_hash, commit_info in maamacgui_commits_info.items():
-        update_commits(
-            commit_info["message"], sorted_commits, {commit_hash: commit_info}
+        commit_separator = "---MAA_COMMIT_END---"
+        raw_gitlogs = call_command(
+            f'git -C {workdir} log {old_sha}..{new_sha} '
+            f'--pretty=format:"%H%n%aN%n%cN%n%s%n%P%n{commit_separator}"'
         )
 
-    maamacgui_changelog = update_message(sorted_commits, [])[0]
-    if not maamacgui_changelog.strip():
-        return ""
+        if not raw_gitlogs.strip():
+            return ""
 
-    return "\n### MaaMacGui\n" + maamacgui_changelog
+        maamacgui_commits_info = {}
+        for raw_commit_info in raw_gitlogs.split(commit_separator):
+            raw_commit_info = raw_commit_info.strip()
+            if not raw_commit_info:
+                continue
+
+            lines = raw_commit_info.split("\n")
+            if len(lines) < 5:
+                continue
+
+            commit_hash, author, committer, message, parent = lines[:5]
+
+            message, author = format_commit_info_with_pr(
+                maamacgui_repo, commit_hash, message, author
+            )
+
+            maamacgui_commits_info[commit_hash] = {
+                "hash": commit_hash[:8],
+                "author": author,
+                "committer": committer,
+                "message": message,
+                "parent": parent.split(),
+            }
+
+        sorted_commits = {cat: {} for cat in ["perf", "feat", "fix", "docs", "other"]}
+        for commit_hash, commit_info in maamacgui_commits_info.items():
+            update_commits(
+                commit_info["message"], sorted_commits, {commit_hash: commit_info}
+            )
+
+        maamacgui_changelog = update_message(sorted_commits, [])[0]
+        if not maamacgui_changelog.strip():
+            return ""
+
+        return "\n### MaaMacGui\n" + maamacgui_changelog
+    finally:
+        call_command(f"rm -rf {workdir}")
 
 def main(tag_name=None, latest=None):
     global contributors, raw_commits_info
