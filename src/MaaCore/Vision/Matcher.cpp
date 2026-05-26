@@ -279,7 +279,15 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
                 }
             }
             if (matched.empty()) {
-                cv::matchTemplate(image_match, templ_match, matched, match_algorithm, mask_opt.value());
+                // mask_src=true: mask is computed from the image (size == image size).
+                // cv::matchTemplate requires mask.size() == templ.size(), so passing an
+                // image-sized mask when the template is smaller crashes in OpenCV 4.11+.
+                if (!params.mask_src && mask_opt->size() == templ_match.size()) {
+                    cv::matchTemplate(image_match, templ_match, matched, match_algorithm, mask_opt.value());
+                }
+                else {
+                    cv::matchTemplate(image_match, templ_match, matched, match_algorithm);
+                }
                 match_path = MatchPath::OpenCV;
             }
         }
