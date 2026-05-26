@@ -475,11 +475,13 @@ D:\
     <system:String x:Key="EmulatorPathEmptyWarning">模擬器路徑為空，｢{key=RetryOnDisconnected}｣ 與 ｢{key=OpenEmulatorAfterLaunch}｣ 勾選狀態已被還原</system:String>
     <system:String x:Key="Select">選擇</system:String>
     <system:String x:Key="ForcedReplaceAdb">強制替換 ADB</system:String>
+    <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">當前模擬器自帶的 ADB 版本通常較新，一般無需手動替換。&#10;點擊後將從 Google 下載最新版本的 ADB 並替換本地路徑中的 ADB 檔案，僅在遇到明確的 ADB 相容性問題時才需要使用。</system:String>
     <system:String x:Key="TouchMode">觸控模式</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch（預設）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（實驗功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推薦使用）</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework（實驗功能）</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 用於相容系統版本過低、無法運行 Minitouch 或 MaaTouch 的實體機裝置。能用前兩種模式時，不要選擇 ADB Input。&#10;ADB Input 的滑動容易拖飛，為避免此問題，滑動速度會設定得非常慢，且滑動距離與前兩種模式不同；在需要精確控制座標的場景下無法使用。</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用於指定模擬器啟動參數（如 ｢--instance 1｣ 表示啟動 1 號實例）。&#10;不同模擬器的命令格式不同，通常包括實例編號、視窗模式等參數，請參考您使用的模擬器說明文件。</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>

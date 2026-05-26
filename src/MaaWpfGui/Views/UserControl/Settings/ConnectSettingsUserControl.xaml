@@ -331,7 +331,7 @@
             Visibility="{c:Binding '!UseAttachWindow'}">
             <hc:ComboBox
                 Height="30"
-                Margin="10"
+                Margin="10,10,0,10"
                 hc:TitleElement.Title="{DynamicResource TouchMode}"
                 hc:TitleElement.TitlePlacement="Left"
                 DisplayMemberPath="Display"
@@ -339,12 +339,31 @@
                 ItemsSource="{Binding TouchModeList}"
                 SelectedValue="{Binding TouchMode}"
                 SelectedValuePath="Value" />
+            <controls:TooltipBlock>
+                <controls:TooltipBlock.CustomToolTip>
+                    <StackPanel MaxWidth="400">
+                        <MediaElement
+                            Width="252"
+                            Height="268"
+                            IsMuted="True"
+                            LoadedBehavior="Play"
+                            Source="{Binding TouchModeVideoPath, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
+                        <TextBlock
+                            Margin="0,8,0,0"
+                            FontSize="12"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="{DynamicResource TouchModeTip}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </controls:TooltipBlock.CustomToolTip>
+            </controls:TooltipBlock>
             <Button
                 Height="30"
-                Margin="10"
+                Margin="10,10,0,10"
                 HorizontalAlignment="Left"
                 Command="{s:Action ReplaceAdb}"
                 Content="{DynamicResource ForcedReplaceAdb}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource ForcedReplaceAdbTip}" />
         </StackPanel>
 
         <StackPanel Grid.Row="7" Visibility="{c:Binding '!UseAttachWindow'}">

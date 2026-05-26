@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Border
+        x:Name="PART_Border"
         Width="15"
         Height="15"
         Margin="2,0,0,0"
@@ -19,12 +20,13 @@
         MouseLeave="OnMouseLeave"
         Style="{StaticResource BorderCircular}"
         ToolTipService.InitialShowDelay="{Binding InitialShowDelay}"
-        ToolTipService.IsEnabled="{c:Binding !TooltipTextEmpty}"
+        ToolTipService.IsEnabled="{Binding IsToolTipEnabled}"
         ToolTipService.ShowOnDisabled="True"
         ToolTipService.ToolTipClosing="OnToolTipClosing"
         ToolTipService.ToolTipOpening="OnToolTipOpening">
         <Border.ToolTip>
             <TextBlock
+                x:Name="DefaultToolTipContent"
                 MaxWidth="{Binding TooltipMaxWidth}"
                 Text="{Binding TooltipText}"
                 TextWrapping="Wrap" />

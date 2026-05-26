@@ -475,11 +475,13 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="EmulatorPathEmptyWarning">The emulator path is empty, ｢{key=RetryOnDisconnected}｣ and ｢{key=OpenEmulatorAfterLaunch}｣ check states have been reset</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceAdb">Replace ADB</system:String>
+    <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">Emulators typically ship with a recent ADB version, so manual replacement is rarely needed.&#10;Clicking this will download the latest ADB from Google and replace the local ADB file. Only use this when you encounter a clear ADB compatibility issue.</system:String>
     <system:String x:Key="TouchMode">Touch Mode</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (Deprecated)</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (Experimental)</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input is for physical devices running an older OS version that cannot use Minitouch or MaaTouch. Do not use ADB Input if the other two modes work.&#10;ADB Input swipes tend to drift. To avoid this, swipe speed is set very slow and swipe distances differ from the other two modes. It cannot be used in scenarios requiring precise coordinate control.</system:String>
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">Additional commands for emulator parameters (e.g. ｢--instance 1｣ for instance 1).&#10;Command formats vary by emulator, typically including instance numbers and window modes, please consult your emulator's documentation.</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
