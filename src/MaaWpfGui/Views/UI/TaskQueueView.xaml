@@ -140,7 +140,6 @@
                                                     <RadioButton.ToolTip>
                                                         <ToolTip>
                                                             <StackPanel>
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
                                                                 <TextBlock Text="{DynamicResource TaskSettings}" />
                                                             </StackPanel>
                                                         </ToolTip>
@@ -273,7 +272,6 @@
                                                         <RadioButton.ToolTip>
                                                             <ToolTip>
                                                                 <StackPanel>
-                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
                                                                     <TextBlock Text="{DynamicResource TaskSettings}" />
                                                                 </StackPanel>
                                                             </ToolTip>
