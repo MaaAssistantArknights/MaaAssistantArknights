@@ -103,7 +103,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
 
-                                            <!-- Column 0: stretch-fill settings button (gear hidden, catches clicks on blank space) -->
+                                            <!--  Column 0: stretch-fill settings button (gear hidden, catches clicks on blank space)  -->
                                             <RadioButton
                                                 Grid.Column="0"
                                                 Margin="0"
@@ -173,7 +173,7 @@
                                                 </TextBlock.Style>
                                             </controls:TextBlock>
 
-                                            <!-- Column 1: gear icon + action buttons (all independent from Column 0) -->
+                                            <!--  Column 1: gear icon + action buttons (all independent from Column 0)  -->
                                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                                                 <StackPanel Orientation="Horizontal">
                                                     <StackPanel.Style>
@@ -190,19 +190,19 @@
                                                         Width="22"
                                                         Height="22"
                                                         Margin="0"
+                                                        Padding="0"
                                                         hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
-                                                        hc:IconElement.Width="14"
                                                         hc:IconElement.Height="14"
+                                                        hc:IconElement.Width="14"
                                                         Background="Transparent"
                                                         BorderBrush="Transparent"
                                                         BorderThickness="0"
-                                                        Padding="0"
                                                         Command="{s:Action CopyTask,
                                                                            Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                         CommandParameter="{Binding}"
                                                         ToolTip="{DynamicResource Copy}">
                                                         <Button.Style>
-                                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                                                 <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
                                                                 <Style.Triggers>
                                                                     <Trigger Property="IsMouseOver" Value="True">
@@ -216,19 +216,19 @@
                                                         Width="22"
                                                         Height="22"
                                                         Margin="0"
+                                                        Padding="0"
                                                         hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
-                                                        hc:IconElement.Width="14"
                                                         hc:IconElement.Height="14"
+                                                        hc:IconElement.Width="14"
                                                         Background="Transparent"
                                                         BorderBrush="Transparent"
                                                         BorderThickness="0"
-                                                        Padding="0"
                                                         Command="{s:Action RenameTask,
                                                                            Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                         CommandParameter="{Binding}"
                                                         ToolTip="{DynamicResource Rename}">
                                                         <Button.Style>
-                                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                                                 <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
                                                                 <Style.Triggers>
                                                                     <Trigger Property="IsMouseOver" Value="True">
@@ -242,19 +242,19 @@
                                                         Width="22"
                                                         Height="22"
                                                         Margin="0"
+                                                        Padding="0"
                                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
-                                                        hc:IconElement.Width="14"
                                                         hc:IconElement.Height="14"
+                                                        hc:IconElement.Width="14"
                                                         Background="Transparent"
                                                         BorderBrush="Transparent"
                                                         BorderThickness="0"
-                                                        Padding="0"
                                                         Command="{s:Action RemoveTask,
                                                                            Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                         CommandParameter="{Binding}"
                                                         ToolTip="{DynamicResource Delete}">
                                                         <Button.Style>
-                                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                                                 <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
                                                                 <Style.Triggers>
                                                                     <Trigger Property="IsMouseOver" Value="True">
@@ -270,7 +270,6 @@
                                                     Width="22"
                                                     Margin="0,0,4,0"
                                                     Padding="0"
-                                                    hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                                     hc:VisualElement.HighlightBackground="Transparent"
                                                     hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                                                     Background="Transparent"
