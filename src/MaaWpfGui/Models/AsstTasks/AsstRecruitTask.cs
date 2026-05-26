@@ -93,7 +93,7 @@ public class AsstRecruitTask : AsstBaseTask
     /// <summary>
     /// Gets or sets 识别到后需要保留并跳过的 Tag。
     /// </summary>
-    public List<string> SkipTags { get; set; } = [];
+    public List<string> PreserveTags { get; set; } = [];
 
     /// <summary>
     /// Gets or sets 3 星招募时间
@@ -137,11 +137,10 @@ public class AsstRecruitTask : AsstBaseTask
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
-        var skipTags = RecruitTagHelper.NormalizeTagList(SkipTags);
+        var preserveTags = RecruitTagHelper.NormalizeTagList(PreserveTags);
         var firstTags = RecruitTagHelper.NormalizeTagList(Level3FirstList);
 
-        var param = new JObject
-        {
+        var param = new JObject {
             ["refresh"] = Refresh,
             ["force_refresh"] = ForceRefresh,
             ["select"] = JArray.FromObject(SelectList),
@@ -149,11 +148,10 @@ public class AsstRecruitTask : AsstBaseTask
             ["times"] = RecruitTimes,
             ["set_time"] = SetRecruitTime,
             ["expedite"] = UseExpedited,
-            ["skip_tags"] = JArray.FromObject(skipTags),
+            ["preserve_tags"] = JArray.FromObject(preserveTags),
             ["extra_tags_mode"] = SelectExtraTags,
             ["first_tags"] = JArray.FromObject(firstTags),
-            ["recruitment_time"] = new JObject
-            {
+            ["recruitment_time"] = new JObject {
                 ["3"] = ChooseLevel3Time,
                 ["4"] = ChooseLevel4Time,
                 ["5"] = ChooseLevel5Time,

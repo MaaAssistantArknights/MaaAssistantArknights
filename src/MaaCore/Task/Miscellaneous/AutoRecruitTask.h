@@ -27,7 +27,7 @@ public:
     AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
     AutoRecruitTask& set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept;
     AutoRecruitTask& set_first_tags(std::vector<std::string> first_tags) noexcept;
-    AutoRecruitTask& set_skip_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept;
+    AutoRecruitTask& set_preserve_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept;
     AutoRecruitTask& set_set_time(bool set_time) noexcept;
     AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
     AutoRecruitTask& set_recruitment_time(std::unordered_map<int, int>) noexcept;
@@ -171,7 +171,7 @@ protected:
     bool m_use_expedited = false; // 是否使用加急许可
     ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::NoExtra;
     std::vector<std::string> m_first_tags;
-    std::vector<RecruitConfig::TagId> m_skip_tags = { "支援机械" };
+    std::vector<RecruitConfig::TagId> m_preserve_tags = { "支援机械" };
     int m_max_times = 0;
     bool m_has_permit = true;
     bool m_has_refresh = true;

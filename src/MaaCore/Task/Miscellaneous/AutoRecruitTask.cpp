@@ -156,9 +156,9 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_first_tags(std::vector<std::st
     return *this;
 }
 
-asst::AutoRecruitTask& asst::AutoRecruitTask::set_skip_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_preserve_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept
 {
-    m_skip_tags = std::move(skip_tags);
+    m_preserve_tags = std::move(skip_tags);
     return *this;
 }
 
@@ -474,7 +474,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (auto special_iter = std::ranges::find_first_of(SpecialTags, tag_ids); special_iter != SpecialTags.cend())
             [[unlikely]] {
             has_special_tag = true;
-            if (std::ranges::find(m_skip_tags, *special_iter) != m_skip_tags.cend()) {
+            if (std::ranges::find(m_preserve_tags, *special_iter) != m_preserve_tags.cend()) {
                 has_skip_tag = true;
                 preserved_tag = *special_iter;
             }
@@ -486,8 +486,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             }
         }
 
-        if (!has_skip_tag && !m_skip_tags.empty()) {
-            if (auto skip_iter = std::ranges::find_first_of(tag_ids, m_skip_tags); skip_iter != tag_ids.cend())
+        if (!has_skip_tag && !m_preserve_tags.empty()) {
+            if (auto skip_iter = std::ranges::find_first_of(tag_ids, m_preserve_tags); skip_iter != tag_ids.cend())
                 [[unlikely]] {
                 has_skip_tag = true;
                 preserved_tag = *skip_iter;

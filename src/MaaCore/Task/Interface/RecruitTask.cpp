@@ -51,18 +51,18 @@ bool asst::RecruitTask::set_params(const json::value& params)
     int times = params.get("times", 0);
     bool expedite = params.get("expedite", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
-    std::vector<RecruitConfig::TagId> skip_tags;
+    std::vector<RecruitConfig::TagId> preserve_tags;
     std::vector<std::string> first_tags = params.get("first_tags", std::vector<std::string>(0));
 
-    if (auto skip_tags_opt = params.find<std::vector<RecruitConfig::TagId>>("skip_tags")) {
-        skip_tags.swap(*skip_tags_opt);
+    if (auto preserve_tags_opt = params.find<std::vector<RecruitConfig::TagId>>("preserve_tags")) {
+        preserve_tags.swap(*preserve_tags_opt);
     }
     else if (auto skip_robot_opt = params.find<bool>("skip_robot")) {
         LogWarn << "================  DEPRECATED  ================";
-        LogWarn << __FUNCTION__ << " 'skip_robot' has been deprecated in 6.11.0, please use 'skip_tags' instead.";
+        LogWarn << __FUNCTION__ << " 'skip_robot' has been deprecated in 6.11.0, please use 'preserve_tags' instead.";
         LogWarn << "================  DEPRECATED  ================";
         if (*skip_robot_opt) {
-            skip_tags = { "支援机械" };
+            preserve_tags = { "支援机械" };
         }
     }
 
@@ -85,7 +85,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_use_expedited(expedite)
         .set_select_extra_tags(extra_tags_mode)
         .set_first_tags(first_tags)
-        .set_skip_tags(std::move(skip_tags))
+        .set_preserve_tags(std::move(preserve_tags))
         .set_select_level(std::move(select))
         .set_confirm_level(std::move(confirm))
         .set_recruitment_time(recruitment_time_map)

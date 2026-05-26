@@ -30,6 +30,8 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// </summary>
 public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSettingsUserControlModel.ISerialize
 {
+    public const string LegacyRobotTag = "支援机械";
+
     static RecruitSettingsUserControlModel()
     {
         Instance = new();
@@ -90,7 +92,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
         }
     }
 
-    public bool UsePreserveTags
+    public bool PreserveTagEnabled
     {
         get => GetTaskConfig<RecruitTask>().PreserveTagEnabled;
         set => SetTaskConfig<RecruitTask>(t => t.PreserveTagEnabled == value, t => t.PreserveTagEnabled = value);
@@ -302,7 +304,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 ExpeditedTimes = recruit.MaxTimes,
                 SelectExtraTags = recruit.ExtraTagMode,
                 Level3FirstList = firstTags,
-                SkipTags = preserveTags,
+                PreserveTags = preserveTags,
                 ChooseLevel3Time = recruit.Level3Time,
                 ChooseLevel4Time = recruit.Level4Time,
                 ChooseLevel5Time = recruit.Level5Time,

@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -55,12 +56,10 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool PreferTagEnabled { get; set; } = true;
 
-    private const string LegacyRobotTag = "支援机械";
-
     /// <summary>
     /// Gets or sets 需要保留并跳过的Tag。
     /// </summary>
-    public List<string> PreserveTagList { get; set; } = [LegacyRobotTag];
+    public List<string> PreserveTagList { get; set; } = [RecruitSettingsUserControlModel.LegacyRobotTag];
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否启用保留指定Tag。
@@ -77,11 +76,6 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     /// Gets or sets a value indicating whether 无招聘许可仍然刷新
     /// </summary>
     public bool ForceRefresh { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 保留旧版小车词条配置
-    /// </summary>
-    public bool Level1NotChoose { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 自动确认3星
@@ -125,15 +119,6 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
         if (!PreserveTagList.SequenceEqual(normalizedPreserveTags, StringComparer.Ordinal))
         {
             PreserveTagList = normalizedPreserveTags;
-        }
-
-        // TODO: 6.11.0 后删除以下兼容代码段，并移除旧字段 Level1NotChoose。
-        {
-            if (Level1NotChoose)
-            {
-                PreserveTagEnabled = true;
-                Level1NotChoose = false;
-            }
         }
     }
 }
