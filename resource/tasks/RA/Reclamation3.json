@@ -1504,35 +1504,11 @@
     "RelaunchAnchor@RA@RA1-Navigation": {
         "doc": "逐步导航：检测当前界面并前进一步，循环直到到达主题界面",
         "algorithm": "JustReturn",
-        "next": [
-            "RelaunchAnchor@RA@RA1-Nav-DetectTheme",
-            "RelaunchAnchor@RA@RA1-Nav-ClickReclamation",
-            "RelaunchAnchor@RA@RA1-Nav-ClickLongTerm",
-            "RelaunchAnchor@RA@RA1-Nav-EnterTerminal"
-        ]
-    },
-    "RelaunchAnchor@RA@RA1-Nav-ClickReclamation": {
-        "doc": "在长期探索界面点击「生息演算」",
-        "baseTask": "RelaunchAnchor@RA@Nav-ClickReclamation",
-        "next": ["RelaunchAnchor@RA@RA1-Navigation"]
-    },
-    "RelaunchAnchor@RA@RA1-Nav-ClickLongTerm": {
-        "doc": "在终端界面点击「长期探索」图标",
-        "baseTask": "RelaunchAnchor@RA@Nav-ClickLongTerm",
-        "template": "Roguelike@IntegratedStrategies.png",
-        "next": ["RelaunchAnchor@RA@RA1-Navigation"]
-    },
-    "RelaunchAnchor@RA@RA1-Nav-EnterTerminal": {
-        "doc": "从主界面进入终端",
-        "baseTask": "RelaunchAnchor@RA@Nav-EnterTerminal",
-        "next": ["RelaunchAnchor@RA@RA1-Navigation"]
+        "sub": ["RelaunchAnchor@RA@Navigation"],
+        "next": ["RelaunchAnchor@RA@RA1-WaitForGame"]
     },
     "RelaunchAnchor@RA@RA1-Nav-DetectTheme": {
-        "doc": "已在主题界面，点击「进入主题」或「开始建设」",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["进入主题", "开始建设"],
-        "roi": [1064, 620, 171, 50],
+        "baseTask": "RelaunchAnchor@RA@Nav-DetectTheme",
         "next": ["RelaunchAnchor@RA@RA1-Nav-DetectTheme@NextAfterLoadingText", "RelaunchAnchor@RA@RA1-WaitForGame"]
     },
     "RelaunchAnchor@RA@RA1-WaitForGame": {
@@ -1548,35 +1524,11 @@
     "RelaunchAnchor@RA@RA4-Navigation": {
         "doc": "逐步导航：检测当前界面并前进一步，循环直到到达主题界面",
         "algorithm": "JustReturn",
-        "next": [
-            "RelaunchAnchor@RA@RA4-Nav-DetectTheme",
-            "RelaunchAnchor@RA@RA4-Nav-ClickReclamation",
-            "RelaunchAnchor@RA@RA4-Nav-ClickLongTerm",
-            "RelaunchAnchor@RA@RA4-Nav-EnterTerminal"
-        ]
-    },
-    "RelaunchAnchor@RA@RA4-Nav-ClickReclamation": {
-        "doc": "在长期探索界面点击「生息演算」",
-        "baseTask": "RelaunchAnchor@RA@Nav-ClickReclamation",
-        "next": ["RelaunchAnchor@RA@RA4-Navigation"]
-    },
-    "RelaunchAnchor@RA@RA4-Nav-ClickLongTerm": {
-        "doc": "在终端界面点击「长期探索」图标",
-        "baseTask": "RelaunchAnchor@RA@Nav-ClickLongTerm",
-        "template": "Roguelike@IntegratedStrategies.png",
-        "next": ["RelaunchAnchor@RA@RA4-Navigation"]
-    },
-    "RelaunchAnchor@RA@RA4-Nav-EnterTerminal": {
-        "doc": "从主界面进入终端",
-        "baseTask": "RelaunchAnchor@RA@Nav-EnterTerminal",
-        "next": ["RelaunchAnchor@RA@RA4-Navigation"]
+        "sub": ["RelaunchAnchor@RA@Navigation"],
+        "next": ["RelaunchAnchor@RA@RA4-WaitForGame"]
     },
     "RelaunchAnchor@RA@RA4-Nav-DetectTheme": {
-        "doc": "已在主题界面，点击「进入主题」或「开始建设」",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["进入主题", "开始建设"],
-        "roi": [1064, 620, 171, 50],
+        "baseTask": "RelaunchAnchor@RA@Nav-DetectTheme",
         "next": ["RelaunchAnchor@RA@RA4-Nav-DetectTheme@NextAfterLoadingText", "RelaunchAnchor@RA@RA4-WaitForGame"]
     },
     "RelaunchAnchor@RA@RA4-WaitForGame": {
@@ -1592,35 +1544,11 @@
     "RelaunchAnchor@RA@RA15-Navigation": {
         "doc": "逐步导航：检测当前界面并前进一步，循环直到到达主题界面",
         "algorithm": "JustReturn",
-        "next": [
-            "RelaunchAnchor@RA@RA15-Nav-DetectTheme",
-            "RelaunchAnchor@RA@RA15-Nav-ClickReclamation",
-            "RelaunchAnchor@RA@RA15-Nav-ClickLongTerm",
-            "RelaunchAnchor@RA@RA15-Nav-EnterTerminal"
-        ]
-    },
-    "RelaunchAnchor@RA@RA15-Nav-ClickReclamation": {
-        "doc": "在长期探索界面点击「生息演算」",
-        "baseTask": "RelaunchAnchor@RA@Nav-ClickReclamation",
-        "next": ["RelaunchAnchor@RA@RA15-Navigation"]
-    },
-    "RelaunchAnchor@RA@RA15-Nav-ClickLongTerm": {
-        "doc": "在终端界面点击「长期探索」图标",
-        "baseTask": "RelaunchAnchor@RA@Nav-ClickLongTerm",
-        "template": "Roguelike@IntegratedStrategies.png",
-        "next": ["RelaunchAnchor@RA@RA15-Navigation"]
-    },
-    "RelaunchAnchor@RA@RA15-Nav-EnterTerminal": {
-        "doc": "从主界面进入终端",
-        "baseTask": "RelaunchAnchor@RA@Nav-EnterTerminal",
-        "next": ["RelaunchAnchor@RA@RA15-Navigation"]
+        "sub": ["RelaunchAnchor@RA@Navigation"],
+        "next": ["RelaunchAnchor@RA@RA15-WaitForGame"]
     },
     "RelaunchAnchor@RA@RA15-Nav-DetectTheme": {
-        "doc": "已在主题界面，点击「进入主题」或「开始建设」",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["进入主题", "开始建设"],
-        "roi": [1064, 620, 171, 50],
+        "baseTask": "RelaunchAnchor@RA@Nav-DetectTheme",
         "next": ["RelaunchAnchor@RA@RA15-Nav-DetectTheme@NextAfterLoadingText", "RelaunchAnchor@RA@RA15-WaitForGame"]
     },
     "RelaunchAnchor@RA@RA15-WaitForGame": {
@@ -1633,26 +1561,47 @@
             "#self"
         ]
     },
+    "RelaunchAnchor@RA@Navigation": {
+        "doc": "逐步导航：检测当前界面并前进一步，循环直到到达主题界面",
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@Nav-DetectTheme",
+            "RelaunchAnchor@RA@Nav-ClickReclamation",
+            "RelaunchAnchor@RA@Nav-ClickLongTerm",
+            "RelaunchAnchor@RA@Nav-EnterTerminal"
+        ]
+    },
+    "RelaunchAnchor@RA@Nav-DetectTheme": {
+        "doc": "已在主题界面，点击「进入主题」或「开始建设」",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["进入主题", "开始建设"],
+        "roi": [1064, 620, 171, 50],
+        "postDelay": 1000
+    },
     "RelaunchAnchor@RA@Nav-ClickReclamation": {
         "doc": "在长期探索界面点击「生息演算」",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["生息演算"],
         "roi": [673, 441, 348, 99],
-        "postDelay": 3000
+        "postDelay": 3000,
+        "next": ["RelaunchAnchor@RA@Navigation"]
     },
     "RelaunchAnchor@RA@Nav-ClickLongTerm": {
         "doc": "在终端界面点击「长期探索」图标",
         "baseTask": "Roguelike@IntegratedStrategies",
         "template": "Roguelike@IntegratedStrategies.png",
         "action": "ClickSelf",
-        "postDelay": 2000
+        "postDelay": 2000,
+        "next": ["RelaunchAnchor@RA@Navigation"]
     },
     "RelaunchAnchor@RA@Nav-EnterTerminal": {
         "doc": "从主界面进入终端",
         "algorithm": "JustReturn",
         "sub": ["Terminal-Entry"],
-        "postDelay": 2000
+        "postDelay": 2000,
+        "next": ["RelaunchAnchor@RA@Navigation"]
     },
     "RelaunchAnchor@RA@Common-ClickBack": {
         "doc": "点击左上角返回按钮，退出地图回到上一级界面",
@@ -1693,6 +1642,7 @@
         "action": "ClickSelf",
         "template": "RelaunchAnchor@RA@RA15Stage.png",
         "roi": [340, 370, 220, 160],
+        "rectMove": [0, 9, 0, 0],
         "postDelay": 700,
         "next": ["RelaunchAnchor@RA@RA15-OpenConstruction", "RelaunchAnchor@RA@RA15-ClickStageAgain"]
     },
@@ -1702,7 +1652,6 @@
         "action": "ClickSelf",
         "template": "RelaunchAnchor@RA@RA15StageAgain.png",
         "roi": [520, 310, 220, 160],
-        "rectMove": [20, 35, 30, 30],
         "postDelay": 900,
         "next": ["RelaunchAnchor@RA@RA15-OpenConstruction"]
     },
