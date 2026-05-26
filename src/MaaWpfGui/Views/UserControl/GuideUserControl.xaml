@@ -353,24 +353,26 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <RadioButton
-                                            Grid.Column="0"
-                                            Margin="0"
-                                            Padding="0"
-                                            HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Left"
-                                            Background="Transparent"
-                                            BorderThickness="0"
-                                            Style="{DynamicResource RadioGroupItemSingle}">
-                                            <RadioButton.ToolTip>
-                                                <ToolTip>
-                                                    <StackPanel>
-                                                        <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
-                                                        <TextBlock Text="{DynamicResource TaskSettings}" />
-                                                    </StackPanel>
-                                                </ToolTip>
-                                            </RadioButton.ToolTip>
-                                        </RadioButton>
+                                        <hc:ButtonGroup>
+                                            <RadioButton
+                                                Grid.Column="0"
+                                                Margin="0"
+                                                Padding="0"
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Left"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Style="{DynamicResource RadioGroupItemSingle}">
+                                                <RadioButton.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
+                                                            <TextBlock Text="{DynamicResource TaskSettings}" />
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </RadioButton.ToolTip>
+                                            </RadioButton>
+                                        </hc:ButtonGroup>
                                         <CheckBox
                                             Grid.Column="0"
                                             Width="120"
@@ -395,16 +397,16 @@
                                                     Width="22"
                                                     Height="22"
                                                     Margin="0"
+                                                    Padding="0"
                                                     hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
-                                                    hc:IconElement.Width="14"
                                                     hc:IconElement.Height="14"
+                                                    hc:IconElement.Width="14"
                                                     Background="Transparent"
                                                     BorderBrush="Transparent"
                                                     BorderThickness="0"
-                                                    Padding="0"
                                                     ToolTip="{DynamicResource Copy}">
                                                     <Button.Style>
-                                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                                             <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
                                                             <Style.Triggers>
                                                                 <Trigger Property="IsMouseOver" Value="True">
@@ -418,16 +420,16 @@
                                                     Width="22"
                                                     Height="22"
                                                     Margin="0"
+                                                    Padding="0"
                                                     hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
-                                                    hc:IconElement.Width="14"
                                                     hc:IconElement.Height="14"
+                                                    hc:IconElement.Width="14"
                                                     Background="Transparent"
                                                     BorderBrush="Transparent"
                                                     BorderThickness="0"
-                                                    Padding="0"
                                                     ToolTip="{DynamicResource Rename}">
                                                     <Button.Style>
-                                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                                             <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
                                                             <Style.Triggers>
                                                                 <Trigger Property="IsMouseOver" Value="True">
@@ -441,16 +443,16 @@
                                                     Width="22"
                                                     Height="22"
                                                     Margin="0"
+                                                    Padding="0"
                                                     hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
-                                                    hc:IconElement.Width="14"
                                                     hc:IconElement.Height="14"
+                                                    hc:IconElement.Width="14"
                                                     Background="Transparent"
                                                     BorderBrush="Transparent"
                                                     BorderThickness="0"
-                                                    Padding="0"
                                                     ToolTip="{DynamicResource Delete}">
                                                     <Button.Style>
-                                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                                             <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
                                                             <Style.Triggers>
                                                                 <Trigger Property="IsMouseOver" Value="True">
@@ -461,25 +463,27 @@
                                                     </Button.Style>
                                                 </Button>
                                             </StackPanel>
-                                            <RadioButton
-                                                Width="22"
-                                                Margin="0,0,4,0"
-                                                Padding="0"
-                                                hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                                hc:VisualElement.HighlightBackground="Transparent"
-                                                hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
-                                                Background="Transparent"
-                                                BorderThickness="0"
-                                                Style="{DynamicResource RadioGroupItemSingle}">
-                                                <RadioButton.ToolTip>
-                                                    <ToolTip>
-                                                        <StackPanel>
-                                                            <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
-                                                            <TextBlock Text="{DynamicResource TaskSettings}" />
-                                                        </StackPanel>
-                                                    </ToolTip>
-                                                </RadioButton.ToolTip>
-                                            </RadioButton>
+                                            <hc:ButtonGroup>
+                                                <RadioButton
+                                                    Width="22"
+                                                    Margin="0,0,4,0"
+                                                    Padding="0"
+                                                    hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                                    hc:VisualElement.HighlightBackground="Transparent"
+                                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Style="{DynamicResource RadioGroupItemSingle}">
+                                                    <RadioButton.ToolTip>
+                                                        <ToolTip>
+                                                            <StackPanel>
+                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
+                                                                <TextBlock Text="{DynamicResource TaskSettings}" />
+                                                            </StackPanel>
+                                                        </ToolTip>
+                                                    </RadioButton.ToolTip>
+                                                </RadioButton>
+                                            </hc:ButtonGroup>
                                         </StackPanel>
                                     </Grid>
                                 </Border>
@@ -524,8 +528,8 @@
                                     Name="TaskSettings"
                                     Width="220"
                                     Margin="0,10,0,0"
-                                    hc:RelativePanel.Below="{Binding ElementName=TaskSettingsGuide3}"
                                     hc:RelativePanel.AlignLeftWith="{Binding ElementName=TaskItemBorder}"
+                                    hc:RelativePanel.Below="{Binding ElementName=TaskSettingsGuide3}"
                                     Orientation="Horizontal">
                                     <RadioButton Content="{DynamicResource GeneralSettings}" IsChecked="True" />
                                     <RadioButton Content="{DynamicResource AdvancedSettings}" />

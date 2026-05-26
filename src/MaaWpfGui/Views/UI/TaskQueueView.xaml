@@ -21,6 +21,28 @@
     d:DesignHeight="495"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style
+            x:Key="TaskActionButtonStyle"
+            BasedOn="{StaticResource {x:Type Button}}"
+            TargetType="Button">
+            <Setter Property="Width" Value="22" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="hc:IconElement.Height" Value="14" />
+            <Setter Property="hc:IconElement.Width" Value="14" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <userControl:GuideUserControl
             x:Name="Guide"
@@ -104,26 +126,27 @@
                                             </Grid.ColumnDefinitions>
 
                                             <!--  Column 0: stretch-fill settings button (gear hidden, catches clicks on blank space)  -->
-                                            <RadioButton
-                                                Grid.Column="0"
-                                                Margin="0"
-                                                Padding="0"
-                                                HorizontalAlignment="Stretch"
-                                                HorizontalContentAlignment="Left"
-                                                Background="Transparent"
-                                                BorderThickness="0"
-                                                IsChecked="{Binding EnableSetting}"
-                                                Style="{DynamicResource RadioGroupItemSingle}">
-                                                <RadioButton.ToolTip>
-                                                    <ToolTip>
-                                                        <StackPanel>
-                                                            <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
-                                                            <TextBlock Text="{DynamicResource TaskSettings}" />
-                                                        </StackPanel>
-                                                    </ToolTip>
-                                                </RadioButton.ToolTip>
-                                            </RadioButton>
-
+                                            <hc:ButtonGroup>
+                                                <RadioButton
+                                                    Grid.Column="0"
+                                                    Margin="0"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    HorizontalContentAlignment="Left"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    IsChecked="{Binding EnableSetting}"
+                                                    Style="{DynamicResource RadioGroupItemSingle}">
+                                                    <RadioButton.ToolTip>
+                                                        <ToolTip>
+                                                            <StackPanel>
+                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
+                                                                <TextBlock Text="{DynamicResource TaskSettings}" />
+                                                            </StackPanel>
+                                                        </ToolTip>
+                                                    </RadioButton.ToolTip>
+                                                </RadioButton>
+                                            </hc:ButtonGroup>
                                             <CheckBox
                                                 Grid.Column="0"
                                                 MaxWidth="140"
@@ -180,134 +203,83 @@
                                                         <Style TargetType="StackPanel">
                                                             <Setter Property="Visibility" Value="Collapsed" />
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}" Value="True">
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}" Value="True" />
+                                                                        <Condition Binding="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" Value="True" />
+                                                                    </MultiDataTrigger.Conditions>
                                                                     <Setter Property="Visibility" Value="Visible" />
-                                                                </DataTrigger>
+                                                                </MultiDataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
                                                     </StackPanel.Style>
                                                     <Button
-                                                        Width="22"
-                                                        Height="22"
-                                                        Margin="0"
-                                                        Padding="0"
                                                         hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
-                                                        hc:IconElement.Height="14"
-                                                        hc:IconElement.Width="14"
-                                                        Background="Transparent"
-                                                        BorderBrush="Transparent"
-                                                        BorderThickness="0"
                                                         Command="{s:Action CopyTask,
                                                                            Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                         CommandParameter="{Binding}"
-                                                        ToolTip="{DynamicResource Copy}">
-                                                        <Button.Style>
-                                                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-                                                                <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
-                                                                <Style.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
-                                                                    </Trigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Button.Style>
-                                                    </Button>
+                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                        ToolTip="{DynamicResource Copy}" />
                                                     <Button
-                                                        Width="22"
-                                                        Height="22"
-                                                        Margin="0"
-                                                        Padding="0"
                                                         hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
-                                                        hc:IconElement.Height="14"
-                                                        hc:IconElement.Width="14"
-                                                        Background="Transparent"
-                                                        BorderBrush="Transparent"
-                                                        BorderThickness="0"
                                                         Command="{s:Action RenameTask,
                                                                            Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                         CommandParameter="{Binding}"
-                                                        ToolTip="{DynamicResource Rename}">
-                                                        <Button.Style>
-                                                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-                                                                <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
-                                                                <Style.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
-                                                                    </Trigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Button.Style>
-                                                    </Button>
+                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                        ToolTip="{DynamicResource Rename}" />
                                                     <Button
-                                                        Width="22"
-                                                        Height="22"
-                                                        Margin="0"
-                                                        Padding="0"
                                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
-                                                        hc:IconElement.Height="14"
-                                                        hc:IconElement.Width="14"
-                                                        Background="Transparent"
-                                                        BorderBrush="Transparent"
-                                                        BorderThickness="0"
                                                         Command="{s:Action RemoveTask,
                                                                            Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                         CommandParameter="{Binding}"
-                                                        ToolTip="{DynamicResource Delete}">
-                                                        <Button.Style>
-                                                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-                                                                <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
-                                                                <Style.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
-                                                                    </Trigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Button.Style>
-                                                    </Button>
+                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                        ToolTip="{DynamicResource Delete}" />
                                                 </StackPanel>
-                                                <RadioButton
-                                                    x:Name="TaskSettingRadioButton"
-                                                    Width="22"
-                                                    Margin="0,0,4,0"
-                                                    Padding="0"
-                                                    hc:VisualElement.HighlightBackground="Transparent"
-                                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    GroupName="TaskSettings"
-                                                    IsChecked="{Binding EnableSetting}"
-                                                    Style="{DynamicResource RadioGroupItemSingle}">
-                                                    <Grid Width="16" Height="16">
-                                                        <Path
-                                                            Data="{StaticResource ConfigGeometry}"
-                                                            Stretch="Uniform"
-                                                            Visibility="{c:Binding !EnableSetting}">
-                                                            <Path.Style>
-                                                                <Style TargetType="Path">
-                                                                    <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}" />
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=RadioButton}}" Value="True">
-                                                                            <Setter Property="Fill" Value="{DynamicResource PrimaryBrush}" />
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </Path.Style>
-                                                        </Path>
-                                                        <Path
-                                                            Data="{StaticResource ConfigGeometry2}"
-                                                            Fill="{DynamicResource PrimaryBrush}"
-                                                            Stretch="Uniform"
-                                                            Visibility="{c:Binding EnableSetting}" />
-                                                    </Grid>
-                                                    <RadioButton.ToolTip>
-                                                        <ToolTip>
-                                                            <StackPanel>
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
-                                                                <TextBlock Text="{DynamicResource TaskSettings}" />
-                                                            </StackPanel>
-                                                        </ToolTip>
-                                                    </RadioButton.ToolTip>
-                                                </RadioButton>
+                                                <hc:ButtonGroup>
+                                                    <RadioButton
+                                                        x:Name="TaskSettingRadioButton"
+                                                        Width="22"
+                                                        Margin="0,0,4,0"
+                                                        Padding="0"
+                                                        hc:VisualElement.HighlightBackground="Transparent"
+                                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        GroupName="TaskSettings"
+                                                        IsChecked="{Binding EnableSetting}"
+                                                        Style="{DynamicResource RadioGroupItemSingle}">
+                                                        <Grid Width="16" Height="16">
+                                                            <Path
+                                                                Data="{StaticResource ConfigGeometry}"
+                                                                Stretch="Uniform"
+                                                                Visibility="{c:Binding !EnableSetting}">
+                                                                <Path.Style>
+                                                                    <Style TargetType="Path">
+                                                                        <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=RadioButton}}" Value="True">
+                                                                                <Setter Property="Fill" Value="{DynamicResource PrimaryBrush}" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Path.Style>
+                                                            </Path>
+                                                            <Path
+                                                                Data="{StaticResource ConfigGeometry2}"
+                                                                Fill="{DynamicResource PrimaryBrush}"
+                                                                Stretch="Uniform"
+                                                                Visibility="{c:Binding EnableSetting}" />
+                                                        </Grid>
+                                                        <RadioButton.ToolTip>
+                                                            <ToolTip>
+                                                                <StackPanel>
+                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
+                                                                    <TextBlock Text="{DynamicResource TaskSettings}" />
+                                                                </StackPanel>
+                                                            </ToolTip>
+                                                        </RadioButton.ToolTip>
+                                                    </RadioButton>
+                                                </hc:ButtonGroup>
                                             </StackPanel>
                                         </Grid>
                                     </Border>
