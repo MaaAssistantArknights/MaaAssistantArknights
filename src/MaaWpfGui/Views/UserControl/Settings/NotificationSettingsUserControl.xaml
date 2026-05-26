@@ -62,30 +62,30 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal"
                     Visibility="{c:Binding Overlay.ShowLimitFields}">
-                    <StackPanel IsEnabled="{Binding Overlay.UseIndependent}" Orientation="Horizontal">
-                        <Label
-                            Margin="0,0,5,0"
-                            VerticalAlignment="Center"
-                            Content="{DynamicResource NotificationSettingsMaxEntries}" />
-                        <hc:NumericUpDown
-                            Width="100"
-                            hc:InfoElement.TitleWidth="0"
-                            Maximum="10000"
-                            Minimum="0"
-                            Value="{Binding Overlay.MaxEntries}" />
-                    </StackPanel>
-                    <StackPanel IsEnabled="{Binding Overlay.UseIndependent}" Orientation="Horizontal">
-                        <Label
-                            Margin="10,0,5,0"
-                            VerticalAlignment="Center"
-                            Content="{DynamicResource NotificationSettingsTimeMinutes}" />
-                        <hc:NumericUpDown
-                            Width="100"
-                            hc:InfoElement.TitleWidth="0"
-                            Maximum="10080"
-                            Minimum="0"
-                            Value="{Binding Overlay.TimeMinutes}" />
-                    </StackPanel>
+                    <Label
+                        Padding="0"
+                        BorderThickness="0"
+                        Margin="0,0,5,0"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource NotificationSettingsMaxEntries}" />
+                    <hc:NumericUpDown
+                        Width="100"
+                        hc:InfoElement.TitleWidth="0"
+                        Maximum="10000"
+                        Minimum="0"
+                        Value="{Binding Overlay.MaxEntries}" />
+                    <Label
+                        Padding="0"
+                        BorderThickness="0"
+                        Margin="10,0,5,0"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource NotificationSettingsTimeMinutes}" />
+                    <hc:NumericUpDown
+                        Width="100"
+                        hc:InfoElement.TitleWidth="0"
+                        Maximum="10080"
+                        Minimum="0"
+                        Value="{Binding Overlay.TimeMinutes}" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
@@ -175,30 +175,30 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal"
                     Visibility="{c:Binding External.ShowLimitFields}">
-                    <StackPanel IsEnabled="{Binding External.UseIndependent}" Orientation="Horizontal">
-                        <Label
-                            Margin="0,0,5,0"
-                            VerticalAlignment="Center"
-                            Content="{DynamicResource NotificationSettingsMaxEntries}" />
-                        <hc:NumericUpDown
-                            Width="100"
-                            hc:InfoElement.TitleWidth="0"
-                            Maximum="10000"
-                            Minimum="0"
-                            Value="{Binding External.MaxEntries}" />
-                    </StackPanel>
-                    <StackPanel IsEnabled="{Binding External.UseIndependent}" Orientation="Horizontal">
-                        <Label
-                            Margin="10,0,5,0"
-                            VerticalAlignment="Center"
-                            Content="{DynamicResource NotificationSettingsTimeMinutes}" />
-                        <hc:NumericUpDown
-                            Width="100"
-                            hc:InfoElement.TitleWidth="0"
-                            Maximum="10080"
-                            Minimum="0"
-                            Value="{Binding External.TimeMinutes}" />
-                    </StackPanel>
+                    <Label
+                        Padding="0"
+                        BorderThickness="0"
+                        Margin="0,0,5,0"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource NotificationSettingsMaxEntries}" />
+                    <hc:NumericUpDown
+                        Width="100"
+                        hc:InfoElement.TitleWidth="0"
+                        Maximum="10000"
+                        Minimum="0"
+                        Value="{Binding External.MaxEntries}" />
+                    <Label
+                        Padding="0"
+                        BorderThickness="0"
+                        Margin="10,0,5,0"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource NotificationSettingsTimeMinutes}" />
+                    <hc:NumericUpDown
+                        Width="100"
+                        hc:InfoElement.TitleWidth="0"
+                        Maximum="10080"
+                        Minimum="0"
+                        Value="{Binding External.TimeMinutes}" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

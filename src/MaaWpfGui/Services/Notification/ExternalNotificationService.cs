@@ -64,7 +64,7 @@ public static class ExternalNotificationService
 
             ToastNotification.ShowDirect(
                 enabledProvider + " " +
-                LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
+                LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"), "Test");
         }
     }
 

@@ -1063,10 +1063,7 @@ public class AsstProxy
                     Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true, notificationTag: "TaskError");
 
                     ToastNotification.ShowDirect(log, "TaskError");
-                    if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
-                    {
-                        ExternalNotificationService.Send(log, log, tag: "TaskError");
-                    }
+                    ExternalNotificationService.Send(log, log, tag: "TaskError");
 
                     if (value is { Type: TaskType.Copilot })
                     {
@@ -1227,11 +1224,8 @@ public class AsstProxy
                         allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
                         Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notificationTag: "TaskComplete");
 
-                        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
                         {
-                            var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
-                                ? Instances.TaskQueueViewModel.RawLogItems.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
-                                : string.Empty;
+                            var logs = Instances.TaskQueueViewModel.RawLogItems.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
                             logs += allTaskCompleteMessage;
 
                             ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport, tag: "TaskComplete");
@@ -1256,11 +1250,8 @@ public class AsstProxy
                     {
                         Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notificationTag: "TaskComplete");
 
-                        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
                         {
-                            var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
-                                ? Instances.TaskQueueViewModel.RawLogItems.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
-                                : string.Empty;
+                            var logs = Instances.TaskQueueViewModel.RawLogItems.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
                             logs += allTaskCompleteMessage;
 
                             ExternalNotificationService.Send(allTaskCompleteTitle, logs, tag: "TaskComplete");

@@ -42,52 +42,8 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         ExternalNotificationService.Send(
             LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
             LocalizationHelper.GetString("ExternalNotificationSendTestContent"),
-            true);
-    }
-
-    private bool _externalNotificationSendWhenComplete = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, bool.TrueString));
-
-    public bool ExternalNotificationSendWhenComplete
-    {
-        get => _externalNotificationSendWhenComplete;
-        set {
-            SetAndNotify(ref _externalNotificationSendWhenComplete, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, value.ToString());
-        }
-    }
-
-    private bool _externalNotificationEnableDetails = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, bool.FalseString));
-
-    public bool ExternalNotificationEnableDetails
-    {
-        get => _externalNotificationEnableDetails;
-        set {
-            SetAndNotify(ref _externalNotificationEnableDetails, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnableDetails, value.ToString());
-        }
-    }
-
-    private bool _externalNotificationSendWhenError = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, bool.TrueString));
-
-    public bool ExternalNotificationSendWhenError
-    {
-        get => _externalNotificationSendWhenError;
-        set {
-            SetAndNotify(ref _externalNotificationSendWhenError, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenError, value.ToString());
-        }
-    }
-
-
-    private bool _externalNotificationSendWhenStalled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, bool.FalseString));
-
-    public bool ExternalNotificationSendWhenStalled
-    {
-        get => _externalNotificationSendWhenStalled;
-        set {
-            SetAndNotify(ref _externalNotificationSendWhenStalled, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, value.ToString());
-        }
+            true,
+            tag: "Test");
     }
 
     public static readonly List<string> ExternalNotificationProviders =

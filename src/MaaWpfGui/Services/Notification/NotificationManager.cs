@@ -64,7 +64,7 @@ public static class NotificationManager
             Enable = true,
             EnableBlacklist = false,
             EnableWhitelist = true,
-            FilterList = @"\[TaskError\]|\[TaskComplete\]",
+            FilterList = @"\[TaskError\]|\[TaskComplete\]|\[Test\]",
         },
         [NotificationType.External] = new DefaultProfile
         {
