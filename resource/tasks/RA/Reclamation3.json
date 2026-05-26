@@ -63,12 +63,11 @@
         "postDelay": 800
     },
     "RelaunchAnchor@RA@Common-ClearActiveConstructionDetailExit": {
-        "doc": "关卡详情页存在未结束建设时，识别右下继续建设按钮并点击其左侧退出按钮",
-        "algorithm": "OcrDetect",
-        "action": "ClickRect",
-        "text": ["继续建设"],
-        "roi": [930, 575, 300, 100],
-        "specificRect": [870, 620, 1, 1],
+        "doc": "关卡详情页存在未结束建设时，匹配红色退出图标",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@ActiveConstructionExit.png",
+        "roi": [820, 560, 160, 120],
         "postDelay": 800
     },
     "RelaunchAnchor@RA@Common-ConfirmTerminateConstruction": {
@@ -1642,7 +1641,7 @@
         "action": "ClickSelf",
         "template": "RelaunchAnchor@RA@RA15Stage.png",
         "roi": [340, 370, 220, 160],
-        "rectMove": [0, 9, 0, 0],
+        "rectMove": [0, 18, 35, 17],
         "postDelay": 700,
         "next": ["RelaunchAnchor@RA@RA15-OpenConstruction", "RelaunchAnchor@RA@RA15-ClickStageAgain"]
     },
@@ -1744,6 +1743,7 @@
     },
     "RelaunchAnchor@RA@RA1-ClearActiveConstructionDetailExit": {
         "baseTask": "RelaunchAnchor@RA@Common-ClearActiveConstructionDetailExit",
+        "template": "RelaunchAnchor@RA@ActiveConstructionExit.png",
         "next": ["RelaunchAnchor@RA@RA1-ConfirmTerminateConstruction"]
     },
     "RelaunchAnchor@RA@RA1-ConfirmTerminateConstruction": {
@@ -1756,6 +1756,7 @@
     },
     "RelaunchAnchor@RA@RA15-ClearActiveConstructionDetailExit": {
         "baseTask": "RelaunchAnchor@RA@Common-ClearActiveConstructionDetailExit",
+        "template": "RelaunchAnchor@RA@ActiveConstructionExit.png",
         "next": ["RelaunchAnchor@RA@RA15-ConfirmTerminateConstruction"]
     },
     "RelaunchAnchor@RA@RA15-ConfirmTerminateConstruction": {
@@ -1768,6 +1769,7 @@
     },
     "RelaunchAnchor@RA@RA4-ClearActiveConstructionDetailExit": {
         "baseTask": "RelaunchAnchor@RA@Common-ClearActiveConstructionDetailExit",
+        "template": "RelaunchAnchor@RA@ActiveConstructionExit.png",
         "next": ["RelaunchAnchor@RA@RA4-ConfirmTerminateConstruction"]
     },
     "RelaunchAnchor@RA@RA4-ConfirmTerminateConstruction": {
