@@ -2873,9 +2873,9 @@ public class AsstProxy
 
     public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
 
-    public delegate void TaskItemStatusDelegate(int taskId, TaskItemStatus status);
+    public delegate void TaskStatusDelegate(int taskId, TaskItemStatus status);
 
-    public event TaskItemStatusDelegate? OnTaskItemStatusChanged;
+    public event TaskStatusDelegate? OnTaskStatusChanged;
 
     private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status)
     {
@@ -2896,7 +2896,7 @@ public class AsstProxy
         }
 
         _tasksStatus[id] = (value.Type, status);
-        OnTaskItemStatusChanged?.Invoke(id, (TaskItemStatus)status);
+        OnTaskStatusChanged?.Invoke(id, (TaskItemStatus)status);
         if (status == TaskStatus.InProgress)
         {
             TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
