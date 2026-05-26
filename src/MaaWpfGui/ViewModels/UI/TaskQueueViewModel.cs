@@ -1449,10 +1449,10 @@ public class TaskQueueViewModel : Screen
             AddLog("Task copy failed", UiLogColor.Error);
             return;
         }
-        newTask.Name = newTask.NameDisplay + " (2)";
+        newTask.Name = newTask.NameOrTaskType + " (2)";
         ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, newTask);
-        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(newTask.NameDisplay));
-        AddLog(LocalizationHelper.GetStringFormat("TaskCopied", newTask.NameDisplay), UiLogColor.Info);
+        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(newTask.NameOrTaskType));
+        AddLog(LocalizationHelper.GetStringFormat("TaskCopied", newTask.NameOrTaskType), UiLogColor.Info);
     }
 
     /// <summary>
