@@ -40,7 +40,7 @@ jobs:
       - name: Get latest release tag
         id: get_latest
         if: ${{ env.RELEASE_TAG_RAW == 'latest' }}
-        uses: pozetroninc/github-action-get-latest-release@53d33d213ee71c72360e3c829caf7cee94ec21e2 # master as of 2026-05-06
+        uses: pozetroninc/github-action-get-latest-release@master
         with:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
@@ -113,18 +113,53 @@ jobs:
 
     env:
       RELEASE_TAG: ${{ needs.meta.outputs.RELEASE_TAG }}
+      WINGET_CREATE_GITHUB_TOKEN: ${{ secrets.MAABOT_WINGET_TOKEN }}
+      WINGET_CREATE_VERSION: 'v1.12.8.0'
+      WINGET_CREATE_SHA256: '8BD738851B524885410112678E3771B341C5C716DE60FBBECB88AB0A363ED85D'
 
     steps:
       - name: Upload MAA to WinGet
-        uses: vedantmgoyal9/winget-releaser@7bd472be23763def6e16bd06cc8b1cdfab0e2fd5 # main as of 2026-05-06
-        with:
-          identifier: MaaAssistantArknights.MaaAssistantArknights
-          version: ""
-          installers-regex: "-win-"
-          max-versions-to-keep: 0
-          release-tag: ${{ env.RELEASE_TAG }}
-          fork-user: MaaAssistantArknights
-          token: ${{ secrets.MAABOT_WINGET_TOKEN }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $RELEASE_TAG = "${{ env.RELEASE_TAG }}"
+
+          # Fetch the release assets from GitHub Releases API and resolve actual download URLs
+          $headers = @{
+            Accept                 = "application/vnd.github+json"
+            "X-GitHub-Api-Version" = "2026-03-10"
+          }
+
+          if ($env:WINGET_CREATE_GITHUB_TOKEN) {
+            $headers.Authorization = "Bearer $env:WINGET_CREATE_GITHUB_TOKEN"
+          }
+
+          $release = Invoke-RestMethod `
+            -Uri "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/$RELEASE_TAG" `
+            -Headers $headers
+
+          $URL_x64 = $release.assets | Where-Object { $_.name -match "-win-x64.zip$" } | Select-Object -First 1 -ExpandProperty browser_download_url
+          $URL_arm64 = $release.assets | Where-Object { $_.name -match "-win-arm64.zip$" } | Select-Object -First 1 -ExpandProperty browser_download_url
+
+          if (-not $URL_x64 -or -not $URL_arm64) {
+            Write-Error "Failed to resolve release assets from GitHub API for tag '$RELEASE_TAG'."
+            exit 1
+          }
+
+          # Download winget-create
+          curl.exe -JLO "https://github.com/microsoft/winget-create/releases/download/$env:WINGET_CREATE_VERSION/wingetcreate.exe"
+
+          # Verify the hash of wingetcreate.exe
+          if ((Get-FileHash wingetcreate.exe).Hash -ne $env:WINGET_CREATE_SHA256) {
+            Write-Error "wingetcreate.exe hash does not match expected value. Aborting."
+            exit 1
+          }
+
+          # Update the package using wingetcreate
+          .\wingetcreate.exe update MaaAssistantArknights.MaaAssistantArknights `
+            --version $RELEASE_TAG.TrimStart('v') `
+            --urls "$URL_x64|x64" "$URL_arm64|arm64" `
+            --submit
 
   maa_cos:
     name: Upload to MAA COS
