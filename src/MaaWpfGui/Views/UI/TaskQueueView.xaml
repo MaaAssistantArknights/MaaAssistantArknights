@@ -274,19 +274,20 @@
                                                     hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                                                     Background="Transparent"
                                                     BorderThickness="0"
+                                                    GroupName="TaskSettings"
                                                     IsChecked="{Binding EnableSetting}"
                                                     Style="{DynamicResource RadioGroupItemSingle}">
                                                     <Grid Width="16" Height="16">
-                                                        <Path Data="{StaticResource ConfigGeometry}" Stretch="Uniform">
+                                                        <Path
+                                                            Data="{StaticResource ConfigGeometry}"
+                                                            Stretch="Uniform"
+                                                            Visibility="{c:Binding !EnableSetting}">
                                                             <Path.Style>
                                                                 <Style TargetType="Path">
                                                                     <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}" />
                                                                     <Style.Triggers>
                                                                         <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=RadioButton}}" Value="True">
                                                                             <Setter Property="Fill" Value="{DynamicResource PrimaryBrush}" />
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding EnableSetting}" Value="True">
-                                                                            <Setter Property="Visibility" Value="Collapsed" />
                                                                         </DataTrigger>
                                                                     </Style.Triggers>
                                                                 </Style>
@@ -295,18 +296,8 @@
                                                         <Path
                                                             Data="{StaticResource ConfigGeometry2}"
                                                             Fill="{DynamicResource PrimaryBrush}"
-                                                            Stretch="Uniform">
-                                                            <Path.Style>
-                                                                <Style TargetType="Path">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding EnableSetting}" Value="True">
-                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </Path.Style>
-                                                        </Path>
+                                                            Stretch="Uniform"
+                                                            Visibility="{c:Binding EnableSetting}" />
                                                     </Grid>
                                                     <RadioButton.ToolTip>
                                                         <ToolTip>
