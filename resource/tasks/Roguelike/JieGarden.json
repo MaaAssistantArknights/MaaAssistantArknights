@@ -1017,6 +1017,23 @@
             "JieGarden@Roguelike@StageEncounterSpecialClose",
             "JieGarden@Roguelike@StageCombatOpsEnter",
             "JieGarden@Roguelike@StageEmergencyOpsEnter",
+            "JieGarden@Roguelike@StageEncounterLiuerMoneyResult",
+            "JieGarden@Roguelike@ClickToDrops"
+        ]
+    },
+    "JieGarden@Roguelike@StageEncounterLiuerMoneyResult": {
+        "Doc": "柳儿事件交出木盒后的见钱问柳结果页",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "withoutDet": true,
+        "roi": [830, 280, 450, 70],
+        "text": ["那可能是柳儿"],
+        "postDelay": 500,
+        "next": [
+            "JieGarden@Roguelike@StageEncounterOptions#next",
+            "JieGarden@Roguelike@StageEncounterSpecialClose",
+            "JieGarden@Roguelike@StageCombatOpsEnter",
+            "JieGarden@Roguelike@StageEmergencyOpsEnter",
             "JieGarden@Roguelike@ClickToDrops"
         ]
     },
@@ -1039,6 +1056,7 @@
             "JieGarden@Roguelike@StageSafeHouseReuse",
             "JieGarden@Roguelike@StageEncounterOptionLeave",
             "JieGarden@Roguelike@StageEncounterOptionWonderland",
+            "JieGarden@Roguelike@StageEncounterLiuerMoneyResult",
             "JieGarden@Roguelike@StageEncounterDrawCopperResult",
             "JieGarden@Roguelike@ChooseOperFlag",
             "JieGarden@Roguelike@CoppersTakeFlag",
