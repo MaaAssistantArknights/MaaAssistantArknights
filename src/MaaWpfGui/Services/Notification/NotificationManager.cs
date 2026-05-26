@@ -239,7 +239,8 @@ public static class NotificationManager
         switch (type)
         {
             case NotificationType.SystemNotification:
-                Helper.ToastNotification.ShowDirect(bundledContent, tag);
+                // Windows通知只推最新的一条纯文本内容
+                Helper.ToastNotification.ShowDirect(content, tag);
                 break;
             case NotificationType.External:
                 var title = tag ?? content;
