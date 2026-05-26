@@ -80,7 +80,11 @@ public partial class SettingsView
 
         var highlightBrush = GetHighlightBrush();
         var vm = Instances.SettingsViewModel;
-        var contentGrid = (Grid)SettingsScrollViewer.Content;
+        var contentGrid = SettingsScrollViewer.Content as Grid;
+        if (contentGrid == null)
+        {
+            return;
+        }
 
         foreach (var setting in vm.Settings)
         {
