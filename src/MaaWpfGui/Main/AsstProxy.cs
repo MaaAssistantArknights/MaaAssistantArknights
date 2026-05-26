@@ -1060,12 +1060,12 @@ public class AsstProxy
                     _tasksStatus.TryGetValue(taskId, out var value);
 
                     var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
-                    Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true);
+                    Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true, notificationTag: "TaskError");
 
-                    ToastNotification.ShowDirect(log);
+                    ToastNotification.ShowDirect(log, "TaskError");
                     if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
                     {
-                        ExternalNotificationService.Send(log, log);
+                        ExternalNotificationService.Send(log, log, tag: "TaskError");
                     }
 
                     if (value is { Type: TaskType.Copilot })
@@ -1091,7 +1091,7 @@ public class AsstProxy
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
                     Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot") /* or "VideoRecognition") */
                         ? Instances.CopilotViewModel.LogItemViewModels
-                        : Instances.TaskQueueViewModel.LogItemViewModels;
+                        : NotificationManager.OverlayLogItems;
 
                     break;
                 }
@@ -1225,16 +1225,16 @@ public class AsstProxy
                         sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
                         allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
-                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notificationTag: "TaskComplete");
 
                         if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
                         {
                             var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
-                                ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
+                                ? Instances.TaskQueueViewModel.RawLogItems.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
                                 : string.Empty;
                             logs += allTaskCompleteMessage;
 
-                            ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport);
+                            ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport, tag: "TaskComplete");
                         }
 
                         if (_toastNotificationTimer is not null)
@@ -1254,16 +1254,16 @@ public class AsstProxy
                     }
                     else
                     {
-                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notificationTag: "TaskComplete");
 
                         if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
                         {
                             var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
-                                ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
+                                ? Instances.TaskQueueViewModel.RawLogItems.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
                                 : string.Empty;
                             logs += allTaskCompleteMessage;
 
-                            ExternalNotificationService.Send(allTaskCompleteTitle, logs);
+                            ExternalNotificationService.Send(allTaskCompleteTitle, logs, tag: "TaskComplete");
                         }
                     }
 
@@ -1274,7 +1274,7 @@ public class AsstProxy
                             toast.AppendContentText(sanityReport);
                         }
 
-                        toast.Show();
+                        toast.ShowWithTag("TaskComplete");
                     }
 
                     if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())

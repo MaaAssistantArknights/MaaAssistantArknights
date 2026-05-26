@@ -364,4 +364,39 @@ public static class ConfigurationKeys
     public const string AnnouncementInfo = "Announcement.AnnouncementInfo"; // 已迁移
     public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain"; // 已迁移
     public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement"; // 已迁移
+
+    public const string NotificationEnable = "Notification.Enable";
+    public const string NotificationEnableBlacklist = "Notification.EnableBlacklist";
+    public const string NotificationEnableWhitelist = "Notification.EnableWhitelist";
+    public const string NotificationFilterList = "Notification.FilterList";
+    public const string NotificationMaxEntries = "Notification.MaxEntries";
+    public const string NotificationTimeMinutes = "Notification.TimeMinutes";
+
+    public const string NotificationOverlayUseIndependent = "Notification.Overlay.UseIndependent";
+    public const string NotificationOverlayEnable = "Notification.Overlay.Enable";
+    public const string NotificationOverlayEnableBlacklist = "Notification.Overlay.EnableBlacklist";
+    public const string NotificationOverlayEnableWhitelist = "Notification.Overlay.EnableWhitelist";
+    public const string NotificationOverlayFilterList = "Notification.Overlay.FilterList";
+    public const string NotificationOverlayMaxEntries = "Notification.Overlay.MaxEntries";
+    public const string NotificationOverlayTimeMinutes = "Notification.Overlay.TimeMinutes";
+
+    public const string NotificationSystemNotificationUseIndependent = "Notification.SystemNotification.UseIndependent";
+    public const string NotificationSystemNotificationEnable = "Notification.SystemNotification.Enable";
+    public const string NotificationSystemNotificationEnableBlacklist = "Notification.SystemNotification.EnableBlacklist";
+    public const string NotificationSystemNotificationEnableWhitelist = "Notification.SystemNotification.EnableWhitelist";
+    public const string NotificationSystemNotificationFilterList = "Notification.SystemNotification.FilterList";
+
+    public const string NotificationExternalUseIndependent = "Notification.External.UseIndependent";
+    public const string NotificationExternalEnable = "Notification.External.Enable";
+    public const string NotificationExternalEnableBlacklist = "Notification.External.EnableBlacklist";
+    public const string NotificationExternalEnableWhitelist = "Notification.External.EnableWhitelist";
+    public const string NotificationExternalFilterList = "Notification.External.FilterList";
+    public const string NotificationExternalMaxEntries = "Notification.External.MaxEntries";
+    public const string NotificationExternalTimeMinutes = "Notification.External.TimeMinutes";
+
+    public const string NotificationTaskQueueLogUseIndependent = "Notification.TaskQueueLog.UseIndependent";
+    public const string NotificationTaskQueueLogEnable = "Notification.TaskQueueLog.Enable";
+    public const string NotificationTaskQueueLogEnableBlacklist = "Notification.TaskQueueLog.EnableBlacklist";
+    public const string NotificationTaskQueueLogEnableWhitelist = "Notification.TaskQueueLog.EnableWhitelist";
+    public const string NotificationTaskQueueLogFilterList = "Notification.TaskQueueLog.FilterList";
 }

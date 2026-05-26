@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.Views.UI;
 using Newtonsoft.Json;
@@ -31,7 +32,7 @@ namespace MaaWpfGui.ViewModels.UI
     {
         public OverlayViewModel()
         {
-            _logItemsSource = Instances.TaskQueueViewModel.LogItemViewModels;
+            _logItemsSource = NotificationManager.OverlayLogItems;
         }
 
         private OverlayWindow? _overlay;
