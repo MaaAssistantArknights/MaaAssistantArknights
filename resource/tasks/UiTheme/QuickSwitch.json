@@ -34,7 +34,12 @@
         "Doc": "小房子下拉框中的终端图标",
         "template": "QuickSwitch/Terminal.png",
         "roi": [450, 0, 159, 148],
-        "next": ["#self", "QuickSwitch@ToTerminal@Entry@LoadingText", "QuickSwitch@ToTerminal@Entry@LoadingIcon", "#back"]
+        "next": [
+            "#self",
+            "QuickSwitch@ToTerminal@Entry@LoadingText",
+            "QuickSwitch@ToTerminal@Entry@LoadingIcon",
+            "#back"
+        ]
     },
     "QuickSwitch@ToTerminal@Open": {
         "baseTask": "QuickSwitch@Base",

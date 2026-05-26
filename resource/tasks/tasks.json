@@ -1190,7 +1190,12 @@
     },
     "StageBegin": {
         "algorithm": "JustReturn",
-        "next": ["(Fight@GoLastBattle)@QuickSwitch@ToTerminal#next", "Fight@ReturnButtons#next", "Fight", "Fight@CloseAnnos#next"]
+        "next": [
+            "(Fight@GoLastBattle)@QuickSwitch@ToTerminal#next",
+            "Fight@ReturnButtons#next",
+            "Fight",
+            "Fight@CloseAnnos#next"
+        ]
     },
     "FightBegin": {
         "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
@@ -1760,7 +1765,12 @@
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
         "sub": ["AwardExpandCheckFlow"],
-        "next": ["MiningActivitiesReturnHome", "MiningActivitiesReturnHome@QuickSwitch@ToHome#next", "MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivities"]
+        "next": [
+            "MiningActivitiesReturnHome",
+            "MiningActivitiesReturnHome@QuickSwitch@ToHome#next",
+            "MiningActivitiesReturnHome@ReturnButtons#next",
+            "MiningActivities"
+        ]
     },
     "MiningActivitiesReturnHome": {
         "baseTask": "Home",
@@ -1795,7 +1805,12 @@
     "OrundumActivitiesBegin": {
         "algorithm": "JustReturn",
         "sub": ["AwardExpandCheckFlow"],
-        "next": ["OrundumActivitiesReturnHome", "OrundumActivitiesReturnHome@QuickSwitch@ToHome#next", "OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivities"]
+        "next": [
+            "OrundumActivitiesReturnHome",
+            "OrundumActivitiesReturnHome@QuickSwitch@ToHome#next",
+            "OrundumActivitiesReturnHome@ReturnButtons#next",
+            "OrundumActivities"
+        ]
     },
     "OrundumActivitiesReturnHome": {
         "baseTask": "Home",
@@ -2060,7 +2075,12 @@
     },
     "MailBegin": {
         "algorithm": "JustReturn",
-        "next": ["MailReturnToHome", "MailReturnToHome@QuickSwitch@ToHome#next", "MailReturnToHome@ReturnButtons#next", "ReceiveMail"]
+        "next": [
+            "MailReturnToHome",
+            "MailReturnToHome@QuickSwitch@ToHome#next",
+            "MailReturnToHome@ReturnButtons#next",
+            "ReceiveMail"
+        ]
     },
     "MailReturnToHome": {
         "baseTask": "Home",
@@ -4243,7 +4263,14 @@
     },
     "DepotBegin": {
         "algorithm": "JustReturn",
-        "next": ["Depot", "DepotMaterialTab", "DepotAllTab", "DepotMaterialTabClicked", "DepotBegin@QuickSwitch@ToHome#next", "Depot@ReturnButtons#next"]
+        "next": [
+            "Depot",
+            "DepotMaterialTab",
+            "DepotAllTab",
+            "DepotMaterialTabClicked",
+            "DepotBegin@QuickSwitch@ToHome#next",
+            "Depot@ReturnButtons#next"
+        ]
     },
     "Depot": {
         "action": "DoNothing",
