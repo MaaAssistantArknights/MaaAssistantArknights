@@ -87,7 +87,7 @@
     <system:String x:Key="Copy">複製</system:String>
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationUnavailable">Toast 通知不可用, {0}</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">用户在设置中关闭了该应用的通知</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">用户在Windows设置中关闭了该应用的通知</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">用户关闭了所有应用通知</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">组策略禁用</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">清单禁用</system:String>
