@@ -48,7 +48,7 @@
     <system:String x:Key="NotificationSettingsEnableBlacklist">Enable Blacklist</system:String>
     <system:String x:Key="NotificationSettingsEnableWhitelist">Enable Whitelist</system:String>
     <system:String x:Key="NotificationSettingsFilterList">Filter Rules (one regex per line)</system:String>
-    <system:String x:Key="NotificationSettingsMaxEntries">Max Notification Entries</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntries">Attached Log Entry Count</system:String>
     <system:String x:Key="NotificationSettingsTimeMinutes">Notification Duration (Minutes)</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
     <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>

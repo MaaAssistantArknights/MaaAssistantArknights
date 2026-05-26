@@ -48,7 +48,7 @@
     <system:String x:Key="NotificationSettingsEnableBlacklist">启用黑名单</system:String>
     <system:String x:Key="NotificationSettingsEnableWhitelist">启用白名单</system:String>
     <system:String x:Key="NotificationSettingsFilterList">过滤规则列表（每行一条，支持正则）</system:String>
-    <system:String x:Key="NotificationSettingsMaxEntries">通知条目数量上限</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntries">附带日志条目数量</system:String>
     <system:String x:Key="NotificationSettingsTimeMinutes">通知显示持续时间（分钟）</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">启用的通知配置</system:String>
