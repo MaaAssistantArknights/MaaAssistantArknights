@@ -322,7 +322,11 @@
     <system:String x:Key="CheckBoxesNotSaved">このオプションは一度有効です</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">このオプションは、右クリックで選択した時のみ一度だけ有効です</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">このオプションは、右クリックで選択した時のみ一度だけスキップします</system:String>
-    <system:String x:Key="SpecifiedDropsTip">この機能では最適なステージを自動的に計算しません</system:String>
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">実際に入るステージは、引き続き下の ｢{key=StageSelect}｣ / ｢{key=StageSelect2}｣ で決まります。
+• {key=Quantity}: この理性作戦タスク中で、その素材のドロップ数が設定値に達するまで周回します。
+• {key=TargetInventory}: ｢{key=Toolbox}-{key=DepotRecognition}｣ に保存された在庫データを参照し、設定した在庫数になるまで補充します。
+  • 在庫データはキャッシュのため、手動周回や素材の使用後は実際とずれる場合があります。｢{key=UserDataUpdate}｣ または ｢{key=Toolbox}-{key=DepotRecognition}｣ で同期してください。
+  • {key=TargetInventory} を有効にすると、実行中は素材や数量を変更できません。</system:String>
     <system:String x:Key="StartupUpdateCheck">起動時の更新チェック</system:String>
     <system:String x:Key="UpdateAutoCheck">定期的な更新チェック</system:String>
     <system:String x:Key="UpdateAutoCheckTip">ゲーム内 00:00 / 18:00（サーバー現地時間 04:00 / 22:00）</system:String>
@@ -777,6 +781,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PerformBattles">周回数指定</system:String>
     <system:String x:Key="AssignedMaterial">素材の指定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
+    <system:String x:Key="KeepInventory">在庫を維持</system:String>
+    <system:String x:Key="TargetInventory">目標在庫</system:String>
     <system:String x:Key="Series">連戦回数</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• 自動:
 レベルの最大代理乗数を自動で判別し、最大代理乗数を維持し、正気ポーション使用後に正気度オーバーフローが発生しないようにします。
@@ -806,6 +812,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>
     <system:String x:Key="Inventory">在庫</system:String>
     <system:String x:Key="InventoryUpdateTip">在庫データは ｢{key=Toolbox}-{key=DepotRecognition}｣ で更新できます</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">タスク「{0}」では {key=TargetInventory} が有効ですが、利用可能な在庫データがないためスキップされました。｢{key=Toolbox}-{key=DepotRecognition}｣ で在庫を更新してください。</system:String>
     <system:String x:Key="LessThanOneDay">1日以内</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6(CE-6)</system:String>
