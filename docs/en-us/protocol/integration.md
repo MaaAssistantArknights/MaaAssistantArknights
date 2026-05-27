@@ -261,9 +261,9 @@ Number of expedites, only effective when `expedite` is true. By default unlimite
 ::: field name="skip_robot" type="boolean" optional default="true"  
 Deprecated and kept only for backward compatibility.  
 <br>
-When `skip_tags` is absent and this value is `true`, MAA skips on `支援机械` only; `元素` is no longer treated as the legacy 1★ tag.  
+When `preserve_tags` is absent and this value is `true`, MAA skips on `支援机械` only; `元素` is no longer treated as the legacy 1★ tag.  
 :::
-::: field name="skip_tags" type="array<string>" optional  
+::: field name="preserve_tags" type="array<string>" optional  
 List of tag names that should preserve the current recruitment slot and skip this recruitment. Default is empty.  
 <br>
 If any specified tag is recognized, MAA will keep that slot untouched and skip the current recruitment.  
@@ -307,7 +307,7 @@ Options: `CN` | `US` | `JP` | `KR`
    "set_time": true,
    "expedite": false,
    "expedite_times": 0,
-   "skip_tags": ["支援机械"],
+   "preserve_tags": ["支援机械"],
    "recruitment_time": {
       "3": 540,
       "4": 540

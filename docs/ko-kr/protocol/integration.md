@@ -250,9 +250,9 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 ::: field name="skip_robot" type="boolean" optional default="true"  
 폐기 예정이며 구형 파라미터 호환용으로만 유지됩니다.  
 <br>
-`skip_tags`가 없고 이 값이 `true`이면 `支援机械` 인식 시에만 건너뜁니다. `元素`는 더 이상 구형 1★ 태그로 취급하지 않습니다.  
+`preserve_tags`가 없고 이 값이 `true`이면 `支援机械` 인식 시에만 건너뜁니다. `元素`는 더 이상 구형 1★ 태그로 취급하지 않습니다.  
 :::
-::: field name="skip_tags" type="array<string>" optional  
+::: field name="preserve_tags" type="array<string>" optional  
 현재 공개모집 슬롯을 유지한 채 이번 모집을 건너뛸 Tag 이름 목록입니다. 기본값은 빈 배열입니다.  
 <br>
 지정한 Tag 중 하나라도 인식되면 MAA는 해당 슬롯을 유지하고 이번 모집을 건너뜁니다.  
@@ -296,7 +296,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
    "set_time": true,
    "expedite": false,
    "expedite_times": 0,
-   "skip_tags": ["支援机械"],
+   "preserve_tags": ["支援机械"],
    "recruitment_time": {
       "3": 540,
       "4": 540

@@ -261,9 +261,9 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 ::: field name="skip_robot" type="boolean" optional default="true"  
 已废弃，仅用于兼容旧参数。  
 <br>
-当未提供 `skip_tags` 且该值为 `true` 时，会在识别到 `支援机械` 时跳过；`元素` 不再视为旧版 1 星词条。  
+当未提供 `preserve_tags` 且该值为 `true` 时，会在识别到 `支援机械` 时跳过；`元素` 不再视为旧版 1 星词条。  
 :::
-::: field name="skip_tags" type="array<string>" optional  
+::: field name="preserve_tags" type="array<string>" optional  
 需要保留并跳过当前公招槽位的 Tag 名称列表。默认为空。  
 <br>
 当识别到任一指定 Tag 时，MAA 会保留该槽位并跳过本次招募。  
@@ -307,7 +307,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "set_time": true,
    "expedite": false,
    "expedite_times": 0,
-   "skip_tags": ["支援机械"],
+   "preserve_tags": ["支援机械"],
    "recruitment_time": {
       "3": 540,
       "4": 540

@@ -261,9 +261,9 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 ::: field name="skip_robot" type="boolean" optional default="true"  
 非推奨です。旧パラメータ互換のためにのみ残されています。  
 <br>
-`skip_tags` が指定されておらず、この値が `true` の場合は `支援机械` を認識したときのみスキップします。`元素` は旧来の 1★ タグとしては扱われません。  
+`preserve_tags` が指定されておらず、この値が `true` の場合は `支援机械` を認識したときのみスキップします。`元素` は旧来の 1★ タグとしては扱われません。  
 :::
-::: field name="skip_tags" type="array<string>" optional  
+::: field name="preserve_tags" type="array<string>" optional  
 現在の公開求人枠を保持したまま今回の募集をスキップしたい Tag 名の一覧です。デフォルトは空です。  
 <br>
 指定した Tag のいずれかを認識した場合、MAA はその枠を保持して今回の募集をスキップします。  
@@ -307,7 +307,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "set_time": true,
    "expedite": false,
    "expedite_times": 0,
-   "skip_tags": ["支援机械"],
+   "preserve_tags": ["支援机械"],
    "recruitment_time": {
       "3": 540,
       "4": 540
