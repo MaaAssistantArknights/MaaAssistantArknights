@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import subprocess
 import urllib.error
 import urllib.request
 from argparse import ArgumentParser
@@ -229,12 +230,11 @@ def convert_contributors_name(name: str, commit_hash: str, name_type: str):
         return name
 
 
-def call_command(command: str):
-    with os.popen(command) as fp:
-        bf = fp._stream.buffer.read()
+def call_command(command: list[str]):
+    bf = subprocess.run(command, check=True, stdout=subprocess.PIPE).stdout
     try:
         return bf.decode().strip()
-    except:
+    except UnicodeDecodeError:
         return bf.decode("gbk").strip()
 
 
@@ -248,13 +248,13 @@ def main(tag_name=None, latest=None):
         contributors = {}
 
     if not latest:
-        latest = call_command('git describe --tags --match "v*" --abbrev=0')
+        latest = call_command(["git", "describe", "--tags", "--match", "v*", "--abbrev=0"])
     if not tag_name:
-        tag_name = call_command('git describe --tags --match "v*"')
+        tag_name = call_command(["git", "describe", "--tags", "--match", "v*"])
 
     print("From:", latest, ", To:", tag_name, "\n")
 
-    git_command = rf'git log {latest}..HEAD --pretty=format:"%H%n%aN%n%cN%n%s%n%P%n"'
+    git_command = ["git", "log", f"{latest}..HEAD", "--pretty=format:%H%n%aN%n%cN%n%s%n%P%n"]
     raw_gitlogs = call_command(git_command)
 
     raw_commits_info = {}

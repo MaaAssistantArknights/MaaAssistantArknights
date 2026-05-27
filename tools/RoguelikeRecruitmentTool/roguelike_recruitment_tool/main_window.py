@@ -1,5 +1,5 @@
-from os import system
 from pathlib import Path
+import subprocess
 
 from pydantic import ValidationError
 from PyQt5.QtCore import Qt
@@ -395,7 +395,7 @@ class MainWindow(QMainWindow):
                 with open(config_path, "w", encoding="utf-8") as fp:
                     fp.write(json_str)
                 if self.prettier_checkbox_widget.isChecked():
-                    system("prettier -w " + str(config_path))
+                    subprocess.run(["prettier", "-w", str(config_path)], check=True)
             except Exception as e:
                 self.log_widget.insertPlainText(f"Failed!")
                 self.process_exception(e, f"Error when saving {theme}")

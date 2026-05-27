@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 from argparse import ArgumentParser
 
 
@@ -45,7 +46,7 @@ if __name__ == "__main__":
         else:
             print(f"Invalid ignore path: {ignore}")
 
-    os.system(f"{clang_format_exe} --version")
+    subprocess.run([clang_format_exe, "--version"], check=True)
 
     if not input_path:
         print("No input dir.")
@@ -67,11 +68,11 @@ if __name__ == "__main__":
                         continue
                     if os.path.splitext(file)[-1] in rule_array:
                         print(file)
-                        os.system(f'{clang_format_exe} -i -style={args.style} "{file}"')
+                        subprocess.run([clang_format_exe, "-i", f"-style={args.style}", file], check=True)
     elif os.path.isfile(input_path):
         file = input_path
         print(file)
-        os.system(f'{clang_format_exe} -i -style={args.style} "{file}"')
+        subprocess.run([clang_format_exe, "-i", f"-style={args.style}", file], check=True)
     else:
         print("Invalid input_path!")
 
