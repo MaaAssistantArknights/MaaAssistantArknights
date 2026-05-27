@@ -200,26 +200,12 @@
                                                         Style="{StaticResource TaskActionButtonStyle}"
                                                         ToolTip="{DynamicResource RunTaskOnce}" />
                                                     <Button
-                                                        hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
-                                                        Command="{s:Action CopyTask,
-                                                                           Target={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                        CommandParameter="{Binding}"
-                                                        Style="{StaticResource TaskActionButtonStyle}"
-                                                        ToolTip="{DynamicResource Copy}" />
-                                                    <Button
                                                         hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
-                                                        Command="{s:Action RenameTask,
+                                                        Command="{s:Action EditTask,
                                                                            Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource TaskActionButtonStyle}"
-                                                        ToolTip="{DynamicResource Rename}" />
-                                                    <Button
-                                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
-                                                        Command="{s:Action RemoveTask,
-                                                                           Target={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                        CommandParameter="{Binding}"
-                                                        Style="{StaticResource TaskActionButtonStyle}"
-                                                        ToolTip="{DynamicResource Delete}" />
+                                                        ToolTip="{DynamicResource EditTask}" />
                                                 </StackPanel>
                                                 <hc:ButtonGroup>
                                                     <RadioButton

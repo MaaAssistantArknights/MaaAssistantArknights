@@ -310,6 +310,10 @@
     <system:String x:Key="Rename">이름 변경</system:String>
     <system:String x:Key="Delete">삭제</system:String>
     <system:String x:Key="RenameTask">작업 이름 변경</system:String>
+    <system:String x:Key="EditTask">작업 편집</system:String>
+    <system:String x:Key="EditTaskApply">적용</system:String>
+    <system:String x:Key="CopyTaskButton">작업 복사</system:String>
+    <system:String x:Key="DeleteTaskButton">작업 삭제</system:String>
     <system:String x:Key="RenameTaskPrompt">새 작업 이름을 입력하세요:</system:String>
     <system:String x:Key="ConfirmDeleteTask">삭제 확인</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">정말로 {0} 번째 작업 "{1}"을 삭제하시겠습니까?</system:String>

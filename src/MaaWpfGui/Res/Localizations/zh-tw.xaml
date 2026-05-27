@@ -310,6 +310,10 @@
     <system:String x:Key="Rename">重新命名</system:String>
     <system:String x:Key="Delete">刪除</system:String>
     <system:String x:Key="RenameTask">重新命名任務</system:String>
+    <system:String x:Key="EditTask">編輯任務</system:String>
+    <system:String x:Key="EditTaskApply">應用</system:String>
+    <system:String x:Key="CopyTaskButton">複製任務</system:String>
+    <system:String x:Key="DeleteTaskButton">刪除任務</system:String>
     <system:String x:Key="RenameTaskPrompt">請輸入新的任務名稱：</system:String>
     <system:String x:Key="ConfirmDeleteTask">確認刪除</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">確定要刪除 {0} 任務 "{1}" 嗎？</system:String>

@@ -1392,6 +1392,68 @@ public class TaskQueueViewModel : Screen
     }
 
     /// <summary>
+    /// 编辑任务：弹出编辑窗口，支持重命名、复制和删除。
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    [UsedImplicitly]
+    public void EditTask(TaskItemViewModel taskItem)
+    {
+        if (taskItem == null || !Idle)
+        {
+            return;
+        }
+
+        var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
+        var currentName = taskItem.Name.Replace("\r", string.Empty).Replace("\n", string.Empty);
+
+        void ApplyName(string newName)
+        {
+            if (!string.IsNullOrWhiteSpace(newName) &&
+                taskItem.Index >= 0 &&
+                taskItem.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+            {
+                var trimmed = newName.Trim().Replace("\r", string.Empty).Replace("\n", string.Empty);
+                if (!trimmed.Equals(currentName, StringComparison.Ordinal))
+                {
+                    ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].Name = trimmed;
+                    taskItem.Name = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].NameOrTaskType;
+                    AddLog(LocalizationHelper.GetStringFormat("TaskRenamed", trimmed), UiLogColor.Info);
+                    currentName = trimmed;
+                }
+            }
+        }
+
+        var dialog = new Views.Dialogs.EditTaskDialogUserControl(
+            LocalizationHelper.GetString("RenameTaskPrompt"),
+            currentName,
+            ApplyName)
+        {
+            Owner = Application.Current.MainWindow,
+            Title = LocalizationHelper.GetString("EditTask") + $" {taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}",
+        };
+
+        var result = dialog.ShowDialog();
+
+        if (result != true)
+        {
+            return;
+        }
+
+        ApplyName(dialog.InputText);
+
+        switch (dialog.ActionResult)
+        {
+            case Views.Dialogs.EditTaskAction.CopyTask:
+                CopyTask(taskItem);
+                break;
+
+            case Views.Dialogs.EditTaskAction.DeleteTask:
+                RemoveTask(taskItem);
+                break;
+        }
+    }
+
+    /// <summary>
     /// 单次运行任务。
     /// </summary>
     /// <param name="taskItem">任务项</param>

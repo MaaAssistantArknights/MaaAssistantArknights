@@ -310,6 +310,10 @@
     <system:String x:Key="Rename">名前を変更</system:String>
     <system:String x:Key="Delete">削除</system:String>
     <system:String x:Key="RenameTask">タスク名を変更</system:String>
+    <system:String x:Key="EditTask">タスクを編集</system:String>
+    <system:String x:Key="EditTaskApply">適用</system:String>
+    <system:String x:Key="CopyTaskButton">タスクをコピー</system:String>
+    <system:String x:Key="DeleteTaskButton">タスクを削除</system:String>
     <system:String x:Key="RenameTaskPrompt">新しいタスク名を入力してください：</system:String>
     <system:String x:Key="ConfirmDeleteTask">削除の確認</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">タスク "{1}" ({0}) を削除してもよろしいですか？</system:String>
