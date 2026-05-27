@@ -86,11 +86,11 @@
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
     <system:String x:Key="Copy">Copy</system:String>
     <!--  Toast 不可用  -->
-    <system:String x:Key="ToastNotificationUnavailable">Toast 通知不可用, {0}</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">用户在Windows设置中关闭了该应用的通知</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">用户关闭了所有应用通知</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">组策略禁用</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">清单禁用</system:String>
+    <system:String x:Key="ToastNotificationUnavailable">Toast notifications are unavailable: {0}</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">The user has disabled notifications for this app in Windows Settings.</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">The user has disabled all app notifications.</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">Group Policy Disabled</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">Manifest Disabled</system:String>
     <!--  !Toast 不可用  -->
     <!--  Settings Guide  -->
     <system:String x:Key="LeftClick">Left Click</system:String>

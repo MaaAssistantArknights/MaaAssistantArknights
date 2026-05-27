@@ -74,7 +74,7 @@ public class ToastNotification : IDisposable
 
     public static (bool IsAvailable, string Detail) ToastNotificationCheck()
     {
-        if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 10240))
+        if (_notificationPoster is NotificationImplWinRT)
         {
             return _notificationPoster.IsNotificationAvailable;
         }
