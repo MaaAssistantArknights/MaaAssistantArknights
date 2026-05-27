@@ -165,7 +165,7 @@ bool asst::FightTask::set_params(const json::value& params)
     m_stage_drops_plugin_ptr->set_yituliu_id(penguin_id);
 
     m_sidestory_reopen_task_ptr->set_medicine(medicine);
-    m_sidestory_reopen_task_ptr->set_expiring_medicine(medicine_expire_days == 0 ? 0 : 9999);
+    m_sidestory_reopen_task_ptr->set_expiring_medicine(medicine_expire_days);
     m_sidestory_reopen_task_ptr->set_stone(stone);
     m_sidestory_reopen_task_ptr->set_enable_penguin(enable_penguin);
     m_sidestory_reopen_task_ptr->set_penguin_id(std::move(penguin_id));

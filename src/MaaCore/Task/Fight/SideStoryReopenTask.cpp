@@ -210,7 +210,7 @@ bool asst::SideStoryReopenTask::fight(bool use_medicine, bool use_stone)
 
     auto medicine_plugin = fight_task.register_plugin<MedicineCounterTaskPlugin>();
     medicine_plugin->set_count(use_medicine ? 1 : 0);
-    medicine_plugin->set_expire_days(m_expiring_medicine != 0 ? 2 : 0);
+    medicine_plugin->set_expire_days(m_expiring_medicine);
 
     auto plugin = fight_task.register_plugin<StageQueueMissionCompletedTaskPlugin>();
     plugin->set_drop_stats(std::move(m_drop_stats));
