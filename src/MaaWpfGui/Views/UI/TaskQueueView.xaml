@@ -158,7 +158,8 @@
                                                 VerticalAlignment="Center"
                                                 Background="Transparent"
                                                 IsHitTestVisible="False"
-                                                Text="{Binding Name}">
+                                                Text="{Binding Name}"
+                                                TextTrimming="CharacterEllipsis">
                                                 <controls:TextBlock.Style>
                                                     <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}">
                                                         <Style.Triggers>
