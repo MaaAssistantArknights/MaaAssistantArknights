@@ -347,7 +347,7 @@
                             Height="268"
                             IsMuted="True"
                             LoadedBehavior="Play"
-                            Source="{Binding TouchModeVideoPath, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
+                            Source="{Binding Source={x:Static settings_vms:ConnectSettingsUserControlModel.TouchModeVideoPath}}" />
                         <TextBlock
                             Margin="0,8,0,0"
                             FontSize="12"
