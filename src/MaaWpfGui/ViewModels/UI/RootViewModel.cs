@@ -75,10 +75,25 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         _ = Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();
 
         // 主窗口已显示，此时弹窗不会导致 WPF 因无窗口而退出
+        Task.Run(ConfigBrokenCheck);
+        Task.Run(ToastNotificationCheck);
+    }
+
+    private static void ConfigBrokenCheck()
+    {
         var recoveryMessage = ConfigFactory.ConsumePendingRecoveryMessage();
         if (recoveryMessage is not null)
         {
             MessageBoxHelper.Show(recoveryMessage, LocalizationHelper.GetString("ConfigurationBrokenCaption"), MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+    }
+
+    private static void ToastNotificationCheck()
+    {
+        var (isAvailable, detail) = ToastNotification.ToastNotificationCheck();
+        if (!isAvailable)
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail), UiLogColor.Error);
         }
     }
 

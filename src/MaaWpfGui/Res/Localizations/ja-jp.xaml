@@ -85,6 +85,13 @@
     <system:String x:Key="GpuDriverOutdatedMessage">現在選択されている推論加速 GPU（{0}）のドライバーバージョン（{1}、リリース日：{2}）は2年以上経過しており、互換性の問題が発生する可能性があります。\n\nグラフィックスドライバーを更新するか、「{key=Settings} - {key=PerformanceSettings}」で別の GPU に変更することをおすすめします。</system:String>
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
     <system:String x:Key="Copy">コピー</system:String>
+    <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationUnavailable">Toast 通知は使用できません、 {0}</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">ユーザーはWindowsの設定でこのアプリの通知をオフにした</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">ユーザーはすべてのアプリの通知をオフにしました</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">グループ ポリシーによって無効化されました</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">マニフェストによって無効化されました</system:String>
+    <!--  !Toast 不可用  -->
     <!--  設定ガイド  -->
     <system:String x:Key="LeftClick">左クリック</system:String>
     <system:String x:Key="RightClick">右クリック</system:String>

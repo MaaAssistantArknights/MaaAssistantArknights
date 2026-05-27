@@ -72,6 +72,15 @@ public class ToastNotification : IDisposable
         return new NotificationImplWpf();
     }
 
+    public static (bool IsAvailable, string Detail) ToastNotificationCheck()
+    {
+        if (_notificationPoster is NotificationImplWinRT)
+        {
+            return _notificationPoster.IsNotificationAvailable;
+        }
+        return (true, string.Empty);
+    }
+
     /// <summary>
     /// 按钮激活后的事件，参数为按钮标签
     /// </summary>
@@ -280,8 +289,7 @@ public class ToastNotification : IDisposable
     public void Show(double lifeTime = 10d, uint row = 1,
         NotificationSounds sound = NotificationSounds.Notification, params NotificationHint[] hints)
     {
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             // TODO: 整理过时代码
             if (!ConfigFactory.Root.GUI.UseNotify)
             {

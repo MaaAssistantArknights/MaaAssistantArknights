@@ -85,6 +85,13 @@
     <system:String x:Key="GpuDriverOutdatedMessage">目前選擇的推理加速 GPU（{0}）的驅動版本（{1}，發布日期：{2}）距今已超過兩年，可能存在相容性問題。\n\n建議更新顯示卡驅動或前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更換其他 GPU。</system:String>
     <system:String x:Key="GpuAllowDeprecated">允許使用不推薦的 GPU</system:String>
     <system:String x:Key="Copy">複製</system:String>
+    <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationUnavailable">無法使用 Toast 通知，{0}</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">使用者已在 Windows 設定中關閉此應用程式的通知</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">使用者已關閉所有應用程式通知</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">遭群組原則停用</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">遭資訊清單停用</system:String>
+    <!--  !Toast 不可用  -->
     <!--  設定指引  -->
     <system:String x:Key="LeftClick">左鍵</system:String>
     <system:String x:Key="RightClick">右鍵</system:String>

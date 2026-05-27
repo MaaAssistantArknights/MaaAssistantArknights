@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using HandyControl.Controls;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -153,6 +154,11 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             if (value)
             {
                 ToastNotification.ShowDirect("Test test");
+                var (isAvailable, detail) = ToastNotification.ToastNotificationCheck();
+                if (!isAvailable)
+                {
+                    Growl.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
+                }
             }
         }
     }

@@ -153,4 +153,6 @@ internal class NotificationImplWpf : INotificationPoster
             // ignored
         }
     }
+
+    public (bool IsAvailable, string Detail) IsNotificationAvailable => throw new NotImplementedException();
 }
