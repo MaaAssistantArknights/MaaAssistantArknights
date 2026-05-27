@@ -94,9 +94,26 @@ public class VersionUpdateDialogViewModel : Screen
         }
     }
 
-    private string _updateInfo = FakeUpdateHelper.IsEnabled && !string.IsNullOrWhiteSpace(FakeUpdateHelper.UpdateInfo)
-        ? FakeUpdateHelper.UpdateInfo
-        : ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+    private static string LoadUpdateBody()
+    {
+        var body = MarkdownDataHelper.Get("CHANGELOG");
+        if (!string.IsNullOrWhiteSpace(body))
+        {
+            return body;
+        }
+
+        // 从老版本配置文件迁移
+        var legacy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+        if (!string.IsNullOrWhiteSpace(legacy))
+        {
+            MarkdownDataHelper.Set("CHANGELOG", legacy);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.VersionUpdateBody, out _);
+        }
+
+        return legacy;
+    }
+
+    private string _updateInfo = LoadUpdateBody();
 
     // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 
@@ -118,7 +135,7 @@ public class VersionUpdateDialogViewModel : Screen
 
         set {
             SetAndNotify(ref _updateInfo, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateBody, value);
+            MarkdownDataHelper.Set("CHANGELOG", value);
         }
     }
 
@@ -396,10 +413,6 @@ public class VersionUpdateDialogViewModel : Screen
         const double MinimumDetectedNewVersionDisplaySeconds = 0.5d;
 
         UpdateTag = FakeUpdateHelper.TargetVersion;
-        if (!string.IsNullOrWhiteSpace(FakeUpdateHelper.UpdateInfo))
-        {
-            UpdateInfo = FakeUpdateHelper.UpdateInfo;
-        }
 
         UpdatePackageName = "MirrorChyanApp" + UpdateTag + ".zip";
 
