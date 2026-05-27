@@ -620,6 +620,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">윈도우 제목 스크롤</system:String>
     <system:String x:Key="MainTasksNullFunctionality">메인 작업 오른쪽 클릭 효과 반전</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">기본: 한 번만 적용, 체크 시: 한 번만 건너뛰기</system:String>
+    <system:String x:Key="MainTasksNullFunctionalitySwitch">｢{key=Settings} - {key=UiSettings} - {key=MainTasksNullFunctionality}｣ 에서 우클릭 효과 전환 가능</system:String>
     <system:String x:Key="UseCardLog">카드 스타일 로그 사용</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">로그 썸네일 최대 개수</system:String>
     <system:String x:Key="TitleBarDisplayContent">제목 표시줄 표시 내용</system:String>

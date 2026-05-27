@@ -138,16 +138,21 @@
                                                 <controls:TextBlock Text="{Binding Name}" Visibility="Hidden" />
                                                 <CheckBox.ToolTip>
                                                     <ToolTip>
-                                                        <ToolTip.Style>
-                                                            <Style BasedOn="{StaticResource ToolTipBaseStyle}" TargetType="{x:Type ToolTip}">
-                                                                <Setter Property="Content" Value="{DynamicResource CheckBoxesNotSavedAsNull}" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True">
-                                                                        <Setter Property="Content" Value="{DynamicResource CheckBoxesNotSavedAsNullInvert}" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </ToolTip.Style>
+                                                        <StackPanel>
+                                                            <TextBlock HorizontalAlignment="Left">
+                                                                <TextBlock.Style>
+                                                                    <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock">
+                                                                        <Setter Property="Text" Value="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True">
+                                                                                <Setter Property="Text" Value="{DynamicResource CheckBoxesNotSavedAsNullInvert}" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource MainTasksNullFunctionalitySwitch}" />
+                                                        </StackPanel>
                                                     </ToolTip>
                                                 </CheckBox.ToolTip>
                                             </CheckBox>

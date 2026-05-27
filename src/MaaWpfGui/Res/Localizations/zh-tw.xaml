@@ -620,6 +620,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">視窗標題捲動</system:String>
     <system:String x:Key="MainTasksNullFunctionality">反轉主任務右鍵點擊效果</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">預設僅一次生效，勾選後僅一次跳過</system:String>
+    <system:String x:Key="MainTasksNullFunctionalitySwitch">可在 ｢{key=Settings} - {key=UiSettings} - {key=MainTasksNullFunctionality}｣ 切換右鍵單擊效果</system:String>
     <system:String x:Key="UseCardLog">使用卡片樣式日誌</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">日誌縮圖最大數量</system:String>
     <system:String x:Key="TitleBarDisplayContent">標題列顯示內容</system:String>

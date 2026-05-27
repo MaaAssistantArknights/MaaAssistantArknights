@@ -620,6 +620,7 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="WindowTitleScrollable">Window Title Scrolling</system:String>
     <system:String x:Key="MainTasksNullFunctionality">Reverse right-click effect for main task</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">Default: Apply once; Checked: Skip once</system:String>
+    <system:String x:Key="MainTasksNullFunctionalitySwitch">Switch right-click effect at ｢{key=Settings} - {key=UiSettings} - {key=MainTasksNullFunctionality}｣</system:String>
     <system:String x:Key="UseCardLog">Use card style log</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">Maximum number of log thumbnails</system:String>
     <system:String x:Key="TitleBarDisplayContent">Title Bar Display Content</system:String>
