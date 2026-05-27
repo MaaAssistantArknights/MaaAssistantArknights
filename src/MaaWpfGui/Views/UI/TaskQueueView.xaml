@@ -193,6 +193,13 @@
                                                     </StackPanel.Style>
                                                     <Button
                                                         hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
+                                                        Command="{s:Action RunTaskOnce,
+                                                                           Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                        CommandParameter="{Binding}"
+                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                        ToolTip="{DynamicResource RunTaskOnce}" />
+                                                    <Button
+                                                        hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
                                                         Command="{s:Action CopyTask,
                                                                            Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                         CommandParameter="{Binding}"
