@@ -102,7 +102,11 @@ public partial class TooltipBlock : UserControl
             return;
         }
 
-        block.PART_Border.ToolTip = e.NewValue ?? block.DefaultToolTipContent;
+        if (block.PART_Border is { } border)
+        {
+            border.ToolTip = e.NewValue ?? block.DefaultToolTipContent;
+        }
+
         block.UpdateIsToolTipEnabled();
     }
 
