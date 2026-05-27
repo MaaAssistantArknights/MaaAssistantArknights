@@ -311,6 +311,8 @@
     <system:String x:Key="Delete">削除</system:String>
     <system:String x:Key="RenameTask">タスク名を変更</system:String>
     <system:String x:Key="EditTask">タスクを編集</system:String>
+    <system:String x:Key="EditTaskNamePrompt">タスク名を編集：</system:String>
+    <system:String x:Key="EditTaskOperateTask">タスク操作：</system:String>
     <system:String x:Key="EditTaskApply">適用</system:String>
     <system:String x:Key="CopyTaskButton">タスクをコピー</system:String>
     <system:String x:Key="DeleteTaskButton">タスクを削除</system:String>

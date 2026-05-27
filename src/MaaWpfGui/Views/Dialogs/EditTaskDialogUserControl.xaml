@@ -9,7 +9,7 @@
     x:Name="EditTaskDialogWindow"
     Title="{DynamicResource EditTask}"
     Width="400"
-    Height="260"
+    Height="290"
     Background="{DynamicResource RegionBrush}"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterOwner"
@@ -17,57 +17,22 @@
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!--  提示文本  -->
+        <!--  操作任务标签  -->
         <controls:TextBlock
-            x:Name="PromptTextBlock"
             Grid.Row="0"
-            Margin="0,0,0,15"
-            Text="{DynamicResource RenameTaskPrompt}"
-            TextWrapping="Wrap" />
-
-        <!--  输入框  -->
-        <TextBox
-            x:Name="InputTextBox"
-            Grid.Row="1"
             Margin="0,0,0,10"
-            VerticalAlignment="Top"
-            FontSize="14" />
-
-        <!--  名称操作按钮：应用 / 确认 / 取消  -->
-        <StackPanel
-            Grid.Row="2"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal">
-            <Button
-                Width="80"
-                Height="32"
-                Margin="0,0,10,0"
-                Click="BtnApply_Click"
-                Content="{DynamicResource EditTaskApply}" />
-            <Button
-                Width="80"
-                Height="32"
-                Margin="0,0,10,0"
-                Click="BtnConfirm_Click"
-                Content="{DynamicResource Confirm}"
-                IsDefault="True" />
-            <Button
-                Width="80"
-                Height="32"
-                Click="BtnCancel_Click"
-                Content="{DynamicResource Cancel}"
-                IsCancel="True" />
-        </StackPanel>
+            HorizontalAlignment="Center"
+            Text="{DynamicResource EditTaskOperateTask}" />
 
         <!--  任务操作按钮：复制任务 / 删除任务  -->
         <StackPanel
-            Grid.Row="3"
-            Margin="0,15,0,0"
+            Grid.Row="1"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
@@ -81,6 +46,49 @@
                 Height="32"
                 Click="BtnDeleteTask_Click"
                 Content="{DynamicResource DeleteTaskButton}" />
+        </StackPanel>
+
+        <!--  编辑名称提示  -->
+        <controls:TextBlock
+            x:Name="PromptTextBlock"
+            Grid.Row="2"
+            Margin="0,10,0,15"
+            Text="{DynamicResource EditTaskNamePrompt}"
+            TextWrapping="Wrap" />
+
+        <!--  输入框  -->
+        <TextBox
+            x:Name="InputTextBox"
+            Grid.Row="3"
+            Margin="0,0,0,10"
+            VerticalAlignment="Top"
+            FontSize="14" />
+
+        <!--  名称操作按钮：确认 / 应用 / 取消  -->
+        <StackPanel
+            Grid.Row="4"
+            Margin="0,30,0,0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Width="80"
+                Height="32"
+                Margin="0,0,10,0"
+                Click="BtnConfirm_Click"
+                Content="{DynamicResource Confirm}"
+                IsDefault="True" />
+            <Button
+                Width="80"
+                Height="32"
+                Margin="0,0,10,0"
+                Click="BtnApply_Click"
+                Content="{DynamicResource EditTaskApply}" />
+            <Button
+                Width="80"
+                Height="32"
+                Click="BtnCancel_Click"
+                Content="{DynamicResource Cancel}"
+                IsCancel="True" />
         </StackPanel>
     </Grid>
 </hc:Window>

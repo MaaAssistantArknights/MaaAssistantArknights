@@ -1424,7 +1424,7 @@ public class TaskQueueViewModel : Screen
         }
 
         var dialog = new Views.Dialogs.EditTaskDialogUserControl(
-            LocalizationHelper.GetString("RenameTaskPrompt"),
+            LocalizationHelper.GetString("EditTaskNamePrompt"),
             currentName,
             ApplyName)
         {
