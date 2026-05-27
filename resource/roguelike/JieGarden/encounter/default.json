@@ -170,6 +170,11 @@
             ]
         },
         {
+            "name": "见钱问柳",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
             "name": "柳儿",
             "option_num": 2,
             "choose": 2
