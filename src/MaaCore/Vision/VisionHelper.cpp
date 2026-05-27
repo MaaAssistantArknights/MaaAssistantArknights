@@ -86,7 +86,7 @@ Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
         Log.error(__FUNCTION__, "image is empty");
         return rect;
     }
-    if (rect.empty()) {
+    if (rect.x == 0 && rect.y == 0 && rect.width == 0 && rect.height == 0) {
         LogWarn << __FUNCTION__ << "roi is empty, use whole image";
         return { 0, 0, image.cols, image.rows };
     }
