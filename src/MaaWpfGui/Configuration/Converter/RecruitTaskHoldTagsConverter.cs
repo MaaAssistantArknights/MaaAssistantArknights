@@ -42,28 +42,37 @@ internal class RecruitTaskHoldTagsConverter : JsonConverter<Root>
             return null;
         }
 
-        if (root.TryGetProperty("Configurations", out var configurationsElement) && configurationsElement.ValueKind == JsonValueKind.Object)
+        if (!root.TryGetProperty("Configurations", out var configurationsElement)
+            || configurationsElement.ValueKind != JsonValueKind.Object)
         {
-            foreach (var configProp in configurationsElement.EnumerateObject())
-            {
-                var configName = configProp.Name;
-                var configValue = configProp.Value;
+            return rootObj;
+        }
 
-                if (configValue.TryGetProperty("TaskQueue", out var taskQueueElement) && taskQueueElement.ValueKind == JsonValueKind.Array)
+        foreach (var configProp in configurationsElement.EnumerateObject())
+        {
+            if (!rootObj.Configurations.TryGetValue(configProp.Name, out var configObj))
+            {
+                continue;
+            }
+
+            if (!configProp.Value.TryGetProperty("TaskQueue", out var taskQueueElement)
+                || taskQueueElement.ValueKind != JsonValueKind.Array)
+            {
+                continue;
+            }
+
+            int taskIndex = 0;
+            foreach (var taskElement in taskQueueElement.EnumerateArray())
+            {
+                if (taskIndex < configObj.TaskQueue.Count
+                    && configObj.TaskQueue[taskIndex] is RecruitTask task
+                    && taskElement.TryGetProperty("Level1NotChoose", out var notChoose)
+                    && notChoose.ValueKind == JsonValueKind.True)
                 {
-                    int taskIndex = 0;
-                    foreach (var taskElement in taskQueueElement.EnumerateArray())
-                    {
-                        if (rootObj.Configurations[configName].TaskQueue[taskIndex] is RecruitTask task)
-                        {
-                            if (taskElement.TryGetProperty("Level1NotChoose", out var notChoose) && notChoose.GetBoolean())
-                            {
-                                task.PreserveTagEnabled = true;
-                            }
-                        }
-                        taskIndex++;
-                    }
+                    task.PreserveTagEnabled = true;
                 }
+
+                taskIndex++;
             }
         }
 
