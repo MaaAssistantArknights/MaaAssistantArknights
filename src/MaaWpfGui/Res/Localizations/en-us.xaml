@@ -324,6 +324,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="TaskRenamed">Task renamed to: {0}</system:String>
     <system:String x:Key="TaskDeleted">Task deleted: {0}</system:String>
     <system:String x:Key="TaskCopied">Task copied: {0}</system:String>
+    <system:String x:Key="TaskCopyFailed">Task copy failed</system:String>
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">Press Backspace / Esc / Delete to clear the current value</system:String>

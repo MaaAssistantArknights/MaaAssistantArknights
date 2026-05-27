@@ -324,6 +324,7 @@
     <system:String x:Key="TaskRenamed">タスク名を変更しました: {0}</system:String>
     <system:String x:Key="TaskDeleted">タスクを削除しました: {0}</system:String>
     <system:String x:Key="TaskCopied">タスクをコピーしました: {0}</system:String>
+    <system:String x:Key="TaskCopyFailed">タスクのコピーに失敗しました</system:String>
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>
     <system:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</system:String>
     <system:String x:Key="HotKeyChangingTip">バックスペース/Esc/デリート キーを押すことで初期化できます</system:String>

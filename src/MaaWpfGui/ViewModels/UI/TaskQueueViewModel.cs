@@ -1446,7 +1446,7 @@ public class TaskQueueViewModel : Screen
         var oldTaskJson = JsonSerializer.Serialize(oldTask);
         if (JsonSerializer.Deserialize(oldTaskJson, oldTask.GetType()) is not BaseTask newTask)
         {
-            AddLog("Task copy failed", UiLogColor.Error);
+            AddLog(LocalizationHelper.GetString("TaskCopyFailed"), UiLogColor.Error);
             return;
         }
         newTask.Name = newTask.NameOrTaskType + " (2)";

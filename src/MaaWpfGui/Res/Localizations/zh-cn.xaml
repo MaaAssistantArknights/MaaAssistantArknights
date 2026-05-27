@@ -324,6 +324,7 @@
     <system:String x:Key="TaskRenamed">任务已重命名为: {0}</system:String>
     <system:String x:Key="TaskDeleted">已删除任务: {0}</system:String>
     <system:String x:Key="TaskCopied">已复制任务: {0}</system:String>
+    <system:String x:Key="TaskCopyFailed">任务复制失败</system:String>
     <system:String x:Key="HotKeyShowGui">[热键] 显示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[热键] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">键入 退格/Esc/Delete 清除当前热键</system:String>

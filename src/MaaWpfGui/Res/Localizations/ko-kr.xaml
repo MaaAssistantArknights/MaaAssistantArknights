@@ -324,6 +324,7 @@
     <system:String x:Key="TaskRenamed">작업 이름 변경: {0}</system:String>
     <system:String x:Key="TaskDeleted">작업 삭제: {0}</system:String>
     <system:String x:Key="TaskCopied">작업 복사: {0}</system:String>
+    <system:String x:Key="TaskCopyFailed">작업 복사 실패</system:String>
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
     <system:String x:Key="HotKeyLinkStart">[단축키] Link 시작/중지</system:String>
     <system:String x:Key="HotKeyChangingTip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
