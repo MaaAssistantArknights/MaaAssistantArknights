@@ -86,11 +86,11 @@
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <system:String x:Key="Copy">복사</system:String>
     <!--  Toast 不可用  -->
-    <system:String x:Key="ToastNotificationUnavailable">Toast 通知不可用, {0}</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">用户在Windows设置中关闭了该应用的通知</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">用户关闭了所有应用通知</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">组策略禁用</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">清单禁用</system:String>
+    <system:String x:Key="ToastNotificationUnavailable">Toast 알림을 사용할 수 없습니다, {0}</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">사용자가 Windows 설정에서 이 앱의 알림을 비활성화했습니다</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">사용자가 모든 앱 알림을 비활성화했습니다</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">그룹 정책에 의해 비활성화됨</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">매니페스트에 의해 비활성화됨</system:String>
     <!--  !Toast 不可用  -->
     <!--  설정 가이드  -->
     <system:String x:Key="LeftClick">왼쪽 클릭</system:String>
