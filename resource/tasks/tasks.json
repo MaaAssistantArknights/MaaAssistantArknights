@@ -2388,7 +2388,7 @@
         ]
     },
     "Infrast@MainThemes": {
-        "next": ["(InfrastBegin#next)^(InfrastBegin@QuickSwitch@ToInfrast#next)"]
+        "next": ["(InfrastBegin#next)^((Infrast@MainThemes)@QuickSwitch@ToInfrast#next)"]
     },
     "Return": {
         "action": "ClickSelf",
