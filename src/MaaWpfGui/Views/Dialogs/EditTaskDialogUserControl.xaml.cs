@@ -43,12 +43,11 @@ public partial class EditTaskDialogUserControl
     }
 
     public EditTaskDialogUserControl(string prompt, string defaultText = "", Action<string>? onApplyName = null)
+        : this()
     {
-        InitializeComponent();
         PromptTextBlock.Text = prompt;
         InputTextBox.Text = defaultText;
         _onApplyName = onApplyName;
-        Loaded += OnLoaded;
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)

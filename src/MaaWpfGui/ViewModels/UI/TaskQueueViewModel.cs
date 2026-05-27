@@ -1404,7 +1404,7 @@ public class TaskQueueViewModel : Screen
         }
 
         var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
-        var currentName = taskItem.Name.Replace("\r", string.Empty).Replace("\n", string.Empty);
+        var currentName = SanitizeName(taskItem.Name);
 
         void ApplyName(string newName)
         {
@@ -1412,7 +1412,7 @@ public class TaskQueueViewModel : Screen
                 taskItem.Index >= 0 &&
                 taskItem.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
             {
-                var trimmed = newName.Trim().Replace("\r", string.Empty).Replace("\n", string.Empty);
+                var trimmed = SanitizeName(newName);
                 if (!trimmed.Equals(currentName, StringComparison.Ordinal))
                 {
                     ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].Name = trimmed;
@@ -1452,6 +1452,9 @@ public class TaskQueueViewModel : Screen
                 break;
         }
     }
+
+    private static string SanitizeName(string name) =>
+        (name ?? string.Empty).Trim().Replace("\r", string.Empty).Replace("\n", string.Empty);
 
     /// <summary>
     /// 单次运行任务。
