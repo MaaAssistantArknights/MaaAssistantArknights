@@ -40,6 +40,12 @@ jobs:
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
       prerelease: ${{ steps.set_pre.outputs.prerelease }}
+      maaunified_version_prefix: ${{ steps.set_maaunified_version.outputs.version_prefix }}
+      maaunified_version_suffix: ${{ steps.set_maaunified_version.outputs.version_suffix }}
+      maaunified_assembly_version: ${{ steps.set_maaunified_version.outputs.assembly_version }}
+      maaunified_file_version: ${{ steps.set_maaunified_version.outputs.file_version }}
+      maaunified_informational_version: ${{ steps.set_maaunified_version.outputs.informational_version }}
+      maaunified_is_beta: ${{ steps.set_maaunified_version.outputs.is_beta }}
     steps:
       - name: Show concurrency group
         env:
@@ -74,6 +80,46 @@ jobs:
           else
             echo "prerelease=true" | tee -a $GITHUB_OUTPUT
           fi
+
+      - name: Resolve MAAUnified version metadata
+        id: set_maaunified_version
+        shell: bash
+        run: |
+          tag="${{ steps.set_tag.outputs.tag }}"
+          semver_tag="${tag#v}"
+          semver_tag_lower="${semver_tag,,}"
+          is_tag=false
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            is_tag=true
+          fi
+
+          is_beta=false
+          if [[ "${is_tag}" == "true" && "${semver_tag_lower}" =~ ^[0-9]+\.[0-9]+\.[0-9]+-beta([.-][0-9a-z]+)*$ ]]; then
+            is_beta=true
+          fi
+          if [[ "${is_beta}" == "true" && "${{ steps.set_pre.outputs.prerelease }}" != "true" ]]; then
+            echo "MAAUnified beta packages must be attached to a GitHub prerelease." >&2
+            exit 1
+          fi
+
+          if [[ "${semver_tag}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)(-([0-9A-Za-z][0-9A-Za-z.-]*))?$ ]]; then
+            version_prefix="${BASH_REMATCH[1]}"
+            version_suffix="${BASH_REMATCH[3]}"
+          else
+            version_prefix="1.0.0"
+            safe_suffix="$(echo "${tag}" | tr '/_' '--' | tr -cd '0-9A-Za-z.-')"
+            if [[ -z "${safe_suffix}" ]]; then
+              safe_suffix="r${GITHUB_RUN_NUMBER}"
+            fi
+            version_suffix="release.${safe_suffix}"
+          fi
+
+          echo "version_prefix=${version_prefix}" >> "$GITHUB_OUTPUT"
+          echo "version_suffix=${version_suffix}" >> "$GITHUB_OUTPUT"
+          echo "assembly_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
+          echo "file_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
+          echo "informational_version=${tag}" >> "$GITHUB_OUTPUT"
+          echo "is_beta=${is_beta}" >> "$GITHUB_OUTPUT"
 
       - name: Finalize changelog
         if: startsWith(github.ref, 'refs/tags/v')
@@ -368,6 +414,158 @@ jobs:
           path: |
             release/*.AppImage
             release/*.tar.gz
+          compression-level: 0
+
+  maaunified-linux-gui:
+    name: Build MAAUnified Linux GUI
+    needs: meta
+    if: needs.meta.outputs.maaunified_is_beta == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          show-progress: false
+
+      - name: Initialize staging directory
+        shell: pwsh
+        run: |
+          $stagingDir = Join-Path $env:RUNNER_TEMP "maaunified-staging"
+          if (Test-Path $stagingDir) {
+            Remove-Item $stagingDir -Recurse -Force
+          }
+          New-Item -ItemType Directory -Path $stagingDir -Force | Out-Null
+          "MAAUNIFIED_STAGING_DIR=$stagingDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Fetch submodules
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified src/MaaUtils
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Install AppImage packaging dependencies
+        shell: bash
+        run: |
+          sudo add-apt-repository universe
+          sudo apt update
+          sudo apt install -y libfuse2
+
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v5
+        continue-on-error: true
+        with:
+          path: ./src/MaaUtils/MaaDeps
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
+
+      - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/maadeps-download.py x64-linux
+
+      - name: Restore MAAUnified app
+        run: dotnet restore src/MAAUnified/App/MAAUnified.App.csproj
+
+      - name: Build MaaCore runtime
+        run: |
+          cmake --preset linux-publish-x64 -DINSTALL_PYTHON=OFF -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake --build --preset linux-publish-x64 --parallel $(nproc)
+          cmake --install build --config RelWithDebInfo
+        env:
+          CLICOLOR_FORCE: 1
+
+      - name: Publish MAAUnified app
+        shell: bash
+        run: >
+          dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r linux-x64
+          --self-contained true -o "$MAAUNIFIED_STAGING_DIR/bin"
+          -p:VersionPrefix=${{ needs.meta.outputs.maaunified_version_prefix }}
+          -p:VersionSuffix=${{ needs.meta.outputs.maaunified_version_suffix }}
+          -p:AssemblyVersion=${{ needs.meta.outputs.maaunified_assembly_version }}
+          -p:FileVersion=${{ needs.meta.outputs.maaunified_file_version }}
+          -p:InformationalVersion="${{ needs.meta.outputs.maaunified_informational_version }}"
+          -p:MaaUnifiedReleaseChannel=formal
+          -p:MaaUnifiedDiagnosticsProfile=minimal
+
+      - name: Merge MaaCore runtime
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          mkdir -p "$staging_dir"
+          cp -a install/. "$staging_dir/"
+          test -f "$staging_dir/libMaaCore.so"
+          test -d "$staging_dir/resource"
+
+      - name: Remove non-runtime artifacts
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          find "$staging_dir/bin" -type f -name '*.pdb' -delete
+          rm -f "$staging_dir/AsstCaller.h" "$staging_dir/AsstPort.h"
+
+      - name: Prepare portable writable directories
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          mkdir -p \
+            "$staging_dir/config" \
+            "$staging_dir/data" \
+            "$staging_dir/cache" \
+            "$staging_dir/debug" \
+            "$staging_dir/update-packages"
+
+      - name: Validate staging layout
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          test -x "$staging_dir/bin/MAAUnified"
+          test -d "$staging_dir/resource"
+          test -f "$staging_dir/libMaaCore.so"
+          test -d "$staging_dir/config"
+          test -d "$staging_dir/data"
+          test -d "$staging_dir/cache"
+          test -d "$staging_dir/debug"
+          test -d "$staging_dir/update-packages"
+          ! test -e "$staging_dir/MAAUnified"
+          ! test -e "$staging_dir/MAAUnified.sh"
+          ! find "$staging_dir" -maxdepth 1 -type f \( -name 'System.*.dll' -o -name 'Avalonia.*.dll' \) | grep -q .
+          ! find "$staging_dir/bin" -type f -name '*.pdb' | grep -q .
+
+      - name: Package MAAUnified Linux GUI
+        shell: bash
+        run: |
+          mkdir -p release
+          name="MAAUnified-${{ needs.meta.outputs.tag }}-linux-x64"
+          echo "Linux AppImage is a portable-directory launcher; upload only the complete zip package."
+          bash src/MAAUnified/CI/create-linux-appimage.sh "$MAAUNIFIED_STAGING_DIR" release MAAUnified x86_64
+          cp "release/MAAUnified.AppImage" "$MAAUNIFIED_STAGING_DIR/MAAUnified.AppImage"
+          (
+            cd "$MAAUNIFIED_STAGING_DIR"
+            zip -qr "$GITHUB_WORKSPACE/release/${name}.zip" .
+          )
+          test -f "release/${name}.zip"
+          unzip -Z1 "release/${name}.zip" | grep -qx 'MAAUnified.AppImage'
+          unzip -Z1 "release/${name}.zip" | grep -qx 'bin/MAAUnified'
+          unzip -Z1 "release/${name}.zip" | grep -q '^resource/'
+          unzip -Z1 "release/${name}.zip" | grep -q '^libMaaCore\.so'
+          ! unzip -Z1 "release/${name}.zip" | grep -q '^usr/share/maaunified/'
+          rm -f "release/MAAUnified.AppImage"
+          ! find release -type f -name '*linux*.tar.gz' | grep -q .
+
+      - name: Upload MAAUnified Linux GUI to GitHub
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAAUnified-linux-x64
+          path: release/MAAUnified-*-linux-x64.zip
           compression-level: 0
 
   android:
@@ -808,8 +1006,19 @@ jobs:
 
   release:
     name: Publish Release
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [meta, windows, ubuntu, android, macOS-Core, macOS-GUI]
+    if: >-
+      ${{
+        always()
+        && startsWith(github.ref, 'refs/tags/v')
+        && needs.meta.result == 'success'
+        && needs.windows.result == 'success'
+        && needs.ubuntu.result == 'success'
+        && needs.android.result == 'success'
+        && needs['macOS-Core'].result == 'success'
+        && needs['macOS-GUI'].result == 'success'
+        && (needs['maaunified-linux-gui'].result == 'success' || needs['maaunified-linux-gui'].result == 'skipped')
+      }}
+    needs: [meta, windows, ubuntu, maaunified-linux-gui, android, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
       - name: Download MAA from GitHub
