@@ -108,7 +108,8 @@
     <system:String x:Key="OftenUsedGuide">↑ Often Used</system:String>
     <system:String x:Key="SometimesUsedGuide">Sometimes Used ↑</system:String>
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
-    <system:String x:Key="HoverActionButtons">↓ Hover to Copy/Rename/Delete</system:String>
+    <system:String x:Key="HoverActionButtons" xml:space="preserve">  Hover to Copy/Rename/Delete
+↓ Right-click gear for more options</system:String>
     <system:String x:Key="UserGuide">User Guide</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 Website &amp; Documentation</system:String>
     <system:String x:Key="GuideDocumentationPath">You can find MAA's official website and complete documentation at "{key=Settings} - {key=AboutUs} - {key=Website}".</system:String>

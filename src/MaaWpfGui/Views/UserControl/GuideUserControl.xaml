@@ -479,9 +479,17 @@
                                                             <StackPanel>
                                                                 <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
                                                                 <TextBlock Text="{DynamicResource TaskSettings}" />
+
+                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
+                                                                <TextBlock Text="{DynamicResource RunTaskOnce}" />
                                                             </StackPanel>
                                                         </ToolTip>
                                                     </RadioButton.ToolTip>
+                                                    <RadioButton.ContextMenu>
+                                                        <ContextMenu>
+                                                            <MenuItem Header="{DynamicResource RunTaskOnce}" />
+                                                        </ContextMenu>
+                                                    </RadioButton.ContextMenu>
                                                 </RadioButton>
                                             </hc:ButtonGroup>
                                         </StackPanel>

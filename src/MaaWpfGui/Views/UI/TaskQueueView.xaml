@@ -223,6 +223,7 @@
                                                         hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                                                         Background="Transparent"
                                                         BorderThickness="0"
+                                                        ContextMenuService.IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                         GroupName="TaskSettings"
                                                         IsChecked="{Binding EnableSetting}"
                                                         Style="{DynamicResource RadioGroupItemSingle}">
@@ -251,10 +252,23 @@
                                                         <RadioButton.ToolTip>
                                                             <ToolTip>
                                                                 <StackPanel>
+                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
                                                                     <TextBlock Text="{DynamicResource TaskSettings}" />
+
+                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
+                                                                    <TextBlock Text="{DynamicResource RunTaskOnce}" />
                                                                 </StackPanel>
                                                             </ToolTip>
                                                         </RadioButton.ToolTip>
+                                                        <RadioButton.ContextMenu>
+                                                            <ContextMenu Width="150">
+                                                                <MenuItem
+                                                                    Command="{s:Action RunTaskOnce,
+                                                                                       Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                    Header="{DynamicResource RunTaskOnce}" />
+                                                            </ContextMenu>
+                                                        </RadioButton.ContextMenu>
                                                     </RadioButton>
                                                 </hc:ButtonGroup>
                                             </StackPanel>

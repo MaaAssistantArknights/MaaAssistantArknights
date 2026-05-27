@@ -108,7 +108,8 @@
     <system:String x:Key="OftenUsedGuide">↑ よく使われる</system:String>
     <system:String x:Key="SometimesUsedGuide">あまり使われていない ↑</system:String>
     <system:String x:Key="LinkStartGuide">← タスクを開始</system:String>
-    <system:String x:Key="HoverActionButtons">↓ ホバーでコピー/名前変更/削除</system:String>
+    <system:String x:Key="HoverActionButtons" xml:space="preserve">   ホバーでコピー/名前変更/削除
+↓ 歯車を右クリックで操作一覧</system:String>
     <system:String x:Key="UserGuide">使用ガイド</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 公式サイトとドキュメント</system:String>
     <system:String x:Key="GuideDocumentationPath">MAA の公式サイトと完全なドキュメントは「{key=Settings} - {key=AboutUs} - {key=Website}」でご覧いただけます。</system:String>

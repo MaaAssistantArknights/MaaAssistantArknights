@@ -108,7 +108,8 @@
     <system:String x:Key="OftenUsedGuide">↑ 常用的</system:String>
     <system:String x:Key="SometimesUsedGuide">不常用的 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 开始任务</system:String>
-    <system:String x:Key="HoverActionButtons">↓ 悬停显示 复制/重命名/删除</system:String>
+    <system:String x:Key="HoverActionButtons" xml:space="preserve">   悬停显示 复制/重命名/删除
+↓ 右键齿轮显示更多操作</system:String>
     <system:String x:Key="UserGuide">使用指引</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 官网与文档</system:String>
     <system:String x:Key="GuideDocumentationPath">您可以在「{key=Settings} - {key=AboutUs} - {key=Website}」找到 MAA 的官方网站和完整文档。</system:String>
