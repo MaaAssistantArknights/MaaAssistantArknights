@@ -1361,7 +1361,7 @@
     "AnnihilationPrtsRecordConfirm": {
         "action": "ClickSelf",
         "preDelay": 500,
-        "roi": [600, 630, 100, 100],
+        "roi": [600, 630, 100, 90],
         "next": ["EndOfActionAnnihilation", "EndOfAction"]
     },
     "AnnihilationConfirm": {
