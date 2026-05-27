@@ -265,7 +265,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `MedicineConfirm`  
   使用理智药
 - `ExpiringMedicineConfirm`  
-  使用 48 小时内过期的理智药
+  使用即将过期的理智药
 - `StoneConfirm`  
   碎石
 - `RecruitRefreshConfirm`  

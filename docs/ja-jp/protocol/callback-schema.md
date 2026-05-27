@@ -227,7 +227,7 @@ Todo
 - `MedicineConfirm`  
    理性回復剤使用確認
 - `ExpiringMedicineConfirm`  
-   48時間以内に期限が切れる理性回復剤使用確認
+   期限切れ間近の理性回復剤使用確認
 - `StoneConfirm`  
    純正源石使用確認
 - `RecruitRefreshConfirm`  

@@ -134,8 +134,11 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   ::: field name="medicine" type="number" optional default="0"  
   理性回復剤の最大使用数。  
   :::  
-  ::: field name="expiring_medicine" type="number" optional default="0"  
-  48 時間以内に期限切れになる理性回復剤の最大使用数。  
+  ::: field name="medicine_expire_days" type="number" optional default="0"  
+  指定日数以内に期限切れになる理性回復剤を使用します。`0` は期限切れの理性回復剤を使用しないことを意味します。  
+  :::  
+  ::: field name="expiring_medicine" type="number" optional default="0" deprecated  
+  v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を使用してください。  
   :::  
   ::: field name="stone" type="number" optional default="0"  
   純正源石の最大使用数。  
@@ -197,7 +200,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "enable": true,
    "stage": "1-7",
    "medicine": 1,
-   "expiring_medicine": 0,
+   "medicine_expire_days": 2,
    "stone": 0,
    "times": 10,
    "series": 0,

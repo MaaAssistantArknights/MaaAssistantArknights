@@ -128,8 +128,11 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 ::: field name="medicine" type="number" optional default="0"  
 이성 회복제 최대 사용 개수  
 :::  
-::: field name="expiring_medicine" type="number" optional default="0"  
-48시간 내 만료되는 이성 회복제 최대 사용 개수  
+::: field name="medicine_expire_days" type="number" optional default="0"  
+지정된 일수 이내에 만료되는 이성 회복제를 사용합니다. `0`은 만료 임박 이성 회복제를 사용하지 않음을 의미합니다.  
+:::  
+::: field name="expiring_medicine" type="number" optional default="0" deprecated  
+v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.  
 :::  
 ::: field name="stone" type="number" optional default="0"  
 오리지늄 최대 사용 개수  
@@ -184,7 +187,7 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
    "enable": true,
    "stage": "1-7",
    "medicine": 1,
-   "expiring_medicine": 0,
+   "medicine_expire_days": 2,
    "stone": 0,
    "times": 10,
    "series": 0,

@@ -224,7 +224,7 @@ Todo
 - `MedicineConfirm`  
   Use sanity potion
 - `ExpiringMedicineConfirm`  
-  Use sanity potion expiring within 48 hours
+  Use expiring sanity potion
 - `StoneConfirm`  
   Use Originium Prime
 - `RecruitRefreshConfirm`  

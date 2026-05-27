@@ -265,7 +265,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `MedicineConfirm`  
   이성 회복제 사용 확인
 - `ExpiringMedicineConfirm`  
-  48시간 내 만료되는 이성 회복제 사용 확인
+  만료 임박한 이성 회복제 사용 확인
 - `StoneConfirm`  
   오리지늄 사용 확인
 - `RecruitRefreshConfirm`  

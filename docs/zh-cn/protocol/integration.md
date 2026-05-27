@@ -134,8 +134,11 @@ B服：`张三`，可输入 `张三`、`张`、`三`
   ::: field name="medicine" type="number" optional default="0"  
   最大使用理智药数量。  
   :::  
-  ::: field name="expiring_medicine" type="number" optional default="0"  
-  最大使用 48 小时内过期理智药数量。  
+  ::: field name="medicine_expire_days" type="number" optional default="0"  
+  使用过期时间在指定天数内的理智药，0 表示不使用过期理智药。  
+  :::  
+  ::: field name="expiring_medicine" type="number" optional default="0" deprecated  
+  已弃用，自 v6.8.0 起请使用 `medicine_expire_days` 代替。  
   :::  
   ::: field name="stone" type="number" optional default="0"  
   最大吃石头数量。  
@@ -197,7 +200,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
    "enable": true,
    "stage": "1-7",
    "medicine": 1,
-   "expiring_medicine": 0,
+   "medicine_expire_days": 2,
    "stone": 0,
    "times": 10,
    "series": 0,

@@ -288,7 +288,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
     - 如果主线已修复，再看修复 commit 是否已进入 tag / release：已发版建议升级，未发版建议等待 release。
 - `gui.new.json`、`gui.json` 和实际日志不一致时，不要急着判“用户配置写错了”；先看 `gui.new.json.bak` 和 `gui.json.old`，尤其是用户复现后又改回开关的场景。
 - 在 `ConnectConfig=PC` 的 issue 里，`Win32Controller::click` 正常返回不代表点击真的生效；要看点击后的下一帧中，按钮状态、数量 OCR、场景识别有没有变化。
-- `gui.log` 中“已使用 48 小时内过期的理智药”这类高层提示，不一定等价于底层逐药 OCR 结论；如果 `asst.log` 明确识别到 `9天`、`NotExpiring` 等相反证据，应优先相信 `asst.log`。
+- `gui.log` 中"已使用即将过期的理智药"这类高层提示，不一定等价于底层逐药 OCR 结论；如果 `asst.log` 明确识别到 `3天`、`NotExpiring` 等相反证据，应优先相信 `asst.log`。注意过期天数阈值现为可配置参数 `medicine_expire_days`，不再是固定 48 小时。
 
 ## Correlating With Code
 
