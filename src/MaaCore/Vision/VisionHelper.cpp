@@ -90,6 +90,10 @@ Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
         LogWarn << __FUNCTION__ << "roi is empty, use whole image";
         return { 0, 0, image.cols, image.rows };
     }
+    else if (rect.empty()) {
+        Log.warn(__FUNCTION__, "roi is empty");
+        return rect;
+    }
     if (rect.x >= image.cols || rect.y >= image.rows) {
         Log.error(__FUNCTION__, "roi is out of range", image.cols, image.rows, rect.to_string());
         return { 1, 1, 0, 0 }; // 临时修复, 后续需调整默认rect的行为
