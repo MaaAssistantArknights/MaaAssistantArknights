@@ -19,10 +19,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!--  停滞检测 — 通知管理系统统一配置  -->
+        <!--  日志输出停滞检测  -->
         <StackPanel Grid.Row="0" Orientation="Vertical">
             <CheckBox
                 Margin="5"
@@ -201,5 +200,5 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-
+    </Grid>
 </UserControl>

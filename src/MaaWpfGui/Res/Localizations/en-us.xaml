@@ -45,7 +45,6 @@
     <system:String x:Key="NotificationSettingsTaskQueueLog">Task Log Panel</system:String>
     <system:String x:Key="NotificationSettingsUseIndependent">Enable Custom Settings (default config when unchecked)</system:String>
     <system:String x:Key="NotificationSettingsEnableNotification">Enable This Notification</system:String>
-    <system:String x:Key="NotificationSettingsEnableLogOutput">Enable Log Output</system:String>
     <system:String x:Key="NotificationSettingsEnableBlacklist">Enable Blacklist</system:String>
     <system:String x:Key="NotificationSettingsEnableWhitelist">Enable Whitelist</system:String>
     <system:String x:Key="NotificationSettingsFilterList">Filter Rules (one regex per line)</system:String>

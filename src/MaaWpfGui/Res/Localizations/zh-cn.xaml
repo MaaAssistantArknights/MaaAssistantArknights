@@ -45,7 +45,6 @@
     <system:String x:Key="NotificationSettingsTaskQueueLog">一键长草右侧日志</system:String>
     <system:String x:Key="NotificationSettingsUseIndependent">启用个性化设置（不勾选为默认配置）</system:String>
     <system:String x:Key="NotificationSettingsEnableNotification">启用该项通知</system:String>
-    <system:String x:Key="NotificationSettingsEnableLogOutput">启用日志输出</system:String>
     <system:String x:Key="NotificationSettingsEnableBlacklist">启用黑名单</system:String>
     <system:String x:Key="NotificationSettingsEnableWhitelist">启用白名单</system:String>
     <system:String x:Key="NotificationSettingsFilterList">过滤规则列表（每行一条，支持正则）</system:String>
