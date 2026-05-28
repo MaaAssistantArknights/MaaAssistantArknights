@@ -497,4 +497,3 @@ CMakeUserPresets.json
 openspec/
 
 .github/workflows/sync-upstream.yml
-.cursor/commands/
