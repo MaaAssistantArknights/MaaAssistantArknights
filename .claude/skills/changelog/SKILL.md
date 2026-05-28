@@ -63,37 +63,38 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - patch 版详细区块只能写“自上一发布版本之后新增的变化”，不能把更早正式版已经出现过的条目整段复制到当前 patch 版本下面。
 - 例如生成 v6.10.4 时，v6.10.4 区块只能写 v6.10.3 之后的新变化；v6.10.0、v6.10.1、v6.10.2、v6.10.3 的既有内容应保留在历史区块，而不是重新抄进 v6.10.4。
 - 若非 patch 版本不同，则直接根据现有内容组织该版本及其历史区块。
-### 5. patch 版本的 Highlights 复用规则
 
-- patch 版本（例如 v6.10.4 相对于 v6.10.3）如果没有用户可感知的重要新功能或重大变化，必须直接复用其正式版父版本（v6.10.3）的 Highlights 内容，不得自行重写或另起一套。
-- patch 版本复用 Highlights 时，只改顶部版本号标题（例如 `## v6.10.3` → `## v6.10.4`），Highlights 正文原样保留。
-- 当 patch 版本确实包含用户可感知的重要新变化时（例如新增了重大功能、改变了核心交互），可以为 Highlights 追加新段落，但必须保留原有 Highlights 内容，新段落追加在末尾。
+### 5. patch / 测试版的 Highlights 复用规则
 
-### 6. patch 版本编辑的完整结构
+- patch 版本（例如 v6.10.4 相对于 v6.10.3）和测试版（例如 v6.11.0-beta.2 相对于 v6.11.0-beta.1）如果没有用户可感知的重要新功能或重大变化，必须直接复用其父版本的 Highlights 内容，不得自行重写或另起一套。
+- 复用 Highlights 时，只改顶部版本号标题和发版日期（例如 `## v6.11.0-beta.1 (2026-05-27)` → `## v6.11.0-beta.2 (2026-05-29)`），Highlights 正文原样保留。
+- 当 patch 版本或测试版确实包含用户可感知的重要新变化时（例如新增了重大功能、改变了核心交互），可以为 Highlights 追加新段落，但必须保留原有 Highlights 内容，新段落追加在末尾。
 
-- 输出文件的结构必须严格遵循以下层次，不得把 patch 版本的详细内容插入到父版本的 Highlights 与详细内容之间：
-  1. 顶部：`## vX.Y.Z`（patch 版本标题）
+### 6. patch / 测试版编辑的完整结构
+
+- 输出文件的结构必须严格遵循以下层次，不得把 patch 版本或测试版的详细内容插入到父版本的 Highlights 与详细内容之间：
+  1. 顶部：`## vX.Y.Z (YYYY-MM-DD)`（patch / 测试版标题，含发版日期）
   2. `### Highlights`（复用父版本内容，或在有必要时追加新段落）
   3. 英文 Highlights 折叠块
   4. `----`
   5. `以下是详细内容：`
-  6. `<details open><summary><b>vX.Y.Z</b></summary>`（当前版本详细内容，默认展开）
-  7. `<details><summary><b>vX.Y.Z-1</b></summary>`（上一 patch 版本，默认收起）
+  6. `<details open><summary><b>vX.Y.Z (YYYY-MM-DD)</b></summary>`（当前版本详细内容，默认展开）
+  7. `<details><summary><b>vX.Y.Z-1 (YYYY-MM-DD)</b></summary>`（上一 patch 版本，默认收起）
   8. 更早版本各自独立折叠块...
-  9. `<details><summary><b>vX.Y.0</b></summary>`（正式版，默认收起）
-- 每个版本的详细内容各自放入独立的 `<details>` 折叠块，当前目标版本使用 `<details open>` 默认展开，其余默认收起。
+  9. `<details><summary><b>vX.Y.0 (YYYY-MM-DD)</b></summary>`（正式版，默认收起）
+- 每个版本的详细内容各自放入独立的 `<details>` 折叠块，`<summary>` 内格式为 `<b>vX.Y.Z (YYYY-MM-DD)</b>`（版本号 + 发版日期），当前目标版本使用 `<details open>` 默认展开，其余默认收起。
 - 折叠块内只保留详细内容（改进、修复等），不重复 Highlights，不写 `## vX.Y.Z` 子标题（`<summary>` 已提供版本标识）。
 
-### 5. Highlights 必须中英双语且先中后英
+### 7. Highlights 必须中英双语且先中后英
 
-- 输出顶部必须包含当前目标版本，例如 ## vX.Y.Z。
+- 输出顶部必须包含当前目标版本和发版日期，例如 `## vX.Y.Z (2026-05-29)`。
 - 必须包含 ### Highlights。
 - 中文 Highlights 直接展示，不折叠。
 - 英文 Highlights 放入折叠块：`<details><summary><b>English</b></summary>` ... `</details>`。
 - 中文与英文都应按主题分段，标题简洁明确，正文面向最终用户，不是 commit 列表翻译。
 - Highlights 只总结本次版本中最值得强调的变化，不要把所有条目机械搬进去。
 
-### 6. 必须过滤的噪音项
+### 8. 必须过滤的噪音项
 
 - 删除或忽略纯 bot 自动生成的 changelog、update、release 条目。
 - 删除显式的 Release 发布记录，例如 Release vX.Y.Z。
@@ -120,9 +121,9 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - 把同一功能拆成多条重复表述，例如同一个生息演算功能拆成多个相近新增或改进条目。
 - 保留玩梗、口语化、半成品标题，例如不会现在还有人选沙中遗火吧、特意删的 PNS 怎么又给加回来了。
 - 机械沿用 commit type 导致分类错误，例如把用户能感知的修复放进其他，把兼容性提升放进新增。
-- patch 版本没有用户可感知的重要新变化，却自行重写了独立的 Highlights，而非复用父版本内容。
+- patch 版本或测试版没有用户可感知的重要新变化，却自行重写了独立的 Highlights，而非复用父版本内容。
 - 把 patch 版本的详细内容插入到父版本的 Highlights 与详细内容之间，破坏了文件结构。
-- patch 版本的历史区块中重复保留了 Highlights 和"以下是详细内容："引导语，这些应只在顶部出现一次。
+- patch / 测试版的历史区块中重复保留了 Highlights 和"以下是详细内容："引导语，这些应只在顶部出现一次。
 
 ## Output Requirements
 
@@ -174,7 +175,7 @@ English summary paragraph.
 以下是详细内容：
 
 <details open>
-<summary><b>vX.Y.Z</b></summary>
+<summary><b>vX.Y.Z (YYYY-MM-DD)</b></summary>
 
 ### 改进 | Improved
 
@@ -191,7 +192,7 @@ English summary paragraph.
 </details>
 
 <details>
-<summary><b>vX.Y.1</b></summary>
+<summary><b>vX.Y.1 (YYYY-MM-DD)</b></summary>
 
 ### 改进 | Improved
 
@@ -204,7 +205,7 @@ English summary paragraph.
 </details>
 
 <details>
-<summary><b>vX.Y.0</b></summary>
+<summary><b>vX.Y.0 (YYYY-MM-DD)</b></summary>
 
 ### 新增 | New
 
@@ -230,7 +231,7 @@ English summary paragraph.
 - 是否已经按模块正确分类、排序，并保持中文在前、英文在后？
 - 是否已经输出完整 Markdown，而不是说明文字或代码块？
 - 如果是 patch 版本且没有用户可感知的重要新变化，是否复用了父版本的 Highlights 而非自行重写？
-- patch 版本的详细内容是否紧跟在"以下是详细内容："之后，而非插入到父版本的 Highlights 下方？
+- patch / 测试版的详细内容是否紧跟在"以下是详细内容："之后，而非插入到父版本的 Highlights 下方？
 - 历史版本区块中是否只保留详细内容，没有重复 Highlights 和引导语？
 - 英文 Highlights 是否放入 `<details>` 折叠块（中文不折叠）？
 - 每个版本的详细内容是否各自放入独立的 `<details>` 折叠块？

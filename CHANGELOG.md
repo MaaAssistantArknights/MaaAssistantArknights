@@ -36,7 +36,7 @@ The settings page now features a search bar with keyword highlighting and sectio
 以下是详细内容：
 
 <details open>
-<summary><b>v6.11.0-beta.2</b></summary>
+<summary><b>v6.11.0-beta.2 (2026-05-29)</b></summary>
 
 ### 修复 | Fix
 
@@ -47,7 +47,7 @@ The settings page now features a search bar with keyword highlighting and sectio
 </details>
 
 <details>
-<summary><b>v6.11.0-beta.1</b></summary>
+<summary><b>v6.11.0-beta.1 (2026-05-29)</b></summary>
 
 ### 新增 | New
 
