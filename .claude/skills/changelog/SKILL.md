@@ -82,7 +82,7 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
   8. 更早版本各自独立折叠块...
   9. `<details><summary><b>vX.Y.0</b></summary>`（正式版，默认收起）
 - 每个版本的详细内容各自放入独立的 `<details>` 折叠块，当前目标版本使用 `<details open>` 默认展开，其余默认收起。
-- 折叠块内只保留详细内容（改进、修复等），不重复 Highlights。
+- 折叠块内只保留详细内容（改进、修复等），不重复 Highlights，不写 `## vX.Y.Z` 子标题（`<summary>` 已提供版本标识）。
 
 ### 5. Highlights 必须中英双语且先中后英
 
@@ -176,8 +176,6 @@ English summary paragraph.
 <details open>
 <summary><b>vX.Y.Z</b></summary>
 
-## vX.Y.Z
-
 ### 改进 | Improved
 
 * 条目 A (#12345) @author
@@ -195,8 +193,6 @@ English summary paragraph.
 <details>
 <summary><b>vX.Y.1</b></summary>
 
-## vX.Y.1
-
 ### 改进 | Improved
 
 * 历史版本条目 @author
@@ -209,8 +205,6 @@ English summary paragraph.
 
 <details>
 <summary><b>vX.Y.0</b></summary>
-
-## vX.Y.0
 
 ### 新增 | New
 

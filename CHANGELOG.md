@@ -27,13 +27,12 @@ Recruitment now supports "preserve tags" — automatically skipping a slot when 
 
 以下是详细内容：
 
-<details>
-<summary><b>详细内容 | Details</b></summary>
-
-## v6.11.0-beta.1
+<details open>
+<summary><b>v6.11.0-beta.1</b></summary>
 
 ### 新增 | New
 
+* 新增 MarkdownDataHelper 统一公告数据读写 @ABA2396
 * 一键长草列表新增任务复制、悬停操作按钮，替代原有右键菜单 (#16733) @H2O-MERO @status102 @ABA2396
 * 公招支持保留指定词条，识别到指定 Tag 时自动跳过 (#16586) @ABA2396 @status102
 * 理智作战支持设定目标材料最大库存，参考仓库数据自动计算刷取数量 (#16487) @ABA2396 @status102
@@ -42,6 +41,7 @@ Recruitment now supports "preserve tags" — automatically skipping a slot when 
 
 ### 改进 | Improved
 
+* 优化配置转换器嵌套逻辑 @ABA2396
 * 启动时检测 WinRT Toast 通知可用性，不可用时在日志中显示具体原因 (#16877) @status102 @momomochi987
 * 统一使用强类型 GetValue 重载替换 Convert.To 调用 (#16866) @ABA2396
 * 优化任务队列选中状态的视觉表现，突出当前选中项 @status102
@@ -63,11 +63,7 @@ Recruitment now supports "preserve tags" — automatically skipping a slot when 
 ### 文档 | Docs
 
 * 补全理智药过期天数可配置参数的相关文档 @ABA2396
-
-### 文档 | Docs
-
-* 补全 指定天数内的理智药 相关文档 @ABA2396
-* skip_tags -> preserve_tags @ABA2396
+* 公招保留词条参数术语从 skip_tags 更新为 preserve_tags @ABA2396
 
 ### 其他 | Other
 
