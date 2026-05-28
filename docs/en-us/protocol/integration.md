@@ -134,8 +134,11 @@ Currently supported stages for navigation include:
   ::: field name="medicine" type="number" optional default="0"  
   Maximum number of Sanity Potions used.  
   :::  
+  ::: field name="medicine_expire_days" type="number" optional default="0"
+  Allows using Sanity Potions that expire within this many days; `0` disables expiring Sanity Potion usage.
+  :::
   ::: field name="expiring_medicine" type="number" optional default="0"  
-  Maximum number of Sanity Potions expiring within 48 hours.  
+  Deprecated and kept only for backward compatibility; non-`0` values are treated as `medicine_expire_days = 2`.
   :::  
   ::: field name="stone" type="number" optional default="0"  
   Maximum number of Originite Prime used.  
@@ -197,7 +200,7 @@ Currently supported stages for navigation include:
    "enable": true,
    "stage": "1-7",
    "medicine": 1,
-   "expiring_medicine": 0,
+   "medicine_expire_days": 0,
    "stone": 0,
    "times": 10,
    "series": 0,

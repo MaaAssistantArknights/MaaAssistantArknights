@@ -135,8 +135,11 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
   ::: field name="medicine" type="number" optional default="0"  
   理智藥最大使用量。  
   :::  
+  ::: field name="medicine_expire_days" type="number" optional default="0"
+  允許使用多少天內過期的理智藥，`0` 表示不使用過期理智藥。
+  :::
   ::: field name="expiring_medicine" type="number" optional default="0"  
-  48 小時內過期理智藥最大使用量。  
+  已棄用，僅用於相容舊參數；非 `0` 時等同於 `medicine_expire_days = 2`。
   :::  
   ::: field name="stone" type="number" optional default="0"  
   碎石最大數量。  
@@ -197,7 +200,7 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
    "enable": true,
    "stage": "1-7",
    "medicine": 1,
-   "expiring_medicine": 0,
+   "medicine_expire_days": 0,
    "stone": 0,
    "times": 10,
    "series": 0,
