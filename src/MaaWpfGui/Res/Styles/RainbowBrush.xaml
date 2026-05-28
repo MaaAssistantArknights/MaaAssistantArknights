@@ -1,0 +1,29 @@
+<!--  通用彩虹流光画刷资源  -->
+<!--  使用方式：  -->
+<!--    Foreground="{DynamicResource RainbowFlowBrush}"  -->
+<!--  注意：x:Shared="False" 确保每个引用获得独立动画实例  -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  彩虹渐变画刷（不含动画，动画由 TranslateTransform 驱动）  -->
+    <LinearGradientBrush x:Key="RainbowFlowBrush"
+                         x:Shared="False"
+                         SpreadMethod="Repeat"
+                         StartPoint="0,0"
+                         EndPoint="1,0">
+        <LinearGradientBrush.Transform>
+            <TranslateTransform />
+        </LinearGradientBrush.Transform>
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.000" Color="Red" />
+            <GradientStop Offset="0.143" Color="Orange" />
+            <GradientStop Offset="0.286" Color="Gold" />
+            <GradientStop Offset="0.429" Color="Green" />
+            <GradientStop Offset="0.571" Color="DodgerBlue" />
+            <GradientStop Offset="0.714" Color="BlueViolet" />
+            <GradientStop Offset="0.857" Color="Magenta" />
+            <GradientStop Offset="1.000" Color="Red" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+</ResourceDictionary>

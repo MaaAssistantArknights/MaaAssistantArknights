@@ -298,6 +298,22 @@ public class SettingsViewModel : Screen
 
     private ObservableCollection<SettingItemViewModel> _settings = [];
 
+    private string _searchText = string.Empty;
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (SetAndNotify(ref _searchText, value))
+            {
+                SearchRequested?.Invoke(this, value);
+            }
+        }
+    }
+
+    public event EventHandler<string>? SearchRequested;
+
     public ObservableCollection<SettingItemViewModel> Settings
     {
         get => _settings;

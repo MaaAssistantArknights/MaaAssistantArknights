@@ -1,0 +1,24 @@
+<!--  喜报（ErrorDialogView Congratulations）专用的青绿流光画刷  -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <LinearGradientBrush x:Key="CongratulationsFlowBrush"
+                         x:Shared="False"
+                         SpreadMethod="Repeat"
+                         StartPoint="0,0"
+                         EndPoint="1,0">
+        <LinearGradientBrush.Transform>
+            <TranslateTransform />
+        </LinearGradientBrush.Transform>
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.00" Color="#2299FF" />
+            <GradientStop Offset="0.16" Color="#33CCFF" />
+            <GradientStop Offset="0.32" Color="#00FFCC" />
+            <GradientStop Offset="0.48" Color="#33FF66" />
+            <GradientStop Offset="0.64" Color="#99FF33" />
+            <GradientStop Offset="0.80" Color="#66FF99" />
+            <GradientStop Offset="1.00" Color="#2299FF" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+</ResourceDictionary>
