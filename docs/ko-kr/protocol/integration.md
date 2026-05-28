@@ -128,8 +128,11 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 ::: field name="medicine" type="number" optional default="0"  
 이성 회복제 최대 사용 개수  
 :::  
-::: field name="expiring_medicine" type="number" optional default="0"  
-48시간 내 만료되는 이성 회복제 최대 사용 개수  
+::: field name="medicine_expire_days" type="number" optional default="0"  
+지정된 일수 이내에 만료되는 이성 회복제를 사용합니다. `0`은 만료 임박 이성 회복제를 사용하지 않음을 의미합니다.  
+:::  
+::: field name="expiring_medicine" type="number" optional default="0" deprecated  
+v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.  
 :::  
 ::: field name="stone" type="number" optional default="0"  
 오리지늄 최대 사용 개수  
@@ -184,7 +187,7 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
    "enable": true,
    "stage": "1-7",
    "medicine": 1,
-   "expiring_medicine": 0,
+   "medicine_expire_days": 2,
    "stone": 0,
    "times": 10,
    "series": 0,
@@ -248,7 +251,14 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 즉시 완료 사용 횟수, `expedite`가 true일 때만 유효. 기본값은 무제한(즉 `times` 상한까지)  
 :::  
 ::: field name="skip_robot" type="boolean" optional default="true"  
-로봇 태그 인식 시 건너뛸지 여부  
+폐기 예정이며 구형 파라미터 호환용으로만 유지됩니다.  
+<br>
+`preserve_tags`가 없고 이 값이 `true`이면 `支援机械` 인식 시에만 건너뜁니다. `元素`는 더 이상 구형 1★ 태그로 취급하지 않습니다.  
+:::
+::: field name="preserve_tags" type="array<string>" optional  
+현재 공개모집 슬롯을 유지한 채 이번 모집을 건너뛸 Tag 이름 목록입니다. 기본값은 빈 배열입니다.  
+<br>
+지정한 Tag 중 하나라도 인식되면 MAA는 해당 슬롯을 유지하고 이번 모집을 건너뜁니다.  
 :::  
 ::: field name="recruitment_time" type="object" optional  
 태그 등급(3 이상)과 대응하는 희망 모집 시간(분 단위), 기본값은 모두 540(즉 09:00:00)
@@ -289,7 +299,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
    "set_time": true,
    "expedite": false,
    "expedite_times": 0,
-   "skip_robot": true,
+   "preserve_tags": ["支援机械"],
    "recruitment_time": {
       "3": 540,
       "4": 540

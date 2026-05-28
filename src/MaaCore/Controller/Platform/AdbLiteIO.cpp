@@ -158,8 +158,7 @@ std::shared_ptr<asst::IOHandler> asst::AdbLiteIO::interactive_shell(const std::s
         remove_quotes(command);
 
         try {
-            return std::make_shared<IOHandlerAdbLite>(
-                get_adb_client(match[1].str())->interactive_shell(command));
+            return std::make_shared<IOHandlerAdbLite>(get_adb_client(match[1].str())->interactive_shell(command));
         }
         catch (const std::exception& e) {
             Log.error("adb shell failed:", e.what());

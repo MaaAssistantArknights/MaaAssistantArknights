@@ -672,39 +672,11 @@
                             FontSize="40"
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{DynamicResource GachaDisclaimerEmphasize}"
-                            TextWrapping="Wrap">
+                            TextWrapping="Wrap"
+                            properties:RainbowAnimationBehavior.IsActive="True">
                             <controls:TextBlock.Foreground>
-                                <LinearGradientBrush SpreadMethod="Repeat">
-                                    <LinearGradientBrush.Transform>
-                                        <TranslateTransform x:Name="LinearGradientBrushTranslate" />
-                                    </LinearGradientBrush.Transform>
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStop Offset="0.000" Color="Red" />
-                                        <GradientStop Offset="0.143" Color="Orange" />
-                                        <GradientStop Offset="0.286" Color="Gold" />
-                                        <GradientStop Offset="0.429" Color="Green" />
-                                        <GradientStop Offset="0.571" Color="DodgerBlue" />
-                                        <GradientStop Offset="0.714" Color="BlueViolet" />
-                                        <GradientStop Offset="0.857" Color="Magenta" />
-                                        <GradientStop Offset="1.000" Color="Red" />
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
+                                <DynamicResource ResourceKey="RainbowFlowBrush" />
                             </controls:TextBlock.Foreground>
-                            <controls:TextBlock.Triggers>
-                                <EventTrigger RoutedEvent="TextBlock.Loaded">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation
-                                                RepeatBehavior="Forever"
-                                                Storyboard.TargetName="LinearGradientBrushTranslate"
-                                                Storyboard.TargetProperty="X"
-                                                From="0"
-                                                To="4000"
-                                                Duration="0:0:20" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </controls:TextBlock.Triggers>
                             <controls:TextBlock.Effect>
                                 <DropShadowEffect
                                     BlurRadius="8"

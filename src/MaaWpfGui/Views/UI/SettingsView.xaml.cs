@@ -17,7 +17,7 @@ using MaaWpfGui.Styles.Properties;
 namespace MaaWpfGui.Views.UI;
 
 /// <summary>
-/// 用于接收布局变化的广播事件
+/// 设置界面。
 /// </summary>
 public partial class SettingsView
 {
@@ -29,5 +29,8 @@ public partial class SettingsView
         {
             ScrollViewerBinding.RefreshDividerOffsets(SettingsScrollViewer);
         };
+
+        // 初始化时将焦点移到左侧列表，避免搜索栏抢焦点
+        Loaded += (_, _) => MasterListBox.Focus();
     }
 }

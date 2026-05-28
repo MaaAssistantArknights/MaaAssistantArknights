@@ -393,6 +393,7 @@
             "Roguelike@TodoEnter",
             "Roguelike@Continue",
             "Roguelike@StartExploreCD",
+            "(Roguelike@IntegratedStrategies)@QuickSwitch@ToTerminal#next",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"

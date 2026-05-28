@@ -170,8 +170,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     private void UpdateAdvancedSettingsVisibility(BaseTask task)
     {
-        AdvancedSettingsVisibility = task switch
-        {
+        AdvancedSettingsVisibility = task switch {
             AwardTask or StartUpTask or UserDataUpdateTask => false,
             ReclamationTask rt => rt.Theme == ReclamationTheme.Tales,
             _ => true,

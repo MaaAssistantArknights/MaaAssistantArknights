@@ -265,7 +265,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `MedicineConfirm`  
    使用理智藥
 - `ExpiringMedicineConfirm`  
-   使用 48 小時內過期的理智藥
+   使用即將過期的理智藥
 - `StoneConfirm`  
    碎石
 - `RecruitRefreshConfirm`  
@@ -361,6 +361,15 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   :::: field-group
   ::: field name="tag" type="string" required
   特殊 Tag 名稱，例如 高級資深幹員。
+  :::
+  ::::
+
+- `RecruitPreservedTag`  
+   公招辨識到了已設定為保留的 Tag。`details` 欄位內容如下：
+
+  :::: field-group
+  ::: field name="tag" type="string" required
+  觸發保留的 Tag 名稱，例如 `支援機械`。
   :::
   ::::
 

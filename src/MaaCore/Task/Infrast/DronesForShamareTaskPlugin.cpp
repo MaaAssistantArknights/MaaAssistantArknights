@@ -10,7 +10,8 @@ bool asst::DronesForShamareTaskPlugin::verify(AsstMsg msg, const json::value& de
     }
 
     if (details.at("what").as_string() == "ProductOfFacility" &&
-        details.at("details").at("product").as_string() == "Money" && m_cast_ptr->get_drones_usage_from_params() == "Money") {
+        details.at("details").at("product").as_string() == "Money" &&
+        m_cast_ptr->get_drones_usage_from_params() == "Money") {
         return true;
     }
     else {

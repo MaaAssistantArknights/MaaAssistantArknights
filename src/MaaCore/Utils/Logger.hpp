@@ -1141,12 +1141,7 @@ private:
                 m_scopes.next(),
                 std::forward<args_t>(args)...);
 #else
-            return LogStream(
-                std::unique_lock { m_trace_mutex },
-                m_of,
-                lv,
-                m_scopes.next(),
-                std::forward<args_t>(args)...);
+            return LogStream(std::unique_lock { m_trace_mutex }, m_of, lv, std::forward<args_t>(args)...);
 #endif
         }
         else {
@@ -1158,12 +1153,7 @@ private:
                 m_scopes.next(),
                 std::forward<args_t>(args)...);
 #else
-            return LogStream(
-                std::unique_lock { m_trace_mutex },
-                null_stream,
-                lv,
-                m_scopes.next(),
-                std::forward<args_t>(args)...);
+            return LogStream(std::unique_lock { m_trace_mutex }, null_stream, lv, std::forward<args_t>(args)...);
 #endif
         }
     }

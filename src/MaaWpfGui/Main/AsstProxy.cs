@@ -1083,7 +1083,7 @@ public class AsstProxy
                     var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
                         ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
                         : null;
-                    var taskName = task?.NameDisplay ?? $"({LocalizationHelper.GetString(taskChain)})";
+                    var taskName = task?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})";
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskName, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                     _logger.Information("Start Task Chain: {TaskChain}, Task ID: {TaskId}", taskChain, taskId);
                     UpdateTaskStatus(taskId, TaskStatus.InProgress);
@@ -1124,7 +1124,7 @@ public class AsstProxy
                             }
                     }
 
-                    var taskName = task?.NameDisplay ?? $"({LocalizationHelper.GetString(taskChain)})";
+                    var taskName = task?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})";
                     if (taskChain == "Fight" && FightSetting.SanityReport is not null)
                     {
                         var sanityLog = "\n" + LocalizationHelper.GetStringFormat("CurrentSanity", FightSetting.SanityReport.SanityCurrent, FightSetting.SanityReport.SanityMax);
@@ -1917,14 +1917,27 @@ public class AsstProxy
             case "RecruitSpecialTag":
                 {
                     string special = subTaskDetails!["tag"]!.ToString();
-                    if (special == "支援机械" && TaskQueueViewModel.RecruitTask.NotChooseLevel1 == false)
-                    {
-                        break;
-                    }
-
                     using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
                     toast.AppendContentText(special).ShowRecruit();
 
+                    break;
+                }
+
+            case "RecruitPreservedTag":
+                {
+                    string preserved = subTaskDetails!["tag"]!.ToString();
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
+                    toast.AppendContentText(preserved);
+                    if (preserved == "支援机械")
+                    {
+                        toast.ShowRecruitRobot();
+                    }
+                    else
+                    {
+                        toast.ShowRecruit();
+                    }
+
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitingTips") + "\n" + preserved);
                     break;
                 }
 
@@ -2873,9 +2886,9 @@ public class AsstProxy
 
     public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
 
-    public delegate void TaskItemStatusDelegate(int taskId, TaskItemStatus status);
+    public delegate void TaskStatusDelegate(int taskId, TaskItemStatus status);
 
-    public event TaskItemStatusDelegate? OnTaskItemStatusChanged;
+    public event TaskStatusDelegate? OnTaskStatusChanged;
 
     private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status)
     {
@@ -2896,7 +2909,7 @@ public class AsstProxy
         }
 
         _tasksStatus[id] = (value.Type, status);
-        OnTaskItemStatusChanged?.Invoke(id, (TaskItemStatus)status);
+        OnTaskStatusChanged?.Invoke(id, (TaskItemStatus)status);
         if (status == TaskStatus.InProgress)
         {
             TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();

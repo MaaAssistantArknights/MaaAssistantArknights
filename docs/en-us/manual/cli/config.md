@@ -201,7 +201,7 @@ strategy = "merge" # or "first" (default)
 
 # use all expiring medicine on Sunday night
 [[tasks.variants]]
-params = { expiring_medicine = 1000 }
+params = { medicine_expire_days = 2 }
 [tasks.variants.condition]
 type = "And"
 conditions = [

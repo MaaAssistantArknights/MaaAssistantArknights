@@ -20,22 +20,44 @@
             <ColumnDefinition Width="175" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListBox
-            x:Name="MasterListBox"
-            Grid.Column="0"
-            Margin="10"
-            dd:DragDrop.IsDragSource="True"
-            dd:DragDrop.IsDropTarget="True"
-            DisplayMemberPath="Display"
-            IsSynchronizedWithCurrentItem="true"
-            ItemsSource="{Binding Settings}"
-            SelectedIndex="{Binding SelectedIndex}" />
+
+        <!--  左侧导航栏（搜索 + 分区列表）  -->
+        <DockPanel Grid.Column="0" Margin="5">
+            <hc:SearchBar
+                x:Name="SettingsSearchBar"
+                hc:BorderElement.CornerRadius="4,4,0,0"
+                DockPanel.Dock="Top"
+                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+
+            <ListBox
+                x:Name="MasterListBox"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.IsDropTarget="True"
+                hc:BorderElement.CornerRadius="0,0,4,4"
+                BorderThickness="1,0,1,1"
+                DisplayMemberPath="Display"
+                IsSynchronizedWithCurrentItem="true"
+                ItemsSource="{Binding Settings}"
+                SelectedIndex="{Binding SelectedIndex}">
+                <ListBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource TransparentListBoxItemStyle}" TargetType="ListBoxItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsVisibleInSearch}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </DockPanel>
 
         <hc:ScrollViewer
             x:Name="SettingsScrollViewer"
             Grid.Column="1"
-            Margin="20,10"
+            Margin="20,5"
             HorizontalAlignment="Stretch"
+            properties:SearchHighlightBehavior.SearchText="{Binding SearchText}"
+            properties:SearchHighlightBehavior.SectionFilter="{Binding Settings}"
             properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
             properties:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
@@ -64,7 +86,8 @@
                 <Grid
                     Grid.Row="{c:Binding SwitchConfigurationSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="0">
+                    d:Grid.Row="0"
+                    Visibility="{c:Binding SwitchConfigurationSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -82,7 +105,8 @@
                 <Grid
                     Grid.Row="{c:Binding ScheduleSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="1">
+                    d:Grid.Row="1"
+                    Visibility="{c:Binding ScheduleSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -103,7 +127,8 @@
                 <Grid
                     Grid.Row="{Binding PerformanceSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="2">
+                    d:Grid.Row="2"
+                    Visibility="{c:Binding PerformanceSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -125,7 +150,8 @@
                 <Grid
                     Grid.Row="{Binding GameSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="3">
+                    d:Grid.Row="3"
+                    Visibility="{c:Binding GameSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -146,7 +172,8 @@
                 <Grid
                     Grid.Row="{Binding ConnectionSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="4">
+                    d:Grid.Row="4"
+                    Visibility="{c:Binding ConnectionSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -168,7 +195,8 @@
                 <Grid
                     Grid.Row="{Binding StartupSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="5">
+                    d:Grid.Row="5"
+                    Visibility="{c:Binding StartupSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -189,7 +217,8 @@
                 <Grid
                     Grid.Row="{Binding RemoteControlSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="6">
+                    d:Grid.Row="6"
+                    Visibility="{c:Binding RemoteControlSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -210,7 +239,8 @@
                 <Grid
                     Grid.Row="{Binding UiSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="7">
+                    d:Grid.Row="7"
+                    Visibility="{c:Binding UiSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -231,7 +261,8 @@
                 <Grid
                     Grid.Row="{Binding BackgroundSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="8">
+                    d:Grid.Row="8"
+                    Visibility="{c:Binding BackgroundSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -252,7 +283,8 @@
                 <Grid
                     Grid.Row="{Binding ExternalNotificationSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="9">
+                    d:Grid.Row="9"
+                    Visibility="{c:Binding ExternalNotificationSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -273,7 +305,8 @@
                 <Grid
                     Grid.Row="{Binding HotKeySettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="10">
+                    d:Grid.Row="10"
+                    Visibility="{c:Binding HotKeySettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -291,7 +324,8 @@
                 <Grid
                     Grid.Row="{Binding AchievementSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="11">
+                    d:Grid.Row="11"
+                    Visibility="{c:Binding AchievementSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -312,7 +346,8 @@
                 <Grid
                     Grid.Row="{Binding UpdateSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="12">
+                    d:Grid.Row="12"
+                    Visibility="{c:Binding UpdateSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -333,7 +368,8 @@
                 <Grid
                     Grid.Row="{Binding IssueReportSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="13">
+                    d:Grid.Row="13"
+                    Visibility="{c:Binding IssueReportSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -354,7 +390,8 @@
                 <Grid
                     Grid.Row="{Binding AboutUsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="14">
+                    d:Grid.Row="14"
+                    Visibility="{c:Binding AboutUsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"

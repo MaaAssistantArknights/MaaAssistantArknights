@@ -265,7 +265,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `MedicineConfirm`  
   使用理智药
 - `ExpiringMedicineConfirm`  
-  使用 48 小时内过期的理智药
+  使用即将过期的理智药
 - `StoneConfirm`  
   碎石
 - `RecruitRefreshConfirm`  
@@ -361,6 +361,15 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   :::: field-group
   ::: field name="tag" type="string" required
   特殊 Tag 名称，例如 `高级资深干员`。
+  :::
+  ::::
+
+- `RecruitPreservedTag`  
+  公招识别到了已配置为保留的 Tag。`details` 字段内容如下：
+
+  :::: field-group
+  ::: field name="tag" type="string" required
+  触发保留的 Tag 名称，例如 `支援机械`。
   :::
   ::::
 

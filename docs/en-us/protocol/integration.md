@@ -134,8 +134,11 @@ Currently supported stages for navigation include:
   ::: field name="medicine" type="number" optional default="0"  
   Maximum number of Sanity Potions used.  
   :::  
-  ::: field name="expiring_medicine" type="number" optional default="0"  
-  Maximum number of Sanity Potions expiring within 48 hours.  
+  ::: field name="medicine_expire_days" type="number" optional default="0"  
+  Use Sanity Potions that expire within the specified number of days. `0` means no expiring potions will be used.  
+  :::  
+  ::: field name="expiring_medicine" type="number" optional default="0" deprecated  
+  Deprecated since v6.8.0, please use `medicine_expire_days` instead.  
   :::  
   ::: field name="stone" type="number" optional default="0"  
   Maximum number of Originite Prime used.  
@@ -197,7 +200,7 @@ Currently supported stages for navigation include:
    "enable": true,
    "stage": "1-7",
    "medicine": 1,
-   "expiring_medicine": 0,
+   "medicine_expire_days": 2,
    "stone": 0,
    "times": 10,
    "series": 0,
@@ -259,7 +262,14 @@ Whether to use Expedited Plans.
 Number of expedites, only effective when `expedite` is true. By default unlimited (until `times` limit is reached).  
 :::  
 ::: field name="skip_robot" type="boolean" optional default="true"  
-Whether to skip when robot tag is recognized.  
+Deprecated and kept only for backward compatibility.  
+<br>
+When `preserve_tags` is absent and this value is `true`, MAA skips on `支援机械` only; `元素` is no longer treated as the legacy 1★ tag.  
+:::
+::: field name="preserve_tags" type="array<string>" optional  
+List of tag names that should preserve the current recruitment slot and skip this recruitment. Default is empty.  
+<br>
+If any specified tag is recognized, MAA will keep that slot untouched and skip the current recruitment.  
 :::  
 ::: field name="recruitment_time" type="object" optional  
 Tag ★ rarity (greater than or equal to 3) and corresponding desired recruitment time limit, in minutes, all default to 540 (i.e. 09:00:00).
@@ -300,7 +310,7 @@ Options: `CN` | `US` | `JP` | `KR`
    "set_time": true,
    "expedite": false,
    "expedite_times": 0,
-   "skip_robot": true,
+   "preserve_tags": ["支援机械"],
    "recruitment_time": {
       "3": 540,
       "4": 540

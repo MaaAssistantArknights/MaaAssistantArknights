@@ -40,36 +40,39 @@ internal class FightTaskStageResetModeConverter : JsonConverter<Root>
             return null;
         }
 
-        if (root.TryGetProperty("Configurations", out var configurationsElement) && configurationsElement.ValueKind == JsonValueKind.Object)
+        if (!root.TryGetProperty("Configurations", out var configurationsElement)
+            || configurationsElement.ValueKind != JsonValueKind.Object)
         {
-            foreach (var configProp in configurationsElement.EnumerateObject())
-            {
-                var configName = configProp.Name;
-                var configValue = configProp.Value;
+            return rootObj;
+        }
 
-                if (configValue.TryGetProperty("TaskQueue", out var taskQueueElement) && taskQueueElement.ValueKind == JsonValueKind.Array)
+        foreach (var configProp in configurationsElement.EnumerateObject())
+        {
+            if (!rootObj.Configurations.TryGetValue(configProp.Name, out var configObj))
+            {
+                continue;
+            }
+
+            if (!configProp.Value.TryGetProperty("TaskQueue", out var taskQueueElement)
+                || taskQueueElement.ValueKind != JsonValueKind.Array)
+            {
+                continue;
+            }
+
+            int taskIndex = 0;
+            foreach (var taskElement in taskQueueElement.EnumerateArray())
+            {
+                if (taskIndex < configObj.TaskQueue.Count
+                    && configObj.TaskQueue[taskIndex] is FightTask fightTask
+                    && (!taskElement.TryGetProperty("StageResetMode", out var mode)
+                        || !Enum.TryParse<FightStageResetMode>(mode.GetString(), out _)))
                 {
-                    int taskIndex = 0;
-                    foreach (var taskElement in taskQueueElement.EnumerateArray())
-                    {
-                        var task = rootObj.Configurations[configName].TaskQueue[taskIndex];
-                        if (task is FightTask fightTask)
-                        {
-                            if (!taskElement.TryGetProperty("StageResetMode", out var mode) || !Enum.TryParse<FightStageResetMode>(mode.GetString(), out var _))
-                            {
-                                if (fightTask.HideUnavailableStage)
-                                {
-                                    fightTask.StageResetMode = FightStageResetMode.Current;
-                                }
-                                else
-                                {
-                                    fightTask.StageResetMode = FightStageResetMode.Ignore;
-                                }
-                            }
-                        }
-                        taskIndex++;
-                    }
+                    fightTask.StageResetMode = fightTask.HideUnavailableStage
+                        ? FightStageResetMode.Current
+                        : FightStageResetMode.Ignore;
                 }
+
+                taskIndex++;
             }
         }
 

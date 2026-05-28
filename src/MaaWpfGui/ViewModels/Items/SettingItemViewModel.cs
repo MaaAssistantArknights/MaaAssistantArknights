@@ -43,4 +43,12 @@ public class SettingItemViewModel(string key, string display, int value) : Prope
         get => _value;
         set => SetAndNotify(ref _value, value);
     }
+
+    private bool _isVisibleInSearch = true;
+
+    public bool IsVisibleInSearch
+    {
+        get => _isVisibleInSearch;
+        set => SetAndNotify(ref _isVisibleInSearch, value);
+    }
 }

@@ -100,45 +100,67 @@
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Vertical">
-                    <Grid Margin="6">
-                        <CheckBox
-                            Height="30"
-                            VerticalContentAlignment="Center"
-                            Content="{DynamicResource AssignedMaterial}"
-                            IsChecked="{Binding IsSpecifiedDrops}"
-                            MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                          Target={x:Type helper:CheckBoxHelper}}"
-                            ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
-                        <controls:TooltipBlock
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            NormalOpacity="0.25"
-                            TooltipText="{DynamicResource SpecifiedDropsTip}" />
-                    </Grid>
-                    <Grid Height="42" Visibility="{c:Binding IsSpecifiedDrops}">
-                        <controls:TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource Quantity}"
-                            TextAlignment="Center" />
-                    </Grid>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Vertical">
-                    <ComboBox
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Margin="6">
+                    <CheckBox
                         Height="30"
-                        Margin="6"
                         VerticalContentAlignment="Center"
-                        DisplayMemberPath="Display"
-                        DropDownClosed="{s:Action DropsListDropDownClosed}"
-                        IsEditable="True"
-                        IsTextSearchEnabled="False"
-                        ItemsSource="{Binding DropsList}"
-                        Loaded="{s:Action MakeComboBoxSearchable,
-                                          Target={x:Type ui_vms:SettingsViewModel}}"
-                        SelectedValue="{Binding DropsItemId}"
-                        SelectedValuePath="Value"
-                        Text="{Binding DropsItemName}" />
+                        Content="{DynamicResource AssignedMaterial}"
+                        IsChecked="{Binding IsSpecifiedDrops}"
+                        IsEnabled="{c:Binding !IsSpecifiedInventoryLocked}"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                    <controls:TooltipBlock
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        NormalOpacity="0.25"
+                        TooltipText="{DynamicResource SpecifiedDropsTip}" />
+                </Grid>
+                <hc:ButtonGroup
+                    Grid.Row="1"
+                    MaxWidth="88"
+                    Margin="6,6,6,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsEnabled="{c:Binding !IsSpecifiedInventoryLocked}"
+                    Orientation="Vertical"
+                    Visibility="{c:Binding IsSpecifiedDrops}">
+                    <RadioButton
+                        hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
+                        Background="{DynamicResource RegionBrushOpacity25}"
+                        Content="{DynamicResource Quantity}"
+                        IsChecked="{Binding UseDropQuantityMode}" />
+                    <RadioButton
+                        hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
+                        Background="{DynamicResource RegionBrushOpacity25}"
+                        Content="{DynamicResource TargetInventory}"
+                        IsChecked="{Binding UseTargetInventoryMode}" />
+                </hc:ButtonGroup>
+                <ComboBox
+                    Grid.Column="1"
+                    Height="30"
+                    Margin="6"
+                    VerticalContentAlignment="Center"
+                    DisplayMemberPath="Display"
+                    DropDownClosed="{s:Action DropsListDropDownClosed}"
+                    IsEditable="True"
+                    IsEnabled="{c:Binding !IsSpecifiedInventoryLocked}"
+                    IsTextSearchEnabled="False"
+                    ItemsSource="{Binding DropsList}"
+                    Loaded="{s:Action MakeComboBoxSearchable,
+                                      Target={x:Type ui_vms:SettingsViewModel}}"
+                    SelectedValue="{Binding DropsItemId}"
+                    SelectedValuePath="Value"
+                    Text="{Binding DropsItemName}" />
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
                     <hc:NumericUpDown
                         Height="30"
                         MinWidth="60"
@@ -146,10 +168,24 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
+                        IsEnabled="{c:Binding !IsSpecifiedInventoryLocked}"
                         Maximum="1145141919"
                         Minimum="1"
                         Visibility="{c:Binding IsSpecifiedDrops}"
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
+                    <StackPanel Margin="6,2,6,0" Visibility="{c:Binding 'IsSpecifiedDrops and UseInventoryTarget'}">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:TextBlock Text="{DynamicResource Inventory}" />
+                            <controls:TextBlock Margin="4,0,0,0" Text=":" />
+                            <controls:TextBlock Margin="4,0,0,0" Text="{Binding CurrentDropsInventoryText}" />
+                            <controls:TooltipBlock Margin="4,0,0,0" TooltipText="{DynamicResource InventoryUpdateTip}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                            <controls:TextBlock Text="{DynamicResource Quantity}" />
+                            <controls:TextBlock Margin="4,0,0,0" Text=":" />
+                            <controls:TextBlock Margin="4,0,0,0" Text="{Binding EffectiveDropsQuantityText}" />
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="2" Visibility="{c:Binding !HideSeries}">
@@ -310,7 +346,7 @@
                                     <TextBox
                                         Height="30"
                                         hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                        IsEnabled="{c:Binding !IsDragging,
+                                        IsEnabled="{c:Binding !IsStageItemDragging,
                                                               Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                         Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"

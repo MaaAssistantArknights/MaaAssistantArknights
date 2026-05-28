@@ -773,7 +773,7 @@ internal static partial class PendingUpdateApplier
         }
 
         string existingUpdateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
-        string existingUpdateBody = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+        string existingUpdateBody = MarkdownDataHelper.Get("CHANGELOG");
         return !string.IsNullOrWhiteSpace(existingUpdateBody) && VersionsMatch(existingUpdateTag, updateTag);
     }
 
@@ -783,7 +783,7 @@ internal static partial class PendingUpdateApplier
         ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, updateTag);
         if (!preserveExistingUpdateBody)
         {
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+            MarkdownDataHelper.Delete("CHANGELOG");
         }
 
         ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, packagePath);

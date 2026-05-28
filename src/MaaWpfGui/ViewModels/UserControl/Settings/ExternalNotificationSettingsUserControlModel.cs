@@ -45,7 +45,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             true);
     }
 
-    private bool _externalNotificationSendWhenComplete = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, bool.TrueString));
+    private bool _externalNotificationSendWhenComplete = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true);
 
     public bool ExternalNotificationSendWhenComplete
     {
@@ -56,7 +56,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _externalNotificationEnableDetails = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, bool.FalseString));
+    private bool _externalNotificationEnableDetails = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false);
 
     public bool ExternalNotificationEnableDetails
     {
@@ -67,7 +67,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _externalNotificationSendWhenError = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, bool.TrueString));
+    private bool _externalNotificationSendWhenError = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true);
 
     public bool ExternalNotificationSendWhenError
     {
@@ -79,7 +79,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     }
 
 
-    private bool _externalNotificationSendWhenStalled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, bool.FalseString));
+    private bool _externalNotificationSendWhenStalled = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false);
 
     public bool ExternalNotificationSendWhenStalled
     {
@@ -347,7 +347,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _smtpUseSsl = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, bool.FalseString));
+    private bool _smtpUseSsl = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, false);
 
     public bool SmtpUseSsl
     {
@@ -358,7 +358,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _smtpRequireAuthentication = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, bool.FalseString));
+    private bool _smtpRequireAuthentication = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, false);
 
     public bool SmtpRequireAuthentication
     {

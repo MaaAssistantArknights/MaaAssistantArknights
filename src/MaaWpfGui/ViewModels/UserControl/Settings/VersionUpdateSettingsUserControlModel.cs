@@ -393,7 +393,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         OnPropertyChanged(nameof(MirrorChyanCdkExpiredLocalTime));
     }
 
-    private bool _startupUpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, bool.TrueString));
+    private bool _startupUpdateCheck = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, true);
 
     // UI 绑定的方法
     [UsedImplicitly]
@@ -415,7 +415,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
+    private bool _updateAutoCheck = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to check update.
@@ -473,7 +473,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
+    private bool _autoDownloadUpdatePackage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, true);
 
     /// <summary>
     /// Gets or sets a value indicating whether to auto download update package.
@@ -487,7 +487,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
+    private bool _autoInstallUpdatePackage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to auto install update package.
@@ -501,7 +501,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _showUpdaterConsole = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, bool.FalseString));
+    private bool _showUpdaterConsole = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to show the updater console window.

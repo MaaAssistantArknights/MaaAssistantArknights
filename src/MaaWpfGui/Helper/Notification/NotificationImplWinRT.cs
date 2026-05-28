@@ -14,6 +14,7 @@
 using System;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Serilog;
+using Windows.UI.Notifications;
 
 namespace MaaWpfGui.Helper.Notification;
 
@@ -59,6 +60,29 @@ internal class NotificationImplWinRT : INotificationPoster, IDisposable
         catch (Exception e)
         {
             _logger.Error(e, "Failed to Toast Notification.");
+        }
+    }
+
+    public (bool IsAvailable, string Detail) IsNotificationAvailable
+    {
+        get {
+            try
+            {
+                var setting = ToastNotificationManagerCompat.CreateToastNotifier().Setting;
+                return setting switch {
+                    NotificationSetting.Enabled => (true, string.Empty),
+                    NotificationSetting.DisabledForApplication => (false, LocalizationHelper.GetString("ToastNotificationUnavailable.DisabledForApplication")),
+                    NotificationSetting.DisabledForUser => (false, LocalizationHelper.GetString("ToastNotificationUnavailable.DisabledForUser")),
+                    NotificationSetting.DisabledByGroupPolicy => (false, LocalizationHelper.GetString("ToastNotificationUnavailable.DisabledByGroupPolicy")),
+                    NotificationSetting.DisabledByManifest => (false, LocalizationHelper.GetString("ToastNotificationUnavailable.DisabledByManifest")),
+                    _ => (false, $"Unknown notification setting: {setting}"),
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to create Toast Notifier.");
+                return (false, e.Message);
+            }
         }
     }
 }
