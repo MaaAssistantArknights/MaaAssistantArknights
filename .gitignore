@@ -425,6 +425,10 @@ FodyWeavers.xsd
 .claude/*
 !.claude/skills/
 
+# Cursor
+.cursor/*
+!.cursor/skills/
+
 # Windows Installer files from build outputs
 *.cab
 *.msi
@@ -491,3 +495,6 @@ CMakeUserPresets.json
 
 # openspec
 openspec/
+
+.github/workflows/sync-upstream.yml
+.cursor/commands/
