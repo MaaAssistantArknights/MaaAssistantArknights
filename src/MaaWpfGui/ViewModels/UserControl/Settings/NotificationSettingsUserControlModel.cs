@@ -13,6 +13,7 @@
 
 #nullable enable
 using System;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -275,6 +276,18 @@ public class NotificationSettingsUserControlModel : PropertyChangedBase
         timeMinutesKey: null,
         useIndependentKey: ConfigurationKeys.NotificationTaskQueueLogUseIndependent,
         type: NotificationType.TaskQueueLog);
+
+    // ---- 系统通知开关（原界面设置中的 UseNotify，现交由通知管理系统统一管理） ----
+
+    public bool UseNotify
+    {
+        get => ConfigFactory.Root.GUI.UseNotify;
+        set
+        {
+            ConfigFactory.Root.GUI.UseNotify = value;
+            NotifyOfPropertyChange();
+        }
+    }
 
     // ---- 停滞检测（通知管理系统统一管理） ----
 

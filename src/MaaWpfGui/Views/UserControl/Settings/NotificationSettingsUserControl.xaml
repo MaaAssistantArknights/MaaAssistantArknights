@@ -125,40 +125,9 @@
             <hc:Divider
                 Margin="0,20,0,10"
                 Content="{DynamicResource NotificationSettingsSystemNotification}" />
-            <CheckBox
-                Margin="5"
-                HorizontalAlignment="Center"
-                Content="{DynamicResource NotificationSettingsUseIndependent}"
-                IsChecked="{Binding SystemNotification.UseIndependent}" />
-            <StackPanel IsEnabled="{Binding SystemNotification.UseIndependent}">
-                <CheckBox
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    Content="{DynamicResource NotificationSettingsEnableNotification}"
-                    IsChecked="{Binding SystemNotification.Enable}" />
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <CheckBox
-                        Width="150"
-                        Margin="5"
-                        Content="{DynamicResource NotificationSettingsEnableBlacklist}"
-                        IsChecked="{Binding SystemNotification.EnableBlacklist}" />
-                    <CheckBox
-                        Margin="5"
-                        Content="{DynamicResource NotificationSettingsEnableWhitelist}"
-                        IsChecked="{Binding SystemNotification.EnableWhitelist}" />
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'SystemNotification.UseIndependent &amp;&amp; SystemNotification.ShowFilterList'}">
-                    <controls:TextBlock
-                        Margin="0,10,0,5"
-                        Text="{DynamicResource NotificationSettingsFilterList}" />
-                    <TextBox
-                        Width="400"
-                        MinHeight="80"
-                        Margin="0,0,0,10"
-                        AcceptsReturn="True"
-                        Text="{Binding SystemNotification.FilterList}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource SystemNotification}" IsChecked="{Binding UseNotify}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource SystemNotificationInfo}" />
             </StackPanel>
         </StackPanel>
 
@@ -241,38 +210,9 @@
             <CheckBox
                 Margin="5"
                 HorizontalAlignment="Center"
-                Content="{DynamicResource NotificationSettingsUseIndependent}"
-                IsChecked="{Binding TaskQueueLog.UseIndependent}" />
-            <StackPanel IsEnabled="{Binding TaskQueueLog.UseIndependent}">
-                <CheckBox
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    Content="{DynamicResource NotificationSettingsEnableNotification}"
-                    IsChecked="{Binding TaskQueueLog.Enable}" />
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <CheckBox
-                        Width="150"
-                        Margin="5"
-                        Content="{DynamicResource NotificationSettingsEnableBlacklist}"
-                        IsChecked="{Binding TaskQueueLog.EnableBlacklist}" />
-                    <CheckBox
-                        Margin="5"
-                        Content="{DynamicResource NotificationSettingsEnableWhitelist}"
-                        IsChecked="{Binding TaskQueueLog.EnableWhitelist}" />
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'TaskQueueLog.UseIndependent &amp;&amp; TaskQueueLog.ShowFilterList'}">
-                    <controls:TextBlock
-                        Margin="0,10,0,5"
-                        Text="{DynamicResource NotificationSettingsFilterList}" />
-                    <TextBox
-                        Width="400"
-                        MinHeight="80"
-                        Margin="0,0,0,10"
-                        AcceptsReturn="True"
-                        Text="{Binding TaskQueueLog.FilterList}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-            </StackPanel>
+                Content="{DynamicResource NotificationSettingsEnableLogOutput}"
+                IsChecked="True"
+                IsEnabled="False" />
         </StackPanel>
     </Grid>
 </UserControl>

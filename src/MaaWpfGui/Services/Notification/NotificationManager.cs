@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -94,6 +95,12 @@ public static class NotificationManager
     /// </summary>
     public static bool ShouldShow(NotificationType type, string content, string? tag = null)
     {
+        // 系统通知总开关（原 UseNotify），由通知管理系统统一管理
+        if (type == NotificationType.SystemNotification && !ConfigFactory.Root.GUI.UseNotify)
+        {
+            return false;
+        }
+
         var settings = GetSettings(type);
         bool useIndependent = settings.UseIndependent;
 
