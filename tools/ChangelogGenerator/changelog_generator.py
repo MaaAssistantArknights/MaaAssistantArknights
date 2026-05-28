@@ -8,7 +8,9 @@ from enum import Enum
 from pathlib import Path
 from typing import Tuple
 
-repo = "MaaAssistantArknights/MaaAssistantArknights"  # Owner/RepoName
+repo = "MaaAssistantArknights/MaaAssistantArknights"
+maamacgui_repo = "MaaAssistantArknights/MaaMacGui"
+maamacgui_submodule_path = "src/MaaMacGui"
 cur_dir = Path(__file__).parent
 contributors_path = cur_dir / "contributors.json"
 changelog_path = cur_dir.parent.parent / "CHANGELOG.md"
@@ -237,6 +239,129 @@ def call_command(command: str):
     except:
         return bf.decode("gbk").strip()
 
+def get_submodule_sha(ref: str, path: str) -> str:
+    output = call_command(f"git ls-tree {ref} {path}")
+    if not output:
+        return ""
+
+    parts = output.split()
+    if len(parts) < 3:
+        return ""
+
+    return parts[2]
+
+
+def github_api_get(url: str):
+    try:
+        req = urllib.request.Request(url)
+        req.add_header("Accept", "application/vnd.github+json")
+        req.add_header("X-GitHub-Api-Version", "2022-11-28")
+
+        token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+        if token:
+            req.add_header("Authorization", f"Bearer {token}")
+
+        resp = retry_urlopen(req).read()
+        return json.loads(resp)
+    except Exception as e:
+        print(f"Cannot request GitHub API: {url}. ({e})")
+        return None
+
+
+def get_associated_pr(repo_name: str, commit_hash: str):
+    pulls = github_api_get(
+        f"https://api.github.com/repos/{repo_name}/commits/{commit_hash}/pulls"
+    )
+    if not pulls:
+        return None
+
+    for pull in pulls:
+        if pull.get("merged_at"):
+            return pull
+
+    return pulls[0]
+
+
+def format_commit_info_with_pr(repo_name: str, commit_hash: str, message: str, author: str):
+    pr = get_associated_pr(repo_name, commit_hash)
+    if not pr:
+        return message, author
+
+    number = pr.get("number")
+    html_url = pr.get("html_url")
+    title = pr.get("title")
+    login = pr.get("user", {}).get("login")
+
+    if number and html_url and title:
+        title = re.sub(r"\s*\(#\d+\)\s*$", "", title)
+        message = f"{title} ([#{number}]({html_url}))"
+
+    if login:
+        author = login
+
+    return message, author
+
+
+def build_maamacgui_changelog(latest: str) -> str:
+    old_sha = get_submodule_sha(latest, maamacgui_submodule_path)
+    new_sha = get_submodule_sha("HEAD", maamacgui_submodule_path)
+
+    if not old_sha or not new_sha or old_sha == new_sha:
+        return ""
+
+    workdir = f"/tmp/MaaMacGui-{os.getpid()}"
+    call_command(f"rm -rf {workdir}")
+
+    try:
+        call_command(f"git clone --no-checkout https://github.com/{maamacgui_repo}.git {workdir}")
+        call_command(f"git -C {workdir} fetch origin {old_sha} {new_sha}")
+
+        commit_separator = "---MAA_COMMIT_END---"
+        raw_gitlogs = call_command(
+            f'git -C {workdir} log {old_sha}..{new_sha} '
+            f'--pretty=format:"%H%n%aN%n%cN%n%s%n%P%n{commit_separator}"'
+        )
+
+        if not raw_gitlogs.strip():
+            return ""
+
+        maamacgui_commits_info = {}
+        for raw_commit_info in raw_gitlogs.split(commit_separator):
+            raw_commit_info = raw_commit_info.strip()
+            if not raw_commit_info:
+                continue
+
+            lines = raw_commit_info.split("\n")
+            if len(lines) < 5:
+                continue
+
+            commit_hash, author, committer, message, parent = lines[:5]
+
+            message, author = format_commit_info_with_pr(
+                maamacgui_repo, commit_hash, message, author
+            )
+
+            maamacgui_commits_info[commit_hash] = {
+                "hash": commit_hash[:8],
+                "author": author,
+                "committer": committer,
+                "message": message,
+                "parent": parent.split(),
+            }
+
+        sorted_commits = {cat: {} for cat in ["perf", "feat", "fix", "docs", "other"]}
+        for commit_hash, commit_info in maamacgui_commits_info.items():
+            update_commits(
+                commit_info["message"], sorted_commits, {commit_hash: commit_info}
+            )
+
+        maamacgui_changelog = update_message(sorted_commits, [])[0]
+        if not maamacgui_changelog.strip():
+            return ""
+
+        return "\n### MaaMacGui\n" + maamacgui_changelog
+    finally:
+        call_command(f"rm -rf {workdir}")
 
 def main(tag_name=None, latest=None):
     global contributors, raw_commits_info
@@ -308,6 +433,7 @@ def main(tag_name=None, latest=None):
         first_hash = list(raw_commits_info.keys())[0]
         res = print_commits(build_commits_tree(first_hash))
         changelog_content = "## " + tag_name + "\n" + res[0]
+        changelog_content += build_maamacgui_changelog(latest)
         print(changelog_content)
         with open(changelog_path, "w", encoding="utf8") as f:
             f.write(changelog_content)
