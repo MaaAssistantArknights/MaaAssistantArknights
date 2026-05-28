@@ -2862,10 +2862,13 @@ public class AsstProxy
         /// <summary>更新用户数据</summary>
         UserDataUpdate,
 
+        /// <summary>Side Story</summary>
+        SideStory,
+
         /// <summary>小游戏</summary>
         MiniGame,
 
-        /// <summary>自定义任务s</summary>
+        /// <summary>自定义任务</summary>
         Custom,
     }
 

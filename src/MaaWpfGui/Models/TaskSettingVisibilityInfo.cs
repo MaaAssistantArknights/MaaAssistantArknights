@@ -54,6 +54,8 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool UserDataUpdate { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool SideStory { get => field; set => SetAndNotify(ref field, value); }
+
     public bool Custom { get => field; set => SetAndNotify(ref field, value); }
 
     public bool PostAction { get => field; set => SetAndNotify(ref field, value); }
@@ -148,6 +150,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             RoguelikeTask => Roguelike = enable,
             ReclamationTask => Reclamation = enable,
             UserDataUpdateTask => UserDataUpdate = enable,
+            SideStoryTask => SideStory = enable,
             CustomTask => Custom = enable,
             _ => throw new NotImplementedException(),
         };
@@ -188,6 +191,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         Roguelike = false;
         Reclamation = false;
         UserDataUpdate = false;
+        SideStory = false;
         Custom = false;
     }
 

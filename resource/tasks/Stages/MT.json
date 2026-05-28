@@ -53,6 +53,19 @@
         "text": ["众生行记", "谒见神祇", "见神", "息止安所"],
         "next": ["MTChapterToMT"]
     },
+    "MT-OpenTask": {
+        "algorithm": "JustReturn",
+        "next": ["MT-OpenTask@SS-Open", "MT-OpenTask@SS-OpenOcr"]
+    },
+    "MT-OpenTask@SS-Open": {
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["MT@SS@EnterTaskPage"]
+    },
+    "MT-OpenTask@SS-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "next": ["MT@SS@EnterTaskPage"]
+    },
     "MTChapterToMT": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -60,5 +73,10 @@
         "preDelay": 4000,
         "roi": [622, 588, 234, 132],
         "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "MT@SS@EnterTaskPage": {
+        "text": ["哄睡", "指标"],
+        "roi": [1100, 175, 140, 40],
+        "ocrReplace": [["指标", "指示"]]
     }
 }

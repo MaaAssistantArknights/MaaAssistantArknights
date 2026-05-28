@@ -186,6 +186,11 @@ public enum AsstTaskType : byte
     Reclamation,
 
     /// <summary>
+    /// SideStory
+    /// </summary>
+    SideStory,
+
+    /// <summary>
     /// 自定义任务
     /// </summary>
     Custom,

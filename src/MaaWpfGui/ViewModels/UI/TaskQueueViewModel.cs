@@ -29,7 +29,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -134,7 +133,12 @@ public class TaskQueueViewModel : Screen
     public static UserDataUpdateSettingsUserControlModel UserDataUpdateTask => UserDataUpdateSettingsUserControlModel.Instance;
 
     /// <summary>
-    /// Gets 生稀盐酸任务Model
+    /// Gets SideStory任务Model
+    /// </summary>
+    public static SideStorySettingsUserControlModel SideStoryTask => SideStorySettingsUserControlModel.Instance;
+
+    /// <summary>
+    /// Gets 自定任务Model
     /// </summary>
     public static CustomSettingsUserControlModel CustomTask => CustomSettingsUserControlModel.Instance;
 
@@ -1332,6 +1336,7 @@ public class TaskQueueViewModel : Screen
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Roguelike"), Value = typeof(RoguelikeTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Reclamation"), Value = typeof(ReclamationTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("UserDataUpdate"), Value = typeof(UserDataUpdateTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("SideStoryTask"), Value = typeof(SideStoryTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Custom"), Value = typeof(CustomTask) },
         ]);
 
