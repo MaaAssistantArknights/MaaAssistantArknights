@@ -27,8 +27,7 @@
                 x:Name="SettingsSearchBar"
                 hc:BorderElement.CornerRadius="4,4,0,0"
                 DockPanel.Dock="Top"
-                IsRealTime="True"
-                Text="{Binding SearchText}" />
+                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
 
             <ListBox
                 x:Name="MasterListBox"
