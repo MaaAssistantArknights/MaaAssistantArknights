@@ -97,7 +97,29 @@ public static class SearchHighlightBehavior
         }
         else
         {
-            PerformSearch(contentGrid, searchText, sectionFilter);
+            // 先展开所有 Expander，等布局更新后再搜索
+            ExpandAllSections(contentGrid);
+            contentGrid.Dispatcher.BeginInvoke(
+                () => PerformSearch(contentGrid, searchText, sectionFilter),
+                System.Windows.Threading.DispatcherPriority.Loaded);
+        }
+    }
+
+    private static void ExpandAllSections(Grid contentGrid)
+    {
+        foreach (var child in contentGrid.Children)
+        {
+            if (child is Grid sectionGrid)
+            {
+                foreach (var sectionChild in sectionGrid.Children)
+                {
+                    if (sectionChild is Expander expander && !expander.IsExpanded)
+                    {
+                        _expandedBySearch.Add(expander);
+                        expander.IsExpanded = true;
+                    }
+                }
+            }
         }
     }
 
@@ -122,12 +144,6 @@ public static class SearchHighlightBehavior
             // 在分区 Display 名称中搜索
             bool found = setting.Display.Contains(searchText, StringComparison.OrdinalIgnoreCase);
 
-            // 先展开 Expander，让所有子控件变为可见，再遍历搜索
-            if (!found)
-            {
-                ExpandForSearch(sectionGrid);
-            }
-
             // 遍历当前可见的子控件，高亮匹配项
             var matchedBlocks = new List<TextBlock>();
             CollectVisibleMatches(sectionGrid, searchText, matchedBlocks);
@@ -144,12 +160,6 @@ public static class SearchHighlightBehavior
             }
 
             setting.IsVisibleInSearch = found;
-
-            // 命中时确保 Expander 展开
-            if (found)
-            {
-                ExpandForSearch(sectionGrid);
-            }
         }
     }
 
@@ -178,23 +188,6 @@ public static class SearchHighlightBehavior
         }
 
         return null;
-    }
-
-    /// <summary>
-    /// 展开 section 中的 Expander 以便搜索。
-    /// 如果 Expander 原本是收起的，记录下来以便搜索结束后还原。
-    /// </summary>
-    private static void ExpandForSearch(Grid sectionGrid)
-    {
-        foreach (var child in sectionGrid.Children)
-        {
-            if (child is Expander expander && !expander.IsExpanded)
-            {
-                _expandedBySearch.Add(expander);
-                expander.IsExpanded = true;
-                return;
-            }
-        }
     }
 
     /// <summary>
