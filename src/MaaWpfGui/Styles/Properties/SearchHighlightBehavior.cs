@@ -27,7 +27,7 @@ namespace MaaWpfGui.Styles.Properties;
 /// 搜索高亮附加行为。
 /// 挂在 ScrollViewer 上，通过 SearchText 驱动关键词高亮；
 /// 通过 SectionFilter 接收集合，设置其中每个 <see cref="SettingItemViewModel.IsVisibleInSearch"/> 过滤分区。
-/// 首次搜索时预建可搜索文本索引，后续搜索复用缓存，避免重复遍历视觉树。
+/// 每次搜索实时遍历视觉树，只搜索当前可见的控件，确保不会搜索到被条件隐藏的子区域。
 /// </summary>
 public static class SearchHighlightBehavior
 {
@@ -64,29 +64,14 @@ public static class SearchHighlightBehavior
 
     #endregion
 
-    #region 可搜索文本索引
-
-    /// <summary>
-    /// 索引条目：文本内容 + 对应 TextBlock 引用（用于高亮）。
-    /// ContentControl / TitleElement 的文本无对应 TextBlock，TextBlock 引用为 null。
-    /// </summary>
-    private sealed class TextEntry(string text, TextBlock? textBlock)
-    {
-        public string Text { get; } = text;
-
-        public TextBlock? TextBlock { get; } = textBlock;
-    }
-
-    // section Grid → 可搜索文本索引，首次搜索时建立，Unloaded 时清除
-    private static readonly Dictionary<Grid, List<TextEntry>> _searchIndex = [];
-
     // 当前高亮过的 TextBlock，用于统一清除
     private static readonly List<TextBlock> _highlightedTextBlocks = [];
 
+    // 搜索时被强行展开的 Expander（原本是收起的），清空搜索时还原
+    private static readonly List<Expander> _expandedBySearch = [];
+
     // 缓存高亮画刷
     private static Brush? _highlightBrush;
-
-    #endregion
 
     private static void OnSearchTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -134,32 +119,43 @@ public static class SearchHighlightBehavior
                 continue;
             }
 
-            // 在分区 Display 名称或预建索引中搜索
+            // 在分区 Display 名称中搜索
             bool found = setting.Display.Contains(searchText, StringComparison.OrdinalIgnoreCase);
 
-            // 始终遍历索引以高亮匹配的 TextBlock（无论 Display 是否已匹配）
-            var entries = GetOrCreateSearchIndex(sectionGrid);
-            foreach (var entry in entries)
+            // 先展开 Expander，让所有子控件变为可见，再遍历搜索
+            if (!found)
             {
-                if (entry.Text.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-                {
-                    found = true;
+                ExpandForSearch(sectionGrid);
+            }
 
-                    if (entry.TextBlock != null)
-                    {
-                        entry.TextBlock.Background = highlightBrush;
-                        _highlightedTextBlocks.Add(entry.TextBlock);
-                    }
+            // 遍历当前可见的子控件，高亮匹配项
+            var matchedBlocks = new List<TextBlock>();
+            CollectVisibleMatches(sectionGrid, searchText, matchedBlocks);
+
+            if (matchedBlocks.Count > 0)
+            {
+                found = true;
+                foreach (var tb in matchedBlocks)
+                {
+                    tb.Background = highlightBrush;
+                    _highlightedTextBlocks.Add(tb);
                 }
             }
 
             setting.IsVisibleInSearch = found;
+
+            // 命中时确保 Expander 展开
+            if (found)
+            {
+                ExpandForSearch(sectionGrid);
+            }
         }
     }
 
     private static void ClearSearch(IList sectionFilter)
     {
         ClearHighlights();
+        RestoreExpandedSections();
 
         foreach (var item in sectionFilter)
         {
@@ -183,6 +179,36 @@ public static class SearchHighlightBehavior
         return null;
     }
 
+    /// <summary>
+    /// 展开 section 中的 Expander 以便搜索。
+    /// 如果 Expander 原本是收起的，记录下来以便搜索结束后还原。
+    /// </summary>
+    private static void ExpandForSearch(Grid sectionGrid)
+    {
+        foreach (var child in sectionGrid.Children)
+        {
+            if (child is Expander expander && !expander.IsExpanded)
+            {
+                _expandedBySearch.Add(expander);
+                expander.IsExpanded = true;
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 还原搜索时被强行展开的 Expander。
+    /// </summary>
+    private static void RestoreExpandedSections()
+    {
+        foreach (var expander in _expandedBySearch)
+        {
+            expander.IsExpanded = false;
+        }
+
+        _expandedBySearch.Clear();
+    }
+
     private static Brush GetHighlightBrush()
     {
         return _highlightBrush ??= (Brush)Application.Current.TryFindResource("SettingsSearchHighlightBrush")
@@ -199,65 +225,33 @@ public static class SearchHighlightBehavior
         _highlightedTextBlocks.Clear();
     }
 
-    #region 索引管理
+    #region 实时视觉树遍历
 
     /// <summary>
-    /// 获取或建立某个 section Grid 的可搜索文本索引。
-    /// 首次调用时遍历视觉树一次，缓存结果；后续直接复用。
+    /// 实时遍历 sectionGrid 中当前可见的子控件，收集匹配搜索词的 TextBlock。
+    /// 跳过 Visibility 为 Collapsed/Hidden 的控件及其子树，确保不搜索到被条件隐藏的区域。
     /// </summary>
-    private static List<TextEntry> GetOrCreateSearchIndex(Grid sectionGrid)
-    {
-        if (_searchIndex.TryGetValue(sectionGrid, out var cached))
-        {
-            return cached;
-        }
-
-        sectionGrid.Unloaded += OnSectionGridUnloaded;
-
-        var entries = new List<TextEntry>();
-        CollectSearchableEntries(sectionGrid, entries);
-        _searchIndex[sectionGrid] = entries;
-        return entries;
-    }
-
-    private static void OnSectionGridUnloaded(object sender, RoutedEventArgs e)
-    {
-        if (sender is Grid grid)
-        {
-            grid.Unloaded -= OnSectionGridUnloaded;
-            _searchIndex.Remove(grid);
-        }
-    }
-
-    /// <summary>
-    /// 递归收集视觉树中所有可搜索文本：TextBlock.Text、ContentControl string Content、TitleElement Title。
-    /// </summary>
-    private static void CollectSearchableEntries(DependencyObject parent, List<TextEntry> entries)
+    private static void CollectVisibleMatches(DependencyObject parent, string searchText, List<TextBlock> matchedBlocks)
     {
         var childCount = VisualTreeHelper.GetChildrenCount(parent);
         for (int i = 0; i < childCount; i++)
         {
             var child = VisualTreeHelper.GetChild(parent, i);
 
-            if (child is TextBlock tb && !string.IsNullOrEmpty(tb.Text))
+            // 跳过不可见的控件及其整棵子树
+            if (child is FrameworkElement { Visibility: not Visibility.Visible })
             {
-                entries.Add(new TextEntry(tb.Text, tb));
-            }
-            else if (child is ContentControl cc && cc.Content is string content && !string.IsNullOrEmpty(content))
-            {
-                entries.Add(new TextEntry(content, null));
+                continue;
             }
 
-            if (child is FrameworkElement fe)
+            if (child is TextBlock tb && !string.IsNullOrEmpty(tb.Text)
+                && tb.Text.Contains(searchText, StringComparison.OrdinalIgnoreCase))
             {
-                var title = HandyControl.Controls.TitleElement.GetTitle(fe);
-                if (!string.IsNullOrEmpty(title))
-                {
-                    entries.Add(new TextEntry(title, null));
-                }
+                matchedBlocks.Add(tb);
             }
 
-            CollectSearchableEntries(child, entries);
+            // 递归进入子树
+            CollectVisibleMatches(child, searchText, matchedBlocks);
         }
     }
 
