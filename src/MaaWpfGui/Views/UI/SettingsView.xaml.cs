@@ -19,7 +19,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Styles.Properties;
 
@@ -27,10 +26,6 @@ namespace MaaWpfGui.Views.UI;
 
 public partial class SettingsView
 {
-    private double _previousScrollOffset;
-    private double _searchBarTotalHeight;
-    private bool _isSearchBarVisible = true;
-    private bool _isAnimatingSearchBar;
     private readonly HashSet<TextBlock> _highlightedTextBlocks = [];
 
     public SettingsView()
@@ -44,16 +39,8 @@ public partial class SettingsView
 
         Instances.SettingsViewModel.SearchRequested += OnSearchRequested;
 
-        SettingsSearchBar.Loaded += (_, _) =>
-        {
-            _searchBarTotalHeight = SettingsSearchBar.ActualHeight + SettingsSearchBar.Margin.Bottom;
-            ContentAreaWrapper.Margin = new Thickness(0, _searchBarTotalHeight, 0, 0);
-        };
-
-        SettingsScrollViewer.Loaded += (_, _) =>
-        {
-            SettingsScrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
-        };
+        // 初始化时将焦点移到左侧列表，避免搜索栏抢焦点
+        Loaded += (_, _) => MasterListBox.Focus();
     }
 
     private static Brush GetHighlightBrush()
@@ -160,77 +147,6 @@ public partial class SettingsView
         }
 
         return null;
-    }
-
-    private void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
-    {
-        if (_isAnimatingSearchBar)
-        {
-            return;
-        }
-
-        if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.SearchText))
-        {
-            if (!_isSearchBarVisible)
-            {
-                AnimateSearchBar(true);
-            }
-
-            _previousScrollOffset = e.VerticalOffset;
-            return;
-        }
-
-        double delta = e.VerticalOffset - _previousScrollOffset;
-
-        if (delta > 5)
-        {
-            AnimateSearchBar(false);
-        }
-        else if (delta < -5)
-        {
-            AnimateSearchBar(true);
-        }
-
-        _previousScrollOffset = e.VerticalOffset;
-    }
-
-    private void AnimateSearchBar(bool show)
-    {
-        if (_isSearchBarVisible == show || _isAnimatingSearchBar)
-        {
-            return;
-        }
-
-        _isSearchBarVisible = show;
-        _isAnimatingSearchBar = true;
-
-        var duration = new Duration(TimeSpan.FromMilliseconds(250));
-        var easing = new CubicEase { EasingMode = EasingMode.EaseInOut };
-
-        double targetOpacity = show ? 1 : 0;
-        double targetMarginTop = show ? _searchBarTotalHeight : 0;
-
-        var opacityAnim = new DoubleAnimation(targetOpacity, duration) { EasingFunction = easing };
-        var marginAnim = new ThicknessAnimation(
-            new Thickness(0, targetMarginTop, 0, 0), duration) { EasingFunction = easing };
-
-        if (show)
-        {
-            SearchBarOverlay.Visibility = Visibility.Visible;
-        }
-
-        opacityAnim.Completed += (_, _) =>
-        {
-            if (!show)
-            {
-                SearchBarOverlay.Visibility = Visibility.Collapsed;
-            }
-
-            _isAnimatingSearchBar = false;
-        };
-
-        SearchBarOverlay.BeginAnimation(UIElement.OpacityProperty, opacityAnim);
-        ContentAreaWrapper.BeginAnimation(FrameworkElement.MarginProperty, marginAnim);
     }
 
     private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent)
