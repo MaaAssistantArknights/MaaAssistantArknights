@@ -28,7 +28,7 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
     {
         _name = name;
         _isEnable = isCheckedWithNull;
-        Instances.AsstProxy.OnTaskItemStatusChanged += OnTaskStatusChanged;
+        Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
     }
 
     private string _name;
@@ -37,7 +37,11 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
     {
         get => _name;
         set {
-            SetAndNotify(ref _name, value);
+            if (!SetAndNotify(ref _name, value))
+            {
+                return;
+            }
+
             ConfigFactory.CurrentConfig.TaskQueue[Index].Name = value;
         }
     }
@@ -126,5 +130,5 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
         }
     }
 
-    void IDisposable.Dispose() => Instances.AsstProxy.OnTaskItemStatusChanged -= OnTaskStatusChanged;
+    void IDisposable.Dispose() => Instances.AsstProxy.OnTaskStatusChanged -= OnTaskStatusChanged;
 }

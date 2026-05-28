@@ -117,7 +117,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private int _backgroundOpacity = int.Parse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, "50"));
+    private int _backgroundOpacity = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, 50);
 
     public int BackgroundOpacity
     {
@@ -127,7 +127,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private static int _backgroundBlurEffectRadius = int.Parse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, "5"));
+    private static int _backgroundBlurEffectRadius = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, 5);
 
     public int BackgroundBlurEffectRadius
     {

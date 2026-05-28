@@ -265,7 +265,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `MedicineConfirm`  
   이성 회복제 사용 확인
 - `ExpiringMedicineConfirm`  
-  48시간 내 만료되는 이성 회복제 사용 확인
+  만료 임박한 이성 회복제 사용 확인
 - `StoneConfirm`  
   오리지늄 사용 확인
 - `RecruitRefreshConfirm`  
@@ -361,6 +361,15 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   :::: field-group
   ::: field name="tag" type="string" required
   특수 태그 명칭, 예: `고급 특별 채용`
+  :::
+  ::::
+
+- `RecruitPreservedTag`  
+  공개모집에서 보류 대상으로 설정된 태그를 식별했습니다. `details` 필드 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field name="tag" type="string" required
+  보류를 트리거한 태그 명칭, 예: `지원 기계`
   :::
   ::::
 

@@ -158,46 +158,20 @@ public class AnnouncementDialogViewModel : Screen
         set => SetAndNotify(ref _selectedAnnouncementSection, value);
     }
 
-    private static readonly string _announcementInFile = SettingsViewModel.GuiSettings.Language switch {
-        "zh-cn" or "zh-tw" => Path.Combine(PathsHelper.CacheDir, "announcement.md"),
-        _ => Path.Combine(PathsHelper.CacheDir, "announcement_en.md"),
+    private static readonly string _announcementDataKey = SettingsViewModel.GuiSettings.Language switch {
+        "zh-cn" or "zh-tw" => "announcement",
+        _ => "announcement_en",
     };
 
     private static string AnnouncementInFile
     {
         get {
-            if (!File.Exists(_announcementInFile))
-            {
-                return null;
-            }
-
-            try
-            {
-                lock (_lock)
-                {
-                    return File.ReadAllText(_announcementInFile);
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to read announcement from file");
-            }
-
-            return null;
+            var content = MarkdownDataHelper.Get(_announcementDataKey, dataDir: PathsHelper.CacheDir);
+            return string.IsNullOrEmpty(content) ? null : content;
         }
 
         set {
-            try
-            {
-                lock (_lock)
-                {
-                    File.WriteAllText(_announcementInFile, value);
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to write announcement to file");
-            }
+            MarkdownDataHelper.Set(_announcementDataKey, value, dataDir: PathsHelper.CacheDir);
         }
     }
 

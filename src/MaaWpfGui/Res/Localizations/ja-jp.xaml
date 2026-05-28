@@ -85,6 +85,13 @@
     <system:String x:Key="GpuDriverOutdatedMessage">現在選択されている推論加速 GPU（{0}）のドライバーバージョン（{1}、リリース日：{2}）は2年以上経過しており、互換性の問題が発生する可能性があります。\n\nグラフィックスドライバーを更新するか、「{key=Settings} - {key=PerformanceSettings}」で別の GPU に変更することをおすすめします。</system:String>
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
     <system:String x:Key="Copy">コピー</system:String>
+    <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationUnavailable">Toast 通知は使用できません、 {0}</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">ユーザーはWindowsの設定でこのアプリの通知をオフにした</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">ユーザーはすべてのアプリの通知をオフにしました</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">グループ ポリシーによって無効化されました</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">マニフェストによって無効化されました</system:String>
+    <!--  !Toast 不可用  -->
     <!--  設定ガイド  -->
     <system:String x:Key="LeftClick">左クリック</system:String>
     <system:String x:Key="RightClick">右クリック</system:String>
@@ -96,12 +103,13 @@
     <system:String x:Key="PrevGuide">前へ</system:String>
     <system:String x:Key="NextGuide">次へ</system:String>
     <system:String x:Key="DoneGuide">完了</system:String>
-    <system:String x:Key="ToolTipGuide">マウスを乗せるとヒントあり↓→</system:String>
+    <system:String x:Key="ToolTipGuide">マウスを乗せるとヒントあり→</system:String>
     <system:String x:Key="TaskGuide">↑ タスク</system:String>
-    <system:String x:Key="OftenUsedGuide">↓ よく使われる</system:String>
+    <system:String x:Key="OftenUsedGuide">↑ よく使われる</system:String>
     <system:String x:Key="SometimesUsedGuide">あまり使われていない ↑</system:String>
     <system:String x:Key="LinkStartGuide">← タスクを開始</system:String>
-    <system:String x:Key="RightClickRenameDelete">↓ 右クリックで1回実行/名前変更/削除</system:String>
+    <system:String x:Key="HoverActionButtons" xml:space="preserve">   ホバーでコピー/名前変更/削除
+↓ 歯車を右クリックで操作一覧</system:String>
     <system:String x:Key="UserGuide">使用ガイド</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 公式サイトとドキュメント</system:String>
     <system:String x:Key="GuideDocumentationPath">MAA の公式サイトと完全なドキュメントは「{key=Settings} - {key=AboutUs} - {key=Website}」でご覧いただけます。</system:String>
@@ -315,6 +323,8 @@
     <system:String x:Key="ConfirmDeleteTaskMessage">タスク "{1}" ({0}) を削除してもよろしいですか？</system:String>
     <system:String x:Key="TaskRenamed">タスク名を変更しました: {0}</system:String>
     <system:String x:Key="TaskDeleted">タスクを削除しました: {0}</system:String>
+    <system:String x:Key="TaskCopied">タスクをコピーしました: {0}</system:String>
+    <system:String x:Key="TaskCopyFailed">タスクのコピーに失敗しました</system:String>
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>
     <system:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</system:String>
     <system:String x:Key="HotKeyChangingTip">バックスペース/Esc/デリート キーを押すことで初期化できます</system:String>
@@ -322,7 +332,11 @@
     <system:String x:Key="CheckBoxesNotSaved">このオプションは一度有効です</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">このオプションは、右クリックで選択した時のみ一度だけ有効です</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">このオプションは、右クリックで選択した時のみ一度だけスキップします</system:String>
-    <system:String x:Key="SpecifiedDropsTip">この機能では最適なステージを自動的に計算しません</system:String>
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">実際に入るステージは、引き続き下の ｢{key=StageSelect}｣ / ｢{key=StageSelect2}｣ で決まります。
+• {key=Quantity}: この理性作戦タスク中で、その素材のドロップ数が設定値に達するまで周回します。
+• {key=TargetInventory}: ｢{key=Toolbox}-{key=DepotRecognition}｣ に保存された在庫データを参照し、設定した在庫数になるまで補充します。
+  • 在庫データはキャッシュのため、手動周回や素材の使用後は実際とずれる場合があります。｢{key=UserDataUpdate}｣ または ｢{key=Toolbox}-{key=DepotRecognition}｣ で同期してください。
+  • {key=TargetInventory} を有効にすると、実行中は素材や数量を変更できません。</system:String>
     <system:String x:Key="StartupUpdateCheck">起動時の更新チェック</system:String>
     <system:String x:Key="UpdateAutoCheck">定期的な更新チェック</system:String>
     <system:String x:Key="UpdateAutoCheckTip">ゲーム内 00:00 / 18:00（サーバー現地時間 04:00 / 22:00）</system:String>
@@ -475,11 +489,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="EmulatorPathEmptyWarning">エミュレータのパスが空です。「{key=RetryOnDisconnected}」と「{key=OpenEmulatorAfterLaunch}」のチェック状態がリセットされました</system:String>
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB強制置き換え</system:String>
+    <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">現在のエミュレーターに同梱されているADBバージョンは通常新しいため、手動での置き換えは基本的に不要です。&#10;クリックするとGoogleから最新のADBをダウンロードし、ローカルパスのADBファイルを置き換えます。明確なADB互換性問題が発生した場合のみご使用ください。</system:String>
     <system:String x:Key="TouchMode">タッチモード</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (標準)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (実験機能)</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input は、OS バージョンが古く Minitouch や MaaTouch を使用できない物理デバイス用です。他の2モードが使える場合は、ADB Input を選択しないでください。&#10;ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他の2モードと異なります。正確な座標制御が必要な場面では使用できません。</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">エミュレーター起動パラメータの追加コマンド（例：「--instance 1」は 1 番インスタンス）。&#10;コマンド形式はエミュレーターにより異なり、通常はインスタンス番号やウィンドウモードなどを含みます。</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
@@ -605,6 +621,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">タイトルのスクロール機能</system:String>
     <system:String x:Key="MainTasksNullFunctionality">メインタスクの右クリック効果を反転</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">デフォルト：1回のみ有効、チェック後：1回のみスキップ</system:String>
+    <system:String x:Key="MainTasksNullFunctionalitySwitch">｢{key=Settings} - {key=UiSettings} - {key=MainTasksNullFunctionality}｣ で右クリック効果を切替可能</system:String>
     <system:String x:Key="UseCardLog">カードスタイルのログを使用</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">ログサムネイルの最大数</system:String>
     <system:String x:Key="TitleBarDisplayContent">タイトルバー表示コンテンツ</system:String>
@@ -775,6 +792,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PerformBattles">周回数指定</system:String>
     <system:String x:Key="AssignedMaterial">素材の指定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
+    <system:String x:Key="KeepInventory">在庫を維持</system:String>
+    <system:String x:Key="TargetInventory">目標在庫</system:String>
     <system:String x:Key="Series">連戦回数</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• 自動:
 レベルの最大代理乗数を自動で判別し、最大代理乗数を維持し、正気ポーション使用後に正気度オーバーフローが発生しないようにします。
@@ -804,6 +823,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>
     <system:String x:Key="Inventory">在庫</system:String>
     <system:String x:Key="InventoryUpdateTip">在庫データは ｢{key=Toolbox}-{key=DepotRecognition}｣ で更新できます</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">タスク「{0}」では {key=TargetInventory} が有効ですが、利用可能な在庫データがないためスキップされました。｢{key=Toolbox}-{key=DepotRecognition}｣ で在庫を更新してください。</system:String>
     <system:String x:Key="LessThanOneDay">1日以内</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6(CE-6)</system:String>
@@ -1393,12 +1413,12 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Level3UseShortTime2">星3タグを1:00に設定する</system:String>
     <system:String x:Key="Level3UseShortTimeTip">他のレアリティには影響しない</system:String>
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">星1を手動的に確認する</system:String>
+    <system:String x:Key="PreserveTags">指定タグを保留する</system:String>
     <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>
-    <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
+    <system:String x:Key="PreserveTagsTip">選択したタグのいずれかを認識した場合、その募集をスキップして枠を残します。未選択の場合は何も保留しません。</system:String>
     <!--  !自動募集設定  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">尊敬なるドクター、クロージャ様のお店で「酒」の新しいリストがあると聞いたことがありませんか？一緒に確認しませんか？</system:String>

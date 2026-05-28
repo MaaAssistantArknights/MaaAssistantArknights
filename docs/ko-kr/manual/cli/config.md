@@ -196,7 +196,7 @@ strategy = "merge" # 또는 "first" (기본값)
 
 # 일요일 저녁에는 모든 만료 임박한 약물을 사용
 [[tasks.variants]]
-params = { expiring_medicine = 1000 }
+params = { medicine_expire_days = 2 }
 
 [tasks.variants.condition]
 type = "And"

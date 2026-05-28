@@ -27,8 +27,6 @@ public static class FakeUpdateHelper
 
         public string TargetVersion { get; set; } = string.Empty;
 
-        public string UpdateInfo { get; set; } = string.Empty;
-
         public bool IsUpdated { get; set; }
     }
 
@@ -50,8 +48,6 @@ public static class FakeUpdateHelper
 
     public static string TargetVersion => IsEnabled ? s_updateInfo!.TargetVersion : string.Empty;
 
-    public static string UpdateInfo => IsEnabled ? s_updateInfo!.UpdateInfo : string.Empty;
-
     public static bool HasPendingFakeUpdate =>
         IsEnabled &&
         !s_updateInfo!.IsUpdated &&
@@ -66,7 +62,6 @@ public static class FakeUpdateHelper
 
         s_updateInfo.IsUpdated = true;
         ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, s_updateInfo.TargetVersion);
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateBody, s_updateInfo.UpdateInfo);
         ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.TrueString);
         return SaveAndRestart();
     }

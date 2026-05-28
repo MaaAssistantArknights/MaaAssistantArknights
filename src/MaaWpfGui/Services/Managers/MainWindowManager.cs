@@ -44,10 +44,10 @@ public sealed class MainWindowManager : IMainWindowManager
     {
         MainWindow.StateChanged += MainWindowStateChanged;
 
-        bool minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+        bool minimizeToTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, false);
         SetMinimizeToTray(minimizeToTray);
 
-        bool useTrayIcon = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, bool.TrueString));
+        bool useTrayIcon = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, true);
         SetUseTrayIcon(useTrayIcon);
 
         _previousState = GetWindowState();

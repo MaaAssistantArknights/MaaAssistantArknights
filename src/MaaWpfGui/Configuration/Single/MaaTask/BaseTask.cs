@@ -44,7 +44,7 @@ public class BaseTask : INotifyPropertyChanged
     public string Name { get; set; } = string.Empty;
 
     [JsonIgnore]
-    public string NameDisplay => string.IsNullOrEmpty(Name) ? LocalizationHelper.GetString(TaskType.ToString()) : Name;
+    public string NameOrTaskType => string.IsNullOrEmpty(Name) ? LocalizationHelper.GetString(TaskType.ToString()) : Name;
 
     public bool? IsEnable { get; set; } = true;
 

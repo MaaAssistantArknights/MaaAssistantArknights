@@ -119,7 +119,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
                (oldType != "Bilibili" || newType != "Official");
     }
 
-    private bool _deploymentWithPause = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, bool.FalseString));
+    private bool _deploymentWithPause = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, false);
 
     public bool DeploymentWithPause
     {
@@ -153,7 +153,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _copilotWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotWithScript, bool.FalseString));
+    private bool _copilotWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotWithScript, false);
 
     public bool CopilotWithScript
     {
@@ -164,7 +164,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _manualStopWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ManualStopWithScript, bool.FalseString));
+    private bool _manualStopWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.ManualStopWithScript, false);
 
     public bool ManualStopWithScript
     {
@@ -275,7 +275,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _blockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
+    private bool _blockSleep = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, false);
 
     public bool BlockSleep
     {
@@ -287,7 +287,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
+    private bool _blockSleepWithScreenOn = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, true);
 
     public bool BlockSleepWithScreenOn
     {
@@ -315,7 +315,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _enablePenguin = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, bool.TrueString));
+    private bool _enablePenguin = ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, true);
 
     /// <summary>
     /// Gets or sets a value indicating whether to enable penguin upload.
@@ -329,7 +329,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _enableYituliu = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, bool.TrueString));
+    private bool _enableYituliu = ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, true);
 
     /// <summary>
     /// Gets or sets a value indicating whether to enable yituliu upload.

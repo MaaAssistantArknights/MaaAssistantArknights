@@ -26,18 +26,47 @@ inline size_t filenum_ctrl(const std::filesystem::path& absolute_or_relative_dir
         absolute_path = absolute_or_relative_dir;
     }
 
-    if (!std::filesystem::exists(absolute_path)) {
+    std::error_code dir_ec;
+    if (!std::filesystem::is_directory(absolute_path, dir_ec)) {
+        if (dir_ec) {
+            Log.warn(__FUNCTION__, "failed to inspect debug image directory", absolute_path, dir_ec.message());
+        }
         return 0;
     }
 
     size_t file_nums = 0;
     std::vector<std::pair<std::filesystem::file_time_type, std::filesystem::path>> files;
 
-    for (auto& file : std::filesystem::directory_iterator(absolute_path)) {
-        if (file.is_regular_file()) {
-            ++file_nums;
-            files.emplace_back(std::filesystem::last_write_time(file.path()), file.path());
+    std::error_code iter_ec;
+    const auto options = std::filesystem::directory_options::skip_permission_denied;
+    std::filesystem::directory_iterator iter(absolute_path, options, iter_ec);
+    if (iter_ec) {
+        Log.warn(__FUNCTION__, "failed to open debug image directory", absolute_path, iter_ec.message());
+        return 0;
+    }
+    for (const std::filesystem::directory_iterator end; iter != end; iter.increment(iter_ec)) {
+        if (iter_ec) {
+            Log.warn(__FUNCTION__, "failed to iterate debug image directory", absolute_path, iter_ec.message());
+            break;
         }
+
+        const auto& file = *iter;
+        std::error_code entry_ec;
+        if (!file.is_regular_file(entry_ec)) {
+            if (entry_ec) {
+                Log.warn(__FUNCTION__, "failed to inspect debug image entry", file.path(), entry_ec.message());
+            }
+            continue;
+        }
+
+        const auto write_time = std::filesystem::last_write_time(file.path(), entry_ec);
+        if (entry_ec) {
+            Log.warn(__FUNCTION__, "failed to query debug image timestamp", file.path(), entry_ec.message());
+            continue;
+        }
+
+        ++file_nums;
+        files.emplace_back(write_time, file.path());
     }
 
     std::sort(files.begin(), files.end(), [](auto& a, auto& b) {
@@ -62,7 +91,7 @@ inline size_t filenum_ctrl(const std::filesystem::path& absolute_or_relative_dir
             ++deleted;
         }
         else if (ec) {
-            LogWarn << "Skip deleting debug image in this round" << files[i].second << ec.value() << ec.message();
+            Log.warn(__FUNCTION__, "failed to remove old debug image", files[i].second, ec.message());
         }
     }
 

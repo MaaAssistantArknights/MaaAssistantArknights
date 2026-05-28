@@ -195,7 +195,7 @@ strategy = "merge" # 或者 "first" (預設)
 
 # 在週日晚上使用所有將要過期的理智藥
 [[tasks.variants]]
-params = { expiring_medicine = 1000 }
+params = { medicine_expire_days = 2 }
 
 [tasks.variants.condition]
 type = "And"

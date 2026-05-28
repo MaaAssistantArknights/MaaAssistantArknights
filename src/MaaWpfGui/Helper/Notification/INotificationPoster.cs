@@ -20,4 +20,6 @@ internal interface INotificationPoster
     void ShowNotification(NotificationContent content);
 
     event EventHandler<string> ActionActivated;
+
+    (bool IsAvailable, string Detail) IsNotificationAvailable { get; }
 }
