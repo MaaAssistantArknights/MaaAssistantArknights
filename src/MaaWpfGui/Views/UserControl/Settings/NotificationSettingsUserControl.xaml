@@ -202,17 +202,4 @@
             </StackPanel>
         </StackPanel>
 
-        <!--  一键长草右侧日志  -->
-        <StackPanel Grid.Row="4" Orientation="Vertical">
-            <hc:Divider
-                Margin="0,20,0,10"
-                Content="{DynamicResource NotificationSettingsTaskQueueLog}" />
-            <CheckBox
-                Margin="5"
-                HorizontalAlignment="Center"
-                Content="{DynamicResource NotificationSettingsEnableLogOutput}"
-                IsChecked="True"
-                IsEnabled="False" />
-        </StackPanel>
-    </Grid>
 </UserControl>
