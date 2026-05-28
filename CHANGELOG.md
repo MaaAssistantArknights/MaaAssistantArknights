@@ -10,6 +10,10 @@
 
 公招新增"保留指定词条"功能，识别到指定 Tag 时自动跳过当前槽位；理智作战新增目标材料最大库存模式，可参考仓库数据自动计算需刷取数量。
 
+#### 设置页面搜索支持
+
+设置页面新增搜索功能，支持关键词高亮与自动筛选，快速定位目标配置项。
+
 <details>
 <summary><b>English</b></summary>
 
@@ -20,6 +24,10 @@ The farming list now shows hover action buttons (copy, rename, delete) for quick
 #### Recruitment & Sanity Combat Enhancements
 
 Recruitment now supports "preserve tags" — automatically skipping a slot when specified tags are detected. Sanity combat adds a target material inventory mode that calculates required runs based on depot data.
+
+#### Settings Page Search
+
+The settings page now features a search bar with keyword highlighting and section filtering for quick configuration lookup.
 
 </details>
 
@@ -41,6 +49,7 @@ Recruitment now supports "preserve tags" — automatically skipping a slot when 
 
 ### 改进 | Improved
 
+* 设置页面新增搜索支持，支持关键词高亮与自动筛选 (#16833) @H2O-MERO @ABA2396
 * 优化配置转换器嵌套逻辑 @ABA2396
 * 启动时检测 WinRT Toast 通知可用性，不可用时在日志中显示具体原因 (#16877) @status102 @momomochi987
 * 统一使用强类型 GetValue 重载替换 Convert.To 调用 (#16866) @ABA2396
