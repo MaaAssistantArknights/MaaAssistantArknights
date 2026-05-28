@@ -1,0 +1,50 @@
+name: Sync Upstream MAA dev-v2
+
+on:
+  # 每小时自动同步一次（可根据需要调整频率）
+  schedule:
+    - cron: '0 * * * *'
+  # 支持手动点击按钮同步
+  workflow_dispatch:
+  # 当你推送代码到dev-v2分支时自动同步（可选）
+  push:
+    branches: [ dev-v2 ]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout your fork
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: dev-v2
+          persist-credentials: true
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global pull.rebase true
+
+      - name: Add upstream MAA repository
+        run: |
+          git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
+          git fetch upstream dev-v2
+
+      - name: Rebase onto upstream dev-v2
+        run: |
+          git rebase upstream/dev-v2
+          
+      - name: Update submodules
+        run: |
+          git submodule update --init --recursive
+          git submodule update --remote --merge
+
+      - name: Push to your fork
+        run: |
+          git push --force-with-lease origin dev-v2
