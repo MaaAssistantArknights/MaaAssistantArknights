@@ -2192,7 +2192,13 @@
     },
     "MallBegin": {
         "algorithm": "JustReturn",
-        "next": ["Mall", "Mall#next", "MallBegin@QuickSwitch@ToMall#next", "Mall@ReturnButtons#next", "Mall@CloseAnnos#next"]
+        "next": [
+            "Mall",
+            "Mall#next",
+            "MallBegin@QuickSwitch@ToMall#next",
+            "Mall@ReturnButtons#next",
+            "Mall@CloseAnnos#next"
+        ]
     },
     "Mall": {
         "action": "DoNothing",
