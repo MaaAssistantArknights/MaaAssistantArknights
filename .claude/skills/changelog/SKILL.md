@@ -74,21 +74,22 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - 输出文件的结构必须严格遵循以下层次，不得把 patch 版本的详细内容插入到父版本的 Highlights 与详细内容之间：
   1. 顶部：`## vX.Y.Z`（patch 版本标题）
   2. `### Highlights`（复用父版本内容，或在有必要时追加新段落）
-  3. `----`
-  4. 英文 Highlights
-  5. `----`
-  6. `以下是详细内容：`
-  7. `## vX.Y.Z`（patch 版本详细内容：改进、修复、文档等）
-  8. `## vX.Y.Z-1`（上一 patch 版本的详细内容，不包含 Highlights）
-  9. 更早版本的详细内容...
-  10. `## vX.Y.0`（正式版详细内容，不包含 Highlights）
-- 父版本及更早 patch 版本的历史区块只保留详细内容（改进、修复等），不重复 Highlights、不重复"以下是详细内容："引导语，因为这些已经在最顶部出现过。
+  3. 英文 Highlights 折叠块
+  4. `----`
+  5. `以下是详细内容：`
+  6. `<details open><summary><b>vX.Y.Z</b></summary>`（当前版本详细内容，默认展开）
+  7. `<details><summary><b>vX.Y.Z-1</b></summary>`（上一 patch 版本，默认收起）
+  8. 更早版本各自独立折叠块...
+  9. `<details><summary><b>vX.Y.0</b></summary>`（正式版，默认收起）
+- 每个版本的详细内容各自放入独立的 `<details>` 折叠块，当前目标版本使用 `<details open>` 默认展开，其余默认收起。
+- 折叠块内只保留详细内容（改进、修复等），不重复 Highlights。
 
 ### 5. Highlights 必须中英双语且先中后英
 
 - 输出顶部必须包含当前目标版本，例如 ## vX.Y.Z。
 - 必须包含 ### Highlights。
-- Highlights 必须先完整写中文小结，再使用 ---- 分隔，再完整写英文小结。
+- 中文 Highlights 直接展示，不折叠。
+- 英文 Highlights 放入折叠块：`<details><summary><b>English</b></summary>` ... `</details>`。
 - 中文与英文都应按主题分段，标题简洁明确，正文面向最终用户，不是 commit 列表翻译。
 - Highlights 只总结本次版本中最值得强调的变化，不要把所有条目机械搬进去。
 
@@ -128,7 +129,9 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - 输出完整 Markdown 文件片段。
 - 顶部必须包含当前版本标题，例如 ## vX.Y.Z。
 - 顶部必须包含 ### Highlights，并满足先中文、后英文、用 ---- 分隔的格式。
-- Highlights 之后必须接“以下是详细内容：”或等价的历史区块引导语。
+- 英文 Highlights 折叠块结束后，接“----”分隔线，然后接“以下是详细内容：”引导语。
+- 每个版本的详细内容各自放入独立的折叠块：`<details><summary><b>vX.Y.Z</b></summary>` ... `</details>`。
+- 当前目标版本的折叠块使用 `<details open>` 默认展开，历史版本使用 `<details>` 默认收起。
 - 详细内容中的模块标题统一使用以下格式：
 - ### 新增 | New
 - ### 改进 | Improved
@@ -153,7 +156,8 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 
 中文小结正文。
 
-----
+<details>
+<summary><b>English</b></summary>
 
 #### English Summary Title A
 
@@ -163,9 +167,14 @@ English summary paragraph.
 
 English summary paragraph.
 
+</details>
+
 ----
 
 以下是详细内容：
+
+<details open>
+<summary><b>vX.Y.Z</b></summary>
 
 ## vX.Y.Z
 
@@ -181,6 +190,11 @@ English summary paragraph.
 
 * 条目 C @author
 
+</details>
+
+<details>
+<summary><b>vX.Y.1</b></summary>
+
 ## vX.Y.1
 
 ### 改进 | Improved
@@ -190,6 +204,11 @@ English summary paragraph.
 ### 修复 | Fix
 
 * 历史版本条目 @author
+
+</details>
+
+<details>
+<summary><b>vX.Y.0</b></summary>
 
 ## vX.Y.0
 
@@ -204,6 +223,8 @@ English summary paragraph.
 ### 修复 | Fix
 
 * 正式版条目 @author
+
+</details>
 ```
 
 ## Final Checklist
@@ -217,3 +238,6 @@ English summary paragraph.
 - 如果是 patch 版本且没有用户可感知的重要新变化，是否复用了父版本的 Highlights 而非自行重写？
 - patch 版本的详细内容是否紧跟在"以下是详细内容："之后，而非插入到父版本的 Highlights 下方？
 - 历史版本区块中是否只保留详细内容，没有重复 Highlights 和引导语？
+- 英文 Highlights 是否放入 `<details>` 折叠块（中文不折叠）？
+- 每个版本的详细内容是否各自放入独立的 `<details>` 折叠块？
+- 当前版本是否使用 `<details open>` 默认展开，历史版本是否默认收起？
