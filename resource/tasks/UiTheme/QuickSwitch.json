@@ -6,6 +6,13 @@
         "maskRange": [150, 255],
         "postDelay": 500
     },
+    "QuickSwitch@Confirm": {
+        "Doc": "小房子切换后如果弹出返回确认框，由 QuickSwitch 自己处理并回到调用方",
+        "template": "PopupConfirm.png",
+        "action": "ClickSelf",
+        "roi": [630, 400, 650, 160],
+        "next": ["QuickSwitch@Confirm", "LoadingText", "LoadingIcon", "#back"]
+    },
     "QuickSwitch@ToHome": {
         "Doc": "优先使用小房子快捷回到首页，成功后通过 #back 回到调用方",
         "algorithm": "JustReturn",
@@ -16,7 +23,7 @@
         "Doc": "小房子下拉框中的首页图标",
         "template": "QuickSwitch/Home.png",
         "roi": [11, 206, 164, 149],
-        "next": ["QuickSwitch@ToHome@Entry", "LoadingText", "LoadingIcon", "#back"]
+        "next": ["QuickSwitch@ToHome@Entry", "QuickSwitch@Confirm", "LoadingText", "LoadingIcon", "#back"]
     },
     "QuickSwitch@ToHome@Open": {
         "baseTask": "QuickSwitch@Base",
@@ -34,7 +41,13 @@
         "Doc": "小房子下拉框中的终端图标",
         "template": "QuickSwitch/Terminal.png",
         "roi": [450, 0, 159, 148],
-        "next": ["QuickSwitch@ToTerminal@Entry", "LoadingText", "LoadingIcon", "#back"]
+        "next": [
+            "QuickSwitch@ToTerminal@Entry",
+            "QuickSwitch@Confirm",
+            "LoadingText",
+            "LoadingIcon",
+            "#back"
+        ]
     },
     "QuickSwitch@ToTerminal@Open": {
         "baseTask": "QuickSwitch@Base",
@@ -52,7 +65,7 @@
         "Doc": "小房子下拉框中的干员图标",
         "template": "QuickSwitch/OperBox.png",
         "roi": [226, 204, 163, 154],
-        "next": ["QuickSwitch@ToOperBox@Entry", "LoadingText", "LoadingIcon", "#back"]
+        "next": ["QuickSwitch@ToOperBox@Entry", "QuickSwitch@Confirm", "LoadingText", "LoadingIcon", "#back"]
     },
     "QuickSwitch@ToOperBox@Open": {
         "baseTask": "QuickSwitch@Base",
@@ -70,7 +83,7 @@
         "Doc": "小房子下拉框中的基建图标",
         "template": "QuickSwitch/Infrast.png",
         "roi": [610, 0, 150, 147],
-        "next": ["QuickSwitch@ToInfrast@Entry", "LoadingText", "LoadingIcon", "#back"]
+        "next": ["QuickSwitch@ToInfrast@Entry", "QuickSwitch@Confirm", "LoadingText", "LoadingIcon", "#back"]
     },
     "QuickSwitch@ToInfrast@Open": {
         "baseTask": "QuickSwitch@Base",
@@ -88,7 +101,7 @@
         "Doc": "小房子下拉框中的公开招募图标",
         "template": "QuickSwitch/Recruit.png",
         "roi": [879, 207, 152, 152],
-        "next": ["QuickSwitch@ToRecruit@Entry", "LoadingText", "LoadingIcon", "#back"]
+        "next": ["QuickSwitch@ToRecruit@Entry", "QuickSwitch@Confirm", "LoadingText", "LoadingIcon", "#back"]
     },
     "QuickSwitch@ToRecruit@Open": {
         "baseTask": "QuickSwitch@Base",
@@ -106,7 +119,7 @@
         "Doc": "小房子下拉框中的干员寻访图标",
         "template": "QuickSwitch/Gacha.png",
         "roi": [1003, 208, 155, 149],
-        "next": ["QuickSwitch@ToGacha@Entry", "LoadingText", "LoadingIcon", "#back"]
+        "next": ["QuickSwitch@ToGacha@Entry", "QuickSwitch@Confirm", "LoadingText", "LoadingIcon", "#back"]
     },
     "QuickSwitch@ToGacha@Open": {
         "baseTask": "QuickSwitch@Base",
@@ -124,7 +137,7 @@
         "Doc": "小房子下拉框中的采购中心图标",
         "template": "QuickSwitch/Mall.png",
         "roi": [1117, 207, 163, 150],
-        "next": ["QuickSwitch@ToMall@Entry", "LoadingText", "LoadingIcon", "#back"]
+        "next": ["QuickSwitch@ToMall@Entry", "QuickSwitch@Confirm", "LoadingText", "LoadingIcon", "#back"]
     },
     "QuickSwitch@ToMall@Open": {
         "baseTask": "QuickSwitch@Base",
