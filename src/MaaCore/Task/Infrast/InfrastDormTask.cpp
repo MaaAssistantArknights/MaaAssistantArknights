@@ -61,7 +61,10 @@ bool asst::InfrastDormTask::_run()
         Log.trace("m_dorm_notstationed_enabled:", m_dorm_notstationed_enabled);
         if (m_dorm_notstationed_enabled && !m_if_filter_notstationed_haspressed && !use_custom_opers) {
             Log.trace("click_filter_menu_not_stationed_button");
-            click_filter_menu_not_stationed_button();
+            // 筛选状态变量只在 helper 确认 UI 操作完成后更新，避免内部状态和真实 UI 脱节。
+            if (!click_filter_menu_not_stationed_button()) {
+                return false;
+            }
             m_if_filter_notstationed_haspressed = true;
         }
 
@@ -72,7 +75,9 @@ bool asst::InfrastDormTask::_run()
                 filter_notstationed_before_custom || m_dorm_notstationed_enabled;
             if (filter_notstationed_before_custom) {
                 Log.trace("click_filter_menu_cancel_not_stationed_button");
-                click_filter_menu_cancel_not_stationed_button();
+                if (!click_filter_menu_cancel_not_stationed_button()) {
+                    return false;
+                }
                 m_if_filter_notstationed_haspressed = false;
             }
 
@@ -80,7 +85,9 @@ bool asst::InfrastDormTask::_run()
 
             if (need_notstationed_after_custom && !m_if_filter_notstationed_haspressed) {
                 Log.trace("click_filter_menu_not_stationed_button");
-                click_filter_menu_not_stationed_button();
+                if (!click_filter_menu_not_stationed_button()) {
+                    return false;
+                }
                 m_if_filter_notstationed_haspressed = true;
             }
 

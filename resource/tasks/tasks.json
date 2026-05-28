@@ -2796,15 +2796,30 @@
         "template": ["InfrastFilterMenu.png", "InfrastFilterMenu2.png"],
         "roi": [1050, 0, 230, 100],
         "postDelay": 1000,
-        "next": ["InfrastFilterMenuNotStationedButton", "InfrastFilterMenuNotStationedButtonAlreadyClicked"]
+        "next": ["InfrastFilterMenuNotStationedButton"]
+    },
+    "InfrastFilterMenuNotStationedSelected": {
+        "action": "DoNothing",
+        "template": "InfrastFilterMenu3.png",
+        "roi": [1050, 0, 230, 100],
+        "next": ["Stop"]
     },
     "InfrastFilterMenuNotStationedButton": {
         "action": "ClickSelf",
         "templThreshold": 0.85,
         "roi": [300, 160, 890, 300],
+        "maxTimes": 3,
         "postDelay": 1000,
-        "next_Doc": "国服现在没有 InfrastFilterMenuConfirmButton 了，加个 Stop",
-        "next": ["InfrastFilterMenuConfirmButton", "Stop"]
+        "next": ["InfrastFilterMenuOpenedAfterNotStationedClick"],
+        "onErrorNext": ["Stop"]
+    },
+    "InfrastFilterMenuOpenedAfterNotStationedClick": {
+        "baseTask": "InfrastFilterMenuAllButton",
+        "action": "DoNothing",
+        "Doc": "点击“未进驻”后，通过检测“全部”是否仍可见判断菜单是否还打开；仍可见则补点，消失则认为选择完成。",
+        "postDelay": 300,
+        "next": ["InfrastFilterMenuNotStationedButton"],
+        "onErrorNext": ["Stop"]
     },
     "InfrastFilterMenuNotStationedButtonAlreadyClicked": {
         "roi": [300, 160, 890, 300],
@@ -2823,7 +2838,18 @@
         "action": "ClickSelf",
         "text": ["全部"],
         "roi": [1050, 65, 150, 70],
-        "postDelay": 1000
+        "maxTimes": 3,
+        "postDelay": 1000,
+        "next": ["InfrastFilterMenuAllButtonGone"],
+        "onErrorNext": ["Stop"]
+    },
+    "InfrastFilterMenuAllButtonGone": {
+        "baseTask": "InfrastFilterMenuAllButton",
+        "action": "DoNothing",
+        "Doc": "点击“全部”后，通过检测“全部”是否仍可见判断菜单是否还打开；仍可见则补点，消失则认为取消完成。",
+        "postDelay": 300,
+        "next": ["InfrastFilterMenuAllButton"],
+        "onErrorNext": ["Stop"]
     },
     "InfrastFilterMenuCancelNotStationedButton": {
         "template": "InfrastFilterMenuNotStationedButton.png",
