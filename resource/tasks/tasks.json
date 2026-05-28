@@ -2527,7 +2527,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "rectMove_Doc": "基于笑脸的位置移动",
-        "rectMove": [-8, 20, 125, 22]
+        "rectMove": [-8, 17, 130, 28]
     },
     "InfrastOperFacilityOcr": {
         "algorithm": "OcrDetect",
