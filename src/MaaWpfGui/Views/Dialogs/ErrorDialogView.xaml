@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     x:Name="ErrorDialogViewWindow"
     Title="{c:Binding 'CongratulationsOnError ? ErrorCongratulationsString : ErrorString',
@@ -158,39 +159,11 @@
                             FontSize="20"
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding PossibleSolution, ElementName=ErrorDialogViewWindow, Mode=OneWay}"
-                            TextWrapping="Wrap">
+                            TextWrapping="Wrap"
+                            properties:RainbowAnimationBehavior.IsActive="True">
                             <controls:TextBlock.Foreground>
-                                <LinearGradientBrush SpreadMethod="Repeat">
-                                    <LinearGradientBrush.Transform>
-                                        <TranslateTransform x:Name="LinearGradientBrushTranslate" />
-                                    </LinearGradientBrush.Transform>
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStop Offset="0.00" Color="#2299FF" />
-                                        <GradientStop Offset="0.16" Color="#33CCFF" />
-                                        <GradientStop Offset="0.32" Color="#00FFCC" />
-                                        <GradientStop Offset="0.48" Color="#33FF66" />
-                                        <GradientStop Offset="0.64" Color="#99FF33" />
-                                        <GradientStop Offset="0.80" Color="#66FF99" />
-                                        <GradientStop Offset="1.00" Color="#2299FF" />
-
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
+                                <DynamicResource ResourceKey="CongratulationsFlowBrush" />
                             </controls:TextBlock.Foreground>
-                            <controls:TextBlock.Triggers>
-                                <EventTrigger RoutedEvent="TextBlock.Loaded">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation
-                                                RepeatBehavior="Forever"
-                                                Storyboard.TargetName="LinearGradientBrushTranslate"
-                                                Storyboard.TargetProperty="X"
-                                                From="0"
-                                                To="4000"
-                                                Duration="0:0:20" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </controls:TextBlock.Triggers>
                             <controls:TextBlock.Effect>
                                 <DropShadowEffect
                                     BlurRadius="5"
