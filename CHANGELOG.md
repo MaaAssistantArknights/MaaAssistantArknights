@@ -42,7 +42,7 @@ The settings page now features a search bar with keyword highlighting and sectio
 
 * 修复 adb-lite 在连接阶段未正确绑定当前设备，减少切换设备或并发执行命令时的连接异常 (#16853) @wangl-cc
 * 修复快捷切换在开启基建退出提醒时无法退出基建的问题 @ABA2396
-* 修复修复快捷切换在遇到 LoadingText 时无法跳出循环的问题 @ABA2396
+* 修复快捷切换在遇到 LoadingText 时无法跳出循环的问题 @ABA2396
 
 </details>
 
