@@ -13,6 +13,7 @@
 #include "Utils/Logger.hpp"
 
 #include <mutex>
+#include <optional>
 #include <string>
 #include <string_view>
 
@@ -42,15 +43,17 @@ public:
 
     virtual std::shared_ptr<IOHandler> interactive_shell(const std::string& cmd) override;
 
+    virtual void set_adb_serial(std::string_view serial) override;
+
     virtual void release_adb(const std::string& adb_release, int64_t timeout = 20000) override;
 
 private:
-    std::shared_ptr<adb::client> get_adb_client(std::string_view serial);
+    std::optional<std::unique_lock<std::mutex>> lock_adb_client(std::string_view serial);
 
     static bool remove_quotes(std::string& data);
 
     // 保护 m_adb_client / m_adb_serial，防止 call_command 与 interactive_shell 并发访问
-    mutable std::mutex m_adb_client_mutex;
+    std::mutex m_adb_client_mutex;
     std::shared_ptr<adb::client> m_adb_client = nullptr;
     std::string m_adb_serial;
 };
