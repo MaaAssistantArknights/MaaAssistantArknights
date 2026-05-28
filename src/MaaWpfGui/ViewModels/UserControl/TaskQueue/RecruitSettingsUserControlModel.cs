@@ -30,6 +30,8 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// </summary>
 public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSettingsUserControlModel.ISerialize
 {
+    public const string LegacyRobotTag = "支援机械";
+
     static RecruitSettingsUserControlModel()
     {
         Instance = new();
@@ -40,15 +42,22 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     private static readonly List<string> _autoRecruitTagList = ["近战位", "远程位", "先锋干员", "近卫干员", "狙击干员", "重装干员", "医疗干员", "辅助干员", "术师干员", "治疗", "费用回复", "输出", "生存", "群攻", "防护", "减速",];
 
     private static readonly Lazy<List<CombinedData>> _autoRecruitTagShowList = new(() =>
-        _autoRecruitTagList.Select<string, (string, string)?>(tag => DataHelper.RecruitTags.TryGetValue(tag, out var value) ? value : null)
+        [.. _autoRecruitTagList.Select<string, (string, string)?>(tag => DataHelper.RecruitTags.TryGetValue(tag, out var value) ? value : null)
             .Where(tag => tag is not null)
             .Cast<(string Display, string Client)>()
-            .Select(tag => new CombinedData() { Display = tag.Display, Value = tag.Client })
-            .ToList());
+            .Select(tag => new CombinedData() { Display = tag.Display, Value = tag.Client })]);
 
     public static List<CombinedData> AutoRecruitTagShowList
     {
         get => _autoRecruitTagShowList.Value;
+    }
+
+    private static readonly Lazy<List<CombinedData>> _autoRecruitSkipTagShowList = new(() =>
+        [.. DataHelper.RecruitTags.Select(tag => new CombinedData() { Display = tag.Value.DisplayName, Value = tag.Key })]);
+
+    public static List<CombinedData> AutoRecruitSkipTagShowList
+    {
+        get => _autoRecruitSkipTagShowList.Value;
     }
 
     public object[] AutoRecruitFirstList
@@ -59,9 +68,34 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
         }
 
         set {
-            var config = value.Cast<CombinedData>().Select(k => k.Value).ToList();
-            SetTaskConfig<RecruitTask>(t => t.Level3PreferTags == config, t => t.Level3PreferTags = config);
+            var config = RecruitTagHelper.NormalizeTagList(value.Cast<CombinedData>().Select(item => item.Value));
+            SetTaskConfig<RecruitTask>(t => t.Level3PreferTags.SequenceEqual(config, StringComparer.Ordinal), t => t.Level3PreferTags = config);
         }
+    }
+
+    public bool UseLevel3PreferTags
+    {
+        get => GetTaskConfig<RecruitTask>().PreferTagEnabled;
+        set => SetTaskConfig<RecruitTask>(t => t.PreferTagEnabled == value, t => t.PreferTagEnabled = value);
+    }
+
+    public object[] AutoRecruitPreserveTagList
+    {
+        get {
+            var value = GetTaskConfig<RecruitTask>().PreserveTagList;
+            return value.Select(tag => _autoRecruitSkipTagShowList.Value.FirstOrDefault(i => i.Value == tag)).Where(v => v is not null).Cast<CombinedData>().ToArray();
+        }
+
+        set {
+            var config = RecruitTagHelper.NormalizeTagList(value.Cast<CombinedData>().Select(item => item.Value));
+            SetTaskConfig<RecruitTask>(t => t.PreserveTagList.SequenceEqual(config, StringComparer.Ordinal), t => t.PreserveTagList = config);
+        }
+    }
+
+    public bool PreserveTagEnabled
+    {
+        get => GetTaskConfig<RecruitTask>().PreserveTagEnabled;
+        set => SetTaskConfig<RecruitTask>(t => t.PreserveTagEnabled == value, t => t.PreserveTagEnabled = value);
     }
 
     /// <summary>
@@ -129,15 +163,6 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether not to choose level 1.
-    /// </summary>
-    public bool NotChooseLevel1
-    {
-        get => GetTaskConfig<RecruitTask>().Level1NotChoose;
-        set => SetTaskConfig<RecruitTask>(t => t.Level1NotChoose == value, t => t.Level1NotChoose = value);
-    }
-
-    /// <summary>
     /// Gets or sets a value indicating whether to choose level 3.
     /// </summary>
     public bool ChooseLevel3
@@ -164,6 +189,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
         set => SetTaskConfig<RecruitTask>(t => t.Level5Choose == value, t => t.Level5Choose = value);
     }
 
+    #region 公招时间
     [PropertyDependsOn(nameof(ChooseLevel3Time))]
     public int ChooseLevel3Hour
     {
@@ -245,6 +271,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
             SetTaskConfig<RecruitTask>(t => t.Level5Time == value, t => t.Level5Time = value);
         }
     }
+    #endregion 公招时间
 
     public override void RefreshUI(BaseTask baseTask)
     {
@@ -265,6 +292,9 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 return (null, []);
             }
 
+            var preserveTags = recruit.PreserveTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.PreserveTagList) : [];
+            var firstTags = recruit.PreferTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.Level3PreferTags) : [];
+
             var task = new AsstRecruitTask() {
                 Refresh = recruit.RefreshLevel3,
                 ForceRefresh = recruit.ForceRefresh,
@@ -273,8 +303,8 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 UseExpedited = recruit.UseExpedited is not false,
                 ExpeditedTimes = recruit.MaxTimes,
                 SelectExtraTags = recruit.ExtraTagMode,
-                Level3FirstList = recruit.Level3PreferTags,
-                NotChooseLevel1 = recruit.Level1NotChoose,
+                Level3FirstList = firstTags,
+                PreserveTags = preserveTags,
                 ChooseLevel3Time = recruit.Level3Time,
                 ChooseLevel4Time = recruit.Level4Time,
                 ChooseLevel5Time = recruit.Level5Time,
@@ -284,11 +314,6 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 YituliuId = SettingsViewModel.GameSettings.PenguinId,
                 ServerType = Instances.SettingsViewModel.ServerType,
             };
-
-            if (recruit.Level1NotChoose)
-            {
-                task.ConfirmList.Add(1);
-            }
 
             if (recruit.Level3Choose)
             {

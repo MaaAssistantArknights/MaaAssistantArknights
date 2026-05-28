@@ -322,6 +322,22 @@ public class SettingsViewModel : Screen
 
     private ObservableCollection<SettingItemViewModel> _settings = [];
 
+    private string _searchText = string.Empty;
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (SetAndNotify(ref _searchText, value))
+            {
+                SearchRequested?.Invoke(this, value);
+            }
+        }
+    }
+
+    public event EventHandler<string>? SearchRequested;
+
     public ObservableCollection<SettingItemViewModel> Settings
     {
         get => _settings;
@@ -376,7 +392,7 @@ public class SettingsViewModel : Screen
     /// </summary>
     public const string PallasLangKey = "pallas";
 
-    private bool _cheers = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Cheers, bool.FalseString));
+    private bool _cheers = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Cheers, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to cheer.
@@ -399,7 +415,7 @@ public class SettingsViewModel : Screen
         }
     }
 
-    private bool _hangover = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Hangover, bool.FalseString));
+    private bool _hangover = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Hangover, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to hangover.
@@ -656,7 +672,7 @@ public class SettingsViewModel : Screen
 
     public static int GuideMaxStep => 7;
 
-    private int _guideStepIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0"));
+    private int _guideStepIndex = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0);
 
     public int GuideStepIndex
     {

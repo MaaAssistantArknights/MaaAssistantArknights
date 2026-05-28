@@ -16,5 +16,7 @@
         <ResourceDictionary Source="Styles/PasswordBox.xaml" />
         <ResourceDictionary Source="Styles/ToolTip.xaml" />
         <ResourceDictionary Source="Styles/TreeView.xaml" />
+        <ResourceDictionary Source="Styles/RainbowBrush.xaml" />
+        <ResourceDictionary Source="Styles/CongratulationsBrush.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

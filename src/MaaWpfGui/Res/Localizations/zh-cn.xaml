@@ -98,6 +98,13 @@
     <system:String x:Key="GpuDriverOutdatedMessage">当前选择的推理加速 GPU（{0}）的驱动版本（{1}，发布日期：{2}）距今已超过两年，可能存在兼容性问题。\n\n建议更新显卡驱动或前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
     <system:String x:Key="GpuAllowDeprecated">允许使用不推荐的 GPU</system:String>
     <system:String x:Key="Copy">复制</system:String>
+    <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationUnavailable">Toast 通知不可用, {0}</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">用户在 Windows 设置中关闭了该应用的通知</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">用户关闭了所有应用通知</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">组策略禁用</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">清单禁用</system:String>
+    <!--  !Toast 不可用  -->
     <!--  设置指引  -->
     <system:String x:Key="LeftClick">左键</system:String>
     <system:String x:Key="RightClick">右键</system:String>
@@ -109,12 +116,13 @@
     <system:String x:Key="PrevGuide">上一步</system:String>
     <system:String x:Key="NextGuide">下一步</system:String>
     <system:String x:Key="DoneGuide">完成</system:String>
-    <system:String x:Key="ToolTipGuide">鼠标移至此处会有提示哦↓→</system:String>
+    <system:String x:Key="ToolTipGuide">鼠标移至此处会有提示哦→</system:String>
     <system:String x:Key="TaskGuide">↑ 任务</system:String>
-    <system:String x:Key="OftenUsedGuide">↓ 常用的</system:String>
+    <system:String x:Key="OftenUsedGuide">↑ 常用的</system:String>
     <system:String x:Key="SometimesUsedGuide">不常用的 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 开始任务</system:String>
-    <system:String x:Key="RightClickRenameDelete">↓ 右键单次运行/重命名/删除</system:String>
+    <system:String x:Key="HoverActionButtons" xml:space="preserve">   悬停显示 复制/重命名/删除
+↓ 右键齿轮显示更多操作</system:String>
     <system:String x:Key="UserGuide">使用指引</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 官网与文档</system:String>
     <system:String x:Key="GuideDocumentationPath">您可以在「{key=Settings} - {key=AboutUs} - {key=Website}」找到 MAA 的官方网站和完整文档。</system:String>
@@ -328,6 +336,8 @@
     <system:String x:Key="ConfirmDeleteTaskMessage">确定要删除 {0} 任务 "{1}" 吗？</system:String>
     <system:String x:Key="TaskRenamed">任务已重命名为: {0}</system:String>
     <system:String x:Key="TaskDeleted">已删除任务: {0}</system:String>
+    <system:String x:Key="TaskCopied">已复制任务: {0}</system:String>
+    <system:String x:Key="TaskCopyFailed">任务复制失败</system:String>
     <system:String x:Key="HotKeyShowGui">[热键] 显示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[热键] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">键入 退格/Esc/Delete 清除当前热键</system:String>
@@ -335,7 +345,11 @@
     <system:String x:Key="CheckBoxesNotSaved">该选项仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">该选项右键选中时仅跳过一次</system:String>
-    <system:String x:Key="SpecifiedDropsTip">该选项不会自动计算最优关卡</system:String>
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">进入的关卡仍由下方 ｢{key=StageSelect}｣ / ｢{key=StageSelect2}｣ 决定。
+• {key=Quantity}：以当前理智作战任务中该材料的掉落数量为目标，达到设定数量后停止。
+• {key=TargetInventory}：会参考 ｢{key=Toolbox}-{key=DepotRecognition}｣ 中保存的库存数据，只补到设定库存为止。
+  • 库存数据是缓存值，手动刷关、合成或消耗材料后可能与实际不一致；可通过 ｢{key=UserDataUpdate}｣ 或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 同步。
+  • 使用 {key=TargetInventory} 时，开始后不能临时修改材料和数量。</system:String>
     <system:String x:Key="StartupUpdateCheck">启动时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheckTip">游戏内 00:00 / 18:00（对应服务器当地时间 04:00 / 22:00）</system:String>
@@ -488,11 +502,13 @@ D:\
     <system:String x:Key="EmulatorPathEmptyWarning">模拟器路径为空，｢{key=RetryOnDisconnected}｣ 与 ｢{key=OpenEmulatorAfterLaunch}｣ 勾选状态已被还原</system:String>
     <system:String x:Key="Select">选择</system:String>
     <system:String x:Key="ForcedReplaceAdb">强制替换 ADB</system:String>
+    <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">当前模拟器自带的 ADB 版本通常较新，一般无需手动替换。&#10;点击后将从 Google 下载最新版本的 ADB 并替换本地路径中的 ADB 文件，仅在遇到明确的 ADB 兼容性问题时才需要使用。</system:String>
     <system:String x:Key="TouchMode">触控模式</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch（默认）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推荐使用）</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework（实验功能）</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 用于兼容系统版本过低、无法运行 Minitouch 或 MaaTouch 的实体机设备。能用前两种模式时，不要选择 ADB Input。&#10;ADB Input 的滑动容易拖飞，为避免此问题，滑动速度会设置得非常慢，且滑动距离与前两种模式不同；在需要精确控制坐标的场景下无法使用。</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用于指定模拟器启动参数（如 ｢--instance 1｣ 表示启动 1 号实例）。&#10;不同模拟器的命令格式不同，通常包括实例编号、窗口模式等参数，请参考您使用的模拟器文档</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
@@ -618,6 +634,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
     <system:String x:Key="MainTasksNullFunctionality">反转主任务右键单击效果</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">默认仅一次生效，勾选后仅一次跳过</system:String>
+    <system:String x:Key="MainTasksNullFunctionalitySwitch">可在 ｢{key=Settings} - {key=UiSettings} - {key=MainTasksNullFunctionality}｣ 切换右键单击效果</system:String>
     <system:String x:Key="UseCardLog">使用卡片样式日志</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">日志缩略图最大数量</system:String>
     <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
@@ -788,6 +805,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="PerformBattles">指定次数</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取数量</system:String>
+    <system:String x:Key="KeepInventory">保持库存</system:String>
+    <system:String x:Key="TargetInventory">目标库存</system:String>
     <system:String x:Key="Series">代理倍率</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 自动识别关卡最大代理倍率, 保持最大代理倍率且使用理智药后理智不溢出
@@ -817,6 +836,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩余天数: </system:String>
     <system:String x:Key="Inventory">库存</system:String>
     <system:String x:Key="InventoryUpdateTip">可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存数据</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">任务「{0}」启用了 {key=TargetInventory}，但当前没有可用的库存数据，已跳过。可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存。</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
@@ -1406,12 +1426,12 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Level3UseShortTime2">3 星设置 1:00 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影响其他星级 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次执行时最大招募次数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">保留 1 星词条并跳过该栏位</system:String>
+    <system:String x:Key="PreserveTags">保留指定词条</system:String>
     <system:String x:Key="AutoSelectLevel3">自动确认 3 星</system:String>
     <system:String x:Key="AutoSelectLevel4">自动确认 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>
     <system:String x:Key="AutoSelectLevel6">自动确认 6 星</system:String>
-    <system:String x:Key="Level1Tip">勾选时识别到 1 星词条时跳过该次招募，未勾选时将忽略 1 星词条。</system:String>
+    <system:String x:Key="PreserveTagsTip">识别到任一已选词条时跳过该次招募并保留该栏位；留空时不保留任何词条。</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">博士，欢迎加入这盛大的鱼人庆典！听说可露希尔小姐的商店里新上架了美酒，要去来一杯吗？</system:String>

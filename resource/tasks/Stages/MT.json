@@ -56,7 +56,7 @@
     "MTChapterToMT": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["瞻望圣堂"],
+        "text": ["瞻望", "圣堂"],
         "preDelay": 4000,
         "roi": [622, 588, 234, 132],
         "next": ["#self", "ChapterSwipeToTheRight"]

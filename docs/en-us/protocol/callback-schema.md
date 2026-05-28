@@ -224,7 +224,7 @@ Todo
 - `MedicineConfirm`  
   Use sanity potion
 - `ExpiringMedicineConfirm`  
-  Use sanity potion expiring within 48 hours
+  Use expiring sanity potion
 - `StoneConfirm`  
   Use Originium Prime
 - `RecruitRefreshConfirm`  
@@ -352,6 +352,16 @@ Todo
   // Corresponding details field example
   {
     "tag": "高级资深干员" // "Top Operator"
+  }
+  ```
+
+- `RecruitPreservedTag`  
+  Recruitment preserved tag detected
+
+  ```json
+  // Corresponding details field example
+  {
+    "tag": "支援机械" // "Robot"
   }
   ```
 

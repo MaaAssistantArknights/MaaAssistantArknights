@@ -1,0 +1,140 @@
+{
+    "QuickSwitch@Base": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "maskRange": [150, 255],
+        "postDelay": 500
+    },
+    "QuickSwitch@ToHome": {
+        "Doc": "优先使用小房子快捷回到首页，成功后通过 #back 回到调用方",
+        "algorithm": "JustReturn",
+        "next": ["QuickSwitch@ToHome@Entry", "QuickSwitch@ToHome@Open"]
+    },
+    "QuickSwitch@ToHome@Entry": {
+        "baseTask": "QuickSwitch@Base",
+        "Doc": "小房子下拉框中的首页图标",
+        "template": "QuickSwitch/Home.png",
+        "roi": [11, 206, 164, 149],
+        "next": ["#self", "QuickSwitch@ToHome@Entry@LoadingText", "QuickSwitch@ToHome@Entry@LoadingIcon", "#back"]
+    },
+    "QuickSwitch@ToHome@Open": {
+        "baseTask": "QuickSwitch@Base",
+        "template": "QuickSwitch/Menu.png",
+        "roi": [197, 0, 144, 134],
+        "next": ["QuickSwitch@ToHome@Entry", "#self"]
+    },
+    "QuickSwitch@ToTerminal": {
+        "Doc": "优先使用小房子快捷切到终端，成功后通过 #back 回到调用方",
+        "algorithm": "JustReturn",
+        "next": ["QuickSwitch@ToTerminal@Entry", "QuickSwitch@ToTerminal@Open"]
+    },
+    "QuickSwitch@ToTerminal@Entry": {
+        "baseTask": "QuickSwitch@Base",
+        "Doc": "小房子下拉框中的终端图标",
+        "template": "QuickSwitch/Terminal.png",
+        "roi": [450, 0, 159, 148],
+        "next": [
+            "#self",
+            "QuickSwitch@ToTerminal@Entry@LoadingText",
+            "QuickSwitch@ToTerminal@Entry@LoadingIcon",
+            "#back"
+        ]
+    },
+    "QuickSwitch@ToTerminal@Open": {
+        "baseTask": "QuickSwitch@Base",
+        "template": "QuickSwitch/Menu.png",
+        "roi": [197, 0, 144, 134],
+        "next": ["QuickSwitch@ToTerminal@Entry", "#self"]
+    },
+    "QuickSwitch@ToOperBox": {
+        "Doc": "优先使用小房子快捷切到干员页面，成功后通过 #back 回到调用方",
+        "algorithm": "JustReturn",
+        "next": ["QuickSwitch@ToOperBox@Entry", "QuickSwitch@ToOperBox@Open"]
+    },
+    "QuickSwitch@ToOperBox@Entry": {
+        "baseTask": "QuickSwitch@Base",
+        "Doc": "小房子下拉框中的干员图标",
+        "template": "QuickSwitch/OperBox.png",
+        "roi": [226, 204, 163, 154],
+        "next": ["#self", "QuickSwitch@ToOperBox@Entry@LoadingText", "QuickSwitch@ToOperBox@Entry@LoadingIcon", "#back"]
+    },
+    "QuickSwitch@ToOperBox@Open": {
+        "baseTask": "QuickSwitch@Base",
+        "template": "QuickSwitch/Menu.png",
+        "roi": [197, 0, 144, 134],
+        "next": ["QuickSwitch@ToOperBox@Entry", "#self"]
+    },
+    "QuickSwitch@ToInfrast": {
+        "Doc": "优先使用小房子快捷切到基建页面，成功后通过 #back 回到调用方",
+        "algorithm": "JustReturn",
+        "next": ["QuickSwitch@ToInfrast@Entry", "QuickSwitch@ToInfrast@Open"]
+    },
+    "QuickSwitch@ToInfrast@Entry": {
+        "baseTask": "QuickSwitch@Base",
+        "Doc": "小房子下拉框中的基建图标",
+        "template": "QuickSwitch/Infrast.png",
+        "roi": [610, 0, 150, 147],
+        "next": ["#self", "QuickSwitch@ToInfrast@Entry@LoadingText", "QuickSwitch@ToInfrast@Entry@LoadingIcon", "#back"]
+    },
+    "QuickSwitch@ToInfrast@Open": {
+        "baseTask": "QuickSwitch@Base",
+        "template": "QuickSwitch/Menu.png",
+        "roi": [197, 0, 144, 134],
+        "next": ["QuickSwitch@ToInfrast@Entry", "#self"]
+    },
+    "QuickSwitch@ToRecruit": {
+        "Doc": "优先使用小房子快捷切到公开招募页面，成功后通过 #back 回到调用方",
+        "algorithm": "JustReturn",
+        "next": ["QuickSwitch@ToRecruit@Entry", "QuickSwitch@ToRecruit@Open"]
+    },
+    "QuickSwitch@ToRecruit@Entry": {
+        "baseTask": "QuickSwitch@Base",
+        "Doc": "小房子下拉框中的公开招募图标",
+        "template": "QuickSwitch/Recruit.png",
+        "roi": [879, 207, 152, 152],
+        "next": ["#self", "QuickSwitch@ToRecruit@Entry@LoadingText", "QuickSwitch@ToRecruit@Entry@LoadingIcon", "#back"]
+    },
+    "QuickSwitch@ToRecruit@Open": {
+        "baseTask": "QuickSwitch@Base",
+        "template": "QuickSwitch/Menu.png",
+        "roi": [197, 0, 144, 134],
+        "next": ["QuickSwitch@ToRecruit@Entry", "#self"]
+    },
+    "QuickSwitch@ToGacha": {
+        "Doc": "优先使用小房子快捷切到干员寻访页面，成功后通过 #back 回到调用方",
+        "algorithm": "JustReturn",
+        "next": ["QuickSwitch@ToGacha@Entry", "QuickSwitch@ToGacha@Open"]
+    },
+    "QuickSwitch@ToGacha@Entry": {
+        "baseTask": "QuickSwitch@Base",
+        "Doc": "小房子下拉框中的干员寻访图标",
+        "template": "QuickSwitch/Gacha.png",
+        "roi": [1003, 208, 155, 149],
+        "next": ["#self", "QuickSwitch@ToGacha@Entry@LoadingText", "QuickSwitch@ToGacha@Entry@LoadingIcon", "#back"]
+    },
+    "QuickSwitch@ToGacha@Open": {
+        "baseTask": "QuickSwitch@Base",
+        "template": "QuickSwitch/Menu.png",
+        "roi": [197, 0, 144, 134],
+        "next": ["QuickSwitch@ToGacha@Entry", "#self"]
+    },
+    "QuickSwitch@ToMall": {
+        "Doc": "优先使用小房子快捷切到采购中心页面，成功后通过 #back 回到调用方",
+        "algorithm": "JustReturn",
+        "next": ["QuickSwitch@ToMall@Entry", "QuickSwitch@ToMall@Open"]
+    },
+    "QuickSwitch@ToMall@Entry": {
+        "baseTask": "QuickSwitch@Base",
+        "Doc": "小房子下拉框中的采购中心图标",
+        "template": "QuickSwitch/Mall.png",
+        "roi": [1117, 207, 163, 150],
+        "next": ["#self", "QuickSwitch@ToMall@Entry@LoadingText", "QuickSwitch@ToMall@Entry@LoadingIcon", "#back"]
+    },
+    "QuickSwitch@ToMall@Open": {
+        "baseTask": "QuickSwitch@Base",
+        "template": "QuickSwitch/Menu.png",
+        "roi": [197, 0, 144, 134],
+        "next": ["QuickSwitch@ToMall@Entry", "#self"]
+    }
+}

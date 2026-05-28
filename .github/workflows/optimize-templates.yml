@@ -104,7 +104,7 @@ jobs:
 
       - name: Push changes
         if: steps.check_push.outputs.is_pr != 'True' && steps.commit_changes.outputs.have_commits == 'True' && github.repository_owner == 'MaaAssistantArknights'
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@d30dc2d070765d7e509df00c34c5fa2dd636ff74 # master as of 2026-05-06
         with:
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
           branch: ${{ github.ref }}

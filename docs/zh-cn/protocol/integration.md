@@ -134,8 +134,11 @@ B服：`张三`，可输入 `张三`、`张`、`三`
   ::: field name="medicine" type="number" optional default="0"  
   最大使用理智药数量。  
   :::  
-  ::: field name="expiring_medicine" type="number" optional default="0"  
-  最大使用 48 小时内过期理智药数量。  
+  ::: field name="medicine_expire_days" type="number" optional default="0"  
+  使用过期时间在指定天数内的理智药，0 表示不使用过期理智药。  
+  :::  
+  ::: field name="expiring_medicine" type="number" optional default="0" deprecated  
+  已弃用，自 v6.8.0 起请使用 `medicine_expire_days` 代替。  
   :::  
   ::: field name="stone" type="number" optional default="0"  
   最大吃石头数量。  
@@ -197,7 +200,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
    "enable": true,
    "stage": "1-7",
    "medicine": 1,
-   "expiring_medicine": 0,
+   "medicine_expire_days": 2,
    "stone": 0,
    "times": 10,
    "series": 0,
@@ -259,7 +262,14 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 加急次数，仅在 `expedite` 为 true 时有效。默认无限使用（直到 `times` 达到上限）。  
 :::  
 ::: field name="skip_robot" type="boolean" optional default="true"  
-是否在识别到小车词条时跳过。  
+已废弃，仅用于兼容旧参数。  
+<br>
+当未提供 `preserve_tags` 且该值为 `true` 时，会在识别到 `支援机械` 时跳过；`元素` 不再视为旧版 1 星词条。  
+:::
+::: field name="preserve_tags" type="array<string>" optional  
+需要保留并跳过当前公招槽位的 Tag 名称列表。默认为空。  
+<br>
+当识别到任一指定 Tag 时，MAA 会保留该槽位并跳过本次招募。  
 :::  
 ::: field name="recruitment_time" type="object" optional  
 Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟，默认值都为 540（即 09:00:00）。
@@ -300,7 +310,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "set_time": true,
    "expedite": false,
    "expedite_times": 0,
-   "skip_robot": true,
+   "preserve_tags": ["支援机械"],
    "recruitment_time": {
       "3": 540,
       "4": 540

@@ -12,7 +12,6 @@
 // </copyright>
 
 #nullable enable
-using System;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Stylet;
@@ -84,7 +83,7 @@ public class RemoteControlUserControlModel : PropertyChangedBase
         }
     }
 
-    private int _remoteControlPollIntervalMs = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlPollIntervalMs, "1000"));
+    private int _remoteControlPollIntervalMs = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlPollIntervalMs, 1000);
 
     public int RemoteControlPollIntervalMs
     {

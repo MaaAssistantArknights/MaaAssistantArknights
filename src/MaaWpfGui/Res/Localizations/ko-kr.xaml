@@ -98,6 +98,13 @@
     <system:String x:Key="GpuDriverOutdatedMessage">현재 선택된 추론 가속 GPU({0})의 드라이버 버전({1}, 릴리스 날짜: {2})이 2년 이상 경과되어 호환성 문제가 발생할 수 있습니다.\n\n그래픽 드라이버를 업데이트하거나 ｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <system:String x:Key="Copy">복사</system:String>
+    <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationUnavailable">Toast 알림을 사용할 수 없습니다, {0}</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">사용자가 Windows 설정에서 이 앱의 알림을 비활성화했습니다</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">사용자가 모든 앱 알림을 비활성화했습니다</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">그룹 정책에 의해 비활성화됨</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">매니페스트에 의해 비활성화됨</system:String>
+    <!--  !Toast 不可用  -->
     <!--  설정 가이드  -->
     <system:String x:Key="LeftClick">왼쪽 클릭</system:String>
     <system:String x:Key="RightClick">오른쪽 클릭</system:String>
@@ -109,12 +116,13 @@
     <system:String x:Key="PrevGuide">이전 단계</system:String>
     <system:String x:Key="NextGuide">다음 단계</system:String>
     <system:String x:Key="DoneGuide">완료</system:String>
-    <system:String x:Key="ToolTipGuide">마우스를 올리면 팁이 보입니다↓→</system:String>
+    <system:String x:Key="ToolTipGuide">마우스를 올리면 팁이 보입니다→</system:String>
     <system:String x:Key="TaskGuide">↑ 작업</system:String>
-    <system:String x:Key="OftenUsedGuide">↓ 자주 쓰는 설정</system:String>
+    <system:String x:Key="OftenUsedGuide">↑ 자주 쓰는 설정</system:String>
     <system:String x:Key="SometimesUsedGuide">가끔 쓰는 설정 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 연결 및 동작 시작</system:String>
-    <system:String x:Key="RightClickRenameDelete">↓ 우클릭하여 1회 실행/이름 변경/삭제</system:String>
+    <system:String x:Key="HoverActionButtons" xml:space="preserve">   마우스 오버하여 복사/이름 변경/삭제
+↓ 기어 우클릭으로 더 많은 작업</system:String>
     <system:String x:Key="UserGuide">사용 가이드</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 공식 웹사이트 및 문서</system:String>
     <system:String x:Key="GuideDocumentationPath">"{key=Settings} - {key=AboutUs} - {key=Website}"에서 MAA의 공식 웹사이트와 전체 문서를 찾을 수 있습니다.</system:String>
@@ -328,6 +336,8 @@
     <system:String x:Key="ConfirmDeleteTaskMessage">정말로 {0} 번째 작업 "{1}"을 삭제하시겠습니까?</system:String>
     <system:String x:Key="TaskRenamed">작업 이름 변경: {0}</system:String>
     <system:String x:Key="TaskDeleted">작업 삭제: {0}</system:String>
+    <system:String x:Key="TaskCopied">작업 복사: {0}</system:String>
+    <system:String x:Key="TaskCopyFailed">작업 복사 실패</system:String>
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
     <system:String x:Key="HotKeyLinkStart">[단축키] Link 시작/중지</system:String>
     <system:String x:Key="HotKeyChangingTip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
@@ -335,7 +345,11 @@
     <system:String x:Key="CheckBoxesNotSaved">이 옵션은 한 번만 유효합니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">이 옵션은 우클릭 시 한 번만 적용됩니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">이 옵션은 우클릭 시 한 번만 건너뜁니다</system:String>
-    <system:String x:Key="SpecifiedDropsTip">이 기능은 최적의 스테이지를 자동으로 계산하지 않습니다</system:String>
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">실제로 진입하는 스테이지는 아래의 ｢{key=StageSelect}｣ / ｢{key=StageSelect2}｣ 설정으로 계속 결정됩니다.
+• {key=Quantity}: 현재 전투 작업에서 해당 재료의 드롭 수를 목표로 삼아, 설정한 수량에 도달하면 멈춥니다.
+• {key=TargetInventory}: ｢{key=Toolbox}-{key=DepotRecognition}｣ 에 저장된 재고 데이터를 참고하여 설정한 재고 수량까지만 보충합니다.
+  • 재고 데이터는 캐시이므로 수동 파밍, 제작, 재료 사용 후 실제 수량과 달라질 수 있습니다. ｢{key=UserDataUpdate}｣ 또는 ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 동기화해 주세요.
+  • {key=TargetInventory} 사용 중에는 실행 도중 재료와 수량을 바꿀 수 없습니다.</system:String>
     <system:String x:Key="StartupUpdateCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
@@ -488,11 +502,13 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="EmulatorPathEmptyWarning">에뮬레이터 경로가 비어 있습니다. ｢{key=RetryOnDisconnected}｣ 및 ｢{key=OpenEmulatorAfterLaunch}｣ 선택 상태가 초기화되었습니다</system:String>
     <system:String x:Key="Select">선택</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB 강제 교체</system:String>
+    <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">현재 에뮬레이터에 포함된 ADB 버전은 보통 최신이므로 수동 교체는 일반적으로 불필요합니다.&#10;클릭 시 Google에서 최신 ADB를 다운로드하여 로컬 경로의 ADB 파일을 교체합니다. 명확한 ADB 호환성 문제가 발생한 경우에만 사용하세요.</system:String>
     <system:String x:Key="TouchMode">터치 수행 방식</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (기본값)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (실험적)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (비권장)</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (실험적)</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input는 OS 버전이 낮아 Minitouch나 MaaTouch를 사용할 수 없는 물리적 기기용입니다. 다른 두 모드를 사용할 수 있다면 ADB Input를 선택하지 마세요.&#10;ADB Input 스와이프는 오프셋이 발생하기 쉬우며, 이 문제를 방지하기 위해 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 두 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다.</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">에뮬레이터 실행 매개변수 추가 명령 (예: ｢--instance 1｣ 은 1 번 인스턴스).&#10;명령 형식은 에뮬레이터마다 다르며 일반적으로 인스턴스 번호나 창 모드 등을 포함합니다.</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
@@ -618,6 +634,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="WindowTitleScrollable">윈도우 제목 스크롤</system:String>
     <system:String x:Key="MainTasksNullFunctionality">메인 작업 오른쪽 클릭 효과 반전</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">기본: 한 번만 적용, 체크 시: 한 번만 건너뛰기</system:String>
+    <system:String x:Key="MainTasksNullFunctionalitySwitch">｢{key=Settings} - {key=UiSettings} - {key=MainTasksNullFunctionality}｣ 에서 우클릭 효과 전환 가능</system:String>
     <system:String x:Key="UseCardLog">카드 스타일 로그 사용</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">로그 썸네일 최대 개수</system:String>
     <system:String x:Key="TitleBarDisplayContent">제목 표시줄 표시 내용</system:String>
@@ -789,6 +806,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PerformBattles">횟수 제한</system:String>
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>
+    <system:String x:Key="KeepInventory">재고 유지</system:String>
+    <system:String x:Key="TargetInventory">목표 재고</system:String>
     <system:String x:Key="Series">연속 전투</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 스테이지의 가능한 최대 대리 지휘 횟수의 배수를 감지하고, 자동으로 최대 대리 지휘 횟수를 유지하며, 이성 회복제 사용 후 이성이 남지 않도록 합니다.
@@ -818,6 +837,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">남은 오픈일 수: </system:String>
     <system:String x:Key="Inventory">재고</system:String>
     <system:String x:Key="InventoryUpdateTip">재고 데이터는  ｢{key=Toolbox}-{key=DepotRecognition}｣ 을 통해 업데이트 가능</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">작업 "{0}" 에서 {key=TargetInventory} 가 켜져 있지만 현재 사용할 수 있는 재고 데이터가 없어 건너뜁니다. ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 재고를 업데이트해 주세요.</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
@@ -1407,12 +1427,12 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Level3UseShortTime2">★3 태그 9:00 대신 1:00 설정</system:String>
     <system:String x:Key="Level3UseShortTimeTip">다른 등급에는 적용되지 않습니다</system:String>
     <system:String x:Key="RecruitMaxTimes">시행 시의 최대 모집횟수</system:String>
-    <system:String x:Key="ManuallySelectLevel1">★1 수동 모집</system:String>
+    <system:String x:Key="PreserveTags">지정 태그 보류</system:String>
     <system:String x:Key="AutoSelectLevel3">★3 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel4">★4 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel6">★6 자동 모집</system:String>
-    <system:String x:Key="Level1Tip">체크 시, ★1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크하지 않으면 ★1 태그를 무시합니다.</system:String>
+    <system:String x:Key="PreserveTagsTip">선택한 태그 중 하나라도 인식되면 해당 모집을 건너뛰고 슬롯을 유지합니다. 비워 두면 어떤 태그도 보류하지 않습니다.</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">박사님, 클로저 씨의 가게에 ｢술｣이 입고되었다는 소식을 들으셨나요? 함께 확인해 볼까요?</system:String>

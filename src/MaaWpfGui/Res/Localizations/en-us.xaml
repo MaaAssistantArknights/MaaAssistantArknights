@@ -98,6 +98,13 @@
     <system:String x:Key="GpuDriverOutdatedMessage">The driver version ({1}, release date: {2}) of the selected GPU ({0}) for inference acceleration is over two years old, which may cause compatibility issues.\n\nIt is recommended to update the graphics driver or switch to a different GPU in ｢{key=Settings} - {key=PerformanceSettings}｣.</system:String>
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
     <system:String x:Key="Copy">Copy</system:String>
+    <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationUnavailable">Toast notifications are unavailable: {0}</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">The user has disabled notifications for this app in Windows Settings.</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">The user has disabled all app notifications.</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">Group Policy Disabled</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">Manifest Disabled</system:String>
+    <!--  !Toast 不可用  -->
     <!--  Settings Guide  -->
     <system:String x:Key="LeftClick">Left Click</system:String>
     <system:String x:Key="RightClick">Right Click</system:String>
@@ -109,12 +116,13 @@
     <system:String x:Key="PrevGuide">Prev</system:String>
     <system:String x:Key="NextGuide">Next</system:String>
     <system:String x:Key="DoneGuide">Done</system:String>
-    <system:String x:Key="ToolTipGuide">Prompt appears when hovered↓→</system:String>
+    <system:String x:Key="ToolTipGuide">Prompt appears when hovered→</system:String>
     <system:String x:Key="TaskGuide">↑ Task</system:String>
-    <system:String x:Key="OftenUsedGuide">↓ Often Used</system:String>
+    <system:String x:Key="OftenUsedGuide">↑ Often Used</system:String>
     <system:String x:Key="SometimesUsedGuide">Sometimes Used ↑</system:String>
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
-    <system:String x:Key="RightClickRenameDelete">↓ Right Click to Run Once/Rename/Delete</system:String>
+    <system:String x:Key="HoverActionButtons" xml:space="preserve">  Hover to Copy/Rename/Delete
+↓ Right-click gear for more options</system:String>
     <system:String x:Key="UserGuide">User Guide</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 Website &amp; Documentation</system:String>
     <system:String x:Key="GuideDocumentationPath">You can find MAA's official website and complete documentation at "{key=Settings} - {key=AboutUs} - {key=Website}".</system:String>
@@ -328,6 +336,8 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="ConfirmDeleteTaskMessage">Are you sure you want to delete {0} task "{1}"?</system:String>
     <system:String x:Key="TaskRenamed">Task renamed to: {0}</system:String>
     <system:String x:Key="TaskDeleted">Task deleted: {0}</system:String>
+    <system:String x:Key="TaskCopied">Task copied: {0}</system:String>
+    <system:String x:Key="TaskCopyFailed">Task copy failed</system:String>
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">Press Backspace / Esc / Delete to clear the current value</system:String>
@@ -335,7 +345,11 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="CheckBoxesNotSaved">This option is effective once</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">This option only skips once when right-clicked</system:String>
-    <system:String x:Key="SpecifiedDropsTip">This feature would not automatically calculate the optimal stage</system:String>
+    <system:String x:Key="SpecifiedDropsTip" xml:space="preserve">The stage entered is still determined by the options below: ｢{key=StageSelect}｣ / ｢{key=StageSelect2}｣.
+• {key=Quantity}: uses the selected material's drop count in this combat task as the target, and stops when the set amount is reached.
+• {key=TargetInventory}: uses the saved inventory data from ｢{key=Toolbox}-{key=DepotRecognition}｣ and only farms until the target stock is reached.
+  • Inventory data is cached and may differ from your real stock after manual farming, crafting, or material use. Sync it with ｢{key=UserDataUpdate}｣ or ｢{key=Toolbox}-{key=DepotRecognition}｣.
+  • When {key=TargetInventory} is enabled, the material and amount cannot be changed during a run.</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdateAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoCheckTip">In-game 00:00 / 18:00 (Server local time 04:00 / 22:00)</system:String>
@@ -488,11 +502,13 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="EmulatorPathEmptyWarning">The emulator path is empty, ｢{key=RetryOnDisconnected}｣ and ｢{key=OpenEmulatorAfterLaunch}｣ check states have been reset</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceAdb">Replace ADB</system:String>
+    <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">Emulators typically ship with a recent ADB version, so manual replacement is rarely needed.&#10;Clicking this will download the latest ADB from Google and replace the local ADB file. Only use this when you encounter a clear ADB compatibility issue.</system:String>
     <system:String x:Key="TouchMode">Touch Mode</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (Deprecated)</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (Experimental)</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input is for physical devices running an older OS version that cannot use Minitouch or MaaTouch. Do not use ADB Input if the other two modes work.&#10;ADB Input swipes tend to drift. To avoid this, swipe speed is set very slow and swipe distances differ from the other two modes. It cannot be used in scenarios requiring precise coordinate control.</system:String>
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">Additional commands for emulator parameters (e.g. ｢--instance 1｣ for instance 1).&#10;Command formats vary by emulator, typically including instance numbers and window modes, please consult your emulator's documentation.</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
@@ -618,6 +634,7 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="WindowTitleScrollable">Window Title Scrolling</system:String>
     <system:String x:Key="MainTasksNullFunctionality">Reverse right-click effect for main task</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">Default: Apply once; Checked: Skip once</system:String>
+    <system:String x:Key="MainTasksNullFunctionalitySwitch">Switch right-click effect at ｢{key=Settings} - {key=UiSettings} - {key=MainTasksNullFunctionality}｣</system:String>
     <system:String x:Key="UseCardLog">Use card style log</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">Maximum number of log thumbnails</system:String>
     <system:String x:Key="TitleBarDisplayContent">Title Bar Display Content</system:String>
@@ -786,7 +803,9 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="UseOriginitePrime">Use Originium</system:String>
     <system:String x:Key="PerformBattles">Perform Battles</system:String>
     <system:String x:Key="AssignedMaterial">Material</system:String>
-    <system:String x:Key="Quantity">Quantity</system:String>
+    <system:String x:Key="Quantity">Farm</system:String>
+    <system:String x:Key="KeepInventory">Keep Inventory</system:String>
+    <system:String x:Key="TargetInventory">Goal</system:String>
     <system:String x:Key="Series">Series</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 Automatically identify the maximum proxy multiplier of the level, maintain the maximum proxy multiplier and do not overflow sanity after using sanity potion
@@ -816,6 +835,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">Days left open:&#160;</system:String>
     <system:String x:Key="Inventory">Inventory</system:String>
     <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via  ｢{key=Toolbox}-{key=DepotRecognition}｣</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>
@@ -1405,12 +1425,12 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Level3UseShortTime2">Set 1:00 instead of 9:00 for 3★ Tags</system:String>
     <system:String x:Key="Level3UseShortTimeTip">Doesn't interfere with other ★ stars</system:String>
     <system:String x:Key="RecruitMaxTimes">Recruit max times</system:String>
-    <system:String x:Key="ManuallySelectLevel1">Manually confirm 1★</system:String>
+    <system:String x:Key="PreserveTags">Preserve selected tags</system:String>
     <system:String x:Key="AutoSelectLevel3">Auto confirm 3★</system:String>
     <system:String x:Key="AutoSelectLevel4">Auto confirm 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6★</system:String>
-    <system:String x:Key="Level1Tip">If checked when 1★ tags are identified, will skip the recruitment. If not checked when 1★ tags are identified, they will be ignored.</system:String>
+    <system:String x:Key="PreserveTagsTip">Skip the recruitment and keep the slot when any selected tag is identified. Leave it empty to preserve none.</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of ｢liquor｣ in Ms. Closure's store? Let's check it out?</system:String>

@@ -74,6 +74,15 @@ public class ToastNotification : IDisposable
         return new NotificationImplWpf();
     }
 
+    public static (bool IsAvailable, string Detail) ToastNotificationCheck()
+    {
+        if (_notificationPoster is NotificationImplWinRT)
+        {
+            return _notificationPoster.IsNotificationAvailable;
+        }
+        return (true, string.Empty);
+    }
+
     /// <summary>
     /// 按钮激活后的事件，参数为按钮标签
     /// </summary>

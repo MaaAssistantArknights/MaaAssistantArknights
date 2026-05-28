@@ -2,6 +2,7 @@
 
     <!--  Custom Brush  -->
     <SolidColorBrush x:Key="PallasBrush" Color="#6969AA" />
+    <SolidColorBrush x:Key="SettingsSearchHighlightBrush" Color="#80FFD54F" />
 
     <!--  HandyControl Brush  -->
     <!--  文字颜色  -->

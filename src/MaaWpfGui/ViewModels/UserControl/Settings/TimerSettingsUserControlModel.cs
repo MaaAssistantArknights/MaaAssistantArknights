@@ -31,7 +31,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
 
     public static TimerSettingsUserControlModel Instance { get; }
 
-    private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
+    private bool _forceScheduledStart = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to force scheduled start.
@@ -45,7 +45,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _showWindowBeforeForceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, bool.FalseString));
+    private bool _showWindowBeforeForceScheduledStart = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether show window before force scheduled start.
@@ -59,7 +59,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _customConfig = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomConfig, bool.FalseString));
+    private bool _customConfig = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomConfig, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use custom config.

@@ -2,6 +2,7 @@
 
     <!--  Custom Brush  -->
     <SolidColorBrush x:Key="PallasBrush" Color="#CDD1FF" />
+    <SolidColorBrush x:Key="SettingsSearchHighlightBrush" Color="#8060A0E0" />
 
     <!--  HandyControl Brush  -->
     <!--  See https://github.com/ghost1372/HandyControls/blob/v3.4.5/src/Shared/HandyControl_Shared/Themes/Basic/Colors/Dark.xaml  -->

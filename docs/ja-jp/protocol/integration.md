@@ -134,8 +134,11 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   ::: field name="medicine" type="number" optional default="0"  
   理性回復剤の最大使用数。  
   :::  
-  ::: field name="expiring_medicine" type="number" optional default="0"  
-  48 時間以内に期限切れになる理性回復剤の最大使用数。  
+  ::: field name="medicine_expire_days" type="number" optional default="0"  
+  指定日数以内に期限切れになる理性回復剤を使用します。`0` は期限切れの理性回復剤を使用しないことを意味します。  
+  :::  
+  ::: field name="expiring_medicine" type="number" optional default="0" deprecated  
+  v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を使用してください。  
   :::  
   ::: field name="stone" type="number" optional default="0"  
   純正源石の最大使用数。  
@@ -197,7 +200,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "enable": true,
    "stage": "1-7",
    "medicine": 1,
-   "expiring_medicine": 0,
+   "medicine_expire_days": 2,
    "stone": 0,
    "times": 10,
    "series": 0,
@@ -259,7 +262,14 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 緊急招集の回数。`expedite` が true の場合のみ有効です。デフォルトは制限なし（`times` の上限まで）です。  
 :::  
 ::: field name="skip_robot" type="boolean" optional default="true"  
-ロボット タグが認識されたときにスキップするかどうか。  
+非推奨です。旧パラメータ互換のためにのみ残されています。  
+<br>
+`preserve_tags` が指定されておらず、この値が `true` の場合は `支援机械` を認識したときのみスキップします。`元素` は旧来の 1★ タグとしては扱われません。  
+:::
+::: field name="preserve_tags" type="array<string>" optional  
+現在の公開求人枠を保持したまま今回の募集をスキップしたい Tag 名の一覧です。デフォルトは空です。  
+<br>
+指定した Tag のいずれかを認識した場合、MAA はその枠を保持して今回の募集をスキップします。  
 :::  
 ::: field name="recruitment_time" type="object" optional  
 タグレベル（3 以上）と対応する希望採用時間（分単位）。デフォルト値は 540（つまり 09:00:00）です。
@@ -300,7 +310,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "set_time": true,
    "expedite": false,
    "expedite_times": 0,
-   "skip_robot": true,
+   "preserve_tags": ["支援机械"],
    "recruitment_time": {
       "3": 540,
       "4": 540

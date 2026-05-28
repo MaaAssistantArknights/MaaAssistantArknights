@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
+using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
 
@@ -90,9 +91,9 @@ public class AsstRecruitTask : AsstBaseTask
     public List<string> Level3FirstList { get; set; } = [];
 
     /// <summary>
-    /// Gets or sets a value indicating whether 遇到小车词条时是否招募
+    /// Gets or sets 识别到后需要保留并跳过的 Tag。
     /// </summary>
-    public bool NotChooseLevel1 { get; set; }
+    public List<string> PreserveTags { get; set; } = [];
 
     /// <summary>
     /// Gets or sets 3 星招募时间
@@ -136,8 +137,10 @@ public class AsstRecruitTask : AsstBaseTask
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
-        var param = new JObject
-        {
+        var preserveTags = RecruitTagHelper.NormalizeTagList(PreserveTags);
+        var firstTags = RecruitTagHelper.NormalizeTagList(Level3FirstList);
+
+        var param = new JObject {
             ["refresh"] = Refresh,
             ["force_refresh"] = ForceRefresh,
             ["select"] = JArray.FromObject(SelectList),
@@ -145,11 +148,10 @@ public class AsstRecruitTask : AsstBaseTask
             ["times"] = RecruitTimes,
             ["set_time"] = SetRecruitTime,
             ["expedite"] = UseExpedited,
-            ["skip_robot"] = NotChooseLevel1,
+            ["preserve_tags"] = JArray.FromObject(preserveTags),
             ["extra_tags_mode"] = SelectExtraTags,
-            ["first_tags"] = JArray.FromObject(Level3FirstList),
-            ["recruitment_time"] = new JObject
-            {
+            ["first_tags"] = JArray.FromObject(firstTags),
+            ["recruitment_time"] = new JObject {
                 ["3"] = ChooseLevel3Time,
                 ["4"] = ChooseLevel4Time,
                 ["5"] = ChooseLevel5Time,

@@ -32,7 +32,7 @@ public partial class FightSettingsUserControl : System.Windows.Controls.UserCont
 
     private void DragHandle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        TaskQueueViewModel.FightTask.IsDragging = true;
+        TaskQueueViewModel.FightTask.IsStageItemDragging = true;
 
         // 拖拽松开时可能不经过 Button，在 Window 层兜底恢复
         var window = Window.GetWindow(this);
@@ -41,12 +41,12 @@ public partial class FightSettingsUserControl : System.Windows.Controls.UserCont
 
     private void DragHandle_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        TaskQueueViewModel.FightTask.IsDragging = false;
+        TaskQueueViewModel.FightTask.IsStageItemDragging = false;
     }
 
     private void Window_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        TaskQueueViewModel.FightTask.IsDragging = false;
+        TaskQueueViewModel.FightTask.IsStageItemDragging = false;
         if (sender is Window window)
         {
             window.PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;

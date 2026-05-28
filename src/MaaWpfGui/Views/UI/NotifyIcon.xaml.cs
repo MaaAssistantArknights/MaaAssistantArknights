@@ -60,7 +60,7 @@ public partial class NotifyIcon
     private void InitIcon()
     {
         notifyIcon.Icon = AppIcon.GetIcon();
-        notifyIcon.Visibility = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, bool.TrueString)) ? Visibility.Visible : Visibility.Collapsed;
+        notifyIcon.Visibility = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, true) ? Visibility.Visible : Visibility.Collapsed;
 
         notifyIcon.Click += NotifyIcon_MouseClick;
         notifyIcon.MouseDoubleClick += NotifyIcon_MouseClick;
