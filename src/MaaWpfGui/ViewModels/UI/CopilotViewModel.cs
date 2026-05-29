@@ -443,15 +443,16 @@ public partial class CopilotViewModel : Screen
     public ObservableCollection<UserAdditionalItemViewModel> UserAdditionalItems { get; } = [];
 
     private const int MaxVisibleUserAdditionalRows = 7;
-    private const double UserAdditionalRowHeight = 40;
-    private const double UserAdditionalGridExtraHeight = 70;
-    private const double UserAdditionalGridMaxHeight = UserAdditionalGridExtraHeight + (MaxVisibleUserAdditionalRows * UserAdditionalRowHeight);
+
+    public double UserAdditionalRowHeight => 40;
+
+    public double UserAdditionalGridMaxHeight => 350;
 
     public double UserAdditionalGridHeight
     {
         get {
             var rows = Math.Clamp(UserAdditionalItems.Count, 1, MaxVisibleUserAdditionalRows);
-            return UserAdditionalGridExtraHeight + (rows * UserAdditionalRowHeight);
+            return UserAdditionalGridMaxHeight - ((MaxVisibleUserAdditionalRows - rows) * UserAdditionalRowHeight);
         }
     }
 

@@ -399,6 +399,7 @@
                                             <DataGrid
                                                 x:Name="UserAdditionalDataGrid"
                                                 Height="{Binding UserAdditionalGridHeight}"
+                                                MaxHeight="{Binding UserAdditionalGridMaxHeight}"
                                                 AutoGenerateColumns="False"
                                                 Background="{DynamicResource RegionBrush}"
                                                 CanUserAddRows="False"
@@ -407,7 +408,7 @@
                                                 CanUserResizeRows="False"
                                                 HeadersVisibility="Column"
                                                 ItemsSource="{Binding UserAdditionalItems}"
-                                                RowHeight="40"
+                                                RowHeight="{Binding UserAdditionalRowHeight}"
                                                 SelectionMode="Single">
                                                 <DataGrid.RowStyle>
                                                     <Style TargetType="DataGridRow">
