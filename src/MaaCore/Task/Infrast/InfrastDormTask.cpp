@@ -108,7 +108,6 @@ bool asst::InfrastDormTask::_run()
 
         click_confirm_button();
         click_return_button();
-
     }
     return true;
 }
@@ -166,9 +165,8 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                     continue;
                 }
 
-                if (m_trust_autofill_enabled && m_selection_phase != SelectionPhase::LowMood &&
-                    !oper.selected && oper.doing != infrast::Doing::Working &&
-                    oper.doing != infrast::Doing::Resting) {
+                if (m_trust_autofill_enabled && m_selection_phase != SelectionPhase::LowMood && !oper.selected &&
+                    oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
                     RegionOCRer trust_analyzer(oper.name_img);
                     if (!trust_analyzer.analyze()) {
                         Log.trace("ERROR:!trust_analyzer.analyze()");
@@ -306,8 +304,7 @@ bool asst::InfrastDormTask::set_notstationed_filter(bool enabled)
     return success;
 }
 
-bool asst::InfrastDormTask::restore_list_sort_for_selection_phase(
-    asst::infrast::CustomRoomConfig const& room_config)
+bool asst::InfrastDormTask::restore_list_sort_for_selection_phase(asst::infrast::CustomRoomConfig const& room_config)
 {
     // Custom dorm selection leaves the list sorted by mood. Restore trust sort
     // before continuing trust autofill in the same room flow.
@@ -342,6 +339,5 @@ void asst::InfrastDormTask::advance_after_trust_sort()
 
 bool asst::InfrastDormTask::is_in_trust_autofill_phase() const noexcept
 {
-    return m_selection_phase == SelectionPhase::ResortForTrust ||
-        m_selection_phase == SelectionPhase::TrustAutofill;
+    return m_selection_phase == SelectionPhase::ResortForTrust || m_selection_phase == SelectionPhase::TrustAutofill;
 }
