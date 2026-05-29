@@ -7,7 +7,9 @@ icon: ic:round-rocket-launch
 
 Automatically starts the emulator, launches the client, and enters the game.
 
-Automatic emulator startup requires additional configuration in the startup settings and enabling `Retry launching the emulator when ADB connection fails` in the connection settings.
+Automatic emulator startup requires additional configuration in the startup settings and enabling `Retry launching the emulator when ADB connection fails` in the connection settings.  
+
+Note: PC clients do **not support** automatic startup. Additionally, due to the separation of announcements from the game client, errors may occur when transitioning from the login screen to the main interface.
 
 ## Account Switch
 
