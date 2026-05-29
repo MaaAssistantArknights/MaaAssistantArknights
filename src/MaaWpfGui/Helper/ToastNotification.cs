@@ -417,7 +417,7 @@ public class ToastNotification : IDisposable
     /// </summary>
     /// <param name="message">显示内容</param>
     /// <param name="tag">可选标签用于通知过滤 (如 TaskError, TaskComplete)</param>
-    public static void ShowDirect(string message, string? tag = null)
+    public static void ShowDirect(string message)
     {
         using var toast = new ToastNotification(message);
         toast.Show();

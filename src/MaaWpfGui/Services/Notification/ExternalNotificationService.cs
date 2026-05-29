@@ -65,7 +65,7 @@ public static class ExternalNotificationService
 
             ToastNotification.ShowDirect(
                 enabledProvider + " " +
-                LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"), "Test");
+                LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
         }
     }
 
@@ -76,7 +76,7 @@ public static class ExternalNotificationService
     /// <param name="content">The content of the notification</param>
     /// <param name="isTest">Indicate if it is a test or not.</param>
     /// <param name="tag">Optional tag for notification filtering.</param>
-    public static void Send(string title, string content, bool isTest = false, string? tag = null)
+    public static void Send(string title, string content, bool isTest = false)
     {
         var task = SendAsync("[MAA] " + title, content, isTest);
         _taskContainers.RemoveAll(x => x.Status != TaskStatus.Running);

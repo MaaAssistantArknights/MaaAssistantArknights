@@ -85,9 +85,8 @@ public class NotificationSettingsItem : PropertyChangedBase
 
     private void InitFromDefaults()
     {
-        // 首次启用独立设置时，将用户配置初始化为默认配置的值
-        var defaultEnable = NotificationManager.GetDefaultEnableWhitelist(_type) || NotificationManager.GetDefaultEnableBlacklist(_type) || true;
-        ConfigurationHelper.SetValue(_enableKey, defaultEnable.ToString());
+        // 启用独立设置时，将用户配置初始化为默认配置的值
+        ConfigurationHelper.SetValue(_enableKey, bool.TrueString);
         ConfigurationHelper.SetValue(_enableBlacklistKey, NotificationManager.GetDefaultEnableBlacklist(_type).ToString());
         ConfigurationHelper.SetValue(_enableWhitelistKey, NotificationManager.GetDefaultEnableWhitelist(_type).ToString());
         ConfigurationHelper.SetValue(_filterListKey, NotificationManager.GetDefaultFilterList(_type));

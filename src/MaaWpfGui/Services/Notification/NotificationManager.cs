@@ -248,11 +248,11 @@ public static class NotificationManager
         {
             case NotificationType.SystemNotification:
                 // Windows通知只推最新的一条纯文本内容
-                Helper.ToastNotification.ShowDirect(content, tag);
+                Helper.ToastNotification.ShowDirect(content);
                 break;
             case NotificationType.External:
                 var title = tag ?? content;
-                ExternalNotificationService.Send(title, bundledContent, tag: tag);
+                ExternalNotificationService.Send(title, bundledContent);
                 break;
         }
     }
@@ -278,22 +278,25 @@ public static class NotificationManager
 
         var cutoff = DateTime.Now.AddMinutes(-timeMinutes);
 
-        // 按时间顺序排列（最早的在前面），移除超出时间窗口的
-        var ordered = collection
-            .Select((item, idx) => new { Item = item, Time = _itemTimestamps.GetValueOrDefault(item, DateTime.MinValue) })
-            .OrderBy(x => x.Time)
-            .ToList();
-
-        // 从前面移除超出时间和数量的条目
-        int removeCount = Math.Max(0, ordered.Count - maxEntries);
-
-        for (int i = 0; i < ordered.Count; i++)
+        lock (_lock)
         {
-            bool expired = ordered[i].Time < cutoff;
-            if (expired || i < removeCount)
+            // 按时间顺序排列（最早的在前面），移除超出时间窗口的
+            var ordered = collection
+                .Select((item, idx) => new { Item = item, Time = _itemTimestamps.GetValueOrDefault(item, DateTime.MinValue) })
+                .OrderBy(x => x.Time)
+                .ToList();
+
+            // 从前面移除超出时间和数量的条目
+            int removeCount = Math.Max(0, ordered.Count - maxEntries);
+
+            for (int i = 0; i < ordered.Count; i++)
             {
-                collection.Remove(ordered[i].Item);
-                _itemTimestamps.Remove(ordered[i].Item);
+                bool expired = ordered[i].Time < cutoff;
+                if (expired || i < removeCount)
+                {
+                    collection.Remove(ordered[i].Item);
+                    _itemTimestamps.Remove(ordered[i].Item);
+                }
             }
         }
     }

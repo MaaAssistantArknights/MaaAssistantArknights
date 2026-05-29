@@ -1062,8 +1062,6 @@ public class AsstProxy
                     var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
                     Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true, notificationTag: "TaskError");
 
-                    ToastNotification.ShowDirect(log, "TaskError");
-
                     if (value is { Type: TaskType.Copilot })
                     {
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);

@@ -42,8 +42,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         ExternalNotificationService.Send(
             LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
             LocalizationHelper.GetString("ExternalNotificationSendTestContent"),
-            true,
-            tag: "Test");
+            true);
     }
 
     public static readonly List<string> ExternalNotificationProviders =
