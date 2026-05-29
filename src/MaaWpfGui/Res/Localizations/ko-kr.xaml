@@ -43,13 +43,14 @@
     <system:String x:Key="NotificationSettingsSystemNotification">Windows 시스템 알림</system:String>
     <system:String x:Key="NotificationSettingsExternal">외부 알림</system:String>
     <system:String x:Key="NotificationSettingsTaskQueueLog">작업 로그 패널</system:String>
-    <system:String x:Key="NotificationSettingsUseIndependent">사용자 정의 설정 활성화 (체크 해제 시 기본 설정)</system:String>
+    <system:String x:Key="NotificationSettingsUseIndependent">사용자 정의 설정 활성화</system:String>
     <system:String x:Key="NotificationSettingsEnableNotification">이 알림 활성화</system:String>
     <system:String x:Key="NotificationSettingsEnableBlacklist">블랙리스트 활성화</system:String>
     <system:String x:Key="NotificationSettingsEnableWhitelist">화이트리스트 활성화</system:String>
     <system:String x:Key="NotificationSettingsFilterList">필터 규칙 (한 줄에 하나의 정규식)</system:String>
     <system:String x:Key="NotificationSettingsMaxEntries">첨부 로그 항목 수</system:String>
-    <system:String x:Key="NotificationSettingsTimeMinutes">알림 표시 시간 (분)</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">로그 유효 시간 (분)</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTooltip">로그가 출력된 지 n분이 지나면 더 이상 표시되거나 푸시되지 않습니다.</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
     <system:String x:Key="ExternalNotificationEnabled">알림 구성 사용</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">상세 정보 출력</system:String>

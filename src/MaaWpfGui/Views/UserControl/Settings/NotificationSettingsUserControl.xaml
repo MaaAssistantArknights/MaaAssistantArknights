@@ -13,7 +13,7 @@
     d:DataContext="{d:DesignInstance {x:Type settings_vms:NotificationSettingsUserControlModel}}"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
-    <Grid>
+    <Grid MinWidth="500">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -58,7 +58,7 @@
                 HorizontalAlignment="Center"
                 Content="{DynamicResource NotificationSettingsUseIndependent}"
                 IsChecked="{Binding Overlay.UseIndependent}" />
-            <StackPanel IsEnabled="{Binding Overlay.UseIndependent}">
+            <StackPanel Visibility="{c:Binding 'Overlay.UseIndependent', FalseToVisibility=Collapsed}">
                 <CheckBox
                     Margin="5"
                     HorizontalAlignment="Center"
@@ -106,9 +106,10 @@
                     <Label
                         Padding="0"
                         BorderThickness="0"
-                        Margin="10,0,5,0"
+                        Margin="10,0,0,0"
                         VerticalAlignment="Center"
                         Content="{DynamicResource NotificationSettingsTimeMinutes}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource NotificationSettingsTimeMinutesTooltip}" />
                     <hc:NumericUpDown
                         Width="100"
                         hc:InfoElement.TitleWidth="0"
@@ -140,7 +141,7 @@
                 HorizontalAlignment="Center"
                 Content="{DynamicResource NotificationSettingsUseIndependent}"
                 IsChecked="{Binding External.UseIndependent}" />
-            <StackPanel IsEnabled="{Binding External.UseIndependent}">
+            <StackPanel Visibility="{c:Binding 'External.UseIndependent', FalseToVisibility=Collapsed}">
                 <CheckBox
                     Margin="5"
                     HorizontalAlignment="Center"
@@ -188,9 +189,10 @@
                     <Label
                         Padding="0"
                         BorderThickness="0"
-                        Margin="10,0,5,0"
+                        Margin="10,0,0,0"
                         VerticalAlignment="Center"
                         Content="{DynamicResource NotificationSettingsTimeMinutes}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource NotificationSettingsTimeMinutesTooltip}" />
                     <hc:NumericUpDown
                         Width="100"
                         hc:InfoElement.TitleWidth="0"
