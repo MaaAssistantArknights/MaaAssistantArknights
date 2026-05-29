@@ -74,9 +74,10 @@
     <system:String x:Key="ExternalNotificationGotifyServer">서버 URL</system:String>
     <system:String x:Key="ExternalNotificationGotifyToken">애플리케이션 토큰</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookBody">메시지 본문 템플릿</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">플레이스홀더: {title}, {content}, {time}</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Url">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Body">메시지 본문 템플릿</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">플레이스홀더: {title}, {content}, {time}</system:String>
     <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
     <system:String x:Key="UseGpuForInferenceTip">GPU 추론을 사용하면 매우 적은 GPU 점유로 CPU 부담을 크게 줄일 수 있습니다</system:String>
     <system:String x:Key="GpuOptionDisable">미사용</system:String>

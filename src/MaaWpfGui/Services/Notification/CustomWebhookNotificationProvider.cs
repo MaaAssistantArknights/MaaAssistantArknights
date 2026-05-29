@@ -13,6 +13,7 @@
 
 #nullable enable
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ public class CustomWebhookNotificationProvider(IHttpService httpService) : IExte
     public async Task<bool> SendAsync(string title, string content)
     {
         var webhookUrl = SettingsViewModel.ExternalNotificationSettings.CustomWebhookUrl;
+        var webhookHeaders = SettingsViewModel.ExternalNotificationSettings.CustomWebhookHeaders;
         var bodyTemplate = SettingsViewModel.ExternalNotificationSettings.CustomWebhookBody;
         if (string.IsNullOrEmpty(webhookUrl) || string.IsNullOrEmpty(bodyTemplate))
         {
@@ -44,7 +46,11 @@ public class CustomWebhookNotificationProvider(IHttpService httpService) : IExte
             .Replace("{time}", now);
 
         var requestContent = new StringContent(body, Encoding.UTF8, "application/json");
-        var response = await httpService.PostAsync(new(webhookUrl), requestContent);
+        var headers = webhookHeaders.Replace("\r", string.Empty).Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(line => line.Split(':', 2))
+            .Where(parts => parts.Length == 2)
+            .ToDictionary(p => p[0].Trim(), p => p[1].Trim());
+        var response = await httpService.PostAsync(new(webhookUrl), requestContent, headers);
 
         if (response == null)
         {

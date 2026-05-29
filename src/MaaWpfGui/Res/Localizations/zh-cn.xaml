@@ -74,9 +74,10 @@
     <system:String x:Key="ExternalNotificationGotifyServer">服务器 URL</system:String>
     <system:String x:Key="ExternalNotificationGotifyToken">应用程序令牌</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">自定义 Webhook</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookBody">消息体模板</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">可用占位符：{title}、{content}、{time}</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Url">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Body">消息体模板</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">可用占位符：{title}、{content}、{time}</system:String>
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
     <system:String x:Key="UseGpuForInferenceTip">使用 GPU 推理能够以极低的 GPU 占用显著降低 CPU 的负担</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>

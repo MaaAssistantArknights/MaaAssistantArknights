@@ -78,7 +78,6 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-
     private bool _externalNotificationSendWhenStalled = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false);
 
     public bool ExternalNotificationSendWhenStalled
@@ -518,8 +517,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string GotifyServer
     {
         get => _gotifyServer;
-        set
-        {
+        set {
             SetAndNotify(ref _gotifyServer, value);
             var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyServer, encryptedValue);
@@ -531,8 +529,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string GotifyToken
     {
         get => _gotifyToken;
-        set
-        {
+        set {
             SetAndNotify(ref _gotifyToken, value);
             var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyToken, encryptedValue);
@@ -560,6 +557,18 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _customWebhookBody, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, value);
+        }
+    }
+
+    private string _customWebhookHeaders = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, string.Empty));
+
+    public string CustomWebhookHeaders
+    {
+        get => _customWebhookHeaders;
+        set {
+            SetAndNotify(ref _customWebhookHeaders, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, value);
         }
     }
 
