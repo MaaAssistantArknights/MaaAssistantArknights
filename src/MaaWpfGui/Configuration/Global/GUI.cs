@@ -73,6 +73,8 @@ public class GUI : INotifyPropertyChanged
 
     public bool ExpanderBackgroundSettings { get; set; } = true;
 
+    public bool ExpanderNotificationSettings { get; set; } = true;
+
     public bool ExpanderExternalNotificationSettings { get; set; } = true;
 
     public bool ExpanderHotKeySettings { get; set; } = true;

@@ -102,6 +102,11 @@ public class SettingsViewModel : Screen
     public static VersionUpdateSettingsUserControlModel VersionUpdateSettings { get; } = VersionUpdateSettingsUserControlModel.Instance;
 
     /// <summary>
+    /// Gets 通知设置 model
+    /// </summary>
+    public static NotificationSettingsUserControlModel NotificationSettings { get; } = NotificationSettingsUserControlModel.Instance;
+
+    /// <summary>
     /// Gets 外部通知 model
     /// </summary>
     public static ExternalNotificationSettingsUserControlModel ExternalNotificationSettings { get; } = ExternalNotificationSettingsUserControlModel.Instance;
@@ -189,6 +194,8 @@ public class SettingsViewModel : Screen
 
     public SettingItemViewModel BackgroundSettingsSetting => GetSettingItemByKey("BackgroundSettings");
 
+    public SettingItemViewModel NotificationSettingsSetting => GetSettingItemByKey("NotificationSettings");
+
     public SettingItemViewModel ExternalNotificationSettingsSetting => GetSettingItemByKey("ExternalNotificationSettings");
 
     public SettingItemViewModel HotKeySettingsSetting => GetSettingItemByKey("HotKeySettings");
@@ -214,6 +221,7 @@ public class SettingsViewModel : Screen
             "RemoteControlSettings",
             "UiSettings",
             "BackgroundSettings",
+            "NotificationSettings",
             "ExternalNotificationSettings",
             "HotKeySettings",
             "AchievementSettings",
@@ -221,6 +229,22 @@ public class SettingsViewModel : Screen
             "IssueReport",
             "AboutUs",
         ];
+
+        // 为新插入到 keyList 中段的键设置默认排序位置，避免落到底部
+        if (ConfigurationHelper.GetSettingOrder("NotificationSettings", -1) < 0)
+        {
+            int insertIdx = keyList.IndexOf("NotificationSettings");
+            for (int i = insertIdx + 1; i < keyList.Count; i++)
+            {
+                int current = ConfigurationHelper.GetSettingOrder(keyList[i], -1);
+                if (current >= insertIdx)
+                {
+                    ConfigurationHelper.SetSettingOrder(keyList[i], current + 1);
+                }
+            }
+
+            ConfigurationHelper.SetSettingOrder("NotificationSettings", insertIdx);
+        }
 
         var tempOrderList = new List<SettingItemViewModel?>(new SettingItemViewModel[keyList.Count]);
         var nonOrderList = new List<SettingItemViewModel?>();
@@ -960,6 +984,16 @@ public class SettingsViewModel : Screen
         set
         {
             ConfigFactory.Root.GUI.ExpanderBackgroundSettings = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool IsNotificationSettingsExpanded
+    {
+        get => ConfigFactory.Root.GUI.ExpanderNotificationSettings;
+        set
+        {
+            ConfigFactory.Root.GUI.ExpanderNotificationSettings = value;
             NotifyOfPropertyChange();
         }
     }

@@ -45,51 +45,6 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             true);
     }
 
-    private bool _externalNotificationSendWhenComplete = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true);
-
-    public bool ExternalNotificationSendWhenComplete
-    {
-        get => _externalNotificationSendWhenComplete;
-        set {
-            SetAndNotify(ref _externalNotificationSendWhenComplete, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, value.ToString());
-        }
-    }
-
-    private bool _externalNotificationEnableDetails = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false);
-
-    public bool ExternalNotificationEnableDetails
-    {
-        get => _externalNotificationEnableDetails;
-        set {
-            SetAndNotify(ref _externalNotificationEnableDetails, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnableDetails, value.ToString());
-        }
-    }
-
-    private bool _externalNotificationSendWhenError = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true);
-
-    public bool ExternalNotificationSendWhenError
-    {
-        get => _externalNotificationSendWhenError;
-        set {
-            SetAndNotify(ref _externalNotificationSendWhenError, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenError, value.ToString());
-        }
-    }
-
-
-    private bool _externalNotificationSendWhenStalled = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false);
-
-    public bool ExternalNotificationSendWhenStalled
-    {
-        get => _externalNotificationSendWhenStalled;
-        set {
-            SetAndNotify(ref _externalNotificationSendWhenStalled, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, value.ToString());
-        }
-    }
-
     public static readonly List<string> ExternalNotificationProviders =
         [
             "ServerChan",

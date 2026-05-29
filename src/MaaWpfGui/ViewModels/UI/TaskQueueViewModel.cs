@@ -281,13 +281,18 @@ public class TaskQueueViewModel : Screen
     public ObservableCollection<LogItemViewModel> LogItemViewModels { get; private set; } = [];
 
     /// <summary>
+    /// Gets the raw (unfiltered) log items used by external notification details etc.
+    /// </summary>
+    public ObservableCollection<LogItemViewModel> RawLogItems { get; private set; } = [];
+
+    /// <summary>
     /// Gets the grouped log cards. Each card contains multiple <see cref="LogItemViewModel"/>.
     /// </summary>
     public ObservableCollection<LogCardItemViewModel> LogCardViewModels { get; private set; } = [];
 
     private static readonly Random _logRandom = new();
 
-    private bool TryMergeIntoLastCard(string content, string color, string weight, ToolTip? toolTip)
+    private bool TryMergeIntoLastCard(string content, string color, string weight, ToolTip? toolTip, string? notificationTag)
     {
         // Merge into last existing card when it exists and is not sealed.
         if (LogCardViewModels.Count == 0)
@@ -304,8 +309,20 @@ public class TaskQueueViewModel : Screen
             log.Content = "thinking 🤔";
         }
 
-        LogItemViewModels.Add(log);
-        lastCard.Items.Add(log);
+        // 永远保留原始日志（供外部通知详情等使用）
+        RawLogItems.Add(log);
+
+        var filterContent = notificationTag != null ? $"[{notificationTag}] {content}" : content;
+        bool showInTaskQueueLog = NotificationManager.ShouldShow(NotificationType.TaskQueueLog, filterContent, notificationTag);
+
+        if (showInTaskQueueLog)
+        {
+            LogItemViewModels.Add(log);
+            lastCard.Items.Add(log);
+            NotificationManager.TrimCollection(LogItemViewModels, NotificationType.TaskQueueLog);
+        }
+
+        NotificationManager.ProcessLog(log, notificationTag);
 
         if (isAprilFools)
         {
@@ -632,15 +649,7 @@ public class TaskQueueViewModel : Screen
 
     private void RunningState_Stalled(object? sender, string message)
     {
-        AddLog(message, UiLogColor.Warning, notifyActivity: false);
-        ToastNotification.ShowDirect(message);
-        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenStalled)
-        {
-            var lastLogs = LogItemViewModels
-                .TakeLast(5)
-                .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
-            ExternalNotificationService.Send(message, lastLogs);
-        }
+        AddLog(message, UiLogColor.Warning, notifyActivity: false, notificationTag: "Stalled");
     }
 
     protected override void OnInitialActivate()
@@ -649,6 +658,7 @@ public class TaskQueueViewModel : Screen
 
         DisplayName = LocalizationHelper.GetString("Farming");
         LogItemViewModels = [];
+        RawLogItems = [];
         InitializeItems();
         InitTimer();
 
@@ -1186,6 +1196,7 @@ public class TaskQueueViewModel : Screen
     /// <param name="useCardImageAsToolTip">Whether to use the current card's image as toolTip.</param>
     /// <param name="splitMode">Whether to split cards before/after this log.</param>
     /// <param name="notifyActivity">Whether this log should notify activity (and reset idle timer).</param>
+    /// <param name="notificationTag">Tag for notification filtering e.g. TaskError, TaskComplete, Stalled.</param>
     public void AddLog(string? content,
         string color = UiLogColor.Trace,
         string weight = "Regular",
@@ -1194,7 +1205,8 @@ public class TaskQueueViewModel : Screen
         bool fetchLatestImage = false,
         bool useCardImageAsToolTip = false,
         LogCardSplitMode splitMode = LogCardSplitMode.None,
-        bool notifyActivity = true)
+        bool notifyActivity = true,
+        string? notificationTag = null)
     {
         if (notifyActivity)
         {
@@ -1221,7 +1233,7 @@ public class TaskQueueViewModel : Screen
             {
                 if (!isEmpty)
                 {
-                    TryMergeIntoLastCard(content!, color, weight, toolTip);
+                    TryMergeIntoLastCard(content!, color, weight, toolTip, notificationTag);
                 }
 
                 if (updateCardImage)
@@ -1271,7 +1283,9 @@ public class TaskQueueViewModel : Screen
     public void ClearLog()
     {
         Execute.OnUIThread(() => {
+            RawLogItems.Clear();
             LogItemViewModels.Clear();
+            NotificationManager.Clear();
             LogCardViewModels.Clear();
             DownloadLogItemViewModel = new(string.Empty);
             _logger.Information("Main windows log clear.");
@@ -1786,7 +1800,7 @@ public class TaskQueueViewModel : Screen
         _taskStartTime = DateTime.Now;
         ClearLog();
 
-        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
+        Instances.OverlayViewModel.LogItemsSource = NotificationManager.OverlayLogItems;
 
         var buildDateTimeLong = VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString;
         var resourceDateTimeLong = SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString;

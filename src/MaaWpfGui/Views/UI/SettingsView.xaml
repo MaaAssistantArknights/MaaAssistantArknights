@@ -81,6 +81,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid
@@ -281,10 +282,31 @@
                 </Grid>
 
                 <Grid
-                    Grid.Row="{Binding ExternalNotificationSettingsSetting.Value}"
+                    Grid.Row="{Binding NotificationSettingsSetting.Value}"
                     Margin="0,0,0,5"
                     d:Grid.Row="9"
                     Visibility="{c:Binding ExternalNotificationSettingsSetting.IsVisibleInSearch}">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding NotificationSettingsSetting.Display}"
+                        IsExpanded="{Binding IsNotificationSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:NotificationSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding NotificationSettings}" />
+                        </Border>
+                    </Expander>
+                </Grid>
+
+                <Grid
+                    Grid.Row="{Binding ExternalNotificationSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="10">
                     <Expander
                         d:IsExpanded="True"
                         Background="Transparent"
@@ -305,7 +327,7 @@
                 <Grid
                     Grid.Row="{Binding HotKeySettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="10"
+                    d:Grid.Row="11"
                     Visibility="{c:Binding HotKeySettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -324,7 +346,7 @@
                 <Grid
                     Grid.Row="{Binding AchievementSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="11"
+                    d:Grid.Row="12"
                     Visibility="{c:Binding AchievementSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -346,7 +368,7 @@
                 <Grid
                     Grid.Row="{Binding UpdateSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="12"
+                    d:Grid.Row="13"
                     Visibility="{c:Binding UpdateSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -368,7 +390,7 @@
                 <Grid
                     Grid.Row="{Binding IssueReportSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="13"
+                    d:Grid.Row="14"
                     Visibility="{c:Binding IssueReportSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -390,7 +412,7 @@
                 <Grid
                     Grid.Row="{Binding AboutUsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="14"
+                    d:Grid.Row="15"
                     Visibility="{c:Binding AboutUsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"

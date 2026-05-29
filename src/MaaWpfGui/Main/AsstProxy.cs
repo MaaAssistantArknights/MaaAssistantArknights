@@ -1060,13 +1060,7 @@ public class AsstProxy
                     _tasksStatus.TryGetValue(taskId, out var value);
 
                     var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
-                    Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true);
-
-                    ToastNotification.ShowDirect(log);
-                    if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
-                    {
-                        ExternalNotificationService.Send(log, log);
-                    }
+                    Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true, notificationTag: "TaskError");
 
                     if (value is { Type: TaskType.Copilot })
                     {
@@ -1091,7 +1085,7 @@ public class AsstProxy
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
                     Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot") /* or "VideoRecognition") */
                         ? Instances.CopilotViewModel.LogItemViewModels
-                        : Instances.TaskQueueViewModel.LogItemViewModels;
+                        : NotificationManager.OverlayLogItems;
 
                     break;
                 }
@@ -1225,18 +1219,10 @@ public class AsstProxy
                         sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
                         allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
-                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notificationTag: "TaskComplete");
 
-                        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
-                        {
-                            var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
-                                ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
-                                : string.Empty;
-                            logs += allTaskCompleteMessage;
-
-                            ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport);
-                        }
-
+                        // 通知管理系统已全权接管外部通知与系统通知的分发
+                        // 这里需要更多的测试，因为这一部分的测试流程比较长并且繁琐
                         if (_toastNotificationTimer is not null)
                         {
                             DisposeTimer();
@@ -1254,17 +1240,7 @@ public class AsstProxy
                     }
                     else
                     {
-                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
-
-                        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
-                        {
-                            var logs = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails
-                                ? Instances.TaskQueueViewModel.LogItemViewModels.Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n")
-                                : string.Empty;
-                            logs += allTaskCompleteMessage;
-
-                            ExternalNotificationService.Send(allTaskCompleteTitle, logs);
-                        }
+                        Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notificationTag: "TaskComplete");
                     }
 
                     using (var toast = new ToastNotification(allTaskCompleteTitle))

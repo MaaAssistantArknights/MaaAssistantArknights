@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,7 @@ using System.Windows.Interop;
 using HandyControl.Controls;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper.Notification;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 using Notification.Wpf.Constants;
@@ -289,7 +291,32 @@ public class ToastNotification : IDisposable
     public void Show(double lifeTime = 10d, uint row = 1,
         NotificationSounds sound = NotificationSounds.Notification, params NotificationHint[] hints)
     {
-        Execute.OnUIThread(() => {
+        ShowInternal(null, lifeTime, row, sound, hints);
+    }
+
+    /// <summary>
+    /// Show notification with an optional tag for filtering.
+    /// </summary>
+    public void ShowWithTag(string? tag, double lifeTime = 10d, uint row = 1,
+        NotificationSounds sound = NotificationSounds.Notification, params NotificationHint[] hints)
+    {
+        string filterContent = tag != null
+            ? $"[{tag}] {_notificationTitle}{_contentCollection}"
+            : _notificationTitle + _contentCollection;
+
+        if (!NotificationManager.ShouldShow(NotificationType.SystemNotification, filterContent, tag))
+        {
+            return;
+        }
+
+        ShowInternal(null, lifeTime, row, sound, hints);
+    }
+
+    private void ShowInternal(string? tag, double lifeTime = 10d, uint row = 1,
+        NotificationSounds sound = NotificationSounds.Notification, params NotificationHint[] hints)
+    {
+        Execute.OnUIThread(() =>
+        {
             // TODO: 整理过时代码
             if (!ConfigFactory.Root.GUI.UseNotify)
             {
@@ -389,6 +416,7 @@ public class ToastNotification : IDisposable
     /// 直接显示通知内容
     /// </summary>
     /// <param name="message">显示内容</param>
+    /// <param name="tag">可选标签用于通知过滤 (如 TaskError, TaskComplete)</param>
     public static void ShowDirect(string message)
     {
         using var toast = new ToastNotification(message);

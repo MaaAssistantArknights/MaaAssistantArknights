@@ -32,6 +32,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Models.Copilot;
 using MaaWpfGui.Services;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -167,7 +168,11 @@ public partial class CopilotViewModel : Screen
             return;
         }
         Execute.OnUIThread(() => {
-            LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
+            var log = new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime);
+            LogItemViewModels.Add(log);
+
+            NotificationManager.ProcessLog(log, null);
+
             if (showTime)
             {
                 switch (color)
