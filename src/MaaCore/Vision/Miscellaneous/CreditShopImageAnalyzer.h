@@ -23,9 +23,7 @@ private:
     bool whether_to_buy_analyze();
     bool sold_out_analyze();
 
-    static size_t match_required_index(
-        const std::string& text,
-        const std::vector<std::string>& required);
+    static size_t match_required_index(const std::string& text, const std::vector<std::string>& required);
 
     std::vector<Rect> m_commodities;
     std::vector<TextRect> m_need_to_buy;
