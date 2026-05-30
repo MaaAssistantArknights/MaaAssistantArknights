@@ -120,6 +120,10 @@ public partial class CopilotViewModel : Screen
             Inited = e.NewState.Inited;
             Stopping = e.NewState.Stopping;
         };
+        UserAdditionalItems.CollectionChanged += (_, _) => {
+            NotifyOfPropertyChange(nameof(UserAdditionalGridHeight));
+            NotifyOfPropertyChange(nameof(UserAdditionalPopupVerticalOffset));
+        };
 
         var copilotTaskList = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotTaskList, string.Empty);
         if (string.IsNullOrEmpty(copilotTaskList))
@@ -437,6 +441,22 @@ public partial class CopilotViewModel : Screen
     /// Gets the view models of UserAdditional items.
     /// </summary>
     public ObservableCollection<UserAdditionalItemViewModel> UserAdditionalItems { get; } = [];
+
+    private const int MaxVisibleUserAdditionalRows = 7;
+
+    public double UserAdditionalRowHeight => 40;
+
+    public double UserAdditionalGridMaxHeight => 350;
+
+    public double UserAdditionalGridHeight
+    {
+        get {
+            var rows = Math.Clamp(UserAdditionalItems.Count, 1, MaxVisibleUserAdditionalRows);
+            return UserAdditionalGridMaxHeight - ((MaxVisibleUserAdditionalRows - rows) * UserAdditionalRowHeight);
+        }
+    }
+
+    public double UserAdditionalPopupVerticalOffset => (UserAdditionalGridHeight - UserAdditionalGridMaxHeight) / 2;
 
     /// <summary>
     /// Opens the UserAdditional popup for editing.
