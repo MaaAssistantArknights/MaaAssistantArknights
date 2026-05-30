@@ -29,7 +29,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -212,6 +211,8 @@ public class TaskQueueViewModel : Screen
         });
     }
 
+    #region Overlay
+
     public static void ChooseOverlayTarget()
     {
         try
@@ -274,6 +275,8 @@ public class TaskQueueViewModel : Screen
             EnableOverlay();
         }
     }
+
+    #endregion Overlay
 
     /// <summary>
     /// Gets or private sets the view models of log items.
@@ -434,6 +437,8 @@ public class TaskQueueViewModel : Screen
     #endregion
 
     #region ActionAfterTasks
+
+    public bool StartByLinkStart { get; set; }
 
     private bool _enableAfterActionSetting;
 
@@ -1769,6 +1774,7 @@ public class TaskQueueViewModel : Screen
     /// <returns>Task</returns>
     public async Task LinkStart()
     {
+        StartByLinkStart = true;
         using var log = new LogScope(_logger);
         await TaskQueueSerializingLock.WaitAsync();
         await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
