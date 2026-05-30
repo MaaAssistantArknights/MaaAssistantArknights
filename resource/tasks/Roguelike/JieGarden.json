@@ -155,7 +155,16 @@
         "Doc": "放弃交换通宝的确认按钮",
         "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
         "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
-        "next": ["JieGarden@Roguelike@CoppersTakeFlag#next", "#self"]
+        "next": [
+            "JieGarden@Roguelike@CoppersEventResultClose",
+            "JieGarden@Roguelike@CoppersTakeFlag#next",
+            "#self"
+        ]
+    },
+    "JieGarden@Roguelike@CoppersEventResultClose": {
+        "Doc": "事件内处理通宝交换后，关闭事件结果页的红勾",
+        "baseTask": "JieGarden@Roguelike@CloseEvent",
+        "template": "JieGarden@Roguelike@CloseEvent.png"
     },
     "JieGarden@Roguelike@CoppersAbandonExchange": {
         "Doc": "放弃交换通宝按钮",
@@ -165,7 +174,7 @@
         "postDelay": 1000,
         "templThreshold": 0.85,
         "cache": true,
-        "next": ["JieGarden@Roguelike@CoppersAbandonConfirm", "#self"]
+        "next": ["JieGarden@Roguelike@CoppersAbandonConfirm", "JieGarden@Roguelike@CoppersEventResultClose", "#self"]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
         "Doc": "通宝已投出状态识别 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
@@ -245,6 +254,7 @@
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@CoppersExchangeConfirm@(JieGarden@Roguelike@CloseCollectionContinue)",
             "JieGarden@Roguelike@CoppersExchangeFinish",
+            "JieGarden@Roguelike@CoppersEventResultClose",
             "#self"
         ]
     },
@@ -403,6 +413,7 @@
             "JieGarden@Roguelike@CoppersTakeConfirm@(JieGarden@Roguelike@CloseCollectionContinue)",
             "JieGarden@Roguelike@CoppersExchangeFinish",
             "JieGarden@Roguelike@CoppersExchangeConfirm",
+            "JieGarden@Roguelike@CoppersEventResultClose",
             "#self"
         ]
     },
