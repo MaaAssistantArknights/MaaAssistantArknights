@@ -124,7 +124,6 @@
     },
     "JieGarden@Roguelike@CloseCollectionContinue": {
         "doc": "类似招募卷奖励后点next, 后续其他执行也重构为此类",
-        "template": "JieGarden@Roguelike@CloseCollectionContinue.png",
         "action": "ClickSelf",
         "roi": [563, 486, 174, 125],
         "templThreshold": 0.95,
