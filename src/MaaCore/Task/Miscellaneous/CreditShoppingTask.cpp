@@ -48,6 +48,24 @@ asst::CreditShoppingTask& asst::CreditShoppingTask::set_reserve_max_credit(bool 
     return *this;
 }
 
+bool asst::CreditShoppingTask::verify_commodity_name(const TextRect& commodity) const
+{
+    if (commodity.text.empty()) {
+        return false;
+    }
+
+    const auto product_name_task_ptr = Task.get<OcrTaskInfo>("CreditShop-ProductName");
+    Rect name_roi = product_name_task_ptr->roi;
+    name_roi.x += commodity.rect.x;
+    name_roi.y += commodity.rect.y;
+
+    OCRer ocr_analyzer(ctrler()->get_image());
+    ocr_analyzer.set_roi(name_roi);
+    ocr_analyzer.set_replace(product_name_task_ptr->replace_map);
+    ocr_analyzer.set_required({ commodity.text });
+    return ocr_analyzer.analyze().has_value();
+}
+
 int asst::CreditShoppingTask::credit_ocr()
 {
     cv::Mat credit_image = ctrler()->get_image();
@@ -101,7 +119,7 @@ int asst::CreditShoppingTask::discount_ocr(const asst::Rect& commodity)
     return utils::chars_to_number(discount, discount_number) ? discount_number : 0;
 }
 
-bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool credit_ocr_enabled)
+bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool should_stop_on_credit)
 {
     const cv::Mat& image = ctrler()->get_image();
 
@@ -120,7 +138,7 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
     }
     const auto& shopping_list = shop_analyzer.get_result();
 
-    for (const Rect& commodity : shopping_list) {
+    for (const TextRect& commodity : shopping_list) {
         if (need_exit()) {
             return false;
         }
@@ -132,7 +150,7 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         }
 
         if (!m_is_white_list && m_only_buy_discount) {
-            int discount = discount_ocr(commodity);
+            int discount = discount_ocr(commodity.rect);
             if (discount <= 0) {
                 int credit = credit_ocr();
                 if (credit > MaxCredit && m_info_credit_full) {
@@ -149,11 +167,20 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
 
         // 因动画过渡等原因，ctrler()->click(commodity) 点击商品时可能失败，共可尝试 4 次
         // 若点击商品成功，则 CreditShop-BuyIt 的 ProcessTask 应顺利执行并返回 true
+        bool bought = false;
         for (int clickCount = 0; clickCount <= 3; ++clickCount) {
-            ctrler()->click(commodity);
+            // 点击前复核一次商品名，避免动画或列表偏移导致盲点到错误商品。
+            if (verify_commodity_name(commodity)) {
+                ctrler()->click(commodity.rect);
+            }
             if (ProcessTask(*this, { "CreditShop-BuyIt" }).run()) {
+                bought = true;
                 break;
             }
+        }
+        // 多次点击仍未进入购买流程，说明当前商品无法购买，跳过后续 NoMoney / 信用 OCR 检查
+        if (!bought) {
+            continue;
         }
 
         if (ProcessTask(*this, { "CreditShop-NoMoney" }).set_task_delay(0).set_retry_times(0).run()) {
@@ -162,7 +189,7 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         if (need_exit()) {
             return false;
         }
-        if (credit_ocr_enabled) {
+        if (should_stop_on_credit) {
             int credit = credit_ocr();
             if (credit <= MaxCredit) { // 信用值不再溢出，停止购物
                 break;
