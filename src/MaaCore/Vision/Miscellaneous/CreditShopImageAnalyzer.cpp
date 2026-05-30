@@ -107,7 +107,11 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
             continue;
         }
 
-        const std::string& name = ocr_analyzer.get_result().front().text;
+        const auto& ocr_result = ocr_analyzer.get_result();
+        if (ocr_result.empty()) {
+            continue;
+        }
+        const std::string& name = ocr_result.front().text;
         const size_t match_index = match_required_index(name, m_shopping_list);
 
         // 黑名单模式，命中黑名单商品则跳过；白名单模式，未命中白名单则跳过。
