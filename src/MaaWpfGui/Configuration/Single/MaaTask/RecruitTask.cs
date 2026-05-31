@@ -14,8 +14,10 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json.Serialization;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
@@ -106,6 +108,36 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     /// Gets or sets 5星时间
     /// </summary>
     public int Level5Time { get; set; } = 540;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 公招一天仅一次
+    /// </summary>
+    public bool RecruitOnceADay { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets 上次公招的时间
+    /// </summary>
+    public string RecruitLastTime { get; set; } = DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString();
+
+    public bool IsRecruitAvailable
+    {
+        get
+        {
+            if (!RecruitOnceADay)
+            {
+                return true;
+            }
+
+            try
+            {
+                return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(RecruitLastTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                return true;
+            }
+        }
+    }
 
     public void OnDeserialized()
     {

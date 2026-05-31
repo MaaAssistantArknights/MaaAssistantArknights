@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities;
@@ -273,6 +274,15 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     }
     #endregion 公招时间
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to only recruit once a day.
+    /// </summary>
+    public bool RecruitOnceADay
+    {
+        get => GetTaskConfig<RecruitTask>().RecruitOnceADay;
+        set => SetTaskConfig<RecruitTask>(t => t.RecruitOnceADay == value, t => t.RecruitOnceADay = value);
+    }
+
     public override void RefreshUI(BaseTask baseTask)
     {
         if (baseTask is RecruitTask)
@@ -291,6 +301,14 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
             {
                 return (null, []);
             }
+
+            if (!recruit.IsRecruitAvailable)
+            {
+                return (null, []);
+            }
+
+            // Record execution time for daily limit
+            recruit.RecruitLastTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
 
             var preserveTags = recruit.PreserveTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.PreserveTagList) : [];
             var firstTags = recruit.PreferTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.Level3PreferTags) : [];

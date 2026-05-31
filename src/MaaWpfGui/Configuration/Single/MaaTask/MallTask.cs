@@ -60,7 +60,7 @@ public class MallTask : BaseTask
     /// <summary>
     /// Gets or sets a value indicating whether 访问好友一天仅一次
     /// </summary>
-    public bool VisitFriendsOnceADay { get; set; }
+    public bool VisitFriendsOnceADay { get; set; } = true;
 
     /// <summary>
     /// Gets or sets 上次访问好友的时间
