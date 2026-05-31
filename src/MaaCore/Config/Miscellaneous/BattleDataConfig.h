@@ -169,9 +169,15 @@ public:
         return get_tokens(get_role(name), name);
     }
 
+    bool is_amiya(battle::Role role, const std::string& name) const
+    {
+        return name == "阿米娅" &&
+               (role == battle::Role::Caster || role == battle::Role::Warrior || role == battle::Role::Medic);
+    }
+
     bool is_name_invalid(battle::Role role, const std::string& name) const
     {
-        return name.empty() || find_oper(role, name) == nullptr;
+        return name.empty() || (!is_amiya(role, name) && find_oper(role, name) == nullptr);
     }
 
     // Legacy wrapper (name-only). If name is ambiguous across roles, returns true.
