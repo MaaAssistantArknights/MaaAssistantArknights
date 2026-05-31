@@ -438,6 +438,11 @@
                 "name": ["生活的重压"],
                 "template": "Bskill_ctrl_mp_oblvns.png"
             },
+            "bskill_ctrl_orchd2": {
+                "desc": ["进驻控制中枢时，人力办公室联络速度+10%（同种效果取最高）"],
+                "name": ["办公室年度人物"],
+                "template": "Bskill_ctrl_orchd2.png"
+            },
             "bskill_ctrl_p_bot": {
                 "desc": ["进驻控制中枢时，如果Lancet-2进驻在发电站，发电站额外+2（仅影响设施数量）"],
                 "efficient": {
@@ -797,6 +802,13 @@
                 },
                 "name": ["无声共鸣"],
                 "template": "Bskill_dorm_bdnum.png"
+            },
+            "bskill_dorm_buddy": {
+                "desc": [
+                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高），如果目标是怪物猎人小队成员和泡影国狩猎小队，则恢复效果额外+0.45"
+                ],
+                "name": ["狩猎好帮手"],
+                "template": "Bskill_dorm_buddy.png"
             },
             "bskill_dorm_exchangeAp": {
                 "desc": ["进驻宿舍时，如果自身为满心情，则与当前宿舍前一位进驻的干员互换心情"],
@@ -2975,6 +2987,13 @@
                 "name": ["B.P.R.S", "联络员", "B.P.R.S."],
                 "template": "Bskill_meet_blacksteel2.png"
             },
+            "bskill_meet_buddy": {
+                "desc": [
+                    "进驻会客室时，更容易获得线索板上尚未拥有的线索，若焰狐龙梓兰进驻控制中枢，则线索搜集速度提升10%"
+                ],
+                "name": ["隐秘专家"],
+                "template": "Bskill_meet_buddy.png"
+            },
             "bskill_meet_condChar": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%"],
                 "efficient": {
@@ -3617,6 +3636,11 @@
                 "name": ["投资·β"],
                 "template": "Bskill_tra_long2.png"
             },
+            "bskill_tra_orchd2": {
+                "desc": ["进驻贸易站时，订单上限+3，且每有一个泡影国狩猎小队干员进驻贸易站，订单获取效率+20%"],
+                "name": ["队长的自觉"],
+                "template": "Bskill_tra_orchd2.png"
+            },
             "bskill_tra_ord_spd_ext0": {
                 "desc": ["进驻贸易站时，订单获取效率+25%；当乌尔比安在基建内时（不包含副手），订单获取效率额外+5%"],
                 "efficient": {
@@ -3881,6 +3905,11 @@
                 },
                 "name": ["名流欢会", "物流专家"],
                 "template": "Bskill_tra_spd3.png"
+            },
+            "bskill_tra_spd3&catap2": {
+                "desc": ["进驻贸易站时，订单获取效率+35%"],
+                "name": ["气氛组"],
+                "template": "Bskill_tra_spd3&catap2.png"
             },
             "bskill_tra_spd_bd1": {
                 "desc": ["进驻贸易站时，每4点无声共鸣+1%订单效率"],

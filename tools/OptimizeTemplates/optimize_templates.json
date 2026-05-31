@@ -4083,5 +4083,10 @@
     "resource/template/QuickSwitch/Mall": "52846b6cff45070c3fedca4fc218579f3065e639bb028604df69af092ff2044d",
     "resource/template/QuickSwitch/Home": "d0990f91eee451a6d6f3eacb91b21409908bdde1ce8782f88a5b11e73ba4eccd",
     "resource/template/QuickSwitch/Recruit": "3b515ed2f794bdc4f04954b180951f86aa0a383a950e217f03c65cf47ab24600",
-    "resource/template/QuickSwitch/Menu": "c3d7149b430ec9fc851aa6a8391f8d2b783fdfb6517f43fe9f0c66a363aec365"
+    "resource/template/QuickSwitch/Menu": "c3d7149b430ec9fc851aa6a8391f8d2b783fdfb6517f43fe9f0c66a363aec365",
+    "resource/template/items/LINKAGE_TKT_GACHA_10_7401": "5823db8c0459db36083e886922fda452e13102c08768d067eb2fae1b15b9a311",
+    "resource/template/infrast/Bskill_meet_buddy": "98499a9bf4271712b54d031fcf088213f0fb8f9fb2d4481267011fe7a3676dba",
+    "resource/template/infrast/Bskill_ctrl_orchd2": "6dc853785c28cef0e6e66c09c234f6922602baa9231584c44bdce3287a2e7154",
+    "resource/template/infrast/Bskill_tra_spd3&catap2": "984c0381f9051d8d0fb618ada293bd76c4235531782e0524c08b394e0911c3f9",
+    "resource/template/infrast/Bskill_tra_orchd2": "22cf5afb6a0acbac39c95a479c1285e201aa7f5a8883e87c0b253bc8e1767fdf"
 }

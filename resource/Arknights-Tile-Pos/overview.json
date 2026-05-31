@@ -16757,6 +16757,96 @@
         "stageId": "act4bossrush_tm04",
         "width": 28
     },
+    "act50side_01-activities/act50side/level_act50side_01": {
+        "code": "TD-1",
+        "filename": "act50side_01-activities-act50side-level_act50side_01.json",
+        "height": 7,
+        "levelId": "activities/act50side/level_act50side_01",
+        "name": "硬壳下的胆小鬼",
+        "stageId": "act50side_01",
+        "width": 10
+    },
+    "act50side_02-activities/act50side/level_act50side_02": {
+        "code": "TD-2",
+        "filename": "act50side_02-activities-act50side-level_act50side_02.json",
+        "height": 7,
+        "levelId": "activities/act50side/level_act50side_02",
+        "name": "还我锅来！",
+        "stageId": "act50side_02",
+        "width": 10
+    },
+    "act50side_03-activities/act50side/level_act50side_03": {
+        "code": "TD-3",
+        "filename": "act50side_03-activities-act50side-level_act50side_03.json",
+        "height": 7,
+        "levelId": "activities/act50side/level_act50side_03",
+        "name": "不能掉以轻心",
+        "stageId": "act50side_03",
+        "width": 11
+    },
+    "act50side_04-activities/act50side/level_act50side_04": {
+        "code": "TD-4",
+        "filename": "act50side_04-activities-act50side-level_act50side_04.json",
+        "height": 8,
+        "levelId": "activities/act50side/level_act50side_04",
+        "name": "赤雪之兆",
+        "stageId": "act50side_04",
+        "width": 12
+    },
+    "act50side_05-activities/act50side/level_act50side_05": {
+        "code": "TD-5",
+        "filename": "act50side_05-activities-act50side-level_act50side_05.json",
+        "height": 8,
+        "levelId": "activities/act50side/level_act50side_05",
+        "name": "只能成功，不能失败",
+        "stageId": "act50side_05",
+        "width": 11
+    },
+    "act50side_06-activities/act50side/level_act50side_06": {
+        "code": "TD-6",
+        "filename": "act50side_06-activities-act50side-level_act50side_06.json",
+        "height": 7,
+        "levelId": "activities/act50side/level_act50side_06",
+        "name": "来自过去的亡魂",
+        "stageId": "act50side_06",
+        "width": 11
+    },
+    "act50side_07-activities/act50side/level_act50side_07": {
+        "code": "TD-7",
+        "filename": "act50side_07-activities-act50side-level_act50side_07.json",
+        "height": 8,
+        "levelId": "activities/act50side/level_act50side_07",
+        "name": "为什么全是死脑筋？",
+        "stageId": "act50side_07",
+        "width": 11
+    },
+    "act50side_08-activities/act50side/level_act50side_08": {
+        "code": "TD-8",
+        "filename": "act50side_08-activities-act50side-level_act50side_08.json",
+        "height": 8,
+        "levelId": "activities/act50side/level_act50side_08",
+        "name": "宿命流转，苍霆激荡",
+        "stageId": "act50side_08",
+        "width": 11
+    },
+    "act50side_p-1-activities/act50side/level_act50side_p-1": {
+        "code": "TD-P-1",
+        "filename": "act50side_p-1-activities-act50side-level_act50side_p-1.json",
+        "height": 9,
+        "levelId": "activities/act50side/level_act50side_p-1",
+        "name": "“百兽奔行”",
+        "stageId": "act50side_p-1",
+        "width": 13
+    },
+    "act50side_tr01-activities/act50side/level_act50side_tr01": {
+        "code": "TD-TR-1",
+        "filename": "act50side_tr01-activities-act50side-level_act50side_tr01.json",
+        "height": 6,
+        "levelId": "activities/act50side/level_act50side_tr01",
+        "name": "狩猎太棒啦！",
+        "stageId": "act50side_tr01",
+        "width": 10
+    },
     "act51side_01-activities/act51side/level_act51side_01": {
         "code": "PA-1",
         "filename": "act51side_01-activities-act51side-level_act51side_01.json",
@@ -25145,6 +25235,15 @@
         "stageId": "mem_bdhkgt_1",
         "width": 11
     },
+    "mem_beagle_1-obt/memory/level_memory_beagle_1": {
+        "code": "mem_beagle_1",
+        "filename": "mem_beagle_1-obt-memory-level_memory_beagle_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_beagle_1",
+        "name": "A1的基石",
+        "stageId": "mem_beagle_1",
+        "width": 11
+    },
     "mem_beewax_1-obt/memory/level_memory_beewax_1": {
         "code": "mem_beewax_1",
         "filename": "mem_beewax_1-obt-memory-level_memory_beewax_1.json",
@@ -26288,6 +26387,15 @@
         "stageId": "mem_kjera_1",
         "width": 11
     },
+    "mem_kroos2_1-obt/memory/level_memory_kroos2_1": {
+        "code": "mem_kroos2_1",
+        "filename": "mem_kroos2_1-obt-memory-level_memory_kroos2_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_kroos2_1",
+        "name": "可信赖的同伴",
+        "stageId": "mem_kroos2_1",
+        "width": 11
+    },
     "mem_kroos_1-obt/memory/level_memory_kroos_1": {
         "code": "mem_kroos_1",
         "filename": "mem_kroos_1-obt-memory-level_memory_kroos_1.json",
@@ -27231,6 +27339,15 @@
         "levelId": "obt/memory/level_memory_sunbr_1",
         "name": "战场烹调师",
         "stageId": "mem_sunbr_1",
+        "width": 10
+    },
+    "mem_surfer_1-obt/memory/level_memory_surfer_1": {
+        "code": "mem_surfer_1",
+        "filename": "mem_surfer_1-obt-memory-level_memory_surfer_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_surfer_1",
+        "name": "通向初心",
+        "stageId": "mem_surfer_1",
         "width": 10
     },
     "mem_susuro_1-obt/memory/level_memory_susuro_1": {
