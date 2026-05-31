@@ -3011,6 +3011,18 @@
         "roi": [1030, 220, 190, 65],
         "preDelay": 500
     },
+    "VerifyTradeOrderChangedToMoney": {
+        "baseTask": "InfrastFlagMoney",
+        "template": "InfrastTradeMoneyFlag.png",
+        "action": "DoNothing",
+        "preDelay": 500
+    },
+    "VerifyTradeOrderChangedToSyntheticJade": {
+        "baseTask": "InfrastFlagSyntheticJade",
+        "template": "InfrastTradeSyntheticJadeFlag.png",
+        "action": "DoNothing",
+        "preDelay": 500
+    },
     "InfrastAddOperatorMfgGentle": {
         "template": "AddOperatorMfgGentle.png",
         "templThreshold": 0.8,
@@ -4869,38 +4881,56 @@
         "template": "InfrastTradeSyntheticJadeFlag.png",
         "cache": true,
         "roi": [950, 585, 207, 105],
-        "next": ["ChooseMoneyOrder"],
-        "preDelay": 500
+        "maxTimes": 3,
+        "next": ["ChooseMoneyOrder", "#self"],
+        "exceededNext": ["ChooseMoneyOrder"],
+        "preDelay": 500,
+        "postDelay": 500
     },
     "ChooseMoneyOrder": {
         "action": "ClickSelf",
         "cache": true,
         "roi": [395, 150, 248, 427],
-        "next": ["ChangeOrderConfirm"],
+        "next": ["ChangeMoneyOrderConfirm"],
         "preDelay": 500,
         "Doc": "加前延时等动画结束再执行点击"
     },
-    "ChangeOrderConfirm": {
+    "ChangeMoneyOrderConfirm": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [0, 0, 380, 140],
-        "next": ["ChangeOrderConfirm@LoadingText", "Stop"]
+        "maxTimes": 10,
+        "postDelay": 500,
+        "next": ["ChangeMoneyOrderConfirm@LoadingText", "VerifyTradeOrderChangedToMoney", "#self"],
+        "exceededNext": ["VerifyTradeOrderChangedToMoney"]
     },
     "ChangeToSyntheticJadeFlagOrder": {
         "action": "ClickSelf",
         "template": "InfrastTradeMoneyFlag.png",
         "cache": true,
         "roi": [950, 585, 207, 105],
-        "next": ["ChooseSyntheticJadeOrder"],
-        "preDelay": 500
+        "maxTimes": 3,
+        "next": ["ChooseSyntheticJadeOrder", "#self"],
+        "exceededNext": ["ChooseSyntheticJadeOrder"],
+        "preDelay": 500,
+        "postDelay": 500
     },
     "ChooseSyntheticJadeOrder": {
         "action": "ClickSelf",
         "cache": true,
         "roi": [635, 150, 250, 427],
-        "next": ["ChangeOrderConfirm"],
+        "next": ["ChangeSyntheticJadeOrderConfirm"],
         "preDelay": 500,
         "Doc": "加前延时等动画结束再执行点击"
+    },
+    "ChangeSyntheticJadeOrderConfirm": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [0, 0, 380, 140],
+        "maxTimes": 10,
+        "postDelay": 500,
+        "next": ["ChangeSyntheticJadeOrderConfirm@LoadingText", "VerifyTradeOrderChangedToSyntheticJade", "#self"],
+        "exceededNext": ["VerifyTradeOrderChangedToSyntheticJade"]
     },
     "ChooseProductList": {
         "action": "ClickRect",
