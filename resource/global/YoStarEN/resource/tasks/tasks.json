@@ -1259,9 +1259,6 @@
     "ShamareThumbnail3": {
         "maskRange": [1, 255]
     },
-    "InfrastOperNameOcr": {
-        "rectMove": [-8, 20, 125, 22]
-    },
     "InfrastStationedInfo": {
         "text": ["Operator", "Operato"]
     },
