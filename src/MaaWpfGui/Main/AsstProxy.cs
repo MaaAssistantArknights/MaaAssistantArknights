@@ -1176,8 +1176,6 @@ public class AsstProxy
 
             case AsstMsg.AllTasksCompleted:
                 bool isMainTaskQueueAllCompleted = false;
-                bool startByLinkStart = Instances.TaskQueueViewModel.StartByLinkStart;
-                Instances.TaskQueueViewModel.StartByLinkStart = false;
                 var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
                 if (taskList?.Length > 0)
                 {
@@ -1289,14 +1287,11 @@ public class AsstProxy
                     }
 
                     // Instances.TaskQueueViewModel.CheckAndShutdown();
+                    _ = Instances.TaskQueueViewModel.CheckAfterCompleted();
+
                     if (Instances.OverlayViewModel.IsCreated)
                     {
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
-                    }
-
-                    if (startByLinkStart)
-                    {
-                        _ = Instances.TaskQueueViewModel.CheckAfterCompleted();
                     }
                 }
                 else if (isCopilotTaskChain)
