@@ -462,7 +462,7 @@
                     TextWrapping="Wrap" />
             </CheckBox>
             <StackPanel
-                Margin="0,5,10,0"
+                Margin="0,2,10,0"
                 Opacity="{c:Binding 'ActivityExpireIn2Days ? 1 : 0.5'}"
                 Orientation="Horizontal">
                 <controls:TextBlock Margin="4,0,8,0" Text="└" />
