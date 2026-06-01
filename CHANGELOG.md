@@ -36,6 +36,15 @@ The settings page now features a search bar with keyword highlighting and sectio
 以下是详细内容：
 
 <details open>
+<summary><b>v6.11.1 (2026-06-02)</b></summary>
+
+### 改进 | Improved
+
+* 增加 TD 关卡导航稳定性 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.11.0 (2026-06-02)</b></summary>
 
 ### 新增 | New
