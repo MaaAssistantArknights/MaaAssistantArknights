@@ -18,6 +18,7 @@ Only supports switching to already logged-in accounts, using the login name for 
 - Examples:
   - Official server: `123****8901` can be entered as `123****8901`, `123`, `8901`, or `3****8`
   - Bilibili server: `Zhang San` can be entered as `Zhang San`, `Zhang`, or `San`
+  - Traditional Chinese server: Email-based, e.g. `ab****01@gmail.com`. Entering the plain-text portion without asterisks is recommended, e.g. `01@gmail`
 
 ## Connection Settings
 

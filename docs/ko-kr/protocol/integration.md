@@ -64,6 +64,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 공식 서버: `123****4567`인 경우 `123****4567`, `4567`, `123`, `3****4567` 입력 가능  
 <br>
 Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능  
+<br>
+번체 중국어 서버: 계정은 Email 형식이며(예: `ab****01@gmail.com`), 별표가 없는 평문 부분(예: `01@gmail`) 입력을 권장합니다  
 :::  
 ::::
 

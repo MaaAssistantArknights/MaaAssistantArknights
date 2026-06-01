@@ -64,6 +64,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 Official：`123****4567`、入力可能：`123****4567`、`4567`、`123`、`3****4567`  
 <br>
 Bilibili：`张三`、入力可能：`张三`、`张`、`三`  
+<br>
+繁体字中国語サーバー：Eメール形式（例：`ab****01@gmail.com`）。アスタリスクを含まない明文部分（例：`01@gmail`）の入力を推奨  
 :::  
 ::::
 
