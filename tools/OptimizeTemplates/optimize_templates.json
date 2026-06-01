@@ -4088,5 +4088,16 @@
     "resource/template/infrast/Bskill_meet_buddy": "98499a9bf4271712b54d031fcf088213f0fb8f9fb2d4481267011fe7a3676dba",
     "resource/template/infrast/Bskill_ctrl_orchd2": "6dc853785c28cef0e6e66c09c234f6922602baa9231584c44bdce3287a2e7154",
     "resource/template/infrast/Bskill_tra_spd3&catap2": "984c0381f9051d8d0fb618ada293bd76c4235531782e0524c08b394e0911c3f9",
-    "resource/template/infrast/Bskill_tra_orchd2": "22cf5afb6a0acbac39c95a479c1285e201aa7f5a8883e87c0b253bc8e1767fdf"
+    "resource/template/infrast/Bskill_tra_orchd2": "22cf5afb6a0acbac39c95a479c1285e201aa7f5a8883e87c0b253bc8e1767fdf",
+    "txwy/AccountManagerTxwy": "abf91669d9fcb7a808c1840860908428b15c1d45c5d1488b5fbe45b07c75efbf",
+    "resource/global/txwy/resource/template/UiTheme/LoneTrail/Day/Task": "11323c7ea2c391947989b028f0e504bf069d79c3879d0caa72f4de6ebde55287",
+    "resource/global/txwy/resource/template/UiTheme/LoneTrail/Day/Mall": "1a4bce52a8caca920a4628c97599777d02830ef1ce35058432aae2dd701d3040",
+    "resource/global/txwy/resource/template/UiTheme/LoneTrail/Day/DepotEnter": "6cc60993546399bbe47c41a11f4795b81aa19d5a7880299a4234949472cc6232",
+    "resource/global/txwy/resource/template/UiTheme/LoneTrail/Day/Friends": "efdaf3b77e73ad2a7036e884dea852d8acd74f2a8343ebd403c0b31157860ff1",
+    "resource/global/txwy/resource/template/UiTheme/LoneTrail/Day/EnterInfrast": "fb8c849b0d74bc2fd95fbc5535b0925d68d157a692e9d05f3c81e3a704a7625b",
+    "resource/global/txwy/resource/template/UiTheme/LoneTrail/Night/Task": "e9e867b291678b2f0b3b61a07cd62dedf631d434f67f61ccfd4dfadf056f69ef",
+    "resource/global/txwy/resource/template/UiTheme/LoneTrail/Night/Mall": "b2939a25e5e9f5fef1176e841e74026451e743c9e51b25d04929f44c68da9a9e",
+    "resource/global/txwy/resource/template/UiTheme/LoneTrail/Night/DepotEnter": "b929b9c871225eb89682916955574adf0cecdca594a6fac867962a4c6c6c0c7f",
+    "resource/global/txwy/resource/template/UiTheme/LoneTrail/Night/Friends": "5d40f27da7974102a0bc89d59e40924396ba52a953b17dde8c18909be964cca2",
+    "resource/global/txwy/resource/template/UiTheme/LoneTrail/Night/EnterInfrast": "70d8283ae6a9c3e6ec9d2cd0a69d36833dc015d7d7b43db126445379260b54a2"
 }
