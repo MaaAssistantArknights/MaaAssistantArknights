@@ -939,36 +939,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    /// <summary>
-    /// Gets or sets 到期药物天数文本，用于可编辑下拉框的手动输入。
-    /// </summary>
-    public string MedicineExpireDaysText { get => field; set => SetAndNotify(ref field, value); } = string.Empty;
-
-    // UI 绑定的方法
-    [UsedImplicitly]
-    public void MedicineExpireDaysDropDownClosed()
-    {
-        if (MedicineExpireDayList.FirstOrDefault(i => i.Display == MedicineExpireDaysText) is { } item)
-        {
-            MedicineExpireDays = item.Value;
-        }
-        else if (int.TryParse(MedicineExpireDaysText, out var days) && days > 0)
-        {
-            MedicineExpireDays = days;
-            MedicineExpireDaysText = days.ToString();
-        }
-        else
-        {
-            RefreshMedicineExpireDaysText();
-        }
-    }
-
-    private void RefreshMedicineExpireDaysText()
-    {
-        var days = GetTaskConfig<FightTask>().MedicineExpireDays;
-        MedicineExpireDaysText = MedicineExpireDayList.FirstOrDefault(i => i.Value == days)?.Display ?? days.ToString();
-    }
-
     public bool UseExpireMedicineForActivity
     {
         get => GetTaskConfig<FightTask>().UseExpireMedicineForActivity;
@@ -1101,7 +1071,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         RefreshCurrentStagePlan();
         RefreshWeeklySchedule();
         RefreshDropName();
-        RefreshMedicineExpireDaysText();
         NotifySpecifiedDropsStateChanged();
         Refresh();
     }
