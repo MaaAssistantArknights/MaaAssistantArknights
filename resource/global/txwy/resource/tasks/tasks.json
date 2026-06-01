@@ -1318,5 +1318,40 @@
     },
     "YellowTicket@Store@Purchase": {
         "text": ["購買物品"]
+    },
+    "LoginOther": {
+        "next": ["AccountManagerOfficial", "AccountManagerBili", "AccountManagerTxwy"]
+    },
+    "AccountManagerTxwy": {
+        "roi": [375, 145, 525, 85]
+    },
+    "Settings": {
+        "next": ["LogoutOCR", "Logout"]
+    },
+    "LogoutOCR": {
+        "text": ["登出該帳號", "登出"],
+        "roi": [560, 335, 220, 80]
+    },
+    "LogoutConfirm": {
+        "template": "PopupConfirm.png",
+        "roi": [640, 455, 640, 80]
+    },
+    "AccountCurrentOCR": {
+        "roi": [440, 548, 400, 30]
+    },
+    "AccountManagerLoginButton": {
+        "text": ["登入"],
+        "roi": [465, 385, 355, 55]
+    },
+    "AccountManagerListAccount": {
+        "roi": [770, 290, 70, 60]
+    },
+    "AccountManagerTrashButton": {
+        "roi": [790, 370, 35, 150]
+    },
+    "AccountManager": {
+        "algorithm": "OcrDetect",
+        "text": ["帳號管理"],
+        "roi": [700, 655, 200, 60]
     }
 }
