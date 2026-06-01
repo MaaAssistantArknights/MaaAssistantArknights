@@ -25,7 +25,7 @@
     },
     "Mizuki@Roguelike@ChooseOper": {
         "next": [
-            "Mizuki@Roguelike@CloseCollectionContinue",
+            "Mizuki@Roguelike@ChooseOper@(Mizuki@Roguelike@CloseCollectionContinue)",
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@ChooseOperConfirm",
             "Mizuki@Roguelike@Abandon",
@@ -52,13 +52,8 @@
         "templThreshold": 0.9,
         "roi": [549, 440, 123, 130],
         "maskRange": [100, 255],
-        "next": [
-            "Mizuki@Roguelike@StageEncounterEnter",
-            "Mizuki@Roguelike@Stages#next",
-            "Mizuki@Roguelike@DropsFlag",
-            "Mizuki@Roguelike@CloseEvent",
-            "Mizuki@Roguelike@ChooseOperFlag"
-        ]
+        "onErrorNext": ["#back"],
+        "next": ["#next"]
     },
     "Mizuki@Roguelike@CloseEvent": {
         "action": "ClickRect",
@@ -444,7 +439,7 @@
             "Mizuki@Roguelike@StageRegionalCommissioning",
             "Mizuki@Roguelike@StageGambling",
             "Mizuki@Roguelike@DiceConfirm",
-            "Mizuki@Roguelike@CloseCollectionContinue",
+            "Mizuki@Roguelike@Stages@(Mizuki@Roguelike@CloseCollectionContinue)",
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@StageDreadfulFoe",
             "Mizuki@Roguelike@StageDreadfulFoe-5"
@@ -470,7 +465,7 @@
             "Mizuki@Roguelike@StageDreadfulFoe-5",
             "Mizuki@Roguelike@StageRegionalCommissioning",
             "Mizuki@Roguelike@DiceConfirm",
-            "Mizuki@Roguelike@CloseCollectionContinue",
+            "Mizuki@Roguelike@Stages@(Mizuki@Roguelike@CloseCollectionContinue)",
             "Mizuki@Roguelike@CloseCollectionClose"
         ],
         "onErrorNext": ["Mizuki@Roguelike@ExitThenAbandon"]
@@ -494,7 +489,7 @@
             "Mizuki@Roguelike@StageRegionalCommissioning",
             "Mizuki@Roguelike@StageGambling",
             "Mizuki@Roguelike@DiceConfirm",
-            "Mizuki@Roguelike@CloseCollectionContinue",
+            "Mizuki@Roguelike@Stages@(Mizuki@Roguelike@CloseCollectionContinue)",
             "Mizuki@Roguelike@CloseCollectionClose"
         ],
         "onErrorNext": ["Mizuki@Roguelike@ExitThenAbandon"]

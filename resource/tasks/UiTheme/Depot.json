@@ -21,7 +21,8 @@
             "DepotAveMujica",
             "DepotTogether",
             "DepotLoneTrail",
-            "DepotReconstruct"
+            "DepotReconstruct",
+            "DepotHunting"
         ],
         "onErrorNext": ["Depot-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -88,5 +89,9 @@
     "DepotReconstruct": {
         "baseTask": "DepotDefault",
         "template": "Reconstruct/DepotEnter.png"
+    },
+    "DepotHunting": {
+        "baseTask": "DepotDefault",
+        "template": "Hunting/DepotEnter.png"
     }
 }

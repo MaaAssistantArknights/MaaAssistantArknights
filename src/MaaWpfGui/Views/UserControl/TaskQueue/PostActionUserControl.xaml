@@ -92,7 +92,8 @@
                 Height="30"
                 Margin="20,10,20,0"
                 Command="{s:Action PostActionsClear}"
-                Content="{DynamicResource Clear}" />
+                Content="{DynamicResource Clear}"
+                MouseRightButtonUp="{s:Action PostActionsClearOnce}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

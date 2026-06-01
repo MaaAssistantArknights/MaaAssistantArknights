@@ -64,6 +64,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 官服：`123****4567`，可輸入 `123****4567`、`4567`、`123`、`3****4567`  
 <br>
 B 服：`張三`，可輸入 `張三`、`張`、`三`  
+<br>
+繁中服：帳號為 Email，如 `ab****01@gmail.com`，建議填不含星號的明文片段，如 `01@gmail`  
 :::  
 ::::
 

@@ -74,9 +74,10 @@
     <system:String x:Key="ExternalNotificationGotifyServer">サーバー URL</system:String>
     <system:String x:Key="ExternalNotificationGotifyToken">アプリケーショントークン</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookBody">メッセージ本文</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">プレホルダー: {title}、{content}、{time}</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Url">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Body">メッセージ本文</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">プレホルダー: {title}、{content}、{time}</system:String>
     <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用する</system:String>
     <system:String x:Key="UseGpuForInferenceTip">GPU 推論を利用することで、ごくわずかな GPU 使用率で CPU の負荷を大幅に軽減できます</system:String>
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
@@ -87,10 +88,10 @@
     <system:String x:Key="Copy">コピー</system:String>
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationUnavailable">Toast 通知は使用できません、 {0}</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">ユーザーはWindowsの設定でこのアプリの通知をオフにした</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">ユーザーはすべてのアプリの通知をオフにしました</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">グループ ポリシーによって無効化されました</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">マニフェストによって無効化されました</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">ユーザーはWindowsの設定でこのアプリの通知をオフにしました</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">ユーザーはWindowsの設定ですべてのアプリの通知をオフにしました</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">Windowsのグループ ポリシーによって無効化されています</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">アプリのマニフェスト (Package.appxmanifest) によって無効化されています</system:String>
     <!--  !Toast 不可用  -->
     <!--  設定ガイド  -->
     <system:String x:Key="LeftClick">左クリック</system:String>
@@ -657,9 +658,10 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 ポートが頻繁に変更され、かつ単一のエミュレータのみが実行されていることを確認できる場合にのみ、このオプションを有効にしてください。</system:String>
     <system:String x:Key="AccountSwitch">アカウントの切り替え</system:String>
     <system:String x:Key="AccountSwitchManualRun">今すぐ切り替える</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを完了します。
-ログインインターフェイスに表示される内容を入力します（「123****4567」など）。「123****4567」または「4567」または「23****45」を入力できます。
-公式(CN)とBilibiliサーバーのみをサポートします。 ログインアカウントはサポートされていません。</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを停止します。
+ログインインターフェイスに表示される内容を入力します（「123****4567」など）。「123****4567」、「4567」または「23****45」を入力できます。
+繁体字中国語サーバーのアカウントはEメール形式です（「ab****01@gmail.com」など）。アスタリスクを含まない明文部分（「01@gmail」など）の入力を推奨します。
+公式(CN)、Bilibili、繁体字中国語サーバーのみをサポートします。サードパーティのログイン方式はサポートされていません。</system:String>
     <system:String x:Key="AdbPath">ADBパス</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">選択されたファイル名にADBが含まれていません。誤ったファイルを選択していないか、エミュレータ自体を選択していないか確認してください。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">確かに間違って選択していないと思います</system:String>

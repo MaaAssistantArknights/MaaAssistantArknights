@@ -22,7 +22,8 @@
             "TerminalAveMujica",
             "TerminalTogether",
             "TerminalLoneTrail",
-            "TerminalReconstruct"
+            "TerminalReconstruct",
+            "TerminalHunting"
         ],
         "onErrorNext": ["Terminal-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -89,5 +90,10 @@
     "TerminalReconstruct": {
         "baseTask": "TerminalDefault",
         "template": "Reconstruct/Terminal.png"
+    },
+    "TerminalHunting": {
+        "baseTask": "TerminalDefault",
+        "template": "Hunting/Terminal.png",
+        "roi": [861, 74, 248, 127]
     }
 }

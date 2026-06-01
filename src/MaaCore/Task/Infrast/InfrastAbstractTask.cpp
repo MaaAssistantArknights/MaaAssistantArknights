@@ -670,16 +670,24 @@ bool asst::InfrastAbstractTask::click_filter_menu_not_stationed_button()
 {
     LogTraceFunction;
 
-    ProcessTask task(*this, { "InfrastFilterMenuNotStationed" });
-    return task.run();
+    // 如果菜单已经打开，先直接找菜单里的“未进驻”；如果顶部已是“未进驻”选中态，直接成功。
+    // 否则先点击顶部筛选菜单再找“未进驻”。最终必须走到 Stop 才返回 true。
+    ProcessTask task(
+        *this,
+        { "InfrastFilterMenuNotStationedButton",
+          "InfrastFilterMenuNotStationedSelected",
+          "InfrastFilterMenuNotStationed" });
+    return task.run() && task.get_last_task_name() == "Stop";
 }
 
 bool asst::InfrastAbstractTask::click_filter_menu_cancel_not_stationed_button()
 {
     LogTraceFunction;
 
-    ProcessTask task(*this, { "InfrastFilterMenuCancelNotStationed" });
-    return task.run();
+    // 如果菜单已经打开，直接找“全部”；否则先点击顶部筛选菜单再找“全部”。
+    // 最终必须走到 Stop 才算取消成功。
+    ProcessTask task(*this, { "InfrastFilterMenuAllButton", "InfrastFilterMenuCancelNotStationed" });
+    return task.run() && task.get_last_task_name() == "Stop";
 }
 
 bool asst::InfrastAbstractTask::click_confirm_button()

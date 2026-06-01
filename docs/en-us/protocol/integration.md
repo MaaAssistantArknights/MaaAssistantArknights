@@ -64,6 +64,8 @@ Only supports switching to already logged-in accounts, using login name for iden
 Official server: `123****4567`, can input `123****4567`, `4567`, `123`, or `3****4567`  
 <br>
 Bilibili server: `Zhang San`, can input `Zhang San`, `Zhang`, or `San`  
+<br>
+Traditional Chinese server: Email-based, e.g. `ab****01@gmail.com`. Entering the plain-text portion without asterisks is recommended, e.g. `01@gmail`  
 :::  
 ::::
 

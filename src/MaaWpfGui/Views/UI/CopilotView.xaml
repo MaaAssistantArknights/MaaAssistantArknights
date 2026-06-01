@@ -384,7 +384,8 @@
                                     Placement="Center"
                                     PlacementTarget="{Binding ElementName=UserAdditionalButton}"
                                     PopupAnimation="Slide"
-                                    StaysOpen="False">
+                                    StaysOpen="False"
+                                    VerticalOffset="{Binding UserAdditionalPopupVerticalOffset}">
                                     <Border
                                         MaxWidth="600"
                                         MaxHeight="500"
@@ -397,7 +398,8 @@
                                             <TextBlock Margin="0,0,0,5" Text="{DynamicResource AddUserAdditional}" />
                                             <DataGrid
                                                 x:Name="UserAdditionalDataGrid"
-                                                MaxHeight="350"
+                                                Height="{Binding UserAdditionalGridHeight}"
+                                                MaxHeight="{Binding UserAdditionalGridMaxHeight}"
                                                 AutoGenerateColumns="False"
                                                 Background="{DynamicResource RegionBrush}"
                                                 CanUserAddRows="False"
@@ -406,7 +408,7 @@
                                                 CanUserResizeRows="False"
                                                 HeadersVisibility="Column"
                                                 ItemsSource="{Binding UserAdditionalItems}"
-                                                RowHeight="40"
+                                                RowHeight="{Binding UserAdditionalRowHeight}"
                                                 SelectionMode="Single">
                                                 <DataGrid.RowStyle>
                                                     <Style TargetType="DataGridRow">

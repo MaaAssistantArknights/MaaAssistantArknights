@@ -1,3 +1,4 @@
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -5,8 +6,8 @@ from typing import Optional
 import colormatcher
 import cv2
 import numpy as np
-from maa.controller import AdbController, Controller
-from maa.define import MaaAdbScreencapMethodEnum
+from maa.controller import AdbController, Controller, Win32Controller
+from maa.define import MaaAdbScreencapMethodEnum, MaaWin32ScreencapMethodEnum
 from maa.toolkit import Toolkit
 from roimage import Roi, Roimage
 
@@ -14,6 +15,12 @@ from roimage import Roi, Roimage
 # device_serial = "127.0.0.1:16384"
 device_serial = None
 adb_screencap_method = MaaAdbScreencapMethodEnum.Default
+
+# PC 端窗口截图参数 (Win32 / WGC)
+# window_name 为目标窗口标题关键字(子串匹配)
+window_name = "明日方舟"
+# Background = FramePool(WGC) | PrintWindow:优先 WGC,失败自动退回 PrintWindow
+win32_screencap_method = MaaWin32ScreencapMethodEnum.Background
 
 # 初始窗口大小 (width, height)
 # window_size = (720, 1280) # 竖屏
@@ -89,6 +96,27 @@ def get_adb_devices_list() -> Optional[Controller]:
                     address=device_serial,
                     screencap_methods=adb_screencap_method,
                 )
+
+
+# 获取 PC 端窗口控制器 (Win32 / WGC)
+# 与 MAA 本体一致:在可见顶层窗口中按标题匹配后绑定;此处用子串匹配,比本体的完全匹配更通用
+def get_win32_controller(name_keyword: str) -> Optional[Controller]:
+    print("MaaToolkit searching desktop windows...\n")
+    windows = Toolkit.find_desktop_windows()
+    matched = [w for w in windows if w.window_name and name_keyword in w.window_name]
+    if not matched:
+        print(f'No visible window matching "{name_keyword}".')
+        return None
+    for i, w in enumerate(matched):
+        print(f"{i:>3} | {str(w.hwnd):>18} | [{w.class_name}] {w.window_name}")
+    target = matched[0]
+    if len(matched) > 1:
+        print(f'Multiple windows matched "{name_keyword}", using the first one.')
+    print(f'Attaching to "{target.window_name}" (hwnd={target.hwnd}).')
+    return Win32Controller(
+        hWnd=target.hwnd,
+        screencap_method=win32_screencap_method,
+    )
 
 
 # OpenCV 鼠标回调
@@ -298,6 +326,7 @@ if __name__ == "__main__":
     # Print Help Infos
     print(
         "Usage: python3 main.py [device serial]\n"
+        "       python3 main.py --pc [window title keyword]   (capture a PC window via WGC)\n"
         "Put the images under ./src, and run this script, it will be auto converted to target size.\n"
         "Hold down the left mouse button, drag mouse to select a ROI.\n"
         "Hold down the right mouse button, drag mouse to move the image.\n"
@@ -318,14 +347,25 @@ if __name__ == "__main__":
     if not dst_path.is_dir():
         dst_path.mkdir()
 
-    # 搜索并连接设备
-    controller = get_adb_devices_list()
-    if not controller:
-        print("ADB Devices Not Found. Reading from ./src folder...")
+    # 解析参数:--pc / -p / --window / -w 进入 PC 窗口(Win32/WGC)模式,否则走 ADB
+    cli_args = sys.argv[1:]
+    use_pc = bool(cli_args) and cli_args[0] in ("--pc", "-p", "--window", "-w")
+    if use_pc and len(cli_args) > 1 and cli_args[1]:
+        window_name = cli_args[1]
+
+    # 搜索并连接设备 / 窗口
+    if use_pc:
+        controller = get_win32_controller(window_name)
+        if not controller:
+            print(f'PC window "{window_name}" not found. Reading from ./src folder...')
+    else:
+        controller = get_adb_devices_list()
+        if not controller:
+            print("ADB Devices Not Found. Reading from ./src folder...")
     if controller:
         set_screenshot_target_side(controller)
         if controller.post_connection().failed:
-            print(f"Failed to connect device({device_serial}).")
+            print("Failed to connect controller.")
             exit(1)
 
     # 初始化 cv2 窗口

@@ -1,0 +1,56 @@
+{
+    "TD-8": {
+        "algorithm": "JustReturn",
+        "sub": ["TD-OpenOpt"],
+        "next": ["TD-8@SideStoryStage", "TD-8@SwipeToStage"]
+    },
+    "TD-7": {
+        "algorithm": "JustReturn",
+        "sub": ["TD-OpenOpt"],
+        "next": ["TD-7@SideStoryStage", "TD-7@SwipeToStage"]
+    },
+    "TD-6": {
+        "algorithm": "JustReturn",
+        "sub": ["TD-OpenOpt"],
+        "next": ["TD-6@SideStoryStage", "TD-6@SwipeToStage"]
+    },
+    "TD-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["TD-OpenOcr", "TD-Open"]
+    },
+    "TD-Open": {
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "postDelay": 2000,
+        "next": ["TDChapterToTD"]
+    },
+    "TD-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["泡影苍霆", "泡影", "苍霆"],
+        "postDelay": 2000,
+        "next": ["TDChapterToTD"]
+    },
+    "TDChapterToTD": {
+        "action": "ClickSelf",
+        "template": "TDChapterToTD.png",
+        "roi": [950, 430, 300, 130],
+        "postDelay": 2000
+    },
+    "TD-8@SideStoryStage": {
+        "baseTask": "#none",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "TD-8.png",
+        "roi": [600, 500, 130, 80]
+    },
+    "TD-7@SideStoryStage": {
+        "baseTask": "TD-8@SideStoryStage",
+        "template": "TD-7.png",
+        "roi": [700, 400, 130, 80]
+    },
+    "TD-6@SideStoryStage": {
+        "baseTask": "TD-8@SideStoryStage",
+        "template": "TD-6.png",
+        "roi": [900, 440, 130, 80]
+    }
+}

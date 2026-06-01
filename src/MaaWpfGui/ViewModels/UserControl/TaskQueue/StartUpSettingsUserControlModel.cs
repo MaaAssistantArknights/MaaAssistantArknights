@@ -87,7 +87,7 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
 
             var clientType = SettingsViewModel.GameSettings.ClientType;
             var accountName = !SettingsViewModel.ConnectSettings.UseAttachWindow &&
-                clientType is ClientType.Official or ClientType.Bilibili
+                clientType is ClientType.Official or ClientType.Bilibili or ClientType.Txwy
                     ? startUp.AccountName
                     : string.Empty;
 

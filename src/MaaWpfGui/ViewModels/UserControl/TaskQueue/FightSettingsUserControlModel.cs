@@ -923,13 +923,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     public List<GenericCombinedData<int>> MedicineExpireDayList { get; } = [
-        new() { Display = "24h", Value = 1 },
-        new() { Display = "48h", Value = 2 },
-        new() { Display = "72h", Value = 3 },
-        new() { Display = "96h", Value = 4 },
-        new() { Display = "120h", Value = 5 },
-        new() { Display = "144h", Value = 6 },
-        new() { Display = "168h", Value = 7 },
+        new() { Display = "24h x 1", Value = 1 },
+        new() { Display = "24h x 2", Value = 2 },
+        new() { Display = "24h x 3", Value = 3 },
+        new() { Display = "24h x 4", Value = 4 },
+        new() { Display = "24h x 5", Value = 5 },
+        new() { Display = "24h x 6", Value = 6 },
+        new() { Display = "24h x 7", Value = 7 },
     ];
 
     public int MedicineExpireDays

@@ -1,4 +1,7 @@
 {
+    "AccountManagerTxwy": {
+        "roi": [375, 145, 525, 85]
+    },
     "BattleQuickFormationSkillPage": {
         "algorithm": "JustReturn",
         "baseTask": "#none"
@@ -786,6 +789,38 @@
             ["“品保專員”", "“质检专员”"],
             ["“監工專員”", "“监工专员”"]
         ]
+    },
+    "Settings": {
+        "next": ["LogoutOCR", "Logout"]
+    },
+    "LogoutOCR": {
+        "text": ["登出該帳號", "登出"],
+        "roi": [560, 335, 220, 80]
+    },
+    "LogoutConfirm": {
+        "template": "PopupConfirm.png",
+        "roi": [640, 455, 640, 80]
+    },
+    "AccountManager": {
+        "algorithm": "OcrDetect",
+        "text": ["帳號管理"],
+        "roi": [700, 655, 200, 60]
+    },
+    "LoginOther": {
+        "next": ["AccountManagerOfficial", "AccountManagerBili", "AccountManagerTxwy"]
+    },
+    "AccountCurrentOCR": {
+        "roi": [440, 548, 400, 30]
+    },
+    "AccountManagerLoginButton": {
+        "text": ["登入"],
+        "roi": [465, 385, 355, 55]
+    },
+    "AccountManagerListAccount": {
+        "roi": [770, 290, 70, 60]
+    },
+    "AccountManagerTrashButton": {
+        "roi": [790, 370, 35, 150]
     },
     "GameStartCheckResourceOCR": {
         "text": ["驗證", "資源完整性", "行動網路", "數據"]

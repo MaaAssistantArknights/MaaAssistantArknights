@@ -239,6 +239,7 @@ def call_command(command: str):
     except:
         return bf.decode("gbk").strip()
 
+
 def get_submodule_sha(ref: str, path: str) -> str:
     output = call_command(f"git ls-tree {ref} {path}")
     if not output:
@@ -282,7 +283,9 @@ def get_associated_pr(repo_name: str, commit_hash: str):
     return pulls[0]
 
 
-def format_commit_info_with_pr(repo_name: str, commit_hash: str, message: str, author: str):
+def format_commit_info_with_pr(
+    repo_name: str, commit_hash: str, message: str, author: str
+):
     pr = get_associated_pr(repo_name, commit_hash)
     if not pr:
         return message, author
@@ -313,12 +316,14 @@ def build_maamacgui_changelog(latest: str) -> str:
     call_command(f"rm -rf {workdir}")
 
     try:
-        call_command(f"git clone --no-checkout https://github.com/{maamacgui_repo}.git {workdir}")
+        call_command(
+            f"git clone --no-checkout https://github.com/{maamacgui_repo}.git {workdir}"
+        )
         call_command(f"git -C {workdir} fetch origin {old_sha} {new_sha}")
 
         commit_separator = "---MAA_COMMIT_END---"
         raw_gitlogs = call_command(
-            f'git -C {workdir} log {old_sha}..{new_sha} '
+            f"git -C {workdir} log {old_sha}..{new_sha} "
             f'--pretty=format:"%H%n%aN%n%cN%n%s%n%P%n{commit_separator}"'
         )
 
@@ -362,6 +367,7 @@ def build_maamacgui_changelog(latest: str) -> str:
         return "\n### MaaMacGui\n" + maamacgui_changelog
     finally:
         call_command(f"rm -rf {workdir}")
+
 
 def main(tag_name=None, latest=None):
     global contributors, raw_commits_info

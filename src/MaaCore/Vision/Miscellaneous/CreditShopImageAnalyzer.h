@@ -14,7 +14,7 @@ public:
     void set_black_list(std::vector<std::string> black_list);
     void set_white_list(std::vector<std::string> white_list);
 
-    const std::vector<Rect>& get_result() const noexcept { return m_result; }
+    const std::vector<TextRect>& get_result() const noexcept { return m_result; }
 
 private:
     // 该分析器不支持外部设置ROI
@@ -23,9 +23,11 @@ private:
     bool whether_to_buy_analyze();
     bool sold_out_analyze();
 
+    static size_t match_required_index(const std::string& text, const std::vector<std::string>& required);
+
     std::vector<Rect> m_commodities;
-    std::vector<std::pair<Rect, std::string>> m_need_to_buy;
-    std::vector<Rect> m_result;
+    std::vector<TextRect> m_need_to_buy;
+    std::vector<TextRect> m_result;
 
     std::vector<std::string> m_shopping_list;
     bool m_is_white_list = false;

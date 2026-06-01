@@ -74,9 +74,10 @@
     <system:String x:Key="ExternalNotificationGotifyServer">Server URL</system:String>
     <system:String x:Key="ExternalNotificationGotifyToken">Application Token</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookBody">Message body template</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">Placeholders: {title}, {content}, {time}</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Url">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Body">Message body template</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">Placeholders: {title}, {content}, {time}</system:String>
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
     <system:String x:Key="UseGpuForInferenceTip">Using GPU inference can significantly reduce CPU load with minimal GPU usage</system:String>
     <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
@@ -88,9 +89,9 @@
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationUnavailable">Toast notifications are unavailable: {0}</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">The user has disabled notifications for this app in Windows Settings.</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">The user has disabled all app notifications.</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">Group Policy Disabled</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">Manifest Disabled</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">The user has disabled all app notifications in Windows Settings.</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">Disabled by Windows Group Policy</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">Disabled by app manifest (Package.appxmanifest)</system:String>
     <!--  !Toast 不可用  -->
     <!--  Settings Guide  -->
     <system:String x:Key="LeftClick">Left Click</system:String>
@@ -658,8 +659,9 @@ Only enable this option when the port changes frequently and you are certain onl
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
     <system:String x:Key="AccountSwitchManualRun">Switch now</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching.
-Enter the content displayed on the login interface, such as ｢123****4567｣, you can enter ｢123****4567｣ or ｢4567｣ or ｢23****45｣
-Only supports Official(CN) and Bilibili server. Login account is not supported.</system:String>
+Enter the content displayed on the login interface, such as ｢123****4567｣, you can enter ｢123****4567｣, ｢4567｣ or ｢23****45｣
+The Traditional Chinese server uses Email accounts, e.g. ｢ab****01@gmail.com｣. Entering the plain-text portion without asterisks is recommended, e.g. ｢01@gmail｣.
+Only supports Official(CN), Bilibili and Traditional Chinese servers. Third-party login methods are not supported.</system:String>
     <system:String x:Key="AdbPath">ADB path</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">The selected file name does not contain ADB. Please check if you have chosen the wrong file or mistakenly selected the emulator itself.</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
