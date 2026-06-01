@@ -32,6 +32,12 @@
     "BattleQuickFormationRole": {
         "templThreshold": 0.65
     },
+    "Roguelike@TraderRandomShoppingCancel": {
+        "templThreshold": 0.75
+    },
+    "Roguelike@StageTraderInvestSystemLeave": {
+        "templThreshold": 0.75
+    },
     "Mizuki@Roguelike@MissionFailedFlag": {
         "templThreshold": 0.75
     },
