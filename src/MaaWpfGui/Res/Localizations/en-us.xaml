@@ -89,9 +89,9 @@
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationUnavailable">Toast notifications are unavailable: {0}</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">The user has disabled notifications for this app in Windows Settings.</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">The user has disabled all app notifications.</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">Group Policy Disabled</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">Manifest Disabled</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">The user has disabled all app notifications in Windows Settings.</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">Disabled by Windows Group Policy</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">Disabled by app manifest (Package.appxmanifest)</system:String>
     <!--  !Toast 不可用  -->
     <!--  Settings Guide  -->
     <system:String x:Key="LeftClick">Left Click</system:String>

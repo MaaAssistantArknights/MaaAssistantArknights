@@ -89,9 +89,9 @@
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationUnavailable">無法使用 Toast 通知，{0}</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">使用者已在 Windows 設定中關閉此應用程式的通知</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">使用者已關閉所有應用程式通知</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">遭群組原則停用</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">遭資訊清單停用</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">使用者已在 Windows 設定中關閉所有應用程式通知</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">被 Windows 群組原則停用</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">被應用程式資訊清單 (Package.appxmanifest) 停用</system:String>
     <!--  !Toast 不可用  -->
     <!--  設定指引  -->
     <system:String x:Key="LeftClick">左鍵</system:String>

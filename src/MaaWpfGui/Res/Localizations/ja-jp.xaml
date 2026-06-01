@@ -88,10 +88,10 @@
     <system:String x:Key="Copy">コピー</system:String>
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationUnavailable">Toast 通知は使用できません、 {0}</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">ユーザーはWindowsの設定でこのアプリの通知をオフにした</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">ユーザーはすべてのアプリの通知をオフにしました</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">グループ ポリシーによって無効化されました</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">マニフェストによって無効化されました</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">ユーザーはWindowsの設定でこのアプリの通知をオフにしました</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">ユーザーはWindowsの設定ですべてのアプリの通知をオフにしました</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">Windowsのグループ ポリシーによって無効化されています</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">アプリのマニフェスト (Package.appxmanifest) によって無効化されています</system:String>
     <!--  !Toast 不可用  -->
     <!--  設定ガイド  -->
     <system:String x:Key="LeftClick">左クリック</system:String>
