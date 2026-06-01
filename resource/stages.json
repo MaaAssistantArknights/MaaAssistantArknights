@@ -31898,5 +31898,23 @@
             }
         ],
         "stageId": "wk_toxic_5"
+    },
+    {
+        "apCost": 21,
+        "code": "TD-6",
+        "dropInfos": [],
+        "stageId": "act50side_06"
+    },
+    {
+        "apCost": 21,
+        "code": "TD-7",
+        "dropInfos": [],
+        "stageId": "act50side_07"
+    },
+    {
+        "apCost": 21,
+        "code": "TD-8",
+        "dropInfos": [],
+        "stageId": "act50side_08"
     }
 ]
