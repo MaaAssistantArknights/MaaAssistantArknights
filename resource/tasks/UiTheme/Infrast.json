@@ -21,7 +21,8 @@
             "InfrastAveMujica",
             "InfrastTogether",
             "InfrastLoneTrail",
-            "InfrastReconstruct"
+            "InfrastReconstruct",
+            "InfrastHunting"
         ],
         "onErrorNext": ["Infrast-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -88,5 +89,9 @@
     "InfrastReconstruct": {
         "baseTask": "InfrastDefault",
         "template": "Reconstruct/EnterInfrast.png"
+    },
+    "InfrastHunting": {
+        "baseTask": "InfrastDefault",
+        "template": "Hunting/EnterInfrast.png"
     }
 }

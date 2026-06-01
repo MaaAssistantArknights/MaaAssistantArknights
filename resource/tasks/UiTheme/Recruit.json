@@ -21,7 +21,8 @@
             "RecruitAveMujica",
             "RecruitTogether",
             "RecruitLoneTrail",
-            "RecruitReconstruct"
+            "RecruitReconstruct",
+            "RecruitHunting"
         ],
         "onErrorNext": ["Recruit-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -88,5 +89,9 @@
     "RecruitReconstruct": {
         "baseTask": "RecruitDefault",
         "template": "Reconstruct/Recruit.png"
+    },
+    "RecruitHunting": {
+        "baseTask": "RecruitDefault",
+        "template": "Hunting/Recruit.png"
     }
 }

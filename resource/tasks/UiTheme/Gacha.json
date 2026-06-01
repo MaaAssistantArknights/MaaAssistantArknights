@@ -21,7 +21,8 @@
             "GachaAveMujica",
             "GachaTogether",
             "GachaLoneTrail",
-            "GachaReconstruct"
+            "GachaReconstruct",
+            "GachaHunting"
         ],
         "onErrorNext": ["Gacha-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -88,5 +89,9 @@
     "GachaReconstruct": {
         "baseTask": "GachaDefault",
         "template": "Reconstruct/GachaEnter.png"
+    },
+    "GachaHunting": {
+        "baseTask": "GachaDefault",
+        "template": "Hunting/GachaEnter.png"
     }
 }
