@@ -21,23 +21,6 @@ using System.Text.Json.Serialization;
 namespace MaaWpfGui.Configuration.Converter;
 
 /// <summary>
-/// 容错枚举转换器工厂，为所有枚举类型自动创建 <see cref="TolerantEnumConverter{TEnum}"/>。
-/// 替代 <see cref="JsonStringEnumConverter"/>，提供字符串枚举、字典键以及 <c>[Flags]</c> 组合值支持。
-/// </summary>
-internal sealed class TolerantEnumConverterFactory : JsonConverterFactory
-{
-    /// <inheritdoc/>
-    public override bool CanConvert(Type typeToConvert) => typeToConvert.IsEnum;
-
-    /// <inheritdoc/>
-    public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
-    {
-        var converterType = typeof(TolerantEnumConverter<>).MakeGenericType(typeToConvert);
-        return (JsonConverter)Activator.CreateInstance(converterType)!;
-    }
-}
-
-/// <summary>
 /// 容错的枚举 JSON 转换器。
 /// 遇到无法识别的字符串或数值时，抛出带路径信息的 <see cref="JsonException"/>，
 /// 由上层根级容错逻辑决定如何恢复到属性默认值。

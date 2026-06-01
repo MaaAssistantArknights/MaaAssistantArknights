@@ -68,7 +68,7 @@ public static class RainbowAnimationBehavior
         {
             TextBlock tb => tb.Foreground,
             Control ctrl => ctrl.Foreground,
-            _ => null,
+            _ => (Brush)null!,
         };
 
         if (brush is LinearGradientBrush linearBrush

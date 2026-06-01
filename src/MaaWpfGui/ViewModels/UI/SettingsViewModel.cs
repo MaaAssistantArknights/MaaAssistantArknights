@@ -603,8 +603,15 @@ public class SettingsViewModel : Screen
         if (!helperAdded || !factoryAdded)
         {
             // 任一侧添加失败，回滚另一侧
-            if (helperAdded) { ConfigurationHelper.DeleteConfiguration(NewConfigurationName); }
-            if (factoryAdded) { ConfigFactory.DeleteConfiguration(NewConfigurationName); }
+            if (helperAdded)
+            {
+                ConfigurationHelper.DeleteConfiguration(NewConfigurationName);
+            }
+
+            if (factoryAdded)
+            {
+                ConfigFactory.DeleteConfiguration(NewConfigurationName);
+            }
 
             Growl.Info(new GrowlInfo {
                 IsCustom = true,
