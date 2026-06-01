@@ -21,13 +21,13 @@
     "TD-Open": {
         "baseTask": "SS-Open",
         "template": ["StageSideStory.png", "StageActivity.png"],
-        "postDelay": 2000,
+        "postDelay": 5000,
         "next": ["TDChapterToTD"]
     },
     "TD-OpenOcr": {
         "baseTask": "SS-OpenOcr",
         "text": ["泡影苍霆", "泡影", "苍霆"],
-        "postDelay": 2000,
+        "postDelay": 5000,
         "next": ["TDChapterToTD"]
     },
     "TDChapterToTD": {
