@@ -46,6 +46,7 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - 纯文档变更放“文档 | Docs”。
 - 仅内部维护、CI、脚本、杂项且不适合省略时，才放“其他 | Other”。
 - 如果自动生成结果分类错误，必须移动到更合适的模块并同步调整描述。
+- 子仓库（如 MaaMacGui）的更新应作为独立的 `### MaaMacGui` 子项，放在主 changelog 的 `### 其他 | Other` 之后。该子项内部使用与主 changelog 相同的分类结构（新增 | New、改进 | Improved、修复 | Fix 等），PR 引用格式为 `([#数字](https://github.com/MaaAssistantArknights/MaaMacGui/pull/数字))`。
 
 ### 3. 模块内排序与文案规范
 
@@ -139,6 +140,7 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - ### 修复 | Fix
 - ### 文档 | Docs
 - ### 其他 | Other
+- ### MaaMacGui（子仓库独立区块，放在 `### 其他 | Other` 之后，内部再按相同分类结构组织）
 - 列表项统一使用 *。
 - 仅保留有内容的模块；空模块省略。
 
@@ -189,6 +191,16 @@ English summary paragraph.
 
 * 条目 C @author
 
+### MaaMacGui
+
+#### 新增 | New
+
+* 子仓库新增条目 ([#85](https://github.com/MaaAssistantArknights/MaaMacGui/pull/85)) @author
+
+#### 修复 | Fix
+
+* 子仓库修复条目 ([#88](https://github.com/MaaAssistantArknights/MaaMacGui/pull/88)) @author
+
 </details>
 
 <details>
@@ -236,3 +248,4 @@ English summary paragraph.
 - 英文 Highlights 是否放入 `<details>` 折叠块（中文不折叠）？
 - 每个版本的详细内容是否各自放入独立的 `<details>` 折叠块？
 - 当前版本是否使用 `<details open>` 默认展开，历史版本是否默认收起？
+- 如果有子仓库（如 MaaMacGui）更新，是否作为 `### MaaMacGui` 独立子项放在 `### 其他 | Other` 之后，且内部使用与主 changelog 相同的分类结构？
