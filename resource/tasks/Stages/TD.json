@@ -51,6 +51,6 @@
     "TD-6@SideStoryStage": {
         "baseTask": "TD-8@SideStoryStage",
         "template": "TD-6.png",
-        "roi": [900, 440, 130, 11800]
+        "roi": [900, 440, 130, 80]
     }
 }
