@@ -635,7 +635,8 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="AllowUseStoneSave">Save ｢Use Originium｣</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
-    <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring (&lt;N hours) sanity potion</system:String>
+    <system:String x:Key="UseExpiringMedicine">Unlimited use of sanity potion expiring in &lt;N days</system:String>
+    <system:String x:Key="MedicineExpireDaysTip">You can enter days manually. Items displayed as "N days" in-game actually have more than N days remaining and will not be used.</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">Use sanity potions that expire this week within 48 hours before the activity ends</system:String>
     <system:String x:Key="NoActivity">No activity</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>

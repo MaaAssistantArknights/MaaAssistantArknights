@@ -923,13 +923,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     public List<GenericCombinedData<int>> MedicineExpireDayList { get; } = [
-        new() { Display = "24h x 1", Value = 1 },
-        new() { Display = "24h x 2", Value = 2 },
-        new() { Display = "24h x 3", Value = 3 },
-        new() { Display = "24h x 4", Value = 4 },
-        new() { Display = "24h x 5", Value = 5 },
-        new() { Display = "24h x 6", Value = 6 },
-        new() { Display = "24h x 7", Value = 7 },
+        new() { Display = "1", Value = 1 },
+        new() { Display = "2", Value = 2 },
+        new() { Display = "7", Value = 7 },
+        new() { Display = "14", Value = 14 },
+        new() { Display = "21", Value = 21 },
     ];
 
     public int MedicineExpireDays
@@ -939,6 +937,36 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             SetTaskConfig<FightTask>(t => t.MedicineExpireDays == value, t => t.MedicineExpireDays = value);
             SetFightParams();
         }
+    }
+
+    /// <summary>
+    /// Gets or sets 到期药物天数文本，用于可编辑下拉框的手动输入。
+    /// </summary>
+    public string MedicineExpireDaysText { get => field; set => SetAndNotify(ref field, value); } = string.Empty;
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void MedicineExpireDaysDropDownClosed()
+    {
+        if (MedicineExpireDayList.FirstOrDefault(i => i.Display == MedicineExpireDaysText) is { } item)
+        {
+            MedicineExpireDays = item.Value;
+        }
+        else if (int.TryParse(MedicineExpireDaysText, out var days) && days > 0)
+        {
+            MedicineExpireDays = days;
+            MedicineExpireDaysText = days.ToString();
+        }
+        else
+        {
+            RefreshMedicineExpireDaysText();
+        }
+    }
+
+    private void RefreshMedicineExpireDaysText()
+    {
+        var days = GetTaskConfig<FightTask>().MedicineExpireDays;
+        MedicineExpireDaysText = MedicineExpireDayList.FirstOrDefault(i => i.Value == days)?.Display ?? days.ToString();
     }
 
     public bool UseExpireMedicineForActivity
@@ -1073,6 +1101,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         RefreshCurrentStagePlan();
         RefreshWeeklySchedule();
         RefreshDropName();
+        RefreshMedicineExpireDaysText();
         NotifySpecifiedDropsStateChanged();
         Refresh();
     }
