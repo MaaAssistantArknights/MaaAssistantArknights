@@ -16,91 +16,41 @@
     },
     "TD-OpenOpt": {
         "algorithm": "JustReturn",
-        "next": ["TD-Open", "TD-OpenOcr"]
+        "next": ["TD-OpenOcr", "TD-Open"]
     },
     "TD-Open": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
-        "template": "TD-Open.png",
-        "roi": [0, 300, 333, 195],
-        "templThreshold": 0.8,
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
         "postDelay": 2000,
         "next": ["TDChapterToTD"]
     },
     "TD-OpenOcr": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["泡影苍霆", "泡影", "苍霆", "活动", "开放"],
-        "roi": [81, 513, 254, 67],
+        "baseTask": "SS-OpenOcr",
+        "text": ["泡影苍霆", "泡影", "苍霆"],
         "postDelay": 2000,
         "next": ["TDChapterToTD"]
     },
     "TDChapterToTD": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "TDChapterToTD.png",
         "roi": [950, 430, 300, 130],
-        "templThreshold": 0.85,
         "postDelay": 2000
     },
     "TD-8@SideStoryStage": {
+        "baseTask": "#none",
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "TD-8.png",
-        "roi": [560, 500, 180, 110],
-        "templThreshold": 0.85,
-        "next": ["TD-8@SelectedCheckDelay"]
+        "roi": [600, 500, 130, 80]
     },
     "TD-7@SideStoryStage": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
+        "baseTask": "TD-8@SideStoryStage",
         "template": "TD-7.png",
-        "roi": [680, 400, 180, 110],
-        "templThreshold": 0.85,
-        "next": ["TD-7@SelectedCheckDelay"]
+        "roi": [700, 400, 130, 80]
     },
     "TD-6@SideStoryStage": {
-        "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
+        "baseTask": "TD-8@SideStoryStage",
         "template": "TD-6.png",
-        "roi": [850, 420, 190, 120],
-        "templThreshold": 0.85,
-        "next": ["TD-6@SelectedCheckDelay"]
-    },
-    "TD-8@SelectedCheckDelay": {
-        "algorithm": "JustReturn",
-        "preDelay": 1000,
-        "next": ["TD-8@SelectedCheck"],
-        "onErrorNext": ["TD-8@SideStoryStage", "TD-8@SwipeToStage"]
-    },
-    "TD-7@SelectedCheckDelay": {
-        "algorithm": "JustReturn",
-        "preDelay": 1000,
-        "next": ["TD-7@SelectedCheck"],
-        "onErrorNext": ["TD-7@SideStoryStage", "TD-7@SwipeToStage"]
-    },
-    "TD-6@SelectedCheckDelay": {
-        "algorithm": "JustReturn",
-        "preDelay": 1000,
-        "next": ["TD-6@SelectedCheck"],
-        "onErrorNext": ["TD-6@SideStoryStage", "TD-6@SwipeToStage"]
-    },
-    "TD-8@SelectedCheck": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": ["TD-8", "TD8"],
-        "roi": [821, 52, 197, 120]
-    },
-    "TD-7@SelectedCheck": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": ["TD-7", "TD7"],
-        "roi": [821, 52, 197, 120]
-    },
-    "TD-6@SelectedCheck": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": ["TD-6", "TD6"],
-        "roi": [821, 52, 197, 120]
+        "roi": [900, 440, 130, 11800]
     }
 }
