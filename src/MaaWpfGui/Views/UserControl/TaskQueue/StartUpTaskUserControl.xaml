@@ -20,7 +20,7 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Visibility="{c:Binding !UseAttachWindow, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
-            <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot;', Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
+            <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;txwy&quot;', Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
