@@ -21,7 +21,8 @@
             "MallAveMujica",
             "MallTogether",
             "MallLoneTrail",
-            "MallReconstruct"
+            "MallReconstruct",
+            "MallHunting"
         ],
         "onErrorNext": ["Mall-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -88,5 +89,9 @@
     "MallReconstruct": {
         "baseTask": "MallDefault",
         "template": "Reconstruct/Mall.png"
+    },
+    "MallHunting": {
+        "baseTask": "MallDefault",
+        "template": "Hunting/Mall.png"
     }
 }

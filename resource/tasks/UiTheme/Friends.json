@@ -21,7 +21,8 @@
             "FriendsAveMujica",
             "FriendsTogether",
             "FriendsLoneTrail",
-            "FriendsReconstruct"
+            "FriendsReconstruct",
+            "FriendsHunting"
         ],
         "onErrorNext": ["Friends-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -89,5 +90,9 @@
     "FriendsReconstruct": {
         "baseTask": "FriendsDefault",
         "template": "Reconstruct/Friends.png"
+    },
+    "FriendsHunting": {
+        "baseTask": "FriendsDefault",
+        "template": "Hunting/Friends.png"
     }
 }
