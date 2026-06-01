@@ -100,4 +100,19 @@ The settings page now features a search bar with keyword highlighting and sectio
 * 繁中服「天想」主题 UI 模板 (#16893) @momomochi987
 * CI GitHub Action 固定到 commit SHA 以加固安全性 (#16502) @FireflySentinel
 
+### MaaMacGui
+
+#### 新增 | New
+
+* Add localized strings for relaunch case @uye
+* RelaunchAnchor @Hao Guan
+
+#### 改进 | Improved
+
+* 统一使用 String(localized:) 替代 NSLocalizedString ([#85](https://github.com/MaaAssistantArknights/MaaMacGui/pull/85)) @FireflySentinel
+
+#### 修复 | Fix
+
+* 为生息演算重启锚点添加 RA-4 入口 ([#88](https://github.com/MaaAssistantArknights/MaaMacGui/pull/88)) @ColdSpellhere
+
 </details>
