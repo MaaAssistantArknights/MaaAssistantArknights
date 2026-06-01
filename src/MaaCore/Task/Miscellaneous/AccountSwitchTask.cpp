@@ -36,7 +36,7 @@ bool asst::AccountSwitchTask::_run()
     bool equal = false;
 
     Log.info(m_client_type);
-    if (m_client_type == "Official") {
+    if (m_client_type == "Official" || m_client_type == "txwy") {
         equal = equal_current_account();
     }
     else if (m_client_type == "Bilibili") {
@@ -75,6 +75,9 @@ bool asst::AccountSwitchTask::navigate_to_start_page()
         return true;
     }
     else if (last_name == "AccountManagerBili") {
+        return true;
+    }
+    else if (last_name == "AccountManagerTxwy") {
         return true;
     }
     return false;
@@ -148,7 +151,7 @@ bool asst::AccountSwitchTask::select_account()
     sleep(200);
     auto raw_img = ctrler()->get_image();
     OCRer ocr(ctrler()->get_image());
-    if (m_client_type == "Official") {
+    if (m_client_type == "Official" || m_client_type == "txwy") {
         ocr.set_use_char_model(true);
     }
     else if (m_client_type == "Bilibili") {
