@@ -34,7 +34,8 @@
         "action": "ClickSelf",
         "template": "TDChapterToTD.png",
         "roi": [950, 430, 300, 130],
-        "postDelay": 2000
+        "postDelay": 2000,
+        "next": ["#self", "Stop"]
     },
     "TD-8@SideStoryStage": {
         "baseTask": "#none",
