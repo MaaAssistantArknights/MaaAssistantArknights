@@ -1,6 +1,6 @@
 # 截图工具
 
-本工具可以对 **预先准备好的截图** 或 **通过 ADB 连接设备**，进行 ROI 区域的截取、保存、取色操作。
+本工具可以对 **预先准备好的截图**、**通过 ADB 连接设备** 或 **通过 WGC 截取 PC 窗口**，进行 ROI 区域的截取、保存、取色操作。
 
 ## 环境
 
@@ -19,11 +19,12 @@ python -m pip install -r requirements.txt
 
 ## 使用
 
-0. (非必要) 根据 `set_screenshot_target_long/short_side` 的使用情况，调整脚本中的 `截图参数` 和 `初始窗口大小`
+0. (非必要) 根据 `set_screenshot_target_long/short_side` 的使用情况，调整脚本中的 `截图参数` 和 `初始窗口大小`；截取 PC 窗口时可调整 `window_name`（目标窗口标题关键字）与 `win32_screencap_method`（默认 `Background` = FramePool/WGC，失败自动回退 PrintWindow）
 1. 如果有预先准备好的截图，需保存到 `./src/` 路径下
 2. 运行 `start.bat` 或 `python main.py [device serial]` ，设备地址为可选
     - 根据提示 `Please select the device (ENTER to pass):` ，选择 adb 已连接设备（按 ENTER 跳过选择）
     - 如果没有该提示，请使用 `python main.py [device serial]` 连接设备
+    - **截取 PC 窗口（WGC）**：运行 `python main.py --pc [窗口标题关键字]` ，关键字默认为 `明日方舟`（官方 PC 客户端）。按标题子串匹配可见顶层窗口，自动绑定第一个命中的窗口；无需 ADB，需 Windows 10 1903+
 3. 在弹窗中左键选择目标区域，滚轮缩放图片，右键移动图片
 4. 使用快捷键操作：
     - 按 <kbd>S</kbd> <kbd>ENTER</kbd> 保存目标区域
