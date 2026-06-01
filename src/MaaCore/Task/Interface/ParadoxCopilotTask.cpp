@@ -55,7 +55,7 @@ bool asst::ParadoxCopilotTask::set_params(const json::value& params)
         m_battle_task_ptr->set_wait_until_end(true);
         m_subtasks.reserve(batch_opt->size() * 4);
         for (const auto& item : *batch_opt) {
-            m_paradox_task_ptr->add_oper(item);
+            m_paradox_task_ptr->add_file(item);
             m_subtasks.emplace_back(m_paradox_task_ptr);
             m_subtasks.emplace_back(m_start_task_ptr);
             m_subtasks.emplace_back(m_battle_task_ptr);
