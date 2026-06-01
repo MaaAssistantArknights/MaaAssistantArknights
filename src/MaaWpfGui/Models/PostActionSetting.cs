@@ -346,6 +346,22 @@ public class PostActionSetting : PropertyChangedBase
         LoadPostActions();
     }
 
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void PostActionsClearOnce()
+    {
+        Once = true;
+        ExitArknights = false;
+        BackToAndroidHome = false;
+        ExitEmulator = false;
+        ExitSelf = false;
+        IfNoOtherMaa = false;
+        Hibernate = false;
+        Shutdown = false;
+        Sleep = false;
+        RefreshDescription();
+    }
+
     private void RefreshDescription()
     {
         List<string> actions = [];
