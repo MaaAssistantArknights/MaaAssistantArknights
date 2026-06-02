@@ -606,6 +606,8 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="ReceiveOrundum">복권방 일일 합성옥 수령</system:String>
     <system:String x:Key="ReceiveMining">한정 채굴 일일 합성옥 수령</system:String>
     <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 수령</system:String>
+    <system:String x:Key="ReceiveSignInEvent">기간 한정 출석 이벤트 보상 수령</system:String>
+    <system:String x:Key="ReceiveSignInEventTip">가로형 레이아웃만 지원합니다. 다른 레이아웃은 지원되지 않으며 정상 동작하지 않을 수 있습니다</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="UseTray">트레이 아이콘 표시</system:String>
     <system:String x:Key="HideTray">트레이 아이콘 숨기기</system:String>
