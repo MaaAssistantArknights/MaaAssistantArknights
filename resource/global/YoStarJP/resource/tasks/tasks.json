@@ -1,4 +1,13 @@
 {
+    "SignInEventEnter": {
+        "text": ["サインイン", "ログイン"]
+    },
+    "SignInEventEarnRewards": {
+        "text": ["獲得"]
+    },
+    "SignInEventInPopup": {
+        "text": ["終了時間"]
+    },
     "BattleQuickFormationModulePage": {
         "text": ["職分"]
     },

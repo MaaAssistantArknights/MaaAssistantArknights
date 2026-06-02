@@ -1,4 +1,13 @@
 {
+    "SignInEventEnter": {
+        "text": ["출석", "로그인"]
+    },
+    "SignInEventEarnRewards": {
+        "text": ["획득"]
+    },
+    "SignInEventInPopup": {
+        "text": ["종료 시간"]
+    },
     "BattleQuickFormationModulePage": {
         "text": ["세부", "분류"]
     },

@@ -1,4 +1,13 @@
 {
+    "SignInEventEnter": {
+        "text": ["簽到"]
+    },
+    "SignInEventEarnRewards": {
+        "text": ["獲得物資"]
+    },
+    "SignInEventInPopup": {
+        "text": ["結束時間"]
+    },
     "AccountManagerTxwy": {
         "roi": [375, 145, 525, 85]
     },
