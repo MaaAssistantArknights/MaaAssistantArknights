@@ -497,6 +497,9 @@ OF-1 実行時に使用する編成スロットのインデックス。
 ::: field name="specialaccess" type="boolean" optional default="false"  
 5 周年から送信された月パス報酬を受け取るかどうか。  
 :::  
+::: field name="signinevent" type="boolean" optional default="false"  
+期間限定サインインイベント報酬を受け取るかどうか（横型レイアウトのみ対応）。  
+:::  
 ::::
 
 <details>
@@ -510,7 +513,8 @@ OF-1 実行時に使用する編成スロットのインデックス。
    "recruit": true,
    "orundum": false,
    "mining": true,
-   "specialaccess": false
+   "specialaccess": false,
+   "signinevent": false
 }
 ```
 
