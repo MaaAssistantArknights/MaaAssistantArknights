@@ -23,6 +23,7 @@ with_merge = False
 
 contributors = {}
 raw_commits_info = {}
+commit_author_logins = {}
 
 IGNORE_PREFIXES = r"(?:build|ci|style|debug)"
 
@@ -284,35 +285,39 @@ def get_associated_pr(repo_name: str, commit_hash: str):
 
 
 def get_commit_author_login(repo_name: str, commit_hash: str) -> str:
+    cache_key = (repo_name, commit_hash)
+    if cache_key in commit_author_logins:
+        return commit_author_logins[cache_key]
+
     commit = github_api_get(
         f"https://api.github.com/repos/{repo_name}/commits/{commit_hash}"
     )
-    if not commit:
-        return ""
-
-    return (commit.get("author") or {}).get("login") or ""
-
-
-def format_commit_info_with_pr(
-    repo_name: str, commit_hash: str, message: str, author: str
-):
-    pr = get_associated_pr(repo_name, commit_hash)
     login = ""
+    if commit:
+        login = (commit.get("author") or {}).get("login") or ""
+    commit_author_logins[cache_key] = login
+
+    return login
+
+
+def format_commit_info_with_pr(repo_name: str, commit_hash: str, message: str):
+    pr = get_associated_pr(repo_name, commit_hash)
+    author_login = ""
 
     if pr:
         number = pr.get("number")
         html_url = pr.get("html_url")
         title = pr.get("title")
-        login = (pr.get("user") or {}).get("login") or ""
+        author_login = (pr.get("user") or {}).get("login") or ""
 
         if number and html_url and title:
             title = re.sub(r"\s*\(#\d+\)\s*$", "", title)
             message = f"{title} ([#{number}]({html_url}))"
 
-    if not login:
-        login = get_commit_author_login(repo_name, commit_hash)
+    if not author_login:
+        author_login = get_commit_author_login(repo_name, commit_hash)
 
-    return message, login
+    return message, author_login
 
 
 def build_maamacgui_changelog(latest: str) -> str:
@@ -350,10 +355,10 @@ def build_maamacgui_changelog(latest: str) -> str:
             if len(lines) < 5:
                 continue
 
-            commit_hash, author, committer, message, parent = lines[:5]
+            commit_hash, _, committer, message, parent = lines[:5]
 
             message, author = format_commit_info_with_pr(
-                maamacgui_repo, commit_hash, message, author
+                maamacgui_repo, commit_hash, message
             )
 
             maamacgui_commits_info[commit_hash] = {
