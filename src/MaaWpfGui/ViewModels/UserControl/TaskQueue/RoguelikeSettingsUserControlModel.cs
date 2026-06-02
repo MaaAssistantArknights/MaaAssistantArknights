@@ -22,6 +22,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -40,6 +41,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     static RoguelikeSettingsUserControlModel()
     {
         Instance = new();
+        Instances.AsstProxy.AsstSubTaskMsgEvent += Instance.ProcSubTaskMsg;
     }
 
     public static RoguelikeSettingsUserControlModel Instance { get; }
@@ -838,15 +840,15 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         }
     }
 
-    public override void ProcSubTaskMsg(AsstMsg msg, JObject details)
+    public void ProcSubTaskMsg(AsstMsg msg, AsstSubTaskMsg? details)
     {
         if (msg != AsstMsg.SubTaskExtraInfo)
         {
             return;
         }
 
-        var subTaskDetails = details["details"];
-        switch (details["what"]?.ToString() ?? string.Empty)
+        var subTaskDetails = details?.Details;
+        switch (details?.What ?? string.Empty)
         {
             case "RoguelikeInvestmentReachFull":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeInvestmentReachFull"), UiLogColor.Info);

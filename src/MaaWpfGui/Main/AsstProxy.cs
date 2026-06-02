@@ -708,6 +708,10 @@ public class AsstProxy
 
     private AsstHandle _handle;
 
+    public delegate void AsstSubTaskMsgDelegate(AsstMsg msg, AsstSubTaskMsg? details);
+
+    public event AsstSubTaskMsgDelegate? AsstSubTaskMsgEvent;
+
     private void ProcMsg(AsstMsg msg, JObject details)
     {
         switch (msg)
@@ -744,7 +748,7 @@ public class AsstProxy
             case AsstMsg.SubTaskCompleted:
             case AsstMsg.SubTaskExtraInfo:
                 ProcSubTaskMsg(msg, details);
-                TaskQueueViewModel.InvokeProcSubTaskMsg(msg, details);
+                AsstSubTaskMsgEvent?.Invoke(msg, details.ToObject<AsstSubTaskMsg>() ?? null);
                 break;
 
             case AsstMsg.SubTaskStopped:
