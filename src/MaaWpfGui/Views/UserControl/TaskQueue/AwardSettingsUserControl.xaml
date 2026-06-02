@@ -41,6 +41,12 @@
                 Margin="0,10"
                 Content="{DynamicResource ReceiveSpecialAccess}"
                 IsChecked="{Binding ReceiveSpecialAccess}" />
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding ReceiveSignInEvent}">
+                    <controls:TextBlock Text="{DynamicResource ReceiveSignInEvent}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock TooltipText="{DynamicResource ReceiveSignInEventTip}" />
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>
