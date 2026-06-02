@@ -19,6 +19,7 @@ public:
         bool without_det = false;
         bool use_char_model = false;
         bool use_raw = true;
+        bool sort_by_horizontal = false;
 
         int bin_threshold_lower = 140;
         int bin_threshold_upper = 255;

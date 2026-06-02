@@ -1,5 +1,6 @@
 #include "OCRer.h"
 
+#include <algorithm>
 #include <shared_mutex>
 #include <unordered_map>
 
@@ -60,6 +61,10 @@ OCRer::ResultsVecOpt OCRer::analyze() const
 
     if (results_vec.empty()) {
         return std::nullopt;
+    }
+
+    if (m_params.sort_by_horizontal) {
+        std::ranges::sort(results_vec, {}, [](const Result& res) { return res.rect.x; });
     }
 
     Log.trace("Proceed", results_vec);

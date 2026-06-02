@@ -792,6 +792,12 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(
     utils::get_and_check_value_or(
         name,
         task_json,
+        "sortByHorizontal",
+        ocr_task_info_ptr->sort_by_horizontal,
+        default_ptr->sort_by_horizontal);
+    utils::get_and_check_value_or(
+        name,
+        task_json,
         "withoutDet",
         ocr_task_info_ptr->without_det,
         default_ptr->without_det);
@@ -1085,7 +1091,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               // specific
               "cache",         "fullMatch",   "isAscii",         "ocrReplace",   "rectMove",
               "replaceFull",   "roi",         "text",            "withoutDet",   "useRaw",
-              "binThreshold",
+              "binThreshold",  "sortByHorizontal",
           } },
         { AlgorithmType::FeatureMatch,
           {
