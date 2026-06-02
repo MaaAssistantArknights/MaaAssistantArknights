@@ -25,7 +25,7 @@ public class AsstSubTaskMsg
     public int TaskId { get; set; } = 0;
 
     [JsonProperty("class")]
-    public string @class { get; set; } = string.Empty;
+    public string Class { get; set; } = string.Empty;
 
     [JsonProperty("subtask")]
     public string SubTask { get; set; } = string.Empty;

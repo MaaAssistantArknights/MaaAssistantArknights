@@ -748,7 +748,15 @@ public class AsstProxy
             case AsstMsg.SubTaskCompleted:
             case AsstMsg.SubTaskExtraInfo:
                 ProcSubTaskMsg(msg, details);
-                AsstSubTaskMsgEvent?.Invoke(msg, details.ToObject<AsstSubTaskMsg>() ?? null);
+                try
+                {
+                    var payload = details.ToObject<AsstSubTaskMsg>() ?? null;
+                    AsstSubTaskMsgEvent?.Invoke(msg, payload);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error("Failed to parse SubTaskMsg: {ExMessage}\nSubTaskMsg:{SubTaskMsg}", ex.Message, details);
+                }
                 break;
 
             case AsstMsg.SubTaskStopped:
