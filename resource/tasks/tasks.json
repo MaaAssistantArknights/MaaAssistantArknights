@@ -2020,6 +2020,88 @@
         "postDelay": 500,
         "next": ["Stop"]
     },
+    "SignInEventBegin": {
+        "doc": "限时签到活动领取入口，不支持特殊版型",
+        "algorithm": "JustReturn",
+        "sub": ["AwardExpandCheckFlow"],
+        "next": [
+            "SignInEventReturnHome",
+            "SignInEventReturnHome@QuickSwitch@ToHome#next",
+            "SignInEventReturnHome@ReturnButtons#next",
+            "SignInEventEnter"
+        ]
+    },
+    "SignInEventReturnHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "next": ["SignInEventEnter", "Stop"]
+    },
+    "SignInEventEnter": {
+        "doc": "点击首页左上签到活动入口卡片",
+        "algorithm": "OcrDetect",
+        "text": ["签到"],
+        "action": "ClickSelf",
+        "roi": [5, 21, 203, 258],
+        "postDelay": 1500,
+        "next": ["SignInEventInPopup"],
+        "onErrorNext": ["Stop"]
+    },
+    "SignInEventInPopup": {
+        "doc": "OCR 结束时间确认已进入弹窗，未进入则退出",
+        "algorithm": "OcrDetect",
+        "text": ["结束时间"],
+        "roi": [0, 560, 1280, 160],
+        "action": "DoNothing",
+        "postDelay": 500,
+        "next": ["SignInEventClaim", "SignInEventAllClaimed"],
+        "onErrorNext": ["SignInEventReturn"]
+    },
+    "SignInEventAllClaimed": {
+        "doc": "匹配已领卡白色对勾，全领完则退出（图案跨服通用）",
+        "algorithm": "MatchTemplate",
+        "template": "SignInEventClaimedCheck.png",
+        "maskRange": [220, 255],
+        "templThreshold": 0.7,
+        "roi": [0, 150, 1280, 400],
+        "action": "DoNothing",
+        "next": ["SignInEventReturn"]
+    },
+    "SignInEventClaim": {
+        "doc": "OCR 签到天数大数字、点最左可领的一天",
+        "algorithm": "OcrDetect",
+        "text": ["1"],
+        "isAscii": true,
+        "fullMatch": true,
+        "sortByHorizontal": true,
+        "ocrReplace": [
+            ["^\\d{1,2}$", "1"]
+        ],
+        "action": "ClickSelf",
+        "roi": [0, 150, 1280, 250],
+        "postDelay": 2500,
+        "maxTimes": 25,
+        "next": ["SignInEventEarnRewards", "SignInEventReturn"],
+        "exceededNext": ["SignInEventReturn"]
+    },
+    "SignInEventEarnRewards": {
+        "doc": "点击获得物资关闭领取动画",
+        "algorithm": "OcrDetect",
+        "text": ["获得物资"],
+        "roi": [440, 90, 400, 140],
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["#self", "SignInEventClaim", "SignInEventReturn"],
+        "maxTimes": 50,
+        "exceededNext": ["SignInEventReturn"]
+    },
+    "SignInEventReturn": {
+        "doc": "关闭签到弹窗",
+        "baseTask": "CloseAnno",
+        "template": "CloseAnno.png",
+        "postDelay": 500,
+        "next": ["Stop"]
+    },
     "AwardBegin": {
         "algorithm": "JustReturn",
         "next": [
