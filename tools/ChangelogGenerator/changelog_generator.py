@@ -114,7 +114,7 @@ def individual_commits(commits: dict, indent: str = "") -> Tuple[str, list]:
 
         # 拼接 commit message
         ret_message += indent + "* " + commit_message
-        ret_message += "".join(f" @{ctr}" for ctr in ctrs if ctr != "web-flow")
+        ret_message += "".join(f" @{ctr}" for ctr in ctrs if ctr and ctr != "web-flow")
         ret_message += f" ({commit_hash})\n" if with_hash else "\n"
 
         if with_merge:
@@ -283,26 +283,36 @@ def get_associated_pr(repo_name: str, commit_hash: str):
     return pulls[0]
 
 
+def get_commit_author_login(repo_name: str, commit_hash: str) -> str:
+    commit = github_api_get(
+        f"https://api.github.com/repos/{repo_name}/commits/{commit_hash}"
+    )
+    if not commit:
+        return ""
+
+    return (commit.get("author") or {}).get("login") or ""
+
+
 def format_commit_info_with_pr(
     repo_name: str, commit_hash: str, message: str, author: str
 ):
     pr = get_associated_pr(repo_name, commit_hash)
-    if not pr:
-        return message, author
+    login = ""
 
-    number = pr.get("number")
-    html_url = pr.get("html_url")
-    title = pr.get("title")
-    login = pr.get("user", {}).get("login")
+    if pr:
+        number = pr.get("number")
+        html_url = pr.get("html_url")
+        title = pr.get("title")
+        login = (pr.get("user") or {}).get("login") or ""
 
-    if number and html_url and title:
-        title = re.sub(r"\s*\(#\d+\)\s*$", "", title)
-        message = f"{title} ([#{number}]({html_url}))"
+        if number and html_url and title:
+            title = re.sub(r"\s*\(#\d+\)\s*$", "", title)
+            message = f"{title} ([#{number}]({html_url}))"
 
-    if login:
-        author = login
+    if not login:
+        login = get_commit_author_login(repo_name, commit_hash)
 
-    return message, author
+    return message, login
 
 
 def build_maamacgui_changelog(latest: str) -> str:
