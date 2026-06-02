@@ -45,7 +45,6 @@ jobs:
       maaunified_assembly_version: ${{ steps.set_maaunified_version.outputs.assembly_version }}
       maaunified_file_version: ${{ steps.set_maaunified_version.outputs.file_version }}
       maaunified_informational_version: ${{ steps.set_maaunified_version.outputs.informational_version }}
-      maaunified_is_beta: ${{ steps.set_maaunified_version.outputs.is_beta }}
     steps:
       - name: Show concurrency group
         env:
@@ -119,7 +118,6 @@ jobs:
           echo "assembly_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
           echo "file_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
           echo "informational_version=${tag}" >> "$GITHUB_OUTPUT"
-          echo "is_beta=${is_beta}" >> "$GITHUB_OUTPUT"
 
       - name: Finalize changelog
         if: startsWith(github.ref, 'refs/tags/v')
@@ -419,7 +417,6 @@ jobs:
   maaunified-linux-gui:
     name: Build MAAUnified Linux GUI
     needs: meta
-    if: needs.meta.outputs.maaunified_is_beta == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

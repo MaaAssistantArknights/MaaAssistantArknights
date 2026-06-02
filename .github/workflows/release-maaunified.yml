@@ -11,9 +11,9 @@ on:
         required: true
         type: string
       prerelease:
-        description: Mark the release as prerelease if the upload action needs to create it
+        description: Mark the release as prerelease if the upload action needs to create it; beta tags must use true
         required: false
-        default: true
+        default: false
         type: boolean
 
 permissions:
@@ -31,7 +31,6 @@ jobs:
       assembly_version: ${{ steps.out.outputs.assembly_version }}
       file_version: ${{ steps.out.outputs.file_version }}
       informational_version: ${{ steps.out.outputs.informational_version }}
-      is_beta: ${{ steps.out.outputs.is_beta }}
     steps:
       - id: out
         shell: bash
@@ -80,12 +79,10 @@ jobs:
           echo "assembly_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
           echo "file_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
           echo "informational_version=${tag}" >> "$GITHUB_OUTPUT"
-          echo "is_beta=${is_beta}" >> "$GITHUB_OUTPUT"
 
   build-and-upload:
     name: Release ${{ matrix.name }}
     needs: meta
-    if: needs.meta.outputs.is_beta == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
