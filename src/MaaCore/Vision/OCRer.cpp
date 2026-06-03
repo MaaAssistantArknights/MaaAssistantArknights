@@ -64,7 +64,12 @@ OCRer::ResultsVecOpt OCRer::analyze() const
     }
 
     if (m_params.sort_by_horizontal) {
-        std::ranges::sort(results_vec, {}, [](const Result& res) { return res.rect.x; });
+        std::ranges::sort(results_vec, [](const Result& a, const Result& b) {
+            if (a.rect.x != b.rect.x) {
+                return a.rect.x < b.rect.x;
+            }
+            return a.rect.y < b.rect.y;
+        });
     }
 
     Log.trace("Proceed", results_vec);
