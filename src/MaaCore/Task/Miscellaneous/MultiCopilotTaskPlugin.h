@@ -20,17 +20,6 @@ public:
         bool is_raid = false;               // 是否是突袭
     };
 
-private:
-    enum NavigationStatus
-    {
-        Init,
-        Navigating,
-        StageClicked,
-        StageConfirmed,
-        Success,
-        Failed,
-    };
-
 public:
     using AbstractTask::AbstractTask;
     virtual ~MultiCopilotTaskPlugin() override = default;
@@ -50,7 +39,6 @@ private:
     std::vector<MultiCopilotConfig> m_copilot_configs;
     int m_index_current = 0; // 当前执行的索引
     std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
-    NavigationStatus m_status = NavigationStatus::Init;
     int m_max_retry = 20;
 };
 }

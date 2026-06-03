@@ -56,11 +56,9 @@ bool asst::MultiCopilotTaskPlugin::_run()
 
 bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_name)
 {
-    m_status = NavigationStatus::Init;
     auto image = ctrler()->get_image();
 
     if (is_stage_detail_opened(image)) { // 关卡介绍已展开
-        m_status = NavigationStatus::StageClicked;
         return confirm_stage_name(image, stage_name);
     }
 
@@ -121,7 +119,6 @@ bool asst::MultiCopilotTaskPlugin::enter_stage(const Rect rect, const std::strin
     sleep(Config.get_options().task_delay);
     auto image_entered = ctrler()->get_image();
     if (is_stage_detail_opened(image_entered)) { // 关卡介绍已展开
-        m_status = NavigationStatus::StageClicked;
         sleep(Config.get_options().task_delay);
         return confirm_stage_name(image_entered, stage_name);
     }
@@ -139,8 +136,8 @@ asst::OCRer::ResultsVec
     std::vector<cv::Mat> channels = { gray, gray, gray };
     cv::Mat gray3;
     cv::merge(channels, gray3);
-    cv::bitwise_and(image, gray3, image);
-    OCRer ocr(image);
+    cv::bitwise_and(image, gray3, gray3);
+    OCRer ocr(gray3);
     ocr.set_task_info("ClickStageName");
     if (!ocr.analyze()) {
         return {};
@@ -167,7 +164,6 @@ bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, cons
     OCRer ocr(image);
     ocr.set_task_info("ClickStageName");
     if (ocr_check(ocr.analyze())) {
-        m_status = NavigationStatus::StageConfirmed;
         return true;
     }
 
@@ -176,7 +172,6 @@ bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, cons
         OCRer re_OCR(ctrler()->get_image());
         re_OCR.set_task_info("ClickStageName");
         if (ocr_check(re_OCR.analyze())) {
-            m_status = NavigationStatus::StageConfirmed;
             return true;
         }
     }
