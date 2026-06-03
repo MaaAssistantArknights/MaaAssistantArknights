@@ -64,6 +64,7 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
         Log.info("Stage template found, using template matching for", stage_name, ", templ:", templ_path);
         // 动态注入模板路径到 MatchTaskInfo（需带 .png 后缀）
         Task.get<MatchTaskInfo>(stage_name + "@Copilot@ClickStageByTemplate")->templ_names = { templ_path + ".png" };
+        Task.get<OcrTaskInfo>(stage_name + "@Copilot@ClickedCorrectStageByTemplateOrSwipe")->text = { stage_name };
         return ProcessTask(*this, { stage_name + "@Copilot@StageNavigationByTemplateMatchBegin" })
             .set_retry_times(20)
             .run();

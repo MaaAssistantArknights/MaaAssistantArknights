@@ -196,14 +196,15 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
     if (!templ_path.empty()) {
         Log.info("Stage template found, using template matching for", m_stage_code, ", templ:", templ_path);
         Task.get<MatchTaskInfo>(m_stage_code + "@ClickStageByTemplate")->templ_names = { templ_path + ".png" };
+        Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStageByTemplateOrSwipe")->text = { m_stage_code };
         return ProcessTask(
                    *this,
-                   { m_stage_code + "@ClickStageByTemplate", m_stage_code + "@StageNavigationByTemplateMatchBegin" })
+                   { m_stage_code + "@StageNavigationByTemplateMatchBegin" })
             .set_retry_times(RetryTimesDefault)
             .run();
     }
 
-    // 模板不存在时，回退到 OCR 匹配
+    // 无模板，使用 OCR 匹配
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickStageName")->text = { m_stage_code };
     std::string replace_m_stage_code = m_stage_code;
     utils::string_replace_all_in_place(replace_m_stage_code, { { "-", "" } });
