@@ -33,6 +33,7 @@ bool asst::MultiCopilotTaskPlugin::_run()
     json::value info = basic_info_with_what("CopilotListLoadTaskFileSuccess");
     info["details"]["stage_name"] = Copilot.get_stage_name();
     info["details"]["file_name"] = std::move(file_name);
+    info["details"]["id"] = config.id;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     bool ret = true;
