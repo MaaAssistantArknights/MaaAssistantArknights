@@ -112,6 +112,8 @@ bool MumuExtras::load_mumu_library()
     for (const auto& rel_path : kCandidateRelativePaths) {
         auto lib_path = mumu_path_ / rel_path;
         if (load_library(lib_path)) {
+            LogInfo << "Successfully loaded MuMu external renderer library from: "
+                    << lib_path.string();
             loaded = true;
             break;
         }
