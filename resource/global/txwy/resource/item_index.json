@@ -2791,6 +2791,14 @@
         "sortId": -10000,
         "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據重裝幹員們的需求，可以輕鬆印刻出晶片組合。"
     },
+    "itempack_recruit_1": {
+        "classifyType": "NONE",
+        "description": "活動即宣傳，因此這段時間人事部業務繁忙也是情有可原，記住了，你欠■■■一個人情。",
+        "icon": "itempack_recruit_1.png",
+        "name": "2026感謝慶典招聘補給",
+        "sortId": -10000,
+        "usage": "為滿足招募需求而準備的人力資源包，供相關人員透過公開管道大量招募幹員。"
+    },
     "main16_spitem_1": {
         "classifyType": "NORMAL",
         "description": "從前，人們說苦難自它的出現萌生；如今，人們說悲劇從它的消失肇始。",
@@ -3069,6 +3077,14 @@
         "icon": "randomMaterial_6.png",
         "name": "羅德島物資補給III",
         "sortId": 60106,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_6d5": {
+        "classifyType": "CONSUME",
+        "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
+        "icon": "randomMaterial_6d5.png",
+        "name": "2026感謝慶典物資補給",
+        "sortId": 60117,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterial_7": {
