@@ -6,6 +6,7 @@
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
 #include "Task/Fight/StageQueueMissionCompletedTaskPlugin.h"
 #include "Task/ProcessTask.h"
+#include "Task/StageNavigationHelper.h"
 #include "Utils/Logger.hpp"
 
 void asst::SideStoryReopenTask::set_sidestory_name(std::string sidestory_name)
@@ -178,6 +179,14 @@ bool asst::SideStoryReopenTask::select_stage(int stage_index)
     LogTraceFunction;
 
     const auto& m_stage_code = m_sidestory_name + "-" + std::to_string(stage_index);
+
+    // 优先检查是否存在对应活动关卡名的模板资源，如果存在则走模板匹配
+    std::string templ_path = StageNavigationHelper::get_stage_template_path(m_stage_code);
+    if (!templ_path.empty()) {
+        Log.info("Stage template found, using template matching for", m_stage_code, ", templ:", templ_path);
+        Task.get<MatchTaskInfo>(m_stage_code + "@ClickStageByTemplate")->templ_names = { templ_path + ".png" };
+        return ProcessTask(*this, { m_stage_code + "@StageNavigationByTemplateMatchBegin" }).run();
+    }
 
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickStageName")->text = { m_stage_code };
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStage")->text = { m_stage_code };

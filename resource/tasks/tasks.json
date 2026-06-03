@@ -241,6 +241,25 @@
         "algorithm": "JustReturn",
         "next": ["ClickStageName", "FullStageNavigation"]
     },
+    "StageNavigationByTemplateMatchBegin": {
+        "doc": "模板匹配导航：优先匹配活动关卡截图模板，匹配不到则滑动重试",
+        "algorithm": "JustReturn",
+        "next": ["ClickStageByTemplate", "SwipeStageAndRetryTemplate"]
+    },
+    "ClickStageByTemplate": {
+        "doc": "模板匹配关卡截图，默认 empty.png（永远匹配不到），由 C++ 代码动态替换为实际模板",
+        "action": "ClickSelf",
+        "template": ["empty.png"],
+        "roi": [0, 0, 1280, 720],
+        "next": ["ClickedCorrectStageOrSwipe"]
+    },
+    "SwipeStageAndRetryTemplate": {
+        "doc": "模板匹配时滑动查找关卡，左滑后重试 ClickStageByTemplate",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "next": ["ClickStageByTemplate", "SwipeStageAndRetryTemplate"],
+        "maxTimes": 30,
+        "exceededNext": ["Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next"]
+    },
     "FullStageNavigation": {
         "Doc": "右滑 10 次，然后检测关卡并左滑",
         "Doc2": "在一次关卡导航中，仅swipe 10次，其余情况进exceededNext",

@@ -8,6 +8,7 @@
 #include "Controller/Controller.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/ProcessTask.h"
+#include "Task/StageNavigationHelper.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 #include "Vision/Matcher.h"
@@ -57,6 +58,20 @@ bool asst::MultiCopilotTaskPlugin::_run()
 
 bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_name)
 {
+    // 优先检查是否存在对应活动关卡名的模板资源，如果存在则走模板匹配
+    std::string templ_path = StageNavigationHelper::get_stage_template_path(stage_name);
+    if (!templ_path.empty()) {
+        Log.info("Stage template found, using template matching for", stage_name, ", templ:", templ_path);
+        // 动态注入模板路径到 MatchTaskInfo（需带 .png 后缀）
+        Task.get<MatchTaskInfo>(stage_name + "@Copilot@ClickStageByTemplate")->templ_names = { templ_path + ".png" };
+        return ProcessTask(*this, { stage_name + "@Copilot@StageNavigationByTemplateMatchBegin" })
+            .set_retry_times(20)
+            .run();
+    }
+
+    // 模板不存在，使用基于图像分析的 OCR 方案
+    Log.info("No stage template available, using image-based OCR for", stage_name);
+
     auto image = ctrler()->get_image();
 
     if (is_stage_detail_opened(image)) { // 关卡介绍已展开
