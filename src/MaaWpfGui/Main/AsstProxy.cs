@@ -155,7 +155,7 @@ public class AsstProxy
         return ret;
     }
 
-    private static void AsstSetConnectionExtrasMuMu12(string extras)
+    private static void AsstSetConnectionExtrasMuMu(string extras)
     {
         AsstSetConnectionExtras("MuMuEmulator12", extras);
     }
@@ -894,7 +894,7 @@ public class AsstProxy
                     switch (SettingsViewModel.ConnectSettings.ConnectConfig)
                     {
                         case "MuMuEmulator12":
-                            if (!SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Enable)
+                            if (!SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.Enable)
                             {
                                 break;
                             }
@@ -2646,7 +2646,7 @@ public class AsstProxy
         switch (SettingsViewModel.ConnectSettings.ConnectConfig)
         {
             case "MuMuEmulator12":
-                AsstSetConnectionExtrasMuMu12(SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Config);
+                AsstSetConnectionExtrasMuMu(SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.Config);
                 break;
 
             case "LDPlayer":
