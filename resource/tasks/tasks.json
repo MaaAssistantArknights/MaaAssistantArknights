@@ -4777,6 +4777,10 @@
         "onErrorNext": [],
         "next": ["Copilot@EndOfAction", "Copilot@EndOfAction-Sandbox"]
     },
+    "Copilot@FightMissionFailed-Bypass": {
+        "baseTask": "Copilot@FightMissionFailed",
+        "next": ["Copilot@EndOfAction-Bypass", "Copilot@EndOfAction-Sandbox"]
+    },
     "Copilot@StageDrops-Stars-3": {
         "Doc": "如果没有三星就终止",
         "template": "StageDrops-Stars-3.png",
