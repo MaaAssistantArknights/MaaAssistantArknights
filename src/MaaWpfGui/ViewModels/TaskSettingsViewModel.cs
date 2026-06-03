@@ -63,11 +63,6 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
         return false;
     }
 
-    // 计划重构为event
-    public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
-    {
-    }
-
     /// <summary>
     /// 刷新UI
     /// </summary>
