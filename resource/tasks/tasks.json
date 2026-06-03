@@ -4370,7 +4370,7 @@
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
         "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。",
         "algorithm": "JustReturn",
-        "next": ["Roguelike@StageEncounterOptionUnknown"]
+        "next": ["Roguelike@StageEncounterOptionUnknown", "SwitchTheme@ToggleSettingsMenu"]
     },
     "ScreenshotTaskPlugin-Config-Debug": {
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",

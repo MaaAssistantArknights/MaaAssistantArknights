@@ -14,6 +14,7 @@
 #include "Task/Infrast/InfrastTradeTask.h"
 #include "Task/Infrast/InfrastTrainingTask.h"
 #include "Task/Infrast/ReplenishOriginiumShardTaskPlugin.h"
+#include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 
 asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
@@ -34,6 +35,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     LogTraceFunction;
 
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(false);
+    m_infrast_begin_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_queue_rotation_task->set_tasks({ "InfrastEnterRotation" }).set_ignore_error(true);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
     m_info_task_ptr->set_ignore_error(true);

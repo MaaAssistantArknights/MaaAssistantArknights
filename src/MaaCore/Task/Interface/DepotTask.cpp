@@ -1,6 +1,7 @@
 #include "DepotTask.h"
 
 #include "Task/Miscellaneous/DepotRecognitionTask.h"
+#include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 
 asst::DepotTask::DepotTask(const AsstCallback& callback, Assistant* inst) :
@@ -8,6 +9,7 @@ asst::DepotTask::DepotTask(const AsstCallback& callback, Assistant* inst) :
 {
     auto enter_task = std::make_shared<ProcessTask>(m_callback, m_inst, TaskType);
     enter_task->set_tasks({ "DepotBegin" }).set_ignore_error(true);
+    enter_task->register_plugin<ScreenshotTaskPlugin>();
     m_subtasks.emplace_back(enter_task);
 
     auto recognition_task = std::make_shared<DepotRecognitionTask>(m_callback, m_inst, TaskType);
