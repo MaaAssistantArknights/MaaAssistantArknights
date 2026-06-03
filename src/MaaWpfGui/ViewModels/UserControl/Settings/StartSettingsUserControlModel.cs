@@ -20,6 +20,7 @@ using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
 using JetBrains.Annotations;
@@ -311,14 +312,16 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     /// 尝试启动模拟器
     /// </summary>
     /// <param name="openWithMaaLaunch">启动 MAA 后自动开启模拟器</param>
-    public void TryToStartEmulator(bool openWithMaaLaunch = false)
+    /// <param name="test">测试启动模拟器，即使配置中未设置自动启动，不读取等待时间</param>
+    public void TryToStartEmulator(bool openWithMaaLaunch = false, bool test = false)
     {
-        if (EmulatorPath.Length == 0 || !File.Exists(EmulatorPath) || (!OpenEmulatorAfterLaunch && openWithMaaLaunch))
+        if (EmulatorPath.Length == 0 || !File.Exists(EmulatorPath) || (!test && !OpenEmulatorAfterLaunch && openWithMaaLaunch))
         {
             return;
         }
 
-        if (!int.TryParse(EmulatorWaitSeconds, out int delay))
+        int delay = 0;
+        if (!test && !int.TryParse(EmulatorWaitSeconds, out delay))
         {
             delay = 60;
         }
@@ -505,5 +508,27 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         {
             EmulatorPath = dialog.FileName;
         }
+    }
+
+    /// <summary>
+    /// Tests the emulator path by trying to start the emulator.
+    /// UI 绑定的方法
+    /// </summary>
+    [UsedImplicitly]
+    public void TestEmulatorExec()
+    {
+        if (EmulatorPath.Length == 0)
+        {
+            MessageBoxHelper.Show(LocalizationHelper.GetString("EmulatorPathEmptyWarning"), LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
+            return;
+        }
+
+        if (!File.Exists(EmulatorPath))
+        {
+            MessageBoxHelper.Show(LocalizationHelper.GetString("EmulatorPathNotExist"), LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
+            return;
+        }
+
+        Task.Run(() => TryToStartEmulator(test: true));
     }
 }

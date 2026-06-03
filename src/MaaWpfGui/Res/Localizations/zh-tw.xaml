@@ -489,6 +489,7 @@ D:\
     <system:String x:Key="EmulatorPathNotExist">模擬器路徑不存在</system:String>
     <system:String x:Key="EmulatorPathEmptyWarning">模擬器路徑為空，｢{key=RetryOnDisconnected}｣ 與 ｢{key=OpenEmulatorAfterLaunch}｣ 勾選狀態已被還原</system:String>
     <system:String x:Key="Select">選擇</system:String>
+    <system:String x:Key="Test">測試</system:String>
     <system:String x:Key="ForcedReplaceAdb">強制替換 ADB</system:String>
     <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">當前模擬器自帶的 ADB 版本通常較新，一般無需手動替換。&#10;點擊後將從 Google 下載最新版本的 ADB 並替換本地路徑中的 ADB 檔案，僅在遇到明確的 ADB 相容性問題時才需要使用。</system:String>
     <system:String x:Key="TouchMode">觸控模式</system:String>

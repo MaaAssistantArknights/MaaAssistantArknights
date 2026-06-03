@@ -489,6 +489,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="EmulatorPathNotExist">エミュレータのパスが存在しません</system:String>
     <system:String x:Key="EmulatorPathEmptyWarning">エミュレータのパスが空です。「{key=RetryOnDisconnected}」と「{key=OpenEmulatorAfterLaunch}」のチェック状態がリセットされました</system:String>
     <system:String x:Key="Select">選択</system:String>
+    <system:String x:Key="Test">テスト</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB強制置き換え</system:String>
     <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">現在のエミュレーターに同梱されているADBバージョンは通常新しいため、手動での置き換えは基本的に不要です。&#10;クリックするとGoogleから最新のADBをダウンロードし、ローカルパスのADBファイルを置き換えます。明確なADB互換性問題が発生した場合のみご使用ください。</system:String>
     <system:String x:Key="TouchMode">タッチモード</system:String>

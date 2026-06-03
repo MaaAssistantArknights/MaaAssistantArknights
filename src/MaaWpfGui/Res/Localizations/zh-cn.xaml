@@ -489,6 +489,7 @@ D:\
     <system:String x:Key="EmulatorPathNotExist">模拟器路径不存在</system:String>
     <system:String x:Key="EmulatorPathEmptyWarning">模拟器路径为空，｢{key=RetryOnDisconnected}｣ 与 ｢{key=OpenEmulatorAfterLaunch}｣ 勾选状态已被还原</system:String>
     <system:String x:Key="Select">选择</system:String>
+    <system:String x:Key="Test">测试</system:String>
     <system:String x:Key="ForcedReplaceAdb">强制替换 ADB</system:String>
     <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">当前模拟器自带的 ADB 版本通常较新，一般无需手动替换。&#10;点击后将从 Google 下载最新版本的 ADB 并替换本地路径中的 ADB 文件，仅在遇到明确的 ADB 兼容性问题时才需要使用。</system:String>
     <system:String x:Key="TouchMode">触控模式</system:String>
