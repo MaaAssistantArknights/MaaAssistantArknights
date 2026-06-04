@@ -58,6 +58,7 @@ enum class TouchMode
     MacPlayTools = 3,
     MaaFwAdb = 4,
     Android = 5,
+    X11 = 6,
 };
 
 #ifdef _WIN32

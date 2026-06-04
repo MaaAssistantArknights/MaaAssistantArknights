@@ -142,6 +142,11 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::Android);
             return true;
         }
+#elif defined(__linux__)
+        else if (constexpr std::string_view X11 = "X11"; value == X11) {
+            m_ctrler->set_touch_mode(TouchMode::X11);
+            return true;
+        }
 #endif
         break;
     case InstanceOptionKey::DeploymentWithPause:

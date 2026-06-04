@@ -21,6 +21,8 @@ enum class ControllerType
     MaaFwAdb,
 #ifdef __ANDROID__
     MaaFwAndroidNative,
+#elif defined(__linux__)
+    X11,
 #endif
 };
 

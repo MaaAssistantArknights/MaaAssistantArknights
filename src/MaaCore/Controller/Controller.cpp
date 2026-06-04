@@ -30,6 +30,8 @@
 
 #ifdef __ANDROID__
 #include "MaaFwAndroidNativeController.h"
+#elif defined(__linux__)
+#include "X11Controller.h"
 #endif
 
 #include "Common/AsstTypes.h"
@@ -66,6 +68,9 @@ std::shared_ptr<asst::ControllerAPI>
         case ControllerType::MaaFwAndroidNative:
             Log.debug("Use Android");
             return std::make_shared<MaaFwAndroidNativeController>(m_callback, m_inst);
+#elif defined(__linux__)
+        case ControllerType::X11:
+            return std::make_shared<X11Controller>(m_callback, m_inst, platform_type);
 #endif
         default:
             return nullptr;
@@ -384,6 +389,9 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
     case TouchMode::Android:
         m_controller_type = ControllerType::MaaFwAndroidNative;
         break;
+#elif defined(__linux__)
+    case TouchMode::X11:
+        m_controller_type = ControllerType::X11;
 #endif
     default:
         m_controller_type = ControllerType::Minitouch;
