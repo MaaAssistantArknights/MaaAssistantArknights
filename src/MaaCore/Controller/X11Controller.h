@@ -33,7 +33,12 @@ public:
     {
     }
 
-    virtual ~X11Controller() override { XCloseDisplay(m_display); };
+    virtual ~X11Controller() override
+    {
+        if (m_display) {
+            XCloseDisplay(m_display);
+        }
+    }
 
     X11Controller(const X11Controller&) = delete;
     X11Controller(X11Controller&&) = delete;
