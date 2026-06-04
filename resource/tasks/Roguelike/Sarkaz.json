@@ -81,7 +81,7 @@
     },
     "Sarkaz@Roguelike@ChooseOper": {
         "next": [
-            "Sarkaz@Roguelike@ChooseOper@(Sarkaz@Roguelike@CloseCollectionContinue)",
+            "Sarkaz@Roguelike@ChooseOperFlag@(Sarkaz@Roguelike@CloseCollectionContinue)",
             "Sarkaz@Roguelike@ChooseOperFlag@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@ChooseOperConfirm",
             "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",

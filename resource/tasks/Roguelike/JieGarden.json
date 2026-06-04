@@ -51,7 +51,7 @@
     },
     "JieGarden@Roguelike@ChooseOper": {
         "next": [
-            "JieGarden@Roguelike@ChooseOper@(JieGarden@Roguelike@CloseCollectionContinue)",
+            "JieGarden@Roguelike@ChooseOperFlag@(JieGarden@Roguelike@CloseCollectionContinue)",
             "JieGarden@Roguelike@ChooseOperFlag@(JieGarden@Roguelike@CloseCollectionClose)",
             "JieGarden@Roguelike@ChooseOperConfirm",
             "JieGarden@Roguelike@ChooseOperConfirmToGiveUp",

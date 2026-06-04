@@ -25,7 +25,7 @@
     },
     "Mizuki@Roguelike@ChooseOper": {
         "next": [
-            "Mizuki@Roguelike@ChooseOper@(Mizuki@Roguelike@CloseCollectionContinue)",
+            "Mizuki@Roguelike@ChooseOperFlag@(Mizuki@Roguelike@CloseCollectionContinue)",
             "Mizuki@Roguelike@ChooseOperFlag@(Mizuki@Roguelike@CloseCollectionClose)",
             "Mizuki@Roguelike@ChooseOperConfirm",
             "Mizuki@Roguelike@Abandon",
