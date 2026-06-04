@@ -5185,6 +5185,7 @@
     "GreenTicket@Store@ClickItemList": {
         "algorithm": "JustReturn",
         "next": [
+            "GreenTicket@Store@SecondFloorSelected",
             "GreenTicket@Store@ClickItem_Headhunting_Permit",
             "GreenTicket@Store@ClickItem_Orundum",
             "GreenTicket@Store@ClickItem_LMD",
@@ -5193,6 +5194,19 @@
             "GreenTicket@Store@ClickItem_Tactical_Battle_Record",
             "GreenTicket@Store@ClickItem_Pure_Gold"
         ]
+    },
+    "GreenTicket@Store@SecondFloorSelected": {
+        "algorithm": "MatchTemplate",
+        "template": "GreenTicket@Store@SecondFloorSelected.png",
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [90, 80, 200],
+                [110, 255, 255]
+            ]
+        ],
+        "roi": [253, 315, 59, 163],
+        "next": ["GreenTicket@Store@ClickSecondFloorItemList#next", "Stop"]
     },
     "GreenTicket@Store@ClickItem_Headhunting_Permit": {
         "doc": "单抽",
