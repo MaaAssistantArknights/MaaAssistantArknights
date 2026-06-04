@@ -383,6 +383,8 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public bool HasRequirementIgnored { get; set; } = false;
 
+    public int CurrentCopilotId { get; set; } = -1;
+
     public bool UseSanityPotion { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
@@ -1809,7 +1811,7 @@ public partial class CopilotViewModel : Screen
         Execute.OnUIThread(() => {
             foreach (var model in CopilotItemViewModels)
             {
-                if (!model.IsChecked)
+                if (!model.IsChecked || (CurrentCopilotId != -1 && model.Index != CurrentCopilotId))
                 {
                     continue;
                 }
@@ -2077,7 +2079,7 @@ public partial class CopilotViewModel : Screen
 
             var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i => {
                 _copilotIdList.Add(i.CopilotId);
-                return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
+                return new MultiTask { Index = i.Index, FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
             });
 
             var task = new AsstCopilotTask() {
@@ -2101,7 +2103,7 @@ public partial class CopilotViewModel : Screen
 
             var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i => {
                 _copilotIdList.Add(i.CopilotId);
-                return i.FilePath;
+                return new AsstParadoxCopilotTask.MultiTask(i.Index, i.FilePath);
             });
 
             var task = new AsstParadoxCopilotTask() { MultiTasks = [.. t], };
