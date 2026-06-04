@@ -130,7 +130,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - [集成文档](https://docs.maa.plus/zh-cn/protocol/integration.html)
 - [回调消息协议](https://docs.maa.plus/zh-cn/protocol/callback-schema.html)
 - [任务流程协议](https://docs.maa.plus/zh-cn/protocol/task-schema.html)
-- [自动抄作业协议](https://docs.maa.plus/zh-cn/protocol/copilot-schema.html)
+- [自动战斗协议](https://docs.maa.plus/zh-cn/protocol/copilot-schema.html)
 
 ### 外服适配
 
