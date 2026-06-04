@@ -1,7 +1,10 @@
 #pragma once
 #include "Task/AbstractTask.h"
 
-#include <variant>
+#include <optional>
+
+#include "MaaUtils/NoWarningCV.hpp"
+#include "Vision/OCRer.h"
 
 namespace asst
 {
@@ -29,9 +32,14 @@ public:
 private:
     virtual bool _run() override;
     bool navigate_to_stage(const std::string& stage_name);
+    bool enter_stage(const Rect rect, const std::string& stage_name);
+    OCRer::ResultsVec find_stage(const cv::Mat& image, int threshold_low, int threshold_high);
+    bool is_stage_detail_opened(const cv::Mat& image); // 检查关卡介绍是否已展开
+    bool confirm_stage_name(const cv::Mat& image, const std::string& stage_name);
 
     std::vector<MultiCopilotConfig> m_copilot_configs;
     int m_index_current = 0; // 当前执行的索引
     std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
+    int m_max_retry = 20;
 };
 }

@@ -293,6 +293,9 @@
         "specificRect": [600, 100, 20, 20],
         "exceededNext": ["ClickStageName", "StageNavigationSlowlySwipeLeft"]
     },
+    "Copilot@FullStageNavigation": {
+        "exceededNext": []
+    },
     "ClickStageName": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -300,6 +303,7 @@
         "fullMatch": true,
         "isAscii": true,
         "text": [],
+        "binThreshold": [180, 255],
         "next": ["ClickedCorrectStageOrSwipe", "#self"],
         "ocrReplaceDoc": "和 ClickedCorrectStage 同步，但去除 OPERATION",
         "ocrReplace": [
@@ -314,7 +318,8 @@
             ["'", ""],
             ["(H\\d+)O(?=-)", "$010"],
             ["(-\\d+)O", "$010"],
-            [".*?([A-Z]{2}-EX-\\d+)", "$1"]
+            [".*?([A-Z]{2}-EX-\\d+)", "$1"],
+            ["-I$", "-1"]
         ]
     },
     "StageNavigationSlowlySwipeLeft": {
@@ -3784,8 +3789,7 @@
     "EndOfPlot": {
         "roi": [520, 0, 243, 206],
         "action": "ClickRect",
-        "specificRect": [1260, 100, 10, 10],
-        "next": ["ClickStageName"]
+        "specificRect": [1260, 100, 10, 10]
     },
     "SkipForbiddenOperConfirm": {
         "action": "ClickSelf",
@@ -4711,7 +4715,8 @@
     },
     "Copilot@StageNavigationSlowlySwipeLeft": {
         "doc": "禁掉copilot的找不到关卡返回",
-        "exceededNext": ["Copilot@ChapterSwipeToTheRightAndPlot"]
+        "next": [],
+        "exceededNext": []
     },
     "Copilot@ChapterSwipeToTheRightAndPlot": {
         "doc": "划 10 次到最右，然后扫有无初见剧情",
@@ -4744,7 +4749,7 @@
             "Copilot@SkipThePreBattlePlot",
             "Copilot@EndOfAction-Bypass",
             "Copilot@EndOfAction-Sandbox",
-            "Copilot@FightMissionFailed",
+            "Copilot@FightMissionFailed-Bypass",
             "Copilot@WaitUntilEndOfAction-Bypass"
         ]
     },
@@ -4771,6 +4776,10 @@
         "exceededNext": [],
         "onErrorNext": [],
         "next": ["Copilot@EndOfAction", "Copilot@EndOfAction-Sandbox"]
+    },
+    "Copilot@FightMissionFailed-Bypass": {
+        "baseTask": "Copilot@FightMissionFailed",
+        "next": ["Copilot@EndOfAction-Bypass", "Copilot@EndOfAction-Sandbox"]
     },
     "Copilot@StageDrops-Stars-3": {
         "Doc": "如果没有三星就终止",
