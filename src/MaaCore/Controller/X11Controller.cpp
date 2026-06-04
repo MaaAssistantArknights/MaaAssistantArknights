@@ -33,11 +33,12 @@ bool asst::X11Controller::connect(
     // e.g. address = "0x3e00003"
     Window w { };
     try {
-        w = std::stoi(address, nullptr, 16);
+        w = static_cast<Window>(std::stoull(address, nullptr, 16));
     }
     catch (...) {
         Log.error("Invalid window XID", address);
         return false;
+    }
     }
 
     if (w == 0) {
