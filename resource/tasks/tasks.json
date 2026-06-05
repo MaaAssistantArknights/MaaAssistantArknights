@@ -5162,7 +5162,7 @@
         "text": ["资质凭证区"],
         "roi": [108, 163, 124, 56],
         "next": [
-            "Store@EnterTicketStore@LoadingIcon",
+            "GreenTicket@Store@EnterTicketStore@LoadingIcon",
             "GreenTicket@Store@ClickFirstFloor",
             "GreenTicket@Store@SwitchToSecondFloor"
         ]
