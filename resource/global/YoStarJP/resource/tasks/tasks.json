@@ -1,9 +1,9 @@
 {
     "SignInEventEnter": {
-        "text": ["サインイン", "ログイン"]
+        "text": ["スタンプ"]
     },
     "SignInEventEarnRewards": {
-        "text": ["獲得"]
+        "text": ["受け取る", "受取"]
     },
     "SignInEventInPopup": {
         "text": ["終了時間"]

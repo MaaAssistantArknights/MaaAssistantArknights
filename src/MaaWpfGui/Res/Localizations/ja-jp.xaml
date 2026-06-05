@@ -606,7 +606,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveMining">期間限定の採掘許可で毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveSpecialAccess">スペシャルアクセス特典を集める</system:String>
-    <system:String x:Key="ReceiveSignInEvent">期間限定サインイン報酬を受取</system:String>
+    <system:String x:Key="ReceiveSignInEvent">期間限定スタンプラリー報酬を受け取る</system:String>
     <system:String x:Key="ReceiveSignInEventTip">横型レイアウトのみ対応。それ以外のレイアウトは非対応で、正常に動作しない可能性があります</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="UseTray">トレイアイコンを表示</system:String>
