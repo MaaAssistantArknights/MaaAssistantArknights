@@ -149,6 +149,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             ReclamationTask => Reclamation = enable,
             UserDataUpdateTask => UserDataUpdate = enable,
             CustomTask => Custom = enable,
+            TaskGroup => false, // groups have no dedicated settings panel
             _ => throw new NotImplementedException(),
         };
         EnableAdvancedSettings = false;
@@ -173,6 +174,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         AdvancedSettingsVisibility = task switch {
             AwardTask or StartUpTask or UserDataUpdateTask => false,
             ReclamationTask rt => rt.Theme == ReclamationTheme.Tales,
+            TaskGroup => false,
             _ => true,
         };
     }

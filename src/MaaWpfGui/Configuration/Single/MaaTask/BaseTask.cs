@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
@@ -37,6 +38,7 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 [JsonDerivedType(typeof(UserDataUpdateTask), typeDiscriminator: nameof(UserDataUpdateTask))]
 [JsonDerivedType(typeof(ReclamationTask), typeDiscriminator: nameof(ReclamationTask))]
 [JsonDerivedType(typeof(CustomTask), typeDiscriminator: nameof(CustomTask))]
+[JsonDerivedType(typeof(TaskGroup), typeDiscriminator: nameof(TaskGroup))]
 public class BaseTask : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -83,6 +85,27 @@ public class DepotTask : BaseTask
 
 public class OperBoxTask : BaseTask
 {
+}
+
+/// <summary>
+/// 任务分组，包含一组子任务，用于减少界面上的任务数量。
+/// </summary>
+public class TaskGroup : BaseTask
+{
+    public TaskGroup()
+    {
+        TaskType = TaskType.Group;
+    }
+
+    /// <summary>
+    /// Gets or sets the children tasks in this group.
+    /// </summary>
+    public List<BaseTask> Children { get; set; } = [];
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the group is expanded in the UI.
+    /// </summary>
+    public bool IsExpanded { get; set; } = true;
 }
 
 #pragma warning restore SA1402 // File may only contain a single type

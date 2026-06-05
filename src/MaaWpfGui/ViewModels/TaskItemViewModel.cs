@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -22,12 +23,15 @@ using Stylet;
 
 namespace MaaWpfGui.ViewModels;
 
-public class TaskItemViewModel : PropertyChangedBase, IDisposable
+public class TaskItemViewModel : PropertyChangedBase, IDisposable, ITaskQueueItemViewModel
 {
-    public TaskItemViewModel(string name, bool? isCheckedWithNull = true)
+    private readonly BaseTask? _taskReference;
+
+    public TaskItemViewModel(string name, bool? isCheckedWithNull = true, BaseTask? taskReference = null)
     {
         _name = name;
         _isEnable = isCheckedWithNull;
+        _taskReference = taskReference;
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
     }
 
@@ -42,7 +46,14 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
                 return;
             }
 
-            ConfigFactory.CurrentConfig.TaskQueue[Index].Name = value;
+            if (_taskReference != null)
+            {
+                _taskReference.Name = value;
+            }
+            else
+            {
+                ConfigFactory.CurrentConfig.TaskQueue[Index].Name = value;
+            }
         }
     }
 
@@ -57,7 +68,15 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
                 return;
             }
 
-            ConfigFactory.CurrentConfig.TaskQueue[Index].IsEnable = value;
+            if (_taskReference != null)
+            {
+                _taskReference.IsEnable = value;
+            }
+            else
+            {
+                ConfigFactory.CurrentConfig.TaskQueue[Index].IsEnable = value;
+            }
+
             StatusDisplay = TaskItemStatus.Idle;
         }
     }
@@ -72,7 +91,10 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
         get => field;
         set {
             SetAndNotify(ref field, value);
-            TaskSettingVisibilityInfo.Instance.Set(Index, value);
+            if (_taskReference == null)
+            {
+                TaskSettingVisibilityInfo.Instance.Set(Index, value);
+            }
         }
     }
 
@@ -130,5 +152,5 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
         }
     }
 
-    void IDisposable.Dispose() => Instances.AsstProxy.OnTaskStatusChanged -= OnTaskStatusChanged;
+    public void Dispose() => Instances.AsstProxy.OnTaskStatusChanged -= OnTaskStatusChanged;
 }
