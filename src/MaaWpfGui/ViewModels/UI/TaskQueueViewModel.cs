@@ -465,7 +465,9 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitArknights)
+        var exitEmulatorAsExitArknights = actions.ExitEmulator && SettingsViewModel.ConnectSettings.UseAttachWindow;
+
+        if (actions.ExitArknights || exitEmulatorAsExitArknights)
         {
             var clientType = SettingsViewModel.GameSettings.ClientType;
             if (!Instances.AsstProxy.AsstStartCloseDown(clientType))

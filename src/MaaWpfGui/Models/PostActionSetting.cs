@@ -151,18 +151,15 @@ public class PostActionSetting : PropertyChangedBase
     /// <summary>
     /// Gets a value indicating whether PC 端（窗口绑定）无模拟器进程，完成后不可选择「退出模拟器」。
     /// </summary>
-    public bool ExitEmulatorOptionEnabled => !ConnectSettingsUserControlModel.Instance.UseAttachWindow;
-
+    public bool ExitEmulatorOptionEnabled => true;
+    public string ExitEmulatorText
+        => ConnectSettingsUserControlModel.Instance.UseAttachWindow
+            ? LocalizationHelper.GetString("ExitPCClient")
+            : LocalizationHelper.GetString("ExitEmulator");
     public bool ExitEmulator
     {
         get => _exitEmulator;
-        set
-        {
-            if (value && ConnectSettingsUserControlModel.Instance.UseAttachWindow)
-            {
-                return;
-            }
-
+        set {
             if (!SetAndNotify(ref _exitEmulator, value))
             {
                 return;
@@ -378,7 +375,7 @@ public class PostActionSetting : PropertyChangedBase
 
         if (ExitEmulator)
         {
-            actions.Add(LocalizationHelper.GetString("ExitEmulator"));
+            actions.Add(ExitEmulatorText);
         }
 
         if (ExitSelf)
@@ -473,14 +470,6 @@ public class PostActionSetting : PropertyChangedBase
         }
         */
 
-        if (_exitEmulator)
-        {
-            _exitEmulator = false;
-            _postActions &= ~PostActions.ExitEmulator;
-            NotifyOfPropertyChange(nameof(ExitEmulator));
-            changed = true;
-        }
-
         if (!changed)
         {
             return;
@@ -497,14 +486,10 @@ public class PostActionSetting : PropertyChangedBase
         {
             if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.UseAttachWindow))
             {
-                if (ConnectSettingsUserControlModel.Instance.UseAttachWindow && ExitEmulator)
-                {
-                    ExitEmulator = false;
-                    ExitArknights = true;
-                }
-
                 NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
                 NotifyOfPropertyChange(nameof(ExitEmulatorOptionEnabled));
+                NotifyOfPropertyChange(nameof(ExitEmulatorText));
+                RefreshDescription();
                 ClearUnsupportedPostActionsForAttachWindow();
             }
         };

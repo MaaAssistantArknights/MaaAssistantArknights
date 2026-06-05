@@ -776,6 +776,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ExitArknights">關閉 明日方舟</system:String>
     <system:String x:Key="ExitSelf">關閉 MAA</system:String>
     <system:String x:Key="ExitEmulator">關閉 模擬器</system:String>
+    <system:String x:Key="ExitPCClient">關閉 PC 用戶端</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
     <system:String x:Key="HibernateTip">需要在 Windows 電源選項中啟用休眠功能，否則該功能無效。</system:String>
     <system:String x:Key="Sleep">睡眠</system:String>

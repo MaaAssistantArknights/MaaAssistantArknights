@@ -777,6 +777,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExitArknights">명일방주를 종료</system:String>
     <system:String x:Key="ExitSelf">MAA를 종료</system:String>
     <system:String x:Key="ExitEmulator">에뮬레이터를 종료</system:String>
+    <system:String x:Key="ExitPCClient">PC 클라이언트 종료</system:String>
     <system:String x:Key="Hibernate">최대 절전 모드</system:String>
     <system:String x:Key="HibernateTip">Windows의 전원 옵션에서 최대 절전 모드를 활성화해야 합니다. 그렇지 않으면 이 기능이 비활성화됩니다.</system:String>
     <system:String x:Key="Sleep">절전 모드</system:String>
