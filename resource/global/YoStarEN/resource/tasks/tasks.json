@@ -1,6 +1,6 @@
 {
     "SignInEventEnter": {
-        "text": ["Sign-In", "Login Event", "Check-In"]
+        "text": ["Sign-in"]
     },
     "SignInEventEarnRewards": {
         "text": ["Obtained", "Received"]
