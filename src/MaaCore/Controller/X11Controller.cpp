@@ -14,7 +14,9 @@ bool asst::X11Controller::connect(
 {
     if (m_display != nullptr) {
         XCloseDisplay(m_display);
+        m_display = nullptr;
     }
+    set_window(None);
 
     XSetErrorHandler([](Display* display, XErrorEvent* e) -> int {
         char buf[1024];
@@ -38,7 +40,6 @@ bool asst::X11Controller::connect(
     catch (...) {
         Log.error("Invalid window XID", address);
         return false;
-    }
     }
 
     if (w == 0) {

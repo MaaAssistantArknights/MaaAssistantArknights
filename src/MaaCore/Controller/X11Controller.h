@@ -68,7 +68,7 @@ public:
 
     virtual bool stop_game(const std::string& client_type [[maybe_unused]]) override
     {
-        // TODO: Implement this pure virtual method.
+        Log.warn("stop_game is not implemented on X11Controller");
         return false;
     }
 

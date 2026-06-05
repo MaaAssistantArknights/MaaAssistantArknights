@@ -34,7 +34,7 @@ endif()
 if(LINUX)
     target_link_libraries(MaaCore pthread dl)
 
-    find_package(X11)
+    find_package(X11 REQUIRED)
     target_link_libraries(MaaCore X11::X11)
 endif()
 
