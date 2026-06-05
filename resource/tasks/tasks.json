@@ -5263,10 +5263,22 @@
         "template": "CreditShop-Bought.png",
         "next": [
             "GreenTicket@Store@PurchasedConfirm",
+            "GreenTicket@Store@SecondFloor-Check",
             "GreenTicket@Store@ClickItemList#next",
             "GreenTicket@Store@ClickSecondFloor",
             "Stop"
         ]
+    },
+    "GreenTicket@Store@SecondFloor-Check": {
+        "roi": [250, 315, 70, 165],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 200],
+                [110, 255, 255]
+            ]
+        ],
+        "next": ["GreenTicket@Store@ClickSecondFloorItemList#next", "Stop"]
     },
     "GreenTicket@Store@ClickSecondFloor": {
         "algorithm": "OcrDetect",
