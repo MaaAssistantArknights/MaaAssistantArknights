@@ -920,6 +920,31 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExportedToFile">ファイルにエクスポートしました</system:String>
     <system:String x:Key="ExportTo">出力先：</system:String>
     <system:String x:Key="Export">エクスポート</system:String>
+    <system:String x:Key="MaterialCraft">素材合成</system:String>
+    <system:String x:Key="MaterialCraftStartHint">加工所内で開始してください。右下に「合成開始」ボタンがあります。</system:String>
+    <system:String x:Key="MaterialCraftTarget">対象素材</system:String>
+    <system:String x:Key="MaterialCraftQueue">合成待ち</system:String>
+    <system:String x:Key="MaterialCraftQuantity">数量</system:String>
+    <system:String x:Key="MaterialCraftAdd">追加</system:String>
+    <system:String x:Key="MaterialCraftClear">クリア</system:String>
+    <system:String x:Key="MaterialCraftCheck">合成確認</system:String>
+    <system:String x:Key="MaterialCraftStart">合成開始</system:String>
+    <system:String x:Key="MaterialCraftStarted">素材合成を開始しました</system:String>
+    <system:String x:Key="MaterialCraftStartFailed">素材合成を開始できませんでした</system:String>
+    <system:String x:Key="MaterialCraftCompleted">素材合成が完了しました。倉庫を更新しました</system:String>
+    <system:String x:Key="MaterialCraftEmptyPlan">合成する素材を先に追加してください</system:String>
+    <system:String x:Key="MaterialCraftNoRecipe">レシピデータを利用できません</system:String>
+    <system:String x:Key="MaterialCraftNoDepotData">先に倉庫認識を実行してください</system:String>
+    <system:String x:Key="MaterialCraftNoRecipeForTarget">{0} の合成レシピがありません</system:String>
+    <system:String x:Key="MaterialCraftSucceeded">{0} x{1} を合成できます；龍門幣 {2}；体力 {3}</system:String>
+    <system:String x:Key="MaterialCraftFailed">{0} x{1} を合成できません；不足：{2}</system:String>
+    <system:String x:Key="MaterialCraftPlanSucceeded">素材は足りています；予想消費 龍門幣 {0}、体力 {1}</system:String>
+    <system:String x:Key="MaterialCraftPlanFailed">素材不足：{0}</system:String>
+    <system:String x:Key="MaterialCraftListSeparator">、</system:String>
+    <system:String x:Key="MaterialCraftQualityNormal">通常品質</system:String>
+    <system:String x:Key="MaterialCraftQualityRare">希少品質</system:String>
+    <system:String x:Key="MaterialCraftQualityExcellent">上級品質</system:String>
+    <system:String x:Key="MaterialCraftQualitySuperior">高級品質</system:String>
     <!--  !倉庫アイテム認識  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}</system:String>

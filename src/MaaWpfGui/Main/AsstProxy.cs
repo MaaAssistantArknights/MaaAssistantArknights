@@ -1154,6 +1154,11 @@ public class AsstProxy
 
                     _logger.Information("Completed Task Chain: {TaskChain}, Task ID: {TaskId}", taskChain, taskId);
 
+                    if (taskChain == "MaterialCraft")
+                    {
+                        Instances.ToolboxViewModel.CompleteMaterialCraftPlan();
+                    }
+
                     if (isCopilotTaskChain)
                     {
                         AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup);
@@ -2887,6 +2892,8 @@ public class AsstProxy
 
         /// <summary>自定义任务s</summary>
         Custom,
+
+        MaterialCraft,
     }
 
     private readonly HashSet<TaskType> _mainTaskTypes =
@@ -2972,6 +2979,12 @@ public class AsstProxy
     public bool AsstStartDepot(bool startImmediately = true)
     {
         return AsstAppendTaskWithEncoding(TaskType.Depot, AsstTaskType.Depot) &&
+               (!startImmediately || AsstStart());
+    }
+
+    public bool AsstStartMaterialCraft(JObject taskParams, bool startImmediately = true)
+    {
+        return AsstAppendTaskWithEncoding(TaskType.MaterialCraft, AsstTaskType.MaterialCraft, taskParams) &&
                (!startImmediately || AsstStart());
     }
 

@@ -919,6 +919,31 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="ExportedToFile">Exported to file</system:String>
     <system:String x:Key="ExportTo">Export to:</system:String>
     <system:String x:Key="Export">Export</system:String>
+    <system:String x:Key="MaterialCraft">Material Craft</system:String>
+    <system:String x:Key="MaterialCraftStartHint">Start inside the Workshop; the Start Craft button is in the lower right.</system:String>
+    <system:String x:Key="MaterialCraftTarget">Target</system:String>
+    <system:String x:Key="MaterialCraftQueue">Queue</system:String>
+    <system:String x:Key="MaterialCraftQuantity">Count</system:String>
+    <system:String x:Key="MaterialCraftAdd">Add</system:String>
+    <system:String x:Key="MaterialCraftClear">Clear</system:String>
+    <system:String x:Key="MaterialCraftCheck">Check Craft</system:String>
+    <system:String x:Key="MaterialCraftStart">Start Craft</system:String>
+    <system:String x:Key="MaterialCraftStarted">Material crafting started</system:String>
+    <system:String x:Key="MaterialCraftStartFailed">Failed to start material crafting</system:String>
+    <system:String x:Key="MaterialCraftCompleted">Material crafting completed; depot updated</system:String>
+    <system:String x:Key="MaterialCraftEmptyPlan">Add materials to craft first</system:String>
+    <system:String x:Key="MaterialCraftNoRecipe">Recipe data is unavailable</system:String>
+    <system:String x:Key="MaterialCraftNoDepotData">Run depot recognition first</system:String>
+    <system:String x:Key="MaterialCraftNoRecipeForTarget">No crafting recipe for {0}</system:String>
+    <system:String x:Key="MaterialCraftSucceeded">Can craft {0} x{1}; LMD {2}; morale {3}</system:String>
+    <system:String x:Key="MaterialCraftFailed">Cannot craft {0} x{1}; missing: {2}</system:String>
+    <system:String x:Key="MaterialCraftPlanSucceeded">Enough materials; estimated LMD {0}, morale {1}</system:String>
+    <system:String x:Key="MaterialCraftPlanFailed">Not enough materials, missing: {0}</system:String>
+    <system:String x:Key="MaterialCraftListSeparator">, </system:String>
+    <system:String x:Key="MaterialCraftQualityNormal">Normal</system:String>
+    <system:String x:Key="MaterialCraftQualityRare">Rare</system:String>
+    <system:String x:Key="MaterialCraftQualityExcellent">Excellent</system:String>
+    <system:String x:Key="MaterialCraftQualitySuperior">Superior</system:String>
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}</system:String>
