@@ -253,3 +253,27 @@ TEST_CASE("inject_equivalence_classes handles multi-codepoint space classes")
     REQUIRE(asst::algorithm::inject_equivalence_classes(" ", eq_classes) == "(?: |\xe3\x80\x80)");
     REQUIRE(asst::algorithm::inject_equivalence_classes("[ a]", eq_classes) == "[ \xe3\x80\x80""a]");
 }
+
+TEST_CASE("inject_equivalence_classes handles negated character classes")
+{
+    // '^' right after '[' is the negation marker and must be preserved, while the
+    // members are still inserted as plain class atoms.
+    const EquivalenceClasses eq_classes { { "o", "0" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[^o]", eq_classes) == "[^o0]");
+}
+
+TEST_CASE("inject_equivalence_classes handles multiple equivalence classes")
+{
+    const EquivalenceClasses eq_classes { { "o", "0" }, { "l", "1" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("lol", eq_classes) == "(?:l|1)(?:o|0)(?:l|1)");
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[ol]", eq_classes) == "[o0l1]");
+}
+
+TEST_CASE("inject_equivalence_classes escapes regex-special members")
+{
+    // Members are treated as literal characters even when they are regex metacharacters,
+    // both outside and inside a character class.
+    const EquivalenceClasses eq_classes { { ".", "x" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes(".", eq_classes) == "(?:\\.|x)");
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[.]", eq_classes) == "[.x]");
+}

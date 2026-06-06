@@ -11,6 +11,21 @@
 
 namespace asst::algorithm
 {
+// 追加等价类成员时对正则元字符做转义, 使成员始终按字面字符匹配;
+// in_char_class 为 true 时按字符类内部规则转义 (\ ] ^ -), 否则按普通正则元字符转义。
+inline static void append_regex_literal(std::string& out, std::string_view member, bool in_char_class)
+{
+    constexpr std::string_view class_specials = "\\]^-";
+    constexpr std::string_view regex_specials = "\\.^$|?*+()[]{}";
+    const std::string_view specials = in_char_class ? class_specials : regex_specials;
+    for (const char ch : member) {
+        if (specials.find(ch) != std::string_view::npos) {
+            out += '\\';
+        }
+        out += ch;
+    }
+}
+
 /**
  * @brief 将 OCR 等价类注入到一个正则表达式 `pattern` 中, 使等价类中的任一字符都能匹配同类中的其他字符,
  *        同时不破坏正则语法。
@@ -21,7 +36,7 @@ namespace asst::algorithm
  *   - 在字符类 "[...]" 之内, 等价字符作为普通类成员插入, 如 "[Oo]" -> "[Oo0]", 而不是
  *     "[O(?:o|0)]" —— 后者会让该字符类额外匹配 '(' '?' ':' '|' ')' (issue #15084)。
  * 反斜杠转义会被原样拷贝, 不会被当作字符类边界, 也不会被展开。
- * 等价类成员被视为普通字面字符, 而非正则语法。
+ * 追加等价类成员时会对正则元字符转义, 使其始终按字面字符匹配。
  *
  * @param pattern 待处理的正则替换式
  * @param equivalence_classes 等价类列表, 每个等价类是一组互相等价的字符
@@ -83,7 +98,7 @@ namespace asst::algorithm
         if (matched_class) {
             if (in_char_class) {
                 for (const auto& member : *matched_class) {
-                    result += member;
+                    append_regex_literal(result, member, true);
                 }
             }
             else {
@@ -92,7 +107,7 @@ namespace asst::algorithm
                     if (k != 0) {
                         result += '|';
                     }
-                    result += (*matched_class)[k];
+                    append_regex_literal(result, (*matched_class)[k], false);
                 }
                 result += ')';
             }

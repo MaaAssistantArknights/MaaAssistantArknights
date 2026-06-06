@@ -30,7 +30,7 @@ void OCRerConfig::set_replace(
     m_params.replace.clear();
     m_params.replace.reserve(replace.size());
 
-    const auto eq_classes = OcrConfig::get_instance().get_eq_classes();
+    const auto& eq_classes = OcrConfig::get_instance().get_eq_classes();
     for (const auto& [key, val] : replace) {
         // The replace key is a regex (e.g. "[Oo]"), so equivalence classes must be injected in a
         // syntax-aware way; a naive string replace would corrupt character classes into ones that
