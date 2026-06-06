@@ -2,6 +2,7 @@
 
 #include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/TaskData.h"
+#include "Utils/Algorithm.hpp"
 
 using namespace asst;
 
@@ -29,27 +30,13 @@ void OCRerConfig::set_replace(
     m_params.replace.clear();
     m_params.replace.reserve(replace.size());
 
-    for (auto&& [key, val] : replace) {
-        auto& ocr_config = OcrConfig::get_instance();
-        std::string new_key = key;
-        for (const auto& eq_class : ocr_config.get_eq_classes()) {
-            if (eq_class.size() <= 1) {
-                continue;
-            }
-
-            // eq_class: [s, S] -> regex: "(?:s|S)"
-            std::string eq_classes_regex = "(?:";
-            for (const auto& elem : eq_class) {
-                (eq_classes_regex += elem) += '|';
-            }
-            eq_classes_regex.pop_back();
-            eq_classes_regex += ')';
-            std::ranges::for_each(eq_class, [&](std::string_view elem) {
-                utils::string_replace_all_in_place(new_key, elem, eq_classes_regex);
-            });
-        }
-        // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
-        m_params.replace.emplace_back(std::move(new_key), val);
+    const auto eq_classes = OcrConfig::get_instance().get_eq_classes();
+    for (const auto& [key, val] : replace) {
+        // The replace key is a regex (e.g. "[Oo]"), so equivalence classes must be injected in a
+        // syntax-aware way; a naive string replace would corrupt character classes into ones that
+        // also match '(', '?', ':', '|' and ')' (issue #15084).
+        // do not modify val as it is user-provided, to avoid issues like 夕 and katakana タ
+        m_params.replace.emplace_back(algorithm::inject_equivalence_classes(key, eq_classes), val);
     }
     m_params.replace_full = replace_full;
 }

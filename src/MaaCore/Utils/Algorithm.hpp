@@ -3,6 +3,7 @@
 #include <limits>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -10,6 +11,104 @@
 
 namespace asst::algorithm
 {
+/**
+ * @brief 将 OCR 等价类注入到一个正则表达式 `pattern` 中, 使等价类中的任一字符都能匹配同类中的其他字符,
+ *        同时不破坏正则语法。
+ *
+ * 等价类是 OCR 容易混淆的一组字符 (例如 KR/JP 资源中的空格变体)。由于 `ocrReplace` 中的替换式本身是正则
+ * (如 "[Oo]"), 必须按语法感知的方式注入:
+ *   - 在字符类 "[...]" 之外, 字符被展开为非捕获分组, 如 "o" -> "(?:o|0)";
+ *   - 在字符类 "[...]" 之内, 等价字符作为普通类成员插入, 如 "[Oo]" -> "[Oo0]", 而不是
+ *     "[O(?:o|0)]" —— 后者会让该字符类额外匹配 '(' '?' ':' '|' ')' (issue #15084)。
+ * 反斜杠转义会被原样拷贝, 不会被当作字符类边界, 也不会被展开。
+ * 等价类成员被视为普通字面字符, 而非正则语法。
+ *
+ * @param pattern 待处理的正则替换式
+ * @param equivalence_classes 等价类列表, 每个等价类是一组互相等价的字符
+ * @return 注入等价类后的正则表达式
+ */
+[[nodiscard]] inline static std::string inject_equivalence_classes(
+    std::string_view pattern,
+    const std::vector<std::vector<std::string>>& equivalence_classes)
+{
+    std::string result;
+    result.reserve(pattern.size());
+
+    bool in_char_class = false;
+    for (size_t i = 0; i < pattern.size();) {
+        const char ch = pattern[i];
+
+        // 原样拷贝反斜杠转义 (如 "\[" "\]"), 避免被误认为字符类边界, 也不展开。
+        if (ch == '\\') {
+            result += ch;
+            if (i + 1 < pattern.size()) {
+                result += pattern[i + 1];
+                i += 2;
+            }
+            else {
+                ++i;
+            }
+            continue;
+        }
+
+        if (!in_char_class && ch == '[') {
+            in_char_class = true;
+            result += ch;
+            ++i;
+            continue;
+        }
+        if (in_char_class && ch == ']') {
+            in_char_class = false;
+            result += ch;
+            ++i;
+            continue;
+        }
+
+        // 在位置 i 处寻找能匹配的最长等价类成员; 同长度时按 equivalence_classes 的顺序取第一个。
+        const std::vector<std::string>* matched_class = nullptr;
+        size_t matched_len = 0;
+        for (const auto& eq_class : equivalence_classes) {
+            if (eq_class.size() <= 1) {
+                continue;
+            }
+            for (const auto& member : eq_class) {
+                if (i + member.size() <= pattern.size() && member.size() > matched_len &&
+                    pattern.compare(i, member.size(), member) == 0) {
+                    matched_class = &eq_class;
+                    matched_len = member.size();
+                }
+            }
+        }
+
+        if (matched_class) {
+            if (in_char_class) {
+                for (const auto& member : *matched_class) {
+                    result += member;
+                }
+            }
+            else {
+                result += "(?:";
+                for (size_t k = 0; k < matched_class->size(); ++k) {
+                    if (k != 0) {
+                        result += '|';
+                    }
+                    result += (*matched_class)[k];
+                }
+                result += ')';
+            }
+            i += matched_len;
+            continue;
+        }
+
+        // 没有匹配到等价类成员: 拷贝单个字节。多字节 UTF-8 序列按字节拷贝,
+        // 其后续字节 (>= 0x80) 不会与上面处理的 ASCII 边界字符冲突。
+        result += ch;
+        ++i;
+    }
+
+    return result;
+}
+
 enum class CharAllocationStatus
 {
     Success,
