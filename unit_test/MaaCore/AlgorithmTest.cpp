@@ -277,3 +277,16 @@ TEST_CASE("inject_equivalence_classes escapes regex-special members")
     REQUIRE(asst::algorithm::inject_equivalence_classes(".", eq_classes) == "(?:\\.|x)");
     REQUIRE(asst::algorithm::inject_equivalence_classes("[.]", eq_classes) == "[.x]");
 }
+
+TEST_CASE("inject_equivalence_classes handles escaped brackets in keys")
+{
+    // ocrReplace keys may contain escaped brackets; the escape must be consumed before the
+    // character-class handlers, so an escaped '[' never (re)opens a class.
+    // Inside a class: "[\[IO]" stays a valid class, with O expanded to also match o/0.
+    const EquivalenceClasses with_o { { "O", "o", "0" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[\\[IO]", with_o) == "[\\[IOo0]");
+
+    // Outside a class: the escaped '[' in "(\[|I)" does not open a class, and I expands.
+    const EquivalenceClasses with_i { { "I", "l", "1" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("(\\[|I)", with_i) == "(\\[|(?:I|l|1))");
+}
