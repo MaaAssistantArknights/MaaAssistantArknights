@@ -465,9 +465,7 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        var exitEmulatorAsExitArknights = actions.ExitEmulator && SettingsViewModel.ConnectSettings.UseAttachWindow;
-
-        if (actions.ExitArknights || exitEmulatorAsExitArknights)
+        if (actions.ExitArknights || actions.ShouldExitEmulatorCloseArknights)
         {
             var clientType = SettingsViewModel.GameSettings.ClientType;
             if (!Instances.AsstProxy.AsstStartCloseDown(clientType))
@@ -478,7 +476,7 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitEmulator && !SettingsViewModel.ConnectSettings.UseAttachWindow)
+        if (actions.ExitEmulator && !actions.TreatExitEmulatorAsExitArknights)
         {
             DoKillEmulator();
             await Task.Delay(1000);

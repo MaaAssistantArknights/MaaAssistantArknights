@@ -29,6 +29,7 @@
                 <controls:TooltipBlock TooltipText="{DynamicResource PostActionOnceTip}" />
             </StackPanel>
             <hc:Divider />
+            
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding BackToAndroidHome}"
@@ -36,6 +37,7 @@
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource BackToAndroidHome}" TextWrapping="Wrap" />
             </CheckBox>
+            
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding ExitArknights}"
@@ -43,13 +45,24 @@
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource ExitArknights}" TextWrapping="Wrap" />
             </CheckBox>
+            
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding ExitEmulator}"
-                IsEnabled="{c:Binding ExitEmulatorOptionEnabled}"
+                IsEnabled="{c:Binding !ExitArknights}"
+                Visibility="{Binding ExitPcClientVisibility}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{Binding ExitEmulatorText}" TextWrapping="Wrap" />
             </CheckBox>
+            
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding ExitEmulator}"
+                Visibility="{Binding ExitEmulatorVisibility}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                <controls:TextBlock Text="{DynamicResource ExitEmulator}" TextWrapping="Wrap" />
+            </CheckBox>
+            
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding ExitSelf}"
@@ -57,7 +70,9 @@
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource ExitSelf}" TextWrapping="Wrap" />
             </CheckBox>
+            
             <hc:Divider />
+            
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding IfNoOtherMaa}"
@@ -81,6 +96,7 @@
                 </CheckBox>
                 <controls:TooltipBlock x:Name="DormFilterNotStationedTipsTooltipBlock" TooltipText="{DynamicResource HibernateTip}" />
             </StackPanel>
+            
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding Shutdown}"
